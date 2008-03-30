@@ -53,36 +53,36 @@ debug_t debug;
 inline static void debug_history_step(const char *st);
 #endif
 
-static int set_do_core_dumps(resource_value_t v, void *param)
+static int set_do_core_dumps(int val, void *param)
 {
-    debug.do_core_dumps = (int)v;
+    debug.do_core_dumps = val;
     return 0;
 }
 
 #ifdef DEBUG
 static int debug_autoplay_frames;
 
-static int set_maincpu_traceflg(resource_value_t v, void *param)
+static int set_maincpu_traceflg(int val, void *param)
 {
-    debug.maincpu_traceflg = (int)v;
+    debug.maincpu_traceflg = val;
     return 0;
 }
 
-static int set_drive_traceflg(resource_value_t v, void *param)
+static int set_drive_traceflg(int val, void *param)
 {
-    debug.drivecpu_traceflg[(int)param] = (int)v;
+    debug.drivecpu_traceflg[(int)param] = val;
     return 0;
 }
 
-static int set_trace_mode(resource_value_t v, void *param)
+static int set_trace_mode(int val, void *param)
 {
-    debug.trace_mode = (int)v;
+    debug.trace_mode = val;
     return 0;
 }
 
-static int set_autoplay_frames(resource_value_t v, void *param)
+static int set_autoplay_frames(int val, void *param)
 {
-    debug_autoplay_frames = (int)v;
+    debug_autoplay_frames = val;
     return 0;
 }
 

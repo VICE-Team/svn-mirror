@@ -70,9 +70,9 @@ static void show_fliplist(unsigned int unit);
 static char *fliplist_file_name = NULL;
 
 
-static int set_fliplist_file_name(resource_value_t v, void *param)
+static int set_fliplist_file_name(const char *val, void *param)
 {
-    if (util_string_set(&fliplist_file_name, (const char *)v))
+    if (util_string_set(&fliplist_file_name, val))
         return 0;
 
     fliplist_load_list((unsigned int)-1, fliplist_file_name, 0);

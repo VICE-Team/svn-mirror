@@ -109,21 +109,21 @@ static log_t datasette_log = LOG_ERR;
 static void datasette_control_internal(int command);
 
 
-static int set_reset_datasette_with_maincpu(resource_value_t v, void *param)
+static int set_reset_datasette_with_maincpu(int val, void *param)
 {
-    reset_datasette_with_maincpu = (int)v;
+    reset_datasette_with_maincpu = val;
     return 0;
 }
 
-static int set_datasette_zero_gap_delay(resource_value_t v, void *param)
+static int set_datasette_zero_gap_delay(int val, void *param)
 {
-    datasette_zero_gap_delay = (CLOCK)v;
+    datasette_zero_gap_delay = (CLOCK)val;
     return 0;
 }
 
-static int set_datasette_speed_tuning(resource_value_t v, void *param)
+static int set_datasette_speed_tuning(int val, void *param)
 {
-    datasette_speed_tuning = (CLOCK)v;
+    datasette_speed_tuning = (CLOCK)val;
     return 0;
 }
 

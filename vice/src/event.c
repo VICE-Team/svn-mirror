@@ -408,35 +408,35 @@ void event_playback_event_list(event_list_state_t *list)
 
     while (current->type != EVENT_LIST_END) {
         switch (current->type) {
-            case EVENT_SYNC_TEST:
-                break;
-            case EVENT_KEYBOARD_DELAY:
-                keyboard_register_delay(*(unsigned int*)current->data);
-                break;
-            case EVENT_KEYBOARD_MATRIX:
-                keyboard_event_delayed_playback(current->data);
-                break;
-            case EVENT_KEYBOARD_RESTORE:
-                keyboard_restore_event_playback(0, current->data);
-                break;
-            case EVENT_KEYBOARD_CLEAR:
-                keyboard_register_clear();
-                break;
-            case EVENT_JOYSTICK_DELAY:
-                joystick_register_delay(*(unsigned int*)current->data);
-                break;
-            case EVENT_JOYSTICK_VALUE:
-                joystick_event_delayed_playback(current->data);
-                break;
-            case EVENT_DATASETTE:
-                datasette_event_playback(0, current->data);
-                break;
-            case EVENT_RESETCPU:
-                machine_reset_event_playback(0, current->data);
-                break;
-            case EVENT_ATTACHDISK:
-            case EVENT_ATTACHTAPE:
-              {
+          case EVENT_SYNC_TEST:
+            break;
+          case EVENT_KEYBOARD_DELAY:
+            keyboard_register_delay(*(unsigned int*)current->data);
+            break;
+          case EVENT_KEYBOARD_MATRIX:
+            keyboard_event_delayed_playback(current->data);
+            break;
+          case EVENT_KEYBOARD_RESTORE:
+            keyboard_restore_event_playback(0, current->data);
+            break;
+          case EVENT_KEYBOARD_CLEAR:
+            keyboard_register_clear();
+            break;
+          case EVENT_JOYSTICK_DELAY:
+            joystick_register_delay(*(unsigned int*)current->data);
+            break;
+          case EVENT_JOYSTICK_VALUE:
+            joystick_event_delayed_playback(current->data);
+            break;
+          case EVENT_DATASETTE:
+            datasette_event_playback(0, current->data);
+            break;
+          case EVENT_RESETCPU:
+            machine_reset_event_playback(0, current->data);
+            break;
+          case EVENT_ATTACHDISK:
+          case EVENT_ATTACHTAPE:
+            {
                 /* in fact this is only for detaching */
                 unsigned int unit;
 
@@ -447,15 +447,15 @@ void event_playback_event_list(event_list_state_t *list)
                 else
                     file_system_event_playback(unit, NULL);
                 break;
-              }
-            case EVENT_ATTACHIMAGE:
-                event_playback_attach_image(current->data, current->size);
-                break;
-            case EVENT_RESOURCE:
-                resources_set_value_event(current->data, current->size);
-                break;
-            default:
-                log_error(event_log, "Unknow event type %i.", current->type);
+            }
+          case EVENT_ATTACHIMAGE:
+            event_playback_attach_image(current->data, current->size);
+            break;
+          case EVENT_RESOURCE:
+            resources_set_value_event(current->data, current->size);
+            break;
+          default:
+            log_error(event_log, "Unknow event type %i.", current->type);
         }
         current = current->next;
     }
@@ -693,7 +693,6 @@ int event_record_start(void)
 
     if (record_active != 0)
         return -1;
-
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
 
@@ -1133,9 +1132,9 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
 
 /*-----------------------------------------------------------------------*/
 
-static int set_event_snapshot_dir(resource_value_t v, void *param)
+static int set_event_snapshot_dir(const char *val, void *param)
 {
-    const char *s = (const char *)v;
+    const char *s = val;
 
     /* Make sure that the string ends with FSDEV_DIR_SEP_STR */
     if (s[strlen(s) - 1] == FSDEV_DIR_SEP_CHR) {
@@ -1149,28 +1148,24 @@ static int set_event_snapshot_dir(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_event_start_snapshot(resource_value_t v, void *param)
+static int set_event_start_snapshot(const char *val, void *param)
 {
-    if (util_string_set(&event_start_snapshot, (const char *)v))
+    if (util_string_set(&event_start_snapshot, val))
         return 0;
 
     return 0;
 }
 
-static int set_event_end_snapshot(resource_value_t v, void *param)
+static int set_event_end_snapshot(const char *val, void *param)
 {
-    if (util_string_set(&event_end_snapshot, (const char *)v))
+    if (util_string_set(&event_end_snapshot, val))
         return 0;
 
     return 0;
 }
 
-static int set_event_start_mode(resource_value_t v, void *param)
+static int set_event_start_mode(int mode, void *param)
 {
-    int mode;
-
-    mode = (int)v;
-
     if (mode != EVENT_START_MODE_FILE_SAVE
         && mode != EVENT_START_MODE_FILE_LOAD
         && mode != EVENT_START_MODE_RESET

@@ -95,7 +95,7 @@ static const double t232_baud_table[4] = {
 
 /******************************************************************/
 
-static int acia_set_device(resource_value_t v, void *param)
+static int acia_set_device(int val, void *param)
 {
 
     if (fd >= 0) {
@@ -103,7 +103,7 @@ static int acia_set_device(resource_value_t v, void *param)
                   "Device open, change effective only after close!");
     }
 
-    acia_device = (int)v;
+    acia_device = val;
     return 0;
 }
 
@@ -115,9 +115,8 @@ static void acia_set_int(int aciairq, unsigned int int_num, int value)
         mycpu_set_nmi(int_num, value);
 }
 
-static int acia_set_irq(resource_value_t v, void *param)
+static int acia_set_irq(int new_irq_res, void *param)
 {
-    int new_irq_res = (int)v;
     int new_irq;
     static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
 
@@ -164,17 +163,15 @@ static int get_acia_ticks(void)
     return 0;
 }
 
-static int acia_set_mode(resource_value_t v, void *param)
+static int acia_set_mode(int new_mode, void *param)
 {
-    int new_mode = (int)v;
-
     if (new_mode < 0 || new_mode > 2)
         return -1;
 
     acia_mode = new_mode;
-    acia_ticks=get_acia_ticks();
-    return 0;
+    acia_ticks = get_acia_ticks();
 
+    return 0;
 }
 
 static const resource_int_t resources_int[] = {

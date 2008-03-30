@@ -69,9 +69,9 @@ static void log_file_open(void)
         setbuf(log_file, NULL);
 }
 
-static int set_log_file_name(resource_value_t v, void *param)
+static int set_log_file_name(const char *val, void *param)
 {
-    util_string_set(&log_file_name, (const char *)v);
+    util_string_set(&log_file_name, val);
 
     if (log_file) {
         fclose(log_file);

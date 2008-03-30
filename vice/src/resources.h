@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+
 typedef enum resource_type_s {
      RES_INTEGER,
      RES_STRING
@@ -43,42 +44,13 @@ typedef enum resource_event_relevant_s {
 
 typedef void *resource_value_t;
 
-typedef int resource_set_func_t(resource_value_t v, void *param);
+typedef int resource_set_func_int_t(int, void *);
+typedef int resource_set_func_string_t(const char *, void *);
 
 typedef void resource_callback_func_t(const char *name, void *param);
 
 struct resource_callback_desc_s;
 struct event_list_state_s;
-
-
-/* Warning: all the pointers should point to areas that are valid throughout
-   the execution.  No reallocation is performed.  */
-typedef struct resource_s {
-    /* Resource name.  */
-    const char *name;
-
-    /* Type of resource.  */
-    resource_type_t type;
-
-    /* Factory default value.  */
-    resource_value_t factory_value;
-
-    /* Is the resource important for history recording or netplay? */
-    resource_event_relevant_t event_relevant;
-
-    /* Value that is needed for correct history recording and netplay.  */
-    resource_value_t *event_strict_value;
-
-    /* Pointer to the value.  This is only used for *reading* it.  To change
-       it, use `set_func'.  */
-    resource_value_t value_ptr;
-
-    /* Function to call to set the value.  */
-    resource_set_func_t *set_func;
-
-    /* Extra parameter to pass to `set_func'.  */
-    void *param;
-} resource_t;
 
 struct resource_int_s {
     /* Resource name.  */
@@ -98,7 +70,7 @@ struct resource_int_s {
     int *value_ptr;
 
     /* Function to call to set the value.  */
-    resource_set_func_t *set_func;
+    resource_set_func_int_t *set_func;
 
     /* Extra parameter to pass to `set_func'.  */
     void *param;
@@ -123,7 +95,7 @@ struct resource_string_s {
     char **value_ptr;
 
     /* Function to call to set the value.  */
-    resource_set_func_t *set_func;
+    resource_set_func_string_t *set_func;
 
     /* Extra parameter to pass to `set_func'.  */
     void *param;
@@ -141,7 +113,6 @@ typedef struct resource_string_s resource_string_t;
 /* ------------------------------------------------------------------------- */
 
 extern int resources_init(const char *machine);
-extern int resources_register(const resource_t *r);
 extern int resources_register_int(const resource_int_t *r);
 extern int resources_register_string(const resource_string_t *r);
 extern void resources_shutdown(void);

@@ -42,21 +42,19 @@ int _mouse_enabled = 0;
 static int mouse_port;
 
 
-static int set_mouse_enabled(resource_value_t v, void *param)
+static int set_mouse_enabled(int val, void *param)
 {
-    _mouse_enabled = (int)v;
+    _mouse_enabled = val;
     mousedrv_mouse_changed();
     return 0;
 }
 
-static int set_mouse_port(resource_value_t v, void *param)
+static int set_mouse_port(int val, void *param)
 {
-    mouse_port = (int)v;
-
-    if ((int)v < 1 || (int)v > 2)
+    if (val < 1 || val > 2)
         return -1;
 
-    mouse_port = (int)v;
+    mouse_port = val;
 
     return 0;
 }
