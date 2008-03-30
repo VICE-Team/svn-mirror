@@ -1,3 +1,9 @@
+1999-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.43.
+
+	* configure.in: Added OS2 directories.
+
 1999-07-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.42.
