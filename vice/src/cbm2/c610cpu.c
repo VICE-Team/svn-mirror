@@ -1,4 +1,3 @@
-
 /*
  * c610cpu.c - Emulation of the main 6510 processor.
  *
@@ -52,8 +51,8 @@ extern store_func_ptr_t *_mem_write_ind_tab_ptr;
 
 extern BYTE *page_zero;
 extern BYTE *page_one;
-#  define	PAGE_ZERO	page_zero
-#  define	PAGE_ONE	page_one
+#  define       PAGE_ZERO       page_zero
+#  define       PAGE_ONE        page_one
 
 #  define STORE_IND(addr, value) \
     (*_mem_write_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
