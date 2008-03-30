@@ -68,7 +68,7 @@
 static const BYTE p00_hdr_magic_string[8] = "C64File";
 
 /* FIXME: There should be an enum for file types.  */
-int p00_check_name(const char *name)
+static int p00_check_name(const char *name)
 {
     int t = -1;
     char *p;
@@ -100,12 +100,12 @@ int p00_check_name(const char *name)
     return t;
 }
 
-int p00_read_header(FILE *fd, BYTE *cbmname_return,
-                    unsigned int *recsize_return)
+static int p00_read_header(struct rawfile_info_s *info, BYTE *cbmname_return,
+                           unsigned int *recsize_return)
 {
     BYTE hdr[P00_HDR_LEN];
 
-    if (fread((char *)&hdr, P00_HDR_LEN, 1, fd) != 1)
+    if (rawfile_read(info, hdr, P00_HDR_LEN) != P00_HDR_LEN)
         return -1;
 
     if (memcmp(hdr + P00_HDR_MAGIC_OFFSET, p00_hdr_magic_string,
@@ -120,7 +120,8 @@ int p00_read_header(FILE *fd, BYTE *cbmname_return,
     return 0;
 }
 
-int p00_write_header(FILE *fd, const BYTE *cbmname, BYTE recsize)
+static int p00_write_header(struct rawfile_info_s *info, const BYTE *cbmname,
+                            BYTE recsize)
 {
     BYTE hdr[P00_HDR_LEN];
 
@@ -131,10 +132,13 @@ int p00_write_header(FILE *fd, const BYTE *cbmname, BYTE recsize)
     memcpy(hdr + P00_HDR_CBMNAME_OFFSET, cbmname, P00_HDR_CBMNAME_LEN);
     hdr[P00_HDR_RECORDSIZE_OFFSET] = (BYTE)recsize;
 
-    if (fseek(fd, 0, SEEK_SET) != 0)
+    if (rawfile_seek_set(info, 0) != 0)
         return -1;
 
-    return fwrite(hdr, sizeof(hdr), 1, fd);
+    if (rawfile_write(info, hdr, P00_HDR_LEN) != P00_HDR_LEN)
+        return -1;
+
+    return 0;
 }
 
 static int p00_compare_wildcards(const char *name, const char *p00name)
@@ -183,8 +187,7 @@ static char *p00_file_find(const char *file_name, const char *path)
         if (rawfile == NULL)
             continue;
 
-        rc = p00_read_header((FILE *)(rawfile->fd),
-                             (BYTE *)p00_header_file_name, NULL);
+        rc = p00_read_header(rawfile, (BYTE *)p00_header_file_name, NULL);
 
         p00_header_file_name[16] = '\0';
 
@@ -374,27 +377,27 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 
     switch (command & FILEIO_COMMAND_MASK) {
       case FILEIO_COMMAND_READ:
-        if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
-            NULL) < 0) {
+        if (type < 0 || p00_read_header(rawfile, (BYTE *)rname, NULL) < 0) {
             rawfile_destroy(rawfile);
             return NULL;
         }
         break;
       case FILEIO_COMMAND_APPEND:
       case FILEIO_COMMAND_APPEND_READ:
-        if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
-            NULL) < 0) {
+        if (type < 0 || p00_read_header(rawfile, (BYTE *)rname, NULL) < 0) {
             rawfile_destroy(rawfile);
             return NULL;
         }
+/*
         if (fseek((FILE *)(rawfile->fd), 0, SEEK_END) != 0)
             rawfile_destroy(rawfile);
             return NULL;
+*/
         break;
       case FILEIO_COMMAND_WRITE:
         memset(rname, 0, sizeof(rname));
         strncpy(rname, file_name, 16);
-        if (p00_write_header((FILE *)(rawfile->fd), rname, 0) < 0) {
+        if (p00_write_header(rawfile, rname, 0) < 0) {
             rawfile_destroy(rawfile);
             return NULL;
         }
@@ -403,6 +406,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
     info->name = (BYTE *)lib_stralloc(rname);
+    info->length = strlen(info->name);
     info->type = (unsigned int)type;
     info->format = FILEIO_FORMAT_P00;
     info->rawfile = rawfile;
@@ -415,12 +419,12 @@ void p00_close(fileio_info_t *info)
     rawfile_destroy(info->rawfile);
 }
 
-unsigned int p00_read(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int p00_read(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     return rawfile_read(info->rawfile, buf, len);
 }
 
-unsigned int p00_write(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int p00_write(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     return rawfile_write(info->rawfile, buf, len);
 }
@@ -465,7 +469,7 @@ unsigned int p00_rename(const char *src_name, const char *dst_name,
     memset(rname, 0, sizeof(rname));
     strncpy(rname, dst_name, 16);
 
-    if (p00_write_header((FILE *)(rawfile->fd), rname, 0) < 0) {
+    if (p00_write_header(rawfile, rname, 0) < 0) {
         rawfile_destroy(rawfile);
         lib_free(p00_src);
         return FILEIO_FILE_NOT_FOUND;

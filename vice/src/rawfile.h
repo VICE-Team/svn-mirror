@@ -27,23 +27,20 @@
 #ifndef _RAWFILE_H
 #define _RAWFILE_H
 
-struct rawfile_info_s {
-    void *fd;
-    char *name;
-    char *path;
-    unsigned int readonly;
-};
-typedef struct rawfile_info_s rawfile_info_t;
+#include "types.h"
+
+struct rawfile_info_s;
 
 extern struct rawfile_info_s *rawfile_open(const char *file_name,
                                            const char *path,
                                            unsigned int command);
 extern void rawfile_destroy(struct rawfile_info_s *info);
-extern unsigned int rawfile_write(rawfile_info_t *info, char *buf,
+extern unsigned int rawfile_write(struct rawfile_info_s *info, BYTE *buf,
                                   unsigned int len);
-extern unsigned int rawfile_ferror(rawfile_info_t *info);
-extern unsigned int rawfile_read(struct rawfile_info_s *info, char *buf,
+extern unsigned int rawfile_read(struct rawfile_info_s *info, BYTE *buf,
                                  unsigned int len);
+extern int rawfile_seek_set(struct rawfile_info_s *info, int offset);
+extern unsigned int rawfile_ferror(struct rawfile_info_s *info);
 extern unsigned int rawfile_rename(const char *src_name, const char *dst_name,
                             const char *path);
 extern unsigned int rawfile_remove(const char *src_name, const char *path);
