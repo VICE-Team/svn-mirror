@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "iecieee - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\drive\iecieee\iecieee.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iecieee\via1d.c
 # End Source File
 # Begin Source File
