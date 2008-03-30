@@ -238,6 +238,21 @@ static BYTE cia1flag = 0;
 /* CIA1 */
 
 
+    /* Flag: Are the 3 C128 extended rows enabled?  */
+    static int extended_keyboard_rows_enabled;
+
+    /* Mask for the extended keyboard rows.  */
+    static BYTE extended_keyboard_rows_mask;
+
+    void cia1_enable_extended_keyboard_rows(int flag)
+    {
+	extended_keyboard_rows_enabled = flag;
+    }
+
+    void cia1_set_extended_keyboard_rows_mask(BYTE value)
+    {
+	extended_keyboard_rows_mask = value;
+    }
 
 inline static void check_cia1todalarm(CLOCK rclk)
 {
@@ -285,7 +300,7 @@ static int update_cia1(CLOCK rclk)
 		    if(cia1sr_bits==16) {
 
 #ifdef HAVE_RS232
-    if(rsuser_enabled) {
+    if (rsuser_enabled) {
 	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif
@@ -477,17 +492,17 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 	}
 
     {
-        static int old_lp = 0x10;
-        int new_lp;
+	static int old_lp = 0x10;
+	int new_lp;
 
-        cia1[addr] = byte;
+	cia1[addr] = byte;
 
-	/* Handle software-triggered light pen. */
-        new_lp = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & 0x10;
-        if (new_lp != old_lp) {
-            vic_ii_trigger_light_pen(rclk);
+	/* Handle software-triggered light pen.  */
+	new_lp = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & 0x10;
+	if (new_lp != old_lp) {
+	    vic_ii_trigger_light_pen(rclk);
 	    old_lp = new_lp;
-        }
+	}
     }
 	break;
 
@@ -577,7 +592,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 		if(!cia1sr_bits) {
 
 #ifdef HAVE_RS232
-    if(rsuser_enabled) {
+    if (rsuser_enabled) {
 	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif
@@ -802,33 +817,39 @@ BYTE read_cia1_(ADDRESS addr)
 
       case CIA_PRA:		/* port A */
 
-	{
-	    BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
-	    BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[1];
-	    BYTE m;
-            int i;
+    {
+	BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
+	BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[1];
+	BYTE m;
+	int i;
 
-	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-		if (!(msk & m))
-		    val &= ~rev_keyarr[i];
-	    byte = val & ~joy[1];
-	}
+	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+	    if (!(msk & m))
+		val &= ~rev_keyarr[i];
+	byte = val & ~joy[1];
+    }
 	return byte;
 	break;
 
       case CIA_PRB:		/* port B */
 
-	{
-	    BYTE val = ~cia1[CIA_DDRB];
-	    BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
-	    BYTE m;
-	    int i;
+    {
+	BYTE val = ~cia1[CIA_DDRB];
+	BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
+	BYTE m;
+	int i;
 
-	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-		if (!(msk & m))
+	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+	    if (!(msk & m))
+		val &= ~keyarr[i];
+
+	if (extended_keyboard_rows_enabled)
+	    for (m = 0x1, i = 8; i < 11; m <<= 1, i++)
+		if (!(extended_keyboard_rows_mask & m))
 		    val &= ~keyarr[i];
-	    byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
-	}
+
+	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
+    }
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);
 	    if (cia1[CIA_CRA] & 0x02) {
@@ -1081,7 +1102,7 @@ int int_cia1ta(long offset)
 	    if(cia1sr_bits == 16) {
 
 #ifdef HAVE_RS232
-    if(rsuser_enabled) {
+    if (rsuser_enabled) {
 	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif

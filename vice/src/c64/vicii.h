@@ -157,6 +157,7 @@ extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);
 extern void reset_vic_ii(void);
+extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern int vbank;
 
 extern CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;

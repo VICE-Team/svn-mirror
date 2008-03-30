@@ -247,13 +247,13 @@ int machine_init(void)
     file_system_init();
 
 #ifdef HAVE_RS232
-    /* initialize RS232 handler */
+    /* Initialize RS232 handler.  */
     rs232_init();
     rsuser_init();
 #endif
 
 #ifdef HAVE_PRINTER
-    /* initialize print devices */
+    /* Initialize print devices.  */
     print_init();
 #endif
 
@@ -271,6 +271,8 @@ int machine_init(void)
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
         return -1;
+    vic_ii_enable_extended_keyboard_rows(0);
+    cia1_enable_extended_keyboard_rows(0);
 
     /* Initialize the keyboard.  */
 #ifndef __MSDOS__
