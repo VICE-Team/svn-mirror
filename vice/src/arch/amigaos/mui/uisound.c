@@ -73,7 +73,7 @@ static const int ui_sound_buffer_values[] = {
 
 static int ui_sound_oversample_translate[] = {
   IDS_NONE,
-  0
+  -1
 };
 
 static char *ui_sound_oversample[] = {

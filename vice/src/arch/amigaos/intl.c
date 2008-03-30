@@ -6123,11 +6123,12 @@ void intl_convert_mui_table(int text_id[], char *text[])
 {
   int i;
 
-  for (i=0; text_id[i]!=0; i++)
+  for (i=0; text_id[i]>0; i++)
   {
     text[i]=intl_translate_text(text_id[i]);
   }
-  text[i]=NULL;
+  if (text_id[i]==0)
+    text[i]=NULL;
 }
 
 /* codepage conversion is not yet present */

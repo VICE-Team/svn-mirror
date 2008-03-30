@@ -47,7 +47,7 @@ static char *drive_number_strings[countof(drive_number_strings_translate)];
 
 static int drive_type_strings_translate[] = {
   IDS_NONE,
-  0
+  -1
 };
 
 static char *drive_type_strings_8[] = {

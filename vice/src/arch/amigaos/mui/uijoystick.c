@@ -38,7 +38,7 @@
 
 static int ui_joystick_translate[] = {
   IDS_NONE,
-  0
+  -1
 };
 
 static char *ui_joystick[] = {

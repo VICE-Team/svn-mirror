@@ -2482,14 +2482,6 @@ END
 
 // -----------------------------------------------------------------------------
 
-/*
-IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Fullscreen Settings"
-FONT 8, "MS Sans Serif"*/
-
-// -----------------------------------------------------------------------------
-
 // original and default ENGLISH version of dialog
 
 IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180,87

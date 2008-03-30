@@ -79,10 +79,11 @@ static TUI_MENU_CALLBACK(ui_netplay_set_host_callback)
   if (been_activated)
   {
     const char *current_host;
-    char buf[40];
+    char buf[44];
 
     resources_get_string("NetworkServerName", &current_host);
-    sprintf(buf,"%040s\0",current_host);
+    
+    snprintf(buf, 40, "%s", current_host);
 
     if (tui_input_string("Hostname", "Enter the name of the netplay server:", buf, 40) == 0)
     {

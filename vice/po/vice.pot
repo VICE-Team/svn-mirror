@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-23 16:40+0200\n"
+"POT-Creation-Date: 2006-09-25 21:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,69 +381,69 @@ msgstr ""
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:462
+#: src/network.c:461
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:510
+#: src/network.c:511
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:535
+#: src/network.c:536
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 
-#: src/network.c:548
+#: src/network.c:549
 msgid "Sending snapshot to client..."
 msgstr ""
 
-#: src/network.c:558
+#: src/network.c:559
 msgid "Cannot send snapshot to client"
 msgstr ""
 
-#: src/network.c:588
+#: src/network.c:589
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 
-#: src/network.c:628
+#: src/network.c:629
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 
-#: src/network.c:787
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:825
+#: src/network.c:815
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 
-#: src/network.c:845
+#: src/network.c:835
 #, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 
-#: src/network.c:890
+#: src/network.c:880
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:904
+#: src/network.c:894
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:1034
+#: src/network.c:981 src/network.c:1011
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1045
+#: src/network.c:1023
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1087
+#: src/network.c:1067
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -2999,7 +2999,7 @@ msgstr ""
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:115
+#: src/arch/unix/gui/uicommands.c:492 src/arch/unix/gui/uinetplay.c:111
 msgid "Netplay (experimental)"
 msgstr ""
 
@@ -3724,28 +3724,28 @@ msgstr ""
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:111
-msgid "*Enable IPV6"
-msgstr ""
-
-#: src/arch/unix/gui/uinetplay.c:118
+#: src/arch/unix/gui/uinetplay.c:114
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:120
+#: src/arch/unix/gui/uinetplay.c:116
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:122
+#: src/arch/unix/gui/uinetplay.c:118
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:125
+#: src/arch/unix/gui/uinetplay.c:121
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:127 src/arch/unix/x11/gnome/uinetplay.c:320
+#: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
 msgid "Disconnect"
+msgstr ""
+
+#: src/arch/unix/gui/uinetplay.c:128
+msgid "*Enable IPV6"
 msgstr ""
 
 #: src/arch/unix/gui/uipalemu.c:79

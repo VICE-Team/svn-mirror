@@ -47,7 +47,7 @@ SOURCES = cat-id-tbl.c
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
-stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c
 
 POTFILES = \
 
@@ -185,7 +185,7 @@ cat-id-tbl.o: ../intl/libgettext.h
 dvi info tags TAGS ID:
 
 mostlyclean:
-	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp
+	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp intl2po
 	rm -fr *.o
 
 clean: mostlyclean
@@ -206,7 +206,8 @@ dist distdir: update-po $(DISTFILES)
 	    || cp -p $(srcdir)/$$file $(distdir); \
 	done
 
-update-po: Makefile
+update-po: Makefile intl2po
+	./intl2po
 	$(MAKE) $(PACKAGE).pot
 	PATH=`pwd`/../src:$$PATH; \
 	cd $(srcdir); \
@@ -225,7 +226,10 @@ update-po: Makefile
 	  fi; \
 	done
 
-POTFILES: POTFILES.in
+intl2po: intl2po.c
+	$(CC) $(INCLUDES) $(CFLAGS) intl2po.c -o intl2po
+
+POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \
 	    posrcprefix='$(top_srcdir)/'; \
 	  else \

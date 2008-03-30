@@ -295,7 +295,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             || SMR_B(m, &(drive->diskID2)) < 0
             || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
             || SMR_B_INT(m, &(drive->snap_finish_byte)) < 0
-            || SMR_DW_INT(m, (int *)&(drive->GCR_head_offset)) < 0
+            || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
             || SMR_B(m, &(drive->GCR_read)) < 0
             || SMR_B(m, &(drive->GCR_write_value)) < 0
             || SMR_B_INT(m, &(drive->idling_method)) < 0
@@ -304,7 +304,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             || SMR_B_INT(m, &(drive->read_only)) < 0
             || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
             || SMR_DW(m, &rotation_table_ptr[i]) < 0
-            || SMR_DW_INT(m, (int *)&(drive->type)) < 0
+            || SMR_DW_UINT(m, &(drive->type)) < 0
         ) {
             if (m != NULL)
                 snapshot_module_close(m);
