@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"POT-Creation-Date: 2006-01-08 20:33+0100\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -809,7 +809,7 @@ msgstr "De GEORAM Uitbreidings Eenheid afsluiten"
 
 #: src/c64/georam.c:215
 msgid "Specify name of GEORAM image"
-msgstr "Geef de naam van her GEORAM bestand"
+msgstr "Geef de naam van het GEORAM bestand"
 
 #: src/c64/georam.c:217 src/c64/ramcart.c:230 src/c64/reu.c:252
 msgid "<size in KB>"
@@ -4831,13 +4831,12 @@ msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Status: %s, Server: %s, Poort: %d"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:116
-msgid "Couldn't start network server."
-msgstr ""
+msgid "Couldn't start netplay server."
+msgstr "Kon de netplay server niet starten."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:126
-#, fuzzy
 msgid "Couldn't connect client."
-msgstr "Verbonden client"
+msgstr "Kon de client niet verbinden."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:145
 #: src/arch/unix/x11/gnome/uinetplay.c:149
@@ -7537,14 +7536,11 @@ msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
 #~ msgid "fragmented"
 #~ msgstr "gefragmenteerd"
 
-#, fuzzy
 #~ msgid "Save as"
-#~ msgstr "Opslaan"
+#~ msgstr "Opslaan als"
 
-#, fuzzy
 #~ msgid "&PAL-G"
-#~ msgstr "*PAL-G"
+#~ msgstr "&PAL-G"
 
-#, fuzzy
 #~ msgid "&NTSC-M"
-#~ msgstr "*NTSC-M"
+#~ msgstr "&NTSC-M"

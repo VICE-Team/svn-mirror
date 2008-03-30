@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"POT-Creation-Date: 2006-01-08 20:33+0100\n"
 "PO-Revision-Date: 2006-01-06 19:58+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -371,12 +371,12 @@ msgstr "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."
 
 #: src/network.c:376
 msgid "Testing best frame delay..."
-msgstr "Teste optimale Framerate"
+msgstr "Teste optimale Framerate..."
 
 #: src/network.c:424
 #, c-format
 msgid "Using %d frames delay."
-msgstr "Benutze %d Frameverzögerung"
+msgstr "Benutze %d Frameverzögerung."
 
 #: src/network.c:444
 msgid "Cannot load snapshot file for transfer"
@@ -4796,8 +4796,8 @@ msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Status: %s, Server: %s, Port: %d"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:116
-msgid "Couldn't start network server."
-msgstr "Konnte Neplay Server nicht starten. "
+msgid "Couldn't start netplay server."
+msgstr "Konnte Netplay Server nicht starten."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:126
 msgid "Couldn't connect client."

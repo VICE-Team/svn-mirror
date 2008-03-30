@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"POT-Creation-Date: 2006-01-08 20:33+0100\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -4868,7 +4868,7 @@ msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:116
-msgid "Couldn't start network server."
+msgid "Couldn't start netplay server."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:126
