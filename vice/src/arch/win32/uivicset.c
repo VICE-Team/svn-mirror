@@ -31,7 +31,6 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uilib.h"
 #include "uivicset.h"
 #include "winmain.h"

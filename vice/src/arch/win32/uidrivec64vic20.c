@@ -28,12 +28,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <windows.h>
 #include <prsht.h>
-
-#ifdef HAVE_SHLOBJ_H
-#include <shlobj.h>
-#endif
 
 #ifndef DUMMYUNIONNAME
 #define DUMMYUNIONNAME  u1
@@ -43,10 +40,10 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uidrivec64vic20.h"
 #include "uilib.h"
 #include "winmain.h"
+
 
 static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {
@@ -204,8 +201,8 @@ static void init_dialog(HWND hwnd, int num)
         break;
     }
 
-    if( !enabled )
-      n = IDC_SELECT_DRIVE_TYPE_NONE;
+    if (!enabled)
+        n = IDC_SELECT_DRIVE_TYPE_NONE;
 
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541,
                      IDC_SELECT_DRIVE_TYPE_NONE, n);

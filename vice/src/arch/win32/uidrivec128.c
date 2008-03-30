@@ -28,12 +28,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <windows.h>
 #include <prsht.h>
-
-#ifdef HAVE_SHLOBJ_H
-#include <shlobj.h>
-#endif
 
 #ifndef DUMMYUNIONNAME
 #define DUMMYUNIONNAME  u1
@@ -43,7 +40,6 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uidrivec128.h"
 #include "uilib.h"
 #include "winmain.h"

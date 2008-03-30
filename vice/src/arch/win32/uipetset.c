@@ -29,10 +29,6 @@
 #include <windows.h>
 #include <prsht.h>
 
-#ifdef HAVE_SHLOBJ_H
-#include <shlobj.h>
-#endif
-
 #ifndef DUMMYUNIONNAME
 #define DUMMYUNIONNAME  u1
 #endif
@@ -41,10 +37,10 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uilib.h"
 #include "uipetset.h"
 #include "winmain.h"
+
 
 static void enable_controls_for_pet_settings(HWND hwnd, int type)
 {
@@ -284,10 +280,14 @@ void ui_pet_settings_dialog(HWND hwnd)
     psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
     psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
-    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
-    psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+    psp[2].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+    psp[3].DUMMYUNIONNAME.pszTemplate
+        = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
@@ -310,3 +310,4 @@ void ui_pet_settings_dialog(HWND hwnd)
     system_psh_settings(&psh);
     PropertySheet(&psh);
 }
+

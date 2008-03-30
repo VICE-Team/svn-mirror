@@ -154,6 +154,26 @@ static void init_sound_dialog(HWND hwnd)
 
 }
 
+static void end_sound_dialog(HWND hwnd)
+{
+    resources_set_value("SoundSampleRate",
+                        (resource_value_t)ui_sound_freq[SendMessage(
+                        GetDlgItem(hwnd,IDC_SOUND_FREQ),
+                        CB_GETCURSEL, 0, 0)]);
+    resources_set_value("SoundBufferSize",
+                        (resource_value_t)ui_sound_buffer[SendMessage(
+                        GetDlgItem(hwnd,IDC_SOUND_BUFFER),
+                        CB_GETCURSEL, 0, 0)]);
+    resources_set_value("SoundOversample",
+                        (resource_value_t)SendMessage(
+                        GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
+                        CB_GETCURSEL, 0, 0));
+    resources_set_value("SoundSpeedAdjustment",
+                        (resource_value_t)ui_sound_adjusting[SendMessage(
+                        GetDlgItem(hwnd, IDC_SOUND_SYNCH),
+                        CB_GETCURSEL, 0, 0)]);
+}
+
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
@@ -176,23 +196,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             ui_display_statustext("Sound driver: WMM");
             break;
           case IDOK:
-            resources_set_value("SoundSampleRate",
-                                (resource_value_t)ui_sound_freq[SendMessage(
-                                GetDlgItem(hwnd,IDC_SOUND_FREQ),
-                                CB_GETCURSEL,0,0)]);
-            resources_set_value("SoundBufferSize",
-                                (resource_value_t)ui_sound_buffer[SendMessage(
-                                GetDlgItem(hwnd,IDC_SOUND_BUFFER),
-                                CB_GETCURSEL,0,0)]);
-            resources_set_value("SoundOversample",
-                                (resource_value_t)SendMessage(
-                                GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
-                                CB_GETCURSEL,0,0));
-            resources_set_value("SoundSpeedAdjustment",
-                                (resource_value_t)ui_sound_adjusting[SendMessage(
-                                GetDlgItem(hwnd, IDC_SOUND_SYNCH),
-                                CB_GETCURSEL, 0, 0)]);
-
+            end_sound_dialog(hwnd);
           case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;

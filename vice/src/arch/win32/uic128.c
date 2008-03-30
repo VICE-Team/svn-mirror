@@ -36,7 +36,6 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uic128.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -127,6 +126,13 @@ static void init_functionrom_dialog(HWND hwnd)
     enable_functionrom_controls(hwnd);
 }
 
+static void end_machine_dialog(HWND hwnd)
+{
+    resources_set_value("MachineType", (resource_value_t)
+                        SendMessage(GetDlgItem(hwnd, IDC_C128_MACHINE_TYPE),
+                        CB_GETCURSEL, 0, 0));
+}
+
 static BOOL CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                          LPARAM lparam)
 {
@@ -134,10 +140,7 @@ static BOOL CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            resources_set_value("MachineType", (resource_value_t)
-                                SendMessage(GetDlgItem(hwnd,
-                                IDC_C128_MACHINE_TYPE),
-                                CB_GETCURSEL, 0, 0));
+            end_machine_dialog(hwnd);
             return TRUE;
         }
         return FALSE;
@@ -151,6 +154,30 @@ static BOOL CALLBACK machine_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     }
 
     return FALSE;
+}
+
+static void end_functionrom_dialog(HWND hwnd)
+{
+    char name[MAX_PATH];
+    TCHAR st_name[MAX_PATH];
+
+    resources_set_value("InternalFunctionROM", (resource_value_t)
+                        (IsDlgButtonChecked(hwnd,
+                        IDC_C128_FUNCTIONROM_INTERNAL)
+                        == BST_CHECKED ? 1 : 0 ));
+    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
+                   st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_value("InternalFunctionName", (resource_value_t)name);
+
+    resources_set_value("ExternalFunctionROM", (resource_value_t)
+                        (IsDlgButtonChecked(hwnd,
+                        IDC_C128_FUNCTIONROM_EXTERNAL)
+                        == BST_CHECKED ? 1 : 0 ));
+    GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
+                   st_name, MAX_PATH);
+    system_wcstombs(name, st_name, MAX_PATH);
+    resources_set_value("ExternalFunctionName", (resource_value_t)name);
 }
 
 static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -185,31 +212,8 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            {
-                char name[MAX_PATH];
-                TCHAR st_name[MAX_PATH];
-
-                resources_set_value("InternalFunctionROM", (resource_value_t)
-                                    (IsDlgButtonChecked(hwnd,
-                                    IDC_C128_FUNCTIONROM_INTERNAL)
-                                    == BST_CHECKED ? 1 : 0 ));
-                GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                               st_name, MAX_PATH);
-                system_wcstombs(name, st_name, MAX_PATH);
-                resources_set_value("InternalFunctionName",
-                                    (resource_value_t)name);
-
-                resources_set_value("ExternalFunctionROM", (resource_value_t)
-                                    (IsDlgButtonChecked(hwnd,
-                                    IDC_C128_FUNCTIONROM_EXTERNAL)
-                                    == BST_CHECKED ? 1 : 0 ));
-                GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                               st_name, MAX_PATH);
-                system_wcstombs(name, st_name, MAX_PATH);
-                resources_set_value("ExternalFunctionName",
-                                    (resource_value_t)name);
-                return TRUE;
-            }
+            end_functionrom_dialog(hwnd);
+            return TRUE;
         }
         return FALSE;
       case WM_CLOSE:

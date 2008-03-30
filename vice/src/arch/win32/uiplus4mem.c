@@ -31,7 +31,6 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -61,6 +60,13 @@ static void init_dialog(HWND hwnd)
                      n);
 }
 
+static void end_dialog(void)
+{
+    if (orig_ramsize != set_ramsize) {
+        resources_set_value("RamSize", (resource_value_t)set_ramsize);
+    }
+}
+
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
@@ -84,9 +90,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
             set_ramsize=64;
             break;
           case IDOK:
-            if (orig_ramsize != set_ramsize) {
-                resources_set_value("RamSize",(resource_value_t)set_ramsize);
-            }
+            end_dialog();
           case IDCANCEL:
             EndDialog(hwnd,0);
             return TRUE;
