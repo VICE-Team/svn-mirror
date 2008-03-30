@@ -112,6 +112,7 @@ EXTRA_DIST = \
 	monitor.dsp \
 	pet.dsp \
 	petcat.dsp \
+	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
 	screendrv.dsp \
