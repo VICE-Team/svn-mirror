@@ -47,6 +47,9 @@ raster_sprite_status_init (raster_sprite_status_t *s,
   s->dma_msk = 0;
   s->new_dma_msk = 0;
 
+  s->mc_sprite_color_1 = 0;
+  s->mc_sprite_color_2 = 0;
+
   s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
   s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
 
