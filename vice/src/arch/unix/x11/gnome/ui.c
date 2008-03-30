@@ -1907,7 +1907,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     fno++;
     
     tmp1 = tmp2 = s;
-    tmp1 = find_next_line(NULL, tmp2);
+    tmp1 = util_find_next_line(tmp2);
     while (tmp1 > tmp2)
     {
 	if (fno >= limit)
@@ -1931,7 +1931,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 	fno++;
 
 	tmp2 = tmp1;
-	tmp1 = find_next_line(NULL, tmp2);
+	tmp1 = util_find_next_line(tmp2);
     }
     if (strcmp(tmp2, "") != 0)	/* last line may be without newline */
     {
@@ -2007,7 +2007,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     gtk_clist_freeze(GTK_CLIST(image_preview_list));
     gtk_clist_clear(GTK_CLIST(image_preview_list));
     
-    tmp1 = find_next_line(NULL, tmp2);
+    tmp1 = util_find_next_line(tmp2);
     while (tmp1 > tmp2)
     {
 	*(tmp1 - 1) = '\0';
@@ -2024,7 +2024,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
 	}
 
 	tmp2 = tmp1;
-	tmp1 = find_next_line(NULL, tmp2);
+	tmp1 = util_find_next_line(tmp2);
     }
 
     /* Last Line might be without newline char*/

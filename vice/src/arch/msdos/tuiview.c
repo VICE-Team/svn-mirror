@@ -75,22 +75,22 @@ void tui_view_text(int width, int height, const char *title, const char *text)
 	    return;
 	  case K_Up:
 	  case K_Left:
-	    p = find_prev_line(text, p);
+	    p = util_find_prev_line(text, p);
 	    need_update = 1;
 	    break;
 	  case K_Down:
 	  case K_Right:
-	    p = find_next_line(text, p);
+	    p = util_find_next_line(p);
 	    need_update = 1;
 	    break;
 	  case K_PageDown:
 	    for (i = 0; i < height - 3; i++)
-		p = find_next_line(text, p);
+		p = util_find_next_line(p);
 	    need_update = 1;
 	    break;
 	  case K_PageUp:
 	    for (i = 0; i < height - 3; i++)
-		p = find_prev_line(text, p);	
+		p = util_find_prev_line(text, p);	
 	    need_update = 1;
 	    break;
 	}
