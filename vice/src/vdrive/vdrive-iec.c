@@ -675,8 +675,7 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 
 int vdrive_iec_attach(unsigned int unit, const char *name)
 {
-    return serial_attach_device(unit, "1541 Disk Drive",
-                                vdrive_iec_read, vdrive_iec_write,
+    return serial_attach_device(unit, name, vdrive_iec_read, vdrive_iec_write,
                                 vdrive_iec_open, vdrive_iec_close,
                                 vdrive_iec_flush);
 }

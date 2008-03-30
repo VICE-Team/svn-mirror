@@ -164,19 +164,19 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
     return -1;
 }
 
-static void vdrive_bam_set(unsigned int type, BYTE *bamp, unsigned int sector)
+static void vdrive_bam_set(BYTE *bamp, unsigned int sector)
 {
     bamp[1 + sector / 8] |= (1 << (sector % 8));
     return;
 }
 
-static void vdrive_bam_clr(unsigned int type, BYTE *bamp, unsigned int sector)
+static void vdrive_bam_clr(BYTE *bamp, unsigned int sector)
 {
     bamp[1 + sector / 8] &= ~(1 << (sector % 8));
     return;
 }
 
-static int vdrive_bam_isset(unsigned int type, BYTE *bamp, unsigned int sector)
+static int vdrive_bam_isset(BYTE *bamp, unsigned int sector)
 {
     return bamp[1 + sector / 8] & (1 << (sector % 8));
 }
@@ -316,9 +316,9 @@ int vdrive_bam_allocate_sector(unsigned int type, BYTE *bam,
     BYTE *bamp;
 
     bamp = vdrive_bam_calculate_track(type, bam, track);
-    if (vdrive_bam_isset(type, bamp, sector)) {
+    if (vdrive_bam_isset(bamp, sector)) {
         vdrive_bam_sector_free(type, bamp, bam, track, -1);
-        vdrive_bam_clr(type, bamp, sector);
+        vdrive_bam_clr(bamp, sector);
         return 1;
     }
     return 0;
@@ -330,8 +330,8 @@ int vdrive_bam_free_sector(unsigned int type, BYTE *bam, unsigned int track,
     BYTE *bamp;
 
     bamp = vdrive_bam_calculate_track(type, bam, track);
-    if (!(vdrive_bam_isset(type, bamp, sector))) {
-        vdrive_bam_set(type, bamp, sector);
+    if (!(vdrive_bam_isset(bamp, sector))) {
+        vdrive_bam_set(bamp, sector);
         vdrive_bam_sector_free(type, bamp, bam, track, 1);
         return 1;
     }
