@@ -2,8 +2,6 @@
 
 if USE_MIDAS_SOUND
 libarch_a_LIBADD = vmidas.o
-else
-libarch_a_LIBADD = vicesb.o
 endif
 
 INCLUDES = \
@@ -66,6 +64,8 @@ libarch_a_SOURCES = \
 	uiattach.c \
 	uicmdline.c \
 	uimon.c \
+	uireu.c \
+	uireu.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
@@ -77,7 +77,5 @@ libarch_a_SOURCES = \
 	vsync.c
 
 EXTRA_DIST = \
-	vicesb.c \
-	vicesb.h \
 	vmidas.c \
 	vmidas.h
