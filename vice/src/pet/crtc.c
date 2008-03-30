@@ -148,6 +148,8 @@ static resource_t resources[] = {
 #ifdef NEED_2x
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
+#endif
+#if defined NEED_2x || defined __MSDOS__
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
 #endif
@@ -215,7 +217,7 @@ void init_drawing_tables(void) {
 canvas_t crtc_init(void)
 {
     static const char *color_names[CRTC_NUM_COLORS] = {
-      "Background", "Foreground"
+        "Background", "Foreground"
     };
 
 #ifdef __MSDOS__
@@ -248,12 +250,10 @@ canvas_t crtc_init(void)
 
     video_mode = CRTC_STANDARD_MODE;
     memptr_inc = crtc_cols;
-    /* addr_mask = (crtc_cols==80) ? 0x07ff : 0x03ff; */
 
     refresh_all();
 
     chargen_ptr = chargen_rom;
-    /* screenmem = ram + 0x8000; */
     border_color = 0;
     background_color = 0;
     display_ystart = CRTC_SCREEN_BORDERHEIGHT;
@@ -375,7 +375,8 @@ static void crtc_arrange_window(int width, int height)
 
 /* -------------------------------------------------------------------------- */
 
-/* CRTC interface functions.  FIXME: Several registers are not implemented.  */
+/* CRTC interface functions.
+   FIXME: Several registers are not implemented.  */
 
 void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 {
@@ -532,6 +533,20 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
     display_ystart = SCREEN_BORDERHEIGHT;
     display_ystop = SCREEN_BORDERHEIGHT + SCREEN_YPIX;
 
+#ifdef __MSDOS__
+    /* FIXME: This does not have any effect until there is a gfx -> text ->
+       gfx mode transition.  Moreover, no resources should be changed behind
+       user's back...  So this is definitely a Bad Thing (tm).  For now, it's
+       fine with us, though.  */
+    resources_set_value("VGAMode",
+                        (resource_value_t) (crtc_cols > 40
+                                            ? VGA_640x480 : VGA_320x200));
+    if (SCREEN_XPIX > 320)
+	double_size_enabled = 1;
+    else
+        double_size_enabled = 0;
+#endif
+
     if (canvas) {
 	canvas_resize(canvas, w, window_height);
 	crtc_arrange_window(w, window_height);
@@ -539,7 +554,8 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
     }
 }
 
-void crtc_screen_enable(int en) {
+void crtc_screen_enable(int en)
+{
     en = en ? 0 : 1;
     blank = en;
     blank_enabled = en;
@@ -574,7 +590,7 @@ int int_rasterdraw(long offset)
     if (rasterline == 0) {
         /* we assume this to start the screen */
         signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
-    } else if(rasterline == CRTC_SCREEN_YPIX) {
+    } else if (rasterline == CRTC_SCREEN_YPIX) {
         /* and this to end the screen */
         signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
     }
