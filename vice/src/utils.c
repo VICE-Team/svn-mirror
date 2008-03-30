@@ -371,6 +371,11 @@ int load_file(const char *name, void *dest, int size)
     FILE *fd;
     int r;
 
+    if (name == NULL) {
+        log_error(LOG_ERR, "No file name given for load_file().");
+        return -1;
+    }
+
     fd = fopen(name, MODE_READ);
     if (fd == NULL)
         return -1;
