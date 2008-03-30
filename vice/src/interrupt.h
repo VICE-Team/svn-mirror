@@ -166,28 +166,9 @@ typedef struct cpu_int_status cpu_int_status_t;
 #  define _INT_FUNC
 #endif
 
-#if defined INLINE_INTERRUPT_FUNCS || defined _MAINCPU_C
+#if defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C
 
 #include <string.h>		/* memset() */
-
-/* Initialization.  */
-_INT_FUNC void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
- 				   int num_alarms,
-				   opcode_info_t *last_opcode_info_ptr)
-{
-    int i;
-
-    memset(cs, 0, sizeof(cpu_int_status_t));
-    cs->num_ints = num_ints;
-    cs->num_alarms = num_alarms;
-    for (i = 0; i < 0x100; i++)
-	cs->alarm_clk[i] = CLOCK_MAX;
-    cs->next_alarm_clk = CLOCK_MAX;
-    cs->last_opcode_info_ptr = last_opcode_info_ptr;
-    cs->num_last_stolen_cycles = 0;
-    cs->last_stolen_cycles_clk = (CLOCK)0;
-    cs->global_pending_int = IK_NONE;
-}
 
 /* Set the IRQ line state.  */
 _INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
@@ -419,34 +400,6 @@ _INT_FUNC void serve_next_alarm(cpu_int_status_t *cs, CLOCK clk)
     (cs->alarm_handler[cs->next_alarm])(offset);
 }
 
-/* This is used to avoid clock counter overflows.  Return the number of
-   cycles subtracted, which is always a multiple of `baseval'.  */
-_INT_FUNC CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
-                                     CLOCK baseval)
-{
-    if (*clk > PREVENT_CLK_OVERFLOW_TICK) {
-	int i;
-        CLOCK prevent_clk_overflow_sub =
-            (((PREVENT_CLK_OVERFLOW_TICK & ~((CLOCK)0xffff))
-              / baseval - 1) * baseval);
-
-	*clk -= prevent_clk_overflow_sub;
-	cs->next_alarm_clk -= prevent_clk_overflow_sub;
-	cs->irq_clk -= prevent_clk_overflow_sub;
-	cs->nmi_clk -= prevent_clk_overflow_sub;
-	if (cs->last_stolen_cycles_clk > prevent_clk_overflow_sub)
-	    cs->last_stolen_cycles_clk -= prevent_clk_overflow_sub;
-	else
-	    cs->last_stolen_cycles_clk = (CLOCK) 0;
-	for (i = 0; i < cs->num_alarms; i++) {
-	    if (cs->alarm_clk[i] != CLOCK_MAX)
-		cs->alarm_clk[i] -= prevent_clk_overflow_sub;
-	}
-	return prevent_clk_overflow_sub;
-    } else
-	return 0;
-}
-
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
 _INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
@@ -467,13 +420,10 @@ _INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
     cs->nmi_clk += num - 1;
 }
 
-#else  /* defined INLINE_INTERRUPT_FUNCS || defined _MAINCPU_C */
+#else  /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
 
 /* We don't want inline definitions: just provide the prototypes.  */
 
-extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
-				int num_alarms,
-				opcode_info_t *last_opcode_info_ptr);
 extern void set_irq(cpu_int_status_t *cs, int int_num, int value,
 		    CLOCK clk);
 extern void set_nmi(cpu_int_status_t *cs, int int_num, int value,
@@ -490,8 +440,6 @@ extern void set_alarm_clk(cpu_int_status_t *cs, int alarm, CLOCK tick);
 extern void unset_alarm(cpu_int_status_t *cs, int alarm);
 extern int check_pending_interrupt(cpu_int_status_t *cs);
 extern int serve_next_alarm(cpu_int_status_t *cs, CLOCK clk);
-extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
-                                  CLOCK baseval);
 extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			 CLOCK *clk_ptr, int num);
 extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
@@ -500,7 +448,17 @@ extern void ack_nmi(cpu_int_status_t *cs);
 extern void ack_reset(cpu_int_status_t *cs);
 extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
-#endif /* defined INLINE_INTERRUPT_FUNCS || defined _MAINCPU_C */
+#endif /* defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C */
+
+/* ------------------------------------------------------------------------- */
+
+/* Extern functions.  These are defined in `interrupt.c'.  */
+
+extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
+                                  CLOCK baseval);
+extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
+				int num_alarms,
+				opcode_info_t *last_opcode_info_ptr);
 
 /* ------------------------------------------------------------------------- */
 
