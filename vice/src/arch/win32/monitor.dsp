@@ -126,6 +126,10 @@ SOURCE=..\..\monitor\mon_lex.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\mon_memory.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\mon_parse.c
 # End Source File
 # Begin Source File
