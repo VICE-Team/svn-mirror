@@ -250,7 +250,8 @@ static char *try_uncompress_with_bzip(const char *name)
     free(argv[2]);
 
     if (exit_status == 0) {
-	ZDEBUG(("try_uncompress_with_bzip: OK"));
+
+  	ZDEBUG(("try_uncompress_with_bzip: OK"));
 	return tmp_name;
     } else {
 	ZDEBUG(("try_uncompress_with_bzip: failed"));
@@ -270,9 +271,11 @@ static int is_zipcode_name(char *name)
 /* Extensions we know about */
 static const char *extensions[] = {
 #ifdef __riscos
-    "/d64", "/x64", "/dsk", "/t64", "/p00", "/prg", "/lnx", NULL
+    "/d64", "/d71", "/d81", "/g64", "/g41", "/x64", "/dsk", "/t64", "/p00",
+    "/prg", "/lnx", NULL
 #else
-    ".d64", ".x64", ".dsk", ".t64", ".p00", ".prg", ".lnx", NULL
+    ".d64", ".d71", ".d81", ".g64", ".g41", ".x64", ".dsk", ".t64", ".p00",
+    ".prg", ".lnx", NULL
 #endif
 };
 
@@ -349,7 +352,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     fd = fopen(tmp_name, "r");
     if (!fd) {
 	ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
-		program, archive));
+		program, tmp_name));
 	unlink(tmp_name);
 	return NULL;
     }
@@ -434,7 +437,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program,
-	    archive));
+	    tmp_name));
     return tmp_name;
 #endif
 }
@@ -569,7 +572,7 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     /* now create the image */
     argv[0] = stralloc("c1541");
     argv[1] = stralloc("-format");
-    argv[2] = stralloc("lynx image,00");
+    argv[2] = stralloc("lynximage,00");
     argv[3] = stralloc("x64");
     argv[4] = stralloc(tmp_name);
     argv[5] = stralloc("-unlynx");

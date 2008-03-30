@@ -1,3 +1,21 @@
+1999-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.2.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Updated filter for
+	the file selector.
+	* arch/win32/ui.c (handle_wm_command): Likewise.
+	* arch/win32/uiattach.c (dialog_proc): Likewise.
+
+	* arch/msdos/tuifs.c (file_list_read_lfn, file_list_read_nolfn):
+	Added support for multiple filter pattern.
+	(tui_file_selector): Fixed dereference of NULL pointer.
+
+	* arch/win32/archdep.c, arch/win32/c64ui.c, arch/win32/ui.c:
+	Removed unused variables.
+
+	* zfile.c: Updated archive extensions.
+
 1999-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.1.
