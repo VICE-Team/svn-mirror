@@ -178,7 +178,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
 void tui_beep(void)
 {
     sound(2000);
-    usleep(40000);
+    /* usleep(40000); */
     nosound();
 }
 

@@ -143,8 +143,11 @@
 #include "../c64/sid.h"
 #include "kbd.h"
 #include "crtc.h"
-#include "pruser.h"
 #include "petvia.h"
+
+#ifdef HAVE_PRINTER
+#include "pruser.h"
+#endif
 
 #include "interrupt.h"
 
@@ -225,8 +228,10 @@ void    reset_via(void)
     par_set_atn(0);
     par_set_nrfd(0);
 
+#ifdef HAVE_PRINTER
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
+#endif
 
 }
 
@@ -287,7 +292,9 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
  	via[addr] = byte;
 	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+#ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
+#endif
 	break;
 
       case VIA_PRB: /* port B */
@@ -464,7 +471,9 @@ byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
           if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
           crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
 				     /* switching userport strobe with CB2 */
-          userport_printer_write_strobe( byte & 0x20 ); 
+#ifdef HAVE_PRINTER
+          userport_printer_write_strobe( byte & 0x20 );
+#endif
 	}
 	via[addr] = byte;
 	break;
@@ -717,6 +726,7 @@ void via_prevent_clk_overflow(CLOCK sub)
 }
 
 
+
 int     show_keyarr(void)
 {
     int     i, j;
@@ -729,8 +739,11 @@ int     show_keyarr(void)
     return (0);
 }
 
-void userport_printer_set_busy(int b) {
+#ifdef HAVE_PRINTER
+void userport_printer_set_busy(int b)
+{
     via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
+#endif
 
 

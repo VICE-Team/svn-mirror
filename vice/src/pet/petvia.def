@@ -3,7 +3,7 @@
  * viap.def - Definitions for VIA emulation in the PET.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -46,8 +46,11 @@ INCLUDES()
 #include "../c64/sid.h"
 #include "kbd.h"
 #include "crtc.h"
-#include "pruser.h"
 #include "petvia.h"
+
+#ifdef HAVE_PRINTER
+#include "pruser.h"
+#endif
 }
 
 #define GLOBALS()
@@ -58,7 +61,9 @@ STORE_PRA()
 {
  	via[addr] = byte;
 	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+#ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
+#endif
 }
 
 STORE_PRB()
@@ -81,7 +86,9 @@ STORE_PCR()
           if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
           crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
 				     /* switching userport strobe with CB2 */
-          userport_printer_write_strobe( byte & 0x20 ); 
+#ifdef HAVE_PRINTER
+          userport_printer_write_strobe( byte & 0x20 );
+#endif
 	}
 }
 
@@ -117,10 +124,11 @@ RESET_VIA()
     par_set_atn(0);
     par_set_nrfd(0);
 
+#ifdef HAVE_PRINTER
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
+#endif
 }
-
 
 READ_PRA()
 {
@@ -166,8 +174,10 @@ READ_PRB()
         }
 }
 
+
 POST_VIA_FUNCS()
 {
+
 int     show_keyarr(void)
 {
     int     i, j;
@@ -180,11 +190,11 @@ int     show_keyarr(void)
     return (0);
 }
 
-void userport_printer_set_busy(int b) {
+#ifdef HAVE_PRINTER
+void userport_printer_set_busy(int b)
+{
     via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
+#endif
 
-}
-
-
-
+} /* POST_VIA_FUNCS */

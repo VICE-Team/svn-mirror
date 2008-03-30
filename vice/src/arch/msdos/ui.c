@@ -33,20 +33,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#if 0
-#include <sys/farptr.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <go32.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <pc.h>
-#include <allegro.h>
-#include <math.h>
-#include <io.h>
-#endif
-
 #include "ui.h"
 
 #include "machine.h"

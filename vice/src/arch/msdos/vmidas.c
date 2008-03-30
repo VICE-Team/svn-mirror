@@ -24,7 +24,6 @@
  *
  */
 
-
 #include "vice.h"
 #include "vmidas.h"
 
@@ -71,7 +70,7 @@ BOOL vmidas_startup(void)
         if (!MIDASstartup()) {
             fprintf(stderr, "MIDASstartup: %s\n", MIDAS_ERRMSG());
             return FALSE;
-        } 
+        }
 	MIDASstartup_called = 1;
 	_midas_available = 1;
 	memset(&midas_timer_status, 0, sizeof(midas_timer_status));
@@ -143,7 +142,7 @@ BOOL vmidas_init(void)
 				          midas_timer_status.immVR,
 				          midas_timer_status.inVR);
 	if (!ret) {
-	    fprintf(stderr, "%s: Aaargh! Cannot set timer callbacks!\n", 
+	    fprintf(stderr, "%s: Aaargh! Cannot set timer callbacks!\n",
 	    	    __FUNCTION__);
 	    fprintf(stderr,
 		    "MIDASsetTimerCallbacks(rate = %d, displaySync = %d): %s\n",
@@ -175,7 +174,7 @@ BOOL vmidas_config(void)
         printf("Saved MIDAS configuration in `%s'\n", config_fname);
 	return TRUE;
     } else {
-    	fprintf(stderr, "MIDASsaveConfig(\"%s\"): %s\n", 
+    	fprintf(stderr, "MIDASsaveConfig(\"%s\"): %s\n",
 	        config_fname, MIDAS_ERRMSG());
         fprintf(stderr, "Couldn't save MIDAS configuration in `%s'\n",
                 config_fname);

@@ -198,7 +198,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 
     canvas_set_palette(new_canvas, palette, pixel_return);
 
-    /* Set width and height. */
+    /* Set width and height.  */
     canvas_resize(new_canvas, 0, 0);
     *width = new_canvas->width;
     *height = new_canvas->height;
@@ -293,4 +293,3 @@ int num_text_lines(void)
 {
     return tui_num_lines();
 }
-

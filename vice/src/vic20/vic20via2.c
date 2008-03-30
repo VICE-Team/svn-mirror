@@ -143,8 +143,11 @@
 #include "kbd.h"
 #include "vic20iec.h"
 #include "vic20via.h"
-#include "pruser.h"
 #include "mem.h"
+
+#ifdef HAVE_PRINTER
+#include "pruser.h"
+#endif
 
 #include "interrupt.h"
 
@@ -228,8 +231,10 @@ void    reset_via2(void)
 
     iec_pa_write(0xff);
 
+#ifdef HAVE_PRINTER
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
+#endif
 
 }
 
@@ -302,7 +307,9 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
       case VIA_DDRB:
 
     via2[addr] = byte;
+#ifdef HAVE_PRINTER
     userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+#endif
 	break;
 
       case VIA_SR: /* Serial Port output buffer */
@@ -448,7 +455,9 @@ byte, via2pb7, via2pb7x, via2pb7o, via2pb7xx, via2pb7sx);*/
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
 	/* switching userport strobe with CB2 */
+#ifdef HAVE_PRINTER
 	userport_printer_write_strobe(byte & 0x20);
+#endif
     }
 	via2[addr] = byte;
 	break;
@@ -684,7 +693,10 @@ void via2_prevent_clk_overflow(CLOCK sub)
 }
 
 
-    void userport_printer_set_busy(int b) {
-	via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
-    }
+#ifdef HAVE_PRINTER
+void userport_printer_set_busy(int b)
+{
+    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+#endif
 

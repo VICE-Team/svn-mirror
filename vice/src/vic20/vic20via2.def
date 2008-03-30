@@ -27,7 +27,6 @@
  *
  */
 
-
 #define mycpu maincpu
 
 #define myclk clk
@@ -45,8 +44,11 @@ INCLUDES()
 #include "kbd.h"
 #include "vic20iec.h"
 #include "vic20via.h"
-#include "pruser.h"
 #include "mem.h"
+
+#ifdef HAVE_PRINTER
+#include "pruser.h"
+#endif
 }
 
 
@@ -71,7 +73,9 @@ PRE_VIA_FUNCS()
 STORE_PRB()
 {
     via2[addr] = byte;
+#ifdef HAVE_PRINTER
     userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+#endif
 }
 
 STORE_PCR()
@@ -84,7 +88,9 @@ STORE_PCR()
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
 	/* switching userport strobe with CB2 */
+#ifdef HAVE_PRINTER
 	userport_printer_write_strobe(byte & 0x20);
+#endif
     }
 }
 
@@ -96,8 +102,10 @@ RESET_VIA()
 {
     iec_pa_write(0xff);
 
+#ifdef HAVE_PRINTER
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
+#endif
 }
 
 
@@ -149,7 +157,10 @@ READ_PRB()
 
 POST_VIA_FUNCS()
 {
-    void userport_printer_set_busy(int b) {
-	via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
-    }
+#ifdef HAVE_PRINTER
+void userport_printer_set_busy(int b)
+{
+    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+#endif
 }
