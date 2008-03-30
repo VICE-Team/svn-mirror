@@ -2,7 +2,6 @@
  * keyboard.h - Common keyboard emulation.
  *
  * Written by
- *  
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@mail.matav.hu>
@@ -40,6 +39,23 @@
 /* (All have 8, except CBM-II that has 6) */
 #define KBD_COLS    8
 
+enum shift_type {
+    NO_SHIFT = 0,             /* Key is not shifted. */
+    VIRTUAL_SHIFT = (1 << 0), /* The key needs a shift on the real machine. */
+    LEFT_SHIFT = (1 << 1),    /* Key is left shift. */
+    RIGHT_SHIFT = (1 << 2),   /* Key is right shift. */
+    ALLOW_SHIFT = (1 << 3)    /* Allow key to be shifted. */
+};
+
+typedef struct keyboard_conv_s {
+    signed long sym;
+    int row;
+    int column;
+    enum shift_type shift;
+} keyboard_conv_t;
+
+extern keyboard_conv_t joykeys[2][10];
+
 extern void keyboard_init(void);
 extern void keyboard_set_keyarr(int row, int col, int value);
 extern void keyboard_set_keyarr_and_latch(int row, int col, int value);
@@ -52,22 +68,6 @@ extern int keyboard_keymap_dump(const char *filename);
 extern void keyboard_key_pressed(signed long key);
 extern void keyboard_key_released(signed long key);
 extern void keyboard_key_clear(void);
-
-enum joystick_bits_s {
-    CBM_NORTH = 0x1,
-    CBM_SOUTH = 0x2,
-    CBM_WEST  = 0x4,
-    CBM_EAST  = 0x8,
-    CBM_FIRE  = 0x10
-};
-typedef enum joystick_bits_s joystick_bits_t;
-
-extern void joystick_set_value_absolute(unsigned int joyport, BYTE value);
-extern void joystick_set_value_or(unsigned int joyport, BYTE value);
-extern void joystick_set_value_and(unsigned int joyport, BYTE value);
-extern void joystick_clear(unsigned int joyport);
-
-extern int joystick_port_map[2];
 
 typedef void (*key_ctrl_column4080_func_t)(void);
 extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);

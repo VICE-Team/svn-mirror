@@ -38,6 +38,7 @@
 
 #include "alarm.h"
 #include "archdep.h"
+#include "joystick.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "log.h"
@@ -59,11 +60,7 @@ int rev_keyarr[KBD_COLS];
 static int latch_keyarr[KBD_ROWS];
 static int latch_rev_keyarr[KBD_COLS];
 
-/* Latched joystick status.  */
-static BYTE latch_joystick_value[3] = { 0, 0, 0 };
-
 static alarm_t keyboard_alarm;
-static alarm_t joystick_alarm;
 
 static log_t keyboard_log = LOG_ERR;
 
@@ -74,14 +71,6 @@ static void keyboard_latch_matrix(CLOCK offset)
 
     memcpy(keyarr, latch_keyarr, sizeof(keyarr));
     memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
-}
-
-static void joystick_latch_matrix(CLOCK offset)
-{
-    alarm_unset(&joystick_alarm);
-    alarm_context_update_next_pending(joystick_alarm.context);
-
-    memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
 }
 
 /*-----------------------------------------------------------------------*/
@@ -124,29 +113,6 @@ void keyboard_clear_keymatrix(void)
     memset(latch_rev_keyarr, 0, sizeof(latch_rev_keyarr));
 }
 
-void joystick_set_value_absolute(unsigned int joyport, BYTE value)
-{
-    latch_joystick_value[joyport] = value;
-    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
-}
-
-void joystick_set_value_or(unsigned int joyport, BYTE value)
-{
-    latch_joystick_value[joyport] |= value;
-    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
-}
-
-void joystick_set_value_and(unsigned int joyport, BYTE value)
-{
-    latch_joystick_value[joyport] &= value;
-    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
-}
-
-void joystick_clear(unsigned int joyport)
-{
-    latch_joystick_value[joyport] = 0;
-}
-
 /*-----------------------------------------------------------------------*/
 
 #ifdef COMMON_KBD
@@ -172,121 +138,14 @@ key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 signed long key_ctrl_caps = -1;
 key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 
-enum shift_type {
-    NO_SHIFT = 0,             /* Key is not shifted. */
-    VIRTUAL_SHIFT = (1 << 0), /* The key needs a shift on the real machine. */
-    LEFT_SHIFT = (1 << 1),    /* Key is left shift. */
-    RIGHT_SHIFT = (1 << 2),   /* Key is right shift. */
-    ALLOW_SHIFT = (1 << 3)    /* Allow key to be shifted. */
-};
-
-typedef struct keyboard_conv_s {
-    signed long sym;
-    int row;
-    int column;
-    enum shift_type shift;
-} keyboard_conv_t;
-
 static keyboard_conv_t *keyconvmap = NULL;
-
-static keyboard_conv_t joykeys[2][10];
-static int joypad_status[2][10];
-BYTE joystick_value[3] = { 0, 0, 0 };
 
 static int kbd_lshiftrow;
 static int kbd_lshiftcol;
 static int kbd_rshiftrow;
 static int kbd_rshiftcol;
 
-/*-----------------------------------------------------------------------*/
-
-static int joypad_bits[10] = {
-    0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
-};
-
-static int joyreleaseval(int column, int *status)
-{
-    int val = 0;
-
-    switch (column) {
-      case 1:
-        val = (status[2] ? 0 : 0x2) | (status[4] ? 0 : 0x4);
-        break;
-      case 3:
-        val = (status[2] ? 0 : 0x2) | (status[6] ? 0 : 0x8);
-        break;
-      case 7:
-        val = (status[4] ? 0 : 0x4) | (status[8] ? 0 : 0x1);
-        break;
-      case 9:
-        val = (status[8] ? 0 : 0x1) | (status[6] ? 0 : 0x8);
-        break;
-      default:
-        val = joypad_bits[column];
-        break;
-    }
-    return ~val;
-}
-
-static int check_set_joykeys(signed long key, int joynum)
-{
-    int column, joyport;
-
-    if (joystick_port_map[0] == joynum)
-        joyport = 1;
-    else if (joystick_port_map[1] == joynum)
-        joyport = 2;
-    else
-        return 0;
-
-    joynum--;
-
-    for (column = 0; column < 10; column++) {
-        if (key == joykeys[joynum][column].sym) {
-            if (joypad_bits[column]) {
-                /*joystick_value[joyport] |= joypad_bits[column];*/
-                joystick_set_value_or(joyport, joypad_bits[column]);
-                joypad_status[joynum][column]=1;
-            } else {
-                /*joystick_value[joyport] = 0;*/
-                joystick_set_value_absolute(joyport, 0);
-                memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));            }
-#ifdef DEBUG_JOY
-            log_debug("got joyport %d, joynum %d, keysym=`%s'.",
-                      joyport, joynum,
-                      XKeysymToString(joykeys[joynum][column].sym));
-#endif
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int check_clr_joykeys(signed long key, int joynum)
-{
-    int column, joyport;
-
-    if (joystick_port_map[0] == joynum)
-        joyport = 1;
-    else if (joystick_port_map[1] == joynum)
-        joyport = 2;
-    else
-        return 0;
-
-    joynum--;
-
-    for (column = 0; column < 10; column++) {
-        if (key == joykeys[joynum][column].sym) {
-            /*joystick_value[joyport] &= joyreleaseval(column,
-                                                     joypad_status[joynum]);*/
-            joystick_set_value_and(joyport, joyreleaseval(column,
-                                   joypad_status[joynum]));
-            joypad_status[joynum][column] = 0;
-            return 1;
-        }
-    }
-    return 0;
-}
+keyboard_conv_t joykeys[2][10];
 
 /*-----------------------------------------------------------------------*/
 
@@ -311,9 +170,9 @@ void keyboard_key_pressed(signed long key)
         return;
     }
 
-    if (check_set_joykeys(key, 1))
+    if (joystick_check_set(key, 1))
         return;
-    if (check_set_joykeys(key, 2))
+    if (joystick_check_set(key, 2))
         return;
 
     if (keyconvmap) {
@@ -358,9 +217,9 @@ void keyboard_key_released(signed long key)
         && machine_set_restore_key(0))
         return;
 
-    if (check_clr_joykeys(key, 1))
+    if (joystick_check_clr(key, 1))
         return;
-    if (check_clr_joykeys(key, 2))
+    if (joystick_check_clr(key, 2))
         return;
 
     if (keyconvmap) {
@@ -401,7 +260,7 @@ void keyboard_key_clear(void)
     keyboard_clear_keymatrix();
     memset(joystick_value, 0, sizeof(joystick_value));
     virtual_shift_down = left_shift_down = right_shift_down = 0;
-    memset(joypad_status, 0, sizeof(joypad_status));
+    joystick_joypad_clear();
     return;
 }
 
@@ -464,7 +323,7 @@ static void keyboard_parse_keyword(char *buffer)
         }
     }
 
-    memset(joypad_status, 0, sizeof(joypad_status));
+    joystick_joypad_clear();
 }
 
 static void keyboard_parse_entry(char *buffer)
@@ -772,8 +631,6 @@ void keyboard_init(void)
 
     alarm_init(&keyboard_alarm, maincpu_alarm_context,
                "Keyboard", keyboard_latch_matrix);
-    alarm_init(&joystick_alarm, maincpu_alarm_context,
-               "Joystick", joystick_latch_matrix);
 
 #ifdef COMMON_KBD
     for (i = 0; i < 2; i++)

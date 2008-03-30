@@ -63,6 +63,7 @@
 #include "printer.h"
 #include "types.h"
 #include "viacore.h"
+#include "vic.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 
@@ -94,6 +95,9 @@ static void undump_pra(BYTE byte)
 
 inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
+    if (!(byte & 0x20) && (myoldpa & 0x20))
+        vic_trigger_light_pen(maincpu_clk);
+
     iec_pa_write(byte);
 }
 
