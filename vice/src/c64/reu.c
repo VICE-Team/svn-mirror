@@ -206,10 +206,13 @@ static int set_reu_filename(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "REU", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&reu_enabled, set_reu_enabled, NULL },
     { "REUsize", RES_INTEGER, (resource_value_t)512,
+      RES_EVENT_NO, NULL,
       (void *)&reu_size_kb, set_reu_size, NULL },
     { "REUfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&reu_filename, set_reu_filename, NULL },
     { NULL }
 };

@@ -225,16 +225,22 @@ static int set_autodetect_size(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
+      RES_EVENT_NO, NULL,
       (void *)&ide64_image_file, set_ide64_image_file, NULL },
     { "IDE64Config", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&ide64_configuration_string, set_ide64_config, NULL },
     { "IDE64Cylinders", RES_INTEGER, (resource_value_t)256,
+      RES_EVENT_NO, NULL,
       (void *)&settings_cylinders, set_cylinders, NULL },
     { "IDE64Heads", RES_INTEGER, (resource_value_t)4,
+      RES_EVENT_NO, NULL,
       (void *)&settings_heads, set_heads, NULL },
     { "IDE64Sectors", RES_INTEGER, (resource_value_t)16,
+      RES_EVENT_NO, NULL,
       (void *)&settings_sectors, set_sectors, NULL },
     { "IDE64AutodetectSize", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
       (void *)&settings_autodetect_size, set_autodetect_size, NULL },
     { NULL }
 };

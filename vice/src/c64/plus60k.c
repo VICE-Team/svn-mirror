@@ -93,6 +93,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
+#include "plus256k.h"
 #include "plus60k.h"
 #include "snapshot.h"
 #ifdef HAS_TRANSLATION
@@ -139,12 +140,12 @@ static int set_plus60k_enabled(resource_value_t v, void *param)
   { 
     if (!plus60k_enabled)
     {
-      if (c64_256k_enabled)
+      if (c64_256k_enabled || plus256k_enabled)
       {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", "256K");
+        ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
 #else
-        ui_error(_("Resource %s blocked by %s."),"CPU-LINES", "256K");
+        ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
 #endif
         return -1;
       }
@@ -191,7 +192,7 @@ static int set_plus60k_base(resource_value_t v, void *param)
       case 0xd100:
         break;
       default:
-        log_message(plus60k_log, "Unknown +60K base address $%lX.",
+        log_message(plus60k_log, "Unknown PLUS60K base address $%lX.",
                     (unsigned long)v);
         return -1;
     }
@@ -209,10 +210,13 @@ static int set_plus60k_base(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "PLUS60K", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&plus60k_enabled, set_plus60k_enabled, NULL },
     { "PLUS60Kbase", RES_INTEGER, (resource_value_t)0xd100,
+      RES_EVENT_NO, NULL,
       (void *)&plus60k_base, set_plus60k_base, NULL },
     { "PLUS60Kfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&plus60k_filename, set_plus60k_filename, NULL },
     { NULL }
 };
@@ -232,27 +236,27 @@ void plus60k_resources_shutdown(void)
 #ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)1,
+    { "-plus60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)1,
       0, IDCLS_ENABLE_PLUS60K_EXPANSION },
-    { "+60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)0,
+    { "+plus60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)0,
       0, IDCLS_DISABLE_PLUS60K_EXPANSION },
-    { "-60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
+    { "-plus60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_PLUS60K_NAME },
-    { "-60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
+    { "-plus60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
       IDCLS_P_BASE_ADDRESS, IDCLS_PLUS60K_BASE },
     { NULL }
 };
 #else
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)1,
-      NULL, N_("Enable the +60K RAM expansion") },
-    { "+60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)0,
-      NULL, N_("Disable the +60K RAM expansion") },
-    { "-60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
-      N_("<name>"), N_("Specify name of +60K image") },
-    { "-60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
-      N_("<base address>"), N_("Base address of the +60K expansion") },
+    { "-plus60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)1,
+      NULL, N_("Enable the PLUS60K RAM expansion") },
+    { "+plus60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)0,
+      NULL, N_("Disable the PLUS60K RAM expansion") },
+    { "-plus60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
+      N_("<name>"), N_("Specify name of PLUS60K image") },
+    { "-plus60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
+      N_("<base address>"), N_("Base address of the PLUS60K expansion") },
     { NULL }
 };
 #endif
@@ -278,22 +282,22 @@ static int plus60k_activate(void)
 {
     plus60k_ram = (BYTE *)lib_realloc((void *)plus60k_ram, (size_t)0xf000);
 
-    log_message(plus60k_log, "+60K hack installed.");
+    log_message(plus60k_log, "PLUS60K expansion installed.");
 
     if (!util_check_null_string(plus60k_filename)) {
         if (util_file_load(plus60k_filename, plus60k_ram, (size_t)0xf000,
                            UTIL_FILE_LOAD_RAW) < 0) {
             log_message(plus60k_log,
-                        "Reading +60K image %s failed.", plus60k_filename);
+                        "Reading PLUS60K image %s failed.", plus60k_filename);
             if (util_file_save(plus60k_filename, plus60k_ram, 0xf000) < 0) {
                 log_message(plus60k_log,
-                            "Creating +60K image %s failed.", plus60k_filename);
+                            "Creating PLUS60K image %s failed.", plus60k_filename);
                 return -1;
             }
-            log_message(plus60k_log, "Creating +60K image %s.", plus60k_filename);
+            log_message(plus60k_log, "Creating PLUS60K image %s.", plus60k_filename);
             return 0;
         }
-        log_message(plus60k_log, "Reading +60K image %s.", plus60k_filename);
+        log_message(plus60k_log, "Reading PLUS60K image %s.", plus60k_filename);
     }
 
     plus60k_reset();
@@ -305,10 +309,10 @@ static int plus60k_deactivate(void)
     if (!util_check_null_string(plus60k_filename)) {
         if (util_file_save(plus60k_filename, plus60k_ram, 0xf000) < 0) {
             log_message(plus60k_log,
-                        "Writing +60K image %s failed.", plus60k_filename);
+                        "Writing PLUS60K image %s failed.", plus60k_filename);
             return -1;
         }
-        log_message(plus60k_log, "Writing +60K image %s.", plus60k_filename);
+        log_message(plus60k_log, "Writing PLUS60K image %s.", plus60k_filename);
     }
     lib_free(plus60k_ram);
     plus60k_ram = NULL;

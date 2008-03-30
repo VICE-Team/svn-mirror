@@ -1,3 +1,16 @@
+2006-01-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added the +256k related source files.
+
+	* nl.po: Updated.
+
+2006-01-16  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated.
+
+	* POTFILES.in: Added `src/arch/unix/x11/gnome/uifileentry.c',
+	Removed `src/arch/unix/x11/gnome/dummies.c'.
+
 2006-01-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added PET REU related files.

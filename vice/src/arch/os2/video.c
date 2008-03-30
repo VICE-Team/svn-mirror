@@ -491,6 +491,7 @@ static int set_logging(resource_value_t v, void *param)
 static const resource_t resources1[] = {
 #ifndef DIRECT_ACCESS
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&stretch, set_stretch_factor, NULL },
 #endif
     { "PMBorderType", RES_INTEGER, (resource_value_t)2,
@@ -506,6 +507,7 @@ static const resource_t resources1[] = {
 
 static const resource_t resources2[] = {
     { "Logwin", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&logwin, set_logging, NULL },
     NULL
 };

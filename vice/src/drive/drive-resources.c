@@ -263,6 +263,7 @@ static int drive_resources_type(resource_value_t v, void *param)
 
 static resource_t res_drive_type[] = {
     { NULL, RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_SAME, NULL,
       NULL, drive_resources_type, NULL },
     { NULL }
 };
@@ -297,12 +298,14 @@ int drive_resources_type_init(unsigned int default_type)
 
 static const resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_STRICT, (resource_value_t)1,
       (void *)&drive_true_emulation, set_drive_true_emulation, NULL },
     { NULL }
 };
 
 static resource_t res_drive[] = {
     { NULL, RES_INTEGER, (resource_value_t)DRIVE_EXTEND_NEVER,
+      RES_EVENT_SAME, NULL,
       NULL, set_drive_extend_image_policy, NULL },
     { NULL }
 };

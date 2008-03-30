@@ -39,7 +39,9 @@
 #include "cartridge.h"
 #include "comal80.h"
 #include "crt.h"
+#include "delaep256.h"
 #include "delaep64.h"
+#include "delaep7x8.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -148,6 +150,10 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return stb_io1_read(addr);
       case CARTRIDGE_DELA_EP64:
         return delaep64_io1_read(addr);
+      case CARTRIDGE_DELA_EP7x8:
+        return delaep7x8_io1_read(addr);
+      case CARTRIDGE_DELA_EP256:
+        return delaep256_io1_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -237,6 +243,12 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         break;
       case CARTRIDGE_DELA_EP64:
         delaep64_io1_store(addr, value);
+        break;
+      case CARTRIDGE_DELA_EP7x8:
+        delaep7x8_io1_store(addr, value);
+        break;
+      case CARTRIDGE_DELA_EP256:
+        delaep256_io1_store(addr, value);
         break;
     }
     return;
@@ -617,6 +629,12 @@ void cartridge_init_config(void)
       case CARTRIDGE_DELA_EP64:
         delaep64_config_init();
         break;
+      case CARTRIDGE_DELA_EP7x8:
+        delaep7x8_config_init();
+        break;
+      case CARTRIDGE_DELA_EP256:
+        delaep256_config_init();
+        break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -723,6 +741,12 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_DELA_EP64:
         delaep64_config_setup(rawcart);
         break;
+      case CARTRIDGE_DELA_EP7x8:
+        delaep7x8_config_setup(rawcart);
+        break;
+      case CARTRIDGE_DELA_EP256:
+        delaep256_config_setup(rawcart);
+        break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -816,8 +840,15 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_ZAXXON:
         zaxxon_detach();
+        break;
       case CARTRIDGE_DELA_EP64:
         delaep64_detach();
+        break;
+      case CARTRIDGE_DELA_EP7x8:
+        delaep7x8_detach();
+        break;
+      case CARTRIDGE_DELA_EP256:
+        delaep256_detach();
         break;
     }
     cartridge_config_changed(6, 6, CMODE_READ);

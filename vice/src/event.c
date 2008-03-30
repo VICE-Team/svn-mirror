@@ -1183,13 +1183,17 @@ static int set_event_start_mode(resource_value_t v, void *param)
 static const resource_t resources[] = {
     { "EventSnapshotDir", RES_STRING, 
       (resource_value_t)FSDEVICE_DEFAULT_DIR FSDEV_DIR_SEP_STR,
+      RES_EVENT_NO, NULL,
       (void *)&event_snapshot_dir, set_event_snapshot_dir, NULL },
     { "EventStartSnapshot", RES_STRING, (resource_value_t)EVENT_START_SNAPSHOT,
+      RES_EVENT_NO, NULL,
       (void *)&event_start_snapshot, set_event_start_snapshot, NULL },
     { "EventEndSnapshot", RES_STRING, (resource_value_t)EVENT_END_SNAPSHOT,
+      RES_EVENT_NO, NULL,
       (void *)&event_end_snapshot, set_event_end_snapshot, NULL },
     { "EventStartMode", RES_INTEGER,
       (resource_value_t)EVENT_START_MODE_FILE_SAVE,
+      RES_EVENT_NO, NULL,
       (void *)&event_start_mode, set_event_start_mode, NULL },
     { NULL }
 };

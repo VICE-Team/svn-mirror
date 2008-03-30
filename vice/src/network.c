@@ -168,13 +168,16 @@ static int set_netplay_ipv6(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "NetworkServerName", RES_STRING, (resource_value_t)"127.0.0.1",
+      RES_EVENT_NO, NULL,
       (void *)&server_name,
       set_server_name, NULL },
     { "NetworkServerPort", RES_INTEGER, (resource_value_t)6502,
+      RES_EVENT_NO, NULL,
       (void *)&server_port,
       set_server_port, NULL },
 #ifdef HAVE_IPV6
     { "NetworkIPV6", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&netplay_ipv6,
       set_netplay_ipv6, NULL },
 #endif

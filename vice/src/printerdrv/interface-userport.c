@@ -67,6 +67,7 @@ static int set_up_enabled(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "PrinterUserport", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&userport_printer_enabled, set_up_enabled, NULL },
     { NULL }
 };

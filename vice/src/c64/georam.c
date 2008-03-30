@@ -171,10 +171,13 @@ static int set_georam_filename(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "GEORAM", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&georam_enabled, set_georam_enabled, NULL },
     { "GEORAMsize", RES_INTEGER, (resource_value_t)512,
+      RES_EVENT_NO, NULL,
       (void *)&georam_size_kb, set_georam_size, NULL },
     { "GEORAMfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&georam_filename, set_georam_filename, NULL },
     { NULL }
 };

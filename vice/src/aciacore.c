@@ -176,8 +176,10 @@ static int acia_set_mode(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { MYACIA "Dev", RES_INTEGER, (resource_value_t)MyDevice,
+      RES_EVENT_NO, NULL,
       (void *)&acia_device, acia_set_device, NULL },
     { MYACIA "Irq", RES_INTEGER, (resource_value_t)MyIrq,
+      RES_EVENT_NO, NULL,
       (void *)&acia_irq_res, acia_set_irq, NULL },
     { NULL }
 };
@@ -188,6 +190,7 @@ int myacia_init_resources(void) {
 
 static const resource_t mode_resources[] = {
     { MYACIA "Mode", RES_INTEGER, (resource_value_t)ACIA_MODE_NORMAL,
+      RES_EVENT_NO, NULL,
       (void *)&acia_mode, acia_set_mode, NULL },
     { NULL }
 };

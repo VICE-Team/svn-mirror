@@ -1479,13 +1479,17 @@ int set_tfe_interface(resource_value_t v, void *param)
 static 
 const resource_t resources[] = {
     { "ETHERNET_DISABLED", RES_INTEGER, (resource_value_t)0,
+       RES_EVENT_NO, NULL,
       (void *)&tfe_cannot_use, set_tfe_disabled, NULL },
     { "ETHERNET_ACTIVE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&tfe_enabled, set_tfe_enabled, NULL },
     { "ETHERNET_AS_RR", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&tfe_as_rr_net, set_tfe_rr_net, NULL },
     { "ETHERNET_INTERFACE", RES_STRING,
       (resource_value_t)ARCHDEP_ETHERNET_DEFAULT_DEVICE,
+      RES_EVENT_NO, NULL,
       (void *)&tfe_interface, set_tfe_interface, NULL },
     { NULL }
 };

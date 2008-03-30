@@ -91,25 +91,33 @@ static int set_autoplay_frames(resource_value_t v, void *param)
 /* Debug-related resources. */
 static const resource_t resources[] = {
     { "DoCoreDump", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.do_core_dumps, set_do_core_dumps, NULL },
 #ifdef DEBUG
     { "MainCPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.maincpu_traceflg, set_maincpu_traceflg, NULL },
     { "Drive0CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.drivecpu_traceflg[0], set_drive_traceflg, (void *)0 },
     { "Drive1CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.drivecpu_traceflg[1], set_drive_traceflg, (void *)1 },
 #if DRIVE_NUM > 2
     { "Drive2CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.drivecpu_traceflg[2], set_drive_traceflg, (void *)2 },
 #endif
 #if DRIVE_NUM > 3
     { "Drive3CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.drivecpu_traceflg[3], set_drive_traceflg, (void *)3 },
 #endif
     { "TraceMode", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&debug.trace_mode, set_trace_mode, NULL },
     { "AutoPlaybackFrames", RES_INTEGER, (resource_value_t)200,
+      RES_EVENT_NO, NULL,
       (void *)&debug_autoplay_frames, set_autoplay_frames, NULL },
 #endif
     { NULL }

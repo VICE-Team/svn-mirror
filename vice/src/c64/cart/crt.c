@@ -37,7 +37,9 @@
 #include "cartridge.h"
 #include "comal80.h"
 #include "crt.h"
+#include "delaep256.h"
 #include "delaep64.h"
+#include "delaep7x8.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -245,6 +247,18 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_DELA_EP64:
         rc = delaep64_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_DELA_EP7x8:
+        rc = delaep7x8_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_DELA_EP256:
+        rc = delaep256_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

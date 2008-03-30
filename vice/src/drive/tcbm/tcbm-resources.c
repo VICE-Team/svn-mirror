@@ -59,8 +59,10 @@ static int set_romset_firmware(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
+      RES_EVENT_NO, NULL,
       (void *)&dos_rom_name_1551, set_dos_rom_name_1551, NULL },
     { "RomsetDosName1551", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { NULL }
 };

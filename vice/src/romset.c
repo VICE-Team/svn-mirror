@@ -98,12 +98,16 @@ static int set_romset_filename(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "RomsetSourceFile", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
       (void *)&romset_source_file, set_romset_source_file, NULL },
     { "RomsetArchiveName", RES_STRING, (resource_value_t)"default",
+      RES_EVENT_NO, NULL, /* FIXME: filenames may differ */
       (void *)&romset_archive_name, set_romset_archive_name, NULL },
     { "RomsetArchiveActive", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&romset_archive_active, set_romset_archive_active, NULL },
     { "RomsetFileName", RES_STRING, (resource_value_t)"default",
+      RES_EVENT_NO, NULL,
       (void *)&romset_filename, set_romset_filename, NULL },
     { NULL }
 };

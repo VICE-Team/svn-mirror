@@ -218,6 +218,9 @@
 /* Define to 1 if you have the <midasdll.h> header file. */
 #undef HAVE_MIDASDLL_H
 
+/* Define to 1 if you have the `mkstemp' function. */
+#undef HAVE_MKSTEMP
+
 /* Enable 1351 mouse support */
 #undef HAVE_MOUSE
 

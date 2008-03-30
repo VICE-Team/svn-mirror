@@ -154,18 +154,23 @@ static int set_video_codec(resource_value_t v, void *param)
 /*---------- Resources ------------------------------------------------*/
 static const resource_t resources[] = {
     { "FFMPEGFormat", RES_STRING, (resource_value_t)"avi",
+      RES_EVENT_NO, NULL,
       (void *)&ffmpeg_format,
       set_format, NULL },
     { "FFMPEGAudioBitrate", RES_INTEGER, (resource_value_t)64000,
+      RES_EVENT_NO, NULL,
       (void *)&audio_bitrate,
       set_audio_bitrate, NULL },
     { "FFMPEGVideoBitrate", RES_INTEGER, (resource_value_t)800000,
+      RES_EVENT_NO, NULL,
       (void *)&video_bitrate,
       set_video_bitrate, NULL },
     { "FFMPEGAudioCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MP3,
+      RES_EVENT_NO, NULL,
       (void *)&audio_codec,
       set_audio_codec, NULL },
     { "FFMPEGVideoCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MPEG4,
+      RES_EVENT_NO, NULL,
       (void *)&video_codec,
       set_video_codec, NULL },
     { NULL }

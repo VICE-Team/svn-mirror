@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64_256k.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64export.h"
@@ -42,6 +43,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "plus256k.h"
 #include "plus60k.h"
 #include "resources.h"
 #include "reu.h"
@@ -118,12 +120,12 @@ static int set_c64_256k_enabled(resource_value_t v, void *param)
     {
       if (!c64_256k_enabled)
       {
-        if (plus60k_enabled)
+        if (plus60k_enabled || plus256k_enabled)
         {
 #ifdef HAS_TRANSLATION
-          ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", "+60K");
+          ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #else
-          ui_error(_("Resource %s blocked by %s."),"CPU-LINES", "+60K");
+          ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #endif
           return -1;
         }
@@ -207,10 +209,13 @@ static int set_c64_256k_base(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "C64_256K", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&c64_256k_enabled, set_c64_256k_enabled, NULL },
     { "C64_256Kbase", RES_INTEGER, (resource_value_t)0xdf80,
+      RES_EVENT_NO, NULL,
       (void *)&c64_256k_start, set_c64_256k_base, NULL },
     { "C64_256Kfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&c64_256k_filename, set_c64_256k_filename, NULL },
     { NULL }
 };
@@ -269,8 +274,8 @@ void c64_256k_init(void)
 
 void c64_256k_reset(void)
 {
-  c64_256k_DDA=0xff;
-  c64_256k_DDB=0xff;
+  c64_256k_DDA=0;
+  c64_256k_DDB=0;
   c64_256k_PRA=0xdc;
   c64_256k_PRB=0xfe;
   c64_256k_CRA=4;

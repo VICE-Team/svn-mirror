@@ -68,8 +68,9 @@ static const char *rname_chip[] = { "VideoCache", NULL };
 
 static resource_t resources_chip[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE, NULL,
-      set_video_cache_enabled, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
+      RES_EVENT_NO, NULL,
+      NULL, set_video_cache_enabled, NULL },
     { NULL }
 };
 

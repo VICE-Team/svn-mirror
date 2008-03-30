@@ -81,8 +81,10 @@ static int set_keymap_pos_file(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "KeymapSymFile", RES_STRING, (resource_value_t) "default.vkm",
+      RES_EVENT_NO, NULL,                                   \
       (void *) &keymap_file_list[0], set_keymap_sym_file, NULL },
     { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
+      RES_EVENT_NO, NULL,                                   \
       (void *) &keymap_file_list[1], set_keymap_pos_file, NULL },
     NULL
 };

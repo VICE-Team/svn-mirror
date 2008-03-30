@@ -154,14 +154,18 @@ static int set_aspect_ratio(resource_value_t v, void *param)
 /* Video-related resources.  */
 static const resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&_video_use_xsync, set_use_xsync, NULL },
       /* turn MITSHM on by default */
     { "MITSHM", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&try_mitshm, set_try_mitshm, NULL },
 #ifdef HAVE_XVIDEO
     { "FOURCC", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,                                   \
       (void *)&fourcc_s, set_fourcc, NULL },
     { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
+      RES_EVENT_NO, NULL,                                   \
       (void *)&aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
     { NULL }

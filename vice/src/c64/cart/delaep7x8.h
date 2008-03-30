@@ -1,8 +1,8 @@
 /*
- * delaep64.h - Cartridge handling, Dela EP64 cart.
+ * delaep7x8.h - Cartridge handling, Dela EP7x8 cart.
  *
  * Written by
- *  Michael Klein <michael.klein@puffin.lb.shuttle.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,20 +24,19 @@
  *
  */
 
-#ifndef _DELAEP64_H
-#define _DELAEP64_H
+#ifndef _DELAEP7x8_H
+#define _DELAEP7x8_H
 
 #include <stdio.h>
 
 #include "types.h"
 
-extern BYTE REGPARM1 delaep64_io1_read(WORD addr);
-extern void REGPARM2 delaep64_io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 delaep7x8_io1_read(WORD addr);
+extern void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value);
 
-extern void delaep64_config_init(void);
-extern void delaep64_config_setup(BYTE *rawcart);
-extern int delaep64_crt_attach(FILE *fd, BYTE *rawcart);
-extern void delaep64_detach(void);
+extern void delaep7x8_config_init(void);
+extern void delaep7x8_config_setup(BYTE *rawcart);
+extern int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart);
+extern void delaep7x8_detach(void);
 
 #endif
-

@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=1
+VICE_VERSION_BUILD=2
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -58,6 +58,8 @@ AC_ARG_WITH(alsa, [  --without-alsa          do not use the ALSA sound system])
 AC_ARG_WITH(oss, [  --without-oss           do not use the OSS sound system])
 AC_ARG_ENABLE(sdl, [  --with-sdl              use sdl sound system])
 AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
+AC_ARG_WITH(png, [  --without-png         do not use the PNG screenshot system])
+AC_ARG_WITH(zlib, [  --without-zlib         do not use the ZLIB support])
 AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables gnome ui support])
 AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support])
@@ -964,7 +966,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp)
 
 AC_SUBST(LIBS)
 

@@ -89,17 +89,22 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
+      RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.html_browser_command,
       set_html_browser_command, NULL },
     { "PrivateColormap", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.use_private_colormap,
       set_use_private_colormap, NULL },
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.save_resources_on_exit,
       set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&ui_resources.depth,
       set_depth, NULL },
     { NULL }

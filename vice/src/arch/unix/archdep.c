@@ -340,8 +340,31 @@ char *archdep_quote_parameter(const char *name)
 }
 
 char *archdep_tmpnam(void)
-{
+ {
+#ifdef HAVE_MKSTEMP
+    char *tmpName;
+    const char mkstempTemplate[] = "/vice.XXXXXX";
+    int fd;
+    char* tmp;
+
+    tmpName = (char *)lib_malloc(ioutil_maxpathlen());
+    if ((tmp = getenv("TMPDIR")) != NULL ) {
+        strncpy(tmpName, tmp, ioutil_maxpathlen());
+        tmpName[ioutil_maxpathlen() - sizeof(mkstempTemplate)] = '\0';
+    }
+    else
+        strcpy(tmpName, "/tmp" );
+    strcat(tmpName, mkstempTemplate );
+    if ((fd = mkstemp(tmpName)) < 0 ) 
+        tmpName[0] = '\0';
+    else
+        close(fd);
+    
+    lib_free(tmpName);
+    return lib_stralloc(tmpName);
+#else
     return lib_stralloc(tmpnam(NULL));
+#endif
 }
 
 int archdep_file_is_gzip(const char *name)

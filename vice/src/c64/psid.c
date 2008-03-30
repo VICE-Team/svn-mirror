@@ -93,8 +93,10 @@ static int set_keepenv(resource_value_t val, void *param)
 
 static const resource_t resources[] = {
     { "PSIDKeepEnv", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&keepenv, set_keepenv, NULL },
     { "PSIDTune", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&psid_tune, psid_ui_set_tune, NULL },
     { NULL }
 };

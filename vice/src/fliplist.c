@@ -82,6 +82,7 @@ static int set_fliplist_file_name(resource_value_t v, void *param)
 
 static resource_t resources[] = {
     { "FliplistName", RES_STRING, NULL,
+      RES_EVENT_NO, NULL,
       (void *)&fliplist_file_name, set_fliplist_file_name, NULL },
     { NULL }
 };

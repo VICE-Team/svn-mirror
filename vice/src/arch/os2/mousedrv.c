@@ -61,6 +61,7 @@ static int set_hide_mouseptr(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "HideMousePtr", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&hide_mouseptr, set_hide_mouseptr, NULL },
     { NULL }
 };

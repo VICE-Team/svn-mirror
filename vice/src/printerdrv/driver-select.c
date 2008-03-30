@@ -88,10 +88,13 @@ static int set_printer_driver(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     {"Printer4Driver", RES_STRING, (resource_value_t)"ascii",
+      RES_EVENT_NO, NULL,
       (void *)&printer_driver[0], set_printer_driver, (void *)0 },
     {"Printer5Driver", RES_STRING, (resource_value_t)"ascii",
+      RES_EVENT_NO, NULL,
       (void *)&printer_driver[1], set_printer_driver, (void *)1 },
     {"PrinterUserportDriver", RES_STRING, (resource_value_t)"ascii",
+      RES_EVENT_NO, NULL,
       (void *)&printer_driver[2], set_printer_driver, (void *)2 },
     { NULL }
 };

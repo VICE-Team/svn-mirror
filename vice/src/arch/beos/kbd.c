@@ -115,6 +115,7 @@ int real_index;
 
 static const resource_t resources[] = {
     { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&keymap_index, set_keymap_index, NULL },
     { NULL }
 };

@@ -66,6 +66,7 @@ static int set_keymap_file(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "KeymapFile", RES_STRING, (resource_value_t)"os2.vkm",
+      RES_EVENT_NO, NULL,                                   \
       (void *)&keymapfile, set_keymap_file, NULL },
     NULL
 };

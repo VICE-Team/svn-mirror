@@ -1,3 +1,24 @@
+2006-01-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.2.
+
+2006-01-20  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Added func check for `mkstemp'.
+
+2006-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* INSTALL: Corrected the text that explains where to run the
+	configure script.
+
+	* configure.in: Added the previously missing '--without-png'
+	and '--without-zlib' options.
+
+2006-01-16  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Replaced gnome-config by pkg-config for
+	Gnome2/Gtk2 support.
+
 2006-01-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.1.

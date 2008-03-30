@@ -311,10 +311,13 @@ static int set_joystick_keys2(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
   {"KeymapIndex", RES_INTEGER, (resource_value_t) 0,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&keymap_index, set_keymap_index, NULL },
   {Rsrc_JoyKeys1, RES_STRING, (resource_value_t) DefaultJoyKeys1,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&JoyKeyString1, set_joystick_keys1, NULL},
   {Rsrc_JoyKeys2, RES_STRING, (resource_value_t) DefaultJoyKeys2,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&JoyKeyString2, set_joystick_keys2, NULL},
   {NULL}
 };

@@ -99,6 +99,7 @@ static int set_stretch_factor(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,                                   \
       (void *)&stretch, set_stretch_factor, NULL },
     { NULL }
 };

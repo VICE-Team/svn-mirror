@@ -82,10 +82,13 @@ static int set_output_device(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "Printer4Output", RES_STRING, (resource_value_t)"text",
+      RES_EVENT_NO, NULL,
       (void *)&output_device[0], set_output_device, (void *)0 },
     { "Printer5Output", RES_STRING, (resource_value_t)"text",
+      RES_EVENT_NO, NULL,
       (void *)&output_device[1], set_output_device, (void *)1 },
     { "PrinterUserportOutput", RES_STRING, (resource_value_t)"text",
+      RES_EVENT_NO, NULL,
       (void *)&output_device[2], set_output_device, (void *)2 },
     { NULL }
 };

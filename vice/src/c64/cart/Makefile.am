@@ -19,8 +19,12 @@ libc64cart_a_SOURCES = \
 	comal80.h \
 	crt.c \
 	crt.h \
+	delaep256.c \
+	delaep256.h \
 	delaep64.c \
 	delaep64.h \
+	delaep7x8.c \
+	delaep7x8.h \
 	epyxfastload.c \
 	epyxfastload.h \
 	expert.c \

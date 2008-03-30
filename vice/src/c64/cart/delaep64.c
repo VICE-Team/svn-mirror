@@ -1,5 +1,5 @@
 /*
- * deleep64.c - Cartridge handling, Dela EP64 cart.
+ * delaep64.c - Cartridge handling, Dela EP64 cart.
  *
  * Written by
  *  Michael Klein <michael.klein@puffin.lb.shuttle.de>

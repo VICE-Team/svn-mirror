@@ -125,12 +125,16 @@ static int set_cartridge_reset(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
+      RES_EVENT_STRICT, (resource_value_t)CARTRIDGE_NONE,
       (void *)&cartridge_type, set_cartridge_type, NULL },
     { "CartridgeFile", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&cartridge_file, set_cartridge_file, NULL },
     { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
+      RES_EVENT_NO, NULL,
       (void *)&cartridge_mode, set_cartridge_mode, NULL },
     { "CartridgeReset", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
       (void *)&c64cartridge_reset, set_cartridge_reset, NULL },
     { NULL }
 };

@@ -35,6 +35,12 @@ typedef enum resource_type_s {
      RES_STRING
 } resource_type_t;
 
+typedef enum resource_event_relevant_s {
+    RES_EVENT_NO,
+    RES_EVENT_SAME,
+    RES_EVENT_STRICT
+} resource_event_relevant_t;
+
 typedef void *resource_value_t;
 
 typedef int resource_set_func_t(resource_value_t v, void *param);
@@ -54,6 +60,12 @@ typedef struct resource_s {
 
     /* Factory default value.  */
     resource_value_t factory_value;
+
+    /* Is the resource important for history recording or netplay? */
+    resource_event_relevant_t event_relevant;
+
+    /* Value that is needed for correct history recording and netplay.  */
+    resource_value_t *event_strict_value;
 
     /* Pointer to the value.  This is only used for *reading* it.  To change
        it, use `set_func'.  */

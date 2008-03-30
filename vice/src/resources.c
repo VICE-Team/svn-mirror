@@ -67,6 +67,12 @@ typedef struct resource_ram_s {
     /* Factory default value.  */
     resource_value_t factory_value;
 
+    /* Is the resource important for history recording or netplay? */
+    resource_event_relevant_t event_relevant;
+
+    /* Value that is needed for correct history recording and netplay.  */
+    resource_value_t *event_strict_value;
+
     /* Pointer to the value.  This is only used for *reading* it.  To change
        it, use `set_func'.  */
     resource_value_t *value_ptr;
@@ -228,6 +234,8 @@ int resources_register(const resource_t *r)
         dp->type = sp->type;
         dp->factory_value = sp->factory_value;
         dp->value_ptr = sp->value_ptr;
+        dp->event_relevant = sp->event_relevant;
+        dp->event_strict_value = sp->event_strict_value;
         dp->set_func = sp->set_func;
         dp->param = sp->param;
         dp->callback = NULL;

@@ -136,16 +136,22 @@ void vsync_sync_reset(void)
 
 static const resource_t resources[] = {
   {"RefreshRate", RES_INTEGER, (resource_value_t)0,
+    RES_EVENT_STRICT, (resource_value_t)1,                                   \
     (void *)&refresh_rate, set_refresh_rate, NULL },
   {"WarpMode", RES_INTEGER, (resource_value_t)0,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&warp_mode_enabled, set_warp_mode, NULL },
   {"PollEvery", RES_INTEGER, (resource_value_t)20,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&PollEvery, set_poll_every, NULL },
   {"SpeedEvery", RES_INTEGER, (resource_value_t)100,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&SpeedEvery, set_speed_every, NULL },
   {"Speed", RES_INTEGER, (resource_value_t)100,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&CurrentSpeedLimit, set_speed_limit, NULL },
   {"MaxSkippedFrames", RES_INTEGER, (resource_value_t)MAX_SKIPPED_FRAMES,
+    RES_EVENT_NO, NULL,                                   \
     (void *)&MaxSkippedFrames, set_max_skipped_frames, NULL },
   {NULL}
 };

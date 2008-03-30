@@ -128,10 +128,11 @@ static int set_joy(resource_value_t v, void *param)
     return 0;
 }
 
-#define DEFINE_RES_SET_CALDATA(txt, num, dir, def)                    \
-    { txt, RES_INTEGER, (resource_value_t) def,                       \
-    (resource_value_t *) &(joy[num].direction[dir]), set_joy, \
-    (void*)((num<<5)|dir) }
+#define DEFINE_RES_SET_CALDATA(txt, num, dir, def)              \
+    { txt, RES_INTEGER, (resource_value_t) def,                 \
+      RES_EVENT_NO, NULL,                                       \
+      (resource_value_t *) &(joy[num].direction[dir]), set_joy, \
+      (void*)((num<<5)|dir) }
 
 static int set_keyset(resource_value_t v, void *param)
 {
@@ -141,15 +142,18 @@ static int set_keyset(resource_value_t v, void *param)
     return 0;
 }
 
-#define DEFINE_RES_SET_KEYDATA(txt, num, dir)                                       \
-    { txt, RES_INTEGER, (resource_value_t) K_NONE,                                  \
-    (resource_value_t *) &(keyset[num][dir]), set_keyset, \
-    (void*)((num<<5)|dir) }
+#define DEFINE_RES_SET_KEYDATA(txt, num, dir)               \
+    { txt, RES_INTEGER, (resource_value_t) K_NONE,          \
+      RES_EVENT_NO, NULL,                                   \
+      (resource_value_t *) &(keyset[num][dir]), set_keyset, \
+      (void*)((num<<5)|dir) }
 
 static const resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
+      RES_EVENT_NO, NULL,
       (void *)&cbm_joystick[0], set_cbm_joystick, (void *)0},
     { "JoyDevice2", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
+      RES_EVENT_NO, NULL,
       (void *)&cbm_joystick[1], set_cbm_joystick, (void *)1},
 
     DEFINE_RES_SET_CALDATA("JoyAup",    0, KEYSET_N, 200),

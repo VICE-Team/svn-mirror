@@ -148,8 +148,8 @@ There is currently no documentation how to compile under RiscOS or BeOS.
     compiling VICE to detect the characteristics of your machine and
     specify certain features you might want to enable or disable.
 
-    To execute the configuration script, enter the `src' directory of
-    the distribution and type:
+    To execute the configuration script, enter the distribution directory
+    and type:
 
       ./configure <options>
 

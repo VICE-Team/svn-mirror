@@ -99,6 +99,7 @@ static int set_dx_primary_surface_rendering(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DXPrimarySurfaceRendering", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
     { NULL }
 };

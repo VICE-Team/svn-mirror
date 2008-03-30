@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64_256k.h"
 #include "c64cart.h"
 #include "c64export.h"
 #include "c64mem.h"
@@ -41,6 +42,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "plus256k.h"
 #include "plus60k.h"
 #include "resources.h"
 #include "ramcart.h"
@@ -182,12 +184,16 @@ static int set_ramcart_filename(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "RAMCART", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&ramcart_enabled, set_ramcart_enabled, NULL },
     { "RAMCART_RO", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
       (void *)&ramcart_readonly, set_ramcart_readonly, NULL },
     { "RAMCARTsize", RES_INTEGER, (resource_value_t)128,
+      RES_EVENT_NO, NULL,
       (void *)&ramcart_size_kb, set_ramcart_size, NULL },
     { "RAMCARTfilename", RES_STRING, (resource_value_t)"",
+      RES_EVENT_NO, NULL,
       (void *)&ramcart_filename, set_ramcart_filename, NULL },
     { NULL }
 };
@@ -326,24 +332,41 @@ void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
 {
   if (addr==1 && ramcart_size_kb==128)
     ramcart[1]=byte;
-   if (addr==0)
-     ramcart[0]=byte;
+  if (addr==0)
+    ramcart[0]=byte;
 }
 
 BYTE REGPARM1 ramcart_roml_read(WORD addr)
 {
-    BYTE retval;
-
     if (ramcart_readonly==1 && ramcart_size_kb==128 && addr>=0x8000 && addr<=0x80ff)
-      retval=ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)];
-    else
-      retval=plus60k_ram_read(addr);
-    return retval;
+      return ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)];
+    if (plus60k_enabled)
+      return plus60k_ram_read(addr);
+    if (plus256k_enabled)
+      return plus256k_ram_high_read(addr);
+    if (c64_256k_enabled)
+      return c64_256k_ram_segment2_read(addr);
+    return mem_ram[addr];
 }
 
 void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
 {
+  if (plus60k_enabled)
+  {
     plus60k_ram_store(addr, byte);
+    return;
+  }
+  if (plus256k_enabled)
+  {
+    plus256k_ram_high_store(addr, byte);
+    return;
+  }
+  if (c64_256k_enabled)
+  {
+    c64_256k_ram_segment2_store(addr, byte);
+    return;
+  }
+  mem_ram[addr]=byte;
 }
 
 BYTE REGPARM1 ramcart_window_read(WORD addr)
