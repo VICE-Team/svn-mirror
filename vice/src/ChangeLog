@@ -1,3 +1,31 @@
+2003-07-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.11.
+
+	* vicii/vicii.c (vicii_update_video_mode): Fixed EMC mode
+	idle background color.
+
+	* vicii/vicii-mem.c (ext_background_store): Do not set idle
+	background color in ECM mode.
+
+	* vdc/vdc-draw.c, plus4/ted.c, plus4/ted-draw.c,
+	plus4/ted-mem.c, plus4/ted-snapshot.c, vicii/vicii.c,
+	vicii/vicii-draw.c, vicii/vicii-snapshot.c, vicii/vicii-mem.c,
+	raster/raster-cache.h, raster/raster-line.c, raster/raster.c,
+	raster/raster.h: Renamed `overscan_background_color'.
+
+	* c64/cart/c64cart.c, c64/c64iec.c, c64/c64cart.h: Added cart
+	type prototype to header.
+
+	* vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, pet/pet.c,
+	pet/pet-cmdline-options.c, pet/pet-resources.c, pet/petiec.c,
+	pet/petmem.c: Fixed warinings.
+
+2003-07-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): Fixed msk_ptr
+	for negative sprite_offset.
+
 2003-06-30  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.12.10.

@@ -87,15 +87,15 @@ BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE mem_rom[PET_ROM_SIZE];
 BYTE mem_chargen_rom[PET_CHARGEN_ROM_SIZE];
 
-int ram_size = RAM_ARRAY;       /* FIXME? */
+static int ram_size = RAM_ARRAY;       /* FIXME? */
 
 /* Memory read and write tables. */
-read_func_ptr_t _mem_read_tab[0x101];
-store_func_ptr_t _mem_write_tab[0x101];
-read_func_ptr_t _mem_read_tab_watch[0x101];
-store_func_ptr_t _mem_write_tab_watch[0x101];
-BYTE *_mem_read_base_tab[0x101];
-int mem_read_limit_tab[0x101];
+static read_func_ptr_t _mem_read_tab[0x101];
+static store_func_ptr_t _mem_write_tab[0x101];
+static read_func_ptr_t _mem_read_tab_watch[0x101];
+static store_func_ptr_t _mem_write_tab_watch[0x101];
+static BYTE *_mem_read_base_tab[0x101];
+static int mem_read_limit_tab[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
