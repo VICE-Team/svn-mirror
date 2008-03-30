@@ -271,10 +271,6 @@ interface-userport.o: interface-userport.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
 	driver-select.h ../../src/arch/unix/types.h \
 	interface-userport.h ../../src/printer.h
-output-file.o: output-file.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/cmdline.h ../../src/resources.h output-file.h \
-	../../src/arch/unix/types.h ../../src/utils.h
 output-graphics.o: output-graphics.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cmdline.h ../../src/resources.h output-select.h \
