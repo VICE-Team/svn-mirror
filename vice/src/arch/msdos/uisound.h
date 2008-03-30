@@ -1,5 +1,5 @@
 /*
- * uireu.h - REU UI interface for MS-DOS.
+ * uisound.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef UIREU_H
-#define UIREU_H
+#ifndef UISOUND_H
+#define UISOUND_H
 
 struct tui_menu;
 
-extern void uireu_init(struct tui_menu *parent_submenu);
+extern void uisound_init(struct tui_menu *parent_submenu);
 
 #endif
 
