@@ -1,3 +1,38 @@
+2000-07-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.30.
+
+	* arch/unix/x11/xaw/ui.c (ui_select_file): Free filename if
+	`NULL' is returned.
+
+	* arch/unix/uicommands.c (attach_disk, attach_tape,
+	smart_attach, load_snapshot_trap): Free filename.
+	* arch/unix/c64ui.c (attach_cartridge): Likewise.
+	* arch/unix/vic20ui.c (attach_cartridge): Likewise.
+	* arch/unix/vsidui.c (psid_load); Likewise.
+	* arch/unix/uisettings.c (select_user_keymap, ui_load_palette,
+	ui_load_romset, ui_load_rom_file, set_rs232_device_file,
+	set_printer_dump_file): Likewise.
+	* arch/unix/x11/xaw/uicartridge.c (browse_callback): Likewise.
+	* arch/unix/x11/xaw/uiedisk.c (browse_callback): Likewise.
+	* arch/unix/x11/xaw/uiscreenshot.c (browse_callback):
+	Likewise.
+	* arch/unix/x11/xaw/uisnapshot.c (browse_callback): Likewise.
+
+	* arch/unix/x11/gnome/ui.c (ui_select_file): Cleanup.
+
+	* info.c: Updated.
+
+2000-07-20  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/ui.c (ui_destroy_drive8_menu): Set
+	`drive8_menu' to NULL after freeing it. 
+	(ui_destroy_drive9_menu): ditto for `drive9_menu'.
+
+	* arch/unix/uicommands.c 
+	(ui_update_flip_menus): Fixed freeing of menu when goto is taken.
+	Fixed if-expression for optimizing when disk is not activated.
+
 2000-07-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.29.

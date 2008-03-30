@@ -59,7 +59,7 @@ notice identical to this one.
 @page
 @vskip 0pt plus 1filll
 Copyright (C) 1998 Ettore Perazzoli, Daniel Sladic, Andr@'e
-Fachat.
+Fachat, Andreas Boose.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -81,7 +81,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.0 of VICE, the Versatile
+This is the documentation for version 1.5 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -520,8 +520,8 @@ Public License instead of this License.
 @chapter About VICE
 
 VICE is the one and only @dfn{Versatile Commodore Emulator}.  It provides
-emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
-a single package.  The emulators run as separate programs, but have
+emulation of the Commodore 64, 128, VIC20, PET 8-bit and CBM-II computers
+within a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
 
@@ -540,6 +540,8 @@ does so @emph{efficiently}.
 
 Please do @emph{not} expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
+
+@emph{Notice:} This documentation is written for the Unix release of VICE.
 
 @menu
 * C64 emulator features::       
@@ -580,12 +582,11 @@ and cycle accurate.
 @section C128 emulator features
 
 The C128 emulator, called @samp{x128}, features a complete emulation of
-the internal MMU (@dfn{Memory Management Unit}), plus all the features
-of the C64 emulation.  The following things are missing, though:
+the internal MMU (@dfn{Memory Management Unit}), 80 column VDC screen, Z80
+emulation plus all the features of the C64 emulation.  The following
+things are missing, though:
 
 @itemize @bullet
-@item
-80-column VDC chip;
 @item
 2 MHz mode;
 @item
@@ -7092,47 +7093,74 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Ettore Perazzoli} (@email{ettore@@comm2000.it})
-made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
-hardware-level 1541 emulation, speed optimizations, bug fixes,
-the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
-general code reorganization, the new resource handling, most of the
-documentation and the MS-DOS port (well, somebody had to do it).
+@b{Ettore Perazzoli} (@email{ettore@@comm2000.it}) made the 6510, VIC-II,
+VIC-I and CRTC emulations, part of the hardware-level 1541
+emulation, speed optimizations, bug fixes, the event-driven
+cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
+general code reorganization, the new resource handling, most of
+the documentation.  He also wrote the MS-DOS port and the
+initial MS-Windows port (well, somebody had to do it).
 
 @item
-@b{Teemu Rantanen} (@email{tvr@@cs.hut.fi})
-implemented the SID emulation and the trap-based disk drive and serial bus
-implementation; added support for multiple display depths under X11.
+@b{Daniel Sladic} (@email{sladic@@eecg.toronto.edu}) started the work on
+hardware-level 1541 emulation and wrote the new monitor
+introduced with VICE 0.15.
 
 @item
-@b{Andr@'e Fachat} (@email{fachat@@physik.tu-chemnitz.de})
-wrote the PET and CBM-II emulators, the CIA and VIA emulation, the IEEE488
-interface, implemented the IEC serial bus in @code{xvic} and made tons
-of bug fixes. Has now implemented the cycle-exact CRTC emulation on top
-of Ettores new Raster code.
+@b{Andreas Boose} (@email{boose@@linux.rz.fh-hannover.de}) gave lots of
+information and bug reports about the VIC-II, the 6510 and the
+CIAs; moreover, he wrote several test-routines that were used
+to improve the emulation.  He also added cartridge support and
+has been the main head behind the drive and datasette emulation
+since version 0.15.  Also added several UI elements to the MSDOS
+and MS-Windows ports and the C128 Z80 implementation.
 
 @item
-@b{Daniel Sladic} (@email{sladic@@eecg.toronto.edu})
-started the work on hardware-level 1541 emulation and wrote the
-new monitor introduced with VICE 0.15.
+@b{Dag Lem} (@email{resid@@nimrod.no}) implemented the reSID SID emulation
+engine.
 
 @item
-@b{Andreas Boose} (@email{boose@@linux.rz.fh-hannover.de})
-gave lots of information and bug reports about the VIC-II, the 6510 and
-the CIAs; moreover, he wrote several test-routines that were used to
-improve the emulation.  He also added cartridge support and has
-been the main head behind the drive emulation since version
-0.15.
+@b{Tibor Biczo} (@email{crown@@mail.matav.hu}) improved the MS-Windows port.
 
 @item
-@b{Dag Lem} (@email{resid@@nimrod.no}) implemented the reSID SID
-emulation engine.
+@b{Andreas Dehmel} (@email{dehmel@@forwiss.tu-muenchen.de}) wrote the Acorn
+RISC OS port.
+
+@item
+@b{Thomas Bretz} (@email{tbretz@@ph.tum.de}) responsible for the OS/2 port.
+
+@item
+@b{Andreas Matthies} (@email{andreas.matthies@@arcormail.de}) improved the
+datasette support and some ui stuff in the Win32 and MSDOS port. Wrote the
+BeOS port.
+
+@item
+@b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})
+Implemented Gnome Port based on Oliver Schaertels GTK+ port
+Added support code for internationalization based on gettext
+Translated the Unix Port to German
+Implemented the fliplists + ui (unix).
+
+@item
+@b{Markus Brenner} (@email{markus@@brenner.de}) added VDC emulation to x128.
 
 @end itemize
 
 Former team members:
 
 @itemize @bullet
+
+@item
+@b{Andre Fachat} (@email{fachat@@physik.tu-chemnitz.de}) wrote the PET
+and CBM-II emulators, the CIA and VIA emulation, the IEEE488
+interface, implemented the IEC serial bus in `xvic' and made
+tons of bug fixes.
+
+@item
+@b{Teemu Rantanen} (@email{tvr@@cs.hut.fi}) implemented the SID emulation
+and the trap-based disk drive and serial bus implementation;
+added support for multiple display depths under X11.  Also wrote
+`c1541'
 
 @item
 @b{Jouko Valta} (@email{jopi@@stekt.oulu.fi}) wrote @code{petcat} and
@@ -7280,10 +7308,31 @@ widget set for implementing the @code{Xaw} GUI.
 @b{Shawn Hargreaves} (@email{shawn@@talula.demon.co.uk}) wrote
 Allegro, the graphics and audio library used in the MS-DOS version.
 
-@c @item
-@c @b{Petteri Kangaslampi} (@email{pekangas@@sci.fi} and @b{Jarno Paananen})
-@c (@email{jpaana@@iki.fi}) wrote the MIDAS Digital Audio System, used in
-@c the MS-DOS version.
+@item
+@b{Peter Schepers} (@email{schepers@@ist.uwaterloo.ca}) contributed a
+document describing the G64 image format.
+
+@item
+@b{Oliver Schaertel} (@email{orschaer@@forwiss.uni-erlangen.de}) wrote
+the X11 full screen, parts of custom ROM set support and 1351 mouse
+emulation for unix.
+
+@item
+@b{Luca Montecchiani} (@email{m.luca@@usa.net}) contributed a new Unix
+joystick driver.
+
+@item
+@b{Dirk Farin} (@email{farin@@ti.uni-mannheim.de}) rewrote the MITSHM
+code.
+
+@item
+@b{Manfred Spraul} (@email{manfreds@@colorfullife.com}) wrote the
+MS-Windows text lister.
+
+@item
+@b{Spiro Trikaliotis} (@email{Spiro.Trikaliotis@@gmx.de}) wrote the
+Win32 console implementation for the built-in monitor and provided
+some further patches.
 
 @end itemize
 
@@ -7340,21 +7389,29 @@ H@^akan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 Copyright (C) 1996-1999 Ettore Perazzoli
 
-Copyright (C) 1996-1999 Andr@'e Fachat
+Copyright (C) 1997-2000 Daniel Sladic
+
+Copyright (C) 1998-2000 Andreas Boose
+
+Copyright (C) 1998-2000 Dag Lem
+
+Copyright (C) 1998-2000 Tibor Biczo
+
+Copyright (C) 1999-2000 Andreas Dehmel
+
+Copyright (C) 1999-2000 Thomas Bretz
+
+Copyright (C) 1999-2000 Andreas Matthies
+
+
+Copyright (C) 1996-1999 André Fachat
 
 Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
-
-Copyright (C) 1997-1999 Daniel Sladic
-
-Copyright (C) 1998-1999 Andreas Boose
-
-Copyright (C) 1998-1999 Tibor Biczo
 
 Copyright (C) 1993-1996 Jouko Valta
 
 Copyright (C) 1993-1994 Jarkko Sonninen
 
-The reSID engine: Copyright (C) 1998-1999 Dag Lem
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -7394,11 +7451,9 @@ home page:
 @uref{http://www.cs.cmu.edu/~dsladic/vice/vice.html}
 @end example
 
-Also the public patches and beta releases will be available there as
-well, so you might want to have a look at it periodically.  If you are
-going to report a bug, please check those pages @emph{first}; it is
-possible that the problem you encountered has already been fixed with a
-newer version.
+If you are going to report a bug, please check those pages @emph{first};
+it is possible that the problem you encountered has already been
+fixed with a newer version.
 
 @node Sending feedback, Contributing, Home page, Contacts
 @section How to send feedback
@@ -7409,19 +7464,16 @@ the project, please email one of the following people:
 @itemize @bullet
 
 @item
-Teemu Rantanen (@email{tvr@@cs.hut.fi}) for the SID stuff;
+VICE Mailing List (@email{vice-devel@@firenze.linux.it}) for all
+general questions, bug reports, suggestions.
 
 @item
-Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for the 1541
-disk drive;
+Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for disk drive,
+tape, cartridge and Z80 emulation;
 
 @item
 Andr@'e Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs
 and CBM-II;
-
-@item
-Ettore Perazzoli (@email{ettore@@comm2000.it}), the current
-maintainer, for everything else.
 
 @end itemize
 
@@ -7484,8 +7536,7 @@ really don't know.
 
 @item
 Please write in English, or in the language of the person you
-are writing to (Ettore is Italian, Andr@'e and Andreas are German,
-Teemu is Finnish, Daniel is from Canada).
+are writing to (Andr@'e and Andreas are German, Daniel is from Canada).
 
 @end itemize
 
@@ -7521,9 +7572,9 @@ This is very important, and makes adding patches much smoother and
 safer.
 
 People willing to port VICE to other platforms are always welcome.
-Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
-interested in those platforms, please let us know.  There is plenty of
-work to do and any sort of help can be very useful.
+Windows, A BeOS port is in the works, so if you are interested in this
+platform, please let us know.  There is plenty of work to do and any
+sort of help can be very useful.
 
 
 @node Newsgroups, FAQs you should read, Contributing, Contacts

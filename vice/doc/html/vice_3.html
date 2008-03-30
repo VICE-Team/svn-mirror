@@ -1,11 +1,11 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 30 January 2000 -->
+<!-- This HTML file has been created by texi2html 1.51
+     from ../vice.texi on 21 July 2000 -->
 
 <TITLE>VICE Manual - 3  Invoking the emulators</TITLE>
 </HEAD>
-<BODY BGCOLOR="#ffffff" TEXT="#00000">
+<BODY>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_2.html">previous</A>, <A HREF="vice_4.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
@@ -17,29 +17,29 @@ The names of the available emulators are:
 
 </P>
 
-<P> <UL>
+<UL>
 
-<P> <LI>
+<LI>
 
 <CODE>x64</CODE>, the C64 emulator
 
-<P> <LI>
+<LI>
 
 <CODE>x128</CODE>, the C128 emulator
 
-<P> <LI>
+<LI>
 
 <CODE>xpet</CODE>, the PET emulator
 
-<P> <LI>
+<LI>
 
 <CODE>xvic</CODE>, the VIC20 emulator
 
-<P> <LI>
+<LI>
 
 <CODE>xcbm2</CODE>, the CBM-II emulator
 
-</UL> </P>
+</UL>
 
 <P>
 You can run each of them by simply typing the name from a shell.  If you
@@ -69,7 +69,7 @@ initialize the emulator in some way:
 </P>
 <DL COMPACT>
 
-<P><DT><CODE>-help</CODE>
+<DT><CODE>-help</CODE>
 <DD>
 <A NAME="IDX6"></A>
  
@@ -78,21 +78,21 @@ initialize the emulator in some way:
 <DD>
 List all the available command-line options and their meaning.
 <A NAME="IDX8"></A>
-<P><DT><CODE>-default</CODE>
+<DT><CODE>-default</CODE>
 <DD>
 Set default resources (see section <A HREF="vice_6.html#SEC39">6  Settings and resources</A>).  This will
 override all the settings specified before, but not the settings
 specified afterwards on the command line.
 <A NAME="IDX9"></A>
-<P><DT><CODE>-autostart IMAGE</CODE>
+<DT><CODE>-autostart IMAGE</CODE>
 <DD>
 Autostart <TT>`IMAGE'</TT> (see section <A HREF="vice_3.html#SEC22">3.2  Autostarting programs from the command-line</A>).
 <A NAME="IDX10"></A>
-<P><DT><CODE>-1 NAME</CODE>
+<DT><CODE>-1 NAME</CODE>
 <DD>
 Attach <TT>`NAME'</TT> as a tape image file.
 <A NAME="IDX11"></A>
-<P><DT><CODE>-8 NAME</CODE>
+<DT><CODE>-8 NAME</CODE>
 <DD>
 <A NAME="IDX12"></A>
 <DT><CODE>-9 NAME</CODE>
@@ -111,7 +111,7 @@ Attach <TT>`NAME'</TT> as a disk image to device 8, 9, 10 or 11.
 <H2><A NAME="SEC22" HREF="vice_toc.html#TOC22">3.2  Autostarting programs from the command-line</A></H2>
 
 <P>
-It is possible to let the emulator <EM>autostart</EM> a disk or tape image
+It is possible to let the emulator <STRONG>autostart</STRONG> a disk or tape image
 file, by simply specifying its name as the <EM>last</EM> argument on the
 command line, for example
 

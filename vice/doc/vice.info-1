@@ -19,7 +19,7 @@ permission notice identical to this one.
 
 File: vice.info,  Node: Top,  Next: License,  Prev: (dir),  Up: (dir)
 
-   This is the documentation for version 1.0 of VICE, the Versatile
+   This is the documentation for version 1.5 of VICE, the Versatile
 Commodore Emulator.
 
 * Menu:
@@ -424,10 +424,10 @@ About VICE
 **********
 
    VICE is the one and only "Versatile Commodore Emulator".  It provides
-emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
-a single package.  The emulators run as separate programs, but have the
-same user interface, share the same settings and support the same file
-formats.
+emulation of the Commodore 64, 128, VIC20, PET 8-bit and CBM-II
+computers within a single package.  The emulators run as separate
+programs, but have the same user interface, share the same settings and
+support the same file formats.
 
    *Important notice:* If you have no idea what a Commodore 8-bit
 computer is, or have questions about how these machines are used, how
@@ -444,6 +444,8 @@ does so *efficiently*.
 
    Please do *not* expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
+
+   *Notice:* This documentation is written for the Unix release of VICE.
 
 * Menu:
 
@@ -488,10 +490,9 @@ C128 emulator features
 ======================
 
    The C128 emulator, called `x128', features a complete emulation of
-the internal MMU ("Memory Management Unit"), plus all the features of
-the C64 emulation.  The following things are missing, though:
-
-   * 80-column VDC chip;
+the internal MMU ("Memory Management Unit"), 80 column VDC screen, Z80
+emulation plus all the features of the C64 emulation.  The following
+things are missing, though:
 
    * 2 MHz mode;
 

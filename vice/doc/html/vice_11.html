@@ -1,11 +1,11 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 30 January 2000 -->
+<!-- This HTML file has been created by texi2html 1.51
+     from ../vice.texi on 21 July 2000 -->
 
 <TITLE>VICE Manual - 11  The emulator file formats</TITLE>
 </HEAD>
-<BODY BGCOLOR="#ffffff" TEXT="#00000">
+<BODY>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
@@ -36,174 +36,141 @@ the C64S emulator.  It is easy to use and allows future extensions.
 
 <H3><A NAME="SEC153" HREF="vice_toc.html#TOC153">11.1.1  T64 File structure</A></H3>
 
-<TABLE BORDER>
+<P>
+@multitable @columnfractions .3 .3 .4
+<LI><B>Offset</B>
 
-<TR><TD><B>Offset</B></TD>
+@tab <B>Size</B>
+@tab <B>Description</B>
+<LI>0
 
-<TD><B>Size</B></TD>
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>0</TD>
+@tab 64
+@tab tape record
+<LI>64
 
-<TD>64</TD>
-<TD>tape record</TD>
-</TR>
-<TR><TD>64</TD>
+@tab 32*n
+@tab file records for n directory entries
+<LI>64+32*n
 
-<TD>32*n</TD>
-<TD>file records for n directory entries</TD>
-</TR>
-<TR><TD>64+32*n</TD>
-
-<TD>varies</TD>
-<TD>binary contents of the files</TD>
-</TR></TABLE>
+@tab varies
+@tab binary contents of the files
 
 
 
 <H3><A NAME="SEC154" HREF="vice_toc.html#TOC154">11.1.2  Tape Record</A></H3>
 
-<TABLE BORDER>
+<P>
+@multitable @columnfractions .3 .3 .4
+<LI><B>Offset</B>
 
-<TR><TD><B>Offset</B></TD>
+@tab <B>Size</B>
+@tab <B>Description</B>
+<LI>0
 
-<TD><B>Size</B></TD>
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>0</TD>
+@tab 32
+@tab DOS tape description + EOF (for type)
+<LI>32
 
-<TD>32</TD>
-<TD>DOS tape description + EOF (for type)</TD>
-</TR>
-<TR><TD>32</TD>
+@tab 2
+@tab tape version ($0200)
+<LI>34
 
-<TD>2</TD>
-<TD>tape version ($0200)</TD>
-</TR>
-<TR><TD>34</TD>
+@tab 2
+@tab number of directory entries
+<LI>36
 
-<TD>2</TD>
-<TD>number of directory entries</TD>
-</TR>
-<TR><TD>36</TD>
+@tab 2
+@tab number of used entries (can be 0 in my loader)
+<LI>38
 
-<TD>2</TD>
-<TD>number of used entries (can be 0 in my loader)</TD>
-</TR>
-<TR><TD>38</TD>
+@tab 2
+@tab free
+<LI>40
 
-<TD>2</TD>
-<TD>free</TD>
-</TR>
-<TR><TD>40</TD>
-
-<TD>24</TD>
-<TD>user description as displayed in tape menu</TD>
-</TR></TABLE>
+@tab 24
+@tab user description as displayed in tape menu
 
 
 
 <H3><A NAME="SEC155" HREF="vice_toc.html#TOC155">11.1.3  File record</A></H3>
 
-<TABLE BORDER>
-
-<TR><TD><B>Offset</B></TD>
-
-<TD><B>Size</B></TD>
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>0</TD>
-
-<TD>1</TD>
-<TD>entry type (see below)</TD>
-</TR>
-<TR><TD>1</TD>
-
-<TD>1</TD>
-<TD>C64 file type</TD>
-</TR>
-<TR><TD>2</TD>
-
-<TD>2</TD>
-<TD>start address</TD>
-</TR>
-<TR><TD>4</TD>
-
-<TD>2</TD>
-<TD>end address</TD>
-</TR>
-<TR><TD>6</TD>
-
-<TD>2</TD>
-<TD>free</TD>
-</TR>
-<TR><TD>8</TD>
-
-<TD>4</TD>
-<TD>offset of file contents start within T64 file</TD>
-</TR>
-<TR><TD>12</TD>
-
-<TD>4</TD>
-<TD>free</TD>
-</TR>
-<TR><TD>16</TD>
-
-<TD>16</TD>
-<TD>C64 file name</TD>
-</TR></TABLE>
-
 <P>
+@multitable @columnfractions .3 .3 .4
+<LI><B>Offset</B>
+
+@tab <B>Size</B>
+@tab <B>Description</B>
+<LI>0
+
+@tab 1
+@tab entry type (see below)
+<LI>1
+
+@tab 1
+@tab C64 file type
+<LI>2
+
+@tab 2
+@tab start address
+<LI>4
+
+@tab 2
+@tab end address
+<LI>6
+
+@tab 2
+@tab free
+<LI>8
+
+@tab 4
+@tab offset of file contents start within T64 file
+<LI>12
+
+@tab 4
+@tab free
+<LI>16
+
+@tab 16
+@tab C64 file name
+
 Valid entry types are:
 
-</P>
-<TABLE BORDER>
+@multitable @columnfractions .3 .7
+<LI><B>Code</B>
 
-<TR><TD><B>Code</B></TD>
+@tab <B>Explanation</B>
+<LI><CODE>0</CODE>
 
-<TD><B>Explanation</B></TD>
-</TR>
-<TR><TD><CODE>0</CODE></TD>
+@tab free entry
+<LI><CODE>1</CODE>
 
-<TD>free entry</TD>
-</TR>
-<TR><TD><CODE>1</CODE></TD>
+@tab normal tape file
+<LI><CODE>2</CODE>
 
-<TD>normal tape file</TD>
-</TR>
-<TR><TD><CODE>2</CODE></TD>
+@tab tape file with header: header is saved just before file data
+<LI><CODE>3</CODE>
 
-<TD>tape file with header: header is saved just before file data</TD>
-</TR>
-<TR><TD><CODE>3</CODE></TD>
+@tab memory snapshot v0.9, uncompressed
+<LI><CODE>4</CODE>
 
-<TD>memory snapshot v0.9, uncompressed</TD>
-</TR>
-<TR><TD><CODE>4</CODE></TD>
+@tab tape block
+<LI><CODE>5</CODE>
 
-<TD>tape block</TD>
-</TR>
-<TR><TD><CODE>5</CODE></TD>
+@tab digitized stream
+<LI><CODE>6</CODE> ... <CODE>255</CODE>
 
-<TD>digitized stream</TD>
-</TR>
-<TR><TD><CODE>6</CODE> ... <CODE>255</CODE></TD>
+@tab reserved
 
-<TD>reserved</TD>
-</TR></TABLE>
-
-<P>
 Notes:
 
-</P>
 
-<P> <UL>
-<P> <LI>VICE only supports file type <CODE>1</CODE>.
+<UL>
+<LI>VICE only supports file type <CODE>1</CODE>.
 
-<P> <LI>Types <CODE>3</CODE>, <CODE>4</CODE> and <CODE>5</CODE> are subject to change (and
+<LI>Types <CODE>3</CODE>, <CODE>4</CODE> and <CODE>5</CODE> are subject to change (and
 
 are rarely  used).
-</UL> </P>
+</UL>
 
 
 
@@ -211,8 +178,8 @@ are rarely  used).
 
 <P>
 (This section was contributed by Peter Schepers
-(<A HREF="mailto:schepers@ist.uwaterloo.ca">schepers@ist.uwaterloo.ca</A>) and slightly edited by Ettore
-Perazzoli (<A HREF="mailto:ettore@comm2000.it">ettore@comm2000.it</A>).)
+(@email{schepers@ist.uwaterloo.ca}) and slightly edited by Ettore
+Perazzoli (@email{ettore@comm2000.it}).)
 
 </P>
 <P>
@@ -277,30 +244,24 @@ Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 0000: 47 43 52 2D 31 35 34 31 00 54 F8 1E .. .. .. ..
 </PRE>
 
-<TABLE BORDER>
-
-<TR><TD><B>Offset</B></TD>
-
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>$0000-0007</TD>
-
-<TD>File signature (<CODE>GCR-1541</CODE>)</TD>
-</TR>
-<TR><TD>$0008</TD>
-
-<TD><CODE>G64</CODE> version (presently only $00 defined)</TD>
-</TR>
-<TR><TD>$0009</TD>
-
-<TD>Number of tracks in image (usually $54, decimal 84)</TD>
-</TR>
-<TR><TD>$000A-000B</TD>
-
-<TD>Size of each stored track in bytes (usually 7928, or $1EF8) in LO/HI format.</TD>
-</TR></TABLE>
-
 <P>
+@multitable @columnfractions .2 .8
+<LI><B>Offset</B>
+
+@tab <B>Description</B>
+<LI>$0000-0007
+
+@tab File signature (<CODE>GCR-1541</CODE>)
+<LI>$0008
+
+@tab <CODE>G64</CODE> version (presently only $00 defined)
+<LI>$0009
+
+@tab Number of tracks in image (usually $54, decimal 84)
+<LI>$000A-000B
+
+@tab Size of each stored track in bytes (usually 7928, or $1EF8) in LO/HI format.
+
 An obvious question here is "why are there 84 tracks defined when a
 normal <CODE>D64</CODE> disk only has 35 tracks?"  Well, by definition, this
 image includes all half-tracks, so there are actually 42 tracks and 42
@@ -309,8 +270,6 @@ in-between half-tracks.  Even though using more than 35 tracks is not
 typical, it was important to define this format from the start with what
 the 1541 is capable of doing, and not just what it typically does.
 
-</P>
-<P>
 At first, the defined track size value of 7928 bytes may seem to be
 arbitrary, but it is not.  It is determined by the fastest write speed
 possible (speed zone 0), coupled with the average rotation speed of the
@@ -322,19 +281,14 @@ added, in case some disks rotate slower and can write more data.  After
 applying this safety factor, and some rounding-up, 7928 bytes per track
 was arrived at.
 
-</P>
-<P>
 Also note that this upper limit of 7928 bytes per track really only
 applies to 1541 and compatible disks.  If this format were applied to
 another disk type like the SFD1001, this value would be higher.
 
-</P>
-<P>
 Below is a dump of the first section of a <CODE>G64</CODE> file, showing the offsets
 to the data portion for each track and half-track entry. Following that
 is a dump of the speed zone offsets.
 
-</P>
 
 <PRE>
 Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -363,35 +317,27 @@ Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 0150: 00 00 00 00 B6 F8 04 00 00 00 00 00 .. .. .. ..
 </PRE>
 
-<TABLE BORDER>
+@multitable @columnfractions .2 .8
+<LI><B>Offset</B>
 
-<TR><TD><B>Offset</B></TD>
+@tab <B>Description</B>
+<LI>$000C-000F
 
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>$000C-000F</TD>
+@tab Offset to stored track 1.0 ($000002AC, in LO/HI format, see below for more)
+<LI>$0010-0013
 
-<TD>Offset to stored track 1.0 ($000002AC, in LO/HI format, see below for more)</TD>
-</TR>
-<TR><TD>$0010-0013</TD>
+@tab Offset to stored track 1.5 ($00000000)
+<LI>$0014-0017
 
-<TD>Offset to stored track 1.5 ($00000000)</TD>
-</TR>
-<TR><TD>$0014-0017</TD>
+@tab Offset to stored track 2.0 ($000021A6)
+<LI>...
 
-<TD>Offset to stored track 2.0 ($000021A6)</TD>
-</TR>
-<TR><TD>...</TD>
+<LI>$0154-0157
 
-</TR>
-<TR><TD>$0154-0157</TD>
+@tab Offset to stored track 42.0 ($0004F8B6)
+<LI>$0158-015B
 
-<TD>Offset to stored track 42.0 ($0004F8B6)</TD>
-</TR>
-<TR><TD>$0158-015B</TD>
-
-<TD>Offset to stored track 42.5 ($00000000)</TD>
-</TR></TABLE>
+@tab Offset to stored track 42.5 ($00000000)
 
 
 <PRE>
@@ -421,45 +367,34 @@ Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 02A0: 00 00 00 00 00 00 00 00 00 00 00 00 .. .. .. ..
 </PRE>
 
-<TABLE BORDER>
+@multitable @columnfractions .2 .8
+<LI><B>Offset</B>
 
-<TR><TD><B>Offset</B></TD>
+@tab <B>Description</B>
+<LI>$015C-015F
 
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>$015C-015F</TD>
+@tab Speed zone entry for track 1 ($03, in LO/HI  format, see below for more)
+<LI>$0160-0163
 
-<TD>Speed zone entry for track 1 ($03, in LO/HI  format, see below for more)</TD>
-</TR>
-<TR><TD>$0160-0163</TD>
+@tab Speed zone entry for track 1.5 ($03)
+<LI>...
 
-<TD>Speed zone entry for track 1.5 ($03)</TD>
-</TR>
-<TR><TD>...</TD>
+<LI>$02A4-02A7
 
-</TR>
-<TR><TD>$02A4-02A7</TD>
+@tab Speed zone entry for track 42 ($00)
+<LI>$02A8-02AB
 
-<TD>Speed zone entry for track 42 ($00)</TD>
-</TR>
-<TR><TD>$02A8-02AB</TD>
+@tab Speed zone entry for track 42.5 ($00)
 
-<TD>Speed zone entry for track 42.5 ($00)</TD>
-</TR></TABLE>
-
-<P>
 Starting here at $02AC is the first track entry (from above, it is the
 first entry for track 1.0)
 
-</P>
-<P>
 The track offsets (from above) require some explanation.  When one is
 set to all 0's, no track data exists for this entry.  If there is a
 value, it is an absolute reference into the file (starting from the
 beginning of the file).  From the track 1.0 entry we see it is set for
 $000002AC.  Going to that file offset, here is what we see...
 
-</P>
 
 <PRE>
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -470,35 +405,27 @@ $000002AC.  Going to that file offset, here is what we see...
 02D0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
 </PRE>
 
-<TABLE BORDER>
+@multitable @columnfractions .2 .8
+<LI><B>Offset</B>
 
-<TR><TD><B>Offset</B></TD>
+@tab <B>Description</B>
+<LI>$02AC-02AD
 
-<TD><B>Description</B></TD>
-</TR>
-<TR><TD>$02AC-02AD</TD>
+@tab Actual size of stored track (7692 or $1E0C, in LO/HI format)
+<LI>$02AE-02AE+$1E0C
 
-<TD>Actual size of stored track (7692 or $1E0C, in LO/HI format)</TD>
-</TR>
-<TR><TD>$02AE-02AE+$1E0C</TD>
+@tab Track data
 
-<TD>Track data</TD>
-</TR></TABLE>
-
-<P>
 Following the track data is filler bytes.  In this case, there are 368
 bytes of unused space.  This space can contain anything, but for the
 sake of those wishing to compress these images for storage, they should
 all be set to the same value.  In the sample I used, these are all set
 to $FF.
 
-</P>
-<P>
 Below is a dump of the end of the track 1.0 data area.  Note the actual
 track data ends at address $20B9, with the rest of the block being
 unused, and set to $FF.
 
-</P>
 
 <PRE>
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -534,36 +461,27 @@ unused, and set to $FF.
 21A0: FF FF FF FF FF FF .. .. .. .. .. .. .. .. .. ..
 </PRE>
 
-<P>
 The speed offset entries can be a little more complex. The 1541 has four
 speed zones defined, which means the drive can write data at four
 distinct speeds.  On a normal 1541 disk, these zones are as follows:
 
-</P>
-<TABLE BORDER>
+@multitable @columnfractions .5 .5
+<LI><B>Track Range</B>
 
-<TR><TD><B>Track Range</B></TD>
+@tab <B>Speed Zone</B>
+<LI>1-17
 
-<TD><B>Speed Zone</B></TD>
-</TR>
-<TR><TD>1-17</TD>
+@tab 3  (lowest writing speed)
+<LI>18-24
 
-<TD>3  (lowest writing speed)</TD>
-</TR>
-<TR><TD>18-24</TD>
+@tab 2
+<LI>25-30
 
-<TD>2</TD>
-</TR>
-<TR><TD>25-30</TD>
+@tab 1
+<LI>31 and up
 
-<TD>1</TD>
-</TR>
-<TR><TD>31 and up</TD>
+@tab 0 (highest writing speed)
 
-<TD>0 (highest writing speed)</TD>
-</TR></TABLE>
-
-<P>
 Note that you can, through custom programming of the 1541, change the
 speed zone of any track to something different (change the 3 to a 0) and
 write data differently.  From the dump of the speed offset entries
@@ -571,15 +489,12 @@ above, we see that all the entries are in the range of 0-3. If any entry
 is less than 4, this is not considered a speed offset but defines the
 whole track to be recorded at that one speed.
 
-</P>
-<P>
 In the example I had, there were no offsets defined, so no speed zone
 dump can be shown.  However, I can define what should be there.  You
 will have a block of data, 1982 bytes long.  Each byte is encoded to
 represent the speed of 4 bytes in the track offset area, and is broken
 down as follows:
 
-</P>
 
 <PRE>
 Speed entry $FF:  in binary %11111111
@@ -591,15 +506,12 @@ Speed entry $FF:  in binary %11111111
                              +------- 1'st byte speed (binary 11, 3 dec)
 </PRE>
 
-<P>
 It was very smart thinking to allow for two speed zone settings, one in
 the offset block and another defining the speed on a per-byte basis.  If
 you are working with a normal disk, where each track is one constant
 speed, then you don't need the extra blocks of information hanging
 around the image, wasting space.
 
-</P>
-<P>
 What may not be obvious is the flexibility of this format to add tracks
 and speed offset zones at will.  If a program decides to write a track
 out with varying speeds, and no speed offset exist, a new block will be
@@ -611,7 +523,6 @@ speed zone data is not important, meaning they do not have to be in any
 particular order since they are all referenced by the offsets at the
 beginning of the image.
 
-</P>
 <P><HR><P>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_10.html">previous</A>, <A HREF="vice_12.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>

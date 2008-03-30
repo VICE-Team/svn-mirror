@@ -33,17 +33,8 @@ involved in the development of X64 and VICE:
      emulation, speed optimizations, bug fixes, the event-driven
      cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
      code reorganization, the new resource handling, most of the
-     documentation and the MS-DOS port (well, somebody had to do it).
-
-   * Teemu Rantanen (<tvr@cs.hut.fi>) implemented the SID emulation and
-     the trap-based disk drive and serial bus implementation; added
-     support for multiple display depths under X11.
-
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET and
-     CBM-II emulators, the CIA and VIA emulation, the IEEE488
-     interface, implemented the IEC serial bus in `xvic' and made tons
-     of bug fixes. Has now implemented the cycle-exact CRTC emulation
-     on top of Ettores new Raster code.
+     documentation.  He also wrote the MS-DOS port and the initial
+     MS-Windows port (well, somebody had to do it).
 
    * Daniel Sladic (<sladic@eecg.toronto.edu>) started the work on
      hardware-level 1541 emulation and wrote the new monitor introduced
@@ -53,12 +44,41 @@ involved in the development of X64 and VICE:
      information and bug reports about the VIC-II, the 6510 and the
      CIAs; moreover, he wrote several test-routines that were used to
      improve the emulation.  He also added cartridge support and has
-     been the main head behind the drive emulation since version 0.15.
+     been the main head behind the drive and datasette emulation since
+     version 0.15.  Also added several UI elements to the MSDOS and
+     MS-Windows ports and the C128 Z80 implementation.
 
    * Dag Lem (<resid@nimrod.no>) implemented the reSID SID emulation
      engine.
 
+   * Tibor Biczo (<crown@mail.matav.hu>) improved the MS-Windows port.
+
+   * Andreas Dehmel (<dehmel@forwiss.tu-muenchen.de>) wrote the Acorn
+     RISC OS port.
+
+   * Thomas Bretz (<tbretz@ph.tum.de>) responsible for the OS/2 port.
+
+   * Andreas Matthies (<andreas.matthies@arcormail.de>) improved the
+     datasette support and some ui stuff in the Win32 and MSDOS port.
+     Wrote the BeOS port.
+
+   * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>)
+     Implemented Gnome Port based on Oliver Schaertels GTK+ port Added
+     support code for internationalization based on gettext Translated
+     the Unix Port to German Implemented the fliplists + ui (unix).
+
+   * Markus Brenner (<markus@brenner.de>) added VDC emulation to x128.
+
    Former team members:
+
+   * Andre Fachat (<fachat@physik.tu-chemnitz.de>) wrote the PET and
+     CBM-II emulators, the CIA and VIA emulation, the IEEE488
+     interface, implemented the IEC serial bus in `xvic' and made tons
+     of bug fixes.
+
+   * Teemu Rantanen (<tvr@cs.hut.fi>) implemented the SID emulation and
+     the trap-based disk drive and serial bus implementation; added
+     support for multiple display depths under X11.  Also wrote `c1541'
 
    * Jouko Valta (<jopi@stekt.oulu.fi>) wrote `petcat' and `c1541',
      `T64' handling, user service and maintenance (most of the work in
@@ -170,6 +190,25 @@ involved in the development of X64 and VICE:
    * Shawn Hargreaves (<shawn@talula.demon.co.uk>) wrote Allegro, the
      graphics and audio library used in the MS-DOS version.
 
+   * Peter Schepers (<schepers@ist.uwaterloo.ca>) contributed a
+     document describing the G64 image format.
+
+   * Oliver Schaertel (<orschaer@forwiss.uni-erlangen.de>) wrote the
+     X11 full screen, parts of custom ROM set support and 1351 mouse
+     emulation for unix.
+
+   * Luca Montecchiani (<m.luca@usa.net>) contributed a new Unix
+     joystick driver.
+
+   * Dirk Farin (<farin@ti.uni-mannheim.de>) rewrote the MITSHM code.
+
+   * Manfred Spraul (<manfreds@colorfullife.com>) wrote the MS-Windows
+     text lister.
+
+   * Spiro Trikaliotis (<Spiro.Trikaliotis@gmx.de>) wrote the Win32
+     console implementation for the built-in monitor and provided some
+     further patches.
+
    (We hope we have not forgotten anybody; if you think we have, please
 tell us.)
 
@@ -221,21 +260,27 @@ Copyright
 
    Copyright (C) 1996-1999 Ettore Perazzoli
 
-   Copyright (C) 1996-1999 Andr'e Fachat
+   Copyright (C) 1997-2000 Daniel Sladic
+
+   Copyright (C) 1998-2000 Andreas Boose
+
+   Copyright (C) 1998-2000 Dag Lem
+
+   Copyright (C) 1998-2000 Tibor Biczo
+
+   Copyright (C) 1999-2000 Andreas Dehmel
+
+   Copyright (C) 1999-2000 Thomas Bretz
+
+   Copyright (C) 1999-2000 Andreas Matthies
+
+   Copyright (C) 1996-1999 André Fachat
 
    Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
-
-   Copyright (C) 1997-1999 Daniel Sladic
-
-   Copyright (C) 1998-1999 Andreas Boose
-
-   Copyright (C) 1998-1999 Tibor Biczo
 
    Copyright (C) 1993-1996 Jouko Valta
 
    Copyright (C) 1993-1994 Jarkko Sonninen
-
-   The reSID engine: Copyright (C) 1998-1999 Dag Lem
 
    This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -277,11 +322,9 @@ page:
 
      http://www.cs.cmu.edu/~dsladic/vice/vice.html
 
-   Also the public patches and beta releases will be available there as
-well, so you might want to have a look at it periodically.  If you are
-going to report a bug, please check those pages *first*; it is possible
-that the problem you encountered has already been fixed with a newer
-version.
+   If you are going to report a bug, please check those pages *first*;
+it is possible that the problem you encountered has already been fixed
+with a newer version.
 
 
 File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
@@ -292,16 +335,14 @@ How to send feedback
    If you want to report bugs, make suggestions or contribute to the
 project, please email one of the following people:
 
-   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
+   * VICE Mailing List (<vice-devel@firenze.linux.it>) for all general
+     questions, bug reports, suggestions.
 
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
-     drive;
+   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for disk drive,
+     tape, cartridge and Z80 emulation;
 
    * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
      CBM-II;
-
-   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
-     for everything else.
 
    It's always nice to receive feedback and/or bugreports about VICE,
 but please read these few notes before sending mail to anybody in the
@@ -348,8 +389,7 @@ team.
      really don't know.
 
    * Please write in English, or in the language of the person you are
-     writing to (Ettore is Italian, Andr'e and Andreas are German,
-     Teemu is Finnish, Daniel is from Canada).
+     writing to (Andr'e and Andreas are German, Daniel is from Canada).
 
    In any case, we would be *really* glad to receive your comments
 about VICE.  We cannot always answer all the email, but we surely read
@@ -382,9 +422,9 @@ relative to the very latest version, and provide us with the following:
 safer.
 
    People willing to port VICE to other platforms are always welcome.
-Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
-interested in those platforms, please let us know.  There is plenty of
-work to do and any sort of help can be very useful.
+Windows, A BeOS port is in the works, so if you are interested in this
+platform, please let us know.  There is plenty of work to do and any
+sort of help can be very useful.
 
 
 File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts

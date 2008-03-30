@@ -1,11 +1,11 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 30 January 2000 -->
+<!-- This HTML file has been created by texi2html 1.51
+     from ../vice.texi on 21 July 2000 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
-<BODY BGCOLOR="#ffffff" TEXT="#00000">
+<BODY>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
@@ -13,9 +13,9 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <
 <H1><A NAME="SEC5" HREF="vice_toc.html#TOC5">2  About VICE</A></H1>
 
 <P>
-VICE is the one and only <EM>Versatile Commodore Emulator</EM>.  It provides
-emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
-a single package.  The emulators run as separate programs, but have
+VICE is the one and only <STRONG>Versatile Commodore Emulator</STRONG>.  It provides
+emulation of the Commodore 64, 128, VIC20, PET 8-bit and CBM-II computers
+within a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
 
@@ -40,6 +40,10 @@ does so <EM>efficiently</EM>.
 <P>
 Please do <EM>not</EM> expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
+
+</P>
+<P>
+<EM>Notice:</EM> This documentation is written for the Unix release of VICE.
 
 </P>
 
@@ -77,22 +81,20 @@ and cycle accurate.
 
 <P>
 The C128 emulator, called <SAMP>`x128'</SAMP>, features a complete emulation of
-the internal MMU (<EM>Memory Management Unit</EM>), plus all the features
-of the C64 emulation.  The following things are missing, though:
+the internal MMU (<STRONG>Memory Management Unit</STRONG>), 80 column VDC screen, Z80
+emulation plus all the features of the C64 emulation.  The following
+things are missing, though:
 
 </P>
 
-<P> <UL>
-<P> <LI>
-
-80-column VDC chip;
-<P> <LI>
+<UL>
+<LI>
 
 2 MHz mode;
-<P> <LI>
+<LI>
 
 C64 mode.
-</UL> </P>
+</UL>
 
 
 
@@ -247,7 +249,7 @@ There are two ways of emulating the keyboard in VICE.
 
 </P>
 <P>
-The default way (<EM>symbolic mapping</EM>) is to map every X11 key
+The default way (<STRONG>symbolic mapping</STRONG>) is to map every X11 key
 combination to the corresponding key combination on the real machine:
 for example, if you press <KBD>*</KBD>, which is bound to <KBD>Shift-8</KBD> on a
 U.S. keyboard, in the C64 emulator, the emulated machine will have just
@@ -271,7 +273,7 @@ but having an <KBD>ESC</KBD> key, uses the left <KBD>Control</KBD> key as
 </P>
 
 <P>
-The second way (<EM>positional mapping</EM>) is to map every key on the
+The second way (<STRONG>positional mapping</STRONG>) is to map every key on the
 "real" keyboard to the key which has the same position on the keyboard
 of the emulated machine.  This way, no <KBD>Shift</KBD> key is forced by the
 program (with the exception of the function keys <KBD>F2</KBD>, <KBD>F4</KBD>,
@@ -309,18 +311,18 @@ systems).
 
 </P>
 <P>
-There are two keyboard layouts for joystick use, known as <EM>numpad</EM>
-and <EM>custom</EM>.
+There are two keyboard layouts for joystick use, known as <STRONG>numpad</STRONG>
+and <STRONG>custom</STRONG>.
 
 </P>
 <P>
-The <EM>numpad</EM> layout uses the numeric keypad keys, i.e., the numbers
+The <STRONG>numpad</STRONG> layout uses the numeric keypad keys, i.e., the numbers
 <KBD>1</KBD>...<KBD>9</KBD> which emulate all the directions including the
 diagonal ones; <KBD>0</KBD> emulates the fire button.
 
 </P>
 <P>
-The <EM>custom</EM> layout uses the keys <KBD>w</KBD>, <KBD>e</KBD>, <KBD>r</KBD>,
+The <STRONG>custom</STRONG> layout uses the keys <KBD>w</KBD>, <KBD>e</KBD>, <KBD>r</KBD>,
 <KBD>s</KBD>, <KBD>d</KBD>, <KBD>f</KBD>, <KBD>x</KBD>, <KBD>c</KBD>, <KBD>v</KBD> for the directions
 and <KBD>space</KBD> for the fire button instead.
 
@@ -338,26 +340,26 @@ Commodore 1541, 1541-II, 1571, 1581, 2031, 3040, 4040, 1001, 8050 and
 
 </P>
 
-<P> <UL>
-<P> <LI>
+<UL>
+<LI>
 
 using disk images, i.e., files that contain a dump
 of all the blocks contained in a real floppy disk (if you want more
 information about what a disk image is, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ);
-<P> <LI>
+<LI>
 
 accessing file system directories, thus giving you the use of files
 without having to copy them to disk images; this also allows you to
 read and write files in the <CODE>P00</CODE> format (again, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ for more info).
-</UL> </P>
+</UL>
 
 <P>
 When using disk images there are two available types of drive
-emulation.  One of them the <EM>DOS level</EM> drive emulation.  It
+emulation.  One of them the <STRONG>DOS level</STRONG> drive emulation.  It
 does <EM>not</EM> really emulate the serial line, but patches the kernal
-ROM (with the so-called <EM>kernal traps</EM>) so that serial line
+ROM (with the so-called <STRONG>kernal traps</STRONG>) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
 all of them). The IEEE488 drives (2031, 3040, 4040, 1001, 8050 and 8250) 
@@ -369,21 +371,21 @@ IEEE488 emulation is enabled, those drives can be selected.
 
 </P>
 <P>
-The other alternative is a <EM>hardware level</EM> drive emulation.  The
+The other alternative is a <STRONG>hardware level</STRONG> drive emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
 VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
-be provided and that is what the <EM>hardware level</EM> emulation does.
-When the <EM>hardware level</EM> emulation is used, the kernal routines are
+be provided and that is what the <STRONG>hardware level</STRONG> emulation does.
+When the <STRONG>hardware level</STRONG> emulation is used, the kernal routines are
 remain unpatched and the serial line is fully emulated.  The problem
 with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
 </P>
 <P>
-As of 0.14.0 the <EM>hardware level</EM> emulation is available on all
+As of 0.14.0 the <STRONG>hardware level</STRONG> emulation is available on all
 emulators.  It can only be used to emulate drive unit #8 or #9.  Other
-units are disabled if <EM>hardware level</EM> drive emulation is enabled.
+units are disabled if <STRONG>hardware level</STRONG> drive emulation is enabled.
 
 </P>
 <P>
@@ -453,41 +455,41 @@ VICE supports the most popular Commodore file formats:
 
 </P>
 
-<P> <UL>
+<UL>
 
-<P> <LI>
+<LI>
 
 <CODE>X64</CODE> (preferred) or <CODE>D64</CODE> disk image files; Used by the 1541, 2031, 3040, 4040 drives.
 
-<P> <LI>
+<LI>
 
 <CODE>G64</CODE> GCR-encoded 1541 disk image files;
 
-<P> <LI>
+<LI>
 
 <CODE>D71</CODE> VC1571 disk image format
 
-<P> <LI>
+<LI>
 
 <CODE>D81</CODE> VC1581 disk image format
 
-<P> <LI>
+<LI>
 
 <CODE>D80</CODE> CBM8050 disk image format
 
-<P> <LI>
+<LI>
 
 <CODE>D82</CODE> CBM8250/1001 disk image format
 
-<P> <LI>
+<LI>
 
 <CODE>T64</CODE> tape image files (read-only);
 
-<P> <LI>
+<LI>
 
 <CODE>P00</CODE> program files;
 
-</UL> </P>
+</UL>
 
 <P>
 An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC146">10  c1541</A>) is provided to allow transfers
@@ -579,21 +581,21 @@ Reasons for this failure could be:
 
 </P>
 
-<P> <UL>
-<P> <LI>
+<UL>
+<LI>
 
 IPC support has been disabled at the system level; some system
 administrators disable this for security reasons.  If <EM>you</EM> are the
 system administrator, use a kernel that has IPC support compiled in and
 enabled.
-<P> <LI>
+<LI>
 
 You are attempting to run the emulator across the network (i.e., the
 emulator runs on one machine, and the output is displayed on another
 machine that works as an X terminal) and for some reason VICE does not
 recognize this fact.  In this case, you have found a bug, so please report it
 to us.
-</UL> </P>
+</UL>
 
 <P>
 If you want to avoid running the emulator with <SAMP>`+mitshm'</SAMP> every
