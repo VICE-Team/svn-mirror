@@ -1,3 +1,14 @@
+Mon Aug 10 21:18:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128.c (machine_init) [!__MSDOS__]: Call `c128_kbd_init()'
+	instead of `c64_kbd_init()'.
+
+	* Makefile.am (x128-all): Added `libc128' dependency.
+
+	* arch/msdos/c128kbd.c, arch/msdos/c128kbd.h: New files.
+
+	* arch/msdos/c128ui.c, arch/msdos/c128ui.h: New files.
+
 Tue Jul 28 00:08:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* main.c (MAIN_PROGRAM): Initialize joystick resources (even if

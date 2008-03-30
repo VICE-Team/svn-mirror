@@ -270,10 +270,10 @@ int machine_init(void)
 
     /* Initialize the keyboard.  */
 #ifndef __MSDOS__
-    if (kbd_init(/* "default.vkm" */) < 0)
+    if (kbd_init() < 0)
         return -1;
 #else
-    if (c64_kbd_init() < 0)
+    if (c128_kbd_init() < 0)
         return -1;
 #endif
 
