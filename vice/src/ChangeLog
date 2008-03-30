@@ -1,3 +1,107 @@
+1999-12-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.13.
+
+	* mon.c (mon_save_file): Do not close file when if start or
+	end address is invalid.
+
+	* zfile.c (zfopen): Also check `+' as write mode flag.
+
+	* arch/win32/console.c (redraw_window): Use `LPPAINTSTRUCT'.
+
+	* arch/win32/uiattach.c (init_dialog): Initialize printer
+	dialog.
+
+	* vdc/vdc-mem.c (vdc_perform_fillcopy): Copy 256 bytes if
+	length is zero.
+
+	* arch/os2/icons/Makefile.am: Fixed makefile.
+
+1999-12-29  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* main.c: goto statement removed, archdep_startup_log_error
+	calls made OS/2 conform
+
+	* mon_lex.c: io.h included.
+
+	* archdep.c: archdep_startup_log_error implemented
+
+	* arch/os2/install.cmd added
+
+	* arch/os2/console.c: function bodies implemented
+
+	* arch/os2/dialogs/[all].c: minor changes
+
+	* arch/os2/ui.c: minor changes
+
+1999-12-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: added some minor changes for achieving
+	ANSI C-conformity.
+
+	* arch/win32/console.c: cursor-left and -right, DEL, HOME, END
+	now work; INS toggles insert-mode. Cursor does not overwrite
+	the current character and show if insert-mode or not. History
+
+1999-12-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/print.c: included header file "string.h" to avoid
+	warning about non-defined strcmp.
+
+	* vic/vic20sound.c: included header file "string.h" to avoid
+	warning about non-defined memset()
+	function added (cursor-up and -down)
+
+1999-12-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* corrections of project files for VC++:
+	added console.c in project arch, added pruser.c, prdevice.c
+	in project xvic.
+	(2nd, corrected version)
+
+1999-12-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/console.c: little fix that makes console compile
+	on RISC OS again.
+
+1999-12-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/res.rc, arch/win32/rescbm2.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/respet.rc, arch/win32/resvic.rc,
+	arch/win32/uidatasette.c, arch/win32/uijoystick.c,
+	arch/win32/uisound.c, arch/win32/uivicset.c:
+	accelerators modified or added for menus, dialog boxes, etc.;
+	removed inconsistencies between different emulators;
+	datasette, joystick and sound dialog boxes now can be quitted
+	with ESCAPE.
+
+1999-12-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* mon.c: don't close console when 'n' or 'z' command with
+	parameter 1 or w/o parameter, but close it in every other
+	event
+
+	* mon_parse.y: mon_console_close_on_leaving = 1 when CMD_EXIT
+	or CMD_QUIT removed
+
+1999-12-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: rewritten, now the console uses an own
+	window
+
+	* arch/win32/console.h: added console_shutdown() to be called
+	immediately before VICE ends (for cleanup)
+	added comment that console_xres and console_yres might change
+	at run-time.
+
+	* arch/win32/ui.h: added CONSOLE_CLASS
+
+	* arch/win32/winmain.c: call console_shutdown() before quitting
+
+	* mon.c: console_log is initialized with NULL
+	(this is necessary for console_shutdown() not crashing!)
+
 1999-12-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.12.

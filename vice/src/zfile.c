@@ -73,7 +73,7 @@
 
 /* #define DEBUG_ZFILE */
 
-#ifdef DEBUG_ZFILE
+#if 1 /*def DEBUG_ZFILE*/
 #define ZDEBUG(a)  log_debug a
 #else
 #define ZDEBUG(a)
@@ -886,13 +886,14 @@ FILE *zfopen(const char *name, const char *mode)
     const char *tmp_name;
     FILE *stream;
     enum compression_type type;
-    int write_mode;
+    int write_mode = 0;
 
     if (!zinit_done)
 	zinit();
 
     /* Do we want to write to this file?  */
-    write_mode = (strchr(mode, 'w') != NULL);
+    if ((strchr(mode, 'w') != NULL) || (strchr(mode, '+') != NULL))
+        write_mode = 1;
 
     /* Check for write permissions.  */
     if (write_mode && access(name, W_OK) < 0)
