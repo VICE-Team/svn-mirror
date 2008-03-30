@@ -35,11 +35,10 @@
 #include "raster-sprite.h"
 #include "types.h"
 #include "vicii-sprites.h"
-#include "vicii.h"
 #include "viciitypes.h"
 
 
-const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4] =
+const vicii_sprites_fetch_t vicii_sprites_fetch_table[256][4] =
 {
     /* $00 */ { { -1, -1 } },
     /* $01 */ { { 0, 5, 0, 0 },  { -1, -1 } },
@@ -300,7 +299,7 @@ const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4] =
 };
 
 
-const int vic_ii_sprites_crunch_table[64] =
+const int vicii_sprites_crunch_table[64] =
 {
     1,   4,   3, /* 0 */
     4,   1,   0, /* 3 */
@@ -1031,7 +1030,7 @@ static void update_cached_sprite_collisions(raster_cache_t *cache)
     vic_ii.sprite_background_collisions |= cache->sprite_background_collisions;
 }
 
-void vic_ii_sprites_init(void)
+void vicii_sprites_init(void)
 {
     init_drawing_tables();
 
@@ -1045,7 +1044,7 @@ void vic_ii_sprites_init(void)
 
 /* Set the X coordinate of the `num'th sprite to `new_x'; the current
    vic_ii.raster X position is `raster_x'.  */
-void vic_ii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
+void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 {
     raster_sprite_t *sprite;
 

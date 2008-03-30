@@ -40,44 +40,44 @@
 #include "video.h"
 
 
-vic_ii_resources_t vic_ii_resources;
+vicii_resources_t vicii_resources;
 
 
 static int set_new_luminances(resource_value_t v, void *param)
 {
-    vic_ii_resources.new_luminances = (int)v;
-    return vic_ii_update_palette();
+    vicii_resources.new_luminances = (int)v;
+    return vicii_update_palette();
 }
 
 static int set_sprite_sprite_collisions_enabled(resource_value_t v, void *param)
 {
-    vic_ii_resources.sprite_sprite_collisions_enabled = (int)v;
+    vicii_resources.sprite_sprite_collisions_enabled = (int)v;
     return 0;
 }
 
 static int set_sprite_background_collisions_enabled(resource_value_t v,
                                                     void *param)
 {
-    vic_ii_resources.sprite_background_collisions_enabled = (int)v;
+    vicii_resources.sprite_background_collisions_enabled = (int)v;
     return 0;
 }
 
 static resource_t resources[] =
 {
     { "VICIICheckSsColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.sprite_sprite_collisions_enabled,
+      (resource_value_t *)&vicii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },
     { "VICIICheckSbColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.sprite_background_collisions_enabled,
+      (resource_value_t *)&vicii_resources.sprite_background_collisions_enabled,
       set_sprite_background_collisions_enabled, NULL },
     { "VICIINewLuminances", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.new_luminances,
+      (resource_value_t *)&vicii_resources.new_luminances,
       set_new_luminances, NULL },
     { NULL }
 };
 
 
-int vic_ii_resources_init(void)
+int vicii_resources_init(void)
 {
     video_chip_cap_t *video_chip_cap;
 

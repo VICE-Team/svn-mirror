@@ -44,7 +44,7 @@
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void vic_ii_fetch_matrix(int offs, int num, int num_0xff)
+inline void vicii_fetch_matrix(int offs, int num, int num_0xff)
 {
     int start_char;
     int c;
@@ -121,7 +121,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             && vic_ii.allow_bad_lines
             && raster->current_line >= vic_ii.first_dma_line
             && raster->current_line <= vic_ii.last_dma_line) {
-            vic_ii_fetch_matrix(0, VIC_II_SCREEN_TEXTCOLS, 0);
+            vicii_fetch_matrix(0, VIC_II_SCREEN_TEXTCOLS, 0);
 
             raster->draw_idle_state = 0;
             raster->ycounter = 0;
@@ -287,7 +287,7 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
                               + vic_ii.sprite_fetch_cycle);
     vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
 
-    if (vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1) {
+    if (vicii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1) {
         if (vic_ii.raster.current_line >= vic_ii.first_dma_line - 1
             && vic_ii.raster.current_line <= vic_ii.last_dma_line + 1) {
             vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
@@ -305,7 +305,7 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
         vic_ii.fetch_idx = VIC_II_FETCH_SPRITE;
         vic_ii.sprite_fetch_idx = 0;
         vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                           + vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle);
+                           + vicii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle);
     }
 
     /*log_debug("HCSD SCLK %i FCLK %i CLK %i OFFSET %li SUB %i",
@@ -337,13 +337,13 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
 inline static int handle_fetch_sprite(long offset, CLOCK sub,
                                       CLOCK *write_offset)
 {
-    const vic_ii_sprites_fetch_t *sf;
+    const vicii_sprites_fetch_t *sf;
     unsigned int i;
     int next_cycle;
     raster_sprite_status_t *sprite_status;
     BYTE *bank, *spr_base;
 
-    sf = &vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][vic_ii.sprite_fetch_idx];
+    sf = &vicii_sprites_fetch_table[vic_ii.sprite_fetch_msk][vic_ii.sprite_fetch_idx];
 
     sprite_status = vic_ii.raster.sprite_status;
     /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
@@ -407,7 +407,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     }
 
     if (maincpu_clk >= vic_ii.draw_clk)
-        vic_ii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
+        vicii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
 
     if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
@@ -415,7 +415,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     }
 
     if (maincpu_clk >= vic_ii.raster_irq_clk)
-        vic_ii_raster_irq_alarm_handler(maincpu_clk - vic_ii.raster_irq_clk);
+        vicii_raster_irq_alarm_handler(maincpu_clk - vic_ii.raster_irq_clk);
 
     return 0;
 }
@@ -424,7 +424,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
    faster.  */
-void vic_ii_fetch_alarm_handler(CLOCK offset)
+void vicii_fetch_alarm_handler(CLOCK offset)
 {
     CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 

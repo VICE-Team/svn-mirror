@@ -88,7 +88,7 @@ static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 
-int vic_ii_snapshot_write_module(snapshot_t *s)
+int vicii_snapshot_write_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
@@ -231,7 +231,7 @@ static int read_word_into_int(snapshot_module_t *m, int *value_return)
     return 0;
 }
 
-int vic_ii_snapshot_read_module(snapshot_t *s)
+int vicii_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     int i;
@@ -359,14 +359,14 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: Recalculate alarms and derived values.  */
 
-    vic_ii_set_raster_irq(vic_ii.regs[0x12]
-                          | ((vic_ii.regs[0x11] & 0x80) << 1));
+    vicii_set_raster_irq(vic_ii.regs[0x12]
+                         | ((vic_ii.regs[0x11] & 0x80) << 1));
 
     /* compatibility with older versions */
     vic_ii.ram_base_phi2 = vic_ii.ram_base_phi1;
     vic_ii.vbank_phi2 = vic_ii.vbank_phi1;
 
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
+    vicii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 
     /* Update sprite parameters.  We had better do this manually, or the
        VIC-II emulation could be quite upset.  */
@@ -383,7 +383,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             tmp = vic_ii.regs[i * 2] + ((vic_ii.regs[0x10] & msk) ? 0x100 : 0);
 
             /* (-0xffff makes sure it's updated NOW.) */
-            vic_ii_sprites_set_x_position(i, tmp, -0xffff);
+            vicii_sprites_set_x_position(i, tmp, -0xffff);
 
             sprite->y = (int)vic_ii.regs[i * 2 + 1];
             sprite->x_expanded = (int)(vic_ii.regs[0x1d] & msk);
@@ -452,7 +452,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
 
     vic_ii.memory_fetch_done = 0; /* FIXME? */
 
-    vic_ii_update_video_mode(VIC_II_RASTER_CYCLE(maincpu_clk));
+    vicii_update_video_mode(VIC_II_RASTER_CYCLE(maincpu_clk));
 
     vic_ii.draw_clk = maincpu_clk + (vic_ii.draw_cycle
                       - VIC_II_RASTER_CYCLE(maincpu_clk));
@@ -489,7 +489,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             goto fail;
         vic_ii.ram_base_phi2 = mem_ram + RamBase;
 
-        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
+        vicii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
     }
 
     raster_force_repaint(&vic_ii.raster);

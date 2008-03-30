@@ -49,17 +49,17 @@
 
 /* ---------------------------------------------------------------------*/
 /*
-extern void (*vic_ii_irq_handler)(int irq, int state, CLOCK clk);
+extern void (*vicii_irq_handler)(int irq, int state, CLOCK clk);
 
-#define vic_ii_set_irq(irq, state)         \
-    if (vic_ii_irq_handler != NULL) {      \
-        vic_ii_irq_handler(irq, state, 0); \
-    } else {                               \
-        maincpu_set_irq(irq, state);       \
+#define vicii_set_irq(irq, state)         \
+    if (vicii_irq_handler != NULL) {      \
+        vicii_irq_handler(irq, state, 0); \
+    } else {                              \
+        maincpu_set_irq(irq, state);      \
     }
 */
 
-#define vic_ii_set_irq(irq, state) maincpu_set_irq(irq, state)
+#define vicii_set_irq(irq, state) maincpu_set_irq(irq, state)
 
 /* ---------------------------------------------------------------------*/
 
@@ -86,12 +86,12 @@ static int unused_bits_in_registers[64] =
 
 
 /* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
+inline void REGPARM2 vicii_local_store_vbank(ADDRESS addr, BYTE value)
 {
     unsigned int f;
 
     if (vic_ii.viciie != 0)
-        vic_ii_delay_clk();
+        vicii_delay_clk();
 
     do {
         CLOCK mclk;
@@ -115,7 +115,7 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
                 vic_ii.store_addr = addr;
             }
 
-            vic_ii_fetch_alarm_handler(maincpu_clk - vic_ii.fetch_clk);
+            vicii_fetch_alarm_handler(maincpu_clk - vic_ii.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -123,11 +123,11 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
         }
 
         if (mclk >= vic_ii.draw_clk) {
-            vic_ii_raster_draw_alarm_handler(0);
+            vicii_raster_draw_alarm_handler(0);
             f = 1;
         }
         if (vic_ii.viciie != 0)
-            vic_ii_delay_clk();
+            vicii_delay_clk();
     } while (f);
 
     vic_ii.ram_base_phi2[addr] = value;
@@ -136,13 +136,13 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
 /* Encapsulate inlined function for other modules */
 void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank(addr, value);
+    vicii_local_store_vbank(addr, value);
 }
 
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
 void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank(addr, value);
+    vicii_local_store_vbank(addr, value);
 
     if (vic_ii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
         raster_add_int_change_foreground
@@ -155,7 +155,7 @@ void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
 void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 {
-    vic_ii_local_store_vbank(addr, value);
+    vicii_local_store_vbank(addr, value);
 
     if ((addr & 0x3fff) == 0x3fff) {
         if (vic_ii.idle_data_location == IDLE_3FFF)
@@ -190,7 +190,7 @@ inline static void store_sprite_x_position_lsb(ADDRESS addr, BYTE value)
     VIC_II_DEBUG_REGISTER(("Sprite #%d X position LSB: $%02X", n, value));
 
     new_x = (value | (vic_ii.regs[0x10] & (1 << n) ? 0x100 : 0));
-    vic_ii_sprites_set_x_position(n, new_x,
+    vicii_sprites_set_x_position(n, new_x,
         VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)));
 }
 
@@ -237,7 +237,7 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
         int new_x;
 
         new_x = (vic_ii.regs[2 * i] | (value & b ? 0x100 : 0));
-        vic_ii_sprites_set_x_position(i, new_x, raster_x);
+        vicii_sprites_set_x_position(i, new_x, raster_x);
     }
 }
 
@@ -252,7 +252,7 @@ static void check_irq_line_state(unsigned int irq_line)
     line = VIC_II_RASTER_Y(maincpu_clk);
 
     old_raster_irq_line = vic_ii.raster_irq_line;
-    vic_ii_set_raster_irq(irq_line);
+    vicii_set_raster_irq(irq_line);
 
     if (vic_ii.regs[0x1a] & 0x1) {
         int trigger_irq;
@@ -279,7 +279,7 @@ static void check_irq_line_state(unsigned int irq_line)
 
         if (trigger_irq) {
             vic_ii.irq_status |= 0x81;
-            vic_ii_set_irq(I_RASTER, 1);
+            vicii_set_irq(I_RASTER, 1);
         }
     }
 }
@@ -366,7 +366,7 @@ inline static void store_d011(BYTE value)
     vic_ii.regs[0x11] = value;
 
     /* FIXME: save time.  */
-    vic_ii_update_video_mode(cycle);
+    vicii_update_video_mode(cycle);
 }
 
 inline static void store_d012(BYTE value)
@@ -538,7 +538,7 @@ inline static void store_d016(BYTE value)
 
     vic_ii.regs[0x16] = value;
 
-    vic_ii_update_video_mode(cycle);
+    vicii_update_video_mode(cycle);
 }
 
 inline static void store_d017(BYTE value)
@@ -567,7 +567,7 @@ inline static void store_d017(BYTE value)
             /* Sprite crunch!  */
             if (cycle == 15)
                 sprite->memptr_inc
-                    = vic_ii_sprites_crunch_table[sprite->memptr];
+                    = vicii_sprites_crunch_table[sprite->memptr];
             else if (cycle < 15)
                 sprite->memptr_inc = 3;
             sprite->exp_flag = 1;
@@ -587,7 +587,7 @@ inline static void store_d018(BYTE value)
         return;
 
     vic_ii.regs[0x18] = value;
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
+    vicii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void store_d019(BYTE value)
@@ -615,9 +615,9 @@ inline static void store_d019(BYTE value)
        The external VIC IRQ line is an AND of the internal collision and
        vic_ii.raster IRQ lines.  */
     if (vic_ii.irq_status & 0x80) {
-        vic_ii_set_irq(I_RASTER, 1);
+        vicii_set_irq(I_RASTER, 1);
     } else {
-        vic_ii_set_irq(I_RASTER, 0);
+        vicii_set_irq(I_RASTER, 0);
     }
 
     VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
@@ -629,10 +629,10 @@ inline static void store_d01a(BYTE value)
 
     if (vic_ii.regs[0x1a] & vic_ii.irq_status) {
         vic_ii.irq_status |= 0x80;
-        vic_ii_set_irq(I_RASTER, 1);
+        vicii_set_irq(I_RASTER, 1);
     } else {
         vic_ii.irq_status &= 0x7f;
-        vic_ii_set_irq(I_RASTER, 0);
+        vicii_set_irq(I_RASTER, 0);
     }
 
     VIC_II_DEBUG_REGISTER(("IRQ mask register: $%02X", vic_ii.regs[addr]));
@@ -908,19 +908,19 @@ inline static void store_d030(BYTE value)
 }
 
 /* Store a value in a VIC-II register.  */
-void REGPARM2 vic_store(ADDRESS addr, BYTE value)
+void REGPARM2 vicii_store(ADDRESS addr, BYTE value)
 {
     addr &= 0x3f;
 
     /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
-    vic_ii_handle_pending_alarms(maincpu_rmw_flag + 1);
+    vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     /* This is necessary as we must be sure that the previous line has been
        updated and `current_line' is actually set to the current Y position of
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
     if (maincpu_clk >= vic_ii.draw_clk)
-        vic_ii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
+        vicii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
 
     VIC_II_DEBUG_REGISTER(("WRITE $D0%02X at cycle %d of current_line $%04X",
                           addr, VIC_II_RASTER_CYCLE(maincpu_clk),
@@ -1103,12 +1103,12 @@ inline static BYTE read_d019(void)
 }
 
 /* Read a value from a VIC-II register.  */
-BYTE REGPARM1 vic_read(ADDRESS addr)
+BYTE REGPARM1 vicii_read(ADDRESS addr)
 {
     addr &= 0x3f;
 
     /* Serve all pending events.  */
-    vic_ii_handle_pending_alarms(0);
+    vicii_handle_pending_alarms(0);
 
     VIC_II_DEBUG_REGISTER(("READ $D0%02X at cycle %d of current_line $%04X:",
                           addr, VIC_II_RASTER_CYCLE(maincpu_clk),
@@ -1225,11 +1225,11 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
            register is reset upon read accesses.  */
         if (!(vic_ii.irq_status & 0x3)) {
             vic_ii.irq_status &= ~0x84;
-            vic_ii_set_irq(I_RASTER, 0);
+            vicii_set_irq(I_RASTER, 0);
         } else {
           vic_ii.irq_status &= ~0x04;
         }
-        if (vic_ii_resources.sprite_sprite_collisions_enabled) {
+        if (vicii_resources.sprite_sprite_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_sprite_collisions;
             vic_ii.sprite_sprite_collisions = 0;
             VIC_II_DEBUG_REGISTER(("Sprite-sprite collision mask: $%02X",
@@ -1247,11 +1247,11 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
            register is reset upon read accesses.  */
         if (!(vic_ii.irq_status & 0x5)) {
             vic_ii.irq_status &= ~0x82;
-            vic_ii_set_irq(I_RASTER, 0);
+            vicii_set_irq(I_RASTER, 0);
         } else {
             vic_ii.irq_status &= ~0x2;
         }
-        if (vic_ii_resources.sprite_background_collisions_enabled) {
+        if (vicii_resources.sprite_background_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_background_collisions;
             vic_ii.sprite_background_collisions = 0;
             VIC_II_DEBUG_REGISTER(("Sprite-background collision mask: $%02X",
@@ -1347,7 +1347,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
     return 0xff;  /* make compiler happy */
 }
 
-BYTE REGPARM1 vic_peek(ADDRESS addr)
+BYTE REGPARM1 vicii_peek(ADDRESS addr)
 {
     addr &= 0x3f;
 

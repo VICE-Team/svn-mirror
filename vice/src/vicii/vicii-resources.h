@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef _VIC_II_RESOURCES_H
-#define _VIC_II_RESOURCES_H
+#ifndef _VICII_RESOURCES_H
+#define _VICII_RESOURCES_H
 
 /* VIC-II resources.  */
-struct vic_ii_resources_s
+struct vicii_resources_s
 {
     /* Flag: New or old luminances? */
     int new_luminances;
@@ -41,11 +41,11 @@ struct vic_ii_resources_s
        IRQ?  */
     int sprite_background_collisions_enabled;
 };
-typedef struct vic_ii_resources_s vic_ii_resources_t;
+typedef struct vicii_resources_s vicii_resources_t;
 
-extern vic_ii_resources_t vic_ii_resources;
+extern vicii_resources_t vicii_resources;
 
-extern int vic_ii_resources_init(void);
+extern int vicii_resources_init(void);
 
 #endif
 
