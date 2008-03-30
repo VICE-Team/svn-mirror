@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "ted-draw.h"
@@ -51,9 +53,9 @@ static WORD mcmsktable[512];
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
-    vid_memset(ted.raster.draw_buffer_ptr + start_pixel,
-               ted.raster.overscan_background_color,
-               end_pixel - start_pixel + 1);
+    memset(ted.raster.draw_buffer_ptr + start_pixel,
+           ted.raster.overscan_background_color,
+           end_pixel - start_pixel + 1);
 }
 
 /* If unaligned 32-bit access is not allowed, the graphics is stored in a
@@ -81,9 +83,9 @@ static raster_cache_t *rcache;
 #define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)           \
    do {                                                      \
        name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
-       vid_memcpy(GFX_PTR() + (xs) * 8,                      \
-                  aligned_line_buffer + (xs) * 8,            \
-                  ((xe) - (xs) + 1) * 8);                    \
+       memcpy(GFX_PTR() + (xs) * 8,                          \
+              aligned_line_buffer + (xs) * 8,                \
+              ((xe) - (xs) + 1) * 8);                        \
    } while (0)
 #endif
 
@@ -827,7 +829,7 @@ static void draw_black(void)
     p = (ted.raster.draw_buffer_ptr
         + ted.screen_borderwidth + ted.raster.xsmooth);
 
-    vid_memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
+    memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
 
     /* FIXME: this is not exact! */
     memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
@@ -841,7 +843,7 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
     p = (ted.raster.draw_buffer_ptr
         + ted.screen_borderwidth + ted.raster.xsmooth);
 
-    vid_memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
+    memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
 
     memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, TED_SCREEN_TEXTCOLS);
@@ -855,7 +857,7 @@ static void draw_black_foreground(int start_char, int end_char)
         + (ted.screen_borderwidth + ted.raster.xsmooth +
         8 * start_char));
 
-    vid_memset(p, 0, (end_char - start_char + 1) * 8);
+    memset(p, 0, (end_char - start_char + 1) * 8);
 
     memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, TED_SCREEN_TEXTCOLS);
@@ -894,7 +896,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
 #endif
 
     if (TED_IS_ILLEGAL_MODE(ted.raster.video_mode))
-        vid_memset(p, 0, TED_SCREEN_XPIX);
+        memset(p, 0, TED_SCREEN_XPIX);
 	else {
         /* The foreground color is always black (0).  */
         unsigned int offs;
@@ -911,10 +913,10 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     }
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-    vid_memcpy(ted.raster.draw_buffer_ptr + (ted.screen_borderwidth
-               + ted.raster.xsmooth),
-               aligned_line_buffer + xs * 8,
-               (xe - xs + 1) * 8);
+    memcpy(ted.raster.draw_buffer_ptr + (ted.screen_borderwidth
+           + ted.raster.xsmooth),
+           aligned_line_buffer + xs * 8,
+           (xe - xs + 1) * 8);
 #endif
 
     memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, TED_SCREEN_TEXTCOLS);

@@ -32,6 +32,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "crtc-draw.h"
 #include "crtc.h"
@@ -91,9 +92,9 @@ static void init_drawing_tables(void)
 
 static void draw_standard_background (int start_pixel, int end_pixel)
 {
-    vid_memset(crtc.raster.draw_buffer_ptr + start_pixel,
-               0,
-               end_pixel - start_pixel + 1);
+    memset(crtc.raster.draw_buffer_ptr + start_pixel,
+           0,
+           end_pixel - start_pixel + 1);
 }
 
 /***************************************************************************/

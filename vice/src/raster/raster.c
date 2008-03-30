@@ -35,6 +35,7 @@
 #include "machine.h"
 #include "palette.h"
 #include "raster-cache.h"
+#include "raster-canvas.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
@@ -231,43 +232,12 @@ void raster_rebuild_tables(raster_t *raster)
         raster->refresh_tables();
 }
 
-void raster_update_canvas_all(raster_t *raster)
-{
-    raster_viewport_t *viewport;
-
-    if (console_mode || vsid_mode || !raster->draw_buffer)
-        return;
-
-    viewport = &raster->viewport;
-
-    if (!viewport->update_canvas)
-        return;
-
-    video_canvas_refresh(viewport->canvas,
-                         raster->draw_buffer,
-                         raster->draw_buffer_width,
-#ifdef __OS2__
-                         raster->draw_buffer_height,
-#endif
-                         viewport->pixel_size.width * (viewport->first_x 
-                         	+ raster->geometry.extra_offscreen_border_left),
-                         viewport->first_line * viewport->pixel_size.height,
-                         viewport->x_offset,
-                         viewport->y_offset,
-                         MIN(viewport->width,
-                             (raster->geometry.screen_size.width
-                             * viewport->pixel_size.width)),
-                         MIN(viewport->height,
-                             (raster->geometry.screen_size.height
-                              * viewport->pixel_size.height)));
-}
-
 inline static void draw_blank(raster_t *raster,
                               unsigned int start,
                               unsigned int end)
 {
-    vid_memset(raster->draw_buffer_ptr + start,
-               raster->border_color, end - start + 1);
+    memset(raster->draw_buffer_ptr + start,
+           raster->border_color, end - start + 1);
 }
 
 /* Draw the borders.  */
@@ -509,7 +479,7 @@ int raster_realize(raster_t *raster)
         if (realize_canvas(raster) < 0)
             return -1;
 
-    raster_update_canvas_all(raster);
+    raster_canvas_update_all(raster);
 
     rlist = (raster_list_t*)xmalloc(sizeof(raster_list_t));
     rlist->raster = raster;

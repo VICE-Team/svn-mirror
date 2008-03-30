@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "raster-cache.h"
 #include "raster-modes.h"
@@ -55,18 +56,18 @@ static DWORD hr_table_2x[16 * 16 * 2 * 16];
 static void draw_std_background(unsigned int start_pixel,
                                 unsigned int end_pixel)
 {
-    vid_memset(vdc.raster.draw_buffer_ptr + start_pixel,
-               vdc.raster.overscan_background_color,
-               end_pixel - start_pixel + 1);
+    memset(vdc.raster.draw_buffer_ptr + start_pixel,
+           vdc.raster.overscan_background_color,
+           end_pixel - start_pixel + 1);
 }
 
 #ifdef VDC_NEED_2X
 static void draw_std_background_2x(unsigned int start_pixel,
                                    unsigned int end_pixel)
 {
-    vid_memset(vdc.raster.draw_buffer_ptr + 2 * start_pixel,
-               vdc.raster.overscan_background_color,
-               2 * (end_pixel - start_pixel + 1));
+    memset(vdc.raster.draw_buffer_ptr + 2 * start_pixel,
+           vdc.raster.overscan_background_color,
+           2 * (end_pixel - start_pixel + 1));
 }
 #endif
 */
