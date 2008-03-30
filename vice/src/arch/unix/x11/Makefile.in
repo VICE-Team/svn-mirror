@@ -370,9 +370,9 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h ../../../../src/log.h \
 	../../../../src/machine.h ../../../../src/palette.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
-	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h \
-	videoarch.h ../../../../src/fullscreen.h \
-	../../../../src/raster/raster.h \
+	xaw/uiarch.h ../../../../src/uicolor.h ../../../../src/utils.h \
+	../../../../src/video.h videoarch.h \
+	../../../../src/fullscreen.h ../../../../src/raster/raster.h \
 	../../../../src/raster/raster-changes.h
 x11kbd.o: x11kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h \

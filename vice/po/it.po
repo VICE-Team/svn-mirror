@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-11-17 00:30+0100\n"
+"POT-Creation-Date: 2001-11-25 23:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -334,12 +334,12 @@ msgid "Load custom"
 msgstr "Personalizzata"
 
 #: src/arch/unix/c128ui.c:85 src/arch/unix/uicrtc.c:58
-#: src/arch/unix/uisettings.c:508 src/arch/unix/uisettings.c:532
+#: src/arch/unix/uisettings.c:508 src/arch/unix/uisettings.c:528
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
 #: src/arch/unix/c128ui.c:87 src/arch/unix/uicrtc.c:60
-#: src/arch/unix/uisettings.c:510 src/arch/unix/uisettings.c:534
+#: src/arch/unix/uisettings.c:510 src/arch/unix/uisettings.c:530
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
@@ -347,7 +347,7 @@ msgstr "*Scansione doppia"
 msgid "*64KB display memory"
 msgstr "*64KB di memoria video"
 
-#: src/arch/unix/c128ui.c:93 src/arch/unix/uivicii.c:74
+#: src/arch/unix/c128ui.c:93 src/arch/unix/uivicii.c:79
 #: src/arch/unix/vic20ui.c:423
 msgid "Color set"
 msgstr "Palette"
@@ -759,7 +759,7 @@ msgstr "Estensioni di I/O a $FDxx"
 msgid "Enter refresh rate"
 msgstr "Inserisci la velocità di aggiornamento"
 
-#: src/arch/unix/uisettings.c:120 src/arch/unix/uisettings.c:562
+#: src/arch/unix/uisettings.c:120 src/arch/unix/uisettings.c:558
 msgid "Refresh rate"
 msgstr "Velocità di aggiornamento"
 
@@ -888,61 +888,56 @@ msgstr "*Attivo"
 msgid "Resolutions"
 msgstr "Risoluzioni"
 
-#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:530
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:526
 msgid "*Video cache"
 msgstr "*Video cache"
 
-#: src/arch/unix/uisettings.c:537
-#, fuzzy
-msgid "*Fast PAL emulation"
-msgstr "*Usa l'emulazione reSID"
-
-#: src/arch/unix/uisettings.c:539
-#, fuzzy
-msgid "*PAL emulation"
-msgstr " emulatore"
-
-#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:542
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:532
 msgid "*Use XSync()"
 msgstr "*Usa XSync()"
 
-#: src/arch/unix/uisettings.c:548
+#: src/arch/unix/uisettings.c:538
 msgid "VIC-II Video settings"
 msgstr "Configurazione video del VIC-II"
 
-#: src/arch/unix/uisettings.c:554
+#: src/arch/unix/uisettings.c:544
 msgid "VIC Video settings"
 msgstr "Configurazione video del VIC"
 
-#: src/arch/unix/uisettings.c:564
+#: src/arch/unix/uisettings.c:550
+#, fuzzy
+msgid "TED Video settings"
+msgstr "Configurazione video del VIC"
+
+#: src/arch/unix/uisettings.c:560
 msgid "Maximum speed"
 msgstr "Velocità massima"
 
-#: src/arch/unix/uisettings.c:566
+#: src/arch/unix/uisettings.c:562
 msgid "*Enable warp mode"
 msgstr "*Attiva la modalità turbo"
 
-#: src/arch/unix/uisettings.c:581
+#: src/arch/unix/uisettings.c:577
 msgid "*Fullscreen settings"
 msgstr "*Configurazione a schermo intero"
 
-#: src/arch/unix/uisettings.c:589
+#: src/arch/unix/uisettings.c:585
 msgid "Keyboard settings"
 msgstr "Configurazione della tastiera"
 
-#: src/arch/unix/uisettings.c:595
+#: src/arch/unix/uisettings.c:591
 msgid "Save settings"
 msgstr "Salva la configurazione"
 
-#: src/arch/unix/uisettings.c:597
+#: src/arch/unix/uisettings.c:593
 msgid "Load settings"
 msgstr "Carica la configurazione"
 
-#: src/arch/unix/uisettings.c:599
+#: src/arch/unix/uisettings.c:595
 msgid "Restore default settings"
 msgstr "Ripristina la configurazione originaria"
 
-#: src/arch/unix/uisettings.c:601
+#: src/arch/unix/uisettings.c:597
 msgid "*Save settings on exit"
 msgstr "*Salva la configurazione in uscita"
 
@@ -968,18 +963,32 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:64 src/arch/unix/vic20ui.c:420
+#: src/arch/unix/uivicii.c:69 src/arch/unix/vic20ui.c:420
 #: src/arch/unix/vsidui.c:166
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/uivicii.c:68
+#: src/arch/unix/uivicii.c:72
 msgid "*Sprite-sprite collisions"
 msgstr "*Collisioni sprite-sprite"
 
-#: src/arch/unix/uivicii.c:70
+#: src/arch/unix/uivicii.c:74
 msgid "*Sprite-background collisions"
 msgstr "*Collisioni sprite-sfondo"
+
+#: src/arch/unix/uivicii.c:77
+msgid "*External color set"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:83
+#, fuzzy
+msgid "*Fast PAL emulation"
+msgstr "*Usa l'emulazione reSID"
+
+#: src/arch/unix/uivicii.c:85
+#, fuzzy
+msgid "*PAL emulation"
+msgstr " emulatore"
 
 #: src/arch/unix/uicrtc.c:37
 msgid "*Default (Green)"
@@ -1932,11 +1941,11 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "Scrittura di `%s' riuscita\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:128
+#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:129
 msgid "XCreateImage failed."
 msgstr "XCreateImage fallita."
 
-#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/xaw/uicolor.c:138
+#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/xaw/uicolor.c:139
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Non è possibile allocare il colore \"#%04X%04X%04X\"."
@@ -2140,42 +2149,42 @@ msgstr "Disattiva schermo intero"
 msgid "Specify X display depth (1..32)"
 msgstr "Specifica la profondita del display X (1..32)"
 
-#: src/arch/unix/x11/video.c:125
+#: src/arch/unix/x11/video.c:126
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Chiama `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/video.c:128
+#: src/arch/unix/x11/video.c:129
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Non chiamare `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/video.c:131
+#: src/arch/unix/x11/video.c:132
 msgid "Never use shared memory (slower)"
 msgstr "Non usare mai la memoria condivisa (più lento)"
 
-#: src/arch/unix/x11/video.c:359
+#: src/arch/unix/x11/video.c:360
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Solo %ibpp sono supportati da questo emulatore."
 
-#: src/arch/unix/x11/video.c:361
+#: src/arch/unix/x11/video.c:362
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "La profondita attuale dell'X server è %ibpp."
 
-#: src/arch/unix/x11/video.c:364
+#: src/arch/unix/x11/video.c:365
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Cambia la profondita dell'X server o ricompila con --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:399
+#: src/arch/unix/x11/video.c:400
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Le estensioni MITSHM non sono supportate su questo display."
 
-#: src/arch/unix/x11/video.c:403
+#: src/arch/unix/x11/video.c:404
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevate le estensioni MITSHM versione %d.%d."
 
-#: src/arch/unix/x11/video.c:453
+#: src/arch/unix/x11/video.c:454
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 
@@ -2228,11 +2237,11 @@ msgstr "Annulla"
 msgid "Save cartridge image"
 msgstr "Salva l'immagine della cartuccia"
 
-#: src/arch/unix/x11/xaw/uicolor.c:94
+#: src/arch/unix/x11/xaw/uicolor.c:95
 msgid "Automatically using a private colormap."
 msgstr "Utilizzo automatico di una palette privata."
 
-#: src/arch/unix/x11/xaw/uicolor.c:159
+#: src/arch/unix/x11/xaw/uicolor.c:160
 msgid "XFreeColors failed."
 msgstr "XFreeColors fallita."
 

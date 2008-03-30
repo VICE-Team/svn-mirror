@@ -1,8 +1,34 @@
+2001-11-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.31.
+
+	* color.c (color_alloc_new_colors): Fixed stupid bug.
+	(color_fill_pixel_return): Be a bit smarter.
+
+	* arch/unix/uisettings.c, arch/unix/uivicii.c: Move PAL
+	emulation settings to chip menu. Added external palette
+	support.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c,
+	arch/unix/x11/video.c, arch/unix/ui.h, uicolor.h: Renamed
+	`uicolor_set_palette()'.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h: Added TED
+	video menu.
+
+	* vdc/vdc-mem.c: Replaced `vic_ii_handle_pending_alarms' by
+	`machine_handle_pending_alarms'.
+
+	* vdc/Makefile.am: Removed `vicii' from include path.
+
+	* plus4/tedtypes.h, plus4/ted.c, plus4/ted-draw.c,
+	plus4/ted-draw.h, plus4/ted-mem.c
+
 2001-11-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.30.
 
-        * arch/os2/vac++/Makefile.am: Added `incl/c64cart.icc'.
+	* arch/os2/vac++/Makefile.am: Added `incl/c64cart.icc'.
 
 2001-11-23  Andreas Matthies  <andreas.matthies@gmx.net>
 

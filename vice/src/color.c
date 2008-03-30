@@ -271,6 +271,7 @@ static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
     }
 }
 
+#if 0
 static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                                     PIXEL pixel_return[],
                                     unsigned long *col_return)
@@ -303,6 +304,52 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
         src = src->next;
     }
 }
+#else
+static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
+                                    PIXEL pixel_return[],
+                                    unsigned long *col_return, void *c)
+{
+    unsigned int colnr, dest_colnr;
+    color_list_t *cdest;
+    owner_list_t *cowner;
+
+    colnr = 0;
+
+    while (src->next != NULL) {
+        cdest = dest;
+        dest_colnr = 0;
+
+        while (cdest->next != NULL) {
+
+            cowner = cdest->owner;
+            while (cowner->next != NULL) {
+                if (cowner->color_owner == c) {
+                    if (src->color_rgb_req.red == cdest->color_rgb_req.red
+                        && src->color_rgb_req.green == cdest->color_rgb_req.green
+                        && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
+
+                        pixel_return[colnr] = dest_colnr;
+                        uicolor_convert_color_table(dest_colnr, &(pixel_return[colnr]),
+                                                    &(cdest->pixel_data),
+                                                    cdest->color_rgb_req.dither,
+                                                    cdest->color_pixel);
+                        if (col_return != NULL)
+                            col_return[colnr] = cdest->color_pixel;
+                        colnr++;
+                        goto out;
+                    }
+
+                }
+                cowner = cowner->next;
+            }
+            cdest = cdest->next;
+            dest_colnr++;
+        }
+out:
+        src = src->next;
+    }
+}
+#endif
 
 /*-----------------------------------------------------------------------*/
 
@@ -347,10 +394,10 @@ static int color_alloc_new_colors(color_list_t *list)
                             &color_pixel,
                             &data) < 0) {
             while (list_start != list) {
-                uicolor_free_color(list->color_rgb_req.red,
-                                   list->color_rgb_req.green,
-                                   list->color_rgb_req.blue,
-                                   list->color_pixel);
+                uicolor_free_color(list_start->color_rgb_req.red,
+                                   list_start->color_rgb_req.green,
+                                   list_start->color_rgb_req.blue,
+                                   list_start->color_pixel);
                 list_start = list_start->next;
             }
             return -1;
@@ -419,7 +466,7 @@ int color_alloc_colors(void *c, const palette_t *palette,
     color_create_empty_entry(&color_alloced_owner);
     color_copy_list_with_owner(color_alloced_owner, color_alloced);
     color_fill_pixel_return(color_alloced_owner, color_new, pixel_return,
-                            col_return);
+                            col_return, c);
 
     /* Copy invalid colors (without owner) to new list.  */
     color_create_empty_entry(&color_without_owner);
