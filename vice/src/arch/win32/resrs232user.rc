@@ -82,10 +82,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "Impostazioni della RS232 su userport"
+    IDS_RS232USER_CAPTION       "Impostazioni RS232 su userport"
     IDS_RS232USER_ENABLE        "&Attiva la RS232 su userport"
     IDS_RS232USER_DEVICE        "Dispositivo su userport"
-    IDS_RS232USER_BAUD          "Velocità della userport (in baud)"
+    IDS_RS232USER_BAUD          "Velocità Userport"
 END
 
 

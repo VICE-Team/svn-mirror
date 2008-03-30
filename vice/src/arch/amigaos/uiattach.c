@@ -39,9 +39,38 @@
 #include "uiattach.h"
 #include "uilib.h"
 #include "uires.h"
+#include "mui/mui.h"
 
 #define SuspendFullscreenModeKeep(...) /* FIXME */
 #define ResumeFullscreenModeKeep(...) /* FIXME */
+
+#ifdef AMIGA_AROS
+void uiattach_aros(video_canvas_t *canvas, int unit)
+{
+  char *fname=NULL;
+  char select_txt[50];
+
+  if (unit==1)
+  {
+    fname=BrowseFile("Select file for tape","#?", canvas);
+    if (fname!=NULL)
+    {
+      if (tape_image_attach(1, fname) < 0)
+        ui_error(translate_text(IDMES_CANNOT_ATTACH_FILE));
+    }
+  }
+  else
+  {
+    sprintf(select_txt,"Select file for unit %d",unit);
+    fname=BrowseFile(select_txt, "#?", canvas);
+    if (fname!=NULL)
+    {
+      if (file_system_attach_disk(unit, fname) < 0)
+        ui_error(translate_text(IDMES_CANNOT_ATTACH_FILE));
+    }
+  }
+}
+#endif
 
 static void uiattach_disk_dialog(video_canvas_t *canvas, int idm)
 {

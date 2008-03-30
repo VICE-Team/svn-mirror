@@ -408,6 +408,15 @@ IDCLS_ENABLE_TFE
 
 /* c64/tfe.c */
 IDCLS_DISABLE_TFE
+
+/* c64/tfe.c */
+IDCLS_TFE_INTERFACE
+
+/* c64/tfe.c */
+IDCLS_ENABLE_TFE_AS_RRNET
+
+/* c64/tfe.c */
+IDCLS_DISABLE_TFE_AS_RRNET
 #endif   /* HAVE_TFE */
 
 /* c64/cart/c64cart.c */

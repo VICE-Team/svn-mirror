@@ -107,23 +107,23 @@ IDD_MMC64_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
+    AUTOCHECKBOX    "MMC64 &engedélyezése", IDC_MMC64_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
+    LTEXT           "BIOS változat",
                     IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
+    AUTOCHECKBOX    "BIOS &Flash jumper engedélyezése", IDC_MMC64_FLASHJUMPER,
                     7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Save BIOS when changed", IDC_MMC64_BIOS_SAVE,
+    AUTOCHECKBOX    "BIOS &mentése változás után", IDC_MMC64_BIOS_SAVE,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS File",
+    LTEXT           "&BIOS fájl",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
     PUSHBUTTON      "Tallózás...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
+    AUTOCHECKBOX    "MMC/SD képmás csak olvasható", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image File",
+    LTEXT           "MMC/SD &képmás fájl",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
     PUSHBUTTON      "Tallózás...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP

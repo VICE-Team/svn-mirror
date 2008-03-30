@@ -186,7 +186,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_THIS_MACHINE_NO_SID   "Questa macchina potrebbe non avere un SID"
   IDS_GENERAL               "Generale"
-  IDS_SID_SETTINGS          "Impostazioni del SID"
+  IDS_SID_SETTINGS          "Impostazioni SID"
   IDS_FAST                  "veloce"
   IDS_INTERPOLATING         "Interpolazione"
   IDS_RESAMPLING            "ricampionamento"

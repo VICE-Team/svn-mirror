@@ -95,7 +95,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RAMCART_CAPTION         "Impostazioni del RAMCART"
+    IDS_RAMCART_CAPTION         "Impostazioni RAMCART"
     IDS_RAMCART_ENABLE          "&Attiva RAMCART"
     IDS_RAMCART_READONLY        "&Accesso in sola lettura"
     IDS_RAMCART_SIZE            "Dimensione RAMCART"

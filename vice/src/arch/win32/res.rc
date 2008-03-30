@@ -1031,13 +1031,13 @@ END
 
 IDD_DATASETTE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del registratore"
+CAPTION "Impostazioni registratore"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Reset del registratore al reset della CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Velocità del motore durante la lettura",IDC_STATIC,5,25,160,60
-    LTEXT           "cycle(s) additional &delay each trigger",
+    LTEXT           "ciclo/i addizionali di ritardo per ogni trigger",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -1300,7 +1300,7 @@ END
 
 IDD_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni dei joystick"
+CAPTION "Impostazioni joystick"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Joystick nella porta #&1",IDC_STATIC,7,5,102,113
@@ -1310,7 +1310,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,12,61,93,8
-    LTEXT           "&Velocità del fuoco automatico (1..32)",IDC_STATIC,12,74,70,8
+    LTEXT           "&Velocità autofire (1..32)",IDC_STATIC,12,74,70,8
     EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1323,7 +1323,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,122,61,93,8
-    LTEXT           "&Velocità del fuoco automatico (1..32)",IDC_STATIC,122,74,70,8
+    LTEXT           "&Velocità autofire (1..32)",IDC_STATIC,122,74,70,8
     EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -2938,13 +2938,13 @@ BEGIN
     LTEXT           "Driver:",IDC_STATIC,9,2,120,8
     COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Bit di profondità:",IDC_STATIC,9,32,100,8
+    LTEXT           "Profondità:",IDC_STATIC,9,32,100,8
     COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "Risoluzione:",IDC_STATIC,9,47,100,8
     COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Velocità di aggiornamento:",IDC_STATIC,9,62,100,8
+    LTEXT           "Frequenza di aggiornamento:",IDC_STATIC,9,62,100,8
     COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Sincronizzazione VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
@@ -3298,7 +3298,7 @@ BEGIN
     COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
 
-    AUTOCHECKBOX    "Külsõ színkészlet:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+    AUTOCHECKBOX    "Külsõ paletta:", IDC_TOGGLE_VIDEO_EXTPALETTE,
                     12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN | CBS_AUTOHSCROLL |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
@@ -3641,7 +3641,7 @@ END
 
 IDD_RAM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle RAM"
+CAPTION "Impostazioni RAM"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Inizializzazione all'accensione",IDC_STATIC,5,5,160,180
@@ -3809,7 +3809,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Velocità personalizzata"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Inserire la velocità [%]", IDC_STATIC,5,7,80,8
+    LTEXT           "Inserisci velocità personalizzata [%]", IDC_STATIC,5,7,80,8
     EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
@@ -3999,7 +3999,7 @@ END
 
 IDD_PRINTER_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 285, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle stampanti"
+CAPTION "Impostazioni stampanti"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Usa la periferica IEC",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
@@ -4272,7 +4272,7 @@ END
 
 IDD_ROMSET_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 265, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle ROM"
+CAPTION "Impostazioni ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     AUTORADIOBUTTON "Archivio del ROM set",IDC_ROMSET_SELECT_ARCHIVE,
@@ -4298,7 +4298,7 @@ BEGIN
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
 #if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+    PUSHBUTTON      "Altro", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
 
@@ -4622,7 +4622,7 @@ END
 
 IDD_RS232_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni della RS232"
+CAPTION "Impostazioni RS232"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Dispositivo RS232 #1",IDC_STATIC, 9,8,60,8
@@ -5099,11 +5099,11 @@ IDD_SOUND_RECORD_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Sound Record Format",
+    LTEXT           "Tonaufnahmeformat",
                     IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
     COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File",
+    LTEXT           "&Tonaufnahme Datei",
                     IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
     PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
     EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
@@ -5614,8 +5614,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_DE       "Fehler beim Starten des Netplay Servers."
   IDS_ERROR_CONNECTING_CLIENT_DE     "Fehler beim Verbindungsaufbau zum Client."
 #endif
-  IDS_SOUND_RECORDING_STARTED_DE     "Sound Recording started..."
-  IDS_SOUND_RECORDING_STOPPED_DE     "Sound Recording stopped..."
+  IDS_SOUND_RECORDING_STARTED_DE     "Tonaufnahme gestartet..."
+  IDS_SOUND_RECORDING_STOPPED_DE     "Tonaufnahme gestoppt..."
 END
 
 STRINGTABLE
@@ -5861,7 +5861,7 @@ BEGIN
   IDS_INVALID_CARTRIDGE_HU           "Érvénytelen cartridge"
   IDS_BAD_CARTRIDGE_CONFIG_HU        "Rossz cartridge konfiguráció!"
   IDS_INVALID_CARTRIDGE_IMAGE_HU     "Érvénytelen cartridge képmás"
-  IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU    "Logging console output image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU    "Konzol kimenet naplózása"
   IDS_LOG_FILES_TYPE_HU              "VICE konzol napló fájlok (*.dbg)"
   IDS_CANNOT_WRITE_LOGFILE_S_HU      "Nem sikerült a(z) %s naplófájlba írni"
   IDS_LOAD_FLIP_LIST_FILE_HU         "Lemezlista betöltése"
@@ -5907,7 +5907,7 @@ BEGIN
   IDS_SAVE_SNAPSHOT_IMAGE_HU         "Pillanatkép fájl mentése"
   IDS_CANNOT_WRITE_SNAPSHOT_S_HU     "Nem sikerült a pillanatkép írása %s fájlba."
   IDS_LOAD_SNAPSHOT_IMAGE_HU         "Pillanatkép betöltése"
-  IDS_COULD_NOT_LOAD_PALETTE_HU      "Nem sikerült a színkészletet betölteni."
+  IDS_COULD_NOT_LOAD_PALETTE_HU      "Nem sikerült a palettát betölteni."
   IDS_LOAD_VICE_PALETTE_FILE_HU      "VICE paletta fájl betöltése"
   IDS_FULLSCREEN_HU                  "Teljes képernyõ"
   IDS_COLORS_HU                      "Színek"
@@ -5921,7 +5921,7 @@ BEGIN
   IDS_ATTACH_RAW_8KB_CART_IMAGE_HU   "Nyers 8KB-os cartridge képmás csatolása"
   IDS_ATTACH_RAW_16KB_CART_IMG_HU    "Nyers 16KB-os cartridge képmás csatolása"
   IDS_ATTACH_AR_CART_IMAGE_HU        "Action Replay cartridge képmás csatolása"
-  IDS_ATTACH_AR3_CART_IMAGE_HU       "Attach Action Replay III cartridge image"
+  IDS_ATTACH_AR3_CART_IMAGE_HU       "Action Replay III cartridge képmás csatolása"
   IDS_ATTACH_ATOMIC_P_CART_IMG_HU    "Atomic Power cartridge képmás csatolása"
   IDS_ATTACH_EPYX_FL_CART_IMG_HU     "Epyx gyorstöltõ cartridge képmás csatolása"
   IDS_ATTACH_IEEE488_CART_IMG_HU     "IEEE interfész cartridge képmás csatolása"
@@ -6038,7 +6038,7 @@ BEGIN
   IDS_CANNOT_SAVE_SETTINGS_IT        "Non è possibile salvare le impostazioni."
   IDS_CANNOT_LOAD_SETTINGS_IT        "Non è possibile caricare le impostazioni."
   IDS_DEFAULT_SETTINGS_RESTORED_IT   "Impostazioni originarie ripristinate."
-  IDS_CANNOT_ATTACH_FILE_IT          "Non è possibile seleziona il file specificato"
+  IDS_CANNOT_ATTACH_FILE_IT          "Non è possibile selezionare il file specificato"
   IDS_START_MONITOR_IT               "%s\012\012Avvia il monitor?"
   IDS_VICE_CPU_JAM_IT                "VICE CPU JAM"
   IDS_EXTEND_TO_40_TRACKS_IT         "Astendere l'immagine al formato di 40 tracce?"
@@ -6050,7 +6050,7 @@ BEGIN
   IDS_PAUSED_IT                      "pausa"
   IDS_RESUMED_IT                     "ripreso"
   IDS_REALLY_EXIT_IT                 "Uscire davvero?\012\012Tutti i dati presenti nella RAM emulata saranno persi."
-  IDS_CANNOT_AUTOSTART_FILE_IT       "Non è possibile far partire automaticamente il file specificato."
+  IDS_CANNOT_AUTOSTART_FILE_IT       "Non è possibile avviare automaticamente il file specificato."
   IDS_ATTACHED_TAPE_S_IT             "Cassetta %s selezionata"
   IDS_SETTINGS_SAVED_SUCCESS_IT      "Impostazioni salvate con successo."
   IDS_SETTINGS_LOADED_SUCCESS_IT     "Impostazioni caricate con successo."
@@ -6064,14 +6064,14 @@ BEGIN
   IDS_LOG_FILES_TYPE_IT              "File di log (*.dbg)"
   IDS_CANNOT_WRITE_LOGFILE_S_IT      "Non è possibile scrivere il file di log `%s'."
   IDS_LOAD_FLIP_LIST_FILE_IT         "Carica il file della fliplist"
-  IDS_CANNOT_READ_FLIP_LIST_IT       "Non è possibile leggere il file della fliplist"
+  IDS_CANNOT_READ_FLIP_LIST_IT       "Non è possibile caricare il file della flip list"
   IDS_SAVE_FLIP_LIST_FILE_IT         "Salva il file della fliplist"
   IDS_CANNOT_WRITE_FLIP_LIST_IT      "Non è possibile scrivere il file della flip list"
   IDS_SELECT_KEYMAP_FILE_IT          "Seleziona il file della mappa della tastiera"
   IDS_SAVE_KEYMAP_FILE_IT            "Salva il file della mappa della tastiera"
   IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Non è possibile scrivere il file della mappa della tastiera"
   IDS_MAPPING_IT                     "Mappatura"
-  IDS_KEYBOARD_SETTINGS_IT           "Impostazioni della tastiera"
+  IDS_KEYBOARD_SETTINGS_IT           "Impostazioni tastiera"
   IDS_ATTACH_IT                      "&Seleziona"
   IDS_PLEASE_ENTER_A_FILENAME_IT     "Specifica il nome del file."
   IDS_OVERWRITE_EXISTING_IMAGE_IT    "Sovrascrivo l'immagine esistente?"
@@ -6079,7 +6079,7 @@ BEGIN
   IDS_COMMAND_LINE_OPTIONS_IT        "Parametri della riga di comando"
   IDS_COMMAND_OPTIONS_AVAIL_IT       "Quali parametri della riga di comando sono disponibili?"
   IDS_NO_DRIVER_SELECT_SUPPORT_IT    "Nessun driver selezionato o driver selezionato non supportato"
-  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Non è possibile scrivere il file di snapshot `%s'."
+  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Non è possibile scrivere il file di screenshot `%s'."
   IDS_AUTOSTART_DISK_IMAGE_IT        "Avvia automaticamente l'immagine del disco"
   IDS_SELECT_FS_DIRECTORY_IT         "Seleziona la directory del file system"
   IDS_PRINTER_USERPORT_IT            "Stampante su userport"
@@ -6089,20 +6089,20 @@ BEGIN
   IDS_DRIVE_9_IT                     "Drive 9"
   IDS_DRIVE_10_IT                    "Drive 10"
   IDS_DRIVE_11_IT                    "Drive 11"
-  IDS_PERIPHERAL_SETTINGS_IT         "Impostazioni delle periferiche"
+  IDS_PERIPHERAL_SETTINGS_IT         "Impostazioni periferiche"
   IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Non è possibile scrivere il file di snapshot."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Non è possibile leggere l'immagine di snapshot"
+  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Non è possibile leggere l'immagine dello snapshot"
   IDS_LOAD_S_ROM_IMAGE_IT            "Carica immagine della ROM %s"
   IDS_SELECT_ROMSET_ARCHIVE_IT       "Seleziona l'archivio del ROM set"
-  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Non è possibile caricare l'archivio del ROM set!"
-  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Non è possibile salvare l'archivio del ROM set!"
-  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Non è possibile caricare il file del ROM set!"
-  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Non è possibile salvare il file del ROM set!"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Non è possibile caricare l'archivio del romset!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Non è possibile salvare l'archivio del romset!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Non è possibile caricare il file del romset!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Non è possibile salvare il file del romset!"
   IDS_SELECT_ROMSET_FILE_IT          "Seleziona il file del ROM set"
   IDS_ROMSET_IT                      "Romset"
   IDS_COMPUTER_IT                    "Computer"
   IDS_DRIVE_IT                       "Drive"
-  IDS_ROM_SETTINGS_IT                "Impostazioni delle ROM"
+  IDS_ROM_SETTINGS_IT                "Impostazioni ROM"
   IDS_SAVE_SNAPSHOT_IMAGE_IT         "Salva l'immagine dello snapshot"
   IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Non è possibile scrivere il file di snapshot `%s'."
   IDS_LOAD_SNAPSHOT_IMAGE_IT         "Carica immagine dello snapshot"
@@ -6130,9 +6130,9 @@ BEGIN
   IDS_ATTACH_SS5_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Super Snapshot 5"
   IDS_ATTACH_STB_CART_IMAGE_IT       "Seleziona l'immagine di una cartuccia Structured Basic"
   IDS_MODEL_IT                       "Modello"
-  IDS_DRIVE_SETTINGS_IT              "Impostazioni dei drive"
-  IDS_SELECT_START_SNAP_EVENT_IT     "Select start snapshot for event history"
-  IDS_SELECT_END_SNAP_EVENT_IT       "Select end snapshot for event history"
+  IDS_DRIVE_SETTINGS_IT              "Impostazioni drive"
+  IDS_SELECT_START_SNAP_EVENT_IT     "Seleziona lo snapshot iniziale per la cronologia degli eventi"
+  IDS_SELECT_END_SNAP_EVENT_IT       "Seleziona lo snapshot finale per la cronologia degli eventi"
 #ifdef UNSTABLE
   IDS_VERSION_S_UNSTABLE_IT          "Versione %s *INSTABILE*"
 #else
@@ -6173,14 +6173,14 @@ BEGIN
   IDS_FLEXIBLE_IT                    "Flessibile"
   IDS_ADJUSTING_IT                   "Adattabile"
   IDS_EXACT_IT                       "Esatta"
-  IDS_SOUND_DRIVER_DIRECTX_IT        "Driver sonoro: DirectX"
+  IDS_SOUND_DRIVER_DIRECTX_IT        "Driver audio: DirectX"
   IDS_SOUND_DRIVER_WMM_IT            "Driver sonoro: WMM"
   IDS_MEDIA_FILES_FILTER_IT          "File multimediali (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB_IT                    " kB"
   IDS_CONFIGURE_KEYSET_A_IT          "Configura Keyset A"
   IDS_CONFIGURE_KEYSET_B_IT          "Configura Keyset B"
   IDS_SAVE_MEDIA_IMAGE_IT            "Salva immagine multimediale"
-  IDS_S_AT_D_SPEED_IT                "%s at %d%% speed, %d fps%s"
+  IDS_S_AT_D_SPEED_IT                "velocità %s al %d%%, %d fps%s"
   IDS_TAPE_IT                        "Cassetta:"
   IDS_JOYSTICK_IT                    "Joystick:"
   IDS_RECORDING_IT                   "Registrazione\n%02d:%02d"
@@ -6197,9 +6197,9 @@ BEGIN
   IDS_USE_FIRST_CPU_SMP_IT           "Usa solo la prima CPU sui sistemi SMP"
   IDS_START_VICE_FULLSCREEN_MODE_IT  "Avvia VICE a tutto schermo"
 #ifdef SYS_SIGLIST_DECLARED
-  IDS_RECEIVED_SIGNAL_D_S_IT         "Si à verificato un errore non previsto. E' stato ricevuto il segnale %d (%s)."
+  IDS_RECEIVED_SIGNAL_D_S_IT         "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d (%s)."
 #else
-  IDS_RECEIVED_SIGNAL_D_IT           "Si à verificato un errore non previsto. E' stato ricevuto il segnale %d."
+  IDS_RECEIVED_SIGNAL_D_IT           "Si è verificato un errore imprevisto. E' stato ricevuto il segnale %d."
 #endif
 #ifdef HAVE_NETWORK
   IDS_IDLE_IT                        "Inattivo"
@@ -6207,8 +6207,8 @@ BEGIN
   IDS_CONNECTED_SERVER_IT            "Server connesso"
   IDS_CONNECTED_CLIENT_IT            "Client connesso"
   IDS_INVALID_PORT_NUMBER_IT         "Numero di porta non valido"
-  IDS_ERROR_STARTING_SERVER_IT       "Si à verificato un errore durante l'avvio del server."
-  IDS_ERROR_CONNECTING_CLIENT_IT     "Si à verificato un errore durante la connessione al client."
+  IDS_ERROR_STARTING_SERVER_IT       "Si è verificato un errore all'avvio del server."
+  IDS_ERROR_CONNECTING_CLIENT_IT     "Si è verificato un errore durante il collegamento col client."
 #endif
   IDS_SOUND_RECORDING_STARTED_IT     "Sound Recording started..."
   IDS_SOUND_RECORDING_STOPPED_IT     "Sound Recording stopped..."

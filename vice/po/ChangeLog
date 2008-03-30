@@ -1,3 +1,26 @@
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Removed the duplicate digimax.c from the list.
+
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po: Updated.
+
+2007-02-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.in.in: Fixed the intl2po program generation when
+	cross-compiling.
+
+2007-02-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated
+
+2007-02-12  pottendo  <pottendo@utanet.at>
+
+	* hu.po: Updated by Zoltan.
+
+	* de.po: Updated.
+
 2007-02-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added new digimax related files.

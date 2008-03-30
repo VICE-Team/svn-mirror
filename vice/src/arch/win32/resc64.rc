@@ -409,8 +409,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Aufnahme...", IDM_SOUND_RECORD_START
+        MENUITEM "Aufnahme Stop", IDM_SOUND_RECORD_STOP
         MENUITEM SEPARATOR
         MENUITEM "Netplay (experimentell)...", IDM_NETWORK_SETTINGS
     END
@@ -496,7 +496,7 @@ BEGIN
             MENUITEM "PLUS2&56K Einstellungen...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K Einstellungen...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 Einstellungen...",    IDM_MMC64_SETTINGS
-            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
+            MENUITEM "&Digimax Einstellungen...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 Einstellungen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet Einstellungen...", IDM_TFE_SETTINGS
@@ -854,7 +854,7 @@ BEGIN
             MENUITEM "Általános &8KB képmás...",       IDM_CART_ATTACH_8KB
             MENUITEM "Általános &16KB képmás...",      IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay képmás...",     IDM_CART_ATTACH_AR
-            MENUITEM "Action Replay &III image...", IDM_CART_ATTACH_AR3
+            MENUITEM "Action Replay &III képmás...", IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power képmás...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx gyorstöltõ képmás...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488 interfész képmás...", IDM_CART_ATTACH_IEEE488
@@ -1016,7 +1016,7 @@ BEGIN
             MENUITEM "PLUS&60K beállításai...",      IDM_PLUS60K_SETTINGS
             MENUITEM "PLUS2&56K beállításai...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K beállításai...",      IDM_C64_256K_SETTINGS
-            MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&MMC64 beállításai...",    IDM_MMC64_SETTINGS
             MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 beállításai...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
@@ -1038,7 +1038,7 @@ BEGIN
         MENUITEM "&Angol", IDM_LANG_EN
         MENUITEM "&Német", IDM_LANG_DE
         MENUITEM "&Francia", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Magyar", IDM_LANG_HU
         MENUITEM "&Olasz", IDM_LANG_IT
         MENUITEM "&Holland", IDM_LANG_NL
         MENUITEM "&Lengyel", IDM_LANG_PL
@@ -1088,7 +1088,7 @@ BEGIN
         BEGIN
             MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Seleziona la &prossima immagine\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona l'immagine successiva\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
@@ -1100,7 +1100,7 @@ BEGIN
         POPUP "Contro&llo del registratore"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Inizia",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Avvia",         IDM_DATASETTE_CONTROL_START
             MENUITEM "&Avanti",       IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Indietro",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
@@ -1159,7 +1159,7 @@ BEGIN
                 MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&Cronologia", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "Autoplay &Cronologia", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
@@ -1176,15 +1176,15 @@ BEGIN
         MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
         MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Inizia/termina la registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Inizia/termina la riproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Avvia/termina la &registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Avvia/termina la r&iproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Modalità di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Avvia con &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
@@ -1198,7 +1198,7 @@ BEGIN
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "&Velocità di aggiornamento"
+        POPUP "Frequenza di &aggiornamento"
         BEGIN
             MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -1243,7 +1243,7 @@ BEGIN
         MENUITEM "Riproduzione del &suono", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Attiva l'emulazione &hardware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "Attiva le periferiche &virtuali", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
         POPUP "Standard vide&o"
         BEGIN
@@ -1258,38 +1258,38 @@ BEGIN
     POPUP "I&mpostazioni"
     BEGIN
         MENUITEM "Impostazioni &video...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Impostazioni delle &periferiche...",IDM_DEVICEMANAGER
-        MENUITEM "Impostazioni dei &drive...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Impostazioni del r&egistratore...", IDM_DATASETTE_SETTINGS
-        MENUITEM "Impostazioni del VIC-II...",     IDM_VICII_SETTINGS
-        MENUITEM "Impostazioni dei &joystick...",  IDM_JOY_SETTINGS
-        MENUITEM "Impostazioni della &tastiera...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Impostazioni del s&uono...",     IDM_SOUND_SETTINGS
-        MENUITEM "Impostazioni del S&ID...",       IDM_SID_SETTINGS
-        MENUITEM "Impostazioni delle &ROM...",       IDM_ROM_SETTINGS
-        MENUITEM "Impostazioni delle RA&M...",       IDM_RAM_SETTINGS
-        MENUITEM "Impostazioni della RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Impostazioni della &cartuccia/IO"
+        MENUITEM "Impostazioni &periferiche...",IDM_DEVICEMANAGER
+        MENUITEM "Impostazioni &drive...",     IDM_DRIVE_SETTINGS
+        MENUITEM "Impostazioni r&egistratore...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Impostazioni VIC-II...",     IDM_VICII_SETTINGS
+        MENUITEM "Impostazioni &joystick...",  IDM_JOY_SETTINGS
+        MENUITEM "Impostazioni &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Impostazioni a&udio...",     IDM_SOUND_SETTINGS
+        MENUITEM "Impostazioni S&ID...",       IDM_SID_SETTINGS
+        MENUITEM "Impostazioni &ROM...",       IDM_ROM_SETTINGS
+        MENUITEM "Impostazioni RA&M...",       IDM_RAM_SETTINGS
+        MENUITEM "Impostazioni RS&232...",     IDM_RS232_SETTINGS
+        POPUP "Impostazioni &cartuccia/IO"
         BEGIN
-            MENUITEM "Impostazioni del &REU...",      IDM_REU_SETTINGS
-            MENUITEM "Impostazioni della &GEORAM...",      IDM_GEORAM_SETTINGS
-            MENUITEM "Impostazioni del &RAMCART...",      IDM_RAMCART_SETTINGS
-            MENUITEM "Impostazioni del PLUS&60K...",      IDM_PLUS60K_SETTINGS
-            MENUITEM "Impostazioni del PLUS2&56K...",      IDM_PLUS256K_SETTINGS
-            MENUITEM "Impostazioni del &256K...",      IDM_C64_256K_SETTINGS
+            MENUITEM "Impostazioni &REU...",      IDM_REU_SETTINGS
+            MENUITEM "Impostazioni &GEORAM...",      IDM_GEORAM_SETTINGS
+            MENUITEM "Impostazioni &RAMCART...",      IDM_RAMCART_SETTINGS
+            MENUITEM "Impostazioni PLUS&60K...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "Impostazioni PLUS2&56K...",      IDM_PLUS256K_SETTINGS
+            MENUITEM "Impostazioni &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
             MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
-            MENUITEM "Impostazioni dell'&IDE64...",    IDM_IDE64_SETTINGS
+            MENUITEM "Impostazioni &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
-            MENUITEM "Impostazioni dell'&Ethernet...", IDM_TFE_SETTINGS
+            MENUITEM "Impostazioni &Ethernet...", IDM_TFE_SETTINGS
 #endif
-            MENUITEM "Impostazioni dell'&ACIA...",     IDM_ACIA_SETTINGS
-            MENUITEM "Impostazioni della RS&232 su userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "Impostazioni &ACIA...",     IDM_ACIA_SETTINGS
+            MENUITEM "Impostazioni RS&232 su userport...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
         MENUITEM "&Carica le impostazioni salvate",   IDM_SETTINGS_LOAD
-        MENUITEM "Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
         MENUITEM "Salva le impostazioni in u&scita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "&Conferma all'uscita",       IDM_TOGGLE_CONFIRM_ON_EXIT
@@ -2193,7 +2193,7 @@ END
 
 IDD_C64ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle ROM"
+CAPTION "Impostazioni ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC,9,8,40,8
@@ -2478,7 +2478,7 @@ END
 
 IDD_C64DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle ROM"
+CAPTION "Impostazioni ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "1541",IDC_STATIC,9,8,40,8

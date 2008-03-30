@@ -8,7 +8,6 @@ src/sound.c
 src/event.c
 src/c64/c64export.c
 src/c64/c64io.c
-src/c64/digimax.c
 src/debug.c
 src/network.c
 

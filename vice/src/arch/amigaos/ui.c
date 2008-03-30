@@ -394,6 +394,44 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
   }
 
   switch (idm) {
+#ifdef AMIGA_AROS
+    case IDM_ATTACH_8:
+      uiattach_aros(canvas, 8);
+      break;
+    case IDM_ATTACH_9:
+      uiattach_aros(canvas, 9);
+      break;
+    case IDM_ATTACH_10:
+      uiattach_aros(canvas, 10);
+      break;
+    case IDM_ATTACH_11:
+      uiattach_aros(canvas, 11);
+      break;
+    case IDM_DETACH_8:
+      file_system_detach_disk(8);
+      break;
+    case IDM_DETACH_9:
+      file_system_detach_disk(9);
+      break;
+    case IDM_DETACH_10:
+      file_system_detach_disk(10);
+      break;
+    case IDM_DETACH_11:
+      file_system_detach_disk(11);
+      break;
+    case IDM_DETACH_ALL:
+      file_system_detach_disk(8);
+      file_system_detach_disk(9);
+      file_system_detach_disk(10);
+      file_system_detach_disk(11);
+      break;
+    case IDM_ATTACH_TAPE:
+      uiattach_aros(canvas, 1);
+      break;
+    case IDM_DETACH_TAPE:
+      tape_image_detach(1);
+      break;
+#else
     case IDM_ATTACH_8:
     case IDM_ATTACH_9:
     case IDM_ATTACH_10:
@@ -408,6 +446,7 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
     case IDM_AUTOSTART:
       uiattach_command(canvas, idm);
       break;
+#endif
     case IDM_RESET_HARD:
       machine_trigger_reset(MACHINE_RESET_MODE_HARD);
       break;

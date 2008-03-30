@@ -103,15 +103,15 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
 	if (l > vdc.regs[23]) data = 0x00;
 	else data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F];
 	if ((l == vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) data = 0xFF;
-	if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) data = 0x00; // underline byte also blinks!
+	if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) data = 0x00; /* underline byte also blinks! */
 	if (a & VDC_REVERSE_ATTR) data ^= 0xFF;
 	if (vdc.regs[24] & 0x40) data ^= 0xFF;
 
-	// on a 80x25 text screen (2000 characters) this is only true for 1 character.
+	/* on a 80x25 text screen (2000 characters) this is only true for 1 character. */
 	if (curpos == index) {
-		// invert anything at all?
+		/* invert anything at all? */
 		if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
-			// invert current byte of the character?
+			/* invert current byte of the character? */
 			if ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F))) data ^= 0xFF;
 		}
 	}

@@ -35,9 +35,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+    IDS_DIGIMAX_CAPTION             "Digimax Einstellungen"
+    IDS_DIGIMAX_ENABLE              "Digimax aktivi&eren"
+    IDS_DIGIMAX_BASE                "Digimax Basis Adresse"
 END
 
 // FRENCH text

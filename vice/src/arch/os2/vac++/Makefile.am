@@ -31,7 +31,9 @@ EXTRA_DIST = \
 	incl/gfxoutputdrv.icc \
 	incl/iec.icc \
 	incl/iecbus.icc \
+	incl/iecc64exp.icc \
 	incl/iecieee.icc \
+	incl/iecplus4exp.icc \
 	incl/ieee.icc \
 	incl/imagecontents.icc \
 	incl/kbd.icc \

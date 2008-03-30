@@ -170,7 +170,7 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_DRIVE_SETTINGS_DIALOG_C128_DE,    /* size */
 /* fr */  IDD_DRIVE_SETTINGS_DIALOG_C128_FR,    /* size */
 /* hu */  IDD_DRIVE_SETTINGS_DIALOG_C128_HU,    /* size */
-/* it */  IDD_DRIVE_SETTINGS_DIALOG_C128_IT,    /* fuzzy, size */
+/* it */  IDD_DRIVE_SETTINGS_DIALOG_C128_IT,    /* size */
 /* nl */  IDD_DRIVE_SETTINGS_DIALOG_C128_NL,
 /* pl */  IDD_DRIVE_SETTINGS_DIALOG_C128_PL,    /* fuzzy, size */
 /* sv */  IDD_DRIVE_SETTINGS_DIALOG_C128_SV},   /* size */
@@ -310,7 +310,7 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_CBMII_SETTINGS_MODEL_DIALOG_DE,    /* size */
 /* fr */  IDD_CBMII_SETTINGS_MODEL_DIALOG_FR,    /* size */
 /* hu */  IDD_CBMII_SETTINGS_MODEL_DIALOG_HU,    /* size */
-/* it */  IDD_CBMII_SETTINGS_MODEL_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_CBMII_SETTINGS_MODEL_DIALOG_IT,    /* size */
 /* nl */  IDD_CBMII_SETTINGS_MODEL_DIALOG_NL,
 /* pl */  IDD_CBMII_SETTINGS_MODEL_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_CBMII_SETTINGS_MODEL_DIALOG_SV},   /* size */
@@ -380,7 +380,7 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_PET_SETTINGS_MODEL_DIALOG_DE,    /* size */
 /* fr */  IDD_PET_SETTINGS_MODEL_DIALOG_FR,    /* size */
 /* hu */  IDD_PET_SETTINGS_MODEL_DIALOG_HU,    /* size */
-/* it */  IDD_PET_SETTINGS_MODEL_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_PET_SETTINGS_MODEL_DIALOG_IT,    /* size */
 /* nl */  IDD_PET_SETTINGS_MODEL_DIALOG_NL,
 /* pl */  IDD_PET_SETTINGS_MODEL_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_PET_SETTINGS_MODEL_DIALOG_SV},   /* size */
@@ -489,7 +489,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_MMC64_SETTINGS_DIALOG,
 /* de */  IDD_MMC64_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_MMC64_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */  IDD_MMC64_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* hu */  IDD_MMC64_SETTINGS_DIALOG_HU,    /* size */
 /* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* fuzzy, size */
 /* nl */  IDD_MMC64_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_MMC64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
@@ -550,7 +550,7 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_DATASETTE_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_DATASETTE_SETTINGS_DIALOG_FR,    /* size */
 /* hu */  IDD_DATASETTE_SETTINGS_DIALOG_HU,    /* size */
-/* it */  IDD_DATASETTE_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_DATASETTE_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_DATASETTE_SETTINGS_DIALOG_NL,
 /* pl */  IDD_DATASETTE_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_DATASETTE_SETTINGS_DIALOG_SV},   /* size */
@@ -759,7 +759,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_SIDCART_SETTINGS_DIALOG,
 /* de */  IDD_SIDCART_SETTINGS_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_SIDCART_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */  IDD_SIDCART_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* hu */  IDD_SIDCART_SETTINGS_DIALOG_HU,    /* size */
 /* it */  IDD_SIDCART_SETTINGS_DIALOG_IT,    /* fuzzy, size */
 /* nl */  IDD_SIDCART_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
@@ -1168,7 +1168,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_LOG_CONSOLE_OUTPUT_IMAGE,
 /* de */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_DE,
 /* fr */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_FR,
-/* hu */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU,    /* fuzzy */
+/* hu */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU,
 /* it */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT,
 /* nl */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_NL,
 /* pl */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_PL,    /* fuzzy */
@@ -1790,7 +1790,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_ATTACH_AR3_CART_IMAGE,
 /* de */  IDS_ATTACH_AR3_CART_IMAGE_DE,
 /* fr */  IDS_ATTACH_AR3_CART_IMAGE_FR,
-/* hu */  IDS_ATTACH_AR3_CART_IMAGE_HU,    /* fuzzy */
+/* hu */  IDS_ATTACH_AR3_CART_IMAGE_HU,
 /* it */  IDS_ATTACH_AR3_CART_IMAGE_IT,
 /* nl */  IDS_ATTACH_AR3_CART_IMAGE_NL,
 /* pl */  IDS_ATTACH_AR3_CART_IMAGE_PL,    /* fuzzy */
@@ -2031,7 +2031,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* de */  IDS_SELECT_START_SNAP_EVENT_DE,
 /* fr */  IDS_SELECT_START_SNAP_EVENT_FR,
 /* hu */  IDS_SELECT_START_SNAP_EVENT_HU,
-/* it */  IDS_SELECT_START_SNAP_EVENT_IT,    /* fuzzy */
+/* it */  IDS_SELECT_START_SNAP_EVENT_IT,
 /* nl */  IDS_SELECT_START_SNAP_EVENT_NL,
 /* pl */  IDS_SELECT_START_SNAP_EVENT_PL,    /* fuzzy */
 /* sv */  IDS_SELECT_START_SNAP_EVENT_SV},
@@ -2041,7 +2041,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* de */  IDS_SELECT_END_SNAP_EVENT_DE,
 /* fr */  IDS_SELECT_END_SNAP_EVENT_FR,
 /* hu */  IDS_SELECT_END_SNAP_EVENT_HU,
-/* it */  IDS_SELECT_END_SNAP_EVENT_IT,    /* fuzzy */
+/* it */  IDS_SELECT_END_SNAP_EVENT_IT,
 /* nl */  IDS_SELECT_END_SNAP_EVENT_NL,
 /* pl */  IDS_SELECT_END_SNAP_EVENT_PL,    /* fuzzy */
 /* sv */  IDS_SELECT_END_SNAP_EVENT_SV},
@@ -2523,7 +2523,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* de */  IDS_S_AT_D_SPEED_DE,
 /* fr */  IDS_S_AT_D_SPEED_FR,
 /* hu */  IDS_S_AT_D_SPEED_HU,
-/* it */  IDS_S_AT_D_SPEED_IT,    /* fuzzy */
+/* it */  IDS_S_AT_D_SPEED_IT,
 /* nl */  IDS_S_AT_D_SPEED_NL,
 /* pl */  IDS_S_AT_D_SPEED_PL,    /* fuzzy */
 /* sv */  IDS_S_AT_D_SPEED_SV},

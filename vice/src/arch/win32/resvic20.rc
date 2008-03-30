@@ -358,8 +358,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Aufnahme...", IDM_SOUND_RECORD_START
+        MENUITEM "Aufnahme Stop", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Optionen"
     BEGIN
@@ -441,7 +441,7 @@ BEGIN
         POPUP "&Erweiterungsmodul Einstellungen"
         BEGIN
             MENUITEM "RS&232 Userport Einstellungen...", IDM_RS232USER_SETTINGS
-            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&SID Modul Einstellungen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
@@ -902,7 +902,7 @@ BEGIN
         POPUP "&Cartridge/IO beállításai"
         BEGIN
             MENUITEM "RS&232 userport beállításai...", IDM_RS232USER_SETTINGS
-            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&SID kártya beállításai...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Jelenlegi beállítások &mentése", IDM_SETTINGS_SAVE
@@ -917,7 +917,7 @@ BEGIN
         MENUITEM "&Angol", IDM_LANG_EN
         MENUITEM "&Német", IDM_LANG_DE
         MENUITEM "&Francia", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Magyar", IDM_LANG_HU
         MENUITEM "&Olasz", IDM_LANG_IT
         MENUITEM "&Holland", IDM_LANG_NL
         MENUITEM "&Lengyel", IDM_LANG_PL
@@ -967,7 +967,7 @@ BEGIN
         BEGIN
             MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Seleziona la &prossima immagine\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona l'immagine successiva\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
@@ -979,7 +979,7 @@ BEGIN
         POPUP "Contro&llo del registratore"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Inizia",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Avvia",         IDM_DATASETTE_CONTROL_START
             MENUITEM "&Avanti",       IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Indietro",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
@@ -1018,7 +1018,7 @@ BEGIN
                 MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&Cronologia", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "Autoplay &Cronologia", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
@@ -1035,15 +1035,15 @@ BEGIN
         MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
         MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Inizia/termina la registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Inizia/termina la riproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Avvia/termina la &registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Avvia/termina la r&iproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Modalità di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Avvia con &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
@@ -1055,7 +1055,7 @@ BEGIN
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "&Velocità di aggiornamento"
+        POPUP "Frequenza di &aggiornamento"
         BEGIN
             MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
@@ -1106,7 +1106,7 @@ BEGIN
         MENUITEM "Riproduzione del &suono",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Attiva l'emulazione &hardware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "Attiva le periferiche &virtuali", IDM_TOGGLE_VIRTUAL_DEVICES
 	MENUITEM SEPARATOR
         POPUP "Standard vide&o"
         BEGIN
@@ -1120,25 +1120,25 @@ BEGIN
     POPUP "I&mpostazioni"
     BEGIN
         MENUITEM "Impostazioni &video...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Impostazioni del V&IC...",       IDM_VIC_SETTINGS
-        MENUITEM "Impostazioni delle &periferiche...",IDM_DEVICEMANAGER
-        MENUITEM "Impostazioni dei &drive...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Impostazioni del r&egistratore...", IDM_DATASETTE_SETTINGS
-        MENUITEM "Impostazioni dei &joystick...",  IDM_JOY_SETTINGS
-        MENUITEM "Impostazioni della &tastiera...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Impostazioni del s&uono...",     IDM_SOUND_SETTINGS
-        MENUITEM "Impostazioni delle &ROM...",       IDM_ROM_SETTINGS
-        MENUITEM "Impostazioni delle RA&M...",       IDM_RAM_SETTINGS
-        MENUITEM "Impostazioni della RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Impostazioni della &cartuccia/IO"
+        MENUITEM "Impostazioni V&IC...",       IDM_VIC_SETTINGS
+        MENUITEM "Impostazioni &periferiche...",IDM_DEVICEMANAGER
+        MENUITEM "Impostazioni &drive...",     IDM_DRIVE_SETTINGS
+        MENUITEM "Impostazioni r&egistratore...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Impostazioni &joystick...",  IDM_JOY_SETTINGS
+        MENUITEM "Impostazioni &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Impostazioni a&udio...",     IDM_SOUND_SETTINGS
+        MENUITEM "Impostazioni &ROM...",       IDM_ROM_SETTINGS
+        MENUITEM "Impostazioni RA&M...",       IDM_RAM_SETTINGS
+        MENUITEM "Impostazioni RS&232...",     IDM_RS232_SETTINGS
+        POPUP "Impostazioni &cartuccia/IO"
         BEGIN
-            MENUITEM "Impostazioni della RS&232 su userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "Impostazioni RS&232 su userport...", IDM_RS232USER_SETTINGS
             MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
         MENUITEM "&Carica le impostazioni salvate",   IDM_SETTINGS_LOAD
-        MENUITEM "Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
 	MENUITEM "Salva le impostazioni in u&scita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Conferma all'uscita",	   IDM_TOGGLE_CONFIRM_ON_EXIT
@@ -2710,7 +2710,7 @@ BEGIN
     IDS_VIC20ROM_BASIC          "Basic"
     IDS_VIC20ROM_CHARGEN        "Character"
     IDS_VIC20ROM_BROWSE         "&Sfoglia..."
-    IDS_VIC_CAPTION             "Impostazioni del VIC"
+    IDS_VIC_CAPTION             "Impostazioni VIC"
     IDS_VIC_MEMORY              "&Memoria"
     IDS_VIC_NOEXPANSION         "&nessuna espansione di memoria"
     IDS_VIC_3KEXPANSION         "3&K (blocco 0)"

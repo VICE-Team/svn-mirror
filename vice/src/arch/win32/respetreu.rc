@@ -89,10 +89,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "Impostazioni del PET REU"
+    IDS_PETREU_CAPTION             "Impostazioni PET REU"
     IDS_PETREU_ENABLE              "&Attiva PET REU"
     IDS_PETREU_SIZE                "Dimensione"
-    IDS_PETREU_FILE                "File del PET REU"
+    IDS_PETREU_FILE                "File PET REU"
     IDS_PETREU_SELECT_FILE         "Seleziona il file per il PET REU"
 END
 

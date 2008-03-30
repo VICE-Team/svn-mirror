@@ -112,7 +112,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "Impostazioni dell'IDE64"
+    IDS_IDE64_CAPTION           "Impostazioni IDE64"
     IDS_IDE64_IMAGE             "Nome dell'immagine dell'&HD"
     IDS_IDE64_GEOMETRY          "&Geometria"
     IDS_IDE64_AUTODETECT        "&Rileva automaticamente"

@@ -122,7 +122,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_IRQ              "IRQ"
   IDS_NMI              "NMI"
-  IDS_NORMAL           "Normal"
+  IDS_NORMAL           "Normale"
   IDS_SWIFTLINK        "Swiftlink"
   IDS_TURBO232         "Turbo232"
   IDS_ACIA_CAPTION     "Impostazioni ACIA"
@@ -130,7 +130,7 @@ BEGIN
   IDS_ACIA_DEVICE      "Dispositivo ACIA"
   IDS_ACIA_LOCATION    "Posizione dell'ACIA"
   IDS_ACIA_INTERRUPT   "Interrupt dell'ACIA"
-  IDS_ACIA_MODE        "ACIA mode"
+  IDS_ACIA_MODE        "Modalità ACIA"
 END
 
 

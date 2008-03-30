@@ -330,8 +330,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Aufnahme...", IDM_SOUND_RECORD_START
+        MENUITEM "Aufnahme Stop", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Optionen"
     BEGIN
@@ -405,7 +405,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA Einstellungen...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU Einstellungen...",      IDM_PETREU_SETTINGS
-            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&SID Modul Einstellungen...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
@@ -830,7 +830,7 @@ BEGIN
         BEGIN
             MENUITEM "&ACIA beállításai...",  IDM_ACIA_SETTINGS
             MENUITEM "PET &REU beállításai...",      IDM_PETREU_SETTINGS
-            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
+            MENUITEM "&SID kártya beállításai...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "Jelenlegi beállítások &mentése", IDM_SETTINGS_SAVE
@@ -845,7 +845,7 @@ BEGIN
         MENUITEM "&Angol", IDM_LANG_EN
         MENUITEM "&Német", IDM_LANG_DE
         MENUITEM "&Francia", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Magyar", IDM_LANG_HU
         MENUITEM "&Olasz", IDM_LANG_IT
         MENUITEM "&Holland", IDM_LANG_NL
         MENUITEM "&Lengyel", IDM_LANG_PL
@@ -895,7 +895,7 @@ BEGIN
         BEGIN
             MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Seleziona la &prossima immagine\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona l'immagine successiva\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
@@ -907,7 +907,7 @@ BEGIN
         POPUP "Contro&llo del registratore"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Inizia",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Avvia",         IDM_DATASETTE_CONTROL_START
             MENUITEM "&Avanti",       IDM_DATASETTE_CONTROL_FORWARD
             MENUITEM "&Indietro",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
@@ -936,7 +936,7 @@ BEGIN
                 MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&Cronologia", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "Autoplay &Cronologia", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
@@ -953,15 +953,15 @@ BEGIN
         MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
         MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Inizia/termina la registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Inizia/termina la riproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Avvia/termina la &registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Avvia/termina la r&iproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Modalità di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Avvia con &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
@@ -973,7 +973,7 @@ BEGIN
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "&Velocità di aggiornamento"
+        POPUP "Frequenza di &aggiornamento"
         BEGIN
             MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -1017,7 +1017,7 @@ BEGIN
         MENUITEM "Riproduzione del &suono", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Attiva l'emulazione &hardware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "Attiva le periferiche &virtuali", IDM_TOGGLE_VIRTUAL_DEVICES
         POPUP "Fattore di s&incronizzazione del drive"
         BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
@@ -1029,26 +1029,26 @@ BEGIN
     POPUP "I&mpostazioni"
     BEGIN
         MENUITEM "Impostazioni &video...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Impostazioni del P&ET...",       IDM_PET_SETTINGS
-        MENUITEM "Impostazioni delle &periferiche...",IDM_DEVICEMANAGER
-        MENUITEM "Impostazioni dei &drive...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Impostazioni del r&egistratore...", IDM_DATASETTE_SETTINGS
-        MENUITEM "Impostazioni dei &joystick...",  IDM_JOY_SETTINGS
-        MENUITEM "Impostazioni della &tastiera...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Impostazioni del s&uono...",     IDM_SOUND_SETTINGS
-        MENUITEM "Impostazioni delle &ROM...",       IDM_ROM_SETTINGS
-        MENUITEM "Impostazioni delle RA&M...",       IDM_RAM_SETTINGS
-        MENUITEM "Impostazioni della RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Impostazioni della &cartuccia/IO"
+        MENUITEM "Impostazioni P&ET...",       IDM_PET_SETTINGS
+        MENUITEM "Impostazioni &periferiche...",IDM_DEVICEMANAGER
+        MENUITEM "Impostazioni &drive...",     IDM_DRIVE_SETTINGS
+        MENUITEM "Impostazioni r&egistratore...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Impostazioni &joystick...",  IDM_JOY_SETTINGS
+        MENUITEM "Impostazioni &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Impostazioni a&udio...",     IDM_SOUND_SETTINGS
+        MENUITEM "Impostazioni &ROM...",       IDM_ROM_SETTINGS
+        MENUITEM "Impostazioni RA&M...",       IDM_RAM_SETTINGS
+        MENUITEM "Impostazioni RS&232...",     IDM_RS232_SETTINGS
+        POPUP "Impostazioni &cartuccia/IO"
         BEGIN
-            MENUITEM "Impostazioni dell'&ACIA...",  IDM_ACIA_SETTINGS
-            MENUITEM "Impostazioni del PET &REU...",      IDM_PETREU_SETTINGS
+            MENUITEM "Impostazioni &ACIA...",  IDM_ACIA_SETTINGS
+            MENUITEM "Impostazioni PET &REU...",      IDM_PETREU_SETTINGS
             MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
         MENUITEM "&Carica le impostazioni salvate",   IDM_SETTINGS_LOAD
-        MENUITEM "Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
 	MENUITEM "Salva le impostazioni in u&scita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Conferma all'uscita",	   IDM_TOGGLE_CONFIRM_ON_EXIT
@@ -1872,7 +1872,7 @@ END
 
 IDD_PETROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 150
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle ROM"
+CAPTION "Impostazioni ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC, 9,8,40,8
@@ -2141,7 +2141,7 @@ END
 
 IDD_PETDRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni delle ROM"
+CAPTION "Impostazioni ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "2031",IDC_STATIC,9,8,40,8
@@ -2846,7 +2846,7 @@ IDD_PET_SETTINGS_MODEL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Machine defaults",IDC_STATIC,5,15,70,201
+    GROUPBOX        "Impostazioni predefinite",IDC_STATIC,5,15,70,201
     PUSHBUTTON "PET 2001-8N",IDC_SELECT_PET_2001_8N,15,28,50,14, WS_GROUP
     PUSHBUTTON "PET 3008",   IDC_SELECT_PET_3008,   15,43,50,14, WS_GROUP
     PUSHBUTTON "PET 3016",   IDC_SELECT_PET_3016,   15,58,50,14, WS_GROUP
@@ -3304,7 +3304,7 @@ IDD_PET_SETTINGS_SUPER_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Impostazioni di &IO",IDC_STATIC,5,15,160,30
+    GROUPBOX        "Impostazioni &IO",IDC_STATIC,5,15,160,30
     AUTOCHECKBOX    "&Attiva I/O del SuperPET (disattiva 8x96)",
                             IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -3417,7 +3417,7 @@ IDD_PET_SETTINGS_8296_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Impostazioni della &RAM",IDC_STATIC,5,15,90,45
+    GROUPBOX        "Impostazioni &RAM",IDC_STATIC,5,15,90,45
     AUTOCHECKBOX "$&9*** come RAM",IDC_TOGGLE_PET_8296_RAM9,15,30,75,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX "$&A*** come RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
@@ -3814,7 +3814,7 @@ END
 STRINGTABLE
 BEGIN
   IDS_INPUT_OUTPUT_IT   "Input/Output"
-  IDS_PET_SETTINGS_IT   "Impostazioni del PET"
+  IDS_PET_SETTINGS_IT   "Impostazioni PET"
 END
 
 

@@ -85,7 +85,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VICII_CAPTION           "Impostazioni del VIC-II"
+    IDS_VICII_CAPTION           "Impostazioni VIC-II"
     IDS_VICII_SPRITEGROUP       "Collisioni sprite"
     IDS_VICII_SPRITECOLL        "Collisioni sprite-&sprite"
     IDS_VICII_BACKCOLL          "&Collisioni sprite-sfondo"

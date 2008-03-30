@@ -143,7 +143,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_CREATE_IMAGE,    "Cannot create image file!"},
 /* de */ {IDGS_CANNOT_CREATE_IMAGE_DE, "Kann Imagedatei nicht erzeugen!"},
 /* fr */ {IDGS_CANNOT_CREATE_IMAGE_FR, "Impossible de créer le fichier image!"},
-/* hu */ {IDGS_CANNOT_CREATE_IMAGE_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_CREATE_IMAGE_HU, "Nem sikerült a képmás fájlt létrehozni!"},
 /* it */ {IDGS_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare l'immagine!"},
 /* nl */ {IDGS_CANNOT_CREATE_IMAGE_NL, "Kan bestand niet maken!"},
 /* pl */ {IDGS_CANNOT_CREATE_IMAGE_PL, ""},  /* fuzzy */
@@ -504,7 +504,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    "Cannot create snapshot file. Select different history directory!"},
 /* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes Verzeichnis!"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_HU, "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"},
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non à possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
 /* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopname bestand niet maken. Selecteer een andere geschiedenis folder!"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL, ""},  /* fuzzy */
@@ -618,7 +618,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, "I/O Lese Kollision bei %X von "},
 /* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_IO_READ_COLL_AT_X_FROM_HU, "I/O olvasás ütközés %X-nél, hely: "},
-/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
+/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, "Collisione di I/O in lettura a %X da "},
 /* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
 /* pl */ {IDGS_IO_READ_COLL_AT_X_FROM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, "I/O-läskollision vid %X från "},
@@ -645,7 +645,7 @@ translate_t string_table[] = {
 
 /* c64/digimax.c */
 /* en */ {IDGS_DIGIMAX_NOT_WITH_RESID,    "Digimax cannot be used with ReSID\nPlease switch SID Engine to FastSID"},
-/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, "Digimax kann mit ReSID nicht benutzt werden\nBitte SID Engine auf FastSID setzen"},
 /* fr */ {IDGS_DIGIMAX_NOT_WITH_RESID_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DIGIMAX_NOT_WITH_RESID_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, ""},  /* fuzzy */
@@ -1298,7 +1298,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_MMC64,    "Enable the MMC64 expansion"},
 /* de */ {IDCLS_ENABLE_MMC64_DE, "MMC64 Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_MMC64_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_MMC64_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_MMC64_HU, "MMC64 bõvítés engedélyezése"},
 /* it */ {IDCLS_ENABLE_MMC64_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_MMC64_NL, "Aktiveer de MMC64 uitbreiding"},
 /* pl */ {IDCLS_ENABLE_MMC64_PL, ""},  /* fuzzy */
@@ -1308,7 +1308,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_MMC64,    "Disable the MMC64 expansion"},
 /* de */ {IDCLS_DISABLE_MMC64_DE, "MMC64 Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MMC64_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_MMC64_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_MMC64_HU, "MMC64 bõvítés tiltása"},
 /* it */ {IDCLS_DISABLE_MMC64_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_MMC64_NL, "De MMC64 uitbreiding afsluiten"},
 /* pl */ {IDCLS_DISABLE_MMC64_PL, ""},  /* fuzzy */
@@ -1318,7 +1318,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MMC64_BIOS_NAME,    "Specify name of MMC64 BIOS image"},
 /* de */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_DE, "Name für MMC64 BIOS Datei spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_HU, "Adja meg az MMC64 BIOS képmás nevét"},
 /* it */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_NL, "Geef de naam van het MMC64 BIOS bestand"},
 /* pl */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_PL, ""},  /* fuzzy */
@@ -1328,7 +1328,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME,    "Specify name of MMC64 image"},
 /* de */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DE, "Name der MMC64 Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_HU, "Adja meg az MMC64 képmás nevét"},
 /* it */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_NL, "Geef de naam van het MMC64 bestand"},
 /* pl */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_PL, ""},  /* fuzzy */
@@ -1338,7 +1338,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MMC64_READONLY,    "Set the MMC64 card to read-only"},
 /* de */ {IDCLS_MMC64_READONLY_DE, "MMC64 Karte Schreibschutz"},
 /* fr */ {IDCLS_MMC64_READONLY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_MMC64_READONLY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_READONLY_HU, "MMC64 kártya csak olvasható"},
 /* it */ {IDCLS_MMC64_READONLY_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_MMC64_READONLY_NL, "Zet de MMC64 card als alleen lezen"},
 /* pl */ {IDCLS_MMC64_READONLY_PL, ""},  /* fuzzy */
@@ -1348,7 +1348,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MMC64_READWRITE,    "Set the MMC64 card to read/write"},
 /* de */ {IDCLS_MMC64_READWRITE_DE, "MMC64 Karte Schreibzugriff"},
 /* fr */ {IDCLS_MMC64_READWRITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_MMC64_READWRITE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_READWRITE_HU, "MMC64 kártya írható/olvasható"},
 /* it */ {IDCLS_MMC64_READWRITE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_MMC64_READWRITE_NL, "Zet de MMC64 card als lezen/schrijven"},
 /* pl */ {IDCLS_MMC64_READWRITE_PL, ""},  /* fuzzy */
@@ -1358,7 +1358,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MMC64_BIOS_WRITE,    "Save the MMC64 bios when changed"},
 /* de */ {IDCLS_MMC64_BIOS_WRITE_DE, "MMC64 BIOS speichern bei Änderung"},
 /* fr */ {IDCLS_MMC64_BIOS_WRITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_MMC64_BIOS_WRITE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_MMC64_BIOS_WRITE_HU, "MMC64 BIOS mentése változás után"},
 /* it */ {IDCLS_MMC64_BIOS_WRITE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_MMC64_BIOS_WRITE_NL, "Sla de MMC64 buis op als er veranderingen zijn gemaakt"},
 /* pl */ {IDCLS_MMC64_BIOS_WRITE_PL, ""},  /* fuzzy */
@@ -1410,7 +1410,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
 /* hu */ {IDCLS_ENABLE_TFE_HU, "TFE (\"the final ethernet\") egység engedélyezése"},
-/* it */ {IDCLS_ENABLE_TFE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
 /* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"the final ethernet\")"},
@@ -1420,10 +1420,40 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
 /* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"the final ethernet\") egység tiltása"},
-/* it */ {IDCLS_DISABLE_TFE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"the final ethernet\")"},
+
+/* c64/tfe.c */
+/* en */ {IDCLS_TFE_INTERFACE,    "Set the system ethernet interface for TFE emulation"},
+/* de */ {IDCLS_TFE_INTERFACE_DE, "Ethernet Schnittstelle des Systems fÃ¼r die TFE Emulation"},
+/* fr */ {IDCLS_TFE_INTERFACE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_TFE_INTERFACE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_TFE_INTERFACE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TFE_INTERFACE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_TFE_INTERFACE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TFE_INTERFACE_SV, ""},  /* fuzzy */
+
+/* c64/tfe.c */
+/* en */ {IDCLS_ENABLE_TFE_AS_RRNET,    "Enable RRNet mode of TFE emulation"},
+/* de */ {IDCLS_ENABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation aktivieren"},
+/* fr */ {IDCLS_ENABLE_TFE_AS_RRNET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TFE_AS_RRNET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TFE_AS_RRNET_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TFE_AS_RRNET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_TFE_AS_RRNET_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TFE_AS_RRNET_SV, ""},  /* fuzzy */
+
+/* c64/tfe.c */
+/* en */ {IDCLS_DISABLE_TFE_AS_RRNET,    "Disable RRNet mode of TFE emulation"},
+/* de */ {IDCLS_DISABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation deaktivieren"},
+/* fr */ {IDCLS_DISABLE_TFE_AS_RRNET_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TFE_AS_RRNET_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TFE_AS_RRNET_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TFE_AS_RRNET_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_TFE_AS_RRNET_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TFE_AS_RRNET_SV, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
@@ -1480,7 +1510,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART,    "Attach raw 16KB Action Replay III cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16KB Action Replay Image III (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, "16KB-os Action Replay III cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, "Koppel binair 16KB Action Replay III cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_PL, ""},  /* fuzzy */
@@ -1932,7 +1962,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME,    "Specify name of UK business keyboard symbolic keymap file"},
 /* de */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard symbolic definieren"},
 /* fr */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique UK"},
-/* hu */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_HU, "Adja meg a UK hivatalos szimbolikus billentyûzet leképzési fájl nevét."},
+/* hu */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_HU, "Adja meg az angol, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera UK business"},
 /* nl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymap bestand voor het UK business toetsenbord"},
 /* pl */ {IDCLS_SPECIFY_BUK_SYM_KEYMAP_NAME_PL, ""},  /* fuzzy */
@@ -1943,7 +1973,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_DE, "Keymap Datei für UK business keyboard positional definieren"},
 /* fr */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel UK"},
 /* hu */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_HU, "Adja meg a UK hivatalos pozíció szerinti billentyûzet leképzési fájl nevét."},
-/* it */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera UK business"},
+/* it */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_IT, "Adja meg az angol, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
 /* nl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymap bestand voor het UK business toetsenbord"},
 /* pl */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_BUK_POS_KEYMAP_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering för brittiskt \"business\"-tangentbord"},
@@ -1952,7 +1982,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME,    "Specify name of German business keyboard symbolic keymap file"},
 /* de */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard symbolic definieren"},
 /* fr */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier symbolique allemand"},
-/* hu */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_HU, "Adja meg a német hivatalos szimbolikus billentyûzet leképzési fájl nevét."},
+/* hu */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_IT, "Specifica il nome del file della mappa simbolica della tastiera business tedesca"},
 /* nl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_NL, "Geef de naam van het symbolisch keymap bestand voor het Duitse business toetsenbord"},
 /* pl */ {IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME_PL, ""},  /* fuzzy */
@@ -1962,7 +1992,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME,    "Specify name of German business keyboard positional keymap file"},
 /* de */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_DE, "Keymap Datei für German business keyboard positional definieren"},
 /* fr */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_FR, "Spécifier le nom du fichier de mappage clavier positionnel allemand"},
-/* hu */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_HU, "Adja meg a német hivatalos pozíció szerinti billentyûzet leképzési fájl nevét."},
+/* hu */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_HU, "Adja meg a német, hivatalos, pozíció szerinti billentyûzet leképzési fájl nevét."},
 /* it */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_IT, "Specifica il nome del file della mappa posizionale della tastiera business tedesca"},
 /* nl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_NL, "Geef de naam van het positioneel keymap bestand voor het Duitse business toetsenbord"},
 /* pl */ {IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME_PL, ""},  /* fuzzy */
@@ -2195,7 +2225,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PAR_CABLE_C64EXP_TYPE,    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"},
 /* de */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DE, "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3)"},
 /* fr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_PAR_CABLE_C64EXP_TYPE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_PAR_CABLE_C64EXP_TYPE_HU, "Adja meg a párhuzamos kábel típusát (0: nincs, 1: standard, 2: Dolphin DOS 3)"},
 /* it */ {IDCLS_PAR_CABLE_C64EXP_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard, 2: Dolphin DOS 3)"},
 /* pl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_PL, ""},  /* fuzzy */
@@ -2205,7 +2235,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_PROFDOS,    "Enable Professional DOS"},
 /* de */ {IDCLS_ENABLE_PROFDOS_DE, "Professional DOS aktivieren"},
 /* fr */ {IDCLS_ENABLE_PROFDOS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_PROFDOS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_PROFDOS_HU, "Professional DOS engedélyezése"},
 /* it */ {IDCLS_ENABLE_PROFDOS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_PROFDOS_NL, "Aktiveer Professional DOS"},
 /* pl */ {IDCLS_ENABLE_PROFDOS_PL, ""},  /* fuzzy */
@@ -2215,7 +2245,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_PROFDOS,    "Disable Professional DOS"},
 /* de */ {IDCLS_DISABLE_PROFDOS_DE, "Professional DOS deaktivieren"},
 /* fr */ {IDCLS_DISABLE_PROFDOS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_PROFDOS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_PROFDOS_HU, "Professional DOS tiltása"},
 /* it */ {IDCLS_DISABLE_PROFDOS_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_PROFDOS_NL, "Professional DOS afsluiten"},
 /* pl */ {IDCLS_DISABLE_PROFDOS_PL, ""},  /* fuzzy */
@@ -2225,7 +2255,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,    "Specify name of Professional DOS 1571 ROM image"},
 /* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name von Professional DOS 1571 Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_HU, "Adja meg a Professional DOS 1571 ROM képmást"},
 /* it */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_NL, "Geef de naam van het Professional DOS 1571 ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_PL, ""},  /* fuzzy */
@@ -2235,7 +2265,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE,    "Set parallel cable type (0: none, 1: standard)"},
 /* de */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_DE, "Parallelkabel Typ (0: kein, 1: Standard)"},
 /* fr */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_HU, "Adja meg a párhuzamos kábel típusát (0: nincs, 1: standard)"},
 /* it */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard)"},
 /* pl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_PL, ""},  /* fuzzy */
@@ -3385,9 +3415,9 @@ translate_t string_table[] = {
 
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SIDCART,    "Enable SID Cartridge"},
-/* de */ {IDCLS_ENABLE_SIDCART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SIDCART_DE, "SID Modul aktivieren"},
 /* fr */ {IDCLS_ENABLE_SIDCART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_SIDCART_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SIDCART_HU, "SID cartridge engedélyezése"},
 /* it */ {IDCLS_ENABLE_SIDCART_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SIDCART_NL, "Aktiveer SID Cartridge"},
 /* pl */ {IDCLS_ENABLE_SIDCART_PL, ""},  /* fuzzy */
@@ -3759,7 +3789,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_USE_INTERNAL_CALC_PALETTE,    "Use an internal calculated palette"},
 /* de */ {IDCLS_USE_INTERNAL_CALC_PALETTE_DE, "Benutzse intern berechnete Palette"},
 /* fr */ {IDCLS_USE_INTERNAL_CALC_PALETTE_FR, "Utiliser une palette interne calculée"},
-/* hu */ {IDCLS_USE_INTERNAL_CALC_PALETTE_HU, "Belsõleg számított színkészlet használata"},
+/* hu */ {IDCLS_USE_INTERNAL_CALC_PALETTE_HU, "Belsõleg számított paletta használata"},
 /* it */ {IDCLS_USE_INTERNAL_CALC_PALETTE_IT, "Usa una palette interna calcolata"},
 /* nl */ {IDCLS_USE_INTERNAL_CALC_PALETTE_NL, "Gebruik een intern berekend kleuren palette"},
 /* pl */ {IDCLS_USE_INTERNAL_CALC_PALETTE_PL, ""},  /* fuzzy */
@@ -3769,7 +3799,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_USE_EXTERNAL_FILE_PALETTE,    "Use an external palette (file)"},
 /* de */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_DE, "Benutze externe Palette (Datei)"},
 /* fr */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_FR, "Utiliser une palette externe (fichier)"},
-/* hu */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_HU, "Külsõ színkészlet használata (fájl)"},
+/* hu */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_HU, "Külsõ paletta használata (fájl)"},
 /* it */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_IT, "Usa una palette esterna (file)"},
 /* nl */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_NL, "Gebruik een extern kleuren palette (bestand)"},
 /* pl */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_PL, ""},  /* fuzzy */
@@ -3779,7 +3809,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,    "Specify name of file of external palette"},
 /* de */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE, "Dateiname für externe Palette definieren"},
 /* fr */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_FR, "Spécifier le nom du fichier de la palette externe"},
-/* hu */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_HU, "Adja meg a külsõ színkészlet nevét"},
+/* hu */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_HU, "Adja meg a külsõ paletta nevét"},
 /* it */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_IT, "Specifica il nome del file della palette esterna"},
 /* nl */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_NL, "Geef de naam van het extern kleuren palette bestand"},
 /* pl */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_PL, ""},  /* fuzzy */
@@ -4627,7 +4657,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_ISO_LANGUAGE_CODE,    "<iso language code>"},
 /* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, "<iso Sprachcode>"},
 /* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, "<iso nyelv kód>"},
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taal code>"},
 /* pl */ {IDCLS_P_ISO_LANGUAGE_CODE_PL, ""},  /* fuzzy */
@@ -4637,7 +4667,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_ISO_LANG_CODE,    "Specify the iso code of the language"},
 /* de */ {IDCLS_SPECIFY_ISO_LANG_CODE_DE, "Iso Sprachcode spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_ISO_LANG_CODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_ISO_LANG_CODE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_ISO_LANG_CODE_HU, "Adja meg a nyelv iso kódját"},
 /* it */ {IDCLS_SPECIFY_ISO_LANG_CODE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_ISO_LANG_CODE_NL, "Geef de iso code van de taal"},
 /* pl */ {IDCLS_SPECIFY_ISO_LANG_CODE_PL, ""},  /* fuzzy */
@@ -4805,7 +4835,7 @@ translate_t string_table[] = {
 
 /* c64/digimax.c */
 /* en */ {IDCLS_ENABLE_DIGIMAX,    "Enable the digimax cartridge"},
-/* de */ {IDCLS_ENABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DIGIMAX_DE, "Digimax Cartridge aktivieren"},
 /* fr */ {IDCLS_ENABLE_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DIGIMAX_IT, ""},  /* fuzzy */
@@ -4815,7 +4845,7 @@ translate_t string_table[] = {
 
 /* c64/digimax.c */
 /* en */ {IDCLS_DISABLE_DIGIMAX,    "Disable the digimax cartridge"},
-/* de */ {IDCLS_DISABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DIGIMAX_DE, "Digimax Cartridge deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DIGIMAX_IT, ""},  /* fuzzy */
@@ -4825,7 +4855,7 @@ translate_t string_table[] = {
 
 /* c64/digimax.c */
 /* en */ {IDCLS_DIGIMAX_BASE,    "Base address of the digimax cartridge"},
-/* de */ {IDCLS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DIGIMAX_BASE_DE, "Basis Adresse für Digimax Erweiterung"},
 /* fr */ {IDCLS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DIGIMAX_BASE_IT, ""},  /* fuzzy */

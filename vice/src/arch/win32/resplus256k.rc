@@ -75,10 +75,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS256K_CAPTION             "Impostazioni del PLUS256K"
+    IDS_PLUS256K_CAPTION             "Impostazioni PLUS256K"
     IDS_PLUS256K_ENABLE              "&Attiva PLUS256K"
-    IDS_PLUS256K_FILE                "PLUS256K file"
-    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+    IDS_PLUS256K_FILE                "File PLUS256K"
+    IDS_PLUS256K_SELECT_FILE         "Seleziona file per PLUS256K"
 END
 
 
