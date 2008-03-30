@@ -32,10 +32,12 @@ list of all the changes in the code.
 ** Unix changes
 ---------------
 
-- The experimental netplay feature has been
-  extended to the Unix platforms for testing.
+- The experimental netplay feature has been extended to the Unix
+  platforms for testing.
 
 - Added IPV6 support to netplay.
+
+- Fixed crash if settings are saved.
 
 ** MS-Windows changes
 ---------------------
@@ -45,8 +47,8 @@ list of all the changes in the code.
 ** MS-DOS changes
 -----------------
 
-- The experimental netplay feature has been
-  extended to MS-DOS for testing.
+- The experimental netplay feature has been extended to MS-DOS for
+  testing.
 
 ** Miscellaneous changes
 ------------------------
