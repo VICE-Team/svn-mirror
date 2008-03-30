@@ -77,6 +77,7 @@ static CLOCK last_exc_cycles;
 
 static CLOCK cycle_accum;
 static BYTE *bank_base;
+static int bank_limit = -1;
 
 /* Drive CPU JAM handling.  */
 static void mydrive_jam(void);

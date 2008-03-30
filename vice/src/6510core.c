@@ -1098,8 +1098,8 @@
   do {                                          \
       UNDOC_WARNING();                          \
       CLK += (clk_inc);                         \
-      INC_PC(pc_inc);                           \
       STORE_ZERO((addr), reg_a & reg_x);        \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 #define SBC(value, clk_inc1, clk_inc2, pc_inc)                               \
@@ -1430,7 +1430,7 @@
 #  if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #    define opcode_t DWORD
-#    define FETCH_OPCODE(o) ((o) = (bank_base                              \
+#    define FETCH_OPCODE(o) ((o) = ((reg_pc < bank_limit)                   \
                                     ? (*((DWORD *)(bank_base + reg_pc))    \
                                        & 0xffffff)                         \
                                     : (LOAD(reg_pc)                        \
@@ -1452,7 +1452,7 @@
         }
 
 #    define FETCH_OPCODE(o)                                                  \
-          (bank_base ? ((o).ins = *(bank_base + reg_pc),                     \
+          ((reg_pc < bank_limit) ? ((o).ins = *(bank_base + reg_pc),         \
                         (o).op.op16 = (*(bank_base + reg_pc + 1)             \
                                        | (*(bank_base + reg_pc + 2) << 8)))  \
                      : ((o).ins = LOAD(reg_pc),                              \

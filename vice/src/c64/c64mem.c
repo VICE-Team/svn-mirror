@@ -342,12 +342,14 @@ static int rom_loaded = 0;
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
+int *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 #ifdef AVOID_STATIC_ARRAYS
 static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
 static read_func_ptr_t (*mem_read_tab)[0x101];
 static BYTE *(*mem_read_base_tab)[0x101];
+static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t *mem_write_tab_watch;
 static read_func_ptr_t *mem_read_tab_watch;
@@ -355,6 +357,7 @@ static read_func_ptr_t *mem_read_tab_watch;
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
+static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -451,6 +454,7 @@ static inline void pla_config_changed(void)
     }
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 }
 
 void mem_toggle_watchpoints(int flag)
@@ -795,6 +799,34 @@ void initialize_memory(void)
                              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
+
+    int limit_tab[5][32] = {
+    /* 0000-9fff */
+    { 0xfffd, 0xcffd, 0xcffd, 0x9ffd, 0xfffd, 0xcffd, 0xcffd, 0x9ffd,
+      0xfffd, 0xcffd, 0xcffd, 0x9ffd, 0xfffd, 0xcffd, 0xcffd, 0x9ffd,
+      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
+      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd },
+    /* a000-bfff */
+    { 0xfffd, 0xcffd, 0xcffd, 0xbffd, 0xfffd, 0xcffd, 0xcffd, 0xbffd,
+      0xfffd, 0xcffd, 0xcffd, 0xbffd, 0xfffd, 0xcffd, 0xcffd, 0xbffd,
+      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
+      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd },
+    /* c000-cfff */
+    { 0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd,
+      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd,
+      0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
+      0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd },
+    /* d000-dfff */
+    { 0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1,
+      0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1,
+          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+      0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1 },
+    /* e000-ffff */
+    { 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
+      0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
+      0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd,
+      0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd } };
+
 /*
     if (c64_mem_log == LOG_ERR)
         c64_mem_log = log_open("C64MEM");
@@ -809,9 +841,11 @@ void initialize_memory(void)
         set_write_hook(i, 0, store_zero);
         mem_read_tab[i][0] = read_zero;
         mem_read_base_tab[i][0] = ram;
+        mem_read_limit_tab[i][0] = 0xfffd;
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = read_ram;
             mem_read_base_tab[i][j] = ram + (j << 8);
+            mem_read_limit_tab[i][j] = 0xfffd;
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3fff) {
@@ -831,6 +865,7 @@ void initialize_memory(void)
         }
         mem_read_tab[i][0xff] = read_ram;
         mem_read_base_tab[i][0xff] = ram + 0xff00;
+        mem_read_limit_tab[i][0xff] = 0xfffd;
 
         /* FIXME: we do not care about vbank writes here, but we probably
            should.  Anyway, the $FFxx addresses are not so likely to contain
@@ -967,11 +1002,23 @@ void initialize_memory(void)
             mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
         }
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
+        mem_read_limit_tab[i][0x100] = 0;
+    }
+
+    for (i = 0; i < NUM_CONFIGS; i++) {
+        int mstart[5] = { 0x00, 0xa0, 0xc0, 0xd0, 0xe0 };
+        int mend[5]   = { 0x9f, 0xbf, 0xcf, 0xdf, 0xff };
+        for (j = 0; j < 5; j++) {
+            for (k = mstart[j]; k <= mend[j]; k++) {
+                mem_read_limit_tab[i][k] = limit_tab[j][i];
+            }
+        }
     }
 
     _mem_read_tab_ptr = mem_read_tab[7];
     _mem_write_tab_ptr = mem_write_tab[vbank][7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 
     pport.data = 0xff;
     pport.dir = 0x0;

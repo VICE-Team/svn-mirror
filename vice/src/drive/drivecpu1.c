@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/drivecpu1.c
- * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu1.def,
+ * ../../src/drive/drivecpu1.c
+ * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu1.def,
  * Do not edit!
  */
 /*
@@ -83,6 +83,7 @@ static CLOCK last_exc_cycles;
 
 static CLOCK cycle_accum;
 static BYTE *bank_base;
+static int bank_limit = -1;
 
 /* Drive CPU JAM handling.  */
 static void drive1_jam(void);
