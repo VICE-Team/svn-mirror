@@ -71,12 +71,6 @@
 #include "ui.h"
 
 
-/* Drive specific variables.  */
-drive_t drive[2];
-
-drive_context_t drive0_context;
-drive_context_t drive1_context;
-
 drive_context_t *drive_context[DRIVE_NUM];
 
 /* Generic drive logging goes here.  */
@@ -89,7 +83,7 @@ int rom_loaded = 0;
 
 static int drive_led_color[2];
 
-static void drive_extend_disk_image(unsigned int dnr);
+static void drive_extend_disk_image(drive_t *drive);
 
 /* ------------------------------------------------------------------------- */
 
@@ -143,8 +137,8 @@ CLOCK drive_clk[2];
    once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(void)
 {
-    int i;
     unsigned int dnr;
+    drive_t *drive;
 
     if (rom_loaded)
         return 0;
@@ -157,13 +151,14 @@ int drive_init(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         char *logname;
 
+        drive = drive_context[dnr]->drive;
         logname = lib_msprintf("Drive %i", dnr + 8);
-        drive[dnr].log = log_open(logname);
+        drive->log = log_open(logname);
         lib_free(logname);
 
         drive_clk[dnr] = 0L;
-        drive[dnr].clk = &drive_clk[dnr];
-        drive[dnr].mynumber = dnr;
+        drive->clk = &drive_clk[dnr];
+        drive->mynumber = dnr;
     }
 
     if (drive_rom_load_images() < 0) {
@@ -178,64 +173,69 @@ int drive_init(void)
     drive_overflow_init();
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive[dnr].drive_ram_expand2 = NULL;
-        drive[dnr].drive_ram_expand4 = NULL;
-        drive[dnr].drive_ram_expand6 = NULL;
-        drive[dnr].drive_ram_expand8 = NULL;
-        drive[dnr].drive_ram_expanda = NULL;
+        drive = drive_context[dnr]->drive;
+        drive->drive_ram_expand2 = NULL;
+        drive->drive_ram_expand4 = NULL;
+        drive->drive_ram_expand6 = NULL;
+        drive->drive_ram_expand8 = NULL;
+        drive->drive_ram_expanda = NULL;
 
         machine_drive_port_default(drive_context[dnr]);
-    }
 
-    if (drive_check_type(drive[0].type, 0) < 1)
-        resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
-    if (drive_check_type(drive[1].type, 1) < 1)
-        resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
+        if (drive_check_type(drive->type, dnr) < 1) {
+            char *resname;
 
-    machine_drive_rom_setup_image(0);
-    machine_drive_rom_setup_image(1);
+            resname = lib_msprintf("Drive%iType", dnr + 8);
+            resources_set_value(resname, (resource_value_t)DRIVE_TYPE_NONE);
+            lib_free(resname);
+        }
 
-    for (i = 0; i < 2; i++) {
-        drive[i].gcr = gcr_create_image();
-        drive[i].byte_ready_level = 1;
-        drive[i].byte_ready_edge = 1;
-        drive[i].GCR_dirty_track = 0;
-        drive[i].GCR_write_value = 0x55;
-        drive[i].GCR_track_start_ptr = drive[i].gcr->data;
-        drive[i].GCR_current_track_size = 0;
-        drive[i].attach_clk = (CLOCK)0;
-        drive[i].detach_clk = (CLOCK)0;
-        drive[i].attach_detach_clk = (CLOCK)0;
-        drive[i].have_new_disk = 0;
-        drive[i].old_led_status = 0;
-        drive[i].old_half_track = 0;
-        drive[i].side = 0;
-        drive[i].GCR_image_loaded = 0;
-        drive[i].read_only = 0;
-        drive[i].clock_frequency = 1;
-
-        rotation_reset(&drive[i]);
-        drive_image_init_track_size_d64(&drive[i]);
-
-        /* Position the R/W head on the directory track.  */
-        drive_set_half_track(36, &drive[i]);
-        drive_led_color[i] = DRIVE_ACTIVE_RED;
+        machine_drive_rom_setup_image(dnr);
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive_rom_initialize_traps(&drive[dnr]);
+        drive = drive_context[dnr]->drive;
+        drive->gcr = gcr_create_image();
+        drive->byte_ready_level = 1;
+        drive->byte_ready_edge = 1;
+        drive->GCR_dirty_track = 0;
+        drive->GCR_write_value = 0x55;
+        drive->GCR_track_start_ptr = drive->gcr->data;
+        drive->GCR_current_track_size = 0;
+        drive->attach_clk = (CLOCK)0;
+        drive->detach_clk = (CLOCK)0;
+        drive->attach_detach_clk = (CLOCK)0;
+        drive->have_new_disk = 0;
+        drive->old_led_status = 0;
+        drive->old_half_track = 0;
+        drive->side = 0;
+        drive->GCR_image_loaded = 0;
+        drive->read_only = 0;
+        drive->clock_frequency = 1;
 
-        drive_sync_clock_frequency(drive[dnr].type, &drive[dnr]);
+        rotation_reset(drive);
+        drive_image_init_track_size_d64(drive);
 
-        rotation_init((drive[dnr].clock_frequency == 2) ? 1 : 0, dnr);
+        /* Position the R/W head on the directory track.  */
+        drive_set_half_track(36, drive);
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+    }
 
-        drive_cpu_init(drive_context[dnr], drive[dnr].type);
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+        drive_rom_initialize_traps(drive);
+
+        drive_sync_clock_frequency(drive->type, drive);
+
+        rotation_init((drive->clock_frequency == 2) ? 1 : 0, dnr);
+
+        drive_cpu_init(drive_context[dnr], drive->type);
 
         /* Make sure the sync factor is acknowledged correctly.  */
         drive_sync_factor(drive_context[dnr]);
 
         /* Make sure the traps are moved as needed.  */
-        if (drive[dnr].enable)
+        if (drive->enable)
             drive_enable(drive_context[dnr]);
     }
 
@@ -248,7 +248,12 @@ void drive_shutdown(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_cpu_shutdown(drive_context[dnr]);
-        gcr_destroy_image(drive[dnr].gcr);
+        gcr_destroy_image(drive_context[dnr]->drive->gcr);
+    }
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        lib_free(drive_context[dnr]->drive);
+        lib_free(drive_context[dnr]);
     }
 }
 
@@ -289,14 +294,14 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
     if (machine_drive_rom_check_loaded(type) < 0)
         return -1;
 
-    if (drive[dnr].byte_ready_active == 0x06)
-        rotation_rotate_disk(&drive[dnr]);
+    if (drv->drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(drv->drive);
 
-    drive_sync_clock_frequency(type, &drive[dnr]);
+    drive_sync_clock_frequency(type, drv->drive);
 
     rotation_init(0, dnr);
-    drive[dnr].type = type;
-    drive[dnr].side = 0;
+    drv->drive->type = type;
+    drv->drive->side = 0;
     machine_drive_rom_setup_image(dnr);
     drive_sync_factor(drv);
     drive_set_active_led_color(type, dnr);
@@ -312,8 +317,10 @@ int drive_enable(drive_context_t *drv)
 {
     int i, drive_true_emulation = 0;
     unsigned int dnr;
+    drive_t *drive;
 
     dnr = drv->mynumber;
+    drive = drv->drive;
 
     /* This must come first, because this might be called before the drive
        initialization.  */
@@ -328,27 +335,29 @@ int drive_enable(drive_context_t *drv)
     else
         return 0;
 
-    if (drive[dnr].type == DRIVE_TYPE_NONE)
+    if (drive->type == DRIVE_TYPE_NONE)
         return 0;
 
     /* Recalculate drive geometry.  */
-    if (drive[dnr].image != NULL)
-        drive_image_attach(drive[dnr].image, dnr + 8);
+    if (drive->image != NULL)
+        drive_image_attach(drive->image, dnr + 8);
 
     drive_cpu_wake_up(drv);
 
     /* Make sure the UI is updated.  */
-    for (i = 0; i < 2; i++) {
-        if (drive[i].enable) {
-            drive[i].old_led_status = -1;
-            drive[i].old_half_track = -1;
+    for (i = 0; i < DRIVE_NUM; i++) {
+        if (drive_context[i]->drive->enable) {
+            drive_context[i]->drive->old_led_status = -1;
+            drive_context[i]->drive->old_half_track = -1;
         }
     }
 
-    drive_set_active_led_color(drive[dnr].type, dnr);
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | ((drive[1].enable
-                           || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+    drive_set_active_led_color(drive->type, dnr);
+    ui_enable_drive_status((drive_context[0]->drive->enable
+                           ? UI_DRIVE_ENABLE_0 : 0)
+                           | ((drive_context[1]->drive->enable
+                           || (drive_context[0]->drive->enable
+                           && DRIVE_IS_DUAL(drive_context[0]->drive->type))
                            ) ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
 
@@ -360,12 +369,14 @@ void drive_disable(drive_context_t *drv)
 {
     int i, drive_true_emulation = 0;
     unsigned int dnr;
+    drive_t *drive;
 
     dnr = drv->mynumber;
+    drive = drv->drive;
 
     /* This must come first, because this might be called before the true
        drive initialization.  */
-    drive[dnr].enable = 0;
+    drive->enable = 0;
     iec_calculate_callback_index();
 
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
@@ -377,25 +388,29 @@ void drive_disable(drive_context_t *drv)
         drive_cpu_sleep(drv);
         machine_drive_port_default(drv);
 
-        drive_gcr_data_writeback(drv->drive);
+        drive_gcr_data_writeback(drive);
     }
 
     /* Make sure the UI is updated.  */
-    for (i = 0; i < 2; i++) {
-        if (drive[i].enable) {
-            drive[i].old_led_status = -1;
-            drive[i].old_half_track = -1;
+    for (i = 0; i < DRIVE_NUM; i++) {
+        if (drive_context[i]->drive->enable) {
+            drive_context[i]->drive->old_led_status = -1;
+            drive_context[i]->drive->old_half_track = -1;
         }
     }
 
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | ((drive[1].enable
-                           || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+    ui_enable_drive_status((drive_context[0]->drive->enable
+                           ? UI_DRIVE_ENABLE_0 : 0)
+                           | ((drive_context[1]->drive->enable
+                           || (drive_context[0]->drive->enable
+                           && DRIVE_IS_DUAL(drive_context[0]->drive->type))
                            ) ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
 /*
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
+    ui_enable_drive_status((drive_context[0]->drive->enable
+                           ? UI_DRIVE_ENABLE_0 : 0)
+                           | (drive_context[1]->drive->enable
+                           ? UI_DRIVE_ENABLE_1 : 0),
                            drive_led_color);
 */
 }
@@ -491,36 +506,35 @@ inline BYTE drive_write_protect_sense(drive_t *dptr)
 
 /* Increment the head position by `step' half-tracks. Valid values
    for `step' are `+1' and `-1'.  */
-void drive_move_head(int step, unsigned int dnr)
+void drive_move_head(int step, drive_t *drive)
 {
-    drive_gcr_data_writeback(&drive[dnr]);
-    if (drive[dnr].type == DRIVE_TYPE_1571
-        || drive[dnr].type == DRIVE_TYPE_1571CR) {
-        if (drive[dnr].current_half_track + step == 71)
+    drive_gcr_data_writeback(drive);
+    if (drive->type == DRIVE_TYPE_1571
+        || drive->type == DRIVE_TYPE_1571CR) {
+        if (drive->current_half_track + step == 71)
             return;
     }
-    drive_set_half_track(drive[dnr].current_half_track + step, &drive[dnr]);
+    drive_set_half_track(drive->current_half_track + step, drive);
 }
 
 /* Hack... otherwise you get internal compiler errors when optimizing on
     gcc2.7.2 on RISC OS */
-static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int dnr,
-                                unsigned int track, unsigned int sector)
+static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int track,
+                                unsigned int sector, drive_t *drive)
 {
     int rc;
 
     gcr_convert_GCR_to_sector(buffer, offset,
-                              drive[dnr].GCR_track_start_ptr,
-                              drive[dnr].GCR_current_track_size);
+                              drive->GCR_track_start_ptr,
+                              drive->GCR_current_track_size);
     if (buffer[0] != 0x7) {
-        log_error(drive[dnr].log,
+        log_error(drive->log,
                   "Could not find data block id of T:%d S:%d.",
                   track, sector);
     } else {
-        rc = disk_image_write_sector(drive[dnr].image, buffer + 1, track,
-                                     sector);
+        rc = disk_image_write_sector(drive->image, buffer + 1, track, sector);
         if (rc < 0)
-            log_error(drive[dnr].log,
+            log_error(drive->log,
                       "Could not update T:%d S:%d.", track, sector);
     }
 }
@@ -573,7 +587,7 @@ void drive_gcr_data_writeback(drive_t *drive)
                         drive->ask_extend_disk_image = 0;
                         return;
                     } else {
-                        drive_extend_disk_image(drive->mynumber);
+                        drive_extend_disk_image(drive);
                     }
                 } else {
                     return;
@@ -581,7 +595,7 @@ void drive_gcr_data_writeback(drive_t *drive)
                 break;
               case DRIVE_EXTEND_ACCESS:
                 drive->ask_extend_disk_image = 1;
-                drive_extend_disk_image(drive->mynumber);
+                drive_extend_disk_image(drive);
                 break;
             }
         }
@@ -613,29 +627,28 @@ void drive_gcr_data_writeback(drive_t *drive)
                           "Could not find data sync of T:%d S:%d.",
                           track, sector);
             } else {
-                gcr_data_writeback2(buffer, offset, drive->mynumber, track,
-                                    sector);
+                gcr_data_writeback2(buffer, offset, track, sector, drive);
             }
         }
     }
 }
 
-static void drive_extend_disk_image(unsigned int dnr)
+static void drive_extend_disk_image(drive_t *drive)
 {
     int rc;
     unsigned int track, sector;
     BYTE buffer[256];
 
-    drive[dnr].image->tracks = EXT_TRACKS_1541;
+    drive->image->tracks = EXT_TRACKS_1541;
     memset(buffer, 0, 256);
     for (track = NUM_TRACKS_1541 + 1; track <= EXT_TRACKS_1541; track++) {
         for (sector = 0;
              sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
              sector++) {
-             rc = disk_image_write_sector(drive[dnr].image, buffer, track,
+             rc = disk_image_write_sector(drive->image, buffer, track,
                                           sector);
              if (rc < 0)
-                 log_error(drive[dnr].log,
+                 log_error(drive->log,
                            "Could not update T:%d S:%d.", track, sector);
         }
     }
@@ -662,14 +675,14 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
             /* A second dual drive is not supported.  */
             return 0;
         } else {
-            if (drive[1].type != DRIVE_TYPE_NONE)
+            if (drive_context[1]->drive->type != DRIVE_TYPE_NONE)
                 /* Disable dual drive if second drive is enabled.  */
                 return 0;
         }
     }
 
     /* If the first drive is dual no second drive is supported at all.  */
-    if (DRIVE_IS_DUAL(drive[0].type) && dnr > 0)
+    if (DRIVE_IS_DUAL(drive_context[0]->drive->type) && dnr > 0)
         return 0;
 
     if (machine_drive_rom_check_loaded(drive_type) < 0)
@@ -716,32 +729,37 @@ void drive_update_ui_status(void)
     }
 
     /* Update the LEDs and the track indicators.  */
-    for (i = 0; i < 2; i++) {
-        if (drive[i].enable
-            || ((i == 1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
+    for (i = 0; i < DRIVE_NUM; i++) {
+        drive_t *drive;
+
+        drive = drive_context[i]->drive;
+        if (drive->enable
+            || ((i == 1) && drive_context[0]->drive->enable
+            && DRIVE_IS_DUAL(drive_context[0]->drive->type))) {
             int my_led_status = 0;
 
             /* Actually update the LED status only if the `trap idle'
                idling method is being used, as the LED status could be
                incorrect otherwise.  */
 
-            if (drive[i].idling_method != DRIVE_IDLE_SKIP_CYCLES)
-                my_led_status = drive[i].led_status;
+            if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES)
+                my_led_status = drive->led_status;
 
-            if (my_led_status != drive[i].old_led_status) {
+            if (my_led_status != drive->old_led_status) {
                 ui_display_drive_led(i, my_led_status);
-                drive[i].old_led_status = my_led_status;
+                drive->old_led_status = my_led_status;
             }
 
-            if (drive[i].current_half_track != drive[i].old_half_track) {
-                drive[i].old_half_track = drive[i].current_half_track;
+            if (drive->current_half_track != drive->old_half_track) {
+                drive->old_half_track = drive->current_half_track;
 #ifdef __riscos
-                ui_display_drive_track_int(i, drive[i].current_half_track);
+                ui_display_drive_track_int(i, drive->current_half_track);
 #else
-                ui_display_drive_track(i, (i < 2 && drive[0].enable
-                                       && DRIVE_IS_DUAL(drive[0].type))
+                ui_display_drive_track(i, (i < 2
+                                       && drive_context[0]->drive->enable
+                                       && DRIVE_IS_DUAL(drive_context[0]->drive->type))
                                        ? 0 : 8,
-                                       ((float)drive[i].current_half_track
+                                       ((float)drive->current_half_track
                                        / 2.0));
 #endif
             }
@@ -757,8 +775,11 @@ void drive_vsync_hook(void)
     drive_update_ui_status();
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive[dnr].idling_method != DRIVE_IDLE_SKIP_CYCLES
-            && drive[dnr].enable)
+        drive_t *drive;
+
+        drive = drive_context[dnr]->drive;
+        if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES
+            && drive->enable)
             drivecpu_execute(drive_context[dnr], maincpu_clk);
     }
 
@@ -769,25 +790,22 @@ void drive_vsync_hook(void)
 
 int drive_num_leds(unsigned int dnr)
 {
-    if (DRIVE_IS_OLDTYPE(drive[dnr].type)) {
+    if (DRIVE_IS_OLDTYPE(drive_context[dnr]->drive->type)) {
         return 2;
     }
 
-    if ((dnr == 1) && DRIVE_IS_DUAL(drive[0].type)) {
+    if ((dnr == 1) && DRIVE_IS_DUAL(drive_context[0]->drive->type)) {
         return 2;
     }
 
     return 1;
 }
 
-
 static void drive_setup_context_for_drive(drive_context_t *drv,
                                           unsigned int dnr)
 {
-    /*static drive_t drive[2];*/
-
     drv->mynumber = dnr;
-    drv->drive = &drive[dnr];
+    drv->drive = lib_calloc(1, sizeof(drive_t));
     drv->clk_ptr = &drive_clk[dnr];
 
     drive_cpu_setup_context(drv);
@@ -798,11 +816,10 @@ void drive_setup_context(void)
 {
     unsigned int dnr;
 
-    drive_context[0] = &drive0_context;
-    drive_context[1] = &drive1_context;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive_context[dnr] = lib_calloc(1, sizeof(drive_context_t));
         drive_setup_context_for_drive(drive_context[dnr], dnr);
+    }
 }
 
 struct drive_s *drive_get_drive(unsigned int dnr)
