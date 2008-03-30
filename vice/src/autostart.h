@@ -36,6 +36,7 @@
 
 extern int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
                           int _blnsw, int _pnt, int _pntr, int _lnmx);
+extern void autostart_shutdown(void);
 
 extern int autostart_autodetect(const char *file_name,
                                 const char *program_name,
@@ -55,5 +56,5 @@ extern void autostart_reset(void);
 
 extern int autostart_ignore_reset;
 
-#endif /* !_AUTOSTART_H */
+#endif
 

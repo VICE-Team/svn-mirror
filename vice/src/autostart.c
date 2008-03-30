@@ -37,9 +37,9 @@
 #include "archdep.h"
 #include "autostart.h"
 #include "attach.h"
-#include "charset.h"
 #include "datasette.h"
 #include "drive.h"
+#include "fileio.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
 #include "interrupt.h"
@@ -49,7 +49,6 @@
 #include "machine-bus.h"
 #include "machine.h"
 #include "mem.h"
-#include "p00.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -59,6 +58,7 @@
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "zfile.h"
+
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -605,30 +605,15 @@ int autostart_disk(const char *file_name, const char *program_name,
    directory becomes the current one on unit #8.  */
 int autostart_prg(const char *file_name, unsigned int runmode)
 {
-    FILE *f;
-    BYTE *cbm_name;
-    char p00_header_file_name[20]; /* FIXME */
-    int p00_type;
     char *directory;
     char *file;
+    fileio_info_t *info;
 
-    f = fopen(file_name, MODE_READ);
-    if (f == NULL) {
+    info = fileio_info(file_name);
+
+    if (info == NULL) {
         log_error(autostart_log, "Cannot open `%s'.", file_name);
         return -1;
-    }
-
-    p00_type = p00_check_name(file_name);
-    if (p00_type >= 0) {
-        if (p00_type == FT_PRG &&
-            p00_read_header(f, (BYTE *)p00_header_file_name, NULL)) {
-            p00_type = -1;
-        } else {
-            if (p00_type != FT_PRG) {
-                fclose(f);
-                return -1;
-            }
-        }
     }
 
     /* Extract the directory path to allow FS-based drive emulation to
@@ -645,15 +630,6 @@ int autostart_prg(const char *file_name, unsigned int runmode)
            instead.  */
     }
 
-    /* Prepare the CBM file name.  */
-    if (p00_type != FT_PRG) {
-        /* Then it must be a raw file.  */
-        cbm_name = (BYTE *)lib_stralloc(file);
-        charset_petconvstring(cbm_name, 0);
-    } else {
-        cbm_name = (BYTE *)lib_stralloc(p00_header_file_name);
-    }
-
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
     set_true_drive_emulation_mode(0);
@@ -663,12 +639,11 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
-    reboot_for_autostart((char *)cbm_name, AUTOSTART_HASDISK, runmode);
+    reboot_for_autostart((char *)(info->name), AUTOSTART_HASDISK, runmode);
 
     lib_free(directory);
     lib_free(file);
-    lib_free(cbm_name);
-    fclose(f);
+    fileio_destroy(info);
 
     log_message(autostart_log, "Preparing to load PRG file `%s'.",
                 file_name);
@@ -753,5 +728,10 @@ void autostart_reset(void)
         log_message(autostart_log, "Turned off.");
     }
     autostart_ignore_reset = 0;
+}
+
+void autostart_shutdown(void)
+{
+    deallocate_program_name();
 }
 
