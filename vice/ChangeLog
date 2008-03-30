@@ -1,5 +1,11 @@
 2003-12-04  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.13.37.
+
+	* configure.in: Added fileio library.
+
+2003-12-04  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.13.36.
 
 	* configure.in: Do not check for windows headers separately.
