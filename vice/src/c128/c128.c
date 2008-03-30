@@ -94,6 +94,8 @@
 #endif
 
 
+machine_context_t machine_context;
+
 #define NUM_KEYBOARD_MAPPINGS 2
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -390,6 +392,8 @@ static void c128_monitor_init(void)
 
 void machine_setup_context(void)
 {
+    cia1_setup_context(&machine_context);
+    cia2_setup_context(&machine_context);
 }
 
 /* C128-specific initialization.  */
@@ -443,8 +447,8 @@ int machine_init(void)
         return -1;
 
     ciat_init_table();
-    cia1_init();
-    cia2_init();
+    cia1_init(&(machine_context.cia1));
+    cia2_init(&(machine_context.cia2));
 
     tpi_init();
 
@@ -500,8 +504,8 @@ void machine_specific_reset(void)
 {
     serial_reset();
 
-    cia1_reset();
-    cia2_reset();
+    cia1_reset(&(machine_context.cia1));
+    cia2_reset(&(machine_context.cia2));
     sid_reset();
     tpi_reset();
 
