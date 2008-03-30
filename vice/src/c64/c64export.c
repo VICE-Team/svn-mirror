@@ -38,25 +38,25 @@ static const char *usage_io1, *usage_io2, *usage_roml, *usage_romh;
 int c64export_query(const c64export_resource_t *export_res)
 {
     if (export_res->use_io1 > 0) {
-        if (usage_io1 != NULL) {
+        if (usage_io1 != NULL && strcmp(usage_io1, export_res->name)!=0) {
             ui_error("Resource IO1 blocked by %s.", usage_io1);
             return -1;
         }
     }
     if (export_res->use_io2 > 0) {
-        if (usage_io2 != NULL) {
+        if (usage_io2 != NULL && strcmp(usage_io2, export_res->name)!=0) {
             ui_error("Resource IO2 blocked by %s.", usage_io2);
             return -1;
         }
     }
     if (export_res->use_roml > 0) {
-        if (usage_roml != NULL) {
+        if (usage_roml != NULL && strcmp(usage_roml, export_res->name)!=0) {
             ui_error("Resource ROML blocked by %s.", usage_roml);
            return -1;
         }
     }
     if (export_res->use_romh > 0) {
-        if (usage_romh != NULL) {
+        if (usage_romh != NULL && strcmp(usage_romh, export_res->name)!=0) {
             ui_error("Resource ROMH blocked by %s.", usage_romh);
             return -1;
         }

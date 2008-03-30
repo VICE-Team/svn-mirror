@@ -430,7 +430,17 @@ static void datasette_read_bit(CLOCK offset, void *data)
     alarm_unset(datasette_alarm);
     datasette_alarm_pending = 0;
 
-    if ((current_image == NULL) || !datasette_motor)
+    if (current_image == NULL)
+        return;
+
+    /* check for delay of motor stop */
+    if (motor_stop_clk > 0 && maincpu_clk > motor_stop_clk) {
+        motor_stop_clk = 0;
+        ui_display_tape_motor_status(0);
+        datasette_motor = 0;
+    }
+
+    if (!datasette_motor)
         return;
 
     switch (current_image->mode) {
@@ -621,7 +631,7 @@ static void datasette_start_motor(void)
     fseek(current_image->fd, current_image->current_file_seek_position
           + current_image->offset, SEEK_SET);
     if (!datasette_alarm_pending) {
-        alarm_set(datasette_alarm, maincpu_clk + 1000);
+        alarm_set(datasette_alarm, maincpu_clk + MOTOR_DELAY);
         datasette_alarm_pending = 1;
     }
 }
@@ -709,18 +719,20 @@ void datasette_control(int command)
 void datasette_set_motor(int flag)
 {
     if (current_image != NULL) {
-        if (flag && !datasette_motor) {
-            last_write_clk = (CLOCK)0;
-            datasette_start_motor();
+        if (flag) {
+            /* abort pending motor stop */
+            motor_stop_clk = 0;
+            if (!datasette_motor) {
+                last_write_clk = (CLOCK)0;
+                datasette_start_motor();
+                ui_display_tape_motor_status(flag);
+                datasette_motor = 1;
+            }
         }
-        if (!flag && datasette_motor) {
-            alarm_unset(datasette_alarm);
-            datasette_alarm_pending = 0;
+        if (!flag && datasette_motor && motor_stop_clk == 0) {
             motor_stop_clk = maincpu_clk + MOTOR_DELAY;
         }
-        ui_display_tape_motor_status(flag);
     }
-    datasette_motor = flag;
 }
 
 inline static void bit_write(void)
