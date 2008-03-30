@@ -191,7 +191,7 @@ char *tui_image_browser(const char *filename,
                          current_number - first_number,
                          current, 0);
 
-        if (key == K_Escape) {
+        if (key == K_Escape || key == K_Left) {
             tui_area_put(backing_store, x, y);
             tui_area_free(backing_store);
             image_contents_destroy(contents);
@@ -210,6 +210,7 @@ char *tui_image_browser(const char *filename,
 
                 /* Return autostarts the selected file.  */
               case K_Return:
+              case K_Right:
                 {
                     char *retval;
 
@@ -293,4 +294,5 @@ char *tui_image_browser(const char *filename,
             }
         }
     }
-} 
+}
+
