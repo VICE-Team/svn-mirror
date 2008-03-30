@@ -28,8 +28,6 @@
  *
  */
 
-/* FIXME: Remove MS-DOS specific cruft.  */
-
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -50,18 +48,6 @@
 #include <ctype.h>
 #include <assert.h>
 #include <errno.h>
-#endif
-
-#ifdef __MSDOS__
-#include <conio.h>
-#include <fcntl.h>
-#include <io.h>
-#include "log.h"
-#include "video.h"
-#endif
-
-#ifdef WIN32
-#include <windows.h>
 #endif
 
 #include "archdep.h"
@@ -2886,30 +2872,9 @@ static void handle_abort(int signo)
 
 void mon(ADDRESS a)
 {
-   char prompt[40];
+    char prompt[40];
 
-#ifdef __MSDOS__
-    int old_input_mode, old_output_mode;
-
-    enable_text();
-    clrscr();
-    _set_screen_lines(43);
-    _setcursortype(_SOLIDCURSOR);
-
-    old_input_mode = setmode(STDIN_FILENO, O_TEXT);
-    old_output_mode = setmode(STDOUT_FILENO, O_TEXT);
-
-    mon_output = fopen("CON", "wt");
-    mon_input = fopen("CON", "rt");
-    setbuf(mon_output, NULL);    /* No buffering */
-#elif defined WIN32
-    AllocConsole();
-    mon_output = fopen("CON", "wt");
-    mon_input = fopen("CON", "rt");
-#else
-    mon_output = stdout;
-    mon_input = stdin;
-#endif
+    archdep_open_monitor_console(&mon_input, &mon_output);
 
     old_handler = signal(SIGINT, handle_abort);
 #ifdef __riscos
@@ -2957,7 +2922,8 @@ void mon(ADDRESS a)
             if (myinput) {
                 if (recording) {
                     if (fprintf(recording_fp, "%s\n", myinput) != 1) {
-                       fprintf(mon_output,"Error while recording commands. Output file closed.\n");
+                       fprintf(mon_output,
+                               "Error while recording commands. Output file closed.\n");
                        fclose(recording_fp);
                        recording_fp = NULL;
                        recording = FALSE;
@@ -2988,16 +2954,6 @@ void mon(ADDRESS a)
 #endif
     signal(SIGINT, old_handler);
 
-#ifdef __MSDOS__
-    setmode(STDIN_FILENO, old_input_mode);
-    setmode(STDIN_FILENO, old_output_mode);
-
-    disable_text();
-
-    fclose(mon_input);
-    fclose(mon_output);
-#endif
-#ifdef WIN32
-    FreeConsole();
-#endif
+    archdep_close_monitor_console(mon_input, mon_output);
 }
+

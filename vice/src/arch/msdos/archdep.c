@@ -44,6 +44,7 @@
 
 #include "log.h"
 #include "utils.h"
+#include "video.h"
 
 static char *orig_workdir;
 static char *argv0;
@@ -283,5 +284,33 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         *return_path = stralloc(orig_name);
     }
     return 0;
+}
+
+static int old_input_mode, old_output_mode;
+
+void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
+{
+    enable_text();
+    clrscr();
+    _set_screen_lines(43);
+    _setcursortype(_SOLIDCURSOR);
+
+    old_input_mode = setmode(STDIN_FILENO, O_TEXT);
+    old_output_mode = setmode(STDOUT_FILENO, O_TEXT);
+
+    *mon_output = fopen("CON", "wt");
+    *mon_input = fopen("CON", "rt");
+    setbuf(*mon_output, NULL);    /* No buffering */
+}
+
+void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
+{
+    setmode(STDIN_FILENO, old_input_mode);
+    setmode(STDIN_FILENO, old_output_mode);
+
+    disable_text();
+
+    fclose(mon_input);
+    fclose(mon_output);
 }
 

@@ -37,6 +37,7 @@
 #include <signal.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <windows.h>
 
 #include "archdep.h"
 #include "findpath.h"
@@ -269,5 +270,17 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     /*  Win32 version   */
     *return_path = stralloc(orig_name);
     return 0;
+}
+
+void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
+{
+    AllocConsole();
+    *mon_output = fopen("CON", "wt");
+    *mon_input = fopen("CON", "rt");
+}
+
+void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
+{
+    FreeConsole();
 }
 
