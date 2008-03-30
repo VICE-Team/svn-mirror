@@ -432,10 +432,12 @@ void uidrivec64vic20_settings_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
+        psp[i].pszTemplate
+            = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
+        psp[i].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
