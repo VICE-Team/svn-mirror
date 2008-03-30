@@ -148,19 +148,19 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         switch (value & 0x60) {
           case 0x00:
           vdc.cursor_visible = 1;
-          vdc.cursor_freqency = 0;
+          vdc.cursor_frequency = 0;
           break;
           case 0x20:
           vdc.cursor_visible = 0;
-          vdc.cursor_freqency = 0;
+          vdc.cursor_frequency = 0;
           break;
           case 0x40:
           vdc.cursor_visible = 1;
-          vdc.cursor_freqency = 16;
+          vdc.cursor_frequency = 16;
           break;
           case 0x60:
           vdc.cursor_visible = 1;
-          vdc.cursor_freqency = 32;
+          vdc.cursor_frequency = 32;
           break;
         }
         break;
@@ -201,8 +201,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 25:
         /*log_message(vdc.log, "Color source: %s.",
                     (vdc.regs[25] & 0x40) ? "attribute space" : "register 26");
-        log_message(vdc.log, "Display mode: %s.",
-                    (vdc.regs[25] & 0x80) ? "graphic" : "text");*/
+        */
         vdc.raster.video_mode = (vdc.regs[25] & 0x80) 
                                 ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
         break;
