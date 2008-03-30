@@ -45,6 +45,12 @@ if [ ! -d $BUILD_DIR ]; then
 	exit 1
 fi
 
+# make tools dir
+TOOL_DIR=$BUILD_DIR/tools
+if [ ! -d $TOOL_DIR ]; then
+	mkdir $TOOL_DIR
+fi
+
 # define bundles and command line tools
 BUNDLES="x64 x128 xcbm2 xpet xplus4 xvic"
 TOOLS="c1541 petcat cartconv"
@@ -63,7 +69,7 @@ DOC_REMOVE="Makefile* texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
 
 # --- create each bundle ---
 for bundle in $BUNDLES ; do
-  echo -n "  bundling $bundle.app: "	
+  echo -n "  bundling app $bundle.app: "	
   
   APP_NAME=$BUILD_DIR/${bundle}.app
   APP_CONTENTS=$APP_NAME/Contents
@@ -107,7 +113,8 @@ for bundle in $BUNDLES ; do
 	TERMINAL=$APP_MACOS/$bundle.xterm
 	echo '#!/bin/bash' > $TERMINAL
 	echo 'RUNPATH=`dirname $0`' >> $TERMINAL
-	echo "exec /usr/X11R6/bin/xterm -title \"VICE ${bundle} Console\" -e \$RUNPATH/${bundle}.bin" >> $TERMINAL
+	echo 'export PATH=$RUNPATH:/usr/X11R6/bin:$PATH' >> $TERMINAL
+	echo "exec /usr/X11R6/bin/xterm -sb -title \"VICE ${bundle} Console\" -e \$RUNPATH/${bundle}.bin" >> $TERMINAL
 	chmod 755 $TERMINAL
 
 	# copy binary
@@ -148,13 +155,27 @@ for bundle in $BUNDLES ; do
   cp -r $TOP_DIR/doc/html/* $APP_DOCS/
 	(cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
   
+	# embed c1541
+	echo -n "[c1541] "
+	if [ ! -e src/c1541 ]; then
+		echo "ERROR: missing binary: src/c1541"
+		exit 1
+	fi
+	cp src/c1541 $APP_MACOS/
+
+	# strip embedded c1541 binary
+	if [ x"$STRIP" = "xstrip" ]; then
+		echo -n "[strip c1541] "
+		/usr/bin/strip $APP_MACOS/c1541
+	fi
+
   # ready
   echo
 done
 
 # --- copy tools ---
 for tool in $TOOLS ; do
-	echo -n "  copying  $tool: "
+	echo -n "  copying tool $tool: "
 
 	# copy binary
 	echo -n "[binary] "
@@ -162,12 +183,12 @@ for tool in $TOOLS ; do
 		echo "ERROR: missing binary: src/$bundle"
 		exit 1
 	fi
-	cp src/$tool $BUILD_DIR/
+	cp src/$tool $TOOL_DIR/
 	
 	# strip binary
 	if [ x"$STRIP" = "xstrip" ]; then
 		echo -n "[strip] "
-		/usr/bin/strip $BUILD_DIR/$tool
+		/usr/bin/strip $TOOL_DIR/$tool
 	fi
 
 	# ready
@@ -176,8 +197,8 @@ done
 
 # --- copy docs ---
 echo "  copying documents"
-cp $TOP_DIR/FEEDBACK $BUILD_DIR/
-cp $TOP_DIR/README $BUILD_DIR/
+cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
+cp $TOP_DIR/README $BUILD_DIR/README.txt
 cp -r $TOP_DIR/doc $BUILD_DIR/
 find $BUILD_DIR/doc -name "Makefile*" -exec rm {} \;
 (cd $BUILD_DIR/doc && eval "rm -f $DOC_REMOVE")
@@ -200,7 +221,11 @@ else
 	hdiutil convert $BUILD_TMP_IMG -format UDZO -o $BUILD_IMG -ov -quiet
 	rm -f $BUILD_TMP_IMG
 
+	# Zip image to compress it even more
+	echo "  gzipping DMG"
+	gzip -9 -f $BUILD_IMG
+
 	echo "ready. created dist file: $BUILD_IMG"
-	du -sh $BUILD_IMG
-	md5 -q $BUILD_IMG
+	du -sh $BUILD_IMG.gz
+	md5 -q $BUILD_IMG.gz
 fi

@@ -88,7 +88,8 @@ void ui_about(gpointer data)
 	"Andrea Musuruane - Italian\n"
 	"Paul Dube - French\n"
 	"Marco van den Heuvel - Dutch\n"
-	"Flooder - Polish\n");
+	"Flooder - Polish\n"
+	"Karai Csaba - Hungarian\n");
     if (!about)
     {
 	/* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
