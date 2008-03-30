@@ -6259,6 +6259,9 @@ void z80_mainloop(interrupt_cpu_status_t *cpu_int_status,
             CALL(0x38, 3, 3, 5, 1);
             break;
         }
+
+        cpu_int_status->num_dma_per_opcode = 0;
+
     } while (!dma_request);
 
     export_registers();
