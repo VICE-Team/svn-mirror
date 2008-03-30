@@ -43,8 +43,14 @@ int datasette_motor = 0;
 
 static alarm_t datasette_alarm;
 
+static cnt = 0;
+
 int datasette_read_bit(long offset)
 {
+--cnt;
+printf("CNT1: %i\tCLK: %i\tNUM: %i\tPEN: %i\n",cnt, clk,datasette_alarm.context->num_pending_alarms,datasette_alarm.pending_idx);
+    alarm_unset(&datasette_alarm);
+
     if (current_image != NULL && datasette_motor)
     {
         BYTE comp_gap;
@@ -58,11 +64,13 @@ int datasette_read_bit(long offset)
         gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)256) * 8 - offset;
 
         if (gap > 0) {
+++cnt;
+printf("CNT2: %i\tCLK: %i\tNEXT: %i\n",cnt, clk, clk + gap);
             alarm_set(&datasette_alarm, clk + gap);
             return 0;
         }
     }
-    alarm_unset(&datasette_alarm);
+/*    alarm_unset(&datasette_alarm);*/
     return 0;
 }
 
@@ -107,8 +115,10 @@ void datasette_set_motor(int flag)
 {
     /*printf("Motor %x\n", flag); */
     datasette_motor = flag;
-    if (current_image != NULL)
+    if (current_image != NULL  && flag)
     {
+++cnt;
+printf("CNT3: %i\tCLK: %i\tNEXT: %i\n",cnt, clk, clk + 1000);
         alarm_set(&datasette_alarm, clk + 1000);
     }
 }
