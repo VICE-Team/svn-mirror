@@ -104,9 +104,6 @@ struct cpu_int_status {
     /* Clock tick when the next pending CPU alarm has to be served.  */
     CLOCK next_alarm_clk;
 
-    /* This is nonzero if we might have a pending interrupt.  */
-    int should_check_pending_interrupt;
-
     /* Value of clk when each CPU alarm has to be served. ~0 means `not
        active'.  */
     CLOCK alarm_clk[0x100];
@@ -459,6 +456,8 @@ extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
 extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 				int num_alarms,
 				opcode_info_t *last_opcode_info_ptr);
+extern int interrupt_read_snapshot(cpu_int_status_t *cs, FILE *f);
+extern int interrupt_write_snapshot(cpu_int_status_t *cs, FILE *f);
 
 /* ------------------------------------------------------------------------- */
 
