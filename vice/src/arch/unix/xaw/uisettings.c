@@ -255,6 +255,8 @@ UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 
+UI_MENU_DEFINE_TOGGLE(UseFullscreen)
+
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
@@ -1149,6 +1151,10 @@ static ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t) toggle_DoubleScan, NULL, NULL },
     { "*Use XSync()",
       (ui_callback_t) toggle_UseXSync, NULL, NULL },
+#ifdef USE_VIDMODE_EXTENSION
+    { "*Fullscreen",
+      (ui_callback_t) toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+#endif 
     { NULL }
 };
 

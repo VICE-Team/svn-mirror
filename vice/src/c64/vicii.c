@@ -4208,3 +4208,18 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
+
+void video_setfullscreen(int v) {
+  static osi,osa;
+  if(v) {
+    osi = double_size_enabled;
+    osa = double_scan_enabled;
+    double_size_enabled = 1;
+    double_scan_enabled = 1;
+    video_resize();
+  } else {
+    double_size_enabled = osi; 
+    osa = double_scan_enabled = osa;
+    video_resize();
+  }
+}

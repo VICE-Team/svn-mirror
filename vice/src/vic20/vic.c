@@ -776,3 +776,17 @@ int vic_read_snapshot_module(snapshot_t *s)
     return -1;
 }
 
+void video_setfullscreen(int v) {
+  static osi,osa;
+  if(v) {
+    osi = double_size_enabled;
+    osa = double_scan_enabled;
+    double_size_enabled = 1;
+    double_scan_enabled = 1;
+    video_resize();
+  } else {
+    double_size_enabled = osi; 
+    osa = double_scan_enabled = osa;
+    video_resize();
+  }
+}

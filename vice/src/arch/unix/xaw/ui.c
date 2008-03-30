@@ -58,6 +58,13 @@
 #include <X11/Sunkeysym.h>
 #endif
 
+#ifdef USE_VIDMODE_EXTENSION
+#define VidMode_MINMAJOR 0
+#define VidMode_MINMINOR 0
+
+#include <X11/extensions/xf86vmode.h>
+#endif
+
 #include "widgets/Canvas.h"
 #include "widgets/FileSel.h"
 #include "widgets/TextField.h"
@@ -84,9 +91,168 @@ int have_truecolor;
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
 
+Widget canvas;
+
+#ifdef USE_VIDMODE_EXTENSION
+int vidmodeavail = 0;
+int use_fullscreen = 0;
+
+int vidmodecount;
+XF86VidModeModeInfo **allmodes;
+
+static int bestmode;
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 _ui_resources_t _ui_resources;
+
+#ifdef USE_VIDMODE_EXTENSION
+
+int vidmode_available (void)
+{
+    int MajorVersion, MinorVersion;
+    int EventBase, ErrorBase;
+    int i;
+    int tbsd, bsd = 0;
+
+    if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
+        fprintf (stderr, "Unable to query video extension version\n");
+        return 0;
+    }
+    if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
+        fprintf (stderr, "Unable to query video extension information\n");
+        return 0;
+    }
+    if (MajorVersion < VidMode_MINMAJOR
+        || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
+) {
+        /* Fail if the extension version in the server is too old */
+      fprintf (stderr, "Xserver is running an old XFree86-VidMode version (%d.  %d)\n",
+	       MajorVersion, MinorVersion);
+      fprintf (stderr, "Minimum required version is %d.%d\n",
+	       VidMode_MINMAJOR, VidMode_MINMINOR);
+      return 0;
+    }
+    if (! XF86VidModeGetAllModeLines (display, screen, &vidmodecount, &allmodes)) {
+        fprintf (stderr, "Error getting video mode information\n");
+        return 0;
+    }
+    
+    bestmode = 0;
+    printf("Available video modes: ");
+    for (i = 1; i < vidmodecount; i++) {
+      printf("%ix%i ",allmodes[i]->hdisplay,allmodes[i]->vdisplay);
+      if(allmodes[i]->hdisplay <= 800 && allmodes[i]->hdisplay >= 640 &&
+         allmodes[i]->vdisplay <= 600 && allmodes[i]->hdisplay >= 400) {
+         tbsd = allmodes[i]->hdisplay - 768;
+         tbsd *= tbsd;
+         if(bestmode == 0 || tbsd < bsd ) {
+           bestmode = i;
+           bsd = tbsd;
+        } 
+      }
+    } 
+    printf("\n");
+    return 1;
+}
+
+static int set_fullscreen(resource_value_t v) {
+  static Dimension x,y,w,h;
+  Dimension canvas_width, canvas_height;
+  static int root_x, root_y;
+  static int win_x,win_y;
+  static int timeout,interval,prefer_blanking,allow_exposures;
+
+  if( !vidmodeavail && !bestmode ) return 0;
+
+  if(v && ! use_fullscreen) {    
+    printf("Switch to fullscreen %ix%i\n",allmodes[bestmode]->hdisplay,
+           allmodes[bestmode]->vdisplay);    
+    XF86VidModeSwitchToMode (display, screen, allmodes[bestmode]);
+
+    XtVaGetValues(XtParent(XtParent(canvas)),
+          XtNx,          &x,
+          XtNy,          &y,
+          XtNwidth,      &w,
+          XtNheight,     &h,
+          NULL);
+    XtVaGetValues(canvas,
+                  XtNwidth, &canvas_width,
+                  XtNheight, &canvas_height,
+                  NULL);
+
+    video_setfullscreen(1);
+
+    XtVaSetValues(XtParent(XtParent(canvas)),
+                  XtNx,          0,
+                  XtNy,          0,
+                  XtNwidth, w + allmodes[bestmode]->hdisplay -
+                  canvas_width - 2,
+                  XtNheight, h + allmodes[bestmode]->vdisplay -
+                  canvas_height - 2,
+                  NULL);
+
+    /* A small hack!!!!  */
+    {
+      Window root, child;
+      int mask;
+  
+      XQueryPointer(display, XtWindow(canvas),
+                    &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
+
+      XF86VidModeSetViewPort(display,XDefaultScreen(display),
+                             root_x - win_x - 1,
+                             root_y - win_y - 1 );
+    }
+
+    XGrabKeyboard(display, XtWindow(canvas),
+                  1, GrabModeAsync,
+                  GrabModeAsync,  CurrentTime);
+
+    XGrabPointer(display, XtWindow(canvas), 1,
+                 PointerMotionMask | ButtonPressMask | ButtonReleaseMask,
+                 GrabModeAsync, GrabModeAsync,
+                 XtWindow(canvas),
+                 None, CurrentTime);
+    XWarpPointer(display, None,
+                 XtWindow(canvas),
+                 0, 0, 0, 0, 0,0);
+    XGetScreenSaver(display,&timeout,&interval,
+    &prefer_blanking,&allow_exposures);
+    XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
+                                                                   
+  } else if(use_fullscreen) {
+    printf("Switch to windowmode\n");
+
+    XF86VidModeSwitchToMode(display, screen, allmodes[0]);
+
+    video_setfullscreen(0);
+
+    XtVaSetValues(XtParent(XtParent(canvas)),
+                  XtNx,          x - root_x + win_x + 3,  /*???*/
+                  XtNy,          y - root_y + win_y + 3,  /*???*/
+                  XtNwidth,      w,
+                  XtNheight,     h,
+                  NULL);
+
+    XUngrabPointer(display, CurrentTime);
+    XUngrabKeyboard(display, CurrentTime);
+
+    XWarpPointer(display, None,
+                 RootWindowOfScreen(XtScreen(canvas)),
+                 0, 0, 0, 0, root_x, root_y);
+
+    XSetScreenSaver(display,timeout,interval,prefer_blanking,allow_exposures);
+  }
+
+  use_fullscreen = (int) v;
+
+  return 1;
+}
+
+#endif
+
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v)
@@ -132,6 +298,10 @@ static resource_t resources[] = {
     { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &_ui_resources.depth,
       set_depth },
+#ifdef USE_VIDMODE_EXTENSION
+    { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) & use_fullscreen, set_fullscreen },
+#endif
     { NULL }
 };
 
@@ -381,6 +551,10 @@ int ui_init(int *argc, char **argv)
 
     finish_prepare_wm_command();
 
+#ifdef USE_VIDMODE_EXTENSION
+    vidmodeavail = vidmode_available();
+#endif
+
     return 0;
 }
 
@@ -497,7 +671,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                                   PIXEL pixel_return[])
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
-    Widget shell, canvas, pane, speed_label;
+    Widget shell, pane, speed_label;
     Widget drive_track_label[2], drive_led[2];
     XSetWindowAttributes attr;
     int i;
@@ -877,7 +1051,7 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
 }
 
 /* In here we try to allocate the given colors. This function is called from
- * 1ui_open_canvas_window()'.  The calling function sets the colormap
+ * 'ui_open_canvas_window()'.  The calling function sets the colormap
  * resource of the toplevel window.  If there is not enough place in the
  * colormap for all color entries, we allocate a new one.  If we someday open
  * two canvas windows, and the colormap fills up during the second one, we
@@ -1741,3 +1915,12 @@ int ui_emulation_is_paused(void)
 {
     return is_paused;
 }
+
+
+#ifdef USE_VIDMODE_EXTENSION
+void ui_restore_windowmode(void)
+{
+  set_fullscreen(0);
+}
+#endif
+

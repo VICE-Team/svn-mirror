@@ -34,9 +34,10 @@
 
 #include <limits.h>
 
+#define BYTE unsigned char
+
 #ifdef WIN32
 
-#define BYTE unsigned char
 #define WORD unsigned short
 #define DWORD unsigned int
 
@@ -46,7 +47,6 @@ typedef signed int SDWORD;
 
 #else
 typedef signed char SIGNED_CHAR;
-typedef unsigned char BYTE;
 
 #if SIZEOF_UNSIGNED_SHORT == 2
 #ifndef WINCE
