@@ -142,7 +142,7 @@ BEGIN
             MENUITEM "&Double size",                IDM_TOGGLE_VDC_DOUBLESIZE
             MENUITEM "Dou&ble scan",                IDM_TOGGLE_VDC_DOUBLESCAN
             MENUITEM SEPARATOR
-            MENUITEM "64KB video &memory",          IDM_TOGGLE_VDC_64KB
+            MENUITEM "64KB video &memory",          IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK

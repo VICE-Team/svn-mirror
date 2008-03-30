@@ -136,6 +136,7 @@ static int num_of_channels;
 /* Flag: are we in exclusive mode?  */
 /* static int is_exclusive; */
 
+#if 0
 /*  DirectSoundNotify Interface, if present */
 static LPDIRECTSOUNDNOTIFY      notify;
 
@@ -167,6 +168,7 @@ static HANDLE               notifyThreadHandle;
 
 /*  Pointer for waiting fragment */
 static LPVOID               fragment_pointer;
+#endif
 
 /*  Last played sample. This will be played in underflow condition */
 static SWORD                last_buffered_sample[2];
@@ -174,6 +176,7 @@ static SWORD                last_buffered_sample[2];
 /*  Flag: is soundcard a 16bit or 8bit card? */
 static int                  is16bit;
 
+#if 0
 /*  Streaming buffer */
 static SWORD                *stream_buffer;
 
@@ -188,15 +191,18 @@ static volatile DWORD       stream_buffer_shadow_first;
 
 /*  Offset of last buffered sample in shadow counter */
 static volatile DWORD       stream_buffer_shadow_last;
+#endif
 
 /*  Size of streaming buffer */
 static int                  stream_buffer_size;
 
+#if 0
 /*  Timer callback interval */
 static int                  timer_interval;
 
 /*  ID of timer event */
 static UINT                 timer_id;
+#endif
 
 /* ------------------------------------------------------------------------ */
 
