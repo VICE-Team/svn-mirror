@@ -145,7 +145,8 @@ static int  vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
             BYTE *minus);
 static int  vdrive_command_copy(DRIVE *floppy, char *dest, int length);
 static int  vdrive_command_rename(DRIVE *floppy, char *dest, int length);
-static int  floppy_name_match ( BYTE *slot, char *name, int length, int type );
+static int  floppy_name_match(BYTE *slot, const char *name, int length,
+                              int type);
 
 static int  mystrncpy ( BYTE *d, BYTE *s, int n );
 
@@ -799,9 +800,9 @@ int floppy_parse_name(const char *name, int length, char *ptr,
  * and '*' to skip all the remainder.
  */
 
-static int  floppy_name_match (BYTE *slot, char *name, int length, int type)
+static int floppy_name_match(BYTE *slot, const char *name, int length, int type)
 {
-    int     i;
+    int i;
 
     if (length < 0) {
 	if (slot[SLOT_TYPE_OFFSET])
@@ -1437,7 +1438,8 @@ int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
  * Initialize Directory Slot find
  */
 
-void vdrive_dir_find_first_slot(DRIVE *floppy, char *name, int length, int type)
+void vdrive_dir_find_first_slot(DRIVE *floppy, const char *name, int length,
+                                int type)
 {
     floppy->find_name   = name;
     floppy->find_type   = type;
