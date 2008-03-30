@@ -66,7 +66,7 @@ static void SetStatusWindowParts(HWND hwnd)
 int     number_of_parts;
 int     enabled_drives;
 RECT    rect;
-int     posx[4];
+int     posx[6];
 int     width;
 int     i;
 

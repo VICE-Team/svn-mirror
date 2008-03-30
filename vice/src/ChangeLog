@@ -1,3 +1,63 @@
+2004-01-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.45.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h,
+	arch/win32/archdep.h, arch/riscos/archdep.h,
+	arch/beos/archdep.h, arch/os2/archdep.h: Moved access mode
+	definitions to archdep headers.
+
+	* vice.h: Do not include "lose32.h" anymore.  Removed obsolete
+	`XPM' define.
+
+	* arch/win32/lose32.h: Removed.
+
+	* arch/win32/Makefile.am: Updated.
+
+	* drive/iec/wd1770.c, drive/iec/wd1770.h
+	(wd1770_attach_image): Added attach clock.
+	(wd1770_disk_change): New function.
+	(clk_overflow_callback): Added `attach_clk'.
+
+	* drive/iec/cia1581d.c (read_ciapa): Proper disk change
+	emulation.
+
+	* interrupt.c (interrupt_trigger_reset): Check if CPU status
+	is present.
+
+2004-01-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c: Statusbar can have six parts, so
+	the posx array needs six fields.
+
+2004-01-05  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/archdep.c: initialize the default fliplist
+	name
+
+2004-01-02  David Hansel  <hansel@reactive-systems.com>
+
+	* tape/tap.c (tap_read):  improved error recovery, 
+	  timing refinements
+
+2004-01-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/joy.cc, ui.cc, ui_file.cc, ui_sid.cc, ui_video.cc,
+	vicewindow.cc, videoarch.h, sounddrv/soundbeos.cc: Fixed
+	typos.
+
+	* arch/beos/ui.cc, statusbar.cc, ui_drive.cc: Extended to
+	handle four drives.
+
+	* arch/beos/ui_video.cc: Changed according to new resource
+	names.
+
+	* arch/beos/video.cc (video_canvas_destroy): Don't free the
+	canvas.
+
+	* arch/beos/vicewindow.cc: Calls mouse driver functions when
+	button is used.
+
 2003-12-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.44.
