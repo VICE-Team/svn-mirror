@@ -249,7 +249,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
     }
     if (DRIVE_IS_OLDTYPE(type)) {
         /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx, 
-           mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
+	   mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
            (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
            the gaps, x00-7f the first and x80-ff the second, at
            $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
@@ -375,28 +375,28 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
            sizeof(drive_store_func_t *) * 0x101);
 
     switch (type) {
-      case DRIVE_TYPE_NONE:
+    case DRIVE_TYPE_NONE:
         break;
-      case DRIVE_TYPE_2040:
+    case DRIVE_TYPE_2040:
         drv->drive_ptr->rom_start = 0xe000;
         break;
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
+    case DRIVE_TYPE_3040:
+    case DRIVE_TYPE_4040:
         drv->drive_ptr->rom_start = 0xd000;
         break;
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
+    case DRIVE_TYPE_1541II:
+    case DRIVE_TYPE_2031:
+    case DRIVE_TYPE_1001:
+    case DRIVE_TYPE_8050:
+    case DRIVE_TYPE_8250:
         drv->drive_ptr->rom_start = 0xc000;
         break;
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1581:
+    case DRIVE_TYPE_1541:
+    case DRIVE_TYPE_1571:
+    case DRIVE_TYPE_1581:
         drv->drive_ptr->rom_start = 0x8000;
         break;
-      default:
+    default:
         log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
     }
 }

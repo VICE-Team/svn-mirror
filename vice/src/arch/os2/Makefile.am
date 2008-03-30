@@ -74,6 +74,7 @@ EXTRA_DIST = \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \
 	texi2ipf/texi2ipf.INF \
+        doc/vice2.ipf \
 	doc/Vice_for_OS2.txt \
         fonts/header1.fnt \
         fonts/header2.fnt \

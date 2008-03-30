@@ -3,4 +3,6 @@ source type(c)
     "asm6502.c",
     "mon.c",
     "mon_lex.c",
-    "mon_parse.c"
+    "mon_parse.c",
+    "mon_assemble.c",
+    "mon_disassemble.c"

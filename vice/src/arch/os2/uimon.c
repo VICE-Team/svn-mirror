@@ -36,10 +36,9 @@
 
 #include "dialogs.h"
 #include "dlg-monitor.h"
-#include "mon.h"
 #include "uimon.h"
 #include "utils.h"
-//#include "snippets\\pmwin2.h"   // WinShowDlg
+#include "console.h"
 
 #include "log.h"
 
@@ -50,6 +49,8 @@ extern int trigger_console_exit;
 // int console_init() --> dlg-monitor.c
 //
 
+console_t *console;
+
 void uimon_window_close()
 {
     WinSendMsg(hwndMonitor, WM_CONSOLE, kCLOSE, 0);
@@ -59,8 +60,8 @@ void uimon_window_close()
     // WinSetDlgFocus(HWND_DESKTOP, IDM_VICE2);
     //
 
-    free(console_log);
-    console_log = NULL;
+    free(console);
+    console = NULL;
 }
 
 void uimon_notify_change()
@@ -71,16 +72,16 @@ void uimon_notify_change()
 
 console_t *uimon_window_open()
 {
-    console_t *console_log = xmalloc(sizeof(console_t));
+    console = xmalloc(sizeof(console_t));
 
     //
     // FIXME: THIS VALUE ISN'T UPDATED YET
     //
-    console_log->console_xres = 60;
-    console_log->console_yres = 20;
-    console_log->console_can_stay_open = 1;
+    console->console_xres = 60;
+    console->console_yres = 20;
+    console->console_can_stay_open = 1;
 
-    return console_log;
+    return console;
 }
 
 void uimon_window_suspend()
@@ -91,7 +92,7 @@ void uimon_window_suspend()
 console_t *uimon_window_resume()
 {
     WinEnableControl(hwndMonitor, EF_MONIN, 1);
-    return console_log;
+    return console;
 }
 
 int uimon_out(const char *format, ...)
@@ -109,7 +110,7 @@ int uimon_out(const char *format, ...)
 
     va_list ap;
 
-    if (!hwndMonitor || !console_log)
+    if (!hwndMonitor || !console)
         return 0;
 
     if (!out) out = xcalloc(1,1);
@@ -172,7 +173,7 @@ char *uimon_in()
     return c;
 }
 
-void uimon_set_interface(monitor_interface_t **monitor_interface_init,
+void uimon_set_interface(struct monitor_interface_s **monitor_interface_init,
                          int count)
 {
     log_debug("Interfaces: %d", count);

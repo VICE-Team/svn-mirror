@@ -49,16 +49,18 @@
 #define IDM_SIDCHIP      0x110
 #define IDM_OVERSAMPLING 0x111
 #define IDM_SAMPLINGRATE 0x112
-#define IDM_VDCMEMORY    0x113
-#define IDM_VIDEOSTD     0x114
-#define IDM_COLLISION    0x115
-#define IDM_REFRATE      0x116
-#define IDM_BUFFER       0x117
-#define IDM_STRETCH      0x118
-#define IDM_MONITOR      0x119
-#define IDM_HELP         0x11a
-#define IDM_CMDLINE      0x11b
-#define IDM_ABOUT        0x11c
+#define IDM_SOUNDSYNC    0x113
+#define IDM_SOUNDDEV     0x114
+#define IDM_VDCMEMORY    0x115
+#define IDM_VIDEOSTD     0x116
+#define IDM_COLLISION    0x117
+#define IDM_REFRATE      0x118
+#define IDM_BUFFER       0x119
+#define IDM_STRETCH      0x11a
+#define IDM_MONITOR      0x11b
+#define IDM_HELP         0x11c
+#define IDM_CMDLINE      0x11d
+#define IDM_ABOUT        0x11e
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x121
@@ -142,6 +144,10 @@
 #define IDM_SR22050      0x196
 #define IDM_SR44100      0x197
 
+#define IDM_SYNCFLEX     0x198
+#define IDM_SYNCADJUST   0x199
+#define IDM_SYNCEXACT    0x19a
+
 #define IDM_BUF010       0x202
 #define IDM_BUF025       0x205
 #define IDM_BUF040       0x208
@@ -149,6 +155,11 @@
 #define IDM_BUF070       0x20e
 #define IDM_BUF085       0x211
 #define IDM_BUF100       0x214
+
+#define IDM_DEVDART      0x215
+#define IDM_DEVSID       0x216
+#define IDM_DEVWAV       0x217
+#define IDM_DEVRAW       0x218
 
 #define IDM_VOLUME       0x400
 #define IDM_VOL100       0x40a

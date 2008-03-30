@@ -2,6 +2,7 @@ c128dir = $(prefix)/lib/vice/C128
 
 c128_DATA = \
 	basic \
+        vice.vpl \
 	c64s.vpl \
 	ccs64.vpl \
 	chargen \

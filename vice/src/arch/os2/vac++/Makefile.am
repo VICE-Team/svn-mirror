@@ -10,7 +10,7 @@ EXTRA_DIST = \
         RESID.ICC \
         VICE_INF.ICC \
         VICE_HLP.ICC \
-        vicedll.icc \
+        vicedll.ICC \
         lzlib.icc \
         lpng.icc \
         incl/archdep.icc \

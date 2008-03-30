@@ -37,12 +37,8 @@ static FILE *dump_fd = NULL;
 static int dump_init(const char *param, int *speed,
 		     int *fragsize, int *fragnr, double bufsize)
 {
-    if (!param)
-        param = "vicesnd.sid";
-    dump_fd = fopen(param, "w");
-    if (!dump_fd)
-	return 1;
-    return 0;
+    dump_fd = fopen(param?param:"vicesnd.sid", "w");
+    return !dump_fd;
 }
 
 static int dump_write(SWORD *pbuf, size_t nr)
@@ -52,21 +48,15 @@ static int dump_write(SWORD *pbuf, size_t nr)
 
 static int dump_dump(ADDRESS addr, BYTE byte, CLOCK clks)
 {
-    int				i;
-    i = fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte);
-    if (i < 0)
-	return 1;
-    return 0;
+    return (fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte) < 0);
 }
 
 static int dump_flush(char *state)
 {
-    int				i;
-    i = fprintf(dump_fd, "%s", state);
-    if (i < 0)
-	return 1;
-    i = fflush(dump_fd);
-    return i;
+    if (fprintf(dump_fd, "%s", state) < 0)
+        return 1;
+
+    return fflush(dump_fd);
 }
 
 static void dump_close(void)

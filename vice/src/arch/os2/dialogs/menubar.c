@@ -46,6 +46,7 @@
 #include "mon.h"         // mon
 #include "tape.h"        // tape_detach_image
 #include "drive.h"       // DRIVE_SYNC_*
+#include "sound.h"       // SOUND_ADJUST_*
 #include "attach.h"      // file_system_detach_disk
 //#include "machine.h"     // machine_read/write_snapshot
 #include "cmdline.h"     // cmdline_show_help, include resources.h
@@ -445,20 +446,36 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_value("SoundOversample", (resource_value_t)(idm&0xf));
         return;
 
+    case IDM_SYNCFLEX:
+    case IDM_SYNCADJUST:
+    case IDM_SYNCEXACT:
+        resources_set_value("SoundSpeedAdjustment", (resource_value_t)(idm-IDM_SYNCFLEX));
+        return;
+
     case IDM_SR8000:
         resources_set_value("SoundSampleRate", (resource_value_t)8000);
         return;
-
     case IDM_SR11025:
         resources_set_value("SoundSampleRate", (resource_value_t)11025);
         return;
-
     case IDM_SR22050:
         resources_set_value("SoundSampleRate", (resource_value_t)22050);
         return;
-
     case IDM_SR44100:
         resources_set_value("SoundSampleRate", (resource_value_t)44100);
+        return;
+
+    case IDM_DEVDART:
+        resources_set_value("SoundDeviceName", (resource_value_t)"dart");
+        return;
+    case IDM_DEVSID: // no sampleparams
+        resources_set_value("SoundDeviceName", (resource_value_t)"dump");
+        return;
+    case IDM_DEVWAV: // speed
+        resources_set_value("SoundDeviceName", (resource_value_t)"wav");
+        return;
+    case IDM_DEVRAW: // no samplepar
+        resources_set_value("SoundDeviceName", (resource_value_t)"fs");
         return;
 
     case IDM_BUF010:
@@ -802,14 +819,25 @@ void menu_select(HWND hwnd, USHORT item)
                 WinCheckMenuItem(hwnd, IDM_REFRATEAUTO|i, i==val);
         }
         return;
+    case IDM_SOUNDDEV:
+        {
+            char *dev;
+            resources_get_value("SoundDeviceName", (resource_value_t*)&dev);
+            WinCheckMenuItem(hwnd, IDM_DEVDART, !strcasecmp(dev, "dart") || !dev[0]);
+            WinCheckMenuItem(hwnd, IDM_DEVSID,  !strcasecmp(dev, "dump"));
+            WinCheckMenuItem(hwnd, IDM_DEVWAV,  !strcasecmp(dev, "wav"));
+            WinCheckMenuItem(hwnd, IDM_DEVRAW,  !strcasecmp(dev, "fs"));
+        }
+        return;
 
     case IDM_SOUND:
-        WinCheckRes(hwnd, IDM_SOUNDON,   "Sound");
+        WinCheckRes(hwnd, IDM_SOUNDON, "Sound");
 #ifdef HAVE_RESID
         resources_get_value("SidUseResid", (resource_value_t*)&val);
         WinCheckMenuItem (hwnd, IDM_RESID,         val);
         WinEnableMenuItem(hwnd, IDM_RESIDMETHOD,   val);
         WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);
+        WinEnableMenuItem(hwnd, IDM_SOUNDSYNC,    !val);
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
         WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
@@ -840,6 +868,12 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_SC8580,  val);
         return;
 #endif // __X64__ || __X128__ || __XCBM__
+    case IDM_SOUNDSYNC:
+        resources_get_value("SoundSpeedAdjustment", (resource_value_t*)&val);
+        WinCheckMenuItem(hwnd, IDM_SYNCFLEX,   val==SOUND_ADJUST_FLEXIBLE);
+        WinCheckMenuItem(hwnd, IDM_SYNCADJUST, val==SOUND_ADJUST_ADJUSTING);
+        WinCheckMenuItem(hwnd, IDM_SYNCEXACT,  val==SOUND_ADJUST_EXACT);
+        return;
 
     case IDM_OVERSAMPLING:
         resources_get_value("SoundOversample", (resource_value_t*)&val);

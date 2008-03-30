@@ -108,6 +108,12 @@ BEGIN
       MENUITEM "Drive ~8",     IDM_DISDRV8,      MIS_TEXT
       MENUITEM "Drive ~9",     IDM_DISDRV9,      MIS_TEXT
    END
+   SUBMENU     "Memory",       IDM_MEMORY,       MIS_TEXT
+   BEGIN
+      MENUITEM "Main ~CPU",    IDM_MEMCPU,       MIS_TEXT
+      MENUITEM "Drive ~8",     IDM_MEMDRV8,      MIS_TEXT
+      MENUITEM "Drive ~9",     IDM_MEMDRV9,      MIS_TEXT
+   END
    MENUITEM    "#16",          DID_STEPOVER,  MIS_BITMAP | MIS_BREAK
    MENUITEM    "#17",          DID_STEPINTO,  MIS_BITMAP
    MENUITEM    "",             ID_NONE,       MIS_STATIC | MIS_TEXT

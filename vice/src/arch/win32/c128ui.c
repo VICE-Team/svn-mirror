@@ -29,6 +29,7 @@
 
 #include "c128ui.h"
 #include "res.h"
+#include "resources.h"
 #include "ui.h"
 #include "uivicii.h"
 
@@ -56,17 +57,41 @@ static ui_res_possible_values SidType[] = {
     {-1,0}
 };
 
+#ifdef HAVE_RESID
+static ui_res_possible_values SidResidSampling[] = {
+    {0, IDM_RESID_SAMPLE_FAST},
+    {1, IDM_RESID_SAMPLE_INTERPOLATE},
+    {2, IDM_RESID_SAMPLE_RESAMPLE},
+    {-1,0}
+};
+#endif
+
 ui_res_value_list c128_ui_res_values[] = {
     {"SidModel", SidType},
+#ifdef HAVE_RESID
+    {"SidResidSampling", SidResidSampling},
+#endif
     {NULL,NULL}
 };
 
 void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_VICII_SETTINGS:
-        ui_vicii_settings_dialog(hwnd);
-        break;
+        case IDM_RESID_SAMPLE_FAST:
+            resources_set_value("SidResidSampling", (resource_value_t) 0);
+            suspend_speed_eval();
+            break;
+        case IDM_RESID_SAMPLE_INTERPOLATE:
+            resources_set_value("SidResidSampling", (resource_value_t) 1);
+            suspend_speed_eval();
+            break;
+        case IDM_RESID_SAMPLE_RESAMPLE:
+            resources_set_value("SidResidSampling", (resource_value_t) 2);
+            suspend_speed_eval();
+            break;
+        case IDM_VICII_SETTINGS:
+            ui_vicii_settings_dialog(hwnd);
+            break;
     }
 }
 

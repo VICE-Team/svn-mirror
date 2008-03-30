@@ -33,6 +33,7 @@
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
+#define INCL_WINSCROLLBARS   // SBM_*, SB_*
 #include "vice.h"
 
 #include <os2.h>
@@ -44,13 +45,16 @@
 #include <stdlib.h>
 
 #include "mon.h"             // e_*
-#include "mondisassemble.h"
+#include "mon_disassemble.h" // mon_disassemble_to_string_ex
+
 #include "utils.h"
 #include "mos6510.h"         // P_*
 #include "archdep.h"         // archdep_boot_path
 #include "snippets\pmwin2.h" // WinSetDlgFont
 
 #include "log.h"
+
+#define LB_VERTSCROLL 0xc001
 
 HWND hwndMonitor = NULLHANDLE;
 HWND hwndMonreg  = NULLHANDLE;
@@ -59,6 +63,9 @@ HWND hwndMonreg9 = NULLHANDLE;
 HWND hwndMondis  = NULLHANDLE;
 HWND hwndMondis8 = NULLHANDLE;
 HWND hwndMondis9 = NULLHANDLE;
+HWND hwndMonmem  = NULLHANDLE;
+HWND hwndMonmem8 = NULLHANDLE;
+HWND hwndMonmem9 = NULLHANDLE;
 
 int trigger_console_exit;
 
@@ -81,7 +88,7 @@ static const char *mon_dis(MEMSPACE mem, ADDRESS loc, unsigned int *size)
     const BYTE p1 = mon_get_mem_val(mem, loc+1);
     const BYTE p2 = mon_get_mem_val(mem, loc+2);
 
-    return mon_disassemble_to_string_ex(mem, loc, op, p1, p2, 1, size);
+    return mon_disassemble_to_string_ex(mem, loc, loc, op, p1, p2, 1, size);
 }
 
 static void UpdateDisassembly(HWND hwnd)
@@ -173,6 +180,47 @@ static void UpdateDisassembly(HWND hwnd)
 
     WinSetWindowULong(lbox, QWL_USER, sel);
     WinLboxSelectItem(lbox, sel);
+}
+
+static void InsertMemLine(HWND lbox, MEMSPACE mem, ADDRESS *addr, LONG idx)
+{
+#define MAXX 0x10 // 16
+    int x;
+    char txt[8+3*MAXX+MAXX/4];
+
+    *addr &= 0xffff;
+
+    sprintf(txt, "%04X: ", *addr);
+    for (x=0; x<MAXX; x++)
+    {
+        if (x%4 == 0)
+            strcat(txt, " ");
+
+        sprintf(txt+strlen(txt), "%02x ", mon_get_mem_val(mem, *addr));
+        (*addr)++;
+    }
+    WinInsertLboxItem(lbox, idx, txt);
+    WinLboxSetItemHandle(lbox, idx, *addr-MAXX);
+}
+
+
+static void UpdateMemory(HWND hwnd)
+{
+    int y = 0;
+
+    const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(hwnd, QWL_USER);
+    const HWND    lbox = WinWindowFromID(hwnd, LB_MONDIS);
+
+    ADDRESS addr = MAXX*(mon_get_reg_val(mem, e_PC)/MAXX) - 0x10000;
+
+    WinLboxEmpty(lbox);
+
+    while (!WinIsControlEnabled(lbox, LB_VERTSCROLL))
+        InsertMemLine(lbox, mem, &addr, y++);
+
+    InsertMemLine(lbox, mem, &addr, y);
+
+    WinLboxSettopIdx(lbox, 1);
 }
 
 static void UpdateRegisters(HWND hwnd)
@@ -291,6 +339,136 @@ static MRESULT EXPENTRY pm_mondis(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+void ScrollUp(HWND hwnd)
+{
+    const ULONG    num = WinQueryLboxCount(hwnd);
+    const HWND     par = WinQueryWindow(hwnd, QW_PARENT);
+    const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(par, QWL_USER);
+
+    ADDRESS addr = 0x10000 + WinLboxItemHandle(hwnd, 0) - MAXX;
+
+    InsertMemLine(hwnd, mem, &addr, 0);
+    WinDeleteLboxItem(hwnd, num);
+}
+
+void ScrollDown(HWND hwnd)
+{
+    const ULONG    num = WinQueryLboxCount(hwnd);
+    const HWND     par = WinQueryWindow(hwnd, QW_PARENT);
+    const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(par, QWL_USER);
+
+    ADDRESS addr = WinLboxItemHandle(hwnd, num-1) + MAXX;
+
+    InsertMemLine(hwnd, mem, &addr, num);
+    WinDeleteLboxItem(hwnd, 0);
+}
+
+static MRESULT EXPENTRY pm_sbar(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    PFNWP pfnwp = (PFNWP)WinQueryWindowPtr(hwnd, QWL_USER);
+
+    if (msg != WM_VSCROLL)
+        return (*pfnwp)(hwnd, msg, mp1, mp2);
+
+    switch (SHORT2FROMMP(mp2))
+    {
+    case SB_LINEUP:
+        ScrollUp(hwnd);
+        return FALSE;
+
+    case SB_LINEDOWN:
+        ScrollDown(hwnd);
+        return FALSE;
+
+    case SB_SLIDERTRACK:
+        switch (SHORT1FROMMP(mp2)) // position
+        {
+        case 0:
+            ScrollUp(hwnd);
+            return FALSE;
+        case 2:
+            ScrollDown(hwnd);
+            return FALSE;
+        }
+        return FALSE;
+
+    case SB_PAGEUP:
+    case SB_PAGEDOWN:
+    case SB_SLIDERPOSITION:
+        log_debug("test pos:%d cmd:%d",
+                  SHORT1FROMMP(mp2), SHORT2FROMMP(mp2));
+        return FALSE;
+
+    case SB_ENDSCROLL:
+        WinLboxSettopIdx(hwnd, 1);
+        return FALSE;
+    }
+    return (*pfnwp)(hwnd, msg, mp1, mp2);
+}
+
+static MRESULT EXPENTRY pm_monmem(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    switch (msg)
+    {
+    case WM_INITDLG:
+        {
+            const HWND lbox = WinWindowFromID(hwnd, LB_MONDIS);
+            const VOID *ptr = WinQueryWindowPtr(lbox, QWP_PFNWP);
+            WinSetWindowULong(lbox, QWL_USER, (ULONG)ptr);
+            WinSubclassWindow(lbox, (PFNWP)pm_sbar);
+        }
+
+        WinSetWindowPtr(hwnd, QWL_USER, (VOID*)mp2);
+        switch ((MEMSPACE)mp2)
+        {
+        case e_comp_space:
+            WinSetWindowText(hwnd, "Memory Main CPU");
+            return FALSE;
+        case e_disk8_space:
+            WinSetWindowText(hwnd, "Memory Drive #8");
+            return FALSE;
+        case e_disk9_space:
+            WinSetWindowText(hwnd, "Memory Drive #9");
+            return FALSE;
+        }
+        return FALSE;
+
+    case WM_MINMAXFRAME:
+    case WM_ADJUSTWINDOWPOS:
+        {
+            //
+            // resize dialog
+            //
+            SWP *swp=(SWP*)mp1;
+            if (!(swp->fl&SWP_SIZE))
+                break;
+
+            if (swp->cx<50) swp->cx=300;
+            if (swp->cy<50) swp->cy=200;
+            WinSetWindowPos(WinWindowFromID(hwnd, LB_MONDIS), 0, 0, 0,
+                            swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                            swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
+                            -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-2,
+                            SWP_SIZE);
+        }
+        break;
+    /*
+    case WM_CONTROL:
+        if (MPFROM2SHORT(LB_MONDIS, LN_SELECT)==mp1)
+        {
+            WinLboxSelectItem(mp2, LIT_NONE);
+            WinDefDlgProc (hwnd, msg, mp1, mp2);
+            WinLboxSettopIdx(mp2, 1);
+        }
+        return FALSE;
+*/
+    case WM_UPDATE:
+        UpdateMemory(hwnd);
+        return FALSE;
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+}
+
 static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int  *wait_for_input;
@@ -312,11 +490,16 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             hwndMondis9 = WinLoadStdDlg(hwnd, pm_mondis, DLG_MONDIS, (void*)e_disk9_space);
             hwndMondis8 = WinLoadStdDlg(hwnd, pm_mondis, DLG_MONDIS, (void*)e_disk8_space);
             hwndMondis  = WinLoadStdDlg(hwnd, pm_mondis, DLG_MONDIS, (void*)e_comp_space);
+            hwndMonmem9 = WinLoadStdDlg(hwnd, pm_monmem, DLG_MONDIS, (void*)e_disk9_space);
+            hwndMonmem8 = WinLoadStdDlg(hwnd, pm_monmem, DLG_MONDIS, (void*)e_disk8_space);
+            hwndMonmem  = WinLoadStdDlg(hwnd, pm_monmem, DLG_MONDIS, (void*)e_comp_space);
 
             WinActivateWindow(hwndMonreg9, FALSE);
             WinActivateWindow(hwndMonreg8, FALSE);
             WinActivateWindow(hwndMondis9, FALSE);
             WinActivateWindow(hwndMondis8, FALSE);
+            WinActivateWindow(hwndMonmem9, FALSE);
+            WinActivateWindow(hwndMonmem8, FALSE);
         }
         break;
 
@@ -396,12 +579,24 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         case IDM_DISDRV9:
             WinActivateWindow(hwndMondis9, TRUE);
             return FALSE;
-            /*
+
+        case IDM_MEMCPU:
+            WinActivateWindow(hwndMonmem, TRUE);
+            return FALSE;
+        case IDM_MEMDRV8:
+            WinActivateWindow(hwndMonmem8, TRUE);
+            return FALSE;
+        case IDM_MEMDRV9:
+            WinActivateWindow(hwndMonmem9, TRUE);
+            return FALSE;
+/*
         case IDM_CPU6502:
             mon_cpu_type("6502");
+            WinSendMsg(hwnd, WM_UPDATE, 0, 0);
             return FALSE;
         case IDM_CPUZ80:
             mon_cpu_type("Z80");
+            WinSendMsg(hwnd, WM_UPDATE, 0, 0);
             return FALSE;
             */
         }
@@ -497,6 +692,9 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         WinSendMsg(hwndMondis,  WM_UPDATE, 0, 0);
         WinSendMsg(hwndMondis8, WM_UPDATE, 0, 0);
         WinSendMsg(hwndMondis9, WM_UPDATE, 0, 0);
+        WinSendMsg(hwndMonmem,  WM_UPDATE, 0, 0);
+        WinSendMsg(hwndMonmem8, WM_UPDATE, 0, 0);
+        WinSendMsg(hwndMonmem9, WM_UPDATE, 0, 0);
 
         WinSetFocus(HWND_DESKTOP, hwnd);
         WinSetDlgFocus(hwnd, EF_MONIN);
@@ -509,6 +707,9 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         WinShowWindow(hwndMondis,  (ULONG)mp1);
         WinShowWindow(hwndMondis8, (ULONG)mp1);
         WinShowWindow(hwndMondis9, (ULONG)mp1);
+        WinShowWindow(hwndMonmem,  (ULONG)mp1);
+        WinShowWindow(hwndMonmem8, (ULONG)mp1);
+        WinShowWindow(hwndMonmem9, (ULONG)mp1);
         WinActivateWindow(hwndMonitor, (ULONG)mp1);
         return FALSE;
     }

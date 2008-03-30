@@ -36,21 +36,13 @@ static FILE *fs_fd = NULL;
 static int fs_init(const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
-    if (!param)
-	param = "vicesnd.raw";
-    fs_fd = fopen(param, "w");
-    if (!fs_fd)
-	return 1;
-    return 0;
+    fs_fd = fopen(param?param:"vicesnd.raw", "w");
+    return !fs_fd;
 }
 
 static int fs_write(SWORD *pbuf, size_t nr)
 {
-    int i;
-    i = fwrite(pbuf, sizeof(SWORD), nr, fs_fd);
-    if (i != nr)
-	return 1;
-    return 0;
+    return fwrite(pbuf, sizeof(SWORD), nr, fs_fd) != nr;
 }
 
 static void fs_close(void)

@@ -50,6 +50,11 @@
 #define IDM_DISDRV8       0x1e
 #define IDM_DISDRV9       0x1f
 
+#define IDM_MEMORY        0x20
+#define IDM_MEMCPU        0x21
+#define IDM_MEMDRV8       0x22
+#define IDM_MEMDRV9       0x23
+
 #define IDM_CPUTYPE       0x20
 #define IDM_CPU6502       0x21
 #define IDM_CPUZ80        0x22

@@ -220,3 +220,12 @@ BOOL WinActivateDlg(HWND hwnd, USHORT id, int state)
     return WinActivateWindow(WinWindowFromID(hwnd, id), state);
 }
 
+UINT WinLboxQueryTopIdx(HWND hwnd)
+{
+    return (UINT)WinSendMsg(hwnd, LM_QUERYTOPINDEX, 0, 0);
+}
+
+UINT WinDlgLboxQueryTopidx(HWND hwnd, USHORT id)
+{
+    return WinLboxQueryTopIdx(WinWindowFromID(hwnd, id));
+}

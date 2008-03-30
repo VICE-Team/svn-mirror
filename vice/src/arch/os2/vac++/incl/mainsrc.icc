@@ -20,6 +20,7 @@ source type(c)
     "keyboard.c",
     "log.c",
     "main.c",
+    "machine.c",
     "p00.c",
     "palette.c",
     "parallel.c",

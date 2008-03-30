@@ -46,6 +46,20 @@ static TUI_MENU_CALLBACK(toggle_SidModel_callback)
     return value ? "8580 (New)" : "6581 (Old)";
 }
 
+static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
+{
+    int value;
+
+    resources_get_value("SidResidSampling", (resource_value_t *) &value);
+    if (been_activated) {
+        value = (value + 1) % 3;
+        resources_set_value("SidResidSampling", (resource_value_t) value);
+    }
+
+    return (value==0) ? "fast" : ((value==1)?"interpolate":"resample");
+}
+
+
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 
 #ifdef HAVE_RESID
@@ -66,6 +80,10 @@ tui_menu_item_def_t sid_ui_menu_items[] = {
     { "_Hi-Fi reSID engine:",
       "Enable/disable usage of the slower reSID engine",
       toggle_SidUseResid_callback, NULL, 4,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "reSID s_ampling method:",
+      "How the reSID engine generates the samples",
+      toggle_ResidSampling_callback, NULL, 12,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
     { NULL }

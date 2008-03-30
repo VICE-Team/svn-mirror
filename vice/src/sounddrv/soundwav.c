@@ -46,9 +46,7 @@ static int wav_init(const char *param, int *speed,
     DWORD bytes_per_sec = *speed*2;
     int i;
 
-    if (!param)
-	param = "vicesnd.wav";
-    wav_fd = fopen(param, "w");
+    wav_fd = fopen(param?param:"vicesnd.wav", "w");
     if (!wav_fd)
 	return 1;
 
@@ -63,10 +61,7 @@ static int wav_init(const char *param, int *speed,
       bytes_per_sec >>= 8;
     }
 
-    if (fwrite(header, 1, 44, wav_fd) != 44)
-	return 1;
-
-    return 0;
+    return (fwrite(header, 1, 44, wav_fd) != 44);
 }
 
 static int wav_write(SWORD *pbuf, size_t nr)
@@ -80,8 +75,7 @@ static int wav_write(SWORD *pbuf, size_t nr)
     }
 #endif
 
-    i = fwrite(pbuf, sizeof(SWORD), nr, wav_fd);
-    if (i != nr)
+    if (nr != fwrite(pbuf, sizeof(SWORD), nr, wav_fd))
 	return 1;
 
     /* Swap the bytes back just in case. */

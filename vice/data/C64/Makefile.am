@@ -2,6 +2,7 @@ c64dir = $(prefix)/lib/vice/C64
 
 c64_DATA = \
         basic \
+        vice.vpl \
         c64s.vpl \
         ccs64.vpl \
         chargen \

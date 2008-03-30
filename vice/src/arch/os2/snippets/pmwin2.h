@@ -27,6 +27,7 @@
 extern void    WinLboxEmpty(HWND hwnd);
 extern MRESULT WinLboxSettop(HWND hwnd);
 extern MRESULT WinLboxSettopIdx(HWND hwnd, UINT idx);
+extern UINT    WinLboxQueryTopIdx(HWND hwnd);
 extern BOOL    WinLboxSelectItem(HWND hwnd, UINT idx);
 extern LONG    WinLboxInsertItem(HWND hwnd, const char *psz);
 extern void    WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt);
@@ -36,6 +37,7 @@ extern void    WinLboxSetItemHandle(HWND hwnd, UINT idx, LONG hdl);
 extern void    WinDlgLboxEmpty(HWND hwnd, ULONG id);
 extern MRESULT WinDlgLboxSettop(HWND hwnd, USHORT id);
 extern MRESULT WinDlgLboxSettopIdx(HWND hwnd, USHORT id, UINT idx);
+extern UINT    WinDlgLboxQueryTopIdx(HWND hwnd, USHORT id);
 extern LONG    WinDlgLboxQueryCount(HWND hwnd, USHORT id);
 extern BOOL    WinDlgLboxSelectItem(HWND hwnd, USHORT id, UINT idx);
 extern LONG    WinDlgLboxInsertItem(HWND hwnd, USHORT id, const char *psz);

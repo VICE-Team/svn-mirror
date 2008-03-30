@@ -54,7 +54,7 @@
 extern void PM_close(void);
 extern void video_close(void);
 
-#include "vsyncarch.h"
+#include "vsyncapi.h"
 // -------------------------------------------------------------------------
 
 // 0 if Emulator is paused

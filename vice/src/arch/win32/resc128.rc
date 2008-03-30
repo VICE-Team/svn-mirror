@@ -125,8 +125,14 @@ BEGIN
 	MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
 #ifdef HAVE_RESID
-        MENUITEM "&Enable resid",                   IDM_TOGGLE_SOUND_RESID
+        MENUITEM "&Enable reSID",                   IDM_TOGGLE_SOUND_RESID
         , CHECKED
+        POPUP "reSID sample method"
+        BEGIN
+            MENUITEM "fast",                        IDM_RESID_SAMPLE_FAST
+            MENUITEM "interpolating",               IDM_RESID_SAMPLE_INTERPOLATE
+            MENUITEM "resampling",                  IDM_RESID_SAMPLE_RESAMPLE
+        END
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
