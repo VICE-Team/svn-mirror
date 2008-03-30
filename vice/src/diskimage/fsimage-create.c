@@ -42,11 +42,8 @@
 #include "utils.h"
 #include "x64.h"
 
-/* Remove this!!! */
-#include "tap.h"
 
-
-static log_t createdisk_log = LOG_ERR;
+static log_t createdisk_log = LOG_DEFAULT;
 
 
 static int disk_image_create_gcr(disk_image_t *image)
@@ -155,8 +152,6 @@ int fsimage_create(const char *name, unsigned int type)
         break;
       case DISK_IMAGE_TYPE_G64:
         break;
-      case DISK_IMAGE_TYPE_TAP:
-        break;
       default:
         log_error(createdisk_log,
                   "Wrong image type.  Cannot create disk image.");
@@ -165,7 +160,6 @@ int fsimage_create(const char *name, unsigned int type)
 
     image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
     fsimage = (fsimage_t *)lib_malloc(sizeof(fsimage_t));
-
 
     image->media = fsimage;
     image->device = DISK_IMAGE_DEVICE_FS;
@@ -182,7 +176,7 @@ int fsimage_create(const char *name, unsigned int type)
         return -1;
     }
 
-    memset(block, 0, 256);
+    memset(block, 0, sizeof(block));
 
     switch (type) {
       case DISK_IMAGE_TYPE_X64:
@@ -237,19 +231,6 @@ int fsimage_create(const char *name, unsigned int type)
             return -1;
         }
         break;
-      case DISK_IMAGE_TYPE_TAP:
-        /* create an empty tap */
-        strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
-        block[TAP_HDR_VERSION] = 1;
-        util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
-        if (fwrite(block, 24, 1, fsimage->fd) < 1) {
-            fclose(fsimage->fd);
-            lib_free(fsimage->name);
-            lib_free(fsimage);
-            lib_free(image);
-            return -1;
-        }
-
     }
 
     fclose(fsimage->fd);

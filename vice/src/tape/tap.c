@@ -163,6 +163,37 @@ int tap_close(tap_t *tap)
 
 /* ------------------------------------------------------------------------- */
 
+int tap_create(const char *name)
+{
+    FILE *fd;
+    BYTE block[256];
+
+    memset(block, 0, sizeof(block));
+
+    fd = fopen(name, MODE_WRITE);
+
+    if (fd == NULL)
+        return -1;
+
+    /* create an empty tap */
+    strcpy((char *)&block[TAP_HDR_MAGIC_OFFSET], "C64-TAPE-RAW");
+
+    block[TAP_HDR_VERSION] = 1;
+
+    util_dword_to_le_buf(&block[TAP_HDR_LEN], 4);
+
+    if (fwrite(block, 24, 1, fd) < 1) {
+        fclose(fd);
+        return -1;
+    }
+
+    fclose(fd);
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 inline static void tap_unget_bit(tap_t *tap)
 {
     fseek(tap->fd, -1, SEEK_CUR);
