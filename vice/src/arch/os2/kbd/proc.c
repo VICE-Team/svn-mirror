@@ -197,12 +197,12 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
 // ------------------------------------------------------------------
 
 #ifdef __X128__
-void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
 }
 
-void kbd_register_caps_key(key_ctrl_caps_func_t func)
+void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 {
     key_ctrl_caps_func = func;
 }

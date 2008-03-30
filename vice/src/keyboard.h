@@ -45,6 +45,14 @@ extern void keyboard_set_keyarr(int row, int col, int value);
 extern void keyboard_set_keyarr_and_latch(int row, int col, int value);
 extern void keyboard_clear_keymatrix(void);
 
+extern int keyboard_set_keymap_index(void *v, void *param);
+extern int keyboard_set_keymap_file(void *v, void *param);
+extern int keyboard_keymap_dump(const char *filename);
+
+extern void keyboard_key_pressed(signed long key);
+extern void keyboard_key_released(signed long key);
+extern void keyboard_key_clear(void);
+
 enum joystick_bits_s {
     CBM_NORTH = 0x1,
     CBM_SOUTH = 0x2,
@@ -59,8 +67,14 @@ extern void joystick_set_value_or(unsigned int joyport, BYTE value);
 extern void joystick_set_value_and(unsigned int joyport, BYTE value);
 extern void joystick_clear(unsigned int joyport);
 
-extern int keyboard_set_keymap_index(void *v, void *param);
-extern int keyboard_set_keymap_file(void *v, void *param);
+extern int joystick_port_map[2];
+
+typedef void (*key_ctrl_column4080_func_t)(void);
+extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
+
+typedef void (*key_ctrl_caps_func_t)(void);
+extern void keyboard_register_caps_key(key_ctrl_caps_func_t func);
+
 
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
@@ -79,12 +93,6 @@ extern int kbd_resources_init(void);
 
 extern int pet_kbd_cmdline_options_init(void);
 extern int pet_kbd_resources_init(void);
-
-typedef void (*key_ctrl_column4080_func_t)(void);
-extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
-
-typedef void (*key_ctrl_caps_func_t)(void);
-extern void kbd_register_caps_key(key_ctrl_caps_func_t func);
 
 #endif
 

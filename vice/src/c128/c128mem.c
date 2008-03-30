@@ -2055,7 +2055,7 @@ void mem_initialize_memory(void)
 
     mmu_reset();
 
-    kbd_register_caps_key(mem_toggle_caps_key);
+    keyboard_register_caps_key(mem_toggle_caps_key);
 
     top_shared_limit = 0xffff;
     bottom_shared_limit = 0x0000;

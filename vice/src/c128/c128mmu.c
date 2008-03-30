@@ -313,6 +313,6 @@ void mmu_reset(void)
     for (i = 0; i < 0xb; i++)
         mmu[i] = 0;
 
-    kbd_register_column4080_key(mmu_toggle_column4080_key);
+    keyboard_register_column4080_key(mmu_toggle_column4080_key);
 }
 
