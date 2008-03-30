@@ -71,6 +71,9 @@ UI_MENU_DEFINE_TOGGLE(VDCFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_RADIO(VDCVidmodeFullscreenMode);
 #endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+UI_MENU_DEFINE_RADIO(VDCDGA1FullscreenMode);
+#endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(VDCDGA2FullscreenMode);
 #endif
@@ -79,6 +82,10 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_VDCFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
+#endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    { "*DGA2", (ui_callback_t)radio_VDCFullscreenDevice,
+      (ui_callback_data_t)"DGA1", NULL },
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     { "*DGA2", (ui_callback_t)radio_VDCFullscreenDevice,
@@ -105,13 +112,19 @@ ui_menu_entry_t vdc_submenu[] = {
       (ui_callback_t)toggle_VDCFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
+    /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
+       of the translation e.g. German: "VidMode Auflösungen" */
 #ifdef USE_XF86_VIDMODE_EXT
-    /* Translators: 'VidMode' must remain in the beginning of the translation
-       e.g. German: "VidMode Auflösungen" */
     { N_("VidMode Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
 #endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    { N_("DGA1 Resolutions"),
+      (ui_callback_t) NULL, NULL, NULL },
+#endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
+    { N_("DGA2 Resolutions"),
+      (ui_callback_t) NULL, NULL, NULL },
 #endif
     { "--" },
 #endif
@@ -131,6 +144,10 @@ void uivdc_create_menus(void)
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
                              (void *)radio_VDCVidmodeFullscreenMode);
+#endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    fullscreen_mode_callback("DGA1",
+                             (void *)radio_VDCDGA1FullscreenMode);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_callback("DGA2",

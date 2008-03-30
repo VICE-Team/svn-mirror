@@ -481,12 +481,12 @@ int video_resources_chip_init(const char *chipname,
             resource_chip_mode->resource_chip = resource_chip;
             resource_chip_mode->device = i;
 
-            resources_chip_fullscreen_mode[i].name
+            resources_chip_fullscreen_mode[0].name
                 = concat(chipname, video_chip_cap->fullscreen.device_name[i],
                     vname_chip_fullscreen_mode[0], NULL);
-            resources_chip_fullscreen_mode[i].value_ptr
+            resources_chip_fullscreen_mode[0].value_ptr
                 = (resource_value_t *)&(resource_chip->fullscreen_mode[i]);
-            resources_chip_fullscreen_mode[i].param
+            resources_chip_fullscreen_mode[0].param
                 = (void *)resource_chip_mode;
 
             if (resources_register(resources_chip_fullscreen_mode) < 0)

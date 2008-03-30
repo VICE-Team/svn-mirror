@@ -62,6 +62,9 @@ UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleScan)
 #ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_RADIO(CrtcVidmodeFullscreenMode);
 #endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+UI_MENU_DEFINE_RADIO(CrtcDGA1FullscreenMode);
+#endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(CrtcDGA2FullscreenMode);
 #endif
@@ -70,6 +73,10 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_CrtcFullscreenDevice,
       (ui_callback_data_t)"Vidmode", NULL },
+#endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    { "*DGA1", (ui_callback_t)radio_CrtcFullscreenDevice,
+      (ui_callback_data_t)"DGA1", NULL },
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     { "*DGA2", (ui_callback_t)radio_CrtcFullscreenDevice,
@@ -98,13 +105,19 @@ ui_menu_entry_t crtc_submenu[] = {
       (ui_callback_t)toggle_CrtcFullscreenDoubleScan, NULL, NULL },
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
+    /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
+       of the translation e.g. German: "VidMode Auflösungen" */
 #ifdef USE_XF86_VIDMODE_EXT
-    /* Translators: 'VidMode' must remain in the beginning of the translation
-       e.g. German: "VidMode Auflösungen" */
     { N_("VidMode Resolutions"),
       (ui_callback_t) NULL, NULL, NULL },
 #endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    { N_("DGA1 Resolutions"),
+      (ui_callback_t)NULL, NULL, NULL },
+#endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
+    { N_("DGA2 Resolutions"),
+      (ui_callback_t)NULL, NULL, NULL },
 #endif
 #endif
     { "--" },
@@ -119,6 +132,10 @@ void uicrtc_create_menus(void)
 #ifdef USE_XF86_VIDMODE_EXT
     fullscreen_mode_callback("Vidmode",
                              (void *)radio_CrtcVidmodeFullscreenMode);
+#endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    fullscreen_mode_callback("DGA1",
+                             (void *)radio_CrtcDGA1FullscreenMode);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_callback("DGA2",
