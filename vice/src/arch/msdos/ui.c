@@ -152,7 +152,7 @@ static char *attach_disk_callback(int been_activated, void *param)
 				       read_disk_image_contents);
 
 	if (name != NULL
-	    && serial_select_file(DT_DISK | DT_1541, (int)param, name) < 0) {
+	    && file_system_attach_disk((int)param, name) < 0) {
 	    tui_error("Invalid disk image.");
 	    return NULL;
 	}
@@ -723,9 +723,19 @@ static char *show_copyright_callback(int been_activated, void *param_unused)
 	    "(unstable)",
 #endif
 	    "",
-	    "Copyright (c) 1993-1998",
+#if 1
+             "Copyright (c) 1996-1998 Ettore Perazzoli, Andre Fachat",
+             "Copyright (c) 1993-1994, 1997-1998 Teemu Rantanen",
+             "Copyright (c) 1997-1998 Daniel Sladic",
+             "Copyright (c) 1998 Andreas Boose",
+             "Copyright (c) 1993-1996 Jouko Valta",
+             "Copyright (c) 1993-1994 Jarkko Sonninen",
+#else
+            "Copyright (c) 1993-1998",
 	    "E. Perazzoli, T. Rantanen, A. Fachat,",
-	    "J. Valta, D. Sladic and J. Sonninen", "",
+	    "J. Valta, D. Sladic and J. Sonninen",
+#endif
+            "",
 	    "Official VICE homepage:",
 	    "http://www.tu-chemnitz.de/~fachat/vice/vice.html",
 #ifdef UNSTABLE
