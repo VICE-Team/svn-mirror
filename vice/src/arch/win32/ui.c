@@ -38,6 +38,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
+#include "fliplist.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "machine.h"
@@ -179,90 +180,45 @@ int ui_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------ */
 
-static ACCEL    c64_accel[]={
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+#define UI_COMMON_HOTKEYS \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},  \
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},           \
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},             \
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},             \
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},            \
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},            \
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},          \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},   \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},   \
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},        \
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},        \
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},              \
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},                 \
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},     \
+    {FVIRTKEY|FALT|FNOINVERT,VK_I,IDM_FLIP_ADD},             \
+    {FVIRTKEY|FALT|FNOINVERT,VK_K,IDM_FLIP_REMOVE},          \
+    {FVIRTKEY|FALT|FNOINVERT,VK_N,IDM_FLIP_NEXT},            \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_N,IDM_FLIP_PREVIOUS},
+
+static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,VK_F,IDM_CART_FREEZE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+    UI_COMMON_HOTKEYS
 };
 
-static ACCEL    c128_accel[]={
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+static ACCEL c128_accel[] = {
+    UI_COMMON_HOTKEYS
 };
 
-static ACCEL    cbm2_accel[]={
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+static ACCEL cbm2_accel[] = {
+    UI_COMMON_HOTKEYS
 };
 
-static ACCEL    vic_accel[]={
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+static ACCEL vic_accel[] = {
+    UI_COMMON_HOTKEYS
 };
 
-static ACCEL    pet_accel[]={
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+static ACCEL pet_accel[] = {
+    UI_COMMON_HOTKEYS
 };
 
 /* Initialize the UI before setting all the resource values.  */
@@ -272,33 +228,32 @@ int ui_init(int *argc, char **argv)
     WORD menu;
     RECT    rect;
 
-
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,15);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,19);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,14);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,18);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,14);
+            ui_accelerator=CreateAcceleratorTable(vic_accel,18);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,14);
+            ui_accelerator=CreateAcceleratorTable(pet_accel,18);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,14);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,18);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,15);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,19);
     }
 
     /* Register the window class.  */
@@ -420,13 +375,16 @@ void ui_update_menus(void)
     }
 
     for (i = 0; value_list[i].name != NULL; i++) {
-        result=resources_get_value(value_list[i].name, (resource_value_t *) &value);
+        result=resources_get_value(value_list[i].name,
+                                   (resource_value_t *) &value);
         if (result==0) {
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value) {
-                    CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_CHECKED);
+                    CheckMenuItem(menu,value_list[i].vals[j].item_id,
+                                  MF_CHECKED);
                 } else {
-                    CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_UNCHECKED);
+                    CheckMenuItem(menu,value_list[i].vals[j].item_id,
+                                  MF_UNCHECKED);
                 }
             }
         }
@@ -652,7 +610,7 @@ char    *fullname2;
 
 static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-char    *fullname;
+    char *fullname;
 
     fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[lastindex].name,NULL);
     if (machine_read_snapshot(fullname)<0) {
@@ -722,7 +680,7 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
     return FALSE;
 }
 
-static void scan_files()
+static void scan_files(void)
 {
 WIN32_FIND_DATA     file_info;
 HANDLE              search_handle;
@@ -839,6 +797,22 @@ char *dname;
         file_system_detach_disk(9);
         file_system_detach_disk(10);
         file_system_detach_disk(11);
+        break;
+      case IDM_FLIP_ADD|0x00010000:
+      case IDM_FLIP_ADD:
+        flip_add_image();
+        break;
+      case IDM_FLIP_REMOVE|0x00010000:
+      case IDM_FLIP_REMOVE:
+        flip_remove(-1, NULL);
+        break;
+      case IDM_FLIP_NEXT|0x00010000:
+      case IDM_FLIP_NEXT:
+        flip_attach_head(1);
+        break;
+      case IDM_FLIP_PREVIOUS|0x00010000:
+      case IDM_FLIP_PREVIOUS:
+        flip_attach_head(0);
         break;
       case IDM_ATTACH_TAPE|0x00010000:
       case IDM_ATTACH_TAPE:
