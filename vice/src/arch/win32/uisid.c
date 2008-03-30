@@ -138,7 +138,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
             if (mode == 0) {
                 SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
                 if (adr == res_value)
-                    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)index,0);
+                    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
             } else if (index == cursel) {
                 resources_set_value("SidStereoAddressStart",
                                     (resource_value_t)adr);
@@ -276,10 +276,10 @@ static BOOL CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
           case PSN_KILLACTIVE:
             resources_set_value("SidFilters", (resource_value_t)
                                 (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS)
-                                == BST_CHECKED ? 1 : 0 ));
-            resources_set_value("SidStereo", (resource_value_t)
-                                (IsDlgButtonChecked
-                                (hwnd,IDC_SID_STEREO) == BST_CHECKED ? 1 : 0 ));
+                                == BST_CHECKED ? 1 : 0));
+            resources_set_value("SidStereo",
+                                (resource_value_t)(IsDlgButtonChecked
+                                (hwnd, IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
             CreateAndGetSidAddress(hwnd, 1);
             return TRUE;
         }
