@@ -49,7 +49,7 @@ extern void vic_ii_powerup(void);
 extern void vic_ii_set_canvas_refresh(int enable);
 extern void vic_ii_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
-extern void vic_ii_handle_pending_alarms(int num_write_cycles);
+extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
 extern void vic_ii_screenshot(struct screenshot_s *screenshot);
 extern void vic_ii_free(void);
 

@@ -399,6 +399,7 @@ extern void vic_ii_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
 extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
 extern void vic_ii_resize(void);
+extern void vic_ii_handle_pending_alarms(int num_write_cycles);
 
 /* Debugging options.  */
 

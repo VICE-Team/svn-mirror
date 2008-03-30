@@ -283,6 +283,11 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
     }
 }
 
+void vic_ii_handle_pending_alarms_external(int num_write_cycles)
+{
+    if (vic_ii.initialized)
+        vic_ii_handle_pending_alarms(num_write_cycles);
+}
 
 static void vic_ii_set_geometry(void)
 {

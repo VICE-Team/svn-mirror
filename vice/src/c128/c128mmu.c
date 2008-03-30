@@ -173,7 +173,7 @@ void mmu_set_config64(int config)
 
 BYTE REGPARM1 mmu_read(ADDRESS addr)
 {
-    vic_ii_handle_pending_alarms(0);
+    vic_ii_handle_pending_alarms_external(0);
 
     addr &= 0xff;
 
@@ -197,7 +197,7 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 
 void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 {
-    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
     address &= 0xf;
 
