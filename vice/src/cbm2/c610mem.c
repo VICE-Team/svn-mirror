@@ -75,6 +75,9 @@ BYTE ram[C610_RAM_SIZE];                /* 1M, banks 0-14 plus extension RAM
 BYTE rom[C610_ROM_SIZE];                /* complete bank 15 ROM + video RAM */
 BYTE chargen_rom[C610_CHARGEN_ROM_SIZE];
 
+/* Pointer to the chargen ROM.  */
+BYTE *chargen_rom_ptr;
+
 BYTE *page_zero;
 BYTE *page_one;
 
@@ -712,6 +715,8 @@ void mem_reset(void) {
 void mem_initialize_memory(void)
 {
     int i;
+
+    chargen_rom_ptr = chargen_rom;
 
     /* first the tables that hold the predefined bank mappings */
     for (i = 0; i < 16; i++) {          /* 16 banks possible */

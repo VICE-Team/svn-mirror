@@ -69,6 +69,7 @@ extern int mem_load_chargen(const char *rom_name);
 extern BYTE basic_rom[C64_BASIC_ROM_SIZE];
 extern BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 extern BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+extern BYTE *chargen_rom_ptr;
 
 extern int c64mem_get_kernal_checksum(void);
 extern int c64mem_get_basic_checksum(void);

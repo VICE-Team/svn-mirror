@@ -93,11 +93,6 @@
 #include "fullscreen.h"
 #endif
 
-/* FIXME: PAL/NTSC constants should be moved from drive.h */
-#define DRIVE_SYNC_PAL     -1
-#define DRIVE_SYNC_NTSC    -2
-#define DRIVE_SYNC_NTSCOLD -3
-
 /* ---------------------------------------------------------------------*/
 
 /* set phi1 address options */
@@ -165,10 +160,10 @@ static void vic_ii_change_timing(void)
 {
     resource_value_t mode;
 
-    resources_get_value("VideoStandard", &mode);
+    resources_get_value("MachineVideoStandard", &mode);
 
     switch ((int)mode) {
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
         clk_guard_set_clk_base(&maincpu_clk_guard, C64_NTSC_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
@@ -187,7 +182,7 @@ static void vic_ii_change_timing(void)
         vic_ii.last_dma_line = VIC_II_NTSC_LAST_DMA_LINE;
         vic_ii.offset = VIC_II_NTSC_OFFSET;
         break;
-      case DRIVE_SYNC_NTSCOLD:
+      case MACHINE_SYNC_NTSCOLD:
         clk_guard_set_clk_base(&maincpu_clk_guard, C64_NTSCOLD_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
@@ -206,7 +201,7 @@ static void vic_ii_change_timing(void)
         vic_ii.last_dma_line = VIC_II_NTSCOLD_LAST_DMA_LINE;
         vic_ii.offset = VIC_II_NTSCOLD_OFFSET;
         break;
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
       default:
         clk_guard_set_clk_base(&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
@@ -243,16 +238,17 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
 
         /* Go back to the time when the read accesses happened and serve VIC
          events.  */
-        clk -= num_write_cycles;
+        maincpu_clk -= num_write_cycles;
 
         do {
             f = 0;
-            if (clk > vic_ii.fetch_clk) {
+            if (maincpu_clk > vic_ii.fetch_clk) {
                 vic_ii_raster_fetch_alarm_handler(0);
                 f = 1;
             }
-            if (clk >= vic_ii.draw_clk) {
-                vic_ii_raster_draw_alarm_handler((long)(clk - vic_ii.draw_clk));
+            if (maincpu_clk >= vic_ii.draw_clk) {
+                vic_ii_raster_draw_alarm_handler((long)(maincpu_clk
+                                                 - vic_ii.draw_clk));
                 f = 1;
             }
         }
@@ -263,18 +259,18 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
            accesses - except BRK and JSR - are the RMW ones, which store the
            old value in the first write access, and then store the new one in
            the second write access).  */
-        clk += num_write_cycles;
+        maincpu_clk += num_write_cycles;
 
     } else {
         int f;
 
         do {
             f = 0;
-            if (clk >= vic_ii.fetch_clk) {
+            if (maincpu_clk >= vic_ii.fetch_clk) {
                 vic_ii_raster_fetch_alarm_handler(0);
                 f = 1;
             }
-            if (clk >= vic_ii.draw_clk) {
+            if (maincpu_clk >= vic_ii.draw_clk) {
                 vic_ii_raster_draw_alarm_handler(0);
                 f = 1;
             }
@@ -702,13 +698,13 @@ static inline void vic_ii_set_vbanks(int vbank_p1, int vbank_p2)
        FIXME: Change name?  */
     /* Also, we assume the bank has *really* changed, and do not do any
        special optimizations for the not-really-changed case.  */
-    vic_ii_handle_pending_alarms (rmw_flag + 1);
-    if (clk >= vic_ii.draw_clk)
-        vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
+    vic_ii_handle_pending_alarms(maincpu_rmw_flag + 1);
+    if (maincpu_clk >= vic_ii.draw_clk)
+        vic_ii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
 
     vic_ii.vbank_phi1 = vbank_p1;
     vic_ii.vbank_phi2 = vbank_p2;
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 }
 
 /* Phi1 and Phi2 accesses */
@@ -779,9 +775,9 @@ void vic_ii_set_raster_irq(unsigned int line)
         return;
 
     if (line < vic_ii.screen_height) {
-        unsigned int current_line = VIC_II_RASTER_Y(clk);
+        unsigned int current_line = VIC_II_RASTER_Y(maincpu_clk);
 
-        vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(clk)
+        vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
                                  + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                  + (vic_ii.cycles_per_line
                                  * (line - current_line)));
@@ -815,12 +811,12 @@ void vic_ii_set_raster_irq(unsigned int line)
 /* Change the base of RAM seen by the VIC-II.  */
 static inline void vic_ii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 {
-    /* WARNING: assumes `rmw_flag' is 0 or 1.  */
-    vic_ii_handle_pending_alarms(rmw_flag + 1);
+    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
+    vic_ii_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     vic_ii.ram_base_phi1 = base_p1;
     vic_ii.ram_base_phi2 = base_p2;
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 }
 
 void vic_ii_set_ram_base(BYTE *base)
@@ -842,7 +838,7 @@ void vic_ii_set_phi2_ram_base(BYTE *base)
 void vic_ii_update_memory_ptrs_external(void)
 {
     if (vic_ii.initialized > 0)
-        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 }
 
 /* Set the memory pointers according to the values in the registers.  */
@@ -868,7 +864,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
         vic_ii.screen_base = vic_ii.ram_base_phi2 + screen_addr;
         VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
     } else {
-        vic_ii.screen_base = chargen_rom + (screen_addr & 0x800);
+        vic_ii.screen_base = chargen_rom_ptr + (screen_addr & 0x800);
         VIC_II_DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
                               screen_addr & 0x800));
     }
@@ -886,7 +882,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
         char_base = vic_ii.ram_base_phi1 + tmp;
         VIC_II_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
     } else {
-        char_base = chargen_rom + (tmp & 0x0800);
+        char_base = chargen_rom_ptr + (tmp & 0x0800);
         VIC_II_DEBUG_REGISTER(("\tStandard %s character set enabled\n",
                                tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
@@ -914,7 +910,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                              + 0x3fff]);
     }
 
-    if (tmp <= 0 && clk < vic_ii.draw_clk) {
+    if (tmp <= 0 && maincpu_clk < vic_ii.draw_clk) {
         old_screen_ptr = vic_ii.screen_ptr = vic_ii.screen_base;
         old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base;
         old_chargen_ptr = vic_ii.chargen_ptr = char_base;
@@ -1025,7 +1021,8 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                 &vic_ii.raster.overscan_background_color, 0);
             raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
+                (&vic_ii.raster,
+                VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
                 &vic_ii.raster.xsmooth_color, 0);
             vic_ii.get_background_from_vbuf = 0;
             vic_ii.force_black_overscan_background_color = 1;
@@ -1035,7 +1032,8 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                 &vic_ii.raster.overscan_background_color, 0);
             raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
+                (&vic_ii.raster,
+                VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.background_color_source & 0x0f);
             vic_ii.get_background_from_vbuf = VIC_II_HIRES_BITMAP_MODE;
@@ -1047,7 +1045,8 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 &vic_ii.raster.overscan_background_color,
                 vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
             raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
+                (&vic_ii.raster,
+                VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
             vic_ii.get_background_from_vbuf = VIC_II_EXTENDED_TEXT_MODE;
@@ -1062,7 +1061,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
                 vic_ii.regs[0x21]);
             raster_add_int_change_background
                 (&vic_ii.raster,
-                VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
+                VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.regs[0x21]);
             vic_ii.get_background_from_vbuf = 0;
@@ -1288,10 +1287,10 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
 
         /* Calculate time for next event.  */
-        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
+        vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
                            + vic_ii.sprite_fetch_cycle);
 
-        if (vic_ii.fetch_clk > clk || offset == 0) {
+        if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
             /* Prepare the next fetch event.  */
             alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
             return 1;
@@ -1323,7 +1322,7 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
     check_sprite_dma();
 
     /* FIXME?  Slow!  */
-    vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK (clk)
+    vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
                               + vic_ii.sprite_fetch_cycle);
     vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
 
@@ -1358,7 +1357,7 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
         }
     }
 
-    if (vic_ii.fetch_clk > clk || offset == 0) {
+    if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
         return 1;
     }
@@ -1403,7 +1402,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                       + ((*spr_base - 0xc0) << 6));
         } else {
             if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
-                src = chargen_rom + ((*spr_base - 0x40) << 6);
+                src = chargen_rom_ptr + ((*spr_base - 0x40) << 6);
         }
 
         dest[0] = src[my_memptr];
@@ -1436,16 +1435,16 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         vic_ii.fetch_clk = vic_ii.sprite_fetch_clk + next_cycle;
     }
 
-    if (clk >= vic_ii.draw_clk)
-        vic_ii_raster_draw_alarm_handler(clk - vic_ii.draw_clk);
+    if (maincpu_clk >= vic_ii.draw_clk)
+        vic_ii_raster_draw_alarm_handler(maincpu_clk - vic_ii.draw_clk);
 
-    if (vic_ii.fetch_clk > clk || offset == 0) {
+    if (vic_ii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
         return 1;
     }
 
-    if (clk >= vic_ii.raster_irq_clk)
-        vic_ii_raster_irq_alarm_handler(clk - vic_ii.raster_irq_clk);
+    if (maincpu_clk >= vic_ii.raster_irq_clk)
+        vic_ii_raster_irq_alarm_handler(maincpu_clk - vic_ii.raster_irq_clk);
 
     return 0;
 }
@@ -1465,23 +1464,24 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
           case 0:
             /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
                accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = clk - 5;
-            last_opcode_last_write_clk = clk - 3;
+            last_opcode_first_write_clk = maincpu_clk - 5;
+            last_opcode_last_write_clk = maincpu_clk - 3;
             break;
 
           case 0x20:
             /* In JSR, the 4th and 5th cycles are write accesses, while the
                1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = clk - 3;
-            last_opcode_last_write_clk = clk - 2;
+            last_opcode_first_write_clk = maincpu_clk - 3;
+            last_opcode_last_write_clk = maincpu_clk - 2;
             break;
 
           default:
             /* In all the other opcodes, all the write accesses are the last
                ones.  */
             if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = clk - 1;
-                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
+                last_opcode_last_write_clk = maincpu_clk - 1;
+                last_opcode_first_write_clk = maincpu_clk
+                                              - maincpu_num_write_cycles();
             } else {
                 last_opcode_first_write_clk = (CLOCK)0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
