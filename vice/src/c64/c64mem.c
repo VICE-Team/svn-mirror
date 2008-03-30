@@ -825,7 +825,27 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 
 int mem_rom_trap_allowed(ADDRESS addr)
 {
-    return addr >= 0xe000 && (mem_config & 0x2);
+    if (addr >= 0xe000) {
+        switch (mem_config) {
+          case 2:
+          case 3:
+          case 6:
+          case 7:
+          case 10:
+          case 11:
+          case 14:
+          case 15:
+          case 26:
+          case 27:
+          case 30:
+          case 31:
+            return 1;
+          default: 
+            return 0;
+       }
+    }
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

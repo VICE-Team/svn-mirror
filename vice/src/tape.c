@@ -409,7 +409,7 @@ void tape_receive_trap(void)
             len = end - start;
 
             if (t64_read(attached_t64_tape,
-                         ram + (int) start, (int) len) == (int) len) {
+                         ram + (int)start, (int)len) == (int)len) {
                 st = 0x40;      /* EOF */
             } else {
                 st = 0x10;
