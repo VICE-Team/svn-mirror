@@ -38,12 +38,12 @@
 #include "machine.h"
 #include "menudefs.h"
 #include "resources.h"
-#include "sidui.h"
 #include "tui.h"
 #include "tuifs.h"
 #include "tuimenu.h"
 #include "types.h"
 #include "ui.h"
+#include "uisid.h"
 #include "utils.h"
 
 

@@ -33,11 +33,10 @@
 #include "menudefs.h"
 #include "plus4ui.h"
 #include "resources.h"
-#include "sidui.h"
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
-
+#include "uisid.h"
 
 static struct {
     char *name;
