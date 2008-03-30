@@ -39,26 +39,6 @@
 /* (All have 8, except CBM-II that has 6) */
 #define KBD_COLS    8
 
-enum shift_type {
-    NO_SHIFT = 0,             /* Key is not shifted. */
-    VIRTUAL_SHIFT = (1 << 0), /* The key needs a shift on the real machine. */
-    LEFT_SHIFT = (1 << 1),    /* Key is left shift. */
-    RIGHT_SHIFT = (1 << 2),   /* Key is right shift. */
-    ALLOW_SHIFT = (1 << 3),   /* Allow key to be shifted. */
-    DESHIFT_SHIFT = (1 << 4), /* Although SHIFT might be pressed, do not
-                                 press shift on the real machine. */
-    ALLOW_OTHER = (1 << 5)    /* Allow another key code to be assigned if
-                                 SHIFT is pressed. */
-};
-
-typedef struct keyboard_conv_s {
-    signed long sym;
-    int row;
-    int column;
-    enum shift_type shift;
-    char *comment;
-} keyboard_conv_t;
-
 struct snapshot_s;
 
 extern void keyboard_init(void);
@@ -89,6 +69,8 @@ extern void keyboard_register_caps_key(key_ctrl_caps_func_t func);
 
 typedef void (*keyboard_machine_func_t)(int *);
 extern void keyboard_register_machine(keyboard_machine_func_t func);
+
+extern void keyboard_alternative_set(int alternative);
 
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
