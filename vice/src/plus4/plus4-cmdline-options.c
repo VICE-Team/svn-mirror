@@ -38,6 +38,10 @@ static cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of Kernal ROM image" },
     { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
       "<name>", "Specify name of BASIC ROM image" },
+    { "-3plus1lo", SET_RESOURCE, 1, NULL, NULL, "3plus1loName", NULL,
+      "<name>", "Specify name of 3plus1 low ROM image" },
+    { "-3plus1hi", SET_RESOURCE, 1, NULL, NULL, "3plus1hiName", NULL,
+      "<name>", "Specify name of 3plus1 high ROM image" },
     { NULL }
 };
 

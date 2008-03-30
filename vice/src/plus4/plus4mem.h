@@ -48,6 +48,8 @@ extern BYTE *mem_get_tedmem_base(unsigned int segment);
 
 extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
+extern int mem_load_3plus1lo(const char *rom_name);
+extern int mem_load_3plus1hi(const char *rom_name);
 
 extern void mem_proc_port_trigger_flux_change(unsigned int on);
 extern void pio1_set_tape_sense(int sense);

@@ -39,6 +39,10 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
+/* Name of the 3plus1 ROMs.  */
+static char *tplus1lo_rom_name = NULL;
+static char *tplus1hi_rom_name = NULL;
+
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
     if (util_string_set(&kernal_rom_name, (const char *)v))
@@ -55,6 +59,22 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     return mem_load_basic(basic_rom_name);
 }
 
+static int set_3plus1lo_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&tplus1lo_rom_name, (const char *)v))
+        return 0;
+
+    return mem_load_3plus1lo(tplus1lo_rom_name);
+}
+
+static int set_3plus1hi_rom_name(resource_value_t v, void *param)
+{
+    if (util_string_set(&tplus1hi_rom_name, (const char *)v))
+        return 0;
+
+    return mem_load_3plus1hi(tplus1hi_rom_name);
+}
+
 static resource_t resources[] = {
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (resource_value_t *)&kernal_rom_name,
@@ -62,6 +82,12 @@ static resource_t resources[] = {
     { "BasicName", RES_STRING, (resource_value_t)"basic",
       (resource_value_t *)&basic_rom_name,
       set_basic_rom_name, NULL },
+    { "3plus1loName", RES_STRING, (resource_value_t)"3plus1lo",
+      (resource_value_t *)&tplus1lo_rom_name,
+      set_3plus1lo_rom_name, NULL },
+    { "3plus1hiName", RES_STRING, (resource_value_t)"3plus1hi",
+      (resource_value_t *)&tplus1hi_rom_name,
+      set_3plus1hi_rom_name, NULL },
     { NULL }
 };
 
