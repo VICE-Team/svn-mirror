@@ -1,3 +1,286 @@
+Thu Jul 23 02:42:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tuifs.c (file_selector_display_path): New parameters
+ 	`x', `y', `width'.
+	(tui_file_selector): Display the current path on the bottom of the
+ 	window, using `file_selector_display_path()', instead of using the
+ 	bottom of the screen.  Display an help message at the bottom of
+	the screen instead.
+	(tui_file_selector): Do not try to call `read_contents_func()' if
+ 	NULL.
+
+	* arch/msdos/menudefs.c: Added sound oversampling menu.
+
+Thu Jul 23 02:28:42 1998  Nathan Huizinga  <nathan@chess.nl>
+
+	* arch/msdos/log.c (log_enable, log_disable): Use `freopen()'
+ 	instead of `dup()'.
+
+Thu Jul 23 02:05:51 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c (quit_callback): Call `log_disable()'.
+
+	* arch/msdos/ui.c (enable_log, disable_log): Removed.
+	(mon_trap): Removed.
+	(ui_init_finish): Call `log_enable()' instead of old
+ 	`enable_log()'.
+
+	* arch/msdos/log.c (log_disable, log_enable): New file, new
+ 	functions.
+
+	* arch/msdos/log.h: New file.
+
+	* arch/msdos/menudefs.c (mon_trap): Fixed so that it works (at
+	last!).
+
+	* c64/vicii.c [__MSDOS__]: Disable video cache by default.
+	* vic20/vic.c [__MSDOS__]: Likewise.
+	* pet/pet.c [__MSDOS__]: Likewise.
+
+	* arch/msdos/vsync.c (do_vsync): Call the `vsync_hook'.
+
+	* autostart.c: Removed some debugging messages.
+
+Wed Jul 22 15:19:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c (ui_create_main_menu): Removed "Change
+	Working Directory" menu item.
+	(change_workdir_callback): Removed.
+
+	* arch/msdos/tuifs.c (tui_file_selector): New commands (`C-a'
+	... `C-z') to switch the current drive in the file selector.
+
+	* arch/msdos/ui.c (ui_main): Do not update the menu before
+	handling it.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): Handle `become_default'.
+
+	* pet/petsound.c (sound_machine_open): Reset the `psid' structure
+ 	after xmallocing it.
+
+	* vic20/vic20sound.c (sound_machine_open): Reset the `psid'
+	structure after xmallocing it.
+
+	* arch/msdos/tuimenu.c (tui_menu_call_callback): New parameter
+ 	`become_default'.
+	(tui_menu_update): If the callback sets `*become_default' to 1,
+ 	make the corresponding item the default for this menu.
+
+	* arch/msdos/tuimenu.h: New parameter `become_default' in
+ 	`tui_menu_call_callback_t'.
+	(TUI_MENU_CALLBACK): Added parameter `become_default'.
+	(TUI_MENU_DEFINE_RADIO): Handle `become_default'.
+
+	* arch/msdos/tuimenu.c: New member `default_item' in `struct
+ 	tui_menu'.
+	(tui_menu_create): Initialize it.
+	(tui_menu_handle): Position the highlighting bar on the
+ 	`default_item'th item on startup.  When an item is selected, set
+ 	`default_item' to it.
+	(tui_menu_call_callback): `new_par_string' made const.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): If the user presses
+	`TAB', resume emulation.
+
+	* arch/msdos/ui.c: #include "sound.h".
+	(ui_main): Call `sound_close()' when called.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): Update the menu if a
+	hotkey is pressed.
+
+	* arch/msdos/menudefs.c: New menu items for joystick settings
+ 	`ui_joystick_settings_submenu'.
+	(ui_create_main_menu): New parameter `num_joysticks'; callers
+ 	updated.
+	(speed_callback): If `tui_input_string()' returns a nonzero value
+ 	(the user left the input field with ESC), do not change the speed
+ 	index resource.
+
+	* arch/msdos/vsync.c (do_vsync): Call `joystick_update()'.
+
+Tue Jul 21 16:55:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* raster.c (handle_visible_line): Never use the cache if
+ 	`CANVAS_USES_TRIPLE_BUFFERING'.
+	(handle_visible_line_without_cache): Do not do any caching if
+ 	`CANVAS_USES_TRIPLE_BUFFERING'.
+	(handle_blank_line): Likewise.
+
+	* arch/unix/video.h (CANVAS_USES_TRIPLE_BUFFERING): New macro
+	(always 0).
+
+	* arch/msdos/video.h (CANVAS_USES_TRIPLE_BUFFERING): New macro.
+
+	* arch/msdos/video.h (canvas_refresh): Implemented triple
+ 	buffering.
+
+	* arch/msdos/video.c (canvas_set_vga_mode): If `TripleBuffering'
+	is nonzero, try to get a valid mode X resolution; if successfull,
+	set `c->use_triple_buffering' to 1 and enable the vsync
+	simulator.  Otherwise, disable it.
+	If `c->use_triple_buffering' is nonzero, create the bitmaps.
+
+	* arch/msdos/video.h: New members `use_triple_buffering',
+ 	`visible_page', `pages' and `back_page' in `struct _canvas'.
+
+Sat Jul 18 03:54:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sounddrv/soundallegro.c: Finished implementation.
+
+	* arch/msdos/video.c: New resource `TripleBuffering' (integer
+ 	value stored in `try_triple_buffering'; new command-line options
+ 	`-triplebuf' and `+triplebuf'.
+
+Fri Jul 17 20:10:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sound.c (sound_init) [__MSDOS__]: Initialize the MIDAS device if
+	`USE_MIDAS_SOUND' is #defined; the Allegro one otherwise.
+
+	* arch/msdos/vsync.c: Removed any effect from `NO_SYNC' and
+ 	`USE_MIDAS_TIMER' #defines.  Removed machine dependencies and
+ 	relative #ifdef cruft.
+	(register_timer_callback): New function; different versions
+ 	depending on whether `USE_MIDAS_TIMER' is #defined or not.
+	(set_timer_speed): New version; uses `register_timer_callback()',
+	thus becoming independent on the timer type.
+
+Fri Jul 17 13:24:35 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* vic20/cartridge.c (mem_attach_cartridge): If cartridge is too
+ 	small i.e. less or equal than 4k mirror it to the upper 4k.  Only
+ 	in $A*** if a $B*** image is already attached, attach a 4k image
+ 	instead.
+
+Thu Jul 16 16:54:38 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/vic20ui.c (attach_cartridge_image_submenu):
+	New entries for 4/8k images at $2000 and $B000.
+
+	* cartridge.h: New #defines `CARTRIDGE_VIC20_*' for 4k images and
+ 	addresses $2000 and $B000.
+
+	* vic20/cartridge.c (cartridge_file_2, cartridge_file_B
+	cartfile2, cartfileB): New variables similar to the existing.
+	(set_cartridge_file_2, set_cartridge_file_B): New functions.
+	(resources): New entries CartridgeFile2000 and CartridgeFileB000.
+	(attach_cart2, attach_cartB): New functions.
+	(cmdline_options): New options -cart2 and -cartB.
+	(cartridge_attach_image): Check for $2000 and $B000 as startaddress
+	when autodetecting.  Convert type to 4KB types when image is to
+	small for 8KB.
+	(cartridge_detach_image): Detach the new images.
+	(cartridge_set_default): Set the new images.
+
+	* vic20mem.c (cartrom, cartrom6, cartromA): Replaced cartrom6 and
+ 	cartromA by cartrom that holds all cartrom images.
+	(read_rom6, read_romA): Removed.
+	(read_cartrom): Replaces read_rom6 and read_romA, works for all
+ 	cartrom areas.
+	(vic20_mem_enable_rom_block): Use read_cartrom instead of
+ 	read_rom*.
+	(initialize_memory): Check for ROM in block 1 as well.
+	(mem_attach_cartridge): Handle the new image types appropriately.
+	(mem_detach_cartridge): Handle the new image types appropriately.
+
+Wed Jul 15 14:55:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uimenu.c (popdown_submenus_action): Just return if
+	`menu_popup' is zero (prevents segfault when pressing both mouse
+	buttons simultaneously).
+
+Wed Jul 15 14:44:47 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128.c (cartridge_init_resources): Removed dummy.
+
+	* pet/pet.c (cartridge_init_resources): Removed dummy.
+
+	* c64/c64.c (machine_init_resources): Call
+ 	`cartridge_init_resources()'.
+
+	* c64/cartridge.c (cartridge_attach_image): Second parameter is
+	now const char*.
+
+	* cartridge.h (cartridge_init_resources): Fixed prototype.
+	(cartridge_init_cmdline_options): New prototype.
+	(cartridge_attach_image): Fixed prototype.
+
+	* main.c (MAIN_PROGRAM): Removed `cartridge_init_resources()'
+ 	call.
+
+	* vic20/vic20.c: #include "cmdline.h".
+	(attach_cart6, attach_cartA): New function to be called when
+ 	cmdline option gives cartridge filename.
+	(cmdline_options, cartridge_init_cmdline_options): New
+ 	array/function for cartridge-related command line options.
+	(cartridge_attach_image): Second parameter is now const char*.
+
+	* vic20/vic20.c (machine_init_resources): Call
+ 	`cartridge_init_resources()'.
+	(machine_init_cmdline_options): Call
+ 	`cartridge_init_cmdline_options()'.
+
+	* vic20/vic20mem.c (cartrom6, cartromA): New arrays to hold the
+ 	cartridge ROM images.
+	(read_rom6, read_romA): New functions to read cartridge ROMs.
+	(vic20_mem_enable_rom_block): Use `read_rom6()' and `read_romA()'
+ 	instead of `read_ram()'.
+	(mem_attach_cartridge): Copy ROM to cartrom* instead of ram.
+
+Wed Jul 15 12:49:55 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: Removed seemingly redundant `NEED_READLINE' check.
+	(base_sources): Removed `cartridge.c'.
+
+	* arch/unix/xaw/uicommands.c: Do not #include "cartridge.h".
+	(attach_cartridge, detach_cartridge, default_cartridge): Removed.
+	(freeze_cartridge, attach_cartridge_image_submenu): Removed.
+	(ui_cartridge_commands_menu): Removed.
+
+	* arch/unix/xaw/c64ui.c: #include "cartridge.h".
+	(attach_cartridge, detach_cartridge, default_cartridge): Moved
+	from uicommands.c to here.
+	(freeze_cartridge, attach_cartridge_image_submenu): Likewise.
+	(ui_cartridge_commands_menu): Likewise.
+
+	* arch/unix/xaw/vic20ui.c: #include "cartridge.h".
+	(attach_cartridge, detach_cartridge, default_cartridge): Moved
+ 	from uicommands.c to here changed them to be VIC20 specific.
+  	(freeze_cartridge, attach_cartridge_image_submenu): Likewise.
+ 	(vic20_cartridge_commands_menu): Likewise.
+
+	* c128/c128.c, pet/pet.c (cartridge_init_resources): Dummy
+ 	function that replaces the cartridge file stuff.
+
+	* c128/c128mem.c, pet/petmem.c (mem_attach_cartridge): Removed.
+	(mem_detach_cartridge, mem_freeze_cartridge): Removed.
+
+	* c64/Makefile.am (libc64_a_SOURCES): Added `cartridge.c'.
+
+	* cartridge.c, c64/cartridge.c: Moved down to c64 subdirectory.
+
+	* cartridge.h: New `CARTRIDGE_VIC20_*' #defines for VIC20
+ 	cartridges.
+
+	* vic20/Makefile.am (libvic20_a_SOURCES): Added `cartridge.c'.
+
+	* vic20/cartridge.c: New file modeled after `c64/cartridge.c',
+	but much easier.  Handles 8k cartridges at $6000 and $A000.
+
+	* vic20/vic20mem.c: #include "cartridge.h".  Moved `VIC_BLK*'
+ 	defines to top, use them as ROM enable flags as well.
+	(mem_rom_blocks): New flag to see if block 3 and/or 5 are ROM.
+	(vic20_mem_enable_rom_block): New function to set ROM mapping in
+ 	block 3 or 5.
+	(initialize_memory): In blocks 3 and 5 check if ROM is enabled and
+ 	set mapping appropriately.
+	(mem_attach_cartridge, mem_detach_cartridge): Fixed to handle
+ 	VIC20 cartridges
+	(mem_freeze_cartridge): Removed.
+
+Tue Jul 14 15:38:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sounddrv/soundallegro.c: New file, Allegro driver.
+
 Sun Jul 12 18:49:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Makefile.am: Added `printer_ldadd' to `x64_DEPENDENCIES',
