@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.9
+VERSION=0.15.0.10
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -4671,7 +4671,7 @@ LIBS="$ac_save_LIBS"
 fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
-   READLINE="" LIBS="-lncurses -lreadline $LIBS"
+   READLINE="" LIBS="-lreadline -lncurses $LIBS"
 else
   echo "$ac_t""no" 1>&6
  
@@ -4714,7 +4714,7 @@ LIBS="$ac_save_LIBS"
 fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
-   READLINE="" LIBS="-lcurses -lreadline $LIBS"
+   READLINE="" LIBS="-lreadline -lcurses $LIBS"
 else
   echo "$ac_t""no" 1>&6
  READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" 
