@@ -347,7 +347,8 @@ static void kbd_parse_entry(char *buffer)
 {
     char *key, *p;
     KeySym sym;
-    int row, col, shift, i;
+    int row, col, i;
+    int shift = 0;
     keyconv *kp;
 
     key = strtok(buffer, " \t:");
