@@ -124,7 +124,7 @@ VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/mon_parse.c $(SRCDIR)/mshell.c $(SRCDIR)/palette.c \
 	$(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c \
 	$(SRCDIR)/raster.c $(SRCDIR)/resources.c $(SRCDIR)/reu.c \
-	$(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/sysfile.c \
+	$(SRCDIR)/serial.c $(SRCDIR)/sysfile.c \
 	$(SRCDIR)/tape.c $(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c \
 	$(SRCDIR)/traps.c $(SRCDIR)/true1541.c $(SRCDIR)/usleep.c \
 	$(SRCDIR)/utils.c $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c \
@@ -146,7 +146,7 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
 	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
 	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
-	$(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h $(INCLUDEDIR)/sprcycles.h \
+	$(INCLUDEDIR)/sprites.h $(INCLUDEDIR)/sprcycles.h \
 	$(INCLUDEDIR)/sprcrunch.h $(INCLUDEDIR)/sysfile.h \
 	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
 	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
@@ -299,31 +299,37 @@ XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
 
 JOY_OBJS = @JOY_OBJS@
 
+SOUND_OBJS = @SOUND_USS_OBJ@ @SOUND_SGI_OBJ@ @SOUND_HPUX_OBJ@ \
+	@SOUND_AIX_OBJ@ @SOUND_MIDAS_OBJ@ @SOUND_SDL_OBJ@
+
 COMMON_OBJS = charsets.o cmdline.o info.o mshell.o main.o tape.o tapeunit.o \
 	warn.o utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o \
 	drive.o asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o \
 	parallel.o traps.o mon.o palette.o sysfile.o resources.o autostart.o \
-	attach.o fsdevice.o @SYSPEC_OBJS@ @LIBOBJS@
+	attach.o fsdevice.o @SYSPEC_OBJS@ @LIBOBJS@ $(SOUND_OBJS) \
+	sound.o soundspeed.o sounddummy.o soundfs.o sounddump.o
 
 COMMON_LIBS = @COMMON_LIBS@
 
 TRUE1541_OBJS =  true1541.o viad1.o viad2.o 1541cpu.o
 
-C64_OBJS = patchrom.o reu.o tpi.o sid.o $(X64_SYSPEC_OBJS)
+C64_OBJS = patchrom.o reu.o tpi.o $(X64_SYSPEC_OBJS)
 
 C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64.o \
-	$(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o $(C64ODIR)/c64iec.o
+	$(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o $(C64ODIR)/c64iec.o \
+	$(C64ODIR)/sid.o
 
-VIC20_OBJS = sid_VIC20.o $(XVIC_SYSPEC_OBJS)
+VIC20_OBJS =
 
 VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
 	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o \
-        $(XVIC_SYSPEC_OBJS)
+        $(XVIC_SYSPEC_OBJS) $(VICODIR)/soundvic20.o
 
-PET_OBJS = sid_PET.o $(XPET_SYSPEC_OBJS)
+PET_OBJS = $(XPET_SYSPEC_OBJS)
 
 PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
-	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o
+	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o \
+	$(PETODIR)/soundpet.o
 
 C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) $(COMMON_OBJS) \
 	$(C64_LOBJS) $(COMMON_LIBS)
