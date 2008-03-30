@@ -76,6 +76,9 @@
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+#ifdef USE_XF86_VIDMODE_EXT
+#include "vidmode.h"
+#endif
 #ifdef USE_GNOMEUI
 #include <gdk/gdkx.h>
 #endif

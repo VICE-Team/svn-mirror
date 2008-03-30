@@ -62,6 +62,8 @@ void dump_fb(char *wo);
 #include "videoarch.h"
 #include "x11kbd.h"
 #include "video.h"
+#include "uimenu.h"
+#include "uisettings.h"
 
 typedef struct {
   int modeindex;
@@ -91,8 +93,7 @@ static DWORD *fs_saved_colors;
 static int new_palette;
 static BYTE *fs_cached_pixels;
 static raster_t *fs_cached_raster;
-static int fs_vidmodeavail = 0;
-static int fs_selected_videomode_index = -1;
+static int fs_available = 0;
 static int fs_use_fs_at_start = 0;
 static int timeout;
 static int fullscreen_is_enabled_restore;
@@ -100,7 +101,7 @@ static int EventBase, ErrorBase;
 
 int fullscreen_is_enabled;
 int request_fs_mode = 0;
-char *fs_selected_videomode;
+int fs_selected_videomode = -1;
 char *fs_selected_videomode_at_start;
 int fs_width, fs_height;
 
@@ -240,7 +241,7 @@ int fullscreen_vidmode_available(void)
     int i, j;
 
     fs_bestmode_counter = 0;
-    fs_vidmodeavail = 0;
+    fs_available = 0;
 
     display = ui_get_display_ptr();
 
@@ -257,12 +258,12 @@ int fullscreen_vidmode_available(void)
     if (! XDGAQueryVersion (display, &MajorVersion, &MinorVersion)) {
         log_error(dga_log, 
 		  _("Unable to query video extension version - disabling fullscreen."));
-	fs_vidmodeavail = 0;
+	fs_available = 0;
         return 1;
     }
     if (! XDGAQueryExtension (display, &EventBase, &ErrorBase)) {
         log_error(dga_log, _("Unable to query video extension information - disabling fullscreen."));
-	fs_vidmodeavail = 0;
+	fs_available = 0;
         return 1;
     }  
 
@@ -275,7 +276,7 @@ int fullscreen_vidmode_available(void)
         log_error(dga_log, 
 		  _("Minimum required version is %d.%d - disabling fullscreen."),
 	          DGA_MINMAJOR, DGA_MINMINOR);
-	fs_vidmodeavail = 0;
+	fs_available = 0;
         return 1;
     }
 
@@ -321,7 +322,7 @@ int fullscreen_vidmode_available(void)
 	    }
 	    if (fs_bestmode_counter == 10) 
 		break;
-	    fs_vidmodeavail = 1;
+	    fs_available = 1;
 	}
 	
     }
@@ -424,11 +425,11 @@ int fullscreen_set_mode(resource_value_t v, void *param)
     XColor color;
     int i;
 
-    if ( !fs_vidmodeavail || !fs_bestmode_counter ) {
+    if ( !fs_available || !fs_bestmode_counter ) {
         fs_use_fs_at_start = (int) v;
 	return 0;
     }
-    if ( fs_selected_videomode_index == -1) {
+    if ( fs_selected_videomode == -1) {
 	return 0;
     }
 
@@ -449,8 +450,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
 #endif
 	log_message(dga_log, _("Switch to fullscreen %ix%i"),
-		    fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth,
-		    fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
+		    fs_allmodes_dga2[fs_selected_videomode].viewportWidth,
+		    fs_allmodes_dga2[fs_selected_videomode].viewportHeight);
 
 	if (XDGAOpenFramebuffer(display, screen) == False)
 	{
@@ -461,13 +462,13 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	}
 
 	dgadev = XDGASetMode(display, screen,
-			     fs_allmodes_dga2[fs_selected_videomode_index].num); 
+			     fs_allmodes_dga2[fs_selected_videomode].num); 
 	if (!dgadev) 
 	{
 	    log_error(dga_log, 
 		      _("Error switching to fullscreen (SetMode) %ix%i"),
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
+		      fs_allmodes_dga2[fs_selected_videomode].viewportWidth, 
+		      fs_allmodes_dga2[fs_selected_videomode].viewportHeight);
 	    return 0;
 	}
 
@@ -476,8 +477,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	{
 	    log_error(dga_log, 
 		      _("Error switching to fullscreen (pixmap) %ix%i"),
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
+		      fs_allmodes_dga2[fs_selected_videomode].viewportWidth, 
+		      fs_allmodes_dga2[fs_selected_videomode].viewportHeight);
 	    XDGASetMode(display,screen,0);
 	    XFree(dgadev);
 	    return 0;
@@ -486,7 +487,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 
 	fb_addr = dgadev->data;
 /*
-	fb_width = fs_allmodes_dga2[fs_selected_videomode_index].bytesPerScanline; 
+	fb_width = fs_allmodes_dga2[fs_selected_videomode].bytesPerScanline; 
 */
 	fs_width = dgadev->mode.viewportWidth;
 	fs_height = dgadev->mode.viewportHeight;
@@ -509,8 +510,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	if (fb_ybegin_static > dgadev->mode.maxViewportY)
 	{
 	    log_message(dga_log, 
-			_("Not enough video memeory pages in mode %s, disabling fullscreen."),
-			dgadev->mode.name);
+			_("Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."),
+			dgadev->mode.name, fb_ybegin_static, dgadev->mode.maxViewportY);
 	    fullscreen_request_set_mode(0, NULL);
 	    goto nodga;
 	}
@@ -522,8 +523,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	if (!gcContext) {
 	    log_error(dga_log, 
 		      _("Error switching to fullscreen (CreateGC) %ix%i"),
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
-		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
+		      fs_allmodes_dga2[fs_selected_videomode].viewportWidth, 
+		      fs_allmodes_dga2[fs_selected_videomode].viewportHeight);
 	    XDGASetMode(display,screen,0);
 	    XFree(dgadev);
 	    ui_display_paused(1);
@@ -598,8 +599,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #ifdef FS_PIXMAP_DGA
 	XSetForeground(display, gcContext, 0);
 	XFillRectangle(display, dgadev->pixmap, gcContext, 0, 0, 
-		       fs_allmodes_dga2[fs_selected_videomode_index].maxViewportX, 
-		       fs_allmodes_dga2[fs_selected_videomode_index].maxViewportY);
+		       fs_allmodes_dga2[fs_selected_videomode].maxViewportX, 
+		       fs_allmodes_dga2[fs_selected_videomode].maxViewportY);
 #endif
 	XFlush(display);
 	fullscreen_is_enabled = 1;
@@ -670,6 +671,21 @@ int fullscreen_set_mode(resource_value_t v, void *param)
     return 1;
 }
 
+int fullscreen_set_bestmode(resource_value_t v, void *param)
+{
+    int i = (int) v;
+
+    if (i < 0 || fs_available == 0)
+	return 0;
+
+    log_message(dga_log, "selected mode: %s", fs_bestmodes[i].name);
+    fs_selected_videomode = fs_bestmodes[i].modeindex;
+    
+    return 0;
+    
+}
+
+#if 0
 int fs_set_bestmode(resource_value_t v, void *param)
 {
     int i;
@@ -697,6 +713,7 @@ int fs_set_bestmode(resource_value_t v, void *param)
 
     return(0);
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -749,15 +766,17 @@ void fullscreen_mode_init(void)
     if (dga_log == LOG_ERR)
 	dga_log = log_open("DGA2");
     
-    fs_set_bestmode(fs_selected_videomode_at_start, NULL);
-    if (fs_selected_videomode_index == -1 && fs_bestmode_counter > 0)
-        fs_selected_videomode_index = fs_bestmodes[0].modeindex;
+    fullscreen_set_bestmode(fs_selected_videomode_at_start, NULL);
+    if (fs_selected_videomode == -1 && fs_bestmode_counter > 0)
+        fs_selected_videomode = fs_bestmodes[0].modeindex;
 
     if (fs_use_fs_at_start) {
         fullscreen_mode_on();
     }
     ui_update_menus();
 }
+
+
 
 void fullscreen_mode_exit(void)
 {
@@ -778,6 +797,54 @@ int fullscreen_available_modes(void)
 char *fullscreen_mode_name(int mode)
 {
     return fs_bestmodes[mode].name;
+}
+
+UI_MENU_DEFINE_RADIO(SelectedDGA2Mode);
+
+void fullscreen_create_menus(void)
+{
+    int i, index = -1;
+    char buf[50];
+    ui_menu_entry_t *resolutions_submenu;
+
+    buf[0] = '*';
+    buf[50] = '\0';
+
+    resolutions_submenu = (ui_menu_entry_t*)xmalloc(sizeof(ui_menu_entry_t) *
+                          (size_t)(fs_bestmode_counter + 1));
+
+    for(i = 0; i < fs_bestmode_counter ; i++) {
+
+        buf[1] = '\0';
+        strncat(buf + 1, fs_bestmodes[i].name, 48);
+        resolutions_submenu[i].string =
+            (ui_callback_data_t) stralloc(buf);
+        resolutions_submenu[i].callback =
+            (ui_callback_t) radio_SelectedDGA2Mode;
+        resolutions_submenu[i].callback_data =
+            (ui_callback_data_t) i;
+        resolutions_submenu[i].sub_menu = NULL;
+        resolutions_submenu[i].hotkey_keysym = 0;
+        resolutions_submenu[i].hotkey_modifier =
+            (ui_hotkey_modifier_t) 0;
+    }
+
+    resolutions_submenu[i].string = (ui_callback_data_t) NULL;
+    i = 0;
+    while (ui_fullscreen_settings_submenu[i].string)
+    {
+	if (strncmp(ui_fullscreen_settings_submenu[i].string, 
+		    "DGA2", 4) == 0)
+	{
+	    index = i;
+	    break;
+	}
+	i++;
+    }
+    
+    if (fs_bestmode_counter > 0 && index >= 0)
+        ui_fullscreen_settings_submenu[index].sub_menu = resolutions_submenu;
+
 }
 
 void fullscreen_mode_update(void)

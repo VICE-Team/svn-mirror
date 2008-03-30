@@ -34,7 +34,7 @@
 struct video_frame_buffer_s;
 
 extern int fullscreen_is_enabled;
-extern char *fullscreen_selected_videomode;
+extern int fs_selected_videomode;
 extern char *fullscreen_selected_videomode_at_start;
 extern int fullscreen_width, fullscreen_height;
 extern void fullscreen_mode_init(void);
@@ -49,8 +49,8 @@ extern int fullscreen_available(void);
 extern int fullscreen_vidmode_available(void);
 extern int fullscreen_available_modes(void);
 extern char *fullscreen_mode_name(int);
-extern int fullscreen_set_bestmode(resource_value_t, void *);
-extern int fullscreen_set_mode(resource_value_t, void *);
+extern int fullscreen_set_bestmode(resource_value_t v, void *p);
+extern int fullscreen_set_mode(resource_value_t v, void *p);
 extern void fullscreen_refresh_func(BYTE *draw_buffer, 
 				    unsigned int draw_buffer_line_size,
                                     int src_x, int src_y,

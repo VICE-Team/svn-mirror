@@ -36,13 +36,6 @@
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #define CHECK_DGA_V2
 
-char *fullscreen_selected_videomode;
-int fullscreen_set_bestmode(resource_value_t v, void *param)
-{
-    log_message(LOG_DEFAULT, "DGA: Vidmode extension currently not supported");
-    return 0;
-}
-
 #else  /* DGA2 support is in dga2.c; FIXME */
 
 #warning "Trying to compile fullscreen.c. This is not reworked for the new video code yet!"

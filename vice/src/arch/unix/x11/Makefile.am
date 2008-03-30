@@ -15,6 +15,8 @@ noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
 	dga2.c \
+	vidmode.c \
+	vidmode.h \
         fullscreen.c
 
 libx11ui_a_SOURCES = \

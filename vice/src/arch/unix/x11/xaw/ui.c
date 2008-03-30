@@ -65,6 +65,9 @@
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+#ifdef USE_XF86_VIDMODE_EXT
+#include "vidmode.h"
+#endif
 #include "drive.h"
 #include "interrupt.h"
 #include "log.h"
@@ -112,10 +115,6 @@ static ui_menu_entry_t* resolutions_submenu;
 static void ui_display_drive_current_image2(void);
 
 /* ------------------------------------------------------------------------- */
-
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode)
-#endif
 
 void ui_check_mouse_cursor()
 {
@@ -542,6 +541,9 @@ int ui_init_finish(void)
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_vidmode_available();
 #endif
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_init(display, screen);
+#endif 
 
     return ui_menu_init(app_context, display, screen);
 }
@@ -850,40 +852,10 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 void ui_create_dynamic_menues()
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    int i, amodes;
-    char buf[50];
-    char *modename;
-
-    buf[0] = '*';
-    buf[50] = '\0';
-
-    amodes = fullscreen_available_modes();
-
-    resolutions_submenu = (ui_menu_entry_t*)xmalloc(sizeof(ui_menu_entry_t) *
-                          (size_t)(amodes + 1));
-
-    for(i = 0; i < amodes ; i++) {
-        modename = fullscreen_mode_name(i);
-
-        buf[1] = '\0';
-        strncat(buf + 1, modename, 48);
-        resolutions_submenu[i].string =
-            (ui_callback_data_t) stralloc(buf);
-        resolutions_submenu[i].callback =
-            (ui_callback_t) radio_SelectedFullscreenMode;
-        resolutions_submenu[i].callback_data =
-            (ui_callback_data_t) modename;
-        resolutions_submenu[i].sub_menu = NULL;
-        resolutions_submenu[i].hotkey_keysym = 0;
-        resolutions_submenu[i].hotkey_modifier =
-            (ui_hotkey_modifier_t) 0;
-    }
-
-    resolutions_submenu[i].string = (ui_callback_data_t) NULL;
-
-    if (amodes > 0)
-        ui_fullscreen_settings_submenu[5].sub_menu = resolutions_submenu;
-
+    vidmode_create_menus();
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    fullscreen_create_menus();
 #endif
 }
 

@@ -35,7 +35,12 @@
 #include <unistd.h>
 
 #include "debug.h"
+#ifdef USE_XF86_DGA2_EXTENSIONS
 #include "fullscreen.h"
+#endif
+#ifdef USE_XF86_VIDMODE_EXT
+#include "x11/vidmode.h"
+#endif
 #include "kbd.h"
 #include "mem.h"
 #include "resources.h"
@@ -499,25 +504,48 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef USE_XF86_EXTENSIONS
+#if defined (USE_XF86_DGA2_EXTENSIONS) || defined (USE_XF86_VIDMODE_EXT)
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(UseFullscreen)
+#endif
+#ifdef USE_XF86_VIDMODE_EXT
+UI_MENU_DEFINE_TOGGLE(UseFullscreenVidMode)
+#endif
+#if 0
 UI_MENU_DEFINE_TOGGLE(FullscreenDoubleSize)
 UI_MENU_DEFINE_TOGGLE(FullscreenDoubleScan)
+#endif
 
 ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
-    { N_("*Enable"),
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    { N_("*Enable DGA2 fullscreen"),
       (ui_callback_t)toggle_UseFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
+    /* Translators: 'DGA2' must remain in the beginning of the translation
+       e.g. German: "DGA2 Auflösungen" */
+    { N_("DGA2 Resolutions"),
+      (ui_callback_t) NULL, NULL, NULL },
     { "--"},
+#endif
+#ifdef USE_XF86_VIDMODE_EXT
+    { N_("*Enable VidMode fullscreen"),
+      (ui_callback_t)toggle_UseFullscreenVidMode, NULL, NULL, XK_v, 
+      UI_HOTMOD_META },
+    /* Translators: 'VidMode' must remain in the beginning of the translation
+       e.g. German: "VidMode Auflösungen" */
+    { N_("VidMode Resolutions"),
+      (ui_callback_t) NULL, NULL, NULL },
+#endif
+#if 0
     { N_("*Double size"),
       (ui_callback_t)toggle_FullscreenDoubleSize, NULL, NULL },
     { N_("*Double scan"),
       (ui_callback_t)toggle_FullscreenDoubleScan, NULL, NULL },
     { "--"},
-    { N_("Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
+#endif
     { NULL }
 };
+
 #endif
 
 /* ------------------------------------------------------------------------- */

@@ -157,6 +157,7 @@ extern void fs_draw_buffer_free(struct video_canvas_s *c, BYTE *db);
 extern void fs_draw_buffer_clear(struct video_canvas_s *, BYTE *db, 
 				 BYTE value, unsigned int w, unsigned int h,
 				 unsigned int pitch);
+extern void fullscreen_create_menus(void);
 
 #else
 #define fullscreen_on()

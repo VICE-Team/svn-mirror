@@ -1,8 +1,8 @@
 /*
- * debug.h - Various debugging options.
+ * vidmode.h
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Martin Pottendorfer <pottendo@utanet.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +24,18 @@
  *
  */
 
-#ifndef _DEBUG_H
-#define _DEBUG_H
+#ifndef __vidmode_h__
+#define __vidmode_h__
 
-/* This enables debugging.  Attention: It makes things a bit slower.  */
-#define DEBUG
+#include <X11/Xlib.h>
+#include "resources.h"
 
-typedef struct debug_s {
-#ifdef DEBUG
-    int maincpu_traceflg;
-    int drivecpu_traceflg[2];
-#endif
-    int do_core_dumps;
-} debug_t;
+extern int vm_selected_videomode;
+extern int vm_is_enabled;
 
-extern debug_t debug;
+int vidmode_init(Display *display, int screen);
+int vidmode_set_bestmode(resource_value_t v, void *p);
+int vidmode_set_mode(resource_value_t v, void *p);
+void vidmode_create_menus(void);
 
-extern int debug_resources_init(void);
-extern int debug_init_cmdline_options(void);
-
-#endif
-
+#endif /* __vidmode_h__ */
