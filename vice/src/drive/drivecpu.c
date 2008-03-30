@@ -662,7 +662,7 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
-    if (DRIVE_IS_OLDTYPE(drv->drive->type)) {
+    if (drive_check_old(drv->drive->type)) {
         if (SMW_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }
@@ -743,7 +743,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
-    if (DRIVE_IS_OLDTYPE(drv->drive->type)) {
+    if (drive_check_old(drv->drive->type)) {
         if (SMR_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }

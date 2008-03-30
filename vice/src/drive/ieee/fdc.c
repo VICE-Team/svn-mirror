@@ -33,6 +33,7 @@
 #include "attach.h"
 #include "clkguard.h"
 #include "diskimage.h"
+#include "drive-check.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
@@ -86,13 +87,13 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
         fdc_detach_image(fdc[fnum].image, fnum + 8);
     }
     if (fnum == 0
-        && DRIVE_IS_DUAL(fdc[fnum].drive_type)
+        && drive_check_dual(fdc[fnum].drive_type)
         && fdc[1].image) {
         fdc[1].wps_change = 0;
         fdc_detach_image(fdc[1].image, 9);
     }
 
-    if (DRIVE_IS_OLDTYPE(drive_type)) {
+    if (drive_check_old(drive_type)) {
         fdc[fnum].drive_type = drive_type;
         fdc[fnum].fdc_state = FDC_RESET0;
         alarm_set(fdc[fnum].fdc_alarm, drive_clk[fnum] + 20);
@@ -107,7 +108,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
         fdc_attach_image(fdc[fnum].realimage, fnum + 8);
     }
     if (fnum == 0
-        && DRIVE_IS_DUAL(drive_type)
+        && drive_check_dual(drive_type)
         && fdc[1].realimage) {
         fdc_attach_image(fdc[1].realimage, 9);
     }
@@ -370,7 +371,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     sector = header[3];
 
     /* determine drive/disk image to use */
-    if (DRIVE_IS_DUAL(fdc[fnum].drive_type)) {
+    if (drive_check_dual(fdc[fnum].drive_type)) {
         /* dual disk drive */
         dnr = drv;
     } else {
@@ -639,7 +640,7 @@ static void int_fdc(CLOCK offset, void *data)
                         fnum + 8, fnum);
 #endif
         }
-        if (fnum == 0 && DRIVE_IS_DUAL(fdc[0].drive_type)) {
+        if (fnum == 0 && drive_check_dual(fdc[0].drive_type)) {
             if (fdc[1].wps_change) {
                 fdc[0].buffer[0xA6 + 1] = 1;
                 fdc[1].wps_change--;
@@ -751,7 +752,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
     if (unit != 8 && unit != 9)
         return -1;
 
-    if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
+    if (drive_check_dual(fdc[0].drive_type)) {
         drive_no = 0;
     } else {
         drive_no = unit - 8;
@@ -823,7 +824,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
     if (unit != 8 && unit != 9)
         return -1;
 
-    if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
+    if (drive_check_dual(fdc[0].drive_type)) {
         drive_no = 0;
     } else {
         drive_no = unit - 8;

@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drive-check.h"
 #include "drive.h"
 #include "drivetypes.h"
 #include "fdc.h"
@@ -143,7 +144,7 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (DRIVE_IS_OLDTYPE(ctxptr->drive->type)) {
+    if (drive_check_old(ctxptr->drive->type)) {
         if (riotcore_snapshot_read_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_read_module(ctxptr->riot2, s) < 0
             || fdc_snapshot_read_module(s, ctxptr->mynumber) < 0)
@@ -161,7 +162,7 @@ int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (DRIVE_IS_OLDTYPE(ctxptr->drive->type)) {
+    if (drive_check_old(ctxptr->drive->type)) {
         if (riotcore_snapshot_write_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_write_module(ctxptr->riot2, s) < 0
             || fdc_snapshot_write_module(s, ctxptr->mynumber) < 0)

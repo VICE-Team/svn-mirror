@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "drive-check.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
@@ -116,7 +117,7 @@ void drive_riot_set_atn(riot_context_t *riot_context, int state)
     drive_context = (drive_context_t *)(riot_context->context);
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    if (DRIVE_IS_OLDTYPE(riot2p->drive->type)) {
+    if (drive_check_old(riot2p->drive->type)) {
         if (riot2p->r_atn_active && !state) {
             riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_FALL);
         } else
@@ -170,7 +171,7 @@ static void undump_prb(riot_context_t *riot_context, BYTE byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive->type))) {
+    if ((riot2p->number == 0) && (drive_check_dual(riot2p->drive->type))) {
         drive_context[1]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
@@ -189,7 +190,7 @@ static void store_prb(riot_context_t *riot_context, BYTE byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive->type))) {
+    if ((riot2p->number == 0) && (drive_check_dual(riot2p->drive->type))) {
         drive_context[1]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }

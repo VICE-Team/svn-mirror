@@ -149,7 +149,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
         for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++)
             cpud->read_func_nowatch[i] = drive_read_rom;
 
-    if (DRIVE_IS_OLDTYPE(type)) {
+    if (drive_check_old(type)) {
         /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
            mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
            (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
