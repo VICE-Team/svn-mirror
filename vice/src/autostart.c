@@ -6,7 +6,7 @@
  *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * Patches by
- *  Andre Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -338,6 +338,7 @@ int autostart_disk(const char *file_name, const char *program_name)
 
     if (file_system_attach_disk(8, file_name) < 0) {
 	warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
+	file_system_detach_disk(8);
 	autostartmode = AUTOSTART_ERROR;
 	deallocate_program_name();
 	return -1;

@@ -92,10 +92,11 @@ static char fs_dirmask[MAXPATHLEN];
 
 static FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname);
 static void fs_test_pc64_name(void *flp, char *rname, int secondary);
-static int fsdevice_compare_pc64_name(char *name, char *p00name);
-static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname);
+static int fsdevice_compare_wildcards(char *name, char *p00name);
+static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
+                                       int secondary);
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
-                                     char *fsname, int secondary);
+                                    char *fsname, int secondary);
 static int fsdevice_reduce_filename_p00(char *filename, int len);
 static int fsdevice_eliminate_char_p00(char *filename, int pos);
 static int fsdevice_evaluate_name_p00(char *name, int length, char *filename);
@@ -355,9 +356,9 @@ int attach_fsdevice(int device, char *var, char *name)
 
 void fsdevice_set_directory(char *filename, int unit)
 {
+#if 0
     char *p;
 
-#if 0
     /* FIXME: Remove this once the select directory dialog is available.  */
     p = strrchr(filename, '/');
     *(++p) = '\0';
@@ -538,7 +539,7 @@ void flush_fs(void *flp, int secondary)
 		fd = fopen(name2p00, "r+");
 		if (fd) {
 		    if ((fseek(fd, 8, SEEK_SET) != 0)
-					|| (fwrite(p00name, 16, 1, fd) < 1))
+                        || (fwrite(p00name, 16, 1, fd) < 1))
 			er = IPE_NOT_FOUND;
 		    fclose(fd);
 		} else {
@@ -862,8 +863,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
     FILE *fd;
     DIR *dp;
     BYTE *p, *linkp;
-    char fsname[MAXPATHLEN];
-    char fsname2[MAXPATHLEN];
+    char fsname[MAXPATHLEN], fsname2[MAXPATHLEN], rname[MAXPATHLEN];
     char *mask, *comma;
     int status = 0, i, reallength, readmode, rl;
 
@@ -898,6 +898,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     fsname[reallength] = 0;
+    strncpy(rname, fsname, reallength);
 
     petconvstring(fsname, 1);	/* CBM name to FSname */
 
@@ -1032,6 +1033,10 @@ int open_fs(void *flp, char *name, int length, int secondary)
         strcat(fsname, "/");
 	strcat(fsname, fsname2);
 
+#ifdef DEBUG_FSDRIVE
+    printf("Open file name '%s' (before wildcard expansion).\n", fsname);
+#endif
+
 	/* Test on wildcards.  */
 	if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
 	    if (fs_info[secondary].mode == Write
@@ -1039,9 +1044,13 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		fs_error(IPE_BAD_NAME);
 		return FLOPPY_ERROR;
 	    } else {
-		fsdevice_compare_file_name(flp, fsname2, fsname);
+		fsdevice_compare_file_name(flp, fsname2, fsname, secondary);
 	    }
 	}
+
+#ifdef DEBUG_FSDRIVE
+    printf("Open file name '%s' (after wildcard expansion).\n", fsname);
+#endif
 
 	/* Open file for write mode access.  */
 	if (fs_info[secondary].mode == Write) {
@@ -1052,7 +1061,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		return FLOPPY_ERROR;
 	    }
 	    if (fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
-		fd = fs_find_pc64_name(flp, name, length, fsname2);
+		fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
 		if (fd > 0) {
 		    fclose(fd);
 		    fs_error(IPE_FILE_EXISTS);
@@ -1060,7 +1069,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		}
 	    }
 	    if (fsdevice_save_p00_enabled[(floppy->unit) - 8]) {
-		if (fsdevice_create_file_p00(flp, name, length, fsname,
+		if (fsdevice_create_file_p00(flp, rname, reallength, fsname,
 							secondary) > 0) {
 		    fs_error(IPE_FILE_EXISTS);
 		    return FLOPPY_ERROR;
@@ -1086,7 +1095,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		    fs_error(IPE_NOT_FOUND);
 		    return FLOPPY_ERROR;
 		}
-		fd = fs_find_pc64_name(flp, name, length, fsname2);
+		fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
 		if (!fd) {
 		    fs_error(IPE_NOT_FOUND);
 		    return FLOPPY_ERROR;
@@ -1120,7 +1129,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		fs_error(IPE_NOT_FOUND);
 		return FLOPPY_ERROR;
 	    }
-	    fd = fs_find_pc64_name(flp, name, length, fsname2);
+	    fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
 	    if (!fd) {
 		fs_error(IPE_NOT_FOUND);
 		return FLOPPY_ERROR;
@@ -1253,7 +1262,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 			continue;
 		    }
 		    p00name[16] = '\0';
-		    if (fsdevice_compare_pc64_name(name, p00name) > 0) {
+		    if (fsdevice_compare_wildcards(name, p00name) > 0) {
 			fread((char *) p00dummy, 2, 1, fd);
 			if (ferror(fd)) {
 			    fclose(fd);
@@ -1271,7 +1280,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
     return NULL;
 }
 
-static int fsdevice_compare_pc64_name(char *name, char *p00name)
+static int fsdevice_compare_wildcards(char *name, char *p00name)
 {
     int i, len;
 
@@ -1288,22 +1297,28 @@ static int fsdevice_compare_pc64_name(char *name, char *p00name)
     return 1;
 }
 
-static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname)
+static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
+                                       int secondary)
 {
     DRIVE *floppy = (DRIVE *)flp;
     struct dirent *dirp;
     DIR *dp;
+    char rname[MAXPATHLEN];
 
     dp = opendir(fsdevice_get_path(floppy->unit));
     do {
 	dirp = readdir(dp);
 	if (dirp != NULL) {
-	    if (fsdevice_compare_pc64_name(fsname2, dirp->d_name) > 0) {
-		strcpy(fsname, fsdevice_get_path(floppy->unit));
-                strcat(fsname, "/");
-		strcat(fsname, dirp->d_name);
-		closedir(dp);
-		return;
+	    if (fsdevice_compare_wildcards(fsname2, dirp->d_name) > 0) {
+		strcpy(rname, dirp->d_name);
+		fs_test_pc64_name(flp, rname, secondary);
+		if (strcmp(rname, dirp->d_name) == 0) {
+		    strcpy(fsname, fsdevice_get_path(floppy->unit));
+		    strcat(fsname, "/");
+		    strcat(fsname, dirp->d_name);
+		    closedir(dp);
+		    return;
+		}
 	    }
 	}
     }

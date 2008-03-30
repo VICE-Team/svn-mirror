@@ -67,6 +67,7 @@
 
 #include "vicii.h"
 
+#include "c64cia.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "machine.h"
@@ -173,6 +174,9 @@ static int idle_data;
 /* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are not
    in idle state and thus do not need to update `idle_data'.  */
 static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
+
+/* Flag: Are the C128 extended keyboard rows enabled?  */
+static int extended_keyboard_rows_enabled;
 
 /* ------------------------------------------------------------------------- */
 
@@ -673,6 +677,12 @@ canvas_t vic_ii_init(void)
     init_drawing_tables();
     refresh_all();
     return canvas;
+}
+
+/* Toggle support for C128 extended keyboard rows.  */
+void vic_ii_enable_extended_keyboard_rows(int flag)
+{
+    extended_keyboard_rows_enabled = flag;
 }
 
 /* Reset the VIC-II chip. */
@@ -1541,7 +1551,18 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 			addr - 0x27, value));
 	return;
 
-      case 0x2f:		/* $D02F: Unused */
+      case 0x2f:		/* $D02F: Unused (or extended keyboard row
+                                   select) */
+        if (extended_keyboard_rows_enabled) {
+            DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
+                            value));
+            vic[addr] = value | 0xf8;
+            cia1_set_extended_keyboard_rows_mask(value);
+        } else {
+            DEBUG_REGISTER(("\t(unused)\n"));
+        }
+        break;
+
       case 0x30:		/* $D030: Unused */
       case 0x31:		/* $D031: Unused */
       case 0x32:		/* $D032: Unused */
@@ -1756,12 +1777,17 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 			addr - 0x22, vic[addr]));
 	return vic[addr] | 0xf0;
 
-#if defined (C128)
-      case 0x2f:		/* $D02F: Additional KBD rows */
-	return (vic[0x2f] | 0xf8);
-#else
-      case 0x2f:		/* $D02F: Unused */
-#endif
+      case 0x2f:		/* $D02F: Unused (or extended keyboard row
+                                   select) */
+        if (extended_keyboard_rows_enabled) {
+            DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
+                            value));
+            return vic[addr];
+        } else {
+            DEBUG_REGISTER(("\t(unused)\n"));
+            return 0xff;
+        }
+        break;
 
       case 0x30:		/* $D030: Unused */
       case 0x31:		/* $D031: Unused */
