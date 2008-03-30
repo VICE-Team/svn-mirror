@@ -40,6 +40,9 @@ extern void uicolor_free_color(unsigned int red, unsigned int green,
 extern void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
                                         PIXEL *data, unsigned int dither,
                                         long color_pixel);
+extern int uicolor_set_palette(struct video_canvas_s *c,
+                               const struct palette_s *palette,
+                               PIXEL *pixel_return);
 
 /* Temporary! */
 extern int uicolor_alloc_colors(struct video_canvas_s *c,

@@ -76,9 +76,6 @@ extern ui_window_t ui_open_canvas_window(struct video_canvas_s *c,
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
-extern int ui_canvas_set_palette(struct video_canvas_s *c, ui_window_t w,
-                                 const struct palette_s *palette,
-                                 PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
