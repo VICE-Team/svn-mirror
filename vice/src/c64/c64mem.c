@@ -1189,7 +1189,9 @@ static BYTE peek_bank_io(ADDRESS addr)
     return 0xff;
 }
 
-/* Exported banked memory access functions for the monitor */
+/* ------------------------------------------------------------------------- */
+
+/* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] =
 {
