@@ -2222,11 +2222,25 @@ The following menu items control sound output:
 @item
 ``Enable sound playback'' turns sound emulation on and off.
 
-@cindex Adaptive Playback
+@cindex Sound syncronization
+@cindex Sound speed adjustment
 @item
-``Enable adaptive playback'' enables a special playback mode that is
-able to adapt the sound output to the speed of the emulated machine,
-trying to avoid ``clicks''.
+``Sound synchronization'' specifies the method for syncronizing the
+sound playback.  Possible settings are:
+@itemize @bullet
+@item
+``Flexible'', i.e. the audio renderer flexibly adds/removes samples to
+the output to smoothly adapt the playback to little changes in the speed
+of the emulator.
+@item
+``Adjusting'' works like ``flexible'', but supports bigger differences
+in speed.  For example, if the emulation speed drops down from from 100%
+to 50%, audio slows down by the same amount too.
+@item
+``Exact'', instead, makes the audio renderer output always the same
+samples you would hear from the real thing, without trying to adapt the
+ratio.
+@end itemize
 
 @cindex Sample rate
 @item
@@ -2270,7 +2284,16 @@ Boolean specifying whether audio emulation is turned on.
 
 @vindex SoundSpeedAdjustment
 @item SoundSpeedAdjustment
-Boolean specifying whether @dfn{adaptive playback mode} is turned on.
+Integer specifying what speed adjustment method the audio renderer should
+use.  Possible values are:
+@itemize @bullet
+@item
+@code{0}: ``flexible''
+@item
+@code{1}: ``adjusting''
+@item
+@code{2}: ``exact''
+@end itemize
 
 @vindex SoundSampleRate
 @item SoundSampleRate
@@ -2351,6 +2374,11 @@ String specifying an additional parameter for the audio driver (see
 @item -sound
 @itemx +sound
 Turns sound emulation on (@code{Sound=1}) and off (@code{Sound=0}).
+
+@cindex -soundsync
+@item -soundsync N
+Specify @code{N} as the sound speed adjustment method
+(@code{SoundSpeedAdjustment}).
 
 @cindex -soundrate
 @item -soundrate RATE
