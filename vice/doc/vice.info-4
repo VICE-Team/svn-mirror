@@ -121,6 +121,7 @@ Concept Index
 * C64/128 emulator identification:       C64 I/O extension settings.
 * ChargenName <1>:                       VIC20 system ROM resources.
 * ChargenName:                           C64/128 system ROM resources.
+* Converting X64 files into D64:         File formats.
 * copy:                                  c1541 commands and options.
 * create:                                c1541 commands and options.
 * delete:                                c1541 commands and options.
@@ -130,6 +131,7 @@ Concept Index
 * extract:                               c1541 commands and options.
 * format:                                c1541 commands and options.
 * gcrformat:                             c1541 commands and options.
+* HP-UX and Solaris audio problems:      Sound problems.
 * IEEE488 interface emulation:           C64 I/O extension settings.
 * info:                                  c1541 commands and options.
 * KernalName <1>:                        VIC20 system ROM resources.

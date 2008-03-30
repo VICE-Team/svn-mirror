@@ -878,7 +878,7 @@ Supported file formats
 
    * `X64' (preferred) or `D64' disk image files;
 
-   * `G41' GCR-encoded 1541 disk image files;
+   * `G64' GCR-encoded 1541 disk image files;
 
    * `T64' tape image files (read-only);
 

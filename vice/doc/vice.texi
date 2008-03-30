@@ -1000,7 +1000,7 @@ VICE supports the most popular Commodore file formats:
 @code{X64} (preferred) or @code{D64} disk image files;
 
 @item
-@code{G41} GCR-encoded 1541 disk image files;
+@code{G64} GCR-encoded 1541 disk image files;
 
 @item
 @code{T64} tape image files (read-only);
@@ -1017,6 +1017,7 @@ Notice that the native format for disk images is @code{X64}; this
 means that, although the emulators and utilities can both read and write
 on @code{D64} disk images, they never produce @code{D64} files.
 
+@cindex Converting X64 files into D64
 You can convert an @code{X64} file back into a @code{D64} file with the
 UNIX @code{dd} command:
 
@@ -1049,6 +1050,7 @@ you are running Linux please use the new 2.x kernels, as VICE needs some
 features that were not implemented in older versions of the Linux sound
 driver.
 
+@cindex HP-UX and Solaris audio problems
 On the other hand, HP-UX and Solaris machines are known to cause
 troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
@@ -3381,7 +3383,7 @@ Kernal revision 3
 Commodore SX-64 ROM
 @item 100
 @item 4064
-Commodore 4064 (``PET64'') ROM
+Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM
 @end table
 
 @end table
@@ -3906,7 +3908,7 @@ Move memory from the source specified by the address range to
 the destination specified by the address.  The regions may overlap.
 
 @item > [address] <data_list>
-Display the specified number in decimal, hex, octal and binary.
+Write the specified data at @code{ADDRESS}.
 
 @end table
 
@@ -3944,7 +3946,8 @@ address and the breakpoint number is printed.  A conditional expression
 can also be specified for the breakpoint.  For more information on
 conditions, see the CONDITION command.
 
-@item enable/disable <checknum>
+@item enable <checknum>
+@item disable <checknum>
 Each checkpoint can be enabled or disabled.  This command allows changing
 between these states.
 
@@ -4007,7 +4010,6 @@ side-effects.  If the argument is 'toggle' then the current mode is
 switched.  No argument displays the current state.  (Unfinished!)
 
 @item system <system command>
-
 Nothing yet.
 
 @end table
@@ -4319,7 +4321,7 @@ started the work on hardware-level 1541 emulation and wrote the
 new monitor introduced with VICE 0.15.
 
 @item
-@b{Andreas Boose} (@email{boose@@unixserv.rz.fh-hannover.de})
+@b{Andreas Boose} (@email{boose@@linux.rz.fh-hannover.de})
 gave lots of information and bug reports about the VIC-II, the 6510 and
 the CIAs; moreover, he wrote several test-routines that were used to
 improve the emulation.  Also contributed some important patches, fixed
@@ -4603,7 +4605,7 @@ the project, please email one of the following people:
 Teemu Rantanen (@email{tvr@@cs.hut.fi}) for the SID stuff;
 
 @item
-Andreas Boose (@email{boose@@unixserv.rz.fh-hannover.de}) for the 1541
+Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for the 1541
 disk drive;
 
 @item

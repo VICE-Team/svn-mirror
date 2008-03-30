@@ -21,7 +21,7 @@ Indirect:
 vice.info-1: 631
 vice.info-2: 49898
 vice.info-3: 99432
-vice.info-4: 147106
+vice.info-4: 147119
 
 Tag Table:
 (Indirect)
@@ -105,41 +105,41 @@ Node: RS232 resources105359
 Node: RS232 options106363
 Node: C64/128 system ROM settings106958
 Node: C64/128 system ROM resources107337
-Node: C64/128 system ROM options108515
-Node: VIC20-specific109025
-Node: VIC20 cartridges109431
-Node: VIC20 memory expansions110364
-Node: VIC20 memconf resources112153
-Node: VIC20 memconf options112617
-Node: VIC20 system ROM settings113733
-Node: VIC20 system ROM resources114106
-Node: VIC20 system ROM options114583
-Node: PET-specific115016
-Node: PET model115364
-Node: PET diagnostic pin116518
-Node: PET colors116839
-Node: Monitor117399
-Node: Terminology118257
-Node: Machine state commands120112
-Node: Memory commands120995
-Node: Assembly commands122985
-Node: Checkpoint commands123732
-Node: General commands125930
-Node: Disk commands126782
-Node: Command file commands127736
-Node: Label commands128259
-Node: Miscellaneous commands129149
-Node: c1541129550
-Node: c1541 commands and options130568
-Node: Acknowledgments133076
-Node: Copyright140153
-Node: Contacts141251
-Node: Home page141757
-Node: Sending feedback142307
-Node: Contributing144971
-Node: Newsgroups146160
-Node: FAQs you should read146791
-Node: Concept Index147106
-Node: Resource Index155785
+Node: C64/128 system ROM options108546
+Node: VIC20-specific109056
+Node: VIC20 cartridges109462
+Node: VIC20 memory expansions110395
+Node: VIC20 memconf resources112184
+Node: VIC20 memconf options112648
+Node: VIC20 system ROM settings113764
+Node: VIC20 system ROM resources114137
+Node: VIC20 system ROM options114614
+Node: PET-specific115047
+Node: PET model115395
+Node: PET diagnostic pin116549
+Node: PET colors116870
+Node: Monitor117430
+Node: Terminology118288
+Node: Machine state commands120143
+Node: Memory commands121026
+Node: Assembly commands122991
+Node: Checkpoint commands123738
+Node: General commands125949
+Node: Disk commands126801
+Node: Command file commands127755
+Node: Label commands128278
+Node: Miscellaneous commands129168
+Node: c1541129569
+Node: c1541 commands and options130587
+Node: Acknowledgments133095
+Node: Copyright140169
+Node: Contacts141267
+Node: Home page141773
+Node: Sending feedback142323
+Node: Contributing144984
+Node: Newsgroups146173
+Node: FAQs you should read146804
+Node: Concept Index147119
+Node: Resource Index155910
 
 End Tag Table

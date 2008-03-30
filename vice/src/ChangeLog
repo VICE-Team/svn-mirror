@@ -1,3 +1,32 @@
+Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* 6510core.c (DO_INTERRUPT): Reset keeps `IK_MONITOR'.
+
+	* mon.c (mon_watch_push_store_addr): Check
+ 	`watch_store_count[mem]' for being less than 10 (not 5).
+	(mon_watch_push_load_addr): Check `watch_load_count[mem]' for
+ 	being less than 10 (not 5).
+
+	* arch/unix/xaw/uisettings.c (load_resources): Try to be a little
+	more informative if an error happens.
+
+	* arch/unix/xaw/ui.c (ui_init_finish): Don't add the `Close()'
+ 	action anymore.
+	(ui_init): Do it here instead.
+	(ui_popup): If no AppWindow is available, center to the root
+ 	window.
+	(ui_create_transient_shell): Do not translate `WM_PROTOCOLS' into
+	`Close()' on the newly created transient shell anymore.
+
+	* main.c (MAIN_PROGRAM) [!__MSDOS__]: If the resource file is not
+	valid, report an error message via `ui_error()'.
+
+	* resources.c (resources_load): Return the proper error code.
+	(resources_save): Likewise.
+
+	* resources.h: New error codes `RESERR_FILE_NOT_FOUND',
+	`RESERR_FILE_INVALID', `RESERR_READ_ERROR'.
+
 Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/unix/kbd.c (kbd_event_handler): Call `check_clr_joykeys()'

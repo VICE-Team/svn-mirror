@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 21 August 1998 -->
+     from ../vice.texi on 22 August 1998 -->
 
 <TITLE>VICE Manual - 8  Monitor</TITLE>
 </HEAD>
@@ -193,7 +193,7 @@ the destination specified by the address.  The regions may overlap.
 
 <P><DT><CODE>&#62; [address] &#60;data_list&#62;</CODE>
 <DD>
-Display the specified number in decimal, hex, octal and binary.
+Write the specified data at <CODE>ADDRESS</CODE>.
 
 </DL>
 
@@ -234,7 +234,9 @@ address and the breakpoint number is printed.  A conditional expression
 can also be specified for the breakpoint.  For more information on
 conditions, see the CONDITION command.
 
-<P><DT><CODE>enable/disable &#60;checknum&#62;</CODE>
+<P><DT><CODE>enable &#60;checknum&#62;</CODE>
+<DD>
+<P><DT><CODE>disable &#60;checknum&#62;</CODE>
 <DD>
 Each checkpoint can be enabled or disabled.  This command allows changing
 between these states.
