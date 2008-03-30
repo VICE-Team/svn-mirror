@@ -315,6 +315,8 @@ int machine_init(void)
     mouse_init();
 #endif
 
+    mmu_init();
+
     return 0;
 }
 

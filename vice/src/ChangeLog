@@ -1,3 +1,109 @@
+1999-07-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.47.
+
+	* raster/raster.h: Added new flag `update_canvas' to
+	`raster_viewport_t'.
+
+	* raster/raster.c (update_canvas, update_canvas_all): Refresh
+	canvas if `update_canvas' is set.
+	(raster_set_canvas_refresh): New function.
+
+	* vicii/vicii.c, vdc/vdc.c, vic20/vic.c (init_raster): Init
+	canvas refresh flag.
+	* crtc/crtc.c (crtc_init): Likewise.
+
+	* c128/c128mmu.c (set_column4080_key): Set active canvas on
+	architectures providing only one active canvas.
+	(mmu_init): New function.
+
+	* vdc/vdc.c (vdc_set_set_canvas_refresh): New function.
+
+	* vicii/vicii.c (vic_ii_set_set_canvas_refresh): New function.
+
+1999-07-16  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/uisettings.c (set_drive0_type_submenu): add 8050 and
+	8250 entries
+
+	* /drive/drive.c: anywhere where DRIVE_TYPE_1001 appears, add 
+	DRIVE_TYPE_8050 and DRIVE_TYPE_8250 accordingly
+
+	* drive/drive.h (DRIVE_TYPE_8050, DRIVE_TYPE_8250): new defines
+
+	* drive/drivecpucore.c (reset): directly give the drive type to 
+	fdc_reset()
+	anywhere where DRIVE_TYPE_1001 appears, add
+        DRIVE_TYPE_8050 and DRIVE_TYPE_8250 accordingly
+
+	* drive/fdc.c (fdc_t): add drive_type element
+	(fdc_reset): record drive type
+	(int_fdc): if 8050 disk drive then use only one side
+	(drive/riot2drive0.c, drive/riot2drive1.c): anywhere where 
+	DRIVE_TYPE_1001 appears, add DRIVE_TYPE_8050 and DRIVE_TYPE_8250 
+	accordingly
+
+1999-07-16  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* /doc/vice.texi: add descriptions for some missing PET resources
+	and cmdline options
+	Add quick snapshot descrition
+	Add description of new CRTC snapshot module
+
+	* crtc/crtc-mem.c (store_crtc): remove print
+
+	* crtc/crtc-snapshot.c (crtc_read_snapshot_module,
+	crtc_write_snapshot_module): fix some bugs
+
+	* crtc/crtc.c (crtc_reset_screen_ptr): handle change to/from
+	reverse mode
+	(crtc_raster_draw_alarm_handler): better handling of screen blank
+	(crtc_enable_hw_screen_blank): new function. Sets the hw_blank 
+	availability flag
+	(crtc_screen_enable): set the external blank flag, that is only
+	honoured if hw_blank is set
+	(crtc_update_window): made non-static
+
+	* crtc/crtc.h (crtc_t): add hw_blank and blank variables.
+	(crtc_update_window): new prototype
+
+	* emuid.c (emulator_id): update version to 1.1 (names must be changed
+	though)
+
+	* pet/petmem.c (petres,pet_table,pet_set_conf_info): add eoiblank 
+	value and handling of it
+	(set_eoiblank_enabled, resources, cmdline_options): EoiBlank
+	resource, cmdline option and setting function added
+	(mem_write_ram_snapshot_module, mem_read_ram_snapshot_module):
+	updated to V1.2 (add EoiBlank)
+
+	* pet/pets.h (PetInfo, PetRes): add eoiblank
+
+	* piacore.c (read_mypia): fix typo
+
+1999-07-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/uicommands.c (load_snapshot_trap): if data is not
+	NULL, interpret it as filename and load directly.
+	(load_quicksnap): new function that directly gives a default filename
+	to the trap
+	(save_snapshot_trap, save_quicksnap): likewise
+	(ui_snapshot_commands_submenu): add entries for loading/saving 
+	quick snapshot
+
+	* crtc/crtc-snapshot.c (crtc_write_snapshot_module, 
+	crtc_read_snapshot_module): ongoing work to adapt snapshots
+	to new raster/crtc code
+
+	* crtc/crtc-snapshot.h: removed
+
+	* crtc/Makefile.am: removed crtc-snapshot.h
+
+	* crtc/crtc.c: remove many bogus prints
+	(crtc_raster_draw_alarm_handler): fix a timing bug (frame was
+	one rasterline long), also make vsync appear at right place again.
+	change handling of crtc.framelines: now stays constant
+
 1999-07-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.46.

@@ -34,6 +34,8 @@
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
+#include "vdc.h"
+#include "vicii.h"
 
 /* #define DEBUG_MMU */
 
@@ -62,6 +64,11 @@ static int mmu_column4080_key = 1;
 static int set_column4080_key(resource_value_t v)
 {
     mmu_column4080_key = (int)v;
+
+#ifdef HAS_SINGLE_CANVAS
+    vdc_set_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
+    vic_ii_set_set_canvas_refresh(mmu_column4080_key ? 1 : 0);
+#endif
     return 0;
 }
 
@@ -188,6 +195,11 @@ void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
 }
 
 /* ------------------------------------------------------------------------- */
+
+void mmu_init(void)
+{
+    set_column4080_key((resource_value_t)mmu_column4080_key);
+}
 
 void mmu_reset(void)
 {
