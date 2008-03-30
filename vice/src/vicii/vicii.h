@@ -30,20 +30,23 @@
 
 #include "types.h"
 
-struct snapshot_s;
-struct screenshot_s;
 struct canvas_refresh_s;
+struct raster_s;
+struct screenshot_s;
+struct snapshot_s;
+
+#define VICII_STANDARD 0
+#define VICII_EXTENDED 1
 
 extern int vic_ii_resources_init(void);
 extern int vic_ii_cmdline_options_init(void);
-extern struct raster_s *vic_ii_init(void);
+extern struct raster_s *vic_ii_init(unsigned int flag);
 extern struct video_canvas_s *vic_ii_get_canvas(void);
 
 extern void vic_ii_reset(void);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);
-extern void vic_ii_enable_extended_vicii(unsigned int flag);
 extern void vic_ii_prepare_for_snapshot(void);
 extern void vic_ii_powerup(void);
 extern void vic_ii_set_canvas_refresh(int enable);
@@ -59,14 +62,15 @@ extern int vic_ii_snapshot_read_module(struct snapshot_s *s);
 
 extern void vic_ii_async_refresh(struct canvas_refresh_s *r);
 
-void vic_ii_set_phi1_vbank(int num_vbank);
-void vic_ii_set_phi2_vbank(int num_vbank);
-void vic_ii_set_phi1_ram_base(BYTE *base);
-void vic_ii_set_phi2_ram_base(BYTE *base);
-void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
-void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vic_ii_set_phi1_vbank(int num_vbank);
+extern void vic_ii_set_phi2_vbank(int num_vbank);
+extern void vic_ii_set_phi1_ram_base(BYTE *base);
+extern void vic_ii_set_phi2_ram_base(BYTE *base);
+extern void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
+extern void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
+extern void vic_ii_set_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
+extern void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
 
 #endif
 
