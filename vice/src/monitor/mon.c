@@ -1767,6 +1767,7 @@ int mon_process(char *cmd)
     }
 
     uimon_out(prompt);
+    uimon_notify_change(); /* @SRT */
 
     return exit_mon;
 }

@@ -34,6 +34,7 @@
 
 #include "interrupt.h"
 #include "log.h"
+#include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "montypes.h"
 #include "uimon.h"
@@ -423,9 +424,10 @@ static void add_to_checkpoint_list(break_list_t **head, breakpoint_t *bp)
     new_entry->next = cur_entry;
 }
 
-int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
+static 
+int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                   bool is_trace, bool is_load, bool is_store,
-                                  bool is_temp)
+                                  bool is_temp, bool do_print)
 {
     breakpoint_t *new_bp;
     MEMSPACE mem;
@@ -471,7 +473,52 @@ int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     if (is_temp)
         exit_mon = 1;
 
-    print_checkpoint_info(new_bp);
+    if (do_print)
+        print_checkpoint_info(new_bp);
+
     return new_bp->brknum;
 }
 
+int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
+                                  bool is_trace, bool is_load, bool is_store,
+                                  bool is_temp)
+{
+    return breakpoint_add_checkpoint(start_addr, end_addr,
+                                  is_trace, is_load, is_store,
+                                  is_temp, TRUE );
+}
+
+mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address )
+{
+    MEMSPACE mem = addr_memspace(address);
+    ADDRESS addr = addr_location(address);
+    break_list_t *ptr;
+
+    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    
+    if (!ptr)
+        return BP_NONE;
+
+    return (ptr->brkpt->enabled==e_ON) ? BP_ACTIVE : BP_INACTIVE;
+}
+
+void mon_toggle_breakpoint( MON_ADDR address )
+{
+    MEMSPACE mem = addr_memspace(address);
+    ADDRESS addr = addr_location(address);
+    break_list_t *ptr;
+
+    ptr = search_checkpoint_list( breakpoints[mem], addr );
+
+    if (ptr)
+    {
+        /* there's already an entry: remove it! */
+        remove_checkpoint_from_list( &breakpoints[mem], ptr->brkpt );
+    }
+    else
+    {
+        /* there's no breakpoint yet, thus add it */
+        breakpoint_add_checkpoint(address, address,
+                        FALSE, FALSE, FALSE, FALSE, FALSE );
+    }
+}

@@ -64,10 +64,14 @@ extern struct mon_disassembly *mon_disassembly_get_lines(
 extern void mon_disassembly_set_memspace(struct mon_disassembly_private *,
                                          MEMSPACE);
 extern MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
-extern ADDRESS mon_scroll(struct mon_disassembly_private *, MON_SCROLL_TYPE);
-extern ADDRESS mon_scroll_to(struct mon_disassembly_private *, ADDRESS);
+extern ADDRESS mon_disassembly_scroll( struct mon_disassembly_private *, 
+                                         MON_SCROLL_TYPE );
+extern ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *, 
+                                         ADDRESS );
+
+extern void mon_disassembly_toggle_breakpoint( struct mon_disassembly_private *, 
+                                         int xPos, int yPos );
 
 extern void mon_ui_init(void);
 
 #endif
-

@@ -42,5 +42,15 @@ extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                          bool is_trace, bool is_load,
                                          bool is_store, bool is_temp);
 
-#endif
 
+typedef enum mon_breakpoint_type_e
+{
+    BP_NONE,
+    BP_INACTIVE,
+    BP_ACTIVE
+} mon_breakpoint_type_t;
+
+extern mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address );
+extern void mon_toggle_breakpoint( MON_ADDR address );
+
+#endif

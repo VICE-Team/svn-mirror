@@ -1550,7 +1550,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 ScrollInfo.fMask  = SIF_POS;
                 GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
 
-                ScrollInfo.nPos   = mon_scroll( pdp->pmdp, MON_SCROLL_NOTHING );
+                ScrollInfo.nPos   = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_NOTHING );
 
                 SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
                 InvalidateRect( hwnd, NULL, FALSE );
@@ -1562,6 +1562,19 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
     case WM_UPDATE:
         mon_disassembly_update(pdp->pmdp);
         return 0;
+
+    case WM_LBUTTONDOWN:
+        {
+        WORD xPos = LOWORD(lParam);
+        WORD yPos = HIWORD(lParam);
+
+        mon_disassembly_toggle_breakpoint( pdp->pmdp, xPos / pdp->charwidth, yPos / pdp->charheight );
+
+        InvalidateRect( hwnd, NULL, FALSE );
+        UpdateWindow( hwnd );
+
+        return 0;
+        }
 
     case WM_VSCROLL:
         {
@@ -1580,26 +1593,26 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         	    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
             case SB_THUMBTRACK:
-                ScrollInfo.nPos  = mon_scroll_to( pdp->pmdp, ScrollInfo.nTrackPos );
+                ScrollInfo.nPos  = mon_disassembly_scroll_to( pdp->pmdp, ScrollInfo.nTrackPos );
         	    break;
 
             case SB_LINEUP:
-                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_UP );
+                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_UP );
                 changed         = TRUE;
                 break;
 
             case SB_PAGEUP:
-                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_PAGE_UP );
+                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_PAGE_UP );
                 changed         = TRUE;
                 break;
 
             case SB_LINEDOWN:
-                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_DOWN );
+                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_DOWN );
                 changed         = TRUE;
                 break;
 
             case SB_PAGEDOWN:
-                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_PAGE_DOWN );
+                ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_PAGE_DOWN );
                 changed         = TRUE;
                 break;
             };

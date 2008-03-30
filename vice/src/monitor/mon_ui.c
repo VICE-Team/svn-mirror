@@ -32,6 +32,7 @@
 
 #include "mon.h"
 #include "montypes.h"
+#include "mon_breakpoint.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
@@ -111,6 +112,8 @@ struct mon_disassembly *mon_disassembly_get_lines(
     for (i = 0; i < lines_visible; i++ )
     {
         struct mon_disassembly *newcont;
+        mon_breakpoint_type_t bptype;
+
         newcont = xmalloc(sizeof(struct mon_disassembly));
 
         if (ret == NULL)
@@ -124,15 +127,18 @@ struct mon_disassembly *mon_disassembly_get_lines(
             contents->next = newcont;
         }
 
-        contents->next                    = NULL;
-        contents->flags.active_line       = loc==pmdp->CurrentAddress ? 1 : 0;
-        /* @SRT: just for testing! */
-        contents->flags.is_breakpoint     = (loc == 0xA47B) || (loc == 0xA47D);
-        /* @SRT: just for testing! */
-        contents->flags.breakpoint_active = loc == 0xA47B;
+        contents->next = NULL;
+        contents->flags.active_line = loc==pmdp->CurrentAddress ? 1:0;
 
-	contents->content =
-        mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &have_label);
+        /* determine type of breakpoint */
+        bptype = mon_is_breakpoint( new_addr(pmdp->memspace, loc));
+
+        contents->flags.is_breakpoint     = bptype != BP_NONE;
+        contents->flags.breakpoint_active = bptype == BP_ACTIVE;
+
+        contents->content =
+            mon_disassemble_with_label(pmdp->memspace, loc, 1, 
+            &size, &have_label);
 
         contents->length  = strlen(contents->content);
 
@@ -145,27 +151,14 @@ struct mon_disassembly *mon_disassembly_get_lines(
 }
 
 static
-ADDRESS scroll_down(struct mon_disassembly_private *pmdp, ADDRESS loc)
-{
-    unsigned int size;
-    char *content;
-
-	content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
-                                             (unsigned int*)&pmdp->have_label );
-
-    free(content);
-
-    return loc + size;
-}
-
-static
-ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
+ADDRESS determine_address_of_line(struct mon_disassembly_private *pmdp, 
+                                  ADDRESS loc, int line )
 {
     unsigned int size;
     int  i;
 
     /* it's one less than visible, so there will be one line visible left! */
-    for (i = 1; i < pmdp->Lines; i++) {
+    for (i = 0; i < line; i++) {
         char *content;
 
         content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
@@ -177,6 +170,18 @@ ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
     }
 
     return loc;
+}
+
+static
+ADDRESS scroll_down(struct mon_disassembly_private *pmdp, ADDRESS loc)
+{
+    return determine_address_of_line( pmdp, loc, 1 );
+}
+
+static
+ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
+{
+    return determine_address_of_line( pmdp, loc, pmdp->Lines );
 }
 
 static
@@ -229,7 +234,7 @@ ADDRESS scroll_up_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
     return scroll_up_count( pmdp, loc, pmdp->Lines - 1);
 }
 
-ADDRESS mon_scroll(struct mon_disassembly_private *pmdp,
+ADDRESS mon_disassembly_scroll(struct mon_disassembly_private *pmdp, 
                    MON_SCROLL_TYPE ScrollType )
 {
     switch (ScrollType) {
@@ -255,13 +260,21 @@ ADDRESS mon_scroll(struct mon_disassembly_private *pmdp,
     return pmdp->StartAddress;
 }
 
-ADDRESS mon_scroll_to(struct mon_disassembly_private *pmdp, ADDRESS addr)
+ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *pmdp, 
+                  ADDRESS addr )
 {
     pmdp->StartAddress = addr;
     return pmdp->StartAddress;
 }
 
+void mon_disassembly_toggle_breakpoint( struct mon_disassembly_private *pmdp, int xPos, int yPos )
+{
+    /* first, determine on which address the user has clicked */
+    ADDRESS CurrentAddress = determine_address_of_line( pmdp, pmdp->StartAddress, yPos );
+
+    mon_toggle_breakpoint(new_addr(pmdp->memspace,CurrentAddress));
+}
+
 void mon_ui_init(void)
 {
 }
-

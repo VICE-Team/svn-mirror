@@ -1,3 +1,43 @@
+2001-12-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.48.
+
+	* c64/c64iec.c, c128/c128iec.c, plus4/plus4iec.c
+	(iec_update_cpu_bus): New function.
+
+	* autostart.c (check): Skip some tests if zero is passed.
+
+	* plus4/plus4.c (machine_init): Fixed screen and keyboard
+	variables.
+
+	* plus4/plus4mem.c (mem_initialize_memory): Initialize wrap
+	around page too.
+
+	* plus4/ted-mem.c (read_ted1c1d): New function.
+	(store_ted0a, store_ted0b): Fixed raster irq line.
+	(read_ted0a): Fixed register read access.
+	(store_ted15, store_ted19):
+
+	* plus4/ted.c (ted_raster_draw_alarm_handler): Fixed ECM bit.
+
+2001-12-25  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: added possibility to toggle breakpoints
+	by clicking into the disassembly window
+
+	* monitor/mon.c: In mon_process(), added uimon_notify_change()
+	so anything done on the command line will update the
+	corresponding windows (I will think about it if this will be
+	permanently or if I will find a solution with a finer
+	granularity).
+
+	* monitor/mon_breakpoint.[hc]: added mon_is_breakpoint() and
+	mon_toggle_breakpoint()
+
+	* monitor/mon_ui.[hc]: renamed mon_scroll[_to]() to 
+	mon_disassembly_scroll[_to](), 
+	added mon_disassembly_toggle_breakpoint()
+
 2001-12-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.47.
