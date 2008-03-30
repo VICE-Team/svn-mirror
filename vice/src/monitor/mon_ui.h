@@ -40,10 +40,10 @@ struct mon_disassembly_flags {
 };
 
 struct mon_disassembly {
-    struct mon_disassembly *     next;
+    struct mon_disassembly *next;
     struct mon_disassembly_flags flags;
-    size_t                       length;
-    char *                       content;
+    size_t length;
+    char * content;
 };
 
 typedef
@@ -64,10 +64,9 @@ extern struct mon_disassembly *mon_disassembly_get_lines(
 extern void mon_disassembly_set_memspace(struct mon_disassembly_private *,
                                          MEMSPACE);
 extern MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
-extern ADDRESS mon_disassembly_scroll( struct mon_disassembly_private *, 
-                                         MON_SCROLL_TYPE );
-extern ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *, 
-                                         ADDRESS );
+extern WORD mon_disassembly_scroll(struct mon_disassembly_private *, 
+                                   MON_SCROLL_TYPE );
+extern WORD mon_disassembly_scroll_to(struct mon_disassembly_private *, WORD);
 
 #define MDDPC_SET_BREAKPOINT      (1<< 0)
 #define MDDPC_UNSET_BREAKPOINT    (1<< 1)
@@ -78,18 +77,23 @@ extern ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *,
 #define MDDPC_SET_DRIVE8          (1<< 5)
 #define MDDPC_SET_DRIVE9          (1<< 6)
 
-extern void mon_disassembly_determine_popup_commands( struct mon_disassembly_private *, 
-                                     int xPos, int yPos, WORD *ulMask, WORD *ulDefault );
+extern void mon_disassembly_determine_popup_commands(
+                                     struct mon_disassembly_private *, 
+                                     int xPos, int yPos, WORD *ulMask,
+                                     WORD *ulDefault);
 
-extern void mon_disassembly_set_breakpoint( struct mon_disassembly_private * );
-extern void mon_disassembly_unset_breakpoint( struct mon_disassembly_private * );
-extern void mon_disassembly_enable_breakpoint( struct mon_disassembly_private * );
-extern void mon_disassembly_disable_breakpoint( struct mon_disassembly_private * );
+extern void mon_disassembly_set_breakpoint(struct mon_disassembly_private *);
+extern void mon_disassembly_unset_breakpoint(struct mon_disassembly_private *);
+extern void mon_disassembly_enable_breakpoint(struct mon_disassembly_private *);
+extern void mon_disassembly_disable_breakpoint(struct mon_disassembly_private *);
 
-extern void mon_disassembly_goto_address( struct mon_disassembly_private *, ADDRESS addr );
-extern void mon_disassembly_goto_pc( struct mon_disassembly_private * );
-extern void mon_disassembly_goto_string( struct mon_disassembly_private *, char *addr );
+extern void mon_disassembly_goto_address(struct mon_disassembly_private *,
+                                         WORD addr);
+extern void mon_disassembly_goto_pc(struct mon_disassembly_private *);
+extern void mon_disassembly_goto_string(struct mon_disassembly_private *,
+                                        char *addr);
 
 extern void mon_ui_init(void);
 
 #endif
+

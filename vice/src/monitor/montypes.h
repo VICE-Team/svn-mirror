@@ -174,7 +174,7 @@ extern unsigned char data_buf[256];
 extern unsigned int data_buf_len;
 
 /* Function declarations */
-extern void mon_open(ADDRESS a);
+extern void mon_open(WORD a);
 extern int  mon_process(char *cmd);
 extern void mon_close(int check);
 
@@ -192,7 +192,7 @@ extern void mon_cpu_type(const char *cpu_type);
 extern void mon_bank(MEMSPACE mem, const char *bank);
 extern void mon_display_io_regs(void);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
-extern void mon_set_mem_val(MEMSPACE mem, ADDRESS mem_addr, BYTE val);
+extern void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val);
 extern bool mon_inc_addr_location(MON_ADDR *a, unsigned inc);
 extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
 extern long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
@@ -206,11 +206,11 @@ extern bool mon_is_valid_addr(MON_ADDR a);
 extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned loc);
 extern void mon_print_bin(int val, char on, char off);
-extern BYTE mon_get_mem_val(MEMSPACE mem, ADDRESS mem_addr);
-extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr);
+extern BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr);
+extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr);
 extern void mon_jump(MON_ADDR addr);
 
-extern char *mon_symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr);
+extern char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr);
 extern int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name);
 extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name);
 extern void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name);
@@ -221,8 +221,8 @@ extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
 
-extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
-extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
+extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
+extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
 #endif
 

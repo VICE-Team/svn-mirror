@@ -83,7 +83,7 @@ extern int vdrive_command_format(struct vdrive_s *vdrive,
 extern int vdrive_command_validate(struct vdrive_s *vdrive);
 extern void vdrive_command_set_error(struct vdrive_s *vdrive, int code,
                                      unsigned int track, unsigned int sector);
-extern int vdrive_command_memory_read(struct vdrive_s *vdrive, ADDRESS addr,
+extern int vdrive_command_memory_read(struct vdrive_s *vdrive, WORD addr,
                                       unsigned int length);
 extern int vdrive_command_parse(cmd_parse_t *cmd_parse);
 

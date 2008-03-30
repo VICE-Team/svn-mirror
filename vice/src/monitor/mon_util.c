@@ -24,9 +24,9 @@
  *
  */
 
-#include <stdlib.h>
-
 #include "vice.h"
+
+#include <stdlib.h>
 
 #include "archdep.h"
 #include "console.h"
@@ -38,11 +38,12 @@
 #include "uimon.h"
 #include "utils.h"
 
+
 int mon_out(const char *format, ...)
 {
     va_list ap;
     char *buffer;
-    int   rc = 0;
+    int rc = 0;
 
     va_start(ap, format);
     buffer = xmvsprintf(format, ap);
@@ -55,7 +56,7 @@ int mon_out(const char *format, ...)
     return rc;
 }
 
-char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
+char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
                                  unsigned *opc_size_p, unsigned *label_p)
 {
     const char *p;
@@ -63,9 +64,8 @@ char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
     if (*label_p == 0) {
         /* process a label, if available */
         p = mon_symbol_table_lookup_name(memspace, loc);
-        if (p)
-        {
-            *label_p    = 1;
+        if (p) {
+            *label_p = 1;
             *opc_size_p = 0;
             return xmsprintf("%s:",p);
         }
@@ -77,15 +77,15 @@ char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
     p = mon_disassemble_to_string_ex(memspace, loc,
                                      mon_get_mem_val(memspace, loc),
                                      mon_get_mem_val(memspace,
-                                                     (ADDRESS)(loc + 1)),
+                                                     (WORD)(loc + 1)),
                                      mon_get_mem_val(memspace,
-                                                     (ADDRESS)(loc + 2)),
+                                                     (WORD)(loc + 2)),
                                      mon_get_mem_val(memspace,
-                                                     (ADDRESS)(loc + 3)),
+                                                     (WORD)(loc + 3)),
                                      hex,
                                      opc_size_p);
 
-    return xmsprintf( (hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
+    return xmsprintf((hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
 }
 
 #ifndef __OS2__
@@ -97,7 +97,7 @@ void mon_set_command(console_t *console_log, char *command,
     pchCommandLine = command;
 
     if (console_log)
-        console_out(console_log,"%s\n",command);
+        console_out(console_log, "%s\n", command);
 
     if (pAfter)
         (*pAfter)();

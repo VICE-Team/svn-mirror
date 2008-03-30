@@ -215,17 +215,17 @@ struct vicii_s {
 
     /* valid VIC-II address bits for Phi1 and Phi2. After masking
        the address, it is or'd with the offset value to set always-1 bits */
-    ADDRESS vaddr_mask_phi1;            /* mask of valid address bits */
-    ADDRESS vaddr_mask_phi2;            /* mask of valid address bits */
-    ADDRESS vaddr_offset_phi1;          /* mask of address bits always set */
-    ADDRESS vaddr_offset_phi2;          /* mask of address bits always set */
+    WORD vaddr_mask_phi1;            /* mask of valid address bits */
+    WORD vaddr_mask_phi2;            /* mask of valid address bits */
+    WORD vaddr_offset_phi1;          /* mask of address bits always set */
+    WORD vaddr_offset_phi2;          /* mask of address bits always set */
 
     /* Those two values determine where in the address space the chargen
        ROM is mapped. Use mask=0x7000, value=0x1000 for the C64. */
-    ADDRESS vaddr_chargen_mask_phi1;    /* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_mask_phi2;    /* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_value_phi1;   /* compare value for chargen */
-    ADDRESS vaddr_chargen_value_phi2;   /* compare value for chargen */
+    WORD vaddr_chargen_mask_phi1;    /* address bits to comp. for chargen */
+    WORD vaddr_chargen_mask_phi2;    /* address bits to comp. for chargen */
+    WORD vaddr_chargen_value_phi1;   /* compare value for chargen */
+    WORD vaddr_chargen_value_phi2;   /* compare value for chargen */
 
     /* Video memory pointers.  Changed for drawing.  */
     BYTE *screen_ptr;
@@ -367,7 +367,7 @@ struct vicii_s {
 
     /* Value to store before DMA.  */
     CLOCK store_clk;
-    ADDRESS store_addr;
+    WORD store_addr;
     BYTE store_value;
 
     /* Stores to 0x3fff idle location (used for idle sprite fetch).  */

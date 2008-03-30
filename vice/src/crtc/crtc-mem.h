@@ -35,9 +35,9 @@
 
 #include "types.h"
 
-extern void REGPARM2 crtc_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 crtc_read(ADDRESS addr);
-extern BYTE REGPARM1 crtc_peek(ADDRESS addr);
+extern void REGPARM2 crtc_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 crtc_read(WORD addr);
+extern BYTE REGPARM1 crtc_peek(WORD addr);
 
 extern void crtc_set_char(int crom);
 
