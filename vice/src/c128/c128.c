@@ -278,6 +278,7 @@ int machine_init_resources(void)
         || vsync_init_resources() < 0
         || video_init_resources() < 0
         || c128_init_resources() < 0
+        || reu_init_resources() < 0
         || vic_ii_init_resources() < 0
         || vdc_init_resources() < 0
         || sound_init_resources() < 0
@@ -313,6 +314,7 @@ int machine_init_cmdline_options(void)
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || c128_init_cmdline_options() < 0
+        || reu_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
         || vdc_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
@@ -361,8 +363,7 @@ void c128_monitor_init(void)
 /* C128-specific initialization.  */
 int machine_init(void)
 {
-    if (c128_log == LOG_ERR)
-        c128_log = log_open("C128");
+    c128_log = log_open("C128");
 
     maincpu_init();
 
@@ -489,6 +490,7 @@ void machine_specific_reset(void)
     autostart_reset();
     drive_reset();
     datasette_reset();
+    reu_reset();
 
     z80mem_initialize();
     z80_reset();
@@ -514,6 +516,8 @@ void machine_shutdown(void)
     /* close the video chip(s) */
     vic_ii_free();
     vdc_free();
+
+    reu_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

@@ -206,6 +206,7 @@ int machine_init_resources(void)
         || vsync_init_resources() < 0
         || video_init_resources() < 0
         || c64_init_resources() < 0
+        || reu_init_resources() < 0
         || vic_ii_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0
@@ -252,6 +253,7 @@ int machine_init_cmdline_options(void)
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || c64_init_cmdline_options() < 0
+        || reu_init_cmdline_options() < 0
         || vic_ii_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
@@ -296,8 +298,7 @@ void c64_monitor_init(void)
 /* C64-specific initialization.  */
 int machine_init(void)
 {
-    if (c64_log == LOG_ERR)
-        c64_log = log_open("C64");
+    c64_log = log_open("C64");
 
     maincpu_init();
 
@@ -456,6 +457,7 @@ void machine_specific_reset(void)
     autostart_reset();
     drive_reset();
     datasette_reset();
+    reu_reset();
 }
 
 void machine_powerup(void)
@@ -479,6 +481,8 @@ void machine_shutdown(void)
 
     /* close the video chip(s) */
     vic_ii_free();
+
+    reu_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
