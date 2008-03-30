@@ -45,7 +45,7 @@ extern int fsdevice_init_cmdline_options(void);
 extern void fs_error(int code);
 
 extern int fsdevice_attach(int device, const char *name);
-extern void fsdevice_set_directory(char *filename, int unit);
+extern void fsdevice_set_directory(char *filename, unsigned int unit);
 
 #endif	/* _FSDEVICE_H */
 
