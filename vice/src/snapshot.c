@@ -29,6 +29,11 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#ifdef __IBMC__
+#include <io.h>
+#include <direct.h>
+#endif
 #ifdef __riscos
 typedef int off_t;
 #endif
@@ -207,7 +212,7 @@ int snapshot_read_string(FILE *f, char **s)
     len = (int) w;
 
     if (len) {
-        p = xmalloc(len);
+        p = (char*)xmalloc(len);
         *s = p;
 
         for (i = 0; i < len; i++) {

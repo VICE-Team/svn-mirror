@@ -33,6 +33,9 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#ifdef __IBMC__
+#include <io.h>
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #ifdef __riscos
@@ -378,7 +381,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program,
 	    listopts));
 
-    fd = fopen(tmp_name, "r");
+    fd = fopen(tmp_name, "rb");
     if (!fd) {
 	ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
 		program, tmp_name));
@@ -815,7 +818,7 @@ static int compress(const char *src, const char *dest,
 	if (dest_backup_name != NULL)
 	    ZDEBUG(("compress: making backup %s... ", dest_backup_name));
 #ifdef WIN32
-    if (dest_backup_name != NULL) 
+    if (dest_backup_name != NULL)
         remove_file(dest_backup_name);
 #endif
 	if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
@@ -927,7 +930,7 @@ static int handle_close_action(struct zfile *ptr)
 	break;
 */
     case ZFILE_DEL:
-printf("zfile_close_action(%d): file='%s', request_str='%s'\n", 
+printf("zfile_close_action(%d): file='%s', request_str='%s'\n",
 		ptr->action, ptr->orig_name, ptr->request_string);
         if (remove_file(ptr->orig_name) < 0)
 	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
@@ -941,12 +944,12 @@ printf("zfile_close_action(%d): file='%s', request_str='%s'\n",
 static int handle_close(struct zfile *ptr)
 {
     ZDEBUG(("handle_close: closing `%s' (`%s'), write_mode = %d",
-            ptr->tmp_name ? ptr->tmp_name : "(null)", 
+            ptr->tmp_name ? ptr->tmp_name : "(null)",
 	    ptr->orig_name, ptr->write_mode));
 
     if (ptr->tmp_name) {
         /* Recompress into the original file.  */
-        if (ptr->orig_name 
+        if (ptr->orig_name
 	    && ptr->write_mode
 	    && compress(ptr->tmp_name, ptr->orig_name, ptr->type))
 	    return -1;
@@ -1039,7 +1042,7 @@ int zclose_all(void)
 	/* Recompress into the original file.  */
 	if (p->tmp_name) {
 	    if (p->orig_name
-	        && p->write_mode 
+	        && p->write_mode
 		&& compress(p->tmp_name, p->orig_name, p->type)) {
 	        return -1;
 	    }
@@ -1050,11 +1053,11 @@ int zclose_all(void)
 
 	handle_close_action(p);
 
-	if (p->orig_name) 
+	if (p->orig_name)
 	    free(p->orig_name);
-	if (p->tmp_name) 
+	if (p->tmp_name)
 	    free(p->tmp_name);
-	if (p->request_string) 
+	if (p->request_string)
 	    free(p->request_string);
 	pnext = p->next;
 	free(p);
@@ -1064,7 +1067,7 @@ int zclose_all(void)
 }
 #endif
 
-int zfile_close_action(const char *filename, zfile_action_t action, 
+int zfile_close_action(const char *filename, zfile_action_t action,
 						const char *request_str)
 {
     char *fullname = NULL;

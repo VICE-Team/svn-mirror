@@ -31,6 +31,12 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#ifdef __IBMC__
+#include <io.h>
+#endif
+#ifdef __IBMC__
+#include <direct.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -64,7 +70,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (getcwd(buf + 1, sizeof buf - 128) == NULL)
+            if (getcwd(buf + 1, sizeof buf - 128) == (int)NULL)
                 goto fail;
 
             l = strlen(buf + 1);

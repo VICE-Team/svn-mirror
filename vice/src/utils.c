@@ -34,6 +34,10 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef __IBMC__
+#include <io.h>
+#include <direct.h>
+#endif
 #ifdef __riscos
 #include "ROlib.h"
 #else
@@ -118,7 +122,7 @@ char *concat(const char *s, ...)
 {
 #define _CONCAT_MAX_ARGS 128
     const char *arg;
-    char *new, *ptr;
+    char *newp, *ptr;
     int arg_len[_CONCAT_MAX_ARGS], tot_len, num_args;
     int i;
     va_list ap;
@@ -134,10 +138,10 @@ char *concat(const char *s, ...)
     }
     num_args = i;
 
-    new = (char *) xmalloc(tot_len + 1);
+    newp = (char *) xmalloc(tot_len + 1);
 
-    memcpy(new, s, arg_len[0]);
-    ptr = new + arg_len[0];
+    memcpy(newp, s, arg_len[0]);
+    ptr = newp + arg_len[0];
 
     va_start(ap, s);
     for (i = 1; i < num_args; i++) {
@@ -147,7 +151,7 @@ char *concat(const char *s, ...)
     *ptr = '\0';
 
     va_end(ap);
-    return new;
+    return newp;
 }
 
 /* Add the first `src_size' bytes of `src' to the end of `buf', which is a
@@ -201,7 +205,7 @@ void string_set(char **str, const char *new_value)
         free(*str);
         *str = NULL;
     } else {
-        *str = xrealloc(*str, strlen(new_value) + 1);
+        *str = (char*)xrealloc(*str, strlen(new_value) + 1);
         strcpy(*str, new_value);
     }
 }
@@ -275,7 +279,7 @@ char *subst(const char *s, const char *string, const char *replacement)
     int s_len = strlen(s);
     int string_len = strlen(string);
     int replacement_len = strlen(replacement);
-    const char *sp;
+    char *sp;
     char *dp;
     char *result;
 
@@ -484,7 +488,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
     }
 
     if (directory_return != NULL) {
-        *directory_return = xmalloc(p - path + 1);
+        *directory_return = (char*)xmalloc(p - path + 1);
         memcpy(*directory_return, path, p - path);
 	(*directory_return)[p - path] = '\0';
     }
@@ -602,6 +606,15 @@ unsigned int get_path_max(void)
 
     return value;
 }
+#endif
+#ifdef __IBMC__
+#define STDOUT_FILENO (0xFFFF & fileno(stdout))
+#define STDERR_FILENO (0xFFFF & fileno(stderr))
+#define _O_BINARY O_BINARY
+#define _O_TRUNC  O_TRUNC
+#define _O_WRONLY O_WRONLY
+#define _O_CREAT  O_CREAT
+#define _P_WAIT   P_WAIT
 #endif
 
 /* The following are replacements for libc functions that could be missing.  */

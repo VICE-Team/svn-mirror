@@ -46,7 +46,11 @@
 #else
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef __IBMC__
 #include <dirent.h>
+#else
+#include <direct.h>
+#endif
 #include <fcntl.h>
 #include <memory.h>
 #endif
@@ -66,6 +70,11 @@
 #include "serial.h"
 #include "utils.h"
 #include "vdrive.h"
+
+#ifdef __IBMC__ // OS/2 Visual Age C
+#include "snippets/dirport.h"
+#endif
+
 
 enum fsmode {
     Write, Read, Append, Directory
