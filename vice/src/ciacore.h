@@ -38,19 +38,19 @@
 
 
 #ifdef CIA_SHARED_CODE
-#define CIA_CONTEXT_PARAM	CIACONTEXT *ctxptr,
-#define CIA_CONTEXT_PARVOID	CIACONTEXT *ctxptr
-#define CIA_CONTEXT_CALL	ctxptr,
-#define CIA_CONTEXT_CALLVOID	ctxptr
-#define CIARPARM1		REGPARM2
-#define CIARPARM2		REGPARM3
+#define CIA_CONTEXT_PARAM       CIACONTEXT *ctxptr,
+#define CIA_CONTEXT_PARVOID     CIACONTEXT *ctxptr
+#define CIA_CONTEXT_CALL        ctxptr,
+#define CIA_CONTEXT_CALLVOID    ctxptr
+#define CIARPARM1               REGPARM2
+#define CIARPARM2               REGPARM3
 #else
 #define CIA_CONTEXT_PARAM
-#define CIA_CONTEXT_PARVOID	void
+#define CIA_CONTEXT_PARVOID     void
 #define CIA_CONTEXT_CALL
 #define CIA_CONTEXT_CALLVOID
-#define CIARPARM1		REGPARM1
-#define CIARPARM2		REGPARM2
+#define CIARPARM1               REGPARM1
+#define CIARPARM2               REGPARM2
 #endif
 
 /*
@@ -69,12 +69,12 @@ static inline BYTE read_ciapa(CIA_CONTEXT_PARVOID);
 static inline BYTE read_ciapb(CIA_CONTEXT_PARVOID);
 
 
-#define	STORE_OFFSET 1
-#define	READ_OFFSET 0
+#define STORE_OFFSET 1
+#define READ_OFFSET 0
 
-#define	CIAT_STOPPED	0
-#define	CIAT_RUNNING	1
-#define	CIAT_COUNTTA	2
+#define CIAT_STOPPED    0
+#define CIAT_RUNNING    1
+#define CIAT_COUNTTA    2
 
 /*
  * Local variable and prototypes - moved here because they're used by
@@ -87,23 +87,23 @@ static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset);
 
 #ifndef CIA_SHARED_CODE
 
-#define	ciaier	cia[CIA_ICR]
+#define ciaier  cia[CIA_ICR]
 
 static alarm_t cia_ta_alarm;
 static alarm_t cia_tb_alarm;
 static alarm_t cia_tod_alarm;
 
-static int ciaint;		/* Interrupt Flag register for cia 1 */
-static CLOCK ciardi;		/* real clock = clk-offset */
+static int ciaint;              /* Interrupt Flag register for cia 1 */
+static CLOCK ciardi;            /* real clock = clk-offset */
 
-static unsigned int cia_tat;	/* timer A toggle bit */
-static unsigned int cia_tbt;	/* timer B toggle bit */
+static unsigned int cia_tat;    /* timer A toggle bit */
+static unsigned int cia_tbt;    /* timer B toggle bit */
 
-static CLOCK cia_todclk;	/* when is the next TOD alarm scheduled? */
+static CLOCK cia_todclk;        /* when is the next TOD alarm scheduled? */
 
-static int ciasr_bits;		/* number of bits still to send */
-static BYTE cia_shifter;	/* actual shifter */
-static int cia_sdr_valid;	/* when set, SDR contains new data to send */
+static unsigned int ciasr_bits; /* number of bits still to send */
+static BYTE cia_shifter;        /* actual shifter */
+static int cia_sdr_valid;       /* when set, SDR contains new data to send */
 
 static BYTE oldpa;              /* the actual output on PA (input = high) */
 static BYTE oldpb;              /* the actual output on PB (input = high) */
@@ -112,7 +112,7 @@ static BYTE ciatodalarm[4];
 static BYTE ciatodlatch[4];
 static char ciatodstopped;
 static char ciatodlatched;
-static int ciatodticks = 100000;	/* approx. a 1/10 sec. */
+static int ciatodticks = 100000;        /* approx. a 1/10 sec. */
 
 static log_t cia_log = LOG_ERR;
 
@@ -124,5 +124,4 @@ static BYTE cia[16];
 #endif
 
 static void check_ciatodalarm(CIA_CONTEXT_PARAM CLOCK rclk);
-
 
