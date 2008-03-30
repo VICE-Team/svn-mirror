@@ -1,5 +1,86 @@
 1999-05-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.25.
+
+	* Makefile.am: Removed `@LEXLIB@' from `common_libs'.
+
+	* arch/win32/ui.c (handle_wm_command): Fixed `flip_*' calls.
+
+1999-05-25  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/c128.dsp, arch/win32/c64.dsp, arch/win32/c64c128.dsp:
+	  Added raster dir to include search path.
+
+	* arch/win32/c1541.dsp, arch/win32/petcat.dsp: Removed unnecessary
+	  library files.
+
+	* arch/win32/cbm2.dsp, arch/win32/pet.dsp: Added crtc and raster dirs
+	  to include search path.
+
+	* arch/win32/crtc.dsp: New MSVC project file for crtc library.
+
+	* arch/win32/msvc/config.h: Define __i386__ to allow unaligned
+	  memory access.
+
+	* arch/win32/raster.dsp: New MSVC project file for raster library.
+
+	* arch/win32/ui.c (window_proc): Handle WM_ERASEBKGND message.
+	  Switched back to old WM_PAINT handling method.
+
+	* arch/win32/vic20.dsp: Added raster dir to include search path.
+	  Added vic-cmdline-options.c, vic-draw.c, vic-mem.c, vic-resources.c,
+	  vic-snapshot.c.
+
+	* arch/win32/vice.dsw: Added crtc and raster project. Updated
+	  subproject dependencies.
+
+	* arch/win32/vicii.dsp: Added raster dir to include search path.
+	  Added vicii-cmdline-options.c, vicii-draw.c, vicii-mem.c,
+	  vicii-resources.c, vicii-snapshot.c, vicii-sprites.c.
+
+	* arch/win32/video.c (canvas_refresh): Switched back to old version.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/xcbm2.dsp,
+	  arch/win32/xpet.dsp, arch/win32/xvic.dsp: Removed memutils.c.
+
+	* vicii/vicii-mem.c (vic_ii_local_store_vbank): New function.
+	  It is the same as the old store_vbank.
+	  (store_vbank, store_vbank_39xx, store_vbank_3fxx) Call
+	  vic_ii_local_store_vbank instead of store_vbank.
+
+1999-05-24  Martin Pottendorfer  <Martin.Pottendorfer@alcate.at>
+
+	* arch/unix/xaw/uicommands.c: Reworked `fliplist' callbacks and
+	helper functions completely.
+	(UI_CALLBACK): Commented `button' variable, to keep compiler
+	quiet.
+
+	* arch/unix/xaw/ui.h: Added `NUM_DRIVES'. Added a few prototypes
+	for drive-fliplist menus.
+
+	* arch/unix/xaw/ui.c: Added static vars: drive8_menu, drive9_menu,
+	drive8_menu_translations, drive9_menu_translations.
+	Moved `NUM_DRIVES' to ui.h.
+	Made `last_attached_images[]' external visible.
+	`last_attached_images[]' now contains the full image paths.
+	(ui_set_drive8_menu): New function. Adds fliplist popup window for
+	drive 8.
+	(ui_set_drive9_menu): New function. Adds fliplist popup window for
+	drive 9.
+	(ui_display_drive_current_image): Update flipmenu for
+	`drive_number'.
+	(ui_display_drive_current_image2): Just display the basename from
+	`last_attached_images[]'. 
+	
+	* fliplist.h:
+	Added a few new interface funtions, Changed interface to expect a unit
+	in order to distinguish fliplists for different drives.
+
+	* fliplist.c (ALL): Reworked completely, introduced fliplists for
+	multiple drives. Added iterator functions.
+
+1999-05-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.24.
 
 	* drive/drive.c, c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
