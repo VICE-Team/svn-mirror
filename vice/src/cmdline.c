@@ -126,7 +126,7 @@ int cmdline_parse(int *argc, char **argv)
                 return -1;
             }
 
-            if (p->need_arg && i >= *argc) {
+            if (p->need_arg && i >= *argc - 1) {
                 fprintf(stderr, "Option `%s' requires a parameter.\n",
                         p->name);
                 return -1;
