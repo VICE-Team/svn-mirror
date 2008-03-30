@@ -2962,7 +2962,7 @@ static int ui_mouse_click_config(int *b, int wnum)
 
             item = (RO_MenuItem*)(ConfigMenus[i].menu + 1);
             submenu = item[Menu_DriveType_FS].submenu;
-            sd = serial_get_device(number + 8);
+            sd = serial_device_get(number + 8);
             if (strstr(sd->name, "Disk Drive") != NULL)
             {
               j = Menu_DriveType_Disk;

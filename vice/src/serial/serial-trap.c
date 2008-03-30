@@ -64,9 +64,9 @@ void serial_trap_attention(void)
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f) {
-        iec_unlisten(TrapDevice, TrapSecondary);
+        iec_unlisten(TrapDevice, TrapSecondary, serial_set_st);
     } else if (b == 0x5f) {
-        iec_untalk(TrapDevice, TrapSecondary);
+        iec_untalk(TrapDevice, TrapSecondary, serial_set_st);
     } else {
         switch (b & 0xf0) {
           case 0x20:
@@ -75,20 +75,20 @@ void serial_trap_attention(void)
             break;
           case 0x60:
             TrapSecondary = b;
-            iec_listentalk(TrapDevice, TrapSecondary);
+            iec_listentalk(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xe0:
             TrapSecondary = b;
-            iec_close(TrapDevice, TrapSecondary);
+            iec_close(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xf0:
             TrapSecondary = b;
-            iec_open(TrapDevice, TrapSecondary);
+            iec_open(TrapDevice, TrapSecondary, serial_set_st);
             break;
         }
     }
 
-    p = serial_get_device(TrapDevice & 0x0f);
+    p = serial_device_get(TrapDevice & 0x0f);
     if (!(p->inuse))
         serial_set_st(0x80);
 

@@ -54,7 +54,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
     /*
      * which device ?
      */
-    p = serial_get_device(device & 0x0f);
+    p = serial_device_get(device & 0x0f);
     channel = secondary & 0x0f;
 
     if ((device & 0x0f) >= 8)
@@ -125,12 +125,12 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
 
 /* ------------------------------------------------------------------------- */
 
-void fsdrive_open(unsigned int device, BYTE secondary)
+void fsdrive_open(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
     serial_t *p;
     void *vdrive;
 
-    p = serial_get_device(device & 0x0f);
+    p = serial_device_get(device & 0x0f);
     if (p->isopen[secondary & 0x0f] == 2) {
         if ((device & 0x0f) >= 8)
             vdrive = file_system_get_vdrive(device & 0x0f);
@@ -141,23 +141,25 @@ void fsdrive_open(unsigned int device, BYTE secondary)
     p->isopen[secondary & 0x0f] = 1;
 }
 
-void fsdrive_close(unsigned int device, BYTE secondary)
+void fsdrive_close(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
     BYTE st;
 
     st = serialcommand(device, secondary);
-    serial_set_st(st);
+    st_func(st);
 }
 
-void fsdrive_listentalk(unsigned int device, BYTE secondary)
+void fsdrive_listentalk(unsigned int device, BYTE secondary,
+                        void(*st_func)(BYTE))
 {
     BYTE st;
 
     st = serialcommand(device, secondary);
-    serial_set_st(st);
+    st_func(st);
 }
 
-void fsdrive_unlisten(unsigned int device, BYTE secondary)
+void fsdrive_unlisten(unsigned int device, BYTE secondary,
+                      void(*st_func)(BYTE))
 {
     BYTE st;
     serial_t *p;
@@ -165,14 +167,14 @@ void fsdrive_unlisten(unsigned int device, BYTE secondary)
     if ((secondary & 0xf0) == 0xf0
         || (secondary & 0x0f) == 0x0f) {
         st = serialcommand(device, secondary);
-        serial_set_st(st);
+        st_func(st);
         /* Flush serial read ahead buffer too.  */
-        p = serial_get_device(device & 0x0f);
+        p = serial_device_get(device & 0x0f);
         p->nextok[secondary & 0x0f] = 0;
     }
 }
 
-void fsdrive_untalk(unsigned int device, BYTE secondary)
+void fsdrive_untalk(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
 {
 
 }
@@ -184,7 +186,7 @@ void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
     serial_t *p;
     void *vdrive;
 
-    p = serial_get_device(device & 0x0f);
+    p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8)
         vdrive = file_system_get_vdrive(device & 0x0f);
@@ -213,7 +215,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     serial_t *p;
     void *vdrive;
 
-    p = serial_get_device(device & 0x0f);
+    p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8)
         vdrive = file_system_get_vdrive(device & 0x0f);
@@ -246,7 +248,7 @@ void fsdrive_reset(void)
     void *vdrive;
 
     for (i = 0; i < SERIAL_MAXDEVICES; i++) {
-        p = serial_get_device(i);
+        p = serial_device_get(i);
         if (p->inuse) {
             for (j = 0; j < 16; j++) {
                 if (p->isopen[j]) {
