@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-16 22:22+0200\n"
+"POT-Creation-Date: 2006-09-17 18:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 #: src/c64/cart/c64cart.c:255 src/c64/cart/c64cart.c:258
 #: src/c64/cart/c64cart.c:261 src/c64/cart/c64cart.c:264
 #: src/c64/cart/c64cart.c:267 src/c64/cart/ide64.c:277 src/c64/c64_256k.c:205
-#: src/c64/georam.c:204 src/c64/plus256k.c:170 src/c64/plus60k.c:245
+#: src/c64/georam.c:204 src/c64/plus256k.c:170 src/c64/plus60k.c:244
 #: src/c64/ramcart.c:234 src/c64/reu.c:242 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
@@ -796,7 +796,7 @@ msgstr ""
 msgid "Specify name of 256K image"
 msgstr ""
 
-#: src/c64/c64_256k.c:207 src/c64/plus60k.c:247
+#: src/c64/c64_256k.c:207 src/c64/plus60k.c:246
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr ""
@@ -838,19 +838,19 @@ msgstr ""
 msgid "Specify name of PLUS256K image"
 msgstr ""
 
-#: src/c64/plus60k.c:241
+#: src/c64/plus60k.c:240
 msgid "Enable the PLUS60K RAM expansion"
 msgstr ""
 
-#: src/c64/plus60k.c:243
+#: src/c64/plus60k.c:242
 msgid "Disable the PLUS60K RAM expansion"
 msgstr ""
 
-#: src/c64/plus60k.c:245
+#: src/c64/plus60k.c:244
 msgid "Specify name of PLUS60K image"
 msgstr ""
 
-#: src/c64/plus60k.c:247
+#: src/c64/plus60k.c:246
 msgid "Base address of the PLUS60K expansion"
 msgstr ""
 

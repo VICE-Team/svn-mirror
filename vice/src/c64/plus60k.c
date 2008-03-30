@@ -111,7 +111,7 @@ static int plus60k_deactivate(void);
 
 int plus60k_enabled = 0;
 
-unsigned int plus60k_base = 0xd100;
+int plus60k_base = 0xd100;
 
 /* Filename of the +60K image.  */
 static char *plus60k_filename = NULL;
@@ -168,25 +168,24 @@ static int set_plus60k_filename(const char *name, void *param)
 
 static int set_plus60k_base(int val, void *param)
 {
-    if ((DWORD)val == plus60k_base)
+    if (val == plus60k_base)
         return 0;
 
-    switch ((DWORD)val) {
+    switch (val) {
       case 0xd040:
       case 0xd100:
         break;
       default:
-        log_message(plus60k_log, "Unknown PLUS60K base address $%lX.",
-                    (unsigned long)val);
+        log_message(plus60k_log, "Unknown PLUS60K base address $%X.", val);
         return -1;
     }
 
     if (plus60k_enabled) {
         plus60k_deactivate();
-        plus60k_base = (DWORD)val;
+        plus60k_base = val;
         plus60k_activate();
     } else {
-        plus60k_base = (DWORD)val;
+        plus60k_base = val;
     }
 
     return 0;
@@ -202,7 +201,7 @@ static const resource_int_t resources_int[] = {
     { "PLUS60K", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &plus60k_enabled, set_plus60k_enabled, NULL },
     { "PLUS60Kbase", 0xd100, RES_EVENT_NO, NULL,
-      (int *)&plus60k_base, set_plus60k_base, NULL },
+      &plus60k_base, set_plus60k_base, NULL },
     { NULL }
 };
 

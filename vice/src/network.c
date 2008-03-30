@@ -140,7 +140,7 @@ static char *server_name = NULL;
 static unsigned short server_port;
 static int res_server_port;
 static int frame_delta;
-static unsigned int network_control;
+static int network_control;
 
 static int frame_buffer_full;
 static int current_frame, frame_to_play;
@@ -196,7 +196,7 @@ static int set_server_port(int val, void *param)
 
 static int set_network_control(int val, void *param)
 {
-    network_control = (unsigned int)val;
+    network_control = val;
     /* don't let the server loose control */
     network_control |= NETWORK_CONTROL_RSRC;
 
@@ -255,7 +255,7 @@ static const resource_int_t resources_int[] = {
     { "NetworkServerPort", 6502, RES_EVENT_NO, NULL,
       &res_server_port, set_server_port, NULL },
     { "NetworkControl", NETWORK_CONTROL_DEFAULT, RES_EVENT_SAME, NULL,
-      (int *)&network_control, set_network_control, NULL },
+      &network_control, set_network_control, NULL },
 #ifdef HAVE_IPV6
     { "NetworkIPV6", 0, RES_EVENT_NO, NULL,
       &netplay_ipv6, set_netplay_ipv6, NULL },

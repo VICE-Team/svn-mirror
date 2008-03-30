@@ -61,7 +61,7 @@ BYTE c64_256k_DDB;
 BYTE c64_256k_PRB;
 BYTE c64_256k_CRB;
 
-unsigned int c64_256k_start;
+int c64_256k_start;
 
 static log_t c64_256k_log = LOG_ERR;
 
@@ -133,21 +133,21 @@ static int set_c64_256k_filename(const char *name, void *param)
 
 static int set_c64_256k_base(int val, void *param)
 {
-    if ((DWORD)val == c64_256k_start)
+    if (val == c64_256k_start)
         return 0;
 
-    switch ((DWORD)val) {
+    switch (val) {
       case 0xde00:
       case 0xde80:
       case 0xdf00:
       case 0xdf80:
         break;
       default:
-        log_message(c64_256k_log, "Unknown 256K base %lX.", (unsigned long)val);
+        log_message(c64_256k_log, "Unknown 256K base %X.", val);
         return -1;
     }
 
-    c64_256k_start = (DWORD)val;
+    c64_256k_start = val;
 
     return 0;
 }
@@ -162,7 +162,7 @@ static const resource_int_t resources_int[] = {
     { "C64_256K", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &c64_256k_enabled, set_c64_256k_enabled, NULL },
     { "C64_256Kbase", 0xdf80, RES_EVENT_NO, NULL,
-      (int *)&c64_256k_start, set_c64_256k_base, NULL },
+      &c64_256k_start, set_c64_256k_base, NULL },
     { NULL }
 };
 
