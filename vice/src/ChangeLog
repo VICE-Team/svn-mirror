@@ -1,3 +1,33 @@
+1999-03-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.38.
+
+	* arch/unix/mouse.c: Removed volatile from `_mouse_enabled'.
+
+1998-03-10  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* src/Makefile.am: add ciatimer.c
+
+	* src/ciacore.c: remove old timer code and include ciatimer.c instead.
+
+	* src/ciatimer.c: new file that exports functions to operate on
+	a CIA timer struct.
+
+1999-03-09  Dag Lem  <resid@nimrod.no>
+
+	* sound.h: Declare sound_init_wav_device.
+
+	* sound.c (sound_init): Initialize RIFF/WAV dump sound device.
+	
+	* sounddrv/Makefile.am: Added soundwav.c.
+	
+	* sounddev/soundwav.c: RIFF/WAV dump sound device implementation.
+
+1999-03-08  Dag Lem  <resid@nimrod.no>
+
+	* sid/resid.cc (resid_sound_machine_open): Enable/disable reSID
+	external filter.
+
 1999-03-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.38.

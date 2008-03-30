@@ -40,7 +40,7 @@
 #include "resources.h"
 #include "ui.h"
 
-volatile int _mouse_enabled = 0;
+int _mouse_enabled = 0;
 int mouse_x, mouse_y;
 int mouse_accel;
 
