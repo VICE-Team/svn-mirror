@@ -1,3 +1,98 @@
+Thu May 14 21:02:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.24.
+
+Thu May 14 00:08:06 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* sid.c, include/sid.h: Removed. All this code is split into many
+	files. Also some renaming of the public prototypes has been done.
+
+	* sound.c: New file. All common sound code is now here.
+
+	* include/sound.h: New file. Common sound prototypes.
+
+	* c64/sid.c: New file. Implementation of SID.
+
+	* c64/sid.h: New file. SID prototypes.
+
+	* vic20/soundvic20.c: New file. Implementation of VIC20 sound.
+
+	* vic20/soundvic20.h: New file. VIC20 sound prototypes.
+
+	* c64/c64.c (machine_init_resources): Added initialization of
+	general sound resources.
+
+	* c64/c64.c (machine_init_cmdline_options): Added initialization of
+	general sound cmdline options.
+
+	* c64/c64.c (vsync_hook): Added call to general sound code to prevent
+	clk overflow.
+
+	* vic20/vic20.c: Changed sound includes
+
+	* vic20/vic20.c (machine_init_resources): Initialize common sound
+	resources.
+
+	* vic20/vic20.c (machine_init_cmdline_options): Initialize common
+	sound cmdline options.
+
+	* vic20/vic20.c (machine_reset): Reset sound on reset.
+
+	* vic20/vic20.c (vsync_hook): Prevent clk overflow on common sound
+	code.
+
+	* vic20/vic.c: Changed sound includes. Renamed store_vic20sid() to
+	store_sound().
+
+	* pet/soundpet.c: New file. PET sound code.
+
+	* pet/soundpet.h: New file. PET sound prototypes.
+
+	* pet/viap.c, pet/pet.c: Changed sound includes.
+
+	* arch/unix/xaw/xdebug.c: Removed sound include.
+
+	* arch/unix/xaw/ui.c: Changed sound includes.
+
+	* arch/unix/vsync.c, arch/msdos/ui.c, arch/msdos/vsync.c, main.c:
+	Changed sound includes. Renamed all changed calls to common
+ 	sound functions.
+
+	* arch/unix/sounduss.c: New file. USS sound device.
+
+	* arch/unix/soundsgi.c: New file. SGI sound device.
+
+	* arch/unix/soundsun.c: New file. SUN sound device.
+
+	* arch/unix/soundaix.c: New file. AIX sound device.
+
+	* arch/unix/soundhpux.c: New file. HPUX sound device.
+
+	* arch/msdos/soundmidas.c: New file. MIDAS sound device.
+
+	* arch/sdl/soundsdl.c: New file. SDL sound device.
+
+	* arch/soundfs.c: New file. Fs sound device.
+
+	* arch/sounddump.c: New file. Dump sound device.
+
+	* arch/sounddummy.c: New file. Dummy sound device.
+
+	* arch/soundspeed.c: New file. Speed sound device.
+
+	* Makefile.in: Removed all references to the removed sid.c and
+ 	sid.h files. Added enough info about new object -files to compile.
+
+	* configure.in: Added better checks for sound -headers that set the
+	SOUND_XXX_OBJ -variables on Makefile.
+
+	* include/warn.h (warn_free): New prototype.
+
+	* warn.c (warn_free): New function.
+
+	* warn.c (warn_init): Stralloc() the name instead of using the pointer
+	directly.
+
 Wed May 13 10:19:24 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.23.
