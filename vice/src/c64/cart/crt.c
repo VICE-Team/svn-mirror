@@ -211,7 +211,7 @@ int crt_save_expert(const char *filename)
     /*
      * Construct CRT header.
      */
-    strcpy(header, CRT_HEADER);
+    strcpy((char *)header, CRT_HEADER);
 
     /*
      * fileheader-length (= 0x0040)
@@ -246,7 +246,7 @@ int crt_save_expert(const char *filename)
     /*
      * Set name.
      */
-    strcpy(&header[0x20], STRING_EXPERT);
+    strcpy((char *)&header[0x20], STRING_EXPERT);
 
     /*
      * Write CRT header.
@@ -259,7 +259,7 @@ int crt_save_expert(const char *filename)
     /*
      * Construct chip packet.
      */
-    strcpy(chipheader, CHIP_HEADER);
+    strcpy((char *)chipheader, CHIP_HEADER);
 
     /*
      * Packet length. (= 0x2010; 0x10 + 0x2000)

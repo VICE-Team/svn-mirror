@@ -855,7 +855,7 @@ int datasette_read_snapshot(snapshot_t *s)
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
         || SMR_DW(m, &datasette_zero_gap_delay) < 0
         || SMR_DW(m, &datasette_speed_tuning) < 0
-        || SMR_B_INT(m, &fullwave) < 0
+        || SMR_B_INT(m, (int *)&fullwave) < 0
         || SMR_DW(m, &fullwave_gap) < 0) 
     {
         snapshot_module_close(m);

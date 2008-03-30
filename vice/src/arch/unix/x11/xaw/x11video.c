@@ -101,7 +101,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	canvas->yuv_image.num_planes = canvas->xv_image->num_planes;
 	canvas->yuv_image.pitches = canvas->xv_image->pitches;
 	canvas->yuv_image.offsets = canvas->xv_image->offsets;
-	canvas->yuv_image.data = canvas->xv_image->data;
+	canvas->yuv_image.data = (unsigned char *)canvas->xv_image->data;
 
         log_message(x11video_log,
                     _("Successfully initialized using XVideo (%dx%d %.4s)."),
