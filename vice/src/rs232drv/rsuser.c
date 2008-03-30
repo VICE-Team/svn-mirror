@@ -49,7 +49,7 @@
 
 static int fd = -1;
 
-static alarm_t rsuser_alarm;
+static alarm_t *rsuser_alarm = NULL;
 
 static int dtr;
 static int rts;
@@ -98,7 +98,7 @@ static int set_up_enabled(resource_value_t v, void *param)
             /* if(clk_start_tx) rs232drv_putc(fd, rxdata); */
             rs232drv_close(fd);
         }
-        alarm_unset(&rsuser_alarm);
+        alarm_unset(rsuser_alarm);
         fd = -1;
     }
 
@@ -168,10 +168,9 @@ void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(BYTE))
     int i, j;
     unsigned char c,d;
 
-    alarm_init(&rsuser_alarm, maincpu_alarm_context, "RSUser", int_rsuser);
+    rsuser_alarm = alarm_new(maincpu_alarm_context, "RSUser", int_rsuser);
 
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     cycles_per_sec = cycles;
     set_up_enabled((resource_value_t) rsuser_enabled, NULL);
@@ -208,7 +207,7 @@ void rsuser_reset(void)
         rs232drv_close(fd);
     }
 
-    alarm_unset(&rsuser_alarm);
+    alarm_unset(rsuser_alarm);
     fd = -1;
 }
 
@@ -219,7 +218,7 @@ static void rsuser_setup(void)
     clk_start_tx = 0;
     clk_start_bit = 0;
     fd = rs232drv_open(rsuser_device);
-    alarm_set(&rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
+    alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
 }
 
 void rsuser_write_ctrl(BYTE b)
@@ -236,7 +235,7 @@ void rsuser_write_ctrl(BYTE b)
 #ifdef DEBUG
             log_message(LOG_DEBUG, "switch rs232 off.");
 #endif
-            alarm_unset(&rsuser_alarm);
+            alarm_unset(rsuser_alarm);
             rs232drv_close(fd);
             fd = -1;
 #endif
@@ -377,7 +376,7 @@ void int_rsuser(CLOCK offset)
                 start_bit_trigger();
             clk_start_rx = rclk;
         }
-        alarm_set(&rsuser_alarm, maincpu_clk + char_clk_ticks);
+        alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks);
         break;
       case 1:
         /* now byte should be in shift register */
@@ -385,7 +384,7 @@ void int_rsuser(CLOCK offset)
             byte_rx_func((BYTE)(code[rxdata]));
         rxstate = 0;
         clk_start_rx = 0;
-        alarm_set(&rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
+        alarm_set(rsuser_alarm, maincpu_clk + char_clk_ticks / 8);
         break;
     }
 }

@@ -216,7 +216,7 @@ void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
     vsync_suspend_speed_eval();
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     vsyncarch_init();
 

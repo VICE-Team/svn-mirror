@@ -111,6 +111,7 @@ int main_program(int argc, char **argv)
 #endif
 
     drive_setup_context();
+    machine_early_init();
 
     /* Initialize system file locator.  */
     sysfile_init(machine_name);

@@ -72,6 +72,7 @@ extern int machine_cmdline_options_init(void);
 
 /* Initialize the machine.  */
 extern int machine_init(void);
+extern void machine_early_init(void);
 
 /* Initialize the main CPU of the machine.  */
 extern void machine_maincpu_init(void);

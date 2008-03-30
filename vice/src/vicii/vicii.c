@@ -333,16 +333,15 @@ raster_t *vicii_init(unsigned int flag)
     else
         vic_ii.log = log_open("VIC-II");
 
-    vic_ii.raster_fetch_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    vic_ii.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    vic_ii.raster_irq_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
-    alarm_init(vic_ii.raster_fetch_alarm, maincpu_alarm_context,
-               "VicIIRasterFetch", vicii_fetch_alarm_handler);
-    alarm_init(vic_ii.raster_draw_alarm, maincpu_alarm_context,
-               "VicIIRasterDraw", vicii_raster_draw_alarm_handler);
-    alarm_init(vic_ii.raster_irq_alarm, maincpu_alarm_context,
-               "VicIIRasterIrq", vicii_raster_irq_alarm_handler);
+    vic_ii.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
+                                          "VicIIRasterFetch",
+                                          vicii_fetch_alarm_handler);
+    vic_ii.raster_draw_alarm = alarm_new(maincpu_alarm_context,
+                                         "VicIIRasterDraw",
+                                         vicii_raster_draw_alarm_handler);
+    vic_ii.raster_irq_alarm = alarm_new(maincpu_alarm_context,
+                                        "VicIIRasterIrq",
+                                        vicii_raster_irq_alarm_handler);
 
     if (init_raster() < 0)
         return NULL;
@@ -365,7 +364,7 @@ raster_t *vicii_init(unsigned int flag)
 
     vic_ii.initialized = 1;
 
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return &vic_ii.raster;
 }
@@ -1041,9 +1040,6 @@ void vicii_set_canvas_refresh(int enable)
 
 void vicii_shutdown(void)
 {
-    alarm_destroy(vic_ii.raster_fetch_alarm);
-    alarm_destroy(vic_ii.raster_draw_alarm);
-    alarm_destroy(vic_ii.raster_irq_alarm);
     free(vic_ii.idle_3fff);
     free(vic_ii.idle_3fff_old);
     raster_free(&vic_ii.raster);

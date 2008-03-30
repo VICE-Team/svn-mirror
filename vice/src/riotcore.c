@@ -38,7 +38,6 @@
 
 #include "alarm.h"
 #include "snapshot.h"
-#include "utils.h"
 
 
 /*
@@ -146,11 +145,9 @@ void myriot_init(void)
     if (riot_log == LOG_ERR)
         riot_log = log_open(MYRIOT_NAME);
 
-    riot_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    riot_alarm = alarm_new(mycpu_alarm_context, MYRIOT_NAME "T1", int_riot);
 
-    alarm_init(riot_alarm, &mycpu_alarm_context,
-               MYRIOT_NAME "T1", int_riot);
-    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
 }
 #endif
 

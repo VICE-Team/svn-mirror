@@ -992,7 +992,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     cycles_per_rfsh = ticks_per_frame;
     rfsh_per_sec = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
 
-    clk_guard_add_callback(&maincpu_clk_guard, prevent_clk_overflow_callback,
+    clk_guard_add_callback(maincpu_clk_guard, prevent_clk_overflow_callback,
                            NULL);
 
 #if defined(USE_ARTS)

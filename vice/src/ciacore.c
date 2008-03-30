@@ -44,7 +44,7 @@
 #include "ciatimer.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
+
 
 #ifndef CIA_SHARED_CODE
 
@@ -245,18 +245,12 @@ void mycia_init(void)
     if (cia_log == LOG_ERR)
         cia_log = log_open(MYCIA_NAME);
 
-    cia_ta_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    cia_tb_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    cia_tod_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    cia_ta_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TA", int_ciata);
+    cia_tb_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TB", int_ciatb);
+    cia_tod_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TOD",
+                              int_ciatod);
 
-    alarm_init(cia_ta_alarm, mycpu_alarm_context, MYCIA_NAME "_TA",
-               int_ciata);
-    alarm_init(cia_tb_alarm, mycpu_alarm_context, MYCIA_NAME "_TB",
-               int_ciatb);
-    alarm_init(cia_tod_alarm, mycpu_alarm_context, MYCIA_NAME "_TOD",
-               int_ciatod);
-
-    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
 
     ciat_init(&ciata, MYCIA_NAME "_TA", myclk, cia_ta_alarm);
     ciat_init(&ciatb, MYCIA_NAME "_TB", myclk, cia_tb_alarm);

@@ -312,12 +312,10 @@ raster_t *vic_init(void)
 {
     vic.log = log_open("VIC");
 
-    vic.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    vic.raster_draw_alarm = alarm_new(maincpu_alarm_context, "VicIRasterDraw",
+                                      vic_raster_draw_alarm_handler);
 
-    alarm_init(vic.raster_draw_alarm, maincpu_alarm_context,
-               "VicIRasterDraw", vic_raster_draw_alarm_handler);
-
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     vic_change_timing();
 
@@ -453,7 +451,6 @@ void vic_update_memory_ptrs(void)
 
 void vic_shutdown(void)
 {
-    alarm_destroy(vic.raster_draw_alarm);
     raster_free(&vic.raster);
 }
 

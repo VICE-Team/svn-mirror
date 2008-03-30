@@ -42,7 +42,7 @@
 
 #undef  DEBUG
 
-static alarm_t acia_alarm;
+static alarm_t *acia_alarm = NULL;
 
 static int acia_ticks = 21111;  /* number of clock ticks per char */
 static int fd = -1;
@@ -142,9 +142,9 @@ static void clk_overflow_callback(CLOCK sub, void *var)
 }
 
 void myacia_init(void) {
-    alarm_init(&acia_alarm, mycpu_alarm_context, MYACIA, int_acia);
+    acia_alarm = alarm_new(mycpu_alarm_context, MYACIA, int_acia);
 
-    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
 
     if (acia_log == LOG_ERR)
         acia_log = log_open(MYACIA);
@@ -168,7 +168,7 @@ void myacia_reset(void)
         rs232drv_close(fd);
     fd = -1;
 
-    alarm_unset(&acia_alarm);
+    alarm_unset(acia_alarm);
     alarm_active = 0;
 
     mycpu_set_int(I_MYACIA, 0);
@@ -237,7 +237,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
     DWORD dword;
     snapshot_module_t *m;
 
-    alarm_unset(&acia_alarm);   /* just in case we don't find module */
+    alarm_unset(acia_alarm);   /* just in case we don't find module */
     alarm_active = 0;
 
     mycpu_set_int_noclk(I_MYACIA, 0);
@@ -283,10 +283,10 @@ int myacia_snapshot_read_module(snapshot_t *p)
     SMR_DW(m, &dword);
     if (dword) {
         acia_alarm_clk = myclk + dword;
-        alarm_set(&acia_alarm, acia_alarm_clk);
+        alarm_set(acia_alarm, acia_alarm_clk);
         alarm_active = 1;
     } else {
-        alarm_unset(&acia_alarm);
+        alarm_unset(acia_alarm);
         alarm_active = 0;
     }
 
@@ -315,7 +315,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         if (cmd & 1) {
             if (!intx) {
                 acia_alarm_clk = myclk + 1;
-                alarm_set(&acia_alarm, acia_alarm_clk);
+                alarm_set(acia_alarm, acia_alarm_clk);
                 alarm_active = 1;
                 intx = 2;
             } else
@@ -334,7 +334,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         intx = 0;
         mycpu_set_int(I_MYACIA, 0);
         irq = 0;
-        alarm_unset(&acia_alarm);
+        alarm_unset(acia_alarm);
         alarm_active = 0;
         break;
       case ACIA_CTRL:
@@ -347,12 +347,12 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         if ((cmd & 1) && (fd < 0)) {
             fd = rs232drv_open(acia_device);
             acia_alarm_clk = myclk + acia_ticks;
-            alarm_set(&acia_alarm, acia_alarm_clk);
+            alarm_set(acia_alarm, acia_alarm_clk);
             alarm_active = 1;
         } else
             if ((fd >= 0) && !(cmd & 1)) {
                 rs232drv_close(fd);
-                alarm_unset(&acia_alarm);
+                alarm_unset(acia_alarm);
                 alarm_active = 0;
                 fd = -1;
             }
@@ -447,7 +447,7 @@ static void int_acia(CLOCK offset)
     }
 
     acia_alarm_clk = myclk + acia_ticks;
-    alarm_set(&acia_alarm, acia_alarm_clk);
+    alarm_set(acia_alarm, acia_alarm_clk);
     alarm_active = 1;
 }
 

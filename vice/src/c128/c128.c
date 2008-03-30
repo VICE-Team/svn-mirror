@@ -306,7 +306,8 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init(VIDEO_RESOURCES_PAL) < 0
+        || video_resources_pal_init() < 0
+        || video_resources_init() < 0
         || c128_resources_init() < 0
         || reu_resources_init() < 0
         || vicii_resources_init() < 0
@@ -554,7 +555,7 @@ static void machine_vsync_hook(void)
 
     autostart_advance();
 
-    sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
+    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */
@@ -604,7 +605,7 @@ void machine_change_timing(int timeval)
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+    clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);
 

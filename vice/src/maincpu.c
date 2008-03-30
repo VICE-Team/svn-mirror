@@ -151,8 +151,8 @@ void maincpu_generic_dma(void)
 /* ------------------------------------------------------------------------- */
 
 struct cpu_int_status_s maincpu_int_status;
-alarm_context_t *maincpu_alarm_context;
-clk_guard_t maincpu_clk_guard;
+alarm_context_t *maincpu_alarm_context = NULL;
+clk_guard_t *maincpu_clk_guard = NULL;
 
 /* Global clock counter.  */
 CLOCK maincpu_clk = 0L;

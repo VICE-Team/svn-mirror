@@ -329,12 +329,10 @@ raster_t *crtc_init(void)
 
     crtc.log = log_open("CRTC");
 
-    crtc.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    crtc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "CrtcRasterDraw",
+                                       crtc_raster_draw_alarm_handler);
 
-    alarm_init(crtc.raster_draw_alarm, maincpu_alarm_context,
-               "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
-
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     raster = &crtc.raster;
 
@@ -728,7 +726,6 @@ static void crtc_exposure_handler(unsigned int width, unsigned int height)
 
 void crtc_shutdown(void)
 {
-    alarm_destroy(crtc.raster_draw_alarm);
     raster_free(&crtc.raster);
 }
 

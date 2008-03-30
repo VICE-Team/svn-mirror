@@ -275,16 +275,15 @@ raster_t *ted_init(void)
 {
     ted.log = log_open("TED");
 
-    ted.raster_fetch_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    ted.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    ted.raster_irq_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
-    alarm_init(ted.raster_fetch_alarm, maincpu_alarm_context,
-               "TEDRasterFetch", ted_raster_fetch_alarm_handler);
-    alarm_init(ted.raster_draw_alarm, maincpu_alarm_context,
-               "TEDRasterDraw", ted_raster_draw_alarm_handler);
-    alarm_init(ted.raster_irq_alarm, maincpu_alarm_context,
-               "TEDRasterIrq", ted_raster_irq_alarm_handler);
+    ted.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
+                                       "TEDRasterFetch",
+                                       ted_raster_fetch_alarm_handler);
+    ted.raster_draw_alarm = alarm_new(maincpu_alarm_context,
+                                      "TEDRasterDraw",
+                                      ted_raster_draw_alarm_handler);
+    ted.raster_irq_alarm = alarm_new(maincpu_alarm_context,
+                                     "TEDRasterIrq",
+                                     ted_raster_irq_alarm_handler);
 
     ted_change_timing();
 
@@ -302,7 +301,7 @@ raster_t *ted_init(void)
 
     ted.initialized = 1;
 
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     return &ted.raster;
 }
@@ -784,9 +783,6 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
 
 void ted_shutdown(void)
 {
-    alarm_destroy(ted.raster_fetch_alarm);
-    alarm_destroy(ted.raster_draw_alarm);
-    alarm_destroy(ted.raster_irq_alarm);
     raster_free(&ted.raster);
 }
 

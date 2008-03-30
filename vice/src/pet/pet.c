@@ -161,7 +161,7 @@ int machine_resources_init(void)
 
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init(VIDEO_RESOURCES_MONOCHROME) < 0
+        || video_resources_init() < 0
         || pet_resources_init() < 0
         || crtc_resources_init() < 0
         || pia1_init_resources() < 0
@@ -369,7 +369,7 @@ static void machine_vsync_hook(void)
 
     drive_vsync_hook();
 
-    sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
+    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */

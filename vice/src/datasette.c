@@ -63,7 +63,7 @@ static CLOCK last_write_clk = (CLOCK)0;
 /* Motor stop is delayed.  */
 static CLOCK motor_stop_clk = (CLOCK)0;
 
-static alarm_t datasette_alarm;
+static alarm_t *datasette_alarm = NULL;
 
 static int datasette_alarm_pending = 0;
 
@@ -416,7 +416,7 @@ static void datasette_read_bit(CLOCK offset)
     int direction = 1;
     long gap;
 
-    alarm_unset(&datasette_alarm);
+    alarm_unset(datasette_alarm);
     datasette_alarm_pending = 0;
 
     if ((current_image == NULL) || !datasette_motor)
@@ -488,13 +488,13 @@ static void datasette_read_bit(CLOCK offset)
     gap -= offset;
 
     if (gap > 0) {
-        alarm_set(&datasette_alarm, maincpu_clk +
+        alarm_set(datasette_alarm, maincpu_clk +
                   (CLOCK)(gap * (DS_V_PLAY / speed_of_tape)));
         datasette_alarm_pending = 1;
     } else {
         /* If the offset is geater than the gap to the next flux
            change, the change happend during DMA.  Schedule it now.  */
-        alarm_set(&datasette_alarm, maincpu_clk);
+        alarm_set(datasette_alarm, maincpu_clk);
         datasette_alarm_pending = 1;
     }
     datasette_update_ui_counter();
@@ -513,10 +513,10 @@ void datasette_init(void)
 {
     datasette_log = log_open("Datasette");
 
-    alarm_init(&datasette_alarm, maincpu_alarm_context,
-               "Datasette", datasette_read_bit);
+    datasette_alarm = alarm_new(maincpu_alarm_context, "Datasette",
+                                datasette_read_bit);
 
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     datasette_cycles_per_second = machine_get_cycles_per_second();
     if (!datasette_cycles_per_second) {
@@ -554,10 +554,10 @@ static void datasette_forward(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START
         || current_image->mode == DATASETTE_CONTROL_REWIND) {
-        alarm_unset(&datasette_alarm);
+        alarm_unset(datasette_alarm);
         datasette_alarm_pending = 0;
     }
-    alarm_set(&datasette_alarm, maincpu_clk + 1000);
+    alarm_set(datasette_alarm, maincpu_clk + 1000);
     datasette_alarm_pending = 1;
 }
 
@@ -565,10 +565,10 @@ static void datasette_rewind(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START
         || current_image->mode == DATASETTE_CONTROL_FORWARD) {
-        alarm_unset(&datasette_alarm);
+        alarm_unset(datasette_alarm);
         datasette_alarm_pending = 0;
     }
-    alarm_set(&datasette_alarm, maincpu_clk + 1000);
+    alarm_set(datasette_alarm, maincpu_clk + 1000);
     datasette_alarm_pending = 1;
 }
 
@@ -579,7 +579,7 @@ static void datasette_internal_reset(void)
         if (current_image->mode == DATASETTE_CONTROL_START
             || current_image->mode == DATASETTE_CONTROL_FORWARD
             || current_image->mode == DATASETTE_CONTROL_REWIND) {
-            alarm_unset(&datasette_alarm);
+            alarm_unset(datasette_alarm);
             datasette_alarm_pending = 0;
         }
         datasette_control(DATASETTE_CONTROL_STOP);
@@ -610,7 +610,7 @@ static void datasette_start_motor(void)
     fseek(current_image->fd, current_image->current_file_seek_position
           + current_image->offset, SEEK_SET);
     if (!datasette_alarm_pending) {
-        alarm_set(&datasette_alarm, maincpu_clk + 1000);
+        alarm_set(datasette_alarm, maincpu_clk + 1000);
         datasette_alarm_pending = 1;
     }
 }
@@ -673,7 +673,7 @@ void datasette_set_motor(int flag)
             datasette_start_motor();
         }
         if (!flag && datasette_motor) {
-            alarm_unset(&datasette_alarm);
+            alarm_unset(datasette_alarm);
             datasette_alarm_pending = 0;
             motor_stop_clk = maincpu_clk + MOTOR_DELAY;
         }

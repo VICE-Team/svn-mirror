@@ -134,7 +134,8 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init(VIDEO_RESOURCES_PAL) < 0
+        || video_resources_pal_init() < 0
+        || video_resources_init() < 0
         || cbm2_resources_init() < 0
         || crtc_resources_init() < 0
         || vicii_resources_init() < 0
@@ -188,7 +189,7 @@ int machine_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* for the C500 there is a powerline IRQ... */
 
-static alarm_t c500_powerline_clk_alarm;
+static alarm_t *c500_powerline_clk_alarm = NULL;
 static CLOCK c500_powerline_clk = 0;
 
 void c500_powerline_clk_alarm_handler(CLOCK offset) {
@@ -197,7 +198,7 @@ void c500_powerline_clk_alarm_handler(CLOCK offset) {
 
     SIGNAL_VERT_BLANK_OFF
 
-    alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
+    alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
 
     SIGNAL_VERT_BLANK_ON
 
@@ -278,10 +279,11 @@ int machine_init(void)
         c500_set_phi2_bank(15);
         */
 
-        alarm_init(&c500_powerline_clk_alarm, maincpu_alarm_context,
-                   "C500PowerlineClk", c500_powerline_clk_alarm_handler);
-        clk_guard_add_callback(&maincpu_clk_guard,
-                                c500_powerline_clk_overflow_callback, NULL);
+        c500_powerline_clk_alarm = alarm_new(maincpu_alarm_context,
+                                             "C500PowerlineClk",
+                                             c500_powerline_clk_alarm_handler);
+        clk_guard_add_callback(maincpu_clk_guard,
+                               c500_powerline_clk_overflow_callback, NULL);
         machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
         machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
         machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
@@ -342,7 +344,7 @@ void machine_specific_reset(void)
         crtc_reset();
     } else {
         c500_powerline_clk = maincpu_clk + C500_POWERLINE_CYCLES_PER_IRQ;
-        alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
+        alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
         vicii_reset();
     }
     printer_reset();
@@ -392,7 +394,7 @@ static void machine_vsync_hook(void)
 
     autostart_advance();
 
-    sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
+    sub = clk_guard_prevent_overflow(maincpu_clk_guard);
 
     /* The drive has to deal both with our overflowing and its own one, so
        it is called even when there is no overflowing in the main CPU.  */
@@ -433,7 +435,7 @@ void machine_change_timing(int timeval)
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
-    clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+    clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing);
 }
@@ -627,7 +629,7 @@ static int c500_snapshot_read_module(snapshot_t *p)
 
     SMR_DW(m, &dword);
     c500_powerline_clk = maincpu_clk + dword;
-    alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
+    alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
 
     snapshot_module_close(m);
 

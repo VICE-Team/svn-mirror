@@ -31,7 +31,7 @@
 #include "clkguard.h"
 #include "interrupt.h"
 #include "snapshot.h"
-#include "utils.h"
+
 
 /*
  * 24jan97 a.fachat
@@ -237,14 +237,12 @@ void myvia_init(VIA_CONTEXT_PARVOID)
     if (myvia_log == LOG_ERR)
         myvia_log = log_open(snap_module_name);
 
-    myvia_t1_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    myvia_t2_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T1",
+                               int_myviat1);
+    myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T2",
+                               int_myviat2);
 
-    alarm_init(myvia_t1_alarm, mycpu_alarm_context,
-               MYVIA_NAME "T1", int_myviat1);
-    alarm_init(myvia_t2_alarm, mycpu_alarm_context,
-               MYVIA_NAME "T2", int_myviat2);
-    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 #endif

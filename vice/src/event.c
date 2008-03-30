@@ -64,7 +64,7 @@ typedef struct event_list_s event_list_t;
 
 static event_list_t *event_list_base, *event_list_current;
 
-static alarm_t event_alarm;
+static alarm_t *event_alarm = NULL;
 
 static log_t event_log = LOG_DEFAULT;
 
@@ -108,14 +108,14 @@ static void set_next_alarm(void)
 
     if (maincpu_clk > CLKGUARD_SUB_MIN
         && new_value < maincpu_clk - CLKGUARD_SUB_MIN)
-        new_value += clk_guard_clock_sub(&maincpu_clk_guard);
+        new_value += clk_guard_clock_sub(maincpu_clk_guard);
 
-    alarm_set(&event_alarm, new_value);
+    alarm_set(event_alarm, new_value);
 }
 
 static void event_alarm_handler(CLOCK offset)
 {
-    alarm_unset(&event_alarm);
+    alarm_unset(event_alarm);
     /*printf("EVENT PLAYBACK %i\n",event_list_current->type);*/
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
@@ -243,7 +243,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     playback_active = 1;
 
     if (event_list_current->next != NULL)
-        alarm_set(&event_alarm, event_list_current->clk);
+        alarm_set(event_alarm, event_list_current->clk);
 }
 
 
@@ -267,7 +267,7 @@ int event_playback_stop(void)
 
     playback_active = 0;
 
-    alarm_unset(&event_alarm);
+    alarm_unset(event_alarm);
 
     return 0;
 }
@@ -437,7 +437,7 @@ void event_init(void)
 {
     event_log = log_open("Event");
 
-    alarm_init(&event_alarm, maincpu_alarm_context,
-               "Event", event_alarm_handler);
+    event_alarm = alarm_new(maincpu_alarm_context, "Event",
+                            event_alarm_handler);
 }
 

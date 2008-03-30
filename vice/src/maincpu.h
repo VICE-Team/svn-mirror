@@ -61,7 +61,7 @@ struct clk_guard_s;
 
 extern CLOCK _maincpu_opcode_write_cycles[];
 extern struct alarm_context_s *maincpu_alarm_context;
-extern struct clk_guard_s maincpu_clk_guard;
+extern struct clk_guard_s *maincpu_clk_guard;
 
 /* Return the number of write accesses in the last opcode emulated. */
 inline static CLOCK maincpu_num_write_cycles(void)
