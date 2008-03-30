@@ -208,19 +208,27 @@ void util_remove_spaces(char *s)
     }
 }
 
-/* Set a new value to the dynamically allocated string *str.  */
-void util_string_set(char **str, const char *new_value)
+/* Set a new value to the dynamically allocated string *str.
+   Returns `-1' if nothing has to be done.  */
+int util_string_set(char **str, const char *new_value)
 {
     if (*str == NULL) {
         if (new_value != NULL)
             *str = stralloc(new_value);
-    } else if (new_value == NULL) {
-        free(*str);
-        *str = NULL;
     } else {
-        *str = (char*)xrealloc(*str, strlen(new_value) + 1);
-        strcpy(*str, new_value);
+        if (new_value == NULL) {
+            free(*str);
+            *str = NULL;
+        } else {
+            /* Skip copy if src and dest are already the same.  */
+            if (strcmp(*str, new_value) == 0)
+                return -1;
+
+            *str = (char*)xrealloc(*str, strlen(new_value) + 1);
+            strcpy(*str, new_value);
+        }
     }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -378,14 +386,17 @@ int util_load_file(const char *name, void *dest, size_t size)
     }
 
     fd = fopen(name, MODE_READ);
+
     if (fd == NULL)
         return -1;
 
     r = fread((char *)dest, size, 1, fd);
 
     fclose(fd);
+
     if (r < 1)
         return -1;
+
     return 0;
 }
 
@@ -398,6 +409,7 @@ int util_save_file(const char *name, const void *src, int size)
     size_t r;
 
     fd = fopen(name, MODE_WRITE);
+
     if (fd == NULL)
         return -1;
 
@@ -405,8 +417,9 @@ int util_save_file(const char *name, const void *src, int size)
 
     fclose(fd);
 
-    if (r  < 1)
+    if (r < 1)
         return -1;
+
     return 0;
 }
 
