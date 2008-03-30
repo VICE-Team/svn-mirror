@@ -713,7 +713,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 .PHONY: x64-all
 x64-all: libc64 libsounddrv libtrue1541 libarch x64
 .PHONY: x128-all
-x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
+x128-all: libc128 libc64c128 libsounddrv libtrue1541 libarch x128
 .PHONY: xvic-all
 xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
 .PHONY: xpet-all

@@ -107,6 +107,10 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	c128kbd.c \
+	c128kbd.h \
+	c128ui.c \
+	c128ui.h \
 	c64kbd.c \
 	c64kbd.h \
 	c64ui.c \
@@ -162,9 +166,10 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  c64kbd.o c64ui.o grabkey.o joystick.o kbd.o log.o \
-mouse.o menudefs.o petkbd.o petui.o tui.o tui_backend.o tuifs.o \
-tuimenu.o tuiview.o ui.o vic20kbd.o vic20ui.o video.o vmidas.o vsync.o
+libarch_a_OBJECTS =  c128kbd.o c128ui.o c64kbd.o c64ui.o grabkey.o \
+joystick.o kbd.o log.o mouse.o menudefs.o petkbd.o petui.o tui.o \
+tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o vic20kbd.o vic20ui.o \
+video.o vmidas.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -383,11 +388,6 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-# bin_PROGRAMS = grabkey
-#
-# grabkey_SOURCES = \
-#	grabkey.c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
