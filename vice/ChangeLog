@@ -1,5 +1,12 @@
 2004-07-17  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.14.37.
+
+	* configure.in: Define `HAVE_OPENCBM' and `HAVE_REALDEVICE'
+	for the win32 port.
+
+2004-07-17  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.14.36.
 
 2004-07-08  <fabrizio.ge@tiscali.it>
