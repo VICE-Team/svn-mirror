@@ -685,8 +685,6 @@ void reset_vic_ii(void)
 {
     reset_raster();
 
-    light_pen.triggered = light_pen.x = light_pen.y = 0;
-
     vic_ii_draw_clk = DRAW_CYCLE;
     maincpu_set_alarm_clk(A_RASTERDRAW, vic_ii_draw_clk);
 
@@ -698,6 +696,9 @@ void reset_vic_ii(void)
     int_raster_line = 0;
     int_raster_clk = 0;
     maincpu_set_alarm_clk(A_RASTER, 1);
+
+    light_pen.triggered = light_pen.x = light_pen.y = 0;
+
     /* Remove all the IRQ sources.  */
     vic[0x1a] = 0;
 }
@@ -3738,11 +3739,15 @@ VcAdd              BYTE   1      value to add to Vc at the end of this line (mem
 VcBase             WORD   1      internal VIC-II memory pointer
 VideoInt           BYTE   1      status of VIC-II IRQ (videoint)
 
-*Sprite section: (repeat 8 times)
+[Sprite section: (repeat 8 times)]
 
 SpriteXMemPtr      BYTE   1      sprite memory pointer
 SpriteXMemPtrInc   BYTE   1      value to add to the MemPtr after fetch
 SpriteXExpFlipFlop BYTE   1      sprite expansion flip-flop
+
+[Alarm section]
+FetchEventTick     DWORD  1      ticks for the next "fetch" (DMA) event
+FetchEventType     BYTE   1      type of event (0: matrix, 1: sprite check, 2: sprite fetch)
 
 */
 
@@ -3803,6 +3808,12 @@ int vic_ii_write_snapshot_module(FILE *f)
             return -1;
     }
 
+   if (0
+       || snapshot_write_dword(f, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
+       || snapshot_write_byte(f, fetch_idx) < 0 /* FetchEventType */
+       )
+        return -1;
+
     return 0;
 }
 
@@ -3833,7 +3844,6 @@ int vic_ii_read_snapshot_module(FILE *f)
     BYTE major_version, minor_version;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
     int i;
-    BYTE tmp;
 
     if (snapshot_read_module_header(f, module_name,
                                     &major_version, &minor_version) < 0)
@@ -3952,7 +3962,7 @@ int vic_ii_read_snapshot_module(FILE *f)
             sprites[i].y_expanded = (int) (vic[0x17] & msk);
             sprites[i].multicolor = (int) (vic[0x1c] & msk);
             sprites[i].in_background = (int) (vic[0x1b] & msk);
-            sprites[i].color = (int) vic[0x27 + i];
+            sprites[i].color = (int) vic[0x27 + i] & 0xf;
             sprites[i].dma_flag = (int) (new_dma_msk & msk);
         }
     }
@@ -3960,9 +3970,25 @@ int vic_ii_read_snapshot_module(FILE *f)
     xsmooth = vic[0x16] & 0x7;
     ysmooth = vic[0x11] & 0x7;
     rasterline = RASTER_Y;      /* FIXME? */
-    border_color = vic[0x20];
-    background_color = vic[0x21];
-    /* FIXME: overscan_background_color */
+
+    /* Update colors.  */
+    border_color = vic[0x20] & 0xf;
+    background_color = vic[0x21] & 0xf;
+    ext_background_color[0] = vic[0x22] & 0xf;
+    ext_background_color[1] = vic[0x23] & 0xf;
+    ext_background_color[2] = vic[0x24] & 0xf;
+    mc_sprite_color_1 = vic[0x25] & 0xf;
+    mc_sprite_color_2 = vic[0x26] & 0xf;
+    blank = !(vic[0x11] & 0x10);
+
+    if (video_mode == VIC_II_HIRES_BITMAP_MODE
+        || VIC_II_IS_ILLEGAL_MODE(video_mode)) {
+        overscan_background_color = 0;
+        force_black_overscan_background_color = 1;
+    } else {
+        overscan_background_color = background_color;
+        force_black_overscan_background_color = 0;
+    }
 
     if (vic[0x11] & 0x8) {
         display_ystart = VIC_II_25ROW_START_LINE;
@@ -3991,5 +4017,25 @@ int vic_ii_read_snapshot_module(FILE *f)
 
     set_video_mode(RASTER_CYCLE);
 
+    vic_ii_draw_clk = clk + (DRAW_CYCLE - RASTER_CYCLE);
+    oldclk = vic_ii_draw_clk - CYCLES_PER_LINE;
+    maincpu_set_alarm_clk(A_RASTERDRAW, vic_ii_draw_clk);
+
+    {
+        DWORD dw;
+        BYTE b;
+
+        if (0
+            || snapshot_read_dword(f, &dw) < 0 /* FetchEventTick */
+            || snapshot_read_byte(f, &b) < 0 /* FetchEventType */
+            )
+            return -1;
+
+        vic_ii_fetch_clk = clk + dw;
+        fetch_idx = b;
+        maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+    }
+
+    force_repaint();
     return 0;
 }

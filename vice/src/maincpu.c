@@ -103,7 +103,7 @@ int rmw_flag = 0;
    number of write cycles in the last executed opcode and to delay interrupts
    by one more cycle if necessary, as happens with conditional branch opcodes
    when the branch is taken.  */
-int last_opcode_info;
+DWORD last_opcode_info;
 
 /* Number of write cycles for each 6510 opcode.  */
 CLOCK _maincpu_opcode_write_cycles[] = {
@@ -359,13 +359,19 @@ int maincpu_write_snapshot_module(FILE *f)
                                      SNAP_MAJOR, SNAP_MINOR) < 0)
         return -1;
 
-    if (snapshot_write_dword(f, clk) < 0
+    if (0
+        || snapshot_write_dword(f, clk) < 0
         || snapshot_write_byte(f, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
         || snapshot_write_byte(f, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
         || snapshot_write_byte(f, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
         || snapshot_write_byte(f, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || snapshot_write_byte(f, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0)
+        || snapshot_write_word(f, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || snapshot_write_dword(f, last_opcode_info) < 0
+        )
+        return -1;
+
+    if (interrupt_write_snapshot(&maincpu_int_status, f) < 0)
         return -1;
 
     return 0;
@@ -373,7 +379,8 @@ int maincpu_write_snapshot_module(FILE *f)
 
 int maincpu_read_snapshot_module(FILE *f)
 {
-    BYTE a, x, y, sp, pc, status;
+    BYTE a, x, y, sp, status;
+    WORD pc;
     BYTE major, minor;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
 
@@ -387,14 +394,21 @@ int maincpu_read_snapshot_module(FILE *f)
         return -1;
     }
 
+    /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
+       wrong number of cycles.  */
+    rmw_flag = -1;
+
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
-    if (snapshot_read_dword(f, &clk) < 0
+    if (0
+        || snapshot_read_dword(f, &clk) < 0
         || snapshot_read_byte(f, &a) < 0
         || snapshot_read_byte(f, &x) < 0
         || snapshot_read_byte(f, &y) < 0
         || snapshot_read_byte(f, &sp) < 0
-        || snapshot_read_byte(f, &pc) < 0
-        || snapshot_read_byte(f, &status) < 0)
+        || snapshot_read_word(f, &pc) < 0
+        || snapshot_read_byte(f, &status) < 0
+        || snapshot_read_dword(f, &last_opcode_info) < 0
+        )
         return -1;
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);
@@ -404,6 +418,8 @@ int maincpu_read_snapshot_module(FILE *f)
     MOS6510_REGS_SET_PC(&maincpu_regs, pc);
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 
+    if (interrupt_read_snapshot(&maincpu_int_status, f) < 0)
+        return -1;
+
     return 0;
 }
-

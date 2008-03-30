@@ -65,7 +65,8 @@ static UI_CALLBACK(attach_disk)
     suspend_speed_eval();
     sprintf(title, "Attach Disk Image as unit #%d", unit);
     filename = ui_select_file(title, read_disk_image_contents,
-		      unit == 8 ? True : False, NULL, "*.[gdxGDX]*", &button);
+                              unit == 8 ? True : False, NULL,
+                              "*.[gdxGDX]*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -417,6 +418,49 @@ static UI_CALLBACK(about)
 
 /* ------------------------------------------------------------------------- */
 
+/* Snapshot commands.  */
+
+static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    ui_button_t button;
+    char *filename;
+
+    filename = ui_select_file("Load snapshot", NULL, False, NULL,
+                              "*", &button);
+    if (button != UI_BUTTON_OK)
+        return;
+
+    if (machine_read_snapshot(filename) < 0)
+        ui_error("Cannot load snapshot file\n`%s'", filename);
+}
+
+static UI_CALLBACK(load_snapshot)
+{
+    maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+}
+
+static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    ui_button_t button;
+    PATH_VAR(filename);
+
+    *filename = '\0';
+    button = ui_input_string("Save snapshot", "Enter file name:", filename,
+                             GET_PATH_MAX);
+    if (button != UI_BUTTON_OK)
+        return;
+
+    if (machine_write_snapshot(filename) < 0)
+        ui_error("Cannot write snapshot file\n`%s'", filename);
+}
+
+static UI_CALLBACK(save_snapshot)
+{
+    maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #8...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
@@ -487,8 +531,22 @@ ui_menu_entry_t ui_directory_commands_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
+    { "Load snapshot...",
+      (ui_callback_t) load_snapshot, NULL, NULL },
+    { "Save snapshot...",
+      (ui_callback_t) save_snapshot, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_snapshot_commands_menu[] = {
+    { "Snapshot commands",
+      NULL,  NULL, ui_snapshot_commands_submenu },
+    { NULL }
+};
+
 ui_menu_entry_t ui_tool_commands_menu[] = {
-    { "Activate the Monitor",
+    { "Activate monitor",
       (ui_callback_t) activate_monitor, NULL, NULL },
     { "Run C1541",
       (ui_callback_t) run_c1541, NULL, NULL },
