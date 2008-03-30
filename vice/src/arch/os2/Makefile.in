@@ -249,6 +249,7 @@ libarch_a_SOURCES = \
         mousedrv.h \
 	os2main.c \
 	rs232.c \
+	signals.c \
 	signals.h \
 	sounddrv.c \
 	sounddrv.h \
@@ -337,9 +338,9 @@ libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	console.$(OBJEXT) fullscr.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
 	mousedrv.$(OBJEXT) os2main.$(OBJEXT) rs232.$(OBJEXT) \
-	sounddrv.$(OBJEXT) tfearch.$(OBJEXT) ui.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uimon.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT)
+	signals.$(OBJEXT) sounddrv.$(OBJEXT) tfearch.$(OBJEXT) \
+	ui.$(OBJEXT) uicmdline.$(OBJEXT) uimon.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -349,11 +350,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/fullscr.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/kbd.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/os2main.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/sounddrv.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po
+@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/signals.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sounddrv.Po ./$(DEPDIR)/tfearch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uicmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -401,6 +402,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/os2main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sounddrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@

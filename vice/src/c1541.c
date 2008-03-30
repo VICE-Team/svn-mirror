@@ -351,6 +351,7 @@ static int split_args(const char *line, int *nargs, char **args)
           case ' ':
           case '\t':
           case '\n':
+          case '\r':
           case 0:
               if (*s == 0 && in_quote) {
                   fprintf(stderr, "Unbalanced quotes.\n");
@@ -374,9 +375,6 @@ static int split_args(const char *line, int *nargs, char **args)
                       (*nargs)++;
                       d = tmp;
                   }
-              } else if (*s != 0) {
-                  begin_of_arg = 0;
-                  *(d++) = *s;
               }
               if (*s == 0)
                   return 0;
@@ -2554,7 +2552,8 @@ static int validate_cmd(int nargs, char **args)
 static int write_cmd(int nargs, char **args)
 {
     unsigned int dnr;
-    char *dest_name_ascii;
+    char *dest_name;
+    unsigned int dest_len;
     char *p;
     fileio_info_t *finfo;
 
@@ -2563,16 +2562,18 @@ static int write_cmd(int nargs, char **args)
         p = extract_unit_from_file_name(args[2], &dnr);
         if (p == NULL) {
             dnr = drive_number;
-            dest_name_ascii = lib_stralloc(args[2]);
+            dest_name = lib_stralloc(args[2]);
         } else {
             if (*p != 0)
-                dest_name_ascii = lib_stralloc(args[2]);
+                dest_name = lib_stralloc(args[2]);
             else
-                dest_name_ascii = NULL;
+                dest_name = NULL;
         }
+        if (dest_name != NULL)
+            charset_petconvstring(dest_name, 0);
     } else {
         /* write <source> */
-        dest_name_ascii = NULL;
+        dest_name = NULL;
         dnr = drive_number;
     }
 
@@ -2589,16 +2590,27 @@ static int write_cmd(int nargs, char **args)
         return FD_NOTRD;
     }
 
-    if (vdrive_iec_open(drives[dnr], (char *)finfo->name,
-                        (int)finfo->length, 1)) {
+    if (dest_name == NULL) {
+        dest_name = (char *)finfo->name;
+        dest_len = finfo->length;
+    } else {
+        dest_len = strlen(dest_name);
+    }
+
+    if (vdrive_iec_open(drives[dnr], dest_name, (int)dest_len, 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 finfo->name);
         fileio_close(finfo);
-        lib_free(dest_name_ascii);
+        lib_free(dest_name);
         return FD_WRTERR;
     }
 
-    printf("Writing file `%s' to unit %d.\n", finfo->name, dnr + 8);
+    if (dest_name == (char *)finfo->name)
+        printf("Writing file `%s' to unit %d.\n", finfo->name, dnr + 8);
+    else
+        printf("Writing file `%s' as `%s' to unit %d.\n", finfo->name,
+               dest_name, dnr + 8);
+
     while (1) {
         BYTE c;
 
@@ -2614,7 +2626,7 @@ static int write_cmd(int nargs, char **args)
     fileio_close(finfo);
     vdrive_iec_close(drives[dnr], 1);
 
-    lib_free(dest_name_ascii);
+    lib_free(dest_name);
 
     return FD_OK;
 }

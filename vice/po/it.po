@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-25 20:02+0100\n"
+"POT-Creation-Date: 2004-02-29 20:53+0100\n"
 "PO-Revision-Date: 2004-01-20 20:33+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -151,16 +151,6 @@ msgstr "Non è possibile trovare la sezione eventi nel file di file snapshot."
 #: src/event.c:484
 msgid "Error reading end snapshot file."
 msgstr "Errore durante la lettura del file di fine snapshot."
-
-#: src/arch/unix/archdep.c:234
-#, c-format
-msgid "Received signal %d (%s)."
-msgstr "Ricevuto il segnale %d (%s)."
-
-#: src/arch/unix/archdep.c:237
-#, c-format
-msgid "Received signal %d."
-msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
@@ -864,6 +854,16 @@ msgstr "Tentativo di lettura da fd %d non valido."
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Tentativo di lettura da fd %d non aperto."
+
+#: src/arch/unix/signals.c:40
+#, c-format
+msgid "Received signal %d (%s)."
+msgstr "Ricevuto il segnale %d (%s)."
+
+#: src/arch/unix/signals.c:43
+#, c-format
+msgid "Received signal %d."
+msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 #, fuzzy
