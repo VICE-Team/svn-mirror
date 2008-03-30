@@ -35,7 +35,6 @@
 #include "debug.h"
 #include "fliplist.h"
 #include "lib.h"
-#include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
@@ -257,101 +256,6 @@ static UI_CALLBACK(set_default_resources)
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(ConfirmOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
-
-/* ------------------------------------------------------------------------- */
-
-/* ROM set stuff */
-
-UI_CALLBACK(ui_set_romset)
-{
-    machine_romset_load(UI_MENU_CB_PARAM);
-    ui_update_menus();
-}
-
-UI_CALLBACK(ui_load_romset)
-{
-    char *filename, *title;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("Load custom ROM set definition"));
-    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vrs",
-                              &button, False, NULL);
-
-    lib_free(title);
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (machine_romset_load(filename) < 0)
-            ui_error(_("Could not load ROM set file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    ui_update_menus();
-    if (filename != NULL)
-        lib_free(filename);
-}
-
-UI_CALLBACK(ui_dump_romset)
-{
-    char *title, *new_value;
-    ui_button_t button;
-    int len = 512;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("File to dump ROM set definition to"));
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, "");
-
-    button = ui_input_string(title, _("ROM set file:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        machine_romset_save(new_value);
-
-    lib_free(new_value);
-}
-
-UI_CALLBACK(ui_load_rom_file)
-{
-    char *filename, *title;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("Load ROM file"));
-    filename = ui_select_file(title, NULL, 0, False, last_dir, "*", &button,
-                              False, NULL);
-
-    lib_free(title);
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM,
-            (resource_value_t)filename) < 0)
-            ui_error(_("Could not load ROM file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    ui_update_menus();
-    if (filename != NULL)
-        lib_free(filename);
-}
-
-UI_CALLBACK(ui_unload_rom_file)
-{
-    resources_set_value((char*)UI_MENU_CB_PARAM, (resource_value_t)NULL);
-}
 
 /* ------------------------------------------------------------------------- */
 
