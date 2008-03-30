@@ -120,8 +120,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
     log_message(vdc.log, "REG %02i VAL %02x", vdc.update_reg, value);
 #endif
 
-    switch (vdc.update_reg)
-    {
+    switch (vdc.update_reg) {
       case 0:                   /* R00  Horizontal total (characters + 1) */
         if (vdc.regs[0] != oldval) {
             if (vdc.regs[0] >= 120 && vdc.regs[0] <= 127) {
@@ -315,6 +314,8 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 26:
+        if ((vdc.regs[25] & 0xe0) && (vdc.regs[26] != oldval))
+            vdc.force_repaint = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "Color register %x.", vdc.regs[26]);
 #endif

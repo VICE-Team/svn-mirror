@@ -1,3 +1,32 @@
+2003-03-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.16.
+
+	* drive/drivecpu.c (drive_trap_handler): Return `-1' if no
+	trap is taken.
+
+	* sid/sid.c (sound_machine_init): Initialize Catweasel support
+	only once.
+
+	* vdc/vdc-mem.c (vdc_store): Added patch by Paul B Murdaugh.
+
+	* autostart.c, event.c, interrupt.c, kbdbuf.c, sound.c,
+	traps.c, maincpu.c, c1541.c, cartridge.h, catweaselmkiii.h,
+	interrupt.h, machine-drive.h, mem.h, serial.h, sound.h,
+	tape.h, traps.h, 6510core.c, aciacore.c, ciacore.c, piacore.c,
+	riotcore.c, tpicore.c, viacore.c, sounddrv/sounddump.c,
+	drive/ciad.h, drive/drive.h, drive/drivecpu.c,
+	drive/drivemem.c, drive/drivemem.h, drive/drivetypes.h,
+	drive/iec.h, drive/ieee.h, drive/tcbm.h, drive/via1d.c,
+	drive/via2d.c, drive/viad.h, drive/iec/iec.c,
+	drive/iec/iecrom.c, drive/iec/iecrom.h, drive/iec/memiec.c,
+	drive/iec/wd1770.c, drive/iec/wd1770.h, drive/ieee/ieee.c,
+	drive/ieee/ieeerom.c, drive/ieee/ieeerom.h,
+	drive/ieee/memieee.c, drive/ieee/riotd.h,
+	drive/tcbm/mem1551.c, drive/tcbm/tcbm.c, drive/tcbm/tcbmrom.c,
+	drive/tcbm/tcbmrom.h, drive/tcbm/tia1551.c,
+	drive/tcbm/tia1551.h: Use `WORD' instead of `ADDRESS'.
+
 2003-03-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.15.
