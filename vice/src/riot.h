@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +28,8 @@
 #ifndef _RIOT_H
 #define _RIOT_H
 
+#include "types.h"
+
 /*
  * signal values (for signaling edges on the control lines)
  */
@@ -36,5 +39,71 @@
 #define RIOT_SIG_FALL   0
 #define RIOT_SIG_RISE   1
 
-#endif  /* _RIOT_H */
+typedef struct riot_context_s {
+    BYTE riot_io[4];
+    BYTE old_pa;
+    BYTE old_pb;
+
+    signed int log;       /* init to LOG_ERR */
+
+    struct alarm_s *alarm;
+
+    CLOCK read_clk;       /* init to 0 */
+    int read_offset;      /* init to 0 */
+    BYTE last_read;       /* init to 0 */
+    BYTE r_edgectrl;      /* init to 0 */
+    BYTE r_irqfl;         /* init to 0 */
+    BYTE r_irqline;       /* init to 0 */
+
+    CLOCK r_write_clk;
+    int r_N;
+    int r_divider;
+    int r_irqen;
+
+    char myname[12];
+
+    CLOCK *clk_ptr;
+    int *rmw_flag;
+
+    void *prv;
+    void *context;
+
+    void (*undump_pra)(struct riot_context_s *, BYTE);
+    void (*undump_prb)(struct riot_context_s *, BYTE);
+    void (*store_pra)(struct riot_context_s *, BYTE);
+    void (*store_prb)(struct riot_context_s *, BYTE);
+    BYTE (*read_pra)(struct riot_context_s *);
+    BYTE (*read_prb)(struct riot_context_s *);
+    void (*reset)(struct riot_context_s *riot_context);
+    void (*set_irq)(struct riot_context_s *, int, CLOCK);
+    void (*restore_irq)(struct riot_context_s *, int);
+} riot_context_t;
+
+typedef struct riot_initdesc_s {
+    struct riot_context_s *riot_ptr;
+    void (*clk)(CLOCK, void*);
+    void (*int_t1)(CLOCK);
+} riot_initdesc_t;
+
+struct alarm_context_s;
+struct clk_guard_s;
+struct snapshot_s;
+
+extern void riotcore_setup_context(riot_context_t *riot_context);
+extern void riotcore_init(const riot_initdesc_t *riot_desc,
+                          struct alarm_context_s *alarm_context,
+                          struct clk_guard_s *clk_guard, unsigned int number);
+extern void riotcore_reset(riot_context_t *riot_context);
+extern void riotcore_signal(riot_context_t *riot_context, int sig, int type);
+extern void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr,
+                                    BYTE data);
+extern BYTE REGPARM2 riotcore_read(riot_context_t *riot_context, WORD addr);
+extern void riotcore_int_riot(riot_context_t *riot_context, CLOCK offset);
+extern void riotcore_clk_overflow_callback(riot_context_t *riot_context,
+                                           CLOCK sub, void *data);
+extern int riotcore_snapshot_write_module(struct riot_context_s *riot_context,
+                                          struct snapshot_s *p);
+extern int riotcore_snapshot_read_module(struct riot_context_s *riot_context,
+                                         struct snapshot_s *p);
+#endif
 
