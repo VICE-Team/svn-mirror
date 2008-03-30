@@ -96,6 +96,11 @@
 #include "mouse.h"
 #endif
 
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif /* #ifdef HAVE_TFE */
+
+
 #define NUM_KEYBOARD_MAPPINGS 2
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -235,6 +240,9 @@ int machine_resources_init(void)
         || video_resources_init() < 0
         || c64_resources_init() < 0
         || reu_resources_init() < 0
+#ifdef HAVE_TFE
+        || tfe_resources_init() < 0
+#endif /* #ifdef HAVE_TFE */
         || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
@@ -288,6 +296,9 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || c64_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
+#ifdef HAVE_TFE
+        || tfe_cmdline_options_init() < 0
+#endif /* #ifdef HAVE_TFE */
         || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
@@ -420,6 +431,11 @@ int machine_init(void)
     {
         /* Initialize the REU.  */
         reu_init();
+
+#ifdef HAVE_TFE
+        /* Initialize the TFE.  */
+        tfe_init();
+#endif /* #ifdef HAVE_TFE */
 
 #ifdef HAVE_MOUSE
         /* Initialize mouse support (if present).  */

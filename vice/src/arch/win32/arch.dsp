@@ -142,6 +142,10 @@ SOURCE=.\statusbar.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\tfearch.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\ui.c
 # End Source File
 # Begin Source File

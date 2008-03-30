@@ -274,6 +274,9 @@ int archdep_num_text_columns(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
+    char *out = lib_msprintf("*** %s %s\n", level_string, txt);
+    OutputDebugString(out);
+    lib_free(out);
     return 0;
 }
 

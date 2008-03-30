@@ -54,6 +54,10 @@
 #include "vicii-phi1.h"
 #include "vicii.h"
 
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif /* #ifdef HAVE_TFE */
+
 
 /* C64 memory-related resources.  */
 
@@ -615,10 +619,12 @@ void mem_set_tape_sense(int sense)
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
+/* @SRT FIXME: Is this used anywhere?
 void mem_toggle_reu(int flag)
 {
     reu_enabled = flag;
 }
+*/
 
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
@@ -900,6 +906,11 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
     if (reu_enabled)
         mon_ioreg_add_list(&mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
+
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        mon_ioreg_add_list(&mem_ioreg_list, "TFE", 0xde00, 0xde0f);
+#endif /* #ifdef HAVE_TFE */
 
     return mem_ioreg_list;
 }

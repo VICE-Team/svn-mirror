@@ -213,6 +213,9 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     if (log_file == NULL) {
         rc = log_archdep(logtxt, format, ap);
     } else {
+#ifdef WIN32
+        log_archdep(logtxt, format, ap);
+#endif /* #ifdef WIN32 */
         if (fputs(logtxt, log_file) == EOF
             || vfprintf(log_file, format, ap) < 0
             || fputc ('\n', log_file) == EOF)

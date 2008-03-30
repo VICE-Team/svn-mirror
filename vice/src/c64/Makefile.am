@@ -50,13 +50,16 @@ libc64_a_SOURCES = \
 	c64tpi.h \
 	patchrom.c \
 	patchrom.h \
-        psid.c \
-        psid.h \
-        psiddrv.a65 \
-        psiddrv.h \
-        reloc65.c \
+	psid.c \
+	psid.h \
+	psiddrv.a65 \
+	psiddrv.h \
+	reloc65.c \
 	reu.c \
-	reu.h
+	reu.h \
+	tfe.c \
+	tfe.h \
+        tfearch.h
 
 libc64c128_a_SOURCES = \
 	c64acia.h \
@@ -79,7 +82,10 @@ libc64c128_a_SOURCES = \
 	patchrom.c \
 	patchrom.h \
 	reu.c \
-	reu.h
+	reu.h \
+	tfe.c \
+	tfe.h \
+        tfearch.h
 
 BUILT_SOURCES = psiddrv.h
 

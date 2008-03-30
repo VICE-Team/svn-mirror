@@ -173,7 +173,10 @@ BEGIN
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
-    	MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
+#ifdef HAVE_TFE
+        MENUITEM "TFE &ethernet emulation", IDM_TOGGLE_TFE
+#endif /* #ifdef HAVE_TFE */
+        MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
         POPUP "Function ROMS"
         BEGIN
             MENUITEM "Internal Function ROM", IDM_TOGGLE_IFUNCTIONROM

@@ -48,10 +48,12 @@ static const cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of BASIC ROM image" },
     { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
       "<name>", "Specify name of character generator ROM image" },
+/* @SRT: This is already handled in REU.C
     { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (void *)1,
       NULL, "Enable the 512K RAM expansion unit" },
     { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (void *)0,
       NULL, "Disable the 512K RAM expansion unit" },
+*/
     { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)1,
       NULL, "Enable emulator identification" },
     { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)0,

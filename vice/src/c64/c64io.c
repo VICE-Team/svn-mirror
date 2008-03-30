@@ -38,6 +38,10 @@
 #include "types.h"
 #include "vicii-phi1.h"
 
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif /* #ifdef HAVE_TFE */
+
 
 BYTE REGPARM1 io1_read(WORD addr)
 {
@@ -51,6 +55,11 @@ BYTE REGPARM1 io1_read(WORD addr)
     if (acia_de_enabled)
         return acia1_read(addr & 0x03);
 #endif
+
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        return tfe_read((WORD)(addr & 0x0f));
+#endif /* #ifdef HAVE_TFE */
 
     return vicii_read_phi1();
 }
@@ -67,6 +76,12 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
     if (acia_de_enabled)
         acia1_store(addr & 0x03, value);
 #endif
+
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        tfe_store((WORD)(addr & 0x0f), value);
+#endif /* #ifdef HAVE_TFE */
+
     return;
 }
 

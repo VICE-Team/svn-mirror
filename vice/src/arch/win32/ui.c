@@ -107,6 +107,9 @@ static int ui_emulation_is_paused(void);
 static const ui_menu_toggle toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
+#ifdef HAVE_TFE
+    { "TFE", IDM_TOGGLE_TFE },
+#endif /* #ifdef HAVE_TFE */
     { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
@@ -1145,7 +1148,11 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
 
     switch (msg) {
       case WM_INITDIALOG:
+#ifdef UNSTABLE
+        version = lib_msprintf("Version %s *UNSTABLE*", VERSION);
+#else /* #ifdef UNSTABLE */
         version = lib_msprintf("Version %s", VERSION);
+#endif /* #ifdef UNSTABLE */
         SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
         lib_free(version);
         return TRUE;

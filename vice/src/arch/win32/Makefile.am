@@ -57,6 +57,7 @@ libarch_a_SOURCES = \
 	resvic.rc \
 	statusbar.c \
 	statusbar.h \
+	tfearch.c \
 	types.h \
 	ui.c \
 	ui.h \

@@ -2152,10 +2152,12 @@ void mem_set_tape_sense(int sense)
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
+/* @SRT FIXME: Is this used anywhere?
 void mem_toggle_reu(int flag)
 {
     reu_enabled = flag;
 }
+*/
 
 /* Enable/disable the IEEE488 interface.  */
 void mem_toggle_ieee488(int flag)

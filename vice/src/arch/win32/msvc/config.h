@@ -3,10 +3,6 @@
 
 #define UNSTABLE
 
-#ifdef MSVC_WARNINGS
-#pragma warning(disable : 4018 4244 4305 4761)
-#endif
-
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define HAVE_RESID              1
@@ -34,6 +30,7 @@
 #define HAVE_WINIOCTL_H         1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
+#define HAVE_TFE                1 /* @@@@@@@SRT */
 
 #define __i386__                1
 
