@@ -34,6 +34,7 @@
 #include <string.h>
 #include <windows.h>
 #include <windowsx.h>
+#include <tchar.h>
 #include <commctrl.h>
 #include <commdlg.h>
 
@@ -245,8 +246,8 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 }
                 if (util_file_exists(filename)) {
                     int ret;
-                    ret = ui_messagebox("Overwrite existing image?",
-                                        "VICE question",
+                    ret = ui_messagebox(TEXT("Overwrite existing image?"),
+                                        TEXT("VICE question"),
                                         MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
@@ -284,8 +285,9 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
     return 0;
 }
 
-static char *image_type_name[] = 
-    { "d64", "d71", "d80", "d81", "d82", "g64", "x64", NULL };
+static TCHAR *image_type_name[] = 
+    { TEXT("d64"), TEXT("d71"), TEXT("d80"), TEXT("d81"), TEXT("d82"),
+      TEXT("g64"), TEXT("x64"), NULL };
 
 static int image_type[] = {
     DISK_IMAGE_TYPE_D64,
@@ -377,7 +379,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 extension++;
                 /*  Figure out if it's a standard extension */
                 for (counter = 0; image_type_name[counter]; counter++) {
-                    if (strncasecmp(extension,image_type_name[counter],
+                    if (strncasecmp(extension, image_type_name[counter],
                         strlen(image_type_name[counter])) == 0) {
                         is_it_standard_extension = 1;
                         break;
@@ -398,9 +400,9 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 }
                 if (util_file_exists(filename)) {
                     int ret;
-                    ret = ui_messagebox("Overwrite existing image?",
-                                        "VICE question",
-                                         MB_YESNO | MB_ICONQUESTION);
+                    ret = ui_messagebox(TEXT("Overwrite existing image?"),
+                                        TEXT("VICE question"),
+                                        MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
                 }
@@ -455,18 +457,18 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
             break;
         }
         switch (HIWORD(wparam)) {
-            case LBN_DBLCLK:
-                if (autostart_result != NULL) {
-                    index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
-                    if (SendMessage(GetParent(hwnd),
-                        CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
-                        *autostart_result = index;
-                        SendMessage(GetParent(hwnd), WM_COMMAND,
-                                    MAKELONG(IDOK,BN_CLICKED),
-                                    (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
-                    }
+          case LBN_DBLCLK:
+            if (autostart_result != NULL) {
+                index = SendMessage((HWND)lparam, LB_GETCURSEL, 0, 0);
+                if (SendMessage(GetParent(hwnd),
+                    CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
+                    *autostart_result = index;
+                    SendMessage(GetParent(hwnd), WM_COMMAND,
+                                MAKELONG(IDOK,BN_CLICKED),
+                                (LPARAM)GetDlgItem(GetParent(hwnd), IDOK));
                 }
-                break;
+            }
+            break;
         }
         break;
       case WM_DESTROY:

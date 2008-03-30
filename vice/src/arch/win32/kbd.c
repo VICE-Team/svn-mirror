@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <windows.h>
+#include <tchar.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,22 +92,38 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
     return 0;
 }
 
-const char *kbd_code_to_string(kbd_code_t kcode)
+const TCHAR *kbd_code_to_string(kbd_code_t kcode)
 {
-    static char *tab[256] = {
-        "None", "Esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-",
-        "=", "Backspace", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O",
-        "P", "{", "}", "Enter", "Left Ctrl", "A", "S", "D", "F", "G", "H", "J",
-        "K", "L", ";", "'", "`", "Left Shift", "\\", "Z", "X", "C", "V", "B",
-        "N", "M", ",", ".", "/", "Right Shift", "Numpad *", "Left Alt",
-        "Space", "Caps Lock", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
-        "F9", "F10", "Num Lock", "Scroll Lock", "Numpad 7", "Numpad 8",
-        "Numpad 9", "Numpad -", "Numpad 4", "Numpad 5", "Numpad 6",
-        "Numpad +", "Numpad 1", "Numpad 2", "Numpad 3", "Numpad 0",
-        "Numpad .", "SysReq", "85", "86", "F11", "F12", "Home",
-        "Up", "PgUp", "Left", "Right", "End", "Down", "PgDown", "Ins", "Del",
-        "Numpad Enter", "Right Ctrl", "Pause", "PrtScr", "Numpad /",
-        "Right Alt", "Break", "Left Win95", "Right Win95"
+    static TCHAR *tab[256] = {
+        TEXT("None"), TEXT("Esc"), TEXT("1"), TEXT("2"), TEXT("3"), TEXT("4"),
+        TEXT("5"), TEXT("6"), TEXT("7"), TEXT("8"), TEXT("9"), TEXT("0"),
+        TEXT("-"),
+        TEXT("="), TEXT("Backspace"), TEXT("Tab"), TEXT("Q"), TEXT("W"),
+        TEXT("E"), TEXT("R"), TEXT("T"), TEXT("Y"), TEXT("U"), TEXT("I"),
+        TEXT("O"),
+        TEXT("P"), TEXT("{"), TEXT("}"), TEXT("Enter"), TEXT("Left Ctrl"),
+        TEXT("A"), TEXT("S"), TEXT("D"), TEXT("F"), TEXT("G"), TEXT("H"),
+        TEXT("J"),
+        TEXT("K"), TEXT("L"), TEXT(";"), TEXT("'"), TEXT("`"),
+        TEXT("Left Shift"), TEXT("\\"), TEXT("Z"), TEXT("X"), TEXT("C"),
+        TEXT("V"), TEXT("B"),
+        TEXT("N"), TEXT("M"), TEXT(","), TEXT("."), TEXT("/"),
+        TEXT("Right Shift"), TEXT("Numpad *"), TEXT("Left Alt"),
+        TEXT("Space"), TEXT("Caps Lock"), TEXT("F1"), TEXT("F2"), TEXT("F3"),
+        TEXT("F4"), TEXT("F5"), TEXT("F6"), TEXT("F7"), TEXT("F8"),
+        TEXT("F9"), TEXT("F10"), TEXT("Num Lock"), TEXT("Scroll Lock"),
+        TEXT("Numpad 7"), TEXT("Numpad 8"),
+        TEXT("Numpad 9"), TEXT("Numpad -"), TEXT("Numpad 4"), TEXT("Numpad 5"),
+        TEXT("Numpad 6"),
+        TEXT("Numpad +"), TEXT("Numpad 1"), TEXT("Numpad 2"), TEXT("Numpad 3"),
+        TEXT("Numpad 0"),
+        TEXT("Numpad ."), TEXT("SysReq"), TEXT("85"), TEXT("86"), TEXT("F11"),          TEXT("F12"), TEXT("Home"),
+        TEXT("Up"), TEXT("PgUp"), TEXT("Left"), TEXT("Right"), TEXT("End"),
+        TEXT("Down"), TEXT("PgDown"), TEXT("Ins"), TEXT("Del"),
+        TEXT("Numpad Enter"), TEXT("Right Ctrl"), TEXT("Pause"),
+        TEXT("PrtScr"), TEXT("Numpad /"),
+        TEXT("Right Alt"), TEXT("Break"), TEXT("Left Win95"),
+        TEXT("Right Win95")
     };
 
     return tab[(int)kcode];
