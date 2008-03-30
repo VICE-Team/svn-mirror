@@ -268,8 +268,10 @@ void tui_display_window(int x, int y, int width, int height,
 {
     int i;
 
-    if (backing_store != NULL)
+    if (backing_store != NULL) {
+        /* 2 more chars on right, 1 more on bottom because of the "shadow".  */
 	tui_area_get(backing_store, x, y, width + 2, height + 1);
+    }
 
     tui_make_shadow(x + 2, y + 1, width, height);
 
