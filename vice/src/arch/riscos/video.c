@@ -1080,20 +1080,29 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 }
 
 
-video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
+video_canvas_t *video_canvas_init(void)
 {
-  video_canvas_t *canvas;
+    video_canvas_t *canvas;
+
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    canvas->video_draw_buffer_callback
+        = xmalloc(sizeof(video_draw_buffer_callback_t));
+    canvas->video_draw_buffer_callback->draw_buffer_alloc
+        = video_frame_buffer_alloc;
+    canvas->video_draw_buffer_callback->draw_buffer_free
+        = video_frame_buffer_free;
+    canvas->video_draw_buffer_callback->draw_buffer_clear
+        = video_frame_buffer_clear;
+
+    return canvas;
+}
+
+int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
+{
   canvas_list_t *newCanvas;
 
-  if ((canvas = (video_canvas_t *)malloc(sizeof(struct video_canvas_s))) == NULL)
-    return (video_canvas_t *)0;
-
   canvas->name = stralloc(win_name);
-
-  canvas->video_draw_buffer_callback = xmalloc(sizeof(video_draw_buffer_callback_t));
-  canvas->video_draw_buffer_callback->draw_buffer_alloc = video_frame_buffer_alloc;
-  canvas->video_draw_buffer_callback->draw_buffer_free = video_frame_buffer_free;
-  canvas->video_draw_buffer_callback->draw_buffer_clear = video_frame_buffer_clear;
 
   canvas->width = *width; canvas->height = *height;
 
@@ -1118,7 +1127,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
 
   if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
   {
-    free(canvas); return NULL;
+    free(canvas);
+    return -1;
   }
 
   newCanvas->next = NULL; newCanvas->canvas = canvas;
@@ -1134,7 +1144,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
 
     if ((canvas->window = wimp_window_clone(EmuWindow)) == NULL)
     {
-      free(canvas); free(newCanvas); return NULL;
+      free(canvas); free(newCanvas);
+      return -1;
     }
     canvas->window->Handle = Wimp_CreateWindow(((int*)(canvas->window)) + 1);
     while (list->next != NULL) list = list->next;
@@ -1150,7 +1161,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
 
   NumberOfCanvases++;
 
-  return canvas;
+  return 0;
 }
 
 
@@ -1779,6 +1790,6 @@ void video_register_callbacks(void)
   resources_register_callback("PALEmuDouble", callback_canvas_modified, NULL);
   resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
   resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
-  resources_register_callback("VDC_DoubleScan", callback_canvas_modified, NULL);
+  resources_register_callback("VDCDoubleScan", callback_canvas_modified, NULL);
   resources_register_callback("ScreenSetPalette", callback_canvas_modified, NULL);
 }
