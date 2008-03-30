@@ -248,6 +248,11 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
                     SHGetPathFromIDList(idlist,s);
                     LocalFree(idlist);
+                    /*
+                    If a root directory is selected, \ is appended
+                    and has to be deleted.
+                    */
+                    if (s[strlen(s) - 1] == '\\') s[strlen(s) - 1] = '\0';
                     SetDlgItemText(hwnd, IDC_DIR, s);
                     resources_set_sprintf("FSDevice%dDir",
                                           (resource_value_t)s, num);

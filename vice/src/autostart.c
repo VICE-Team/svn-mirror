@@ -551,12 +551,6 @@ int autostart_prg(const char *file_name)
        work.  */
     util_fname_split(file_name, &directory, &file);
 
-    if (directory) {
-        char *tmpdir = concat(directory, FSDEV_DIR_SEP_STR, NULL);
-        free(directory);
-        directory = tmpdir;
-    }
-
     if (archdep_path_is_relative(directory)) {
         char *tmp;
         archdep_expand_path(&tmp, directory);

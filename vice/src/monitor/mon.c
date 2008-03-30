@@ -28,17 +28,11 @@
 
 #include "vice.h"
 
-#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
-#else
-#define strerror(errno) "No detailed info available."
-#endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #else
@@ -56,26 +50,21 @@
 #endif
 
 #include "archdep.h"
-#include "attach.h"
 #include "asm.h"
 #include "charsets.h"
 #include "console.h"
-#include "diskimage.h"
-#include "drive.h"
-#include "drivecpu.h"
 #include "interrupt.h"
+#include "log.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_parse.h"
-#include "mos6510.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
 #include "uimon.h"
 #include "utils.h"
-#include "vdrive-command.h"
-#include "vdrive.h"
 #include "vsync.h"
 
 /* May be called different things on various platforms... */
@@ -93,11 +82,11 @@ int mon_stop_output;
 #define OP_RTI 0x40
 #define OP_RTS 0x60
 
-#define TEST(x) ((x)!=0)
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
-#define GET_OPCODE(mem) (mon_get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
+#define GET_OPCODE(mem) \
+    (mon_get_mem_val(mem, (monitor_cpu_type.mon_register_get_val)(mem, e_PC)))
 
 console_t *console_log = NULL;
 
@@ -154,12 +143,11 @@ static ADDRESS watch_load_array[10][NUM_MEMSPACES];
 static ADDRESS watch_store_array[10][NUM_MEMSPACES];
 static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
-static bool force_array[NUM_MEMSPACES];
+bool force_array[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
-static monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
+monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
-static int breakpoint_count;
 static unsigned char data_buf[256];
 static unsigned int data_buf_len;
 bool asm_mode;
@@ -175,7 +163,7 @@ static FILE *recording_fp;
 static char *recording_name;
 bool playback;
 char *playback_name;
-static void playback_commands(char *filename);
+static void playback_commands(const char *filename);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
@@ -189,312 +177,6 @@ struct monitor_cpu_type_list_s {
 typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
 
 static monitor_cpu_type_list_t *monitor_cpu_type_list;
-
-struct mon_cmds mon_cmd_array[] = {
-   { "",                "",     BAD_CMD,                STATE_INITIAL },
-
-   { "~",               "~",    CONVERT_OP,             STATE_INITIAL,
-     "<number>",
-     "Display the specified number in decimal, hex, octal and binary."},
-
-   { ">",               ">",    CMD_ENTER_DATA,         STATE_INITIAL,
-     "[<address>] <data_list>",
-     "Write the specified data at `address'."},
-
-   { "@",               "@",    CMD_DISK,               STATE_ROL,
-   "<disk command>",
-     "Perform a disk command on the currently attached disk image on drive 8.  The\n"
-     "specified disk command is sent to the drive's channel #15." },
-
-   { "]",               "]",    CMD_ENTER_BIN_DATA,     STATE_INITIAL },
-
-   { "a",               "a",    CMD_ASSEMBLE,           STATE_INITIAL,
-     "<address> [ <instruction> [: <instruction>]* ]",
-     "Assemble instructions to the specified address.  If only one instruction\n"
-     "is specified, enter assembly mode (enter an empty line to exit assembly\n"
-     "mode)." },
-
-   { "add_label",       "al",   CMD_ADD_LABEL,          STATE_INITIAL,
-    "<address> <label>",
-     "Map a given address to a label.  This label can be used when entering\n"
-     "assembly code and is shown during disassembly." },
-
-   { "bank",            "",     CMD_BANK,               STATE_BNAME,
-     "[<memspace>] [bankname]",
-     "If bankname is not given, print the possible banks for the memspace.\n"
-     "If bankname is given set the current bank in the memspace to the given\n"
-     "bank." },
-
-   { "bload",           "bl",   CMD_BLOAD,              STATE_FNAME,
-     "\"<filename>\" <address>",
-     "Load the specified file into memory at the specified address."},
-
-   { "br",              "",     CMD_BLOCK_READ,         STATE_INITIAL,
-     "<track> <sector> [<address>]",
-     "Read the block at the specified track and sector.  If an address is\n"
-     "specified, the data is loaded into memory.  If no address is given, the\n"
-     "data is displayed using the default datatype." },
-
-   { "break",           "",     CMD_BREAK,              STATE_INITIAL,
-     "[<address> [if <cond_expr>] ]",
-     "If no address is given, the currently valid watchpoints are printed.\n"
-     "If an address is given, a breakpoint is set for that address and the\n"
-     "breakpoint number is printed.  A conditional expression can also be\n"
-     "specified for the breakpoint.  For more information on conditions, see\n"
-     "the CONDITION command."   },
-
-   { "brmon",           "",     CMD_BRMON,              STATE_INITIAL },
-
-   { "bsave",           "bs",   CMD_BSAVE,              STATE_FNAME,
-     "\"<filename>\" <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file." },
-
-   { "bw",              "",     CMD_BLOCK_WRITE,        STATE_INITIAL,
-     "<track> <sector> <address>",
-     "Write a block of data at `address' on the specified track and sector\n"
-     "of disk in drive 8." },
-
-   { "cd",              "",     CMD_CHDIR,              STATE_ROL,
-     "<directory>",
-     "Change the working directory."},
-
-   { "command",         "",     CMD_COMMAND,            STATE_INITIAL,
-     "<checknum> \"<command>\"",
-     "Specify `command' as the command to execute when checkpoint `checknum'\n"
-     "is hit.  Note that the `x' command is not yet supported as a\n"
-     "command argument." },
-
-   { "compare",         "c",    CMD_COMPARE,            STATE_INITIAL,
-     "<address_range> <address>",
-     "Compare memory from the source specified by the address range to the\n"
-     "destination specified by the address.  The regions may overlap.  Any\n"
-     "values that miscompare are displayed using the default displaytype.\n" },
-
-   { "condition",       "cond", CMD_CONDITION,          STATE_INITIAL,
-     "<checknum> if <cond_expr>",
-     "Each time the specified checkpoint is examined, the condition is\n"
-     "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
-     "Otherwise, it is ignores.  If registers are specified in the expression,\n"
-     "the values used are those at the time the checkpoint is examined, not\n"
-     "when the condition is set.\n" },
-
-   { "cpu",             "",     CMD_CPU,                STATE_CTYPE,
-     "<type>",
-     "Specify the type of CPU currently used (6502/z80)." },
-
-   { "d",               "d",    CMD_DISASSEMBLE,        STATE_INITIAL,
-     "[<address> [<address>]]",
-     "Disassemble instructions.  If two addresses are specified, they are used\n"
-     "as a start and end address.  If only one is specified, it is treated as\n"     "the start address and a default number of instructions are\n"
-     "disassembled.  If no addresses are specified, a default number of\n"
-     "instructions are disassembled from the dot address." },
-
-   { "delete",          "del",  CMD_DELETE,             STATE_INITIAL,
-     "<checknum>",
-     "Delete checkpoint `checknum'." },
-
-   { "delete_label",    "dl",   CMD_DEL_LABEL,          STATE_INITIAL },
-
-   { "device",          "dev",  CMD_DEVICE,             STATE_INITIAL,
-     "[c:|8:|9:]",
-     "Set the default memory device to either the computer `c:' or the\n"
-     "specified disk drive (`8:', `9:')." },
-
-   { "disable",         "",     CMD_CHECKPT_OFF,        STATE_INITIAL,
-     "<checknum>",
-     "Disable checkpoint `checknum'." },
-
-   { "down",            "",     CMD_DOWN,               STATE_INITIAL },
-
-   { "dump",            "",     CMD_DUMP,               STATE_FNAME },
-
-   { "enable",          "",     CMD_CHECKPT_ON,         STATE_INITIAL,
-     "<checknum>",
-     "Enable checkpoint `checknum'." },
-
-   { "exit",            "x",    CMD_EXIT,               STATE_INITIAL,
-     NULL,
-     "Leave the monitor and return to execution." },
-
-   { "fill",            "f",    CMD_FILL,               STATE_INITIAL,
-     "<address_range> <data_list>",
-     "Fill memory in the specified address range with the data in\n"
-     "<data_list>.  If the size of the address range is greater than the size\n"
-     "of the data_list, the data_list is repeated." },
-
-   { "goto",            "g",    CMD_GOTO,               STATE_INITIAL,
-     "<address>",
-     "Change the PC to ADDRESS and continue execution" },
-
-   { "help",            "?",    CMD_HELP,               STATE_ROL },
-
-   { "hunt",            "h",    CMD_HUNT,               STATE_INITIAL,
-     "<address_range> <data_list>",
-     "Hunt memory in the specified address range for the data in\n"
-     "<data_list>.  If the data is found, the starting address of the match is\n"
-     "displayed.  The entire range is searched for all possible matches." },
-
-   { "i",               "i",    CMD_TEXT_DISPLAY,       STATE_INITIAL,
-     "<address_opt_range>",
-     "Display memory contents as PETSCII text." },
-
-   { "ignore",          "",     CMD_IGNORE,             STATE_INITIAL,
-     "<checknum> [<count>]",
-     "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
-     "the default value is 1.\n" },
-
-   { "io",              "",     CMD_IO,                 STATE_INITIAL },
-
-   { "load",            "l",    CMD_LOAD,               STATE_FNAME,
-     "\"<filename>\" <address>",
-     "Load the specified file into memory at the specified address. Set BASIC\n"
-     "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
-     "two-byte load address from file if no address specified."},
-
-   { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,
-     "[<memspace>] \"<filename>\"",
-     "Load a file containing a mapping of labels to addresses.  If no memory\n"
-     "space is specified, the default readspace is used." },
-
-   { "m",               "m",    CMD_MEM_DISPLAY,        STATE_INITIAL,
-     "[<data_type>] [<address_opt_range>]"
-     "Display the contents of memory.  If no datatype is given, the default is\n"
-     "used.  If only one address is specified, the length of data displayed is\n"
-     "based on the datatype.  If no addresses are given, the 'dot' address is\n"
-     "used." },
-
-   { "mc",              "",     CMD_CHAR_DISPLAY,       STATE_INITIAL,
-     "[<data_type>] [<address_opt_range>]",
-     "Display the contents of memory as character data.  If only one address\n"
-     "is specified, only one character is displayed.  If no addresses are\n"
-     "given, the ``dot'' address is used." },
-
-   { "move",            "t",    CMD_MOVE,               STATE_INITIAL,
-     "<address_range> <address>",
-     "Move memory from the source specified by the address range to\n"
-     "the destination specified by the address.  The regions may overlap." },
-
-   { "ms",              "",     CMD_SPRITE_DISPLAY,     STATE_INITIAL,
-     "[<data_type>] [<address_opt_range>]",
-     "Display the contents of memory as sprite data.  If only one address is\n"
-     "specified, only one sprite is displayed.  If no addresses are given, the\n"
-     "``dot'' address is used." },
-
-   { "next",            "n",    CMD_NEXT,               STATE_INITIAL,
-     NULL,
-     "Advance to the next instruction.  Subroutines are treated as\n"
-     "a single instruction." },
-
-   { "playback",        "pb",   CMD_PLAYBACK,           STATE_FNAME,
-     "\"<filename>\"",
-     "Monitor commands from the specified file are read and executed.  This\n"
-     "command stops at the end of file or when a STOP command is read." },
-
-   { "print",           "p",    CMD_PRINT,              STATE_INITIAL,
-     "<expression>",
-     "Evaluate the specified expression and output the result." },
-
-/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
-   So I decided to skip this (I think it's unnecessary for OS/2 */
-#ifdef OS2
-   { "quit",            "",     CMD_EXIT,               STATE_INITIAL,
-     NULL,
-     "Leave the monitor and return to execution." },
-#else
-   { "quit",            "",     CMD_QUIT,               STATE_INITIAL,
-     NULL,
-     "Exit the emulator immediately."},
-#endif
-
-   { "radix",           "rad",  CMD_RADIX,              STATE_INITIAL,
-     "[H|D|O|B]",
-     "Set the default radix to hex, decimal, octal, or binary.  With no\n"
-     "argument, the current radix is printed." },
-
-   { "record",          "rec",  CMD_RECORD,             STATE_FNAME,
-     "\"<filename>\"",
-     "After this command, all commands entered are written to the specified\n"
-     "file until the STOP command is entered." },
-
-   { "registers",       "r",    CMD_REGISTERS,          STATE_REG_ASGN,
-     "[<reg_name> = <number> [, <reg_name> = <number>]*]",
-     "Assign respective registers.  With no parameters, display register\n"
-     "values." },
-
-   { "return",          "ret",  CMD_RETURN,             STATE_INITIAL,
-     NULL,
-     "Continues execution and returns to the monitor just before the next\n"
-     "RTS or RTI is executed." },
-
-   { "save",            "s",    CMD_SAVE,               STATE_FNAME,
-     "\"<filename>\" <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file. Write\n"
-     "two-byte load address." },
-
-   { "save_labels",     "sl",   CMD_SAVE_LABELS,        STATE_FNAME,
-     "[<memspace>] \"<filename>\"",
-     "Save labels to a file.  If no memory space is specified, all of the\n"
-     "labels are saved." },
-
-   { "screen",         "sc",    CMD_SCREEN,             STATE_INITIAL,
-     NULL,
-     "Displays the contents of the screen." },
-
-   { "show_labels",     "shl",  CMD_SHOW_LABELS,        STATE_INITIAL,
-     "[<memspace>]",
-     "Display current label mappings.  If no memory space is specified, show\n"
-     "all labels." },
-
-   { "sidefx",          "sfx",  CMD_SIDEFX,             STATE_INITIAL,
-     "[on|off|toggle]",
-     "Control how monitor generated reads affect memory locations that have\n"
-     "read side-effects.  If the argument is 'on' then reads may cause\n"
-     "side-effects.  If the argument is 'off' then reads don't cause\n"
-     "side-effects.  If the argument is 'toggle' then the current mode is\n"
-     "switched.  No argument displays the current state." },
-
-   { "step",            "z",    CMD_STEP,               STATE_INITIAL,
-     "[<count>]",
-     "Single-step through instructions.  COUNT allows stepping\n"
-     "more than a single instruction at a time." },
-
-   { "stop",            "",     CMD_STOP,               STATE_INITIAL,
-     NULL,
-     "Stop recording commands.  See `record'." },
-
-   { "system",          "sys",  CMD_SYSTEM,             STATE_ROL },
-
-   { "trace",           "tr",   CMD_TRACE,              STATE_INITIAL,
-     "[address [address]]",
-     "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
-     "for that address.  If two addresses are specified, set a tracepoint\n"
-     "for the memory locations between the two addresses." },
-
-   { "until",           "un",   CMD_UNTIL,              STATE_INITIAL,
-     "[<address>]",
-     "If no address is given, the currently valid breakpoints are printed.\n"
-     "If an address is given, a temporary breakpoint is set for that address\n"
-     "and the breakpoint number is printed.  Control is returned to the\n"
-    "emulator by this command.  The breakpoint is deleted once it is hit.\n" },
-
-   { "undump",          "",     CMD_UNDUMP,             STATE_FNAME },
-
-   { "up",              "",     CMD_UP,                 STATE_INITIAL },
-
-   { "verify",          "v",    CMD_VERIFY,             STATE_FNAME },
-
-   { "watch",           "w",    CMD_WATCH,              STATE_INITIAL,
-     "[loadstore] [address [address]]",
-     "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
-     "for that address.  If two addresses are specified, set a watchpoint\n"
-     "for the memory locations between the two addresses.\n"
-     "`loadstore' is either `load' or `store' to specify on which operation\n"
-     "the monitor breaks. If not specified, the monitor breaks on both\n"
-     "operations." },
-
-   { "",                "",     -1,                     STATE_INITIAL }
-
-};
 
 static const char *cond_op_string[] = { "",
                                         "==",
@@ -530,11 +212,19 @@ static const char *register_string[] = { "A",
 
 
 static void set_addr_memspace(MON_ADDR *a, MEMSPACE m)
-                              { *a = LO16(*a) | LO16_TO_HI16(m); }
+{
+    *a = LO16(*a) | LO16_TO_HI16(m);
+}
+
 static void set_addr_location(MON_ADDR *a, unsigned l)
-                              { *a = HI16(*a) | LO16(l); }
-static bool is_valid_addr(MON_ADDR a)
-                              { return HI16_TO_LO16(a) != e_invalid_space; }
+{
+    *a = HI16(*a) | LO16(l);
+}
+
+bool mon_is_valid_addr(MON_ADDR a)
+{
+    return HI16_TO_LO16(a) != e_invalid_space;
+}
 
 bool mon_inc_addr_location(MON_ADDR *a, unsigned inc)
 {
@@ -550,13 +240,13 @@ void mon_evaluate_default_addr(MON_ADDR *a)
         set_addr_memspace(a,default_memspace);
 }
 
-static bool is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
+bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
 {
     unsigned start, end;
 
     start = addr_location(start_addr);
 
-    if (!is_valid_addr(end_addr))
+    if (!mon_is_valid_addr(end_addr))
         return (loc == start);
 
     end = addr_location(end_addr);
@@ -619,28 +309,37 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
             if (mem2 == e_default_space) {
                 set_addr_memspace(start_addr, default_memspace);
                 set_addr_memspace(end_addr, default_memspace);
-            } else if (mem2 != e_invalid_space) {
-                set_addr_memspace(start_addr, mem2);
             } else {
-                set_addr_memspace(start_addr, default_memspace);
+                if (mem2 != e_invalid_space) {
+                set_addr_memspace(start_addr, mem2);
+                } else {
+                    set_addr_memspace(start_addr, default_memspace);
+                }
             }
         } else {
             if (mem2 == e_default_space) {
                 set_addr_memspace(end_addr, mem1);
-            } else if (mem2 != e_invalid_space) {
-                assert(mem1 == mem2);
-            } else
-                assert(FALSE);
+            } else {
+                if (mem2 != e_invalid_space) {
+                    if (!(mem1 == mem2)) {
+                        log_error(LOG_ERR, "Invalid memspace!");
+                        return 0;
+                    }
+                } else {
+                    log_error(LOG_ERR, "Invalid memspace!");
+                    return 0;
+                }
+            }
         }
 
         len = get_range_len(*start_addr, *end_addr);
     } else {
-        if (!is_valid_addr(*start_addr))
+        if (!mon_is_valid_addr(*start_addr))
             *start_addr = dot_addr[(int)default_memspace];
         else
             mon_evaluate_default_addr(start_addr);
 
-        if (!is_valid_addr(*end_addr)) {
+        if (!mon_is_valid_addr(*end_addr)) {
             *end_addr = *start_addr;
             mon_inc_addr_location(end_addr, len);
         } else {
@@ -682,7 +381,7 @@ bool check_drive_emu_level_ok(int drive_num)
    return TRUE;
 }
 
-void mon_cpu_type(char *cpu_type)
+void mon_cpu_type(const char *cpu_type)
 {
     CPU_TYPE_t serchcpu;
     monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
@@ -708,35 +407,33 @@ void mon_cpu_type(char *cpu_type)
         }
     }
 
-    monitor_cpu_type.cpu_type
-        = monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type;
-    monitor_cpu_type.asm_addr_mode_get_size
-        = monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size;
-    monitor_cpu_type.asm_opcode_info_get
-        = monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get;
+    memcpy(&monitor_cpu_type, &(monitor_cpu_type_list_ptr->monitor_cpu_type),
+           sizeof(monitor_cpu_type_t));
 }
 
-void mon_bank(MEMSPACE mem, char *bankname)
+void mon_bank(MEMSPACE mem, const char *bankname)
 {
     if (mem == e_default_space)
-       mem = default_memspace;
+        mem = default_memspace;
 
-    if(!mon_interfaces[mem]->mem_bank_list) {
+    if (!mon_interfaces[mem]->mem_bank_list) {
         uimon_out("Banks not available in this memspace\n");
         return;
     }
 
-    if(bankname==NULL) {
+    if (bankname == NULL) {
         const char **bnp = mon_interfaces[mem]->mem_bank_list();
         uimon_out("Available banks (some may be equivalent to others):\n");
-        while(*bnp) {
-            uimon_out("%s\t",*bnp);
+        while (*bnp) {
+            uimon_out("%s\t", *bnp);
             bnp++;
         }
         uimon_out("\n");
     } else {
-        int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
-        if(newbank < 0) {
+        int newbank;
+
+        newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
+        if (newbank < 0) {
             uimon_out("Unknown bank name `%s'\n", bankname);
             return;
         }
@@ -760,140 +457,39 @@ unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr)
 
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
-    return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);}
+    return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
+}
 
 void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
-    int bank = mon_interfaces[mem]->current_bank;
+    int bank;
 
-    if (mem == e_comp_space) {
-    } else if (mem == e_disk8_space) {
+    bank = mon_interfaces[mem]->current_bank;
+
+    switch (mem) {
+      case e_comp_space:
+        break;
+      case e_disk8_space:
         if (!check_drive_emu_level_ok(8))
             return;
-    } else if (mem == e_disk9_space) {
+        break;
+      case e_disk9_space:
         if (!check_drive_emu_level_ok(9))
             return;
-    } else
-        assert(FALSE);
-
-    mon_interfaces[mem]->mem_bank_write(bank,mem_addr, val);
-}
-
-unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)
-{
-    mos6510_regs_t *reg_ptr = NULL;
-
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
-            return 0;
-    }
-    if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return 0;
-    }
-
-    reg_ptr = mon_interfaces[mem]->cpu_regs;
-
-    switch(reg_id) {
-      case e_A:
-        return MOS6510_REGS_GET_A(reg_ptr);
-      case e_X:
-        return MOS6510_REGS_GET_X(reg_ptr);
-      case e_Y:
-        return MOS6510_REGS_GET_Y(reg_ptr);
-      case e_PC:
-        return MOS6510_REGS_GET_PC(reg_ptr);
-      case e_SP:
-        return MOS6510_REGS_GET_SP(reg_ptr);
-      case e_FLAGS:
-          return MOS6510_REGS_GET_FLAGS(reg_ptr)|
-              MOS6510_REGS_GET_SIGN(reg_ptr)|
-              MOS6510_REGS_GET_ZERO(reg_ptr)<<1;
-      default:
-        assert(FALSE);
-    }
-    return 0;
-}
-
-void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val)
-{
-    mos6510_regs_t *reg_ptr = NULL;
-
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
-            return;
-    }
-    if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return;
-    }
-
-    reg_ptr = mon_interfaces[mem]->cpu_regs;
-
-    switch(reg_id) {
-      case e_A:
-        MOS6510_REGS_SET_A(reg_ptr, val);
-        break;
-      case e_X:
-        MOS6510_REGS_SET_X(reg_ptr, val);
-        break;
-      case e_Y:
-        MOS6510_REGS_SET_Y(reg_ptr, val);
-        break;
-      case e_PC:
-        MOS6510_REGS_SET_PC(reg_ptr, val);
-        if (mem == e_disk8_space)
-            /* FIXME: Move to `monitor_interface_t'.  */
-            drive0_set_bank_base();
-        if (mem == e_disk9_space)
-            /* FIXME: Move to `monitor_interface_t'.  */
-            drive1_set_bank_base();
-        break;
-      case e_SP:
-        MOS6510_REGS_SET_SP(reg_ptr, val);
         break;
       default:
-        assert(FALSE);
+        log_error(LOG_ERR, "Unknow memspace!");
+        return;
     }
-    force_array[mem] = TRUE;
-}
 
-void mon_print_registers(MEMSPACE mem)
-{
-    mos6510_regs_t *regs;
-
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
-            return;
-    } else if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return;
-    } else if (mem != e_comp_space)
-        assert(FALSE);
-
-    regs = mon_interfaces[mem]->cpu_regs;
-    uimon_out("  ADDR AC XR YR SP 01 NV-BDIZC\n");
-    uimon_out(".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
-              mon_get_reg_val(mem, e_PC),
-              mon_get_reg_val(mem, e_A),
-              mon_get_reg_val(mem, e_X),
-              mon_get_reg_val(mem, e_Y),
-              mon_get_reg_val(mem, e_SP),
-              mon_get_mem_val(mem, 1),
-              TEST(MOS6510_REGS_GET_SIGN(regs)),
-              TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
-              '1',
-              TEST(MOS6510_REGS_GET_BREAK(regs)),
-              TEST(MOS6510_REGS_GET_DECIMAL(regs)),
-              TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
-              TEST(MOS6510_REGS_GET_ZERO(regs)),
-              TEST(MOS6510_REGS_GET_CARRY(regs)));
+    mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val);
 }
 
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
-    mon_set_reg_val(addr_memspace(addr), e_PC, addr_location(addr));
+    (monitor_cpu_type.mon_register_set_val)(addr_memspace(addr), e_PC,
+                                            addr_location(addr));
     exit_mon = 1;
 }
 
@@ -1001,7 +597,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     instruction_count = 0;
     skip_jsrs = FALSE;
     wait_for_return_level = 0;
-    breakpoint_count = 1;
+    mon_breakpoint_init();
     data_buf_len = 0;
     asm_mode = 0;
     next_or_step_stop = 0;
@@ -1013,12 +609,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     i = 0;
     while(asmarray[i] != NULL) {
-        monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type
-            = asmarray[i]->cpu_type;
-        monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size
-            = asmarray[i]->asm_addr_mode_get_size;
-        monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get
-            = asmarray[i]->asm_opcode_info_get;
+        memcpy(&(monitor_cpu_type_list_ptr->monitor_cpu_type),
+               asmarray[i], sizeof(monitor_cpu_type_t));
         monitor_cpu_type_list_ptr->next_monitor_cpu_type
             = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
         monitor_cpu_type_list_ptr
@@ -1027,9 +619,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
         i++;
     }
 
-    monitor_cpu_type.cpu_type = asmarray[0]->cpu_type;
-    monitor_cpu_type.asm_addr_mode_get_size = asmarray[0]->asm_addr_mode_get_size;
-    monitor_cpu_type.asm_opcode_info_get = asmarray[0]->asm_opcode_info_get;
+    memcpy(&monitor_cpu_type, asmarray[0], sizeof(monitor_cpu_type_t));
 
     watch_load_occurred = FALSE;
     watch_store_occurred = FALSE;
@@ -1053,94 +643,13 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_interfaces[e_disk9_space] = drive9_interface_init;
 }
 
-int mon_cmd_lookup_index(char *str, int *push_back)
+void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 {
-    int num = 0, partial = -1;
+    asm_mode = 1;
 
-    if (str == NULL)
-        return -1;
-
-    do {
-        if ((strcasecmp(str, mon_cmd_array[num].str) == 0) ||
-            (strcasecmp(str, mon_cmd_array[num].abbrev) == 0)) {
-           *push_back = 0;
-           return num;
-        }
-        else if (strlen(mon_cmd_array[num].abbrev) &&
-                strncasecmp(str, mon_cmd_array[num].abbrev,
-                strlen(mon_cmd_array[num].abbrev)) == 0) {
-           *push_back = strlen(mon_cmd_array[num].abbrev);
-           partial = num;
-        }
-        num++;
-    } while (mon_cmd_array[num].token > 0);
-
-    return partial;
+    mon_evaluate_default_addr(&addr);
+    asm_mode_addr = addr;
 }
-
-int mon_cmd_get_token(int mon_index)
-{
-    return mon_cmd_array[mon_index].token;
-}
-
-int mon_cmd_get_next_state(int mon_index)
-{
-    return mon_cmd_array[mon_index].next_state;
-}
-
-void mon_print_help(char *cmd)
-{
-    if (cmd == NULL) {
-        struct mon_cmds *c;
-        int column = 0;
-
-        /* Print on two columns.  This could be a lot nicer, but I am lazy.  */
-        uimon_out("\nAvailable commands are:\n\n");
-        for (c = mon_cmd_array; c->token != -1; c++) {
-            int tot = 0;
-
-            tot += strlen(c->str);
-            if (tot == 0)        /* "Empty" command?  */
-                continue;
-            uimon_out("%s", c->str);
-
-            if (!util_check_null_string(c->abbrev)) {
-                uimon_out(" (%s)", c->abbrev);
-                tot += 3 + strlen(c->abbrev);
-            }
-
-            if (tot > 40 || column == 1) {
-                uimon_out("\n");
-                column = 0;
-            } else {
-                for (; tot < 40; tot++)
-                    uimon_out(" ");
-                column = 1;
-            }
-            if (mon_stop_output != 0) break;
-        }
-        uimon_out("\n\n");
-    } else {
-        int push_back;
-        int cmd_num = mon_cmd_lookup_index(cmd, &push_back);
-
-        if (cmd_num == -1 || push_back)
-            uimon_out("Command `%s' unknown.\n", cmd);
-        else if (mon_cmd_array[cmd_num].description == NULL)
-            uimon_out("No help available for `%s'\n", cmd);
-        else {
-            struct mon_cmds *c = &mon_cmd_array[cmd_num];
-
-            uimon_out("\nSyntax: %s %s\n",
-                      c->str,
-                      c->param_names != NULL ? c->param_names : "");
-            if (!util_check_null_string(c->abbrev))
-                uimon_out("Abbreviation: %s\n", c->abbrev);
-            uimon_out("\n%s\n\n", c->description);
-        }
-    }
-}
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -1265,7 +774,8 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                     uimon_out("         ");
                 break;
               default:
-                assert(FALSE);
+                log_error(LOG_ERR, "Unknow radix!");
+                return;
             }
 
         }
@@ -1400,7 +910,7 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
     }
     start = addr_location(start_addr);
 
-    if (!is_valid_addr(start_addr)) {
+    if (!mon_is_valid_addr(start_addr)) {
         uimon_out("Invalid start address\n");
         return;
     }
@@ -1461,134 +971,15 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 /* *** FILE COMMANDS *** */
 
 
-void mon_change_dir(char *path)
+void mon_change_dir(const char *path)
 {
     if (chdir(path) < 0)
-        uimon_out("Cannot change to directory `%s':\n%s",
-                  path, strerror(errno));
+        uimon_out("Cannot change to directory `%s':\n", path);
 
     uimon_out("Changing to directory: `%s'\n", path);
 }
 
-
-void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
-{
-    FILE *fp;
-    ADDRESS adr;
-    int b1 = 0, b2 = 0;
-    int ch = 0;
-    MEMSPACE mem;
-
-    if (NULL == (fp = fopen(filename, MODE_READ))) {
-        perror(filename);
-        uimon_out("Loading failed.\n");
-        return;
-    }
-
-    if (is_bload == FALSE) {
-        b1 = fgetc(fp);
-        b2 = fgetc(fp);
-    }
-
-    mon_evaluate_default_addr(&start_addr);
-    if (!is_valid_addr(start_addr)) {   /* No Load address given */
-        if (is_bload == TRUE) {
-            uimon_out("No LOAD address given.\n");
-            return;
-        }
-
-        if (b1 == 1)    /* Load Basic */
-            mem_get_basic_text(&adr, NULL);
-        else
-            adr = (BYTE)b1 | ((BYTE)b2 << 8);
-        mem = e_comp_space;
-    } else  {
-        adr = addr_location(start_addr);
-        mem = addr_memspace(start_addr);
-    }
-
-    uimon_out("Loading %s", filename);
-    uimon_out(" from %04X\n", adr);
-
-    do {
-        unsigned char load_byte;
-
-        if (fread((char *)&load_byte, 1, 1, fp) < 1)
-            break;
-        mon_set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
-        ch ++;
-    } while(1);
-
-    uimon_out("%x bytes\n", ch);
-
-    if (is_bload == FALSE) {
-        /* set end of load addresses like kernal load */
-        mem_set_basic_text(adr, adr + ch);
-    }
-
-    fclose(fp);
-}
-
-void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool
-is_bsave)
-{
-    FILE *fp = NULL;
-    ADDRESS adr, end;
-    long len;
-    int ch = 0;
-    MEMSPACE mem;
-
-    len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-    if (len < 0) {
-        uimon_out("Invalid range.\n");
-        return;
-    }
-
-    mem = addr_memspace(start_addr);
-
-    adr = addr_location(start_addr);
-    end = addr_location(end_addr);
-
-    if (end < adr) {
-        uimon_out("Start address must be below end address.\n");
-        return;
-    }
-
-    if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-        uimon_out("Saving for `%s' failed: %s.\n",
-                   filename, strerror(errno));
-    } else {
-        printf("Saving file `%s'...\n", filename);
-
-        if (is_bsave == FALSE) {
-            fputc((BYTE)adr & 0xff, fp);
-            fputc((BYTE)(adr >> 8) & 0xff, fp);
-        }
-
-        do {
-            unsigned char save_byte;
-
-            save_byte = mon_get_mem_val(mem, adr + ch);
-            if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
-                uimon_out("Saving for `%s' failed: %s.\n",
-                            filename, strerror(errno));
-                fclose(fp);
-            }
-            ch++;
-        } while ((adr + ch) <= end);
-        fclose(fp);
-    }
-}
-
-void mon_verify_file(char *filename, MON_ADDR start_addr)
-{
-    mon_evaluate_default_addr(&start_addr);
-
-    uimon_out("Verify file %s at address $%04x\n",
-              filename, addr_location(start_addr));
-}
-
-void mon_load_symbols(MEMSPACE mem, char *filename)
+void mon_load_symbols(MEMSPACE mem, const char *filename)
 {
     /* Switched to a command-line format for the symbol file
      * so loading just involves "playing back" the commands.
@@ -1605,8 +996,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
-        uimon_out("Loading for `%s' failed: %s.\n",
-                    filename, strerror(errno));
+        uimon_out("Loading for `%s' failed.\n", filename);
         return;
     }
 
@@ -1650,14 +1040,13 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
 #endif
 }
 
-void mon_save_symbols(MEMSPACE mem, char *filename)
+void mon_save_symbols(MEMSPACE mem, const char *filename)
 {
     FILE *fp;
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-        uimon_out("Saving for `%s' failed: %s.\n",
-                  filename, strerror(errno));
+        uimon_out("Saving for `%s' failed.\n", filename);
         return;
     }
 
@@ -1692,8 +1081,7 @@ void mon_record_commands(char *filename)
     recording_name = filename;
 
     if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
-        uimon_out("Cannot create `%s': %s.\n",
-                  recording_name, strerror(errno));
+        uimon_out("Cannot create `%s': %s.\n", recording_name);
         return;
     }
 
@@ -1714,15 +1102,14 @@ void mon_end_recording(void)
     recording = FALSE;
 }
 
-static void playback_commands(char *filename)
+static void playback_commands(const char *filename)
 {
     FILE *fp;
     char string[256], *rc;
 
     if (NULL == (fp = fopen(filename, MODE_READ_TEXT))
         && NULL == (fp = sysfile_open(filename, NULL, MODE_READ_TEXT))) {
-        uimon_out("Playback for `%s' failed: %s.\n",
-                  filename, strerror(errno));
+        uimon_out("Playback for `%s' failed.\n", filename);
         return;
     }
 
@@ -1794,10 +1181,10 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
     symbol_entry_t *sym_ptr;
 
     if (mem == e_default_space)
-       mem = default_memspace;
+        mem = default_memspace;
 
     if (strcmp(name, ".PC") == 0) {
-       return mon_get_reg_val(mem, e_PC);
+        return (monitor_cpu_type.mon_register_get_val)(mem, e_PC);
     }
 
     sym_ptr = monitor_labels[mem].name_list;
@@ -1985,105 +1372,23 @@ void mon_stack_down(int count)
 }
 
 
-/* *** DISK COMMANDS *** */
-
-
-void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
-{
-    vdrive_t *floppy;
-
-    mon_evaluate_default_addr(&addr);
-
-    floppy = (vdrive_t *)file_system_get_vdrive(8);
-
-    if (!floppy || floppy->image == NULL) {
-        uimon_out("No disk attached\n");
-        return;
-    }
-
-    if (!op) {
-        BYTE readdata[256];
-        int i,j, dst;
-        MEMSPACE dest_mem;
-
-        /* We ignore disk error codes here.  */
-        if (disk_image_read_sector(floppy->image, readdata, track, sector)
-            < 0) {
-            uimon_out("Error reading track %d sector %d\n",
-                      track, sector);
-            return;
-        }
-
-        if (is_valid_addr(addr)) {
-            dst = addr_location(addr);
-            dest_mem = addr_memspace(addr);
-
-            for (i = 0; i < 256; i++)
-                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst +  i), readdata[i]);
-
-            uimon_out("Read track %d sector %d into address $%04x\n",
-                      track, sector, dst);
-        } else {
-            for (i = 0; i < 16; i++) {
-                uimon_out(">%04x", i * 16);
-                for (j = 0; j < 16; j++) {
-                    if ((j & 3) == 0)
-                        uimon_out(" ");
-                    uimon_out(" %02x", readdata[i * 16 + j]);
-                }
-                uimon_out("\n");
-            }
-        }
-    } else {
-        BYTE writedata[256];
-        int i, src;
-        MEMSPACE src_mem;
-
-        src = addr_location(addr);
-        src_mem = addr_memspace(addr);
-
-        for (i = 0; i < 256; i++)
-            writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src+i));
-
-        if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
-            uimon_out("Error writing track %d sector %d\n",
-                      track, sector);
-            return;
-        }
-
-        uimon_out("Write data from address $%04x to track %d sector %d\n",
-                  src, track, sector);
-    }
-}
-
-
-void mon_execute_disk_command(char *cmd)
-{
-    int len, rc;
-    vdrive_t *floppy;
-
-    /* FIXME */
-    floppy = (vdrive_t *)file_system_get_vdrive(8);
-
-    len = strlen(cmd);
-    rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);
-}
-
-
 /* *** CONDITIONAL EXPRESSIONS *** */
 
 
-static void print_conditional(CONDITIONAL_NODE *cnode)
+void mon_print_conditional(CONDITIONAL_NODE *cnode)
 {
     /* Do an in-order traversal of the tree */
     if (cnode->is_parenthized)
         uimon_out("( ");
 
     if (cnode->operation != e_INV) {
-        assert(cnode->child1 && cnode->child2);
-        print_conditional(cnode->child1);
+        if(!(cnode->child1 && cnode->child2)) {
+            log_error(LOG_ERR, "No conditional!");
+            return;
+        }
+        mon_print_conditional(cnode->child1);
         uimon_out(" %s ",cond_op_string[cnode->operation]);
-        print_conditional(cnode->child2);
+        mon_print_conditional(cnode->child2);
     } else {
         if (cnode->is_reg)
             uimon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
@@ -2096,13 +1401,16 @@ static void print_conditional(CONDITIONAL_NODE *cnode)
 }
 
 
-static int evaluate_conditional(CONDITIONAL_NODE *cnode)
+int mon_evaluate_conditional(CONDITIONAL_NODE *cnode)
 {
     /* Do a post-order traversal of the tree */
     if (cnode->operation != e_INV) {
-        assert(cnode->child1 && cnode->child2);
-        evaluate_conditional(cnode->child1);
-        evaluate_conditional(cnode->child2);
+        if (!(cnode->child1 && cnode->child2)) {
+            log_error(LOG_ERR, "No conditional!");
+            return 0;
+        }
+        mon_evaluate_conditional(cnode->child1);
+        mon_evaluate_conditional(cnode->child2);
 
         switch(cnode->operation) {
           case e_EQU:
@@ -2130,436 +1438,30 @@ static int evaluate_conditional(CONDITIONAL_NODE *cnode)
             cnode->value = ((cnode->child1->value) || (cnode->child2->value));
             break;
           default:
-            uimon_out("Unexpected conditional operator: %d\n",
+            log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
                       cnode->operation);
-            assert(0);
+            return 0;
         }
     } else {
         if (cnode->is_reg)
-            cnode->value = mon_get_reg_val(reg_memspace(cnode->reg_num),
-                                           reg_regid(cnode->reg_num));
+            cnode->value = (monitor_cpu_type.mon_register_get_val)
+                           (reg_memspace(cnode->reg_num),
+                           reg_regid(cnode->reg_num));
     }
 
     return cnode->value;
 }
 
 
-static void delete_conditional(CONDITIONAL_NODE *cnode)
+void mon_delete_conditional(CONDITIONAL_NODE *cnode)
 {
     if (cnode) {
         if (cnode->child1)
-            delete_conditional(cnode->child1);
+            mon_delete_conditional(cnode->child1);
         if (cnode->child2)
-            delete_conditional(cnode->child2);
+            mon_delete_conditional(cnode->child2);
         free(cnode);
     }
-}
-
-
-/* *** BREAKPOINT COMMANDS *** */
-
-
-static void remove_checkpoint_from_list(BREAK_LIST **head, breakpoint *bp)
-{
-    BREAK_LIST *cur_entry, *prev_entry;
-
-    cur_entry = *head;
-    prev_entry = NULL;
-
-    while (cur_entry) {
-        if (cur_entry->brkpt == bp)
-            break;
-
-        prev_entry = cur_entry;
-        cur_entry = cur_entry->next;
-    }
-
-    if (!cur_entry) {
-        assert(FALSE);
-    } else {
-        if (!prev_entry) {
-            *head = cur_entry->next;
-        } else {
-             prev_entry->next = cur_entry->next;
-        }
-        free(cur_entry);
-    }
-}
-
-static breakpoint *find_checkpoint(int brknum)
-{
-    BREAK_LIST *ptr;
-    int i;
-
-    for (i = e_comp_space; i < LAST_SPACE; i++) {
-        ptr = breakpoints[i];
-        while (ptr) {
-            if (ptr->brkpt->brknum == brknum)
-                return ptr->brkpt;
-            ptr = ptr->next;
-        }
-
-        ptr = watchpoints_load[i];
-        while (ptr) {
-            if (ptr->brkpt->brknum == brknum)
-                return ptr->brkpt;
-            ptr = ptr->next;
-        }
-
-        ptr = watchpoints_store[i];
-        while (ptr) {
-            if (ptr->brkpt->brknum == brknum)
-                return ptr->brkpt;
-            ptr = ptr->next;
-        }
-    }
-
-    return NULL;
-}
-
-void mon_switch_checkpoint(int op, int breakpt_num)
-{
-    breakpoint *bp;
-    bp = find_checkpoint(breakpt_num);
-
-    if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
-    } else {
-        bp->enabled = op;
-        uimon_out("Set breakpoint #%d to state: %s\n",
-                  breakpt_num, (op == e_ON) ? "enabled" : "disabled");
-    }
-}
-
-void mon_set_ignore_count(int breakpt_num, int count)
-{
-    breakpoint *bp;
-    bp = find_checkpoint(breakpt_num);
-
-    if (!bp)
-    {
-        uimon_out("#%d not a valid breakpoint\n", breakpt_num);
-    } else {
-        bp->ignore_count = count;
-        uimon_out("Ignoring the next %d crossings of breakpoint #%d\n",
-                  count, breakpt_num);
-    }
-}
-
-static void print_checkpoint_info(breakpoint *bp)
-{
-    if (bp->trace) {
-        uimon_out("TRACE: ");
-    } else if (bp->watch_load || bp->watch_store) {
-        uimon_out("WATCH: ");
-    } else {
-        if (bp->temporary)
-            uimon_out("UNTIL: ");
-        else
-            uimon_out("BREAK: ");
-    }
-    uimon_out("%d A:$%04x",bp->brknum,addr_location(bp->start_addr));
-    if (is_valid_addr(bp->end_addr) && (bp->start_addr != bp->end_addr))
-        uimon_out("-$%04x",addr_location(bp->end_addr));
-
-    if (bp->watch_load)
-        uimon_out(" load");
-    if (bp->watch_store)
-        uimon_out(" store");
-
-    uimon_out("   %s\n", (bp->enabled==e_ON) ? "enabled" : "disabled");
-
-    if (bp->condition) {
-        uimon_out("\tCondition: ");
-        print_conditional(bp->condition);
-        uimon_out("\n");
-    }
-    if (bp->command)
-        uimon_out("\tCommand: %s\n", bp->command);
-}
-
-void mon_print_checkpoints(void)
-{
-    int i, any_set = 0;
-    breakpoint *bp;
-
-    for (i = 1; i < breakpoint_count; i++) {
-        if ((bp = find_checkpoint(i))) {
-            print_checkpoint_info(bp);
-            any_set = 1;
-        }
-    }
-
-    if (!any_set)
-        uimon_out("No breakpoints are set\n");
-}
-
-void mon_delete_checkpoint(int brknum)
-{
-    int i;
-    breakpoint *bp = NULL;
-    MEMSPACE mem;
-
-    if (brknum == -1) {
-        /* Add user confirmation here. */
-        uimon_out("Deleting all breakpoints\n");
-        for (i = 1; i < breakpoint_count; i++) {
-            bp = find_checkpoint(i);
-            if (bp)
-                mon_delete_checkpoint(i);
-        }
-    }
-    else if ( !(bp = find_checkpoint(brknum)) )
-    {
-        uimon_out("#%d not a valid breakpoint\n", brknum);
-        return;
-    } else {
-        mem = addr_memspace(bp->start_addr);
-
-        if (!(bp->watch_load) && !(bp->watch_store)) {
-            remove_checkpoint_from_list(&(breakpoints[mem]), bp);
-
-            if (!any_breakpoints(mem)) {
-                mon_mask[mem] &= ~MI_BREAK;
-                if (!mon_mask[mem])
-                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-            }
-        } else {
-            if (bp->watch_load)
-                remove_checkpoint_from_list(&(watchpoints_load[mem]), bp);
-            if (bp->watch_store)
-                remove_checkpoint_from_list(&(watchpoints_store[mem]), bp);
-
-            if (!any_watchpoints(mem)) {
-                mon_mask[mem] &= ~MI_WATCH;
-                mon_interfaces[mem]->toggle_watchpoints_func(0);
-
-                if (!mon_mask[mem])
-                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-            }
-        }
-    }
-
-    if (bp != NULL) {
-        delete_conditional(bp->condition);
-        if (bp->command)
-            free(bp->command);
-    }
-}
-
-void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
-{
-    breakpoint *bp;
-    bp = find_checkpoint(brk_num);
-
-    if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", brk_num);
-    } else {
-        bp->condition = cnode;
-
-        uimon_out("Setting breakpoint %d condition to: ", brk_num);
-        print_conditional(cnode);
-        uimon_out("\n");
-    }
-}
-
-
-void mon_set_checkpoint_command(int brk_num, char *cmd)
-{
-    breakpoint *bp;
-    bp = find_checkpoint(brk_num);
-
-    if (!bp) {
-        uimon_out("#%d not a valid breakpoint\n", brk_num);
-    } else {
-        bp->command = cmd;
-        uimon_out("Setting breakpoint %d command to: %s\n",
-                  brk_num, cmd);
-    }
-}
-
-
-static BREAK_LIST *search_checkpoint_list(BREAK_LIST *head, unsigned loc)
-{
-    BREAK_LIST *cur_entry;
-
-    cur_entry = head;
-
-    /* The list should be sorted in increasing order. If the current entry
-       is > than the search item, we can drop out early.
-    */
-    while (cur_entry) {
-        if (is_in_range(cur_entry->brkpt->start_addr,
-            cur_entry->brkpt->end_addr, loc))
-            return cur_entry;
-
-        cur_entry = cur_entry->next;
-    }
-
-    return NULL;
-}
-
-static int compare_checkpoints(breakpoint *bp1, breakpoint *bp2)
-{
-    unsigned addr1, addr2;
-    /* Returns < 0 if bp1 < bp2
-               = 0 if bp1 = bp2
-               > 0 if bp1 > bp2
-    */
-
-    addr1 = addr_location(bp1->start_addr);
-    addr2 = addr_location(bp2->end_addr);
-
-    if ( addr1 < addr2 )
-        return -1;
-
-    if ( addr1 > addr2 )
-        return 1;
-
-    return 0;
-}
-
-bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
-{
-    BREAK_LIST *ptr;
-    breakpoint *bp;
-    bool result = FALSE;
-    MON_ADDR temp;
-    const char *type;
-
-    ptr = search_checkpoint_list(list, addr);
-
-    while (ptr && is_in_range(ptr->brkpt->start_addr,
-           ptr->brkpt->end_addr, addr)) {
-        bp = ptr->brkpt;
-        ptr = ptr->next;
-        if (bp && bp->enabled==e_ON) {
-            /* If condition test fails, skip this checkpoint */
-            if (bp->condition) {
-                if (!evaluate_conditional(bp->condition)) {
-                    continue;
-                }
-            }
-
-            /* Check if the user specified some ignores */
-            if (bp->ignore_count) {
-                bp->ignore_count--;
-                continue;
-            }
-
-            bp->hit_count++;
-
-            result = TRUE;
-
-            temp = new_addr(mem, mon_get_reg_val(mem, e_PC));
-            if (bp->trace) {
-                type = "Trace";
-                result = FALSE;
-            }
-            else if (bp->watch_load)
-                type = "Watch-load";
-            else if (bp->watch_store)
-                type = "Watch-store";
-            else
-                type = "Break";
-
-            /*archdep_open_monitor_console(&mon_input, &mon_output);*/
-
-            uimon_out("#%d (%s) ", bp->brknum, type);
-            mon_disassemble_instr(temp);
-
-            if (bp->command) {
-                uimon_out("Executing: %s\n", bp->command);
-                parse_and_execute_line(bp->command);
-            }
-
-            if (bp->temporary)
-                mon_delete_checkpoint(bp->brknum);
-        }
-    }
-    return result;
-}
-
-static void add_to_checkpoint_list(BREAK_LIST **head, breakpoint *bp)
-{
-    BREAK_LIST *new_entry, *cur_entry, *prev_entry;
-
-    new_entry = (BREAK_LIST *) xmalloc(sizeof(BREAK_LIST));
-    new_entry->brkpt = bp;
-
-    cur_entry = *head;
-    prev_entry = NULL;
-
-    /* Make sure the list is in increasing order. (Ranges are entered
-       based on the lower bound) This way if the searched for address is
-       less than the current ptr, we can skip the rest of the list. Note
-       that ranges that wrap around 0xffff aren't handled in this scheme.
-       Suggestion: Split the range and create two entries.
-    */
-    while (cur_entry && (compare_checkpoints(cur_entry->brkpt, bp) <= 0) ) {
-        prev_entry = cur_entry;
-        cur_entry = cur_entry->next;
-    }
-
-    if (!prev_entry) {
-        *head = new_entry;
-        new_entry->next = cur_entry;
-        return;
-    }
-
-    prev_entry->next = new_entry;
-    new_entry->next = cur_entry;
-}
-
-int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace,
-                       bool is_load, bool is_store, bool is_temp)
-{
-    breakpoint *new_bp;
-    MEMSPACE mem;
-    long len;
-
-    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-    new_bp = (breakpoint *)xmalloc(sizeof(breakpoint));
-
-    new_bp->brknum = breakpoint_count++;
-    new_bp->start_addr = start_addr;
-    new_bp->end_addr = end_addr;
-    new_bp->trace = is_trace;
-    new_bp->enabled = e_ON;
-    new_bp->hit_count = 0;
-    new_bp->ignore_count = 0;
-    new_bp->condition = NULL;
-    new_bp->command = NULL;
-    new_bp->watch_load = is_load;
-    new_bp->watch_store = is_store;
-    new_bp->temporary = is_temp;
-
-    mem = addr_memspace(start_addr);
-    if (!is_load && !is_store) {
-        if (!any_breakpoints(mem)) {
-            mon_mask[mem] |= MI_BREAK;
-            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-        }
-
-        add_to_checkpoint_list(&(breakpoints[mem]), new_bp);
-    } else {
-        if (!any_watchpoints(mem)) {
-            mon_mask[mem] |= MI_WATCH;
-            mon_interfaces[mem]->toggle_watchpoints_func(1);
-            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-        }
-
-        if (is_load)
-            add_to_checkpoint_list(&(watchpoints_load[mem]), new_bp);
-        if (is_store)
-            add_to_checkpoint_list(&(watchpoints_store[mem]), new_bp);
-    }
-
-    if (is_temp)
-        exit_mon = 1;
-
-    print_checkpoint_info(new_bp);
-    return new_bp->brknum;
 }
 
 
@@ -2603,7 +1505,7 @@ bool watchpoints_check_loads(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_load_array[count][mem];
-        if (mon_check_checkpoint(mem, addr, watchpoints_load[mem]))
+        if (mon_breakpoint_check_checkpoint(mem, addr, watchpoints_load[mem]))
             trap = TRUE;
     }
     return trap;
@@ -2621,7 +1523,7 @@ bool watchpoints_check_stores(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_store_array[count][mem];
-        if (mon_check_checkpoint(mem, addr, watchpoints_store[mem]))
+        if (mon_breakpoint_check_checkpoint(mem, addr, watchpoints_store[mem]))
             trap = TRUE;
     }
     return trap;

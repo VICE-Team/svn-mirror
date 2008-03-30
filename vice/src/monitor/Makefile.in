@@ -138,7 +138,7 @@ noinst_LIBRARIES = libmonitor.a
 noinst_HEADERS =          mon_parse.h
 
 
-libmonitor_a_SOURCES =          asm6502.c         asmz80.c         asm.h         mon.c         mon.h         mon_assemble.c         mon_assemble.h         mon_disassemble.c         mon_disassemble.h         mon_util.c         mon_util.h         mon_lex.l         mon_parse.y
+libmonitor_a_SOURCES =          asm6502.c         asmz80.c         asm.h         mon.c         mon.h         mon_assemble6502.c 	mon_assemblez80.c 	mon_assemble.h 	mon_breakpoint.c 	mon_breakpoint.h 	mon_command.c 	mon_command.h 	mon_disassemble.c 	mon_disassemble.h 	mon_drive.c 	mon_drive.h 	mon_file.c 	mon_file.h 	mon_register6502.c 	mon_registerz80.c 	mon_register.h 	mon_util.c 	mon_util.h 	mon_lex.l 	mon_parse.y
 
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
@@ -155,8 +155,10 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libmonitor_a_LIBADD = 
-libmonitor_a_OBJECTS =  asm6502.o asmz80.o mon.o mon_assemble.o \
-mon_disassemble.o mon_util.o mon_lex.o mon_parse.o
+libmonitor_a_OBJECTS =  asm6502.o asmz80.o mon.o mon_assemble6502.o \
+mon_assemblez80.o mon_breakpoint.o mon_command.o mon_disassemble.o \
+mon_drive.o mon_file.o mon_register6502.o mon_registerz80.o mon_util.o \
+mon_lex.o mon_parse.o
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
@@ -273,31 +275,56 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 asm6502.o: asm6502.c ../../src/vice.h ../../src/config.h asm.h \
-	../../src/arch/unix/types.h
+	../../src/arch/unix/types.h mon_assemble.h mon_register.h
 asmz80.o: asmz80.c ../../src/vice.h ../../src/config.h asm.h \
-	../../src/arch/unix/types.h
+	../../src/arch/unix/types.h mon_assemble.h mon_register.h
 mon.o: mon.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/attach.h asm.h ../../src/arch/unix/types.h \
-	../../src/charsets.h ../../src/console.h ../../src/diskimage.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h mon.h mon_disassemble.h \
-	mon_parse.h ../../src/mos6510.h ../../src/resources.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h asm.h \
+	../../src/arch/unix/types.h ../../src/charsets.h \
+	../../src/console.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/log.h ../../src/mem.h mon.h mon_breakpoint.h \
+	mon_disassemble.h mon_parse.h ../../src/resources.h \
 	../../src/sysfile.h ../../src/uimon.h ../../src/utils.h \
-	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
 	../../src/vsync.h
 mon_assemble.o: mon_assemble.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h mon.h ../../src/uimon.h
+mon_assemble6502.o: mon_assemble6502.c ../../src/vice.h \
+	../../src/config.h asm.h ../../src/arch/unix/types.h mon.h \
+	../../src/uimon.h
+mon_assemblez80.o: mon_assemblez80.c ../../src/vice.h ../../src/config.h \
+	asm.h ../../src/arch/unix/types.h mon.h ../../src/uimon.h
+mon_breakpoint.o: mon_breakpoint.c ../../src/vice.h ../../src/config.h \
+	asm.h ../../src/arch/unix/types.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h mon.h mon_disassemble.h \
+	../../src/uimon.h ../../src/utils.h
+mon_command.o: mon_command.c ../../src/vice.h ../../src/config.h mon.h \
+	../../src/arch/unix/types.h mon_command.h mon_parse.h \
+	../../src/uimon.h ../../src/utils.h
 mon_disassemble.o: mon_disassemble.c ../../src/vice.h ../../src/config.h \
-	asm.h ../../src/arch/unix/types.h mon.h mon_disassemble.h \
+	asm.h ../../src/arch/unix/types.h ../../src/log.h mon.h \
+	mon_disassemble.h ../../src/uimon.h
+mon_drive.o: mon_drive.c ../../src/vice.h ../../src/config.h \
+	../../src/attach.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h mon.h ../../src/uimon.h \
+	../../src/vdrive/vdrive.h ../../src/vdrive/vdrive-command.h
+mon_file.o: mon_file.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/mem.h ../../src/arch/unix/types.h mon.h \
 	../../src/uimon.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
-	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
+	../../src/arch/unix/types.h mon_command.h mon_parse.h \
+	../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/uimon.h ../../src/machine.h mon.h mon_assemble.h \
-	mon_disassemble.h ../../src/utils.h
+	../../src/uimon.h ../../src/machine.h mon.h mon_breakpoint.h \
+	mon_command.h mon_disassemble.h mon_drive.h mon_file.h \
+	../../src/utils.h
+mon_register6502.o: mon_register6502.c ../../src/vice.h \
+	../../src/config.h asm.h ../../src/arch/unix/types.h \
+	../../src/log.h mon.h ../../src/mos6510.h ../../src/uimon.h
+mon_registerz80.o: mon_registerz80.c ../../src/vice.h ../../src/config.h \
+	asm.h ../../src/arch/unix/types.h ../../src/log.h mon.h \
+	../../src/uimon.h ../../src/z80regs.h
 mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \

@@ -1,3 +1,55 @@
+2001-05-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.30.
+
+	* monitor/mon_disassemble.c: Added more z80 address modes.
+
+	* monitor/mon_assemble6502.c, monitor/mon_assemblez80.c,
+	monitor/mon_command.c, monitor/mon_command.h,
+	monitor/mon_register.h, monitor/mon_register6502.c,
+	monitor/mon_registerz80.c, monitor/mon_breakpoint.c,
+	monitor/mon_breakpoint.h, monitor/mon_file.c,
+	monitor/mon_file.h: New files.
+
+	* monitor/mon_assemble.c: Removed.
+
+	* monitor/Makefile.am: Added new files.
+
+	* monitor/mon.c: Moved some code to separate files and made it
+	much more modular.
+
+	* monitor/mon_lex.l, mon_parse.y: Added more z80 registers and
+	support for new location of monitor command table.
+
+	* monitor/asm.h, monitor/asmz80.c, monitor/asm6502.c,
+	monitor/mon.c, monitor/mon.h: Added support for new assemler.
+
+	* drive/drivetypes.h, drive/drivecpu.c, drive/drivecpu.h,
+	drive/drivemem.c, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, cbm2/c610.c: Made drive monitor interface dynamic.
+
+	* monitor/mon.h, drive/drivecpu.c, drive/drivecpu.h: Made
+	`set_bank_base' available via the monitor interface.
+
+	* drive/drivecpu.c, maincpu.c, c128/z80.c:
+	#include "mon_breakpoint.h".
+
+	* z80regs.h: New file.
+
+	* Makefile.am: Added new file.
+
+	* c128/z80.c, c128/z80.h, c128/c128cpu.c, maincpu.c,
+	monitor/mon.h, drive/drivecpu.c: Added support for Z80
+	register import/export.
+
+2001-05-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* autostart.c (autostart_prg): Don't append seperator to
+	the directory.
+
+	* arch/win32/uiattach.c (dialog_proc): Delete the pending
+	'\' if a root directory is selected.
+
 2001-05-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.29.
