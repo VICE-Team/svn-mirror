@@ -78,6 +78,27 @@ typedef struct bufferinfo_s {
     unsigned int sector;   /*   (for write files only) */
     unsigned int length;   /* Directory-read length */
     unsigned int record;   /* Current record */
+
+    /* REL file information stored in buffers since we can have more than
+        one open */
+    BYTE *side_sector;
+    /* location of the side sectors */
+    /* this should be SIDE_SECTORS_MAX instead of 6 */
+    BYTE *side_sector_track;
+    BYTE *side_sector_sector;
+
+    BYTE *super_side_sector;
+    /* location of the super side sector */
+    BYTE super_side_sector_track;
+    BYTE super_side_sector_sector;
+
+    BYTE *buffer_next;          /* next record for rel file */
+    unsigned int track_next;    /* track for the next sector */
+    unsigned int sector_next;   /* sector for the next sector */
+
+    unsigned int record_max;  /* Max rel file record, inclusive */
+    unsigned int record_next; /* Buffer pointer to beginning of next record */
+
 } bufferinfo_t;
 
 struct disk_image_s;
@@ -120,7 +141,8 @@ typedef struct vdrive_s {
     BYTE mem_buf[256];
     unsigned int mem_length;
 
-    BYTE *side_sector;
+    /* removed side sector data and placed it in buffer structure */
+    /* BYTE *side_sector; */
 
     BYTE ram[0x800];
 } vdrive_t;

@@ -36,6 +36,7 @@
 #define SLOT_NAME_OFFSET      5
 #define SLOT_SIDE_TRACK       21
 #define SLOT_SIDE_SECTOR      22
+#define SLOT_RECORD_LENGTH    23 /* for relative files */
 #define SLOT_NR_BLOCKS        30
 
 struct vdrive_s;

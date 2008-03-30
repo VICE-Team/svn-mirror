@@ -174,6 +174,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         break;
 
       case 'M': /* Memory */
+        /* FIXME: The ":" could be a low address of a read/write/execute */
         if (!minus)     /* M-x does not allow a : */
             status = CBMDOS_IPE_INVAL;
         else
@@ -785,10 +786,21 @@ static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
 {
     unsigned int channel, rec_lo, rec_hi, position;
 
-    if (length < 5)
-        return CBMDOS_IPE_NO_RECORD;
+    /* default the position to 1 */
+    if (length <= 4)
+        buf[3] = 1;
+    /* default the high record to 0 */
+    if (length <= 3)
+        buf[2] = 0;
+    /* default the low record to 1 */
+    if (length <= 2)
+        buf[1] = 1;
+    /* if no channel is specified, return NO CHANNEL */
+    if (length <= 1)
+        return CBMDOS_IPE_NO_CHANNEL;
 
-    channel = buf[0];
+    /* remove bit 5 & 6 from the channel */
+    channel = buf[0] & 15;
     rec_lo = buf[1];
     rec_hi = buf[2];
     position = buf[3];
@@ -797,8 +809,6 @@ static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
         return CBMDOS_IPE_NO_CHANNEL;
 
     vdrive_rel_position(vdrive, channel, rec_lo, rec_hi, position);
-
-    vdrive->buffers[channel].bufptr = 0;
 
     return CBMDOS_IPE_OK;
 }

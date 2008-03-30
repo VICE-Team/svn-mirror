@@ -214,7 +214,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     BYTE *slot; /* Current directory entry */
     int rc, status = SERIAL_OK;
-    cbmdos_cmd_parse_t cmd_parse;
+    cbmdos_cmd_parse_t cmd_parse; /* FIXME: This should probably be set to zero */
     unsigned int opentype;
 
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
@@ -274,6 +274,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     cmd_parse.cmd = name;
     cmd_parse.cmdlength = length;
     cmd_parse.secondary = secondary;
+    /* make sure this is zero, since it isn't set below */
+    cmd_parse.recordlength = 0;
 
     rc = cbmdos_command_parse(&cmd_parse);
 
@@ -337,9 +339,22 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     p->readmode = cmd_parse.readmode;
     p->slot = slot;
 
-    if (cmd_parse.filetype == CBMDOS_FT_REL) {
-        status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
-        goto out;
+    /* Call REL function if we are creating OR opening one */
+    if (cmd_parse.filetype == CBMDOS_FT_REL ||
+        ( slot && (slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_REL) ) {
+    /* Make sure the record length of the opening command is the same as
+       the record length in the directory slot, if not DOS ERROR 50 */
+       if (slot && cmd_parse.recordlength > 0 &&
+           slot[SLOT_RECORD_LENGTH] != cmd_parse.recordlength) {
+           vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_RECORD, 0, 0);
+           status = SERIAL_ERROR;
+           goto out;
+       }
+       /* At this point the record lengths are the same (or will be), so set
+           them equal. */
+       cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
+       status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
+       goto out;
     }
 
     if (cmd_parse.readmode == CBMDOS_FAM_READ)
@@ -487,17 +502,40 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
         status = iec_close_sequential(vdrive, secondary);
         break;
       case BUFFER_RELATIVE:
-        /* FIXME !!! */
         p->mode = BUFFER_NOT_IN_USE;
         lib_free((char *)p->buffer);
         p->buffer = NULL;
+        lib_free((char *)p->buffer_next);
+        p->buffer_next = NULL;
+        if (p->side_sector) {
+            /* remove side sectors */
+            lib_free(p->side_sector);
+        }
+        p->side_sector = NULL;
+        if (p->side_sector_track) {
+            /* remove side sector tracks */
+            lib_free(p->side_sector_track);
+        }
+        p->side_sector_track = NULL;
+        if (p->side_sector_sector) {
+            /* remove side sector sectors */
+            lib_free(p->side_sector_sector);
+        }
+        p->side_sector_sector = NULL;
+        if (p->super_side_sector) {
+            /* remove super side sector too */
+            lib_free(p->super_side_sector);
+        }
+        p->super_side_sector = NULL;
         break;
       case BUFFER_COMMAND_CHANNEL:
         /* I'm not sure if this is correct, but really closing the buffer
            should reset the read pointer to the beginning for the next
            write! */
         vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
-        vdrive_close_all_channels(vdrive);
+        /* this breaks any rel file access if the command channel is closed
+            when the record is changed. Removed for now.*/
+/*        vdrive_close_all_channels(vdrive); */
         break;
       default:
         log_error(vdrive_iec_log, "Fatal: unknown floppy-close-mode: %i.",
@@ -561,6 +599,126 @@ static int iec_read_sequential(vdrive_t *vdrive, BYTE *data,
     return SERIAL_OK;
 }
 
+static int iec_read_relative(vdrive_t *vdrive, BYTE *data,
+                               unsigned int secondary)
+{
+    bufferinfo_t *p = &(vdrive->buffers[secondary]);
+
+    /*
+     * Read next block if needed
+     */
+    if (p->buffer[0]) {
+        if (p->bufptr >= 256) {
+            int status;
+            unsigned int track, sector;
+
+            track = (unsigned int)p->buffer[0];
+            sector = (unsigned int)p->buffer[1];
+
+            /* FIXME: check for writes here to commit the buffers */
+
+            /* Check to see if the next record is in the buffered sector */
+            if (p->track_next == track && p->sector_next == sector) {
+                /* Swap the two buffers */
+                BYTE *tmp;
+                tmp = p->buffer;
+                p->buffer = p->buffer_next;
+                p->buffer_next = tmp;
+                p->track_next = p->track;
+                p->sector_next = p->sector;
+                p->track = track;
+                p->sector = sector;
+                status = 0;
+            } else if (p->track!=track || p->sector != sector ) {
+                /* load in the sector to memory */
+                status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
+            }
+
+            if (status == 0) {
+                p->track = track;
+                p->sector = sector;
+                p->bufptr = p->bufptr - 254;
+                p->length = p->length - 254;
+                p->record_next = p->record_next - 254;
+                /* keep buffered sector where ever it is */
+                /* we won't read in the next sector unless we have to */
+            } else {
+                log_debug("Cannot read track %i sector %i.", track, sector);
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
+        }
+    } else {
+        if (p->bufptr >= (unsigned int)( p->buffer[1] + 2 ) ) {
+            *data = 0x0d;
+#ifdef DEBUG_DRIVE
+            if (p->mode == BUFFER_COMMAND_CHANNEL)
+                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                          p->mode, 0, 0, *data, (isprint(*data)
+                          ? *data : '.'));
+#endif
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_RECORD, 0, 0);
+            return SERIAL_EOF;
+        }
+    }
+
+    *data = p->buffer[p->bufptr];
+    p->bufptr++;
+
+    if (p->bufptr > p->length) {
+        /* set up the buffer pointer to the next record */
+        p->bufptr = p->record_next;
+        /* add the record length to the next record pointer */
+        p->record_next += p->side_sector[3]; /* should be OFFSET_RECORD_LEN */
+        /* calculate the maximum length (for read, for write we should use
+            record_next - 1 */
+        p->length = p->record_next - 1;
+        /* increment the record reference */
+        p->record++;
+        /* Find the length of the record starting from the end until no zeros
+            are found */
+        if ( p->length < 256) {
+            /* If the maximum length of the record is in this sector, just
+            check for where the zeros end */
+            for (;p->length >= p->bufptr && p->buffer[p->length] == 0 ; p->length-- );
+        }
+        else {
+            int status=1;
+
+            /* Get the next sector */
+            /* If it doesn't exist, we will use the max length calculated above */
+            if (p->buffer[0] != 0) {
+                /* Read in the sector if it has not been buffered */
+                if (p->buffer[0] != p->track_next || p->buffer[1] != p->sector_next) {
+                    status = disk_image_read_sector(vdrive->image, p->buffer_next, p->buffer[0],
+                    p->buffer[1]);
+                }
+                else {
+                    status = 0;
+                }
+            }
+            /* If all is good, calculate the length now */
+            if (!status) {
+                /* update references, if the sector read in */
+                p->track_next = p->buffer[0];
+                p->sector_next = p->buffer[1];
+                /* Start looking in the buffered sector */
+                for (;p->length >= 256 && p->buffer_next[p->length-256+2] == 0 ; p->length-- );
+                /* If we crossed into the current sector, look there too */
+                if (p->length<256) {
+                    for (;p->length >= p->bufptr && p->buffer[p->length] == 0 ; p->length-- );
+                }
+            }
+
+        }
+        /* FIXME: check for going over max records here */
+
+        return SERIAL_EOF;
+    }
+
+    return SERIAL_OK;
+}
+
 int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -607,6 +765,7 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
       case BUFFER_COMMAND_CHANNEL:
         if (p->bufptr > p->length) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
+#if 0
 #ifdef DEBUG_DRIVE
             log_debug("End of buffer in command channel.");
 #endif
@@ -617,6 +776,7 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                           p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
 #endif
             return SERIAL_EOF;
+#endif
         }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
@@ -626,21 +786,7 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         break;
 
       case BUFFER_RELATIVE:
-        if (p->bufptr > p->length) {
-            vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
-            *data = 0xc7;
-#ifdef DEBUG_DRIVE
-            if (p->mode == BUFFER_COMMAND_CHANNEL)
-                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
-                          p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
-#endif
-            return SERIAL_EOF;
-        }
-        *data = p->buffer[p->bufptr];
-        p->bufptr++;
-        if (p->bufptr > p->length) {
-            status = SERIAL_EOF;
-        }
+        status = iec_read_relative(vdrive, data, secondary);
         break;
 
       default:

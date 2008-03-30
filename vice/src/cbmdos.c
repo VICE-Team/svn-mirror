@@ -63,6 +63,7 @@ static const cbmdos_errortext_t cbmdos_error_messages[] =
     { 39, "SYNTAX ERROR" },
     { 50, "RECORD NOT RESENT" },
     { 51, "OVERFLOW IN RECORD" },
+    { 52, "FILE TOO LARGE" },   /* 1581 */
     { 60, "WRITE FILE OPEN" },
     { 61, "FILE NOT OPEN" },
     { 62, "FILE NOT FOUND" },
@@ -254,8 +255,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     if (cmd_parse->secondary == 1)
         cmd_parse->readmode = CBMDOS_FAM_WRITE;
 
-    /* Set filetype according secondary address, if it was not specified.  */
-    if (cmd_parse->filetype == 0)
+    /* Set filetype according secondary address, if it was not specified
+        and if we are in write mode */
+    if (cmd_parse->filetype == 0 && cmd_parse->readmode == CBMDOS_FAM_WRITE)
         cmd_parse->filetype = (cmd_parse->secondary < 2)
                               ? CBMDOS_FT_PRG : CBMDOS_FT_SEQ;
 
