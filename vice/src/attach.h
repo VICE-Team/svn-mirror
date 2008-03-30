@@ -28,6 +28,8 @@
 #ifndef _ATTACH_H
 #define _ATTACH_H
 
+#include "types.h"
+
 #define ATTACH_DEVICE_NONE 0
 #define ATTACH_DEVICE_FS   1
 #define ATTACH_DEVICE_REAL 2
@@ -42,6 +44,8 @@ extern int file_system_attach_disk(unsigned int unit, const char *filename);
 extern void file_system_detach_disk(int unit);
 extern void file_system_detach_disk_shutdown(void);
 extern void *file_system_get_vdrive(unsigned int unit);
+extern int file_system_bam_get_disk_id(unsigned int unit, BYTE *id);
+extern int file_system_bam_set_disk_id(unsigned int unit, BYTE *id);
 
 #endif
 
