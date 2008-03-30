@@ -67,9 +67,9 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk           clk
+#define myclk           maincpu_clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define mycpu_rmw_flag  rmw_flag
+#define mycpu_rmw_flag  maincpu_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 tpi1_set_int(2,(value))
@@ -149,9 +149,9 @@ static inline BYTE read_ciapa(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */

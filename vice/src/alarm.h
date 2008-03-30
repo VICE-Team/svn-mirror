@@ -107,7 +107,7 @@ inline static CLOCK alarm_context_next_pending_clk(alarm_context_t *context)
 
 inline static void alarm_context_update_next_pending(alarm_context_t *context)
 {
-    CLOCK next_pending_alarm_clk = (CLOCK) ~0L;
+    CLOCK next_pending_alarm_clk = (CLOCK)~0L;
     unsigned int next_pending_alarm_idx;
     unsigned int i;
 
@@ -182,3 +182,4 @@ inline static void alarm_set(alarm_t *alarm, CLOCK cpu_clk)
 }
 
 #endif
+

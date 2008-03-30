@@ -115,9 +115,9 @@ int ted_snapshot_write_module(snapshot_t *s)
         || snapshot_module_write_byte(m,
             ted.raster.sprite_status->new_dma_msk) < 0
         /* RasterCycle */
-        || snapshot_module_write_byte(m, (BYTE)TED_RASTER_CYCLE (clk)) < 0
+        || snapshot_module_write_byte(m, (BYTE)TED_RASTER_CYCLE(maincpu_clk)) < 0
         /* RasterLine */
-        || snapshot_module_write_word(m, (WORD)(TED_RASTER_Y (clk))) < 0
+        || snapshot_module_write_word(m, (WORD)(TED_RASTER_Y(maincpu_clk))) < 0
         )
         goto fail;
 
@@ -158,7 +158,7 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* FetchEventTick */
-        || snapshot_module_write_dword (m, ted.fetch_clk - clk) < 0
+        || snapshot_module_write_dword (m, ted.fetch_clk - maincpu_clk) < 0
         )
         goto fail;
 
@@ -242,17 +242,17 @@ int ted_snapshot_read_module(snapshot_t *s)
             || snapshot_module_read_word(m, &RasterLine) < 0)
             goto fail;
 
-        if (RasterCycle != (BYTE)TED_RASTER_CYCLE(clk)) {
+        if (RasterCycle != (BYTE)TED_RASTER_CYCLE(maincpu_clk)) {
             log_error(ted.log,
                       "Not matching raster cycle (%d) in snapshot; should be %d.",
-                      RasterCycle, TED_RASTER_CYCLE(clk));
+                      RasterCycle, TED_RASTER_CYCLE(maincpu_clk));
             goto fail;
         }
 
-        if (RasterLine != (WORD)TED_RASTER_Y(clk)) {
+        if (RasterLine != (WORD)TED_RASTER_Y(maincpu_clk)) {
             log_error(ted.log,
                       "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
-                      RasterLine, TED_RASTER_Y(clk));
+                      RasterLine, TED_RASTER_Y(maincpu_clk));
             goto fail;
         }
     }
@@ -297,11 +297,11 @@ int ted_snapshot_read_module(snapshot_t *s)
     ted_set_raster_irq(ted.regs[0x12]
                           | ((ted.regs[0x11] & 0x80) << 1));
 
-    ted_update_memory_ptrs(TED_RASTER_CYCLE (clk));
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 
     ted.raster.xsmooth = ted.regs[0x16] & 0x7;
     ted.raster.ysmooth = ted.regs[0x11] & 0x7;
-    ted.raster.current_line = TED_RASTER_Y(clk);     /* FIXME? */
+    ted.raster.current_line = TED_RASTER_Y(maincpu_clk); /* FIXME? */
 
     ted.raster.sprite_status->visible_msk = ted.regs[0x15];
 
@@ -351,9 +351,10 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     ted.memory_fetch_done = 0; /* FIXME? */
 
-    ted_update_video_mode(TED_RASTER_CYCLE(clk));
+    ted_update_video_mode(TED_RASTER_CYCLE(maincpu_clk));
 
-    ted.draw_clk = clk + (ted.draw_cycle - TED_RASTER_CYCLE(clk));
+    ted.draw_clk = maincpu_clk + (ted.draw_cycle
+                   - TED_RASTER_CYCLE(maincpu_clk));
     ted.last_emulate_line_clk = ted.draw_clk - ted.cycles_per_line;
     alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
 
@@ -365,7 +366,7 @@ int ted_snapshot_read_module(snapshot_t *s)
             )
             goto fail;
 
-        ted.fetch_clk = clk + dw;
+        ted.fetch_clk = maincpu_clk + dw;
 
         alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
     }

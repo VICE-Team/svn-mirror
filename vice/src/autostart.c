@@ -272,7 +272,7 @@ void autostart_advance(void)
 {
     char *tmp;
 
-    if (clk < min_cycles || !autostart_enabled)
+    if (maincpu_clk < min_cycles || !autostart_enabled)
         return;
 
     switch (autostartmode) {

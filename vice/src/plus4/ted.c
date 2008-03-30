@@ -68,12 +68,6 @@
 #endif
 
 
-/* FIXME: PAL/NTSC constants should be moved from drive.h */
-#define DRIVE_SYNC_PAL     -1
-#define DRIVE_SYNC_NTSC    -2
-#define DRIVE_SYNC_NTSCOLD -3
-
-
 ted_t ted;
 
 static void ted_raster_irq_alarm_handler(CLOCK offset);
@@ -91,10 +85,10 @@ static void ted_change_timing(void)
 {
     resource_value_t mode;
 
-    resources_get_value("VideoStandard", &mode);
+    resources_get_value("MachineVideoStandard", &mode);
 
     switch ((int)mode) {
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
         clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_NTSC_CYCLES_PER_RFSH);
         ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
         ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
@@ -111,7 +105,7 @@ static void ted_change_timing(void)
         ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
         ted.offset = TED_NTSC_OFFSET;
         break;
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
       default:
         clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_PAL_CYCLES_PER_RFSH);
         ted.screen_height = TED_PAL_SCREEN_HEIGHT;
@@ -146,16 +140,17 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
 
         /* Go back to the time when the read accesses happened and serve TED
            events.  */
-        clk -= num_write_cycles;
+        maincpu_clk -= num_write_cycles;
 
         do {
             f = 0;
-            if (clk > ted.fetch_clk) {
+            if (maincpu_clk > ted.fetch_clk) {
                ted_raster_fetch_alarm_handler(0);
                f = 1;
             }
-            if (clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler((long)(clk - ted.draw_clk));
+            if (maincpu_clk >= ted.draw_clk) {
+                ted_raster_draw_alarm_handler((long)(maincpu_clk
+                                              - ted.draw_clk));
                 f = 1;
             }
         }
@@ -166,18 +161,18 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
            accesses - except BRK and JSR - are the RMW ones, which store the
            old value in the first write access, and then store the new one in
            the second write access).  */
-        clk += num_write_cycles;
+        maincpu_clk += num_write_cycles;
 
       } else {
         int f;
 
         do {
             f = 0;
-            if (clk >= ted.fetch_clk) {
+            if (maincpu_clk >= ted.fetch_clk) {
                 ted_raster_fetch_alarm_handler(0);
                 f = 1;
             }
-            if (clk >= ted.draw_clk) {
+            if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler(0);
                 f = 1;
             }
@@ -534,9 +529,9 @@ void ted_set_raster_irq(unsigned int line)
         return;
 
     if (line < ted.screen_height) {
-        unsigned int current_line = TED_RASTER_Y(clk);
+        unsigned int current_line = TED_RASTER_Y(maincpu_clk);
 
-        ted.raster_irq_clk = (TED_LINE_START_CLK(clk)
+        ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
                              + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                              + (ted.cycles_per_line
                              * (line - current_line)));
@@ -623,7 +618,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
                                              ram[0x3fff]);
     }
 
-    if (ted.raster.skip_frame || (tmp <= 0 && clk < ted.draw_clk)) {
+    if (ted.raster.skip_frame || (tmp <= 0 && maincpu_clk < ted.draw_clk)) {
         old_screen_ptr = ted.screen_ptr = screen_base;
         old_bitmap_ptr = ted.bitmap_ptr = bitmap_base;
         old_chargen_ptr = ted.chargen_ptr = char_base;
@@ -907,23 +902,24 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
           case 0:
             /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
                accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = clk - 5;
-            last_opcode_last_write_clk = clk - 3;
+            last_opcode_first_write_clk = maincpu_clk - 5;
+            last_opcode_last_write_clk = maincpu_clk - 3;
             break;
 
           case 0x20:
             /* In JSR, the 4th and 5th cycles are write accesses, while the
                1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = clk - 3;
-            last_opcode_last_write_clk = clk - 2;
+            last_opcode_first_write_clk = maincpu_clk - 3;
+            last_opcode_last_write_clk = maincpu_clk - 2;
             break;
 
           default:
             /* In all the other opcodes, all the write accesses are the last
                ones.  */
             if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = clk - 1;
-                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
+                last_opcode_last_write_clk = maincpu_clk - 1;
+                last_opcode_first_write_clk = maincpu_clk
+                                              - maincpu_num_write_cycles();
             } else {
                 last_opcode_first_write_clk = (CLOCK) 0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;

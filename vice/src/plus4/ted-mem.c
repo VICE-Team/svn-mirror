@@ -95,8 +95,8 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
         do {
             CLOCK mclk;
 
-            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-            mclk = clk - rmw_flag - 1;
+            /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+            mclk = maincpu_clk - maincpu_rmw_flag - 1;
             f = 0;
 
             if (mclk >= ted.fetch_clk) {
@@ -105,10 +105,10 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
                 if (mclk == ted.fetch_clk) {
                     ram[addr] = value;
                 }
-                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
-                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-                mclk = clk - rmw_flag - 1;
+                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+                mclk = maincpu_clk - maincpu_rmw_flag - 1;
             }
 
             if (mclk >= ted.draw_clk) {
@@ -133,20 +133,20 @@ inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
         do {
             CLOCK mclk;
 
-            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-            mclk = clk - rmw_flag - 1;
+            /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+            mclk = maincpu_clk - maincpu_rmw_flag - 1;
             f = 0;
 
             if (mclk >= ted.fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
                 if (mclk == ted.fetch_clk) {
-                    ram[addr&0x7fff] = value;
+                    ram[addr & 0x7fff] = value;
                 }
-                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
-                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-                mclk = clk - rmw_flag - 1;
+                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+                mclk = maincpu_clk - maincpu_rmw_flag - 1;
             }
 
             if (mclk >= ted.draw_clk) {
@@ -156,7 +156,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-    ram[addr&0x7fff] = value;
+    ram[addr & 0x7fff] = value;
 }
 
 inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
@@ -171,20 +171,20 @@ inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
         do {
             CLOCK mclk;
 
-            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-            mclk = clk - rmw_flag - 1;
+            /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+            mclk = maincpu_clk - maincpu_rmw_flag - 1;
             f = 0;
 
             if (mclk >= ted.fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
                 if (mclk == ted.fetch_clk) {
-                    ram[addr&0x3fff] = value;
+                    ram[addr & 0x3fff] = value;
                 }
-                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
-                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-                mclk = clk - rmw_flag - 1;
+                /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
+                mclk = maincpu_clk - maincpu_rmw_flag - 1;
             }
 
             if (mclk >= ted.draw_clk) {
@@ -194,7 +194,7 @@ inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-    ram[addr&0x3fff] = value;
+    ram[addr & 0x3fff] = value;
 }
 
 /* Encapsulate inlined function for other modules */
@@ -222,7 +222,7 @@ void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value)
     if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
         raster_add_int_change_foreground
             (&ted.raster,
-            TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
+            TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
             value);
 }
@@ -235,7 +235,7 @@ void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
     if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
         raster_add_int_change_foreground
             (&ted.raster,
-            TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
+            TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
             value);
 }
@@ -339,8 +339,8 @@ inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
             ted.mem_counter_inc = inc;
 
             /* Take over the bus until the memory fetch is done.  */
-            clk = (TED_LINE_START_CLK(clk) + TED_FETCH_CYCLE
-                   + TED_SCREEN_TEXTCOLS + 3);
+            maincpu_clk = (TED_LINE_START_CLK(maincpu_clk) + TED_FETCH_CYCLE
+                          + TED_SCREEN_TEXTCOLS + 3);
 
             /* Remember we have done a DMA.  */
             ted.memory_fetch_done = 2;
@@ -384,8 +384,8 @@ inline static void ted06_store(BYTE value)
     int cycle;
     int line;
 
-    cycle = TED_RASTER_CYCLE(clk);
-    line = TED_RASTER_Y(clk);
+    cycle = TED_RASTER_CYCLE(maincpu_clk);
+    line = TED_RASTER_Y(maincpu_clk);
 
     TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
     TED_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
@@ -462,7 +462,7 @@ inline static void ted07_store(BYTE value)
     TED_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
 
     raster = &ted.raster;
-    cycle = TED_RASTER_CYCLE(clk);
+    cycle = TED_RASTER_CYCLE(maincpu_clk);
 
     /* FIXME: Line-based emulation!  */
     if ((value & 7) != (ted.regs[0x07] & 7)) {
@@ -562,9 +562,9 @@ inline static void ted08_store(BYTE value)
 
 inline static void ted09_store(BYTE value)
 {
-    if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
+    if (maincpu_rmw_flag) { /* (emulates the Read-Modify-Write bug) */
         ted.irq_status = 0;
-        if (clk >= ted.raster_irq_clk) {
+        if (maincpu_clk >= ted.raster_irq_clk) {
             ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
             alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
         }
@@ -572,7 +572,7 @@ inline static void ted09_store(BYTE value)
         ted.irq_status &= ~((value & 0x5e) | 0x80);
         if (ted.irq_status & ted.regs[0x0a])
             ted.irq_status |= 0x80;
-        if ((value & 1) && clk >= ted.raster_irq_clk) {
+        if ((value & 1) && maincpu_clk >= ted.raster_irq_clk) {
             ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
             alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
         }
@@ -623,7 +623,7 @@ inline static void ted0b_store(BYTE value)
     if (value == ted.regs[0x0b])
         return;
 
-    line = TED_RASTER_Y(clk);
+    line = TED_RASTER_Y(maincpu_clk);
     ted.regs[0x0b] = value;
 
     TED_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
@@ -638,8 +638,8 @@ inline static void ted0b_store(BYTE value)
 
         trigger_irq = 0;
 
-        if (rmw_flag) {
-            if (TED_RASTER_CYCLE (clk) == 0) {
+        if (maincpu_rmw_flag) {
+            if (TED_RASTER_CYCLE(maincpu_clk) == 0) {
                 unsigned int previous_line = TED_PREVIOUS_LINE(line);
 
                 if (previous_line != old_raster_irq_line
@@ -677,9 +677,9 @@ inline static void ted0c0d_store(ADDRESS addr, BYTE value)
 
 #if 0
     raster_add_int_change_background(&ted.raster,
-                                     TED_RASTER_CHAR(TED_RASTER_CYCLE(clk)),
-                                     &ted.crsrpos,
-                                     pos);
+        TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
+        &ted.crsrpos,
+        pos);
 #else
     ted.crsrpos = pos;
 #endif
@@ -694,7 +694,7 @@ inline static void ted12_store(BYTE value)
         return;
 
     ted.regs[0x12] = value;
-    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void ted13_store(BYTE value)
@@ -710,7 +710,7 @@ inline static void ted13_store(BYTE value)
     }
 
     ted.regs[0x13] = (ted.regs[0x13] & 0x01) | (value & 0xfe);
-    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void ted14_store(BYTE value)
@@ -719,7 +719,7 @@ inline static void ted14_store(BYTE value)
         return;
 
     ted.regs[0x14] = value;
-    ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
+    ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 }
 
 inline static void ted15_store(BYTE value)
@@ -737,16 +737,16 @@ inline static void ted15_store(BYTE value)
     if (!ted.force_black_overscan_background_color) {
         raster_add_int_change_background
             (&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(clk)),
+            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.raster.overscan_background_color,
             value);
         raster_add_int_change_background
             (&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(clk)),
+            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.raster.xsmooth_color,
             value);
     }
-    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(clk));
+    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
     raster_add_int_change_background(&ted.raster,
                                      x_pos,
                                      &ted.raster.background_color,
@@ -766,7 +766,7 @@ inline static void ted161718_store(ADDRESS addr, BYTE value)
     if (ted.regs[addr] == value)
         return;
 
-    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(clk));
+    char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk));
 
     raster_add_int_change_foreground(&ted.raster,
                                      char_num,
@@ -785,9 +785,9 @@ inline static void ted19_store(BYTE value)
     if (ted.regs[0x19] != value) {
         ted.regs[0x19] = value;
         raster_add_int_change_border(&ted.raster,
-                                     TED_RASTER_X(TED_RASTER_CYCLE(clk)), 
-                                     &ted.raster.border_color,
-                                     value);
+            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)), 
+            &ted.raster.border_color,
+            value);
     }
 }
 
@@ -808,15 +808,15 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
 {
     addr &= 0x3f;
 
-    /* WARNING: assumes `rmw_flag' is 0 or 1.  */
-    ted_handle_pending_alarms(rmw_flag + 1);
+    /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
+    ted_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     /* This is necessary as we must be sure that the previous line has been
        updated and `current_line' is actually set to the current Y position of
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
-    if (clk >= ted.draw_clk)
-        ted_raster_draw_alarm_handler(clk - ted.draw_clk);
+    if (maincpu_clk >= ted.draw_clk)
+        ted_raster_draw_alarm_handler(maincpu_clk - ted.draw_clk);
 
     switch (addr) {
       case 0x00:
@@ -890,12 +890,12 @@ inline static unsigned int read_raster_y(void)
 {
     int raster_y;
 
-    raster_y = TED_RASTER_Y(clk);
+    raster_y = TED_RASTER_Y(maincpu_clk);
 
     /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
        cycles long.  As a result, the counter is incremented one
        cycle later on line 0.  */
-    if (raster_y == 0 && TED_RASTER_CYCLE(clk) == 0)
+    if (raster_y == 0 && TED_RASTER_CYCLE(maincpu_clk) == 0)
         raster_y = ted.screen_height - 1;
 
     return raster_y;
@@ -908,7 +908,7 @@ inline static BYTE ted08_read(void)
 
 inline static BYTE ted09_read(void)
 {
-    if (TED_RASTER_Y(clk) == ted.raster_irq_line
+    if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
         && (ted.regs[0x0a] & 0x2))
         /* As int_raster() is called 2 cycles later than it should be to
            emulate the 6510 internal IRQ delay, `ted.irq_status' might not
@@ -952,7 +952,7 @@ inline static BYTE ted1e_read(void)
 {
     int xpos;
 
-    xpos = TED_RASTER_X(clk % ted.cycles_per_line);
+    xpos = TED_RASTER_X(maincpu_clk % ted.cycles_per_line);
     if (xpos < 0)
         xpos = ted.cycles_per_line * 8 + xpos;
 

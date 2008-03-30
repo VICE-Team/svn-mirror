@@ -58,8 +58,8 @@
 #define mycpu_restore_int(a,b) \
         interrupt_set_irq_noclk(&maincpu_int_status,(a),(b))
 
-#define mycpu_rmw_flag  rmw_flag
-#define myclk           clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define myclk           maincpu_clk
 
 #define MYIRQ   IK_IRQ
 
@@ -168,9 +168,9 @@ _TPI_FUNC BYTE read_pa(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = 0x07;
     byte += parallel_atn ? 0 : 8;

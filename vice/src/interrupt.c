@@ -26,8 +26,6 @@
  *
  */
 
-#define _INTERRUPT_C
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -147,7 +145,7 @@ void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
             if (cs->nnmi > 0) {
                 cs->nnmi--;
                 cs->pending_int[int_num] &= ~IK_NMI;
-                if (clk == cs->nmi_clk)
+                if (maincpu_clk == cs->nmi_clk)
                     cs->global_pending_int &= ~IK_NMI;
             }
         }
@@ -157,8 +155,8 @@ void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
 void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
                              enum cpu_int value)
 {
-    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
-    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
+    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), maincpu_clk);
+    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), maincpu_clk);
 }
 
 int interrupt_get_irq(cpu_int_status_t *cs, int int_num)

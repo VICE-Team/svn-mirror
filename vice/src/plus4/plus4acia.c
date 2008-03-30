@@ -26,8 +26,8 @@
  */
 
 #define mycpu           maincpu
-#define myclk           clk
-#define mycpu_rmw_flag  rmw_flag
+#define myclk           maincpu_clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
 #define mycpu_clk_guard maincpu_clk_guard
 
 #define myacia acia

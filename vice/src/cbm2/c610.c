@@ -327,7 +327,7 @@ void machine_specific_reset(void)
     if (!isC500) {
         crtc_reset();
     } else {
-        c500_powerline_clk = clk + C500_POWERLINE_CYCLES_PER_IRQ;
+        c500_powerline_clk = maincpu_clk + C500_POWERLINE_CYCLES_PER_IRQ;
         alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
         vic_ii_reset();
     }
@@ -579,7 +579,7 @@ static int c500_snapshot_write_module(snapshot_t *p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_dword(m, c500_powerline_clk - clk);
+    snapshot_module_write_dword(m, c500_powerline_clk - maincpu_clk);
 
     snapshot_module_close(m);
 
@@ -602,7 +602,7 @@ static int c500_snapshot_read_module(snapshot_t *p)
     }
 
     snapshot_module_read_dword(m, &dword);
-    c500_powerline_clk = clk + dword;
+    c500_powerline_clk = maincpu_clk + dword;
     alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
 
     snapshot_module_close(m);
