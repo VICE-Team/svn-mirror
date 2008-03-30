@@ -300,9 +300,6 @@ int main(int argc, char **argv)
     if (app_resources.asmFlag)
 	mon(start_addr);
 
-    vsync_init();
-    kbd_init();
-
     maincpu_trigger_reset();
 
     mainloop(start_addr);
