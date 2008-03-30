@@ -36,7 +36,7 @@
 /* Number of tracks we emulate.  */
 #define MAX_GCR_TRACKS 70
 
-typedef struct _gcr_t {
+typedef struct gcr_s {
     /* Raw GCR image of the disk.  */
     BYTE data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
 
@@ -66,7 +66,9 @@ extern BYTE *gcr_find_sector_data(BYTE *offset,
 extern int gcr_read_sector(BYTE *gcr_track_start_ptr,
                            int gcr_current_track_size,
                            BYTE *readdata, int track, int sector);
-extern int gcr_write_sector(gcr_t *gcr, BYTE *writedata, int track, int sector);
+extern int gcr_write_sector(BYTE *gcr_track_start_ptr,
+                            int gcr_current_track_size, BYTE *writedata,
+                            int track, int sector);
 
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);
