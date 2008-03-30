@@ -38,6 +38,18 @@
    playback?  */
 #undef USE_MIDAS_SOUND
 
+/* Do we have to emulate a joystick?  */
+#undef HAS_JOYSTICK
+
+/* Is digital joystick support avaiable?  */
+#undef HAS_DIGITAL_JOYSTICK
+
+/* Is a Linux compatible joystick support avaiable?  */
+#undef LINUX_JOYSTICK
+
+/* Is a BSD compatible joystick support avaiable?  */
+#undef BSD_JOYSTICK
+
 /* Package name.  */
 #define PACKAGE ""
 
