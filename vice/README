@@ -36,12 +36,7 @@
 
    - c1541, a stand-alone disk image maintenance utility;
 
-   - petcat, a CBM BASIC de-tokenizer;
-
-   - recomment, an iterative database driven reassembler;
-
-   - x64run/xvicrun/xpetrun, simple utilities for running the VICE
-     emulators in customized xterms.
+   - petcat, a CBM BASIC de-tokenizer.
 
  Moreover, the following documents are provided:
 
@@ -65,8 +60,6 @@
      any of the authors;
 
    - doc/vice.texi, the complete documentation;
-
-   - doc/recomment.html, documentation for the recomment utility;
 
    - doc/64doc.txt, documentation about the C64 internals;
 

@@ -66,6 +66,7 @@ BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
@@ -93,11 +94,10 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-@HAVE_RESID_TRUE@resid_libadd = resid.o
-@HAVE_RESID_FALSE@resid_libadd =
-
-@HAVE_RS232_TRUE@acia_libadd = c64acia1.o rsuser.o
-@HAVE_RS232_FALSE@acia_libadd =
+@HAVE_RESID_TRUE@@HAVE_RS232_TRUE@resid_acia_libadd = resid.o c64acia1.o rsuser.o
+@HAVE_RESID_TRUE@@HAVE_RS232_FALSE@resid_acia_libadd = resid.o
+@HAVE_RESID_FALSE@@HAVE_RS232_TRUE@resid_acia_libadd = c64acia1.o rsuser.o
+@HAVE_RESID_FALSE@@HAVE_RS232_FALSE@resid_acia_libadd =
 
 SUFFIXES = .def
 
@@ -186,8 +186,8 @@ EXTRA_libc64c128_a_SOURCES = \
 	rsuser.c \
 	rsuser.h
 
-libc64_a_LIBADD = $(resid_libadd) $(acia_libadd)
-libc64c128_a_LIBADD = $(resid_libadd) $(acia_libadd)
+libc64_a_LIBADD = $(resid_acia_libadd)
+libc64c128_a_LIBADD = $(resid_acia_libadd)
 
 c64dir = $(top_srcdir)/src/c64
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -202,16 +202,20 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-@HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
-@HAVE_RESID_TRUE@libc64_a_DEPENDENCIES =  resid.o
-@HAVE_RESID_FALSE@libc64_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o rsuser.o
+@HAVE_RESID_TRUE@@HAVE_RS232_FALSE@libc64_a_DEPENDENCIES =  resid.o
+@HAVE_RESID_FALSE@@HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o \
+@HAVE_RESID_FALSE@@HAVE_RS232_TRUE@rsuser.o
+@HAVE_RESID_FALSE@@HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
+@HAVE_RESID_TRUE@@HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  resid.o \
+@HAVE_RESID_TRUE@@HAVE_RS232_TRUE@c64acia1.o rsuser.o
 libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64iec.o c64mem.o \
 cartridge.o patchrom.o reu.o sid.o c64tpi.o vicii.o
-@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
-@HAVE_RESID_TRUE@libc64c128_a_DEPENDENCIES =  resid.o
-@HAVE_RESID_FALSE@libc64c128_a_DEPENDENCIES = 
-@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o rsuser.o
+@HAVE_RESID_TRUE@@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES =  resid.o
+@HAVE_RESID_FALSE@@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  \
+@HAVE_RESID_FALSE@@HAVE_RS232_TRUE@c64acia1.o rsuser.o
+@HAVE_RESID_FALSE@@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
+@HAVE_RESID_TRUE@@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  resid.o \
+@HAVE_RESID_TRUE@@HAVE_RS232_TRUE@c64acia1.o rsuser.o
 libc64c128_a_OBJECTS =  c64cia1.o c64cia2.o c64iec.o patchrom.o sid.o \
 c64tpi.o vicii.o
 CXXFLAGS = @CXXFLAGS@
@@ -436,6 +440,9 @@ cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/utils.h ../../src/cartridge.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/types.h patchrom.h
+resid.o: resid.cc ../../src/vice.h ../../src/config.h sid.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h \
+	../../src/utils.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
 	../../src/resources.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \

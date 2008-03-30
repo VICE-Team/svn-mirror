@@ -66,6 +66,7 @@ BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
@@ -102,7 +103,6 @@ doc_DATA = \
 	drive_info.txt \
 	mnemonics.txt \
 	mon.txt \
-	recomment.html \
 	serial.txt
 
 info_TEXINFOS = \
