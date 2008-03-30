@@ -145,7 +145,17 @@ int state = WaitATN;
 #define	isListening()	((par_status&0xf000)==0x2000)
 #define	isTalking()	((par_status&0xf000)==0x4000)
 
+#ifdef PARALLEL_DEBUG_VERBOSE
+static void DoTrans(int tr) {
+    	if(parallel_debug)
+	    log_debug("DoTrans(%s).%s\n",State[state].name, Trans[tr]);
+	State[state].m[tr](tr);
+    	if(parallel_debug)
+	    log_debug(" -> %s\n",State[state].name);
+}
+#else
 #define	DoTrans(a)	State[state].m[(a)]((a))
+#endif
 
 static void ResetBus(void) {
 	parallel_emu_set_atn(0);
