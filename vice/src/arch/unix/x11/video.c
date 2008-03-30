@@ -34,13 +34,13 @@
        Three variables are used to enable/disable the usage of MITSHM:
        - 'try_mitshm' is set to true by default to specify that
          MITSHM shall be used if possible. If the user sets this
-	 variable to false MITSHM will be disabled.
+         variable to false MITSHM will be disabled.
        - 'use_mitshm' will be set in video_init() after some quick
          tests if the X11 server supports MITSHM.
        - Every framebuffer structure has a new field named 'using_mitshm'
          that is set to true if MITSHM is used for this buffer.
-	 Note that it is possible that one buffer is using MITSHM
-	 while some other buffer is not.
+         Note that it is possible that one buffer is using MITSHM
+         while some other buffer is not.
 
        Detecting if MITSHM usage is possible is now done using a
        minimum of intelligence (only XShmQueryExtension() is checked
@@ -90,23 +90,23 @@ static int try_mitshm;
 
 static int set_use_xsync(resource_value_t v, void *param)
 {
-    _video_use_xsync = (int) v;
+    _video_use_xsync = (int)v;
     return 0;
 }
 
 static int set_try_mitshm(resource_value_t v, void *param)
 {
-    try_mitshm = (int) v;
+    try_mitshm = (int)v;
     return 0;
 }
 
 /* Video-related resources.  */
 static resource_t resources[] = {
-    { "UseXSync", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) & _video_use_xsync, set_use_xsync, NULL },
+    { "UseXSync", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&_video_use_xsync, set_use_xsync, NULL },
       /* turn MITSHM on by default */
-    { "MITSHM", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) & try_mitshm, set_try_mitshm, NULL },
+    { "MITSHM", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&try_mitshm, set_try_mitshm, NULL },
     { NULL }
 };
 
@@ -120,10 +120,10 @@ int video_init_resources(void)
 /* Video-related command-line options.  */
 static cmdline_option_t cmdline_options[] = {
     { "-xsync", SET_RESOURCE, 0, NULL, NULL,
-      "UseXSync", (resource_value_t) 1,
+      "UseXSync", (resource_value_t)1,
       NULL, N_("Call `XSync()' after updating the emulation window") },
     { "+xsync", SET_RESOURCE, 0, NULL, NULL,
-      "UseXSync", (resource_value_t) 0,
+      "UseXSync", (resource_value_t)0,
       NULL, N_("Do not call `XSync()' after updating the emulation window") },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
@@ -161,14 +161,9 @@ static PIXEL4 real_pixel4[256];
 static long real_pixel[256];
 static BYTE shade_table[256];
 
-void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
-                               unsigned int bits_per_pixel,
+void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,                               unsigned int bits_per_pixel,
                                unsigned int dither, long col)
 {
-    /* log_message(LOG_DEFAULT,
-                   "color num: %d, DEPTH %i BPP %i DATA %x COL 0x%lx", i,
-                   ui_get_display_depth(), bits_per_pixel, *data, col);
-     */
     *pixel_return = i;
     if (ui_get_display_depth() == 8)
         *pixel_return = *data;
@@ -187,10 +182,10 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
 /* Conversion routines between 8bit and other sizes. */
 
 #define SRCPTR(i, x, y) \
-	((i)->tmpframebuffer + (y)*(i)->tmpframebufferlinesize + (x))
+        ((i)->tmpframebuffer + (y)*(i)->tmpframebufferlinesize + (x))
 #define DESTPTR(i, x, y, t) \
-	((t *)((PIXEL *)(i)->x_image->data + \
-	       (i)->x_image->bytes_per_line*(y)) + (x))
+        ((t *)((PIXEL *)(i)->x_image->data + \
+               (i)->x_image->bytes_per_line*(y)) + (x))
 
 static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
                           int h)
@@ -200,10 +195,10 @@ static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
     int x, y;
 
     for (y = 0; y < h; y++) {
-	src = SRCPTR(p, sx, sy + y);
-	dst = DESTPTR(p, sx, sy + y, PIXEL2);
-	for (x = 0; x < w; x++)
-	    dst[x] = real_pixel2[src[x]];
+        src = SRCPTR(p, sx, sy + y);
+        dst = DESTPTR(p, sx, sy + y, PIXEL2);
+        for (x = 0; x < w; x++)
+            dst[x] = real_pixel2[src[x]];
     }
 }
 
@@ -215,10 +210,10 @@ static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
     int x, y;
 
     for (y = 0; y < h; y++) {
-	src = SRCPTR(p, sx, sy + y);
-	dst = DESTPTR(p, sx, sy + y, PIXEL4);
-	for (x = 0; x < w; x++)
-	    dst[x] = real_pixel4[src[x]];
+        src = SRCPTR(p, sx, sy + y);
+        dst = DESTPTR(p, sx, sy + y, PIXEL4);
+        for (x = 0; x < w; x++)
+            dst[x] = real_pixel4[src[x]];
     }
 }
 
@@ -231,10 +226,10 @@ static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
     int x, y;
 
     for (y = 0; y < h; y++) {
-	src = SRCPTR(p, sx, sy + y);
-	dst = DESTPTR(p, sx, sy + y, PIXEL);
-	for (x = 0; x < w; x++)
-	    dst[x] = real_pixel1[src[x]];
+        src = SRCPTR(p, sx, sy + y);
+        dst = DESTPTR(p, sx, sy + y, PIXEL);
+        for (x = 0; x < w; x++)
+            dst[x] = real_pixel1[src[x]];
     }
 }
 
@@ -247,18 +242,18 @@ BYTE dither_table[4][4] = {
 };
 
 static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
-			 int h)
+                         int h)
 {
     PIXEL *src, *dither;
     int x, y;
     for (y = 0; y < h; y++) {
-	src = SRCPTR(p, sx, sy + y);
-	dither = dither_table[(sy + y) % 4];
-	for (x = 0; x < w; x++) {
-	    /* XXX: trusts that real_pixel[0, 1] == black, white */
-	    XPutPixel(p->x_image, sx + x, sy + y,
+        src = SRCPTR(p, sx, sy + y);
+        dither = dither_table[(sy + y) % 4];
+        for (x = 0; x < w; x++) {
+            /* XXX: trusts that real_pixel[0, 1] == black, white */
+            XPutPixel(p->x_image, sx + x, sy + y,
                       real_pixel[shade_table[src[x]] > dither[(sx + x) % 4]]);
-	}
+        }
     }
 }
 
@@ -269,9 +264,9 @@ static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
     PIXEL *src;
     int x, y;
     for (y = 0; y < h; y++) {
-	src = SRCPTR(p, sx, sy + y);
-	for (x = 0; x < w; x++)
-	    XPutPixel(p->x_image, sx + x, sy + y, real_pixel[src[x]]);
+        src = SRCPTR(p, sx, sy + y);
+        for (x = 0; x < w; x++)
+            XPutPixel(p->x_image, sx + x, sy + y, real_pixel[src[x]]);
     }
 }
 
@@ -343,31 +338,31 @@ int video_init(void)
     display = ui_get_display_ptr();
 
     if (video_log == LOG_ERR)
-	video_log = log_open("Video");
+        video_log = log_open("Video");
 
     color_init();
 
 #ifdef USE_MITSHM
     if (!try_mitshm)
-	use_mitshm = 0;
+        use_mitshm = 0;
     else {
-	/* This checks if the server has MITSHM extensions available
-	   If try_mitshm is true and we are on a different machine,
-	   frame_buffer_alloc will fall back to non shared memory calls. */
+        /* This checks if the server has MITSHM extensions available
+           If try_mitshm is true and we are on a different machine,
+           frame_buffer_alloc will fall back to non shared memory calls. */
         int major_version, minor_version, pixmap_flag;
 
-	/* Check whether the server supports the Shared Memory Extension. */
-	if (!XShmQueryVersion(display, &major_version, &minor_version,
-			      &pixmap_flag)) {
-	    log_warning(video_log,
+        /* Check whether the server supports the Shared Memory Extension. */
+        if (!XShmQueryVersion(display, &major_version, &minor_version,
+                              &pixmap_flag)) {
+            log_warning(video_log,
                         _("The MITSHM extension is not supported "
                         "on this display."));
-	    use_mitshm = 0;
-	} else {
-	    DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."),
-			  major_version, minor_version));
-	    use_mitshm = 1;
-	}
+            use_mitshm = 0;
+        } else {
+            DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."),
+                          major_version, minor_version));
+            use_mitshm = 1;
+        }
     }
 
 #else
@@ -400,23 +395,23 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
     Display *display;
 
     if (!i)
-	return;
+        return;
 
     display = ui_get_display_ptr();
 
 #ifdef USE_MITSHM
     if (i->using_mitshm) {
-	XShmDetach(display, &(i->xshm_info));
-	if (i->x_image)
-	    XDestroyImage(i->x_image);
-	if (shmdt(i->xshm_info.shmaddr))
-	    log_error(video_log, _("Cannot release shared memory!"));
+        XShmDetach(display, &(i->xshm_info));
+        if (i->x_image)
+            XDestroyImage(i->x_image);
+        if (shmdt(i->xshm_info.shmaddr))
+            log_error(video_log, _("Cannot release shared memory!"));
     } else if (i->x_image)
-	XDestroyImage(i->x_image);
+        XDestroyImage(i->x_image);
 #else
 #ifndef USE_GNOMEUI
     if (i->x_image)
-	XDestroyImage(i->x_image);
+        XDestroyImage(i->x_image);
 #endif
 
 #endif
@@ -434,8 +429,8 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 #endif
     {
 #ifdef USE_GNOMEUI
-	extern canvas_t *dangling_canvas;
-	dangling_canvas = i->canvas;
+        extern canvas_t *dangling_canvas;
+        dangling_canvas = i->canvas;
 #endif
     }
     free(i);
@@ -445,15 +440,15 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
 #if X_DISPLAY_DEPTH == 0
     memset(f->tmpframebuffer, value,
-	   f->x_image->height * f->tmpframebufferlinesize);
+           f->x_image->height * f->tmpframebufferlinesize);
     if (_convert_func)
-	_convert_func(f, 0, 0, f->x_image->width, f->x_image->height);
+        _convert_func(f, 0, 0, f->x_image->width, f->x_image->height);
 #else
     int i;
 
     for (i = 0; i < f->x_image->height * f->x_image->bytes_per_line;
-	 i += sizeof(PIXEL))
-	*((PIXEL *) (f->x_image->data + i)) = value;
+         i += sizeof(PIXEL))
+        *((PIXEL *) (f->x_image->data + i)) = value;
 #endif
 }
 
@@ -462,10 +457,10 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
    window. */
 canvas_t *canvas_create(const char *win_name, unsigned int *width,
                         unsigned int *height, int mapped,
-                        canvas_redraw_t exposure_handler,
-                        const palette_t * palette, PIXEL * pixel_return
-#ifdef USE_GNOMEUI		       
-		       ,video_frame_buffer_t *fb
+                        void_t exposure_handler,
+                        const palette_t *palette, PIXEL *pixel_return
+#ifdef USE_GNOMEUI
+                       ,video_frame_buffer_t *fb
 #endif
                        )
 {
@@ -476,24 +471,25 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     memset(c, 0, sizeof(struct canvas_s));
     w = ui_open_canvas_window(c, win_name, *width, *height, 1,
-                              exposure_handler, palette, pixel_return);
+                              (canvas_redraw_t)exposure_handler, palette,
+                              pixel_return);
 
     if (!_video_gc)
-	_video_gc = video_get_gc(&gc_values);
-    
+        _video_gc = video_get_gc(&gc_values);
+
     if (!w) {
         free(c);
-	return (canvas_t *)NULL;
+        return (canvas_t *)NULL;
     }
 
     c->emuwindow = w;
     c->width = *width;
     c->height = *height;
     ui_finish_canvas(c);
-    
+
     video_add_handlers(w);
     if (console_mode || vsid_mode)
-	return c;
+        return c;
 #ifdef USE_GNOMEUI
     fb->canvas = c;
 #endif
@@ -502,7 +498,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
 
 void canvas_destroy(canvas_t *c)
 {
-	/* FIXME: Just a dummy so far */
+        /* FIXME: Just a dummy so far */
 }
 
 
@@ -561,10 +557,10 @@ void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
     if (fullscreen_is_enabled)
       fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
     else
-#endif 
+#endif
     _refresh_func(display, canvas->drawable, _video_gc,
-		  frame_buffer->x_image, xs, ys, xi, yi, w, h, False, 
-		  frame_buffer, canvas);
+                  frame_buffer->x_image, xs, ys, xi, yi, w, h, False,
+                  frame_buffer, canvas);
     if (_video_use_xsync)
         XSync(display, False);
 }

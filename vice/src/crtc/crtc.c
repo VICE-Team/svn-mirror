@@ -440,7 +440,7 @@ raster_t *crtc_init(void)
     return &crtc.raster;
 }
 
-canvas_t *crtc_get_canvas(void)
+struct canvas_s *crtc_get_canvas(void)
 {
     return crtc.raster.viewport.canvas;
 }

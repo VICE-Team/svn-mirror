@@ -35,6 +35,7 @@
 #include "screenshot.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 
 struct screendrv_list_s {
     struct screendrv_s *drv;

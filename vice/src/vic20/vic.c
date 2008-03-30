@@ -348,7 +348,7 @@ raster_t *vic_init(void)
   return &vic.raster;
 }
 
-canvas_t *vic_get_canvas(void)
+struct canvas_s *vic_get_canvas(void)
 {
   return vic.raster.viewport.canvas;
 }

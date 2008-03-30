@@ -565,7 +565,7 @@ Display *ui_get_display_ptr(void)
 }
 
 /* Create a shell with a canvas widget in it.  */
-ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
+ui_window_t ui_open_canvas_window(struct canvas_s *c, const char *title,
                                   int width, int height,
                                   int no_autorepeat,
                                   ui_exposure_handler_t exposure_proc,
@@ -778,6 +778,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                           (XtEventHandler) ui_autorepeat_off, NULL);
         XtAddEventHandler(canvas, LeaveWindowMask, False,
                           (XtEventHandler) ui_autorepeat_on, NULL);
+#if 0
         XtAddEventHandler(shell, KeyPressMask, False,
                           (XtEventHandler) ui_hotkey_event_handler, NULL);
         XtAddEventHandler(canvas, KeyPressMask, False,
@@ -790,6 +791,8 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                           (XtEventHandler) ui_hotkey_event_handler, NULL);
         XtAddEventHandler(canvas, FocusChangeMask, False,
                           (XtEventHandler) ui_hotkey_event_handler, NULL);
+#endif
+
     }
 
     XtRealizeWidget(shell);
