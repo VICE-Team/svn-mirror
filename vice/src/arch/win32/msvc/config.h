@@ -2,8 +2,8 @@
 #define _CONFIG_H_
 
 #define PACKAGE                 "vice"
-#define VERSION                 "0.16.1.61"
-/*#define UNSTABLE*/
+#define VERSION                 "1.1.28"
+#define UNSTABLE
 
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void

@@ -82,19 +82,11 @@ LIB32=link.exe -lib
 # Name "drive - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\drive\cia1571drive0.c
+SOURCE=..\..\drive\cia1571d.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\cia1571drive1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\cia1581drive0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\cia1581drive1.c
+SOURCE=..\..\drive\cia1581d.c
 # End Source File
 # Begin Source File
 
@@ -106,19 +98,11 @@ SOURCE=..\..\drive\fdc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\riot1drive0.c
+SOURCE=..\..\drive\riot1d.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\riot1drive1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\riot2drive0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\riot2drive1.c
+SOURCE=..\..\drive\riot2d.c
 # End Source File
 # Begin Source File
 
