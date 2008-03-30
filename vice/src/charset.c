@@ -33,11 +33,10 @@
 #include <stdlib.h>
 
 #include "charset.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
-#include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 BYTE *charset_petconvstring(BYTE *c, int dir)
 {
@@ -138,7 +137,7 @@ void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
     size_t linelen, i;
 
     linelen = strlen((const char *)line);
-    *buf = (BYTE *)xmalloc(linelen);
+    *buf = (BYTE *)lib_malloc(linelen);
 
     for (i = 0; i < linelen; i++) {
         (*buf)[i] = charset_petcii_to_screencode(line[i], 0);

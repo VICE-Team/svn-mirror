@@ -30,17 +30,16 @@
 #include <stdlib.h>
 
 #include "alarm.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
-#include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 alarm_context_t *alarm_context_new(const char *name)
 {
     alarm_context_t *new_alarm_context;
 
-    new_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
+    new_alarm_context = (alarm_context_t *)lib_malloc(sizeof(alarm_context_t));
     alarm_context_init(new_alarm_context, name);
 
     return new_alarm_context;
@@ -48,7 +47,7 @@ alarm_context_t *alarm_context_new(const char *name)
 
 void alarm_context_init(alarm_context_t *context, const char *name)
 {
-    context->name = stralloc(name);
+    context->name = lib_stralloc(name);
 
     context->alarms = NULL;
 
@@ -104,7 +103,7 @@ alarm_t *alarm_new(alarm_context_t *context, const char *name,
 {
     alarm_t *new_alarm;
 
-    new_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    new_alarm = (alarm_t *)lib_malloc(sizeof(alarm_t));
 
     alarm_init(new_alarm, context, name, callback);
 
@@ -114,7 +113,7 @@ alarm_t *alarm_new(alarm_context_t *context, const char *name,
 void alarm_init(alarm_t *alarm, alarm_context_t *context, const char *name,
                 alarm_callback_t callback)
 {
-    alarm->name = stralloc(name);
+    alarm->name = lib_stralloc(name);
     alarm->context = context;
     alarm->callback = callback;
 

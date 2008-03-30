@@ -30,11 +30,11 @@
 #include <stdlib.h>
 
 #ifdef USE_COLOR_MANAGEMENT
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "types.h"
 #include "uicolor.h"
-#include "utils.h"
 
 
 struct color_rgb_s {
@@ -68,7 +68,7 @@ static log_t color_log = LOG_ERR;
 
 static void color_owner_create_empty(owner_list_t **owner)
 {
-    *owner = (owner_list_t *)xmalloc(sizeof(owner_list_t));
+    *owner = (owner_list_t *)lib_malloc(sizeof(owner_list_t));
 
     (*owner)->color_owner = NULL;
     (*owner)->next = NULL;
@@ -141,7 +141,7 @@ static void color_owner_remove(owner_list_t **owner, void *c)
 
 static void color_create_empty_entry(color_list_t **color_entry)
 {
-    *color_entry = (color_list_t *)xmalloc(sizeof(color_list_t));
+    *color_entry = (color_list_t *)lib_malloc(sizeof(color_list_t));
 
     color_owner_create_empty(&((*color_entry)->owner));
     (*color_entry)->next = NULL;

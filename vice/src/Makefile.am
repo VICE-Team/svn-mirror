@@ -83,6 +83,7 @@ noinst_HEADERS = \
 	joystick.h \
 	kbdbuf.h \
 	keyboard.h \
+	lib.h \
 	log.h \
 	machine-drive.h \
 	machine.h \
@@ -157,6 +158,7 @@ base_sources = \
 	joystick.c \
 	kbdbuf.c \
 	keyboard.c \
+	lib.c \
 	log.c \
 	machine.c \
 	main.c \
@@ -512,6 +514,7 @@ c1541_SOURCES = \
 	gcr.c \
 	info.c \
 	ioutil.c \
+	lib.c \
 	log.c \
 	p00.c \
 	resources.c \
@@ -539,6 +542,7 @@ petcat_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	ioutil.c \
+	lib.c \
 	log.c \
 	p00.c \
 	petcat.c \

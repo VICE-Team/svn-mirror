@@ -36,6 +36,7 @@
 #include "driveimage.h"
 #include "fsdevice.h"
 #include "fliplist.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "resources.h"
@@ -43,7 +44,6 @@
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
@@ -183,7 +183,7 @@ void file_system_init(void)
 
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_device_get(i + 8);;
-        file_system[i].vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
+        file_system[i].vdrive = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
         switch (file_system_device_enabled[i]) {
           case ATTACH_DEVICE_NONE:
             vdrive_device_setup(file_system[i].vdrive, i + 8);
@@ -276,7 +276,7 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
     }
 
     /* Old filename will go away after the image is detached.  */
-    new_filename = stralloc(old_filename);
+    new_filename = lib_stralloc(old_filename);
 
     file_system_detach_disk(unit);
     attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
@@ -435,7 +435,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     switch (devicetype) {
       case ATTACH_DEVICE_NONE:
       case ATTACH_DEVICE_FS:
-        disk_image_fsimage_name_set(&new_image, stralloc(filename));
+        disk_image_fsimage_name_set(&new_image, lib_stralloc(filename));
         break;
       case ATTACH_DEVICE_RAW:
         disk_image_rawimage_driver_name_set(&new_image);
@@ -449,7 +449,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     detach_disk_image_and_free(*imgptr, floppy, unit);
 
-    *imgptr = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    *imgptr = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
     image = *imgptr;
 
     memcpy(image, &new_image, sizeof(disk_image_t));

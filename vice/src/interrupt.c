@@ -33,10 +33,10 @@
 #include <string.h>
 
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
 
 
 /* Initialization.  */
@@ -55,7 +55,7 @@ void interrupt_cpu_status_init(interrupt_cpu_status_t *cs, int num_ints,
 
 interrupt_cpu_status_t *interrupt_cpu_status_new(void)
 {
-    return (interrupt_cpu_status_t *)xmalloc(sizeof(interrupt_cpu_status_t));
+    return (interrupt_cpu_status_t *)lib_malloc(sizeof(interrupt_cpu_status_t));
 }
 
 void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)

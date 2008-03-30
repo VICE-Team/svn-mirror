@@ -52,7 +52,7 @@
 
 #include "archdep.h"
 #include "ioutil.h"
-#include "utils.h"
+#include "lib.h"
 
 
 /* Mostly POSIX compatibily */
@@ -112,12 +112,12 @@ char *ioutil_current_dir(void)
     return GetCurrentDirectory();
 #else
     static size_t len = 128;
-    char *p = (char *)xmalloc(len);
+    char *p = (char *)lib_malloc(len);
 
     while (getcwd(p, len) == NULL) {
         if (errno == ERANGE) {
             len *= 2;
-            p = (char *)xrealloc(p, len);
+            p = (char *)lib_realloc(p, len);
         } else
             return NULL;
     }
