@@ -239,10 +239,12 @@ static void disk_eof_callback(void)
         }
     }
 
-    if (autostart_run_mode == AUTOSTART_MODE_RUN)
-        log_message(autostart_log, "Starting program.");
-    else
-        log_message(autostart_log, "Program loaded.");
+    if (autostartmode != AUTOSTART_NONE) {
+        if (autostart_run_mode == AUTOSTART_MODE_RUN)
+            log_message(autostart_log, "Starting program.");
+        else
+            log_message(autostart_log, "Program loaded.");
+    }
 
     autostartmode = AUTOSTART_DONE;
 
@@ -694,14 +696,19 @@ int autostart_device(int num)
 /* Disable autostart on reset.  */
 void autostart_reset(void)
 {
+    int oldmode;
+
     if (!autostart_enabled)
         return;
 
     if (!autostart_ignore_reset
         && autostartmode != AUTOSTART_NONE
         && autostartmode != AUTOSTART_ERROR) {
+        oldmode = autostartmode;
         autostartmode = AUTOSTART_NONE;
-        disk_eof_callback();
+        if (oldmode != AUTOSTART_DONE)
+            disk_eof_callback();
+        autostartmode = AUTOSTART_NONE;
         deallocate_program_name();
         log_message(autostart_log, "Turned off.");
     }
