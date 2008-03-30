@@ -48,7 +48,7 @@ static const int ui_petreu_enable_values[] = {
   -1
 };
 
-static const char *ui_petreu_size[] = {
+static char *ui_petreu_size[] = {
   "128K",
   NULL
 };

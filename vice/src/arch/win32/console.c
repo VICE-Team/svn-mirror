@@ -729,6 +729,52 @@ static void console_out_character(console_private_t *pcp, const unsigned char ch
     cursor(pcp, CS_RESUME);
 }
 
+static void console_out_printables_only(console_private_t *pcp,
+                                        const unsigned char *buffer,
+                                        unsigned int length)
+{
+    cursor(pcp, CS_SUSPEND);
+
+    if (!pcp->bMarkMode && pcp->bIsMarked)
+    {
+        unmark_window(pcp);
+        pcp->bIsMarked = FALSE;
+    }
+
+    /* output line by line, until everything is output */
+
+    while (length > 0)
+    {
+        unsigned int partlength = min(pcp->pConsole->console_xres - pcp->xPos, length);
+
+        memcpy(&pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)], buffer, partlength);
+
+        /* draw the current line */
+        TextOut(pcp->hdc,
+            pcp->xPos * pcp->xCharDimension,
+            pcp->yPos * pcp->yCharDimension,
+            &(pcp->pchWindowBuffer[CALC_POS(pcp, pcp->xPos, pcp->yPos)]),
+            partlength
+            );
+
+        /* advance the buffer by the output part */
+        buffer += partlength;
+        length -= partlength;
+
+        /* advance the current screen position */
+        pcp->xPos += partlength;
+
+        /* handle wrap-around, if necessary */
+        if (pcp->xPos == pcp->pConsole->console_xres)
+        {
+            pcp->xPos = 0;
+            move_downwards(pcp);
+        }
+    }
+
+    cursor(pcp, CS_RESUME);
+}
+
 static void advance_pos(console_private_t *pcp, unsigned int count)
 {
     int xPos = pcp->xPos + count;
@@ -814,7 +860,6 @@ int console_out(console_t *log, const char *format, ...)
 
     va_list ap;
 
-    char ch;
     char *buffer;
     char *pBuffer;
 
@@ -824,14 +869,32 @@ int console_out(console_t *log, const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     pBuffer = buffer;
 
-    FileOut( pcp, pBuffer );
+    FileOut(pcp, pBuffer);
 
     /* restore character under cursor */
     cursor(pcp, CS_SUSPEND);
 
-    while ( (ch = *pBuffer++) != 0)
+    /* perform an optimization:
+     * as long as no special char is used, output line by line.
+     * only special chars (ascii < 32) are handled individually.
+     */
+    while (*pBuffer)
     {
-        console_out_character( pcp, ch );
+        unsigned char *p = pBuffer;
+
+        /* advance p to the first non-printable char (< 32) */
+        while (*p >= 32)
+            p++;
+
+        /* output the printable parts */
+        if (p - pBuffer > 0)
+            console_out_printables_only(pcp, pBuffer, p - pBuffer);
+
+        /* now, process the exta char(s), if any */
+        while (*p && (*p < 32))
+            console_out_character(pcp, *p++);
+
+        pBuffer = p;
     }
 
     cursor(pcp, CS_RESUME);

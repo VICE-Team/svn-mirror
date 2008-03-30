@@ -54,8 +54,8 @@ libarch_a_SOURCES = \
 	pointer.h \
 	private.h \
 	rs232.c \
-	screenshot.c \
-	screenshot.h \
+	screen-shot.c \
+	screen-shot.h \
 	signals.c \
 	statusbar.c \
 	statusbar.h \

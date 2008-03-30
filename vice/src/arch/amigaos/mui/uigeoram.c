@@ -48,7 +48,7 @@ static const int ui_georam_enable_values[] = {
   -1
 };
 
-static const char *ui_georam_size[] = {
+static char *ui_georam_size[] = {
   "64K",
   "128K",
   "256K",

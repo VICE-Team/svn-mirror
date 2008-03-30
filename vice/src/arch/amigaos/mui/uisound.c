@@ -35,7 +35,7 @@
 #include "intl.h"
 #include "translate.h"
 
-static const char *ui_sound_freq[] = {
+static char *ui_sound_freq[] = {
   "8000 Hz",
   "11025 Hz",
   "22050 Hz",
@@ -51,7 +51,7 @@ static const int ui_sound_freq_values[] = {
   -1
 };
 
-static const char *ui_sound_buffer[] = {
+static char *ui_sound_buffer[] = {
   "100 msec",
   "150 msec",
   "200 msec",

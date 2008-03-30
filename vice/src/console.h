@@ -39,6 +39,11 @@ typedef struct console_s {
        to the emulation.  */
     int console_can_stay_open;
 
+    /* == 0 if the console can output anything;
+     * != 0 if it cannot (for example, because it is closed).
+     */
+    int console_cannot_output;
+
     struct console_private_s *private;
 
 } console_t;

@@ -650,6 +650,7 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
+	@INTLLIBS@ \
 	@READLINE@ \
 	@VICE_ZLIB@
 
@@ -670,6 +671,7 @@ petcat_SOURCES = \
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	$(fileio_lib) \
+	@INTLLIBS@ \
 	@VICE_ZLIB@
 
 # cartconv

@@ -82,7 +82,7 @@ static const uicart_params_t vic20_ui_cartridges[] = {
         UILIB_FILTER_ALL
     },
     {
-        0, 0, NULL, 0
+        0, 0, 0, 0
     }
 };
 

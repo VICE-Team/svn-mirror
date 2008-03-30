@@ -53,15 +53,17 @@ if [ ! -d $BUILD_DIR ]; then
 fi
 BUILD_INTEL=$BUILD_DIR/intel
 BUILD_PPC=$BUILD_DIR/ppc
-BUILD_TEMP=$BUILD_DIR/temp
+BUILD_INTEL_TEMP=$BUILD_DIR/intel/temp
+BUILD_PPC_TEMP=$BUILD_DIR/ppc/temp
 mkdir -p $BUILD_INTEL/include
 mkdir -p $BUILD_INTEL/lib
 mkdir -p $BUILD_PPC/include
 mkdir -p $BUILD_PPC/lib
-mkdir -p $BUILD_TEMP
+mkdir -p $BUILD_INTEL_TEMP
+mkdir -p $BUILD_PPC_TEMP
 mkdir -p $BUILD_DIR/src
 
-cd $BUILD_TEMP
+cd $BUILD_PPC_TEMP
 rm -rf *
 
 # -- readline (currently only required for powerpc on 10.3) --
@@ -79,6 +81,8 @@ fi
 HIDUTIL_SRC_FILES="HID_Config_Utilities.c HID_Error_Handler.c HID_Name_Lookup.c \
 	HID_Queue_Utilities.c HID_Transaction_Utilities.c HID_Utilities.c"
 if [ ! -e $BUILD_PPC/lib/libHIDUtilities.a ]; then
+	cd $BUILD_PPC_TEMP
+	rm -rf *
 	echo "-- HIDUtilities (ppc) --"
 	for src in $HIDUTIL_SRC_FILES ; do
 		echo "compiling $src (ppc)"
@@ -90,6 +94,8 @@ if [ ! -e $BUILD_PPC/lib/libHIDUtilities.a ]; then
 	rm -rf *
 fi
 if [ ! -e $BUILD_INTEL/lib/libHIDUtilities.a ]; then
+	cd $BUILD_INTEL_TEMP
+	rm -rf *
 	echo "-- HIDUtilities (intel) --"
 	for src in $HIDUTIL_SRC_FILES ; do
 		echo "compiling $src (ppc)"
@@ -104,6 +110,7 @@ fi
 # -- VICE --
 export PATH=/usr/X11R6/bin:$PATH
 if [ ! -e $BUILD_PPC/bin/x64 ]; then
+	cd $BUILD_PPC_TEMP
 	echo "-- VICE (ppc) --"
 	set -x
 	env \
@@ -117,9 +124,9 @@ if [ ! -e $BUILD_PPC/bin/x64 ]; then
 	set +x
 	make
 	make install
-	rm -rf *
 fi
 if [ ! -e $BUILD_INTEL/bin/x64 ]; then
+	cd $BUILD_INTEL_TEMP
 	echo "-- VICE (intel) --"
 	set -x
 	env \
@@ -133,7 +140,6 @@ if [ ! -e $BUILD_INTEL/bin/x64 ]; then
 	set +x
 	make
 	make install
-	rm -rf *
 fi
 
 # combine ppc and i386 compiles into a universal binary

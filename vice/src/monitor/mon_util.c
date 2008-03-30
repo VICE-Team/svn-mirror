@@ -57,9 +57,7 @@ static int mon_buffer_flush(void)
 {
     int rv = 0;
 
-    mon_buffer_alloc();
-
-    if (bigbufferwrite) {
+    if (bigbuffer && bigbufferwrite) {
         bigbufferwrite = 0;
         rv = uimon_out(bigbuffer);
     }
@@ -98,20 +96,14 @@ static void mon_buffer_add(const char *buffer, unsigned int bufferlen)
 static int mon_out_buffered(const char *buffer)
 {
     int rv = 0;
-    char *eol;
 
-    mon_buffer_alloc();
-
-    eol = strrchr(buffer, '\n');
-
-    if (1) { // !eol) {
+    if (!console_log || console_log->console_cannot_output) {
+        mon_buffer_alloc();
         mon_buffer_add(buffer, strlen(buffer));
     }
     else {
-        mon_buffer_add(buffer, eol - buffer + 1);
         rv = mon_buffer_flush();
-
-        mon_buffer_add(eol+1, strlen(eol+1));
+        rv = uimon_out(buffer) || rv;
     }
 
     return rv;
@@ -210,4 +202,3 @@ char *uimon_in(const char *prompt)
     return p;
 }
 #endif
-

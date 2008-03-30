@@ -99,7 +99,7 @@ typedef struct {
   APTR object;
   const int type;
   const char *resource;
-  const char **strings;
+  char **strings;
   const int *values;
 } ui_to_from_t;
 

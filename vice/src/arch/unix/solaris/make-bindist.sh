@@ -1,12 +1,24 @@
 #!/bin/sh
+# make-bindist.sh for the SOLARIS ports
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <topsrcdir>
+#                 $1      $2             $3       $4      $5          $6
+
 if test x"$3" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
   exit 1
 fi
 
-if test x"$4" != "xtrue"; then
+if test x"$4" = "xtrue"; then
   echo Error: make bindist for SOLARIS can only be done on SOLARIS
   exit 1
+fi
+
+if [ ! -e /usr/local/bin/x64 ]
+then
+  echo Error: make install needs to be done first
 fi
 
 echo Generating SOLARIS port binary distribution.
@@ -57,7 +69,72 @@ mv /usr/local/man/man1/petcat.1 VICE-$2/usr/local/man/man1
 mv /usr/local/man/man1/vice.1 VICE-$2/usr/local/man/man1
 mkdir VICE-$2/usr/local/info
 mv /usr/local/info/vice.info* VICE-$2/usr/local/info
-echo SOLARIS port binary distribution directory generated as VICE-$2
-echo Now running the packager to make the package
-cd VICE-$2/usr/local
-../../../src/arch/unix/solaris/make_package.pl
+if test x"$5" = "xzip"; then
+  rm -f -r /var/spool/pkg/UMCVICE
+  gcc $6/src/arch/unix/solaris/convertprototype.c -o ./convertprototype
+
+  currentdir=`pwd`
+
+  cd VICE-$2/usr/local
+  find . -print | pkgproto >prototype.tmp
+  echo >prototype "i pkginfo=./pkginfo"
+  $currentdir/convertprototype prototype.tmp >>prototype
+  rm -f -r prototype.tmp
+
+  arch_cpu=`uname -m`
+  if test x"$arch_cpu" = "xi86pc"; then
+    arch_cpu=x86
+  else
+    arch_cpu=sparc
+  fi
+
+  arch_version=`uname -r`
+
+  if test x"$arch_version" = "x5.6"; then
+    arch_version=sol26
+  fi
+
+  if test x"$arch_version" = "x5.7"; then
+    arch_version=sol7
+  fi
+
+  if test x"$arch_version" = "x5.8"; then
+    arch_version=sol8
+  fi
+
+  if test x"$arch_version" = "x5.9"; then
+    arch_version=sol9
+  fi
+
+  if test x"$arch_version" = "x5.10"; then
+    arch_version=sol10
+  fi
+
+
+  cat >pkginfo <<_END
+PKG="UMCVICE"
+NAME="VICE"
+ARCH="$arch_cpu"
+VERSION="$2"
+CATEGORY="emulator"
+VENDOR="The VICE Team"
+EMAIL="vice-devel@firenze.linux.it"
+PSTAMP="Marco van den Heuvel"
+BASEDIR="/usr/local"
+CLASSES="none"
+_END
+
+  packagename=vice-$2-$arch_version-$arch_cpu-local
+
+  pkgmk -r `pwd`
+  cd /var/spool/pkg
+  pkgtrans -s `pwd` /tmp/$packagename
+  gzip /tmp/$packagename
+  cd $currentdir
+  mv /tmp/$packagename.gz ./
+  rm -f -r VICE-$2 convertprototype
+
+  echo SOLARIS port binary package generated as $packagename.gz
+else
+  echo SOLARIS port binary distribution directory generated as VICE-$2
+fi

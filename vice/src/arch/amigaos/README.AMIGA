@@ -1,6 +1,5 @@
 This is a port of the VICE emulator package to the following AmigaOS flavors:
 
-
 - AmigaOS4
   Using the AHI sound system, the P96 graphics system, the AmigaInput input
   system and the MUI GUI system.
@@ -17,31 +16,31 @@ This is a port of the VICE emulator package to the following AmigaOS flavors:
   Using the AHI or SDL sound system, the CGX graphics system, the LowLevel
   input system and the MUI GUI system.
 
+These ports are still missing some dialogs and missing some features, 
+however, we are working on implementing them.
 
-This is a Work In Progress release. It has been released to let everyone know
-we are working on a port. As such, it has many limitations including but not
-limited to:
+Building the binaries using a cross-compiler :
 
-* Incomplete keymap files.
-* Incomplete GUI. Many options don't have any effect.
-* Missing/incomplete support for TFE, HardSID and Catweasel.
+- AmigaOS3:   configure with --host=m68k-amigaos
+- AmigaOS4:   configure with --host=ppc-amigaos
+- MorphOS:    configure with --host=ppc-morphos
+- Intel AROS: configure with --host=i686-aros --without-resid
+- PPC AROS:   configure with --host=ppc-linux-aros --without-resid
 
-New since last release:
+After the configure script is done:
 
-* Now based on VICE 1.19.
-* AmigaInput and joystick configuration support.
-* Fullscreen support.
-* A few fixes here and there and probably a few new bugs...
+make
+make bindist
 
-Important:
+After this a binary distribution directory will have been generated, and 
+you can use this to transfer to the real machine and use it. If you want 
+to generate a distribution archive instead of the directory you can use
 
-* The experimental netplay is NOT WORKING, do not try it!
+make bindistzip
 
-The sources are not included in this archive, to keep the size down for people
-with no interest in the sources, but are available in a separate archive.
+instead of make bindist.
 
-Write to me at: vice [dot] emu [at] amidog [dot] se. And visit the homepage at:
+Any comments or questions related to the Amiga ports can be sent to the 
+VICE mailing-list at vice-devel@firenze.linux.it
 
-http://www.amidog.com
-
-Have fun! / Mathias Roslund
+The ports are done by Mathias "AmiDog" Roslund and Marco van den Heuvel.

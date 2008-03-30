@@ -30,11 +30,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef AMIGA_AROS
-#define __AROS_OFF_T_DECLARED
-#define __AROS_PID_T_DECLARED
-#endif
-
 #include <png.h>
 
 #include "archdep.h"

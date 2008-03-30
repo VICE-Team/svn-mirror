@@ -2,6 +2,7 @@ EXTRA_DIST = \
 	x64/X64.ICC \
 	x128/X128.ICC \
 	X1541.ICC \
+	cartconv.ICC \
 	xcbm2/Xcbm2.ICC \
 	xpet/Xpet.ICC \
 	xplus4/Xplus4.ICC \

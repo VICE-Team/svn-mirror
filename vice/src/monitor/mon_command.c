@@ -51,31 +51,39 @@ typedef struct mon_cmds_s {
 static const mon_cmds_t mon_cmd_array[] = {
    { "",                "",     BAD_CMD,                STATE_INITIAL },
 
-   { "~",               "~",    CONVERT_OP,             STATE_INITIAL,
+   { "~",               "",     CONVERT_OP,             STATE_INITIAL,
      "<number>",
      "Display the specified number in decimal, hex, octal and binary." },
 
-   { ">",               ">",    CMD_ENTER_DATA,         STATE_INITIAL,
+   { ">",               "",     CMD_ENTER_DATA,         STATE_INITIAL,
      "[<address>] <data_list>",
      "Write the specified data at `address'." },
 
-   { "@",               "@",    CMD_DISK,               STATE_ROL,
+   { "@",               "",     CMD_DISK,               STATE_ROL,
      "<disk command>",
      "Perform a disk command on the currently attached disk image on drive 8.\n"
      "The specified disk command is sent to the drive's channel #15." },
 
-   { "]",               "]",    CMD_ENTER_BIN_DATA,     STATE_INITIAL },
+/*
+   { "]",               "",     CMD_ENTER_BIN_DATA,     STATE_INITIAL,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
-   { "a",               "a",    CMD_ASSEMBLE,           STATE_INITIAL,
+   { "a",               "",     CMD_ASSEMBLE,           STATE_INITIAL,
      "<address> [ <instruction> [: <instruction>]* ]",
      "Assemble instructions to the specified address.  If only one\n"
      "instruction is specified, enter assembly mode (enter an empty line to\n"
      "exit assembly mode)." },
 
    { "add_label",       "al",   CMD_ADD_LABEL,          STATE_INITIAL,
-     "<address> <label>",
+     "[<memspace>] <address> <label>",
+     "<memspace> is one of: C: 8: 9: 10: 11:\n"
+     "<address>  is the address which should get the label.\n"
+     "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
      "Map a given address to a label.  This label can be used when entering\n"
-     "assembly code and is shown during disassembly." },
+     "assembly code and is shown during disassembly.  Additionally, it can\n"
+     "be used whenever an address must be specified." },
 
    { "bank",            "",     CMD_BANK,               STATE_BNAME,
      "[<memspace>] [bankname]",
@@ -88,7 +96,7 @@ static const mon_cmds_t mon_cmd_array[] = {
      "Load the specified file into memory at the specified address.\n"
      "If device is 0, the file is read from the file system." },
 
-   { "br",              "",     CMD_BLOCK_READ,         STATE_INITIAL,
+   { "block_read",      "br",   CMD_BLOCK_READ,         STATE_INITIAL,
      "<track> <sector> [<address>]",
      "Read the block at the specified track and sector.  If an address is\n"
      "specified, the data is loaded into memory.  If no address is given, the\n"
@@ -102,14 +110,18 @@ static const mon_cmds_t mon_cmd_array[] = {
      "specified for the breakpoint.  For more information on conditions, see\n"
      "the CONDITION command." },
 
-   { "brmon",           "",     CMD_BRMON,              STATE_INITIAL },
+/*
+   { "brmon",           "",     CMD_BRMON,              STATE_INITIAL,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
    { "bsave",           "bs",   CMD_BSAVE,              STATE_FNAME,
      "\"<filename>\" <device> <address1> <address2>",
      "Save the memory from address1 to address2 to the specified file.\n"
      "If device is 0, the file is written to the file system." },
 
-   { "bw",              "",     CMD_BLOCK_WRITE,        STATE_INITIAL,
+   { "block_write",     "bw",   CMD_BLOCK_WRITE,        STATE_INITIAL,
      "<track> <sector> <address>",
      "Write a block of data at `address' on the specified track and sector\n"
      "of disk in drive 8." },
@@ -128,7 +140,7 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<address_range> <address>",
      "Compare memory from the source specified by the address range to the\n"
      "destination specified by the address.  The regions may overlap.  Any\n"
-     "values that miscompare are displayed using the default displaytype.\n" },
+     "values that miscompare are displayed using the default displaytype." },
 
    { "condition",       "cond", CMD_CONDITION,          STATE_INITIAL,
      "<checknum> if <cond_expr>",
@@ -147,7 +159,7 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<type>",
      "Specify the type of CPU currently used (6502/z80)." },
 
-   { "d",               "d",    CMD_DISASSEMBLE,        STATE_INITIAL,
+   { "disass",          "d",    CMD_DISASSEMBLE,        STATE_INITIAL,
      "[<address> [<address>]]",
      "Disassemble instructions.  If two addresses are specified, they are\n"
      "used as a start and end address.  If only one is specified, it is\n"
@@ -159,7 +171,11 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<checknum>",
      "Delete checkpoint `checknum'." },
 
-   { "delete_label",    "dl",   CMD_DEL_LABEL,          STATE_INITIAL },
+   { "delete_label",    "dl",   CMD_DEL_LABEL,          STATE_INITIAL,
+     "[<memspace>] <label>",
+     "<memspace> is one of: C: 8: 9: 10: 11:\n"
+     "<label>    is the name of the label; it must start with a dot (\".\").\n\n"
+     "Delete a previously defined label." },
 
    { "device",          "dev",  CMD_DEVICE,             STATE_INITIAL,
      "[c:|8:|9:|10:|11:]",
@@ -170,9 +186,17 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<checknum>",
      "Disable checkpoint `checknum'." },
 
-   { "down",            "",     CMD_DOWN,               STATE_INITIAL },
+/*
+   { "down",            "",     CMD_DOWN,               STATE_INITIAL,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
-   { "dump",            "",     CMD_DUMP,               STATE_FNAME },
+   { "dump",            "",     CMD_DUMP,               STATE_FNAME,
+     "\"<filename>\"",
+     "Write a snapshot of the machine into the file specified.\n"
+     "This snapshot is compatible with a snapshot written out by the UI.\n"
+     "Note: No ROM images are included into the dump." },
 
    { "enable",          "",     CMD_CHECKPT_ON,         STATE_INITIAL,
      "<checknum>",
@@ -192,7 +216,10 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<address>",
      "Change the PC to ADDRESS and continue execution" },
 
-   { "help",            "?",    CMD_HELP,               STATE_ROL },
+   { "help",            "?",    CMD_HELP,               STATE_ROL,
+     "[<command>]",
+     "If no argument is given, prints out a list of all available commands\n" 
+     "If an argument is given, prints out specific help for that command." },
 
    { "hunt",            "h",    CMD_HUNT,               STATE_INITIAL,
      "<address_range> <data_list>",
@@ -200,20 +227,22 @@ static const mon_cmds_t mon_cmd_array[] = {
      "<data_list>.  If the data is found, the starting address of the match\n"
      "is displayed.  The entire range is searched for all possible matches." },
 
-   { "i",               "i",    CMD_TEXT_DISPLAY,       STATE_INITIAL,
+   { "i",               "",     CMD_TEXT_DISPLAY,       STATE_INITIAL,
      "<address_opt_range>",
      "Display memory contents as PETSCII text." },
 
    { "ignore",          "",     CMD_IGNORE,             STATE_INITIAL,
      "<checknum> [<count>]",
      "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
-     "the default value is 1.\n" },
+     "the default value is 1." },
 
-   { "io",              "",     CMD_IO,                 STATE_INITIAL },
+   { "io",              "",     CMD_IO,                 STATE_INITIAL,
+     NULL,
+     "Print out the I/O area of the emulated machine." },
 
    { "keybuf",          "",     CMD_KEYBUF,             STATE_ROL,
      "\"<string>\"",
-     "Put the specified string into the keyboard buffer.\n" },
+     "Put the specified string into the keyboard buffer." },
 
    { "load",            "l",    CMD_LOAD,               STATE_FNAME,
      "\"<filename>\" <device> [<address>]",
@@ -226,16 +255,18 @@ static const mon_cmds_t mon_cmd_array[] = {
    { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
      "Load a file containing a mapping of labels to addresses.  If no memory\n"
-     "space is specified, the default readspace is used." },
+     "space is specified, the default readspace is used.\n\n" 
+     "The format of the file is the one written out by the `save_labels' command;\n" 
+     "it consists of some `add_label' commands, written one after the other." },
 
-   { "m",               "m",    CMD_MEM_DISPLAY,        STATE_INITIAL,
-     "[<data_type>] [<address_opt_range>]"
+   { "mem",             "m",    CMD_MEM_DISPLAY,        STATE_INITIAL,
+     "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory.  If no datatype is given, the default\n"
      "is used.  If only one address is specified, the length of data\n"
      "displayed is based on the datatype.  If no addresses are given, the\n"
      "'dot' address is used." },
 
-   { "mc",              "",     CMD_CHAR_DISPLAY,       STATE_INITIAL,
+   { "memchar",         "mc",   CMD_CHAR_DISPLAY,       STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as character data.  If only one address\n"
      "is specified, only one character is displayed.  If no addresses are\n"
@@ -246,7 +277,7 @@ static const mon_cmds_t mon_cmd_array[] = {
      "Move memory from the source specified by the address range to\n"
      "the destination specified by the address.  The regions may overlap." },
 
-   { "ms",              "",     CMD_SPRITE_DISPLAY,     STATE_INITIAL,
+   { "memsprite",       "ms",   CMD_SPRITE_DISPLAY,     STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as sprite data.  If only one address is\n"
      "specified, only one sprite is displayed.  If no addresses are given,\n"
@@ -335,7 +366,11 @@ static const mon_cmds_t mon_cmd_array[] = {
      NULL,
      "Stop recording commands.  See `record'." },
 
-   { "system",          "sys",  CMD_SYSTEM,             STATE_ROL },
+/*
+   { "system",          "sys",  CMD_SYSTEM,             STATE_ROL,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
    { "trace",           "tr",   CMD_TRACE,              STATE_INITIAL,
      "[address [address]]",
@@ -348,13 +383,23 @@ static const mon_cmds_t mon_cmd_array[] = {
      "If no address is given, the currently valid breakpoints are printed.\n"
      "If an address is given, a temporary breakpoint is set for that address\n"
      "and the breakpoint number is printed.  Control is returned to the\n"
-    "emulator by this command.  The breakpoint is deleted once it is hit.\n" },
+    "emulator by this command.  The breakpoint is deleted once it is hit." },
 
-   { "undump",          "",     CMD_UNDUMP,             STATE_FNAME },
+   { "undump",          "",     CMD_UNDUMP,             STATE_FNAME,
+     "\"<filename>\"",
+     "Read a snapshot of the machine from the file specified." },
 
-   { "up",              "",     CMD_UP,                 STATE_INITIAL },
+/*
+   { "up",              "",     CMD_UP,                 STATE_INITIAL,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
-   { "verify",          "v",    CMD_VERIFY,             STATE_FNAME },
+/*
+   { "verify",          "v",    CMD_VERIFY,             STATE_FNAME,
+     NULL,
+     "*** unimplemented ***" },
+*/
 
    { "watch",           "w",    CMD_WATCH,              STATE_INITIAL,
      "[loadstore] [address [address]]",

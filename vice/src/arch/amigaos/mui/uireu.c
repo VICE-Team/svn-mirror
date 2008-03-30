@@ -48,7 +48,7 @@ static const int ui_reu_enable_values[] = {
   -1
 };
 
-static const char *ui_reu_size[] = {
+static char *ui_reu_size[] = {
   "128K",
   "256K",
   "512K",

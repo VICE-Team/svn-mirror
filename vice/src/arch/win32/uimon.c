@@ -331,6 +331,8 @@ void DestroyMdiWindow(HWND hwndMdiClient, HWND hwndChild)
 static
 HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx, int dy )
 {
+    console_log_for_mon.console_cannot_output = 0;
+
     if (bOpen)
     {
         console_log = uimon_console_open_mdi("Monitor",
@@ -2095,6 +2097,8 @@ void uimon_notify_change()
 
 void uimon_window_close( void )
 {
+    console_log_for_mon.console_cannot_output = 1;
+
 #ifdef UIMON_EXPERIMENTAL
 
     update_shown();
@@ -2117,7 +2121,6 @@ void uimon_window_close( void )
 
 console_t *uimon_window_open( void )
 {
-
 #ifdef UIMON_EXPERIMENTAL
 
     WindowDimensions *wd;
@@ -2187,6 +2190,8 @@ console_t *uimon_window_open( void )
 
 void uimon_window_suspend( void )
 {
+    console_log_for_mon.console_cannot_output = 1;
+
 #ifdef UIMON_EXPERIMENTAL
 
     update_shown();
@@ -2200,6 +2205,8 @@ void uimon_window_suspend( void )
 
 console_t *uimon_window_resume( void )
 {
+    console_log_for_mon.console_cannot_output = 0;
+
 #ifdef UIMON_EXPERIMENTAL
 
     pchCommandLine = NULL;

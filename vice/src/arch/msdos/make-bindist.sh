@@ -1,4 +1,11 @@
 #!/bin/sh
+# make-bindist.sh for the MSDOS port
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# make-bindist.sh <strip> <vice-ver-major> <vice-ver-minor> <zip|nozip> <top-srcdir>
+#                 $1      $2               $3               $4          $5
+
 echo Generating MSDOS port binary distribution.
 rm -f -r dosvice
 mkdir dosvice
@@ -14,13 +21,13 @@ $1 src/cartconv.exe
 cp src/x64.exe src/x128.exe src/xvic.exe dosvice
 cp src/xpet.exe src/xplus4.exe src/xcbm2.exe dosvice
 cp src/c1541.exe src/petcat.exe src/cartconv.exe dosvice
-cp -a data/C128 data/C64 data/CBM-II data/DRIVES dosvice
-cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 dosvice
-cp -a data/fonts dosvice
-cp -a doc/html dosvice
-cp FEEDBACK README dosvice
-cp doc/Readme.dos dosvice
-cp doc/cartconv.txt dosvice
+cp -a $5/data/C128 $5/data/C64 $5/data/CBM-II $5/data/DRIVES dosvice
+cp -a $5/data/PET $5/data/PLUS4 $5/data/PRINTER $5/data/VIC20 dosvice
+cp -a $5/data/fonts dosvice
+cp -a $5/doc/html dosvice
+cp $5/FEEDBACK $5/README dosvice
+cp $5/doc/Readme.dos dosvice
+cp $5/doc/cartconv.txt dosvice
 rm `find dosvice -name "Makefile*"`
 rm `find dosvice -name "amiga_*.vkm"`
 rm `find dosvice -name "os2*.vkm"`

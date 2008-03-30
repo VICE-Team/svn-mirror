@@ -48,7 +48,7 @@ static const int ui_plus60k_enable_values[] = {
   -1
 };
 
-static const char *ui_plus60k_base[] = {
+static char *ui_plus60k_base[] = {
   "$D040",
   "$D100",
   NULL

@@ -1,4 +1,11 @@
 #!/bin/sh
+# make-bindist.sh for the WIN32 port
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
+#                 $1      $2             $3          $4
+
 echo Generating WIN32 port binary distribution.
 rm -f -r WinVICE-$2
 mkdir WinVICE-$2
@@ -14,12 +21,12 @@ $1 src/cartconv.exe
 cp src/x64.exe src/x128.exe src/xvic.exe WinVICE-$2
 cp src/xpet.exe src/xplus4.exe src/xcbm2.exe WinVICE-$2
 cp src/c1541.exe src/petcat.exe src/cartconv.exe WinVICE-$2
-cp -a data/C128 data/C64 data/CBM-II data/DRIVES WinVICE-$2
-cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 WinVICE-$2
-cp -a data/fonts WinVICE-$2
-cp -a doc/html WinVICE-$2
-cp FEEDBACK README WinVICE-$2
-cp doc/cartconv.txt WinVICE-$2
+cp -a $4/data/C128 $4/data/C64 $4/data/CBM-II $4/data/DRIVES WinVICE-$2
+cp -a $4/data/PET $4/data/PLUS4 $4/data/PRINTER $4/data/VIC20 WinVICE-$2
+cp -a $4/data/fonts WinVICE-$2
+cp -a $4/doc/html WinVICE-$2
+cp $4/FEEDBACK $4/README WinVICE-$2
+cp $4/doc/cartconv.txt WinVICE-$2
 rm `find WinVICE-$2 -name "Makefile*"`
 rm `find WinVICE-$2 -name "amiga_*.vkm"`
 rm `find WinVICE-$2 -name "dos_*.vkm"`

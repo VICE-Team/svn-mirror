@@ -34,7 +34,7 @@
 #include "intl.h"
 #include "translate.h"
 
-static const char *ui_ram_1st_byte[] = {
+static char *ui_ram_1st_byte[] = {
   "0",
   "255",
   NULL
@@ -46,7 +46,7 @@ static const int ui_ram_1st_byte_values[] = {
   -1
 };
 
-static const char *ui_ram_constant_val[] = {
+static char *ui_ram_constant_val[] = {
   "0",
   "1",
   "2",
@@ -78,7 +78,7 @@ static const int ui_ram_constant_val_values[] = {
   -1
 };
 
-static const char *ui_ram_constant_pat[] = {
+static char *ui_ram_constant_pat[] = {
   "0",
   "1",
   "2",

@@ -8,14 +8,15 @@ md "Vice2"
 type install.cmd > Vice2\install.cmd
 copy ..\..\..\data\x64.exe     Vice2
 copy ..\..\..\data\x128.exe    Vice2
-copy ..\..\..\data\xvic.exe    Vice2
-copy ..\..\..\data\xpet.exe    Vice2
-copy ..\..\..\data\xplus4.exe  Vice2
-copy ..\..\..\data\xcbm2.exe   Vice2
-copy ..\..\..\data\x1541.exe   Vice2
-copy ..\..\..\data\petcat.exe  Vice2
-copy ..\..\..\data\vice2.dll   Vice2
-copy ..\..\..\data\vice2.fon   Vice2
+copy ..\..\..\data\xvic.exe     Vice2
+copy ..\..\..\data\xpet.exe     Vice2
+copy ..\..\..\data\xplus4.exe   Vice2
+copy ..\..\..\data\xcbm2.exe    Vice2
+copy ..\..\..\data\x1541.exe    Vice2
+copy ..\..\..\data\petcat.exe   Vice2
+copy ..\..\..\data\cartconv.exe Vice2
+copy ..\..\..\data\vice2.dll    Vice2
+copy ..\..\..\data\vice2.fon    Vice2
 
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons

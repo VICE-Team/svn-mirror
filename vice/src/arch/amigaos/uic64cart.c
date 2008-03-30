@@ -122,7 +122,7 @@ static const uicart_params_t c64_ui_cartridges[] = {
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
-        0, 0, NULL, 0
+        0, 0, 0, 0
     }
 };
 

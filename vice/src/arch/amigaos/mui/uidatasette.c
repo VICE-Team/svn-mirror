@@ -48,7 +48,7 @@ static const int ui_datasette_reset_with_cpu_values[] = {
   -1
 };
 
-static const char *ui_datasette_additional_delay[] = {
+static char *ui_datasette_additional_delay[] = {
   "0 cycles",
   "1 cycle",
   "2 cycles",
@@ -72,7 +72,7 @@ static const int ui_datasette_additional_delay_values[] = {
   -1
 };
 
-static const char *ui_datasette_delay_at_zero[] = {
+static char *ui_datasette_delay_at_zero[] = {
   "1000 cycles",
   "2000 cycles",
   "5000 cycles",

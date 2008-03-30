@@ -50,7 +50,7 @@ static const int ui_c64_256k_enable_values[] = {
   -1
 };
 
-static const char *ui_c64_256k_base[] = {
+static char *ui_c64_256k_base[] = {
   "$DE00",
   "$DE80",
   "$DF00",

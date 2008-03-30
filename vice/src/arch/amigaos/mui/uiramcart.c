@@ -34,7 +34,7 @@
 #include "intl.h"
 #include "translate.h"
 
-static const char *ui_ramcart_enable_translate[] = {
+static int ui_ramcart_enable_translate[] = {
   IDMS_DISABLED,
   IDS_ENABLED,
   0
@@ -62,7 +62,7 @@ static const int ui_ramcart_read_only_values[] = {
   -1
 };
 
-static const char *ui_ramcart_size[] = {
+static char *ui_ramcart_size[] = {
   "64K",
   "128K",
   NULL

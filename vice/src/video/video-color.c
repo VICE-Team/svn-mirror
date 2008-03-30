@@ -439,6 +439,10 @@ int video_color_update_palette(struct video_canvas_s *canvas)
     if (canvas->videoconfig->external_palette) {
         palette = video_load_palette(canvas->videoconfig->cbm_palette,
                                      canvas->videoconfig->external_palette_name);
+
+        if (!palette)
+            return -1;
+
         video_calc_gammatable();
         ycbcr = video_ycbcr_palette_create(palette->num_entries);
         video_palette_to_ycbcr(palette, ycbcr);

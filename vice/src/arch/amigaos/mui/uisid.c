@@ -37,7 +37,7 @@
 #include "intl.h"
 #include "translate.h"
 
-static const char *ui_sid_pages[] =
+static char *ui_sid_pages[] =
 {
   "General",
 #ifdef HAVE_RESID
@@ -53,7 +53,7 @@ static const char *ui_sid_pages[] =
 };
 
 
-static const char *ui_sid_engine[] =
+static char *ui_sid_engine[] =
 {
   "Fast SID",
 #ifdef HAVE_RESID
@@ -138,7 +138,7 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SidEngine", ui_sid_engine, ui_sid_engine_values },
   { NULL, MUI_TYPE_RADIO, "SidModel", ui_sid_model, ui_sid_model_values },
   { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL },
-  { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (const char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress },
+  { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress },
   { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
 #ifdef HAVE_RESID
   { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },

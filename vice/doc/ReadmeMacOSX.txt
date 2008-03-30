@@ -43,6 +43,22 @@ activated by the left and right mouse-buttons. Important menu options
 * RB->Drive settings->Enable true drive emulation
      Disable this option to speed up load time (less compatible)
 
+MAC X11 ISSUES
+--------------
+
+By Default if Apple's X11 is first started then a new empty X11-Terminal
+is opened. This could be annoying if you only want to use the VICE
+emulator. The launch of the terminal is defined in the xinitrc startup
+script. Just copy this script to your home directory:
+
+ > cp /etc/X11/xinit/xinitrc ~/.xinitrc
+
+Now edit your copy and remove the line:
+
+xterm &
+
+Save the file and the next time you launch X11 no Terminal will be opened.
+
 COMPILATION
 -----------
 

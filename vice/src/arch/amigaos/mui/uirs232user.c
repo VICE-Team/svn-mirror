@@ -66,7 +66,7 @@ static const int ui_rs232user_device_values[] = {
   -1
 };
 
-static const char *ui_rs232user_baud[] = {
+static char *ui_rs232user_baud[] = {
   "300",
   "600",
   "1200",

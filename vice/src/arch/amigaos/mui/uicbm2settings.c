@@ -34,7 +34,7 @@
 #include "intl.h"
 #include "translate.h"
 
-static const char *ui_cbm2_model[] = {
+static char *ui_cbm2_model[] = {
   "7x0 (50 Hz)",
   "6x0 (60 Hz)",
   "6x0 (50 Hz)",
@@ -48,7 +48,7 @@ static const int ui_cbm2_model_values[] = {
   -1
 };
 
-static const char *ui_cbm2_memsize[] = {
+static char *ui_cbm2_memsize[] = {
   "128K",
   "256K",
   "512K",

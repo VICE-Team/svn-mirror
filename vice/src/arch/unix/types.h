@@ -61,7 +61,7 @@ typedef DWORD CLOCK;
 #define CLOCK_MAX (~((CLOCK)0))
 
 #if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM)
-#if defined(__NETBSD__)
+#if defined(__NetBSD__)
 #if (__GNUC__ > 2)
 #define REGPARM1 __attribute__((regparm(1)))
 #define REGPARM2 __attribute__((regparm(2)))

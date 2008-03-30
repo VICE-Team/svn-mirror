@@ -1,4 +1,11 @@
 #!/bin/sh
+# make-bindist.sh for the BEOS port
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
+#                 $1      $2             $3         $4
+
 echo Generating BEOS port binary distribution.
 rm -f -r BeVICE-$2
 mkdir BeVICE-$2
@@ -18,12 +25,12 @@ cp -a data/C128 data/C64 data/CBM-II data/DRIVES BeVICE-$2
 cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$2
 cp -a data/fonts BeVICE-$2
 mkdir BeVICE-$2/doc
-cp -a doc/html BeVICE-$2/doc
-cp doc/iec-bus.txt BeVICE-$2/doc
-cp doc/mon.txt BeVICE-$2/doc
-cp doc/cartconv.txt BeVICE-$2/doc
-cp doc/Readme.beos BeVICE-$2/doc
-cp FEEDBACK README BeVICE-$2
+cp -a $4/doc/html BeVICE-$2/doc
+cp $4/doc/iec-bus.txt BeVICE-$2/doc
+cp $4/doc/mon.txt BeVICE-$2/doc
+cp $4/doc/cartconv.txt BeVICE-$2/doc
+cp $4/doc/Readme.beos BeVICE-$2/doc
+cp $4/FEEDBACK $4/README BeVICE-$2
 rm `find BeVICE-$2 -name "Makefile*"`
 rm `find BeVICE-$2 -name "amiga_*.vkm"`
 rm `find BeVICE-$2 -name "dos_*.vkm"`

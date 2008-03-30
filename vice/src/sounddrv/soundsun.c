@@ -63,7 +63,7 @@ static int sun_fd = -1;
 static int sun_8bit = 0;
 static int sun_channels = 1;
 static int sun_bufsize = 0;
-#if !defined(__NETBSD__)
+#if !defined(__NetBSD__)
 static int sun_written = 0;
 #endif
 
@@ -107,7 +107,7 @@ static int sun_init(const char *param, int *speed,
     int	st;
     struct audio_info info;
 
-#if !defined(__NETBSD__)
+#if !defined(__NetBSD__)
     /* No stereo capability. */
     *channels = 1;
 #endif
@@ -142,7 +142,7 @@ static int sun_init(const char *param, int *speed,
 	log_message(LOG_DEFAULT, "Playing 8 bit ulaw at 8000Hz");
     }
     sun_bufsize = (*fragsize)*(*fragnr);
-#if !defined(__NETBSD__)
+#if !defined(__NetBSD__)
     sun_written = 0;
 #endif
     sun_channels = *channels;
@@ -171,7 +171,7 @@ static int sun_write(SWORD *pbuf, size_t nr)
 	if (now <= 0)
 	    return 1;
     }
-#if !defined(__NETBSD__)
+#if !defined(__NetBSD__)
     sun_written += nr;
 #endif
 

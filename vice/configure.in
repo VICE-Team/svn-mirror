@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=25
+VICE_VERSION_BUILD=26
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -42,6 +42,7 @@ is_unix_x11=no
 is_unix_macosx=no
 is_dos=no
 is_win32=no
+is_win32_x11=no
 is_riscos=no
 is_os2=no
 is_beos=no
@@ -99,6 +100,13 @@ fi
 
 if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
+fi
+
+if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
+  if test x"$with_x" = "xyes"; then
+    host_os=cygwin-x11
+    is_win32_x11=yes
+  fi
 fi
 
 dnl Setup crosscompiling.
@@ -409,7 +417,7 @@ done
 AC_SUBST(GMOFILES)
 AC_SUBST(POFILES)
 
-if test x"$enable_nls" != x"no" ; then
+if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
   AC_CHECK_HEADER(libintl.h,
     [AC_CACHE_CHECK([for gettext in libc], gt_cv_func_gettext_libc,
       [AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
@@ -504,11 +512,13 @@ if test x"$enable_nls" != x"no" ; then
   GENCAT=
   AC_SUBST(GENCAT)
 else
-  AC_MSG_WARN([disabling NLS on user request])
+  if test x"$is_unix" = "xyes"; then
+    AC_MSG_WARN([disabling NLS on user request])
+  fi
   USE_NLS=no
 fi
 
-if test x"$USE_NLS" = x"" ; then
+if test x"$USE_NLS" = "x" ; then
   USE_NLS=no
 fi
 if test "$MSGFMT" = "no" ; then
@@ -1319,7 +1329,7 @@ if test x"$is_unix_x11" = "xyes"; then
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
-  if [[ x"${enable_gnomeui}" = x"yes" ]] ; then
+  if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
     LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
 
@@ -1537,7 +1547,7 @@ unsigned long test; ],
 fi
 
 dnl CBM4Linux/OpenCBM
-if test x"$enable_realdevice" != x"no"; then
+if test x"$enable_realdevice" != "xno"; then
   if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
     AC_DEFINE(HAVE_OPENCBM,,[Support for OpenCBM (former CBM4Linux).])
     AM_CONDITIONAL(HAVE_REALDEVICE, true)
@@ -1578,21 +1588,34 @@ dnl Setup the system-specific object files.
 if test x"$is_unix" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/unix"
+  ARCH_EXTRA_SUBDIR="gui x11"
 
   if test x"$is_unix_x11" = "xyes" ; then
     if test x"$enable_gnomeui" != "xyes" ; then
       ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
-      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR"
     else
       ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
-      ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `pkg-config --cflags libgnomeui-2.0`"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR `pkg-config --cflags libgnomeui-2.0`"
     fi
+    
     AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
+    if test x"$READLINE" != x ; then
+      ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR readline"
+    fi
+
   fi
 
   if test x"$is_unix_gp2x" = "xyes" ; then
     ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gp2x/libarchgp2x.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+    ARCH_EXTRA_SUBDIR="gp2x"
+  fi
+
+  if test x"$is_unix_macosx" = "xyes" ; then
+    ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx $ARCH_INCLUDES"
+    ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR macosx"
   fi
 
   AM_CONDITIONAL(UNIX_COMPILE, true)
@@ -1763,6 +1786,7 @@ AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)
 AC_SUBST(ARCH_DIR)
 AC_SUBST(ARCH_SRC_DIR)
+AC_SUBST(ARCH_EXTRA_SUBDIR)
 AC_SUBST(SOUND_USS_OBJ)
 AC_SUBST(SOUND_SGI_OBJ)
 AC_SUBST(SOUND_HPUX_OBJ)
@@ -1806,6 +1830,7 @@ if false ; then
     mkdir -p arch/unix/x11/gnome
     mkdir -p arch/unix/x11/xaw
     mkdir -p arch/unix/x11/xaw/widgets
+    mkdir -p arch/unix/macosx
     mkdir -p arch/win32
     mkdir -p arch/win32/utils
     mkdir -p c128
@@ -1895,6 +1920,7 @@ AC_OUTPUT([Makefile
            src/arch/unix/x11/gnome/Makefile
            src/arch/unix/x11/xaw/Makefile
            src/arch/unix/x11/xaw/widgets/Makefile
+           src/arch/unix/macosx/Makefile
            src/arch/win32/Makefile
            src/arch/win32/utils/Makefile
            src/c128/Makefile
@@ -1935,7 +1961,7 @@ AC_OUTPUT([Makefile
            src/vicii/Makefile
            src/video/Makefile
            src/version.h
-	   po/Makefile.in
+           po/Makefile.in
            ])
 
 dnl Local Variables:

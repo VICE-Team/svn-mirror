@@ -148,7 +148,7 @@ static OOP_AttrBase __IHidd_Gfx;
 static OOP_Object *rastport_bmobj;
 static OOP_Object *gfxhidd;
 static OOP_Class *rastport_gfxhiddclass;
-static hidd_textname=NULL;
+static char *hidd_textname=NULL;
 static int hidd_is_nvidia=0;
 
 /* Use these on ALL amiga platforms not just AROS */

@@ -50,6 +50,8 @@
 #include "resources.h"
 #include "types.h"
 
+#ifndef MAC_JOYSTICK
+#ifdef HAS_JOYSTICK
 
 /* (Used by `kbd.c').  */
 int joystick_port_map[2];
@@ -99,12 +101,6 @@ int joystick_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-#ifdef HAS_JOYSTICK
-
-#ifdef MAC_JOYSTICK
-#include "joy_mac.c"
-#else
 
 #ifdef LINUX_JOYSTICK
 #include <linux/joystick.h>
@@ -481,11 +477,10 @@ void new_joystick(void)
     }
 }
 #endif  /* NEW_JOYSTICK */
-#endif  /* LINUX_JOYSTICK */
 #else /* HAS_JOYSTICK */
 int joy_arch_init(void)
 {
     return 0;
 }
 #endif /* HAS_JOYSTICK */
-
+#endif /* MAC_JOYSTICK */

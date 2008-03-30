@@ -668,11 +668,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("IEEE488");
         return;
 #endif // __X128__ || __XVIC__
-#ifdef __XPET__
-        resources_get_value("PETREU", (void *)&val);
-        WinCheckMenuItem(hwnd,  IDM_PETREU,     val);
-        WinEnableMenuItem(hwnd, IDM_PETREUSIZE, val);
-#endif // __XPET__
     case IDM_VCACHE:
 #ifdef __XCBM__
         {
@@ -1262,6 +1257,9 @@ void menu_select(HWND hwnd, USHORT item)
         WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
 #endif
 #ifdef __XPET__
+        resources_get_value("REU", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_REU,     val);
+        WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
         WinCheckRes(hwnd, IDM_EOI,      "EoiBlank");
         WinCheckRes(hwnd, IDM_ROMPATCH, "Basic1");

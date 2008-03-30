@@ -11,6 +11,8 @@ source type(c)
     "plus4drive.c",
     "plus4iec.c",
     "plus4mem.c",
+    "plus4memcsory256k.c",
+    "plus4memhannes256k.c",
     "plus4memlimit.c",
     "plus4memrom.c",
     "plus4memsnapshot.c",

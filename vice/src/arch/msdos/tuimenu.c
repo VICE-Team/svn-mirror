@@ -166,6 +166,7 @@ void tui_menu_update(tui_menu_t menu)
             tui_menu_update(p->submenu);
             break;
           default:
+            break;
         }
 
         if (become_default)

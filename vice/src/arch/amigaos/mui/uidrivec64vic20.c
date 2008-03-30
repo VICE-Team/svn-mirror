@@ -50,7 +50,7 @@ static int drive_type_strings_translate[] = {
   0
 };
 
-static const char *drive_type_strings_8[] = {
+static char *drive_type_strings_8[] = {
   NULL,		/* "None" placeholder */
   "1541",
   "1541-II",
@@ -84,7 +84,7 @@ static const int drive_type_values_8[] = {
   -1
 };
 
-static const char *drive_type_strings_9[] = {
+static char *drive_type_strings_9[] = {
   NULL,		/* "None" placeholder */
   "1541",
   "1541-II",
@@ -108,7 +108,7 @@ static const int drive_type_values_9[] = {
   -1
 };
 
-static const char *drive_type_strings_10[] = {
+static char *drive_type_strings_10[] = {
   NULL,		/* "None" placeholder */
   "1541",
   "1541-II",
@@ -132,7 +132,7 @@ static const int drive_type_values_10[] = {
   -1
 };
 
-static const char *drive_type_strings_11[] = {
+static char *drive_type_strings_11[] = {
   NULL,		/* "None" placeholder */
   "1541",
   "1541-II",

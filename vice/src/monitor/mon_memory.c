@@ -267,15 +267,15 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                 break;
               case e_hexadecimal:
                 memset(printables, 0, 50);
+                if(!(cnt % 4))
+                    mon_out(" ");
                 if (cnt < len) {
-                    if(!(cnt % 4))
-                        mon_out(" ");
                     mon_out("%02x ", mon_get_mem_val(mem,
                             (WORD)ADDR_LIMIT(addr + i)));
                     real_width++;
-                    cnt++;
                 } else
                     mon_out("   ");
+                cnt++;
                 break;
               case e_octal:
                 memset(printables, 0, 50);

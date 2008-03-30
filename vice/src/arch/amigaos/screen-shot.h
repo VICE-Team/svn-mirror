@@ -1,8 +1,8 @@
 /*
- * uicmdline.c
+ * screenshot.h
  *
  * Written by
- *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,31 +24,9 @@
  *
  */
 
-#include "vice.h"
+#ifndef _SCREENSHOT_H_
+#define _SCREENSHOT_H_
 
-#include <stdio.h>
+extern void ui_screenshot_dialog(video_canvas_t *canvas)
 
-#include "cmdline.h"
-#include "intl.h"
-#include "translate.h"
-#include "uicmdline.h"
-
-void ui_cmdline_show_help(unsigned int num_options,
-                          cmdline_option_ram_t *options, void *userparam)
-{
-    unsigned int i;
-
-    printf(translate_text(IDS_AVAILABLE_CMDLINE_OPTIONS));
-    for (i = 0; i < num_options; i++) {
-        fputs(options[i].name, stdout);
-        if (options[i].need_arg && options[i].param_name != 0)
-            printf(" %s", translate_text(options[i].param_name));
-        printf("\n\t%s\n", translate_text(options[i].description));
-    }
-    putchar('\n');
-}
-
-void ui_cmdline_show_options(void *param)
-{
-}
-
+#endif

@@ -28,10 +28,6 @@
 
 #include <stdio.h>
 
-#ifdef AMIGA_AROS
-#define __AROS_PID_T_DECLARED
-#endif
-
 #include <signal.h>
 
 #include "log.h"

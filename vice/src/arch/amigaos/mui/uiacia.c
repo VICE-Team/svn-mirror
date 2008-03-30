@@ -82,7 +82,7 @@ static const int ui_acia_interrupt_values[] = {
   -1
 };
 
-static const char *ui_acia_mode[] = {
+static char *ui_acia_mode[] = {
   "Normal",
   "Swiftlink",
   "Turbo232",
