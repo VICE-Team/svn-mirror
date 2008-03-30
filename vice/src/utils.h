@@ -37,6 +37,7 @@
 
 #define UTIL_FILE_LOAD_RAW          0
 #define UTIL_FILE_LOAD_SKIP_ADDRESS 1
+#define UTIL_FILE_LOAD_FILL         2
 
 extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);
