@@ -810,7 +810,7 @@ char *dname;
         break;
       case IDM_FLIP_ADD|0x00010000:
       case IDM_FLIP_ADD:
-        flip_add_image();
+        flip_add_image(8);
         break;
       case IDM_FLIP_REMOVE|0x00010000:
       case IDM_FLIP_REMOVE:
@@ -818,11 +818,11 @@ char *dname;
         break;
       case IDM_FLIP_NEXT|0x00010000:
       case IDM_FLIP_NEXT:
-        flip_attach_head(1);
+        flip_attach_head(8, 1);
         break;
       case IDM_FLIP_PREVIOUS|0x00010000:
       case IDM_FLIP_PREVIOUS:
-        flip_attach_head(0);
+        flip_attach_head(8, 0);
         break;
       case IDM_ATTACH_TAPE|0x00010000:
       case IDM_ATTACH_TAPE:
@@ -1060,6 +1060,7 @@ POINT   *point;
                 exposure_handler(client_rect.right - client_rect.left,
                                 client_rect.bottom - client_rect.top - status_height);
             }
+            log_debug("New Window size : %d %d",LOWORD(lparam),HIWORD(lparam));
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
@@ -1120,6 +1121,8 @@ POINT   *point;
       case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
+        case WM_ERASEBKGND:
+            return 1;
       case WM_PAINT:
         {
             RECT update_rect;
@@ -1127,6 +1130,16 @@ POINT   *point;
             if (GetUpdateRect(window, &update_rect, FALSE)) {
                 PAINTSTRUCT ps;
                 HDC hdc;
+#if 1
+                RECT    client_rect;
+
+                hdc=BeginPaint(window,&ps);
+                GetClientRect(window,&client_rect);
+                if (exposure_handler) {
+                    exposure_handler(client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
+                }
+                EndPaint(window,&ps);
+#else
                 int frame_coord[6];
 
                 hdc = BeginPaint(window, &ps);
@@ -1136,35 +1149,35 @@ POINT   *point;
                 frame_coord[2]=update_rect.right;
                 frame_coord[3]=update_rect.bottom;
 
-                translate_client_to_framebuffer(&frame_coord);
+//                translate_client_to_framebuffer(&frame_coord);
 
                 //  Check if it's out
                 if ((frame_coord[3]<=0) || (frame_coord[1]>=frame_coord[5]) ||
                     (frame_coord[2]<=0) || (frame_coord[0]>=frame_coord[4])) {
-                    clear(hdc,frame_coord[0],frame_coord[1],frame_coord[2],frame_coord[3]);
+                    clear(hdc,update_rect.left,update_rect.top,update_rect.right,update_rect.bottom);
                 }
 
                 //  Cut top
                 if (frame_coord[1]<0) {
-                    clear(hdc,frame_coord[0],frame_coord[1],frame_coord[2],0);
+                    clear(hdc,update_rect.left,update_rect.top,update_rect.right,update_rect.top-frame_coord[1]);
                     update_rect.top-=frame_coord[1];
                     frame_coord[1]=0;
                 }
                 //  Cut left
                 if (frame_coord[0]<0) {
-                    clear(hdc,frame_coord[0],frame_coord[1],0,frame_coord[3]);
+                    clear(hdc,update_rect.left,update_rect.top,update_rect.left-frame_coord[0],update_rect.bottom);
                     update_rect.left-=frame_coord[0];
                     frame_coord[0]=0;
                 }
                 //  Cut bottom
                 if (frame_coord[3]>frame_coord[5]) {
-                    clear(hdc,frame_coord[0],frame_coord[5],frame_coord[2],frame_coord[3]);
+                    clear(hdc,update_rect.left,update_rect.bottom-(frame_coord[3]-frame_coord[5]),update_rect.right,update_rect.bottom);
                     update_rect.bottom-=frame_coord[3]-frame_coord[5];
                     frame_coord[3]=frame_coord[5];
                 }
                 //  Cut right
                 if (frame_coord[2]>frame_coord[4]) {
-                    clear(hdc,frame_coord[4],frame_coord[1],frame_coord[2],frame_coord[3]);
+                    clear(hdc,update_rect.right-(frame_coord[2]-frame_coord[4]),update_rect.top,update_rect.right,update_rect.bottom);
                     update_rect.right-=frame_coord[2]-frame_coord[4];
                     frame_coord[2]=frame_coord[4];
                 }
@@ -1172,7 +1185,7 @@ POINT   *point;
                 canvas_render(main_canvas, main_fbuff, frame_coord[0], frame_coord[1], update_rect.left, update_rect.top, update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
 
                 EndPaint(window, &ps);
-
+#endif
                 return 0;
             } else
                 break;
