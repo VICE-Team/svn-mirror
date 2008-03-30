@@ -239,7 +239,7 @@ void myvia_init(VIA_CONTEXT_PARVOID)
 {
     myvia_log = log_open(snap_module_name);
 
-    myvia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
+    myvia_int_num = interrupt_cpu_status_int_new(mycpu_int_status, MYVIA_NAME);
 
     myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T1",
                                int_myviat1);

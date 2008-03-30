@@ -337,7 +337,8 @@ void cartridge_init(void)
 {
     cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge",
                                 cartridge_change_mapping);
-    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
+                                                     "Cartridge");
 }
 
 void cartridge_trigger_freeze(void)

@@ -258,7 +258,7 @@ void reu_init(void)
 {
     reu_log = log_open("REU");
 
-    reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "REU");
 }
 
 void reu_reset(void)

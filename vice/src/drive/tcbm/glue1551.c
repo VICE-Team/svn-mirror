@@ -149,11 +149,13 @@ void glue1551_init(drive_context_t *drv)
     if (drv->mynumber == 0) {
         glue1551d0_timer_alarm = alarm_new(drv->cpu.alarm_context,
                                            "GLUE1551D0", glue1551d0_timer);
-        glue1551d0_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status);
+        glue1551d0_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status,
+                                                          "GLUE1551D0");
     } else {
         glue1551d1_timer_alarm = alarm_new(drv->cpu.alarm_context,
                                            "GLUE1551D1", glue1551d1_timer);
-        glue1551d1_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status);
+        glue1551d1_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status,
+                                                          "GLUE1551D1");
     }
 }
 

@@ -248,7 +248,7 @@ void mycia_init(void)
 {
     cia_log = log_open(MYCIA_NAME);
 
-    cia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
+    cia_int_num = interrupt_cpu_status_int_new(mycpu_int_status, MYCIA_NAME);
 
     cia_ta_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TA", int_ciata);
     cia_tb_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TB", int_ciatb);

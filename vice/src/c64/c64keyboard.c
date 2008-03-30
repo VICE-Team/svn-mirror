@@ -61,7 +61,8 @@ void c64keyboard_restore_key(int v)
 
 void c64keyboard_init(void)
 {
-    c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
+                                                       "RestoreKEY");
     keyboard_register_machine(c64keyboard_machine_func);
 }
 

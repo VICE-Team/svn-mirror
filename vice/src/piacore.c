@@ -37,7 +37,7 @@ void mypia_init(void)
 {
     mypia_log = log_open(MYPIA_NAME);
 
-    pia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
+    pia_int_num = interrupt_cpu_status_int_new(mycpu_int_status, MYPIA_NAME);
 }
 
 void mypia_reset(void)

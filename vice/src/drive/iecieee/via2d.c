@@ -119,7 +119,8 @@ void via2d_setup_context(drive_context_t *ctxptr)
     ctxptr->via2.last_read = 0;
     ctxptr->via2.irq_line = IK_IRQ;
     ctxptr->via2.int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                       ctxptr->via2.myname);
 }
 
 

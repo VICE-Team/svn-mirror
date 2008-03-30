@@ -129,7 +129,8 @@ void via1d_setup_context(drive_context_t *ctxptr)
     ctxptr->via1.log = LOG_ERR;
     ctxptr->via1p.v_parieee_is_out = 1;
     ctxptr->via1.int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                       ctxptr->via1.myname);
 
     if (ctxptr->mynumber == 0) {
       ctxptr->via1p.parallel_id = PARALLEL_DRV0;

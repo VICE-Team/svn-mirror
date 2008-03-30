@@ -217,7 +217,8 @@ int kbd_init(void)
 {
   /*kbd_resources_init();*/
   memset(last_keys, 0, 32);
-  keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+  keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status,
+                                                  "RestoreKEY");
   return 0;
 }
 

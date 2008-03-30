@@ -120,9 +120,10 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     ctxptr->cia1571.last_read = 0;
     ctxptr->cia1571.debugFlag = 0;
     ctxptr->cia1571.irq_line = IK_IRQ;
-    ctxptr->cia1571.int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
     sprintf(ctxptr->cia1571.myname, "CIA1571D%d", ctxptr->mynumber);
+    ctxptr->cia1571.int_num
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                       ctxptr->cia1571.myname);
 }
 
 

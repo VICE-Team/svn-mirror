@@ -212,6 +212,6 @@ void vicii_irq_next_frame(void)
 
 void vicii_irq_init(void)
 {
-    vic_ii.int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    vic_ii.int_num = interrupt_cpu_status_int_new(maincpu_int_status, "VICII");
 }
 

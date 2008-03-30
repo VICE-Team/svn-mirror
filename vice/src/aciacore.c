@@ -146,7 +146,7 @@ static void clk_overflow_callback(CLOCK sub, void *var)
 
 void myacia_init(void)
 {
-    acia_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    acia_int_num = interrupt_cpu_status_int_new(maincpu_int_status, MYACIA);
 
     acia_alarm = alarm_new(mycpu_alarm_context, MYACIA, int_acia);
 

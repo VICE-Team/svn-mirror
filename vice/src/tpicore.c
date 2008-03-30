@@ -116,7 +116,7 @@ void mytpi_init(void)
 {
     mytpi_log = log_open(MYTPI_NAME);
 
-    tpi_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
+    tpi_int_num = interrupt_cpu_status_int_new(mycpu_int_status, MYTPI_NAME);
 }
 
 void mytpi_reset(void)

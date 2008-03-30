@@ -120,10 +120,10 @@ void riot2_setup_context(drive_context_t *ctxptr)
     ctxptr->riot2.r_irqfl = 0;
     ctxptr->riot2.r_irqline = 0;
     ctxptr->riot2p.r_atn_active = 0;
-    ctxptr->riot2p.int_num =
-        interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
-
     sprintf(ctxptr->riot2.myname, "RIOT2D%d", ctxptr->mynumber);
+    ctxptr->riot2p.int_num =
+        interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                     ctxptr->riot2.myname);
 }
 
 
