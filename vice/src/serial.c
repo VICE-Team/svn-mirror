@@ -41,7 +41,7 @@
  *
  */
 
-/*#define	DEBUG_SERIAL*/
+/* #define DEBUG_SERIAL */
 
 #include "vice.h"
 
@@ -167,7 +167,7 @@ static int  serialcommand()
 	printf("Unknown command %02X\n\n", TrapSecondary & 0xff);
     }
 
-    maincpu_regs.p.i = 0;
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
     return st;
 }
 
@@ -222,8 +222,8 @@ void serialattention(void)
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	SET_ST(0x80);
 
-    maincpu_regs.p.c = 0;
-    maincpu_regs.p.i = 0;
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 /* Send one byte on the serial bus.  */
@@ -250,7 +250,7 @@ void serialsendbyte(void)
 		SerialBuffer[SerialPtr++] = data;
 	} else {
 
-#ifdef DEBUG_SERIAL_1
+#ifdef DEBUG_SERIAL
 	    printf("SerialSendByte(%02x)\n", data);
 #endif
 	    /* Send to device */
@@ -262,8 +262,8 @@ void serialsendbyte(void)
 	SET_ST(0x83);
     }
 
-    maincpu_regs.p.c = 0;
-    maincpu_regs.p.i = 0;
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 /* Receive one byte from the serial bus.  */
@@ -288,9 +288,9 @@ void serialreceivebyte(void)
       if(!st) p -> nextok[secadr] = 1;
     }
 
-#ifdef DEBUG_SERIAL_1
+#ifdef DEBUG_SERIAL
     printf("SerialReceiveByte(%02x '%c', st=%02x)\n",
-		data, isprint(data)?data:' ', st);
+           data, isprint(data)?data:' ', st);
 #endif
 
     /* Set up serial success / data.  */
@@ -298,12 +298,12 @@ void serialreceivebyte(void)
         SET_ST(st);
     mem_store(TMP_IN, data);
 
-    /* Set registers (PC, AC and CARRY) like the Kernal routine does.  */
-    maincpu_regs.a = data;
-    maincpu_regs.p.n = (data & 0x80) ? 1 : 0;
-    maincpu_regs.p.z = data ? 0 : 1;
-    maincpu_regs.p.c = 0;
-    maincpu_regs.p.i = 0;
+    /* Set registers like the Kernal routine does.  */
+    MOS6510_REGS_SET_A(&maincpu_regs, data);
+    MOS6510_REGS_SET_SIGN(&maincpu_regs, (data & 0x80) ? 1 : 0);
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, data ? 0 : 1);
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 
@@ -312,10 +312,10 @@ void serialreceivebyte(void)
 
 void trap_serial_ready(void)
 {
-    maincpu_regs.a = 1;
-    maincpu_regs.p.n = 0;
-    maincpu_regs.p.z = 0;
-    maincpu_regs.p.i = 0;
+    MOS6510_REGS_SET_A(&maincpu_regs, 1);
+    MOS6510_REGS_SET_SIGN(&maincpu_regs, 0);
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, 0);
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 /* ------------------------------------------------------------------------- */

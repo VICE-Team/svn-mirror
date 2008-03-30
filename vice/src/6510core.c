@@ -42,17 +42,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* These define the position of the status flags in the P (`status')
-   register. */
-#define P_SIGN          0x80
-#define P_OVERFLOW      0x40
-#define P_UNUSED        0x20
-#define P_BREAK         0x10
-#define P_DECIMAL       0x08
-#define P_INTERRUPT     0x04
-#define P_ZERO          0x02
-#define P_CARRY         0x01
-
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
 #if defined __1541__
@@ -136,39 +125,36 @@
 
 #endif
 
+#ifndef __1541__
 /* Export the local version of the registers.  */
 #define EXPORT_REGISTERS()                      \
   do {                                          \
-      GLOBAL_REGS.pc = reg_pc;                  \
-      GLOBAL_REGS.a = reg_a;                    \
-      GLOBAL_REGS.x = reg_x;                    \
-      GLOBAL_REGS.y = reg_y;                    \
-      GLOBAL_REGS.sp = reg_sp;                  \
-      GLOBAL_REGS.p.z = LOCAL_ZERO();           \
-      GLOBAL_REGS.p.n = LOCAL_SIGN();           \
-      GLOBAL_REGS.p.v = LOCAL_OVERFLOW();       \
-      GLOBAL_REGS.p.b = LOCAL_BREAK();          \
-      GLOBAL_REGS.p.d = LOCAL_DECIMAL();        \
-      GLOBAL_REGS.p.i = LOCAL_INTERRUPT();      \
-      GLOBAL_REGS.p.c = LOCAL_CARRY();          \
+      GLOBAL_REGS.reg_pc = reg_pc;              \
+      GLOBAL_REGS.reg_a = reg_a;                \
+      GLOBAL_REGS.reg_x = reg_x;                \
+      GLOBAL_REGS.reg_y = reg_y;                \
+      GLOBAL_REGS.reg_sp = reg_sp;              \
+      GLOBAL_REGS.reg_p = reg_p;                \
+      GLOBAL_REGS.flag_n = flag_n;              \
+      GLOBAL_REGS.flag_z = flag_z;              \
   } while (0)
 
 /* Import the public version of the registers.  */
 #define IMPORT_REGISTERS()                      \
   do {                                          \
-      JUMP (GLOBAL_REGS.pc);                    \
-      reg_a = GLOBAL_REGS.a;                    \
-      reg_x = GLOBAL_REGS.x;                    \
-      reg_y = GLOBAL_REGS.y;                    \
-      reg_sp = GLOBAL_REGS.sp;                  \
-      LOCAL_SET_ZERO(GLOBAL_REGS.p.z);          \
-      LOCAL_SET_SIGN(GLOBAL_REGS.p.n);          \
-      LOCAL_SET_OVERFLOW(GLOBAL_REGS.p.v);      \
-      LOCAL_SET_BREAK(GLOBAL_REGS.p.b);         \
-      LOCAL_SET_DECIMAL(GLOBAL_REGS.p.d);       \
-      LOCAL_SET_INTERRUPT(GLOBAL_REGS.p.i);     \
-      LOCAL_SET_CARRY(GLOBAL_REGS.p.c);         \
+      reg_pc = GLOBAL_REGS.reg_pc;              \
+      reg_a = GLOBAL_REGS.reg_a;                \
+      reg_x = GLOBAL_REGS.reg_x;                \
+      reg_y = GLOBAL_REGS.reg_y;                \
+      reg_sp = GLOBAL_REGS.reg_sp;              \
+      reg_p = GLOBAL_REGS.reg_p;                \
+      flag_n = GLOBAL_REGS.flag_n;              \
+      flag_z = GLOBAL_REGS.flag_z;              \
   } while (0)
+#else  /* __1541__ */
+#define IMPORT_REGISTERS()
+#define EXPORT_REGISTERS()
+#endif /* !__1541__ */
 
 /* Stack operations. */
 
