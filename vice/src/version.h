@@ -28,7 +28,7 @@
 #define __VERSION_H__
 
 #ifndef VERSION
-#define VERSION "1.5.23"
+#define VERSION "1.6"
 #endif
 
 #ifndef PACKAGE
