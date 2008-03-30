@@ -235,7 +235,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     drivecia1581_context_t *cia1581p;
     cia_context_t *cia;
 
-    ctxptr->cia1581 = lib_malloc(sizeof(cia_context_t));
+    ctxptr->cia1581 = lib_calloc(1,sizeof(cia_context_t));
     cia = ctxptr->cia1581;
 
     cia->prv = lib_malloc(sizeof(drivecia1581_context_t));

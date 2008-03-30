@@ -665,10 +665,10 @@ static void create_ui_video_submenu(void)
     }
 
     tui_menu_add_separator(refresh_rate_submenu);
-                           tui_menu_add_item(refresh_rate_submenu, "_Automatic",                           "Let the emulator select an appropriate refresh rate
-automagically",
-                           radio_RefreshRate_callback, NULL, 0,
-                           TUI_MENU_BEH_CLOSE);
+    tui_menu_add_item(refresh_rate_submenu, "_Automatic",
+                      "Let the emulator select an appropriate refresh rate automagically",
+                       radio_RefreshRate_callback, NULL, 0,
+                       TUI_MENU_BEH_CLOSE);
 
     vga_mode_submenu = tui_menu_create("VGA Resolution", 1);
 

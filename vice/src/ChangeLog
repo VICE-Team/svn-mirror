@@ -1,3 +1,80 @@
+2004-01-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.47.
+
+	* arch/win32/res.h, arch/win32/resvic.rc,
+	arch/win32/vic20ui.c, arch/win32/respet.rc,
+	arch/win32/petui.c, arch/win32/resplus4.rc,
+	arch/win32/plus4ui.c, arch/win32/rescbm2.rc,
+	arch/win32/cbm2ui.c
+
+	* c128/c128-cmdline-options.c: Fixed BASIC ROM command line
+	switch.
+
+	* c64/cart/ide64.c: Make autodetecting image size a resource.
+
+	* tape/tap.c (tap_cbm_print_error): Removed trigraph.
+
+	* vicii/vicii-draw.c (_draw_idle): Added fix provided by
+	AndreasM.
+
+2004-01-13  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_open_canvas_window):
+	Adjusted layout.
+	(ui_display_drive_current_image): Allow widgets up to
+	NUM_DRIVES.
+
+2004-01-13  David Hansel  <hansel@reactive-systems.com>
+
+	* tape/tap.c: improved error tolerance for reading
+	TurboTape encoded files
+
+2004-01-12  David Hansel  <hansel@reactive-systems.com>
+
+	* tape/tap.c: fixed warnings
+
+2004-01-12  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* printerdrv/drv-nl10.c: fixed crash when ROM image
+	can't be found
+
+	* arch/msdos/archdep.c (archdep_default_fliplist_file_name):
+	Added fliplist name.
+
+	* arch/msdos/menudefs.c (create_ui_video_submenu): Fixed line
+	wrap.
+
+	* drive/iec/cia1571d.c (cia1571_setup_context): Initialize CIA
+	struct.
+
+	* drive/iec/cia1581d.c (cia1581_setup_context): Initialize CIA
+	struct.
+
+2004-01-11  pottendo  <pottendo@utanet.at>
+
+	* event.c: Prepared strings for translations for calls to
+	function ui_error().
+
+	* gfxoutputdrv/ffmpegdrv.c: Prepared strings for translations
+	for calls to function ui_error().
+
+	* sound.c: Prepared strings for translations for calls to
+	functions ui_error() and sound_error().
+
+	* autostart.c (load_snapshot_trap): Prepared UI string for
+	translations.
+	* screenshot.c (screenshot_save): Likewise.
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window):
+	Initialize ui style green.
+	Added color to labels of event rec/playback buttons.
+	Added ui statusbar widgets for event recording.
+
+	* arch/unix/x11/gnome/uiscreenshot.c
+	(build_screenshot_dialog):
+	Changed to vbox and label buttons with driver->displayname.
+
 2004-01-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.46.

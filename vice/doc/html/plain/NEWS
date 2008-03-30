@@ -11,7 +11,9 @@ list of all the changes in the code.
 ** General
 ----------
 
-- Audio and video streams can be recorded now.
+- Audio and video streams can be recorded now. 
+  Unix users: Use configure parameter `--enable-ffmpeg'; make sure you
+  have the required libraries installed (package ffmpeg-0.4.8 or newer).
 
 - Added IEC devices which allow to access printer or file system
   devices even if true drive emulation is enabled.
@@ -26,7 +28,8 @@ list of all the changes in the code.
 
 - Increased the number of true drives to four.
 
-- Support for 1570 and 1571CR drives has been added.
+- Support for 1570 and 1571CR drives has been added (1571CR is not
+  fully implemted though).
 
 - 1581 emulation is much more accurate now.
 
@@ -35,10 +38,25 @@ list of all the changes in the code.
 
 - Added Star NL10 printer emulation.
 
+** Unix Changes
+
+- Gnome UI:
+  fixed resizing bug when PAL controls are hidden
+  Improved PAL control widget
+  Added Widgets for recording (Event, Audio/Video)
+  Multiple drive widgets are now supported.
+
 ** MS-Windows changes
 ---------------------
 
-- Added common peripherial devices settings dialog.
+- Added common peripherial devices and firmware ROM settings dialog.
+
+** MS-DOS changes
+-----------------
+
+- The source code can be compiled with Allegro 4.0 now.
+
+- Added printer settings dialog.
 
 ** Miscellaneous changes
 ------------------------

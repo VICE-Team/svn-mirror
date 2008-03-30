@@ -48,6 +48,7 @@
 #include "fcntl.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "util.h"
 #include "video.h"
 
@@ -160,7 +161,8 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return NULL;
+    return util_concat(archdep_boot_path(), "\\",
+                       machine_name, ".vfl", NULL);
 }
 
 FILE *archdep_open_default_log_file(void)

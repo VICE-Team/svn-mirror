@@ -323,14 +323,7 @@ There is currently no documentation how to compile under RiscOS or BeOS.
     This will also remove the cache of the `configure' script,
     assuring that all the tests are performed from scratch.
 
-  2.2. Compiling under MS-DOS, for MS-DOS
-  ---------------------------------------
-
-    Sorry, no Makefile is currently provided for native MS-DOS
-    compilation, mostly because none of us really uses MS-DOS for
-    developing.
-
-  2.3. Configuring for multiple architectures
+  2.2. Configuring for multiple architectures
   -------------------------------------------
 
     As with most packages using GNU autoconf, you can compile VICE for

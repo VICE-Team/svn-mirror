@@ -1310,7 +1310,12 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
             }
         } else {
             memset(p + xs * 8, 0, (xe + 1 - xs) * 8);
-            memset(msk_ptr + xs, d, xe + 1 - xs);
+            if (vicii.raster.video_mode == VICII_ILLEGAL_BITMAP_MODE_2) {
+                for (i = xs; i <= xe; i++)
+                    *(msk_ptr + i) = mcmsktable[d | 0x100];
+            } else {
+                memset(msk_ptr + xs, d, xe + 1 - xs);
+            }
         }
     }
 }
