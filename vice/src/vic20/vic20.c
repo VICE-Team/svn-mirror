@@ -218,12 +218,7 @@ int rom_trap_allowed(ADDRESS addr)
 /* This hook is called at the end of every frame.  */
 static void vsync_hook(void)
 {
-    if (app_resources.true1541
-	&& app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE) {
-	true1541_cpu_execute();
-    }
-
-    true1541_update_ui_status();
+    true1541_vsync_hook();
 
     /* FIXME: This will be common to all the machines someday.  */
     /* autostart_advance(); */
