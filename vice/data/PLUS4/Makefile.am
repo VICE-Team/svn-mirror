@@ -1,6 +1,8 @@
 plus4dir = $(prefix)/lib/vice/PLUS4
 
 plus4_DATA = \
+	3plus1hi \
+	3plus1lo \
 	basic \
 	kernal \
 	vice.vpl \

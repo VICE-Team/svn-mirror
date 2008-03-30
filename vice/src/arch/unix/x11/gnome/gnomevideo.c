@@ -71,10 +71,9 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     int depth;
     video_frame_buffer_t *i;
 
-#ifdef VIDEO_REMOVE_2X
+    /* FIXME!!! */
     width *= 2;
     height *= 2;
-#endif
 
     i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
     memset(i, 0, sizeof(video_frame_buffer_t));
