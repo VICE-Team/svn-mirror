@@ -294,6 +294,10 @@ static void plus4_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+}
+
 /* Plus4-specific initialization.  */
 int machine_init(void)
 {

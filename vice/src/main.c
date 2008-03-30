@@ -110,6 +110,7 @@ int main_program(int argc, char **argv)
 #endif
 
     maincpu_early_init();
+    machine_setup_context();
     drive_setup_context();
     machine_early_init();
 

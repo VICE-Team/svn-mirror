@@ -329,6 +329,10 @@ static void c64_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+}
+
 /* C64-specific initialization.  */
 int machine_init(void)
 {

@@ -388,6 +388,10 @@ static void c128_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+}
+
 /* C128-specific initialization.  */
 int machine_init(void)
 {

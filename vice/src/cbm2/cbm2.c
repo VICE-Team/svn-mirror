@@ -234,6 +234,10 @@ static void cbm2_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+}
+
 /* CBM-II-specific initialization.  */
 int machine_init(void)
 {

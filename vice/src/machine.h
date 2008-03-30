@@ -72,6 +72,7 @@ extern void machine_resources_shutdown(void);
 extern int machine_cmdline_options_init(void);
 
 /* Initialize the machine.  */
+extern void machine_setup_context(void);
 extern int machine_init(void);
 extern void machine_early_init(void);
 
