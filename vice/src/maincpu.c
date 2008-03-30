@@ -60,29 +60,6 @@
 
 */
 
-/* This enables a special hack that can speed up the instruction fetch quite
-   a lot, but does not work when a conditional branch instruction jumps from
-   ROM to RAM or vice versa.  It still works if one program lies in the I/O
-   space, though.  Keeping this defined should be OK for everything, and
-   makes things much faster.
-
-   This define affects only this file! */
-# ifndef NO_INSTRUCTION_FETCH_HACK
-#  define INSTRUCTION_FETCH_HACK
-# endif
-# ifndef INSTRUCTION_FETCH_HACK
-/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
-   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
-#  define FETCH_OPCODE(x)
-#  define p0                    LOAD(reg_pc)
-#  define p1                    LOAD(reg_pc + 1)
-#  define p2                    LOAD_ADDR(reg_pc + 1)
-
-/* FIXME: This might cause complaints about unused variables...  Well, who
-   cares?  */
-#  define opcode_t      int
-# endif
-
 /* ------------------------------------------------------------------------- */
 
 /* The following #defines are useful for debugging and speed tuning.  */
@@ -105,21 +82,13 @@
 /* ------------------------------------------------------------------------- */
 
 /* Implement the hack to make opcode fetches faster.  */
-#ifdef INSTRUCTION_FETCH_HACK
-
-#  define JUMP(addr)                         \
-     do {                                    \
-       reg_pc = (addr);                      \
-       bank_base = mem_read_base(reg_pc);    \
-       bank_limit = mem_read_limit(reg_pc);  \
-       mem_old_reg_pc = reg_pc;              \
-     } while (0)
-
-#else  /* !INSTRUCTION_FETCH_HACK */
-
-#  define JUMP(addr)    (reg_pc = (addr))
-
-#endif /* !INSTRUCTION_FETCH_HACK */
+#define JUMP(addr)                            \
+    do {                                      \
+        reg_pc = (addr);                      \
+        bank_base = mem_read_base(reg_pc);    \
+        bank_limit = mem_read_limit(reg_pc);  \
+        mem_old_reg_pc = reg_pc;              \
+    } while (0)
 
 /* ------------------------------------------------------------------------- */
 
@@ -344,12 +313,10 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
 
-#ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
     int bank_limit;
 
     mem_set_bank_pointer(&bank_base, &bank_limit);
-#endif
 
     maincpu_trigger_reset();
     log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
@@ -361,7 +328,7 @@ void maincpu_mainloop(void)
 #define LAST_OPCODE_INFO last_opcode_info
 #define TRACEFLG debug.maincpu_traceflg
 
-#define CPU_INT_STATUS maincpu_int_status
+#define CPU_INT_STATUS &maincpu_int_status
 
 #define ALARM_CONTEXT maincpu_alarm_context
 

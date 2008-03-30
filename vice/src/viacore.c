@@ -163,7 +163,7 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 #ifndef via_restore_int /* if VIA reports to other chip (TPI) for IRQ */
 #define via_restore_int(a)                                    \
-        interrupt_set_int_noclk(&mycpu_int_status, I_MYVIAFL, \
+        interrupt_set_int_noclk(mycpu_int_status, I_MYVIAFL, \
         (a) ? MYVIA_INT : 0)
 #endif
 

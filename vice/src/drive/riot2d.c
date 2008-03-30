@@ -62,18 +62,18 @@ struct drive_context_s;
 #define my_set_irq(fl, clk)                          \
         do {                                         \
         printf("set_int_d0(%d)\n",(fl));             \
-        interrupt_set_irq(&(ctxptr->cpu.int_status), \
+        interrupt_set_irq(ctxptr->cpu.int_status,    \
                           (ctxptr->riot2p.irq_type), \
                           (fl) ? IK_IRQ : 0, (clk))  \
         ; } while(0)
 */
 #define my_set_irq(fl, clk)                          \
-        interrupt_set_irq(&(ctxptr->cpu.int_status), \
+        interrupt_set_irq(ctxptr->cpu.int_status,    \
                           (ctxptr->riot2p.irq_type), \
                           (fl) ? IK_IRQ : 0, (clk))
 
-#define my_restore_irq(fl)                                 \
-        interrupt_set_irq_noclk(&(ctxptr->cpu.int_status), \
+#define my_restore_irq(fl)                              \
+        interrupt_set_irq_noclk(ctxptr->cpu.int_status, \
                                 (ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0)
 
 /*************************************************************************
