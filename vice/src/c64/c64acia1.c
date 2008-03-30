@@ -66,3 +66,4 @@ BYTE REGPARM1 acia1_read(WORD addr)
   io_source=IO_SOURCE_ACIA;
   return myacia_read(addr);
 }
+
