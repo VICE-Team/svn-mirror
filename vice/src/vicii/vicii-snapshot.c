@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "interrupt.h"
 #include "mem.h"
 #include "types.h"
 #include "vicii-snapshot.h"

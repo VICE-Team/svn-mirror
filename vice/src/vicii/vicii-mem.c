@@ -29,6 +29,7 @@
 #include <stdlib.h>
 
 #include "c64cia.h"
+#include "interrupt.h"
 #include "types.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"

@@ -31,7 +31,6 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
-#include "mon.h"
 #include "mos6510.h"
 #include "snapshot.h"
 #include "types.h"
@@ -53,7 +52,9 @@ extern DWORD last_opcode_info;
 extern unsigned int reg_pc;
 
 extern mos6510_regs_t maincpu_regs;
-extern monitor_interface_t maincpu_monitor_interface;
+
+struct monitor_interface_s;
+extern struct monitor_interface_s maincpu_monitor_interface;
 
 extern int rmw_flag;
 extern CLOCK clk;
