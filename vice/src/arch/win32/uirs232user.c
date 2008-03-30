@@ -97,9 +97,10 @@ static void init_rs232user_dialog(HWND hwnd)
     uilib_move_group(hwnd, rs232user_rightgroup, xsize + 30);
 
     GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xsize + 160, rect.bottom - rect.top, TRUE);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 160, rect.bottom - rect.top,
+               TRUE);
 
-    resources_get_value("RsUserEnable", (void *)&res_value);
+    resources_get_int("RsUserEnable", &res_value);
     CheckDlgButton(hwnd, IDC_RS232USER_ENABLE,
                    res_value ? BST_CHECKED : BST_UNCHECKED);
 
@@ -111,7 +112,7 @@ static void init_rs232user_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("RsUserDev", (void *)&res_value);
+    resources_get_int("RsUserDev", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
         if (res_value_loop == res_value)
@@ -127,7 +128,7 @@ static void init_rs232user_dialog(HWND hwnd)
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
 
-    resources_get_value("RsUserBaud", (void *)&res_value);
+    resources_get_int("RsUserBaud", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
         if (baudrates[res_value_loop] == res_value)
@@ -140,17 +141,14 @@ static void init_rs232user_dialog(HWND hwnd)
 
 static void end_rs232user_dialog(HWND hwnd)
 {
-    resources_set_value("RsUserEnable", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_RS232USER_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("RsUserEnable", (IsDlgButtonChecked(hwnd,
+                      IDC_RS232USER_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_value("RsUserDev",(resource_value_t)
-                        SendMessage(GetDlgItem(hwnd, IDC_RS232USER_DEVICE),
-                        CB_GETCURSEL, 0, 0));
+    resources_set_int("RsUserDev", SendMessage(GetDlgItem(hwnd,
+                      IDC_RS232USER_DEVICE), CB_GETCURSEL, 0, 0));
 
-    resources_set_value("RsUserBaud",(resource_value_t)
-                        baudrates[SendMessage(GetDlgItem(
-                        hwnd, IDC_RS232USER_BAUDRATE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("RsUserBaud", baudrates[SendMessage(GetDlgItem(
+                      hwnd, IDC_RS232USER_BAUDRATE), CB_GETCURSEL, 0, 0)]);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,

@@ -46,25 +46,25 @@ static void init_rs232_dialog(HWND hwnd)
     const char *device;
     TCHAR *st_device;
 
-    resources_get_value("RsDevice1", (void *)&device);
+    resources_get_string("RsDevice1", &device);
     st_device = system_mbstowcs_alloc(device);
     SetDlgItemText(hwnd, IDC_RS232_DEVICE1,
                    device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
-    resources_get_value("RsDevice2", (void *)&device);
+    resources_get_string("RsDevice2", &device);
     st_device = system_mbstowcs_alloc(device);
     SetDlgItemText(hwnd, IDC_RS232_DEVICE2,
                    device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
-    resources_get_value("RsDevice3", (void *)&device);
+    resources_get_string("RsDevice3", &device);
     st_device = system_mbstowcs_alloc(device);
     SetDlgItemText(hwnd, IDC_RS232_DEVICE3,
                    device != NULL ? st_device : TEXT(""));
     system_mbstowcs_free(st_device);
 
-    resources_get_value("RsDevice4", (void *)&device);
+    resources_get_string("RsDevice4", &device);
     st_device = system_mbstowcs_alloc(device);
     SetDlgItemText(hwnd, IDC_RS232_DEVICE4,
                    device != NULL ? st_device : TEXT(""));
@@ -78,19 +78,19 @@ static void end_rs232_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_RS232_DEVICE1, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RsDevice1", (resource_value_t)s);
+    resources_set_string("RsDevice1", s);
 
     GetDlgItemText(hwnd, IDC_RS232_DEVICE2, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RsDevice2", (resource_value_t)s);
+    resources_set_string("RsDevice2", s);
 
     GetDlgItemText(hwnd, IDC_RS232_DEVICE3, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RsDevice3", (resource_value_t)s);
+    resources_set_string("RsDevice3", s);
 
     GetDlgItemText(hwnd, IDC_RS232_DEVICE4, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RsDevice4", (resource_value_t)s);
+    resources_set_string("RsDevice4", s);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
