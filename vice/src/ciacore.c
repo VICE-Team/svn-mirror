@@ -110,6 +110,15 @@ inline static void cia_update_ta(CLOCK rclk) {
 }
 
 inline static void cia_update_tb(CLOCK rclk) {
+    if( (cia[CIA_CRB] & 0x41) == 0x41 ) {
+	CLOCK tmp;
+        tmp = ciat_alarm_clk(&ciata);
+        if (tmp <= rclk)
+            int_ciata(myclk - tmp);
+        tmp = ciat_alarm_clk(&ciatb);
+        if (tmp <= rclk)
+            int_ciatb(myclk - tmp);
+    }
     if(ciat_update(&ciatb, rclk)) {
         ciaint |= CIA_IM_TB;
         if((cia[CIA_CRB] & 0x09) == 0x09) {
@@ -361,7 +370,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
       case CIA_CRB:		/* control register B */
 	cia_update_tb(rclk);
-	ciat_set_ctrl(&ciatb, rclk, byte);
+	/* bit 5 is set when single-stepping is set */
+	ciat_set_ctrl(&ciatb, rclk, byte | ((byte & 0x40) ? 0x20 : 0));
 
 #if defined (CIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
@@ -657,9 +667,6 @@ static int int_ciata(long offset)
     cia_update_ta(rclk);
 
     ciat_ack_alarm(&ciata, rclk);
-#if 0
-    alarm_unset(ciata.alarm);	/* why that? */
-#endif
 
     CIAT_LOG((
           "int_ciata(rclk = %u, tal = %u, cra=%02x, int=%02x, ier=%02x.",
@@ -667,13 +674,13 @@ static int int_ciata(long offset)
 
     cia_tat = (cia_tat + 1) & 1;
 
-    if ((cia_tas == CIAT_RUNNING) && !(cia[CIA_CRA] & 8)) {
+    if ( (cia[CIA_CRA] & 0x29) == 0x01 ) {
 	/* if we do not need alarm, no PB6, no shift register, and not timer B
 	   counting timer A, then we can savely skip alarms... */
 	if ( ( (ciaier & CIA_IM_TA) &&
 		(!(ciaint & 0x80)) )
 	    || (cia[CIA_CRA] & 0x42)
-	    || (cia_tbs == CIAT_COUNTTA)) {
+	    || (cia[CIA_CRB] & 0x40) ) {
 	    ciat_set_alarm(&ciata);
 	}
     }
@@ -691,10 +698,8 @@ static int int_ciata(long offset)
 	    }
 	}
     }
-    if (cia_tbs == CIAT_COUNTTA) {
-
+    if (cia[CIA_CRB] & 0x40) {
         cia_update_tb(rclk);
-
 	ciat_single_step(&ciatb);
     }
 
@@ -741,10 +746,6 @@ static int int_ciatb(long offset)
 
     ciat_ack_alarm(&ciatb, rclk);
 
-#if 0
-    alarm_unset(ciatb.alarm);	/* why that? */
-#endif
-
     CIAT_LOG((
             "timer B int_ciatb(rclk=%d, tbs=%d, int=%02x, ier=%02x).", 
 		rclk, cia_tbs, ciaint, ciaier));
@@ -752,32 +753,14 @@ static int int_ciatb(long offset)
     cia_tbt = (cia_tbt + 1) & 1;
 
     /* running and continous, then next alarm */
-    if (cia_tbs == CIAT_RUNNING) {
-	if (!(cia[CIA_CRB] & 8)) {
-/*
-	    CIAT_LOG(( "rclk=%d ciatb: set tbu alarm to %d.",
-                            rclk, rclk + cia_tbl + 1));
-*/
-	    /* if no interrupt flag we can safely skip alarms */
-	    if (ciaier & CIA_IM_TB) {
-		ciat_set_alarm(&ciatb);
-	    }
-	} else {
-#if 0
-	    cia_tbs = CIAT_STOPPED;
-	    cia[CIA_CRB] &= 0xfe; /* clear start bit */
-	    cia_tbu = 0;
-#endif /* 0 */
-#if defined(CIA_TIMER_DEBUG)
-	    if (mycia_debugFlag)
-		log_message(cia_log,
-                            "rclk=%d ciatb: unset tbu alarm.", rclk);
-#endif
+    if ( (cia[CIA_CRB] & 0x69) == 0x01 ) {
+	/* if no interrupt flag we can safely skip alarms */
+	if (ciaier & CIA_IM_TB) {
+	    ciat_set_alarm(&ciatb);
 	}
     } else {
-	if (cia_tbs == CIAT_COUNTTA) {
+	if ( (cia[CIA_CRB] & 0x41) == 0x41) {
 	    if ((cia[CIA_CRB] & 8)) {
-		cia_tbs = CIAT_STOPPED;
 		cia[CIA_CRB] &= 0xfe;		/* clear start bit */
 	    }
 	}
@@ -1081,11 +1064,15 @@ int mycia_read_snapshot_module(snapshot_t *p)
     }
     snapshot_module_read_byte(m, &ciaier);
     snapshot_module_read_byte(m, &byte);
+/*
     timera.running = byte & 1;
+*/
     timera.oneshot = byte & 8;
     timera.single = 0; /* FIXME */
     snapshot_module_read_byte(m, &byte);
+/*
     timerb.running = byte & 1;
+*/
     timerb.oneshot = byte & 8;
     timerb.single = 0; /* FIXME */
 
