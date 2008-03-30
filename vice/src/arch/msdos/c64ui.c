@@ -50,14 +50,16 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
     if (been_activated) {
         char *default_item, *directory;
         char *name;
-        const char *s;
-        int type = (int) param;
+        const char *s, *filter;
+        int type = (int)param;
 
         s = cartridge_get_file_name((ADDRESS) 0);
         fname_split(s, &directory, &default_item);
 
+        filter = (type == CARTRIDGE_CRT) ? "*.crt" : "*";
+
         name = tui_file_selector("Attach cartridge image",
-                                 directory, "*", default_item, NULL, NULL);
+                                 directory, filter, default_item, NULL, NULL);
         if (name != NULL
             && (s == NULL || strcasecmp(name, s) != 0)
             && cartridge_attach_image(type, name) < 0)
