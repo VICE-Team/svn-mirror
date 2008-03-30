@@ -20,8 +20,8 @@ c64_DATA = \
 	os2_sym.vkm \
 	pc64.vpl \
 	vice.vpl \
-	win_sym.vkm \
 	win_sym_de.vkm \
+	win_sym_us.vkm \
 	win_pos.vkm \
 	x11_sym.vkm \
 	x11_pos.vkm
