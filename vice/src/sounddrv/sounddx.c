@@ -196,6 +196,7 @@ static UINT                 timer_id;
 
 /* ------------------------------------------------------------------------ */
 
+#if 0
 DWORD WINAPI HandleNotifications(LPVOID lpparam)
 {
 DWORD       play_cursor, write_cursor;
@@ -387,6 +388,7 @@ int         t;
             buffer_offset = 0;
     }
 }
+#endif
 
 
 DSBUFFERDESC desc;
@@ -398,7 +400,7 @@ static int dx_init(const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
 {
 HRESULT result;
-int     i;
+/* int     i; */
 
     DEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d, bufsize = %.4f\n",
            *speed, *fragsize, *fragnr, bufsize));
@@ -465,17 +467,19 @@ int     i;
     desc.dwSize = sizeof(DSBUFFERDESC);
     desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2
                    | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN
-                   | DSBCAPS_CTRLVOLUME ;
+                   | DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS ;
 
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
 
-    stream_buffer=(SWORD*)xmalloc(fragment_size**fragnr*2);
     stream_buffer_size=fragment_size**fragnr;
+#if 0
+    stream_buffer=(SWORD*)xmalloc(fragment_size**fragnr*2);
     stream_buffer_first=0;
     stream_buffer_last=0;
     stream_buffer_shadow_first=0;
     stream_buffer_shadow_last=0;
+#endif
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &buffer, NULL);
     if (result != DS_OK) {
@@ -490,7 +494,7 @@ int     i;
     wfex.wBitsPerSample = is16bit ? 16 : 8;
     wfex.nBlockAlign = is16bit ? 2 : 1;
     wfex.nAvgBytesPerSec = wfex.nSamplesPerSec * wfex.nBlockAlign;
-    
+
     result=IDirectSoundBuffer_SetFormat(pbuffer,&wfex);
     if (result != DS_OK) {
         ui_error("Cannot set Output format for primary sound buffer:\n%s",
@@ -498,6 +502,7 @@ int     i;
         return -1;
     }
 
+#if 0    
     /*  Now let's check if IDirectSoundNotify interface is available or not. */
     /*  It should be there if the user has DX5 or higher...*/
     /*  On NT with DX3, we are using a periodic timer event callback */
@@ -539,7 +544,9 @@ int     i;
         timer_id = timeSetEvent(timer_interval, 0, TimerCallbackFunction, 0,
                                 TIME_PERIODIC);
     }
+#endif
 
+    buffer_offset=*fragsize*(is16bit ? sizeof(SWORD) : 1)*(*fragnr-1);
     /* Let's go...  */
     result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
     if (result == DSERR_BUFFERLOST) {
@@ -566,6 +573,7 @@ DWORD   result;
     if (ds==NULL) return;
     IDirectSoundBuffer_Stop(buffer);
 
+#if 0
     /*  Stop & Kill streaming thread */
     switch (streammode) {
         case STREAM_NOTIFY:
@@ -594,6 +602,7 @@ DWORD   result;
 
     free(stream_buffer);
     stream_buffer=NULL;
+#endif
 
     /*  Release buffer */
     IDirectSoundBuffer_Release(buffer);
@@ -605,24 +614,28 @@ DWORD   result;
 
 static int dx_bufferspace(void)
 {
-    /* DWORD play_cursor, write_cursor; */
+    DWORD play_cursor, write_cursor;
+    int free_samples;
 
-//    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
-    return
-        stream_buffer_size - (stream_buffer_shadow_last
-        - stream_buffer_shadow_first);
+    IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor, &write_cursor);
+    if (play_cursor <= buffer_offset)
+        free_samples = stream_buffer_size - (buffer_offset - play_cursor) / (is16bit?2:1);
+    else
+        free_samples = (play_cursor - buffer_offset)/(is16bit?2:1);
+
+    return free_samples;
+
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
 {
-    /* LPVOID lpvPtr1;
+    LPVOID lpvPtr1;
     DWORD dwBytes1;
     LPVOID lpvPtr2;
     DWORD dwBytes2;
-    HRESULT result; */
+    HRESULT result;
     DWORD buffer_lock_size; /* buffer_lock_end; */
-    int i, count;
-    int     t;
+    unsigned int i, count, t;
 
     /* XXX: Assumes `nr' is multiple of `fragment_size'.  */
     count = nr / fragment_size;
@@ -630,6 +643,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++) {
+#if 0
         while (stream_buffer_shadow_last - stream_buffer_shadow_first
               == stream_buffer_size) ;
         t = stream_buffer_last+fragment_size;
@@ -638,10 +652,60 @@ static int dx_write(SWORD *pbuf, size_t nr)
         memcpy(stream_buffer+stream_buffer_last,pbuf,fragment_size*2);
         stream_buffer_last=t;
         stream_buffer_shadow_last+=fragment_size;
+#endif
+        do {
+            result = IDirectSoundBuffer_Lock(buffer, buffer_offset, buffer_lock_size,
+                                     &lpvPtr1, &dwBytes1, &lpvPtr2,
+                                     &dwBytes2, 0);
+
+            if (result==DSERR_BUFFERLOST) {
+                IDirectSoundBuffer_Restore(buffer);
+                result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
+                                         buffer_lock_size, &lpvPtr1, &dwBytes1,
+                                         &lpvPtr2, &dwBytes2, 0);
+            }
+        } while ((dwBytes1 + dwBytes2) < buffer_lock_size);
+        if (is16bit)
+        {
+            memcpy(lpvPtr1,pbuf,dwBytes1);
+            if (lpvPtr2)
+                memcpy(lpvPtr2,(BYTE *)pbuf+dwBytes1,dwBytes2);
+        } else {
+            SWORD *copyptr = pbuf;
+            for (i = 0; i < dwBytes1; i++) {
+                ((BYTE*)lpvPtr1)[i]=(*(copyptr++)>>8)+0x80;
+            }
+            if (lpvPtr2!=NULL) {
+                for (i = 0; i < dwBytes2; i++) {
+                    ((BYTE*)lpvPtr2)[i]=(*(copyptr++)>>8)+0x80;
+                }
+            }
+        }
+
+        result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
+                                                   lpvPtr2, dwBytes2);
+        buffer_offset+=buffer_lock_size;
+        if (buffer_offset==buffer_size) buffer_offset=0;
         pbuf+=fragment_size;
     }
     return 0;
 }
+
+
+static int dx_suspend(void)
+{
+    IDirectSoundBuffer_Stop(buffer);
+    return 0;
+}
+
+
+static int dx_resume(void)
+{
+    IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
+    return 0;
+}
+
+
 
 static sound_device_t dx_device =
 {
@@ -652,8 +716,8 @@ static sound_device_t dx_device =
     NULL,
     dx_bufferspace,
     dx_close,
-    NULL,
-    NULL
+    dx_suspend,
+    dx_resume
 };
 
 int sound_init_dx_device(void)

@@ -594,12 +594,12 @@ double sound_flush(int relative_speed)
         enablesound();
     if (sound_run_sound())
         return 0;
-    sound_resume();
 
     if (warp_mode_enabled && snddata.pdev->bufferspace != NULL) {
       snddata.bufptr = 0;
       return 0;
     }
+    sound_resume();
 
     if (snddata.pdev->flush)
     {
@@ -956,4 +956,8 @@ void sound_set_relative_speed(int value)
 void sound_set_warp_mode(int value)
 {
     warp_mode_enabled = value;
+    if (value)
+        sound_suspend();
+    else
+        sound_resume();
 }
