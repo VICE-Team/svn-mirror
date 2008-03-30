@@ -1,3 +1,29 @@
+2003-11-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.17.
+
+	* drive/drivetypes.h, drive/iec/cia1571d.c, drive/iec/iec.c,
+	drive/iec/cia1581d.c, drive/iec/memiec.c, drive/ieee/fdc.c,
+	drive/iec/via1d1541.c, drive/iecieee/iecieee.c,
+	drive/iecieee/via2d.c, drive/ieee/ieee.c, drive/ieee/riot2d.c,
+	drive/ieee/via1d2031.c, drive/tcbm/glue1551.c, drive/drive.c,
+	drive/tcbm/tpid.c, drive/drivecpu.c, drive/drivemem.c,
+	drive/iec/glue1571.c, drive/iec/glue1571.h, drive/drive.h,
+	drive/iec/iec-resources.c, drive/drive-resources.c,
+	drive/iec/iec-cmdline-options.c, c64/c64drive.c,
+	drive/drive-cmdline-options.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drive.c,
+	drive/driveimage.c, drive/drive-snapshot.c, drive/driverom.c,
+	drive/iec/iecrom.c, drive/iec/jobcode1581.c, drive/driverom.h,
+	drive/iec/wd1770.c, drive/ieee/ieeerom.c, drive/driveimage.h,
+	drive/ieee/ieeerom.h, drive/tcbm/tcbmrom.c, drive/drivesync.c,
+	drive/tcbm/tcbmrom.h, drive/drive-overflow.c,
+	drive/drivesync.h, drive/rotation.c, parallel/parallel-trap.c,
+	parallel/parallel.c, c64/c64cia2.c, c64/c64iec.c,
+	c128/c128iec.c, vic20/vic20iec.c, plus4/plus4iec.c,
+	plus4/plus4pio1.c, plus4/plus4tcbm.c: Do not use `drive[]' as
+	global variable.
+
 2003-11-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.16.
