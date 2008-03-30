@@ -191,51 +191,51 @@ typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
 static monitor_cpu_type_list_t *monitor_cpu_type_list;
 
 struct mon_cmds mon_cmd_array[] = {
-   { "",		"",	BAD_CMD,		STATE_INITIAL },
+   { "",                "",     BAD_CMD,                STATE_INITIAL },
 
-   { "~", 		"~", 	CONVERT_OP, 		STATE_INITIAL,
+   { "~",               "~",    CONVERT_OP,             STATE_INITIAL,
      "<number>",
      "Display the specified number in decimal, hex, octal and binary."},
 
-   { ">", 		">", 	CMD_ENTER_DATA, 	STATE_INITIAL,
+   { ">",               ">",    CMD_ENTER_DATA,         STATE_INITIAL,
      "[<address>] <data_list>",
      "Write the specified data at `address'."},
 
-   { "@", 		"@", 	CMD_DISK, 		STATE_ROL,
+   { "@",               "@",    CMD_DISK,               STATE_ROL,
    "<disk command>",
      "Perform a disk command on the currently attached disk image on drive 8.  The\n"
      "specified disk command is sent to the drive's channel #15." },
 
-   { "]", 		"]", 	CMD_ENTER_BIN_DATA, 	STATE_INITIAL },
+   { "]",               "]",    CMD_ENTER_BIN_DATA,     STATE_INITIAL },
 
-   { "a", 		"a", 	CMD_ASSEMBLE, 		STATE_INITIAL,
+   { "a",               "a",    CMD_ASSEMBLE,           STATE_INITIAL,
      "<address> [ <instruction> [: <instruction>]* ]",
      "Assemble instructions to the specified address.  If only one instruction\n"
      "is specified, enter assembly mode (enter an empty line to exit assembly\n"
      "mode)." },
 
-   { "add_label", 	"al", 	CMD_ADD_LABEL, 		STATE_INITIAL,
+   { "add_label",       "al",   CMD_ADD_LABEL,          STATE_INITIAL,
     "<address> <label>",
      "Map a given address to a label.  This label can be used when entering\n"
      "assembly code and is shown during disassembly." },
 
-   { "bank",		"",	CMD_BANK,		STATE_BNAME,
+   { "bank",            "",     CMD_BANK,               STATE_BNAME,
      "[<memspace>] [bankname]",
      "If bankname is not given, print the possible banks for the memspace.\n"
      "If bankname is given set the current bank in the memspace to the given\n"
      "bank." },
 
-   { "bload", 		"bl", 	CMD_BLOAD, 		STATE_FNAME,
+   { "bload",           "bl",   CMD_BLOAD,              STATE_FNAME,
      "\"<filename>\" <address>",
      "Load the specified file into memory at the specified address."},
 
-   { "br", 		"", 	CMD_BLOCK_READ, 	STATE_INITIAL,
+   { "br",              "",     CMD_BLOCK_READ,         STATE_INITIAL,
      "<track> <sector> [<address>]",
      "Read the block at the specified track and sector.  If an address is\n"
      "specified, the data is loaded into memory.  If no address is given, the\n"
      "data is displayed using the default datatype." },
 
-   { "break", 		"", 	CMD_BREAK, 		STATE_INITIAL,
+   { "break",           "",     CMD_BREAK,              STATE_INITIAL,
      "[<address> [if <cond_expr>] ]",
      "If no address is given, the currently valid watchpoints are printed.\n"
      "If an address is given, a breakpoint is set for that address and the\n"
@@ -243,34 +243,34 @@ struct mon_cmds mon_cmd_array[] = {
      "specified for the breakpoint.  For more information on conditions, see\n"
      "the CONDITION command."   },
 
-   { "brmon", 		"", 	CMD_BRMON, 		STATE_INITIAL },
+   { "brmon",           "",     CMD_BRMON,              STATE_INITIAL },
 
-   { "bsave", 		"bs", 	CMD_BSAVE, 		STATE_FNAME,
+   { "bsave",           "bs",   CMD_BSAVE,              STATE_FNAME,
      "\"<filename>\" <address1> <address2>",
      "Save the memory from address1 to address2 to the specified file." },
 
-   { "bw", 		"", 	CMD_BLOCK_WRITE, 	STATE_INITIAL,
+   { "bw",              "",     CMD_BLOCK_WRITE,        STATE_INITIAL,
      "<track> <sector> <address>",
      "Write a block of data at `address' on the specified track and sector\n"
      "of disk in drive 8." },
 
-   { "cd", 		"", 	CMD_CHDIR, 		STATE_ROL,
+   { "cd",              "",     CMD_CHDIR,              STATE_ROL,
      "<directory>",
      "Change the working directory."},
 
-   { "command", 	"", 	CMD_COMMAND, 		STATE_INITIAL,
+   { "command",         "",     CMD_COMMAND,            STATE_INITIAL,
      "<checknum> \"<command>\"",
      "Specify `command' as the command to execute when checkpoint `checknum'\n"
      "is hit.  Note that the `x' command is not yet supported as a\n"
      "command argument." },
 
-   { "compare", 	"c", 	CMD_COMPARE, 		STATE_INITIAL,
+   { "compare",         "c",    CMD_COMPARE,            STATE_INITIAL,
      "<address_range> <address>",
      "Compare memory from the source specified by the address range to the\n"
      "destination specified by the address.  The regions may overlap.  Any\n"
      "values that miscompare are displayed using the default displaytype.\n" },
 
-   { "condition", 	"cond", CMD_CONDITION, 		STATE_INITIAL,
+   { "condition",       "cond", CMD_CONDITION,          STATE_INITIAL,
      "<checknum> if <cond_expr>",
      "Each time the specified checkpoint is examined, the condition is\n"
      "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
@@ -282,157 +282,156 @@ struct mon_cmds mon_cmd_array[] = {
      "<type>",
      "Specify the type of CPU currently used (6502/z80)." },
 
-   { "d", 		"d", 	CMD_DISASSEMBLE, 	STATE_INITIAL,
+   { "d",               "d",    CMD_DISASSEMBLE,        STATE_INITIAL,
      "[<address> [<address>]]",
      "Disassemble instructions.  If two addresses are specified, they are used\n"
-     "as a start and end address.  If only one is specified, it is treated as\n"
-     "the start address and a default number of instructions are\n"
+     "as a start and end address.  If only one is specified, it is treated as\n"     "the start address and a default number of instructions are\n"
      "disassembled.  If no addresses are specified, a default number of\n"
      "instructions are disassembled from the dot address." },
 
-   { "delete", 		"del", 	CMD_DELETE, 		STATE_INITIAL,
+   { "delete",          "del",  CMD_DELETE,             STATE_INITIAL,
      "<checknum>",
      "Delete checkpoint `checknum'." },
 
-   { "delete_label", 	"dl", 	CMD_DEL_LABEL, 		STATE_INITIAL },
+   { "delete_label",    "dl",   CMD_DEL_LABEL,          STATE_INITIAL },
 
-   { "device", 		"dev", 	CMD_DEVICE, 		STATE_INITIAL,
+   { "device",          "dev",  CMD_DEVICE,             STATE_INITIAL,
      "[c:|8:|9:]",
      "Set the default memory device to either the computer `c:' or the\n"
      "specified disk drive (`8:', `9:')." },
 
-   { "disable", 	"", 	CMD_CHECKPT_OFF, 	STATE_INITIAL,
+   { "disable",         "",     CMD_CHECKPT_OFF,        STATE_INITIAL,
      "<checknum>",
      "Disable checkpoint `checknum'." },
 
-   { "down", 		"", 	CMD_DOWN, 		STATE_INITIAL },
+   { "down",            "",     CMD_DOWN,               STATE_INITIAL },
 
-   { "dump", 		"", 	CMD_DUMP, 		STATE_FNAME },
+   { "dump",            "",     CMD_DUMP,               STATE_FNAME },
 
-   { "enable", 		"", 	CMD_CHECKPT_ON, 	STATE_INITIAL,
+   { "enable",          "",     CMD_CHECKPT_ON,         STATE_INITIAL,
      "<checknum>",
      "Enable checkpoint `checknum'." },
 
-   { "exit", 		"x", 	CMD_EXIT, 		STATE_INITIAL,
+   { "exit",            "x",    CMD_EXIT,               STATE_INITIAL,
      NULL,
      "Leave the monitor and return to execution." },
 
-   { "fill", 		"f", 	CMD_FILL, 		STATE_INITIAL,
+   { "fill",            "f",    CMD_FILL,               STATE_INITIAL,
      "<address_range> <data_list>",
      "Fill memory in the specified address range with the data in\n"
      "<data_list>.  If the size of the address range is greater than the size\n"
      "of the data_list, the data_list is repeated." },
 
-   { "goto", 		"g", 	CMD_GOTO, 		STATE_INITIAL,
+   { "goto",            "g",    CMD_GOTO,               STATE_INITIAL,
      "<address>",
      "Change the PC to ADDRESS and continue execution" },
 
-   { "help", 		"?", 	CMD_HELP, 		STATE_ROL },
+   { "help",            "?",    CMD_HELP,               STATE_ROL },
 
-   { "hunt", 		"h", 	CMD_HUNT, 		STATE_INITIAL,
+   { "hunt",            "h",    CMD_HUNT,               STATE_INITIAL,
      "<address_range> <data_list>",
      "Hunt memory in the specified address range for the data in\n"
      "<data_list>.  If the data is found, the starting address of the match is\n"
      "displayed.  The entire range is searched for all possible matches." },
 
-   { "i", 		"i", 	CMD_TEXT_DISPLAY, 	STATE_INITIAL,
+   { "i",               "i",    CMD_TEXT_DISPLAY,       STATE_INITIAL,
      "<address_opt_range>",
      "Display memory contents as PETSCII text." },
 
-   { "ignore", 		"", 	CMD_IGNORE, 		STATE_INITIAL,
+   { "ignore",          "",     CMD_IGNORE,             STATE_INITIAL,
      "<checknum> [<count>]",
      "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
      "the default value is 1.\n" },
 
-   { "io", 		"", 	CMD_IO, 		STATE_INITIAL },
+   { "io",              "",     CMD_IO,                 STATE_INITIAL },
 
-   { "load", 		"l", 	CMD_LOAD, 		STATE_FNAME,
+   { "load",            "l",    CMD_LOAD,               STATE_FNAME,
      "\"<filename>\" <address>",
      "Load the specified file into memory at the specified address. Set BASIC\n"
      "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
      "two-byte load address from file if no address specified."},
 
-   { "load_labels", 	"ll", 	CMD_LOAD_LABELS, 	STATE_FNAME,
+   { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
      "Load a file containing a mapping of labels to addresses.  If no memory\n"
      "space is specified, the default readspace is used." },
 
-   { "m", 		"m", 	CMD_MEM_DISPLAY, 	STATE_INITIAL,
+   { "m",               "m",    CMD_MEM_DISPLAY,        STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]"
      "Display the contents of memory.  If no datatype is given, the default is\n"
      "used.  If only one address is specified, the length of data displayed is\n"
      "based on the datatype.  If no addresses are given, the 'dot' address is\n"
      "used." },
 
-   { "mc", 		"", 	CMD_CHAR_DISPLAY, 	STATE_INITIAL,
+   { "mc",              "",     CMD_CHAR_DISPLAY,       STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as character data.  If only one address\n"
      "is specified, only one character is displayed.  If no addresses are\n"
      "given, the ``dot'' address is used." },
 
-   { "move", 		"t", 	CMD_MOVE, 		STATE_INITIAL,
+   { "move",            "t",    CMD_MOVE,               STATE_INITIAL,
      "<address_range> <address>",
      "Move memory from the source specified by the address range to\n"
      "the destination specified by the address.  The regions may overlap." },
 
-   { "ms", 		"", 	CMD_SPRITE_DISPLAY, 	STATE_INITIAL,
+   { "ms",              "",     CMD_SPRITE_DISPLAY,     STATE_INITIAL,
      "[<data_type>] [<address_opt_range>]",
      "Display the contents of memory as sprite data.  If only one address is\n"
      "specified, only one sprite is displayed.  If no addresses are given, the\n"
      "``dot'' address is used." },
 
-   { "next", 		"n", 	CMD_NEXT, 		STATE_INITIAL,
+   { "next",            "n",    CMD_NEXT,               STATE_INITIAL,
      NULL,
      "Advance to the next instruction.  Subroutines are treated as\n"
      "a single instruction." },
 
-   { "playback", 	"pb", 	CMD_PLAYBACK, 		STATE_FNAME,
+   { "playback",        "pb",   CMD_PLAYBACK,           STATE_FNAME,
      "\"<filename>\"",
      "Monitor commands from the specified file are read and executed.  This\n"
      "command stops at the end of file or when a STOP command is read." },
 
-   { "print", 		"p", 	CMD_PRINT, 		STATE_INITIAL,
+   { "print",           "p",    CMD_PRINT,              STATE_INITIAL,
      "<expression>",
      "Evaluate the specified expression and output the result." },
 
-/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0) */
-/* So I decided to skip this (I think it's unnecessary for OS/2                */
+/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
+   So I decided to skip this (I think it's unnecessary for OS/2 */
 #ifdef OS2
-   { "quit", 		"", 	CMD_EXIT, 		STATE_INITIAL,
+   { "quit",            "",     CMD_EXIT,               STATE_INITIAL,
      NULL,
      "Leave the monitor and return to execution." },
 #else
-   { "quit", 		"", 	CMD_QUIT, 		STATE_INITIAL,
+   { "quit",            "",     CMD_QUIT,               STATE_INITIAL,
      NULL,
      "Exit the emulator immediately."},
 #endif
 
-   { "radix", 		"rad", 	CMD_RADIX, 		STATE_INITIAL,
+   { "radix",           "rad",  CMD_RADIX,              STATE_INITIAL,
      "[H|D|O|B]",
      "Set the default radix to hex, decimal, octal, or binary.  With no\n"
      "argument, the current radix is printed." },
 
-   { "record", 		"rec", 	CMD_RECORD, 		STATE_FNAME,
+   { "record",          "rec",  CMD_RECORD,             STATE_FNAME,
      "\"<filename>\"",
      "After this command, all commands entered are written to the specified\n"
      "file until the STOP command is entered." },
 
-   { "registers", 	"r", 	CMD_REGISTERS, 		STATE_REG_ASGN,
+   { "registers",       "r",    CMD_REGISTERS,          STATE_REG_ASGN,
      "[<reg_name> = <number> [, <reg_name> = <number>]*]",
      "Assign respective registers.  With no parameters, display register\n"
      "values." },
 
-   { "return", 		"ret", 	CMD_RETURN, 		STATE_INITIAL,
+   { "return",          "ret",  CMD_RETURN,             STATE_INITIAL,
      NULL,
      "Continues execution and returns to the monitor just before the next\n"
      "RTS or RTI is executed." },
 
-   { "save", 		"s", 	CMD_SAVE, 		STATE_FNAME,
+   { "save",            "s",    CMD_SAVE,               STATE_FNAME,
      "\"<filename>\" <address1> <address2>",
      "Save the memory from address1 to address2 to the specified file. Write\n"
      "two-byte load address." },
 
-   { "save_labels", 	"sl",	CMD_SAVE_LABELS, 	STATE_FNAME,
+   { "save_labels",     "sl",   CMD_SAVE_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
      "Save labels to a file.  If no memory space is specified, all of the\n"
      "labels are saved." },
@@ -441,12 +440,12 @@ struct mon_cmds mon_cmd_array[] = {
      NULL,
      "Displays the contents of the screen." },
 
-   { "show_labels", 	"shl", 	CMD_SHOW_LABELS, 	STATE_INITIAL,
+   { "show_labels",     "shl",  CMD_SHOW_LABELS,        STATE_INITIAL,
      "[<memspace>]",
      "Display current label mappings.  If no memory space is specified, show\n"
      "all labels." },
 
-   { "sidefx", 		"sfx", 	CMD_SIDEFX, 		STATE_INITIAL,
+   { "sidefx",          "sfx",  CMD_SIDEFX,             STATE_INITIAL,
      "[on|off|toggle]",
      "Control how monitor generated reads affect memory locations that have\n"
      "read side-effects.  If the argument is 'on' then reads may cause\n"
@@ -454,37 +453,37 @@ struct mon_cmds mon_cmd_array[] = {
      "side-effects.  If the argument is 'toggle' then the current mode is\n"
      "switched.  No argument displays the current state." },
 
-   { "step", 		"z", 	CMD_STEP, 		STATE_INITIAL,
+   { "step",            "z",    CMD_STEP,               STATE_INITIAL,
      "[<count>]",
      "Single-step through instructions.  COUNT allows stepping\n"
      "more than a single instruction at a time." },
 
-   { "stop", 		"", 	CMD_STOP, 		STATE_INITIAL,
+   { "stop",            "",     CMD_STOP,               STATE_INITIAL,
      NULL,
      "Stop recording commands.  See `record'." },
 
-   { "system", 		"sys", 	CMD_SYSTEM, 		STATE_ROL },
+   { "system",          "sys",  CMD_SYSTEM,             STATE_ROL },
 
-   { "trace", 		"tr", 	CMD_TRACE, 		STATE_INITIAL,
+   { "trace",           "tr",   CMD_TRACE,              STATE_INITIAL,
      "[address [address]]",
      "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
      "for that address.  If two addresses are specified, set a tracepoint\n"
      "for the memory locations between the two addresses." },
 
-   { "until", 		"un", 	CMD_UNTIL, 		STATE_INITIAL,
+   { "until",           "un",   CMD_UNTIL,              STATE_INITIAL,
      "[<address>]",
      "If no address is given, the currently valid breakpoints are printed.\n"
      "If an address is given, a temporary breakpoint is set for that address\n"
      "and the breakpoint number is printed.  Control is returned to the\n"
-     "emulator by this command.  The breakpoint is deleted once it is hit.\n" },
+    "emulator by this command.  The breakpoint is deleted once it is hit.\n" },
 
-   { "undump", 		"", 	CMD_UNDUMP, 		STATE_FNAME },
+   { "undump",          "",     CMD_UNDUMP,             STATE_FNAME },
 
-   { "up", 		"", 	CMD_UP, 		STATE_INITIAL },
+   { "up",              "",     CMD_UP,                 STATE_INITIAL },
 
-   { "verify", 		"v", 	CMD_VERIFY, 		STATE_FNAME },
+   { "verify",          "v",    CMD_VERIFY,             STATE_FNAME },
 
-   { "watch", 		"w", 	CMD_WATCH, 		STATE_INITIAL,
+   { "watch",           "w",    CMD_WATCH,              STATE_INITIAL,
      "[loadstore] [address [address]]",
      "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
      "for that address.  If two addresses are specified, set a watchpoint\n"
@@ -493,7 +492,7 @@ struct mon_cmds mon_cmd_array[] = {
      "the monitor breaks. If not specified, the monitor breaks on both\n"
      "operations." },
 
-   { "", 		"", 	-1, 			STATE_INITIAL }
+   { "",                "",     -1,                     STATE_INITIAL }
 
 };
 
@@ -638,7 +637,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
     } else {
         if (!is_valid_addr(*start_addr))
             *start_addr = dot_addr[(int)default_memspace];
-        else 
+        else
             mon_evaluate_default_addr(start_addr);
 
         if (!is_valid_addr(*end_addr)) {
@@ -657,7 +656,7 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
 /* *** REGISTER AND MEMORY OPERATIONS *** */
 
 
-static bool check_drive_emu_level_ok(int drive_num)
+bool check_drive_emu_level_ok(int drive_num)
 {
     if (drive_num == 8 && mon_interfaces[e_disk8_space] == NULL) {
         uimon_out("True drive emulation not supported for this machine.\n");
@@ -668,7 +667,7 @@ static bool check_drive_emu_level_ok(int drive_num)
         return FALSE;
     }
 
-/* FIXME: IMO, the user should be allowed to access the true 1541 emulation
+/* FIXME: IMO, the user should be allowed to access the true drive emulation
    even when it's (temporarily?) disabled.
    - but this may confuse the user since they might think the results are valid
    with respect to what is currently being emulated.
@@ -701,7 +700,7 @@ void mon_cpu_type(char *cpu_type)
 
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
     while(monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type != serchcpu) {
-        monitor_cpu_type_list_ptr 
+        monitor_cpu_type_list_ptr
             = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
         if (monitor_cpu_type_list_ptr == NULL) {
             uimon_out("Unknown CPU type `%s'\n", cpu_type);
@@ -723,25 +722,25 @@ void mon_bank(MEMSPACE mem, char *bankname)
        mem = default_memspace;
 
     if(!mon_interfaces[mem]->mem_bank_list) {
-	uimon_out("Banks not available in this memspace\n");
-	return;
+        uimon_out("Banks not available in this memspace\n");
+        return;
     }
 
     if(bankname==NULL) {
-	const char **bnp = mon_interfaces[mem]->mem_bank_list();
-	uimon_out("Available banks (some may be equivalent to others):\n");
-	while(*bnp) {
-	    uimon_out("%s\t",*bnp);
-	    bnp++;
-	}
-	uimon_out("\n");
+        const char **bnp = mon_interfaces[mem]->mem_bank_list();
+        uimon_out("Available banks (some may be equivalent to others):\n");
+        while(*bnp) {
+            uimon_out("%s\t",*bnp);
+            bnp++;
+        }
+        uimon_out("\n");
     } else {
-	int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
-	if(newbank < 0) {
-	    uimon_out("Unknown bank name `%s'\n", bankname);
-	    return;
-	}
-	mon_interfaces[mem]->current_bank = newbank;
+        int newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
+        if(newbank < 0) {
+            uimon_out("Unknown bank name `%s'\n", bankname);
+            return;
+        }
+        mon_interfaces[mem]->current_bank = newbank;
     }
 }
 
@@ -761,8 +760,7 @@ unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr)
 
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
-    return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
-}
+    return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);}
 
 void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 {
@@ -951,6 +949,7 @@ void mon_add_number_to_buffer(int number)
     data_buf[data_buf_len] = '\0';
 }
 
+
 void mon_add_string_to_buffer(char *str)
 {
     strcpy((char *) &(data_buf[data_buf_len]), str);
@@ -969,11 +968,11 @@ static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
 {
     int i, val;
 
-    for (i=0;i<len;i++) {
+    for (i = 0; i < len; i++) {
         val = mon_get_mem_val(mem, addr);
 
         if (petscii)
-            buf[i] = p_toascii(val,0);
+            buf[i] = p_toascii(val, 0);
         if (isprint(val))
             buf[i] = val;
         else
@@ -1010,7 +1009,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     playback = FALSE;
 
     monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
-    monitor_cpu_type_list_ptr = monitor_cpu_type_list; 
+    monitor_cpu_type_list_ptr = monitor_cpu_type_list;
 
     i = 0;
     while(asmarray[i] != NULL) {
@@ -1020,9 +1019,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
             = asmarray[i]->asm_addr_mode_get_size;
         monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get
             = asmarray[i]->asm_opcode_info_get;
-        monitor_cpu_type_list_ptr->next_monitor_cpu_type 
+        monitor_cpu_type_list_ptr->next_monitor_cpu_type
             = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
-        monitor_cpu_type_list_ptr 
+        monitor_cpu_type_list_ptr
             = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
         monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
         i++;
@@ -1068,12 +1067,13 @@ int mon_cmd_lookup_index(char *str, int *push_back)
            return num;
         }
         else if (strlen(mon_cmd_array[num].abbrev) &&
-                strncasecmp(str, mon_cmd_array[num].abbrev, strlen(mon_cmd_array[num].abbrev)) == 0) {
+                strncasecmp(str, mon_cmd_array[num].abbrev,
+                strlen(mon_cmd_array[num].abbrev)) == 0) {
            *push_back = strlen(mon_cmd_array[num].abbrev);
            partial = num;
         }
         num++;
-    } while(mon_cmd_array[num].token > 0);
+    } while (mon_cmd_array[num].token > 0);
 
     return partial;
 }
@@ -1104,7 +1104,7 @@ void mon_print_help(char *cmd)
                 continue;
             uimon_out("%s", c->str);
 
-            if (c->abbrev != NULL && c->abbrev[0] != '\0') {
+            if (!util_check_null_string(c->abbrev)) {
                 uimon_out(" (%s)", c->abbrev);
                 tot += 3 + strlen(c->abbrev);
             }
@@ -1134,7 +1134,7 @@ void mon_print_help(char *cmd)
             uimon_out("\nSyntax: %s %s\n",
                       c->str,
                       c->param_names != NULL ? c->param_names : "");
-            if (c->abbrev != NULL && c->abbrev[0] != '\0')
+            if (!util_check_null_string(c->abbrev))
                 uimon_out("Abbreviation: %s\n", c->abbrev);
             uimon_out("\n%s\n\n", c->description);
         }
@@ -1148,7 +1148,7 @@ void mon_print_help(char *cmd)
 
 void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
-    unsigned i,j,len,cnt=0;
+    unsigned i, j, len, cnt = 0;
     ADDRESS addr=0;
     MEMSPACE mem;
 
@@ -1192,7 +1192,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                         / (radix_chars_per_byte[radix_type] + 2);
         else
             max_width = (4 * (console_log->console_xres - 12))
-                        / (4*(radix_chars_per_byte[radix_type] + 2) + 1);
+                        / (4 * (radix_chars_per_byte[radix_type] + 2) + 1);
 
         max_width &= ~3;
 
@@ -1267,7 +1267,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
               default:
                 assert(FALSE);
             }
-  
+
         }
 
         if (radix_type != 0) {
@@ -1384,7 +1384,8 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 }
 
 
-void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
+void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                     unsigned char *data)
 {
     ADDRESS start;
     MEMSPACE dest_mem;
@@ -1409,8 +1410,7 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
     i = 0;
     mon_index = 0;
     while (i < len) {
-        mon_set_mem_val(dest_mem, ADDR_LIMIT(start + i), data_buf[mon_index++]);
-        if (mon_index >= data_buf_len)
+        mon_set_mem_val(dest_mem, ADDR_LIMIT(start + i), data_buf[mon_index++]);        if (mon_index >= data_buf_len)
             mon_index = 0;
         i++;
     }
@@ -1419,7 +1419,8 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 }
 
 
-void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
+void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
+                     unsigned char *data)
 {
     BYTE *buf;
     ADDRESS start;
@@ -1474,7 +1475,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
 {
     FILE *fp;
     ADDRESS adr;
-    int b1=0, b2=0;
+    int b1 = 0, b2 = 0;
     int ch = 0;
     MEMSPACE mem;
 
@@ -1490,13 +1491,13 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
     }
 
     mon_evaluate_default_addr(&start_addr);
-    if (!is_valid_addr(start_addr)) {	/* No Load address given */
+    if (!is_valid_addr(start_addr)) {   /* No Load address given */
         if (is_bload == TRUE) {
             uimon_out("No LOAD address given.\n");
             return;
         }
 
-        if (b1 == 1)	/* Load Basic */
+        if (b1 == 1)    /* Load Basic */
             mem_get_basic_text(&adr, NULL);
         else
             adr = (BYTE)b1 | ((BYTE)b2 << 8);
@@ -1528,7 +1529,8 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
     fclose(fp);
 }
 
-void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool is_bsave)
+void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool
+is_bsave)
 {
     FILE *fp = NULL;
     ADDRESS adr, end;
@@ -1559,8 +1561,8 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
         printf("Saving file `%s'...\n", filename);
 
         if (is_bsave == FALSE) {
-            fputc((BYTE) adr & 0xff, fp);
-            fputc((BYTE) (adr >> 8) & 0xff, fp);
+            fputc((BYTE)adr & 0xff, fp);
+            fputc((BYTE)(adr >> 8) & 0xff, fp);
         }
 
         do {
@@ -1603,9 +1605,9 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     int rc, line_num = 2;
 
     if (NULL == (fp = fopen(filename, MODE_READ))) {
-	uimon_out("Loading for `%s' failed: %s.\n",
+        uimon_out("Loading for `%s' failed: %s.\n",
                     filename, strerror(errno));
-	return;
+        return;
     }
 
     uimon_out("Loading symbol table from `%s'...\n", filename);
@@ -1654,9 +1656,9 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, MODE_WRITE))) {
-	uimon_out("Saving for `%s' failed: %s.\n",
+        uimon_out("Saving for `%s' failed: %s.\n",
                   filename, strerror(errno));
-	return;
+        return;
     }
 
     uimon_out("Saving symbol table to `%s'...\n", filename);
@@ -1708,7 +1710,7 @@ void mon_end_recording(void)
     }
 
     fclose(recording_fp);
-    uimon_out("Closed file %s.\n",recording_name);
+    uimon_out("Closed file %s.\n", recording_name);
     recording = FALSE;
 }
 
@@ -2017,7 +2019,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
             dest_mem = addr_memspace(addr);
 
             for (i = 0; i < 256; i++)
-                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst+i), readdata[i]);
+                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst +  i), readdata[i]);
 
             uimon_out("Read track %d sector %d into address $%04x\n",
                       track, sector, dst);
@@ -2167,7 +2169,7 @@ static void remove_checkpoint_from_list(BREAK_LIST **head, breakpoint *bp)
     while (cur_entry) {
         if (cur_entry->brkpt == bp)
             break;
- 
+
         prev_entry = cur_entry;
         cur_entry = cur_entry->next;
     }
@@ -2313,10 +2315,10 @@ void mon_delete_checkpoint(int brknum)
         return;
     } else {
         mem = addr_memspace(bp->start_addr);
- 
+
         if (!(bp->watch_load) && !(bp->watch_store)) {
             remove_checkpoint_from_list(&(breakpoints[mem]), bp);
- 
+
             if (!any_breakpoints(mem)) {
                 mon_mask[mem] &= ~MI_BREAK;
                 if (!mon_mask[mem])
@@ -2331,11 +2333,11 @@ void mon_delete_checkpoint(int brknum)
             if (!any_watchpoints(mem)) {
                 mon_mask[mem] &= ~MI_WATCH;
                 mon_interfaces[mem]->toggle_watchpoints_func(0);
-   
+
                 if (!mon_mask[mem])
                     interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
             }
-       }
+        }
     }
 
     if (bp != NULL) {
@@ -2425,7 +2427,7 @@ bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
     MON_ADDR temp;
     const char *type;
 
-    ptr = search_checkpoint_list(list,addr);
+    ptr = search_checkpoint_list(list, addr);
 
     while (ptr && is_in_range(ptr->brkpt->start_addr,
            ptr->brkpt->end_addr, addr)) {
@@ -2444,7 +2446,7 @@ bool mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list)
                 bp->ignore_count--;
                 continue;
             }
- 
+
             bp->hit_count++;
 
             result = TRUE;
@@ -2515,9 +2517,9 @@ int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace,
     breakpoint *new_bp;
     MEMSPACE mem;
     long len;
- 
+
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-    new_bp = (breakpoint *) xmalloc(sizeof(breakpoint));
+    new_bp = (breakpoint *)xmalloc(sizeof(breakpoint));
 
     new_bp->brknum = breakpoint_count++;
     new_bp->start_addr = start_addr;
@@ -2820,7 +2822,7 @@ int mon_process(char *cmd)
                              "Output file closed.\n");
                    fclose(recording_fp);
                    recording_fp = NULL;
-                   recording    = FALSE;
+                   recording = FALSE;
                 }
             }
 
@@ -2861,14 +2863,11 @@ void mon_close(int check)
     signal(SIGINT, old_handler);
 
     if (console_log->console_can_stay_open == 0)
-		mon_console_close_on_leaving = 1;
+                mon_console_close_on_leaving = 1;
 
-	if (mon_console_close_on_leaving)
-    {
+    if (mon_console_close_on_leaving) {
         uimon_window_close();
-    }
-    else
-    {
+    } else {
         uimon_window_suspend();
     }
 }
