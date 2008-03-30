@@ -396,14 +396,14 @@ void z80mem_initialize(void)
     io_read_tab[0x13] = colorram_read;
     io_write_tab[0x13] = colorram_store;
 */
-    io_read_tab[0xd0] = vic_read;
-    io_write_tab[0xd0] = vic_store;
-    io_read_tab[0xd1] = vic_read;
-    io_write_tab[0xd1] = vic_store;
-    io_read_tab[0xd2] = vic_read;
-    io_write_tab[0xd2] = vic_store;
-    io_read_tab[0xd3] = vic_read;
-    io_write_tab[0xd3] = vic_store;
+    io_read_tab[0xd0] = vicii_read;
+    io_write_tab[0xd0] = vicii_store;
+    io_read_tab[0xd1] = vicii_read;
+    io_write_tab[0xd1] = vicii_store;
+    io_read_tab[0xd2] = vicii_read;
+    io_write_tab[0xd2] = vicii_store;
+    io_read_tab[0xd3] = vicii_read;
+    io_write_tab[0xd3] = vicii_store;
 
     io_read_tab[0xd4] = sid_read;
     io_write_tab[0xd4] = sid_store;
