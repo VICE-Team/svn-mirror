@@ -53,6 +53,7 @@ BEGIN
     IDS_IDE64_SELECT_IMAGE      "Select HD image file"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -69,6 +70,7 @@ BEGIN
     IDS_IDE64_SELECT_IMAGE      "HD Image Datei selektieren"
 END
 
+
 // FRENCH text
 
 STRINGTABLE
@@ -84,6 +86,26 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE        "Taille totale: %iKo"
     IDS_IDE64_SELECT_IMAGE      "Sélectionnez le fichier image du D.D."
 END
+
+
+// ITALIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_CAPTION           "IDE64 Settings"
+    IDS_IDE64_IMAGE             "&HD image file"
+    IDS_IDE64_GEOMETRY          "&Geometry"
+    IDS_IDE64_AUTODETECT        "&Autodetect"
+    IDS_IDE64_CYLINDERS         "Cylinders"
+    IDS_IDE64_HEADS             "Heads"
+    IDS_IDE64_SECTORS           "Sectors"
+    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+END
+#pragma code_page(28591)
+
 
 // ITALIAN text
 

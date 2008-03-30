@@ -220,6 +220,7 @@ EXTRA_DIST = \
 	drive.dsp \
 	fileio.dsp \
 	fsdevice.dsp \
+	gentranslate.dsp \
 	genwinres.dsp \
 	genwinres.sh \
 	gfxoutputdrv.dsp \

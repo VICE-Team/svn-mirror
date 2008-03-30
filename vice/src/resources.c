@@ -117,7 +117,6 @@ static int *hashTable = NULL;
 
 static resource_callback_desc_t *resource_modified_callback = NULL;
 
-
 /* network_get_mode function where HAVE_NETWORK is not defined */
 #ifndef HAVE_NETWORK
 int network_get_mode(void)

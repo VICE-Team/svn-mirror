@@ -82,6 +82,40 @@ LIB32=link.exe -lib
 # Name "base - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\translate.txt
+
+!IF  "$(CFG)" == "base - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="..\..\translate.txt"	
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=..\..
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "base - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="..\..\translate.txt"
+
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=..\..
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\alarm.c"
 # End Source File
 # Begin Source File

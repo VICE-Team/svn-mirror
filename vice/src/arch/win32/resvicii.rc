@@ -25,6 +25,7 @@ BEGIN
     PUSHBUTTON      "", IDCANCEL, 70, 70, 50, 14, WS_TABSTOP
 END
 
+
 // original and default ENGLISH text
 
 STRINGTABLE
@@ -62,6 +63,21 @@ BEGIN
     IDS_VICII_BACKCOLL          "Collisions sprite-arrière-plan"
     IDS_VICII_LUMINANCE         "Nouvelles luminescences"
 END
+
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION           "VIC-II Settings"
+    IDS_VICII_SPRITEGROUP       "Sprite Collisions"
+    IDS_VICII_SPRITECOLL        "Sprite-&sprite collisions"
+    IDS_VICII_BACKCOLL          "Sprite-background &collisions"
+    IDS_VICII_LUMINANCE         "New Luminances"
+END
+#pragma code_page(28591)
 
 
 // ITALIAN text

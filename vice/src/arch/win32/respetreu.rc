@@ -42,6 +42,7 @@ BEGIN
     IDS_PETREU_SELECT_FILE         "Select file for PET REU"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -54,6 +55,7 @@ BEGIN
     IDS_PETREU_SELECT_FILE         "Datei für PET REU selektieren"
 END
 
+
 // FRENCH text
 
 STRINGTABLE
@@ -65,6 +67,22 @@ BEGIN
     IDS_PETREU_FILE                "Fichier PET REU"
     IDS_PETREU_SELECT_FILE         "Sélectionner fichier pour PET REU"
 END
+
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PETREU_CAPTION             "PET REU Settings"
+    IDS_PETREU_ENABLE              "&Enable PET REU"
+    IDS_PETREU_SIZE                "PET REU size"
+    IDS_PETREU_FILE                "PET REU file"
+    IDS_PETREU_SELECT_FILE         "Select file for PET REU"
+END
+#pragma code_page(28591)
+
 
 // ITALIAN text
 

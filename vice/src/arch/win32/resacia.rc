@@ -94,6 +94,27 @@ BEGIN
 END
 
 
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_IRQ              "IRQ"
+  IDS_NMI              "NMI"
+  IDS_NORMAL           "Normal"
+  IDS_SWIFTLINK        "Swiftlink"
+  IDS_TURBO232         "Turbo232"
+  IDS_ACIA_CAPTION     "ACIA Settings"
+  IDS_ACIA_ENABLE      "&Enable ACIA"
+  IDS_ACIA_DEVICE      "ACIA device"
+  IDS_ACIA_LOCATION    "ACIA location"
+  IDS_ACIA_INTERRUPT   "ACIA interrupt"
+  IDS_ACIA_MODE        "ACIA mode"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE

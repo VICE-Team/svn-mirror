@@ -48,7 +48,7 @@ libarch_a_SOURCES = \
 	fullscreenarch.h \
 	hardsid.c \
 	intl.c \
-	intl.h \
+	intl_funcs.h \
 	joy.c \
 	joy.h \
 	joyai.c \
@@ -157,5 +157,18 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
+	genintl_h.sh \
+	genintltable.sh \
+	intl.txt \
 	README.AMIGA \
 	make-bindist.sh
+
+BUILT_SOURCES = intl.h intl_table.h
+
+intl.h: $(srcdir)/intl.txt
+	echo "generating intl.h..."
+	$(SHELL) $(srcdir)/genintl_h.sh <$(srcdir)/intl.txt >intl.h
+
+intl_table.h: $(srcdir)/intl.txt
+	echo "generating intl_table.h..."
+	$(SHELL) $(srcdir)/genintltable.sh <$(srcdir)/intl.txt >intl_table.h

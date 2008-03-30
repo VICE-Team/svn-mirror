@@ -214,6 +214,56 @@ BEGIN
 END
 
 
+// HUNGARIAN version of menu
+
+#pragma code_page(28592)
+IDR_MENUMONITOR_HU MENU DISCARDABLE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open", IDM_MON_OPEN
+        MENUITEM "&Save", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer", IDM_MON_COMPUTER
+        MENUITEM "Drive &8", IDM_MON_DRIVE8
+        MENUITEM "Drive &9", IDM_MON_DRIVE9
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of menu
 
 IDR_MENUMONITOR_IT MENU DISCARDABLE
@@ -698,6 +748,43 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_DISKDEVICE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 287, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTORADIOBUTTON "Disk &image",IDC_SELECTDISK,
+                    15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Directory",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
+#ifdef HAVE_OPENCBM
+    AUTORADIOBUTTON "Rea&l IEC device",IDC_SELECTREAL,
+                    15,120,70,10,BS_AUTORADIOBUTTON
+#endif
+    AUTORADIOBUTTON "&None",IDC_SELECTNONE,15,160,33,10,BS_AUTORADIOBUTTON
+    COMBOBOX        IDC_DISKIMAGE,81,29,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Browse...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
+    PUSHBUTTON      "&Autostart",IDC_AUTOSTART,141,47,50,14,WS_GROUP
+    AUTOCHECKBOX    "Attach read only",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Bro&wse...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
+    GROUPBOX        "&Options",IDC_STATIC,175,90,95,63
+    AUTOCHECKBOX    "&Read P00 files",IDC_TOGGLE_READP00,185,105,62,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "&Write P00 files",IDC_TOGGLE_WRITEP00,185,120,61,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_DISKDEVICE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 287, 190
@@ -905,6 +992,30 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_DATASETTE_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Datasette Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Reset Datasette with CPU",IDC_DATASETTE_RESET_WITH_CPU,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Speed of motor while reading",IDC_STATIC,5,25,160,60
+    LTEXT           "cycle(s) additional &delay each trigger",
+                    IDC_STATIC,42,42,120,8
+    COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "cycles delay at &zero-values",IDC_STATIC,60,62,100,8
+    COMBOBOX        IDC_DATASETTE_ZERO_GAP_DELAY,9,61,48,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -1128,6 +1239,52 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_JOY_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 226, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Joystick settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Joystick in port #&1",IDC_STATIC,7,5,102,113
+    COMBOBOX        IDC_JOY_DEV1,12,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Select fire button",IDC_STATIC,12,34,70,8
+    COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,12,61,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,12,74,70,8
+    EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE1_BUTTON, 12,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    GROUPBOX        "Joystick in port #&2",IDC_STATIC,117,5,102,113
+    COMBOBOX        IDC_JOY_DEV2,122,16,93,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Select fire button",IDC_STATIC,122,34,70,8
+    COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
+		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Auto fire button settings",IDC_STATIC,122,61,93,8
+    LTEXT           "Autofire &speed (1..32)",IDC_STATIC,122,74,70,8
+    EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
+    COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Config Keyset &A", IDC_JOY_CONFIG_A,
+                    8,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "Config Keyset &B", IDC_JOY_CONFIG_B,
+                    159,120,60,14, WS_TABSTOP
+    PUSHBUTTON      "&Calibrate Joystick(s)", IDC_JOY_CALIBRATE,
+                    78,120,70,14, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 129,141,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -1396,6 +1553,37 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_CONFIG_KEYSET_DIALOG_HU DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "S&outh West",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&South",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "So&uth East",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&West",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&East",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "No&rth West",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&North",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Nor&th East",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Fire button",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_CONFIG_KEYSET_DIALOG_IT DIALOG DISCARDABLE 0, 0, 130, 190
@@ -1607,6 +1795,36 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_SOUND_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure Sound Device Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX driver",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM driver",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Sample &Frequency :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Sound Buffer &Size :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Oversampling Factor :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synchronization &Method :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_SOUND_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 100
@@ -1791,6 +2009,31 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_OPEN_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Attach read only",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Name",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Type",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
@@ -1928,6 +2171,22 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_OPENTAPE_TEMPLATE_HU DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
@@ -2030,6 +2289,23 @@ BEGIN
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_SNAPSHOT_SAVE_DIALOG_HU DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Save currently attached &disks images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Save currently loaded &ROM images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -2177,6 +2453,36 @@ BEGIN
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
                     WS_GROUP | WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_MEDIAFILE_DIALOG_HU DIALOG DISCARDABLE 0,0, 300, 100
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Select Driver:",IDC_STATIC,5,0,45,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    GROUPBOX        "FFMPEG settings",IDC_STATIC,5,20,250,75
+    LTEXT           "Format:",IDC_STATIC,15,37,40,20
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Audio: codec",IDC_STATIC,15,57,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 65,55,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bitrate",IDC_STATIC,155,57,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
+    COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "bitrate",IDC_STATIC,155,77,25,15
+    EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
+                    WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -2330,6 +2636,20 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_CONSOLE_SAVE_DIALOG_HU DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_CONSOLE_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 22
@@ -2421,6 +2741,22 @@ BEGIN
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 //                  ES_MULTILINE
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_TEXTDLG_HU DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -2555,6 +2891,33 @@ BEGIN
     AUTOCHECKBOX    "Rendu à la surface primaire DX", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_FULLSCREEN_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Driver:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bitdepth:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Resolution:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Refreshrate:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK synchronization", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -2712,6 +3075,26 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
+
+
+// HUNGARIEN version of dialog
+
+#pragma code_page(28592)
+IDD_VIDEO_COLORS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Saturation",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Contrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Brightness",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -2882,6 +3265,39 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_VIDEO_ADVANCED_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "PAL Shade",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL Blur",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "PAL Mode",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "External Palette:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN | CBS_AUTOHSCROLL |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_VIDEO_ADVANCED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
@@ -3045,6 +3461,20 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_VIDEO_PALETTE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_VIDEO_PALETTE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
@@ -3169,6 +3599,33 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_RAM_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -3317,6 +3774,23 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_CUSTOM_SPEED_DIALOG_HU DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter custom speed [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -3476,6 +3950,40 @@ BEGIN
     LTEXT           "Nom du fichier de sortie #3", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_PRINTER_SETTINGS_DIALOG_HU DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Printer Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Printer emulation",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -3714,6 +4222,43 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_ROMSET_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Romset archive",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Browse", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Load archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Save archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Configuration",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "New", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Delete", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Browse", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_ROMSET_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 265, 265
@@ -3902,6 +4447,23 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_ROMSET_ENTER_NAME_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_ROMSET_ENTER_NAME_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 55
@@ -4023,6 +4585,28 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Annuler", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_RS232_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232 Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 device 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232 device 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232 device 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232 device 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+#pragma code_page(28591)
 
 
 // ITALIAN version of dialog
@@ -4246,6 +4830,54 @@ BEGIN
 END
 
 
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_NETWORK_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 260, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,50,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 65,55,70,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Control",IDC_STATIC,140,5,115,100
+    LTEXT           "Server", IDC_STATIC, 195,15,25,10
+    LTEXT           "Client", IDC_STATIC, 225,15,25,10
+    LTEXT           "Keyboard", IDC_STATIC, 150,30,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 1", IDC_STATIC, 150,42,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_SERVER,200,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY1_CLIENT,230,42,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Joystick 2", IDC_STATIC, 150,54,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_SERVER,200,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Devices", IDC_STATIC, 150,66,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    LTEXT           "Settings", IDC_STATIC, 150,78,45,10
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
 // ITALIAN version of dialog
 
 IDD_NETWORK_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 260, 110
@@ -4437,7 +5069,6 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_NONE                        "None"
   IDS_VICE_ERROR                  "VICE Error!"
   IDS_VICE_INFORMATION            "VICE Information"
   IDS_VICE_QUESTION               "VICE question"
@@ -4612,7 +5243,7 @@ BEGIN
   IDS_IDLE                        "Idle"
   IDS_SERVER_LISTENING            "Server listening"
   IDS_CONNECTED_SERVER            "Connected server"
-  IDS_CONNECTED_CLIENT            "Connected client"
+  IDS_CONNECTED_CLIENT            "Connected Client"
   IDS_INVALID_PORT_NUMBER         "Invalid port number"
   IDS_ERROR_STARTING_SERVER       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT     "An error occured connecting the client."
@@ -5017,6 +5648,203 @@ BEGIN
     IDS_NONE                        "Aucun"
     IDS_BROWSE                      "&Parcourir..."
 END
+
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_VICE_ERROR_HU                  "VICE Error!"
+  IDS_VICE_INFORMATION_HU            "VICE Information"
+  IDS_VICE_QUESTION_HU               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_HU         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_HU            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_HU        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_HU        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_HU   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_HU          "Cannot attach specified file"
+  IDS_START_MONITOR_HU               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_HU                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_HU         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_HU           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_HU      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_HU               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_HU    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_HU     "History recorded with VICE-%s"
+  IDS_PAUSED_HU                      "paused"
+  IDS_RESUMED_HU                     "resumed"
+  IDS_REALLY_EXIT_HU                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_HU       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_HU             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_HU      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_HU     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_HU           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_HU           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_HU             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_HU           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_HU        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_HU     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_HU    "Logging console output image"
+  IDS_LOG_FILES_TYPE_HU              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_HU      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_HU         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_HU       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_HU         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_HU      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_HU          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_HU            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_HU    "Cannot write keymap file"
+  IDS_MAPPING_HU                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_HU           "Keyboard settings"
+  IDS_ATTACH_HU                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_HU     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_HU    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_HU         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_HU        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_HU       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_HU    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_HU     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_HU        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_HU         "Select file system directory"
+  IDS_PRINTER_USERPORT_HU            "Printer Userport"
+  IDS_PRINTER_4_HU                   "Printer 4"
+  IDS_PRINTER_5_HU                   "Printer 5"
+  IDS_DRIVE_8_HU                     "Drive 8"
+  IDS_DRIVE_9_HU                     "Drive 9"
+  IDS_DRIVE_10_HU                    "Drive 10"
+  IDS_DRIVE_11_HU                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_HU         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_HU    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_HU    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_HU            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_HU       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_HU     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_HU     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_HU     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_HU     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_HU          "Select romset file"
+  IDS_ROMSET_HU                      "Romset"
+  IDS_COMPUTER_HU                    "Computer"
+  IDS_DRIVE_HU                       "Drive"
+  IDS_ROM_SETTINGS_HU                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_HU         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_HU     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_HU         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_HU      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_HU      "Load VICE palette file"
+  IDS_FULLSCREEN_HU                  "Fullscreen"
+  IDS_COLORS_HU                      "Colors"
+  IDS_VIDEO_SETTINGS_HU              "Video settings"
+  IDS_FILE_SYSTEM_HU                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_HU             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_HU              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_HU       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_HU   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_HU    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_HU        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_HU    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_HU     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_HU     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_HU     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_HU     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_HU       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_HU       "Attach Super Snapshot 5 cartridge image"
+  IDS_ATTACH_STB_CART_IMAGE_HU       "Attach Structured Basic cartridge image"
+  IDS_MODEL_HU                       "Model"
+  IDS_DRIVE_SETTINGS_HU              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_HU     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_HU       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_HU          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_HU                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_HU           "VICE contributors"
+  IDS_WHO_MADE_WHAT_HU               "Who made what?"
+  IDS_LICENSE_HU                     "License"
+  IDS_NO_WARRANTY_HU                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_HU       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_HU         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_HU             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_HU         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_HU              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_HU         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_HU             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_HU         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_HU              "Press key for West"
+  IDS_PRESS_KEY_FIRE_HU              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_HU            "Numpad + RCtrl"
+  IDS_KEYSET_A_HU                    "Keyset A"
+  IDS_KEYSET_B_HU                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_HU         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_HU           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_HU       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_HU            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_HU        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_HU       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_HU     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_HU     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_HU         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_HU            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_HU       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_HU      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_HU         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_HU      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_HU         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_HU                    "Flexible"
+  IDS_ADJUSTING_HU                   "Adjusting"
+  IDS_EXACT_HU                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_HU        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_HU            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_HU          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
+  IDS_SPACE_KB_HU                    " kB"
+  IDS_CONFIGURE_KEYSET_A_HU          "Configure Keyset A"
+  IDS_CONFIGURE_KEYSET_B_HU          "Configure Keyset B"
+  IDS_SAVE_MEDIA_IMAGE_HU            "Save media image"
+  IDS_S_AT_D_SPEED_HU                "%s at %d%% speed, %d fps%s"
+  IDS_TAPE_HU                        "Tape:"
+  IDS_JOYSTICK_HU                    "Joystick:"
+  IDS_RECORDING_HU                   "Recording\n%02d:%02d"
+  IDS_PLAYBACK_HU                    "Playback\n%02d:%02d (%02d:%02d)"
+  IDS_UNKNOWN_HU                     "Unknown"
+  IDS_P_NUMBER_HU                    "<number>"
+  IDS_SET_INPUT_JOYSTICK_1_HU        "Set input device for joystick #1"
+  IDS_SET_INPUT_JOYSTICK_2_HU        "Set input device for joystick #2"
+  IDS_SAVE_SETTINGS_ON_EXIT_HU       "Save settings (resources) on exit"
+  IDS_NO_SAVE_SETTINGS_ON_EXIT_HU    "Never save settings (resources) on exit"
+  IDS_CONFIRM_QUIT_VICE_HU           "Confirm quiting VICE"
+  IDS_NO_CONFIRM_QUIT_VICE_HU        "Never confirm quiting VICE"
+  IDS_USE_ALL_CPU_SMP_HU             "Use all CPU on SMP systems"
+  IDS_USE_FIRST_CPU_SMP_HU           "Use only first CPU on SMP systems"
+  IDS_START_VICE_FULLSCREEN_MODE_HU  "Start VICE in fullscreen mode"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_HU         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_HU           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_HU                        "Idle"
+  IDS_SERVER_LISTENING_HU            "Server listening"
+  IDS_CONNECTED_SERVER_HU            "Connected server"
+  IDS_CONNECTED_CLIENT_HU            "Connected Client"
+  IDS_INVALID_PORT_NUMBER_HU         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_HU       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_HU     "An error occured connecting the client."
+#endif
+END
+
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Cancel"
+    IDS_NONE                        "None"
+    IDS_BROWSE                      "&Browse..."
+END
+#pragma code_page(28591)
 
 
 // ITALIAN text

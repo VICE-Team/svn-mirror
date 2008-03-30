@@ -41,6 +41,7 @@ BEGIN
     IDS_TFE_INTERFACE       "&Interface"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -50,6 +51,7 @@ BEGIN
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "Schn&ittstelle"
 END
+
 
 // FRENCH text
 
@@ -61,6 +63,20 @@ BEGIN
     IDS_TFE_INTERFACE       "&Interface"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TFE_CAPTION         "Ethernet Settings"
+    IDS_TFE_ETHERNET        "&Ethernet"
+    IDS_TFE_INTERFACE       "&Interface"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -71,6 +87,7 @@ BEGIN
     IDS_TFE_INTERFACE       "&Interfaccia"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -80,6 +97,7 @@ BEGIN
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "&Interface"
 END
+
 
 // POLISH text
 
@@ -92,6 +110,7 @@ BEGIN
     IDS_TFE_INTERFACE       "&Interface"
 END
 #pragma code_page(28591)
+
 
 // SWEDISH text
 

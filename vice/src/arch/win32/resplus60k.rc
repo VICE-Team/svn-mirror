@@ -36,6 +36,7 @@ BEGIN
     IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -47,6 +48,7 @@ BEGIN
     IDS_PLUS60K_FILE                "PLUS60K Datei"
     IDS_PLUS60K_SELECT_FILE         "Datei für PLUS60K selektieren"
 END
+
 
 // FRENCH text
 
@@ -60,6 +62,22 @@ BEGIN
     IDS_PLUS60K_SELECT_FILE         "Sélectionner fichier pour PLUS60K"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS60K_CAPTION             "PLUS60K Settings"
+    IDS_PLUS60K_ENABLE              "&Enable PLUS60K"
+    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_FILE                "PLUS60K file"
+    IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -72,6 +90,7 @@ BEGIN
     IDS_PLUS60K_SELECT_FILE         "Seleziona file per PLUS60K"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -83,6 +102,7 @@ BEGIN
     IDS_PLUS60K_FILE                "PLUS60K bestand"
     IDS_PLUS60K_SELECT_FILE         "Selecteer bestand voor PLUS60K"
 END
+
 
 // POLISH text
 

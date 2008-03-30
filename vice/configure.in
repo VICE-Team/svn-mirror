@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=10
+VICE_VERSION_BUILD=11
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1636,6 +1636,7 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
   qnxcompile=no
   solariscompile=no
   case "$host_os" in
@@ -1687,6 +1688,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, true)
 elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
@@ -1703,6 +1705,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, true)
 elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
@@ -1723,6 +1726,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
@@ -1739,6 +1743,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
 elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
@@ -1755,6 +1760,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
 elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
@@ -1771,6 +1777,7 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
 else
   AC_MSG_WARN([No architecture defined!])
 fi

@@ -42,6 +42,7 @@ BEGIN
     IDS_REU_SELECT_FILE         "Select file for REU"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -53,6 +54,7 @@ BEGIN
     IDS_REU_FILE                "REU Datei"
     IDS_REU_SELECT_FILE         "Datei für REU selektieren"
 END
+
 
 // FRENCH text
 
@@ -66,6 +68,22 @@ BEGIN
     IDS_REU_SELECT_FILE         "Sélectionner fichier pour REU"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_REU_CAPTION             "REU Settings"
+    IDS_REU_ENABLE              "&Enable REU"
+    IDS_REU_SIZE                "REU size"
+    IDS_REU_FILE                "REU file"
+    IDS_REU_SELECT_FILE         "Select file for REU"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -78,6 +96,7 @@ BEGIN
     IDS_REU_SELECT_FILE         "Seleziona il file per il REU"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -89,6 +108,7 @@ BEGIN
     IDS_REU_FILE                "REU bestand"
     IDS_REU_SELECT_FILE         "Selecteer bestand voor REU"
 END
+
 
 // POLISH text
 
@@ -103,6 +123,7 @@ BEGIN
     IDS_REU_SELECT_FILE         "Select file for REU"
 END
 #pragma code_page(28591)
+
 
 // SWEDISH text
 

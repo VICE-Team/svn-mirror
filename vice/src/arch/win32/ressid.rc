@@ -149,6 +149,36 @@ BEGIN
 END
 
 
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "SID Engine"
+  IDS_SID_GENGROUP2         "SID Model"
+  IDS_SID_6581              "6581 (old)"  
+  IDS_SID_8580              "8580 (new)"
+  IDS_SID_GENGROUP3         "SID Stereo"
+  IDS_SID_STEREO_AT         "Stereo SID at"
+  IDS_SID_FILTERS           "SID Filters"
+  IDS_SID_RESID_GROUP       "reSID options"
+  IDS_SID_RESID_SAMPLE      "Sample method"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE

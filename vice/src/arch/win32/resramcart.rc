@@ -45,6 +45,7 @@ BEGIN
     IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -57,6 +58,7 @@ BEGIN
     IDS_RAMCART_FILE            "RAMCART Datei"
     IDS_RAMCART_SELECT_FILE     "Datei für RAMCART selektieren"
 END
+
 
 // FRENCH text
 
@@ -71,6 +73,23 @@ BEGIN
     IDS_RAMCART_SELECT_FILE     "Sélectionner fichier pour RAMCART"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RAMCART_CAPTION         "RAMCART Settings"
+    IDS_RAMCART_ENABLE          "&Enable RAMCART"
+    IDS_RAMCART_READONLY        "&Read Only"
+    IDS_RAMCART_SIZE            "RAMCART size"
+    IDS_RAMCART_FILE            "RAMCART file"
+    IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -84,6 +103,7 @@ BEGIN
     IDS_RAMCART_SELECT_FILE     "Seleziona il file per la RAMCART"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -96,6 +116,7 @@ BEGIN
     IDS_RAMCART_FILE            "RAMCART bestand"
     IDS_RAMCART_SELECT_FILE     "Selecteer bestand voor RAMCART"
 END
+
 
 // POLISH text
 
@@ -111,6 +132,7 @@ BEGIN
     IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
 END
 #pragma code_page(28591)
+
 
 // SWEDISH text
 

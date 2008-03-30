@@ -30,37 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char *win32_rc_files[] = {
-  "/src/arch/win32/res.rc",
-  "/src/arch/win32/resacia.rc",
-  "/src/arch/win32/resc128.rc",
-  "/src/arch/win32/resc64.rc",
-  "/src/arch/win32/resc64_256k.rc",
-  "/src/arch/win32/rescbm2.rc",
-  "/src/arch/win32/resdrivec128.rc",
-  "/src/arch/win32/resdrivec64vic20.rc",
-  "/src/arch/win32/resdrivepetcbm2.rc",
-  "/src/arch/win32/resdriveplus4.rc",
-  "/src/arch/win32/resgeoram.rc",
-  "/src/arch/win32/reside64.rc",
-  "/src/arch/win32/respet.rc",
-  "/src/arch/win32/respetreu.rc",
-  "/src/arch/win32/resplus256k.rc",
-  "/src/arch/win32/resplus4.rc",
-  "/src/arch/win32/resplus60k.rc",
-  "/src/arch/win32/resramcart.rc",
-  "/src/arch/win32/resreu.rc",
-  "/src/arch/win32/resrs232user.rc",
-  "/src/arch/win32/ressid.rc",
-  "/src/arch/win32/restfe.rc",
-  "/src/arch/win32/resvic20.rc",
-  "/src/arch/win32/resvicii.rc",
-  NULL};
-
-static char *intl_files[] = {
-  "/src/arch/amigaos/intl.c",
-  NULL};
-
 /* status definitions */
 #define SCANNING		0
 #define STRINGTABLE_BEGIN_SCAN	1
@@ -471,93 +440,30 @@ int convert_intl(char *in_filename, char *out_filename)
   return 1;
 }
 
-void win32_rc_to_po(char *path)
-{
-  int i;
-  int result;
-  char *in_filename=NULL;
-  char *out_filename=NULL;
-
-  for (i=0; win32_rc_files[i]!=NULL; i++)
-  {
-    in_filename=malloc(strlen(path)+strlen(win32_rc_files[i])+1);
-    if (in_filename==NULL)
-    {
-      printf("memory allocation error\n");
-      exit(1);
-    }
-    strcpy(in_filename,path);
-    strcat(in_filename,win32_rc_files[i]);
-
-    out_filename=malloc(strlen(path)+strlen(win32_rc_files[i])+6);
-    if (out_filename==NULL)
-    {
-      printf("memory allocation error\n");
-      free(in_filename);
-      exit(1);
-    }
-    strcpy(out_filename,path);
-    strcat(out_filename,win32_rc_files[i]);
-    strcat(out_filename,".po.c");
-
-    result=convert_rc(in_filename, out_filename);
-
-    free(in_filename);
-    in_filename=NULL;
-
-    free(out_filename);
-    out_filename=NULL;
-
-    if (result==0)
-      exit(1);
-  }
-}
-
-void intl_to_po(char *path)
-{
-  int i;
-  int result;
-  char *in_filename=NULL;
-  char *out_filename=NULL;
-
-  for (i=0; intl_files[i]!=NULL; i++)
-  {
-    in_filename=malloc(strlen(path)+strlen(intl_files[i])+1);
-    if (in_filename==NULL)
-    {
-      printf("memory allocation error\n");
-      exit(1);
-    }
-    strcpy(in_filename,path);
-    strcat(in_filename,intl_files[i]);
-
-    out_filename=malloc(strlen(path)+strlen(intl_files[i])+6);
-    if (out_filename==NULL)
-    {
-      printf("memory allocation error\n");
-      free(in_filename);
-      exit(1);
-    }
-    strcpy(out_filename,path);
-    strcat(out_filename,intl_files[i]);
-    strcat(out_filename,".po.c");
-
-    result=convert_intl(in_filename, out_filename);
-
-    free(in_filename);
-    in_filename=NULL;
-
-    free(out_filename);
-    out_filename=NULL;
-
-    if (result==0)
-      exit(1);
-  }
-}
-
 int main(int argc, char *argv[])
 {
-  win32_rc_to_po(argv[1]);
-  intl_to_po(argv[1]);
+  int result=1;
+
+  if (argc<3)
+  {
+    printf("too few arguments\n");
+    exit(1);
+  }
+
+  if (!strcasecmp(argv[1],"win32") && argc==4)
+  {
+    result=convert_rc(argv[2], argv[3]);
+  }
+
+  if (!strcasecmp(argv[1],"intl") && argc==4)
+  {
+    result=convert_intl(argv[2], argv[3]);
+  }
+
+  if (result==0)
+  {
+    printf("error while processing file\n");
+    exit(1);
+  }
   return 0;
 }

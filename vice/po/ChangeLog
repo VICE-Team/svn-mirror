@@ -1,3 +1,8 @@
+2006-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.in.in, POTFILES.in, intl2po.c: Updated intl2po and
+	fixed the generation of the .po.c files.
+
 2006-10-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* nl.po: Updated.

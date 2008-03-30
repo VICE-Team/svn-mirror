@@ -214,5 +214,8 @@ src/arch/win32/restfe.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
 
+# translate.c untranslated elements
+src/translate.c.po.c
+
 #amiga files
 src/arch/amigaos/intl.c.po.c

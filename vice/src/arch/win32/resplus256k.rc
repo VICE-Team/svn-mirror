@@ -31,6 +31,7 @@ BEGIN
     IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -41,6 +42,7 @@ BEGIN
     IDS_PLUS256K_FILE                "PLUS256K Datei"
     IDS_PLUS256K_SELECT_FILE         "Datei für PLUS256K selektieren"
 END
+
 
 // FRENCH text
 
@@ -53,6 +55,21 @@ BEGIN
     IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PLUS256K_CAPTION             "PLUS256K Settings"
+    IDS_PLUS256K_ENABLE              "&Enable PLUS256K"
+    IDS_PLUS256K_FILE                "PLUS256K file"
+    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -64,6 +81,7 @@ BEGIN
     IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -74,6 +92,7 @@ BEGIN
     IDS_PLUS256K_FILE                "PLUS256K bestand"
     IDS_PLUS256K_SELECT_FILE         "Selecteer bestand voor PLUS256K"
 END
+
 
 // POLISH text
 

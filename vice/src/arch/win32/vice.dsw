@@ -14,6 +14,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name genwinres
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gentranslate
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -26,6 +32,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name gentranslate
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -38,6 +47,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -52,6 +64,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive
@@ -86,6 +101,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -98,6 +116,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -110,6 +131,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -134,6 +158,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -182,6 +209,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -206,11 +236,26 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
 
 Project: "genwinres"=".\genwinres.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "gentranslate"=".\gentranslate.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -230,6 +275,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -242,6 +290,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -254,6 +305,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -266,6 +320,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -278,6 +335,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -290,6 +350,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -314,6 +377,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -338,6 +404,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -352,6 +421,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name fileio
@@ -371,6 +443,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -395,6 +470,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -407,6 +485,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -431,6 +512,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -443,6 +527,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -455,6 +542,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -491,6 +581,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -503,6 +596,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -527,6 +623,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -578,6 +677,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -590,6 +692,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################

@@ -56,7 +56,7 @@ CATOBJEXT = @CATOBJEXT@
 INSTOBJEXT = @INSTOBJEXT@
 
 .SUFFIXES:
-.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat
+.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat .rc .rc.po.c .c.po.c
 
 .c.o:
 	$(COMPILE) $<
@@ -76,14 +76,16 @@ INSTOBJEXT = @INSTOBJEXT@
 	sed -f $(srcdir)/po2msg.sed < $< > $*.msg \
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
 
+.rc.rc.po.c:
+	./intl2po win32 $< $@
+
+.c.c.po.c:
+	./intl2po intl $< $@
 
 all: all-@USE_NLS@
 
 all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
-
-@top_srcdir@/src/arch/win32/res.rc.po.c: intl2po
-	./intl2po $(top_srcdir)
 
 $(srcdir)/$(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
@@ -209,8 +211,7 @@ dist distdir: update-po $(DISTFILES)
 	    || cp -p $(srcdir)/$$file $(distdir); \
 	done
 
-update-po: Makefile intl2po
-	./intl2po $(top_srcdir)
+update-po: Makefile intl2po $(POTFILES)
 	$(MAKE) $(PACKAGE).pot
 	PATH=`pwd`/../src:$$PATH; \
 	cd $(srcdir); \

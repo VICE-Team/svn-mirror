@@ -58,7 +58,9 @@
 #include "main.h"
 #include "resources.h"
 #include "sysfile.h"
+#ifdef HAS_TRANSLATION
 #include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "version.h"

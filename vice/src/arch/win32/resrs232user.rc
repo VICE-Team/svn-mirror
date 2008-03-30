@@ -38,6 +38,7 @@ BEGIN
     IDS_RS232USER_BAUD          "Userport baud rate"
 END
 
+
 // GERMAN text
 
 STRINGTABLE
@@ -48,6 +49,7 @@ BEGIN
     IDS_RS232USER_DEVICE        "Userport Gerät"
     IDS_RS232USER_BAUD          "Userport Baud Rate"
 END
+
 
 // FRENCH text
 
@@ -60,6 +62,21 @@ BEGIN
     IDS_RS232USER_BAUD          "Vitesse du Userport"
 END
 
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_RS232USER_CAPTION       "RS232 Userport Settings"
+    IDS_RS232USER_ENABLE        "&Enable RS232 userport"
+    IDS_RS232USER_DEVICE        "Userport device"
+    IDS_RS232USER_BAUD          "Userport baud rate"
+END
+#pragma code_page(28591)
+
+
 // ITALIAN text
 
 STRINGTABLE
@@ -71,6 +88,7 @@ BEGIN
     IDS_RS232USER_BAUD          "Velocità della userport (in baud)"
 END
 
+
 // DUTCH text
 
 STRINGTABLE
@@ -81,6 +99,7 @@ BEGIN
     IDS_RS232USER_DEVICE        "Userport apparaat"
     IDS_RS232USER_BAUD          "Userport baud rate"
 END
+
 
 // POLISH text
 
@@ -94,6 +113,7 @@ BEGIN
     IDS_RS232USER_BAUD          "Urz±dzenie portu RS232"
 END
 #pragma code_page(28591)
+
 
 // SWEDISH text
 
