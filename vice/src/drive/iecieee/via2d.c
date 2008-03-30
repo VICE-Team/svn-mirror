@@ -93,7 +93,7 @@ BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
     return viacore_peek(ctxptr->via2, addr);
 }
 
-void viad2_update_pcr(int pcrval, drive_t *dptr)
+void via2d_update_pcr(int pcrval, drive_t *dptr)
 {
     dptr->read_write_mode = pcrval & 0x20;
     dptr->byte_ready_active = (dptr->byte_ready_active & ~0x02)
@@ -174,7 +174,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
         0 = writing, 0x20 = reading */
-        viad2_update_pcr(tmp, via2p->drive);
+        via2d_update_pcr(tmp, via2p->drive);
         if ((byte & 0x20) != (via_context->via[addr] & 0x20)) {
             if (via2p->drive->byte_ready_active == 0x06)
                 rotation_rotate_disk(via2p->drive);
@@ -190,7 +190,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
-    viad2_update_pcr(byte, via2p->drive);
+    via2d_update_pcr(byte, via2p->drive);
 }
 
 static void undump_acr(via_context_t *via_context, BYTE byte)

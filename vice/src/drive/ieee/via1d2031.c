@@ -209,7 +209,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 #if 0
     /* FIXME: Is this correct? */
     if (via1p->number != 0)
-        viad2_update_pcr(byte, &drive[0]);
+        via2d_update_pcr(byte, &drive[0]);
 #endif
 }
 

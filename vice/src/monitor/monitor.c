@@ -463,7 +463,7 @@ void mon_jump(MON_ADDR addr)
 
 void mon_keyboard_feed(const char *string)
 {
-    kdb_buf_feed_string(string);
+    kbd_buf_feed_string(string);
 }
 
 /* *** ULTILITY FUNCTIONS *** */

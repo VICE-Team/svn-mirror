@@ -239,11 +239,6 @@ int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num)
     return cs->pending_int[int_num] & IK_NMI;
 }
 
-enum cpu_int get_int(interrupt_cpu_status_t *cs, int int_num)
-{
-    return cs->pending_int[int_num];
-}
-
 void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
                              CLOCK *int_clk)
 {

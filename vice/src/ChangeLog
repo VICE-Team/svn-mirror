@@ -1,3 +1,40 @@
+2004-11-06  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.15.9.
+
+	* fsdevice/fsdevicetypes.h, fsdevice/fsdevice-open.c,
+	fsdevice/fsdevice-read.c, fsdevice/fsdevice.c: Fixed directory
+	mask bug.
+
+	* vdrive/vdrive-dir.c (vdrive_dir_create_directory):
+	Simplified.
+
+	* interrupt.c, interrupt.h (get_int): Removed.
+
+	* kbdbuf.c, kbdbuf.h, monitor/monitor.c (kbd_buf_feed_string):
+	Renamed.
+
+	* drive/iecieee/via2d.c, drive/viad.h, drive/ieee/via1d2031.c,
+	drive/iec/via1d1541.c (viad2_update_pcr): Renamed.
+
+2004-10-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.h: New IDs for debug menu.
+
+	* arch/win32/res<machine>.rc: Added menu items for debug mode.
+
+	* arch/win32/ui.c: Added debug mode items to the list of
+	mutual exclusive menues.
+
+	* event.h, event.c: New event EVENT_OVERFLOW which is recorded
+	in the new overflow callback.
+	(event_snapshot_read_module): Fixed insertion of timestamps
+	in overflow condition.
+
+2004-10-17  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* findpath.c: Fixed some buffer size.
+
 2004-10-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.8.

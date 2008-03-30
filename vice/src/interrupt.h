@@ -276,8 +276,6 @@ extern int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num);
 extern void interrupt_set_nmi_trap_func(interrupt_cpu_status_t *cs,
                                         void (*nmi_trap_func)(void));
 
-extern enum cpu_int interrupt_get_int(interrupt_cpu_status_t *cs, int int_num);
-
 /* ------------------------------------------------------------------------- */
 
 extern interrupt_cpu_status_t *maincpu_int_status;

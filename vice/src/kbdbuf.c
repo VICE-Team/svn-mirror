@@ -70,11 +70,11 @@ static int num_pending;
 static int kbd_buf_enabled = 0;
 
 /* String to feed into the keyboard buffer.  */
-static char *kdb_buf_string = NULL;
+static char *kbd_buf_string = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-static void kdb_buf_parse_string(const char *string)
+static void kbd_buf_parse_string(const char *string)
 {
     unsigned int i, j;
     size_t len;
@@ -84,8 +84,8 @@ static void kdb_buf_parse_string(const char *string)
     if (len > QUEUE_SIZE)
         len = QUEUE_SIZE;
 
-    kdb_buf_string = lib_realloc(kdb_buf_string, len + 1);
-    memset(kdb_buf_string, 0, len + 1);
+    kbd_buf_string = lib_realloc(kbd_buf_string, len + 1);
+    memset(kbd_buf_string, 0, len + 1);
 
     for (i = 0, j = 0; i < len; i++) {
         if (string[i] == '\\' && i < (len - 2) && isxdigit(string[i + 1])
@@ -95,26 +95,26 @@ static void kdb_buf_parse_string(const char *string)
             hexvalue[0] = string[i + 1];
             hexvalue[1] = string[i + 2];
             hexvalue[2] = '\0';
-            kdb_buf_string[j] = (char)strtol(hexvalue, NULL, 16);
+            kbd_buf_string[j] = (char)strtol(hexvalue, NULL, 16);
             j++;
             i += 2;
         } else {
-            kdb_buf_string[j] = string[i];
+            kbd_buf_string[j] = string[i];
             j++;
         }
     }
 }
 
-int kdb_buf_feed_string(const char *string)
+int kbd_buf_feed_string(const char *string)
 {
-    kdb_buf_parse_string(string);
+    kbd_buf_parse_string(string);
 
-    return kbd_buf_feed(kdb_buf_string);
+    return kbd_buf_feed(kbd_buf_string);
 }
 
 static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
 {
-    kdb_buf_parse_string(param);
+    kbd_buf_parse_string(param);
 
     return 0;
 }
@@ -147,15 +147,15 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
         kbd_buf_enabled = 0;
     }
 
-    if (kdb_buf_string != NULL)
-        kbd_buf_feed(kdb_buf_string);
+    if (kbd_buf_string != NULL)
+        kbd_buf_feed(kbd_buf_string);
 
     return 0;
 }
 
 void kbd_buf_shutdown(void)
 {
-    lib_free(kdb_buf_string);
+    lib_free(kbd_buf_string);
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */

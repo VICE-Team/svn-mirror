@@ -41,7 +41,7 @@ extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
 
-extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
+extern void via2d_update_pcr(int pcrval, struct drive_s *dptr);
 
 #endif
 
