@@ -29,13 +29,53 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cbmdos.h"
 #include "cbmfile.h"
 #include "charset.h"
 #include "fileio.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "rawfile.h"
 #include "types.h"
 
+
+static char *cbmfile_find_file(const char *fsname, const char *path)
+{
+    struct ioutil_dir_s *ioutil_dir;
+    BYTE *name1, *name2;
+    char *name, *retname = NULL;
+
+    ioutil_dir = ioutil_opendir(path);
+
+    if (ioutil_dir == NULL)
+        return NULL;
+
+    name1 = cbmdos_dir_slot_create(fsname, (unsigned int)strlen(fsname));
+
+    while (1) {
+        unsigned int equal;
+
+        name = ioutil_readdir(ioutil_dir);
+
+        if (name == NULL)
+            break;
+
+        name2 = cbmdos_dir_slot_create(name, (unsigned int)strlen(name));
+        equal = cbmdos_parse_wildcard_compare(name1, name2);
+
+        lib_free(name2);
+
+        if (equal > 0) {
+            retname = lib_stralloc(name);
+            break;
+        }
+    }
+
+    lib_free(name1);
+    ioutil_closedir(ioutil_dir);
+
+    return retname;
+}
 
 fileio_info_t *cbmfile_open(const char *file_name, const char *path,
                             unsigned int command, unsigned int type)
@@ -43,16 +83,25 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
     BYTE *cbm_name;
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
-    char *fsname;
+    char *fsname, *rname;
 
     fsname = lib_stralloc(file_name);
 
     if (!(command & FILEIO_COMMAND_FSNAME))
         charset_petconvstring(fsname, 1);
 
-    rawfile = rawfile_open(fsname, path, command & FILEIO_COMMAND_MASK);
+    if (cbmdos_parse_wildcard_check(fsname, strlen(fsname))) {
+        rname = cbmfile_find_file(fsname, path);
+        lib_free(fsname);
+        if (rname == NULL)
+            return NULL;
+    } else {
+        rname = fsname;
+    }
 
-    lib_free(fsname);
+    rawfile = rawfile_open(rname, path, command & FILEIO_COMMAND_MASK);
+
+    lib_free(rname);
 
     if (rawfile == NULL)
         return NULL;

@@ -1,3 +1,18 @@
+2004-01-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.48.
+
+	* arch/os2/dialogs/dialogs.rc, arch/os2/install.cmd,
+	arch/beos/ui.cc, arch/unix/x11/xaw/about.c, arch/msdos/ui.c,
+	arch/unix/x11/gnome/about.c, arch/msdos/menudefs.c,
+	resid/THANKS, arch/win32/res.rc, info.c: Updated.
+
+	* arch/win32/resc64.rc, arch/win32/resc128.rc: Moved cart
+	settings to separate popup.
+
+	* cbmdos.c, cbmdos.h, fileio/p00.c, fileio/cbmfile.c: Fixed
+	wildcard support.
+
 2004-01-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.47.

@@ -10,6 +10,7 @@ doc_DATA = \
 	plain/NEWS \
 	plain/PETdoc.txt \
 	plain/TODO \
+	plain/Walkthrough-Howto.txt \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
