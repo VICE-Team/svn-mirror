@@ -198,9 +198,6 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
-    /* Dispatch all the pending UI events.  */
-    ui_dispatch_events();
-
     /* Update mouse */
     mouse_update_mouse();
 
@@ -211,6 +208,8 @@ void vsyncarch_presync(void)
 
 void vsyncarch_postsync(void)
 {
+    /* Dispatch all the pending UI events.  */
+    ui_dispatch_events();
 }
 
 int vsyncarch_vbl_sync_enabled(void)

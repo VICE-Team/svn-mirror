@@ -37,8 +37,8 @@ typedef enum {
         ZFILE_DEL       /* Remove original file.  */
 } zfile_action_t;
 
-extern FILE *zfopen(const char *name, const char *mode);
-extern int zfclose(FILE *stream);
+extern FILE *zfile_fopen(const char *name, const char *mode);
+extern int zfile_fclose(FILE *stream);
 
 extern void zfile_shutdown(void);
 

@@ -192,7 +192,7 @@ int psid_load_file(const char* filename)
     if (vlog == LOG_ERR)
         vlog = log_open("Vsid");
 
-    if (!(f = zfopen(filename, MODE_READ)))
+    if (!(f = zfile_fopen(filename, MODE_READ)))
         return -1;
 
     lib_free(psid);
@@ -333,12 +333,12 @@ int psid_load_file(const char* filename)
         goto fail;
     }
 
-    zfclose(f);
+    zfile_fclose(f);
 
     return 0;
 
 fail:
-    zfclose(f);
+    zfile_fclose(f);
     lib_free(psid);
     psid = NULL;
     return -1;

@@ -121,10 +121,10 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     fd = NULL;
 
     if (*read_only == 0)
-        fd = zfopen(name, MODE_READ_WRITE);
+        fd = zfile_fopen(name, MODE_READ_WRITE);
 
     if (fd == NULL) {
-        fd = zfopen(name, MODE_READ);
+        fd = zfile_fopen(name, MODE_READ);
         if (fd == NULL)
             return NULL;
         *read_only = 1;
@@ -135,7 +135,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     new = tap_new();
 
     if (tap_header_read(new, fd) < 0) {
-        zfclose(fd);
+        zfile_fclose(fd);
         lib_free(new);
         return NULL;
     }
@@ -146,7 +146,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     new->size = (int)util_file_length(fd) - TAP_HDR_SIZE;
 
     if (new->size < 3) {
-        zfclose(new->fd);
+        zfile_fclose(new->fd);
         lib_free(new);
         return NULL;
     }
@@ -168,7 +168,7 @@ int tap_close(tap_t *tap)
         if (tap->has_changed)
             if (!fseek(tap->fd,TAP_HDR_LEN,SEEK_SET))
                 util_dword_write(tap->fd, (DWORD *)&tap->size, 4);
-        retval = zfclose(tap->fd);
+        retval = zfile_fclose(tap->fd);
         tap->fd = NULL;
     } else {
         retval = 0;

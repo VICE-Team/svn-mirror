@@ -595,7 +595,7 @@ snapshot_t *snapshot_open(const char *filename,
     snapshot_t *s = NULL;
     int machine_name_len;
 
-    f = zfopen(filename, MODE_READ);
+    f = zfile_fopen(filename, MODE_READ);
     if (f == NULL)
         return NULL;
 
@@ -641,7 +641,7 @@ int snapshot_close(snapshot_t *s)
     int retval;
 
     if (!s->write_mode) {
-        if (zfclose(s->file) == EOF)
+        if (zfile_fclose(s->file) == EOF)
             retval = -1;
         else
             retval = 0;

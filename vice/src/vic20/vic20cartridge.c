@@ -258,7 +258,7 @@ int cartridge_attach_image(int type, const char *filename)
     log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",
                 type, filename);
 
-    fd = zfopen(filename, MODE_READ);
+    fd = zfile_fopen(filename, MODE_READ);
     if (!fd)
         return -1;
 
@@ -289,7 +289,7 @@ int cartridge_attach_image(int type, const char *filename)
     switch (type) {
       case CARTRIDGE_VIC20_16KB_4000:
         if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-            zfclose(fd);
+            zfile_fclose(fd);
             return -1;
         }
         if (n < 4) {
@@ -302,7 +302,7 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_VIC20_16KB_2000:
         if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-            zfclose(fd);
+            zfile_fclose(fd);
             return -1;
         }
         if (n < 4) {
@@ -316,7 +316,7 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_VIC20_16KB_6000:
         if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {
-            zfclose(fd);
+            zfile_fclose(fd);
             return -1;
         }
         if (n < 4) {
@@ -330,7 +330,7 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_VIC20_8KB_A000:
         if ((n = fread(rawcart, 0x1000, 2, fd)) < 1) {
-            zfclose(fd);
+            zfile_fclose(fd);
             return -1;
         }
         if (n < 2) {
@@ -344,17 +344,17 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_VIC20_4KB_B000:
         if ((n = fread(rawcart, 0x1000, 1, fd)) < 1) {
-            zfclose(fd);
+            zfile_fclose(fd);
             return -1;
         }
         util_string_set(&cartfileB, filename);
         break;
       default:
-        zfclose(fd);
+        zfile_fclose(fd);
         return -1;
     }
 
-    zfclose(fd);
+    zfile_fclose(fd);
 
     mem_attach_cartridge(type, rawcart);
 

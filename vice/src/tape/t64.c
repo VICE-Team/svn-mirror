@@ -164,7 +164,7 @@ t64_t *t64_new(void)
 void t64_destroy(t64_t *t64)
 {
     if (t64->fd != NULL)
-        zfclose(t64->fd);
+        zfile_fclose(t64->fd);
     if (t64->file_name != NULL)
         lib_free(t64->file_name);
     if (t64->file_records != NULL)
@@ -178,7 +178,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
     t64_t *new;
     int i;
 
-    fd = zfopen(name, MODE_READ);
+    fd = zfile_fopen(name, MODE_READ);
     if (fd == NULL)
         return NULL;
 
@@ -211,7 +211,7 @@ int t64_close(t64_t *t64)
     int retval;
 
     if (t64->fd != NULL) {
-        retval = zfclose(t64->fd);
+        retval = zfile_fclose(t64->fd);
         t64->fd = NULL;
     } else {
         retval = 0;

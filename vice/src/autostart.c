@@ -61,7 +61,6 @@
 #include "util.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
-#include "zfile.h"
 
 
 /* Kernal addresses.  Set by `autostart_init()'.  */

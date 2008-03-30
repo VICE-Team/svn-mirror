@@ -120,13 +120,13 @@ int fsimage_open(disk_image_t *image)
     fsimage = image->media.fsimage;
 
     if (image->read_only) {
-        fsimage->fd = zfopen(fsimage->name, MODE_READ);
+        fsimage->fd = zfile_fopen(fsimage->name, MODE_READ);
     } else  {
-        fsimage->fd = zfopen(fsimage->name, MODE_READ_WRITE);
+        fsimage->fd = zfile_fopen(fsimage->name, MODE_READ_WRITE);
 
         /* If we cannot open the image read/write, try to open it read only. */
         if (fsimage->fd == NULL) {
-            fsimage->fd = zfopen(fsimage->name, MODE_READ);
+            fsimage->fd = zfile_fopen(fsimage->name, MODE_READ);
             image->read_only = 1;
         }
     }
@@ -139,7 +139,7 @@ int fsimage_open(disk_image_t *image)
     if (fsimage_probe(image) == 0)
         return 0;
 
-    zfclose(fsimage->fd);
+    zfile_fclose(fsimage->fd);
     log_message(fsimage_log, "Unknown disk image `%s'.", fsimage->name);
     return -1;
 }
@@ -155,7 +155,7 @@ int fsimage_close(disk_image_t *image)
         return -1;
     }
 
-    zfclose(fsimage->fd);
+    zfile_fclose(fsimage->fd);
 
     fsimage_error_info_destroy(fsimage);
 

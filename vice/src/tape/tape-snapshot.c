@@ -40,7 +40,6 @@
 #include "tape-snapshot.h"
 #include "tape.h"
 #include "types.h"
-#include "zfile.h"
 
 
 /* Logging.  */

@@ -968,7 +968,7 @@ static int zfile_compress(const char *src, const char *dest,
    uncompressed version and update the original file.  */
 
 /* `fopen()' wrapper.  */
-FILE *zfopen(const char *name, const char *mode)
+FILE *zfile_fopen(const char *name, const char *mode)
 {
     char *tmp_name;
     FILE *stream;
@@ -1081,7 +1081,7 @@ static int handle_close(zfile_t *ptr)
 }
 
 /* `fclose()' wrapper.  */
-int zfclose(FILE *stream)
+int zfile_fclose(FILE *stream)
 {
     zfile_t *ptr;
 
