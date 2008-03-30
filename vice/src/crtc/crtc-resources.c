@@ -57,8 +57,7 @@ static int set_palette_file_name(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
-      (resource_value_t *)&crtc_resources.palette_file_name,
-      set_palette_file_name, NULL },
+      (void *)&crtc_resources.palette_file_name, set_palette_file_name, NULL },
     { NULL }
 };
 

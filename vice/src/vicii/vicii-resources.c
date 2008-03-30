@@ -65,13 +65,13 @@ static int set_sprite_background_collisions_enabled(resource_value_t v,
 static const resource_t resources[] =
 {
     { "VICIICheckSsColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vicii_resources.sprite_sprite_collisions_enabled,
+      (void *)&vicii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },
     { "VICIICheckSbColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vicii_resources.sprite_background_collisions_enabled,
+      (void *)&vicii_resources.sprite_background_collisions_enabled,
       set_sprite_background_collisions_enabled, NULL },
     { "VICIINewLuminances", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vicii_resources.new_luminances,
+      (void *)&vicii_resources.new_luminances,
       set_new_luminances, NULL },
     { NULL }
 };

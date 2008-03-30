@@ -93,7 +93,7 @@ static int set_traps_enabled(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "VirtualDevices", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t)&traps_enabled, set_traps_enabled, NULL },
+      (void *)&traps_enabled, set_traps_enabled, NULL },
     { NULL }
 };
 

@@ -124,26 +124,25 @@ static int set_pal_mode(resource_value_t v, void *param)
 static const resource_t resources_pal[] =
 {
     { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
-      (resource_value_t *)&video_resources.color_saturation,
+      (void *)&video_resources.color_saturation,
       set_color_saturation, NULL },
     { "ColorContrast", RES_INTEGER, (resource_value_t)1000,
-      (resource_value_t *)&video_resources.color_contrast,
+      (void *)&video_resources.color_contrast,
       set_color_contrast, NULL },
     { "ColorBrightness", RES_INTEGER, (resource_value_t)1000,
-      (resource_value_t *)&video_resources.color_brightness,
+      (void *)&video_resources.color_brightness,
       set_color_brightness, NULL },
     { "ColorGamma", RES_INTEGER, (resource_value_t)880,
-      (resource_value_t *)&video_resources.color_gamma,
+      (void *)&video_resources.color_gamma,
       set_color_gamma, NULL },
     { "PALEmulation", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&video_resources.delayloop_emulation,
+      (void *)&video_resources.delayloop_emulation,
       set_delayloop_emulation, NULL },
     { "PALScanLineShade", RES_INTEGER, (resource_value_t)667,
-      (resource_value_t *)&video_resources.pal_scanlineshade,
+      (void *)&video_resources.pal_scanlineshade,
       set_pal_scanlineshade, NULL },
     { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_BLUR,
-      (resource_value_t *)&video_resources.pal_mode,
-      set_pal_mode, NULL },
+      (void *)&video_resources.pal_mode, set_pal_mode, NULL },
     { NULL }
 };
 

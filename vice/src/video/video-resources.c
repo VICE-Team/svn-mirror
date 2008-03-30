@@ -60,10 +60,9 @@ static int set_palette_file_name(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&video_resources.ext_palette,
-      set_ext_palette, NULL },
+      (void *)&video_resources.ext_palette, set_ext_palette, NULL },
     { "PaletteFile", RES_STRING, (resource_value_t)"default",
-      (resource_value_t *)&video_resources.palette_file_name,
+      (void *)&video_resources.palette_file_name,
       set_palette_file_name, NULL },
     { NULL }
 };

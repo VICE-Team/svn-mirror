@@ -66,17 +66,17 @@ static int set_printer_device(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "PrinterTextDevice1", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV1,
-      (resource_value_t *)&PrinterDev[0], set_printer_device_name, (void *)0 },
+      (void *)&PrinterDev[0], set_printer_device_name, (void *)0 },
     { "PrinterTextDevice2", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV2,
-      (resource_value_t *)&PrinterDev[1], set_printer_device_name, (void *)1 },
+      (void *)&PrinterDev[1], set_printer_device_name, (void *)1 },
     { "PrinterTextDevice3", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV3,
-      (resource_value_t *)&PrinterDev[2], set_printer_device_name, (void *)2 },
+      (void *)&PrinterDev[2], set_printer_device_name, (void *)2 },
     { "Printer4TextDevice", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&printer_device[0], set_printer_device, (void *)0 },
+      (void *)&printer_device[0], set_printer_device, (void *)0 },
     { "Printer5TextDevice", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&printer_device[1], set_printer_device, (void *)1 },
+      (void *)&printer_device[1], set_printer_device, (void *)1 },
     { "PrinterUserportTextDevice", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&printer_device[2], set_printer_device, (void *)2 },
+      (void *)&printer_device[2], set_printer_device, (void *)2 },
     { NULL }
 };
 

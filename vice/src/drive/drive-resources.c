@@ -226,15 +226,14 @@ int drive1_resources_type(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&drive_true_emulation,
-      set_drive_true_emulation, NULL },
+      (void *)&drive_true_emulation, set_drive_true_emulation, NULL },
     { "Drive8ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[0].extend_image_policy), set_drive_extend_image_policy,
+      (resource_value_t)DRIVE_EXTEND_NEVER,
+      (void *)&(drive[0].extend_image_policy), set_drive_extend_image_policy,
       (void *)0 },
     { "Drive9ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t)DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[1].extend_image_policy), set_drive_extend_image_policy,
+      (resource_value_t)DRIVE_EXTEND_NEVER,
+      (void *)&(drive[1].extend_image_policy), set_drive_extend_image_policy,
       (void *)1 },
     { NULL }
 };

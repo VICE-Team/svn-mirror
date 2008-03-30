@@ -65,14 +65,11 @@ static int set_pattern_invert(resource_value_t v, void *param)
 /* RAM-related resources. */
 static const resource_t resources[] = {
     { "RAMInitStartValue", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&start_value,
-      set_start_value, NULL },
+      (void *)&start_value, set_start_value, NULL },
     { "RAMInitValueInvert", RES_INTEGER, (resource_value_t)64,
-      (resource_value_t *)&value_invert,
-      set_value_invert, NULL },
+      (void *)&value_invert, set_value_invert, NULL },
     { "RAMInitPatternInvert", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&pattern_invert,
-      set_pattern_invert, NULL },
+      (void *)&pattern_invert, set_pattern_invert, NULL },
     { NULL }
 };
 

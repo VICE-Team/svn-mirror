@@ -85,20 +85,15 @@ static int set_dos_rom_name_2031(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DosName2031", RES_STRING, (resource_value_t)"dos2031",
-      (resource_value_t *)&dos_rom_name_2031,
-      set_dos_rom_name_2031, NULL },
+      (void *)&dos_rom_name_2031, set_dos_rom_name_2031, NULL },
     { "DosName2040", RES_STRING, (resource_value_t)"dos2040",
-      (resource_value_t *)&dos_rom_name_2040,
-      set_dos_rom_name_2040, NULL },
+      (void *)&dos_rom_name_2040, set_dos_rom_name_2040, NULL },
     { "DosName3040", RES_STRING, (resource_value_t)"dos3040",
-      (resource_value_t *)&dos_rom_name_3040,
-      set_dos_rom_name_3040, NULL },
+      (void *)&dos_rom_name_3040, set_dos_rom_name_3040, NULL },
     { "DosName4040", RES_STRING, (resource_value_t)"dos4040",
-      (resource_value_t *)&dos_rom_name_4040,
-      set_dos_rom_name_4040, NULL },
+      (void *)&dos_rom_name_4040, set_dos_rom_name_4040, NULL },
     { "DosName1001", RES_STRING, (resource_value_t)"dos1001",
-      (resource_value_t *)&dos_rom_name_1001,
-      set_dos_rom_name_1001, NULL },
+      (void *)&dos_rom_name_1001, set_dos_rom_name_1001, NULL },
     { NULL }
 };
 

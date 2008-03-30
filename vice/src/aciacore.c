@@ -108,9 +108,9 @@ static int acia_set_irq(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { MYACIA "Dev", RES_INTEGER, (resource_value_t)MyDevice,
-      (resource_value_t *)&acia_device, acia_set_device, NULL },
+      (void *)&acia_device, acia_set_device, NULL },
     { MYACIA "Irq", RES_INTEGER, (resource_value_t)MyIrq,
-      (resource_value_t *)&acia_irq_res, acia_set_irq, NULL },
+      (void *)&acia_irq_res, acia_set_irq, NULL },
     { NULL }
 };
 

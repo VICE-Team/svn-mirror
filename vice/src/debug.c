@@ -72,21 +72,16 @@ static int set_trace_small(resource_value_t v, void *param)
 /* Debug-related resources. */
 static const resource_t resources[] = {
     { "DoCoreDump", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&debug.do_core_dumps,
-      set_do_core_dumps, NULL },
+      (void *)&debug.do_core_dumps, set_do_core_dumps, NULL },
 #ifdef DEBUG
     { "MainCPU_TRACE", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&debug.maincpu_traceflg,
-      set_maincpu_traceflg, NULL },
+      (void *)&debug.maincpu_traceflg, set_maincpu_traceflg, NULL },
     { "Drive0CPU_TRACE", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&debug.drivecpu_traceflg[0],
-      set_drive_traceflg, (void *)0 },
+      (void *)&debug.drivecpu_traceflg[0], set_drive_traceflg, (void *)0 },
     { "Drive1CPU_TRACE", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&debug.drivecpu_traceflg[1],
-      set_drive_traceflg, (void *)1 },
+      (void *)&debug.drivecpu_traceflg[1], set_drive_traceflg, (void *)1 },
     { "TraceSmall", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&debug.trace_small,
-      set_trace_small, NULL },
+      (void *)&debug.trace_small, set_trace_small, NULL },
 #endif
     { NULL }
 };

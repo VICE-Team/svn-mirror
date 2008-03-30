@@ -106,7 +106,7 @@ static int set_system_path(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "Directory", RES_STRING, (resource_value_t)"$$",
-      (resource_value_t *)&system_path, set_system_path, NULL },
+      (void *)&system_path, set_system_path, NULL },
     { NULL },
 };
 

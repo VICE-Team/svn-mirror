@@ -49,8 +49,7 @@ static int set_dos_rom_name_1551(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
-      (resource_value_t *)&dos_rom_name_1551,
-      set_dos_rom_name_1551, NULL },
+      (void *)&dos_rom_name_1551, set_dos_rom_name_1551, NULL },
     { NULL }
 };
 
