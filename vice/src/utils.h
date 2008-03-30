@@ -46,6 +46,8 @@ extern char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
                          const char *src, int src_size);
 extern void util_remove_spaces(char *s);
 extern void util_add_extension(char **name, const char *extension);
+extern char *util_add_extension_const(const char *filename,
+                                      const char *extension);
 extern char *util_get_current_dir(void);
 
 extern size_t util_file_length(FILE *fd);
