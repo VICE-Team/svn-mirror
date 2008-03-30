@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64cia2.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia2.def,
+ * ../../src/c64/c64cia2.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/c64/c64cia2.def,
  * Do not edit!
  */
 /*
@@ -368,8 +368,13 @@ static void check_cia2todalarm(CLOCK rclk);
 /* CIA2 */
 
 
+    /* Pointer to the IEC structure.  */
     static iec_info_t *iec_info;
-    iec_cpu_write_callback_t iec_cpu_write_callback[4] = { 
+
+    /* Current video bank (0, 1, 2 or 3).  */
+    static int vbank;
+
+    static iec_cpu_write_callback_t iec_cpu_write_callback[4] = { 
         iec_cpu_write_conf0, iec_cpu_write_conf1,
         iec_cpu_write_conf2, iec_cpu_write_conf3 };
 
@@ -607,6 +612,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
     if (oldpa != byte) {
         BYTE tmp;
+        int new_vbank;
 
 #ifdef HAVE_RS232
         if(rsuser_enabled && ((oldpa^byte)&0x04)) {
@@ -614,8 +620,11 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
         }
 #endif
         tmp = ~byte;
-        mem_set_vbank(tmp & 3);
-        /*iec_cpu_write(tmp);*/
+        new_vbank = tmp & 3;
+        if (new_vbank != vbank) {
+            vbank = new_vbank;
+            mem_set_vbank(new_vbank);
+        }
         iec_cpu_write_callback[iec_callback_index](tmp);
 #ifdef HAVE_PRINTER
         pruser_write_strobe(tmp & 0x04);
@@ -1628,7 +1637,8 @@ int cia2_read_snapshot_module(snapshot_t *p)
 	rsuser_set_tx_bit(byte & 4);
     }
 #endif
-    mem_set_vbank((byte ^ 3) & 3);
+    vbank = (byte ^ 3) & 3;
+    mem_set_vbank(vbank);
     iec_cpu_undump(byte ^ 0xff);
         oldpa = byte;
 
