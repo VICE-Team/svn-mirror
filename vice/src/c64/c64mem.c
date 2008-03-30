@@ -695,7 +695,7 @@ void initialize_memory(void)
             mem_read_limit_tab[i][j] = 0xfffd;
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
-                    switch (j & 0x3fff) {
+                    switch (j & 0x3f) {
                       case 0x39:
                         mem_write_tab[k][i][j] = store_vbank_39xx;
                         break;
