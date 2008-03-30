@@ -337,7 +337,6 @@ void machine_specific_reset(void)
     rs232_reset();
 #endif
 
-    autostart_reset();
     drive_reset();
     datasette_reset();
 

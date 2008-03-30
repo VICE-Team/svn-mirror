@@ -319,7 +319,6 @@ void machine_specific_reset(void)
     rs232_reset();
 #endif
     printer_reset();
-    autostart_reset();
     drive_reset();
     datasette_reset();
 }

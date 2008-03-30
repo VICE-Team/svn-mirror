@@ -53,5 +53,7 @@ extern void autostart_advance(void);
 extern int autostart_device(int num);
 extern void autostart_reset(void);
 
+extern int autostart_ignore_reset;
+
 #endif /* !_AUTOSTART_H */
 

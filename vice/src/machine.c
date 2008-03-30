@@ -27,6 +27,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "autostart.h"
 #include "machine.h"
 #include "mem.h"
 #include "ui.h"
@@ -61,6 +62,8 @@ void machine_reset(void)
 {
     /* Do machine-specific initialization.  */
     machine_specific_reset();
+
+    autostart_reset();
 
     mem_initialize_memory();
 
