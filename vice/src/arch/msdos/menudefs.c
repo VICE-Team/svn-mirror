@@ -417,7 +417,11 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
 
     resources_get_value("SoundOversample", (resource_value_t *) &value);
     if (value != 0) {
-        sprintf(s, "%dx", value);
+        int n = 1, i;
+
+        for (i = 0; i < value; i++)
+            n *= 2;
+        sprintf(s, "%dx", n);
         return s;
     } else
         return "None";
@@ -500,21 +504,17 @@ static tui_menu_item_def_t sound_oversample_submenu[] = {
       "Disable oversampling",
       radio_SoundOversample_callback, (void *) 0, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_1x",
-      "Enable 1x oversampling",
-      radio_SoundOversample_callback, (void *) 1, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_2x",
       "Enable 2x oversampling",
-      radio_SoundOversample_callback, (void *) 2, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_3x",
-      "Enable 3x oversampling",
-      radio_SoundOversample_callback, (void *) 3, 0,
+      radio_SoundOversample_callback, (void *) 1, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_4x",
       "Enable 4x oversampling",
-      radio_SoundOversample_callback, (void *) 4, 0,
+      radio_SoundOversample_callback, (void *) 2, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_8x",
+      "Enable 8x oversampling",
+      radio_SoundOversample_callback, (void *) 3, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

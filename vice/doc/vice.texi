@@ -2315,8 +2315,8 @@ happen.  @code{0} means no pause is done.
 
 @vindex SoundOversample
 @item SoundOversample
-Integer specifying the oversampling factor, ranging from @code{1} (no
-oversampling) to @code{8} (8 times oversampling).
+Integer specifying the oversampling factor, ranging from @code{0} (no
+oversampling) to @code{3} (8 times oversampling).
 
 @vindex SoundDeviceName
 @item SoundDeviceName
@@ -4400,10 +4400,6 @@ to debug the CPU emulation.
 @item
 @b{Giuliano Procida} (@email{gpp10@@cam.ac.uk}) is the maintainer of the VICE
 @code{deb} package for the Debian distribution.
-
-@item
-@b{Nathan Hand} is (was?) the maintainer of the VICE @code{rpm} package
-for the Red Hat distribution.
 
 @item
 @b{Marko M@"akel@"a} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
