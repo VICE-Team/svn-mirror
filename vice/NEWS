@@ -14,7 +14,9 @@ list of all the changes in the code.
 ** Drive changes
 ----------------
 
-- Drive 9 can be emulated at hardware level now.
+- Drive 9 can be emulated at hardware level.
+
+- The 1571 double-side disk drive is emulated.
 
 ** SID changes
 --------------
