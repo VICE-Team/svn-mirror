@@ -67,12 +67,16 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 {
     int sizeofpixel = sizeof(PIXEL);
     GdkImageType typ;
+    int depth;
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
 	log_error(gnomevideo_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
 	return -1;
     }
+
+    depth = ui_get_display_depth();
+
     /* Round up to 32-bit boundary. */
     width = (width + 3) & ~0x3;
 
@@ -154,6 +158,10 @@ void canvas_unmap(canvas_t s)
 
 void ui_finish_canvas(canvas_t c)
 {
+    int depth;
+
+    depth = ui_get_display_depth();
+
     c->drawable = gdk_pixmap_new(c->emuwindow->window, 
 				 c->width, c->height, depth);
     gdk_window_set_back_pixmap(c->emuwindow->window, 

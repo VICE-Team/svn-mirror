@@ -89,13 +89,14 @@
 #include "autostart.h"
 
 /* FIXME: We want these to be static.  */
-Display *display;
-int screen;
 GdkVisual *visual;
-int depth = X_DISPLAY_DEPTH;
 int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 char *last_attached_tape;
+
+static Display *display;
+static int screen;
+static int depth = X_DISPLAY_DEPTH;
 
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
@@ -1355,6 +1356,15 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			   gdk_cursor_new (GDK_HAND1)); 
 }
 
+int ui_get_display_depth(void)
+{
+    return depth;
+}
+
+Display *ui_get_display_ptr(void)
+{
+    return display;
+}
 
 void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
