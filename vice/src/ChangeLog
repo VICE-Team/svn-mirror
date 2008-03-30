@@ -1,3 +1,172 @@
+1998-10-27  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.23.
+
+1998-10-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* via-tmpl.c (store_myvia): for port A and port B only call 
+	update_myviairq() when the changed flags are set in the IER
+	(read_myvia): call int_myviat[12] only when a timer- or 
+	interrupt-related register is read, not for a port register.
+	Also for port A and port B only call update_myviairq() when the 
+	changed flags are set in the IER
+
+1998-10-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128.c (machine_write_snapshot): Pass `save_roms' to drive
+	snapshot module too.
+	* c64/c64.c (machine_write_snapshot): Likewise.
+	* cbm2/c610.c (machine_write_snapshot): Likewise.
+	* pet/pet.c (machine_write_snapshot): Likewise.
+	* vic20/vic20.c (machine_write_snapshot): Likewise.
+
+	* drive/drive.c: #include "attach.h".
+	(drive_rotate_disk, drive_sync_found, drive_set_half_track,
+	drive_write_protect_sense, drive_update_viad2_pcr,
+	drive_read_viad2_prb): Changed to use pointer to drive_t structure
+	instead of using an array.
+	(drive_read_disk_byte, drive_write_gcr, drive_update_zone_bits,
+	drive_motor_control): Removed.
+	(drive_write_snapshot_module): Also save drive ROMs images.
+	(drive_read_snapshot_module): Read drive images.
+	(drive_write_rom_snapshot_module): New function.
+	(drive_read_rom_snapshot_module): New function.
+
+	* drive/drive.h: Added new member `*clk' to drive_t.
+
+	* drive/drivecpu-tmpl.c (_drive_byte_ready): Use a pointer to
+	drive_t structure.
+
+	* drive/via2drive0.def (STORE_PRA): Write GCR byte. 
+	(STORE_PRB, UNDUMP_PRB): Update zone bits and motor control.
+	(READ_PRA): Read GCR byte.  
+	* drive/via2drive1.def: Changed likewise.
+
+1998-10-26  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (libarch_a_SOURCES): Added c128kbd.c,
+ 	c128kbd.h, c128ui.c, c128ui.h, c610kbd.c, c610kbd.h, c610ui.c,
+ 	c610ui.h, c64kbd.h, petkbd.c, petkbd.h, petui.c, petui.h,
+ 	vic20kbd.c, vic20kbd.h, vic20ui.c, vic20ui.h.
+        (libarch_a_LIBADD): Removed resc64.o.
+
+	* arch/win32/c128kbd.c: New file.
+	* arch/win32/c128kbd.h: New file.
+	* arch/win32/c128ui.c: New file.
+	* arch/win32/c128ui.h: New file.
+	* arch/win32/c610kbd.c: New file.
+	* arch/win32/c610kbd.h: New file.
+	* arch/win32/c610ui.c: New file.
+	* arch/win32/c610ui.h: New file.
+
+	* arch/win32/c64kbd.c (c64_keyboard): Replaced conversion table
+ 	with MS-DOS version.
+	(c64_kbd_init): New function.
+
+	* arch/win32/c64kbd.h: New file.
+
+	* arch/win32/dirent.h (struct dirent): Removed const from d_name.
+
+	* arch/win32/kbd.c: Implemented keyboard conversion table
+ 	support. It now works the same as in the MS-DOS port.  Added
+ 	extended scancode handling.
+
+	* arch/win32/kbd.h (KBD_ROWS): Set it to 16.
+        (kbd_init): Changed function definition.
+
+	* arch/win32/petkbd.c: New file.
+	* arch/win32/petkbd.h: New file.
+	* arch/win32/petui.c: New file.
+	* arch/win32/petui.h: New file.
+
+	* arch/win32/ui.c (ui_resize_canvas_window): Replaced hard coded
+ 	main window handle with window handle passed to function.
+        (ui_enable_drive_status): Placeholder function added.
+        (ui_display_drive_track): Changed to support more than one drive.
+        (ui_display_drive_led): Same here.
+        (ui_ask_confirmation): Placeholder function added.
+
+	* arch/win32/ui.h (ui_button_t): New definitions for ui button
+ 	results.
+        (ui_drive_enable_t): Added definitions.
+
+	* arch/win32/vic20kbd.c: New file.
+	* arch/win32/vic20kbd.h: New file.
+	* arch/win32/vic20ui.c: New file.
+	* arch/win32/vic20ui.h: New file.
+
+	* arch/win32/video.h: Patch to avoid double definitions of
+ 	BYTE,WORD,DWORD.
+
+	* c128/c128.c: Added Win32 support for keyboard init.
+	* c64/c64.c: Same here.
+	* cbm2/c610.c: Same here.
+
+	* maincpu.def (evaluate_speed): Added Win32 version.
+
+	* pet/pet.c: Added Win32 support for keyboard init.
+
+	* sounddrv/sounddx.c: Implemented sound streaming.
+
+	* sysfile.c (default_path): Added /DRIVES for MS-DOS and Win32.
+
+	* types.h: Changed the definiton of BYTE, WORD, DWORD from typedef
+ 	to #DEFINE when compiling for Win32.  This was needed to avoid
+ 	conflicts with the windows headers.  Before windows.h is included
+ 	we have to #UNDEF them.
+
+	* vic20/vic20.c: Added Win32 support for keyboard init.
+
+1998-10-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* /drive/via1drive0.def, drive/via1drive1.def,
+ 	drive/via2drive0.def, drive/via2drive1.def, vic20/vic20via1.def,
+ 	vic20/vic20via2.def
+	(UNDUMP_ACR): add empty definition for UNDUMP_ACR
+
+	* pet/petvia.def (UNDUMP_ACR): call sound on/off switch
+	when undumping ACR
+
+	* via-tmpl.c (myvia_read_snapshot_module): move the restore
+	macro calls for STORE_SR, UNDUMP_PCR to the end, and add
+	UNDUMP_ACR macro call.
+	Someday this should probably go into one UNDUMP_VIA....
+
+1998-10-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* attach.c (vdrive_write_snapshot_module): New function.
+	(vdrive_read_snapshot_module): New function.
+
+	* c64/cartridge.c (cartridge_attach_image): Handle 16KB CRT
+	cartridges.
+
+	* drive/drive.c (drive_write_snapshot_module): Save disk images
+	of virtual disk drives too.  Save `sync_factor' to snapshot image.
+	Removed unnecessary `GCR_image' variable.
+	(drive_read_snapshot_module): Changed likewise.
+
+	* mon.c (mon_print_registers): Fixed typo.
+
+	* via-tmpl.c (myvia_read_snapshot_module): Fixed `VIA_SR' and
+	`VIA_PCR' undump.
+
+1998-10-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* tapeunit.c (t64_find_next): Do not allow scanning the whole tape 
+	directory more than once.
+
+	* mon.c (mon): If `readline()' returns zero, exit monitor.
+
+1998-10-21  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* via-tmpl.c (myvia_read_snapshot_module,
+ 	myvia_write_snapshot_module): fix latch handling, esp. restoring
+ 	it. myviatal had been restored, but not myvia[VIA_T1L*]....
+	
+1998-10-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.22.
+
 1998-10-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* c64/patchrom.c (patch_rom): fix detection of non-numeric

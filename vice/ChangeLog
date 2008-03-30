@@ -1,3 +1,15 @@
+1998-10-27  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.23.
+
+1998-10-26  Tibor Biczo <crown@mail.matav.hu>
+
+	* configure.in: Added /src/arch/win32/resc64.o to LIBS
+
+1998-10-20  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.20.
+
 1998-10-14  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* data/C128/Makefile.am (c128_DATA): Added `position.vkm'.

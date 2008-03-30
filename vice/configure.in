@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.22)
+AM_INIT_AUTOMAKE(vice, 0.15.0.23)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -470,7 +470,7 @@ elif [[ x"$is_win32" != "xno" ]]; then
 
   dnl On Windows, we already know what we want.
 
-  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
+  LIBS="\$(top_builddir)/src/arch/win32/resc64.o -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
   AC_SUBST(LDFLAGS)
 
 fi

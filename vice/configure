@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.15.0.22
+VERSION=0.15.0.23
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6118,7 +6118,7 @@ elif [ x"$is_dos" != "xno" ]; then
 elif [ x"$is_win32" != "xno" ]; then
 
   
-  LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
+  LIBS="\$(top_builddir)/src/arch/win32/resc64.o -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound"
   
 
 fi
