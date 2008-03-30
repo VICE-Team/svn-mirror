@@ -12,6 +12,8 @@ libraster_a_SOURCES = \
 	raster-canvas.h \
 	raster-changes.c \
 	raster-changes.h \
+	raster-cmdline-options.c \
+	raster-cmdline-options.h \
 	raster-line.c \
 	raster-line.h \
 	raster-modes.c \
