@@ -703,21 +703,20 @@ int mem_load_kernal(const char *rom_name)
     /* serial_remove_traps(); */
     /* we also need the TAPE traps!!! therefore -> */
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name,
-        kernal_rom, C64_KERNAL_ROM_SIZE,
-        C64_KERNAL_ROM_SIZE) < 0) {
+        kernal_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
-        resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+        resources_set_value("VirtualDevices", (resource_value_t)trapfl);
         return -1;
     }
     c64mem_get_kernal_checksum();
 
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
     return 0;
 }
@@ -747,8 +746,7 @@ int mem_load_basic(const char *rom_name)
 
     /* Load Basic ROM.  */
     if (sysfile_load(rom_name,
-        basic_rom, C64_BASIC_ROM_SIZE,
-        C64_BASIC_ROM_SIZE) < 0) {
+        basic_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
         log_error(c64_mem_log,
                   "Couldn't load basic ROM `%s'.",
                   rom_name);
@@ -766,8 +764,7 @@ int mem_load_chargen(const char *rom_name)
     /* Load chargen ROM.  */
 
     if (sysfile_load(rom_name,
-        chargen_rom, C64_CHARGEN_ROM_SIZE,
-        C64_CHARGEN_ROM_SIZE) < 0) {
+        chargen_rom, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load character ROM `%s'.",
                   rom_name);
         return -1;
