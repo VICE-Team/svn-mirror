@@ -27,9 +27,9 @@
 
 #include "vice.h"
 
-struct drive_context_s;
+struct cia_context_s;
 #define CIA_SHARED_CODE
-#define CIACONTEXT struct drive_context_s
+#define CIACONTEXT struct cia_context_s
 
 #include "ciacore.h"
 
@@ -52,14 +52,14 @@ struct drive_context_s;
 
 #define mycia_init      cia1581_init
 #define mycia_reset     cia1581_reset
-#define mycia_store     cia1581_store
-#define mycia_read      cia1581_read
-#define mycia_peek      cia1581_peek
+#define mycia_store     ciacore1581_store
+#define mycia_read      ciacore1581_read
+#define mycia_peek      ciacore1581_peek
 #define mycia_set_flag  cia1581_set_flag
 #define mycia_set_sdr   cia1581_set_sdr
 #define mycia_snapshot_write_module cia1581_snapshot_write_module
 #define mycia_snapshot_read_module cia1581_snapshot_read_module
-#define MYCIA_NAME      (ctxptr->cia1581.myname)
+#define MYCIA_NAME      (cia_context->myname)
 
 /*************************************************************************
  * CPU binding
@@ -67,52 +67,262 @@ struct drive_context_s;
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk           (*(ctxptr->clk_ptr))
-#define mycpu_clk_guard (ctxptr->cpu.clk_guard)
-#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
-#define mycpu_alarm_context (ctxptr->cpu.alarm_context)
+#define myclk           (*(cia_context->clk_ptr))
+#define mycpu_rmw_flag  (*(cia_context->rmw_flag))
 
 /* Renaming formerly global variables */
-#define ciata           (ctxptr->cia1581.ta)
-#define ciatb           (ctxptr->cia1581.tb)
-#define cia_read_clk    (ctxptr->cia1581.read_clk)
-#define cia_read_offset (ctxptr->cia1581.read_offset)
-#define cia_last_read   (ctxptr->cia1581.last_read)
-#define mycia_debugFlag (ctxptr->cia1581.debugFlag)
-#define ciaier          (ctxptr->cia1581.c_cia[CIA_ICR])
-#define cia_ta_alarm    (ctxptr->cia1581.ta_alarm)
-#define cia_tb_alarm    (ctxptr->cia1581.tb_alarm)
-#define cia_tod_alarm   (ctxptr->cia1581.tod_alarm)
-#define ciaint          (ctxptr->cia1581.irqflags)
-#define ciardi          (ctxptr->cia1581.rdi)
-#define cia_tat         (ctxptr->cia1581.tat)
-#define cia_tbt         (ctxptr->cia1581.tbt)
-#define cia_todclk      (ctxptr->cia1581.todclk)
-#define ciasr_bits      (ctxptr->cia1581.sr_bits)
-#define cia_shifter     (ctxptr->cia1581.shifter)
-#define cia_sdr_valid   (ctxptr->cia1581.sdr_valid)
-#define oldpa           (ctxptr->cia1581.old_pa)
-#define oldpb           (ctxptr->cia1581.old_pb)
-#define ciatodalarm     (ctxptr->cia1581.todalarm)
-#define ciatodlatch     (ctxptr->cia1581.todlatch)
-#define ciatodstopped   (ctxptr->cia1581.todstopped)
-#define ciatodlatched   (ctxptr->cia1581.todlatched)
-#define ciatodticks     (ctxptr->cia1581.todticks)
-#define cia_log         (ctxptr->cia1581.log)
-#define cia             (ctxptr->cia1581.c_cia)
+#define ciata           (cia_context->ta)
+#define ciatb           (cia_context->tb)
+#define cia_read_clk    (cia_context->read_clk)
+#define cia_read_offset (cia_context->read_offset)
+#define cia_last_read   (cia_context->last_read)
+#define mycia_debugFlag (cia_context->debugFlag)
+#define ciaier          (cia_context->c_cia[CIA_ICR])
+#define cia_ta_alarm    (cia_context->ta_alarm)
+#define cia_tb_alarm    (cia_context->tb_alarm)
+#define cia_tod_alarm   (cia_context->tod_alarm)
+#define ciaint          (cia_context->irqflags)
+#define ciardi          (cia_context->rdi)
+#define cia_tat         (cia_context->tat)
+#define cia_tbt         (cia_context->tbt)
+#define cia_todclk      (cia_context->todclk)
+#define ciasr_bits      (cia_context->sr_bits)
+#define cia_shifter     (cia_context->shifter)
+#define cia_sdr_valid   (cia_context->sdr_valid)
+#define oldpa           (cia_context->old_pa)
+#define oldpb           (cia_context->old_pb)
+#define ciatodalarm     (cia_context->todalarm)
+#define ciatodlatch     (cia_context->todlatch)
+#define ciatodstopped   (cia_context->todstopped)
+#define ciatodlatched   (cia_context->todlatched)
+#define ciatodticks     (cia_context->todticks)
+#define cia_log         (cia_context->log)
+#define cia             (cia_context->c_cia)
 
-#define iec_info        (ctxptr->c_iec_info)
 
-static void cia_set_int_clk(drive_context_t *ctxptr, int value, CLOCK clk)
+void REGPARM3 mycia_store(cia_context_t *cia_context, WORD addr, BYTE data);
+BYTE REGPARM2 mycia_read(cia_context_t *cia_context, WORD addr);
+BYTE REGPARM2 mycia_peek(cia_context_t *cia_context, WORD addr);
+
+void REGPARM3 cia1581_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    interrupt_set_irq(ctxptr->cpu.int_status, ctxptr->cia1581.int_num,
+    mycia_store(&(ctxptr->cia1581), addr, data);
+}
+
+BYTE REGPARM2 cia1581_read(drive_context_t *ctxptr, WORD addr)
+{
+    return mycia_read(&(ctxptr->cia1581), addr);
+}
+
+BYTE REGPARM2 cia1581_peek(drive_context_t *ctxptr, WORD addr)
+{
+    return mycia_peek(&(ctxptr->cia1581), addr);
+}
+
+static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
+{
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(cia_context->context);
+
+    interrupt_set_irq(drive_context->cpu.int_status, cia_context->int_num,
                       value, clk);
 }
 
-static void cia_restore_int(drive_context_t *ctxptr, int value)
+static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    interrupt_set_irq_noclk(ctxptr->cpu.int_status, ctxptr->cia1581.int_num,
-                            value);
+    drive_context_t *drive_context;
+
+    drive_context = (drive_context_t *)(cia_context->context);
+
+    interrupt_set_irq_noclk(drive_context->cpu.int_status,
+                            cia_context->int_num, value);
+}
+
+/*************************************************************************
+ * Hardware binding
+ */
+
+static inline void do_reset_cia(cia_context_t *cia_context)
+{
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+
+    cia1581p->iec_info = iec_get_drive_port();
+
+    cia1581p->drive_ptr->led_status = 1;
+}
+
+static inline void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
+{
+}
+
+#define PRE_STORE_CIA
+#define PRE_READ_CIA
+#define PRE_PEEK_CIA
+
+static inline void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+{
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+
+    cia1581p->drive_ptr->led_status = (b & 0x40) ? 1 : 0;
+}
+
+static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+{
+}
+
+static inline void store_ciapa(cia_context_t *cia_context, CLOCK rclk,
+                               BYTE byte)
+{
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+
+    cia1581p->drive_ptr->led_status = (byte & 0x40) ? 1 : 0;
+}
+
+static inline void store_ciapb(cia_context_t *cia_context, CLOCK rclk,
+                               BYTE byte)
+{
+    drivecia1581_context_t *cia1581p;
+    drive_context_t *drive_context;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+    drive_context = (drive_context_t *)(cia_context->context);
+
+    if (byte != oldpb) {
+        if (cia1581p->iec_info != NULL) {
+            BYTE *drive_bus, *drive_data;
+            if (cia1581p->number == 0) {
+                drive_bus = &(cia1581p->iec_info->drive_bus);
+                drive_data = &(cia1581p->iec_info->drive_data);
+            } else {
+                drive_bus = &(cia1581p->iec_info->drive2_bus);
+                drive_data = &(cia1581p->iec_info->drive2_data);
+            }
+            *drive_data = ~byte;
+            *drive_bus = ((((*drive_data) << 3) & 0x40)
+                | (((*drive_data) << 6)
+                & (((*drive_data) | cia1581p->iec_info->cpu_bus) << 3) & 0x80));
+            cia1581p->iec_info->cpu_port = cia1581p->iec_info->cpu_bus & cia1581p->iec_info->drive_bus
+                & cia1581p->iec_info->drive2_bus;
+            cia1581p->iec_info->drive_port = cia1581p->iec_info->drive2_port
+                = (((cia1581p->iec_info->cpu_port >> 4) & 0x4)
+                | (cia1581p->iec_info->cpu_port >> 7)
+                | ((cia1581p->iec_info->cpu_bus << 3) & 0x80));
+        } else {
+            drive_context->func.iec_write((BYTE)(~byte));
+        }
+
+        iec_fast_drive_direction(byte & 0x20, cia1581p->number);
+    }
+}
+
+static inline BYTE read_ciapa(cia_context_t *cia_context)
+{
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+
+    return ((8 * (cia1581p->number)) & ~cia[CIA_DDRA])
+           | (cia[CIA_PRA] & cia[CIA_DDRA]);
+}
+
+static inline BYTE read_ciapb(cia_context_t *cia_context)
+{
+    drive_context_t *drive_context;
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+    drive_context = (drive_context_t *)(cia_context->context);
+
+    if (cia1581p->iec_info != NULL) {
+        BYTE *drive_port = (cia1581p->number == 0) ? &(cia1581p->iec_info->drive_port)
+                                                   : &(cia1581p->iec_info->drive2_port);
+        return (((cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85)
+               | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
+    } else {
+        return (((cia[CIA_PRB] & 0x1a) | drive_context->func.iec_read()) ^ 0x85)
+               | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
+    }
+}
+
+static inline void read_ciaicr(cia_context_t *cia_context)
+{
+}
+
+static inline void read_sdr(cia_context_t *cia_context)
+{
+}
+
+static inline void store_sdr(cia_context_t *cia_context, BYTE byte)
+{
+    drivecia1581_context_t *cia1581p;
+
+    cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+
+    iec_fast_drive_write(byte, cia1581p->number);
+}
+
+/* special callback handling */
+
+static void clk_overflow_callback(cia_context_t *, CLOCK, void *);
+
+static void clk0_overflow_callback(CLOCK sub, void *data)
+{
+    clk_overflow_callback(&(drive0_context.cia1581), sub, data);
+}
+
+static void clk1_overflow_callback(CLOCK sub, void *data)
+{
+    clk_overflow_callback(&(drive1_context.cia1581), sub, data);
+}
+
+static void int_ciad0ta(CLOCK c)
+{
+    int_ciata(&(drive0_context.cia1581), c);
+}
+
+static void int_ciad1ta(CLOCK c)
+{
+    int_ciata(&(drive1_context.cia1581), c);
+}
+
+static void int_ciad0tb(CLOCK c)
+{
+    int_ciatb(&(drive0_context.cia1581), c);
+}
+
+static void int_ciad1tb(CLOCK c)
+{
+    int_ciatb(&(drive1_context.cia1581), c);
+}
+
+static void int_ciad0tod(CLOCK c)
+{
+    int_ciatod(&(drive0_context.cia1581), c);
+}
+
+static void int_ciad1tod(CLOCK c)
+{
+    int_ciatod(&(drive1_context.cia1581), c);
+}
+
+static const cia_initdesc_t cia1581_initdesc[2] = {
+    { &drive0_context.cia1581,
+      clk0_overflow_callback, int_ciad0ta, int_ciad0tb, int_ciad0tod },
+    { &drive1_context.cia1581,
+      clk1_overflow_callback, int_ciad1ta, int_ciad1tb, int_ciad1tod }
+};
+
+
+void cia1581_init(drive_context_t *ctxptr)
+{
+    cia_drive_init(ctxptr, cia1581_initdesc);
 }
 
 void cia1581_setup_context(drive_context_t *ctxptr)
@@ -122,6 +332,8 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     ctxptr->cia1581.prv = lib_malloc(sizeof(drivecia1581_context_t));
     cia1581p = (drivecia1581_context_t *)(ctxptr->cia1581.prv);
     cia1581p->number = ctxptr->mynumber;
+
+    ctxptr->cia1581.context = (void *)ctxptr;
 
     ctxptr->cia1581.rmw_flag = &(ctxptr->cpu.rmw_flag);
     ctxptr->cia1581.clk_ptr = ctxptr->clk_ptr;
@@ -139,161 +351,8 @@ void cia1581_setup_context(drive_context_t *ctxptr)
                                        ctxptr->cia1581.myname);
 
     cia1581p->drive_ptr = ctxptr->drive_ptr;
+    cia1581p->iec_info = ctxptr->c_iec_info;
 }
-
-
-/*************************************************************************
- * Hardware binding
- */
-
-static inline void do_reset_cia(drive_context_t *ctxptr)
-{
-    iec_info = iec_get_drive_port();
-
-    ctxptr->drive_ptr->led_status = 1;
-}
-
-static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk)
-{
-}
-
-#define PRE_STORE_CIA
-#define PRE_READ_CIA
-#define PRE_PEEK_CIA
-
-static inline void undump_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
-{
-    ctxptr->drive_ptr->led_status = (b & 0x40) ? 1 : 0;
-}
-
-static inline void undump_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
-{
-}
-
-static inline void store_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
-{
-    ctxptr->drive_ptr->led_status = (byte & 0x40) ? 1 : 0;
-}
-
-static inline void store_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
-{
-    if (byte != oldpb) {
-        if (iec_info != NULL) {
-            BYTE *drive_bus, *drive_data;
-            if (ctxptr->mynumber == 0) {
-                drive_bus = &(iec_info->drive_bus);
-                drive_data = &(iec_info->drive_data);
-            } else {
-                drive_bus = &(iec_info->drive2_bus);
-                drive_data = &(iec_info->drive2_data);
-            }
-            *drive_data = ~byte;
-            *drive_bus = ((((*drive_data) << 3) & 0x40)
-                | (((*drive_data) << 6)
-                & (((*drive_data) | iec_info->cpu_bus) << 3) & 0x80));
-            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-                & iec_info->drive2_bus;
-            iec_info->drive_port = iec_info->drive2_port
-                = (((iec_info->cpu_port >> 4) & 0x4)
-                | (iec_info->cpu_port >> 7)
-                | ((iec_info->cpu_bus << 3) & 0x80));
-        } else {
-            ctxptr->func.iec_write((BYTE)(~byte));
-        }
-
-        iec_fast_drive_direction(byte & 0x20, ctxptr->mynumber);
-    }
-}
-
-static inline BYTE read_ciapa(drive_context_t *ctxptr)
-{
-    return ((8 * (ctxptr->mynumber)) & ~cia[CIA_DDRA])
-           | (cia[CIA_PRA] & cia[CIA_DDRA]);
-}
-
-static inline BYTE read_ciapb(drive_context_t *ctxptr)
-{
-    if (iec_info != NULL) {
-        BYTE *drive_port = (ctxptr->mynumber == 0) ? &(iec_info->drive_port)
-                                                   : &(iec_info->drive2_port);
-        return (((cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85)
-               | (ctxptr->drive_ptr->read_only ? 0 : 0x40);
-    } else {
-        return (((cia[CIA_PRB] & 0x1a) | ctxptr->func.iec_read()) ^ 0x85)
-               | (ctxptr->drive_ptr->read_only ? 0 : 0x40);
-    }
-}
-
-static inline void read_ciaicr(drive_context_t *ctxptr)
-{
-}
-
-static inline void read_sdr(drive_context_t *ctxptr)
-{
-}
-
-static inline void store_sdr(drive_context_t *ctxptr, BYTE byte)
-{
-    iec_fast_drive_write(byte, ctxptr->mynumber);
-}
-
-/* special callback handling */
-
-static void clk_overflow_callback(drive_context_t *, CLOCK, void *);
-
-static void clk0_overflow_callback(CLOCK sub, void *data)
-{
-    clk_overflow_callback(&drive0_context, sub, data);
-}
-
-static void clk1_overflow_callback(CLOCK sub, void *data)
-{
-    clk_overflow_callback(&drive1_context, sub, data);
-}
-
-static void int_ciad0ta(CLOCK c)
-{
-    int_ciata(&drive0_context, c);
-}
-
-static void int_ciad1ta(CLOCK c)
-{
-    int_ciata(&drive1_context, c);
-}
-
-static void int_ciad0tb(CLOCK c)
-{
-    int_ciatb(&drive0_context, c);
-}
-
-static void int_ciad1tb(CLOCK c)
-{
-    int_ciatb(&drive1_context, c);
-}
-
-static void int_ciad0tod(CLOCK c)
-{
-    int_ciatod(&drive0_context, c);
-}
-
-static void int_ciad1tod(CLOCK c)
-{
-    int_ciatod(&drive1_context, c);
-}
-
-static const cia_initdesc_t cia1581_initdesc[2] = {
-    { &drive0_context.cia1581,
-      clk0_overflow_callback, int_ciad0ta, int_ciad0tb, int_ciad0tod },
-    { &drive1_context.cia1581,
-      clk1_overflow_callback, int_ciad1ta, int_ciad1tb, int_ciad1tod }
-};
-
-
-void cia1581_init(drive_context_t *ctxptr)
-{
-    cia_drive_init(ctxptr, cia1581_initdesc);
-}
-
 
 #include "ciacore.c"
 
