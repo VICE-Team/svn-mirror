@@ -1,5 +1,5 @@
 /*
- * system.c - System dependant functions.
+ * system.h - System dependant functions.
  *
  * Written by
  *  Markus Brenner <markus@brenner.de>
@@ -25,34 +25,20 @@
  *
  */
 
-#include "vice.h"
+#ifndef _SYSTEM_H
+#define _SYSTEM_H
 
+#undef BYTE
+#undef WORD
+#undef DWORD
 #include <windows.h>
 #include <prsht.h>
 
-#include <stdlib.h>
-#include <string.h>
+extern void system_init_dialog(HWND hwnd);
+extern void system_psh_settings(PROPSHEETHEADER *ppsh);
 
-#include "system.h"
+extern size_t system_wcstombs(char *mbs, const char *wcs, size_t len);
+extern size_t system_mbstowcs(char *wcs, const char *mbs, size_t len);
 
-
-void system_init_dialog(HWND hwnd)
-{
-}
-
-void system_psh_settings(PROPSHEETHEADER* ppsh)
-{
-}
-
-size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
-{
-    strncpy(mbs, wcs, len);
-    return strlen(mbs);
-}
-
-size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
-{
-    strncpy(wcs, mbs, len);
-    return strlen(wcs);
-}
+#endif
 
