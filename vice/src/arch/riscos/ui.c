@@ -2336,6 +2336,14 @@ int ui_init_finish(void)
 }
 
 
+int ui_init_finalize(void)
+{
+  /* register platform-specific drivers */
+  screenshot_init_sprite();
+  return sound_init_vidc_device();
+}
+
+
 static void ui_setup_config_item(config_item *ci)
 {
   resource_value_t val;
@@ -4492,10 +4500,8 @@ static void ui_user_message(int *b)
             }
             else if (LastMenu == Menu_Emulator)
             {
-              unsigned int wnum = canvas_number_for_handle(LastHandle);
-              if (wnum == UINT_MAX) wnum = 0;
-              if (machine_class == VICE_MACHINE_C128) wnum ^= 1;	/* FIXME, hack */
-              if (screenshot_save("Sprite", name, wnum) != 0) break;
+              canvas_t *canvas = canvas_for_handle(LastHandle);
+              if (screenshot_canvas_save("Sprite", name, canvas) != 0) break;
               wimp_strcpy(ViceScreenshotFile, name);
             }
             SetFileType(name, b[10]);

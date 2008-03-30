@@ -70,6 +70,8 @@ static UI_CALLBACK(psid_load)
   filename = ui_select_file("Load PSID file", NULL, False, NULL,
 			    "*.[psPS]*", &button, False);
 
+  suspend_speed_eval();
+
   switch (button) {
   case UI_BUTTON_OK:
     if (machine_autodetect_psid(filename) < 0) {
@@ -77,7 +79,6 @@ static UI_CALLBACK(psid_load)
       return;
     }
     machine_play_psid(0);
-    suspend_speed_eval();
     maincpu_trigger_reset();
     vsid_create_menus();
     break;

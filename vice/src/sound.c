@@ -287,7 +287,7 @@ static int closesound(const char *msg)
 	    else
 	        ui_error(msg);
             playback_enabled = 0;
-	    if (!console_mode && !vsid_mode)
+	    if (!console_mode)
 	        ui_update_menus();
 	}
     }
@@ -402,7 +402,7 @@ static int initsid(void)
 	    snddata.fclk = clk;
 	    snddata.wclk = clk;
 
-	    /* Set warp mode for non-realtime sound devices in psid mode. */
+	    /* Set warp mode for non-realtime sound devices in vsid mode. */
 	    if (vsid_mode && !pdev->bufferstatus)
 	        resources_set_value("WarpMode", (resource_value_t)1);
 
@@ -758,10 +758,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #ifdef WINCE
     sound_init_ce_device();
-#endif
-
-#ifdef __riscos
-    sound_init_vidc_device();
 #endif
 
 #ifdef OS2

@@ -86,9 +86,6 @@ int screenshot_init(void)
 #if HAVE_PNG
     screenshot_init_png();
 #endif
-#ifdef __riscos
-    screenshot_init_sprite();
-#endif
     return 0;
 }
 
@@ -152,16 +149,9 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     }
 }
 
-/*-----------------------------------------------------------------------*/
-
-int screenshot_save(const char *drvname, const char *filename,
-                    unsigned int window_number)
+static screendrv_t *screenshot_get_driver(const char *drvname)
 {
-    unsigned int i;
-    screenshot_t screenshot;
-    screendrv_list_t *current;
-
-    current = screendrv_list;
+    screendrv_list_t *current = screendrv_list;
 
     while (current->next != NULL) {
        if (strcmp(drvname, current->drv->name) == 0)
@@ -173,33 +163,70 @@ int screenshot_save(const char *drvname, const char *filename,
     if (current->next == NULL) {
         log_error(screenshot_log, "Request screenshot driver %s not found.",
                   drvname);
-        return -1;
+        return NULL;
     }
+    return current->drv;
+}
 
-    /* Retrive framebuffer and screen geometry.  */
-    if (machine_screenshot(&screenshot, window_number) < 0) {
-        log_error(screenshot_log, "Retriving screen geometry failed.");
-        return -1;
-    }
+static int screenshot_save_core(screenshot_t *screenshot, screendrv_t *drv,
+                                const char *filename)
+{
+    unsigned int i;
 
-    screenshot.width = screenshot.max_width & ~3;
-    screenshot.height = screenshot.last_displayed_line
-                        - screenshot.first_displayed_line;
-    screenshot.y_offset = screenshot.first_displayed_line;
+    screenshot->width  = screenshot->max_width & ~3;
+    screenshot->height = screenshot->last_displayed_line
+                       - screenshot->first_displayed_line;
+    screenshot->y_offset = screenshot->first_displayed_line;
 
-    screenshot.color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
-    memset(screenshot.color_map, 0, 256 * sizeof(PIXEL));
+    screenshot->color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
+    memset(screenshot->color_map, 0, 256 * sizeof(PIXEL));
 
-    for (i = 0; i < screenshot.palette->num_entries; i++)
-        screenshot.color_map[screenshot.pixel_table_sing[i]] = i;
+    for (i = 0; i < screenshot->palette->num_entries; i++)
+        screenshot->color_map[screenshot->pixel_table_sing[i]] = i;
 
-    if ((current->drv->save)(&screenshot, filename) < 0) {
+    if ((drv->save)(screenshot, filename) < 0) {
         log_error(screenshot_log, "Saving failed...");
-        free(screenshot.color_map);
+        free(screenshot->color_map);
         return -1;
     }
 
-    free(screenshot.color_map);
+    free(screenshot->color_map);
     return 0;
 }
 
+/*-----------------------------------------------------------------------*/
+
+int screenshot_save(const char *drvname, const char *filename,
+                    unsigned int window_number)
+{
+    screenshot_t screenshot;
+    screendrv_t *drv;
+
+    if ((drv = screenshot_get_driver(drvname)) == NULL)
+        return -1;
+
+    /* Retrive framebuffer and screen geometry.  */
+    if (machine_screenshot(&screenshot, window_number) < 0) {
+        log_error(screenshot_log, "Retrieving screen geometry failed.");
+        return -1;
+    }
+
+    return screenshot_save_core(&screenshot, drv, filename);
+}
+
+int screenshot_canvas_save(const char *drvname, const char *filename,
+                           struct canvas_s *canvas)
+{
+    screenshot_t screenshot;
+    screendrv_t *drv;
+
+    if ((drv = screenshot_get_driver(drvname)) == NULL)
+        return -1;
+
+    if (machine_canvas_screenshot(&screenshot, canvas) < 0) {
+        log_error(screenshot_log, "Retrieving screen geometry failed.");
+        return -1;
+    }
+
+    return screenshot_save_core(&screenshot, drv, filename);
+}

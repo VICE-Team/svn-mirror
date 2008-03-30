@@ -432,6 +432,8 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
     char *filename;
     static char *last_dir;
 
+    suspend_speed_eval();
+
     if (data) {
         log_debug(_("Quickloading file %s."), (char *)data);
 	filename = data;
@@ -483,6 +485,8 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *data)
     } else {
         ui_snapshot_dialog();
     }
+
+    suspend_speed_eval();
 }
 
 static UI_CALLBACK(save_snapshot)

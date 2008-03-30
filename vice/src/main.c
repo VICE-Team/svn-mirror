@@ -612,6 +612,8 @@ int MAIN_PROGRAM(int argc, char **argv)
                       startup_tape_image);
 
     }
+    ui_init_finalize();
+
     init_done = 1;
 
     /* Let's go...  */

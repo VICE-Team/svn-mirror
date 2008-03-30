@@ -46,6 +46,7 @@ extern int ui_init_resources(void);
 extern int ui_init_cmdline_options(void);
 extern int ui_init(int *argc, char **argv);
 extern int ui_init_finish(void);
+extern int ui_init_finalize(void);
 
 /* Print an error message.  */
 extern void ui_error(const char *format,...);

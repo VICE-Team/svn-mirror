@@ -31,6 +31,7 @@
 
 struct video_frame_buffer_s;
 struct palette_s;
+struct canvas_s;
 
 typedef struct screenshot_s {
     struct video_frame_buffer_s *frame_buffer;
@@ -71,6 +72,8 @@ typedef struct screendrv_s {
 extern int screenshot_init(void);
 extern int screenshot_save(const char *drvname, const char *filename,
                            unsigned int window_number);
+extern int screenshot_canvas_save(const char *drvname, const char *filename,
+                           struct canvas_s *canvas);
 
 /* Functions called by screenshot modules.  */
 extern int screenshot_register(screendrv_t *drv);

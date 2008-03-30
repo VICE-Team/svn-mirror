@@ -92,7 +92,9 @@ extern void machine_change_timing(int timeval);
 
 /* Get screenshot data.  */
 struct screenshot_s;
+struct canvas_s;
 extern int machine_screenshot(struct screenshot_s *screenshot, unsigned int wn);
+extern int machine_canvas_screenshot(struct screenshot_s *screenshot, struct canvas_s *canvas);
 
 #endif /* _MACHINE_H */
 
