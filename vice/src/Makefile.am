@@ -66,8 +66,8 @@ noinst_HEADERS = \
 	diskconstants.h \
 	diskimage.h \
 	emuid.h \
-	fixpoint.h \
 	findpath.h \
+	fixpoint.h \
 	fsdevice.h \
 	fliplist.h \
 	fullscreen.h \
@@ -79,6 +79,7 @@ noinst_HEADERS = \
 	init.h \
 	initcmdline.h \
 	interrupt.h \
+	ioutil.h \
 	joystick.h \
 	kbdbuf.h \
 	keyboard.h \
@@ -147,6 +148,7 @@ base_sources = \
 	init.c \
 	initcmdline.c \
 	interrupt.c \
+	ioutil.c \
 	joystick.c \
 	kbdbuf.c \
 	keyboard.c \
@@ -507,6 +509,7 @@ c1541_SOURCES = \
 	findpath.c \
 	gcr.c \
 	info.c \
+	ioutil.c \
 	log.c \
 	p00.c \
 	resources.c \
@@ -530,6 +533,7 @@ petcat_SOURCES = \
 	charset.c \
 	cmdline.c \
 	findpath.c \
+	ioutil.c \
 	log.c \
 	p00.c \
 	petcat.c \

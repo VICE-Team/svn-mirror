@@ -54,6 +54,7 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -74,7 +75,6 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
 #include "via.h"
 #include "vicii.h"
 #include "video.h"
@@ -464,7 +464,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || (cbm2_isC500 && c500_snapshot_write_module(s) < 0)
         ) {
         snapshot_close(s);
-        util_file_remove(name);
+        ioutil_remove(name);
         return -1;
     }
 

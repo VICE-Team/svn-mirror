@@ -45,6 +45,7 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -60,7 +61,6 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
 #include "via.h"
 #include "vic.h"
 #include "vic20-cmdline-options.h"
@@ -501,7 +501,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || via2_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0) {
         snapshot_close(s);
-        util_file_remove(name);
+        ioutil_remove(name);
         return -1;
     }
 
@@ -510,7 +510,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         if (ieeevia1_snapshot_write_module(s) < 0
             || ieeevia2_snapshot_write_module(s) < 0) {
             snapshot_close(s);
-            util_file_remove(name);
+            ioutil_remove(name);
             return 1;
         }
     }

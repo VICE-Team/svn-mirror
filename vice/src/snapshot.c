@@ -39,6 +39,7 @@
 #endif
 
 #include "archdep.h"
+#include "ioutil.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
@@ -458,7 +459,7 @@ snapshot_t *snapshot_create(const char *filename,
 
 fail:
     fclose(f);
-    util_file_remove(filename);
+    ioutil_remove(filename);
     return NULL;
 }
 
