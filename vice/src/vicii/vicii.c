@@ -50,7 +50,6 @@
 #include "c64cart.h"
 #include "clkguard.h"
 #include "dma.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -979,23 +978,13 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
     if (vicii_resources.sprite_sprite_collisions_enabled
         && vic_ii.raster.sprite_status->sprite_sprite_collisions != 0
         && !prev_sprite_sprite_collisions) {
-        /* To be replaced by vicii_irq_sscoll_set().  */
-        vic_ii.irq_status |= 0x4;
-        if (vic_ii.regs[0x1a] & 0x4) {
-            maincpu_set_irq(I_RASTER, 1);
-            vic_ii.irq_status |= 0x80;
-        }
+        vicii_irq_sscoll_set();
     }
 
     if (vicii_resources.sprite_background_collisions_enabled
         && vic_ii.raster.sprite_status->sprite_background_collisions
         && !prev_sprite_background_collisions) {
-        /* To be replaced by vicii_irq_sbcoll_set().  */
-        vic_ii.irq_status |= 0x2;
-        if (vic_ii.regs[0x1a] & 0x2) {
-            maincpu_set_irq(I_RASTER, 1);
-            vic_ii.irq_status |= 0x80;
-        }
+        vicii_irq_sbcoll_set();
     }
 
     if (vic_ii.idle_state) {
@@ -1019,19 +1008,22 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
    line counter matches the value stored in the raster line register.  */
 void vicii_raster_irq_alarm_handler(CLOCK offset)
 {
+#if 0
     vic_ii.irq_status |= 0x1;
     if (vic_ii.regs[0x1a] & 0x1) {
         maincpu_set_irq_clk(I_RASTER, 1, vic_ii.raster_irq_clk);
         vic_ii.irq_status |= 0x80;
+
         VIC_II_DEBUG_RASTER(("*** IRQ requested at line $%04X, "
                             "raster_irq_line = $%04X, off = %ld, cycle = %d.",
                             VIC_II_RASTER_Y(maincpu_clk),
                             vic_ii.raster_irq_line,
                             (long)offset, VIC_II_RASTER_CYCLE(maincpu_clk)));
     }
-
-    vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
-    alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+#else
+    vicii_irq_raster_set(vic_ii.raster_irq_clk);
+#endif
+    vicii_irq_next_frame();
 }
 
 void vicii_set_canvas_refresh(int enable)
