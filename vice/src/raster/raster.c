@@ -214,19 +214,11 @@ inline static void draw_borders(raster_t *raster)
                    raster->geometry->screen_size.width - 1);
 }
 
-#ifdef USE_XF86_VIDMODE_EXT
-extern raster_t *fs_cached_raster;
-#endif
-
 int raster_init(raster_t *raster,
                 unsigned int num_modes,
                 unsigned int num_sprites)
 {
     raster->intialized = 0;
-
-#ifdef USE_XF86_VIDMODE_EXT
-    fs_cached_raster = raster;
-#endif
 
     raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
