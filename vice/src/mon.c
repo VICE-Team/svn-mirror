@@ -2143,7 +2143,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
     p = serial_get_device(8);
     floppy = (DRIVE *)p->info;
 
-    if (!floppy || floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+    if (!floppy || floppy->ActiveFd == NULL) {
         fprintf(mon_output, "No disk attached\n");
         return;
     }

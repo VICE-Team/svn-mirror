@@ -31,6 +31,7 @@
 
 #include "imagecontents.h"
 
+#include "archdep.h"
 #include "charsets.h"
 #include "log.h"
 #include "t64.h"
@@ -177,11 +178,11 @@ static DRIVE *open_image(const char *name)
     static BYTE fake_command_buffer[256];
     DRIVE *floppy;
     hdrinfo hdr;
-    file_desc_t fd;
+    FILE *fd;
     int image_format;
 
-    fd = zopen(name, O_RDONLY, 0);
-    if (fd == ILLEGAL_FILE_DESC)
+    fd = zfopen(name, MODE_READ /*, 0*/);
+    if (fd == NULL)
         return NULL;
     if (check_header(fd, &hdr))
         return NULL;
@@ -189,13 +190,13 @@ static DRIVE *open_image(const char *name)
     if (hdr.v_major > HEADER_VERSION_MAJOR
         || (hdr.v_major == HEADER_VERSION_MAJOR
 	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-        zclose(fd);
+        zfclose(fd);
         return 0;
     }
 
     image_format = get_diskformat(hdr.devtype);
     if (image_format < 0 || hdr.gcr) {
-        zclose(fd);
+        zfclose(fd);
         return NULL;
     }
 
@@ -237,7 +238,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     retval = vdrive_bam_read_bam(floppy);
 
     if (retval < 0) {
-        zclose(floppy->ActiveFd);
+        zfclose(floppy->ActiveFd);
         free(floppy);
         return NULL;
     }
@@ -276,7 +277,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         if (retval < 0
             || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
             image_contents_destroy(new);
-            zclose(floppy->ActiveFd);
+            zfclose(floppy->ActiveFd);
             free(floppy);
             return NULL;
         }
@@ -323,7 +324,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         floppy->Curr_sector = (int) buffer[1];
     }
 
-    zclose(floppy->ActiveFd);
+    zfclose(floppy->ActiveFd);
     free(floppy);
     return new;
 }
