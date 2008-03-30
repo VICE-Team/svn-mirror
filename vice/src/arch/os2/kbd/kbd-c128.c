@@ -132,7 +132,14 @@ static keyconv c128_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { 0, 6, 0 },                /*          F11 -> F5           */
     { 0, 3, 0 },                /*          F12 -> F7           */
-    { 6, 3, 0 },                /*         Home -> CLR/HOME     */
+    { -1, -1, 0 },              /*    Num Enter -> (no key)     */
+    { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
+    { -1, -1, 0 },              /*        Pause -> (no key)     */
+    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
+    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
+    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
+    { -1, -1, 0 },              /*        Break -> (no key)     */
+    { 6, 3, 0 },                /*         Pos1 -> CLR/HOME     */
     { 10, 3, 0 },               /*           Up -> Up           */
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
     { 10, 5, 0 },               /*         Left -> Left         */
@@ -142,13 +149,6 @@ static keyconv c128_keyboard[256] = {
     { 0, 2, 0 },                /*       PgDown -> CRSR RIGHT   */
     { 6, 0, 0 },                /*          Ins -> Pound        */
     { 6, 6, 0 },                /*          Del -> Up Arrow     */
-    { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
-    { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
-    { -1, -1, 0 },              /*        Pause -> (no key)     */
-    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
-    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
-    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
-    { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
 };

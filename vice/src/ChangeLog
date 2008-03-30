@@ -1,3 +1,78 @@
+2000-03-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.3.4.
+
+	* keyboard.c (joystick_latch_matrix, joystick_set_value_*):
+	New functions.
+
+	* arch/unix/x11/kbd.c (check_set_joykeys, check_clr_joykeys):
+	Use common joystick functions to modify joystick value.
+
+	* arch/win32/joystick.c (handle_keyset_mapping,
+	joystick_handle_key): Changed likewise.
+
+	* ciacore.c (mycia_reset): TOD is latched on startup.
+
+2000-03-28  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* vicii/vic-draw.c, vicii/viciitypes.h: removed #13
+ 
+	* arch/os2/archdep.c: \sem32\vice\spawn replaced by random
+	semaphore
+
+	* arch/os2/config.h: HAVE_MOUSE defined
+  
+	* arch/os2/dialogs.h: mouse support added, commandline option
+	dlg added
+  
+	* arch/os2/dialogs.rc: font added for every dialog, mouse
+	support added, commandline option dlg added
+                
+	* arch/os2/dialogs/dlg-cmdopt.c added
+  
+	* arch/os2/dialogs/dlg-contants.c: image=NULL bug solved, 
+	WM_ADJUSTWINDOWPOS added
+
+	* arch/os2/dialogs/dlg-emulator.c: mouse support added
+  
+	* arch/os2/dialogs/dlg-monitor.c: WM_COMMAND deleted, 
+	WM_ADJUSTWINDOWPOS added
+
+	* arch/os2/doc/Vice_for_os2.txt: adapted
+ 
+	* arch/os2/install.cmd: small bugs corrected
+ 
+	* arch/os2/joystick.c: semaphore name replaced by random
+	semaphore name
+ 
+	* arch/os2/mouse.[ch] added
+ 
+	* arch/os2/pm/scrollbars.[ch] --> unused/pm
+ 
+	* arch/os2/pm/winaddon.[ch] --> unused/pm
+ 
+	* arch/os2/pm_cmdline.[ch] --> unused
+ 
+	* arch/os2/ui.c: winaddon.h removed
+ 
+	* arch/os2/uicmdline.c: uses resource dialog now
+ 
+	* arch/os2/incl/archdep.icc: mouse.c added, ui_status.c
+	removed
+ 
+	* arch/os2/incl/dialogs.icc: dlg-cmdopt.c added
+ 
+	* arch/os2/video.c: store window position support added
+ 
+	* arch/os2/kbd/kbd-c128.c, arch/os2/kbd/kbd-c610.c,
+	arch/os2/kbd/kbd-c64.c, arch/os2/kbd/kbd-pet.c,
+	arch/os2/kbd/kbd-vic20.c: corrected
+ 
+2000-03-23  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* datasette.c(datasette_set_motor): don't call
+	ui_display_tape_motor_status if no tape is attached
+
 2000-03-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.3.3.

@@ -28,6 +28,7 @@
 #define INCL_GPI
 #define INCL_WINSYS         // SV_CYTITLEBAR
 #define INCL_WININPUT       // WM_CHAR
+#define INCL_DOSPROFILE     // DosTmrQueryTime
 #define INCL_DOSPROCESS     // DosSleep
 #define INCL_WINWINDOWMGR   // QWL_USER
 #define INCL_DOSSEMAPHORES
@@ -59,13 +60,17 @@
 #include <fourcc.h>
 #endif
 
+#ifdef HAVE_MOUSE
+#include "mouse.h"
+#endif
+
 #include "version.h"
 
 static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
-    FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
+    FCF_TITLEBAR | FCF_SHELLPOSITION | FCF_SYSMENU | FCF_TASKLIST;
 
 /* ------------------------------------------------------------------------ */
 /* Xvic workaround  */
@@ -79,12 +84,36 @@ const int FBMULT = 0;
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
 
-static int stretch;  // Strech factor for window (1,2,3,...)
-static int border;   // PM Border Type
+int stretch;            // Strech factor for window (1,2,3,...)
+static int border;      // PM Border Type
+static int posx, posy;  // Position of window at startup
+static int autopos;     //
 
 static int set_stretch_factor(resource_value_t v)
 {
     stretch=(int)v;
+    return 0;
+}
+
+static int set_posx(resource_value_t v)
+{
+    if (!autopos)
+        posx=(int)v;
+    return 0;
+}
+
+static int set_posy(resource_value_t v)
+{
+    if (!autopos)
+        posy=(int)v;
+    return 0;
+}
+
+static int set_autopos(resource_value_t v)
+{
+    autopos=(int)v;
+    if (autopos)
+        posx=posy=~0;
     return 0;
 }
 
@@ -111,6 +140,12 @@ static resource_t resources[] = {
       (resource_value_t *) &stretch, set_stretch_factor},
     { "PMBorderType", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &border, set_border_type},
+    { "WindowPosX", RES_INTEGER, (resource_value_t) ~0,
+      (resource_value_t *) &posx, set_posx},
+    { "WindowPosY", RES_INTEGER, (resource_value_t) ~0,
+      (resource_value_t *) &posy, set_posy},
+    { "AutoWindowPos", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &autopos, set_autopos},
     { NULL }
 };
 
@@ -124,6 +159,13 @@ static cmdline_option_t cmdline_options[] = {
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
       "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
+    { "-windowpos", SET_RESOURCE, 0, NULL, NULL,
+      "AutoWindowPos", (resource_value_t) 1, NULL,
+      "Use window position which is stored in the configuration file (default)" },
+    { "+windowpos", SET_RESOURCE, 0, NULL, NULL,
+      "AutoWindowPos", (resource_value_t) 0, NULL,
+      "Ignore window position which is stored in the configuration file" },
+
     { NULL },
 };
 
@@ -353,6 +395,24 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_SETSELECTION: wmSetSelection(mp1);  break;
     case WM_VRNDISABLED:  wmVrnDisabled(hwnd);  break;
     case WM_VRNENABLED:   wmVrnEnabled(hwnd);   break;
+    case WM_MOVE:
+        {
+            SWP swp;
+            WinQueryWindowPos(WinQueryWindow(hwnd, QW_PARENT), &swp);
+            posx=swp.x;
+            posy=swp.y;
+            log_debug("MOVE %i %i", posx, posy);
+        }
+        break;
+#ifdef HAVE_MOUSE
+    case WM_MOUSEMOVE:
+    case WM_BUTTON1DOWN:
+    case WM_BUTTON1UP:
+    case WM_BUTTON2DOWN:
+    case WM_BUTTON2UP:
+        mouse_button(hwnd, msg, mp1);
+        break;
+#endif
     //    case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
     //    case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
     //    case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
@@ -389,6 +449,8 @@ void PM_mainloop(VOID *arg)
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
     canvas_t *c=(canvas_t*)arg;
+    int px = posx;
+    int py = posy;
 
     //    archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -396,17 +458,20 @@ void PM_mainloop(VOID *arg)
     hmq = WinCreateMsgQueue(hab, 0);   // Create Msg Queue
 
     // 2048 Byte Memory (Used eg for the Anchor Blocks)
-    WinRegisterClass(hab, szClientClass, PM_winProc, CS_SIZEREDRAW, 2048);
+    WinRegisterClass(hab, szClientClass, PM_winProc,
+                     CS_MOVENOTIFY|CS_SIZEREDRAW, 2048);
 
     (*c)->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_VISIBLE,
                                          &flFrameFlags, szClientClass,
                                          (*c)->title, 0L, 0, 0,
                                          &((*c)->hwndClient));
     free((*c)->title);
-    WinSetWindowPos((*c)->hwndFrame, HWND_TOP, 0, 0,
+    log_debug("px py  %i %i", px, py);
+    WinSetWindowPos((*c)->hwndFrame, HWND_TOP, px, py,
                     canvas_fullwidth ((*c)->width),
                     canvas_fullheight((*c)->height),
-                    SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE);    // Make visible, resize, top window
+                    SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|
+                    (px==-1&&py==-1?0:SWP_MOVE));    // Make visible, resize, top window
     WinSetWindowPtr((*c)->hwndClient, QWL_USER, (VOID*)(*c));
 
     (*c)->palette = xcalloc(1, 256*sizeof(RGB2));
@@ -448,7 +513,6 @@ void PM_mainloop(VOID *arg)
 
 }
 
-
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 /* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
@@ -479,8 +543,15 @@ canvas_t canvas_create(const char *title, UINT *width,
 
     log_debug("canvas_open: %s", title);
 
-    DosCreateMutexSem("\\SEM32\\Vice2\\Graphic", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
-
+    {   // create unique semaphore-name for all instances of vice
+        APIRET rc;
+        char sem[80];
+        QWORD qwTmrTime;
+        DosTmrQueryTime(&qwTmrTime);
+        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Graphic", qwTmrTime.ulLo);
+        if (rc=DosCreateMutexSem(sem, &hmtx, 0, FALSE))
+            log_message(LOG_DEFAULT, "video.c: DosCreateMutexSem (rc=%i)", rc);
+    }
     _beginthread(PM_mainloop, NULL, 0x4000, &canvas_new);
 
     while (!canvas_new->vrenabled) DosSleep(1);
@@ -561,7 +632,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 #endif
             ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
-        wmVrn(c->hwndClient);                                      // setup draw areas
+        wmVrn(c->hwndClient);            // setup draw areas
 
         DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image
     }

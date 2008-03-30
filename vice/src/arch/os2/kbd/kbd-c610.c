@@ -118,6 +118,13 @@ static keyconv c610_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
+    { 7, 4, 0 },                /* Numpad Enter -> Numpad Enter */
+    { 3, 4, 0 },                /*   Right Ctrl -> C=           */
+    { 2, 5, 0 },                /*        Pause -> Pi           */
+    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
+    { 7, 1, 0 },                /*     Numpad / -> Numpad /     */
+    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
+    { -1, -1, 0 },              /*        Break -> (no key)     */
     { 4, 0, 0 },                /*         Home -> CLR/HOME     */
     { 3, 0, 0 },                /*           Up -> CRSR UP      */
     { 5, 0, 0 },                /*         PgUp -> Rev/Off      */
@@ -128,13 +135,6 @@ static keyconv c610_keyboard[256] = {
     { 6, 0, 0 },                /*       PgDown -> Norm/Graph   */
     { 2, 2, 0 },                /*          Ins -> Pound        */
     { 4, 1, 0 },                /*          Del -> ?            */
-    { 7, 4, 0 },                /* Numpad Enter -> Numpad Enter */
-    { 3, 4, 0 },                /*   Right Ctrl -> C=           */
-    { 2, 5, 0 },                /*        Pause -> Pi           */
-    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
-    { 7, 1, 0 },                /*     Numpad / -> Numpad /     */
-    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
-    { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
 };

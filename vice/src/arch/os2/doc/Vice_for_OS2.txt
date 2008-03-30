@@ -34,3 +34,14 @@ Alt-W:   Write actual configuration to file
 
  - The video cache for CRTC doesn't work yet.
  - console- and psid-mode are not implemented yet.
+ - The window isn't updated anymore when vice is paused
+ - You cannot start more than one vice session at the same time
+
+
+  Reported bugs/problems
+--------------------------
+ 
+ - some people reported problems with caps-lock after exiting vice
+ - somebody had problems with cs4235 based soundcard 
+   (using sound-dialog hangs OS/2)
+ - somebody had problems with the attach-dialog and a Matrox g400

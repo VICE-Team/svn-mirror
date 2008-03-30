@@ -40,8 +40,6 @@
 //#include <sys/hw.h>
 //#endif
 
-#include "pm/winaddon.h"
-
 #include "ui.h"
 #include "ui_status.h"
 

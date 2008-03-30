@@ -30,6 +30,7 @@
 #define INCL_DOSQUEUES     /* Queue commands     */
 #define INCL_DOSSESMGR     /* DosStartSession    */
 #define INCL_DOSMEMMGR     /* DosFreeMem         */
+#define INCL_DOSPROFILE     // DosTmrQueryTime
 #define INCL_DOSPROCESS    /* DosGetInfoBlock    */
 #define INCL_DOSMODULEMGR  /* DosQueryModuleName */
 #define INCL_DOSSEMAPHORES /* Dos-*-MutexSem     */
@@ -62,6 +63,8 @@
 #include "ui.h"
 #include "signals.h"
 
+/* ---------------------- OS/2 specific ------------------ */
+
 static char *orig_workdir;
 static char argv0[CCHMAXPATH];
 
@@ -87,8 +90,6 @@ void PM_open(void)
 {
     habMain = WinInitialize(0);              // Initialize PM
     hmqMain = WinCreateMsgQueue(habMain, 0); // Create Msg Queue
-
-
     
     atexit(PM_close);
 }
@@ -110,7 +111,15 @@ int archdep_startup(int *argc, char **argv)
 
     PM_open();
 
-    DosCreateMutexSem("\\SEM32\\ViceSpawn", &hmtxSpawn, 0, FALSE);
+    {   // create unique semaphore-name for all instances of vice
+        APIRET rc;
+        char sem[80];
+        QWORD qwTmrTime;
+        DosTmrQueryTime(&qwTmrTime);
+        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Spawn", qwTmrTime.ulLo);
+        if (rc=DosCreateMutexSem(sem, &hmtxSpawn, 0, FALSE))
+            log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem (rc=%i)", rc);
+    }
 
     return 0;
 }

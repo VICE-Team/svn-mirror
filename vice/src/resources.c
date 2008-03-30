@@ -448,7 +448,7 @@ int resources_save(const char *fname)
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
-#ifdef WIN32
+#if defined WIN32 || defined OS2
     remove_file(backup_name);
 #endif
     if (rename(fname, backup_name) == 0)
@@ -478,8 +478,8 @@ int resources_save(const char *fname)
 	while (1) {
 	    char buf[1024];
 
-	    if (get_line(buf, 1024, in_file) < 0)
-		break;
+            if (get_line(buf, 1024, in_file) < 0)
+                break;
 
 	    if (check_emu_id(buf))
 		break;
@@ -490,7 +490,7 @@ int resources_save(const char *fname)
         in_file = NULL;
 
     /* Write our current configuration.  */
-    fprintf(out_file,"[%s]\n", machine_id);
+    fprintf(out_file,"\n[%s]\n", machine_id);
     for (i = 0; i < num_resources; i++)
 	write_resource_item(out_file, i);
 

@@ -162,6 +162,8 @@
 #define CB_EMUID        0x1098
 #define SPB_SPEEDDISP   0x1099
 #define SPB_REFRATEDISP 0x109a
+#define CB_MOUSE        0x109b
+#define CB_HIDEMOUSE    0x109c
 #define WM_DISPLAY      WM_USER+1
 
 // Monitor Dialog
@@ -175,6 +177,10 @@
 // Contents Dialog
 #define DLG_CONTENTS   0x10b0
 #define LB_CONTENTS    0x10b1
+
+// Commandline option Dialog
+#define DLG_CMDOPT     0x10c0
+#define LB_CMDOPT      0x10c1
 
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */
@@ -228,6 +234,7 @@
 #define DLGO_EMULATOR   0x040
 #define DLGO_MONITOR    0x080
 #define DLGO_CONTENTS   0x100
+#define DLGO_CMDOPT     0x200
 
 extern int dlgOpen(int dlg);
 extern void setDlgOpen(int dlg);
@@ -241,6 +248,7 @@ extern int toggle(const char *resource_name);
 /* Dialog-Function Prototypes                                       */
 /*----------------------------------------------------------------- */
 extern HWND hwndDrive;
+extern HWND hwndCmdopt;
 extern HWND hwndMonitor;
 extern HWND hwndEmulator;
 extern HWND hwndDatasette;
@@ -254,6 +262,7 @@ extern void monitor_dialog   (HWND hwnd);
 extern void contents_dialog  (HWND hwnd, char *szFullFile);
 extern void attach_dialog    (HWND hwnd, int drive);
 extern void create_dialog    (HWND hwnd);
+extern void cmdopt_dialog    (HWND hwnd);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);

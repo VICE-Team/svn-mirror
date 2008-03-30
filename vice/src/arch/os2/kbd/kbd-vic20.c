@@ -120,6 +120,13 @@ static keyconv vic20_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
+    { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
+    { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
+    { -1, -1, 0 },              /*        Pause -> (no key)     */
+    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
+    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
+    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
+    { -1, -1, 0 },              /*        Break -> (no key)     */
     { 6, 7, 0 },                /*         Home -> CLR/HOME     */
     { 7, 3, 1 },                /*           Up -> CRSR UP      */
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
@@ -130,13 +137,6 @@ static keyconv vic20_keyboard[256] = {
     { -1, -1, 0 },              /*       PgDown -> (no key)     */
     { 6, 0, 0 },                /*          Ins -> Pound        */
     { 6, 6, 0 },                /*          Del -> Up Arrow     */
-    { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
-    { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
-    { -1, -1, 0 },              /*        Pause -> (no key)     */
-    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
-    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
-    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
-    { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 }               /*  Right Win95 -> (no key)     */
 };

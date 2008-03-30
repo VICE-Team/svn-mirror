@@ -24,9 +24,10 @@
  *
  */
 
-#define INCL_DOSFILEMGR         // include needed for DosOpen call
-#define INCL_DOSDEVICES         // include needed for DosDevIOCtl call
-#define INCL_DOSDEVIOCTL        // include needed for DosDevIOCtl call
+#define INCL_DOSPROFILE     // DosTmrQueryTime
+#define INCL_DOSFILEMGR     // DosOpen
+#define INCL_DOSDEVICES     // DosDevIOCtl
+#define INCL_DOSDEVIOCTL    // DosDevIOCtl
 #define INCL_DOSSEMAPHORES
 #include <os2.h>
 
@@ -273,9 +274,16 @@ void joystick_init(void)
     APIRET rc;
 
     if (SWhGame) return;
-    DosCreateMutexSem("\\SEM32\\ViceJoystick", &hmtxJoystick, 0, TRUE);
+    {   // create unique semaphore-name for all instances of vice
+        char sem[80];
+        QWORD qwTmrTime;
+        DosTmrQueryTime(&qwTmrTime);
+        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Joystick", qwTmrTime.ulLo);
+        if (rc=DosCreateMutexSem(sem, &hmtxJoystick, 0, TRUE))
+            log_message(LOG_DEFAULT, "joystick.c: DosCreateMutexSem (rc=%i)", rc);
+    }
     if (rc=DosOpen("GAME$", &SWhGame, &action, 0, FILE_READONLY, FILE_OPEN,
-                 OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
+                   OPEN_ACCESS_READONLY | (OPEN_SHARE_DENYNONE<<4), NULL))
     {
         number_joysticks = 0;
         log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);

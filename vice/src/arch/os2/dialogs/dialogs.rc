@@ -81,6 +81,7 @@ DEFAULTICON "..\icons\xvic.ico"
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 135, 88, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
                                 WS_GROUP 
@@ -103,6 +104,7 @@ END
 DLGTEMPLATE DLG_CALIBRATE 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Joystick Calibration", DLG_CALIBRATE, 162, 122, 155, 103, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",        DID_CLOSE, 5,  5,  38, 12, STY_CLOSEBUTTON |
                                 WS_GROUP 
@@ -130,13 +132,14 @@ END
 DLGTEMPLATE DLG_SOUND 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Sound Setup", DLG_SOUND, 162, 122, 165, 163, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",        DID_CLOSE,  5,   5,  38,  12, STY_CLOSEBUTTON |
         			WS_GROUP
         CONTROL "Sound",        ID_NONE,    7,  22, 148, 137, STY_GROUPBOX
         CONTROL "Sound",        CB_SOUND,  17, 141,  40,   9, STY_AUTOCHECKBOX
         TEXT("Vol", 129, 125, 20, 8)
-        CONTROL "",             CS_VOLUME, 127, 46,  16,  71/*80*/, WC_SLIDER,
+        CONTROL "",             CS_VOLUME, 127, 52,  16,  71/*80*/, WC_SLIDER,
                                 SLS_VERTICAL | SLS_CENTER |
                                 SLS_BUTTONSTOP | SLS_HOMELEFT |
                                 SLS_RIBBONSTRIP | SLS_PRIMARYSCALE1 |
@@ -147,8 +150,8 @@ BEGIN
         CONTROL "8000Hz",       RB_8000HZ,  17, 115, 45, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "11025Hz",      RB_11025HZ, 17, 105, 45, 10, STY_AUTORADIOBUTTON
-        CONTROL "22050Hz",      RB_22050HZ, 17, 95, 45, 10,  STY_AUTORADIOBUTTON
-        CONTROL "44100Hz",      RB_44100HZ, 17, 85, 45, 10,  STY_AUTORADIOBUTTON
+        CONTROL "22050Hz",      RB_22050HZ, 17,  95, 45, 10, STY_AUTORADIOBUTTON
+        CONTROL "44100Hz",      RB_44100HZ, 17,  85, 45, 10, STY_AUTORADIOBUTTON
         TEXT("Oversampling", 62, 125, 55, 8)
         CONTROL "Off",          RB_OFF,     77, 115, 25, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
@@ -165,9 +168,9 @@ BEGIN
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
-        TEXT("Buffer Size <msec>", 17, 40, 75, 8)
+        TEXT("Buffer Size (msec)", 17, 40, 75, 8)
         TEXT("[100-1000]",         17, 30, 55, 8)
-        CONTROL "",             SPB_BUFFER, 70, 29, 35, 12, STY_SPINBUTTON
+        CONTROL "",             SPB_BUFFER, 70, 29, 32, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 100, 0, 1000, 0, 0, 0, 0, 0
     END
 END
@@ -175,6 +178,7 @@ END
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 155+16, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",       DID_CLOSE,    5,   4,  40, 12, STY_CLOSEBUTTON |
                                                               WS_GROUP 
@@ -251,6 +255,7 @@ END
 DLGTEMPLATE DLG_DATASETTE 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 140, 68, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",         DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
                                                                 WS_GROUP
@@ -274,26 +279,27 @@ END
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 265, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "OK",  DID_CLOSE, 101,  5,  38,  12, STY_CLOSEBUTTON
         CONTROL "",    ID_NONE,     7, 22, 226, 236, STY_GROUPBOX
             TEXT("V I C E",                                         17, 240, 210, 8)
             TEXT("the Versatile Commodore Emulator",                17, 230, 210, 8)
             TEXT("Version " VERSION,                                17, 210, 210, 8)
-            TEXT("Copyright © 1996-1999 Ettore Perazzoli",          17, 190, 210, 8)
-            TEXT("Copyright © 1996-1999 Andr‚ Fachat",              17, 180, 210, 8)
-            TEXT("Copyright © 1993-1994, 1997-1999 Teemu Rantanen", 17, 170, 210, 8)
-            TEXT("Copyright © 1997-2000 Daniel Sladic",             17, 160, 210, 8)
-            TEXT("Copyright © 1998-2000 Andreas Boose",             17, 150, 210, 8)
-            TEXT("Copyright © 1998-2000 Tibor Biczo",               17, 140, 210, 8)
-            TEXT("Copyright © 1993-1996 Jouko Valta",               17, 130, 210, 8)
-            TEXT("Copyright © 1993-1994 Jarkko Sonninen",           17, 120, 210, 8)
+            TEXT("Copyright ¸ 1996-1999 Ettore Perazzoli",          17, 190, 210, 8)
+            TEXT("Copyright ¸ 1996-1999 Andr‚ Fachat",              17, 180, 210, 8)
+            TEXT("Copyright ¸ 1993-1994, 1997-1999 Teemu Rantanen", 17, 170, 210, 8)
+            TEXT("Copyright ¸ 1997-2000 Daniel Sladic",             17, 160, 210, 8)
+            TEXT("Copyright ¸ 1998-2000 Andreas Boose",             17, 150, 210, 8)
+            TEXT("Copyright ¸ 1998-2000 Tibor Biczo",               17, 140, 210, 8)
+            TEXT("Copyright ¸ 1993-1996 Jouko Valta",               17, 130, 210, 8)
+            TEXT("Copyright ¸ 1993-1994 Jarkko Sonninen",           17, 120, 210, 8)
 	//    Copyright C 1999-2000 Andreas Dehmel
 	//    Copyright C 1999-2000 Andreas Matthies
             TEXT("Vice/2 - Vice for OS/2",                          17, 100, 210, 8)
-            TEXT("Copyright © 1999-2000 Thomas Bretz",              17,  90, 210, 8)
+            TEXT("Copyright ¸ 1999-2000 Thomas Bretz",              17,  90, 210, 8)
             TEXT("reSID engine",                                    17,  70, 210, 8)
-            TEXT("Copyright © 1999-2000 Dag Lem",                   17,  60, 210, 8)
+            TEXT("Copyright ¸ 1999-2000 Dag Lem",                   17,  60, 210, 8)
             TEXT("Official VICE homepage:",                         17,  40, 210, 8)
             TEXT("http://www.cs.cmu.edu/~dsladic/vice/vice.html",   17,  30, 210, 8)
     END
@@ -301,15 +307,20 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 128, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 138, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 102, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 112, STY_GROUPBOX
 
-        CONTROL "Pause",                       CB_PAUSE,  14, 95,  40,  9, STY_AUTOCHECKBOX
-        CONTROL "Emulator Identification",     CB_EMUID,  14, 85, 105,  9, STY_AUTOCHECKBOX
-        CONTROL "Video Cache",                 CB_VCACHE, 14, 75,  60,  9, STY_AUTOCHECKBOX
+        CONTROL "Pause",                       CB_PAUSE,  14, 115,  40,  9, STY_AUTOCHECKBOX
+#ifdef HAVE_MOUSE
+        CONTROL "Mouse 1531 Emulation",        CB_MOUSE,  14, 105, 100,  9, STY_AUTOCHECKBOX
+        CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,95,110,  9, STY_AUTOCHECKBOX
+#endif        
+        CONTROL "Emulator Identification",     CB_EMUID,  14,  85, 105,  9, STY_AUTOCHECKBOX
+        CONTROL "Video Cache",                 CB_VCACHE, 14,  75,  60,  9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
         CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 65, 115,  9, STY_AUTOCHECKBOX
         CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 55, 105,  9, STY_AUTOCHECKBOX
@@ -335,21 +346,29 @@ END
 
 DLGTEMPLATE DLG_MONITOR 850 MOVEABLE DISCARDABLE 
 BEGIN
-    DIALOG  "Monitor", DLG_MONITOR, 141, 95, 340, 180, STY_DIALOG
+    DIALOG  "Monitor", DLG_MONITOR, 141, 95, 340, 174, FS_SIZEBORDER | STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-//        CONTROL "",     MLE_MONITOR, 0, 0, 148, 84, WC_MLE, MLS_READONLY | 
-//                        MLS_WORDWRAP | MLS_VSCROLL | MLS_IGNORETAB | 
-//                        WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        LISTBOX         LB_MONOUT, 1, 12, 338, 169, LS_MULTIPLESEL
-        ENTRYFIELD "",  EF_MONIN,  2,  2, 336,   8, ES_MARGIN
+        LISTBOX         LB_MONOUT, 0, 11, 340, 163, LS_MULTIPLESEL|LS_NOADJUSTPOS
+        ENTRYFIELD "",  EF_MONIN,  1,  1, 338,   8, ES_MARGIN
 
     END
-END
+END             
 
 DLGTEMPLATE DLG_CONTENTS 850 MOVEABLE DISCARDABLE 
 BEGIN
-    DIALOG  "Contents", DLG_CONTENTS, 141, 95, 148, 84, /*FS_SIZEBORDER |*/ STY_DIALOG
+    DIALOG  "Contents", DLG_CONTENTS, 141, 95, 152, 88, FS_SIZEBORDER | STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-        LISTBOX  LB_CONTENTS, 1, 1, 146, 81
+        LISTBOX  LB_CONTENTS, 0, 0, 152, 87, LS_NOADJUSTPOS
+    END
+END
+
+DLGTEMPLATE DLG_CMDOPT 850 MOVEABLE DISCARDABLE 
+BEGIN
+    DIALOG  "Commandline Options", DLG_CMDOPT, 141, 95, 152+150, 88+200, FS_SIZEBORDER|FS_TASKLIST|STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        LISTBOX  LB_CMDOPT, 0, 0, 152+150, 87+200, LS_NOADJUSTPOS|LS_HORZSCROLL
     END
 END

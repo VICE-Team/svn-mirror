@@ -5,16 +5,13 @@ source type(c)
     "kbd.c",
     "vsync.c",
     "video.c",
+    "mouse.c",
     "console.c",
     "vsidui.c",
     "archdep.c",
     "joystick.c",
     "dialogs.c",
-/* "ui_status.c", */
     "main_exit.c",
     "uicmdline.c",
     "sounddrv.c",
-    "pm_cmdline.c",
-    "pm\\winaddon.c",
-    "pm\\scrollbars.c",
     "snippets\\dirport.c"

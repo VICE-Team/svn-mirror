@@ -24,28 +24,68 @@
  *
  */
 
+#define INCL_DOSPROCESS
+#include "vice.h"
+
 #include <string.h>
+#include <stdlib.h>
 
 #include "cmdline.h"
 
-#include "pm_cmdline.h"
+#include "dialogs.h"
+#include "utils.h"
+
+extern HAB habMain;
 
 void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
 {
     int i, j;
     int jmax=0;
+    char *ui_cmdline_text;
+    char *ui_cmdline_textopt;
+    int ui_cmdline_chars;   // maximum area could be shown
+    char optFormat[13];
+    CHAR szClientClass [] = "VICE/2 Cmdline";
+    ULONG flFrameFlags    = 0;
 
-    ui_cmdline_options=options;
-    ui_cmdline_lines=num_options;
-    for (i=0; i<ui_cmdline_lines; i++) {
-        j    =strlen(ui_cmdline_options[i].name)+1;
-        j   +=strlen((ui_cmdline_options[i].need_arg && ui_cmdline_options[i].param_name)?
-                     ui_cmdline_options[i].param_name:"")+1;
+    //    ui_cmdline_lines=num_options;
+    for (i=0; i<num_options; i++) {
+        j    =strlen(options[i].name)+1;
+        j   +=strlen((options[i].need_arg && options[i].param_name)?
+                     options[i].param_name:"")+1;
         jmax = j>jmax ? j : jmax;
-        j   += strlen(ui_cmdline_options[i].description)+1;
+        j   += strlen(options[i].description)+1;
         ui_cmdline_chars = j>ui_cmdline_chars ? j : ui_cmdline_chars;
     }
     sprintf(optFormat,"%%-%ds%%s",jmax);
 
-    ui_cmdline_window(jmax, ui_cmdline_chars);
+    cmdopt_dialog(HWND_DESKTOP);
+
+    ui_cmdline_textopt=(char*)xcalloc(1,jmax+1);
+    ui_cmdline_text   =(char*)xcalloc(1,ui_cmdline_chars+1);
+
+    for (i=0; i<num_options; i++)
+    {
+        sprintf(ui_cmdline_textopt, "%s %s",
+                options[i].name,
+                (options[i].need_arg && options[i].param_name)?options[i].param_name:"");
+        sprintf(ui_cmdline_text, optFormat, ui_cmdline_textopt,
+                options[i].description);
+
+        WinSendMsg(hwndCmdopt, WM_INSERT, ui_cmdline_text, 0);
+    }
+
+    free(ui_cmdline_text);
+    free(ui_cmdline_textopt);
+
+    {
+        QMSG qmsg;
+        while (dlgOpen(DLGO_CMDOPT))
+        {
+            WinPeekMsg (habMain, &qmsg, NULLHANDLE, 0, 0, PM_REMOVE);
+            WinDispatchMsg (habMain, &qmsg);
+            DosSleep(1);
+        }
+    }
+
 }

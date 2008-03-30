@@ -105,6 +105,21 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 resources_get_value("EmuID", (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_EMUID, val);
 #endif
+#ifdef HAVE_MOUSE
+                resources_get_value("Mouse", (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_MOUSE, val);
+                if (val)
+                {
+                    WinEnableControl(hwnd, CB_HIDEMOUSE, 1);
+                    resources_get_value("HideMousePtr", (resource_value_t *) &val);
+                    WinCheckButton(hwnd, CB_HIDEMOUSE, val);
+                }
+                else
+                {
+                    WinCheckButton(hwnd, CB_HIDEMOUSE, 0);
+                    WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
+                }
+#endif
                 for (val=0; val<11; val++)
                     WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
                 resources_get_value("Speed", (resource_value_t *) &val);
@@ -150,6 +165,27 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case CB_VCACHE:
                 toggle(VIDEO_CACHE);
                 break;
+#if defined HAVE_MOUSE
+            case CB_MOUSE:
+                {
+                    int val=toggle("Mouse");
+                    if (val)
+                    {
+                        WinEnableControl(hwnd, CB_HIDEMOUSE, 1);
+                        resources_get_value("HideMousePtr", (resource_value_t *) &val);
+                        WinCheckButton(hwnd, CB_HIDEMOUSE, val);
+                    }
+                    else
+                    {
+                        WinCheckButton(hwnd, CB_HIDEMOUSE, 0);
+                        WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
+                    }
+                    break;
+                }
+            case CB_HIDEMOUSE:
+                toggle("HideMousePtr");
+                break;
+#endif
 #if defined __X64__ || defined __X128__
             case CB_SBCOLL:
                 toggle("CheckSbColl");

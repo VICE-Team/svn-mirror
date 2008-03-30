@@ -121,13 +121,13 @@ static keyconv c64_keyboard[256] = {
     { -1, -1, 0 },		/*           86 -> (no key) 	*/
     { -1, -1, 0 },		/*          F11 -> (no key) 	*/
     { -1, -1, 0 },		/*          F12 -> (no key) 	*/
-    { -1, -1, 0 },		/*              -> (no key) 	*/
-    { -1, -1, 0 },		/*  90          -> (no key)	*/
-    { -1, -1, 0 },		/*              -> (no key) 	*/
-    { -1, -1, 0 },		/*              -> (no key)  	*/
-    { -1, -1, 0 },		/*              -> (no key)   	*/
-    { -1, -1, 0 },		/*              -> (no key) 	*/
-    { -1, -1, 0 },		/*  95          -> (no key)  	*/
+    { -1, -1, 0 },		/*    Num Enter -> (no key) 	*/
+    { -1, -1, 0 },		/*  90  Rt Ctrl -> (no key)	*/
+    { -1, -1, 0 },		/*     Scrl lck -> (no key) 	*/
+    { -1, -1, 0 },		/*      Prt Scr -> (no key)  	*/
+    { -1, -1, 0 },		/*    Numpad /  -> (no key)   	*/
+    { -1, -1, 0 },		/*       Rt Alt -> (no key) 	*/
+    { -1, -1, 0 },		/*  95    Break -> (no key)  	*/
     { 6, 3, 0 },		/*         Pos1 -> CLR/HOME 	*/
     { 0, 7, 1 },		/*           Up -> CRSR UP      */
     { -1, -1, 0 },		/*      Page Up -> (no Key) 	*/

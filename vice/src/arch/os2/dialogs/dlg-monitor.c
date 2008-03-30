@@ -71,21 +71,6 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
         }
         break;
-    case WM_COMMAND:
-        switch (LONGFROMMP(mp1))
-        {
-        case DID_CLOSE:
-            delDlgOpen(DLGO_MONITOR);
-            if (wait_for_input)
-            {
-                trigger_console_exit=TRUE;
-                input=NULL;
-                *wait_for_input=FALSE;
-                wait_for_input=NULL;
-            }
-            break;
-        }
-        break;
     case WM_CLOSE:
         delDlgOpen(DLGO_MONITOR);
         if (wait_for_input)
@@ -112,6 +97,27 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,
                       WinLboxQueryCount(hwnd, LB_MONOUT),0);
         return FALSE;
+    case WM_ADJUSTWINDOWPOS:
+        {
+            SWP *swp=(SWP*)mp1;
+            if (swp->fl&SWP_SIZE)
+            {
+                if (swp->cx<320) swp->cx=320;
+                if (swp->cy<200) swp->cy=200;
+                // SWP wpos;
+                // WinQueryWindowPos(WinWindowFromID(hwnd, LB_MONOUT), &wpos);
+                WinSetWindowPos(WinWindowFromID(hwnd, LB_MONOUT), 0, 0, 0,
+                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                                swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
+                                -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-22,
+                                SWP_SIZE);
+                // WinQueryWindowPos(WinWindowFromID(hwnd, EF_MONIN), &wpos);
+                WinSetWindowPos(WinWindowFromID(hwnd, EF_MONIN), 0, 0, 0,
+                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME)-4,
+                                16, SWP_SIZE);
+            }
+        }
+        break;
     case WM_PROMPT:
         {
             char *out, tmp[90];

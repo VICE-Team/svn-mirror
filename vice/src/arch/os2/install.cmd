@@ -63,14 +63,14 @@ CALL createProgram "VIC 20", 'xvic.exe',  ''
 CALL createProgram "CBM/2",  'xcbm2.exe', ''
 CALL createProgram "C=1541", 'c1541.exe', ''
 
-setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice.log'
+setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice2.log'
 if SysCreateObject("WPProgram","log-File","<VICE2>",setupstring,"update")<>1 then
 do
     say '!!! Can''t create a program object for log-file.'
     say ''
 end
 
-setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice.cfg'
+setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice2.cfg'
 if SysCreateObject("WPProgram","cfg-file","<VICE2>",setupstring,"update")<>1 then
 do
     say '!!! Can''t create a program object for cfg-file.'
@@ -136,7 +136,6 @@ curdir = directory(origdir'\doc\txt')
 CALL createShadow "<VICE2_TEXT>", '64doc.txt'
 CALL createShadow "<VICE2_TEXT>", 'cbm_basic_tokens.txt'
 CALL createShadow "<VICE2_TEXT>", 'drive_info.txt'
-CALL createShadow "<VICE2_TEXT>", 'mnemonics.txt'
 CALL createShadow "<VICE2_TEXT>", 'mon.txt'
 CALL createShadow "<VICE2_TEXT>", 'PETdoc.txt'
 CALL createShadow "<VICE2_TEXT>", 'serial.txt'
@@ -150,12 +149,12 @@ do
     exit
 end
 
-if SysCreateObject("WPUrl","Vice Homepage","<VICE2_ONLINE>","http://www.cs.cmu.edu/~dsladic/vice/","update")<>1 then
+if SysCreateObject("WPUrl","Vice Homepage","<VICE2_ONLINE>","URL=http://www.cs.cmu.edu/~dsladic/vice/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
 end
 
-if SysCreateObject("WPUrl","Vice/2 Homepage","<VICE2_ONLINE>","http://www.prakt.physik.tu-muenchen.de/tbretz/vice2/","update")<>1 then
+if SysCreateObject("WPUrl","Vice/2 Homepage","<VICE2_ONLINE>","URL=http://www.prakt.physik.tu-muenchen.de/tbretz/vice2/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
 end

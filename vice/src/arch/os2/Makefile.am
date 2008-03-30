@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm snippets vac++ kbd dialogs ui
+SUBDIRS = snippets vac++ kbd dialogs ui 
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -23,8 +23,8 @@ libarch_a_SOURCES = \
 	main_exit.c \
 	main_exit.h \
         makedist.cmd \
-        pm_cmdline.c \
-        pm_cmdline.h \
+        mouse.c \
+        mouse.h \
 	rs232.c \
 	signals.h \
 	sounddrv.c \
@@ -42,27 +42,32 @@ libarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	vice.def \
-	install.cmd \
-	makedist.cmd \
-	makeclean.cmd \
-	unused/contentsdlg.c \
-	unused/contentsdlg.h \
-	unused/ui_status.c \
-	unused/video_gpi.h \
-	unused/video_gpi.c \
-	unused/vsync.c \
-	unused/vsync.h \
-	icons/folder.pal \
-	icons/folder1.ico \
-	icons/folder2.ico \
-	icons/x64.ico \
-	icons/xpet.ico \
-	icons/x128.ico \
-	icons/xvic.ico \
-	icons/xcbm2.ico \
-	icons/c1541.ico \
-	texi2ipf/readme \
-	texi2ipf/texi2ipf.exe \
-	texi2ipf/texi2ipf.INF \
-	doc/Vice_for_OS2.txt
+        install.cmd \
+        makedist.cmd \
+        makeclean.cmd \
+	unused/pm/winaddon.c \
+	unused/pm/winaddon.h \
+	unused/pm/scrollbars.c \
+	unused/pm/scrollbars.h \
+        unused/contentsdlg.c \
+        unused/contentsdlg.h \
+        unused/video_gpi.h \
+        unused/video_gpi.c \
+        unused/pm_cmdline.c \
+        unused/pm_cmdline.h \
+        unused/vsync.c \
+        unused/vsync.h \
+        unused/ui_status.c \
+        icons/folder.pal \
+        icons/folder1.ico \
+        icons/folder2.ico \
+        icons/x64.ico \
+        icons/xpet.ico \
+        icons/x128.ico \
+        icons/xcbm2.ico \
+        icons/c1541.ico \
+        texi2ipf/readme \
+        texi2ipf/texi2ipf.exe \
+        texi2ipf/texi2ipf.INF \
+        doc/Vice_for_OS2.txt
 

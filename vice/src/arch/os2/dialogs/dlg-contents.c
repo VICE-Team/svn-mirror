@@ -51,17 +51,12 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     {
     case WM_INITDLG:
         setDlgOpen(DLGO_CONTENTS);
+
         image=image_contents_read_disk(mp2);
+        if (!image) WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
+
         strcpy(image_name, mp2);
         first = TRUE;
-        break;
-    case WM_COMMAND:
-        switch (LONGFROMMP(mp1))
-        {
-        case DID_CLOSE:
-            delDlgOpen(DLGO_CONTENTS);
-            break;
-        }
         break;
     case WM_CLOSE:
         delDlgOpen(DLGO_CONTENTS);
@@ -92,7 +87,21 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             }
         }
         break;
-
+    case WM_ADJUSTWINDOWPOS:
+        {
+            SWP *swp=(SWP*)mp1;
+            if (swp->fl&SWP_SIZE)
+            {
+                /*if (swp->cx<273)*/ swp->cx=273;
+                if (swp->cy<160) swp->cy=160;
+                WinSetWindowPos(WinWindowFromID(hwnd, LB_CONTENTS), 0, 0, 0,
+                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                                swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
+                                -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-2,
+                                SWP_SIZE);
+            }
+        }
+        break;
     case WM_CONTROL:
         switch(SHORT1FROMMP(mp1))
         {

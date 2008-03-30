@@ -73,7 +73,7 @@
 #endif
 
 /* Do we support a 1351 mouse?  */
-//#define HAVE_MOUSE 1
+#define HAVE_MOUSE            1
 
 /* Do we have to emulate a joystick?  */
 #define HAS_JOYSTICK          1

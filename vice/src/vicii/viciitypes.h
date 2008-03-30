@@ -124,15 +124,11 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 					 && (x) != VIC_II_IDLE_MODE)
 #define VIC_II_IS_BITMAP_MODE(x)	((x) & 0x02)
 
-
-
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
 #if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
 #define VIC_II_NEED_2X 1
 #endif
-
-
 
 /* These timings are taken from the ``VIC Article'' by Christian Bauer
    <bauec002@goofy.zdv.uni-mainz.de>.  Thanks Christian!
@@ -198,8 +194,6 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 #define VIC_II_NTSC_LAST_DMA_LINE      0xf7
 #define VIC_II_NTSCOLD_FIRST_DMA_LINE  (0x30 - VIC_II_NTSCOLD_OFFSET)
 #define VIC_II_NTSCOLD_LAST_DMA_LINE   0xf7
-
-
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
@@ -376,8 +370,6 @@ typedef struct vic_ii_s vic_ii_t;
 
 extern vic_ii_t vic_ii;
 
-
-
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
 extern int vic_ii_load_palette (const char *name);
@@ -388,8 +380,6 @@ extern void vic_ii_update_video_mode (unsigned int cycle);
 extern int vic_ii_raster_draw_alarm_handler (CLOCK offset);
 extern int vic_ii_raster_fetch_alarm_handler (CLOCK offset);
 extern int vic_ii_raster_irq_alarm_handler (CLOCK offset);
-
-
 
 /* Debugging options.  */
 
@@ -415,10 +405,7 @@ extern int vic_ii_raster_irq_alarm_handler (CLOCK offset);
 #define VIC_II_DEBUG_REGISTER(x)
 #endif
 
-
-
-inline static void
-vic_ii_handle_pending_alarms (int num_write_cycles)
+inline static void vic_ii_handle_pending_alarms (int num_write_cycles)
 {
   if (num_write_cycles != 0)
     {

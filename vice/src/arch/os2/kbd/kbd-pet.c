@@ -122,6 +122,13 @@ static keyconv pet40_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
+    { 9, 7, 0 },                /* Numpad Enter -> =            */
+    { 9, 4, 0 },                /*   Right Ctrl -> RUN/STOP     */
+    { -1, -1, 0 },              /*        Pause -> (no key)     */
+    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
+    { 3, 7, 0 },                /*     Numpad / -> /            */
+    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
+    { -1, -1, 0 },              /*        Break -> (no key)     */
     { 9, 1, 0 },                /*         Home -> [            */
     { 1, 6, 1 },                /*           Up -> CRSR UP      */
     { 8, 2, 0 },                /*         PgUp -> ]            */
@@ -132,13 +139,6 @@ static keyconv pet40_keyboard[256] = {
     { 8, 4, 0 },                /*       PgDown -> >            */
     { 8, 1, 0 },                /*          Ins -> @            */
     { -1, -1, 0 },              /*          Del -> (no key)     */
-    { 9, 7, 0 },                /* Numpad Enter -> =            */
-    { 9, 4, 0 },                /*   Right Ctrl -> RUN/STOP     */
-    { -1, -1, 0 },              /*        Pause -> (no key)     */
-    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
-    { 3, 7, 0 },                /*     Numpad / -> /            */
-    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
-    { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
 };
@@ -234,6 +234,13 @@ static keyconv pet80_keyboard[256] = {
     { -1, -1, 0 },              /*           86 -> (no key)     */
     { -1, -1, 0 },              /*          F11 -> (no key)     */
     { -1, -1, 0 },              /*          F12 -> (no key)     */
+    { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
+    { 7, 6, 0 },                /*   Right Ctrl -> RPT          */
+    { -1, -1, 0 },              /*        Pause -> (no key)     */
+    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
+    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
+    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
+    { -1, -1, 0 },              /*        Break -> (no key)     */
     { 8, 4, 0 },                /*         Home -> CLR/HOME     */
     { 5, 4, 1 },                /*           Up -> CRSR UP      */
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
@@ -244,13 +251,6 @@ static keyconv pet80_keyboard[256] = {
     { -1, -1, 0 },              /*       PgDown -> (no key)     */
     { 9, 4, 0 },                /*          Ins -> STOP         */
     { 1, 5, 0 },                /*          Del -> Up arrow     */
-    { -1, -1, 0 },              /* Numpad Enter -> (no key)     */
-    { 7, 6, 0 },                /*   Right Ctrl -> RPT          */
-    { -1, -1, 0 },              /*        Pause -> (no key)     */
-    { -1, -1, 0 },              /*       PrtScr -> (no key)     */
-    { -1, -1, 0 },              /*     Numpad / -> (no key)     */
-    { -1, -1, 0 },              /*    Right Alt -> (no key)     */
-    { -1, -1, 0 },              /*        Break -> (no key)     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 }               /*  Right Win95 -> (no key)     */
 };
