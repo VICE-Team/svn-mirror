@@ -88,23 +88,43 @@ static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
     return 1;
 }
 
-static void vdrive_dir_free_chain(vdrive_t *floppy, int t, int s)
+static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
 {
     BYTE buf[256];
+    int disk_type = -1;
+
+    switch (vdrive->image_format) {
+      case VDRIVE_IMAGE_FORMAT_1541:
+        disk_type = DISK_IMAGE_TYPE_D64;
+        break;
+      case VDRIVE_IMAGE_FORMAT_1571:
+        disk_type = DISK_IMAGE_TYPE_D71;
+        break;
+      case VDRIVE_IMAGE_FORMAT_1581:
+        disk_type = DISK_IMAGE_TYPE_D81;
+        break;
+      case VDRIVE_IMAGE_FORMAT_8050:
+        disk_type = DISK_IMAGE_TYPE_D80;
+        break;
+      case VDRIVE_IMAGE_FORMAT_8250:
+        disk_type = DISK_IMAGE_TYPE_D82;
+        break;
+    }
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (disk_image_check_sector(floppy->image_format, t, s) < 0)
-        break;
+        if (disk_image_check_sector(disk_type, t, s) < 0)
+            break;
+
         /* Check if this sector is really allocated.  */
-        if (!vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s))
-        break;
+        if (!vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s))
+            break;
 
         /* FIXME: This seems to be redundant.  AB19981124  */
-        vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s);
-        disk_image_read_sector(floppy->image, buf, t, s);
-        t = (int) buf[0];
-        s = (int) buf[1];
+        vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
+        disk_image_read_sector(vdrive->image, buf, t, s);
+        t = (int)buf[0];
+        s = (int)buf[1];
     }
 }
 

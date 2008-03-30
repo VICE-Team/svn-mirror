@@ -1,6 +1,5 @@
 /*
- * vdrive-bam.c - Virtual disk-drive implementation.
- *                BAM specific functions.
+ * vdrive-bam.c - Virtual disk-drive implementation. BAM specific functions.
  *
  * Written by
  *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
@@ -157,25 +156,45 @@ int vdrive_bam_isset(int type, BYTE *bamp, int sector)
     return bamp[1 + sector / 8] & (1 << (sector % 8));
 }
 
-int vdrive_bam_allocate_chain(vdrive_t *floppy, int t, int s)
+int vdrive_bam_allocate_chain(vdrive_t *vdrive, int t, int s)
 {
     BYTE tmp[256];
+    int disk_type = -1;
+
+    switch (vdrive->image_format) {
+      case VDRIVE_IMAGE_FORMAT_1541:
+        disk_type = DISK_IMAGE_TYPE_D64;
+        break;
+      case VDRIVE_IMAGE_FORMAT_1571:
+        disk_type = DISK_IMAGE_TYPE_D71;
+        break;
+      case VDRIVE_IMAGE_FORMAT_1581:
+        disk_type = DISK_IMAGE_TYPE_D81;
+        break;
+      case VDRIVE_IMAGE_FORMAT_8050:
+        disk_type = DISK_IMAGE_TYPE_D80;
+        break;
+      case VDRIVE_IMAGE_FORMAT_8250:
+        disk_type = DISK_IMAGE_TYPE_D82;
+        break;
+    }
 
     while (t) {
-        if (disk_image_check_sector(floppy->image_format, t, s) < 0) {
-            vdrive_command_set_error(&floppy->buffers[15],
+        /* Check for illegal track or sector.  */
+        if (disk_image_check_sector(disk_type, t, s) < 0) {
+            vdrive_command_set_error(&vdrive->buffers[15],
                                      IPE_ILLEGAL_TRACK_OR_SECTOR, s, t);
             return IPE_ILLEGAL_TRACK_OR_SECTOR;
         }
-        if (!vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
+        if (!vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
             t, s)) {
             /* The real drive does not seem to catch this error.  */
-            vdrive_command_set_error(&floppy->buffers[15], IPE_NO_BLOCK, s, t);
+            vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_BLOCK, s, t);
             return IPE_NO_BLOCK;
         }
-        disk_image_read_sector(floppy->image, tmp, t, s);
-        t = (int) tmp[0];
-        s = (int) tmp[1];
+        disk_image_read_sector(vdrive->image, tmp, t, s);
+        t = (int)tmp[0];
+        s = (int)tmp[1];
     }
     return IPE_OK;
 }
