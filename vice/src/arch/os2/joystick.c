@@ -37,6 +37,8 @@
 #include "log.h"
 #include "resources.h"
 
+extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
+
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
 
@@ -217,7 +219,9 @@ int joystick_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Flag: is joystick present?  */
+/* Flag: is joystick present?
+ FIXME: Use this flag to disable the dialog
+ */
 int number_joysticks = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -273,17 +277,14 @@ void joystick_init(void)
     ULONG action;    // return value from DosOpen
     APIRET rc;
 
-    if (SWhGame) return;
-    {   // create unique semaphore-name for all instances of vice
-        char sem[80];
-        QWORD qwTmrTime;
-        DosTmrQueryTime(&qwTmrTime);
-        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Joystick", qwTmrTime.ulLo);
-        if (rc=DosCreateMutexSem(sem, &hmtxJoystick, 0, TRUE))
-            log_message(LOG_DEFAULT, "joystick.c: DosCreateMutexSem (rc=%i)", rc);
-    }
-    if (rc=DosOpen("GAME$", &SWhGame, &action, 0, FILE_READONLY, FILE_OPEN,
-                   OPEN_ACCESS_READONLY | (OPEN_SHARE_DENYNONE<<4), NULL))
+    if (SWhGame)
+        return;
+
+    archdep_create_mutex_sem(&hmtxJoystick, "Joystick", TRUE);
+
+    if (rc=DosOpen("GAME$", &SWhGame, &action, 0,
+                   FILE_READONLY, OPEN_ACTION_OPEN_IF_EXISTS/*FILE_OPEN*/,
+                   OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
     {
         number_joysticks = 0;
         log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);

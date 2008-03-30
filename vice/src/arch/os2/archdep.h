@@ -28,7 +28,6 @@
 #define _ARCHDEP_H
 
 #include "archapi.h"
-#include "ui.h"      // ui_drive_enable_t
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR   "."
@@ -57,7 +56,6 @@
 
 /* ------------------------------------------------------------------------- */
 
- 
 
 #endif
 

@@ -51,6 +51,8 @@
 static int save_roms = 0;
 static int save_disks = 0;
 static char image[100];
+#define MAXSCRNDRVLEN 20
+static char screendrivername[MAXSCRNDRVLEN];
 
 static void init_dialog(HWND hwnd)
 {
@@ -65,8 +67,27 @@ static void init_dialog(HWND hwnd)
 
 static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
+    /* this is also the hook for screenshot dialog */
     switch (uimsg) {
+        case WM_INITDIALOG:
+            {
+                HWND scrndrv_combo;
+                int i;
+                if (scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER)) {
+                        screendrv_t *driver = screenshot_drivers_iter_init();
+                        for (i=0; i<screenshot_num_drivers();i++) {
+                            SendMessage(scrndrv_combo,CB_ADDSTRING,0,
+                                (LPARAM)driver->name);
+                           	driver = screenshot_drivers_iter_next();
+                        }
+                        SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)0,0);
+
+                }
+            }
+            break;
         case WM_NOTIFY:
+            GetDlgItemText(hwnd,IDC_SCREENSHOT_DRIVER,
+                screendrivername,MAXSCRNDRVLEN);
           save_disks = 
               IsDlgButtonChecked
               (hwnd,IDC_TOGGLE_SNAPSHOT_SAVE_DISKS)==BST_CHECKED ? 1 : 0;
@@ -156,17 +177,24 @@ extern  HWND            window_handles[2];
 void ui_screenshot_save_dialog(HWND hwnd)
 {
     char *s;
-    int i;
+    int window_id;
     
-    for (i=0; i<2; i++) {
-        if (hwnd == window_handles[i])
+    for (window_id=0; window_id<2; window_id++) {
+        if (hwnd == window_handles[window_id])
             break;
     }
     s = ui_save_snapshot("Save screenshot image",
-        "Bitmap files (*.bmp)\0*.bmp\0",hwnd,0);
+        "Picture files (*.bmp;*.png)\0*.bmp;*.png\0",hwnd,IDD_SCREENSHOT_SAVE_DIALOG);
     if (s != NULL) {
-        char *sExt = ui_ensure_extension( s, ".bmp" );
-        if (screenshot_save("BMP",sExt, i) < 0)
+        char *sExt;
+        screendrv_t *selected_driver;
+        selected_driver = screenshot_get_driver(screendrivername);
+        if (!selected_driver) {
+            ui_error("No driver selected or selected driver not supported");
+            return;
+        }
+        sExt = ui_ensure_extension( s, selected_driver->default_extension );
+        if (screenshot_save(selected_driver->name,sExt, window_id) < 0)
             ui_error("Cannot write screenshot file.");
         free(sExt);
         free(s);
@@ -197,5 +225,4 @@ void ui_soundshot_save_dialog(HWND hwnd)
             ui_display_statustext("Recording wav...");
         }
     }
-    free(devicename);
 }

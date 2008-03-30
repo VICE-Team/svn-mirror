@@ -151,36 +151,41 @@
 #endif
 
 // Emulator Dialog
-#define DLG_EMULATOR    0x1090
-#define SPB_SPEED       0x1091
-#define PB_SPEED100     0x1092
-#define CBS_REFRATE     0x1093
-#define CB_PAUSE        0x1094
-#define CB_VCACHE       0x1095
-#define CB_SBCOLL       0x1096
-#define CB_SSCOLL       0x1097
-#define CB_EMUID        0x1098
-#define SPB_SPEEDDISP   0x1099
-#define SPB_REFRATEDISP 0x109a
-#define CB_MOUSE        0x109b
-#define CB_HIDEMOUSE    0x109c
-#define WM_DISPLAY      WM_USER+1
+#define DLG_EMULATOR     0x1090
+#define SPB_SPEED        0x1091
+#define PB_SPEED100      0x1092
+#define CBS_REFRATE      0x1093
+#define CB_PAUSE         0x1094
+#define CB_VCACHE        0x1095
+#define CB_SBCOLL        0x1096
+#define CB_SSCOLL        0x1097
+#define CB_EMUID         0x1098
+#define SPB_SPEEDDISP    0x1099
+#define SPB_REFRATEDISP  0x109a
+#define CB_MOUSE         0x109b
+#define CB_HIDEMOUSE     0x109c
+#define CBS_SSNAME       0x109d
+#define PB_SSCHANGE      0x109e
+#define RB_BMP           0x109f
+#define RB_PNG           0x10a0
+#define WM_DISPLAY       WM_USER+1
 
 // Monitor Dialog
-#define DLG_MONITOR    0x10a0
-#define LB_MONOUT      0x10a1
-#define EF_MONIN       0x10a2
+#define DLG_MONITOR    0x10b0
+#define LB_MONOUT      0x10b1
+#define EF_MONIN       0x10b2
 #define WM_INSERT      WM_USER+0x1
 #define WM_INPUT       WM_USER+0x2
 #define WM_PROMPT      WM_USER+0x3
+//#define WM_DELETE      WM_USER+0x4
 
 // Contents Dialog
-#define DLG_CONTENTS   0x10b0
-#define LB_CONTENTS    0x10b1
+#define DLG_CONTENTS   0x10c0
+#define LB_CONTENTS    0x10c1
 
 // Commandline option Dialog
-#define DLG_CMDOPT     0x10c0
-#define LB_CMDOPT      0x10c1
+#define DLG_CMDOPT     0x10d0
+#define LB_CMDOPT      0x10d1
 
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */
@@ -212,7 +217,7 @@
 #define WinLboxDeleteItem(hwnd, id, pos) \
     WinDeleteLboxItem(WinWindowFromID(hwnd, id), pos)
 #define WinSetDlgFont(hwnd, id, font) \
-    WinSetPresParam(WinWindowFromID(hwnd, id), PP_FONTNAMESIZE, strlen(font)+1,font);
+    WinSetPresParam(WinWindowFromID(hwnd, id), PP_FONTNAMESIZE, strlen(font)+1,font)
 #define WinLboxQuerySelectedItemText(hwnd, id, psz, max) \
     WinLboxQueryItem(hwnd, id, WinLboxQuerySelectedItem(hwnd, id), psz, max)
 #define WinQueryDlgText(hwnd, id, psz, max) \
@@ -253,16 +258,17 @@ extern HWND hwndMonitor;
 extern HWND hwndEmulator;
 extern HWND hwndDatasette;
 
-extern void drive_dialog     (HWND hwnd);
-extern void sound_dialog     (HWND hwnd);
-extern void about_dialog     (HWND hwnd);
-extern void datasette_dialog (HWND hwnd);
-extern void emulator_dialog  (HWND hwnd);
-extern void monitor_dialog   (HWND hwnd);
-extern void contents_dialog  (HWND hwnd, char *szFullFile);
-extern void attach_dialog    (HWND hwnd, int drive);
-extern void create_dialog    (HWND hwnd);
-extern void cmdopt_dialog    (HWND hwnd);
+extern void  drive_dialog     (HWND hwnd);
+extern void  sound_dialog     (HWND hwnd);
+extern void  about_dialog     (HWND hwnd);
+extern void  datasette_dialog (HWND hwnd);
+extern void  emulator_dialog  (HWND hwnd);
+extern void  monitor_dialog   (HWND hwnd);
+extern void  contents_dialog  (HWND hwnd, char *szFullFile);
+extern void  attach_dialog    (HWND hwnd, int drive);
+extern void  create_dialog    (HWND hwnd);
+extern void  cmdopt_dialog    (HWND hwnd);
+extern char* screenshot_dialog(HWND hwnd);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);

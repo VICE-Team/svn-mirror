@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "archdep.h"
@@ -170,6 +171,7 @@ int bmp_save(screenshot_t *screenshot, const char *filename)
 static screendrv_t bmp_drv =
 {
     "BMP",
+    ".bmp",
     bmp_save
 };
 

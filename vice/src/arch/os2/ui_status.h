@@ -29,7 +29,6 @@
 
 #undef BYTE
 #undef ADDRESS
-#define INCL_DOSSEMAPHORES
 #include <os2.h>
 #undef ADDRESS
 #define ADDRESS WORD
@@ -59,19 +58,5 @@ typedef struct _ui_status
 
 extern ui_status_t ui_status;
 extern int         PM_winActive;
-extern HMTX        hmtxKey;
-
-/*
- void PM_status(void *unused);
- void ui_open_status_window(void);
- void ui_draw_status_window(HWND hwnd);
-
- void ui_set_rectl_lrtb(RECTL *rectl, int nr, int left, int right, int top, int bottom);
- void ui_set_rectl_lrth(RECTL *rectl, int nr, int left, int right, int top, int height);
- void ui_set_rectl_lwtb(RECTL *rectl, int nr, int left, int width, int top, int bottom);
- void ui_set_rectl_lwth(RECTL *rectl, int nr, int left, int width, int top, int height);
-
- void ui_display_speed(float spd, float fps);
- */
 
 #endif

@@ -27,6 +27,7 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
+#include <stdlib.h>
 #include "types.h"
 
 /* Sound defaults.  */

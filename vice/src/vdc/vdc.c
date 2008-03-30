@@ -94,7 +94,7 @@ static int init_raster(void)
         return -1;
 
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
-    raster_set_exposure_handler(raster, vdc_exposure_handler);
+    raster_set_exposure_handler(raster, (void*)vdc_exposure_handler);
     raster_enable_cache(raster, vdc_resources.video_cache_enabled);
     raster_enable_double_scan(raster, 0);
     raster_set_canvas_refresh(raster, 1);

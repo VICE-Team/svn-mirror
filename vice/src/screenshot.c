@@ -149,7 +149,7 @@ void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
     }
 }
 
-static screendrv_t *screenshot_get_driver(const char *drvname)
+screendrv_t *screenshot_get_driver(const char *drvname)
 {
     screendrv_list_t *current = screendrv_list;
 

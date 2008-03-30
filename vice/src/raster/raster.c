@@ -212,7 +212,7 @@ static int realize_canvas (raster_t *raster)
                                         &viewport->width,
                                         &viewport->height,
                                         1,
-                                        raster->viewport.exposure_handler,
+                                        (canvas_redraw_t)(raster->viewport.exposure_handler),
                                         raster->palette,
                                         raster->pixel_table.sing
 #ifdef USE_GNOMEUI

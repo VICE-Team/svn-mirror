@@ -28,10 +28,10 @@
 #define INCL_GPI
 #define INCL_WINSYS         // SV_CYTITLEBAR
 #define INCL_WININPUT       // WM_CHAR
-#define INCL_DOSPROFILE     // DosTmrQueryTime
+//#define INCL_DOSPROFILE     // DosTmrQueryTime
 #define INCL_DOSPROCESS     // DosSleep
 #define INCL_WINWINDOWMGR   // QWL_USER
-#define INCL_DOSSEMAPHORES
+#define INCL_DOSSEMAPHORES  // HMTX
 #include <os2.h>
 #define INCL_MMIO
 #include <os2me.h>
@@ -47,7 +47,7 @@
 #include "video.h"
 
 #include "log.h"
-#include "kbd.h"
+#include "proc.h"
 #include "ui.h"
 #include "ui_status.h"
 #include "utils.h"
@@ -65,6 +65,8 @@
 #endif
 
 #include "version.h"
+
+extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
 static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
@@ -188,14 +190,18 @@ static void video_close(void)
     //        log_message(LOG_DEFAULT, "video.c: Dive image buffer freed (video_close).");
     //    }
     free(divesetup.pVisDstRects);
-    rc=DiveClose(hDiveInst);
-    if (rc) log_message(LOG_DEFAULT, "video.c: Dive closed (rc=%li).",rc);
+
+    if (rc=DiveClose(hDiveInst))
+        log_message(LOG_DEFAULT, "video.c: Dive closed (rc=%li).",rc);
 }
 
 int video_init(void) // initialize Dive
 {
     APIRET rc;
-    if (rc=DiveOpen(&hDiveInst, FALSE, NULL)) {
+    //    RECTL  rcl;  /* Current widow rectangle - dummy */
+
+    if (rc=DiveOpen(&hDiveInst, FALSE, NULL))
+    {
         log_message(LOG_DEFAULT,"video.c: Could not open DIVE (rc=%li).",rc);
         return -1;
     }
@@ -206,14 +212,33 @@ int video_init(void) // initialize Dive
     divesetup.ulDitherType      = 0;
     divesetup.fccSrcColorFormat = FOURCC_LUT8;
     divesetup.fccDstColorFormat = FOURCC_SCRN;
+    /*
+     // FIXME Do I really need this DiveSetupBlitter? My Laptop has problems here
+     divesetup.ulSrcWidth = 1;//pwinData->ulWidth;
+     divesetup.ulSrcHeight = 1;//pwinData->ulHeight;
+     divesetup.ulSrcPosX = 0;
+     divesetup.ulSrcPosY = 0;
+     divesetup.lDstPosX = 0;
+     divesetup.lDstPosY = 0;
+     divesetup.lScreenPosX = 0;
+     divesetup.lScreenPosY = 0;
+     divesetup.ulNumDstRects = 1;
+
+     rcl.xRight = 1;//pwinData->ulWidth;
+     rcl.yTop   = 1;//pwinData->ulHeight;
+     divesetup.ulDstWidth = 1;//pwinData->ulWidth;
+     divesetup.ulDstHeight = 1;//pwinData->ulHeight;
+     divesetup.pVisDstRects = &rcl;
+     DiveSetupBlitter(hDiveInst, &divesetup);
+     */
     divesetup.pVisDstRects      = xcalloc(1, DIVE_RECTLS*sizeof(RECTL));
-    DiveSetupBlitter(hDiveInst, &divesetup);
+
     return 0;
 }
 
 /* ------------------------------------------------------------------------ */
 /* Frame buffer functions.  */
-int video_frame_buffer_alloc(video_frame_buffer_t *f, UINT width, UINT height)
+int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
 {
     static int first=TRUE;
     APIRET rc;
@@ -223,7 +248,7 @@ int video_frame_buffer_alloc(video_frame_buffer_t *f, UINT width, UINT height)
         first=FALSE;
     }
 
-    (*f) = (video_frame_buffer_t) xmalloc(sizeof(struct video_frame_buffer_s));
+    (*f) = (video_frame_buffer_t*) xmalloc(sizeof(struct video_frame_buffer_s));
     (*f)->bitmap = (char*) xmalloc(width*height*sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;
@@ -243,12 +268,17 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 void video_frame_buffer_free(video_frame_buffer_t *f)
 {
     //    if (ulBuffer) {  // share this with video_close
-    ULONG rc=DiveFreeImageBuffer (hDiveInst, (*f)->ulBuffer);
-    (*f)->ulBuffer = 0;
-    if (!rc) log_message(LOG_DEFAULT,"video.c: Dive image buffer freed (frame_buffer_free).");
+    ULONG rc=DiveFreeImageBuffer (hDiveInst, f->ulBuffer);
+
+    f->ulBuffer = 0;
+
+    if (!rc)
+       log_message(LOG_DEFAULT,"video.c: Dive image buffer freed (frame_buffer_free).");
     //    }
-    if ((*f)->bitmap) free((*f)->bitmap);
-    if (*f)           free(*f);
+
+    // if f exist also f->bitmap must exist... see above
+    free(f->bitmap);
+    free(f);
     //log_message(LOG_DEFAULT,"video.c: Frame buffer freed.");
 }
 
@@ -268,6 +298,7 @@ static kstate vk_vice;
 static kstate vk_desktop;
 
 extern int use_leds;
+extern HMTX hmtxKey;
 
 void wmCreate(void)
 {
@@ -380,7 +411,7 @@ void wmVrnDisabled(HWND hwnd)
     DosReleaseMutexSem(hmtx);
 }
 
-extern void kbd_proc(HWND hwnd, MPARAM mp1);
+//extern void kbd_proc(HWND hwnd, MPARAM mp1);
 
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -401,7 +432,6 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinQueryWindowPos(WinQueryWindow(hwnd, QW_PARENT), &swp);
             posx=swp.x;
             posy=swp.y;
-            log_debug("MOVE %i %i", posx, posy);
         }
         break;
 #ifdef HAVE_MOUSE
@@ -448,7 +478,7 @@ void PM_mainloop(VOID *arg)
     HAB   hab;  // Anchor Block to PM
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
-    canvas_t **c=(canvas_t **)arg;
+    canvas_t *c=(canvas_t *)arg;
     int px = posx;
     int py = posy;
 
@@ -461,23 +491,21 @@ void PM_mainloop(VOID *arg)
     WinRegisterClass(hab, szClientClass, PM_winProc,
                      CS_MOVENOTIFY|CS_SIZEREDRAW, 2048);
 
-    (*c)->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_VISIBLE,
-                                         &flFrameFlags, szClientClass,
-                                         (*c)->title, 0L, 0, 0,
-                                         &((*c)->hwndClient));
-    free((*c)->title);
-    log_debug("px py  %i %i", px, py);
-    WinSetWindowPos((*c)->hwndFrame, HWND_TOP, px, py,
-                    canvas_fullwidth ((*c)->width),
-                    canvas_fullheight((*c)->height),
+    c->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_VISIBLE,
+                                      &flFrameFlags, szClientClass,
+                                      c->title, 0L, 0, 0,
+                                      &(c->hwndClient));
+    free(c->title);
+
+    WinSetWindowPos(c->hwndFrame, HWND_TOP, px, py,
+                    canvas_fullwidth (c->width),
+                    canvas_fullheight(c->height),
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|
                     (px==-1&&py==-1?0:SWP_MOVE));    // Make visible, resize, top window
-    WinSetWindowPtr((*c)->hwndClient, QWL_USER, (VOID*)(*c));
+    WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
-    (*c)->palette = xcalloc(1, 256*sizeof(RGB2));
-
-    WinSetVisibleRegionNotify((*c)->hwndClient, TRUE);
-    (*c)->vrenabled = TRUE;
+    WinSetVisibleRegionNotify(c->hwndClient, TRUE);
+    c->vrenabled = TRUE;
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg);
@@ -504,12 +532,11 @@ void PM_mainloop(VOID *arg)
     if (!WinTerminate (hab))
         log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
 
-    //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
     //      free(*ptr);
     trigger_shutdown = 1;
-    //    exit(0); // Kill VICE, All went OK
+
     DosSleep(1000); // wait 10 seconds
-    exit(0);           // end VICE in all cases
+    exit(0);        // end VICE in all cases
 
 }
 
@@ -527,13 +554,13 @@ canvas_t *canvas_create(const char *title, UINT *width,
 {
     canvas_t *canvas_new;
 
-    if (palette->num_entries > 255) {
+    if (palette->num_entries > 255)
+    {
         log_error(LOG_DEFAULT, "video.c: Too many colors requested.");
-       return (canvas_t *) NULL;
+        return (canvas_t *) NULL;
     }
 
     canvas_new = (canvas_t *)xcalloc(1,sizeof(struct canvas_s));
-    if (!canvas_new) return (canvas_t *) NULL;
 
     canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;
@@ -541,22 +568,14 @@ canvas_t *canvas_create(const char *title, UINT *width,
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;  // pbmi not yet initialized
 
-    log_debug("canvas_open: %s", title);
+    archdep_create_mutex_sem(&hmtx, "Canvas", FALSE);
 
-    {   // create unique semaphore-name for all instances of vice
-        APIRET rc;
-        char sem[80];
-        QWORD qwTmrTime;
-        DosTmrQueryTime(&qwTmrTime);
-        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Graphic", qwTmrTime.ulLo);
-        if (rc=DosCreateMutexSem(sem, &hmtx, 0, FALSE))
-            log_message(LOG_DEFAULT, "video.c: DosCreateMutexSem (rc=%i)", rc);
-    }
-    _beginthread(PM_mainloop, NULL, 0x4000, &canvas_new);
+    _beginthread(PM_mainloop, NULL, 0x4000, canvas_new);
 
-    while (!canvas_new->vrenabled) DosSleep(1);
+    while (!canvas_new->vrenabled) // wait until pbmi initialized
+        DosSleep(1);
 
-    log_debug("video.c: PM Window (canvas) created. (%ix%i)", *width, *height);
+    log_debug("video.c: PM Window (canvas '%s') created. (%ix%i)", title, *width, *height);
 
     canvas_set_palette(canvas_new, palette, pixel_return);
 
@@ -575,7 +594,9 @@ void canvas_unmap(canvas_t *c)
 
 void canvas_resize(canvas_t *c, UINT width, UINT height)
 {
-    if (c->width==width && c->height==height) return;
+    if (c->width==width && c->height==height)
+        return;
+
     if (!WinSetWindowPos(c->hwndFrame, 0, 0, 0,
                          canvas_fullwidth(width), canvas_fullheight(height),
                          SWP_SIZE))
@@ -583,7 +604,7 @@ void canvas_resize(canvas_t *c, UINT width, UINT height)
         log_debug("video.c: Error resizing canvas (%ix%i).", width, height);
         return;
     }
-    log_debug("video.c: cavas resized (%ix%i)", width, height);
+    log_debug("video.c: canvas resized (%ix%i --> %ix%i)", c->width, c->height, width, height);
     c->width  = width;
     c->height = height;
     c->exposure_handler(width, height); // update whole window next time!
@@ -595,20 +616,29 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
     int i;
     ULONG rc;
+
+    RGB2 *palette = xcalloc(1, p->num_entries*sizeof(RGB2));
+
     //    if (!(c->pbmi_initialized)) return;
-    for (i=0; i<p->num_entries; i++) {
-        c->palette[i].bRed  =p->entries[i].red;
-        c->palette[i].bGreen=p->entries[i].green;
-        c->palette[i].bBlue =p->entries[i].blue;
+    for (i=0; i<p->num_entries; i++)
+    {
+        palette[i].bRed  =p->entries[i].red;
+        palette[i].bGreen=p->entries[i].green;
+        palette[i].bBlue =p->entries[i].blue;
         pixel_return[i]=i;
     }
-    rc=DiveSetSourcePalette(hDiveInst, 0, 256, (BYTE*)c->palette);
-    if (rc) log_message(LOG_DEFAULT,"video.c: Error setting palette (rc=%i).",rc);
+
+    rc=DiveSetSourcePalette(hDiveInst, 0, p->num_entries, (BYTE*)palette);
+    if (rc)
+        log_message(LOG_DEFAULT,"video.c: Error setting palette (rc=%i).",rc);
+
+    free(palette);
+
     return 0;
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t *c, video_frame_buffer_t f,
+void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w,  unsigned int h)

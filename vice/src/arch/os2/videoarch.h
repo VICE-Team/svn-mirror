@@ -41,7 +41,7 @@ typedef struct canvas_s {
     char *title;
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
-    RGB2 *palette;          // pointer to structure which stores colorinfo
+    //    RGB2 *palette;          // pointer to structure which stores colorinfo
     BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
     canvas_redraw_t exposure_handler;
 } canvas_t;

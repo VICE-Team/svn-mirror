@@ -62,6 +62,7 @@
 
 #include "ui.h"
 #include "signals.h"
+#include "vsyncarch.h"
 
 /* ---------------------- OS/2 specific ------------------ */
 
@@ -79,22 +80,39 @@ HMQ hmqMain;
 void PM_close(void)
 {
     APIRET rc;
+
     log_message(LOG_DEFAULT, "archdep.c: PM_close");
+
     rc=WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
-    if (!rc) log_message(LOG_DEFAULT, "archdep.c: Error! Msg Queue not destroyed (rc=%li)",rc);
-    rc=WinTerminate      (habMain);  // Release Anchor to PM
-    if (!rc) log_message(LOG_DEFAULT, "archdep.c: Error! PM anchor release.");
+    if (!rc)
+        log_message(LOG_DEFAULT, "archdep.c: Error! Msg Queue not destroyed (rc=%li)",rc);
+
+    rc=WinTerminate(habMain);  // Release Anchor to PM
+    if (!rc)
+        log_message(LOG_DEFAULT, "archdep.c: Error! PM anchor release.");
 }
 
 void PM_open(void)
 {
     habMain = WinInitialize(0);              // Initialize PM
     hmqMain = WinCreateMsgQueue(habMain, 0); // Create Msg Queue
-    
+
     atexit(PM_close);
 }
 
 /* ------------------------------------------------------------------------ */
+void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
+{
+    APIRET rc;
+
+    char *sem = xmalloc(strlen(pszName)+15);
+
+    sprintf(sem, "\\SEM32\\VICE2\\%s%i", pszName, vsyncarch_gettime());
+
+    if (rc=DosCreateMutexSem(sem, hmtx, 0, fState))
+        log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
+}
+
 
 HMTX hmtxSpawn;
 
@@ -111,22 +129,14 @@ int archdep_startup(int *argc, char **argv)
 
     PM_open();
 
-    {   // create unique semaphore-name for all instances of vice
-        APIRET rc;
-        char sem[80];
-        QWORD qwTmrTime;
-        DosTmrQueryTime(&qwTmrTime);
-        sprintf(sem, "%s%i", "\\SEM32\\Vice2\\Spawn", qwTmrTime.ulLo);
-        if (rc=DosCreateMutexSem(sem, &hmtxSpawn, 0, FALSE))
-            log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem (rc=%i)", rc);
-    }
+    archdep_create_mutex_sem(&hmtxSpawn, "Spawn", FALSE);
 
     return 0;
 }
 
 const char *archdep_program_name(void)
 {
-    static char *name;
+    static char *name=NULL;
     if (!name) {
         char drive[_MAX_DRIVE];
         char dir  [_MAX_DIR];
@@ -140,7 +150,7 @@ const char *archdep_program_name(void)
 
 const char *archdep_boot_path(void)
 {
-    static char *boot_path;
+    static char *boot_path=NULL;
     if (!boot_path) {
         char drive[_MAX_DRIVE+_MAX_DIR];
         char dir  [_MAX_DIR];
@@ -155,9 +165,11 @@ const char *archdep_boot_path(void)
 
 const char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-    static char *pathlist;
+    static char *pathlist=NULL;
+
     if (!pathlist)
         pathlist=concat(emu_id, FINDPATH_SEPARATOR_STRING, "DRIVES", NULL);
+
     return pathlist;
 }
 
@@ -168,8 +180,11 @@ const char *archdep_default_save_resource_file_name(void)
 
 const char *archdep_default_resource_file_name(void)
 {
-    static char *filename;
-    if (!filename) filename = concat(archdep_boot_path(), "\\vice2.cfg", NULL);
+    static char *filename=NULL;
+
+    if (!filename)
+        filename = concat(archdep_boot_path(), "\\vice2.cfg", NULL);
+
     return filename;
 }
 
@@ -182,6 +197,7 @@ int archdep_default_logger(const char *level_string,
 FILE *archdep_open_default_log_file(void)
 {
     char *fname = concat (archdep_boot_path(), "\\vice2.log", NULL);
+
     FILE *f = fopen(fname, "w");
     free(fname);
 
@@ -226,6 +242,9 @@ static RETSIGTYPE break64(int sig)
 
 void archdep_setup_signals(int do_core_dumps)
 {
+    // at the place where it's called at the moment it's only valid
+    // for the vice (simulation) thread
+
     signal(SIGINT, SIG_IGN);
 
     if (!do_core_dumps) {
@@ -272,9 +291,6 @@ int archdep_expand_path(char **return_path, const char *filename)
         *return_path = concat(cwd, "\\", filename, NULL);
         free(cwd);
     }
-    /*    if (strcmp(filename, *return_path))
-     log_message(LOG_DEFAULT,"archdep.c: %s --> %s", filename, *return_path);
-     */
     return 0;
 }
 
@@ -287,7 +303,7 @@ int archdep_search_path(const char *name, char *pBuf, int lBuf)
     // Search the program in the path
     if (DosScanEnv("PATH",&path))
         log_message(LOG_DEFAULT, "archdep.c: Environment variable PATH not found.");
-    if (DosSearchPath(flags, path, pgmName, pBuf, lBuf/*sizeof(pbuf)*/))
+    if (DosSearchPath(flags, path, pgmName, pBuf, lBuf))
     {
         log_message(LOG_DEFAULT, "archdep.c: File \"%s\" not found.", pgmName);
         return -1;
@@ -309,8 +325,8 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
     i = 0;
     strcat(strcpy(res,"/c "),name);
     while (argv[++i]) strcat(strcat(res," "), argv[i]);
-    if (sout) strcat(strcat(strcat(strcat(res,  " > "),"\""), sout), "\"");
-    if (serr) strcat(strcat(strcat(strcat(res, " 2> "),"\""), serr), "\"");
+    if (sout) strcat(strcat(strcat(res,  " > \""), sout), "\"");
+    if (serr) strcat(strcat(strcat(res, " 2> \""), serr), "\"");
     return res;
 }
 
@@ -320,25 +336,26 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
    redirect stdout or stderr to the corresponding file.  */
 int archdep_spawn(const char *name, char **argv,
                   const char *stdout_redir, const char *stderr_redir)
-{  // how to redirect stdout & atderr??
+{  // how to redirect stdout & stderr??
     typedef struct _CHILDINFO {  /* Define a structure for the queue data */
         USHORT usSessionID;
         USHORT usReturn;
     } CHILDINFO;
 
-    UCHAR       fqName[256] = ""; /* Result of PATH search     */
-    HQUEUE      hqQueue;     /* Queue handle */
-    REQUESTDATA rdRequest;   /* Request data for the queue */
-    ULONG       ulSzData;    /* Size of the queue data */
-    BYTE        bPriority;   /* For the queue */
-    PVOID       pvData;      /* Pointer to the queue data */
-    STARTDATA   sd;          /* Start Data for DosStartSession */
-    PID         pid;         /* PID for the started child session */
-    ULONG       ulSession;   /* Session ID for the child session */
-    APIRET      rc;          /* Return code from API's */
+    UCHAR       fqName[256] = ""; /* Result of PATH search             */
+    HQUEUE      hqQueue;          /* Queue handle                      */
+    REQUESTDATA rdRequest;        /* Request data for the queue        */
+    ULONG       ulSzData;         /* Size of the queue data            */
+    BYTE        bPriority;        /* For the queue                     */
+    PVOID       pvData;           /* Pointer to the queue data         */
+    STARTDATA   sd;               /* Start Data for DosStartSession    */
+    PID         pid;              /* PID for the started child session */
+    ULONG       ulSession;        /* Session ID for the child session  */
+    APIRET      rc;               /* Return code from API's            */
     char       *cmdline;
 
-    if (archdep_search_path(name, fqName, sizeof(fqName))) return -1;
+    if (archdep_search_path(name, fqName, sizeof(fqName)))
+        return -1;
 
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
@@ -360,7 +377,10 @@ int archdep_spawn(const char *name, char **argv,
      Wait for the session to end and get it's session ID
      from the termination queue */
 
-    if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT)) return 0;
+    // this prevents you from closing Vice while a child is running
+    if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT))
+        return 0;
+
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
         log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
     else
@@ -383,7 +403,9 @@ int archdep_spawn(const char *name, char **argv,
     DosReleaseMutexSem(hmtxSpawn);
     free(cmdline);
     //    DosSleep(1000);
-    if (rc) log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
+    if (rc)
+        log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
+
     return rc;
 }
 
@@ -404,8 +426,7 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_quote_parameter(const char *name)
 {
-    char *a;
-    a = concat("\"", name, "\"", NULL);
+    char *a = concat("\"", name, "\"", NULL);
     return a;
 }
 
@@ -425,3 +446,4 @@ char *archdep_tmpnam(void)
 {
     return stralloc(tmpnam(NULL));
 }
+

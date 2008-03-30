@@ -10,15 +10,16 @@ libdialogs_a_SOURCES = \
         dialogs.c \
         dialogs.h \
         dialogs.rc \
-	dlg-sound.c \
-	dlg-drive.c \
-        dlg-reset.c \
-        dlg-create.c \
-        dlg-cmdopt.c \
         dlg-attach.c \
-	dlg-monitor.c \
+        dlg-cmdopt.c \
+	dlg-contents.c \
+        dlg-create.c \
+	dlg-datasette.c \
+	dlg-drive.c \
 	dlg-emulator.c \
 	dlg-joystick.c \
-	dlg-contents.c \
-	dlg-datasette.c
+	dlg-monitor.c \
+        dlg-reset.c \
+        dlg-screenshot.c \
+	dlg-sound.c
 

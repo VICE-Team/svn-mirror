@@ -3,7 +3,6 @@ source type(h)
 source type(c)
     "ui.c",
     "kbd.c",
-    "vsync.c",
     "video.c",
     "mouse.c",
     "console.c",
@@ -14,4 +13,5 @@ source type(c)
     "main_exit.c",
     "uicmdline.c",
     "sounddrv.c",
+    "vsyncarch.c",
     "snippets\\dirport.c"

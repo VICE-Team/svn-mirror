@@ -9,4 +9,5 @@ source type(c)
     "dialogs\\dlg-emulator.c",
     "dialogs\\dlg-joystick.c" ,
     "dialogs\\dlg-contents.c",
-    "dialogs\\dlg-datasette.c"
+    "dialogs\\dlg-datasette.c",
+    "dialogs\\dlg-screenshot.c"

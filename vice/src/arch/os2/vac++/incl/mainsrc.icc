@@ -26,6 +26,7 @@ source type(c)
     "resources.c",
     "romset.c",
     "rsuser.c",
+    "screenshot.c",
     "serial.c",
     "snapshot.c",
     "sound.c",
@@ -35,5 +36,6 @@ source type(c)
     "tape.c",
     "traps.c",
     "utils.c",
+    "vsync.c",
     "zfile.c",
     "zipcode.c"

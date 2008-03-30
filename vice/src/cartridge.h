@@ -70,7 +70,8 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_WESTERMANN         11
 #define CARTRIDGE_REX                12
 #define CARTRIDGE_FINAL_I            13
-#define CARTRIDGE_GS                 14
+#define CARTRIDGE_MAGIC_FORMEL       14
+#define CARTRIDGE_GS                 15
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF			0

@@ -9,6 +9,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     define("HAVE_CONFIG_H", ),
     incl(searchpath, ".."),
     incl(searchpath, "..\\ui"),
+    incl(searchpath, "..\\kbd"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\vic20"),
@@ -18,7 +19,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng106"),
     incl(searchpathfirst, "yes"),
     define("__XVIC__", ),
     res_rc_options("-i ..\\dialogs -x1 -d __XVIC__")
@@ -27,17 +31,22 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\data\\xvic.exe"
     {
         source type (rc)  "dialogs/dialogs.rc"
-        source type (lib) "mmpm2.lib"
+        source type (lib)
+            "mmpm2.lib",
+            "zlib.lib",
+            "png.lib"
 
         include "incl/mainsrc.icc"
         include "incl/archdep.icc"
         include "incl/dialogs.icc"
         include "incl/vic20.icc"
+        include "incl/kbd.icc"
         include "incl/drive.icc"
         include "incl/raster.icc"
         include "incl/vdrive.icc"
         include "incl/monitor.icc"
         include "incl/sounddrv.icc"
+        include "incl/screendrv.icc"
 
         source type(c)
             "maincpu.c"

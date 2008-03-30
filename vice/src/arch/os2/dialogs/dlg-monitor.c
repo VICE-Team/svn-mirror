@@ -58,12 +58,13 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_CHAR:
         if (SHORT1FROMMP(mp1)&KC_CHAR)
         {
-            char txt[80];
+            char txt[80]="";
             // int len=WinQueryWindowTextLength(WinWindowFromID(hwnd, EF_MONIN));
             WinQueryDlgText(hwnd, EF_MONIN, txt, 80);
             if (strlen(txt))
             {
-                if (input) *input=stralloc(txt);
+                if (input)
+                    *input=stralloc(txt);
                 WinSetDlgText(hwnd, EF_MONIN,"");
                 input=NULL;
                 *wait_for_input=FALSE;
@@ -92,6 +93,19 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
         }
         break;
+/*    case WM_DELETE:
+        log_debug("WM_SHOW %d", mp1);
+        if (1)//(USHORT)mp1==FALSE)
+        {
+            int max=WinLboxQueryCount(hwnd, CBS_IMAGE);
+            log_debug("deleting");
+            while (max--)
+            {
+                log_debug("del %i", max);
+                WinLboxDeleteItem(hwnd, LB_MONOUT, 0);
+            }
+        }
+        break;*/
     case WM_INSERT:
         WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
         WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,

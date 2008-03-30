@@ -9,6 +9,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     define("HAVE_CONFIG_H", ),
     incl(searchpath, ".."),
     incl(searchpath, "..\\ui"),
+    incl(searchpath, "..\\kbd"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
@@ -19,7 +20,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng106"),
     incl(searchpathfirst, "yes"),
     define("__X64__", ),
     res_rc_options("-i ..\\dialogs -d __X64__ -x1")
@@ -27,21 +31,25 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\data\\x64.exe"
     {
         source type (rc)  "dialogs/dialogs.rc"
-        source type (lib) "mmpm2.lib"
+        source type (lib)
+            "mmpm2.lib",
+            "zlib.lib",
+            "png.lib"
         source type(c)
             "maincpu.c"
         source type(c)
-            "c64ui.c",
-            "kbd\\kbd-c64.c"
+            "c64ui.c"
         include "incl/archdep.icc"
         include "incl/mainsrc.icc"
         include "incl/c64.icc"
+        include "incl/kbd.icc"
         include "incl/dialogs.icc"
         include "incl/monitor.icc"
         include "incl/drive.icc"
         include "incl/raster.icc"
         include "incl/vdrive.icc"
         include "incl/sounddrv.icc"
+        include "incl/screendrv.icc"
         include "incl/vicii.icc"
         include "incl/resid.icc"
     }

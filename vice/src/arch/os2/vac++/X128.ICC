@@ -9,6 +9,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     define("HAVE_CONFIG_H", ),
     incl(searchpath, ".."),
     incl(searchpath, "..\\ui"),
+    incl(searchpath, "..\\kbd"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
@@ -21,15 +22,21 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
+    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng106"),
     incl(searchpathfirst, "yes"),
     define("__X128__", ),
     res_rc_options("-i ..\\dialogs -x1 -d __X128__")
 {
     target type(exe) "..\\..\\..\\..\\data\\x128.exe"
     {
-        source type (lib) "mmpm2.lib"
         source type (rc)  "dialogs/dialogs.rc"
+        source type (lib)
+            "mmpm2.lib",
+            "zlib.lib",
+            "png.lib"
 
         source type(c)
             "rs232.c",
@@ -46,11 +53,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/monitor.icc"
         include "incl/dialogs.icc"
         include "incl/c128.icc"
+        include "incl/kbd.icc"
         include "incl/vdc.icc"
         include "incl/drive.icc"
         include "incl/raster.icc"
         include "incl/vdrive.icc"
         include "incl/sounddrv.icc"
+        include "incl/screendrv.icc"
         include "incl/vicii.icc"
         include "incl/resid.icc"
     }

@@ -1,0 +1,7 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   target "bdf2fnt.exe"
+   {
+       source type(cpp) "bdf2fnt.cc"
+   }
+}

@@ -54,17 +54,16 @@ console_t *console_open(const char *id)
     console->console_yres = 25;
     console->console_can_stay_open = 0;
     WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 1);
-    //    WinEnableControl(hwndMonitor, EF_MONIN, 1);
-    //    WinShowDlg(hwndMonitor, EF_MONIN, 1);
-
+    // WinEnableControl(hwndMonitor, EF_MONIN, 1);
+    // WinShowDlg(hwndMonitor, EF_MONIN, 1);
     return console;
 }
 
 int console_close(console_t *log)
 {
     WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 0);
-    //    WinEnableControl(hwndMonitor, EF_MONIN, 0);
-    //    WinShowDlg(hwndMonitor, EF_MONIN, 0);
+    // WinEnableControl(hwndMonitor, EF_MONIN, 0);
+    // WinShowDlg(hwndMonitor, EF_MONIN, 0);
     free(log);
     return 0;
 }
@@ -76,7 +75,8 @@ int console_out(console_t *log, const char *format, ...)
     char *txt, *mid;
     va_list ap;
 
-    if (!hwndMonitor) return 0;
+    if (!hwndMonitor)
+        return 0;
 
     va_start(ap, format);
     vsprintf(in, format, ap);
@@ -115,19 +115,21 @@ extern int trigger_console_exit;
 
 char *console_in(console_t *log)
 {
-    char **c;
+    char *c=NULL;
     int wait_for_input = TRUE;
 
     console_out(log, "\n");
-    WinSendMsg(hwndMonitor, WM_INPUT, c, &wait_for_input);
+    WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
 
     while (wait_for_input && !trigger_shutdown && !trigger_console_exit)
         DosSleep(1);
-    if (trigger_shutdown || trigger_console_exit) *c=stralloc("exit");
 
-    WinSendMsg(hwndMonitor, WM_PROMPT, *c, NULL);
+    if (trigger_shutdown || trigger_console_exit)
+        c=stralloc("exit");
 
-    return *c;
+    WinSendMsg(hwndMonitor, WM_PROMPT, c, NULL);
+
+    return c;
 }
 
 int console_close_all(void)

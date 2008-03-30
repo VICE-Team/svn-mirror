@@ -321,7 +321,7 @@ int drive_read_snapshot_module(snapshot_t *s)
             || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
             || read_byte_into_int(m, &drive[i].extend_image_policy) < 0
             || read_byte_into_int(m, &drive[i].finish_byte) < 0
-            || read_dword_into_int(m, &drive[i].GCR_head_offset) < 0
+            || read_dword_into_int(m, (int*)&drive[i].GCR_head_offset) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
             || read_byte_into_int(m, &drive[i].idling_method) < 0
@@ -330,7 +330,7 @@ int drive_read_snapshot_module(snapshot_t *s)
             || read_byte_into_int(m, &drive[i].read_only) < 0
             || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
             || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
-            || read_dword_into_int(m, &drive[i].type) < 0
+            || read_dword_into_int(m, (int*)&drive[i].type) < 0
         ) {
             if (m != NULL)
                 snapshot_module_close(m);

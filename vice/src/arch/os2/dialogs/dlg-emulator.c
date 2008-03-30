@@ -28,6 +28,7 @@
 #define INCL_WINDIALOGS
 #define INCL_WINSTDSPIN
 #define INCL_WINLISTBOXES
+#define INCL_WINENTRYFIELDS
 
 #include "vice.h"
 #include "dialogs.h"
@@ -46,6 +47,8 @@ const char *VIDEO_CACHE="VideoCache";
 const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
 
+CHAR  screenshotHist[10][CCHMAXPATH];
+
 /* Needed prototype funtions                                        */
 /*----------------------------------------------------------------- */
 
@@ -53,11 +56,71 @@ extern void emulator_pause(void);
 extern void emulator_resume(void);
 extern int isEmulatorPaused(void);
 
+/* The Screenshot saveas name                                       */
+/*------------------------------------------------------------------*/
+
+#define ID_NAME (void*)0
+#define ID_TYPE (void*)1
+
+static char pszScreenshotName[CCHMAXPATH]="vice2.bmp";
+static int iSsType=0;
+
+char *screenshot_name()
+{
+    return pszScreenshotName;
+}
+
+char *screenshot_type()
+{
+    return iSsType?"PNG":"BMP";
+}
+
+void screenshot_check_name(HWND hwnd, const char *psz)
+{
+    if (strlen(psz)>4)
+    {
+        if (!stricmp(psz+strlen(psz)-4, ".bmp"))
+        {
+            strcpy(pszScreenshotName, psz);
+            iSsType = 0;
+            WinCheckButton(hwnd, RB_BMP, 1);
+            return;
+        }
+#ifdef HAVE_PNG
+        if (!stricmp(psz+strlen(psz)-4, ".png"))
+        {
+            strcpy(pszScreenshotName, psz);
+            iSsType = 1;
+            WinCheckButton(hwnd, RB_PNG, 1);
+            return;
+        }
+#endif
+    }
+    strcat(strcpy(pszScreenshotName, psz), iSsType?".png":".bmp");
+}
+
+void screenshot_check_type(HWND hwnd, int mp)
+{
+    if (mp==iSsType)
+        return;
+
+    iSsType = mp;
+
+    *(pszScreenshotName+strlen(pszScreenshotName)-4)='\0';
+
+    strcat(pszScreenshotName, iSsType?".png":".bmp");
+
+    WinLboxDeleteItem(hwnd, CBS_SSNAME, 0);
+    WinLboxInsertItemAt(hwnd, CBS_SSNAME, pszScreenshotName, 0);
+    WinLboxSelectItem(hwnd, CBS_SSNAME, 0);
+}
+
 /* Dialog procedures                                                */
 /*----------------------------------------------------------------- */
 
 static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
+    // FIXME: Speed=0 'No Limit' is missing
     static int first = TRUE;
     const char psz[11][6] =
     {
@@ -79,6 +142,19 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             suspend_speed_eval();
             resources_set_value("Speed", (resource_value_t)100);
             WinEnableControl(hwnd, PB_SPEED100, FALSE);
+            return FALSE;
+        case PB_SSCHANGE:
+            {
+                char *c = screenshot_dialog(hwnd);
+
+                if (!c || !(*c))
+                    return FALSE;
+
+                screenshot_check_name(hwnd, c);
+
+                WinLboxInsertItemAt(hwnd, CBS_SSNAME, pszScreenshotName, 0);
+                WinLboxSelectItem(hwnd, CBS_SSNAME, 0);
+            }
             return FALSE;
         case DID_CLOSE:
             delDlgOpen(DLGO_EMULATOR);
@@ -120,6 +196,10 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                     WinEnableControl(hwnd, CB_HIDEMOUSE, 0);
                 }
 #endif
+                val=0;
+                while (val<10 && screenshotHist[val][0])
+                    WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
+                WinCheckButton(hwnd, iSsType?RB_PNG:RB_BMP, 1);
                 for (val=0; val<11; val++)
                     WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
                 resources_get_value("Speed", (resource_value_t *) &val);
@@ -197,9 +277,28 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 toggle("EmuID");
                 break;
 #endif
+            case CBS_SSNAME:
+                {
+                    char psz[CCHMAXPATH]="";
+                    if (SHORT2FROMMP(mp1)==CBN_ENTER)
+                        WinLboxQuerySelectedItemText(hwnd, CBS_SSNAME, psz, CCHMAXPATH);
+
+                    if (!(*psz))
+                        return FALSE;
+
+                    screenshot_check_name(hwnd, psz);
+                }
+                return FALSE;
+            case RB_BMP:
+                screenshot_check_type(hwnd, 0);
+                break;
+            case RB_PNG:
+                screenshot_check_type(hwnd, 1);
+                break;
             }
             break;
         }
+        break;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }

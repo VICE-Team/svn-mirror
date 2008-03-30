@@ -62,6 +62,7 @@ typedef struct screenshot_s {
 
 typedef struct screendrv_s {
     const char *name;
+    const char *default_extension;
     int (*save)(struct screenshot_s *, const char *);
 } screendrv_t;
 
@@ -83,6 +84,7 @@ extern void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
 extern int screenshot_num_drivers(void);
 extern screendrv_t *screenshot_drivers_iter_init(void);
 extern screendrv_t *screenshot_drivers_iter_next(void);
+extern screendrv_t *screenshot_get_driver(const char *drvname);
 
 /* Initialization prototypes */
 extern void screenshot_init_bmp(void);

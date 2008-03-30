@@ -81,6 +81,9 @@
 /* Is digital joystick support avaiable?  */
 /* #undef HAS_DIGITAL_JOYSTICK */
 
+/* Does the system know the png-graphics format? */
+#define HAVE_PNG              1
+
 /* see zfile.c */
 #define NAME_NEED_QM          1
 

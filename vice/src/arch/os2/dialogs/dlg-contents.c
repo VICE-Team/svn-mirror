@@ -23,6 +23,10 @@
  *  02111-1307  USA.
  *
  */
+#define INCL_GPILCIDS           /* Font functions               */
+#define INCL_GPIPRIMITIVES      /* GPI primitive functions      */
+#define INCL_DOSMEMMGR          /* DOS Memory Manager Functions */
+#define INCL_WINERRORS
 
 #define INCL_WINSYS // font
 #define INCL_WININPUT
@@ -35,14 +39,141 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "utils.h"           // xmalloc
 #include "charsets.h"
 #include "autostart.h"
 #include "imagecontents.h"
 
 #include "log.h"
 
+static void LoadFont(HWND hwnd)
+{
+    CHAR achFont[] = "11.System VIO";
+    // CHAR achFont[] = "27.XXX";
+    HPS hps= WinGetPS(hwnd);                /* presentation space handle            */
+    HAB hab= WinQueryAnchorBlock(hwnd);
+    LONG cFonts;            /* fonts not returned                   */
+    LONG lTemp = 0L;        /* font count                           */
+    FONTMETRICS *pfm;       /* metrics structure                    */
+
+    if (!hps || !hab)
+    {
+        log_debug("dlg-contents.c: Cannot determine Anchor Block or PS Handle");
+        return;
+    }
+
+    if (!GpiLoadFonts(hab, "g:\\c64\\src\\vice\\data\\fonts\\vice-cbm.fon"))
+    {
+        log_debug("dlg-contents.c: Unable to load vice-cbm.fon");
+        return;
+    }
+
+    /* Determine the number of fonts. */
+    cFonts = GpiQueryFonts(hps, QF_PRIVATE, NULL, &lTemp,
+                           (LONG) sizeof(FONTMETRICS), NULL);
+
+    log_debug("dlg-contents.c: vice-cbm.fon contains %i fonts (WinLastError=%x)",
+              cFonts, WinGetLastError(hab)&0xffff);
+
+    if (cFonts<1)
+    {
+        log_debug("dlg-contents.c: File does not contain any font (WinLastError=%x)",
+                  WinGetLastError(hab)&0xffff);
+        return;
+    }
+
+    /* Allocate space for the font metrics. */
+    pfm = (FONTMETRICS*)xmalloc(cFonts*sizeof(FONTMETRICS));
+    if (!pfm)/*DosAllocMem((VOID *)pfm,(ULONG)(cFonts*sizeof(FONTMETRICS)),
+    PAG_COMMIT | PAG_READ | PAG_WRITE)*/
+    {
+        log_debug("dlg-contents.c: Unable to allocate memory for font metrics");
+        return;
+    }
+
+    /* Retrieve the font metrics. */
+    lTemp = GpiQueryFonts(hps, QF_PRIVATE, NULL, &cFonts,
+                          (LONG) sizeof(FONTMETRICS), pfm);
+
+    log_debug("dlg-contents.c: %i fonts left (WinLastError=%x)",
+              lTemp, WinGetLastError(hab)&0xffff);
+
+    if (lTemp<0)
+    {
+        log_debug("dlg-contents.c: Unable to query font (WinLastError=%x)",
+                  WinGetLastError(hab)&0xffff);
+        return;
+    }
+
+    while (cFonts>0)
+    {
+        cFonts--;
+        log_debug("dlg-contents.c: Font  Nr.%3i  %i. Family: %s  Face: %s  Type: %x",
+                  cFonts,
+                  pfm[cFonts].lAveCharWidth,
+                  pfm[cFonts].szFamilyname,
+                  pfm[cFonts].szFacename,
+                  pfm[cFonts].fsType
+                 );
+    }
+    {
+        POINTL ptl = { 10, 10 };
+        FATTRS fat;
+        APIRET rc;
+
+        fat.usRecordLength = sizeof(FATTRS); /* sets size of structure   */
+        fat.fsSelection = 0;       /* uses default selection             */
+        fat.lMatch = 0L;           /* does not force match               */
+        fat.idRegistry = 0;        /* uses default registry              */
+        fat.usCodePage = 850;      /* code-page 850                      */
+        fat.lMaxBaselineExt = 8L;  /* requested font height is 8 pels    */
+        fat.lAveCharWidth = 8L;    /* requested font width is 8 pels     */
+        fat.fsType = 0;            /* uses default type                  */
+        fat.fsFontUse = FATTR_FONTUSE_NOMIX;/* doesn't mix with graphics */
+ 
+        /* Copy Courier to szFacename field */
+ 
+        strcpy(fat.szFacename ,"CBM Vice");
+ 
+        rc=GpiCreateLogFont(hps,   /* presentation space             */
+                            NULL,  /* does not use logical font name */
+                            2L,    /* local identifier               */
+                            &fat); /* structure with font attributes */
+
+        if (rc=FONT_MATCH)
+            log_debug("Font set as logic font!");
+
+        // GpiSetCharSet(hps, 2L);      /* sets font for presentation space */
+        // GpiCharStringAt(hps, &ptl, 5L, "Hello"); /* displays a string    */
+    }
+    {
+        LONG   lcid;      /*  Local identifier. */
+        PSTR8  name=NULL; /*  Logical font name. */
+        FATTRS attrs;     /*  Attributes of font. */
+        LONG   length;    /*  Length of attrs buffer. */
+        BOOL   rc;        /*  Success indicator. */
+
+        for (lcid=0; lcid<100; lcid++)
+        {
+            rc = GpiQueryLogicalFont(hps, lcid, name, &attrs,
+                                     sizeof(FATTRS));
+            if (rc)
+                log_debug("---> %i:  %i.%s", lcid, attrs.lAveCharWidth, attrs.szFacename);
+        }
+    }
+    if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
+                       //pfm[0].szFacename))
+        log_debug("dlg-contents.c: Unable to set font %s.",
+                  pfm[0].szFacename);
+
+}
+
+//#undef p2a
+//#define p2a(psz) psz
+
 static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
+    CHAR achFont[] = "11.System VIO";
     static char image_name[CCHMAXPATH];
     static image_contents_t *image;
     static int first = TRUE;
@@ -65,13 +196,14 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         {
             if (first)
             {
-                CHAR achFont[] = "11.System VIO";
                 char text[1024];
                 image_contents_file_list_t *entry=image->file_list;
 
-                first=FALSE;
+                if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
+                    log_debug("dlg-contents.c: Unable to set font %s.",
+                              achFont);
 
-                WinSetDlgFont(hwnd, LB_CONTENTS, achFont);
+                // LoadFont(hwnd);
 
                 sprintf(text, " 0 \"%s\" %s", p2a(image->name), p2a(image->id));
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
@@ -84,6 +216,7 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 }
                 sprintf(text, " %i blocks free.", image->blocks_free);
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+                first=FALSE;
             }
         }
         break;

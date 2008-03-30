@@ -4,6 +4,7 @@ vic20dir = $(prefix)/lib/vice/VIC20
 vic20_DATA = \
 	basic \
 	chargen \
+        os2.vkm \
 	default.vkm \
 	default.vpl \
 	kernal \

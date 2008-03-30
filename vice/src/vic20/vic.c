@@ -117,7 +117,7 @@ static int init_raster(void)
         return -1;
 
     raster_modes_set_idle_mode (raster->modes, VIC_IDLE_MODE);
-    raster_set_exposure_handler (raster, vic_exposure_handler);
+    raster_set_exposure_handler (raster, (void*)vic_exposure_handler);
     raster_enable_cache (raster, vic_resources.video_cache_enabled);
     raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
     raster_set_canvas_refresh(raster, 1);

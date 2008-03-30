@@ -29,6 +29,7 @@
 #define INCL_WINSYS        // SYSCLR_*
 #define INCL_WININPUT      // VK_*
 #define INCL_WINFRAMEMGR
+#define INCL_DOSDATETIME   // Date and time values
 #define INCL_DOSSEMAPHORES
 #include <os2.h>
 
@@ -71,7 +72,7 @@ static int set_use_leds(resource_value_t v)
 static resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &use_leds, set_use_leds },
-    { NULL }
+{ NULL }
 };
 
 int ui_init_resources(void)
@@ -99,8 +100,16 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
+    DATETIME DT = {0}; // Date and time information
+
+    DosGetDateTime(&DT);
+
     log_message(LOG_DEFAULT, "VICE/2-Port done by");
     log_message(LOG_DEFAULT, "T. Bretz.\n");
+
+    log_message(LOG_DEFAULT, "Starting Vice/2 at %d.%d.%d %d:%02d:%02d\n",
+                DT.day, DT.month, DT.year, DT.hours, DT.minutes, DT.seconds);
+
     // ui_open_status_window();
     return 0;
 }

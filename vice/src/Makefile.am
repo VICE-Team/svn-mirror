@@ -115,6 +115,7 @@ noinst_HEADERS = \
 	video.h \
 	vsidui.h \
 	vsync.h \
+        vsyncarch.h \
 	zfile.h \
 	zipcode.h
 
@@ -156,6 +157,7 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
+        vsync.c \
 	zfile.c \
 	zipcode.c
 

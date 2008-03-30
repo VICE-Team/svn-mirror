@@ -58,23 +58,23 @@
                                        SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
 
 #ifdef __X64__
-DEFAULTICON "..\icons\x64.ico"
+DEFAULTICON "..\\icons\\x64.ico"
 #endif
 
 #ifdef __XPET__
-DEFAULTICON "..\icons\xpet.ico"
+DEFAULTICON "..\\icons\\xpet.ico"
 #endif
 
 #ifdef __XCBM__
-DEFAULTICON "..\icons\xcbm2.ico"
+DEFAULTICON "..\\icons\\xcbm2.ico"
 #endif
 
 #ifdef __X128__
-DEFAULTICON "..\icons\x128.ico"
+DEFAULTICON "..\\icons\\x128.ico"
 #endif
 
 #ifdef __XVIC__
-DEFAULTICON "..\icons\xvic.ico"
+DEFAULTICON "..\\icons\\xvic.ico"
 #endif
 
 #ifdef HAS_JOYSTICK
@@ -88,16 +88,16 @@ BEGIN
         CONTROL "Calib",        ID_CALIBRATE, 48,  5,  38, 12, STY_PUSHBUTTON
         CONTROL "Swap",         ID_SWAP,      91,  5,  38, 12, STY_PUSHBUTTON
         CONTROL "Joystick",     ID_NONE,       7, 22, 118, 62, STY_GROUPBOX
-        CONTROL "",             CB_JOY11,     77, 53,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY21,     77, 38,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY12,    105, 53,   9,  9, STY_AUTOCHECKBOX
-        CONTROL "",             CB_JOY22,    105, 38,   9,  9, STY_AUTOCHECKBOX
-        TEXT("PC",        17, 46, 11, 8)
-        TEXT("Commodore", 69, 26, 45, 8)
-        TEXT("Port#1",    67, 66, 26, 8)
-        TEXT("Port#2",    94, 66, 26, 8)
-        TEXT("Joy#1",     38, 54, 24, 8)
-        TEXT("Joy#2",     38, 39, 24, 8)
+        CONTROL "",             CB_JOY11,     67, 53,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY21,     67, 38,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY12,    100, 53,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY22,    100, 38,   9,  9, STY_AUTOCHECKBOX
+        TEXT("PC",        12, 46, 11, 8)
+        TEXT("Commodore", 62, 26, 50, 8)
+        TEXT("Port#1",    57, 66, 29, 8)
+        TEXT("Port#2",    89, 66, 29, 8)
+        TEXT("Joy#1",     30, 54, 26, 8)
+        TEXT("Joy#2",     30, 39, 26, 8)
     END
 END
 
@@ -120,7 +120,7 @@ BEGIN
                 CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
         CONTROL "",             SPB_RIGHT, 102, 66, 35, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
-        TEXT("Autocalibration", 15, 41, 60, 8)         
+        TEXT("Autocalibration", 15, 41, 65, 8)         
         CONTROL "Start",        ID_START, 13, 27, 38, 12, STY_PUSHBUTTON |
                                 WS_GROUP
         CONTROL "Stop",         ID_STOP,  56, 27, 38, 12, STY_PUSHBUTTON
@@ -146,20 +146,20 @@ BEGIN
                                 STY_STD
                 // cbSize-lo, cbSizeHi, Increment1, Space1, Increment2, Space2
                 CTLDATA 12, 0, 8/*21*/, 0, 5, 5
-        TEXT("Frequency", 17, 125, 55, 8)
+        TEXT("Frequency", 16, 125, 55, 8)
         CONTROL "8000Hz",       RB_8000HZ,  17, 115, 45, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "11025Hz",      RB_11025HZ, 17, 105, 45, 10, STY_AUTORADIOBUTTON
         CONTROL "22050Hz",      RB_22050HZ, 17,  95, 45, 10, STY_AUTORADIOBUTTON
         CONTROL "44100Hz",      RB_44100HZ, 17,  85, 45, 10, STY_AUTORADIOBUTTON
-        TEXT("Oversampling", 62, 125, 55, 8)
+        TEXT("Oversampling", 65, 125, 55, 8)
         CONTROL "Off",          RB_OFF,     77, 115, 25, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "2x",           RB_2X,      77, 105, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "4x",           RB_4X,      77,  95, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "8x",           RB_8X,      77,  85, 25, 10, STY_AUTORADIOBUTTON
 #if defined __X64__ || defined __X128__ || defined __XCBM__
-        TEXT("SID:", 17, 70, 20, 8)
+        TEXT("SID:", 16, 70, 20, 8)
         CONTROL "6581",         RB_6581,    37,  69, 30, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
@@ -168,8 +168,8 @@ BEGIN
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
-        TEXT("Buffer Size (msec)", 17, 40, 75, 8)
-        TEXT("[100-1000]",         17, 30, 55, 8)
+        TEXT("Buffer Size (msec)", 16, 40, 80, 8)
+        TEXT("[100-1000]",         16, 30, 55, 8)
         CONTROL "",             SPB_BUFFER, 70, 29, 32, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 100, 0, 1000, 0, 0, 0, 0, 0
     END
@@ -184,7 +184,7 @@ BEGIN
                                                               WS_GROUP 
         CONTROL "Drive",       ID_NONE,      5, 104+16, 251, 48, STY_GROUPBOX
         CONTROL "True Drive Emulation",
-                               CB_TRUEDRIVE,12, 131+16,  93, 10, STY_AUTOCHECKBOX
+                               CB_TRUEDRIVE,12, 131+16, 100, 10, STY_AUTOCHECKBOX
 
         TEXT("Track:", 12, 109+16, 26, 8)
         CONTROL "",            SPB_TRACK8, 39, 109+16, 15, 12,  STY_STATUSDLG
@@ -201,10 +201,10 @@ BEGIN
 	CONTROL "LED9",        SS_LED9, 105, 109+16,  18, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
-        TEXT("Drive Sync Factor:", 178, 133+16,  69, 8)
-        CONTROL "PAL",         RB_PAL,     178, 121+16,  29, 10, STY_AUTORADIOBUTTON |
+        TEXT("Drive Sync Factor:", 173, 133+16,  77, 8)
+        CONTROL "PAL",         RB_PAL,     173, 121+16,  29, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
-        CONTROL "NTSC",        RB_NTSC,    210, 121+16,  39, 10, STY_AUTORADIOBUTTON
+        CONTROL "NTSC",        RB_NTSC,    205, 121+16,  39, 10, STY_AUTORADIOBUTTON
         TEXT("Drive:", 12, 120+16, 26, 8)
         CONTROL "8",           RB_DRIVE8,   40, 119+16,  16, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
@@ -222,25 +222,25 @@ BEGIN
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
         CONTROL "Parallel Cable",
-                               CB_PARALLEL, 14, 72+16, 64, 10, STY_AUTOCHECKBOX
-        TEXT("Idle Method:", 15, 60+16, 45, 8)
-        CONTROL "None",        RB_NONE,    110, 59+16, 39, 10, STY_AUTORADIOBUTTON |
+                               CB_PARALLEL, 14, 72+16, 69, 10, STY_AUTOCHECKBOX
+        TEXT("Idle Method:", 13, 60+16, 50, 8)
+        CONTROL "None",        RB_NONE,    111, 59+16, 39, 10, STY_AUTORADIOBUTTON |
                                                             WS_GROUP
-        CONTROL "Skip Cycles", RB_SKIP,    196, 59+16, 55, 10, STY_AUTORADIOBUTTON
-        CONTROL "Trap Idle",   RB_TRAP,    148, 59+16, 44, 10, STY_AUTORADIOBUTTON
-        TEXT("Extend 40 Track Image:",  14, 47+16, 93, 8)
-        CONTROL "Never",       RB_NEVER,   110, 47+16, 39, 10, STY_AUTORADIOBUTTON |
+        CONTROL "Skip Cycles", RB_SKIP,    196, 59+16, 58, 10, STY_AUTORADIOBUTTON
+        CONTROL "Trap Idle",   RB_TRAP,    146, 59+16, 48, 10, STY_AUTORADIOBUTTON
+        TEXT("Extend 40 Track Image:",  13, 50+16, 95, 8)
+        CONTROL "Never",       RB_NEVER,   111, 49+16, 39, 10, STY_AUTORADIOBUTTON |
                                                             WS_GROUP
-        CONTROL "Always",      RB_ALWAYS,  196, 49+16, 39, 10, STY_AUTORADIOBUTTON
-        CONTROL "Ask",         RB_ASK,     148, 48+16, 30, 10, STY_AUTORADIOBUTTON 
+        CONTROL "Always",      RB_ALWAYS,  196, 49+16, 45, 10, STY_AUTORADIOBUTTON
+        CONTROL "Ask",         RB_ASK,     146, 49+16, 30, 10, STY_AUTORADIOBUTTON 
         CONTROL "Allow FS-Directory Access",
-                               CB_ALLOWACCESS, 13, 34+16, 109, 10, STY_AUTOCHECKBOX
+                               CB_ALLOWACCESS, 13, 34+16, 119, 10, STY_AUTOCHECKBOX
         CONTROL "Convert p00-Filenames",
-                               CB_CONVERTP00, 135, 35+16,  99, 10, STY_AUTOCHECKBOX
+                               CB_CONVERTP00, 140, 34+16, 114, 10, STY_AUTOCHECKBOX
         CONTROL "Save p00-Files to FS",
-                               CB_SAVEP00,    135, 25+16,  88, 10, STY_AUTOCHECKBOX
+                               CB_SAVEP00,    140, 24+16,  98, 10, STY_AUTOCHECKBOX
         CONTROL "Hide non-p00-Files",
-        		       CB_HIDENONP00,  13, 24+16,  85, 10, STY_AUTOCHECKBOX
+        		       CB_HIDENONP00,  13, 24+16,  95, 10, STY_AUTOCHECKBOX
         TEXT("Fliplist:", 98, 20, 29, 8)
         CONTROL "Add",         PB_FLIPADD,    129, 18, 40, 12, STY_PUSHBUTTON
         CONTROL "Remove",      PB_FLIPREMOVE, 173, 18, 40, 12, STY_PUSHBUTTON
@@ -307,38 +307,48 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 138, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 168, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 112, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 142, STY_GROUPBOX
 
-        CONTROL "Pause",                       CB_PAUSE,  14, 115,  40,  9, STY_AUTOCHECKBOX
+        CONTROL "Pause",                       CB_PAUSE,  14, 145,  40,  9, STY_AUTOCHECKBOX
 #ifdef HAVE_MOUSE
-        CONTROL "Mouse 1531 Emulation",        CB_MOUSE,  14, 105, 100,  9, STY_AUTOCHECKBOX
-        CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,95,110,  9, STY_AUTOCHECKBOX
+        CONTROL "Mouse 1531 Emulation",        CB_MOUSE,  14, 135, 100,  9, STY_AUTOCHECKBOX
+        CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,125,125,  9, STY_AUTOCHECKBOX
 #endif        
-        CONTROL "Emulator Identification",     CB_EMUID,  14,  85, 105,  9, STY_AUTOCHECKBOX
-        CONTROL "Video Cache",                 CB_VCACHE, 14,  75,  60,  9, STY_AUTOCHECKBOX
+        CONTROL "Emulator Identification",     CB_EMUID,  14, 115, 105,  9, STY_AUTOCHECKBOX
+        CONTROL "Video Cache",                 CB_VCACHE, 14, 105,  60,  9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
-        CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 65, 115,  9, STY_AUTOCHECKBOX
-        CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 55, 105,  9, STY_AUTOCHECKBOX
+        CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 95, 125,  9, STY_AUTOCHECKBOX
+        CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 85, 105,  9, STY_AUTOCHECKBOX
 #endif
-	TEXT("Refrash Rate", 13, 43, 50, 8)
-	TEXT("fps",         128, 43, 15, 8)
-        CONTROL "",          CBS_REFRATE, 64, 5, 33, 48, WC_COMBOBOX,
+        TEXT("Save Screenshot as:", 14, 73,  85, 10)
+#ifdef HAVE_PNG
+	CONTROL "BMP",         RB_BMP,   110, 74, 30, 10, STY_AUTORADIOBUTTON |
+                                                              WS_GROUP
+        CONTROL "PNG",         RB_PNG,   145, 74, 30, 10, STY_AUTORADIOBUTTON
+#endif	
+        CONTROL "",            CBS_SSNAME, 14, 8+16, 216/*234*/-75, 79-30, WC_COMBOBOX, 
+                               CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
+                               WS_VISIBLE
+        CONTROL "...",         PB_SSCHANGE, 232-75, 76+16-30, 16, 11, STY_PUSHBUTTON
+	TEXT("Refrash Rate",        14, 43,  55, 8)
+	TEXT("fps",                132, 43,  15, 8)
+        CONTROL "",          CBS_REFRATE, 70, 5, 33, 48, WC_COMBOBOX,
          		     CBS_DROPDOWNLIST | STY_STD
 
-        CONTROL "",          SPB_REFRATEDISP, 107, 43, 20, 13, STY_STATUSDLG
+        CONTROL "",          SPB_REFRATEDISP, 111, 43, 20, 13, STY_STATUSDLG
                 CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
-	TEXT("Max.Speed", 13, 30, 50, 8)
-	TEXT("%",        128, 30, 10, 8)
+	TEXT("Max.Speed", 14, 30, 50, 8)
+	TEXT("%",        132, 30, 10, 8)
 
-        CONTROL "",          SPB_SPEED,      64, 29, 33, 12,  STY_SPINBUTTON
+        CONTROL "",          SPB_SPEED,      70, 29, 33, 12,  STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 1, 0, 9999, 0, 0, 0, 0, 0
-        CONTROL "100%",      PB_SPEED100,   139, 28,  33, 12, STY_PUSHBUTTON
-        CONTROL "",          SPB_SPEEDDISP, 103, 30, 24, 12,  STY_STATUSDLG
+        CONTROL "100%",      PB_SPEED100,   141, 28,  33, 12, STY_PUSHBUTTON
+        CONTROL "",          SPB_SPEEDDISP, 107, 30, 24, 12,  STY_STATUSDLG
                 CTLDATA 24, 0, 4, 0, 0, 0, 9999, 0, 0, 0, 0, 0
 
     END

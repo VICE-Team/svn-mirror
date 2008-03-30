@@ -5,6 +5,7 @@ c128_DATA = \
 	c64s.vpl \
 	ccs64.vpl \
 	chargen \
+        os2.vkm \
 	default.vkm \
 	default.vpl \
 	default.vrs \

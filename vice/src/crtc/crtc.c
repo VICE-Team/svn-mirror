@@ -363,7 +363,7 @@ raster_t *crtc_init(void)
         return NULL;
 
     raster_modes_set_idle_mode (raster->modes, CRTC_IDLE_MODE);
-    raster_set_exposure_handler (raster, crtc_exposure_handler);
+    raster_set_exposure_handler (raster, (void*)crtc_exposure_handler);
     raster_enable_cache (raster, crtc_resources.video_cache_enabled);
     raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
     raster_set_canvas_refresh(raster, 1);
