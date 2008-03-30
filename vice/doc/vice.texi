@@ -99,11 +99,14 @@ Commodore Emulator.
 * Machine-specific features::   Peculiar characteristics of the emulators.
 
 * Monitor::                     The VICE built-in monitor.
-* C1541::                       The disk-image maintenance utility.
+* c1541::                       The disk-image maintenance utility.
 
 * Acknowledgments::             People involved in VICE.
 * Copyright::                   Legal stuff.
 * Contacts::                    Official home page, email addresses...
+
+* Concept Index::
+* Resource Index::
 
  --- The Detailed Node Listing ---
 
@@ -144,12 +147,59 @@ Settings and resources
 
 * Resource files::              Format of resource files.
 
+* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::              Settings that affect sound output.
+* Sound settings::
 * 1541 settings::               Settings that control disk-drive emulation.
-* Serial settings::             Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated IEC devices.
+
+Performance settings
+
+* Performance resources::
+* Performance options::
+
+Video settings
+
+* Video resources::
+* Video options::
+
+Keyboard settings
+
+* Keyboard resources::
+* Keyboard options::
+
+Sound settings
+
+* Sound resources::
+* Sound options::
+
+1541 settings
+
+* 1541 resources::
+* 1541 options::
+
+Peripheral settings
+
+* File system device settings::
+* Printer settings::
+* No kernal traps::
+
+Settings for file system devices
+
+* File system device resources::
+* File system device options::
+
+Printer settings
+
+* Printer resources::
+* Printer options::
+
+Disabling kernal traps
+
+* No traps resources::
+* No traps options::
 
 Machine-specific features
 
@@ -168,10 +218,34 @@ C64/128-specific commands and settings
 * I/O extension settings::
 * RS232 settings::
 
+VIC-II settings
+
+* VIC-II resources::
+* VIC-II options::
+
+SID settings
+
+* SID resources::
+* SID options::
+
+I/O extension settings
+
+* I/O extension resources::
+* I/O extension options::
+
+RS232 settings
+
+* RS232 resources::
+
 VIC20-specific commands and settings
 
 * VIC20 cartridges::
 * VIC20 memory expansions::
+
+Changing memory configuration
+
+* VIC20 memconf resources::
+* VIC20 memconf options::
 
 PET-specific commands and settings
 
@@ -192,7 +266,7 @@ Monitor
 * Label commands::
 * Miscellaneous commands::
 
-C1541
+c1541
 
 * Commands::                    List of the available commands.
 * Examples::                    Using c1541 in practice.
@@ -773,13 +847,13 @@ There are two ways of emulating the keyboard in VICE.
 
 The default way (@dfn{symbolic mapping}) is to map every X11 key
 combination to the corresponding key combination on the real machine:
-for example, if you press @key{*}, which is bound to @kbd{Shift-8} on
-the U.S. keyboard layout, in the C64 emulator, the emulated machine will
-have just the @emph{unshifted} @key{*} key pressed (as @key{*} is
-unshifted on the C64 keyboard).  Likewise, pressing @key{'} on the same
-U.S. keyboard without any shift key will cause the combination
-@kbd{Shift-7} to be pressed in the emulated C64.  This way, it becomes
-quite obvious what keys should be typed to obtain all the symbols.
+for example, if you press @key{*}, which is bound to @kbd{Shift-8} on a
+U.S. keyboard, in the C64 emulator, the emulated machine will have just
+the @emph{unshifted} @key{*} key pressed (as @key{*} is unshifted on the
+C64 keyboard).  Likewise, pressing @key{'} on the same U.S. keyboard
+without any shift key will cause the combination @kbd{Shift-7} to be
+pressed in the emulated C64.  This way, it becomes quite obvious what
+keys should be typed to obtain all the symbols.
 
 There is one problem with symbolic mapping, though: not all of the ASCII
 symbols are available in the Commodore PETSCII character set and vice
@@ -803,6 +877,7 @@ are quite picky and tend not to recognize the shift key because of this.
 For instance, @kbd{F6} (which on the real C64 is obtained with
 @kbd{Shift + F5}) could be recognized as @kbd{F5}.  In that case, use
 the shift key manually (i.e. type @kbd{Shift + F5} in the example).
+Yes, we know this is a bug.
 
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
@@ -821,7 +896,7 @@ diagonal ones; @key{0} emulates the fire button.
 
 The @dfn{custom} layout uses the keys @key{q}, @key{w}, @key{e},
 @key{a}, @key{s}, @key{d}, @key{z}, @key{x}, @key{c} for the directions
-and @key{} for the fire button instead.
+and @key{space} for the fire button instead.
 
 
 @node Disk drive emulation, Emulation file formats, Joystick emulation, Preface
@@ -847,19 +922,19 @@ read and write files in the @code{P00} format (again, consult the
 Moreover, there are two available types of 1541 emulation for the first
 kind of emulation.  One of them the @dfn{DOS level} drive emulation.  It
 does @emph{not} really emulate the serial line, but patches the kernal
-ROM (with the so-called @dfn{serial traps}) so that serial line
+ROM (with the so-called @dfn{kernal traps}) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
 all of them).
 
 The other alternative is a @dfn{hardware level} drive emulation.  The
 Commodore 1541 disk drive was provided with its own CPU (a 6502 as the
-VIC20) and its own RAM and ROM.  So, in order to more closely emulate
-its features, a complete emulation of this hardware must be provided and
-that is what the @dfn{hardware level} emulation does.  When the
-@dfn{hardware level} emulation is used, the kernal routines are no
-longer patched and the serial line is fully emulated.  The problem with
-this emulation is that it needs a lot of processing power, mainly
+VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
+closely emulate its features, a complete emulation of this hardware must
+be provided and that is what the @dfn{hardware level} emulation does.
+When the @dfn{hardware level} emulation is used, the kernal routines are
+no longer patched and the serial line is fully emulated.  The problem
+with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
 The @dfn{hardware level} emulation is only available on the VIC20 and
@@ -895,7 +970,7 @@ VICE supports the most popular Commodore file formats:
 
 @end itemize
 
-An utility (@code{c1541}, @pxref{C1541}) is provided to allow transfers
+An utility (@code{c1541}, @pxref{c1541}) is provided to allow transfers
 between these formats.
 
 Notice that the native format for disk images is @code{X64}; this
@@ -926,7 +1001,7 @@ driver.
 On the other hand, HP-UX and Solaris machines are known to cause
 troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
-finding HP-UX and SUN consoles to work at...
+finding HP-UX and SUN consoles to work at@dots{}
 
 
 @node Usage, System files, Preface, Top
@@ -963,6 +1038,29 @@ xterm -e ./x64 -dir ../../data/C64
 
 There are several options you can specify on the command line, and the
 @code{-help} option lists all of them all.
+
+It is possible to let the emulator @dfn{autostart} a disk or tape image
+file, by simply specifying its name as the last argument on the command
+line; for example
+
+@example
+x64 lovelygame.x64.gz
+@end example
+
+will start the C64 emulator, attaching @file{lovelygame.x64.gz} as a
+disk image and running the first program on it.  You can also specify
+the name of the program on the fisk image by appending a colon
+(@samp{:}) the name itself to the argument; for example
+
+@example
+x64 "lovelygame.x64.gz:run me"
+@end example
+
+will run the program named @file{run me} on @file{lovelygame.x64.gz}
+instead of the first one.
+
+@xref{Disk and tape images} for more information about images and
+autostart.
 
 
 @node System files, Basics, Usage, Top
@@ -1014,7 +1112,9 @@ And system files will be searched for under
 System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
 you specify @file{./kernal} as the kernal image name, the kernal image
-will be loaded from the current directory.
+will be loaded from the current directory.  This can be done by using
+command-line options or by modifying resource values (@pxref{Resource
+files}).
 
 @menu
 * ROM files::
@@ -1153,25 +1253,25 @@ is bound to any key;
 @itemize @bullet
 
 @item
-@code{0}: the key is never shifted
+@code{0}: the key is never shifted;
 
 @item
-@code{1}: the key is shifted
+@code{1}: the key is shifted;
 
 @item
-@code{2}: the key is the left shift
+@code{2}: the key is the left shift;
 
 @item
-@code{4}: the key is the right shift
+@code{4}: the key is the right shift;
 
 @item
-@code{8}: the key can be shifted by the user
+@code{8}: the key can be (optionally) shifted by the user.
 
 @end itemize
 
 @end itemize
 
-The @code{ShiftFlag} is useful if you want certain keys to be
+The @code{SHIFTFLAG} is useful if you want certain keys to be
 ``artificially'' shifted by the emulator, and not by the user.  For
 example, @key{F2} is shifted on the C64 keyboard, but you might want it
 to be mapped to the unshifted @key{F2} key on the PC keyboard.  To do
@@ -1185,7 +1285,7 @@ where @code{0} and @code{4} identify the key (row 0, column 4 on the
 keyboard matrix), and @code{1} specifies that every time the user presses
 @key{F2} the shift key on the C64 keyboard must be pressed.
 
-There are also some special commands you can add to the keyboard file;
+There are also some special commands you can put into the keyboard file;
 they are recognized because they start with an exclamation mark:
 
 @itemize @bullet
@@ -1281,7 +1381,7 @@ has been fired up.
 When the emulator is run, the screen of the emulated machine is
 displayed in a standard X Window which we will call the @dfn{emulation
 window}.  This window will be updated in real-time, displaying the same
-contents that a real monitor would.
+contents that a real monitor or TV set would.
 
 Under the emulation window there is an area which is used to display
 information about the state of the emulator; we will call this area the
@@ -1416,7 +1516,7 @@ rewound from the start when you reach the end.
 
 Another important feature is that raw Commodore BASIC binary files and
 .P00 files can be attached as tapes.  As you can autostart a
-tape image when it is attached (as explained below), this allows you to
+tape image when it is attached (@pxref{Autostart}), this allows you to
 autostart these particular files as well.
 
 You can attach a disk for which you do have write permissions: when this
@@ -1462,7 +1562,7 @@ running.
 
 This method is not completely safe, because some autostarting methods
 might cause the true 1541 emulation not to be turned on again.  In such
-cases, the best thing to do is to disable serial traps (which will cause
+cases, the best thing to do is to disable kernal traps (which will cause
 true 1541 emulation to be always kept turned on), or to manually load
 the program with true 1541 emulation turned on.
 
@@ -1543,22 +1643,19 @@ value, causes the emulator to ask you if you want to save the current
 (changed) settings before exiting, and can be toggled with the ``Save
 settings on exit'' command from the right-button menu.
 
-When describing resources in the following sections, we will put both
-their name and the text of the corresponding menu item in parenthesis.
-This will help in case you want to edit @file{.vicerc} by hand.
-
 @menu
 * Resource files::              Format of resource files.
 
+* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::              Settings that affect sound output.
+* Sound settings::
 * 1541 settings::               Settings that control disk-drive emulation.
-* Serial settings::             Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated IEC devices.
 @end menu
 
-@node Resource files, Performance settings, Settings and resources, Settings and resources
+@node Resource files, Resources and command-line options, Settings and resources, Settings and resources
 @section Format of resource files
 
 A resource file is made up of several section; every section has the
@@ -1604,123 +1701,419 @@ Notice that, when resource values are saved with ``Save settings'', the
 emulator only modifies its own section, keeping the other ones
 unchanged.
 
+@node Resources and command-line options, Performance settings, Resource files, Settings and resources
+@section Using command-line options to change resources
 
-@node Performance settings, Video settings, Resource files, Settings and resources
+Resources can also be changed via command-line options.
+
+Command-line options always override the defaults from @code{.vicerc},
+and their value lasts for the whole session.  So, if you specify a
+certain command-line option that changes a certain resource from its
+default value and then use ``Save Settings'', the value specified with
+the command-line option will be saved.
+
+Command-line options can begin with with the minus sign (@samp{-}) or
+with the plus sign (@samp{+}).  Options beginning with the minus sign
+can require an additional parameter, while the ones beginning with the
+plus sign never require one.
+
+Moreover, options beginning with the plus sign always have a counterpart
+with the same name, but with the minus sign; in that case, the option
+beginning with the minus sign is used to @emph{enable} a certain
+feature, while the one beginning with the plus sign is used to
+@emph{disable} the same feature (this is an X11 convention).  For
+example, @code{-mitshm} enables support of MITSHM, while @code{+mitshm}
+disables it.
+
+
+@node Performance settings, Video settings, Resources and command-line options, Settings and resources
 @section Performance settings
 
-You can control the emulation speed by changing the @code{Speed}
-resource, which controls the maximum speed (in percent) of the emulated
-machine.  The default setting is @code{100}, which causes the emulation
-to never run faster than the real machine.  A higher value makes the
-emulator faster, a lower one makes it slower.  A value of zero means to
-run as fast as possible, without limiting speed.  These values can also
-be set using the ``Maximum Speed'' submenu in the settings menu.
+@cindex Limiting emulation speed
+It is possible to control the emulation speed by using the ``Maximum
+speed'' menu item in the right-button menu.  The default setting is
+@code{100}, which causes the emulation to never run faster than the real
+machine.  A higher value makes the emulator faster, a lower one makes it
+slower.  The setting ``No limit'' means to run as fast as possible,
+without limiting speed.
 
+@cindex Refresh rate
 It is also possible to control the amount of screen frames the emulator
-calculates; the value ranges from @code{1} (update as 1/1 of the frames
-of the real machine, that is 50 frames per second) to @code{10} (update
-1 every 10 frames), is stored in the resource @code{RefreshRate} and can
-be changed via the ``Refresh Rate'' submenu.  The special value ``zero''
-means to dynamically adapt the refresh rate to the current speed of the
-host machine, making sure the maximum speed specified by the
-@code{Speed} resource is always reached if possible.  In any case, the
+calculates with the ``Refresh rate'' setting; the value ranges from
+``1/1'' (update 1/1 of the frames of the real machine, that is 50 frames
+per second) to ``1/10'' (update 1 every 10 frames) and can be changed
+via the ``Refresh Rate'' submenu.  The setting ``auto means to
+dynamically adapt the refresh rate to the current speed of the host
+machine, making sure the maximum speed specified by the via ``Maxium
+speed'' resource is always reached if possible.  In any case, the
 refresh rate will never be worse than 1/10 if this value is specified.
 
-Moreover, a special @dfn{warp speed} mode is provided by the
-@code{WarpMode} resource, which can be toggled with the ``Enable Warp
-Mode'' menu item.  If @code{WarpMode} contains a nonzero value, warp
+Notice that you cannot specify ``Auto'' as the refresh rate and ``No
+limit'' as the maximum speed at the same time.
+
+@cindex Warp speed mode
+Moreover, a special @dfn{warp speed} mode is provided and can be toggled
+with the ``Enable Warp Mode'' menu item.  If this mode is enabled, warp
 speed mode will be enabled and will cause the emulator to disable any
 speed limit, turn sound emulation off and use a 1/10 refresh rate, so
 that it will run at the maximum possible speed.
+
+@menu
+* Performance resources::
+* Performance options::
+@end menu
+
+@node Performance resources, Performance options, Performance settings, Performance settings
+@subsection Performance resources
+
+@table @code
+
+@vindex Speed
+@item Speed
+Integer specifying the maximum relative speed, in percent.  @code{0}
+stands for ``no limit''.
+
+@vindex RefreshRate
+@item RefreshRate
+Integer specifying the refresh rate; a value of @code{n} specifies a
+refresh rate of 1/@code{n}.  A value of @code{0} enables automatic frame
+skipping.
+
+@vindex WarpMode
+@item WarpMode
+Booolean specifying whether ``warp mode'' is turned on or not.
+
+@end table
+
+
+@node Performance options,  , Performance resources, Performance settings
+@subsection Performance command-line options
+
+@table @code
+
+@cindex -speed
+@item -speed VALUE
+Specifies the maximum speed in percent.  @code{0} stands for ``no
+limit''.  (Same as setting the @code{Speed} resource.)
+
+@cindex -refresh
+@item -refresh VALUE
+Specifies refresh rate; a value of @code{n} specifies a refresh rate of
+1/@code{n}.  A value of @code{0} enables automatic frame skipping.
+(Same as setting the @code{RefreshRate} resource.)
+
+@cindex -warp, +warp
+@item -warp
+@itemx +warp
+Enables/disables warp mode (@code{WarpMode=1}, @code{WarpMode=1}).
+
+@end table
 
 
 @node Video settings, Keyboard settings, Performance settings, Settings and resources
 @section Video settings
 
-The following resources affect the screen emulation:
+The following right-button menu items control the video output:
 
 @itemize @bullet
 
+@cindex Video cache
 @item
-@code{VideoCache} (``Video Cache'') enables a video cache that can speed
-up the emulation when little graphics activity is going on.
+``Video Cache'' enables a video cache that can speed up the emulation
+when little graphics activity is going on.
 
+@cindex Double-size mode
 @item
-@code{DoubleSize} (``Double Size'') makes the emulation window twice as
-big (when emulating a 80-column PET, only the height is doubled, so that
-the aspect ratio is more similiar to the one of the real thing).
+``Double Size'' toggles @dfn{double-size mode}, which makes the
+emulation window twice as big (when emulating a 80-column PET, only the
+height is doubled, so that the aspect ratio is more similiar to the one
+of the real thing).
 
+@cindex Double-scan mode.
 @item
-@code{DoubleScan} (``Double Scan''), if disabled, causes the emulator to
-draw only odd lines when running in double-size mode (this saves some
-CPU time and also makes the emulation window look more like an old
-monitor).
+``Double Scan'' toggless @dfn{double-scan mode}, which causes the
+emulator to draw only odd lines when running in double-size mode (this
+saves some CPU time and also makes the emulation window look more like
+an old monitor).
 
+@cindex Using XSync()
+@cindex Loosing control on low-end systems
 @item
-@code{UseXSync} (``Use XSync()'') causes the emulator to call the X11
-function @code{XSync()} before updating the emulation window: this might
-be necessary on low-end systems to prevent it from stealing so many
-system resources that it would become impossible for the user to
-interact with it.
+`Use XSync()'' causes the emulator to call the X11 function
+@code{XSync()} before updating the emulation window: this might be
+necessary on low-end systems to prevent it from stealing so many system
+resources that it would become impossible for the user to interact with
+it.
 
 @end itemize
+
+
+@menu
+* Video resources::
+* Video options::
+@end menu
+
+@node Video resources, Video options, Video settings, Video settings
+@subsection Video resources
+
+The following resources affect the screen emulation:
+
+@table @code
+
+@vindex VideoCache
+@item VideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex DoubleSize
+@item DoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex DoubleScan
+@item DoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex UseXSync
+@item UseXSync
+Boolean specifying whether @code{XSync()} is called after updating the
+emulation window.
+
+@end table
+
+
+@node Video options,  , Video resources, Video settings
+@subsection Video command-line options
+
+@table @code
+
+@cindex -vcache, +vcache
+@item -vcache
+@itemx +vcache
+Enable/disable the video cache (@code{VideoCache=1}, @code{VideoCache=0}).
+
+@cindex -dscan, +dscan
+@item -dscan
+@itemx +dscan
+Enable/disable the double scan mode (@code{DoubleScan=1},
+@code{DoubleScan=0}).
+
+@end table
 
 
 @node Keyboard settings, Sound settings, Video settings, Settings and resources
 @section Keyboard settings
 
 It is possible to specify whether the ``positional'' or ``symbolic''
-keyboard mapping is being used with the ``Keyboard mapping type
-submenu''.  The value is saved in the @code{KeymapIndex} resource
-(@pxref{Keyboard emulation} for a description of positional and symbolic
-mapping); a value of @code{0} identifies symbolic mapping, a value
-@code{1} positional mapping.
+keyboard mapping is being used with the ``Keyboard mapping type''
+submenu (@pxref{Keyboard emulation} for an explanation of positional
+and symbolic mappings).
 
-The keyboard settings submenu also allows you to load custom-made
-positional and symbolic keymap files, and to dump the current keymap to
-a user-defined keymap file.
+The keyboard settings submenu also allows you to:
+
+@itemize @bullet
+@item
+Load custom-made positional and symbolic keymap files
+(``Set symbolic keymap file'' and ``Set positional keymap file'').
+@item
+Dump the current keymap to a user-defined keymap file (``Dump to keymap
+file'').
+@end itemize
+
+
+@menu
+* Keyboard resources::
+* Keyboard options::
+@end menu
+
+@node Keyboard resources, Keyboard options, Keyboard settings, Keyboard settings
+@subsection Keyboard resources
+
+@table @code
+
+@vindex KeymapIndex
+@item KeymapIndex
+Integer identifying which keymap is being used; @code{0} identifies
+symbolic mapping, @code{1} positional mapping.
+
+@end table
+
+
+@node Keyboard options,  , Keyboard resources, Keyboard settings
+@subsection Keyboard command-line options
+
+@table @code
+
+@cindex -keymap
+@item -keymap N
+Specifies which keymap is being used; @code{0} identifies symbolic
+mapping, @code{1} positional mapping (same as the @code{KeymapIndex}
+resource).
+
+@end table
 
 
 @node Sound settings, 1541 settings, Keyboard settings, Settings and resources
 @section Sound settings
 
-The following resources affect sound output:
+The following menu items control sound output:
 
 @itemize @bullet
 
+@cindex Turning sound playback on/off
 @item
-@code{Sound} (``Enable sound playback'') toggles sound emulation on and
-off.
+``Enable sound playback'' turns sound emulation on and off.
 
+@cindex Adaptive Playback
 @item
-@code{SoundSpeedAdjustment} (``Enable adaptive playback'') enables a
-special playback mode that is able to adapt the sound output to the
-speed of the emulated machine, trying to avoid ``clicks''.
+``Enable adaptive playback'' enables a special playback mode that is
+able to adapt the sound output to the speed of the emulated machine,
+trying to avoid ``clicks''.
 
+@cindex Sample rate
 @item
-@code{SoundSampleRate} (``Sample rate'') specifies the sampling
-frequency, ranging from 8000 to 48000 Hz (not all the sound cards and/or
-sound drivers can support all the frequencies, so actually the nearmost
-candidate will be picked up).
+``Sample rate'' specifies the sampling frequency, ranging from 8000 to
+48000 Hz (not all the sound cards and/or sound drivers can support all
+the frequencies, so actually the nearmost candidate will be picked up).
 
+@cindex Audio buffer size
+@cindex Sound buffer size
 @item
-@code{SoundBufferSize} (``Buffer size'') specifies the size of the audio
-buffer; the bigger the buffer, the longer the delay with which sounds are
-played.  You should pick the smallest value your machine can handle
-without problems.
+``Buffer size'' specifies the size of the audio buffer; the bigger the
+buffer, the longer the delay with which sounds are played.  You should
+pick the smallest value your machine can handle without problems.
 
+@cindex Sound suspend time
 @item
-@code{SoundSuspendTime} (``Suspend time''), if different from zero
-(``Keep going''), will cause the audio playback to pause for the
-specified number of seconds whenever some clicking happens.
+``Sound suspend time'', will cause the audio playback to pause for the
+specified number of seconds whenever some clicking happens.  If ``Keep
+going'' is selected, no pausing is done.
 
+@cindex Oversampling
 @item
-@code{SoundOversample} (``Oversample'') specifies an oversampling factor.
+``Oversample'' specifies an oversampling factor, from 1 to 8 times
+(warning: this eats CPU cycles!).
 
 @end itemize
 
+@menu
+* Sound resources::
+* Sound options::
+@end menu
 
-@node 1541 settings, Serial settings, Sound settings, Settings and resources
+@node Sound resources, Sound options, Sound settings, Sound settings
+@subsection Sound resources
+
+@table @code
+
+@vindex Sound
+@item Sound
+Boolean specifying whether audio emulation is turned on.
+
+@vindex SoundSpeedAdjustment
+@item SoundSpeedAdjustment
+Boolean specifying whether @dfn{adaptive playback mode} is turned on.
+
+@vindex SoundSampleRate
+@item SoundSampleRate
+Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
+(not all the sound cards and/or sound drivers can support all the
+frequencies, so actually the nearmost candidate will be picked up).
+
+@vindex SoundBufferSize
+@item SoundBufferSize
+Integer specifying the size of the audio buffer, in milliseconds.
+
+@vindex SoundSuspendTime
+@item SoundSuspendTime
+Integer specifying the pause interval when audio underflows (``clicks'')
+happen.  @code{0} means no pause is done.
+
+@vindex SoundOversample
+@item SoundOversample
+Integer specifying the oversampling factor, ranging from @code{1} (no
+oversampling) to @code{8} (8 times oversampling).
+
+@vindex SoundDeviceName
+@item SoundDeviceName
+String specifying the audio driver.
+
+Implemented drivers are:
+
+@itemize @bullet
+@item
+@code{aix}, for IBM AIX.
+@item
+@code{uss}, for the Linux/FreeBSD Universal Sound System driver
+(@code{SoundDeviceArg} specifies the audio device, @file{/dev/dsp} by
+default);
+@item
+@code{sgi}, for the Silicon Graphics audio device (@code{SoundDeviceArg}
+specifies the audio device, @file{/dev/audio} by default);
+@item
+@code{sun}, for the Solaris audio device (unfinished;
+@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
+default).
+@item
+@code{hpux}, for the HP-UX audio device (unfinished;
+@code{SoundDeviceArg} specifies the audio device, @file{/dev/audio} by
+default).
+@item
+@code{sdl}, for the Simple DirectMedia Layer audio driver.
+@item
+@code{dummy}, fully emulating the SID, but not actually playing samples.
+@item
+@code{dump}, writing all the write accesses to the registers to a file
+(specified by @code{SoundDeviceArg}, default value is
+@code{vicesnd.sid});
+@item
+@code{speed}, like @code{dummy} but also calculating samples (mainly
+used to evaluate the speed of the sample generator);
+@item
+@code{fs}, writing samples to a file (specified by
+@code{SoundDeviceArg}; default is @file{vicesnd.raw});
+@end itemize
+
+These drivers will actually be present only if the VICE configuration
+script detected the corresponding devices at the time of installation.
+
+@vindex SoundDeviceArg
+@item SoundDeviceArg
+String specifying an additional parameter for the audio driver (see
+@code{SoundDeviceName}).
+
+@end table
+
+@node Sound options,  , Sound resources, Sound settings
+@subsection Sound command-line options
+
+@table @code
+
+@cindex -sound, +sound
+@item -sound
+@itemx +sound
+Turns sound emulation on (@code{Sound=1}) and off (@code{Sound=0}).
+
+@cindex -soundrate
+@item -soundrate RATE
+Specifies the sound playback sample rate (@code{SoundSampleRate}).
+
+@cindex -soundbufsize
+@item -soundbufsize SIZE
+Specifies the size of the audio buffer in milliseconds
+(@code{SoundBufferSize}).
+
+@cindex -sounddev
+@item -sounddev NAME
+Specifies the name of the audio device (@code{SoundDeviceName}).
+
+@cindex -soundarg
+@item -soundarg ARG
+Specifies an additional parameter for the audio device
+(@code{SoundDeviceArg}).
+
+@end table
+
+
+@node 1541 settings, Peripheral settings, Sound settings, Settings and resources
 @section 1541 settings
 
 These settings are used to control the emulation of the 1541 drive.
@@ -1728,51 +2121,47 @@ These settings are used to control the emulation of the 1541 drive.
 @itemize @bullet
 
 @item
-@code{True1541} (``Enable true 1541 emulation'') enables the slow
-hardware-level emulation of the 1541 drive number 8 for maximum
-compatibility.
+``Enable true 1541 emulation'') enables the slow hardware-level
+emulation of the 1541 drive number 8 for maximum compatibility.
 
 @item
-@code{True1541ParallelCable} (``Enable parallel cable'') enables
-emulation of a SpeedDOS parallel cable; if you switch this option on and
-replace the original Commodore ROMs with SpeedDOS-compatible ones, you
-can speed up the loading speed.
+``Enable parallel cable'' enables emulation of a SpeedDOS parallel
+cable; if you switch this option on and replace the original Commodore
+ROMs with SpeedDOS-compatible ones, you can speed up the loading speed.
 
 @item
-@code{True1541SyncFactor} (``True 1541 sync factor'') specifies the
-speed of the 1541 CPU.  This can be used to help loading certain games,
-eg. NTSC ones, that have trouble with the default setting.  The ratio
-is calculated as follows:
+``True 1541 sync factor'' specifies the speed of the 1541 CPU.  This can
+be used to help loading certain games, eg. NTSC ones, that have trouble
+with the default setting.  The ratio is calculated as follows:
+
 @example
-True1541SyncFactor = 65536 * clk_1541 / clk_machine
+sync_factor = 65536 * clk_1541 / clk_machine
 @end example
-where @code{clk_1541} and @code{clk_machine} is the clock speed in MHz.
+
+where @code{clk_1541} and @code{clk_machine} are clock speeds, in MHz.
 The menu lets you choose between the PAL and NTSC values, and also lets
 you specify whatever value you want.  Be careful when changing it,
-though.  Also notice that the special values @code{-1} and @code{-2}
-identify the PAL and NTSC sync factors, respectively.
+though, because it can break things and even corrupt disk images.
 
 @item
-@code{True1541IdleMethod} (``True 1541 idle method'') specify which
-method the 1541 emulation should use to save CPU cycles when nothing is
-really happening.  There are three methods:
+``True 1541 idle method'' specifies which method the 1541 emulation
+should use to save CPU cycles.  There are three methods:
 
 @itemize @bullet
 @item
-@dfn{Skip cycles} (@code{True1541IdleMethod=1}): Each time the serial
-line is accessed by the C64, the drive executes all the cycles since the
-last time it was running.  If the number of elapsed cycles is larger
-than a certain value, the drive discards part of them.
+@dfn{Skip cycles}: Each time the serial line is accessed by the C64, the
+drive executes all the cycles since the last time it was running.  If
+the number of elapsed cycles is larger than a certain value, the drive
+discards part of them.
 @item
-@dfn{Trap idle} (@code{True1541IdleMethod=2}): The disk drive is still
-emulated upon serial line accesses as with the previous option, but it
-is also always emulated at the end of each screen frame.  If the drive
-gets into the DOS idle loop, only pending interrupts are emulated to
-save time.
+@dfn{Trap idle}: The disk drive is still emulated upon serial line
+accesses as with the previous option, but it is also always emulated at
+the end of each screen frame.  If the drive gets into the DOS idle loop,
+only pending interrupts are emulated to save time.
 @item
-@dfn{No traps} (@code{True1541IdleMethod=0}): Like ``Trap idle'', but
-without traps at all.  So basically the 1541 works exactly as with the
-real thing, and nothing is done to reduce memory consumption.
+@dfn{No traps}: Like ``Trap idle'', but without traps at all.  So
+basically the 1541 works exactly as with the real thing, and nothing is
+done to reduce memory consumption.
 @end itemize
 
 The first option (``Skip cycles'') is usually better for performance, as
@@ -1800,63 +2189,347 @@ drive, the 1541 CPU has to be emulated even when not necessary and the
 global emulation speed is then @emph{much} slower.
 
 @item
-@code{True1541ExtendImagePolicy} (``40-track image support'') specifies
-how 40-track (``extended'') disk images should be supported.  There are
-three possible ways:
+``40-track image support'' specifies how 40-track (``extended'') disk
+images should be supported.  There are three possible ways:
 
 @itemize @bullet
 @item
-``Never extend'' (@code{True1541ExtendImagePolicy=0}) never extends
-disk images at all (so if a program tries to write tracks beyond the
-35th, it is not allowed to do so);
+``Never extend'' never extends disk images at all (so if a program tries
+to write tracks beyond the 35th, it is not allowed to do so);
 @item
-``Ask on extend'' (@code{True1541ExtendImagePolicy=1}) prompts the user
-as soon as a program tries to write tracks beyond the 35th, and the user
-can then choose whether she wants the disk image to be extended or not;
+``Ask on extend'' prompts the user as soon as a program tries to write
+tracks beyond the 35th, and the user can then choose whether she wants
+the disk image to be extended or not;
 @item
-``Extend on access'' (@code{True1541ExtendImagePolicy=2}) simply extends
-the disk image as soon the program needs it, without prompting the user.
+``Extend on access'' simply extends the disk image as soon the program
+needs it, without prompting the user.
 @end itemize
 
 @end itemize
 
 
-@node Serial settings,  , 1541 settings, Settings and resources
-@section Serial settings
+@menu
+* 1541 resources::
+* 1541 options::
+@end menu
 
-These settings deal with the drive-like peripherals connected to the bus
-of the emulated machine.  Four peripherals, numbered from 8 to 11, are
-accessible; each of them provides the following settings (substitute
-@code{X} in the resource names with the number of the corresponding
-peripheral):
+@node 1541 resources, 1541 options, 1541 settings, 1541 settings
+@subsection 1541 resources
+
+@table @code
+
+@vindex True1541
+@item True1541
+Boolean controlling whether the ``true'' 1541 emulation emulation is
+turned on.
+
+@vindex True1541ParallelCable
+@item True1541ParallelCable
+Boolean controlling whether the SpeedDOS-compatible cable is emulated or
+not.
+
+@vindex True1541ExtendImagePolicy
+@item True1541ExtendImagePolicy
+Integer specifying the policy for 40-track support.  Possible values
+are @code{0} (never extend), @code{1} (ask on extend), @code{2} (extend
+on access).
+
+@vindex True1541IdleMethod
+@item True1541IdleMethod
+Integer specifying the idling method for the 1541 CPU.  Possible values
+are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
+@xref{1541 settings}.
+
+@vindex True1541SyncFactor
+@item True1541SyncFactor
+Integer specifying the true 1541 clock sync factor (@pxref{1541
+settings}).  Special values @code{-1} and @code{-2} mean PAL and NTSC,
+respectively.
+
+@vindex DosName
+@item DosName
+String specifying the name of the ROM image name for the 1541
+emulation.
+
+@end table
+
+
+@node 1541 options,  , 1541 resources, 1541 settings
+@subsection 1541 command-line options
+
+@table @code
+
+@cindex -1541, +1541
+@item -1541
+@itemx +1541
+Turns true 1541 emulation on (@code{True1541=1}) and off
+(@code{True1541=0}), respectively.
+
+@cindex -parallel, +parallel
+@item -parallel
+@itemx +parallel
+Turns emulation of the SpeedDOS-compatible parallel cable on
+(@code{True1541ParallelCable=1}) and off
+(@code{True1541ParallelCable=0}), respectively.
+
+@cindex -driveidle
+@item -driveidle NUM
+Specifies @code{NUM} as the 1541 idling method
+(@code{True1541IdleMethod}).
+
+@cindex -paldrive
+@item -paldrive
+Specifies a PAL sync factor for the 1541 emulation
+(@code{True1541SyncFactor=-1}).
+
+@cindex -ntscdrive
+@item -ntscdrive
+Specifies an NTSC sync factor for the 1541 emulation
+(@code{True1541SyncFactor=-2}).
+
+@cindex -drivesync
+@item -drivesync NUM
+Specifies a generic sync factor for the 1541 emulation
+(@code{True1541SyncFactor=-2}).
+
+@cindex -dosname
+@item -dosname NAME
+Specifies the name of the DOS ROM image (@code{DosName}).
+
+@end table
+
+
+@node Peripheral settings,  , 1541 settings, Settings and resources
+@section Peripheral settings
+
+VICE is able to support some special peripherals:
 
 @itemize @bullet
 @item
-@code{FileSystemDeviceX} (``File system access''), if enabled, allows
-device number @code{X} to emulate a drive accessing a file system
-directory;
+@dfn{file system devices}, pseudo-drives accessing the Unix file system;
 @item
-@code{FSDeviceXDir} (``File system directory'') specifies what directory
-is accessed;
-@item
-@code{FSDeviceXConvertP00} (``Convert P00 file names''), if enabled,
-allows access to P00 files using their built-in name on drive number
-@code{X};
-@item
-@code{FSDeviceXSaveP00} (``Create P00 files on save''), if enabled,
-creates P00 files (instead of raw files) when a program creates a file
-on drive number @code{X}.
+printers.
 @end itemize
 
-This feature depends on some @dfn{serial traps} that replace the
+These features depend on some @dfn{kernal traps} that replace the
 existing routines in the original Commodore operating system with
 custom-made C routines.
 
-If you have compatibility problems, you can completely disable serial
-traps by setting the @code{NoTraps} resource to a nonzero value.  This
-will also disable those features that depend on it, such as the fast
-1541 emulation (so you will have to turn true 1541 emulation on if you
-want to be able to read or write disk images).
+@menu
+* File system device settings::
+* Printer settings::
+* No kernal traps::
+@end menu
+
+@node File system device settings, Printer settings, Peripheral settings, Peripheral settings
+@subsection Settings for file system devices
+
+These settings deal with the drive-like peripherals connected to the bus
+of the emulated machine.  Four peripherals, numbered from 8 to 11, are
+accessible; each of them provides the following settings:
+
+@itemize @bullet
+@item
+``File system access'', if enabled, allows the device to emulate a drive
+accessing a file system directory; notice that if a disk is attached to
+the same drive, the directory is not visible anymore.
+@item
+``File system directory'' specifies what directory is accessed by the
+drive.
+@item
+``Convert P00 file names'', if enabled, allows access to P00 files using
+their built-in name instead of the Unix one.
+@item
+``Create P00 files on save'', if enabled, creates P00 files (instead of
+raw CBM files) whenever a program creates a file.
+@end itemize
+
+@menu
+* File system device resources::
+* File system device options::
+@end menu
+
+
+@node File system device resources, File system device options, File system device settings, File system device settings
+@subsubsection Resources for file system devices
+
+@table @code
+
+@vindex FSDevice8ConvertP00
+@item FSDevice8ConvertP00
+@vindex FSDevice9ConvertP00
+@itemx FSDevice9ConvertP00
+@vindex FSDevice10ConvertP00
+@itemx FSDevice10ConvertP00
+@vindex FSDevice11ConvertP00
+@itemx FSDevice11ConvertP00
+Booleans specifying whether on-read support for P00 files is enabled on
+drives 8, 9, 10 and 11 respectively.
+
+@vindex FSDevice8SaveP00
+@item FSDevice8SaveP00
+@vindex FSDevice9SaveP00
+@itemx FSDevice9SaveP00
+@vindex FSDevice10SaveP00
+@itemx FSDevice10SaveP00
+@vindex FSDevice11SaveP00
+@itemx FSDevice11SaveP00
+Booleans specifying whether the drives should create P00 files instead
+of plain CBM ones.
+
+@vindex FSDevice8HideCBMFiles
+@item FSDevice8HideCBMFiles
+@vindex FSDevice9HideCBMFiles
+@itemx FSDevice9HideCBMFiles
+@vindex FSDevice10HideCBMFiles
+@itemx FSDevice10HideCBMFiles
+@vindex FSDevice11HideCBMFiles
+@itemx FSDevice11HideCBMFiles
+Booleans specifying whether non-P00 files should be invisible to
+programs running in the emulator.
+
+@vindex FSDevice8Dir
+@item FSDevice8Dir
+@vindex FSDevice9Dir
+@itemx FSDevice9Dir
+@vindex FSDevice10Dir
+@itemx FSDevice10Dir
+@vindex FSDevice11Dir
+@itemx FSDevice11Dir
+Strings specifying the paths of the directories drives 8, 9, 10 and 11
+have access to.
+
+@end table
+
+
+@node File system device options,  , File system device resources, File system device settings
+@subsubsection Command-line options for file system devices
+
+@table @code
+
+@cindex -fs8
+@item -fs8 PATH
+@cindex -fs9
+@itemx -fs9 PATH
+@cindex -fs10
+@itemx -fs10 PATH
+@cindex -fs11
+@itemx -fs11 PATH
+Specify the path for the file-system access on drives 8, 9, 10 and 11,
+respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
+@code{FSDevice10Dir} and @code{FSDevice11Dir}).
+
+@end table
+
+
+@node Printer settings, No kernal traps, File system device settings, Peripheral settings
+@subsection Printer settings
+
+The VICE emulators can emulate printers connected to either the IEC
+buffer or the user port.  Emulation can be achieved by redirecting the
+printer output to a file or by piping it through an external process.
+This is defined by so-called @dfn{printer device file names}; a printer
+device file name can be either a simple path, or a command name
+prepended by the pipe symbol @samp{|}.
+
+For example, printer device @samp{filename} will cause the output to be
+appended to file @file{filename}, while printer device @samp{|lpr} will
+cause the @code{lpr} command to be executed and fed with the printer
+output.
+
+Up to three printer devices can be specified through the following
+resources:
+
+@itemize @bullet
+@item
+device 1, whose default value is @code{print.dump};
+@item
+device 2, whose default value is @code{|petlp |lpr};
+@item
+device 3, whose default value is @code{|lpr}.
+@end itemize
+
+So, basically, by default printer device 1 will simply dump printer
+output to @file{print.dump}; printer device 2 will print it via
+@code{petlp} (a not-complete-yet utility that will produce Postscript
+output from it) and @code{lpr}; printer device 2 will print it through
+@code{lpr}.
+
+
+@menu
+* Printer resources::
+* Printer options::
+@end menu
+
+@node Printer resources, Printer options, Printer settings, Printer settings
+@subsubsection Printer resources
+
+@table @code
+
+@vindex PrDevice1
+@item PrDevice1
+@vindex PrDevice2
+@itemx PrDevice2
+@vindex PrDevice3
+@itemx PrDevice3
+Strings specifying the printer devices (@pxref{Printer settings}).
+
+@end table
+
+@node Printer options,  , Printer resources, Printer settings
+@subsubsection Printer command-line options
+
+@table @code
+
+@cindex -prdev1
+@item -prdev1 NAME
+@cindex -prdev2
+@itemx -prdev2 NAME
+@cindex -prdev3
+@itemx -prdev3 NAME
+Specify @code{NAME} as printer devices 1, 2 and 3, respectively
+(@code{PrDevice1}, @code{PrDevice2} and @code{PrDevice3}).
+
+@end table
+
+
+@node No kernal traps,  , Printer settings, Peripheral settings
+@subsection Disabling kernal traps
+
+If you have compatibility problems, you can completely disable Kernal
+traps with the ``Disable serial traps'' option.  This will of course
+disable all the features that depend on it, such as the fast 1541
+emulation (so you will have to turn true 1541 emulation on if you want
+to be able to read or write disk images) and tape support.
+
+@menu
+* No traps resources::
+* No traps options::
+@end menu
+
+@node No traps resources, No traps options, No kernal traps, No kernal traps
+@subsubsection Resources to control Kernal traps
+
+@table @code
+
+@vindex NoTraps
+@item NoTraps
+Boolean specifying whether all the Kernal trap should be disabled.
+
+@end table
+
+
+@node No traps options,  , No traps resources, No kernal traps
+@subsubsection Command-line options to control Kernal traps
+
+@table @code
+
+@cindex -traps, +traps
+@item -traps
+@itemx +traps
+Enable (@code{NoTraps=0}) or disable (@code{NoTraps=1}) kernal traps.
+
+@end table
 
 
 @node Machine-specific features, Monitor, Settings and resources, Top
@@ -1916,26 +2589,24 @@ cartridge's freeze button with the ``Freeze'' command.
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
 @subsection VIC-II settings
 
-These resources control the emulation of the VIC-II (MOS6569) video chip
+These settings control the emulation of the VIC-II (MOS6569) video chip
 used in both the C64 and the C128.
 
 @itemize @bullet
 
+@cindex Sprite collision detection
 @item
-@code{CheckSsColl} (``Sprite-sprite collisions'') and @code{CheckSbColl}
-(``Sprite-background collisions'') are boolean resources; if set to a
-nonzero value, they cause the hardware detection of sprite-to-sprite and
-sprite-to-background collision to be emulated.  This feature is used by
-many games, and disabling either of the two detection systems can
-sometimes make you invincible (although there is also a chance that also
-enemies become invincible then).
+``Sprite-sprite collisions'' and ``Sprite-background collisions'', if
+enabled, cause the hardware detection of sprite-to-sprite and
+sprite-to-background collisions of the VIC-II to be emulated.  This
+feature is used by many games, and disabling either of the two detection
+systems can sometimes make you invincible (although there is also a
+chance that also enemies become invincible then).
 
+@cindex VIC-II color sets
 @item
-@code{PaletteFile} (``Color set'') is a string resource whose value
-identifies the name of the palette file being used (@pxref{Palette
-files} for a description of palette files).  You can dynamically change
-its value at runtime by choosing one of the available predefined color
-sets:
+``Color set'' can be used to dynamically change the palette file
+being used by choosing one of the available predefined color sets:
 
 @itemize @bullet
 @item
@@ -1954,27 +2625,120 @@ C64 graphics package GoDot
 
 @end itemize
 
+@menu
+* VIC-II resources::
+* VIC-II options::
+@end menu
+
+@node VIC-II resources, VIC-II options, VIC-II settings, VIC-II settings
+@subsubsection VIC-II resources
+
+@table @code
+
+@vindex CheckSsColl
+@item CheckSsColl
+Boolean specifying whether the sprite-sprite hardware collision
+detection must be emulated.
+
+@vindex CheckSbColl
+@item CheckSbColl
+Boolean specifying whether the sprite-background hardware collision
+detection must be emulated.
+
+@vindex PaletteFile
+@item PaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
+
+@end table
+
+
+@node VIC-II options,  , VIC-II resources, VIC-II settings
+@subsubsection VIC-II command-line options
+
+@table @code
+
+@cindex -checkss, +checkss
+@item -checkss
+@itemx +checkss
+Enable (@code{CheckSsColl=1}) and disable (@code{CheckSsColl=0})
+emulation of hardware sprite-sprite collision detection, respectively.
+@cindex -checkss, +checkss
+
+@cindex -checksb, +checksb
+@item -checksb
+@itemx +checksb
+Enable (@code{CheckSbColl=1}) and disable (@code{CheckSbColl=0})
+emulation of hardware sprite-background collision detection,
+respectively.
+
+@item -palette NAME
+Specify @code{NAME} as the palette file (@code{PaletteFile}).
+
+@end table
+
 
 @node SID settings, I/O extension settings, VIC-II settings, C64/128-specific
 @subsection SID settings
 
-These resources control the emulation of the SID (MOS6581 or MOS8580)
+These settings control the emulation of the SID (MOS6581 or MOS8580)
 audio chip.
 
 @itemize @bullet
 
+@cindex SID filters
 @item
-@code{SidFilters} is a boolean resource; if enabled, it causes the
-built-in programmable filters of the SID chip to be emulated.  A lot of
-C64 music requires them to be emulated properly, but their emulation
-requires some additional processor power.
+``Emulate filters'' causes the built-in programmable filters of the SID
+chip to be emulated.  A lot of C64 music requires them to be emulated
+properly, but their emulation requires some additional processor power.
 
+@cindex SID models
 @item
-@code{SidModel} specifies the model of the SID chip being emulated:
-there are two slightly different generations of SID chips: MOS6581 ones
-(@code{0}) and MOS8580 ones (@code{1}).
+``ChipModel'' specifies the model of the SID chip being emulated: there
+are two slightly different generations of SID chips: MOS6581 ones and
+MOS8580 ones.
 
 @end itemize
+
+@menu
+* SID resources::
+* SID options::
+@end menu
+
+@node SID resources, SID options, SID settings, SID settings
+@subsubsection SID resources
+
+@table @code
+
+@vindex SidFilters
+@item SidFilters
+Boolean specifying whether the built-in SID filters must be emulated.
+
+@vindex SidModel
+@item SidModel
+Integer specifying what model of the SID must be emulated (@code{0}:
+MOS6581, @code{1}: MOS8580).
+
+@end table
+
+
+@node SID options,  , SID resources, SID settings
+@subsubsection SID command-line options
+
+@table @code
+
+@cindex -sidmodel
+@item -sidmodel MODEL
+Specifies @code{MODEL} as the emulated model of the SID chip
+(@code{SidModel}).
+
+@cindex -sidfilters, +sidfilters
+@item -sidfilters
+@itemx +sidfilters
+Enable (@code{SidFilters=1}) or disable (@code{SidFilters=0}) emulation
+of the built-in SID filters.
+
+@end table
 
 
 @node I/O extension settings, RS232 settings, SID settings, C64/128-specific
@@ -1987,22 +2751,23 @@ might cause compatibility problems.
 
 @itemize @bullet
 
+@cindex C64/128 emulator identification
 @item
-The ``emulator identification'' extension (related to the @code{EmuID}
-resource) allows programs to identify the kind of emulator they are
-running on, according to the emulation detection proposal by Wolfgang
-Lorenz.  This basically means that, when some locations in the $DFxx I/O
-space are read, the emulator returns some values which identify the
-emulator itself, its version and a copyright message.  If this extension
-is disabled, programs will have virtually no way to realize they are
-running on an emulator.
+The ``emulator identification'' extension allows programs to
+identify the kind of emulator they are running on, according to the
+emulation detection proposal by Wolfgang Lorenz.  This basically means
+that, when some locations in the $DFxx I/O space are read, the emulator
+returns some values which identify the emulator itself, its version and
+a copyright message.  If this extension is disabled, programs will have
+virtually no way to realize they are running on an emulator.
 
+@cindex IEEE488 interface emulation
 @item
-The ``IEEE488 interface emulation'' extension (enabled by the
-@code{IEEE488} resource) emulates a standard Commodore IEEE488 interface
-connected to the IEC bus; one possible use for this is André Fachat's
-OS/A65 multitasking operating system.
+The ``IEEE488 interface emulation'' extension emulates a standard
+Commodore IEEE488 interface connected to the IEC bus; one possible use
+for this is André Fachat's OS/A65 multitasking operating system.
 
+@cindex REU
 @item
 The ``512K RAM Expansion Unit'' extension (enabled by the @code{REU}
 resource) emulates a standard 512K Commodore RAM Expansion Unit; this
@@ -2012,6 +2777,60 @@ advantage of it.  This currently works only in the C64 emulator.
 @end itemize
 
 
+@menu
+* I/O extension resources::
+* I/O extension options::
+@end menu
+
+@node I/O extension resources, I/O extension options, I/O extension settings, I/O extension settings
+@subsubsection I/O extension resources
+
+@table @code
+
+@vindex IEEE488
+@item IEEE488
+Boolean specifying whether the IEEE488 interface should
+be emulated or not.
+
+@vindex REU
+@item REU
+Boolean specifying whether the 512K RAM Expansion Unit should be
+emulated or not.
+
+@vindex EmuID
+@item EmuID
+Boolean specifying whether the emulation identification extension should
+be emulated or not.
+
+@end table
+
+
+@node I/O extension options,  , I/O extension resources, I/O extension settings
+@subsubsection I/O extension command-line options
+
+@table @code
+
+@cindex -ieee488, +ieee488
+@item -ieee488
+@itemx +ieee488
+Enable (@code{IEEE488=1}) or disable (@code{IEEE488=0}) emulation of the
+IEEE488 interface.
+
+@cindex -reu, +reu
+@item -reu
+@itemx +reu
+Enable (@code{REU=1}) or disable (@code{REU=0}) emulation of the
+512K RAM Expansion Unit.
+
+@cindex -emuid, +emuid
+@item -emuid
+@itemx +emuid
+Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) emulation of the
+emulation identification extension.
+
+@end table
+
+
 @node RS232 settings,  , I/O extension settings, C64/128-specific
 @subsection RS232 settings
 
@@ -2019,11 +2838,9 @@ X64 and X128 can support RS232 in the following ways:
 
 @itemize @bullet
 @item
-By emulating Daniel Dallmann's 9600 baud userport-based RS232 interface
-(enabled by the @code{RsUser} boolean resource).
+By emulating Daniel Dallmann's 9600 baud userport-based RS232 interface.
 @item
-By emulating a 6551-based RS232 interface located at $DE00 (enabled by
-the @code{AciaDE} boolean resource).
+By emulating a 6551-based RS232 interface located at $DE00.
 @end itemize
 
 Each of these emulated devices can be either:
@@ -2039,27 +2856,52 @@ piped through a process.
 
 It is possible to define up to two UNIX serial devices, and then decide
 which interface should be connected to which device.  Devices are
-defined through the following resources:
+defined through the following settings:
 
 @itemize @bullet
 @item
-@code{RsDevice1} and @code{RsDevice2} (``Serial 1
-device...'' and ``Serial 2 device...'' in the submenu) are
-strings specifying the pathnames of the serial devices, and can be
-specified at runtime via the file selector;
+``Serial 1 device...'' and ``Serial 2 device...'' are used to specify
+the the pathnames of the serial devices, with the file selector;
 @item
-@code{RsDevice1Baud} and @code{RsDevice2Baud} (``Serial 1 baudrate'' and
-``Serial 2 baudrate'' in the submenu) specify the baudrate.
+``Serial 1 baudrate'' and ``Serial 2 baudrate'' specify the baudrate.
 @end itemize
 
-The dump file name is specified through the @code{RsDevice3} resource,
-while the name of the program to pipe the RS232 data through is defined
-by the @code{RsDevice4} resource.
 
-Finally, @code{RsUserDev} and @code{Acia1Dev} are numeric resources used
-to specify how the userport-based interface and the ACIA-based one are
-emulated.  The possible values are:
+@menu
+* RS232 resources::
+@end menu
 
+@node RS232 resources,  , RS232 settings, RS232 settings
+@subsubsection RS232 resources
+
+@table @code
+
+@vindex RsDevice1
+@item RsDevice1
+@vindex RsDevice2
+@itemx RsDevice2
+Strings specifying the pathnames of the two available serial devices.
+
+@vindex RsDevice1Baud
+@item RsDevice1Baud
+@vindex RsDevice2Baud
+@itemx RsDevice2Baud
+Integers specifying the baudrates.
+
+@vindex RsDevice3
+@item RsDevice3
+String defining the name of the file used when dumping RS232 output.
+
+@vindex RsDevice4
+@item RsDevice4
+String defining the name of the process to pipe the RS232 data through.
+
+@vindex RsUserDev
+@item RsUserDev
+@vindex Acia1Dev
+@itemx Acia1Dev
+Integers specifying how the userport-based interface and the ACIA-based
+one are emulated.  The possible values are:
 @itemize @bullet
 @item
 @code{0}: connect to serial device number 1;
@@ -2068,8 +2910,9 @@ emulated.  The possible values are:
 @item
 @code{2}: dump to file;
 @item
-@code{3}: exec an external process;
+@code{3}: exec an external process.
 @end itemize
+@end table
 
 
 @node VIC20-specific, PET-specific, C64/128-specific, Machine-specific features
@@ -2165,6 +3008,84 @@ memory locations to let a running program query information about the
 emulator itself.
 
 
+@menu
+* VIC20 memconf resources::
+* VIC20 memconf options::
+@end menu
+
+@node VIC20 memconf resources, VIC20 memconf options, VIC20 memory expansions, VIC20 memory expansions
+@subsubsection VIC20 memory configuration resources
+
+@table @code
+
+@vindex RAMBlock0
+@item RAMBlock0
+@vindex RAMBlock1
+@itemx RAMBlock1
+@vindex RAMBlock2
+@itemx RAMBlock2
+@vindex RAMBlock3
+@itemx RAMBlock3
+@vindex RAMBlock5
+@itemx RAMBlock5
+Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
+
+@end table
+
+@node VIC20 memconf options,  , VIC20 memconf resources, VIC20 memory expansions
+@subsubsection VIC20 memory configuration command-line options
+
+@table @code
+
+@cindex -memory
+@item -memory CONFIG
+Specify memory configuration.  It must be a comma-separated list of
+options, each of which can be one the following:
+
+@itemize @bullet
+@item
+@code{none} (no extension);
+@item
+@code{all} (all blocks);
+@item
+@code{3k} (3k space in block 0);
+@item
+@code{8k} (first 8k extension block);
+@item
+@code{16k} (first and second 8k extension blocks);
+@item
+@code{24k} (first, second and 3rd extension blocks);
+@item
+@code{0}, @code{1}, @code{2}, @code{3}, @code{5} (memory in respective
+blocks);
+@item
+@code{04}, @code{20}, @code{40}, @code{60}, @code{A0} (memory at
+respective address.
+@end itemize
+
+Examples:
+
+@example
+xvic -memory none
+@end example
+
+gives an unexpanded VIC20.  While
+
+@example
+xvic -memory 60,a0
+@end example
+
+or
+
+@example
+xvic -memory 3,5
+@end example
+
+enables memory in blocks 3 and 5, which is the usual configuration for
+16k ROM modules.
+
+@end table
+
 @node PET-specific,  , VIC20-specific, Machine-specific features
 @section PET-specific commands and settings
 
@@ -2189,7 +3110,7 @@ The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
 
 @itemize @bullet
-@item
+@item (None yet.)
 @end itemize
 
 Choosing a common PET model is done from the right-button menu instead,
@@ -2256,7 +3177,7 @@ feeling;
 @end itemize
 
 
-@node Monitor, C1541, Machine-specific features, Top
+@node Monitor, c1541, Machine-specific features, Top
 @chapter Monitor
 
 Every VICE emulator has a complete built-in monitor, which can be used
@@ -2639,8 +3560,8 @@ Display the specified number in decimal, hex, octal and binary.
 @end table
 
 
-@node C1541, Acknowledgments, Monitor, Top
-@chapter C1541
+@node c1541, Acknowledgments, Monitor, Top
+@chapter c1541
 
 VICE is provided with a complete stand-alone disk image maintenance
 utility, called @code{c1541}.  You can either invoke it from the command
@@ -2670,8 +3591,8 @@ need for any special options.
 * Examples::                    Using c1541 in practice.
 @end menu
 
-@node Commands, Examples, C1541, C1541
-@section C1541 commands
+@node Commands, Examples, c1541, c1541
+@section c1541 commands
 
 Each command-line option has an interactive-mode counterpart, that is
 shown in parenthesis: (abbreviations are allowed when not ambiguous)
@@ -2743,11 +3664,11 @@ This information should also be available in section 1 of the
 on-line manual pages (@samp{man 1 c1541}).
 
 
-@node Examples,  , Commands, C1541
-@section C1541 examples
+@node Examples,  , Commands, c1541
+@section c1541 examples
 
 
-@node Acknowledgments, Copyright, C1541, Top
+@node Acknowledgments, Copyright, c1541, Top
 @chapter Acknowledgments
 
 VICE derives from X64, the first Commodore 64 emulator for the X Window
@@ -3024,7 +3945,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 02111-1307  USA
 
 
-@node Contacts,  , Copyright, Top
+@node Contacts, Concept Index, Copyright, Top
 @chapter Contact information
 
 @menu
@@ -3122,10 +4043,7 @@ Please don't ask us how to transfer original C64 disk or tapes to your
 PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
 (@uref{http://ludens.elte.hu/~sta/sc.html}).  And no, you cannot read
-C64 disks with your old 5"1/4 PC drive.  To transfer tapes, we have been
-told a tool is in the works.  If you are impatient, you'll have to write
-your own tool (and of course make it available as @emph{free} software
-with open sources, so that other people can enjoy it as much as you do).
+C64 disks with your old 5"1/4 PC drive.
 
 @item
 Please don't ask us where to find games for the emulator on the
@@ -3208,6 +4126,15 @@ We recommend reading the @code{comp.emulators.cbm} and
 corresponding newsgroups and are also available via FTP from
 @uref{ftp://rtfm.mit.edu}.
 
+@node Concept Index, Resource Index, Contacts, Top
+@unnumbered Concept Index
+
+@printindex cp
+
+@node Resource Index,  , Concept Index, Top
+@unnumbered Index of Resources
+
+@printindex vr
 
 @contents
 
