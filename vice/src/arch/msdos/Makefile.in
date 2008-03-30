@@ -298,6 +298,8 @@ libarch_a_SOURCES = \
 	uiprinter.h \
 	uireu.c \
 	uireu.h \
+	uigeoram.c \
+	uigeoram.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
@@ -335,9 +337,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uidrive.$(OBJEXT) uijoystick.$(OBJEXT) uimon.$(OBJEXT) \
 	uiperipherial.$(OBJEXT) uiprinter.$(OBJEXT) uireu.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
-	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsync.$(OBJEXT)
+	uigeoram.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
+	vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -357,8 +359,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uijoystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipherial.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uigeoram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uimon.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipherial.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/vic20ui.Po \
@@ -423,6 +426,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipherial.Po@am__quote@

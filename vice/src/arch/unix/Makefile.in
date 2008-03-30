@@ -329,6 +329,8 @@ libarch_a_SOURCES = \
 	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
+	uigeoram.c \
+	uigeoram.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \
@@ -393,8 +395,8 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
-	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
@@ -425,8 +427,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uiide64.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uijoystick2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uigeoram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uipalemu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipalette.Po \
@@ -537,6 +539,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@

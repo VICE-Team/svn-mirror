@@ -283,6 +283,7 @@ libarch_a_SOURCES = \
 	respet.rc \
 	resplus4.rc \
 	resreu.rc \
+	resgeoram.rc \
 	resrs232user.rc \
 	ressid.rc \
 	restfe.rc \
@@ -353,6 +354,8 @@ libarch_a_SOURCES = \
 	uiram.h \
 	uireu.c \
 	uireu.h \
+	uigeoram.c \
+	uigeoram.h \
 	uirom.c \
 	uirom.h \
 	uirs232.c \
@@ -477,12 +480,12 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uimon.$(OBJEXT) uiperipheral.$(OBJEXT) uipetset.$(OBJEXT) \
 	uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
 	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
-	uirom.$(OBJEXT) uirs232.$(OBJEXT) uirs232user.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
-	uispeed.$(OBJEXT) uitfe.$(OBJEXT) uivicii.$(OBJEXT) \
-	uivicset.$(OBJEXT) uivideo.$(OBJEXT) vic20ui.$(OBJEXT) \
-	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) \
-	winmain.$(OBJEXT)
+	uigeoram.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uispeed.$(OBJEXT) uitfe.$(OBJEXT) \
+	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
+	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
+	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -509,12 +512,12 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po ./$(DEPDIR)/uievent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uihelp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimediafile.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uigeoram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uihelp.Po ./$(DEPDIR)/uiide64.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uikeyboard.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uilib.Po ./$(DEPDIR)/uimediafile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipheral.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiquicksnapshot.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uirom.Po \
@@ -596,6 +599,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uievent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uihelp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
@@ -826,10 +830,10 @@ uninstall-am: uninstall-info-am
 	uninstall-am uninstall-info-am
 
 
-resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc reside64.rc
+resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
+resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc reside64.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 rescbm2.o : rescbm2.rc res.rc res.h resacia.rc ressid.rc resdrivepetcbm2.rc
