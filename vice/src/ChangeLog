@@ -1,3 +1,16 @@
+2003-09-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13a.
+
+2003-03-27  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/joy.c (joystick_di_open): Return success/failure.
+	(set_joystick_device_1, set_joystick_device_2) Update
+	resource if DX5 init was succesfull. Call joy_arch_init if it
+	has not been initialised yet.
+	(joy_arch_init): Only initialise if it was not yet
+	initialised.
+
 2003-09-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.
