@@ -107,6 +107,8 @@ noinst_HEADERS = \
 	via.h \
 	viacore.h \
 	vice.h \
+	video.h \
+	vsidui.h \
 	vsync.h \
 	warn.h \
 	zfile.h \
@@ -437,4 +439,3 @@ libvdc:
 	(cd vdc && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
-
