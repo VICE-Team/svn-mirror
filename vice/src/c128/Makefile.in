@@ -313,8 +313,8 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/utils.h ../../src/vicii/vicii.h ../../src/c64/c64.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -337,7 +337,7 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/c64/c64.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -350,8 +350,9 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../alarm.h ../log.h ../clkguard.h ../mon.h ../mos6510.h \
 	../interrupt.h ../snapshot.h ../datasette.h ../tap.h \
 	../machine.h ../resources.h ../traps.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h ../vdrive.h \
-	../fs_cbm.h ../serial.h ../6510core.c
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../vdrive.h ../fs_cbm.h ../serial.h \
+	../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64iec.h \
@@ -374,9 +375,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/parallel.h ../../src/rs232.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/utils.h vdc.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/raster/raster-cache.h \
+	../../src/palette.h ../../src/uiapi.h ../../src/vicii/vicii.h \
+	../../src/c64/c64.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

@@ -196,6 +196,7 @@ noinst_HEADERS = \
 	tpi.h \
 	tpicore.h \
 	traps.h \
+	uiapi.h \
 	usleep.h \
 	utils.h \
 	vdrive.h \
@@ -696,13 +697,13 @@ alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h arch/unix/types.h vdrive.h \
 	fs_cbm.h serial.h traps.h log.h snapshot.h fliplist.h \
-	resources.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h
+	resources.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h
 autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
 	arch/unix/archdep.h archapi.h attach.h vdrive.h fs_cbm.h \
 	serial.h traps.h log.h snapshot.h charsets.h datasette.h tap.h \
 	fsdevice.h interrupt.h 6510core.h mem.h kbdbuf.h machine.h \
 	p00.h resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	palette.h utils.h zfile.h
+	palette.h uiapi.h utils.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
 	charsets.h arch/unix/types.h gcr.h info.h p00.h serial.h \
 	traps.h t64.h utils.h vdrive-iec.h vdrive.h fs_cbm.h log.h \
@@ -749,13 +750,13 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	mem.h interrupt.h 6510core.h findpath.h fsdevice.h \
 	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
 	machine.h maincpu.h sound.h warn.h sysfile.h tape.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h utils.h \
 	arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
 	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
 	mos6510.h interrupt.h datasette.h tap.h machine.h resources.h \
-	traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h vdrive.h \
-	fs_cbm.h serial.h 6510core.c
+	traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h \
+	vdrive.h fs_cbm.h serial.h 6510core.c
 memutils.o: memutils.c vice.h config.h memutils.h arch/unix/types.h \
 	log.h resources.h sysfile.h utils.h
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h asm.h \
@@ -798,7 +799,7 @@ snapshot.o: snapshot.c vice.h config.h snapshot.h arch/unix/types.h \
 sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \
 	clkguard.h cmdline.h resources.h log.h maincpu.h 6510core.h \
 	mem.h snapshot.h alarm.h mon.h mos6510.h interrupt.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h utils.h \
 	arch/unix/vsync.h
 sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
 	findpath.h arch/unix/archdep.h archapi.h utils.h \

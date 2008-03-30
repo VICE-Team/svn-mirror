@@ -307,7 +307,8 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
 	../../src/resources.h ../../src/crtc/crtc.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -345,8 +346,9 @@ c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../clkguard.h ../mon.h ../mos6510.h ../interrupt.h \
 	../snapshot.h ../datasette.h ../tap.h ../machine.h \
 	../resources.h ../traps.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h ../vdrive.h \
-	../fs_cbm.h ../serial.h ../6510core.c
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../vdrive.h ../fs_cbm.h ../serial.h \
+	../6510core.c
 c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
 	c610cia.h ../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/snapshot.h ../../src/maincpu.h ../../src/6510core.h \
@@ -370,7 +372,7 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -388,8 +390,8 @@ c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/mos6510.h ../../src/interrupt.h ../../src/crtc/crtc.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

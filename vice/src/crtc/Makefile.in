@@ -295,8 +295,8 @@ crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -308,7 +308,8 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -320,7 +321,8 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -332,7 +334,8 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -347,8 +350,8 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/utils.h ../../src/arch/unix/vsync.h crtc.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

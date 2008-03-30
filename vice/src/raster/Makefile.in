@@ -310,9 +310,10 @@ raster.o: raster.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/arch/unix/types.h \
 	../../src/utils.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h raster.h \
-	raster-cache.h raster-sprite-cache.h raster-changes.h \
-	raster-modes.h raster-sprite-status.h raster-sprite.h
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h raster.h raster-cache.h \
+	raster-sprite-cache.h raster-changes.h raster-modes.h \
+	raster-sprite-status.h raster-sprite.h
 
 info: info-recursive
 dvi: dvi-recursive

@@ -306,7 +306,8 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/resources.h ../../src/crtc/crtc.h ../../src/alarm.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -344,7 +345,7 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -363,7 +364,8 @@ petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/alarm.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -401,7 +403,8 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/mos6510.h petvia.h ../../src/crtc/crtc.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

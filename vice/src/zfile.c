@@ -60,7 +60,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-#define DEBUG_ZFILE
+/* #define DEBUG_ZFILE */
 
 #ifdef DEBUG_ZFILE
 #define ZDEBUG(a)  log_debug a
@@ -75,7 +75,8 @@ enum compression_type {
     COMPR_BZIP,
     COMPR_ARCHIVE,
     COMPR_ZIPCODE,
-    COMPR_LYNX
+    COMPR_LYNX,
+    COMPR_TZX
 };
 
 /* This defines a linked list of all the compressed files that have been
@@ -240,6 +241,43 @@ static char *try_uncompress_with_bzip(const char *name)
 	unlink(tmp_name);
 	return NULL;
     }
+}
+
+static char *try_uncompress_with_tzx(const char *name)
+{
+#ifdef __riscos
+    return NULL;
+#else
+    static char tmp_name[L_tmpnam];
+    int l = strlen(name);
+    int exit_status;
+    char *argv[4];
+
+    /* Check whether the name sounds like a tzx file. */
+    if (l < 4 || strcasecmp(name + l - 4, ".tzx") != 0)
+        return NULL;
+
+    /* `exec*()' does not want these to be constant...  */
+    argv[0] = stralloc("64tzxtap");
+    argv[1] = stralloc(name);
+    argv[2] = NULL;
+
+    ZDEBUG(("try_uncompress_with_tzx: spawning 64tzxtap %s", name));
+    tmpnam(tmp_name);
+    exit_status = archdep_spawn("64tzxtap", argv, tmp_name, NULL);
+
+    free(argv[0]);
+    free(argv[1]);
+
+    if (exit_status == 0) {
+        ZDEBUG(("try_uncompress_with_tzx: OK"));
+        return tmp_name;
+    } else {
+        ZDEBUG(("try_uncompress_with_tzx: failed"));
+        unlink(tmp_name);
+        return NULL;
+    }
+#endif
 }
 
 /* is the name zipcode -name? */
@@ -644,16 +682,19 @@ static enum compression_type try_uncompress(const char *name,
 
     /* need this order or .tar.gz is misunderstood */
     if ((*tmp_name = try_uncompress_with_gzip(name)) != NULL)
-	return COMPR_GZIP;
+        return COMPR_GZIP;
 
     if ((*tmp_name = try_uncompress_with_bzip(name)) != NULL)
-	return COMPR_BZIP;
+        return COMPR_BZIP;
 
     if ((*tmp_name = try_uncompress_zipcode(name, write_mode)) != NULL)
-	return COMPR_ZIPCODE;
+        return COMPR_ZIPCODE;
 
     if ((*tmp_name = try_uncompress_lynx(name, write_mode)) != NULL)
-	return COMPR_LYNX;
+        return COMPR_LYNX;
+
+    if ((*tmp_name = try_uncompress_with_tzx(name)) != NULL)
+        return COMPR_TZX;
 
     return COMPR_NONE;
 }
@@ -727,38 +768,44 @@ static int compress(const char *src, const char *dest,
 
     /* This shouldn't happen */
     if (type == COMPR_ARCHIVE) {
-	log_error(zlog, "compress: trying to compress archive-file.");
-	return -1;
+        log_error(zlog, "compress: trying to compress archive-file.");
+        return -1;
     }
 
     /* This shouldn't happen */
     if (type == COMPR_ZIPCODE) {
-	log_error(zlog, "compress: trying to compress zipcode-file.");
-	return -1;
+        log_error(zlog, "compress: trying to compress zipcode-file.");
+        return -1;
     }
 
     /* This shouldn't happen */
     if (type == COMPR_LYNX) {
-	log_error(zlog, "compress: trying to compress lynx -file.");
-	return -1;
+        log_error(zlog, "compress: trying to compress lynx-file.");
+        return -1;
+    }
+
+    /* This shouldn't happen */
+    if (type == COMPR_TZX) {
+        log_error(zlog, "compress: trying to compress tzx-file.");
+        return -1;
     }
 
     /* Check whether `compression_type' is a known one.  */
     if (type != COMPR_GZIP && type != COMPR_BZIP) {
         log_error(zlog, "compress: unknown compression type");
-	return -1;
+        return -1;
     }
 
     /* If we have no write permissions for `dest', give up.  */
     if (access(dest, W_OK) < 0) {
         ZDEBUG(("compress: no write permissions for `%s'",
                 dest));
-	return -1;
+        return -1;
     }
 
     if (access(dest, R_OK) < 0) {
         ZDEBUG(("compress: no read permissions for `%s'", dest));
-	dest_backup_name = NULL;
+        dest_backup_name = NULL;
     } else {
 	/* If `dest' exists, make a backup first.  */
 	dest_backup_name = make_backup_filename(dest);

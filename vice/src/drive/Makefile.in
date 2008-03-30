@@ -349,8 +349,8 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/6510core.h ../../src/gcr.h ../../src/iecdrive.h \
 	../../src/memutils.h riotd.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/utils.h viad.h ../../src/via.h wd1770.h \
-	../../src/sysfile.h fdc.h ../../src/zfile.h
+	../../src/uiapi.h ../../src/utils.h viad.h ../../src/via.h \
+	wd1770.h ../../src/sysfile.h fdc.h ../../src/zfile.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
@@ -360,8 +360,8 @@ drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h viad.h ../../src/via.h riotd.h wd1770.h \
-	fdc.h drivecpucore.c ../../src/6510core.c
+	../../src/palette.h ../../src/uiapi.h viad.h ../../src/via.h \
+	riotd.h wd1770.h fdc.h drivecpucore.c ../../src/6510core.c
 drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
@@ -371,8 +371,8 @@ drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h viad.h ../../src/via.h riotd.h wd1770.h \
-	fdc.h drivecpucore.c ../../src/6510core.c
+	../../src/palette.h ../../src/uiapi.h viad.h ../../src/via.h \
+	riotd.h wd1770.h fdc.h drivecpucore.c ../../src/6510core.c
 fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/alarm.h \
 	fdc.h ../../src/snapshot.h drive.h ../../src/vdrive.h \

@@ -303,7 +303,8 @@ vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -318,7 +319,8 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/interrupt.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -333,7 +335,8 @@ vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -349,7 +352,7 @@ vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -363,8 +366,8 @@ vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/resources.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -379,7 +382,8 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -396,7 +400,8 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	vicii-resources.h vicii-snapshot.h vicii.h ../../src/c64/c64.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster-cache.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

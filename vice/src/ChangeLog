@@ -1,5 +1,44 @@
 1999-05-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.23.
+
+	* arch/msdos/menudefs.c (rom_submenu): The name for the default
+	rom set is "default.vrs" and not `NULL'.
+	(ui_create_main_menu): Move working directory entry to special
+	settings.
+
+	* romset.c (romset_load): Check for `NULL'.
+
+	* arch/msdos/c64ui.c (rom_menu_items): Added `DosName1001.
+	(c64_ui_init): Added c64 specific ROM set entries.
+
+	* arch/msdos/c128ui.c (rom_menu_items): Added c128 specific ROM
+	set entries.
+	* arch/msdos/vic20ui.c (rom_menu_items): Changed likewise.
+	* arch/msdos/petui.c (rom_menu_items): Changed likewise.
+	* arch/msdos/c610.c (rom_menu_items): Changed likewise.
+
+	* arch/msdos/vic20ui.c, arch/msdos/petui.c, arch/msdos/c610.c:
+	#include <stdlib.h>.
+
+	* arch/unix/xaw/c128ui.c (c128_romset_submenu): Added missing
+	drive entries.
+
+	* arch/msdos/ui.h, arch/msdos/ui.c, arch/win32/ui.h,
+	arch/win32/ui.c, arch/unix/xaw/ui.h, arch/unix/xaw/ui.c,
+	arch/riscos/ui.h, arch/riscos/ui.c
+	(ui_display_drive_current_image): Filename has to be `const'.
+	Moved common UI pototypes to `uiapi.h'.
+
+	* uiapi.h: New file.
+
+	* arch/msdos/grabkey.c (my_kbd_interrupt_handler_end): Commented
+	out.
+
+	* zfile.c (try_uncompress_with_tzx): New function.
+
+1999-05-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.22.
 
 	* fsdevice (fs_find_pc64_name): Added missing `closedir'.
