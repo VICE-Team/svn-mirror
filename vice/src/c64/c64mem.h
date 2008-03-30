@@ -48,7 +48,7 @@ extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
 extern void mem_set_vbank(int new_vbank);
 extern read_func_t read_basic, read_kernal, read_chargen, read_ram;
-extern read_func_t read_io1, read_io2, read_roml;
+extern read_func_t read_io1, read_io2, read_roml, read_romh;
 extern store_func_t store_ram, store_ram_hi, store_io1, store_io2;
 extern store_func_t store_roml;
 
@@ -58,5 +58,7 @@ extern char* mem_get_romset_name(void);
 extern int mem_romset_loader(void);
 extern int mem_set_romset(char *name);
 extern int mem_add_romset(char *name);
+
+extern void pla_config_changed(void);
 
 #endif /* _C64MEM_H */
