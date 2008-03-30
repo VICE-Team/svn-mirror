@@ -64,21 +64,8 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* If this is defined, allow exact GCR operation when writing to the
-   disk too.  */
-#define TRUE_GCR_WRITE
-
-/* This enables faster handling of the IEC bus.  It does not work on VIC20
-   yet.  */
-#if !defined(VIC20)
-#define FAST_BUS
-#endif
-
-#define NOT(x) ((x)^1)
 #define NUM_BYTES_SECTOR_GCR 360
 #define NUM_MAX_BYTES_TRACK 7928
-
-extern void set_atn(BYTE state);
 
 /* RAM/ROM.  */
 BYTE true1541_rom[TRUE1541_ROM_SIZE];
@@ -92,30 +79,6 @@ int true1541_current_half_track = 36;
 
 /* If nonzero, the 1541 ROM has already been loaded.  */
 static int true1541_rom_loaded = 0;
-
-#ifndef FAST_BUS
-static BYTE cpu_data = 0;
-static BYTE cpu_clock = 0;
-static BYTE cpu_atn = 0;
-static BYTE drive_data = 0;
-static BYTE drive_clock = 0;
-static BYTE drive_atna = 0;
-static BYTE drive_data_modifier = 0;
-static BYTE cpu_bus_val = 0;
-static BYTE drive_bus_val = 0;
-static BYTE bus_data = 0;
-static BYTE bus_clock = 0;
-static BYTE bus_atn = 0;
-#else
-static BYTE drive_bus, drive_data, cpu_bus; /* FIXME: ugly name `drive_data'. */
-/* This is the IEC line status as seen by the CIA and VIA ports.  */
-static BYTE drive_port, cpu_port;
-#endif
-
-#ifdef CBM64
-static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive_value = 0xff;
-#endif
 
 static int init_complete = 0;
 static int byte_ready = 1;
@@ -617,14 +580,6 @@ int initialize_true1541(void)
     /* Trap the idle loop. */
     true1541_rom[0xec9b - 0xc000] = 0x00;
 
-#ifndef TRUE_GCR_WRITE
-    /* Trap the write sector routine. */
-    true1541_rom[0xf594 - 0xc000] = 0x20;  /* JSR $F5F2 */
-    true1541_rom[0xf595 - 0xc000] = 0xf2;
-    true1541_rom[0xf596 - 0xc000] = 0xf5;
-    true1541_rom[0xf597 - 0xc000] = 0x00;
-#endif
-
     for (track = 0; track < MAX_TRACKS_1541; track++)
 	GCR_track_size[track] = raw_track_size[speed_map[track]];
 
@@ -886,18 +841,9 @@ BYTE true1541_read_disk_byte(void)
         attach_clk = (CLOCK)0;
     }
 
-#ifndef TRUE1541_ROTATE
-
     val = GCR_track_start_ptr[GCR_head_offset];
     GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
-
-#else  /* !TRUE1541_ROTATE */
-
-    true1541_rotate_disk(0);
-    val = GCR_read;
-
-#endif /* !TRUE1541_ROTATE */
-
+    
     return val;
 }
 
@@ -918,20 +864,6 @@ int true1541_sync_found(void)
 {
     BYTE val = GCR_track_start_ptr[GCR_head_offset];
 
-#ifndef TRUE1541_ROTATE
-    if (val != 0xff)
-	true1541_read_disk_byte();
-    else {
-	while (1) {
-	    int next_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
-
-	    if (GCR_track_start_ptr[next_head_offset] != 0xff)
-		break;
-	    GCR_head_offset = next_head_offset;
-	}
-    }
-    return val == 0xff;
-#else
     if (val != 0xff || last_mode == 0) {
         return 0;
     } else {
@@ -947,7 +879,6 @@ int true1541_sync_found(void)
 	/* bits_moved = 0; */
 	return 1;
     }
-#endif
 }
 
 /* Move the head to half track `num'.  */
@@ -979,29 +910,11 @@ void true1541_move_head(int step)
 /* Write one GCR byte to the disk. */
 void true1541_write_gcr(BYTE val)
 {
-#ifndef TRUE_GCR_WRITE
-
-    /* This is not implemented! */
-    warn(true1541_warn, WARN_GCRWRITE,
-	 "program tries to write raw GCR data to the disk.");
-
-#else
-
     if (true1541_floppy == NULL)
 	return;
 
-#ifndef TRUE1541_ROTATE
-    if (!true1541_floppy->ReadOnly) {
-	GCR_track_start_ptr[GCR_head_offset] = val;
-	GCR_head_offset = (GCR_head_offset + 1) % GCR_current_track_size;
-        GCR_dirty_track = 1;
-    }
-#else
     true1541_rotate_disk(0);
     GCR_write_value = val;
-#endif
-
-#endif
 }
 
 /* Return the write protect sense status. */
@@ -1134,9 +1047,6 @@ void true1541_extend_disk_image(void)
 void true1541_update_zone_bits(int zone)
 {
     rotation_table_ptr = rotation_table[zone];
-#ifdef TRUE1541_ROTATE
-    /* printf("1541: zone %d, %d bps\n", zone, rot_speed_bps[zone]); */
-#endif
 }
 
 void true1541_update_viad2_pcr(int pcrval)
@@ -1152,43 +1062,6 @@ void true1541_motor_control(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef TRUE_GCR_WRITE
-/* DOS ROM write trap.  As handling GCR writes is complicate, we simply put a
-   trap in the DOS write routine and do everything by hand. */
-static void true1541_write_trap(void)
-{
-    int track, sector, addr;
-
-    track = true1541_ram[0x18];
-    sector = true1541_ram[0x19];
-    addr = true1541_ram[0x30] | (true1541_ram[0x31] << 8);
-    printf("1541: write T:%d S:%d from $%04X... ", track, sector, addr);
-    if (addr <= 0x700
-	&& floppy_write_block(true1541_floppy->ActiveFd,
-			      true1541_floppy->ImageFormat,
-			      true1541_ram + addr, track, sector,
-			      true1541_floppy->D64_Header) >= 0) {
-	BYTE buf[260], checksum;
-	int i;
-
-	/* FIXME: this is inefficient and ugly. */
-	buf[0] = 0x7;
-	buf[258] = buf[259] = 0;
-	checksum = buf[1] = true1541_ram[addr];
-	for (i = 2; i < 257; i++) {
-	    buf[i] = true1541_ram[addr + i - 1];
-	    checksum ^= buf[i];
-	}
-	buf[257] = checksum;
-	convert_sector_to_GCR(buf, GCR_data + GCR_OFFSET(track, sector),
-			      track, sector);
-	printf("OK.\n");
-    } else
-	printf("Error!\n");
-    true1541_program_counter = 0xf5dc;
-}
-#endif
-
 /* Handle a ROM trap. */
 int true1541_trap_handler(void)
 {
@@ -1198,293 +1071,11 @@ int true1541_trap_handler(void)
 	true1541_program_counter = 0xebff;
 	if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
 	    true1541_clk = next_alarm_clk(&true1541_int_status);
-#ifndef TRUE_GCR_WRITE
-    } else if (true1541_program_counter == 0xf597) {
-	true1541_write_trap();
-#endif
     } else
 	return 1;
 
     return 0;
 }
-
-/* ------------------------------------------------------------------------- */
-
-/* IEC bus handling.  FIXME: Total chaos here!!  */
-
-#define BUS_DBG 0
-
-#ifndef FAST_BUS
-inline void resolve_bus_signals(void)
-{
-    bus_atn = NOT(cpu_atn);
-    bus_clock = (NOT(cpu_clock) & NOT(drive_clock));
-    bus_data = (NOT(drive_data) & NOT(drive_data_modifier) & NOT(cpu_data));
-
-#if BUS_DBG
-    printf("SB: [%ld]  data:%d clock:%d atn:%d\n",
-	   true1541_clk, bus_data, bus_clock, bus_atn);
-#endif
-}
-#endif
-
-#ifdef FAST_BUS
-inline static void update_ports(void)
-{
-    cpu_port = cpu_bus & drive_bus;
-    drive_port = (((cpu_port >> 4) & 0x4)
-		  | (cpu_port >> 7)
-		  | ((cpu_bus << 3) & 0x80));
-}
-#endif
-
-void serial_bus_drive_write(BYTE data)
-{
-#ifndef FAST_BUS
-    static int last_write = 0;
-#endif
-
-    if (!app_resources.true1541)
-	return;
-
-#ifndef FAST_BUS
-
-    data = ~data;
-    drive_data = ((data & 2) >> 1);
-    drive_clock = ((data & 8) >> 3);
-    drive_atna = ((data & 16) >> 4);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-
-    if (last_write != (data & 26)) {
-	resolve_bus_signals();
-    }
-    last_write = data & 26;
-
-#else
-
-    drive_bus = (((data << 3) & 0x40)
-		 | ((data << 6) & ((~data ^ cpu_bus) << 3) & 0x80));
-    drive_data = data;
-    update_ports();
-
-#endif
-}
-
-BYTE serial_bus_drive_read(void)
-{
-    if (!app_resources.true1541)
-	return 0;
-
-#ifndef FAST_BUS
-
-    drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
-
-#if BUS_DBG
-    printf("SB: drive read  data:%d clock:%d atn:%d\n",
-	   (~bus_data) & 1, (~bus_clock) & 1, (cpu_atn) & 1);
-#endif
-
-    return drive_bus_val;
-
-#else
-
-    return drive_port;
-
-#endif
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* C64/C128-specific IEC bus handling. */
-
-#if defined(CBM64) || defined(C128)
-
-/* The C64 has all bus lines in one I/O byte in a CIA.  If this byte is read or
-   modified, these routines are called. */
-
-void serial_bus_cpu_write(BYTE data)
-{
-#ifndef FAST_BUS
-    static int last_write = 0;
-#endif
-
-    if (!app_resources.true1541)
-	return;
-
-    true1541_cpu_execute();
-
-#ifndef FAST_BUS
-
-    if ((cpu_atn == 0) && (data & 8))
-	set_atn(1);
-
-    if (!(data & 8))
-	set_atn(0);
-
-    cpu_data = ((data & 32) >> 5);
-    cpu_clock = ((data & 16) >> 4);
-    cpu_atn = ((data & 8) >> 3);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-
-    if (last_write != (data & 56))
-	resolve_bus_signals();
-
-    last_write = data & 56;
-
-#else
-
-    cpu_bus = (((data << 2) & 0x80)
-	       | ((data << 2) & 0x40)
-	       | ((data << 1) & 0x10));
-
-    /* FIXME: this is slow, we should avoid doing it when not necessary.  */
-
-    set_atn(!(cpu_bus & 0x10));
-
-    drive_bus = (((drive_data << 3) & 0x40)
-		 | ((drive_data << 6)
-		    & ((~drive_data ^ cpu_bus) << 3)
-		    & 0x80));
-
-    update_ports();
-
-#endif
-}
-
-BYTE serial_bus_cpu_read(void)
-{
-    if (!app_resources.true1541)
-	return 0;
-
-#ifndef FAST_BUS
-
-    true1541_cpu_execute();
-    cpu_bus_val = (bus_data << 7) | (bus_clock << 6) | (bus_atn << 3);
-
-    return cpu_bus_val;
-
-#else
-
-    true1541_cpu_execute();
-    return cpu_port;
-
-#endif
-}
-
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* VIC20-specific IEC bus handling. */
-
-#if defined(VIC20)
-
-/*
-   The VIC20 has a strange bus layout for the serial IEC bus.
-
-     VIA1 CA2 CLK out
-     VIA1 CB1 SRQ in
-     VIA1 CB2 DATA out
-     VIA2 PA0 CLK in
-     VIA2 PA1 DATA in
-     VIA2 PA7 ATN out
-
- */
-
-extern unsigned int reg_pc;
-
-/* These two routines are called for VIA2 Port A. */
-
-BYTE serial_bus_pa_read(void)
-{
-    if (!app_resources.true1541)
-	return 0;
-
-    true1541_cpu_execute();
-
-    cpu_bus_val = (bus_data << 1) | (bus_clock << 0) | (bus_atn << 7);
-
-#if BUS_DBG
-    if(cpu_atn)
-      printf("SB: cpu PC=%04x read  data:%d clock:%d, value read=%02x\n",
-	   reg_pc,
-	   (~cpu_data) & (~drive_data) & 1, (~cpu_clock) & (~drive_clock) & 1,
-	   cpu_bus_val);
-#endif
-
-    return cpu_bus_val;
-}
-
-void serial_bus_pa_write(BYTE data)
-{
-    static int last_write = 0;
-
-    if (!app_resources.true1541)
-	return;
-
-    true1541_cpu_execute();
-
-    if ((cpu_atn == 0) && (data & 128))
-	set_atn(1);
-
-    if (!(data & 128))
-	set_atn(0);
-
-    cpu_atn = ((data & 128) >> 7);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-
-    if (last_write != (data & 128)) {
-#if BUS_DBG
-	printf("CPU PC=%04x set ATN=%d\n",reg_pc, cpu_atn);
-#endif
-	resolve_bus_signals();
-#if BUS_DBG
-	if (traceflg)
-	    printf("WRITE RESET\n");
-#endif
-    }
-
-    last_write = data & 128;
-}
-
-/* This routine is called for VIA1 PCR (= CA2 and CB2).
-   Although Cx2 uses three bits for control, we assume the calling routine has
-   set bit 5 and bit 1 to the real output value for CB2 (DATA out) and CA2 (CLK
-   out) resp. (25apr1997 AF) */
-
-void serial_bus_pcr_write(BYTE data)
-{
-    static int last_write = 0;
-
-    if (!app_resources.true1541)
-	return;
-
-    true1541_cpu_execute();
-
-    cpu_data = ((data & 32) >> 5);
-    cpu_clock = ((data & 2) >> 1);
-    drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
-
-    if (last_write != (data & 34)) {
-#if BUS_DBG
-	printf("CPU PC=%04x set DATA=%d, CLK=%d\n",reg_pc, cpu_data, cpu_clock);
-#endif
-	resolve_bus_signals();
-#if BUS_DBG
-	if (traceflg)
-	    printf("WRITE RESET\n");
-#endif
-    }
-
-    last_write = data & 34;
-
-#if  0 /*BUS_DBG*/
-    printf("SB: cpu write (%02x) pcr data:%d clock:%d atn:%d\n",
-	   data, cpu_data, cpu_clock, cpu_atn);
-#endif
-}
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -1504,53 +1095,3 @@ void true1541_ack_sync_factor(void)
 {
     true1541_set_sync_factor(app_resources.true1541SyncFactor);
 }
-
-/* ------------------------------------------------------------------------- */
-
-/* C64-specific parallel cable handling.  */
-
-#ifdef CBM64
-
-void parallel_cable_cpu_write(BYTE data, int handshake)
-{
-    true1541_cpu_execute();
-    if (handshake)
-	viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    parallel_cable_cpu_value = data;
-}
-
-BYTE parallel_cable_cpu_read(void)
-{
-    true1541_cpu_execute();
-    viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    return parallel_cable_cpu_value & parallel_cable_drive_value;
-}
-
-void parallel_cable_drive_write(BYTE data, int handshake)
-{
-    if (handshake)
-	cia2_set_flag();
-    parallel_cable_drive_value = data;
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    if (handshake)
-	cia2_set_flag();
-    return parallel_cable_cpu_value & parallel_cable_drive_value;
-}
-
-#else  /* defined CBM64 */
-
-/* These are dummies to make the other true1541-aware machines happy.  */
-
-void parallel_cable_drive_write(BYTE data, int handshake)
-{
-}
-
-BYTE parallel_cable_drive_read(int handshake)
-{
-    return 0;
-}
-
-#endif /* defined CBM64 */

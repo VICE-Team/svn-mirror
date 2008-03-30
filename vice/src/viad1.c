@@ -306,7 +306,7 @@ void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte)
 
     if (byte != viaD1[addr]) {
         viaD1[addr] = byte;
- 	serial_bus_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
+ 	iec_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
     }
 	break;
 
@@ -503,7 +503,7 @@ BYTE REGPARM1 read_viaD1_(ADDRESS addr)
 	{
 	  BYTE byte;
 
-	byte = ((viaD1[VIA_PRB] & 0x1a) | serial_bus_drive_read()) ^ 0x85;
+	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 	  if(viaD1[VIA_ACR] & 0x80) {
 	    update_viaD1tal();
 /*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",

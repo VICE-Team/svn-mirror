@@ -379,7 +379,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	 cia2[addr] = byte;
 	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
 	 mem_set_vbank(tmp & 3);
-	 serial_bus_cpu_write(tmp);
+	 iec_cpu_write(tmp);
     }
 	break;
 
@@ -699,9 +699,9 @@ BYTE read_cia2_(ADDRESS addr)
       case CIA_PRA:		/* port A */
 
 #if 1				/* FAST_BUS */
-    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | serial_bus_cpu_read();
+    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_cpu_read();
 #else
-    byte= ((cia2[CIA_PRA] & cia2[CIA_DDRA]) | ((0x3f | serial_bus_cpu_read(	)) & ~cia2[CIA_DDRA]));
+    byte= ((cia2[CIA_PRA] & cia2[CIA_DDRA]) | ((0x3f | iec_cpu_read(	)) & ~cia2[CIA_DDRA]));
 #endif
 	return byte;
 	break;

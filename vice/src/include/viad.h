@@ -28,6 +28,7 @@
 #define _VIAD_H
 
 #include "types.h"
+#include "via.h"
 
 extern void set_atn(BYTE state);
 

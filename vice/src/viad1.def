@@ -84,7 +84,7 @@ STORE_PRB()
 {
     if (byte != viaD1[addr]) {
         viaD1[addr] = byte;
- 	serial_bus_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
+ 	iec_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
     }
 }
 
@@ -106,7 +106,7 @@ READ_PRA()
 
 READ_PRB()
 {
-	byte = ((viaD1[VIA_PRB] & 0x1a) | serial_bus_drive_read()) ^ 0x85;
+	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
 }
 
 #define POST_VIA_FUNCS

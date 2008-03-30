@@ -63,7 +63,7 @@ INCLUDES()
 
 RESET_VIA()
 {
-	serial_bus_pcr_write(0x22);
+	iec_pcr_write(0x22);
 }
 
 
@@ -74,7 +74,7 @@ STORE_PCR()
 	  /* first set bit 1 and 5 to the real output values */
 	  if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
 	  if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-	  serial_bus_pcr_write(tmp);
+	  iec_pcr_write(tmp);
 	}
 }
 

@@ -65,14 +65,14 @@ INCLUDES()
 
 RESET_VIA()
 {
-     serial_bus_pa_write(0xff);
+     iec_pa_write(0xff);
 }
 
 
 STORE_PRA()
 {
      via2[addr] = byte;
-     serial_bus_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+     iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
 }
 
 READ_PRA() 
@@ -100,10 +100,10 @@ READ_PRA()
 	  joy_bits = ~(joy[1] | joy[2]);
 	  joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
-	  /* We assume `serial_bus_pa_read()' returns the non-IEC bits
+	  /* We assume `iec_pa_read()' returns the non-IEC bits
              as zeroes. */
 	  return ((via2[VIA_PRA] & via2[VIA_DDRA]) 
-		  | ((serial_bus_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+		  | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
      }
 }
 

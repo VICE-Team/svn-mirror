@@ -70,12 +70,16 @@
                            |                           |
                            |<---- N + 1.5 CYCLES ----->|<--- N + 2 cycles --->
                                                          +---+
-      via2t*u clk --------------------------------------+   +--------
+ via2t*u* clk ------------------------------------------+   +--------
                                                      |
                                                      |
                                                   call of
 			                        int_via2*
                                                    here
+
+   real via2tau value = via2tau* + TAUOFFSET
+   via2tbu = via2tbu* + 0
+
  *
  * IRQ and PB7 are set/toggled at the low-high transition of Phi2,
  * but int_* is called a half-cycle before that. Does that matter?
@@ -83,31 +87,43 @@
  * PB7 output is still to be implemented
  */
 
+/* timer values do not depend on a certain value here, but PB7 does... */
+#define	TAUOFFSET	-1
+
 #define update_via2irq() \
         maincpu_set_nmi(I_VIA2FL, (via2ifr & via2ier & 0x7f) ? IK_NMI : 0)
 
 /* the next two are used in read_via2() */
 #define	via2ta() \
-	((clk<via2tau)?(via2tau-clk-2): \
-	(via2tal-(clk-via2tau)%(via2tal+2)))
+	((clk<via2tau-TAUOFFSET)?(via2tau-TAUOFFSET-clk-2): \
+	(via2tal-(clk-via2tau+TAUOFFSET)%(via2tal+2)))
 
 #define	via2tb() \
 	(via2tbu-clk-2)
 
-/* printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,via2tau,nuf,via2tal,via2pb7); */
-/* printf(" pb7=%d, pb7x=%d\n",via2pb7, via2pb7x); */
-
-/* the next two are used in store_via2() */
 #define	update_via2tal() \
 	via2pb7x = 0; \
+	via2pb7xx= 0; \
 	if(rclk>via2tau) { \
-	  int nuf = 1+(rclk-via2tau)/(via2tal+2); \
-	  if(via2[VIA_ACR] & 0x40) { via2pb7 ^= (nuf & 1); } \
-	  else { via2pb7 = 1; }\
+	  int nuf = (via2tal + 1 + rclk-via2tau)/(via2tal+2); \
+/*  printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,via2tau,nuf,via2tal ,via2pb7); */\
+	  if(!(via2[VIA_ACR] & 0x40)) { \
+	    if(((nuf-via2pb7sx)>1) || (!via2pb7)) { \
+	      via2pb7o = 1; \
+	      via2pb7sx= 0; \
+	    } \
+	  } \
+	  via2pb7 ^= (nuf & 1); \
 	\
-	  via2tau=via2tal+2+(rclk-(rclk-via2tau)%(via2tal+2)); \
+	  via2tau=TAUOFFSET+via2tal+2+(rclk-(rclk-via2tau+TAUOFFSET)%(via2tal+2)); \
+	  if(rclk == via2tau - via2tal - 1) { \
+	    via2pb7xx = 1; \
+	  }\
 	}\
-	if((via2[VIA_ACR]&0x40) && (via2tau == rclk+1)) via2pb7x = 1;\
+	if(via2tau == rclk) { \
+	  via2pb7x = 1;\
+	} \
+/* printf(" pb7=%d, pb7x=%d, pb7o=%d, tau=%d\n",via2pb7, via2pb7x,via2pb7o, via2tau);*/\
 	via2tal = via2[VIA_T1LL] + (via2[VIA_T1LH] << 8)
 
 #define	update_via2tbl() \
@@ -129,10 +145,10 @@
 #include "interrupt.h"
 
 /*#define VIA2_TIMER_DEBUG */
-/*#define VIA2_NEED_PB7 */	/* when PB7 is really used, set this
+/*#define VIA2_NEED_PB7 */	/* when PB7 is really used, set this 
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read -
+				   when port B is read - 
 				not yet implemented */
 
 /* global */
@@ -162,6 +178,9 @@ static CLOCK 		via2tbi;   /* time when next timer A alarm is */
 
 static int 		via2pb7;   /* state of PB7 for pulse output... */
 static int 		via2pb7x;  /* to be xored herewith  */
+static int 		via2pb7o;  /* to be ored herewith  */
+static int 		via2pb7xx; 
+static int 		via2pb7sx; 
 
 /* ------------------------------------------------------------------------- */
 /* VIA2 */
@@ -198,7 +217,7 @@ void    reset_via2(void)
     update_via2irq();
 
 
-     serial_bus_pa_write(0xff);
+     iec_pa_write(0xff);
 
 }
 
@@ -237,7 +256,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 #ifdef VIA2_TIMER_DEBUG
-    if ((addr<10 && addr>3) ||  app_resources.debugFlag)
+    if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
 	printf("store via2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
 		(int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
@@ -258,7 +277,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
       case VIA_DDRA:
 
      via2[addr] = byte;
-     serial_bus_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+     iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
 	break;
 
       case VIA_PRB: /* port B */
@@ -292,12 +311,13 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 	via2[VIA_T1LH] = byte;
 	update_via2tal();
         /* load counter with latch value */
-	via2tau = rclk + via2tal + 3;
+	via2tau = rclk + via2tal + 3 + TAUOFFSET;
 	via2tai = rclk + via2tal + 2;
         maincpu_set_alarm_clk(A_VIA2T1, via2tai);
 
 	/* set pb7 state */
 	via2pb7 = 0;
+	via2pb7o= 0;
 
         /* Clear T1 interrupt */
         via2ifr &= ~VIA_IM_T1;
@@ -357,17 +377,29 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 
       case VIA_ACR:
 	/* bit 7 timer 1 output to PB7 */
-	if((via2[VIA_ACR] & 0x80)==0 && (byte & 0x80)) {
-	  update_via2tal();
-	  via2pb7 = 1;
-	}
-	if((via2[VIA_ACR] ^ byte) & 0x40) {
-	  update_via2tal();
-	  via2pb7 ^= via2pb7x;
-	  if((rclk + via2tal + 2 == via2tau) && (byte & 0x40)) {
-	    via2pb7 ^= 1;
+	update_via2tal();
+	if((via2[VIA_ACR] ^ byte) & 0x80) {
+	  if(byte & 0x80) {
+	    via2pb7 = 1 ^ via2pb7x;
 	  }
 	}
+	if((via2[VIA_ACR] ^ byte) & 0x40) {
+/* printf("store_acr (%02x): pb7=%d, pb7x=%d, pb7o=%d, pb7xx=%d pb7sx=%d->",
+byte, via2pb7, via2pb7x, via2pb7o, via2pb7xx, via2pb7sx);*/
+	  via2pb7 ^= via2pb7sx;
+          if((byte & 0x40)) {
+            if(via2pb7x || via2pb7xx) {
+	      if(via2tal) {
+                via2pb7o = 1;
+	      } else {
+                via2pb7o = 0;
+               if((via2[VIA_ACR]&0x80) && via2pb7x && (!via2pb7xx)) via2pb7 ^= 1;
+	      }
+            }
+	  }
+/*printf("pb7o=%d\n",via2pb7o);*/
+	}
+	via2pb7sx = via2pb7x;
 	via2[addr] = byte;
 
 	
@@ -460,10 +492,10 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 	  joy_bits = ~(joy[1] | joy[2]);
 	  joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
-	  /* We assume `serial_bus_pa_read()' returns the non-IEC bits
+	  /* We assume `iec_pa_read()' returns the non-IEC bits
              as zeroes. */
 	  return ((via2[VIA_PRA] & via2[VIA_DDRA]) 
-		  | ((serial_bus_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+		  | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
      }
 
       case VIA_PRB: /* port B */
@@ -478,7 +510,9 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
      byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 	  if(via2[VIA_ACR] & 0x80) {
 	    update_via2tal();
-	    byte = (byte & 0x7f) | ((via2pb7 ^ via2pb7x) ? 0x80 : 0);
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, via2pb7, via2pb7o, via2pb7ox, via2pb7x, via2pb7xx);*/
+	    byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
 	  }
 	  return byte;
 	}
