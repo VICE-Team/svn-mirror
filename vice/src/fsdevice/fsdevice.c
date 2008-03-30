@@ -212,14 +212,14 @@ void fsdevice_test_pc64_name(vdrive_t *vdrive, char *rname, int secondary)
         if (!fd)
             return;
 
-        fread((char *) p00id, 8, 1, fd);
+        fread((char *)p00id, 8, 1, fd);
         if (ferror(fd)) {
             fclose(fd);
             return;
         }
         p00id[7] = '\0';
         if (!strncmp(p00id, "C64File", 7)) {
-            fread((char *) p00name, 16, 1, fd);
+            fread((char *)p00name, 16, 1, fd);
             if (ferror(fd)) {
                 fclose(fd);
                 return;
