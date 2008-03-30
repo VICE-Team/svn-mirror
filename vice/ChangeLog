@@ -1,3 +1,25 @@
+2000-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.28.
+
+	* AUTHORS, INSTALL, README, NEWS, TODO, vice.spec,
+	doc/Readme.dos: Updated.
+
+2000-01-30  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/DRIVES/Makefile.am: added dos2040, dos3040, dos4040
+
+	* data/DRIVES/dos2040, data/DRIVES/dos3040, data/DRIVES/dos4040:
+	new files
+
+	* doc/vice.texi: Added description of 3040 and 4040 disk drives
+	Added the ROM numbers of the ROM images used to produce the PET
+	and disk drive ROM files.
+
+2000-01-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.27.
+
 2000-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.26.
