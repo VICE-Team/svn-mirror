@@ -31,6 +31,53 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Menu
+//
+
+IDR_MENUMONITOR MENU DISCARDABLE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Test",   IDM_AUTOSTART
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Test", IDM_AUTOSTART
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MONTOOLBAR           BITMAP  MOVEABLE PURE   "montb.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Symbolleiste
+//
+
+#if 0
+IDR_MONTOOLBAR TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      IDM_LICENSE // ID_FILE_NEW
+    BUTTON      IDM_LICENSE // ID_FILE_OPEN
+    BUTTON      IDM_LICENSE // ID_FILE_SAVE
+	SEPARATOR
+    BUTTON      IDM_LICENSE // ID_EDIT_CUT
+    BUTTON      IDM_LICENSE // ID_EDIT_COPY
+    BUTTON      IDM_LICENSE // ID_EDIT_PASTE
+	SEPARATOR
+    BUTTON      IDM_LICENSE // ID_FILE_PRINT
+    BUTTON      IDM_LICENSE // ID_APP_ABOUT
+END
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Icon
 //
 
