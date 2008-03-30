@@ -69,13 +69,11 @@ static int joyport2select(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "JoyDevice1", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&joystick_port_map[0], joyport1select, NULL },
-    { "JoyDevice2", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&joystick_port_map[1], joyport2select, NULL },
+static const resource_int_t resources_int[] = {
+    { "JoyDevice1", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[0], joyport1select, NULL },
+    { "JoyDevice2", 0, RES_EVENT_NO, NULL,
+      &joystick_port_map[1], joyport2select, NULL },
     { NULL },
 };
 
@@ -91,7 +89,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int joystick_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 int joystick_init_cmdline_options(void)

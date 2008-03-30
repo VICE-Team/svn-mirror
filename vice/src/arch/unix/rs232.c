@@ -78,25 +78,21 @@ static int set_devbaud(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static const resource_t resources[] = {
-    { "RsDevice1Baud", RES_INTEGER, (resource_value_t)9600,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&devbaud[0], set_devbaud, (void *)0 },
-    { "RsDevice2Baud", RES_INTEGER, (resource_value_t)9600,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&devbaud[1], set_devbaud, (void *)1 },
-    { "RsDevice3Baud", RES_INTEGER, (resource_value_t)9600,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&devbaud[2], set_devbaud, (void *)2 },
-    { "RsDevice4Baud", RES_INTEGER, (resource_value_t)9600,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&devbaud[3], set_devbaud, (void *)3 },
+static const resource_int_t resources_int[] = {
+    { "RsDevice1Baud", 9600, RES_EVENT_NO, NULL,
+      &devbaud[0], set_devbaud, (void *)0 },
+    { "RsDevice2Baud", 9600, RES_EVENT_NO, NULL,
+      &devbaud[1], set_devbaud, (void *)1 },
+    { "RsDevice3Baud", 9600, RES_EVENT_NO, NULL,
+      &devbaud[2], set_devbaud, (void *)2 },
+    { "RsDevice4Baud", 9600, RES_EVENT_NO, NULL,
+      &devbaud[3], set_devbaud, (void *)3 },
     { NULL }
 };
 
 int rs232_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 void rs232_resources_shutdown(void)

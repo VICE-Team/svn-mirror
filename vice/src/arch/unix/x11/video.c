@@ -151,28 +151,31 @@ static int set_aspect_ratio(resource_value_t v, void *param)
 }
 
 /* Video-related resources.  */
-static const resource_t resources[] = {
-    { "UseXSync", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&_video_use_xsync, set_use_xsync, NULL },
-      /* turn MITSHM on by default */
-    { "MITSHM", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&try_mitshm, set_try_mitshm, NULL },
+static const resource_string_t resources_string[] = {
 #ifdef HAVE_XVIDEO
-    { "FOURCC", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&fourcc_s, set_fourcc, NULL },
-    { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&aspect_ratio_s, set_aspect_ratio, NULL },
+    { "FOURCC", "", RES_EVENT_NO, NULL,
+      &fourcc_s, set_fourcc, NULL },
+    { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
+      &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "UseXSync", 1, RES_EVENT_NO, NULL,
+      &_video_use_xsync, set_use_xsync, NULL },
+      /* turn MITSHM on by default */
+    { "MITSHM", 1, RES_EVENT_NO, NULL,
+      &try_mitshm, set_try_mitshm, NULL },
     { NULL }
 };
 
 int video_arch_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)

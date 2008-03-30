@@ -119,21 +119,19 @@ static int set_try_triple_buffering(resource_value_t v, void *param)
 
 #endif
 
-static const resource_t resources[] = {
-    { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200x8,
-      RES_EVENT_NO, NULL,
-      (void *)&vga_mode, set_vga_mode, NULL },
+static const resource_int_t resources_int[] = {
+    { "VGAMode", VGA_320x200x8, RES_EVENT_NO, NULL,
+      &vga_mode, set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
-    { "TripleBuffering", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&try_triple_buffering, set_try_triple_buffering, NULL },
+    { "TripleBuffering", 0, RES_EVENT_NO, NULL,
+      &try_triple_buffering, set_try_triple_buffering, NULL },
 #endif
     { NULL }
 };
 
 int video_arch_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)

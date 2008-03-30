@@ -74,16 +74,15 @@ static int set_direct_window(resource_value_t v, void *param)
 	return 0;
 }
 
-static const resource_t resources[] = {
-    { "DirectWindow", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&use_direct_window, set_direct_window, NULL },
+static const resource_int_t resources_int[] = {
+    { "DirectWindow", 1, RES_EVENT_NO, NULL,
+      &use_direct_window, set_direct_window, NULL },
     { NULL }
 };
 
 int video_arch_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)

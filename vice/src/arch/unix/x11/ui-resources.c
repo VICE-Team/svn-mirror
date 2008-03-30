@@ -87,38 +87,39 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "HTMLBrowserCommand", RES_STRING, 
+static const resource_string_t resources_string[] = {
+    { "HTMLBrowserCommand", 
 #ifdef MACOSX_SUPPORT    
-      (resource_value_t)"/usr/bin/open %s",
+      "/usr/bin/open %s",
 #else
-      (resource_value_t)"netscape %s",
+      "netscape %s",
 #endif
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&ui_resources.html_browser_command,
+      RES_EVENT_NO, NULL,
+      &ui_resources.html_browser_command,
       set_html_browser_command, NULL },
-    { "PrivateColormap", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&ui_resources.use_private_colormap,
-      set_use_private_colormap, NULL },
-    { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&ui_resources.save_resources_on_exit,
-      set_save_resources_on_exit, NULL },
-    { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&ui_resources.depth,
-      set_depth, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PrivateColormap", 0, RES_EVENT_NO, NULL,
+      &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+      &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
+      &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+    { "DisplayDepth", 0, RES_EVENT_NO, NULL,
+      &ui_resources.depth, set_depth, NULL },
     { NULL }
 };
 
 int ui_resources_init(void)
 {
     ui_resources_initialized = 1;
-    return resources_register(resources);
+
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)
