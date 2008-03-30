@@ -29,10 +29,15 @@
 #include <stdio.h>
 
 #include "alarm.h"
+#include "log.h"
 #include "maincpu.h"
+#include "ted-irq.h"
 #include "ted-timer.h"
 #include "tedtypes.h"
 #include "types.h"
+
+
+/*#define DEBUG_TIMER*/
 
 
 static alarm_t *ted_t1_alarm = NULL;
@@ -64,8 +69,10 @@ static void ted_t1(CLOCK offset)
     alarm_set(ted_t1_alarm, maincpu_clk
               + (t1_start == 0 ? 65536 : t1_start) * 2 - offset);
     t1_value = (t1_start == 0 ? 65536 : t1_start) * 2 - offset;
-/*printf("TI1 ALARM %x\n", maincpu_clk);*/
-    ted.irq_status |= 0x08;
+#ifdef DEBUG_TIMER
+    log_debug("TI1 ALARM %x", maincpu_clk);
+#endif
+    ted_irq_timer1_set();
     t1_last_restart = maincpu_clk - offset;
 }
 
@@ -74,8 +81,10 @@ static void ted_t2(CLOCK offset)
     alarm_set(ted_t2_alarm, maincpu_clk + 65536 * 2 - offset);
     t2_start = 0;
     t2_value = 65536 * 2 - offset;
-/*printf("TI2 ALARM %x\n", maincpu_clk);*/
-    ted.irq_status |= 0x10;
+#ifdef DEBUG_TIMER
+    log_debug("TI2 ALARM %x", maincpu_clk);
+#endif
+    ted_irq_timer2_set();
     t2_last_restart = maincpu_clk - offset;
 }
 
@@ -84,8 +93,10 @@ static void ted_t3(CLOCK offset)
     alarm_set(ted_t3_alarm, maincpu_clk + 65536 * 2 - offset);
     t3_start = 0;
     t3_value = 65536 * 2 - offset;
-/*printf("TI3 ALARM\n");*/
-    ted.irq_status |= 0x40;
+#ifdef DEBUG_TIMER
+    log_debug("TI3 ALARM %x", maincpu_clk);
+#endif
+    ted_irq_timer3_set();
     t3_last_restart = maincpu_clk - offset;
 }
 
@@ -148,7 +159,9 @@ static void ted_timer_t3_store_high(BYTE value)
 
 static BYTE ted_timer_t1_read_low(void)
 {
-/*printf("TI1 READL %02x\n", t1_value & 0xff);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI1 READL %02x", t1_value & 0xff);
+#endif
     if (t1_running) {
         t1_value -= maincpu_clk - t1_last_restart;
         t1_last_restart = maincpu_clk;
@@ -158,7 +171,9 @@ static BYTE ted_timer_t1_read_low(void)
 
 static BYTE ted_timer_t1_read_high(void)
 {
-/*printf("TI1 READH %02x\n", t1_value >> 8);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI1 READH %02x", t1_value >> 8);
+#endif
     if (t1_running) {
         t1_value -= maincpu_clk - t1_last_restart;
         t1_last_restart = maincpu_clk;
@@ -168,7 +183,9 @@ static BYTE ted_timer_t1_read_high(void)
 
 static BYTE ted_timer_t2_read_low(void)
 {
-/*printf("TI2 READL %02x\n", t2_value & 0xff);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI2 READL %02x", t2_value & 0xff);
+#endif
     if (t2_running) {
         t2_value -= maincpu_clk - t2_last_restart;
         t2_last_restart = maincpu_clk;
@@ -178,7 +195,9 @@ static BYTE ted_timer_t2_read_low(void)
 
 static BYTE ted_timer_t2_read_high(void)
 {
-/*printf("TI2 READH %02x\n", t2_value >> 8);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI2 READH %02x", t2_value >> 8);
+#endif
     if (t2_running) {
         t2_value -= maincpu_clk - t2_last_restart;
         t2_last_restart = maincpu_clk;
@@ -188,7 +207,9 @@ static BYTE ted_timer_t2_read_high(void)
 
 static BYTE ted_timer_t3_read_low(void)
 {
-/*printf("TI3 READL %02x\n", t3_value & 0xff);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI3 READL %02x", t3_value & 0xff);
+#endif
     if (t3_running) {
         t3_value -= maincpu_clk - t3_last_restart;
         t3_last_restart = maincpu_clk;
@@ -198,7 +219,9 @@ static BYTE ted_timer_t3_read_low(void)
 
 static BYTE ted_timer_t3_read_high(void)
 {
-/*printf("TI3 READH %02x\n", t3_value >> 8);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI3 READH %02x", t3_value >> 8);
+#endif
     if (t3_running) {
         t3_value -= maincpu_clk - t3_last_restart;
         t3_last_restart = maincpu_clk;
@@ -210,7 +233,9 @@ static BYTE ted_timer_t3_read_high(void)
 
 void REGPARM2 ted_timer_store(WORD addr, BYTE value)
 {
-/*printf("TI STORE %02x %02x CLK %x\n", addr, value, maincpu_clk);*/
+#ifdef DEBUG_TIMER
+    log_debug("TI STORE %02x %02x CLK %x", addr, value, maincpu_clk);
+#endif
     switch (addr) {
       case 0:
         ted_timer_t1_store_low(value);
