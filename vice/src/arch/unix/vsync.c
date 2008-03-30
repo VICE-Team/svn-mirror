@@ -54,6 +54,7 @@
 #include "vsync.h"
 #include "ui.h"
 #include "interrupt.h"
+#include "log.h"
 #include "video.h"
 #include "kbdbuf.h"
 #include "sound.h"
@@ -323,7 +324,9 @@ int do_vsync(int been_skipped)
     if (timer_speed != relative_speed) {
 	frame_counter = USHRT_MAX;
 	if (set_timer_speed(relative_speed) < 0) {
-	    fprintf(stderr, "Trouble setting timers... giving up.\n");
+	    log_error(LOG_DEFAULT, "Trouble setting timers... giving up.");
+            /* FIXME: Hm, maybe we should be smarter.  But this is should
+               never happen.  */
 	    exit(-1);
 	}
     }

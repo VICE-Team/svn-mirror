@@ -25,6 +25,7 @@
  *  02111-1307  USA.
  *
  */
+
 /*
  * This is modelled after some examples in Stevens, "Advanced Progamming
  * in the Unix environment", Addison Wesley.
@@ -57,6 +58,8 @@
 
 #include "coproc.h"
 
+#include "log.h"
+
 #define	SHELL	"/bin/sh"
 
 /* HP-UX 9 fix */
@@ -66,60 +69,58 @@
 
 static struct sigaction ignore;
 
-int fork_coproc(int *fd_wr, int *fd_rd, char *cmd) {
-	int fd1[2], fd2[2];
-	pid_t pid;
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
+{
+    int fd1[2], fd2[2];
+    pid_t pid;
 
-	ignore.sa_handler = SIG_IGN;
-	sigemptyset(&ignore.sa_mask);
-	ignore.sa_flags = SA_NOCLDSTOP | SA_RESTART;
+    ignore.sa_handler = SIG_IGN;
+    sigemptyset(&ignore.sa_mask);
+    ignore.sa_flags = SA_NOCLDSTOP | SA_RESTART;
 
-	sigaction(SIGCHLD, &ignore, NULL);
-	sigaction(SIGPIPE, &ignore, NULL);
+    sigaction(SIGCHLD, &ignore, NULL);
+    sigaction(SIGPIPE, &ignore, NULL);
 
-	if(pipe(fd1) < 0) {
-	  fprintf(stderr,"Coproc: Couldn't open pipe!\n");
-	  return -1;
-	}
-	if(pipe(fd2) < 0) {
-	  fprintf(stderr,"Coproc: Couldn't open pipe!\n");
-	  close(fd1[0]);
-	  close(fd1[1]);
-	  return -1;
-	}
-	if( (pid = fork()) < 0) {
-	  fprintf(stderr,"Coproc: Couldn't fork()!\n");
-	  close(fd1[0]);
-	  close(fd1[1]);
-	  close(fd2[0]);
-	  close(fd2[1]);
-	  return -1;
-	} else
-	if(pid==0) {		/* child */
-	  close(fd1[0]);
-	  if(fd1[1] != STDOUT_FILENO) {
+    if (pipe(fd1) < 0) {
+	log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
+	return -1;
+    }
+    if (pipe(fd2) < 0) {
+	log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
+	close(fd1[0]);
+	close(fd1[1]);
+	return -1;
+    }
+    if ((pid = fork()) < 0) {
+	log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
+	close(fd1[0]);
+	close(fd1[1]);
+	close(fd2[0]);
+	close(fd2[1]);
+	return -1;
+    } else if (pid == 0) {	/* child */
+	close(fd1[0]);
+	if (fd1[1] != STDOUT_FILENO) {
 	    dup2(fd1[1], STDOUT_FILENO);
 	    close(fd1[1]);
-	  }
-	  close(fd2[1]);
-	  if(fd2[0] != STDIN_FILENO) {
+	}
+	close(fd2[1]);
+	if (fd2[0] != STDIN_FILENO) {
 	    dup2(fd2[0], STDIN_FILENO);
 	    close(fd2[0]);
-	  }
-	  /* Hm, we have to close all other files that are currently
-	   * open now... */
-	  execl(SHELL, "sh", "-c", cmd, NULL);
-
-	  exit(127);	/* child dies on error */
-
-	} else {		/* parent */
-	  close(fd1[1]);
-	  close(fd2[0]);
-
-	  *fd_rd = fd1[0];
-	  *fd_wr = fd2[1];
 	}
-	return 0;
+	/* Hm, we have to close all other files that are currently
+           open now...  */
+	execl(SHELL, "sh", "-c", cmd, NULL);
+
+	exit(127);		/* child dies on error */
+
+    } else {			/* parent */
+	close(fd1[1]);
+	close(fd2[0]);
+
+	*fd_rd = fd1[0];
+	*fd_wr = fd2[1];
+    }
+    return 0;
 }
-
-
