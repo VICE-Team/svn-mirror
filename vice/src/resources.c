@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -480,9 +481,7 @@ int resources_save(const char *fname)
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
-#if defined WIN32 || defined OS2
     remove_file(backup_name);
-#endif
     if (rename(fname, backup_name) == 0)
 	have_old = 1;
     else

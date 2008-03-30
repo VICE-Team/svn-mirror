@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@mail.matav.hu>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -72,29 +73,28 @@ static void init_dialog(HWND hwnd, unsigned int num)
 {
     const char *disk_image, *dir;
     int n;
-    char tmp[256];
 
     if (num >= 8 && num <= 11) {
         disk_image = file_system_get_disk_name(num);
         SetDlgItemText(hwnd, IDC_DISKIMAGE,
                        disk_image != NULL ? disk_image : "");
 
-        sprintf(tmp, "FSDevice%dDir", num);
-        resources_get_value(tmp, (resource_value_t *) &dir);
+        resources_get_sprintf("FSDevice%dDir",
+                              (resource_value_t *)&dir, num);
         SetDlgItemText(hwnd, IDC_DIR, dir != NULL ? dir : "");
 
-        sprintf(tmp, "FSDevice%dConvertP00", num);
-        resources_get_value(tmp, (resource_value_t *) &n);
+        resources_get_sprintf("FSDevice%dConvertP00",
+                              (resource_value_t *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_READP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        sprintf(tmp, "FSDevice%dSaveP00", num);
-        resources_get_value(tmp, (resource_value_t *) &n);
+        resources_get_sprintf("FSDevice%dSaveP00",
+                              (resource_value_t *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_WRITEP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        sprintf(tmp, "FSDevice%dHideCBMFiles", num);
-        resources_get_value(tmp, (resource_value_t *) &n);
+        resources_get_sprintf("FSDevice%dHideCBMFiles",
+                              (resource_value_t *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
@@ -130,16 +130,18 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_SELECTDIR:
           case IDC_SELECTDISK:
           case IDC_SELECTNONE:
-            enable_controls_for_disk_device_type(hwnd,
-                                                 LOWORD(wparam));
+            enable_controls_for_disk_device_type(hwnd, LOWORD(wparam));
             break;
           case IDC_BROWSEDISK:
             {
                 char *s;
-                if ((s = ui_select_file(hwnd,"Attach disk image",
-                    "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                    "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
-                    "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL)) != NULL) {
+
+                s = ui_select_file(hwnd,"Attach disk image",
+                "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
+                "Zipped files (*.zip;*.gz;*.bz2;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
+                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL);
+
+                if (s != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                     if (file_system_attach_disk(num, s) < 0)
                         ui_error("Cannot attach specified file");
@@ -150,10 +152,13 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_AUTOSTART:
             {
                 char *s;
-                if ((s = ui_select_file(hwnd,"Autostart disk image",
-                    "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                    "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
-                    "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL)) != NULL) {
+
+                s = ui_select_file(hwnd,"Autostart disk image",
+                "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
+                "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)\0*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z\0"
+                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL);
+
+                if (s != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                     if (autostart_autodetect(s, "*", 0) < 0)
                         ui_error("Cannot autostart specified file.");
@@ -176,12 +181,11 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 bi.lParam=0;
                 bi.iImage=0;
                 if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
-                    char tmp[256];
                     SHGetPathFromIDList(idlist,s);
                     LocalFree(idlist);
                     SetDlgItemText(hwnd, IDC_DIR, s);
-                    sprintf(tmp, "FSDevice%dDir", num);
-                    resources_set_value(tmp, (resource_value_t) s);
+                    resources_set_sprintf("FSDevice%dDir",
+                                          (resource_value_t)s, num);
                 }
             }
             break;
