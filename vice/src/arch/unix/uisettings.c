@@ -39,11 +39,11 @@
 #include "fullscreen.h"
 #include "kbd.h"
 #include "mem.h"
-#include "printer.h"
 #include "resources.h"
 #include "romset.h"
 #include "sound.h"
 #include "uimenu.h"
+#include "uiprinter.h"
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
@@ -1030,122 +1030,6 @@ ui_menu_entry_t sound_settings_submenu[] = {
     { N_("Oversample"),
       NULL, NULL, set_sound_oversample_submenu },
     { NULL },
-};
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(PrUserDev)
-
-static ui_menu_entry_t pruser_device_submenu[] = {
-    { N_("*Printer 1 (file dump)"),
-      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)0, NULL },
-    { N_("*Printer 2 (exec)"),
-      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)1, NULL },
-    { N_("*Printer 3 (exec)"),
-      (ui_callback_t)radio_PrUserDev, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Printer4Device)
-
-static ui_menu_entry_t pr4_device_submenu[] = {
-    { N_("*Printer 1 (file dump)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)0, NULL },
-    { N_("*Printer 2 (exec)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)1, NULL },
-    { N_("*Printer 3 (exec)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
-#if 0
-/* The file selector cannot select a non-existing file -> does not work */
-static UI_CALLBACK(set_printer_dump_file)
-{
-    char *resource = (char *)UI_MENU_CB_PARAM;
-    char *filename;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-
-    filename = ui_select_file(_("Select printer dump file"),
-                              NULL, False, last_dir, NULL, &button, False);
-    switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t)filename);
-        if (last_dir)
-            free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    if (filename != NULL)
-        free(filename);
-}
-#endif
-
-static UI_CALLBACK(set_printer_exec_file)
-{
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    char *value;
-    char *new_value;
-    int len;
-    ui_button_t button;
-
-    vsync_suspend_speed_eval();
-    title = stralloc(_("Command to execute for printing (preceed with '|')"));
-
-    resources_get_value(resname, (resource_value_t *)&value);
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = xmalloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Command:"), new_value, len);
-    free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    free(new_value);
-}
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_TOGGLE(Printer4)
-UI_MENU_DEFINE_TOGGLE(PrUser)
-
-static UI_CALLBACK(flush_printer4)
-{
-    printer_interface_serial_close(4);
-}
-
-static ui_menu_entry_t printer_settings_menu[] = {
-    { N_("*IEC device 4 printer emulation"),
-      (ui_callback_t)toggle_Printer4, NULL, NULL },
-    { N_("IEC printer device"),
-      NULL, NULL, pr4_device_submenu  },
-    { N_("Flush IEC printer device"),
-      (ui_callback_t)flush_printer4, NULL, NULL },
-    { "--" },
-    { N_("*Userport printer emulation"),
-      (ui_callback_t)toggle_PrUser, NULL, NULL },
-    { N_("Userport printer device"),
-      NULL, NULL, pruser_device_submenu  },
-    { "--" },
-    { N_("Printer device 1..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice1", NULL },
-    { N_("Printer device 2..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice2", NULL },
-    { N_("Printer device 3..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice3", NULL },
-    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */

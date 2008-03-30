@@ -62,6 +62,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipalette.c \
 	uipalette.h \
+	uiprinter.c \
+	uiprinter.h \
 	uireu.c \
 	uireu.h \
 	uiscreenshot.h \
