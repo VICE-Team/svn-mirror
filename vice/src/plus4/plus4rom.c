@@ -28,10 +28,12 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "log.h"
 #include "mem.h"
 #include "plus4mem.h"
+#include "plus4memrom.h"
 #include "plus4rom.h"
 #include "plus4cart.h"
 #include "resources.h"
@@ -60,13 +62,15 @@ int plus4rom_load_kernal(const char *rom_name)
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     /* Load Kernal ROM.  */
-    if (sysfile_load(rom_name,
-        mem_kernal_rom, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
+    if (sysfile_load(rom_name, plus4memrom_kernal_rom,
+        PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
         log_error(plus4rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
         resources_set_value("VirtualDevices", (resource_value_t)trapfl);
         return -1;
     }
+    memcpy(plus4memrom_kernal_trap_rom, plus4memrom_kernal_rom,
+           PLUS4_KERNAL_ROM_SIZE);
 
     resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
@@ -79,8 +83,8 @@ int plus4rom_load_basic(const char *rom_name)
         return 0;
 
     /* Load Basic ROM.  */
-    if (sysfile_load(rom_name,
-        mem_basic_rom, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
+    if (sysfile_load(rom_name, plus4memrom_basic_rom,
+        PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
         log_error(plus4rom_log,
                   "Couldn't load basic ROM `%s'.",
                   rom_name);

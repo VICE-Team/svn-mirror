@@ -55,6 +55,7 @@
 #include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
+#include "plus4memrom.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
 #include "printer.h"
@@ -98,8 +99,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x20, 0xC6, 0xE2 },
         serial_trap_attention,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         "SerialSaListen",
@@ -107,8 +108,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x78, 0x20, 0xBF },
         serial_trap_attention,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         "SerialSendByte",
@@ -116,8 +117,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x78, 0x20, 0xC6 },
         serial_trap_send,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
 /*
     {
@@ -126,8 +127,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x48, 0x24, 0x94 },
         serial_trap_send,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
 */
     {
@@ -136,8 +137,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x78, 0xA9, 0x00 },
         serial_trap_receive,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         "SerialReady",
@@ -145,8 +146,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x24, 0x01, 0x70 },
         serial_trap_ready,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         "SerialReady2",
@@ -154,8 +155,8 @@ static const trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0xA5, 0x01, 0xC5 },
         serial_trap_ready,
-        kernal_read,
-        kernal_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         NULL,
@@ -176,8 +177,8 @@ static const trap_t plus4_tape_traps[] = {
         0xE9CF,
         { 0x20, 0xD3, 0xE8 },
         tape_find_header_trap_plus4,
-        rom_read,
-        rom_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         "TapeReceive",
@@ -185,8 +186,8 @@ static const trap_t plus4_tape_traps[] = {
         0xE8C7,
         { 0xBA, 0x8E, 0xBE },
         tape_receive_trap_plus4,
-        rom_read,
-        rom_store
+        plus4memrom_trap_read,
+        plus4memrom_trap_store
     },
     {
         NULL,
