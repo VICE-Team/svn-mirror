@@ -210,7 +210,7 @@
         if (ik & (IK_TRAP | IK_RESET)) {                                 \
             if (ik & IK_TRAP) {                                          \
                 EXPORT_REGISTERS();                                      \
-                interrupt_do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);    \
+                interrupt_do_trap(&CPU_INT_STATUS, (ADDRESS)reg_pc);     \
                 IMPORT_REGISTERS();                                      \
                 if (interrupt_check_pending_interrupt(&CPU_INT_STATUS)   \
                     & IK_RESET)                                          \
@@ -231,17 +231,17 @@
                 if (mon_mask[CALLER])                                    \
                     EXPORT_REGISTERS();                                  \
                 if (mon_mask[CALLER] & (MI_BREAK)) {                     \
-                    if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {   \
+                    if (check_breakpoints(CALLER, (ADDRESS)reg_pc)) {    \
                         mon((ADDRESS) reg_pc);                           \
                         IMPORT_REGISTERS();                              \
                     }                                                    \
                 }                                                        \
                 if (mon_mask[CALLER] & (MI_STEP)) {                      \
-                    mon_check_icount((ADDRESS) reg_pc);                  \
+                    mon_check_icount((ADDRESS)reg_pc);                   \
                     IMPORT_REGISTERS();                                  \
                 }                                                        \
                 if (mon_mask[CALLER] & (MI_WATCH)) {                     \
-                    mon_check_watchpoints((ADDRESS) reg_pc);             \
+                    mon_check_watchpoints((ADDRESS)reg_pc);              \
                     IMPORT_REGISTERS();                                  \
                 }                                                        \
             }                                                            \

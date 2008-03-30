@@ -1,4 +1,78 @@
-2001-11-10  Andreas Boose  <boose@linux.rz.fh-hann.de>
+2001-11-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.23.
+
+	* c64/cart/retroreplay.c (retroreplay_io1_store,
+	retroreplay_io2_store, retroreplay_roml_store): Fixed RAM
+	store.
+
+	* plus4/plus4cpu.c, plus4/ted-timer.c, plus4/ted-timer.h: New
+	files.
+
+	* plus4/Makefile.am: Added new files.
+
+	* Makefile.am: Removed `maincpu_sources' from target xplus.
+
+	* plus4/ted.c (ted_fetch_matrix): Limit colors for now.
+	(ted_update_memory_ptrs): Implemented color memory pointer.
+
+	* plus4/plus4mem.c (mem_proc_port_store, mem_proc_port_read):
+	New functions.
+	(rom_store, mem_rom_trap_allowed): Fixed.
+
+	* plus4/tedtypes.h: New variable `color_ptr'.
+
+	* plus4/tedtypes.h, plus4/ted-draw.c, plus4/ted-mem.c,
+	plus4/ted-resources.c, plus4/ted-snapshot.c, plus4/ted.c:
+	Renamed some variables and defines.
+
+	* vicii/vicii.c, vicii/vicii.h, plus4/ted.c. plus4/ted.h,
+	vdc/vdc.c, vdc/vdc.h, crtc/crtc.c, crtc/crtctypes.h: Made
+	exposure handler static.
+
+	* vicii/vicii.c, vicii/vicii.h, c128/c128mmu.c
+	(vic_ii_set_canvas_refresh): Fixed name.
+
+	* drive/drive-resources.c, drive/drive-resources.h,
+	drive/drive-cmdline-options.c, drive/drive-cmdline-options.h,
+	vicii/vicii-resources.c, vicii/vicii-resources.h,
+	vicii/vicii-cmdline-options.c, vicii/vicii-cmdline-options.h,
+	crtc/crtc-resources.c, crtc/crtc-cmdline-options.c,
+	c64/c64-resources.c, c64/c64-resources.h,
+	c128/c128-resources.c, c128/c128-resources.h,
+	vic20/vic20-resources.c, vic20/vic20-resources.h,
+	pet/pet-resources.c, pet/pet-resources.h,
+	plus4/plus4-resources.c, plus4/plus4-resources.h,
+	cbm2/c610-resources.c, cbm2/c610-resources.h,
+	c64/c64-cmdline-options.c, c64/c64-cmdline-options.h,
+	c128/c128-cmdline-options.c, c128/c128-cmdline-options.h,
+	vic20/vic20-cmdline-options.c, vic20/vic20-cmdline-options.h,
+	pet/pet-cmdline-options.c, pet/pet-cmdline-options.h,
+	plus4/plus4-cmdline-options.c, plus4/plus4-cmdline-options.h,
+	cbm2/c610-cmdline-options.c, cbm2/c610-cmdline-options.h,
+	sound.c, sound.h, vsync.c, vsync.h, traps.c, traps.h,
+	datasette.c, datasette.h, keyboard.h, arch/unix/kmap.c,
+	arch/unix/petkmap.c, arch/win32/kbd.c, arch/win32/petkbd.c,
+	arch/msdos/kbd.c, arch/msdos/petkbd.c, arch/riscos/kbd.c,
+	arch/os2/kbd.c, arch/os2/kbd/kmap.c, arch/os2/kbd/kbd-pet.c,
+	arch/beos/kbd.c, arch/beos/petkbd.c, sid/sid-resources.c,
+	sid/sid-resources.h, sid/sid-cmdline-options.c,
+	sid/sid-cmdline-options.h, printer.h, printerdrv/printer.c,
+	c64/reu.c, c64/reu.h, cartridge.h, c64/cart/c64cart.c,
+	vic20/vic20cartridge.c, arch/unix/mouse.c, arch/unix/mouse.h,
+	arch/win32/mouse.c, arch/win32/mouse.h, arch/msdos/mouse.c,
+	arch/msdos/mouse.h, arch/os2/mouse.c, arch/os2/mouse.h,
+	arch/beos/mouse.cc, arch/beos/mouse.h, main.c, c64/c64acia1.c,
+	c64/c64acia.h, pet/petacia1.c, pet/petacia.h, rs232.h,
+	cbm2/c610acia1.c, arch/unix/rs232.c, arch/riscos/rs232.c,
+	arch/os2/rs232.c, rsuser.c, rsuser.h, c128/c128mmu.c,
+	c128/c128mmu.h, c128/z80mem.c, c128/z80mem.h,
+	c128/functionrom.c, c128/functionrom.h, c64/c64.c,
+	c128/c128.c, vic20/vic20.c, pet/pet.c, plus4/plus4.c,
+	cbm2/c610.c: Changed name of resource and command line
+	initialization functions.
+
+2001-11-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.22.
 
@@ -141,7 +215,7 @@
 	0 or low nibble of the last fetched character
 	depending on the idle state.
 
-2001-10-31  Andreas Boose  <boose@linux.rz.fh-hann.de>
+2001-10-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.7.21.
 
