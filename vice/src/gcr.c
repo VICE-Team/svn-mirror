@@ -43,14 +43,14 @@
 /* GCR handling.  */
 
 static BYTE GCR_conv_data[16] = { 0x0a, 0x0b, 0x12, 0x13,
-				  0x0e, 0x0f, 0x16, 0x17,
-				  0x09, 0x19, 0x1a, 0x1b,
-				  0x0d, 0x1d, 0x1e, 0x15 };
+                                  0x0e, 0x0f, 0x16, 0x17,
+                                  0x09, 0x19, 0x1a, 0x1b,
+                                  0x0d, 0x1d, 0x1e, 0x15 };
 
 static BYTE From_GCR_conv_data[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-				       0, 8, 0, 1, 0,12, 4, 5,
-				       0, 0, 2, 3, 0,15, 6, 7,
-				       0, 9,10,11, 0,13,14, 0 };
+                                       0, 8, 0, 1, 0,12, 4, 5,
+                                       0, 0, 2, 3, 0,15, 6, 7,
+                                       0, 9,10,11, 0,13,14, 0 };
 
 void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
 {
@@ -116,7 +116,7 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, unsigned int track,
 
     header_id1 = (error_code == 29) ? diskID1 ^ 0xff : diskID1;
 
-    memset(ptr, 0xff, 5);	/* Sync */
+    memset(ptr, 0xff, 5);       /* Sync */
     ptr += 5;
 
     buf[0] = (error_code == 20) ? 0xff : 0x08;
@@ -136,20 +136,20 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, unsigned int track,
     gcr_convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
-    memset(ptr, 0x55, 9);	/* Header Gap */
+    memset(ptr, 0x55, 9);       /* Header Gap */
     ptr += 9;
 
-    memset(ptr, 0xff, 5);	/* Sync */
+    memset(ptr, 0xff, 5);       /* Sync */
     ptr += 5;
 
     for (i = 0; i < 65; i++) {
-	gcr_convert_4bytes_to_GCR(buffer, ptr);
-	buffer += 4;
-	ptr += 5;
+        gcr_convert_4bytes_to_GCR(buffer, ptr);
+        buffer += 4;
+        ptr += 5;
     }
 
     /* FIXME: This is approximated.  */
-    memset(ptr, 0x55, 6);	/* Gap before next sector.  */
+    memset(ptr, 0x55, 6);       /* Gap before next sector.  */
     ptr += 6;
 
 }
@@ -181,7 +181,10 @@ BYTE *gcr_find_sector_header(unsigned int track, unsigned int sector,
     BYTE *offset = gcr_track_start_ptr;
     BYTE *GCR_track_end = gcr_track_start_ptr + gcr_current_track_size;
     BYTE GCR_header[5], header_data[4];
-    int i, sync_count = 0, wrap_over = 0;
+    int i, wrap_over = 0;
+    unsigned int sync_count;
+
+    sync_count = 0;
 
     while ((offset < GCR_track_end) && !wrap_over) {
         while (*offset != 0xff) {

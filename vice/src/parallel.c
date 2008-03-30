@@ -255,7 +255,7 @@ static void In1_davlo(int tr)
     if (parallel_atn) {
         par_status = parallelattention(b ^ 0xff);
     } else {
-        par_status = parallelsendbyte(b ^ 0xff);
+        par_status = parallelsendbyte((BYTE)(b ^ 0xff));
     }
     if (parallel_debug)
         log_warning(LOG_DEFAULT,
@@ -335,7 +335,7 @@ static void Out1_nrfdhi(int tr)
     static BYTE b;
 
     par_status = parallelreceivebyte(&b, 1);
-    parallel_emu_set_bus(b ^ 0xff);
+    parallel_emu_set_bus((BYTE)(b ^ 0xff));
 
     if(par_status & 0x40) {
         parallel_emu_set_eoi(1);

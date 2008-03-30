@@ -91,7 +91,7 @@ static log_t tape_log = LOG_ERR;
 
 static inline void set_st(BYTE b)
 {
-    mem_store(st_addr, (mem_read(st_addr) | b));
+    mem_store(st_addr, (BYTE)(mem_read(st_addr) | b));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -271,7 +271,7 @@ void tape_find_header_trap(void)
     BYTE *cassette_buffer;
 
     cassette_buffer = ram + (mem_read(buffer_pointer_addr)
-                             | (mem_read(buffer_pointer_addr + 1) << 8));
+                      | (mem_read((ADDRESS)(buffer_pointer_addr + 1)) << 8));
 
     if (attached_t64_tape == NULL) {
         err = 1;
@@ -306,8 +306,8 @@ void tape_find_header_trap(void)
     mem_store(verify_flag_addr, 0);
 
     if (irqtmp) {
-        mem_store(irqtmp, irqval & 0xff);
-        mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
+        mem_store(irqtmp, (BYTE)(irqval & 0xff));
+        mem_store((ADDRESS)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
     }
 
     /* Check if STOP has been pressed.  */
@@ -316,7 +316,7 @@ void tape_find_header_trap(void)
 
         MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
         for (i = 0; i < n; i++) {
-            if (mem_read(kbd_buf_addr + i) == 0x3) {
+            if (mem_read((ADDRESS)(kbd_buf_addr + i)) == 0x3) {
                 MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
                 break;
             }
@@ -341,8 +341,8 @@ void tape_receive_trap(void)
     WORD start, end, len;
     BYTE st;
 
-    start = (mem_read(stal_addr) | (mem_read(stal_addr + 1) << 8));
-    end = (mem_read(eal_addr) | (mem_read(eal_addr + 1) << 8));
+    start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1) << 8)));
+    end = (mem_read(eal_addr) | (mem_read((ADDRESS)(eal_addr + 1)) << 8));
 
     switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
       case 0x0e:
@@ -372,7 +372,7 @@ void tape_receive_trap(void)
 
     if (irqtmp) {
         mem_store(irqtmp, (BYTE)(irqval & 0xff));
-        mem_store(irqtmp + 1, (BYTE)((irqval >> 8) & 0xff));
+        mem_store((ADDRESS)(irqtmp + 1), (BYTE)((irqval >> 8) & 0xff));
     }
 
     set_st(st);                 /* EOF and possible errors */

@@ -1,3 +1,21 @@
+2001-05-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.34.
+
+	* main.c (MAIN_PROGRAM): Fixed typo.
+
+	* ciacore.c, c64/c64tpi.c, c64/psid.c, drive/via1d.c,
+	sid/sid.c, sounddrv/sounddx.c, vicii/vicii-mem.c,
+	vicii/vicii-snapshot.c, vdrive/vdrive-dir.c, monitor/mon.c,
+	cmdline.c, diskimage.c, gcr.c, parallel.c, snapshot.c. t64.c,
+	tape.c: Fixed variable types.
+
+2001-05-27  Dag Lem  <resid@nimrod.no>
+
+	* vsync.c (set_timer_speed): Moved setting of vsyncarch_freq
+	from vsync_init.
+	(display_speed): Only lie about speed when timer_speed is set.
+
 2001-05-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.33.

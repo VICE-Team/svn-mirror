@@ -86,8 +86,8 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
     if (!check_magic(hdr))
         return -1;
 
-    hdr->version = get_number(buf + T64_HDR_VERSION_OFFSET,
-                              (unsigned int)T64_HDR_VERSION_LEN);
+    hdr->version = (WORD)get_number(buf + T64_HDR_VERSION_OFFSET,
+                                    (unsigned int)T64_HDR_VERSION_LEN);
 
     /* We could make a version check, but there are way too many images with
        broken version number out there for us to trust it.  */
@@ -96,8 +96,8 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
         return -1;
 #endif
 
-    hdr->num_entries = get_number(buf + T64_HDR_NUMENTRIES_OFFSET,
-                                  (unsigned int)T64_HDR_NUMENTRIES_LEN);
+    hdr->num_entries = (WORD)get_number(buf + T64_HDR_NUMENTRIES_OFFSET,
+                                        (unsigned int)T64_HDR_NUMENTRIES_LEN);
     if (hdr->num_entries == 0) {
         /* XXX: The correct behavior here would be to reject it, but there
            are so many broken T64 images out there, that it's better if we
@@ -105,8 +105,8 @@ int t64_header_read(t64_header_t *hdr, FILE *fd)
         hdr->num_entries = 1;
     }
 
-    hdr->num_used = get_number(buf + T64_HDR_NUMUSED_OFFSET,
-                               (unsigned int)T64_HDR_NUMUSED_LEN);
+    hdr->num_used = (WORD)get_number(buf + T64_HDR_NUMUSED_OFFSET,
+                                     (unsigned int)T64_HDR_NUMUSED_LEN);
     if (hdr->num_used > hdr->num_entries)
         return -1;
 
@@ -126,10 +126,10 @@ int t64_file_record_read(t64_file_record_t *rec, FILE *fd)
     rec->entry_type = buf[T64_REC_ENTRYTYPE_OFFSET];
     memcpy(rec->cbm_name, buf + T64_REC_CBMNAME_OFFSET, T64_REC_CBMNAME_LEN);
     rec->cbm_type = buf[T64_REC_CBMTYPE_OFFSET];
-    rec->start_addr = get_number(buf + T64_REC_STARTADDR_OFFSET,
-                                 (unsigned int)T64_REC_STARTADDR_LEN);
-    rec->end_addr = get_number(buf + T64_REC_ENDADDR_OFFSET,
-                               (unsigned int)T64_REC_ENDADDR_LEN);
+    rec->start_addr = (ADDRESS)get_number(buf + T64_REC_STARTADDR_OFFSET,
+                                          (unsigned int)T64_REC_STARTADDR_LEN);
+    rec->end_addr = (ADDRESS)get_number(buf + T64_REC_ENDADDR_OFFSET,
+                                        (unsigned int)T64_REC_ENDADDR_LEN);
     rec->contents = get_number(buf + T64_REC_CONTENTS_OFFSET,
                                T64_REC_CONTENTS_LEN);
 
@@ -308,7 +308,7 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
     if (fseek(t64->fd, offset, SEEK_SET) != 0)
         return -1;
 
-    if (recsize < t64->current_file_seek_position + size)
+    if (recsize < (int)(t64->current_file_seek_position + size))
         size = recsize - t64->current_file_seek_position;
 
     amount = fread(buf, 1, size, t64->fd);

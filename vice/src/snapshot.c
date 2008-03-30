@@ -138,8 +138,7 @@ int snapshot_write_byte_array(FILE *f, BYTE *b, int len)
 
 int snapshot_write_string(FILE *f, const char *s)
 {
-    int i;
-    size_t len;
+    size_t len, i;
 
     len = s ? (strlen(s) + 1) : 0;	/* length includes nullbyte */
 
