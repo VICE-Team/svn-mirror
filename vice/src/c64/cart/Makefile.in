@@ -299,7 +299,8 @@ expert.o: expert.c ../../../src/vice.h ../../../src/config.h \
 final.o: final.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/c64/c64mem.h ../../../src/mem.h \
-	final.h ../../../src/interrupt.h ../../../src/utils.h
+	../../../src/cartridge.h final.h ../../../src/interrupt.h \
+	../../../src/utils.h
 generic.o: generic.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/cartridge.h crt.h generic.h \

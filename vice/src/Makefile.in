@@ -615,7 +615,7 @@ datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	autostart.h clkguard.h cmdline.h datasette.h log.h machine.h \
 	maincpu.h resources.h tap.h arch/unix/ui.h uiapi.h
 debug.o: debug.c vice.h config.h cmdline.h debug.h arch/unix/types.h \
-	interrupt.h log.h resources.h
+	interrupt.h lib.h log.h resources.h
 dma.o: dma.c vice.h config.h dma.h arch/unix/types.h interrupt.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 event.o: event.c vice.h config.h alarm.h arch/unix/types.h \

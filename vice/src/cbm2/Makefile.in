@@ -344,9 +344,10 @@ cbm2tpi1.o: cbm2tpi1.c cbm2cia.h ../../src/arch/unix/types.h \
 	../../src/tpicore.h ../../src/log.h ../../src/tpi.h \
 	../../src/tpicore.c ../../src/snapshot.h
 cbm2tpi2.o: cbm2tpi2.c cbm2mem.h ../../src/arch/unix/types.h \
-	../../src/vice.h ../../src/config.h ../../src/keyboard.h \
-	../../src/maincpu.h ../../src/tpicore.h ../../src/log.h \
-	../../src/tpi.h ../../src/tpicore.c ../../src/snapshot.h
+	../../src/vice.h ../../src/config.h ../../src/interrupt.h \
+	../../src/keyboard.h ../../src/maincpu.h ../../src/tpicore.h \
+	../../src/log.h ../../src/tpi.h ../../src/tpicore.c \
+	../../src/snapshot.h
 
 info-am:
 info: info-am
