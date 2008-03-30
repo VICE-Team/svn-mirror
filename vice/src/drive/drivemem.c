@@ -211,7 +211,7 @@ void drive_mem_init(drive_context_t *drv, int type)
 
     /* FIXME: ROM mirrors! */
     /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
+    if (type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
         || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250)
         for (i = 0xC0; i < 0x100; i++)
@@ -225,7 +225,8 @@ void drive_mem_init(drive_context_t *drv, int type)
         for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
-    if (type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571
+        || type == DRIVE_TYPE_1581)
         for (i = 0x80; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
@@ -381,7 +382,6 @@ void drive_mem_init(drive_context_t *drv, int type)
       case DRIVE_TYPE_4040:
         drv->drive_ptr->rom_start = 0xd000;
 	break;
-      case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
@@ -389,6 +389,7 @@ void drive_mem_init(drive_context_t *drv, int type)
       case DRIVE_TYPE_8250:
         drv->drive_ptr->rom_start = 0xc000;
         break;
+      case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
         drv->drive_ptr->rom_start = 0x8000;

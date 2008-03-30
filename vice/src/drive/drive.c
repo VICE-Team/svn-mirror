@@ -98,7 +98,7 @@ static int drive_rom_load_ok = 0;
 /* ------------------------------------------------------------------------- */
 
 /* RAM/ROM.  */
-BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
+BYTE drive_rom1541[DRIVE_ROM1541_SIZE_EXPANDED];
 BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
 BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
@@ -109,15 +109,17 @@ BYTE drive_rom3040[DRIVE_ROM3040_SIZE];
 BYTE drive_rom4040[DRIVE_ROM4040_SIZE];
 
 /* If nonzero, the ROM image has been loaded.  */
-int rom1541_loaded = 0;
-int rom1541ii_loaded = 0;
-int rom1571_loaded = 0;
-int rom1581_loaded = 0;
-int rom2031_loaded = 0;
-int rom2040_loaded = 0;
-int rom3040_loaded = 0;
-int rom4040_loaded = 0;
-int rom1001_loaded = 0;
+unsigned int rom1541_loaded = 0;
+unsigned int rom1541ii_loaded = 0;
+unsigned int rom1571_loaded = 0;
+unsigned int rom1581_loaded = 0;
+unsigned int rom2031_loaded = 0;
+unsigned int rom2040_loaded = 0;
+unsigned int rom3040_loaded = 0;
+unsigned int rom4040_loaded = 0;
+unsigned int rom1001_loaded = 0;
+
+unsigned int drive_rom1541_size;
 
 /* Speed zone of each track of the 1541 disk drive.  */
 extern int speed_map_1541[42];
@@ -194,7 +196,7 @@ static void drive_read_image_d64_d71(unsigned int dnr)
 
     for (track = 1; track <= drive[dnr].image->tracks; track++) {
         BYTE *ptr;
-        int max_sector = 0;
+        unsigned int max_sector = 0;
 
         ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
         max_sector = disk_image_sector_per_track(drive[dnr].image->type,
@@ -530,7 +532,8 @@ int drive_do_1541_checksum(void)
     unsigned long s;
 
     /* Calculate ROM checksum.  */
-    for (i = 0, s = 0; i < DRIVE_ROM1541_SIZE; i++)
+    for (i = DRIVE_ROM1541_SIZE_EXPANDED - drive_rom1541_size, s = 0;
+        i < DRIVE_ROM1541_SIZE_EXPANDED; i++)
         s += drive_rom1541[i];
 
     if (s != DRIVE_ROM1541_CHECKSUM)
@@ -542,6 +545,7 @@ int drive_do_1541_checksum(void)
 int drive_load_1541(void)
 {
     char *rom_name = NULL;
+    int filesize;
 
     if (!drive_rom_load_ok)
         return 0;
@@ -549,14 +553,18 @@ int drive_load_1541(void)
     resources_get_value("DosName1541", (resource_value_t *)&rom_name);
 
     /* Load the ROMs. */
-    if (sysfile_load(rom_name, drive_rom1541, DRIVE_ROM1541_SIZE,
-                     DRIVE_ROM1541_SIZE) < 0) {
+    filesize = sysfile_load(rom_name, drive_rom1541, DRIVE_ROM1541_SIZE,
+                            DRIVE_ROM1541_SIZE_EXPANDED);
+    if (filesize < 0) {
         log_error(drive_log,
                   "1541 ROM image not found.  "
                   "Hardware-level 1541 emulation is not available.");
+        drive_rom1541_size = 0;
     } else {
         rom1541_loaded = 1;
-        return drive_do_1541_checksum();
+        drive_rom1541_size = (unsigned int)filesize;
+        drive_do_1541_checksum();
+        return 0;
     }
     return -1;
 }
@@ -774,8 +782,7 @@ void drive_setup_rom_image(int dnr)
     if (rom_loaded) {
         switch (drive[dnr].type) {
           case DRIVE_TYPE_1541:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541,
-                   DRIVE_ROM1541_SIZE);
+            memcpy(drive[dnr].rom, drive_rom1541, DRIVE_ROM1541_SIZE_EXPANDED);
             break;
           case DRIVE_TYPE_1541II:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541ii,
