@@ -67,6 +67,8 @@
 #include "interrupt.h"
 #include "joystick.h"
 #include "kbd.h"
+#include "kbdbuf.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -290,6 +292,10 @@ static int init_cmdline_options(void)
         return -1;
     }
 #endif
+    if (kbd_buf_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize keyboard buffer-specific command-line options.\n");
+        return -1;
+    }
 
     return 0;
 }
@@ -458,6 +464,8 @@ int MAIN_PROGRAM(int argc, char **argv)
         log_error(LOG_DEFAULT, "Machine initialization failed.");
         return -1;
     }
+
+    keyboard_init();
 
     /* Handle general-purpose command-line options.  */
 

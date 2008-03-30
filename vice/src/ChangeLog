@@ -1,5 +1,34 @@
 1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.10.
+
+	* kbdbuf.c, kbdbuf.h (kbd_buf_init_cmdline_options,
+	kdb_buf_feed_cmdline): New functions.
+	(kbd_buf_init): Feed keyboard buffer on startup if specified.
+
+	* keyboard.c, keyboard.h: New files.
+
+	* arch/unix/kbd.c, arch/msdos/kbd.c, arch/win32/kbd.c,
+	(set_keyarr): Moved to `keyboard.c' and changed to
+	`keyboard_set_keyarr'. Removed keyboard array declaration.
+
+	* arch/riscos/kbd.c, arch/riscos/kbd.c: Removed keyboard array
+	declaration.
+
+	* c64/c64cia1.c, c128/c128cia1.c, vic20/vic20via1.c,
+	pet/petpia1.c, cbm2/c610tpi2.c, arch/win32/c64ui.c,
+	arch/win32/ui.c: #include "keyboard.h".
+
+	* arch/win32/c64ui.c, arch/win32/kbd.c, arch/win32/kbd.h,
+	arch/win32/ui.c: Call `keyboard_clear_keymatrix'.
+	* arch/unix/kbd.c (kbd_event_handler): Likewise.
+
+	* main.c (MAIN_PROGRAM): Initialize common keyboard routine.
+
+	* pet/petpia1.c (pia_set_cb2): Fixed prototype.
+
+1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.9.
 
 	* c64/c64.c (machine_init_cmdline_options): Initialize cartridge
