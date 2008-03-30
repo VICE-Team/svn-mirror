@@ -9,6 +9,8 @@ noinst_LIBRARIES = libvdrive.a
 libvdrive_a_SOURCES = \
 	vdrive-bam.c \
 	vdrive-bam.h \
+	vdrive-command.c \
+	vdrive-command.h \
 	vdrive-dir.c \
 	vdrive-dir.h \
 	vdrive-iec.c \
