@@ -50,13 +50,3 @@ void ui_cmdline_show_help(unsigned int num_options,
     putchar('\n');
 }
 
-void ui_cmdline_show_options(void *param)
-{
-    char *options;
-
-    options = cmdline_options_string();
-    ui_show_text((HWND)param, "Command line options",
-                 "Which command line options are available?", options);
-    lib_free(options);
-}
-

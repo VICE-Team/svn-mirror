@@ -1256,7 +1256,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                      info_warranty_text);
         break;
       case IDM_CMDLINE:
-        ui_cmdline_show_options((void *)hwnd);
+        uilib_show_options(hwnd);
         break;
       case IDM_ATTACH_8 | 0x00010000:
       case IDM_ATTACH_9 | 0x00010000:
