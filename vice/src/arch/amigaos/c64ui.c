@@ -32,8 +32,17 @@
 #include "c64uires.h"
 #include "uic64cart.h"
 
+#include "mui/uiacia.h"
+#include "mui/uic64_256k.h"
 #include "mui/uidrivec64vic20.h"
+#include "mui/uigeoram.h"
+#include "mui/uiplus256k.h"
+#include "mui/uiplus60k.h"
+#include "mui/uiramcart.h"
+#include "mui/uireu.h"
+#include "mui/uirs232user.h"
 #include "mui/uisid.h"
+#include "mui/uivicii.h"
 
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -52,13 +61,28 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
 
     switch (idm) {
       case IDM_VICII_SETTINGS:
-//        ui_vicii_settings_dialog(hwnd);
+        ui_vicii_settings_dialog();
         break;
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog();
         break;
       case IDM_REU_SETTINGS:
-//        ui_reu_settings_dialog(hwnd);
+        ui_reu_settings_dialog();
+        break;
+      case IDM_GEORAM_SETTINGS:
+        ui_georam_settings_dialog();
+        break;
+      case IDM_RAMCART_SETTINGS:
+        ui_ramcart_settings_dialog();
+        break;
+      case IDM_PLUS60K_SETTINGS:
+        ui_plus60k_settings_dialog();
+        break;
+      case IDM_PLUS256K_SETTINGS:
+        ui_plus256k_settings_dialog();
+        break;
+      case IDM_C64_256K_SETTINGS:
+        ui_c64_256k_settings_dialog();
         break;
       case IDM_IDE64_SETTINGS:
 //        uiide64_settings_dialog(hwnd);
@@ -80,10 +104,10 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         uidrivec64vic20_settings_dialog();
         break;
       case IDM_ACIA_SETTINGS:
-//        ui_acia_settings_dialog(hwnd, 1, NULL, 1);
+        ui_acia64128_settings_dialog();
         break;
       case IDM_RS232USER_SETTINGS:
-//        ui_rs232user_settings_dialog(hwnd);
+        ui_rs232user_settings_dialog();
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

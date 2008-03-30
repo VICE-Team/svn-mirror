@@ -28,4 +28,14 @@ rm `find ../dosvice -name "beos_*.vkm"`
 rm `find ../dosvice -name "win_*.vkm"`
 rm `find ../dosvice -name "x11_*.vkm"`
 rm ../dosvice/html/texi2html
-echo MSDOS port binary destribution generated in ../dosvice
+if test x"$4" = "xzip"; then
+  cd ..
+  if test x"$ZIP" = "x"; then
+    zip -r -9 -q vice$2$3.zip dosvice
+  else
+    $ZIP vice$2$3.zip dosvice
+  fi
+  echo MSDOS port binary distribution archive generated as ../vice$2$3.zip
+else
+  echo MSDOS port binary distribution directory generated as ../dosvice
+fi

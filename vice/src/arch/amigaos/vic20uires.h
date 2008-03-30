@@ -101,6 +101,7 @@ static struct NewMenu UI_MENU_NAME[] = {
       SUB("IDE64 interface image...", NULL,   IDM_CART_ATTACH_IDE64)
       SUB("Super Snapshot 4 image...", NULL,  IDM_CART_ATTACH_SS4)
       SUB("Super Snapshot 5 image...", NULL,  IDM_CART_ATTACH_SS5)
+      SUB("Structured Basic image...", NULL,  IDM_CART_ATTACH_STB)
 /* AmigaOS only support one submenu level */
     ITEM("Expert Cartridge", NULL, NULL)
       SUB("Enable", NULL, IDM_CART_ENABLE_EXPERT)
@@ -145,6 +146,10 @@ static struct NewMenu UI_MENU_NAME[] = {
     ITEM("Select History files/directory", NULL,    IDM_EVENT_DIRECTORY)
     ITEMSEPARATOR()
     ITEM("Save/stop media file...", "C", IDM_MEDIAFILE)
+    ITEMSEPARATOR()
+#if !defined(UI_C128) && !defined(UI_CBM2) && !defined(UI_PET) && !defined(UI_PLUS4) && !defined(UI_VIC20)
+    ITEM("Netplay (experimental)...", NULL, IDM_NETWORK_SETTINGS)
+#endif
   TITLE("Options", NULL)
     ITEM("Refresh rate", NULL, NULL)
       SUBTOGGLE("Auto", NULL, IDM_REFRESH_RATE_AUTO)
@@ -211,8 +216,8 @@ static struct NewMenu UI_MENU_NAME[] = {
 #if !defined(UI_PLUS4)
     ITEMSEPARATOR()
     ITEMTOGGLE("Emulator Identification", NULL, IDM_TOGGLE_EMUID)
-#if defined(UI_PLUS4)
-	MENUITEM "VIC-1112 IEEE 488 module", IDM_IEEE488
+#if defined(UI_VIC20)
+    ITEMTOGGLE("VIC-1112 IEEE 488 module", NULL, IDM_IEEE488)
 #endif
 #if defined(UI_C128)
     ITEMTOGGLE("IEEE 488 Interface emulation", NULL, IDM_IEEE488)
@@ -253,14 +258,28 @@ static struct NewMenu UI_MENU_NAME[] = {
 #if defined(UI_C128)
     ITEM("C128 settings...", NULL,      IDM_C128_SETTINGS)
 #endif
-#if !defined(UI_CBM2) && !defined(UI_PET) && !defined(UI_PLUS4) && !defined(UI_VIC20)
     ITEM("Cartridge/IO settings", NULL, NULL)
+#if !defined(UI_VIC20) && !defined(UI_CBM2) && !defined(UI_PET) && !defined(UI_PLUS4)
       SUB("REU settings...", NULL,      IDM_REU_SETTINGS)
+      SUB("GEORAM settings...", NULL,      IDM_GEORAM_SETTINGS)
+      SUB("RAMCART settings...", NULL,      IDM_RAMCART_SETTINGS)
+#if !defined(UI_C128)
+      SUB("PLUS60K settings...", NULL,      IDM_PLUS60K_SETTINGS)
+      SUB("PLUS256K settings...", NULL,      IDM_PLUS256K_SETTINGS)
+      SUB("256K settings...", NULL,      IDM_C64_256K_SETTINGS)
+#endif
       SUB("IDE64 settings...", NULL,    IDM_IDE64_SETTINGS)
 #ifdef HAVE_TFE
       SUB("Ethernet settings...", NULL, IDM_TFE_SETTINGS)
 #endif
+#endif
+#if !defined(UI_VIC20)
       SUB("ACIA settings...", NULL,    IDM_ACIA_SETTINGS)
+#endif
+#if defined(UI_PET)
+      SUB("PET REU settings...", NULL,    IDM_PETREU_SETTINGS)
+#endif
+#if !defined(UI_CBM2) && !defined(UI_PET) && !defined(UI_PLUS4)
       SUB("RS232 userport settings...", NULL,    IDM_RS232USER_SETTINGS)
 #endif
     ITEMSEPARATOR()

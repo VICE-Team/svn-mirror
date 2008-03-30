@@ -25,6 +25,9 @@
  */
 
 #include "vice.h"
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
 #include "mui.h"
 
 #include "lib.h"
@@ -35,6 +38,10 @@
 #include "vdrive-internal.h"
 #include "cbmimage.h"
 #include "filereq.h"
+
+#ifndef AMIGA_OS4
+#include <sys/cdefs.h>
+#endif
 
 struct ObjApp
 {
@@ -80,123 +87,123 @@ static const int image_type[] = {
 
 static struct ObjApp * CreateApp(const char *title, int template, char *resource_readonly)
 {
-	struct ObjApp * Object;
+	struct ObjApp * Object_ok;
 
 	APTR	GROUP_ROOT, GR_FILEREQ, LA_FILEREQ, GR_FILEBROWSE, GR_BUTTONS, GR_MISC_1;
 	APTR	GR_CONTENTS, GR_MISC_2, GR_READONLY, LA_READONLY, GR_NEWIMAGE, GR_MISC_3;
 	APTR GR_NEWTAPIMAGE;
 
-	if (!(Object = AllocVec(sizeof(struct ObjApp), MEMF_PUBLIC|MEMF_CLEAR)))
+	if (!(Object_ok = AllocVec(sizeof(struct ObjApp), MEMF_PUBLIC|MEMF_CLEAR)))
 		return(NULL);
 
 	LA_FILEREQ = Label("File");
 
-	Object->STR_PA_FILEREQ = String("", 1024);
+	Object_ok->STR_PA_FILEREQ = String("", 1024);
 
-	Object->PA_FILEREQ = PopButton(MUII_PopFile);
+	Object_ok->PA_FILEREQ = PopButton(MUII_PopFile);
 
-	Object->PA_FILEREQ = PopaslObject,
+	Object_ok->PA_FILEREQ = PopaslObject,
 		MUIA_HelpNode, "PA_FILEREQ",
 		MUIA_Popasl_Type, 0,
-		MUIA_Popstring_String, Object->STR_PA_FILEREQ,
-		MUIA_Popstring_Button, Object->PA_FILEREQ,
+		MUIA_Popstring_String, Object_ok->STR_PA_FILEREQ,
+		MUIA_Popstring_Button, Object_ok->PA_FILEREQ,
 	End;
 
 	GR_FILEREQ = GroupObject,
 		MUIA_HelpNode, "GR_FILEREQ",
 		MUIA_Group_Horiz, TRUE,
 		Child, LA_FILEREQ,
-		Child, Object->PA_FILEREQ,
+		Child, Object_ok->PA_FILEREQ,
 	End;
 
-	Object->LV_FILELIST = DirlistObject,
+	Object_ok->LV_FILELIST = DirlistObject,
 		MUIA_Background, MUII_ListBack,
 		MUIA_Frame, MUIV_Frame_InputList,
 		MUIA_Dirlist_Directory, "RAM:",
 	End;
 
-	Object->LV_FILELIST = ListviewObject,
+	Object_ok->LV_FILELIST = ListviewObject,
 		MUIA_HelpNode, "LV_FILELIST",
-		MUIA_Listview_List, Object->LV_FILELIST,
+		MUIA_Listview_List, Object_ok->LV_FILELIST,
 	End;
 
-	Object->LV_VOLUMELIST = VolumelistObject,
+	Object_ok->LV_VOLUMELIST = VolumelistObject,
 		MUIA_Frame, MUIV_Frame_InputList,
 	End;
 
-	Object->LV_VOLUMELIST = ListviewObject,
+	Object_ok->LV_VOLUMELIST = ListviewObject,
 		MUIA_HelpNode, "LV_VOLUMELIST",
 		MUIA_Weight, 30,
 		MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
-		MUIA_Listview_List, Object->LV_VOLUMELIST,
+		MUIA_Listview_List, Object_ok->LV_VOLUMELIST,
 	End;
 
 	GR_FILEBROWSE = GroupObject,
 		MUIA_HelpNode, "GR_FILEBROWSE",
 		MUIA_Group_Horiz, TRUE,
-		Child, Object->LV_FILELIST,
-		Child, Object->LV_VOLUMELIST,
+		Child, Object_ok->LV_FILELIST,
+		Child, Object_ok->LV_VOLUMELIST,
 	End;
 
-	Object->BT_ATTACH = SimpleButton("Attach");
+	Object_ok->BT_ATTACH = SimpleButton("Attach");
 
-	Object->BT_PARENT = SimpleButton("Parent");
+	Object_ok->BT_PARENT = SimpleButton("Parent");
 
-	Object->BT_CANCEL = SimpleButton("Cancel");
+	Object_ok->BT_CANCEL = SimpleButton("Cancel");
 
 	GR_BUTTONS = GroupObject,
 		MUIA_HelpNode, "GR_BUTTONS",
 		MUIA_Group_Horiz, TRUE,
-		Child, Object->BT_ATTACH,
-		Child, Object->BT_PARENT,
-		Child, Object->BT_CANCEL,
+		Child, Object_ok->BT_ATTACH,
+		Child, Object_ok->BT_PARENT,
+		Child, Object_ok->BT_CANCEL,
 	End;
 
-	Object->LV_CONTENTS = ListObject,
+	Object_ok->LV_CONTENTS = ListObject,
 		MUIA_Frame, MUIV_Frame_InputList,
 		MUIA_List_ConstructHook, MUIV_List_ConstructHook_String,
 		MUIA_List_DestructHook, MUIV_List_DestructHook_String,
 	End;
 
-	Object->LV_CONTENTS = ListviewObject,
+	Object_ok->LV_CONTENTS = ListviewObject,
 		MUIA_HelpNode, "LV_CONTENTS",
 		MUIA_Listview_MultiSelect, MUIV_Listview_MultiSelect_None,
-		MUIA_Listview_List, Object->LV_CONTENTS,
+		MUIA_Listview_List, Object_ok->LV_CONTENTS,
 	End;
 
 	GR_CONTENTS = GroupObject,
 		MUIA_HelpNode, "GR_CONTENTS",
 		MUIA_Frame, MUIV_Frame_Group,
 		MUIA_FrameTitle, "Image Contents",
-		Child, Object->LV_CONTENTS,
+		Child, Object_ok->LV_CONTENTS,
 	End;
 
-	Object->CH_READONLY = CheckMark(FALSE);
+	Object_ok->CH_READONLY = CheckMark(FALSE);
 
 	LA_READONLY = Label("Attach read only");
 
 	GR_READONLY = GroupObject,
 		MUIA_HelpNode, "GR_READONLY",
 		MUIA_Group_Horiz, TRUE,
-		Child, Object->CH_READONLY,
+		Child, Object_ok->CH_READONLY,
 		Child, LA_READONLY,
 	End;
 
-	Object->STR_IMAGENAME = StringObject,
+	Object_ok->STR_IMAGENAME = StringObject,
 		MUIA_Frame, MUIV_Frame_String,
 		MUIA_FrameTitle, "Name",
 		MUIA_HelpNode, "STR_IMAGENAME",
 		MUIA_String_MaxLen, 17,
 	End;
 
-	Object->STR_IMAGEID = StringObject,
+	Object_ok->STR_IMAGEID = StringObject,
 		MUIA_Frame, MUIV_Frame_String,
 		MUIA_FrameTitle, "ID",
 		MUIA_HelpNode, "STR_IMAGEID",
 		MUIA_String_MaxLen, 5,
 	End;
 
-	Object->CY_IMAGETYPE = CycleObject,
+	Object_ok->CY_IMAGETYPE = CycleObject,
 		MUIA_HelpNode, "CY_IMAGETYPE",
 		MUIA_Cycle_Entries, image_type_name,
 	End;
@@ -204,28 +211,28 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 	GR_MISC_3 = GroupObject,
 		MUIA_HelpNode, "GR_MISC_3",
 		MUIA_Group_Horiz, TRUE,
-		Child, Object->STR_IMAGEID,
-		Child, Object->CY_IMAGETYPE,
+		Child, Object_ok->STR_IMAGEID,
+		Child, Object_ok->CY_IMAGETYPE,
 	End;
 
-	Object->BT_CREATEIMAGE = SimpleButton("Create Image");
+	Object_ok->BT_CREATEIMAGE = SimpleButton("Create Image");
 
 	GR_NEWIMAGE = GroupObject,
 		MUIA_HelpNode, "GR_NEWIMAGE",
 		MUIA_Frame, MUIV_Frame_Group,
 		MUIA_FrameTitle, "New Image",
-		Child, Object->STR_IMAGENAME,
+		Child, Object_ok->STR_IMAGENAME,
 		Child, GR_MISC_3,
-		Child, Object->BT_CREATEIMAGE,
+		Child, Object_ok->BT_CREATEIMAGE,
 	End;
 
-	Object->BT_CREATETAPIMAGE = SimpleButton("Create Image");
+	Object_ok->BT_CREATETAPIMAGE = SimpleButton("Create Image");
 
 	GR_NEWTAPIMAGE = GroupObject,
 		MUIA_HelpNode, "GR_NEWTAPIMAGE",
 		MUIA_Frame, MUIV_Frame_Group,
 		MUIA_FrameTitle, "New TAP Image",
-		Child, Object->BT_CREATETAPIMAGE,
+		Child, Object_ok->BT_CREATETAPIMAGE,
 	End;
 
 	GR_MISC_2 = GroupObject,
@@ -249,44 +256,44 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		Child, GR_MISC_1,
 	End;
 
-	Object->FILEREQ = WindowObject,
+	Object_ok->FILEREQ = WindowObject,
 		MUIA_Window_Title, title,
 		MUIA_Window_ID, MAKE_ID('F', 'R', 'E', 'Q'),
         MUIA_Window_Screen, canvaslist->os->screen,
 		WindowContents, GROUP_ROOT,
 	End;
 
-	Object->App = ApplicationObject,
+	Object_ok->App = ApplicationObject,
 		MUIA_Application_Author, "NONE",
 		MUIA_Application_Base, "NONE",
 		MUIA_Application_Title, "NONE",
 		MUIA_Application_Version, "$VER: NONE XX.XX (XX.XX.XX)",
 		MUIA_Application_Copyright, "NOBODY",
 		MUIA_Application_Description, "NONE",
-		SubWindow, Object->FILEREQ,
+		SubWindow, Object_ok->FILEREQ,
 	End;
 
 
-	if (!Object->App)
+	if (!Object_ok->App)
 	{
-		FreeVec(Object);
+		FreeVec(Object_ok);
 		return(NULL);
 	}
 
-	DoMethod(Object->FILEREQ,
-		MUIM_Window_SetCycleChain, Object->PA_FILEREQ,
-		Object->LV_FILELIST,
-		Object->LV_VOLUMELIST,
-		Object->BT_ATTACH,
-		Object->BT_PARENT,
-		Object->BT_CANCEL,
-		Object->LV_CONTENTS,
-		Object->CH_READONLY,
-		Object->STR_IMAGENAME,
-		Object->STR_IMAGEID,
-		Object->CY_IMAGETYPE,
-		Object->BT_CREATEIMAGE,
-		Object->BT_CREATETAPIMAGE,
+	DoMethod(Object_ok->FILEREQ,
+		MUIM_Window_SetCycleChain, Object_ok->PA_FILEREQ,
+		Object_ok->LV_FILELIST,
+		Object_ok->LV_VOLUMELIST,
+		Object_ok->BT_ATTACH,
+		Object_ok->BT_PARENT,
+		Object_ok->BT_CANCEL,
+		Object_ok->LV_CONTENTS,
+		Object_ok->CH_READONLY,
+		Object_ok->STR_IMAGENAME,
+		Object_ok->STR_IMAGEID,
+		Object_ok->CY_IMAGETYPE,
+		Object_ok->BT_CREATEIMAGE,
+		Object_ok->BT_CREATETAPIMAGE,
 		0
 		);
 
@@ -301,17 +308,17 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		set(GR_NEWTAPIMAGE, MUIA_ShowMe, FALSE);
 	}
 
-	set(Object->FILEREQ,
+	set(Object_ok->FILEREQ,
 		MUIA_Window_Open, TRUE
 		);
 
-	return(Object);
+	return(Object_ok);
 }
 
-static void DisposeApp(struct ObjApp * Object)
+static void DisposeApp(struct ObjApp * Object_ok)
 {
-	MUI_DisposeObject(Object->App);
-	FreeVec(Object);
+	MUI_DisposeObject(Object_ok->App);
+	FreeVec(Object_ok);
 }
 
 static struct ObjApp *app = NULL;

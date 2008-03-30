@@ -42,7 +42,21 @@
 #include <proto/intuition.h>
 #include <proto/dos.h>
 #include <proto/asl.h>
+#ifdef AMIGA_AROS
+#define MUI_OBSOLETE
+#endif
 #include <proto/muimaster.h>
+#if defined(AMIGA_M68K) || defined(AMIGA_AROS)
+#include <libraries/mui.h>
+#endif
+
+#ifdef AMIGA_AROS
+#include <libraries/asl.h>
+#undef get
+#undef set
+#define get(obj,attr,store) GetAttr(attr,obj,(ULONG *)store)
+#define set(obj,attr,value) SetAttrs(obj,attr,value,TAG_DONE)
+#endif
 
 #ifndef MAKE_ID
 #define MAKE_ID(a,b,c,d) ((ULONG) (a)<<24 | (ULONG) (b)<<16 | (ULONG) (c)<<8 | (ULONG) (d))

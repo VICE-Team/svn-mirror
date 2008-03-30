@@ -31,6 +31,8 @@
 #include "cbm2ui.h"
 #include "cbm2uires.h"
 
+#include "mui/uiacia.h"
+#include "mui/uicbm2settings.h"
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uisid.h"
 
@@ -45,7 +47,7 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
       case IDM_CBM2_SETTINGS:
-//        ui_cbm2_settings_dialog(hwnd);
+        ui_cbm2_settings_dialog();
         break;
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog();
@@ -62,7 +64,7 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
         uidrivepetcbm2_settings_dialog();
         break;
       case IDM_ACIA_SETTINGS:
-//        ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        ui_acia_settings_dialog();
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

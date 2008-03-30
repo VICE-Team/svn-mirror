@@ -24,6 +24,96 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef AMIGA_AROS
+#define __AROS_OFF_T_DECLARED
+#define __AROS_PID_T_DECLARED
+#endif
+
+#ifndef AMIGA_OS4
+#include <devices/timer.h>
+#include <sys/time.h>
+#include <dos/dos.h>
+#include <proto/dos.h>
+#include <exec/memory.h>
+#include <proto/exec.h>
+
+int timer_init(void)
+{
+  return 1;
+}
+
+void timer_exit(void)
+{
+}
+
+void timer_gettime(struct timeval *tv)
+{
+  if (tv) {
+    struct DateStamp t;
+    DateStamp(&t);
+    tv->tv_sec=((t.ds_Days+2922)*1440+t.ds_Minute)*60+
+               t.ds_Tick/TICKS_PER_SECOND;
+    tv->tv_usec=(t.ds_Tick%TICKS_PER_SECOND)*1000000/TICKS_PER_SECOND;
+  }
+}
+
+void timer_subtime(struct timeval *dt, struct timeval *st)
+{
+  int extrasub=0;
+
+  if(dt->tv_usec<st->tv_usec)
+    extrasub=1;
+
+  dt->tv_usec=(dt->tv_usec*(extrasub==1) ? 10 : 1)-st->tv_usec;
+  dt->tv_sec=dt->tv_sec-(st->tv_sec+extrasub);
+}
+
+#define NEWLIST(l) ((l)->lh_Head = (struct Node *)&(l)->lh_Tail, \
+                    (l)->lh_TailPred = (struct Node *)&(l)->lh_Head)
+
+void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
+{
+  struct PortIO {
+    struct timerequest treq;
+    struct MsgPort port;
+  } *portio;
+
+  if ((portio=(struct PortIO *)AllocMem(sizeof(*portio),MEMF_CLEAR|MEMF_PUBLIC))) {
+    portio->port.mp_Node.ln_Type=NT_MSGPORT;
+    if ((BYTE)(portio->port.mp_SigBit=AllocSignal(-1))>=0) {
+      portio->port.mp_SigTask=FindTask(NULL);
+      NEWLIST(&portio->port.mp_MsgList);
+      portio->treq.tr_node.io_Message.mn_Node.ln_Type=NT_REPLYMSG;
+      portio->treq.tr_node.io_Message.mn_ReplyPort=&portio->port;
+      if (!(OpenDevice(TIMERNAME,unit,&portio->treq.tr_node,0))) {
+        portio->treq.tr_node.io_Command=timercmd;
+        portio->treq.tr_time.tv_secs =t->tv_secs;
+        portio->treq.tr_time.tv_micro=t->tv_micro;
+        if (!DoIO(&portio->treq.tr_node)) {
+          t->tv_secs =portio->treq.tr_time.tv_secs;
+          t->tv_micro=portio->treq.tr_time.tv_micro;
+        }
+        CloseDevice(&portio->treq.tr_node);
+      }
+      FreeSignal(portio->port.mp_SigBit);
+    }
+    FreeMem(portio,sizeof(struct PortIO));
+  }
+}
+
+void timer_usleep(int us)
+{
+  struct timeval tv;
+
+  tv.tv_secs = us / 1000000;
+  tv.tv_micro = us % 1000000;
+
+  dotimer(UNIT_VBLANK,TR_ADDREQUEST,&tv);
+}
+#else
+
 #include <proto/exec.h>
 #include <proto/timer.h>
 
@@ -108,3 +198,5 @@ void timer_usleep(timer_t *timer, int us)
     IExec->WaitIO((struct IORequest *)timer->TimerIO);
   }
 }
+#endif
+

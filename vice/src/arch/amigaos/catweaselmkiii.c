@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_CATWEASELMKIII
+#if defined(HAVE_CATWEASELMKIII) && defined(AMIGA_OS4)
 
 #include <stdlib.h>
 #include <string.h>

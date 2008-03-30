@@ -1,3 +1,29 @@
+2006-05-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.12.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, config.sub, configure.in: Added AROS Support
+	for the AmigaOS port.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added MorphOS support for the AmigaOS port.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added support for some cross-compilers that add
+	the .exe extension to the produced executable files of the
+	AmigaOS port.
+
+	* configure.in: Added 'classic amigaos' support and
+	preliminary morphos, aros and amithlon support.
+
+2006-05-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added the 'make bindistzip' target.
+
 2006-05-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.11.

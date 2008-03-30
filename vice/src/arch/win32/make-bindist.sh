@@ -27,4 +27,14 @@ rm `find ../WinVICE-$2 -name "os2*.vkm"`
 rm `find ../WinVICE-$2 -name "beos_*.vkm"`
 rm `find ../WinVICE-$2 -name "x11_*.vkm"`
 rm ../WinVICE-$2/html/texi2html
-echo WIN32 port binary destribution generated in ../WinVICE-$2
+if test x"$3" = "xzip"; then
+  cd ..
+  if test x"$ZIP" = "x"; then
+    zip -r -9 -q WinVICE-$2.zip WinVICE-$2
+  else
+    $ZIP WinVICE-$2.zip WinVICE-$2
+  fi
+  echo WIN32 port binary distribution archive generated as ../WinVICE-$2.zip
+else
+  echo WIN32 port binary distribution directory generated as ../WinVICE-$2
+fi

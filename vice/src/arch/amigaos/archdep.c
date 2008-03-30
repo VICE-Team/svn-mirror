@@ -26,6 +26,14 @@
 
 #include "vice.h"
 
+#ifdef AMIGA_AROS
+#define __AROS_OFF_T_DECLARED
+#define __AROS_PID_T_DECLARED
+#endif
+
+#define __USE_INLINE__
+#include <proto/dos.h>
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,9 +53,6 @@
 #include "machine.h"
 #include "ui.h"
 #include "util.h"
-
-#define __USE_INLINE__
-#include <proto/dos.h>
 
 static char *boot_path = NULL;
 static int run_from_wb = 0;

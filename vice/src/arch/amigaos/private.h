@@ -58,7 +58,6 @@
 #include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/graphics.h>
-#include <proto/Picasso96API.h>
 #include <proto/dos.h>
 #include <proto/gadtools.h>
 #include <proto/asl.h>
@@ -83,7 +82,9 @@ struct os_s {
 
 extern video_canvas_t *canvaslist;
 
+#ifdef AMIGA_OS4
 extern timer_t *timer;
+#endif
 
 typedef struct ui_menu_toggle_s {
     /* Name of resource.  */

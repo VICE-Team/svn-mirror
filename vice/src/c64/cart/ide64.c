@@ -339,6 +339,9 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
 {
     int i;
 
+    if ((addr >= 0xde20 && addr < 0xde38) || (addr >= 0xde5a))
+	io_source=IO_SOURCE_IDE64;
+
     if (kill_port & 1)
         if (addr >= 0xde5f)
             return vicii_read_phi1();
@@ -410,17 +413,13 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
         in_d030 = (WORD)vicii_read_phi1();
         break;
       case 0x30:
-        io_source=IO_SOURCE_IDE64;
         return (unsigned char)in_d030;
       case 0x31:
-        io_source=IO_SOURCE_IDE64;
         return in_d030 >> 8;
       case 0x32:
-        io_source=IO_SOURCE_IDE64;
         return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1)
                | (current_cfg >> 1);
       case 0x5f:
-        io_source=IO_SOURCE_IDE64;
         if ((kill_port ^ 0x02) & 0x02)
             return 1;
 

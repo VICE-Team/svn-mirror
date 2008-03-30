@@ -390,6 +390,10 @@ case $basic_machine in
 		basic_machine=m68k-apollo
 		os=-bsd
 		;;
+        aros)
+                basic_machine=i686-unknown
+                os=-aros
+                ;;
 	aux)
 		basic_machine=m68k-apple
 		os=-aux
@@ -1099,7 +1103,7 @@ case $os in
 	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
-	      | -aos* \
+	      | -aos* | -aros* \
 	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
 	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
 	      | -hiux* | -386bsd* | -netbsd* | -openbsd* | -freebsd* | -riscix* \

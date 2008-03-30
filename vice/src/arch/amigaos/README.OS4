@@ -1,0 +1,28 @@
+
+This is a Work In Progress release of my VICE port for AmigaOS4. It has been
+released to let everyone know I'm working on a port. As such, it has many
+limitations including but not limited to:
+
+* Incomplete keymap files.
+* Incomplete GUI. Many options doesn't have any effect.
+* Missing/incomplete support for TFE, HardSID and Catweasel.
+
+New since last release:
+
+* Now based on VICE 1.19.
+* AmigaInput and joystick configuration support.
+* Fullscreen support.
+* A few fixes here and there and probably a few new bugs...
+
+Important:
+
+* The experimental netplay is NOT WORKING, do not try it!
+
+The sources are not included in this archive, to keep the size down for people
+with no interest in the sources, but are available in a separate archive.
+
+Write to me at: vice [dot] emu [at] amidog [dot] se. And visit the homepage at:
+
+http://www.amidog.com
+
+Have fun! / Mathias Roslund

@@ -27,11 +27,16 @@
 #define UI_VIC20
 #define UI_MENU_NAME vic20_ui_menu
 
+#include "cartridge.h"
 #include "private.h"
+#include "uicart.h"
+#include "uilib.h"
 #include "vic20ui.h"
 #include "vic20uires.h"
 
 #include "mui/uidrivec64vic20.h"
+#include "mui/uirs232user.h"
+#include "mui/uivic20mem.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -43,6 +48,42 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+static const uicart_params_t vic20_ui_cartridges[] = {
+    {
+        IDM_CART_VIC20_8KB_2000,
+        CARTRIDGE_VIC20_16KB_2000,
+        "Attach 4/8/16KB cartridge image at $2000",
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_VIC20_16KB_4000,
+        CARTRIDGE_VIC20_16KB_4000,
+        "Attach 4/8/16KB cartridge image at $4000",
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_VIC20_8KB_6000,
+        CARTRIDGE_VIC20_16KB_6000,
+        "Attach 4/8/16KB cartridge image at $6000",
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_VIC20_8KB_A000,
+        CARTRIDGE_VIC20_8KB_A000,
+        "Attach 4/8KB cartridge image at $A000",
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_VIC20_4KB_B000,
+        CARTRIDGE_VIC20_4KB_B000,
+        "Attach 4KB cartridge image at $B000",
+        UILIB_FILTER_ALL
+    },
+    {
+        0, 0, NULL, 0
+    }
+};
+
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static int vic20_ui_specific(video_canvas_t *canvas, int idm)
 {
@@ -52,16 +93,16 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_CART_VIC20_8KB_6000:
       case IDM_CART_VIC20_8KB_A000:
       case IDM_CART_VIC20_4KB_B000:
-//        uicart_attach(wparam, hwnd, vic20_ui_cartridges);
+        uicart_attach(canvas, idm, vic20_ui_cartridges);
         break;
       case IDM_CART_SET_DEFAULT:
-//        cartridge_set_default();
+        cartridge_set_default();
         break;
       case IDM_CART_DETACH:
-//        cartridge_detach_image();
+        cartridge_detach_image();
         break;
       case IDM_VIC_SETTINGS:
-//        ui_vic_settings_dialog(hwnd);
+        ui_vic_settings_dialog();
         break;
       case IDM_ROM_SETTINGS:
 //        uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG,
@@ -75,7 +116,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
         uidrivec64vic20_settings_dialog();
         break;
       case IDM_RS232USER_SETTINGS:
-//        ui_rs232user_settings_dialog(hwnd);
+        ui_rs232user_settings_dialog();
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
@@ -98,4 +139,3 @@ int vic20ui_init(void)
 void vic20ui_shutdown(void)
 {
 }
-

@@ -31,4 +31,14 @@ rm `find ../vice-$2 -name "os2*.vkm"`
 rm `find ../vice-$2 -name "win_*.vkm"`
 rm `find ../vice-$2 -name "x11_*.vkm"`
 rm ../vice-$2/html/texi2html
-echo BEOS port binary distribution generated in ../vice-$2
+if test x"$3" = "xzip"; then
+  cd ..
+  if test x"$ZIP" = "x"; then
+    zip -r -9 -q BeVICE-$2.zip vice-$2
+  else
+    $ZIP BeVICE-$2.zip vice-$2
+  fi
+  echo BEOS port binary distribution archive generated as ../BeVICE-$2.zip
+else
+  echo BEOS port binary distribution directory generated as ../vice-$2
+fi

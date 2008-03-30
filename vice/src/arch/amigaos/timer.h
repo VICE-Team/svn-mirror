@@ -27,7 +27,21 @@
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
+#include "vice.h"
+
 #include <proto/timer.h>
+
+#ifdef AMIGA_AROS
+#include <aros/_timeval.h>
+#endif
+
+#ifndef AMIGA_OS4
+void timer_gettime(struct timeval *tv);
+int timer_init(void);
+void timer_exit(void);
+void timer_subtime(struct timeval *dt, struct timeval *st);
+void timer_usleep(int us);
+#else
 
 typedef struct timer_s timer_t;
 
@@ -37,4 +51,5 @@ void timer_subtime(timer_t *timer, struct timeval *dt, struct timeval *st);
 void timer_usleep(timer_t *timer, int us);
 void timer_exit(timer_t *timer);
 
+#endif
 #endif /* _TIMER_H_ */

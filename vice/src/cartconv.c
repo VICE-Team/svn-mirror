@@ -26,6 +26,11 @@
 
 #include "vice.h"
 
+#ifdef AMIGA_AROS
+#define __AROS_OFF_T_DECLARED
+#define __AROS_PID_T_DECLARED
+#endif
+
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>

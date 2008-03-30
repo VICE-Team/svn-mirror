@@ -114,6 +114,12 @@ static const uicart_params_t c64_ui_cartridges[] = {
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
+        IDM_CART_ATTACH_STB,
+        CARTRIDGE_STRUCTURED_BASIC,
+        "Attach Structured Basic cartridge image",
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
+    },
+    {
         0, 0, NULL, 0
     }
 };
@@ -144,6 +150,7 @@ void uic64cart_proc(video_canvas_t *canvas, int idm)
       case IDM_CART_ATTACH_IDE64:
       case IDM_CART_ATTACH_SS4:
       case IDM_CART_ATTACH_SS5:
+      case IDM_CART_ATTACH_STB:
       case IDM_CART_ENABLE_EXPERT:
         uic64cart_attach(canvas, idm, c64_ui_cartridges);
         break;
@@ -164,4 +171,3 @@ void uic64cart_init(void)
 {
     ui_register_res_values(c64_ui_res_values);
 }
-

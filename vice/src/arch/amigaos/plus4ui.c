@@ -31,6 +31,7 @@
 #include "plus4ui.h"
 #include "plus4uires.h"
 
+#include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
@@ -62,7 +63,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
         uidriveplus4_settings_dialog();
         break;
       case IDM_ACIA_SETTINGS:
-//        ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        ui_acia_settings_dialog();
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

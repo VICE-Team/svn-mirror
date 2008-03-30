@@ -47,10 +47,12 @@
 #include "log.h"
 #include "pointer.h"
 
-#include "mui/uisound.h"
 #include "mui/filereq.h"
+#include "mui/uidatasette.h"
 #include "mui/uijoystick.h"
 #include "mui/uinetwork.h"
+#include "mui/uiram.h"
+#include "mui/uisound.h"
 
 struct MenuItem *step_item(struct MenuItem *first_item, int idm)
 {
@@ -241,7 +243,11 @@ static void pause_trap(WORD addr, void *data)
     ui_display_paused(1);
     vsync_suspend_speed_eval();
     while (is_paused) {
+#ifndef AMIGA_OS4
+        timer_usleep(1000000 / 100);
+#else
         timer_usleep(timer, 1000000 / 100);
+#endif
         ui_event_handle();
     }
 }
@@ -528,17 +534,22 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         break;
 
 /*
-  IDM_VIDEO_SETTINGS, IDM_DEVICEMANAGER, IDM_DRIVE_SETTINGS, IDM_DATASETTE_SETTINGS,
-  IDM_VICII_SETTINGS, IDM_JOY_SETTINGS, IDM_SOUND_SETTINGS, IDM_SID_SETTINGS,
-  IDM_ROM_SETTINGS, IDM_RAM_SETTINGS, IDM_REU_SETTINGS, IDM_IDE64_SETTINGS,
-  IDM_C128_SETTINGS, IDM_VIC_SETTINGS, IDM_CBM2_SETTINGS, IDM_PET_SETTINGS,
+  IDM_VIDEO_SETTINGS, IDM_DEVICEMANAGER, IDM_DRIVE_SETTINGS, 
+  IDM_JOY_SETTINGS, IDM_SID_SETTINGS,
+  IDM_ROM_SETTINGS, IDM_IDE64_SETTINGS,
+  IDM_C128_SETTINGS, IDM_PET_SETTINGS,
   IDM_PLUS4_SETTINGS,
 #ifdef HAVE_TFE
   IDM_TFE_SETTINGS,
 #endif
   IDM_ACIA_SETTINGS, IDM_RS232USER_SETTINGS,
 */
-
+      case IDM_DATASETTE_SETTINGS:
+        ui_datasette_settings_dialog();
+        break;
+      case IDM_RAM_SETTINGS:
+        ui_ram_settings_dialog();
+        break;
       case IDM_SOUND_SETTINGS:
         ui_sound_settings_dialog();
         break;

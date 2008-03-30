@@ -26,12 +26,17 @@
 
 #include "vice.h"
 
+#ifdef AMIGA_AROS
+#define __AROS_OFF_T_DECLARED
+#define __AROS_PID_T_DECLARED
+#endif
+
 #include <stdio.h>
 
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
 #endif
-#ifdef HAVE_DIRENT_H
+#if defined(HAVE_DIRENT_H) || defined(AMIGA_AROS)
 #include <dirent.h>
 #endif
 #ifdef HAVE_ERRNO_H

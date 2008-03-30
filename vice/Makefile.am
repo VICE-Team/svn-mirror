@@ -26,17 +26,26 @@ xcbm2:
 
 if MSDOS_COMPILE
 bindist:
-	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP)
+	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+
+bindistzip:
+	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
 endif
 
 if WIN32_COMPILE
 bindist:
-	$(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION)
+	$(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+
+bindistzip:
+	$(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if BEOS_COMPILE
 bindist:
-	$(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION)
+	$(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+
+bindistzip:
+	$(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if QNX_COMPILE
@@ -51,5 +60,5 @@ endif
 
 if AMIGA_COMPILE
 bindist:
-	$(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP)
+	$(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP) $(host_os) $(EXEEXT)
 endif

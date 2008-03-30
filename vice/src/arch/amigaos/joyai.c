@@ -24,6 +24,10 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef AMIGA_OS4
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1004,3 +1008,4 @@ int joyai_key(int joy, int dst, unsigned long kcode, int pressed)
 
     return value;
 }
+#endif

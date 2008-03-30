@@ -32,8 +32,14 @@
 #include "c128uires.h"
 #include "uic64cart.h"
 
+#include "mui/uiacia.h"
 #include "mui/uidrivec128.h"
+#include "mui/uigeoram.h"
+#include "mui/uiramcart.h"
+#include "mui/uireu.h"
+#include "mui/uirs232user.h"
 #include "mui/uisid.h"
+#include "mui/uivicii.h"
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -58,13 +64,19 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
 
     switch (idm) {
       case IDM_VICII_SETTINGS:
-//        ui_vicii_settings_dialog(hwnd);
+        ui_vicii_settings_dialog();
         break;
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog();
         break;
       case IDM_REU_SETTINGS:
-//        ui_reu_settings_dialog(hwnd);
+        ui_reu_settings_dialog();
+        break;
+      case IDM_GEORAM_SETTINGS:
+        ui_georam_settings_dialog();
+        break;
+      case IDM_RAMCART_SETTINGS:
+        ui_ramcart_settings_dialog();
         break;
       case IDM_IDE64_SETTINGS:
 //        uiide64_settings_dialog(hwnd);
@@ -89,10 +101,10 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         uidrivec128_settings_dialog();
         break;
       case IDM_ACIA_SETTINGS:
-//        ui_acia_settings_dialog(hwnd, 1, NULL, 1);
+        ui_acia64128_settings_dialog();
         break;
       case IDM_RS232USER_SETTINGS:
-//        ui_rs232user_settings_dialog(hwnd);
+        ui_rs232user_settings_dialog();
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

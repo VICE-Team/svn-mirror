@@ -36,6 +36,9 @@
 #include "translate.h"
 #include "ui.h"
 #include "vsync.h"
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
 #include "mui.h"
 
 #if 0

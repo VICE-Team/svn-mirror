@@ -25,6 +25,9 @@
  */
 
 #include "vice.h"
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
 #include "mui.h"
 
 #include "drive.h"

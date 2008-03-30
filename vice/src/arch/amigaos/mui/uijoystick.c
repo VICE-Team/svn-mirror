@@ -24,6 +24,11 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
 #include "mui.h"
 
 #include "resources.h"
@@ -55,14 +60,18 @@ static ui_to_from_t ui_to_from[] = {
 
 static ULONG BT0Click(struct Hook *hook, Object *obj, APTR arg)
 {
+#ifdef AMIGA_OS4
   joyai_config(1);
+#endif
 
   return 0;
 }
 
 static ULONG BT1Click(struct Hook *hook, Object *obj, APTR arg)
 {
+#ifdef AMIGA_OS4
   joyai_config(2);
+#endif
 
   return 0;
 }

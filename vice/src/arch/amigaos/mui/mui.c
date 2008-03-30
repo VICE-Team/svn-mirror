@@ -251,6 +251,7 @@ void ui_about(void)
     "Copyright @ 2000-2005 Spiro Trikaliotis",
     "Copyright @ 2003-2005 David Hansel",
     "Copyright @ 2000-2004 Markus Brenner",
+    "Copyright @ 2005-2006 Marco van den Heuvel",
     "",
     "Official VICE homepage:",
     "http://www.viceteam.org/",

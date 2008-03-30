@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,19 +51,39 @@
 
 #include <proto/exec.h>
 #include <proto/intuition.h>
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
 #include <proto/muimaster.h>
+#ifdef AMIGA_M68K
+#include <libraries/mui.h>
+#endif
 #include <proto/graphics.h>
+
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+#include <proto/cybergraphics.h>
+#include <cybergraphx/cybergraphics.h>
+#if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS)
+#include <inline/cybergraphics.h>
+#endif
+#else
+#ifdef HAVE_PROTO_PICASSO96_H
+#include <proto/Picasso96.h>
+#else
 #include <proto/Picasso96API.h>
+#endif
+#endif
 
 #include "private.h"
 #include "statusbar.h"
 #include "mui/mui.h"
 
+#ifdef AMIGA_OS4
 struct Library *GadToolsBase = NULL;
 struct GadToolsIFace *IGadTools = NULL;
-
-struct Library *MUIMasterBase = NULL;
 struct MUIMasterIFace *IMUIMaster = NULL;
+#endif
+struct Library *MUIMasterBase = NULL;
 
 video_canvas_t *canvaslist = NULL;
 
@@ -69,29 +91,53 @@ int video_init_cmdline_options(void)
 {
   return 0;
 }
-
+#ifdef AMIGA_OS4
 struct Library *SocketBase  = NULL;
 struct SocketIFace *ISocket = NULL;
+#else
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+struct Library *CyberGfxBase = NULL;
+#else
+struct Library *P96Base = NULL;
+#endif
+#endif
 
 int video_init(void)
 {
+#ifndef AMIGA_OS4
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  if ((CyberGfxBase=OpenLibrary(CYBERGFXNAME,41))) {
+#else
+  if ((P96Base=OpenLibrary("Picasso96API.library",2))) {
+#endif
+#ifdef AMIGA_AROS
+    if ((MUIMasterBase = OpenLibrary("muimaster.library", 11))) {
+#else
+    if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
+#endif
+      if (mui_init() == 0) {
+        return 0;
+      }
+    }
+  }
+#else
   if ((SocketBase = OpenLibrary("bsdsocket.library", 4))) {
     if ((ISocket = (struct SocketIFace *)GetInterface(SocketBase, "main", 1, NULL))) {
 
-  if ((GadToolsBase = OpenLibrary("gadtools.library", 39))) {
-    if ((IGadTools = (struct GadToolsIFace *)GetInterface(GadToolsBase, "main", 1, NULL))) {
-      if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
-        if ((IMUIMaster = (struct MUIMasterIFace *)GetInterface(MUIMasterBase, "main", 1, NULL))) {
-          if (mui_init() == 0) {
-            return 0;
+      if ((GadToolsBase = OpenLibrary("gadtools.library", 39))) {
+        if ((IGadTools = (struct GadToolsIFace *)GetInterface(GadToolsBase, "main", 1, NULL))) {
+          if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
+            if ((IMUIMaster = (struct MUIMasterIFace *)GetInterface(MUIMasterBase, "main", 1, NULL))) {
+              if (mui_init() == 0) {
+                return 0;
+              }
+            }
           }
         }
       }
     }
   }
-
-    }
-  }
+#endif
 
   return -1;
 }
@@ -99,6 +145,20 @@ int video_init(void)
 void video_shutdown(void)
 {
   mui_exit();
+#ifndef AMIGA_OS4
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  if (CyberGfxBase) {
+    CloseLibrary(CyberGfxBase);
+  }
+#else
+  if (P96Base) {
+    CloseLibrary(P96Base);
+  }
+#endif
+  if (MUIMasterBase) {
+    CloseLibrary(MUIMasterBase);
+  }
+#else
   if (IMUIMaster) {
     DropInterface((struct Interface *)IMUIMaster);
   }
@@ -118,10 +178,15 @@ void video_shutdown(void)
   if (SocketBase) {
     CloseLibrary(SocketBase);
   }
+#endif
 }
 
 static ULONG lock;
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+static ULONG cgx_base_addy;
+#else
 static struct RenderInfo ri;
+#endif
 
 static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, int height, int fullscreen)
 {
@@ -161,12 +226,21 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 
   /* try to get screenmode to use */
   if (fullscreen) {
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+    dispid = BestCModeIDTags(CYBRBIDTG_Depth, 16,
+                             CYBRBIDTG_NominalWidth, width,
+                             CYBRBIDTG_NominalHeight, (height+ statusbar_get_status_height()),
+                             TAG_DONE);
+#else
+
     unsigned long cmodels = RGBFF_R5G5B5 | RGBFF_R5G6B5 | RGBFF_R5G5B5PC | RGBFF_R5G6B5PC;
     dispid = p96BestModeIDTags(P96BIDTAG_NominalWidth, width,
 /* FIXME: only ask for statusbar height if it should be shown */
                                P96BIDTAG_NominalHeight, (height + statusbar_get_status_height()),
                                P96BIDTAG_FormatsAllowed, cmodels,
                                TAG_DONE);
+#endif
+
     if (dispid == INVALID_ID) {
       fullscreen = 0;
     }
@@ -174,8 +248,13 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 
   /* if fullscreen, open the screen */
   if (fullscreen) {
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+    amiga_width = GetCyberIDAttr(CYBRIDATTR_WIDTH, dispid);
+    amiga_height = GetCyberIDAttr(CYBRIDATTR_HEIGHT, dispid);
+#else
     amiga_width = p96GetModeIDAttr(dispid, P96IDA_WIDTH);
     amiga_height = p96GetModeIDAttr(dispid, P96IDA_HEIGHT);
+#endif
 
     /* open screen */
     canvas->os->screen = OpenScreenTags(NULL,
@@ -207,8 +286,13 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
              WA_NewLookMenus, TRUE,
              TAG_DONE);
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+    FillPixelArray(&canvas->os->screen->RastPort, 0, 0,
+                   canvas->os->screen->Width, canvas->os->screen->Height, 0);
+#else
     p96RectFill(&canvas->os->screen->RastPort, 0, 0,
                 canvas->os->screen->Width, canvas->os->screen->Height, 0);
+#endif
 
     pointer_set_default(POINTER_HIDE);
     pointer_hide();
@@ -257,9 +341,15 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
                                           BMF_CLEAR|BMF_DISPLAYABLE|BMF_INTERLEAVED|BMF_MINPLANES,
                                           canvas->os->window->RPort->BitMap);
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  canvas->os->pixfmt = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_PIXFMT);
+  canvas->os->bpr = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_XMOD);
+  canvas->os->bpp = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_DEPTH)/8;
+#else
   canvas->os->pixfmt = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_RGBFORMAT);
   canvas->os->bpr = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_BYTESPERROW);
   canvas->os->bpp = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_BYTESPERPIXEL);
+#endif
 
   canvas->width = width;
   canvas->height = height;
@@ -332,15 +422,29 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     h *= 2;
   }
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  if ((lock = LockBitMapTags(canvas->os->window_bitmap,
+                             LBMI_BASEADDRESS, (ULONG)&cgx_base_addy,
+                             TAG_DONE))) {
+#else
   if ((lock = p96LockBitMap(canvas->os->window_bitmap, (UBYTE *)&ri, sizeof(ri)))) {
+#endif
     video_canvas_render(canvas,
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+                        (UBYTE *)cgx_base_addy,
+#else
                         (UBYTE *)ri.Memory,
+#endif
                         w, h,
                         xs, ys,
                         xi, yi,
                         canvas->bytes_per_line,
                         canvas->depth);
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+    UnLockBitMap(lock);
+#else
     p96UnlockBitMap(canvas->os->window_bitmap, lock);
+#endif
   }
 
   sx = xi;
@@ -464,10 +568,27 @@ int makecol_BGRA32(int r, int g, int b)
   return c;
 }
 
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
 struct {
-  unsigned long p96format;
+  unsigned long color_format;
   int (*makecol)(int r, int g, int b);
-} p96formats[] = {
+} color_formats[] = {
+  { PIXFMT_RGB16, makecol_RGB565BE },
+  { PIXFMT_BGR16, makecol_BGR565BE },
+  { PIXFMT_RGB16PC, makecol_RGB565LE },
+  { PIXFMT_BGR16PC, makecol_BGR565LE },
+  { PIXFMT_RGB24, makecol_RGB24 },
+  { PIXFMT_BGR24, makecol_BGR24 },
+  { PIXFMT_ARGB32, makecol_ARGB32 },
+  { PIXFMT_BGRA32, makecol_BGRA32 },
+  { PIXFMT_RGBA32, makecol_RGBA32 },
+  { 0, NULL }
+};
+#else
+struct {
+  unsigned long color_format;
+  int (*makecol)(int r, int g, int b);
+} color_formats[] = {
   { RGBFB_R8G8B8, makecol_RGB24 }, /* TrueColor RGB (8 bit each) */
   { RGBFB_B8G8R8, makecol_BGR24 }, /* TrueColor BGR (8 bit each) */
   { RGBFB_R5G6B5PC, makecol_RGB565LE }, /* HiColor16 (5 bit R, 6 bit G, 5 bit B), format: gggbbbbbrrrrrggg */
@@ -483,6 +604,7 @@ struct {
   /* END */
   { 0, NULL },
 };
+#endif
 
 int video_canvas_set_palette(struct video_canvas_s *canvas,
                                     struct palette_s *palette)
@@ -495,9 +617,9 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
 
   i = 0;
   makecol = makecol_dummy;
-  while (p96formats[i].makecol != NULL) {
-    if (p96formats[i].p96format == canvas->os->pixfmt) {
-      makecol = p96formats[i].makecol;
+  while (color_formats[i].makecol != NULL) {
+    if (color_formats[i].color_format == canvas->os->pixfmt) {
+      makecol = color_formats[i].makecol;
       break;
     }
     i++;

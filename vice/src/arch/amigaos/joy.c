@@ -53,7 +53,9 @@ int joy_arch_init(void)
         joystick_port_map[0] = 1;
         joystick_port_map[1] = 2;
 
+#ifdef AMIGA_OS4
         joyai_open();
+#endif
     }
 
     return 0;
@@ -61,7 +63,9 @@ int joy_arch_init(void)
 
 void joystick_close(void)
 {
+#ifdef AMIGA_OS4
     joyai_close();
+#endif
 
     joystick_inited = 0;
 }
@@ -96,7 +100,9 @@ static const resource_t resources[] = {
 
 int joystick_init_resources(void)
 {
+#ifdef AMIGA_OS4
     joyai_init_resources();
+#endif
     return resources_register(resources);
 }
 
@@ -178,6 +184,7 @@ int joystick_handle_key(unsigned long kcode, int pressed)
         }
     }
 
+#ifdef AMIGA_OS4
     if (joystick_device[0] == JOYDEV_KEYSET_A) {
         value |= joyai_key(1, 1, kcode, pressed);
     }
@@ -190,12 +197,14 @@ int joystick_handle_key(unsigned long kcode, int pressed)
     if (joystick_device[1] == JOYDEV_KEYSET_B) {
         value |= joyai_key(2, 2, kcode, pressed);
     }
+#endif
 
     return value;
 }
 
 int joystick_update(void)
 {
+#ifdef AMIGA_OS4
     if (joystick_device[0] == JOYDEV_KEYSET_A) {
         joyai_update(1, 1);
     }
@@ -208,6 +217,7 @@ int joystick_update(void)
     if (joystick_device[1] == JOYDEV_KEYSET_B) {
         joyai_update(2, 2);
     }
+#endif
 
     return 0;
 }

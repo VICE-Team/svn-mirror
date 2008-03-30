@@ -39,6 +39,10 @@ static int mx = 0, my = 0, mb = 0;
 
 #include <proto/exec.h>
 
+#ifdef AMIGA_MORPHOS
+#include <exec/interrupts.h>
+#endif
+
 #define MB_LEFT (1 << 0)
 #define MB_RIGHT (1 << 1)
 

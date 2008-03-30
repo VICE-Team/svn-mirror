@@ -82,6 +82,14 @@ libarch_a_SOURCES = \
 	mui/filereq.h \
 	mui/mui.c \
 	mui/mui.h \
+	mui/uiacia.c \
+	mui/uiacia.h \
+	mui/uic64_256k.c \
+	mui/uic64_256k.h \
+	mui/uidatasette.c \
+	mui/uidatasette.h \
+	mui/uicbm2settings.c \
+	mui/uicbm2settings.h \
 	mui/uidrivec128.c \
 	mui/uidrivec128.h \
 	mui/uidrivec64vic20.c \
@@ -90,21 +98,42 @@ libarch_a_SOURCES = \
 	mui/uidrivepetcbm2.h \
 	mui/uidriveplus4.c \
 	mui/uidriveplus4.h \
+	mui/uigeoram.c \
+	mui/uigeoram.h \
 	mui/uijoystick.c \
 	mui/uijoystick.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
+	mui/uipetreu.c \
+	mui/uipetreu.h \
+	mui/uiplus256k.c \
+	mui/uiplus256k.h \
+	mui/uiplus60k.c \
+	mui/uiplus60k.h \
+	mui/uiram.c \
+	mui/uiram.h \
+	mui/uiramcart.c \
+	mui/uiramcart.h \
+	mui/uireu.c \
+	mui/uireu.h \
+	mui/uirs232user.c \
+	mui/uirs232user.h \
 	mui/uisid.c \
 	mui/uisid.h \
 	mui/uisound.c \
-	mui/uisound.h
+	mui/uisound.h \
+	mui/uivic20mem.c \
+	mui/uivic20mem.h \
+	mui/uivicii.c \
+	mui/uivicii.h
 
 EXTRA_DIST = \
-#	info-files/VICE.info \
-#	info-files/x128.exe.info \
-#	info-files/x64.exe.info \
-#	info-files/xcbm2.exe.info \
-#	info-files/xpet.exe.info \
-#	info-files/xplus4.exe.info \
-#	info-files/xvic.exe.info \
-	README.OS4
+	info-files/VICE.info \
+	info-files/x128.exe.info \
+	info-files/x64.exe.info \
+	info-files/xcbm2.exe.info \
+	info-files/xpet.exe.info \
+	info-files/xplus4.exe.info \
+	info-files/xvic.exe.info \
+	README.OS4 \
+	make-bindist.sh

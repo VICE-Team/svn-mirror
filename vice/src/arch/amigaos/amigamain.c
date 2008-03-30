@@ -27,6 +27,11 @@
 #include "vice.h"
 
 #include <stdio.h>
+
+#ifdef AMIGA_AROS
+#define __AROS_PID_T_DECLARED
+#endif
+
 #include <signal.h>
 
 #include "log.h"
@@ -37,11 +42,17 @@
 #undef WORD
 #include "timer.h"
 
+#ifdef AMIGA_OS4
 timer_t *timer = NULL;
+#endif
 
 int main(int argc, char **argv)
 {
+#ifndef AMIGA_OS4
+  timer_init();
+#else
   timer = timer_init();
+#endif
   return main_program(argc, argv);
 }
 
@@ -55,6 +66,10 @@ void main_exit(void)
   log_message(LOG_DEFAULT, _("\nExiting..."));
 
   machine_shutdown();
+#ifndef AMIGA_OS4
+  timer_exit();
+#else
   timer_exit(timer);
+#endif
 }
 

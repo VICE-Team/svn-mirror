@@ -82,7 +82,11 @@ int statusbar_create(video_canvas_t *canvas)
   canvas->os->font = OpenDiskFont((struct TextAttr *)&led_font_attr);
 
   for (i=0; i<b_num; i++) {
+#ifndef AMIGAOS4
+    canvas->os->pens[i] = ObtainBestPen(canvas->os->window->WScreen->ViewPort.ColorMap, palette[i].red * 0x01010101, palette[i].green * 0x01010101, palette[i].blue * 0x01010101,0);
+#else
     canvas->os->pens[i] = ObtainBestPen(canvas->os->window->WScreen->ViewPort.ColorMap, palette[i].red * 0x01010101, palette[i].green * 0x01010101, palette[i].blue * 0x01010101);
+#endif
   }
 
   #define MAXSTR "00: 00.0"
