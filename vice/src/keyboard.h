@@ -59,8 +59,6 @@ typedef struct keyboard_conv_s {
     char *comment;
 } keyboard_conv_t;
 
-extern keyboard_conv_t joykeys[2][10];
-
 struct snapshot_s;
 
 extern void keyboard_init(void);

@@ -69,3 +69,15 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     return FALSE;
 }
 
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+    joykeys[0] = GDK_KP_0;
+    joykeys[1] = GDK_KP_1;
+    joykeys[2] = GDK_KP_2;
+    joykeys[3] = GDK_KP_3;
+    joykeys[4] = GDK_KP_4;
+    joykeys[5] = GDK_KP_6;
+    joykeys[6] = GDK_KP_7;
+    joykeys[7] = GDK_KP_8;
+    joykeys[8] = GDK_KP_9;
+}

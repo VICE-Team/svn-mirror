@@ -40,6 +40,7 @@
 #include "archdep.h"
 #include "event.h"
 #include "joystick.h"
+#include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -240,8 +241,6 @@ static int kbd_rshiftcol;
 
 static int vshift = KEY_NONE;
 
-keyboard_conv_t joykeys[2][10];
-
 /*-----------------------------------------------------------------------*/
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
@@ -325,10 +324,18 @@ void keyboard_key_pressed(signed long key)
         return;
     }
 
-    if (joystick_check_set(key, 1))
-        return;
-    if (joystick_check_set(key, 2))
-        return;
+    if (joystick_port_map[0] == JOYDEV_NUMPAD
+     || joystick_port_map[0] == JOYDEV_KEYSET1
+     || joystick_port_map[0] == JOYDEV_KEYSET2) {
+        if (joystick_check_set(key, joystick_port_map[0] - JOYDEV_NUMPAD, 1))
+            return;
+    }
+    if (joystick_port_map[1] == JOYDEV_NUMPAD
+     || joystick_port_map[1] == JOYDEV_KEYSET1
+     || joystick_port_map[1] == JOYDEV_KEYSET2) {
+        if (joystick_check_set(key, joystick_port_map[1] - JOYDEV_NUMPAD, 2))
+            return;
+    }
 
     if (keyconvmap == NULL)
         return;
@@ -422,10 +429,18 @@ void keyboard_key_released(signed long key)
         return;
     }
 
-    if (joystick_check_clr(key, 1))
-        return;
-    if (joystick_check_clr(key, 2))
-        return;
+    if (joystick_port_map[0] == JOYDEV_NUMPAD
+     || joystick_port_map[0] == JOYDEV_KEYSET1
+     || joystick_port_map[0] == JOYDEV_KEYSET2) {
+        if (joystick_check_clr(key, joystick_port_map[0] - JOYDEV_NUMPAD, 1))
+            return;
+    }
+    if (joystick_port_map[1] == JOYDEV_NUMPAD
+     || joystick_port_map[1] == JOYDEV_KEYSET1
+     || joystick_port_map[1] == JOYDEV_KEYSET2) {
+        if (joystick_check_clr(key, joystick_port_map[1] - JOYDEV_NUMPAD, 2))
+            return;
+    }
 
     if (keyconvmap == NULL)
         return;
@@ -570,11 +585,6 @@ static void keyboard_keyword_clear(void)
     key_ctrl_caps = -1;
     key_ctrl_column4080 = -1;
     vshift = KEY_NONE;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 10; j++) {
-            joykeys[i][j].sym = -1;
-        }
-    }
 }
 
 static void keyboard_keyword_include(void)
@@ -670,9 +680,6 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 
 static int keyboard_parse_set_neg_row(signed long sym, int row, int col)
 {
-    if (row >= -2 && col >= 0 && col < 10) {
-        joykeys[-row - 1][col].sym = sym;
-    } else
     if (row == -3 && col == 0) {
         key_ctrl_restore1 = sym;
     } else
@@ -861,33 +868,6 @@ int keyboard_keymap_dump(const char *filename)
     }
     fprintf(fp, "\n");
 
-    if (joykeys[0][0].sym != -1) {
-        /* Dump joystick keys.  */
-        fprintf(fp, "#\n"
-                "# Joystick 1\n"
-                "#\n");
-        for (j = 0; j < 10; j++) {
-            if (joykeys[0][j].sym != -1) {
-                fprintf(fp, "%s -1 %d\n",
-                        kbd_arch_keynum_to_keyname(joykeys[0][j].sym), j);
-            }
-        }
-        fprintf(fp, "\n");
-    }
-
-    if (joykeys[1][0].sym != -1) {
-        fprintf(fp, "#\n"
-                "# Joystick 2\n"
-                "#\n");
-        for (j = 0; j < 10; j++) {
-            if (joykeys[1][j].sym != -1) {
-                fprintf(fp, "%s -2 %d\n",
-                        kbd_arch_keynum_to_keyname(joykeys[1][j].sym), j);
-            }
-        }
-        fprintf(fp, "\n");
-    }
-
     if (key_ctrl_restore1 != -1 || key_ctrl_restore2 != -1) {
         fprintf(fp, "#\n"
                 "# Restore key mappings\n"
@@ -999,10 +979,6 @@ void keyboard_init(void)
                                keyboard_latch_handler, NULL);
 
 #ifdef COMMON_KBD
-    for (i = 0; i < 2; i++)
-        for (j = 0; j < 10; j++)
-            joykeys[i][j].sym = -1;
-
     kbd_arch_init();
 
     load_keymap_ok = 1;

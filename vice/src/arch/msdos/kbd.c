@@ -386,8 +386,7 @@ static void my_kbd_interrupt_handler(void)
                 }
             } else {
                 /* "Normal" key.  */
-                if (!joystick_handle_key(kcode, 1))
-                    keyboard_key_pressed((signed long)kcode);
+                keyboard_key_pressed((signed long)kcode);
             }
         }
 
@@ -423,8 +422,7 @@ static void my_kbd_interrupt_handler(void)
 
         if (!modifiers.left_alt && !modifiers.right_alt) {
             /* "Normal" key.  */
-            if (!joystick_handle_key(kcode, 0))
-                keyboard_key_released((signed long)kcode);
+            keyboard_key_released((signed long)kcode);
         }
 
     }
@@ -558,5 +556,18 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
     sprintf(keyname, "%li", keynum);
 
     return keyname;
+}
+
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+    joykeys[0] = K_RIGHTCTRL;
+    joykeys[1] = K_KP1;
+    joykeys[2] = K_KP2;
+    joykeys[3] = K_KP3;
+    joykeys[4] = K_KP4;
+    joykeys[5] = K_KP6;
+    joykeys[6] = K_KP7;
+    joykeys[7] = K_KP8;
+    joykeys[8] = K_KP9;
 }
 

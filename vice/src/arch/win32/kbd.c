@@ -36,7 +36,6 @@
 
 #include "kbd.h"
 #include "keyboard.h"
-#include "joy.h"
 #include "types.h"
 
 
@@ -68,8 +67,7 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
         kcode = _kbd_extended_key_tab[kcode];
     }
 
-    if (!joystick_handle_key(kcode, 1))
-        keyboard_key_pressed((signed long)kcode);
+    keyboard_key_pressed((signed long)kcode);
 
     return 0;
 }
@@ -86,8 +84,7 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
         kcode = _kbd_extended_key_tab[kcode];
     }
 
-    if (!joystick_handle_key(kcode, 0))
-        keyboard_key_released((signed long)kcode);
+    keyboard_key_released((signed long)kcode);
 
     return 0;
 }
@@ -151,3 +148,15 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
     return keyname;
 }
 
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+    joykeys[0] = K_RIGHTCTRL;
+    joykeys[1] = K_KP1;
+    joykeys[2] = K_KP2;
+    joykeys[3] = K_KP3;
+    joykeys[4] = K_KP4;
+    joykeys[5] = K_KP6;
+    joykeys[6] = K_KP7;
+    joykeys[7] = K_KP8;
+    joykeys[8] = K_KP9;
+}

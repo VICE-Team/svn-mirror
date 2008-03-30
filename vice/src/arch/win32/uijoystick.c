@@ -102,6 +102,17 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
+typedef enum {
+    KEYSET_NW,
+    KEYSET_N,
+    KEYSET_NE,
+    KEYSET_E,
+    KEYSET_SE,
+    KEYSET_S,
+    KEYSET_SW,
+    KEYSET_W,
+    KEYSET_FIRE
+} joystick_direction_t;
 
 static void init_keyset_dialog(HWND hwnd)
 {

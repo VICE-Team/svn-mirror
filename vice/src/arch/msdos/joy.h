@@ -38,28 +38,14 @@ typedef enum {
     JOYDEV_HW2
 } joystick_device_t;
 
-typedef enum {
-    KEYSET_NW,
-    KEYSET_N,
-    KEYSET_NE,
-    KEYSET_E,
-    KEYSET_SE,
-    KEYSET_S,
-    KEYSET_SW,
-    KEYSET_W,
-    KEYSET_FIRE
-} joystick_direction_t;
-
 extern int joystick_port_map[2];
 
 extern int joy_arch_init(void);
 extern void joystick_close(void);
-extern int joystick_init_resources(void);
+extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern void joystick_update(void);
 extern int joystick_handle_key(kbd_code_t kcode, int pressed);
-extern const char *joystick_direction_to_string(joystick_direction_t
-                                                direction);
 
 #endif
 

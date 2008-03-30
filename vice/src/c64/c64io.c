@@ -136,7 +136,7 @@ static int get_io_source_index(int id)
 }
 
 #define MAX_IO1_RETURNS 7
-#define MAX_IO2_RETURNS 9
+#define MAX_IO2_RETURNS 10
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -259,11 +259,20 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 #ifdef HAVE_TFE
     if (tfe_enabled)
     {
-        if ((tfe_as_rr_net && addr<0xde10) || !tfe_as_rr_net)
-
-        return_value = tfe_read((WORD)(addr & 0x0f));
-        io_source_check(io_source_counter);
-        io_source_counter++;
+        if (mmc64_enabled && tfe_as_rr_net) {
+            if (mmc64_hw_clockport==0xde02 && mmc64_clockport_enabled && 
+                addr>0xde01 && addr<0xde10) {
+                return_value = tfe_read((WORD)(addr & 0x0f));
+                io_source_check(io_source_counter);
+                io_source_counter++;
+            }
+        } else {
+            if ((tfe_as_rr_net && addr<0xde10) || !tfe_as_rr_net) {
+                return_value = tfe_read((WORD)(addr & 0x0f));
+                io_source_check(io_source_counter);
+                io_source_counter++;
+            }
+        }
     }
 #endif
 
@@ -312,15 +321,30 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
     if (ramcart_enabled) {
         ramcart_reg_store((WORD)(addr&1), value);
     }
+    if (mmc64_enabled && mmc64_hw_clockport==0xde02 && addr==0xde01) {
+        mmc64_clockport_enable_store(value);
+    }
 #ifdef HAVE_TFE
-    if (tfe_enabled)
-        tfe_store((WORD)(addr & 0x0f), value);
+    if (tfe_enabled) {
+        if (mmc64_enabled && tfe_as_rr_net) {
+            if (mmc64_hw_clockport==0xde02 && mmc64_clockport_enabled && 
+                addr>0xde01 && addr<0xde10) {
+                tfe_store((WORD)(addr & 0x0f), value);
+            }
+        } else {
+            if (tfe_enabled) {
+                tfe_store((WORD)(addr & 0x0f), value);
+            }
+        }
+    }
 #endif
-    if (mem_cartridge_type != CARTRIDGE_NONE)
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io1(addr, value);
+    }
 #ifdef HAVE_RS232
-    if (acia_de_enabled)
+    if (acia_de_enabled) {
         acia1_store((WORD)(addr & 0x07), value);
+    }
 #endif
     return;
 }
@@ -374,6 +398,15 @@ BYTE REGPARM1 c64io2_read(WORD addr)
         io_source_check(io_source_counter);
         io_source_counter++;
     }
+#ifdef HAVE_TFE
+    if (tfe_enabled && mmc64_enabled && tfe_as_rr_net
+        && mmc64_hw_clockport==0xdf22 && mmc64_clockport_enabled
+        && addr>0xdf21 && addr<0xdf30) {
+        return_value = tfe_read((WORD)(addr & 0x0f));
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+#endif
     if (mem_cartridge_type != CARTRIDGE_NONE
         && mem_cartridge_type != CARTRIDGE_RETRO_REPLAY) {
         return_value = cartridge_read_io2(addr);
@@ -404,8 +437,9 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
 
     if (sid_stereo
         && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end)
+        && addr < sid_stereo_address_end) {
         sid2_store(addr, value);
+    }
     if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY) {
         cartridge_store_io2(addr, value);
     }
@@ -425,6 +459,16 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     if (mmc64_enabled && addr >= 0xdf10 && addr <= 0xdf13) {
         mmc64_io2_store(addr, value);
     }
+    if (mmc64_enabled && mmc64_hw_clockport==0xdf22 && addr==0xdf21) {
+        mmc64_clockport_enable_store(value);
+    }
+#ifdef HAVE_TFE
+    if (tfe_enabled && mmc64_enabled && tfe_as_rr_net
+        && mmc64_hw_clockport==0xdf22 && mmc64_clockport_enabled
+        && addr>0xdf21 && addr<0xdf30) {
+        tfe_store((WORD)(addr & 0x0f), value);
+    }
+#endif
     if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
     }

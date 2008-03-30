@@ -1,8 +1,8 @@
 /*
- * joy.h - Joystick support for Windows.
+ * uijoystickkeys.h
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Fabrizio Gennari <fabrizio.ge@tiscali.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,30 +24,4 @@
  *
  */
 
-#ifndef _JOY_H
-#define _JOY_H
-
-#include "kbd.h"
-
-typedef int joystick_device_t;
-
-#define JOYDEV_NONE     0
-#define JOYDEV_NUMPAD   1
-#define JOYDEV_KEYSET1  2
-#define JOYDEV_KEYSET2  3
-#define JOYDEV_HW1      4
-#define JOYDEV_HW2      5
-
-extern int joystick_port_map[2];
-
-extern int joy_arch_init(void);
-extern int joystick_arch_init_resources(void);
-extern int joystick_init_cmdline_options(void);
-extern int joystick_close(void);
-extern void joystick_update(void);
-extern int joystick_handle_key(kbd_code_t kcode, int pressed);
-
-extern int joystick_inited;
-
-#endif
-
+UI_CALLBACK(ui_keyset_dialog);

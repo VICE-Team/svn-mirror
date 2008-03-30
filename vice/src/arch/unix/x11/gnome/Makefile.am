@@ -15,6 +15,7 @@ libgnomeui_a_SOURCES = \
 	uicartridge.c \
 	uicolor.c \
 	uiedisk.c \
+	uijoystickkeys.c \
 	uimenu.c \
 	uimenu.h \
 	uinetplay.c \

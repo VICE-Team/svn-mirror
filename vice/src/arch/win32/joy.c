@@ -65,7 +65,6 @@ int joystick_port_map[2];
 /* ------------------------------------------------------------------------ */
 
 /* Joystick devices.  */
-static joystick_device_t joystick_device[2];
 static LPDIRECTINPUTDEVICE  joystick_di_devices[2] = {NULL, NULL};
 static LPDIRECTINPUTDEVICE2  joystick_di_devices2[2] = {NULL, NULL};
 int                         di_version;
@@ -248,16 +247,16 @@ static int set_joystick_device_1(int val, void *param)
 
     if (!joystick_inited) joy_arch_init();
 
-    if ((di_version == 5) && (joystick_device[0] >= JOYDEV_HW1)) {
+    if ((di_version == 5) && (joystick_port_map[0] >= JOYDEV_HW1)) {
         joystick_di_close(0);
     }
 
     if ((di_version == 5) && (dev >= JOYDEV_HW1)) {
         if (joystick_di_open(0, dev)) {
-            joystick_device[0] = dev;
+            joystick_port_map[0] = dev;
         }
     } else {
-        joystick_device[0] = dev;
+        joystick_port_map[0] = dev;
     }
 
     return 0;
@@ -269,17 +268,17 @@ static int set_joystick_device_2(int val, void *param)
 
     if (!joystick_inited) joy_arch_init();
 
-    if ((di_version == 5) && (joystick_device[1] >= JOYDEV_HW1)) {
+    if ((di_version == 5) && (joystick_port_map[1] >= JOYDEV_HW1)) {
         joystick_di_close(1);
     }
 
 
     if ((di_version == 5) && (dev >= JOYDEV_HW1)) {
         if (joystick_di_open(1, dev)) {
-            joystick_device[1] = dev;
+            joystick_port_map[1] = dev;
         }
     } else {
-        joystick_device[1] = dev;
+        joystick_port_map[1] = dev;
     }
 
     return 0;
@@ -369,23 +368,13 @@ static int set_joystick_fire2_button(int button, void *param)
     return 0;
 }
 
-#define DEFINE_SET_KEYSET(num)                       \
-    static int set_keyset##num(int val, void *param) \
-    {                                                \
-        keyset##num[(int)param] = val;               \
-                                                     \
-        return 0;                                    \
-    }
-
-DEFINE_SET_KEYSET(1)
-DEFINE_SET_KEYSET(2)
 
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device_1, NULL },
+      &joystick_port_map[0], set_joystick_device_1, NULL },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device_2, NULL },
+      &joystick_port_map[1], set_joystick_device_2, NULL },
     { "JoyAutofire1Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[0], set_joystick_fire1_speed, NULL },
     { "JoyAutofire1Axis", 0, RES_EVENT_NO, NULL,
@@ -402,46 +391,10 @@ static const resource_int_t resources_int[] = {
       &joystick_fire_button[0], set_joystick_fire1_button, NULL },
     { "JoyFire2Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[1], set_joystick_fire2_button, NULL },
-    { "KeySet1NorthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_NW], set_keyset1, (void *)KEYSET_NW },
-    { "KeySet1North", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_N], set_keyset1, (void *)KEYSET_N },
-    { "KeySet1NorthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_NE], set_keyset1, (void *)KEYSET_NE },
-    { "KeySet1East", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_E], set_keyset1, (void *)KEYSET_E },
-    { "KeySet1SouthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_SE], set_keyset1, (void *)KEYSET_SE },
-    { "KeySet1South", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_S], set_keyset1, (void *)KEYSET_S },
-    { "KeySet1SouthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_SW], set_keyset1, (void *)KEYSET_SW },
-    { "KeySet1West", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_W], set_keyset1, (void *)KEYSET_W },
-    { "KeySet1Fire", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_FIRE], set_keyset1, (void *)KEYSET_FIRE },
-    { "KeySet2NorthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_NW], set_keyset2, (void *)KEYSET_NW },
-    { "KeySet2North", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_N], set_keyset2, (void *)KEYSET_N },
-    { "KeySet2NorthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
-    { "KeySet2East", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_E], set_keyset2, (void *)KEYSET_E },
-    { "KeySet2SouthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_SE], set_keyset2, (void *)KEYSET_SE },
-    { "KeySet2South", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_S], set_keyset2, (void *)KEYSET_S },
-    { "KeySet2SouthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_SW], set_keyset2, (void *)KEYSET_SW },
-    { "KeySet2West", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_W], set_keyset2, (void *)KEYSET_W },
-    { "KeySet2Fire", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_FIRE], set_keyset2, (void *)KEYSET_FIRE },
     { NULL }
 };
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
     return resources_register_int(resources_int);
 }
@@ -529,11 +482,6 @@ int joy_arch_init(void)
 
     //    IDirectInput_EnumDevices(di, 0, EnumCallBack, 0, 0);
 
-    #ifdef COMMON_KBD
-        joystick_port_map[0] = 1;
-        joystick_port_map[1] = 2;
-    #endif
-
     }
 
     return 0;
@@ -546,10 +494,10 @@ int joystick_close(void)
         IDirectInputDevice_Release(di_mouse);
         di_mouse = NULL;
     }
-    if ((di_version == 5) && (joystick_device[0] >= JOYDEV_HW1)) {
+    if ((di_version == 5) && (joystick_port_map[0] >= JOYDEV_HW1)) {
         joystick_di_close(0);
     }
-    if ((di_version == 5) && (joystick_device[1] >= JOYDEV_HW1)) {
+    if ((di_version == 5) && (joystick_port_map[1] >= JOYDEV_HW1)) {
         joystick_di_close(1);
     }
     joystick_release_joysticks();
@@ -613,7 +561,7 @@ int		fire_button;
 	fire_button = -1;
     joy = joystick_list;
     i = 0;
-    while (joy && i < joystick_device[joy_no] - JOYDEV_HW1) {
+    while (joy && i < joystick_port_map[joy_no] - JOYDEV_HW1) {
         joy = joy->next;
         i++;
     }
@@ -704,13 +652,13 @@ void joystick_update(void)
     if (di_version == 5) {
         int i;
         for (i = 0; i < 2; i++) {
-            if (joystick_device[i] >= JOYDEV_HW1) {
+            if (joystick_port_map[i] >= JOYDEV_HW1) {
                 joystick_set_value_absolute(i + 1, joystick_di5_update(i));
             }
         }
     } else {
-        if ((idx = (joystick_device[0] == JOYDEV_HW1)
-            ? 0 : ((joystick_device[1] == JOYDEV_HW1) ? 1 : -1)) != -1) {
+        if ((idx = (joystick_port_map[0] == JOYDEV_HW1)
+            ? 0 : ((joystick_port_map[1] == JOYDEV_HW1) ? 1 : -1)) != -1) {
             switch (joystick_fire_axis[idx]) {
             case 1:
                 addflag = JOY_RETURNZ;
@@ -801,8 +749,8 @@ void joystick_update(void)
                 }
             }
         }
-        if ((idx = (joystick_device[0] == JOYDEV_HW2)
-            ? 0 : ((joystick_device[1] == JOYDEV_HW2) ? 1 : -1)) != -1) {
+        if ((idx = (joystick_port_map[0] == JOYDEV_HW2)
+            ? 0 : ((joystick_port_map[1] == JOYDEV_HW2) ? 1 : -1)) != -1) {
             switch(joystick_fire_axis[idx]) {
             case 1:
                 addflag = JOY_RETURNZ;
@@ -893,117 +841,6 @@ void joystick_update(void)
             }
         }
     }
-}
-
-/* Joystick-through-keyboard.  */
-
-int handle_keyset_mapping(joystick_device_t device, int *set,
-                          kbd_code_t kcode, int pressed)
-{
-    if (joystick_device[0] == device || joystick_device[1] == device) {
-        BYTE value = 0;
-
-        if (kcode == set[KEYSET_NW])    /* North-West */
-            value = 5;
-        else if (kcode == set[KEYSET_N]) /* North */
-            value = 1;
-        else if (kcode == set[KEYSET_NE]) /* North-East */
-            value = 9;
-        else if (kcode == set[KEYSET_E]) /* East */
-            value = 8;
-        else if (kcode == set[KEYSET_SE]) /* South-East */
-            value = 10;
-        else if (kcode == set[KEYSET_S]) /* South */
-            value = 2;
-        else if (kcode == set[KEYSET_SW]) /* South-West */
-            value = 6;
-        else if (kcode == set[KEYSET_W]) /* West */
-            value = 4;
-        else if (kcode == set[KEYSET_FIRE]) /* Fire */
-            value = 16;
-        else
-            return 0;
-
-        if (pressed) {
-            if (joystick_device[0] == device)
-                joystick_set_value_or(1, value);
-            if (joystick_device[1] == device)
-                joystick_set_value_or(2, value);
-        } else {
-            if (joystick_device[0] == device)
-                joystick_set_value_and(1, (BYTE)~value);
-            if (joystick_device[1] == device)
-                joystick_set_value_and(2, (BYTE)~value);
-        }
-        return 1;
-    }
-
-    return 0;
-}
-
-int joystick_handle_key(kbd_code_t kcode, int pressed)
-{
-    BYTE value = 0;
-
-    /* The numpad case is handled specially because it allows users to use
-       both `5' and `2' for "down".  */
-    if (joystick_device[0] == JOYDEV_NUMPAD
-        || joystick_device[1] == JOYDEV_NUMPAD) {
-
-        switch (kcode) {
-          case K_KP7:               /* North-West */
-            value = 5;
-            break;
-          case K_KP8:               /* North */
-            value = 1;
-            break;
-          case K_KP9:               /* North-East */
-            value = 9;
-            break;
-          case K_KP6:               /* East */
-            value = 8;
-            break;
-          case K_KP3:               /* South-East */
-            value = 10;
-            break;
-          case K_KP2:               /* South */
-          case K_KP5:
-            value = 2;
-            break;
-          case K_KP1:               /* South-West */
-            value = 6;
-            break;
-          case K_KP4:               /* West */
-            value = 4;
-            break;
-          case K_KP0:
-          case K_RIGHTCTRL:
-            value = 16;
-            break;
-          default:
-            /* (make compiler happy) */
-            ;
-        }
-
-        if (pressed) {
-            if (joystick_device[0] == JOYDEV_NUMPAD)
-                joystick_set_value_or(1, value);
-            if (joystick_device[1] == JOYDEV_NUMPAD)
-                joystick_set_value_or(2, value);
-        } else {
-            if (joystick_device[0] == JOYDEV_NUMPAD)
-                joystick_set_value_and(1, (BYTE) ~value);
-            if (joystick_device[1] == JOYDEV_NUMPAD)
-                joystick_set_value_and(2, (BYTE) ~value);
-        }
-    }
-
-    /* (Notice we have to handle all the keysets even when one key is used
-       more than once (the most intuitive behavior), so we use `|' instead of
-       `||'.)  */
-    return (value
-            | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed)
-            | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
 }
 
 void joystick_calibrate(HWND hwnd)

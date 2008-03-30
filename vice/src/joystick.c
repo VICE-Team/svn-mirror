@@ -46,6 +46,7 @@
 #include "ui.h"
 #include "types.h"
 #include "log.h"
+#include "resources.h"
 
 #define JOYSTICK_RAND() (rand() & 0x3fff)
 
@@ -65,6 +66,8 @@ static const BYTE joystick_opposite_direction[] =
 static alarm_t *joystick_alarm = NULL;
 
 static CLOCK joystick_delay;
+
+static int joykeys[3][9];
 
 static void joystick_latch_matrix(CLOCK offset)
 {
@@ -186,28 +189,45 @@ void joystick_clear_all(void)
 /*-----------------------------------------------------------------------*/
 
 #ifdef COMMON_KBD
-static int joypad_bits[10] = {
-    0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
+/* the order of values in joypad_bits is the same as in joystick_direction_t */
+static int joypad_bits[9] = {
+    0x10, 0x06, 0x02, 0x0a, 0x04, 0x08, 0x05, 0x01, 0x09
 };
 
 static int joypad_status[2][10];
+
+typedef enum {
+    KEYSET_FIRE,
+    KEYSET_SW,
+    KEYSET_S,
+    KEYSET_SE,
+    KEYSET_W,
+    KEYSET_E,
+    KEYSET_NW,
+    KEYSET_N,
+    KEYSET_NE
+} joystick_direction_t;
 
 static int joyreleaseval(int column, int *status)
 {
     int val = 0;
 
     switch (column) {
-      case 1:
-        val = (status[2] ? 0 : 0x2) | (status[4] ? 0 : 0x4);
+      case KEYSET_SW:
+        val = (status[KEYSET_S] ? 0 : joypad_bits[KEYSET_S]) | 
+              (status[KEYSET_W] ? 0 : joypad_bits[KEYSET_W]);
         break;
-      case 3:
-        val = (status[2] ? 0 : 0x2) | (status[6] ? 0 : 0x8);
+      case KEYSET_SE:
+        val = (status[KEYSET_S] ? 0 : joypad_bits[KEYSET_S]) | 
+              (status[KEYSET_E] ? 0 : joypad_bits[KEYSET_E]);
         break;
-      case 7:
-        val = (status[4] ? 0 : 0x4) | (status[8] ? 0 : 0x1);
+      case KEYSET_NW:
+        val = (status[KEYSET_N] ? 0 : joypad_bits[KEYSET_N]) | 
+              (status[KEYSET_W] ? 0 : joypad_bits[KEYSET_W]);
         break;
-      case 9:
-        val = (status[8] ? 0 : 0x1) | (status[6] ? 0 : 0x8);
+      case KEYSET_NE:
+        val = (status[KEYSET_N] ? 0 : joypad_bits[KEYSET_N]) | 
+              (status[KEYSET_E] ? 0 : joypad_bits[KEYSET_E]);
         break;
       default:
         val = joypad_bits[column];
@@ -216,30 +236,71 @@ static int joyreleaseval(int column, int *status)
     return ~val;
 }
 
-int joystick_check_set(signed long key, int joynum)
+#define DEFINE_SET_KEYSET(num)                       \
+    static int set_keyset##num(int val, void *param) \
+    {                                                \
+        joykeys[num][(int)param] = val;              \
+                                                     \
+        return 0;                                    \
+    }
+
+DEFINE_SET_KEYSET(1)
+DEFINE_SET_KEYSET(2)
+
+static const resource_int_t resources_int[] = {
+    { "KeySet1NorthWest", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_NW], set_keyset1, (void *)KEYSET_NW },
+    { "KeySet1North", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_N], set_keyset1, (void *)KEYSET_N },
+    { "KeySet1NorthEast", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_NE], set_keyset1, (void *)KEYSET_NE },
+    { "KeySet1East", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_E], set_keyset1, (void *)KEYSET_E },
+    { "KeySet1SouthEast", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_SE], set_keyset1, (void *)KEYSET_SE },
+    { "KeySet1South", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_S], set_keyset1, (void *)KEYSET_S },
+    { "KeySet1SouthWest", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_SW], set_keyset1, (void *)KEYSET_SW },
+    { "KeySet1West", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_W], set_keyset1, (void *)KEYSET_W },
+    { "KeySet1Fire", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_FIRE], set_keyset1, (void *)KEYSET_FIRE },
+    { "KeySet2NorthWest", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_NW], set_keyset2, (void *)KEYSET_NW },
+    { "KeySet2North", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_N], set_keyset2, (void *)KEYSET_N },
+    { "KeySet2NorthEast", 0, RES_EVENT_NO, NULL,
+      &joykeys[1][KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
+    { "KeySet2East", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_E], set_keyset2, (void *)KEYSET_E },
+    { "KeySet2SouthEast", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_SE], set_keyset2, (void *)KEYSET_SE },
+    { "KeySet2South", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_S], set_keyset2, (void *)KEYSET_S },
+    { "KeySet2SouthWest", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_SW], set_keyset2, (void *)KEYSET_SW },
+    { "KeySet2West", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_W], set_keyset2, (void *)KEYSET_W },
+    { "KeySet2Fire", 0, RES_EVENT_NO, NULL,
+      &joykeys[2][KEYSET_FIRE], set_keyset2, (void *)KEYSET_FIRE },
+    { NULL }
+};
+
+int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 {
     int column;
-    unsigned int joyport;
 
-    if (joystick_port_map[0] == joynum)
-        joyport = 1;
-    else if (joystick_port_map[1] == joynum)
-        joyport = 2;
-    else
-        return 0;
-
-    joynum--;
-
-    for (column = 0; column < 10; column++) {
-        if (key == joykeys[joynum][column].sym) {
+    for (column = 0; column < 9; column++) {
+        if (key == joykeys[keysetnum][column]) {
             if (joypad_bits[column]) {
                 /*joystick_value[joyport] |= joypad_bits[column];*/
                 joystick_set_value_or(joyport, (BYTE)joypad_bits[column]);
-                joypad_status[joynum][column] = 1;
+                joypad_status[keysetnum][column] = 1;
             } else {
                 /*joystick_value[joyport] = 0;*/
                 joystick_set_value_absolute(joyport, 0);
-                memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
+                memset(joypad_status[keysetnum], 0, sizeof(joypad_status[keysetnum]));
             }
             return 1;
         }
@@ -247,27 +308,17 @@ int joystick_check_set(signed long key, int joynum)
     return 0;
 }
 
-int joystick_check_clr(signed long key, int joynum)
+int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
 {
     int column;
-    unsigned int joyport;
 
-    if (joystick_port_map[0] == joynum)
-        joyport = 1;
-    else if (joystick_port_map[1] == joynum)
-        joyport = 2;
-    else
-        return 0;
-
-    joynum--;
-
-    for (column = 0; column < 10; column++) {
-        if (key == joykeys[joynum][column].sym) {
+    for (column = 0; column < 9; column++) {
+        if (key == joykeys[keysetnum][column]) {
             /*joystick_value[joyport] &= joyreleaseval(column,
                                                      joypad_status[joynum]);*/
             joystick_set_value_and(joyport, (BYTE)joyreleaseval(column,
-                                   joypad_status[joynum]));
-            joypad_status[joynum][column] = 0;
+                                   joypad_status[keysetnum]));
+            joypad_status[keysetnum][column] = 0;
             return 1;
         }
     }
@@ -282,10 +333,19 @@ void joystick_joypad_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
+int joystick_init_resources(void)
+{
+    resources_register_int(resources_int);
+
+    return joystick_arch_init_resources();
+}
+
 int joystick_init(void)
 {
     joystick_alarm = alarm_new(maincpu_alarm_context, "Joystick",
                                joystick_latch_handler, NULL);
+
+    kbd_initialize_numpad_joykeys(joykeys[0]);
 
     return joy_arch_init();
 }

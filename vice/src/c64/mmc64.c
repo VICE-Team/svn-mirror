@@ -60,6 +60,12 @@ static const c64export_resource_t export_res = {
 /* MMC64 enable */
 int mmc64_enabled;
 
+/* MMC64 clockport enable */
+int mmc64_clockport_enabled=1;
+
+/* MMC64 clockport base address */
+int mmc64_hw_clockport=0xde02;
+
 /* MMC64 bios writable */
 static int mmc64_bios_write;
 
@@ -189,6 +195,7 @@ static void mmc64_reset_card(void)
   mmc64_extexrom=0x04;
   mmc64_extgame=0x02;
   mmc64_spistatus=0;
+  mmc64_clockport_enabled=1;
 
   mmc64_card_reset_count=0;
   mmc64_image_pointer = 0;
@@ -215,6 +222,7 @@ void mmc64_reset(void)
   mmc64_extexrom=0x04;
   mmc64_extgame=0x02;
   mmc64_spistatus=0;
+  mmc64_clockport_enabled=1;
 
   mmc64_card_reset_count=0;
   mmc64_image_pointer = 0;
@@ -503,6 +511,18 @@ static void mmc64_write_to_mmc(BYTE value)
   }
 }
 
+void mmc64_clockport_enable_store(BYTE value)
+{
+  if (value&1)
+  {
+    mmc64_clockport_enabled=1;
+  }
+  else
+  {
+    mmc64_clockport_enabled=0;
+  }
+}
+
 void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
 {
   switch(addr)
@@ -564,10 +584,12 @@ void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
         if (value & MMC_CPORT)
         {
           mmc64_cport = MMC_CPORT;
+          mmc64_hw_clockport = 0xdf22;
         }
         else
         {
           mmc64_cport = 0;
+          mmc64_hw_clockport = 0xde02;
         }
         if (value & MMC_SPEED)
         {

@@ -33,6 +33,7 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "vsync.h"
+#include "uijoystickkeys.h"
 
 
 static UI_CALLBACK(set_joystick_device_1)
@@ -81,9 +82,12 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*Numpad"),
       (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("*Custom Keys"),
+    { N_("*Keyset 1"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
+    { N_("*Keyset 2"),
+      (ui_callback_t)set_joystick_device_1,
+      (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
       (ui_callback_t)set_joystick_device_1,
@@ -130,9 +134,12 @@ static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { N_("*Numpad"),
       (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("*Custom Keys"),
+    { N_("*Keyset 1"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
+    { N_("*Keyset 2"),
+      (ui_callback_t)set_joystick_device_2,
+      (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
       (ui_callback_t)set_joystick_device_2,
@@ -179,6 +186,11 @@ ui_menu_entry_t joystick_settings_submenu[] = {
     { N_("Joystick device in port 2"),
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
+#ifdef USE_GNOMEUI
+    { N_("Define keysets"),
+      (ui_callback_t)ui_keyset_dialog },
+    { "--" },
+#endif
     { N_("Swap joystick ports"),
       (ui_callback_t)swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
     { NULL }

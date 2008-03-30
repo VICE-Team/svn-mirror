@@ -43,24 +43,25 @@ extern void old_joystick(void);
 extern void new_joystick_init(void);
 extern void new_joystick_close(void);
 extern void new_joystick(void);
-extern int joystick_init_resources(void);
+extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 
 extern int joystick_port_map[2];
 
 #define JOYDEV_NONE         0
 #define JOYDEV_NUMPAD       1
-#define JOYDEV_CUSTOM_KEYS  2
-#define JOYDEV_ANALOG_0     3
-#define JOYDEV_ANALOG_1     4
-#define JOYDEV_ANALOG_2     5
-#define JOYDEV_ANALOG_3     6
-#define JOYDEV_ANALOG_4     7
-#define JOYDEV_ANALOG_5     8
-#define JOYDEV_DIGITAL_0    9
-#define JOYDEV_DIGITAL_1    10
-#define JOYDEV_USB_0        11
-#define JOYDEV_USB_1        12
+#define JOYDEV_KEYSET1      2
+#define JOYDEV_KEYSET2      3
+#define JOYDEV_ANALOG_0     4
+#define JOYDEV_ANALOG_1     5
+#define JOYDEV_ANALOG_2     6
+#define JOYDEV_ANALOG_3     7
+#define JOYDEV_ANALOG_4     8
+#define JOYDEV_ANALOG_5     9
+#define JOYDEV_DIGITAL_0    10
+#define JOYDEV_DIGITAL_1    11
+#define JOYDEV_USB_0        12
+#define JOYDEV_USB_1        13
 
 #endif
 

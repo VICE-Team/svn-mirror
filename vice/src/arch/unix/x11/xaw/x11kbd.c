@@ -74,3 +74,16 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     }                           /* switch */
 }
 
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+    joykeys[0] = XK_KP_0;
+    joykeys[1] = XK_KP_1;
+    joykeys[2] = XK_KP_2;
+    joykeys[3] = XK_KP_3;
+    joykeys[4] = XK_KP_4;
+    joykeys[5] = XK_KP_6;
+    joykeys[6] = XK_KP_7;
+    joykeys[7] = XK_KP_8;
+    joykeys[8] = XK_KP_9;
+}
+

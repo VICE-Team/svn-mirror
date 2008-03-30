@@ -320,6 +320,30 @@ static tui_menu_item_def_t joy_device_2_submenu[] = {
     { NULL }
 };
 
+typedef enum {
+    KEYSET_NW,
+    KEYSET_N,
+    KEYSET_NE,
+    KEYSET_E,
+    KEYSET_SE,
+    KEYSET_S,
+    KEYSET_SW,
+    KEYSET_W,
+    KEYSET_FIRE
+} joystick_direction_t;
+
+static const char *joystick_direction_to_string(joystick_direction_t
+                                                direction)
+{
+    static char *s[] = {
+        "NorthWest", "North", "NorthEast", "East",
+        "SouthEast", "South", "SouthWest", "West",
+        "Fire"
+    };
+
+    return s[(int)direction];
+}
+
 static TUI_MENU_CALLBACK(keyset_callback)
 {
     int direction, number;
@@ -573,7 +597,8 @@ static tui_menu_item_def_t joy_list_submenu[] = {
 #ifdef JOY_TYPE_TURBOGRAFX_LPT3
         { "TurbograFX on LPT3",
           "Commodore 64 joystick connected to parallel port 3 with TurbograFX interface",
-          joy_hw_callback, (void *)JOY_TYPE_TURBOGRAFX_LPT3, 0,
+          joy_hw_callback, (void *)JOY_TYPE_TURBOGRAFX_LPT3
+, 0,
           TUI_MENU_BEH_CLOSE, NULL, NULL },
 #endif
 #ifdef JOY_TYPE_IFSEGA_ISA

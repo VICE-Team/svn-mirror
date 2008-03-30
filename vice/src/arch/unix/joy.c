@@ -87,7 +87,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL },
 };
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
     return resources_register_int(resources_int);
 }
