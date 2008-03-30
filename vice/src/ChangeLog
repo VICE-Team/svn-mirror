@@ -1,3 +1,24 @@
+2002-06-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.31.
+
+	* vicii/vicii.c (vic_ii_fetch_matrix): The xsmooth color can
+	be changed next line as the border is closed anyway.
+
+	* vicii/vicii-draw.c: Small optimizations.
+	(get_ext_text): Loading `color_data_2' was completely bogus.
+	(get_illegal_text, get_illegal_bitmap_mode1,
+	get_illegal_bitmap_mode2): Rewritten.
+	(_draw_std_text_cached, _draw_hires_bitmap_cached,
+	_draw_mc_text_cached, _draw_mc_bitmap_cached,
+	_draw_ext_text_cached, _draw_illegal_text_cached,
+	_draw_illegal_bitmap_mode1_cached,
+	_draw_illegal_bitmap_mode2_cached): New functions.
+
+	* raster/raster-line.c
+	(update_for_minor_changes_with_sprites): Removed code that
+	makes no sense at all.
+
 2002-06-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.30.
