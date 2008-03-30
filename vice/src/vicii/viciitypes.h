@@ -433,5 +433,5 @@ extern void vic_ii_raster_irq_alarm_handler(CLOCK offset);
 #define VIC_II_DEBUG_REGISTER(x)
 #endif
 
-#endif /* _VICIITYPES_H */
+#endif
 
