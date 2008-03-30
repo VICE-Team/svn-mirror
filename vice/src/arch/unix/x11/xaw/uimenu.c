@@ -146,8 +146,8 @@ static UI_CALLBACK(submenu_popdown_callback)
 }
 
 /* Yes, this sucks.  Sorry.  */
-static void position_submenu_action(Widget w, XEvent * event,
-                                    String * params, Cardinal * num_params)
+static void position_submenu_action(Widget w, XEvent *event,
+                                    String *params, Cardinal *num_params)
 {
     Widget new_active_submenu, new_active_entry;
 
@@ -188,8 +188,8 @@ static void position_submenu_action(Widget w, XEvent * event,
     }
 }
 
-static void popdown_submenus_action(Widget w, XEvent * event,
-                                    String * params, Cardinal * num_params)
+static void popdown_submenus_action(Widget w, XEvent *event,
+                                    String *params, Cardinal *num_params)
 {
     int i;
 
@@ -210,8 +210,8 @@ static void popdown_submenus_action(Widget w, XEvent * event,
     menu_popup = 0;
 }
 
-static void menu_unhighlight_action(Widget w, XEvent * event, String * params,
-                                    Cardinal * num_params)
+static void menu_unhighlight_action(Widget w, XEvent *event, String *params,
+                                    Cardinal *num_params)
 {
     XtCallActionProc(w, "unhighlight", event, params, *num_params);
 }
@@ -434,16 +434,16 @@ void _ui_menu_radio_helper(Widget w,
 {
     int current_value;
 
-    resources_get_value(resource_name, (resource_value_t *) &current_value);
+    resources_get_value(resource_name, (resource_value_t *)&current_value);
 
     if (!call_data) {
-        if (current_value != (int) client_data) {
+        if (current_value != (int)client_data) {
             resources_set_value(resource_name,
-                                (resource_value_t) client_data);
+                                (resource_value_t)client_data);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int) client_data);
+        ui_menu_set_tick(w, current_value == (int)client_data);
     }
 }
 
@@ -461,12 +461,12 @@ void _ui_menu_string_radio_helper(Widget w,
     if (!call_data) {
         if (strcmp((const char *) current_value,
                    (const char *) client_data) != 0) {
-            resources_set_value(resource_name, (resource_value_t) client_data);
+            resources_set_value(resource_name, (resource_value_t)client_data);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, strcmp((const char *) current_value,
-                                   (const char *) client_data) == 0);
+        ui_menu_set_tick(w, strcmp((const char *)current_value,
+                                   (const char *)client_data) == 0);
     }
 }
 

@@ -63,9 +63,6 @@
 #include "vsync.h"
 #include "videoarch.h"
 #include "video.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
 
 ted_t ted;

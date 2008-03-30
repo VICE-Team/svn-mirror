@@ -60,9 +60,6 @@
 #include "vic20mem.h"
 #include "vsync.h"
 #include "videoarch.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
 
 vic_t vic;

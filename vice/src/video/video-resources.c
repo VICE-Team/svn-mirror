@@ -211,14 +211,14 @@ struct video_resource_chip_s {
     int double_scan_enabled;
     int double_size_enabled;
     int fullscreen_enabled;
-    int fullscreen_device;
-    int *fullscreen_mode;
+    char *fullscreen_device;
+    int fullscreen_mode[FULLSCREEN_MAXDEV];
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
 struct video_resource_chip_mode_s {
     video_resource_chip_t *resource_chip;
-    int (*mode)(struct video_canvas_s *canvas, int mode);
+    unsigned int device;
 };
 typedef struct video_resource_chip_mode_s video_resource_chip_mode_t;
 
@@ -297,8 +297,16 @@ static resource_t resources_chip_scan[] =
 int set_fullscreen_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
+    video_chip_cap_t *video_chip_cap;
 
     video_resource_chip = (video_resource_chip_t *)param;
+    video_chip_cap = video_resource_chip->video_chip_cap;
+
+    if (video_resource_chip->fullscreen_enabled != (int)v) {
+        video_resource_chip->fullscreen_enabled = (int)v;
+        return (video_chip_cap->fullscreen.enable)
+            (video_resource_chip->raster->canvas, (int)v);
+    }
 
     return 0;
 }
@@ -306,10 +314,17 @@ int set_fullscreen_enabled(resource_value_t v, void *param)
 int set_fullscreen_device(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
+    video_chip_cap_t *video_chip_cap;
 
     video_resource_chip = (video_resource_chip_t *)param;
+    video_chip_cap = video_resource_chip->video_chip_cap;
 
-    return 0;
+    if (util_string_set(&video_resource_chip->fullscreen_device,
+        (const char *)v))
+        return 0;
+
+    return (video_chip_cap->fullscreen.device)
+        (video_resource_chip->raster->canvas, (const char *)v);
 }
 
 static const char *vname_chip_fullscreen[] = {
@@ -319,18 +334,30 @@ static resource_t resources_chip_fullscreen[] =
 {
     { NULL, RES_INTEGER, (resource_value_t)0, NULL,
       set_fullscreen_enabled, NULL },
-    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
+    { NULL, RES_STRING, (resource_value_t)"", NULL,
       set_fullscreen_device, NULL },
     { NULL }
 };
 
 int set_fullscreen_mode(resource_value_t v, void *param)
 {
-    video_resource_chip_mode_t *resource_chip_mode;
-    video_resource_chip_t *resource_chip;
+    video_resource_chip_mode_t *video_resource_chip_mode;
+    video_resource_chip_t *video_resource_chip;
+    video_chip_cap_t *video_chip_cap;
 
-    resource_chip_mode = (video_resource_chip_mode_t *)param;
-    resource_chip = resource_chip_mode->resource_chip;
+    unsigned device;
+
+    video_resource_chip_mode = (video_resource_chip_mode_t *)param;
+    video_resource_chip = video_resource_chip_mode->resource_chip;
+    video_chip_cap = video_resource_chip->video_chip_cap;
+
+    device = video_resource_chip_mode->device;
+
+    if (video_resource_chip->fullscreen_mode[device] != (int)v) {
+        video_resource_chip->fullscreen_mode[device] = (int)v;
+        return (video_chip_cap->fullscreen.mode[device])
+            (video_resource_chip->raster->canvas, (int)v);
+    }
 
     return 0;
 }
@@ -358,7 +385,14 @@ int video_resources_chip_init(const char *chipname, struct raster_s *raster,
     /*raster->canvas = video_canvas_init(raster->videoconfig);*/
 
     video_render_initconfig(raster->videoconfig);
-
+#if 0
+    /* Set single size render as default.  */
+    raster->videoconfig->rendermode = video_chip_cap->single_mode.rmode;
+    raster->videoconfig->doublesizex
+        = video_chip_cap->single_mode.sizex > 1 ? 1 : 0;
+    raster->videoconfig->doublesizey
+        = video_chip_cap->single_mode.sizey > 1 ? 1 : 0;
+#endif
     resource_chip->raster = raster;
     resource_chip->video_chip_cap = video_chip_cap;
 
@@ -400,14 +434,11 @@ int video_resources_chip_init(const char *chipname, struct raster_s *raster,
         if (resources_register(resources_chip_fullscreen) < 0)
             return -1;
 
-        resource_chip->fullscreen_mode = (int *)xmalloc(sizeof(int)
-            * video_chip_cap->fullscreen.device_num);
-
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
             resource_chip_mode = (video_resource_chip_mode_t *)malloc(
                                  sizeof(video_resource_chip_mode_t));
             resource_chip_mode->resource_chip = resource_chip;
-            resource_chip_mode->mode = video_chip_cap->fullscreen.mode;
+            resource_chip_mode->device = i;
 
             resources_chip_fullscreen_mode[i].name
                 = concat(chipname, video_chip_cap->fullscreen.device_name[i],

@@ -53,6 +53,7 @@
 #include "videoarch.h"
 #include "video.h"
 
+
 vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset);
