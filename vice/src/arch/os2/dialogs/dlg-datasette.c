@@ -1,5 +1,5 @@
 /*
- * dialogs.c - The dialogs.
+ * dlg-datasette.c - The datasette-dialog.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -24,45 +24,51 @@
  *
  */
 
+#define INCL_WINBUTTONS
 #define INCL_WINDIALOGS
 
 #include "vice.h"
 #include "dialogs.h"
 
 #include "resources.h"
+#include "datasette.h"
 
-int toggle(char *resource_name)
+static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    int val;
-    if (resources_get_value(resource_name, (resource_value_t *) &val) <0)
-        return -1;
-    resources_set_value(resource_name, (resource_value_t)   !val);
-    return !val;
-}
-
-static int dlg_open = FALSE;
-
-int dlgOpen(int dlg)
-{
-    return dlg_open & dlg;
-}
-
-void setDlgOpen(int dlg)
-{
-    dlg_open |= dlg;
-}
-
-void delDlgOpen(int dlg)
-{
-    dlg_open &= ~dlg;
+    switch (msg)
+    {
+    case WM_INITDLG:
+        setDlgOpen(DLGO_DATASETTE);
+        break;
+    case WM_CLOSE:
+        delDlgOpen(DLGO_DATASETTE);
+        break;
+    case WM_COMMAND:
+        switch (LONGFROMMP(mp1))
+        {
+        case DID_CLOSE:
+            delDlgOpen(DLGO_DATASETTE);
+            break;
+        case PB_STOP:
+        case PB_START:
+        case PB_FORWARD:
+        case PB_REWIND:
+        case PB_RECORD:
+        case PB_RESET:
+            datasette_control(LONGFROMMP(mp1)&0xf);
+            return FALSE;
+        }
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
 
-void about_dialog(HWND hwnd)
+void datasette_dialog(HWND hwnd)
 {
-    WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
-               DLG_ABOUT, NULL);
+    if (dlgOpen(DLGO_DATASETTE)) return;
+    WinLoadDlg(HWND_DESKTOP, hwnd, pm_datasette, NULLHANDLE,
+               DLG_DATASETTE, NULL);
 }
 

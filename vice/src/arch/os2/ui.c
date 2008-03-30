@@ -209,11 +209,16 @@ extern void ui_enable_drive_status(ui_drive_enable_t state,
     ui_status.lastDriveState=state;
 }
 
+#define WM_DRIVEIMAGE WM_USER+0x2
+extern HWND hwndDrive;
+
 void ui_display_drive_current_image(unsigned int drive_number,
                                     const char *image)
 {
     const ULONG flCmd =
         DT_TEXTATTRS|DT_VCENTER|DT_LEFT|DT_ERASERECT|DT_WORDBREAK;
+
+    WinSendMsg(hwndDrive, WM_DRIVEIMAGE, (void*)image, (void*)drive_number);
 
     if (image && ui_status.init)
     {
@@ -310,6 +315,9 @@ int ui_yesno_dialog(HWND hwnd, char *title, char *msg)
 
 #include "contentsdlg.h"
 
+#define DLGO_CONTENTS  0x100
+extern void delDlgOpen(int dlg);
+
 MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
 #define ID_LIST     3
@@ -325,15 +333,17 @@ MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     switch (msg)
     {
     case WM_DESTROY:
+        delDlgOpen(DLGO_CONTENTS);
         first=TRUE;
-        break;;
+        break;
     case WM_COMMAND: // 32 0x20
         if ((int)mp1==ID_LIST)
         {
             suspend=TRUE;
-            WinDefFileDlgProc (hwnd, msg, (MPARAM)DID_OK,mp2);
+            WinDefFileDlgProc (hwnd, msg, (MPARAM)DID_OK, mp2);
             suspend=FALSE;
-            _beginthread(contents_dialog,NULL,0x4000,szFullFile);
+            contents_dialog(hwnd, szFullFile);
+            //_beginthread(contents_dialog,NULL,0x4000,szFullFile);
             return FALSE;
         }
         break;
@@ -352,25 +362,6 @@ MRESULT EXPENTRY FNWP2(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                             ID_LIST,                  /* Window id           */
                             NULL,                     /* Control data        */
                             NULL);                    /* Pres parameters     */
-/*            drive8=WinCreateWindow(hwnd, WC_BUTTON, "Drive 8",
-                                   WS_VISIBLE|WS_GROUP|BS_AUTORADIOBUTTON,
-                                   400, 51, 93, 15, NULLHANDLE,
-                                   HWND_TOP, ID_DRIVE8, NULL, NULL);
-            drive9=WinCreateWindow(hwnd, WC_BUTTON, "Drive 9",
-                                   WS_VISIBLE|BS_AUTORADIOBUTTON,
-                                   400, 36, 93, 15, NULLHANDLE,
-                                   drive8, ID_DRIVE9, NULL, NULL);
-            drive10=WinCreateWindow(hwnd, WC_BUTTON, "Drive 10",
-                                    WS_VISIBLE|BS_AUTORADIOBUTTON,
-                                    400, 21, 93, 15, NULLHANDLE,
-                                    drive8, ID_DRIVE10, NULL, NULL);
-            drive11=WinCreateWindow(hwnd, WC_BUTTON, "Drive 11",
-                                    WS_VISIBLE|BS_AUTORADIOBUTTON,
-                                    400,  6, 93, 15, NULLHANDLE,
-                                    drive8, ID_DRIVE11, NULL, NULL);
-            //            WinPostMsg(drive10, BM_SETCHECK, MPFROMP(1), MPFROMP(0));*/
-            //            WinSendMsg(drive9, BM_QUERYCHECK,0,0);
-            //            WinSendMsg(drive10, BM_QUERYCHECK,0,0);
         }
         break;
         /*    case 4136:

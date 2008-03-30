@@ -56,9 +56,9 @@ typedef struct _ui_status
 
 } ui_status_t;
 
-ui_status_t ui_status;
-int         PM_winActive;
-HMTX        hmtxKey;
+extern ui_status_t ui_status;
+extern int         PM_winActive;
+extern HMTX        hmtxKey;
 
 void PM_status(void *unused);
 void ui_open_status_window(void);

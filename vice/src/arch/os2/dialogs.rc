@@ -124,12 +124,57 @@ END
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Drive Setup", DLG_DRIVE, 162, 122, 135, 88, STY_DIALOG
+    DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 145, STY_DIALOG
     BEGIN
-        CONTROL "Close",                 DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
-                                         WS_GROUP 
-        CONTROL "Drive",                 ID_NONE,       7, 22, 118, 62, STY_GROUPBOX
-        CONTROL "True Drive Emulation",  CB_TRUEDRIVE, 17, 66,  90,  9, STY_AUTOCHECKBOX
+        CONTROL "Close",       DID_CLOSE,    5,   5,  38, 12, STY_CLOSEBUTTON |
+                                                              WS_GROUP 
+        CONTROL "Drive",       ID_NONE,      5, 104, 251, 38, STY_GROUPBOX
+        CONTROL "True Drive Emulation",
+                               CB_TRUEDRIVE,12, 121,  93, 10, STY_AUTOCHECKBOX
+        TEXT("Drive Sync Factor:", 178, 123,  69, 8)
+        CONTROL "PAL",         RB_PAL,     178, 111,  39, 10, STY_AUTORADIOBUTTON |
+                                                              WS_GROUP
+        CONTROL "NTSC",        RB_NTSC,    210, 111,  39, 10, STY_AUTORADIOBUTTON
+        TEXT("Drive:", 12, 110, 26, 8)
+        CONTROL "8",           RB_DRIVE8,   40, 109,  16, 10, STY_AUTORADIOBUTTON |
+                                                              WS_GROUP
+        CONTROL "9",           RB_DRIVE9,   62, 109,  16, 10, STY_AUTORADIOBUTTON
+        CONTROL "10",          RB_DRIVE10,  83, 109,  21, 10, STY_AUTORADIOBUTTON
+        CONTROL "11",          RB_DRIVE11, 107, 109,  21, 10, STY_AUTORADIOBUTTON
+
+        CONTROL "",            ID_NONE,      5,  20, 251, 89, STY_GROUPBOX
+        CONTROL "",            CBS_IMAGE, 14, 18, 216/*234*/, 79, WC_COMBOBOX, 
+                               CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
+                               WS_VISIBLE
+        CONTROL "...",         PB_ATTACH, 232, 86, 16, 11, STY_PUSHBUTTON
+        TEXT("Drive Type:", 151, 73, 45, 8)
+        CONTROL "",            CBS_TYPE,   198, 41,  50, 42, WC_COMBOBOX, 
+                               CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
+                               WS_VISIBLE
+        CONTROL "Parallel Cable",
+                               CB_PARALLEL, 14, 72, 64, 10, STY_AUTOCHECKBOX
+        TEXT("Idle Method:", 15, 60, 45, 8)
+        CONTROL "None",        RB_NONE,    110, 59, 39, 10, STY_AUTORADIOBUTTON |
+                                                            WS_GROUP
+        CONTROL "Skip Cycles", RB_SKIP,    196, 59, 55, 10, STY_AUTORADIOBUTTON
+        CONTROL "Trap Idle",   RB_TRAP,    148, 59, 44, 10, STY_AUTORADIOBUTTON
+        TEXT("Extend 40 Track Image:",  14, 47, 93, 8)
+        CONTROL "Never",       RB_NEVER,   110, 47, 39, 10, STY_AUTORADIOBUTTON |
+                                                            WS_GROUP
+        CONTROL "Always",      RB_ALWAYS,  196, 49, 39, 10, STY_AUTORADIOBUTTON
+        CONTROL "Ask",         RB_ASK,     148, 48, 30, 10, STY_AUTORADIOBUTTON 
+        CONTROL "Allow FS-Directory Access",
+                               CB_ALLOWACCESS, 13, 34, 109, 10, STY_AUTOCHECKBOX
+        CONTROL "Convert p00-Filenames",
+                               CB_CONVERTP00, 135, 35,  99, 10, STY_AUTOCHECKBOX
+        CONTROL "Save p00-Files to FS",
+                               CB_SAVEP00,    135, 25,  88, 10, STY_AUTOCHECKBOX
+        CONTROL "Hide non-p00-Files",
+        		       CB_HIDENONP00,  13, 24,  85, 10, STY_AUTOCHECKBOX
+        TEXT("Image:", 142/*97*/, 4, 29, 8)
+//        CONTROL "Attach",      PB_ATTACH, 128, 2, 40, 14, STY_PUSHBUTTON
+        CONTROL "Detach",      PB_DETACH, 173, 2, 40, 14, STY_PUSHBUTTON
+        CONTROL "Flip",        PB_FLIP,   217, 2, 40, 14, STY_PUSHBUTTON
     END
 END
 
@@ -206,3 +251,23 @@ BEGIN
     END
 END
 
+DLGTEMPLATE DLG_MONITOR 850 MOVEABLE DISCARDABLE 
+BEGIN
+    DIALOG  "Monitor", DLG_MONITOR, 141, 95, 148, 84, STY_DIALOG
+    BEGIN
+//        CONTROL "",     MLE_MONITOR, 0, 0, 148, 84, WC_MLE, MLS_READONLY | 
+//                        MLS_WORDWRAP | MLS_VSCROLL | MLS_IGNORETAB | 
+//                        WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        LISTBOX         LB_MONOUT, 1, 12, 146, 73, LS_MULTIPLESEL
+        ENTRYFIELD "",  EF_MONIN,  2,  2, 144,  8, ES_MARGIN
+
+    END
+END
+
+DLGTEMPLATE DLG_CONTENTS 850 MOVEABLE DISCARDABLE 
+BEGIN
+    DIALOG  "Contents", DLG_CONTENTS, 141, 95, 148, 84, /*FS_SIZEBORDER |*/ STY_DIALOG
+    BEGIN
+        LISTBOX  LB_CONTENTS, 1, 1, 146, 81
+    END
+END

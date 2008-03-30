@@ -875,7 +875,8 @@ static int open_fs(void *flp, const char *name, int length,
     BYTE *p, *linkp;
     char fsname[MAXPATHLEN], fsname2[MAXPATHLEN], rname[MAXPATHLEN];
     char *mask, *comma;
-    int status = 0, i, reallength, readmode, rl;
+    int status = 0, i;
+    unsigned int reallength, readmode, rl;
 
     if (fs_info[secondary].fd)
         return FLOPPY_ERROR;

@@ -37,6 +37,10 @@ static CHAR  szStatusClntClass[] = "VICE/2 Status Window";
 static CHAR  szStatusBarTitle [] = "VICE/2 Status";
 static ULONG flStatusFrameFlags = FCF_TITLEBAR|FCF_SHELLPOSITION;
 
+ui_status_t ui_status;
+int         PM_winActive;
+HMTX        hmtxKey;
+
 #define DB_RAISED 0x400
 
 void ui_close_status_window(void) {

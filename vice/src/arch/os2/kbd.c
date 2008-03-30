@@ -39,9 +39,8 @@
 #include "ui.h"
 #include "kbd.h"
 #include "log.h"
-#include "sound.h"
-#include "vsync.h"
-#include "tape.h"
+#include "vsync.h"         //suspend_speed_eval
+#include "tape.h"          // tape_attach
 #include "utils.h"
 #include "attach.h"        // file_system_attach_disk
 #include "machine.h"       // machine_powerup
@@ -52,6 +51,7 @@
 #include "keyboard.h"
 #include "kbdbuf.h"
 #include "dialogs.h"
+#include "maincpu.h"
 
 BYTE joystick_value[3];
 
@@ -68,8 +68,10 @@ static convmap *keyconv_base;
 static int num_keyconvmaps;
 static int keymap_index;
 
+#ifdef __X128__
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+#endif
 
 /* ------------------------------------------------------------------------ */
 
@@ -148,7 +150,7 @@ void switch_capslock_led_off(void)
 #define _getcwd _getcwd2
 #endif
 // _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
-static void ui_attach(HWND hwnd, int number)
+void ui_attach(HWND hwnd, int number)
 {
     static char drive[3]="g:";                        // maybe a resource
     static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
@@ -200,14 +202,7 @@ static void ui_soft_reset(HWND hwnd)
     }
 }
 
-static int toggle(char *resource_name)
-{
-    int value;
-    if (resources_get_value(resource_name, (resource_value_t *) &value) < 0)
-        return -1;
-    resources_set_value(resource_name, (resource_value_t) !value);
-    return !value;
-}
+extern int toggle(char *resource_name);
 
 void toggle_dialog(char *resource_name, const char *text)
 {
@@ -216,6 +211,12 @@ void toggle_dialog(char *resource_name, const char *text)
     ui_OK_dialog(resource_name, str);
     free(str);
 }
+static void mon_trap(ADDRESS addr, void *unused_data)
+{
+    mon(addr);
+}
+
+#include "console.h"
 
 void wmChar(HWND hwnd, MPARAM mp1)
 {   // super warp mode? ohne status window?
@@ -236,9 +237,11 @@ void wmChar(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
+#ifdef __X128__
         case K_F7:
             if (key_ctrl_column4080_func != NULL) key_ctrl_column4080_func();
             break;
+#endif
         case K_8: ui_attach       (hwnd, 8); break;
         case K_9: ui_attach       (hwnd, 9); break;
         case K_0: ui_attach       (hwnd, 0); break;
@@ -251,6 +254,15 @@ void wmChar(HWND hwnd, MPARAM mp1)
 #ifdef HAS_JOYSTICK
         case K_J: joystick_dialog (hwnd);    break;
 #endif
+        case K_M:
+            monitor_dialog(hwnd);
+            maincpu_trigger_trap(mon_trap, (void *) 0);
+            //mon(MOS6510_REGS_GET_PC(&maincpu_regs));
+            break;
+        case K_N:
+            console_out(NULL, "test: %s", "hallo");
+            break;
+
         case K_S: sound_dialog    (hwnd);    break;
             // toggle_dialog("Sound", "Sound playback");
             break;
@@ -282,8 +294,10 @@ void wmChar(HWND hwnd, MPARAM mp1)
 
 /* ------------------------------------------------------------------------ */
 
+#ifdef __X128__
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
 }
+#endif
 

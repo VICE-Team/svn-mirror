@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm snippets vac++ kbd
+SUBDIRS = pm snippets vac++ kbd dialogs
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

@@ -73,6 +73,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "vsync.c",
             "video.c",
             "c64ui.c",
+            "console.c",
             "kbd\\kbd-c64.c",
             "vsidui.c",
             "archdep.c",
@@ -87,6 +88,14 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "pm\\winaddon.c",
             "pm\\scrollbars.c",
             "snippets\\dirport.c"
+        source type(c)
+            "dialogs\\dlg-drive.c",
+            "dialogs\\dlg-sound.c",
+            "dialogs\\dlg-monitor.c",
+            "dialogs\\dlg-emulator.c",
+            "dialogs\\dlg-joystick.c" ,
+            "dialogs\\dlg-contents.c",
+            "dialogs\\dlg-datasette.c"
         source type(c)
             "c64.c",
             "c64acia1.c",

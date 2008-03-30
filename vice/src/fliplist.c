@@ -141,14 +141,14 @@ void flip_remove(unsigned int unit, char *image)
 	    /* this is the last entry */
 	    tmp = fliplist[unit - 8];
 	    fliplist[unit - 8] = (struct fliplist_t *) NULL;
-	    goto out;
-	}
-
-	fliplist[unit - 8]->next->prev = fliplist[unit - 8]->prev;
-	fliplist[unit - 8]->prev->next = fliplist[unit - 8]->next;
-	tmp = fliplist[unit - 8];
-	fliplist[unit - 8] = fliplist[unit - 8]->next;
-    out:
+        }
+        else
+        {
+            fliplist[unit - 8]->next->prev = fliplist[unit - 8]->prev;
+            fliplist[unit - 8]->prev->next = fliplist[unit - 8]->next;
+            tmp = fliplist[unit - 8];
+            fliplist[unit - 8] = fliplist[unit - 8]->next;
+        }
 	log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%d]",
 		    tmp->image, unit);
 	free (tmp->image);

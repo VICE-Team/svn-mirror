@@ -1,3 +1,9 @@
+1999-12-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.9.
+
+	* configure.in: Added `arch/os2/dialogs' to list of Makefiles.
+
 1999-12-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.8.

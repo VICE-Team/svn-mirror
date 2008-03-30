@@ -1,3 +1,36 @@
+1999-12-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.9.
+
+	* arch/msdos/menudefs.c (create_special_submenu): Corrected
+	virtual devices menu entry.
+
+	* arch/win32/ui.c, arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic.rc,
+	arch/win32/respet.rc, arch/win32/rescbm2.rc: Virtual devices
+	menu entry.
+
+	* drive/drive.h, arch/win32/res.rc, arch/win32/uidrive.c:
+	Added drive expansion UI.
+
+	* arch/win32/uiattach.c, arch/win32/res.h, arch/win32/res.rc:
+	New printer dialog.
+
+1999-12-19  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-contents.c,
+	arch/os2/dialogs/dlg-datasette.c,
+	arch/os2/dialogs/dlg-drive.c, arch/os2/dialogs/dlg-emulator.c,
+	arch/os2/dialogs/dlg-joystick.c,
+	arch/os2/dialogs/dlg-monitor.c, arch/os2/dialogs/dlg-sound.c:
+	added
+
+	* dialogs.[ch]: moved dialogs to arch/os2/dialogs
+
+	* dialogs.rc extended drive-dialog
+
+	* fliplist.c removed goto statement
+
 1999-12-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.8.
