@@ -33,7 +33,6 @@
 
 #include "alarm.h"
 #include "c64cia.h"
-#include "interrupt.h"
 #include "maincpu.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"

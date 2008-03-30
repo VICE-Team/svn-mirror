@@ -71,7 +71,7 @@ enum cpu_int {
 
 /* We not care about wasted space here, and make fixed-length large enough
    arrays since static allocation can be handled more easily...  */
-struct cpu_int_status_s {
+struct interrupt_cpu_status_s {
     /* Number of interrupt lines.  */
     int num_ints;
 
@@ -118,18 +118,18 @@ struct cpu_int_status_s {
 
     void (*reset_trap_func)(void);
 };
-typedef struct cpu_int_status_s cpu_int_status_t;
+typedef struct interrupt_cpu_status_s interrupt_cpu_status_t;
 
 /* ------------------------------------------------------------------------- */
 
 extern void interrupt_log_wrong_nirq(void);
 extern void interrupt_log_wrong_nnmi(void);
 
-extern void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk);
-extern void interrupt_ack_dma(cpu_int_status_t *cs);
+extern void interrupt_trigger_dma(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
+extern void interrupt_ack_dma(interrupt_cpu_status_t *cs);
 
 /* Set the IRQ line state.  */
-inline static void interrupt_set_irq(cpu_int_status_t *cs, int int_num,
+inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
                                      int value, CLOCK cpu_clk)
 {
     if (value) {                /* Trigger the IRQ.  */
@@ -165,7 +165,7 @@ inline static void interrupt_set_irq(cpu_int_status_t *cs, int int_num,
 }
 
 /* Set the NMI line state.  */
-inline static void interrupt_set_nmi(cpu_int_status_t *cs, int int_num,
+inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
                                      int value, CLOCK cpu_clk)
 {
     if (value) {                /* Trigger the NMI.  */
@@ -206,7 +206,7 @@ inline static void interrupt_set_nmi(cpu_int_status_t *cs, int int_num,
    and IRQ lines.  It is slower than `interrupt_set_nmi()' and
    `interrupt_set_irq()', but is left for backward compatibility (it works
    like the old `setirq()').  */
-inline static void interrupt_set_int(cpu_int_status_t *cs, int int_num,
+inline static void interrupt_set_int(interrupt_cpu_status_t *cs, int int_num,
                                      enum cpu_int value, CLOCK cpu_clk)
 {
     interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), cpu_clk);
@@ -217,14 +217,14 @@ inline static void interrupt_set_int(cpu_int_status_t *cs, int int_num,
 
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
 inline static enum cpu_int interrupt_check_pending_interrupt(
-    cpu_int_status_t *cs)
+    interrupt_cpu_status_t *cs)
 {
     return cs->global_pending_int;
 }
 
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
-inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
+inline static void interrupt_ack_nmi(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int & ~IK_NMI);
@@ -239,48 +239,51 @@ inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
 
 struct snapshot_module_s;
 
-extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk);
-extern void interrupt_ack_reset(cpu_int_status_t *cs);
-extern void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
+extern interrupt_cpu_status_t *interrupt_cpu_status_new(void);
+extern void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs);
+extern void interrupt_cpu_status_init(interrupt_cpu_status_t *cs, int num_ints,
+                                      unsigned int *last_opcode_info_ptr);
+
+extern void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
+extern void interrupt_ack_reset(interrupt_cpu_status_t *cs);
+extern void interrupt_set_reset_trap_func(interrupt_cpu_status_t *cs,
                                         void (*reset_trap_func)(void));
 extern void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD,
                                            void *data), void *data);
-extern void interrupt_do_trap(cpu_int_status_t *cs, WORD address);
+extern void interrupt_do_trap(interrupt_cpu_status_t *cs, WORD address);
 
-extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
-extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);
+extern void interrupt_monitor_trap_on(interrupt_cpu_status_t *cs);
+extern void interrupt_monitor_trap_off(interrupt_cpu_status_t *cs);
 
-extern void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
-                                      unsigned int *last_opcode_info_ptr);
-extern void interrupt_cpu_status_time_warp(cpu_int_status_t *cs,
+extern void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
                                            CLOCK warp_amount,
                                            int warp_direction);
 
-extern int interrupt_read_snapshot(cpu_int_status_t *cs,
+extern int interrupt_read_snapshot(interrupt_cpu_status_t *cs,
                                    struct snapshot_module_s *m);
-extern int interrupt_write_snapshot(cpu_int_status_t *cs,
+extern int interrupt_write_snapshot(interrupt_cpu_status_t *cs,
                                     struct snapshot_module_s *m);
 
-extern void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num,
+extern void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
-extern void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num,
+extern void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
-extern void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
+extern void interrupt_set_int_noclk(interrupt_cpu_status_t *cs, int int_num,
                           enum cpu_int value);
-extern int interrupt_get_irq(cpu_int_status_t *cs, int int_num);
-extern int interrupt_get_nmi(cpu_int_status_t *cs, int int_num);
-extern void interrupt_set_nmi_trap_func(cpu_int_status_t *cs,
+extern int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num);
+extern int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num);
+extern void interrupt_set_nmi_trap_func(interrupt_cpu_status_t *cs,
                                         void (*nmi_trap_func)(void));
 
-extern enum cpu_int interrupt_get_int(cpu_int_status_t *cs, int int_num);
+extern enum cpu_int interrupt_get_int(interrupt_cpu_status_t *cs, int int_num);
 
 /* ------------------------------------------------------------------------- */
 
-extern cpu_int_status_t maincpu_int_status;
+extern interrupt_cpu_status_t maincpu_int_status;
 extern CLOCK maincpu_clk;
 
-extern cpu_int_status_t *drive0_int_status_ptr;
-extern cpu_int_status_t *drive1_int_status_ptr;
+extern interrupt_cpu_status_t *drive0_int_status_ptr;
+extern interrupt_cpu_status_t *drive1_int_status_ptr;
 extern CLOCK drive_clk[2];
 
 /* For convenience...  */

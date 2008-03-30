@@ -29,20 +29,21 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "interrupt.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
+#include "utils.h"
 
-/* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
+void interrupt_cpu_status_init(interrupt_cpu_status_t *cs, int num_ints,
                                unsigned int *last_opcode_info_ptr)
 {
-    memset(cs, 0, sizeof(cpu_int_status_t));
+    memset(cs, 0, sizeof(interrupt_cpu_status_t));
     cs->num_ints = num_ints;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
     cs->num_last_stolen_cycles = 0;
@@ -52,21 +53,31 @@ void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
     cs->reset_trap_func = NULL;
 }
 
-void interrupt_set_nmi_trap_func(cpu_int_status_t *cs,
+interrupt_cpu_status_t *interrupt_cpu_status_new(void)
+{
+    return (interrupt_cpu_status_t *)xmalloc(sizeof(interrupt_cpu_status_t));
+}
+
+void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)
+{
+    free(cs);
+}
+
+void interrupt_set_nmi_trap_func(interrupt_cpu_status_t *cs,
                                  void (*nmi_trap_func)(void))
 {
     cs->nmi_trap_func = nmi_trap_func;
 }
 
-void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
+void interrupt_set_reset_trap_func(interrupt_cpu_status_t *cs,
                                  void (*reset_trap_func)(void))
 {
     cs->reset_trap_func = reset_trap_func;
 }
 
 /* Move all the CLOCK time references forward/backward.  */
-void interrupt_cpu_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
-                                    int warp_direction)
+void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
+                                    CLOCK warp_amount, int warp_direction)
 {
     if (warp_direction == 0)
         return;
@@ -112,7 +123,7 @@ void interrupt_log_wrong_nnmi(void)
    information; the global timing status is stored in the CPU module (see
    `interrupt_write_snapshot()' and `interrupt_read_snapshot()'). */
 
-void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
+void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
 {
     if (value) {
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
@@ -131,7 +142,7 @@ void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
     }
 }
 
-void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
+void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num, int value)
 {
     if (value) {
         if (!(cs->pending_int[int_num] & IK_NMI)) {
@@ -152,37 +163,37 @@ void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
     }
 }
 
-void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
+void interrupt_set_int_noclk(interrupt_cpu_status_t *cs, int int_num,
                              enum cpu_int value)
 {
     interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), maincpu_clk);
     interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), maincpu_clk);
 }
 
-int interrupt_get_irq(cpu_int_status_t *cs, int int_num)
+int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num] & IK_IRQ;
 }
 
-int interrupt_get_nmi(cpu_int_status_t *cs, int int_num)
+int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num] & IK_NMI;
 }
 
-enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
+enum cpu_int get_int(interrupt_cpu_status_t *cs, int int_num)
 {
     return cs->pending_int[int_num];
 }
 
 /* ------------------------------------------------------------------------- */
 
-void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk)
+void interrupt_trigger_dma(interrupt_cpu_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int | IK_DMA);
 }
 
-void interrupt_ack_dma(cpu_int_status_t *cs)
+void interrupt_ack_dma(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int = (enum cpu_int)
         (cs->global_pending_int & ~IK_DMA);
@@ -191,13 +202,13 @@ void interrupt_ack_dma(cpu_int_status_t *cs)
 /* ------------------------------------------------------------------------- */
 
 /* Trigger a RESET.  This resets the machine.  */
-void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
+void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_RESET;
 }
 
 /* Acknowledge a RESET condition, by removing it.  */
-void interrupt_ack_reset(cpu_int_status_t *cs)
+void interrupt_ack_reset(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int &= ~IK_RESET;
 
@@ -211,7 +222,7 @@ void interrupt_ack_reset(cpu_int_status_t *cs)
 void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD, void *data),
                                     void *data)
 {
-    cpu_int_status_t *cs = &maincpu_int_status;
+    interrupt_cpu_status_t *cs = &maincpu_int_status;
 
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;
@@ -220,25 +231,25 @@ void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD, void *data),
 
 
 /* Dispatch the TRAP condition.  */
-void interrupt_do_trap(cpu_int_status_t *cs, WORD address)
+void interrupt_do_trap(interrupt_cpu_status_t *cs, WORD address)
 {
     cs->global_pending_int &= ~IK_TRAP;
     cs->trap_func(address, cs->trap_data);
 }
 
-void interrupt_monitor_trap_on(cpu_int_status_t *cs)
+void interrupt_monitor_trap_on(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int |= IK_MONITOR;
 }
 
-void interrupt_monitor_trap_off(cpu_int_status_t *cs)
+void interrupt_monitor_trap_off(interrupt_cpu_status_t *cs)
 {
     cs->global_pending_int &= ~IK_MONITOR;
 }
 
 /* ------------------------------------------------------------------------- */
 
-int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
+int interrupt_write_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
     /* FIXME: could we avoid some of this info?  */
     if (SMW_DW(m, cs->irq_clk) < 0
@@ -250,7 +261,7 @@ int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     return 0;
 }
 
-int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
+int interrupt_read_snapshot(interrupt_cpu_status_t *cs, snapshot_module_t *m)
 {
     int i;
     DWORD dw;
