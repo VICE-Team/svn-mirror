@@ -40,7 +40,7 @@
 
 BYTE REGPARM1 zaxxon_roml_read(WORD addr)
 {
-    romh_bank = (addr & 0x1000) ? 1 : 0;
+    cartridge_romhbank_set((addr & 0x1000) ? 1 : 0);
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 

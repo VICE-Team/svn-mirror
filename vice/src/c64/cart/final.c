@@ -90,7 +90,8 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 {
     if ((addr & 0xff) == 0xff)  {
         /* FIXME: Change this to call `cartridge_config_changed'.  */
-        romh_bank = roml_bank = value & 3;
+        cartridge_romhbank_set(value & 3);
+        cartridge_romlbank_set(value & 3);
         export.game = ((value >> 5) & 1) ^ 1;
         export.exrom = ((value >> 4) & 1) ^ 1;
         mem_pla_config_changed();
