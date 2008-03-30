@@ -75,7 +75,7 @@ static int set_save_resources_on_exit(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
       (resource_value_t *)&ui_resources.html_browser_command,
       set_html_browser_command, NULL },

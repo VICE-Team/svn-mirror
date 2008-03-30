@@ -146,7 +146,7 @@ static int set_aspect_ratio(resource_value_t v, void *param)
 }
 
 /* Video-related resources.  */
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&_video_use_xsync, set_use_xsync, NULL },
       /* turn MITSHM on by default */

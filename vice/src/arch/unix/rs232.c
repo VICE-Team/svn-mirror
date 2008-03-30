@@ -81,7 +81,7 @@ static int set_devbaud(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "RsDevice1", RES_STRING, (resource_value_t)"/dev/ttyS0",
       (resource_value_t *)&devfile[0],
       set_devfile, (void *)0 },
