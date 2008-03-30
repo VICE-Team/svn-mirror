@@ -48,6 +48,9 @@
 /* Define to 1 if you have the <alsa/asoundlib.h> header file. */
 #undef HAVE_ALSA_ASOUNDLIB_H
 
+/* Define to 1 if you have the <artsc.h> header file. */
+#undef HAVE_ARTSC_H
+
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
@@ -119,15 +122,6 @@
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
 
-/* Define to 1 if you have the `artsc' library (-lartsc). */
-#undef HAVE_LIBARTSC
-
-/* Define to 1 if you have the `asound' library (-lasound). */
-#undef HAVE_LIBASOUND
-
-/* Define to 1 if you have the `audio' library (-laudio). */
-#undef HAVE_LIBAUDIO
-
 /* Define to 1 if you have the `avcodec' library (-lavcodec). */
 #undef HAVE_LIBAVCODEC
 
@@ -136,9 +130,6 @@
 
 /* Define to 1 if you have the `bsd' library (-lbsd). */
 #undef HAVE_LIBBSD
-
-/* Define to 1 if you have the `esd' library (-lesd). */
-#undef HAVE_LIBESD
 
 /* use libintl for NLS. */
 #undef HAVE_LIBINTL_H
@@ -149,14 +140,11 @@
 /* Define to 1 if you have the `mp3lame' library (-lmp3lame). */
 #undef HAVE_LIBMP3LAME
 
+/* Define to 1 if you have the `ossaudio' library (-lossaudio). */
+#undef HAVE_LIBOSSAUDIO
+
 /* Define to 1 if you have the `resid' library (-lresid). */
 #undef HAVE_LIBRESID
-
-/* Define to 1 if you have the `SDL' library (-lSDL). */
-#undef HAVE_LIBSDL
-
-/* Define to 1 if you have the `UMSobj' library (-lUMSobj). */
-#undef HAVE_LIBUMSOBJ
 
 /* Define to 1 if you have the <libusbhid.h> header file. */
 #undef HAVE_LIBUSBHID_H
@@ -230,6 +218,9 @@
 /* Define to 1 if you have the <signal.h> header file. */
 #undef HAVE_SIGNAL_H
 
+/* Define to 1 if you have the <soundcard.h> header file. */
+#undef HAVE_SOUNDCARD_H
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
@@ -288,6 +279,9 @@
 
 /* Define to 1 if you have the <UMS/UMSAudioDevice.h> header file. */
 #undef HAVE_UMS_UMSAUDIODEVICE_H
+
+/* Define to 1 if you have the <UMS/UMSBAUDDevice.h> header file. */
+#undef HAVE_UMS_UMSBAUDDEVICE_H
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -369,9 +363,6 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
-
-/* Define if this version is unstable. */
-#undef UNSTABLE
 
 /* Enable aRts support. */
 #undef USE_ARTS

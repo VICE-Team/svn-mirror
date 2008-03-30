@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=20
+VICE_VERSION_BUILD=21
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -34,7 +34,7 @@ AC_SUBST(VERSION_RC)
 
 AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
 
-AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
+dnl AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
 is_dos=no
 is_win32=no
@@ -54,6 +54,7 @@ AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of 
 AC_ARG_WITH(arts, [  --with-arts             use aRts sound system])
 AC_ARG_WITH(esd, [  --without-esd           do not use the Enlightened Sound Daemon system])
 AC_ARG_WITH(alsa, [  --without-alsa          do not use the ALSA sound system])
+AC_ARG_WITH(oss, [  --without-oss           do not use the OSS sound system])
 AC_ARG_ENABLE(sdl, [  --with-sdl              use sdl sound system])
 AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
 AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
@@ -663,45 +664,65 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                    [Support for Catweasel MKIII.]), )
 
   if test x"$with_arts" = "xyes"; then
-    AC_DEFINE(USE_ARTS,,[Enable aRts support.])
+    old_cflags=$CFLAGS
+    old_libs=$LIBS
     CFLAGS="$CFLAGS `artsc-config --cflags`"
     LIBS="$LIBS `artsc-config --libs`"
-    SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"
+    AC_CHECK_HEADERS(artsc.h,[AC_CHECK_LIB(artsc, arts_init,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"; break],
+                     [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break],$SOUND_LIBS)],
+                     [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break])
   fi
 
-  if test x"$with_sdl" = "xyes"; then
-    SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+  if test x"$with_arts" = "xyes"; then
+    AC_DEFINE(USE_ARTS,,[Enable aRts support.])
   fi
 
   if test x"$with_alsa" != "xno"; then
-    AC_CHECK_HEADERS(alsa/asoundlib.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o"; break])
+    AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
+                      SOUND_LIBS="$SOUND_LIBS -lasound"; break],,$SOUND_LIBS)])
   fi
 
-  AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h,
-                   [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break])
-  AC_CHECK_HEADERS(dmedia/audio.h,
-                   [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o"; break])
+  if test x"$with_oss" != "xno"; then
+    AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break])
+    AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
+  fi
+
+  AC_CHECK_HEADERS(dmedia/audio.h, [AC_CHECK_LIB(audio, ALseterrorhandler,
+                   [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o";
+                    SOUND_LIBS="$SOUND_LIBS -laudio"; break;],,$SOUND_LIBS)])
+
   AC_CHECK_HEADERS(sys/audioio.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
 
   if test x"$with_esd" != "xno"; then
-    AC_CHECK_HEADERS(esd.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundesd.o"; break])
+    AC_CHECK_HEADERS(esd.h,[AC_CHECK_LIB(esd, esd_open_sound,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundesd.o";
+                      SOUND_LIBS="$SOUND_LIBS -lesd"; break],,$SOUND_LIBS)])
   fi
 
   if test x"$with_sdl" = "xyes"; then
-    AC_CHECK_HEADERS(SDL/SDL_audio.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break])
+    old_cflags=$CFLAGS
+    old_libs=$LIBS
+    CFLAGS="$CFLAGS `sdl-config --cflags`"
+    LIBS="$LIBS `sdl-config --libs`"
+    AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break],
+                     [CFLAGS=$old_cflags; LIBS=$old_libs; break],$SOUND_LIBS)],
+                     [CFLAGS=$old_cflags; LIBS=$old_libs; break])
   fi
 
   if test x"$host_os" = "xhpux"; then
     AC_CHECK_HEADERS(sys/audio.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundhpux.o"; break])
-  fi;
+  fi
 
-  AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,
-                   [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o"; break])
+  AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,[AC_CHECK_HEADERS(UMS/UMSBAUDDevice.h,
+                   [AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,
+                    [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
+                     SOUND_LIBS="$SOUND_LIBS -lUMSobj"; break],,$SOUND_LIBS)])])
 fi
 
 if [[ x"$is_dos" = "xyes" ]] ; then
@@ -754,26 +775,6 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
 fi
 
 AC_SUBST(SOUND_DRIVERS)
-
-if test x"$with_arts" = "xyes"; then
-	AC_CHECK_LIB(artsc, arts_init,,,$SOUND_LIBS)
-fi
-
-if test x"$with_sdl" = "xyes"; then
-	LIBS="$LIBS `sdl-config --libs`"
-	AC_CHECK_LIB(SDL, SDL_OpenAudio,,,$SOUND_LIBS)
-fi
-
-if test x"$with_alsa" != "xno"; then
-  AC_CHECK_LIB(asound, snd_pcm_open,,,$SOUND_LIBS)
-fi
-
-AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
-AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,,,$SOUND_LIBS)
-
-if test x"$with_esd" != "xno"; then
-  AC_CHECK_LIB(esd, esd_open_sound,,,$SOUND_LIBS)
-fi
 
 AC_SUBST(SOUND_LIBS)
 
