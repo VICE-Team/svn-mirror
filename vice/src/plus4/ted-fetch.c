@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -88,11 +89,11 @@ inline static int do_matrix_fetch(CLOCK sub)
         ted.memory_fetch_done = 1;
         ted.mem_counter = ted.memptr;
 
-        if ((raster->current_line & 7)
+        if ((ted.ted_raster_counter & 7)
             == (unsigned int)((raster->ysmooth + 1) & 7)
             && ted.allow_bad_lines
-            && raster->current_line >= ted.first_dma_line
-            && raster->current_line <= ted.last_dma_line) {
+            && ted.ted_raster_counter > ted.first_dma_line
+            && ted.ted_raster_counter <= ted.last_dma_line) {
             ted_fetch_matrix(0, TED_SCREEN_TEXTCOLS);
 
             raster->draw_idle_state = 0;
@@ -110,10 +111,10 @@ inline static int do_matrix_fetch(CLOCK sub)
             return 1;
         }
 
-        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
+        if ((ted.ted_raster_counter & 7) == (unsigned int)raster->ysmooth
             && ted.allow_bad_lines
-            && raster->current_line >= ted.first_dma_line
-            && raster->current_line <= ted.last_dma_line) {
+            && ted.ted_raster_counter >= ted.first_dma_line
+            && ted.ted_raster_counter < ted.last_dma_line) {
             ted_fetch_color(0, TED_SCREEN_TEXTCOLS);
 /*
             raster->draw_idle_state = 0;
@@ -148,18 +149,11 @@ inline static void handle_fetch_matrix(long offset, CLOCK sub,
 
     do_matrix_fetch(sub);
 
-    if (raster->current_line < ted.first_dma_line) {
-        ted.fetch_clk += ((ted.first_dma_line
-                         - raster->current_line)
-                         * ted.cycles_per_line);
+    if ((ted.ted_raster_counter >= ted.first_dma_line) &&
+        (ted.ted_raster_counter < ted.last_dma_line)) {
+        ted.fetch_clk += ted.cycles_per_line;
     } else {
-        if (raster->current_line >= ted.last_dma_line)
-            ted.fetch_clk += ((ted.screen_height
-                             - raster->current_line
-                             + ted.first_dma_line)
-                             * ted.cycles_per_line);
-        else
-            ted.fetch_clk += ted.cycles_per_line;
+        ted.fetch_clk += (ted.screen_height - ted.ted_raster_counter) * ted.cycles_per_line;
     }
 
     alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);

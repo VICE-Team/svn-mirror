@@ -1,9 +1,10 @@
 /*
- * tedtypes.h - A cycle-exact event-driven MOS6569 (VIC-II) emulation.
+ * tedtypes.h - A cycle-exact event-driven TED emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,30 +33,43 @@
 #include "types.h"
 
 /* Screen constants.  */
+/* Sizes */
 #define TED_PAL_SCREEN_HEIGHT           312
 #define TED_NTSC_SCREEN_HEIGHT          262
 
 #define TED_SCREEN_WIDTH                384
 
+/* FIXME don't need */
 #define TED_PAL_OFFSET                  48
 #define TED_NTSC_OFFSET                 0
 
+/* Sizes */
 #define TED_SCREEN_XPIX                 320
 #define TED_SCREEN_YPIX                 200
 #define TED_SCREEN_TEXTCOLS             40
 #define TED_SCREEN_TEXTLINES            25
 #define TED_SCREEN_PAL_BORDERWIDTH      32
+  /* FIXME Not used */
 #define TED_SCREEN_PAL_BORDERHEIGHT     51
 #define TED_SCREEN_NTSC_BORDERWIDTH     32
+  /* FIXME Not used */
 #define TED_SCREEN_NTSC_BORDERHEIGHT    27
 
-#define TED_PAL_FIRST_DISPLAYED_LINE    0x10
-#define TED_PAL_LAST_DISPLAYED_LINE     0x11f
-#define TED_PAL_25ROW_START_LINE        (0x33 + 1)
-#define TED_PAL_25ROW_STOP_LINE         (0xfb + 1)
-#define TED_PAL_24ROW_START_LINE        (0x37 + 1)
-#define TED_PAL_24ROW_STOP_LINE         (0xf7 + 1)
+/* values in the coordinate system of the Raster object */
+        /* 0x113 in TED raster counter */
+#define TED_PAL_FIRST_DISPLAYED_LINE    21
+        /* 0x0FA in TED raster counter */
+#define TED_PAL_LAST_DISPLAYED_LINE     309
+        /* 0x004 in TED raster counter */
+#define TED_PAL_25ROW_START_LINE        62
+        /* 0x0CB in TED raster counter */
+#define TED_PAL_25ROW_STOP_LINE         262
+        /* 0x008 in TED raster counter */
+#define TED_PAL_24ROW_START_LINE        66
+        /* 0x0C7 in TED raster counter */
+#define TED_PAL_24ROW_STOP_LINE         258
 
+/* FIXME calculate NTSC values */
 #define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DISPLAYED_LINE    0x102
 #define TED_NTSC_25ROW_START_LINE       (0x33 - TED_NTSC_OFFSET)
@@ -65,9 +79,14 @@
 
 #define TED_40COL_START_PIXEL           0x20
 #define TED_40COL_STOP_PIXEL            0x160
-#define TED_38COL_START_PIXEL           0x27
-#define TED_38COL_STOP_PIXEL            0x157
+#define TED_38COL_START_PIXEL           0x28
+#define TED_38COL_STOP_PIXEL            0x158
 
+/* TED raster counter values */
+#define TED_PAL_VSYNC_LINE              254
+#define TED_NTSC_VSYNC_LINE             229
+
+/* FIXME add negated colors as well */
 #define TED_NUM_COLORS                  128
 
 
@@ -90,52 +109,56 @@ typedef enum ted_video_mode_s ted_video_mode_t;
                                          && (x) != TED_IDLE_MODE)
 #define TED_IS_BITMAP_MODE(x)        ((x) & 0x02)
 
-/* Note: we measure cycles from 0 to 62, not from 1 to 63.  */
+/* Note: we measure cycles from 0 to 113, not from 1 to 114.  */
 
 /* Cycle # at which the TED takes the bus in a bad line (BA goes low).  */
-#define TED_FETCH_CYCLE             11
+#define TED_FETCH_CYCLE             4
 
-/* Delay for the raster line interrupt.  This is not due to the VIC-II, since
-   it triggers the IRQ line at the beginning of the line, but to the 6510
+/* Delay for the raster line interrupt.  This is not due to the TED, since
+   it triggers the IRQ line at the beginning of the line, but to the 7501
    that needs at least 2 cycles to detect it.  */
 #define TED_RASTER_IRQ_DELAY        2 /* FIXME!!! */
 
 /* Current char being drawn by the raster.  < 0 or >= TED_SCREEN_TEXTCOLS
    if outside the visible range.  */
-#define TED_RASTER_CHAR(cycle)      ((int)(cycle) - 15)
+#define TED_RASTER_CHAR(cycle)      (((int)(cycle) - 17) / 2 )
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define TED_RASTER_X(cycle)         (((int)(cycle) - 13) * 8)
+#define TED_RASTER_X(cycle)         (((int)(cycle) - 16) * 4)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
-   guarranteed to be always correct.  It is a bit slow, though.  */
-#define TED_RASTER_Y(clk)           ((unsigned int)((clk) \
-                                    / ted.cycles_per_line) \
-                                    % ted.screen_height)
+   guaranteed to be always correct. */
+#define TED_RASTER_Y(clk)           ((unsigned int)((ted.ted_raster_counter \
+                                    + (((clk) - ted.last_emulate_line_clk) \
+                                    >= 114 ? (ted.ted_raster_counter == ted.screen_height - 1 \
+                                    ? 1 - ted.screen_height : 1) : 0)) & 0x1ff))
 
 /* Cycle # within the current line.  */
-#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) \
-                                    % ted.cycles_per_line))
+#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
 
 /* `clk' value for the beginning of the current line.  */
-#define TED_LINE_START_CLK(clk)     (((clk) / ted.cycles_per_line) \
-                                    * ted.cycles_per_line)
+#define TED_LINE_START_CLK(clk)     ((unsigned int)(ted.last_emulate_line_clk + (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
 
 /* # of the previous and next raster line.  Handles wrap over.  */
+/* FIXME not always true, previous line can be 511 */
 #define TED_PREVIOUS_LINE(line)  (((line) > 0) \
                                  ? (line) - 1 : ted.screen_height - 1)
+/* FIXME not always true, line counter can be in range [screen_height, 511] */
 #define TED_NEXT_LINE(line)      (((line) + 1) % ted.screen_height)
 
+/* FIXME not used can be dropped */
 #define TED_LINE_RTOU(line) ((line + ted.screen_height - ted.offset) \
                             % ted.screen_height)
 #define TED_LINE_UTOR(line) ((line + ted.screen_height + ted.offset) \
                             % ted.screen_height)
 
 /* Bad line range.  */
-#define TED_PAL_FIRST_DMA_LINE      0x30
-#define TED_PAL_LAST_DMA_LINE       0xf7
+/* TED raster_counter values */
+#define TED_PAL_FIRST_DMA_LINE      0x0
+#define TED_PAL_LAST_DMA_LINE       0xcb
+/* FIXME */
 #define TED_NTSC_FIRST_DMA_LINE     (0x30 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DMA_LINE      0xf7
 
@@ -150,6 +173,7 @@ enum ted_fetch_idx_s {
 typedef enum ted_fetch_idx_s ted_fetch_idx_t;
 */
 
+/* FIXME Idle location is always $ffff in TED or the data is coming from CPU cycles in certain cases */
 enum ted_idle_data_location_s {
     IDLE_NONE,
     IDLE_3FFF,
@@ -203,7 +227,8 @@ struct ted_s {
     int force_display_state;
 
     /* Which display line is drawn? */
-    unsigned int display_line;
+    unsigned int tv_current_line;
+    unsigned int ted_raster_counter;
 
     /* This flag is set if a memory fetch has already happened on the current
        line.  FIXME: Value of 2?...  */
@@ -290,6 +315,8 @@ struct ted_s {
 
     unsigned int first_dma_line;
     unsigned int last_dma_line;
+
+    unsigned int vsync_line;
 
     /* Number of lines the whole screen is shifted up.  */
     int offset;

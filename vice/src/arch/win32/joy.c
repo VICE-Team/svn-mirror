@@ -206,7 +206,7 @@ int     i = 0;
     }
     if (joy) {
         IDirectInput_CreateDevice(di, &joy->guid, &joystick_di_devices[index], NULL);
-        IDirectInputDevice_QueryInterface(joystick_di_devices[index], &IID_IDirectInputDevice2, &joystick_di_devices2[index]);
+        IDirectInputDevice_QueryInterface(joystick_di_devices[index], &IID_IDirectInputDevice2, (LPVOID*)&joystick_di_devices2[index]);
         IDirectInputDevice_SetDataFormat(joystick_di_devices[index], &c_dfDIJoystick);
         IDirectInputDevice_SetCooperativeLevel(joystick_di_devices[index], ui_active_window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
         IDirectInputDevice_Acquire(joystick_di_devices[index]);

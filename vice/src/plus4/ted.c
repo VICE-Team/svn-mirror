@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -67,6 +68,8 @@
 
 
 ted_t ted;
+static CLOCK old_maincpu_clk = 0;
+
 
 static void ted_set_geometry(void);
 
@@ -77,6 +80,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     ted.last_emulate_line_clk -= sub;
     ted.fetch_clk -= sub;
     ted.draw_clk -= sub;
+    old_maincpu_clk -= sub;
 }
 
 void ted_change_timing(machine_timing_t *machine_timing)
@@ -88,8 +92,6 @@ void ted_change_timing(machine_timing_t *machine_timing)
         raster_mode_change();
     }
 }
-
-static CLOCK old_maincpu_clk = 0;
 
 void ted_delay_oldclk(CLOCK num)
 {
@@ -132,14 +134,14 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
 
         do {
             f = 0;
-            if (maincpu_clk > ted.fetch_clk) {
-                ted_fetch_alarm_handler(0);
-                f = 1;
-                ted_delay_clk();
-            }
             if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler((long)(maincpu_clk
                                               - ted.draw_clk));
+                f = 1;
+                ted_delay_clk();
+            }
+            if (maincpu_clk >= ted.fetch_clk) {
+                ted_fetch_alarm_handler(0);
                 f = 1;
                 ted_delay_clk();
             }
@@ -158,13 +160,13 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
 
         do {
             f = 0;
-            if (maincpu_clk >= ted.fetch_clk) {
-                ted_fetch_alarm_handler(0);
+            if (maincpu_clk >= ted.draw_clk) {
+                ted_raster_draw_alarm_handler(0);
                 f = 1;
                 ted_delay_clk();
             }
-            if (maincpu_clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler(0);
+            if (maincpu_clk >= ted.fetch_clk) {
+                ted_fetch_alarm_handler(0);
                 f = 1;
                 ted_delay_clk();
             }
@@ -285,6 +287,10 @@ void ted_reset(void)
 
     raster_reset(&ted.raster);
 
+    /* FIXME this should be in powerup */
+    ted.tv_current_line = 0;
+    ted.ted_raster_counter = ted.vsync_line;   
+
 /*    ted_set_geometry();*/
 
     ted.last_emulate_line_clk = 0;
@@ -301,6 +307,7 @@ void ted_reset(void)
 
     /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
        are at the first line, which has a +1 clock cycle delay in IRQs.  */
+    /* FIXME */
     alarm_set(ted.raster_irq_alarm, 1);
 
     ted.force_display_state = 0;
@@ -409,6 +416,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
 
     tmp = TED_RASTER_CHAR(cycle);
 
+    /* FIXME */
     if (ted.idle_data_location != IDLE_NONE) {
         if (ted.idle_data_location == IDLE_39FF)
             raster_add_int_change_foreground(&ted.raster,
@@ -587,15 +595,26 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area;
 
-
-    in_visible_area = (ted.raster.current_line
+    in_visible_area = (ted.tv_current_line
                       >= (unsigned int)ted.first_displayed_line
-                      && ted.raster.current_line
+                      && ted.tv_current_line
                       <= (unsigned int)ted.last_displayed_line);
 
-    raster_line_emulate(&ted.raster);
+    if (ted.tv_current_line < ted.screen_height) {
+        raster_line_emulate(&ted.raster);
+    } else {
+        log_debug("Skip line %d %d",ted.tv_current_line, ted.screen_height);
+    }
 
-    if (ted.raster.current_line == 0) {
+    ted.tv_current_line++;
+    ted.ted_raster_counter++;
+    if (ted.ted_raster_counter == ted.screen_height) ted.ted_raster_counter = 0;
+    if (ted.ted_raster_counter == 512) ted.ted_raster_counter = 0;
+
+    /* DO VSYNC if the raster_counter in the TED reached the VSYNC signal */
+    /* Also do VSYNC if oversized screen reached a certain threashold, this will result in rolling screen just like on the real thing */
+    if (((signed int)(ted.tv_current_line - ted.screen_height) > 40) || (ted.ted_raster_counter == ted.vsync_line )) {
+
         raster_skip_frame(&ted.raster,
                           vsync_do_vsync(ted.raster.canvas,
                                          ted.raster.skip_frame));
@@ -603,6 +622,9 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         ted.memptr_col = 0;
         ted.mem_counter = 0;
 
+        ted.tv_current_line = 0;
+
+        /* FIXME increment at appropriate cycle */
         ted.cursor_phase = (ted.cursor_phase + 1) & 0x1f;
         ted.cursor_visible = ted.cursor_phase & 0x10;
 
@@ -645,9 +667,10 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     ted.ycounter_reset_checked = 0;
     ted.memory_fetch_done = 0;
 
-    if (ted.raster.current_line == ted.first_dma_line)
+    if (ted.ted_raster_counter == ted.first_dma_line)
         ted.allow_bad_lines = !ted.raster.blank;
 
+    /* FIXME */
     if (ted.idle_state) {
         if (ted.regs[0x6] & 0x40) {
             ted.idle_data_location = IDLE_39FF;

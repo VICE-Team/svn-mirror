@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -66,6 +67,7 @@ void ted_timing_set(machine_timing_t *machine_timing)
         ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
         ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
         ted.offset = TED_NTSC_OFFSET;
+        ted.vsync_line = TED_NTSC_VSYNC_LINE;
         break;
       case MACHINE_SYNC_PAL:
       default:
@@ -83,6 +85,7 @@ void ted_timing_set(machine_timing_t *machine_timing)
         ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
         ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
         ted.offset = TED_PAL_OFFSET;
+        ted.vsync_line = TED_PAL_VSYNC_LINE;
         break;
     }
 }

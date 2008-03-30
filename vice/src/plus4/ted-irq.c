@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -118,6 +119,7 @@ void ted_irq_set_raster_line(unsigned int line)
                              * (line - current_line)));
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
+        /* FIXME this needs to be checked */
         if (line == 0)
             ted.raster_irq_clk++;
 
@@ -126,6 +128,7 @@ void ted_irq_set_raster_line(unsigned int line)
                                   * ted.cycles_per_line);
         alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
+        /* FIXME it is possible to set the raster counter to this range */
         TED_DEBUG_RASTER(("TED: update_raster_irq(): "
                          "raster compare out of range ($%04X)!", line));
         ted.raster_irq_clk = CLOCK_MAX;
@@ -146,14 +149,12 @@ void ted_irq_check_state(BYTE value, unsigned int high)
     unsigned int irq_line, line, user_irq_line;
     unsigned int old_raster_irq_line;
 
-    user_irq_line = TED_LINE_RTOU(ted.raster_irq_line);
+    user_irq_line = ted.raster_irq_line;
 
     if (high)
         irq_line = (user_irq_line & 0xff) | ((value & 0x01) << 8);
     else
         irq_line = (user_irq_line & 0x100) | value;
-
-    irq_line = TED_LINE_UTOR(irq_line);
 
     if (irq_line == ted.raster_irq_line)
         return;

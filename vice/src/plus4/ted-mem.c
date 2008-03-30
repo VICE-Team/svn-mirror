@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -85,6 +86,11 @@ inline static void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
         mclk = maincpu_clk - maincpu_rmw_flag - 1;
         f = 0;
 
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+
         if (mclk >= ted.fetch_clk) {
             /* If the fetch starts here, the sprite fetch routine should
                get the new value, not the old one.  */
@@ -97,10 +103,6 @@ inline static void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
         }
 
-        if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
-            f = 1;
-        }
         ted_delay_clk();
     } while (f);
 
@@ -120,6 +122,11 @@ inline static void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
         mclk = maincpu_clk - maincpu_rmw_flag - 1;
         f = 0;
 
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+
         if (mclk >= ted.fetch_clk) {
             /* If the fetch starts here, the sprite fetch routine should
                get the new value, not the old one.  */
@@ -132,10 +139,6 @@ inline static void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
         }
 
-        if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
-            f = 1;
-        }
         ted_delay_clk();
     } while (f);
 
@@ -155,6 +158,11 @@ inline static void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
         mclk = maincpu_clk - maincpu_rmw_flag - 1;
         f = 0;
 
+        if (mclk >= ted.draw_clk) {
+            ted_raster_draw_alarm_handler(0);
+            f = 1;
+        }
+
         if (mclk >= ted.fetch_clk) {
             /* If the fetch starts here, the sprite fetch routine should
                get the new value, not the old one.  */
@@ -167,10 +175,6 @@ inline static void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
         }
 
-        if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
-            f = 1;
-        }
         ted_delay_clk();
     } while (f);
 
@@ -745,7 +749,7 @@ inline static BYTE ted1a1b_read(WORD addr)
 
 inline static BYTE ted1c1d_read(WORD addr)
 {
-    unsigned int tmp = TED_LINE_RTOU(read_raster_y());
+    unsigned int tmp = TED_RASTER_Y(maincpu_clk);
 
     if (addr == 0x1c)
         return (tmp & 0x100) >> 8;

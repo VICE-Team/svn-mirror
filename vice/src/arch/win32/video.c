@@ -741,7 +741,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     desc.dwSize = sizeof(desc);
     desc.dwFlags = DDSD_CAPS;
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
+*/
     /* For now, the back surface is always NULL because we have not
        implemented the full-screen mode yet.  */
     canvas->render_surface = NULL;
@@ -759,7 +759,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     /* Create the temporary surface.  */
  /*   memset(&desc, 0, sizeof(desc));
     desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
+    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;*/
     /* FIXME: SYSTEMMEMORY?  */
 /*    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
     desc.dwWidth = desc2.dwWidth;
