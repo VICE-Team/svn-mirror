@@ -34,14 +34,14 @@
 
 inline static int raster_cache_data_fill(BYTE *dest,
                                          const BYTE *src,
-                                         int length,
+                                         unsigned int length,
                                          int src_step,
-                                         int *xs,
-                                         int *xe,
+                                         unsigned int *xs,
+                                         unsigned int *xe,
                                          int no_check)
 {
     if (no_check) {
-        int i;
+        unsigned int i;
 
         *xs = 0;
         *xe = length - 1;
@@ -52,7 +52,7 @@ inline static int raster_cache_data_fill(BYTE *dest,
                 dest[i] = src[0];
         return 1;
     } else {
-        int x = 0, i;
+        unsigned int x = 0, i;
 
         for (i = 0; i < length && dest[i] == src[0]; i++, src += src_step)
             /* do nothing */ ;

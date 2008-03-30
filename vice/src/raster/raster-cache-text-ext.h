@@ -37,14 +37,15 @@ inline static int raster_cache_data_fill_text_ext(BYTE *dest,
                                                   const BYTE *src,
                                                   BYTE *char_mem,
                                                   int bytes_per_char,
-                                                  int length,
+                                                  unsigned int length,
                                                   int l,
-                                                  int *xs, int *xe,
+                                                  unsigned int *xs,
+                                                  unsigned int *xe,
                                                   int no_check)
 {
 #define GET_CHAR_DATA(c, l) char_mem[(((c) & 0x3f) * bytes_per_char) + (l)]
     if (no_check) {
-        int i;
+        unsigned int i;
 
         *xs = 0;
         *xe = length - 1;
@@ -55,7 +56,7 @@ inline static int raster_cache_data_fill_text_ext(BYTE *dest,
         return 1;
     } else {
         BYTE b;
-        int i;
+        unsigned int i;
 
         for (i = 0;
             i < length && dest[i] == GET_CHAR_DATA(src[0], l)

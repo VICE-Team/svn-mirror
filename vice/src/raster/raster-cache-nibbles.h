@@ -35,13 +35,14 @@
 inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
                                                  BYTE *dest_lo,
                                                  const BYTE *src,
-                                                 int length,
+                                                 unsigned int length,
                                                  int src_step,
-                                                 int *xs, int *xe,
+                                                 unsigned int *xs,
+                                                 unsigned int *xe,
                                                  int no_check)
 {
     if (no_check) {
-        int i;
+        unsigned int i;
 
         *xs = 0;
         *xe = length - 1;
@@ -53,7 +54,7 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
 
         return 1;
     } else {
-        int i, x = 0;
+        unsigned int i, x = 0;
         BYTE b;
 
         for (i = 0;
