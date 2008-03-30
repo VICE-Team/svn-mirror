@@ -135,7 +135,7 @@
 96 0 2 8               /*       PgDown -> CRSR RIGHT   */
 97 6 0 8               /*          Ins -> Pound        */
 98 6 6 8               /*          Del -> Up Arrow     */
-#99 -1 -1 0            /* Numpad Enter -> (no key)     */
+99 9 4 8               /* Numpad Enter -> Numpad Enter */
 #100 -1 -1 0           /*   Right Ctrl -> (no key)     */
 #101 -1 -1 0           /*        Pause -> (no key)     */
 #102 -1 -1 0           /*       PrtScr -> (no key)     */
