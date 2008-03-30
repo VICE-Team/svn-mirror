@@ -111,6 +111,10 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
     lib_debug_caller[index] = func;
 #endif
 #if 0
+    if (ptr == (void *)0x857ba78)
+        *(int *)0 = 0;
+#endif
+#if 0
     printf("lib_debug_alloc(): Alloc address %p size %i slot %i from %p.\n",
            ptr, size, index, func);
 #endif
