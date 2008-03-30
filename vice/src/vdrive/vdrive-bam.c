@@ -543,32 +543,46 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
       case VDRIVE_IMAGE_FORMAT_1571:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
                                 BAM_TRACK_1571, BAM_SECTOR_1571);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam+256,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam+256,
                                  BAM_TRACK_1571+35, BAM_SECTOR_1571);
         break;
       case VDRIVE_IMAGE_FORMAT_1581:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
                                 BAM_TRACK_1581, BAM_SECTOR_1581);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 256,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 256,
                                  BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 512,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 512,
                                  BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
         break;
       case VDRIVE_IMAGE_FORMAT_8050:
       case VDRIVE_IMAGE_FORMAT_8250:
         err = disk_image_read_sector(vdrive->image, vdrive->bam,
                                  BAM_TRACK_8050, BAM_SECTOR_8050);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 256,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 256,
                                   BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 512,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 512,
                                   BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
+        if (err != 0)
+            break;
 
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050)
             break;
 
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 768,
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 768,
                                   BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
-        err |= disk_image_read_sector(vdrive->image, vdrive->bam + 1024,
+        if (err != 0)
+            break;
+        err = disk_image_read_sector(vdrive->image, vdrive->bam + 1024,
                                   BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
       default:
@@ -576,8 +590,10 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
                   "Unknown disk type %i.  Cannot read BAM.",
                   vdrive->image_format);
     }
+
     if (err < 0)
         return IPE_NOT_READY;
+
     return err;
 }
 

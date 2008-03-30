@@ -44,18 +44,6 @@
 
 static log_t disk_image_log = LOG_ERR;
 
-/*-----------------------------------------------------------------------*/
-/* Initialization.  */
-
-void disk_image_init(void)
-{
-    disk_image_log = log_open("Disk Access");
-    disk_image_createdisk_init();
-    fsimage_init();
-    realimage_init();
-    rawimage_init();
-}
-
 
 /*-----------------------------------------------------------------------*/
 /* Disk constants.  */
@@ -246,6 +234,82 @@ int disk_image_check_sector(unsigned int format, unsigned int track,
 
 /*-----------------------------------------------------------------------*/
 
+void disk_image_attach_log(disk_image_t *image, signed int lognum,
+                           unsigned int unit, const char *type)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        log_message(lognum, "Unit %d: %s disk image attached: %s.",
+                    unit, type, ((fsimage_t *)(image->media))->name);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        log_message(lognum, "Unit %d: %s disk attached (drive: %s).",
+                    unit, type, ((rawimage_t *)(image->media))->name);
+        break;
+    }
+}
+
+void disk_image_detach_log(disk_image_t *image, signed int lognum,
+                           unsigned int unit, const char *type)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        log_message(lognum, "Unit %d: %s disk image detached: %s.",
+                    unit, type, ((fsimage_t *)(image->media))->name);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        log_message(lognum, "Unit %d: %s disk detached (drive: %s).",
+                    unit, type, ((rawimage_t *)(image->media))->name);
+        break;
+    }
+}
+
+/*-----------------------------------------------------------------------*/
+
+void disk_image_media_create(disk_image_t *image)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        fsimage_media_create(image);
+        break;
+#ifdef HAVE_OPENCBM
+      case DISK_IMAGE_DEVICE_REAL:
+        realimage_media_create(image);
+        break;
+#endif
+#ifdef HAVE_RAWDRIVE
+      case DISK_IMAGE_DEVICE_RAW:
+        rawimage_media_create(image);
+        break;
+#endif
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device);
+    }
+}
+
+void disk_image_media_destroy(disk_image_t *image)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        fsimage_media_destroy(image);
+        break;
+#ifdef HAVE_OPENCBM
+      case DISK_IMAGE_DEVICE_REAL:
+        realimage_media_destroy(image);
+        break;
+#endif
+#ifdef HAVE_RAWDRIVE
+      case DISK_IMAGE_DEVICE_RAW:
+        rawimage_media_destroy(image);
+        break;
+#endif
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device);
+    }
+}
+
+/*-----------------------------------------------------------------------*/
+
 int disk_image_open(disk_image_t *image)
 {
     int rc = 0;
@@ -254,14 +318,19 @@ int disk_image_open(disk_image_t *image)
       case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_open(image);
         break;
+#ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
         rc = realimage_open(image);
         break;
+#endif
+#ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
         rc = rawimage_open(image);
         break;
+#endif
       default:
         log_error(disk_image_log, "Unknow image device %i.", image->device);
+        rc = -1;
     }
 
     return rc;
@@ -276,14 +345,19 @@ int disk_image_close(disk_image_t *image)
       case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_close(image);
         break;
+#ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
         rc = realimage_close(image);
         break;
+#endif
+#ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
         rc = rawimage_close(image);
         break;
+#endif
       default:
         log_error(disk_image_log, "Unknow image device %i.", image->device);
+        rc = -1;
     }
 
     return rc;
@@ -300,14 +374,19 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_read_sector(image, buf, track, sector);
         break;
+#ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
         rc = realimage_read_sector(image, buf, track, sector);
         break;
+#endif
+#ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
         rc = rawimage_read_sector(image, buf, track, sector);
         break;
+#endif
       default:
         log_error(disk_image_log, "Unknow image device %i.", image->device); 
+        rc = -1;
     }
 
     return rc;
@@ -322,14 +401,19 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_write_sector(image, buf, track, sector);
         break;
+#ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
         rc = realimage_write_sector(image, buf, track, sector);
         break;
+#endif
+#ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
         rc = rawimage_write_sector(image, buf, track, sector);
         break;
+#endif
       default:
         log_error(disk_image_log, "Unknow image device %i.", image->device);
+        rc = -1;
     }
 
     return rc;
@@ -354,5 +438,39 @@ int disk_image_write_track(disk_image_t *image, unsigned int track,
 int disk_image_read_gcr_image(disk_image_t *image)
 {
     return fsimage_read_gcr_image(image);
+}
+
+/*-----------------------------------------------------------------------*/
+/* Initialization.  */
+
+void disk_image_init(void)
+{
+    disk_image_log = log_open("Disk Access");
+    disk_image_createdisk_init();
+    fsimage_init();
+#ifdef HAVE_OPENCBM
+    realimage_init();
+#endif
+#ifdef HAVE_RAWDRIVE
+    rawimage_init();
+#endif
+}
+
+int disk_image_resources_init(void)
+{
+#ifdef HAVE_RAWDRIVE
+    if (rawimage_resources_init() < 0)
+        return -1;
+#endif
+    return 0;
+}
+
+int disk_image_cmdline_options_init(void)
+{
+#ifdef HAVE_RAWDRIVE
+    if (rawimage_cmdline_options_init() < 0)
+        return -1;
+#endif
+    return 0;
 }
 
