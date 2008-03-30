@@ -237,7 +237,7 @@ void ui_update_menus(void)
         tui_menu_update(ui_main_menu);
 }
 
-void ui_enable_drive_status(ui_drive_enable_t state)
+void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     if (!(state & UI_DRIVE_ENABLE_0))
         ui_display_drive_led(0, 0);

@@ -5295,7 +5295,7 @@ void ui_toggle_drive_status(int state)
 }
 
 
-void ui_enable_drive_status(ui_drive_enable_t enable)
+void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
   /*int i, EnabledDrives;
 

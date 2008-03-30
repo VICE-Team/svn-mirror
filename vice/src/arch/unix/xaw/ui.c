@@ -640,6 +640,9 @@ static Pixmap icon_pixmap;
 /* Enabled drives.  */
 ui_drive_enable_t enabled_drives;
 
+/* Color of the drive active LED.  */
+int *drive_active_led;
+
 /* This allows us to pop up the transient shells centered to the last visited
    shell. */
 static Widget last_visited_app_shell = NULL;
@@ -1121,7 +1124,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 
     /* This is necessary because the status might have been set before we
        actually open the canvas window.  */
-    ui_enable_drive_status(enabled_drives);
+    ui_enable_drive_status(enabled_drives, drive_active_led);
 
 #ifdef USE_VIDMODE_EXTENSION
     initBlankCursor();
@@ -1483,7 +1486,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 }
 
-void ui_enable_drive_status(ui_drive_enable_t enable)
+void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     int i, j, num;
     int drive_mapping[NUM_DRIVES];
@@ -1491,6 +1494,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable)
     num = 0;
 
     enabled_drives = enable;
+    drive_active_led = drive_led_color;
 
     memset(drive_mapping, 0, sizeof(drive_mapping));
     for (i = NUM_DRIVES - 1, j = 1 << (NUM_DRIVES - 1); i >= 0; i--, j >>= 1) {

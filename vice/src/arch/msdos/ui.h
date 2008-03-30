@@ -57,7 +57,8 @@ extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 extern void ui_show_text(const char *title, const char *text);
 extern void ui_update_menus(void);
 extern void ui_main(char hotkey);
-extern void ui_enable_drive_status(ui_drive_enable_t state);
+extern void ui_enable_drive_status(ui_drive_enable_t state,
+                                   int *drive_led_color);
 extern void ui_display_drive_track(int drive_number, double track_number);
 extern void ui_display_drive_led(int drive_number, int status);
 extern void ui_set_warp_status(int status);
