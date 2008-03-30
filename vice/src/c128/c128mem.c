@@ -47,6 +47,7 @@
 #include "functionrom.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
@@ -102,6 +103,9 @@ BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
 BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
 BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
 BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
+
+/* Pointer to the chargen ROM.  */
+BYTE *chargen_rom_ptr;
 
 /* Size of RAM...  */
 int ram_size = C128_RAM_SIZE;
@@ -240,10 +244,22 @@ void mem_set_ram_config(BYTE value)
 
 void pla_config_changed(void)
 {
-    c64pla_config_changed(tape_sense, caps_sense);
+    BYTE *old_chargen_rom_ptr;
+
+    c64pla_config_changed(tape_sense, caps_sense, 0x57);
 
     mmu_set_config64(((~pport.dir | pport.data) & 0x7)
                      | (export.exrom << 3) | (export.game << 4));
+
+    old_chargen_rom_ptr = chargen_rom_ptr;
+
+    if (ram[1] & 0x40)
+        chargen_rom_ptr = chargen_rom;
+    else
+        chargen_rom_ptr = &chargen_rom[0x1000];
+
+    if (old_chargen_rom_ptr != chargen_rom_ptr)
+        machine_update_memory_ptrs();
 }
 
 static void mem_toggle_caps_key(void)
@@ -280,7 +296,7 @@ void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_chargen(ADDRESS addr)
 {
-    return chargen_rom[addr & 0x0fff];
+    return chargen_rom_ptr[addr & 0x0fff];
 }
 
 BYTE REGPARM1 basic64_read(ADDRESS addr)
@@ -305,7 +321,8 @@ void REGPARM2 kernal64_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 chargen64_read(ADDRESS addr)
 {
-    return chargen64_rom[addr & 0xfff];
+    return chargen_rom_ptr[addr & 0x0fff];
+    /*return chargen64_rom[addr & 0xfff];*/
 }
 
 void REGPARM2 chargen64_store(ADDRESS addr, BYTE value)
@@ -449,12 +466,14 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
       case 0:
         if (pport.dir != value) {
             pport.dir = value;
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             pla_config_changed();
         }
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             pla_config_changed();
         }
         break;
@@ -579,6 +598,8 @@ void REGPARM2 top_shared_store(ADDRESS addr, BYTE value)
 void mem_initialize_memory(void)
 {
     int i, j;
+
+    chargen_rom_ptr = chargen_rom;
 
     mem_limit_init(mem_read_limit_tab);
 
@@ -1511,14 +1532,14 @@ void mem_initialize_memory(void)
         mem_write_tab[61][i] = top_shared_store;
         mem_write_tab[62][i] = top_shared_store;
         mem_write_tab[63][i] = top_shared_store;
-        mem_read_base_tab[0][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[1][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[2][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[3][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[4][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[5][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[6][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[7][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[0][i] = NULL;
+        mem_read_base_tab[1][i] = NULL;
+        mem_read_base_tab[2][i] = NULL;
+        mem_read_base_tab[3][i] = NULL;
+        mem_read_base_tab[4][i] = NULL;
+        mem_read_base_tab[5][i] = NULL;
+        mem_read_base_tab[6][i] = NULL;
+        mem_read_base_tab[7][i] = NULL;
         mem_read_base_tab[8][i] = int_function_rom + ((i & 0x7f) << 8);
         mem_read_base_tab[9][i] = int_function_rom + ((i & 0x7f) << 8);
         mem_read_base_tab[10][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1543,14 +1564,14 @@ void mem_initialize_memory(void)
         mem_read_base_tab[29][i] = ram + (i << 8);
         mem_read_base_tab[30][i] = ram + (i << 8);
         mem_read_base_tab[31][i] = ram + (i << 8);
-        mem_read_base_tab[32][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[33][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[34][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[35][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[36][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[37][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[38][i] = chargen_rom + ((i & 0xf) << 8);
-        mem_read_base_tab[39][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[32][i] = NULL;
+        mem_read_base_tab[33][i] = NULL;
+        mem_read_base_tab[34][i] = NULL;
+        mem_read_base_tab[35][i] = NULL;
+        mem_read_base_tab[36][i] = NULL;
+        mem_read_base_tab[37][i] = NULL;
+        mem_read_base_tab[38][i] = NULL;
+        mem_read_base_tab[39][i] = NULL;
         mem_read_base_tab[40][i] = int_function_rom + ((i & 0x7f) << 8);
         mem_read_base_tab[41][i] = int_function_rom + ((i & 0x7f) << 8);
         mem_read_base_tab[42][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1851,15 +1872,15 @@ void mem_initialize_memory(void)
         mem_read_tab[128+25][i] = chargen64_read;
         mem_read_tab[128+26][i] = chargen64_read;
         mem_read_tab[128+27][i] = chargen64_read;
-        mem_read_base_tab[128+1][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+2][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+3][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+9][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+10][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+11][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+25][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+26][i] = chargen64_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[128+27][i] = chargen64_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[128+1][i] = NULL;
+        mem_read_base_tab[128+2][i] = NULL;
+        mem_read_base_tab[128+3][i] = NULL;
+        mem_read_base_tab[128+9][i] = NULL;
+        mem_read_base_tab[128+10][i] = NULL;
+        mem_read_base_tab[128+11][i] = NULL;
+        mem_read_base_tab[128+25][i] = NULL;
+        mem_read_base_tab[128+26][i] = NULL;
+        mem_read_base_tab[128+27][i] = NULL;
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */

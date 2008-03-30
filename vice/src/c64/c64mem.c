@@ -90,6 +90,9 @@ BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
 
+/* Pointer to the chargen ROM.  */
+BYTE *chargen_rom_ptr;
+
 /* Size of RAM...  */
 int ram_size = C64_RAM_SIZE;
 
@@ -148,7 +151,7 @@ inline void pla_config_changed(void)
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
 
-    c64pla_config_changed(tape_sense, pport.data & 0x40 ? 1 : 0);
+    c64pla_config_changed(tape_sense, 1, 0x17);
 
     if (any_watchpoints(e_comp_space)) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -349,6 +352,8 @@ void mem_initialize_memory(void)
                              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
+
+    chargen_rom_ptr = chargen_rom;
 
     mem_limit_init(mem_read_limit_tab);
 

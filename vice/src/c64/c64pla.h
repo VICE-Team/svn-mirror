@@ -38,7 +38,7 @@ typedef struct pport_s pport_t;
 
 extern pport_t pport;
  
-extern void c64pla_config_changed(int tape_sense, int caps_sense);
+extern void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup);
 
 #endif
 
