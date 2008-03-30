@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-02 17:27+0200\n"
+"POT-Creation-Date: 2007-09-16 19:07+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -7440,12 +7440,12 @@ msgid "Cannot attach specified file"
 msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
 
 #: src/arch/win32/res.rc.po.c:4904
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "\n"
-"Start monitor?"
-msgstr "Aktywacja monitora"
+"Start monitor? (No will reset, cancel will continue)"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:4905
 msgid "VICE CPU JAM"
@@ -12458,6 +12458,13 @@ msgstr ""
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Volume (0-100%)"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "%s\n"
+#~ "\n"
+#~ "Start monitor?"
+#~ msgstr "Aktywacja monitora"
 
 #, fuzzy
 #~ msgid "glXChooseVisual() failed"
