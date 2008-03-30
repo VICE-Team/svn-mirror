@@ -55,6 +55,9 @@
 static int real_kbd_led_status = -1;
 static int kbd_led_status;
 
+#define DRIVE_LED_MSK 4
+#define WARP_LED_MSK 1
+
 /* ------------------------------------------------------------------------- */
 
 /* UI-related resources and command-line options.  */
@@ -223,16 +226,10 @@ void ui_update_menus(void)
         tui_menu_update(ui_main_menu);
 }
 
-void ui_autorepeat_on(void)
-{
-}
-
-void ui_autorepeat_off(void)
-{
-}
-
 void ui_toggle_drive_status(int state)
 {
+    if (!state)
+        ui_display_drive_led(0);
 }
 
 void ui_display_drive_track(double track_number)
@@ -242,17 +239,17 @@ void ui_display_drive_track(double track_number)
 void ui_display_drive_led(int status)
 {
     if (status)
-        kbd_led_status |= 4;
+        kbd_led_status |= DRIVE_LED_MSK;
     else
-        kbd_led_status &= ~4;
+        kbd_led_status &= ~DRIVE_LED_MSK;
 }
 
 void ui_set_warp_status(int status)
 {
     if (status)
-        kbd_led_status |= 1;
+        kbd_led_status |= WARP_LED_MSK;
     else
-        kbd_led_status &= ~1;
+        kbd_led_status &= ~WARP_LED_MSK;
 }
 
 int ui_extend_image_dialog(void)
