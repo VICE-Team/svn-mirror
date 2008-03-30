@@ -2,9 +2,9 @@
  * vdc-draw.c - Rendering for the MOS 8563 (VDC) emulation.
  *
  * Written by
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
- *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "raster-cache-const.h"
+#include "raster-cache-fill.h"
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "types.h"

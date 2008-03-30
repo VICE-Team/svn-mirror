@@ -29,6 +29,10 @@
 
 #include <string.h>
 
+#include "raster-cache-fill.h"
+#include "raster-cache-nibbles.h"
+#include "raster-cache-text-ext.h"
+#include "raster-cache-text-std.h"
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "ted-draw.h"
@@ -36,7 +40,6 @@
 #include "tedtypes.h"
 #include "types.h"
 
-#define GFX_MSK_LEFTBORDER_SIZE   (ted.screen_borderwidth / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
@@ -66,9 +69,6 @@ static void draw_std_background(int start_pixel, int end_pixel)
 static DWORD _aligned_line_buffer[TED_SCREEN_XPIX / 2 + 1];
 static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 #endif
-
-/* FIXME: Kludge which will stay until this defines are cleaned up.  */
-static raster_cache_t *rcache;
 
 /* Pointer to the start of the graphics area on the frame buffer.  */
 #define GFX_PTR()               \
@@ -128,8 +128,8 @@ inline static int cache_data_fill_text(BYTE *dest,
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++, src2++)
-            dest[i] = get_char_data(src[0], src2[0], l, char_mem, bytes_per_char,
-                                    curpos, i);
+            dest[i] = get_char_data(src[0], src2[0], l, char_mem,
+                                    bytes_per_char, curpos, i);
         return 1;
     } else {
         BYTE b;
@@ -224,15 +224,15 @@ inline static void _draw_std_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
         for (i = xs; i <= xe; i++) {
             int d;
             DWORD *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 11);
+
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 d = 0;
             } else {
-                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
-                    = *(char_ptr + ted.vbuf[i] * 8));
+                d = *(char_ptr + ted.vbuf[i] * 8);
             }
+
             if (i == cursor_pos)
                 d ^= 0xff;
-            
 
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
             *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
@@ -241,12 +241,12 @@ inline static void _draw_std_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
         for (i = xs; i <= xe; i++) {
             int d;
             DWORD *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 11);
+
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 d = 0;
             } else {
-                d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
-                   = *(char_ptr + (ted.vbuf[i]&0x7f) * 8))
-                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
+                d = *(char_ptr + (ted.vbuf[i]&0x7f) * 8)
+                    ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
             if (i == cursor_pos)
                 d ^= 0xff;
@@ -259,28 +259,29 @@ inline static void _draw_std_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_std_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_std_text, 0,
-                    TED_SCREEN_TEXTCOLS - 1, ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_std_text, 0, TED_SCREEN_TEXTCOLS - 1,
+                    ted.raster.gfx_msk);
 }
 
 inline static void _draw_std_text_cached(BYTE *p, int xs, int xe,
-                                         BYTE *gfx_msk_ptr)
+                                         raster_cache_t *cache)
 {
     DWORD *table_ptr;
-    BYTE *char_ptr;
+    BYTE *foreground_data, *color_data;
     unsigned int i;
 
-    table_ptr = hr_table + (ted.raster.background_color << 4);
-    char_ptr = ted.chargen_ptr + ted.raster.ycounter;
+    table_ptr = hr_table + (cache->background_data[0] << 4);
+    foreground_data = cache->foreground_data;
+    color_data = cache->color_data_1;
 
     for (i = xs; i <= xe; i++) {
         int d;
-        DWORD *ptr = table_ptr + ((rcache->color_data_1[i] & 0x7f) << 11);
-        if ((rcache->color_data_1[i] & 0x80) && (!ted.cursor_visible)) {
+        DWORD *ptr = table_ptr + ((color_data[i] & 0x7f) << 11);
+
+        if ((color_data[i] & 0x80) && (!ted.cursor_visible)) {
             d = 0;
         } else {
-            d = (*(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i)
-                = rcache->foreground_data[i]);
+            d = foreground_data[i];
         }
 
         *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
@@ -288,12 +289,9 @@ inline static void _draw_std_text_cached(BYTE *p, int xs, int xe,
     }
 }
 
-static void draw_std_text_cached(raster_cache_t *cache,
-                                 int xs,
-                                 int xe)
+static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
 {
-    rcache = cache;
-    ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache);
 }
 
 #define DRAW_STD_TEXT_BYTE(p, b, f)       \
@@ -316,8 +314,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
     int cursor_pos = -1;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
-    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
-        + ted.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     if (ted.cursor_visible) {
         int crsrpos = ted.crsrpos - ted.memptr;
@@ -339,7 +336,6 @@ static void draw_std_text_foreground(int start_char, int end_char)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 
-            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
             DRAW_STD_TEXT_BYTE(p, b, f);
         }
     } else {
@@ -350,13 +346,13 @@ static void draw_std_text_foreground(int start_char, int end_char)
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
                 b=0;
             } else {
-                b = char_ptr[(ted.vbuf[i] & 0x7f) * 8] ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
+                b = char_ptr[(ted.vbuf[i] & 0x7f) * 8]
+                    ^ (ted.vbuf[i]&0x80 ? 0xff : 0x00);
             }
             if (i == cursor_pos)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 
-            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
             DRAW_STD_TEXT_BYTE(p, b, f);
         }
     }
@@ -403,15 +399,13 @@ inline static void _draw_hires_bitmap(BYTE *p, int xs, int xe,
     for (j = ((ted.memptr << 3)
         + ted.raster.ycounter + xs * 8) & 0x1fff, i = xs;
         i <= xe; i++, j = (j + 8) & 0x1fff) {
-
-/*        DWORD *ptr = hr_table + (ted.vbuf[i] << 4);*/
         int d;
 
         ptr = hr_table
               + ((ted.cbuf[i] & 0x07) << 15) + ((ted.vbuf[i] & 0xf0) << 7)
               + ((ted.cbuf[i] & 0x70) << 4) + ((ted.vbuf[i] & 0x0f) << 4);
 
-        d = *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = bmptr[j];
+        d = bmptr[j];
         *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
         *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
     }
@@ -496,11 +490,9 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
          unsigned int d = (*(char_ptr + ted.vbuf[i] * 8))
                           | ((ted.cbuf[i] & 0x8) << 5);
 
-         *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d];
-
          c[10] = c[9] = c[7] = c[6] = ted.cbuf[i] & 0x77;
 
-         ptmp[0] = ((WORD *)c)[mc_table[        d]];
+         ptmp[0] = ((WORD *)c)[mc_table[d]];
          ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
          ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
          ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
@@ -510,8 +502,7 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_mc_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_text,
-                    0, TED_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_mc_text, 0, TED_SCREEN_TEXTCOLS - 1,
                     ted.raster.gfx_msk);
 }
 
@@ -566,8 +557,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
     c1 = ted.ext_background_color[0];
     c2 = ted.ext_background_color[1];
-    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
-        + ted.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b, c;
@@ -580,14 +570,11 @@ static void draw_mc_text_foreground(int start_char, int end_char)
 
             c3 = c & 0x77;
             DRAW_MC_BYTE (p, b, c1, c2, c3);
-            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
-                = mcmsktable[0x100 + b];
         } else {
             BYTE c3;
 
             c3 = c & 0x77;
             DRAW_STD_TEXT_BYTE(p, b, c3);
-            *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         }
     }
 }
@@ -636,9 +623,9 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     bmptr = ted.bitmap_ptr;
 
     c[0] = ted.raster.background_color;
-	c[3] = ted.ext_background_color[0];
+    c[3] = ted.ext_background_color[0];
 
-	ptmp = p + xs * 8;
+    ptmp = p + xs * 8;
     for (j = ((ted.memptr << 3) + ted.raster.ycounter + xs * 8) & 0x1fff,
         i = xs; i <= xe; i++, j = (j + 8) & 0x1fff) {
 
@@ -646,23 +633,20 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
         d = bmptr[j];
 
-        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
-
         c[1] = (ted.vbuf[i] & 0x0f) + ((ted.cbuf[i] & 0x07) << 4);
         c[2] = (ted.vbuf[i] >> 4) + (ted.cbuf[i] & 0x70);
 
-		ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
-		ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
-		ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
-		ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
-		ptmp += 8;
+        ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
+        ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
+        ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+        ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+        ptmp += 8;
     }
 }
 
 static void draw_mc_bitmap(void)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap,
-                    0, TED_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_mc_bitmap, 0, TED_SCREEN_TEXTCOLS - 1,
                     ted.raster.gfx_msk);
 }
 
@@ -677,8 +661,7 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
     BYTE *bmptr;
     unsigned int i, j;
 
-    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
-        + ted.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
     bmptr = ted.bitmap_ptr;
 
     for (j = ((ted.memptr << 3)
@@ -693,8 +676,6 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
         c3 = ted.ext_background_color[0];
         b = bmptr[j];
 
-        *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
-            = mcmsktable[0x100 + b];
         DRAW_MC_BYTE(p, b, c1, c2, c3);
     }
 }
@@ -705,31 +686,31 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    if (ted.raster.background_color != cache->color_data_2[0]
-        || ted.ext_background_color[0] != cache->color_data_2[1]
-        || ted.ext_background_color[1] != cache->color_data_2[2]
-        || ted.ext_background_color[2] != cache->color_data_2[3]) {
+    if (cache->color_data_2[0] != ted.raster.background_color
+        || cache->color_data_2[1] != ted.ext_background_color[0]
+        || cache->color_data_2[2] != ted.ext_background_color[1]
+        || cache->color_data_2[3] != ted.ext_background_color[2]
+        || cache->chargen_ptr != ted.chargen_ptr) {
         cache->color_data_2[0] = ted.raster.background_color;
         cache->color_data_2[1] = ted.ext_background_color[0];
         cache->color_data_2[2] = ted.ext_background_color[1];
         cache->color_data_2[3] = ted.ext_background_color[2];
+        cache->chargen_ptr = ted.chargen_ptr;
         rr = 1;
     }
 
-    r = raster_cache_data_fill(cache->color_data_1,
+    r = raster_cache_data_fill_text_ext(cache->foreground_data,
+                                        cache->color_data_3,
+                                        ted.vbuf,
+                                        ted.chargen_ptr,
+                                        8,
+                                        TED_SCREEN_TEXTCOLS,
+                                        ted.raster.ycounter,
+                                        xs, xe,
+                                        rr);
+
+    r |= raster_cache_data_fill(cache->color_data_1,
                                 ted.cbuf,
-                                TED_SCREEN_TEXTCOLS,
-                                1,
-                                xs, xe,
-                                rr);
-    r |= raster_cache_data_fill(cache->color_data_2,
-                                ted.vbuf,
-                                TED_SCREEN_TEXTCOLS,
-                                1,
-                                xs, xe,
-                                rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
-                                ted.vbuf,
                                 TED_SCREEN_TEXTCOLS,
                                 1,
                                 xs, xe,
@@ -758,7 +739,6 @@ inline static void _draw_ext_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
         else
             ptr += ted.ext_background_color[bg_idx - 1] << 4;
 
-        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = d;
         *((DWORD *)p + 2 * i) = *(ptr + (d >> 4));
         *((DWORD *)p + 2 * i + 1) = *(ptr + (d & 0xf));
     }
@@ -766,8 +746,7 @@ inline static void _draw_ext_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
 static void draw_ext_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text,
-                    0, TED_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_ext_text, 0, TED_SCREEN_TEXTCOLS - 1,
                     ted.raster.gfx_msk);
 }
 
@@ -784,8 +763,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
     BYTE *p;
 
     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
-    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
-        + ted.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b;
@@ -798,10 +776,9 @@ static void draw_ext_text_foreground(int start_char, int end_char)
 
         if (bg_idx > 0) {
             p[7] = p[6] = p[5] = p[4] = p[3] = p[2] = p[1] = p[0] =
-                             ted.ext_background_color[bg_idx - 1];
+                ted.ext_background_color[bg_idx - 1];
         }
 
-        *(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         DRAW_STD_TEXT_BYTE(p, b, f);
     }
 }
@@ -825,41 +802,27 @@ static void draw_black(void)
 {
     BYTE *p;
 
-    p = (ted.raster.draw_buffer_ptr
-        + ted.screen_borderwidth + ted.raster.xsmooth);
+    p = GFX_PTR();
 
     memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
-
-    /* FIXME: this is not exact! */
-    memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
 {
     BYTE *p;
 
-    p = (ted.raster.draw_buffer_ptr
-        + ted.screen_borderwidth + ted.raster.xsmooth);
+    p = GFX_PTR();
 
     memset(p, 0, TED_SCREEN_TEXTCOLS * 8);
-
-    memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_black_foreground(int start_char, int end_char)
 {
     BYTE *p;
 
-    p = (ted.raster.draw_buffer_ptr
-        + (ted.screen_borderwidth + ted.raster.xsmooth +
-        8 * start_char));
+    p = GFX_PTR() + 8 * start_char;
 
     memset(p, 0, (end_char - start_char + 1) * 8);
-
-    memset(ted.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, TED_SCREEN_TEXTCOLS);
 }
 
 
@@ -888,8 +851,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     d = (BYTE)ted.idle_data;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-    p = (ted.raster.draw_buffer_ptr
-        + ted.screen_borderwidth + ted.raster.xsmooth);
+    p = GFX_PTR();
 #else
     p = aligned_line_buffer;
 #endif
@@ -912,13 +874,8 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
     }
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-    memcpy(ted.raster.draw_buffer_ptr + (ted.screen_borderwidth
-           + ted.raster.xsmooth),
-           aligned_line_buffer + xs * 8,
-           (xe - xs + 1) * 8);
+    memcpy(GFX_PTR(), aligned_line_buffer + xs * 8, (xe - xs + 1) * 8);
 #endif
-
-    memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_idle(void)
@@ -938,14 +895,12 @@ static void draw_idle_foreground(int start_char, int end_char)
     BYTE d;
     unsigned int i;
 
-    p = (ted.raster.draw_buffer_ptr + ted.screen_borderwidth
-        + ted.raster.xsmooth);
+    p = GFX_PTR();
     c = 0;
     d = (BYTE)ted.idle_data;
 
     for (i = start_char; i <= end_char; i++) {
         DRAW_STD_TEXT_BYTE(p + i * 8, d, c);
-        ted.raster.gfx_msk[GFX_MSK_LEFTBORDER_SIZE + i] = d;
     }
 }
 

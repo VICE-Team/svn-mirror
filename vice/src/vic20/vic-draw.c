@@ -28,7 +28,8 @@
 
 #include <string.h>
 
-#include "raster.h"
+#include "raster-cache-fill.h"
+#include "raster-cache-text-std.h"
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "types.h"

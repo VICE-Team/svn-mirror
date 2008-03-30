@@ -29,6 +29,12 @@
 
 #include <string.h>
 
+#include "raster-cache-fill.h"
+#include "raster-cache-fill-1fff.h"
+#include "raster-cache-fill-39ff.h"
+#include "raster-cache-nibbles.h"
+#include "raster-cache-text-ext.h"
+#include "raster-cache-text-std.h"
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "raster.h"
@@ -38,8 +44,8 @@
 #include "viciitypes.h"
 
 
-#define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH  \
-                                  + vic_ii.screen_borderwidth) / 8 + 1)
+#define GFX_MSK_LEFTBORDER_SIZE ((VIC_II_MAX_SPRITE_WIDTH  \
+                                + vic_ii.screen_borderwidth) / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
@@ -174,54 +180,6 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
               ((xe) - (xs) + 1) * 8);                        \
    } while (0)
 #endif
-
-
-inline static int vicii_draw_cache_data_fill_39ff(BYTE *dest,
-                                                  const BYTE *src_base,
-                                                  int src_cnt,
-                                                  int length,
-                                                  int src_step,
-                                                  int *xs,
-                                                  int *xe,
-                                                  int no_check)
-{
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-
-        for (i = 0; i < length; i++, src_cnt += src_step)
-            dest[i] = src_base[src_cnt & 0x19ff];
-
-        return 1;
-    } else {
-        int x = 0, i;
-
-        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x19ff];
-            i++, src_cnt += src_step)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++, src_cnt += src_step) {
-                if (dest[i] != src_base[src_cnt & 0x19ff]) {
-                    dest[i] = src_base[src_cnt & 0x19ff];
-                    x = i;
-                }
-            }
-
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
 
 
 /* Standard text mode.  */
@@ -825,14 +783,18 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         rr = 1;
     }
 
-    r = raster_cache_data_fill(cache->color_data_1,
-                               vic_ii.cbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
-                               1,
-                               xs, xe,
-                               rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
-                                vic_ii.vbuf,
+    r = raster_cache_data_fill_text_ext(cache->foreground_data,
+                                        cache->color_data_3,
+                                        vic_ii.vbuf,
+                                        vic_ii.chargen_ptr,
+                                        8,
+                                        VIC_II_SCREEN_TEXTCOLS,
+                                        vic_ii.raster.ycounter,
+                                        xs, xe,
+                                        rr);
+
+    r |= raster_cache_data_fill(cache->color_data_1,
+                                vic_ii.cbuf,
                                 VIC_II_SCREEN_TEXTCOLS,
                                 1,
                                 xs, xe,
@@ -871,12 +833,14 @@ inline static void _draw_ext_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 inline static void _draw_ext_text_cached(BYTE *p, int xs, int xe,
                                          raster_cache_t *cache)
 {
-    BYTE *foreground_data, *color_data_1, *char_ptr, *msk_ptr;
+    BYTE *foreground_data, *color_data_1, *color_data_2, *color_data_3;
+    BYTE *msk_ptr;
     unsigned int i;
 
     foreground_data = cache->foreground_data;
     color_data_1 = cache->color_data_1;
-    char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
+    color_data_2 = cache->color_data_2;
+    color_data_3 = cache->color_data_3;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     for (i = xs; i <= xe; i++) {
@@ -884,9 +848,9 @@ inline static void _draw_ext_text_cached(BYTE *p, int xs, int xe,
         int d;
 
         ptr = hr_table + (color_data_1[i] << 8);
-        d = *(char_ptr + (foreground_data[i] & 0x3f) * 8);
+        d = foreground_data[i];
 
-        ptr += cache->color_data_2[foreground_data[i] >> 6] << 4;
+        ptr += color_data_2[color_data_3[i]] << 4;
 
         *(msk_ptr + i) = d;
         *((DWORD *)p + 2 * i) = *(ptr + (d >> 4));
@@ -943,28 +907,22 @@ static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    /* FIXME: Is this necessary?  */
-    if (cache->color_data_2[0] != vic_ii.raster.background_color
-        || cache->color_data_2[1] != vic_ii.ext_background_color[0]
-        || cache->color_data_2[2] != vic_ii.ext_background_color[1]
-        || cache->color_data_2[3] != vic_ii.ext_background_color[2]
-        || cache->chargen_ptr != vic_ii.chargen_ptr) {
-        cache->color_data_2[0] = vic_ii.raster.background_color;
-        cache->color_data_2[1] = vic_ii.ext_background_color[0];
-        cache->color_data_2[2] = vic_ii.ext_background_color[1];
-        cache->color_data_2[3] = vic_ii.ext_background_color[2];
+    if (cache->chargen_ptr != vic_ii.chargen_ptr) {
         cache->chargen_ptr = vic_ii.chargen_ptr;
         rr = 1;
     }
 
-    r = raster_cache_data_fill(cache->foreground_data,
-                               vic_ii.vbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
-                               1,
-                               xs, xe,
-                               rr);
+    r = raster_cache_data_fill_text_ext(cache->foreground_data,
+                                        cache->color_data_3,
+                                        vic_ii.vbuf,
+                                        vic_ii.chargen_ptr,
+                                        8,
+                                        VIC_II_SCREEN_TEXTCOLS,
+                                        vic_ii.raster.ycounter,
+                                        xs, xe,
+                                        rr);
 
-    r |= raster_cache_data_fill(cache->color_data_3,
+    r |= raster_cache_data_fill(cache->color_data_1,
                                 vic_ii.cbuf,
                                 VIC_II_SCREEN_TEXTCOLS,
                                 1,
@@ -997,12 +955,11 @@ inline static void _draw_illegal_text(BYTE *p, int xs, int xe,
 inline static void _draw_illegal_text_cached(BYTE *p, int xs, int xe,
                                              raster_cache_t *cache)
 {
-    BYTE *foreground_data, *color_data_3, *char_ptr, *msk_ptr;
+    BYTE *foreground_data, *color_data_1, *msk_ptr;
     unsigned int i;
 
     foreground_data = cache->foreground_data;
-    color_data_3 = cache->color_data_3;
-    char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
+    color_data_1 = cache->color_data_1;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
@@ -1010,8 +967,7 @@ inline static void _draw_illegal_text_cached(BYTE *p, int xs, int xe,
     for (i = xs; i <= xe; i++) {
         unsigned int d;
 
-        d = (*(char_ptr + (foreground_data[i] & 0x3f) * 8))
-            | ((color_data_3[i] & 0x8) << 5);
+        d = foreground_data[i] | ((color_data_1[i] & 0x8) << 5);
 
         *(msk_ptr + i) = mcmsktable[d];
     }
@@ -1062,14 +1018,14 @@ static int get_illegal_bitmap_mode1(raster_cache_t *cache, int *xs, int *xe,
                                1,
                                xs, xe,
                                rr);
-    r |= vicii_draw_cache_data_fill_39ff(cache->foreground_data,
-                                        vic_ii.bitmap_ptr,
-                                        vic_ii.memptr * 8
-                                        + vic_ii.raster.ycounter,
-                                        VIC_II_SCREEN_TEXTCOLS,
-                                        8,
-                                        xs, xe,
-                                        rr);
+    r |= raster_cache_data_fill_39ff(cache->foreground_data,
+                                     vic_ii.bitmap_ptr,
+                                     vic_ii.memptr * 8
+                                     + vic_ii.raster.ycounter,
+                                     VIC_II_SCREEN_TEXTCOLS,
+                                     8,
+                                     xs, xe,
+                                     rr);
     return r;
 }
 
@@ -1145,14 +1101,14 @@ static int get_illegal_bitmap_mode2(raster_cache_t *cache, int *xs, int *xe,
                                 1,
                                 xs, xe,
                                 rr);
-    r |= vicii_draw_cache_data_fill_39ff(cache->foreground_data,
-                                        vic_ii.bitmap_ptr,
-                                        vic_ii.memptr * 8
-                                        + vic_ii.raster.ycounter,
-                                        VIC_II_SCREEN_TEXTCOLS,
-                                        8,
-                                        xs, xe,
-                                        rr);
+    r |= raster_cache_data_fill_39ff(cache->foreground_data,
+                                     vic_ii.bitmap_ptr,
+                                     vic_ii.memptr * 8
+                                     + vic_ii.raster.ycounter,
+                                     VIC_II_SCREEN_TEXTCOLS,
+                                     8,
+                                     xs, xe,
+                                     rr);
     return r;
 }
 
