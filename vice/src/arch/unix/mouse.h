@@ -2,7 +2,7 @@
  * mouse.h - Mouse handling for Unix-Systems.
  *
  * Written by
- *  Oliver Schaertel (orschaer@forwiss.uni-erlangen.de)
+ *  Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

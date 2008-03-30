@@ -28,7 +28,7 @@
  *
  */
 
-/* A *big* thank goes to Andreas Boose (boose@rzgw.rz.fh-hannover.de) for
+/* A *big* thank goes to Andreas Boose <boose@linux.rz.fh-hannover.de> for
    helping me to find bugs and improve the emulation.  */
 
 /* TODO: - speed optimizations;

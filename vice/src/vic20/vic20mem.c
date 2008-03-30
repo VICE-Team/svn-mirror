@@ -264,7 +264,7 @@ int vic20_mem_init_resources(void)
  *            enables memory in blocks 3 and 5, which is the usual
  *            configuration for 16k rom modules
  *
- * 12/27/96 Alexander Lehmann (alex@mathematik.th-darmstadt.de)
+ * 12/27/96 Alexander Lehmann <alex@mathematik.th-darmstadt.de>
  * Edited by Ettore to fit in the new command-line parsing.
  */
 

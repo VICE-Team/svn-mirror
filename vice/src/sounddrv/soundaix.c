@@ -2,10 +2,10 @@
  * soundaix.c - Implementation of the AIX sound device
  *
  * Written by
- *  Chris Sharp (sharpc@hursley.ibm.com)
+ *  Chris Sharp <sharpc@hursley.ibm.com>
  *
  * Integration with the other sound code
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -51,7 +51,7 @@ long out_rate;
 long left_gain, right_gain;
 
 
-static int aix_init(warn_t *w, const char *param, int *speed,
+static int aix_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     int	st, tmp, i;
@@ -117,7 +117,7 @@ fail:
 #endif
 }
 
-static int aix_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int aix_write(SWORD *pbuf, size_t nr)
 {
     int	total, i, now;
     long samples_written;
@@ -130,7 +130,7 @@ static int aix_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int aix_bufferstatus(warn_t *w, int first)
+static int aix_bufferstatus(int first)
 {
     int i = -1;
     rc = UMSAudioDevice_write_buff_remain(audio_device, ev, &i);
@@ -140,7 +140,7 @@ static int aix_bufferstatus(warn_t *w, int first)
     return i/sizeof(SWORD);
 }
 
-static void aix_close(warn_t *w)
+static void aix_close(void)
 {
     rc = UMSAudioDevice_play_remaining_data(audio_device, ev, TRUE);
     UMSAudioDevice_stop(audio_device, ev);

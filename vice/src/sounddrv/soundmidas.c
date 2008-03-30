@@ -2,7 +2,7 @@
  * soundmidas.c - Implementation of the MIDAS sound device
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,13 +33,13 @@
 #include "sound.h"
 #include "vmidas.h"
 
-static int midas_bufferstatus(warn_t *w, int first);
+static int midas_bufferstatus(int first);
 
 static MIDASstreamHandle midas_stream = NULL;
 static int midas_bufsize = -1;
 static int midas_maxsize = -1;
 
-static int midas_init(warn_t *w, const char *param, int *speed,
+static int midas_init(const char *param, int *speed,
 		      int *fragsize, int *fragnr, double bufsize)
 {
     BOOL		st;
@@ -92,7 +92,7 @@ static int midas_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int midas_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int midas_write(SWORD *pbuf, size_t nr)
 {
     BOOL		st = 1;
     unsigned int	ist;
@@ -107,7 +107,7 @@ static int midas_write(warn_t *w, SWORD *pbuf, size_t nr)
     return !st;
 }
 
-static int midas_bufferstatus(warn_t *s, int first)
+static int midas_bufferstatus(int first)
 {
     int			nr;
     if (first)
@@ -121,7 +121,7 @@ static int midas_bufferstatus(warn_t *s, int first)
     return (int)((double)nr/midas_maxsize*midas_bufsize);
 }
 
-static void midas_close(warn_t *w)
+static void midas_close(void)
 {
     BOOL		st;
 

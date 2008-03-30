@@ -2,7 +2,7 @@
  * archdep.c - Miscellaneous system-specific stuff.
  *
  * Written by
- *  Tibor Biczo (crown@mail.matav.hu)
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

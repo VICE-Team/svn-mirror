@@ -2,9 +2,9 @@
  * vsync.c - End-of-frame handling for Vice/2
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen   (tvr@cs.hut.fi)
- *  Thomas Bretz     (tbretz@gsi.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

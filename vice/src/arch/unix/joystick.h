@@ -2,14 +2,14 @@
  * joystick.h - Joystick support for Linux.
  *
  * Written by
- *  Bernhard Kuhn    (kuhn@eikon.e-technik.tu-muenchen.de)
- *  Ulmer Lionel     (ulmer@poly.polytechnique.fr)
+ *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
+ *  Ulmer Lionel <ulmer@poly.polytechnique.fr>
  *
  * Patches by
- *  Daniel Sladic    (sladic@eecg.toronto.edu)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * 1.1.xxx Linux API by
- *  Luca Montecchiani	(m.luca@usa.net) (http://i.am/m.luca)
+ *  Luca Montecchiani <m.luca@usa.net> (http://i.am/m.luca)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

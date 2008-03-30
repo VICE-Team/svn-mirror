@@ -28,7 +28,7 @@
 #define _VIC_II_SPRITES_H
 
 /* This defines the stolen sprite cycles for all the values of `dma_msk'.  */
-/* The table derives from what Christian Bauer (bauec002@physik.uni-mainz.de)
+/* The table derives from what Christian Bauer <bauec002@physik.uni-mainz.de>
    says in both the "VIC-Article" and Frodo's `VIC_SC.cpp' source file.  */
 
 struct _vic_ii_sprites_fetch

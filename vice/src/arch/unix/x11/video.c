@@ -26,7 +26,7 @@
  */
 
 
-/*** MITSHM-code rewritten by Dirk Farin (farin@ti.uni-mannheim.de). **
+/*** MITSHM-code rewritten by Dirk Farin <farin@ti.uni-mannheim.de>. **
 
      This is how the MITSHM initialization now works:
 

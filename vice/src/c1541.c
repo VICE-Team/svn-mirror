@@ -14,7 +14,7 @@
  *  Olaf Seibert <rhialto@mbfys.kun.nl>
  *
  * Zipcode implementation based on `zip2disk' by
- *  Paul David Doherty (h0142kdd@rz.hu-berlin.de)
+ *  Paul David Doherty <h0142kdd@rz.hu-berlin.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1009,7 +1009,7 @@ static void unix_filename(char *p)
     }
 }
 
-/* Extract all files (gwesp@cosy.sbg.ac.at).  */
+/* Extract all files <gwesp@cosy.sbg.ac.at>.  */
 /* FIXME: This does not work with non-standard file names.  */
 
 static int extract_cmd(int nargs, char **args)

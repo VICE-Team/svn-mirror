@@ -6,7 +6,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on the original work in VICE 0.11.0 by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

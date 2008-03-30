@@ -3,7 +3,7 @@
  * Resolves all UI specific functions
  *
  * Written by
- *  Martin Pottendorfer (Martin.Pottendorfer@alcatel.at)
+ *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

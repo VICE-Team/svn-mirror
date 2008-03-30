@@ -3,7 +3,7 @@
  * coproc.h - co-process fork
  *
  * Written by
- *  Andre Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * Patches by
  *

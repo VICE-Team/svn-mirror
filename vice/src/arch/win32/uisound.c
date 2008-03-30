@@ -2,7 +2,7 @@
  * uisound.c - Sound device configuration user interface for Win32 platforms.
  *
  * Written by
- *  Tibor Biczo  (crown@mail.matav.hu)
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

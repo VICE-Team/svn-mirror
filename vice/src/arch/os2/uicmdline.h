@@ -2,7 +2,7 @@
  * ui_cmdline.h - Command-line output for Vice/2
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,3 +32,4 @@
 extern void ui_cmdline_show_help(int num_options, cmdline_option_t *options);
 
 #endif
+

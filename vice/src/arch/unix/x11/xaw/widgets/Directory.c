@@ -21,7 +21,7 @@
  * 
  * 	totty@cs.uiuc.edu
  *
- * Small changes by Ettore Perazzoli (ettore@comm2000.it), search for [EP].
+ * Small changes by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
  */ 
 
 #include <unistd.h>		/* [EP] 10/15/96 */

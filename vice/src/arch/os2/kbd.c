@@ -2,9 +2,9 @@
  * kbd.c - Keyboard emulation. (OS/2)
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Tibor Biczo      (crown@mail.matav.hu)
- *  Thomas Bretz     (tbretz@gsi.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@mail.matav.hu>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

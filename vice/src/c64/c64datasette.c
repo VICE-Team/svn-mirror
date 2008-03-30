@@ -2,7 +2,7 @@
  * c64datasette.c - C64 specific CBM cassette implementation.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

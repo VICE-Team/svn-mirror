@@ -2,7 +2,7 @@
  * contentsdlg.h - The dialog to show the disk-dir.
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

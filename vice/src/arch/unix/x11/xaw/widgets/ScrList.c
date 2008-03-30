@@ -18,7 +18,7 @@
  *
  * 	totty@cs.uiuc.edu
  *
- * Small fix by Ettore Perazzoli (ettore@comm2000.it), search for [EP].
+ * Small fix by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
  */
 
 #include <stdio.h>

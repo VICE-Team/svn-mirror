@@ -138,7 +138,7 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 
 /* These timings are taken from the ``VIC Article'' by Christian Bauer
-   (bauec002@goofy.zdv.uni-mainz.de).  Thanks Christian!
+   <bauec002@goofy.zdv.uni-mainz.de>.  Thanks Christian!
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
 
 /* Number of cycles per line.  */

@@ -20,7 +20,7 @@
  *
  *      totty@cs.uiuc.edu
  *
- * POSIX regexp support added by Ettore Perazzoli (ettore@comm2000.it)
+ * POSIX regexp support added by Ettore Perazzoli <ettore@comm2000.it>
  * See ChangeLog for the list of changes.
  */
 

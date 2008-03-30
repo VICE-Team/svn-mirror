@@ -5,7 +5,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Support for multiple visuals and depths by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -2,8 +2,8 @@
  * ui.c - Gnome based graphical user interface.  
  *
  * Written by
- *  Martin Pottendorfer (Martin.Pottendorfer@alcatel.at
- *  Heavily derived from Oliver Schaertel (orschaer@forwiss.uni-erlangen.de)
+ *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  Heavily derived from Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *  GTK+ port.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

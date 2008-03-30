@@ -2,7 +2,7 @@
  * cbmcharsets.c - CBM lookalike character sets.
  *
  * Written by
- *  Joe Forster / STA (sta@ludens.elte.hu)
+ *  Joe Forster / STA <sta@ludens.elte.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
