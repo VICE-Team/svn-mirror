@@ -246,17 +246,17 @@ BYTE iec_cpu_read(void)
 void iec_fast_cpu_write(BYTE data)
 {
     if (drive[0].enable) {
-           drive0_cpu_execute(clk);
-       if (drive[0].type == 1571)
+       drive0_cpu_execute(clk);
+       if (drive[0].type == DRIVE_TYPE_1571)
            cia1571d0_set_sdr(data);
-       if (drive[0].type == 1581)
+       if (drive[0].type == DRIVE_TYPE_1581)
            cia1581d0_set_sdr(data);
     }
     if (drive[1].enable) {
-           drive1_cpu_execute(clk);
-       if (drive[1].type == 1571)
+       drive1_cpu_execute(clk);
+       if (drive[1].type == DRIVE_TYPE_1571)
            cia1571d1_set_sdr(data);
-       if (drive[1].type == 1581)
+       if (drive[1].type == DRIVE_TYPE_1581)
            cia1581d1_set_sdr(data);
     }
 }
