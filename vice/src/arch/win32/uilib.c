@@ -40,6 +40,7 @@
 
 #include "archdep.h"
 #include "cbmimage.h"
+#include "cmdline.h"
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
@@ -66,24 +67,24 @@ static char* fontfile;
 static int font_loaded;
 
 struct uilib_filefilter_s {
-    char *name;
-    char *pattern;
+    TCHAR *name;
+    TCHAR *pattern;
 };
 typedef struct uilib_filefilter_s uilib_filefilter_t;
 
 static uilib_filefilter_t uilib_filefilter[] = {
-    { "All files (*.*)", "*.*" },
-    { "VICE palette files (*.vpl)", "*.vpl" },
-    { "VICE snapshot files (*.vsf)", "*.vsf" },
-    { "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
-      "*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64" },
-    { "Tape image files (*.t64;*.p00;*.tap;*.prg)",
-      "*.t64;*.p00;*.tap;*.prg" },
-    { "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
-      "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
-    { "CRT cartridge image files (*.crt)", "*.crt" },
-    { "Raw cartridge image files (*.bin)", "*.bin" },
-    { "Flip list files (*.vfl)", "*.vfl" },
+    { TEXT("All files (*.*)"), TEXT("*.*") },
+    { TEXT("VICE palette files (*.vpl)"), TEXT("*.vpl") },
+    { TEXT("VICE snapshot files (*.vsf)"), TEXT("*.vsf") },
+    { TEXT("Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"),
+      TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
+    { TEXT("Tape image files (*.t64;*.p00;*.tap;*.prg)"),
+      TEXT("*.t64;*.p00;*.tap;*.prg") },
+    { TEXT("Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"),
+      TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
+    { TEXT("CRT cartridge image files (*.crt)"), TEXT("*.crt") },
+    { TEXT("Raw cartridge image files (*.bin)"), TEXT("*.bin") },
+    { TEXT("Flip list files (*.vfl)"), TEXT("*.vfl") },
     { NULL, NULL }
 };
 
@@ -533,11 +534,15 @@ static void update_filter_history(DWORD current_filter)
     }
 }
 
-static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
+static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
 {
     DWORD i, j, k, l;
     DWORD b;
-    char *s = filter;
+    TCHAR *filter, *current;
+
+    filter = lib_malloc(UILIB_FILTER_LENGTH_MAX * sizeof(TCHAR));
+
+    current = filter;
 
     last_filterlist = filterlist;
 
@@ -546,17 +551,17 @@ static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
     /* create the strings for the file filters */
     for (i = 0, b = 1; uilib_filefilter[i].name != NULL; i++, b <<= 1) {
         if (filterlist & b) {
-            j = strlen(uilib_filefilter[i].name) + 1;
-            memcpy(s, uilib_filefilter[i].name, j);
-            s += j;
+            j = _tcslen(uilib_filefilter[i].name) + 1;
+            memcpy(current, uilib_filefilter[i].name, j * sizeof(TCHAR));
+            current += j;
 
-            j = strlen(uilib_filefilter[i].pattern) + 1;
-            memcpy(s, uilib_filefilter[i].pattern, j);
-            s += j;
-
+            j = _tcslen(uilib_filefilter[i].pattern) + 1;
+            memcpy(current, uilib_filefilter[i].pattern, j * sizeof(TCHAR));
+            current += j;
         }
     }
-    *s = 0;
+
+    *current = TEXT('\0');
 
     /* search for the most recent file filter */
     for (k = 1; k <= UI_LIB_FILTER_HISTORY_LENGTH && *filterindex == 0; k++) {
@@ -568,6 +573,7 @@ static void set_filter(char *filter, DWORD filterlist, DWORD *filterindex)
     if (*filterindex == 0)
         *filterindex = 1;    /* not in history: choose first filter */
 
+    return filter;
 }
 
 static int CALLBACK EnumFontProc(
@@ -589,7 +595,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     TCHAR st_name[1024];
     char name[1024];
     char *initialdir;
-    char filter[UILIB_FILTER_LENGTH_MAX];
+    TCHAR *filter;
     DWORD filterindex;
     OPENFILENAME ofn;
     int result;
@@ -618,11 +624,12 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         }
     }
 
+    filter = set_filter(filterlist, &filterindex);
+
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
     ofn.hInstance = winmain_instance;
-    set_filter(filter, filterlist, &filterindex);
     ofn.lpstrFilter = filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
@@ -673,6 +680,8 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         resources_set_value(styles[style].initialdir_resource, initialdir);
         ret = system_wcstombs_alloc(st_name);
     }
+
+    lib_free(filter);
 
     return ret;
 }
@@ -826,5 +835,15 @@ BOOL CALLBACK TextDlgProc(HWND hwndDlg,         // handle to dialog box
         break;
     }
     return FALSE;
+}
+
+void uilib_show_options(HWND param)
+{
+    char *options;
+
+    options = cmdline_options_string();
+    ui_show_text(param, "Command line options",
+                 "Which command line options are available?", options);
+    lib_free(options);
 }
 
