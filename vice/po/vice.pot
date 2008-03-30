@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-19 00:29+0200\n"
+"POT-Creation-Date: 2000-06-24 17:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,12 +84,12 @@ msgstr ""
 msgid "Cannot run HTML browser."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:438
 #, c-format
 msgid "Quickloading file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:451
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -97,143 +97,143 @@ msgid ""
 msgstr ""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:478
+#: src/arch/unix/uicommands.c:480
 #, c-format
 msgid "Quicksaving file %s."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:480
+#: src/arch/unix/uicommands.c:482
 #, c-format
 msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:581
+#: src/arch/unix/uicommands.c:585
 #, c-format
 msgid "Attach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:589
+#: src/arch/unix/uicommands.c:593
 #, c-format
 msgid "Detach #%d"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:621
+#: src/arch/unix/uicommands.c:625
 msgid "Next: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:621 src/arch/unix/uicommands.c:632
-#: src/arch/unix/x11/gnome/ui.c:765 src/arch/unix/x11/gnome/ui.c:775
-#: src/arch/unix/x11/gnome/ui.c:1393
+#: src/arch/unix/uicommands.c:625 src/arch/unix/uicommands.c:636
+#: src/arch/unix/x11/gnome/ui.c:770 src/arch/unix/x11/gnome/ui.c:780
+#: src/arch/unix/x11/gnome/ui.c:1399
 msgid "<empty>"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:632
+#: src/arch/unix/uicommands.c:636
 msgid "Previous: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:643
+#: src/arch/unix/uicommands.c:647
 msgid "Add: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:654
+#: src/arch/unix/uicommands.c:658
 msgid "Remove: "
 msgstr ""
 
-#: src/arch/unix/uicommands.c:712 src/arch/unix/uicommands.c:724
+#: src/arch/unix/uicommands.c:716 src/arch/unix/uicommands.c:728
 msgid "Unit #8..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:714 src/arch/unix/uicommands.c:727
+#: src/arch/unix/uicommands.c:718 src/arch/unix/uicommands.c:731
 msgid "Unit #9..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:716 src/arch/unix/uicommands.c:730
+#: src/arch/unix/uicommands.c:720 src/arch/unix/uicommands.c:734
 msgid "Unit #10..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:718 src/arch/unix/uicommands.c:733
+#: src/arch/unix/uicommands.c:722 src/arch/unix/uicommands.c:737
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:740
+#: src/arch/unix/uicommands.c:744
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:742
+#: src/arch/unix/uicommands.c:746
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:744
+#: src/arch/unix/uicommands.c:748
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:746
+#: src/arch/unix/uicommands.c:750
 msgid "Unit #11"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:749
+#: src/arch/unix/uicommands.c:753
 msgid "All"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:755
+#: src/arch/unix/uicommands.c:759
 msgid "Soft"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:758
+#: src/arch/unix/uicommands.c:762
 msgid "Hard"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:765
+#: src/arch/unix/uicommands.c:769
 msgid "Add current image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:768
+#: src/arch/unix/uicommands.c:772
 msgid "Remove current image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:771
+#: src/arch/unix/uicommands.c:775
 msgid "Attach next image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:774
+#: src/arch/unix/uicommands.c:778
 msgid "Attach previous image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:781
+#: src/arch/unix/uicommands.c:785
 msgid "Attach a disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:783
+#: src/arch/unix/uicommands.c:787
 msgid "Create and attach an empty disk"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:785
+#: src/arch/unix/uicommands.c:789
 msgid "Detach disk image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:787
+#: src/arch/unix/uicommands.c:791
 msgid "Fliplist for drive #8"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:793
+#: src/arch/unix/uicommands.c:797
 msgid "Attach a tape image..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:796
+#: src/arch/unix/uicommands.c:800
 msgid "Detach tape image"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:802
+#: src/arch/unix/uicommands.c:806
 msgid "Smart-attach disk/tape..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:809
+#: src/arch/unix/uicommands.c:813
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:815
+#: src/arch/unix/uicommands.c:819
 msgid "Load snapshot..."
 msgstr ""
 
@@ -279,95 +279,95 @@ msgstr ""
 msgid "Cannot load CBM font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:751
+#: src/arch/unix/x11/gnome/ui.c:756
 #, c-format
 msgid "Drive %d: "
 msgstr ""
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:861
+#: src/arch/unix/x11/gnome/ui.c:866
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:934
+#: src/arch/unix/x11/gnome/ui.c:939
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1096 src/arch/unix/x11/gnome/ui.c:1131
+#: src/arch/unix/x11/gnome/ui.c:1101 src/arch/unix/x11/gnome/ui.c:1136
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1098 src/arch/unix/x11/gnome/ui.c:1142
+#: src/arch/unix/x11/gnome/ui.c:1103 src/arch/unix/x11/gnome/ui.c:1147
 msgid "Settings"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1102
+#: src/arch/unix/x11/gnome/ui.c:1107
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1173
+#: src/arch/unix/x11/gnome/ui.c:1178
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1175
+#: src/arch/unix/x11/gnome/ui.c:1180
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1185
+#: src/arch/unix/x11/gnome/ui.c:1190
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1189
+#: src/arch/unix/x11/gnome/ui.c:1194
 msgid "Cannot save settings."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1231
+#: src/arch/unix/x11/gnome/ui.c:1237
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1543
+#: src/arch/unix/x11/gnome/ui.c:1549
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1580
+#: src/arch/unix/x11/gnome/ui.c:1586
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1705
+#: src/arch/unix/x11/gnome/ui.c:1711
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1716
+#: src/arch/unix/x11/gnome/ui.c:1722
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1742
+#: src/arch/unix/x11/gnome/ui.c:1748
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1786
+#: src/arch/unix/x11/gnome/ui.c:1792
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1787
+#: src/arch/unix/x11/gnome/ui.c:1793
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/x11/gnome/ui.c:1806
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1807 src/arch/unix/x11/gnome/ui.c:1815
+#: src/arch/unix/x11/gnome/ui.c:1813 src/arch/unix/x11/gnome/ui.c:1821
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1943 src/arch/unix/x11/gnome/ui.c:1948
+#: src/arch/unix/x11/gnome/ui.c:1949 src/arch/unix/x11/gnome/ui.c:1954
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2396
+#: src/arch/unix/x11/gnome/ui.c:2402
 msgid "Contents"
 msgstr ""

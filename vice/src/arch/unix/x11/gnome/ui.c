@@ -707,6 +707,11 @@ int ui_init_finish(void)
     return ui_menu_init();
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 void ui_create_status_bar(GtkWidget *pane, int width, int height)
 {
     /* Create the status bar on the bottom.  */
@@ -1207,6 +1212,7 @@ void ui_exit(void)
 	exit(0);
     }
     free(s);
+    suspend_speed_eval();
 }
 
 /* ------------------------------------------------------------------------- */

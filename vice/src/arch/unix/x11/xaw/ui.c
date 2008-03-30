@@ -551,6 +551,11 @@ int ui_init_finish(void)
     return ui_menu_init(app_context, display, screen);
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 int ui_get_display_depth(void)
 {
     return depth;
@@ -1052,6 +1057,7 @@ void ui_exit(void)
     }
 
     free(s);
+    suspend_speed_eval();
 }
 
 /* ------------------------------------------------------------------------- */

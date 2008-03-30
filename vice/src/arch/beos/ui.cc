@@ -418,6 +418,11 @@ int ui_init_finish(void)
     return 0;
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* this displays text in a seperate window with scroller */

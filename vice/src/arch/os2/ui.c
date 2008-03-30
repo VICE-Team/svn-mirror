@@ -105,6 +105,11 @@ int ui_init_finish(void)
     return 0;
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 /* --------------------------- Tape related UI -------------------------- */
 
 void ui_set_tape_status(int tape_status)

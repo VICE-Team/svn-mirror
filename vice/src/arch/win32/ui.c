@@ -317,6 +317,11 @@ int ui_init_finish(void)
     return 0;
 }
 
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
 /* Exit.  */
 void ui_exit(void)
 {
