@@ -5,6 +5,72 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.16
+======================
+
+** General
+----------
+
+- Improved accuracy of 65xx processor core emulation.
+
+** Drive changes
+----------------
+
+- Added support for idle traps to 1551 emulation.
+
+** C64 changes
+--------------
+
+- Fixed crash using REU emulation.
+
+- A timing problem has been fixed using old NTSC mode.
+
+- Some stupid char ROM display bug has been fixed.
+
+** C128 changes
+--------------
+
+- Fixed crash using REU emulation or CP/M mode.
+
+** PLUS4 changes
+----------------
+
+- Added proper TAP support.
+
+** Unix Changes
+---------------
+
+- Hardware scaling can be switched at runtime now.
+
+- Fixed crash on machines with weird vidmode configurations.
+
+- Fixed random crash if settings are saved.
+
+** MS-Windows changes
+---------------------
+
+- Added support for userport or ACIA serial emulation to connect to
+  some TCP/IP port.
+
+- It is possible to use the opencbm library from the cbm4win project
+  to access real drives connected to the host machine.
+
+- Improved the keyboard emulation to allow symolic keyboard mappings.
+  Notice: Many symolic keyboard mapping definitions are still missing
+  at the moment.
+
+- The joystick fire button can be selected for hardware joysticks.
+
+- It is possible to attach disk/tape images read-only now.
+
+** Miscellaneous changes
+------------------------
+
+- Fixed some crash in the file system emulation.
+
+- Improved datasette motor emulation.
+
+
 * Changes in VICE 1.15
 ======================
 

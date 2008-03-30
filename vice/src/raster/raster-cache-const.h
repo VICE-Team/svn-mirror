@@ -34,21 +34,14 @@
 inline static int raster_cache_data_fill_const(BYTE *dest,
                                                const BYTE data,
                                                const unsigned int length,
-                                               const int src_step,
                                                unsigned int *xs,
                                                unsigned int *xe,
                                                int no_check)
 {
     if (no_check) {
-        unsigned int i;
-
         *xs = 0;
         *xe = length - 1;
-        if (src_step == 1)
-            memset(dest, data, (size_t)length);
-        else
-            for (i = 0; i < length; i++)
-                dest[i] = data;
+        memset(dest, data, (size_t)length);
         return 1;
     } else {
         unsigned int x = 0, i;
