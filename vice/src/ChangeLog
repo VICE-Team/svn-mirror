@@ -1,6 +1,15 @@
+2005-01-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.
+
+	* video/video-resources.c [video_resources]: Initialize
+	`delayloop_emulation' with proper value.
+
+	* main.c (main_program): Removed debug output.
+
 2005-01-22  Andreas Boose  <viceteam@t-online.de>
 
-        * Version 1.15.15.
+	* Version 1.15.15.
 
 	* arch/unix/x11/xaw/about.c, arch/unix/x11/gnome/about.c,
 	info.c, arch/os2/dialogs/dialogs.rc, arch/beos/ui.cc,

@@ -186,7 +186,7 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, " ");
 
     lib_free(program_name);
-log_message(LOG_DEFAULT,"BOOTPATH %s",argv[0]);
+
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
     if (!console_mode && ui_init_finish() < 0)
