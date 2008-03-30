@@ -279,8 +279,10 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidrive.c \
 	uidrive.h \
-	uidrivec64c128vic20.h \
-	uidrivec64c128vic20.c \
+	uidrivec128.c \
+	uidrivec128.h \
+	uidrivec64vic20.h \
+	uidrivec64vic20.c \
 	uidriveiec.c \
 	uidriveiec.h \
 	uidrivepetcbm2.c \
@@ -347,8 +349,8 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	joy.$(OBJEXT) mouse.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
 	rs232.$(OBJEXT) ui.$(OBJEXT) uic64cart.$(OBJEXT) \
 	uicmdline.$(OBJEXT) uicommands.$(OBJEXT) uicrtc.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
-	uidrivec64c128vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
+	uidatasette.$(OBJEXT) uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
 	uijoystick2.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
 	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) uiprinter.$(OBJEXT) \
@@ -374,7 +376,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicommands.Po ./$(DEPDIR)/uicrtc.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po ./$(DEPDIR)/uidrive.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrivec64c128vic20.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
@@ -466,7 +469,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicrtc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64c128vic20.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
