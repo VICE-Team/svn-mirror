@@ -18,6 +18,10 @@ libmonitor_a_SOURCES = \
         asm.h \
         mon.c \
         mon.h \
+        mon_assemble.c \
+        mon_assemble.h \
+        mon_disassemble.c \
+        mon_disassemble.h \
         mon_util.c \
         mon_util.h \
         mon_lex.l \
