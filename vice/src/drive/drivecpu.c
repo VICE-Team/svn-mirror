@@ -175,7 +175,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
 /* ------------------------------------------------------------------------- */
 
 #define LOAD(a)           (drv->cpud.read_func[(a) >> 8](drv, (WORD)(a)))
-#define LOAD_ZERO(a)      (drv->cpud.drive_ram[(a) & 0xff])
+#define LOAD_ZERO(a)      (drv->cpud.read_func[0](drv, (WORD)(a)))
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
 #define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (WORD)(a), \
