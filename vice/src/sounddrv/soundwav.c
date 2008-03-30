@@ -64,10 +64,10 @@ static int wav_init(const char *param, int *speed,
     samples = 0;
 
     /* Initialize header. */
-    le_store(header + 22, *channels, 2);
+    le_store(header + 22, (DWORD)*channels, 2);
     le_store(header + 24, sample_rate, 4);
     le_store(header + 28, bytes_per_sec, 4);
-    le_store(header + 32, *channels*2, 2);
+    le_store(header + 32, (DWORD)*channels*2, 2);
 
     return (fwrite(header, 1, 44, wav_fd) != 44);
 }
