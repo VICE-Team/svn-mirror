@@ -87,6 +87,7 @@ static void interrupt_function(unsigned long buf)
                 buf++;
             }
         }
+
     } else {
 
         /* Play one fragment.  */
@@ -180,6 +181,8 @@ static int sb_write(warn_t *w, SWORD *pbuf, int nr)
 
     if (audio_buffer_size == 0)
         return -1;
+    if (nr == 0)
+        return 0;
 
     if (is_16bit)
         total = nr * 2;
@@ -189,25 +192,18 @@ static int sb_write(warn_t *w, SWORD *pbuf, int nr)
     /* XXX: We only allow writing full fragments here.  */
     while (total >= fragment_size) {
 
-#if 0
-        printf("%s(): total %d\n", __FUNCTION__, total);
-
-        printf("%s(): blocking? first_sample %d num_bytes_in_buffer %d\n",
-               __FUNCTION__, first_sample, num_bytes_in_buffer);
-#endif
-
         /* Block until there is space in the buffer.  The interrupt routine
            will decrement `num_bytes_in_buffer' as soon as a new fragment is
            played.  */
         while (num_bytes_in_buffer == audio_buffer_size)
             ;
 
-#if 0
-        printf("%s(): writing: first_sample %d next_sample %d num_bytes_in_buffer %d\n",
-               __FUNCTION__, first_sample, next_sample, num_bytes_in_buffer);
-#endif
+        /* Disable interrupts to make sure we don't interfere with the
+           playback routine in ugly ways.  */
+        asm volatile ("cli");
 
         /* Write one fragment.  */
+
         if (!is_16bit) {
             BYTE *p = audio_buffer + next_sample;
             int i;
@@ -221,12 +217,15 @@ static int sb_write(warn_t *w, SWORD *pbuf, int nr)
             for (i = 0; i < fragment_size / 2; i++)
                 *(p++) = *(pbuf++);
         }
+        num_bytes_in_buffer += fragment_size;
+
+        /* Done writing the fragment.  Enable interrupts.  */
+        asm volatile("sti");
 
         next_sample += fragment_size;
         if (next_sample >= audio_buffer_size)
             next_sample = 0;
 
-        num_bytes_in_buffer += fragment_size;
         total -= fragment_size;
     }
 
@@ -241,6 +240,7 @@ static int sb_bufferstatus(warn_t *s, int first)
         return 0;
 
     ret = num_bytes_in_buffer;
+
     if (is_16bit)
         ret /= 2;
 

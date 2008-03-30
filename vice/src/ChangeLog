@@ -1,4 +1,56 @@
+Tue Aug 25 00:47:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.70.
+
+	* sounddrv/soundsb.c (sb_write): Disable interrupts while writing
+	the fragment.
+
+	* arch/msdos/menudefs.c: Unified sample rates in the MIDAS and
+	MIDAS-less versions.
+
+	* arch/msdos/vsync.c (register_timer_callback): Setup the timer
+	more precisely using `install_int_ex()' instead of
+	`install_int()'.
+
+	* c64/sid.c (read_sid) [HAVE_MOUSE]: Use the upmost 6 bits of the
+	mouse position instead of the middle ones.
+
+	* mos6510.h (MOS6510_REGS_GET_X): Fixed `a' -> `x' typo.
+	(MOS6510_REGS_SET_X): Likewise.
+
+	* mon.c [__MSDOS__]: Added some DOS-specific #includes.
+	(mon) [__MSDOS__]: Setup the screen, and restore graphics mode on
+	exit.
+
+	* arch/msdos/menudefs.c (mon_trap): Removed screen setup.
+
+	* mon.c (mon): `#ifdef __MSDOS' replaced with `#ifdef __MSDOS__'.
+
+	* kbdbuf.c (kbd_buf_feed): Fill the queue from the correct
+	starting position.
+
+	* autostart.c (autostart_advance): Use `alloca()' instead of
+ 	`xmalloc()'/`free()'.
+	(autostart_advance): If traps are disabled, feed `RUN' + RETURN
+	into the buffer immediately.
+
+	* kbdbuf.c (kbd_buf_feed): Flush buffer.
+
+	* autostart.c (disk_attention_callback): New function.  Put `RUN'
+ 	+ RETURN in the keyboard buffer and set `disk_eof_callback()' as
+ 	the EOF callback function.
+	(disk_eof_callback): Do not put `RUN' into the keyboard buffer
+ 	anymore.
+	(autostart_advance): Instead of setting `disk_eof_callback()' as
+ 	the callback function for EOF, set `disk_attention_callback()' as
+ 	the callback function for ATN.
+
+	* serial.c (serial_set_attention_callback): New function.
+ 	(serialattention): Call callback function.
+
 Mon Aug 24 14:16:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.69.
 
 	* autostart.h: #include "types.h".
 

@@ -1,4 +1,13 @@
+Tue Aug 25 15:16:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.70.
+
+	* configure.in: Put `-DNO_REGPARM' in `CFLAGS' when compiling with
+	GCC.
+
 Mon Aug 24 18:17:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.69.
 
 	* Version 0.14.2.68.
 
