@@ -44,7 +44,7 @@ typedef struct wd1770_s {
     int side;
     /* Data register buffer.  */
     BYTE data_buffer[512];
-    /* Data register buffer index.  */
+    /* Data register buffer index, can be -1.  */
     int data_buffer_index;
     /* WP bit status.  */
     unsigned int wp_status;
