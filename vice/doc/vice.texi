@@ -103,6 +103,7 @@ Commodore Emulator.
 
 * Machine-specific features::   Peculiar characteristics of the emulators.
 
+* Snapshots::			Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
 
@@ -232,6 +233,8 @@ Machine-specific features
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
+* CBM-II-specific::		Commands and settings specific to the
+				CBM-II (C610, ...) emulator
 
 C64/128-specific commands and settings
 
@@ -288,6 +291,16 @@ PET-specific commands and settings
 * PET model::
 * PET diagnostic pin::
 * PET colors::
+
+CBM-II-specific commands and settings
+
+* CBM-II model::
+* CBM-II colors::
+
+Snapshots
+
+* Snapshot usage::
+* Snapshot format::
 
 Monitor
 
@@ -745,6 +758,7 @@ good as the C64 one, as they are still under construction.
 * C128 emulator features::
 * VIC20 emulator features::
 * PET emulator features::
+* CBM-II emulator features::
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
@@ -797,11 +811,12 @@ you think it does not sound right and know how to improve it, feel
 free to contact us (@pxref{Contacts}).
 
 
-@node PET emulator features, Keyboard emulation, VIC20 emulator features, Preface
+@node PET emulator features, CBM-II emulator features, VIC20 emulator features, Preface
 @section PET emulator features
 
-The PET emulator emulates the 2001, 3032, 4032, 8032, 8096 and 8296
-models, which almost covers all models of this kind of machines.  The
+The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and SuperPET
+(MicroMainFram 9000) models, which almost covers all models of this kind of 
+machines.  The
 hardware is pretty much the same and that is why one single program is
 enough to emulate all of them.  For more detailed information about PET
 hardware please refer to the @file{PETdoc} file.
@@ -827,6 +842,10 @@ The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See @file{PETdoc} for more information.
 @c FIXME link!
+
+The SuperPET also is a PET 8032 with an expansion board. It can map
+4k at a time out of 64k into the @code{$9***} area. Also it has an 
+ACIA 6551 for RS232 communication.
 
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
@@ -871,11 +890,44 @@ addresses.
 To select which model to run, you specify the model on the
 command line with the @code{-model MODEL} option, where
 @code{MODEL} can be one of a list of PET model numbers, all
-described in @dots{}
+described in @pxref{PET model}
 @c FIXME link!
 
 
-@node Keyboard emulation, Joystick emulation, PET emulator features, Preface
+@node CBM-II emulator features, Keyboard emulation, PET emulator features, Preface
+@section CBM-II emulator features
+
+The CBM-II emulator emulates several types of CBM-II models. Those models
+are known under different names in the USA and Europe.
+In the States they have been sold as @code{B128} and @code{B256}, in 
+Europe as @code{CBM 610}, @code{CBM 620} (low-profile case) or
+@code{CBM 710} and @code{CBM 720} (high-profile case with monitor).
+
+These computers are prepared to take a coprocessor board with an 8088
+or Z80 CPU. Indeed there are models @code{CBM 630} and @code{CBM 730}
+that supposedly had those processors. However these models are not
+emulated.
+
+The basic difference is the amount of RAM these machines have been supplied
+with. The @code{B128} and the @code{CBM *10} models had 128k RAM, the 
+others 256k. This implies some banking scheme, as the 6502 can only
+address 64k. And indeed those machines use a 6509, that can address
+1 MByte of RAM. It has 2 registers at addresses 0 and 1. The indirekt bank
+register at address 1 determines the bank (0-15) where the opcodes
+@code{LDA (zp),Y} and @code{STA (zp),Y} take the data from. The exec bank
+register at address 0 determines the bank where all other read and
+write addresses take place.
+
+Many models have been expanded to more than the built-in memory. In fact
+some machines have been expanded to the full 1M. 
+Bank 15 is used as system bank, with only little RAM, and lots of
+expansion cartridge ROM area, the I/O and the kernal/basic ROMs.
+Some models have been modified to map RAM into the expansion ROM area.
+Those modifications can be emulated as well.
+
+The different settings are described in @pxref{CBM-II model}.
+
+@node Keyboard emulation, Joystick emulation, CBM-II emulator features, Preface
 @section The keyboard emulation
 
 There are two ways of emulating the keyboard in VICE.
@@ -1109,6 +1161,9 @@ The names of the available emulators are:
 
 @item
 @code{xvic}, the VIC20 emulator
+
+@item
+@code{x610}, the CBM-II emulator
 
 @end itemize
 
@@ -2937,7 +2992,7 @@ Enable/disable automatic saving of settings on exit
 @end table
 
 
-@node Machine-specific features, Monitor, Settings and resources, Top
+@node Machine-specific features, Snapshots, Settings and resources, Top
 @chapter Machine-specific features
 
 @menu
@@ -2947,6 +3002,8 @@ Enable/disable automatic saving of settings on exit
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
+* CBM-II-specific::		Commands and settings specific to the
+				CBM-II emulator
 @end menu
 
 @node C64/128-specific, VIC20-specific, Machine-specific features, Machine-specific features
@@ -3674,7 +3731,7 @@ Specify @file{NAME} as the character generator ROM file
 @end table
 
 
-@node PET-specific,  , VIC20-specific, Machine-specific features
+@node PET-specific, CBM-II-specific, VIC20-specific, Machine-specific features
 @section PET-specific commands and settings
 
 This section lists the settings and commands that are PET-specific and
@@ -3697,9 +3754,70 @@ set of PET models so that all the features are selected accordingly.
 The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
 
-@itemize @bullet
-@item (None yet.)
-@end itemize
+@table @code
+
+@cindex RamSize
+@item RamSize
+Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
+
+@cindex IOSize
+@item IOSize
+Size of I/O area in Byte. Either 2048 or 256 for 8296.
+
+@cindex Crtc
+@item Crtc
+Enables CRTC 6545 emulation (all models from 40xx and above)
+
+@cindex VideoSize
+@item VideoSize
+The number of columns on the screen (40 or 80). A 0 auto-detects this 
+from the ROM.
+
+@cindex Ram9
+@item Ram9
+The 8296 can map RAM into the address range $9***
+
+@cindex RamA
+@item RamA
+The 8296 can map RAM into the address range $A***
+
+@cindex SuperPET
+@item SuperPET
+This resource enables the SuperPET (MicroMainFrame 9000) I/O
+and disables the 8x96 mappings.
+
+@cindex ChargenName
+@item ChargenName
+Specify @file{NAME} as the character generator ROM file
+
+@cindex KernalName
+@item KernalName
+Specify @file{NAME} as the kernal ROM file. This file contains
+the complete BASIC, EDITOR and KERNAL ROMs and is either
+16k (BASIC 1 and 2) or 20k (BASIC 4) in size.
+
+@cindex EditorName
+@item EditorName
+Specify @file{NAME} as the editor ROM file. This file contains
+an overlay for the editor ROM at $E000-$E7FF if necessary.
+
+@cindex RomModule9Name
+@item RomModule9Name
+Specify @file{NAME} as the $9*** Expansion ROM file. This file contains
+an expansion ROM image of 4k.
+
+@cindex RomModuleAName
+@item RomModuleAName
+Specify @file{NAME} as the $A*** Expansion ROM file. This file contains
+an expansion ROM image of 4k.
+
+@cindex RomModuleBName
+@item RomModuleBName
+Specify @file{NAME} as the $B*** Expansion ROM file. This file contains
+an expansion ROM image of 4k.
+This file overlays the lowest 4k of a BASIC 4 ROM.
+
+@end table
 
 Choosing a common PET model is done from the right-button menu instead,
 by choosing an item from the ``Model defaults'' submenu.  Available
@@ -3728,6 +3846,8 @@ PET 8032
 PET 8096
 @item
 PET 8296
+@item
+SuperPET
 @end itemize
 
 Notice that this will @strong{reset the emulated machine}.
@@ -3765,7 +3885,383 @@ feeling;
 @end itemize
 
 
-@node Monitor, c1541, Machine-specific features, Top
+@node CBM-II-specific, , PET-specific, Machine-specific features
+@section CBM-II-specific commands and settings
+
+This section lists the settings and commands that are CBM-II-specific and
+thus are not present in the other emulators.
+
+@menu
+* CBM-II model::
+* CBM-II colors::
+@end menu
+
+@node CBM-II model, CBM-II colors, CBM-II-specific, CBM-II-specific
+@subsection Changing CBM-II model
+
+With @code{x610}, it is possible to change at runtime the
+characteristics of the emulated CBM so that it matches (or not) the ones
+of a certain CBM model, and it is also possible to select from a common
+set of CBM models so that all the features are selected accordingly.
+
+The former is done by changing the following resources (via resource
+file, command line options or right-menu items):
+
+@table @code
+
+@cindex RamSize
+@item RamSize
+Size of memory in kByte. Possible values are 128, 256, 512 and 1024
+
+@cindex Ram1
+@cindex Ram2
+@cindex Ram4
+@cindex Ram6
+@item Ram1, Ram2, Ram4, Ram6
+Expanded CBM-II models could map RAM to the expansion ROM areas
+at $1***, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF respectively.
+
+@cindex Cart2Name
+@cindex Cart4Name
+@cindex Cart6Name
+@item Cart2Name, Cart4Name, Cart6Name
+Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF 
+Expansion ROM file. This file contains an 8k ROM dump.
+
+@end table
+
+Choosing a common CBM-II model is done from the right-button menu instead,
+by choosing an item from the ``Model defaults'' submenu.  Available
+models are:
+
+@itemize @bullet
+@item
+C610 (128k RAM)
+@item
+C620 (256k RAM)
+@item
+C620+ (1024k RAM, expanded)
+@end itemize
+
+Notice that this will @strong{reset the emulated machine}.
+
+It is also possible to select the CBM model at startup, with the
+@code{-model} command-line option: for example, @samp{x610 -model C610}
+will emulate a CBM 610 while @samp{x610 -model C620} will emulate a CBM
+620.
+
+@node CBM-II colors, ,CBM-II model, CBM-II-specific
+@subsection Changing screen colors
+
+It is also possible to choose what color set is used for the emulation
+window.  This is done by specifying a palette file name (@pxref{Palette
+files}) in the @code{PaletteName} resource.  The menu provides the
+following values:
+
+@itemize @bullet
+@item
+@code{default.vpl} (``default (green)''), the good old green-on-black
+feeling;
+@item
+@code{amber.vpl} (``amber''), an amber phosphor lookalike;
+@item
+@code{white.vpl} (``white''), simple white-on-black palette.
+@end itemize
+
+@c -----------------------------------------------------------------
+
+@node Snapshots, Monitor, Machine-specific features, Top
+@chapter Snapshots
+
+Every VICE emulator has a built-in snapshot feature, that saves
+the complete Emulator state (see below) into one file. This file
+can then be used to restore the emulator state by loading it.
+
+@menu
+* Snapshot usage::
+* Snapshot format::
+@end menu
+
+@node Snapshot usage, Snapshot format, Snapshots, Snapshots
+@section Snapshot usage
+
+A snapshot is one file. It contains the complete emulator state.
+A snapshot file can be generated by selecting the @code{save snapshot}
+menu entry at any time.
+
+A snapshot file can be used to restore the emulator state by selecting
+the @code{load snapshot} menu entry at any time.
+
+@b{Warning}: The complete state is saved, but not restored are: 
+@itemize @bullet
+@item The ROMs. This can pose problems when restoring the state of a
+PET 3032 into a PET 4032 for example. Also attached cartridges are
+not saved. I.e. you have to attach them before restoring a snapshot
+of run of such a cartridge.
+
+@item The memory configuration. The VIC20, PET and CBM-II emulators
+do have some memory expansion info. This is saved but not (yet??)
+restored.
+
+@end itemize
+
+@node Snapshot format, ,Snapshot usage, Snapshots
+@section Snapshot format
+
+A snapshot file consists of several modules. 
+Each module has a name. 
+A module saves the state of an entity like a CIA, the CPU,
+or the memory. 
+
+@menu 
+* Emulator modules::
+* Module formats::
+@end menu
+
+@node Emulator modules, Module formats, Snapshot format, Snapshot format
+@subsection Emulator modules
+
+This section lists the modules that are contained in each of the
+emulators snapshot files.
+
+@menu
+* x64 modules::
+* x128 modules::
+* xvic modules::
+* xpet modules::
+* x610 modules::
+@end menu
+
+@node x64 modules, x128 modules, Emulator modules, Emulator modules
+@subsubsection x64 modules
+
+@node x128 modules, xvic modules, x64 modules, Emulator modules
+@subsubsection x128 modules
+
+@node xvic modules, xpet modules, x128 modules, Emulator modules
+@subsubsection xvic modules
+
+@node xpet modules, x610 modules, xvic modules, Emulator modules
+@subsubsection xpet modules
+
+@node x610 modules, , xpet modules, Emulator modules
+@subsubsection x610 modules
+
+
+@node Module formats, , Emulator modules, Snapshot format
+@subsection Module formats
+
+This section shows the basic module framework and 
+the contents of the different types of modules.
+
+@menu
+* Module framework::
+* CPU module::
+* CIA module::
+* VIA module::
+* TPI module::
+* SID module::
+* ACIA module::
+* C64 memory module::
+* C128 memory module::
+* VIC20 memory module::
+* PET memory module::
+* C610 memory module::
+@end menu
+
+@node Module framework, CPU module, Module formats, Module formats
+@subsubsection Module framework
+
+@node CPU module, CIA module, Module framework, Module formats
+@subsubsection CPU module
+
+@node CIA module, VIA module, CPU module, Module formats
+@subsubsection CIA module
+
+The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift register,
+two timers, a Time of Day clock and interrupts.
+
+@multitable @columnfractions .1 .1 .8
+@item Type 
+@tab Name 
+@tab Description
+@item UBYTE 
+@tab ORA 
+@tab Output register A
+@item UBYTE 
+@tab ORB 
+@tab Output register B
+@item UBYTE 
+@tab DDRA 
+@tab Data direction register A
+@item UBYTE 
+@tab DDRB 
+@tab Data direction register B
+@item UWORD 
+@tab TAC 
+@tab Timer A counter value
+@item UWORD 
+@tab TBC 
+@tab Timer B counter value
+@item UBYTE 
+@tab TOD_TEN 
+@tab Time of Day - current tenth of second
+@item UBYTE 
+@tab TOD_SEC 
+@tab Time of Day - current seconds
+@item UBYTE 
+@tab TOD_MIN 
+@tab Time of Day - current minutes
+@item UBYTE 
+@tab TOD_HR 
+@tab Time of Day - current hours
+@item UBYTE 
+@tab SDR 
+@tab contents of shift register
+@item UBYTE 
+@tab IER 
+@tab mask of enabled interrupt masks
+@item UBYTE 
+@tab CRA 
+@tab Control register A
+@item UBYTE 
+@tab CRB 
+@tab Control register B
+@item UWORD 
+@tab TAL 
+@tab Timer A latch value
+@item UWORD 
+@tab TBL 
+@tab Timer B latch value
+@item UBYTE 
+@tab IFR 
+@tab mask of currently active interrupts
+@item UBYTE 
+@tab PBSTATE 
+@tab Bit 6/7 reflect the PB6/7 toggle bit state. Bit 2/3 reflect the corresponding port bit state.
+@item UBYTE 
+@tab SRHBITS 
+@tab number of half-bits to still shift in/out SDR
+@item UBYTE 
+@tab ALARM_TEN 
+@tab Time of Day - alarm tenth of second
+@item UBYTE 
+@tab ALARM_SEC 
+@tab Time of Day - alarm seconds
+@item UBYTE 
+@tab ALARM_MIN 
+@tab Time of Day - alarm minutes
+@item UBYTE 
+@tab ALARM_HR 
+@tab Time of Day - alarm hours
+@item UBYTE 
+@tab READICR 
+@tab current clock minus the clock when ICR was read last plus 128.
+@item UBYTE 
+@tab TODLATCHED 
+@tab Bit 0: 1= latched for reading, Bit 1: 2=stopped for writing
+@item UBYTE 
+@tab TODL_TEN 
+@tab Time of Day - latched tenth of second
+@item UBYTE 
+@tab TODL_SEC 
+@tab Time of Day - latched seconds
+@item UBYTE 
+@tab TODL_MIN 
+@tab Time of Day - latched minutes
+@item UBYTE 
+@tab TODL_HR 
+@tab Time of Day - latched hours
+@item DWORD 
+@tab TOD_TICKS 
+@tab clk ticks till next tenth of second
+@end multitable
+
+@node VIA module, TPI module, CIA module, Module formats
+@subsubsection VIA module
+
+The VIA 6522 is the predecessor of the CIA and also an I/O port chip 
+with 2 8-bit I/O ports, a shift register,
+two timers and interrupts.
+
+@multitable @columnfractions .1 .1 .8
+@item Type 
+@tab Name 
+@tab Description
+@item UBYTE 
+@tab ORA
+@tab Output register A
+@item UBYTE
+@tab DDRA
+@tab Data direction register A
+@item UBYTE 
+@tab ORB
+@tab Output register B
+@item UBYTE
+@tab DDRB
+@tab Data direction register B
+@item UWORD
+@tab T1L
+@tab Timer 1 Latch value
+@item UWORD
+@tab T1C
+@tab Timer 1 counter value
+@item UBYTE
+@tab T2L
+@tab Timer 2 latch (8 bit as only lower byte is used)
+@item UWORD
+@tab T2C
+@tab Timer 2 counter value
+@item UBYTE
+@tab SR
+@tab Shift register value
+@item UBYTE
+@tab ACR
+@tab Auxiliary control register
+@item UBYTE
+@tab PCR
+@tab Peripheral control register
+@item UBYTE
+@tab IFR
+@tab active interrupts
+@item UBYTE
+@tab IER
+@tab interrupt mask
+@item UBYTE
+@tab PB7
+@tab bit 7 = pb7 state
+@item UBYTE
+@tab SRHBITS
+@tab number of half-bits to shift out on SR
+@end multitable
+
+@node TPI module, SID module, VIA module, Module formats
+@subsubsection TPI module
+
+@node SID module, ACIA module, TPI module, Module formats
+@subsubsection SID module
+
+@node ACIA module, C64 memory module, SID module, Module formats
+@subsubsection ACIA module
+
+@node C64 memory module, C128 memory module, ACIA module, Module formats
+@subsubsection C64 memory module
+
+@node C128 memory module, VIC20 memory module, C64 memory module, Module formats
+@subsubsection C128 memory module
+
+@node VIC20 memory module, PET memory module, C128 memory module, Module formats
+@subsubsection VIC20 memory module
+
+@node PET memory module, C610 memory module, VIC20 memory module, Module formats
+@subsubsection PET memory module
+
+@node C610 memory module, , PET memory module, Module formats
+@subsubsection C610 memory module
+
+@c -----------------------------------------------------------------
+
+@node Monitor, c1541, Snapshots, Top
 @chapter Monitor
 
 Every VICE emulator has a complete built-in monitor, which can be used

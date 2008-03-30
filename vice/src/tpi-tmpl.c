@@ -356,7 +356,7 @@ void mytpi_set_int(int bit, int state)
  */
 
 /* FIXME!!!  Error check.  */
-int mytpi_write_snapshot_module(FILE * p)
+int mytpi_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
     int byte;
@@ -386,7 +386,7 @@ int mytpi_write_snapshot_module(FILE * p)
     return 0;
 }
 
-int mytpi_read_snapshot_module(FILE * p)
+int mytpi_read_snapshot_module(snapshot_t *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
