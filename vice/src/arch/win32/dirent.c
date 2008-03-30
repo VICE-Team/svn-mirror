@@ -54,13 +54,14 @@ struct _vice_dir {
 DIR *opendir(const char *path)
 {
     DIR *dir;
-    char *filter;
+    TCHAR *st_filter;
 
     dir = lib_malloc(sizeof(DIR));
-    filter = util_concat(path, "\\*", NULL);
-    dir->filter = system_mbstowcs_alloc(filter);
-    lib_free(filter);
-    dir->handle = FindFirstFile(dir->filter, &dir->find_data);
+    dir->filter = util_concat(path, "\\*", NULL);
+
+    st_filter = system_mbstowcs_alloc(dir->filter);
+    dir->handle = FindFirstFile(st_filter, &dir->find_data);
+    system_mbstowcs_free(st_filter);
     if (dir->handle == INVALID_HANDLE_VALUE)
         return NULL;
 
@@ -86,7 +87,7 @@ struct dirent *readdir(DIR *dir)
 void closedir(DIR *dir)
 {
     FindClose(dir->handle);
-    system_mbstowcs_free(dir->filter);
+    lib_free(dir->filter);
     lib_free(dir);
 }
 
