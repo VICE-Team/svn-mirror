@@ -2,7 +2,7 @@
  * parallel.c - IEEE488 emulation.
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,18 +38,15 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
-#include "types.h"
-#include "maincpu.h"
-#include "drive.h"
-#include "parallel.h"
-#include "serial.h"
-#include "drive.h"
-#include "resources.h"
 #include "cmdline.h"
+#include "drive.h"
+#include "maincpu.h"
+#include "parallel.h"
+#include "resources.h"
+#include "serial.h"
+#include "types.h"
 
 /* globals */
 

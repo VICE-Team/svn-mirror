@@ -100,10 +100,10 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
+
 #ifdef GEMDOS			/* Atari ST */
 #define strchr index
 #else
@@ -111,7 +111,6 @@
 #endif
 #ifdef __riscos
 #include "ROlib.h"
-#endif
 #endif
 
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */

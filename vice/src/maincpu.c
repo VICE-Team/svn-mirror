@@ -2,7 +2,7 @@
  * maincpu.c - Emulation of the main 6510 processor.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,11 +26,7 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
-
-#include "maincpu.h"
 
 #include "6510core.h"
 #include "alarm.h"
@@ -39,6 +35,7 @@
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
 #include "snapshot.h"

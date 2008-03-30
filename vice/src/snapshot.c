@@ -2,7 +2,7 @@
  * snapshot.c - Implementation of machine snapshot files.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,16 +26,16 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #ifdef __IBMC__
 #include <direct.h>
 #endif
+
 #ifdef __riscos
 typedef int off_t;
-#endif
 #endif
 
 #ifdef HAVE_IO_H

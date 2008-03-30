@@ -2,7 +2,7 @@
  * tap.c - TAP file support.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "archdep.h"

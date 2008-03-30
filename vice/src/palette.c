@@ -2,7 +2,7 @@
  * palette.c - Palette handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,18 +26,17 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#endif
 
+#include "archdep.h"
 #include "log.h"
-#include "utils.h"
-#include "types.h"
 #include "palette.h"
 #include "sysfile.h"
+#include "types.h"
+#include "utils.h"
 
 palette_t *palette_create(int num_entries, const char *entry_names[])
 {
@@ -120,7 +119,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
     f = sysfile_open(file_name, &complete_path);
     if (f == NULL) {
         /* Try to add the extension.  */
-        char *tmp = concat(file_name, PALETTE_FILE_EXTENSION, NULL);
+        char *tmp = concat(file_name, FSDEV_EXT_SEP_STR "vpl", NULL);
 
         f = sysfile_open(tmp, &complete_path);
         free(tmp);

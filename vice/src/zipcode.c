@@ -2,7 +2,7 @@
  * zipcode.c - Support for zipcode files in VICE.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,9 +26,7 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
 #include "types.h"
 #include "zipcode.h"

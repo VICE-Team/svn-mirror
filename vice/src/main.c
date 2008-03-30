@@ -2,12 +2,13 @@
  * main.c - VICE startup.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen   (tvr@cs.hut.fi)
- *  Vesa-Matti Puro  (vmp@lut.fi)
- *  Jarkko Sonninen  (sonninen@lut.fi)
- *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Vesa-Matti Puro <vmp@lut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,12 +32,10 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#endif
 
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>

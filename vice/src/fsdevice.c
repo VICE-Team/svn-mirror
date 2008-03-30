@@ -2,15 +2,15 @@
  * fsdevice.c - File system device.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on old code by
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Jarkko Sonninen     <sonninen@lut.fi>
- *  Jouko Valta         <jopi@stekt.oulu.fi>
- *  Olaf Seibert        <rhialto@mbfys.kun.nl>
- *  André Fachat        <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli    <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -35,11 +35,11 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+
 #ifdef __riscos
 #include "ROlib.h"
 #include "ui.h"
@@ -50,7 +50,6 @@
 #include <direct.h>
 #endif
 #include <memory.h>
-#endif
 #endif
 
 #ifdef HAVE_ERRNO_H
@@ -481,7 +480,7 @@ static void flush_fs(void *flp, int secondary)
         }
     } else if (!strcmp(cmd, "md")) {
         er = IPE_OK;
-        if (mkdir(arg, /*S_IFDIR | */ 0770)) {
+        if (mkdir(arg, 0770)) {
             er = IPE_INVAL;
             if (errno == EEXIST)
                 er = IPE_FILE_EXISTS;
@@ -497,7 +496,7 @@ static void flush_fs(void *flp, int secondary)
             if (errno == EPERM)
                 er = IPE_PERMISSION;
         }
-    } else if (*cmd == 's') {
+    } else if (*cmd == 's' && arg != NULL) {
         er = IPE_DELETED;
         fd = fs_find_pc64_name(flp, realarg, strlen(realarg), name1);
             if (fd != NULL) {
@@ -517,7 +516,7 @@ static void flush_fs(void *flp, int secondary)
             if (errno == EPERM)
                 er = IPE_PERMISSION;
         }
-    } else if (*cmd == 'r') {
+    } else if (*cmd == 'r' && arg != NULL) {
         if ((arg2 = strchr(arg, '='))) {
             char name2long[MAXPATHLEN];
             er = IPE_OK;

@@ -2,9 +2,9 @@
  * traps.c - Allow VICE to replace ROM code with C function calls.
  *
  * Written by
- *   Teemu Rantanen (tvr@cs.hut.fi)
- *   Jarkko Sonninen (sonninen@lut.fi)
- *   Ettore Perazzoli (ettore@comm2000.it)
+ *   Teemu Rantanen <tvr@cs.hut.fi>
+ *   Jarkko Sonninen <sonninen@lut.fi>
+ *   Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,21 +28,18 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#endif
 
-#include "traps.h"
-
+#include "cmdline.h"
+#include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "interrupt.h"
 #include "parallel.h"
 #include "resources.h"
-#include "cmdline.h"
+#include "traps.h"
 #include "utils.h"
 
 typedef struct _traplist_t {

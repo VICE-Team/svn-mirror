@@ -31,15 +31,13 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <assert.h>
 #include <string.h>
-#endif
 
-#include "types.h"
 #include "mon.h"
 #include "mon_parse.h"
 #include "utils.h"
+#include "types.h"
 
 #define min(a,b) ((a) < (b) ? (a) : (b))
 

@@ -2,7 +2,7 @@
  * warn.c - General-purpose warning message handler.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,21 +26,18 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#endif
-
-#include <stdarg.h>
-
-#include "warn.h"
-#include "log.h"
-#include "utils.h"
 
 #ifdef __riscos
 #include "ROlib.h"
 #endif
+
+#include "log.h"
+#include "warn.h"
+#include "utils.h"
 
 struct warn_s
 {

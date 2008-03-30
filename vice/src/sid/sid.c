@@ -28,10 +28,9 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
-#endif
 
 /*#ifdef OS2
 #define FIXPOINT_ARITHMETIC
@@ -43,6 +42,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sid.h"
+#include "sound.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -530,7 +530,8 @@ char *sound_machine_dump_state(sound_t *psid)
     if (useresid)
 	return resid_sound_machine_dump_state(psid);
 #endif
-    sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n", clk, psid->vol, psid->has3);
+    sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n",
+            (long)clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
 	print_voice(buf + strlen(buf), &psid->v[i]);
     return stralloc(buf);

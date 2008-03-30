@@ -27,17 +27,17 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#endif
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 
 #include "gcr.h"
+#include "types.h"
 #include "utils.h"
 
 /* GCR handling.  */
@@ -108,23 +108,29 @@ void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
 }
 
 void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track, int sector,
-                           BYTE diskID1, BYTE diskID2)
+                           BYTE diskID1, BYTE diskID2, BYTE error_code)
 {
     int i;
-    BYTE buf[4];
+    BYTE buf[4], header_id1;
+
+    header_id1 = (error_code == 29) ? diskID1 ^ 0xff : diskID1;
 
     memset(ptr, 0xff, 5);	/* Sync */
     ptr += 5;
 
-    buf[0] = 0x08;		/* Header identifier */
-    buf[1] = sector ^ track ^ diskID2 ^ diskID1;
+    buf[0] = (error_code == 20) ? 0xff : 0x08;
+    buf[1] = sector ^ track ^ diskID2 ^ header_id1;
     buf[2] = sector;
     buf[3] = track;
+
+    if (error_code == 27)
+        buf[1] ^= 0xff;
+
     convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
     buf[0] = diskID2;
-    buf[1] = diskID1;
+    buf[1] = header_id1;
     buf[2] = buf[3] = 0x0f;
     convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;

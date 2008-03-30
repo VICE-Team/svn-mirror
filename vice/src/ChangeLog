@@ -1,3 +1,73 @@
+1999-10-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.15.
+
+	* gcr.c, gcr.h, drive/drive.c, diskimage.c: Implemented error
+	codes.
+
+	* serial.c (serialattention): Flush read ahead buffer on
+	UNLISTEN.
+
+	* fsdevice.c (flush_fs): Check if argument is present before
+	executing sratch or rename.
+
+	* vdrive/vdrive.c: Replaced "OK" by " OK".
+
+	* ciatimer.h, c128/z80.c, aciacore.c, pet/petsound.c,
+	vic20/vic20sound.c, riotcore.c, sid/sid.c, c64/reu.c,
+	ciatimer.c: Added missing casts.
+
+	* vicii/vicii-resources.h, vicii/vicii.c: Do not provide
+	double screen resource if VIC_II_NEED_2X is not defined.
+
+	* palette.c, palette.h: Removed special riscos defines, use
+	already existing arch defines instead.
+
+	* sid/sid.c: #include "sound.h".
+
+	* zipcode.h, tape.h, alarm.h, interrupt.h, mem.h, p00.h,
+	parallel.h, sysfile.h, utils.h: Fixed external includes.
+
+	* gcr.c, rsuser.h, emuid.h: #include "types.h".
+
+	* 6510core.c: Removed old debugging cruft.
+
+	* acia.h, keyboard.h: Protected against multiple inclusion.
+
+	* alarm.h, maincpu.h, piacore.h: Do not #include "vice.h".
+
+	* attach.h, cia.h, machine.h: Do not #include "types.h".
+
+	* ciatimer.h: #include "snapshot.h".
+
+	* arch/unix/types.h, arch/msdos/types.h, arch/riscos/types.h,
+	arch/os2/types.h: #include "vice.h".
+
+	* ciatimer.h: Do not #include "interrupt.h".
+
+	* drive/drive.c, vdrive/vdrive-iec.c, raster/raster.c,
+	crtc/crtc.c, sid/sid.c, vic20/vic.c, arch/unix/archdep.c,
+	arch/msdos/archdep.c, attach.c, clkguard.c, cmdline.c,
+	diskimage.c, gcr.c, kbdbuf.c, log.c, resources.c, romset.c,
+	serial.c, sound.c, sysfile.c, t64.c, tap.c, tape.c, utils.c:
+	#include <stdlib.h>.
+
+	* arch/win32/msvc/config.h, arch/riscos/config.h,
+	arch/os2/config.h, ciacore.h, tpicore.h, aciacore.c,
+	autostart.c, c1541.c, c64/c64.c, c64/c64cartmem.c,
+	c64/c64mem.c, c64/c64rsuser.c, c64/cartridge.c, c64/psid.c,
+	c64/patchrom.c, c64/reu.c, charsets.c, cmdline.c,
+	drive/drive.c, drive/riot1drive0.c, drive/riot1drive1.c,
+	drive/riot2drive0.c, drive/riot2drive1.c, findpath.c,
+	fsdevice.c, gcr.c, interrupt.c, kbdbuf.c, main.c, mon.c,
+	mon_lex.l, mon_parse.y, palette.c, parallel.c, pet/pet.c,
+	petcat.c, prdevice.c, pruser.c, resources.c, rsuser.c,
+	serial.c, sid/sid.c, snapshot.c, sounddrv/sounddummy.c,
+	sounddrv/sounddump.c, sounddrv/soundfs.c, maincpu.c,
+	sounddrv/soundmmos2.c, sounddrv/soundspeed.c,
+	sounddrv/soundwav.c, traps.c, vdc/vdc.c, vicii/vicii.c,
+	warn.c, zfile.c, zipcode.c: Removed `STDC_HEADERS'.
+
 1999-10-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.14.

@@ -32,15 +32,14 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #ifdef __riscos
 #include "ROlib.h"
-#endif
-#include <string.h>
-#include <stdarg.h>
-#include <ctype.h>
 #endif
 
 #ifdef HAVE_ERRNO_H

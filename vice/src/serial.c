@@ -2,8 +2,9 @@
  * serial.c - IEEE and serial device implementation.
  *
  * Written by
- *  Teemu Rantanen   (tvr@cs.hut.fi)
- *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Patches by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -45,10 +46,9 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
 #include <ctype.h>
-#endif
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "drive.h"
 #include "log.h"
@@ -206,6 +206,9 @@ void serialattention(void)
         || ((TrapSecondary & 0x0f) == 0x0f))) {
         st = serialcommand();
         SET_ST(st);
+        /* Flush serial read ahead buffer too.  */
+        p = &(serialdevices[TrapDevice & 0x0f]);
+        p->nextok[TrapSecondary & 0x0f] = 0;
     } else {
         switch (b & 0xf0) {
           case 0x20:

@@ -2,7 +2,7 @@
  * prdevice.c - Printer device.
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,21 +28,19 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#endif
 
-#include "resources.h"
-#include "cmdline.h"
-#include "vdrive.h"
 #include "charsets.h"
-#include "utils.h"
+#include "cmdline.h"
 #include "prdevice.h"
 #include "print.h"
+#include "resources.h"
 #include "serial.h"
+#include "utils.h"
+#include "vdrive.h"
 
 /*
  * At this time only one printer is supported and it is attached to

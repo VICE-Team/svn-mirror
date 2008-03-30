@@ -2,11 +2,11 @@
  * vicii.c - A cycle-exact event-driven MOS6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -54,10 +54,8 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stdio.h>
-#endif
 
 #ifdef __riscos
 #include "ROlib.h"
@@ -75,15 +73,13 @@
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
-#include "vsync.h"
-
+#include "vicii.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-draw.h"
 #include "vicii-sprites.h"
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
-
-#include "vicii.h"
+#include "vsync.h"
 
 
 
@@ -159,12 +155,14 @@ static void vic_ii_set_geometry(void)
 
   width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
   height = vic_ii.last_displayed_line - vic_ii.first_displayed_line;
+#ifdef VIC_II_NEED_2X
   if (vic_ii_resources.double_size_enabled)
     {
       width *= 2;
       height *= 2;
       raster_set_pixel_size (&vic_ii.raster, 2, 2);
     }
+#endif
 
   raster_set_geometry (&vic_ii.raster,
                        VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
@@ -190,7 +188,11 @@ init_raster (void)
   raster_modes_set_idle_mode (&raster->modes, VIC_II_IDLE_MODE);
   raster_set_exposure_handler (raster, vic_ii_exposure_handler);
   raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
+#ifdef VIC_II_NEED_2X
   raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+#else
+  raster_enable_double_scan (raster, 0);
+#endif
   raster_set_canvas_refresh(raster, 1);
 
   vic_ii_set_geometry();
@@ -381,10 +383,18 @@ vic_ii_init (void)
   vic_ii_update_memory_ptrs (0);
 
   vic_ii_draw_init ();
+#ifdef VIC_II_NEED_2X
   vic_ii_draw_set_double_size (vic_ii_resources.double_size_enabled);
+#else
+  vic_ii_draw_set_double_size (0);
+#endif
 
   vic_ii_sprites_init ();
+#ifdef VIC_II_NEED_2X
   vic_ii_sprites_set_double_size (vic_ii_resources.double_size_enabled);
+#else
+  vic_ii_sprites_set_double_size (0);
+#endif
 
   vic_ii.initialized = 1;
 
@@ -1376,7 +1386,11 @@ vic_ii_resize (void)
   if (!vic_ii.initialized)
     return;
 
+#ifdef VIC_II_NEED_2X
   if (vic_ii_resources.double_size_enabled)
+#else
+  if (0)
+#endif
     {
       if (vic_ii.raster.viewport.pixel_size.width == 1
           && vic_ii.raster.viewport.canvas != NULL) {

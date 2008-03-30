@@ -28,15 +28,13 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #ifdef __riscos
 #include "ROlib.h"
-#endif
-#include <ctype.h>
-#include <assert.h>
 #endif
 
 #ifdef HAVE_ERRNO_H

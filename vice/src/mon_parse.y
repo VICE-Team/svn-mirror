@@ -27,11 +27,11 @@
 
 %{
 #include "vice.h"
-#ifdef STDC_HEADERS
+
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
-#endif
+
 #include "asm.h"
 #include "machine.h"
 #include "mon.h"

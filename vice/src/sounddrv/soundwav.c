@@ -27,9 +27,7 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
 #include "sound.h"
 #include "utils.h"

@@ -2,7 +2,7 @@
  * pruser.c - Printer device for userport.
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,15 +26,13 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
-#include "types.h"
+#include "cmdline.h"
 #include "print.h"
 #include "pruser.h"
 #include "resources.h"
-#include "cmdline.h"
+#include "types.h"
 
 static BYTE value;		/* userport value */
 static int strobe;

@@ -30,13 +30,12 @@
 #ifndef __riscos
 #include "vice.h"
 
-#ifdef STDC_HEADERS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #ifdef __IBMC__
 #include <direct.h>
-#endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #endif
 
 #ifdef HAVE_IO_H

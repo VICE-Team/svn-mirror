@@ -2,8 +2,8 @@
  * vdc.c - A first attemt at a MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Markus Brenner (markus@brenner.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Markus Brenner <markus@brenner.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,6 +29,13 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 #include "alarm.h"
 #include "log.h"
 #include "machine.h"
@@ -36,22 +43,11 @@
 #include "palette.h"
 #include "snapshot.h"
 #include "utils.h"
-
+#include "vdc.h"
 #include "vdc-cmdline-options.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
 #include "vdc-snapshot.h"
-
-#include "vdc.h"
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stdio.h>
-#endif
-
-#ifdef __riscos
-#include "ROlib.h"
-#endif
 
 
 
