@@ -69,7 +69,7 @@ static int set_model_name(resource_value_t v)
 {
     char *name = (char *)v;
 
-    if (pet_set_model(name) < 0) {
+    if (pet_set_model(name, NULL) < 0) {
         fprintf(stderr, "Invalid PET model `%s'.\n", name);
         return -1;
     }
@@ -78,6 +78,7 @@ static int set_model_name(resource_value_t v)
     return 0;
 }
 
+/*
 static resource_t resources[] = {
     { "Model", RES_STRING, (resource_value_t) "8032",
       (resource_value_t *) &model_name, set_model_name },
@@ -89,6 +90,7 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify PET model name" },
     { NULL }
 };
+*/
 
 /* ------------------------------------------------------------------------ */
 
@@ -96,8 +98,10 @@ static cmdline_option_t cmdline_options[] = {
    the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
+#if 0
     if (resources_register(resources) < 0)
         return -1;
+#endif
 
     if (vsync_init_resources() < 0
         || video_init_resources() < 0
@@ -110,11 +114,13 @@ int machine_init_resources(void)
     return 0;
 }
 
-/* C64-specific command-line option initialization.  */
+/* PET-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
+#if 0
     if (cmdline_register_options(cmdline_options) < 0)
         return -1;
+#endif
 
     if (vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
