@@ -94,6 +94,7 @@ static void exit64(void);
 #endif
 
 int psid_mode = 0;
+int console_mode = 0;
 static int init_done;
 
 /* ------------------------------------------------------------------------- */
@@ -123,6 +124,12 @@ static int cmdline_autostart(const char *param, void *extra_param)
     if (autostart_string != NULL)
         free(autostart_string);
     autostart_string = stralloc(param);
+    return 0;
+}
+
+static int cmdline_console(const char *param, void *extra_param)
+{
+    console_mode = 1;
     return 0;
 }
 
@@ -171,6 +178,8 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
+    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
+      NULL, "Console mode (for playing music)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
@@ -444,7 +453,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
-    if (ui_init_finish() < 0)
+    if (!console_mode && ui_init_finish() < 0)
         return -1;
 
     archdep_setup_signals(do_core_dumps);
@@ -458,10 +467,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
 	/* FIXME: Find a way respecting command line arguments for
 	   sound while discarding all other arguments. */
-        resources_get_value("PSIDTune",
-                            (resource_value_t)&tune);
 	resources_set_defaults();
-	resources_set_value("PSIDTune", (resource_value_t)tune);
 
 	resources_set_value("Sound", (resource_value_t)1);
 #ifdef HAVE_RESID
@@ -472,7 +478,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 	resources_set_value("SoundSampleRate", (resource_value_t)44100);
 	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
 	
-	if (video_init() < 0)
+	if (!console_mode && video_init() < 0)
 	    return -1;
 
 	if (machine_init() < 0) {

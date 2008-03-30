@@ -70,27 +70,16 @@ typedef struct psid {
 static psid_t* psid = NULL;
 static int psid_tune = 0;
 
-static int set_psid_tune(resource_value_t v)
+static int cmdline_psid_tune(const char *param, void *extra_param)
 {
-  psid_tune = (int)v;
+  psid_tune = atoi(param);
   return 0;
-}
-
-static resource_t resources[] = {
-    { "PSIDTune", RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&psid_tune, set_psid_tune },
-    { NULL }
-};
-
-int psid_init_resources(void)
-{
-    return resources_register(resources);
 }
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-tune", SET_RESOURCE, 1, NULL, NULL, "PSIDTune", NULL,
-      "<number>", "Specify PSID tune number" },
+    { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
+      "<number>", "Specify PSID tune <number>" },
     { NULL }
 };
 

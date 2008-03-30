@@ -34,6 +34,7 @@ extern "C" {
 
 #include "vice.h"
 #include "sid.h"
+#include "log.h"
 #include "warn.h"
 #include "utils.h"
 
@@ -68,12 +69,12 @@ sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
     if (model == 0)
     {
 	psid->sid.set_chip_model(MOS6581);
-	warn(pwarn, -1, "using reSID MOS6581 emulation");
+	log_message(LOG_DEFAULT, "reSID: Using MOS6581 emulation");
     }
     else
     {
 	psid->sid.set_chip_model(MOS8580);
-	warn(pwarn, -1, "using reSID MOS8580 emulation");
+	log_message(LOG_DEFAULT, "reSID: Using MOS8580 emulation");
     }
     for (i = 0x00; i <= 0x18; i++) {
 	psid->sid.write(i, siddata[i]);
@@ -147,7 +148,7 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 
 void resid_sound_machine_init(void)
 {
-    pwarn = warn_init("RESID", 128);
+    pwarn = warn_init("reSID", 128);
 }
 
 void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)

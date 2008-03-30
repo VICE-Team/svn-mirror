@@ -194,7 +194,6 @@ int machine_init_resources(void)
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
         || cartridge_init_resources() < 0
-        || psid_init_resources() < 0
         )
         return -1;
 
@@ -256,6 +255,10 @@ int machine_init(void)
 	ciat_init_table();
 	cia1_init();
 	cia2_init();
+
+	/* Initialize the monitor.  */
+	monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
+		     &drive1_monitor_interface);
 
 	/* Initialize vsync and register our hook function.  */
 	vsync_init(C64_PAL_RFSH_PER_SEC, C64_PAL_CYCLES_PER_SEC, vsync_hook);

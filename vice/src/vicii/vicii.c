@@ -1273,7 +1273,7 @@ vic_ii_load_palette (const char *name)
   if (palette == NULL)
     return -1;
 
-  if (palette_load (name, palette) < 0)
+  if (!console_mode && !psid_mode && palette_load (name, palette) < 0)
     {
       log_message (vic_ii.log, "Cannot load palette file `%s'.", name);
       return -1;

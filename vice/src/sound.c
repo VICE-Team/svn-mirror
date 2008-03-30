@@ -253,7 +253,7 @@ static int closesound(const char *msg)
 {
     if (snddata.pdev)
     {
-	warn(snddata.pwarn, -1, "closing device `%s'", snddata.pdev->name);
+	log_message(LOG_DEFAULT, "SOUND: Closing device `%s'", snddata.pdev->name);
 	if (snddata.pdev->close)
 	    snddata.pdev->close(snddata.pwarndev);
 	snddata.pdev = NULL;
@@ -370,8 +370,8 @@ static int initsid(void)
 	    snddata.fragnr = fragnr;
 	    snddata.bufsize = fragsize*fragnr;
 	    snddata.bufptr = 0;
-	    warn(snddata.pwarn, -1,
-		 "opened device `%s' speed %dHz fragsize %.3fs bufsize %.3fs",
+	    log_message(LOG_DEFAULT,
+		 "SOUND: Opened device `%s' speed %dHz fragsize %.3fs bufsize %.3fs",
 		 pdev->name, speed, (double)fragsize / speed,
 		 (double)snddata.bufsize / speed);
 	    sample_rate = speed;
@@ -387,7 +387,7 @@ static int initsid(void)
 	    if (snddata.oversamplenr > 1)
 	    {
 		snddata.clkstep /= snddata.oversamplenr;
-		warn(snddata.pwarn, -1, "using %dx oversampling",
+		log_message(LOG_DEFAULT, "SOUND: Using %dx oversampling",
 		     snddata.oversamplenr);
 	    }
 	    snddata.origclkstep = snddata.clkstep;

@@ -1072,6 +1072,11 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
     addr &= 0x1f;
     siddata[addr] = byte;
     /*fprintf(logfile, "%x %x\n", addr, byte);*/
+
+    if (psid_mode && addr > 0x1c) {
+      warn(pwarn, 11, "program uses PSID registers (not supported)");
+    }
+
     machine_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
     {

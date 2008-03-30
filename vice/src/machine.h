@@ -44,6 +44,7 @@ extern const char machine_name[];
 
 extern int machine_class;
 extern int psid_mode;
+extern int console_mode;
 
 /* Initialize the machine's resources.  */
 int machine_init_resources(void);
