@@ -46,7 +46,6 @@
 #include "raster-modes.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "snapshot.h"
 #include "ted-cmdline-options.h"
 #include "ted-color.h"
 #include "ted-draw.h"
@@ -406,20 +405,6 @@ static void ted_exposure_handler(unsigned int width, unsigned int height)
     ted.raster.canvas->draw_buffer->canvas_width = width;
     ted.raster.canvas->draw_buffer->canvas_height = height;
     video_viewport_resize(ted.raster.canvas);
-}
-
-/* Make sure all the TED alarms are removed.  This just makes it easier to
-   write functions for loading snapshot modules in other video chips without
-   caring that the TED alarms are dispatched when they really shouldn't
-   be.  */
-void ted_prepare_for_snapshot(void)
-{
-    ted.fetch_clk = CLOCK_MAX;
-    alarm_unset(ted.raster_fetch_alarm);
-    ted.draw_clk = CLOCK_MAX;
-    alarm_unset(ted.raster_draw_alarm);
-    ted.raster_irq_clk = CLOCK_MAX;
-    alarm_unset(ted.raster_irq_alarm);
 }
 
 #if 0

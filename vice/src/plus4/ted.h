@@ -40,7 +40,6 @@ extern struct raster_s *ted_init(void);
 extern struct video_canvas_s *ted_get_canvas(void);
 
 extern void ted_reset(void);
-extern void ted_prepare_for_snapshot(void);
 extern void ted_powerup(void);
 extern void ted_reset_registers(void);
 extern void ted_handle_pending_alarms(int num_write_cycles);
@@ -49,6 +48,7 @@ extern void ted_async_refresh(struct canvas_refresh_s *r);
 extern void ted_shutdown(void);
 extern void ted_change_timing(void);
 
+extern void ted_snapshot_prepare(void);
 extern int ted_snapshot_write_module(struct snapshot_s *s);
 extern int ted_snapshot_read_module(struct snapshot_s *s);
 

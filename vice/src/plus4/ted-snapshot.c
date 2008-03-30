@@ -42,6 +42,22 @@
 #include "tedtypes.h"
 #include "types.h"
 
+
+/* Make sure all the TED alarms are removed.  This just makes it easier to
+   write functions for loading snapshot modules in other video chips without
+   caring that the TED alarms are dispatched when they really shouldn't
+   be.  */
+
+void ted_snapshot_prepare(void)
+{
+    ted.fetch_clk = CLOCK_MAX;
+    alarm_unset(ted.raster_fetch_alarm);
+    ted.draw_clk = CLOCK_MAX;
+    alarm_unset(ted.raster_draw_alarm);
+    ted.raster_irq_clk = CLOCK_MAX;
+    alarm_unset(ted.raster_irq_alarm);
+}
+
 /*
 
    This is the format of the VIC-II snapshot module.
