@@ -33,8 +33,7 @@
 
 #include "lib.h"
 #include "vsync.h"         // vsync_suspend_speed_eval
-#include "machine.h"       // machine_powerup
-#include "interrupt.h"     // maincpu_trigger_reset
+#include "machine.h"
 
 ULONG ResetDialog(HWND hwnd, char *text)
 {
@@ -70,7 +69,7 @@ void hardreset_dialog(HWND hwnd)
         return;
 
     vsync_suspend_speed_eval();
-    machine_powerup();  // Hard_reset;
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
 void softreset_dialog(HWND hwnd)
@@ -79,6 +78,6 @@ void softreset_dialog(HWND hwnd)
         return;
 
     vsync_suspend_speed_eval();
-    maincpu_trigger_reset();  // Soft Reset
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 }
 

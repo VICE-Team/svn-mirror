@@ -601,7 +601,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
-    machine_powerup();	/* "Turn off machine before inserting cartridge" */
+    
+    /* "Turn off machine before inserting cartridge" */
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     return;
 }
 
@@ -617,7 +619,8 @@ void cartridge_detach(int type)
     }
     cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
-    machine_powerup();	/* "Turn off machine before removeing cartridge" */
+    /* "Turn off machine before removeing cartridge" */
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     return;
 }
 
