@@ -106,19 +106,19 @@ extern int cur_len, last_len;
 %}
 
 %union {
-        MON_ADDR a;
-        int i;
-        REG_ID reg;
-        CONDITIONAL cond_op;
-        cond_node_t *cond_node;
-        RADIXTYPE rt;
-        ACTION action;
-        char *str;
+    MON_ADDR a;
+    int i;
+    REG_ID reg;
+    CONDITIONAL cond_op;
+    cond_node_t *cond_node;
+    RADIXTYPE rt;
+    ACTION action;
+    char *str;
 }
 
 %token<i> H_NUMBER D_NUMBER O_NUMBER B_NUMBER CONVERT_OP B_DATA
 %token<str> D_NUMBER_GUESS O_NUMBER_GUESS B_NUMBER_GUESS
-%token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 CMD_SEP REG_ASGN_SEP EQUALS
+%token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 MEM_DISK10 MEM_DISK11 CMD_SEP REG_ASGN_SEP EQUALS
 %token<i> CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token<i> CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
 %token<i> CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
@@ -474,6 +474,8 @@ opt_memspace: memspace { $$ = $1; }
 memspace: MEM_COMP { $$ = e_comp_space; }
         | MEM_DISK8 { $$ = e_disk8_space; }
         | MEM_DISK9 { $$ = e_disk9_space; }
+        | MEM_DISK10 { $$ = e_disk10_space; }
+        | MEM_DISK11 { $$ = e_disk11_space; }
         ;
 
 cputype : CPUTYPE_6502 { $$ = CPU_6502; }
