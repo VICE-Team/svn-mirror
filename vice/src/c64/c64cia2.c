@@ -27,7 +27,23 @@
  * */
 
 
+#include "vice.h"
+
 #include "ciacore.h"
+
+#include "c64mem.h"
+#include "c64iec.h"
+#include "c64cia.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "iecdrive.h"
+#include "pruser.h"
+#include "types.h"
+#include "vicii.h"
+
+#ifdef HAVE_RS232
+#include "rsuser.h"
+#endif
 
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
@@ -55,9 +71,8 @@
  * CPU binding
  */
 
-#include "maincpu.h"
-
 #include "interrupt.h"
+#include "maincpu.h"
 
 #define MYCIA_INT       IK_NMI
 
@@ -79,22 +94,6 @@
 /*************************************************************************
  * I/O
  */
-
-#include "vice.h"
-
-#include "c64mem.h"
-#include "c64iec.h"
-#include "c64cia.h"
-#include "drive.h"
-#include "drivecpu.h"
-#include "iecdrive.h"
-#include "pruser.h"
-#include "types.h"
-#include "vicii.h"
-
-#ifdef HAVE_RS232
-#include "rsuser.h"
-#endif
 
 /* Pointer to the IEC structure.  */
 static iec_info_t *iec_info;

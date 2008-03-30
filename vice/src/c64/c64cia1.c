@@ -26,7 +26,19 @@
  *  02111-1307  USA.
  * */
 
+#include "vice.h"
+
 #include "ciacore.h"
+
+#include "c64cia.h"
+#include "kbd.h"
+#include "keyboard.h"
+#include "types.h"
+#include "vicii.h"
+
+#ifdef HAVE_RS232
+#include "rsuser.h"
+#endif
 
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
@@ -54,9 +66,8 @@
  * CPU binding 
  */
 
-#include "maincpu.h"
-
 #include "interrupt.h"
+#include "maincpu.h"
 
 #define	MYCIA_INT	IK_IRQ
 
@@ -75,18 +86,6 @@
 /*************************************************************************
  * I/O 
  */
-
-#include "vice.h"
-
-#include "c64cia.h"
-#include "kbd.h"
-#include "keyboard.h"
-#include "types.h"
-#include "vicii.h"
-
-#ifdef HAVE_RS232
-#include "rsuser.h"
-#endif
 
 /* Flag: Are the 3 C128 extended rows enabled?  */
 static int extended_keyboard_rows_enabled;

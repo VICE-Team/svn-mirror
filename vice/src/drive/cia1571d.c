@@ -25,14 +25,13 @@
  *  02111-1307  USA.
  * */
 
+#include "vice.h"
+
 struct drive_context_s;
 #define CIA_SHARED_CODE
 #define CIACONTEXT struct drive_context_s
 
 #include "ciacore.h"
-
-/* set mycia_debugFlag to 1 to get output */
-#undef CIA_TIMER_DEBUG
 
 #include "ciad.h"
 #include "drive.h"
@@ -42,6 +41,8 @@ struct drive_context_s;
 #include "interrupt.h"
 #include "types.h"
 
+/* set mycia_debugFlag to 1 to get output */
+#undef CIA_TIMER_DEBUG
 
 /*************************************************************************
  * Renaming exported functions

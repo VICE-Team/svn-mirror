@@ -24,7 +24,18 @@
  *  02111-1307  USA.
  * */
 
+#include "vice.h"
+
 #include "ciacore.h"
+
+#include "c610cia.h"
+#include "c610tpi.h"
+#include "drive.h"
+#include "kbd.h"
+#include "keyboard.h"
+#include "parallel.h"
+#include "pruser.h"
+#include "types.h"
 
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
@@ -73,15 +84,6 @@
  */
 
 #define	cycles_per_sec		     machine_get_cycles_per_second()
-
-#include "c610cia.h"
-#include "c610tpi.h"
-#include "drive.h"
-#include "kbd.h"
-#include "keyboard.h"
-#include "parallel.h"
-#include "pruser.h"
-#include "types.h"
 
 #define	PRE_STORE_CIA
 #define	PRE_READ_CIA
