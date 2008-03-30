@@ -62,7 +62,7 @@ static keyconv c64_keyboard[256] = {
     { 5, 6, 0 },		/*            [ -> @            */
     { 6, 1, 0 },		/*            ] -> *            */
     { 0, 1, 0 },		/*       Return -> Return       */
-    { 7, 2, 0 },		/*    Left Ctrl -> Ctrl         */
+    { 7, 5, 0 },		/*    Left Ctrl -> CBM          */
     { 1, 2, 0 },		/*            A -> A            */
     { 1, 5, 0 },		/*            S -> S            */
     { 2, 2, 0 },		/*            D -> D            */
@@ -89,7 +89,7 @@ static keyconv c64_keyboard[256] = {
     { 6, 7, 0 },		/*            / -> /            */
     { 6, 4, 0 },		/*  Right Shift -> Right Shift  */
     { 6, 1, 0 },		/*       Grey * -> *            */
-    { 7, 5, 0 },		/*     Left Alt -> CBM key      */
+    { -1, -1, 0 },		/*     Left Alt -> (no key)     */
     { 7, 4, 0 },		/*        Space -> Space        */
     { 7, 7, 0 },		/*    Caps Lock -> Run/Stop     */
     { 0, 4, 0 },		/*           F1 -> F1           */
