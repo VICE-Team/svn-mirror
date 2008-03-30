@@ -27,8 +27,10 @@
 #ifndef _JOBCODE1581_H
 #define _JOBCODE1581_H
 
+struct drive_context_s;
+
 extern void jobcode1581_init(void);
-extern void jobcode1581_handle_job_code(unsigned int dnr);
+extern void jobcode1581_handle_job_code(struct drive_context_s *drv);
 
 #endif
 

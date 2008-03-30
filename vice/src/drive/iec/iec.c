@@ -131,7 +131,7 @@ void iec_drive_vsync_hook(void)
 
 void iec_drive_handle_job_code(unsigned int dnr)
 {
-    jobcode1581_handle_job_code(dnr);
+    jobcode1581_handle_job_code(drive_context[dnr]);
 }
 
 void iec_drive_rom_load(void)
@@ -146,7 +146,7 @@ void iec_drive_rom_load(void)
 
 void iec_drive_rom_setup_image(unsigned int dnr)
 {
-    iecrom_setup_image(dnr);
+    iecrom_setup_image(drive_context[dnr]->drive);
 }
 
 int iec_drive_rom_read(unsigned int type, WORD addr, BYTE *data)
@@ -161,29 +161,29 @@ int iec_drive_rom_check_loaded(unsigned int type)
 
 void iec_drive_rom_do_checksum(unsigned int dnr)
 {
-    iecrom_do_checksum(dnr);
+    iecrom_do_checksum(drive_context[dnr]->drive);
 }
 
 int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
                             struct snapshot_s *s)
 {
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1570
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1541
+        || ctxptr->drive->type == DRIVE_TYPE_1541II
+        || ctxptr->drive->type == DRIVE_TYPE_1570
+        || ctxptr->drive->type == DRIVE_TYPE_1571
+        || ctxptr->drive->type == DRIVE_TYPE_1571CR) {
         if (viacore_snapshot_read_module(ctxptr->via1d1541, s) < 0)
             return -1;
     }
 
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1570
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1570
+        || ctxptr->drive->type == DRIVE_TYPE_1571
+        || ctxptr->drive->type == DRIVE_TYPE_1571CR) {
         if (ciacore_snapshot_read_module(ctxptr->cia1571, s) < 0)
             return -1;
     }
 
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1581) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1581) {
         if (ciacore_snapshot_read_module(ctxptr->cia1581, s) < 0)
             return -1;
     }
@@ -194,23 +194,23 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
 int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1570
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1541
+        || ctxptr->drive->type == DRIVE_TYPE_1541II
+        || ctxptr->drive->type == DRIVE_TYPE_1570
+        || ctxptr->drive->type == DRIVE_TYPE_1571
+        || ctxptr->drive->type == DRIVE_TYPE_1571CR) {
         if (viacore_snapshot_write_module(ctxptr->via1d1541, s) < 0)
             return -1;
     }
 
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1570
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
-        || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1570
+        || ctxptr->drive->type == DRIVE_TYPE_1571
+        || ctxptr->drive->type == DRIVE_TYPE_1571CR) {
         if (ciacore_snapshot_write_module(ctxptr->cia1571, s) < 0)
             return -1;
     }
 
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1581) {
+    if (ctxptr->drive->type == DRIVE_TYPE_1581) {
         if (ciacore_snapshot_write_module(ctxptr->cia1581, s) < 0)
             return -1;
     }

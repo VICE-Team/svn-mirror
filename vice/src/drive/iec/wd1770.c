@@ -384,6 +384,10 @@ static void wd1770_reset(unsigned int dnr)
 
 static void wd1770_update_track_register(BYTE command, int dnr)
 {
+    drive_t *drive;
+
+    drive = drive_context[dnr]->drive;
+
     if (command & 0x10)
         wd1770[dnr].reg[WD1770_TRACK] = wd1770[dnr].track;
 
@@ -763,6 +767,10 @@ static WORD crc_calculate(BYTE *start, BYTE *end)
 
 static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
 {
+    drive_t *drive;
+
+    drive = drive_context[dnr]->drive;
+
 #ifdef WD_DEBUG
     log_debug("C:READ ADDRESS");
 #endif
@@ -848,23 +856,21 @@ static void wd1770_command_writetrack(BYTE command, unsigned int dnr)
 
 void wd1770_vsync_hook(void)
 {
-    if (drive[0].type == DRIVE_TYPE_1581) {
-        if (wd1770[0].led_delay_clk != (CLOCK)0)
-            if (drive_clk[0] - wd1770[0].led_delay_clk > 1000000)
-                wd1770[0].led_delay_clk = (CLOCK)0;
-        /*drive[0].led_status = (wd1770[0].led_delay_clk == (CLOCK)0) ? 0 : 1;*/
-        wd1770[0].index_count++;
-        if (wd1770[0].index_count > 10)
-            wd1770[0].index_count = 0;
-    }
-    if (drive[1].type == DRIVE_TYPE_1581) {
-        if (wd1770[1].led_delay_clk != (CLOCK)0)
-            if (drive_clk[1] - wd1770[1].led_delay_clk > 1000000)
-                wd1770[1].led_delay_clk = (CLOCK)0;
-        /*drive[1].led_status = (wd1770[1].led_delay_clk == (CLOCK)0) ? 0 : 1;*/
-        wd1770[1].index_count++;
-        if (wd1770[1].index_count > 10)
-            wd1770[1].index_count = 0;
+    unsigned int dnr;
+    drive_t *drive;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
+        if (drive->type == DRIVE_TYPE_1581) {
+            if (wd1770[dnr].led_delay_clk != (CLOCK)0)
+                if (drive_clk[dnr] - wd1770[dnr].led_delay_clk > 1000000)
+                    wd1770[dnr].led_delay_clk = (CLOCK)0;
+/*drive[0].led_status = (wd1770[dnr].led_delay_clk == (CLOCK)0) ? 0 : 1;*/
+            wd1770[dnr].index_count++;
+            if (wd1770[dnr].index_count > 10)
+                wd1770[dnr].index_count = 0;
+        }
     }
 }
 

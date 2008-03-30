@@ -31,6 +31,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "jobcode1581.h"
 #include "log.h"
 #include "types.h"
@@ -376,22 +377,22 @@ static int jobcode_format(unsigned int dnr)
     return OK_DV;
 }
 
-void jobcode1581_handle_job_code(unsigned int dnr)
+void jobcode1581_handle_job_code(drive_context_t *drv)
 {
     unsigned int buffer;
     BYTE command, track, sector;
     BYTE rcode = 0;
+    drive_t *drive;
+    unsigned int dnr;
+
+    drive = drv->drive;
+    dnr = drive->mynumber;
 
     for (buffer = 0; buffer <= 8; buffer++) {
-        if (dnr == 0) {
-            command = drive_read(&drive0_context, (WORD)(0x02 + buffer));
-            track = drive_read(&drive0_context, (WORD)(0x0b + (buffer << 1)));
-            sector = drive_read(&drive0_context, (WORD)(0x0c + (buffer << 1)));
-        } else {
-            command = drive_read(&drive1_context, (WORD)(0x02 + buffer));
-            track = drive_read(&drive1_context, (WORD)(0x0b + (buffer << 1)));
-            sector = drive_read(&drive1_context, (WORD)(0x0c + (buffer << 1)));
-        }
+        command = drive_read(drv, (WORD)(0x02 + buffer));
+        track = drive_read(drv, (WORD)(0x0b + (buffer << 1)));
+        sector = drive_read(drv, (WORD)(0x0c + (buffer << 1)));
+
         if (command & 0x80) {
 #ifdef JOBCODE1581_DEBUG
             log_debug("JOBCODE1581 C:%x T:%i S:%i B:%i",
@@ -400,7 +401,7 @@ void jobcode1581_handle_job_code(unsigned int dnr)
             if ((wd1770[dnr].image != NULL
                 && wd1770[dnr].image->type == DISK_IMAGE_TYPE_D81)
                 /*|| command == DISKIN_DV*/) {
-                drive[dnr].current_half_track = track * 2;
+                drive->current_half_track = track * 2;
                 switch (command) {
                   case READ_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
@@ -459,10 +460,7 @@ void jobcode1581_handle_job_code(unsigned int dnr)
             } else
                 rcode = MISHD_DV_ER;
 
-            if (dnr == 0)
-                drive_store(&drive0_context, (WORD)(2 + buffer), rcode);
-            else
-                drive_store(&drive1_context, (WORD)(2 + buffer), rcode);
+            drive_store(drv, (WORD)(2 + buffer), rcode);
         }
     }
 }
