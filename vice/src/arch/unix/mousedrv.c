@@ -31,7 +31,6 @@
 
 #include <stdio.h>
 
-#include "keyboard.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "log.h"
@@ -69,14 +68,12 @@ void mousedrv_init(void)
 
 void mouse_button(int bnumber, int state)
 {
-    if (bnumber == 1 && state)
-        joystick_value[1] |= 16;
-    else if (bnumber == 1)
-        joystick_value[1] &= ~16;
-    /*    if (bnumber == 2 && state)
-        joystick_value[1] |= 1;
-    else if (bnumber == 2)
-    joystick_value[1] &= ~1;*/
+    if (bnumber == 1)
+        mouse_button_left(state);
+/*
+    if (bnumber == 2)
+        mouse_button_right(state);
+*/
 }
 
 BYTE mousedrv_get_x(void)
@@ -84,15 +81,15 @@ BYTE mousedrv_get_x(void)
     static int last_mouse_x=0;
 
     if (last_mouse_x - mouse_x > 16) {
-      last_mouse_x -= 16;
-      return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
+        last_mouse_x -= 16;
+        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
     }
     if (last_mouse_x - mouse_x < -16) {
-      last_mouse_x += 16;
-      return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
+        last_mouse_x += 16;
+        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
     }
     last_mouse_x = mouse_x;
-    return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
+    return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
@@ -100,21 +97,22 @@ BYTE mousedrv_get_y(void)
     static int last_mouse_y=0;
 
     if (last_mouse_y - mouse_y > 16) {
-      last_mouse_y -= 16;
-      return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
+        last_mouse_y -= 16;
+        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
     }
     if (last_mouse_y - mouse_y < -16) {
-      last_mouse_y += 16;
-      return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
+        last_mouse_y += 16;
+        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
     }
     last_mouse_y = mouse_y;
-    return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
+    return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
 }
 
 void mouse_move(int x, int y)
 {
 
-    if (!_mouse_enabled) return;
+    if (!_mouse_enabled)
+        return;
 
     mouse_x = x;
     mouse_y = 256 - y;

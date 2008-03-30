@@ -30,18 +30,13 @@
 #include <dinput.h>
 #include <stdio.h>
 
-#include "cmdline.h"
-#include "joystick.h"
-#include "keyboard.h"
 #include "log.h"
 #include "mouse.h"
 #include "mousedrv.h"
-#include "resources.h"
 #include "types.h"
 #include "ui.h"
 
 
-int _mouse_port;
 int _mouse_x, _mouse_y;
 static int mouse_acquired=0;
 LPDIRECTINPUTDEVICE di_mouse = NULL;
@@ -88,40 +83,12 @@ void mousedrv_mouse_changed(void)
     mouse_update_mouse_acquire();
 }
 
-static int set_mouse_port(resource_value_t v, void *param)
-{
-    _mouse_port = (int) v;
-
-    if (_mouse_port < 1)
-        _mouse_port = 1;
-    if (_mouse_port > 2)
-        _mouse_port = 2;
-
-    return 0;
-}
-
-static const resource_t resources[] = {
-    { "Mouseport", RES_INTEGER, (resource_value_t)1,
-      (void *)&_mouse_port, set_mouse_port, NULL },
-    { NULL }
-};
-
 int mousedrv_resources_init(void)
 {
-    return resources_register(resources);
 }
-
-/* ------------------------------------------------------------------------- */
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
-      "Mouseport", NULL, "<value>", "Select the port the mouse is attached to" },
-    { NULL }
-};
 
 int mousedrv_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -160,16 +127,9 @@ void mouse_update_mouse(void)
 
     _mouse_x += state.X;
     _mouse_y += state.Y;
-    if (state.LeftButton & 0x80) {
-        joystick_set_value_or(_mouse_port, 16);
-    } else {
-        joystick_set_value_and(_mouse_port, ~16);
-    }
-    if (state.RightButton & 0x80) {
-        joystick_set_value_or(_mouse_port, 1);
-    } else {
-        joystick_set_value_and(_mouse_port, ~1);
-    }
+
+    mouse_button_left((int)(state.LeftButton & 0x80));
+    mouse_button_right((int)(state.RightButton & 0x80));
 }
 
 void mousedrv_init(void)
