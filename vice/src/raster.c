@@ -744,7 +744,8 @@ inline static void handle_blank_line(void)
 	    vid_memcpy((FRAME_BUFFER_LINE_START(frame_buffer, 2*rasterline + 1)
 			+ 2 * SCREEN_MAX_SPRITE_WIDTH),
 	               frame_buffer_ptr, pixel_width * SCREEN_WIDTH);
-    } else if (dont_cache
+    } else if (CANVAS_USES_TRIPLE_BUFFERING(canvas)
+               || dont_cache
 	       || cache[rasterline].is_dirty
 	       || border_color != cache[rasterline].border_color
 	       || !cache[rasterline].blank) {
@@ -995,8 +996,8 @@ inline static void handle_visible_line_without_cache()
 
     draw_borders();
 
-    /* Still do some minimal caching anyway.  */
-    if (dont_cache
+    if (CANVAS_USES_TRIPLE_BUFFERING(canvas)
+        || dont_cache
 	|| dma_msk
 	|| cache[rasterline].is_dirty
 	|| cache[rasterline].blank
@@ -1020,6 +1021,7 @@ inline static void handle_visible_line_without_cache()
 
     } else {
 
+        /* Still do some minimal caching anyway.  */
 	/* Only update the part between the borders.  */
 	add_line(rasterline,
 		 SCREEN_BORDERWIDTH,
@@ -1144,7 +1146,8 @@ inline static void handle_visible_line(void)
 {
     if (have_changes_on_this_line)
 	handle_visible_line_with_changes();
-    else if (video_cache_enabled
+    else if (!CANVAS_USES_TRIPLE_BUFFERING(canvas)
+             && video_cache_enabled
 	     && !open_left_border
 	     && !open_right_border) /* FIXME: shortcut! */
 	handle_visible_line_with_cache();
