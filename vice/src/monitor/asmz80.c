@@ -27,6 +27,8 @@
 #include "vice.h"
 
 #include "asm.h"
+#include "mon_assemble.h"
+#include "mon_register.h"
 #include "types.h"
 
 static int addr_mode_size[] = {
@@ -45,8 +47,8 @@ static int addr_mode_size[] = {
     2, /* ASM_ADDR_MODE_RELATIVE */
     3, /* ASM_ADDR_MODE_ABSOLUTE_A */
     3, /* ASM_ADDR_MODE_ABSOLUTE_HL */
-    4, /* ASM_ADDR_MODE_ABSOLUTE_IX */
-    4, /* ASM_ADDR_MODE_ABSOLUTE_IY */
+    3, /* ASM_ADDR_MODE_ABSOLUTE_IX */
+    3, /* ASM_ADDR_MODE_ABSOLUTE_IY */
     2, /* ASM_ADDR_MODE_ABS_INDIRECT_ZP */
     3, /* ASM_ADDR_MODE_IMMEDIATE_16 */
     1, /* ASM_ADDR_MODE_REG_B */
@@ -54,23 +56,23 @@ static int addr_mode_size[] = {
     1, /* ASM_ADDR_MODE_REG_D */
     1, /* ASM_ADDR_MODE_REG_E */
     1, /* ASM_ADDR_MODE_REG_H */
-    2, /* ASM_ADDR_MODE_REG_IXH */
-    2, /* ASM_ADDR_MODE_REG_IYH */
+    1, /* ASM_ADDR_MODE_REG_IXH */
+    1, /* ASM_ADDR_MODE_REG_IYH */
     1, /* ASM_ADDR_MODE_REG_L */
-    2, /* ASM_ADDR_MODE_REG_IXL */
-    2, /* ASM_ADDR_MODE_REG_IYL */
+    1, /* ASM_ADDR_MODE_REG_IXL */
+    1, /* ASM_ADDR_MODE_REG_IYL */
     1, /* ASM_ADDR_MODE_REG_AF */
     1, /* ASM_ADDR_MODE_REG_BC */
     1, /* ASM_ADDR_MODE_REG_DE */
     1, /* ASM_ADDR_MODE_REG_HL */
-    2, /* ASM_ADDR_MODE_REG_IX */
-    2, /* ASM_ADDR_MODE_REG_IY */
+    1, /* ASM_ADDR_MODE_REG_IX */
+    1, /* ASM_ADDR_MODE_REG_IY */
     1, /* ASM_ADDR_MODE_REG_SP */
     1, /* ASM_ADDR_MODE_REG_IND_BC */
     1, /* ASM_ADDR_MODE_REG_IND_DE */
     1, /* ASM_ADDR_MODE_REG_IND_HL */
-    2, /* ASM_ADDR_MODE_REG_IND_IX */
-    2, /* ASM_ADDR_MODE_REG_IND_IY */
+    1, /* ASM_ADDR_MODE_REG_IND_IX */
+    1, /* ASM_ADDR_MODE_REG_IND_IY */
     1  /* ASM_ADDR_MODE_REG_IND_SP */
 };
 
@@ -937,7 +939,7 @@ static asm_opcode_info_t opcode_list_fd[] = {
     /* 52 */ { "LD D,D",     ASM_ADDR_MODE_IMPLIED },
     /* 53 */ { "LD D,E",     ASM_ADDR_MODE_IMPLIED },
     /* 54 */ { "LD D,IYH",   ASM_ADDR_MODE_IMPLIED },
-    /* 55 */ { "LD D,IY",   ASM_ADDR_MODE_IMPLIED },
+    /* 55 */ { "LD D,IY",    ASM_ADDR_MODE_IMPLIED },
     /* 56 */ { "LD D,(IY)",  ASM_ADDR_MODE_IMPLIED },
     /* 57 */ { "LD D,A",     ASM_ADDR_MODE_IMPLIED },
     /* 58 */ { "LD E,B",     ASM_ADDR_MODE_IMPLIED },
@@ -1110,7 +1112,7 @@ static asm_opcode_info_t opcode_list_fd[] = {
     /* ff */ { "RST 38",     ASM_ADDR_MODE_IMPLIED }
 };
 
-asm_opcode_info_t *asm_opcode_info_get_z80(BYTE p0, BYTE p1, BYTE p2)
+static asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
 {
     if (p0 == 0xdd)
         return opcode_list_dd + (unsigned int)p1;
@@ -1121,9 +1123,14 @@ asm_opcode_info_t *asm_opcode_info_get_z80(BYTE p0, BYTE p1, BYTE p2)
     return opcode_list + (unsigned int)p0;
 }
 
-unsigned int asm_addr_mode_get_size_z80(asm_addr_mode_t mode, BYTE p0, BYTE p1)
+static unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode, BYTE p0,
+                                           BYTE p1)
 {
+    if (p0 == 0xdd)
+        return addr_mode_size[(unsigned int)mode] + 1;
     if (p0 == 0xed)
+        return addr_mode_size[(unsigned int)mode] + 1;
+    if (p0 == 0xfd)
         return addr_mode_size[(unsigned int)mode] + 1;
     return addr_mode_size[(unsigned int)mode];
 }
@@ -1131,7 +1138,11 @@ unsigned int asm_addr_mode_get_size_z80(asm_addr_mode_t mode, BYTE p0, BYTE p1)
 void asmz80_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->cpu_type = CPU_Z80;
-    monitor_cpu_type->asm_addr_mode_get_size = asm_addr_mode_get_size_z80;
-    monitor_cpu_type->asm_opcode_info_get = asm_opcode_info_get_z80;
+    monitor_cpu_type->asm_addr_mode_get_size = asm_addr_mode_get_size;
+    monitor_cpu_type->asm_opcode_info_get = asm_opcode_info_get;
+
+    /* Once we have a generic processor specific init, this will move.  */
+    mon_assemblez80_init(monitor_cpu_type);
+    mon_registerz80_init(monitor_cpu_type);
 }
 
