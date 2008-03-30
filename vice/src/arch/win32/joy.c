@@ -45,7 +45,7 @@
 #include "ui.h"
 #include "winmain.h"
 
-int joystick_inited = 0;
+int joystick_inited;
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
@@ -194,7 +194,7 @@ JoyInfo     *joystick;
     }
 }
 
-int joystick_di_open(int index, int dev)
+void joystick_di_open(int index, int dev)
 {
 JoyInfo *joy;
 int     i = 0;
@@ -220,9 +220,6 @@ int     i = 0;
             joy->buttons = NULL;
         }
         IDirectInputDevice_EnumObjects(joystick_di_devices[index], EnumJoyButtons, (LPVOID)joy, DIDFT_BUTTON);
-        return 1;
-    } else {
-        return 0;
     }
 }
 
@@ -242,18 +239,14 @@ static int set_joystick_device_1(resource_value_t v, void *param)
 {
     joystick_device_t dev = (joystick_device_t) v;
 
-    if (!joystick_inited) joy_arch_init();
-
     if ((di_version == 5) && (joystick_device[0] >= JOYDEV_HW1)) {
         joystick_di_close(0);
     }
 
+    joystick_device[0] = dev;
+
     if ((di_version == 5) && (dev >= JOYDEV_HW1)) {
-        if (joystick_di_open(0, dev)) {
-            joystick_device[0] = dev;
-        }
-    } else {
-        joystick_device[0] = dev;
+        joystick_di_open(0, dev);
     }
 
     return 0;
@@ -263,19 +256,14 @@ static int set_joystick_device_2(resource_value_t v, void *param)
 {
     joystick_device_t dev = (joystick_device_t) v;
 
-    if (!joystick_inited) joy_arch_init();
-
     if ((di_version == 5) && (joystick_device[1] >= JOYDEV_HW1)) {
         joystick_di_close(1);
     }
 
+    joystick_device[1] = dev;
 
     if ((di_version == 5) && (dev >= JOYDEV_HW1)) {
-        if (joystick_di_open(1, dev)) {
-            joystick_device[1] = dev;
-        }
-    } else {
-        joystick_device[1] = dev;
+        joystick_di_open(1, dev);
     }
 
     return 0;
@@ -468,41 +456,38 @@ int joy_arch_init(void)
 {
     HRESULT result;
 
-    if (!joystick_inited) {
-        di_version = 5;
-        result = DirectInputCreate(winmain_instance, 0x0500, &di, NULL);
-        if (result == DIERR_OLDDIRECTINPUTVERSION) {
-            di_version = 3;
-            result = DirectInputCreate(winmain_instance, 0x0300, &di, NULL);
-        }
-        if (result != DI_OK) {
-            di = NULL;
-            di_mouse = NULL;
-            return 0;
-        }
-        if (di_version == 5 ) {
-            IDirectInput_EnumDevices(di, DIDEVTYPE_JOYSTICK, EnumCallBack, NULL, DIEDFL_ALLDEVICES);
-        }
-
-        joystick_inited = 1;
-
-        /*  Init mouse device */
-        result = IDirectInput_CreateDevice(di, (GUID *)&GUID_SysMouse, &di_mouse,
-                                           NULL);
-        if (result != DI_OK) {
-            di_mouse = NULL;
-            return 0;
-        }
-        mouse_set_format();
-
-    //    IDirectInput_EnumDevices(di, 0, EnumCallBack, 0, 0);
-
-    #ifdef COMMON_KBD
-        joystick_port_map[0] = 1;
-        joystick_port_map[1] = 2;
-    #endif
-
+    di_version = 5;
+    result = DirectInputCreate(winmain_instance, 0x0500, &di, NULL);
+    if (result == DIERR_OLDDIRECTINPUTVERSION) {
+        di_version = 3;
+        result = DirectInputCreate(winmain_instance, 0x0300, &di, NULL);
     }
+    if (result != DI_OK) {
+        di = NULL;
+        di_mouse = NULL;
+        return 0;
+    }
+    if (di_version == 5 ) {
+        IDirectInput_EnumDevices(di, DIDEVTYPE_JOYSTICK, EnumCallBack, NULL, DIEDFL_ALLDEVICES);
+    }
+
+    joystick_inited = 1;
+
+    /*  Init mouse device */
+    result = IDirectInput_CreateDevice(di, (GUID *)&GUID_SysMouse, &di_mouse,
+                                       NULL);
+    if (result != DI_OK) {
+        di_mouse = NULL;
+        return 0;
+    }
+    mouse_set_format();
+
+//    IDirectInput_EnumDevices(di, 0, EnumCallBack, 0, 0);
+
+#ifdef COMMON_KBD
+    joystick_port_map[0] = 1;
+    joystick_port_map[1] = 2;
+#endif
 
     return 0;
 }
