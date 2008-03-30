@@ -56,9 +56,9 @@ static void kbd_debug(const char *format, ...)
         OutputDebugString(tmp);
         printf(tmp);
 }
-#define DEBUG(x) kbd_debug x
+#define KBD_DEBUG(x) kbd_debug x
 #else
-#define DEBUG(x)
+#define KBD_DEBUG(x)
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -77,7 +77,6 @@ BYTE _kbd_extended_key_tab[256] = {
 BYTE joystick_value[3];
 
 /* 40/80 column key.  */
-static int key_ctrl_column4080 = 0;
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 struct _convmap {
@@ -105,9 +104,9 @@ static int keymap_index;
 
 int kbd_init(int num, ...)
 {
-    DEBUG(("Allocating keymaps"));
+    KBD_DEBUG(("Allocating keymaps"));
     keyconvmaps=(struct _convmap*)xmalloc(num*sizeof(struct _convmap));
-    DEBUG(("Installing keymaps"));
+    KBD_DEBUG(("Installing keymaps"));
     {
         va_list p;
         int i;
@@ -192,7 +191,7 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
         machine_set_restore_key(1);
     }
 
-    DEBUG(("Keydown, code %d (0x%02x)\n", kcode, kcode));
+    KBD_DEBUG(("Keydown, code %d (0x%02x)\n", kcode, kcode));
     if (!joystick_handle_key(kcode, 1)) {
         keyboard_set_keyarr(keyconv_base->map[kcode].row,
                    keyconv_base->map[kcode].column, 1);
