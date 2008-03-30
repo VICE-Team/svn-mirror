@@ -418,6 +418,11 @@ long machine_get_cycles_per_second(void)
     return C128_PAL_CYCLES_PER_SEC;
 }
 
+void machine_change_timing(int timeval)
+{
+
+}
+
 /* ------------------------------------------------------------------------- */
 
 #define SNAP_MACHINE_NAME   "C128"

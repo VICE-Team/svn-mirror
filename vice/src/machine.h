@@ -2,7 +2,8 @@
  * machine.h  - Interface to machine-specific implementations.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,7 +62,7 @@ void machine_reset(void);
 /* Power-up the machine.  */
 void machine_powerup(void);
 
-/* Shutdown th emachine.  */
+/* Shutdown the emachine.  */
 void machine_shutdown(void);
 
 /* Set the state of the RESTORE key (!=0 means pressed); returns 1 if key had
@@ -71,7 +72,7 @@ int machine_set_restore_key(int);
 /* Get the number of CPU cylces per second.  This is used in various parts.  */
 long machine_get_cycles_per_second(void);
 
-/* Set the screen refresh rate, as this is variable in the CRTC */
+/* Set the screen refresh rate, as this is variable in the CRTC.  */
 void machine_set_cycles_per_frame(long);
 
 /* Write a snapshot.  */
@@ -80,10 +81,14 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks);
 /* Read a snapshot.  */
 int machine_read_snapshot(const char *name);
 
-/* handle pending interrupts - needed by libsid.a */
+/* handle pending interrupts - needed by libsid.a.  */
 void machine_handle_pending_alarms(int num_write_cycles);
 
-/* Autodetect PSID file. */
+/* Autodetect PSID file.  */
 int machine_autodetect_psid(const char *name);
 
+/* Change the timing parameters of the maching (for example PAL/NTSC).  */
+void machine_change_timing(int timeval);
+
 #endif /* _MACHINE_H */
+

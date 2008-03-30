@@ -353,6 +353,11 @@ long machine_get_cycles_per_second(void)
     return PET_PAL_CYCLES_PER_SEC;
 }
 
+void machine_change_timing(int timeval)
+{
+
+}
+
 /* Set the screen refresh rate, as this is variable in the CRTC */
 void machine_set_cycles_per_frame(long cpf) {
 

@@ -80,13 +80,14 @@
 #define DRIVE_ROM1541_CHECKSUM	1976666
 
 /* Sync factors.  */
-#define DRIVE_SYNC_PAL               -1
-#define DRIVE_SYNC_NTSC              -2
+#define DRIVE_SYNC_PAL     -1
+#define DRIVE_SYNC_NTSC    -2
+#define DRIVE_SYNC_NTSCOLD -3
 
 /* Extended disk image handling.  */
-#define DRIVE_EXTEND_NEVER		0
-#define DRIVE_EXTEND_ASK		1
-#define DRIVE_EXTEND_ACCESS		2
+#define DRIVE_EXTEND_NEVER  0
+#define DRIVE_EXTEND_ASK    1
+#define DRIVE_EXTEND_ACCESS 2
 
 /* Drive idling methods.  */
 #define DRIVE_IDLE_NO_IDLE     0

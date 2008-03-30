@@ -62,6 +62,7 @@
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "machine.h"
 #include "resources.h"
 #include "riotd.h"
 #include "serial.h"
@@ -389,10 +390,17 @@ static int set_sync_factor(resource_value_t v)
       case DRIVE_SYNC_PAL:
         sync_factor = (int) v;
         drive_set_pal_sync_factor();
+        machine_change_timing(DRIVE_SYNC_PAL);
         break;
       case DRIVE_SYNC_NTSC:
         sync_factor = (int) v;
         drive_set_ntsc_sync_factor();
+        machine_change_timing(DRIVE_SYNC_NTSC);
+        break;
+      case DRIVE_SYNC_NTSCOLD:
+        sync_factor = (int) v;
+        drive_set_ntsc_sync_factor();
+        machine_change_timing(DRIVE_SYNC_NTSCOLD);
         break;
       default:
         if ((int) v > 0) {
@@ -571,12 +579,15 @@ static cmdline_option_t cmdline_options[] = {
     { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_PAL, "<value>",
       "Set drive sync factor to <value>" },
-    { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_PAL,
-      NULL, "Use PAL drive sync factor" },
-    { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
+      NULL, "Use PAL sync factor" },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_NTSC,
-      NULL, "Use NTSC drive sync factor" },
+      NULL, "Use NTSC sync factor" },
+    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
+      (resource_value_t) DRIVE_SYNC_NTSCOLD,
+      NULL, "Use sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image name" },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
