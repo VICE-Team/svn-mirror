@@ -30,7 +30,7 @@
 #include "types.h"
 
 /* This enables debugging.  Attention: It makes things a bit slower.  */
-//#define DEBUG
+/*#define DEBUG*/
 
 #define DEBUG_NORMAL    0
 #define DEBUG_SMALL     1

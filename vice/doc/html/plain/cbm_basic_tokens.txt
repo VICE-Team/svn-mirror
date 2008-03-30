@@ -15,9 +15,9 @@ PETCAT version 2.08 PL 1					08 Sep 2005
 	Basic 2.0 with Ultrabasic-64
 	Basic 2.0 with Graphics basic
 	Basic 2.0 with WS basic
-        Basic 2.0 with Turtle basic
-        Basic 2.0 with Mighty basic
-        Basic 2.0 with Pegasus basic 4.0
+	Basic 2.0 with Turtle basic
+	Basic 2.0 with Mighty basic
+	Basic 2.0 with Pegasus basic 4.0
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 3.5
@@ -415,7 +415,7 @@ e3	monitor
   Pegasus basic 4.0 Keywords (Tokens CC - EC)
 
 
-Token  Speech  AtBasic    FC3      Ultra   Graph       WS     Peg
+Token  Speech  AtBasic    FC3      Ultra   Graph       WS      Peg
 
 cc     reset   trace      off      dot     background  copy    off
 cd     basic   delete     auto     draw    border      old     asc(
