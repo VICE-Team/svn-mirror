@@ -191,7 +191,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
         PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
         int d = cache->foreground_data[i];
 
-        *((PIXEL4 *)p)     = *(ptr + (d >> 4));
+        *((PIXEL4 *)p) = *(ptr + (d >> 4));
         *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
     }
 }
@@ -243,7 +243,7 @@ static void draw_std_text(void)
         if (cpos == i)
             d ^= 0xff;
 
-        *((PIXEL4 *)p)     = *(ptr + (d >> 4));
+        *((PIXEL4 *)p) = *(ptr + (d >> 4));
         *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
     }
 
@@ -301,14 +301,28 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
         + vdc.raster.xsmooth + xs * 8;
-    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
-    for (i = xs; i <= xe; i++, p += 8) {
-        PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
-        int d = cache->foreground_data[i];
+    if (vdc.regs[25] & 0x40) {
+        for (i = xs; i <= xe; i++, p += 8) {
+            PIXEL4 *ptr;
+            int d = cache->foreground_data[i];
 
-        *((PIXEL4 *)p)     = *(ptr + (d >> 4));
-        *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+            table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
+            ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+
+            *((PIXEL4 *)p) = *(ptr + (d >> 4));
+            *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+        }
+    } else {
+        table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+
+        for (i = xs; i <= xe; i++, p += 8) {
+            PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+            int d = cache->foreground_data[i];
+
+            *((PIXEL4 *)p) = *(ptr + (d >> 4));
+            *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+        }
     }
 }
 
@@ -326,7 +340,6 @@ static void draw_std_bitmap(void)
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
         + vdc.raster.xsmooth;
-    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
@@ -335,14 +348,17 @@ static void draw_std_bitmap(void)
         PIXEL4 *ptr;
         int d;
 
-        if (vdc.regs[25] & 0x40)
+        if (vdc.regs[25] & 0x40) {
+            table_ptr = hr_table + (*(attr_ptr + i) & 0xf0);
             ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-        else
+        } else {
+            table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
             ptr = table_ptr + ((vdc.regs[26] & 0xf0) << 4);
+        }
 
         d = *(bitmap_ptr + i);
 
-        *((PIXEL4 *)p)     = *(ptr + (d >> 4));
+        *((PIXEL4 *)p) = *(ptr + (d >> 4));
         *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
     }
 }
