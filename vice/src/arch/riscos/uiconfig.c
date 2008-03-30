@@ -36,7 +36,7 @@
 #include "videoarch.h"
 #include "drive/drive.h"
 #include "video/video-resources.h"
-
+#include "sid/sid.h"
 
 
 
@@ -102,7 +102,7 @@ static const char Rsrc_RsUsrDev[] = "RsUserDev";
 static const char Rsrc_AciaIrq[] = "Acia1Irq";
 static const char Rsrc_AciaDev[] = "Acia1Dev";
 static const char Rsrc_SidFilt[] = "SidFilters";
-static const char Rsrc_ReSid[] = "SidUseResid";
+static const char Rsrc_SidEngine[] = "SidEngine";
 static const char Rsrc_ReSidSamp[] = "SidResidSampling";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_SidMod[] = "SidModel";
@@ -311,6 +311,23 @@ static struct MenuSpeedAdjust {
     MENU_ITEM("\\MenSAdjFlx"),
     MENU_ITEM("\\MenSAdjAdj"),
     MENU_ITEM_LAST("\\MenSAdjXct")
+  }
+};
+
+#define Menu_SidEngine_Items	3
+#define Menu_SidEngine_Width	200
+#define Menu_SidEngine_Fast	0
+#define Menu_SidEngine_Resid	1
+#define Menu_SidEngine_Catwzl	2
+static struct MenuSidEngine {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_SidEngine_Items];
+} MenuSidEngine = {
+  MENU_HEADER("\\MenSidEngT", Menu_SidEngine_Width),
+  {
+    MENU_ITEM("\\MenSidEngF"),
+    MENU_ITEM("\\MenSidEngR"),
+    MENU_ITEM_LAST("\\MenSidEngC")
   }
 };
 
@@ -1076,6 +1093,15 @@ static struct MenuDisplaySpeedAdjust {
   {SOUND_ADJUST_FLEXIBLE, SOUND_ADJUST_ADJUSTING, SOUND_ADJUST_EXACT}
 };
 
+static struct MenuDisplaySidEngine {
+  disp_desc_t dd;
+  int values[Menu_SidEngine_Items];
+} MenuDisplaySidEngine = {
+  {Rsrc_SidEngine, {CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT},
+    (RO_MenuHead*)&MenuSidEngine, Menu_SidEngine_Items, 0, 0},
+  {SID_ENGINE_FASTSID, SID_ENGINE_RESID, SID_ENGINE_CATWEASELMKIII}
+};
+
 static struct MenuDisplayResidSampling {
   disp_desc_t dd;
   int values[Menu_ResidSamp_Items];
@@ -1465,6 +1491,8 @@ menu_icon_t ConfigMenus[] = {
     {CONF_WIN_VIDEO, Icon_ConfVid_PalMode}},		/* 45 */
   {NULL, NULL, NULL,
     {CONF_WIN_VIDEO, Icon_ConfVid_VCache}},		/* 46 */
+  {(RO_MenuHead*)&MenuSidEngine, Rsrc_SidEngine, (disp_desc_t*)&MenuDisplaySidEngine,
+    {CONF_WIN_SOUND, Icon_ConfSnd_SidEngine}},		/* 47 */
   {NULL, NULL, NULL, {0, 0}}
 };
 
@@ -1510,7 +1538,6 @@ config_item_t Configurations[] = {
   {Rsrc_RsUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_RsUsr}},
   {Rsrc_AciaIrq, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_ACIAIrq}},
   {Rsrc_SidFilt, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter}},
-  {Rsrc_ReSid, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_UseResid}},
   {Rsrc_ReSidPass, CONFIG_INT, {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass}},
   {Rsrc_SidStereo, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo}},
   {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll}},

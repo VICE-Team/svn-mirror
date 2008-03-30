@@ -207,7 +207,7 @@ static help_icon_t Help_ConfigSound[] = {
   {Icon_ConfSnd_Volume, "\\HelpConfSndVol"},
   {Icon_ConfSnd_SoundBuff, "\\HelpConfSndBuff"},
   {Icon_ConfSnd_SoundBuffT, "\\HelpConfSndBuffT"},
-  {Icon_ConfSnd_UseResid, "\\HelpConfSndReSID"},
+  {Icon_ConfSnd_SidEngine, "\\HelpConfSndSIDEngine"},
   {Icon_ConfSnd_SpeedAdjust, "\\HelpConfSndAdj"},
   {Icon_ConfSnd_SpeedAdjustT, "\\HelpConfSndAdjT"},
   {Icon_ConfSnd_ResidSamp, "\\HelpConfSndReSamp"},

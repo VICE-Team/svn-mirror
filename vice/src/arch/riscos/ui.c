@@ -79,6 +79,7 @@
 #include "c64/c64mem.h"
 #include "drive/drive.h"
 #include "raster/raster.h"
+#include "sid/sid.h"
 #include "vdrive/vdrive-internal.h"
 #include "vicii/vicii.h"
 
@@ -294,8 +295,8 @@ static const conf_iconid_t TapeFileDependentIcons[] = {
 static const conf_iconid_t SoundDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_ConfSnd_SampleRate},
   {CONF_WIN_SOUND, Icon_ConfSnd_SampleRateT},
-  {CONF_WIN_SOUND, Icon_ConfSnd_SoundDev},
-  {CONF_WIN_SOUND, Icon_ConfSnd_SoundDevT},
+  /*{CONF_WIN_SOUND, Icon_ConfSnd_SoundDev},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SoundDevT},*/
   {CONF_WIN_SOUND, Icon_ConfSnd_Oversample},
   {CONF_WIN_SOUND, Icon_ConfSnd_OversampleT},
   {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuff},
@@ -308,7 +309,8 @@ static const conf_iconid_t SoundDependentIcons[] = {
 
 static const conf_iconid_t SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter},
-  {CONF_WIN_SOUND, Icon_ConfSnd_UseResid},
+  /*{CONF_WIN_SOUND, Icon_ConfSnd_SidEngine},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT},*/
   {CONF_WIN_SOUND, Icon_ConfSnd_SidModel},
   {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT},
   {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp},
@@ -701,7 +703,7 @@ static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
 static const char Rsrc_Snd16Bit[] = "Use16BitSound";
-static const char Rsrc_ReSid[] = "SidUseResid";
+static const char Rsrc_SidEngine[] = "SidEngine";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_True[] = "DriveTrueEmulation";
 static const char Rsrc_Poll[] = "PollEvery";
@@ -2300,7 +2302,10 @@ int ui_init_finish(void)
     }
   }
   /* resid active? */
-  resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
+  if (resources_get_value(Rsrc_SidEngine, (resource_value_t*)&CycleBasedSound) == 0)
+    CycleBasedSound = (CycleBasedSound == SID_ENGINE_RESID);
+  else
+    CycleBasedSound = 0;
 
   ROMSetName = lib_stralloc("Default");
 
@@ -3050,10 +3055,6 @@ static int ui_mouse_click_conf_misc(int *b, int wnum)
     {
       ui_drag_sound_volume(b);
       Sound_Volume(SoundVolume);
-    }
-    else if (b[MouseB_Icon] == Icon_ConfSnd_UseResid)
-    {
-      resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
     }
   }
   else if (b[MouseB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)

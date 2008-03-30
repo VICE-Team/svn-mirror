@@ -95,6 +95,7 @@
 #define CONF_MENU_PALDEPTH	44
 #define CONF_MENU_PALMODE	45
 #define CONF_MENU_VIDCACHE	46
+#define CONF_MENU_SIDENGINE	47
 
 /* Configuration issues... */
 #define CONFIG_INT	1
@@ -254,7 +255,8 @@ typedef struct menu_icon_s {
 #define Icon_ConfSnd_Volume		17
 #define Icon_ConfSnd_SoundBuff		18
 #define Icon_ConfSnd_SoundBuffT		19
-#define Icon_ConfSnd_UseResid		20
+#define Icon_ConfSnd_SidEngine		20
+#define Icon_ConfSnd_SidEngineT		34
 #define Icon_ConfSnd_SpeedAdjust	21
 #define Icon_ConfSnd_SpeedAdjustT	22
 #define Icon_ConfSnd_ResidSamp		25

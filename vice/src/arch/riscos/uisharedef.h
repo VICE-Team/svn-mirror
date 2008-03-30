@@ -110,9 +110,10 @@
 
 #define ICON_LIST_SID \
   {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter}, {CONF_WIN_SOUND, Icon_ConfSnd_SidModel},\
-  {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT}, {CONF_WIN_SOUND, Icon_ConfSnd_UseResid},\
-  {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp}, {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT}, \
-  {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass}, {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT}, {CONF_WIN_SOUND, Icon_ConfSnd_SidEngine},\
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT}, {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp},\
+  {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT}, {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass},\
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo},
 
 #define ICON_LIST_SYSTEM \
   {CONF_WIN_SYSTEM, Icon_ConfSys_REU}, {CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488},\

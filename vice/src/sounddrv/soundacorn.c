@@ -36,6 +36,8 @@
 #include "types.h"
 #include "ui.h"
 
+#include "sid/sid.h"
+
 #include "DRender.h"
 
 
@@ -163,8 +165,22 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int *cha
  */
 static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, int *channels)
 {
+  int sidEngine;
+
+  if (resources_get_value("SidEngine", (resource_value_t*)&sidEngine) == 0)
+  {
+    if (sidEngine == SID_ENGINE_RESID)
+    {
+      log_error(vidc_log, "You must use VIDCS with reSID!");
+      return 1;
+    }
+  }
+
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
+  {
+    log_error(vidc_log, "DigitalRenderer already active!");
     return 1;
+  }
 
   if (SoundTimer.stack_lwm == NULL)
   {
