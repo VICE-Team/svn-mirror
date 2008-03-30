@@ -46,6 +46,9 @@ extern int p00_write_header(FILE *fd, const BYTE *cbmname, BYTE recsize);
 extern struct fileio_info_s *p00_open(const char *file_name, const char *path,
                                       unsigned int command, unsigned int type);
 extern void p00_close(struct fileio_info_s *info);
+extern unsigned int p00_rename(const char *src_name, const char *dest_name,
+                               const char *path);
+extern unsigned int p00_scratch(const char *file_name, const char *path);
 
 #endif
 
