@@ -63,6 +63,11 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     int dummy;
 #endif
 
+#ifdef VIDEO_REMOVE_2X
+    width *= 2;
+    height *= 2;
+#endif
+
     i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
     *ip = i;
 

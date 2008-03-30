@@ -203,7 +203,7 @@ static int realize_canvas(raster_t *raster)
         if (viewport->canvas == NULL)
             return -1;
 
-        update_pixel_tables (raster);
+        update_pixel_tables(raster);
 
         if (raster->pixel_table.sing[0] != 0)
             raster_force_repaint(raster);
@@ -253,7 +253,9 @@ static int realize_frame_buffer(raster_t *raster)
 
     if (!console_mode && !vsid_mode) {
         if (video_frame_buffer_alloc(&raster->frame_buffer,
-                                     fb_width, fb_height))
+                                     fb_width, fb_height/*,
+                                     raster->viewport.pixel_size.width,
+                                     raster->viewport.pixel_size.height*/))
         return -1;
 
         video_frame_buffer_clear(raster->frame_buffer, RASTER_PIXEL(raster, 0));
