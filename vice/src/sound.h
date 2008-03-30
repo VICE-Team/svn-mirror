@@ -78,18 +78,19 @@ extern void sound_prevent_clk_overflow(CLOCK sub);
 
 
 /* device initialization prototypes */
-extern int  sound_init_uss_device(void);
-extern int  sound_init_sgi_device(void);
-extern int  sound_init_sun_device(void);
-extern int  sound_init_hpux_device(void);
 extern int  sound_init_aix_device(void);
+extern int  sound_init_allegro_device(void);
+extern int  sound_init_dummy_device(void);
+extern int  sound_init_dump_device(void);
+extern int  sound_init_fs_device(void);
+extern int  sound_init_hpux_device(void);
 extern int  sound_init_midas_device(void);
 extern int  sound_init_sdl_device(void);
-extern int  sound_init_dummy_device(void);
-extern int  sound_init_fs_device(void);
+extern int  sound_init_sgi_device(void);
 extern int  sound_init_speed_device(void);
-extern int  sound_init_dump_device(void);
+extern int  sound_init_sun_device(void);
 extern int  sound_init_test_device(void);	/* XXX: missing */
+extern int  sound_init_uss_device(void);
 
 
 /* internal function for sound device registration */
