@@ -1,5 +1,5 @@
 /*
- * uisnapshot.h - Implementation of the snapshot load/save dialogs.
+ * uifliplist.h - Implementation of the fliplist dialogs.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,11 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef _UIFLIPLIST_H
+#define _UIFLIPLIST_H
 
-extern void ui_snapshot_load_dialog(HWND hwnd);
-extern void ui_snapshot_save_dialog(HWND hwnd);
-extern char *ui_save_snapshot(const char *title, const char *filter, 
-                              HWND hwnd, int dialog_template);
+extern void uifliplist_load_dialog(HWND hwnd);
+extern void uifliplist_save_dialog(HWND hwnd);
 
 #endif
+
