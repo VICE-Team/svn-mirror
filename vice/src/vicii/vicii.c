@@ -216,8 +216,36 @@ static void vic_ii_change_timing(void)
     }
 }
 
+static CLOCK old_maincpu_clk = 0;
+
+void vic_ii_delay_oldclk(CLOCK num)
+{
+    old_maincpu_clk += num;
+}
+
+inline void vic_ii_delay_clk(void)
+{
+#if 0
+    CLOCK diff;
+
+    /*log_debug("MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
+
+    if (vic_ii.fastmode == 0) {
+        diff = maincpu_clk - old_maincpu_clk;
+        maincpu_steal_cycles(maincpu_clk, diff, 0);
+    }
+
+    old_maincpu_clk = maincpu_clk;
+
+    return;
+#endif
+}
+
 inline void vic_ii_handle_pending_alarms(int num_write_cycles)
 {
+    if (vic_ii.viciie != 0)
+        vic_ii_delay_clk();
+
     if (num_write_cycles != 0) {
         int f;
 
@@ -237,11 +265,15 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk > vic_ii.fetch_clk) {
                 vic_ii_fetch_alarm_handler(0);
                 f = 1;
+                if (vic_ii.viciie != 0)
+                    vic_ii_delay_clk();
             }
             if (maincpu_clk >= vic_ii.draw_clk) {
                 vic_ii_raster_draw_alarm_handler((long)(maincpu_clk
                                                  - vic_ii.draw_clk));
                 f = 1;
+                if (vic_ii.viciie != 0)
+                    vic_ii_delay_clk();
             }
         }
         while (f);
@@ -261,10 +293,14 @@ inline void vic_ii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk >= vic_ii.fetch_clk) {
                 vic_ii_fetch_alarm_handler(0);
                 f = 1;
+                if (vic_ii.viciie != 0)
+                    vic_ii_delay_clk();
             }
             if (maincpu_clk >= vic_ii.draw_clk) {
                 vic_ii_raster_draw_alarm_handler(0);
                 f = 1;
+                if (vic_ii.viciie != 0)
+                    vic_ii_delay_clk();
             }
         }
         while (f);
@@ -508,7 +544,7 @@ void vic_ii_powerup(void)
     /* vic_ii.vbank_ptr = ram; */
     vic_ii.idle_data = 0;
     vic_ii.idle_data_location = IDLE_NONE;
-    vic_ii.extended_keyboard_rows_enabled = 0;
+    vic_ii.viciie = 0;
     vic_ii.last_emulate_line_clk = 0;
 
     vic_ii_reset();
@@ -584,10 +620,11 @@ void vic_ii_trigger_light_pen(CLOCK mclk)
     }
 }
 
-/* Toggle support for C128 extended keyboard rows.  */
-void vic_ii_enable_extended_keyboard_rows (int flag)
+/* Toggle support for VICIIe features like extended keyboard rows
+   and fast clock mode.  */
+void vic_ii_enable_extended_vicii(unsigned int flag)
 {
-    vic_ii.extended_keyboard_rows_enabled = flag;
+    vic_ii.viciie = flag;
 }
 
 /* Make sure all the VIC-II alarms are removed.  This just makes it easier to
