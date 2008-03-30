@@ -100,15 +100,23 @@ char *image_contents_to_string(image_contents_t *contents)
     }
 
     for (p = contents->file_list; p != NULL; p = p->next) {
-        int name_len;
+        int name_len, i;
+        char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
 
-        len = sprintf(line_buf, "\n%-5d \"%s\" ", p->size, p->name);
+        memset(print_name, 0, IMAGE_CONTENTS_FILE_NAME_LEN + 1);
+        for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
+            if (p->name[i] == 0xa0)
+                break;           
+            print_name[i] = (char)p->name[i];
+        }
+
+        len = sprintf(line_buf, "\n%-5d \"%s\" ", p->size, print_name);
         BUFCAT(line_buf, len);
 
-        name_len = strlen((char *)p->name);
+        name_len = strlen((char *)print_name);
         if (name_len < IMAGE_CONTENTS_FILE_NAME_LEN)
             BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN
-                           - strlen((char *)p->name));
+                           - strlen(print_name));
         BUFCAT((char *)p->type, strlen((char *)p->type));
     }
 
@@ -276,12 +284,11 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                 new_list->size = ((int) p[SLOT_NR_BLOCKS]
                                   + ((int) p[SLOT_NR_BLOCKS + 1] << 8));
 
-                for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
-                    if (p[SLOT_NAME_OFFSET + i] == 0xa0)
-                        break;
-                    else
+                for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++)
                         new_list->name[i] = p[SLOT_NAME_OFFSET + i];
-                }
+
+                new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
+
                 new_list->name[i] = 0;
 
                 sprintf ((char *)new_list->type, "%c%s%c",
