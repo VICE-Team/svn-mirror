@@ -55,7 +55,6 @@ class ViceWindow : public BWindow {
 		BMenuBar		*menubar;
 
 		BBitmap			*bitmap;
-		BPoint			bitmap_offset;
 		BView			*view;
 		ViceStatusbar	*statusbar;
 		ViceFilePanel	*filepanel;	

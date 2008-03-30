@@ -96,11 +96,8 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
 	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
 	(*f)->width = width;
 	(*f)->height = height;
-	(*f)->buffer = (PIXEL*) xmalloc(width*height);
 	(*f)->real_width = width;
-	(*f)->bitmap =
-		new BBitmap(BRect(0,0,width-1,height-1),B_RGB32,false,true);
-	(*f)->vicewindow = NULL;
+	(*f)->buffer = (PIXEL*) xmalloc(width*height);
 	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer)); 
 	  	
     return 0;
@@ -112,10 +109,6 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
 		return;
 
 	DEBUG(("video_frame_buffer_free: %x",f->buffer)); 
-	/* avoid update of the window with an already deleted bitmap */
-	if (f->vicewindow)
-		f->vicewindow->bitmap = NULL;
-	delete f->bitmap;
 	free(f->buffer);
 	free(f);
 }
@@ -127,6 +120,29 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
+
+static void canvas_create_bitmap(video_canvas_t *c,
+							     unsigned int width,
+							     unsigned int height)
+{
+	color_space use_colorspace;
+
+    switch (c->depth) {
+    	case 8:
+    		use_colorspace = B_CMAP8;
+    		break;
+    	case 16:
+    		use_colorspace = B_RGB16;
+    		break;
+    	case 32:
+		default:
+    		use_colorspace = B_RGB32;
+	}
+	
+	c->vicewindow->bitmap = new BBitmap(BRect(0,0,width-1,height-1),
+			use_colorspace,false,true);
+}    
+
 
 video_canvas_t *canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
@@ -141,24 +157,37 @@ video_canvas_t *canvas_create(const char *title, unsigned int *width,
 	return (video_canvas_t *) NULL;
 
     new_canvas->title = stralloc(title);
+    switch (BScreen().ColorSpace()) {
+    	case B_CMAP8:
+    		new_canvas->depth = 8;
+    		break;
+    	case B_RGB15:
+    	case B_RGB16:
+    		new_canvas->depth = 16;
+    		break;
+    	case B_RGB32:
+		default:
+			new_canvas->depth = 32;
+	}
     video_canvas_set_palette(new_canvas, palette, pixel_return);
 
     new_canvas->width = *width;
     new_canvas->height = *height;
-    new_canvas->palette = palette; 
-    
-    /* We always use a color depth of 32 and let BBitmap do the rest */ 
-    new_canvas->depth = 32;
-    
+    new_canvas->palette = palette;
+
     new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
 	
 	new_canvas->vicewindow = 
 		new ViceWindow(BRect(0,0,*width-1,*height-1),title);
+		
+	canvas_create_bitmap(new_canvas, *width, *height);
 
 	number_of_canvas++;
 	new_canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
+
     return new_canvas;
 }
+
 
 /* Destroy `s'.  */
 void video_canvas_destroy(video_canvas_t *c)
@@ -166,25 +195,20 @@ void video_canvas_destroy(video_canvas_t *c)
 	if (c == NULL)
 		return;
 
+	delete c->vicewindow->bitmap;
 	delete c->vicewindow;
 	free(c->title);
 	free(c);
 }
 
-/* Make `s' visible.  */
-void video_canvas_map(video_canvas_t *c)
-{
-}
-
-/* Make `s' unvisible.  */
-void video_canvas_unmap(video_canvas_t *c)
-{
-}
 
 /* Change the size of `s' to `width' * `height' pixels.  */
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
+	delete c->vicewindow->bitmap;
+	canvas_create_bitmap(c, width, height);
+    
 	c->vicewindow->Resize(width,height);
 	c->width = width;
 	c->height = height;
@@ -201,9 +225,26 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel
 	for (i = 0; i < p->num_entries; i++)
 	{
 		pixel_return[i] = i;
-		c->physical_colors[i] = p->entries[i].red << 16
+		switch (c->depth) {
+			case 8:		/* CMAP8 */
+				c->physical_colors[i] = BScreen().IndexForColor(
+							p->entries[i].red,
+							p->entries[i].green,
+							p->entries[i].blue);
+				c->physical_colors[i] |= (c->physical_colors[i] << 8);	
+				break;
+			case 16:	/* RGB 5:6:5 */
+				c->physical_colors[i] = (p->entries[i].red >> 3) << 11
+							|	(p->entries[i].green >> 2) << 5
+							|	(p->entries[i].blue >> 3);
+				c->physical_colors[i] |= (c->physical_colors[i] << 16);	
+				break;
+			case 32:	/* RGB 8:8:8 */
+			default:
+				c->physical_colors[i] = p->entries[i].red << 16
 							|	p->entries[i].green << 8
 							|	p->entries[i].blue;
+		}
 	}
     return 0;
 }
@@ -214,20 +255,18 @@ void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
+	w = MIN(w, c->width - xi);
+	h = MIN(h, c->height - yi);
+
 	video_render_main(c->physical_colors,
                           (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
-                          (BYTE *)(f->bitmap->Bits()),
+                          (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
                           xs, ys,
-                          xs, ys,
+                          xi, yi,
                           VIDEO_FRAME_BUFFER_LINE_SIZE(f),
-                          f->bitmap->BytesPerRow(),
+                          c->vicewindow->bitmap->BytesPerRow(),
                           c->depth);
-	c->vicewindow->DrawBitmap(f->bitmap,xs,ys,xi,yi,w,h);
-	/* we need a connection from the canvas to his framebuffer for window update */ 
-	if (c->vicewindow->bitmap == NULL) {
-		c->vicewindow->bitmap_offset = BPoint(xs-xi,ys-yi);
-		c->vicewindow->bitmap = f->bitmap;
-		f->vicewindow = c->vicewindow;
-	}
+
+	c->vicewindow->DrawBitmap(c->vicewindow->bitmap,xi,yi,xi,yi,w,h);
 }

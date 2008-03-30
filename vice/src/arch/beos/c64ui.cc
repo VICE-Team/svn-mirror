@@ -57,6 +57,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
 #ifdef HAVE_RESID
     { "SidUseResid", MENU_TOGGLE_SOUND_RESID },
 #endif
+    { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
 

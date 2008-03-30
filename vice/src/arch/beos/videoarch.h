@@ -59,14 +59,7 @@ typedef struct video_frame_buffer_s {
     PIXEL   *buffer;
     int     width;
     int     height;
-#ifdef EXACT_TYPE_NEEDED
-    BBitmap *bitmap;
-    ViceWindow *vicewindow;
-#else
-    void 	*bitmap;
-    void	*vicewindow;
-#endif
-    int		real_width;		/* differs for widht%8 != 0 */
+    int     real_width;
 } video_frame_buffer_t;
 
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->real_width

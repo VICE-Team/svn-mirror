@@ -374,6 +374,8 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",
 				new BMessage(MENU_TOGGLE_MOUSE)));
+			menu->AddItem(new BMenuItem("Fast PAL", 
+				new BMessage(MENU_TOGGLE_FASTPAL)));
 		}
 		if (machine_class == VICE_MACHINE_VIC20
 			|| machine_class == VICE_MACHINE_C128) {

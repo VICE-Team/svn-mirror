@@ -335,7 +335,9 @@ static int init_raster(void)
     char *title;
 
     raster = &vic_ii.raster;
-vicii_raster = raster;
+    video_color_set_raster(raster);
+    vicii_raster = raster;
+
     if (raster_init(raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES) < 0)
         return -1;
     raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);

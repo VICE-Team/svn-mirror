@@ -1621,6 +1621,7 @@ void raster_resize_viewport(raster_t *raster,
         viewport->last_line = (geometry->first_displayed_line
                               + height / pixel_size->height);
     }
+    raster_force_repaint(raster);
 }
 
 void raster_set_pixel_size(raster_t *raster,

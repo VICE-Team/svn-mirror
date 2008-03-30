@@ -27,15 +27,19 @@
 #include "vice.h"
 
 #include "render1x1.h"
+#include "render1x2.h"
 #include "render2x2.h"
 #include "types.h"
 #include "video-render.h"
 #include "video-resources.h"
+#include "video.h"
 
 BYTE gammatable[1024+256+1024];
 SDWORD  ytable[128];
 SDWORD cbtable[128];
 SDWORD crtable[128];
+
+static int video_rendermode = VIDEO_RENDER_PAL;
 
 /*****************************************************************************/
 /*****************************************************************************/
@@ -51,11 +55,16 @@ int video_render_get_fake_pal_state(void)
                || video_resources.pal_emulation;
 }
 
+void video_render_set_rendermode(int mode)
+{
+	video_rendermode = mode;
+}
+
 void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                        int height, int xs, int ys, int xt, int yt, int pitchs,
                        int pitcht, int depth)
 {
-	int doublesize,doublescan,delayloop;
+	int doublesize,doublescan,delayloop,rendermode;
 
 #if 0
 printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
@@ -71,66 +80,130 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 	doublescan=double_scan_bad;
 	delayloop=video_resources.delayloop_emulation;
 #endif /* VIDEO_REMOVE_2X */
+	rendermode = video_rendermode;
 
 	if (width <= 0) return; /* some render routines don't like invalid width */
 
-	if (delayloop)
+	if (rendermode == VIDEO_RENDER_PAL)
 	{
-		if (doublesize)
+	    if (delayloop)
 		{
-			switch (depth)
+			if (doublesize)
 			{
-			case 8:
-				render_08_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 16:
-				render_16_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 24:
-				render_24_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 32:
-				render_32_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				switch (depth)
+				{
+				case 8:
+					render_08_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 16:
+					render_16_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 24:
+					render_24_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 32:
+					render_32_2x2_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				}
+			}
+			else
+			{
+				switch (depth)
+				{
+				case 8:
+					render_08_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 16:
+					render_16_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 24:
+					render_24_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 32:
+					render_32_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				}
 			}
 		}
 		else
 		{
-			switch (depth)
+			if (doublesize)
 			{
-			case 8:
-				render_08_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
-			case 16:
-				render_16_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
-			case 24:
-				render_24_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
-			case 32:
-				render_32_1x1_08(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
-				break;
+				switch (depth)
+				{
+				case 8:
+					render_08_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 16:
+					render_16_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 24:
+					render_24_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 32:
+					render_32_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				}
+			}
+			else
+			{
+				switch (depth)
+				{
+				case 8:
+					render_08_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 16:
+					render_16_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 24:
+					render_24_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				case 32:
+					render_32_1x1_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht);
+					break;
+				}
 			}
 		}
 	}
-	else
+	else	/* other render mode than VIDEO_RENDER_PAL */
 	{
 		if (doublesize)
 		{
-			switch (depth)
+			if (VIDEO_RENDER_MONOCHROME_FIXEDWIDTH)
 			{
-			case 8:
-				render_08_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 16:
-				render_16_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 24:
-				render_24_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
-			case 32:
-				render_32_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
-				break;
+				switch (depth)
+				{
+				case 8:
+					render_08_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 16:
+					render_16_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 24:
+					render_24_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 32:
+					render_32_1x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				}
+			}
+			else
+			{
+				switch (depth)
+				{
+				case 8:
+					render_08_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 16:
+					render_16_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 24:
+					render_24_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				case 32:
+					render_32_2x2_04(colortab,src,trg,width,height,xs,ys,xt,yt,pitchs,pitcht,doublescan);
+					break;
+				}
 			}
 		}
 		else

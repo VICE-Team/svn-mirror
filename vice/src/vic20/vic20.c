@@ -190,7 +190,7 @@ int machine_init_resources(void)
 {
     if (traps_resources_init()
         || vsync_resources_init() < 0
-        || video_resources_init() < 0
+        || video_resources_init(VIDEO_RESOURCES_PAL) < 0
         || vic20_resources_init() < 0
         || vic_resources_init() < 0
         || sound_resources_init() < 0

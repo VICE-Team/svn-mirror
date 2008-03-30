@@ -2508,6 +2508,7 @@ int ui_init(int *argc, char *argv[])
     case VICE_MACHINE_C64: iname = ((vsid_mode) ? "!vicevsid" : "!vice64"); break;
     case VICE_MACHINE_C128: iname = "!vice128"; break;
     case VICE_MACHINE_PET: iname = "!vicepet"; break;
+    case VICE_MACHINE_PLUS4: iname = "!viceplus4"; break;
     case VICE_MACHINE_VIC20: iname = "!vicevic"; break;
     case VICE_MACHINE_CBM2: iname = "!vicecbm2"; break;
     default: iname = "?"; break;
@@ -2797,7 +2798,7 @@ int ui_init_finalize(void)
   if (!vsid_mode)
     screenshot_init_sprite();
 
-  return sound_init_vidc_device();
+  return 0;
 }
 
 

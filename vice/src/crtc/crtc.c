@@ -371,6 +371,8 @@ raster_t *crtc_init(void)
     if (raster_init(raster, CRTC_NUM_VMODES, 0) < 0)
         return NULL;
 
+	video_render_set_rendermode(VIDEO_RENDER_MONOCHROME);
+
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
     raster_enable_cache(raster, crtc_resources.video_cache_enabled);
@@ -534,6 +536,15 @@ void crtc_resize (void)
     if (! crtc.initialized)
         return;
 
+	if (double_w)
+	{
+		video_render_set_rendermode(VIDEO_RENDER_MONOCHROME_FIXEDWIDTH);
+	}
+	else
+	{
+		video_render_set_rendermode(VIDEO_RENDER_MONOCHROME);
+	}
+
     if (double_h) {
         if (crtc.raster.viewport.pixel_size.height == 1
             && crtc.raster.viewport.canvas != NULL) {
@@ -587,7 +598,6 @@ void crtc_resize (void)
     }
 
     crtc_draw_set_double_size((double_h ? 1 : 0) | (double_w ? 2 : 0));
-
 }
 
 

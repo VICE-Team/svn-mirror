@@ -196,7 +196,6 @@ static RETSIGTYPE break64(int sig)
 
 void archdep_setup_signals(int do_core_dumps)
 {
-
     signal(SIGINT, break64);
     signal(SIGTERM, break64);
 

@@ -144,7 +144,7 @@ int machine_init_resources(void)
 
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init() < 0
+        || video_resources_init(VIDEO_RESOURCES_MONOCHROME) < 0
         || pet_resources_init() < 0
         || crtc_resources_init() < 0
         || pia1_init_resources() < 0

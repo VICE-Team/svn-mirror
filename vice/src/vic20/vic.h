@@ -86,8 +86,19 @@ typedef PIXEL2 VIC_PIXEL2;
 
 #define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4)
 
+#ifndef VIDEO_REMOVE_2X
+#define VIC_BORDER_X(cycle)      (((int)(cycle) - 7) * 4)
+#else /* VIDEO_REMOVE_2X */
+#define VIC_BORDER_X(cycle)      (((int)(cycle) - 7) * 4 * VIC_PIXEL_WIDTH)
+#endif /* VIDEO_REMOVE_2X */
+
+#ifndef VIDEO_REMOVE_2X
 #define VIC_RASTER_CHAR(cycle)   ((int)((cycle) \
                                  - vic.raster.display_xstart / 4 - 6) / 2)
+#else /* VIDEO_REMOVE_2X */
+#define VIC_RASTER_CHAR(cycle)   ((int)((cycle) \
+                                 - vic.raster.display_xstart / (VIC_PIXEL_WIDTH * 4) - 6) / 2)
+#endif /* VIDEO_REMOVE_2X */
 
 /* Video mode definitions. */
 

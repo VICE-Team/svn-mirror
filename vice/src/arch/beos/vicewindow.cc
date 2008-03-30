@@ -136,12 +136,10 @@ ViceView::ViceView(BRect rect)
 }
 
 void ViceView::Draw(BRect rect) {
-	BRect source_rect = rect;
 	ViceWindow *wnd = (ViceWindow *)Window();
 
 	if (wnd->bitmap) {
-		source_rect.OffsetBy(wnd->bitmap_offset);
-		DrawBitmap(wnd->bitmap, source_rect, rect);
+		DrawBitmap(wnd->bitmap, rect, rect);
 	}
 }
 
@@ -194,7 +192,7 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	view = new ViceView(BRect(frame.left,frame.top+r.Height()+1,
 						frame.right,frame.bottom+r.Height()+2));
 	AddChild(view);
-	
+
 	/* bitmap is NULL; will be registered by canvas_refresh */
 	bitmap = NULL;
 	
@@ -254,8 +252,6 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 	BRect statusbar_frame;
 	float new_windowheight;
 	
-	/* bitmap has to be reregistered with new framebuffer */ 
-	bitmap = NULL;
 	if (BWindow::Lock()) {
 		view->ResizeTo(width, height);
 		if (statusbar) {
@@ -279,13 +275,12 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 	}
 }
 
-void ViceWindow::DrawBitmap(BBitmap *framebitmap, 
+void ViceWindow::DrawBitmap(BBitmap *bitmap, 
 	int xs, int ys, int xi, int yi, int w, int h) {
 	if	(BWindow::Lock()) {
-		view->DrawBitmap(framebitmap, 
+		view->DrawBitmap(bitmap, 
 			BRect(xs,ys,xs+w,ys+h),
 			BRect(xi,yi,xi+w,yi+h) );
-		view->Sync();
 		BWindow::Unlock();
 	} 
 }

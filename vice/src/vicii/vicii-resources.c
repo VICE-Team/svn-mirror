@@ -183,8 +183,6 @@ static resource_t resources_2x[] =
 
 int vic_ii_resources_init(void)
 {
-    video_color_set_raster(&vic_ii.raster);
-
 #ifdef VIC_II_NEED_2X
     if (resources_register(resources_2x) < 0)
         return -1;

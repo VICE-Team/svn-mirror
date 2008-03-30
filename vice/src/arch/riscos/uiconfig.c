@@ -565,7 +565,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	24
+#define Menu_Cartridge_Items	25
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -597,7 +597,8 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtRex"),
     MENU_ITEM("\\MenCrtGS"),
     MENU_ITEM("\\MenCrtWrp"),
-    MENU_ITEM_LAST("\\MenCrtDin")
+    MENU_ITEM("\\MenCrtDin"),
+    MENU_ITEM_LAST("\\MenCrtZax")
   }
 };
 
@@ -1055,7 +1056,7 @@ static struct MenuDisplayCartridgeType {
    CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, /*CARTRIDGE_OCEAN_HUGE,*/
    CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
    CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
-   CARTRIDGE_GS, CARTRIDGE_WARPSPEED, CARTRIDGE_DINAMIC}
+   CARTRIDGE_GS, CARTRIDGE_WARPSPEED, CARTRIDGE_DINAMIC, CARTRIDGE_ZAXXON}
 };
 
 static struct MenuDisplayPetMemory {

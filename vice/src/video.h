@@ -67,10 +67,23 @@ extern void video_canvas_unmap(struct video_canvas_s *s);
 extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
                                 unsigned int height);
 
+/* these constants are used to configure the video output */
 
-extern int video_resources_init(void);
+#define VIDEO_RENDER_PAL                      0   /* standard, pixel size 1x1 or 2x2, pal emu possible */
+#define VIDEO_RENDER_MONOCHROME               1   /* mono, pixel size 1x1 or 2x2, no pal emu */
+#define VIDEO_RENDER_MONOCHROME_FIXEDWIDTH    2   /* mono, pixel size 1x1 or 1x2, no pal emu */
+
+extern void video_render_set_rendermode(int mode);
+
+/* these constants tell the video layer what */
+/* resources should be registered */
+
+#define VIDEO_RESOURCES_MONOCHROME	1	/* pet and cbm2 */
+#define VIDEO_RESOURCES_PAL			2	/* c64, c128, vic20 */
+#define VIDEO_RESOURCES_PAL_NOFAKE	3	/* plus4 (fake pal emu not possible here) */
+
+extern int video_resources_init(int mode);
 extern int video_arch_init_resources(void);
-
 
 /* Video render interface */
 

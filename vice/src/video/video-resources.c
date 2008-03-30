@@ -133,6 +133,17 @@ static int set_pal_emulation(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
+    { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&video_resources.ext_palette,
+      set_ext_palette, NULL },
+    { "PaletteFile", RES_STRING, (resource_value_t)"default",
+      (resource_value_t *)&video_resources.palette_file_name,
+      set_palette_file_name, NULL },
+    { NULL }
+};
+
+static resource_t resources_pal[] =
+{
     { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
       (resource_value_t *)&video_resources.color_saturation,
       set_color_saturation, NULL },
@@ -145,23 +156,30 @@ static resource_t resources[] =
     { "ColorGamma", RES_INTEGER, (resource_value_t)880,
       (resource_value_t *)&video_resources.color_gamma,
       set_color_gamma, NULL },
-    { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&video_resources.ext_palette,
-      set_ext_palette, NULL },
     { "DelayLoopEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.delayloop_emulation,
       set_delayloop_emulation, NULL },
     { "PALEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.pal_emulation,
       set_pal_emulation, NULL },
-    { "PaletteFile", RES_STRING, (resource_value_t)"default",
-      (resource_value_t *)&video_resources.palette_file_name,
-      set_palette_file_name, NULL },
     { NULL }
 };
 
-int video_resources_init(void)
+int video_resources_init(int mode)
 {
-    return resources_register(resources) | video_arch_init_resources();
+	int result;
+
+	switch (mode)
+	{
+	case VIDEO_RESOURCES_MONOCHROME:
+		result = resources_register(resources);
+		break;
+	case VIDEO_RESOURCES_PAL:
+	case VIDEO_RESOURCES_PAL_NOFAKE:
+		result = resources_register(resources) | resources_register(resources_pal);
+		break;
+	}
+
+    return result | video_arch_init_resources();
 }
 
