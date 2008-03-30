@@ -25,6 +25,8 @@ list of all the changes in the code.
 
 - The emulation of the processor port has been corrected.
 
+- The CIA timer emulation has been further improved.
+
 - RAM/ROM banking is done 100% accurate now.
 
 - Ocean cartridge crash fixed.
