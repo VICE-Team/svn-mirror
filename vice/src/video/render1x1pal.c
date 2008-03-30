@@ -29,7 +29,7 @@
 #include "render1x1.h"
 #include "types.h"
 
-extern SDWORD  ytable[128];
+extern SDWORD ytable[128];
 extern SDWORD cbtable[128];
 extern SDWORD crtable[128];
 
@@ -43,431 +43,397 @@ SDWORD line_yuv_1[1024*3];
 /* PAL 1x1 renderers */
 
 void render_16_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					   unsigned int width,        const unsigned int height,
-					   const unsigned int xs,     const unsigned int ys,
-					   const unsigned int xt,     const unsigned int yt,
-					   const unsigned int pitchs, const unsigned int pitcht)
+                         unsigned int width, const unsigned int height,
+                         const unsigned int xs, const unsigned int ys,
+                         const unsigned int xt, const unsigned int yt,
+                         const unsigned int pitchs, const unsigned int pitcht)
 {
-	const BYTE *tmpsrc;
-	WORD *tmptrg;
-	SDWORD *lineptr0;
-	SDWORD *lineptr1;
-	SDWORD *line;
-	SDWORD *linepre;
-	unsigned int x,y,wstart,wfast,wend,wint;
-	SDWORD l,u,v;
-	DWORD red,grn,blu;
+    const BYTE *tmpsrc;
+    WORD *tmptrg;
+    SDWORD *lineptr0;
+    SDWORD *lineptr1;
+    SDWORD *line;
+    SDWORD *linepre;
+    unsigned int x, y, wstart, wfast, wend, wint;
+    SDWORD l, u, v;
+    DWORD red, grn, blu;
 
-	src=src + pitchs*ys + xs - 2;
-	trg=trg + pitcht*yt + (xt << 1);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	wint = width + 5;
-	lineptr0 = line_yuv_0;
-	lineptr1 = line_yuv_1;
+    src = src + pitchs * ys + xs - 2;
+    trg = trg + pitcht * yt + (xt << 1);
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    wint = width + 5;
+    lineptr0 = line_yuv_0;
+    lineptr1 = line_yuv_1;
 
-	tmpsrc=src - pitchs;
-	line = lineptr0;
-	for (x=0;x<wint;x++)
-	{
-		register DWORD cl0, cl1, cl2, cl3;
+    tmpsrc = src - pitchs;
+    line = lineptr0;
+    for (x = 0; x < wint; x++) {
+        register DWORD cl0, cl1, cl2, cl3;
 
-		cl0 = tmpsrc[0];
-		cl1 = tmpsrc[1];
-		cl2 = tmpsrc[2];
-		cl3 = tmpsrc[3];
-		line[0] = 0;
-		line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-		line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-		tmpsrc++;
-		line += 3;
-	}
+        cl0 = tmpsrc[0];
+        cl1 = tmpsrc[1];
+        cl2 = tmpsrc[2];
+        cl3 = tmpsrc[3];
+        line[0] = 0;
+        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+        tmpsrc++;
+        line += 3;
+    }
 
-	if (ys & 1)
-	{
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
+    if (ys & 1) {
+        line = lineptr0;
+        lineptr0 = lineptr1;
+        lineptr1 = line;
 
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
+        tmpsrc = src;
+        line = lineptr0;
+        for (x = 0; x < wint; x++) {
+            register DWORD cl0, cl1, cl2, cl3;
 
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = ytable[cl2];
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
-	}
-	line = lineptr1;
+            cl0 = tmpsrc[0];
+            cl1 = tmpsrc[1];
+            cl2 = tmpsrc[2];
+            cl3 = tmpsrc[3];
+            line[0] = ytable[cl2];
+            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+            tmpsrc++;
+            line += 3;
+        }
+    }
+    line = lineptr1;
 
+    for (y = 0; y < height; y++) {
+        tmpsrc=src;
+        tmptrg=(WORD *)trg;
 
-	for (y=0;y<height;y++)
-	{
-		tmpsrc=src;
-		tmptrg=(WORD *)trg;
+        line = lineptr0;
+        lineptr0 = lineptr1;
+        lineptr1 = line;
 
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
+        tmpsrc = src;
+        line = lineptr0;
+        for (x = 0; x < wint; x++) {
+            register DWORD cl0, cl1, cl2, cl3;
 
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
+            cl0 = tmpsrc[0];
+            cl1 = tmpsrc[1];
+            cl2 = tmpsrc[2];
+            cl3 = tmpsrc[3];
+            line[0] = ytable[cl2];
+            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+            tmpsrc++;
+            line += 3;
+        }
 
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = ytable[cl2];
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
+        line = lineptr0;
+        linepre = lineptr1;
+        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
 
-		line = lineptr0;
-		linepre = lineptr1;
-		for (x=0;x<(wfast<<3)+wend+wstart;x++)
-		{
+            l = line[0];
+            u = (line[1] + linepre[1]) >> 3;
+            v = (line[2] + linepre[2]) >> 3;
+            line += 3;
+            linepre += 3;
 
-			l = line[0];
-			u = (line[1] + linepre[1]) >> 3;
-			v = (line[2] + linepre[2]) >> 3;
-			line += 3;
-			linepre += 3;
+            red = ((v+l) >> 8) + 256;
+            blu = ((u+l) >> 8) + 256;
+            grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-			red = ((v+l) >> 8) + 256;
-			blu = ((u+l) >> 8) + 256;
-			grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
+            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+        }
 
-			*tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
-		}
-
-		src += pitchs;
-		trg += pitcht;
-	}
+        src += pitchs;
+        trg += pitcht;
+    }
 }
 
 void render_32_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					   unsigned int width,        const unsigned int height,
-					   const unsigned int xs,     const unsigned int ys,
-					   const unsigned int xt,     const unsigned int yt,
-					   const unsigned int pitchs, const unsigned int pitcht)
+                         unsigned int width, const unsigned int height,
+                         const unsigned int xs, const unsigned int ys,
+                         const unsigned int xt, const unsigned int yt,
+                         const unsigned int pitchs, const unsigned int pitcht)
 {
-	const BYTE *tmpsrc;
-	DWORD *tmptrg;
-	SDWORD *lineptr0;
-	SDWORD *lineptr1;
-	SDWORD *line;
-	SDWORD *linepre;
-	unsigned int x,y,wstart,wfast,wend,wint;
-	SDWORD l,u,v;
-	DWORD red,grn,blu;
+    const BYTE *tmpsrc;
+    DWORD *tmptrg;
+    SDWORD *lineptr0;
+    SDWORD *lineptr1;
+    SDWORD *line;
+    SDWORD *linepre;
+    unsigned int x, y, wstart, wfast, wend, wint;
+    SDWORD l, u, v;
+    DWORD red, grn, blu;
 
-	src=src + pitchs*ys + xs - 2;
-	trg=trg + pitcht*yt + (xt << 2);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	wint = width + 5;
-	lineptr0 = line_yuv_0;
-	lineptr1 = line_yuv_1;
+    src=src + pitchs * ys + xs - 2;
+    trg=trg + pitcht * yt + (xt << 2);
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend =(width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    wint = width + 5;
+    lineptr0 = line_yuv_0;
+    lineptr1 = line_yuv_1;
 
-	tmpsrc=src - pitchs;
-	line = lineptr0;
-	for (x=0;x<wint;x++)
-	{
-		register DWORD cl0, cl1, cl2, cl3;
+    tmpsrc = src - pitchs;
+    line = lineptr0;
+    for (x = 0; x < wint; x++) {
+        register DWORD cl0, cl1, cl2, cl3;
 
-		cl0 = tmpsrc[0];
-		cl1 = tmpsrc[1];
-		cl2 = tmpsrc[2];
-		cl3 = tmpsrc[3];
-		line[0] = 0;
-		line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-		line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-		tmpsrc++;
-		line += 3;
-	}
+        cl0 = tmpsrc[0];
+        cl1 = tmpsrc[1];
+        cl2 = tmpsrc[2];
+        cl3 = tmpsrc[3];
+        line[0] = 0;
+        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+        tmpsrc++;
+        line += 3;
+    }
 
-	for (y=0;y<height;y++)
-	{
-		tmpsrc=src;
-		tmptrg=(DWORD *)trg;
+    for (y = 0; y < height; y++) {
+        tmpsrc = src;
+        tmptrg = (DWORD *)trg;
 
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
+        line = lineptr0;
+        lineptr0 = lineptr1;
+        lineptr1 = line;
 
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
+        tmpsrc=src;
+        line = lineptr0;
+        for (x = 0;x < wint; x++) {
+            register DWORD cl0, cl1, cl2, cl3;
 
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = ytable[cl2];
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
+            cl0 = tmpsrc[0];
+            cl1 = tmpsrc[1];
+            cl2 = tmpsrc[2];
+            cl3 = tmpsrc[3];
+            line[0] = ytable[cl2];
+            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+            tmpsrc++;
+            line += 3;
+        }
 
-		line = lineptr0;
-		linepre = lineptr1;
-		for (x=0;x<(wfast<<3)+wend+wstart;x++)
-		{
+        line = lineptr0;
+        linepre = lineptr1;
+        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
 
-			l = line[0];
-			u = (line[1] + linepre[1]) >> 3;
-			v = (line[2] + linepre[2]) >> 3;
-			line += 3;
-			linepre += 3;
+            l = line[0];
+            u = (line[1] + linepre[1]) >> 3;
+            v = (line[2] + linepre[2]) >> 3;
+            line += 3;
+            linepre += 3;
 
-			red = ((v+l) >> 8) + 256;
-			blu = ((u+l) >> 8) + 256;
-			grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
+            red = ((v+l) >> 8) + 256;
+            blu = ((u+l) >> 8) + 256;
+            grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-			*tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
-		}
+            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+        }
 
-		src += pitchs;
-		trg += pitcht;
-	}
+        src += pitchs;
+        trg += pitcht;
+    }
 }
 
 void render_16_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					   unsigned int width,        const unsigned int height,
-					   const unsigned int xs,     const unsigned int ys,
-					   const unsigned int xt,     const unsigned int yt,
-					   const unsigned int pitchs, const unsigned int pitcht)
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
-	const BYTE *tmpsrc;
-	WORD *tmptrg;
-	SDWORD *lineptr0;
-	SDWORD *lineptr1;
-	SDWORD *line;
-	SDWORD *linepre;
-	unsigned int x,y,wstart,wfast,wend,wint;
-	SDWORD l,u,v;
-	DWORD red,grn,blu;
+    const BYTE *tmpsrc;
+    WORD *tmptrg;
+    SDWORD *lineptr0;
+    SDWORD *lineptr1;
+    SDWORD *line;
+    SDWORD *linepre;
+    unsigned int x, y, wstart, wfast, wend, wint;
+    SDWORD l, u, v;
+    DWORD red, grn, blu;
 
-	src=src + pitchs*ys + xs - 2;
-	trg=trg + pitcht*yt + (xt << 1);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	wint = width + 5;
-	lineptr0 = line_yuv_0;
-	lineptr1 = line_yuv_1;
+    src = src + pitchs * ys + xs - 2;
+    trg = trg + pitcht * yt + (xt << 1);
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    wint = width + 5;
+    lineptr0 = line_yuv_0;
+    lineptr1 = line_yuv_1;
 
-	tmpsrc=src - pitchs;
-	line = lineptr0;
-	for (x=0;x<wint;x++)
-	{
-		register DWORD cl0, cl1, cl2, cl3;
+    tmpsrc = src - pitchs;
+    line = lineptr0;
+    for (x = 0; x < wint; x++) {
+        register DWORD cl0, cl1, cl2, cl3;
 
-		cl0 = tmpsrc[0];
-		cl1 = tmpsrc[1];
-		cl2 = tmpsrc[2];
-		cl3 = tmpsrc[3];
-		line[0] = 0;
-		line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-		line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-		tmpsrc++;
-		line += 3;
-	}
+        cl0 = tmpsrc[0];
+        cl1 = tmpsrc[1];
+        cl2 = tmpsrc[2];
+        cl3 = tmpsrc[3];
+        line[0] = 0;
+        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+        tmpsrc++;
+        line += 3;
+    }
 
-	for (y=0;y<height;y++)
-	{
-		tmpsrc=src;
-		tmptrg=(WORD *)trg;
+    for (y = 0; y < height; y++) {
+        tmpsrc = src;
+        tmptrg = (WORD *)trg;
 
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
+        line = lineptr0;
+        lineptr0 = lineptr1;
+        lineptr1 = line;
 
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
+        tmpsrc = src;
+        line = lineptr0;
+        for (x = 0; x < wint; x++) {
+            register DWORD cl0, cl1, cl2, cl3;
 
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
+            cl0 = tmpsrc[0];
+            cl1 = tmpsrc[1];
+            cl2 = tmpsrc[2];
+            cl3 = tmpsrc[3];
+            line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
+            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+            tmpsrc++;
+            line += 3;
+        }
 
-		line = lineptr0;
-		linepre = lineptr1;
-		for (x=0;x<(wfast<<3)+wend+wstart;x++)
-		{
+        line = lineptr0;
+        linepre = lineptr1;
+        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
 
-			l = line[0];
-			u = (line[1] + linepre[1]) >> 3;
-			v = (line[2] + linepre[2]) >> 3;
-			line += 3;
-			linepre += 3;
+            l = line[0];
+            u = (line[1] + linepre[1]) >> 3;
+            v = (line[2] + linepre[2]) >> 3;
+            line += 3;
+            linepre += 3;
 
-			red = ((v+l) >> 8) + 256;
-			blu = ((u+l) >> 8) + 256;
-			grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
+            red = ((v + l) >> 8) + 256;
+            blu = ((u + l) >> 8) + 256;
+            grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-			*tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
-		}
+            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+        }
 
-		src += pitchs;
-		trg += pitcht;
-	}
+        src += pitchs;
+        trg += pitcht;
+    }
 }
 
 void render_32_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					   unsigned int width,        const unsigned int height,
-					   const unsigned int xs,     const unsigned int ys,
-					   const unsigned int xt,     const unsigned int yt,
-					   const unsigned int pitchs, const unsigned int pitcht)
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
-	const BYTE *tmpsrc;
-	DWORD *tmptrg;
-	SDWORD *lineptr0;
-	SDWORD *lineptr1;
-	SDWORD *line;
-	SDWORD *linepre;
-	unsigned int x,y,wstart,wfast,wend,wint;
-	SDWORD l,u,v;
-	DWORD red,grn,blu;
+    const BYTE *tmpsrc;
+    DWORD *tmptrg;
+    SDWORD *lineptr0;
+    SDWORD *lineptr1;
+    SDWORD *line;
+    SDWORD *linepre;
+    unsigned int x, y, wstart, wfast, wend, wint;
+    SDWORD l, u, v;
+    DWORD red, grn, blu;
 
-	src=src + pitchs*ys + xs - 2;
-	trg=trg + pitcht*yt + (xt << 2);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	wint = width + 5;
-	lineptr0 = line_yuv_0;
-	lineptr1 = line_yuv_1;
+    src = src + pitchs * ys + xs - 2;
+    trg = trg + pitcht * yt + (xt << 2);
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    wint = width + 5;
+    lineptr0 = line_yuv_0;
+    lineptr1 = line_yuv_1;
 
-	tmpsrc=src - pitchs;
-	line = lineptr0;
-	for (x=0;x<wint;x++)
-	{
-		register DWORD cl0, cl1, cl2, cl3;
+    tmpsrc = src - pitchs;
+    line = lineptr0;
+    for (x = 0; x < wint; x++) {
+        register DWORD cl0, cl1, cl2, cl3;
 
-		cl0 = tmpsrc[0];
-		cl1 = tmpsrc[1];
-		cl2 = tmpsrc[2];
-		cl3 = tmpsrc[3];
-		line[0] = 0;
-		line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-		line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-		tmpsrc++;
-		line += 3;
-	}
+        cl0 = tmpsrc[0];
+        cl1 = tmpsrc[1];
+        cl2 = tmpsrc[2];
+        cl3 = tmpsrc[3];
+        line[0] = 0;
+        line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+        line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+        tmpsrc++;
+        line += 3;
+    }
 
-	for (y=0;y<height;y++)
-	{
-		tmpsrc=src;
-		tmptrg=(DWORD *)trg;
+    for (y = 0; y < height; y++) {
+        tmpsrc = src;
+        tmptrg = (DWORD *)trg;
 
-		line = lineptr0;
-		lineptr0 = lineptr1;
-		lineptr1 = line;
+        line = lineptr0;
+        lineptr0 = lineptr1;
+        lineptr1 = line;
 
-		tmpsrc=src;
-		line = lineptr0;
-		for (x=0;x<wint;x++)
-		{
-			register DWORD cl0, cl1, cl2, cl3;
+        tmpsrc = src;
+        line = lineptr0;
+        for (x = 0; x < wint; x++) {
+            register DWORD cl0, cl1, cl2, cl3;
 
-			cl0 = tmpsrc[0];
-			cl1 = tmpsrc[1];
-			cl2 = tmpsrc[2];
-			cl3 = tmpsrc[3];
-			line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
-			line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
-			line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
-			tmpsrc++;
-			line += 3;
-		}
+            cl0 = tmpsrc[0];
+            cl1 = tmpsrc[1];
+            cl2 = tmpsrc[2];
+            cl3 = tmpsrc[3];
+            line[0] = (ytable[cl1] + ytable[cl2] + ytable[cl2] + ytable[cl3]) >> 2;
+            line[1] = cbtable[cl0] + cbtable[cl1] + cbtable[cl2] + cbtable[cl3];
+            line[2] = crtable[cl0] + crtable[cl1] + crtable[cl2] + crtable[cl3];
+            tmpsrc++;
+            line += 3;
+        }
 
-		line = lineptr0;
-		linepre = lineptr1;
-		for (x=0;x<(wfast<<3)+wend+wstart;x++)
-		{
+        line = lineptr0;
+        linepre = lineptr1;
+        for (x = 0; x < (wfast << 3) + wend + wstart; x++) {
 
-			l = line[0];
-			u = (line[1] + linepre[1]) >> 3;
-			v = (line[2] + linepre[2]) >> 3;
-			line += 3;
-			linepre += 3;
+            l = line[0];
+            u = (line[1] + linepre[1]) >> 3;
+            v = (line[2] + linepre[2]) >> 3;
+            line += 3;
+            linepre += 3;
 
-			red = ((v+l) >> 8) + 256;
-			blu = ((u+l) >> 8) + 256;
-			grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
+            red = ((v+l) >> 8) + 256;
+            blu = ((u+l) >> 8) + 256;
+            grn = (((l << 8) - 50*u - 130*v) >> 16) + 256;
 
-			*tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
-		}
+            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+        }
 
-		src += pitchs;
-		trg += pitcht;
-	}
+        src += pitchs;
+        trg += pitcht;
+    }
 }
-
-/*****************************************************************************/
-/*****************************************************************************/
 
