@@ -113,8 +113,8 @@ void render_16_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
     line = lineptr1;
 
     for (y = 0; y < height; y++) {
-        tmpsrc=src;
-        tmptrg=(WORD *)trg;
+        tmpsrc = src;
+        tmptrg = (WORD *)trg;
 
         line = lineptr0;
         lineptr0 = lineptr1;
@@ -150,7 +150,8 @@ void render_16_1x1_palyc(const DWORD *colortab, const BYTE *src, BYTE *trg,
             blu = ((u+l) >> 8) + 256;
             grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+            *tmptrg++ = (WORD)(gamma_red[red] | gamma_grn[grn]
+                        | gamma_blu[blu]);
         }
 
         src += pitchs;
@@ -336,7 +337,8 @@ void render_16_1x1_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
             blu = ((u + l) >> 8) + 256;
             grn = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 
-            *tmptrg++ = gamma_red[red] | gamma_grn[grn] | gamma_blu[blu];
+            *tmptrg++ = (WORD)(gamma_red[red] | gamma_grn[grn]
+                        | gamma_blu[blu]);
         }
 
         src += pitchs;

@@ -115,7 +115,7 @@ struct raster_s {
     unsigned int current_line;
 
     /* Border and background colors.  */
-    int border_color, background_color;
+    unsigned int border_color, background_color;
 
     /* Color of the overscan area.  */
     int overscan_background_color;
