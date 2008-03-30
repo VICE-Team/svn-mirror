@@ -141,6 +141,9 @@ static void zfile_list_add(const char *tmp_name,
     /* Always treat it as the full pathname... */
     new_zfile->orig_name = (char*)malloc(strlen(orig_name) + 1);
     strcpy(new_zfile->orig_name, orig_name);
+#elif defined WIN32
+    /*  Win32 version   */
+    new_zfile->orig_name = stralloc(orig_name);
 #else
     /* Unix version.  */
     if (*orig_name == '/') {

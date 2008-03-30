@@ -35,17 +35,16 @@
 #include "vice.h"
 #include "log.h"
 
+#include "ui.h"
 #include "ROlib.h"
 
-
-extern void ui_set_sound_volume(void);
 
 
 /* Separate stack for sound thread */
 #define STACKSIZE	4096
 char SoundCallbackStack[STACKSIZE];
 
-timer_env SoundTimer = {0, NULL, 0, 0, NULL, NULL};
+timer_env SoundTimer = {0, NULL, 0, 0, NULL, NULL, 0};
 
 
 /* Set to 1 as soon as foreground process is allowed to call sample generation */
@@ -53,20 +52,21 @@ int SoundMachineReady = 0;
 /* Polling frequency in cs. A value of 0 means auto = 0.5 * buffer frequency */
 int SoundPollEvery = 0;
 
-log_t vidc_log = LOG_ERR;
+log_t vidc_log = LOG_DEFAULT;
 
 unsigned char *LinToLog = NULL;
 unsigned char *LogScale = NULL;
 SWORD *VIDCSampleBuffer;
 
+static int SndTimerActive = 0;
 static int buffersize;
 
+static int timerPeriod = 0;
 
 
-static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
+
+static int init_vidc_device(warn_t *w, const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
-  int timerPeriod;
-
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
@@ -75,13 +75,13 @@ static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, 
     memset(SoundCallbackStack, 0, STACKSIZE);
     if (timer_callback_init_stack(&SoundTimer, SoundCallbackStack, STACKSIZE, NULL) != 0)
     {
-      log_error(vidc_log, "Can't set up runtime stack for sound thread!\n");
+      log_error(vidc_log, "Can't set up runtime stack for sound thread!");
       return 1;
     }
   }
 
   *fragsize = (*fragsize + 15) & ~15;
-  buffersize = (*fragsize)*(*fragnr);
+  buffersize = *fragsize;
 
   if (DigitalRenderer_Activate(1, buffersize, 1000000/(*speed)) != NULL)
   {
@@ -91,6 +91,7 @@ static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, 
 
   if ((VIDCSampleBuffer = (SWORD*)malloc(buffersize*sizeof(SWORD))) == NULL)
   {
+    log_error(vidc_log, "Can't claim memory for sound buffer!");
     DigitalRenderer_Deactivate();
     return 1;
   }
@@ -107,11 +108,11 @@ static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, 
   {
     timerPeriod = SoundPollEvery;
   }
-  timer_callback_install(&SoundTimer, timerPeriod, sound_poll);
+  timer_callback_install(&SoundTimer, timerPeriod, sound_poll, 1);
 
   ui_set_sound_volume();
 
-  /*fprintf(logfile, "vidc OK\n");*/
+  /*log_message(vidc_log, "vidc OK");*/
 
   return 0;
 }
@@ -130,14 +131,15 @@ static void vidc_close(warn_t *w)
 {
   _kernel_oserror *err;
 
-  /*fprintf(logfile, "vidc_close\n");*/
+  /*log_message(vidc_log, "vidc_close\n");*/
 
+  SoundMachineReady = 0;
   timer_callback_remove(&SoundTimer);
   SoundTimer.f = NULL;
 
   if ((err = DigitalRenderer_Deactivate()) != NULL)
   {
-    log_error(vidc_log, "%s\n", err->errmess);
+    log_error(vidc_log, "%s", err->errmess);
   }
   if (VIDCSampleBuffer != NULL)
   {
@@ -172,7 +174,7 @@ static int vidc_resume(warn_t *w)
 
   if (SoundTimer.f != NULL)
   {
-    timer_callback_install(&SoundTimer, SoundTimer.period, sound_poll);
+    timer_callback_install(&SoundTimer, timerPeriod, sound_poll, 1);
   }
 
   return 0;
@@ -187,25 +189,13 @@ static int vidc_write(warn_t *w, SWORD *pbuf, int nr)
 }
 
 
-static int vidc_dump(warn_t *w, ADDRESS addr, BYTE byte, CLOCK clks)
-{
-  return 0;
-}
-
-
-static int vidc_flush(warn_t *w, char *state)
-{
-  return 0;
-}
-
-
 static sound_device_t vidc_device =
 {
   "vidc",
   init_vidc_device,
   vidc_write,
-  vidc_dump,
-  vidc_flush,
+  NULL,
+  NULL,
   vidc_bufferstatus,
   vidc_close,
   vidc_suspend,
@@ -224,6 +214,30 @@ void sound_poll(void)
       sound_synthesize(VIDCSampleBuffer, buffersize);
       DigitalRenderer_New16BitSample(VIDCSampleBuffer);
     }
+  }
+}
+
+
+/* Called before Wimp_Poll */
+void sound_wimp_poll_prologue(void)
+{
+  if ((SoundTimer.f != NULL) && ((SoundTimer.flags & 3) != 0))
+  {
+    SndTimerActive = 1;
+    timer_callback_remove(&SoundTimer);
+  }
+  else
+  {
+    SndTimerActive = 0;
+  }
+}
+
+/* Called after Wimp_Poll */
+void sound_wimp_poll_epilogue(void)
+{
+  if ((SoundTimer.f != NULL) && (SndTimerActive != 0))
+  {
+    timer_callback_resume(&SoundTimer);
   }
 }
 

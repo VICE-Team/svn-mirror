@@ -89,8 +89,8 @@ BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk)
 {
     int					delta;
 
-    delta = (int) (psid->clk + sound_sample_position()*psid->clkstep
-                   - psid->sidclk);
+    delta = (int) BIG_FLOAT_TO_INT(psid->clk + sound_sample_position()*psid->clkstep
+                                 - psid->sidclk);
     if (delta > 0)
     {
 	psid->sid.clock(delta);
@@ -105,8 +105,8 @@ void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
 {
     int					delta;
 
-    delta = (int) (psid->clk + sound_sample_position()*psid->clkstep
-                   - psid->sidclk);
+    delta = (int) BIG_FLOAT_TO_INT(psid->clk + sound_sample_position()*psid->clkstep
+                                 - psid->sidclk);
     if (delta > 0)
     {
 	psid->sid.clock(delta);

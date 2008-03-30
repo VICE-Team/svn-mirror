@@ -1030,7 +1030,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 	break;
     case 0x1b:
 	/* osc3 / random */
-	ffix = sound_sample_position()*psid->v[2].fs;
+	ffix = (WORD)BIG_FLOAT_TO_INT(sound_sample_position()*psid->v[2].fs);
 	rvstore = psid->v[2].rv;
 	if (
 #ifdef WAVETABLES
