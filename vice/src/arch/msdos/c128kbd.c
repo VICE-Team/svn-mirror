@@ -92,6 +92,7 @@ static keyconv c128_keyboard[256] = {
     { -1, -1, 0 },		/*     Left Alt -> (no key)     */
     { 7, 4, 0 },		/*        Space -> Space        */
     { 7, 7, 0 },		/*    Caps Lock -> Run/Stop     */
+#if 0
     { 0, 4, 0 },		/*           F1 -> F1           */
     { 0, 4, 1 },		/*           F2 -> F2           */
     { 0, 5, 0 },		/*           F3 -> F3           */
@@ -100,36 +101,46 @@ static keyconv c128_keyboard[256] = {
     { 0, 6, 1 },		/*           F6 -> F6           */
     { 0, 3, 0 },		/*           F7 -> F7           */
     { 0, 3, 1 },		/*           F8 -> F8           */
-    { -1, -1, 0 },		/*           F9 -> (no key)     */
-    { -1, -1, 0 },		/*          F10 -> (no key)	*/
+#else
+    { 9, 0, 0 },		/*           F1 -> ESC          */
+    { 8, 3, 0 },		/*           F2 -> TAB          */
+    { 10, 0, 0 },		/*           F3 -> Alt          */
+    { -1, -1, 0 },		/*           F4 -> (no key)     */
+    { 8, 0, 0 },		/*           F5 -> HELP         */
+    { 9, 3, 0 },		/*           F6 -> LINE FEED    */
+    { -1, -1, 0 },		/*           F7 -> (no key)     */
+    { 10, 7, 0 },		/*           F8 -> NO SCROLL    */
+#endif
+    { 0, 4, 0 },		/*           F9 -> F1           */
+    { 0, 5, 0 },		/*          F10 -> F3    	*/
     { -1, -1, 0 },		/*     Num Lock -> (no key)	*/
     { -1, -1, 0 },		/*  Scroll Lock -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 7 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 8 -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 9 -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad - -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 4 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 5 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 6 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad + -> (no key)	*/
-    { -1, -1, 0 },		/*     Numpad 1 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 2 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 3 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad 0 -> (no key) 	*/
-    { -1, -1, 0 },		/*     Numpad . -> (no key) 	*/
+    { 8, 6, 0 },		/*     Numpad 7 -> Numpad 7 	*/
+    { 8, 1, 0 },		/*     Numpad 8 -> Numpad 8	*/
+    { 9, 6, 0 },		/*     Numpad 9 -> Numpad 9	*/
+    { 9, 1, 0 },		/*     Numpad - -> Numpad +	*/
+    { 8, 5, 0 },		/*     Numpad 4 -> Numpad 4 	*/
+    { 8, 2, 0 },		/*     Numpad 5 -> Numpad 5 	*/
+    { 9, 5, 0 },		/*     Numpad 6 -> Numpad 6 	*/
+    { 9, 2, 0 },		/*     Numpad + -> Numpad -	*/
+    { 8, 7, 0 },		/*     Numpad 1 -> Numpad 1 	*/
+    { 8, 4, 0 },		/*     Numpad 2 -> Numpad 2 	*/
+    { 9, 7, 0 },		/*     Numpad 3 -> Numpad 3 	*/
+    { 10, 1, 0 },		/*     Numpad 0 -> Numpad 0 	*/
+    { 10, 2, 0 },		/*     Numpad . -> Numpad . 	*/
     { -1, -1, 0 },		/*       SysReq -> (no key) 	*/
     { -1, -1, 0 },		/*           85 -> (no key) 	*/
     { -1, -1, 0 },		/*           86 -> (no key) 	*/
-    { -1, -1, 0 },		/*          F11 -> (no key) 	*/
-    { -1, -1, 0 },		/*          F12 -> (no key) 	*/
+    { 0, 6, 0 },		/*          F11 -> F5    	*/
+    { 0, 3, 0 },		/*          F12 -> F7    	*/
     { 6, 3, 0 },		/*         Home -> CLR/HOME 	*/
-    { 0, 7, 1 },		/*           Up -> CRSR UP 	*/
+    { 10, 3, 0 },		/*           Up -> Up    	*/
     { -1, -1, 0 },		/*         PgUp -> (no key) 	*/
-    { 0, 2, 1 },		/*         Left -> CRSR LEFT 	*/
-    { 0, 2, 0 },		/*        Right -> CRSR RIGHT 	*/
-    { -1, -1, 0 },		/*          End -> (no key) 	*/
-    { 0, 7, 0 },		/*         Down -> CRSR DOWN 	*/
-    { -1, -1, 0 },		/*       PgDown -> (no key) 	*/
+    { 10, 5, 0 },		/*         Left -> Left 	*/
+    { 10, 6, 0 },		/*        Right -> Right 	*/
+    { 0, 7, 0 },		/*          End -> CRSR DOWN 	*/
+    { 10, 4, 0 },		/*         Down -> Down 	*/
+    { 0, 2, 0 },		/*       PgDown -> CRSR RIGHT 	*/
     { 6, 0, 0 },		/*          Ins -> Pound 	*/
     { 6, 6, 0 },		/*          Del -> Up Arrow 	*/
     { -1, -1, 0 },		/* Numpad Enter -> (no key) 	*/
