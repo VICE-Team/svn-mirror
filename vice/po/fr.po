@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-06-05 20:16+0200\n"
+"POT-Creation-Date: 2002-06-08 22:47+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -43,14 +43,14 @@ msgstr ""
 msgid "Received signal %d."
 msgstr "Signal %d reçu"
 
-#: src/arch/unix/c128ui.c:59 src/arch/unix/c610ui.c:57
-#: src/arch/unix/c64ui.c:59 src/arch/unix/plus4ui.c:54
+#: src/arch/unix/c128ui.c:59 src/arch/unix/c64ui.c:59
+#: src/arch/unix/cbm2ui.c:57 src/arch/unix/plus4ui.c:54
 #: src/arch/unix/vic20ui.c:401 src/arch/unix/vsidui.c:120
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/unix/c128ui.c:61 src/arch/unix/c610ui.c:59
-#: src/arch/unix/c64ui.c:61 src/arch/unix/plus4ui.c:56
+#: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:61
+#: src/arch/unix/cbm2ui.c:59 src/arch/unix/plus4ui.c:56
 #: src/arch/unix/vic20ui.c:403 src/arch/unix/vsidui.c:122
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
@@ -106,47 +106,47 @@ msgid "Color set"
 msgstr "Jeu de couleurs"
 
 #: src/arch/unix/c128ui.c:196 src/arch/unix/c128ui.c:222
-#: src/arch/unix/c610ui.c:283 src/arch/unix/c610ui.c:309
 #: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
+#: src/arch/unix/cbm2ui.c:283 src/arch/unix/cbm2ui.c:309
 msgid "*Second SID"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:198 src/arch/unix/c128ui.c:224
-#: src/arch/unix/c610ui.c:285 src/arch/unix/c610ui.c:311
 #: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:242
+#: src/arch/unix/cbm2ui.c:285 src/arch/unix/cbm2ui.c:311
 msgid "*Second SID base address"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:201 src/arch/unix/c128ui.c:230
-#: src/arch/unix/c610ui.c:288 src/arch/unix/c610ui.c:318
 #: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:248
+#: src/arch/unix/cbm2ui.c:288 src/arch/unix/cbm2ui.c:318
 msgid "*Emulate filters"
 msgstr "*Emuler les filtres"
 
 #: src/arch/unix/c128ui.c:203 src/arch/unix/c128ui.c:232
-#: src/arch/unix/c610ui.c:290 src/arch/unix/c610ui.c:320
 #: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:250
+#: src/arch/unix/cbm2ui.c:290 src/arch/unix/cbm2ui.c:320
 msgid "Chip model"
 msgstr "Modèle de chip"
 
 #: src/arch/unix/c128ui.c:207 src/arch/unix/c128ui.c:227
-#: src/arch/unix/c610ui.c:294 src/arch/unix/c610ui.c:315
 #: src/arch/unix/c64ui.c:225 src/arch/unix/c64ui.c:245
+#: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:315
 msgid "*Use reSID emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/c128ui.c:209 src/arch/unix/c610ui.c:296
-#: src/arch/unix/c64ui.c:227
+#: src/arch/unix/c128ui.c:209 src/arch/unix/c64ui.c:227
+#: src/arch/unix/cbm2ui.c:296
 msgid "reSID sampling method"
 msgstr "Méthode d'échantillonnage reSID"
 
-#: src/arch/unix/c128ui.c:211 src/arch/unix/c610ui.c:298
-#: src/arch/unix/c64ui.c:229
+#: src/arch/unix/c128ui.c:211 src/arch/unix/c64ui.c:229
+#: src/arch/unix/cbm2ui.c:298
 msgid "reSID resampling passband..."
 msgstr "Bande passante du rééchantillonnage reSID"
 
-#: src/arch/unix/c128ui.c:220 src/arch/unix/c610ui.c:307
-#: src/arch/unix/c64ui.c:238 src/arch/unix/uisound.c:120
+#: src/arch/unix/c128ui.c:220 src/arch/unix/c64ui.c:238
+#: src/arch/unix/cbm2ui.c:307 src/arch/unix/uisound.c:120
 #: src/arch/unix/vsidui.c:146
 msgid "*Enable sound playback"
 msgstr "*Aciver la lecture des sons"
@@ -238,14 +238,14 @@ msgstr "Charger la nouvelle ROM 1581"
 msgid "Load new 2031 ROM"
 msgstr "Charger la nouvelle ROM 2031"
 
-#: src/arch/unix/c128ui.c:330 src/arch/unix/c610ui.c:118
-#: src/arch/unix/c64ui.c:307 src/arch/unix/petui.c:230
+#: src/arch/unix/c128ui.c:330 src/arch/unix/c64ui.c:307
+#: src/arch/unix/cbm2ui.c:118 src/arch/unix/petui.c:230
 #: src/arch/unix/vic20ui.c:127
 msgid "Load custom ROM set from file"
 msgstr "Charger la ROM personalisée depuis un fichier"
 
-#: src/arch/unix/c128ui.c:332 src/arch/unix/c610ui.c:120
-#: src/arch/unix/c64ui.c:309 src/arch/unix/petui.c:232
+#: src/arch/unix/c128ui.c:332 src/arch/unix/c64ui.c:309
+#: src/arch/unix/cbm2ui.c:120 src/arch/unix/petui.c:232
 #: src/arch/unix/vic20ui.c:129
 msgid "Dump ROM set definition to file"
 msgstr "Transférer la définition de la ROM dans un fichier"
@@ -272,8 +272,8 @@ msgid "VDC settings"
 msgstr "Paramètres VDC"
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c128ui.c:391
-#: src/arch/unix/c610ui.c:376 src/arch/unix/c64ui.c:344
-#: src/arch/unix/c64ui.c:358 src/arch/unix/vsidui.c:169
+#: src/arch/unix/c64ui.c:344 src/arch/unix/c64ui.c:358
+#: src/arch/unix/cbm2ui.c:376 src/arch/unix/vsidui.c:169
 msgid "SID settings"
 msgstr "Paramètre SID"
 
@@ -282,8 +282,8 @@ msgid "Memory and I/O extensions"
 msgstr "Extentions Mémoire et I/O"
 
 #: src/arch/unix/c128ui.c:379 src/arch/unix/c128ui.c:393
-#: src/arch/unix/c610ui.c:369 src/arch/unix/c64ui.c:348
-#: src/arch/unix/c64ui.c:360 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/c64ui.c:348 src/arch/unix/c64ui.c:360
+#: src/arch/unix/cbm2ui.c:369 src/arch/unix/vic20ui.c:350
 msgid "RS232 settings"
 msgstr "Paramètres RS232"
 
@@ -291,27 +291,27 @@ msgstr "Paramètres RS232"
 msgid "Memory settings"
 msgstr "Paramètres Mémoire"
 
-#: src/arch/unix/c128ui.c:450 src/arch/unix/c610ui.c:458
-#: src/arch/unix/c64ui.c:415 src/arch/unix/petui.c:385
+#: src/arch/unix/c128ui.c:450 src/arch/unix/c64ui.c:415
+#: src/arch/unix/cbm2ui.c:458 src/arch/unix/petui.c:385
 #: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:500
 #: src/arch/unix/vsidui.c:253
 msgid "File"
 msgstr "Fichier"
 
-#: src/arch/unix/c128ui.c:469 src/arch/unix/c610ui.c:475
-#: src/arch/unix/c64ui.c:434 src/arch/unix/petui.c:402
+#: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:434
+#: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:201 src/arch/unix/vic20ui.c:519
 msgid "Snapshot"
 msgstr "Capture"
 
-#: src/arch/unix/c128ui.c:475 src/arch/unix/c610ui.c:481
-#: src/arch/unix/c64ui.c:440 src/arch/unix/petui.c:408
+#: src/arch/unix/c128ui.c:475 src/arch/unix/c64ui.c:440
+#: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:408
 #: src/arch/unix/plus4ui.c:207 src/arch/unix/vic20ui.c:525
 msgid "Options"
 msgstr "Options"
 
-#: src/arch/unix/c128ui.c:491 src/arch/unix/c610ui.c:495
-#: src/arch/unix/c64ui.c:456 src/arch/unix/petui.c:420
+#: src/arch/unix/c128ui.c:491 src/arch/unix/c64ui.c:456
+#: src/arch/unix/cbm2ui.c:495 src/arch/unix/petui.c:420
 #: src/arch/unix/plus4ui.c:219 src/arch/unix/vic20ui.c:535
 #: src/arch/unix/vsidui.c:266 src/arch/unix/x11/gnome/ui.c:1115
 #: src/arch/unix/x11/gnome/ui.c:1207
@@ -320,180 +320,11 @@ msgstr "Paramètres"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:505 src/arch/unix/c610ui.c:512
-#: src/arch/unix/c64ui.c:470 src/arch/unix/petui.c:436
+#: src/arch/unix/c128ui.c:505 src/arch/unix/c64ui.c:470
+#: src/arch/unix/cbm2ui.c:512 src/arch/unix/petui.c:436
 #: src/arch/unix/plus4ui.c:232 src/arch/unix/vic20ui.c:552
 msgid "RJHelp"
 msgstr "RJAide"
-
-#: src/arch/unix/c610ui.c:67
-msgid "Basic 128k, low chars"
-msgstr "Basic 128k, bas niveau"
-
-#: src/arch/unix/c610ui.c:69
-msgid "Basic 256k, low chars"
-msgstr "Basic 256k, bas niveau"
-
-#: src/arch/unix/c610ui.c:71
-msgid "Basic 128k, high chars"
-msgstr "Basic 128k, haut niveau"
-
-#: src/arch/unix/c610ui.c:73
-msgid "Basic 256k, high chars"
-msgstr "Basic 256k, haut niveau"
-
-#: src/arch/unix/c610ui.c:76
-msgid "Load new Kernal"
-msgstr "Charger la nouvelle Kernal"
-
-#: src/arch/unix/c610ui.c:79
-msgid "Load new Chargen"
-msgstr "Charger la nouvelle Kernal"
-
-#: src/arch/unix/c610ui.c:83
-msgid "Load new Basic"
-msgstr "Charger le nouveau Basic"
-
-#: src/arch/unix/c610ui.c:86
-msgid "Unload Basic ROM"
-msgstr "Décharger la ROM Basic"
-
-#: src/arch/unix/c610ui.c:90
-msgid "Load new Cart $1***"
-msgstr "Charger la nouvelle carte $1***"
-
-#: src/arch/unix/c610ui.c:93
-msgid "Unload Cart $1***"
-msgstr "Décharger la nouvelle carte $1***"
-
-#: src/arch/unix/c610ui.c:97
-msgid "Load new Cart $2-3***"
-msgstr "Charger la nouvelle carte $2-3***"
-
-#: src/arch/unix/c610ui.c:100
-msgid "Unload Cart $2-3***"
-msgstr "Décharger la nouvelle carte $2-3***"
-
-#: src/arch/unix/c610ui.c:104
-msgid "Load new Cart $4-5***"
-msgstr "Charger la nouvelle carte $4-5***"
-
-#: src/arch/unix/c610ui.c:107
-msgid "Unload Cart $4-5***"
-msgstr "Décharger la nouvelle carte $4-5***"
-
-#: src/arch/unix/c610ui.c:111
-msgid "Load new Cart $6-7***"
-msgstr "Charger la nouvelle carte $6-7***"
-
-#: src/arch/unix/c610ui.c:114
-msgid "Unload Cart $6-7***"
-msgstr "Décharger la nouvelle carte $6-7***"
-
-#: src/arch/unix/c610ui.c:198 src/arch/unix/petui.c:121
-msgid "*Graphics"
-msgstr "*Graphismes"
-
-#: src/arch/unix/c610ui.c:200 src/arch/unix/petui.c:123
-msgid "*Business (UK)"
-msgstr "*Business (UK)"
-
-#: src/arch/unix/c610ui.c:222 src/arch/unix/petui.c:263
-msgid "Model defaults"
-msgstr "Modèle par défaut"
-
-#: src/arch/unix/c610ui.c:225 src/arch/unix/petui.c:266
-#: src/arch/unix/vic20ui.c:164
-msgid "ROM sets"
-msgstr "Paramètres de la ROM"
-
-#: src/arch/unix/c610ui.c:228 src/arch/unix/petui.c:271
-msgid "Memory size"
-msgstr "Taille de la mémoire"
-
-#: src/arch/unix/c610ui.c:230
-msgid "Hardwired switches"
-msgstr "Hardwired commutateurs"
-
-#: src/arch/unix/c610ui.c:233
-msgid "*Bank 15 $0800-$0FFF RAM"
-msgstr "*Bank 15 $0800-$0FFF RAM"
-
-#: src/arch/unix/c610ui.c:235
-msgid "*Bank 15 $1000-$1FFF RAM"
-msgstr "*Bank 15 $1000-$1FFF RAM"
-
-#: src/arch/unix/c610ui.c:237
-msgid "*Bank 15 $2000-$3FFF RAM"
-msgstr "*Bank 15 $2000-$3FFF RAM"
-
-#: src/arch/unix/c610ui.c:239
-msgid "*Bank 15 $4000-$5FFF RAM"
-msgstr "*Bank 15 $4000-$5FFF RAM"
-
-#: src/arch/unix/c610ui.c:241
-msgid "*Bank 15 $6000-$7FFF RAM"
-msgstr "*Bank 15 $6000-$7FFF RAM"
-
-#: src/arch/unix/c610ui.c:243
-msgid "*Bank 15 $C000-$CFFF RAM"
-msgstr "*Bank 15 $C000-$CFFF RAM"
-
-#: src/arch/unix/c610ui.c:247 src/arch/unix/petui.c:288
-msgid "Keyboard type"
-msgstr "Type de clavier"
-
-#: src/arch/unix/c610ui.c:328 src/arch/unix/petui.c:241
-msgid "ACIA device"
-msgstr "Périférique ACIA"
-
-#: src/arch/unix/c610ui.c:331 src/arch/unix/petui.c:244
-#: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:331
-msgid "Serial 1 device..."
-msgstr "Périférique série 1..."
-
-#: src/arch/unix/c610ui.c:333 src/arch/unix/petui.c:246
-#: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:333
-msgid "Serial 1 baudrate"
-msgstr "Vitesse de transmission du périférique série 1 (en bauds)"
-
-#: src/arch/unix/c610ui.c:336 src/arch/unix/petui.c:249
-#: src/arch/unix/vic20ui.c:336
-msgid "Serial 2 device..."
-msgstr "Périférique série 2..."
-
-#: src/arch/unix/c610ui.c:338 src/arch/unix/petui.c:251
-#: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:338
-msgid "Serial 2 baudrate"
-msgstr "Vitesse de transmission du périférique série 2 (en bauds)"
-
-#: src/arch/unix/c610ui.c:341 src/arch/unix/petui.c:254
-#: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:341
-msgid "Dump filename..."
-msgstr "Nom du fichier de sauegarde..."
-
-#: src/arch/unix/c610ui.c:344 src/arch/unix/petui.c:257
-#: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:344
-msgid "Program name to exec..."
-msgstr "Nom du programme à executer..."
-
-#: src/arch/unix/c610ui.c:367
-msgid "CBM-II model settings"
-msgstr "Paramètres du modèle CBM-II"
-
-#: src/arch/unix/c610ui.c:372 src/arch/unix/petui.c:302
-msgid "*CRTC Screen color"
-msgstr "*Couleur d'écran CRTC"
-
-#: src/arch/unix/c610ui.c:374
-msgid "*VIC-II settings"
-msgstr "*Paramètres VIC-II"
-
-#: src/arch/unix/c610ui.c:399 src/arch/unix/c64ui.c:332
-#: src/arch/unix/petui.c:325 src/arch/unix/plus4ui.c:79
-#: src/arch/unix/vic20ui.c:391
-msgid "Screenshot..."
-msgstr "Capture d'écan..."
 
 #: src/arch/unix/c64ui.c:63 src/arch/unix/vsidui.c:124
 msgid "*Old NTSC-M"
@@ -511,6 +342,12 @@ msgstr "Charger la nouvelle ROM BASIC"
 msgid "Load new character ROM"
 msgstr "Charger la nouvelle ROM character"
 
+#: src/arch/unix/c64ui.c:332 src/arch/unix/cbm2ui.c:399
+#: src/arch/unix/petui.c:325 src/arch/unix/plus4ui.c:79
+#: src/arch/unix/vic20ui.c:391
+msgid "Screenshot..."
+msgstr "Capture d'écan..."
+
 #: src/arch/unix/c64ui.c:340 src/arch/unix/c64ui.c:354
 msgid "ROM settings"
 msgstr "Paramètres de la ROM"
@@ -518,6 +355,169 @@ msgstr "Paramètres de la ROM"
 #: src/arch/unix/c64ui.c:346
 msgid "I/O extensions at $DFxx"
 msgstr "I/O extensions à $DFxx"
+
+#: src/arch/unix/cbm2ui.c:67
+msgid "Basic 128k, low chars"
+msgstr "Basic 128k, bas niveau"
+
+#: src/arch/unix/cbm2ui.c:69
+msgid "Basic 256k, low chars"
+msgstr "Basic 256k, bas niveau"
+
+#: src/arch/unix/cbm2ui.c:71
+msgid "Basic 128k, high chars"
+msgstr "Basic 128k, haut niveau"
+
+#: src/arch/unix/cbm2ui.c:73
+msgid "Basic 256k, high chars"
+msgstr "Basic 256k, haut niveau"
+
+#: src/arch/unix/cbm2ui.c:76
+msgid "Load new Kernal"
+msgstr "Charger la nouvelle Kernal"
+
+#: src/arch/unix/cbm2ui.c:79
+msgid "Load new Chargen"
+msgstr "Charger la nouvelle Kernal"
+
+#: src/arch/unix/cbm2ui.c:83
+msgid "Load new Basic"
+msgstr "Charger le nouveau Basic"
+
+#: src/arch/unix/cbm2ui.c:86
+msgid "Unload Basic ROM"
+msgstr "Décharger la ROM Basic"
+
+#: src/arch/unix/cbm2ui.c:90
+msgid "Load new Cart $1***"
+msgstr "Charger la nouvelle carte $1***"
+
+#: src/arch/unix/cbm2ui.c:93
+msgid "Unload Cart $1***"
+msgstr "Décharger la nouvelle carte $1***"
+
+#: src/arch/unix/cbm2ui.c:97
+msgid "Load new Cart $2-3***"
+msgstr "Charger la nouvelle carte $2-3***"
+
+#: src/arch/unix/cbm2ui.c:100
+msgid "Unload Cart $2-3***"
+msgstr "Décharger la nouvelle carte $2-3***"
+
+#: src/arch/unix/cbm2ui.c:104
+msgid "Load new Cart $4-5***"
+msgstr "Charger la nouvelle carte $4-5***"
+
+#: src/arch/unix/cbm2ui.c:107
+msgid "Unload Cart $4-5***"
+msgstr "Décharger la nouvelle carte $4-5***"
+
+#: src/arch/unix/cbm2ui.c:111
+msgid "Load new Cart $6-7***"
+msgstr "Charger la nouvelle carte $6-7***"
+
+#: src/arch/unix/cbm2ui.c:114
+msgid "Unload Cart $6-7***"
+msgstr "Décharger la nouvelle carte $6-7***"
+
+#: src/arch/unix/cbm2ui.c:198 src/arch/unix/petui.c:121
+msgid "*Graphics"
+msgstr "*Graphismes"
+
+#: src/arch/unix/cbm2ui.c:200 src/arch/unix/petui.c:123
+msgid "*Business (UK)"
+msgstr "*Business (UK)"
+
+#: src/arch/unix/cbm2ui.c:222 src/arch/unix/petui.c:263
+msgid "Model defaults"
+msgstr "Modèle par défaut"
+
+#: src/arch/unix/cbm2ui.c:225 src/arch/unix/petui.c:266
+#: src/arch/unix/vic20ui.c:164
+msgid "ROM sets"
+msgstr "Paramètres de la ROM"
+
+#: src/arch/unix/cbm2ui.c:228 src/arch/unix/petui.c:271
+msgid "Memory size"
+msgstr "Taille de la mémoire"
+
+#: src/arch/unix/cbm2ui.c:230
+msgid "Hardwired switches"
+msgstr "Hardwired commutateurs"
+
+#: src/arch/unix/cbm2ui.c:233
+msgid "*Bank 15 $0800-$0FFF RAM"
+msgstr "*Bank 15 $0800-$0FFF RAM"
+
+#: src/arch/unix/cbm2ui.c:235
+msgid "*Bank 15 $1000-$1FFF RAM"
+msgstr "*Bank 15 $1000-$1FFF RAM"
+
+#: src/arch/unix/cbm2ui.c:237
+msgid "*Bank 15 $2000-$3FFF RAM"
+msgstr "*Bank 15 $2000-$3FFF RAM"
+
+#: src/arch/unix/cbm2ui.c:239
+msgid "*Bank 15 $4000-$5FFF RAM"
+msgstr "*Bank 15 $4000-$5FFF RAM"
+
+#: src/arch/unix/cbm2ui.c:241
+msgid "*Bank 15 $6000-$7FFF RAM"
+msgstr "*Bank 15 $6000-$7FFF RAM"
+
+#: src/arch/unix/cbm2ui.c:243
+msgid "*Bank 15 $C000-$CFFF RAM"
+msgstr "*Bank 15 $C000-$CFFF RAM"
+
+#: src/arch/unix/cbm2ui.c:247 src/arch/unix/petui.c:288
+msgid "Keyboard type"
+msgstr "Type de clavier"
+
+#: src/arch/unix/cbm2ui.c:328 src/arch/unix/petui.c:241
+msgid "ACIA device"
+msgstr "Périférique ACIA"
+
+#: src/arch/unix/cbm2ui.c:331 src/arch/unix/petui.c:244
+#: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:331
+msgid "Serial 1 device..."
+msgstr "Périférique série 1..."
+
+#: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:246
+#: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:333
+msgid "Serial 1 baudrate"
+msgstr "Vitesse de transmission du périférique série 1 (en bauds)"
+
+#: src/arch/unix/cbm2ui.c:336 src/arch/unix/petui.c:249
+#: src/arch/unix/vic20ui.c:336
+msgid "Serial 2 device..."
+msgstr "Périférique série 2..."
+
+#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:251
+#: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:338
+msgid "Serial 2 baudrate"
+msgstr "Vitesse de transmission du périférique série 2 (en bauds)"
+
+#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:254
+#: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:341
+msgid "Dump filename..."
+msgstr "Nom du fichier de sauegarde..."
+
+#: src/arch/unix/cbm2ui.c:344 src/arch/unix/petui.c:257
+#: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:344
+msgid "Program name to exec..."
+msgstr "Nom du programme à executer..."
+
+#: src/arch/unix/cbm2ui.c:367
+msgid "CBM-II model settings"
+msgstr "Paramètres du modèle CBM-II"
+
+#: src/arch/unix/cbm2ui.c:372 src/arch/unix/petui.c:302
+msgid "*CRTC Screen color"
+msgstr "*Couleur d'écran CRTC"
+
+#: src/arch/unix/cbm2ui.c:374
+msgid "*VIC-II settings"
+msgstr "*Paramètres VIC-II"
 
 #: src/arch/unix/joy.c:81
 msgid "Set device for joystick port 1"
@@ -1089,7 +1089,7 @@ msgstr "Suivant: "
 
 #: src/arch/unix/uicommands.c:716 src/arch/unix/uicommands.c:731
 #: src/arch/unix/x11/gnome/ui.c:780 src/arch/unix/x11/gnome/ui.c:790
-#: src/arch/unix/x11/gnome/ui.c:1459
+#: src/arch/unix/x11/gnome/ui.c:1462
 msgid "<empty>"
 msgstr ""
 
@@ -1247,7 +1247,7 @@ msgid "About VICE..."
 msgstr "A propos de VICE..."
 
 #: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1858
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Reset"
 msgstr "Reset"
 
@@ -1766,7 +1766,7 @@ msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
 #: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1254
-#: src/arch/unix/x11/xaw/ui.c:1034
+#: src/arch/unix/x11/xaw/ui.c:1033
 msgid "Cannot save settings."
 msgstr "Impossible de sauvegarder les paramètres."
 
@@ -2360,81 +2360,81 @@ msgstr ""
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1024
+#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1023
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1031
+#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1030
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1297 src/arch/unix/x11/xaw/ui.c:1068
+#: src/arch/unix/x11/gnome/ui.c:1300 src/arch/unix/x11/xaw/ui.c:1070
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1317 src/arch/unix/x11/gnome/ui.c:1320
-#: src/arch/unix/x11/xaw/ui.c:1089 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1320 src/arch/unix/x11/gnome/ui.c:1323
+#: src/arch/unix/x11/xaw/ui.c:1091 src/arch/unix/x11/xaw/ui.c:1097
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1611
+#: src/arch/unix/x11/gnome/ui.c:1614
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1648 src/arch/unix/x11/xaw/ui.c:1305
+#: src/arch/unix/x11/gnome/ui.c:1651 src/arch/unix/x11/xaw/ui.c:1307
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1817
+#: src/arch/unix/x11/gnome/ui.c:1820
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1832
+#: src/arch/unix/x11/gnome/ui.c:1835
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1858
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1858
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1902 src/arch/unix/x11/xaw/ui.c:1592
+#: src/arch/unix/x11/gnome/ui.c:1905 src/arch/unix/x11/xaw/ui.c:1594
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1903
+#: src/arch/unix/x11/gnome/ui.c:1906
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1916
+#: src/arch/unix/x11/gnome/ui.c:1919
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1924 src/arch/unix/x11/gnome/ui.c:1933
+#: src/arch/unix/x11/gnome/ui.c:1927 src/arch/unix/x11/gnome/ui.c:1936
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2061 src/arch/unix/x11/gnome/ui.c:2066
+#: src/arch/unix/x11/gnome/ui.c:2064 src/arch/unix/x11/gnome/ui.c:2069
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2524
+#: src/arch/unix/x11/gnome/ui.c:2527
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2571
+#: src/arch/unix/x11/gnome/ui.c:2574
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2597
+#: src/arch/unix/x11/gnome/ui.c:2600
 msgid "Autostart"
 msgstr ""
 
@@ -2780,16 +2780,16 @@ msgstr ""
 msgid "VICE Information"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1178
+#: src/arch/unix/x11/xaw/ui.c:1180
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1480
+#: src/arch/unix/x11/xaw/ui.c:1482
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1660
+#: src/arch/unix/x11/xaw/ui.c:1662
 msgid "Unknown image type."
 msgstr ""
 

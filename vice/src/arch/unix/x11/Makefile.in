@@ -142,7 +142,7 @@ noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES =  	dga2.c 	vidmode.c 	vidmode.h 	fullscreen-common.c 	fullscreen-common.h         fullscreen.c 
 
 
-libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11menu.c 	x11menu.h
+libx11ui_a_SOURCES =  	c128icon.c 	c64icon.c 	cbm2icon.c 	kbd.c 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11menu.c 	x11menu.h
 
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
@@ -160,7 +160,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libx11ui_a_OBJECTS =  c128icon.o c610icon.o c64icon.o kbd.o peticon.o \
+libx11ui_a_OBJECTS =  c128icon.o c64icon.o cbm2icon.o kbd.o peticon.o \
 plus4icon.o renderxv.o ui-cmdline-options.o ui-resources.o uihotkey.o \
 vic20icon.o video.o x11menu.o
 CFLAGS = @CFLAGS@
@@ -339,6 +339,7 @@ distdir: $(DISTFILES)
 c128icon.o: c128icon.c
 c610icon.o: c610icon.c
 c64icon.o: c64icon.c
+cbm2icon.o: cbm2icon.c
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h ../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \

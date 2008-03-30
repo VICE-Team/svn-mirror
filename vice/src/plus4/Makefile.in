@@ -302,11 +302,6 @@ plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/log.h ../../src/machine.h ../../src/resources.h \
 	../../src/rs232.h ../../src/snapshot.h
-plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h ../maincpu.c \
-	../vice.h ../6510core.h ../../src/arch/unix/types.h ../alarm.h \
-	../clkguard.h ../debug.h ../interrupt.h ../log.h ../machine.h \
-	../maincpu.h ../mem.h ../../src/monitor/mon.h ../mos6510.h \
-	../snapshot.h ../traps.h ../utils.h ../6510core.c
 plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
 	plus4mem.h ../../src/arch/unix/types.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
