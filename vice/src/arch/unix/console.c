@@ -51,8 +51,38 @@ int console_out(console_t log, const char *format, ...)
     return 0;
 }
 
+#ifdef HAVE_READLINE
+extern char *readline ( const char *prompt );
+extern void add_history ( const char *str );
+#else
+char *readline(const char *prompt)
+{
+    char *p = (char*)xmalloc(1024);
+
+    fflush(mon_output);
+    fgets(p, 1024, mon_input);
+
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p);
+             len > 0 && (p[len - 1] == '\r'
+                         || p[len - 1] == '\n');
+             len--)
+            p[len - 1] = '\0';
+    }
+
+    return p;
+}
+#endif
+
 char *console_in(console_t log)
 {
-    return NULL;
+    char *p;
+
+    p = readline("");
+
+    return p;
 }
 

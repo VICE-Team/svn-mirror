@@ -94,41 +94,11 @@ static int stop_output;
 console_t console_log;
 
 /* External functions */
+#ifdef HAVE_READLINE
+extern void add_history(const char *str);
+#endif
 
 extern void parse_and_execute_line(char *input);
-
-#ifdef HAVE_READLINE
-extern char *readline ( const char *prompt );
-extern void add_history ( const char *str );
-#else
-char *readline(const char *prompt)
-{
-    char *p = (char*)xmalloc(1024);
-
-    /* Yeah, this sucks, but you have readline anyway, don't you?  ;-) */
-    fputs(prompt, mon_output);
-    fflush(mon_output);
-    fgets(p, 1024, mon_input);
-
-    /* Remove trailing newlines.  */
-    {
-        int len;
-
-        for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
-             len--)
-            p[len - 1] = '\0';
-    }
-
-    return p;
-}
-
-void add_history(const char *str)
-{
-    return;
-}
-#endif
 
 /* Types */
 
@@ -2989,7 +2959,8 @@ void mon(ADDRESS a)
             sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
         }
 
-        myinput = readline(prompt);
+        console_out(console_log, prompt);
+        myinput = console_in(console_log);
         stop_output = 0;
         if (myinput == NULL) {
             console_out(console_log, "\n");
@@ -3009,7 +2980,9 @@ void mon(ADDRESS a)
                 }
             } else {
                 /* Nonempty line */
+#ifdef HAVE_READLINE
                 add_history(myinput);
+#endif
             }
 
             if (myinput) {
