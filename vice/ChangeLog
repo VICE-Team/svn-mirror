@@ -1,3 +1,9 @@
+2003-04-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.28.
+
+	* configure.in, acconfig.h: Define `HAVE_TFE' for win32.
+
 2003-04-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.27.
@@ -95,7 +101,7 @@
 
 	* Version 1.11.7.
 
-	* configure.in: Define `HAVE_CATWEASELMKIII' for winm32.
+	* configure.in: Define `HAVE_CATWEASELMKIII' for win32.
 
 2003-02-08  Andreas Boose  <viceteam@t-online.de>
 
