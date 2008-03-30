@@ -34,6 +34,7 @@
 #include "vmachine.h"
 #include "interrupt.h"
 #include "resources.h"
+#include "video.h"
 #include "vice.h"
 #include "utils.h"
 
@@ -74,6 +75,8 @@ keymap_desc ViceKeymap = {
 #define IntKey_F6	117
 #define IntKey_F7	22
 #define IntKey_F8	118
+#define IntKey_F12	29
+
 #define IntKey_PageUp	63
 #define IntKey_PageDown	78
 #define IntKey_NumSlash	74
@@ -309,22 +312,10 @@ void kbd_poll(void)
       rev_keyarr[shc] |= (1<<shr);
     }
 
-    /* Scroll lock? (-> single tasking) */
-    SingleTasking = ((status & 2) != 0);
-
-    if ((SingleTasking ^ LastTasking) != 0)
+    if (FullScreenMode == 0)
     {
-      if (SingleTasking != 0)
-      {
-        LastMousePtr = SetMousePointer(0);
-      }
-      else
-      {
-        SetMousePointer(LastMousePtr);
-        /* Flush mouse and keyboard buffers */
-        OS_FlushBuffer(9); OS_FlushBuffer(0);
-      }
-      LastTasking = SingleTasking;
+      /* Scroll lock? (-> single tasking) */
+      SingleTasking = ((status & 2) != 0);
     }
 
     scan = IntKey_MinCode;
@@ -393,6 +384,12 @@ void kbd_poll(void)
           case IntKey_F8:
             maincpu_trigger_reset();
             break;
+          case IntKey_F12:
+            if (FullScreenMode != 0)
+            {
+              video_full_screen_off();
+            }
+            break;
           case IntKey_Copy:	/* Single tasking only! */
             if (SingleTasking != 0)
             {
@@ -408,6 +405,21 @@ void kbd_poll(void)
     }
 
     memcpy(last_keys, new_keys, 32);
+
+    if ((SingleTasking ^ LastTasking) != 0)
+    {
+      if (SingleTasking != 0)
+      {
+        LastMousePtr = SetMousePointer(0);
+      }
+      else
+      {
+        SetMousePointer(LastMousePtr);
+        /* Flush mouse and keyboard buffers */
+        OS_FlushBuffer(9); OS_FlushBuffer(0);
+      }
+      LastTasking = SingleTasking;
+    }
   }
   while ((SingleTasking != 0) && (EmuPaused != 0));
 }

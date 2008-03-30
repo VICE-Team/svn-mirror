@@ -51,7 +51,9 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <memory.h>
 #endif
 #include <errno.h>

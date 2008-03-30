@@ -39,7 +39,9 @@
 #ifdef __riscos
 #include "ROlib.h"
 #else
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #endif
 #include <limits.h>
 #include <string.h>

@@ -100,11 +100,11 @@ void EnvelopeGenerator::clock()
   // If the rate counter comparison value is set below the current value of the
   // rate counter, the counter will continue counting up to 2^15 = 0x8000,
   // and then count rate_period twice before the envelope can finally be
-  // stepped. In this process one extra rate_counter step is added.
+  // stepped. In this process one extra rate_counter step is taken.
   // This has been verified by sampling ENV3.
-  // A possible explanation for this behaviour is that the 16 bit rate counter
-  // is compared with a 15 bit comparator for reset and with a 16 bit counter
-  // for envelope steps.
+  // A possible explanation for this behavior is that the 16 bit rate counter
+  // is compared with a 15 bit comparator for reset and with a 16 bit
+  // comparator for envelope steps.
   //
   if ((++rate_counter & 0x7fff) != rate_period) {
     return;
@@ -181,11 +181,11 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
   // If the rate counter comparison value is set below the current value of the
   // rate counter, the counter will continue counting up to 2^15 = 0x8000,
   // and then count rate_period twice before the envelope can finally be
-  // stepped. In this process one extra rate_counter step is added.
+  // stepped. In this process one extra rate_counter step is taken.
   // This has been verified by sampling ENV3.
-  // A possible explanation for this behaviour is that the 16 bit rate counter
-  // is compared with a 15 bit comparator for reset and with a 16 bit counter
-  // for envelope steps.
+  // A possible explanation for this behavior is that the 16 bit rate counter
+  // is compared with a 15 bit comparator for reset and with a 16 bit
+  // comparator for envelope steps.
   //
   reg16 rate_counter_15 = rate_counter & 0x7fff;
   int rate_step = rate_counter_15 <= rate_period ?

@@ -252,7 +252,7 @@ inline
 #endif
 reg12 WaveformGenerator::output___T()
 {
-  bool msb = (ring_mod ? accumulator ^ sync_source->accumulator : accumulator)
+  reg24 msb = (ring_mod ? accumulator ^ sync_source->accumulator : accumulator)
     & 0x800000;
   return ((msb ? ~accumulator : accumulator) >> 11) & 0xfff;
 }

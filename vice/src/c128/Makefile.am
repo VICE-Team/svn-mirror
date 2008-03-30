@@ -22,6 +22,8 @@ libc128_a_SOURCES = \
 	vdc.c \
 	vdc.h
 
+EXTRA_DIST = c128.dsp
+
 BUILT_SOURCES = 
 
 c128dir = $(top_srcdir)/src/c128

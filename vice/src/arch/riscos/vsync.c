@@ -123,7 +123,7 @@ int do_vsync(int been_skipped)
   int skip_next_frame = 0;
 
   /* This will be used by keyboard and joystick code */
-  EmuWindowHasInputFocus = wimp_window_has_input_focus(EmuWindow);
+  EmuWindowHasInputFocus = (FullScreenMode == 0) ? wimp_window_has_input_focus(EmuWindow) : 1;
 
   vsync_hook();
 

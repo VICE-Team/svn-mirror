@@ -108,4 +108,10 @@ extern void canvas_refresh(canvas_t c, frame_buffer_t f,
                            int xs, int ys, int xi, int yi, int w, int h);
 extern void canvas_set_border_color(canvas_t canvas, BYTE color);
 
+extern  frame_buffer_t  main_fbuff;
+extern  canvas_t        main_canvas;
+
+extern void canvas_render(canvas_t c, frame_buffer_t f,
+                           int xs, int ys, int xi, int yi, int w, int h);
+
 #endif

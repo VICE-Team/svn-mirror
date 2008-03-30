@@ -31,7 +31,9 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

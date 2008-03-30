@@ -32,7 +32,9 @@
 #ifdef __riscos
 typedef int off_t;
 #else
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #endif
 #endif
 

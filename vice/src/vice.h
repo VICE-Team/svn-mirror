@@ -151,7 +151,11 @@ extern unsigned int get_path_max();
 #include <alloca.h>
 #else	/* Not HAVE_ALLOCA_H.  */
 #ifndef	_AIX
+#ifndef _MSC_VER
 extern char *alloca ();
+#else
+#define alloca(n)   _alloca(n)
+#endif  /* MSVC */
 #endif	/* Not AIX.  */
 #endif	/* HAVE_ALLOCA_H.  */
 #endif	/* GCC.  */

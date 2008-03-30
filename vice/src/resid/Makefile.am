@@ -12,7 +12,7 @@ noinst_DATA = wave6581_PST.dat wave6581_PS_.dat wave6581_P_T.dat wave6581__ST.da
 
 noinst_SCRIPTS = samp2src.pl
 
-EXTRA_DIST = $(noinst_DATA) $(noinst_SCRIPTS)
+EXTRA_DIST = $(noinst_DATA) $(noinst_SCRIPTS) resid.dsp
 
 SUFFIXES = .dat
 

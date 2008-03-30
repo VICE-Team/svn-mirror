@@ -42,7 +42,11 @@
 #include "ROlib.h"
 #else
 #include <fcntl.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#else
+#include <sys/types.h>
+#endif
 #endif
 #include <stdio.h>
 #include <ctype.h>
@@ -1144,7 +1148,7 @@ static int drive_do_1541_checksum(void)
 {
     int i;
     unsigned long s;
-    
+
     /* Calculate ROM checksum.  */
     for (i = 0, s = 0; i < DRIVE_ROM1541_SIZE; i++)
         s += drive_rom1541[i];
@@ -1552,7 +1556,7 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     unsigned int drive_num;
     drive_t *d;
 
-    puts("drive_clk_overflow_callback");
+    log_warning(drive_log, "drive_clk_overflow_callback");
 
     drive_num = (unsigned int) data;
     d = &drive[drive_num];
@@ -1715,7 +1719,7 @@ inline static BYTE drive_sync_found(drive_t *dptr)
                 if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
                     == 0xc0)
                     return 0;
-            }            
+            }
             return 0x80;
         }
         /* As the current rotation code cannot cope with non byte aligned
@@ -1987,7 +1991,7 @@ int drive_write_block(int track, int sector, BYTE *writedata, int dnr)
                                     GCR_current_track_size);
     if (offset == NULL)
         return -1;
-    offset = GCR_find_sector_data(offset, dnr, GCR_track_start_ptr, 
+    offset = GCR_find_sector_data(offset, dnr, GCR_track_start_ptr,
                                   GCR_current_track_size);
     if (offset == NULL)
         return -1;
@@ -2542,7 +2546,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         drive_enable(1);
 
     iec_calculate_callback_index();
-    iec_update_ports();
+    iec_update_ports_embedded();
     drive_update_ui_status();
 
     if (vdrive_read_snapshot_module(s, drive_true_emulation ? 10 : 8) < 0)

@@ -27,10 +27,10 @@
 
 #include "resid/sid.h"
 
-extern "C" {
-
 #include <stdio.h>
 #include <math.h>
+
+extern "C" {
 
 #include "vice.h"
 #include "sid.h"

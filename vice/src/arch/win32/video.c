@@ -319,6 +319,7 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
 #else
 
 /* This is the real version...  Without using DirectDrawSurfaces.  */
+frame_buffer_t  main_fbuff;
 
 int frame_buffer_alloc(frame_buffer_t *f,
                        unsigned int width,
@@ -335,6 +336,9 @@ int frame_buffer_alloc(frame_buffer_t *f,
         (*f)->lines[i] = (PIXEL *) xmalloc(width * sizeof(PIXEL));
 
     DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
+
+    main_fbuff=*f;
+    DEBUG(("Frame buffer is at %08x",main_fbuff));
 
     return 0;
 }
@@ -496,6 +500,8 @@ static int set_physical_colors(canvas_t c)
     return 0;
 }
 
+canvas_t main_canvas;
+
 /* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
@@ -631,6 +637,10 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     c->pixels = pixel_return;
     if (set_physical_colors(c) < 0)
         goto error;
+
+    main_canvas=c;
+    DEBUG(("Canvas is at %08x",main_fbuff));
+
     return c;
 
 error:
@@ -708,11 +718,14 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 
 */
 
-#if 0
+#if 1
 void canvas_refresh(canvas_t c, frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
     RECT    rect;
+
+
+    DEBUG(("Entering canvas_refresh : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
 
     if (IsIconic(c->hwnd))
         return;
@@ -727,9 +740,12 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
 char    Region[2048];
 
+void canvas_render(canvas_t c, frame_buffer_t f, int xs, int ys, int xi, int yi, int w, int h)
+
+
+//void canvas_refresh(canvas_t c, frame_buffer_t f,
+//                    int xs, int ys, int xi, int yi, int w, int h)
 #if 1
-void canvas_refresh(canvas_t c, frame_buffer_t f,
-                    int xs, int ys, int xi, int yi, int w, int h)
 {
     HRESULT result;
     DDSURFACEDESC desc;
@@ -750,6 +766,8 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     PAINTSTRUCT ps;
     int     px,py,ph,pw;
+
+    DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
 
     if (IsIconic(c->hwnd))
         return;
@@ -846,8 +864,13 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         return;
     }
 
+#ifdef HAVE_UNNAMED_UNIONS
+    depth = desc.ddpfPixelFormat.dwRGBBitCount;
+    pitch = desc.lPitch;
+#else
     depth = desc.ddpfPixelFormat.u1.dwRGBBitCount;
     pitch = desc.u1.lPitch;
+#endif
 
     DEBUG(("Original rect: %d %d %d %d",rect.left,rect.top,rect.right,rect.bottom));
 

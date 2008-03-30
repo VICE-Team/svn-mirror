@@ -30,7 +30,7 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef __riscos
+#if !defined (__riscos) && !defined (_MSC_VER)
 #include <unistd.h>
 #endif
 #endif

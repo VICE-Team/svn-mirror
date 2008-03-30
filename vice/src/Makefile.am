@@ -171,6 +171,13 @@ EXTRA_DIST = \
 	raster.c \
 	tpi-tmpl.c \
 	viacore.c \
+	c1541.dsp \
+	petcat.dsp \
+	x128.dsp \
+	x64.dsp \
+	xcbm2.dsp \
+	xpet.dsp \
+	xvic.dsp \
 	$(printer_sources) \
 	$(rs232_sources)
 

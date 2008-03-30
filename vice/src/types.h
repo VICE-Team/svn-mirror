@@ -39,7 +39,12 @@
 #ifdef WIN32
 
 #define WORD unsigned short
+
+#ifdef _MSC_VER
+#define DWORD unsigned long
+#else
 #define DWORD unsigned int
+#endif
 
 typedef signed char SIGNED_CHAR;
 typedef signed short SWORD;

@@ -80,10 +80,10 @@ void WaveformGenerator::writePW_HI(reg8 pw_hi)
 void WaveformGenerator::writeCONTROL_REG(reg8 control)
 {
   waveform = (control >> 4) & 0x0f;
-  ring_mod = control & 0x04;
-  sync = control & 0x02;
+  ring_mod = static_cast<bool>(control & 0x04);
+  sync = static_cast<bool>(control & 0x02);
 
-  bool test_next = control & 0x08;
+  reg8 test_next = control & 0x08;
 
   // Test bit set.
   // The accumulator and the shift register are both cleared.

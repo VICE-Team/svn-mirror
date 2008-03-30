@@ -313,7 +313,7 @@ sound_sample Filter::output()
 
   // This is handy for testing.
   if (!enabled) {
-    return -((Vnf + Vmax)*vol);
+    return -((Vnf + Vmax)*static_cast<sound_sample>(vol));
   }
 
   // Mix highpass, bandpass, and lowpass outputs.
@@ -360,7 +360,7 @@ sound_sample Filter::output()
   // Multiply the sum with volume.
   // The output is inverted. This should not make any audible difference,
   // but is included for correctness.
-  return -((Vnf - Vf + Vmax)*vol);
+  return -((Vnf - Vf + Vmax)*static_cast<sound_sample>(vol));
 }
 
 #endif // RESID_INLINE || defined(__FILTER_CC__)

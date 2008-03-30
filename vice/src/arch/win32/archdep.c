@@ -24,11 +24,16 @@
  *
  */
 
+#include <stdio.h>
 #include "vice.h"
 
+#ifndef _MSC_VER
 #include <dir.h>
+#endif
 #include <string.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <signal.h>
 
 #include "fcntl.h"

@@ -357,6 +357,7 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
             break;
           default:
             /* (make compiler happy) */
+            ;
         }
 
         if (pressed) {

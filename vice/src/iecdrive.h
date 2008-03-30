@@ -34,7 +34,7 @@
 
 #include "types.h"
 
-void iec_update_ports(void);
+void iec_update_ports_embedded(void);
 void iec_drive0_write(BYTE data);
 void iec_drive1_write(BYTE data);
 BYTE iec_drive0_read(void);

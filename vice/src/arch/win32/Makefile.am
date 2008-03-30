@@ -81,7 +81,9 @@ libarch_a_DEPENDENCIES = \
 	resc128.o resc64.o rescbm2.o respet.o resvic.o
 
 EXTRA_DIST = \
-        c64.ico
+	msvc/config.h \
+	arch.dsp \
+        c64.ico 
 
 resc128.o : resc128.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \

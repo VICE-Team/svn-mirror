@@ -238,7 +238,7 @@ int         t;
                         if (lpvPtr2!=NULL) {
                             memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
                         }
-                        last_played_sample=*((WORD*)(fragment_pointer+buffer_lock_size)-1);
+                        last_played_sample=*((WORD*)(((BYTE*)fragment_pointer)+buffer_lock_size)-1);
                     } else {
                         copyptr=fragment_pointer;
                         for (i=0; i<dwBytes1; i++) {
@@ -323,7 +323,7 @@ int         t;
                 if (lpvPtr2!=NULL) {
                     memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
                 }
-                last_played_sample=*((WORD*)(fragment_pointer+buffer_lock_size)-1);
+                last_played_sample=*((WORD*)(((BYTE*)fragment_pointer)+buffer_lock_size)-1);
             } else {
                 copyptr=fragment_pointer;
                 for (i=0; i<dwBytes1; i++) {

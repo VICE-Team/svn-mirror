@@ -93,10 +93,13 @@ extern int num_text_lines(void);
 extern void enable_text(void);
 extern void disable_text(void);
 
+extern int video_full_screen_on(void);
+extern int video_full_screen_off(void);
 
 
 extern unsigned int ColourTable[256];
 extern frame_buffer_t *FrameBuffer;
 extern canvas_t EmuCanvas;
+extern int FullScreenMode;
 
 #endif

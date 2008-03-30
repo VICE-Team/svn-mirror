@@ -80,6 +80,7 @@ static void ui_poll_prologue(void);
 static void ui_poll_epilogue(void);
 static void ui_temp_suspend_sound(void);
 static void ui_temp_resume_sound(void);
+static void ui_issue_reset(int doreset);
 
 
 
@@ -273,6 +274,8 @@ static char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_ROMSet	43
 #define Icon_Conf_ROMSetT	44
 #define Icon_Conf_ROMAction	46
+#define Icon_Conf_FullScreen	48
+#define Icon_Conf_SetPalette	49
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -650,6 +653,7 @@ enum SymbolInstances {
   Symbol_ErrLoad,
   Symbol_ErrSnapR,
   Symbol_ErrSnapW,
+  Symbol_ErrFullScr,
   Symbol_NumSymbols
 };
 
@@ -675,6 +679,7 @@ static char *SymbolStrings[] = {
   "\\ErrLoadFmt",
   "\\ErrSnapRead",
   "\\ErrSnapWrite",
+  "\\ErrFullScreen",
   NULL
 };
 
@@ -793,11 +798,12 @@ static struct MenuDatasette {
 };
 
 /* Icon bar menu */
-#define Menu_IBar_Items		3
+#define Menu_IBar_Items		4
 #define Menu_IBar_Width		200
 #define Menu_IBar_Info		0
 #define Menu_IBar_Configure	1
-#define Menu_IBar_Quit		2
+#define Menu_IBar_FullScreen	2
+#define Menu_IBar_Quit		3
 static struct MenuIconBar {
   RO_MenuHead head;
   RO_MenuItem item[Menu_IBar_Items];
@@ -806,6 +812,7 @@ static struct MenuIconBar {
   {
     MENU_ITEM("\\MenIBInfo"),
     MENU_ITEM_SUB("\\MenIBConf", &MenuConfigure),
+    MENU_ITEM("\\MenIBFull"),
     MENU_ITEM_LAST("\\MenIBQuit")
   }
 };
@@ -974,6 +981,8 @@ static char Rsrc_C2RAM6[] = "Ram6";
 static char Rsrc_C2RAMC[] = "RamC";
 static char Rsrc_C2Line[] = "ModelLine";
 static char Rsrc_C2Mem[] = "RamSize";
+static char Rsrc_FullScr[] = "ScreenMode";
+static char Rsrc_FullSetPal[] = "ScreenSetPalette";
 
 /*static char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
@@ -1798,6 +1807,8 @@ static config_item Configurations[] = {
   {Rsrc_Speed, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_SpeedEvery}},
   {Rsrc_SndEvery, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_SoundEvery}},
   {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_AutoPause}},
+  {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_FullScreen}},
+  {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_SetPalette}},
   {Rsrc_DriveF8, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile8}},
   {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
   {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile10}},
@@ -3039,6 +3050,16 @@ static int ui_build_romset_menu(void)
 }
 
 
+void ui_issue_reset(int doreset)
+{
+  unsigned int i;
+
+  for (i=0; i<4; i++) ui_set_drive_leds(i, 0);
+
+  if (doreset != 0) maincpu_trigger_reset();
+}
+
+
 
 /* Make absolutely sure the sound timer is killed when the app terminates */
 static void ui_safe_exit(void)
@@ -3796,7 +3817,7 @@ static void ui_mouse_click(int *b)
           break;
         case Icon_Pane_Reset:
           if (b[MouseB_Buttons] == 1) mem_powerup();	/* adjust ==> hard reset */
-          maincpu_trigger_reset();
+          ui_issue_reset(1);
           break;
         case Icon_Pane_Pause:
           EmuPaused ^= 1;
@@ -4493,6 +4514,8 @@ static void ui_key_press(int *b)
             case Icon_Conf_DosName:
               ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayDosName, (resource_value_t)data);
               break;
+            case Icon_Conf_FullScreen:
+              resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
             default: Wimp_ProcessKey(key); return;
           }
           break;
@@ -4619,6 +4642,17 @@ static void ui_menu_selection(int *b)
       {
         case Menu_IBar_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
+          break;
+        case Menu_IBar_FullScreen:
+          {
+            if (video_full_screen_on() != 0)
+            {
+              _kernel_oserror err;
+
+              err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrFullScr]);
+              Wimp_ReportError(&err, 1, WimpTaskName);
+            }
+          }
           break;
         case Menu_IBar_Quit: ui_exit(); break;
         default: break;
@@ -4909,7 +4943,7 @@ static void ui_menu_selection(int *b)
           ui_set_menu_display_core((disp_desc_t*)MenuDisplayROMSet, set_romset_by_name, b[0]);
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayDosName);
           ui_update_rom_names();
-          /*maincpu_trigger_reset();*/
+          /*ui_issue_reset(1);*/
         }
         break;
       case CONF_MENU_ROMACT:
@@ -5025,7 +5059,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
     err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrSnapR]);
     Wimp_ReportError(&err, 1, WimpTaskName);
-    maincpu_trigger_reset();
+    ui_issue_reset(1);
   }
 
   ui_temp_resume_sound();
@@ -5218,7 +5252,7 @@ static void ui_user_message(int *b)
               wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], filename);
               if (rom_changed != 0)
               {
-                mem_load(); maincpu_trigger_reset();
+                mem_load(); /*ui_issue_reset(1);*/
               }
               action = 1;
             }
@@ -5535,11 +5569,12 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
   switch (button)
   {
-    case Icon_Jam_ResetH: return UI_JAM_HARD_RESET;
+    case Icon_Jam_ResetH: ui_issue_reset(0); return UI_JAM_HARD_RESET;
     case Icon_Jam_Monitor: return UI_JAM_MONITOR;
     case Icon_Jam_Debug: return UI_JAM_DEBUG;
     default: break;
   }
+  ui_issue_reset(0);
   return UI_JAM_RESET;
 }
 

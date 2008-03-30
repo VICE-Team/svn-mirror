@@ -63,6 +63,8 @@ EXTRA_libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h
 
+EXTRA_DIST = c64.dsp c64c128.dsp
+
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
 

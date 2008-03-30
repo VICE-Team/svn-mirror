@@ -33,6 +33,8 @@ BUILT_SOURCES = \
 	petpia1.c \
 	petpia2.c
 
+EXTRA_DIST = pet.dsp
+
 petdir = $(top_srcdir)/src/pet
 
 petpia1.c: petpia1.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio

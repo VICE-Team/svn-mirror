@@ -31,7 +31,9 @@
 #ifdef __riscos
 #include "types.h"
 #else
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #endif
 #endif
 

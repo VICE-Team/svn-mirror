@@ -204,8 +204,13 @@ void ui_attach_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
+#ifdef HAVE_UNNAMED_UNIONS
+        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        psp[i].pszIcon = NULL;
+#else
         psp[i].u1.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[i].u2.pszIcon = NULL;
+#endif
         psp[i].lParam = 0;
         psp[i].pfnCallback = NULL;
     }
@@ -223,11 +228,17 @@ void ui_attach_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.u1.pszIcon = NULL;
     psh.pszCaption = "Device manager";
     psh.nPages = 4;
+#ifdef HAVE_UNNAMED_UNIONS
+    psh.pszIcon = NULL;
+    psh.nStartPage = 0;
+    psh.ppsp = psp;
+#else
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
+#endif
     psh.pfnCallback = NULL;
 
     PropertySheet(&psh);

@@ -251,7 +251,11 @@ void ui_pet_settings_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
+#ifdef HAVE_UNNAMED_UNIONS
+        psp[i].pszIcon = NULL;
+#else
         psp[i].u2.pszIcon = NULL;
+#endif
         psp[i].lParam = 0;
         psp[i].pfnCallback = NULL;
     }
@@ -265,20 +269,33 @@ void ui_pet_settings_dialog(HWND hwnd)
     psp[3].pfnDlgProc = dialog_proc;
     psp[3].pszTitle = "8296 PET";
 
+#ifdef HAVE_UNNAMED_UNIONS
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+#else
     psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
     psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
     psp[2].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
     psp[3].u1.pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+#endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.u1.pszIcon = NULL;
     psh.pszCaption = "PET settings";
     psh.nPages = 4;
+#ifdef HAVE_UNNAMED_UNIONS
+    psh.pszIcon = NULL;
+    psh.nStartPage = 0;
+    psh.ppsp = psp;
+#else
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
+#endif
     psh.pfnCallback = NULL;
 
     PropertySheet(&psh);

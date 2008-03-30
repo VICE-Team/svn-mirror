@@ -59,6 +59,11 @@ inline void iec_update_ports(void)
                            | ((iec_info.cpu_bus << 3) & 0x80));
 }
 
+void iec_update_ports_embedded(void)
+{
+    iec_update_ports();
+}
+
 void iec_drive0_write(BYTE data)
 {
     iec_info.drive_bus = (((data << 3) & 0x40)

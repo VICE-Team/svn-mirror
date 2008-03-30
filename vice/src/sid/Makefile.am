@@ -24,6 +24,8 @@ EXTRA_libsid_a_SOURCES = \
 	resid.cc \
 	resid.h
 
+EXTRA_DIST = sid.dsp
+
 libsid_a_LIBADD = $(resid_libadd)
 
 siddir = $(top_srcdir)/src/sid

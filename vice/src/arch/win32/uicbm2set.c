@@ -209,7 +209,11 @@ void ui_cbm2_settings_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
+#ifdef HAVE_UNNAMED_UNIONS
+        psp[i].pszIcon = NULL;
+#else
         psp[i].u2.pszIcon = NULL;
+#endif
         psp[i].lParam = 0;
         psp[i].pfnCallback = NULL;
     }
@@ -219,18 +223,29 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psp[1].pfnDlgProc = dialog_proc;
     psp[1].pszTitle = "Memory";
 
+#ifdef HAVE_UNNAMED_UNIONS
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+#else
     psp[0].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
     psp[1].u1.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+#endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.u1.pszIcon = NULL;
     psh.pszCaption = "CBM2 settings";
     psh.nPages = 2;
+#ifdef HAVE_UNNAMED_UNIONS
+    psh.pszIcon = NULL;
+    psh.nStartPage = 0;
+    psh.ppsp = psp;
+#else
+    psh.u1.pszIcon = NULL;
     psh.u2.nStartPage = 0;
     psh.u3.ppsp = psp;
+#endif
     psh.pfnCallback = NULL;
 
     PropertySheet(&psh);

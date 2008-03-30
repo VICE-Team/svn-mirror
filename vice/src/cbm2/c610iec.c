@@ -36,6 +36,11 @@ void iec_update_ports(void)
     /* Not used for now.  */
 }
 
+void iec_update_ports_embedded(void)
+{
+    iec_update_ports();
+}
+
 void iec_drive0_write(BYTE data)
 {
     log_error(LOG_DEFAULT, "BUG: iec_drive0_write(%02x).", data);

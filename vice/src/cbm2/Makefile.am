@@ -30,6 +30,8 @@ libcbm2_a_SOURCES = \
 
 BUILT_SOURCES = c610tpi1.c c610tpi2.c 
 
+EXTRA_DIST = cbm2.dsp
+
 c610dir = $(top_srcdir)/src/cbm2
 
 c610tpi1.c: c610tpi1.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio

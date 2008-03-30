@@ -29,7 +29,7 @@
 #define _FINDPATH_H
 
 #ifdef STDC_HEADERS
-#ifndef __riscos
+#if !defined (__riscos) && !defined (_MSC_VER)
 #include <unistd.h>
 #endif
 #endif

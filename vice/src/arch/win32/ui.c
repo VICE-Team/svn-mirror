@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <windowsx.h>
+#include <commctrl.h>
 
 #include "ui.h"
 
@@ -181,27 +182,27 @@ int ui_init_cmdline_options(void)
 /* ------------------------------------------------------------------------ */
 
 #define UI_COMMON_HOTKEYS \
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},  \
-    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},           \
-    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},             \
-    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},             \
-    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},            \
-    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},            \
-    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},          \
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},   \
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},   \
-    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},        \
-    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},        \
-    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},              \
-    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},                 \
-    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},     \
-    {FVIRTKEY|FALT|FNOINVERT,VK_I,IDM_FLIP_ADD},             \
-    {FVIRTKEY|FALT|FNOINVERT,VK_K,IDM_FLIP_REMOVE},          \
-    {FVIRTKEY|FALT|FNOINVERT,VK_N,IDM_FLIP_NEXT},            \
-    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_N,IDM_FLIP_PREVIOUS},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'R',IDM_HARD_RESET},  \
+    {FVIRTKEY|FALT|FNOINVERT,'R',IDM_SOFT_RESET},           \
+    {FVIRTKEY|FALT|FNOINVERT,'8',IDM_ATTACH_8},             \
+    {FVIRTKEY|FALT|FNOINVERT,'9',IDM_ATTACH_9},             \
+    {FVIRTKEY|FALT|FNOINVERT,'0',IDM_ATTACH_10},            \
+    {FVIRTKEY|FALT|FNOINVERT,'1',IDM_ATTACH_11},            \
+    {FVIRTKEY|FALT|FNOINVERT,'T',IDM_ATTACH_TAPE},          \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'L',IDM_LOADQUICK},   \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'S',IDM_SAVEQUICK},   \
+    {FVIRTKEY|FALT|FNOINVERT,'L',IDM_SNAPSHOT_LOAD},        \
+    {FVIRTKEY|FALT|FNOINVERT,'S',IDM_SNAPSHOT_SAVE},        \
+    {FVIRTKEY|FALT|FNOINVERT,'M',IDM_MONITOR},              \
+    {FVIRTKEY|FALT|FNOINVERT,'X',IDM_EXIT},                 \
+    {FVIRTKEY|FALT|FNOINVERT,'W',IDM_TOGGLE_WARP_MODE},     \
+    {FVIRTKEY|FALT|FNOINVERT,'I',IDM_FLIP_ADD},             \
+    {FVIRTKEY|FALT|FNOINVERT,'K',IDM_FLIP_REMOVE},          \
+    {FVIRTKEY|FALT|FNOINVERT,'N',IDM_FLIP_NEXT},            \
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'N',IDM_FLIP_PREVIOUS},
 
 static ACCEL c64_accel[] = {
-    {FVIRTKEY|FALT|FNOINVERT,VK_F,IDM_CART_FREEZE},
+    {FVIRTKEY|FALT|FNOINVERT,'F',IDM_CART_FREEZE},
     UI_COMMON_HOTKEYS
 };
 
@@ -1017,17 +1018,39 @@ char *dname;
     }
 }
 
+static void clear(HDC hdc, int x1, int y1, int x2, int y2)
+{
+static HBRUSH   back_color;
+RECT            clear_rect;
+
+    if (back_color==NULL) back_color=CreateSolidBrush(0);
+    clear_rect.left=x1;
+    clear_rect.top=y1;
+    clear_rect.right=x2;
+    clear_rect.bottom=y2;
+    FillRect(hdc,&clear_rect,back_color);
+}
+
+
 /* Window procedure.  All messages are handled here.  */
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
 RECT    led;
 char    text[256];
+RECT    client_rect;
+POINT   *point;
 
     switch (msg) {
         case WM_SIZE:
             SendMessage(status_hwnd,msg,wparam,lparam);
             SetStatusWindowParts();
+            GetClientRect(window, &client_rect);
+
+            if (exposure_handler) {
+                exposure_handler(client_rect.right - client_rect.left,
+                                client_rect.bottom - client_rect.top - status_height);
+            }
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
@@ -1095,18 +1118,52 @@ char    text[256];
             if (GetUpdateRect(window, &update_rect, FALSE)) {
                 PAINTSTRUCT ps;
                 HDC hdc;
-                RECT client_rect;
+                int frame_coord[6];
 
                 hdc = BeginPaint(window, &ps);
+
+                frame_coord[0]=update_rect.left;
+                frame_coord[1]=update_rect.top;
+                frame_coord[2]=update_rect.right;
+                frame_coord[3]=update_rect.bottom;
+
+                translate_client_to_framebuffer(&frame_coord);
+
+                //  Check if it's out
+                if ((frame_coord[3]<=0) || (frame_coord[1]>=frame_coord[5]) ||
+                    (frame_coord[2]<=0) || (frame_coord[0]>=frame_coord[4])) {
+                    clear(hdc,frame_coord[0],frame_coord[1],frame_coord[2],frame_coord[3]);
+                }
+
+                //  Cut top
+                if (frame_coord[1]<0) {
+                    clear(hdc,frame_coord[0],frame_coord[1],frame_coord[2],0);
+                    update_rect.top-=frame_coord[1];
+                    frame_coord[1]=0;
+                }
+                //  Cut left
+                if (frame_coord[0]<0) {
+                    clear(hdc,frame_coord[0],frame_coord[1],0,frame_coord[3]);
+                    update_rect.left-=frame_coord[0];
+                    frame_coord[0]=0;
+                }
+                //  Cut bottom
+                if (frame_coord[3]>frame_coord[5]) {
+                    clear(hdc,frame_coord[0],frame_coord[5],frame_coord[2],frame_coord[3]);
+                    update_rect.bottom-=frame_coord[3]-frame_coord[5];
+                    frame_coord[3]=frame_coord[5];
+                }
+                //  Cut right
+                if (frame_coord[2]>frame_coord[4]) {
+                    clear(hdc,frame_coord[4],frame_coord[1],frame_coord[2],frame_coord[3]);
+                    update_rect.right-=frame_coord[2]-frame_coord[4];
+                    frame_coord[2]=frame_coord[4];
+                }
+
+                canvas_render(main_canvas, main_fbuff, frame_coord[0], frame_coord[1], update_rect.left, update_rect.top, update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
+
                 EndPaint(window, &ps);
 
-                GetClientRect(window, &client_rect);
-
-                /* FIXME: This is basically wrong, but it works because we
-                   only have one window.  Moreover, should we handle things
-                   differently if in full screen mode?  */
-                exposure_handler(client_rect.right - client_rect.left,
-                                 client_rect.bottom - client_rect.top - status_height);
                 return 0;
             } else
                 break;

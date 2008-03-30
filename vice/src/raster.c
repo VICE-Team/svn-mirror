@@ -37,7 +37,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifndef __riscos
+#if !defined (__riscos) && !defined (_MSC_VER)
 #include <unistd.h>
 #endif
 #include <stdarg.h>
@@ -286,6 +286,9 @@ static void reset_raster(void)
 #endif
 }
 
+static int framebuff_width;
+static int framebuff_height;
+
 static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 {
     /* Keep enough space on the left and the right for one sprite of the
@@ -293,6 +296,8 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
     if (frame_buffer_alloc(&frame_buffer, FRAMEB_WIDTH, FRAMEB_HEIGHT))
 	return -1;
 
+    framebuff_width=FRAMEB_WIDTH;
+    framebuff_height=FRAMEB_HEIGHT;
     reset_raster();
 
     return 0;
@@ -411,6 +416,21 @@ int handle_mode_change(void)
     video_resize();
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*  Translate Windows client rectangle to frame buffer coordinate system. */
+/*  Also return framebuffer size info */
+
+void translate_client_to_framebuffer(int *coords)
+{
+    coords[0]=coords[0]-window_x_offset+window_first_x*pixel_width+2*SCREEN_MAX_SPRITE_WIDTH;
+    coords[1]=coords[1]-window_y_offset+window_first_line*pixel_height;
+    coords[2]=coords[2]-window_x_offset+window_first_x*pixel_width+2*SCREEN_MAX_SPRITE_WIDTH;
+    coords[3]=coords[3]-window_y_offset+window_first_line*pixel_height;
+    coords[4]=framebuff_width;
+    coords[5]=framebuff_height;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -676,7 +696,7 @@ inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
    top to bottom.  */
 inline static void add_line(int y, int xs, int xe)
 {
-#ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
+#ifdef RASTER_DEBUG_PUTIMAGE_CALLS
     log_message(LOG_DEFAULT, "add_line(): y = %d, xs = %d, xe = %d.",
                 y, xs, xe);
 #endif
@@ -692,7 +712,7 @@ inline static void add_line(int y, int xs, int xe)
 	changed_area.ye = y;
     }
 
-#ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
+#ifdef RASTER_DEBUG_PUTIMAGE_CALLS
     log_message(LOG_DEFAULT,
                 "add_line(): current changed_area has "
                 "ys = %d, ye = %d, xs = %d, xe = %d.",
@@ -799,7 +819,7 @@ inline static void handle_blank_line(void)
 	cache[rasterline].blank = 1;
     	have_changes_on_this_line = 0;
 	add_line(rasterline, 0, SCREEN_WIDTH - 1);
-	if (pixel_height == 2 && 
+	if (pixel_height == 2 &&
 #ifdef USE_VIDMODE_EXTENSION
 	    (fullscreen?fullscreen_double_scan_enabled:double_scan_enabled)
 #else
@@ -1030,7 +1050,7 @@ inline static void handle_visible_line_with_cache(void)
     if (needs_update) {
 	add_line(rasterline, changed_start, changed_end);
 
-	if (pixel_height == 2 && 
+	if (pixel_height == 2 &&
 #ifdef USE_VIDMODE_EXTENSION
 	    (fullscreen?fullscreen_double_scan_enabled:double_scan_enabled)
 #else
@@ -1106,7 +1126,7 @@ inline static void handle_visible_line_without_cache()
 
     }
 
-    if (pixel_height == 2 && 
+    if (pixel_height == 2 &&
 #ifdef USE_VIDMODE_EXTENSION
 	    (fullscreen?fullscreen_double_scan_enabled:double_scan_enabled)
 #else
@@ -1363,7 +1383,7 @@ inline static void emulate_line(void)
 #endif
 
 #ifdef __CRTC__
-	if (rasterline < SCREEN_HEIGHT) 
+	if (rasterline < SCREEN_HEIGHT)
 #endif
         if (have_changes_on_this_line) {
             apply_all_changes(&background_changes);
