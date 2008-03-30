@@ -180,6 +180,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "iec128dcr"=".\iec128dcr.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "iecieee"=".\iecieee.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -562,6 +574,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iec128dcr
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecieee
