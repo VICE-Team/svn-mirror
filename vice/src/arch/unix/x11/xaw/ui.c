@@ -3,11 +3,11 @@
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Support for multiple visuals and depths by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,16 +31,14 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdlib.h>
 #include <errno.h>
-
 #include <signal.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -67,10 +65,6 @@
 #include <X11/extensions/xf86vmode.h>
 #endif
 
-#include "widgets/Canvas.h"
-#include "widgets/FileSel.h"
-#include "widgets/TextField.h"
-
 #include "cmdline.h"
 #include "drive.h"
 #include "log.h"
@@ -86,6 +80,9 @@
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
+#include "widgets/Canvas.h"
+#include "widgets/FileSel.h"
+#include "widgets/TextField.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;

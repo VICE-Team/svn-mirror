@@ -33,7 +33,8 @@
 #include <X11/Xmu/Xmu.h>
 
 #include <stdio.h>
-/*#include <stdlib.h> */
+
+#include "utils.h"
 
 #include "TextFieldP.h"
 

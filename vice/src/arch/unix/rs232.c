@@ -2,7 +2,7 @@
  * rs232.c - RS232 emulation.
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,26 +36,26 @@
 
 #undef        DEBUG
 
-#include <stdio.h>
+#include "vice.h"
 
 #include <errno.h>
-#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <termios.h>
-#include <fcntl.h>
-#include <string.h>
+#include <unistd.h>
 
-#include "vice.h"
-#include "types.h"
+#include "cmdline.h"
+#include "coproc.h"
 #include "log.h"
 #include "resources.h"
-#include "cmdline.h"
 #include "rs232.h"
+#include "types.h"
 #include "utils.h"
-#include "coproc.h"
 
 #define MAXRS232 4
 

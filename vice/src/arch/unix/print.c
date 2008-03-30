@@ -2,7 +2,7 @@
  * print.c - Printer interface.
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,17 +29,17 @@
  * IEC bus and/or the bytes sent to an emulated userport interface
  */
 
-#include <stdio.h>
+#include "vice.h"
 
 #include <errno.h>
+#include <stdio.h>
 #include <string.h>
 
-#include "vice.h"
-#include "types.h"
-#include "log.h"
-#include "resources.h"
 #include "cmdline.h"
+#include "log.h"
 #include "print.h"
+#include "resources.h"
+#include "types.h"
 #include "utils.h"
 
 #define	MAXPRINT	4
