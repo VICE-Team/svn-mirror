@@ -56,14 +56,7 @@ typedef struct video_canvas_s video_canvas_t;
 /* ------------------------------------------------------------------------- */
 
 typedef struct video_frame_buffer_s {
-    PIXEL   *buffer;
-    int     width;
-    int     height;
 } video_frame_buffer_t;
-
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
-#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */
 

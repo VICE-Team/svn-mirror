@@ -91,14 +91,12 @@ ui_menu_entry_t ted_submenu[] = {
 #if 0
     { N_("Color set"),
       NULL, NULL, palette_submenu },
-#if VIDEO_DISPLAY_DEPTH == 0
     { "--" },
     { N_("*Fast PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
 #if 0
     { N_("*PAL emulation"),
       (ui_callback_t)toggle_PALEmulation, NULL, NULL },
-#endif
 #endif
 #endif
     { NULL }

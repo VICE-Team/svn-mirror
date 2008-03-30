@@ -38,11 +38,8 @@
 
 #define NUM_AVAILABLE_COLORS	0x100
 
-typedef struct video_frame_buffer_s /* a bitmap structure */
+typedef struct video_frame_buffer_s
 {
-    PIXEL   *buffer;
-    int     width;
-    int     height;
 } video_frame_buffer_t;
 
 
@@ -75,11 +72,6 @@ typedef struct video_canvas_s video_canvas_t;
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
 
-/* ------------------------------------------------------------------------- */
-
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
-#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 /* ------------------------------------------------------------------------- */
 
 struct _color_def {

@@ -118,7 +118,11 @@ SOURCE=..\..\plus4\plus4memlimit.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\plus4\plus4tia1.c
+SOURCE=..\..\plus4\plus4pio1.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\plus4\plus4pio2.c
 # End Source File
 # Begin Source File
 

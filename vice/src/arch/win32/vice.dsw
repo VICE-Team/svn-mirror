@@ -615,12 +615,6 @@ Package=<4>
     Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name resid
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name sid
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name video
     End Project Dependency
 }}}
