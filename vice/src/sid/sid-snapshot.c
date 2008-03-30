@@ -37,8 +37,6 @@
 
 #include <stdio.h>
 
-extern BYTE siddata[];
-
 static char snap_module_name[] = "SID";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0

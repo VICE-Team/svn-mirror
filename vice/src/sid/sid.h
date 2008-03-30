@@ -36,7 +36,7 @@ void REGPARM2 sid_store(ADDRESS address, BYTE byte);
 void REGPARM2 sid2_store(ADDRESS address, BYTE byte);
 void sid_reset(void);
 
-// extern BYTE siddata[];
+extern BYTE siddata[];
 
 struct sid_engine_s {
     sound_t* (*open)(int speed, int cycles_per_sec, BYTE *sidstate);
