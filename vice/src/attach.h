@@ -36,7 +36,7 @@ void file_system_init(void);
 int file_system_set_hooks(int unit,
                           drive_attach_func_t attach_func,
                           drive_detach_func_t detach_func);
-int file_system_attach_disk(int unit, char *filename);
+int file_system_attach_disk(int unit, const char *filename);
 void file_system_detach_disk(int unit);
 
 #endif

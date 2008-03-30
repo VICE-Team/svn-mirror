@@ -79,6 +79,9 @@ static int extend_image_policy;
 /* What idling method?  (See `TRUE1541_IDLE_*' in `true1541.h'.)  */
 static int idling_method;
 
+/* Original ROM code is saved here.  */
+static BYTE true1541_rom_idle_trap;
+
 /* What sync factor between the CPU and the 1541?  If equal to
    `TRUE1541_SYNC_PAL', the same as PAL machines.  If equal to
    `TRUE1541_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -126,9 +129,14 @@ static int set_idling_method(resource_value_t v)
 {
     /* FIXME: Maybe we should call `true1541_cpu_execute()' here?  */
     if ((int) v != TRUE1541_IDLE_SKIP_CYCLES
-        && (int) v != TRUE1541_IDLE_TRAP_IDLE)
+        && (int) v != TRUE1541_IDLE_TRAP_IDLE
+        && (int) v != TRUE1541_IDLE_NO_IDLE)
         return -1;
 
+    if (rom_loaded)
+	true1541_rom[0xec9b - 0xc000] = 
+	    (idling_method != TRUE1541_IDLE_TRAP_IDLE)
+	    ? 0x00 : true1541_rom_idle_trap;
     idling_method = (int) v;
     return 0;
 }
@@ -199,17 +207,22 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable hardware-level 1541 emulation" },
     { "+1541", SET_RESOURCE, 0, NULL, NULL, "True1541", (resource_value_t) 0,
       NULL, "Disable hardware-level 1541 emulation" },
-    { "-parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable", (resource_value_t) 1,
+    { "-parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable",
+      (resource_value_t) 1,
       NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable", (resource_value_t) 0,
+    { "+parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable",
+      (resource_value_t) 0,
       NULL, "Disable SpeedDOS-compatible parallel cable" },
-    { "-driveidle", SET_RESOURCE, 1, NULL, NULL, "True1541IdleMethod", NULL,
-      "<method>", "Set 1541 idling method (0: skip cycles, 1: trap idle)" },
-    { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "True1541SyncFactor", NULL,
-      "<value>", "Set 1541 sync factor to <value>" },
-    { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor", (resource_value_t) TRUE1541_SYNC_PAL,
+    { "-driveidle", SET_RESOURCE, 2, NULL, NULL, "True1541IdleMethod",
+      NULL, "<method>",
+      "Set 1541 idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
+    { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "True1541SyncFactor",
+      NULL, "<value>", "Set 1541 sync factor to <value>" },
+    { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor",
+      (resource_value_t) TRUE1541_SYNC_PAL,
       NULL, "Use PAL 1541 sync factor" },
-    { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor", (resource_value_t) TRUE1541_SYNC_NTSC,
+    { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "True1541SyncFactor",
+      (resource_value_t) TRUE1541_SYNC_NTSC,
       NULL, "Use NTSC 1541 sync factor" },
     { "-dosname", SET_RESOURCE, 1, NULL, NULL, "DosName", NULL,
       "<name>", "Specify name of 1541 DOS ROM image name" },
@@ -693,7 +706,9 @@ int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
     true1541_rom[0xeae9 - 0xc000] = 0xea;
 
     /* Trap the idle loop. */
-    true1541_rom[0xec9b - 0xc000] = 0x00;
+    true1541_rom_idle_trap = true1541_rom[0xec9b - 0xc000];
+    if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
+	true1541_rom[0xec9b - 0xc000] = 0x00;
 
     for (track = 0; track < MAX_TRACKS_1541; track++)
 	GCR_track_size[track] = raw_track_size[speed_map[track]];
@@ -1252,7 +1267,7 @@ void true1541_update_ui_status(void)
 
     /* Actually update the LED status only if the `trap idle' idling method
        is being used, as the LED status could be incorrect otherwise.  */
-   if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
+    if (idling_method != TRUE1541_IDLE_SKIP_CYCLES)
 	my_led_status = true1541_led_status ? 1 : 0;
     else
 	my_led_status = 0;
@@ -1276,6 +1291,6 @@ void true1541_vsync_hook(void)
     if (!true1541_enabled)
         return;
 
-    if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
+    if (idling_method != TRUE1541_IDLE_SKIP_CYCLES)
         true1541_cpu_execute();
 }

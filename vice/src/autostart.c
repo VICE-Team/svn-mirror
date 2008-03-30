@@ -37,7 +37,7 @@
 #include "resources.h"
 #include "drive.h"
 #include "tape.h"
-#include "fsdevice.h"
+#include "attach.h"
 #include "interrupt.h"
 #include "ui.h"
 
@@ -144,7 +144,7 @@ int autostart_init(CLOCK _min_cycles, int _handle_true1541)
     }
 
     min_cycles = _min_cycles;
-    handle_true1541 = handle_true1541;
+    handle_true1541 = _handle_true1541;
 
     return 0;
 }

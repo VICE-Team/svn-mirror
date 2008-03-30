@@ -169,7 +169,7 @@ static int set_file_system_device11(resource_value_t v)
 
 /* ------------------------------------------------------------------------- */
 
-int file_system_attach_disk(int unit, char *filename)
+int file_system_attach_disk(int unit, const char *filename)
 {
     serial_t *p;
     DRIVE *floppy;

@@ -329,6 +329,176 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+/* RS232 stuff */
+
+
+UI_MENU_DEFINE_RADIO(RsUserDev)
+
+static ui_menu_entry_t rsuser_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t) 3, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(Acia1Dev)
+
+static ui_menu_entry_t acia1_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t) 3, NULL },
+    { NULL }
+};
+
+#if 0
+UI_MENU_DEFINE_RADIO(Acia2Dev)
+
+static ui_menu_entry_t acia2_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 2, NULL },
+    { "*Exec process",
+      (ui_callback_t) radio_Acia2Dev, (ui_callback_data_t) 3, NULL },
+    { NULL }
+};
+#endif
+
+UI_MENU_DEFINE_RADIO(RsDevice1Baud)
+
+static ui_menu_entry_t ser1_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)   300, NULL },
+  { "*1200",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  1200, NULL },
+  { "*2400",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  2400, NULL },
+  { "*9600",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  9600, NULL },
+  { "*19200",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t) 19200, NULL },
+  { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(RsDevice2Baud)
+
+static ui_menu_entry_t ser2_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)   300, NULL },
+  { "*1200",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  1200, NULL },
+  { "*2400",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  2400, NULL },
+  { "*9600",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  9600, NULL },
+  { "*19200",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t) 19200, NULL },
+  { NULL }
+};
+
+static UI_CALLBACK(set_rs232_device_file)
+{
+    char *resource = (char*) client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+
+    filename = ui_select_file("Select RS232 device or dump file",
+                              NULL, False, &button);
+    switch (button) {
+      case UI_BUTTON_OK:
+        resources_set_value(resource, (resource_value_t) filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+static UI_CALLBACK(set_rs232_exec_file)
+{
+    char *resname = (char*) client_data;
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "Command to execute for RS232 (preceed with '|')");
+    {
+        char *value;
+        char *new_value;
+        int len;
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+}
+
+#if 0
+UI_MENU_DEFINE_TOGGLE(AciaD6)
+#endif
+UI_MENU_DEFINE_TOGGLE(AciaDE)
+UI_MENU_DEFINE_TOGGLE(RsUser)
+
+ui_menu_entry_t rs232_submenu[] = {
+    { "*ACIA $DExx RS232 interface emulation",
+      (ui_callback_t) toggle_AciaDE, NULL, NULL },
+    { "ACIA $DExx device",
+      NULL, NULL, acia1_device_submenu },
+#if 0
+    { "--" },
+    { "*ACIA $D6xx RS232 interface emulation",
+      (ui_callback_t) toggle_AciaD6, NULL, NULL },
+    { "ACIA $D6** device",
+      NULL, NULL, acia2_device_submenu },
+#endif
+    { "--" },
+    { "*Userport 9600 baud RS232 emulation",
+      (ui_callback_t) toggle_RsUser, NULL, NULL },
+    { "Userport RS232 device",
+      NULL, NULL, rsuser_device_submenu },
+    { "--" },
+    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice1", NULL },
+    { "Serial 1 baudrate",
+      NULL, NULL, ser1_baud_submenu },
+    { "--" },
+    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice2", NULL },
+    { "Serial 2 baudrate",
+      NULL, NULL, ser2_baud_submenu },
+    { "--" },
+    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice3", NULL },
+    { "--" },
+    { "Programm name to exec...", (ui_callback_t) set_rs232_exec_file,
+      (ui_callback_data_t) "RsDevice4", NULL },
+    { NULL }
+};
+
+
+/* ------------------------------------------------------------------------- */
+
 /* True 1541 support items.  */
 
 UI_MENU_DEFINE_TOGGLE(True1541)
@@ -532,6 +702,8 @@ static ui_menu_entry_t set_true1541_sync_factor_submenu[] = {
 };
 
 static ui_menu_entry_t set_true1541_idle_method_submenu[] = {
+    { "*No Traps", (ui_callback_t) radio_True1541IdleMethod,
+      (ui_callback_data_t) TRUE1541_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_True1541IdleMethod,
       (ui_callback_data_t) TRUE1541_IDLE_SKIP_CYCLES, NULL },
     { "*Trap idle", (ui_callback_t) radio_True1541IdleMethod,
@@ -707,6 +879,101 @@ static ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t) toggle_DoubleScan, NULL, NULL },
     { "*Use XSync()",
       (ui_callback_t) toggle_UseXSync, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_RADIO(PrUserDev)
+
+static ui_menu_entry_t pruser_device_submenu[] = {
+    { "*Printer 1 (file dump)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 0, NULL },
+    { "*Printer 2 (exec)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 1, NULL },
+    { "*Printer 3 (exec)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(Printer4Dev)
+
+static ui_menu_entry_t pr4_device_submenu[] = {
+    { "*Printer 1 (file dump)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 0, NULL },
+    { "*Printer 2 (exec)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 1, NULL },
+    { "*Printer 3 (exec)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(set_print_dump_file)
+{
+    char *resource = (char*) client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+
+    filename = ui_select_file("Select printer dump file",
+                              NULL, False, &button);
+    switch (button) {
+      case UI_BUTTON_OK:
+        resources_set_value(resource, (resource_value_t) filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+static UI_CALLBACK(set_print_exec_file)
+{
+    char *resname = (char*) client_data;
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "Command to execute for printing (preceed with '|')");
+    {
+        char *value;
+        char *new_value;
+        int len;
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+}
+
+UI_MENU_DEFINE_TOGGLE(Printer4)
+UI_MENU_DEFINE_TOGGLE(PrUser)
+
+ui_menu_entry_t ui_print_settings_menu[] = {
+    { "*IEC device 4 printer emulation",
+      (ui_callback_t) toggle_Printer4, NULL, NULL },
+    { "IEC printer device",
+      NULL, NULL, pr4_device_submenu  },
+    { "--" },
+    { "*Userport printer emulation",
+      (ui_callback_t) toggle_PrUser, NULL, NULL },
+    { "Userport printer device",
+      NULL, NULL, pruser_device_submenu  },
+    { "--" },
+    { "Printer device 1...", (ui_callback_t) set_print_dump_file,
+      (ui_callback_data_t) "PrDevice1", NULL },
+    { "Printer device 2...", (ui_callback_t) set_print_exec_file,
+      (ui_callback_data_t) "PrDevice2", NULL },
+    { "Printer device 3...", (ui_callback_t) set_print_exec_file,
+      (ui_callback_data_t) "PrDevice3", NULL },
     { NULL }
 };
 

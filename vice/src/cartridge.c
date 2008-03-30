@@ -95,6 +95,10 @@ int cartridge_attach_image(int type, char *filename)
     BYTE header[0x40], chipheader[0x10];
     int crttype = 0, i;
 
+    /* Attaching no cartridge always works.  */
+    if (type == CARTRIDGE_NONE)
+	return 0;
+
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
 	fd = fopen(filename, READ);

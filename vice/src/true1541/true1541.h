@@ -75,8 +75,9 @@
 #define TRUE1541_EXTEND_ACCESS		2
 
 /* 1541 idling methods.  */
-#define TRUE1541_IDLE_SKIP_CYCLES	0
-#define TRUE1541_IDLE_TRAP_IDLE		1
+#define TRUE1541_IDLE_NO_IDLE		0
+#define TRUE1541_IDLE_SKIP_CYCLES	1
+#define TRUE1541_IDLE_TRAP_IDLE		2
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
