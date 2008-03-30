@@ -35,6 +35,7 @@
 #include <stdarg.h>
 
 #include "warn.h"
+#include "log.h"
 #include "utils.h"
 
 #ifdef __riscos
@@ -72,6 +73,7 @@ warn_t *warn_init(const char *name, int nrwarnings)
 
 void warn(warn_t *pwarn, int warnid, char *msg, ...)
 {
+    char                        tmp[1024];
     char			*p;
     int				 m;
     va_list			 ap;
@@ -85,14 +87,15 @@ void warn(warn_t *pwarn, int warnid, char *msg, ...)
 	*p |= m;
     }
     va_start(ap, msg);
-    fprintf(logfile, "%s: warning: ", pwarn->name);
+
     /* Bugfix for GCC + SharedCLib */
 #if (defined (__riscos) && defined(__GNUC__))
-    vfprintf(logfile, msg, (va_list)(&ap));
+    vsprintf(tmp, msg, (va_list)(&ap));
 #else
-    vfprintf(logfile, msg, ap);
+    vsprintf(tmp, msg, ap);
 #endif
-    fprintf(logfile, "\n");
+
+    log_message(LOG_DEFAULT, "%s: Warning: %s", pwarn->name, tmp);
     va_end(ap);
 }
 
