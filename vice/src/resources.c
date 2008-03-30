@@ -56,6 +56,33 @@
 #endif
 
 
+typedef struct resource_ram_s {
+    /* Resource name.  */
+    const char *name;
+
+    /* Type of resource.  */
+    resource_type_t type;
+
+    /* Factory default value.  */
+    resource_value_t factory_value;
+
+    /* Pointer to the value.  This is only used for *reading* it.  To change
+       it, use `set_func'.  */
+    resource_value_t *value_ptr;
+
+    /* Function to call to set the value.  */
+    resource_set_func_t *set_func;
+
+    /* Extra parameter to pass to `set_func'.  */
+    void *param;
+
+    /* callback function vector chain */
+    struct resource_callback_desc_s *callback;
+
+    /* number of next entry in hash collision list */
+    int hash_next;
+} resource_ram_t;
+
 /* the type of the callback vector chain */
 typedef struct resource_callback_desc_s {
   resource_callback_func_t *func;
@@ -65,7 +92,7 @@ typedef struct resource_callback_desc_s {
 
 
 static int num_resources, num_allocated_resources;
-static resource_t *resources;
+static resource_ram_t *resources;
 static const char *machine_id;
 
 static void write_resource_item(FILE *f, int num);
@@ -132,7 +159,7 @@ static void resources_exec_callback_chain(const resource_callback_desc_t *callba
 
 
 /* issue callbacks for a modified resource */
-static void resources_issue_callback(resource_t *res, int global_callback)
+static void resources_issue_callback(resource_ram_t *res, int global_callback)
 {
     if (res->callback != NULL)
         resources_exec_callback_chain(res->callback, res->name);
@@ -172,7 +199,7 @@ static void resources_check_hash_table(FILE *f)
 int resources_register(const resource_t *r)
 {
     const resource_t *sp;
-    resource_t *dp;
+    resource_ram_t *dp;
 
     sp = r;
     dp = resources + num_resources;
@@ -189,8 +216,8 @@ int resources_register(const resource_t *r)
 
         if (num_allocated_resources <= num_resources) {
             num_allocated_resources *= 2;
-            resources = xrealloc(resources,
-                                 num_allocated_resources * sizeof(resource_t));
+            resources = xrealloc(resources, num_allocated_resources
+                                 * sizeof(resource_ram_t));
             dp = resources + num_resources;
         }
         dp->name = sp->name;
@@ -211,9 +238,9 @@ int resources_register(const resource_t *r)
     return 0;
 }
 
-static resource_t *lookup(const char *name)
+static resource_ram_t *lookup(const char *name)
 {
-    resource_t *res;
+    resource_ram_t *res;
     unsigned int hashkey;
 
     hashkey = resources_calc_hash_key(name);
@@ -228,7 +255,7 @@ static resource_t *lookup(const char *name)
 
 resource_type_t resources_query_type(const char *name)
 {
-    resource_t *res;
+    resource_ram_t *res;
 
     if ((res = lookup(name)) != NULL)
         return res->type;
@@ -238,7 +265,7 @@ resource_type_t resources_query_type(const char *name)
 
 int resources_write_item_to_file(FILE *fp, const char *name)
 {
-    resource_t *res = lookup(name);
+    resource_ram_t *res = lookup(name);
 
     if (res != NULL) {
         write_resource_item(fp, res - resources);
@@ -258,8 +285,8 @@ int resources_init(const char *machine)
     machine_id = stralloc(machine);
     num_allocated_resources = 100;
     num_resources = 0;
-    resources = (resource_t *)xmalloc(num_allocated_resources
-                                      * sizeof(resource_t));
+    resources = (resource_ram_t *)xmalloc(num_allocated_resources
+                                          * sizeof(resource_ram_t));
 
     /* hash table maps hash keys to index in resources array rather than
        pointers into the array because the array may be reallocated. */
@@ -273,7 +300,7 @@ int resources_init(const char *machine)
 
 int resources_set_value(const char *name, resource_value_t value)
 {
-    resource_t *r = lookup(name);
+    resource_ram_t *r = lookup(name);
     int status;
 
     if (r == NULL) {
@@ -306,7 +333,7 @@ int resources_set_sprintf(const char *name, resource_value_t value, ...)
 
 int resources_set_value_string(const char *name, const char *value)
 {
-    resource_t *r = lookup(name);
+    resource_ram_t *r = lookup(name);
     int status;
 
     if (r == NULL) {
@@ -337,7 +364,7 @@ int resources_set_value_string(const char *name, const char *value)
 
 int resources_get_value(const char *name, resource_value_t *value_return)
 {
-    resource_t *r = lookup(name);
+    resource_ram_t *r = lookup(name);
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -380,7 +407,7 @@ int resources_get_sprintf(const char *name,
 int resources_get_default_value(const char *name,
                                 const resource_value_t *value_return)
 {
-    resource_t *r = lookup(name);
+    resource_ram_t *r = lookup(name);
 
     if (r == NULL) {
         log_warning(LOG_DEFAULT,
@@ -426,7 +453,7 @@ int resources_set_defaults(void)
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
 {
-    resource_t *r = lookup(name);
+    resource_ram_t *r = lookup(name);
     int value;
     int status;
 
@@ -493,7 +520,7 @@ int resources_read_item_from_file(FILE *f)
     char *arg_ptr;
     int line_len, resname_len;
     size_t arg_len;
-    resource_t *r;
+    resource_ram_t *r;
 
     line_len = util_get_line(buf, 1024, f);
 
@@ -748,7 +775,7 @@ int resources_register_callback(const char *name,
                                callback_param);
         return 0;
     } else {
-        resource_t *res = lookup(name);
+        resource_ram_t *res = lookup(name);
 
         if (res != NULL) {
             resources_add_callback(&(res->callback), callback, callback_param);
