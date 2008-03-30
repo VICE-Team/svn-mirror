@@ -255,6 +255,48 @@ int video_init(void)
 /* Canvas functions.  */
 
 /* Set the palettes for canvas `c'.  */
+void init_palette(const palette_t *p, PALETTEENTRY *ape)
+{
+	unsigned int i, k;
+	DWORD color;
+
+    /* Default to a 332 palette.  */
+	for (i=0;i<256;i++)
+	{
+        ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
+        ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
+        ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
+        ape[i].peFlags = (BYTE)0;
+	}
+
+	/* Initialise some colors to windows system pens */
+/*
+	k = 16;
+	for (i=0;i<256;i++)
+	{
+		color = GetSysColor(i);
+		if (color != 0)
+		{
+			ape[k].peRed	= GetRValue(color);
+			ape[k].peGreen	= GetGValue(color);
+			ape[k].peBlue	= GetBValue(color);
+			k++;
+			if (k > 256) break;
+		}
+	}
+*/
+
+    /* Overwrite first colors with the palette ones.  */
+    for (i = 0; i < p->num_entries; i++) {
+        ape[i].peRed = p->entries[i].red;
+        ape[i].peGreen = p->entries[i].green;
+        ape[i].peBlue = p->entries[i].blue;
+        ape[i].peFlags = 0;
+    }
+}
+
+
+/* Set the palettes for canvas `c'.  */
 int set_palette(video_canvas_t *c)
 {
     if (c->depth == 8) {
@@ -456,7 +498,7 @@ int set_physical_colors(video_canvas_t *c)
             }
             IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
             SetPixel(hdc, 0, 0, oldcolor);
-            IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
+            IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc); 
         }
     }
     return 0;
@@ -619,21 +661,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         PALETTEENTRY ape[256];
         HRESULT result;
 
-        /* Default to a 332 palette.  */
-        for (i = 0; i < 256; i++) {
-            ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-            ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-            ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-            ape[i].peFlags = (BYTE)0;
-        }
-
-        /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < canvas->palette->num_entries; i++) {
-            ape[i].peRed = canvas->palette->entries[i].red;
-            ape[i].peGreen = canvas->palette->entries[i].green;
-            ape[i].peBlue = canvas->palette->entries[i].blue;
-            ape[i].peFlags = 0;
-        }
+		init_palette(canvas->palette, ape);
 
         result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
                                             ape, &canvas->dd_palette, NULL);
@@ -716,6 +744,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
+
 int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
 {
     int i;
@@ -727,21 +756,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
         PALETTEENTRY ape[256];
         HRESULT result;
 
-        /* Default to a 332 palette.  */
-        for (i = 0; i < 256; i++) {
-            ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-            ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-            ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-            ape[i].peFlags = (BYTE)0;
-        }
-
-        /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < canvas->palette->num_entries; i++) {
-            ape[i].peRed = canvas->palette->entries[i].red;
-            ape[i].peGreen = canvas->palette->entries[i].green;
-            ape[i].peBlue = canvas->palette->entries[i].blue;
-            ape[i].peFlags = 0;
-        }
+		init_palette(canvas->palette, ape);
 
         result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
                                             ape, &canvas->dd_palette, NULL);

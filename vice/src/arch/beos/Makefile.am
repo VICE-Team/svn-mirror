@@ -21,7 +21,6 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	beosmain.c \
 	c128ui.cc \
 	c128ui.h \
 	cbm2ui.cc \
@@ -34,8 +33,6 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	main.cc \
-	main.h \
 	mouse.cc \
 	mouse.h \
 	petui.cc \
@@ -76,6 +73,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	vic20ui.cc \
 	vic20ui.h \
+	viceapp.cc \
+	viceapp.h \
 	vicemenu.cc \
 	vicemenu.h \
 	vicewindow.cc \

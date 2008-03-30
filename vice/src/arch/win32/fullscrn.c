@@ -44,6 +44,7 @@
 #include "videoarch.h"
 #include "statusbar.h"
 
+extern void init_palette(const palette_t *p, PALETTEENTRY *ape);
 
 // ----------------------------------------------
 
@@ -791,21 +792,7 @@ void SwitchToFullscreenMode(HWND hwnd)
         PALETTEENTRY ape[256];
         HRESULT result;
 
-        /* Default to a 332 palette.  */
-        for (i = 0; i < 256; i++) {
-            ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-            ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-            ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-            ape[i].peFlags = (BYTE)0;
-        }
-
-        /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < c->palette->num_entries; i++) {
-            ape[i].peRed = c->palette->entries[i].red;
-            ape[i].peGreen = c->palette->entries[i].green;
-            ape[i].peBlue = c->palette->entries[i].blue;
-            ape[i].peFlags = 0;
-        }
+		init_palette(c->palette, ape);
 
         result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
                                             ape, &c->dd_palette, NULL);
@@ -915,21 +902,7 @@ void SwitchToWindowedMode(HWND hwnd)
         PALETTEENTRY ape[256];
         HRESULT result;
 
-        /* Default to a 332 palette.  */
-        for (i = 0; i < 256; i++) {
-            ape[i].peRed   = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-            ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-            ape[i].peBlue  = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-            ape[i].peFlags = (BYTE)0;
-        }
-
-        /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < c->palette->num_entries; i++) {
-            ape[i].peRed = c->palette->entries[i].red;
-            ape[i].peGreen = c->palette->entries[i].green;
-            ape[i].peBlue = c->palette->entries[i].blue;
-            ape[i].peFlags = 0;
-        }
+		init_palette(c->palette, ape);
 
         result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
                                            ape, &c->dd_palette, NULL);
@@ -997,3 +970,40 @@ void ResumeFullscreenMode(HWND hwnd)
     }
 }
 
+void SuspendFullscreenModeKeep(HWND hwnd)
+{
+	int width, height, bitdepth, rate;
+
+	GetCurrentModeParameters(&width, &height, &bitdepth, &rate);
+	if ((width < 640) && (height < 480))
+	{
+		SuspendFullscreenMode(hwnd);
+	}
+	else
+	{
+	    if (IsFullscreenEnabled()) {
+	        if (fullscreen_nesting_level == 0) {
+			    ShowCursor(TRUE);
+	        }
+	    }
+	}
+}
+
+void ResumeFullscreenModeKeep(HWND hwnd)
+{
+	int width, height, bitdepth, rate;
+
+	GetCurrentModeParameters(&width, &height, &bitdepth, &rate);
+	if ((width < 640) && (height < 480))
+	{
+		ResumeFullscreenMode(hwnd);
+	}
+	else
+	{
+	    if (IsFullscreenEnabled()) {
+	        if (fullscreen_nesting_level == 0) {
+			    ShowCursor(FALSE);
+	        }
+	    }
+	}
+}

@@ -933,16 +933,16 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
-    SuspendFullscreenMode(hwnd);
+    SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_save_dialog(hwnd);
-    ResumeFullscreenMode(hwnd);
+    ResumeFullscreenModeKeep(hwnd);
 }
 
 static void load_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
-    SuspendFullscreenMode(hwnd);
+    SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_load_dialog(hwnd);
-    ResumeFullscreenMode(hwnd);
+    ResumeFullscreenModeKeep(hwnd);
 }
 
 typedef struct {
@@ -1191,7 +1191,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             int unit = 8;
             int autostart_index = -1;
 
-            SuspendFullscreenMode(hwnd);
+            SuspendFullscreenModeKeep(hwnd);
             switch (wparam & 0xffff) {
               case IDM_ATTACH_8:
                 unit = 8;
@@ -1220,7 +1220,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 }
                 free(s);
             }
-            ResumeFullscreenMode(hwnd);
+            ResumeFullscreenModeKeep(hwnd);
         }
         break;
       case IDM_DETACH_8:
@@ -1263,7 +1263,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             char *s;
             int autostart_index = -1;
 
-            SuspendFullscreenMode(hwnd);
+            SuspendFullscreenModeKeep(hwnd);
             if ((s = ui_select_file(hwnd, "Attach tape image",
                 UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
                 FILE_SELECTOR_TAPE_STYLE,
@@ -1278,7 +1278,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 }
                 free(s);
             }
-            ResumeFullscreenMode(hwnd);
+            ResumeFullscreenModeKeep(hwnd);
         }
         break;
       case IDM_DETACH_TAPE:
@@ -1348,15 +1348,15 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SCREENSHOT | 0x00010000:
       case IDM_SCREENSHOT:
-        SuspendFullscreenMode(hwnd);
+        SuspendFullscreenModeKeep(hwnd);
         ui_screenshot_save_dialog(hwnd);
-        ResumeFullscreenMode(hwnd);
+        ResumeFullscreenModeKeep(hwnd);
         break;
       case IDM_SOUNDSHOT | 0x00010000:
       case IDM_SOUNDSHOT:
-        SuspendFullscreenMode(hwnd);
+        SuspendFullscreenModeKeep(hwnd);
         ui_soundshot_save_dialog(hwnd);
-        ResumeFullscreenMode(hwnd);
+        ResumeFullscreenModeKeep(hwnd);
         break;
       case IDM_PAUSE:
       case IDM_PAUSE | 0x00010000:
@@ -1704,7 +1704,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         {
             int quit = 1;
 
-            SuspendFullscreenMode(window);
+            SuspendFullscreenModeKeep(window);
             vsync_suspend_speed_eval();
             if (ui_resources.confirm_on_exit)
             {
@@ -1721,6 +1721,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
             }
 
             if (quit) {
+	            SuspendFullscreenMode(window);
                if (ui_resources.save_resources_on_exit) {
                    if (resources_save(NULL)<0) {
                        ui_error("Cannot save settings.");
@@ -1728,7 +1729,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
                }
                DestroyWindow(window);
             } else {
-                ResumeFullscreenMode(window);
+                ResumeFullscreenModeKeep(window);
             }
         }
         return 0;
@@ -1807,13 +1808,13 @@ int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
     }
 
     if (hWnd != NULL) {
-        SuspendFullscreenMode(hWnd);
+        SuspendFullscreenModeKeep(hWnd);
     }
 
     ret = MessageBox(hWnd, lpText, lpCaption, uType);
 
     if (hWnd!=NULL) {
-        ResumeFullscreenMode(hWnd);
+        ResumeFullscreenModeKeep(hWnd);
     }
 
     return ret;

@@ -36,6 +36,7 @@
 #include <TextView.h>
 #include <View.h>
 #include <Window.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -51,12 +52,12 @@ extern "C" {
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h" 
+#include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
-#include "main_exit.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
@@ -79,6 +80,7 @@ extern "C" {
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
+#include "viceapp.h"
 #include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
@@ -224,6 +226,22 @@ int ui_cmdline_options_init(void)
 void ui_exit(void)
 {
 }
+
+static void ui_exit_early(void)
+{
+    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
+       pressed and thus breaking the cleanup process, which might be
+       dangerous.  */
+    signal(SIGINT, SIG_IGN);
+    log_message(LOG_DEFAULT, "\nExiting...");
+    machine_shutdown();
+    sound_close();
+#ifdef HAS_JOYSTICK
+    joystick_close();
+#endif
+    putchar ('\n');
+}
+
 
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
@@ -373,7 +391,7 @@ void ui_pause_emulation(void)
 {
     is_paused = is_paused ? 0 : 1;
     if (is_paused) {
-        maincpu_trigger_trap(pause_trap, 0);
+        interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
         ui_display_paused(0);
     }
@@ -431,7 +449,7 @@ void ui_dispatch_events(void)
 						
 					/* send message to quit the application */
 					/* and exit the emulation thread        */
-					main_exit_early();
+					ui_exit_early();
 					BMessenger messenger(APP_SIGNATURE);
 					BMessage message(WINDOW_CLOSED);
 					messenger.SendMessage(&message, be_app);
@@ -517,22 +535,26 @@ void ui_dispatch_events(void)
 		        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
 				break;
 			case MENU_SNAPSHOT_LOAD:
-				maincpu_trigger_trap(load_snapshot_trap, (void*) 0);
+				interrupt_maincpu_trigger_trap(
+					load_snapshot_trap,	(void*) 0);
 				break;
 			case MENU_SNAPSHOT_SAVE:
-				maincpu_trigger_trap(save_snapshot_trap, (void*) 0);
+				interrupt_maincpu_trigger_trap(
+					save_snapshot_trap, (void*) 0);
 				break;
 			case MENU_LOADQUICK:
 				scan_files();
 				if (snapcounter>0)
-					maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
+					interrupt_maincpu_trigger_trap(
+						load_quicksnapshot_trap, (void *) 0);
 				break;
 			case MENU_SAVEQUICK:
 				scan_files();
-				maincpu_trigger_trap(save_quicksnapshot_trap, (void *) 0);
+				interrupt_maincpu_trigger_trap(
+					save_quicksnapshot_trap, (void *) 0);
 				break;
 			case MENU_MONITOR:
-				maincpu_trigger_trap(mon_trap, (void *) 0);
+				interrupt_maincpu_trigger_trap(mon_trap, (void *) 0);
 				break;
 			case MENU_PAUSE:
         		ui_pause_emulation();

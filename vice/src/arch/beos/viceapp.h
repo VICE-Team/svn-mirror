@@ -1,8 +1,8 @@
 /*
- * fullscrn.h - Definition of the Win32 fullscreen code.
+ * viceapp.h - Definition of the Application Class
  *
  * Written by
- *  Tibor Biczo <crown@matavnet.hu>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,21 +24,18 @@
  *
  */
 
-#ifndef _FULLSCRN_H
-#define _FULLSCRN_H
+#ifndef __VICEAPP_H__
+#define __VICEAPP_H__
 
-void GetCurrentModeParameters(int *width, int *height, int *bitdepth, int *refreshrate);
-GUID *GetGUIDForActualDevice();
-void ui_fullscreen_init(void);
-int IsFullscreenEnabled(void);
-void SuspendFullscreenMode(HWND hwnd);
-void ResumeFullscreenMode(HWND hwnd);
-void SuspendFullscreenModeKeep(HWND hwnd);
-void ResumeFullscreenModeKeep(HWND hwnd);
-void SwitchFullscreenMode(HWND hwnd);
-void SwitchToFullscreenMode(HWND hwnd);
-extern void init_fullscreen_dialog(HWND hwnd);
-extern BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+extern char APP_SIGNATURE[256];
+
+class ViceApp : public BApplication {
+	public:
+						ViceApp();
+		void	ReadyToRun();
+		void	MessageReceived(BMessage *message);
+	private:
+		thread_id		vicethread;
+};
 
 #endif
-
