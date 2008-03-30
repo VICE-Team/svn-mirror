@@ -46,11 +46,11 @@
 #include "kbdbuf.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "machine.h"
 #include "mem.h"
 #include "p00.h"
 #include "resources.h"
-#include "serial.h"
 #include "snapshot.h"
 #include "tape.h"
 #include "types.h"
@@ -250,7 +250,7 @@ static void disk_eof_callback(void)
 
     autostartmode = AUTOSTART_DONE;
 
-    serial_set_eof_callback(NULL);
+    machine_bus_eof_callback_set(NULL);
 }
 
 /* This function is called by the `serialattention()' trap before
@@ -260,11 +260,11 @@ static void disk_attention_callback(void)
     if (autostart_run_mode == AUTOSTART_MODE_RUN)
         kbd_buf_feed("RUN\r");
 
-    serial_set_attention_callback(NULL);
+    machine_bus_attention_callback_set(NULL);
 
     /* Next step is waiting for end of loading, to turn true drive emulation
        on.  */
-    serial_set_eof_callback(disk_eof_callback);
+    machine_bus_eof_callback_set(disk_eof_callback);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -371,7 +371,7 @@ static void advance_hasdisk(void)
             autostartmode = AUTOSTART_DONE;
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
-            serial_set_attention_callback(disk_attention_callback);
+            machine_bus_attention_callback_set(disk_attention_callback);
         }
         deallocate_program_name();
         break;
