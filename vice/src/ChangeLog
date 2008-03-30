@@ -1,3 +1,53 @@
+1999-11-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.25.
+
+	* drive/Makefile.am: Added `drivecpu.c', `via1.c' and
+	`via2.c'.  Removed old soure files.
+
+	* drive/drivecpu.h: Added `drive_mem_init'.
+
+	* main.c: #include "drive.h".
+	(MAIN_PROGRAM): Moved `drive_setup_context' before resource
+	initialization.
+
+	* drive/drivecpu.c, drive/via1.c, drive/via2.c, drive/viad.h,
+	drive/drive.c: Changed the remaining `via[12]_*' functions to
+	`via[12]d_*' to aviod duplicates.
+
+1999-11-08  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* main.c: call to drive_setup_context() before the early init
+	phase.
+
+	* viacore.c: allow compiling with shared code depending on the
+	definition of VIA_SHARED_CODE. If shared code is enabled,
+	VIACONTEXT is the data type of the context pointer that will
+	become the first parameter of all functions. Always access
+	this parameter under the name ctxptr.
+
+	* iecdrive.h: give the iec_info struct a name.
+
+	* drivecpu.h, viad.h: changed for shared code. drivecpu.h
+	defines the drive context structure drive_context_t.
+
+	* drive/drivecpu0.c, drive/drivecpu1.c, drive/drivecpucore.c:
+	unified into drivecpu.c. drive/via1drive0.c, drive/via1drive1.c
+	unified into via1.c. drive/via2drive.c, drive/via2drive1.c
+	unified into via2.c.
+
+	* drive/{everything else}: minor changes for shared code.
+
+1999-11-04  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* os2/archdep.c, os2/pm_cmdline, os2/video.c, os2/joystick.[ch],
+	utils.c: minor changes
+
+	* os2/vsync.c: solved the timer overflow
+
+	* charset.[ch]: added two macros, speed up petconvstring and added
+	return value
+
 1999-10-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.24.

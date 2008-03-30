@@ -141,11 +141,11 @@ static int set_drive_true_emulation(resource_value_t v)
     if ((int) v) {
         if (drive[0].type != DRIVE_TYPE_NONE) {
             drive[0].enable = 1;
-            drive0_cpu_reset_clk();
+            drive_cpu_reset_clk(&drive0_context);
         }
         if (drive[1].type != DRIVE_TYPE_NONE) {
             drive[1].enable = 1;
-            drive1_cpu_reset_clk();
+            drive_cpu_reset_clk(&drive1_context);
         }
         drive_enable(0);
         drive_enable(1);
@@ -840,9 +840,9 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
 
-    clk_guard_add_callback(&drive0_clk_guard, drive_clk_overflow_callback,
+    clk_guard_add_callback(&drive0_context.cpu.clk_guard, drive_clk_overflow_callback,
                            (void *) 0);
-    clk_guard_add_callback(&drive1_clk_guard, drive_clk_overflow_callback,
+    clk_guard_add_callback(&drive1_context.cpu.clk_guard, drive_clk_overflow_callback,
                            (void *) 1);
 
     for (i = 0; i < 2; i++) {
@@ -885,8 +885,8 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     initialize_rotation(0, 0);
     initialize_rotation(0, 1);
 
-    drive0_cpu_init(drive[0].type);
-    drive1_cpu_init(drive[1].type);
+    drive_cpu_init(&drive0_context, drive[0].type);
+    drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
     set_sync_factor((resource_value_t) sync_factor);
@@ -1011,9 +1011,9 @@ static int drive_set_disk_drive_type(int type, int dnr)
     drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
-        drive0_cpu_init(type);
+        drive_cpu_init(&drive0_context, type);
     if (dnr == 1)
-        drive1_cpu_init(type);
+        drive_cpu_init(&drive1_context, type);
 
     return 0;
 }
@@ -1258,9 +1258,9 @@ static int drive_enable(int dnr)
         drive_attach_image(drive[dnr].image, dnr + 8);
 
     if (dnr == 0)
-        drive0_cpu_wake_up();
+        drive_cpu_wake_up(&drive0_context);
     if (dnr == 1)
-        drive1_cpu_wake_up();
+        drive_cpu_wake_up(&drive1_context);
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < 2; i++) {
@@ -1296,9 +1296,9 @@ static void drive_disable(int dnr)
 
     if (rom_loaded){
   	if (dnr == 0)
-	    drive0_cpu_sleep();
+	    drive_cpu_sleep(&drive0_context);
 	if (dnr == 1)
-	    drive1_cpu_sleep();
+	    drive_cpu_sleep(&drive1_context);
 	/* Set IEC lines of disabled drives to `1'.  */
 	if (dnr == 0 && iec_info != NULL) {
 	    iec_info->drive_bus = 0xff;
@@ -1337,8 +1337,8 @@ static void drive_disable(int dnr)
 
 void drive_reset(void)
 {
-    drive0_cpu_reset();
-    drive1_cpu_reset();
+    drive_cpu_reset(&drive0_context);
+    drive_cpu_reset(&drive1_context);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1532,12 +1532,12 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
        `drive_t'.  */
     switch (drive_num) {
       case 0:
-        alarm_context_time_warp(&drive0_alarm_context, sub, -1);
-        cpu_int_status_time_warp(&drive0_int_status, sub, -1);
+        alarm_context_time_warp(&drive0_context.cpu.alarm_context, sub, -1);
+        cpu_int_status_time_warp(&drive0_context.cpu.int_status, sub, -1);
         break;
       case 1:
-        alarm_context_time_warp(&drive1_alarm_context, sub, -1);
-        cpu_int_status_time_warp(&drive1_int_status, sub, -1);
+        alarm_context_time_warp(&drive1_context.cpu.alarm_context, sub, -1);
+        cpu_int_status_time_warp(&drive1_context.cpu.int_status, sub, -1);
         break;
       default:
         log_error(drive_log,
@@ -1551,9 +1551,9 @@ CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr)
     /* FIXME: Having to do this by hand sucks *big time*!  */
     switch (dnr) {
       case 0:
-        return drive0_cpu_prevent_clk_overflow(sub);
+        return drive_cpu_prevent_clk_overflow(&drive0_context, sub);
       case 1:
-        return drive1_cpu_prevent_clk_overflow(sub);
+        return drive_cpu_prevent_clk_overflow(&drive1_context, sub);
       default:
         log_error(drive_log,
                   "Unexpected drive number %d in `drive_prevent_clk_overflow()'\n",
@@ -1978,8 +1978,8 @@ int drive_check_type(int drive_type, int dnr)
 
 static void drive_set_sync_factor(unsigned int factor)
 {
-    drive0_cpu_set_sync_factor(drive[0].clock_frequency * factor);
-    drive1_cpu_set_sync_factor(drive[1].clock_frequency * factor);
+    drive_cpu_set_sync_factor(&drive0_context, drive[0].clock_frequency * factor);
+    drive_cpu_set_sync_factor(&drive1_context, drive[1].clock_frequency * factor);
 }
 
 static void drive_set_pal_sync_factor(void)
@@ -2175,18 +2175,18 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
 
     if (drive[0].enable) {
-        if (drive0_cpu_write_snapshot_module(s) < 0)
+        if (drive_cpu_write_snapshot_module(&drive0_context, s) < 0)
             return -1;
         if (drive[0].type == DRIVE_TYPE_1541
             || drive[0].type == DRIVE_TYPE_1541II
             || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d0_write_snapshot_module(s) < 0
-                || via2d0_write_snapshot_module(s) < 0)
+            if (via1d_write_snapshot_module(&drive0_context, s) < 0
+                || via2d_write_snapshot_module(&drive0_context, s) < 0)
                 return -1;
         }
         if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d0_write_snapshot_module(s) < 0
-                || via2d0_write_snapshot_module(s) < 0
+            if (via1d_write_snapshot_module(&drive0_context, s) < 0
+                || via2d_write_snapshot_module(&drive0_context, s) < 0
                 || cia1571d0_write_snapshot_module(s) < 0)
                 return -1;
         }
@@ -2205,18 +2205,18 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
 	}
     }
     if (drive[1].enable) {
-        if (drive1_cpu_write_snapshot_module(s) < 0)
+        if (drive_cpu_write_snapshot_module(&drive1_context, s) < 0)
             return -1;
         if (drive[1].type == DRIVE_TYPE_1541
             || drive[1].type == DRIVE_TYPE_1541II
             || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d1_write_snapshot_module(s) < 0
-                || via2d1_write_snapshot_module(s) < 0)
+            if (via1d_write_snapshot_module(&drive1_context, s) < 0
+                || via2d_write_snapshot_module(&drive1_context, s) < 0)
                 return -1;
         }
         if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d1_write_snapshot_module(s) < 0
-                || via2d1_write_snapshot_module(s) < 0
+            if (via1d_write_snapshot_module(&drive1_context, s) < 0
+                || via2d_write_snapshot_module(&drive1_context, s) < 0
                 || cia1571d1_write_snapshot_module(s) < 0)
                 return -1;
         }
@@ -2395,7 +2395,7 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_8250:
         drive[0].enable = 1;
         drive_setup_rom_image(0);
-        drive0_mem_init(drive[0].type);
+        drive_mem_init(&drive0_context, drive[0].type);
         set_drive0_idling_method((resource_value_t) drive[0].idling_method);
         drive_initialize_rom_traps(0);
         drive_set_active_led_color(drive[0].type, 0);
@@ -2417,7 +2417,7 @@ int drive_read_snapshot_module(snapshot_t *s)
 	/* drive 1 does not allow dual disk drive */
         drive[1].enable = 1;
         drive_setup_rom_image(1);
-        drive1_mem_init(drive[1].type);
+        drive_mem_init(&drive1_context, drive[1].type);
         set_drive1_idling_method((resource_value_t) drive[1].idling_method);
         drive_initialize_rom_traps(1);
         drive_set_active_led_color(drive[1].type, 1);
@@ -2436,18 +2436,18 @@ int drive_read_snapshot_module(snapshot_t *s)
     parallel_cable_drive1_write(0xff, 0);
 
     if (drive[0].enable) {
-        if (drive0_cpu_read_snapshot_module(s) < 0)
+        if (drive_cpu_read_snapshot_module(&drive0_context, s) < 0)
             return -1;
         if (drive[0].type == DRIVE_TYPE_1541
             || drive[0].type == DRIVE_TYPE_1541II
             || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d0_read_snapshot_module(s) < 0
-                || via2d0_read_snapshot_module(s) < 0)
+            if (via1d_read_snapshot_module(&drive0_context, s) < 0
+                || via2d_read_snapshot_module(&drive0_context, s) < 0)
                 return -1;
         }
         if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d0_read_snapshot_module(s) < 0
-                || via2d0_read_snapshot_module(s) < 0
+            if (via1d_read_snapshot_module(&drive0_context, s) < 0
+                || via2d_read_snapshot_module(&drive0_context, s) < 0
                 || cia1571d0_read_snapshot_module(s) < 0)
                 return -1;
         }
@@ -2467,18 +2467,18 @@ int drive_read_snapshot_module(snapshot_t *s)
     }
 
     if (drive[1].enable) {
-        if (drive1_cpu_read_snapshot_module(s) < 0)
+        if (drive_cpu_read_snapshot_module(&drive1_context, s) < 0)
             return -1;
         if (drive[1].type == DRIVE_TYPE_1541
             || drive[1].type == DRIVE_TYPE_1541II
             || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d1_read_snapshot_module(s) < 0
-                || via2d1_read_snapshot_module(s) < 0)
+            if (via1d_read_snapshot_module(&drive1_context, s) < 0
+                || via2d_read_snapshot_module(&drive1_context, s) < 0)
                 return -1;
         }
         if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d1_read_snapshot_module(s) < 0
-                || via2d1_read_snapshot_module(s) < 0
+            if (via1d_read_snapshot_module(&drive1_context, s) < 0
+                || via2d_read_snapshot_module(&drive1_context, s) < 0
                 || cia1571d1_read_snapshot_module(s) < 0)
                 return -1;
         }
@@ -2966,3 +2966,20 @@ int drive_num_leds(int dnr)
     return 1;
 }
 
+
+static void drive_setup_context_for_drive(drive_context_t *drv, int number)
+{
+  drv->mynumber = number;
+  drv->clk_ptr = &drive_clk[number];
+  drv->drive_ptr = &drive[number];
+
+  drive_cpu_setup_context(drv);
+  drive_via1_setup_context(drv);
+  drive_via2_setup_context(drv);
+}
+
+void drive_setup_context(void)
+{
+  drive_setup_context_for_drive(&drive0_context, 0);
+  drive_setup_context_for_drive(&drive1_context, 1);
+}

@@ -28,43 +28,42 @@
 #ifndef _VIAD_H
 #define _VIAD_H
 
-#include "types.h"
+#include "drivecpu.h"
 #include "snapshot.h"
+#include "types.h"
 
-extern void via1d0_set_atn(BYTE state);
-extern void via1d1_set_atn(BYTE state);
+extern void drive_via1_setup_context(drive_context_t *ctxptr);
+extern void drive_via2_setup_context(drive_context_t *ctxptr);
 
-extern void via1d0_init(void);
-extern void via1d0_reset(void);
-extern void via1d0_signal(int line, int edge);
-extern void REGPARM2 via1d0_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 via1d0_read(ADDRESS addr);
-extern int via1d0_write_snapshot_module(snapshot_t * p);
-extern int via1d0_read_snapshot_module(snapshot_t * p);
+extern void drive_via_set_atn(drive_context_t *ctxptr, int state);
+extern void via1_set_atn(drive_context_t *ctxptr, BYTE state);
 
-extern void via2d0_init(void);
-extern void via2d0_reset(void);
-extern void via2d0_signal(int line, int edge);
-extern void REGPARM2 via2d0_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 via2d0_read(ADDRESS addr);
-extern int via2d0_write_snapshot_module(snapshot_t * p);
-extern int via2d0_read_snapshot_module(snapshot_t * p);
+extern void via1d_init(drive_context_t *ctxptr);
+extern void via1d_reset(drive_context_t *ctxptr);
+extern void via1d_signal(drive_context_t *ctxptr, int line, int edge);
+extern void REGPARM3 via1d_store(drive_context_t *ctxptr, ADDRESS addr, BYTE byte);
+extern BYTE REGPARM2 via1d_read(drive_context_t *ctxptr, ADDRESS addr);
+extern int via1d_write_snapshot_module(drive_context_t *ctxptr, snapshot_t * p);
+extern int via1d_read_snapshot_module(drive_context_t *ctxptr, snapshot_t * p);
 
-extern void via1d1_init(void);
-extern void via1d1_reset(void);
-extern void via1d1_signal(int line, int edge);
-extern void REGPARM2 via1d1_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 via1d1_read(ADDRESS addr);
-extern int via1d1_write_snapshot_module(snapshot_t * p);
-extern int via1d1_read_snapshot_module(snapshot_t * p);
+extern void via2d_init(drive_context_t *ctxptr);
+extern void via2d_reset(drive_context_t *ctxptr);
+extern void via2d_signal(drive_context_t *ctxptr, int line, int edge);
+extern void REGPARM3 via2d_store(drive_context_t *ctxptr, ADDRESS addr, BYTE byte);
+extern BYTE REGPARM2 via2d_read(drive_context_t *ctxptr, ADDRESS addr);
+extern int via2d_write_snapshot_module(drive_context_t *ctxptr, snapshot_t * p);
+extern int via2d_read_snapshot_module(drive_context_t *ctxptr, snapshot_t * p);
 
-extern void via2d1_init(void);
-extern void via2d1_reset(void);
-extern void via2d1_signal(int line, int edge);
-extern void REGPARM2 via2d1_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 via2d1_read(ADDRESS addr);
-extern int via2d1_write_snapshot_module(snapshot_t * p);
-extern int via2d1_read_snapshot_module(snapshot_t * p);
+typedef struct via_callbacks_s {
+    void (*clk)(CLOCK, void*);
+    int (*int_t1)(CLOCK);
+    int (*int_t2)(CLOCK);
+} via_callbacks_t;
+
+#define drive0_via_set_atn(state)	drive_via_set_atn(&drive0_context, state)
+#define drive1_via_set_atn(state)	drive_via_set_atn(&drive1_context, state)
+#define via1d0_signal(l, e)		via1d_signal(&drive0_context, l, e)
+#define via1d1_signal(l, e)		via1d_signal(&drive1_context, l, e)
 
 #endif
 
