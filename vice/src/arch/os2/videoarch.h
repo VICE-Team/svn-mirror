@@ -30,7 +30,7 @@ typedef struct video_frame_buffer_s {
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
-typedef struct canvas_s
+typedef struct video_canvas_s
 {
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
@@ -48,6 +48,6 @@ typedef struct canvas_s
     canvas_redraw_t exposure_handler;
 };
 
-typedef struct canvas_s canvas_t;
+typedef struct video_canvas_s video_canvas_t;
 
 #endif

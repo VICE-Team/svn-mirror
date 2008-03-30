@@ -35,7 +35,7 @@
 
 typedef void (*canvas_redraw_t)();
 
-struct canvas_s {
+struct video_canvas_s {
     char *title;
     unsigned int width, height;
     canvas_redraw_t exposure_handler;
@@ -48,7 +48,7 @@ struct canvas_s {
     void *vicewindow;
 #endif
 };
-typedef struct canvas_s canvas_t;
+typedef struct video_canvas_s video_canvas_t;
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 

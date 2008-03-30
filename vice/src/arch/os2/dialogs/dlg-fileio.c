@@ -38,7 +38,7 @@
 #define INCL_WINFRAMEMGR       // WM_QUERYFOCUSCHAIN
 #define INCL_WINMENUS          // OWNERITEM
 #include "vice.h"
-#include "videoarch.h"         // canvas_t
+#include "videoarch.h"         // video_canvas_t
 
 #include <stdlib.h>            // free
 #include <string.h>            // strcpy
@@ -287,7 +287,7 @@ static int save_screenshot(trapaction_t *act)
     const HWND owner = (HWND)WinDefFileDlgProc(act->hwnd, WM_QUERYFOCUSCHAIN,
                                                (MPARAM)QFC_NEXTINCHAIN, 0);
 
-    canvas_t *canvas = (canvas_t*)WinQueryWindowPtr(owner, QWL_USER);
+    video_canvas_t *canvas = (video_canvas_t*)WinQueryWindowPtr(owner, QWL_USER);
 
     char drv[4];
     strupr(strcpy(drv, act->path+strlen(act->path)-3));

@@ -521,7 +521,8 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
     return -1;
 }
 
-int machine_canvas_screenshot(screenshot_t *screenshot, struct canvas_s *canvas)
+int machine_canvas_screenshot(screenshot_t *screenshot,
+                              struct video_canvas_s *canvas)
 {
     if (canvas == vic_ii_get_canvas())
         return vic_ii_screenshot(screenshot);

@@ -127,7 +127,7 @@ static void save_snapshot(ADDRESS addr, void *hwnd)
 void save_screenshot(HWND hwnd)
 {
     char *name = concat(archdep_boot_path(), "\\vice2.png", NULL);
-    if (!screenshot_canvas_save("PNG", name, (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
+    if (!screenshot_canvas_save("PNG", name, (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("Screenshot saved as '%s' successfully.", name);
     free(name);
 }
@@ -171,7 +171,7 @@ void ChangeSpeed(HWND hwnd, int idm)
     static int   step  = 1;
     static int   calls = 0;
 
-    const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+    const video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
 
     ULONG time = vsyncarch_gettime();
 
