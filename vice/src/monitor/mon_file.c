@@ -35,7 +35,7 @@
 #include "montypes.h"
 #include "uimon.h"
 
-#define ADDR_LIMIT(x) (LO16(x))
+#define ADDR_LIMIT(x) ((ADDRESS)(LO16(x)))
 
 void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
 {
@@ -78,7 +78,7 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
     uimon_out(" from %04X\n", adr);
 
     do {
-        unsigned char load_byte;
+        BYTE load_byte;
 
         if (fread((char *)&load_byte, 1, 1, fp) < 1)
             break;
@@ -89,7 +89,7 @@ void mon_file_load(const char *filename, MON_ADDR start_addr, bool is_bload)
 
     if (is_bload == FALSE) {
         /* set end of load addresses like kernal load */
-        mem_set_basic_text(adr, adr + ch);
+        mem_set_basic_text(adr, (ADDRESS)(adr + ch));
     }
 
     fclose(fp);
@@ -134,7 +134,7 @@ void mon_file_save(const char *filename, MON_ADDR start_addr,
         do {
             unsigned char save_byte;
 
-            save_byte = mon_get_mem_val(mem, adr + ch);
+            save_byte = mon_get_mem_val(mem, (ADDRESS)(adr + ch));
             if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
                 uimon_out("Saving for `%s' failed.\n", filename);
                 fclose(fp);

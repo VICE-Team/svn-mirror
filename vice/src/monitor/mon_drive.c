@@ -39,7 +39,7 @@
 #include "vdrive.h"
 #include "vdrive-command.h"
 
-#define ADDR_LIMIT(x) (LO16(x))
+#define ADDR_LIMIT(x) ((ADDRESS)(LO16(x)))
 
 void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
@@ -96,7 +96,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         src_mem = addr_memspace(addr);
 
         for (i = 0; i < 256; i++)
-            writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src+i));
+            writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src + i));
 
         if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
             uimon_out("Error writing track %d sector %d\n",
@@ -112,13 +112,15 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 
 void mon_drive_execute_disk_cmd(char *cmd)
 {
-    int len, rc;
+    unsigned int len;
+    int rc;
     vdrive_t *floppy;
 
     /* FIXME */
     floppy = (vdrive_t *)file_system_get_vdrive(8);
 
-    len = strlen(cmd);
+    len = (unsigned int)strlen(cmd);
+
     rc = vdrive_command_execute(floppy, (BYTE *)cmd, len);
 }
 
