@@ -83,27 +83,27 @@ struct snapshot_s {
 
 /* ------------------------------------------------------------------------- */
 
-int snapshot_write_byte(FILE *f, BYTE b)
+int snapshot_write_byte(FILE *f, BYTE data)
 {
-    if (fputc(b, f) == EOF)
+    if (fputc(data, f) == EOF)
         return -1;
 
     return 0;
 }
 
-int snapshot_write_word(FILE *f, WORD w)
+int snapshot_write_word(FILE *f, WORD data)
 {
-    if (snapshot_write_byte(f, (BYTE)(w & 0xff)) < 0
-        || snapshot_write_byte(f, (BYTE)(w >> 8)) < 0)
+    if (snapshot_write_byte(f, (BYTE)(data & 0xff)) < 0
+        || snapshot_write_byte(f, (BYTE)(data >> 8)) < 0)
         return -1;
 
     return 0;
 }
 
-int snapshot_write_dword(FILE *f, DWORD w)
+int snapshot_write_dword(FILE *f, DWORD data)
 {
-    if (snapshot_write_word(f, (WORD)(w & 0xffff)) < 0
-        || snapshot_write_word(f, (WORD)(w >> 16)) < 0)
+    if (snapshot_write_word(f, (WORD)(data & 0xffff)) < 0
+        || snapshot_write_word(f, (WORD)(data >> 16)) < 0)
         return -1;
 
     return 0;
@@ -126,12 +126,12 @@ int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
     return 0;
 }
 
-int snapshot_write_byte_array(FILE *f, BYTE *b, int len)
+int snapshot_write_byte_array(FILE *f, BYTE *data, int len)
 {
     int i;
 
     for (i = 0; i < len; i++)
-        if (snapshot_write_byte(f, b[i]) < 0)
+        if (snapshot_write_byte(f, data[i]) < 0)
             return -1;
 
     return 0;

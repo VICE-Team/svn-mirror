@@ -35,13 +35,13 @@
 typedef struct snapshot_module_s snapshot_module_t;
 typedef struct snapshot_s snapshot_t;
 
-extern int snapshot_module_write_byte(snapshot_module_t *m, BYTE b);
-extern int snapshot_module_write_word(snapshot_module_t *m, WORD w);
-extern int snapshot_module_write_dword(snapshot_module_t *m, DWORD dw);
+extern int snapshot_module_write_byte(snapshot_module_t *m, BYTE data);
+extern int snapshot_module_write_word(snapshot_module_t *m, WORD data);
+extern int snapshot_module_write_dword(snapshot_module_t *m, DWORD data);
 extern int snapshot_module_write_padded_string(snapshot_module_t *m,
                                                const char *s, BYTE pad_char,
                                                int len);
-extern int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b,
+extern int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *data,
                                             int len);
 extern int snapshot_module_write_string(snapshot_module_t *m, const char *s);
 
