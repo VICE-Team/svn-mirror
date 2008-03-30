@@ -113,7 +113,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
-static int vdrive_command_position(vdrive_t *vdrive, char *buf,
+static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
                                    unsigned int length);
 
 void vdrive_command_init(void)
@@ -741,7 +741,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     return status;
 }
 
-static int vdrive_command_position(vdrive_t *vdrive, char *buf,
+static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
                                    unsigned int length)
 {
     unsigned int channel, rec_lo, rec_hi, position;

@@ -668,7 +668,7 @@ static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
        return -1;
 
-    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
 
     for (i = 0; i < MAX_TRACKS_1571; i++) {
         tmpbuf[i * 4] = drive[dnr].gcr->track_size[i] & 0xff;
@@ -718,7 +718,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
                   GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
     }
 
-    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
 
     if (0
         || snapshot_module_read_byte_array(m, drive[dnr].gcr->data,

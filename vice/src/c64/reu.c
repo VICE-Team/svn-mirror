@@ -87,7 +87,7 @@ int reu_reset(int size)
     reu[1] = 0x4A;
 
     if (reuram == NULL) {
-        reuram = (char*)xmalloc(ReuSize);
+        reuram = (BYTE *)xmalloc(ReuSize);
         log_message(reu_log, "%dKB unit installed.", ReuSize >> 10);
         if (reu_file_name != NULL) {
             if (load_file(reu_file_name, reuram, ReuSize) == 0) {
