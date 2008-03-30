@@ -33,6 +33,8 @@
 
 #define myclk true1541_clk
 
+#define myrmwf true1541_rmw_flag
+
 #define myvia viaD1
 
 #define MYVIA VIAD1

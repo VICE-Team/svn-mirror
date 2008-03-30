@@ -32,6 +32,8 @@
 
 #define myclk clk
 
+#define myrmwf rmw_flag
+
 #define myvia via2
 
 #define MYVIA VIA2
