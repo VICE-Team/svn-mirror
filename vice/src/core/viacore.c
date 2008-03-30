@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "alarm.h"
 #include "clkguard.h"
@@ -821,6 +822,10 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->read_offset = 0;
     via_context->last_read = 0;
     via_context->log = LOG_ERR;
+    memset(via_context->my_module_name_alt1, 0,
+           sizeof(via_context->my_module_name_alt1));
+    memset(via_context->my_module_name_alt2, 0,
+           sizeof(via_context->my_module_name_alt2));
 }
 
 void viacore_init(const via_initdesc_t *vd, alarm_context_t *alarm_context,
@@ -942,8 +947,22 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
 
     m = snapshot_module_open(s, via_context->my_module_name, &vmajor, &vminor);
 
-    if (m == NULL)
-        return -1;
+    if (m == NULL) {
+        if (via_context->my_module_name_alt1[0] == 0)
+            return -1;
+
+        m = snapshot_module_open(s, via_context->my_module_name_alt1,
+                                 &vmajor, &vminor);
+        if (m == NULL) {
+            if (via_context->my_module_name_alt2[0] == 0)
+                return -1;
+
+            m = snapshot_module_open(s, via_context->my_module_name_alt2,
+                                     &vmajor, &vminor);
+            if (m == NULL)
+                return -1; 
+        }
+    }
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
         log_error(via_context->log,
