@@ -1,3 +1,51 @@
+2005-03-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.3
+
+	* arch/unix/rs232.c, arch/win32/rs232.c, rs232drv/rs232drv.c,
+	arch/unix/archdep.h, arch/win32/archdep.h: Moved resource and
+	command line code to common file.
+
+	* sound.h: Fixed warning.
+
+	* sounddrv/soundalsa.c: Define `ALSA_PCM_NEW_HW_PARAMS_API'.
+
+2005-03-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/constants.h, arch/beos/vicemenu,
+	arch/msdos/Makefile.am, arch/msdos/c128ui.c
+	arch/msdos/c64ui.c, arch/msdos/uiramcart.c,
+	arch/msdos/uiramcart.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/os2/vac++/x128/X128.ICC,
+	arch/riscos/uiconfig.c, arch/riscos/uiconfig.h,
+	arch/riscos/uihelp.c, arch/riscos/uisharedef.h,
+	arch/unix/Makefile.am, arch/unix/c128ui.c,
+	arch/unix/c64ui.c, arch/unix/uiramcart.c,
+	arch/unix/uiramcart.h, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c128ui.c, arch/win32/c64.dsp,
+	arch/win32/c64c128.dsp, arch/win32/c64ui.c, arch/win32/res.h,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resramcart.rc, arch/win32/uiramcart.c,
+	arch/win32/uiramcart.h, c128/c128.c, c64/Makefile.am,
+	c64/c64.c, c64/c64io.c, c64/c64mem.c, c64/cart/c64cartmem.c,
+	c64/ramcart.c, c64/ramcart.h: added support for RAMCART	
+	64/128.
+
+	* arch/msdos/uigeoram.c: fixed georam submenu.
+
+	* c64/c64io.c: fixed georam monitor entries.
+
+2005-03-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* gfxoutputdrv/ffmpeg/rational.h, gfxoutputdrv/Makefile.am:
+	Added file.
+
+	* arch/win32/msvc/config.h: Define snprintf.
+
+	* arch/win32/uikeyboard.c (mapping_index_get): Fixed warning.
+
 2005-03-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.2
