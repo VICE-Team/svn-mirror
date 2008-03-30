@@ -4,9 +4,9 @@ team.
 
 - Please don't send any HTML mail (we really hate that!).  If you use
   M$ Outlook or Netscape Communicator, make sure you turn off the
-  "rich text (HTML)" feature.
+  "rich text" (HTML) feature.
 
-- Please don't send any uuencoded binaries without asking first.
+- Please don't send any binaries without asking first.
 
 - Please read the following documents carefully before reporting a bug
   or a problem you cannot solve:

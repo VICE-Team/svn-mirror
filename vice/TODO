@@ -1,32 +1,15 @@
 							-*- Outline -*-
 
-Urgent things to do!
-====================
-
-These things must definitely be done /before/ ever thinking about a
-release:
-
-- support watchpoints on all the models;
-
-- support autostart and keyboard buffer handling on the PET;
-
-- complete the MS-DOS port;
-
-- check the SID drivers (Sun/Linux are known to work, the other ones
-  should be tested);
-
-- check that MIDAS-based builds do work;
-
-- make sound work again on the PET and VIC20.
-
-
 What are we going to do next
 ============================
 
 * General improvements
 ----------------------
 
-  - More ports!  (E.g. MacOS, Win32, BeOS...)  Any volunteers?
+  - Better docs!
+
+  - More ports (E.g. BeOS...)  Any volunteers?  MacOS and Win32 ports
+    are in the works; if you want to help, please let us know.
 
   - Snapshot format to freeze the emulators' state.  The main issue is
     to make it as implementation-independent as possible, so that
@@ -39,7 +22,8 @@ What are we going to do next
   - Write real MS-DOS documentation (any volunteers?).
 
   - Allow tape loading without the virtually pressed "Play" button,
-    which can break some programs that do not like this.
+    which can break some programs that do not like it to be pressed
+    (e.g. Turbo Assembler).
 
   - Emulate shifted keys more accurately by delaying the shifted key
     after the shift.
@@ -49,7 +33,7 @@ What are we going to do next
   - Better support for alternative ROM sets.
 
   - Some more kernal patches, for instance for changing colors and
-    patching the reset routine to make it faster (maybe configurable)?
+    patching the reset routine to make it faster (maybe configurable).
 
 * C64 improvements
 ------------------
@@ -62,7 +46,10 @@ What are we going to do next
 
   - More accurate REU emulation, with 16 Mbyte mode.
 
-  - 1351 mouse emulation, at least on MS-DOS.
+* C128 improvements
+-------------------
+
+  - Support missing keys (Caps Lock, 40/80 Display).
 
 * VIC20 improvements
 --------------------
@@ -71,20 +58,10 @@ What are we going to do next
 
   - Improve the accuracy of the audio emulation.
 
-  - Tape support.
-
 * PET improvements
 ------------------
 
   - Complete CRTC emulation.
-
-  - Support for different models at runtime.
-
-  - Better sound emulation.
-
-  - Tape support.
-
-  - Autostart does not work (yet)!
 
 * 1541 improvements
 -------------------
