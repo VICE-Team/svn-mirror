@@ -38,6 +38,7 @@
 #include "lib.h"
 #include "log.h"
 #include "types.h"
+#include "wd1770.h"
 
 
 void REGPARM3 cia1581_store(drive_context_t *ctxptr, WORD addr, BYTE data)
@@ -117,6 +118,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
+    wd1770[cia1581p->number].side = (byte & 0x01) ? 1 : 0;
     cia1581p->drive_ptr->led_status = (byte & 0x40) ? 1 : 0;
 }
 
@@ -142,7 +144,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             *drive_bus = ((((*drive_data) << 3) & 0x40)
                 | (((*drive_data) << 6)
                 & (((*drive_data) | cia1581p->iec_info->cpu_bus) << 3) & 0x80));
-            cia1581p->iec_info->cpu_port = cia1581p->iec_info->cpu_bus & cia1581p->iec_info->drive_bus
+            cia1581p->iec_info->cpu_port
+                = cia1581p->iec_info->cpu_bus & cia1581p->iec_info->drive_bus
                 & cia1581p->iec_info->drive2_bus;
             cia1581p->iec_info->drive_port = cia1581p->iec_info->drive2_port
                 = (((cia1581p->iec_info->cpu_port >> 4) & 0x4)
@@ -159,10 +162,16 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     drivecia1581_context_t *cia1581p;
+    BYTE tmp;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
-    return ((8 * (cia1581p->number)) & ~(cia_context->c_cia[CIA_DDRA]))
+    tmp = 8 * (cia1581p->number);
+
+    if (wd1770[cia1581p->number].image != NULL)
+        tmp |= 0x80;
+
+    return (tmp & ~(cia_context->c_cia[CIA_DDRA]))
            | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]);
 }
 
