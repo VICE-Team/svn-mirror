@@ -1,3 +1,92 @@
+2003-03-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.13.
+
+	* arch/win32/msvc/config.h: Define `HAVE_WINIOCTL_H'.
+
+	* resources.c, resources.h: Use `resource_ram_t' for internal
+	resources list.
+
+	* raster/raster-line.c (check_for_major_changes_and_update):
+	Skip sprite functions if sprite support is not needed.
+
+	* vic20/vic-draw.c (draw): Cast the `xe' compare to int.
+
+	* arch/unix/joy.c, arch/unix/mouse.c, arch/unix/rs232.c,
+	arch/unix/x11/ui-resources.c, arch/unix/x11/video.c,
+	arch/win32/joy.c, arch/win32/mouse.c, arch/win32/ui.c,
+	arch/win32/video.c, arch/msdos/joy.c, arch/msdos/mouse.c,
+	arch/msdos/ui.c, arch/msdos/video.c, arch/msdos/vsync.c,
+	arch/riscos/joy.c, arch/riscos/kbd.c, arch/riscos/rs232.c,
+	arch/riscos/ui.c, arch/riscos/video.c, arch/riscos/vsync.c,
+	arch/os2/unused/video_gpi.c, arch/os2/unused/vsync.c,
+	arch/os2/joy.c, arch/os2/kbd.c, arch/os2/mouse.c,
+	arch/os2/rs232.c, arch/os2/ui.c, arch/os2/video.c,
+	arch/os2/kbd/kmap-pet.c, arch/os2/kbd/kmap.c, arch/beos/kbd.c,
+	arch/beos/joy.cc, arch/beos/mouse.cc, arch/beos/ui.cc,
+	arch/beos/video.cc: Resource struct is const.
+
+2003-03-09  Tibor Biczo <crown@axelero.hu>
+
+	* 6510core.c (BRK): Handle conditional traps.
+	(SET_OPCODE): New macro to set opcode from trap not taken.
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c (machine_shutdown): Call
+	printer_shutdown.
+
+	* c128/c128rom.c: Include <string.h>.
+
+	* drive/drive.c (drive_enable,drive_disable): Call
+	serial_set_truedrive instead of installing and removing traps.
+
+	* maincpu.c (maincpu_snapshot_write_module): Fix warning by
+	casting.
+
+	* printer.h (printer_shutdown): New prototype.
+
+	* printerdrv/insterface-serial.c (interface_serial_shutdown):
+	New function.
+
+	* printerdrv/interface-serial.h (interface_serial_shutdown):
+	New prototype.
+
+	* printerdrv/output-graphics (output_gfx_t): Added line_no
+	variable.
+	(output_graphics_open): Init line_pos and line_no;
+	(output_graphics_close): Flush any unwritten pixel lines to
+	output device.
+	(output_graphics_putc): Keep track of number of lines handled.
+
+	* printerdrv/printer.c (printer_shutdown): New function.
+
+	* printerdrv/serial-trap.c (serial_truedrive): New variable,
+	state of true drive emulation.
+	(serial_trap_attention, serial_trap_send, serial_trap_receive,
+	serial_trap_ready): If truedrive is on and drive is not
+	printer do not take trap.
+
+	* serial/serial.c (serial_init): Init serial_truedrive
+	variable.
+	(serial_set_truedrive): New function.
+
+	* serial.h (serial_set_truedrive): New prototype.
+	(serial_trap_attention, serial_trap_send, serial_trap_receive,
+	serial_trap_ready): Update prototype.
+
+	* tape/tape.c (tape_find_header, tape_header_trap_plus4,
+	tape_receive_trap, tape_receive_trap_plus4): Update trap
+	functions.
+
+	* tape.h (tape_find_header, tape_header_trap_plus4,
+	tape_receive_trap, tape_receive_trap_plus4): Update
+	prototypes.
+
+	* traps.c (traps_handler): Handle conditional traps.
+
+	* traps.h (trap_t): Update func prototype.
+	(traps_handler): Update prototype.
+
 2003-03-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.12.

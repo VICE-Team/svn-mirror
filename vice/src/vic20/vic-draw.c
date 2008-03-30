@@ -134,7 +134,8 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe, int reverse,
     c[1] = VIC_PIXEL(vic.mc_border_color);
     c[3] = VIC_PIXEL(vic.auxiliary_color);
 
-    for (i = xs; i <= xe; i++, p += 8 * VIC_PIXEL_WIDTH) {
+    /* xe can be -1.  */
+    for (i = xs; (int)i <= (int)xe; i++, p += 8 * VIC_PIXEL_WIDTH) {
         b = *(vic.color_ptr + vic.memptr + i);
         c[2] = VIC_PIXEL(b & 0x7);
         if (reverse & !(b & 0x8))
