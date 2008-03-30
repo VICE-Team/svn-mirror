@@ -37,17 +37,18 @@
 #include "types.h"
 
 
-/* GCR handling.  */
+static const BYTE GCR_conv_data[16] =
+    { 0x0a, 0x0b, 0x12, 0x13,
+      0x0e, 0x0f, 0x16, 0x17,
+      0x09, 0x19, 0x1a, 0x1b,
+      0x0d, 0x1d, 0x1e, 0x15 };
 
-static BYTE GCR_conv_data[16] = { 0x0a, 0x0b, 0x12, 0x13,
-                                  0x0e, 0x0f, 0x16, 0x17,
-                                  0x09, 0x19, 0x1a, 0x1b,
-                                  0x0d, 0x1d, 0x1e, 0x15 };
+static const BYTE From_GCR_conv_data[32] =
+    { 0,  0,  0,  0,  0,  0,  0,  0,
+      0,  8,  0,  1,  0, 12,  4,  5,
+      0,  0,  2,  3,  0, 15,  6,  7,
+      0,  9, 10, 11,  0, 13, 14,  0 };
 
-static BYTE From_GCR_conv_data[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
-                                       0, 8, 0, 1, 0,12, 4, 5,
-                                       0, 0, 2, 3, 0,15, 6, 7,
-                                       0, 9,10,11, 0,13,14, 0 };
 
 void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
 {
