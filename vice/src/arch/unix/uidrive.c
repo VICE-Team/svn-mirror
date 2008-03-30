@@ -242,7 +242,7 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { NULL }
 };
 
-/* This menu is for the PET/C610 */
+/* This menu is for the PET/CBM2 */
 static ui_menu_entry_t par_drive_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
@@ -281,7 +281,7 @@ ui_menu_entry_t ui_drive_settings_menu[] = {
     { NULL }
 };
 
-/* PET/C610 */
+/* PET/CBM2 */
 ui_menu_entry_t ui_par_drive_settings_menu[] = {
     { N_("Drive settings"),
       NULL, NULL, par_drive_settings_submenu },

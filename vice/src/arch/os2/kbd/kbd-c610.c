@@ -28,7 +28,7 @@
 
 #include "kbd.h"
 
-int c610_kbd_init(void)
+int cbm2_kbd_init(void)
 {
     return kbd_init();
 }

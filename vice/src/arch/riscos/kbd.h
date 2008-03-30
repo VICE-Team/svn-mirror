@@ -50,12 +50,12 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_PET_BGRP  "ros_bgrp.vkm"
 #define KBD_PLUS4_SYM "ros_sym.vkm"
 #define KBD_PLUS4_POS "ros_pos.vkm"
-#define KBD_C610_BUKS "ros_buks.vkm"
-#define KBD_C610_BUKP "ros_bukp.vkm"
-#define KBD_C610_BDES "ros_bdes.vkm"
-#define KBD_C610_BDEP "ros_bdep.vkm"
-#define KBD_C610_BGRS "ros_bgrs.vkm"
-#define KBD_C610_BGRP "ros_bgrp.vkm"
+#define KBD_CBM2_BUKS "ros_buks.vkm"
+#define KBD_CBM2_BUKP "ros_bukp.vkm"
+#define KBD_CBM2_BDES "ros_bdes.vkm"
+#define KBD_CBM2_BDEP "ros_bdep.vkm"
+#define KBD_CBM2_BGRS "ros_bgrs.vkm"
+#define KBD_CBM2_BGRP "ros_bgrp.vkm"
 
 
 #define KEYMAP_ENTRIES	128

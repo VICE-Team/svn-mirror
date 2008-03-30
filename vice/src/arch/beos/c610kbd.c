@@ -136,7 +136,7 @@ static keyconv c610_keyboard[256] = {
     { -1, -1, 0 },              /*       SysReq -> (no key)     */
 };
 
-int c610_kbd_init(void)
+int cbm2_kbd_init(void)
 {
     return kbd_init(1, 8, 4, c610_keyboard, sizeof(c610_keyboard));
 }

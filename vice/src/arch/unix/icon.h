@@ -28,8 +28,8 @@
 #define _ICON_H
 
 extern const char *c128_icon_data[];
-extern const char *c610_icon_data[];
 extern const char *c64_icon_data[];
+extern const char *cbm2_icon_data[];
 extern const char *pet_icon_data[];
 extern const char *plus4_icon_data[];
 extern const char *vic20_icon_data[];

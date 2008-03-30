@@ -23,8 +23,8 @@ EXTRA_libx11ui_a_SOURCES = \
 
 libx11ui_a_SOURCES = \
 	c128icon.c \
-	c610icon.c \
 	c64icon.c \
+	cbm2icon.c \
 	kbd.c \
 	peticon.c \
 	plus4icon.c \

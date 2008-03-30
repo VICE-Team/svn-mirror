@@ -48,12 +48,12 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_PET_BGRP  "beos_bgrp.vkm"
 #define KBD_PLUS4_SYM "beos_sym.vkm"
 #define KBD_PLUS4_POS "beos_pos.vkm"
-#define KBD_C610_BUKS "beos_buks.vkm"
-#define KBD_C610_BUKP "beos_bukp.vkm"
-#define KBD_C610_BDES "beos_bdes.vkm"
-#define KBD_C610_BDEP "beos_bdep.vkm"
-#define KBD_C610_BGRS "beos_bgrs.vkm"
-#define KBD_C610_BGRP "beos_bgrp.vkm"
+#define KBD_CBM2_BUKS "beos_buks.vkm"
+#define KBD_CBM2_BUKP "beos_bukp.vkm"
+#define KBD_CBM2_BDES "beos_bdes.vkm"
+#define KBD_CBM2_BDEP "beos_bdep.vkm"
+#define KBD_CBM2_BGRS "beos_bgrs.vkm"
+#define KBD_CBM2_BGRP "beos_bgrp.vkm"
 
 
 /* Keymap definition structure.  */

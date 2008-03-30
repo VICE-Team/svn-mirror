@@ -120,7 +120,7 @@ int c610_ui_init(void)
   return ui_init_named_app("ViceCBM2", IBarIconName);
 }
 
-int c610_kbd_init(void)
+int cbm2_kbd_init(void)
 {
   kbd_default_keymap(&CBM2keys);
   kbd_init_keymap(2);

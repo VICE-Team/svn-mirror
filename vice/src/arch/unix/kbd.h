@@ -48,12 +48,12 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_PET_BGRP  "x11_bgrp.vkm"
 #define KBD_PLUS4_SYM "x11_sym.vkm"
 #define KBD_PLUS4_POS "x11_pos.vkm"
-#define KBD_C610_BUKS "x11_buks.vkm"
-#define KBD_C610_BUKP "x11_bukp.vkm"
-#define KBD_C610_BDES "x11_bdes.vkm"
-#define KBD_C610_BDEP "x11_bdep.vkm"
-#define KBD_C610_BGRS "x11_bgrs.vkm"
-#define KBD_C610_BGRP "x11_bgrp.vkm"
+#define KBD_CBM2_BUKS "x11_buks.vkm"
+#define KBD_CBM2_BUKP "x11_bukp.vkm"
+#define KBD_CBM2_BDES "x11_bdes.vkm"
+#define KBD_CBM2_BDEP "x11_bdep.vkm"
+#define KBD_CBM2_BGRS "x11_bgrs.vkm"
+#define KBD_CBM2_BGRP "x11_bgrp.vkm"
 
 extern void x11kbd_press(ui_keysym_t key);
 extern void x11kbd_release(ui_keysym_t key);
