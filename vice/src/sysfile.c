@@ -29,9 +29,14 @@
 #include <stdio.h>
 
 #include "resources.h"
+#include "cmdline.h"
 #include "findpath.h"
 #include "sysfile.h"
 #include "utils.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* Resources.  */
 
 static char *default_path;
 static char *system_path;
@@ -55,6 +60,15 @@ static resource_t resources[] = {
     { NULL },
 };
 
+/* Command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
+      "<path>", "Define search path to locate system files" },
+    { NULL },
+};
+
+
 /* ------------------------------------------------------------------------- */
 
 int sysfile_init(const char *boot_path, const char *emu_id)
@@ -77,6 +91,11 @@ int sysfile_init(const char *boot_path, const char *emu_id)
 int sysfile_init_resources(void)
 {
     return resources_register(resources);
+}
+
+int sysfile_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* Locate a system file called `name' by using the search path in
