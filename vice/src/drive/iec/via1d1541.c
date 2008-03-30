@@ -123,8 +123,8 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
         parallel_cable_drive_write(byte, 0, via1p->number);
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE oldpa_value, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
+                      WORD addr)
 {
     drivevia1_context_t *via1p;
     drive_context_t *drive_context;
@@ -183,8 +183,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
     }
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte,
-                             BYTE p_oldpb, WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE p_oldpb,
+                      WORD addr)
 {
     drivevia1_context_t *via1p;
 
@@ -228,7 +228,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 #endif
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
     return byte;
 }
@@ -237,15 +237,15 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
@@ -253,7 +253,7 @@ static void reset(via_context_t *via_context)
 {
 }
 
-inline static BYTE read_pra(via_context_t *via_context, WORD addr)
+static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte;
     drivevia1_context_t *via1p;
@@ -282,7 +282,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return byte;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
     BYTE orval;

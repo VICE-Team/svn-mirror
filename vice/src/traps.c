@@ -238,6 +238,6 @@ DWORD traps_handler(void)
         p = p->next;
     }
 
-    return -1;
+    return (DWORD)-1;
 }
 

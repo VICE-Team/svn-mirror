@@ -62,7 +62,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (ioutil_getcwd(buf + 1, sizeof(buf) - 128) == (int)NULL)
+            if (ioutil_getcwd(buf + 1, (int)sizeof(buf) - 128) == NULL)
                 goto fail;
 
             l = strlen(buf + 1);

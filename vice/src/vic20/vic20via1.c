@@ -83,15 +83,15 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
@@ -99,8 +99,8 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpa, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
+                      WORD addr)
 {
 }
 
@@ -108,8 +108,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpb, WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
+                      WORD addr)
 {
     if ((byte ^ myoldpb) & 8)
         datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte)
@@ -125,7 +125,7 @@ static void reset(via_context_t *via_context)
 /*iec_pcr_write(0x22);*/
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
     /* FIXME: this should use via_set_ca2() and via_set_cb2() */
     if (byte != via_context->via[VIA_PCR]) {
@@ -139,7 +139,7 @@ inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     return byte;
 }
 
-inline static BYTE read_pra(via_context_t *via_context, WORD addr)
+static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte;
     /* FIXME: not 100% sure about this... */
@@ -156,7 +156,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return byte;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
     /* FIXME: not 100% sure about this... */

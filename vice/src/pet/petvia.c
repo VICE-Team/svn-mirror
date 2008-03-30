@@ -156,18 +156,18 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
                          ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
-void static store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
     petsound_store_onoff(via_context->via[VIA_T2LL]
                          ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
-void static store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
     petsound_store_sample(byte);
 }
 
-void static store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
     petsound_store_rate(2 * byte + 4);
     if (!byte) {

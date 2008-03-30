@@ -100,8 +100,8 @@ void viad2_update_pcr(int pcrval, drive_t *dptr)
                               | (pcrval & 0x02);
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE oldpa_value, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
+                      WORD addr)
 {
     drivevia2_context_t *via2p;
 
@@ -120,8 +120,8 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
-                             WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
+                      WORD addr)
 {
     drivevia2_context_t *via2p;
 
@@ -157,7 +157,7 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
         = (via2p->drive->byte_ready_active & ~0x04) | (byte & 0x04);
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
     drivevia2_context_t *via2p;
 
@@ -197,15 +197,15 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
@@ -219,7 +219,7 @@ static void reset(via_context_t *via_context)
     drive_update_ui_status();
 }
 
-inline static BYTE read_pra(via_context_t *via_context, WORD addr)
+static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte;
     drivevia2_context_t *via2p;
@@ -236,7 +236,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return byte;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
     drivevia2_context_t *via2p;

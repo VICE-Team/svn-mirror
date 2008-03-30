@@ -81,15 +81,15 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
@@ -97,8 +97,8 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpa, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
+                      WORD addr)
 {
 }
 
@@ -109,8 +109,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
     parallel_cpu_set_ndac((BYTE)(!(byte & 0x04)));
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpb, WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
+                      WORD addr)
 {
     parallel_cpu_set_dav((BYTE)(!(byte & 0x01)));
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
@@ -128,17 +128,17 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_ndac(0);
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
     return byte;
 }
 
-inline static BYTE read_pra(via_context_t *via_context, WORD addr)
+static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     return 0xff;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 

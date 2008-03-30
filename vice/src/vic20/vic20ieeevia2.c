@@ -83,15 +83,15 @@ static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
@@ -100,8 +100,8 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     parallel_cpu_set_bus(byte);
 }
 
-inline static void store_pra(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpa, WORD addr)
+static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
+                      WORD addr)
 {
     parallel_cpu_set_bus(byte);
 }
@@ -110,8 +110,8 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static void store_prb(via_context_t *via_context, BYTE byte,
-                             BYTE myoldpb, WORD addr)
+static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
+                      WORD addr)
 {
 }
 
@@ -124,7 +124,7 @@ static void reset(via_context_t *via_context)
     parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */
 }
 
-inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
 #if 0
     if (byte != via_context->via[VIA_PCR]) {
@@ -139,7 +139,7 @@ inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     return byte;
 }
 
-inline static BYTE read_prb(via_context_t *via_context)
+static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
 
@@ -150,7 +150,7 @@ inline static BYTE read_prb(via_context_t *via_context)
     return byte;
 }
 
-inline static BYTE read_pra(via_context_t *via_context, WORD addr)
+static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     return 0xff;
 }
