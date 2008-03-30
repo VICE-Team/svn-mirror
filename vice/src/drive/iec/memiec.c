@@ -35,7 +35,6 @@
 #include "lib.h"
 #include "mc6821.h"
 #include "memiec.h"
-#include "profdos.h"
 #include "types.h"
 #include "via1d1541.h"
 #include "viad.h"
@@ -262,7 +261,5 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
             drivemem_set_func(cpud, 0x50, 0x60, mc6821_read, mc6821_store);
         }
     }
-
-    profdos_mem_init(drv, type);
 }
 
