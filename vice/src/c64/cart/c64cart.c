@@ -47,6 +47,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "stb.h"
 #include "supersnapshot.h"
 #ifdef HAS_TRANSLATION
 #include "translate.h"
@@ -199,6 +200,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART },
+    { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
+      IDCLS_P_NAME, "Attach Structured Basic cartridge image" },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       0, IDCLS_ENABLE_EXPERT_CART },
@@ -249,6 +253,9 @@ static const cmdline_option_t cmdline_options[] =
     { "-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
       N_("<name>"), N_("Attach raw 16KB Westermann learning cartridge image") },
+    { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
+      N_("<name>"), "Attach Structured Basic cartridge image" },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       NULL, N_("Enable expert cartridge") },
@@ -342,6 +349,10 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_CRT:
         if (crt_attach(filename, rawcart) < 0)
+            goto done;
+        break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        if (stb_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       default:

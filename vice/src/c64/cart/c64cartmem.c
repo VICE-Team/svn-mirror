@@ -51,6 +51,7 @@
 #include "retroreplay.h"
 #include "ide64.h"
 #include "ramcart.h"
+#include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
@@ -138,6 +139,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return expert_io1_read(addr);
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_io1_read(addr);
+      case CARTRIDGE_STRUCTURED_BASIC:
+        return stb_io1_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -218,6 +221,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_io1_store(addr, value);
+        break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        stb_io1_store(addr, value);
         break;
     }
     return;
@@ -584,6 +590,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_config_init();
         break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        stb_config_init();
+        break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -677,6 +686,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_config_setup(rawcart);
+        break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        stb_config_setup(rawcart);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

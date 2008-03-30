@@ -33,6 +33,8 @@ libc64cart_a_SOURCES = \
 	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
+	stb.c \
+	stb.h \
 	supergames.c \
 	supergames.h \
 	supersnapshot.c \
