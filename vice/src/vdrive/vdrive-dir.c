@@ -232,11 +232,11 @@ void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
 void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
                                 int length, unsigned int type)
 {
-    vdrive->find_name   = name;
-    vdrive->find_type   = type;
+    vdrive->find_name = name;
+    vdrive->find_type = type;
     vdrive->find_length = length;
 
-    vdrive->Curr_track  = vdrive->Dir_Track;
+    vdrive->Curr_track = vdrive->Dir_Track;
     vdrive->Curr_sector = vdrive->Dir_Sector;
     vdrive->SlotNumber = 0;
     vdrive->SlotNumber--;
