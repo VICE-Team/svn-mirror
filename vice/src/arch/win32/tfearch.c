@@ -163,7 +163,7 @@ BOOL TfePcapLoadLibrary(void)
 #undef GET_PROC_ADDRESS_AND_TEST
 
 
-
+/*
 static
 void TfePcapCloseAdapter(void) 
 {
@@ -172,6 +172,7 @@ void TfePcapCloseAdapter(void)
         TfePcapAlldevs = NULL;
     }
 }
+*/
 
 /*
  These functions let the UI enumerate the available interfaces.
