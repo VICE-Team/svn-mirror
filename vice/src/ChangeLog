@@ -1,3 +1,50 @@
+2000-06-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.18.
+
+	* screenshot.c, screenshot.h: Added proper screen height
+	calculation.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/c610ui.c: Cosmetic fixes.
+
+	* screendrv/png.c (png_save): Fixed memory leak.
+
+	* raster/raster.c (raster_set_palette): Rebuild the color
+	tables of the video chips instead of just repainting the
+	framebuffer.
+
+	* color.c (color_alloc_new_colors, color_free_old_colors,
+	color_fill_pixel_return, color_copy_list_without_owner): New
+	function.  (color_add_owner_from_other_list): Bugfix.
+
+	* arch/unix/x11/xaw/uicolor.c (uicolor_alloc_color,
+	uicolor_free_color): New functions.
+
+2000-06-13  Daniel Sladic  <dsladic@cs.cmu.edu>
+
+	* arch/unix/Makefile.am: Removed file uiscreenshot.c.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/c610ui.c: Modified screenshot
+	menu code to call a screenshot dialog.
+
+	* arch/unix/uiscreenshot.c: Removed. Moved to arch/unix/x11/xaw.
+
+	* arch/unix/uiscreenshot.h: Exposed function is now
+	ui_screenshot_dialog instead of save_screenshot callback.
+
+	* arch/unix/x11/xaw/Makefile.am: Added uiscreenshot.c.
+
+	* arch/unix/x11/xaw/uiscreenshot.c: Moved file here from
+	arch/unix and added the dialog for screenshots.
+
+	* screendrv/png.c: Added PNG code.
+
+	* screenshot.c, screenshot.h: Added code to iterate over the
+	registered screen drivers so the menu code can be tailored on
+	the fly.
+
 2000-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.17.

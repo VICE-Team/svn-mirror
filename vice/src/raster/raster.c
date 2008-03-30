@@ -1664,6 +1664,7 @@ void raster_force_repaint (raster_t *raster)
 void raster_set_palette (raster_t *raster,
                     palette_t *palette)
 {
+
   if (raster->viewport.canvas != NULL)
     {
       canvas_set_palette (raster->viewport.canvas,
@@ -1676,6 +1677,9 @@ void raster_set_palette (raster_t *raster,
     palette_free (raster->palette);
 
   raster->palette = palette;
+
+  if (raster->refresh_tables != NULL)
+    raster->refresh_tables();
 
   raster_force_repaint (raster);
 }
@@ -1735,6 +1739,8 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->x_offset = raster->geometry.extra_offscreen_border;
     screenshot->size_width = raster->viewport.pixel_size.width;
     screenshot->size_height = raster->viewport.pixel_size.height;
+    screenshot->first_displayed_line = raster->geometry.first_displayed_line;
+    screenshot->last_displayed_line = raster->geometry.last_displayed_line;
     return 0;
 }
 

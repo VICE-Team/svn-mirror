@@ -32,6 +32,8 @@
 #include "palette.h"
 #include "utils.h"
 
+#if 0
+
 struct color_rgb_s {
     unsigned int red;
     unsigned int green;
@@ -47,7 +49,7 @@ typedef struct owner_list_s owner_list_t;
 
 struct color_list_s {
     color_rgb_t color_rgb_req;
-    color_rgb_t color_rgb_alloced;
+    unsigned long color_pixel;
     PIXEL pixel_data;
     owner_list_t *owner;
     struct color_list_s *next;
@@ -124,8 +126,6 @@ static void color_owner_remove(owner_list_t **owner, void *c)
             next_owner = owner_list->next->next;
             free(owner_list->next);
             owner_list->next = next_owner;
-
-            log_message(color_log, "Remove nth owner.");
             break;
         }
         owner_list = owner_list->next;
@@ -168,6 +168,8 @@ static void color_palette_to_list(color_list_t *color_list, void *c,
         current->color_rgb_req.red = palette->entries[i].red;
         current->color_rgb_req.green = palette->entries[i].green;
         current->color_rgb_req.blue = palette->entries[i].blue;
+        current->color_pixel = 0;
+        current->pixel_data = 0;
         color_owner_add(current->owner, c);
         color_create_empty_entry(&current->next);
         current = current->next;
@@ -182,6 +184,8 @@ static void color_copy_entry(color_list_t *dest, color_list_t *src)
     dest->color_rgb_req.red = src->color_rgb_req.red;
     dest->color_rgb_req.green = src->color_rgb_req.green;
     dest->color_rgb_req.blue = src->color_rgb_req.blue;
+    dest->color_pixel = src->color_pixel;
+    dest->pixel_data = src->pixel_data;
     color_owner_copy(dest->owner, src->owner);
     color_create_empty_entry(&dest->next);
 }
@@ -236,7 +240,7 @@ static void color_add_owner_from_other_list(color_list_t *dest,
             if (src->color_rgb_req.red == cdest->color_rgb_req.red
                 && src->color_rgb_req.green == cdest->color_rgb_req.green
                 && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
-                color_owner_add(dest->owner, src->owner->color_owner);
+                color_owner_add(cdest->owner, src->owner->color_owner);
                 break;
             }
             cdest = cdest->next;
@@ -254,25 +258,90 @@ static void color_copy_list_with_owner(color_list_t *dest, color_list_t *src)
     }
 }
 
+static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
+{
+    while (src->next != NULL) {
+        if (src->owner->next == NULL)
+            color_copy_entry(dest, src);
+        src = src->next;
+    }
+}
+
+static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
+                                    PIXEL pixel_return[])
+{
+    unsigned int colnr;
+    color_list_t *cdest;
+
+    colnr = 0;
+
+    while (src->next != NULL) {
+        cdest = dest;
+        while (cdest->next != NULL) {
+            if (src->color_rgb_req.red == cdest->color_rgb_req.red
+                && src->color_rgb_req.green == cdest->color_rgb_req.green
+                && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
+                pixel_return[colnr++] = cdest->pixel_data;
+            }
+            cdest = cdest->next;
+        }
+        src = src->next;
+    }
+}
+
 /*-----------------------------------------------------------------------*/
 
-static void color_print_list(color_list_t *list)
+static void color_print_list(const char *name, color_list_t *list)
 {
-    log_message(color_log, "List start:");
+    log_message(color_log, "List %s start:", name);
     while (list->next != NULL) {
         owner_list_t *owner_list = list->owner;
-        log_message(color_log, "R %03i G %03i B %03i PIXEL %02x.",
+        log_message(color_log, "R %02x G %02x B %02x XCOL %08lx PIXEL %02x.",
                     list->color_rgb_req.red,
                     list->color_rgb_req.green,
                     list->color_rgb_req.blue,
+                    list->color_pixel,
                     list->pixel_data);
+
         while (owner_list->next != NULL) {
             log_message(color_log, "Owner: %p.", owner_list->color_owner);
             owner_list = owner_list->next;
         }
+
         list = list->next;
     }
     log_message(color_log, "List ends.");
+}
+
+/*-----------------------------------------------------------------------*/
+
+int color_alloc_new_colors(color_list_t *list)
+{
+    PIXEL data;
+    unsigned long color_pixel;
+
+    while (list->next != NULL) {
+        uicolor_alloc_color(list->color_rgb_req.red,
+                            list->color_rgb_req.green,
+                            list->color_rgb_req.blue,
+                            &color_pixel,
+                            &data);
+        list->color_pixel = color_pixel;
+        list->pixel_data = data;
+        list = list->next;
+    }
+    return 0;
+}
+
+void color_free_old_colors(color_list_t *list)
+{
+    while (list->next != NULL) {
+        uicolor_free_color(list->color_rgb_req.red,
+                           list->color_rgb_req.green,
+                           list->color_rgb_req.blue,
+                           list->color_pixel);
+        list = list->next;
+    }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -288,7 +357,7 @@ int color_alloc_colors(void *c, const palette_t *palette,
                        PIXEL pixel_return[])
 {
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
-                 *color_alloced_owner;
+                 *color_alloced_owner, *color_without_owner;
 
     /* Convert the palette to a color list.  */
     color_create_empty_entry(&color_new);
@@ -301,7 +370,7 @@ int color_alloc_colors(void *c, const palette_t *palette,
                        color_no_alloc);
 
     /* Allocate only colors we do not have.  */
-    /*color_alloc_new_colors(color_to_alloc)*/
+    color_alloc_new_colors(color_to_alloc);
 
     /* Remove the current owner from allocated colors list.  */
     color_remove_owner_from_list(color_alloced, c);
@@ -315,16 +384,25 @@ int color_alloc_colors(void *c, const palette_t *palette,
     /* Copy valid colors (with owner) to new list.  */
     color_create_empty_entry(&color_alloced_owner);
     color_copy_list_with_owner(color_alloced_owner, color_alloced);
+    color_fill_pixel_return(color_alloced_owner, color_new, pixel_return);
+
+    /* Copy invalid colors (without owner) to new list.  */
+    color_create_empty_entry(&color_without_owner);
+    color_copy_list_without_owner(color_without_owner, color_alloced);
+    color_free_old_colors(color_without_owner);
 
     /* Throw away old list and temp lists.  */
     color_free(color_alloced);
     color_free(color_new);
     color_free(color_to_alloc);
     color_free(color_no_alloc);
+    color_free(color_without_owner);
 
     /* The new list.  */
     color_alloced = color_alloced_owner;
 
     return 0;
 }
+
+#endif
 
