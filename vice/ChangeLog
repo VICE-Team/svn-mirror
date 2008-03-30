@@ -1,3 +1,9 @@
+2003-07-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.19.
+
+	* configure.in: Added `parallel' library.
+
 2003-07-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.18.

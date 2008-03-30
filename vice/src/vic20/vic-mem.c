@@ -146,7 +146,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
       case 2:                     /* $9002  Columns Displayed. */
         {
-            int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
+            int new_text_cols = MIN(value & 0x7f, (int)vic.max_text_cols);
 
             int new_xstop = MIN((int)(vic.raster.display_xstart
                                 + new_text_cols * 8 * VIC_PIXEL_WIDTH),

@@ -41,7 +41,8 @@
 #define VIC_PAL_SCREEN_WIDTH            272
 #define VIC_NTSC_SCREEN_WIDTH           208
 
-#define VIC_SCREEN_MAX_TEXT_COLS        31
+#define VIC_PAL_MAX_TEXT_COLS           32
+#define VIC_NTSC_MAX_TEXT_COLS          31
 
 #define VIC_PAL_DISPLAY_WIDTH           224
 #define VIC_NTSC_DISPLAY_WIDTH          200
@@ -180,6 +181,7 @@ struct vic_s
     unsigned int screen_width;
     unsigned int display_width;
     unsigned int cycle_offset;
+    unsigned int max_text_cols;
 
     vic_light_pen_t light_pen; 
 

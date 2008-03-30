@@ -83,6 +83,7 @@ void vic_change_timing(void)
         vic.last_displayed_line = VIC20_NTSC_LAST_DISPLAYED_LINE;
         vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
         vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
+        vic.max_text_cols = VIC_NTSC_MAX_TEXT_COLS;
         break;
       case MACHINE_SYNC_PAL:
       default:
@@ -93,6 +94,7 @@ void vic_change_timing(void)
         vic.last_displayed_line = VIC20_PAL_LAST_DISPLAYED_LINE;
         vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
         vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
+        vic.max_text_cols = VIC_PAL_MAX_TEXT_COLS;
         break;
     }
 
@@ -122,8 +124,8 @@ static void vic_set_geometry(void)
                         1,
                         vic.first_displayed_line,
                         vic.last_displayed_line,
-                        vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8,
-                        vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
+                        vic.screen_width + vic.max_text_cols * 8,
+                        vic.screen_width + vic.max_text_cols * 8);
 #ifdef __MSDOS__
   video_ack_vga_mode();
 #endif
