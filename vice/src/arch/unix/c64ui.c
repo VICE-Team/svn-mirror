@@ -55,7 +55,7 @@ static UI_CALLBACK(attach_cartridge)
 {
     int type = (int)UI_MENU_CB_PARAM;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     switch (type) {
       case CARTRIDGE_EXPERT:
@@ -222,8 +222,9 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { N_("Cartridge freeze"),
       (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
-	{ N_("*Cartridge control"),
-	  (ui_callback_t) control_cartridge, (ui_callback_data_t) 0, cartridge_control_submenu },
+    { N_("*Cartridge control"),
+      (ui_callback_t) control_cartridge,
+      (ui_callback_data_t)0, cartridge_control_submenu },
     { NULL }
 };
 
@@ -330,25 +331,27 @@ static UI_CALLBACK(set_sid_resid_passband)
     ui_button_t button;
     int i;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     resources_get_value("SidResidPassband",
                         (resource_value_t *) &i);
 
     sprintf(input_string, "%d", i);
     msg_string = stralloc(_("Enter passband in percentage of total bandwidth\n(0 - 90, lower is faster, higher is better)"));
-    button = ui_input_string(_("Passband percentage"), msg_string, input_string, 32);
+    button = ui_input_string(_("Passband percentage"),
+                             msg_string, input_string, 32);
     free(msg_string);
     if (button == UI_BUTTON_OK) {
         i = atoi(input_string);
-	if (i < 0) {
-	    i = 0;
-	}
-	else if (i > 90) {
-	    i = 90;
-	}
-	resources_set_value("SidResidPassband", (resource_value_t) i);
-	ui_update_menus();
+        if (i < 0) {
+            i = 0;
+        } else {
+            if (i > 90) {
+                i = 90;
+            }
+        }
+        resources_set_value("SidResidPassband", (resource_value_t)i);
+        ui_update_menus();
     }
 }
 #endif
@@ -414,13 +417,13 @@ static UI_CALLBACK(set_joystick_device_1)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
+        ui_update_menus();
     } else {
-        resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
@@ -428,13 +431,13 @@ static UI_CALLBACK(set_joystick_device_2)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice2", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        resources_set_value("JoyDevice2", (resource_value_t)UI_MENU_CB_PARAM);
+        ui_update_menus();
     } else {
-        resources_get_value("JoyDevice2", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        resources_get_value("JoyDevice2", (resource_value_t *)&tmp);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
@@ -443,31 +446,38 @@ static UI_CALLBACK(swap_joystick_ports)
     int tmp1, tmp2;
 
     if (w != NULL)
-	suspend_speed_eval();
-    resources_get_value("JoyDevice1", (resource_value_t *) &tmp1);
-    resources_get_value("JoyDevice2", (resource_value_t *) &tmp2);
-    resources_set_value("JoyDevice1", (resource_value_t) tmp2);
-    resources_set_value("JoyDevice2", (resource_value_t) tmp1);
+	vsync_suspend_speed_eval();
+    resources_get_value("JoyDevice1", (resource_value_t *)&tmp1);
+    resources_get_value("JoyDevice2", (resource_value_t *)&tmp2);
+    resources_set_value("JoyDevice1", (resource_value_t)tmp2);
+    resources_set_value("JoyDevice2", (resource_value_t)tmp1);
     ui_update_menus();
 }
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
     { NULL }
@@ -475,21 +485,28 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
     { NULL }
@@ -523,25 +540,34 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 static ui_menu_entry_t c64_romset_submenu[] = {
     { N_("Load default ROMs"),
-      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+      (ui_callback_t) ui_set_romset,
+      (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
     { N_("Load new kernal ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
     { N_("Load new BASIC ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
     { N_("Load new character ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
     { N_("Load new 1541 ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541", NULL },
     { N_("Load new 1541-II ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541ii", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541ii", NULL },
     { N_("Load new 1571 ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1571", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1571", NULL },
     { N_("Load new 1581 ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1581", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1581", NULL },
     { N_("Load new 2031 ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName2031", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName2031", NULL },
     { "--" },
     { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
@@ -556,15 +582,15 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    int wid = (int) UI_MENU_CB_PARAM;
+    int wid = (int)UI_MENU_CB_PARAM;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
     if (ui_screenshot_dialog(filename, wid) < 0) 
-	return;
+        return;
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -726,3 +752,4 @@ int c64_ui_init(void)
 
     return 0;
 }
+

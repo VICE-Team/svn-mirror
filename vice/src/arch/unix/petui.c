@@ -109,13 +109,13 @@ static UI_CALLBACK(set_joystick_device_1)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        ui_update_menus();
     } else {
         resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
@@ -123,13 +123,13 @@ static UI_CALLBACK(set_joystick_device_2)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice2", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        ui_update_menus();
     } else {
         resources_get_value("JoyDevice2", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
@@ -138,7 +138,7 @@ static UI_CALLBACK(swap_joystick_ports)
     int tmp1, tmp2;
 
     if (w != NULL)
-	suspend_speed_eval();
+        vsync_suspend_speed_eval();
     resources_get_value("JoyDevice1", (resource_value_t *) &tmp1);
     resources_get_value("JoyDevice2", (resource_value_t *) &tmp2);
     resources_set_value("JoyDevice1", (resource_value_t) tmp2);
@@ -148,21 +148,28 @@ static UI_CALLBACK(swap_joystick_ports)
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
     { NULL }
@@ -170,21 +177,28 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
     { NULL }
@@ -307,33 +321,45 @@ static ui_menu_entry_t pet_romset_submenu[] = {
       (ui_callback_t) toggle_Basic1Chars, NULL, NULL },
     { "--" },
     { N_("Load new kernal ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
     { N_("Load new editor ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"EditorName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"EditorName", NULL },
     { N_("Load new BASIC ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
     { "--" },
     { N_("Load new character ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"ChargenName", NULL },
     { N_("*Original character set"), 
-      (ui_callback_t) radio_ChargenName, (ui_callback_data_t)"chargen", NULL },
+      (ui_callback_t) radio_ChargenName,
+      (ui_callback_data_t)"chargen", NULL },
     { N_("*German character set"), 
-      (ui_callback_t) radio_ChargenName, (ui_callback_data_t)"chargen.de", NULL },
+      (ui_callback_t) radio_ChargenName,
+      (ui_callback_data_t)"chargen.de", NULL },
     { "--" },
     { N_("Load new $9*** ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModule9Name", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"RomModule9Name", NULL },
     { N_("Unload $9*** ROM"),
-      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModule9Name", NULL },
+      (ui_callback_t) ui_unload_rom_file,
+      (ui_callback_data_t)"RomModule9Name", NULL },
     { "--" },
     { N_("Load new $A*** ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModuleAName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"RomModuleAName", NULL },
     { N_("Unload $A*** ROM"),
-      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModuleAName", NULL },
+      (ui_callback_t) ui_unload_rom_file,
+      (ui_callback_data_t)"RomModuleAName", NULL },
     { "--" },
     { N_("Load new $B*** ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModuleBName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"RomModuleBName", NULL },
     { N_("Unload $B*** ROM"),
-      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModuleBName", NULL },
+      (ui_callback_t) ui_unload_rom_file,
+      (ui_callback_data_t)"RomModuleBName", NULL },
     { "--" },
     { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
@@ -446,15 +472,15 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    int wid = (int) UI_MENU_CB_PARAM;
+    int wid = (int)UI_MENU_CB_PARAM;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
     if (ui_screenshot_dialog(filename, wid) < 0) 
-	return;
+        return;
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -578,3 +604,4 @@ int pet_ui_init(void)
 
     return 0;
 }
+
