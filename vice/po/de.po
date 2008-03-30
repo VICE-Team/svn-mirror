@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-21 23:49+0100\n"
+"POT-Creation-Date: 2002-01-25 23:32+0100\n"
 "PO-Revision-Date: 2002-01-02 23:24+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -101,7 +101,7 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/c128ui.c:112 src/arch/unix/plus4ui.c:92
-#: src/arch/unix/uivicii.c:107 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/uivicii.c:105 src/arch/unix/vic20ui.c:423
 msgid "Color set"
 msgstr "Farbpallette..."
 
@@ -293,26 +293,26 @@ msgstr "Speicher Einstellungen"
 
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c610ui.c:456
 #: src/arch/unix/c64ui.c:413 src/arch/unix/petui.c:381
-#: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:493
+#: src/arch/unix/plus4ui.c:161 src/arch/unix/vic20ui.c:493
 #: src/arch/unix/vsidui.c:254
 msgid "File"
 msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:466 src/arch/unix/c610ui.c:473
 #: src/arch/unix/c64ui.c:432 src/arch/unix/petui.c:398
-#: src/arch/unix/plus4ui.c:180 src/arch/unix/vic20ui.c:512
+#: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:512
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:479
 #: src/arch/unix/c64ui.c:438 src/arch/unix/petui.c:404
-#: src/arch/unix/plus4ui.c:186 src/arch/unix/vic20ui.c:518
+#: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:518
 msgid "Options"
 msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:528
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:528
 #: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1129
 #: src/arch/unix/x11/gnome/ui.c:1221
 msgid "Settings"
@@ -322,7 +322,7 @@ msgstr "Einstellungen"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:502 src/arch/unix/c610ui.c:510
 #: src/arch/unix/c64ui.c:468 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:211 src/arch/unix/vic20ui.c:545
+#: src/arch/unix/plus4ui.c:209 src/arch/unix/vic20ui.c:545
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -750,19 +750,19 @@ msgstr "PET Modell Einstellungen"
 msgid "*PET userport diagnostic pin"
 msgstr "*PET Userport Diagnose Pin"
 
-#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:105
+#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:103
 msgid "*External color set"
 msgstr "*Externe Farbtabelle"
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:111
+#: src/arch/unix/plus4ui.c:95 src/arch/unix/uivicii.c:108
 msgid "*Fast PAL emulation"
 msgstr "*Schnelle PAL Emulation"
 
-#: src/arch/unix/plus4ui.c:99 src/arch/unix/uivicii.c:114
+#: src/arch/unix/plus4ui.c:98 src/arch/unix/uivicii.c:111
 msgid "*PAL emulation"
 msgstr "*PAL Emulation"
 
-#: src/arch/unix/plus4ui.c:110
+#: src/arch/unix/plus4ui.c:108
 msgid "TED settings"
 msgstr "TED Einstellungen"
 
@@ -1985,16 +1985,16 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:97 src/arch/unix/vic20ui.c:420
+#: src/arch/unix/uivicii.c:95 src/arch/unix/vic20ui.c:420
 #: src/arch/unix/vsidui.c:172
 msgid "Video standard"
 msgstr "Video Standard"
 
-#: src/arch/unix/uivicii.c:100
+#: src/arch/unix/uivicii.c:98
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-sprite Kollisionen"
 
-#: src/arch/unix/uivicii.c:102
+#: src/arch/unix/uivicii.c:100
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-Hintergrund Kollisionen"
 
@@ -2669,31 +2669,31 @@ msgstr ""
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:311
+#: src/arch/unix/x11/video.c:282
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
 
-#: src/arch/unix/x11/video.c:313
+#: src/arch/unix/x11/video.c:284
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
 
-#: src/arch/unix/x11/video.c:316
+#: src/arch/unix/x11/video.c:287
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Switch X server depth or recompile with --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:351
+#: src/arch/unix/x11/video.c:339
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:355
+#: src/arch/unix/x11/video.c:343
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:405
+#: src/arch/unix/x11/video.c:393
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 

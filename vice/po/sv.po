@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-21 23:49+0100\n"
+"POT-Creation-Date: 2002-01-25 23:32+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -102,7 +102,7 @@ msgid "Revision"
 msgstr "Upplösningar"
 
 #: src/arch/unix/c128ui.c:112 src/arch/unix/plus4ui.c:92
-#: src/arch/unix/uivicii.c:107 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/uivicii.c:105 src/arch/unix/vic20ui.c:423
 msgid "Color set"
 msgstr "Färguppsättning"
 
@@ -294,26 +294,26 @@ msgstr "Minnesinställningar"
 
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c610ui.c:456
 #: src/arch/unix/c64ui.c:413 src/arch/unix/petui.c:381
-#: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:493
+#: src/arch/unix/plus4ui.c:161 src/arch/unix/vic20ui.c:493
 #: src/arch/unix/vsidui.c:254
 msgid "File"
 msgstr "Arkiv"
 
 #: src/arch/unix/c128ui.c:466 src/arch/unix/c610ui.c:473
 #: src/arch/unix/c64ui.c:432 src/arch/unix/petui.c:398
-#: src/arch/unix/plus4ui.c:180 src/arch/unix/vic20ui.c:512
+#: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:512
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:479
 #: src/arch/unix/c64ui.c:438 src/arch/unix/petui.c:404
-#: src/arch/unix/plus4ui.c:186 src/arch/unix/vic20ui.c:518
+#: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:518
 msgid "Options"
 msgstr "Alternativ"
 
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:528
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:528
 #: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1129
 #: src/arch/unix/x11/gnome/ui.c:1221
 msgid "Settings"
@@ -323,7 +323,7 @@ msgstr "Inställningar"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:502 src/arch/unix/c610ui.c:510
 #: src/arch/unix/c64ui.c:468 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:211 src/arch/unix/vic20ui.c:545
+#: src/arch/unix/plus4ui.c:209 src/arch/unix/vic20ui.c:545
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -762,21 +762,21 @@ msgstr "Inställningar för PET-modell"
 msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på användarporten"
 
-#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:105
+#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:103
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:111
+#: src/arch/unix/plus4ui.c:95 src/arch/unix/uivicii.c:108
 #, fuzzy
 msgid "*Fast PAL emulation"
 msgstr "*Använd reSID-emulering"
 
-#: src/arch/unix/plus4ui.c:99 src/arch/unix/uivicii.c:114
+#: src/arch/unix/plus4ui.c:98 src/arch/unix/uivicii.c:111
 #, fuzzy
 msgid "*PAL emulation"
 msgstr "-emulator"
 
-#: src/arch/unix/plus4ui.c:110
+#: src/arch/unix/plus4ui.c:108
 #, fuzzy
 msgid "TED settings"
 msgstr "VDC-inställningar"
@@ -2018,16 +2018,16 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/uivicii.c:97 src/arch/unix/vic20ui.c:420
+#: src/arch/unix/uivicii.c:95 src/arch/unix/vic20ui.c:420
 #: src/arch/unix/vsidui.c:172
 msgid "Video standard"
 msgstr "Grafikstandard"
 
-#: src/arch/unix/uivicii.c:100
+#: src/arch/unix/uivicii.c:98
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-till-sprite-kollision"
 
-#: src/arch/unix/uivicii.c:102
+#: src/arch/unix/uivicii.c:100
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-till-bakgrund-kollision"
 
@@ -2703,30 +2703,30 @@ msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:311
+#: src/arch/unix/x11/video.c:282
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Enbart %ibitar/pixel stöds av denna emulator."
 
-#: src/arch/unix/x11/video.c:313
+#: src/arch/unix/x11/video.c:284
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
 
-#: src/arch/unix/x11/video.c:316
+#: src/arch/unix/x11/video.c:287
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:351
+#: src/arch/unix/x11/video.c:339
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MTSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:355
+#: src/arch/unix/x11/video.c:343
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:405
+#: src/arch/unix/x11/video.c:393
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
