@@ -39,10 +39,14 @@ libarch_a_SOURCES = \
 	uidummy.c \
 	uiimage.c \
 	uiimage.h \
+	uimsgwin.c \
+	uimsgwin.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
 	video.h \
+	vsidui.c \
+	vsidui.h \
 	vsync.c \
 	vsync.h
 

@@ -33,7 +33,7 @@
 
 
 /* Convert internal keynumbers to CBM keyboard matrix. Top nibble = row, bottom nibble col */
-static unsigned char C64C128keys[] = {
+static unsigned char C64C128norm[KEYMAP_ENTRIES] = {
   0x17, 0x72, 0x75, 0x17,	/* 0  -  3: SHIFT, CTRL, ALT(C=), SH_L		*/
   0x72, 0x75, 0x64, 0x72,	/* 4  -  7: CTRL_L, ALT_L, SH_R, CTRL_R		*/
   0x75, 0xff, 0xff, 0xff,	/* 8  - 11: ALT_R, MouseSlct, MouseMen, MouseAdj*/
@@ -68,11 +68,25 @@ static unsigned char C64C128keys[] = {
   0xff, 0xff, 0xff, 0xff	/* 124-127: num2, dummies			*/
 };
 
+static unsigned char C64C128shifted[KEYMAP_ENTRIES];
+static unsigned char C64C128norm_sflags[KEYMAP_ENTRIES/8];
+static unsigned char C64C128shift_sflags[KEYMAP_ENTRIES/8];
 
-void c64c128_ui_init_keyboard(void)
+static keymap_t C64C128keys = {
+  NULL,
+  C64C128norm,
+  C64C128shifted,
+  C64C128norm_sflags,
+  C64C128shift_sflags
+};
+
+
+void c64c128_ui_init_keyboard(const char *filename)
 {
+  C64C128keys.default_file = filename;
+  kbd_default_keymap(&C64C128keys);
   kbd_init_keymap(2);
-  kbd_add_keymap(C64C128keys, 0); kbd_add_keymap(C64C128keys, 1);
+  kbd_add_keymap(&C64C128keys, 0); kbd_add_keymap(&C64C128keys, 1);
 }
 
 

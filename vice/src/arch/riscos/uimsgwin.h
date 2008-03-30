@@ -1,5 +1,5 @@
 /*
- * c128ui.c - Implementation of the C128-specific part of the UI.
+ * uimsgwin.h - a window displaying (long) textual messages
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -24,39 +24,12 @@
  *
  */
 
-#include "ROlib.h"
-#include "ui.h"
-#include "c128ui.h"
-#include "c64ui.h"
-#include "c64c128ui.h"
-#include "kbd.h"
+#ifndef _UIMSGWIN_H
+#define _UIMSGWIN_H
 
+int  ui_message_window_open(const char *title, const char *message);
+void ui_message_window_close(void);
+void ui_message_window_redraw(int *block);
+void ui_message_window_exit(void);
 
-
-
-char *WimpTaskName = "Vice C128";
-
-static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
-
-
-int c128_ui_init(void)
-{
-  return ui_init_named_app("Vice128", "!vice128");
-}
-
-int c128_kbd_init(void)
-{
-  c64c128_ui_init_keyboard(C128keyfile);
-  kbd_load_keymap(NULL, 0);
-  return kbd_init();
-}
-
-
-
-void cartridge_detach_image(void)
-{
-}
-
-void cartridge_trigger_freeze(void)
-{
-}
+#endif

@@ -35,7 +35,7 @@
 char *WimpTaskName = "Vice CBM-II";
 
 
-static unsigned char CBM2keys[] = {
+static unsigned char CBM2norm[KEYMAP_ENTRIES] = {
   0x84, 0x85, 0xff, 0x84,	/* 0 */
   0x85, 0xff, 0x83, 0x41,	/* 4 */
   0xff, 0xff, 0xff, 0xff,	/* 8 */
@@ -70,6 +70,20 @@ static unsigned char CBM2keys[] = {
   0x54, 0xff, 0xff, 0xff
 };
 
+static unsigned char CBM2shifted[KEYMAP_ENTRIES];
+static unsigned char CBM2norm_sflag[KEYMAP_ENTRIES/8];
+static unsigned char CBM2shift_sflag[KEYMAP_ENTRIES/8];
+
+static const char CBM2keyfile[] = "Vice:CBM-II.ROdflt/vkm";
+
+static keymap_t CBM2keys = {
+  CBM2keyfile,
+  CBM2norm,
+  CBM2shifted,
+  CBM2norm_sflag,
+  CBM2shift_sflag
+};
+
 
 
 /* CBM2 keyboard names */
@@ -91,10 +105,16 @@ int c610_ui_init(void)
 {
   CBM2ModelName = "610";
 
-  kbd_init_keymap(2);
-  kbd_add_keymap(CBM2keys, 0); kbd_add_keymap(CBM2keys, 1);
-
   return ui_init_named_app("ViceCBM2", "!vicecbm2");
+}
+
+int c610_kbd_init(void)
+{
+  kbd_default_keymap(&CBM2keys);
+  kbd_init_keymap(2);
+  kbd_add_keymap(&CBM2keys, 0); kbd_add_keymap(&CBM2keys, 1);
+  kbd_load_keymap(NULL, 0);
+  return kbd_init();
 }
 
 

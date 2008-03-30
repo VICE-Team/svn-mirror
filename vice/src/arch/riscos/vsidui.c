@@ -1,8 +1,8 @@
 /*
- * c128ui.c - Implementation of the C128-specific part of the UI.
+ * vsidui.c - UI for sidplayer
  *
  * Written by
- *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+ *  Andreas Dehmel (dehmel@forwiss.tu-muenchen)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,39 +24,16 @@
  *
  */
 
-#include "ROlib.h"
-#include "ui.h"
-#include "c128ui.h"
-#include "c64ui.h"
-#include "c64c128ui.h"
-#include "kbd.h"
+#include "vsidui.h"
 
-
-
-
-char *WimpTaskName = "Vice C128";
-
-static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
-
-
-int c128_ui_init(void)
+int vsid_ui_init(void)
 {
-  return ui_init_named_app("Vice128", "!vice128");
-}
-
-int c128_kbd_init(void)
-{
-  c64c128_ui_init_keyboard(C128keyfile);
-  kbd_load_keymap(NULL, 0);
-  return kbd_init();
+  return 0;
 }
 
 
-
-void cartridge_detach_image(void)
+int vsid_ui_exit(void)
 {
+  return 0;
 }
 
-void cartridge_trigger_freeze(void)
-{
-}

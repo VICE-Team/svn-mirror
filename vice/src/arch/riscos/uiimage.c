@@ -57,6 +57,7 @@ static int NumberOfLines;
 static int PosCol2, PosCol3;
 static int WindowWidth;
 static int MarkedLine;
+static int OStoMpts;
 
 static const int FontSizeX = 12;
 static const int FontSizeY = 12;
@@ -66,7 +67,9 @@ static const int MaxWindowHeight = 512;
 static const int BackgroundColour = 0xeeeeee00;
 static const int ForegroundColour = 0x00000000;
 
-static int OStoMpts;
+static const char FontName[] = "corpus.medium";
+static const char FontNameEm[] = "corpus.bold";
+
 
 
 
@@ -89,14 +92,14 @@ static int setup_window(const char *title)
     int resx, resy;
 
     resx = 0; resy = 0;
-    FontHandle = Font_FindFont("corpus.medium", FontSizeX << 4, FontSizeY << 4, &resx, &resy);
+    FontHandle = Font_FindFont(FontName, FontSizeX << 4, FontSizeY << 4, &resx, &resy);
   }
   if (FontHandleEm < 0)
   {
     int resx, resy;
 
     resx = 0; resy = 0;
-    FontHandleEm = Font_FindFont("corpus.bold", FontSizeX << 4, FontSizeY << 4, &resx, &resy);
+    FontHandleEm = Font_FindFont(FontNameEm, FontSizeX << 4, FontSizeY << 4, &resx, &resy);
   }
 
   /* Scan size */
@@ -274,6 +277,10 @@ void ui_image_contents_redraw(int *block)
   }
   while (more != 0)
   {
+    ColourTrans_SetGCOL(BackgroundColour, 0x100, 0);
+    OS_Plot(0x04, block[RedrawB_VMinX], block[RedrawB_VMinY]);
+    OS_Plot(0x65, block[RedrawB_VMaxX], block[RedrawB_VMaxY]);
+
     if (contents != NULL)
     {
       int lineoff, bottom;
@@ -281,10 +288,6 @@ void ui_image_contents_redraw(int *block)
       image_contents_file_list_t *file;
       char buffer[256];
       char *name;
-
-      ColourTrans_SetGCOL(BackgroundColour, 0x100, 0);
-      OS_Plot(0x04, block[RedrawB_VMinX], block[RedrawB_VMinY]);
-      OS_Plot(0x65, block[RedrawB_VMaxX], block[RedrawB_VMaxY]);
 
       lineoff = (block[RedrawB_VMaxY] - block[RedrawB_ScrollY] - block[RedrawB_CMaxY] - WindowBorder);
       if (lineoff < 0) lineoff = 0;

@@ -35,9 +35,29 @@
 
 char *WimpTaskName = "Vice C64";
 
+static const char C64keyfile[] = "Vice:C64.ROdflt/vkm";
+
 
 int c64_ui_init(void)
 {
-  c64c128_ui_init_keyboard();
   return ui_init_named_app("Vice64", "!vice64");
+}
+
+int c64_kbd_init(void)
+{
+  c64c128_ui_init_keyboard(C64keyfile);
+  kbd_load_keymap(NULL, 0);
+  return kbd_init();
+}
+
+
+int vsid_ui_init(void)
+{
+  return 0;
+}
+
+
+int vsid_ui_exit(void)
+{
+  return 0;
 }

@@ -31,17 +31,32 @@
 #include "types.h"
 #include "ROlib.h"
 
+
+#define KEYMAP_ENTRIES	128
+
+typedef struct keymap_t {
+  const char *default_file;
+  unsigned char *normal;
+  unsigned char *shifted;
+  unsigned char *norm_sflag;
+  unsigned char *shift_sflag;
+} keymap_t;
+
 extern BYTE joystick_value[3];
 
 extern Joy_Keys JoystickKeys[2];
 extern int kbd_update_joykeys(int port);
 
 extern void kbd_init_keymap(int number);
-extern int  kbd_add_keymap(unsigned char *map, int number);
+extern int  kbd_add_keymap(keymap_t *map, int number);
+extern int  kbd_default_keymap(keymap_t *map);
+extern int kbd_load_keymap(const char *filename, int number);
+extern int kbd_dump_keymap(const char *filename, int number);
 
 extern int kbd_init(void);
 extern int kbd_init_resources(void);
 extern int kbd_init_cmdline_options(void);
+extern const char *kbd_intkey_to_string(int intkey);
 
 extern void kbd_poll(void);
 

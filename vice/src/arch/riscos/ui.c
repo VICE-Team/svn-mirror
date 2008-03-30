@@ -41,6 +41,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "fsdevice.h"
+#include "info.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
@@ -55,6 +56,7 @@
 #include "tape.h"
 #include "ui.h"
 #include "uiimage.h"
+#include "uimsgwin.h"
 #include "utils.h"
 #include "vicii.h"
 #include "vsync.h"
@@ -95,6 +97,7 @@ static const char ResourceDriveDir[] = "DRIVES";
 
 
 #define RSETARCH_EXT	"vra"
+#define KEYMAP_EXT	"vkm"
 
 
 
@@ -275,6 +278,8 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_ROMAction	46
 #define Icon_Conf_FullScreen	48
 #define Icon_Conf_SetPalette	49
+#define Icon_Conf_Keyboard	50
+#define Icon_Conf_KeyboardT	51
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -339,7 +344,6 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define DRAG_TYPE_SNAPSHOT	4
 #define DRAG_TYPE_VOLUME	5
 #define DRAG_TYPE_SAVEBOX	6
-
 
 
 
@@ -605,6 +609,7 @@ char *ROMSetName = NULL;
 char *ROMSetArchiveFile = NULL;
 
 char ROMSetItemFile[256];
+char SystemKeymapFile[256];
 
 /* Mode changes */
 int FrameBufferUpdate = 0;
@@ -635,6 +640,7 @@ RO_Window *SnapshotWindow;
 RO_Window *CpuJamWindow;
 RO_Window *SaveBox;
 RO_Window *ImgContWindow;
+RO_Window *MessageWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
 
 #define TitleBarOffset	40
@@ -699,42 +705,6 @@ static char *SymbolStrings[] = {
 
 
 
-
-/* Lookup table internal keynumbers to descriptive strings */
-static const char *IntKeyToString[128] = {
-  "Shft", "Ctrl", "Alt", "ShftL",
-  "CtrlL", "AltL", "ShftR", "CtrlR",
-  "AltR", "Slct", "Menu", "Adjst",
-  NULL, NULL, NULL, NULL,
-  "q", "3", "4", "5",
-  "F4", "8", "F7", "-",
-  "6", "Left", "num6", "num7",
-  "F11", "F12", "F10", "ScLck",
-  "Prnt", "w", "e", "t",
-  "7", "i", "9", "0",
-  "-", "Down", "num8", "num9",
-  "Brk", "`", "£", "Del",
-  "1", "2", "d", "r",
-  "6", "u", "o", "p",
-  "[", "Up", "num+", "num-",
-  "nmEnt", "Isrt", "Home", "PgUp",
-  "CpLck", "a", "x", "f",
-  "y", "j", "k", "2",
-  ";", "Ret", "num/", NULL,
-  "num.", "nmLck", "PgDwn", "\'",
-  NULL, "s", "c", "g",
-  "h", "n", "l", ";",
-  "]", "Del", "num#", "num*",
-  NULL, "=", "Extra", NULL,
-  "Tab", "z", "Space", "v",
-  "b", "m", ",", ".",
-  "/", "Copy", "num0", "num1",
-  "num3", NULL, NULL, NULL,
-  "Esc", "F1", "F2", "F3",
-  "F5", "F6", "F8", "F9",
-  "\\", "Right", "num4", "num5",
-  "num2", NULL, NULL, NULL
-};
 
 static Joy_Keys JoyToIcon[2] = {
   {Icon_Conf_JoyKey1U, Icon_Conf_JoyKey1D, Icon_Conf_JoyKey1L, Icon_Conf_JoyKey1R, Icon_Conf_JoyKey1F},
@@ -811,12 +781,15 @@ static struct MenuDatasette {
 };
 
 /* Icon bar menu */
-#define Menu_IBar_Items		4
+#define Menu_IBar_Items		7
 #define Menu_IBar_Width		200
 #define Menu_IBar_Info		0
-#define Menu_IBar_Configure	1
-#define Menu_IBar_FullScreen	2
-#define Menu_IBar_Quit		3
+#define Menu_IBar_License	1
+#define Menu_IBar_Warranty	2
+#define Menu_IBar_Contrib	3
+#define Menu_IBar_Configure	4
+#define Menu_IBar_FullScreen	5
+#define Menu_IBar_Quit		6
 static struct MenuIconBar {
   RO_MenuHead head;
   RO_MenuItem item[Menu_IBar_Items];
@@ -824,6 +797,9 @@ static struct MenuIconBar {
   MENU_HEADER("foo", Menu_IBar_Width),
   {
     MENU_ITEM("\\MenIBInfo"),
+    MENU_ITEM("\\MenIBLicns"),
+    MENU_ITEM("\\MenIBWrnty"),
+    MENU_ITEM("\\MenIBCntrb"),
     MENU_ITEM_SUB("\\MenIBConf", &MenuConfigure),
     MENU_ITEM("\\MenIBFull"),
     MENU_ITEM_LAST("\\MenIBQuit")
@@ -1686,6 +1662,20 @@ static struct MenuRomAction {
   }
 };
 
+#define Menu_SysKbd_Items	2
+#define Menu_SysKbd_Width	200
+#define Menu_SysKbd_Save	0
+#define Menu_SysKbd_LoadDef	1
+static struct MenuSysKeyboard {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_SysKbd_Items];
+} MenuSysKeyboard = {
+  MENU_HEADER("\\MenKbdT", Menu_SysKbd_Width),
+  {
+    {MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, {"\\MenKbdSav"}},
+    MENU_ITEM_LAST("\\MenKbdLd")
+  }
+};
 
 
 #define CONF_MENU_PRNTDEV	0
@@ -1728,6 +1718,7 @@ static struct MenuRomAction {
 #define CONF_MENU_JOYDEV2	37
 #define CONF_MENU_ROMSET	38
 #define CONF_MENU_ROMACT	39
+#define CONF_MENU_SYSKBD	40
 
 /* Config Menus */
 static menu_icon ConfigMenus[] = {
@@ -1811,6 +1802,8 @@ static menu_icon ConfigMenus[] = {
     {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}},		/* 38 */
   {(RO_MenuHead*)&MenuRomAction, NULL,
     {CONF_WIN_SYSTEM, Icon_Conf_ROMAction}},		/* 39 */
+  {(RO_MenuHead*)&MenuSysKeyboard, NULL,
+    {CONF_WIN_SYSTEM, Icon_Conf_Keyboard}},		/* 40 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -2921,6 +2914,14 @@ static int ui_check_save_sbox(const char *name)
       }
       return 0;
     }
+    if (LastMenu == CONF_MENU_SYSKBD + 0x100)
+    {
+      if (kbd_dump_keymap(name, -1) == 0)
+      {
+        wimp_strcpy(SystemKeymapFile, name);
+        Wimp_CreateMenu((int*)-1, 0, 0);
+      }
+    }
   }
   return -1;
 }
@@ -3203,6 +3204,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("CPUJamBox", &CpuJamWindow, msg);
     ui_load_template("SaveBox", &SaveBox, msg);
     ui_load_template("ImageCont", &ImgContWindow, msg);
+    ui_load_template("MsgWindow", &MessageWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -3241,11 +3243,13 @@ int ui_init(int *argc, char *argv[])
   dat = &(MenuRomActName.item[0].dat.ind);
   dat->tit = (int*)NewRomSetName; dat->val = (int*)-1; dat->len = sizeof(NewRomSetName);
   NewRomSetName[0] = '\0';
+  MenuSysKeyboard.item[Menu_SysKbd_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
   MenuTrueSync.item[Menu_TrueSync_Custom].iflags |= IFlg_Indir;
   dat = &(MenuTrueSync.item[Menu_TrueSync_Custom].dat.ind);
   dat->tit = (int*)TrueSyncCustomField; dat->val = (int*)-1; dat->len = sizeof(TrueSyncCustomField);
   TrueSyncCustomField[0] = '\0';
   sprintf(ROMSetItemFile, "rset/"RSETARCH_EXT);
+  sprintf(SystemKeymapFile, "ROdflt/"KEYMAP_EXT);
 
   EmuPaused = 0; LastCaret.WHandle = -1;
   SoundVolume = Sound_Volume(0);
@@ -3466,11 +3470,11 @@ static void ui_setup_config_window(int wnum)
         for (i=0; i<2; i++)
         {
           jk = JoystickKeys + i;
-          wimp_window_write_icon_text(w, JoyToIcon[i].up, IntKeyToString[jk->up]);
-          wimp_window_write_icon_text(w, JoyToIcon[i].down, IntKeyToString[jk->down]);
-          wimp_window_write_icon_text(w, JoyToIcon[i].left, IntKeyToString[jk->left]);
-          wimp_window_write_icon_text(w, JoyToIcon[i].right, IntKeyToString[jk->right]);
-          wimp_window_write_icon_text(w, JoyToIcon[i].fire, IntKeyToString[jk->fire]);
+          wimp_window_write_icon_text(w, JoyToIcon[i].up, kbd_intkey_to_string(jk->up));
+          wimp_window_write_icon_text(w, JoyToIcon[i].down, kbd_intkey_to_string(jk->down));
+          wimp_window_write_icon_text(w, JoyToIcon[i].left, kbd_intkey_to_string(jk->left));
+          wimp_window_write_icon_text(w, JoyToIcon[i].right, kbd_intkey_to_string(jk->right));
+          wimp_window_write_icon_text(w, JoyToIcon[i].fire, kbd_intkey_to_string(jk->fire));
         }
       }
       break;
@@ -3711,6 +3715,10 @@ static void ui_redraw_window(int *b)
   {
     ui_image_contents_redraw(b);
   }
+  else if (b[RedrawB_Handle] == MessageWindow->Handle)
+  {
+    ui_message_window_redraw(b);
+  }
   else
   {
     more = Wimp_RedrawWindow(b);
@@ -3757,6 +3765,10 @@ static void ui_close_window(int *b)
   else if (b[WindowB_Handle] == ImgContWindow->Handle)
   {
     ui_image_contents_close();
+  }
+  else if (b[WindowB_Handle] == MessageWindow->Handle)
+  {
+    ui_message_window_close();
   }
   else
   {
@@ -4375,7 +4387,7 @@ static void ui_user_drag_box(int *b)
         if (h == ConfWindows[i]->Handle) {h = 0; break;}
       }
 
-      if ((canvas_for_handle(h) != NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != 0))
+      if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (h != MessageWindow->Handle))
       {
         char *name;
 
@@ -4436,7 +4448,7 @@ static int ui_poll_joystick_window(int icon)
       if (*dest != (unsigned char)code)
       {
         *dest = (unsigned char)code;
-        if ((b = IntKeyToString[code]) != NULL)
+        if ((b = kbd_intkey_to_string(code)) != NULL)
         {
           wimp_window_write_icon_text(ConfWindows[CONF_WIN_JOY], icon, b);
         }
@@ -4702,6 +4714,15 @@ static void ui_menu_selection(int *b)
       menu = (int*)&MenuIconBar;
       switch (b[0])
       {
+        case Menu_IBar_License:
+          ui_message_window_open("Vice License", license_text);
+          break;
+        case Menu_IBar_Warranty:
+          ui_message_window_open("Vice Warranty", warranty_text);
+          break;
+        case Menu_IBar_Contrib:
+          ui_message_window_open("Vice Contributors", contrib_text);
+          break;
         case Menu_IBar_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
           break;
@@ -5053,6 +5074,15 @@ static void ui_menu_selection(int *b)
           default: break;
         }
         break;
+      case CONF_MENU_SYSKBD:
+        switch (b[0])
+        {
+          case Menu_SysKbd_LoadDef:
+            kbd_load_keymap(NULL, -1);
+            break;
+          default:
+            break;
+        }
       default:
         break;
     }
@@ -5302,6 +5332,11 @@ static void ui_user_message(int *b)
           else if (b[10] == FileType_Text)
           {
             if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
+            else if ((b[6] == Icon_Conf_Keyboard) || (b[6] == Icon_Conf_KeyboardT))
+            {
+              kbd_load_keymap(name, -1);
+              action = 1;
+            }
             /* Check extension */
             else
             {
@@ -5315,6 +5350,12 @@ static void ui_user_message(int *b)
                 {
                   romset_load_archive(name, 0);
                   ui_build_romset_menu();
+                  action = 1;
+                }
+                else if (wimp_strcmp(ext, KEYMAP_EXT) == 0)
+                {
+                  kbd_load_keymap(name, -1);
+                  action = 1;
                 }
               }
             }
@@ -5404,13 +5445,19 @@ static void ui_user_message(int *b)
             }
             break;
           case DRAG_TYPE_SAVEBOX:
-            if ((ROMSetName != NULL) && (romset_save_item(name, ROMSetName) == 0))
+            if (LastMenu == CONF_MENU_ROMACT + 0x100)
             {
+              if ((ROMSetName == NULL) || (romset_save_item(name, ROMSetName) != 0)) break;
               wimp_strcpy(ROMSetItemFile, name);
-              b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
-              Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-              Wimp_CreateMenu((int*)-1, 0, 0);
             }
+            else if (LastMenu == CONF_MENU_SYSKBD + 0x100)
+            {
+              if (kbd_dump_keymap(name, -1) != 0) break;
+              wimp_strcpy(SystemKeymapFile, name);
+            }
+            b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+            Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+            Wimp_CreateMenu((int*)-1, 0, 0);
             break;
           default: break;
         }
@@ -5421,6 +5468,10 @@ static void ui_user_message(int *b)
       if (LastMenu == CONF_MENU_ROMACT + 0x100)
       {
         wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ROMSetItemFile);
+      }
+      else if (LastMenu == CONF_MENU_SYSKBD + 0x100)
+      {
+        wimp_window_write_icon_text(SaveBox, Icon_Save_Path, SystemKeymapFile);
       }
       Wimp_CreateSubMenu((int*)(b[5]), b[6], b[7]);
       break;
@@ -5726,6 +5777,7 @@ void ui_exit(void)
   video_free();
   sound_close();
   ui_image_contents_exit();
+  ui_message_window_exit();
   log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
   wimp_icon_delete(&IBarIcon);
   Wimp_CloseDown(TaskHandle, TASK_WORD);

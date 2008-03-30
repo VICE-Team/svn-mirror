@@ -40,7 +40,7 @@ char *WimpTaskName = "Vice PET";
 
 
 /* Modified PET keymap */
-static unsigned char PETkeysBusiness[] = {
+static unsigned char PETnormBusiness[KEYMAP_ENTRIES] = {
   0x60, 0x20, 0xff, 0x60,	/* 0 */
   0x20, 0xff, 0x66, 0x20,	/* 4 */
   0xff, 0xff, 0xff, 0xff,	/* 8 */
@@ -75,7 +75,21 @@ static unsigned char PETkeysBusiness[] = {
   0x77, 0xff, 0xff, 0xff	/* 124 */
 };
 
-static unsigned char PETkeysGraphic[] = {
+static unsigned char PETshiftBusiness[KEYMAP_ENTRIES];
+static unsigned char PETnormB_sflags[KEYMAP_ENTRIES/8];
+static unsigned char PETshiftB_sflags[KEYMAP_ENTRIES/8];
+static const char PETnormfile[] = "Vice:PET.RObusi/vkm";
+
+static keymap_t PETkeysBusiness = {
+  PETnormfile,
+  PETnormBusiness,
+  PETshiftBusiness,
+  PETnormB_sflags,
+  PETshiftB_sflags
+};
+
+
+static unsigned char PETnormGraphic[KEYMAP_ENTRIES] = {
   0x80, 0x94, 0xff, 0x80,	/* 0 */
   0x94, 0xff, 0x85, 0x94,	/* 4 */
   0xff, 0xff, 0xff, 0xff,	/* 8 */
@@ -110,6 +124,20 @@ static unsigned char PETkeysGraphic[] = {
   0xff, 0xff, 0xff, 0xff	/* 124 */
 };
 
+static unsigned char PETshiftGraphic[KEYMAP_ENTRIES];
+static unsigned char PETnormG_sflags[KEYMAP_ENTRIES/8];
+static unsigned char PETshiftG_sflags[KEYMAP_ENTRIES/8];
+static const char PETgrphfile[] = "Vice:PET.ROgrph/vkm";
+
+static keymap_t PETkeysGraphic = {
+  PETgrphfile,
+  PETnormGraphic,
+  PETshiftGraphic,
+  PETnormG_sflags,
+  PETshiftG_sflags
+};
+
+
 /* PET keyboard names */
 static char PETkeyBusinessName[] = "Business";
 static char PETkeyGraphicName[] = "Graphic";
@@ -129,10 +157,19 @@ int pet_ui_init(void)
 {
   PetModelName = "8032";
 
-  kbd_init_keymap(4);
-  kbd_add_keymap(PETkeysBusiness, 0); kbd_add_keymap(PETkeysBusiness, 1);
-  kbd_add_keymap(PETkeysGraphic, 2); kbd_add_keymap(PETkeysGraphic, 3);
   return ui_init_named_app("VicePET", "!vicepet");
+}
+
+int pet_kbd_init(void)
+{
+  kbd_default_keymap(&PETkeysBusiness);
+  kbd_default_keymap(&PETkeysGraphic);
+  kbd_init_keymap(4);
+  kbd_add_keymap(&PETkeysBusiness, 0); kbd_add_keymap(&PETkeysBusiness, 1);
+  kbd_add_keymap(&PETkeysGraphic, 2); kbd_add_keymap(&PETkeysGraphic, 3);
+  kbd_load_keymap(NULL, 0);
+  kbd_load_keymap(NULL, 2);
+  return kbd_init();
 }
 
 

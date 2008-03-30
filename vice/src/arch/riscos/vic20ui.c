@@ -37,7 +37,7 @@
 char *WimpTaskName = "Vice VIC20";
 
 
-static unsigned char VICkeys[] = {
+static unsigned char VICnorm[KEYMAP_ENTRIES] = {
   0x13, 0x02, 0x05, 0x13,	/* 0 */
   0x02, 0x05, 0x64, 0x02,	/* 4 */
   0x05, 0xff, 0xff, 0xff,	/* 8 */
@@ -72,12 +72,33 @@ static unsigned char VICkeys[] = {
   0xff, 0xff, 0xff, 0xff	/* 124 */
 };
 
+static unsigned char VICshifted[KEYMAP_ENTRIES];
+static unsigned char VICnorm_sflags[KEYMAP_ENTRIES/8];
+static unsigned char VICshift_sflags[KEYMAP_ENTRIES/8];
+
+static const char VICkeyfile[] = "Vice:VIC20.ROdflt/vkm";
+
+static keymap_t VIC20keys = {
+  VICkeyfile,
+  VICnorm,
+  VICshifted,
+  VICnorm_sflags,
+  VICshift_sflags
+};
+
 
 int vic20_ui_init(void)
 {
-  kbd_init_keymap(2);
-  kbd_add_keymap(VICkeys, 0); kbd_add_keymap(VICkeys, 1);
   return ui_init_named_app("ViceVIC", "!vicevic");
+}
+
+int vic20_kbd_init(void)
+{
+  kbd_default_keymap(&VIC20keys);
+  kbd_init_keymap(2);
+  kbd_add_keymap(&VIC20keys, 0); kbd_add_keymap(&VIC20keys, 1);
+  kbd_load_keymap(NULL, 0);
+  return kbd_init();
 }
 
 
