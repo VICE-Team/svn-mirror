@@ -93,10 +93,11 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-@HAVE_RESID_TRUE@libc64_a_LIBADD = resid.o
-@HAVE_RESID_TRUE@libc64c128_a_LIBADD = resid.o
-@HAVE_RESID_FALSE@libc64_a_LIBADD =
-@HAVE_RESID_FALSE@libc64c128_a_LIBADD =
+@HAVE_RESID_TRUE@resid_libadd = resid.o
+@HAVE_RESID_FALSE@resid_libadd =
+
+@HAVE_RS232_TRUE@acia_libadd = c64acia1.o rsuser.o
+@HAVE_RS232_FALSE@acia_libadd =
 
 SUFFIXES = .def
 
@@ -112,9 +113,6 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
-	c64acia.h \
-	c64acia1.c \
-	c64acia1.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -128,8 +126,6 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
-	rsuser.c \
-	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -144,9 +140,6 @@ libc64_a_SOURCES = \
 	wave8580.h
 
 libc64c128_a_SOURCES = \
-	c64acia.h \
-	c64acia1.c \
-	c64acia1.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -156,8 +149,6 @@ libc64c128_a_SOURCES = \
 	c64iec.h \
 	patchrom.c \
 	patchrom.h \
-	rsuser.c \
-	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -171,9 +162,31 @@ libc64c128_a_SOURCES = \
 	wave6581.h \
 	wave8580.h
 
-BUILT_SOURCES = c64cia1.c c64cia2.c
-EXTRA_libc64_a_SOURCES = resid.cc resid.h
-EXTRA_libc64c128_a_SOURCES = resid.cc resid.h
+BUILT_SOURCES = \
+	c64acia1.c \
+	c64cia1.c \
+	c64cia2.c
+
+EXTRA_libc64_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	resid.cc \
+	resid.h \
+	rsuser.c \
+	rsuser.h
+
+EXTRA_libc64c128_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	resid.cc \
+	resid.h \
+	rsuser.c \
+	rsuser.h
+
+libc64_a_LIBADD = $(resid_libadd) $(acia_libadd)
+libc64c128_a_LIBADD = $(resid_libadd) $(acia_libadd)
 
 c64dir = $(top_srcdir)/src/c64
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -188,14 +201,18 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+@HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RESID_TRUE@libc64_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libc64_a_DEPENDENCIES = 
-libc64_a_OBJECTS =  c64.o c64acia1.o c64cia1.o c64cia2.o c64iec.o \
-c64mem.o patchrom.o reu.o rsuser.o sid.o c64tpi.o vicii.o
+@HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o rsuser.o
+libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64iec.o c64mem.o \
+patchrom.o reu.o sid.o c64tpi.o vicii.o
+@HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RESID_TRUE@libc64c128_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libc64c128_a_DEPENDENCIES = 
-libc64c128_a_OBJECTS =  c64acia1.o c64cia1.o c64cia2.o c64iec.o \
-patchrom.o rsuser.o sid.o c64tpi.o vicii.o
+@HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o rsuser.o
+libc64c128_a_OBJECTS =  c64cia1.o c64cia2.o c64iec.o patchrom.o sid.o \
+c64tpi.o vicii.o
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 CXXLINK = $(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@

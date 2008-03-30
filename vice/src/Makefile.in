@@ -77,7 +77,6 @@ MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 PERL = @PERL@
 RANLIB = @RANLIB@
-READLINE = @READLINE@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
@@ -90,6 +89,12 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
+
+@NEED_READLINE_TRUE@READLINE = @READLINE@
+@NEED_READLINE_FALSE@READLINE =
+
+@HAVE_PRINTER_TRUE@printer_ldadd = pruser.o prdevice.o
+@HAVE_PRINTER_FALSE@printer_ldadd =
 
 ARCH_LIBS = @ARCH_LIBS@
 
@@ -138,8 +143,6 @@ noinst_HEADERS = \
 	op.h \
 	palette.h \
 	parallel.h \
-	prdevice.h \
-	pruser.h \
 	print.h \
 	printer.h \
 	raster.h \
@@ -184,8 +187,6 @@ base_sources = \
 	mshell.c \
 	palette.c \
 	parallel.c \
-	prdevice.c \
-	pruser.c \
 	resources.c \
 	serial.c \
 	sound.c \
@@ -201,6 +202,12 @@ base_sources = \
 maincpu_sources = \
 	maincpu.c
 
+printer_sources = \
+	prdevice.c \
+	prdevice.h \
+	pruser.c \
+	pruser.h
+
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -210,7 +217,8 @@ EXTRA_DIST = \
 	convio \
 	raster.c \
 	tpi-tmpl.c \
-	via-tmpl.c
+	via-tmpl.c \
+	$(printer_sources)
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
 
@@ -226,31 +234,31 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ @READLINE@ -lm
+        @X_LIBS@ $(READLINE) -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ @READLINE@ -lm
+	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
+	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
@@ -266,7 +274,7 @@ c1541_SOURCES = \
 	zfile.c \
 	zipcode.c
 
-c1541_LDADD = @READLINE@
+c1541_LDADD = $(READLINE)
 
 # petcat
 petcat_SOURCES = \
@@ -291,30 +299,31 @@ X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
-tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
-tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
-tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
-tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
+traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o drive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
-c1541_DEPENDENCIES = 
+@NEED_READLINE_FALSE@c1541_DEPENDENCIES = 
+@NEED_READLINE_TRUE@c1541_DEPENDENCIES = 
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o petcat.o tape.o utils.o zfile.o zipcode.o
 petcat_LDADD = $(LDADD)

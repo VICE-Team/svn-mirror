@@ -1,4 +1,12 @@
+Sat Jul 11 20:43:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.49.
+
 Fri Jul 10 09:31:14 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Fixed recursive assignment to `@ARCH_LIBS@' when
+ 	compiling for MS-DOS.  New conditionals `HAVE_RS232' and
+ 	`HAVE_PRINTER'; both are true on Unix, false on MS-DOS.
 
 	* Version 0.14.2.48.
 

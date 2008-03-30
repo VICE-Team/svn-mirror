@@ -1,9 +1,13 @@
 if HAVE_RESID
-libc64_a_LIBADD = resid.o
-libc64c128_a_LIBADD = resid.o
+resid_libadd = resid.o
 else
-libc64_a_LIBADD =
-libc64c128_a_LIBADD =
+resid_libadd =
+endif
+
+if HAVE_RS232
+acia_libadd = c64acia1.o rsuser.o
+else
+acia_libadd =
 endif
 
 SUFFIXES = .def
@@ -20,9 +24,6 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
-	c64acia.h \
-	c64acia1.c \
-	c64acia1.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -36,8 +37,6 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
-	rsuser.c \
-	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -52,9 +51,6 @@ libc64_a_SOURCES = \
 	wave8580.h
 
 libc64c128_a_SOURCES = \
-	c64acia.h \
-	c64acia1.c \
-	c64acia1.def \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \
@@ -64,8 +60,6 @@ libc64c128_a_SOURCES = \
 	c64iec.h \
 	patchrom.c \
 	patchrom.h \
-	rsuser.c \
-	rsuser.h \
 	sid.c \
 	sid.h \
 	sprcrunch.h \
@@ -79,9 +73,31 @@ libc64c128_a_SOURCES = \
 	wave6581.h \
 	wave8580.h
 
-BUILT_SOURCES = c64cia1.c c64cia2.c
-EXTRA_libc64_a_SOURCES = resid.cc resid.h
-EXTRA_libc64c128_a_SOURCES = resid.cc resid.h
+BUILT_SOURCES = \
+	c64acia1.c \
+	c64cia1.c \
+	c64cia2.c
+
+EXTRA_libc64_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	resid.cc \
+	resid.h \
+	rsuser.c \
+	rsuser.h
+
+EXTRA_libc64c128_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
+	c64acia1.def \
+	resid.cc \
+	resid.h \
+	rsuser.c \
+	rsuser.h
+
+libc64_a_LIBADD = $(resid_libadd) $(acia_libadd)
+libc64c128_a_LIBADD = $(resid_libadd) $(acia_libadd)
 
 c64dir = $(top_srcdir)/src/c64
 

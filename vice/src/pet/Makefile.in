@@ -325,9 +325,9 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/parallel.h ../../src/types.h ../c64/sid.h \
 	../../src/sound.h ../../src/warn.h ../../src/arch/unix/kbd.h \
 	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/pruser.h petvia.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h petvia.h \
+	../../src/pruser.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h
 pia.o: pia.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/mem.h \
 	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
