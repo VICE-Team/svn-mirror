@@ -1,10 +1,8 @@
 /*
- * misc.h - Miscellaneous functions for debugging.
+ * log.h - Logging facility.
  *
  * Written by
- *  Vesa-Matti Puro (vmp@lut.fi)
- *  Jarkko Sonninen (sonninen@lut.fi)
- *  Jouko Valta     (jopi@stekt.oulu.fi)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,16 +24,21 @@
  *
  */
 
-#ifndef X64_MISC_H
-#define X64_MISC_H
+#ifndef _LOG_H
+#define _LOG_H
 
-#include "types.h"
+typedef int log_t;
+#define LOG_ERR     ((log_t)-1)
+#define LOG_DEFAULT ((log_t)-2)
 
+int log_init_resources(void);
+int log_init_cmdline_options(void);
+int log_init(void);
+log_t log_open(const char *id);
+int log_close(log_t log);
+int log_message(log_t log, const char *format, ...);
+int log_warning(log_t log, const char *format, ...);
+int log_error(log_t log, const char *format, ...);
+int log_debug(const char *format, ...);
 
-extern void    show ( void );
-extern char   *sprint_binary ( BYTE code );
-extern char   *sprint_ophex ( ADDRESS p);
-extern char   *sprint_opcode ( ADDRESS counter, int base );
-extern char   *sprint_disassembled ( ADDRESS counter, BYTE x, BYTE p1, BYTE p2, int base );
-
-#endif  /* X64_MISC_H */
+#endif

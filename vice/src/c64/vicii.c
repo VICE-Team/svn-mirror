@@ -71,6 +71,7 @@
 #include "c64cia.h"
 #include "cmdline.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -203,6 +204,9 @@ static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
 
 /* Flag: Are the C128 extended keyboard rows enabled?  */
 static int extended_keyboard_rows_enabled;
+
+/* All the VIC-II logging goes here.  */
+static log_t vic_ii_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -345,19 +349,19 @@ int vic_ii_init_cmdline_options(void)
 /* #define VIC_II_REGISTERS_DEBUG */
 
 #ifdef VIC_II_VMODE_DEBUG
-#define DEBUG_VMODE(x)		printf x
+#define DEBUG_VMODE(x)		log_debug x
 #else
 #define DEBUG_VMODE(x)
 #endif
 
 #ifdef VIC_II_RASTER_DEBUG
-#define DEBUG_RASTER(x) 	printf x
+#define DEBUG_RASTER(x) 	log_debug x
 #else
 #define DEBUG_RASTER(x)
 #endif
 
 #ifdef VIC_II_REGISTERS_DEBUG
-#define DEBUG_REGISTER(x)	printf x
+#define DEBUG_REGISTER(x)	log_debug x
 #else
 #define DEBUG_REGISTER(x)
 #endif
@@ -663,7 +667,8 @@ canvas_t vic_ii_init(void)
         return NULL;
 
     if (palette_load(palette_file_name, palette) < 0) {
-        fprintf(logfile, "Cannot load palette file `%s'.\n", palette_file_name);
+        log_message(vic_ii_log, "Cannot load palette file `%s'.",
+                    palette_file_name);
         return NULL;
     }
 
@@ -674,8 +679,7 @@ canvas_t vic_ii_init(void)
 			    - VIC_II_FIRST_DISPLAYED_LINE),
 			   palette,
 			   ((canvas_redraw_t)vic_ii_exposure_handler))) {
-	fprintf(errfile,
-		"fatal error: can't open window for the VIC-II emulation.\n");
+	log_error(vic_ii_log, "Cannot open window for the VIC-II emulation.");
 	return NULL;
     }
     display_ystart = VIC_II_25ROW_START_LINE;
@@ -703,6 +707,9 @@ void vic_ii_enable_extended_keyboard_rows(int flag)
 /* Reset the VIC-II chip. */
 void reset_vic_ii(void)
 {
+    if (vic_ii_log == LOG_ERR)
+        vic_ii_log = log_open("VIC-II");
+
     reset_raster();
 
     vic_ii_draw_clk = DRAW_CYCLE;
@@ -1806,8 +1813,9 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 	    DEBUG_REGISTER(("\tSprite-background collision mask: $%02X\n",
 			    vic[addr]));
 #if defined (DEBUG_SB_COLLISIONS)
-	    fprintf(logfile, "VIC: sb_collmask reset by $D01F read at line 0x%X.\n",
-		   RASTER_Y);
+	    log_message(vic_ii_log,
+                        "sb_collmask reset by $D01F read at line 0x%X.",
+                        RASTER_Y);
 #endif
 	    return vic[addr];
 	} else {
@@ -3998,8 +4006,8 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(errfile,
-                "VIC-II: Snapshot module version (%d.%d) newer than %d.%d.\n",
+        log_error(vic_ii_log,
+                "Snapshot module version (%d.%d) newer than %d.%d.",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);
         goto fail;
@@ -4041,14 +4049,15 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
             goto fail;
 
         if (RasterCycle != (BYTE) RASTER_CYCLE) {
-            fprintf(errfile, "VIC-II: Not matching raster cycle (%d) in snapshot; should be %d.\n",
-                    RasterCycle, RASTER_CYCLE);
+            log_error(vic_ii_log,
+                      "Not matching raster cycle (%d) in snapshot; should be %d.",
+                      RasterCycle, RASTER_CYCLE);
             goto fail;
         }
 
         if (RasterLine != (WORD) RASTER_Y) {
-            fprintf(errfile, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.\n",
-                    RasterLine, RASTER_Y);
+            log_error(vic_ii_log, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
+                      RasterLine, RASTER_Y);
             goto fail;
         }
     }

@@ -35,6 +35,7 @@
 #include "cmdline.h"
 #include "mem.h"
 #include "interrupt.h"
+#include "log.h"
 #include "parallel.h"
 #include "resources.h"
 #include "vmachine.h"
@@ -82,10 +83,15 @@ typedef struct {
 static piareg  mypia;
 static int is_peek_access = 0;
 
+static log_t mypia_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 void    reset_mypia(void)
 {
+   if (mypia_log == LOG_ERR)
+       mypia_log = log_open("MYPIA");
+
    /* clear _all_ internal registers */
 
    mypia.ctrl_a = 0;	/* PIA 1 Port A Control */
@@ -137,8 +143,6 @@ void signal_mypia(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*fprintf(logfile, "signal_mypia(line=%d, edge=%d, ctrl=%02x)\n",
-						line,edge,mypia.ctrl_b);*/
 	if ( ((mypia.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    mypia.ctrl_b |= 0x80;
 	    mypia_update_irq();
@@ -159,10 +163,6 @@ void REGPARM2 store_mypia(ADDRESS addr, BYTE byte)
 {
 
     addr &= 3;
-
-#if 0
-    fprintf(logfile, "store mypia [%x] %x\n", (int) addr, (int) byte);
-#endif
 
     switch (addr) {
 
@@ -250,13 +250,6 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
     static BYTE byte = 0xff;
 
     addr &= 3;
-
-#if 0
-    fprintf(logfile, "read mypia [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
-           addr,
-           mypia.port_a, mypia.ddr_a, mypia.ctrl_a,
-           mypia.port_b, mypia.ddr_b, mypia.ctrl_b);
-#endif
 
     switch (addr) {
 
