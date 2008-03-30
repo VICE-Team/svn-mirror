@@ -1,11 +1,13 @@
 /*
- * reu.h - REU 1750 emulation.
+ * reu.h - REU emulation.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *
+ * Based on old code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,15 +37,18 @@
 struct snapshot_s;
 
 extern void reu_init(void);
-extern int reu_reset(int size);
-extern void reu_activate(void);
-extern void reu_deactivate(void);
-extern void close_reu(void);
+extern int reu_init_resources(void);
+extern int reu_init_cmdline_options(void);
+
+extern void reu_reset(void);
+extern void reu_dma(int immed);
+extern void reu_shutdown(void);
 extern BYTE REGPARM1 reu_read(ADDRESS addr);
 extern void REGPARM2 reu_store(ADDRESS addr, BYTE byte);
-extern void reu_dma(int immed);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
+
+extern int reu_enabled;
 
 #endif
 
