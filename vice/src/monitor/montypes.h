@@ -174,10 +174,6 @@ extern unsigned char data_buf[256];
 extern unsigned int data_buf_len;
 
 /* Function declarations */
-extern void mon_open(WORD a);
-extern int  mon_process(char *cmd);
-extern void mon_close(int check);
-
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
 extern void mon_display_screen(void);
