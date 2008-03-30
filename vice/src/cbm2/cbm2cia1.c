@@ -70,11 +70,15 @@
 #define mycpu_rmw_flag  maincpu_rmw_flag
 #define mycpu_int_status maincpu_int_status
 
-#define cia_set_int_clk(value,clk) \
-    tpi1_set_int(2, (value))
+static void cia_set_int_clk(int value, CLOCK clk)
+{
+    tpi1_set_int(2, value);
+}
 
-#define cia_restore_int(value) \
-    tpi1_restore_int(2, (value))
+static void cia_restore_int(int value)
+{
+    tpi1_restore_int(2, value);
+}
 
 #define mycpu_alarm_context maincpu_alarm_context
 
