@@ -325,8 +325,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     video_canvas_set_palette(canvas, palette);
 
-    canvas->exposure_handler
-        = (canvas_redraw_t)canvas->viewport->exposure_handler;
     canvas->back_page = 1;
 
     while (canvaslist[next_canvas] != NULL && next_canvas < MAX_CANVAS_NUM - 1)
@@ -453,7 +451,12 @@ void video_ack_vga_mode(void)
     if (last_canvas != NULL) {
         video_canvas_resize(last_canvas, last_canvas->width,
                             last_canvas->height);
-        last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
+
+        /* Is this necessary? */
+        last_canvas->draw_buffer->canvas_width = last_canvas->width;
+        last_canvas->draw_buffer->canvas_height = last_canvas->height;
+        video_viewport_resize(last_canvas);
+
         DEBUG(("Acknowledged vgaMode %d", vga_mode));
     }
 }
@@ -493,7 +496,10 @@ void disable_text(void)
             }
             canvas_change_palette(canvas);
 
-            canvas->exposure_handler(canvas->width, canvas->height);
+            /* Is this necessary? */
+            canvas->draw_buffer->canvas_width = canvas->width;
+            canvas->draw_buffer->canvas_height = canvas->height;
+            video_viewport_resize(canvas);
         }
     }
     
