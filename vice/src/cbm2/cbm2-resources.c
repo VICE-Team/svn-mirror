@@ -103,8 +103,7 @@ static int set_ramsize(resource_value_t v, void *param)
     ramsize = rs;
     vsync_suspend_speed_eval();
     mem_initialize_memory();
-    mem_powerup();
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     return 0;
 }
 

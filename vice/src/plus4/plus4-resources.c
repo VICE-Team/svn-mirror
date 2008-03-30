@@ -107,8 +107,7 @@ static int set_ram_size_plus4(resource_value_t v, void *param)
     ram_size_plus4 = rs;
     vsync_suspend_speed_eval();
     mem_initialize_memory();
-    mem_powerup();
-    maincpu_trigger_reset();
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     return 0;
 }
 

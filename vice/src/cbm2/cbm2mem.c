@@ -40,9 +40,8 @@
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "emuid.h"
-#include "interrupt.h"
 #include "kbdbuf.h"
-#include "maincpu.h"
+#include "machine.h"
 #include "mem.h"
 #include "monitor.h"
 #include "ram.h"
@@ -278,7 +277,7 @@ int cbm2_set_model(const char *model, void *extra)
 
         mem_powerup();
         mem_load();
-        maincpu_trigger_reset();
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
         return 0;
     }
     return -1;

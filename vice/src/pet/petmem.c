@@ -33,9 +33,8 @@
 
 #include "crtc-mem.h"
 #include "emuid.h"
-#include "interrupt.h"
 #include "log.h"
-#include "maincpu.h"
+#include "machine.h"
 #include "mem.h"
 #include "monitor.h"
 #include "pet.h"
@@ -286,7 +285,7 @@ void REGPARM2 store_super_io(WORD addr, BYTE value)
             if (!spet_ctrlwp) {
                 if (!(value & 1)) {
                     log_error(pet_mem_log, "SuperPET: 6809 not emulated!");
-                    maincpu_trigger_reset();
+                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 }
                 spet_ramwp = !(value & 0x2);
                 spet_diag = (value & 0x8);
@@ -1081,7 +1080,7 @@ int pet_set_model(const char *model_name, void *extra)
             if (pet_init_ok) {
                 /* mem_load(); - not needed as resources now load */
                 vsync_suspend_speed_eval();
-                maincpu_trigger_reset();
+                machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 pet_model = i;
             }
             return 0;
