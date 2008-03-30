@@ -66,46 +66,50 @@ extern int rom2040_loaded;
 
 #define IP_MAX_COMMAND_LEN 128 /* real 58 */
 
-errortext_t floppy_error_messages[] =
-{
-    { 0, " OK"},
-    { 1, "FILES SCRATCHED"},
-    { 2, "SELECTED PARTITION"},           /* 1581 */
-    { 3, "UNIMPLEMENTED"},
-    {20, "READ ERROR"},
-    {21, "READ ERROR"},
-    {22, "READ ERROR"},
-    {23, "READ ERROR"},
-    {24, "READ ERROR"},
-    {25, "WRITE ERROR"},
-    {26, "WRITE PROTECT ON"},
-    {27, "READ ERROR"},
-    {28, "WRITE ERROR"},
-    {29, "DISK ID MISMATCH"},
-    {30, "SYNTAX ERROR"},
-    {31, "SYNTAX ERROR"},
-    {32, "SYNTAX ERROR"},
-    {33, "SYNTAX ERROR"},
-    {34, "SYNTAX ERROR"},
-    {39, "SYNTAX ERROR"},
-    {50, "RECORD NOT RESENT"},
-    {60, "WRITE FILE OPEN"},
-    {61, "FILE NOT OPEN"},
-    {62, "FILE NOT FOUND"},
-    {63, "FILE EXISTS"},
-    {64, "FILE TYPE MISMATCH"},
-    {65, "NO BLOCK"},
-    {66, "ILLEGAL TRACK OR SECTOR"},
-    {67, "ILLEGAL SYSTEM T OR S"},
-    {70, "NO CHANNEL"},
-    {72, "DISK FULL"},
-    {73, "VIRTUAL DRIVE EMULATION V2.2"}, /* The program version */
-    {74, "DRIVE NOT READY"},
-    {77, "SELECTED PARTITION ILLEGAL"},   /* 1581 */
-    {80, "DIRECTORY NOT EMPTY"},
-    {81, "PERMISSION DENIED"},
-    {-1, 0}
+typedef struct errortext_s {
+    unsigned int nr;
+    const char *text;
+} errortext_t;
 
+static const errortext_t floppy_error_messages[] =
+{
+    {  0, " OK" },
+    {  1, "FILES SCRATCHED" },
+    {  2, "SELECTED PARTITION" },           /* 1581 */
+    {  3, "UNIMPLEMENTED" },
+    { 20, "READ ERROR" },
+    { 21, "READ ERROR" },
+    { 22, "READ ERROR" },
+    { 23, "READ ERROR" },
+    { 24, "READ ERROR" },
+    { 25, "WRITE ERROR" },
+    { 26, "WRITE PROTECT ON" },
+    { 27, "READ ERROR" },
+    { 28, "WRITE ERROR" },
+    { 29, "DISK ID MISMATCH" },
+    { 30, "SYNTAX ERROR" },
+    { 31, "SYNTAX ERROR" },
+    { 32, "SYNTAX ERROR" },
+    { 33, "SYNTAX ERROR" },
+    { 34, "SYNTAX ERROR" },
+    { 39, "SYNTAX ERROR" },
+    { 50, "RECORD NOT RESENT" },
+    { 60, "WRITE FILE OPEN" },
+    { 61, "FILE NOT OPEN" },
+    { 62, "FILE NOT FOUND" },
+    { 63, "FILE EXISTS" },
+    { 64, "FILE TYPE MISMATCH" },
+    { 65, "NO BLOCK" },
+    { 66, "ILLEGAL TRACK OR SECTOR" },
+    { 67, "ILLEGAL SYSTEM T OR S" },
+    { 70, "NO CHANNEL" },
+    { 72, "DISK FULL" },
+    { 73, "VIRTUAL DRIVE EMULATION V2.2" }, /* The program version */
+    { 74, "DRIVE NOT READY" },
+    { 77, "SELECTED PARTITION ILLEGAL" },   /* 1581 */
+    { 80, "DIRECTORY NOT EMPTY" },
+    { 81, "PERMISSION DENIED" },
+    { 255, NULL }
 };
 
 static log_t vdrive_command_log = LOG_ERR;
@@ -119,6 +123,20 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_scratch(vdrive_t *vdrive, char *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
                                    unsigned int length);
+
+const char *vdrive_command_errortext(unsigned int code)
+{
+    unsigned int count = 0;
+
+    while (floppy_error_messages[count].nr != 255
+        && floppy_error_messages[count].nr != code)
+        count++;
+
+    if (floppy_error_messages[count].nr != 255)
+        return floppy_error_messages[count].text;
+
+    return "UNKNOWN ERROR NUMBER";
+}
 
 void vdrive_command_init(void)
 {
@@ -835,7 +853,6 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
                               unsigned int sector)
 {
     const char *message = "";
-    errortext_t *e;
     static int last_code;
     bufferinfo_t *p = &vdrive->buffers[15];
 
@@ -851,14 +868,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
     last_code = code;
 
     if (code != IPE_MEMORY_READ) {
-        e = &(floppy_error_messages[0]);
-        while (e->nr >= 0 && e->nr != code)
-            e++;
-
-        if (e->nr >= 0)
-            message = e->text;
-        else
-            message = "UNKNOWN ERROR NUMBER";
+        message = vdrive_command_errortext(code);
 
         sprintf((char *)p->buffer, "%02d,%s,%02d,%02d\015",
                 code == IPE_DELETED ? vdrive->deleted_files : code,
