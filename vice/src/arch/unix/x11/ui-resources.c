@@ -45,7 +45,7 @@ typedef struct ui_resources_s ui_resources_t;
 
 static ui_resources_t ui_resources;
 
-static ui_resources_initialized = 0;
+static unsigned int ui_resources_initialized = 0;
 
 
 /* Warning: This cannot actually be changed at runtime.  */
