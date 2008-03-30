@@ -222,7 +222,6 @@ void true1541_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
 
-    printf("%s(%d)\n", __FUNCTION__, sync_factor);
     for (i = 0; i <= MAX_TICKS; i++) {
 	unsigned long tmp = i * (unsigned long)sync_factor;
 

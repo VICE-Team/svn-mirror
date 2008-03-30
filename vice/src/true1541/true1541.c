@@ -135,7 +135,6 @@ static int set_idling_method(resource_value_t v)
 
 static int set_sync_factor(resource_value_t v)
 {
-    printf(__FUNCTION__ "(%d)\n", (int) v);
     switch ((int) v) {
       case TRUE1541_SYNC_PAL:
         sync_factor = (int) v;

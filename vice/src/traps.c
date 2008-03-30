@@ -42,6 +42,12 @@
 
 /* #define DEBUG_TRAPS */
 
+#ifdef DEBUG_TRAPS
+#define DEBUG(x)        printf x
+#else
+#define DEBUG(x)
+#endif
+
 typedef struct _traplist_t {
     struct _traplist_t *next;
     const trap_t *trap;
@@ -122,8 +128,8 @@ static int install_trap(const trap_t *t)
 {
     int i;
 
-    printf("TRAPS: Patching ROM for trap `%s' at $%04X\n",
-           t->name, t->address);
+    DEBUG(("TRAPS: Patching ROM for trap `%s' at $%04X\n",
+           t->name, t->address));
 
     for (i = 0; i < 3; i++) {
 	if (read_rom(t->address + i) != t->check[i]) {
@@ -144,7 +150,7 @@ int traps_add(const trap_t *t)
     int i;
     traplist_t *p;
 
-    printf("TRAPS: Adding trap `%s' at $%04X.\n", t->name, t->address);
+    DEBUG(("TRAPS: Adding trap `%s' at $%04X.\n", t->name, t->address));
 
     p = (traplist_t *) xmalloc (sizeof (traplist_t));
     p->next = traplist;
@@ -159,7 +165,7 @@ int traps_add(const trap_t *t)
 
 static int remove_trap(const trap_t *t)
 {
-    printf("TRAPS: Removing trap `%s' at $%04X.\n", t->name, t->address);
+    DEBUG(("TRAPS: Removing trap `%s' at $%04X.\n", t->name, t->address));
 
     if (read_rom(t->address) != 0x00) {
 	printf("TRAPS: No trap `%s' installed?\n", t->name);

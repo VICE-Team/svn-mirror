@@ -284,7 +284,7 @@ static int read_resource_item(FILE *f)
     if (*buf == '\0')
 	return 1;
 
-    if (check_emu_id(buf)) {
+    if (*buf == '[') {
 	/* End of emulator-specific section.  */
 	return 0;
     }

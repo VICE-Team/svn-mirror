@@ -45,11 +45,11 @@ typedef struct _ui_menu_entry {
 extern ui_menu_entry_t ui_menu_separator[];
 
 extern int ui_menu_init(XtAppContext app_context, Display *display, int screen);
-extern Widget ui_menu_create(const char *name, ...);
 extern void ui_menu_set_sensitive(Widget w, int flag);
 extern void ui_menu_set_tick(Widget w, int flag);
 extern int ui_menu_any_open(void);
 extern void ui_menu_update_all(void);
+extern Widget ui_menu_create(const char *name, ...);
 
 /* These are the callbacks for the toggle and radio menus (the ones with a
    checkmark on the left).  If call_data is NULL, they simply set/unset the
@@ -58,7 +58,7 @@ extern void ui_menu_update_all(void);
    For this reason, to update the checkmarks, we simply have to call all the
    callbacks with a NULL `call_data' parameter.  */
 
-#define UI_MENU_DEFINE_TOGGLE(resource)					    \
+#define UI_MENU_DEFINE_TOGGLE(resource)         			    \
     static UI_CALLBACK(toggle_##resource)				    \
     {									    \
         int current_value;						    \
@@ -67,8 +67,6 @@ extern void ui_menu_update_all(void);
                                 (resource_value_t *) &current_value) < 0)   \
            return;							    \
 	if (!call_data) {						    \
-            printf("%s: Toggling resource `%s' %d -> %d\n",		    \
-                   __FUNCTION__, #resource, current_value, !current_value); \
             resources_set_value(#resource,				    \
                                 (resource_value_t) !current_value);	    \
 	    ui_update_menus();						    \
@@ -92,6 +90,26 @@ extern void ui_menu_update_all(void);
         } else {							     \
             ui_menu_set_tick(w, current_value == (int) client_data);	     \
         }								     \
+    }
+
+#define UI_MENU_DEFINE_STRING_RADIO(resource)                                \
+    static UI_CALLBACK(radio_##resource)                                     \
+    {                                                                        \
+        int current_value;                                                   \
+                                                                             \
+        resources_get_value(#resource, (resource_value_t *) &current_value); \
+        if (!call_data) {                                                    \
+            if (strcmp((const char *) current_value,                         \
+                       (const char *) client_data) != 0) {                   \
+                resources_set_value(#resource,                               \
+                                    (resource_value_t) client_data);         \
+                ui_update_menus();                                           \
+            }                                                                \
+        } else {                                                             \
+            ui_menu_set_tick(w,                                              \
+                             strcmp((const char *) current_value,            \
+                                    (const char *) client_data) == 0);       \
+        }                                                                    \
     }
 
 #endif /* _UIMENU_H */
