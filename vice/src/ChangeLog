@@ -1,3 +1,98 @@
+1998-10-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.19.
+
+	* arch/unix/xaw/uimenu.c (make_menu_label): Always return a
+	malloced string.
+
+1998-10-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c: Separated parallel cable and extend
+ 	disk entries for each drive.
+
+	* c64/c64iec.c (iec_cpu_write): Split into four functions.
+	(iec_calculate_callback_index): New function.
+	* c128/c128iec.c: Changed likewise.
+
+	* c610/c610iec.c: Added `iec_calculate_callback_index' stub.
+	* pet/petiec.c: Likewise.
+	* vic20/vic20iec.c: Likewise.
+
+	* c64/c64cia2.def (STORE_CIAPA): Changed to call IEC write
+	functions depending on `iec_callback_index'.
+	(UNDUMP_CIAPB, READ_CIAPB, READ_CIAICR): Changed to handle two
+	separate parallel cables.
+
+	* drive/drive.c: Moved parallel cable and extend disk variables
+	into struct `drive_t'.
+	(set_drive_true_emulation): Recalculate the IEC callback index.
+	(set_drive0_type, set_drive1_type, drive_disable): Likewise.
+	(set_drive_parallel_cable_enabled): Split to handle both drives
+	separately.
+	(set_extend_image_policy): Changed likewise.
+	Updated resources and command line options.
+
+	* drive/via1drive0.def (STORE_PRA, READ_PRA): Added support for
+	two separate parallel cables.
+	* drive/via1drive1.def (STORE_PRA, READ_PRA): Likewise.
+
+1998-10-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* palette.c (palette_load): Fixed memory leak.
+
+	* serial.c (serial_attach_device): If `name' is not NULL, free it.
+
+	* arch/unix/xaw/uimenu.c (ui_menu_create): Fixed memory leak (the
+	string returned by `make_menu_label()' was not being freed).
+
+	* raster.c (init_raster): Use `SCREEN_MAX_HEIGHT' for allocating
+	the frame buffer instead of `SCREEN_HEIGHT'.
+	(reset_raster): Use `SCREEN_MAX_HEIGHT' instead of `SCREEN_HEIGHT'.
+
+	* crtc-tmpl.c (crtc_read_snapshot_module): Do not read the raster
+ 	cycle/line values.
+	(crtc_write_snapshot_module): Do not save the raster cycle/line
+ 	values.
+
+	* main.c (break64): If called before initialization is finished,
+	exit without a dialog.  If it's an "interesting" signal, dump core 
+	via `abort()'.
+
+	* crtc.h: New file.
+
+	* c610/crtc.h: Removed.
+
+	* pet/crtc.h: Removed.
+
+	* crtc-tmpl.c (store_crtc) [__MSDOS__]: Handle character height.
+
+	* pet/crtc.h: Removed `#if PAL's because they are misleading.
+
+	* sid/Makefile.am (INCLUDES): Added back `@RESID_INCLUDES@'.
+
+	* c64/vicii.c (vic_ii_powerup): New function.
+	(vic_ii_init): Call it.
+
+	* arch/unix/xaw/uicommands.c (powerup_reset): Call
+ 	`machine_powerup()' instead of `mem_powerup()' and then
+ 	`maincpu_trigger_reset()'.
+	* arch/msdos/menudefs.c (hard_reset_callback): Likewise.
+	* arch/msdos/kbd.c (kbd_flush_commands): Likewise with the
+	`KCMD_HARD_RESET' command.
+
+	* c610/c610.c (machine_powerup):  New function.
+
+	* c128/c128.c (machine_powerup): New function.
+
+	* pet/pet.c (machine_powerup): New function.
+
+	* vic20/vic20.c (machine_powerup): New function.
+
+	* c64/c64.c (machine_powerup): New function.
+
+	* machine.h (machine_powerup): New function, required for all the
+ 	machines.
+
 1998-10-05  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.18.

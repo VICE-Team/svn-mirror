@@ -33,45 +33,40 @@
 #define _CRTC_H
 
 #include "vice.h"
+
+#include "snapshot.h"
 #include "types.h"
 #include "video.h"
 
-#ifdef PAL
-#define CRTC_SCREEN_HEIGHT	     312
 #define CRTC_CYCLES_PER_LINE         71
 #define CRTC_RFSH_PER_SEC            50
-#else				/* NTSC */
-#define CRTC_SCREEN_HEIGHT           261
-#define CRTC_CYCLES_PER_LINE         71
-#define CRTC_RFSH_PER_SEC            60
-#endif
 
 #define CYCLES_PER_LINE              CRTC_CYCLES_PER_LINE
 
 #ifdef _CRTC_C
 static int crtc_cols = 40;
 #define CRTC_SCREEN_TEXTCOLS		 crtc_cols
+#define CRTC_SCREEN_HEIGHT	         312
 #endif
 
 /* Warning: Some of these values are *bogus*! */
+/* This is a mess.  */
 #define CRTC_SCREEN_XPIX		 (CRTC_SCREEN_TEXTCOLS * 8)
 #define CRTC_SCREEN_YPIX		 200
 #define CRTC_SCREEN_MAX_TEXTCOLS	 80
 #define CRTC_SCREEN_MAX_TEXTLINES	 CRTC_SCREEN_TEXTLINES
 #define CRTC_SCREEN_MAX_XPIX		 (CRTC_SCREEN_MAX_TEXTCOLS * 8)
 #define CRTC_SCREEN_MAX_YPIX		 CRTC_SCREEN_YPIX
-#define CRTC_SCREEN_MAX_HEIGHT		 CRTC_SCREEN_HEIGHT
 #define CRTC_SCREEN_TEXTLINES		 25
 #define CRTC_SCREEN_BORDERWIDTH		 12
 #define CRTC_SCREEN_BORDERHEIGHT	 51
+#define CRTC_SCREEN_MAX_HEIGHT		 CRTC_SCREEN_HEIGHT
 #define CRTC_SCREEN_WIDTH		 (CRTC_SCREEN_XPIX \
 				          + CRTC_SCREEN_BORDERWIDTH * 2)
-#define CRTC_SCREEN_CHARHEIGHT		 8
+#define CRTC_SCREEN_CHARHEIGHT		 screen_charheight
 #define CRTC_NUM_SPRITES		 0
 #define CRTC_SCREEN_FIRST_DISPLAYED_LINE 0x10
 #define CRTC_SCREEN_LAST_DISPLAYED_LINE  0x11f
-
-#define CRTC_WINDOW_TITLE		"VICE: PET emulator"
 
 #define CRTC_NUM_COLORS 2
 
@@ -105,6 +100,9 @@ static int crtc_cols = 40;
 #define SCREEN_FIRST_DISPLAYED_LINE	CRTC_SCREEN_FIRST_DISPLAYED_LINE
 #define SCREEN_LAST_DISPLAYED_LINE      CRTC_SCREEN_LAST_DISPLAYED_LINE
 #define SCREEN_IDLE_MODE		CRTC_IDLE_MODE
+
+#define	BYTES_PER_CHAR			16
+
 #endif
 
 extern int crtc_init_resources(void);
@@ -121,5 +119,8 @@ extern BYTE REGPARM1 read_crtc(ADDRESS addr);
 extern void crtc_set_char(int crom);
 extern int crtc_offscreen(void);
 extern void crtc_screen_enable(int);
+
+extern int crtc_write_snapshot_module(snapshot_t *s);
+extern int crtc_read_snapshot_module(snapshot_t *s);
 
 #endif				/* _CRTC_H */
