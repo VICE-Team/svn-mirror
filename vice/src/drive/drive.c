@@ -1591,7 +1591,9 @@ void drive_rotate_disk(drive_t *dptr)
         }
     }
 
-    if (dptr->bits_moved + new_bits >= 8) {
+    dptr->shifter = dptr->bits_moved + new_bits;
+
+    if (dptr->shifter >= 8) {
 
 	dptr->bits_moved += new_bits;
 	dptr->rotation_last_clk = *(dptr->clk);
@@ -1636,10 +1638,12 @@ void drive_rotate_disk(drive_t *dptr)
 	    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
 	}
 
+    dptr->shifter = dptr->bits_moved;
+
     /* The byte ready line is only set when no sync is found.  */
 	if (drive_sync_found(dptr))
 	    dptr->byte_ready = 1;
-    } /* if (dptr->bits_moved + new_bits >= 8) */
+    } /* if (dptr->shifter >= 8) */
 }
 
 /* Return non-zero if the Sync mark is found.  It is required to
@@ -1654,17 +1658,25 @@ inline static BYTE drive_sync_found(drive_t *dptr)
     if (val != 0xff || dptr->last_mode == 0) {
         return 0x80;
     } else {
-	int next_head_offset = (dptr->GCR_head_offset > 0
-				? dptr->GCR_head_offset - 1
-				: dptr->GCR_current_track_size - 1);
+        int previous_head_offset = (dptr->GCR_head_offset > 0
+            ? dptr->GCR_head_offset - 1
+            : dptr->GCR_current_track_size - 1);
 
-	if (dptr->GCR_track_start_ptr[next_head_offset] != 0xff)
-	    return 0x80;
-
-	/* As the current rotation code cannot cope with non byte aligned
-	   writes, do not change `drive[].bits_moved'!  */
-	/* dptr->bits_moved = 0; */
-	return 0x0;
+        if (dptr->GCR_track_start_ptr[previous_head_offset] != 0xff) {
+            if (dptr->shifter >= 2) {
+                int next_head_offset = ((dptr->GCR_head_offset
+                    < (dptr->GCR_current_track_size - 1))
+                    ? dptr->GCR_head_offset + 1 : 0);
+                if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
+                    == 0xc0)
+                    return 0;
+            }            
+            return 0x80;
+        }
+        /* As the current rotation code cannot cope with non byte aligned
+           writes, do not change `drive[].bits_moved'!  */
+        /* dptr->bits_moved = 0; */
+        return 0;
     }
 }
 
@@ -2270,6 +2282,7 @@ int drive_read_snapshot_module(snapshot_t *s)
     m = NULL;
 
     for (i = 0; i < 2; i++) {
+        drive[i].shifter = drive[i].bits_moved;
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
             + rotation_table_ptr[i];
         drive[i].GCR_track_start_ptr = (drive[i].GCR_data

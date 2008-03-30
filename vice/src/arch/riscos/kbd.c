@@ -156,6 +156,16 @@ int c610_kbd_init(void)
     return kbd_init();
 }
 
+/* PET-specific stuff */
+int pet_kbd_init_resources(void)
+{
+    return kbd_init_resources();
+}
+
+int pet_kbd_init_cmdline_options(void)
+{
+    return kbd_init_cmdline_options();
+}
 
 static char Rsrc_JoyKeys1[] = "JoystickKeys1";
 static char Rsrc_JoyKeys2[] = "JoystickKeys2";
@@ -403,16 +413,3 @@ void kbd_poll(void)
 }
 
 
-
-
-/* PET-specific stuff */
-int pet_kbd_init_resources(void)
-{
-  return 0;
-}
-
-
-int pet_kbd_init_cmdline_options(void)
-{
-  return 0;
-}

@@ -260,3 +260,14 @@ int pet_kbd_init(void)
                     6, 0, pet80_keyboard, sizeof(pet80_keyboard),
                     8, 0, pet40_keyboard, sizeof(pet40_keyboard));
 }
+
+int pet_kbd_init_resources(void)
+{
+    return kbd_init_resources();
+}
+
+int pet_kbd_init_cmdline_options(void)
+{
+    return kbd_init_cmdline_options();
+}
+

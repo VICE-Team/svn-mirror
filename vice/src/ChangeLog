@@ -1,5 +1,42 @@
 1999-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.37.
+
+	* vic20/cartridge, c64/cartridge.c, c64/c64mem.c, prdevice.c,
+	c1541.c, vdrive.c, mon.c, memutils.c, fsdevice.c: Do not include
+	`file.h', include `archdep.h' instead.
+
+	* file.h: Removed.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h: Moved mode definitions for file IO here.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c, arch/win32/archdep.c,
+	arch/riscos/archdep.c (archdep_setup_signals): New function.
+
+	* drive/drivecpu0.c, drive/drivecpu1.c: Define `mydrive_traceflg'.
+
+	* drive/drive.c (drive_read_snapshot_module): Initialize shifter.
+	(drive_rotate_disk): Save number of bits in the shift register.
+	(drive_sync_found): Also consider the bits in the shift register.
+
+1998-03-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/kbd.h, arch/msdos/petkbd.c, arch/win32/kbd.h, 
+	arch/win32/petkbd.c (pet_kbd_init_resources, 
+	pet_kbd_init_cmdline_options): new prototypes and functions, 
+	returning the return value of kbd_init_*()
+
+	* arch/riscos/kbd.c, arch/riscos/kbd.h (pet_kbd_init_resources, 
+	pet_kbd_init_cmdline_options): call kbd_init_* functions.
+
+	* cbm2/c610.c, pet/pet.c (machine_init_resources): remove 
+	architecture check for pet_kbd_init_resources.
+	(machine_init_cmdline_options): remove architecture 
+	check for pet_kbd_init_cmdline_options.
+
+1999-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.36.
 
 	* vic20/vic20.c (machine_read_snapshot): Read drive snapshot

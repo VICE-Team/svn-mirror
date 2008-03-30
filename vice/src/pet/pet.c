@@ -152,11 +152,7 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-#if defined __MSDOS__ || defined WIN32 || defined(__riscos)
-        || kbd_init_resources() < 0)
-#else
         || pet_kbd_init_resources() < 0)
-#endif
         return -1;
 
     return 0;
@@ -187,11 +183,7 @@ int machine_init_cmdline_options(void)
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
 #endif
-#if defined __MSDOS__ || defined WIN32
-        || kbd_init_cmdline_options() < 0)
-#else
         || pet_kbd_init_cmdline_options() < 0)
-#endif
         return -1;
 
     return 0;
