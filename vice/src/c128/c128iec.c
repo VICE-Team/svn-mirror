@@ -27,13 +27,15 @@
 #include <stdio.h>
 
 #include "vice.h"
-#include "resources.h"
-#include "ciad.h"
-#include "viad.h"
-#include "types.h"
-#include "iecdrive.h"
-#include "drive.h"
+
 #include "c64cia.h"
+#include "c64iec.h"
+#include "ciad.h"
+#include "drive.h"
+#include "iecdrive.h"
+#include "resources.h"
+#include "types.h"
+#include "viad.h"
 
 iec_info_t iec_info; /* FIXME: Make static again */
 
