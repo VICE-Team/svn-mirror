@@ -103,7 +103,7 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
                 if (mclk == ted.fetch_clk) {
-                    ram[addr] = value;
+                    mem_ram[addr] = value;
                 }
                 ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
@@ -118,7 +118,7 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-    ram[addr] = value;
+    mem_ram[addr] = value;
 }
 
 inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
@@ -141,7 +141,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
                 if (mclk == ted.fetch_clk) {
-                    ram[addr & 0x7fff] = value;
+                    mem_ram[addr & 0x7fff] = value;
                 }
                 ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
@@ -156,7 +156,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-    ram[addr & 0x7fff] = value;
+    mem_ram[addr & 0x7fff] = value;
 }
 
 inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
@@ -179,7 +179,7 @@ inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
                 if (mclk == ted.fetch_clk) {
-                    ram[addr & 0x3fff] = value;
+                    mem_ram[addr & 0x3fff] = value;
                 }
                 ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
                 f = 1;
@@ -194,7 +194,7 @@ inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-    ram[addr & 0x3fff] = value;
+    mem_ram[addr & 0x3fff] = value;
 }
 
 /* Encapsulate inlined function for other modules */
@@ -322,11 +322,11 @@ inline static void check_bad_line_state_change(BYTE value, int cycle, int line)
                the next opcode as the VIC-II is not the bus master yet.  */
             if (num_chars <= num_0xff_fetches) {
                 memset(ted.vbuf + pos, 0xff, num_chars);
-                memset(ted.cbuf + pos, ram[reg_pc] & 0xf,
+                memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
                        num_chars);
             } else {
                 memset(ted.vbuf + pos, 0xff, num_0xff_fetches);
-                memset(ted.cbuf + pos, ram[reg_pc] & 0xf,
+                memset(ted.cbuf + pos, mem_ram[reg_pc] & 0xf,
                        num_0xff_fetches);
                 ted_fetch_matrix(pos + num_0xff_fetches,
                                  num_chars - num_0xff_fetches);

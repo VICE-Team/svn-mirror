@@ -610,12 +610,12 @@ void ted_update_memory_ptrs(unsigned int cycle)
             raster_add_int_change_foreground(&ted.raster,
                                              TED_RASTER_CHAR(cycle),
                                              &ted.idle_data,
-                                             ram[0x39ff]);
+                                             mem_ram[0x39ff]);
         else
             raster_add_int_change_foreground(&ted.raster,
                                              TED_RASTER_CHAR(cycle),
                                              &ted.idle_data,
-                                             ram[0x3fff]);
+                                             mem_ram[0x3fff]);
     }
 
     if (ted.raster.skip_frame || (tmp <= 0 && maincpu_clk < ted.draw_clk)) {
@@ -731,11 +731,11 @@ void ted_update_video_mode(unsigned int cycle)
                 if (ted.regs[0x06] & 0x40)
                     raster_add_int_change_foreground
                         (&ted.raster, pos, (void *)&ted.idle_data,
-                        ram[0x39ff]);
+                        mem_ram[0x39ff]);
                 else
                     raster_add_int_change_foreground
                         (&ted.raster, pos, (void *)&ted.idle_data,
-                        ram[0x3fff]);
+                        mem_ram[0x3fff]);
             }
         }
 
@@ -843,10 +843,10 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     if (ted.idle_state) {
         if (ted.regs[0x6] & 0x40) {
             ted.idle_data_location = IDLE_39FF;
-            ted.idle_data = ram[0x39ff];
+            ted.idle_data = mem_ram[0x39ff];
         } else {
             ted.idle_data_location = IDLE_3FFF;
-            ted.idle_data = ram[0x3fff];
+            ted.idle_data = mem_ram[0x3fff];
         }
     } else {
         ted.idle_data_location = IDLE_NONE;

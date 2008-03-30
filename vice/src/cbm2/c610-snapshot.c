@@ -117,31 +117,31 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, (BYTE)(bank_exec));
     snapshot_module_write_byte(m, (BYTE)(bank_ind));
 
-    snapshot_module_write_byte_array(m, ram + 0xf0000, 0x0800);
+    snapshot_module_write_byte_array(m, mem_ram + 0xf0000, 0x0800);
     snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
 
     /* main memory array */
-    snapshot_module_write_byte_array(m, ram + effective_start,
+    snapshot_module_write_byte_array(m, mem_ram + effective_start,
                                                 ((int)memsize) << 17);
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
-            snapshot_module_write_byte_array(m, ram + 0xf0800, 0x0800);
+            snapshot_module_write_byte_array(m, mem_ram + 0xf0800, 0x0800);
         }
         if (config & 2) {
-            snapshot_module_write_byte_array(m, ram + 0xf1000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_ram + 0xf1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, ram + 0xf2000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_ram + 0xf2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_write_byte_array(m, ram + 0xf4000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_ram + 0xf4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_write_byte_array(m, ram + 0xf6000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_ram + 0xf6000, 0x2000);
         }
         if (config & 32) {
-            snapshot_module_write_byte_array(m, ram + 0xfc000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_ram + 0xfc000, 0x1000);
         }
     }
 
@@ -181,7 +181,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &byte);
     set_bank_ind(byte);
 
-    snapshot_module_read_byte_array(m, ram + 0xf0000, 0x0800);
+    snapshot_module_read_byte_array(m, mem_ram + 0xf0000, 0x0800);
     snapshot_module_read_byte_array(m, rom + 0xd000, 0x0800);
 
     /* calculate start and size of RAM to load */
@@ -196,7 +196,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         effective_ramsize -= 64;
     }
 
-    snapshot_module_read_byte_array(m, ram + effective_start, memsize << 17);
+    snapshot_module_read_byte_array(m, mem_ram + effective_start,
+                                    memsize << 17);
 
     ramsize = effective_ramsize;
 
@@ -208,29 +209,29 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     cartC_ram = config & 32;
 
     if (memsize < 4) {
-        snapshot_module_read_byte_array(m, ram + 0x10000, memsize << 17);
+        snapshot_module_read_byte_array(m, mem_ram + 0x10000, memsize << 17);
     } else {
-        snapshot_module_read_byte_array(m, ram, memsize << 17);
+        snapshot_module_read_byte_array(m, mem_ram, memsize << 17);
     }
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
-            snapshot_module_read_byte_array(m, ram + 0xf0800, 0x0800);
+            snapshot_module_read_byte_array(m, mem_ram + 0xf0800, 0x0800);
         }
         if (config & 2) {
-            snapshot_module_read_byte_array(m, ram + 0xf1000, 0x1000);
+            snapshot_module_read_byte_array(m, mem_ram + 0xf1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_read_byte_array(m, ram + 0xf2000, 0x2000);
+            snapshot_module_read_byte_array(m, mem_ram + 0xf2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_read_byte_array(m, ram + 0xf4000, 0x2000);
+            snapshot_module_read_byte_array(m, mem_ram + 0xf4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_read_byte_array(m, ram + 0xf6000, 0x2000);
+            snapshot_module_read_byte_array(m, mem_ram + 0xf6000, 0x2000);
         }
         if (config & 32) {
-            snapshot_module_read_byte_array(m, ram + 0xfc000, 0x1000);
+            snapshot_module_read_byte_array(m, mem_ram + 0xfc000, 0x1000);
         }
     }
 
