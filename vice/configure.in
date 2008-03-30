@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.0)
+AM_INIT_AUTOMAKE(vice, 1.0.0.1)
 AM_CONFIG_HEADER(src/config.h)
 
-dnl AC_DEFINE(UNSTABLE)
+AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no
@@ -124,7 +124,7 @@ else
         dnl `-DNO_REGPARM' should theoretically make it slower, but
         dnl regparms are so broken on the current GCC/EGCS that it's
         dnl better not to rely on them by default.
-        CFLAGS="-g -Wall -O5 -fomit-frame-pointer -funroll-loops -finline-functions -DNO_REGPARM"
+        CFLAGS="-g -Wall -O5 -fomit-frame-pointer -funroll-loops -DNO_REGPARM -Wstrict-prototypes"
 
       else
 
@@ -615,6 +615,14 @@ AC_SUBST(SOUND_HPUX_OBJ)
 AC_SUBST(SOUND_AIX_OBJ)
 AC_SUBST(SOUND_MIDAS_OBJ)
 AC_SUBST(SOUND_SDL_OBJ)
+
+if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
+  AC_DEFINE_UNQUOTED(PREFIX, "$ac_default_prefix")
+elif test "$prefix" = NONE; then
+  AC_DEFINE_UNQUOTED(PREFIX, "$exec_prefix")
+else
+  AC_DEFINE_UNQUOTED(PREFIX, "$prefix")
+fi
 
 if false ; then
     dnl Now produce the directories & Makefiles.
