@@ -138,7 +138,7 @@ int ui_screenshot_dialog(char *name, int wid)
 	return -1;
     
     fn = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
-    if (!name)
+    if (!fn)
     {
 	ui_error("Invalid filename");
 	return -1;
@@ -157,6 +157,14 @@ int ui_screenshot_dialog(char *name, int wid)
 	return -1;
     
     strcpy (name, fn);		/* What for? */
-    screenshot_save(driver, fn, wid);
+    if (screenshot_save(driver, fn, wid) < 0)
+    {
+	ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), fn, 
+		 driver);
+	return -1;
+    }
+    else
+	ui_message(_("Successfully wrote `%s'"), fn);
+        
     return 0;
 }
