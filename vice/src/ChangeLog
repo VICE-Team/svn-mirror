@@ -1,3 +1,29 @@
+1999-07-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.54.
+
+	* c64/reu.c (reset_reu): Do not load image if no image name is
+	given.
+
+	* utils.c (load_file): Check for NULL pointer.
+
+1999-07-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am (x128-all): add libraster
+
+	* arch/unix/xaw/c610ui.c (c610_ui_init): use crtc settings
+
+	* c128/c128cia1.c, drive/cia1571drive0.c, drive/cia1571drive1.c,
+	drive/cia1581drive0.c, drive/cia1581drive1.c
+	(store_sdr): write "cia_shifter" instead of cia[CIA_SDR]
+
+	* cbm2/c610.c (machine_init): set correct hardware options
+
+	* ciacore.c: fix shift register handling, at least a bit...
+
+	* ciacore.h (cia_shifter, cia_sdr_valid): new variables for 
+	the shift register
+
 1999-07-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.53.

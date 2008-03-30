@@ -262,6 +262,8 @@ void mycia_reset(void)
     ciat_reset(&ciata, myclk);
     ciat_reset(&ciatb, myclk);
 
+    cia_sdr_valid = 0;
+
     memset(ciatodalarm, 0, sizeof(ciatodalarm));
     ciatodlatched = 0;
     ciatodstopped = 0;
@@ -389,11 +391,19 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_SDR:		/* Serial Port output buffer */
 	cia[addr] = byte;
 	if ((cia[CIA_CRA] & 0x40) == 0x40) {
-	    if (ciasr_bits <= 16) {
+	    cia_sdr_valid = 1;
+            cia_update_ta(rclk);
+            ciat_set_alarm(&ciata, rclk);
+
+/*printf("%s: rclk=%d, store_cia[sdr](%02x, '%c'\n",MYCIA_NAME, byte);*/
+#if 0
+	    if (ciasr_bits <= 8) {
+/*
 		if(!ciasr_bits) {
     	            store_sdr(cia[CIA_SDR]);
 		}
-		if(ciasr_bits < 16) {
+*/
+		if(ciasr_bits < 8) {
 	            /* switch timer A alarm on again, if necessary */
 /* FIXME
 	            update_cia(rclk);
@@ -403,13 +413,13 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 */
 		}
 
-	        ciasr_bits += 16;
-
+	        ciasr_bits += 8;
 #if defined (CIA_TIMER_DEBUG)
 	        if (mycia_debugFlag)
 	    	    log_message(cia_log, "start SDR rclk=%d.", rclk);
 #endif
   	    }
+#endif
 	}
 	break;
 
@@ -855,10 +865,14 @@ static int int_ciata(long offset)
 
 	    if (!(--ciasr_bits)) {
 		ciaint |= CIA_IM_SDR;
+/*printf("%s: rclk=%d, store_sdr(%02x, '%c'\n",MYCIA_NAME, rclk, cia_shifter);*/
+		store_sdr(cia_shifter);
 	    }
-	    if(ciasr_bits == 16) {
-		store_sdr(cia[CIA_SDR]);
-	    }
+	}
+	if ((!ciasr_bits) && cia_sdr_valid) {
+	    cia_shifter = cia[CIA_SDR];
+	    cia_sdr_valid = 0;
+	    ciasr_bits = 8;
 	}
     }
     if ((cia[CIA_CRB] & 0x41) == 0x41) {
@@ -1013,7 +1027,7 @@ static int int_ciatod(long offset)
  */
 
 #define	CIA_DUMP_VER_MAJOR	1
-#define	CIA_DUMP_VER_MINOR	1
+#define	CIA_DUMP_VER_MINOR	2
 
 /*
  * The dump data:
@@ -1058,6 +1072,12 @@ static int int_ciatod(long offset)
  *
  * WORD		TA		Timer A state bits (see ciatimer.h)
  * WORD		TB		Timer B state bits (see ciatimer.h)
+ *
+ *				These bits have been added in V1.2
+ * 
+ * BYTE		SHIFTER		actual shift register (original data)
+ * BYTE		SDR_VALID	data in SDR valid to be shifted
+ *
  */
 
 /* FIXME!!!  Error check.  */
@@ -1107,7 +1127,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
 			   | (ciat_is_underflow_clk(&ciata, myclk) ? 0x04 : 0)
 			   | (ciat_is_underflow_clk(&ciatb, myclk) ? 0x08 : 0)
 			));
-    snapshot_module_write_byte(m, ciasr_bits);
+    snapshot_module_write_byte(m, ciasr_bits * 2);
     snapshot_module_write_byte(m, ciatodalarm[0]);
     snapshot_module_write_byte(m, ciatodalarm[1]);
     snapshot_module_write_byte(m, ciatodalarm[2]);
@@ -1137,6 +1157,9 @@ int mycia_write_snapshot_module(snapshot_t *p)
 			(CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
     ciat_save_snapshot(&ciatb, myclk, m, 
 			(CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
+
+    snapshot_module_write_byte(m, cia_shifter);
+    snapshot_module_write_byte(m, cia_sdr_valid);
 
     snapshot_module_close(m);
 
@@ -1196,9 +1219,7 @@ int mycia_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &cia[CIA_TOD_MIN]);
     snapshot_module_read_byte(m, &cia[CIA_TOD_HR]);
     snapshot_module_read_byte(m, &cia[CIA_SDR]);
-    {
-	store_sdr(cia[CIA_SDR]);
-    }
+
     snapshot_module_read_byte(m, &ciaier);
     snapshot_module_read_byte(m, &cia[CIA_CRA]);
     snapshot_module_read_byte(m, &cia[CIA_CRB]);
@@ -1260,6 +1281,12 @@ log_message(cia_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia_tbi, cia_tbu, cia_
 						(vmajor << 8) | vminor);
     ciat_load_snapshot(&ciatb, rclk, cia_tbc, cia_tbl, cia[CIA_CRB], m,
 						(vmajor << 8) | vminor);
+
+    if (vminor > 1) {
+        snapshot_module_read_byte(m, &cia_shifter);
+        snapshot_module_read_byte(m, &byte);
+	cia_sdr_valid = byte;
+    }
 
 #ifdef cia_DUMP_DEBUG
 log_message(cia_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",myclk, cia[CIA_CRA], cia[CIA_CRB],cia_tas, cia_tbs);

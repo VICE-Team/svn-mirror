@@ -56,7 +56,7 @@
 static int ReuSize = REUSIZE << 10;
 static BYTE reu[16];        /* REC registers */
 static BYTE *reuram = NULL;
-static char *reu_file_name;
+static char *reu_file_name = NULL;
 
 static log_t reu_log = LOG_ERR;
 
@@ -89,11 +89,13 @@ int reset_reu(int size)
     if (reuram == NULL) {
         reuram = xmalloc(ReuSize);
         log_message(reu_log, "%dKB unit installed.", REUSIZE);
-        if (load_file(reu_file_name, reuram, ReuSize) == 0) {
-            log_message(reu_log, "Image `%s' loaded successfully.",
-                        reu_file_name);
-        } else {
-            log_message(reu_log, "(No image loaded).");
+        if (reu_file_name != NULL) {
+            if (load_file(reu_file_name, reuram, ReuSize) == 0) {
+                log_message(reu_log, "Image `%s' loaded successfully.",
+                            reu_file_name);
+            } else {
+                log_message(reu_log, "(No image loaded).");
+            }
         }
     }
     return 0;

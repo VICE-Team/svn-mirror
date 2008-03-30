@@ -43,7 +43,7 @@
 #include "alarm.h"
 #include "interrupt.h"
 
-#define	CIAT_DEBUG
+/* #define	CIAT_DEBUG */
 /* #undef	NO_INLINE */
 /* #define CIAT_NEED_LOG */
 

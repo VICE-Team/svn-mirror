@@ -930,8 +930,19 @@ x64-all: \
 	x64
 
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libvdrive libarch libsid \
-	libvicii libvdc @RESID_DEP@ x128
+x128-all: \
+	libc128 \
+	libc64c128 \
+	libsounddrv \
+	libdrive \
+	libvdrive \
+	libarch \
+	libsid \
+	libvicii \
+	libvdc \
+	libraster \
+	@RESID_DEP@ \
+	x128
 
 .PHONY: xvic-all
 xvic-all: \
