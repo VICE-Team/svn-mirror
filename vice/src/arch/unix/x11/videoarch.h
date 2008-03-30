@@ -58,6 +58,7 @@ struct video_canvas_s {
 #else
     Window drawable;
     Colormap colormap;
+    int videorendermode;
 #endif
 };
 typedef struct video_canvas_s video_canvas_t;

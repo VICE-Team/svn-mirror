@@ -73,6 +73,7 @@ typedef struct video_canvas_s {
     int width, height;
     int mapped;
     int depth;
+    int videorendermode;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
     DWORD physical_colors[256];

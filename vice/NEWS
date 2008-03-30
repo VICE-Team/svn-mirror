@@ -33,6 +33,8 @@ list of all the changes in the code.
 
 - Fixed a stupid bug in the Z80 emulation.
 
+- Fixed $ff01-$ff04 MMU register access.
+
 - Added support for C64 type cartridges.
 
 ** VIC-II
@@ -48,8 +50,6 @@ list of all the changes in the code.
 - New style luminance signals
 
 - Using internal/external palette
-
-- Fixed overscan color bug.
 
 ** SID changes
 --------------
