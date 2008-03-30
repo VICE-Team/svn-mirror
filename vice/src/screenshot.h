@@ -46,6 +46,10 @@ typedef struct screenshot_s {
     unsigned int max_width;
     unsigned int max_height;
 
+    /* First and last displayed line.  */
+    unsigned int first_displayed_line;
+    unsigned int last_displayed_line;
+
     /* Offset to the overall screen.  */
     unsigned int x_offset;
     unsigned int y_offset;
@@ -72,6 +76,10 @@ extern int screenshot_save(const char *drvname, const char *filename,
 extern int screenshot_register(screendrv_t *drv);
 extern void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
                                  unsigned int line, unsigned int mode);
+
+extern int screenshot_num_drivers(void);
+extern screendrv_t *screenshot_drivers_iter_init(void);
+extern screendrv_t *screenshot_drivers_iter_next(void);
 
 /* Initialization prototypes */
 extern void screenshot_init_bmp(void);
