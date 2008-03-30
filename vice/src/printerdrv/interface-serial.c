@@ -252,7 +252,7 @@ static void flush_pr5(struct vdrive_s *var, unsigned int secondary)
 
 /* ------------------------------------------------------------------------- */
 
-int printer_interface_serial_close(unsigned int unit)
+int interface_serial_close(unsigned int unit)
 {
     if (unit == 4) {
         close_pr(0, -1);
@@ -263,7 +263,7 @@ int printer_interface_serial_close(unsigned int unit)
     return 0;
 }
 
-int printer_interface_serial_late_init(void)
+int interface_serial_late_init(void)
 {
     if (printer_enabled[0]) {
         if (interface_serial_attach(0) < 0)

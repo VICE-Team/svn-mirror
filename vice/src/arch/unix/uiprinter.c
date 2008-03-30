@@ -203,5 +203,6 @@ ui_menu_entry_t uiprinter_set_printer5_type_submenu[] = {
 
 UI_CALLBACK(uiprinter_flush_printer)
 {
-    printer_interface_serial_close((unsigned int)UI_MENU_CB_PARAM);
+    printer_serial_close((unsigned int)UI_MENU_CB_PARAM);
 }
+

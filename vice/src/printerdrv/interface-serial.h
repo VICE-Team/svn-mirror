@@ -32,5 +32,8 @@ extern int interface_serial_init_resources(void);
 extern int interface_serial_init_cmdline_options(void);
 extern void interface_serial_shutdown(void);
 
+extern int interface_serial_late_init(void);
+extern int interface_serial_close(unsigned int unit);
+
 #endif
 
