@@ -157,7 +157,7 @@ typedef struct drive_context_s {
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
     struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
 
-    drivecpu_context_t *cpu;
+    struct drivecpu_context_s *cpu;
     struct drivecpud_context_s *cpud;
     struct drivefunc_context_s *func;
     struct via_context_s *via1d1541;
@@ -169,7 +169,6 @@ typedef struct drive_context_s {
     struct riot_context_s *riot2;
     struct tpi_context_s *tpid;
 } drive_context_t;
-
 
 #endif
 
