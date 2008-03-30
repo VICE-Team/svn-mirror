@@ -31,18 +31,20 @@
 #define _MAINCPU_C
 
 #include "maincpu.h"
-#include "types.h"
-#include "machine.h"
-#include "vmachine.h"
-#include "ui.h"
-#include "resources.h"
-#include "traps.h"
-#include "mon.h"
-#include "mem.h"
-#include "misc.h"
-#include "vdrive.h"
+
 #include "6510core.h"
 #include "interrupt.h"
+#include "machine.h"
+#include "mem.h"
+#include "misc.h"
+#include "mon.h"
+#include "resources.h"
+#include "snapshot.h"
+#include "traps.h"
+#include "types.h"
+#include "ui.h"
+#include "vdrive.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -164,12 +166,20 @@ monitor_interface_t maincpu_monitor_interface = {
 
     /* Pointer to the machine's clock counter.  */
     &clk,
-
+#if 0
     /* Pointer to a function that writes to memory.  */
     mem_read,
 
     /* Pointer to a function that reads from memory.  */
     mem_store,
+#endif
+
+    0,
+    mem_bank_list,
+    mem_bank_from_name,
+    mem_bank_read,
+    mem_bank_peek,
+    mem_bank_write,
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
     mem_toggle_watchpoints
@@ -343,3 +353,64 @@ void mainloop(ADDRESS start_address)
 
     }
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "MAINCPU";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int maincpu_write_snapshot_module(FILE *f)
+{
+    if (snapshot_write_module_header(f, snap_module_name,
+                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+        return -1;
+
+    if (snapshot_write_dword(f, clk) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || snapshot_write_byte(f, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0)
+        return -1;
+
+    return 0;
+}
+
+int maincpu_read_snapshot_module(FILE *f)
+{
+    BYTE a, x, y, sp, pc, status;
+    BYTE major, minor;
+    char module_name[SNAPSHOT_MODULE_NAME_LEN];
+
+    if (snapshot_read_module_header(f, module_name, &major, &minor) < 0)
+        return -1;
+
+    if (strcmp(module_name, snap_module_name) != 0) {
+        fprintf(stderr,
+                "MAINCPU: Snapshot module name (`%s') incorrect; should be `%s'.\n",
+                module_name, snap_module_name);
+        return -1;
+    }
+
+    /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
+    if (snapshot_read_dword(f, &clk) < 0
+        || snapshot_read_byte(f, &a) < 0
+        || snapshot_read_byte(f, &x) < 0
+        || snapshot_read_byte(f, &y) < 0
+        || snapshot_read_byte(f, &sp) < 0
+        || snapshot_read_byte(f, &pc) < 0
+        || snapshot_read_byte(f, &status) < 0)
+        return -1;
+
+    MOS6510_REGS_SET_A(&maincpu_regs, a);
+    MOS6510_REGS_SET_X(&maincpu_regs, x);
+    MOS6510_REGS_SET_Y(&maincpu_regs, y);
+    MOS6510_REGS_SET_SP(&maincpu_regs, sp);
+    MOS6510_REGS_SET_PC(&maincpu_regs, pc);
+    MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
+
+    return 0;
+}
+
