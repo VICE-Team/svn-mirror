@@ -35,39 +35,49 @@
 #include "types.h"
 
 
-void raster_sprite_status_init(raster_sprite_status_t *s,
+void raster_sprite_status_init(raster_sprite_status_t *status,
                                unsigned int num_sprites)
 {
     unsigned int i;
 
-    s->num_sprites = num_sprites;
+    status->num_sprites = num_sprites;
 
-    s->draw_function = NULL;
-    s->draw_partial_function = NULL;
-    s->cache_function = NULL;
+    status->draw_function = NULL;
+    status->draw_partial_function = NULL;
+    status->cache_function = NULL;
 
-    s->visible_msk = 0;
-    s->dma_msk = 0;
-    s->new_dma_msk = 0;
+    status->visible_msk = 0;
+    status->dma_msk = 0;
+    status->new_dma_msk = 0;
 
-    s->mc_sprite_color_1 = 0;
-    s->mc_sprite_color_2 = 0;
+    status->mc_sprite_color_1 = 0;
+    status->mc_sprite_color_2 = 0;
 
     if (num_sprites > 0) {
-        s->sprites = lib_malloc(sizeof(*s->sprites) * num_sprites);
-        s->sprite_data_1 = lib_malloc(sizeof(DWORD) * num_sprites);
-        s->sprite_data_2 = lib_malloc(sizeof(DWORD) * num_sprites);
+        status->sprites = lib_malloc(sizeof(*status->sprites) * num_sprites);
+        status->sprite_data_1 = lib_malloc(sizeof(DWORD) * num_sprites);
+        status->sprite_data_2 = lib_malloc(sizeof(DWORD) * num_sprites);
     } else {
-        s->sprites = NULL;
-        s->sprite_data_1 = NULL;
-        s->sprite_data_2 = NULL;
+        status->sprites = NULL;
+        status->sprite_data_1 = NULL;
+        status->sprite_data_2 = NULL;
     }
 
-    s->sprite_data = s->sprite_data_1;
-    s->new_sprite_data = s->sprite_data_2;
+    status->sprite_data = status->sprite_data_1;
+    status->new_sprite_data = status->sprite_data_2;
 
     for (i = 0; i < num_sprites; i++)
-        raster_sprite_init(&s->sprites[i]);
+        raster_sprite_init(&status->sprites[i]);
+}
+
+void raster_sprite_status_shutdown(raster_sprite_status_t *status,
+                                   unsigned int num_sprites)
+{
+    if (num_sprites > 0) {
+        lib_free(status->sprites);
+        lib_free(status->sprite_data_1);
+        lib_free(status->sprite_data_2);
+    }
 }
 
 raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites)

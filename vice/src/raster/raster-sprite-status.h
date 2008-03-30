@@ -83,15 +83,21 @@ struct raster_sprite_status_s {
 typedef struct raster_sprite_status_s raster_sprite_status_t;
 
 
-void raster_sprite_status_init(raster_sprite_status_t *s,
-                               unsigned int num_sprites);
-raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites);
-void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
-                             raster_sprite_status_draw_function_t function);
-void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
-                             raster_sprite_status_cache_function_t function);
-void raster_sprite_status_set_draw_partial_function(raster_sprite_status_t *status,
-                             raster_sprite_status_draw_partial_function_t function);
+extern void raster_sprite_status_init(raster_sprite_status_t *status,
+                                      unsigned int num_sprites);
+extern void raster_sprite_status_shutdown(raster_sprite_status_t *status,
+                                          unsigned int num_sprites);
+extern raster_sprite_status_t *raster_sprite_status_new(
+                unsigned int num_sprites);
+extern void raster_sprite_status_set_draw_function(
+                raster_sprite_status_t *status,
+                raster_sprite_status_draw_function_t function);
+extern void raster_sprite_status_set_cache_function(
+                raster_sprite_status_t *status,
+                raster_sprite_status_cache_function_t function);
+extern void raster_sprite_status_set_draw_partial_function(
+                raster_sprite_status_t *status,
+                raster_sprite_status_draw_partial_function_t function);
 
 #endif
 
