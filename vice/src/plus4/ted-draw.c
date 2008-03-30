@@ -86,7 +86,7 @@ static void draw_std_background_2x(int start_pixel, int end_pixel)
    anyway.  */
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-static PIXEL4 _aligned_line_buffer[VIC_II_SCREEN_XPIX / 2 + 1];
+static PIXEL4 _aligned_line_buffer[TED_SCREEN_XPIX / 2 + 1];
 static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 #endif
 
@@ -149,7 +149,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         cache->background_data[0] = vic_ii.raster.background_color;
         cache->chargen_ptr = vic_ii.chargen_ptr;
         *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS;
+        *xe = TED_SCREEN_TEXTCOLS;
         rr = 1;
     }
 
@@ -157,23 +157,17 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                     vic_ii.vbuf,
                                     vic_ii.chargen_ptr,
                                     8,   /* FIXME */
-                                    VIC_II_SCREEN_TEXTCOLS,
+                                    TED_SCREEN_TEXTCOLS,
                                     vic_ii.raster.ycounter,
                                     xs, xe,
                                     rr);
 
     r |= raster_cache_data_fill(cache->color_data_1,
                                 vic_ii.cbuf,
-                                VIC_II_SCREEN_TEXTCOLS,
+                                TED_SCREEN_TEXTCOLS,
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
 
     return r;
 }
@@ -212,10 +206,10 @@ static void draw_std_text (void)
 {
 #ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, 0,
-                  VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk, 1);
+                  TED_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
   ALIGN_DRAW_FUNC(_draw_std_text, 0,
-                  VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
+                  TED_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
 
@@ -250,7 +244,7 @@ static void draw_std_text_cached_2x(raster_cache_t *cache, int xs, int xe)
 
 static void draw_std_text_2x(void)
 {
-    ALIGN_DRAW_FUNC(_draw_std_text_2x, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_std_text_2x, 0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 2);
 }
 
@@ -330,25 +324,17 @@ static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
     r |= raster_cache_data_fill_nibbles(cache->color_data_1,
                                         cache->background_data,
                                         vic_ii.vbuf,
-                                        VIC_II_SCREEN_TEXTCOLS,
+                                        TED_SCREEN_TEXTCOLS,
                                         1,
                                         xs, xe,
                                         rr);
     r |= raster_cache_data_fill(cache->foreground_data,
                                 (vic_ii.bitmap_ptr + vic_ii.memptr * 8
                                 + vic_ii.raster.ycounter),
-                                VIC_II_SCREEN_TEXTCOLS,
+                                TED_SCREEN_TEXTCOLS,
                                 8,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -376,16 +362,16 @@ inline static void _draw_hires_bitmap(PIXEL *p, int xs, int xe,
 static void draw_hires_bitmap(void)
 {
 #ifndef VIDEO_REMOVE_2X
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 
     /* Overscan color in HIRES is determined by last char of previous line */
     vic_ii.raster.overscan_background_color = 
-        vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
+        vic_ii.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
@@ -397,9 +383,9 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 #endif /* VIDEO_REMOVE_2X */
 
     /* Overscan color in HIRES is determined by last char of previous line */
-    if (xe == VIC_II_SCREEN_TEXTCOLS - 1)
+    if (xe == TED_SCREEN_TEXTCOLS - 1)
         vic_ii.raster.overscan_background_color = 
-            vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
+            vic_ii.vbuf[TED_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 #ifndef VIDEO_REMOVE_2X
@@ -430,7 +416,7 @@ inline static void _draw_hires_bitmap_2x(PIXEL *p, int xs, int xe,
 static void draw_hires_bitmap_2x(void)
 {
     ALIGN_DRAW_FUNC(_draw_hires_bitmap_2x,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 2);
 }
 
@@ -479,7 +465,7 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
         cache->color_data_1[1] = vic_ii.regs[0x23];
         cache->chargen_ptr = vic_ii.chargen_ptr;
         *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS - 1;
+        *xe = TED_SCREEN_TEXTCOLS - 1;
         rr = 1;
     }
 
@@ -487,24 +473,16 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                     vic_ii.vbuf,
                                     vic_ii.chargen_ptr,
                                     8,   /* FIXME */
-                                    VIC_II_SCREEN_TEXTCOLS,
+                                    TED_SCREEN_TEXTCOLS,
                                     vic_ii.raster.ycounter,
                                     xs, xe,
                                     rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vic_ii.cbuf,
-                                VIC_II_SCREEN_TEXTCOLS,
+                                TED_SCREEN_TEXTCOLS,
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-          |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-          |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -548,11 +526,11 @@ static void draw_mc_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_text,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
     ALIGN_DRAW_FUNC(_draw_mc_text,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
@@ -611,7 +589,7 @@ inline static void _draw_mc_text_2x(PIXEL *p, int xs, int xe,
 static void draw_mc_text_2x(void)
 {
     ALIGN_DRAW_FUNC(_draw_mc_text_2x,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 2);
 }
 
@@ -746,36 +724,29 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int r)
         cache->background_data[0] = vic_ii.raster.background_color;
         r = 1;
         *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS;
+        *xe = TED_SCREEN_TEXTCOLS;
     }
 
     r = raster_cache_data_fill_nibbles(cache->color_data_1,
                                        cache->color_data_2,
                                        vic_ii.vbuf,
-                                       VIC_II_SCREEN_TEXTCOLS,
+                                       TED_SCREEN_TEXTCOLS,
                                        1,
                                        xs, xe,
                                        r);
     r = raster_cache_data_fill(cache->color_data_3,
                                vic_ii.cbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
+                               TED_SCREEN_TEXTCOLS,
                                1,
                                xs, xe,
                                r);
     r = raster_cache_data_fill(cache->foreground_data,
                                (vic_ii.bitmap_ptr + 8 * vic_ii.memptr
                                + vic_ii.raster.ycounter),
-                               VIC_II_SCREEN_TEXTCOLS,
+                               TED_SCREEN_TEXTCOLS,
                                8,
                                xs, xe,
                                r);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
     return r;
 }
 
@@ -814,11 +785,11 @@ static void draw_mc_bitmap(void)
 {
 #ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_mc_bitmap,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
     ALIGN_DRAW_FUNC(_draw_mc_bitmap,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
@@ -870,7 +841,7 @@ inline static void _draw_mc_bitmap_2x(PIXEL *p, int xs, int xe,
 static void draw_mc_bitmap_2x(void)
 {
     ALIGN_DRAW_FUNC(_draw_mc_bitmap_2x,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 2);
 }
 
@@ -962,30 +933,22 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int r)
 
     r = raster_cache_data_fill(cache->color_data_1,
                                vic_ii.cbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
+                               TED_SCREEN_TEXTCOLS,
                                1,
                                xs, xe,
                                r);
     r = raster_cache_data_fill(cache->color_data_2,
                                vic_ii.vbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
+                               TED_SCREEN_TEXTCOLS,
                                1,
                                xs, xe,
                                r);
     r = raster_cache_data_fill(cache->foreground_data,
                                vic_ii.vbuf,
-                               VIC_II_SCREEN_TEXTCOLS,
+                               TED_SCREEN_TEXTCOLS,
                                1,
                                xs, xe,
                                r);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -1020,11 +983,11 @@ static void draw_ext_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
     ALIGN_DRAW_FUNC(_draw_ext_text,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
     ALIGN_DRAW_FUNC(_draw_ext_text,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
@@ -1078,7 +1041,7 @@ static void draw_ext_text_cached_2x(raster_cache_t *cache, int xs, int xe)
 static void draw_ext_text_2x(void)
 {
     ALIGN_DRAW_FUNC(_draw_ext_text_2x,
-                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    0, TED_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk, 2);
 }
 
@@ -1173,12 +1136,7 @@ static int get_black(raster_cache_t *cache, int *xs, int *xe, int r)
 
     if (r) {
         *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS - 1;
-    } else {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
+        *xe = TED_SCREEN_TEXTCOLS - 1;
     }
 
     return r;
@@ -1194,19 +1152,19 @@ static void draw_black(void)
         * vic_ii.raster.viewport.pixel_size.width));
 
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-               VIC_II_SCREEN_TEXTCOLS * 8
+               TED_SCREEN_TEXTCOLS * 8
                * vic_ii.raster.viewport.pixel_size.width);
 #else /* VIDEO_REMOVE_2X */
     p = (vic_ii.raster.frame_buffer_ptr
         + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
 
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-               VIC_II_SCREEN_TEXTCOLS * 8);
+               TED_SCREEN_TEXTCOLS * 8);
 #endif /* VIDEO_REMOVE_2X */
 
     /* FIXME: this is not exact! */
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
+           0, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
@@ -1219,18 +1177,18 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
         * vic_ii.raster.viewport.pixel_size.width));
 
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-               VIC_II_SCREEN_TEXTCOLS * 8
+               TED_SCREEN_TEXTCOLS * 8
                * vic_ii.raster.viewport.pixel_size.width);
 #else /* VIDEO_REMOVE_2X */
     p = (vic_ii.raster.frame_buffer_ptr
         + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
 
     vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-               VIC_II_SCREEN_TEXTCOLS * 8);
+               TED_SCREEN_TEXTCOLS * 8);
 #endif /* VIDEO_REMOVE_2X */
 
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
+           0, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_black_foreground(int start_char, int end_char)
@@ -1255,7 +1213,7 @@ static void draw_black_foreground(int start_char, int end_char)
 #endif /* VIDEO_REMOVE_2X */
 
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
+           0, TED_SCREEN_TEXTCOLS);
 }
 
 
@@ -1269,7 +1227,7 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
         cache->color_data_1[0] = vic_ii.raster.background_color;
         cache->foreground_data[0] = (BYTE) vic_ii.idle_data;
         *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS - 1;
+        *xe = TED_SCREEN_TEXTCOLS - 1;
         return 1;
     } else
         return 0;
@@ -1303,12 +1261,12 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
 #ifndef VIDEO_REMOVE_2X
     if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
         vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-                   VIC_II_SCREEN_XPIX * pixel_width);
+                   TED_SCREEN_XPIX * pixel_width);
 	else if (pixel_width == 1) {
 #else /* VIDEO_REMOVE_2X */
     if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
         vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
-                   VIC_II_SCREEN_XPIX);
+                   TED_SCREEN_XPIX);
 	else {
 #endif /* VIDEO_REMOVE_2X */
         /* The foreground color is always black (0).  */
@@ -1355,15 +1313,15 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
                (xe - xs + 1) * 8 * pixel_width);
 #endif
 
-    memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, VIC_II_SCREEN_TEXTCOLS);
+    memset(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, TED_SCREEN_TEXTCOLS);
 }
 
 static void draw_idle(void)
 {
 #ifndef VIDEO_REMOVE_2X
-    _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, 1, vic_ii.raster.gfx_msk);
+    _draw_idle(0, TED_SCREEN_TEXTCOLS - 1, 1, vic_ii.raster.gfx_msk);
 #else /* VIDEO_REMOVE_2X */
-    _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
+    _draw_idle(0, TED_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
 
@@ -1381,7 +1339,7 @@ static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
 
 static void draw_idle_2x(void)
 {
-    _draw_idle (0, VIC_II_SCREEN_TEXTCOLS - 1, 2, vic_ii.raster.gfx_msk);
+    _draw_idle (0, TED_SCREEN_TEXTCOLS - 1, 2, vic_ii.raster.gfx_msk);
 }
 
 static void draw_idle_cached_2x(raster_cache_t *cache, int xs, int xe)
