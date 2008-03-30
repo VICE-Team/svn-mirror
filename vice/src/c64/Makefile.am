@@ -12,7 +12,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/vicii
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
@@ -33,14 +34,9 @@ libc64_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
-	sprcrunch.h \
-	sprcycles.h \
-	sprites.h \
 	c64tpi.c \
 	c64tpi.def \
-	c64tpi.h \
-	vicii.c \
-	vicii.h
+	c64tpi.h
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
@@ -48,14 +44,9 @@ libc64c128_a_SOURCES = \
 	c64datasette.c \
 	patchrom.c \
 	patchrom.h \
-	sprcrunch.h \
-	sprcycles.h \
-	sprites.h \
 	c64tpi.c \
 	c64tpi.def \
-	c64tpi.h \
-	vicii.c \
-	vicii.h
+	c64tpi.h
 
 BUILT_SOURCES = \
 	c64tpi.c
