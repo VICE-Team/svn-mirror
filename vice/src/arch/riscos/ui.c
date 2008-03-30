@@ -1850,10 +1850,10 @@ const char *ui_check_for_syspath(const char *path)
   {
     vicepath = path + len;
     len = strlen(machine_name);
-    if ((strncasecmp(vicepath, machine_name, len) == 0) && (vicepath[len] == '.'))
+    if ((strncasecmp(vicepath, machine_name, len) == 0) && (vicepath[len] == FSDEV_DIR_SEP_CHR))
       return vicepath + len + 1;
     len = strlen(ResourceDriveDir);
-    if ((strncasecmp(vicepath, ResourceDriveDir, len) == 0) && (vicepath[len] == '.'))
+    if ((strncasecmp(vicepath, ResourceDriveDir, len) == 0) && (vicepath[len] == FSDEV_DIR_SEP_CHR))
       return vicepath + len + 1;
   }
   return path;
@@ -4275,9 +4275,9 @@ static const char *ui_get_file_extension(const char *name)
   const char *d, *ext;
 
   d = name; ext = NULL;
-  while (*d > ' ')
+  while ((unsigned char)(*d) > 0x20)
   {
-    if (*d =='/') ext = d+1;
+    if (*d == FSDEV_EXT_SEP_CHR) ext = d+1;
     d++;
   }
 

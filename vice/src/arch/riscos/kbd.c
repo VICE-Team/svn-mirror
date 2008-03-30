@@ -572,7 +572,7 @@ static int kbd_load_keyboard_position(char **buffer, unsigned char *map, unsigne
   }
 
   /* An empty rest of line is not an error */
-  if (*b >= ' ')
+  if ((unsigned char)(*b) >= 0x20)
   {
     char *rest;
 
@@ -651,7 +651,7 @@ int kbd_load_keymap(const char *filename, int number)
     b = buffer;
     while (isspace((unsigned int)(*b))) b++;
     /* Commentary or empty line? */
-    if ((*b != '#') && (*b > ' '))
+    if ((*b != '#') && ((unsigned char)(*b) > 0x20))
     {
       if (strncasecmp(b, keymap_clear_table, clear_length) == 0)
       {

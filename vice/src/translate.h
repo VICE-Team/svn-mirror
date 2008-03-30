@@ -3522,4 +3522,16 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_PLUS60K_NAME_PL           0x11972
 #define IDCLS_SPECIFY_PLUS60K_NAME_SV           0x11973
 
+/* sid/sid-cmdline-options.c */
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+#define IDCLS_RESID_GAIN_PERCENTAGE             0x11974
+#define IDCLS_RESID_GAIN_PERCENTAGE_DE          0x11975
+#define IDCLS_RESID_GAIN_PERCENTAGE_FR          0x11976
+#define IDCLS_RESID_GAIN_PERCENTAGE_IT          0x11977
+#define IDCLS_RESID_GAIN_PERCENTAGE_NL          0x11978
+#define IDCLS_RESID_GAIN_PERCENTAGE_PL          0x11979
+#define IDCLS_RESID_GAIN_PERCENTAGE_SV          0x1197a
+#endif
+
 #endif

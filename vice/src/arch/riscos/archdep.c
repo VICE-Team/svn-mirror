@@ -271,7 +271,7 @@ const char *archdep_extract_dir_and_leaf(const char *path)
   b = path; leaf = b; dir = b;
   while (*b != '\0')
   {
-    if ((*b == '.') || (*b == ':'))
+    if ((*b == FSDEV_DIR_SEP_CHR) || (*b == ':'))
     {
       dir = leaf; leaf = b + 1;
     }
@@ -290,9 +290,9 @@ int archdep_file_is_gzip(const char *name)
     {
         size_t l = strlen(name);
 
-        if ((l < 4 || strcasecmp(name + l - 3, "/gz"))
-            && (l < 3 || strcasecmp(name + l - 2, "/z"))
-            && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '/'))
+        if ((l < 4 || strcasecmp(name + l - 3, FSDEV_EXT_SEP_STR "gz"))
+            && (l < 3 || strcasecmp(name + l - 2, FSDEV_EXT_SEP_STR "z"))
+            && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != FSDEV_EXT_SEP_CHR))
             return 0;
     }
     return 1;

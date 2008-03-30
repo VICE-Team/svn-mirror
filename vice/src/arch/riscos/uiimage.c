@@ -282,9 +282,9 @@ int ui_image_contents_generic(const char *imagename, int filetype)
     const char *b, *ext;
 
     b = imagename; ext = b;
-    while (*b > ' ')
+    while ((unsigned char)(*b) > 0x20)
     {
-      if (*b == '/') ext = b+1;
+      if (*b == FSDEV_EXT_SEP_CHR) ext = b+1;
       b++;
     }
     if (ext != imagename)
@@ -319,7 +319,7 @@ static void transform_string(const char *str, char *buffer, int hnorm, int hemph
   *d++ = '\"';
   while (*b != 0)
   {
-    if (*b < ' ')
+    if (*b < 0x20)
     {
       *d++ = 26; *d++ = (unsigned char)hemph;
       *d++ = (*b) + 'a' - 1; *d++ = 26; *d++ = (unsigned char)hnorm;

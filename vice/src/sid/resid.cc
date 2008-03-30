@@ -30,7 +30,12 @@
 
 extern "C" {
 
+/* QNX has problems with const and inline definitions
+   in its string.h file when using g++ */
+
+#ifndef __QNX__
 #include <string.h>
+#endif
 
 #include "sid/sid.h" /* sid_engine_t */
 #include "lib.h"
@@ -66,8 +71,8 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     sampling_method method;
     char method_text[100];
-    double passband;
-    int filters_enabled, model, sampling, passband_percentage;
+    double passband, gain;
+    int filters_enabled, model, sampling, passband_percentage, gain_percentage;
 
     if (resources_get_value("SidFilters", (void *)&filters_enabled) < 0)
         return 0;
@@ -82,7 +87,11 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
         (void *)&passband_percentage) < 0)
         return 0;
 
+    if (resources_get_value("SidResidGain", (void *)&gain_percentage) < 0)
+        return 0;
+
     passband = speed * passband_percentage / 200.0;
+    gain = gain_percentage / 100.0;
 
     psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
 
@@ -113,7 +122,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     }
 
     if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
-					   speed, passband)) {
+					   speed, passband, gain)) {
         log_warning(LOG_DEFAULT,
                     "reSID: Out of spec, increase sampling rate or decrease maximum speed");
 	return 0;

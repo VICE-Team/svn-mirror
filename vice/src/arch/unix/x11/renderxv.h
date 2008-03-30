@@ -30,8 +30,13 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
+#ifndef __QNX__
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#else
+#include "qnxipc.h"
+#include "qnxshm.h"
+#endif
 #include <X11/extensions/Xv.h>
 #include <X11/extensions/Xvlib.h>
 

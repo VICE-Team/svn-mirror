@@ -318,7 +318,11 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 
 #ifdef HAVE_XVIDEO
     if (canvas->xv_image) {
+#ifdef __QNX__
+        XShmSegmentInfo* shminfo = NULL;
+#else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+#endif
 
         display = x11ui_get_display_ptr();
 	destroy_yuv_image(display, canvas->xv_image, shminfo);
@@ -593,7 +597,11 @@ void video_canvas_refresh(video_canvas_t *canvas,
         int doublesize = canvas->videoconfig->doublesizex
           && canvas->videoconfig->doublesizey;
 
+#ifdef __QNX__
+        XShmSegmentInfo* shminfo = NULL;
+#else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+#endif
         Window root;
         int x, y;
         unsigned int dest_w, dest_h, border_width, depth;

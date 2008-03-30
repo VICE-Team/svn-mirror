@@ -29,6 +29,9 @@ libx11ui_a_SOURCES = \
 	kbd.c \
 	peticon.c \
 	plus4icon.c \
+	qnxipc.h \
+	qnxshm.c \
+	qnxshm.h \
 	renderxv.c \
 	renderxv.h \
 	ui-cmdline-options.c \

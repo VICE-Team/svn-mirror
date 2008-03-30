@@ -41,6 +41,18 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef __QNX__
+Status XShmAttach(Display *display, XShmSegmentInfo *shminfo)
+{
+  return 0;
+}
+
+Status XShmDetach(Display *display, XShmSegmentInfo *shminfo)
+{
+  return 0;
+}
+#endif
+
 /* YUV formats in preferred order. */
 fourcc_t fourcc_list[] = {
   /* YUV 4:2:2 formats: */

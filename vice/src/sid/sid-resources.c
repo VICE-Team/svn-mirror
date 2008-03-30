@@ -48,6 +48,7 @@ static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
 static int sid_resid_sampling;
 static int sid_resid_passband;
+static int sid_resid_gain;
 int sid_stereo;
 int checking_sid_stereo;
 unsigned int sid_stereo_address_start;
@@ -176,6 +177,21 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
     sid_state_changed = 1;
     return 0;
 }
+
+static int set_sid_resid_gain(resource_value_t v, void *param)
+{
+    int i = (int)v;
+
+    if (i < 90)
+        i = 90;
+    else if (i > 100)
+        i = 100;
+
+    sid_resid_gain = i;
+    sid_state_changed = 1;
+    return 0;
+}
+
 #endif
 
 #ifdef HAVE_HARDSID
@@ -215,6 +231,8 @@ static const resource_t resources[] = {
       (void *)&sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
       (void *)&sid_resid_passband, set_sid_resid_passband, NULL },
+    { "SidResidGain", RES_INTEGER, (resource_value_t)97,
+      (void *)&sid_resid_gain, set_sid_resid_gain, NULL },
 #endif
 #ifdef HAVE_HARDSID
     { "SidHardSIDMain", RES_INTEGER, (resource_value_t)0,

@@ -27,6 +27,9 @@
  *
  */
 
+/* Don't use this sound driver for OpenBSD */
+#if !defined(__OpenBSD__)
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -46,7 +49,7 @@
 
 #include <sys/audioio.h>
 
-#if defined(__NetBSD__) || defined(__OpenBSD__)
+#if defined(__NetBSD__)
 #include <sys/ioctl.h>       /* For ioctl and _IOWR */
 #include <string.h>          /* For memset */
 #endif
@@ -176,7 +179,7 @@ static int sun_bufferspace(void)
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
     if (st < 0)
 	return -1;
-#if defined(__NetBSD__) || defined(__OpenBSD__)
+#if defined(__NetBSD__)
     if (!sun_8bit)
 	return sun_bufsize - (sun_written - info.play.samples / sizeof(SWORD));
 #endif
@@ -195,7 +198,7 @@ static void sun_close(void)
 
 static sound_device_t sun_device =
 {
-#if defined(__NetBSD__) || defined(__OpenBSD__)
+#if defined(__NetBSD__)
     "netbsd",
 #else
     "sun",
@@ -215,3 +218,5 @@ int sound_init_sun_device(void)
 {
     return sound_register_device(&sun_device);
 }
+
+#endif

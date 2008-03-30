@@ -2619,6 +2619,15 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_PASSBAND_PERCENTAGE_NL, "reSID resampling passband in percentage van de totale bandbreedte (0 - 90)"},
 /* pl */ {IDCLS_PASSBAND_PERCENTAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PASSBAND_PERCENTAGE_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESID_GAIN_PERCENTAGE,    "reSID gain in percent (90 - 100)"},
+/* de */ {IDCLS_RESID_GAIN_PERCENTAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESID_GAIN_PERCENTAGE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_RESID_GAIN_PERCENTAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESID_GAIN_PERCENTAGE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RESID_GAIN_PERCENTAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESID_GAIN_PERCENTAGE_SV, ""},  /* fuzzy */
 #endif
 
 /* vdc/vdc-cmdline-options.c */
@@ -6101,6 +6110,15 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDCLS_PASSBAND_PERCENTAGE_NL,
 /* pl */  IDCLS_PASSBAND_PERCENTAGE_PL,
 /* sv */  IDCLS_PASSBAND_PERCENTAGE_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESID_GAIN_PERCENTAGE,
+/* de */  IDCLS_RESID_GAIN_PERCENTAGE_DE,
+/* fr */  IDCLS_RESID_GAIN_PERCENTAGE_FR,
+/* it */  IDCLS_RESID_GAIN_PERCENTAGE_IT,
+/* nl */  IDCLS_RESID_GAIN_PERCENTAGE_NL,
+/* pl */  IDCLS_RESID_GAIN_PERCENTAGE_PL,
+/* sv */  IDCLS_RESID_GAIN_PERCENTAGE_SV},
 #endif
 
 /* vdc/vdc-cmdline-options.c */

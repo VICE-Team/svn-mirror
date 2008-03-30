@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=16
+VICE_VERSION_BUILD=17
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -839,8 +839,13 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
+  dnl instead of assuming that libsocket needs libnsl, we
+  dnl will check the existance of libnsl first.
+
+  AC_CHECK_LIB(nsl, gethostbyname,[ X_LIBS="-lnsl $X_LIBS";
+                                    LINK_X_LIBS="-lnsl $LINK_X_LIBS"],,$X_LIBS)
   AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS";
-                                    LINK_X_LIBS="-lsocket $LINK_X_LIBS"],,-lnsl)
+                                    LINK_X_LIBS="-lsocket $LINK_X_LIBS"],,$X_LIBS)
   AC_CHECK_LIB(bsd, gethostbyname,[ X_LIBS="-lbsd $X_LIBS";
                                     LINK_X_LIBS="-lbsd $LINK_X_LIBS"],,$X_LIBS)
   AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS";
@@ -902,7 +907,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
 
   AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
   if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
-    AC_CHECK_LIB(Xext, XShmPutImage,
+    AC_CHECK_LIB(Xext, XShmAttach,
                  [ AC_DEFINE(USE_MITSHM,,
                              [Enable MITSHM extensions.]) ],,$X_LIBS)
   fi

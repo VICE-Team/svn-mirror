@@ -1237,7 +1237,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_DMEDIA_AUDIO_H)
     sound_init_sgi_device();
 #endif
-#if defined(HAVE_SYS_AUDIOIO_H)
+
+/* Don't use the NetBSD/SUN sound driver for OpenBSD */
+#if defined(HAVE_SYS_AUDIOIO_H) && !defined(__OpenBSD__)
     sound_init_sun_device();
 #endif
 #if defined(HAVE_SYS_AUDIO_H)

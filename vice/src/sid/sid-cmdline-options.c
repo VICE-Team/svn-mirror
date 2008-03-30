@@ -60,6 +60,9 @@ static const cmdline_option_t cmdline_options[] = {
     { "-residpass", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
       (void *)90, IDCLS_P_PERCENT,
       IDCLS_PASSBAND_PERCENTAGE },
+    { "-residgain", SET_RESOURCE, 1, NULL, NULL, "SidResidGain",
+      (void *)97, IDCLS_P_PERCENT,
+      IDCLS_RESID_GAIN_PERCENTAGE },
 #endif
     { NULL }
 };
@@ -98,6 +101,9 @@ static const cmdline_option_t cmdline_options[] = {
     { "-residpass", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
       (void *)90, "<percent>",
       "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
+    { "-residgain", SET_RESOURCE, 1, NULL, NULL, "SidResidGain",
+      (void *)97, "<percent>",
+      "reSID gain in percent (90 - 100)" },
 #endif
     { NULL }
 };
