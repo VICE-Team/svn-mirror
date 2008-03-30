@@ -683,10 +683,10 @@ log.o: log.c vice.h config.h log.h cmdline.h resources.h \
 	arch/unix/archdep.h utils.h types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h attach.h types.h \
 	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
-	cartridge.h charsets.h cmdline.h resources.h findpath.h \
-	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
-	arch/unix/joystick.h arch/unix/kbd.h machine.h maincpu.h \
-	alarm.h clkguard.h mon.h mos6510.h sound.h warn.h sysfile.h \
+	cartridge.h charsets.h cmdline.h resources.h drive/drivecpu.h \
+	alarm.h clkguard.h mos6510.h mon.h mem.h interrupt.h vmachine.h \
+	6510core.h findpath.h fsdevice.h arch/unix/joystick.h \
+	arch/unix/kbd.h machine.h maincpu.h sound.h warn.h sysfile.h \
 	tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
 	arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
@@ -725,9 +725,9 @@ resources.o: resources.c vice.h config.h log.h resources.h \
 	arch/unix/archdep.h utils.h types.h
 romset.o: romset.c config.h types.h mem.h snapshot.h resources.h \
 	sysfile.h log.h utils.h romset.h
-rsuser.o: rsuser.c vice.h config.h types.h alarm.h log.h cmdline.h \
-	resources.h interrupt.h vmachine.h 6510core.h mem.h snapshot.h \
-	maincpu.h clkguard.h mon.h mos6510.h rs232.h rsuser.h
+rsuser.o: rsuser.c vice.h config.h types.h alarm.h log.h clkguard.h \
+	cmdline.h resources.h interrupt.h vmachine.h 6510core.h mem.h \
+	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h drive/drive.h types.h vdrive.h \
 	fs_cbm.h serial.h traps.h log.h drive/drivecpu.h alarm.h \
 	clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
