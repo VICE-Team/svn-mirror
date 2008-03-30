@@ -43,6 +43,7 @@
 #include "tui.h"
 #include "tuiview.h"
 #include "ui.h"
+#include "uisnapshot.h"
 
 /* FIXME: Argh!!  Megakludge!  <dir.h> #defines `DRIVE', which we need in
    "vdrive.h".  */
@@ -74,6 +75,7 @@ tui_menu_t ui_sound_buffer_size_submenu;
 tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
 tui_menu_t ui_special_submenu;
+tui_menu_t ui_snapshot_submenu;
 tui_menu_t ui_video_submenu;
 tui_menu_t ui_settings_submenu;
 
@@ -289,7 +291,7 @@ static tui_menu_item_def_t drive_extend_image_policy_submenu[] = {
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(Drive)
+TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 
 static TUI_MENU_CALLBACK(toggle_DriveSyncFactor_callback)
 {
@@ -315,13 +317,73 @@ static TUI_MENU_CALLBACK(toggle_DriveSyncFactor_callback)
     }
 }
 
-TUI_MENU_DEFINE_RADIO(DriveIdleMethod)
+TUI_MENU_DEFINE_RADIO(Drive8Type)
+TUI_MENU_DEFINE_RADIO(Drive9Type)
+
+static TUI_MENU_CALLBACK(drive_type_submenu_callback)
+{
+    int value;
+
+    if ((int) param == 8)
+        resources_get_value("Drive8Type", (resource_value_t *) &value);
+    else
+        resources_get_value("Drive9Type", (resource_value_t *) &value);
+
+    switch (value) {
+      case 0:
+        return "None";
+      case 1541:
+        return "1541, 5\"1/4 SS";
+      case 1571:
+        return "1571, 5\"1/4 DS";
+      case 1581:
+        return "1581, 3\"1/2 DS";
+      case 2031:
+        return "2031, 5\"1/4 SS, IEEE488";
+      default:
+	return "(Unknown)";
+    }
+}
+
+#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                   \
+static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
+    { "_None",                                                            \
+      "Disable hardware-level emulation of drive" #num,                   \
+      radio_Drive##num##Type_callback, (void *) 0, 0,                     \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_1541",                                                            \
+      "Emulate a 1541 5\"1/4 single-sided disk drive as unit " #num,      \
+      radio_Drive##num##Type_callback, (void *) 1541, 0,                  \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_1571",                                                            \
+      "Emulate a 1571 5\"1/4 double-sided disk drive as unit " #num,      \
+      radio_Drive##num##Type_callback, (void *) 1571, 0,                  \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_1581",                                                            \
+      "Emulate a 1581 3\"1/2 double-sided disk drive as unit " #num,      \
+      radio_Drive##num##Type_callback, (void *) 1581, 0,                  \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_2031",                                                            \
+      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit " #num, \
+      radio_Drive##num##Type_callback, (void *) 2031, 0,                  \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { NULL }                                                              \
+};
+
+DEFINE_DRIVE_MODEL_SUBMENU(8)
+DEFINE_DRIVE_MODEL_SUBMENU(9)
+
+TUI_MENU_DEFINE_RADIO(Drive8IdleMethod)
+TUI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 
 static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
 {
     int value;
 
-    resources_get_value("DriveIdleMethod", (resource_value_t *) &value);
+    if ((int) param == 8)
+        resources_get_value("Drive8IdleMethod", (resource_value_t *) &value);
+    else
+        resources_get_value("Drive9IdleMethod", (resource_value_t *) &value);
 
     switch (value) {
       case DRIVE_IDLE_NO_IDLE:
@@ -335,39 +397,63 @@ static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
     }
 }
 
-static tui_menu_item_def_t drive_idle_method_submenu[] = {
-    { "_None",
-      "Always run the 1541 CPU as on the real thing",
-      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_NO_IDLE, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Trap Idle",
-      "Stop running the 1541 CPU when entering the idle DOS loop",
-      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_TRAP_IDLE, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Skip Cycles",
-      "Skip 1541 CPU cycles when the IEC bus is not used for a while",
-      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_SKIP_CYCLES, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+#define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                             \
+static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {         \
+    { "_None",                                                            \
+      "Always run the drive's CPU as on the real thing",                  \
+      radio_Drive##num##IdleMethod_callback,                              \
+      (void *) DRIVE_IDLE_NO_IDLE, 0,                                     \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_Trap Idle",                                                       \
+      "Stop running the drive's CPU when entering the idle DOS loop",     \
+      radio_Drive##num##IdleMethod_callback,                              \
+      (void *) DRIVE_IDLE_TRAP_IDLE, 0,                                   \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_Skip Cycles",                                                     \
+      "Skip drive's CPU cycles when the IEC bus is not used for a while", \
+      radio_Drive##num##IdleMethod_callback,                              \
+      (void *) DRIVE_IDLE_SKIP_CYCLES, 0,                                 \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { NULL }                                                              \
 };
+
+DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
+DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
 
 TUI_MENU_DEFINE_TOGGLE(DriveParallelCable)
 
 static tui_menu_item_def_t drive_settings_submenu[] = {
-    { "True 1541 _Emulation:",
+    { "True Drive _Emulation:",
       "Enable hardware-level floppy drive emulation",
-      toggle_Drive_callback, NULL, 3,
+      toggle_DriveTrueEmulation_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "True 1541 _Sync Factor:",
-      "Select 1541/machine clock ratio",
+    { "--" },
+    { "Drive #_8 model:",
+      "Specify model for drive #8",
+      drive_type_submenu_callback, (void *) 8, 26,
+      TUI_MENU_BEH_CONTINUE, drive8_type_submenu,
+      "Drive 8 model" },
+    { "Drive #8 idle method:",
+      "Specify idle method for drive #8",
+      drive_idle_method_submenu_callback, (void *) 8, 10,
+      TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
+      "Drive 8 idle method" },
+    { "--" },
+    { "Drive #_9 model:",
+      "Specify model for drive #9",
+      drive_type_submenu_callback, (void *) 9, 26,
+      TUI_MENU_BEH_CONTINUE, drive9_type_submenu,
+      "Drive 9 model" },
+    { "Drive #9 idle method:",
+      "Specify idle method for drive #9",
+      drive_idle_method_submenu_callback, (void *) 9, 10,
+      TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
+      "Drive 9 idle method" },
+    { "--" },
+    { "Drive _Sync Factor:",
+      "Select drive/machine clock ratio",
       toggle_DriveSyncFactor_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "True 1541 _Idle Method:",
-      "Select method for disk drive idle",
-      drive_idle_method_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, drive_idle_method_submenu,
-      "True 1541 idle method" },
-    { "--" },
     { "Enable _Parallel Cable:",
       "Enable a SpeedDOS-compatible parallel cable",
       toggle_DriveParallelCable_callback, NULL, 3,
@@ -1439,6 +1525,16 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 			 "Extra emulation features",
 			 ui_special_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_separator(ui_main_menu);
+
+    ui_snapshot_submenu = tui_menu_create("Snapshot Commands", 1);
+    tui_menu_add(ui_snapshot_submenu, ui_snapshot_menu_def);
+
+    tui_menu_add_submenu(ui_main_menu, "_Snapshot Commands...",
+                         "Commands for loading/saving the machine state",
+                         ui_snapshot_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add_separator(ui_main_menu);
 
