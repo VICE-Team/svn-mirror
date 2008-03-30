@@ -38,7 +38,7 @@
 
 #include "vdrive.h"
 #include "dialogs.h"          // WinLbox*
-#include "charsets.h"         // a2p, p2a
+#include "charset.h"          // a2p, p2a
 #include "diskimage.h"        // DISK_IMAGE_TYPE_*
 #include "snippets\pmwin2.h"  // WinQueryDlgPos
 

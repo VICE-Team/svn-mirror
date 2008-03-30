@@ -50,8 +50,7 @@
 #endif
 
 #include "archdep.h"
-/*#include "asm.h"*/
-#include "charsets.h"
+#include "charset.h"
 #include "console.h"
 #include "interrupt.h"
 #include "log.h"
@@ -498,7 +497,7 @@ void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
     (monitor_cpu_type.mon_register_set_val)(addr_memspace(addr), e_PC,
-                                            addr_location(addr));
+                                            (WORD)(addr_location(addr)));
     exit_mon = 1;
 }
 
@@ -571,13 +570,14 @@ static void clear_buffer(void)
 static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr,
                              unsigned int len, bool petscii)
 {
-    int i, val;
+    unsigned int i;
+    BYTE val;
 
     for (i = 0; i < len; i++) {
         val = mon_get_mem_val(mem, addr);
 
         if (petscii)
-            buf[i] = p_toascii(val, 0);
+            buf[i] = charset_p_toascii((int)val, 0);
         if (isprint(val))
             buf[i] = val;
         else
@@ -664,14 +664,15 @@ void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 
 /* Memory.  */
 
-void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
+void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, unsigned int x,
+                      unsigned int y)
 {
     unsigned i, j, len, cnt = 0;
     ADDRESS addr=0;
     MEMSPACE mem;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
-                                     (x * y) / 8);
+                                     (WORD)((x * y) / 8));
     mem = addr_memspace(start_addr);
     addr = addr_location(start_addr);
 
@@ -702,7 +703,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
     ADDRESS addr = 0;
     char printables[50];
     MEMSPACE mem;
-    int display_number;
+    WORD display_number;
 
     if (radix_type) {
         if (radix_type != e_hexadecimal)
@@ -732,9 +733,8 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
         for (i = 0, real_width = 0; i < max_width; i++) {
             switch(radix_type) {
               case 0: /* special case == petscii text */
-                uimon_out("%c",
-                          p_toascii(mon_get_mem_val(mem, ADDR_LIMIT(addr + i)),
-                                    1));
+                uimon_out("%c", charset_p_toascii(mon_get_mem_val(mem,
+                                                  ADDR_LIMIT(addr + i)), 1));
                 real_width++;
                 cnt++;
                 break;
@@ -742,7 +742,8 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                 memset(printables, 0, 50);
                 if (cnt < len) {
                     uimon_out("%3d ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                              mon_get_mem_val(mem,
+                                              (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
@@ -754,7 +755,8 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                     if(!(cnt % 4))
                         uimon_out(" ");
                     uimon_out("%02x ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                              mon_get_mem_val(mem,
+                                              (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
@@ -764,7 +766,8 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                 memset(printables, 0, 50);
                 if (cnt < len) {
                     uimon_out("%03o ",
-                              mon_get_mem_val(mem, ADDR_LIMIT(addr + i)));
+                              mon_get_mem_val(mem, 
+                                              (ADDRESS)ADDR_LIMIT(addr + i)));
                     real_width++;
                     cnt++;
                 } else
@@ -773,8 +776,9 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
               case e_binary:
                 memset(printables, 0, 50);
                 if (cnt < len) {
-                    print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr + i)), '1',
-                              '0');
+                    print_bin(mon_get_mem_val(mem,
+                                              (ADDRESS)ADDR_LIMIT(addr + i)),
+                                              '1', '0');
                     uimon_out(" ");
                     real_width++;
                     cnt++;
@@ -811,8 +815,8 @@ void mon_display_screen(void) {
     mem_get_screen_parameter(&base, &rows, &cols);
     for (r = 0; r < rows; r++) {
         for (c = 0; c < cols; c++) {
-            uimon_out("%c",p_toascii(mon_get_mem_val(e_comp_space,
-                      ADDR_LIMIT(base++)), 1));
+            uimon_out("%c", charset_p_toascii(mon_get_mem_val(e_comp_space,
+                      (ADDRESS)ADDR_LIMIT(base++)), 1));
         }
         uimon_out("\n");
     }
@@ -864,11 +868,11 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
     buf = (BYTE *)xmalloc(sizeof(BYTE) * len);
 
-    for (i = 0; i < (int)(len); i++)
-        buf[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
+    for (i = 0; (int)i < len; i++)
+        buf[i] = mon_get_mem_val(src_mem, (ADDRESS)ADDR_LIMIT(start + i));
 
-    for (i = 0; i < (int)(len); i++)
-        mon_set_mem_val(dest_mem, ADDR_LIMIT(dst + i), buf[i]);
+    for (i = 0; (int)i < len; i++)
+        mon_set_mem_val(dest_mem, (ADDRESS)ADDR_LIMIT(dst + i), buf[i]);
 }
 
 
@@ -892,9 +896,9 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
     dst = addr_location(dest);
     dest_mem = addr_memspace(dest);
 
-    for (i = 0; i < (int)(len); i++) {
-        byte1 = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
-        byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst + i));
+    for (i = 0; (int)i < len; i++) {
+        byte1 = mon_get_mem_val(src_mem, (ADDRESS)ADDR_LIMIT(start + i));
+        byte2 = mon_get_mem_val(dest_mem, (ADDRESS)ADDR_LIMIT(dst + i));
 
         if (byte1 != byte2)
             uimon_out("$%04x $%04x: %02x %02x\n",
@@ -912,7 +916,7 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
     int len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
-                                     data_buf_len);
+                                     (WORD)data_buf_len);
     if (len < 0) {
         uimon_out("Invalid range.\n");
         return;
@@ -928,8 +932,10 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
     i = 0;
     mon_index = 0;
-    while (i < (int)(len)) {
-        mon_set_mem_val(dest_mem, ADDR_LIMIT(start + i), data_buf[mon_index++]);        if (mon_index >= data_buf_len)
+    while ((int)i < len) {
+        mon_set_mem_val(dest_mem, (ADDRESS)ADDR_LIMIT(start + i),
+                        data_buf[mon_index++]);
+        if (mon_index >= data_buf_len)
             mon_index = 0;
         i++;
     }
@@ -942,9 +948,9 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
                      unsigned char *data)
 {
     BYTE *buf;
-    ADDRESS start;
+    ADDRESS start, next_read;
     MEMSPACE mem;
-    unsigned int i, next_read;
+    unsigned int i;
     int len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
@@ -959,10 +965,10 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
     /* Fill buffer */
     for (i = 0; i < data_buf_len; i++)
-        buf[i] = mon_get_mem_val(mem, ADDR_LIMIT(start + i));
+        buf[i] = mon_get_mem_val(mem, (ADDRESS)ADDR_LIMIT(start + i));
 
     /* Do compares */
-    next_read = start + data_buf_len;
+    next_read = start + (ADDRESS)data_buf_len;
 
     for (i = 0; i < (len-data_buf_len); i++, next_read++) {
         if (memcmp(buf,data_buf,data_buf_len) == 0)
@@ -1344,11 +1350,11 @@ void mon_instructions_next(int count)
         uimon_out("Nexting through the next %d instruction(s).\n",
                    count);
     instruction_count = (count >= 0) ? count : 1;
-    wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
+    wait_for_return_level = (int)((GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
-    if (instruction_count==1)
+    if (instruction_count == 1)
         mon_console_close_on_leaving = 0;
 
     mon_mask[caller_space] |= MI_STEP;
@@ -1358,9 +1364,9 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
     instruction_count = 1;
-    wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS)
+    wait_for_return_level = (int)((GET_OPCODE(caller_space) == OP_RTS)
                             ? 0
-                            : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1;
+                            : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1);
     skip_jsrs = TRUE;
     exit_mon = 1;
 

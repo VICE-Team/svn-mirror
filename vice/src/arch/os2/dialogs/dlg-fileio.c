@@ -54,7 +54,7 @@
 #include "dialogs.h"           // WinLbox*
 #include "archdep.h"           // archdep_boot_path
 #include "fliplist.h"          // flip_*
-#include "charsets.h"          // a2p, p2a
+#include "charset.h"           // a2p, p2a
 #include "resources.h"         // resources_set_value
 #include "autostart.h"         // autostart_autodetect
 #include "cartridge.h"         // cartridge_attach_image

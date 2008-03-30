@@ -78,7 +78,7 @@
 #include "version.h"
 #include "vsync.h"
 #include "drive/drive.h"
-#include "charsets.h"
+#include "charset.h"
 #include "imagecontents.h"
 #include "uimenu.h"
 #include "autostart.h"
@@ -1918,7 +1918,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = petconvstring(tmp2, 1);
+	    tmp2 = charset_petconvstring(tmp2, 1);
 
 	menu[fno].string = tmp2;
 	if (menu[fno].string[0] == '-')
@@ -2012,7 +2012,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     {
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = petconvstring(tmp2, 1);
+	    tmp2 = charset_petconvstring(tmp2, 1);
 	text[0] = tmp2;
 	gtk_clist_append(GTK_CLIST(image_preview_list), text);
 	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);

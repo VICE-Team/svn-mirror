@@ -44,7 +44,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
-#include "charsets.h"
+#include "charset.h"
 #include "cmdline.h"
 #include "console.h"
 #include "diskimage.h"
@@ -599,7 +599,7 @@ int MAIN_PROGRAM(int argc, char **argv)
                     char *name;
 
                     fclose(autostart_fd);
-                    petconvstring(autostart_prg_name, 0);
+                    charset_petconvstring(autostart_prg_name, 0);
                     name = replace_hexcodes(autostart_prg_name);
                     autostart_autodetect(autostart_file, name, 0);
                     free(name);

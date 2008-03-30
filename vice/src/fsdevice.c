@@ -69,7 +69,7 @@
 
 #include "archdep.h"
 #include "attach.h"
-#include "charsets.h"
+#include "charset.h"
 #include "cmdline.h"
 #include "fsdevice.h"
 #include "log.h"
@@ -336,7 +336,7 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
     fs_cmdbuf[fs_cptr] = 0;
 
     strcpy(cbmcmd, fs_cmdbuf);
-    petconvstring(cbmcmd, 1);   /* CBM name to FSname */
+    charset_petconvstring(cbmcmd, 1);   /* CBM name to FSname */
     cmd = cbmcmd;
     while (*cmd == ' ')
         cmd++;
@@ -648,7 +648,7 @@ static int read_fs(vdrive_t *vdrive, BYTE * data, unsigned int secondary)
                         for (i = 0; rname[i] && (*p = rname[i]); ++i, ++p);
                     } else {
                         for (i = 0; tp[i] /*i < dirp->d_namlen */ &&
-                             (*p = p_topetcii(tp[i])); ++i, ++p);
+                             (*p = charset_p_topetcii(tp[i])); ++i, ++p);
                     }
 
                     *p++ = '"';
@@ -774,7 +774,7 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
     fsname[reallength] = 0;
     strncpy(rname, fsname, reallength);
 
-    petconvstring(fsname, 1);   /* CBM name to FSname */
+    charset_petconvstring(fsname, 1);   /* CBM name to FSname */
 
     switch (readmode) {
       case FAM_WRITE:
@@ -840,7 +840,7 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
 
         *p++ = '"';
         strcpy((char *) p, fs_info[secondary].dir);     /* Dir name */
-        petconvstring((char *) p, 0);   /* ASCII name to PETSCII */
+        charset_petconvstring((char *) p, 0);   /* ASCII name to PETSCII */
         i = 0;
         while (*p) {
             ++p;

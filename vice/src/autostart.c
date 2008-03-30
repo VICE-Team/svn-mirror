@@ -41,7 +41,7 @@
 #include "archdep.h"
 #include "autostart.h"
 #include "attach.h"
-#include "charsets.h"
+#include "charset.h"
 #include "datasette.h"
 #include "drive.h"
 #include "fsdevice.h"
@@ -565,7 +565,7 @@ int autostart_prg(const char *file_name)
     if (p00_type != FT_PRG) {
         /* Then it must be a raw file.  */
         cbm_name = stralloc(file);
-        petconvstring(cbm_name, 0);
+        charset_petconvstring(cbm_name, 0);
     } else {
         cbm_name = stralloc(p00_header_file_name);
     }
