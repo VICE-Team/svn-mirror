@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "cartridge.h"
 #include "joystick.h"
@@ -36,11 +37,13 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "vsync.h"
+#include "c64mem.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
 #include "c64icon.xpm"
 #endif
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -300,7 +303,22 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(radio_RomSet)
+{
+  mem_load_romset((char*) client_data);
+}
+
+
+/*UI_MENU_DEFINE_RADIO(RomSet)
+ */
+static ui_menu_entry_t* romset_submenu;
+
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t c64_menu[] = {
+    { "ROM settings",
+      NULL, NULL, NULL },
     { "VIC-II settings",
       NULL, NULL, vic_submenu },
     { "SID settings",
@@ -312,8 +330,12 @@ static ui_menu_entry_t c64_menu[] = {
     { NULL }
 };
 
+
 int c64_ui_init(void)
 {
+    int num_romsets;
+    mem_romset_t** romsets;
+
 #ifdef XPM
     {
         Pixmap icon_pixmap;
@@ -324,7 +346,32 @@ int c64_ui_init(void)
         ui_set_application_icon(icon_pixmap);
     }
 #endif
+    romsets = mem_get_romsets();
 
+    romset_submenu = (ui_menu_entry_t*) calloc(sizeof(ui_menu_entry_t),
+					       (size_t) (mem_get_numromsets()
+							 +3));
+    romset_submenu[0].string = "Default";
+    romset_submenu[0].callback = (ui_callback_t) radio_RomSet;
+    romset_submenu[0].callback_data = (ui_callback_data_t) "Default";
+    romset_submenu[0].sub_menu = NULL;
+    romset_submenu[0].hotkey_keysym = 0;
+    romset_submenu[0].hotkey_modifier = (ui_hotkey_modifier_t) 0;      
+
+    romset_submenu[1].string = "--";
+
+        
+    for(num_romsets = 0; num_romsets < mem_get_numromsets(); num_romsets++) {
+      romset_submenu[2+num_romsets].string = romsets[num_romsets]->name; 
+      romset_submenu[2+num_romsets].callback = (ui_callback_t) radio_RomSet;
+      romset_submenu[2+num_romsets].callback_data = (ui_callback_data_t) 
+	romsets[num_romsets]->name;
+      romset_submenu[2+num_romsets].sub_menu = NULL;
+      romset_submenu[2+num_romsets].hotkey_keysym = 0;
+      romset_submenu[2+num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
+    }
+
+    c64_menu[0].sub_menu = romset_submenu;
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,

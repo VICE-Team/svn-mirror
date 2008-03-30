@@ -91,6 +91,9 @@ int have_truecolor;
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
 
+/* UI logging goes here.  */
+static log_t ui_log = LOG_ERR;
+
 Widget canvas;
 
 #ifdef USE_VIDMODE_EXTENSION
@@ -118,32 +121,32 @@ int vidmode_available (void)
     int tbsd, bsd = 0;
 
     if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        fprintf (stderr, "Unable to query video extension version\n");
+        log_error(ui_log, "Unable to query video extension version");
         return 0;
     }
     if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
-        fprintf (stderr, "Unable to query video extension information\n");
+        log_error(ui_log, "Unable to query video extension information");
         return 0;
     }
     if (MajorVersion < VidMode_MINMAJOR
         || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
 ) {
         /* Fail if the extension version in the server is too old */
-      fprintf (stderr, "Xserver is running an old XFree86-VidMode version (%d.  %d)\n",
+      log_error(ui_log, "Xserver is running an old XFree86-VidMode version (%d.  %d)",
 	       MajorVersion, MinorVersion);
-      fprintf (stderr, "Minimum required version is %d.%d\n",
+      log_error(ui_log, "Minimum required version is %d.%d",
 	       VidMode_MINMAJOR, VidMode_MINMINOR);
       return 0;
     }
     if (! XF86VidModeGetAllModeLines (display, screen, &vidmodecount, &allmodes)) {
-        fprintf (stderr, "Error getting video mode information\n");
+        log_error(ui_log, "Error getting video mode information");
         return 0;
     }
     
     bestmode = 0;
-    printf("Available video modes: ");
+    log_message(LOG_DEFAULT, "Available video modes: ");
     for (i = 1; i < vidmodecount; i++) {
-      printf("%ix%i ",allmodes[i]->hdisplay,allmodes[i]->vdisplay);
+      log_message(LOG_DEFAULT,"%ix%i ",allmodes[i]->hdisplay,allmodes[i]->vdisplay);
       if(allmodes[i]->hdisplay <= 800 && allmodes[i]->hdisplay >= 640 &&
          allmodes[i]->vdisplay <= 600 && allmodes[i]->hdisplay >= 400) {
          tbsd = allmodes[i]->hdisplay - 768;
@@ -154,7 +157,6 @@ int vidmode_available (void)
         } 
       }
     } 
-    printf("\n");
     return 1;
 }
 
@@ -164,6 +166,9 @@ static int set_fullscreen(resource_value_t v) {
   static int root_x, root_y;
   static int win_x,win_y;
   static int timeout,interval,prefer_blanking,allow_exposures;
+  static XF86VidModeModeLine restoremodeline;
+  static int dotclock;
+  int i;
 
   if( !vidmodeavail && !bestmode) {
     use_fullscreen_at_start = (int) v;
@@ -171,9 +176,19 @@ static int set_fullscreen(resource_value_t v) {
   }
 
   if(v && ! use_fullscreen) {    
-    printf("Switch to fullscreen %ix%i\n",allmodes[bestmode]->hdisplay,
-           allmodes[bestmode]->vdisplay);    
-    XF86VidModeSwitchToMode (display, screen, allmodes[bestmode]);
+    log_message(LOG_DEFAULT, "Switch to fullscreen %ix%i",
+		allmodes[bestmode]->hdisplay,
+		allmodes[bestmode]->vdisplay);
+    
+    XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
+    if ( ! XF86VidModeSwitchToMode (display, screen, allmodes[bestmode])) {
+      log_error(ui_log,"Error switching to fullscreen %ix%i\n",
+		allmodes[bestmode]->hdisplay,
+		allmodes[bestmode]->vdisplay);
+      return 0;
+    }
+
+    XF86VidModeLockModeSwitch(display, screen, 1);
 
     XtVaGetValues(XtParent(XtParent(canvas)),
           XtNx,          &x,
@@ -214,24 +229,35 @@ static int set_fullscreen(resource_value_t v) {
     XGrabKeyboard(display, XtWindow(canvas),
                   1, GrabModeAsync,
                   GrabModeAsync,  CurrentTime);
-
     XGrabPointer(display, XtWindow(canvas), 1,
                  PointerMotionMask | ButtonPressMask | ButtonReleaseMask,
                  GrabModeAsync, GrabModeAsync,
                  XtWindow(canvas),
                  None, CurrentTime);
+
     XWarpPointer(display, None,
                  XtWindow(canvas),
                  0, 0, 0, 0, 0, 0);
     XGetScreenSaver(display,&timeout,&interval,
 		    &prefer_blanking,&allow_exposures);
     XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);    
+
   } else if(use_fullscreen) {
-    printf("Switch to windowmode\n");
+    log_message(LOG_DEFAULT, "Switch to windowmode");
 
     use_fullscreen = 0;
   
-    XF86VidModeSwitchToMode(display, screen, allmodes[0]);
+    XF86VidModeLockModeSwitch(display, screen, 0);
+
+    /* Oh who has designed the vidmode extension API???? */
+    for (i = 0; i < vidmodecount; i++) {
+      if(allmodes[i]->hdisplay == restoremodeline.hdisplay &&
+         allmodes[i]->vdisplay == restoremodeline.vdisplay &&
+         allmodes[i]->dotclock == dotclock ) {
+	XF86VidModeSwitchToMode(display, screen, allmodes[i]);
+	break;
+      }
+    }                             
 
     video_setfullscreen(0,0,0);
     
@@ -406,9 +432,6 @@ Pixel drive_led_on_pixel, drive_led_off_pixel;
 
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
-
-/* UI logging goes here.  */
-static log_t ui_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 

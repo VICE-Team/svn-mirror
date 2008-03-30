@@ -2430,3 +2430,8 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
+int reload_rom_1541(char *name) {
+   set_dos_rom_name_1541((resource_value_t) name);
+   drive_load_rom_images();
+   return(1);
+}
