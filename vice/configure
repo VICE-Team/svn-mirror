@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.4
+VERSION=1.1.5
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7188,7 +7188,6 @@ fi
 
 
 
-
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
   cat >> confdefs.h <<EOF
 #define PREFIX "$ac_default_prefix"
@@ -7483,7 +7482,6 @@ s%@HAVE_READLINE@%$HAVE_READLINE%g
 s%@ARCH_INCLUDES@%$ARCH_INCLUDES%g
 s%@ARCH_LIBS@%$ARCH_LIBS%g
 s%@ARCH_DIR@%$ARCH_DIR%g
-s%@SUBDIRS@%$SUBDIRS%g
 s%@SOUND_USS_OBJ@%$SOUND_USS_OBJ%g
 s%@SOUND_SGI_OBJ@%$SOUND_SGI_OBJ%g
 s%@SOUND_HPUX_OBJ@%$SOUND_HPUX_OBJ%g
