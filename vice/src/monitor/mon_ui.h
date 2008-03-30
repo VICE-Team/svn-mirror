@@ -27,19 +27,19 @@
 #ifndef _MON_UI_H
 #define _MON_UI_H
 
+#include <stdio.h>
+
 #include "mon.h"
 
 struct mon_disassembly_private;
 
-struct mon_disassembly_flags
-{
+struct mon_disassembly_flags {
     int active_line       : 1;
     int is_breakpoint     : 1;
     int breakpoint_active : 1;
 };
 
-struct mon_disassembly
-{
+struct mon_disassembly {
     struct mon_disassembly *     next;
     struct mon_disassembly_flags flags;
     size_t                       length;
@@ -47,8 +47,7 @@ struct mon_disassembly
 };
 
 typedef
-enum MON_SCROLL_TYPE_TAG
-{
+enum MON_SCROLL_TYPE_TAG {
     MON_SCROLL_NOTHING,
     MON_SCROLL_UP,
     MON_SCROLL_DOWN,
@@ -56,15 +55,16 @@ enum MON_SCROLL_TYPE_TAG
     MON_SCROLL_PAGE_DOWN
 } MON_SCROLL_TYPE;
 
-struct mon_disassembly_private * mon_disassembly_init     ( void );
-void                             mon_disassembly_deinit   ( struct mon_disassembly_private * );
-void                             mon_disassembly_update   ( struct mon_disassembly_private * );
-struct mon_disassembly *         mon_disassembly_get_lines( struct mon_disassembly_private *, int lines_visible, int lines_full_visible );
-
-void                             mon_disassembly_set_memspace( struct mon_disassembly_private *, MEMSPACE );
-MEMSPACE                         mon_disassembly_get_memspace( struct mon_disassembly_private * );
-
-ADDRESS                          mon_scroll   ( struct mon_disassembly_private *, MON_SCROLL_TYPE );
-ADDRESS                          mon_scroll_to( struct mon_disassembly_private *, ADDRESS         );
+struct mon_disassembly_private *mon_disassembly_init(void);
+void mon_disassembly_deinit(struct mon_disassembly_private *);
+void mon_disassembly_update(struct mon_disassembly_private *);
+struct mon_disassembly *mon_disassembly_get_lines(
+    struct mon_disassembly_private *,
+    int lines_visible, int lines_full_visible);
+void mon_disassembly_set_memspace(struct mon_disassembly_private *, MEMSPACE);
+MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
+ADDRESS mon_scroll(struct mon_disassembly_private *, MON_SCROLL_TYPE);
+ADDRESS mon_scroll_to(struct mon_disassembly_private *, ADDRESS);
 
 #endif
+
