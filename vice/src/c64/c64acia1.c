@@ -44,6 +44,25 @@ static BYTE status;
 
 /******************************************************************/
 
+/* rs232.h replacement functions if no rs232 device available */
+
+#ifndef HAVE_RS232
+
+static int rs232_open(int device) 
+{
+    return -1;
+}
+
+static void rs232_close(int fd) { }
+
+static int rs232_putc(int fd, BYTE b) { }
+
+static int rs232_getc(int fd, BYTE *b) { }
+
+#endif
+
+/******************************************************************/
+
 static int acia1_device;
 static int acia1_irq;
 
