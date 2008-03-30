@@ -57,11 +57,12 @@
 #include "parallel.h"
 #include "prdevice.h"
 #include "serial.h"
-#include "tape.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
 #include "vdrive.h"
+
+#define MAXDEVICES 16
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */

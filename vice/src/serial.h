@@ -33,8 +33,6 @@
 #include "traps.h"
 #include "types.h"
 
-#define MAXDEVICES		16
-
 /* Serial Error Codes. */
 
 #define SERIAL_OK		0
@@ -46,16 +44,7 @@
 #define SERIAL_ERROR		(2)
 #define SERIAL_EOF		(64)
 
-
-/* Device types. */
-
-#define DT_FS			0x0100	/* Filesystem Drive */
-#define DT_DISK			0x0200
-#define DT_PRINTER		0x0400
-#define DT_MASK			0xFF
-
 /* Printers. */
-
 #define DT_ASCII		0	/* No printer commands nor graphics */
 #define DT_MPS803		1
 #define DT_STAR10CCL		2
