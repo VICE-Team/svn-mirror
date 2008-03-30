@@ -202,7 +202,7 @@ static tui_menu_item_def_t freeze_cartridge_menu_items[] = {
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
-TUI_MENU_DEFINE_TOGGLE(DelayLoopEmulation)
+TUI_MENU_DEFINE_TOGGLE(PALEmulation)
 
 static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
 {
@@ -233,7 +233,28 @@ static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
     }
 }
 
+static TUI_MENU_CALLBACK(toggle_PALMode_callback)
+{
+    int value;
 
+    resources_get_value("PALMode", (resource_value_t *) &value);
+
+    if (been_activated) {
+        value = (value + 1) % 3;
+        resources_set_value("PALMode", (resource_value_t) value);
+    }
+
+    switch (value) {
+      case 0:
+	return "Fast PAL";
+      case 1:
+	return "Y/C cable (sharp)";
+      case 2:
+	return "Composite (blurry)";
+      default:
+	return "unknown";
+    }
+}
 
 static tui_menu_item_def_t vic_ii_menu_items[] = {
     { "Video _Cache:",
@@ -242,8 +263,12 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_PAL Emulation:",
       "Enable PAL emulation",
-      toggle_DelayLoopEmulation_callback, NULL, 3,
+      toggle_PALEmulation_callback, NULL, 3,
       TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "PAL _Mode:",
+      "Change PAL Mode",
+      toggle_PALMode_callback, NULL, 20,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Sprite-_Background Collisions:",
       "Emulate sprite-background collision register",

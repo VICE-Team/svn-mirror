@@ -48,6 +48,9 @@ list of all the changes in the code.
 - XFree86 fullscreen support is disabled by default. To enable
   fullscreen support use the `--enable-fullscreen' of configure.
 
+- Preliminary support for hardware YUV image scaling via the XVideo
+  extension.
+
 - Fliplists can be saved and restored via GUI.
 
 - Fliplists are now automatically saved to

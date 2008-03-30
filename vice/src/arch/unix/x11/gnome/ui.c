@@ -991,7 +991,9 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 	rc_style->bg[GTK_STATE_NORMAL] = color;
 	rc_style->color_flags[GTK_STATE_NORMAL] = GTK_RC_BG;
 	gtk_widget_modify_style(new_canvas, rc_style);
-	gtk_rc_style_unref(rc_style);
+        /* FIXME: Old gtk libraries do stupid things if this is
+                  unreferenced.  */
+	/* gtk_rc_style_unref(rc_style); */
     }
 
     

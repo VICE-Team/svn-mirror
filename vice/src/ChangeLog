@@ -1,3 +1,19 @@
+2002-04-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.38.
+
+	* arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Commented
+	out call to `gtk_rc_style_unref()'.
+
+2002-04-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/c128ui.c, c64ui.c, vic20ui.c: Fixed PAL resource.
+	Added menuitem and handler for PAL Mode.
+
+	* arch/msdos/vsync.c (vsync_do_vsync): Fixed signature.
+
+	* arch/win32/resvic.rc: Fixed text of PAL menuitem.
+
 2002-04-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.37.

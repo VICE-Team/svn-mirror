@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-04-12 00:16+0200\n"
+"POT-Creation-Date: 2002-04-13 20:02+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -313,8 +313,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:493 src/arch/unix/c610ui.c:498
 #: src/arch/unix/c64ui.c:460 src/arch/unix/petui.c:421
 #: src/arch/unix/plus4ui.c:221 src/arch/unix/vic20ui.c:537
-#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1147
-#: src/arch/unix/x11/gnome/ui.c:1239
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1149
+#: src/arch/unix/x11/gnome/ui.c:1241
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -1123,7 +1123,7 @@ msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:718 src/arch/unix/uicommands.c:733
 #: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
-#: src/arch/unix/x11/gnome/ui.c:1491
+#: src/arch/unix/x11/gnome/ui.c:1493
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1276,7 +1276,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1007 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1859
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Reset"
 msgstr "Reset"
 
@@ -1773,7 +1773,7 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/ui.c:1286
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/ui.c:1288
 #: src/arch/unix/x11/xaw/ui.c:1064
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -2340,94 +2340,94 @@ msgstr "Cassetta 000"
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/ui.c:1145 src/arch/unix/x11/gnome/ui.c:1228
+#: src/arch/unix/x11/gnome/ui.c:1147 src/arch/unix/x11/gnome/ui.c:1230
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/ui.c:1151
+#: src/arch/unix/x11/gnome/ui.c:1153
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/ui.c:1270 src/arch/unix/x11/xaw/ui.c:1048
+#: src/arch/unix/x11/gnome/ui.c:1272 src/arch/unix/x11/xaw/ui.c:1048
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/ui.c:1272 src/arch/unix/x11/xaw/ui.c:1054
+#: src/arch/unix/x11/gnome/ui.c:1274 src/arch/unix/x11/xaw/ui.c:1054
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/ui.c:1282 src/arch/unix/x11/xaw/ui.c:1061
+#: src/arch/unix/x11/gnome/ui.c:1284 src/arch/unix/x11/xaw/ui.c:1061
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/ui.c:1329 src/arch/unix/x11/xaw/ui.c:1098
+#: src/arch/unix/x11/gnome/ui.c:1331 src/arch/unix/x11/xaw/ui.c:1098
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/ui.c:1349 src/arch/unix/x11/gnome/ui.c:1352
+#: src/arch/unix/x11/gnome/ui.c:1351 src/arch/unix/x11/gnome/ui.c:1354
 #: src/arch/unix/x11/xaw/ui.c:1119 src/arch/unix/x11/xaw/ui.c:1125
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1643
+#: src/arch/unix/x11/gnome/ui.c:1645
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1680 src/arch/unix/x11/xaw/ui.c:1335
+#: src/arch/unix/x11/gnome/ui.c:1682 src/arch/unix/x11/xaw/ui.c:1335
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/ui.c:1818
+#: src/arch/unix/x11/gnome/ui.c:1820
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1833
+#: src/arch/unix/x11/gnome/ui.c:1835
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1859
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1859
+#: src/arch/unix/x11/gnome/ui.c:1861
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1903 src/arch/unix/x11/xaw/ui.c:1575
+#: src/arch/unix/x11/gnome/ui.c:1905 src/arch/unix/x11/xaw/ui.c:1575
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/ui.c:1904
+#: src/arch/unix/x11/gnome/ui.c:1906
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/ui.c:1917
+#: src/arch/unix/x11/gnome/ui.c:1919
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1925 src/arch/unix/x11/gnome/ui.c:1934
+#: src/arch/unix/x11/gnome/ui.c:1927 src/arch/unix/x11/gnome/ui.c:1936
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/ui.c:2062 src/arch/unix/x11/gnome/ui.c:2067
+#: src/arch/unix/x11/gnome/ui.c:2064 src/arch/unix/x11/gnome/ui.c:2069
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/ui.c:2525
+#: src/arch/unix/x11/gnome/ui.c:2527
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/ui.c:2572
+#: src/arch/unix/x11/gnome/ui.c:2574
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/ui.c:2598
+#: src/arch/unix/x11/gnome/ui.c:2600
 msgid "Autostart"
 msgstr "Avvio automatico"
 
