@@ -249,10 +249,6 @@ static UI_CALLBACK(set_default_resources)
 
 UI_MENU_DEFINE_TOGGLE(VideoCache)
 
-UI_MENU_DEFINE_TOGGLE(DoubleSize)
-
-UI_MENU_DEFINE_TOGGLE(DoubleScan)
-
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 
 UI_MENU_DEFINE_TOGGLE(UseFullscreen)
@@ -260,6 +256,53 @@ UI_MENU_DEFINE_TOGGLE(UseFullscreen)
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
+
+#ifdef USE_VIDMODE_EXTENSION
+static UI_CALLBACK(toggle_DoubleSize)
+{
+    int current_value, fullscreen;
+
+    if (resources_get_value("DoubleSize",
+                            (resource_value_t *) &current_value) < 0)
+        return;
+
+    resources_get_value("UseFullscreen", (resource_value_t *) &fullscreen);
+    if (!call_data) {
+        if (!fullscreen) {
+            resources_set_value("DoubleSize", 
+                                (resource_value_t) !current_value);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, current_value);
+    }
+    ui_menu_set_sensitive(w, !fullscreen);
+}
+
+static UI_CALLBACK(toggle_DoubleScan)
+{
+    int current_value, fullscreen;
+
+    if (resources_get_value("DoubleScan",
+                            (resource_value_t *) &current_value) < 0)
+        return;
+
+    resources_get_value("UseFullscreen", (resource_value_t *) &fullscreen);
+    if (!call_data) {
+        if (!fullscreen) {
+            resources_set_value("DoubleScan",
+                                (resource_value_t) !current_value);
+            ui_update_menus();
+        }
+    } else {
+        ui_menu_set_tick(w, current_value);
+    }
+    ui_menu_set_sensitive(w, !fullscreen);
+}
+#else
+UI_MENU_DEFINE_TOGGLE(DoubleSize)
+UI_MENU_DEFINE_TOGGLE(DoubleScan)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
