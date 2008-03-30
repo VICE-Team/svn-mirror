@@ -27,150 +27,202 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
-
 #include "maincpu.h"
 #include "types.h"
 #include "vicii-phi1.h"
 #include "viciitypes.h"
 
 
+inline static BYTE gfx_data_hires_bitmap(unsigned int num)
+{
+    return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
+               + num * 8) & 0x1fff];
+}
+
+inline static BYTE gfx_data_normal_text(unsigned int num)
+{
+    return vic_ii.chargen_ptr[vic_ii.vbuf[num] * 8 + vic_ii.raster.ycounter];
+}
+
+static BYTE gfx_data(unsigned int num)
+{
+    BYTE value = 0;
+
+    switch (vic_ii.raster.video_mode) {
+      case VIC_II_NORMAL_TEXT_MODE:
+        value = gfx_data_normal_text(num);
+        break;
+      case VIC_II_MULTICOLOR_TEXT_MODE:
+        break;
+      case VIC_II_HIRES_BITMAP_MODE:
+        value = gfx_data_hires_bitmap(num);
+        break;
+      case VIC_II_MULTICOLOR_BITMAP_MODE:
+        break;
+      case VIC_II_EXTENDED_TEXT_MODE:
+        break;
+      case VIC_II_ILLEGAL_TEXT_MODE:
+        break;
+      case VIC_II_ILLEGAL_BITMAP_MODE_1:
+        break;
+      case VIC_II_ILLEGAL_BITMAP_MODE_2:
+        break;
+      default:
+        value = vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    }
+
+    return value;
+}
+
+static BYTE idle_gap(void)
+{
+    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+}
+
+static BYTE sprite_data(unsigned int num)
+{
+    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+}
+
+static BYTE sprite_pointer(unsigned int num)
+{
+    WORD offset;
+
+    offset = ((vic_ii.regs[0x18] & 0xf0) << 6) + 0x3f8 + num;
+
+    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + offset];
+}
+
+static BYTE refresh_counter(unsigned int num)
+{
+    BYTE offset;
+
+    offset = 0xff - (VIC_II_RASTER_Y(maincpu_clk) * 5 + num);
+
+    return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3f00 + offset];
+}
+
 BYTE vicii_read_phi1(void)
 {
-#if 1
-    return (BYTE)(rand() & 0xff);
-#else
+    BYTE value = 0x40;
+    unsigned int cycle;
 
-    switch (maincpu_clk % vic_ii.cycles_per_line) {
+    cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
+
+    switch (cycle) {
       case 0:
+        value = sprite_pointer(3);
         break;
       case 1:
+        value = sprite_data(3);
         break;
       case 2:
+        value = sprite_pointer(4);
         break;
       case 3:
+        value = sprite_data(4);
         break;
       case 4:
+        value = sprite_pointer(5);
         break;
       case 5:
+        value = sprite_data(5);
         break;
       case 6:
+        value = sprite_pointer(6);
         break;
       case 7:
+        value = sprite_data(6);
         break;
       case 8:
+        value = sprite_pointer(7);
         break;
       case 9:
+        value = sprite_data(7);
         break;
       case 10:
+        value = refresh_counter(0);
         break;
       case 11:
+        value = refresh_counter(1);
         break;
       case 12:
+        value = refresh_counter(2);
         break;
       case 13:
+        value = refresh_counter(3);
         break;
       case 14:
+        value = refresh_counter(4);
         break;
       case 15:
-        break;
       case 16:
-        break;
       case 17:
-        break;
       case 18:
-        break;
       case 19:
-        break;
       case 20:
-        break;
       case 21:
-        break;
       case 22:
-        break;
       case 23:
-        break;
       case 24:
-        break;
       case 25:
-        break;
       case 26:
-        break;
       case 27:
-        break;
       case 28:
-        break;
       case 29:
-        break;
       case 30:
-        break;
       case 31:
-        break;
       case 32:
-        break;
       case 33:
-        break;
       case 34:
-        break;
       case 35:
-        break;
       case 36:
-        break;
       case 37:
-        break;
       case 38:
-        break;
       case 39:
-        break;
       case 40:
-        break;
       case 41:
-        break;
       case 42:
-        break;
       case 43:
-        break;
       case 44:
-        break;
       case 45:
-        break;
       case 46:
-        break;
       case 47:
-        break;
       case 48:
-        break;
       case 49:
-        break;
       case 50:
-        break;
       case 51:
-        break;
       case 52:
-        break;
       case 53:
-        break;
       case 54:
+        value = gfx_data(cycle - 15);
         break;
       case 55:
+        value = idle_gap();
         break;
       case 56:
+        value = idle_gap();
         break;
       case 57:
+        value = sprite_pointer(0);
         break;
       case 58:
+        value = sprite_data(0);
         break;
       case 59:
+        value = sprite_pointer(1);
         break;
       case 60:
+        value = sprite_data(1);
         break;
       case 61:
+        value = sprite_pointer(2);
         break;
       case 62:
+        value = sprite_data(2);
         break;
     }
 
-    return (BYTE)(rand() & 0xff);
-#endif
+    return value;
 }
 
