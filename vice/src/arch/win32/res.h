@@ -1,7 +1,32 @@
+/*
+ * res.h
+ *
+ * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
 #ifndef _RES_H
 #define _RES_H
-
 
 #define IDR_MENUC64                     101
 #define IDR_MENUC128                    102
@@ -122,6 +147,11 @@
 #define IDC_TOGGLE_CBMII_RAMC           1175
 #define IDC_SELECT_CBMII_KEYB_GRAPHICS  1180
 #define IDC_SELECT_CBMII_KEYB_BUSINESS  1181
+#define IDC_TOGGLE_DRIVE_EXPANSION_2000 1190
+#define IDC_TOGGLE_DRIVE_EXPANSION_4000 1191
+#define IDC_TOGGLE_DRIVE_EXPANSION_6000 1192
+#define IDC_TOGGLE_DRIVE_EXPANSION_8000 1193
+#define IDC_TOGGLE_DRIVE_EXPANSION_A000 1194
 
 #define IDD_JOY_SETTINGS_DIALOG         1200
 #define IDC_JOY_DEV1                    1201
@@ -182,6 +212,8 @@
 #define IDC_VIC_MEMORY_BLOCK3           1281
 #define IDC_VIC_MEMORY_BLOCK5           1282
 
+#define IDD_PRINTDEVICE_DIALOG          1290
+#define IDC_TOGGLE_PRINTER              1291
 
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -291,5 +323,7 @@
 #define IDM_TOGGLE_VDC_DOUBLESIZE       40190
 #define IDM_TOGGLE_VDC_DOUBLESCAN       40191
 #define IDM_VIC_SETTINGS                40192
+#define IDM_TOGGLE_VIRTUAL_DEVICES      40193
 
 #endif
+

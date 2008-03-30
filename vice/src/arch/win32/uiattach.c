@@ -107,97 +107,92 @@ static void init_dialog(HWND hwnd, unsigned int num)
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
+    int n;
+    char tmp[256];
+
     switch (msg) {
       case WM_INITDIALOG:
         init_dialog(hwnd, num);
         return TRUE;
       case WM_COMMAND:
-          switch (LOWORD(wparam)) {
-            case IDC_SELECTDIR:
-            case IDC_SELECTDISK:
-            case IDC_SELECTNONE:
-              enable_controls_for_disk_device_type(hwnd,
-                                                   LOWORD(wparam));
-              break;
-            case IDC_BROWSEDISK:
-              {
-                  char *s;
-                  if ((s = ui_select_file("Attach disk image",
-                      "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                      "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
-                      SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
-                      if (file_system_attach_disk(num, s) < 0)
-                          ui_error("Cannot attach specified file");
-                      free(s);
-                  }
-              }
-              break;
-            case IDC_AUTOSTART:
-              {
-                  char *s;
-                  if ((s = ui_select_file("Autostart disk image",
-                      "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                      "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
-                      SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
-                      if (autostart_autodetect(s, "*") < 0)
-                          ui_error("Cannot autostart specified file.");
-                      free(s);
-                  }
-              }
-              break;
-            case IDC_BROWSEDIR:
-              {
-                  BROWSEINFO    bi;
-                  char          s[MAX_PATH];
-                  LPITEMIDLIST  idlist;
+        switch (LOWORD(wparam)) {
+          case IDC_SELECTDIR:
+          case IDC_SELECTDISK:
+          case IDC_SELECTNONE:
+            enable_controls_for_disk_device_type(hwnd,
+                                                 LOWORD(wparam));
+            break;
+          case IDC_BROWSEDISK:
+            {
+                char *s;
+                if ((s = ui_select_file("Attach disk image",
+                    "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
+                    "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                    if (file_system_attach_disk(num, s) < 0)
+                        ui_error("Cannot attach specified file");
+                    free(s);
+                }
+            }
+            break;
+          case IDC_AUTOSTART:
+            {
+                char *s;
+                if ((s = ui_select_file("Autostart disk image",
+                    "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
+                    "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                    if (autostart_autodetect(s, "*") < 0)
+                        ui_error("Cannot autostart specified file.");
+                    free(s);
+                }
+            }
+            break;
+          case IDC_BROWSEDIR:
+            {
+                BROWSEINFO    bi;
+                char          s[MAX_PATH];
+                LPITEMIDLIST  idlist;
 
-                  bi.hwndOwner=hwnd;
-                  bi.pidlRoot=NULL;
-                  bi.pszDisplayName=s;
-                  bi.lpszTitle="Select file system directory";
-                  bi.ulFlags=0;
-                  bi.lpfn=NULL;
-                  bi.lParam=0;
-                  bi.iImage=0;
-                  if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
-                      char tmp[256];
-                      SHGetPathFromIDList(idlist,s);
-                      LocalFree(idlist);
-                      SetDlgItemText(hwnd, IDC_DIR, s);
-                      sprintf(tmp, "FSDevice%dDir", num);
-                      resources_set_value(tmp, (resource_value_t) s);
-                  }
-              }
-              break;
-            case IDC_TOGGLE_READP00:
-              {
-                  int n;
-                  char tmp[256];
-                  sprintf(tmp, "FSDevice%dConvertP00", num);
-                  resources_get_value(tmp, (resource_value_t *) &n);
-                  resources_set_value(tmp, (resource_value_t) !n);
-                  break;
-              }
-            case IDC_TOGGLE_WRITEP00:
-              {
-                  int n;
-                  char tmp[256];
-                  sprintf(tmp, "FSDevice%dSaveP00", num);
-                  resources_get_value(tmp, (resource_value_t *) &n);
-                  resources_set_value(tmp, (resource_value_t) !n);
-                  break;
-              }
-            case IDC_TOGGLE_HIDENONP00:
-              {
-                  int n;
-                  char tmp[256];
-                  sprintf(tmp, "FSDevice%dHideCBMFiles", num);
-                  resources_get_value(tmp, (resource_value_t *) &n);
-                  resources_set_value(tmp, (resource_value_t) !n);
-                  break;
-              }
-          }
-          return TRUE;
+                bi.hwndOwner=hwnd;
+                bi.pidlRoot=NULL;
+                bi.pszDisplayName=s;
+                bi.lpszTitle="Select file system directory";
+                bi.ulFlags=0;
+                bi.lpfn=NULL;
+                bi.lParam=0;
+                bi.iImage=0;
+                if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
+                    char tmp[256];
+                    SHGetPathFromIDList(idlist,s);
+                    LocalFree(idlist);
+                    SetDlgItemText(hwnd, IDC_DIR, s);
+                    sprintf(tmp, "FSDevice%dDir", num);
+                    resources_set_value(tmp, (resource_value_t) s);
+                }
+            }
+            break;
+          case IDC_TOGGLE_READP00:
+            sprintf(tmp, "FSDevice%dConvertP00", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_WRITEP00:
+            sprintf(tmp, "FSDevice%dSaveP00", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_HIDENONP00:
+            sprintf(tmp, "FSDevice%dHideCBMFiles", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_PRINTER:
+            resources_get_value("Printer4", (resource_value_t *) &n);
+            resources_set_value("Printer4", (resource_value_t) !n);
+            break;
+        }
+        return TRUE;
     }
     return FALSE;
 }
@@ -209,6 +204,7 @@ static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
     return dialog_proc(num, dialog, msg, wparam, lparam);         \
 }
 
+_CALLBACK(4)
 _CALLBACK(8)
 _CALLBACK(9)
 _CALLBACK(10)
@@ -216,11 +212,25 @@ _CALLBACK(11)
 
 void ui_attach_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[4];
+    PROPSHEETPAGE psp[5];
     PROPSHEETHEADER psh;
     int i;
 
-    for (i = 0; i < 4; i++) {
+    psp[0].dwSize = sizeof(PROPSHEETPAGE);
+    psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+    psp[0].hInstance = winmain_instance;
+#ifdef HAVE_UNNAMED_UNIONS
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PRINTDEVICE_DIALOG);
+    psp[0].pszIcon = NULL;
+#else
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PRINTDEVICE_DIALOG);
+    psp[0].u2.pszIcon = NULL;
+#endif
+    psp[0].lParam = 0;
+    psp[0].pfnCallback = NULL;
+
+
+    for (i = 1; i < 5; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -235,21 +245,23 @@ void ui_attach_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = "Drive 8";
-    psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = "Drive 9";
-    psp[2].pfnDlgProc = callback_10;
-    psp[2].pszTitle = "Drive 10";
-    psp[3].pfnDlgProc = callback_11;
-    psp[3].pszTitle = "Drive 11";
+    psp[0].pfnDlgProc = callback_4;
+    psp[0].pszTitle = "Printer 4";
+    psp[1].pfnDlgProc = callback_8;
+    psp[1].pszTitle = "Drive 8";
+    psp[2].pfnDlgProc = callback_9;
+    psp[2].pszTitle = "Drive 9";
+    psp[3].pfnDlgProc = callback_10;
+    psp[3].pszTitle = "Drive 10";
+    psp[4].pfnDlgProc = callback_11;
+    psp[4].pszTitle = "Drive 11";
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Device manager";
-    psh.nPages = 4;
+    psh.nPages = 5;
 #ifdef HAVE_UNNAMED_UNIONS
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
