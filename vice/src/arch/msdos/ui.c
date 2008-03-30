@@ -127,7 +127,7 @@ static void ui_exit(void)
 int ui_init(int *argc, char **argv)
 {
     /* This forces Ctrl-C and Ctrl-Break to be treated as normal key
-       sequences. */
+       sequences.  */
     _go32_want_ctrl_break(1);
 
     return 0;
@@ -212,13 +212,12 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     disable_text();
 
-    /* Always reset. */
+    /* Always reset.  */
     return 0;
 }
 
 void ui_show_text(const char *title, const char *text)
 {
-    /* Needs to be done... */
 }
 
 void ui_update_menus(void)
