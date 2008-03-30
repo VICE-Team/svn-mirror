@@ -164,6 +164,9 @@
 /* Support for OpenCBM (former CBM4Linux). */
 #undef HAVE_OPENCBM
 
+/* OpenCBM header file is available. */
+#undef HAVE_OPENCBM_H
+
 /* Can we use the PNG library? */
 #undef HAVE_PNG
 
