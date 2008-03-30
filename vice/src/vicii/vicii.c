@@ -73,6 +73,7 @@
 #include "palette.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "types.h"
 #include "utils.h"
 #include "vsync.h"
 
@@ -435,6 +436,14 @@ vic_ii_reset (void)
 
   /* Remove all the IRQ sources.  */
   vic_ii.regs[0x1a] = 0;
+}
+
+void vic_ii_reset_registers(void)
+{
+    int i;
+
+    for (i = 0; i <= 0x3f; i++)
+        store_vic (i, 0);
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if

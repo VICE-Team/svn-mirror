@@ -1,8 +1,8 @@
 /*
- * rsuser.c - Daniel Dallmann's 9600 baud RS232 userport interface
+ * rsuser.c - Daniel Dallmann's 9600 baud RS232 userport interface.
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,8 +37,6 @@
 #include <stdio.h>
 #endif
 
-#include "types.h"
-
 #include "alarm.h"
 #include "clkguard.h"
 #include "cmdline.h"
@@ -48,6 +46,7 @@
 #include "resources.h"
 #include "rs232.h"
 #include "rsuser.h"
+#include "types.h"
 
 static int fd = -1;
 

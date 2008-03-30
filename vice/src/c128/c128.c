@@ -2,7 +2,7 @@
  * c128.c
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on the original work in VICE 0.11.0 by
  *  Jouko Valta (jopi@stekt.oulu.fi)
@@ -32,18 +32,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "c128.h"
-
 #include "attach.h"
 #include "autostart.h"
+#include "c128.h"
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c128ui.h"
 #include "c64cia.h"
 #include "c64rsuser.h"
+#include "c64tpi.h"
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -56,9 +57,10 @@
 #include "reu.h"
 #include "serial.h"
 #include "sid.h"
+#include "sound.h"
 #include "tape.h"
-#include "c64tpi.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "vicii.h"
 #include "vdc.h"
@@ -373,6 +375,7 @@ void machine_reset(void)
 void machine_powerup(void)
 {
     mem_powerup();
+    /*vic_ii_reset_registers();*/
     maincpu_trigger_reset();
 }
 

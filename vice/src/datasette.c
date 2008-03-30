@@ -2,7 +2,7 @@
  * datasette.c - CBM cassette implementation.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,6 +32,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "maincpu.h"
+#include "types.h"
 #include "ui.h"
 
 /* Attached TAP tape image.  */
@@ -47,7 +48,7 @@ static alarm_t datasette_alarm;
 
 static int datasette_alarm_pending = 0;
 
-static void datasette_update_ui_counter()
+static void datasette_update_ui_counter(void)
 {
     /* 3-digit-counter of seconds is guessed with an average tap-value of 50 */
     current_image->counter = (current_image->current_file_seek_position*400/985248)%1000;

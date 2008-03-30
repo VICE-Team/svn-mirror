@@ -1,9 +1,9 @@
 /* -*- C -*-
  *
- * c610cia1.def - Definitions for the MOS6526 (CIA) chip in the CBM-II
+ * c610cia1.c - Definitions for the MOS6526 (CIA) chip in the CBM-II
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,8 +50,9 @@
  * CPU binding
  */
 
-#include "maincpu.h"
+#include "drivecpu.h"
 #include "interrupt.h"
+#include "maincpu.h"
 
 #define MYCIA_INT       IK_IRQ
 

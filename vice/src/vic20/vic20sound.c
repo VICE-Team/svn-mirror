@@ -1,8 +1,8 @@
 /*
- * vic20sound.c - implementation of VIC20 sound code
+ * vic20sound.c - Implementation of VIC20 sound code.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,15 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "vice.h"
-#include "sound.h"
 #include "maincpu.h"
+#include "sound.h"
+#include "types.h"
 #include "utils.h"
-
 #include "vic20sound.h"
 
 /* warnings */

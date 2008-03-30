@@ -39,6 +39,7 @@
 #include "mouse.h"
 #include "resources.h"
 #include "sound.h"
+#include "types.h"
 #include "ui.h"
 #include "vsync.h"
 

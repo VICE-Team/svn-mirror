@@ -2,8 +2,9 @@
  * vsync.c - End-of-frame handling for Unix.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,6 +44,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sound.h"
+#include "types.h"
 #include "ui.h"
 #include "video.h"
 #include "vsync.h"

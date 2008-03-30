@@ -2,11 +2,9 @@
  * sid.c - MOS6581 (SID) emulation.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
- *  Michael Schwendt (sidplay@geocities.com)
- *
- * Resource and cmdline code by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Michael Schwendt <sidplay@geocities.com>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,14 +37,14 @@
 #define FIXPOINT_ARITHMETIC
 #endif*/
 
-#include "sid.h"
-
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "sid.h"
 #include "snapshot.h"
+#include "types.h"
 #include "utils.h"
 
 #ifdef HAVE_RESID

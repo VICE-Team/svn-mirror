@@ -2,12 +2,12 @@
  * crtc.c - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,15 +33,15 @@
 
 #include "vice.h"
 
-#include "machine.h"
-#include "maincpu.h"
-#include "utils.h"
-#include "vsync.h"
-
 #include "crtc.h"
 #include "crtc-cmdline-options.h"
 #include "crtc-draw.h"
 #include "crtc-resources.h"
+#include "machine.h"
+#include "maincpu.h"
+#include "types.h"
+#include "utils.h"
+#include "vsync.h"
 
 /*--------------------------------------------------------------------*/
 

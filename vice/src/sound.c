@@ -1,11 +1,11 @@
 /*
- * sound.c - General code for the sound interface
+ * sound.c - General code for the sound interface.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * Resource and cmdline code by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,14 +34,14 @@
 #include <time.h>
 #endif
 
-#include "sound.h"
-
 #include "clkguard.h"
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "sound.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vsync.h"

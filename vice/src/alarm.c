@@ -2,7 +2,7 @@
  * alarm.c - Alarm handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,6 +30,7 @@
 
 #include "alarm.h"
 #include "log.h"
+#include "types.h"
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */

@@ -2,7 +2,7 @@
  * sid.h - MOS6581 (SID) emulation.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,8 @@
 #ifndef _SID_H
 #define _SID_H
 
-#include "sound.h"
-
 #include "snapshot.h"
+#include "types.h"
 
 extern int sid_init_resources(void);
 extern int sid_init_cmdline_options(void);
@@ -43,3 +42,4 @@ extern int sid_write_snapshot_module(snapshot_t *s);
 extern int sid_read_snapshot_module(snapshot_t *s);
 
 #endif
+

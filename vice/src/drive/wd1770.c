@@ -2,7 +2,7 @@
  * wd1770.c - WD1770 emulation for the 1571 and 1581 disk drives.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,6 +36,7 @@
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "log.h"
+#include "types.h"
 #include "vdrive.h"
 #include "wd1770.h"
 

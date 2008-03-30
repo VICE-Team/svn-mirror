@@ -1,8 +1,8 @@
 /*
- * sounddump.c - Implementation of the dump sound device
+ * sounddump.c - Implementation of the dump sound device.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,7 +31,9 @@
 #endif
 
 #include "sound.h"
+#include "types.h"
 #include "utils.h"
+#include "warn.h"
 
 static FILE *dump_fd = NULL;
 

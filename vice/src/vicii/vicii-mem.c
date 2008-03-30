@@ -29,11 +29,10 @@
 #include <stdlib.h>
 
 #include "c64cia.h"
-
+#include "types.h"
 #include "vicii.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"
-
 #include "vicii-mem.h"
 
 

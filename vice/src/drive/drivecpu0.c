@@ -35,16 +35,16 @@
 #include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "fdc.h"
 #include "interrupt.h"
 #include "mon.h"
 #include "resources.h"
+#include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
 #include "viad.h"
-#include "riotd.h"
 #include "wd1770.h"
-#include "fdc.h"
 
 #define mynumber 0
 

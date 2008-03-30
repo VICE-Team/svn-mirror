@@ -2,7 +2,7 @@
  * vic20.c
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,6 +36,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -47,6 +48,7 @@
 #include "serial.h"
 #include "tape.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "vic.h"
 #include "vic20.h"

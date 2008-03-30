@@ -2,10 +2,8 @@
  * kbdbuf.c - Kernal keyboard buffer handling for VICE.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *
- * Patches by
- *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat     <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

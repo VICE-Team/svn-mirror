@@ -2,7 +2,7 @@
  * vsync.c - End-of-frame handling for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -51,6 +51,7 @@
 #include "resources.h"
 #include "sound.h"
 #include "ui.h"
+#include "types.h"
 #include "vsync.h"
 
 #ifdef USE_MIDAS_SOUND

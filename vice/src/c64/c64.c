@@ -45,6 +45,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -60,8 +61,10 @@
 #include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
+#include "sound.h"
 #include "tape.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "vicii.h"
 #include "vsync.h"
@@ -420,6 +423,7 @@ void machine_reset(void)
 void machine_powerup(void)
 {
     mem_powerup();
+    vic_ii_reset_registers();
     maincpu_trigger_reset();
 }
 

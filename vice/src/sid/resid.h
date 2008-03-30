@@ -1,8 +1,8 @@
 /*
- * resid.h - reSID interface code
+ * resid.h - reSID interface code.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +27,9 @@
 #ifndef _RESID_H
 #define _RESID_H
 
+#include "sound.h"
+#include "types.h"
+
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
 				  int filters_enabled, BYTE *sidstate,
 				  int model, CLOCK clk);
@@ -41,3 +44,4 @@ void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 char *resid_sound_machine_dump_state(sound_t *psid);
 
 #endif
+

@@ -1,9 +1,9 @@
 /*
- * resid.cc - reSID interface code
+ * resid.cc - reSID interface code.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
- *  Dag Lem (resid@nimrod.no)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Dag Lem <resid@nimrod.no>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,10 +33,12 @@
 extern "C" {
 
 #include "vice.h"
-#include "sid.h"
+
 #include "log.h"
-#include "warn.h"
+#include "sid.h"
+#include "sound.h"
 #include "utils.h"
+#include "warn.h"
 
 struct sound_s
 {

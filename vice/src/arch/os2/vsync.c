@@ -54,6 +54,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sound.h"
+#include "types.h"
 #include "ui.h"
 #include "ui_status.h"
 #include "vsync.h"

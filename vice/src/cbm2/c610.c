@@ -28,20 +28,21 @@
 
 #include <stdio.h>
 
-#include "c610.h"
-
 #include "attach.h"
 #include "autostart.h"
-#include "snapshot.h"
+#include "c610.h"
 #include "c610acia.h"
 #include "c610cia.h"
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "c610ui.h"
+#include "ciatimer.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "drive.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -52,12 +53,12 @@
 #include "serial.h"
 #include "sid.h"
 #include "sound.h"
+#include "snapshot.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "via.h"
 #include "vsync.h"
-#include "drive.h"
-#include "ciatimer.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
