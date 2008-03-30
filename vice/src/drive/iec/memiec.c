@@ -272,5 +272,18 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
             }
         }
     }
+
+    if (rom_loaded && (type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
+        || type == DRIVE_TYPE_1571CR)) {
+        if (drv->drive->drive_ram6_enabled) {
+            if (drv->drive->drive_ram_expand6 != NULL)
+                lib_free(drv->drive->drive_ram_expand6);
+            drv->drive->drive_ram_expand6 = lib_calloc(1, 0x2000);
+            for (i = 0x60; i < 0x80; i++) {
+                cpud->read_func_nowatch[i] = drive_read_ram6;
+                cpud->store_func_nowatch[i] = drive_store_ram6;
+            }
+        }
+    }
 }
 

@@ -93,12 +93,18 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
 }
 
-static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
 }
 
-static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
+static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    drivecia1571_context_t *ciap;
+
+    ciap = (drivecia1571_context_t *)(cia_context->prv);
+
+    if (ciap->drive->parallel_cable_enabled)
+        parallel_cable_drive_write(byte, 1, ciap->number);
 }
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -107,6 +113,12 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
+    drivecia1571_context_t *ciap;
+
+    ciap = (drivecia1571_context_t *)(cia_context->prv);
+
+    if (ciap->drive->parallel_cable_enabled)
+        parallel_cable_drive_write(byte, 1, ciap->number);
 }
 
 static BYTE read_ciapa(cia_context_t *cia_context)
@@ -117,7 +129,15 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
-    return (0xff & ~(cia_context->c_cia[CIA_DDRB]))
+    drivecia1571_context_t *ciap;
+    BYTE byte = 0xff;
+
+    ciap = (drivecia1571_context_t *)(cia_context->prv);
+
+    if (ciap->drive->parallel_cable_enabled)
+        byte = parallel_cable_drive_read(1);
+
+    return (byte & ~(cia_context->c_cia[CIA_DDRB]))
         | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
 }
 
