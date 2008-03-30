@@ -120,9 +120,9 @@ extern void machine_change_timing(int timeval);
 struct screenshot_s;
 struct video_canvas_s;
 struct canvas_refresh_s;
-extern int machine_screenshot(struct screenshot_s *screenshot, unsigned int wn);
-extern int machine_canvas_screenshot(struct screenshot_s *screenshot,
-                                     struct video_canvas_s *canvas);
+extern struct video_canvas_s *machine_canvas_get(unsigned int window);
+extern int machine_screenshot(struct screenshot_s *screenshot,
+                              struct video_canvas_s *canvas);
 extern int machine_canvas_async_refresh(struct canvas_refresh_s *ref,
                                         struct video_canvas_s *canvas);
 

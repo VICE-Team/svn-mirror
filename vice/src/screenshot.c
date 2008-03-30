@@ -38,7 +38,9 @@
 #include "utils.h"
 #include "video.h"
 
+
 static log_t screenshot_log = LOG_ERR;
+
 
 int screenshot_init(void)
 {
@@ -122,7 +124,7 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
 /*-----------------------------------------------------------------------*/
 
 int screenshot_save(const char *drvname, const char *filename,
-                    unsigned int window_number)
+                    struct video_canvas_s *canvas)
 {
     screenshot_t screenshot;
     gfxoutputdrv_t *drv;
@@ -130,25 +132,7 @@ int screenshot_save(const char *drvname, const char *filename,
     if ((drv = gfxoutput_get_driver(drvname)) == NULL)
         return -1;
 
-    /* Retrive framebuffer and screen geometry.  */
-    if (machine_screenshot(&screenshot, window_number) < 0) {
-        log_error(screenshot_log, "Retrieving screen geometry failed.");
-        return -1;
-    }
-
-    return screenshot_save_core(&screenshot, drv, filename);
-}
-
-int screenshot_canvas_save(const char *drvname, const char *filename,
-                           struct video_canvas_s *canvas)
-{
-    screenshot_t screenshot;
-    gfxoutputdrv_t *drv;
-
-    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
-        return -1;
-
-    if (machine_canvas_screenshot(&screenshot, canvas) < 0) {
+    if (machine_screenshot(&screenshot, canvas) < 0) {
         log_error(screenshot_log, "Retrieving screen geometry failed.");
         return -1;
     }

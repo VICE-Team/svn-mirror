@@ -549,22 +549,21 @@ int machine_autodetect_psid(const char *name)
     return -1;
 }
 
-int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+struct video_canvas_s *machine_canvas_get(unsigned int window)
 {
-    if (wn != 0)
-        return -1;
+    if (window == 0)
+        return ted_get_canvas();
 
-    ted_screenshot(screenshot);
-    return 0;
+    return NULL;
 }
 
-int machine_canvas_screenshot(screenshot_t *screenshot,
-                              struct video_canvas_s *canvas)
+int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
     if (canvas != ted_get_canvas())
         return -1;
 
     ted_screenshot(screenshot);
+
     return 0;
 }
 
@@ -575,6 +574,7 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
         return -1;
 
     ted_async_refresh(refresh);
+
     return 0;
 }
 

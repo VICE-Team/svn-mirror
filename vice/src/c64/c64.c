@@ -688,17 +688,15 @@ void machine_play_psid(int tune)
     psid_set_tune(tune);
 }
 
-int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+struct video_canvas_s *machine_canvas_get(unsigned int window)
 {
-    if (wn != 0)
-        return -1;
+    if (window == 0)
+        return vicii_get_canvas();
 
-    vicii_screenshot(screenshot);
-    return 0;
+    return NULL;
 }
 
-int machine_canvas_screenshot(screenshot_t *screenshot,
-                              struct video_canvas_s *canvas)
+int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
     if (canvas != vicii_get_canvas())
         return -1;

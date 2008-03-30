@@ -700,49 +700,42 @@ void machine_play_psid(int tune)
 {
 }
 
-int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+struct video_canvas_s *machine_canvas_get(unsigned int window)
 {
-    switch (wn)
-    {
-    case 0:
-        vdc_screenshot(screenshot);
-        return 0;
-    case 1:
-        vicii_screenshot(screenshot);
-        return 0;
-    }
-    return -1;
+    if (window == 0)
+        return vdc_get_canvas();
+    if (window == 1)
+        return vicii_get_canvas();
+
+    return NULL;
 }
 
-int machine_canvas_screenshot(screenshot_t *screenshot,
-                              struct video_canvas_s *canvas)
+int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas == vicii_get_canvas())
-    {
+    if (canvas == vicii_get_canvas()) {
         vicii_screenshot(screenshot);
         return 0;
     }
-    if (canvas == vdc_get_canvas())
-    {
+    if (canvas == vdc_get_canvas()) {
         vdc_screenshot(screenshot);
         return 0;
     }
+
     return -1;
 }
 
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas == vicii_get_canvas())
-    {
+    if (canvas == vicii_get_canvas()) {
         vicii_async_refresh(refresh);
         return 0;
     }
-    if (canvas == vdc_get_canvas())
-    {
+    if (canvas == vdc_get_canvas()) {
         vdc_async_refresh(refresh);
         return 0;
     }
+
     return -1;
 }
 
