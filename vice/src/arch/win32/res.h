@@ -466,14 +466,17 @@
 #define IDC_ROMSET_SELECT_FILE          1902
 #define IDC_ROMSET_ARCHIVE_NAME         1903
 #define IDC_ROMSET_ARCHIVE_BROWSE       1904
-#define IDC_ROMSET_ARCHIVE_ACTIVE       1905
-#define IDC_ROMSET_ARCHIVE_SAVEACTIVE   1906
-#define IDC_ROMSET_ARCHIVE_SAVENEW      1907
-#define IDC_ROMSET_ARCHIVE_DELETE       1908
-#define IDC_ROMSET_FILE_NAME            1909
-#define IDC_ROMSET_FILE_BROWSE          1910
-#define IDC_ROMSET_FILE_SAVE            1911
-#define IDC_ROMSET_PREVIEW              1912
+#define IDC_ROMSET_ARCHIVE_LOAD         1905
+#define IDC_ROMSET_ARCHIVE_SAVE         1906
+#define IDC_ROMSET_ARCHIVE_ACTIVE       1907
+#define IDC_ROMSET_ARCHIVE_APPLY        1908
+#define IDC_ROMSET_ARCHIVE_NEW          1909
+#define IDC_ROMSET_ARCHIVE_DELETE       1910
+#define IDC_ROMSET_FILE_NAME            1911
+#define IDC_ROMSET_FILE_BROWSE          1912
+#define IDC_ROMSET_FILE_LOAD            1913
+#define IDC_ROMSET_FILE_SAVE            1914
+#define IDC_ROMSET_PREVIEW              1915
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
