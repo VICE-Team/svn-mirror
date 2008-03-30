@@ -1,6 +1,8 @@
-2006-06-24  Andreas Boose  <viceteam@t-online.de>
+2006-06-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.17.
+
+	* configure.in: Added `arch/unix/gui' directory.
 
 2006-06-23  Andreas Boose  <viceteam@t-online.de>
 

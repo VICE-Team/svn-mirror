@@ -1,3 +1,7 @@
+2006-06-25  Andreas Boose  <viceteam@t-online.de>
+
+        * POTFILES.in: Changed directory of unix gui files.
+
 2006-06-18  pottendo  <pottendo@utanet.at>
 
 	* de.po: Updated.

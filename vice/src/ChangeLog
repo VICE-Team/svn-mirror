@@ -1,3 +1,23 @@
+2006-06-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.18.
+
+	* fsdevice/fsdevice.c, fsdevice/fsdevicetypes.h,
+	fsdevice/fsdevice-close.c, fsdevice/fsdevice-open.c,
+	fsdevice/fsdevice-read.c, fsdevice/fsdevice-write.c,
+	fsdevice/fsdevice-flush.c: Moved all variables to a single
+	structure.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c, machine.c, init.c: Moved file
+	system initialization and shutdown to machine code.
+
+	* arch/unix/Makefile.am: Moved unix gui files.
+
+	* arch/unix/gui/*: New directory containing the unix gui.
+
+	* arch/unix/ui*.c: Moved this file to new directory.
+
 2006-06-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.17.
