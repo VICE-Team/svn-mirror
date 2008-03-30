@@ -96,27 +96,53 @@
 #define DRIVE_TYPE_8250   8250	/* DOS 2.7 dual floppy drive, 1M/disk */
 
 /* some defines */
-#define	DRIVE_IS_IEEE(type)	( 		\
-	((type) == DRIVE_TYPE_2031) 		\
-	|| ((type) == DRIVE_TYPE_1001) 		\
-	|| ((type) == DRIVE_TYPE_8050) 		\
-	|| ((type) == DRIVE_TYPE_8250) 		\
-	)
+#define DRIVE_IS_IEEE(type)     (           \
+        ((type) == DRIVE_TYPE_2031)         \
+        || ((type) == DRIVE_TYPE_1001)      \
+        || ((type) == DRIVE_TYPE_8050)      \
+        || ((type) == DRIVE_TYPE_8250)      \
+        )
 
-#define	DRIVE_IS_OLDTYPE(type)	( 		\
-	((type) == DRIVE_TYPE_1001) 		\
-	|| ((type) == DRIVE_TYPE_8050) 		\
-	|| ((type) == DRIVE_TYPE_8250) 		\
-	)
+#define DRIVE_IS_OLDTYPE(type)  (           \
+        ((type) == DRIVE_TYPE_1001)         \
+        || ((type) == DRIVE_TYPE_8050)      \
+        || ((type) == DRIVE_TYPE_8250)      \
+        )
 
-#define	DRIVE_IS_DUAL(type)	( 		\
-	((type) == DRIVE_TYPE_8050) 		\
-	|| ((type) == DRIVE_TYPE_8250) 		\
-	)
+#define DRIVE_IS_DUAL(type)     (           \
+        ((type) == DRIVE_TYPE_8050)         \
+        || ((type) == DRIVE_TYPE_8250)      \
+        )
 
 /* Possible colors of the drive active LED.  */
 #define DRIVE_ACTIVE_RED     0
 #define DRIVE_ACTIVE_GREEN   1
+
+#define DRIVE_EXPANSION_2000(type) (        \
+        ((type) == DRIVE_TYPE_1541)         \
+        || ((type) == DRIVE_TYPE_1541II)    \
+        )
+
+#define DRIVE_EXPANSION_4000(type) (        \
+        ((type) == DRIVE_TYPE_1541)         \
+        || ((type) == DRIVE_TYPE_1541II)    \
+        )
+
+#define DRIVE_EXPANSION_6000(type) (        \
+        ((type) == DRIVE_TYPE_1541)         \
+        || ((type) == DRIVE_TYPE_1541II)    \
+        )
+
+#define DRIVE_EXPANSION_8000(type) (        \
+        ((type) == DRIVE_TYPE_1541)         \
+        || ((type) == DRIVE_TYPE_1541II)    \
+        )
+
+#define DRIVE_EXPANSION_A000(type) (        \
+        ((type) == DRIVE_TYPE_1541)         \
+        || ((type) == DRIVE_TYPE_1541II)    \
+        )
+
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
