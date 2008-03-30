@@ -219,9 +219,8 @@
         }                                                               \
         if (ik & (IK_TRAP | IK_RESET)) {                                \
             if (ik & IK_TRAP) {                                         \
-                ack_trap(&CPU_INT_STATUS);                              \
                 EXPORT_REGISTERS();                                     \
-                CPU_INT_STATUS.trap_func((ADDRESS) reg_pc);             \
+                do_trap(&CPU_INT_STATUS, (ADDRESS) reg_pc);             \
                 IMPORT_REGISTERS();                                     \
             }                                                           \
             if (ik & IK_RESET) {                                        \

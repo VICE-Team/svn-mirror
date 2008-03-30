@@ -137,7 +137,10 @@ struct cpu_int_status {
     int trap;
 
     /* Debugging function.  */
-    void (*trap_func)(ADDRESS);
+    void (*trap_func)(ADDRESS, void *data);
+
+    /* Data to pass to the debugging function when called.  */
+    void *trap_data;
 
     /* Pointer to the last executed opcode information.  */
     opcode_info_t *last_opcode_info_ptr;
@@ -278,16 +281,19 @@ _INT_FUNC void ack_reset(cpu_int_status_t *cs)
    debugging.  `trap_func' will be called with PC as the argument when this
    condition is detected.  */
 _INT_FUNC void trigger_trap(cpu_int_status_t *cs,
-			    void (*trap_func)(ADDRESS), CLOCK clk)
+			    void (*trap_func)(ADDRESS, void *data),
+                            void *data, CLOCK clk)
 {
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;
+    cs->trap_data = data;
 }
 
-/* Acknowledge a TRAP condition, by resetting the TRAP line.  */
-_INT_FUNC void ack_trap(cpu_int_status_t *cs)
+/* Dispatch the TRAP condition.  */
+_INT_FUNC void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
 {
     cs->global_pending_int &= ~IK_TRAP;
+    cs->trap_func(reg_pc, cs->trap_data);
 }
 
 _INT_FUNC void monitor_trap_on(cpu_int_status_t *cs)
@@ -476,7 +482,8 @@ extern void set_int(cpu_int_status_t *cs, int int_num,
 		    enum cpu_int value, CLOCK clk);
 extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
 extern void trigger_trap(cpu_int_status_t *cs,
-			 void (*trap_func)(ADDRESS), CLOCK clk);
+			 void (*trap_func)(ADDRESS addr, void *data),
+                         void *data, CLOCK clk);
 extern void find_next_alarm(cpu_int_status_t *cs);
 extern CLOCK next_alarm_clk(cpu_int_status_t *cs);
 extern void set_alarm_clk(cpu_int_status_t *cs, int alarm, CLOCK tick);
@@ -491,7 +498,7 @@ extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
 extern int check_nmi_delay(cpu_int_status_t *cs, CLOCK clk);
 extern void ack_nmi(cpu_int_status_t *cs);
 extern void ack_reset(cpu_int_status_t *cs);
-extern void ack_trap(cpu_int_status_t *cs);
+extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
 #endif /* defined INLINE_INTERRUPT_FUNCS || defined _MAINCPU_C */
 
@@ -525,8 +532,8 @@ extern CLOCK true1541_clk;
     set_int(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_trigger_reset() \
     trigger_reset(&maincpu_int_status, clk)
-#define maincpu_trigger_trap(trap_func) \
-    trigger_trap(&maincpu_int_status, (trap_func), clk)
+#define maincpu_trigger_trap(trap_func, data) \
+    trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
 #define maincpu_serve_next_alarm() \
     serve_next_alarm(&maincpu_int_status, clk)
 #define maincpu_prevent_clk_overflow(rfsh_per_sec) \
@@ -554,8 +561,8 @@ extern CLOCK true1541_clk;
     set_int_clk(&true1541_int_status, (int_num), (value), (clk))
 #define true1541_trigger_reset() \
     trigger_reset(&true1541_int_status, true1541_clk + 1)
-#define true1541_trigger_trap(trap_func) \
-    trigger_trap(&true1541_int_status, (trap_func), true1541_clk + 1)
+#define true1541_trigger_trap(trap_func, data) \
+    trigger_trap(&true1541_int_status, (trap_func), (data), true1541_clk + 1)
 #define true1541_serve_next_alarm() \
     serve_next_alarm(&true1541_int_status, true1541_clk)
 
