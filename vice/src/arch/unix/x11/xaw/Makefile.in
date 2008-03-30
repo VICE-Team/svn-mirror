@@ -336,8 +336,8 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/palette.h ../../../../../src/c64/psid.h \
 	../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/arch/unix/x11/uicolor.h uihotkey.h \
-	uimenu.h ../../../../../src/arch/unix/uisettings.h \
+	uiarch.h ../../../../../src/uicolor.h uihotkey.h uimenu.h \
+	../../../../../src/arch/unix/uisettings.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
@@ -353,8 +353,7 @@ uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/color.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	../../../../../src/palette.h \
-	../../../../../src/arch/unix/x11/uicolor.h \
+	../../../../../src/palette.h ../../../../../src/uicolor.h \
 	../../../../../src/utils.h ../../../../../src/video.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h uiarch.h ../videoarch.h
