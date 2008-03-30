@@ -25,8 +25,6 @@
  *
  */
 
-/* FIXME: Should keep its own logging.  */
-
 #include "vice.h"
 
 #include <ctype.h>
@@ -44,51 +42,42 @@
 #include "types.h"
 #include "utils.h"
 
-/*
- * At this time only one printer is supported and it is attached to
- * device 4.
- * Secondary address simply switched conversion modes (none of them are
- * implemented so far, so secondary address is simply ignored.
- *
- */
 
-static int prdevice_attach(unsigned int unit);
-static int prdevice_detach(unsigned int unit);
-static int close_pr(struct vdrive_s *var, unsigned int secondary);
+static int interface_serial_attach(unsigned int prnr);
+static int interface_serial_detach(unsigned int prnr);
 
-/***********************************************************************
- * resource handling
- */
+static log_t interface_serial_log = LOG_ERR;
 
-static int pr4_device;
-static int pr4_enabled;
+/* ------------------------------------------------------------------------- */
 
-static int set_pr4_device(resource_value_t v, void *param)
+static int printer_enabled[2];
+
+static int set_printer_enabled(resource_value_t v, void *param)
 {
-    pr4_device = (int)v;
-    return 0;
-}
+    int flag;
+    unsigned int prnr;
 
-static int set_pr4_enabled(resource_value_t v, void *param)
-{
-    int flag = ((int) v) ? 1 : 0;
+    flag = ((int)v) ? 1 : 0;
+    prnr = (unsigned int)param;
 
-    if(pr4_enabled && !flag) {
-        prdevice_detach(4);
+    if (printer_enabled[prnr] && !flag) {
+        if (interface_serial_detach(prnr) < 0)
+            return -1;
     }
-    if(flag && !pr4_enabled) {
-        prdevice_attach(4);
+    if (flag && !printer_enabled[prnr]) {
+        if (interface_serial_attach(prnr) < 0)
+            return -1;
     }
-    pr4_enabled = flag;
+    printer_enabled[prnr] = flag;
 
     return 0;
 }
 
 static resource_t resources[] = {
     { "Printer4", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &pr4_enabled, set_pr4_enabled, NULL },
-    { "Printer4Device", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *) &pr4_device, set_pr4_device, NULL },
+      (resource_value_t *)&printer_enabled[0], set_printer_enabled, (void *)0 },
+    { "Printer5", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&printer_enabled[1], set_printer_enabled, (void *)1 },
     { NULL }
 };
 
@@ -104,9 +93,12 @@ static cmdline_option_t cmdline_options[] = {
     { "+printer4", SET_RESOURCE, 0, NULL, NULL, "Printer4",
       (resource_value_t)0, NULL,
       "Disable the IEC device #4 printer emulation" },
-    { "-pr4dev", SET_RESOURCE, 1, NULL, NULL, "Printer4Device",
-      (resource_value_t)0,
-      "<0-2>", "Specify VICE printer device for IEC printer #4" },
+    { "-printer5", SET_RESOURCE, 0, NULL, NULL, "Printer5",
+      (resource_value_t)1, NULL,
+      "Enable the IEC device #5 printer emulation" },
+    { "+printer5", SET_RESOURCE, 0, NULL, NULL, "Printer5",
+      (resource_value_t)0, NULL,
+      "Disable the IEC device #5 printer emulation" },
     { NULL }
 };
 
@@ -115,124 +107,209 @@ int interface_serial_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-int printer_interface_serial_close(unsigned int unit)
-{
-    if (unit == 4) {
-        close_pr(NULL, -1);
-    }
-    return 0;
-}
+/* ------------------------------------------------------------------------- */
 
-void printer_interface_serial_late_init(void)
-{
-    if (pr4_enabled) {
-        prdevice_attach(4);
-    }
-}
+static unsigned int inuse[2];
 
-/***********************************************************************/
-
-/* These two variables have to be put into a table and the var
- * argument to the functions below has to be used to select the right
- * value to support multiple IEC printer devices */
-
-static int currfd;
-static int inuse;
-
-static int open_pr(struct vdrive_s *var, const char *name, int length,
+static int open_pr(unsigned int prnr, const char *name, int length,
                    unsigned int secondary)
 {
-    if (inuse) {
-        log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
+    if (inuse[prnr]) {
+        log_error(interface_serial_log,
+                  "Open printer #%i while still open - ignoring.", prnr + 4);
         return 0;
     }
 
-    currfd = driver_select_open(pr4_device);
-    if (currfd < 0) {
-        log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
+    if (driver_select_open(prnr, secondary) < 0) {
+        log_error(interface_serial_log,
+                  "Couldn't open device #%i.", prnr + 4);
         return -1;
     }
 
-    inuse = 1;
+    inuse[prnr] = 1;
 
     return 0;
 }
 
-static int write_pr(struct vdrive_s *var, BYTE byte, unsigned int secondary)
-{
-    int er;
-
-    /* FIXME: switch(secondary) for code conversion */
-
-    if (!inuse) {
-        /* oh, well, we just assume an implicit open - "OPEN 1,4"
-           just does not leave any trace on the serial bus */
-        log_warning(LOG_DEFAULT, "Auto-opening printer!");
-
-        er = open_pr(var, NULL, 0, secondary);
-
-        if (er < 0)
-            return er;
-    }
-
-    return driver_select_putc(currfd, (BYTE)byte);
-}
-
-static int close_pr(struct vdrive_s *var, unsigned int secondary)
-{
-    if (!inuse) {
-        log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
-        return 0;
-    }
-
-    driver_select_close(currfd);
-    inuse = 0;
-
-    return 0;
-}
-
-
-static void flush_pr(struct vdrive_s *var, unsigned int secondary)
-{
-    if (!inuse) {
-        log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
-        return;
-    }
-
-    driver_select_flush(currfd);
-}
-
-static int fn(void)
+static int read_pr(unsigned int prnr, BYTE *byte, unsigned int secondary)
 {
     return 0x80;
 }
 
-static int prdevice_attach(unsigned int unit)
+static int write_pr(unsigned int prnr, BYTE byte, unsigned int secondary)
 {
-    int er;
+    int err;
 
-    inuse = 0;
+    if (!inuse[prnr]) {
+        /* oh, well, we just assume an implicit open - "OPEN 1,4"
+           just does not leave any trace on the serial bus */
+        log_warning(interface_serial_log,
+                    "Auto-opening printer #%i!", prnr + 4);
 
-    if ((er = serial_attach_device(unit, "Printer device",
-            (int (*)(struct vdrive_s *, BYTE *, unsigned int))fn,
-            write_pr,
-            open_pr,
-            close_pr,
-            flush_pr))) {
-        return 1;
+        err = open_pr(prnr, NULL, 0, secondary);
+
+        if (err < 0)
+            return err;
+    }
+
+    return driver_select_putc(prnr, secondary, (BYTE)byte);
+}
+
+static int close_pr(unsigned int prnr, unsigned int secondary)
+{
+    if (!inuse[prnr]) {
+        log_error(interface_serial_log,
+                  "Close printer #%i while being closed - ignoring.",
+                  prnr + 4);
+        return 0;
+    }
+
+    driver_select_close(prnr, secondary);
+    inuse[prnr] = 0;
+
+    return 0;
+}
+
+
+static void flush_pr(unsigned int prnr, unsigned int secondary)
+{
+    if (!inuse[prnr]) {
+        log_error(interface_serial_log,
+                  "Flush printer #%i while being closed - ignoring.",
+                  prnr + 4);
+        return;
+    }
+
+    driver_select_flush(prnr, secondary);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int open_pr4(struct vdrive_s *var, const char *name, int length,
+                    unsigned int secondary)
+{
+    return open_pr(0, name, length, secondary);
+}
+
+static int read_pr4(struct vdrive_s *var, BYTE *byte, unsigned int secondary)
+{
+    return read_pr(0, byte, secondary);
+}
+
+static int write_pr4(struct vdrive_s *var, BYTE byte, unsigned int secondary)
+{
+    return write_pr(0, byte, secondary);
+}
+
+static int close_pr4(struct vdrive_s *var, unsigned int secondary)
+{
+    return close_pr(0, secondary);
+}
+
+static void flush_pr4(struct vdrive_s *var, unsigned int secondary)
+{
+    return flush_pr(0, secondary);
+}
+
+static int open_pr5(struct vdrive_s *var, const char *name, int length,
+                    unsigned int secondary)
+{
+    return open_pr(1, name, length, secondary);
+}
+
+static int read_pr5(struct vdrive_s *var, BYTE *byte, unsigned int secondary)
+{
+    return read_pr(1, byte, secondary);
+}
+
+static int write_pr5(struct vdrive_s *var, BYTE byte, unsigned int secondary)
+{
+    return write_pr(1, byte, secondary);
+}
+
+static int close_pr5(struct vdrive_s *var, unsigned int secondary)
+{
+    return close_pr(1, secondary);
+}
+
+static void flush_pr5(struct vdrive_s *var, unsigned int secondary)
+{
+    return flush_pr(1, secondary);
+}
+
+/* ------------------------------------------------------------------------- */
+
+int printer_interface_serial_close(unsigned int unit)
+{
+    if (unit == 4) {
+        close_pr(0, -1);
+    }
+    if (unit == 5) {
+        close_pr(1, -1);
     }
     return 0;
 }
 
-static int prdevice_detach(unsigned int unit)
+int printer_interface_serial_late_init(void)
 {
-    if (inuse) {
-        flush_pr(NULL, -1);
-        close_pr(NULL, -1);
+    if (printer_enabled[0]) {
+        if (interface_serial_attach(0) < 0)
+            return -1;
+    }
+    if (printer_enabled[1]) {
+        if (interface_serial_attach(1) < 0)
+            return -1;
     }
 
-    serial_detach_device(unit);
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int interface_serial_attach(unsigned int prnr)
+{
+    int err;
+
+    inuse[prnr] = 0;
+
+    switch (prnr) {
+      case 0:
+        err = serial_attach_device(4, "Printer #4 device", read_pr4,
+                                   write_pr4, open_pr4, close_pr4, flush_pr4);
+        break;
+      case 1:
+        err = serial_attach_device(5, "Printer #5 device", read_pr5,
+                                   write_pr5, open_pr5, close_pr5, flush_pr5);
+        break;
+      default:
+        err = -1;
+    }
+
+    if (err) {
+        log_error(interface_serial_log,
+                  "Cannot attach serial printer #%i.", prnr + 4);
+        return -1;
+    }
 
     return 0;
+}
+
+static int interface_serial_detach(unsigned int prnr)
+{
+    if (inuse[prnr]) {
+        flush_pr(prnr, -1);
+        close_pr(prnr, -1);
+    }
+
+    serial_detach_device(prnr + 4);
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void interface_serial_init(void)
+{
+    interface_serial_log = log_open("Serial Interface");
 }
 
