@@ -31,6 +31,7 @@
 #include "maincpu.h"
 #include "tpi.h"
 #include "tpicore.h"
+#include "types.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */
@@ -68,7 +69,7 @@ _TPI_FUNC void tpi_set_cb(int a)
 }
 
 static int ieee_is_dev = 1;
-static int ieee_is_out = 1;
+static BYTE ieee_is_out = 1;
 
 _TPI_FUNC void _tpi_reset(void)
 {

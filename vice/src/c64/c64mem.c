@@ -477,7 +477,7 @@ void REGPARM2 io2_store(ADDRESS addr, BYTE value)
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io2(addr, value);
     if (reu_enabled)
-        reu_store(addr & 0x0f, value);
+        reu_store((ADDRESS)(addr & 0x0f), value);
     return;
 }
 
@@ -492,7 +492,7 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
         return emulator_id[addr - 0xa0];
     }
     if (reu_enabled)
-        return reu_read(addr & 0x0f);
+        return reu_read((ADDRESS)(addr & 0x0f));
     return rand();
 }
 

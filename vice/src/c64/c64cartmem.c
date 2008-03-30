@@ -36,6 +36,7 @@
 #include "cartridge.h"
 #include "interrupt.h"
 #include "log.h"
+#include "types.h"
 
 /* Expansion port signals.  */
 export_t export;
@@ -175,7 +176,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_KCS_POWER:
         return export_ram0[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_IEEE488:
-        return tpi_read(addr & 0x07);
+        return tpi_read((ADDRESS)(addr & 0x07));
       case CARTRIDGE_EPYX_FASTLOAD:
         if (addr == 0xdf18)
             cartridge_config_changed(0);
@@ -255,7 +256,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         pla_config_changed();
         break;
       case CARTRIDGE_IEEE488:
-        tpi_store(addr & 0x07, value);
+        tpi_store((ADDRESS)(addr & 0x07), value);
         break;
     }
     return;
