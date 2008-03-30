@@ -494,10 +494,10 @@ static BYTE REGPARM1 fexx_read(WORD addr)
 {
 #if 1
     if (addr >= 0xfec0 && addr <= 0xfedf)
-        return tcbm2_read(addr);
+        return plus4tcbm2_read(addr);
 
     if (addr >= 0xfee0 && addr <= 0xfeff)
-        return tcbm1_read(addr);
+        return plus4tcbm1_read(addr);
 #endif
     return 0;
 }
@@ -506,11 +506,11 @@ static void REGPARM2 fexx_store(WORD addr, BYTE value)
 {
 #if 1
     if (addr >= 0xfec0 && addr <= 0xfedf) {
-        tcbm2_store(addr, value);
+        plus4tcbm2_store(addr, value);
         return;
     }
     if (addr >= 0xfee0 && addr <= 0xfeff) {
-        tcbm1_store(addr, value);
+        plus4tcbm1_store(addr, value);
         return;
     }
 #endif

@@ -29,10 +29,13 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 tcbm1_read(WORD addr);
-extern void REGPARM2 tcbm1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 tcbm2_read(WORD addr);
-extern void REGPARM2 tcbm2_store(WORD addr, BYTE value);
+extern void plus4tcbm1_reset(void);
+extern void plus4tcbm2_reset(void);
+
+extern BYTE REGPARM1 plus4tcbm1_read(WORD addr);
+extern void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 plus4tcbm2_read(WORD addr);
+extern void REGPARM2 plus4tcbm2_store(WORD addr, BYTE value);
 
 #endif
 
