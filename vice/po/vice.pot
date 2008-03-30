@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-09 22:36+0100\n"
+"POT-Creation-Date: 2003-11-10 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1336,7 +1336,7 @@ msgstr ""
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
 #: src/arch/unix/uiperipheral.c:97 src/arch/unix/uiperipheral.c:128
 #: src/arch/unix/uiperipheral.c:159 src/arch/unix/uiperipheral.c:190
-#: src/arch/unix/uiprinter.c:173 src/arch/unix/uiprinter.c:185
+#: src/arch/unix/uiprinter.c:179 src/arch/unix/uiprinter.c:191
 #: src/arch/unix/vic20ui.c:288
 msgid "*None"
 msgstr ""
@@ -1571,13 +1571,13 @@ msgstr ""
 
 #: src/arch/unix/uiperipheral.c:99 src/arch/unix/uiperipheral.c:130
 #: src/arch/unix/uiperipheral.c:161 src/arch/unix/uiperipheral.c:192
-#: src/arch/unix/uiprinter.c:175 src/arch/unix/uiprinter.c:187
+#: src/arch/unix/uiprinter.c:181 src/arch/unix/uiprinter.c:193
 msgid "*File system access"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:102 src/arch/unix/uiperipheral.c:133
 #: src/arch/unix/uiperipheral.c:164 src/arch/unix/uiperipheral.c:195
-#: src/arch/unix/uiprinter.c:178 src/arch/unix/uiprinter.c:190
+#: src/arch/unix/uiprinter.c:184 src/arch/unix/uiprinter.c:196
 msgid "*Real device access"
 msgstr ""
 
@@ -1644,87 +1644,87 @@ msgstr ""
 msgid "Peripheral settings"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:73 src/arch/unix/uiprinter.c:88
-#: src/arch/unix/uiprinter.c:100
+#: src/arch/unix/uiprinter.c:79 src/arch/unix/uiprinter.c:94
+#: src/arch/unix/uiprinter.c:106
 msgid "*Printer 1 (file dump)"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:90
-#: src/arch/unix/uiprinter.c:102
+#: src/arch/unix/uiprinter.c:82 src/arch/unix/uiprinter.c:96
+#: src/arch/unix/uiprinter.c:108
 msgid "*Printer 2 (exec)"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:79 src/arch/unix/uiprinter.c:92
-#: src/arch/unix/uiprinter.c:104
+#: src/arch/unix/uiprinter.c:85 src/arch/unix/uiprinter.c:98
+#: src/arch/unix/uiprinter.c:110
 msgid "*Printer 3 (exec)"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:120
+#: src/arch/unix/uiprinter.c:126
 msgid "Select printer dump file"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:148
+#: src/arch/unix/uiprinter.c:154
 msgid "Command to execute for printing (preceed with '|')"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:158 src/arch/unix/uirs232.c:156
+#: src/arch/unix/uiprinter.c:164 src/arch/unix/uirs232.c:156
 #: src/arch/unix/uirs232.c:185
 msgid "Command:"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:206
+#: src/arch/unix/uiprinter.c:212
 msgid "*IEC printer #4 emulation"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:208
+#: src/arch/unix/uiprinter.c:214
 msgid "IEC printer #4 driver"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:210
+#: src/arch/unix/uiprinter.c:216
 msgid "IEC printer #4 text output device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:212
+#: src/arch/unix/uiprinter.c:218
 msgid "Flush IEC printer #4 device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:215
+#: src/arch/unix/uiprinter.c:221
 msgid "*IEC printer #5 emulation"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:217
+#: src/arch/unix/uiprinter.c:223
 msgid "IEC printer #5 driver"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:219
+#: src/arch/unix/uiprinter.c:225
 msgid "IEC printer #5 text output device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:221
+#: src/arch/unix/uiprinter.c:227
 msgid "Flush IEC printer #5 device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:224
+#: src/arch/unix/uiprinter.c:230
 msgid "*Userport printer emulation"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:226
+#: src/arch/unix/uiprinter.c:232
 msgid "Userport printer driver"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:228
+#: src/arch/unix/uiprinter.c:234
 msgid "Userport printer text output device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:231
+#: src/arch/unix/uiprinter.c:237
 msgid "Printer text device 1..."
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:233
+#: src/arch/unix/uiprinter.c:239
 msgid "Printer text device 2..."
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:235
+#: src/arch/unix/uiprinter.c:241
 msgid "Printer text device 3..."
 msgstr ""
 

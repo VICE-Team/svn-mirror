@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 #include "lib.h"
 #include "printer.h"
@@ -44,6 +44,8 @@ static ui_menu_entry_t pr4_driver_submenu[] = {
       (ui_callback_data_t)"ascii", NULL },
     { "*MPS803", (ui_callback_t)radio_Printer4Driver,
       (ui_callback_data_t)"mps803", NULL },
+    { "*NL10", (ui_callback_t)radio_Printer4Driver,
+      (ui_callback_data_t)"nl10", NULL },
     { NULL }
 };
 
@@ -54,6 +56,8 @@ static ui_menu_entry_t pr5_driver_submenu[] = {
       (ui_callback_data_t)"ascii", NULL },
     { "*MPS803", (ui_callback_t)radio_Printer5Driver,
       (ui_callback_data_t)"mps803", NULL },
+    { "*NL10", (ui_callback_t)radio_Printer5Driver,
+      (ui_callback_data_t)"nl10", NULL },
     { NULL }
 };
 
@@ -64,6 +68,8 @@ static ui_menu_entry_t pruser_driver_submenu[] = {
       (ui_callback_data_t)"ascii", NULL },
     { "*MPS803", (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"mps803", NULL },
+    { "*NL10", (ui_callback_t)radio_PrinterUserportDriver,
+      (ui_callback_data_t)"nl10", NULL },
     { NULL }
 };
 
