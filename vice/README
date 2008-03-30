@@ -1,5 +1,5 @@
 
-  VICE  1.12 							June 2003
+  VICE  1.13 							Sep 2003
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.12 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 1.13 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, RiscOS, OS/2, BeOS and for most Unix system provided
  with the X Window System version 11, R5 or later.
@@ -55,11 +55,11 @@
    - NEWS, list of user-visible changes between this and older
      versions of VICE;
 
-   - BUGS, a list of the most important known bugs of this release
-     (please read it before reporting bugs);
+   - doc/html/plain/BUGS, a list of the most important known bugs of
+     this release (please read it before reporting bugs);
 
-   - TODO, a list of what we would like to do next (this is no
-     promise!);
+   - doc/html/plain/TODO, a list of what we would like to do next
+     (this is no promise!);
 
    - FEEDBACK, something you should read before sending mail to
      any of the authors;
@@ -68,20 +68,18 @@
 
    - doc/vice.texi, the complete documentation;
 
-   - doc/64doc.txt, documentation about the C64 internals;
+   - doc/html/plain/64doc.txt, documentation about the C64 internals;
 
-   - doc/PETdoc.txt, documentation about the PET internals;
+   - doc/html/plain/PETdoc.txt, documentation about the PET internals;
 
-   - doc/cbm_basic_tokens.txt, a list of the CBM BASIC tokens, as
-     supported by the petcat utility;
+   - doc/html/plain/cbm_basic_tokens.txt, a list of the CBM BASIC
+     tokens, as supported by the petcat utility;
 
-   - doc/serial.txt, description of the IEC serial bus used on the C64,
-     VIC20 and C128;
+   - doc/html/plain/serial.txt, description of the IEC serial bus used
+     on the C64, VIC20 and C128;
 
-   - doc/drive_info.txt, information about the CBM disk drives;
-
-   - doc/Evaluation, VICE evaluation query form: please fill this in
-     and send it to tell us what you think about this project.
+   - doc/html/plain/drive_info.txt, information about the CBM disk
+     drives;
 
    - doc/Readme.dos, MS-DOS specific documentation;
 

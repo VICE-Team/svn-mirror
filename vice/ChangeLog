@@ -1,3 +1,12 @@
+2003-09-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.35.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* doc/vice.texi, doc/html/index.html, vice.spec, README:
+	Updated
+
 2003-09-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.34.
