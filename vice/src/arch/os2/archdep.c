@@ -54,7 +54,6 @@
 #include <sys/stat.h>
 #endif
 
-#include "findpath.h"
 #include "archdep.h"
 #include "utils.h"
 
