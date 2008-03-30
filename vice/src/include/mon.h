@@ -3,6 +3,7 @@
  *
  * Written by
  *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,6 +30,10 @@
 
 #include <stdio.h>
 #include <assert.h>
+
+#include "mos6510.h"
+#include "mem.h"
+#include "interrupt.h"
 
 typedef int bool;
 #define TRUE 1
@@ -119,7 +124,7 @@ enum t_action {
    e_TOGGLE
 };
 typedef enum t_action ACTION;
- 
+
 struct t_cond_node {
    int operation;
    int value;
@@ -153,6 +158,36 @@ typedef struct t_break_list BREAK_LIST;
 extern char *memspace_string[];
 extern char *cond_op_string[];
 
+/* ------------------------------------------------------------------------- */
+
+typedef void monitor_toggle_func_t(int value);
+
+/* This is the standard interface through which the monitor accesses a
+   certain CPU.  */
+struct monitor_interface {
+
+    /* Pointer to the registers of the CPU.  */
+    mos6510_regs_t *cpu_regs;
+
+    /* Pointer to the alarm/interrupt status.  */
+    cpu_int_status_t *int_status;
+
+    /* Pointer to the machine's clock counter.  */
+    CLOCK *clk;
+
+    /* Pointer to a function that writes to memory.  */
+    read_func_t *read_func;
+
+    /* Pointer to a function that reads from memory.  */
+    store_func_t *store_func;
+
+    /* Pointer to a function to disable/enable watchpoint checking.  */
+    monitor_toggle_func_t *toggle_watchpoints_func;
+
+};
+typedef struct monitor_interface monitor_interface_t;
+
+/* ------------------------------------------------------------------------- */
 
 /* Global variables */
 
@@ -216,7 +251,6 @@ void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a);
 M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2);
 void free_range(M_ADDR_RANGE ar);
 
-
 extern unsigned check_addr_limits(unsigned val);
 extern bool is_valid_addr_range(M_ADDR_RANGE range);
 extern void print_bin(int val, char on, char off);
@@ -224,7 +258,8 @@ extern void print_hex(int val);
 extern void print_octal(int val);
 extern void add_number_to_buffer(int number);
 extern void add_string_to_buffer(char *str);
-extern void init_monitor(void);
+void monitor_init(monitor_interface_t *maincpu_interface,
+                  monitor_interface_t *true1541_interface_init);
 extern void print_help(void);
 extern void start_assemble_mode(M_ADDR addr, char *asm_line);
 extern void end_assemble_mode();

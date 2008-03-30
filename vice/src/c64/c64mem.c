@@ -279,16 +279,15 @@ static inline void pport_changed(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
 }
 
-void maincpu_turn_watchpoints_on(void) 
+void mem_toggle_watchpoints(int flag)
 {
-    _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
-    _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
-}
-
-void maincpu_turn_watchpoints_off(void)
-{
-    _mem_read_tab_ptr = mem_read_tab[mem_config];
-    _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+    if (flag) {
+        _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
+        _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+    }
 }
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
@@ -415,7 +414,22 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_write_hook(int config, int page, store_func_t *f, store_func_t *f2)
+/* Generic memory access.  */
+
+void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+{
+    _mem_write_tab_ptr[addr >> 8](addr, value);
+}
+
+BYTE REGPARM1 mem_read(ADDRESS addr)
+{
+    return _mem_read_tab_ptr[addr >> 8](addr);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void set_write_hook(int config, int page, store_func_t *f,
+                           store_func_t *f2)
 {
     int i;
 
