@@ -27,6 +27,8 @@
 #ifndef _UIACIA1_H
 #define _UIACIA1_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s uiacia1_device_submenu[];
 
 #endif
