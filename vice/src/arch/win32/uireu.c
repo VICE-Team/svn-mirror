@@ -90,7 +90,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
     switch (msg) {
       case WM_COMMAND:
-        command=LOWORD(wparam);
+        command = LOWORD(wparam);
         switch (command) {
           case IDC_REU_BROWSE:
             {
