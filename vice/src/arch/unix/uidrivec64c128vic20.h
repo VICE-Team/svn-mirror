@@ -30,6 +30,7 @@
 struct ui_menu_entry_s;
 
 extern struct ui_menu_entry_s ui_drivec64c128vic20_settings_menu[];
+extern struct ui_menu_entry_s ui_drivec64c128vic20_romset_submenu[];
 
 #endif
 

@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c128.h"
 #include "debug.h"
 #include "icon.h"
 #include "machine.h"
@@ -255,31 +256,24 @@ static ui_menu_entry_t c128_romset_submenu[] = {
       (ui_callback_t)ui_set_romset,
       (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
-    { N_("Load new Kernal ROM"),
+    { N_("Load new Int. Kernal ROM"),
       (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new Basic ROM"),
+      (ui_callback_data_t)"KernalIntName", NULL },
+    { N_("Load new German Kernal ROM"),
       (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_data_t)"KernalDEName", NULL },
+    { N_("Load new Basic Lo ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicLoName", NULL },
+    { N_("Load new Basic Hi ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicHiName", NULL },
     { N_("Load new Chargen ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
-    { N_("Load new 1541 ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DosName1541", NULL },
-    { N_("Load new 1541-II ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DosName1541ii", NULL },
-    { N_("Load new 1571 ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DosName1571", NULL },
-    { N_("Load new 1581 ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DosName1581", NULL },
-    { N_("Load new 2031 ROM"),
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DosName2031", NULL },
+    { N_("Load new drive ROM"),
+      NULL, NULL, ui_drivec64c128vic20_romset_submenu },
     { "--" },
     { N_("Load custom ROM set from file"),
       (ui_callback_t)ui_load_romset, NULL, NULL },
@@ -321,6 +315,37 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(MachineType)
+
+
+static ui_menu_entry_t machine_type_submenu[] = {
+    { "*International", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_INT, NULL },
+    { "*Finnish", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_FINNISH, NULL },
+    { "*French", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_FRENCH, NULL },
+    { "*German", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_GERMAN, NULL },
+    { "*Italian", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_ITALIAN, NULL },
+    { "*Norwegian", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_NORWEGIAN, NULL },
+    { "*Swedish", (ui_callback_t)radio_MachineType,
+      (ui_callback_data_t)C128_MACHINE_SWEDISH, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t c128_model_submenu[] = {
+    { N_("Machine type"),
+      NULL, NULL, machine_type_submenu },
+    { N_("ROM sets"),
+      NULL, NULL, c128_romset_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t c128_menu[] = {
     { N_("VIC-II settings"),
       NULL, NULL, vicii_submenu },
@@ -332,8 +357,8 @@ static ui_menu_entry_t c128_menu[] = {
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
       NULL, NULL, rs232_submenu },
-    { N_("Memory settings"),
-      NULL, NULL, c128_romset_submenu },
+    { N_("Model settings"),
+      NULL, NULL, c128_model_submenu },
     { NULL }
 };
 

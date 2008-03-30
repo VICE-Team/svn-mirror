@@ -58,6 +58,8 @@ static int mon_file_open(const char *filename, unsigned int secondary,
             fp = fopen(filename, MODE_READ);
         else
             fp = fopen(filename, MODE_WRITE);
+        if (fp == NULL)
+            return -1;
         break;
       case 8:
       case 9:
@@ -249,6 +251,6 @@ void mon_file_verify(const char *filename, int device, MON_ADDR start_addr)
     mon_evaluate_default_addr(&start_addr);
 
     mon_out("Verify file %s at address $%04x\n",
-              filename, addr_location(start_addr));
+            filename, addr_location(start_addr));
 }
 
