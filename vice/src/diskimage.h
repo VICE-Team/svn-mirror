@@ -62,6 +62,8 @@ extern void disk_image_init(void);
 
 extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
+extern int disk_image_create(const char *name, int type);
+
 extern int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
                                   int sector);
 extern int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
