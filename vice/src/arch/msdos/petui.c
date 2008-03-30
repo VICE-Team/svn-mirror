@@ -26,15 +26,81 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "petui.h"
 
 #include "ui.h"
+#include "tui.h"
 #include "tuimenu.h"
 #include "menudefs.h"
 
+static struct {
+    char *name;
+    char *brief_description;
+    char *long_description;
+} palette_items[] = {
+    { "default", "_Default",
+      "Default VICE PET palette (Green)" },
+    { "amber", "_Amber",
+      "Amber palette" },
+    { "white", "_White",
+      "White palette" },
+    { NULL }
+};
+
+static TUI_MENU_CALLBACK(palette_callback)
+{
+    if (been_activated) {
+	if (resources_set_value("PaletteFile", (resource_value_t) param) < 0)
+	   tui_error("Invalid palette file");
+	ui_update_menus();
+    }
+
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(palette_menu_callback)
+{
+    char *s;
+    int i;
+
+    resources_get_value("PaletteFile", (resource_value_t *) &s);
+    for (i = 0; palette_items[i].name != NULL; i++) {
+	if (strcmp(s, palette_items[i].name) == 0)
+	   return palette_items[i].brief_description;
+    }
+
+    return "Custom";
+}
+
+static void add_palette_submenu(tui_menu_t parent)
+{
+    int i;
+    tui_menu_t palette_menu = tui_menu_create("Color Set", 1);
+
+    for (i = 0; palette_items[i].name != NULL; i++)
+	tui_menu_add_item(palette_menu,
+			  palette_items[i].brief_description,
+			  palette_items[i].long_description,
+			  palette_callback,
+			  (void *) palette_items[i].name, 0,
+			  TUI_MENU_BEH_CLOSE);
+
+    tui_menu_add_submenu(parent, "Color _Palette:",
+			 "Choose color palette",
+			 palette_menu,
+			 palette_menu_callback,
+			 NULL,
+			 10);
+}
+
 int pet_ui_init(void)
 {
-    ui_create_main_menu(0, 0);
+    ui_create_main_menu(0, 0, 0);
+
+    tui_menu_add_separator(ui_video_submenu);
+    add_palette_submenu(ui_video_submenu);
 
     return 0;
 }

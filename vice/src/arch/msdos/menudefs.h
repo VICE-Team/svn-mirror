@@ -41,6 +41,7 @@ extern tui_menu_t ui_reset_submenu;
 extern tui_menu_t ui_quit_submenu;
 extern tui_menu_t ui_info_submenu;
 
-extern void ui_create_main_menu(int has_tape, int has_true1541);
+extern void ui_create_main_menu(int has_tape, int has_true1541,
+                                int has_serial_traps);
 
 #endif /* _MENUDEFS_H */

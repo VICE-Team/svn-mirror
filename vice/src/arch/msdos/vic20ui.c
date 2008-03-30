@@ -34,7 +34,7 @@
 
 int vic20_ui_init(void)
 {
-    ui_create_main_menu(0, 1);
+    ui_create_main_menu(0, 1, 1);
 
     return 0;
 }

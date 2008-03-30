@@ -1,3 +1,114 @@
+Sun Jun 14 18:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c (create_special_submenu): New parameter
+ 	`has_serial_traps'.  If nonzero, add the `Remove serial traps'
+ 	menu item.
+	(ui_create_main_menu): New parameter `has_serial_traps'.  Pass it
+	to `create_special_submenu'.  Callers updated.
+
+	* arch/msdos/c64ui.c: Fixed/added some shortcuts.
+
+	* arch/msdos/petui.c: Added palette menu.
+
+	* arch/msdos/menudefs.c: Miscellaneous little fixes.
+
+	* vmachine.h [!HAVE_RS232]: Do not add the ACIA special
+	alarms.
+
+	* c64/c64mem.c, c64/c64.c [!HAVE_RS232]: Disable RS232 stuff.
+
+Sun Jun 14 01:42:52 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uicommands.c (detach_cartridge): Removed
+ 	`suspend_speed_eval()'.  Changed item `Set cartridge as default'
+ 	from a switch to a command.
+
+	* c64/c64mem.c (store_io2, read_io2, read_io1): Added KCS power
+ 	cartridge support.
+	(initialize_memory): Initialize KCS power cartridge if enabled.
+	(mem_attach_cartridge): Allow to attach KCS power cartridge.
+
+	* cartridge.c: Removed `cartridge_default_enabled' and
+ 	`set_cartridge_default_enabled()'.  New variables `carttype' and
+ 	`cartfile'.
+	(cartridge_attach_image): Fixed some typos.  Added KCS power
+ 	cartridge support.
+	(cartridge_detach_image): Do not change resources anymore.
+	(cartridge_set_default): New function.
+
+	* cartridge.h: Reassigned cartridge type defines.
+
+Sat Jun 13 17:45:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c (handle_joy_emu): Removed.
+	(my_kbd_interrupt_handler): Call `joystick_handle_key()' instead
+	of `handle_joy_emu()'.
+
+	* arch/msdos/joystick.c: `joystick_available' renamed to
+ 	`num_joysticks'.  New resources and command-line options to setup
+ 	joystick devices.
+	(joystick_init): Try to autodetect dual joysticks.
+	(joystick_handle_key): New function.
+	(joystick_update): Use the new resources and handle the second
+	joystick if present.
+
+	* icon.h: Removed.
+
+	* rs232.h (rs232_getc): Avoid multiple inclusion via CPP.
+	#include "types.h".
+	(rs232_init_cmdline_options): Prototype.
+	(rs232_init_resources): Prototype.
+
+	* arch/unix/rs232.c: #include <termios.h>, <string.h>.
+
+Sat Jun 13 13:22:05 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* fsdevice.c (open_fs): Always convert file name.
+
+	* drive.c (open_1541): Limit file name to 16 chars.
+	(do_validate): Write back BAM only if validate was successful.
+
+Fri Jun 12 23:58:16 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c: New file, ACIA 6551 template.  This handles the
+ 	ACIA RS232 emulation and calls arch-specific stuff in rs232.c
+
+	* acia.h: ACIA register definitions
+
+	* arch/unix/rs232.c: New file, handles `/dev/ttyS*' and file dump
+ 	handling for any rs232 emulation (ACIA, UART, 9600, standard)
+	(msdos needs stubs that return -1 in any case...).
+
+	* arch/unix/xaw/c64ui.c: Added RS232 menus.
+
+	* c64/Makefile.am: Added dependencies for c64acia*.c to build from
+ 	../acia-tmpl.c
+
+	* c64/c64.c: Added initialization of acia1/acia2 resources, RS232
+ 	resources and command line options, interrupt calling
+ 	int_acia[12], reset_acia[12],
+
+	* c64/c64acia.h: Function prototypes for c64acia files.
+
+	* c64/c64acia1.c, c64/c64acia2.c: New files, derived from
+	acia-tmpl.c.
+
+	* c64/c64acia1.def, c64/c64acia2.def: Definitions for building
+	c64acia[12].c.
+
+	* c64/c64mem.c: New resources AciaDE and AciaD6 to enable acia1
+ 	and acia2
+	(store_io1, read_io1): Call read_acia1/store_acia1 if appropriate
+	(store_d6, read_d6): New functions to call read_acia2/store_acia2
+ 	if appropriate or read_sid/store_sid if not
+
+	* rs232.h: New file.  Defines the general rs232 interface used by
+ 	the chip emulations.  Hides all the external device stuff from the
+ 	real emulation
+
+	* vmachine.h: Added A_ACIA1, A_ACIA2, I_ACIA1, and I_ACIA2.
+  	increased NUMOFALARM and NUMOFINT
+
 Fri Jun 12 17:47:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* fsdevice.c (flush_fs, open_fs, read_fs): Put a '/' after the

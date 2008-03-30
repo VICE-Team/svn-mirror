@@ -35,9 +35,10 @@
 #include "ui.h"
 #include "tui.h"
 
-/* FIXME: argh!!  megahack!  <dir.h> #defines `DRIVE', which we need
-   in "drive.h".  */
+/* FIXME: Argh!!  Megahack!  <dir.h> #defines `DRIVE', which we need in
+   "drive.h".  */
 #undef DRIVE
+
 #include "drive.h"
 #include "tapeunit.h"
 #include "serial.h"
@@ -47,6 +48,7 @@
 #include "video.h"
 #include "info.h"
 #include "machine.h"
+#include "fsdevice.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -227,6 +229,45 @@ TUI_MENU_DEFINE_TOGGLE(VideoCache)
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_RADIO(True1541ExtendImagePolicy)
+
+static TUI_MENU_CALLBACK(true1541_extend_image_policy_submenu_callback)
+{
+    int v;
+
+    resources_get_value("True1541ExtendImagePolicy", (resource_value_t *) &v);
+
+    switch (v) {
+      case TRUE1541_EXTEND_NEVER:
+        return "Never extend";
+      case TRUE1541_EXTEND_ASK:
+        return "Ask on extend";
+      case TRUE1541_EXTEND_ACCESS:
+        return "Extend on access";
+      default:
+        return "Unknown";
+    }
+}
+
+static tui_menu_item_def_t true1541_extend_image_policy_submenu[] = {
+    { "_Never extend",
+      "Never create more than 35 tracks",
+      radio_True1541ExtendImagePolicy_callback,
+      (void *) TRUE1541_EXTEND_NEVER, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Ask on extend",
+      "Ask the user before creating extra tracks",
+      radio_True1541ExtendImagePolicy_callback,
+      (void *) TRUE1541_EXTEND_ASK, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Extend on access",
+      "Automagically extend the disk image if extra (>35) tracks are accessed",
+      radio_True1541ExtendImagePolicy_callback,
+      (void *) TRUE1541_EXTEND_ACCESS, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 TUI_MENU_DEFINE_TOGGLE(True1541)
 
 static char *toggle_True1541SyncFactor_callback(int been_activated,
@@ -294,10 +335,15 @@ static tui_menu_item_def_t true1541_settings_submenu[] = {
       "Select method for disk drive idle",
       toggle_True1541IdleMethod_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "--" },
     { "Enable _Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable.",
+      "Enable a SpeedDOS-compatible parallel cable",
       toggle_True1541ParallelCable_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_40-Track Image Support:",
+      "Settings for dealing with 40-track disk images",
+      true1541_extend_image_policy_submenu_callback, NULL, 16,
+      TUI_MENU_BEH_CONTINUE, true1541_extend_image_policy_submenu, "" },
     { NULL }
 };
 
@@ -833,6 +879,8 @@ tui_menu_item_def_t fsdevice_submenu[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(NoTraps);
+
 /* ------------------------------------------------------------------------- */
 
 static char *speed_submenu_callback(int been_activated,
@@ -876,7 +924,7 @@ static char *speed_callback(int been_activated, void *param)
     return NULL;
 }
 
-static void create_special_submenu(void)
+static void create_special_submenu(int has_serial_traps)
 {
     static tui_menu_t speed_submenu;
 
@@ -906,10 +954,10 @@ static void create_special_submenu(void)
 			  speed_callback, (void *)0, 5,
 			  TUI_MENU_BEH_CLOSE);
 	tui_menu_add_separator(speed_submenu);
-	    tui_menu_add_item(speed_submenu, "_Custom...",
-			      "Specify a custom relative speed value",
-			      speed_callback, (void *)-1, 5,
-			      TUI_MENU_BEH_CLOSE);
+        tui_menu_add_item(speed_submenu, "_Custom...",
+                          "Specify a custom relative speed value",
+                          speed_callback, (void *)-1, 5,
+                          TUI_MENU_BEH_CLOSE);
     }
 
     tui_menu_add_submenu(ui_special_submenu, "_Speed Limit:",
@@ -917,22 +965,28 @@ static void create_special_submenu(void)
 			 speed_submenu, speed_submenu_callback,
 			 NULL, 5);
 
-
     /* File system access.  */
     {
-	tui_menu_t tmp = tui_menu_create("MS-DOS directory access", 1);
+	tui_menu_t tmp = tui_menu_create("MS-DOS Directory Access", 1);
 
+        tui_menu_add_separator(ui_special_submenu);
 	tui_menu_add(tmp, fsdevice_submenu);
 	tui_menu_add_submenu(ui_special_submenu,
-			     "MS-DOS _Directory Access",
+			     "MS-DOS _Directory Access...",
 			     "Options to access MS-DOS directories from within the emulator",
 			     tmp, NULL, NULL, 0);
     }
+
+    if (has_serial_traps)
+        tui_menu_add_item(ui_special_submenu, "Disable Kernal _Traps",
+                          "Disable the Kernal ROM patches used by tape and fast drive emulation",
+                          toggle_NoTraps_callback, NULL, 4,
+                          TUI_MENU_BEH_CONTINUE);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void ui_create_main_menu(int has_tape, int has_true1541)
+void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
 {
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1029,9 +1083,9 @@ void ui_create_main_menu(int has_tape, int has_true1541)
 			 TUI_MENU_BEH_CONTINUE);
 
     if (has_true1541) {
-        ui_drive_submenu = tui_menu_create("Drive Settings", 1);
+        ui_drive_submenu = tui_menu_create("1541 Settings", 1);
 	tui_menu_add(ui_drive_submenu, true1541_settings_submenu);
-	tui_menu_add_submenu(ui_main_menu, "_Drive Settings...",
+	tui_menu_add_submenu(ui_main_menu, "_1541 Settings...",
 			     "Drive emulation settings",
 			     ui_drive_submenu, NULL, 0,
 			     TUI_MENU_BEH_CONTINUE);
@@ -1044,7 +1098,7 @@ void ui_create_main_menu(int has_tape, int has_true1541)
 			 ui_sound_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
 
-    create_special_submenu();
+    create_special_submenu(has_serial_traps);
 
     tui_menu_add_submenu(ui_main_menu, "Special _Options...",
 			 "Extra emulation features",
@@ -1075,7 +1129,7 @@ void ui_create_main_menu(int has_tape, int has_true1541)
 
     ui_reset_submenu = tui_menu_create("Reset?", 1);
     tui_menu_add(ui_reset_submenu, reset_submenu);
-    tui_menu_add_submenu(ui_main_menu, "_Reset " /* EMULATOR */,
+    tui_menu_add_submenu(ui_main_menu, "_Reset "
 			 "Reset the machine",
 			 ui_reset_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
@@ -1083,7 +1137,7 @@ void ui_create_main_menu(int has_tape, int has_true1541)
     ui_quit_submenu = tui_menu_create("Quit", 1);
     tui_menu_add(ui_quit_submenu, quit_submenu);
     tui_menu_add_submenu(ui_main_menu, "_Quit",
-			 "Quit " /* EMULATOR */ " emulator",
+			 "Quit emulator",
 			 ui_quit_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
     tui_menu_add_separator(ui_main_menu);

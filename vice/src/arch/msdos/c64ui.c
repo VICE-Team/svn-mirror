@@ -153,13 +153,13 @@ static struct {
     char *brief_description;
     char *long_description;
 } palette_items[] = {
-    { "default", "Default",
+    { "default", "_Default",
       "Default VICE C64 palette" },
-    { "ccs64", "CCS64",
+    { "ccs64", "_CCS64",
       "Palette from the CCS64 emulator by Per Hakan Sundell" },
-    { "frodo", "Frodo",
+    { "frodo", "_Frodo",
       "Palette from the Frodo emulator by Christian Bauer" },
-    { "godot", "GoDot",
+    { "godot", "_GoDot",
       "Palette as suggested by the authors of the GoDot C64 graphics package" },
     { NULL }
 };
@@ -179,7 +179,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
 {
     char *s;
     int i;
-    
+
     resources_get_value("PaletteFile", (resource_value_t *) &s);
     for (i = 0; palette_items[i].name != NULL; i++) {
 	if (strcmp(s, palette_items[i].name) == 0)
@@ -201,8 +201,8 @@ static void add_palette_submenu(tui_menu_t parent)
 			  palette_callback,
 			  (void *) palette_items[i].name, 0,
 			  TUI_MENU_BEH_CLOSE);
-    
-    tui_menu_add_submenu(parent, "_Color Palette:",
+
+    tui_menu_add_submenu(parent, "Color _Palette:",
 			 "Choose color palette",
 			 palette_menu,
 			 palette_menu_callback,
@@ -214,7 +214,7 @@ static void add_palette_submenu(tui_menu_t parent)
 
 int c64_ui_init(void)
 {
-    ui_create_main_menu(1, 1);
+    ui_create_main_menu(1, 1, 1);
 
     tui_menu_add_separator(ui_video_submenu);
     add_palette_submenu(ui_video_submenu);
