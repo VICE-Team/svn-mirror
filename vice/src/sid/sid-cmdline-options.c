@@ -80,7 +80,7 @@ static const cmdline_option_t cmdline_options[] = {
 #      endif
 #    else
 #      ifdef HAVE_PARSID
-         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4:ParSID)")
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)")
 #      else
          N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)")
 #      endif
@@ -94,7 +94,7 @@ static const cmdline_option_t cmdline_options[] = {
 #      endif
 #    else
 #      ifdef HAVE_PARSID
-         N_("Specify SID engine (0: FastSID, 1: ReSID, 4:ParSID)")
+         N_("Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)")
 #      else
          N_("Specify SID engine (0: FastSID, 1: ReSID)")
 #      endif
@@ -104,7 +104,7 @@ static const cmdline_option_t cmdline_options[] = {
 #  ifdef HAVE_CATWEASELMKIII
 #    ifdef HAVE_HARDSID
 #      ifdef HAVE_PARSID
-         N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4:ParSID)")
+         N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)")
 #      else
          N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)")
 #      endif

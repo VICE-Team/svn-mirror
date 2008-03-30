@@ -96,6 +96,15 @@ static int set_sid_engine(resource_value_t v, void *param)
 
     sid_engine = engine;
 
+#ifdef HAVE_PARSID
+    if (engine == SID_ENGINE_PARSID_PORT1)
+      parsid_port=1;
+    if (engine == SID_ENGINE_PARSID_PORT2)
+      parsid_port=2;
+    if (engine == SID_ENGINE_PARSID_PORT3)
+      parsid_port=3;
+#endif
+
     sound_state_changed = 1;
 
     return 0;

@@ -45,6 +45,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uilib.h"
+#include "uimediafile.h"
 #include "winmain.h"
 #include "util.h"
 #include "videoarch.h"
@@ -61,15 +62,6 @@ static char screendrivername[MAXSCRNDRVLEN];
 static OPENFILENAME ofn;
 static gfxoutputdrv_t *selected_driver;
 
-
-static void enable_ffmpeg_settings(HWND hwnd, int enable)
-{
-    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT), enable);
-    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC), enable);
-    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
-    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
-    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
-}
 
 static void update_ffmpeg_codecs(HWND hwnd)
 {
@@ -122,6 +114,17 @@ static void update_ffmpeg_codecs(HWND hwnd)
     }
 }
 
+static void enable_ffmpeg_settings(HWND hwnd, int enable)
+{
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOCODEC), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOCODEC), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGAUDIOBITRATE), enable);
+    EnableWindow(GetDlgItem(hwnd,IDC_SCREENSHOT_FFMPEGVIDEOBITRATE), enable);
+    if( enable )
+        update_ffmpeg_codecs(hwnd);
+}
+
 static void init_mediafile_dialog(HWND hwnd)
 {
     HWND combo;
@@ -153,7 +156,6 @@ static void init_mediafile_dialog(HWND hwnd)
         if (strcmp(ffmpeg_format, ffmpegdrv_formatlist[i].name) == 0)
             SendMessage(combo,CB_SETCURSEL,(WPARAM)i, 0);
     }
-    update_ffmpeg_codecs(hwnd);
 
     resources_get_value("FFMPEGAudioBitrate", (void *)&bitrate);
     _stprintf(st, TEXT("%d"), bitrate);
@@ -186,6 +188,8 @@ static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
             system_wcstombs(screendrivername, st_selection, MAXSCRNDRVLEN);
             enable_ffmpeg_settings(hwnd, strcmp(screendrivername, 
                                                 "FFMPEG") == 0 ? 1 : 0);
+            /* could be shortened this way */
+            //enable_ffmpeg_settings(hwnd, (strcmp(screendrivername, "FFMPEG") == 0) );
             break;
           case IDC_SCREENSHOT_FFMPEGFORMAT:
             GetDlgItemText(hwnd,IDC_SCREENSHOT_FFMPEGFORMAT,
