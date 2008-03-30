@@ -100,7 +100,7 @@ extern serial_t *serial_get_device(int number);
 extern void serial_reset(void);
 
 extern int parallelattention(int b);
-extern int parallelsendbyte(int data);
+extern int parallelsendbyte(BYTE data);
 extern int parallelreceivebyte(BYTE *data, int fake);
 extern void serialattention(void);
 extern void serialsendbyte(void);
