@@ -523,6 +523,14 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     return 0;
 }
 
+static void drive_new_rom_image_loaded(int dtype)
+{
+    if (drive[0].type == dtype)
+        drive_setup_rom_image(0);
+    if (drive[1].type == dtype)
+        drive_setup_rom_image(1);
+}
+
 int drive_do_1541_checksum(void)
 {
     int i;
@@ -561,6 +569,7 @@ int drive_load_1541(void)
         rom1541_loaded = 1;
         drive_rom1541_size = (unsigned int)filesize;
         drive_do_1541_checksum();
+        drive_new_rom_image_loaded(DRIVE_TYPE_1541);
         return 0;
     }
     return -1;
@@ -582,6 +591,7 @@ int drive_load_1541ii(void)
                   "Hardware-level 1541-II emulation is not available.");
     } else {
         rom1541ii_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_1541II);
         return 0;
     }
     return -1;
@@ -624,6 +634,7 @@ int drive_load_1571(void)
                   "Hardware-level 1571 emulation is not available.");
     } else {
         rom1571_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_1571);
         return 0;
     }
     return -1;
@@ -645,6 +656,7 @@ int drive_load_1581(void)
                   "Hardware-level 1581 emulation is not available.");
     } else {
         rom1581_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_1581);
         return 0;
     }
     return -1;
@@ -666,6 +678,7 @@ int drive_load_2031(void)
                   "Hardware-level 2031 emulation is not available.");
     } else {
         rom2031_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_2031);
         return 0;
     }
     return -1;
@@ -687,6 +700,7 @@ int drive_load_2040(void)
                   "Hardware-level 2040 emulation is not available.");
     } else {
         rom2040_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_2040);
         return 0;
     }
     return -1;
@@ -708,6 +722,7 @@ int drive_load_3040(void)
                   "Hardware-level 3040 emulation is not available.");
     } else {
         rom3040_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_3040);
         return 0;
     }
     return -1;
@@ -729,6 +744,7 @@ int drive_load_4040(void)
                   "Hardware-level 4040 emulation is not available.");
     } else {
         rom4040_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_4040);
         return 0;
     }
     return -1;
@@ -750,6 +766,7 @@ int drive_load_1001(void)
                   "Hardware-level 1001/8050/8250 emulation is not available.");
     } else {
         rom1001_loaded = 1;
+        drive_new_rom_image_loaded(DRIVE_TYPE_1001);
         return 0;
     }
     return -1;

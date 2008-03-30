@@ -336,6 +336,18 @@ static UI_CALLBACK(run_c1541)
     }
 }
 
+static UI_CALLBACK(unit8_reset)
+{
+    vsync_suspend_speed_eval();
+    drive0_trigger_reset();
+}
+
+static UI_CALLBACK(unit9_reset)
+{
+    vsync_suspend_speed_eval();
+    drive1_trigger_reset();
+}
+
 static UI_CALLBACK(reset)
 {
     vsync_suspend_speed_eval();
@@ -849,6 +861,11 @@ static ui_menu_entry_t reset_submenu[] = {
     { N_("Hard"),
       (ui_callback_t) powerup_reset, NULL, NULL,
       XK_F12, UI_HOTMOD_META },
+    { "--" },
+    { N_("Unit #8"),
+      (ui_callback_t) unit8_reset, NULL, NULL },
+    { N_("Unit #9"),
+      (ui_callback_t) unit9_reset, NULL, NULL },
     { NULL }
 };
 

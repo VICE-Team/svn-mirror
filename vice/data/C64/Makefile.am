@@ -15,6 +15,7 @@ c64_DATA = \
         godot.vpl \
         kernal \
         pc64.vpl \
-        position.vkm
+        position.vkm \
+        c64mem.sym
 
-EXTRA_DIST = $(c64_DATA) c64mem.sym
+EXTRA_DIST = $(c64_DATA)
