@@ -122,6 +122,9 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     log_message(gnomevideo_log,
                 _("Successfully initialized video."));
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    fullscreen_set_framebuffer(i);
+#endif 
     return 0;
 }
 

@@ -538,18 +538,36 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
     return -1;
 }
 
+static void LboxFreeContents(HWND hwnd)
+{
+    int num = WinQueryLboxCount(hwnd);
+    int idx;
+    for (idx = 0; idx<num; idx++)
+    {
+        void *ptr = (void*)WinLboxItemHandle(hwnd, idx);
+        if (!ptr)
+            continue;
+
+        WinLboxSetItemHandle(hwnd, idx, 0);
+        free(ptr);
+    }
+
+    WinLboxEmpty(hwnd);
+}
+
 static void ShowContents(HWND hwnd, char *image_name)
 {
     int   ascii;
     char *text;
-    image_contents_t           *image;
-    image_contents_file_list_t *entry;
+    image_contents_t            *image;
+    image_contents_screencode_t *line;
+    image_contents_screencode_t *lines;
 
     //
     // delete listbox contents
     //
     const HWND hwnd2 = WinWindowFromID(hwnd, DID_CONTENTS_LB);
-    WinLboxEmpty(hwnd2);
+    LboxFreeContents(hwnd2);
 
     //
     // don't call the all the vice stuff if file doesn't exist
@@ -571,47 +589,72 @@ static void ShowContents(HWND hwnd, char *image_name)
     //
     // set the wanted font
     //
-    ascii = 0; //!WinQueryButtonCheckstate(hwnd, DID_CBMFONT_CB);
     WinSendMsg(hwnd2, LM_SETITEMHEIGHT, (MPARAM)9, 0);
 
     //
-    // get first entry
+    // convert image contents to screencodes
     //
-    entry=image->file_list;
-
-    //
-    // Header
-    //
-    text=xmsprintf(" 0 \"%s\" %s",
-                   ascii?p2a(image->name):image->name,
-                   ascii?p2a(image->id)  :image->id);
-    WinInsertLboxItem(hwnd2, LIT_END, text);
-    free(text);
+    lines = image_contents_to_screencode(image);
 
     //
     // Loop over all entries
     //
-    while (entry)
     {
-        text=xmsprintf(" %-5i\"%s\"%5s", entry->size,
-                       ascii?p2a(entry->name):entry->name,
-                       ascii?p2a(entry->type):entry->type);
-        WinInsertLboxItem(hwnd2, LIT_END, text);
-        free(text);
-        entry = entry->next;
+        int idx = 0;
+        line=lines;
+        do {
+            WinInsertLboxItem(hwnd2, LIT_END, "");
+            WinLboxSetItemHandle(hwnd2, idx, (long)line);
+            WinSetLboxItemText(hwnd2, idx, "");
+            idx++;
+        } while ((line=line->next));
     }
 
     //
-    // Footer
-    //
-    text=xmsprintf(" %i BLOCKS FREE.", image->blocks_free);
-    WinInsertLboxItem(hwnd2, LIT_END, text);
-    free(text);
-
-    //
-    // release image structure
+    // free image structure
     //
     image_contents_destroy(image);
+}
+
+#define numfonts 8
+const char fnames[numfonts][25] =
+{
+    "C64 Upper Case",
+    "C64 Lower Case",
+    "C128 Upper Case",
+    "C128 Lower Case",
+    "PET",
+    "PET German",
+    "VIC20 Upper Case",
+    "VIC20 Lower Case"/*,
+    "CBM-II 500 Upper Case",
+    "CBM-II 500 Lower Case",
+    "CBM-II 600 Upper Case",
+    "CBM-II 600 Lower Case",
+    "CBM-II 700 Upper Case",
+    "CBM-II 700 Lower Case"
+    */
+};
+
+static void LboxDrawLine(HWND hwnd, OWNERITEM *item, RECTL *rcl,
+                  image_contents_screencode_t *line)
+{
+    const HPS hps  =item->hps;
+    const int name =WinDlgLboxSelectedItem(hwnd, DID_FONTNAME_LB);
+    //const int state=WinQueryButtonCheckstate(hwnd, DID_CBMFONT_CB);
+
+    FATTRS font = { sizeof(FATTRS), 0, 0, "", 0, 0, 8, 8, 0, 0 };
+    //sprintf(font.szFacename, "%s %s Case", fnames[name], state?"Upper":"Lower");
+    //log_debug("Font: %s", fnames[name]);
+    strcpy(font.szFacename, fnames[name]);
+
+    GpiCreateLogFont  (hps, NULL, 1, &font);
+    GpiSetCharSet     (hps, 1);
+    GpiSetBackColor   (hps, item->fsState?CLR_DARKGRAY:CLR_WHITE);
+    GpiSetColor       (hps, item->fsState?CLR_WHITE:CLR_DEFAULT);
+    GpiCharStringPosAt(hps, (POINTL*)rcl, rcl, CHS_OPAQUE, line->length, line->line, NULL);
+    GpiSetCharSet     (hps, 0);
+    GpiDeleteSetId    (hps, 1);
 }
 
 static void ContentsUpdate(HWND hwnd)
@@ -755,8 +798,6 @@ int GetLboxPath(HWND hwnd, int nr, char szpath[CCHMAXPATH])
     return TRUE;
 }
 
-const char fnames[4][6] = { "C64", "C128", "VIC20", "PET" };
-
 MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg)
@@ -777,9 +818,9 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             FillFBox(hwnd);
             NewFilter(hwnd);
 
-            for (i=0; i<4; i++)
-                WinDlgLboxInsertItem(hwnd, DID_FONTNAME_CB, fnames[i]);
-            WinDlgLboxSelectItem(hwnd, DID_FONTNAME_CB, 0);
+            for (i=0; i<numfonts; i++)
+                WinDlgLboxInsertItem(hwnd, DID_FONTNAME_LB, fnames[i]);
+            WinDlgLboxSelectItem(hwnd, DID_FONTNAME_LB, 0);
 
             if (action)
             {
@@ -798,7 +839,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (!GpiLoadFonts(WinQueryAnchorBlock(hwnd), szpath))
             {
                 log_debug("dlg-fileio.c: GpiLoadFonts('%s') failed.", szpath);
-                WinEnableControl(hwnd, DID_CBMFONT_CB, FALSE);
+                WinEnableControl(hwnd, DID_FONTNAME_LB, FALSE);
             }
             free(szpath);
         }
@@ -807,6 +848,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_DESTROY:
         {
             char *szpath = concat(archdep_boot_path(), "\\vice2.fon", NULL);
+            LboxFreeContents(WinWindowFromID(hwnd, DID_CONTENTS_LB));
             if (!GpiUnloadFonts(WinQueryAnchorBlock(hwnd), szpath))
                 log_debug("dlg-fileio.c: GpiUnloadFonts('%s') failed.", szpath);
             free (szpath);
@@ -864,19 +906,19 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 const int state = WinQueryButtonCheckstate(hwnd, DID_CONTENTS_CB);
                 WinEnableControl(hwnd, DID_CONTENTS_LB, state);
-                WinEnableControl(hwnd, DID_CBMFONT_CB,  state);
-                WinEnableControl(hwnd, DID_FONTNAME_CB, state);
+                //WinEnableControl(hwnd, DID_CBMFONT_CB,  state);
+                WinEnableControl(hwnd, DID_FONTNAME_LB, state);
                 if (state)
                     ContentsUpdate(hwnd);
                 else
-                    WinDlgLboxEmpty(hwnd, DID_CONTENTS_LB);
+                    LboxFreeContents(WinWindowFromID(hwnd, DID_CONTENTS_LB));
             }
             return FALSE;
 
-        case DID_FONTNAME_CB:
+        case DID_FONTNAME_LB:
             if (SHORT2FROMMP(mp1)!=CBN_ENTER)
                 break;
-        case DID_CBMFONT_CB:
+            //case DID_CBMFONT_CB:
             ContentsUpdate(hwnd);
             return FALSE;
 
@@ -962,30 +1004,15 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             if (rcl->yTop-rcl->yBottom == 9)
             {
-                const int name=WinDlgLboxSelectedItem(hwnd, DID_FONTNAME_CB);
-                const int len =WinQueryLboxItemTextLength(item->hwnd, item->idItem);
-                const HAB hab =WinQueryAnchorBlock(item->hwnd);
-                const HPS hps =item->hps;
+                image_contents_screencode_t *line =
+                    (image_contents_screencode_t *)WinLboxItemHandle(item->hwnd, item->idItem);
 
-                const int state = WinQueryButtonCheckstate(hwnd, DID_CBMFONT_CB);
+                if (line)
+                    LboxDrawLine(hwnd, item, rcl, line);
 
-                char *txt = malloc(len);
-
-                FATTRS font = { sizeof(FATTRS), 0, 0, "", 0, 0, 8, 8, 0, 0 };
-                sprintf(font.szFacename, "%s %s Case", fnames[name], state?"Upper":"Lower");
-
-                WinQueryLboxItemText(item->hwnd, item->idItem, txt, len);
-                GpiCreateLogFont  (hps, NULL, 1, &font);
-                GpiSetCharSet     (hps, 1);
-                GpiSetBackColor   (hps, item->fsState?CLR_DARKGRAY:CLR_WHITE);
-                GpiSetColor       (hps, item->fsState?CLR_WHITE:CLR_DEFAULT);
-                GpiCharStringPosAt(hps, (POINTL*)rcl, rcl, CHS_OPAQUE, len, txt, NULL);
-                GpiSetCharSet     (hps, 0);
-                GpiDeleteSetId    (hps, 1);
-
-                free(txt);
                 item->fsState = item->fsStateOld = 0;
             }
+
             return (MRESULT)TRUE;
         }
         break;

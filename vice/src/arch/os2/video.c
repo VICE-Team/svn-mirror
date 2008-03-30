@@ -81,6 +81,8 @@
 #define DEBUG(txt)
 //#define DEBUG(txt) log_debug(txt)
 
+static log_t vidlog = LOG_ERR;
+
 extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
 static HMTX  hmtx;
@@ -487,9 +489,13 @@ int video_init(void) // initialize Dive
 {
     APIRET rc;
 
+    vidlog = log_open("Video");
+
+    log_message(vidlog, "Starting Dive...");
+
     if (rc=DiveOpen(&hDiveInst, FALSE, NULL))
     {
-        log_message(LOG_DEFAULT,"video.c: Could not open DIVE (rc=0x%x).",rc);
+        log_error(vidlog, "Could not open DIVE (rc=0x%x).",rc);
         return -1;
     }
     // FIXME??? Do we need one sem for every canvas
@@ -529,11 +535,13 @@ int video_init(void) // initialize Dive
         //
         rc=DosOpenMutexSem("\\SEM32\\Vice2\\Keyboard", &hmtxKey);
         if (rc)
-            log_debug("video.c: DosOpenMutexSem (rc=%li)", rc);
+            log_debug("DosOpenMutexSem (rc=%li)", rc);
     }
     else
         if (rc)
-            log_debug("video.c: DosCreateMutexSem (rc=%li)", rc);
+            log_debug("DosCreateMutexSem (rc=%li)", rc);
+
+    log_message(vidlog, "Dive startup done.");
 
     initialized = TRUE;
 
@@ -548,17 +556,16 @@ void video_close(void)
     //
     APIRET rc;
 
-    DEBUG("VIDEO CLOSE 0");
+    log_message(vidlog, "Closing Dive...");
 
     if (rc=DiveClose(hDiveInst))
-        log_message(LOG_DEFAULT, "video.c: Dive closed (rc=0x%x).", rc);
-    else
-        log_message(LOG_DEFAULT, "video.c: Dive closed.");
+        log_error(vidlog, "Dive closed (rc=0x%x).", rc);
+
     hDiveInst = 0;
 
     free(divesetup.pVisDstRects);
 
-    DEBUG("VIDEO CLOSE 1");
+    log_message(vidlog, "Dive closed.");
 }
 
 /* ------------------------------------------------------------------------ */
@@ -587,9 +594,9 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
     // check for errors
     //
     if (rc)
-        log_message(LOG_DEFAULT,"video.c: Error DiveAllocImageBuffer (rc=0x%x).", rc);
+        log_error(vidlog, "DiveAllocImageBuffer (rc=0x%x).", rc);
     else
-        log_message(LOG_DEFAULT,"video.c: Frame buffer #%d allocated (%lix%li)", (*f)->ulBuffer, width, height);
+        log_message(vidlog, "Frame buffer #%d allocated (%lix%li)", (*f)->ulBuffer, width, height);
 
     return 0;
 }
@@ -611,9 +618,9 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
     DEBUG("FRAME BUFFER FREE 0");
 
     if (rc=DiveFreeImageBuffer(hDiveInst, f->ulBuffer))
-        log_message(LOG_DEFAULT,"video.c: Error DiveFreeImageBuffer (rc=0x%x).", rc);
+        log_error(vidlog,"DiveFreeImageBuffer (rc=0x%x).", rc);
     else
-        log_message(LOG_DEFAULT,"video.c: Frame buffer #%d freed.", f->ulBuffer);
+        log_message(vidlog,"Frame buffer #%d freed.", f->ulBuffer);
 
 
     //
@@ -971,7 +978,7 @@ static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
 
     if (!hwndHelp || hini.ulReturnCode)
     {
-        log_debug("video.c: WinCreateHelpInstance failed (rc=%d)",
+        log_error(vidlog, "WinCreateHelpInstance failed (rc=%d)",
                   hini.ulReturnCode);
         return; // error
     }
@@ -981,7 +988,7 @@ static void InitHelp(HWND hwndFrame, int id, PSZ title, PSZ libname)
     //
     if (!WinAssociateHelpInstance(hwndHelp, hwndFrame))
     {
-        log_debug("video.c: WinAssociateInstance failed.");
+        log_error(vidlog, "WinAssociateInstance failed.");
         return; // error
     }
 }
@@ -1128,7 +1135,9 @@ void PM_mainloop(VOID *arg)
     // this makes reactions faster when shutdown of main thread is triggered
     //
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
-        log_debug("video.c: Error DosSetPriority (rc=%li)", rc);
+        log_error(vidlog, "DosSetPriority (rc=%li)", rc);
+
+    log_message(vidlog, "PM for %s initialized.", c->title);
 
     //
     // MAINLOOP
@@ -1146,7 +1155,7 @@ void PM_mainloop(VOID *arg)
     initialized = FALSE;
     wmVrnDisabled(c->hwndClient);
 
-    log_debug("Window '%s': Quit!", c->title);
+    log_message(vidlog, "Window '%s': Quit!", c->title);
     free(c->title);
 
     /*
@@ -1162,22 +1171,26 @@ void PM_mainloop(VOID *arg)
     // window the msg queue is never destroyed. Is it really necessary
     // to destroy the msg queue?
     //
-    log_debug("Triggering Shutdown of Emulation Thread.");
+    log_message(vidlog, "Triggering Shutdown of Emulation Thread.");
     trigger_shutdown = 1;
 
-    log_debug("Destroying Msg Queue.");
+    log_message(vidlog, "Releasing PM.");
+
+    //log_message(vidlog, "Destroying Msg Queue.");
     if (!WinDestroyMsgQueue(hmq))
-        log_message(LOG_DEFAULT,"video.c: Error! Destroying Msg Queue.");
-    log_debug("Releasing PM Anchor.");
+        log_error(vidlog, "Destroying Msg Queue.");
+    //log_message(vidlog, "Releasing PM anchor.");
     if (!WinTerminate (hab))
-        log_message(LOG_DEFAULT,"video.c: Error! Releasing PM anchor.");
+        log_error(vidlog, "Releasing PM anchor.");
+
+    log_message(vidlog, "PM released.");
 
     DosSleep(5000); // wait 5 seconds
 
     //
     // FIXME, this happens for x128 eg at my laptop when video_close is called
     //
-    log_debug("Brutal Exit!");
+    log_error(vidlog, "Brutal Exit!");
     //
     // if the triggered shutdown hangs make sure that the program ends
     //
@@ -1199,7 +1212,7 @@ canvas_t *canvas_create(const char *title, UINT *width,
 
     if (palette->num_entries > 0x10)
     {
-        log_error(LOG_DEFAULT, "video.c: Error! More than 16 colors requested for '%s'", title);
+        log_error(vidlog, "More than 16 colors requested for '%s'", title);
         return (canvas_t *) NULL;
     }
 
@@ -1223,8 +1236,8 @@ canvas_t *canvas_create(const char *title, UINT *width,
     while (!canvas_new->vrenabled) // wait until canvas initialized
         DosSleep(1);
 
-    log_debug("video.c: Canvas '%s' (%ix%i) created, hwnd=%x.",
-              title, *width, *height, canvas_new->hwndClient);
+    log_message(vidlog, "Canvas '%s' (%ix%i) created: hwnd=0x%x.",
+                title, *width, *height, canvas_new->hwndClient);
 
     canvas_set_palette(canvas_new, palette, pixel_return);
 
@@ -1272,10 +1285,10 @@ void canvas_resize(canvas_t *c, UINT width, UINT height)
                          canvas_fullheight(height),
                          SWP_SIZE|SWP_MOVE))
     {
-        log_debug("video.c: Error resizing canvas (%ix%i).", width, height);
+        log_error(vidlog, "Resizing canvas (%ix%i).", width, height);
         return;
     }
-    log_debug("video.c: canvas resized (%ix%i --> %ix%i)", c->width, c->height, width, height);
+    log_message(vidlog, "canvas resized (%ix%i --> %ix%i)", c->width, c->height, width, height);
 
     c->width   = width;
     c->height  = height;
@@ -1289,7 +1302,10 @@ void canvas_resize(canvas_t *c, UINT width, UINT height)
 int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
     //
-    // FIXME, this sets the palette for both x128 windows...
+    // The palette is ordered in blocks a 16 colors.
+    // Every canvas containes the number of the block which is
+    // used by the canvas. No canvas is allowed to use more
+    // than 16 colors.
     //
     int i;
     ULONG rc;
@@ -1309,13 +1325,16 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
     {
         if (blocks==0x10)
         {
-            log_message(LOG_DEFAULT, "video.c: All 256 palette entries are in use.");
+            log_error(vidlog, "All 256 palette entries are in use.");
             free(palette);
             return -1;
         }
         blocks++;
         c->palette = blocks;
     }
+
+    if (p->num_entries>0x10)
+        log_warning(vidlog, "A palette block shouldn't contain more than 16 colors.");
 
     //
     // calculate offset for actual block of color data
@@ -1333,9 +1352,9 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 
     rc=DiveSetSourcePalette(hDiveInst, offset, p->num_entries, (BYTE*)palette);
     if (rc)
-        log_message(LOG_DEFAULT,"video.c: Error DiveSetSourcePalette (rc=0x%x).",rc);
+        log_error(vidlog, "DiveSetSourcePalette (rc=0x%x).",rc);
     //    else
-    //        log_message(LOG_DEFAULT,"video.c: Palette realized.");
+    //        log_message(LOG_DEFAULT,"Palette realized.");
 
     free(palette);
 

@@ -48,6 +48,13 @@
 #include "winmain.h"
 
 
+/*
+ TODO: @SRT - This is just a quick hack since the MINGW headers don't define this...
+*/
+#ifndef SIF_TRACKPOS
+#define SIF_TRACKPOS        0x0010
+#endif
+
 // #define DEBUG_UIMON
 
 /* Debugging stuff.  */

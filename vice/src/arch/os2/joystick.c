@@ -38,6 +38,8 @@
 #include "log.h"
 #include "resources.h"
 
+static log_t joylog = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
@@ -226,6 +228,8 @@ void joystick_init(void)
     if (SWhGame)
         return;
 
+    joylog = log_open("Joystick");
+
     archdep_create_mutex_sem(&hmtxJoystick, "Joystick", TRUE);
 
     number_joysticks = JOYDEV_NONE;
@@ -233,10 +237,13 @@ void joystick_init(void)
                    FILE_READONLY, OPEN_ACTION_OPEN_IF_EXISTS/*FILE_OPEN*/,
                    OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
     {
-        log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);
         if (rc==ERROR_OPEN_FAILED)
-            log_message(LOG_DEFAULT, "joystick.c: Cannot open device 'GAME$'.\n"
-                        "joystick.c: Have you installed a MPPM/2 joystick device driver?\n");
+        {
+            log_warning(joylog, "Cannot open device 'GAME$'.");
+            log_warning(joylog, "Have you installed a MPPM/2 joystick device driver?\n");
+        }
+        else
+            log_error(joylog, "DosOpen 'GAME$' (rc=%i)", rc);
     }
     else
     {
@@ -245,22 +252,22 @@ void joystick_init(void)
         if (rc=DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_PARMS,
                            NULL, 0, NULL, &parms, dataLen, &dataLen))
         {
-            log_message(LOG_DEFAULT, "joystick.c: DosDevIOCtl (rc=%i)", rc);
+            log_error(joylog, "DosDevIOCtl (rc=%i)", rc);
         }
         else
         {
             if (parms.useA)
             {
-                log_message(LOG_DEFAULT, "joystick.c: Joystick A found.");
+                log_message(joylog, "Joystick A found.");
                 number_joysticks |= JOYDEV_HW1;
             }
             if (parms.useB)
             {
-                log_message(LOG_DEFAULT, "joystick.c: Joystick B found.");
+                log_message(joylog, "Joystick B found.");
                 number_joysticks |= JOYDEV_HW2;
             }
             if (number_joysticks==JOYDEV_NONE)
-                log_message(LOG_DEFAULT, "joystick.c: Sorry, no joystick found!");
+                log_message(joylog, "Sorry, no joystick found!");
         }
     }
 
@@ -270,13 +277,15 @@ void joystick_init(void)
 /* Strange! If video_init fails this is called without calling DosOpen before! */
 void joystick_close(void)
 {
-    APIRET rc ;
+    APIRET rc;
     DosRequestMutexSem(hmtxJoystick, SEM_INDEFINITE_WAIT);
     rc=DosClose(SWhGame);
     DosCloseMutexSem(hmtxJoystick);
 
-    if (rc)
-        log_message(LOG_DEFAULT, "joystick.c: DosClose (rc=%i)", rc);
+    if (!rc)
+        return;
+
+    log_error(joylog, "DosClose 'GAME$' (rc=%i)", rc);
 }
 
 static void handle_joystick_movement(const GAME_2DPOS_STRUCT *joy,

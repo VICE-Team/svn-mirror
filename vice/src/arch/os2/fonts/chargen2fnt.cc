@@ -18,7 +18,7 @@
 
 #include <string.h>
 
-int main(int argc, char **argv)
+int oldmain(int argc, char **argv)
 {
     char name[80];
 
@@ -38,17 +38,24 @@ int main(int argc, char **argv)
 
     ifstream fin(argv[1], ios::binary);
     ifstream finh("header.fnt", ios::binary);
-/*    if (!fin)
+    if (!fin)
     {
-        cout << "File 'chargen' not found." << endl;
+        cerr << "File 'chargen' not found." << endl;
         return -1;
     }
-*/
+    if (!finh)
+    {
+        cerr << "File 'header.fnt' not found." << endl;
+        return -1;
+    }
+
     const int hlen = 27*64+30;
     char header[hlen];
     finh.read   (header, 28);
+
     fout1.write (header, 28);
     fout2.write (header, 28);
+
     foutc1.write(header, 28);
     foutc2.write(header, 28);
 
@@ -82,8 +89,10 @@ int main(int argc, char **argv)
 
     finh.seekg(28+64);
     finh.read   (header, hlen-(28+64));
+
     fout1.write (header, hlen-(28+64));
     fout2.write (header, hlen-(28+64));
+
     foutc1.write(header, hlen-(28+64));
     foutc2.write(header, hlen-(28+64));
 
@@ -152,4 +161,59 @@ int main(int argc, char **argv)
     fout2  << "\xff\xff\xff\xff\x08\0\0\0" << flush;
     foutc1 << "\xff\xff\xff\xff\x08\0\0\0" << flush;
     foutc2 << "\xff\xff\xff\xff\x08\0\0\0" << flush;
+
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    char name[80];
+
+    const int offset = atoi(argv[3]);
+
+    cout << "Creating font files for '" << argv[2] << "'." << endl;
+
+    sprintf(name, "chargen-%s.fnt", argv[2]);
+    ofstream fout(name, ios::binary);
+
+    ifstream fin(argv[1], ios::binary);
+    if (!fin)
+    {
+        cerr << "File '" << argv[1] << "' not found." << endl;
+        return -1;
+    }
+
+    ifstream finh("header.fnt", ios::binary);
+    if (!finh)
+    {
+        cerr << "File 'header.fnt' not found." << endl;
+        return -1;
+    }
+
+    const int hlen = 27*64+30;
+    char header[hlen];
+    finh.read (header, 28);
+    fout.write(header, 28);
+
+    sprintf(name, argv[2]);
+    int len=strlen(name);
+    memset(header, 0, 64);
+
+    fout.write(name, len);
+    fout.write(header, 32-len);
+    fout.write(name, len);
+    fout.write(header, 32-len);
+
+    finh.seekg(28+64);
+    finh.read (header, hlen-(28+64));
+    fout.write(header, hlen-(28+64));
+
+    const int flen = 256*8;
+    char font[flen];
+
+    fin.seekg(offset*flen);
+    fin.read(font, flen);
+
+    fout.write(font, flen);
+    fout << "\xff\xff\xff\xff\x08\0\0\0" << flush;
 }

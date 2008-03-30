@@ -7,6 +7,39 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+
+* Changes in VICE 1.8
+=====================
+
+** General
+----------
+
+- Added '-h' as alias for '-?' and '-help'
+
+- Made the new emulated VIC-II palette the default 
+  ( to use the old stylish file palettes switch to external palette)
+
+** VIC-II
+---------
+
+- Added VIC-II reengineered palette
+
+- Added also command line switches for:
+  + Brightness
+  + Contrast
+  + Saturation
+  + Gamma
+  + New style luminance signals
+  + use internal/external palette
+
+** OS/2 changes
+---------------
+
+- Added dialog and menu entries to use a emulated PAL palette (Alt-I)
+
+- Implemented drag'n'drop for vsid mode.
+
+
 * Changes in VICE 1.7
 =====================
 
@@ -117,7 +150,7 @@ list of all the changes in the code.
 
 - Zlib is used for reading compressed images.
 
- 
+
 * Changes in VICE 1.6
 =====================
 

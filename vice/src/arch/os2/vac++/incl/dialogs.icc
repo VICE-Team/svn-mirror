@@ -2,7 +2,6 @@ source type(c)
     "dialogs\\menubar.c",
     "dialogs\\dragndrop.c",
     "dialogs\\dlg-drive.c",
-    "dialogs\\dlg-color.c",  // FIXME!
     "dialogs\\dlg-reset.c",
     "dialogs\\dlg-create.c",
     "dialogs\\dlg-cmdopt.c",

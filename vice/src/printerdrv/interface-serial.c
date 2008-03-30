@@ -144,7 +144,9 @@ static int write_pr(unsigned int prnr, BYTE byte, unsigned int secondary)
         /* oh, well, we just assume an implicit open - "OPEN 1,4"
            just does not leave any trace on the serial bus */
         log_warning(interface_serial_log,
-                    "Auto-opening printer #%i!", prnr + 4);
+                    "Auto-opening printer #%i.", prnr + 4);
+        log_warning(interface_serial_log,
+                    "If True Drive Emulation is disable this is normal.");
 
         err = open_pr(prnr, NULL, 0, secondary);
 

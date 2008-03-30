@@ -47,6 +47,7 @@
 #include "utils.h"
 #include "vsync.h"
 
+static log_t slog=LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -140,8 +141,7 @@ static int set_oversampling_factor(resource_value_t v, void *param)
 {
     oversampling_factor = (int)v;
     if (oversampling_factor < 0 || oversampling_factor > 3) {
-        log_warning(LOG_DEFAULT,
-                    "Invalid oversampling factor %d.  Forcing 3.",
+        log_warning(slog, "Invalid oversampling factor %d.  Forcing 3.",
                     oversampling_factor);
         oversampling_factor = 3;
     }
@@ -283,7 +283,7 @@ static int closesound(const char *msg)
 {
     if (snddata.pdev)
     {
-	log_message(LOG_DEFAULT, "SOUND: Closing device `%s'", snddata.pdev->name);
+	log_message(slog, "Closing device `%s'", snddata.pdev->name);
 	if (snddata.pdev->close)
 	    snddata.pdev->close();
         snddata.pdev = NULL;
@@ -301,7 +301,7 @@ static int closesound(const char *msg)
     if (msg && msg[0])
     {
         if (console_mode || vsid_mode)
-	    log_message(LOG_DEFAULT, "SOUND: %s", msg);
+	    log_message(slog, msg);
 	else
 	    ui_error(msg);
 	playback_enabled = 0;
@@ -319,7 +319,7 @@ static int disabletime;
 static void suspendsound(const char *reason)
 {
     disabletime = time(0);
-    log_warning(LOG_DEFAULT, "SUSPEND: disabling sound for %d secs (%s)",
+    log_warning(slog, " suspend, disabling sound for %d secs (%s)",
 	 suspend_time, reason);
     closesound("");
 }
@@ -359,8 +359,8 @@ static int initsid(void)
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
     resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
-    log_message(LOG_DEFAULT, cycle_based ?
-		"SOUND: Cycle based engine" : "SOUND: Sample based engine");
+    log_message(slog, cycle_based ?
+		"Cycle based engine" : "Sample based engine");
 
     name = device_name;
 /*
@@ -411,8 +411,8 @@ static int initsid(void)
         snddata.fragnr = fragnr;
         snddata.bufsize = fragsize*fragnr;
         snddata.bufptr = 0;
-        log_message(LOG_DEFAULT,
-                    "SOUND: Opened device `%s', speed %dHz, fragment size %dms, buffer size %dms",
+        log_message(slog,
+                    "Opened device `%s', speed %dHz, fragment size %dms, buffer size %dms",
                     pdev->name, speed,
                     (int)(1000.0*fragsize/speed),
                     (int)(1000.0*snddata.bufsize/speed));
@@ -446,7 +446,7 @@ static int initsid(void)
         if (snddata.oversamplenr > 1)
         {
             snddata.clkstep /= snddata.oversamplenr;
-            log_message(LOG_DEFAULT, "SOUND: Using %dx oversampling",
+            log_message(slog, "Using %dx oversampling",
                         snddata.oversamplenr);
         }
         snddata.origclkstep = snddata.clkstep;
@@ -660,7 +660,7 @@ double sound_flush(int relative_speed)
 	space = snddata.pdev->bufferspace();
 	if (space < 0 || space > snddata.bufsize)
 	{
-	    log_warning(LOG_DEFAULT, "fragment problems %d %d",
+	    log_warning(slog, "fragment problems %d %d",
 		 space, snddata.bufsize);
 
             closesound("Audio: fragment problems.");
@@ -707,7 +707,7 @@ double sound_flush(int relative_speed)
 	    snddata.prevfill = j;
 
 	    /* Fresh start for vsync. */
-	    log_warning(LOG_DEFAULT, _("SOUND: Buffer drained"));
+	    log_warning(slog, _("Buffer drained"));
 	    vsync_sync_reset();
 	    return 0;
 	}
@@ -852,6 +852,9 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
+    if (slog==LOG_ERR)
+        slog = log_open("Sound");
+
     sound_state_changed = FALSE;
 
     cycles_per_sec  = clock_rate;

@@ -43,16 +43,16 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "rs232.c",
             "c128ui.c",
             "c128memlimit.c",
-            "kbd\\kbd-c128.c"
+            "kbd\\kbd-c128.c",
+            "dialogs\\dlg-color.c"
+
         source type(c)
             "reu.c",
             "c64tpi.c",
             "c64cia2.c",
             "c64cartmem.c",
             "c64datasette.c",
-            "c64cartridge.c"/*,
-            "patchrom.c",
-            "c64mem.c"*/
+            "c64cartridge.c"
 
         include "incl/resources.icc"
         include "incl/mainsrc.icc"

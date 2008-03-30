@@ -96,9 +96,11 @@ static resource_t resources[] = {
     { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &fullscreen_is_enabled,
       fullscreen_request_set_mode, NULL },
+#if 0
     { "SelectedFullscreenMode", RES_STRING, (resource_value_t) "",
       (resource_value_t *) &fullscreen_selected_videomode,
       fullscreen_set_bestmode, NULL },
+#endif
 #endif
     { NULL }
 };

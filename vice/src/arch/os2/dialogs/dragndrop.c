@@ -32,7 +32,12 @@
 #include <string.h>     // strlen, strcat
 
 #include "dialogs.h"
+#include "machine.h"    // vsid_mode
+#include "resources.h"
 #include "autostart.h"  // autostart_autodetect
+#ifdef __X64__
+#include "psid.h"       // psid_init_driver
+#endif
 
 
 MRESULT DragOver(PDRAGINFO pDraginfo)
@@ -86,10 +91,29 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
         !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam))
         return NULL;
 
-    if (autostart_autodetect(strcat(dir, nam), NULL, 0, AUTOSTART_MODE_RUN) >= 0)
-        return NULL;
+    strcat(dir, nam);
 
-    ViceErrorDlg(hwnd, 0x101/*PTR_INFO*/, " Drop File:\n Cannot autostart file.");
+
+#ifdef __X64__
+    if (!vsid_mode)
+    {
+#endif
+        if (autostart_autodetect(dir, NULL, 0, AUTOSTART_MODE_RUN) >= 0)
+            return NULL;
+#ifdef __X64__
+    }
+    else
+    {
+        if (machine_autodetect_psid(dir) >= 0)
+        {
+            psid_init_driver();
+            resources_set_value("PSIDTune", (resource_value_t)0);
+            return NULL;
+        }
+    }
+#endif
+
+    ViceErrorDlg(hwnd, 0x101/*PTR_INFO*/, " Drop File:\n Cannot autostart/play file.");
     return NULL;
 }
 
@@ -98,7 +122,7 @@ MRESULT DragDrop(HWND hwnd, ULONG msg, DRAGINFO *info)
     MRESULT mr;
 
     if (!DrgAccessDraginfo(info))
-        return MRFROM2SHORT (DOR_NODROPOP, 0);
+        return MRFROM2SHORT(DOR_NODROPOP, 0);
 
     switch (msg)
     {

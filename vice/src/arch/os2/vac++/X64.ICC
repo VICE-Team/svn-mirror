@@ -41,7 +41,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "kbd-c64.c",
             "c64ui.c",
-            "c64memlimit.c"
+            "c64memlimit.c",
+            "dialogs\\dlg-color.c"
 
         include "incl/resources.icc"
         include "incl/archdep.icc"

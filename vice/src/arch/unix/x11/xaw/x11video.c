@@ -189,6 +189,10 @@ tryagain:
     if (video_convert_func(i, depth, width, height) < 0)
         return -1;
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    fullscreen_set_framebuffer(i);
+#endif 
+
     return 0;
 }
 

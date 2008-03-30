@@ -50,6 +50,8 @@
 #include "vsync.h"
 #include "zfile.h"
 
+static log_t vlog = LOG_ERR;
+
 typedef struct psid_s {
   /* PSID data */
   WORD version;
@@ -146,6 +148,9 @@ int psid_load_file(const char* filename)
   BYTE* ptr = buf;
   unsigned int length;
 
+  if (vlog==LOG_ERR)
+      vlog = log_open("Vsid");
+
   if (!(f = zfopen(filename, MODE_READ))) {
     return -1;
   }
@@ -161,16 +166,16 @@ int psid_load_file(const char* filename)
   psid->version = psid_extract_word(&ptr);
 
   if (psid->version < 1 || psid->version > 2) {
-    log_error(LOG_DEFAULT, "VSID: Unknown PSID version number: %d.",
-	      (int)psid->version);
-    goto fail;
+      log_error(vlog, "Unknown PSID version number: %d.",
+                (int)psid->version);
+      goto fail;
   }
 
   length = (unsigned int)((psid->version == 1
            ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
   if (fread(ptr, 1, length, f) != length) {
-    log_message(LOG_DEFAULT, "VSID: Error reading PSID header.");
+    log_error(vlog, "Reading PSID header.");
     goto fail;
   }
 
@@ -207,7 +212,7 @@ int psid_load_file(const char* filename)
 
   /* Check for SIDPLAYER MUS files. */
   if (psid->flags & 0x01) {
-    log_error(LOG_DEFAULT, "VSID: SIDPLAYER MUS files not supported.");
+    log_error(vlog, "SIDPLAYER MUS files not supported.");
     goto fail;
   }
 
@@ -215,7 +220,7 @@ int psid_load_file(const char* filename)
      first two bytes of the binary C64 data. */
   if (psid->load_addr == 0) {
     if (fread(ptr, 1, 2, f) != 2) {
-      log_message(LOG_DEFAULT, "VSID: Error reading PSID load address.");
+      log_error(vlog, "Reading PSID load address.");
       goto fail;
     }
     psid->load_addr = ptr[0] | ptr[1] << 8;
@@ -230,12 +235,12 @@ int psid_load_file(const char* filename)
   psid->data_size = fread(psid->data, 1, sizeof(psid->data), f);
 
   if (ferror(f)) {
-    log_message(LOG_DEFAULT, "VSID: Error reading PSID data.");
+    log_error(vlog, "Reading PSID data.");
     goto fail;
   }
 
   if (!feof(f)) {
-    log_message(LOG_DEFAULT, "VSID: More than 64K PSID data.");
+    log_error(vlog, "More than 64K PSID data.");
     goto fail;
   }
 
@@ -284,7 +289,7 @@ int psid_load_file(const char* filename)
 
   if (psid->start_page == 0xff || psid->max_pages < 2)
   {
-    log_error(LOG_DEFAULT, "VSID: No space for driver.");
+    log_error(vlog, "No space for driver.");
     goto fail;
   }
 
@@ -339,7 +344,7 @@ void psid_init_tune(void)
 
   reloc_addr = psid->start_page << 8;
 
-  log_message(LOG_DEFAULT, "\nVSID: driver=$%04x, image=$%04x-$%04x, init=$%04x, play=$%04x",
+  log_message(vlog, "driver=$%04x, image=$%04x-$%04x, init=$%04x, play=$%04x",
 	      reloc_addr,
 	      psid->load_addr, psid->load_addr + psid->data_size - 1,
 	      psid->init_addr, psid->play_addr);
@@ -355,14 +360,13 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
   else if (start_song < 1 || start_song > psid->songs) {
-    log_message(LOG_DEFAULT,
-		"Warning: Tune out of range.");
+    log_warning(vlog, "Tune out of range.");
     start_song = psid->start_song;
   }
 
   /* Check for PSID specific file. */
   if (psid->flags & 0x08) {
-    log_message(LOG_DEFAULT, "Warning: Image contains PlaySID samples - trying anyway.");
+    log_warning(vlog, "Image contains PlaySID samples - trying anyway.");
   }
 
   /* Check tune speed. */
@@ -381,15 +385,15 @@ void psid_init_tune(void)
   }
 
   if (console_mode) {
-      log_message(LOG_DEFAULT, "Name: %s",      (char *)(psid->name));
-      log_message(LOG_DEFAULT, "Author: %s",    (char *)(psid->author));
-      log_message(LOG_DEFAULT, "Copyright: %s", (char *)(psid->copyright));
-      log_message(LOG_DEFAULT, "Using %s sync",
+      log_message(vlog, "Name: %s",      (char *)(psid->name));
+      log_message(vlog, "Author: %s",    (char *)(psid->author));
+      log_message(vlog, "Copyright: %s", (char *)(psid->copyright));
+      log_message(vlog, "Using %s sync",
                   (int)sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC");
-      log_message(LOG_DEFAULT, "Using %s emulation",
+      log_message(vlog, "Using %s emulation",
                   sid_model ? "MOS8580" : "MOS6581");
-      log_message(LOG_DEFAULT, "Using %s interrupt", irq_str);
-      log_message(LOG_DEFAULT, "Playing tune %d out of %d (defualt=%d)",
+      log_message(vlog, "Using %s interrupt", irq_str);
+      log_message(vlog, "Playing tune %d out of %d (defualt=%d)",
                   start_song, psid->songs, psid->start_song);
   }
   else {
@@ -481,7 +485,7 @@ void psid_init_driver(void)
   psid_size = sizeof(psid_driver);
 
   if (!reloc65(&psid_reloc, &psid_size, reloc_addr)) {
-    log_error(LOG_DEFAULT, "VSID: Relocation error.");
+    log_error(vlog, "Relocation.");
     psid_set_tune(-1);
     return;
   }

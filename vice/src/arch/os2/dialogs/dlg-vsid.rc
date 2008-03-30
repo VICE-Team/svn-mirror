@@ -43,7 +43,7 @@ BEGIN
 	CONTROL "Time:",     ID_NONE,       115, 93,  25,  9, STY_TEXT
 	CONTROL "00:00",     ID_TIME,       140, 93,  30,  9, STY_TEXT
 
-        CONTROL "Playing:",  ID_NONE,         5, 24, 158, 69, STY_GROUPBOX
+        CONTROL "Playing:",  ID_TBOX,         5, 24, 158, 69, STY_GROUPBOX
 
         CONTROL "Name",      ID_TNAME,       10, 72, 150,  9, STY_TEXT
         CONTROL "Author",    ID_TAUTHOR,     10, 63, 150,  9, STY_TEXT

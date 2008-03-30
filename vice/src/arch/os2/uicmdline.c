@@ -85,7 +85,7 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *opt, void *arg)
         char *text = xmsprintf(format, textopt, opt[i].description);
         free(textopt);
 
-        WinSendMsg(hwnd, WM_INSERT, text, 0);
+        WinSendMsg(hwnd, WM_INSERT, text, (void*)TRUE);
         free(text);
     }
 

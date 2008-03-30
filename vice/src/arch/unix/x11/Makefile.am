@@ -14,6 +14,7 @@ INCLUDES = \
 noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
+	dga2.c \
         fullscreen.c
 
 libx11ui_a_SOURCES = \

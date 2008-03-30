@@ -1,5 +1,5 @@
 /*
- * dlg-joystick.c - The joystick-dialog.
+ * dlg-color.c - The color-dialog.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -24,12 +24,8 @@
  *
  */
 
-//#define INCL_WININPUT     // WM_CHAR
-//#define INCL_WINBUTTONS
 #define INCL_WINDIALOGS     // WinSendDlgItemMsg
-//#define INCL_WINSTDSPIN
 #define INCL_WINSTDSLIDER   // SL?_*
-//#define INCL_WINFRAMEMGR  // WM_TANSLATEACCEL
 #include "vice.h"
 
 #include <os2.h>
@@ -37,12 +33,7 @@
 #include "dialogs.h"
 #include "dlg-color.h"
 
-//#include <ctype.h>        // isprint
-//#include <stdlib.h>       // free
-
 #include "log.h"
-//#include "utils.h"        // xmsprintf
-//#include "joystick.h"
 #include "resources.h"
 #include "snippets\pmwin2.h"
 
@@ -80,6 +71,22 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             SetSliderPos(hwnd, ID_GAMMA, val/10);
         }
         break;
+
+    case WM_COMMAND:
+        if (LONGFROMMP(mp1) != ID_DEFAULT)
+            break;
+
+        resources_set_value("ColorSaturation", (resource_value_t*)1000);
+        resources_set_value("ColorContrast",   (resource_value_t*)1100);
+        resources_set_value("ColorBrightness", (resource_value_t*)1100);
+        resources_set_value("ColorGamma",      (resource_value_t*) 900);
+
+        SetSliderPos(hwnd, ID_SATURATION, 100);
+        SetSliderPos(hwnd, ID_CONTRAST,   110);
+        SetSliderPos(hwnd, ID_BRIGHTNESS, 110);
+        SetSliderPos(hwnd, ID_GAMMA,       90);
+
+        return FALSE;
 
     case WM_CONTROL:
         if (SHORT2FROMMP(mp1) != SLN_CHANGE &&

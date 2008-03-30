@@ -167,7 +167,7 @@ static UI_CALLBACK(set_printer_exec_file)
 
 UI_MENU_DEFINE_TOGGLE(Printer4)
 UI_MENU_DEFINE_TOGGLE(Printer5)
-UI_MENU_DEFINE_TOGGLE(PrUser)
+UI_MENU_DEFINE_TOGGLE(PrinterUserport)
 
 static UI_CALLBACK(flush_printer)
 {
@@ -194,7 +194,7 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)flush_printer, (ui_callback_data_t)5, NULL },
     { "--" },
     { N_("*Userport printer emulation"),
-      (ui_callback_t)toggle_PrUser, NULL, NULL },
+      (ui_callback_t)toggle_PrinterUserport, NULL, NULL },
     { N_("Userport printer driver"),
       NULL, NULL, pruser_driver_submenu },
     { N_("Userport printer text output device"),

@@ -105,6 +105,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "gfxoutputdrv"=".\gfxoutputdrv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "monitor"=".\monitor.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -157,18 +169,6 @@ Package=<4>
 ###############################################################################
 
 Project: "printerdrv"=".\printerdrv.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "screendrv"=".\screendrv.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -312,13 +312,13 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name resid
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name screendrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sid
@@ -369,13 +369,13 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name resid
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name screendrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sid
@@ -417,13 +417,13 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name resid
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name screendrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sid
@@ -465,13 +465,13 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name pet
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name printerdrv
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name screendrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sounddrv
@@ -507,10 +507,10 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name printerdrv
+    Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name screendrv
+    Project_Dep_Name printerdrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sounddrv

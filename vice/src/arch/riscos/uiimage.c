@@ -461,7 +461,11 @@ void ui_image_contents_click(int *block)
     Wimp_GetWindowState(winfo);
     filenum = winfo[WindowB_VMaxY] - winfo[WindowB_ScrollY] - block[MouseB_PosY];
     filenum = (filenum - WindowBorder) / LineHeight;
-    if ((filenum >= 1) && (filenum <= NumberOfLines))
+    /* no load"*" in dir mode*/
+    if ((filenum == 0) && (image_content_type == IMAGE_CONTENT_DIR))
+      filenum = -1;
+    /* double-click on title autostarts "*" (except for dir mode) */
+    if ((filenum >= 0) && (filenum <= NumberOfLines))
     {
       vsync_suspend_speed_eval();
       force_line_redraw(MarkedLine);

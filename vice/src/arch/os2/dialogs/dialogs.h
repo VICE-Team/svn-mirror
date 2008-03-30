@@ -92,9 +92,8 @@
                               SPBS_PADWITHZEROS  | WS_VISIBLE
 #define STY_DISPVAL           WC_SPINBUTTON, SPBS_JUSTCENTER  | \
                               SPBS_PADWITHZEROS  | WS_VISIBLE
-#define STY_TEXT              WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
-#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
-                                       SS_AUTOSIZE | SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+#define STY_TEXT              WC_STATIC, SS_TEXT | SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, 0xFFFF, 0xFFFF, STY_TEXT
                                        // DT_LEFT?0, specify DT_RIGHT, DT_CENTER
 
 //

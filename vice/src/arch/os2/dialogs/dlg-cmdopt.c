@@ -62,8 +62,13 @@ static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         //
         // insert a new line to the text
         //
-        WinDlgLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
-        WinDlgLboxSettop(hwnd, LB_CMDOPT);
+        if (mp2)
+            WinDlgLboxInsertItem(hwnd, LB_CMDOPT, mp1);
+        else
+        {
+            WinDlgLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
+            WinDlgLboxSettop(hwnd, LB_CMDOPT);
+        }
         return FALSE;
 
     case WM_MINMAXFRAME:

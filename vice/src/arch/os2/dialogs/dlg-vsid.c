@@ -1,5 +1,5 @@
 /*
- * dlg-attach.c - The attach-dialog.
+ * dlg-vsid.c - The vsid-dialog.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -28,6 +28,7 @@
 #define INCL_WINMENUS     // WinLoadMenu
 #define INCL_WINSTDSPIN   // WinSetSpinVal
 #define INCL_WINDIALOGS   // WinSendDlgItemMsg
+#define INCL_WINSTDDRAG   // PDRAGINFO in dragndrop.h
 #define INCL_WINPOINTERS  // WinLoadPointer
 #define INCL_WINFRAMEMGR  // WM_SETICON
 #include "vice.h"
@@ -38,6 +39,7 @@
 
 #include "dialogs.h"
 #include "dlg-vsid.h"
+#include "dragndrop.h"
 #include "menubar.h"
 
 #include "psid.h"
@@ -45,6 +47,17 @@
 #include "resources.h"
 
 #include "snippets\pmwin2.h"
+
+static MRESULT EXPENTRY pm_vsid_dragndrop(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    switch (msg)
+    {
+    case DM_DRAGOVER:
+    case DM_DROP:
+        return DragDrop(hwnd, msg, mp1);
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+}
 
 static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -79,6 +92,14 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
                 WinSendMsg(hwnd, WM_UPDATEFRAME, MPFROMLONG(FID_MENU), MPVOID);
             }
+
+            WinSubclassDlg(hwnd, ID_TBOX,       pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TNAME,      pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TAUTHOR,    pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TCOPYRIGHT, pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TSYNC,      pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TIRQ,       pm_vsid_dragndrop);
+            WinSubclassDlg(hwnd, ID_TSID,       pm_vsid_dragndrop);
         }
         return FALSE;
 

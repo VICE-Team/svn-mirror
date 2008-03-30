@@ -1,5 +1,5 @@
 /*
- * dialogs.h - The dialog windows.
+ * dlg-color.h - The dialog windows.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -29,5 +29,6 @@
 #define ID_BRIGHTNESS  0x12
 #define ID_GAMMA       0x13
 #define ID_CONTRAST    0x14
+#define ID_DEFAULT     0x15
 
 extern void color_dialog(HWND hwnd);

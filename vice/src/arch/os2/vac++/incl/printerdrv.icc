@@ -4,5 +4,7 @@ source type(c)
     "drv-mps803.c",
     "interface-serial.c",
     "interface-userport.c",
-    "output-file.c",
+    "output-graphics.c",
+    "output-text.c",
+    "output-select.c",
     "printer.c"

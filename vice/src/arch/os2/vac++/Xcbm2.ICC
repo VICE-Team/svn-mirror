@@ -59,7 +59,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "c610ui.c",
             "kbd\\kbd-c610.c",
-            "kbd\\kbd-pet.c"
+            "kbd\\kbd-pet.c",
+            "dialogs\\dlg-color.c"
     }
 }
 

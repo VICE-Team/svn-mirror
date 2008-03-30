@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-typedef int log_t;
+typedef signed int log_t;
 #define LOG_ERR     ((log_t)-1)
 #define LOG_DEFAULT ((log_t)-2)
 

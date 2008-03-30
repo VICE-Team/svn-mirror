@@ -36,11 +36,11 @@ BEGIN
                              WS_GROUP 
         CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 97, STY_GROUPBOX
 
-        TEXT("Save Snapshot as:", 14, 98,  85, 10)
+        TEXT("Save Snapshot as:", 14, 98)
         CONTROL "",    CBS_SPSNAME, 14, 8+41, 216/*234*/-75, 79-30, WC_COMBOBOX, 
                        CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
         CONTROL "...", PB_SPSCHANGE, 232-75, 79+38-30, 16, 11, STY_PUSHBUTTON
-        TEXT("Save Screenshot as:", 14, 73,  85, 10)
+        TEXT("Save Screenshot as:", 14, 73)
 #ifdef HAVE_PNG
 	CONTROL "BMP", RB_BMP,   110, 74, 30, 10, STY_AUTORADIOBUTTON | WS_GROUP
         CONTROL "PNG", RB_PNG,   145, 74, 30, 10, STY_AUTORADIOBUTTON

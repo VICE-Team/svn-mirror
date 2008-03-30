@@ -29,12 +29,11 @@
 /* 
 #define FS_DEBUG
 */
-
 #include "vice.h"
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #define CHECK_DGA_V2
-#endif
+#else  /* DGA2 support is in dga2.c; FIXME */
 
 #ifdef FS_DEBUG
 #include <signal.h>
@@ -675,3 +674,4 @@ static void fullscreen_dispatch_events(void)
 
 #endif
 
+#endif /* USE_XF86_DGA2_EXTENSIONS */

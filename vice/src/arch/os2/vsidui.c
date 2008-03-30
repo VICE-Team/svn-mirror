@@ -42,6 +42,8 @@
 #include "resources.h"
 #include "snippets\pmwin2.h"  // Win*Spin
 
+static log_t vsidlog = LOG_ERR;
+
 extern int trigger_shutdown;
 
 HWND hwndVsid=NULLHANDLE;
@@ -62,12 +64,14 @@ void vsid_mainloop(VOID *arg)
     hwndVsid = vsid_dialog();
 
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
-        log_message(LOG_DEFAULT, "vsidui.c: Error DosSetPriority (rc=%li)", rc);
+        log_error(vsidlog, "DosSetPriority (rc=%li)", rc);
 
     //
     // MAINLOOP
     //
+    log_message(vsidlog, "PM initialized.");
     WinProcessDlg(hwndVsid);
+    log_message(vsidlog, "Releasing PM.");
 
     //
     // WinProcessDlg() does NOT destroy the window on return! Do it here,
@@ -76,13 +80,16 @@ void vsid_mainloop(VOID *arg)
     //
     WinDestroyWindow(hwndVsid);
 
+
     //
     // destroy msg queue, release pm anchor
     //
     if (!WinDestroyMsgQueue(hmq))
-        log_message(LOG_DEFAULT,"vsidui.c: Error! Destroying Msg Queue.");
+        log_error(vsidlog, "Destroying Msg Queue.");
     if (!WinTerminate (hab))
-        log_message(LOG_DEFAULT,"vsidui.c: Error! Releasing PM anchor.");
+        log_error(vsidlog, "Releasing PM anchor.");
+
+    log_message(vsidlog, "PM released.");
 
     //
     // shutdown emulator thread
@@ -90,13 +97,14 @@ void vsid_mainloop(VOID *arg)
     trigger_shutdown = 1;
 
     DosSleep(5000); // wait 5 seconds
-    log_debug("Brutal Exit!");
+    log_error(vsidlog, "Brutal Exit!");
     exit(0);        // end VICE in all cases
 }
 
 int vsid_ui_init(void)
 {
     // resources_set_value("SoundDeviceName", (resource_value_t*)"dart2");
+    vsidlog = log_open("Vsidui");
 
     _beginthread(vsid_mainloop, NULL, 0x4000, NULL);
 

@@ -36,6 +36,7 @@ struct output_select_s {
     int (*output_putc)(unsigned int prnr, BYTE b);
     int (*output_getc)(unsigned int prnr, BYTE *b);
     int (*output_flush)(unsigned int prnr);
+    void (*output_writeline)(unsigned int prnr);
 };
 typedef struct output_select_s output_select_t;
 
@@ -50,6 +51,7 @@ extern void output_select_close(unsigned int prnr);
 extern int output_select_putc(unsigned int prnr, BYTE b);
 extern int output_select_getc(unsigned int prnr, BYTE *b);
 extern int output_select_flush(unsigned int prnr);
+extern void output_select_writeline(unsigned int prnr);
 
 #endif
 

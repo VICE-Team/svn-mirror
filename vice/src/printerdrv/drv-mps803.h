@@ -27,8 +27,35 @@
 #ifndef _DRV_MPS803_H
 #define _DRV_MPS803_H
 
+#include <stdio.h>
+
+#define MAX_COL 480
+
+struct mps_s
+{
+    BYTE line[MAX_COL][7];
+    int  bitcnt;
+    int  repeatn;
+    int  pos;
+    int  tab;
+    BYTE tabc[3];
+    int  mode;
+};
+typedef struct mps_s mps_t;
+
+#define MPS_REVERSE 0x01
+#define MPS_CRSRUP  0x02
+#define MPS_BITMODE 0x04
+#define MPS_DBLWDTH 0x08
+#define MPS_REPEAT  0x10
+#define MPS_ESC     0x20
+
+/* We will make this dynamic later.  */
+extern mps_t drv_mps803[3];
+
 extern int drv_mps803_init_resources(void);
 extern void drv_mps803_init(void);
+extern int is_mode(mps_t *mps, int m);
 
 #endif
 

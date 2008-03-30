@@ -60,7 +60,7 @@ static int set_up_enabled(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "PrUser", RES_INTEGER, (resource_value_t)0,
+    { "PrinterUserport", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&userport_printer_enabled,
       set_up_enabled, NULL },
     { NULL }
@@ -72,10 +72,10 @@ int interface_userport_init_resources(void)
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrUser",
+    { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
       (resource_value_t) 1, NULL,
       "Enable the userport printer emulation" },
-    { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrUser",
+    { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
       (resource_value_t) 0, NULL,
       "Disable the userport printer emulation" },
     { NULL }

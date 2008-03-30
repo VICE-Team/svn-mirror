@@ -43,5 +43,37 @@ extern int zfclose(FILE *stream);
 extern int zfile_close_action(const char *filename, zfile_action_t action,
                               const char *request_string);
 
+#if 0
+
+/*
+ it seems, that a direct zlib-aaproach runs into trouble,
+ because mainly gzseek doesn't work exactly as it
+ 'standard' counterpart.
+ Any ideas or suggestions?
+ */
+
+#include <zlib.h>
+
+extern int gerror(FILE *f);
+
+#define fopen                      gzopen
+#define fclose                     gzclose
+#define fread(buf, sz1, sz2, fd)   gzread(fd, buf, (sz1)*(sz2))
+#define fwrite(buf, sz1, sz2, fd)  gzwrite(fd, buf, (sz1)*(sz2))
+#define fprintf                    gzprintf
+#define fputs(str, fd)             gzputs(fd, str)
+#define fgets(str, len, fd)        gzgets(fd, str, len)
+#define fputc(c, fd)               gzputc(fd, c)
+#define fgetc                      gzgetc
+#define fflush                     gzflush
+#define fseek                      gzseek
+#define rewind(file)               ((int)gzseek(file, 0L, SEEK_SET))
+#define ftell                      gztell
+#define feof                       gzeof
+#define ferror                     gerror
+
+#endif
+
+
 #endif /* _ZFILE_H */
 

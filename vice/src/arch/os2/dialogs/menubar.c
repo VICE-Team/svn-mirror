@@ -134,6 +134,37 @@ void save_screenshot(HWND hwnd)
 
 // --------------------------------------------------------------------------
 
+char *printer_res(const char *res, const int num)
+{
+    switch(num)
+    {
+    case 0:
+        return xmsprintf(res, "4");
+    case 1:
+        return xmsprintf(res, "5");
+    case 2:
+        return xmsprintf(res, "Userport");
+    }
+    log_debug("Res: %d", num);
+    return xmsprintf(res, "ERROR");
+}
+
+void set_printer_res(const char *res, int num, resource_value_t *val)
+{
+    char *txt = printer_res(res, num);
+    resources_set_value(txt, val);
+    free(txt);
+}
+
+void get_printer_res(const char *res, int num, resource_value_t *val)
+{
+    char *txt = printer_res(res, num);
+    resources_get_value(txt, val);
+    free(txt);
+}
+
+// --------------------------------------------------------------------------
+
 void ChangeSpeed(HWND hwnd, int idm)
 {
     static ULONG tm    = 0; //vsyncarch_gettime();
@@ -396,13 +427,40 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("HideMousePtr");
         return;
 
-    case IDM_PRTIEC:
-        toggle("Printer4");
+    case IDM_PRT4IEC:
+    case IDM_PRT5IEC:
+    case IDM_PRTUP:
+        {
+            char *res = printer_res("Printer%s", (idm>>4)&0xf);
+            toggle(res);
+            free(res);
+        }
         return;
 
-    case IDM_PRTUPORT:
-        toggle("PrUser");
+    case IDM_PRT4ASCII:
+    case IDM_PRT5ASCII:
+    case IDM_PRTUPASCII:
+        set_printer_res("Printer%sDriver", (idm>>4)&0xf, (resource_value_t*)"ascii");
         return;
+
+    case IDM_PRT4MPS803:
+    case IDM_PRT5MPS803:
+    case IDM_PRTUPMPS803:
+        set_printer_res("Printer%sDriver", (idm>>4)&0xf, (resource_value_t*)"mps803");
+        return;
+
+    case IDM_PRT4TXT:
+    case IDM_PRT5TXT:
+    case IDM_PRTUPTXT:
+        set_printer_res("Printer%sOutput", (idm>>4)&0xf, (resource_value_t*)"text");
+        return;
+
+    case IDM_PRT4GFX:
+    case IDM_PRT5GFX:
+    case IDM_PRTUPGFX:
+        set_printer_res("Printer%sOutput", (idm>>4)&0xf, (resource_value_t*)"graphics");
+        return;
+
 #if defined __X128__ || defined __XVIC__
     case IDM_IEEE:
         toggle("IEEE488");
@@ -484,6 +542,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         drive_dialog(hwnd);
         return;
 
+#if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_COLOR:
         color_dialog(hwnd);
         return;
@@ -495,6 +554,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_LUMINANCES:
         toggle("NewLuminances");
         return;
+#endif
 /*
     case IDM_EMULATOR:
         emulator_dialog(hwnd);
@@ -806,7 +866,7 @@ static void WinCheckRes(HWND hwnd, USHORT id, const char *name)
 
 void menu_select(HWND hwnd, USHORT item)
 {
-    int val;
+    long val;
 
     switch (item)
     {
@@ -843,6 +903,18 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_VIEW:
         WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
         WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor!=NULLHANDLE);
+#if defined __X64__ || defined __X128__
+        resources_get_value("ExternalPalette", (resource_value_t*) &val);
+        WinEnableMenuItem(hwnd, IDM_COLOR, !val);
+#endif
+#ifdef __XCBM__
+        {
+            int val1, val2;
+            resources_get_value("ExternalPalette", (resource_value_t*) &val1);
+            resources_get_value("UseVicII",        (resource_value_t*) &val2);
+            WinEnableMenuItem(hwnd, IDM_COLOR, !val && val2);
+        }
+#endif
         return;
 
 #if defined __X64__ || defined __X128__
@@ -871,11 +943,13 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SETUP:
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
         WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
-        WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
-        WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
+        //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
+        //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
 #ifdef __XCBM__
         WinCheckRes(hwnd, IDM_VCACHE,    val?"VideoCache":"CrtcVideoCache");
+        resources_get_value("UseVicII", (resource_value_t*)&val);
+        WinEnableMenuItem(hwnd, IDM_PALCONTROL, val);
 #else
         WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
 #endif
@@ -902,6 +976,49 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_CRTC,     "Crtc");
 #endif // __XPET__
         return;
+
+    case IDM_PRINTER4:
+    case IDM_PRINTER5:
+    case IDM_PRINTERUP:
+        {
+            const int num = (item>>4)&0xf;
+
+            get_printer_res("Printer%s", num, (resource_value_t*)&val);
+
+            WinCheckMenuItem(hwnd,  IDM_PRT4IEC | (num<<4), val);
+            WinEnableMenuItem(hwnd, IDM_PRT4DRV | (num<<4), val);
+            WinEnableMenuItem(hwnd, IDM_PRT4OUT | (num<<4), val);
+        }
+        return;
+
+    case IDM_PRT4DRV:
+    case IDM_PRT5DRV:
+    case IDM_PRTUPDRV:
+        {
+            const int num = (item>>4)&0xf;
+
+            char *txt;
+
+            get_printer_res("Printer%sDriver", num, (resource_value_t*)&txt);
+            WinCheckMenuItem(hwnd, IDM_PRT4ASCII  | (num<<4), !strcasecmp(txt, "ascii"));
+            WinCheckMenuItem(hwnd, IDM_PRT4MPS803 | (num<<4), !strcasecmp(txt, "mps803"));
+        }
+
+    case IDM_PRT4OUT:
+    case IDM_PRT5OUT:
+    case IDM_PRTUPOUT:
+        {
+            const int num = (item>>4)&0xf;
+
+            char *txt;
+
+            get_printer_res("Printer%sOutput", num, (resource_value_t*)&txt);
+            WinCheckMenuItem(hwnd, IDM_PRT4TXT | (num<<4), !strcasecmp(txt, "text"));
+            WinCheckMenuItem(hwnd, IDM_PRT4GFX | (num<<4), !strcasecmp(txt, "graphics"));
+
+            get_printer_res("Printer%sDriver", num, (resource_value_t*)&txt);
+            WinEnableMenuItem(hwnd, IDM_PRT4GFX | (num<<4), strcasecmp(txt, "ascii"));
+        }
 
 #if defined __X64__ || defined __X128__
     case IDM_REUSIZE:
@@ -1029,12 +1146,14 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_VOL10,  val== 10);
         return;
 
+#if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_PALCONTROL:
         resources_get_value("ExternalPalette", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_INTERNALPAL, !val);
         WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
         WinEnableMenuItem(hwnd, IDM_LUMINANCES, !val);
         return;
+#endif
 
 #ifdef __X128__
     case IDM_VDCMEMORY:

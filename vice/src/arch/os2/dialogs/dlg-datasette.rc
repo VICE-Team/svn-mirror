@@ -52,14 +52,14 @@ BEGIN
     CONTROL "",               ID_NONE,       7, 21, 131, 40, STY_GROUPBOX
     CONTROL "Reset Datasette with CPU", 
                               CB_RESETWCPU, 14, 44, 118, 10, STY_AUTOCHECKBOX
-    TEXT("0-Delay",     14, 36, 40, 8)
-    TEXT("x100 cycles", 82, 36, 50, 8)
+    TEXT("0-Delay",     14, 36)
+    TEXT("x100 cycles", 82, 36)
     // Delay in cyles for a zero in a tape-file
     CONTROL "",               SPB_DELAY, 52, 35, 28, 12, STY_SPINBUTTON
             CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
             // number of cycles added to each gap in file
-    TEXT("Gap offset", 14, 25, 49, 8)
-    TEXT("cycles",    104, 25, 29, 8)
+    TEXT("Gap offset", 14, 25)
+    TEXT("cycles",    104, 25)
     CONTROL "",               SPB_GAP, 74, 24, 28, 12, STY_SPINBUTTON
             CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
     

@@ -161,3 +161,8 @@ int output_select_flush(unsigned int prnr)
     return output_select[prnr].output_flush(prnr);
 }
 
+void output_select_writeline(unsigned int prnr)
+{
+    output_select[prnr].output_writeline(prnr);
+}
+

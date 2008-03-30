@@ -153,11 +153,12 @@ int log_close(log_t log)
     return 0;
 }
 
-static int log_archdep(const char *level, const char *fmt, va_list ap)
+static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
 {
     /*
      * ------ Split into single lines ------
      */
+    int rc = 0;
 
     char *txt = xmvsprintf(fmt, ap);
 
@@ -171,10 +172,10 @@ static int log_archdep(const char *level, const char *fmt, va_list ap)
         if (eol)
             *eol='\0';
 
-        if (archdep_default_logger(level, beg)<0)
+        if (archdep_default_logger(*beg?logtxt:"", beg)<0)
         {
-            free(txt);
-            return -1;
+            rc = -1;
+            break;
         }
 
         if (!eol)
@@ -185,7 +186,7 @@ static int log_archdep(const char *level, const char *fmt, va_list ap)
 
     free(txt);
 
-    return 0;
+    return rc;
 }
 
 static int log_helper(log_t log, unsigned int level,
@@ -193,30 +194,37 @@ static int log_helper(log_t log, unsigned int level,
 {
     static const char *level_strings[3] = {
         "",
-        "Warning: ",
-        "Error: "
+        "Warning - ",
+        "Error - "
     };
 
-    if (log_file == NULL)
-        return log_archdep(level_strings[level], format, ap);
+    const signed int logi = (signed int)log;
 
-    if (log == LOG_ERR
-        || (log != LOG_DEFAULT && logs[(unsigned int) log] == NULL)
-        || log_file == NULL)
+    int rc=0;
+
+    char *logtxt = NULL;
+
+    if (logi==LOG_ERR || (logi != LOG_DEFAULT && logs[logi] == NULL))
         return -1;
 
-    if (log != LOG_DEFAULT && *logs[(unsigned int) log] != 0) {
-        if (fputs (logs[(unsigned int) log], log_file) == EOF
-            || fputs (": ", log_file) == EOF)
-            return -1;
+    if (logi!=LOG_DEFAULT && *logs[logi]!='\0')
+        logtxt = xmsprintf("%s: %s", logs[logi], level_strings[level]);
+    else
+        logtxt = stralloc("");
+
+    if (log_file == NULL) {
+        rc = log_archdep(logtxt, format, ap);
+    }
+    else {
+        if (fputs(logtxt, log_file) == EOF
+            || vfprintf(log_file, format, ap) < 0
+            || fputc ('\n', log_file) == EOF)
+            rc = -1;
     }
 
-    if (fputs(level_strings[level], log_file) == EOF
-        || vfprintf(log_file, format, ap) < 0
-        || fputc ('\n', log_file) == EOF)
-        return -1;
+    free(logtxt);
 
-    return 0;
+    return rc;
 }
 
 int log_message(log_t log, const char *format, ...)

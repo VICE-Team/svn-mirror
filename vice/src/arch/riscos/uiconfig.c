@@ -41,7 +41,7 @@
 /* Resource names */
 static const char Rsrc_Prnt4[] = "Printer4";
 static const char Rsrc_Prnt4Dev[] = "Printer4TextDevice";
-static const char Rsrc_PrUsr[] = "PrUser";
+static const char Rsrc_PrUsr[] = "PrinterUserport";
 static const char Rsrc_PrUsrDev[] = "PrinterUserportTextDevice";
 static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";

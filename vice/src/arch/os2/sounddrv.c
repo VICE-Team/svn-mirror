@@ -34,12 +34,12 @@
 int sound_err(ULONG rc, char *s)
 {
     char text[128];
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s", s);
+    log_error(LOG_DEFAULT, "sounddrv.c: %s", s);
     mciGetErrorString(rc, text, 128);
     if (isprint(text[0]))
     {
         WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-        log_message(LOG_DEFAULT, "soundmmos2.c: %s (rc=%li)",text, rc);
+        log_error(LOG_DEFAULT, "sounddrv.c: %s (rc=%li)",text, rc);
     }
     return 1;
     //    WORD lo order=unsigned short

@@ -27,7 +27,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,34 +36,14 @@
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
+#include "drv-mps803.h"
 
-#define MPS803_ROM_SIZE (7 * 256)
+#define MPS803_ROM_SIZE (7 * 512)
 #define MPS803_ROM_FONT_OFFSET 0
 
-#define MAX_COL 480
-
-struct mps_s
-{
-    BYTE line[MAX_COL][7];
-    int  bitcnt;
-    int  repeatn;
-    int  pos;
-    int  tab;
-    char tabc[3];
-    int  mode;
-};
-typedef struct mps_s mps_t;
-
 /* We will make this dynamic later.  */
-static BYTE charset[256][7];
-static mps_t drv_mps803[3];
-
-#define MPS_REVERSE 0x01
-#define MPS_CRSRUP  0x02
-#define MPS_BITMODE 0x04
-#define MPS_DBLWDTH 0x08
-#define MPS_REPEAT  0x10
-#define MPS_ESC     0x20
+static BYTE charset[512][7];
+mps_t drv_mps803[3];
 
 /* Logging goes here.  */
 static log_t drv803_log = LOG_ERR;
@@ -82,7 +61,7 @@ static void del_mode(mps_t *mps, int m)
     mps->mode &= ~m;
 }
 
-static int is_mode(mps_t *mps, int m)
+int is_mode(mps_t *mps, int m)
 {
     return mps->mode & m;
 }
@@ -104,7 +83,7 @@ static void print_cbm_char(mps_t *mps, char c)
     unsigned int y, x;
 
     if (is_mode(mps, MPS_CRSRUP))
-        c += 128;
+        c += 256;
 
     for (y = 0; y < 7; y++) {
         if (is_mode(mps, MPS_DBLWDTH))
@@ -124,15 +103,7 @@ static void print_cbm_char(mps_t *mps, char c)
 
 static void write_line(mps_t *mps, unsigned int prnr)
 {
-    unsigned int x, y;
-
-    for (y = 0; y < 7; y++) {
-        for (x = 0; x < MAX_COL; x++)
-            output_select_putc(prnr, mps->line[x][y] ? '*' : ' ');
-
-        output_select_putc(prnr, '\n');
-    }
-
+    output_select_writeline(prnr);
     mps->pos=0;
 }
 
@@ -173,7 +144,6 @@ static void print_bitmask(mps_t *mps, const char c)
 
 static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
 {
-
     if (mps->pos >= MAX_COL) {  /* flush buffer*/
         write_line(mps, prnr);
         clear_buffer(mps);
@@ -183,16 +153,21 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
         mps->tabc[2 - mps->tab] = c;
 
         if (mps->tab == 1)
+        {
             mps->pos =
                 is_mode(mps, MPS_ESC) ?
                 mps->tabc[0] << 8 | mps->tabc[1] :
                 atoi(mps->tabc) * 6;
 
+            del_mode(mps, MPS_ESC);
+        }
+
         mps->tab--;
         return;
     }
 
-    del_mode(mps, MPS_ESC);
+    if (is_mode(mps, MPS_ESC) && c!=16)
+        del_mode(mps, MPS_ESC);
 
     if (is_mode(mps, MPS_REPEAT)) {
         mps->repeatn = c;
@@ -206,17 +181,17 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     }
 
     switch (c) {
-      case 8:
+    case 8:
         set_mode(mps, MPS_BITMODE);
         mps->bitcnt = 0;
         return;
 
-      case 10:  /* LF*/
+    case 10:  /* LF*/
         write_line(mps, prnr);
         clear_buffer(mps);
         return;
 
-      case 13:  /* CR*/
+    case 13:  /* CR*/
         mps->pos = 0;
         del_mode(mps, MPS_CRSRUP);
         write_line(mps, prnr);
@@ -246,46 +221,46 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
          * until an even number of quotes [CHR$(34)] has been received or until
          * end of this line.
          */
-	
-      case 14:  /* EN on*/
+
+    case 14:  /* EN on*/
         set_mode(mps, MPS_DBLWDTH);
         if (is_mode(mps, MPS_BITMODE))
             bitmode_off(mps);
         return;
 
-      case 15:  /* EN off*/
+    case 15:  /* EN off*/
         del_mode(mps, MPS_DBLWDTH);
         if (is_mode(mps, MPS_BITMODE))
             bitmode_off(mps);
         return;
 
-      case 16:  /* POS*/
+    case 16:  /* POS*/
         mps->tab = 2; /* 2 chars (digits) following, number of first char*/
         return;
 
-      case 17:   /* crsr dn*/
+    case 17:   /* crsr dn*/
         del_mode(mps, MPS_CRSRUP);
         return;
 
-      case 18:
+    case 18:
         set_mode(mps, MPS_REVERSE);
         return;
 
-      case 26:   /* repeat last chr$(8) c times.*/
+    case 26:   /* repeat last chr$(8) c times.*/
         set_mode(mps, MPS_REPEAT);
         mps->repeatn = 0;
         mps->bitcnt  = 0;
         return;
 
-      case 27:
+    case 27:
         set_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
         return;
 
-      case 145: /* CRSR up*/
+    case 145: /* CRSR up*/
         set_mode(mps, MPS_CRSRUP);
         return;
 
-      case 146: /* 18+128*/
+    case 146: /* 18+128*/
         del_mode(mps, MPS_REVERSE);
         return;
     }
@@ -296,7 +271,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(BYTE charset[256][7], const char *name)
+static int init_charset(BYTE charset[512][7], const char *name)
 {
     BYTE romimage[MPS803_ROM_SIZE];
 
@@ -305,7 +280,7 @@ static int init_charset(BYTE charset[256][7], const char *name)
         return -1;
     }
 
-    memcpy(charset, &romimage[MPS803_ROM_FONT_OFFSET], 256 * 7);
+    memcpy(charset, &romimage[MPS803_ROM_FONT_OFFSET], MPS803_ROM_SIZE);
 
     return 0;
 }
@@ -315,6 +290,9 @@ static int init_charset(BYTE charset[256][7], const char *name)
 
 static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 {
+    if (secondary==7)
+        set_mode(&drv_mps803[prnr], MPS_CRSRUP);
+
     return output_select_open(prnr);
 }
 
@@ -357,7 +335,7 @@ int drv_mps803_init_resources(void)
 
 void drv_mps803_init(void)
 {
-    drv803_log = log_open("MPS803");
+    drv803_log = log_open("MPS-803");
 
     init_charset(charset, "mps803");
 }

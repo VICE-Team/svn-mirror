@@ -112,12 +112,14 @@ BEGIN
    SUBMENU "~View",                    IDM_VIEW,         MIS_TEXT
    BEGIN
 //      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
-      MENUITEM "~Drive Setup\tAlt-D",       IDM_DRIVE,     MIS_TEXT
-      MENUITEM "~Color Settings",           IDM_COLOR,     MIS_TEXT
-      MENUITEM "~Joystick Setup\tAlt-J",    IDM_JOYSTICK,  MIS_TEXT
-      MENUITEM "Datasette ~Control\tAlt-C", IDM_DATASETTE, MIS_TEXT
-      MENUITEM "~Logging Window\tAlt-L",    IDM_LOGWIN,    MIS_TEXT
-      MENUITEM "Buildin ~Monitor\tAlt-M",   IDM_MONITOR,   MIS_TEXT
+      MENUITEM "~Drive Setup\tAlt-D",           IDM_DRIVE,     MIS_TEXT
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+      MENUITEM "V~IC-II Color Settings\tAlt-I", IDM_COLOR,     MIS_TEXT
+#endif
+      MENUITEM "~Joystick Setup\tAlt-J",        IDM_JOYSTICK,  MIS_TEXT
+      MENUITEM "Datasette ~Control\tAlt-C",     IDM_DATASETTE, MIS_TEXT
+      MENUITEM "~Logging Window\tAlt-L",        IDM_LOGWIN,    MIS_TEXT
+      MENUITEM "Buildin ~Monitor\tAlt-M",       IDM_MONITOR,   MIS_TEXT
    END
    SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
    BEGIN
@@ -153,7 +155,7 @@ BEGIN
          MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
       END
 #endif
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X128__ || defined __XVIC__
       SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
       BEGIN
          MENUITEM "~PAL-G",                IDM_PAL,      MIS_TEXT
@@ -162,17 +164,19 @@ BEGIN
          MENUITEM "~old NTSC-M",           IDM_NTSCOLD,  MIS_TEXT
 #endif // __X64__
       END
-      SUBMENU "Sprite Collision ~Detection",       IDM_COLLISION,   MIS_TEXT
+      SUBMENU "Sprite Collision ~Detection",  IDM_COLLISION,   MIS_TEXT
       BEGIN
-        MENUITEM "Sprite-~Sprite",                 IDM_SSCOLL,      MIS_TEXT
-        MENUITEM "Sprite-~Background",             IDM_SBCOLL,      MIS_TEXT
+        MENUITEM "Sprite-~Sprite",            IDM_SSCOLL,      MIS_TEXT
+        MENUITEM "Sprite-~Background",        IDM_SBCOLL,      MIS_TEXT
       END
-      SUBMENU "Palette Control",                   IDM_PALCONTROL,  MIS_TEXT
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+      SUBMENU "V~IC-II Palette Control",      IDM_PALCONTROL,  MIS_TEXT
       BEGIN
-        MENUITEM "Internal Palette",               IDM_INTERNALPAL, MIS_TEXT
-        MENUITEM "New Luminacees",                 IDM_LUMINANCES,  MIS_TEXT
+        MENUITEM "Internal Palette",          IDM_INTERNALPAL, MIS_TEXT
+        MENUITEM "New Luminacees",            IDM_LUMINANCES,  MIS_TEXT
       END
-      /*
+#endif
+/*
       SUBMENU "Kernal Revision",  IDM_KERNALREV, MIS_TEXT
       BEGIN
         MENUITEM "Kernal ROM Rev.~0",          IDM_KERNALREV0,    MIS_TEXT
@@ -183,13 +187,55 @@ BEGIN
       */
 #endif // __X64__ || __X128__
       MENUITEM SEPARATOR
+      SUBMENU  "Printer ~Emulation",   IDM_PRINTER,     MIS_TEXT
+      BEGIN
+        SUBMENU  "IEC Device #~4",     IDM_PRINTER4,    MIS_TEXT
+        BEGIN
+          MENUITEM "~Enabled",         IDM_PRT4IEC,     MIS_TEXT
+          SUBMENU  "~Printer Driver",  IDM_PRT4DRV,     MIS_TEXT
+          BEGIN
+            MENUITEM "~Ascii",         IDM_PRT4ASCII,   MIS_TEXT
+            MENUITEM "~MPS-803",       IDM_PRT4MPS803,  MIS_TEXT
+          END
+          SUBMENU "~Output Driver",    IDM_PRT4OUT,     MIS_TEXT
+          BEGIN
+            MENUITEM "~Text",          IDM_PRT4TXT,     MIS_TEXT
+            MENUITEM "~Graphics",      IDM_PRT4GFX,     MIS_TEXT
+          END
+        END  
+        SUBMENU  "IEC Device #~5",     IDM_PRINTER5,    MIS_TEXT
+        BEGIN
+          MENUITEM "~Enabled",         IDM_PRT5IEC,     MIS_TEXT
+          SUBMENU  "~Printer Driver",  IDM_PRT5DRV,     MIS_TEXT
+          BEGIN
+            MENUITEM "~Ascii",         IDM_PRT5ASCII,   MIS_TEXT
+            MENUITEM "~MPS-803",       IDM_PRT5MPS803,  MIS_TEXT
+          END
+          SUBMENU "~Output Driver",    IDM_PRT5OUT,     MIS_TEXT
+          BEGIN
+            MENUITEM "~Text",          IDM_PRT5TXT,     MIS_TEXT
+            MENUITEM "~Graphics",      IDM_PRT5GFX,     MIS_TEXT
+          END
+        END  
+        SUBMENU  "~User Port",         IDM_PRINTERUP,   MIS_TEXT
+        BEGIN
+          MENUITEM "~Enabled",         IDM_PRTUP,       MIS_TEXT
+          SUBMENU  "~Printer Driver",  IDM_PRTUPDRV,    MIS_TEXT
+          BEGIN
+            MENUITEM "~Ascii",         IDM_PRTUPASCII,  MIS_TEXT
+            MENUITEM "~MPS-803",       IDM_PRTUPMPS803, MIS_TEXT
+          END
+          SUBMENU "~Output Driver",    IDM_PRTUPOUT,    MIS_TEXT
+          BEGIN
+            MENUITEM "~Text",          IDM_PRTUPTXT,    MIS_TEXT
+            MENUITEM "~Graphics",      IDM_PRTUPGFX,    MIS_TEXT
+          END
+        END  
+      END  
 #ifdef HAVE_MOUSE
-      MENUITEM "~Mouse 1531 Emulation",            IDM_MOUSE,      MIS_TEXT
-      MENUITEM "~Hide Mouse Pointer in Window",    IDM_HIDEMOUSE,  MIS_TEXT
-      MENUITEM SEPARATOR
+      MENUITEM "~Mouse 1531 Emulation", IDM_MOUSE,      MIS_TEXT
+      MENUITEM "~Hide Mouse Pointer",   IDM_HIDEMOUSE,  MIS_TEXT
 #endif // HAVE_MOUSE
-      MENUITEM "I~EC Device #4 Printer Emulation", IDM_PRTIEC,     MIS_TEXT
-      MENUITEM "~User Port Printer Emulation",     IDM_PRTUPORT,   MIS_TEXT
       MENUITEM SEPARATOR
 #if defined __XVIC__ || defined __X128__
 #ifdef __XVIC__
@@ -206,7 +252,7 @@ BEGIN
 #ifdef __XCBM__
       SUBMENU "Model",           IDM_MODEL,      MIS_TEXT
       BEGIN
-        MENUITEM "CBM 510",      IDM_CBM510,     MIS_TEXT
+// FIXME        MENUITEM "CBM 510",      IDM_CBM510,     MIS_TEXT
         MENUITEM "CBM 610",      IDM_CBM610,     MIS_TEXT
         MENUITEM "CBM 620",      IDM_CBM620,     MIS_TEXT
         MENUITEM "CBM 620+",     IDM_CBM620P,    MIS_TEXT
@@ -263,12 +309,12 @@ BEGIN
         MENUITEM "~96kB",                          IDM_PETRAM96,   MIS_TEXT
         MENUITEM "~128kB",                         IDM_PETRAM128,  MIS_TEXT
       END
-      SUBMENU "PET8296 4kB RAM M~apping",          IDM_RAMMAPPING, MIS_TEXT
+      SUBMENU "PET8296 ~4kB RAM Mapping",          IDM_RAMMAPPING, MIS_TEXT
       BEGIN
         MENUITEM "$~9000-$9FFF",                   IDM_MAP9,       MIS_TEXT
         MENUITEM "$~A000-$AFFF",                   IDM_MAPA,       MIS_TEXT
       END
-      SUBMENU "I/O Memory Area Size",              IDM_IOMEM,      MIS_TEXT
+      SUBMENU "I/O Memory ~Area Size",             IDM_IOMEM,      MIS_TEXT
       BEGIN
         MENUITEM "25~6 Bytes",                     IDM_IOMEM256,   MIS_TEXT
         MENUITEM "204~8 Bytes",                    IDM_IOMEM2K,    MIS_TEXT
@@ -282,7 +328,7 @@ BEGIN
       END
       MENUITEM "S~uper PET I/O",                   IDM_SUPERPET,   MIS_TEXT
       MENUITEM "E~OI blanks screen",               IDM_EOI,        MIS_TEXT
-      MENUITEM "Use Crtc Video Chip",              IDM_CRTC,       MIS_TEXT
+      MENUITEM "Use C~rtc Video Chip",             IDM_CRTC,       MIS_TEXT
       MENUITEM "ROM ~1 Kernal Patch",              IDM_ROMPATCH,   MIS_TEXT
       MENUITEM "~Userport diagnostic pin",         IDM_DIAGPIN,    MIS_TEXT
       MENUITEM "S~witch upper/lower case charset", IDM_CHARSET,    MIS_TEXT
@@ -290,7 +336,7 @@ BEGIN
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #if defined __X64__ || defined __X128__
       MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
-      SUBMENU  "REU Memory Size",         IDM_REUSIZE,   MIS_TEXT
+      SUBMENU  "REU Memory ~Size",         IDM_REUSIZE,   MIS_TEXT
       BEGIN
         MENUITEM "~128kB",                IDM_REU128,    MIS_TEXT
         MENUITEM "~256kB",                IDM_REU256,    MIS_TEXT
@@ -413,30 +459,48 @@ ACCELTABLE IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
    VK_PRINTSCRN, IDM_PRINTSCRN,   ALT, VIRTUALKEY
    VK_F1,        IDM_MENUBAR,     ALT, VIRTUALKEY
+   VK_F1,        IDM_MENUBAR,     ALT, SHIFT, VIRTUALKEY
    VK_F2,        IDM_FILESAVE,    ALT, VIRTUALKEY
+   VK_F2,        IDM_FILESAVE,    ALT, SHIFT, VIRTUALKEY
    VK_F3,        IDM_FILEOPEN,    ALT, VIRTUALKEY
+   VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
    "0",          IDM_ATTACHTAPE,  ALT
+   "4",          IDM_PRT4IEC,     ALT
+   "5",          IDM_PRT5IEC,     ALT
    "8",          IDM_ATTACH8,     ALT
    "9",          IDM_ATTACH9,     ALT
    "a",          IDM_ABOUT,       ALT
+   "A",          IDM_ABOUT,       ALT, SHIFT
    "b",          IDM_MENUBAR,     ALT
+   "B",          IDM_MENUBAR,     ALT, SHIFT
    "c",          IDM_DATASETTE,   ALT
+   "C",          IDM_DATASETTE,   ALT, SHIFT
    "d",          IDM_DRIVE,       ALT
-//   "e",          IDM_EMULATOR,    ALT
+   "D",          IDM_DRIVE,       ALT, SHIFT
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+   "i",          IDM_COLOR,       ALT
+   "I",          IDM_COLOR,       ALT, SHIFT
+#endif
 #ifdef HAS_JOYSTICK
    "j",          IDM_JOYSTICK,    ALT
+   "J",          IDM_JOYSTICK,    ALT, SHIFT
 #endif
    "l",          IDM_LOGWIN,      ALT
+   "L",          IDM_LOGWIN,      ALT, SHIFT
    "m",          IDM_MONITOR,     ALT
+   "M",          IDM_MONITOR,     ALT, SHIFT
    "n",          IDM_FLIPNEXT8,   ALT
+   "N",          IDM_FLIPNEXT8,   ALT, SHIFT
    "p",          IDM_PAUSE,       ALT
+   "P",          IDM_PAUSE,       ALT, SHIFT
    "q",          IDM_HARDRESET,   ALT
+   "Q",          IDM_HARDRESET,   ALT, SHIFT
    "r",          IDM_SOFTRESET,   ALT
-//   "s",          IDM_SOUND,       ALT
+   "R",          IDM_SOFTRESET,   ALT, SHIFT
    "t",          IDM_TRUEDRIVE,   ALT
-//   "u",          IDM_SETUP,       ALT
-//   "v",          IDM_VIEW,        ALT
+   "T",          IDM_TRUEDRIVE,   ALT, SHIFT
    "w",          IDM_WRITECONFIG, ALT
+   "W",          IDM_WRITECONFIG, ALT, SHIFT
    "+",          IDM_PLUS,        ALT
    "-",          IDM_MINUS,       ALT
 END

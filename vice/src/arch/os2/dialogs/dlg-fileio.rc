@@ -119,16 +119,16 @@ BEGIN
                                BS_AUTOCHECKBOX | WS_VISIBLE
                 CTLDATA 6, 1, 0 // checked
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+/*
         CONTROL "Ca~se",       DID_CBMFONT_CB,   49,  93,  25,  10, WC_BUTTON,
                                BS_AUTOCHECKBOX | WS_VISIBLE
                 CTLDATA 6, 1, 0 // checked
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
-
-        CONTROL "Charset:"    ID_NONE,          79,   95,  NA,  NA, WC_STATIC, SS_TEXT |
-                              SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+*/
+        TEXT("Charset:", 49, 95)
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
-                
-        CONTROL "",           DID_FONTNAME_CB, 107,   45,  30,  58, WC_COMBOBOX,
+
+        CONTROL "",           DID_FONTNAME_LB,  77,  45,  60,  58, WC_COMBOBOX,
                               CBS_DROPDOWNLIST | WS_TABSTOP |
                               WS_GROUP | WS_VISIBLE
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"

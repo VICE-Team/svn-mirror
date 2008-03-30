@@ -28,6 +28,7 @@
 #define INCL_WINMENUS     // MM_*
 #define INCL_WINSTDSPIN   // SPBM_*
 #define INCL_WINLISTBOXES // LM_*
+#define INCL_WINWINDOWMGR // WinSubclassWindow
 #include <os2.h>
 #include <string.h>
 
@@ -228,4 +229,9 @@ UINT WinLboxQueryTopIdx(HWND hwnd)
 UINT WinDlgLboxQueryTopidx(HWND hwnd, USHORT id)
 {
     return WinLboxQueryTopIdx(WinWindowFromID(hwnd, id));
+}
+
+PFNWP WinSubclassDlg(HWND hwnd, ULONG id, PFNWP pNew)
+{
+    return WinSubclassWindow(WinWindowFromID(hwnd, id), pNew);
 }

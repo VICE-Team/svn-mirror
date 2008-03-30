@@ -230,7 +230,7 @@ static int realize_canvas (raster_t *raster)
     }
   else
     canvas_resize (viewport->canvas, viewport->width, viewport->height);
-
+  
   /* The canvas might give us something different from what we
      requested.  */
   raster_resize_viewport (raster, viewport->width, viewport->height);
@@ -1248,7 +1248,7 @@ static void raster_geometry_init (raster_geometry_t *geometry)
   geometry->last_displayed_line = 0;
 }
 
-#ifdef WIN32
+#if defined(WIN32) || defined (USE_XF86_EXTENSIONS)
 void video_register_raster(raster_t *raster);
 #endif
 
@@ -1260,7 +1260,7 @@ int raster_init (raster_t *raster,
     raster struct when window has to be updated in certain cases...
     So I have to register it in the video module and do a lookup.
     */
-#ifdef WIN32
+#if defined(WIN32) || defined (USE_XF86_DGA2_EXTENSIONS)
     video_register_raster(raster);
 #endif
 

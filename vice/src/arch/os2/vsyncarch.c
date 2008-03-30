@@ -51,6 +51,8 @@
 #include "joystick.h"
 #endif
 
+static log_t vsynclog = LOG_ERR;
+
 extern void PM_close(void);
 extern void video_close(void);
 
@@ -84,6 +86,8 @@ void vsyncarch_init()
     APIRET rc;
     char *szSemName;
 
+    vsynclog = log_open("Vsync");
+
     szSemName = xmsprintf("%s%x", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
     rc = DosCreateEventSem(szSemName,      // Name of semaphore to create
                            &hevTimer,      // Handle of semaphore returned
@@ -91,8 +95,10 @@ void vsyncarch_init()
                            FALSE);         // Semaphore is in RESET state
     free(szSemName);
 
-    if (rc)
-        log_debug("vsync.c: DosCreateEventSem (rc=%u) - cannot synchronize properly", rc);
+    if (!rc)
+        return;
+
+    log_error(vsynclog, "DosCreateEventSem (rc=%u) - cannot synchronize properly", rc);
 
     //
     // This is much faster (DosQueryTmr takes about 40ms)
@@ -137,7 +143,7 @@ void vice_exit(void)
 
     rc = DosCloseEventSem(hevTimer); // Get rid of semaphore
     if (rc)
-        log_debug("vsync.c: DosCloseEventSem (rc=%u)", rc);
+        log_error(vsynclog, "DosCloseEventSem (rc=%u)", rc);
 
     video_close();
 
@@ -208,7 +214,7 @@ void vsyncarch_presync()
     if (!trigger_shutdown)
         return;
 
-    log_debug("vsync: Vice shutdown triggered.");
+    log_message(vsynclog, "Vice shutdown triggered.");
     vice_exit();
 }
 

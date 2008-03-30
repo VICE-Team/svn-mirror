@@ -202,10 +202,7 @@
 #define IDM_HLPUSINGHLP  0x227
 #define IDM_HLPKEYBOARD  0x228
 
-#define IDM_PRTIEC       0x229
-#define IDM_PRTUPORT     0x22a
-
-#define IDM_IEEE         0x22b
+#define IDM_IEEE         0x22f
 
 #define IDM_MODEL        0x230
 
@@ -320,6 +317,36 @@
 #define IDM_PALCONTROL   0x510
 #define IDM_INTERNALPAL  0x511
 #define IDM_LUMINANCES   0x512
+
+#define IDM_PRINTER      0x6ff
+
+#define IDM_PRINTER4     0x700
+#define IDM_PRT4IEC      0x701
+#define IDM_PRT4DRV      0x702
+#define IDM_PRT4ASCII    0x703
+#define IDM_PRT4MPS803   0x704
+#define IDM_PRT4OUT      0x705
+#define IDM_PRT4TXT      0x706
+#define IDM_PRT4GFX      0x707
+
+#define IDM_PRINTER5     0x710
+#define IDM_PRT5IEC      0x711
+#define IDM_PRT5DRV      0x712
+#define IDM_PRT5ASCII    0x713
+#define IDM_PRT5MPS803   0x714
+#define IDM_PRT5OUT      0x715
+#define IDM_PRT5TXT      0x716
+#define IDM_PRT5GFX      0x717
+
+#define IDM_PRINTERUP    0x720
+#define IDM_PRTUP        0x721
+#define IDM_PRTUPDRV     0x722
+#define IDM_PRTUPASCII   0x723
+#define IDM_PRTUPMPS803  0x724
+#define IDM_PRTUPOUT     0x725
+#define IDM_PRTUPTXT     0x726
+#define IDM_PRTUPGFX     0x727
+
 
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);

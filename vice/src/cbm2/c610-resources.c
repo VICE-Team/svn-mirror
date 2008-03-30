@@ -79,15 +79,15 @@ static int set_ramsize(resource_value_t v, void *param)
 {
     int rs = (int)v;
 
-    if (rs == 64 || rs == 128 || rs == 256 || rs == 512 || rs == 1024) {
-        ramsize = rs;
-        vsync_suspend_speed_eval();
-        mem_initialize_memory();
-        mem_powerup();
-        maincpu_trigger_reset();
-        return 0;
-    }
-    return -1;
+    if (rs!=64 && rs!=128 && rs!=256 && rs!=512 && rs!=1024)
+        return -1;
+
+    ramsize = rs;
+    vsync_suspend_speed_eval();
+    mem_initialize_memory();
+    mem_powerup();
+    maincpu_trigger_reset();
+    return 0;
 }
 
 static int set_cbm2_model_line(resource_value_t v, void *param)
@@ -113,16 +113,16 @@ static int set_use_vicii(resource_value_t v, void *param)
 {
     int tmp = (int)v;
 
-    if (tmp >= 0 && tmp <= 1) {
-        use_vicii = tmp;
+    if (tmp < 0 || tmp > 1)
+        return -1;
 
-        /* on boot, select video chip. FIXME: change on runtime */
-        if (isC500 < 1) {
-            isC500 = use_vicii;
-        }
-        return 0;
+    use_vicii = tmp;
+
+    /* on boot, select video chip. FIXME: change on runtime */
+    if (isC500 < 1) {
+        isC500 = use_vicii;
     }
-    return -1;
+    return 0;
 }
 
 static int set_chargen_rom_name(resource_value_t v, void *param)

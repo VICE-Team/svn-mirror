@@ -67,4 +67,4 @@ extern BOOL    WinIsDlgShowing(HWND hwnd, ULONG id);
 
 extern HWND    WinLoadStdDlg(HWND hwnd, PFNWP pfnwp, USHORT id, VOID *param);
 
-
+extern PFNWP   WinSubclassDlg(HWND hwnd, ULONG id, PFNWP pNew);

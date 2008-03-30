@@ -29,6 +29,9 @@
 #define _VIDEOARCH_H
 
 #include "vice.h"
+#include "fullscreen.h"
+#include "raster/raster.h"
+#include "palette.h"
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -59,7 +62,8 @@ struct canvas_s {
 };
 typedef struct canvas_s canvas_t;
 
-/* Triple buffering is never available on X11.  */
+/* Double buffering might be available on X11, 
+   but no special care has to be taken for this*/
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
 struct video_frame_buffer_s {
@@ -132,6 +136,8 @@ extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
 extern int video_convert_func(video_frame_buffer_t *i, int depth,
                               unsigned int width, unsigned int height);
+extern void video_register_raster(raster_t *raster);
+
 #ifdef USE_COLOR_MANAGEMENT
 extern void video_convert_color_table(unsigned int i, PIXEL *pixel_return,
                                       PIXEL *data, unsigned int bits_per_pixel,
@@ -147,6 +153,9 @@ extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
 #define fullscreen_on() fullscreen_mode_on_restore()
 #define fullscreen_off() fullscreen_mode_off_restore()
 #define fullscreen_update() fullscreen_mode_update()
+extern void fullscreen_set_raster(raster_t *raster);
+extern void fullscreen_set_framebuffer(video_frame_buffer_t *fb);
+extern void fullscreen_set_palette(palette_t *p, PIXEL *pixel_return);
 #else
 #define fullscreen_on() 
 #define fullscreen_off()

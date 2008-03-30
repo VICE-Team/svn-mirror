@@ -69,6 +69,8 @@
 #include "resources.h"  // Logwin
 #endif
 
+static log_t archlog = LOG_DEFAULT;
+
 /* ---------------------- OS/2 specific ------------------ */
 
 static char *orig_workdir;
@@ -86,15 +88,17 @@ void PM_close(void)
 {
     APIRET rc;
 
-    log_message(LOG_DEFAULT, "archdep.c: PM_close");
+    log_message(archlog, "Releasing PM.");
 
     rc=WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
     if (!rc)
-        log_message(LOG_DEFAULT, "archdep.c: Error! WinDestroyMsgQueue.");
+        log_error(archlog, "WinDestroyMsgQueue.");
 
     rc=WinTerminate(habMain);  // Release Anchor to PM
     if (!rc)
-        log_message(LOG_DEFAULT, "archdep.c: Error! WinTerminate.");
+        log_error(archlog, "WinTerminate.");
+
+    log_message(archlog, "PM released.");
 }
 
 void PM_open(void)
@@ -107,7 +111,7 @@ void PM_open(void)
     // this should make sure, that the system doesn't hang because
     // vice uses 100% CPU time
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, -1, 0))
-        log_debug("archdep.c: Error DosSetPriority (rc=%li)", rc);
+        log_error(archlog, "DosSetPriority (rc=%li)", rc);
 
 //    atexit(PM_close);
 }
@@ -123,7 +127,7 @@ void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
     sprintf(sem, "\\SEM32\\VICE2\\%s_%04x", pszName, vsyncarch_gettime()&0xffff);
 
     if (rc=DosCreateMutexSem(sem, hmtx, 0, fState))
-        log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
+        log_error(archlog, "DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
 }
 
 HMTX hmtxSpawn;
@@ -135,6 +139,7 @@ int archdep_startup(int *argc, char **argv)
     /* This is right way to do this in OS/2 (not via argv[0]) */
     TIB *pTib;
     PIB *pPib;
+
     DosGetInfoBlocks(&pTib, &pPib);
     DosQueryModuleName(pPib->pib_hmte, CCHMAXPATH, argv0);
 
@@ -219,11 +224,11 @@ int archdep_default_logger(const char *lvl, const char *txt)
     //
 #ifndef __C1541__
     char *text = concat(lvl, txt, NULL);
-    WinSendMsg(hwndLog, WM_INSERT, text, 0);
+    WinSendMsg(hwndLog, WM_INSERT, text, FALSE);
     free(text);
 #endif
     if (fLog)
-        fprintf(fLog, "%s\n", txt);
+        fprintf(fLog, "%s%s\n", lvl, txt);
     return 0;
 }
 
@@ -240,6 +245,8 @@ FILE *archdep_open_default_log_file()
     resources_get_value("Logwin", (resource_value_t*)&val);
     log_dialog(val);
 #endif
+
+    archlog = log_open("Archdep");
     return NULL;
 }
 
@@ -274,7 +281,7 @@ static RETSIGTYPE break64(int sig)
     char *sigtxt;
     sigtxt = xmsprintf("Received signal %d (%s). Vice will be closed.",
                        sig, sys_siglist[sig]);
-    log_message(LOG_DEFAULT, sigtxt);
+    log_message(archlog, sigtxt);
 #if !defined __C1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   sigtxt, "VICE/2 Exception", 0, MB_OK);
@@ -347,11 +354,11 @@ int archdep_search_path(const char *name, char *pBuf, int lBuf)
 
     // Search the program in the path
     if (DosScanEnv("PATH",&path))
-        log_message(LOG_DEFAULT, "archdep.c: Environment variable PATH not found.");
+        log_warning(archlog, "Environment variable PATH not found.");
 
     if (DosSearchPath(flags, path, pgmName, pBuf, lBuf))
     {
-        log_message(LOG_DEFAULT, "archdep.c: File \"%s\" not found.", pgmName);
+        log_error(archlog, "File \"%s\" not found.", pgmName);
         return -1;
     }
     free(pgmName);
@@ -419,7 +426,7 @@ int archdep_spawn(const char *name, char **argv,
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
 #if !defined __C1541__ && !defined __PETCAT__
-    log_message(LOG_DEFAULT, "archdep.c: Spawning \"cmd.exe %s\"", cmdline);
+    log_message(archlog, "Spawning \"cmd.exe %s\"", cmdline);
 #endif
 
     memset(&sd,0,sizeof(STARTDATA));
@@ -442,20 +449,20 @@ int archdep_spawn(const char *name, char **argv,
         return 0;
 #endif
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
-        log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
+        log_error(archlog, "DosCreateQueue (rc=%li).",rc);
     else
     {
         if(rc=DosStartSession(&sd, &ulSession, &pid))  /* Start the child session */
-            log_message(LOG_DEFAULT,"archdep.c: Error in DosStartSession (rc=%li).",rc);
+            log_error(archlog, "DosStartSession (rc=%li).",rc);
         else
         {
             if(rc=DosReadQueue(hqQueue, &rdRequest, &ulSzData,        /* Wait for the child session to end (you'll have to end it */
                                &pvData, 0, DCWW_WAIT, &bPriority, 0)) /* in some other way) */
-                log_message(LOG_DEFAULT,"archdep.c: Error in DosReadQueue (rc=%li).",rc);
+                log_error(archlog, "DosReadQueue (rc=%li).",rc);
             else
             {
                 if (rc = ((CHILDINFO*)pvData)->usReturn)
-                    log_message(LOG_DEFAULT, "archdep.c: '%s' returns rc = %li", cmdline, rc);
+                    log_message(archlog, "'%s' returns rc = %li", cmdline, rc);
                 DosFreeMem(pvData); /* Free the memory of the queue data element read */
             }
         }
