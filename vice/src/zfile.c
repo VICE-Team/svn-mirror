@@ -1059,6 +1059,7 @@ int zclose_all(void)
             p = pnext;
 	    continue;
 	}
+
 	/* Recompress into the original file.  */
 	if (p->write_mode && compress(p->tmp_name, p->orig_name, p->type))
 	    return -1;
