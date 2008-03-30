@@ -29,7 +29,6 @@
 
 #include "attach.h"
 #include "diskimage.h"
-#include "log.h"
 #include "types.h"
 
 /* High level disk formats.  They can be different than the disk image type.  */
@@ -268,8 +267,7 @@ typedef struct errortext_s {
 
 /* ------------------------------------------------------------------------- */
 
-extern log_t vdrive_log;
-
+extern void vdrive_init(void);
 extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit);
 extern int vdrive_attach_image(disk_image_t *image, unsigned int unit,
                                vdrive_t *vdrive);

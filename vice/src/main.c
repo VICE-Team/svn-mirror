@@ -37,10 +37,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#endif
-
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
@@ -59,13 +55,13 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "main_exit.h"
-#include "mon.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
+#include "vdrive.h"
 #include "video.h"
 
 #ifdef HAVE_MOUSE
@@ -540,6 +536,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     keyboard_init();
     disk_image_init();
+    vdrive_init();
 
     /* Handle general-purpose command-line options.  */
 

@@ -30,6 +30,8 @@
 #include "vdrive.h"
 #include "types.h"
 
+extern void vdrive_iec_init(void);
+
 /* Generic IEC interface.  */
 extern int vdrive_open(void *vdrive, const char *name, int length,
                        int secondary);

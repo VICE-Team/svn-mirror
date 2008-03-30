@@ -42,9 +42,10 @@
 
 /* #define DEBUG_DRIVE */
 
+#include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #ifdef __riscos
 #include "ui.h"
@@ -58,6 +59,13 @@
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
+
+static log_t vdrive_iec_log = LOG_ERR;
+
+void vdrive_iec_init(void)
+{
+    vdrive_iec_log = log_open("VDriveIEC");
+}
 
 void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
                                  int reallength, int filetype)
@@ -168,7 +176,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
        && secondary != 15
        && *name != '#') {
        vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_READY, 18, 0);
-       log_message(vdrive_log, "Drive not ready.");
+       log_message(vdrive_iec_log, "Drive not ready.");
        return SERIAL_ERROR;
    }
 
@@ -475,7 +483,7 @@ int vdrive_close(void *flp, int secondary)
         vdrive_close_all_channels(vdrive);
         break;
       default:
-        log_error(vdrive_log, "Fatal: unknown floppy-close-mode: %i.",
+        log_error(vdrive_iec_log, "Fatal: unknown floppy-close-mode: %i.",
                   p->mode);
         exit(-1);
     }
@@ -554,7 +562,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 	break;
 
       default:
-	log_error(vdrive_log, "Fatal: unknown buffermode on floppy-read.");
+	log_error(vdrive_iec_log, "Fatal: unknown buffermode on floppy-read.");
 	exit(-1);
     }
 
@@ -615,7 +623,7 @@ int vdrive_write(void *flp, BYTE data, int secondary)
         p->bufptr++;
         break;
       default:
-        log_error(vdrive_log, "Fatal: Unknown write mode.");
+        log_error(vdrive_iec_log, "Fatal: Unknown write mode.");
         exit(-1);
     }
     return SERIAL_OK;

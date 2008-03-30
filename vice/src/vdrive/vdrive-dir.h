@@ -39,6 +39,7 @@
 #define SLOT_SIDE_SECTOR      22
 #define SLOT_NR_BLOCKS        30
 
+extern void vdrive_dir_init(void);
 extern int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
                                        int length, int filetype,
                                        BYTE *outputptr);

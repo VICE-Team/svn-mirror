@@ -60,7 +60,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-log_t vdrive_log = LOG_ERR;
+static log_t vdrive_log = LOG_ERR;
 
 int speed_map_1541[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
@@ -141,12 +141,17 @@ errortext_t floppy_error_messages[] =
 
 /* ------------------------------------------------------------------------- */
 
+void vdrive_init(void)
+{
+    vdrive_log = log_open("VDrive");
+
+    vdrive_dir_init();
+    vdrive_iec_init();
+}
+
 int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
 {
     int i;
-
-    if (vdrive_log == LOG_ERR)
-        vdrive_log = log_open("VDrive");
 
     vdrive->unit = unit;
 

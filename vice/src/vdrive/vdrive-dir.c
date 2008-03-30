@@ -45,7 +45,14 @@
 #include "vdrive-dir.h"
 #include "vdrive.h"
 
+static log_t vdrive_dir_log = LOG_ERR;
+
 extern char *slot_type[]; /* FIXME: Away with this!  */
+
+void vdrive_dir_init(void)
+{
+    vdrive_dir_log = log_open("VDriveDIR");
+}
 
 static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
                                  int type){
@@ -314,7 +321,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             }
             break;
           default:
-            log_error(vdrive_log,
+            log_error(vdrive_dir_log,
                       "Unknown disk type %i.  Cannot find directory slot.",
                       vdrive->image_format);
             break;
@@ -410,7 +417,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
            sure there is enough space for two lines because we also have to
            add the final ``...BLOCKS FREE'' line.  */
         if ((l - origptr) >= DIR_MAXBUF - 64) {
-            log_error(vdrive_log, "Directory too long: giving up.");
+            log_error(vdrive_dir_log, "Directory too long: giving up.");
             return -1;
         }
 
