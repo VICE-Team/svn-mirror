@@ -82,7 +82,8 @@
    makes things much faster.
 
    This define affects only this file! */
-/* MUST NOT BE DEFINED FOR C610 */
+/* MUST NOT BE DEFINED FOR C610 - because CPU can change mapping of 
+   current page within opcode! */
 # undef INSTRUCTION_FETCH_HACK
 
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
@@ -122,6 +123,7 @@
        do {                                                             \
            reg_pc = (addr);                                             \
            bank_base = mem_read_base(reg_pc);                           \
+           bank_limit = mem_read_limit(reg_pc);                           \
        } while (0)
 
 #else  /* !INSTRUCTION_FETCH_HACK */
@@ -137,9 +139,8 @@ extern store_func_ptr_t *_mem_write_ind_tab_ptr;
 
 extern BYTE *page_zero;
 extern BYTE *page_one;
-
-#  define	PAGE_ONE	page_one
 #  define	PAGE_ZERO	page_zero
+#  define	PAGE_ONE	page_one
 
 #  define STORE_IND(addr, value) \
     (*_mem_write_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
@@ -147,6 +148,7 @@ extern BYTE *page_one;
 #  define LOAD_IND(addr) \
     (*_mem_read_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
 
+#ifndef INSTRUCTION_FETCH_HACK
 
 /* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
    to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
@@ -158,6 +160,8 @@ extern BYTE *page_one;
 /* FIXME: This might cause complaints about unused variables...  Well, who
    cares?  */
 #  define opcode_t      int
+
+#endif /* OPCODE_FETCH_HACK */
 
 
 /* ------------------------------------------------------------------------- */
@@ -354,6 +358,7 @@ void mainloop(ADDRESS start_address)
 
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
+    int bank_limit;
 #endif
 
     reset();
