@@ -28,6 +28,9 @@
 #ifndef _PETMEM_H
 #define _PETMEM_H
 
+#include <stdio.h>
+
+#include "pets.h"
 #include "types.h"
 
 #define PET_RAM_SIZE		0x8000
@@ -48,6 +51,12 @@
 extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
 
+extern void mem_initialize_memory(void);
+extern void petmem_patch_2001(void);
+extern void petmem_unpatch_2001(void);
+extern void pet_check_info(PetRes *pi);
+extern void petmem_convert_chargen_2k(void);
+
 extern void petmem_reset(void);
 extern int superpet_diag(void);
 
@@ -55,6 +64,14 @@ extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);
 
 extern void set_screen(void);
+
+extern int mem_load_chargen(void);
+extern int mem_load_kernal(void);
+extern int mem_load_basic(void);
+extern int mem_load_editor(void);
+extern int mem_load_rom9(void);
+extern int mem_load_romA(void);
+extern int mem_load_romB(void);
 
 #endif
 

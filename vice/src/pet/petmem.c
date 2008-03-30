@@ -62,19 +62,7 @@
 #include "utils.h"
 #include "vsync.h"
 
-static int mem_load_chargen(void);
-static int mem_load_kernal(void);
-static int mem_load_basic(void);
-static int mem_load_editor(void);
-static int mem_load_rom9(void);
-static int mem_load_romA(void);
-static int mem_load_romB(void);
-
-static void petmem_patch_2001(void);
-static void petmem_unpatch_2001(void);
 static int pet_set_conf_info(PetInfo *pi);
-static void pet_check_info(PetRes * pi);
-static void petmem_convert_chargen_2k(void);
 static BYTE REGPARM1 mem_read_patchbuf(ADDRESS addr);
 
 static BYTE petmem_2001_buf_ef[ 256 ];
@@ -229,292 +217,9 @@ static int emu_id_enabled;
 
 /* hardware config */
 
-static int set_iosize(resource_value_t v, void *param)
-{
-    petres.IOSize = (int) v;
-
-    mem_initialize_memory();
-    return 0;
-}
-
-static int set_crtc_enabled(resource_value_t v, void *param)
-{
-    petres.crtc = (int) v;
-    return 0;
-}
-
-static int set_superpet_enabled(resource_value_t v, void *param)
-{
-    if ((unsigned int) v < 2)
-        petres.superpet = (unsigned int) v;
-    mem_initialize_memory();
-    return 0;
-}
-
-static int set_ram_9_enabled(resource_value_t v, void *param)
-{
-    if ((unsigned int) v < 2)
-        petres.mem9 = (unsigned int) v;
-    mem_initialize_memory();
-    return 0;
-}
-
-static int set_ram_a_enabled(resource_value_t v, void *param)
-{
-    if ((unsigned int) v < 2)
-        petres.memA = (unsigned int) v;
-    mem_initialize_memory();
-    return 0;
-}
-
-static int set_ramsize(resource_value_t v, void *param)
-{
-    int size = (int) v;
-    int i, sizes[] = {4, 8, 16, 32, 96, 128};
-
-    for (i = 0; i < 6; i++) {
-        if (size <= sizes[i])
-            break;
-    }
-    if (i > 5)
-        i = 5;
-    size = sizes[i];
-
-    petres.ramSize = size;
-    petres.map = 0;
-    if (size == 96) {
-        petres.map = 1;         /* 8096 mapping */
-    } else if (size == 128) {
-        petres.map = 2;         /* 8296 mapping */
-    }
-    pet_check_info(&petres);
-    mem_initialize_memory();
-
-    return 0;
-}
-
-static int set_video(resource_value_t v, void *param)
-{
-    int col = (int) v;
-
-    if (col != petres.video) {
-        if (col == 0 || col == 40 || col == 80) {
-
-            petres.video = col;
-
-            pet_check_info(&petres);
-
-            pet_crtc_set_screen();
-        }
-    }
-    return 0;
-}
-
-/* ROM filenames */
-
-static int set_chargen_rom_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.chargenName && !strcmp(s,petres.chargenName))
-	return 0;
-
-    util_string_set(&petres.chargenName, s);
-
-    return mem_load_chargen();
-}
-
-static int set_kernal_rom_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.kernalName && !strcmp(s,petres.kernalName))
-	return 0;
-
-    util_string_set(&petres.kernalName, s);
-
-    return mem_load_kernal();
-}
-
-static int set_basic_rom_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-/*  do we want to reload the basic even with the same name - romB can
-    overload the basic ROM image and we can restore it only here ?
-*/
-    if (s && petres.basicName && !strcmp(s,petres.basicName))
-	return 0;
-
-    util_string_set(&petres.basicName, s);
-
-    return mem_load_basic();
-}
-
-static int set_editor_rom_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.editorName && !strcmp(s,petres.editorName))
-	return 0;
-
-    util_string_set(&petres.editorName, s);
-
-    return mem_load_editor();
-}
-
-static int set_rom_module_9_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.mem9name && !strcmp(s,petres.mem9name))
-	return 0;
-
-    util_string_set(&petres.mem9name, s);
-
-    return mem_load_rom9();
-}
-
-static int set_rom_module_a_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.memAname && !strcmp(s,petres.memAname))
-	return 0;
-
-    util_string_set(&petres.memAname, s);
-
-    return mem_load_romA();
-}
-
-static int set_rom_module_b_name(resource_value_t v, void *param)
-{
-    char *s = (char*) v;
-
-    if (s && petres.memBname && !strcmp(s,petres.memBname))
-	return 0;
-
-    util_string_set(&petres.memBname, s);
-
-    return mem_load_romB();
-}
-
-/* Enable/disable patching the PET 2001 chargen ROM/kernal ROM */
-
-static int set_pet2k_enabled(resource_value_t v, void *param)
-{
-    int i = (((int)v) ? 1 : 0);
-
-    if (i != petres.pet2k) {
-        if (petres.pet2k) 
-            petmem_unpatch_2001();
-
-        petres.pet2k = i;
-
-        if (petres.pet2k) 
-            petmem_patch_2001();
-    }
-    return 0;
-}
-
-static int set_pet2kchar_enabled(resource_value_t v, void *param)
-{
-    int i = (((int)v) ? 1 : 0);
-
-    if (i != petres.pet2kchar) {
-        petres.pet2kchar = i;
-
-        /* function reverses itself -> no reload necessary */
-        petmem_convert_chargen_2k();
-    }
-    return 0;
-}
-
-static int set_eoiblank_enabled(resource_value_t v, void *param)
-{
-    int i = (((int)v) ? 1 : 0);
-
-    petres.eoiblank = i;
-
-    crtc_enable_hw_screen_blank(petres.eoiblank);
-
-    return 0;
-}
-
-/* Enable/disable the Emulator ID.  */
-
-static int set_emu_id_enabled(resource_value_t v, void *param)
-{
-    emu_id_enabled = (int)v;
-    return 0;
-}
-
 void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
-}
-
-static resource_t resources[] = {
-    {"RamSize", RES_INTEGER, (resource_value_t) 32,
-     (resource_value_t *) & petres.ramSize,
-     set_ramsize, NULL },
-    {"IOSize", RES_INTEGER, (resource_value_t) 0x800,
-     (resource_value_t *) & petres.IOSize,
-     set_iosize, NULL },
-    {"Crtc", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & petres.crtc,
-     set_crtc_enabled, NULL },
-    {"VideoSize", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & petres.video,
-     set_video, NULL },
-    {"Ram9", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & petres.mem9,
-     set_ram_9_enabled, NULL },
-    {"RamA", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & petres.memA,
-     set_ram_a_enabled, NULL },
-    {"SuperPET", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & petres.superpet,
-     set_superpet_enabled, NULL },
-    {"Basic1", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & petres.pet2k,
-     set_pet2k_enabled, NULL },
-    {"Basic1Chars", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & petres.pet2kchar,
-     set_pet2kchar_enabled, NULL },
-    {"EoiBlank", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & petres.eoiblank,
-     set_eoiblank_enabled, NULL },
-    {"ChargenName", RES_STRING, (resource_value_t) "chargen",
-     (resource_value_t *) & petres.chargenName,
-     set_chargen_rom_name, NULL },
-    {"KernalName", RES_STRING, (resource_value_t) PET_KERNAL4NAME,
-     (resource_value_t *) & petres.kernalName,
-     set_kernal_rom_name, NULL },
-    {"EditorName", RES_STRING, (resource_value_t) PET_EDITOR4B80NAME,
-     (resource_value_t *) & petres.editorName,
-     set_editor_rom_name, NULL },
-    {"BasicName", RES_STRING, (resource_value_t) PET_BASIC4NAME,
-     (resource_value_t *) & petres.basicName,
-     set_basic_rom_name, NULL },
-    {"RomModule9Name", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) & petres.mem9name,
-     set_rom_module_9_name, NULL },
-    {"RomModuleAName", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) & petres.memAname,
-     set_rom_module_a_name, NULL },
-    {"RomModuleBName", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) & petres.memBname,
-     set_rom_module_b_name, NULL },
-    { "EmuID", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &emu_id_enabled,
-     set_emu_id_enabled, NULL  },
-    { NULL }
-};
-
-int pet_mem_init_resources(void)
-{
-    return resources_register(resources);
 }
 
 /* PET-specific command-line options.  */
@@ -1206,7 +911,7 @@ static BYTE REGPARM1 mem_read_patchbuf(ADDRESS addr)
     return petmem_2001_buf_ef[ addr & 0xff ];
 }
 
-static void petmem_unpatch_2001(void)
+void petmem_unpatch_2001(void)
 {
     /* if not patched return */
     if (!petres.rompatch) return;
@@ -1225,7 +930,7 @@ static void petmem_unpatch_2001(void)
     mem_initialize_memory();
 }
 
-static void petmem_patch_2001(void)
+void petmem_patch_2001(void)
 {
     int i;
     int rp;
@@ -1422,7 +1127,7 @@ static void petmem_convert_chargen(BYTE *charrom)
     }
 }
 
-static void petmem_convert_chargen_2k(void) 
+void petmem_convert_chargen_2k(void) 
 {
     int i,j;
 
@@ -1451,7 +1156,7 @@ static void petmem_convert_chargen_2k(void)
     }
 }
   
-static int mem_load_chargen(void) 
+int mem_load_chargen(void) 
 {
     if (!rom_loaded)
         return 0;
@@ -1464,7 +1169,8 @@ static int mem_load_chargen(void)
        for the CRTC, filling the rest with zeros */
 
     if (sysfile_load(petres.chargenName, chargen_rom, 0x800, 0x800) < 0) {
-        log_error(pet_mem_log, "Couldn't load character ROM (%s).", petres.chargenName);
+        log_error(pet_mem_log,
+                  "Couldn't load character ROM (%s).", petres.chargenName);
         return -1;
     }
 
@@ -1479,7 +1185,7 @@ static int mem_load_chargen(void)
     return 0;
 }
 
-static int mem_load_basic(void) 
+int mem_load_basic(void) 
 {
     int krsize;
     ADDRESS old_start, new_start;
@@ -1519,7 +1225,7 @@ static int mem_load_basic(void)
     return 0;
 }
 
-static int mem_load_kernal(void) 
+int mem_load_kernal(void) 
 {
     int krsize;
 
@@ -1551,7 +1257,7 @@ static int mem_load_kernal(void)
     return 0;
 }
 
-static int mem_load_editor(void) 
+int mem_load_editor(void) 
 {
     int rsize, i;
 
@@ -1585,7 +1291,7 @@ static int mem_load_editor(void)
     return 0;
 }
 
-static int mem_load_rom9(void) 
+int mem_load_rom9(void) 
 {
     int rsize, i;
 
@@ -1614,7 +1320,7 @@ static int mem_load_rom9(void)
     return 0;
 }
 
-static int mem_load_romA(void) 
+int mem_load_romA(void) 
 {
     int rsize, i;
 
@@ -1643,7 +1349,7 @@ static int mem_load_romA(void)
     return 0;
 }
 
-static int mem_load_romB(void) 
+int mem_load_romB(void) 
 {
     int rsize, i;
 
@@ -2492,7 +2198,7 @@ const char *get_pet_model()
 
 /* check PetInfo struct for consistency after change? */
 
-static void pet_check_info(PetRes * pi)
+void pet_check_info(PetRes * pi)
 {
     if (pi->superpet) {
         pi->ramSize = 32;	/* 128 */
