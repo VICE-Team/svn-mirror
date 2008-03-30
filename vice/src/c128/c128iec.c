@@ -351,6 +351,7 @@ void iec_calculate_callback_index(void)
 
 void iec_fast_cpu_write(BYTE data)
 {
+    /*log_debug("CW %02x %i", data, maincpu_clk);*/
     if (fast_cpu_direction) {
         if (drive[0].enable) {
             drive0_cpu_execute(maincpu_clk);
