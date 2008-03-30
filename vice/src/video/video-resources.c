@@ -521,8 +521,8 @@ void video_resources_update_ui(video_resource_chip_t *video_resource_chip)
     int pal_enabled = 0;
     int ui_doublescan_enabled, ui_scale2x_enabled;
 
-    /* this is ugly; shouldn't PALEmulation be a chip resource??? */ 
-    resources_get_value("PALEmulation", &pal_enabled);
+    if (video_resource_chip->video_chip_cap->palemulation_allowed)
+        resources_get_value("PALEmulation", &pal_enabled);
 
     if (video_resource_chip->double_size_enabled != 0) {
         if (pal_enabled) {
@@ -543,3 +543,4 @@ void video_resources_update_ui(video_resource_chip_t *video_resource_chip)
     ui_enable_chip resources(ui_doublescan_enabled, ui_scale2x_enabled);
 */
 }
+
