@@ -862,17 +862,17 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
 /*
     DEBUG(("hey: xo-%i yo-%i xf-%i yf-%i xe-%i",
-          r->viewport.x_offset,
-          r->viewport.y_offset,
-          r->viewport.first_x,
-          r->viewport.first_line,
-          r->geometry.extra_offscreen_border_left));
+          c->viewport->x_offset,
+          c->viewport->y_offset,
+          c->viewport->first_x,
+          c->viewport->first_line,
+          c->geometry->extra_offscreen_border_left));
 */
 
     //  Calculate upperleft point's framebuffer coords
     xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2)
          + (c->viewport->first_x - c->viewport->x_offset
-         + c->viewport->extra_offscreen_border_left) * pixel_width;
+         + c->geometry->extra_offscreen_border_left) * pixel_width;
     ys = yclient - ((rect.bottom - statusbar_get_status_height()
          - window_canvas_ysize[window_index]) / 2)
          + (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
@@ -881,13 +881,13 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     yi = yclient;
 
     safex = (c->viewport->first_x - c->viewport->x_offset
-            + c->viewport->extra_offscreen_border_left) * pixel_width;
+            + c->geometry->extra_offscreen_border_left) * pixel_width;
     safey = (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
     safey2 = (c->viewport->last_line - c->viewport->y_offset) * pixel_height;
 
     if (c->draw_buffer->draw_buffer) {
-        cut_rightline = safex + c->viewport->screen_width * pixel_width;
-        cut_bottomline = safey + c->viewport->screen_height * pixel_height;
+        cut_rightline = safex + c->geometry->screen_size.width * pixel_width;
+        cut_bottomline = safey + c->geometry->screen_size_height * pixel_height;
         if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
             cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
         }
