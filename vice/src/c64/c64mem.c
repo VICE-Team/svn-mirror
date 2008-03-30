@@ -39,6 +39,7 @@
 #include "c64-resources.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "c64memlimit.h"
 #include "cartridge.h"
@@ -54,7 +55,6 @@
 #include "resources.h"
 #include "reu.h"
 #include "sid.h"
-#include "sid-resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
 #include "ui.h"
@@ -277,56 +277,6 @@ void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
 
     if (addr == 0xff00)
         reu_dma(-1);
-}
-
-void REGPARM2 io2_store(ADDRESS addr, BYTE value)
-{
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        cartridge_store_io2(addr, value);
-    if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
-    return;
-}
-
-BYTE REGPARM1 io2_read(ADDRESS addr)
-{
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        return cartridge_read_io2(addr);
-    if (emu_id_enabled && addr >= 0xdfa0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
-    if (reu_enabled)
-        return reu_read((ADDRESS)(addr & 0x0f));
-    return rand();
-}
-
-void REGPARM2 io1_store(ADDRESS addr, BYTE value)
-{
-    if (sid_stereo)
-        return sid2_store(addr, value);
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        cartridge_store_io1(addr, value);
-#ifdef HAVE_RS232
-    if (acia_de_enabled)
-        acia1_store(addr & 0x03, value);
-#endif
-    return;
-}
-
-BYTE REGPARM1 io1_read(ADDRESS addr)
-{
-    if (sid_stereo)
-        return sid2_read(addr);
-    if (mem_cartridge_type != CARTRIDGE_NONE)
-        return cartridge_read_io1(addr);
-#ifdef HAVE_RS232
-    if (acia_de_enabled)
-        return acia1_read(addr & 0x03);
-#endif
-    return rand();
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
