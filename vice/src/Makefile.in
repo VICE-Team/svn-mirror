@@ -660,9 +660,9 @@ machine.o: machine.c vice.h config.h alarm.h arch/unix/types.h attach.h \
 	viewport.h vsync.h arch/unix/joy.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h fullscreen.h \
-	init.h initcmdline.h interrupt.h log.h machine.h maincpu.h \
-	main.h resources.h sysfile.h arch/unix/ui.h uiapi.h utils.h \
-	version.h video.h viewport.h fliplist.h
+	init.h initcmdline.h interrupt.h lib.h log.h machine.h \
+	maincpu.h main.h resources.h sysfile.h arch/unix/ui.h uiapi.h \
+	utils.h version.h video.h viewport.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 	arch/unix/types.h clkguard.h debug.h interrupt.h machine.h \
 	maincpu.h mem.h monitor.h mos6510.h snapshot.h traps.h \

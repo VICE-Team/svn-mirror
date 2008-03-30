@@ -16,7 +16,6 @@ libmonitor_a_SOURCES = \
         asm6502.c \
         asmz80.c \
         asm.h \
-        mon.c \
         mon_assemble6502.c \
 	mon_assemblez80.c \
 	mon_assemble.h \
@@ -41,6 +40,7 @@ libmonitor_a_SOURCES = \
 	mon_util.h \
 	mon_lex.l \
 	mon_parse.y \
+	monitor.c \
 	montypes.h
 
 BUILT_SOURCES = mon_parse.h mon_parse.c

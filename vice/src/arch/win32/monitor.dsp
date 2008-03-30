@@ -90,7 +90,7 @@ SOURCE=..\..\monitor\asmz80.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\monitor\mon.c
+SOURCE=..\..\monitor\monitor.c
 # End Source File
 # Begin Source File
 

@@ -1,3 +1,33 @@
+2003-04-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.27.
+
+	* machine.c (machine_shutdown): Comment out call to
+	`machine_resources_shutdown()' for now.
+
+	* video/video-render-pal.c (video_render_pal_main): Added 
+	missing else path.
+
+	* sound.c, sound.h (sound_resources_shutdown): New function.
+
+	* c64/cart/c64cart.c, cartridge.h
+	(cartridge_resources_shutdown): New function.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_resources_shutdown): Free
+	resources.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c, main.c
+	(archdep_default_fliplist_file_name): Return non const string.
+
+	* tape/tape.c, tape.h, tape/tap.c, tap.h: Trap list is const.
+
+	* monitor/mon.c: Renamed.
+
+	* monitor/Makefile.am, arch/win32/monitor.dsp: Updated.
+
 2003-04-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.26.
