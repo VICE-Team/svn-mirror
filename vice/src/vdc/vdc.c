@@ -57,7 +57,7 @@ vdc_t vdc;
 
 
 
-static void init_raster(void)
+static int init_raster(void)
 {
     raster_t *raster;
     unsigned int width, height;
@@ -96,8 +96,10 @@ static void init_raster(void)
                         0);
     raster_resize_viewport(raster, width, height);
 
-    if (vdc_load_palette(vdc_resources.palette_file_name) < 0)
+    if (vdc_load_palette(vdc_resources.palette_file_name) < 0) {
         log_error(vdc.log, "Cannot load palette.");
+        return -1;
+    }
 
     title = concat("VICE: ", machine_name, " emulator VDC window", NULL);
     raster_set_title(raster, title);
@@ -111,6 +113,8 @@ static void init_raster(void)
     raster->display_xstop = VDC_80COL_STOP_PIXEL;
 
     raster->border_color = 0;
+
+    return 0;
 }
 
 
@@ -135,7 +139,8 @@ canvas_t vdc_init(void)
     alarm_init(&vdc.raster_draw_alarm, &maincpu_alarm_context,
                "VdcRasterDraw", vdc_raster_draw_alarm_handler);
 
-    init_raster();
+    if (init_raster() < 0)
+        return NULL;
     vdc_powerup();
 
 /*

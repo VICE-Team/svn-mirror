@@ -209,7 +209,8 @@ int machine_init(void)
 #endif
 
     /* Initialize the CRTC emulation.  */
-    crtc_init();
+    if (crtc_init() == NULL)
+        return -1;
     crtc_set_retrace_callback(cbm2_crtc_signal);
     crtc_set_retrace_type(0);
 

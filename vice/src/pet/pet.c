@@ -242,7 +242,8 @@ int machine_init(void)
     */
 
     /* Initialize the CRTC emulation.  */
-    crtc_init();
+    if (crtc_init() == NULL)
+        return -1;
     crtc_set_retrace_type(petres.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();

@@ -39,6 +39,7 @@
 #include "crtc-cmdline-options.h"
 #include "crtc-draw.h"
 #include "crtc-resources.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
@@ -382,8 +383,10 @@ canvas_t crtc_init (void)
 
   crtc_update_window();
 
-  if (crtc_load_palette (crtc_resources.palette_file_name) < 0)
+  if (crtc_load_palette (crtc_resources.palette_file_name) < 0) {
     log_error (crtc.log, "Cannot load palette.");
+    return NULL;
+  }
 
   title = concat ("VICE: ", machine_name, " emulator", NULL);
   raster_set_title (raster, title);
