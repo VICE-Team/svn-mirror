@@ -470,10 +470,14 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
     snapshot_t *s;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+
     if (s == NULL) {
         perror(name);
         return -1;
     }
+
+    sound_snapshot_prepare();
+
     if (maincpu_snapshot_write_module(s) < 0
         || cbm2_snapshot_write_module(s, save_roms) < 0
         || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
@@ -502,9 +506,9 @@ int machine_read_snapshot(const char *name, int event_mode)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL) {
+
+    if (s == NULL)
         return -1;
-    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         log_error(cbm2_log,
@@ -513,9 +517,8 @@ int machine_read_snapshot(const char *name, int event_mode)
         goto fail;
     }
 
-    if (cbm2_isC500) {
-        vicii_prepare_for_snapshot();
-    }
+    if (cbm2_isC500)
+        vicii_snapshot_prepare();
 
     if (maincpu_snapshot_read_module(s) < 0
         || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
@@ -531,6 +534,8 @@ int machine_read_snapshot(const char *name, int event_mode)
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0)
         goto fail;
+
+    sound_snapshot_finish();
 
     return 0;
 

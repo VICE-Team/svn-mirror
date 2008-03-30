@@ -36,6 +36,7 @@
 
 #include "clkguard.h"
 #include "cmdline.h"
+#include "debug.h"
 #include "fixpoint.h"
 #include "lib.h"
 #include "log.h"
@@ -240,43 +241,60 @@ static int warp_mode_enabled;
 typedef struct
 {
     /* Number of sound channels (for multiple SIDs) */
-    int                 channels;
+    int channels;
+
     /* sid itself */
-    sound_t             *psid[SOUND_CHANNELS_MAX];
+    sound_t *psid[SOUND_CHANNELS_MAX];
+
     /* number of clocks between each sample. used value */
-    soundclk_t           clkstep;
+    soundclk_t clkstep;
+
     /* number of clocks between each sample. original value */
-    soundclk_t           origclkstep;
+    soundclk_t origclkstep;
+
     /* factor between those two clksteps */
-    soundclk_t           clkfactor;
+    soundclk_t clkfactor;
+
     /* time of last sample generated */
-    soundclk_t           fclk;
+    soundclk_t fclk;
+
     /* time of last write to sid. used for pdev->dump() */
-    CLOCK                wclk;
+    CLOCK wclk;
+
     /* time of last call to sound_run_sound() */
-    CLOCK                lastclk;
+    CLOCK lastclk;
+
     /* sample buffer */
-    SWORD                buffer[SOUND_CHANNELS_MAX*BUFSIZE];
+    SWORD buffer[SOUND_CHANNELS_MAX * BUFSIZE];
+
     /* sample buffer pointer */
-    int                  bufptr;
+    int bufptr;
+
     /* pointer to device structure in use */
-    sound_device_t      *pdev;
+    sound_device_t *pdev;
+
     /* number of samples in a fragment */
-    int                  fragsize;
+    int fragsize;
+
     /* number of fragments in kernel buffer */
-    int                  fragnr;
+    int fragnr;
+
     /* number of samples in kernel buffer */
-    int                  bufsize;
+    int bufsize;
+
     /* constants related to adjusting sound */
-    int                  prevused;
-    int                  prevfill;
+    int prevused;
+    int prevfill;
+
     /* is the device suspended? */
-    int                  issuspended;
-    SWORD                lastsample[SOUND_CHANNELS_MAX];
+    int issuspended;
+    SWORD lastsample[SOUND_CHANNELS_MAX];
+
     /* nr of samples to oversame / real sample */
-    int                  oversamplenr;
+    int oversamplenr;
+
     /* number of shift needed on oversampling */
-    int                  oversampleshift;
+    int oversampleshift;
 } snddata_t;
 
 static snddata_t snddata;
@@ -409,11 +427,9 @@ static int sid_init(void)
         snddata.oversampleshift = 0;
         snddata.oversamplenr = 1;
         speed = sample_rate * 100 / speed_factor;
-    }
-    /* For sample based sound engines, both simple average filtering
-       and sample rate conversion is handled here. */
-    else
-    {
+    } else {
+        /* For sample based sound engines, both simple average filtering
+           and sample rate conversion is handled here. */
         snddata.oversampleshift = oversampling_factor;
         snddata.oversamplenr = 1 << snddata.oversampleshift;
         speed = sample_rate*snddata.oversamplenr;
@@ -611,12 +627,14 @@ static int sound_run_sound(void)
     /* XXX: implement the exact ... */
     if (!playback_enabled || (suspend_time > 0 && disabletime))
         return 1;
+
     if (!snddata.pdev) {
         i = sound_open();
         if (i)
             return i;
         sdev_open = TRUE;
     }
+
 #ifdef __riscos
     /* RISC OS vidc device uses a different approach... */
     SoundMachineReady = 1;
@@ -639,9 +657,8 @@ static int sound_run_sound(void)
                 return sound_error("Sound buffer overflow (cycle based)");
             }
         }
-    }
-    /* Handling of sample based sound engines. */
-    else {
+    } else {
+        /* Handling of sample based sound engines. */
         nr = (int)((SOUNDCLK_CONSTANT(maincpu_clk) - snddata.fclk)
              / snddata.clkstep);
         if (!nr)
@@ -658,7 +675,7 @@ static int sound_run_sound(void)
                                             snddata.channels,
                                             &delta_t);
         }
-        snddata.fclk += nr*snddata.clkstep;
+        snddata.fclk += nr * snddata.clkstep;
     }
 
     snddata.bufptr += nr;
@@ -840,7 +857,9 @@ double sound_flush(int relative_speed)
             snddata.prevfill = j;
 
             /* Fresh start for vsync. */
+#ifndef DEBUG
             log_warning(sound_log, _("Buffer drained"));
+#endif
             vsync_sync_reset();
             return 0;
         }
@@ -1083,9 +1102,8 @@ int sound_read(WORD addr, int chipno)
     if (sound_run_sound())
         return -1;
 
-    if (chipno >= snddata.channels) {
+    if (chipno >= snddata.channels)
         return -1;
-    }
 
     return sound_machine_read(snddata.psid[chipno], addr);
 }
@@ -1097,9 +1115,8 @@ void sound_store(WORD addr, BYTE val, int chipno)
     if (sound_run_sound())
         return;
 
-    if (chipno >= snddata.channels) {
+    if (chipno >= snddata.channels)
         return;
-    }
 
     sound_machine_store(snddata.psid[chipno], addr, val);
 
@@ -1107,7 +1124,9 @@ void sound_store(WORD addr, BYTE val, int chipno)
         return;
 
     i = snddata.pdev->dump(addr, val, maincpu_clk - snddata.wclk);
+
     snddata.wclk = maincpu_clk;
+
     if (i)
         sound_error("store to sounddevice failed.");
 }
@@ -1115,9 +1134,8 @@ void sound_store(WORD addr, BYTE val, int chipno)
 
 void sound_set_relative_speed(int value)
 {
-    if (value != speed_percent) {
+    if (value != speed_percent)
         sid_state_changed = TRUE;
-    }
 
     speed_percent = value;
 }
@@ -1130,5 +1148,16 @@ void sound_set_warp_mode(int value)
         sound_suspend();
     else
         sound_resume();
+}
+
+void sound_snapshot_prepare(void)
+{
+    /* Update lastclk.  */
+    sound_run_sound();
+}
+
+void sound_snapshot_finish(void)
+{
+    snddata.lastclk = maincpu_clk;
 }
 

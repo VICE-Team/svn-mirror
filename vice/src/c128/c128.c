@@ -639,6 +639,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
     if (s == NULL)
         return -1;
 
+    sound_snapshot_prepare();
+
     if (maincpu_snapshot_write_module(s) < 0
         || c128_snapshot_write_module(s, save_roms) < 0
         || cia1_snapshot_write_module(s) < 0
@@ -673,7 +675,7 @@ int machine_read_snapshot(const char *name, int event_mode)
         goto fail;
     }
 
-    vicii_prepare_for_snapshot();
+    vicii_snapshot_prepare();
 
     if (maincpu_snapshot_read_module(s) < 0
         || c128_snapshot_read_module(s) < 0
@@ -687,6 +689,8 @@ int machine_read_snapshot(const char *name, int event_mode)
        goto fail;
 
     snapshot_close(s);
+
+    sound_snapshot_finish();
 
     return 0;
 

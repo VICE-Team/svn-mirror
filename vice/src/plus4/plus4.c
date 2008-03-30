@@ -488,6 +488,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
     if (s == NULL)
         return -1;
 
+    sound_snapshot_prepare();
+
     /* Execute drive CPUs to get in sync with the main CPU.  */
     if (drive[0].enable)
         drive0_cpu_execute(maincpu_clk);
@@ -515,6 +517,7 @@ int machine_read_snapshot(const char *name, int event_mode)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_name);
+
     if (s == NULL)
         return -1;
 
@@ -525,7 +528,7 @@ int machine_read_snapshot(const char *name, int event_mode)
         goto fail;
     }
 
-    ted_prepare_for_snapshot();
+    ted_snapshot_prepare();
 
     if (maincpu_snapshot_read_module(s) < 0
         || plus4_snapshot_read_module(s) < 0
@@ -536,6 +539,8 @@ int machine_read_snapshot(const char *name, int event_mode)
         goto fail;
 
     snapshot_close(s);
+
+    sound_snapshot_finish();
 
     return 0;
 

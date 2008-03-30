@@ -499,6 +499,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
         return -1;
     }
 
+    sound_snapshot_prepare();
+
     /* FIXME: Missing sound.  */
     if (maincpu_snapshot_write_module(s) < 0
         || vic20_snapshot_write_module(s, save_roms) < 0
@@ -563,6 +565,9 @@ int machine_read_snapshot(const char *name, int event_mode)
     }
 
     snapshot_close(s);
+
+    sound_snapshot_finish();
+
     return 0;
 
 fail:

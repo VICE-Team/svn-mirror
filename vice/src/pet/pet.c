@@ -447,10 +447,14 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
     int ef = 0;
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+
     if (s == NULL) {
         perror(name);
         return -1;
     }
+
+    sound_snapshot_prepare();
+
     if (maincpu_snapshot_write_module(s) < 0
         || pet_snapshot_write_module(s, save_roms) < 0
         || crtc_snapshot_write_module(s) < 0
@@ -463,9 +467,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
         ef = -1;
     }
 
-    if ((!ef) && petres.superpet) {
+    if ((!ef) && petres.superpet)
         ef = acia1_snapshot_write_module(s);
-    }
 
     snapshot_close(s);
 
@@ -482,9 +485,9 @@ int machine_read_snapshot(const char *name, int event_mode)
     int ef = 0;
 
     s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL) {
+
+    if (s == NULL)
         return -1;
-    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         log_error(pet_log,
@@ -515,6 +518,9 @@ int machine_read_snapshot(const char *name, int event_mode)
     if (ef) {
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     }
+
+    sound_snapshot_finish();
+
     return ef;
 }
 
