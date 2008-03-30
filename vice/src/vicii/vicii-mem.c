@@ -312,9 +312,6 @@ inline static void d011_store(BYTE value)
 
 inline static void d012_store(BYTE value)
 {
-    /* FIXME: Not accurate as bit #8 is missing.  */
-    value = (value - vicii.offset) & 255;
-
     VICII_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
     if (value == vicii.regs[0x12])
@@ -1071,10 +1068,7 @@ inline static unsigned int read_raster_y(void)
 
 inline static BYTE d01112_read(WORD addr)
 {
-    unsigned int tmp;
-
-    tmp = (vicii.screen_height + read_raster_y() - vicii.offset)
-          % vicii.screen_height;
+    unsigned int tmp = read_raster_y();
 
     VICII_DEBUG_REGISTER(("Raster Line register %svalue = $%04X",
                          (addr == 0x11 ? "(highest bit) " : ""), tmp));
