@@ -43,8 +43,6 @@ extern FILE *archdep_open_default_log_file(void);
 extern char *archdep_default_resource_file_name(void);
 extern char *archdep_default_save_resource_file_name(void);
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
-extern char *archdep_default_romset_path(const char *emu_id);
-extern FILE *archdep_open_romset_file(const char *name, char **path_return);
 
 extern int   archdep_num_text_lines(void);
 extern int   archdep_num_text_columns(void);

@@ -59,6 +59,7 @@
 #include "utils.h"
 #include "vdrive.h"
 #include "vsync.h"
+#include "fliplist.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -92,10 +93,14 @@ static UI_CALLBACK(attach_disk)
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
 	    ui_error("Invalid Disk Image");
+	else
+	    flip_set_current(unit, filename);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_disk(filename, NULL) < 0)
 	    ui_error("Invalid Disk Image");
+	else
+	    flip_set_current(unit, filename);
 	break;
       default:
 	/* Do nothing special.  */
@@ -516,6 +521,22 @@ static UI_CALLBACK(save_snapshot)
     maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
 }
 
+static UI_CALLBACK(add2fliplist)
+{
+    flip_add_image();
+}
+
+static UI_CALLBACK(remove_from_fliplist)
+{
+    flip_remove(-1, NULL);
+}
+
+static UI_CALLBACK(attach_from_fliplist)
+{
+    flip_attach_head((int) client_data);
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
@@ -531,6 +552,18 @@ static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #11...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
       XK_1, UI_HOTMOD_META },
+    { "Add current image to fliplist...",
+      (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
+      XK_i, UI_HOTMOD_META },
+    { "Remove current image from fliplist...",
+      (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
+      XK_k, UI_HOTMOD_META },
+    { "Attach next image from fliplist...",
+      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 1, NULL,
+      XK_n, UI_HOTMOD_META },
+    { "Attach previous image from fliplist...",
+      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 0, NULL,
+      XK_N, UI_HOTMOD_META },
     { NULL }
 };
 

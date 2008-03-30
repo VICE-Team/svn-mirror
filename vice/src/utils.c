@@ -367,10 +367,12 @@ int make_backup_file(const char *fname)
     return retval;
 }
 
-#ifndef __riscos
 /* Get the current working directory as a malloc'ed string.  */
 char *get_current_dir(void)
 {
+#ifdef __riscos
+    return GetCurrentDirectory();
+#else
     static int len = 128;
     char *p = (char *) xmalloc(len);
 
@@ -383,8 +385,8 @@ char *get_current_dir(void)
     }
 
     return p;
-}
 #endif
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -789,11 +791,11 @@ char *find_prev_line(const char *text, const char *pos)
 
     if (pos - text <= 2)
 	return (char *) text;
-    
+
     for (p = pos - 2; p != text; p--)
 	if (*p == '\n')
 	    break;
-    
+
     if (*p == '\n')
 	p++;
 
@@ -899,7 +901,7 @@ int strcasecmp(const char *s1, const char *s2)
             return (c1 - c2);
         s1++; s2++;
     }
-  
+
     return (((int)(unsigned char) *s1) - ((int)(unsigned char) *s2));
 }
 
@@ -910,7 +912,7 @@ int strcasecmp(const char *s1, const char *s2)
 int strncasecmp(const char *s1, const char *s2, unsigned int n)
 {
     int c1, c2;
-  
+
     if (s1 == NULL || s2 == NULL)
         return 0;
 

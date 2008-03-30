@@ -44,6 +44,21 @@
 
 #include "interrupt.h"
 
+/*
+ * Prototypes for the used inline functions 
+ */
+
+static inline void do_reset_cia(void);
+static inline void store_sdr(BYTE byte);
+static inline void read_ciaicr(void);
+static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE byte);
+static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte);
+static inline void undump_ciapa(CLOCK rclk, BYTE byte);
+static inline void undump_ciapb(CLOCK rclk, BYTE byte);
+static inline BYTE read_ciapa(void);
+static inline BYTE read_ciapb(void);
+
+
 #define	STORE_OFFSET 0
 #define	READ_OFFSET 0
 
@@ -100,8 +115,6 @@ static BYTE ciatodlatch[4];
 static char ciatodstopped;
 static char ciatodlatched;
 static int ciatodticks = 100000;	/* approx. a 1/10 sec. */
-
-static BYTE ciaflag = 0;
 
 static log_t cia_log = LOG_ERR;
 

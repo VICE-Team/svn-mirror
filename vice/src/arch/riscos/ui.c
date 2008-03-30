@@ -29,29 +29,32 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#include "ROlib.h"
+#include "wimp.h"
+
 #include "vice.h"
 
-#include "wimp.h"
-#include "ui.h"
-#include "ROlib.h"
-#include "vicii.h"
-#include "machine.h"
-#include "sound.h"
 #include "attach.h"
-#include "drive.h"
-#include "cartridge.h"
-#include "fsdevice.h"
-#include "resources.h"
-#include "utils.h"
-#include "kbd.h"
-#include "vsync.h"
-#include "petui.h"
 #include "c610ui.h"
-#include "log.h"
-#include "joystick.h"
-#include "tape.h"
 #include "c64mem.h"
-
+#include "cartridge.h"
+#include "drive.h"
+#include "fsdevice.h"
+#include "joystick.h"
+#include "kbd.h"
+#include "log.h"
+#include "machine.h"
+#include "petui.h"
+#include "resources.h"
+#include "romset.h"
+#include "sound.h"
+#include "sysfile.h"
+#include "tape.h"
+#include "ui.h"
+#include "uiimage.h"
+#include "utils.h"
+#include "vicii.h"
+#include "vsync.h"
 
 
 
@@ -86,6 +89,11 @@ static char CustomSprites[] = "Vice:Sprites";
 static char TemplatesFile[] = "Vice:Templates";
 static char MessagesFile[] = "<Vice$Messages>";
 static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
+static char VicePathVariable[] = "Vice$Path";
+static char ResourceDriveDir[] = "DRIVES";
+
+
+#define RSETARCH_EXT	"vra"
 
 
 
@@ -95,13 +103,14 @@ static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
 #define Error_Template		0x102
 
 
-#define FileType_Data		0xffd
 #define FileType_Text		0xfff
 #define FileType_C64File	0x064
-#define FileType_D64File	0x164
+
 
 /* Start scanning for internal keynumbers from here */
 #define IntKey_MinCode		3
+#define IntKey_Shift		0
+
 /* Return key in icons */
 #define Key_Return		13
 
@@ -262,6 +271,7 @@ static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
 #define Icon_Conf_AutoPause	40
 #define Icon_Conf_ROMSet	43
 #define Icon_Conf_ROMSetT	44
+#define Icon_Conf_ROMAction	46
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -325,6 +335,7 @@ static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
 #define DRAG_TYPE_PRINTER	3
 #define DRAG_TYPE_SNAPSHOT	4
 #define DRAG_TYPE_VOLUME	5
+#define DRAG_TYPE_SAVEBOX	6
 
 
 
@@ -496,9 +507,6 @@ static conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},\
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
 
-#define ICON_LIST_ROMSET \
- {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}, {CONF_WIN_SYSTEM, Icon_Conf_ROMSetT},
-
 
 /* Config icons that are greyed out in some CBM machines */
 static conf_icon_id conf_grey_x64[] = {
@@ -512,7 +520,6 @@ static conf_icon_id conf_grey_x128[] = {
   ICON_LIST_CART64
   ICON_LIST_PET
   ICON_LIST_VIC
-  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -522,7 +529,6 @@ static conf_icon_id conf_grey_xvic[] = {
   ICON_LIST_SID
   ICON_LIST_DEVICES
   ICON_LIST_PET
-  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -534,7 +540,6 @@ static conf_icon_id conf_grey_xpet[] = {
   ICON_LIST_DEVICES
   ICON_LIST_SID
   ICON_LIST_TRUE
-  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -545,7 +550,6 @@ static conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   ICON_LIST_DEVRSUSR
-  ICON_LIST_ROMSET
   {0xff, 0xff}
 };
 
@@ -591,7 +595,10 @@ int EmuPaused;
 int SingleTasking = 0;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
-char *ROMSetName = "Default";
+char *ROMSetName = NULL;
+char *ROMSetArchiveFile = NULL;
+
+char ROMSetItemFile[256];
 
 
 /* The screen */
@@ -606,11 +613,11 @@ RO_Caret LastCaret;
 /* The windows */
 RO_Window *EmuWindow;
 RO_Window *EmuPane;
-/*RO_Window *SoundWindow;*/
 RO_Window *InfoWindow;
 RO_Window *SnapshotWindow;
 RO_Window *CpuJamWindow;
-
+RO_Window *SaveBox;
+RO_Window *ImgContWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
 
 #define TitleBarOffset	40
@@ -1092,13 +1099,14 @@ static struct MenuSoundBuffer {
 #define Menu_TrueIdle_NoTraps	0
 #define Menu_TrueIdle_SkipC	1
 #define Menu_TrueIdle_Trap	2
-#define Menu_TrueType_Items	5
+#define Menu_TrueType_Items	6
 #define Menu_TrueType_Width	200
 #define Menu_TrueType_None	0
 #define Menu_TrueType_1541	1
-#define Menu_TrueType_1571	2
-#define Menu_TrueType_1581	3
-#define Menu_TrueType_2031	4
+#define Menu_TrueType_1541II	2
+#define Menu_TrueType_1571	3
+#define Menu_TrueType_1581	4
+#define Menu_TrueType_2031	5
 
 #define TRUE_DRIVE_EXTEND_MENU(name, title) \
   static struct name { \
@@ -1135,6 +1143,7 @@ static struct MenuSoundBuffer {
     { \
       MENU_ITEM("\\MenDtpNone"), \
       MENU_ITEM("\\MenDtp1541"), \
+      MENU_ITEM("\\MenDtp15412"), \
       MENU_ITEM("\\MenDtp1571"), \
       MENU_ITEM("\\MenDtp1581"), \
       MENU_ITEM_LAST("\\MenDtp2031") \
@@ -1154,6 +1163,9 @@ TRUE_DRIVE_TYPE_MENU(MenuTrueType9, "\\MenDtp9Tit")
 #define Menu_TrueSync_PAL	0
 #define Menu_TrueSync_NTSC	1
 #define Menu_TrueSync_Custom	2
+
+static char TrueSyncCustomField[16];
+
 static struct MenuTrueSync {
   RO_MenuHead head;
   RO_MenuItem item[Menu_TrueSync_Items];
@@ -1162,6 +1174,7 @@ static struct MenuTrueSync {
   {
     MENU_ITEM("\\MenSncPAL"),
     MENU_ITEM("\\MenSncNTSC"),
+    /* This menu item will be made indirected */
     {MFlg_LastItem | 4, (RO_MenuHead*)-1, Menu_Flags, {""}}
   }
 };
@@ -1572,6 +1585,43 @@ static struct MenuROMSetTmpl {
   }
 };
 
+/* ROMset actions */
+static char NewRomSetName[32];
+
+static struct MenuRomActName {
+  RO_MenuHead head;
+  RO_MenuItem item[1];
+} MenuRomActName = {
+  MENU_HEADER("\\MenRANT", 200),
+  {
+    /* Item will be made indirected in init routine */
+    {MFlg_Writable | MFlg_LastItem, (RO_MenuHead*)-1, Menu_Flags, {""}}
+  }
+};
+
+#define Menu_RomAct_Items	6
+#define Menu_RomAct_Width	200
+#define Menu_RomAct_Create	0
+#define Menu_RomAct_Delete	1
+#define Menu_RomAct_Save	2
+#define Menu_RomAct_Dump	3
+#define Menu_RomAct_Clear	4
+#define Menu_RomAct_Restore	5
+static struct MenuRomAction {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_RomAct_Items];
+} MenuRomAction = {
+  MENU_HEADER("\\MenRActT", Menu_RomAct_Width),
+  {
+    MENU_ITEM_SUB("\\MenRActCrt", &MenuRomActName),
+    MENU_ITEM("\\MenRActDel"),
+    {MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, {"\\MenRActSav"}},
+    MENU_ITEM("\\MenRActDmp"),
+    MENU_ITEM("\\MenRActClr"),
+    MENU_ITEM_LAST("\\MenRActRst")
+  }
+};
+
 
 
 #define CONF_MENU_PRNTDEV	0
@@ -1613,6 +1663,7 @@ static struct MenuROMSetTmpl {
 #define CONF_MENU_JOYDEV1	36
 #define CONF_MENU_JOYDEV2	37
 #define CONF_MENU_ROMSET	38
+#define CONF_MENU_ROMACT	39
 
 /* Config Menus */
 static menu_icon ConfigMenus[] = {
@@ -1693,7 +1744,9 @@ static menu_icon ConfigMenus[] = {
   {(RO_MenuHead*)&MenuJoyDevice2, NULL,
     {CONF_WIN_JOY, Icon_Conf_JoyPort2}},		/* 37 */
   {(RO_MenuHead*)&MenuROMSetTmpl, NULL,
-    {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}},			/* 38 */
+    {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}},		/* 38 */
+  {(RO_MenuHead*)&MenuRomAction, NULL,
+    {CONF_WIN_SYSTEM, Icon_Conf_ROMAction}},		/* 39 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1800,7 +1853,7 @@ static struct MenuDisplayTrueSync {
   } MenuDisplayTrueType##n = { \
     {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType##n##T}, \
       (RO_MenuHead*)&MenuTrueType##n, Menu_TrueType_Items, 0, 0}, \
-    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031} \
+    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031} \
   };
 
 DISP_TRUE_DRIVE_EXTEND_MENU(8)
@@ -2307,11 +2360,6 @@ static int ui_load_template(const char *tempname, RO_Window **wptr, wimp_msg_des
       sprintf((char*)(icons[Icon_Pane_Pause].dat.ind.tit), SymbolStrings[Symbol_Pause]);
       sprintf((char*)(icons[Icon_Pane_Toggle].dat.ind.tit), SymbolStrings[(EmuZoom == 1) ? Symbol_Zoom2 : Symbol_Zoom1]);
     }
-    /*else if (wptr == &SoundWindow)
-    {
-      w->SpriteAreaPtr = (int)SpriteArea;
-      icons[Icon_Sound_Notes].dat.ind.val = (int*)SpriteArea;
-    }*/
     else if (wptr == &InfoWindow)
     {
       w->SpriteAreaPtr = (int)SpriteArea;
@@ -2601,8 +2649,10 @@ int set_cbm2_model_by_name(const char *name, resource_value_t val)
 
 int set_romset_by_name(const char *name, resource_value_t val)
 {
-  ROMSetName = (char*)val;
-  return mem_set_romset((char*)val);
+  if (val == (resource_value_t)0) return -1;
+  if (ROMSetName != NULL) free(ROMSetName);
+  ROMSetName = stralloc((char*)val);
+  return romset_select_item((char*)val);
 }
 
 
@@ -2621,7 +2671,10 @@ static void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function fun
 
   if ((dd->writable & (1<<number)) != 0)
   {
-    *values = atoi(item->dat.strg);
+    if ((item->iflags & IFlg_Indir) == 0)
+      *values = atoi(item->dat.strg);
+    else
+      *values = atoi((char*)(item->dat.ind.tit));
   }
   if (func != (set_var_function)NULL)
   {
@@ -2794,6 +2847,23 @@ static int ui_check_save_snapshot(const char *name)
   return -1;
 }
 
+static int ui_check_save_sbox(const char *name)
+{
+  if (wimp_check_for_path(name) == 0)
+  {
+    if (LastMenu == CONF_MENU_ROMACT + 0x100)
+    {
+      if (romset_save_item(ROMSetName, name) == 0)
+      {
+        wimp_strcpy(ROMSetItemFile, name);
+        Wimp_CreateMenu((int*)-1, 0, 0);
+      }
+      return 0;
+    }
+  }
+  return -1;
+}
+
 
 /* b = update / redraw block */
 static void ui_draw_sound_volume(int *b)
@@ -2864,6 +2934,27 @@ void ui_set_sound_volume(void)
 }
 
 
+static char *ui_check_for_syspath(const char *path)
+{
+  char *vicepath;
+  int len;
+
+  if ((vicepath = getenv(VicePathVariable)) == NULL) return (char*)path;
+  len = strlen(vicepath);
+  if (strncasecmp(path, vicepath, len) == 0)
+  {
+    vicepath = (char*)path + len;
+    len = strlen(machine_name);
+    if ((strncasecmp(vicepath, machine_name, len) == 0) && (vicepath[len] == '.'))
+      return (char*)vicepath + len + 1;
+    len = strlen(ResourceDriveDir);
+    if ((strncasecmp(vicepath, ResourceDriveDir, len) == 0) && (vicepath[len] == '.'))
+      return (char*)vicepath + len + 1;
+  }
+  return (char*)path;
+}
+
+
 static int ui_build_romset_menu(void)
 {
   int number;
@@ -2873,7 +2964,7 @@ static int ui_build_romset_menu(void)
   MenuROMSet = NULL; MenuDisplayROMSet = NULL;
   ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
-  number = mem_get_numromsets();
+  number = romset_get_number();
   if (number <= 0) return -1;
   MenuROMSet = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
   MenuDisplayROMSet = (disp_desc_t*)malloc(sizeof(disp_desc_t) + number * sizeof(int));
@@ -2881,7 +2972,6 @@ static int ui_build_romset_menu(void)
   if ((MenuROMSet != NULL) && (MenuDisplayROMSet != NULL))
   {
     RO_MenuItem *item;
-    char **names;
     int *values;
     int i;
 
@@ -2890,12 +2980,14 @@ static int ui_build_romset_menu(void)
     item = (RO_MenuItem*)(MenuROMSet + 1);
     values = (int*)(MenuDisplayROMSet + 1);
 
-    names = mem_get_romsets();
     for (i=0; i<number; i++)
     {
+      char *name;
+
+      if ((name = romset_get_item(i)) == NULL) name = "";
       item[i].mflags = 0; item[i].submenu = (RO_MenuHead*)-1; item[i].iflags = Menu_Flags;
-      strncpy(item[i].dat.strg, names[i], 12);
-      values[i] = (int)(names[i]);
+      strncpy(item[i].dat.strg, name, 12);
+      values[i] = (int)(name);
     }
     item[number-1].mflags = MFlg_LastItem;
     ConfigMenus[CONF_MENU_ROMSET].menu = MenuROMSet;
@@ -2923,6 +3015,7 @@ int ui_init(int *argc, char *argv[])
   char buffer[64];
   char *iname;
   wimp_msg_desc *msg;
+  WIdatI *dat;
 
   PollMask = 0x01000830;	/* save/restore FP regs */
   LastMenu = 0; LastClick = 0; LastDrag = 0; MenuType = 0; DragType = 0;
@@ -3012,7 +3105,6 @@ int ui_init(int *argc, char *argv[])
   {
     ui_load_template("EmuWindow", &EmuWindow, msg);
     ui_load_template("EmuPane", &EmuPane, msg);
-    /*ui_load_template("SoundWindow", &SoundWindow, msg);*/
     ui_load_template("InfoWindow", &InfoWindow, msg);
     ui_load_template("DriveConfig", ConfWindows + CONF_WIN_DRIVES, msg);
     ui_load_template("DevConfig", ConfWindows + CONF_WIN_DEVICES, msg);
@@ -3024,6 +3116,8 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("CBM2Config", ConfWindows + CONF_WIN_CBM2, msg);
     ui_load_template("Snapshot", &SnapshotWindow, msg);
     ui_load_template("CPUJamBox", &CpuJamWindow, msg);
+    ui_load_template("SaveBox", &SaveBox, msg);
+    ui_load_template("ImageCont", &ImgContWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -3048,7 +3142,6 @@ int ui_init(int *argc, char *argv[])
 
   /* Misc */
 
-
   sprintf(EmuTitle, "%s (%s)", WimpTaskName, SymbolStrings[Symbol_Version]);
 
   wimp_window_write_title(EmuWindow, EmuTitle);
@@ -3058,6 +3151,16 @@ int ui_init(int *argc, char *argv[])
   MenuIconBar.item[Menu_IBar_Info].submenu = (RO_MenuHead*)(InfoWindow->Handle);
   MenuEmuWindow.item[Menu_EmuWin_Snapshot].submenu = (RO_MenuHead*)(SnapshotWindow->Handle);
   wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, "ViceSnap");
+  MenuRomAction.item[Menu_RomAct_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
+  MenuRomActName.item[0].iflags |= IFlg_Indir;
+  dat = &(MenuRomActName.item[0].dat.ind);
+  dat->tit = (int*)NewRomSetName; dat->val = (int*)-1; dat->len = sizeof(NewRomSetName);
+  NewRomSetName[0] = '\0';
+  MenuTrueSync.item[Menu_TrueSync_Custom].iflags |= IFlg_Indir;
+  dat = &(MenuTrueSync.item[Menu_TrueSync_Custom].dat.ind);
+  dat->tit = (int*)TrueSyncCustomField; dat->val = (int*)-1; dat->len = sizeof(TrueSyncCustomField);
+  TrueSyncCustomField[0] = '\0';
+  sprintf(ROMSetItemFile, "rset/"RSETARCH_EXT);
 
   EmuPaused = 0; LastCaret.WHandle = -1;
   SoundVolume = Sound_Volume(0);
@@ -3163,6 +3266,14 @@ int ui_init_finish(void)
     }
   }
 
+  ROMSetName = stralloc("Default");
+
+  if (sysfile_locate("romset/"RSETARCH_EXT, &ROMSetArchiveFile) == 0)
+  {
+    romset_load_archive(ROMSetArchiveFile, 0);
+    ui_build_romset_menu();
+  }
+
   atexit(ui_safe_exit);
 
   return 0;
@@ -3245,7 +3356,6 @@ static void ui_setup_config_window(int wnum)
       ui_setup_menu_display((disp_desc_t*)&MenuDisplaySpeedLimit);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplayRefresh);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplayDosName);
-      if (MenuDisplayROMSet == NULL) ui_build_romset_menu();
       if (MenuDisplayROMSet != NULL)
       {
         ui_setup_menu_disp_core((disp_desc_t*)MenuDisplayROMSet, ROMSetName);
@@ -3499,6 +3609,10 @@ static void ui_redraw_window(int *b)
       more = Wimp_GetRectangle(b);
     }
   }
+  else if (b[RedrawB_Handle] == ImgContWindow->Handle)
+  {
+    ui_image_contents_redraw(b);
+  }
   else
   {
     more = Wimp_RedrawWindow(b);
@@ -3541,6 +3655,10 @@ static void ui_close_window(int *b)
   if (b[WindowB_Handle] == EmuWindow->Handle)
   {
     ui_close_emu_window(b);
+  }
+  else if (b[WindowB_Handle] == ImgContWindow->Handle)
+  {
+    ui_image_contents_close();
   }
   else
   {
@@ -3743,6 +3861,27 @@ static void ui_mouse_click(int *b)
 
         if ((snapname = wimp_window_read_icon_text(SnapshotWindow, Icon_Snap_Path)) != NULL)
           ui_check_save_snapshot(snapname);
+      }
+    }
+  }
+  else if (b[MouseB_Window] == SaveBox->Handle)
+  {
+    if ((b[MouseB_Buttons] == 16) || (b[MouseB_Buttons] == 64))
+    {
+      if (b[MouseB_Icon] == Icon_Save_Sprite)
+      {
+        LastDrag = DRAG_TYPE_SAVEBOX;
+        wimp_drag_icon_sprite(SaveBox, b[MouseB_Icon], &ScreenMode, CMOS_DragType);
+      }
+    }
+    else if ((b[MouseB_Buttons] == 1) || (b[MouseB_Buttons] == 4))
+    {
+      if (b[MouseB_Icon] == Icon_Save_OK)
+      {
+        char *savename;
+
+        if ((savename = wimp_window_read_icon_text(SaveBox, Icon_Save_Path)) != NULL)
+          ui_check_save_sbox(savename);
       }
     }
   }
@@ -4084,6 +4223,8 @@ static void ui_user_drag_box(int *b)
       iconnum = Icon_Conf_FilePrPath; win = ConfWindows[CONF_WIN_DEVICES]; break;
     case DRAG_TYPE_SNAPSHOT:
       iconnum = Icon_Snap_Path; win = SnapshotWindow; break;
+    case DRAG_TYPE_SAVEBOX:
+      iconnum = Icon_Save_Path; win = SaveBox; break;
     default: break;
   }
 
@@ -4103,7 +4244,7 @@ static void ui_user_drag_box(int *b)
         if (h == ConfWindows[i]->Handle) {h = 0; break;}
       }
 
-      if ((h != EmuWindow->Handle) && (h != EmuPane->Handle) && /*(h != SoundWindow->Handle) &&*/
+      if ((h != EmuWindow->Handle) && (h != EmuPane->Handle) && (h != SaveBox->Handle) &&
           (h != 0))
       {
         char *name;
@@ -4224,6 +4365,15 @@ static void ui_key_press(int *b)
   }
   if (key == Key_Return)
   {
+    if (b[KeyPB_Window] == SaveBox->Handle)
+    {
+      char *savename;
+
+      if ((savename = wimp_window_read_icon_text(SaveBox, Icon_Save_Path)) != NULL)
+        ui_check_save_sbox(savename);
+      return;
+    }
+
     for (wnum=0; wnum < CONF_WIN_NUMBER; wnum++)
     {
       char *data;
@@ -4486,7 +4636,7 @@ static void ui_menu_selection(int *b)
   /* Configuration menu? */
   if (LastMenu >= 0x100)
   {
-    menu = (int*)(ConfigMenus[LastMenu-256].menu);
+    menu = (int*)(ConfigMenus[LastMenu - 0x100].menu);
 
     switch (LastMenu - 0x100)
     {
@@ -4695,10 +4845,51 @@ static void ui_menu_selection(int *b)
         if (MenuDisplayROMSet != NULL)
         {
           ui_set_menu_display_core((disp_desc_t*)MenuDisplayROMSet, set_romset_by_name, b[0]);
-          mem_romset_loader();
           ui_setup_menu_display((disp_desc_t*)&MenuDisplayDosName);
           ui_update_rom_names();
-          maincpu_trigger_reset();
+          /*maincpu_trigger_reset();*/
+        }
+        break;
+      case CONF_MENU_ROMACT:
+        switch (b[0])
+        {
+          case Menu_RomAct_Create:
+            if (b[1] != -1)
+            {
+              if (strlen(NewRomSetName) > 0)
+              {
+                romset_create_item(NewRomSetName, mem_romset_resources_list);
+                ui_build_romset_menu();
+                ui_setup_menu_display((disp_desc_t*)&MenuDisplayROMSet);
+              }
+            }
+            break;
+          case Menu_RomAct_Delete:
+            romset_delete_item(ROMSetName);
+            ui_build_romset_menu();
+            ui_setup_menu_display((disp_desc_t*)&MenuDisplayROMSet);
+            break;
+          case Menu_RomAct_Dump:
+            if (ROMSetArchiveFile != NULL)
+            {
+              romset_dump_archive(ROMSetArchiveFile);
+            }
+            break;
+          case Menu_RomAct_Clear:
+            romset_clear_archive();
+            ui_build_romset_menu();
+            ui_setup_menu_display((disp_desc_t*)&MenuDisplayROMSet);
+            break;
+          case Menu_RomAct_Restore:
+            romset_clear_archive();
+            if (ROMSetArchiveFile != NULL)
+            {
+              romset_load_archive(ROMSetArchiveFile, 0);
+            }
+            ui_build_romset_menu();
+            ui_setup_menu_display((disp_desc_t*)&MenuDisplayROMSet);
+            break;
+          default: break;
         }
         break;
       default:
@@ -4726,7 +4917,14 @@ static void ui_new_drive_image(int number, int *b, int activate)
   }
   else
   {
-    if (ui_set_drive_image(number, ((char*)b)+44) != 0) return;
+    if (ScanKeys(IntKey_Shift) == 0xff)
+    {
+      if (ui_set_drive_image(number, ((char*)b)+44) != 0) return;
+    }
+    else
+    {
+      ui_image_contents_disk(((char*)b)+44); return;
+    }
   }
   wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], ((char*)b)+44);
 }
@@ -4767,6 +4965,7 @@ static void ui_user_message(int *b)
 {
   int i;
   int action=0;
+  char *name = ((char*)b)+44;
 
   switch (b[MsgB_Action])
   {
@@ -4822,7 +5021,7 @@ static void ui_user_message(int *b)
         {
           FILE *fp;
 
-          if ((fp = fopen(((char*)b) + 44, "rb")) != NULL)
+          if ((fp = fopen(name, "rb")) != NULL)
           {
             BYTE lo, hi;
             int length;
@@ -4839,7 +5038,7 @@ static void ui_user_message(int *b)
         }
         else if (b[10] == FileType_Data)	/* Snapshot? */
         {
-          wimp_strcpy(((char*)SnapshotMessage)+44, ((char*)b)+44);
+          wimp_strcpy(((char*)SnapshotMessage)+44, name);
           maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
           action = 1; SnapshotPending = 1;
         }
@@ -4863,6 +5062,10 @@ static void ui_user_message(int *b)
           ui_new_drive_image(i, b, 1); action = 1;
         }
       }
+      else if (b[5] == ImgContWindow->Handle)
+      {
+        ui_image_contents_generic(name, b[10]); action = 1;
+      }
       else if (b[5] == ConfWindows[CONF_WIN_DRIVES]->Handle)
       {
         for (i=0; i<4; i++)
@@ -4876,11 +5079,18 @@ static void ui_user_message(int *b)
 
         if (b[6] == Icon_Conf_TapeFile)
         {
-          if (tape_attach_image(((char*)b)+44) == 0)
+          if (ScanKeys(IntKey_Shift) == 0xff)
           {
-            wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeFile, ((char*)b)+44);
-            wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, 0, IFlg_Grey);
-            action = 1;
+            if (tape_attach_image(name) == 0)
+            {
+              wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeFile, name);
+              wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, 0, IFlg_Grey);
+              action = 1;
+            }
+          }
+          else
+          {
+            ui_image_contents_tape(name);
           }
         }
       }
@@ -4888,12 +5098,12 @@ static void ui_user_message(int *b)
       {
         if (b[6] == Icon_Conf_CartFile)
         {
-          ui_set_cartridge_file(((char*)b)+44);
+          ui_set_cartridge_file(name);
           action = 1;
         }
         else if (b[6] == Icon_Conf_DosNameF)
         {
-          ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayDosName, (resource_value_t)(((char*)b)+44));
+          ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayDosName, (resource_value_t)ui_check_for_syspath(name));
           action = 1;
         }
         if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
@@ -4910,12 +5120,31 @@ static void ui_user_message(int *b)
           else if (b[10] == FileType_Text)
           {
             if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
+            /* Check extension */
+            else
+            {
+              char *d, *ext;
+
+              d = name; ext = d;
+              while (*d > ' ') {if (*d =='/') ext = d+1; d++;}
+              if (ext != name)
+              {
+                if (wimp_strcmp(ext, RSETARCH_EXT) == 0)
+                {
+                  romset_load_archive(name, 0);
+                  ui_build_romset_menu();
+                }
+              }
+            }
           }
           if (res != NULL)
           {
-            if (resources_set_value(res, (resource_value_t)(((char*)b)+44)) == 0)
+            char *filename;
+
+            filename = ui_check_for_syspath(name);
+            if (resources_set_value(res, (resource_value_t)filename) == 0)
             {
-              wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], ((char*)b)+44);
+              wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], filename);
               if (rom_changed != 0)
               {
                 mem_load(); maincpu_trigger_reset();
@@ -4956,21 +5185,24 @@ static void ui_user_message(int *b)
       {
         if (b[5] == EmuWindow->Handle)
         {
-          if (((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64)) || (b[10] == FileType_Data))
-          {
-            wimp_strcpy(((char*)b)+44, WimpScrapFile);
-            b[MsgB_Size] = 44 + ((wimp_strlen(((char*)b)+44) + 4) & ~3);
-            WimpScrapUsed = 1;
-            b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataSaveAck;
-            Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
-          }
+          if (((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64)) || (b[10] == FileType_Data)) action = 1;
+        }
+        else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
+        {
+          if ((b[10] == FileType_Data) || (b[10] == FileType_Text)) action = 1;
+        }
+        if (action != 0)
+        {
+          wimp_strcpy(name, WimpScrapFile);
+          b[MsgB_Size] = 44 + ((wimp_strlen(name) + 4) & ~3);
+          WimpScrapUsed = 1;
+          b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataSaveAck;
+          Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
         }
       }
       break;
     case Message_DataSaveAck:
       {
-        char *name = ((char*)b)+44;
-
         switch (LastDrag)
         {
           case DRAG_TYPE_SOUND:
@@ -4987,10 +5219,26 @@ static void ui_user_message(int *b)
               Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
             }
             break;
+          case DRAG_TYPE_SAVEBOX:
+            if ((ROMSetName != NULL) && (romset_save_item(name, ROMSetName) == 0))
+            {
+              wimp_strcpy(ROMSetItemFile, name);
+              b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+              Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+              Wimp_CreateMenu((int*)-1, 0, 0);
+            }
+            break;
           default: break;
         }
         LastDrag = DRAG_TYPE_NONE;
       }
+      break;
+    case Message_MenuWarning:
+      if (LastMenu == CONF_MENU_ROMACT + 0x100)
+      {
+        wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ROMSetItemFile);
+      }
+      Wimp_CreateSubMenu((int*)(b[5]), b[6], b[7]);
       break;
     default: break;
   }
@@ -5116,16 +5364,18 @@ void ui_poll(void)
 
   if ((now - LastPoll) >= PollEvery)
   {
+    int event;
+
     WithinUiPoll++;	/* Allow for nested calls */
 
     LastPoll = now;
 
     do
     {
-      ui_poll_core(WimpBlock);
+      event = ui_poll_core(WimpBlock);
     }
     /* A pending snapshot must unpause the emulator for a little */
-    while ((EmuPaused != 0) && (SnapshotPending == 0));
+    while ((EmuPaused != 0) && (SnapshotPending == 0) && (event != WimpEvt_Null));
 
     if (--WithinUiPoll == 0)
     {
@@ -5270,6 +5520,7 @@ void ui_exit(void)
   machine_shutdown();
   video_free();
   sound_close();
+  ui_image_contents_exit();
   log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
   wimp_icon_delete(&IBarIcon);
   Wimp_CloseDown(TaskHandle, TASK_WORD);

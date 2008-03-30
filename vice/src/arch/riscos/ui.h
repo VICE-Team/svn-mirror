@@ -95,8 +95,7 @@ extern RO_Screen ScreenMode;
 
 extern RO_Window *EmuWindow;
 extern RO_Window *EmuPane;
-extern RO_Window *ConfigWindow;
-extern RO_Window *SoundWindow;
+extern RO_Window *ImgContWindow;
 extern RO_Caret LastCaret;
 
 extern int EmuZoom;

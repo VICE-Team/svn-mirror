@@ -13,7 +13,6 @@ noinst_LIBRARIES = libc128.a
 libc128_a_SOURCES = \
 	c128.c \
 	c128.h \
-	c128cia1.def \
 	c128cia1.c \
 	c128cpu.c \
 	c128iec.c \
@@ -22,15 +21,7 @@ libc128_a_SOURCES = \
 	vdc.c \
 	vdc.h
 
-BUILT_SOURCES = c128cia1.c
+BUILT_SOURCES = 
 
 c128dir = $(top_srcdir)/src/c128
-
-c128cia1.c: c128cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c128cia1.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/cia-tmpl.c \
-	       	   $(c128dir)/c128cia1.def $(c128dir)/c128cia1.c; \
-           fi )
 

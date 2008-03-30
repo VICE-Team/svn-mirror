@@ -38,6 +38,10 @@
 #include "vdrive.h"
 #include "zfile.h"
 
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 image_contents_t *image_contents_new(void)
@@ -98,7 +102,7 @@ char *image_contents_to_string(image_contents_t *contents)
 
         name_len = strlen((char *)p->name);
         if (name_len < IMAGE_CONTENTS_FILE_NAME_LEN)
-            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN 
+            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN
                            - strlen((char *)p->name));
         BUFCAT((char *)p->type, strlen((char *)p->type));
     }
@@ -291,7 +295,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                         new_list->name[i] = p[SLOT_NAME_OFFSET + i];
                 }
                 new_list->name[i] = 0;
-                
+
                 sprintf ((char *)new_list->type, "%c%s%c",
                          (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
                          slot_type[p[SLOT_TYPE_OFFSET] & 0x07],

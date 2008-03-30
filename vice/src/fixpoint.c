@@ -36,7 +36,7 @@
 #ifdef FIXPOINT_ARITHMETIC
 
 #ifdef INLINE_FIXPOINT_FUNCTIONS
-#define FUNC_INLINE_STATEMENTstatic inline
+#define FUNC_INLINE_STATEMENT	static inline
 #else
 #define FUNC_INLINE_STATEMENT
 #endif

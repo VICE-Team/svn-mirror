@@ -442,7 +442,7 @@ void romset_clear_archive(void)
             free(last->name); free(last);
         }
     }
-    if (romsets != NULL) free(romsets);
+    if (romsets != NULL) {free(romsets); romsets = NULL;}
 
     num_romsets = 0; array_size = 0;
 }

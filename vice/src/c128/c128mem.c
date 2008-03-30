@@ -1208,9 +1208,6 @@ void initialize_memory(void)
     }
 
     for (i = 0xc0; i <= 0xcf; i++) {
-        mem_read_tab[j][i] = read_editor;
-        mem_write_tab[j][i] = store_editor;
-
         mem_read_tab[0][i] = read_ram;
         mem_read_tab[1][i] = read_ram;
         mem_read_tab[2][i] = read_ram;

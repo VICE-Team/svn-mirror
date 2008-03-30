@@ -79,28 +79,9 @@
 #define	CYCLES_PER_SEC 	1000000
 #endif
 
-/* The next two defines are the standard use of the chips. However,
-   they can be overriden by a define from the .def file. That's where
-   these defs should actually go in the first place. This here is not
-   the best solution, but at the moment it's better than editing 9+
-   .def files only to find it's slower... However, putting them in the
-   .def files would allow making those functions static inline, which
-   should be better. But is it as fast? */
+#if defined(CIA_TIMER_DEBUG) || defined(CIA_IO_DEBUG)
+int mycia_debugFlag = 0;
 
-#if 0
-/* Fallback for "normal" use of the chip. In real operation the interrupt
-   number can be replaced with the known constant I_ciaFL (see 
-   cia_restore_int() below. */
-#ifndef cia_set_int_clk
-#define	cia_set_int_clk(value,num,clk)					\
-		set_int(&mycpu_int_status,(num),(value),(clk))
-#endif
-
-/* Fallback for "normal" use of the chip. */
-#ifndef cia_restore_int
-#define	cia_restore_int(value)					\
-		set_int_noclk(&mycpu_int_status,(I_ciaFL),(value))
-#endif
 #endif
 
 /* The following is an attempt in rewriting the interrupt defines into 
@@ -108,15 +89,15 @@
    define below, to be able to compare speeds. 
    The semantics of the call has changed, the interrupt number is
    not needed anymore (because it's known to my_set_int(). Actually
-   one could also remove MYCIA_INT as it is also know... */
+   one could also remove MYCIA_INT as it is also known... */
 
 /* new semantics and as inline function, value can be replaced by 0/1 */
 static inline void my_set_int(int value, CLOCK rclk)
 {
-#ifdef cia_TIMER_DEBUG
-    if(cia_debugFlag) {
-        log_message(cia_log, "set_int(rclk=%d, int=%d, d=%d pc=).",
-           rclk,(int_num),(value));
+#ifdef CIA_TIMER_DEBUG
+    if(mycia_debugFlag) {
+        log_message(cia_log, "set_int(rclk=%d, d=%d pc=).",
+           rclk,(value));
     }
 #endif
     if ((value)) {
@@ -180,11 +161,6 @@ static inline void update_tbi(CLOCK rclk)
     }
 }
 
-#if defined(cia_TIMER_DEBUG) || defined(cia_IO_DEBUG)
-static int cia_debugFlag = 0;
-
-#endif
-
 
 /* ------------------------------------------------------------------------- */
 /* cia */
@@ -194,7 +170,7 @@ inline static void check_ciatodalarm(CLOCK rclk)
 {
     if (!memcmp(ciatodalarm, cia + CIA_TOD_TEN, sizeof(ciatodalarm))) {
 	ciaint |= CIA_IM_TOD;
-	if (cia[CIA_ICR] & CIA_IM_TOD) {
+	if (ciaier & CIA_IM_TOD) {
             my_set_int(MYCIA_INT, myclk);
 	}
     }
@@ -208,8 +184,8 @@ static int update_cia(CLOCK rclk)
     /* Tick when we virtually added an interrupt flag first. */
     CLOCK added_int_clk = (ciaint & 0x80) ? rclk - 3 : CLOCK_MAX;
 
-#ifdef cia_TIMER_DEBUG
-    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+    if (mycia_debugFlag)
 	log_message(cia_log, "update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
 	       rclk, cia_tas, cia_tau, cia_tal);
 #endif
@@ -259,8 +235,8 @@ static int update_cia(CLOCK rclk)
             ciaint |= CIA_IM_TA;
 	}
     }
-#ifdef cia_TIMER_DEBUG
-    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+    if (mycia_debugFlag)
 	log_message(cia_log, "aic=%d, tac-> %u, tau-> %d tmp=%u",
                     added_int_clk, cia_tac, cia_tau, tmp);
 #endif
@@ -311,8 +287,8 @@ static int update_cia(CLOCK rclk)
 	cia_tbp = cia_tbc ? 0 : 1;
     }
 
-#ifdef cia_TIMER_DEBUG
-    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+    if (mycia_debugFlag)
 	log_message(cia_log, "tbc-> %u, tbu-> %d, int %02x ->",
 	       cia_tbc, cia_tbu, ciaint);
 #endif
@@ -328,8 +304,8 @@ static int update_cia(CLOCK rclk)
 	} else {
 	    if (added_int_clk == ciardi) {
 		ciaint &= 0x7f;
-#ifdef cia_TIMER_DEBUG
-		if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+		if (mycia_debugFlag)
 		    log_message(cia_log, "TA Reading ICR at rclk=%d prevented IRQ.",
 			   rclk);
 #endif
@@ -341,8 +317,8 @@ static int update_cia(CLOCK rclk)
 	    }
 	}
     }
-#ifdef cia_TIMER_DEBUG
-    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+    if (mycia_debugFlag)
 	log_message(cia_log, "%02x.", ciaint);
 #endif
 
@@ -367,7 +343,7 @@ void reset_mycia(void)
     int i;
 
     if (cia_log == LOG_ERR)
-        cia_log = log_open("cia");
+        cia_log = log_open(MYCIA_NAME);
 
     ciatodticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
@@ -413,8 +389,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
     rclk = myclk - STORE_OFFSET;
 
-#ifdef cia_TIMER_DEBUG
-    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+    if (mycia_debugFlag)
 	log_message(cia_log, "store cia[%02x] %02x @ clk=%d",
                     (int) addr, (int) byte, rclk);
 #endif
@@ -425,7 +401,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_DDRA:
 	cia[addr] = byte;
 	byte = cia[CIA_PRA] | ~cia[CIA_DDRA];
-	store_ciapa(rclk, byte);
+	store_ciapa(addr, rclk, byte);
 	oldpa = byte;
 	break;
 
@@ -446,7 +422,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		    byte |= 0x80;
 	    }
 	}
-	store_ciapb(rclk, byte);
+	store_ciapb(addr, rclk, byte);
 	oldpb = byte;
 	break;
 
@@ -546,8 +522,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 	        ciasr_bits += 16;
 
-#if defined (cia_TIMER_DEBUG)
-	        if (cia_debugFlag)
+#if defined (CIA_TIMER_DEBUG)
+	        if (mycia_debugFlag)
 	    	    log_message(cia_log, "start SDR rclk=%d.", rclk);
 #endif
   	    }
@@ -559,8 +535,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_ICR:		/* Interrupt Control Register */
 	update_cia(rclk);
 
-#if defined (cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined (CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log, "cia set CIA_ICR: 0x%x.", byte);
 #endif
 
@@ -571,8 +547,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	}
 
 	/* This must actually be delayed one cycle! */
-#if defined(cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x.",
                         ciaier & ciaint & 0x7f, ciaint);
 #endif
@@ -593,8 +569,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_CRA:		/* control register A */
 	update_tai(rclk); /* schedule alarm in case latch value is changed */
 	update_cia(rclk);
-#if defined (cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined (CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log, "cia set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u).",
 		   byte, rclk, /*program_counter,*/ cia_tal, cia_tac);
 #endif
@@ -636,8 +612,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		my_unset_tai();
 	    }
 	}
-#if defined (cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined (CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log, "    -> tas=%d, tau=%d.", cia_tas, cia_tau);
 #endif
 	cia[addr] = byte & 0xef;	/* remove strobe */
@@ -648,8 +624,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	update_tbi(rclk); /* schedule alarm in case latch value is changed */
 	update_cia(rclk);
 
-#if defined (cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined (CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log, "cia set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u).",
 		   byte, rclk, cia_tbl, cia_tbc);
 #endif
@@ -661,8 +637,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	    cia_tbc = cia_tbl;
 	    if (cia_tbs == CIAT_RUNNING) {
 		cia_tbu = rclk + cia_tbc + 2;
-#if defined(cia_TIMER_DEBUG)
-		if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+		if (mycia_debugFlag)
 		    log_message(cia_log, "rclk=%d force load: set tbu alarm to %d.", rclk, cia_tbu);
 #endif
 		my_set_tbi_clk(cia_tbu + 1);
@@ -678,15 +654,15 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	if ((byte ^ cia[addr]) & 0x61) {
 	    if ((byte & 0x61) == 0x01) {	/* timer just started */
 		cia_tbu = rclk + (cia_tbc + 1) + ((byte & 0x10) >> 4);
-#if defined(cia_TIMER_DEBUG)
-		if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+		if (mycia_debugFlag)
 		    log_message(cia_log, "rclk=%d start timer: set tbu alarm to %d.", rclk, cia_tbu);
 #endif
 		my_set_tbi_clk(cia_tbu + 1);
 		cia_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
-#if defined(cia_TIMER_DEBUG)
-		if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+		if (mycia_debugFlag)
 		    log_message(cia_log, "rclk=%d stop timer: set tbu alarm.", rclk);
 #endif
 		my_unset_tbi();
@@ -726,12 +702,12 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 BYTE REGPARM1 read_mycia(ADDRESS addr)
 {
 
-#if defined( cia_TIMER_DEBUG )
+#if defined( CIA_TIMER_DEBUG )
 
     BYTE read_cia_(ADDRESS addr);
     BYTE tmp = read_cia_(addr);
 
-    if (cia_debugFlag)
+    if (mycia_debugFlag)
 	log_message(cia_log, "read cia[%x] returns %02x @ clk=%d.",
                     addr, tmp, myclk - READ_OFFSET);
     return tmp;
@@ -826,13 +802,12 @@ BYTE read_cia_(ADDRESS addr)
 	{
 	    BYTE t = 0;
 
-	    READ_CIAICR
+	    read_ciaicr();
 
-#ifdef cia_TIMER_DEBUG
-	    if (cia_debugFlag)
-		log_message(cia_log, "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d",
-			rclk, mycpu_int_status.alarm_clk[A_ciaTA],
-			mycpu_int_status.alarm_clk[A_ciaTB]);
+#ifdef CIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
+		log_message(cia_log, "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
+			rclk, cia_tai, cia_tbi, (int)ciaint);
 #endif
 
 	    ciardi = rclk;
@@ -844,13 +819,13 @@ BYTE read_cia_(ADDRESS addr)
             if (rclk >= cia_tbi)
                 int_ciatb(rclk - cia_tbi);
 
-	    ciaint |= t;	/* some bits can be set -> or with old value */
+	    ciaint |= t;	/* some bits can be set -> OR with old value */
 
 	    update_cia(rclk);
-	    t = ciaint | ciaflag;
+	    t = ciaint;
 
-#ifdef cia_TIMER_DEBUG
-	    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "read intfl gives ciaint=%02x -> %02x "
                             "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
@@ -859,7 +834,6 @@ BYTE read_cia_(ADDRESS addr)
                             cia_tbc);
 #endif
 
-	    ciaflag = 0;
 	    ciaint = 0;
 	    my_set_int(0, rclk);
 
@@ -911,13 +885,12 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 	{
 	    BYTE t = 0;
 
-	    READ_CIAICR
-#ifdef cia_TIMER_DEBUG
-	    if (cia_debugFlag)
+	    read_ciaicr();
+#ifdef CIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d.",
-                            rclk, mycpu_int_status.alarm_clk[A_ciaTA],
-                            mycpu_int_status.alarm_clk[A_ciaTB]);
+                            rclk, cia_tai, cia_tbi);
 #endif
 
 	    /* ciardi = rclk; makes int_* and update_cia fiddle with IRQ */
@@ -932,10 +905,10 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 	    ciaint |= t;	/* some bits can be set -> or with old value */
 
 	    update_cia(rclk);
-	    t = ciaint | ciaflag;
+	    t = ciaint;
 
-#ifdef cia_TIMER_DEBUG
-	    if (cia_debugFlag)
+#ifdef CIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "read intfl gives ciaint=%02x -> %02x "
                             "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
@@ -945,7 +918,6 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 #endif
 
 /*
-	    ciaflag = 0;
 	    ciaint = 0;
 	    my_set_int(0, rclk);
 */
@@ -964,8 +936,8 @@ static int int_ciata(long offset)
 {
     CLOCK rclk = myclk - offset;
 
-#if defined(cia_TIMER_DEBUG)
-    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+    if (mycia_debugFlag)
 	log_message(cia_log,
                     "int_ciata(rclk = %u, tal = %u, cra=%02x.",
                     rclk, cia_tal, cia[CIA_CRA]);
@@ -995,8 +967,8 @@ static int int_ciata(long offset)
 
     if (cia[CIA_CRA] & 0x40) {
 	if (ciasr_bits) {
-#if defined(cia_TIMER_DEBUG)
-	    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	    if (mycia_debugFlag)
 		log_message(cia_log, "rclk=%d SDR: timer A underflow, bits=%d",
 		       rclk, ciasr_bits);
 #endif
@@ -1012,8 +984,8 @@ static int int_ciata(long offset)
 	if (!cia_tbc) {
 	    cia_tbc = cia_tbl;
 	    cia_tbu = rclk;
-#if defined(cia_TIMER_DEBUG)
-	    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "timer B underflow when counting timer A occured, rclk=%d!", rclk);
 #endif
@@ -1050,8 +1022,8 @@ static int int_ciatb(long offset)
 {
     CLOCK rclk = myclk - offset;
 
-#if defined(cia_TIMER_DEBUG)
-    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+    if (mycia_debugFlag)
 	log_message(cia_log,
                     "timer B int_ciatb(rclk=%d, tbs=%d).", rclk, cia_tbs);
 #endif
@@ -1061,8 +1033,8 @@ static int int_ciatb(long offset)
     /* running and continous, then next alarm */
     if (cia_tbs == CIAT_RUNNING) {
 	if (!(cia[CIA_CRB] & 8)) {
-#if defined(cia_TIMER_DEBUG)
-	    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "rclk=%d ciatb: set tbu alarm to %d.",
                             rclk, rclk + cia_tbl + 1);
@@ -1085,8 +1057,8 @@ static int int_ciatb(long offset)
 	    cia[CIA_CRB] &= 0xfe; /* clear start bit */
 	    cia_tbu = 0;
 #endif /* 0 */
-#if defined(cia_TIMER_DEBUG)
-	    if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	    if (mycia_debugFlag)
 		log_message(cia_log,
                             "rclk=%d ciatb: unset tbu alarm.", rclk);
 #endif
@@ -1102,8 +1074,8 @@ static int int_ciatb(long offset)
 	}
 	cia_tbu = 0;
 	my_unset_tbi();
-#if defined(cia_TIMER_DEBUG)
-	if (cia_debugFlag)
+#if defined(CIA_TIMER_DEBUG)
+	if (mycia_debugFlag)
 	    log_message(cia_log,
                         "rclk=%d ciatb: unset tbu alarm.", rclk);
 #endif
@@ -1124,7 +1096,7 @@ static int int_ciatb(long offset)
 void mycia_set_flag(void)
 {
     ciaint |= CIA_IM_FLG;
-    if (cia[CIA_ICR] & CIA_IM_FLG) {
+    if (ciaier & CIA_IM_FLG) {
         my_set_int(MYCIA_INT, myclk);
     }
 }
@@ -1133,7 +1105,7 @@ void mycia_set_sdr(BYTE data)
 {
     cia[CIA_SDR] = data;
     ciaint |= CIA_IM_SDR;
-    if (cia[CIA_ICR] & CIA_IM_SDR) {
+    if (ciaier & CIA_IM_SDR) {
         my_set_int(MYCIA_INT, myclk);
     }
 }
@@ -1146,7 +1118,7 @@ static int int_ciatod(long offset)
     CLOCK rclk = myclk - offset;
 
 #ifdef DEBUG
-    if (cia_debugFlag)
+    if (mycia_debugFlag)
 	log_message(cia_log,
                     "TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x.",
                     cia[CIA_TOD_HR], cia[CIA_TOD_MIN], cia[CIA_TOD_SEC],
@@ -1181,7 +1153,7 @@ static int int_ciatod(long offset)
 	    }
 	}
 #ifdef DEBUG
-	if (cia_debugFlag)
+	if (mycia_debugFlag)
 	    log_message(cia_log,
                         "TOD after event :tod=%02x:%02x,%02x.%x.",
                         cia[CIA_TOD_HR], cia[CIA_TOD_MIN], cia[CIA_TOD_SEC],
@@ -1303,7 +1275,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, cia[CIA_TOD_MIN]);
     snapshot_module_write_byte(m, cia[CIA_TOD_HR]);
     snapshot_module_write_byte(m, cia[CIA_SDR]);
-    snapshot_module_write_byte(m, cia[CIA_ICR]);
+    snapshot_module_write_byte(m, ciaier);
     snapshot_module_write_byte(m, cia[CIA_CRA]);
     snapshot_module_write_byte(m, cia[CIA_CRB]);
 
@@ -1406,7 +1378,7 @@ int mycia_read_snapshot_module(snapshot_t *p)
     {
 	store_sdr(cia[CIA_SDR]);
     }
-    snapshot_module_read_byte(m, &cia[CIA_ICR]);
+    snapshot_module_read_byte(m, &ciaier);
     snapshot_module_read_byte(m, &cia[CIA_CRA]);
     snapshot_module_read_byte(m, &cia[CIA_CRB]);
 
@@ -1492,7 +1464,7 @@ log_message(cia_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia_tai, cia_tau, cia_
 log_message(cia_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia_tbi, cia_tbu, cia_tbc, cia_tbl);
 #endif
 
-    if (cia[CIA_ICR] & 0x80) {
+    if (ciaier & 0x80) {
         cia_restore_int(MYCIA_INT);
     } else {
         cia_restore_int(0);

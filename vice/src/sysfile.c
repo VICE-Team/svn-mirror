@@ -81,18 +81,18 @@ static int set_system_path(resource_value_t v)
 	    if (expanded_system_path == NULL) {
 	        s = concat(tmp_path, NULL );	/* concat allocs a new str. */
 	    } else {
-	        s = concat(expanded_system_path, 
-			FINDPATH_SEPARATOR_STRING, 
+	        s = concat(expanded_system_path,
+			FINDPATH_SEPARATOR_STRING,
 			tmp_path, NULL );
 	    }
 	} else {				/* relative path */
 	    if (expanded_system_path == NULL) {
-	        s = concat(current_dir, 
+	        s = concat(current_dir,
 			FSDEV_DIR_SEP_STR,
 			tmp_path, NULL );
 	    } else {
-	        s = concat(expanded_system_path, 
-			FINDPATH_SEPARATOR_STRING, 
+	        s = concat(expanded_system_path,
+			FINDPATH_SEPARATOR_STRING,
 			current_dir,
 			FSDEV_DIR_SEP_STR,
 			tmp_path, NULL );
@@ -103,7 +103,7 @@ static int set_system_path(resource_value_t v)
 
 	tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
     } while(p!=NULL);
-    
+
     /* printf("p='%s'\nexp_p='%s'\n",p, expanded_system_path); */
 
     free(current_dir);
@@ -172,10 +172,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
         return fopen(name, "r");
     }
 
-    f = archdep_open_romset_file(name, complete_path_return);
-    if (f != NULL)
-        return f;
-
+    f = NULL;
     sprintf(buffer, "%s%s",default_path, name);
     if (access(buffer, R_OK))
     {

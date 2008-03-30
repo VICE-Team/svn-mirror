@@ -17,7 +17,6 @@ libcbm2_a_SOURCES = \
 	c610acia1.c \
 	c610cia.h \
 	c610cia1.c \
-	c610cia1.def \
 	c610cpu.c \
 	c610datasette.c \
 	c610iec.c \
@@ -29,7 +28,7 @@ libcbm2_a_SOURCES = \
 	c610tpi2.c \
 	c610tpi2.def
 
-BUILT_SOURCES = c610tpi1.c c610tpi2.c c610cia1.c  
+BUILT_SOURCES = c610tpi1.c c610tpi2.c 
 
 c610dir = $(top_srcdir)/src/cbm2
 
@@ -47,13 +46,5 @@ c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/tpi-tmpl.c \
 	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
-	   fi )
-
-c610cia1.c: c610cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610cia1.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/cia-tmpl.c \
-	           $(c610dir)/c610cia1.def $(c610dir)/c610cia1.c; \
 	   fi )
 

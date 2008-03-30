@@ -28,6 +28,9 @@
 
 #include "ciacore.h"
 
+/* set mycia_debugFlag to 1 to get output */
+#undef CIA_TIMER_DEBUG
+
 /*************************************************************************
  * Renaming exported functions
  */
@@ -42,6 +45,9 @@
 #define mycia_set_sdr cia1_set_sdr
 #define mycia_write_snapshot_module cia1_write_snapshot_module
 #define mycia_read_snapshot_module cia1_read_snapshot_module
+#define mycia_debugFlag cia1_debugFlag
+
+#define	MYCIA_NAME "CIA1"
 
 /*************************************************************************
  * CPU binding 
@@ -75,6 +81,7 @@
 #include "rsuser.h"
 #endif
 
+
 /* Flag: Are the 3 C128 extended rows enabled?  */
 static int extended_keyboard_rows_enabled;
 
@@ -101,7 +108,7 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
     vic_ii_handle_pending_alarms(0);
 
 static inline void do_reset_cia(void) {}
-static inline void store_ciapa(CLOCK rclk, BYTE b) {}
+static inline void store_ciapa(ADDRESS addr, CLOCK rclk, BYTE b) {}
 static inline void undump_ciapa(CLOCK rclk, BYTE b) {}
 
 static inline void store_sdr(BYTE byte)
@@ -113,7 +120,7 @@ static inline void store_sdr(BYTE byte)
 #endif
 }
 
-static inline void store_ciapb(CLOCK rclk, BYTE byte)
+static inline void store_ciapb(ADDRESS addr, CLOCK rclk, BYTE byte)
 {
     {
 	/* Handle software-triggered light pen.  */
@@ -167,7 +174,7 @@ static inline BYTE read_ciapb(void)
     return byte;
 }
 
-#define READ_CIAICR
+static inline void read_ciaicr(void) {};
 
 #include "ciacore.c"
 
