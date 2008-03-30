@@ -78,6 +78,10 @@ static short kbd_lshiftcol = 0;
 static short kbd_rshiftrow = 0;
 static short kbd_rshiftcol = 0;
 
+/* Right control status (used to filter out keypresses when right control is
+   pressed).  */
+static int right_control_count = 0;
+
 static int joypad_bits[10] = {
     0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
 };
@@ -248,17 +252,28 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     switch (report->type) {
 
       case KeyPress:
+
+#ifdef DEBUG_KBD
+        printf("KeyPress %s\n", XKeysymToString(key));
+#endif
+
 	if (use_keypad[0] && check_set_joykeys(key, 0))
             break;
 	if (use_keypad[1] && check_set_joykeys(key, 1))
             break;
 
-	for (i = 0; keyconvmap[i].sym != 0; ++i) {
-	    if (key == keyconvmap[i].sym) {
-		int row = keyconvmap[i].row;
-		int column = keyconvmap[i].column;
+        if (key == XK_Control_R)
+            right_control_count++;
 
-		if (row >= 0) {
+        if (right_control_count != 0)
+            break;
+
+        for (i = 0; keyconvmap[i].sym != 0; ++i) {
+            if (key == keyconvmap[i].sym) {
+                int row = keyconvmap[i].row;
+                int column = keyconvmap[i].column;
+
+                if (row >= 0) {
                     set_keyarr(row, column, 1);
 
                     if (keyconvmap[i].shift == NO_SHIFT) {
@@ -277,12 +292,17 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                             set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
                     }
                     break;
-		}
-	    }
-	}
+                }
+            }
+        }
 	break;			/* KeyPress */
 
       case KeyRelease:
+
+#ifdef DEBUG_KBD
+        printf("KeyRelease %s\n", XKeysymToString(key));
+#endif
+
 	if (IsModifierKey(key)) {
 	    /* FIXME: This is a dirty kludge.  X11 can sometimes give the
                KeyPress event with the shifted KeySym, and the KeyRelease one
@@ -301,15 +321,23 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
-	if (use_keypad[0] && check_clr_joykeys(key, 0)) break;
-	if (use_keypad[1] && check_clr_joykeys(key, 1)) break;
+        if (key == XK_Control_R)
+            right_control_count--;
 
-	for (i = 0; keyconvmap[i].sym != 0; i++) {
-	    if (key == keyconvmap[i].sym) {
-		int row = keyconvmap[i].row;
-		int column = keyconvmap[i].column;
+        if (right_control_count != 0)
+            break;
 
-		if (row >= 0) {
+	if (use_keypad[0] && check_clr_joykeys(key, 0))
+            break;
+	if (use_keypad[1] && check_clr_joykeys(key, 1))
+            break;
+
+        for (i = 0; keyconvmap[i].sym != 0; i++) {
+            if (key == keyconvmap[i].sym) {
+                int row = keyconvmap[i].row;
+                int column = keyconvmap[i].column;
+
+                if (row >= 0) {
                     set_keyarr(row, column, 0);
                     if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                         virtual_shift_down--;
@@ -317,9 +345,9 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                         left_shift_down--;
                     if (keyconvmap[i].shift & RIGHT_SHIFT)
                         right_shift_down--;
-		}
-	    }
-	}
+                }
+            }
+        }
 
 	/* Map shift keys. */
 	if (right_shift_down > 0)
@@ -339,6 +367,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	memset(joy, 0, sizeof(joy));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
 	memset(joypad_status, 0, sizeof(joypad_status));
+        right_control_count = 0;
 	break;			/* LeaveNotify */
 
       default:
