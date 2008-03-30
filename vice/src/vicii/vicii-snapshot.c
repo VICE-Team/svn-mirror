@@ -29,9 +29,10 @@
 
 #include "mem.h"
 #include "types.h"
-#include "vicii.h"
 #include "vicii-snapshot.h"
 #include "vicii-sprites.h"
+#include "vicii.h"
+#include "viciitypes.h"
 
 
 
@@ -143,7 +144,7 @@ vic_ii_snapshot_write_module (snapshot_t *s)
 
   if (0
       || snapshot_module_write_dword (m, vic_ii.fetch_clk - clk) < 0    /* FetchEventTick */
-      || snapshot_module_write_byte (m, vic_ii.fetch_idx) < 0   /* FetchEventType */
+      || snapshot_module_write_byte (m, (BYTE)vic_ii.fetch_idx) < 0   /* FetchEventType */
     )
     goto fail;
 
@@ -180,7 +181,7 @@ read_word_into_int (snapshot_module_t *m, int *value_return)
   *value_return = (int) b;
   return 0;
 }
-
+int otto[64];
 int 
 vic_ii_snapshot_read_module (snapshot_t *s)
 {
@@ -257,6 +258,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
     if (read_byte_into_int (m, &vic_ii.regs[i]) < 0 /* Registers */ )
       goto fail;
 
+
   if (0
       || snapshot_module_read_byte (m, &vic_ii.sprite_background_collisions) < 0 /* SbCollMask */
       || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status.dma_msk) < 0 /* SpriteDmaMask */
@@ -313,6 +315,8 @@ vic_ii_snapshot_read_module (snapshot_t *s)
                                   & msk);
       }
   }
+
+  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status.new_dma_msk;
 
   vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
   vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
@@ -393,11 +397,12 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
     vic_ii.fetch_clk = clk + dw;
     vic_ii.fetch_idx = b;
+
     alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
   }
 
   if (vic_ii.irq_status & 0x80)
-    set_int_noclk (&maincpu_int_status, I_RASTER, 1);
+    interrupt_set_int_noclk (&maincpu_int_status, I_RASTER, 1);
 
   raster_force_repaint (&vic_ii.raster);
   return 0;

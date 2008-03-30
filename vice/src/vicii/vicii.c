@@ -58,7 +58,7 @@
 #include <stdio.h>
 
 #include "alarm.h"
-#include "c64cart.h"
+#include "c64.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -80,6 +80,15 @@
 
 
 vic_ii_t vic_ii;
+
+/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
+extern int ultimax;
+
+/* Exansion port ROML/ROMH images.  */
+extern BYTE roml_banks[], romh_banks[];
+
+/* Expansion port ROML/ROMH/RAM banking.  */
+extern int roml_bank, romh_bank, export_ram;
 
 
 
@@ -375,8 +384,8 @@ vic_ii_init_cmdline_options (void)
 
 
 /* Initialize the VIC-II emulation.  */
-canvas_t 
-vic_ii_init (void)
+void 
+*vic_ii_init (void)
 {
   vic_ii.log = log_open ("VIC-II");
 
@@ -421,7 +430,7 @@ vic_ii_init (void)
     /* Safety measure.  */
     log_error (vic_ii.log, "Trying to override clk base!?  Code is broken.");
 
-  return vic_ii.raster.viewport.canvas;
+  return (void *)vic_ii.raster.viewport.canvas;
 }
 
 /* Reset the VIC-II chip.  */
@@ -1467,6 +1476,11 @@ vic_ii_read_snapshot_module (snapshot_t *s)
 }
 
 
+
+void vic_ii_handle_pending_alarms_external(int num_write_cycles)
+{
+    vic_ii_handle_pending_alarms(num_write_cycles);
+}
 
 /* FIXME: Just a dummy.  */
 void 
