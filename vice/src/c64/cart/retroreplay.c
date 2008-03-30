@@ -293,7 +293,7 @@ void retroreplay_config_setup(BYTE *rawcart)
 int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x10000,
-        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+        UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
         return -1;
 
     return 0;

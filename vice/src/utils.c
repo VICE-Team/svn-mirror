@@ -386,8 +386,8 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
                    unsigned int load_flag)
 {
     FILE *fd;
-    size_t r, length;
-    BYTE tmpbuf[2];
+    size_t i, length, r = 0;
+    long start = 0;
 
     if (util_check_null_string(name)) {
         log_error(LOG_ERR, "No file name given for load_file().");
@@ -399,18 +399,31 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
     if (fd == NULL)
         return -1;
 
-    if (load_flag & UTIL_FILE_LOAD_SKIP_ADDRESS) {
-        length = util_file_length(fd);
-        if (length & 2) {
-            r = fread((void *)tmpbuf, 2, 1, fd);
-            if (r < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
+    length = util_file_length(fd);
+
+    if ((load_flag & UTIL_FILE_LOAD_SKIP_ADDRESS) && (length & 2)) {
+        start = 2;
+        length -= 2;
     }
 
-    r = fread((void *)dest, size, 1, fd);
+    if (length > size) {
+        fclose(fd);
+        return -1;
+    }
+
+    if ((load_flag & UTIL_FILE_LOAD_FILL) == 0 && length != size) {
+        fclose(fd);
+        return -1;
+    }
+
+    for (i = 0; i < size; i += length) {
+        fseek(fd, start, SEEK_SET);
+        if (i + length > size)
+            break;
+        r = fread((void *)&(dest[i]), length, 1, fd);
+        if (r < 1)
+            break;
+    }
 
     fclose(fd);
 
