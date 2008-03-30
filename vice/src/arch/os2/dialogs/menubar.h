@@ -62,7 +62,7 @@
 #define IDM_HELP         0x11d
 #define IDM_CMDLINE      0x11e
 #define IDM_FSMODES      0x11f
-#define IDM_ABOUT        0x133
+#define IDM_ABOUT        0x13c
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x121
@@ -91,6 +91,7 @@
 
 #define IDM_DSIZE        0x131
 #define IDM_DSCAN        0x132
+#define IDM_SCALE2X      0x133
 
 #define IDM_CRTCDSIZE    0x134
 #define IDM_CRTCDSCAN    0x135
@@ -119,6 +120,8 @@
 #define IDM_REU4096      0x620
 #define IDM_REU8192      0x640
 #define IDM_REU16384     0x680
+
+#define IDM_TFE          0x158
 
 #define IDM_MOUSE        0x151
 #define IDM_HIDEMOUSE    0x152

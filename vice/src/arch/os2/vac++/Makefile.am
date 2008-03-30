@@ -20,6 +20,7 @@ EXTRA_DIST = \
         incl/c64.icc \
         incl/c64cart.icc \
         incl/cbm2.icc \
+        incl/core.icc \
         incl/crtc.icc \
         incl/dialogs.icc \
         incl/diskimage.icc \
@@ -32,8 +33,9 @@ EXTRA_DIST = \
         incl/imagecontents.icc \
         incl/kbd.icc \
         incl/mainsrc.icc \
-        incl/monitor.icc\
-        incl/monz80.icc\
+        incl/monitor.icc \
+        incl/monz80.icc \
+        incl/parallel.icc \
         incl/pet.icc \
         incl/plus4.icc \
         incl/printerdrv.icc \

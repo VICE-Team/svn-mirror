@@ -4,6 +4,7 @@ source type(c)
     "render1x2.c",
     "render2x2.c",
     "render2x2pal.c",
+    "renderscale2x.c",
     "renderyuv.c",
     "video-canvas.c",
     "video-cmdline-options.c",

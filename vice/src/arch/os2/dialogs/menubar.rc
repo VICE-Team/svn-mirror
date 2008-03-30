@@ -134,6 +134,7 @@ BEGIN
 #ifdef HAVE_PAL
       MENUITEM "Double Size\tAlt-2",   IDM_DSIZE,        MIS_TEXT
       MENUITEM "Double Scan",          IDM_DSCAN,        MIS_TEXT
+      MENUITEM "Scale 2x",             IDM_SCALE2X,      MIS_TEXT
 #endif
 #ifdef HAVE_CRTC
       MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
@@ -366,8 +367,9 @@ BEGIN
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #endif
 #if defined __X64__ || defined __X128__
+      MENUITEM "TFE - Cartridge",         IDM_TFE,       MIS_TEXT
       MENUITEM "R~EU - Memory Extension", IDM_REU,       MIS_TEXT
-      SUBMENU  "REU Memory ~Size",         IDM_REUSIZE,   MIS_TEXT
+      SUBMENU  "REU Memory ~Size",        IDM_REUSIZE,   MIS_TEXT
       BEGIN
         MENUITEM "~128kB",                IDM_REU128,    MIS_TEXT
         MENUITEM "~256kB",                IDM_REU256,    MIS_TEXT

@@ -1597,6 +1597,14 @@ void VideoBufferAlloc(video_canvas_t *c)
                     c->ulBuffer, c->width, c->height);
 }
 
+/*
+ Old exposure handler:
+ ---------------------
+ canvas->draw_buffer->canvas_width=width;
+ canvas->draw_buffer->canvas_height=height;
+ video_viewport_resize(canvas);
+ */
+
 struct canvas_init_s
 {
     UINT                   width;
@@ -1604,7 +1612,7 @@ struct canvas_init_s
     UINT                   stretch;
     char                  *title;
     video_canvas_t        *canvas;
-    canvas_redraw_t        expose;
+//    canvas_redraw_t        expose;
     video_render_config_t *videoconfig;
     draw_buffer_t         *draw_buffer;
     viewport_t            *viewport;
@@ -1668,7 +1676,6 @@ void CanvasMainLoop(VOID *arg)
     c->width       = ini->width;
     c->height      = ini->height;
     c->stretch     = ini->stretch;
-    c->exposure    = ini->expose;
     c->videoconfig = ini->videoconfig;
     c->draw_buffer = ini->draw_buffer;
     c->viewport    = ini->viewport;
@@ -1801,12 +1808,12 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     canvas->video_draw_buffer_callback = NULL;
 }
 
-/* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
-   pixels, exposure handler callback `exposure_handler' and palette
-   `palette'.  If specified width/height is not possible, return an
-   alternative in `*width' and `*height'; return the pixel values for the
-   requested palette in `pixel_return[]'.  */
-
+/*
+ Create a `video_canvas_t' with tile `win_name', of width `*width'
+ and `*height'pixels and palette `palette'. If specified width/height
+ is not possible, return an alternative in `*width' and `*height';
+ return the pixel values for the requested palette in `pixel_return[]'.
+*/
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
                                     UINT *height, int mapped,
                                     const struct palette_s *palette)
@@ -1824,7 +1831,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width,
     canvini.width       = *width;
     canvini.height      = *height;
     canvini.stretch     =  stretch;
-    canvini.expose      = (canvas_redraw_t)canvas->viewport->exposure_handler;
     canvini.canvas      =  NULL;
     canvini.videoconfig = canvas->videoconfig;
     canvini.draw_buffer = canvas->draw_buffer;

@@ -14,9 +14,12 @@ source type(c)
     "c64mem.c",
     "c64meminit.c",
     "c64memrom.c",
+    "c64memsnapshot.c",
     "c64pla.c",
     "c64rom.c",
     "c64rsuser.c",
     "c64tpi.c",
     "patchrom.c",
-    "reu.c"
+    "reu.c",
+    "tfe.c",
+    "tfearch.c"

@@ -6,4 +6,5 @@ source type(c)
     "ieee/ieeerom.c",
     "ieee/memieee.c",
     "ieee/riot1d.c",
-    "ieee/riot2d.c"
+    "ieee/riot2d.c",
+    "ieee/via1d2031.c"

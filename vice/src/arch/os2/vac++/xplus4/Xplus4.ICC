@@ -12,6 +12,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
@@ -48,6 +49,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "dialogs\\dlg-color.c"
 
         include "../incl/archdep.icc"
+        include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"

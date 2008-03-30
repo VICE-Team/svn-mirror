@@ -46,7 +46,7 @@
 
 #include "monitor.h"         // mon
 #include "tape.h"            // tape_image_detach
-#include "utils.h"           // 
+#include "utils.h"           //
 #include "sound.h"           // SOUND_ADJUST_*
 #include "attach.h"          // file_system_detach_disk
 #include "archdep.h"         // archdep_boot_path
@@ -87,18 +87,21 @@ static void set_pet_model(WORD addr, void *model)
 static const char *VIDEO_CACHE="ViciiVideoCache";
 static const char *DOUBLE_SIZE="ViciiDoubleSize";
 static const char *DOUBLE_SCAN="ViciiDoubleScan";
+static const char *DOUBLE_SCALE2X="ViciiScale2x";
 #endif
 
 #ifdef HAVE_VIC
 static const char *VIDEO_CACHE="VicVideoCache";
 static const char *DOUBLE_SIZE="VicDoubleSize";
 static const char *DOUBLE_SCAN="VicDoubleScan";
+static const char *DOUBLE_SCALE2X="VicScale2x";
 #endif
 
 #ifdef HAVE_TED
 static const char *VIDEO_CACHE="TedVideoCache";
 static const char *DOUBLE_SIZE="TedDoubleSize";
 static const char *DOUBLE_SCAN="TedDoubleScan";
+static const char *DOUBLE_SCALE2X="TedScale2x";
 #endif
 
 #if defined HAVE_CRTC && !defined __XCBM__
@@ -449,6 +452,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_DSCAN:
         interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCAN);
         return;
+
+    case IDM_SCALE2X:
+        interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCALE2X);
+        return;
 #endif
 #ifdef HAVE_VDC
     case IDM_VDC16K:
@@ -521,6 +528,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_REU:
         toggle("REU");
+        return;
+
+    case IDM_TFE:
+        toggle("ETHERNET_ACTIVE");
         return;
 
     case IDM_REU128:
@@ -1097,6 +1108,7 @@ void menu_select(HWND hwnd, USHORT item)
 
             WinEnableMenuItem(hwnd, IDM_DSIZE,      val1);
             WinEnableMenuItem(hwnd, IDM_DSCAN,      val1);
+            WinEnableMenuItem(hwnd, IDM_SCALE2X,    val1);
             WinEnableMenuItem(hwnd, IDM_PALCONTROL, val1);
             WinEnableMenuItem(hwnd, IDM_CRTCDSIZE, !val1);
             WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, !val1 && val2);
@@ -1117,9 +1129,11 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 #ifdef HAVE_PAL
         resources_get_value(DOUBLE_SIZE, (void *)&val);
-        WinEnableMenuItem(hwnd, IDM_DSCAN, val);
-        WinCheckMenuItem(hwnd,  IDM_DSIZE, val);
-        WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
+        WinEnableMenuItem(hwnd, IDM_DSCAN,   val);
+        WinEnableMenuItem(hwnd, IDM_SCALE2X, val);
+        WinCheckMenuItem(hwnd,  IDM_DSIZE,   val);
+        WinCheckRes(hwnd, IDM_DSCAN,   DOUBLE_SCAN);
+        WinCheckRes(hwnd, IDM_SCALE2X, DOUBLE_SCALE2X);
 #endif
 #ifdef HAVE_VDC
         resources_get_value("VDCDoubleSize", (void *)&val);
@@ -1144,6 +1158,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_IEEE,      "IEEE488");
 #endif // __X128__ || __XVIC__
 #if defined __X64__ || defined __X128__
+        WinCheckRes(hwnd, IDM_TFE, "ETHERNET_ACTIVE");
         resources_get_value("REU", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_REU,     val);
         WinEnableMenuItem(hwnd, IDM_REUSIZE, val);

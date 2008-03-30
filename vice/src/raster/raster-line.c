@@ -299,8 +299,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
                                       changed_start_char,
                                       changed_end_char);
 
-        if (raster->sprite_status != NULL)
-            (raster->draw_sprites_when_cache_enabled)(raster, cache);
+        (raster->draw_sprites_when_cache_enabled)(raster, cache);
 
         *changed_start = 0;
         *changed_end = raster->geometry->screen_size.width - 1;

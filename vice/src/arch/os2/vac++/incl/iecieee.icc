@@ -1,4 +1,3 @@
 source type(c)
     "iecieee/iecieee.c",
-    "iecieee/via1d.c",
     "iecieee/via2d.c"

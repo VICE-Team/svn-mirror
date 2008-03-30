@@ -32,6 +32,7 @@ libarch_a_SOURCES = \
 	signals.h \
 	sounddrv.c \
 	sounddrv.h \
+        tfearch.c \
 	types.h \
 	ui.c \
 	ui.h \

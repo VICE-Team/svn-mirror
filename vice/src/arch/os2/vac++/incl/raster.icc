@@ -6,6 +6,8 @@ source type(c)
     "raster-canvas.c",
     "raster-changes.c",
     "raster-line.c",
+    "raster-line-changes.c",
+    "raster-line-changes-sprite.c",
     "raster-modes.c",
     "raster-sprite.c",
     "raster-sprite-status.c",

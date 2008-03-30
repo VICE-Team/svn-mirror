@@ -246,7 +246,8 @@ void viacore_reset(via_context_t *via_context)
     (via_context->set_ca2)(via_context->ca2_state);      /* input = high */
     (via_context->set_cb2)(via_context->cb2_state);      /* input = high */
 
-    (via_context->reset)(via_context);
+    if (via_context && via_context->reset)
+        (via_context->reset)(via_context);
 }
 
 void viacore_signal(via_context_t *via_context, int line, int edge)

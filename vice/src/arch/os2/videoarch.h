@@ -53,7 +53,7 @@ typedef struct video_canvas_s
     HDIVE  hDiveInst;
     BYTE  *pVram;
     SETUP_BLITTER divesetup;
-    canvas_redraw_t exposure;
+//    canvas_redraw_t exposure;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 

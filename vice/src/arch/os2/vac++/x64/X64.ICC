@@ -13,12 +13,14 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\c64"),
+    incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
+    incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
@@ -39,9 +41,11 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     {
         source type (lib)
             "mmpm2.lib", // "zlib.lib", "png.lib"
-            "..\\..\\..\\..\\..\\data\\vice2.lib"
+            "..\\..\\..\\..\\..\\data\\vice2.lib",
+            "..\\..\\..\\..\\..\\data\\ipspy.lib"
         source type (dll)
-            "..\\..\\..\\..\\..\\data\\vice2.dll"
+            "..\\..\\..\\..\\..\\data\\vice2.dll",
+            "..\\..\\..\\..\\..\\data\\ipspy.dll"
 
         source type(c)
             "maincpu.c",
@@ -53,6 +57,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/archdep.icc"
         include "../incl/c64.icc"
         include "../incl/c64cart.icc"
+        include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
@@ -65,6 +70,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/kbd.icc"
         include "../incl/mainsrc.icc"
         include "../incl/monitor.icc"
+        include "../incl/parallel.icc"
         include "../incl/printerdrv.icc"
         include "../incl/resid.icc"
         include "../incl/serial.icc"

@@ -1,0 +1,6 @@
+source type (c)
+    "ciacore.c",
+    "ciatimer.c",
+    "riotcore.c",
+    "tpicore.c",
+    "viacore.c"
