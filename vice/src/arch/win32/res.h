@@ -180,6 +180,8 @@
 #define IDM_VICII_SETTINGS              40130
 #define IDM_PET_SETTINGS                40131
 #define IDM_CBM2_SETTINGS               40132
+#define IDM_SYNC_FACTOR_PAL             40140
+#define IDM_SYNC_FACTOR_NTSC            40141
 
 // Next default values for new objects
 //
