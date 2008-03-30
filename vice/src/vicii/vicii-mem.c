@@ -917,7 +917,7 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
       case 0xb:                   /* $D00B: Sprite #5 Y position */
       case 0xd:                   /* $D00D: Sprite #6 Y position */
       case 0xf:                   /* $D00F: Sprite #7 Y position */
-        store_sprite_y_position(addr, (BYTE)((value + vicii.offset) & 255));
+        store_sprite_y_position(addr, value);
         break;
 
       case 0x10:                  /* $D010: Sprite X position MSB */
@@ -1177,7 +1177,7 @@ BYTE REGPARM1 vicii_read(WORD addr)
       case 0xf:                   /* $D00F: Sprite #7 Y position */
         VICII_DEBUG_REGISTER(("Sprite #%d Y position: $%02X",
                              addr >> 1, vicii.regs[addr]));
-        return (256 + vicii.regs[addr] - vicii.offset) % 256;
+        return vicii.regs[addr];
 
       case 0x10:                  /* $D010: Sprite X position MSB */
         VICII_DEBUG_REGISTER(("Sprite X position MSB: $%02X",

@@ -38,10 +38,10 @@
 #define VICII_SCREEN_TEXTLINES             25
 #define VICII_SCREEN_CHARHEIGHT            8
 
-#define VICII_40COL_START_PIXEL 0x20
-#define VICII_40COL_STOP_PIXEL  0x160
-#define VICII_38COL_START_PIXEL 0x27
-#define VICII_38COL_STOP_PIXEL  0x157
+#define VICII_40COL_START_PIXEL vicii.screen_leftborderwidth
+#define VICII_40COL_STOP_PIXEL  (vicii.screen_leftborderwidth + VICII_SCREEN_XPIX)
+#define VICII_38COL_START_PIXEL (vicii.screen_leftborderwidth + 7)
+#define VICII_38COL_STOP_PIXEL  (vicii.screen_leftborderwidth + 311)
 
 #define VICII_NUM_SPRITES      8
 #define VICII_MAX_SPRITE_WIDTH 56  /* expanded sprite in bug area */
@@ -90,7 +90,7 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define VICII_RASTER_X(cycle)      (((int)(cycle) - 13) * 8)
+#define VICII_RASTER_X(cycle)      (((int)(cycle) - 17) * 8 + vicii.screen_leftborderwidth)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
@@ -308,8 +308,8 @@ struct vicii_s {
     unsigned int row_24_start_line;
     unsigned int row_24_stop_line;
 
-    int screen_borderwidth;
-    int screen_borderheight;
+    int screen_leftborderwidth;
+    int screen_rightborderwidth;
     int cycles_per_line;
     int draw_cycle;
     int sprite_fetch_cycle;
@@ -318,9 +318,6 @@ struct vicii_s {
     unsigned int first_dma_line;
     unsigned int last_dma_line;
 
-    /* Number of lines the whole screen is shifted up.  */
-    int offset;
-    
     /* Flag backgroundcolor in hires mode or extended text mode.  */
     int get_background_from_vbuf;
 

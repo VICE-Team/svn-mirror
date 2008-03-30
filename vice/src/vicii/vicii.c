@@ -146,9 +146,9 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     vicii.sprite_fetch_clk -= sub;
 }
 
-void vicii_change_timing(machine_timing_t *machine_timing)
+void vicii_change_timing(machine_timing_t *machine_timing, int border_mode)
 {
-    vicii_timing_set(machine_timing);
+    vicii_timing_set(machine_timing, border_mode);
 
     if (vicii.initialized) {
         vicii_set_geometry();
@@ -264,22 +264,21 @@ static void vicii_set_geometry(void)
 {
     unsigned int width, height;
 
-    width = VICII_SCREEN_XPIX + vicii.screen_borderwidth * 2;
+    width = vicii.screen_leftborderwidth + VICII_SCREEN_XPIX + vicii.screen_rightborderwidth;
     height = vicii.last_displayed_line - vicii.first_displayed_line + 1;
 
     raster_set_geometry(&vicii.raster,
-                        width, height,
-                        VICII_SCREEN_XPIX + vicii.screen_borderwidth * 2,
-                        vicii.screen_height,
-                        VICII_SCREEN_XPIX, VICII_SCREEN_YPIX,
-                        VICII_SCREEN_TEXTCOLS, VICII_SCREEN_TEXTLINES,
-                        vicii.screen_borderwidth, vicii.row_25_start_line,
-                        0,
+                        width, height, /* canvas dimensions */
+                        width, vicii.screen_height, /* screen dimensions */
+                        VICII_SCREEN_XPIX, VICII_SCREEN_YPIX, /* gfx dimensions */
+                        VICII_SCREEN_TEXTCOLS, VICII_SCREEN_TEXTLINES, /* text dimensions */
+                        vicii.screen_leftborderwidth, vicii.row_25_start_line, /* gfx position */
+                        0, /* gfx area doesn't move */
                         vicii.first_displayed_line,
                         vicii.last_displayed_line,
-                        - VICII_RASTER_X(0),
+                        - VICII_RASTER_X(0), /* extra offscreen border left */
                         vicii.sprite_wrap_x - VICII_SCREEN_XPIX -
-                        vicii.screen_borderwidth * 2 + VICII_RASTER_X(0));
+                        vicii.screen_leftborderwidth - vicii.screen_rightborderwidth + VICII_RASTER_X(0)) /* extra offscreen border right */;
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
@@ -899,6 +898,12 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
                       && vicii.raster.current_line
                       <= (unsigned int)vicii.last_displayed_line);
 
+    /* handle wrap if the first few lines are displayed in the visible lower border */
+    if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height) {
+        in_visible_area |= vicii.raster.current_line
+                          <= ((unsigned int)vicii.last_displayed_line - vicii.screen_height);
+    }
+
     vicii.raster.xsmooth_shift_left = 0;
 
     vicii_sprites_reset_xshift();
@@ -921,14 +926,36 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
 #endif
 
     if (vicii.raster.current_line == 0) {
-        raster_skip_frame(&vicii.raster,
-                          vsync_do_vsync(vicii.raster.canvas,
-                          vicii.raster.skip_frame));
+        /* no vsync here for NTSC  */
+        if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
+            raster_skip_frame(&vicii.raster,
+                              vsync_do_vsync(vicii.raster.canvas,
+                              vicii.raster.skip_frame));
+        }
         vicii.memptr = 0;
         vicii.mem_counter = 0;
         vicii.light_pen.triggered = 0;
         vicii.raster.blank_off = 0;
 
+#ifdef __MSDOS__
+        if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
+            if (vicii.raster.canvas->draw_buffer->canvas_width
+                <= VICII_SCREEN_XPIX
+                && vicii.raster.canvas->draw_buffer->canvas_height
+                <= VICII_SCREEN_YPIX
+                && vicii.raster.canvas->viewport->update_canvas)
+                canvas_set_border_color(vicii.raster.canvas,
+                                        vicii.raster.border_color);
+        }
+#endif
+    }
+
+    /* vsync for NTSC */
+    if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height
+        && vicii.raster.current_line == vicii.last_displayed_line - vicii.screen_height + 1) {
+        raster_skip_frame(&vicii.raster,
+                          vsync_do_vsync(vicii.raster.canvas,
+                          vicii.raster.skip_frame));
 #ifdef __MSDOS__
         if (vicii.raster.canvas->draw_buffer->canvas_width
             <= VICII_SCREEN_XPIX
