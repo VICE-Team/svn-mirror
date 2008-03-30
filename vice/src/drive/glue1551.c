@@ -69,7 +69,7 @@ static void glue_pport_update(drive_context_t *drv)
             = (drv->drive_ptr->byte_ready_active & ~0x04) | (output & 0x04);
 
     /* Drive active LED.  */
-    drv->drive_ptr->led_status = (output & 8) ? 1 : 0;
+    drv->drive_ptr->led_status = (output & 8) ? 0 : 1;
 
     if (drv->drive_ptr->byte_ready_active == 0x06)
         drive_rotate_disk(drv->drive_ptr);

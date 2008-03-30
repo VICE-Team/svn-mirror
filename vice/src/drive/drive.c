@@ -495,12 +495,11 @@ int drive_enable(unsigned int dnr)
     }
 
     drive_set_active_led_color(drive[dnr].type, dnr);
-    ui_enable_drive_status(
-          (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-            | ((drive[1].enable
-                || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
-              ) ? UI_DRIVE_ENABLE_1 : 0),
-          drive_led_color);
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | ((drive[1].enable
+                           || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+                           ) ? UI_DRIVE_ENABLE_1 : 0),
+                           drive_led_color);
 
     return 0;
 }
@@ -549,12 +548,11 @@ void drive_disable(unsigned int dnr)
         }
     }
 
-    ui_enable_drive_status(
-          (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-            | ((drive[1].enable
-                || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
-              ) ? UI_DRIVE_ENABLE_1 : 0),
-          drive_led_color);
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | ((drive[1].enable
+                           || (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
+                           ) ? UI_DRIVE_ENABLE_1 : 0),
+                           drive_led_color);
 /*
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
                            | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
@@ -1316,7 +1314,7 @@ void drive_update_ui_status(void)
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < 2; i++) {
         if (drive[i].enable
-            || ((i==1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
+            || ((i == 1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
             int my_led_status = 0;
 
             /* Actually update the LED status only if the `trap idle'
