@@ -29,9 +29,9 @@
 
 extern int intl_translate_dialog(int en_resource);
 extern int intl_translate_menu(int en_resource);
+extern char *intl_translate_text(char *text);
 extern int intl_resources_init(void);
 extern void intl_resources_shutdown(void);
 extern int intl_cmdline_options_init(void);
-extern void intl_pre_ui_init(int argc, char **argv);
-
+extern void intl_windows_language_init(void);
 #endif

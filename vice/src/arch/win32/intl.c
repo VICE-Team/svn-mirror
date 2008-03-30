@@ -27,13 +27,15 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <windows.h>
 
-#include "archapi.h"
 #include "cmdline.h"
 #include "intl.h"
 #include "lib.h"
-#include "machine.h"
 #include "res.h" /* 50456 */
 #include "resources.h"
 #include "util.h"
@@ -801,9 +803,261 @@ static int intl_idr_table[][countof(intl_language_table)] = {
 /* pl */  IDR_MENUC128_PL,    /* fuzzy */
 /* sv */  IDR_MENUC128_SV},   /* fuzzy */
 
+/* resc64.rc */
+/* en */ {IDR_MENUC64,
+/* de */  IDR_MENUC64_DE,    /* fuzzy */
+/* fr */  IDR_MENUC64_FR,    /* fuzzy */
+/* it */  IDR_MENUC64_IT,    /* fuzzy */
+/* nl */  IDR_MENUC64_NL,
+/* pl */  IDR_MENUC64_PL,    /* fuzzy */
+/* sv */  IDR_MENUC64_SV},   /* fuzzy */
+
+/* rescbm2.rc */
+/* en */ {IDR_MENUCBM2,
+/* de */  IDR_MENUCBM2_DE,    /* fuzzy */
+/* fr */  IDR_MENUCBM2_FR,    /* fuzzy */
+/* it */  IDR_MENUCBM2_IT,    /* fuzzy */
+/* nl */  IDR_MENUCBM2_NL,
+/* pl */  IDR_MENUCBM2_PL,    /* fuzzy */
+/* sv */  IDR_MENUCBM2_SV},   /* fuzzy */
+
+/* respet.rc */
+/* en */ {IDR_MENUPET,
+/* de */  IDR_MENUPET_DE,    /* fuzzy */
+/* fr */  IDR_MENUPET_FR,    /* fuzzy */
+/* it */  IDR_MENUPET_IT,    /* fuzzy */
+/* nl */  IDR_MENUPET_NL,
+/* pl */  IDR_MENUPET_PL,    /* fuzzy */
+/* sv */  IDR_MENUPET_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDR_MENUPLUS4,
+/* de */  IDR_MENUPLUS4_DE,    /* fuzzy */
+/* fr */  IDR_MENUPLUS4_FR,    /* fuzzy */
+/* it */  IDR_MENUPLUS4_IT,    /* fuzzy */
+/* nl */  IDR_MENUPLUS4_NL,
+/* pl */  IDR_MENUPLUS4_PL,    /* fuzzy */
+/* sv */  IDR_MENUPLUS4_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDR_MENUVIC,
+/* de */  IDR_MENUVIC_DE,    /* fuzzy */
+/* fr */  IDR_MENUVIC_FR,    /* fuzzy */
+/* it */  IDR_MENUVIC_IT,    /* fuzzy */
+/* nl */  IDR_MENUVIC_NL,
+/* pl */  IDR_MENUVIC_PL,    /* fuzzy */
+/* sv */  IDR_MENUVIC_SV},   /* fuzzy */
+
 };
 
 /* --------------------------------------------------------------------- */
+
+typedef struct intl_text_s {
+    /* pointer to english text */
+    char *en_text;
+
+    /* index of text in text table */
+    int index;
+
+    /* number of next hash entry */
+    int hash_next;
+} intl_text_t;
+
+static unsigned int num_intl_text, num_allocated_intl_text;
+static intl_text_t *intl_text;
+
+/* use a hash table with 1024 entries */
+static const unsigned int logHashSize = 10;
+
+static int *hashTable = NULL;
+
+/* calculate the hash key */
+static unsigned int intl_text_calc_hash_key(const char *text)
+{
+  unsigned int key, i, shift;
+
+  key = 0; shift = 0;
+  for (i = 0; text[i] != '\0'; i++)
+  {
+    unsigned int sym = (unsigned int)text[i];
+
+    if (shift >= logHashSize)
+      shift = 0;
+
+    key ^= (sym << shift);
+    if (shift + 8 > logHashSize)
+    {
+      key ^= (((unsigned int)sym) >> (logHashSize - shift));
+    }
+    shift++;
+  }
+  return (key & ((1 << logHashSize) - 1));
+}
+
+static int intl_text_register(const char *text, const int index)
+{
+  intl_text_t *dp;
+
+  dp = intl_text + num_intl_text;
+  unsigned int hashkey;
+
+  if (num_allocated_intl_text <= num_intl_text)
+  {
+    num_allocated_intl_text *= 2;
+    intl_text = lib_realloc(intl_text, num_allocated_intl_text * sizeof(intl_text_t));
+    dp = intl_text + num_intl_text;
+  }
+
+  dp->en_text = lib_stralloc(text);
+  dp->index = index;
+
+  hashkey = intl_text_calc_hash_key(text);
+  dp->hash_next = hashTable[hashkey];
+  hashTable[hashkey] = (dp - intl_text);
+
+  num_intl_text++;
+
+  return 0;
+}
+
+static void intl_text_free(void)
+{
+  unsigned int i;
+
+  for (i = 0; i < num_intl_text; i++)
+    lib_free((intl_text + i)->en_text);
+}
+
+static void intl_text_shutdown(void)
+{
+  intl_text_free();
+
+  lib_free(intl_text);
+  lib_free(hashTable);
+}
+
+static intl_text_t *intl_text_lookup(const char *text)
+{
+  intl_text_t *res;
+  unsigned int hashkey;
+
+  hashkey = intl_text_calc_hash_key(text);
+  res = (hashTable[hashkey] >= 0) ? intl_text + hashTable[hashkey] : NULL;
+  while (res != NULL)
+  {
+    if (strcmp(res->en_text, text) == 0)
+      return res;
+    res = (res->hash_next >= 0) ? intl_text + res->hash_next : NULL;
+  }
+  return NULL;
+}
+
+static int intl_text_init(void)
+{
+  unsigned int i;
+
+  num_allocated_intl_text = 100;
+  num_intl_text = 0;
+  intl_text = (intl_text_t *)lib_malloc(num_allocated_intl_text * sizeof(intl_text_t));
+
+  hashTable = (int *)lib_malloc((1 << logHashSize) * sizeof(int));
+
+  for (i = 0; i < (unsigned int)(1 << logHashSize); i++)
+    hashTable[i] = -1;
+
+  return 0;
+}
+
+static int intl_text_get_value(const char *text)
+{
+  intl_text_t *r = intl_text_lookup(text);
+  if (r==NULL)
+    return -1;
+  else
+    return r->index;
+}
+
+/* --------------------------------------------------------------------- */
+
+static char *intl_text_table[][countof(intl_language_table)] = {
+
+/* ffmpeglib.c */
+/* en */ {"Your ffmpeg dll version doesn't match.",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "Uw ffmpeg dll versie is niet juist.",
+/* pl */  "",
+/* sv */  ""},
+
+/* fullscrn.c */
+/* en */ {"DirectDraw error: Code:%8x Error:%s",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "DirectDraw fout: Code:%8x Fout:%s",
+/* pl */  "",
+/* sv */  ""},
+
+/* ui.c */
+/* en */ {"Cannot save settings.",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "Kan de instellingen niet schrijven",
+/* pl */  "",
+/* sv */  ""},
+
+/* ui.c */
+/* en */ {"Cannot load settings.",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "Kan de instellingen niet laden",
+/* pl */  "",
+/* sv */  ""},
+
+/* ui.c */
+/* en */ {"Default settings restored.",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "Standaard instellingen hersteld",
+/* pl */  "",
+/* sv */  ""},
+
+/* ui.c */
+/* en */ {"VICE Error!",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "VICE Fout!",
+/* pl */  "",
+/* sv */  ""},
+
+/* ui.c */
+/* en */ {"VICE Information",
+/* de */  "",
+/* fr */  "",
+/* it */  "",
+/* nl */  "VICE Informatie",
+/* pl */  "",
+/* sv */  ""}
+
+};
+
+/* --------------------------------------------------------------------- */
+
+static void intl_init(void)
+{
+  int i;
+
+  intl_text_init();
+  for (i = 0; i < countof(intl_text_table); i++)
+  {
+    intl_text_register(intl_text_table[i][0], i);
+  }
+}
 
 int intl_translate_dialog(int en_dialog)
 {
@@ -835,6 +1089,20 @@ int intl_translate_menu(int en_menu)
   return en_menu;
 }
 
+char *intl_translate_text(char *text)
+{
+  int i;
+
+  if (text==NULL)
+    return text;
+  i=intl_text_get_value(text);
+  if (i<0)
+    return text;
+  if (strlen(intl_text_table[i][current_language_index])==0)
+    return text;
+  return intl_text_table[i][current_language_index];
+}
+
 static char *get_current_windows_language(void)
 {
   int i;
@@ -847,53 +1115,6 @@ static char *get_current_windows_language(void)
       return windows_to_iso[i].iso_language_code;
   }
   return "en";
-}
-
-char intl_buffer[1024];
-
-static char *intl_scan_resource_file(void)
-{
-  FILE *f;
-  int line_len;
-  int done=0;
-  char machine_id[16];
-
-  f=fopen(archdep_default_resource_file_name(),"r");
-  if (f==NULL)
-    return NULL;
-  sprintf(machine_id,"[%s]",machine_name);
-  while (done==0)
-  {
-    line_len=util_get_line(intl_buffer, 1024, f);
-    if (line_len<0)
-      done=-1;
-    if (!strcmp(intl_buffer,machine_id))
-      done=1;
-  }
-  if (done!=1)
-  {
-    fclose(f);
-    return NULL;
-  }
-  done=0;
-  while (done==0)
-  {
-    line_len=util_get_line(intl_buffer, 1024, f);
-    if (line_len<0)
-      done=-1;
-    if (intl_buffer[0]=='[')
-      done=-1;
-    if (!strncasecmp(intl_buffer,"Language=\"",10))
-    {
-      intl_buffer[12]=0;
-      done=1;
-    }
-  }
-  fclose(f);
-  if (done==1)
-    return intl_buffer+10;
-  else
-    return NULL;
 }
 
 static int set_current_language(resource_value_t v, void *param)
@@ -919,40 +1140,11 @@ static int set_current_language(resource_value_t v, void *param)
   return 0;
 }
 
-void intl_pre_ui_init(int argc, char **argv)
+void intl_windows_language_init(void)
 {
-  int i;
-  int command_line_set=0;
   char *lang;
-  char *lang_from_resource;
 
-  /* first get the standard windows language
-     in case there is no command-line argument
-     or resource for the language */
-
-  lang = get_current_windows_language();
-
-  /* secondly check the command-line arguments
-     for a language statement */
-
-  for (i = 1; i < argc-1; i++)
-  {
-    if (!strcasecmp(argv[i],"-lang"))
-    {
-      command_line_set=1;
-      lang = argv[i+1];
-    }
-  }
-
-  /* thirdly only check the resource file if no language
-     command-line was found */
-
-  if (command_line_set==0)
-  {
-    lang_from_resource=intl_scan_resource_file();
-    if (lang_from_resource!=NULL)
-      lang=lang_from_resource;
-  }
+  lang=get_current_windows_language();
   set_current_language(lang,"");
 }
 
@@ -964,11 +1156,13 @@ static const resource_t resources[] = {
 
 int intl_resources_init(void)
 {
+  intl_init();
   return resources_register(resources);
 }
 
 void intl_resources_shutdown(void)
 {
+  intl_text_shutdown();
   lib_free(current_language);
 }
 

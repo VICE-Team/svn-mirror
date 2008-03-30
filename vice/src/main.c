@@ -48,6 +48,9 @@
 #include "gfxoutput.h"
 #include "init.h"
 #include "initcmdline.h"
+#ifdef WIN32
+#include "intl.h"
+#endif
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -131,6 +134,11 @@ int main_program(int argc, char **argv)
         archdep_startup_log_error("Cannot initialize the UI.\n");
         return -1;
     }
+
+#ifdef WIN32
+   /* set the default windows language */
+    intl_windows_language_init();
+#endif
 
     /* Load the user's default configuration file.  */
     if (vsid_mode) {

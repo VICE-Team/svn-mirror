@@ -35,6 +35,7 @@
 #include <mmsystem.h>
 #include <prsht.h>
 
+#include "intl.h"
 #include "lib.h"
 #include "log.h"
 #include "palette.h"
@@ -80,7 +81,7 @@ static LPDIRECTDRAW2 DirectDrawObject2;
 #define CHECK_DDRESULT(ddresult) \
 {                                \
     if (ddresult != DD_OK) {     \
-        ui_error("DirectDraw error: Code:%8x Error:%s", ddresult, \
+        ui_error(intl_translate_text("DirectDraw error: Code:%8x Error:%s"), ddresult, \
         dd_error(ddresult));     \
     }                            \
 }

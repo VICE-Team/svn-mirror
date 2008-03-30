@@ -28,7 +28,13 @@
 #ifndef _RES_H
 #define _RES_H
 
-#define IDR_MENUC64                     101	/* 60000-60005 */
+#define IDR_MENUC64                     101
+#define IDR_MENUC64_DE                  60000
+#define IDR_MENUC64_FR                  60001
+#define IDR_MENUC64_IT                  60002
+#define IDR_MENUC64_NL                  60003
+#define IDR_MENUC64_PL                  60004
+#define IDR_MENUC64_SV                  60005
 #define IDR_MENUC128                    102
 #define IDR_MENUC128_DE                 60006
 #define IDR_MENUC128_FR                 60007
@@ -36,10 +42,34 @@
 #define IDR_MENUC128_NL                 60009
 #define IDR_MENUC128_PL                 60010
 #define IDR_MENUC128_SV                 60011
-#define IDR_MENUVIC                     103	/* 60012-60017 */
-#define IDR_MENUPET                     104	/* 60018-60023 */
-#define IDR_MENUPLUS4                   105	/* 60024-60029 */
-#define IDR_MENUCBM2                    106	/* 60030-60035 */
+#define IDR_MENUVIC                     103
+#define IDR_MENUVIC_DE                  60012
+#define IDR_MENUVIC_FR                  60013
+#define IDR_MENUVIC_IT                  60014
+#define IDR_MENUVIC_NL                  60015
+#define IDR_MENUVIC_PL                  60016
+#define IDR_MENUVIC_SV                  60017
+#define IDR_MENUPET                     104
+#define IDR_MENUPET_DE                  60018
+#define IDR_MENUPET_FR                  60019
+#define IDR_MENUPET_IT                  60020
+#define IDR_MENUPET_NL                  60021
+#define IDR_MENUPET_PL                  60022
+#define IDR_MENUPET_SV                  60023
+#define IDR_MENUPLUS4                   105
+#define IDR_MENUPLUS4_DE                60024
+#define IDR_MENUPLUS4_FR                60025
+#define IDR_MENUPLUS4_IT                60026
+#define IDR_MENUPLUS4_NL                60027
+#define IDR_MENUPLUS4_PL                60028
+#define IDR_MENUPLUS4_SV                60029
+#define IDR_MENUCBM2                    106
+#define IDR_MENUCBM2_DE                 60030
+#define IDR_MENUCBM2_FR                 60031
+#define IDR_MENUCBM2_IT                 60032
+#define IDR_MENUCBM2_NL                 60033
+#define IDR_MENUCBM2_PL                 60034
+#define IDR_MENUCBM2_SV                 60035
 #define IDR_MENUMONITOR                 107
 #define IDR_MENUMONITOR_DE              60036
 #define IDR_MENUMONITOR_FR              60037

@@ -273,48 +273,48 @@ static HBRUSH tape_motor_off_brush;
 */
 static HWND main_hwnd;
 
+static int emu_menu;
+
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
 {
     WNDCLASS window_class;
-    WORD menu;
 
-    intl_pre_ui_init(*argc, argv);
     switch (machine_class) {
       case VICE_MACHINE_C64:
-        menu = IDR_MENUC64;
+        emu_menu = IDR_MENUC64;
         ui_accelerator = CreateAcceleratorTable(c64_accel, 
             sizeof(c64_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_C128:
-        menu = intl_translate_menu(IDR_MENUC128);
+        emu_menu = IDR_MENUC128;
         ui_accelerator = CreateAcceleratorTable(c128_accel, 
             sizeof(c128_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_VIC20:
-        menu = IDR_MENUVIC;
+        emu_menu = IDR_MENUVIC;
         ui_accelerator = CreateAcceleratorTable(vic_accel,
             sizeof(vic_accel)/ sizeof(ACCEL));
         break;
       case VICE_MACHINE_PET:
-        menu = IDR_MENUPET;
+        emu_menu = IDR_MENUPET;
         ui_accelerator = CreateAcceleratorTable(pet_accel,
             sizeof(pet_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_PLUS4:
-        menu = IDR_MENUPLUS4;
+        emu_menu = IDR_MENUPLUS4;
         ui_accelerator = CreateAcceleratorTable(plus4_accel,
             sizeof(plus4_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_CBM2:
-        menu = IDR_MENUCBM2;
+        emu_menu = IDR_MENUCBM2;
         ui_accelerator = CreateAcceleratorTable(cbm2_accel,
             sizeof(cbm2_accel) / sizeof(ACCEL));
         break;
       default:
         log_debug("UI: No menu entries for this machine defined!");
         log_debug("UI: Using C64 type UI menues.");
-        menu = IDR_MENUC64;
+        emu_menu = IDR_MENUC64;
         ui_accelerator = CreateAcceleratorTable(c64_accel,
             sizeof(c64_accel) / sizeof(ACCEL));
     }
@@ -329,7 +329,7 @@ int ui_init(int *argc, char **argv)
                                   MAKEINTRESOURCE(IDI_ICON1));
     window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
     window_class.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0) + 1);
-    window_class.lpszMenuName = MAKEINTRESOURCE(menu);
+    window_class.lpszMenuName = MAKEINTRESOURCE(emu_menu);
     window_class.lpszClassName = APPLICATION_CLASS;
     RegisterClass(&window_class);
 
@@ -379,7 +379,6 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
-
 }
 
 /* Initialize the UI after setting all the resource values.  */
@@ -417,6 +416,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 {
     HWND hwnd;
     int xpos, ypos;
+    HMENU menu;
 
     resources_get_sprintf("Window%dXpos", &xpos, number_of_windows);
     resources_get_sprintf("Window%dYpos", &ypos, number_of_windows);
@@ -450,8 +450,9 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     ui_resize_canvas_window(hwnd, width, height);
 
+    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate_menu(emu_menu)));
+    SetMenu(hwnd,menu);
     ShowWindow(hwnd, winmain_cmd_show);
-
     return hwnd;
 
 }
@@ -622,7 +623,7 @@ void ui_error(const char *format, ...)
 
     log_debug(tmp);
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT("VICE Error!"), MB_OK | MB_ICONSTOP);
+    ui_messagebox(st, TEXT(intl_translate_text("VICE Error!")), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -634,8 +635,8 @@ void ui_error_string(const char *text)
     TCHAR *st;
 
     log_debug(text);
-    st = system_mbstowcs_alloc(text);
-    ui_messagebox(st, TEXT("VICE Error!"), MB_OK | MB_ICONSTOP);
+    st = system_mbstowcs_alloc(intl_translate_text(text));
+    ui_messagebox(st, TEXT(intl_translate_text("VICE Error!")), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
 }
 
@@ -651,7 +652,7 @@ void ui_message(const char *format, ...)
     va_end(args);
 
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT("VICE Information"), MB_OK | MB_ICONASTERISK);
+    ui_messagebox(st, TEXT(intl_translate_text("VICE Information")), MB_OK | MB_ICONASTERISK);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -1169,14 +1170,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
-            ui_error("Cannot save settings.");
+            ui_error(intl_translate_text("Cannot save settings."));
         else
             ui_message("Settings saved successfully.");
         uifliplist_save_settings();
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {
-            ui_error("Cannot load settings.");
+            ui_error(intl_translate_text("Cannot load settings."));
         } else {
             ui_message("Settings loaded successfully.");
         }

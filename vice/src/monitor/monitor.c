@@ -441,14 +441,6 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
 
-    switch (mem) {
-      case e_comp_space:
-        break;
-      default:
-        log_error(LOG_ERR, "Unknow memspace!");
-        return;
-    }
-
     mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val,
                                         mon_interfaces[mem]->context);
 }
