@@ -1,3 +1,34 @@
+1998-11-03  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.25.
+
+1998-11-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64iec.c: Use a parallel port value for each drive port.
+	(parallel_cable_drive_write): Split into two functions.
+	* c128/c128iec.c: Likewise.
+	* cbm2/c610iec.c: Likewise.
+	* pet/petiec.c: Likewise.
+	* vic20/vic20iec.c: Likewise.
+
+	* drive/drive.c: Fixed some wrong entries in `cmdline_options'.
+	(drive_read_snapshot_module): Set parallel port to `0xff' first.
+
+	* drive/via1drive0.def (UNDUMP_PRA): Undump parallel cable value.
+	* drive/via1drive1.def (UNDUMP_PRA): Likewise.
+
+1998-11-03  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vice.h [DJGPP]: Do not #include `<sys/param.h>'.
+
+	* arch/msdos/sidui.c: Replaced `#ifdef USE_RESID' with `#ifdef
+ 	HAVE_RESID'.
+
+1998-11-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* cmdline.c (cmdline_parse): Argh.  Fixed check for missing
+ 	parameter.
+
 1998-10-30  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.24.
