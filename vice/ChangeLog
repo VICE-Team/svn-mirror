@@ -1,6 +1,19 @@
+2005-11-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* doc/html/index.html, README: Fixed dates.
+
+2005-11-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Changed the url's for the solaris
+	binaries.
+
 2005-11-19  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.17.7
+	* Version 1.17.7.
 
 	* doc/html/index.html, doc/vice.texi, vice.spec, README:
 	Updated.
