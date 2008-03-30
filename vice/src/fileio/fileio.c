@@ -47,7 +47,10 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
         util_fname_split(file_name, &new_path, &new_file);
     } else {
         new_file = lib_stralloc(file_name);
-        new_path = lib_stralloc(path);
+        if (path != NULL)
+            new_path = lib_stralloc(path);
+        else
+            new_path = NULL;
     }
 
     do {
@@ -86,7 +89,7 @@ void fileio_close(fileio_info_t *info)
     }
 }
 
-unsigned int fileio_read(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int fileio_read(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     switch (info->format) {
       case FILEIO_FORMAT_RAW:
@@ -98,7 +101,7 @@ unsigned int fileio_read(fileio_info_t *info, char *buf, unsigned int len)
     return 0;
 }
 
-unsigned int fileio_write(fileio_info_t *info, char *buf, unsigned int len)
+unsigned int fileio_write(fileio_info_t *info, BYTE *buf, unsigned int len)
 {
     switch (info->format) {
       case FILEIO_FORMAT_RAW:
