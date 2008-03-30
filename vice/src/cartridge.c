@@ -50,14 +50,14 @@ static int cartridge_type;
 static char *cartridge_file;
 
 static int carttype = CARTRIDGE_NONE;
-static char cartfile[MAXPATHLEN];
+static char *cartfile;
 
 static int set_cartridge_type(resource_value_t v)
 {
     cartridge_type = (int) v;
     carttype = cartridge_type;
-    cartridge_attach_image(carttype, cartfile);
-    return 0;
+
+    return cartridge_attach_image(carttype, cartfile);
 }
 
 static int set_cartridge_file(resource_value_t v)
@@ -69,9 +69,8 @@ static int set_cartridge_file(resource_value_t v)
         return 0;
 
     string_set(&cartridge_file, name);
-    strcpy(cartfile, name);
-    cartridge_attach_image(carttype, cartfile);
-    return 0;
+    string_set(&cartfile, name);
+    return cartridge_attach_image(carttype, cartfile);
 }
 
 static resource_t resources[] = {
@@ -200,7 +199,7 @@ int cartridge_attach_image(int type, char *filename)
     }
 
     carttype = type;
-    strcpy(cartfile, filename);
+    string_set(&cartfile, filename);
     mem_attach_cartridge((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     return 0;
 }

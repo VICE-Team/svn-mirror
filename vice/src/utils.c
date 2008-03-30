@@ -261,8 +261,8 @@ char *subst(const char *s, const char *string, const char *replacement)
        time.  */
     for (num_occurrences = 0, sp = s;
          (sp = strstr(sp, string)) != NULL;
-         num_occurrences++)
-        sp += string_len;
+         num_occurrences++, sp += string_len)
+        ;
 
     total_size = s_len - (string_len - replacement_len) * num_occurrences + 1;
 
