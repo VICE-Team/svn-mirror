@@ -54,7 +54,6 @@
 #include "reu.h"
 #include "sid.h"
 #include "types.h"
-#include "ui.h"
 #include "utils.h"
 #include "vdc-mem.h"
 #include "vdc.h"

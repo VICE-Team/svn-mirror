@@ -302,7 +302,7 @@ static UI_CALLBACK(select_user_keymap)
     resname = machine_keymap_res_name_list[kindex];
 
     vsync_suspend_speed_eval();
-    filename = ui_select_file(_("Read Keymap File"), NULL, False, last_dir,
+    filename = ui_select_file(_("Read Keymap File"), NULL, 0, False, last_dir,
                               "*.vkm", &button, False, NULL);
 
     switch (button) {
@@ -367,8 +367,8 @@ UI_CALLBACK(ui_load_romset)
 
     vsync_suspend_speed_eval();
     title = stralloc(_("Load custom ROM set definition"));
-    filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button,
-                              False, NULL);
+    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vrs",
+                              &button, False, NULL);
 
     free(title);
     switch (button) {
@@ -417,7 +417,7 @@ UI_CALLBACK(ui_load_rom_file)
 
     vsync_suspend_speed_eval();
     title = stralloc(_("Load ROM file"));
-    filename = ui_select_file(title, NULL, False, last_dir, "*", &button,
+    filename = ui_select_file(title, NULL, 0, False, last_dir, "*", &button,
                               False, NULL);
 
     free(title);

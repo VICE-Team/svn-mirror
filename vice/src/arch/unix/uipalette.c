@@ -44,8 +44,8 @@ UI_CALLBACK(ui_load_palette)
 
     vsync_suspend_speed_eval();
     title = stralloc(_("Load custom palette"));
-    filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
-                              False, NULL);
+    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vpl",
+                              &button, False, NULL);
 
     free(title);
     switch (button) {

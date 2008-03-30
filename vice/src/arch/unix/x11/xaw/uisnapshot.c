@@ -80,8 +80,8 @@ static UI_CALLBACK(browse_callback)
     ui_button_t button;
     char *filename;
 
-    filename = ui_select_file(_("Save snapshot file"), NULL, False, NULL, "*",
-                              &button, 0, NULL);
+    filename = ui_select_file(_("Save snapshot file"), NULL, 0, False, NULL,
+                              "*", &button, 0, NULL);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

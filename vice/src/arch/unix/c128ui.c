@@ -203,8 +203,8 @@ UI_CALLBACK(set_function_rom_name)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Function ROM image"), NULL, False, last_dir,
-                              "*", &button, False, NULL);
+    filename = ui_select_file(_("Function ROM image"), NULL, 0, False,
+                              last_dir, "*", &button, False, NULL);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
         if (resources_set_value(resname, (resource_value_t)filename) < 0)

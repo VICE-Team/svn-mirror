@@ -71,7 +71,8 @@ extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width,
                          int height);
 extern char *ui_select_file(const char *title,
-                            char *(*read_contents_func)(const char *),
+                            char *(*read_contents_func)(const char *,
+                            unsigned int unit), unsigned int unit,
                             unsigned int allow_autostart,
                             const char *default_dir,
                             const char *default_pattern,

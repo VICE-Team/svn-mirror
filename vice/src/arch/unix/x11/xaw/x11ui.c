@@ -1560,7 +1560,8 @@ int ui_extend_image_dialog(void)
 
 /* File browser. */
 char *ui_select_file(const char *title,
-                     char *(*read_contents_func)(const char *),
+                     char *(*read_contents_func)(const char *,
+                     unsigned int unit), unsigned int unit,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
                      unsigned int show_preview, int *attach_wp)
@@ -1614,7 +1615,7 @@ char *ui_select_file(const char *title,
             char *contents;
             char *f = concat(fs_status.path, fs_status.file, NULL);
 
-            contents = read_contents_func(f);
+            contents = read_contents_func(f, unit);
             free(f);
             if (contents != NULL) {
                 ui_show_text(fs_status.file, contents, 250, 240);
