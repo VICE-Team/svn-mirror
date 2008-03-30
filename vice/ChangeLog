@@ -1,3 +1,8 @@
+1998-11-11  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Fix detection of `-fno-exceptions' in the C++
+	compiler when compiling with reSID in.
+
 1998-11-10  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.26.
