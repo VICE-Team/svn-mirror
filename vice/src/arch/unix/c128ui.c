@@ -33,46 +33,16 @@
 #define C128UI 1
 #include "videoarch.h"
 
-#include "datasette.h"
 #include "drive.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uidatasette.h"
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
-
-/* ------------------------------------------------------------------------- */
-
-static UI_CALLBACK(ui_datasette_control)
-{
-    int command = (int)UI_MENU_CB_PARAM;
-    datasette_control(command);
-}
-
-static ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Stop"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
-    { N_("Play"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_START, NULL },
-    { N_("Forward"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL },
-    { N_("Rewind"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL },
-    { N_("Record"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
-    { N_("Reset"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { N_("Datassette control"),
-      NULL, NULL, datasette_control_submenu },
-    { NULL }
-};
 
 /* ------------------------------------------------------------------------- */
 

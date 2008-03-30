@@ -37,13 +37,13 @@
 #include "c64mem.h"
 #include "c64cart.h"
 #include "cartridge.h"
-#include "datasette.h"
 #include "drive.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicartridge.h"
 #include "sound.h"
 #include "uicommands.h"
+#include "uidatasette.h"
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
@@ -113,28 +113,6 @@ static UI_CALLBACK(freeze_cartridge)
 {
     cartridge_trigger_freeze();
 }
-
-static UI_CALLBACK(ui_datasette_control)
-{
-    int command = (int)UI_MENU_CB_PARAM;
-    datasette_control(command);
-}
-
-static ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Stop"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
-    { N_("Play"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
-    { N_("Forward"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
-    { N_("Rewind"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
-    { N_("Record"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
-    { N_("Reset"), (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
-    { NULL }
-};
 
 static UI_CALLBACK(control_cartridge)
 {
@@ -221,12 +199,6 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
     { N_("*Cartridge control"),
       (ui_callback_t)control_cartridge,
       (ui_callback_data_t)0, cartridge_control_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { N_("Datassette control"),
-      NULL, NULL, datasette_control_submenu },
     { NULL }
 };
 
