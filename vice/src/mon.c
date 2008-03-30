@@ -64,6 +64,7 @@
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
+#include "vdrive-command.h"
 #include "vdrive.h"
 #include "vsync.h"
 
