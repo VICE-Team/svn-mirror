@@ -36,6 +36,7 @@
 #include "ted.h"
 #include "tedtypes.h"
 #include "utils.h"
+#include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -105,12 +106,23 @@ static resource_t resources_2x[] =
 
 int ted_resources_init(void)
 {
+    video_chip_cap_t video_chip_cap;
+
+    video_chip_cap.dsize_allowed = ARCHDEP_TED_DSIZE;
+    video_chip_cap.dscan_allowed = ARCHDEP_TED_DSCAN;
+    video_chip_cap.single_mode.sizex = 1;
+    video_chip_cap.single_mode.sizey = 1;
+    video_chip_cap.single_mode.rmode = VIDEO_RENDER_PAL_1X1;
+    video_chip_cap.double_mode.sizex = 2;
+    video_chip_cap.double_mode.sizey = 2;
+    video_chip_cap.double_mode.rmode = VIDEO_RENDER_PAL_2X2;
+
 #if (ARCHDEP_TED_DSIZE == 1) || (ARCHDEP_TED_DSCAN == 1)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
     if (raster_resources_chip_init("TED", &ted.raster,
-        ARCHDEP_TED_DSIZE, ARCHDEP_TED_DSCAN) < 0)
+        &video_chip_cap) < 0)
         return -1;
 
     return 0;

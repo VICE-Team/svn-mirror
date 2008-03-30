@@ -76,7 +76,7 @@ static resource_t resources_chip[] =
 };
 
 int raster_resources_chip_init(const char *chipname, raster_t *raster,
-                               int double_size, int doulbe_scan)
+                               struct video_chip_cap_s *video_chip_cap)
 {
     unsigned int i;
 
@@ -88,6 +88,6 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
     }
 
     return resources_register(resources_chip)
-        | video_resources_chip_init(chipname, raster, double_size, doulbe_scan);
+        | video_resources_chip_init(chipname, raster, video_chip_cap);
 }
 

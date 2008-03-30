@@ -120,12 +120,27 @@ typedef struct video_draw_buffer_callback_s {
 #define VIDEO_RESOURCES_PAL        2 /* c64, c128, vic20 */
 #define VIDEO_RESOURCES_PAL_NOFAKE 3 /* plus4 (fake pal emu not possible here) */
 
+struct video_chip_cap_render_s {
+    unsigned int sizex;
+    unsigned int sizey;
+    unsigned int rmode;
+};
+typedef struct video_chip_cap_render_s video_chip_cap_render_t;
+
+struct video_chip_cap_s {
+    unsigned int dsize_allowed;
+    unsigned int dscan_allowed;
+    video_chip_cap_render_t single_mode;
+    video_chip_cap_render_t double_mode;
+};
+typedef struct video_chip_cap_s video_chip_cap_t;
+
 struct raster_s;
 
 extern int video_resources_init(int mode);
 extern int video_resources_chip_init(const char *chipname,
                                      struct raster_s *raster,
-                                     int double_size, int doulbe_scan);
+                                     video_chip_cap_t *video_chip_cap);
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
 

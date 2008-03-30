@@ -241,13 +241,13 @@ static resource_t resources_chip_scan[] =
 };
 
 int video_resources_chip_init(const char *chipname, struct raster_s *raster,
-                              int double_size, int doulbe_scan)
+                              video_chip_cap_t *video_chip_cap)
 {
     unsigned int i;
 
     video_resource_chip.raster = raster;
 
-    if (doulbe_scan != 0) {
+    if (video_chip_cap->dscan_allowed != 0) {
         for (i = 0; vname_chip_scan[i] != NULL; i++) {
             resources_chip_scan[i].name = concat(chipname,
                                                  vname_chip_scan[i], NULL);

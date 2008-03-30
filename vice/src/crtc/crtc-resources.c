@@ -36,6 +36,7 @@
 #include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
+#include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -116,8 +117,19 @@ static resource_t resources[] =
 
 int crtc_resources_init(void)
 {
+    video_chip_cap_t video_chip_cap;
+
+    video_chip_cap.dsize_allowed = ARCHDEP_CRTC_DSIZE;
+    video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
+    video_chip_cap.single_mode.sizex = 1;
+    video_chip_cap.single_mode.sizey = 1;
+    video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;
+    video_chip_cap.double_mode.sizex = 2;
+    video_chip_cap.double_mode.sizey = 2;
+    video_chip_cap.double_mode.rmode = VIDEO_RENDER_RGB_2X2;
+
     if (raster_resources_chip_init("Crtc", &crtc.raster,
-        ARCHDEP_CRTC_DSIZE, ARCHDEP_CRTC_DSCAN) < 0)
+        &video_chip_cap) < 0)
         return -1;
 
     crtc_resources.palette_file_name = NULL;
