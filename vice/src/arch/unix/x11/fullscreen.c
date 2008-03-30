@@ -134,16 +134,29 @@ void fullscreen_mode_callback(const char *device, void *callback)
 #endif
 }
 
-void fullscreen_create_menus(struct ui_menu_entry_s menu[])
+void fullscreen_menu_create(struct ui_menu_entry_s menu[])
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    vidmode_create_menus(menu);
+    vidmode_menu_create(menu);
 #endif
 #ifdef USE_XF86_DGA1_EXTENSIONS
-    dga1_create_menus(menu);
+    dga1_menu_create(menu);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    dga2_create_menus(menu);
+    dga2_menu_create(menu);
+#endif
+}
+
+void fullscreen_menu_shutdown(struct ui_menu_entry_s menu[])
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_menu_shutdown(menu);
+#endif
+#ifdef USE_XF86_DGA1_EXTENSIONS
+    dga1_menu_shutdown(menu);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    dga2_menu_shutdown(menu);
 #endif
 }
 
