@@ -27,5 +27,12 @@
 #ifndef _TCBM_H
 #define _TCBM_H
 
+#include "types.h"
+
+extern BYTE REGPARM1 tcbm1_read(ADDRESS addr);
+extern void REGPARM2 tcbm1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 tcbm2_read(ADDRESS addr);
+extern void REGPARM2 tcbm2_store(ADDRESS addr, BYTE value);
+
 #endif
 
