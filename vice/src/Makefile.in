@@ -630,8 +630,11 @@ romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h resources.h interrupt.h 6510core.h log.h maincpu.h \
 	rs232.h rsuser.h
-screenshot.o: screenshot.c vice.h config.h log.h machine.h screenshot.h \
-	utils.h arch/unix/types.h
+screenshot.o: screenshot.c vice.h config.h log.h machine.h palette.h \
+	arch/unix/types.h screenshot.h utils.h video.h \
+	arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
+	arch/unix/x11/xaw/../videoarch.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
 	arch/unix/types.h maincpu.h 6510core.h mem.h mos6510.h \
 	parallel.h prdevice.h serial.h traps.h utils.h vdrive/vdrive.h

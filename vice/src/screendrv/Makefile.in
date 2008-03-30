@@ -266,14 +266,10 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-bmp.o: bmp.c ../../src/vice.h ../../src/config.h ../../src/log.h \
-	../../src/screenshot.h ../../src/arch/unix/types.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
-png.o: png.c ../../src/vice.h ../../src/config.h ../../src/screenshot.h
+bmp.o: bmp.c ../../src/vice.h ../../src/config.h ../../src/screenshot.h \
+	../../src/arch/unix/types.h ../../src/utils.h
+png.o: png.c ../../src/vice.h ../../src/config.h ../../src/screenshot.h \
+	../../src/arch/unix/types.h ../../src/utils.h
 
 info-am:
 info: info-am
