@@ -30,7 +30,7 @@
 #include "vic.h"
 #include "via.h"
 #include "vmachine.h"
-#include "machdesc.h"
+#include "machspec.h"
 #include "maincpu.h"
 #include "kbdbuf.h"
 

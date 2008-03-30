@@ -4,15 +4,21 @@
 #include <assert.h>
 #include "vice.h"
 #include "types.h"
+#include "asm.h"
+
+#undef M_ADDR
 #include "mon.h"
 
 int yyerror(char *s);
 
 /* Defined in the lexer */
-extern int set_rol, rol, new_cmd, opt_asm;
+extern int rol, new_cmd, opt_asm;
 extern void free_buffer(void);
 extern void make_buffer(char *str);
 extern int yylex(void);
+
+#define new_mode(x,y) (LO16_TO_HI16(x)|y)
+#define BAD_MODE        14
 
 %}
 
@@ -36,7 +42,7 @@ extern int yylex(void);
 %token<i> CMD_MEM_DISPLAY CMD_BREAK CMD_TRACE CMD_IO CMD_BRMON CMD_COMPARE
 %token<i> CMD_DUMP CMD_UNDUMP CMD_EXIT CMD_DELETE CMD_CONDITION CMD_COMMAND
 %token<i> CMD_ASSEMBLE CMD_DISASSEMBLE CMD_NEXT CMD_STEP CMD_PRINT CMD_DEVICE
-%token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR
+%token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR OPCODE
 %token<str> STRING FILENAME R_O_L ASM_LINE
 %token<reg> REGISTER
 %token<cond_op> COMPARE_OP
@@ -51,7 +57,7 @@ extern int yylex(void);
 %type<i> register_mod opt_count meta_command command_list assemble
 %type<i> memory_display space_mod file_cmd no_arg_cmds disassemble
 %type<i> set_list_breakpts set_list_watchpts set_list_tracepts value
-%type<i> display_type
+%type<i> display_type asm_operand_mode assembly_instruction
 %type<str> rest_of_line data_list data_element 
 
 %left '+' '-'
@@ -61,16 +67,19 @@ extern int yylex(void);
 
 command_list: meta_command TRAIL
             | command_list meta_command TRAIL
-            | ASM_LINE TRAIL { $$ = 0; 
+            | assembly_instruction TRAIL
+            | TRAIL { new_cmd = 1; end_assemble_mode(); }
+            ;
+
+assembly_instruction: ASM_LINE asm_operand_mode { $$ = 0; 
                                if ($1) {
-                                  assemble_line($1); 
+                                  mon_assemble_instr($1, $2);
                                } else {
                                   new_cmd = 1;
                                   end_assemble_mode();
                                }
+                               opt_asm = 0;
                              }
-            | TRAIL { new_cmd = 1; end_assemble_mode(); }
-            ;
 
 meta_command: command 
 
@@ -120,7 +129,7 @@ display_type: CMD_DISPLAYTYPE DATA_TYPE { default_datatype = $2; }
                                         datatype_string[default_datatype]); }
             ;
 
-assemble: CMD_ASSEMBLE address rest_of_line { start_assemble_mode($2, $3); }
+assemble: CMD_ASSEMBLE address { start_assemble_mode($2, NULL); } assembly_instruction
         | CMD_ASSEMBLE address { start_assemble_mode($2, NULL); }
         ;
 
@@ -211,14 +220,14 @@ opt_address: address { $$ = $1; }
            |         { $$ = bad_addr; }
            ;
 
-address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) rol = 1; }
-       | memspace ':' memloc { $$ = new_addr($1,$3); if (opt_asm) rol = 1; }
+address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_mode = 1; }
+       | memspace ':' memloc { $$ = new_addr($1,$3); if (opt_asm) new_cmd = asm_mode = 1; }
 
 memspace: 'c' { $$ = e_comp_space; } 
         | 'd' { $$ = e_disk_space; }
         ;
 
-memloc: memaddr { $$ = $1; }
+memloc: memaddr { $$ = check_addr_limits($1); }
       ;
 
 memaddr: number { $$ = $1; } 
@@ -258,6 +267,52 @@ number: H_NUMBER { $$ = $1; }
       | O_NUMBER { $$ = $1; }
       | B_NUMBER { $$ = $1; }
       ;
+
+asm_operand_mode: '#' number { $$ = new_mode(IMMEDIATE,$2); }
+                | number { if ($1 < 0x100)
+                              $$ = new_mode(ZERO_PAGE,$1);
+                           else
+                              $$ = new_mode(ABSOLUTE,$1);
+                         }
+                | number ',' REGISTER  { if ($3 == e_X) {
+                                            if ($1 < 0x100)
+                                               $$ = new_mode(ZERO_PAGE_X,$1);
+                                            else
+                                               $$ = new_mode(ABSOLUTE_X,$1);
+                                         } else if ($3 == e_Y) {
+                                            if ($1 < 0x100)
+                                               $$ = new_mode(ZERO_PAGE_Y,$1);
+                                            else
+                                               $$ = new_mode(ABSOLUTE_Y,$1);
+                                         } else {
+                                            printf("Invalid index register.\n");
+                                         }
+                                       }
+                | '(' number ')'  { $$ = new_mode(ABS_INDIRECT,$2); }
+                | '(' number ',' REGISTER ')' { if ($4 == e_X)
+                                                   $$ = new_mode(INDIRECT_X,$2);
+                                                else {
+                                                   printf("Invalid index register.\n");
+                                                   $$ = new_mode(BAD_MODE,0);
+                                                }
+                                              }
+                | '(' number ')' ',' REGISTER { if ($5 == e_Y)
+                                                   $$ = new_mode(INDIRECT_Y,$2);
+                                                else {
+                                                   printf("Invalid index register.\n");
+                                                   $$ = new_mode(BAD_MODE,0);
+                                                }
+                                              }
+                | { $$ = new_mode(IMPLIED,0); }
+                | REGISTER { if ($1 == e_A)
+                                $$ = new_mode(ACCUMULATOR,$1);
+                             else {
+                                printf("Invalid register.\n");
+                                $$ = new_mode(BAD_MODE,0);
+                             }
+                           }
+                ;
+                              
 
 %% 
 

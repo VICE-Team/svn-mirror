@@ -55,7 +55,7 @@ BYTE ram[RAM_ARRAY]; /* 64K just to make things easier.  Real size is 32K. */
 BYTE rom[PET_ROM_SIZE];
 BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
 
-int ram_size = RAM_ARRAY;	/* FIXME? /
+int ram_size = RAM_ARRAY;	/* FIXME? */
 
 /* Memory read and write tables. */
 read_func_ptr_t _mem_read_tab[0x101];

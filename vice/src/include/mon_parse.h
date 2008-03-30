@@ -62,16 +62,17 @@ typedef union {
 #define	CMD_SYSTEM	308
 #define	CMD_QUIT	309
 #define	CMD_CHDIR	310
-#define	STRING	311
-#define	FILENAME	312
-#define	R_O_L	313
-#define	ASM_LINE	314
-#define	REGISTER	315
-#define	COMPARE_OP	316
-#define	DATA_TYPE	317
-#define	INPUT_SPEC	318
-#define	CMD_BREAKPT_ONOFF	319
-#define	TOGGLE	320
+#define	OPCODE	311
+#define	STRING	312
+#define	FILENAME	313
+#define	R_O_L	314
+#define	ASM_LINE	315
+#define	REGISTER	316
+#define	COMPARE_OP	317
+#define	DATA_TYPE	318
+#define	INPUT_SPEC	319
+#define	CMD_BREAKPT_ONOFF	320
+#define	TOGGLE	321
 
 
 extern YYSTYPE yylval;

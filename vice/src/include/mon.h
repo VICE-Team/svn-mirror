@@ -278,4 +278,5 @@ extern bool mon_force_import(MEMSPACE mem);
 extern void mon_helper(ADDRESS a);
 extern void mon(ADDRESS a);
 
+extern int mon_assemble_instr(char *opcode_name, unsigned operand);
 #endif

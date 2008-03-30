@@ -13,8 +13,9 @@ YY_BUFFER_STATE my_state;
 
 int yywrap();
 
-int new_cmd = 1, quote = 0, rol = 0, set_rol = 0;
+int new_cmd = 1, quote = 0, rol = 0;
 int opt_asm = 0;
+
 extern char *myinput;
 
 int resolve_datatype(unsigned guess_type, char *num, int *val);
@@ -27,15 +28,17 @@ int resolve_datatype(unsigned guess_type, char *num, int *val);
 
 %{
    if (new_cmd) {
-      BEGIN CMD;
-      new_cmd = 0;
+      if (asm_mode) {
+         BEGIN ASM_MODE;
+         new_cmd = 0;
+      } else {
+         BEGIN CMD;
+         new_cmd = 0;
+      }
    }
    if (rol) {
       BEGIN ROL;
       rol = 0;
-   }
-   if (asm_mode && !opt_asm) {
-      BEGIN ASM_MODE;
    }
 %}
 
@@ -98,6 +101,11 @@ int resolve_datatype(unsigned guess_type, char *num, int *val);
 
 <CMD>\? |
 <CMD>help		{ BEGIN INITIAL; return CMD_HELP; }
+
+<ASM_MODE>[a-zA-Z]*     { yylval.str = strdup(yytext); BEGIN INITIAL; return ASM_LINE; }
+<ASM_MODE>[ \t]*
+<ASM_MODE>\n            { new_cmd = 1; return TRAIL; }
+
 <CMD>[^~@ \t\n]*		{ BEGIN INITIAL; new_cmd = 1; return BAD_CMD; }
 
 on  		{ yylval.i = e_ON; return TOGGLE; }
@@ -138,7 +146,8 @@ if		{ return IF; }
 
 [1-7][0-7]* { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
 
-[0-9]* { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
+\+[0-9]+ { yylval.i = strtol(yytext, NULL, 10); return D_NUMBER; }
+[0-9]+ { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
 
 %[01]+ { yylval.i = strtol(yytext+1, NULL, 2);
          return B_NUMBER;
@@ -192,9 +201,6 @@ TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
 <ROL>\n          { new_cmd = 1; opt_asm = 0; return TRAIL; }
 <ROL>[^ \t\n][^\n]*          { yylval.str = strdup(yytext); return R_O_L; }
 <ROL>[ \t]*
-
-<ASM_MODE>[^\n]+     { yylval.str = strdup(yytext); return ASM_LINE; }
-<ASM_MODE>\n     { yylval.str = NULL; return TRAIL; }
 
 [^ \t]		{ return yytext[0]; }
 [ \t]*

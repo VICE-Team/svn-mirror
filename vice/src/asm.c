@@ -372,7 +372,7 @@ struct lookup_tag lookup[] = {
     /* ff */ { "ISB",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 }
 };
 
-static char *modename[] = {
+char *modename[] = {
     "IMPLIED", "ACCUMULATOR", "IMMEDIATE",
 #ifdef EXTENDED_CPU
     "IMMEDIATE_WORD", "ZERO_PAGE", "ZERO_PAGE_X", "ZERO_PAGE_Y", "ABSOLUTE",

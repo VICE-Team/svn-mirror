@@ -52,6 +52,11 @@ extern void mem_set_tape_sense(int value);
 extern void maincpu_turn_watchpoints_on();
 extern void maincpu_turn_watchpoints_off();
 
+extern read_func_t read_rom, read_zero;
+extern store_func_t store_rom, store_zero;
+
+extern store_func_t store_zero;
+
 /* ------------------------------------------------------------------------- */
 
 #define STORE(addr, value)  (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
@@ -69,7 +74,7 @@ inline static BYTE *mem_read_base(int addr)
 
     if (p == 0)
 	return p;
-    
+
     return p - (addr & 0xff00);
 }
 

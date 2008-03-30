@@ -235,7 +235,7 @@ unsigned int get_reg_val(MEMSPACE mem, int reg_id)
          puts("True1541 emulation is not turned on.");
       }
 #else
-      puts("True1541 emulation no supported for this machine.");
+      puts("True1541 emulation not supported for this machine.");
 #endif
    }
    return 0;
@@ -260,11 +260,12 @@ unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
          puts("True1541 emulation is not turned on.");
       }
 #else
-      puts("True1541 emulation no supported for this machine.");
+      puts("True1541 emulation not supported for this machine.");
 #endif
    }
-   else
+   else {
       assert(FALSE);
+   }
 
    return 0;
 }
@@ -329,7 +330,7 @@ void set_reg_val(int reg_id, WORD val)
          puts("True1541 emulation is not turned on.");
       }
 #else
-      puts("True1541 emulation no supported for this machine.");
+      puts("True1541 emulation not supported for this machine.");
 #endif
    }
    force_array[mem] = TRUE;
@@ -349,7 +350,7 @@ void print_registers(MEMSPACE mem)
          return;
       }
 #else
-      puts("True1541 emulation no supported for this machine.");
+      puts("True1541 emulation not supported for this machine.");
 #endif
    }
 
@@ -379,7 +380,7 @@ void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
          puts("True1541 emulation is not turned on.");
       }
 #else
-      puts("True1541 emulation no supported for this machine.");
+      puts("True1541 emulation not supported for this machine.");
 #endif
    }
    else
@@ -536,7 +537,7 @@ unsigned check_addr_limits(unsigned val)
 {
    if (val != LO16(val))
    {
-      printf("Overflow warning\n");
+      printf("Overflow warning: 0x%x -> 0xffff\n", val);
       return 0xffff;
    }
 
@@ -690,38 +691,11 @@ void start_assemble_mode(M_ADDR addr, char *asm_line)
    assert(is_valid_addr(addr));
    addr = evaluate_default_addr(addr, FALSE);
    asm_mode_addr = addr;
-
-   assemble_line(asm_line);
 }
 
 void end_assemble_mode()
 {
    asm_mode = 0;
-}
-
-extern int interpret_instr(char *line, ADDRESS adr, int mode);
-
-void assemble_line(char *line)
-{
-   int bump_count = 1;
-   MEMSPACE mem;
-   unsigned loc;
-
-   if (!line)
-      return;
-
-   mem = addr_memspace(asm_mode_addr);
-   loc = addr_location(asm_mode_addr);
-   /* line[strlen(line)-1] = '\0'; */
-
-   /* printf("Assemble '%s' to address %s:0x%04x\n",line,memspace_string[mem],addr_location(asm_mode_addr)); */
-   bump_count = interpret_instr(line, loc, 0); /* FIXME ? MODE */
-   if (bump_count >= 0) {
-      inc_addr_location(&asm_mode_addr, bump_count);
-      dot_addr[mem] = asm_mode_addr;
-   } else {
-      printf("Assemble error: %d\n",bump_count);
-   }
 }
 
 unsigned disassemble_instr(M_ADDR addr)
@@ -766,6 +740,8 @@ void disassemble_lines(M_ADDR_RANGE range)
       mem = default_readspace;
       end_loc = addr_location(dot_addr[mem]) + DEFAULT_DISASSEMBLY_SIZE;
    }
+
+   end_loc = end_loc & 0xffff;
 
    while (addr_location(dot_addr[mem]) <= end_loc)
       inc_addr_location(&(dot_addr[mem]), disassemble_instr(dot_addr[mem]));
@@ -1842,12 +1818,12 @@ void mon_helper(ADDRESS a)
 
     if (any_watchpoints(e_comp_space))
        maincpu_trigger_trap(mon_helper);
-        
+
 #ifndef NO_DRIVE
     if (any_watchpoints(e_disk_space))
        true1541_trigger_trap(mon_helper);
 #endif
-        
+
 }
 
 void mon(ADDRESS a)
@@ -1859,7 +1835,7 @@ void mon(ADDRESS a)
 
    do {
       sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
-              memspace_string[default_writespace], memspace_string[caller_space], 
+              memspace_string[default_writespace], memspace_string[caller_space],
               addr_location(dot_addr[caller_space]));
 
       if (asm_mode) {
@@ -1902,14 +1878,14 @@ void mon(ADDRESS a)
       maincpu_breakpoints_on();
    else
       maincpu_breakpoints_off();
-    
+
    if (any_watchpoints(e_comp_space)) {
       maincpu_turn_watchpoints_on();
       maincpu_trigger_trap(mon_helper);
    }
    else
       maincpu_turn_watchpoints_off();
-    
+
 #ifndef NO_DRIVE
    if (any_breakpoints(e_disk_space))
       true1541_breakpoints_on();
@@ -1923,6 +1899,54 @@ void mon(ADDRESS a)
    else
       true1541_turn_watchpoints_off();
 #endif
-    
+
    exit_mon = 0;
+}
+
+extern char *modename[];
+extern struct lookup_tag lookup[];
+
+int mon_assemble_instr(char *opcode_name, unsigned operand)
+{
+   WORD operand_value = LO16(operand);
+   WORD operand_mode = HI16_TO_LO16(operand);
+   BYTE opcode = 0;
+   int i, len;
+   bool found = FALSE;
+   MEMSPACE mem;
+   unsigned loc;
+
+   for (i=0;i<=0xff;i++) {
+      if (!strcasecmp(lookup[i].mnemonic, opcode_name)) {
+         if ((lookup[i].addr_mode == operand_mode) ||
+             ( (operand_mode == IMPLIED) && (lookup[i].addr_mode == ACCUMULATOR))) {
+            opcode = i;
+            found = TRUE;
+         }
+      }
+   }
+
+   if (!found) {
+      printf("\"%s\" is not a valid opcode.\n",opcode_name);
+      return -1;
+   }
+
+   len = clength[lookup[opcode].addr_mode];
+
+   mem = addr_memspace(asm_mode_addr);
+   loc = addr_location(asm_mode_addr);
+
+   ram[loc] = opcode;
+   if (len >= 2)
+      ram[loc+1] = operand_value & 0xff;
+   if (len >= 3)
+      ram[loc+2] = (operand_value >> 8) & 0xff;
+
+   if (len >= 0) {
+      inc_addr_location(&asm_mode_addr, len);
+      dot_addr[mem] = asm_mode_addr;
+   } else {
+      printf("Assemble error: %d\n",len);
+   }
+   return len;
 }
