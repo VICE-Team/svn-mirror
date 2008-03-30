@@ -36,6 +36,7 @@
 #endif
 
 #include "archdep.h"
+#include "c64-resources.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
@@ -65,36 +66,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int mem_load_kernal(void);
-static int mem_load_basic(void);
-static int mem_load_chargen(void);
-
-/* ------------------------------------------------------------------------- */
-
 /* C64 memory-related resources.  */
-
-/* Name of the character ROM.  */
-static char *chargen_rom_name = NULL;
-
-/* Name of the BASIC ROM.  */
-static char *basic_rom_name = NULL;
-
-/* Name of the Kernal ROM.  */
-static char *kernal_rom_name = NULL;
-
-/* Kernal revision for ROM patcher.  */
-static char *kernal_revision;
-
-/* Flag: Do we enable the Emulator ID?  */
-static int emu_id_enabled;
-
-/* Flag: Do we enable the external REU?  */
-static int reu_enabled;
-
-#ifdef HAVE_RS232
-/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
-static int acia_de_enabled;
-#endif
 
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
@@ -104,158 +76,10 @@ unsigned int old_reg_pc;
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
     "CartridgeType", "CartridgeFile",
-    "DosName2031", "DosName1001", 
+    "DosName2031", "DosName1001",
     "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
-
-
-static int set_chargen_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (chargen_rom_name != NULL && name != NULL
-        && strcmp(name, chargen_rom_name) == 0)
-        return 0;
-
-    util_string_set(&chargen_rom_name, name);
-
-    return mem_load_chargen();
-}
-
-static int set_kernal_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (kernal_rom_name != NULL && name != NULL
-        && strcmp(name, kernal_rom_name) == 0)
-        return 0;
-
-    util_string_set(&kernal_rom_name, name);
-
-    return mem_load_kernal();
-}
-
-static int set_basic_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *) v;
-
-    if (basic_rom_name != NULL
-        && name != NULL
-        && strcmp(name, basic_rom_name) == 0)
-        return 0;
-
-    util_string_set(&basic_rom_name, name);
-
-    return mem_load_basic();
-}
-
-static int set_emu_id_enabled(resource_value_t v, void *param)
-{
-    if (!(int) v) {
-        emu_id_enabled = 0;
-        return 0;
-    } else if (mem_cartridge_type == CARTRIDGE_NONE) {
-        emu_id_enabled = 1;
-        return 0;
-    } else {
-        /* Other extensions share the same address space, so they cannot be
-           enabled at the same time.  */
-        return -1;
-    }
-}
-
-/*
- * Some cartridges can coexist with the REU.
- * This list might not be complete, but atleast these are known (to me -> nathan)
- * to work. Feel free to add more coexisting cartridges to this list.
- */
-static int reu_coexist_cartridge(void)
-{
-	int result;
-
-	switch (mem_cartridge_type)
-		{
-		case (CARTRIDGE_NONE):
-		case (CARTRIDGE_SUPER_SNAPSHOT_V5):
-		case (CARTRIDGE_EXPERT):
-			result = TRUE;
-			break;
-		default:
-			result = FALSE;
-		}
-
-	return result;
-}
-
-/* FIXME: Should initialize the REU when turned on.  */
-static int set_reu_enabled(resource_value_t v, void *param)
-{
-    if (!(int) v) {
-        reu_enabled = 0;
-        reu_deactivate();
-        return 0;
-    } else if (reu_coexist_cartridge() == TRUE) {
-        reu_enabled = 1;
-        reu_activate();
-        return 0;
-    } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
-    }
-}
-
-/* FIXME: Should patch the ROM on-the-fly.  */
-static int set_kernal_revision(resource_value_t v, void *param)
-{
-    const char *rev = (const char *) v;
-
-    util_string_set(&kernal_revision, rev);
-    return 0;
-}
-
-#ifdef HAVE_RS232
-
-static int set_acia_de_enabled(resource_value_t v, void *param)
-{
-    acia_de_enabled = (int) v;
-    return 0;
-}
-
-#endif
-
-static resource_t resources[] = {
-    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
-      (resource_value_t *) &chargen_rom_name,
-      set_chargen_rom_name, NULL },
-    { "KernalName", RES_STRING, (resource_value_t) "kernal",
-      (resource_value_t *) &kernal_rom_name,
-      set_kernal_rom_name, NULL },
-    { "BasicName", RES_STRING, (resource_value_t) "basic",
-      (resource_value_t *) &basic_rom_name,
-      set_basic_rom_name, NULL },
-    { "REU", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &reu_enabled,
-      set_reu_enabled, NULL },
-    { "EmuID", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &emu_id_enabled,
-      set_emu_id_enabled, NULL },
-    { "KernalRev", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t *) &kernal_revision,
-      set_kernal_revision, NULL },
-#ifdef HAVE_RS232
-    { "AciaDE", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &acia_de_enabled,
-      set_acia_de_enabled, NULL },
-#endif
-    { NULL }
-};
-
-int c64_mem_init_resources(void)
-{
-    return resources_register(resources);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -414,7 +238,7 @@ inline void pla_config_changed(void)
     if (bank_limit != NULL) {
         *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
         if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8] 
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
                          - (old_reg_pc & 0xff00);
         *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
     }
@@ -573,27 +397,27 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 
 static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
 {
-	/*
-	 * Enable cartridge first before making an access.
-	 */
-	cartridge_decode_address(addr);
+        /*
+         * Enable cartridge first before making an access.
+         */
+        cartridge_decode_address(addr);
 
-	/*
-	 * Store data at the decoded address.
-	 */
-	mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
+        /*
+         * Store data at the decoded address.
+         */
+        mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
 }
 
 static BYTE REGPARM1 cartridge_decode_read(ADDRESS addr)
 {
-	/*
-	 * Enable cartridge first before making an access.
-	 */
-	cartridge_decode_address(addr);
+        /*
+         * Enable cartridge first before making an access.
+         */
+        cartridge_decode_address(addr);
 
-	/*
-	 * Read data from decoded address.
-	 */
+        /*
+         * Read data from decoded address.
+         */
     return mem_read_tab_orig[mem_config][addr >> 8](addr);
 }
 
@@ -877,65 +701,66 @@ void mem_initialize_memory(void)
     export.exrom = 0;
     export.game = 0;
 
-	/*
-	 * Copy mapping to a separate table.
-	 * This table will contain the original (unmodified) mapping.
-	 */
-	memcpy(mem_write_tab_orig, mem_write_tab, NUM_VBANKS*sizeof(*mem_write_tab));
-	memcpy(mem_read_tab_orig, mem_read_tab, NUM_CONFIGS*sizeof(*mem_read_tab));
+        /*
+         * Copy mapping to a separate table.
+         * This table will contain the original (unmodified) mapping.
+         */
+        memcpy(mem_write_tab_orig, mem_write_tab,
+               NUM_VBANKS*sizeof(*mem_write_tab));
+        memcpy(mem_read_tab_orig, mem_read_tab,
+               NUM_CONFIGS*sizeof(*mem_read_tab));
 
-	/*
-	 * Change address decoding.
-	 */
-	if (mem_cartridge_type == CARTRIDGE_EXPERT)
-		{
-		/*
-		 * Mapping for ~GAME disabled
-		 */
-		for (j = 0; j < 16; j++)
-			{
-			for (i = 0x80; i <= 0x9f; i++)
-				{
-				/* $8000 - $9FFF */
-				mem_read_tab[j][i] = cartridge_decode_read;
+        /*
+         * Change address decoding.
+         */
+        if (mem_cartridge_type == CARTRIDGE_EXPERT)
+                {
+                /*
+                 * Mapping for ~GAME disabled
+                 */
+                for (j = 0; j < 16; j++)
+                        {
+                        for (i = 0x80; i <= 0x9f; i++)
+                                {
+                                /* $8000 - $9FFF */
+                                mem_read_tab[j][i] = cartridge_decode_read;
 
-				/* Setup writing at $8000-$9FFF */
-				set_write_hook(j, i, cartridge_decode_store);
+                                /* Setup writing at $8000-$9FFF */
+                                set_write_hook(j, i, cartridge_decode_store);
 
-				/* $E000 - $FFFF */
-				mem_read_tab[j][i+0x60] = cartridge_decode_read;
+                                /* $E000 - $FFFF */
+                                mem_read_tab[j][i+0x60] = cartridge_decode_read;
+                                /* Setup writing at $E000-$FFFF */
+                        set_write_hook(j, i+0x60, cartridge_decode_store);
+                                }
+                        }
 
-				/* Setup writing at $E000-$FFFF */
-				set_write_hook(j, i+0x60, cartridge_decode_store);
-				}
-			}
+                /*
+                 * Mapping for ~GAME enabled.
+                 */
+                for (j = 16; j < NUM_CONFIGS; j++)
+                        {
+                        /* $0000 - $7FFF */
+                        for (i = 0x00; i <= 0x7f; i++)
+                                {
+                                /* Setup reading */
+                                mem_read_tab[j][i] = cartridge_decode_read;
 
-		/*
-		 * Mapping for ~GAME enabled.
-		 */
-		for (j = 16; j < NUM_CONFIGS; j++)
-			{
-			/* $0000 - $7FFF */
-			for (i = 0x00; i <= 0x7f; i++)
-				{
-				/* Setup reading */
-				mem_read_tab[j][i] = cartridge_decode_read;
+                                /* Setup writing */
+                                set_write_hook(j, i, cartridge_decode_store);
+                                }
 
-				/* Setup writing */
-				set_write_hook(j, i, cartridge_decode_store);
-				}
+                        /* $A000 - $FFFF */
+                        for (i = 0xa0; i <= 0xff; i++)
+                                {
+                                /* Setup reading */
+                                mem_read_tab[j][i] = cartridge_decode_read;
 
-			/* $A000 - $FFFF */
-			for (i = 0xa0; i <= 0xff; i++)
-				{
-				/* Setup reading */
-				mem_read_tab[j][i] = cartridge_decode_read;
-
-				/* Setup writing */
-				set_write_hook(j, i, cartridge_decode_store);
-				}
-			}
-		}
+                                /* Setup writing */
+                                set_write_hook(j, i, cartridge_decode_store);
+                                }
+                        }
+                }
 
     /* Setup initial memory configuration.  */
     pla_config_changed();
@@ -979,8 +804,8 @@ static int c64mem_get_kernal_checksum(void)
         || (id == 0x64
             && sum != C64_KERNAL_CHECKSUM_R64)) {
         log_warning(c64_mem_log,
-                    "Warning: Unknown Kernal image `%s'.  Sum: %d ($%04X).",
-                    kernal_rom_name, sum, sum);
+                    "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
+                    sum, sum);
     } else if (kernal_revision != NULL) {
         if (patch_rom(kernal_revision) < 0)
             return -1;
@@ -997,11 +822,12 @@ static int c64mem_get_kernal_checksum(void)
     return 0;
 }
 
-static int mem_load_kernal(void)
+int mem_load_kernal(const char *rom_name)
 {
     int trapfl;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* Make sure serial code assumes there are no traps installed.  */
     /* serial_remove_traps(); */
@@ -1011,11 +837,11 @@ static int mem_load_kernal(void)
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     /* Load Kernal ROM.  */
-    if (sysfile_load(kernal_rom_name,
+    if (sysfile_load(rom_name,
         kernal_rom, C64_KERNAL_ROM_SIZE,
         C64_KERNAL_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
-                  kernal_rom_name);
+                  rom_name);
         resources_set_value("VirtualDevices", (resource_value_t) trapfl);
         return -1;
     }
@@ -1038,40 +864,42 @@ static int c64mem_get_basic_checksum(void)
 
     if (sum != C64_BASIC_CHECKSUM)
         log_warning(c64_mem_log,
-                    "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X).",
-                    basic_rom_name, sum, sum);
+                    "Warning: Unknown Basic image.  Sum: %d ($%04X).",
+                    sum, sum);
 
     return 0;
 }
 
-static int mem_load_basic(void) 
+int mem_load_basic(const char *rom_name)
 {
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* Load Basic ROM.  */
-    if (sysfile_load(basic_rom_name,
+    if (sysfile_load(rom_name,
         basic_rom, C64_BASIC_ROM_SIZE,
         C64_BASIC_ROM_SIZE) < 0) {
         log_error(c64_mem_log,
                   "Couldn't load basic ROM `%s'.",
-                  basic_rom_name);
+                  rom_name);
         return -1;
     }
     return c64mem_get_basic_checksum();
 }
 
 
-static int mem_load_chargen(void) 
+int mem_load_chargen(const char *rom_name)
 {
-    if(!rom_loaded) return 0;
-    
+    if (!rom_loaded)
+        return 0;
+
     /* Load chargen ROM.  */
 
-    if (sysfile_load(chargen_rom_name,
+    if (sysfile_load(rom_name,
         chargen_rom, C64_CHARGEN_ROM_SIZE,
         C64_CHARGEN_ROM_SIZE) < 0) {
         log_error(c64_mem_log, "Couldn't load character ROM `%s'.",
-                  chargen_rom_name);
+                  rom_name);
         return -1;
     }
 
@@ -1081,6 +909,8 @@ static int mem_load_chargen(void)
 
 int mem_load(void)
 {
+    char *rom_name = NULL;
+
     mem_powerup();
 
     if (c64_mem_log == LOG_ERR)
@@ -1088,14 +918,20 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if (mem_load_kernal() < 0) 
-	return -1;
+    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_kernal(rom_name) < 0)
+        return -1;
 
-    if (mem_load_basic() < 0) 
-	return -1;
+    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_basic(rom_name) < 0)
+        return -1;
 
-    if (mem_load_chargen() < 0) 
-	return -1;
+    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_chargen(rom_name) < 0)
+        return -1;
 
     return 0;
 }
@@ -1387,8 +1223,8 @@ void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 void mem_set_exrom(int active)
 {
     export.exrom = active ? 0 : 1;
- 
-    pla_config_changed(); 
+
+    pla_config_changed();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1406,8 +1242,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_create(s, snap_rom_module_name, 
-					SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+    m = snapshot_module_create(s, snap_rom_module_name,
+                                        SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
     if (m == NULL)
         return -1;
 
@@ -1415,17 +1251,17 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    if (snapshot_module_write_byte_array(m, kernal_rom, 
-						C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom, 
-						C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, chargen_rom, 
-						C64_CHARGEN_ROM_SIZE) < 0
+    if (snapshot_module_write_byte_array(m, kernal_rom,
+                                                C64_KERNAL_ROM_SIZE) < 0
+        || snapshot_module_write_byte_array(m, basic_rom,
+                                                C64_BASIC_ROM_SIZE) < 0
+        || snapshot_module_write_byte_array(m, chargen_rom,
+                                                C64_CHARGEN_ROM_SIZE) < 0
         )
-	goto fail;
+        goto fail;
 
     /* FIXME: save cartridge ROM (& RAM?) areas:
-       first write out the configuration, i.e. 
+       first write out the configuration, i.e.
        - type of cartridge (banking scheme type)
        - state of cartridge (active/which bank, ...)
        then the ROM/RAM arrays:
@@ -1449,7 +1285,7 @@ fail:
 
     return -1;
 }
- 
+
 int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
@@ -1461,8 +1297,8 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     m = snapshot_module_open(s, snap_rom_module_name,
                              &major_version, &minor_version);
     if (m == NULL) {
-	/* this module is optional */
-	/* FIXME: reset all cartridge stuff to standard C64 behaviour */
+        /* this module is optional */
+        /* FIXME: reset all cartridge stuff to standard C64 behaviour */
         return 0;
     }
 
@@ -1472,24 +1308,24 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
                   major_version, minor_version,
                   SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         snapshot_module_close(m);
-	return -1;
+        return -1;
     }
 
     /* disable traps before loading the ROM */
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    if (snapshot_module_read_byte_array(m, kernal_rom, 
-						C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom, 
-						C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, chargen_rom, 
-						C64_CHARGEN_ROM_SIZE) < 0
+    if (snapshot_module_read_byte_array(m, kernal_rom,
+                                                C64_KERNAL_ROM_SIZE) < 0
+        || snapshot_module_read_byte_array(m, basic_rom,
+                                                C64_BASIC_ROM_SIZE) < 0
+        || snapshot_module_read_byte_array(m, chargen_rom,
+                                                C64_CHARGEN_ROM_SIZE) < 0
         )
-	goto fail;
+        goto fail;
 
     /* FIXME: read cartridge ROM (& RAM?) areas:
-       first read out the configuration, i.e. 
+       first read out the configuration, i.e.
        - type of cartridge (banking scheme type)
        - state of cartridge (active/which bank, ...)
        then the ROM/RAM arrays:
@@ -1526,8 +1362,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 
     /* Main memory module.  */
 
-    m = snapshot_module_create(s, snap_mem_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    m = snapshot_module_create(s, snap_mem_module_name, SNAP_MAJOR, SNAP_MINOR);    if (m == NULL)
         return -1;
 
     if (snapshot_module_write_byte(m, pport.data) < 0
@@ -1542,8 +1377,8 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
     m = NULL;
 
     if (save_roms && mem_write_rom_snapshot_module(s) < 0)
-	goto fail;
-	
+        goto fail;
+
     /* REU module.  */
     if (reu_enabled && reu_write_snapshot_module(s) < 0)
         goto fail;
@@ -1596,7 +1431,7 @@ int mem_read_snapshot_module(snapshot_t *s)
     m = NULL;
 
     if (mem_read_rom_snapshot_module(s) < 0)
-	goto fail;
+        goto fail;
 
     /* REU module.  */
     if (reu_read_snapshot_module(s) < 0) {
@@ -1625,3 +1460,4 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
+
