@@ -90,5 +90,9 @@ SOURCE=..\..\c64\c64tpi.c
 
 SOURCE=..\..\c64\patchrom.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\reu.c
+# End Source File
 # End Target
 # End Project

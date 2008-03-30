@@ -26,6 +26,10 @@
  */
 
 extern char *ui_select_file(const char *title, const char *filter,
+                            char*(*content_read_function)(const char*),
                             HWND hwnd);
 extern void ui_set_res_num(char *res, int value, int num);
 
+char *read_disk_image_contents(const char *name);
+char *read_tape_image_contents(const char *name);
+char *read_disk_or_tape_image_contents(const char *name);

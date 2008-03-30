@@ -52,7 +52,7 @@ int     type;
             type = CARTRIDGE_CRT;
             if ((s = ui_select_file("Attach CRT cartridge image",
                 "CRT cartridge image files (*.crt)\0*.crt\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -62,7 +62,7 @@ int     type;
             type = CARTRIDGE_GENERIC_8KB;
             if ((s = ui_select_file("Attach raw 8KB cartridge image",
                 "Raw 8KB cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -72,7 +72,7 @@ int     type;
             type = CARTRIDGE_GENERIC_16KB;
             if ((s = ui_select_file("Attach raw 16KB cartridge image",
                 "Raw 16KB cartrdige image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -82,7 +82,7 @@ int     type;
             type = CARTRIDGE_ACTION_REPLAY;
             if ((s = ui_select_file("Attach Action Replay cartridge image",
                 "Raw AR cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -92,7 +92,7 @@ int     type;
             type = CARTRIDGE_ATOMIC_POWER;
             if ((s = ui_select_file("Attach Atomic Power cartridge image",
                 "Raw AT cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -102,7 +102,7 @@ int     type;
             type = CARTRIDGE_IEEE488;
             if ((s = ui_select_file("Attach IEEE interface cartridge image",
                 "Raw IEEE488 interface cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);
@@ -112,7 +112,7 @@ int     type;
             type = CARTRIDGE_SUPER_SNAPSHOT;
             if ((s = ui_select_file("Attach Super Snapshot 4 cartridge image",
                 "Raw SS4 cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                 if (cartridge_attach_image(type, s) < 0)
                     ui_error("Invalid cartridge image");
                 free(s);

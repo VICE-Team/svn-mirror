@@ -27,12 +27,19 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 /////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
+#define DS_3DLOOK		0x0004L
+#define DS_CONTROL		0x0400L
 #define DS_MODALFRAME		0x80L
 #define LANG_ENGLISH		0x09
 #define SUBLANG_ENGLISH_US	0x01
 #define WS_POPUP		0x80000000L
+#define WS_CHILD		0x40000000L
+#define WS_VISIBLE		0x10000000L
+#define WS_CLIPSIBLINGS		0x04000000L
 #define WS_CAPTION		0x00c00000L
+#define WS_BORDER		0x00800000L
 #define WS_VSCROLL		0x00200000L
+#define WS_HSCROLL              0x00100000L
 #define WS_SYSMENU		0x00080000L
 #define WS_GROUP		0x00020000L
 #define WS_TABSTOP		0x00010000L
@@ -43,6 +50,7 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 #define CBS_DROPDOWN		0x0002L
 #define CBS_DROPDOWNLIST	0x0003L
 #define CBS_SORT		0x0100L
+#define LBS_NOSEL		0x4000L
 
 //#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 //#ifdef _WIN32
@@ -256,6 +264,14 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 40,60,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDC_CANCEL, 95,60,50,14, WS_TABSTOP
+END
+
+IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0,0, 250, 100
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE
+FONT 8, "Courier"
+BEGIN
+    GROUPBOX        "Image Contents ",IDC_STATIC,3,0,155,90
+    LISTBOX         IDC_PREVIEW,6,9,148,90,WS_BORDER|WS_VSCROLL|LBS_NOSEL
 END
 
 /////////////////////////////////////////////////////////////////////////////

@@ -43,7 +43,12 @@
 void video_resize(void);
 
 /* Main DirectDraw object.  */
-LPDIRECTDRAW dd;
+static  LPDIRECTDRAW            dd;
+
+static  LPDIRECTDRAWSURFACE     dd_primary_surface;
+static  LPDIRECTDRAWSURFACE     dd_back_surface;
+static  LPDIRECTDRAWSURFACE     dd_temporary_surface;
+static  LPDIRECTDRAWCLIPPER     dd_clipper;
 
 /* ------------------------------------------------------------------------ */
 
@@ -233,6 +238,53 @@ static const char *dd_error(HRESULT ddrval)
 /* Initialization.  */
 int video_init(void)
 {
+HRESULT ddresult;
+DDSURFACEDESC desc;
+
+    DEBUG(("DirectDraw init started"));
+
+    /*  Create the DirectDraw object */
+    ddresult = DirectDrawCreate(NULL, &dd, NULL);
+
+    if (ddresult != DD_OK) return -1;
+
+    /*  Set cooperative level */
+    ddresult = IDirectDraw_SetCooperativeLevel(dd, NULL, DDSCL_NORMAL);
+    if (ddresult != DD_OK) {
+        ui_error("Cannot set DirectDraw cooperative level:\n%s",
+                 dd_error(ddresult));
+        return -1;
+    }
+
+    /*  Create Primary surface */
+    memset(&desc, 0, sizeof(desc));
+    desc.dwSize = sizeof(desc);
+    desc.dwFlags = DDSD_CAPS;
+    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+
+    ddresult = IDirectDraw_CreateSurface(dd, &desc, &dd_primary_surface, NULL);
+    if (ddresult != DD_OK) {
+        DEBUG(("Cannot create primary surface: %s", dd_error(ddresult)));
+        return -1;
+    }
+
+    ddresult = IDirectDraw_CreateClipper(dd, 0, &dd_clipper, NULL);
+    if (ddresult != DD_OK) {
+        ui_error("Cannot create clipper for primary surface:\n%s",
+                 dd_error(ddresult));
+        return -1;
+    }
+    ddresult = IDirectDrawSurface_SetClipper(dd_primary_surface, dd_clipper);
+    if (ddresult != DD_OK) {
+        ui_error("Cannot set clipper for primary surface:\n%s",
+                 dd_error(ddresult));
+        return -1;
+    }
+
+    DEBUG(("DirectDraw succesfully initialized"));
+    return 0;
+
+#if 0
     HRESULT ddresult;
 
     /* Create the DirectDraw object.  */
@@ -250,6 +302,7 @@ int video_init(void)
 
     DEBUG(("DirectDraw successfully initialized."));
     return 0;
+#endif
 }
 
 /* ------------------------------------------------------------------------ */
@@ -533,6 +586,9 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     desc.dwFlags = DDSD_CAPS;
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 
+    c->primary_surface=dd_primary_surface;
+    c->clipper=dd_clipper;
+#if 0
     result = IDirectDraw_CreateSurface(dd, &desc, &c->primary_surface, NULL);
     if (result != DD_OK) {
         DEBUG(("Cannot create primary surface: %s", dd_error(result)));
@@ -557,7 +613,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
                  dd_error(result));
         goto error;
     }
-
+#endif
     /* For now, the back surface is always NULL because we have not
        implemented the full-screen mode yet.  */
     c->back_surface = NULL;
@@ -870,6 +926,12 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 #endif
 
     DEBUG(("Original rect: %d %d %d %d",rect.left,rect.top,rect.right,rect.bottom));
+
+    result = IDirectDrawClipper_SetHWnd(c->clipper, 0, c->hwnd);
+    if (result != DD_OK) {
+        ui_error("Cannot set HWND for primary surface clipper:\n%s",
+                 dd_error(result));
+    }
 
     clipsize=2048;
     IDirectDrawClipper_GetClipList(c->clipper,&rect,(LPRGNDATA)&Region,&clipsize);

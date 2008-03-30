@@ -38,6 +38,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name arch
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -177,6 +180,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "vdc"=".\vdc.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "vdrive"=".\vdrive.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "vic20"=".\vic20.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -213,10 +240,10 @@ Package=<4>
     Project_Dep_Name xcbm2
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name c1541
+    Project_Dep_Name petcat
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name petcat
+    Project_Dep_Name c1541
     End Project Dependency
 }}}
 
@@ -269,6 +296,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name raster
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdc
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -304,6 +337,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
     End Project Dependency
 }}}
 
@@ -341,6 +377,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name crtc
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -371,6 +410,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name crtc
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -397,6 +439,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
     End Project Dependency
 }}}
 

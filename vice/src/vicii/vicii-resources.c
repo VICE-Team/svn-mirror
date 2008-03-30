@@ -123,6 +123,7 @@ set_double_scan_enabled (resource_value_t v)
   return 0;
 }
 
+#ifdef USE_VIDMODE_EXTENSION
 static int
 set_fullscreen_double_size_enabled(resource_value_t v)
 {
@@ -136,6 +137,7 @@ set_fullscreen_double_scan_enabled(resource_value_t v)
   vic_ii_resources.fullscreen_double_scan_enabled = (int) v;
   return 0;
 }
+#endif
 
 static resource_t resources_2x[] =
   {

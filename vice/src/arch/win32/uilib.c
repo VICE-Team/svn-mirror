@@ -30,13 +30,105 @@
 #include <windows.h>
 #include <windowsx.h>
 
+#include "imagecontents.h"
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"
 #include "utils.h"
 #include "winmain.h"
+#include "res.h"
 
-char *ui_select_file(const char *title, const char *filter, HWND hwnd)
+static char *(*read_content_func)(const char *);
+
+
+char *read_disk_image_contents(const char *name)
+{
+image_contents_t    *contents;
+char                *s;
+
+    contents=image_contents_read_disk(name);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=image_contents_to_string(contents);
+    image_contents_destroy(contents);
+    return s;
+}
+
+char *read_tape_image_contents(const char *name)
+{
+image_contents_t    *contents;
+char                *s;
+
+    contents=image_contents_read_tape(name);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=image_contents_to_string(contents);
+    image_contents_destroy(contents);
+    return s;
+}
+
+char *read_disk_or_tape_image_contents(const char *name)
+{
+char    *tmp;
+
+    tmp=read_disk_image_contents(name);
+    if (tmp==NULL) {
+        tmp=read_tape_image_contents(name);
+    }
+    return tmp;
+}
+
+static void create_content_list(char *text, HWND list)
+{
+char    *start;
+char    buffer[256];
+int     index;
+
+    if (text==NULL) return;
+    start=text;
+    index=0;
+    while (1) {
+        if (*start==0x0a) {
+            buffer[index]=0;
+            index=0;
+            SendMessage(list,LB_ADDSTRING,0,(LPARAM)buffer);
+        } else if (*start==0x0d) {
+        } else if (*start==0) {
+            break;
+        } else {
+            buffer[index++]=*start;
+        }
+        start++;
+    }
+
+}
+
+static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
+{
+HWND    preview;
+char    *contents;
+char    filename[256];
+
+    preview=GetDlgItem(hwnd,IDC_PREVIEW);
+    switch (uimsg) {
+        case WM_NOTIFY:
+            if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
+                SendMessage(preview,LB_RESETCONTENT,0,0);
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,CDM_GETFILEPATH,256,filename)>=0) {
+                    if (read_content_func!=NULL) {
+                        contents=read_content_func(filename);
+                        create_content_list(contents,preview);
+                    }
+                }
+            }
+            break;
+    }
+    return 0;
+}
+
+char *ui_select_file(const char *title, const char *filter, char*(*content_read_function)(const char *), HWND hwnd)
 {
     char name[1024] = "";
     OPENFILENAME ofn;
@@ -55,21 +147,39 @@ char *ui_select_file(const char *title, const char *filter, HWND hwnd)
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.lpstrTitle = NULL;
-    ofn.Flags = (OFN_EXPLORER
-                 | OFN_HIDEREADONLY
-                 | OFN_NOTESTFILECREATE
-                 | OFN_FILEMUSTEXIST
-                 /* | OFN_NOCHANGEDIR */
-                 | OFN_SHAREAWARE);
+    if (content_read_function!=NULL) {
+        ofn.Flags = (OFN_EXPLORER
+                     | OFN_HIDEREADONLY
+                     | OFN_NOTESTFILECREATE
+                     | OFN_FILEMUSTEXIST
+                     /* | OFN_NOCHANGEDIR */
+                     | OFN_ENABLEHOOK
+                     | OFN_ENABLETEMPLATE
+                     | OFN_SHAREAWARE);
+        ofn.lpfnHook = hook_proc;
+        ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPEN_TEMPLATE);
+    } else {
+        ofn.Flags = (OFN_EXPLORER
+                     | OFN_HIDEREADONLY
+                     | OFN_NOTESTFILECREATE
+                     | OFN_FILEMUSTEXIST
+                     /* | OFN_NOCHANGEDIR */
+                     | OFN_SHAREAWARE);
+        ofn.lpfnHook = NULL;
+        ofn.lpTemplateName = NULL;
+    }
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
-    ofn.lpfnHook = NULL;
-    ofn.lpTemplateName = NULL;
-    if (GetOpenFileName(&ofn))
+
+    read_content_func=content_read_function;
+    if (GetOpenFileName(&ofn)) {
+        log_debug("Opendialog success");
         return stralloc(name);
-    else
+    } else {
+        log_debug("Opendialog failed %x",CommDlgExtendedError());
         return NULL;
+    }
 }
 
 void ui_set_res_num(char *res, int value, int num)

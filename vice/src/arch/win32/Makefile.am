@@ -96,6 +96,8 @@ EXTRA_DIST = \
 	resid.dsp \
 	sid.dsp \
 	sounddrv.dsp \
+	vdc.dsp \
+	vdrive.dsp \
 	vic20.dsp \
 	vice.dsp \
 	vicii.dsp \

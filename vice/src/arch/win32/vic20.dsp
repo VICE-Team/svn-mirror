@@ -116,6 +116,14 @@ SOURCE=..\..\vic20\vic20iec.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20ieeevia1.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\vic20\vic20ieeevia2.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20mem.c
 # End Source File
 # Begin Source File

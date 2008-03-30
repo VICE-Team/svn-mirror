@@ -1,3 +1,115 @@
+1999-08-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.57.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_alloc_next_free_sector):
+	Rewritten as the old implementation had too many bugs.
+	(vdrive_bam_alloc_down, vdrive_bam_alloc_up): New functions.
+
+1999-08-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (EXTRA_DIST): Added vdc.dsp and vdrive.dsp.
+
+	* arch/win32/c128.dsp: Added '..\..\vdc' to include dirs.
+	  Removed vdc.c. Added c128mmu.c .
+
+	* arch/win32/c1541.dsp: Added '..\..\vdrive' to include dirs.
+	  Added diskimage.c. Removed vdrive-iec.c, vdrive.c.
+
+	* arch/win32/c64c128.dsp: Added reu.c.
+
+	* arch/win32/c64ui.c (c64_ui_specific): Updated ui_select_file calls.
+
+	* arch/win32/drive.dsp: Added '..\..\vdrive' to include dirs.
+
+	* arch/win32/pet.dsp: Removed crtc.c.
+
+	* arch/win32/petcat.dsp: Added '..\..\vdrive' to include dirs.
+
+	* arch/win32/res.h: Added IDD_OPEN_TEMPLATE, IDC_PREVIEW resource
+	  values.
+
+	* arch/win32/res.rc: Added DS_3DLOOK, DS_CONTROL, WS_CHILD, WS_VISIBLE,
+	  WS_CLIPSIBLINGS, WS_BORDER, WS_HSCROLL, LBS_NOSEL defines.
+	  Added IDD_OPEN_TEMPLATE dialog box.
+
+	* arch/win32/ui.c: Include "imagecontents.h". New variables:
+	  hwnd_titles, window_handles, exposure_handler, number_of_windows.
+	  (ui_init): Do not create the window here.
+	  (ui_open_canvas_window): Create the window here.
+	  (ui_update_menus): Added window handle to parameters. Update menu
+	  of the passed window.
+	  (ui_error) (ui_message) (ui_extend_image_dialog): Use first created
+	  window as parent window for dialog boxes.
+	  (ui_display_speed): Update all window titles with speed values.
+	  (save_snapshot_trap) (load_snapshot_trap): Use first created
+	  window as parent.
+	  (ui_get_main_hwnd): Return first created window handle.
+	  (ui_dispatch_next_event): Use transalator table of the window, to
+	  which the message was sent.
+	  (handle_wm_command): Pass window handle as parameter. Use it in
+	  every call, which needs a window handle. Update ui_select_file
+	  calls with the appropriate content viewer procedure.
+	  (window_proc): Find the index of the window whose message is being
+	  processed. Use its registered exposure_handler.
+
+	* arch/win32/uiattach.c: Include 'imagecontents.h'.
+	  (dialog_proc): Updated ui_select_file calls with appropriate
+	  content viewer procedure.
+
+	* arch/win32/uilib.c: Include 'imagecontents.h' and 'res.h'.
+	  (read_content_func): New variable.
+	  (read_disk_image_contents) (read_tape_image_contents)
+	  (read_disk_or_tape_image_contents) (create_content_list)
+	  (hook_proc): New functions.
+	  (ui_select_file): Add content viewer dialog, if content viewer
+	  procedure is not NULL.
+
+	* arch/win32/uilib.h (ui_select_file): Updated prototype.
+	  (read_disk_image_contents) (read_tape_image_contents)
+	  (read_disk_or_image_contents): Added new prototypes.
+
+	* arch/win32/uisnapshot.c (ui_snapshot_load_dialog): Updated
+	  ui_select_file call.
+
+	* arch/win32/uivicii.c (dialog_palette_proc): Updated ui_select_file
+	  call.
+	
+	* arch/win32/vdc.dsp: New file. MSVC project file for vdc library.
+
+	* arch/win32/vdrive.dsp: New file. MSVC project file for vdrive
+	  library.
+
+	* arch/win32/vic20.dsp: Added vic20ieeevia1.c and vic20ieeevia2.c.
+
+	* arch/win32/vic20ui.c (vic20_ui_specific): Updated ui_select_file
+	  calls.
+
+	* arch/win32/vice.dsw: Added vdc and vdrive library to project
+	  workspace. Updated project dependencies.
+
+	* arch/win32/video.c: Moved directdraw object creation to video_init.
+	  (canvas_refresh) Set clipping regions for the actual window being
+	  drawn.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/scbm2.dsp,
+	  arch/win32/xpet.dsp, arch/win32/xvic.dsp: Added '..\..\vdrive' to
+	  include dirs. Added diskimage.c. Removed vdrive-iec.c vdrive.c.
+
+	* diskimage.c: Include <sys/types.h>.
+
+	* vicii/vicii-resources.c (set_fullscreen_double_size_enabled)
+	  (set_fullscreen_double_scan_enabled): Compile only when
+	  USE_VIDMODE_EXTENSION is defined.
+
+1999-08-06  Dirk Farin  <farin@ti.uni-mannheim.de>
+
+	* arch/unix/video.c, arch/unix/video.h: New MIT-SHM code.
+
+1999-08-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: new configuration window for C128 settings.
+
 1999-08-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.56.

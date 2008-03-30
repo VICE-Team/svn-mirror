@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "archdep.h"
 #include "diskimage.h"

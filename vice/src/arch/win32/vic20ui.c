@@ -57,7 +57,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 type = CARTRIDGE_VIC20_16KB_2000;
                 if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $2000",
                     "8KB cartridge image files (*.*)\0*.*\0"
-                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
                     free(s);
@@ -67,7 +67,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 type = CARTRIDGE_VIC20_16KB_4000;
                 if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $4000",
                     "cartridge image files (*.*)\0*.*\0"
-                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
                     free(s);
@@ -77,7 +77,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 type = CARTRIDGE_VIC20_16KB_6000;
                 if ((s = ui_select_file("Attach 4/8/16KB cartridge image at $6000",
                     "8KB cartridge image files (*.*)\0*.*\0"
-                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
                     free(s);
@@ -87,7 +87,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 type = CARTRIDGE_VIC20_8KB_A000;
                 if ((s = ui_select_file("Attach 8KB cartridge image at $A000",
                     "8KB cartridge image files (*.*)\0*.*\0"
-                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
                     free(s);
@@ -97,7 +97,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 type = CARTRIDGE_VIC20_4KB_B000;
                 if ((s = ui_select_file("Attach 4KB cartridge image at $B000",
                     "4KB cartridge image files (*.*)\0*.*\0"
-                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
                     free(s);

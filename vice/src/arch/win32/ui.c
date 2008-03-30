@@ -42,6 +42,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "fliplist.h"
+#include "imagecontents.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -70,9 +71,12 @@ static int status_height;
 
 /* Main canvas.  */
 static char *main_hwnd_title;
+static char *hwnd_titles[2];
 
 /* Exposure handler.  */
-canvas_redraw_t exposure_handler;
+HWND            window_handles[2];
+canvas_redraw_t exposure_handler[2];
+int             number_of_windows;
 
 static HACCEL   ui_accelerator;
 
@@ -275,6 +279,7 @@ int ui_init(int *argc, char **argv)
     window_class.lpszClassName = APPLICATION_CLASS;
     RegisterClass(&window_class);
 
+#if 0
     /* Create the main window.  Notice that we are not going to
        `ShowWindow()' it yet; this will be done as soon as the video module
        requires us to do so.  This is needed both because the video module
@@ -300,6 +305,10 @@ int ui_init(int *argc, char **argv)
 
     if (!main_hwnd)
         return -1;
+#endif
+    InitCommonControls();
+
+    number_of_windows=0;
 
     return 0;
 }
@@ -328,6 +337,36 @@ void ui_exit(void)
 HWND ui_open_canvas_window(const char *title, unsigned int width,
                            unsigned int height, canvas_redraw_t exp_handler)
 {
+HWND    hwnd;
+RECT    rect;
+
+    hwnd_titles[number_of_windows] = stralloc(title);
+    hwnd = CreateWindow(APPLICATION_CLASS,
+                        hwnd_titles[number_of_windows],
+                        WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
+                        CW_USEDEFAULT,
+                        CW_USEDEFAULT,
+                        CW_USEDEFAULT,
+                        CW_USEDEFAULT,
+                        NULL,
+                        NULL,
+                        winmain_instance,
+                        NULL);
+
+    status_hwnd=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
+    GetClientRect(status_hwnd,&rect);
+    status_height=rect.bottom-rect.top;
+
+    ui_resize_canvas_window(hwnd, width, height);
+
+    ShowWindow(hwnd, winmain_cmd_show);
+
+    window_handles[number_of_windows]=hwnd;
+    exposure_handler[number_of_windows] = exp_handler;
+    number_of_windows++;
+    return hwnd;
+
+#if 0
     /* This is avoids moving the window around and also makes sure the client
        rectangle has the correct size...  Maybe there is a better way to
        achieve the same result?  (FIXME?)  */
@@ -344,6 +383,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
        one window.  */
     exposure_handler = exp_handler;
     return main_hwnd;
+#endif
 }
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
@@ -366,9 +406,9 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 }
 
 /* Update all the menus according to the current settings.  */
-void ui_update_menus(void)
+void ui_update_menus(HWND hwnd)
 {
-    HMENU menu = GetMenu(main_hwnd);
+    HMENU menu = GetMenu(hwnd);
     int i,j;
     int value;
     int result;
@@ -416,7 +456,7 @@ void ui_error(const char *format,...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        MessageBox(main_hwnd, tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+        MessageBox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report a message to the user (`printf()' style).  */
@@ -428,7 +468,7 @@ void ui_message(const char *format,...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        MessageBox(main_hwnd, tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
+        MessageBox(window_handles[0], tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -443,7 +483,7 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = MessageBox(main_hwnd, "Extend image to 40-track format?",
+    ret = MessageBox(window_handles[0], "Extend image to 40-track format?",
                      "VICE question", MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
@@ -454,11 +494,15 @@ int ui_extend_image_dialog(void)
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     char buf[256];
+    int     index;
 
-    sprintf(buf, "%s at %d%% speed, %d fps%s",
-            main_hwnd_title, (int)(percent + .5), (int)(framerate + .5),
-            warp_flag ? " (warp)" : "");
-    SetWindowText(main_hwnd, buf);
+    for (index=0; index<number_of_windows; index++) {
+        sprintf(buf, "%s at %d%% speed, %d fps%s",
+                hwnd_titles[index], (int)(percent + .5), (int)(framerate + .5),
+                warp_flag ? " (warp)" : "");
+        SetWindowText(window_handles[index], buf);
+    }
+
 }
 
 static ui_drive_enable_t    status_enabled;
@@ -548,12 +592,12 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-    ui_snapshot_save_dialog(main_hwnd);
+    ui_snapshot_save_dialog(window_handles[0]);
 }
 
 static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-    ui_snapshot_load_dialog(main_hwnd);
+    ui_snapshot_load_dialog(window_handles[0]);
 }
 
 typedef struct {
@@ -637,7 +681,7 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 /* Return the main window handler.  */
 HWND ui_get_main_hwnd(void)
 {
-    return main_hwnd;
+    return window_handles[0];
 }
 
 /* Dispatch the next pending event, if any.  Otherwise, just return.  */
@@ -648,7 +692,7 @@ void ui_dispatch_next_event(void)
     if (!GetMessage(&msg, NULL, 0, 0))
         exit(msg.wParam);
     if (ui_accelerator) {
-        if (!TranslateAccelerator(main_hwnd,ui_accelerator,&msg)) {
+        if (!TranslateAccelerator(msg.hwnd,ui_accelerator,&msg)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
@@ -730,31 +774,31 @@ char                *dirname;
 /* FIXME: tmp hack.  */
 int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
-static void handle_wm_command(WPARAM wparam, LPARAM lparam)
+static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
 char *fname;
 char *dname;
 
     /* Handle machine specific commands first.  */
     if (ui_machine_specific)
-        ui_machine_specific(wparam, main_hwnd);
+        ui_machine_specific(wparam, hwnd);
 
     switch (wparam) {
       case IDM_DEVICEMANAGER:
-        ui_attach_dialog(main_hwnd);
+        ui_attach_dialog(hwnd);
         break;
       case IDM_EXIT|0x00010000:
       case IDM_EXIT:
-        PostMessage(main_hwnd, WM_CLOSE, wparam, lparam);
+        PostMessage(hwnd, WM_CLOSE, wparam, lparam);
         break;
       case IDM_ABOUT:
-        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), main_hwnd,
+        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd,
                   (DLGPROC) about_dialog_proc);
         break;
         case IDM_HELP:
             fname=concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
             dname=concat(archdep_boot_path(),"\\DOC",NULL);
-            ShellExecute(main_hwnd,"open",fname,NULL,dname,0);
+            ShellExecute(hwnd,"open",fname,NULL,dname,0);
             free(fname);
             free(dname);
             break;
@@ -786,7 +830,7 @@ char *dname;
             }
             if ((s = ui_select_file("Attach disk image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
-                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
                 if (file_system_attach_disk(unit, s) < 0)
                     ui_error("Cannot attach specified file");
                 free(s);
@@ -834,7 +878,7 @@ char *dname;
 
             if ((s = ui_select_file("Attach tape image",
                 "Tape image files (*.t64;*.tap)\0*.t64;*.tap\0"
-                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", read_tape_image_contents, hwnd)) != NULL) {
                 if (tape_attach_image(s) < 0)
                     ui_error("Cannot attach specified file.");
                 free(s);
@@ -869,7 +913,7 @@ char *dname;
             if ((s = ui_select_file("Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
                 "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
-                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
+                "All files (*.*)\0*.*\0", read_disk_or_tape_image_contents, hwnd)) != NULL) {
                 if (autostart_autodetect(s, "*") < 0)
                     ui_error("Cannot autostart specified file.");
                 free(s);
@@ -912,7 +956,7 @@ char *dname;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         keyboard_clear_keymatrix();
-        if (MessageBox(main_hwnd, "Do you really want to reset the emulated machine?",
+        if (MessageBox(hwnd, "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
                        MB_YESNO | MB_ICONQUESTION) == IDYES) {
@@ -981,13 +1025,13 @@ char *dname;
             resources_set_value("SidModel", (resource_value_t) 1);
             break;
       case IDM_DRIVE_SETTINGS:
-        ui_drive_settings_dialog(main_hwnd);
+        ui_drive_settings_dialog(hwnd);
         break;
         case IDM_JOY_SETTINGS:
-            ui_joystick_settings_dialog(main_hwnd);
+            ui_joystick_settings_dialog(hwnd);
             break;
         case IDM_SOUND_SETTINGS:
-            ui_sound_settings_dialog(main_hwnd);
+            ui_sound_settings_dialog(hwnd);
             break;
       case IDM_SYNC_FACTOR_PAL:
         resources_set_value("DriveSyncFactor",
@@ -1008,13 +1052,13 @@ char *dname;
             ui_error("Cannot load settings.");
         } else {
             ui_message("Settings loaded successfully.");
-            ui_update_menus();
+            ui_update_menus(hwnd);
         }
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
         ui_message("Default settings restored.");
-        ui_update_menus();
+        ui_update_menus(hwnd);
         break;
       default:
         {
@@ -1052,6 +1096,11 @@ RECT    led;
 char    text[256];
 RECT    client_rect;
 /* POINT   *point; */
+int     window_index;
+
+    for (window_index=0; window_index<number_of_windows; window_index++) {
+        if (window_handles[window_index]==window) break;
+    }
 
     switch (msg) {
         case WM_SIZE:
@@ -1059,8 +1108,8 @@ RECT    client_rect;
             SetStatusWindowParts();
             GetClientRect(window, &client_rect);
 
-            if (exposure_handler) {
-                exposure_handler(client_rect.right - client_rect.left,
+            if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
+                exposure_handler[window_index](client_rect.right - client_rect.left,
                                 client_rect.bottom - client_rect.top - status_height);
             }
             log_debug("New Window size : %d %d",LOWORD(lparam),HIWORD(lparam));
@@ -1084,14 +1133,14 @@ RECT    client_rect;
             }
             return 0;
       case WM_COMMAND:
-        handle_wm_command(wparam, lparam);
+        handle_wm_command(wparam, lparam, window);
         return 0;
       case WM_ENTERSIZEMOVE:
         suspend_speed_eval();
         break;
       case WM_ENTERMENULOOP:
         suspend_speed_eval();
-        ui_update_menus();
+        ui_update_menus(window);
         break;
       case WM_KEYDOWN:
         kbd_handle_keydown(wparam, lparam);
@@ -1138,8 +1187,9 @@ RECT    client_rect;
 
                 hdc=BeginPaint(window,&ps);
                 GetClientRect(window,&client_rect);
-                if (exposure_handler) {
-                    exposure_handler(client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
+                if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
+                    log_debug("Updating window %d : %d %d",window_index,client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
+                    exposure_handler[window_index](client_rect.right-client_rect.left,client_rect.bottom-client_rect.top-status_height);
                 }
                 EndPaint(window,&ps);
 #else

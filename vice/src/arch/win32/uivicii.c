@@ -159,7 +159,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                     char *s;
                         if ((s = ui_select_file("Load VICE palette file",
                             "VICE palette files (*.vpl)\0*.vpl\0"
-                            "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                            "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
                             update_palettename(s);
                             SetDlgItemText(hwnd, IDC_VICII_CUSTOM_NAME, s);
                             free(s);

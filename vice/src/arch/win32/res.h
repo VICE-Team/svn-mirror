@@ -153,6 +153,9 @@
 #define IDC_SOUND_OVERSAMPLE            1243
 #define IDC_SOUND_SYNCH                 1244
 
+#define IDD_OPEN_TEMPLATE		1250
+#define IDC_PREVIEW                     1251
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002

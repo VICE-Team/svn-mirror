@@ -104,7 +104,7 @@ void ui_snapshot_load_dialog(HWND hwnd)
     char *s;
     if ((s = ui_select_file("Load snapshot image",
         "VICE snapshot files (*.vsf)\0*.vsf\0"
-        "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+        "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
          if (machine_read_snapshot(s) < 0)
              ui_error("Cannot read snapshot image");
          free(s);

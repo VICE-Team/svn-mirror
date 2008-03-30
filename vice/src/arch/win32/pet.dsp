@@ -76,10 +76,6 @@ LIB32=link.exe -lib
 # Name "pet - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\pet\crtc.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\pet\pet.c
 # End Source File
 # Begin Source File
