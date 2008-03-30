@@ -41,21 +41,21 @@
  */
 
 #ifdef RIOT_SHARED_CODE
-#define RIOT_CONTEXT_PARAM	RIOTCONTEXT *ctxptr,
-#define RIOT_CONTEXT_PARVOID	RIOTCONTEXT *ctxptr
-#define RIOT_CONTEXT_CALL	ctxptr,
-#define RIOT_CONTEXT_CALLVOID	ctxptr
-#define RIOTRPARM1		REGPARM2
-#define RIOTRPARM2		REGPARM3
+#define RIOT_CONTEXT_PARAM      RIOTCONTEXT *ctxptr,
+#define RIOT_CONTEXT_PARVOID    RIOTCONTEXT *ctxptr
+#define RIOT_CONTEXT_CALL       ctxptr,
+#define RIOT_CONTEXT_CALLVOID   ctxptr
+#define RIOTRPARM1              REGPARM2
+#define RIOTRPARM2              REGPARM3
 #else
 #define RIOT_CONTEXT_PARAM
-#define RIOT_CONTEXT_PARVOID	void
+#define RIOT_CONTEXT_PARVOID    void
 #define RIOT_CONTEXT_CALL
 #define RIOT_CONTEXT_CALLVOID
-#define RIOTRPARM1		REGPARM1
-#define RIOTRPARM2		REGPARM2
+#define RIOTRPARM1              REGPARM1
+#define RIOTRPARM2              REGPARM2
 
-static BYTE riotio[4];		/* I/O register data */
+static BYTE riotio[4];          /* I/O register data */
 
 static BYTE oldpa;              /* the actual output on PA (input = high) */
 static BYTE oldpb;              /* the actual output on PB (input = high) */

@@ -57,16 +57,16 @@ typedef struct sound_device_s
     /* init -routine to be called at device initialization. Should use
        suggested values if possible or return new values if they cannot be
        used */
-    int	(*init)(const char *param,
+    int (*init)(const char *param,
         int *speed,
         int *fragsize, int *fragnr,
         double bufsize);
     /* send number of bytes to the soundcard. it is assumed to block if kernel
        buffer is full */
-    int	(*write)(SWORD *pbuf, size_t nr);
+    int (*write)(SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
     int (*dump)(ADDRESS addr, BYTE byte,
-					CLOCK clks);
+                                        CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
     /* return number of samples unplayed in the kernel buffer at the moment */
@@ -144,7 +144,7 @@ typedef struct sound_s sound_t;
 extern sound_t *sound_machine_open(int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-					   int *delta_t);
+                                           int *delta_t);
 extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
 extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);

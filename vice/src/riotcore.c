@@ -53,17 +53,17 @@ static void int_riot(RIOT_CONTEXT_PARAM CLOCK offset);
 
 static CLOCK riot_read_clk = 0;
 static int riot_read_offset = 0;
-static BYTE riot_last_read = 0;	/* the byte read the last time (for RMW) */
+static BYTE riot_last_read = 0; /* the byte read the last time (for RMW) */
 
-static BYTE edgectrl = 0;	/* bit 0: 0=neg., 1=pos. edge, bit 1: en IRQ */
+static BYTE edgectrl = 0;       /* bit 0: 0=neg., 1=pos. edge, bit 1: en IRQ */
 static BYTE irqfl = 0;
 static BYTE irqline = 0;
 
 /* timer related */
-static CLOCK ti_write_clk;	/* when has timer been written */
-static int ti_N;		/* value written - 1 */
-static int ti_divider;		/* pre divider */
-static int ti_irqen;		/* set if timer IRQ enabled */
+static CLOCK ti_write_clk;      /* when has timer been written */
+static int ti_N;                /* value written - 1 */
+static int ti_divider;          /* pre divider */
+static int ti_irqen;            /* set if timer IRQ enabled */
 
 #endif
 
@@ -72,7 +72,7 @@ static int ti_irqen;		/* set if timer IRQ enabled */
  */
 
 static const int divider[] = {
-	1, 8, 64, 1024
+        1, 8, 64, 1024
 };
 
 static void update_irq(RIOT_CONTEXT_PARAM BYTE new_irqfl)
@@ -80,13 +80,13 @@ static void update_irq(RIOT_CONTEXT_PARAM BYTE new_irqfl)
     int new_irqline;
 
     new_irqline = (new_irqfl & 0x80)
-		|| ((new_irqfl & 0x40) && (edgectrl & 2));
+                || ((new_irqfl & 0x40) && (edgectrl & 2));
 
     if (new_irqline && !irqline) {
-	my_set_irq(1, myclk);
+        my_set_irq(1, myclk);
     }
     if (irqline && !new_irqline) {
-	my_set_irq(0, myclk);
+        my_set_irq(0, myclk);
     }
 
     irqline = new_irqline;
@@ -103,10 +103,10 @@ void myriot_signal(RIOT_CONTEXT_PARAM int sig, int type)
     printf(MYRIOT_NAME ": signal type=%d\n",type);
 */
     if ((type == RIOT_SIG_FALL) && !(edgectrl & 1)) {
-	newirq |= 0x40;
+        newirq |= 0x40;
     } else
     if ((type == RIOT_SIG_RISE) && (edgectrl & 1)) {
-	newirq |= 0x40;
+        newirq |= 0x40;
     }
 
     update_irq(RIOT_CONTEXT_CALL newirq);
@@ -117,9 +117,9 @@ static void update_timer(RIOT_CONTEXT_PARVOID)
     int underfl = (myclk - ti_write_clk) / ti_divider;
 
     if (underfl > ti_N) {
-	ti_write_clk += ti_N * ti_divider;
-	ti_N = 255;
-	ti_divider = 1;
+        ti_write_clk += ti_N * ti_divider;
+        ti_N = 255;
+        ti_divider = 1;
     }
     ti_write_clk += (myclk - ti_write_clk) & 0xff00;
 }
@@ -190,63 +190,63 @@ void RIOTRPARM2 myriot_store(RIOT_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 
     /* manage the weird addressing schemes */
 
-    if ((addr & 0x04) == 0) {		/* I/O */
-	addr &= 3;
-	switch (addr) {
-	case 0: 	/* ORA */
-        case 1: 	/* DDRA */
+    if ((addr & 0x04) == 0) {           /* I/O */
+        addr &= 3;
+        switch (addr) {
+        case 0:         /* ORA */
+        case 1:         /* DDRA */
             riotio[addr] = byte;
             byte = riotio[0] | ~riotio[1];
             store_pra(RIOT_CONTEXT_CALL byte);
             oldpa = byte;
             break;
-	case 2: 	/* ORB */
-        case 3: 	/* DDRB */
+        case 2:         /* ORB */
+        case 3:         /* DDRB */
             riotio[addr] = byte;
             byte = riotio[2] | ~riotio[3];
             store_prb(RIOT_CONTEXT_CALL byte);
             oldpb = byte;
             break;
-	}
+        }
     } else
-    if ((addr & 0x14) == 0x14) {	/* set timer */
-	int newirq = irqfl & 0x7f;
+    if ((addr & 0x14) == 0x14) {        /* set timer */
+        int newirq = irqfl & 0x7f;
 /*
-	log_warning(riot_log, "write timer %02x@%d not yet implemented\n",
-		byte, addr);
+        log_warning(riot_log, "write timer %02x@%d not yet implemented\n",
+                byte, addr);
 */
-	ti_divider = divider[addr & 3];
-	ti_write_clk = rclk + 1;
-	ti_N = byte;
-	ti_irqen = (addr & 8);
+        ti_divider = divider[addr & 3];
+        ti_write_clk = rclk + 1;
+        ti_N = byte;
+        ti_irqen = (addr & 8);
 
-	if (byte) {
-	    ti_N --;
-	    if (ti_irqen) {
-		alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
-	    }
-	} else {
-	    /* setup IRQ? */
-	    ti_N = 255;
-	    ti_divider = 1;
-	    if (ti_irqen) {
-		newirq |= 0x80;
-	    }
-	}
+        if (byte) {
+            ti_N --;
+            if (ti_irqen) {
+                alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
+            }
+        } else {
+            /* setup IRQ? */
+            ti_N = 255;
+            ti_divider = 1;
+            if (ti_irqen) {
+                newirq |= 0x80;
+            }
+        }
 
-	update_irq(RIOT_CONTEXT_CALL (BYTE)(newirq));
+        update_irq(RIOT_CONTEXT_CALL (BYTE)(newirq));
 
-	if (!ti_irqen) {
-	    alarm_unset(riot_alarm);
-	}
+        if (!ti_irqen) {
+            alarm_unset(riot_alarm);
+        }
     } else
-    if ((addr & 0x14) == 0x04) {	/* set edge detect control */
+    if ((addr & 0x14) == 0x04) {        /* set edge detect control */
 /*
-	log_message(riot_log, "edge control %02x@%d\n", byte, addr);
+        log_message(riot_log, "edge control %02x@%d\n", byte, addr);
 */
-	edgectrl = addr & 3;
+        edgectrl = addr & 3;
 
-	update_irq(RIOT_CONTEXT_CALL irqfl);
+        update_irq(RIOT_CONTEXT_CALL irqfl);
     }
 }
 
@@ -279,58 +279,58 @@ BYTE RIOTRPARM1 myriot_read_(RIOT_CONTEXT_PARAM ADDRESS addr)
 
     /* manage the weird addressing schemes */
 
-    if ((addr & 0x04) == 0) {		/* I/O */
-	switch (addr & 3) {
-	case 0: 	/* ORA */
-	    riot_last_read = read_pra(RIOT_CONTEXT_CALLVOID);
+    if ((addr & 0x04) == 0) {           /* I/O */
+        switch (addr & 3) {
+        case 0:         /* ORA */
+            riot_last_read = read_pra(RIOT_CONTEXT_CALLVOID);
             return riot_last_read;
             break;
-        case 1: 	/* DDRA */
+        case 1:         /* DDRA */
             riot_last_read = riotio[1];
             return riot_last_read;
             break;
-	case 2: 	/* ORB */
-	    riot_last_read = read_prb(RIOT_CONTEXT_CALLVOID);
+        case 2:         /* ORB */
+            riot_last_read = read_prb(RIOT_CONTEXT_CALLVOID);
             return riot_last_read;
             break;
-        case 3: 	/* DDRB */
+        case 3:         /* DDRB */
             riot_last_read = riotio[3];
             return riot_last_read;
             break;
-	}
+        }
     } else
-    if ((addr & 0x05) == 0x04) {	/* read timer */
+    if ((addr & 0x05) == 0x04) {        /* read timer */
 /*
-	log_warning(riot_log, "read timer @%d not yet implemented\n",
-		addr);
+        log_warning(riot_log, "read timer @%d not yet implemented\n",
+                addr);
 */
-	update_irq(RIOT_CONTEXT_CALL (BYTE)(irqfl & 0x7f));
+        update_irq(RIOT_CONTEXT_CALL (BYTE)(irqfl & 0x7f));
 
-	update_timer(RIOT_CONTEXT_CALLVOID);
+        update_timer(RIOT_CONTEXT_CALLVOID);
 
-	ti_irqen = addr & 8;
-
-	if (ti_irqen) {
-	     alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
-	} else {
-	     alarm_unset(riot_alarm);
-	}
-
-	riot_last_read = (BYTE)(ti_N - (rclk - ti_write_clk) / ti_divider);
-	return riot_last_read;
-    } else
-    if ((addr & 0x05) == 0x05) {	/* read irq flag */
-/*
-	log_message(riot_log, "read irq flag @%d\n", addr);
-*/
-	riot_last_read = irqfl;
+        ti_irqen = addr & 8;
 
         if (ti_irqen) {
-	    update_timer(RIOT_CONTEXT_CALLVOID);
-	    alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
+             alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
+        } else {
+             alarm_unset(riot_alarm);
         }
 
-	update_irq(RIOT_CONTEXT_CALL (BYTE)(irqfl & 0xbf));
+        riot_last_read = (BYTE)(ti_N - (rclk - ti_write_clk) / ti_divider);
+        return riot_last_read;
+    } else
+    if ((addr & 0x05) == 0x05) {        /* read irq flag */
+/*
+        log_message(riot_log, "read irq flag @%d\n", addr);
+*/
+        riot_last_read = irqfl;
+
+        if (ti_irqen) {
+            update_timer(RIOT_CONTEXT_CALLVOID);
+            alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
+        }
+
+        update_irq(RIOT_CONTEXT_CALL (BYTE)(irqfl & 0xbf));
     }
     return 0xff;
 }
@@ -360,18 +360,18 @@ static void int_riot(RIOT_CONTEXT_PARAM CLOCK offset)
  * The dump data:
  *
  * UBYTE        ORA
- * UBYTE 	DDRA
- * UBYTE 	ORB
- * UBYTE 	DDRB
- * UBYTE	EDGECTRL	edge control value
- * UBYTE 	IRQFL		IRQ fl:
- *				Bit 6/7: see RIOT IRQ flag
- *				Bit 0: state of IRQ line (1=active)
- * UBYTE	N		current timer value
- * UWORD	divider		1, 8, 64, 104
- * UWORD	rest		cycles that the divider has done since last
- *				counter tick
- * UBYTE	irqen		0= timer IRQ disabled, 1= enabled
+ * UBYTE        DDRA
+ * UBYTE        ORB
+ * UBYTE        DDRB
+ * UBYTE        EDGECTRL        edge control value
+ * UBYTE        IRQFL           IRQ fl:
+ *                              Bit 6/7: see RIOT IRQ flag
+ *                              Bit 0: state of IRQ line (1=active)
+ * UBYTE        N               current timer value
+ * UWORD        divider         1, 8, 64, 104
+ * UWORD        rest            cycles that the divider has done since last
+ *                              counter tick
+ * UBYTE        irqen           0= timer IRQ disabled, 1= enabled
  *
  */
 
@@ -414,7 +414,8 @@ int myriot_read_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
 
     m = snapshot_module_open(p, MYRIOT_NAME, &vmajor, &vminor);
     if (m == NULL) {
-	log_message(riot_log, "Could not find snapshot module %s", MYRIOT_NAME );
+        log_message(riot_log,
+                    "Could not find snapshot module %s", MYRIOT_NAME);
         return -1;
     }
 
@@ -442,8 +443,8 @@ int myriot_read_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_read_byte(m, &edgectrl);
     snapshot_module_read_byte(m, &irqfl);
     if (irqfl & 1) {
-	irqline = 1;
-	my_restore_irq(1);
+        irqline = 1;
+        my_restore_irq(1);
     }
     irqfl &= 0xc0;
 
@@ -456,7 +457,7 @@ int myriot_read_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_read_byte(m, &byte);
     ti_irqen = byte;
     if (ti_irqen) {
-	alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
+        alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);
     }
 
     snapshot_module_close(m);
@@ -465,5 +466,4 @@ int myriot_read_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
 
     return 0;
 }
-
 

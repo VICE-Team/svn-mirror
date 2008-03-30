@@ -140,10 +140,10 @@ int snapshot_write_string(FILE *f, const char *s)
 {
     size_t len, i;
 
-    len = s ? (strlen(s) + 1) : 0;	/* length includes nullbyte */
+    len = s ? (strlen(s) + 1) : 0;      /* length includes nullbyte */
 
     if (snapshot_write_word(f, (WORD)len) < 0)
-	return -1;
+        return -1;
 
     for (i = 0; i < len; i++)
         if (snapshot_write_byte(f, s[i]) < 0)
@@ -204,12 +204,12 @@ int snapshot_read_string(FILE *f, char **s)
 
     /* first free the previous string */
     if (*s) {
-	free(*s);
-	*s = NULL;	/* don't leave a bogus pointer */
+        free(*s);
+        *s = NULL;      /* don't leave a bogus pointer */
     }
 
     if (snapshot_read_word(f, &w) < 0)
-	return -1;
+        return -1;
 
     len = (int) w;
 
@@ -219,11 +219,11 @@ int snapshot_read_string(FILE *f, char **s)
 
         for (i = 0; i < len; i++) {
             if (snapshot_read_byte(f, (BYTE*)(p+i)) < 0) {
-		p[0] = 0;
+                p[0] = 0;
                 return -1;
-    	    }
+            }
         }
-	p[len-1] = 0;	/* just to be save */
+        p[len-1] = 0;   /* just to be save */
     }
     return 0;
 }
@@ -378,7 +378,8 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     /* Search for the module name.  This is quite inefficient, but I don't
        think we care.  */
     while (1) {
-        if (snapshot_read_byte_array(s->file, (BYTE*)n, SNAPSHOT_MODULE_NAME_LEN) < 0
+        if (snapshot_read_byte_array(s->file, (BYTE*)n,
+                                     SNAPSHOT_MODULE_NAME_LEN) < 0
             || snapshot_read_byte(s->file, major_version_return) < 0
             || snapshot_read_byte(s->file, minor_version_return) < 0
             || snapshot_read_dword(s->file, &m->size))

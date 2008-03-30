@@ -118,8 +118,8 @@ int resources_write_item_to_file(FILE *fp, const char *name)
     for (i = 0; i < num_resources; i++) {
         if (strcasecmp(resources[i].name, name) == 0) {
              write_resource_item(fp, i);
-	     return 0;
-	}
+             return 0;
+        }
     }
     log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
 
@@ -298,25 +298,25 @@ static int check_emu_id(const char *buf)
 
     buf_len = strlen(buf);
     if (*buf != '[' || *(buf + buf_len - 1) != ']')
-	return 0;
+        return 0;
 
     if (machine_id == NULL)
-	return 1;
+        return 1;
 
     machine_id_len = strlen(machine_id);
     if (machine_id_len != buf_len - 2)
-	return 0;
+        return 0;
 
     if (strncmp(buf + 1, machine_id, machine_id_len) == 0)
-	return 1;
+        return 1;
     else
-	return 0;
+        return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* Read one resource line from the file descriptor `f'.  Return 1 on success,
-   -1 on parse/type error, -2 on unknown resource error, 0 on EOF or 
+   -1 on parse/type error, -2 on unknown resource error, 0 on EOF or
    end of emulator section.  */
 int resources_read_item_from_file(FILE *f)
 {
@@ -328,20 +328,20 @@ int resources_read_item_from_file(FILE *f)
     line_len = util_get_line(buf, 1024, f);
 
     if (line_len < 0)
-	return 0;
+        return 0;
 
     /* Ignore empty lines.  */
     if (*buf == '\0')
-	return 1;
+        return 1;
 
     if (*buf == '[') {
-	/* End of emulator-specific section.  */
-	return 0;
+        /* End of emulator-specific section.  */
+        return 0;
     }
 
     arg_ptr = strchr(buf, '=');
     if (!arg_ptr)
-	return -1;
+        return -1;
 
     resname_len = arg_ptr - buf;
     arg_ptr++;
@@ -349,8 +349,8 @@ int resources_read_item_from_file(FILE *f)
 
     /* If the value is between quotes, remove them.  */
     if (*arg_ptr == '"' && *(arg_ptr + arg_len - 1) == '"') {
-	*(arg_ptr + arg_len - 1) = '\0';
-	arg_ptr++;
+        *(arg_ptr + arg_len - 1) = '\0';
+        arg_ptr++;
     }
 
     *(buf + resname_len) = '\0';
@@ -397,44 +397,44 @@ int resources_load(const char *fname)
     int err = 0;
 
     if (fname == NULL)
-	fname = archdep_default_resource_file_name();
+        fname = archdep_default_resource_file_name();
 
     f = fopen(fname, MODE_READ_TEXT);
 
     if (f == NULL)
-	return RESERR_FILE_NOT_FOUND;
+        return RESERR_FILE_NOT_FOUND;
 
     log_message(LOG_DEFAULT, "Reading configuration file `%s'.", fname);
 
     /* Find the start of the configuration section for this emulator.  */
     for (line_num = 1; ; line_num++) {
-	char buf[1024];
+        char buf[1024];
 
-	if (util_get_line(buf, 1024, f) < 0) {
-	    fclose(f);
-	    return RESERR_READ_ERROR;
-	}
+        if (util_get_line(buf, 1024, f) < 0) {
+            fclose(f);
+            return RESERR_READ_ERROR;
+        }
 
-	if (check_emu_id(buf)) {
-	    line_num++;
-	    break;
-	}
+        if (check_emu_id(buf)) {
+            line_num++;
+            break;
+        }
     }
 
     do {
-	retval = resources_read_item_from_file(f);
-	if (retval == -1) {
-	    log_error(LOG_DEFAULT,
+        retval = resources_read_item_from_file(f);
+        if (retval == -1) {
+            log_error(LOG_DEFAULT,
                       "%s: Invalid resource specification at line %d.",
                       fname, line_num);
-	    err = 1;
-        } else 
+            err = 1;
+        } else
         if (retval == -2) {
             log_warning(LOG_DEFAULT,
                       "%s: Unknown resource specification at line %d.",
                       fname, line_num);
-	}
-	line_num++;
+        }
+        line_num++;
     } while (retval != 0);
 
     fclose(f);
@@ -451,11 +451,11 @@ static void write_resource_item(FILE *f, int num)
     fprintf(f, "%s=", resources[num].name);
     switch (resources[num].type) {
       case RES_INTEGER:
-	v = (resource_value_t)*(int *)resources[num].value_ptr;
+        v = (resource_value_t)*(int *)resources[num].value_ptr;
         fprintf(f, "%d", (int)v);
         break;
       case RES_STRING:
-	v = *resources[num].value_ptr;
+        v = *resources[num].value_ptr;
         if ((char *)v != NULL)
             fprintf(f, "\"%s\"", (char *)v);
         break;
@@ -477,79 +477,79 @@ int resources_save(const char *fname)
     int i;
 
     if (fname == NULL)
-	fname = archdep_default_save_resource_file_name();
+        fname = archdep_default_save_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
     util_remove_file(backup_name);
     if (rename(fname, backup_name) == 0)
-	have_old = 1;
+        have_old = 1;
     else
-	have_old = 0;
+        have_old = 0;
 
     log_message(LOG_DEFAULT, "Writing configuration file `%s'.", fname);
 
     out_file = fopen(fname, MODE_WRITE_TEXT);
 
     if (!out_file) {
-	free (backup_name);
+        free (backup_name);
         return RESERR_CANNOT_CREATE_FILE;
     }
 
     if (have_old) {
         in_file = fopen(backup_name, MODE_READ_TEXT);
 
-	if (!in_file) {
-	    fclose(out_file);
-	    free(backup_name);
+        if (!in_file) {
+            fclose(out_file);
+            free(backup_name);
             return RESERR_READ_ERROR;
-	}
+        }
 
-	/* Copy the configuration for the other emulators.  */
-	while (1) {
-	    char buf[1024];
+        /* Copy the configuration for the other emulators.  */
+        while (1) {
+            char buf[1024];
 
             if (util_get_line(buf, 1024, in_file) < 0)
                 break;
 
-	    if (check_emu_id(buf))
-		break;
+            if (check_emu_id(buf))
+                break;
 
-		fprintf(out_file, "%s\n", buf);
-	}
+                fprintf(out_file, "%s\n", buf);
+        }
     } else
         in_file = NULL;
 
     /* Write our current configuration.  */
     fprintf(out_file,"[%s]\n", machine_id);
     for (i = 0; i < num_resources; i++)
-	write_resource_item(out_file, i);
-	fprintf(out_file, "\n");
+        write_resource_item(out_file, i);
+        fprintf(out_file, "\n");
 
     if (have_old) {
-	char buf[1024];
+        char buf[1024];
 
-	/* Skip the old configuration for this emulator.  */
-	while (1) {
-	    if (util_get_line(buf, 1024, in_file) < 0)
-		break;
+        /* Skip the old configuration for this emulator.  */
+        while (1) {
+            if (util_get_line(buf, 1024, in_file) < 0)
+                break;
 
             /* Check if another emulation section starts.  */
-	    if (*buf == '[') {
-		fprintf(out_file, "%s\n", buf);
-		break;
-	    }
-	}
+            if (*buf == '[') {
+                fprintf(out_file, "%s\n", buf);
+                break;
+            }
+        }
 
-	if (!feof(in_file)) {
-	    /* Copy the configuration for the other emulators.  */
-	    while (util_get_line(buf, 1024, in_file) >= 0)
-		fprintf(out_file, "%s\n", buf);
-	}
+        if (!feof(in_file)) {
+            /* Copy the configuration for the other emulators.  */
+            while (util_get_line(buf, 1024, in_file) >= 0)
+                fprintf(out_file, "%s\n", buf);
+        }
     }
 
     if (in_file)
-	fclose(in_file);
+        fclose(in_file);
 
     fclose(out_file);
 #ifdef __riscos
@@ -558,3 +558,4 @@ int resources_save(const char *fname)
     free(backup_name);
     return 0;
 }
+

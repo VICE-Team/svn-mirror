@@ -172,7 +172,7 @@ char *concat(const char *s, ...)
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
    pointer to the new block.  */
 char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
-	          const char *src, int src_size)
+                  const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
     if (*buf_size + src_size > (int)(*max_buf_size)) {
@@ -459,7 +459,8 @@ int util_get_line(char *buf, int bufsize, FILE *f)
 
         /* Remove trailing newline characters.  */
         /* Remove both 0x0a and 0x0d characters, this solution makes it */
-        /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
+        /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
+        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
             len--;
 
         /* Remove useless spaces.  */
@@ -786,13 +787,13 @@ static int xmvsprintf_skip_atoi(const char **s)
     return i;
 }
 
-#define ZEROPAD	1		/* pad with zero */
-#define SIGN	2		/* unsigned/signed long */
-#define PLUS	4		/* show plus */
-#define SPACE	8		/* space if plus */
-#define LEFT	16		/* left justified */
-#define SPECIAL	32		/* 0x */
-#define LARGE	64		/* use 'ABCDEF' instead of 'abcdef' */
+#define ZEROPAD 1               /* pad with zero */
+#define SIGN    2               /* unsigned/signed long */
+#define PLUS    4               /* show plus */
+#define SPACE   8               /* space if plus */
+#define LEFT    16              /* left justified */
+#define SPECIAL 32              /* 0x */
+#define LARGE   64              /* use 'ABCDEF' instead of 'abcdef' */
 
 inline int xmvsprintf_do_div(long *n, unsigned int base)
 {

@@ -43,18 +43,18 @@ static BYTE pow2[] = { 1, 2, 4, 8, 16 };
 static BYTE irq_previous;
 static BYTE irq_stack;
 
-#define	irq_active	tpi[TPI_AIR]
-#define	irq_latches	tpi[TPI_PC]
-#define	irq_mask	tpi[TPI_DDPC]
-#define	irq_mode	(tpi[TPI_CREG] & 1)
-#define	irq_priority	(tpi[TPI_CREG] & 2)
+#define irq_active      tpi[TPI_AIR]
+#define irq_latches     tpi[TPI_PC]
+#define irq_mask        tpi[TPI_DDPC]
+#define irq_mode        (tpi[TPI_CREG] & 1)
+#define irq_priority    (tpi[TPI_CREG] & 2)
 
-#define	IS_CA_MODE()		((tpi[TPI_CREG] & 0x20) == 0x00)
-#define	IS_CA_PULSE_MODE()	((tpi[TPI_CREG] & 0x30) == 0x10)
-#define	IS_CA_TOGGLE_MODE()	((tpi[TPI_CREG] & 0x30) == 0x00)
-#define	IS_CB_MODE()		((tpi[TPI_CREG] & 0x80) == 0x00)
-#define	IS_CB_PULSE_MODE()	((tpi[TPI_CREG] & 0xc0) == 0x40)
-#define	IS_CB_TOGGLE_MODE()	((tpi[TPI_CREG] & 0xc0) == 0x00)
+#define IS_CA_MODE()            ((tpi[TPI_CREG] & 0x20) == 0x00)
+#define IS_CA_PULSE_MODE()      ((tpi[TPI_CREG] & 0x30) == 0x10)
+#define IS_CA_TOGGLE_MODE()     ((tpi[TPI_CREG] & 0x30) == 0x00)
+#define IS_CB_MODE()            ((tpi[TPI_CREG] & 0x80) == 0x00)
+#define IS_CB_PULSE_MODE()      ((tpi[TPI_CREG] & 0xc0) == 0x40)
+#define IS_CB_TOGGLE_MODE()     ((tpi[TPI_CREG] & 0xc0) == 0x00)
 
 static BYTE tpi[8];
 
@@ -66,5 +66,4 @@ static BYTE ca_state;
 static BYTE cb_state;
 
 static log_t mytpi_log = LOG_ERR;
-
 

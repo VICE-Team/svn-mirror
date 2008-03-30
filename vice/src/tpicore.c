@@ -30,62 +30,66 @@
 
 static int mytpi_debug = 0;
 
-static BYTE tpi_last_read = 0;	/* the byte read the last time (for RMW) */
+static BYTE tpi_last_read = 0;  /* the byte read the last time (for RMW) */
 
 /*------------------------------------------------------------------------*/
 /* Handle irq stack etc */
 
-static void set_latch_bit(int bit) {
-    
-    if(mytpi_debug && !(bit & irq_latches)) {
-	log_message(mytpi_log, "set_latch_bit(%02x, mask=%02x)",
+static void set_latch_bit(int bit)
+{
+    if (mytpi_debug && !(bit & irq_latches)) {
+        log_message(mytpi_log, "set_latch_bit(%02x, mask=%02x)",
                     bit, irq_mask);
     }
 
     irq_latches |= bit;
 
-    if(!(irq_mask & bit)) return;
+    if (!(irq_mask & bit))
+        return;
 
     /* if one IRQ is already active put on stack, if not, trigger CPU int */
-    if(irq_priority) {
-	if(bit > (irq_latches & ~bit)) {
-	    irq_active = bit;
-       	    mycpu_set_int(I_TPI1, MYIRQ);
-	}
-    } else {
-        if(!irq_active) {
-	    irq_active = bit;
+    if (irq_priority) {
+        if (bit > (irq_latches & ~bit)) {
+            irq_active = bit;
             mycpu_set_int(I_TPI1, MYIRQ);
-	}
+        }
+    } else {
+        if (!irq_active) {
+            irq_active = bit;
+            mycpu_set_int(I_TPI1, MYIRQ);
+        }
     }
     irq_stack |= bit;
 }
 
-static void pop_irq_state(void) {
-    if(mytpi_debug) {
-        log_message(mytpi_log, "pop_irq_state(latches=%02x, stack=%02x, active=%02x)",
-                (int)irq_latches, (int)irq_stack, (int)irq_active);
+static void pop_irq_state(void)
+{
+    if (mytpi_debug) {
+        log_message(mytpi_log,
+                    "pop_irq_state(latches=%02x, stack=%02x, active=%02x)",
+                    (int)irq_latches, (int)irq_stack, (int)irq_active);
     }
-    if(irq_priority) {
-   	if(irq_stack) {
-	    int i;
-	    for(i=4;i>=0;i--) {
-		if(irq_stack & pow2[i]) {
-		    irq_active = pow2[i];
-		    break;
-		}
-	    }
-	}
+    if (irq_priority) {
+        if (irq_stack) {
+            int i;
+            for (i = 4; i >= 0; i--) {
+                if (irq_stack & pow2[i]) {
+                    irq_active = pow2[i];
+                    break;
+                }
+            }
+        }
     }
     mycpu_set_int(I_MYTPI, irq_active ? MYIRQ : 0);
 }
 
-static BYTE push_irq_state(void) {
+static BYTE push_irq_state(void)
+{
     int old_active;
 
     old_active = irq_active;
 
-    if(mytpi_debug) {
+    if (mytpi_debug) {
         log_message(mytpi_log,
                     "push_irq_state(latches=%02x, act=%02x, stack=%02x mask=%02x).",
                     (int)irq_latches, (int)irq_active,
@@ -96,9 +100,9 @@ static BYTE push_irq_state(void) {
     irq_stack &= ~irq_active;
     irq_active = 0;
 
-    if(!irq_priority) {
-	irq_active = irq_stack;
-	irq_stack = 0;
+    if (!irq_priority) {
+        irq_active = irq_stack;
+        irq_stack = 0;
     }
     mycpu_set_int(I_TPI1, irq_active ? MYIRQ : 0);
     return old_active;
@@ -106,7 +110,7 @@ static BYTE push_irq_state(void) {
 
 /*------------------------------------------------------------------------*/
 
-void mytpi_init(void) 
+void mytpi_init(void)
 {
     if (mytpi_log == LOG_ERR)
         mytpi_log = log_open(MYTPI_NAME);
@@ -169,7 +173,7 @@ void REGPARM2 mytpi_store(ADDRESS addr, BYTE byte)
         if (IS_CB_MODE()) {
             cb_state = 0;
             tpi_set_cb(0);
-            if(IS_CB_PULSE_MODE()) {
+            if (IS_CB_PULSE_MODE()) {
                 cb_state = 1;
                 tpi_set_cb(1);
             }
@@ -273,7 +277,7 @@ BYTE mytpi_peek(ADDRESS addr)
 
 
 /* Port C can be setup as interrupt input - this collects connected IRQ states
- * and sets IRQ if necessary 
+ * and sets IRQ if necessary
  * Beware: An IRQ line is active low, but for active irqs we here get
  * a state parameter != 0 */
 void mytpi_set_int(int bit, int state)
@@ -285,59 +289,58 @@ void mytpi_set_int(int bit, int state)
     state = !state;
 
     /* check low-high transition */
-    if(state && !(irq_previous & bit)) {
+    if (state && !(irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
-	if((bit & 0x18) && ((bit>>1) & tpi[TPI_CREG])) {
-	    set_latch_bit(bit);
-	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
-		ca_state = 1;
-		tpi_set_ca(1);
-	    }
-	    if((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
-		cb_state = 1;
-		tpi_set_cb(1);
-	    }
-	}
-	irq_previous |= bit;
+        if ((bit & 0x18) && ((bit>>1) & tpi[TPI_CREG])) {
+            set_latch_bit(bit);
+            if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
+                ca_state = 1;
+                tpi_set_ca(1);
+            }
+            if ((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
+                cb_state = 1;
+                tpi_set_cb(1);
+            }
+        }
+        irq_previous |= bit;
     } else
     /* check high-low transition */
-    if((!state) && (irq_previous & bit)) {
+    if ((!state) && (irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
-	if((bit & 0x18) && !((bit>>1) & tpi[TPI_CREG])) {
-	    set_latch_bit(bit);
-	    if((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
-		ca_state = 1;
-		tpi_set_ca(1);
-	    }
-	    if((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
-		cb_state = 1;
-		tpi_set_cb(1);
-	    }
-	}
+        if ((bit & 0x18) && !((bit>>1) & tpi[TPI_CREG])) {
+            set_latch_bit(bit);
+            if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
+                ca_state = 1;
+                tpi_set_ca(1);
+            }
+            if ((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
+                cb_state = 1;
+                tpi_set_cb(1);
+            }
+        }
         /* those three always trigger at high-low */
-	if(bit & 0x07) {
-	    set_latch_bit(bit);
-	}
-	irq_previous &= ~bit;
+        if (bit & 0x07) {
+            set_latch_bit(bit);
+        }
+        irq_previous &= ~bit;
     }
 }
 
 void mytpi_restore_int(int bit, int state)
 {
-    if(bit>=5) return;
+    if (bit>=5) return;
 
     bit = pow2[bit];
 
     if (state) {
-	irq_previous |= bit;
+        irq_previous |= bit;
     } else {
-	irq_previous &= ~bit;
+        irq_previous &= ~bit;
     }
 }
 
 
 /* -------------------------------------------------------------------------- */
-
 /* The dump format has a module header and the data generated by the
  * chip...
  *
@@ -350,17 +353,17 @@ void mytpi_restore_int(int bit, int state)
 /*
  * The dump data:
  *
- * UBYTE	PRA	port A output register
- * UBYTE	PRB
- * UBYTE	PRC
- * UBYTE	DDRA	data register A
- * UBYTE	DDRB
- * UBYTE	DDRC
- * UBYTE	CR
- * UBYTE	AIR
+ * UBYTE        PRA     port A output register
+ * UBYTE        PRB
+ * UBYTE        PRC
+ * UBYTE        DDRA    data register A
+ * UBYTE        DDRB
+ * UBYTE        DDRC
+ * UBYTE        CR
+ * UBYTE        AIR
  *
- * UBYTE	STACK	irq sources saved on stack
- * UBYTE	CABSTATE state of CA and CB pins
+ * UBYTE        STACK   irq sources saved on stack
+ * UBYTE        CABSTATE state of CA and CB pins
  */
 
 static const char module_name[] = MYTPI_NAME;
@@ -400,7 +403,7 @@ int mytpi_read_snapshot_module(snapshot_t *p)
     BYTE byte;
     snapshot_module_t *m;
 
-    mycpu_restore_int(I_MYTPI, 0);  	/* just in case */
+    mycpu_restore_int(I_MYTPI, 0);      /* just in case */
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -435,17 +438,17 @@ int mytpi_read_snapshot_module(snapshot_t *p)
         undump_pb(byte);
         oldpb = byte;
 
-	if (!irq_mode) {
+        if (!irq_mode) {
             byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
             undump_pc(byte);
             oldpc = byte;
-	}
+        }
     }
 
     tpi_set_ca( ca_state );
     tpi_set_cb( cb_state );
 
-    mycpu_restore_int(I_MYTPI, irq_active ? MYIRQ : 0); 
+    mycpu_restore_int(I_MYTPI, irq_active ? MYIRQ : 0);
 
     if (snapshot_module_close(m) < 0)
         return -1;

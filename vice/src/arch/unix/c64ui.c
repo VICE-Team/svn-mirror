@@ -38,7 +38,6 @@
 #include "icon.h"
 #include "joystick.h"
 #include "resources.h"
-#include "sound.h"
 #include "uicartridge.h"
 #include "uicommands.h"
 #include "uidatasette.h"
