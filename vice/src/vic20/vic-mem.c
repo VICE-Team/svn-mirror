@@ -78,10 +78,10 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                 * VIC_PIXEL_WIDTH
                 && !vic.raster.blank_this_line) {
                 /* the line has already started */
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     &vic.raster.display_xstart, xstart);
 
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     (int *)(&vic.raster.geometry->gfx_position.x), xstart);
             } else {
                 vic.raster.display_xstart = xstart;
@@ -167,17 +167,17 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                 vic.raster.geometry->text_size.width = new_text_cols;
             } else {
                 /* later changes are visible in the next line */
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     (int *)(&vic.text_cols), new_text_cols);
 
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     &vic.raster.display_xstop, new_xstop);
 
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     (int *)(&vic.raster.geometry->gfx_size.width),
                     new_text_cols * 8 * VIC_PIXEL_WIDTH);
 
-                raster_add_int_change_next_line(&vic.raster,
+                raster_changes_next_line_add_int(&vic.raster,
                     (int *)(&vic.raster.geometry->text_size.width),
                     new_text_cols);
             }
@@ -213,7 +213,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
 
             if (old_char_height != new_char_height) {
                 if (VIC_RASTER_CYCLE(maincpu_clk) >= 1) {
-                    raster_add_int_change_next_line(&vic.raster,
+                    raster_changes_next_line_add_int(&vic.raster,
                         (int *)(&vic.row_increase_line), new_char_height);
                 } else {
                     vic.row_increase_line = new_char_height;
@@ -229,7 +229,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                         vic.row_offset = -1; /* use vic.text_cols for offset */
                     }
                 }
-                raster_add_int_change_foreground(&vic.raster,
+                raster_changes_foreground_add_int(&vic.raster,
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk) + 2),
                     (int*)&vic.char_height,
                     new_char_height);
@@ -273,7 +273,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             int new_aux_color = value>>4;
 
             if (new_aux_color != old_aux_color) {
-                raster_add_int_change_foreground(&vic.raster,
+                raster_changes_foreground_add_int(&vic.raster,
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.auxiliary_color,
                     new_aux_color);
@@ -306,7 +306,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
                              ? VIC_STANDARD_MODE : VIC_REVERSE_MODE);
 
             if (new_background_color != old_background_color) {
-                raster_add_int_change_background(&vic.raster,
+                raster_changes_background_add_int(&vic.raster,
                     VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
                     (int*)&vic.raster.background_color,
                     new_background_color);
@@ -315,14 +315,14 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             }
 
             if (new_border_color != old_border_color) {
-                raster_add_int_change_border(&vic.raster,
+                raster_changes_border_add_int(&vic.raster,
                     VIC_RASTER_X(VIC_RASTER_CYCLE(maincpu_clk)),
                     (int*)&vic.raster.border_color,
                     new_border_color);
 
                 /* we also need the border color in multicolor mode,
                    so we duplicate it */
-                raster_add_int_change_foreground(&vic.raster,
+                raster_changes_foreground_add_int(&vic.raster,
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.mc_border_color,
                     new_border_color);
@@ -332,7 +332,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             }
 
             if (new_video_mode != old_video_mode) {
-                raster_add_int_change_foreground(&vic.raster,
+                raster_changes_foreground_add_int(&vic.raster,
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)),
                     &vic.raster.video_mode,
                     new_video_mode);

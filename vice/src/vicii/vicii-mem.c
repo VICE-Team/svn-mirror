@@ -129,7 +129,7 @@ void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
     vicii_local_store_vbank(addr, value);
 
     if (vicii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
-        raster_add_int_change_foreground
+        raster_changes_foreground_add_int
             (&vicii.raster,
             VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk)),
             &vicii.idle_data,
@@ -143,7 +143,7 @@ void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 
     if ((addr & 0x3fff) == 0x3fff) {
         if (vicii.idle_data_location == IDLE_3FFF)
-            raster_add_int_change_foreground
+            raster_changes_foreground_add_int
                 (&vicii.raster,
                 VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk)),
                 &vicii.idle_data,
@@ -382,15 +382,15 @@ inline static void check_lateral_border(const BYTE value, int cycle,
             if (cycle <= 17)
                 raster->display_xstart = VICII_40COL_START_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstart,
-                                                VICII_40COL_START_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstart,
+                                                 VICII_40COL_START_PIXEL);
             if (cycle <= 56)
                 raster->display_xstop = VICII_40COL_STOP_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstop,
-                                                VICII_40COL_STOP_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstop,
+                                                 VICII_40COL_STOP_PIXEL);
             VICII_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
@@ -402,15 +402,15 @@ inline static void check_lateral_border(const BYTE value, int cycle,
             if (cycle <= 17)
                 raster->display_xstart = VICII_38COL_START_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstart,
-                                                VICII_38COL_START_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstart,
+                                                 VICII_38COL_START_PIXEL);
             if (cycle <= 56)
                 raster->display_xstop = VICII_38COL_STOP_PIXEL;
             else
-                raster_add_int_change_next_line(raster,
-                                                &raster->display_xstop,
-                                                VICII_38COL_STOP_PIXEL);
+                raster_changes_next_line_add_int(raster,
+                                                 &raster->display_xstop,
+                                                 VICII_38COL_STOP_PIXEL);
             VICII_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
@@ -420,18 +420,19 @@ inline static void check_lateral_border(const BYTE value, int cycle,
                 raster->open_right_border = 1;
                 switch (vicii.get_background_from_vbuf) {
                   case VICII_HIRES_BITMAP_MODE:
-                    raster_add_int_change_background(
-                    &vicii.raster,
-                    VICII_RASTER_X(56),
-                    &vicii.raster.xsmooth_color,
-                    vicii.background_color_source & 0x0f);
+                    raster_changes_background_add_int(
+                        &vicii.raster,
+                        VICII_RASTER_X(56),
+                        &vicii.raster.xsmooth_color,
+                        vicii.background_color_source & 0x0f);
                     break;
                   case VICII_EXTENDED_TEXT_MODE:
-                    raster_add_int_change_background(
-                    &vicii.raster,
-                    VICII_RASTER_X(56),
-                    &vicii.raster.xsmooth_color,
-                    vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+                    raster_changes_background_add_int(
+                        &vicii.raster,
+                        VICII_RASTER_X(56),
+                        &vicii.raster.xsmooth_color,
+                        vicii.regs[0x21 + (vicii.background_color_source
+                        >> 6)]);
                     break;
                 }
             }
@@ -454,21 +455,21 @@ inline static void d016_store(const BYTE value)
     if (xsmooth != (vicii.regs[0x16] & 7)) {
         if (xsmooth < (vicii.regs[0x16] & 7)) {
             if (cycle < 56)
-                raster_add_int_change_foreground(raster,
+                raster_changes_foreground_add_int(raster,
                              VICII_RASTER_CHAR(cycle) - 2,
                              &raster->xsmooth_shift_left,
                              (vicii.regs[0x16] & 7) - xsmooth);
 
         } else {
-            raster_add_int_change_background(raster,
-                                             VICII_RASTER_X(cycle),
-                                             &raster->xsmooth_shift_right,
-                                             xsmooth - (vicii.regs[0x16] & 7));
+            raster_changes_background_add_int(raster,
+                                              VICII_RASTER_X(cycle),
+                                              &raster->xsmooth_shift_right,
+                                              xsmooth - (vicii.regs[0x16] & 7));
         }
-        raster_add_int_change_foreground(raster,
-                                         VICII_RASTER_CHAR(cycle) - 1,
-                                         &raster->xsmooth,
-                                         xsmooth);
+        raster_changes_foreground_add_int(raster,
+                                          VICII_RASTER_CHAR(cycle) - 1,
+                                          &raster->xsmooth,
+                                          xsmooth);
     }
 
     /* Bit 4 (CSEL) selects 38/40 column mode.  */
@@ -578,9 +579,9 @@ inline static void d01b_store(const BYTE value)
         sprite = vicii.raster.sprite_status->sprites + i;
 
         if (sprite->x < raster_x)
-            raster_add_int_change_next_line(&vicii.raster,
-                                            &sprite->in_background,
-                                            value & b ? 1 : 0);
+            raster_changes_next_line_add_int(&vicii.raster,
+                                             &sprite->in_background,
+                                             value & b ? 1 : 0);
         else
             sprite->in_background = value & b ? 1 : 0;
     }
@@ -608,14 +609,14 @@ inline static void d01c_store(const BYTE value)
 
 #if 0
         if (sprite->x < raster_x)
-            raster_add_int_change_next_line(&vicii.raster,
-                                            &sprite->multicolor,
-                                            value & b ? 1 : 0);
+            raster_changes_next_line_add_int(&vicii.raster,
+                                             &sprite->multicolor,
+                                             value & b ? 1 : 0);
         else
             sprite->multicolor = value & b ? 1 : 0;
 #else
         /* FIXME: This is not exact at the edge of the sprite */
-        raster_add_int_change_sprites
+        raster_changes_sprites_add_int
             (&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 6,
             &sprite->multicolor, value & b ? 1 : 0);
@@ -649,15 +650,15 @@ inline static void d01d_store(const BYTE value)
         if (raster_x < sprite->x)
             sprite->x_expanded = value & b ? 1 : 0;
         else
-            raster_add_int_change_next_line(&vicii.raster,
-                                            &sprite->x_expanded,
-                                            value & b ? 1 : 0);
+            raster_changes_next_line_add_int(&vicii.raster,
+                                             &sprite->x_expanded,
+                                             value & b ? 1 : 0);
 #else
         if ((value & b) != (vicii.regs[0x1d] & b)) {
-            raster_add_int_change_sprites
-                (&vicii.raster,
-                raster_x,
-                &sprite->x_expanded, value & b ? 1 : 0);
+            raster_changes_sprites_add_int(&vicii.raster,
+                                           raster_x,
+                                           &sprite->x_expanded,
+                                           value & b ? 1 : 0);
 
             /* We have to shift the sprite virtually for the drawing code */
             if (raster_x > sprite->x) {
@@ -669,10 +670,10 @@ inline static void d01d_store(const BYTE value)
 
                 sprite->x_shift_sum += actual_shift;
 
-                raster_add_int_change_sprites
-                    (&vicii.raster,
-                    raster_x,
-                    &sprite->x_shift, sprite->x_shift_sum);
+                raster_changes_sprites_add_int(&vicii.raster,
+                                               raster_x,
+                                               &sprite->x_shift,
+                                               sprite->x_shift_sum);
             }
         }
 
@@ -698,7 +699,7 @@ inline static void d020_store(BYTE value)
 
     vicii.regs[0x20] = value;
 
-    raster_add_int_change_border(&vicii.raster,
+    raster_changes_border_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
         (int *)&vicii.raster.border_color,
         value);
@@ -718,17 +719,16 @@ inline static void d021_store(BYTE value)
     x_pos = VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk));
 
     if (!vicii.force_black_overscan_background_color) {
-        raster_add_int_change_background
-            (&vicii.raster, x_pos,
-            &vicii.raster.idle_background_color, value);
-        raster_add_int_change_background
-            (&vicii.raster, x_pos,
-            &vicii.raster.xsmooth_color, value);
+        raster_changes_background_add_int(&vicii.raster, x_pos,
+                                          &vicii.raster.idle_background_color,
+                                          value);
+        raster_changes_background_add_int(&vicii.raster, x_pos,
+                                          &vicii.raster.xsmooth_color, value);
     }
 
-    raster_add_int_change_background(&vicii.raster, x_pos,
-                                     (int *)&vicii.raster.background_color,
-                                     value);
+    raster_changes_background_add_int(&vicii.raster, x_pos,
+                                      (int *)&vicii.raster.background_color,
+                                      value);
     vicii.regs[0x21] = value;
 }
 
@@ -749,17 +749,16 @@ inline static void ext_background_store(WORD addr, BYTE value)
     char_num = VICII_RASTER_CHAR(VICII_RASTER_CYCLE(maincpu_clk));
 
     if (vicii.video_mode == VICII_EXTENDED_TEXT_MODE) {
-        raster_add_int_change_background
-            (&vicii.raster,
+        raster_changes_background_add_int(&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
             &vicii.raster.xsmooth_color,
             vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
     }
 
-    raster_add_int_change_foreground(&vicii.raster,
-                                     char_num - 1,
-                                     &vicii.ext_background_color[addr - 0x22],
-                                     value);
+    raster_changes_foreground_add_int(&vicii.raster,
+                                      char_num - 1,
+                                      &vicii.ext_background_color[addr - 0x22],
+                                      value);
 }
 
 inline static void d025_store(BYTE value)
@@ -778,14 +777,13 @@ inline static void d025_store(BYTE value)
 #if 0
     /* FIXME: this is approximated.  */
     if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
-        raster_add_int_change_next_line(&vicii.raster,
+        raster_changes_next_line_add_int(&vicii.raster,
             (int *)&sprite_status->mc_sprite_color_1,
             (int)value);
     else
         sprite_status->mc_sprite_color_1 = value;
 #else
-    raster_add_int_change_sprites
-        (&vicii.raster,
+    raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
         (int *)&sprite_status->mc_sprite_color_1, (int)value);
 #endif
@@ -809,14 +807,13 @@ inline static void d026_store(BYTE value)
 #if 0
     /* FIXME: this is approximated.  */
     if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
-        raster_add_int_change_next_line(&vicii.raster,
+        raster_changes_next_line_add_int(&vicii.raster,
             (int *)&sprite_status->mc_sprite_color_2,
             (int)value);
     else
         sprite_status->mc_sprite_color_2 = value;
 #else
-    raster_add_int_change_sprites
-        (&vicii.raster,
+    raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
         (int*)&sprite_status->mc_sprite_color_2, (int)value);
 #endif
@@ -843,14 +840,13 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 
 #if 0
     if (sprite->x < VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)))
-        raster_add_int_change_next_line(&vicii.raster,
-                                        (int *)&sprite->color,
-                                        (int)value);
+        raster_changes_next_line_add_int(&vicii.raster,
+                                         (int *)&sprite->color,
+                                         (int)value);
     else
         sprite->color = value;
 #else
-        raster_add_int_change_sprites
-            (&vicii.raster,
+        raster_changes_sprites_add_int(&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
             (int *)&sprite->color, value);
 #endif

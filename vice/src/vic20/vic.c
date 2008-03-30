@@ -420,29 +420,29 @@ void vic_update_memory_ptrs(void)
     VIC_DEBUG_REGISTER(("Screen memory at $%04X.", vic.screen_ptr - ram));
 
     if (new_chargen_ptr != old_chargen_ptr) {
-        raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
-                                         + 2),
-                                         (void*)&vic.chargen_ptr,
-                                         new_chargen_ptr);
+        raster_changes_foreground_add_ptr(&vic.raster,
+                                          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
+                                          + 2),
+                                          (void*)&vic.chargen_ptr,
+                                          new_chargen_ptr);
         old_chargen_ptr = new_chargen_ptr;
     }
 
     if (new_color_ptr != old_color_ptr) {
-        raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
-                                         + 3),
-                                         (void*)&vic.color_ptr,
-                                         new_color_ptr);
+        raster_changes_foreground_add_ptr(&vic.raster,
+                                          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
+                                          + 3),
+                                          (void*)&vic.color_ptr,
+                                          new_color_ptr);
         old_color_ptr = new_color_ptr;
     }
 
     if (new_screen_ptr != old_screen_ptr) {
-        raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
-                                         + 3),
-                                         (void*)&vic.screen_ptr,
-                                         new_screen_ptr);
+        raster_changes_foreground_add_ptr(&vic.raster,
+                                          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
+                                          + 3),
+                                          (void*)&vic.screen_ptr,
+                                          new_screen_ptr);
         old_screen_ptr = new_screen_ptr;
     }
 }

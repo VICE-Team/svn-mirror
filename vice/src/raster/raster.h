@@ -51,19 +51,11 @@ struct canvas_refresh_s;
    much space anyway.  */
 #define RASTER_GFX_MSK_SIZE 0x100
 
-/* A simple convenience type for defining a rectangular area on the screen.  */
-struct raster_area_s {
-    unsigned int xs;
-    unsigned int ys;
-    unsigned int xe;
-    unsigned int ye;
-    int is_null;
-};
-typedef struct raster_area_s raster_area_t;
-
 struct video_canvas_s;
 
 struct raster_cache_s;
+struct raster_canvas_area_s;
+struct raster_changes_all_s;
 struct raster_modes_s;
 struct raster_resource_chip_s;
 struct raster_sprite_status_s;
@@ -76,14 +68,7 @@ struct raster_s {
 
     struct raster_sprite_status_s *sprite_status;
 
-    struct {
-        raster_changes_t background;
-        raster_changes_t foreground;
-        raster_changes_t border;
-        raster_changes_t sprites;
-        raster_changes_t next_line;
-        int have_on_this_line;
-    } changes;
+    struct raster_changes_all_s *changes;
 
     /* Output canvas.  */
     struct video_canvas_s *canvas;
@@ -170,7 +155,7 @@ struct raster_s {
     unsigned int num_cached_lines;
 
     /* Area to update.  */
-    raster_area_t update_area;
+    struct raster_canvas_area_s *update_area;
 
     /* This is a bit mask representing each pixel on the screen (1 =
        foreground, 0 = background) and is used both for sprite-background
@@ -236,115 +221,116 @@ extern void raster_line_changes_sprite_init(raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */
 
-inline static void raster_add_int_change_next_line(raster_t *raster,
-                                                   int *ptr,
-                                                   int new_value)
-{
-    raster_changes_add_int(&raster->changes.next_line, 0, ptr, new_value);
-}
-
-inline static void raster_add_ptr_change_next_line(raster_t *raster,
-                                                   void **ptr,
-                                                   void *new_value)
-{
-    raster_changes_add_ptr(&raster->changes.next_line, 0, ptr, new_value);
-}
-
-inline static void raster_add_int_change_foreground(raster_t *raster,
-                                                    int char_x,
+inline static void raster_changes_next_line_add_int(raster_t *raster,
                                                     int *ptr,
                                                     int new_value)
+{
+    raster_changes_add_int(raster->changes->next_line, 0, ptr, new_value);
+}
+
+inline static void raster_changes_next_line_add_ptr(raster_t *raster,
+                                                    void **ptr,
+                                                    void *new_value)
+{
+    raster_changes_add_ptr(raster->changes->next_line, 0, ptr, new_value);
+}
+
+inline static void raster_changes_foreground_add_int(raster_t *raster,
+                                                     int char_x,
+                                                     int *ptr,
+                                                     int new_value)
 {
     if (char_x <= 0)
         *ptr = new_value;
     else if (char_x < (int)raster->geometry->text_size.width) {
-        raster_changes_add_int(&raster->changes.foreground,
+        raster_changes_add_int(raster->changes->foreground,
                                char_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_int_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_int(raster, ptr, new_value);
     }
 }
 
-inline static void raster_add_ptr_change_foreground(raster_t *raster,
-                                                    int char_x,
-                                                    void **ptr,
-                                                    void *new_value)
+inline static void raster_changes_foreground_add_ptr(raster_t *raster,
+                                                     int char_x,
+                                                     void **ptr,
+                                                     void *new_value)
 {
     if (char_x <= 0)
         *ptr = new_value;
     else if (char_x < (int)raster->geometry->text_size.width) {
-        raster_changes_add_ptr(&raster->changes.foreground,
+        raster_changes_add_ptr(raster->changes->foreground,
                                char_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_ptr_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_ptr(raster, ptr, new_value);
     }
 }
 
-inline static void raster_add_int_change_background(raster_t *raster,
-                                                    int raster_x,
-                                                    int *ptr,
-                                                    int new_value)
+inline static void raster_changes_background_add_int(raster_t *raster,
+                                                     int raster_x,
+                                                     int *ptr,
+                                                     int new_value)
 {
     if (raster_x <= 0)
         *ptr = new_value;
     else if (raster_x < (int)raster->geometry->screen_size.width) {
-        raster_changes_add_int(&raster->changes.background,
+        raster_changes_add_int(raster->changes->background,
                                raster_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_int_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_int(raster, ptr, new_value);
     }
 }
 
-inline static void raster_add_ptr_change_background(raster_t *raster,
-                                                    int raster_x,
-                                                    void **ptr,
-                                                    void *new_value)
+inline static void raster_changes_background_add_ptr(raster_t *raster,
+                                                     int raster_x,
+                                                     void **ptr,
+                                                     void *new_value)
 {
     if (raster_x <= 0)
         *ptr = new_value;
     else if (raster_x < (int)raster->geometry->screen_size.width) {
-        raster_changes_add_ptr(&raster->changes.background,
+        raster_changes_add_ptr(raster->changes->background,
                                raster_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_ptr_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_ptr(raster, ptr, new_value);
     }
 }
 
-inline static void raster_add_int_change_border(raster_t *raster,
-                                                int raster_x,
-                                                int *ptr,
-                                                int new_value)
+inline static void raster_changes_border_add_int(raster_t *raster,
+                                                 int raster_x,
+                                                 int *ptr,
+                                                 int new_value)
 {
     if (raster_x <= 0)
         *ptr = new_value;
     else if (raster_x < (int)raster->geometry->screen_size.width) {
-        raster_changes_add_int(&raster->changes.border,
+        raster_changes_add_int(raster->changes->border,
                                raster_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_int_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_int(raster, ptr, new_value);
     }
 }
 
-inline static void raster_add_int_change_sprites(raster_t *raster,
-                                                    int raster_x,
-                                                    int *ptr,
-                                                    int new_value)
+inline static void raster_changes_sprites_add_int(raster_t *raster,
+                                                  int raster_x,
+                                                  int *ptr,
+                                                  int new_value)
 {
     if (raster_x < -(int)raster->geometry->extra_offscreen_border_left)
         *ptr = new_value;
     else if (raster_x < (int)(raster->geometry->screen_size.width 
                         + raster->geometry->extra_offscreen_border_right)) {
-        raster_changes_add_int(&raster->changes.sprites,
+        raster_changes_add_int(raster->changes->sprites,
                                raster_x, ptr, new_value);
-        raster->changes.have_on_this_line = 1;
+        raster->changes->have_on_this_line = 1;
     } else {
-        raster_add_int_change_next_line(raster, ptr, new_value);
+        raster_changes_next_line_add_int(raster, ptr, new_value);
     }
 }
+
 #endif
 
