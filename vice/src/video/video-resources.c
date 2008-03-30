@@ -241,15 +241,31 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
     canvas->videoconfig->rendermode = cap_render->rmode;
 
-    if (cap_render->sizex > 1)
+    if (cap_render->sizex > 1
+        && (video_chip_cap->dsize_limit_width == 0
+        || canvas->draw_buffer->canvas_width
+        <= video_chip_cap->dsize_limit_width))
         canvas->videoconfig->doublesizex = 1;
     else
         canvas->videoconfig->doublesizex = 0;
 
-    if (cap_render->sizey > 1)
+    if (cap_render->sizey > 1
+        && (video_chip_cap->dsize_limit_height == 0
+        || canvas->draw_buffer->canvas_height
+        <= video_chip_cap->dsize_limit_height))
         canvas->videoconfig->doublesizey = 1;
     else
         canvas->videoconfig->doublesizey = 0;
+
+    /* FIXME: Kludge needed until kind of render and dimensions are
+       separated from `rendermode' (which is overloaded currently). */
+    if (canvas->videoconfig->rendermode == VIDEO_RENDER_RGB_2X2) {
+        if (canvas->videoconfig->doublesizex == 0)
+            canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X2;
+        if (canvas->videoconfig->doublesizex == 0
+            && canvas->videoconfig->doublesizey == 0)
+            canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X1;
+    }
 
     if (video_resource_chip->double_size_enabled != (int)v
         && canvas->initialized
@@ -445,6 +461,8 @@ int video_resources_chip_init(const char *chipname,
     if (video_chip_cap->dsize_allowed != 0) {
         resources_chip_size[0].name
             = concat(chipname, vname_chip_size[0], NULL);
+        resources_chip_size[0].factory_value
+            = (resource_value_t)video_chip_cap->dsize_default;
         resources_chip_size[0].value_ptr
             = (resource_value_t *)&(resource_chip->double_size_enabled);
         resources_chip_size[0].param = (void *)resource_chip;

@@ -1,5 +1,100 @@
 2002-07-21  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.61.
+
+	* vicii/vicii.c, vicii/vicii.h (vic_ii_change_timing): Resize
+	geometry and viewport and made extern.  (vic_ii_reset): Reset
+	has nothing to do with changing timing or viewport.
+
+	* vic20/vic.c, vic20/vic.h: Changed likewise.
+
+	* plus4/ted.c, plus4/ted.h: Changed likewise.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, plus4/plus4.c
+	(machine_change_timing): Change video chip timing.
+
+	* video/video-render.c (video_render_main): Change double scan
+	for PAL modes only.
+
+	* video.h: Added `dsize_default', `dsize_limit_width' and
+	`dsize_limit_height' to video chip capabilities.
+
+	* vicii/vicii-resources.c, crtc/crtc-resources.c,
+	vdc/vdc-resources.c, vic20/vic-resources.c,
+	plus4/ted-resources.c: Fill in new video chip capabilities.
+
+	* video/video-resources.c (set_double_size_enabled): Only
+	enable double size for dimensions not exceeding the limit.
+	(video_resources_chip_init): Set default double size value.
+
+	* arch/os2/vac++/Makefile.am: Updated.
+
+2002-07-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic20iec.c: Don't initialize cpu_atn with 1. This
+	prevents the floppy from autostart with games fixed in 1.7.30
+	still running (well, some sort of try and error).
+
+2002-07-21  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/menubar.c:
+	- changed video resources to new style
+
+	* arch/os2/joy.h:
+	- added joystick_bits*
+
+	* arch/os2/mouse.c:
+	- included joy.h
+
+	* arch/os2/vac++/incl/archdep.icc:
+	- added joy.c
+
+	* arch/os2/vac++/incl/c128.icc:
+	- added c128rom.c
+
+	* arch/os2/vac++/incl/c64.icc:
+	- added c64rom.c
+
+	* arch/os2/vac++/incl/cbm2.icc:
+	- changed c610 to cbm2
+	- added cbm2rom.c
+
+	* arch/os2/vac++/incl/diskimage.icc,
+	arch/os2/vac++/incl/fsdevice.icc,
+	arch/os2/vac++/incl/imagecontents.icc:
+	- added
+
+	* arch/os2/vac++/incl/mainsrc.icc:
+	- removed diskimage.c, fsdevice.c, imagecontants.c, t64.c,
+	tap.c, tape.c
+
+	* arch/os2/vac++/incl/monitor.icc:
+	- added mon_memory
+	- added options for mon_parse, mon_lex
+
+	* arch/os2/vac++/incl/pet.icc:
+	- added petrom.c
+
+	* arch/os2/vac++/incl/plus4.icc:
+	- added plus4rom, ted-fetch
+
+	* arch/os2/vac++/incl/raster.icc:
+	- added raster-resources, raster-cmdline-options
+
+	* arch/os2/vac++/incl/tape.icc:
+	- added
+
+	* arch/os2/vac++/incl/vicii.icc:
+	- added vicii-fetch
+
+	* arch/os2/vac++/incl/video.icc:
+	- added video-cmdline-options
+
+	* arch/os2/vac++/*/*.ICC:
+	- added new incls and paths
+
+2002-07-21  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.60.
 
 	* raster/raster-line.c (raster_line_emulate): Line emulation
