@@ -64,7 +64,7 @@
 #include "c64acia.h"
 #endif
 
-/* #define DEBUG_MMU */
+#define DEBUG_MMU
 
 #ifdef DEBUG_MMU
 #define DEBUG(x) printf x
