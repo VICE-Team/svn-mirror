@@ -141,10 +141,15 @@ void vicii_irq_set_raster_line(unsigned int line)
     vic_ii.raster_irq_line = line;
 }
 
-void vicii_irq_check_state(unsigned int irq_line)
+void vicii_irq_check_state(BYTE value, unsigned int high)
 {
-    unsigned int line;
+    unsigned int irq_line, line;
     unsigned int old_raster_irq_line;
+
+    if (high)
+        irq_line = (vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1);
+    else
+        irq_line = (vic_ii.raster_irq_line & 0x100) | value;
 
     if (irq_line == vic_ii.raster_irq_line)
         return;
@@ -160,17 +165,33 @@ void vicii_irq_check_state(unsigned int irq_line)
         trigger_irq = 0;
 
         if (maincpu_rmw_flag) {
-            if (VIC_II_RASTER_CYCLE(maincpu_clk) == 0) {
-                unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
+            if (high) {
+                if (VIC_II_RASTER_CYCLE(maincpu_clk) == 0
+                    && (line & 0xff) == 0) {
+                    unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
 
-                if (previous_line != old_raster_irq_line
-                    && ((old_raster_irq_line & 0x100)
-                    == (previous_line & 0x100)))
-                    trigger_irq = 1;
+                    if (previous_line != old_raster_irq_line
+                        && ((old_raster_irq_line & 0xff)
+                        == (previous_line & 0xff)))
+                        trigger_irq = 1;
+                } else {
+                    if (line != old_raster_irq_line
+                        && (old_raster_irq_line & 0xff) == (line & 0xff))
+                        trigger_irq = 1;
+                }
             } else {
-                if (line != old_raster_irq_line
-                    && (old_raster_irq_line & 0x100) == (line & 0x100))
-                    trigger_irq = 1;
+                if (VIC_II_RASTER_CYCLE(maincpu_clk) == 0) {
+                    unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
+
+                    if (previous_line != old_raster_irq_line
+                        && ((old_raster_irq_line & 0x100)
+                        == (previous_line & 0x100)))
+                        trigger_irq = 1;
+                } else {
+                    if (line != old_raster_irq_line
+                        && (old_raster_irq_line & 0x100) == (line & 0x100))
+                        trigger_irq = 1;
+                }
             }
         }
 
