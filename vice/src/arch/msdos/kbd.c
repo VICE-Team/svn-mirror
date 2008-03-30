@@ -246,11 +246,9 @@ static void my_kbd_interrupt_handler(void)
 	  case K_ESC:
 	    _escape_requested = 1;
 	    break;
-#ifndef PET
 	  case K_PGUP: /* Restore */
 	    queue_command(KCMD_RESTORE_PRESSED);
 	    break;
-#endif
 	  case K_F12:
 	    /* F12 does a reset, Ctrl-F12 does a reset and clears the
                memory.  */
@@ -301,11 +299,9 @@ static void my_kbd_interrupt_handler(void)
 	switch (kcode) {
           case K_ESC:
             break;
-#ifndef PET
 	  case K_PGUP:
 	    queue_command(KCMD_RESTORE_RELEASED);
 	    break;
-#endif
 	  default:
 	    if (!joystick_handle_key(kcode, 0)) {
 		set_keyarr(keyconvmap[kcode].row, keyconvmap[kcode].column, 0);
