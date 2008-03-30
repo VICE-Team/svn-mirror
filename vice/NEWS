@@ -18,8 +18,6 @@ list of all the changes in the code.
 ** Unix changes
 ---------------
 
-- New joystick driver is included.
-
 - Fixed AIX audio header problem.
 
 - The emulator does not crash with "X Error of failed request:
@@ -29,11 +27,11 @@ list of all the changes in the code.
 ** MS-DOS changes
 -----------------
 
-- The filter for the attach dialog has been fixed to display D64, D71
+- The filter of the attach dialog has been fixed to display D64, D71
   D81, G64, G41 and X64 disk image names.
 
-- Cartridge attach and snapshot write dialogs could crashed emulator
-  on certain DOS extenders.  This bug has been fixed.
+- Cartridge attach and snapshot write dialogs could crash emulator on
+  certain DOS extender.  This bug has been fixed.
 
 - The name of currently attached tape images is displayed again.
 
@@ -49,6 +47,7 @@ list of all the changes in the code.
   displays all files, the first file found is the first in the T64
   archive (and not the second), detaching tapes works now and "LOAD
   ERROR" should be gone.
+
 
 * Changes in VICE 0.16.0
 ========================

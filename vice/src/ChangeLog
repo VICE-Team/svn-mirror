@@ -1,3 +1,65 @@
+1999-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/joystick.c, arch/unix/joystick.h: Use Dan's new
+	joystick driver again.
+
+1999-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1
+
+1998-01-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c610/c610.c, pet/pet.c (machine_init): set external variable
+	cbm2_init_ok resp. pet_init_ok to 1, to allow *_set_model to
+	call mem_load etc.
+
+	* c610mem.c, c610mem.h (cbm2_init_ok): new global variable to
+	indicate when the emulator got into machine_init. Calling
+	mem_load etc from cbm2_set_model() is malicious when this
+	variable is still 0.
+	(cbm2_set_model): check cbm2_init_ok before calling mem_load etc.
+
+	* pets.c, pets.h (pet_init_ok): new global variable to
+	indicate when the emulator got into machine_init. Calling
+	mem_load etc from pet_set_model() is malicious when this
+	variable is still 0.
+	(pet_set_model): check pet_init_ok before calling mem_load etc.
+
+1999-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* main.c (MAIN_PROGRAM): Call `joystick_init_resources' and
+	`joystick_init_cmdline_options' even when no hardware joystick
+	support is found.
+
+	* c1541.c, mon.c, resources.c, utils.c, zfile.c: Only include
+	`strings.h' when this header file is present.
+
+	* info.c: Added Oliver to list of contributors.
+
+1998-01-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c1541.c (DiskFormats): Changed struct part from "char ImageFormat"
+	to "signed char ImageFormat" to allow comparision <0.
+
+	* c1541.c, mon.c, resources.c, utils.c, zfile.c: Include
+	<strings.h> to get prototype for strcasecmp on AIX.
+
+1999-01-13  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/c610ui.c, arch/unix/xaw/petui.c, 
+	c64/vicii.c, c64/vicii.h,cbm2/crtc.c, crtc-tmpl.c,
+	crtc.h, pet/crtc.c, pet/petmem.c, vic20/vic.c,
+	vic20/vic.h: Fixed problems with fullscreen-mode
+	and changing number of columns or changing emulation-modes.
+ 	
+	* arch/unix/xaw/uisettings.c (toggle_DoubleScan):
+	DoubleScan can now enabled/disabled again.
+	
+	* arch/unix/xaw/ui.c, arch/unix/xaw/ui.h (video_setfullscreen):
+ 	New function introduced, but not used yet.
+
+	* arch/unix/xaw/c64ui.c: Added hotkey for swaping joystick ports.
+
 1999-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.5.
@@ -10,7 +72,7 @@
 	* arch/win32/ui.c (handle_wm_command): Changed likewise.
 
 	* c1541.c: #include <stdarg.h>, #include <limits.h>.
- 	(create_cmd): Some cosmitics to get the compiler silent.
+ 	(create_cmd): Some cosmetics to get the compiler silent.
 
 	* t64.c (t64_seek_to_next_file): Set the starting file number to
 	`-1' on rewind.
