@@ -43,6 +43,9 @@ static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_CATWEASELMKIII
     ", 2: Catweasel"
 #endif
+#ifdef HAVE_HARDSID
+    ", 3: HardSID"
+#endif
     ")" },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
