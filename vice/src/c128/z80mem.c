@@ -262,19 +262,15 @@ void z80mem_initialize(void)
     }
 
 
-    for (j = 0; j <= 3; j += 2) {
-        for (i = 0xd0; i <= 0xdf; i++) {
-            mem_read_tab[j][i] = read_ram;
-            mem_write_tab[j][i] = store_ram;
-        }
-    }
-
-    for (j = 1; j <= 3; j += 2) {
-        for (i = 0xd0; i <= 0xdf; i++) {
-            mem_read_tab[j][i] = read_ram;
-            mem_write_tab[j][i] = store_ram;
-        }
-
+    for (i = 0xd0; i <= 0xdf; i++) {
+        mem_read_tab[0][i] = read_ram;
+        mem_write_tab[0][i] = store_ram;
+        mem_read_tab[1][i] = read_ram;
+        mem_write_tab[1][i] = store_ram;
+        mem_read_tab[2][i] = read_top_shared;
+        mem_write_tab[2][i] = store_top_shared;
+        mem_read_tab[3][i] = read_top_shared;
+        mem_write_tab[3][i] = store_top_shared;
     }
 
     for (i = 0xe0; i <= 0xfe; i++) {
