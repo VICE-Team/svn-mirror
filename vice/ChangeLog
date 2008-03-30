@@ -1,3 +1,40 @@
+2004-12-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.12.
+
+	* data/C64/win_sym.vkm, data/PET/win_bgrs.vkm,
+	data/PET/win_buks.vkm, data/CBM-II/win_buks.vkm,
+	data/CBM-II/win_buks.vkm: Renamed.
+
+	* data/C64/Makefile.am, data/PET/Makefile.am,
+	data/CBM-II/Makefile.am: Updated.
+
+	* data/C64/win_pos.vkm, data/C64/win_sym.vkm,
+	data/C64/win_sym_de.vkm, data/C128/win_pos.vkm,
+	data/C128/win_sym.vkm, data/VIC20/win_pos.vkm,
+	data/VIC20/win_sym.vkm, data/PET/win_bgrs.vkm,
+	data/PET/win_buks.vkm, data/PLUS4/win_pos.vkm,
+	data/PLUS4/win_sym.vkm, data/CBM-II/win_buks.vkm,
+	data/CBM-II/win_bukp.vkm, data/C64/dos_pos.vkm,
+	data/C64/dos_sym.vkm, data/C128/dos_pos.vkm,
+	data/C128/dos_sym.vkm, data/VIC20/dos_sym.vkm,
+	data/VIC20/dos_pos.vkm, data/PET/dos_bgrs.vkm,
+	data/PET/dos_buks.vkm, data/PLUS4/dos_sym.vkm,
+	data/PLUS4/dos_pos.vkm, data/CBM-II/dos_bukp.vkm,
+	data/CBM-II/dos_buks.vkm, data/C64/x11_pos.vkm,
+	data/C64/x11_sym.vkm, data/C128/x11_pos.vkm,
+	data/C128/x11_sym.vkm, data/VIC20/x11_pos.vkm,
+	data/VIC20/x11_sym.vkm, data/PET/x11_bgrs.vkm,
+	data/PET/x11_buks.vkm, data/PLUS4/x11_pos.vkm,
+	data/PLUS4/x11_sym.vkm, data/CBM-II/x11_buks.vkm,
+	data/C64/beos_pos.vkm, data/C64/beos_sym.vkm,
+	data/C128/beos_pos.vkm, data/C128/beos_sym.vkm,
+	data/VIC20/beos_pos.vkm, data/VIC20/beos_sym.vkm,
+	data/PET/beos_bgrs.vkm, data/PET/beos_buks.vkm,
+	data/PLUS4/beos_pos.vkm, data/PLUS4/beos_sym.vkm,
+	data/CBM-II/beos_bukp.vkm, data/CBM-II/beos_buks.vkm:
+	Added new shift flags comments.
+
 2004-12-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.11.

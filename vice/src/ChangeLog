@@ -1,3 +1,33 @@
+2004-12-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.12.
+
+	* keyboard.c (keyboard_key_released): Do not check shift state
+	to abort keymap search.
+	(keyboard_keymap_dump): Added new shift flags comments.
+
+	* arch/win32/kbd.h, arch/msdos/kbd.h, arch/unix/kbd.h,
+	arch/beos/kbd.h, arch/riscos/kbd.h, arch/os2/kbd.h,
+	c64/c64-resources.c, pet/pet-resources.c,
+	cbm2/cbm2-resources.c, arch/win32/resc64.rc: Changed
+	definition names.
+
+2004-12-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* drive/drive-snapshot.c (drive_snapshot_read_module),
+	(drive_snapshot_write_module): Include byte_ready_edge
+	and byte_ready_active in the snapshot.
+
+2004-12-05  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/joy.c: Joystick fire button can be selected for
+	HW joysticks.
+
+	* arch/win32/res.h: Added IDs for joystick fire button UI.
+
+	* arch/win32/res.rc, arch/win32/uijoystick.c: Added UI for
+	joystick fire button.
+
 2004-12-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.11.
