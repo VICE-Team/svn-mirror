@@ -301,7 +301,7 @@ void file_system_detach_disk(int unit)
             set_file_system_device((resource_value_t)
                                    file_system_device_enabled[i], i + 8);
             ui_display_drive_current_image(i, "");
-	    }
+        }
     } else {
         if (unit >= 8 && unit <= 11) {
             vdrive = file_system_get_vdrive(unit);
@@ -315,6 +315,18 @@ void file_system_detach_disk(int unit)
         } else {
             log_error(attach_log, "Cannot detach unit %i.", unit);
         }
+    }
+}
+
+void file_system_detach_disk_shutdown(void)
+{
+    vdrive_t *vdrive;
+    unsigned int i;
+
+    for (i = 0; i <= 3; i++) {
+        vdrive = file_system_get_vdrive(i + 8);
+        if (vdrive != NULL)
+            detach_disk_image(vdrive->image, vdrive, i + 8);
     }
 }
 

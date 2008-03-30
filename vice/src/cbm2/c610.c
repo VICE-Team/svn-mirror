@@ -307,7 +307,7 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all disks.  */
-    file_system_detach_disk(-1);
+    file_system_detach_disk_shutdown();
 
     /* and the tape */
     tape_detach_image();

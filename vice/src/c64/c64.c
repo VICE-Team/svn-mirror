@@ -459,7 +459,7 @@ void machine_shutdown(void)
 {
     /* Detach all disks.  */
     if (!vsid_mode) {
-        file_system_detach_disk(-1);
+        file_system_detach_disk_shutdown();
     }
 
     /* and the tape */
