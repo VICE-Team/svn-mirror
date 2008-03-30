@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,6 +33,7 @@
 extern int c64_ui_init(void);
 
 extern ui_menu_entry_t sid_submenu[];
+extern ui_menu_entry_t set_video_standard_submenu[];
 
 #endif
 
