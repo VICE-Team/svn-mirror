@@ -35,6 +35,7 @@
 #include "fdc.h"
 #include "fsdevice.h"
 #include "fliplist.h"
+#include "log.h"
 #include "resources.h"
 #include "serial.h"
 #include "snapshot.h"
@@ -114,8 +115,7 @@ void file_system_init(void)
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_get_device(i + 8);;
         file_system[i].vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-        file_system[i].vdrive->image = NULL;
-        file_system[i].vdrive->side_sector = NULL;
+        memset(file_system[i].vdrive, 0, sizeof(vdrive_t));
         vdrive_setup_device(file_system[i].vdrive, i + 8);
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
     }
@@ -144,68 +144,41 @@ char *file_system_get_disk_name(unsigned int unit)
     return vdrive->image->name;
 }
 
-static int set_file_system_device8(resource_value_t v)
+static int set_file_system_device(resource_value_t v, unsigned int unit)
 {
     vdrive_t *vdrive;
 
-    file_system_device_enabled[0] = (int) v;
+    file_system_device_enabled[unit - 8] = (int) v;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(8);
+    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     if (vdrive != NULL) {
         if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, 8);
-            file_system_set_serial_hooks(8, file_system_device_enabled[0]);
+            vdrive_setup_device(vdrive, unit);
+            file_system_set_serial_hooks(unit,
+                                         file_system_device_enabled[unit - 8]);
         }
     }
     return 0;
+}
+
+static int set_file_system_device8(resource_value_t v)
+{
+    return set_file_system_device(v, 8);
 }
 
 static int set_file_system_device9(resource_value_t v)
 {
-    vdrive_t *vdrive;
-
-    file_system_device_enabled[1] = (int) v;
-
-    vdrive = (vdrive_t *)file_system_get_vdrive(9);
-    if (vdrive != NULL) {
-        if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, 9);
-            file_system_set_serial_hooks(9, file_system_device_enabled[1]);
-         }
-    }
-    return 0;
+    return set_file_system_device(v, 9);
 }
 
 static int set_file_system_device10(resource_value_t v)
 {
-    vdrive_t *vdrive;
-
-    file_system_device_enabled[2] = (int) v;
-
-    vdrive = (vdrive_t *)file_system_get_vdrive(10);
-    if (vdrive != NULL) {
-        if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, 10);
-            file_system_set_serial_hooks(10, file_system_device_enabled[2]);
-        }
-    }
-    return 0;
+    return set_file_system_device(v, 10);
 }
 
 static int set_file_system_device11(resource_value_t v)
 {
-    vdrive_t *vdrive;
-
-    file_system_device_enabled[3] = (int) v;
-
-    vdrive = (vdrive_t *)file_system_get_vdrive(11);
-    if (vdrive != NULL) {
-        if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, 11);
-            file_system_set_serial_hooks(11, file_system_device_enabled[3]);
-        }
-    }
-    return 0;
+    return set_file_system_device(v, 11);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -316,44 +289,31 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
 
 void file_system_detach_disk(int unit)
 {
-    int i;
     vdrive_t *vdrive;
     
     if (unit < 0) {
+        unsigned int i;
         /* XXX Fixme: Hardcoded 2 drives here! */
         for (i = 0; i <= 3; i++) {
-            vdrive = file_system_get_vdrive((unsigned int)(i + 8));
+            vdrive = file_system_get_vdrive(i + 8);
             if (vdrive != NULL)
                 detach_disk_image(vdrive->image, vdrive, i + 8);
-            set_file_system_device8((resource_value_t)
-                                    file_system_device_enabled[i]);
+            set_file_system_device((resource_value_t)
+                                   file_system_device_enabled[i], i + 8);
             ui_display_drive_current_image(i, "");
 	    }
     } else {
-        vdrive = file_system_get_vdrive(unit);
-        if (vdrive != NULL)
-            detach_disk_image(vdrive->image, vdrive, (unsigned int)unit);
-        switch(unit) {
-          case 8:
-            set_file_system_device8((resource_value_t)
-                                    file_system_device_enabled[0]);
-            ui_display_drive_current_image(0, "");
-            break;
-          case 9:
-            set_file_system_device9((resource_value_t)
-                                    file_system_device_enabled[1]);
-            ui_display_drive_current_image(1, "");
-            break;
-          case 10:
-            set_file_system_device10((resource_value_t)
-                                     file_system_device_enabled[2]);
-            ui_display_drive_current_image(2, "");
-            break;
-          case 11:
-            set_file_system_device11((resource_value_t)
-                                     file_system_device_enabled[3]);
-            ui_display_drive_current_image(3, "");
-            break;
+        if (unit >= 8 && unit <= 11) {
+            vdrive = file_system_get_vdrive(unit);
+            if (vdrive != NULL)
+                detach_disk_image(vdrive->image, vdrive, (unsigned int)unit);
+
+            set_file_system_device((resource_value_t)
+                                   file_system_device_enabled[unit - 8],
+                                   (unsigned int)unit);
+            ui_display_drive_current_image(unit - 8, "");
+        } else {
+            log_error(attach_log, "Cannot detach unit %i.", unit);
         }
     }
 }
