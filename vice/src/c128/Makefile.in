@@ -300,9 +300,7 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/arch/unix/types.h z80.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../interrupt.h ../log.h \
 	../machine.h ../maincpu.h ../mem.h ../../src/monitor/mon.h \
-	../../src/monitor/mon_breakpoint.h \
-	../../src/monitor/mon_disassemble.h ../mos6510.h ../snapshot.h \
-	../traps.h ../6510core.c
+	../mos6510.h ../snapshot.h ../traps.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \
@@ -328,12 +326,11 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
-	../../src/mem.h ../../src/cmdline.h ../../src/resources.h \
-	functionrom.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/keyboard.h ../../src/log.h ../../src/maincpu.h \
-	../../src/c64/reu.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
-	z80.h z80mem.h
+	../../src/arch/unix/types.h c128mmu.h ../../src/cmdline.h \
+	../../src/resources.h functionrom.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/keyboard.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/c64/reu.h \
+	../../src/vdc/vdc.h ../../src/vicii/vicii.h z80.h z80mem.h
 daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
 	../../src/config.h
 functionrom.o: functionrom.c ../../src/arch/unix/archdep.h \
@@ -343,8 +340,8 @@ functionrom.o: functionrom.c ../../src/arch/unix/archdep.h \
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h daa.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
-	../../src/monitor/mon.h ../../src/monitor/mon_breakpoint.h \
-	z80.h z80mem.h ../../src/mem.h ../../src/z80regs.h
+	../../src/monitor/mon.h z80.h z80mem.h ../../src/mem.h \
+	../../src/z80regs.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/log.h \

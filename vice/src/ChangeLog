@@ -1,3 +1,70 @@
+2001-05-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.32.
+
+	* palette.c, palette.h (palette_set_entry): Made static.
+
+	* maincpu.c, maincpu.h (mainloop): Fixed prototype.
+
+	* vicii/viciitypes.h, vicii/vicii.c, vicii/vicii.h,
+	vicii/vicii-mem.c: Moved `vic_ii_handle_pending_alarms'.
+
+	* vicii/vicii.c, vicii/vicii.h, vdc/vdc-mem.c, c64/c64.c,
+	c64/c64cia1.c, c64/c64cia2.c, c128/c128.c, c128/c128cia1.c,
+	c128/c128mmu.c: Removed `vic_ii_handle_pending_alarms_external'
+	hack.
+
+	* c128/c128mem.c, c128/c128mem.h, c128/z80mem.c,
+	c128/c128mmu.c, c128/z80mem.h, c64/c64mem.h, c64/c64mem.c,
+	c64/c64cartmem.c, vicii/vicii-mem.c, vicii/vicii-mem.h: Fixed
+	naming of memory access functions.
+
+	* monitor/mon.c (mon_register_list_get): New function.
+
+	* arch/win32/uimon.c (update_last_shown_regs,
+	output_register): Use `mon_register_list_get()' instead of
+	directly using the monitor CPU type structure.
+
+	* monitor/montypes.h: New file.
+
+	* monitor/mon.h: Moved all internal stuff to `montypes.h'.
+
+	* monitor/asm6502.c, monitor/asmz80.c,
+	monitor/mon_assemble6502.c, monitor/mon_assemblez80.c,
+	monitor/mon_breakpoint.c, monitor/mon_disassemble.h,
+	monitor/mon_command.c, monitor/mon_parse.y,
+	monitor/mon_drive.c, monitor/mon_file.c,
+	monitor/mon_register6502.c, monitor/mon_registerz80.c,
+	monitor/mon_lex.l, maincpu.c, drive/drivecpu.c, c128/z80.c:
+	Adopted to new monitor interface header.
+
+2001-05-24  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: incomplete line at bottom is left
+	free.
+
+	* arch/win32/uimon.c: disassembler/register window now opened
+	as popup instead of MDI childs
+
+	* arch/win32/uimon.c: using generic registry interface (not
+	yet always...)
+
+	* arch/monitor/mon.c: calling uimon_notify_change() upon 
+	recognition of cpu command
+
+	* arch/monitor/mon_register6502.c: corrected bug in 
+	mon_register_print (mem(01) did not work), added mem(00).
+
+	* arch/monitor/mon_register6502.c: corrected bug in 
+	mon_register_list_get(), SP is only 8 bit wide, added FL
+	register (for the FLAG register, byte wide), fixed the
+	"1" flag.
+
+2001-05-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/video.c, arch/beos/video.cc (canvas_destroy):
+	Test for valid canvas before we free it.
+
 2001-05-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.31.
