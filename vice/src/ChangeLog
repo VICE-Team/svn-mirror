@@ -1,5 +1,32 @@
 1999-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.15.
+
+	* datasette.c (datasette_read_bit): Reschedule a flux change when
+	more than more flux change happens during DMA.
+	Removed some (now) unnecessary calls to the alarm code.
+	New variable `datasette_alarm_pending'.
+
+	* vic20/vic20iec.c (iec_drive0_write, iec_drive1_write,
+	iec_pa_write, iec_pcr_write): Implemented 1581 style IEC bus.
+
+	* vic20/vic20iec.c, c128/c128iec.c, vic20/vic20iec.c:
+	#include "maincpu.h".
+
+	* vic20/vic20via1.c, vic20/vic20via2.c (res_via): Commented out
+	calling IEC bus functions as this happens this executed the drive
+	during reset.
+
+	* vic20/vic20.c (machine_reset): Reset autostart code.
+	* pet/pet.c (machine_reset): Likewise.
+	* cbm2/c610.c (machine_reset): Likewise.
+
+	* c128/c128iec.c (iec_info_t): Made static.
+
+	* c128/c128.c (machine_reset): Do not initialize memory.
+
+1999-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.14.
 
 	* datasette.c, datasette.h, tape.c: Renamed `mem_set_tape_sense'
