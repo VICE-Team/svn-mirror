@@ -787,6 +787,18 @@ void video_free(void)
 #endif
 }
 
+/* Make sure all the VIC-II alarms are removed.  This just makes it easier to
+   write functions for loading snapshot modules in other video chips without
+   caring that the VIC-II alarms are dispatched when they really shouldn't
+   be.  */
+void vic_ii_prepare_for_snapshot(void)
+{
+    vic_ii_fetch_clk = CLOCK_MAX;
+    maincpu_set_alarm_clk (A_RASTERFETCH, vic_ii_fetch_clk);
+    vic_ii_draw_clk = CLOCK_MAX;
+    maincpu_set_alarm_clk (A_RASTERDRAW, vic_ii_fetch_clk);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes

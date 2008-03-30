@@ -1,3 +1,125 @@
+1998-09-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* maincpu.c (maincpu_read_snapshot_module): Removed `rwm_flag'
+ 	kludge.
+
+	* c128/c128.c (machine_read_snapshot): Call
+ 	`vic_ii_prepare_for_snapshot()' and read the VIC-II snapshot last.
+	(machine_write_snapshot): Write the VIC-II snapshot last.
+
+	* c64/c64.c (machine_read_snapshot): Call
+ 	`vic_ii_prepare_for_snapshot()' and read the VIC-II snapshot last.
+	(machine_write_snapshot): Write the VIC-II snapshot last.
+
+	* c64/vicii.c (vic_ii_prepare_for_snapshot): New function.
+
+1998-09-29  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/c128ui.c (c128_ui_init): add snapshot submenu
+
+	* c128/c128.c (machine_read_snapshot, machine_write_snapshot):
+	copied functions from C64.
+
+	* c128/c128mem.c (mem_write_snapshot_module, mem_read_snapshot_module):
+	new functions to read/write C128 memory. Mostly a copy from C64, but
+	saves MMU instead of CPU registers and does not save REU module.
+
+	* c610/c610cpu.def (INSTRUCTION_FETCH_HACK, FETCH_OPCODE): remove
+ 	instruction fetch hack, define FETCH_OPCODE instead.
+
+	* c610/c610mem.c (mem_read_snapshot_module,
+ 	mem_write_snapshot_module): fix memory size handling. Now the
+ 	right amount of memory is saved/ read.
+
+	* via-tmpl.c (ca2_state, cb2_state): new variables to save the
+	state of the CA2 and CB2 handshake outputs. Use VIA_SET_CA2() and
+	VIA_SET_CB2() to set the line states. read/write Handshake
+	should now work.
+	(read_myvia, store_myvia, myvia_signal): handle read/write
+	handshake of CA2/CB2.
+	(myvia_read_snapshot_module, myvia_write_snapshot_module):
+	add state of CA2 and CB2 to snapshot
+
+	* drive/via1drive0.def, via1drive1.def, via2drive0.def,
+	drive/via2drive1.def, vic20/vic20via1.def, vic20/vic20via2.def
+	(VIA_SET_CA2, VIA_SET_CB2): new (empty) defines that should someday
+	replace STORE_PCR.
+
+	* pet/petvia.def (VIA_SET_CA2, VIA_SET_CB2, STORE_PCR): moved
+	stuff from STORE_PCR to VIA_SET_CA2 and VIA_SET_CB2.
+
+1998-09-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64mem.c (store_io2, read_io2, store_io1): Add Final
+	Cartridge III banking.
+	(mem_freeze_cartridge): Added FC3 banking and fixed a typo.
+	(cartridge_config_changed): Set new variable `ultimax'.
+
+	* c64/cartridge.c (cartridge_attach_image): Enabled FC3 cart.
+
+	* drive/Makefile.am: Added all built sources to `BUILT_SOURCES'.
+
+	* drive/drive.c (drive_init): Initialize new variables
+	`drive[].GCR_image_loaded' and `drive[].read_only'.
+	(drive_attach_floppy, drive_detach_floppy): Set
+	`drive[dnr].GCR_image_loaded' whenever a GCR image is present.
+	(drive_write_gcr): Do not check for disk.
+	(drive_write_protect_sense): Use the read only flag of the
+	`drive' structure.
+	(GCR_data_writeback): If no disk is attach do not write back gcr
+	data.
+	(drive_write_snapshot_module, drive_read_snapshot_module):
+	Do not dump `ByteReadyActive', `Enable', ReadWriteMode' and
+	`RomIdleTrap'.  Added `GCRImage' and `ReadOnly' to the snapshot.
+	(drive_write_image_snapshot_module): New function.
+	(drive_read_image_snapshot_module): New function.
+
+	* drive/drive.h: Added `GCR_image_loaded' and `read_only' to the
+	drive structure.
+
+	* drive/via1drive0.def: Removed `via1d0_set_atn'.
+	* drive/via1drive1.def: Likewise.
+
+	* drive/via2drive0.def (UNDUMP_PCR): Undump PCR.
+	* drive/via2drive1.def (UNDUMP_PCR): Undump PCR.
+
+	* pet/petvia.def: Define `UNDUMP_PCR'.
+	* vic20/vic20via1.def: Likewise.
+	* vic20/vic20via2.def: Likewise.
+	* drive/via1drive0.def: Likewise.
+	* drive/via1drive1.def: Likewise.
+
+	* via-tmpl.c (myvia_read_snapshot_module): Use `UNDUMP_PCR'
+	instead of `STORE_PCR'.
+
+1998-09-29  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/c610ui.c (set_joystick_device1, set_joystick_device2,
+ 	swap_joystick_ports, set_joystick_device_1_submenu,
+ 	set_joystick_device_2_submenu, joystick_settings_submenu,
+ 	joystick_settings_menu): new menus and functions to handle
+ 	Joysticks in the C500/600/700.
+	(c610_ui_init): add joystick submenu to right mouse button menu.
+
+	* c610/c610cia1.def (RESET_CIA, STORE_CIAPB, POST_CIA_FUNCS):
+	rename userport_printer_* funcs to pruser_* funcs
+	(READ_CIAPA): if IEEE is set to output then line voltage
+	is high, not the IEEE bus value. Also let joystick 1 and 2
+	triggers pull down pins PA6 and PA7
+	(READ_CIAPB): Joystick 1 and 2 pull down appropriate lines.
+
+	* c64/c64cia2.def (RESET_CIA, STORE_CIAPA, STORE_CIAPB,
+	UNDUMP_CIAPB, POST_CIA_FUNCS): rename userport_printer_* funcs to
+	pruser_* funcs
+
+	* pet/petvia.def, vic20/vic20via2.def (STORE_PRA, UNDUMP_PRA,
+	STORE_PCR, RESET_VIA, POST_VIA_FUNCS): rename userport_printer_*
+	funcs to pruser_* funcs
+
+	* pruser.c, pruser.h (userport_printer_write_data,
+	userport_printer_set_busy, userport_printer_write_strobe):
+	rename userport_printer_* to pruser_*
+
 1998-09-27  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.14.
