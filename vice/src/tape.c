@@ -208,7 +208,7 @@ int tape_detach_image(void)
         attached_t64_tape = NULL;
 
         /* Tape detached: release play button.  */
-        mem_set_tape_sense(0);
+        datasette_set_tape_sense(0);
 
         return retval;
     }
@@ -248,7 +248,7 @@ int tape_attach_image(const char *name)
         log_message(tape_log, "T64 image '%s' attached.", name);
 
         /* Tape attached: press play button.  */
-        mem_set_tape_sense(1);
+        datasette_set_tape_sense(1);
 
         return 0;
     }

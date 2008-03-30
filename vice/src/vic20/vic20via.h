@@ -48,6 +48,7 @@ extern BYTE REGPARM1 read_via2(ADDRESS addr);
 extern BYTE REGPARM1 peek_via2(ADDRESS addr);
 extern int via2_write_snapshot_module(snapshot_t *p);
 extern int via2_read_snapshot_module(snapshot_t *p);
+extern void via2_set_tape_sense(int v);
 
 #endif  /* _VIC20_VIA_H */
 
