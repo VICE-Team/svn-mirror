@@ -39,40 +39,40 @@
 
 /* base saturation of all colors except the grey tones */
 
-#define TED_SATURATION	48.0f
+#define TED_SATURATION  48.0f
 
 /* phase shift of all colors */
 
-#define TED_PHASE		-4.5f
+#define TED_PHASE       -4.5f
 
 /* chroma angles in UV space */
 
-#define ANGLE_RED	 112.5f
-#define ANGLE_GRN	-135.0f
-#define ANGLE_BLU	   0.0f
-#define ANGLE_ORN	 -45.0f	/* negative orange (orange is at +135.0 degree) */
-#define ANGLE_BRN	 157.5f
+#define ANGLE_RED        112.5f
+#define ANGLE_GRN       -135.0f
+#define ANGLE_BLU          0.0f
+#define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
+#define ANGLE_BRN        157.5f
 
 /* new luminances */
 
-#define LUMN0	  0.0f
-#define LUMN1	 56.0f
-#define LUMN2	 74.0f
-#define LUMN3	 92.0f
-#define LUMN4	117.0f
-#define LUMN5	128.0f
-#define LUMN6	163.0f
-#define LUMN7	199.0f
-#define LUMN8	256.0f
+#define LUMN0     0.0f
+#define LUMN1    56.0f
+#define LUMN2    74.0f
+#define LUMN3    92.0f
+#define LUMN4   117.0f
+#define LUMN5   128.0f
+#define LUMN6   163.0f
+#define LUMN7   199.0f
+#define LUMN8   256.0f
 
 /* default dithering */
 
 static char vic_ii_color_dither[16]=
 {
-	0x00,0x0E,0x04,0x0C,
-	0x08,0x04,0x04,0x0C,
-	0x04,0x04,0x08,0x04,
-	0x08,0x08,0x08,0x0C
+    0x00,0x0E,0x04,0x0C,
+    0x08,0x04,0x04,0x0C,
+    0x04,0x04,0x08,0x04,
+    0x08,0x08,0x08,0x0C
 };
 
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
@@ -99,14 +99,15 @@ static video_cbm_color_t ted_colors[TED_NUM_COLORS]=
 
 static video_cbm_palette_t ted_palette=
 {
-	TED_NUM_COLORS,
-	ted_colors,
-	TED_SATURATION,
-	TED_PHASE,
+    TED_NUM_COLORS,
+    ted_colors,
+    TED_SATURATION,
+    TED_PHASE,
 };
 
 int ted_update_palette(void)
 {
-	video_color_set_palette(&ted_palette);
-	return video_color_update_palette();
+    video_color_set_palette(&ted_palette);
+    return video_color_update_palette();
 }
+

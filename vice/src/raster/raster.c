@@ -144,8 +144,8 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
             }
 
             if (r) {
-                xs_return = MIN (xs_return, sxs);
-                xe_return = MAX (xe_return, sxe);
+                xs_return = MIN(xs_return, sxs);
+                xe_return = MAX(xe_return, sxe);
                 rr = 1;
             }
         } else if (sprite_cache->visible) {
