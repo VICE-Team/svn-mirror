@@ -1,3 +1,35 @@
+1999-04-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.59.
+
+	* maincpu.c (maincpu_init): Set proper clock overflow value.
+	* drive/drivecpucore.c (mydrive_cpu_early_init): Likewise.
+
+	* drive/drivecpucore.c, drive/drivecpu0.c, drive/drivecpu1.c,
+	drive/drivecpu.h (mydrive_cpu_reset_clk): New function.
+
+	* drive/drive.c (set_drive_true_emulation): Reset maincpu<->
+	drive clock coupling.
+
+1999-04-13  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am: Changed resource file extensions from
+	  .r to .rc, to avoid clash with automake 1.4, who thinks that
+	  it is a Fortran extension. Also this conforms to the MSVC
+	  standard.
+
+	* arch/win32/res.rc arch/win32/resc128.rc arch/win32/resc64.rc
+	  arch/win32/rescbm2.rc arch/win32/respet.rc arch/win32/recvic.rc:
+	  Changed file extensions from .r to .rc . Chaged inclusion of
+	  'res.r' to 'res.rc'.
+
+1998-04-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drivecpu0.c (MYCPU_NAME): new define to "DRIVECPU0"
+	* drive/drivecpu1.c (MYCPU_NAME): new define to "DRIVECPU1"
+
+	* drive/drivecpucore.c (snap_module_name): use MYCPU_NAME
+
 1999-04-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.58.

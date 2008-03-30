@@ -65,6 +65,9 @@
 int drive1_traceflg;
 #endif
 
+/* snapshot name */
+#define MYCPU_NAME      "DRIVECPU1"
+
 #define mydrive_alarm_context drive1_alarm_context
 #define mydrive_rmw_flag drive1_rmw_flag
 #define mydrive_bank_read drive1_bank_read
@@ -91,6 +94,7 @@ int drive1_traceflg;
 #define mydrive_traceflg drive1_traceflg
 #define mydrive_clk_guard drive1_clk_guard
 #define mydrive_cpu_early_init drive1_cpu_early_init
+#define mydrive_cpu_reset_clk drive1_cpu_reset_clk
 
 #define mymonspace e_disk9_space
 #define IDENTIFICATION_STRING "DRIVE#9"

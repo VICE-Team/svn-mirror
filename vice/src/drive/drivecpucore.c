@@ -249,7 +249,8 @@ static void reset(void)
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
     log_message(drive[mynumber].log, "RESET.");
-    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT, &drive_last_opcode_info);
+    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
+                        &drive_last_opcode_info);
 
     drive_clk[mynumber] = 6;
     reset_myvia1();
@@ -338,13 +339,18 @@ void mydrive_toggle_watchpoints(int flag)
     }
 }
 
+void mydrive_cpu_reset_clk(void)
+{
+    last_clk = clk;
+    last_exc_cycles = 0;
+}
+
 void mydrive_cpu_reset(void)
 {
     int preserve_monitor;
 
     drive_clk[mynumber] = 0;
-    last_clk = clk;
-    last_exc_cycles = 0;
+    mydrive_cpu_reset_clk();
 
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
@@ -360,7 +366,8 @@ void mydrive_cpu_reset(void)
 
 void mydrive_cpu_early_init(void)
 {
-    clk_guard_init(&mydrive_clk_guard, &drive_clk[mynumber], 0x600000);
+    clk_guard_init(&mydrive_clk_guard, &drive_clk[mynumber],
+                   CLOCK_MAX - 0x100000);
 
     alarm_context_init(&mydrive_alarm_context, IDENTIFICATION_STRING);
 
@@ -588,7 +595,7 @@ static void drive_jam(void)
 
 /* ------------------------------------------------------------------------- */
 
-static char snap_module_name[] = "MYCPU";
+static char snap_module_name[] = MYCPU_NAME;
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
