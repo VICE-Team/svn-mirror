@@ -65,6 +65,7 @@ noinst_HEADERS = \
 	debug.h \
 	diskconstants.h \
 	diskimage.h \
+	dma.h \
 	emuid.h \
 	findpath.h \
 	fixpoint.h \
@@ -140,6 +141,7 @@ base_sources = \
 	color.c \
 	datasette.c \
 	debug.c \
+	dma.c \
 	emuid.c \
 	findpath.c \
 	fliplist.c \
