@@ -71,7 +71,7 @@ static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length,
     if (!slot[SLOT_TYPE_OFFSET])
         return 0;
 
-    if (type && type != (slot[SLOT_TYPE_OFFSET] & 0x07))
+    if (type != CBMDOS_FT_DEL && type != (slot[SLOT_TYPE_OFFSET] & 0x07))
         return 0;
 
     return cbmdos_parse_wildcard_compare(nslot, &slot[SLOT_NAME_OFFSET]);
