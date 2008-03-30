@@ -57,6 +57,7 @@
 #include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
+#include "plus4tcbm.h"
 #include "plus4ui.h"
 #include "printer.h"
 #include "rs232drv.h"
@@ -288,12 +289,9 @@ int machine_cmdline_options_init(void)
 static void plus4_monitor_init(void)
 {
     monitor_cpu_type_t asm6502;
-    monitor_cpu_type_t *asmarray[2];
+    monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };
 
     asm6502_init(&asm6502);
-
-    asmarray[0] = &asm6502;
-    asmarray[1] = NULL;
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(),
@@ -381,6 +379,9 @@ void machine_specific_reset(void)
 
     printer_reset();
 
+    plus4tcbm1_reset();
+    plus4tcbm2_reset();
+
     ted_reset();
 
     drive_reset();
@@ -436,6 +437,14 @@ int machine_set_restore_key(int v)
 long machine_get_cycles_per_second(void)
 {
     return machine_timing.cycles_per_sec;
+}
+
+void machine_get_line_cycle(unsigned int *line, unsigned int *cycle)
+{
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
+            % machine_timing.screen_lines);
+
+    *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 }
 
 void machine_change_timing(int timeval)

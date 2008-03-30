@@ -1,3 +1,52 @@
+2003-06-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.49.
+
+	* snapshot.c, snapshot.h: Fixed array read/write functions as
+	suggested by AndreasM.
+
+	* plus4/plus4.c (machine_specific_reset): Reset TCBM
+	interface.
+
+	* plus4/plus4tcbm.c, plus4/plus4tcbm.h (plus4tcbm1_reset,
+	plus4tcbm2_reset): New functions.
+
+	* sounddrv/sounduss.c, c64/c64mem.c, c128/c128mem.c,
+	vic20/vic20mem.c, arch/unix/x11/xaw/x11ui.c, c64/psid.c:
+	Fixed some warnings.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_get_line_cycle): New
+	function.
+
+	* monitor/mon_register6502.c (mon_register_print): Show line
+	and cycle.
+
+	* monitor.h, maincpu.c, drive/drivecpu.c: Added interface to
+	get line and cycle number.
+
+	* monitor/monitor.c (monitor_open): Print line and cycle.
+
+	* c64/cart/c64cart.c: Added resource `CartridgeReset'.
+
+	* c64/cart/c64cartmem.c (cartridge_attach, cartridge_detach):
+	Added support for cartridge reset resource.
+
+	* arch/win32/c64ui.c, arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/c128ui.c, arch/win32/resc128.rc: Cartridge change
+	reset UI.
+
+	* arch/win32/uidrivepetcbm2.c (init_dialog): Fixed warning.
+
+	* arch/unix/uiperipheral.c, arch/os2/dialogs/dlg-drive.c,
+	arch/win32/uidriveplus4.c, win32/uidrivepetcbm2.c,
+	win32/uidrivec64c128vic20.c, arch/win32/uiattach.c,
+	arch/win32/uiattach.c, resources.c, resources.h: Fixed some
+	warnings.
+
+	* interrupt.h (interrupt_set_nmi): Added commend that there is
+	still something wrong with NMI processing.
+
 2003-05-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.48.
