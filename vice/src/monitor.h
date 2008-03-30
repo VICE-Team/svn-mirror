@@ -63,8 +63,8 @@ struct interrupt_cpu_status_s;
 
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
-    const unsigned int (*asm_addr_mode_get_size)(unsigned int mode,
-                                                 BYTE p0, BYTE p1);
+    unsigned int (*asm_addr_mode_get_size)(unsigned int mode, BYTE p0,
+                                           BYTE p1);
     const struct asm_opcode_info_s *(*asm_opcode_info_get)(BYTE p0, BYTE p1,
                                                            BYTE p2);
     int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);

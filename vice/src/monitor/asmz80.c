@@ -1385,8 +1385,7 @@ static const asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
     return opcode_list + (unsigned int)p0;
 }
 
-static const unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
-                                                 BYTE p1)
+static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0, BYTE p1)
 {
     if (p0 == 0xcb)
         return addr_mode_size[mode] + 1;
