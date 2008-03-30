@@ -114,6 +114,10 @@ SOURCE=..\..\cbm2\cbm2datasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbm2\cbm2drive.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\cbm2iec.c
 # End Source File
 # Begin Source File

@@ -134,6 +134,10 @@ SOURCE=..\..\vic20\vic20datasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20drive.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20iec.c
 # End Source File
 # Begin Source File

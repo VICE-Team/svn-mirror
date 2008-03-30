@@ -336,6 +336,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "tcbm"=".\tcbm.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "vdc"=".\vdc.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -769,6 +781,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tcbm
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive

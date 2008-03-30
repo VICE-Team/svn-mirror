@@ -106,6 +106,10 @@ SOURCE=..\..\plus4\plus4datasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4drive.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\plus4iec.c
 # End Source File
 # Begin Source File
@@ -130,7 +134,7 @@ SOURCE=..\..\plus4\plus4rom.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\plus4\tcbm.c
+SOURCE=..\..\plus4\plus4tcbm.c
 # End Source File
 # Begin Source File
 

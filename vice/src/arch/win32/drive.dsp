@@ -130,19 +130,11 @@ SOURCE=..\..\drive\fdc.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\glue1551.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\riot1d.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\drive\riot2d.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\tia1551.c
 # End Source File
 # Begin Source File
 

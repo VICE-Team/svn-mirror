@@ -135,6 +135,7 @@ EXTRA_DIST = \
 	sid.dsp \
 	sounddrv.dsp \
 	tape.dsp \
+	tcbm.dsp \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \

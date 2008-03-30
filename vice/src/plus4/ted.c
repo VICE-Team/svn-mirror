@@ -360,6 +360,9 @@ void ted_reset_registers(void)
 {
     ADDRESS i;
 
+    if (!ted.initialized)
+        return;
+
     for (i = 0; i <= 0x3f; i++)
         ted_store(i, 0);
 }

@@ -106,6 +106,10 @@ SOURCE=..\..\pet\petdatasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\petdrive.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petiec.c
 # End Source File
 # Begin Source File
