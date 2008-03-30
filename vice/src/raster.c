@@ -57,7 +57,7 @@
 #include "vsync.h"
 
 /************************************************************************/
-/* FIXME: This is ugly and currently a workaround... */
+/* FIXME: This is ugly and currently a workaround... (AF) */
 
 #ifndef FRAMEB_WIDTH
 #define	FRAMEB_WIDTH	\
