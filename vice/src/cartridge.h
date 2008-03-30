@@ -41,6 +41,10 @@ extern void cartridge_trigger_freeze(void);
 extern void cartridge_release_freeze(void);
 extern const char *cartridge_get_file_name(ADDRESS addr);
 
+extern void cartridge_attach(int type, BYTE *rawcart);
+extern void cartridge_detach(int type);
+extern void cartridge_freeze(int type);
+
 /* Known cartridge types.  */
 
 #define CARTRIDGE_ULTIMAX           -6

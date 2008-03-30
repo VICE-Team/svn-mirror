@@ -18,6 +18,7 @@ libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
 	c64cart.h \
+	c64cartmem.c \
 	c64cia.h \
 	c64cia1.c \
 	c64cia2.c \
