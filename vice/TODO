@@ -59,6 +59,11 @@ What are we going to do next
 
 - Implement a Plus/4 emulator.
 
+* Drive improvements
+--------------------
+
+- Implement CBM DOS 1.0 support (670 blocks free) together with CBM 2040
+  disk drive emulation.
 
 
 This is our wishlist for long-term development 
@@ -83,9 +88,6 @@ This is our wishlist for long-term development
   (GPLd 6809 emulation? trap to reset 6502 CPU only but not I/O, to return 
   from 6809 mode)
 
-- cycle-based CRTC emulation (currently somewhat line-based but working
-  quite well).
-
 * CBM-II improvements
 ------------------
 
@@ -93,12 +95,9 @@ This is our wishlist for long-term development
   (non-(C64-)compatible mapping of pixel/char data for the VIC-II,
   halting CPU is different from C64)
 
-- cycle-based CRTC emulation (currently somewhat line-based but working
-  quite well).
-
 * KIM-1
 --------
 
 - Implement a KIM-1 emulator.
-  (needs 6530/6532 emulation and a 6-digit 7-segment display.
+  (needs a 6-digit 7-segment display.
 

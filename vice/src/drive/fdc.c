@@ -88,8 +88,9 @@ typedef struct fdc_t {
     int		drive_type;
     int		last_track;
     int		last_sector;
-    int		last_wps;	/* save write protect switch */
+    int         wps_change;	/* if not zero, toggle wps and decrement */
     disk_image_t *image;
+    disk_image_t *realimage;
 } fdc_t;
 
 static fdc_t fdc[NUM_FDC];
@@ -97,8 +98,21 @@ static fdc_t fdc[NUM_FDC];
 void fdc_reset(int fnum, int drive_type)
 {
 #ifdef FDC_DEBUG
-    log_message(fdc_log, "fdc_reset: drive type=%d\n",drive_type);
+    log_message(fdc_log, "fdc_reset: drive %d type=%d\n",fnum, drive_type);
 #endif
+
+
+    /* detach disk images */
+    if (fdc[fnum].image) {
+        fdc[fnum].wps_change = 0;
+	fdc_detach_image(fdc[fnum].image, fnum + 8);
+    }
+    if (fnum == 0
+	&& DRIVE_IS_DUAL(fdc[fnum].drive_type)
+	&& fdc[1].image) {
+        fdc[1].wps_change = 0;
+	fdc_detach_image(fdc[1].image, fnum + 8);
+    }
 
     if (DRIVE_IS_OLDTYPE(drive_type)) {
 	fdc[fnum].drive_type = drive_type;
@@ -108,6 +122,16 @@ void fdc_reset(int fnum, int drive_type)
 	fdc[fnum].drive_type = DRIVE_TYPE_NONE;
 	alarm_unset(&fdc[fnum].fdc_alarm);
 	fdc[fnum].fdc_state = FDC_UNUSED;
+    }
+
+    /* re-attach disk images */
+    if (fdc[fnum].realimage) {
+	fdc_attach_image(fdc[fnum].realimage, fnum + 8);
+    }
+    if (fnum == 0
+	&& DRIVE_IS_DUAL(drive_type)
+	&& fdc[1].realimage) {
+	fdc_attach_image(fdc[1].realimage, fnum + 8);
     }
 }
 
@@ -473,7 +497,6 @@ static int int_fdc(int fnum, long offset)
 {
     CLOCK rclk = drive_clk[fnum] - offset;
     int i, j;
-    int drv_wps;
 
 #ifdef FDC_DEBUG
     if (fdc[fnum].fdc_state < FDC_RUN) {
@@ -530,12 +553,15 @@ static int int_fdc(int fnum, long offset)
 	        fdc[fnum].buffer[0xea] = 1;
 	        fdc[fnum].buffer[0xee] = 5;	/* 3 for 4040, 5 for 8x50 */
 	        fdc[fnum].buffer[0] = 3;	/* 5 for 4040, 3 for 8x50 */
+
 	        fdc[fnum].fdc_state = FDC_RUN;
 	        fdc[fnum].alarm_clk = rclk + 10000;
 	    } else {
 	        fdc[fnum].alarm_clk = rclk + 2000;
 	    }
-	} else {
+	} else 
+	if (DOS_IS_40(fdc[fnum].drive_type)
+	    || DOS_IS_30(fdc[fnum].drive_type)) {
 	    if(fdc[fnum].buffer[0] == 0) {
 	        fdc[fnum].buffer[0] = 0x0f;
 	        fdc[fnum].fdc_state = FDC_RUN;
@@ -548,20 +574,22 @@ static int int_fdc(int fnum, long offset)
 	break;
     case FDC_RUN:
 	/* check write protect switch */
-	drv_wps = drive_read_viad2_prb(&drive[fnum]) & 0x10;
-	if (drv_wps != fdc[fnum].last_wps) {
-	    if (DOS_IS_80(fdc[fnum].drive_type)) {
-	        fdc[fnum].buffer[0xA6 + fnum] = 1;
-	    }
-	    fdc[fnum].last_wps = drv_wps;
+	if (fdc[fnum].wps_change) {
+	    fdc[fnum].buffer[0xA6] = 1;
+	    fdc[fnum].wps_change--;
+#ifdef FDC_DEBUG
+	    log_message(fdc_log, "Detect Unit %d Drive %d wps change",
+		fnum + 8, fnum);
+#endif
 	}
 	if (fnum == 0 && DRIVE_IS_DUAL(fdc[0].drive_type)) {
-	    drv_wps = drive_read_viad2_prb(&drive[1]) & 0x10;
-	    if (drv_wps != fdc[1].last_wps) {
-	        if (DOS_IS_80(fdc[fnum].drive_type)) {
-	            fdc[1].buffer[0xA6 + 1] = 1;
-		}
-	        fdc[1].last_wps = drv_wps;
+	    if (fdc[1].wps_change) {
+	        fdc[0].buffer[0xA6 + 1] = 1;
+		fdc[1].wps_change--;
+#ifdef FDC_DEBUG
+	        log_message(fdc_log, "Detect Unit %d Drive 1 wps change",
+		    fnum + 8);
+#endif
 	    }
 	}
 
@@ -629,6 +657,11 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
     if (fdc_log == LOG_ERR)
         fdc_log = log_open("fdc");
 
+#ifdef FDC_DEBUG
+    log_message(fdc_log, "fdc_init(drive %d)", fnum);
+#endif
+
+
     if (fnum == 0) {
         alarm_init(&fdc[fnum].fdc_alarm, &drive0_context.cpu.alarm_context,
                "fdc0", int_fdc0);
@@ -645,53 +678,103 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
 
 int fdc_attach_image(disk_image_t *image, unsigned int unit)
 {
+    int drive;
+    int imgno;
+
+#ifdef FDC_DEBUG
+    log_message(fdc_log, "fdc_attach_image(image=%p, unit=%d)",
+	image, unit);
+#endif
+
     if (unit != 8 && unit != 9)
         return -1;
 
-    if (fdc[unit - 8].drive_type == DRIVE_TYPE_8050
-	|| fdc[unit - 8].drive_type == DRIVE_TYPE_8250) {
+    if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
+	drive = 0;
+    } else {
+	drive = unit - 8;
+    }
+    imgno = unit - 8;
+
+    if (fdc[drive].drive_type == DRIVE_TYPE_NONE)
+	return 0;
+
+    /* FIXME: hack - we need to save the image to be able to re-attach
+       when the disk drive type changes */
+    fdc[imgno].realimage = image;
+
+    if (fdc[drive].drive_type == DRIVE_TYPE_8050
+	|| fdc[drive].drive_type == DRIVE_TYPE_8250
+	|| fdc[drive].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
-            log_message(fdc_log, "Unit %d: D80 disk image attached: %s",
-                    unit, image->name);
+            log_message(fdc_log, "Unit %d (%d): D80 disk image attached: %s",
+                    unit, fdc[drive].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_D82:
-            log_message(fdc_log, "Unit %d: D82 disk image attached: %s",
-                    unit, image->name);
+            log_message(fdc_log, "Unit %d (%d): D82 disk image attached: %s",
+                    unit, fdc[drive].drive_type, image->name);
             break;
           default:
+#ifdef FDC_DEBUG
+	    log_message(fdc_log, "Could not attach image type %d to disk %d",
+		image->type, fdc[drive].drive_type);
+#endif
             return -1;
 	}
     } else {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            log_message(fdc_log, "Unit %d: D64 disk image attached: %s",
-                    unit, image->name);
+            log_message(fdc_log, "Unit %d (%d): D64 disk image attached: %s",
+                    unit, fdc[drive].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
-            log_message(fdc_log, "Unit %d: G64 disk image attached: %s",
-                    unit, image->name);
+            log_message(fdc_log, "Unit %d (%d): G64 disk image attached: %s",
+                    unit, fdc[drive].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_X64:
-            log_message(fdc_log, "Unit %d: X64 disk image attached: %s",
-                    unit, image->name);
+            log_message(fdc_log, "Unit %d (%d): X64 disk image attached: %s",
+                    unit, fdc[drive].drive_type, image->name);
             break;
           default:
+#ifdef FDC_DEBUG
+	    log_message(fdc_log, "Could not attach image type %d to disk %d",
+		image->type, fdc[drive].drive_type);
+#endif
             return -1;
 	}
     }
 
-    fdc[unit - 8].image = image;
+    fdc[imgno].wps_change += 2;
+    fdc[imgno].image = image;
     return 0;
 }
 
 int fdc_detach_image(disk_image_t *image, unsigned int unit)
 {
+    int drive;
+    int imgno;
+
+#ifdef FDC_DEBUG
+    log_message(fdc_log, "fdc_detach_image(image=%p, unit=%d)",
+	image, unit);
+#endif
+
     if (unit != 8 && unit != 9)
         return -1;
 
-    if (fdc[unit - 8].drive_type == DRIVE_TYPE_8050
-	|| fdc[unit - 8].drive_type == DRIVE_TYPE_8250) {
+    if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
+	drive = 0;
+    } else {
+	drive = unit - 8;
+    }
+    imgno = unit - 8;
+
+    fdc[imgno].realimage = NULL;
+
+    if (fdc[drive].drive_type == DRIVE_TYPE_8050
+	|| fdc[drive].drive_type == DRIVE_TYPE_8250
+	|| fdc[drive].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
             log_message(fdc_log, "Unit %d: D80 disk image attached: %s",
@@ -723,33 +806,10 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
 	}
     }
 
-    fdc[unit - 8].image = NULL;
+    fdc[imgno].wps_change += 2;
+    fdc[imgno].image = NULL;
     return 0;
 }
-
-#if 0
-int fdc_detach_image(disk_image_t *image, int unit)
-{
-    if (unit != 8 && unit != 9)
-        return -1;
-
-    switch(image->type) {
-      case DISK_IMAGE_TYPE_D80:
-        log_message(fdc_log, "Unit %d: D80 disk image detached: %s",
-                    unit, image->name);
-        break;
-      case DISK_IMAGE_TYPE_D82:
-        log_message(fdc_log, "Unit %d: D82 disk image detached: %s",
-                    unit, image->name);
-        break;
-      default:
-        return -1;
-    }
-
-    fdc[unit - 8].image = NULL;
-    return 0;
-}
-#endif
 
 /************************************************************************/
 
