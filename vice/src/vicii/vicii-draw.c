@@ -74,17 +74,17 @@ static void draw_std_background(int start_pixel, int end_pixel)
             if (end_pixel < gfxend) {
                 memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                        vic_ii.raster.xsmooth_color,
-                       gfxstart - start_pixel + 1);
+                       gfxstart - start_pixel);
                 memset(vic_ii.raster.draw_buffer_ptr + gfxstart,
                        background_color,
                        end_pixel - gfxstart + 1);
             } else {
                 memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                        vic_ii.raster.xsmooth_color,
-                       gfxstart - start_pixel + 1);
+                       gfxstart - start_pixel);
                 memset(vic_ii.raster.draw_buffer_ptr + gfxstart,
                        background_color,
-                       gfxend - gfxstart + 1);
+                       gfxend - gfxstart);
                 memset(vic_ii.raster.draw_buffer_ptr + gfxend,
                        vic_ii.raster.xsmooth_color,
                        end_pixel - gfxend + 1);
@@ -99,7 +99,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
             } else {
                 memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                        background_color,
-                       gfxend - start_pixel + 1);
+                       gfxend - start_pixel);
                 memset(vic_ii.raster.draw_buffer_ptr + gfxend,
                        vic_ii.raster.xsmooth_color,
                        end_pixel - gfxend + 1);
@@ -1334,7 +1334,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     }
 }
 
-static void setup_single_size_modes(void)
+static void setup_modes(void)
 {
     raster_modes_set(vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
                      get_std_text,
@@ -1449,11 +1449,8 @@ void vic_ii_draw_init(void)
 {
     init_drawing_tables();
 
-    raster_set_table_refresh_handler(&vic_ii.raster, init_drawing_tables);
-}
+    setup_modes();
 
-void vic_ii_draw_set_double_size(int enabled)
-{
-    setup_single_size_modes();
+    raster_set_table_refresh_handler(&vic_ii.raster, init_drawing_tables);
 }
 

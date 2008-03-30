@@ -29,7 +29,6 @@
 #define _VIC_II_DRAW_H
 
 extern void vic_ii_draw_init(void);
-extern void vic_ii_draw_set_double_size(int enabled);
 
 #endif
 

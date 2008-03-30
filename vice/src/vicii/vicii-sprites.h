@@ -43,7 +43,6 @@ extern const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4];
 extern const int vic_ii_sprites_crunch_table[64];
 
 extern void vic_ii_sprites_init(void);
-extern void vic_ii_sprites_set_double_size(int enabled);
 extern void vic_ii_sprites_set_x_position(unsigned int num,
                                           int new_x, int raster_x);
 

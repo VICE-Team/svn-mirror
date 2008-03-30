@@ -950,7 +950,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     }
 }
 
-static void setup_single_size_modes(void)
+static void setup_modes(void)
 {
     raster_modes_set(ted.raster.modes, TED_NORMAL_TEXT_MODE,
                      get_std_text,
@@ -1065,11 +1065,8 @@ void ted_draw_init(void)
 {
     init_drawing_tables();
 
-    raster_set_table_refresh_handler(&ted.raster, init_drawing_tables);
-}
+    setup_modes();
 
-void ted_draw_set_double_size(int enabled)
-{
-    setup_single_size_modes();
+    raster_set_table_refresh_handler(&ted.raster, init_drawing_tables);
 }
 

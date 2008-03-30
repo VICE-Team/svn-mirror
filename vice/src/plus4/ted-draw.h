@@ -29,7 +29,6 @@
 #define _TED_DRAW_H
 
 extern void ted_draw_init(void);
-extern void ted_draw_set_double_size(int enabled);
 
 #endif
 
