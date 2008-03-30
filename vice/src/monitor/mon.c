@@ -570,8 +570,8 @@ static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
       return FALSE;
 
    if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
-       (addr_memspace(start_addr) != e_default_space) ||
-        (addr_memspace(end_addr) != e_default_space)) {
+       ((addr_memspace(start_addr) != e_default_space) ||
+        (addr_memspace(end_addr) != e_default_space))) {
       return FALSE;
    }
    return TRUE;
@@ -597,7 +597,6 @@ static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, bool must_be_range,
                                    WORD default_len)
 {
-   MEMSPACE mem1, mem2;
    long len = default_len;
 
    /* Check if we DEFINITELY need a range. */
@@ -605,6 +604,7 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
       return -1;
 
    if (is_valid_addr_range(*start_addr, *end_addr)) {
+      MEMSPACE mem1, mem2;
       /* Resolve any default memory spaces. We wait until now because we
        * need both addresses - if only 1 is a default, use the other to
        * resolve the memory space.
@@ -633,13 +633,18 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
       len = get_range_len(*start_addr, *end_addr);
    } else {
       if (!is_valid_addr(*start_addr))
-         *start_addr = dot_addr[(int) default_memspace];
-      else
-         evaluate_default_addr(start_addr);
+        *start_addr = dot_addr[(int) default_memspace];
+      else 
+        evaluate_default_addr(start_addr);
 
-      /* assert(!is_valid_addr(*end_addr)); */
-      *end_addr = *start_addr;
-      inc_addr_location(end_addr, len);
+      if (!is_valid_addr(*end_addr)) {
+        *end_addr = *start_addr;
+        inc_addr_location(end_addr, len);
+      }
+      else {
+        set_addr_memspace(end_addr,addr_memspace(*start_addr));
+        len = get_range_len(*start_addr, *end_addr);
+      }
    }
 
    return len;

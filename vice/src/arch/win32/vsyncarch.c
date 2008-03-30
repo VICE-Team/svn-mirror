@@ -39,7 +39,7 @@
 #include "joystick.h"
 #endif
 
-#include "vsyncarch.h"
+#include "vsyncapi.h"
 // -------------------------------------------------------------------------
 
 static unsigned long frequency = 0;

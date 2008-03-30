@@ -313,10 +313,6 @@ static int wmm_bufferspace(void)
     DWORD play_cursor;
     int value;
 
-    if (first) {
-        /* No buffered bytes so far.  */
-        return 0;
-    }
     if (!sndinitted) return 0;
 
     if (wavehdr.dwFlags & WHDR_DONE) return 0; /* Buffer stopped playing */

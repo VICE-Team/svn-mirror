@@ -565,7 +565,6 @@ DWORD   result;
 static int dx_bufferspace(void)
 {
     /* DWORD play_cursor, write_cursor; */
-    int value;
 
 //    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
     return
