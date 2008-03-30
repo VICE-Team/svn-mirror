@@ -248,6 +248,20 @@ static void REGPARM2 store_dummy_watch(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
+/* Generic memory access.  */
+
+void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+{
+    _mem_write_tab_ptr[addr >> 8](addr, value);
+}
+
+BYTE REGPARM1 mem_read(ADDRESS addr)
+{
+    return _mem_read_tab_ptr[addr >> 8](addr);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* This function parses the mem config string given as -memory and
  * returns the appropriate values or'ed together.
  *
@@ -504,19 +518,18 @@ void initialize_memory(void)
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
 
-    maincpu_turn_watchpoints_off();
+    mem_toggle_watchpoints(0);
 }
 
-void maincpu_turn_watchpoints_on()
+void mem_toggle_watchpoints(int flag)
 {
-    _mem_read_tab_ptr = _mem_read_tab_watch;
-    _mem_write_tab_ptr = _mem_write_tab_watch;
-}
-
-void maincpu_turn_watchpoints_off()
-{
-    _mem_read_tab_ptr = _mem_read_tab_nowatch;
-    _mem_write_tab_ptr = _mem_write_tab_nowatch;
+    if (flag) {
+        _mem_read_tab_ptr = _mem_read_tab_watch;
+        _mem_write_tab_ptr = _mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = _mem_read_tab_nowatch;
+        _mem_write_tab_ptr = _mem_write_tab_nowatch;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

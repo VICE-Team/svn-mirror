@@ -144,6 +144,22 @@ static BYTE REGPARM1 read_unused(ADDRESS addr)
     return (addr >> 8) & 0xff;
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* Generic memory access.  */
+
+void REGPARM2 mem_store(ADDRESS addr, BYTE value)
+{
+    _mem_write_tab_ptr[addr >> 8](addr, value);
+}
+
+BYTE REGPARM1 mem_read(ADDRESS addr)
+{
+    return _mem_read_tab_ptr[addr >> 8](addr);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * The PET have all I/O chips connected to the same select lines.
  * Only one address lines is used as separate (high-active) select
@@ -285,6 +301,11 @@ static void set_std_9tof(void) {
     }
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
+}
+
+/* FIXME: TODO! */
+void mem_toggle_watchpoints(int flag)
+{
 }
 
 /*
@@ -723,4 +744,11 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
     ram[0x2c] = ram[0xad] = start >> 8;
     ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
     ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Dummy... */
+void mem_set_tape_sense(int v)
+{
 }
