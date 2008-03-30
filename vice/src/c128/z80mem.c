@@ -198,8 +198,25 @@ void z80mem_initialize(void)
         mem_write_tab[3][i] = store_ram;
     }
 
+    for (i = 0x10; i <= 0x13; i++) {
+        mem_read_tab[0][i] = read_ram;
+        mem_write_tab[0][i] = store_ram;
+    }
+    for (i = 0x10; i <= 0x13; i++) {
+        mem_read_tab[1][i] = read_colorram;
+        mem_write_tab[1][i] = store_colorram;
+    }
+    for (i = 0x10; i <= 0x13; i++) {
+        mem_read_tab[2][i] = read_ram;
+        mem_write_tab[2][i] = store_ram;
+    }
+    for (i = 0x10; i <= 0x13; i++) {
+        mem_read_tab[3][i] = read_colorram;
+        mem_write_tab[3][i] = store_colorram;
+    }
+
     for (j = 0; j < NUM_CONFIGS; j++) {
-        for (i = 0x10; i <= 0xbf; i++) {
+        for (i = 0x14; i <= 0xbf; i++) {
             mem_read_tab[j][i] = read_ram;
             mem_write_tab[j][i] = store_ram;
         }
@@ -226,40 +243,10 @@ void z80mem_initialize(void)
 
     for (j = 1; j <= 3; j += 2) {
         for (i = 0xd0; i <= 0xdf; i++) {
-            mem_read_tab[j][i] = NULL;
-            mem_write_tab[j][i] = NULL;
+            mem_read_tab[j][i] = read_ram;
+            mem_write_tab[j][i] = store_ram;
         }
-/*
-        for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab[j][i] = read_vic;
-            mem_write_tab[j][i] = store_vic;
-        }
-        mem_read_tab[j][0xd4] = read_sid;
-        mem_write_tab[j][0xd4] = store_sid;
-        mem_read_tab[j][0xd5] = mmu_read;
-        mem_write_tab[j][0xd5] = mmu_store;
-        mem_read_tab[j][0xd6] = read_vdc;
-        mem_write_tab[j][0xd6] = store_vdc;
 
-        mem_read_tab[j][0xd7] = read_d7xx;
-        mem_write_tab[j][0xd7] = store_d7xx;
-
-        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = read_colorram;
-        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = read_colorram;
-        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = store_colorram;
-        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = store_colorram;
-
-        mem_read_tab[j][0xdc] = read_cia1;
-        mem_write_tab[j][0xdc] = store_cia1;
-        mem_read_tab[j][0xdd] = read_cia2;
-        mem_write_tab[j][0xdd] = store_cia2;
-
-        mem_read_tab[j][0xde] = read_io1;
-        mem_write_tab[j][0xde] = store_io1;
-
-        mem_read_tab[j][0xdf] = read_io2;
-        mem_write_tab[j][0xdf] = store_io2;
-*/
     }
 
     for (i = 0xe0; i <= 0xfe; i++) {
@@ -322,6 +309,15 @@ void z80mem_initialize(void)
     io_write_tab[0xd6] = store_vdc;
     io_read_tab[0xd7] = read_d7xx;
     io_write_tab[0xd7] = store_d7xx;
+
+    io_read_tab[0xd8] = read_colorram;
+    io_write_tab[0xd8] = store_colorram;
+    io_read_tab[0xd9] = read_colorram;
+    io_write_tab[0xd9] = store_colorram;
+    io_read_tab[0xda] = read_colorram;
+    io_write_tab[0xda] = store_colorram;
+    io_read_tab[0xdb] = read_colorram;
+    io_write_tab[0xdb] = store_colorram;
 
     io_read_tab[0xdc] = read_cia1;
     io_write_tab[0xdc] = store_cia1;
