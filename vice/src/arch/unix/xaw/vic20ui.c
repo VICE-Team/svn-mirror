@@ -192,7 +192,7 @@ static UI_CALLBACK(default_cartridge)
 }
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { "Smart attach cartridge image...",
+    { "Smart-attach cartridge image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_VIC20_DETECT, NULL },
     { "--" },
