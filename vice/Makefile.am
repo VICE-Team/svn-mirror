@@ -2,8 +2,7 @@
 
 SUBDIRS = po src data man doc
 
-EXTRA_DIST = AUTHORS COPYING INSTALL FEEDBACK NEWS TODO BUGS \
-		acconfig.h vice.spec
+EXTRA_DIST = AUTHORS FEEDBACK COPYING INSTALL NEWS acconfig.h vice.spec
 
 .PHONY: x64 x128 xvic xpet xplus4 xcbm2
 x64:
