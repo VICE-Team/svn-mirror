@@ -245,6 +245,8 @@ void vsync_sync_reset(void)
     sync_reset = 1;
 }
 
+#include "videoarch.h"
+
 /* This is called at the end of each screen frame. It flushes the
    audio buffer and keeps control of the emulation speed. */
 int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
@@ -272,6 +274,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     int skip_next_frame;
 
     signed long delay;
+
+#ifdef WIN32
+	float refresh_cmp;
+	float refresh_div;
+#endif
 
     /*
      * process everything wich should be done before the syncronisation
@@ -339,9 +346,33 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         frame_ticks = frame_ticks_orig;
     }
 
+
     /* This is the time between the start of the next frame and now. */
     delay = (signed long)(now - next_frame_start);
+#ifdef WIN32
+	refresh_cmp = (float)(c->refreshrate / refresh_frequency);
+	refresh_div = 1.0f;
+	while ((refresh_cmp/refresh_div) > 1.95f)
+	{
+		refresh_div += 1.0f;
+	}
 
+	refresh_cmp /= refresh_div;
+	if ((refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
+	{
+		{
+//			log_debug("%f %f",c->refreshrate,refresh_div);
+		    if (!warp_mode_enabled && timer_speed && delay < 0)
+			{
+				vsyncarch_verticalblank(c, 1.005f*c->refreshrate/refresh_div);
+			}
+	        skip_next_frame = 0;
+	        skipped_redraw = 0;
+		}
+	}
+	else
+	{
+#endif
     /*
      * We sleep until the start of the next frame, if:
      *  - warp_mode is disabled
@@ -384,6 +415,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         skip_next_frame = 0;
         skipped_redraw = 0;
     }
+#ifdef WIN32
+	}
+#endif
 
     /*
      * Check whether the hardware can keep up.

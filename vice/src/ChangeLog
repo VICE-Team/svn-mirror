@@ -1,3 +1,53 @@
+2002-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.34.
+
+	* vicii/vicii-mem.c (vic_ii_local_store_vbank): Save store.
+
+	* vicii/vicii.c (handle_check_sprite_dma): Execute saved vbank
+	store if DMA is pending.
+	(vic_ii_reset): Initialize `store_clk'.
+
+	* vicii/viciitypes.h: Added `store_clk', `store_addr' and
+	`store_value' to `struct vic_ii_s'.
+
+2002-04-04  John Selck  <graham@cruise.de>
+
+	* video/video-resources.c: Changed default value of
+	PALScanLineShade from 500 to 667.
+
+	* arch/win32/video.c: Added video_refresh_rate().
+	video_create_canvas() now calculates the refresh rate
+	of the current screenmode.
+
+	* arch/win32/videoarch.h: Added prototype for
+	video_refresh_rate() and changed video_canvas_s
+	definition to contain a refresh rate.
+
+	* arch/win32/fullscreen.c: SwitchToFullscreenMode()
+	now buffers the non-fullscreen refresh rate and
+	calculates a new one for the fullscreen screenmode.
+	SwitchToWindowedMode() now restores the previous
+	refresh rate.
+	dialog_fullscreen_proc() forces recalculation of the
+	refresh rate every time the fullscreen settings have been
+	changed.
+
+	* arch/win32/vsyncarch.c: Changed vsyncarch_verticalblank()
+	to calculate the timer values out of a given refresh rate.
+
+	* vsyncapi.h: Changed prototype of
+	vsyncarch_verticalblank() to accept an additional
+	refresh rate parameter.
+
+	* vsync.c: vsync_do_vsync() now tests if the currently
+	displayed refresh rate is near a multiple of the emulated
+	machine refresh rate, and calls vsyncarch_verticalblank() if so.
+
+2002-04-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/vsync.c: adapted vsync_do_vsync signature
+
 2002-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.33.

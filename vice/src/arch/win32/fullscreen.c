@@ -528,6 +528,7 @@ static void init_fullscreen_dialog(HWND hwnd)
                 0);
 }
 
+static float fullscreen_refreshrate_buffer = -1.0f;
 
 BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                      LPARAM lparam)
@@ -551,6 +552,7 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     (resource_value_t)fullscreen_height);
                 resources_set_value("FullScreenRefreshRate",
                                     (resource_value_t)fullscreen_refreshrate);
+				fullscreen_refreshrate_buffer = -1.0f;
 
 				SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
                 return TRUE;
@@ -595,6 +597,7 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
                             (resource_value_t)fullscreen_height);
                         resources_set_value("FullScreenRefreshRate",
                             (resource_value_t)fullscreen_refreshrate);
+						fullscreen_refreshrate_buffer = -1.0f;
                     case IDCANCEL:
                         EndDialog(hwnd,0);
                         return TRUE;
@@ -645,16 +648,17 @@ void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
 }
 
 
-HMENU   old_menu;
-RECT    old_rect;
-DWORD   old_style;
-int     old_width;
-int     old_height;
-int     old_bitdepth;
-int     old_client_width;
-int     old_client_height;
-int     fullscreen_active;
+static HMENU   old_menu;
+static RECT    old_rect;
+static DWORD   old_style;
+static int     old_width;
+static int     old_height;
+static int     old_bitdepth;
+static int     old_client_width;
+static int     old_client_height;
+static float   old_refreshrate;
 
+int     fullscreen_active;
 int     fullscreen_transition=0;
 
 void SwitchToFullscreenMode(HWND hwnd)
@@ -690,6 +694,7 @@ void SwitchToFullscreenMode(HWND hwnd)
 #else
     old_bitdepth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;;
 #endif
+	old_refreshrate = c->refreshrate; /* save this, because recalculating takes time */
 
     IDirectDrawSurface_Release(c->temporary_surface);
     IDirectDrawSurface_Release(c->primary_surface);
@@ -735,6 +740,18 @@ void SwitchToFullscreenMode(HWND hwnd)
     old_client_height = c->client_height;
     c->client_width = fullscreen_width;
     c->client_height = fullscreen_height;
+
+	if (fullscreen_refreshrate_buffer < 0.0f)
+	{
+		/* if no refreshrate is buffered, recalculate (1 second) */
+		for (i=0;i<50;i++) IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
+		c->refreshrate = video_refresh_rate(c);
+		fullscreen_refreshrate_buffer = c->refreshrate;
+	}
+	else
+	{
+		c->refreshrate = fullscreen_refreshrate_buffer;
+	}
 
     /*  Create Primary surface */
     memset(&desc, 0, sizeof(desc));
@@ -813,6 +830,7 @@ void SwitchToFullscreenMode(HWND hwnd)
     fullscreen_active = 1;
 
     fullscreen_transition = 0;
+
 }
 
 void SwitchToWindowedMode(HWND hwnd)
@@ -940,6 +958,8 @@ void SwitchToWindowedMode(HWND hwnd)
     fullscreen_active = 0;
 
     fullscreen_transition = 0;
+
+	c->refreshrate = old_refreshrate;
 }
 
 

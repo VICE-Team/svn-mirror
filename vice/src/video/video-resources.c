@@ -164,7 +164,7 @@ static resource_t resources_pal[] =
     { "DelayLoopEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.delayloop_emulation,
       set_delayloop_emulation, NULL },
-    { "PALScanLineShade", RES_INTEGER, (resource_value_t)500,
+    { "PALScanLineShade", RES_INTEGER, (resource_value_t)667,
       (resource_value_t *)&video_resources.pal_scanlineshade,
       set_pal_scanlineshade, NULL },
     { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_BLUR,

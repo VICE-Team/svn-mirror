@@ -91,29 +91,50 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 }
 
 static unsigned long last;
-static unsigned long max;
 
-void vsyncarch_verticalblank(video_canvas_t *c)
+void vsyncarch_verticalblank(video_canvas_t *c, float rate)
 {
 	LARGE_INTEGER now;
 	HANDLE prc;
+	DWORD cls;
 	unsigned long nowi;
+	unsigned long max;
 	int i;
 
-	prc = GetCurrentProcess();
-	SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
-	QueryPerformanceCounter(&now);
+	if (c->refreshrate <= 0.0f) return;
+	if (!QueryPerformanceFrequency(&now)) return;
+#ifdef HAS_LONGLONG_INTEGER
 	nowi = (unsigned long)now.QuadPart;
+#else
+	nowi = (unsigned long)now.LowPart;
+#endif
+
+	max = (unsigned long)(((float)nowi)/(rate));
+
+	prc = GetCurrentProcess();
+	cls = GetPriorityClass(prc);
+	SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
+
+	QueryPerformanceCounter(&now);
+#ifdef HAS_LONGLONG_INTEGER
+	nowi = (unsigned long)now.QuadPart;
+#else
+	nowi = (unsigned long)now.LowPart;
+#endif
 	i = 1;
 	while (1)
 	{
 		if ((nowi - last) >= max) break;
 		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
 		QueryPerformanceCounter(&now);
+#ifdef HAS_LONGLONG_INTEGER
 		nowi = (unsigned long)now.QuadPart;
+#else
+		nowi = (unsigned long)now.LowPart;
+#endif
 	}
 	last = nowi;
-	SetPriorityClass(prc, NORMAL_PRIORITY_CLASS);
+	SetPriorityClass(prc, cls);
 }
 
 void vsyncarch_sleep(signed long delay)

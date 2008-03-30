@@ -330,10 +330,11 @@ int set_physical_colors(video_canvas_t *c)
             rbits--;
             mask >>= 1;
         }
+/*
         log_debug("rshift: %d", rshift);
         log_debug("rmask: %02x", rmask);
         log_debug("rbits: %d", rbits);
-
+*/
 #ifdef HAVE_UNNAMED_UNIONS
         mask = format.dwGBitMask;
 #else
@@ -350,10 +351,11 @@ int set_physical_colors(video_canvas_t *c)
             gbits--;
             mask >>= 1;
         }
+/*
         log_debug("gshift: %d", gshift);
         log_debug("gmask: %02x", gmask);
         log_debug("gbits: %d", gbits);
-
+*/
 #ifdef HAVE_UNNAMED_UNIONS
         mask = format.dwBBitMask;
 #else
@@ -370,9 +372,11 @@ int set_physical_colors(video_canvas_t *c)
             bbits--;
             mask >>= 1;
         }
+/*
         log_debug("bshift: %d", bshift);
         log_debug("bmask: %02x", bmask);
         log_debug("bbits: %d", bbits);
+*/
     }
     } else {
         log_debug("Non RGB surface...");
@@ -536,6 +540,8 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
         c->client_height =* height;
         fullscreen_active = 0;
     }
+
+	c->refreshrate = video_refresh_rate(c);
 
     /*  Create Primary surface */
     memset(&desc, 0, sizeof(desc));
@@ -1421,3 +1427,118 @@ static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
 */
 }
 
+
+#define TIME_MEASUREMENTS 16
+
+float video_refresh_rate(video_canvas_t *c)
+{
+	LARGE_INTEGER freq;
+	LARGE_INTEGER cnt;
+	HANDLE prc;
+	DWORD cls;
+	int priok;
+	unsigned long frq;
+	unsigned long table[TIME_MEASUREMENTS];
+
+	/* get performance counter frequency */
+	if (!QueryPerformanceFrequency(&freq)) return 0.0f;
+#ifdef HAS_LONGLONG_INTEGER
+	frq = (unsigned long)freq.QuadPart;
+#else
+	frq = (unsigned long)freq.LowPart;
+#endif
+
+	/* get current process and it's priority */
+	prc = GetCurrentProcess();
+	cls = GetPriorityClass(prc);
+
+	/* try to set realtime priority */
+	priok = SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
+
+	/* if failed, try to set high priority */
+	if (!priok) priok = SetPriorityClass(prc, HIGH_PRIORITY_CLASS);
+
+	/* only measure refresh rate with a high priority */
+	if (priok)
+	{
+		unsigned int i, k, m;
+		unsigned long old;
+		unsigned long now;
+		double frequency, time, mult;
+		float retval;
+
+		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
+		QueryPerformanceCounter(&cnt);
+#ifdef HAS_LONGLONG_INTEGER
+		now = (unsigned long)cnt.QuadPart;
+#else
+		now = (unsigned long)cnt.LowPart;
+#endif
+
+		for (i=0;i<TIME_MEASUREMENTS;i++)
+		{
+			old = now;
+			IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
+			QueryPerformanceCounter(&cnt);
+#ifdef HAS_LONGLONG_INTEGER
+			now = (unsigned long)cnt.QuadPart;
+#else
+			now = (unsigned long)cnt.LowPart;
+#endif
+			table[i] = now-old;
+		}
+
+		/* turn back to old priority */
+		SetPriorityClass(prc, cls);
+
+		for (i=0;i<(TIME_MEASUREMENTS / 4);i++)
+		{
+			old = 0;
+			m = 0;
+			for (k=0;k<TIME_MEASUREMENTS;k++)
+			{
+				if ((old < table[k]) && (table[k] != 0))
+				{
+					old = table[k];
+					m = k;
+				}
+			}
+			table[m] = 0;
+
+			old = 0x7FFFFFFF;
+			m = 0;
+			for (k=0;k<TIME_MEASUREMENTS;k++)
+			{
+				if ((old > table[k]) && (table[k] != 0))
+				{
+					old = table[k];
+					m = k;
+				}
+			}
+			table[m] = 0;
+		}
+
+		old = 0;
+		m = 0;
+		for (i=0;i<TIME_MEASUREMENTS;i++)
+		{
+			if (table[i] != 0)
+			{
+				old += table[i] + 1;
+				m++;
+			}
+		}
+		if (m == 0) return 0.0f;
+
+		frequency = (double) frq;
+		time = (double) old;
+		mult = (double) m;
+
+		retval = (float)((frequency*mult)/time);
+
+		log_debug("Refresh rate: %08X / %.2f = %.3f", frq, (float)(time/mult), retval);
+
+		return retval;
+	}
+	return 0.0f;
+}

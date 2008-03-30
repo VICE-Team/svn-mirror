@@ -49,6 +49,7 @@ typedef struct video_canvas_s {
     int width, height;
     int mapped;
     int depth;
+	float refreshrate; /* currently displayed refresh rate */
     video_render_config_t videoconfig;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
@@ -79,6 +80,8 @@ extern void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
 
 extern void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w,
                           int h);
+
+extern float video_refresh_rate(video_canvas_t *c);
 
 #endif
 

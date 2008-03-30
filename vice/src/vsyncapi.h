@@ -46,7 +46,7 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 void vsyncarch_sleep(signed long delay);
 
 /* synchronize with vertical blanks */
-void vsyncarch_verticalblank(struct video_canvas_s *c);
+void vsyncarch_verticalblank(struct video_canvas_s *c, float rate);
 
 /* this is called before vsync_do_vsync does the synchroniation */
 void vsyncarch_presync(void);

@@ -610,6 +610,8 @@ void vic_ii_reset(void)
 
     vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
     vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
+
+    vic_ii.store_clk = CLOCK_MAX;
 }
 
 void vic_ii_reset_registers(void)
@@ -1315,6 +1317,16 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
                            + vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle);
     }
 
+    /*log_debug("HCSD SCLK %i FCLK %i CLK %i OFFSET %li SUB %i",
+                vic_ii.store_clk, vic_ii.fetch_clk, clk, offset, sub);*/
+
+    if (vic_ii.store_clk != CLOCK_MAX) {
+        if (vic_ii.store_clk + offset - 3 < vic_ii.fetch_clk) {
+            vic_ii.ram_base_phi2[vic_ii.store_addr] = vic_ii.store_value;
+            vic_ii.store_clk = CLOCK_MAX;
+        }
+    }
+
     if (vic_ii.fetch_clk > clk || offset == 0) {
         alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
         return 1;
@@ -1350,6 +1362,8 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             BYTE *src;
             BYTE *dest;
             int my_memptr;
+
+            /*log_debug("SDMA %i",i);*/
 
             src = bank + (*spr_base << 6);
             my_memptr = sprite_status->sprites[i].memptr;

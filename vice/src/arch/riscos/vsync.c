@@ -202,7 +202,7 @@ static int skip_counter=0;
 #define VSYNC_TIME_DELTA(t,n) \
   ((10000*(n)) - FramesPerSecond*CurrentSpeedLimit*((t)-LastSpeed))
 
-int vsync_do_vsync(int been_skipped)
+int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
 {
   int skip_next_frame = 0;
   int frame_delay;
