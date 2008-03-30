@@ -47,6 +47,7 @@
 #include "ram.h"
 #include "resources.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "types.h"
 #include "vsync.h"
 #include "vicii-mem.h"
@@ -588,7 +589,10 @@ void REGPARM2 store_io(WORD addr, BYTE value)
           case 0xd900:
             return;                     /* disk units */
           case 0xda00:
-            sid_store((WORD)(addr & 0xff), value);
+            if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end)
+              sid2_store(addr, value);
+            else
+              sid_store((WORD)(addr & 0xff), value);
             return;
           case 0xdb00:
             return;                     /* coprocessor */
@@ -630,6 +634,17 @@ BYTE REGPARM1 read_io(WORD addr)
           case 0xd900:
             return read_unused(addr);
           case 0xda00:
+            if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end)
+            {
+              if (cbm2_isC500)
+              {
+                return sid2_read(addr);
+              }
+              else
+              {
+                return 0xff;            /* 2 MHz too fast for SID */
+              }
+            }
             if (cbm2_isC500) {
                 return sid_read(addr);
             } else {

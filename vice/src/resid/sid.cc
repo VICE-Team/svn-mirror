@@ -25,6 +25,10 @@
 // ----------------------------------------------------------------------------
 SID::SID()
 {
+  // Initialize pointers.
+  sample = 0;
+  fir = 0;
+
   voice[0].set_sync_source(&voice[2]);
   voice[1].set_sync_source(&voice[0]);
   voice[2].set_sync_source(&voice[1]);
@@ -35,10 +39,6 @@ SID::SID()
   bus_value_ttl = 0;
 
   ext_in = 0;
-
-  // Initialize pointers.
-  sample = 0;
-  fir = 0;
 }
 
 
@@ -507,7 +507,9 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // The filter length must be an odd number (sinc is symmetric about x = 0).
   fir_N = int(N*f_cycles_per_sample) + 1;
   fir_N |= 1;
-  fir_RES = int((method == SAMPLE_RESAMPLE_INTERPOLATE ? FIR_RES_INTERPOLATE : FIR_RES_FAST)/f_cycles_per_sample);
+  int res = method == SAMPLE_RESAMPLE_INTERPOLATE ?
+    (int)FIR_RES_INTERPOLATE : (int)FIR_RES_FAST;
+  fir_RES = int(res/f_cycles_per_sample);
 
   // Allocate memory for FIR tables.
   delete[] fir;
