@@ -510,8 +510,8 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_type((resource_value_t) carttype, NULL);
-    set_cartridge_file((resource_value_t) ((carttype == CARTRIDGE_NONE) ?
+    set_cartridge_type((resource_value_t)carttype, NULL);
+    set_cartridge_file((resource_value_t)((carttype == CARTRIDGE_NONE) ?
                        "" : cartfile), NULL);
 }
 
