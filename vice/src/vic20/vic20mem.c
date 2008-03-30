@@ -780,44 +780,44 @@ int mem_load(void)
 void mem_attach_cartridge(int type, BYTE * rawcart)
 {
     switch(type) {
-        case CARTRIDGE_VIC20_4KB_2000:
-        case CARTRIDGE_VIC20_8KB_2000:
-	    printf("CART: attaching %dKB cartridge at $2000\n",
-		   (type==CARTRIDGE_VIC20_4KB_2000) ? 4 : 8);
-            set_ram_block_1_enabled(0);
-	    vic20_mem_enable_rom_block(1);
-	    memcpy(cartrom + 0x2000, rawcart, 0x2000);
-	    mem_rom_blocks |= VIC_BLK1;
-	    break;
-        case CARTRIDGE_VIC20_4KB_6000:
-        case CARTRIDGE_VIC20_8KB_6000:
-	    printf("CART: attaching %dKB cartridge at $6000\n",
-		   (type==CARTRIDGE_VIC20_4KB_6000) ? 4 : 8);
-            set_ram_block_3_enabled(0);
-	    vic20_mem_enable_rom_block(3);
-	    memcpy(cartrom + 0x6000, rawcart, 0x2000);
-	    mem_rom_blocks |= VIC_BLK3;
-	    break;
-        case CARTRIDGE_VIC20_8KB_A000:
-        case CARTRIDGE_VIC20_4KB_A000:
-	    printf("CART: attaching %dKB cartridge at $A000\n",
-		   (type==CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
-            set_ram_block_5_enabled(0);
-	    vic20_mem_enable_rom_block(5);
-	    memcpy(cartrom + 0xA000, rawcart,
-		   (type==CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
-	    mem_rom_blocks |= VIC_BLK5;
-	    break;
-	case CARTRIDGE_VIC20_4KB_B000:
-	    printf("CART: attaching 4KB cartridge at $B000\n");
-	    set_ram_block_5_enabled(0);
-	    vic20_mem_enable_rom_block(5);
-	    memcpy(cartrom + 0xB000, rawcart, 0x1000);
-	    mem_rom_blocks |= VIC_BLK5;
-	    break;
-	default:
-            fprintf(stderr, "Unknown Cartridge Type!\n");
-	    break;
+      case CARTRIDGE_VIC20_4KB_2000:
+      case CARTRIDGE_VIC20_8KB_2000:
+        printf("CART: attaching %dKB cartridge at $2000\n",
+               (type==CARTRIDGE_VIC20_4KB_2000) ? 4 : 8);
+        set_ram_block_1_enabled(0);
+        vic20_mem_enable_rom_block(1);
+        memcpy(cartrom + 0x2000, rawcart, 0x2000);
+        mem_rom_blocks |= VIC_BLK1;
+        break;
+      case CARTRIDGE_VIC20_4KB_6000:
+      case CARTRIDGE_VIC20_8KB_6000:
+        printf("CART: attaching %dKB cartridge at $6000\n",
+               (type==CARTRIDGE_VIC20_4KB_6000) ? 4 : 8);
+        set_ram_block_3_enabled(0);
+        vic20_mem_enable_rom_block(3);
+        memcpy(cartrom + 0x6000, rawcart, 0x2000);
+        mem_rom_blocks |= VIC_BLK3;
+        break;
+      case CARTRIDGE_VIC20_8KB_A000:
+      case CARTRIDGE_VIC20_4KB_A000:
+        printf("CART: attaching %dKB cartridge at $A000\n",
+               (type==CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
+        set_ram_block_5_enabled(0);
+        vic20_mem_enable_rom_block(5);
+        memcpy(cartrom + 0xA000, rawcart,
+               (type==CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
+        mem_rom_blocks |= VIC_BLK5;
+        break;
+      case CARTRIDGE_VIC20_4KB_B000:
+        printf("CART: attaching 4KB cartridge at $B000\n");
+        set_ram_block_5_enabled(0);
+        vic20_mem_enable_rom_block(5);
+        memcpy(cartrom + 0xB000, rawcart, 0x1000);
+        mem_rom_blocks |= VIC_BLK5;
+        break;
+      default:
+        fprintf(stderr, "Unknown Cartridge Type!\n");
+        break;
     }
     return;
 }
@@ -825,24 +825,24 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 void mem_detach_cartridge(int type)
 {
     switch(type) {
-        case CARTRIDGE_VIC20_8KB_2000:
-        case CARTRIDGE_VIC20_4KB_2000:
-            set_ram_block_1_enabled(0);
-	    mem_rom_blocks &= ~VIC_BLK1;
-	    break;
-        case CARTRIDGE_VIC20_8KB_6000:
-        case CARTRIDGE_VIC20_4KB_6000:
-            set_ram_block_3_enabled(0);
-	    mem_rom_blocks &= ~VIC_BLK3;
-	    break;
-        case CARTRIDGE_VIC20_8KB_A000:
-        case CARTRIDGE_VIC20_4KB_A000:
-        case CARTRIDGE_VIC20_4KB_B000:
-            set_ram_block_5_enabled(0);
-	    mem_rom_blocks &= ~VIC_BLK5;
-	    break;
-	default:
-	    break;
+      case CARTRIDGE_VIC20_8KB_2000:
+      case CARTRIDGE_VIC20_4KB_2000:
+        set_ram_block_1_enabled(0);
+        mem_rom_blocks &= ~VIC_BLK1;
+        break;
+      case CARTRIDGE_VIC20_8KB_6000:
+      case CARTRIDGE_VIC20_4KB_6000:
+        set_ram_block_3_enabled(0);
+        mem_rom_blocks &= ~VIC_BLK3;
+        break;
+      case CARTRIDGE_VIC20_8KB_A000:
+      case CARTRIDGE_VIC20_4KB_A000:
+      case CARTRIDGE_VIC20_4KB_B000:
+        set_ram_block_5_enabled(0);
+        mem_rom_blocks &= ~VIC_BLK5;
+        break;
+      default:
+        break;
     }
     return;
 }
