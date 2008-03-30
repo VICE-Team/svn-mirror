@@ -75,4 +75,7 @@ extern int write_dword(file_desc_t fd, DWORD *buf, int num);
 
 int file_exists_p(const char *name);
 
+char *find_prev_line(const char *text, const char *pos);
+char *find_next_line(const char *text, const char *pos);
+
 #endif /* UTILS_H */
