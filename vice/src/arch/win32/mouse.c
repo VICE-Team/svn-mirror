@@ -149,14 +149,14 @@ HRESULT result;
     _mouse_x += state.X;
     _mouse_y += state.Y;
     if (state.LeftButton & 0x80) {
-        joystick_value[1] |= 16;
+        joystick_set_value_or(1, 16);
     } else {
-        joystick_value[1] &=~16;
+        joystick_set_value_and(1, ~16);
     }
     if (state.RightButton & 0x80) {
-        joystick_value[1] |= 1;
+        joystick_set_value_or(1, 1);
     } else {
-        joystick_value[1] &= ~1;
+        joystick_set_value_and(1, ~1);
     }
 }
 

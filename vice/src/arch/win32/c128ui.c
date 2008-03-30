@@ -59,7 +59,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-ui_res_possible_values CartMode[] = {
+ui_res_possible_values CartMode128[] = {
     { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
     { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
     { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
@@ -67,7 +67,7 @@ ui_res_possible_values CartMode[] = {
 };
 
 ui_res_value_list c128_ui_res_values[] = {
-    { "CartridgeMode", CartMode },
+    { "CartridgeMode", CartMode128 },
     { NULL, NULL }
 };
 

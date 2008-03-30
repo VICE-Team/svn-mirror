@@ -92,6 +92,15 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
         if (!(canvas->xv_image))
             return -1;
 
+	/* Copy data for architecture independent rendering. */
+	canvas->yuv_image.width = canvas->xv_image->width;
+	canvas->yuv_image.height = canvas->xv_image->height;
+	canvas->yuv_image.data_size = canvas->xv_image->data_size;
+	canvas->yuv_image.num_planes = canvas->xv_image->num_planes;
+	canvas->yuv_image.pitches = canvas->xv_image->pitches;
+	canvas->yuv_image.offsets = canvas->xv_image->offsets;
+	canvas->yuv_image.data = canvas->xv_image->data;
+
         log_message(x11video_log,
                     _("Successfully initialized using XVideo (%dx%d %.4s)."),
                     width, height, canvas->xv_format.label);

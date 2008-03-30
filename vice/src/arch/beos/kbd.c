@@ -54,8 +54,6 @@ static void kbd_debug(const char *format, ...)
 
 /* ------------------------------------------------------------------------ */
 
-BYTE joystick_value[3];
-
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 

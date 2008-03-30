@@ -88,13 +88,13 @@ static void my_mouse_callback(int flags)
     if (flags & MOUSE_FLAG_MOVE)
         _mouse_coords_dirty = 1;
     if (flags & MOUSE_FLAG_LEFT_UP)
-        joystick_value[1] &= ~16;
+        joystick_set_value_and(1, ~16);
     if (flags & MOUSE_FLAG_LEFT_DOWN)
-        joystick_value[1] |= 16;
+        joystick_set_value_or(1, 16);
     if (flags & MOUSE_FLAG_RIGHT_UP)
-        joystick_value[1] &= ~1;
+        joystick_set_value_and(1, ~1);
     if (flags & MOUSE_FLAG_RIGHT_DOWN)
-        joystick_value[1] |= 1;
+        joystick_set_value_or(1, 1);
 }
 
 int mouse_init(void)

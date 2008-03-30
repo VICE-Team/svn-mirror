@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
+#include "event.h"
 #include "fliplist.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
@@ -1507,6 +1508,34 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
         ui_message("Default settings restored.");
+        break;
+      case IDM_TOGGLE_RECORD:
+        {
+            static int recording = 0;
+
+            recording = 1 - recording;
+            if (recording == 1)
+            {
+                ui_error("start recording");
+                event_record_start();
+            }
+            else
+                event_record_stop();
+        }
+        break;
+      case IDM_TOGGLE_PLAYBACK:
+        {
+            static int playback = 0;
+
+            playback = 1 - playback;
+            if (playback == 1)
+            {
+                ui_error("start playback");
+                event_playback_start();
+            }
+            else
+                event_playback_stop();
+        }
         break;
       default:
         {

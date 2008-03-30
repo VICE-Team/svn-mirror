@@ -3,6 +3,7 @@
  *
  * Written by
  *  John Selck <graham@cruise.de>
+ *  Dag Lem <resid@nimrod.no>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,6 +34,7 @@
 #include "render1x2.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
+#include "renderyuv.h"
 #include "types.h"
 #include "video-render.h"
 #include "video-resources.h"
@@ -324,3 +326,143 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
     }
 }
 
+
+
+/* Render YUV 4:2:2 and 4:1:1 formats. */
+void render_yuv_image(int double_size,
+		      int double_scan,
+		      int pal_mode,
+		      int pal_scanline_shade,
+		      fourcc_t format,
+		      image_t* image,
+		      unsigned char* src,
+		      int src_pitch,
+		      unsigned int* src_color,
+		      int src_x, int src_y,
+		      unsigned int src_w, unsigned int src_h,
+		      int dest_x, int dest_y)
+{
+  int planar;
+  int shift_y0, shift_u, shift_v, shift_y1;
+  int plane_y, plane_u, plane_v;
+
+  switch (format.id) {
+  case FOURCC_UYVY:
+    planar = 0;
+    plane_y = plane_u = plane_v = 0;
+#ifdef WORDS_BIGENDIAN
+    shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
+#else
+    shift_y0 = 8; shift_u = 0; shift_v = 16; shift_y1 = 24;
+#endif
+    break;
+  case FOURCC_YUY2:
+    planar = 0;
+    plane_y = plane_u = plane_v = 0;
+#ifdef WORDS_BIGENDIAN
+    shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
+#else
+    shift_y0 = 0; shift_u = 8; shift_v = 24; shift_y1 = 16;
+#endif
+    break;
+  case FOURCC_YVYU:
+    planar = 0;
+    plane_y = plane_u = plane_v = 0;
+#ifdef WORDS_BIGENDIAN
+    shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
+#else
+    shift_y0 = 0; shift_u = 24; shift_v = 8; shift_y1 = 16;
+#endif
+    break;
+  case FOURCC_YV12:
+    planar = 1;
+    shift_y0 = shift_u = shift_v = shift_y1 = 0;
+    plane_y = 0; plane_u = 2; plane_v = 1;
+    break;
+  case FOURCC_I420:
+  case FOURCC_IYUV:
+    planar = 1;
+    shift_y0 = shift_u = shift_v = shift_y1 = 0;
+    plane_y = 0; plane_u = 1; plane_v = 2;
+    break;
+  default:
+    return;
+  }
+
+  if (double_size) {
+    /* 2x2 */
+    if (planar) {
+      switch(pal_mode) {
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render2x_4_1_1(image, plane_y, plane_u, plane_v,
+		       src, src_pitch, src_color,
+		       src_x, src_y, src_w, src_h, dest_x, dest_y,
+		       double_scan, pal_scanline_shade);
+	break;
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
+			   src, src_pitch, src_color,
+			   src_x, src_y, src_w, src_h, dest_x, dest_y,
+			   pal_mode, double_scan, pal_scanline_shade);
+	break;
+      }
+    }
+    else {
+      switch(pal_mode) {
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+		       src, src_pitch, src_color,
+		       src_x, src_y, src_w, src_h, dest_x, dest_y,
+		       double_scan, pal_scanline_shade);
+	break;
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+			  src, src_pitch, src_color,
+			  src_x, src_y, src_w, src_h, dest_x, dest_y,
+			  pal_mode, double_scan, pal_scanline_shade);
+	break;
+      }
+    }
+  }
+  else {
+    /* 1x1 */
+    if (planar) {
+      switch(pal_mode) {
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render_4_1_1(image, plane_y, plane_u, plane_v,
+		     src, src_pitch, src_color,
+		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_1_1_pal(image, plane_y, plane_u, plane_v,
+			 src, src_pitch, src_color,
+			 src_x, src_y, src_w, src_h, dest_x, dest_y,
+			 pal_mode);
+	break;
+      }
+    }
+    else {
+      switch(pal_mode) {
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+		     src, src_pitch, src_color,
+		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+			 src, src_pitch, src_color,
+			 src_x, src_y, src_w, src_h, dest_x, dest_y,
+			 pal_mode);
+	break;
+      }
+    }
+  }
+}

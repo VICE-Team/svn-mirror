@@ -50,8 +50,6 @@ BYTE _kbd_extended_key_tab[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-BYTE joystick_value[3];
-
 /* ------------------------------------------------------------------------ */
 
 /* Windows would not want us to handle raw scancodes like this...  But we

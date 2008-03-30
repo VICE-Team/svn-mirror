@@ -90,11 +90,27 @@ SOURCE=..\..\drive\iec\cia1581d.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\iec-cmdline-options.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\iec\iec-resources.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\iec.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\iecrom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\memiec.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\iec\wd1770.c
 # End Source File
 # End Target
 # End Project

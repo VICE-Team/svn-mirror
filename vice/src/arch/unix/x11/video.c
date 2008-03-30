@@ -122,6 +122,29 @@ static int set_fourcc(resource_value_t v, void *param)
     return 0;
 }
 
+static double aspect_ratio;
+static int set_aspect_ratio(resource_value_t v, void *param)
+{
+    if (v) {
+        char* endptr;
+        aspect_ratio = strtod((char*)v, &endptr);
+	if ((char*)v == endptr) {
+	    aspect_ratio = 1.0;
+	}
+	else if (aspect_ratio < 0.8) {
+	    aspect_ratio = 0.8;
+	}
+	else if (aspect_ratio > 1.2) {
+	    aspect_ratio = 1.2;
+	}
+    }
+    else {
+        aspect_ratio = 1.0;
+    }
+    
+    return 0;
+}
+
 /* Video-related resources.  */
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t)1,
@@ -134,6 +157,8 @@ static resource_t resources[] = {
       (resource_value_t *)&use_xvideo, set_use_xvideo, NULL },
     { "FOURCC", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&fourcc, set_fourcc, NULL },
+    { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
+      (resource_value_t *)&aspect_ratio, set_aspect_ratio, NULL },
 #endif
     { NULL }
 };
@@ -169,6 +194,8 @@ static cmdline_option_t cmdline_options[] = {
       NULL, N_("Use software rendering") },
     { "-fourcc", SET_RESOURCE, 1, NULL, NULL, "FOURCC", NULL,
       "<fourcc>", N_("Request YUV FOURCC format") },
+    { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
+      "<aspect ratio>", N_("Set aspect ratio (0.8 - 1.2)") },
 #endif
     { NULL }
 };
@@ -645,7 +672,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			 video_resources.pal_mode,
 			 video_resources.pal_scanlineshade * 1024 / 1000,
 			 canvas->xv_format,
-			 canvas->xv_image,
+			 &canvas->yuv_image,
 			 canvas->draw_buffer->draw_buffer,
                          canvas->draw_buffer->draw_buffer_width,
 			 yuv_table,
@@ -672,7 +699,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			  canvas->xv_image, shminfo,
 			  0, 0,
 			  canvas->width, canvas->height,
-			  dest_w, dest_h);
+			  dest_w, dest_h,
+			  aspect_ratio);
 
 	if (_video_use_xsync)
 	    XSync(display, False);

@@ -118,19 +118,11 @@ SOURCE=..\..\drive\drivesync.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\fdc.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\via1d.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\drive\via2d.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\wd1770.c
 # End Source File
 # End Target
 # End Project

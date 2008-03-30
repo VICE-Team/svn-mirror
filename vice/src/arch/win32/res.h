@@ -334,6 +334,8 @@
 #define IDM_SNAPSHOT_SAVE               40081
 #define IDM_SCREENSHOT                  40082
 #define IDM_SOUNDSHOT                   40083
+#define IDM_TOGGLE_RECORD               40084
+#define IDM_TOGGLE_PLAYBACK             40085
 #define IDM_SETTINGS_SAVE               40090
 #define IDM_SETTINGS_LOAD               40091
 #define IDM_SETTINGS_DEFAULT            40092

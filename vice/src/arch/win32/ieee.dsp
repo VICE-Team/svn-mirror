@@ -82,7 +82,23 @@ LIB32=link.exe -lib
 # Name "ieee - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\drive\ieee\fdc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\ieee\ieee-cmdline-options.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\ieee\ieee-resources.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\ieee\ieee.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\ieee\ieeerom.c
 # End Source File
 # Begin Source File
 

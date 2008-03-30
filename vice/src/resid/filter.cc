@@ -110,6 +110,24 @@ fc_point Filter::f0_points_8580[] =
 // ----------------------------------------------------------------------------
 Filter::Filter()
 {
+  fc = 0;
+
+  res = 0;
+
+  filt = 0;
+
+  voice3off = 0;
+
+  hp_bp_lp = 0;
+
+  vol = 0;
+
+  // State of filter.
+  Vhp = 0;
+  Vbp = 0;
+  Vlp = 0;
+  Vnf = 0;
+
   enable_filter(true);
 
   // Create mappings from FC to cutoff frequency.
@@ -117,8 +135,6 @@ Filter::Filter()
   interpolate(f0_points, f0_points + f0_count - 1, fc_plotter(), 1.0);
   set_chip_model(MOS6581);
   interpolate(f0_points, f0_points + f0_count - 1, fc_plotter(), 1.0);
-
-  reset();
 }
 
 

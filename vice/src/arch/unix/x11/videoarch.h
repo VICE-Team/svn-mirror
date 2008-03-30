@@ -85,6 +85,7 @@ struct video_canvas_s {
     XvImage *xv_image;
     XvPortID xv_port;
     fourcc_t xv_format;
+    image_t yuv_image;  /* For architecture independent rendering. */
 #endif
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;

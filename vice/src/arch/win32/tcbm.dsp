@@ -90,7 +90,19 @@ SOURCE=..\..\drive\tcbm\mem1551.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\tcbm\tcbm-cmdline-options.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\tcbm\tcbm-resources.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\tcbm\tcbm.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\tcbm\tcbmrom.c
 # End Source File
 # Begin Source File
 

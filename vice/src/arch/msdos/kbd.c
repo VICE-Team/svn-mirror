@@ -58,19 +58,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef COMMON_KBD
-/* Joystick status. We use 3 elements to avoid `-1'.  */
-BYTE joystick_value[3] = { 0, 0, 0 };
-
-/* 40/80 column key.  */
-static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
-
-/* CAPS key.  */
-static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
-#endif
-
-/* ------------------------------------------------------------------------- */
-
 /* Segment info for the standard keyboard handler.  */
 static _go32_dpmi_seginfo std_kbd_handler_seginfo;
 
@@ -95,11 +82,6 @@ struct _convmap {
     int virtual_shift_row, virtual_shift_column;
 };
 static struct _convmap keyconvmaps[MAX_CONVMAPS];
-
-#ifndef COMMON_KBD
-static struct _convmap *keyconv_base;
-static int num_keyconvmaps;
-#endif
 
 /* Function for triggering cartridge (e.g. AR) freezing.  */
 static void (*freeze_function)(void);
@@ -270,7 +252,6 @@ static char kcode_to_ascii(unsigned int kcode)
     return conv_table[kcode];
 }
 
-#ifdef COMMON_KBD
 static void my_kbd_interrupt_handler(void)
 {
     static int extended = 0;    /* Extended key count.  */
@@ -455,223 +436,6 @@ static void my_kbd_interrupt_handler(void)
 }
 
 static void my_kbd_interrupt_handler_end() { }
-#else
-static void my_kbd_interrupt_handler(void)
-{
-    static int extended = 0;	/* Extended key count.  */
-    static int skip_count = 0;
-    unsigned int kcode;
-
-    kcode = inportb(0x60);
-
-    if (skip_count > 0) {
-        skip_count--;
-        outportb(0x20, 0x20);
-        return;
-    } else if (kcode == 0xe0) {
-	/* Extended key: at the next interrupt we'll get its extended keycode
-	   or 0xe0 again.  */
-	extended++;
-	outportb(0x20, 0x20);
-	return;
-    } else if (kcode == 0xe1) {
-        /* Damn Pause key.  It sends 0xe1 0x1d 0x52 0xe1 0x9d 0xd2.  This is
-           awesome, but at least we know it's the only sequence starting by
-           0xe1, so we can just skip the next 5 codes.  Btw, there is no
-           release code.  */
-        skip_count = 5;
-        kcode = K_PAUSE;
-    }
-
-    if (!(kcode & 0x80)) {      /* Key pressed.  */
-
-        /* Derive the extended keycode.  */
-        if (extended == 1)
-            kcode = _kbd_extended_key_tab[kcode];
-
-        /* Handle modifiers.  */
-        switch (kcode) {
-          case K_LEFTCTRL:
-            modifiers.left_ctrl = 1;
-            break;
-          case K_RIGHTCTRL:
-            modifiers.right_ctrl = 1;
-            break;
-          case K_LEFTSHIFT:
-            modifiers.left_shift = 1;
-            break;
-          case K_RIGHTSHIFT:
-            modifiers.right_shift = 1;
-            break;
-          case K_LEFTALT:
-            modifiers.left_alt = 1;
-            break;
-          case K_RIGHTALT:
-            modifiers.right_alt = 1;
-            break;
-        }
-
-        /* This must be done separately because some machines (eg. the PETs)
-           might want to map this differently.  */
-        if (kcode == K_PGUP)  /* Restore */
-            queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t)0);
-
-	switch (kcode) {
-          case K_ESC:           /* Menu */
-            queue_command(KCMD_MENU, (kbd_command_data_t) 0);
-            break;
-          case K_SCROLLOCK:     /* Warp mode on/off */
-            queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t) 0);
-            break;
-          case K_F4: 
-          case K_F7: /* 40/80 column screen switch */
-            if (kcode == K_F7 && key_ctrl_column4080_func != NULL) {
-                key_ctrl_column4080_func();
-                break;
-            } 
-            if (kcode == K_F4 && key_ctrl_caps_func != NULL) {
-                key_ctrl_caps_func();
-                break;
-            }
-            /* Fall through */
-          default:
-            if (modifiers.left_alt && modifiers.left_ctrl) {
-                switch (kcode) {
-                  case K_F12:
-                    /* Ctrl-Alt-F12 does a hard reset. */
-                    queue_command(KCMD_HARD_RESET,
-                                  (kbd_command_data_t) 0);
-                    break;
-                  case K_F4:
-                    /* Ctrl-Alt-F4 is RECORD on the datasette. */
-                    queue_command(KCMD_DATASETTE_RECORD,
-                                  (kbd_command_data_t) 0);
-                    break;
-                  case K_F5:
-                    /* Ctrl-Alt-F5 is PLAY on the datasette. */
-                    queue_command(KCMD_DATASETTE_START,
-                                  (kbd_command_data_t) 0);
-                    break;
-                  case K_F6:
-                    /* Ctrl-Alt-F6 is REWIND on the datasette. */
-                    queue_command(KCMD_DATASETTE_REWIND,
-                                  (kbd_command_data_t) 0);
-                    break;
-                  case K_F7:
-                    /* Ctrl-Alt-F7 is FF on the datasette. */
-                    queue_command(KCMD_DATASETTE_FORWARD,
-                                  (kbd_command_data_t) 0);
-                    break;
-                  case K_F8:
-                    /* Ctrl-Alt-F8 is STOP on the datasette. */
-                    queue_command(KCMD_DATASETTE_STOP,
-                                  (kbd_command_data_t) 0);
-                    break;
-                }
-            } else if (modifiers.left_alt || modifiers.right_alt) {
-                /* Handle Alt-... hotkeys.  */
-                switch (kcode) {
-                  case K_F12:
-                    /* Alt-F12 does a reset.  */
-                    queue_command(KCMD_RESET, (kbd_command_data_t) 0);
-                    break;
-                  case K_F1:
-                    /* Alt-F1 Next image in flip list.  */
-                    queue_command(KCMD_FLIP_NEXT, (kbd_command_data_t) 0);
-                    break;
-                  case K_F2:
-                    /* Alt-F2 Previous image in flip list.  */
-                    queue_command(KCMD_FLIP_PREVIOUS, (kbd_command_data_t) 0);
-                    break;
-                  case K_F3:
-                    /* Alt-F3 Add image to flip list.  */
-                    queue_command(KCMD_FLIP_ADD, (kbd_command_data_t) 0);
-                    break;
-                  case K_F4:
-                    /* Alt-F4 remove image from flip list.  */
-                    queue_command(KCMD_FLIP_REMOVE, (kbd_command_data_t) 0);
-                    break;
-                  case K_F5:
-                    /* Alt-F5 toggles statusbar.  */
-                      queue_command(KCMD_TOGGLE_STATUSBAR,
-                                    (kbd_command_data_t) 0);
-                    break;
-                  case K_PAUSE:
-                    /* Alt-Pause enables cartridge freezing.  */
-                    queue_command(KCMD_FREEZE, (kbd_command_data_t) 0);
-                    break;
-                  default:
-                    /* Alt-{letter,number} enters the main menu.  */
-                    if (isalnum((int) kcode_to_ascii(kcode)))
-                        queue_command(KCMD_MENU,
-                            (kbd_command_data_t) kcode_to_ascii(kcode));
-                }
-            } else {
-                /* "Normal" key.  */
-                if (!joystick_handle_key(kcode, 1)) {
-                    keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                               keyconv_base->map[kcode].column, 1);
-                    if (keyconv_base->map[kcode].vshift)
-                        keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                                   keyconv_base->virtual_shift_column, 1);
-                }
-            }
-	}
-
-    } else {                    /* Key released.  */
-
-        /* Remove release bit.  */
-        kcode &= 0x7F;
-
-        /* Derive the extended keycode.  */
-        if (extended == 1)
-            kcode = _kbd_extended_key_tab[kcode];
-
-        /* Handle modifiers.  */
-        switch (kcode) {
-          case K_LEFTCTRL:
-            modifiers.left_ctrl = 0;
-            break;
-          case K_RIGHTCTRL:
-            modifiers.right_ctrl = 0;
-            break;
-          case K_LEFTSHIFT:
-            modifiers.left_shift = 0;
-            break;
-          case K_RIGHTSHIFT:
-            modifiers.right_shift = 0;
-            break;
-          case K_LEFTALT:
-            modifiers.left_alt = 0;
-            break;
-          case K_RIGHTALT:
-            modifiers.right_alt = 0;
-            break;
-        }
-
-        /* This must be done separately because some machines (eg. the PETs)
-           might want to map this differently.  */
-        if (kcode == K_PGUP)
-            queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t)0);
-
-        if (!modifiers.left_alt && !modifiers.right_alt) {
-            if (!joystick_handle_key(kcode, 0)) {
-                keyboard_set_keyarr(keyconv_base->map[kcode].row,
-                           keyconv_base->map[kcode].column, 0);
-                if (keyconv_base->map[kcode].vshift)
-                    keyboard_set_keyarr(keyconv_base->virtual_shift_row,
-                               keyconv_base->virtual_shift_column, 0);
-            }
-        }
-
-    }
-
-    extended = 0;
-    outportb(0x20, 0x20);
-}
-
-static void my_kbd_interrupt_handler_end() { }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -721,7 +485,6 @@ static void kbd_exit(void)
     kbd_uninstall();
 }
 
-#ifdef COMMON_KBD
 static void kbd_init_common(void)
 {
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
@@ -734,85 +497,17 @@ static void kbd_init_common(void)
                          - (unsigned long)queue_command);
 
 
-#if 0
-    _go32_dpmi_lock_data(&keymap_index, sizeof(keymap_index));
-#endif
     _go32_dpmi_lock_data(keyconvmaps, sizeof(keyconvmaps));
     _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
-    _go32_dpmi_lock_data(joystick_value, sizeof(joystick_value));
     _go32_dpmi_lock_data(&modifiers, sizeof(modifiers));
     _go32_dpmi_lock_data(&num_queued_commands, sizeof(num_queued_commands));
     _go32_dpmi_lock_data(&command_queue, sizeof(command_queue));
 
     num_queued_commands = 0;
 
-#if 0
-    /* FIXME: argh, another hack.  */
-    keyconv_base = &keyconvmaps[keymap_index >> 1];
-#endif
-
     kbd_install();
 }
-#else
-/* Initialize the keyboard driver.  */
-int kbd_init(int num, ...)
-{
-    if (num > MAX_CONVMAPS)
-        return -1;
-
-    _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
-    atexit(kbd_exit);
-
-    _go32_dpmi_lock_code(my_kbd_interrupt_handler,
-                         (unsigned long)my_kbd_interrupt_handler_end
-                         - (unsigned long)my_kbd_interrupt_handler);
-    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end
-                         - (unsigned long)queue_command);
-
-    {
-        va_list p;
-        int i;
-
-        num_keyconvmaps = num;
-
-        va_start(p, num);
-        for (i = 0; i < num_keyconvmaps; i++) {
-            keyconv *map;
-            unsigned int sizeof_map;
-            int shift_row, shift_column;
-
-            shift_row = va_arg(p, int);
-            shift_column = va_arg(p, int);
-            map = va_arg(p, keyconv *);
-            sizeof_map = va_arg(p, unsigned int);
-
-            _go32_dpmi_lock_data(map, sizeof_map);
-            keyconvmaps[i].map = map;
-            keyconvmaps[i].virtual_shift_row = shift_row;
-            keyconvmaps[i].virtual_shift_column = shift_column;
-        }
-    }
-
-    _go32_dpmi_lock_data(&keymap_index, sizeof(keymap_index));
-    _go32_dpmi_lock_data(keyconvmaps, sizeof(keyconvmaps));
-    _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
-    _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
-    _go32_dpmi_lock_data(joystick_value, sizeof(joystick_value));
-    _go32_dpmi_lock_data(&modifiers, sizeof(modifiers));
-    _go32_dpmi_lock_data(&num_queued_commands, sizeof(num_queued_commands));
-    _go32_dpmi_lock_data(&command_queue, sizeof(command_queue));
-
-    num_queued_commands = 0;
-
-    /* FIXME: argh, another hack.  */
-    keyconv_base = &keyconvmaps[keymap_index >> 1];
-
-    kbd_install();
-
-    return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -219,14 +219,14 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
         if (pressed) {
             if (joystick_device_1 == device)
-                joystick_value[1] |= value;
+                joystick_set_value_or(1, value);
             if (joystick_device_2 == device)
-                joystick_value[2] |= value;
+                joystick_set_value_or(2, value);
         } else {
             if (joystick_device_1 == device)
-                joystick_value[1] &= ~value;
+                joystick_set_value_and(1, ~value);
             if (joystick_device_2 == device)
-                joystick_value[2] &= ~value;
+                joystick_set_value_and(2, ~value);
         }
         return 1;
     }
@@ -292,9 +292,9 @@ void joystick_update(void)
         if (joy_b1 || joy_b2)
             value |= 16;
         if (joystick_device_1 == JOYDEV_HW1)
-            joystick_value[1] = value;
+            joystick_set_value_absolute(1, value);
         if (joystick_device_2 == JOYDEV_HW1)
-            joystick_value[2] = value;
+            joystick_set_value_absolute(2, value);
     }
 
     if (number_joysticks >= 2
@@ -313,9 +313,9 @@ void joystick_update(void)
         if (joy2_b1 || joy2_b2)
             value |= 16;
         if (joystick_device_1 == JOYDEV_HW2)
-            joystick_value[1] = value;
+            joystick_set_value_absolute(1, value);
         if (joystick_device_2 == JOYDEV_HW2)
-            joystick_value[2] = value;
+            joystick_set_value_absolute(2, value);
     }
 }
 
@@ -372,14 +372,14 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
         if (pressed) {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joystick_value[1] |= value;
+                joystick_set_value_or(1, value);
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joystick_value[2] |= value;
+                joystick_set_value_or(2, value);
         } else {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joystick_value[1] &= ~value;
+                joystick_set_value_and(1, ~value);
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joystick_value[2] &= ~value;
+                joystick_set_value_and(2, ~value);
         }
     }
 
