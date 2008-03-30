@@ -56,6 +56,7 @@ typedef struct _disk_image_t {
     int type;
     int tracks;
     gcr_t *gcr;
+    BYTE *error_info;
 } disk_image_t;
 
 extern void disk_image_init(void);
