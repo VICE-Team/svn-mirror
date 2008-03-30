@@ -453,11 +453,12 @@ void _ui_menu_string_radio_helper(Widget w,
 
     resources_get_value(resource_name, (void *)&current_value);
 
-    if( current_value == 0) return;
+    if(current_value == 0)
+        return;
 
     if (!call_data) {
-        if (strcmp((const char *) current_value,
-                   (const char *) client_data) != 0) {
+        if (strcmp((const char *)current_value,
+                   (const char *)client_data) != 0) {
             resources_set_value(resource_name, (resource_value_t)client_data);
             ui_update_menus();
         }

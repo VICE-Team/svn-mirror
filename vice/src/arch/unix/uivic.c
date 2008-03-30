@@ -59,7 +59,7 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
-UI_MENU_DEFINE_TOGGLE(UseXSync)
+UI_MENU_DEFINE_TOGGLE(VICScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(VICFullscreenDevice)
@@ -74,7 +74,10 @@ UI_MENU_DEFINE_RADIO(VICDGA1FullscreenMode);
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(VICDGA2FullscreenMode);
 #endif
+#endif
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_VICFullscreenDevice,
@@ -100,8 +103,14 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICVideoCache, NULL, NULL },
     { "--" },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+    { "--" },
+    { N_("PAL Emulation Settings"),
+      NULL, NULL, PALMode_submenu },
+    { "--" },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_VICScale2x, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
@@ -131,11 +140,8 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--" },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("PAL Emulation Settings"),
-      NULL, NULL, PALMode_submenu },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 

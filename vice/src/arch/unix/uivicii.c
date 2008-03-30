@@ -64,11 +64,9 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(UseXSync)
-UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
-UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(VICIIFullscreenDevice)
@@ -83,7 +81,12 @@ UI_MENU_DEFINE_RADIO(VICIIDGA1FullscreenMode);
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(VICIIDGA2FullscreenMode);
 #endif
+#endif
+UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
+UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_VICIIFullscreenDevice,
@@ -109,8 +112,18 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
     { "--" },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
+    { N_("*New Luminances"),
+      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
+    { N_("*External color set"),
+      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+    { "--" },
+    { N_("PAL Emulation"),
+      NULL, NULL, PALMode_submenu },
+    { "--" },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
@@ -145,15 +158,8 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Sprite-background collisions"),
       (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
     { "--" },
-    { N_("*New Luminances"),
-      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("PAL Emulation"),
-      NULL, NULL, PALMode_submenu },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 

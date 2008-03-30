@@ -1,3 +1,48 @@
+2003-07-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.12.
+
+	* cartridge.h, c64/cart/crt.c, c64/cart/supersnapshot.c,
+	c64/cart/supersnapshot.h: Added SS5 CRT support.
+
+	* c64/cart/supersnapshot.c (supersnapshot_v5_io1_store): Do
+	not change phi1 configuration.
+
+	* c128/c128mem.c (mem_bank_read, mem_bank_write): Added VDC
+	RAM bank.
+
+	* vdc/vdc-mem.c, vdc/vdc-mem.h (vdc_ram_read, vdc_ram_store):
+	New functions.
+
+	* arch/unix/uivicii.c, arch/unix/uicrtc.c, arch/unix/uited.c,
+	arch/unix/uivic.c: Added Scale2x UI entry.
+
+	* plus4/ted-sound.c, c1541.c, petcat.c: Fixed warnings.
+
+2003-07-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/video.dsp, video/Makefile.am: Added new files.
+
+	* crtc/crtc-resources.c, plus4/ted-resources.c,
+	vdc/vdc-resources.c, vic20/vic-resources.c,
+	vicii/vicii-resources.c (<chip>_resources_init): Set
+	scale2x_allowed capability.
+
+	* video/renderscale2x.c, renderscale2x.h: New files rendering
+	the Scale2x algorithm.
+
+	* video/video-cmdline-options.c: Added cmdline options for
+	Scale2x.
+
+	* video/video-resources.c: Added video-chip specific resource
+	for Scale2x.
+
+	* video/video-render-pal.c, video/video-render.c: Use scale2x
+	renderer if rendermode is 2x2, PAL is disabled and Scale2x is
+	enabled.
+
+	* video.h: Added scale2x_allowed to video_chip_cap_s.
+
 2003-07-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.11.

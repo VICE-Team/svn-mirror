@@ -53,7 +53,7 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-UI_MENU_DEFINE_TOGGLE(UseXSync)
+UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(CrtcFullscreenDevice)
@@ -68,7 +68,10 @@ UI_MENU_DEFINE_RADIO(CrtcDGA1FullscreenMode);
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(CrtcDGA2FullscreenMode);
 #endif
+#endif
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_CrtcFullscreenDevice,
@@ -94,8 +97,8 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { "--" },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_CrtcScale2x, NULL, NULL },
 #ifdef USE_XF86_EXTENSIONS
     { "--" },
     { N_("*Enable fullscreen"),
@@ -124,6 +127,9 @@ ui_menu_entry_t crtc_submenu[] = {
     { "--" },
     { N_("*CRTC Screen color"),
       NULL, NULL, crtc_palette_submenu },
+    { "--" },
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 

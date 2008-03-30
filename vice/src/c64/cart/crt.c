@@ -43,6 +43,7 @@
 #include "kcs.h"
 #include "resources.h"
 #include "supergames.h"
+#include "supersnapshot.h"
 #include "types.h"
 #include "zaxxon.h"
 
@@ -178,6 +179,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_ZAXXON:
         rc = zaxxon_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        rc = supersnapshot_v5_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

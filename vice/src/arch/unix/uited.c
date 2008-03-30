@@ -49,8 +49,8 @@ ui_menu_entry_t set_video_standard_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
+UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(TEDFullscreenDevice)
@@ -65,7 +65,10 @@ UI_MENU_DEFINE_RADIO(TEDDGA1FullscreenMode);
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(TEDDGA2FullscreenMode);
 #endif
+#endif
+UI_MENU_DEFINE_TOGGLE(UseXSync)
 
+#ifdef USE_XF86_EXTENSIONS
 static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_VIDMODE_EXT
     { "*Vidmode", (ui_callback_t)radio_TEDFullscreenDevice,
@@ -91,8 +94,22 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
     { "--" },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
+    { N_("*External color set"),
+      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
+#if 0
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+#endif
+    { "--" },
+#if 0
+    { N_("*Fast PAL emulation"),
+      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+#endif
+    { N_("PAL Emulation"),
+      NULL, NULL, PALMode_submenu },
+    { "--" },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_TEDScale2x, NULL, NULL },
     { "--" },
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
@@ -119,18 +136,8 @@ ui_menu_entry_t ted_submenu[] = {
 #endif
     { "--" },
 #endif
-    { N_("*External color set"),
-      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
-    { "--" },
-    { N_("PAL Emulation"),
-      NULL, NULL, PALMode_submenu },
-#if 0
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("*Fast PAL emulation"),
-      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-#endif
+    { N_("*Use XSync()"),
+      (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
 };
 

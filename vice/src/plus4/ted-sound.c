@@ -85,7 +85,8 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     if (psid->digital) {
         for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = (SDWORD)(psid->volume *
-                (psid->voice[0].output_enabled + psid->voice[1].output_enabled));
+                                   (psid->voice[0].output_enabled
+                                   + psid->voice[1].output_enabled));
         }
     } else {
         for (i = 0; i < nr; i++) {
@@ -104,8 +105,11 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                     psid->voice[0].accu = 1023 - psid->voice[0].reload;
                     if (psid->voice[0].accu == 0) psid->voice[0].accu = 1024;
                     if (delay >= psid->voice[0].accu) {
-                        psid->voice[0].sign = ((delay / psid->voice[0].accu) & 1) ? psid->voice[0].sign ^ 1 : psid->voice[0].sign;
-                        psid->voice[0].accu = psid->voice[0].accu - (delay % psid->voice[0].accu);
+                        psid->voice[0].sign = ((delay / psid->voice[0].accu)
+                                              & 1) ? psid->voice[0].sign ^ 1
+                                              : psid->voice[0].sign;
+                        psid->voice[0].accu = psid->voice[0].accu
+                                              - (delay % psid->voice[0].accu);
                     } else {
                         psid->voice[0].accu -= delay; 
                     }
@@ -116,7 +120,8 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                 if (psid->voice[1].accu <= ticks) {
                     DWORD delay = ticks - psid->voice[1].accu;
                     psid->voice[1].sign ^= 1;
-                    psid->noise_shift_register = (psid->noise_shift_register << 1) +
+                    psid->noise_shift_register
+                        = (psid->noise_shift_register << 1) +
                         ( 1 ^ ((psid->noise_shift_register >> 7) & 1) ^
                         ((psid->noise_shift_register >> 5) & 1) ^
                         ((psid->noise_shift_register >> 4) & 1) ^
@@ -124,15 +129,20 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                     psid->voice[1].accu = 1023 - psid->voice[1].reload;
                     if (psid->voice[1].accu == 0) psid->voice[1].accu = 1024;
                     if (delay >= psid->voice[1].accu) {
-                        psid->voice[1].sign = ((delay / psid->voice[1].accu) & 1) ? psid->voice[1].sign ^ 1 : psid->voice[1].sign;
-                        for (j = 0; j < delay / psid->voice[1].accu; j++) {
-                            psid->noise_shift_register = (psid->noise_shift_register << 1) +
+                        psid->voice[1].sign = ((delay / psid->voice[1].accu)
+                                              & 1) ? psid->voice[1].sign ^ 1
+                                              : psid->voice[1].sign;
+                        for (j = 0; j < (int)(delay / psid->voice[1].accu);
+                            j++) {
+                            psid->noise_shift_register
+                                = (psid->noise_shift_register << 1) +
                                 ( 1 ^ ((psid->noise_shift_register >> 7) & 1) ^
                                 ((psid->noise_shift_register >> 5) & 1) ^
                                 ((psid->noise_shift_register >> 4) & 1) ^
                                 ((psid->noise_shift_register >> 1) & 1));
                         }
-                        psid->voice[1].accu = psid->voice[1].accu - (delay % psid->voice[1].accu);
+                        psid->voice[1].accu = psid->voice[1].accu
+                                              - (delay % psid->voice[1].accu);
                     } else {
                         psid->voice[1].accu -= delay; 
                     }
@@ -145,9 +155,14 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
             volume = 0;
 
-            if (psid->voice[0].output_enabled && psid->voice[0].sign) volume += psid->volume;
-            if (psid->voice[1].output_enabled && !psid->noise && psid->voice[1].sign ) volume += psid->volume;
-            if (psid->voice[1].output_enabled && psid->noise && (!(psid->noise_shift_register & 1))) volume += psid->volume;
+            if (psid->voice[0].output_enabled && psid->voice[0].sign)
+                volume += psid->volume;
+            if (psid->voice[1].output_enabled
+                && !psid->noise && psid->voice[1].sign)
+                volume += psid->volume;
+            if (psid->voice[1].output_enabled && psid->noise
+                && (!(psid->noise_shift_register & 1)))
+                volume += psid->volume;
 
             pbuf[i * interleave] = volume;
         }
