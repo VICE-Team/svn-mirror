@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 7 January 2006 -->
+     from ../vice.texi on 14 August 2006 -->
 
 <TITLE>VICE Manual - 12  Acknowledgments</TITLE>
 </HEAD>
@@ -25,28 +25,27 @@ The VICE core team:
 
 <LI>
 
-<B>Daniel Sladic</B> started the work on hardware-level 1541 emulation
-and wrote the new monitor introduced with VICE 0.15.
-
-<LI>
-
 <B>Andreas Boose</B> gave lots of
 information and bug reports about the VIC-II, the 6510 and the
 CIAs; moreover, he wrote several test-routines that were used
 to improve the emulation.  He also added cartridge support and
 has been the main head behind the drive and datasette emulation
 since version 0.15.  Also added several UI elements to the
-MSDOS and MS-Windows ports. He rewrote the C128 emulation
-adding Z80 mode, C64 mode and function ROM support.
+MSDOS, MS-Windows and Unix ports. He rewrote the C128 emulation
+adding Z80 mode, C64 mode and function ROM support, wrote the
+screenshot and the event system and started the plus4 emulator.
+Restructured the serial bus emulation and added realdrive and
+rawdrive support.
 
 <LI>
 
 <B>Dag Lem</B> implemented the reSID SID emulation
-engine.
+engine and video hardware scaling.
 
 <LI>
 
-<B>Tibor Biczo</B> improved the MS-Windows port.
+<B>Tibor Biczo</B> improved the MS-Windows port
+and plus4 emulation.
 
 <LI>
 
@@ -54,13 +53,12 @@ engine.
 
 <LI>
 
-<B>Thomas Bretz</B> responsible for the OS/2 port.
-
-<LI>
-
 <B>Andreas Matthies</B> improved the
 datasette support, the VIC20 video emulation and some ui stuff
-in the Win32 and MSDOS port. He also wrote the BeOS port.
+in the Win32 and MSDOS port. He also wrote the BeOS port and
+implemented video/audio capture support.
+Improved history recording/playback and implented support for
+video recording and netlink feature. Various bug(fixe)s. ;-)
 
 <LI>
 
@@ -70,6 +68,11 @@ Added support code for internationalization based on gettext
 Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
+<B>Spiro Trikaliotis</B> wrote the Win32
+console implementation for the built-in monitor, corrected some
+REU related bugs, added support for the TFE and RR-Net
+(cs8900a), and wrote some further patches.
+
 <LI>
 
 <B>Markus Brenner</B> added VDC emulation to x128
@@ -77,19 +80,21 @@ and added support for some more cartridges.
 
 <LI>
 
-<B>Spiro Trikaliotis</B> wrote the Win32
-console implementation for the built-in monitor and provided
-some further patches.
+<B>David Hansel</B> wrote the Star NL10 printer driver, implemented IEC
+devices and improved the tape emulation.
 
 <LI>
 
-<B>Marco van den Heuvel</B> Translated the UI to Dutch.
-Internationalization support for the Win32 port. Wrote the
-GEORAM and RamCart code. Wrote the c64 +60K and 256K
-expansions code. Made the ethernet support for the Msdos
-port. Maintains the QNX 6.x, Solaris and newly resurrected
-OS/2 binary ports. Added new .crt carts support. Added
-new screenshot formats. And lots of other fixes.
+<B>Marco van den Heuvel</B> Translated
+the UI to Dutch. Internationalization support for the Win32
+port. Wrote the GEORAM and RamCart cartridge code. Wrote the
+c64 +60K, +256K and 256K memory expansions code. Wrote the
+pet 128K memory expansion code. Wrote the plus4 256K csory
+and 256K, 1024K and 4096K hannes memory expansion code.
+Made the ethernet support for the Msdos port. Maintains the
+QNX 6.x, Solaris, GP2X, Minix 3.x, Amiga and newly
+resurrected OS/2 binary ports. Added new .crt support. Added new
+screenshot formats. And lots of other fixes and improvements.
 
 </UL>
 
@@ -102,6 +107,26 @@ Former team members:
 
 <LI>
 
+Copyright (C) 1999-2004
+<B>Thomas Bretz</B> started the OS/2 port.
+
+<LI>
+
+<B>Daniel Sladic</B>
+Copyright (C) 1997-2001
+Started the work on hardware-level 1541 emulation and wrote the new
+monitor introduced with VICE 0.15.
+
+<LI>
+
+<B>André Fachat</B>
+Copyright (C) 1996-2001
+Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
+the IEEE488 interface, implemented the IEC serial bus in `xvic'
+and made tons of bug fixes.
+
+<LI>
+
 <B>Ettore Perazzoli</B>
 Copyright (C) 1996-1999
 Made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
@@ -111,14 +136,6 @@ for X11, a general code reorganization, the new resource
 handling, most of the documentation.  He also wrote the MS-DOS
 port and the initial MS-Windows port (well, somebody had to do
 it).
-
-<LI>
-
-<B>André Fachat</B>
-Copyright (C) 1996-2001
-Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
-the IEEE488 interface, implemented the IEC serial bus in `xvic'
-and made tons of bug fixes.
 
 <LI>
 
@@ -193,10 +210,6 @@ NetBSD.
 
 <LI>
 
-<B>Mattias Engdegård</B> got non-default depths to work.
-
-<LI>
-
 <B>Peter Andrew Felvegi aka Petschy</B>
 fixed a couple of bugs in the fast serial emulation.
 
@@ -238,7 +251,8 @@ try of a SID emulation for SGI machines.
 <LI>
 
 <B>Ricardo Ferreira</B> contributed the
-<CODE>unlynx</CODE> and <CODE>system</CODE> commands in <CODE>c1541</CODE>.
+<CODE>unlynx</CODE> and <CODE>system</CODE> commands in <CODE>c1541</CODE> and added
+aRts sound support.
 
 <LI>
 
@@ -247,7 +261,7 @@ try of a SID emulation for SGI machines.
 <LI>
 
 <B>Richard Hable</B> contributed the initial version of the REU
-Emulation.
+emulation.
 
 <LI>
 
@@ -274,7 +288,7 @@ contributed miscellaneous patches in the old X64 times.
 
 <LI>
 
-<B>Per Olofsson</B> digitalized the C64 colors used in the default
+<B>Per Olofsson</B> digitalized the C64 colors used in the (old) default
 palette.
 
 <LI>
@@ -316,16 +330,28 @@ set support and 1351 mouse emulation for unix.
 
 <LI>
 
-<B>Eric</B> provided the french translation for the Unix ports.
+<B>Peter Karlsson</B> provided the swedish UI translations.
 
 <LI>
 
-<B>Andrea Musuruane</B> provided the italian translation for the Unix
-ports
+<B>Paul Dubé</B> provided the french translation for the Unix ports.
 
 <LI>
 
-<B>Michael Klein</B> contributed the ESD sound driver and some patches.
+<B>Nathan Huizinga</B> added support for Expert and Super Snapshot carts.
+
+<LI>
+
+<B>Andrea Musuruane</B> provided the italian UI translations.
+
+<LI>
+
+<B>Flooder</B> provided the polish translation for the Unix ports
+
+<LI>
+
+<B>Michael Klein</B> contributed the ESD sound driver, basic support for
+the OPENCBM library and some other patches.
 
 <LI>
 
@@ -342,7 +368,13 @@ the labels for the C64.
 
 <LI>
 
-<B>John Selck</B> wrote the fast PAL emulation.
+<B>Philip Timmermann</B> did a lot of research about the VIC-II colors.
+
+<LI>
+
+<B>John Selck</B> improved the video rendering and
+added the fast PAL emulation. Implemented new color generation
+based on P. Timmermanns knowledge.
 
 <LI>
 
@@ -350,7 +382,73 @@ the labels for the C64.
 
 <LI>
 
+<B>Robert Willie</B> added some additional
+commands to the fsdevice emulation.
+
+<LI>
+
+<B>Kajtar Zsolt</B> wrote the IDE64 interface
+emulation and did some small fixes.
+
+<LI>
+
 <B>ck!</B> provided a win32 cbm character font.
+
+<LI>
+
+<B>Fabrizio Gennari</B> added some improvements to the MSDOS port.
+
+<LI>
+
+<B>Dirk Jagdmann</B> wrote the Catweasel sound driver.
+
+<LI>
+
+<B>Maciej Witkowiak</B> did some IDE64 and C1541 fixes.
+
+<LI>
+
+<B>Roberto Muscedere</B> improved support for REL files.
+
+<LI>
+
+<B>Rami Rasanen</B> rewrote the VIC20 sound code.
+
+<LI>
+
+<B>iAN CooG</B> contributed various small patches.
+
+<LI>
+
+<B>Mike Dawson</B> provided the GP2X port and co-maintains the GP2X
+ports.
+
+<LI>
+
+<B>Mathias Roslund</B> provided the AmigaOS4 port and co-maintains the
+AmigaOS ports.
+
+<LI>
+
+<B>Eliseo Bianchi</B> provided the italian Amiga translations.
+
+<LI>
+
+<B>Johan Samuelsson</B> provided the swedish Amiga translations.
+
+<LI>
+
+<B>Harry Sintonen</B> provided lots of fixes and improvements for the Amiga ports.
+
+<LI>
+
+<B>Wolfgang Moser</B> provided small optimization fixes
+to the GCR code.
+
+<LI>
+
+<B>Christian Vogelgsang</B> resurrected the Mac
+OSX X11 port and added support for an Intel build.
 </UL>
 
 
@@ -365,9 +463,6 @@ the labels for the C64.
 <LI>
 
 <B>George Caswell</B>
-<LI>
-
-<B>Per Olofsson</B>
 <LI>
 
 <B>Jasper Phillips</B>
@@ -392,9 +487,6 @@ the labels for the C64.
 <LI>
 
 <B>Ferenc Veres</B>
-<LI>
-
-<B>Andrea Musuruane</B>
 <LI>
 
 <B>Frank Reichel</B>

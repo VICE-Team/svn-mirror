@@ -66,10 +66,10 @@ Copyright @copyright{} 1999-2006 Andreas Matthies
 Copyright @copyright{} 1999-2006 Martin Pottendorfer
 Copyright @copyright{} 2000-2006 Spiro Trikaliotis
 Copyright @copyright{} 2005-2006 Marco van den Heuvel
-Copyright @copyright{} 1999-2005 Thomas Bretz
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 
+Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 Copyright @copyright{} 1996-1999 André Fachat
@@ -97,7 +97,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.19 of VICE, the Versatile
+This is the documentation for version 1.20 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7333,36 +7333,36 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Daniel Sladic} started the work on hardware-level 1541 emulation
-and wrote the new monitor introduced with VICE 0.15.
-
-@item
 @b{Andreas Boose} gave lots of
 information and bug reports about the VIC-II, the 6510 and the
 CIAs; moreover, he wrote several test-routines that were used
 to improve the emulation.  He also added cartridge support and
 has been the main head behind the drive and datasette emulation
 since version 0.15.  Also added several UI elements to the
-MSDOS and MS-Windows ports. He rewrote the C128 emulation
-adding Z80 mode, C64 mode and function ROM support.
+MSDOS, MS-Windows and Unix ports. He rewrote the C128 emulation
+adding Z80 mode, C64 mode and function ROM support, wrote the
+screenshot and the event system and started the plus4 emulator.
+Restructured the serial bus emulation and added realdrive and
+rawdrive support.
 
 @item
 @b{Dag Lem} implemented the reSID SID emulation
-engine.
+engine and video hardware scaling.
 
 @item
-@b{Tibor Biczo} improved the MS-Windows port.
+@b{Tibor Biczo} improved the MS-Windows port
+and plus4 emulation.
 
 @item
 @b{Andreas Dehmel} wrote the Acorn RISC OS port.
 
 @item
-@b{Thomas Bretz} responsible for the OS/2 port.
-
-@item
 @b{Andreas Matthies} improved the
 datasette support, the VIC20 video emulation and some ui stuff
-in the Win32 and MSDOS port. He also wrote the BeOS port.
+in the Win32 and MSDOS port. He also wrote the BeOS port and
+implemented video/audio capture support.
+Improved history recording/playback and implented support for
+video recording and netlink feature. Various bug(fixe)s. ;-)
 
 @item
 @b{Martin Pottendorfer}
@@ -7371,29 +7371,53 @@ Added support code for internationalization based on gettext
 Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
+@b{Spiro Trikaliotis} wrote the Win32
+console implementation for the built-in monitor, corrected some
+REU related bugs, added support for the TFE and RR-Net
+(cs8900a), and wrote some further patches.
+
 @item
 @b{Markus Brenner} added VDC emulation to x128
 and added support for some more cartridges.
 
 @item
-@b{Spiro Trikaliotis} wrote the Win32
-console implementation for the built-in monitor and provided
-some further patches.
+@b{David Hansel} wrote the Star NL10 printer driver, implemented IEC
+devices and improved the tape emulation.
 
 @item
-@b{Marco van den Heuvel} Translated the UI to Dutch.
-Internationalization support for the Win32 port. Wrote the
-GEORAM and RamCart code. Wrote the c64 +60K and 256K
-expansions code. Made the ethernet support for the Msdos
-port. Maintains the QNX 6.x, Solaris and newly resurrected
-OS/2 binary ports. Added new .crt carts support. Added
-new screenshot formats. And lots of other fixes.
+@b{Marco van den Heuvel} Translated
+the UI to Dutch. Internationalization support for the Win32
+port. Wrote the GEORAM and RamCart cartridge code. Wrote the
+c64 +60K, +256K and 256K memory expansions code. Wrote the
+pet 128K memory expansion code. Wrote the plus4 256K csory
+and 256K, 1024K and 4096K hannes memory expansion code.
+Made the ethernet support for the Msdos port. Maintains the
+QNX 6.x, Solaris, GP2X, Minix 3.x, Amiga and newly
+resurrected OS/2 binary ports. Added new .crt support. Added new
+screenshot formats. And lots of other fixes and improvements.
 
 @end itemize
 
 Former team members:
 
 @itemize @bullet
+
+@item
+Copyright @copyright{} 1999-2004
+@b{Thomas Bretz} started the OS/2 port.
+
+@item
+@b{Daniel Sladic}
+Copyright @copyright{} 1997-2001
+Started the work on hardware-level 1541 emulation and wrote the new
+monitor introduced with VICE 0.15.
+
+@item
+@b{André Fachat}
+Copyright @copyright{} 1996-2001
+Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
+the IEEE488 interface, implemented the IEC serial bus in `xvic'
+and made tons of bug fixes.
 
 @item
 @b{Ettore Perazzoli}
@@ -7405,13 +7429,6 @@ for X11, a general code reorganization, the new resource
 handling, most of the documentation.  He also wrote the MS-DOS
 port and the initial MS-Windows port (well, somebody had to do
 it).
-
-@item
-@b{André Fachat}
-Copyright @copyright{} 1996-2001
-Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
-the IEEE488 interface, implemented the IEC serial bus in `xvic'
-and made tons of bug fixes.
 
 @item
 @b{Teemu Rantanen}
@@ -7472,9 +7489,6 @@ helped proofreading the documentation.
 NetBSD.
 
 @item
-@b{Mattias Engdegård} got non-default depths to work.
-
-@item
 @b{Peter Andrew Felvegi aka Petschy}
 fixed a couple of bugs in the fast serial emulation.
 
@@ -7507,14 +7521,15 @@ try of a SID emulation for SGI machines.
 
 @item
 @b{Ricardo Ferreira} contributed the
-@code{unlynx} and @code{system} commands in @code{c1541}.
+@code{unlynx} and @code{system} commands in @code{c1541} and added
+aRts sound support.
 
 @item
 @b{Tomi Ollila} donated @code{findpath.c}.
 
 @item
 @b{Richard Hable} contributed the initial version of the REU
-Emulation.
+emulation.
 
 @item
 @b{Vesa-Matti Puro} wrote the very first 6502 CPU
@@ -7535,7 +7550,7 @@ emulation.
 contributed miscellaneous patches in the old X64 times.
 
 @item
-@b{Per Olofsson} digitalized the C64 colors used in the default
+@b{Per Olofsson} digitalized the C64 colors used in the (old) default
 palette.
 
 @item
@@ -7568,14 +7583,23 @@ set support and 1351 mouse emulation for unix.
 @b{Manfred Spraul} wrote the MS-Windows text lister.
 
 @item
-@b{Eric} provided the french translation for the Unix ports.
+@b{Peter Karlsson} provided the swedish UI translations.
 
 @item
-@b{Andrea Musuruane} provided the italian translation for the Unix
-ports
+@b{Paul Dubé} provided the french translation for the Unix ports.
 
 @item
-@b{Michael Klein} contributed the ESD sound driver and some patches.
+@b{Nathan Huizinga} added support for Expert and Super Snapshot carts.
+
+@item
+@b{Andrea Musuruane} provided the italian UI translations.
+
+@item
+@b{Flooder} provided the polish translation for the Unix ports
+
+@item
+@b{Michael Klein} contributed the ESD sound driver, basic support for
+the OPENCBM library and some other patches.
 
 @item
 @b{David Holz} provided a label file which gives the built-in monitor
@@ -7588,13 +7612,69 @@ the labels for the C64.
 @b{Frank König} contributed the Win32 joystick autofire feature.
 
 @item
-@b{John Selck} wrote the fast PAL emulation.
+@b{Philip Timmermann} did a lot of research about the VIC-II colors.
+
+@item
+@b{John Selck} improved the video rendering and
+added the fast PAL emulation. Implemented new color generation
+based on P. Timmermanns knowledge.
 
 @item
 @b{webulator} provided win32 drag & drop support
 
 @item
+@b{Robert Willie} added some additional
+commands to the fsdevice emulation.
+
+@item
+@b{Kajtar Zsolt} wrote the IDE64 interface
+emulation and did some small fixes.
+
+@item
 @b{ck!} provided a win32 cbm character font.
+
+@item
+@b{Fabrizio Gennari} added some improvements to the MSDOS port.
+
+@item
+@b{Dirk Jagdmann} wrote the Catweasel sound driver.
+
+@item
+@b{Maciej Witkowiak} did some IDE64 and C1541 fixes.
+
+@item
+@b{Roberto Muscedere} improved support for REL files.
+
+@item
+@b{Rami Rasanen} rewrote the VIC20 sound code.
+
+@item
+@b{iAN CooG} contributed various small patches.
+
+@item
+@b{Mike Dawson} provided the GP2X port and co-maintains the GP2X
+ports.
+
+@item
+@b{Mathias Roslund} provided the AmigaOS4 port and co-maintains the
+AmigaOS ports.
+
+@item
+@b{Eliseo Bianchi} provided the italian Amiga translations.
+
+@item
+@b{Johan Samuelsson} provided the swedish Amiga translations.
+
+@item
+@b{Harry Sintonen} provided lots of fixes and improvements for the Amiga ports.
+
+@item
+@b{Wolfgang Moser} provided small optimization fixes
+to the GCR code.
+
+@item
+@b{Christian Vogelgsang} resurrected the Mac
+OSX X11 port and added support for an Intel build.
 @end itemize
 
 @itemize @bullet
@@ -7605,8 +7685,6 @@ the labels for the C64.
 @b{Ralph Mason}
 @item
 @b{George Caswell}
-@item
-@b{Per Olofsson}
 @item
 @b{Jasper Phillips}
 @item
@@ -7623,8 +7701,6 @@ the labels for the C64.
 @b{Douglas Carmichael}
 @item
 @b{Ferenc Veres}
-@item
-@b{Andrea Musuruane}
 @item
 @b{Frank Reichel}
 @item
@@ -7659,12 +7735,12 @@ Copyright @copyright{} 2000-2006 Spiro Trikaliotis
 @item
 Copyright @copyright{} 2005-2006 Marco van den Heuvel
 @item
-Copyright @copyright{} 1999-2005 Thomas Bretz
-@item
 Copyright @copyright{} 2003-2005 David Hansel
 @item
 Copyright @copyright{} 2000-2004 Markus Brenner
 
+@item
+Copyright @copyright{} 1999-2004 Thomas Bretz
 @item
 Copyright @copyright{} 1997-2001 Daniel Sladic
 @item
