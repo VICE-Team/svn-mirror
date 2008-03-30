@@ -1989,7 +1989,8 @@ static int zcreate_cmd(int nargs, char **args)
         for (count = 0; 
              count < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
              count++) {
-            if (zipcode_read_sector(fsfd, track, &sector, sector_data) != 0) {
+            if (zipcode_read_sector(fsfd, track, &sector,
+                (char *)sector_data) != 0) {
                 fclose(fsfd);
                 return FD_BADIMAGE;
             }

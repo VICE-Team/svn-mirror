@@ -354,7 +354,8 @@ static char *replace_hexcodes(char *s)
         if (p1 != NULL) {
             char *new_p;
 
-            new_p = hexstring_to_byte(p1 + 1, new_s + dest_len + (p1 - p));
+            new_p = hexstring_to_byte(p1 + 1,
+                                      (BYTE *)(new_s + dest_len + (p1 - p)));
             if (p1 != p) {
                 memcpy (new_s + dest_len, p, p1 - p);
                 dest_len += p1 - p;

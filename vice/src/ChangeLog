@@ -1,5 +1,58 @@
 1999-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.49.
+
+	* vic20/vic.h: Removed comma at end of enumeration.
+
+	* vicii/vicii.h: Enumeration has to be called
+	`_vic_ii_video_mode'.
+	* vdc/vdc.h: Changed likewise.
+
+	* vicii/vicii-mem.c: Added some missing casts.
+
+	* vdc/vdc-draw.c: Removed single CR at end of lines.
+
+	* crtc/crtc-snapshot.c (crtc_read_snapshot_module): Removed unused
+	variables.
+
+	* crtc/crtc.h (crtc_enable_hw_screen_blank): Added prototype.
+
+	* pet/petmem.c (set_eoiblank_enabled): Return 0.
+
+	* arch/unix/xaw/ui.c: Removed stray `;'.
+
+	* arch/unix/xaw/uicommands.c (ui_update_flip_menus): Initialize
+	variables.  Added missing casts.
+
+	* autostart.c, main.c, c1541.c: Added missing casts.
+
+1999-07-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: add info about dual disk drives.
+	Add IeeeFS docs
+
+	* arch/unix/xaw/uisettings.c (IeeeFS, peripheral_settings_submenu):
+	new entry to enable/disable use of IEEE488 filesystem engine
+
+	* c128/c128.c, c64/c64.c, cbm2/c610.c, pet/pet.c
+	(machine_init_resources, machine_init_cmdline_options):
+	add calls to parallel_init_*()
+
+	* c64/c64iec.c (iec_available_busses): return IEEE488 only if
+	IEEE488 interface is enabled
+
+	* drive/fdc.c (fdc_t): add last_wps variable.
+	(int_fdc): check write protect switch and "send" to IPC
+
+	* parallel.c (set_paremu_enabled, resources, parallel_init_resources,
+	cmdline_options, parallel_init_cmdline_options): new stuff
+	to make "parallel_emu" a resource.
+
+	* parallel.h (parallel_init_resources, parallel_init_cmdline_options):
+	new prototypes
+
+1999-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.48.
 
 	* diskimage.c (disk_image_check_for_x64): New function.

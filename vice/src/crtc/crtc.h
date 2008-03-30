@@ -200,6 +200,7 @@ void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
                                                                 int vrevmask);
 void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
 void crtc_set_retrace_type(int type);
+void crtc_enable_hw_screen_blank(int enable);
 
 void crtc_screen_enable(int);
 

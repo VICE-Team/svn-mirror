@@ -432,6 +432,8 @@ static int set_eoiblank_enabled(resource_value_t v)
     petres.eoiblank = i;
 
     crtc_enable_hw_screen_blank(petres.eoiblank);
+
+    return 0;
 }
 
 /* Enable/disable the Emulator ID.  */

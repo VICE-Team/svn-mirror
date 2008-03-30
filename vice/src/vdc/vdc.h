@@ -82,7 +82,7 @@ enum _vdc_video_mode
     VDC_IDLE_MODE,
     VDC_NUM_VMODES
   };
-typedef enum vdc_video_mode vdc_video_mode_t;
+typedef enum _vdc_video_mode vdc_video_mode_t;
 
 #define VDC_IS_ILLEGAL_MODE(x)	((x) >= VDC_ILLEGAL_TEXT_MODE \
 					 && (x) != VDC_IDLE_MODE)

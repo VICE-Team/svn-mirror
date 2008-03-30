@@ -456,7 +456,7 @@ int autostart_prg(const char *file_name)
     p00_type = p00_check_name(file_name);
     if (p00_type >= 0) {
         if (p00_type == FT_PRG
-            && p00_read_header(f, p00_header_file_name, NULL) != 0)
+            && p00_read_header(f, (BYTE *)p00_header_file_name, NULL) != 0)
             p00_type = -1;
         else if (p00_type != FT_PRG) {
             fclose(f);

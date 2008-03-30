@@ -504,7 +504,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
     char *filename;
 
     if (data) {
-	log_debug("Quickloading file %s\n",data);
+        log_debug("Quickloading file %s.", (char *)data);
 	filename = data;
     } else {
         filename = ui_select_file("Load snapshot", NULL, False, NULL,
@@ -543,7 +543,7 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *data)
 {
     if (data) {
 	/* quick snapshot, save ROMs & disks (??) */
-	log_debug("Quicksaving file %s\n",data);
+        log_debug("Quicksaving file %s.", (char *)data);
 	if (machine_write_snapshot(data, 1, 1) < 0) {
             ui_error("Cannot write snapshot file\n`%s'\n", data);
 	}
@@ -630,7 +630,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     static ui_menu_entry_t flipmenu[NUM_DRIVES][256]; 
     static struct cb_data_t cb_data[NUM_DRIVES][sizeof(cbd_enum_t)];
     
-    char *image = NULL, *t0, *t1, *t2, *t3, *t4, *dir;
+    char *image = NULL, *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+    char *t4 = NULL, *dir;
     void *fl_iterator;
     int i, drive, true_emu;
 

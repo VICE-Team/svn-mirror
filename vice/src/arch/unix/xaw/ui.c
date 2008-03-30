@@ -135,7 +135,7 @@ _ui_resources_t _ui_resources;
 
 #ifdef USE_VIDMODE_EXTENSION
 
-UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
+UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode)
 
 static void mouse_timeout(int signo)
 {
