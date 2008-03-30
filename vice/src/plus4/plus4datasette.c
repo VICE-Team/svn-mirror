@@ -26,12 +26,15 @@
 
 #include "vice.h"
 
+#include "plus4mem.h"
 
-void datasette_trigger_flux_change(void)
+void datasette_trigger_flux_change(unsigned int on)
 {
+    mem_proc_port_trigger_flux_change(on);
 }
 
 void datasette_set_tape_sense(int sense)
 {
+    pio1_set_tape_sense(sense);
 }
 

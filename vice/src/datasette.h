@@ -63,7 +63,7 @@ extern void datasette_reset(void);
 extern void datasette_reset_counter(void);
 
 /* Emulator specific functions.  */
-extern void datasette_trigger_flux_change(void);
+extern void datasette_trigger_flux_change(unsigned int on);
 extern void datasette_set_tape_sense(int sense);
 
 /* For registering the resources.  */
