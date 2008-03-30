@@ -90,7 +90,15 @@ SOURCE="..\..\c64\c64-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\c64-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
@@ -123,6 +131,14 @@ SOURCE=..\..\c64\c64memlimit.c
 # Begin Source File
 
 SOURCE=..\..\c64\c64tpi.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64pla.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64rsuser.c
 # End Source File
 # Begin Source File
 

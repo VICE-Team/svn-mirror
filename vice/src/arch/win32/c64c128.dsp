@@ -94,6 +94,14 @@ SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64pla.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64-snapshot.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\patchrom.c
 # End Source File
 # Begin Source File

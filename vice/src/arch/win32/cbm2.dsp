@@ -90,6 +90,10 @@ SOURCE="..\..\cbm2\c610-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\cbm2\c610-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\c610.c
 # End Source File
 # Begin Source File

@@ -90,6 +90,10 @@ SOURCE="..\..\pet\pet-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\pet\pet-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\pet.c
 # End Source File
 # Begin Source File

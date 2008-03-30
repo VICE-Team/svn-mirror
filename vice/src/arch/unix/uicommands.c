@@ -55,6 +55,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uisnapshot.h"
+#include "uidrive.h"
 #include "utils.h"
 #include "vsync.h"
 #ifdef USE_XF86_EXTENSIONS

@@ -245,18 +245,6 @@ SOURCE=..\..\utils.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\video-color.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\video-render.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\video-resources.c"
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\vsync.c
 # End Source File
 # Begin Source File

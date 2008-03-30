@@ -321,6 +321,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "video"=".\video.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "x128"=".\x128.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -367,6 +379,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor
@@ -418,6 +433,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor
@@ -474,6 +492,9 @@ Package=<4>
     Project_Dep_Name vdrive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name monitor
     End Project Dependency
 }}}
@@ -516,6 +537,9 @@ Package=<4>
     Project_Dep_Name vdrive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name monitor
     End Project Dependency
 }}}
@@ -555,6 +579,9 @@ Package=<4>
     Project_Dep_Name vdrive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name monitor
     End Project Dependency
 }}}
@@ -592,6 +619,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor

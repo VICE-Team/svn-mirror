@@ -118,7 +118,6 @@ int fullscreen_mode_off (void);
 static void fullscreen_dispatch_events(void);
 static void fullscreen_dispatch_events_2(void);
 
-
 /* ---------------------------------------------------------------------- */
 #ifdef FS_DEBUG
 void dump_fb(char *wo);
@@ -202,8 +201,8 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
 		 src_x,  fb_ybegin_static + src_y,
 		 width, height, 
 		 dest_x, fb_ybegin[fb_current_page] + dest_y);
-/*
     XDGASync(display, screen);
+/*
     f->tmpframebuffer = fb_page[fb_current_page]; 
 */
 
@@ -289,7 +288,7 @@ int fullscreen_vidmode_available(void)
 	    (fs_allmodes_dga2[i].flags & XDGABlitRect)
 	    )
 	{
-	    log_message(LOG_DEFAULT, _("Found mode \"c64\" for fullscreen."));
+	    log_message(LOG_DEFAULT, _("Found suitable mode for fullscreen."));
 	    for (j = 0; j < fs_bestmode_counter; j++) 
 	    {
 		if ( (fs_allmodes_dga2[fs_bestmodes[j].modeindex].viewportWidth == fs_allmodes_dga2[i].viewportWidth) &&
@@ -346,8 +345,12 @@ void fullscreen_set_framebuffer(video_frame_buffer_t *fb)
     fs_cached_fb = fb;
     fs_fb_data = fb->tmpframebuffer;
     fs_fb_bpl = fb->tmpframebufferlinesize;
-    fs_canvas_width = fb->x_image->width;
-    fs_canvas_height = fb->x_image->height;
+}
+
+void fullscreen_resize(int w, int h)
+{
+    fs_canvas_width = w;
+    fs_canvas_height = h;
 }
 
 static PIXEL fs_cached_pixel_values[0x100]; /* from raster_s */
@@ -445,6 +448,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    fb_offs[i] = i * offs;
 	    fb_ybegin[i] = i * fs_height;
 	    fb_page[i] = fb_addr + fb_offs[i];
+	    
 #ifdef FS_DEBUG	    
 	    log_message(LOG_DEFAULT, "DGA: page: %p, offs %d, ybegin: %d", 
 			fb_page[i], fb_offs[i], fb_ybegin[i]);
@@ -556,7 +560,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			       fs_canvas_height);
 	raster_rebuild_tables(fs_cached_raster);
 	raster_force_repaint(fs_cached_raster);
-	
+
       nodga:
 	XDGASetMode(display, screen, 0);
 	XDGACloseFramebuffer(display, screen);
@@ -635,7 +639,9 @@ int fullscreen_mode_off(void)
 
 void fullscreen_mode_on_restore(void)
 {
+#ifdef FS_DEBUG
     printf("fs-on_restore: %d\n", fullscreen_is_enabled_restore);
+#endif
     if (fullscreen_is_enabled_restore)
 	fullscreen_is_enabled_restore = 
 	    fullscreen_request_set_mode((resource_value_t) 1, (void*)1);
