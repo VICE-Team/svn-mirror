@@ -34,6 +34,7 @@
 #include "render1x1pal.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
+#include "renderscale2x.h"
 #include "types.h"
 #include "video-render-pal.h"
 #include "video-resources.h"
@@ -45,11 +46,12 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                            int yt, int pitchs, int pitcht, int depth)
 {
     DWORD *colortab;
-    int doublescan, delayloop, rendermode, palmode;
+    int doublescan, delayloop, rendermode, palmode, scale2x;
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;
     colortab = config->physical_colors;
+    scale2x = config->scale2x;
 
     delayloop = video_resources.delayloop_emulation;
 
@@ -184,6 +186,25 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                                       doublescan);
                     return;
                 }
+                return;
+            }
+        } else if (scale2x) {
+            switch (depth) {
+              case 8:
+                render_08_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 16:
+                render_16_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 24:
+                render_24_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 32:
+                render_32_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
                 return;
             }
         } else {

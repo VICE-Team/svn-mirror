@@ -34,6 +34,7 @@
 #include "render1x2.h"
 #include "render2x2.h"
 #include "render2x2pal.h"
+#include "renderscale2x.h"
 #include "renderyuv.h"
 #include "types.h"
 #include "video-render-pal.h"
@@ -89,7 +90,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                        int pitchs, int pitcht, int depth)
 {
     DWORD *colortab;
-    int doublescan, rendermode;
+    int doublescan, rendermode, scale2x;
 
 #if 0
 printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
@@ -102,6 +103,7 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
     rendermode = config->rendermode;
     doublescan = config->doublescan;
     colortab = config->physical_colors;
+    scale2x = config->scale2x;
 
     switch (rendermode) {
       case VIDEO_RENDER_NULL:
@@ -156,23 +158,44 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
         return;
 
       case VIDEO_RENDER_RGB_2X2:
-        switch (depth) {
-          case 8:
-            render_08_2x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 16:
-            render_16_2x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 24:
-            render_24_2x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 32:
-            render_32_2x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
+          if (scale2x) {
+            switch (depth) {
+              case 8:
+                render_08_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 16:
+                render_16_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 24:
+                render_24_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+              case 32:
+                render_32_scale2x(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht);
+                return;
+            }
+        } else {
+            switch (depth) {
+              case 8:
+                render_08_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 16:
+                render_16_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 24:
+                render_24_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 32:
+                render_32_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+            }
         }
         return;
     }

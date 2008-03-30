@@ -97,6 +97,7 @@ struct video_chip_cap_s {
     unsigned int dsize_limit_width;
     unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
+    unsigned int scale2x_allowed;
     cap_render_t single_mode;
     cap_render_t double_mode;
     cap_fullscreen_t fullscreen;
@@ -109,6 +110,7 @@ struct video_render_config_s {
     int doublesizex;            /* Doublesizex enabled?  */
     int doublesizey;            /* Doublesizey enabled?  */
     int doublescan;             /* Doublescan enabled?  */
+    int scale2x;                /* Scale2x enabled?  */
     DWORD physical_colors[256];
 };
 typedef struct video_render_config_s video_render_config_t;

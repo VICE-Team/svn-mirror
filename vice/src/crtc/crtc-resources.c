@@ -68,6 +68,7 @@ int crtc_resources_init(void)
     video_chip_cap.dsize_limit_width = 400;
     video_chip_cap.dsize_limit_height = 350;
     video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
+    video_chip_cap.scale2x_allowed = ARCHDEP_CRTC_DSIZE;
     video_chip_cap.single_mode.sizex = 1;
     video_chip_cap.single_mode.sizey = 1;
     video_chip_cap.single_mode.rmode = VIDEO_RENDER_RGB_1X1;

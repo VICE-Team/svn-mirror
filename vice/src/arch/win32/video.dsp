@@ -102,6 +102,10 @@ SOURCE="..\..\video\render2x2pal.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\renderscale2x.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\renderyuv.c"
 # End Source File
 # Begin Source File
