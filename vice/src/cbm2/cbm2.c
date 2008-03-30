@@ -37,6 +37,7 @@
 #include "cbm2.h"
 #include "cbm2acia.h"
 #include "cbm2cia.h"
+#include "cbm2iec.h"
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
@@ -317,7 +318,7 @@ int machine_init(void)
     /* Initialize the CBM-II-specific part of the UI.  */
     cbm2_ui_init();
 
-    iec_init();
+    cbm2iec_init();
 
     return 0;
 }

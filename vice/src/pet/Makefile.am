@@ -21,6 +21,7 @@ libpet_a_SOURCES = \
 	petacia1.c \
 	petdatasette.c \
 	petiec.c \
+	petiec.h \
 	petmem.c \
 	petmem.h \
 	petpia.h \

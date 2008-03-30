@@ -1,9 +1,7 @@
 /*
- * vic20.c - IEC bus handling for the VIC20.
+ * petiec.h - IEC bus handling.
  *
  * Written by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -26,23 +24,10 @@
  *
  */
 
-#ifndef _VIC20IEC_H
-#define _VIC20IEC_H
+#ifndef _PETIEC_H
+#define _PETIEC_H
 
-#include "types.h"
-
-struct iec_info_s;
-
-extern void vic20iec_init(void);
-extern BYTE iec_pa_read(void);
-extern void iec_pa_write(BYTE data);
-extern void iec_pcr_write(BYTE data);
-
-/* These are dummies.  */
-extern void parallel_cable_cpu_write(BYTE data, int handshake);
-extern BYTE parallel_cable_cpu_read(void);
-
-extern struct iec_info_s *iec_get_drive_port(void);
+extern void petiec_init(void);
 
 #endif
 

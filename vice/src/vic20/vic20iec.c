@@ -49,7 +49,7 @@ static BYTE bus_data, bus_clock, bus_atn;
 static BYTE cpu_bus_val;
 static BYTE drive_bus_val, drive2_bus_val;
 
-void iec_init(void)
+void vic20iec_init(void)
 {
     cpu_clock = 1;
 }

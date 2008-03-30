@@ -55,6 +55,7 @@
 #include "plus4-snapshot.h"
 #include "plus4.h"
 #include "plus4acia.h"
+#include "plus4iec.h"
 #include "plus4mem.h"
 #include "plus4ui.h"
 #include "printer.h"
@@ -351,7 +352,7 @@ int machine_init(void)
 
     plus4_ui_init();
 
-    iec_init();
+    plus4iec_init();
 
     return 0;
 }

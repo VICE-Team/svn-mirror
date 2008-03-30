@@ -32,9 +32,10 @@
 #include "drive.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "petiec.h"
 #include "types.h"
 
-void iec_init(void)
+void petiec_init(void)
 {
 
 }

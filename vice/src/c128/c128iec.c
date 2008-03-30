@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c128iec.h"
 #include "c64cia.h"
 #include "c64iec.h"
 #include "ciad.h"
@@ -51,7 +52,7 @@ static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
 
-void iec_init(void)
+void c128iec_init(void)
 {
     memset(&iec_info, 0xff, sizeof(iec_info_t));
     iec_info.drive_port = 0x85;

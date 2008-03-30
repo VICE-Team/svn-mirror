@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+extern void plus4iec_init(void);
 extern void iec_cpu_write(BYTE data);
 extern void iec_cpu_write_conf0(BYTE data);
 extern void iec_cpu_write_conf1(BYTE data);

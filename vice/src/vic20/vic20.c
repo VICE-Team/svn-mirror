@@ -69,6 +69,7 @@
 #include "vic20-resources.h"
 #include "vic20-snapshot.h"
 #include "vic20.h"
+#include "vic20iec.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
@@ -346,7 +347,7 @@ int machine_init(void)
     /* Initialize the VIC20-specific part of the UI.  */
     vic20_ui_init();
 
-    iec_init();
+    vic20iec_init();
 
     return 0;
 }

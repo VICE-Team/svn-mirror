@@ -60,6 +60,7 @@
 #include "pet-resources.h"
 #include "pet-snapshot.h"
 #include "pet.h"
+#include "petiec.h"
 #include "petmem.h"
 #include "pets.h"
 #include "petsound.h"
@@ -313,7 +314,7 @@ int machine_init(void)
     /* Initialize the PET-specific part of the UI.  */
     pet_ui_init();
 
-    iec_init();
+    petiec_init();
 
     return 0;
 }

@@ -40,6 +40,7 @@
 #include "c128-resources.h"
 #include "c128-snapshot.h"
 #include "c128.h"
+#include "c128iec.h"
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c128ui.h"
@@ -474,7 +475,7 @@ int machine_init(void)
     mouse_init();
 #endif
 
-    iec_init();
+    c128iec_init();
 
     cartridge_init();
 

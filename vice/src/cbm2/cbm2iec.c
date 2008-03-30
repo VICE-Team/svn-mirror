@@ -29,11 +29,12 @@
 
 #include <stdio.h>
 
+#include "cbm2iec.h"
 #include "drive.h"
 #include "iecdrive.h"
 #include "types.h"
 
-void iec_init(void)
+void cbm2iec_init(void)
 {
 
 }
