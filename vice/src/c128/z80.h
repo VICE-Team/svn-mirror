@@ -27,10 +27,13 @@
 #ifndef _Z80_H
 #define _Z80_H
 
+#include "alarm.h"
+#include "interrupt.h"
 #include "types.h"
 
 extern void z80_reset(void);
-extern void z80_mainloop(void);
+extern void z80_mainloop(cpu_int_status_t *cpu_int_status,
+                         alarm_context_t *cpu_alarm_context);
 extern void z80_trigger_dma(void);
 
 #endif
