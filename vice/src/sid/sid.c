@@ -55,6 +55,14 @@ static int useresid;
 
 #include "fixpoint.h"
 
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
