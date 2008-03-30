@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <tchar.h>
 #include <commdlg.h>
 
 #include "drive.h"
@@ -40,6 +41,7 @@
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -81,14 +83,18 @@ static UINT APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, 
 
 static char *ui_save_as_console(const char *title, const char *filter, HWND hwnd)
 {
-    char name[MAXPATHLEN + 1] = "";
+    TCHAR name[MAXPATHLEN + 1] = TEXT("");
     OPENFILENAME ofn;
+    char *ret = NULL;
+    TCHAR *st_filter;
+
+    st_filter = system_mbstowcs_alloc(filter);
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
     ofn.hInstance = winmain_instance;
-    ofn.lpstrFilter = filter;
+    ofn.lpstrFilter = st_filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
     ofn.nFilterIndex = 1;
@@ -112,11 +118,12 @@ static char *ui_save_as_console(const char *title, const char *filter, HWND hwnd
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
 
-    if (GetSaveFileName(&ofn)) {
-        return lib_stralloc(name);
-    } else {
-        return NULL;
-    }
+    if (GetSaveFileName(&ofn))
+        ret = system_wcstombs_alloc(name);
+
+    system_mbstowcs_free(st_filter);
+
+    return ret;
 }
 
 

@@ -229,7 +229,7 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     == BST_CHECKED ? 1 : 0 ));
                 GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
                                st_name, MAX_PATH);
-                system_mbstowcs(name, st_name, MAX_PATH);
+                system_wcstombs(name, st_name, MAX_PATH);
                 resources_set_value("InternalFunctionName",
                                     (resource_value_t)name);
 
@@ -239,7 +239,7 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     == BST_CHECKED ? 1 : 0 ));
                 GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
                                st_name, MAX_PATH);
-                system_mbstowcs(name, st_name, MAX_PATH);
+                system_wcstombs(name, st_name, MAX_PATH);
                 resources_set_value("ExternalFunctionName",
                                     (resource_value_t)name);
                 return TRUE;
