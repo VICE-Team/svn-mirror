@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.6.34)
+AM_INIT_AUTOMAKE(vice, 1.6.35)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -1002,6 +1002,7 @@ if false ; then
     mkdir -p drive
     mkdir -p monitor
     mkdir -p pet
+    mkdir -p printerdrv
     mkdir -p resid
     mkdir -p screendrv
     mkdir -p sid
@@ -1032,6 +1033,7 @@ AC_OUTPUT([Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
+           data/PRINTER/Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
            doc/Makefile
@@ -1064,6 +1066,7 @@ AC_OUTPUT([Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/screendrv/Makefile
+           src/printerdrv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/vdc/Makefile
