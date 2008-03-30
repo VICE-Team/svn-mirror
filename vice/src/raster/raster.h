@@ -300,7 +300,7 @@ extern void raster_set_pixel_size (raster_t *raster, unsigned int width,
                                    unsigned int height);
 extern void raster_emulate_line (raster_t *raster);
 extern void raster_force_repaint (raster_t *raster);
-extern void raster_set_palette (raster_t *raster, struct palette_s *palette);
+extern int raster_set_palette (raster_t *raster, struct palette_s *palette);
 extern void raster_set_title (raster_t *raster, const char *title);
 extern void raster_skip_frame (raster_t *raster, int skip);
 extern void raster_enable_cache (raster_t *raster, int enable);
