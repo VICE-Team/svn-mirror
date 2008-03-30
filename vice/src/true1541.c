@@ -537,7 +537,7 @@ static void write_track_gcr(int track)
     return;
     }
 
-#ifdef 0  /* We do not support writing different speeds yet.  */
+#if 0  /* We do not support writing different speeds yet.  */
     for (i = 0; i < (NUM_MAX_BYTES_TRACK / 4); i++)
     zone_len = (GCR_track_size[track - 1] + 3) / 4;
     zone_data = GCR_speed_zone + (track - 1) * NUM_MAX_BYTES_TRACK;
@@ -709,6 +709,10 @@ int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
     /* Make sure the sync factor is acknowledged correctly.  */
     set_sync_factor((resource_value_t) sync_factor);
 
+    /* Make sure the traps are moved as needed.  */
+    if (true1541_enabled)
+	true1541_enable();
+    
     return 0;
 }
 

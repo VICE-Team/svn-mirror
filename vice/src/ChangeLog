@@ -1,3 +1,21 @@
+Tue May 12 15:16:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.22.
+
+	* true1541.c (true1541_init):  If `true1541_enabled' is nonzero,
+	call `true1541_enable()'.
+
+	* palette.c (palette_free): Do not free entry names if NULL.  Do
+	not free entries if NULL.
+
+	* true1541.c: Replaced `#ifdef 0' with `#if 0'.
+	* fsdevice.c: Likewise.
+
+Tue May 12 02:17:17 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* mon_cli.y (rest_of_line): Removed rule that caused
+        shift/reduce conflicts.
+
 Mon May 11 22:14:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.21.
@@ -34,9 +52,6 @@ Mon May 11 10:28:27 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	"xbar"'.
 
 Mon May 11 03:38:24 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
-
-	* doc/mon.txt: Updated the documentation. About 75% of the
-	commands are now listed.
 
 	* asm.c: #if'ed out 90% of the file which is no longer used.
 
