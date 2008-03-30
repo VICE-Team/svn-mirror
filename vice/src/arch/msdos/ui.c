@@ -2,7 +2,7 @@
  * ui.c - A (very) simple user interface for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,15 +26,15 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <fcntl.h>
 #include <go32.h>
 #include <io.h>
 #include <math.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <sys/movedata.h>
 #include <unistd.h>
-
-#include "ui.h"
 
 #include "cmdline.h"
 #include "dos.h"
@@ -45,11 +45,14 @@
 #include "resources.h"
 #include "sound.h"
 #include "tui.h"
+#include "tui_backend.h"
 #include "tuicharset.h"
 #include "tuimenu.h"
 #include "types.h"
+#include "ui.h"
 #include "utils.h"
 #include "video.h"
+#include "vsync.h"
 
 /* Status of keyboard LEDs.  */
 static int real_kbd_led_status = -1;

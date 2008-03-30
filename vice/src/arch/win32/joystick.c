@@ -2,8 +2,8 @@
  * joystick.c - Joystick support for Windows.
  *
  * Written by
- *  Tibor Biczo         (crown@mail.matav.hu)
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Tibor Biczo <crown@mail.matav.hu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

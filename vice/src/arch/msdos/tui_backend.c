@@ -2,7 +2,7 @@
  * tui_backend.c - MS-DOS backend for the text-based user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,6 +40,7 @@
 #include <allegro.h>
 
 #include "tui.h"
+#include "tui_backend.h"
 #include "utils.h"
 
 typedef BYTE attr_t;

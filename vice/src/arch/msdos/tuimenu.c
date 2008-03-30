@@ -2,7 +2,7 @@
  * tuimenu.c - A (very) simple text-based menu.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,6 +35,7 @@
 
 #include "log.h"
 #include "tui.h"
+#include "tui_backend.h"
 #include "tuimenu.h"
 #include "utils.h"
 

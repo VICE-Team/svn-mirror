@@ -2,7 +2,7 @@
  * tuiimagebrowser.c - Explore disk/tape image contents.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,12 +26,14 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <pc.h>
 #include <keys.h>
 
 #include "cbmcharsets.h"
 #include "imagecontents.h"
 #include "tui.h"
+#include "tui_backend.h"
 #include "utils.h"
 
 #include "tuiimagebrowser.h"

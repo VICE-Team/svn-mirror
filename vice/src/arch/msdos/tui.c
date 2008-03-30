@@ -2,7 +2,7 @@
  * tui.c - A (very) simple text-based user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,6 +39,8 @@
 #include <allegro.h>
 
 #include "tui.h"
+#include "tui_backend.h"
+#include "tuifs.h"
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */

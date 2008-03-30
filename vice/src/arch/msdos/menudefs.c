@@ -2,7 +2,7 @@
  * menudefs.c - Definition of menu commands and settings.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -32,8 +32,8 @@
 #include <io.h>
 #include <stdio.h>
 #include <unistd.h>
-
-#include "menudefs.h"
+#include <string.h>
+#include <conio.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -49,10 +49,14 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
+#include "menudefs.h"
 #include "romset.h"
 #include "sound.h"
 #include "tape.h"
 #include "tui.h"
+#include "tui_backend.h"
+#include "tuifs.h"
 #include "tuiview.h"
 #include "ui.h"
 #include "uisnapshot.h"

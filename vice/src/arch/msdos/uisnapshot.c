@@ -2,7 +2,7 @@
  * uisnapshot.c - Snapshot save dialog for the MS-DOS version of VICE.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,12 +27,13 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "uisnapshot.h"
-
 #include "machine.h"
+#include "tuifs.h"
 #include "ui.h"
+#include "uisnapshot.h"
 #include "utils.h"
 
 #define SNAPSHOT_EXTENSION      ".vsf"

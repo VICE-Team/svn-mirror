@@ -3,8 +3,8 @@
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Tibor Biczo (crown@mail.matav.hu)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
