@@ -104,13 +104,7 @@ inline static void check_ciatodalarm(cia_context_t *cia_context, CLOCK rclk)
  * FIXME: SDR count, etc
  */
 
-#ifdef INLINE_CIA_FUNCS
-#  define _CIA_FUNC inline static
-#else
-#  define _CIA_FUNC static
-#endif
-
-_CIA_FUNC void cia_do_update_ta(cia_context_t *cia_context, CLOCK rclk)
+static void cia_do_update_ta(cia_context_t *cia_context, CLOCK rclk)
 {
     int n;
 
@@ -120,7 +114,7 @@ _CIA_FUNC void cia_do_update_ta(cia_context_t *cia_context, CLOCK rclk)
     }
 }
 
-_CIA_FUNC void cia_do_update_tb(cia_context_t *cia_context, CLOCK rclk)
+static void cia_do_update_tb(cia_context_t *cia_context, CLOCK rclk)
 {
     int n;
 
@@ -130,7 +124,7 @@ _CIA_FUNC void cia_do_update_tb(cia_context_t *cia_context, CLOCK rclk)
     }
 }
 
-_CIA_FUNC void cia_do_step_tb(cia_context_t *cia_context, CLOCK rclk)
+static void cia_do_step_tb(cia_context_t *cia_context, CLOCK rclk)
 {
     int n;
 
@@ -145,7 +139,7 @@ _CIA_FUNC void cia_do_step_tb(cia_context_t *cia_context, CLOCK rclk)
  */
 
 
-_CIA_FUNC void cia_update_ta(cia_context_t *cia_context, CLOCK rclk)
+static void cia_update_ta(cia_context_t *cia_context, CLOCK rclk)
 {
     CLOCK tmp, last_tmp;
 
@@ -162,7 +156,7 @@ _CIA_FUNC void cia_update_ta(cia_context_t *cia_context, CLOCK rclk)
     }
 }
 
-_CIA_FUNC void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
+static void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
 {
     CLOCK tmp, last_tmp;
 
@@ -186,7 +180,7 @@ _CIA_FUNC void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
 /*
  * set interrupt line
  */
-_CIA_FUNC void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
+static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 {
     if ((cia_context->rdi != rclk - 1) || (cia_context->irq_line == IK_NMI)) {
         if (cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f) {
@@ -711,7 +705,7 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
 
             cia_context->last_read = t;
 
-            return (t);
+            return t;
         }
         break;
 
