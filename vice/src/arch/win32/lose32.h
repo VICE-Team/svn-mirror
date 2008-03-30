@@ -39,9 +39,6 @@
 #include <io.h>
 #endif
 
-/* The M$ version of this one has no permissions.  */
-#define mkdir(s, p)         _mkdir(s)
-
 /* This is used to query `struct stat'.  */
 /*#define S_ISDIR(p)          (p & _S_IFDIR)*/
 
@@ -59,13 +56,6 @@
 #define W_OK                2
 #define X_OK                1
 #define F_OK                0
-
-/* This is necessary because on Windows the first function to be called is
-   `WinMain()' and not `main()'.  */
-
-int main_program(int argc, char **argv);
-
-#define MAIN_PROGRAM        main_program
 
 #endif
 
