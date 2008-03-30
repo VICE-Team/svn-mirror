@@ -96,7 +96,10 @@ int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
         vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
 
     vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
+
+    if (vdrive->buffers[15].buffer == NULL)
+        vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
+    memset(vdrive->buffers[15].buffer, 0, 256);
 
     vdrive_command_set_error(vdrive, IPE_DOS_VERSION, 0, 0);
     return 0;
