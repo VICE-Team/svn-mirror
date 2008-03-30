@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "iec-plus4exp.h"
 #include "iec.h"
 #include "iecieee.h"
 #include "machine-drive.h"
@@ -39,18 +40,21 @@
 int machine_drive_resources_init(void)
 {
     return drive_resources_type_init(DRIVE_TYPE_1551)
-        | iec_drive_resources_init() | tcbm_drive_resources_init();
+        | iec_drive_resources_init() | iec_plus4exp_resources_init()
+        | tcbm_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)
 {
     iec_drive_resources_shutdown();
+    iec_plus4exp_resources_shutdown();
     tcbm_drive_resources_shutdown();
 }
 
 int machine_drive_cmdline_options_init(void)
 {
     return iec_drive_cmdline_options_init()
+        | iec_plus4exp_cmdline_options_init()
         | tcbm_drive_cmdline_options_init();
 }
 
@@ -58,6 +62,7 @@ void machine_drive_init(struct drive_context_s *drv)
 {
     iec_drive_init(drv);
     iecieee_drive_init(drv);
+    iec_plus4exp_init(drv);
     tcbm_drive_init(drv);
 }
 
@@ -72,12 +77,14 @@ void machine_drive_reset(struct drive_context_s *drv)
 {
     iec_drive_reset(drv);
     iecieee_drive_reset(drv);
+    iec_plus4exp_reset(drv);
     tcbm_drive_reset(drv);
 }
 
 void machine_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 {
     iec_drive_mem_init(drv, type);
+    iec_plus4exp_mem_init(drv, type);
     tcbm_drive_mem_init(drv, type);
 }
 
