@@ -96,10 +96,12 @@ src/arch/unix/gui/uicrtc.c
 src/arch/unix/gui/uidatasette.c
 src/arch/unix/gui/uidrive.c
 src/arch/unix/gui/uidrivec128.c
+src/arch/unix/gui/uidrivec64.c
 src/arch/unix/gui/uidrivec64vic20.c
 src/arch/unix/gui/uidriveiec.c
 src/arch/unix/gui/uidrivepetcbm2.c
 src/arch/unix/gui/uidriveplus4.c
+src/arch/unix/gui/uidrivevic20.c
 src/arch/unix/gui/uifliplist.c
 src/arch/unix/gui/uigeoram.c
 src/arch/unix/gui/uiide64.c

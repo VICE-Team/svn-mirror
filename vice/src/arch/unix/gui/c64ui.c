@@ -42,6 +42,7 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
+#include "uidrivec64.h"
 #include "uidrivec64vic20.h"
 #include "uigeoram.h"
 #include "uiide64.h"
@@ -403,7 +404,7 @@ static ui_menu_entry_t x64_right_menu[] = {
     { "",
       NULL, NULL, ui_sound_settings_menu },
     { "",
-      NULL, NULL, ui_drivec64vic20_settings_menu },
+      NULL, NULL, ui_drivec64_settings_menu },
     { "",
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "",
@@ -471,7 +472,7 @@ static ui_menu_entry_t x64_settings_submenu[] = {
     { "",
       NULL, NULL, ui_sound_settings_menu },
     { "",
-      NULL, NULL, ui_drivec64vic20_settings_menu },
+      NULL, NULL, ui_drivec64_settings_menu },
     { "",
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "",

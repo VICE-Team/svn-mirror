@@ -43,6 +43,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
+#include "uidrivevic20.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
@@ -464,7 +465,7 @@ static ui_menu_entry_t vic20_right_menu[] = {
     { "",
       NULL, NULL, ui_sound_settings_menu },
     { "",
-      NULL, NULL, ui_drivec64vic20_settings_menu },
+      NULL, NULL, ui_drivevic20_settings_menu },
     { "",
       NULL, NULL, ui_peripheraliec_settings_menu },
 /*
@@ -539,7 +540,7 @@ static ui_menu_entry_t vic20_settings_menu[] = {
     { "",
       NULL, NULL, ui_sound_settings_menu },
     { "",
-      NULL, NULL, ui_drivec64vic20_settings_menu },
+      NULL, NULL, ui_drivevic20_settings_menu },
     { "",
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "",

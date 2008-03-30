@@ -1,5 +1,5 @@
 /*
- * uidrivec64vic20.h
+ * uidrivec64.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,17 +24,12 @@
  *
  */
 
-#ifndef _UIDRIVEC64VIC20_H
-#define _UIDRIVEC64VIC20_H
+#ifndef _UIDRIVEC64_H
+#define _UIDRIVEC64_H
 
 #include "uimenu.h"
 
-extern ui_menu_entry_t uidrivec64vic20_set_drive0_type_submenu[];
-extern ui_menu_entry_t uidrivec64vic20_set_drive1_type_submenu[];
-extern ui_menu_entry_t uidrivec64vic20_set_drive2_type_submenu[];
-extern ui_menu_entry_t uidrivec64vic20_set_drive3_type_submenu[];
-
-extern struct ui_menu_entry_s ui_drivec64vic20_romset_submenu[];
+extern struct ui_menu_entry_s ui_drivec64_settings_menu[];
 
 #endif
 
