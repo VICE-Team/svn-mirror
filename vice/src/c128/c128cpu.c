@@ -36,7 +36,6 @@
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
- - NO_OPCODES
  - TRACE
 
  The following are optional:
