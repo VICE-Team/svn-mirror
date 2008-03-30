@@ -1,12 +1,12 @@
 # Italian Translation File for VICE
-# Copyright (C) 2001-2002 Free Software Foundation, Inc.
-# Andrea Musuruane <musuruan@bmm.it>, 2001-2002.
+# Copyright (C) 2001-2003 Free Software Foundation, Inc.
+# Andrea Musuruane <musuruan@bmm.it>, 2001-2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.13\n"
+"Project-Id-Version: VICE 1.14\n"
 "POT-Creation-Date: 2003-10-06 00:28+0200\n"
-"PO-Revision-Date: 2003-09-07 19:10+0200\n"
+"PO-Revision-Date: 2003-10-09 20:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -999,9 +999,8 @@ msgid "Detach #%d"
 msgstr "Rimuovi #%d"
 
 #: src/arch/unix/uicommands.c:687
-#, fuzzy
 msgid "*Write Protect"
-msgstr "Seleziona la protezione contro la scrittura"
+msgstr "*Prottetto da scrittura"
 
 #: src/arch/unix/uicommands.c:713
 msgid "Next: "
@@ -1126,18 +1125,16 @@ msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
 #: src/arch/unix/uicommands.c:963
-#, fuzzy
 msgid "*Save new snapshot"
-msgstr "Salva snapshot"
+msgstr "*Salva nuovo snapshot"
 
 #: src/arch/unix/uicommands.c:965
-#, fuzzy
 msgid "*Load existing snapshot"
-msgstr "Carica snapshot"
+msgstr "*Carica snapshot esistente"
 
 #: src/arch/unix/uicommands.c:967
 msgid "*Start with reset"
-msgstr ""
+msgstr "*Inizia con reset"
 
 #: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
@@ -1173,7 +1170,7 @@ msgstr "Termina la riproduzione degli eventi"
 
 #: src/arch/unix/uicommands.c:996
 msgid "Recording start mode"
-msgstr ""
+msgstr "Modalità di inizio registrazione"
 
 #: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
@@ -1415,18 +1412,16 @@ msgid "Load new 1541-II ROM"
 msgstr "Carica una nuova ROM del 1541-II"
 
 #: src/arch/unix/uidrivec128.c:141 src/arch/unix/uidrivec64vic20.c:139
-#, fuzzy
 msgid "Load new 1570 ROM"
-msgstr "Carica una nuova ROM del 1571"
+msgstr "Carica una nuova ROM del 1570"
 
 #: src/arch/unix/uidrivec128.c:144 src/arch/unix/uidrivec64vic20.c:142
 msgid "Load new 1571 ROM"
 msgstr "Carica una nuova ROM del 1571"
 
 #: src/arch/unix/uidrivec128.c:147
-#, fuzzy
 msgid "Load new 1571CR ROM"
-msgstr "Carica una nuova ROM del 1571"
+msgstr "Carica una nuova ROM del 1571CR"
 
 #: src/arch/unix/uidrivec128.c:150 src/arch/unix/uidrivec64vic20.c:145
 msgid "Load new 1581 ROM"

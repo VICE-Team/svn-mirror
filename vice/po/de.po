@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.13\n"
+"Project-Id-Version: VICE 1.14\n"
 "POT-Creation-Date: 2003-10-06 00:28+0200\n"
-"PO-Revision-Date: 2003-09-20 10:21+0200\n"
+"PO-Revision-Date: 2003-10-09 20:34+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1407,18 +1407,16 @@ msgid "Load new 1541-II ROM"
 msgstr "1541-II ROM Laden"
 
 #: src/arch/unix/uidrivec128.c:141 src/arch/unix/uidrivec64vic20.c:139
-#, fuzzy
 msgid "Load new 1570 ROM"
-msgstr "1571 ROM Laden"
+msgstr "1570 ROM Laden"
 
 #: src/arch/unix/uidrivec128.c:144 src/arch/unix/uidrivec64vic20.c:142
 msgid "Load new 1571 ROM"
 msgstr "1571 ROM Laden"
 
 #: src/arch/unix/uidrivec128.c:147
-#, fuzzy
 msgid "Load new 1571CR ROM"
-msgstr "1571 ROM Laden"
+msgstr "1571CR ROM Laden"
 
 #: src/arch/unix/uidrivec128.c:150 src/arch/unix/uidrivec64vic20.c:145
 msgid "Load new 1581 ROM"

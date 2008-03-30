@@ -1,3 +1,96 @@
+2003-10-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.6
+
+	* via.h, core/viacore.c, drive/iec/via1d1541.c,
+	drive/iecieee/via2d.c, drive/ieee/via1d2031.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c: No more static arrays.
+
+	* cia.h, core/ciacore.c, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, c64/c64cia1.c, c64/c64cia2.c,
+	ic128/c128cia1.c, cbm2/cbm2cia1.c: Changed likewise.
+
+	* riot.h, core/riotcore.c, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c: Changed likewise.
+
+	* tpi.h, core/tpicore.c, drive/tcbm/tpid.c, c64/c64tpi.c,
+	cbm2/cbm2tpi1.c, cbm2/cbm2tpi2.c: Changed likewise.
+
+	* drive/tcbm/tcbm.c, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, cbm2/cbm2.c: Shutdown chip cores.
+
+2003-10-08  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/Makefile.am (libarch_a_SOURCES): Removed
+	uidrivec64c128vic20.c, uidrivec64c128vic20.h, added
+	uidrivec64vic20.c, uidrivec64vic20.h,
+	uidrivec128.c, uidrivec128.h.
+
+	* arch/win32/arch.dsp: Removed uidrivec64c128vic20.c, added
+	uidrivec64vic20.c, uidrivec128.c
+
+	* arch/win32/c128ui.c: Include "uidrivec128.h".
+	(c128_ui_specific): Updated video_settings and drive_settings
+	calls.
+
+	* arch/win32/c64ui.c: Include "uidrivec64vic20.h".
+	(c64_ui_specific): Updated video_settings and drive_settings
+	calls.
+
+	* arch/win32/cbm2ui.c (cbm2_ui_specific): Updated
+	video_settings call.
+
+	* arch/win32/petui.c (pet_ui_specific): Updated video_settings
+	call.
+
+	* arch/win32/plus4ui.c (plus4_ui_specific): Updated
+	video_settings call.
+
+	* arch/win32/res.h: Added ID's for new drives and ID for video
+	palette settings dialog.
+
+	* arch/win32/res.rc (IDD_DRIVE_SETTINGS_DIALOG): Added 1570
+	drive to dialog.
+	(IDD_VIDEO_PALETTE_DIALOG): Added new dialog for palette
+	settings.
+
+	* arch/win32/resc128.rc (IDD_DRIVE_SETTINGS_DIALOG_C128):
+	Added new dialog for drive settings.
+
+	* arch/win32/resplus4.rc (IDD_DRIVE_SETTINGS_DIALOG_PLUS4):
+	Added 1570 drive to dialog.
+
+	* arch/win32/ui.c (window_proc): Update window position
+	resource on WM_MOVE only if window is not minimized or not
+	maximized.
+	Shift drag and drop attaches file to unit 8.
+
+	* arch/win32/uidrivec128.c, arch/win32/uidrivec128.h,
+	arch/win32/uidrivec64vic20.c, arch/win32/uidrivec64vic20.h:
+	New files.
+
+	* arch/win32/uidrivec64c128vic20.c,
+	arch/win32/uidrivec64c128vic20.h:
+	Removed files.
+
+	* arch/win32/uidriveplus4.c: Handle 1570 drive as well.
+
+	* arch/win32/uivideo.c: Added support for multiple video chip
+	settings.
+	Fixed external palette list, the list is chip dependent now.
+
+	* arch/win32/uivideo.h (ui_video_settings_dialog): Updated
+	prototype.
+	Added definitions for video chip types.
+
+	* arch/win32/vic20ui.c: Include "uidrivec64vic20.h".
+	(vic20_ui_specific): Updated video_settings and drive_settings
+	calls.
+
+	* vic20/vice_resources.c (vic_resources_init): Allow internal
+	palette for PAL emulation.
+
 2003-10-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.5

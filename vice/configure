@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.5
+ VERSION=1.13.6
 
 
 cat >>confdefs.h <<_ACEOF
@@ -5117,8 +5117,9 @@ echo "$as_me:$LINENO: result: $gt_cv_func_gettext_libc" >&5
 echo "${ECHO_T}$gt_cv_func_gettext_libc" >&6
      if test "$gt_cv_func_gettext_libc" = "yes" \
   	|| test "$gt_cv_func_gettext_libintl" = "yes"; then
-  	cat >>confdefs.h <<\_ACEOF
-#define HAVE_GETTEXT 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GETTEXT
 _ACEOF
 
   	# Extract the first word of "msgfmt", so it can be a program name with args.
@@ -5359,19 +5360,23 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
   	  INSTOBJEXT=.mo
   	fi
         USE_NLS=yes
-	cat >>confdefs.h <<\_ACEOF
-#define ENABLE_NLS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define ENABLE_NLS
 _ACEOF
 
-	cat >>confdefs.h <<\_ACEOF
-#define HAVE_LIBINTL_H 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_LIBINTL_H
 _ACEOF
 
-	cat >>confdefs.h <<_ACEOF
+
+cat >>confdefs.h <<_ACEOF
 #define DATADIRNAME "$DATADIRNAME"
 _ACEOF
 
-		cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define NLS_LOCALEDIR PREFIX"/"DATADIRNAME"/locale"
 _ACEOF
 
@@ -8493,8 +8498,7 @@ fi
 
 
 
-
-for ac_header in fcntl.h limits.h strings.h sgtty.h regex.h regexp.h \
+for ac_header in fcntl.h limits.h strings.h sgtty.h regex.h \
 unistd.h sys/param.h sys/types.h sys/ioctl.h sys/time.h sys/dirent.h \
 dir.h commctrl.h shlobj.h errno.h io.h sys/stat.h signal.h winioctl.h
 do
@@ -8636,6 +8640,53 @@ _ACEOF
 fi
 
 done
+
+
+echo "$as_me:$LINENO: checking for regexp.h" >&5
+echo $ECHO_N "checking for regexp.h... $ECHO_C" >&6
+if test "${ac_cv_header_regexp_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#define	INIT		register char *sp = instring;
+#define	GETC()		(*sp++)
+#define	PEEKC()		(*sp)
+#define	UNGETC(c)	-- sp
+#define	RETURN(ptr)	return NULL;
+#define	ERROR(val)	_RegExpError(val)
+
+
+#include <regexp.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_header_regexp_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_header_regexp_h=no
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_regexp_h" >&5
+echo "${ECHO_T}$ac_cv_header_regexp_h" >&6
 
 
 echo "$as_me:$LINENO: checking whether sys_siglist is declared" >&5
@@ -14364,26 +14415,20 @@ fi
 
   fi
 
-  if test "${ac_cv_header_X11_extensions_XShm_h+set}" = set; then
   echo "$as_me:$LINENO: checking for X11/extensions/XShm.h" >&5
 echo $ECHO_N "checking for X11/extensions/XShm.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_XShm_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_XShm_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_XShm_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/XShm.h usability" >&5
-echo $ECHO_N "checking X11/extensions/XShm.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/XShm.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -14398,101 +14443,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_XShm_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_XShm_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/XShm.h presence" >&5
-echo $ECHO_N "checking X11/extensions/XShm.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/XShm.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/XShm.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/XShm.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/XShm.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/XShm.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/XShm.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/XShm.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/XShm.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/XShm.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/XShm.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/XShm.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/XShm.h" >&5
-echo $ECHO_N "checking for X11/extensions/XShm.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_XShm_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_XShm_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_XShm_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_XShm_h" >&6
-
-fi
 
 
   if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
@@ -14779,26 +14740,20 @@ done
 
     FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-    if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
+    echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86vmode.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86vmode_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86vmode_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86vmode.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86vmode.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86vmode.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -14813,101 +14768,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86vmode_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86vmode_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86vmode.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86vmode.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86vmode.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86vmode.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86vmode_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86vmode_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86vmode_h" >&6
-
-fi
 
 
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
@@ -14982,26 +14853,20 @@ _ACEOF
 fi
 
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
+        echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86dga.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -15016,101 +14881,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86dga_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86dga_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86dga_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-fi
 
 
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
@@ -15187,26 +14968,20 @@ fi
         fi
       fi
     fi
-    if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
+    echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86dga.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -15221,101 +14996,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86dga_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86dga_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86dga_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-fi
 
 
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
@@ -15695,26 +15386,20 @@ fi
 
     FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
-    if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
+    echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86vmode.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86vmode_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86vmode_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86vmode.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86vmode.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86vmode.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -15729,101 +15414,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86vmode_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86vmode_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86vmode.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86vmode.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86vmode.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86vmode.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86vmode.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86vmode_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86vmode_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86vmode_h" >&6
-
-fi
 
 
     if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
@@ -15898,26 +15499,20 @@ _ACEOF
 fi
 
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
+        echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86dga.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -15932,101 +15527,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86dga_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86dga_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86dga_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-fi
 
 
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
@@ -16103,26 +15614,20 @@ fi
         fi
       fi
     fi
-    if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
+    echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
 echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
 else
-  # Is the header compilable?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h usability" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h usability... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
+  cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-$ac_includes_default
+#include <X11/Xlib.h>
+
 #include <X11/extensions/xf86dga.h>
 _ACEOF
 rm -f conftest.$ac_objext
@@ -16137,101 +15642,17 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_header_compiler=yes
+  ac_cv_header_X11_extensions_xf86dga_h=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_header_compiler=no
+ac_cv_header_X11_extensions_xf86dga_h=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
-echo "${ECHO_T}$ac_header_compiler" >&6
-
-# Is the header present?
-echo "$as_me:$LINENO: checking X11/extensions/xf86dga.h presence" >&5
-echo $ECHO_N "checking X11/extensions/xf86dga.h presence... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_c_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_header_preproc=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.$ac_ext
-echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
-echo "${ECHO_T}$ac_header_preproc" >&6
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc in
-  yes:no )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-  no:yes )
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: present but cannot be compiled" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: check for missing prerequisite headers?" >&2;}
-    { echo "$as_me:$LINENO: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&5
-echo "$as_me: WARNING: X11/extensions/xf86dga.h: proceeding with the preprocessor's result" >&2;}
-    (
-      cat <<\_ASBOX
-## ------------------------------------ ##
-## Report this to bug-autoconf@gnu.org. ##
-## ------------------------------------ ##
-_ASBOX
-    ) |
-      sed "s/^/$as_me: WARNING:     /" >&2
-    ;;
-esac
-echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_cv_header_X11_extensions_xf86dga_h=$ac_header_preproc
 fi
 echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-fi
 
 
     if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
