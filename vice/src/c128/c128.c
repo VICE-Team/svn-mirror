@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "c128.h"
@@ -247,6 +248,23 @@ int machine_init_cmdline_options(void)
     return 0;
 }
 
+void c128_monitor_init(void)
+{
+    monitor_cpu_type_t asm6502, asmz80;
+    monitor_cpu_type_t *asmarray[3];
+
+    asm6502_init(&asm6502);
+    asmz80_init(&asmz80);
+
+    asmarray[0] = &asm6502;
+    asmarray[1] = &asmz80;
+    asmarray[2] = NULL;
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr, asmarray);
+}
+
 /* C128-specific initialization.  */
 int machine_init(void)
 {
@@ -319,9 +337,7 @@ int machine_init(void)
     if (c128_kbd_init() < 0)
         return -1;
 
-    /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-                 drive1_monitor_interface_ptr);
+    c128_monitor_init();
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
