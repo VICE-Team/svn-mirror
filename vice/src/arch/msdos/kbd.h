@@ -65,7 +65,7 @@ extern BYTE _kbd_extended_key_tab[256];
 
 extern int kbd_init_resources(void);
 extern int kbd_init_cmdline_options(void);
-extern int kbd_init(int shift_column, int shift_row, ...);
+extern int kbd_init(int num, ...);
 extern void kbd_install(void);
 extern void kbd_uninstall(void);
 extern void kbd_flush_commands(void);
