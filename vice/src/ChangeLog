@@ -1,3 +1,61 @@
+2001-11-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.24.
+
+	* c128/c128mem.c (mem_initialize_memory): Added cartridge
+	memory configuration.
+	(pla_config_changed): Added exrom and game handling.
+
+	* c128/c128mmu.c (mmu_update_config): Trimmed configuration.
+
+	* c128/c128io.c (io1_read, io1_store, io2_read, io2_store):
+	Added cartridge support.
+
+	* c64/c64pla.c, c64/c64pla.h, c64/c64-snapshot.c,
+	c64/c64-snapshot.h, c128/c128-snapshot.c,
+	c128/c128-snapshot.h, vic20/vic20-snapshot.c,
+	vic20/vic20-snapshot.h, pet/pet-snapshot.c,
+	pet/pet-snapshot.h, plus4/plus4-snapshot.c,
+	plus4/plus4-snapshoth, cbm2/c610-snapshot.c,
+	cbm2/c610-snapshot.h: New files.
+
+	* c64/c64mem.c, c128/c128mem.c: Moved common PLA handling to
+	separate file.
+
+	* c64/c64cart.h: Moved `roml_read', `roml_store', `romh_read',
+	`ultimax_a000_bfff_read' and `ultimax_a000_bfff_store' here.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c (machine_write_snapshot,
+	machine_read_snapshot): Changed memory snapshot function name.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+	pet/petmem.c, plus4/plus4mem.c, cbm2/c610mem.c: Moved snapshot
+	functions to separate file.
+
+	* c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, plus4/Makefile.am, cbm2/Makefile.am: Added
+	new files.
+
+	* mem.h: Removed `chargen_rom'.
+
+	* vicii/vicii.c: #include "c64mem.h".
+
+	* vic20/vic.c: #include "vic20mem.h".
+
+2001-11-12  John Selck  <graham@cruise.de>
+
+	* video-color.c: Now uses slightly more accurate constants
+	for luminance calculations.
+
+	* arch/win32/arch.dsp: Added plus4kbd.c and plus4ui.c.
+
+	* arch/win32/plus4.dsp: New project file.
+
+	* arch/win32/xplus4.dsp: New project file.
+
+	* arch/win32/vice.dsw: Added plus4.dsp and xplus4.dsp.
+
 2001-11-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.23.
