@@ -112,7 +112,6 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
-	tpicore.h \
 	traps.h \
 	uiapi.h \
 	uicolor.h \

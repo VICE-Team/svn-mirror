@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,56 +25,73 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
+
+#include "c64.h"
 #include "c64mem.h"
+#include "c64tpi.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "log.h"
 #include "parallel.h"
 #include "interrupt.h"
 #include "maincpu.h"
 #include "tpi.h"
-#include "tpicore.h"
 #include "types.h"
-
-/*----------------------------------------------------------------------*/
-/* renaming of exported functions */
 
 
 #define mytpi_init tpi_init
 #define mytpi_reset tpi_reset
-#define mytpi_store tpi_store
-#define mytpi_read tpi_read
-#define mytpi_peek tpi_peek
+#define mytpi_store tpicore_store
+#define mytpi_read tpicore_read
+#define mytpi_peek tpicore_peek
 #define mytpi_set_int tpi_set_int
 #define mytpi_snapshot_write_module tpi_snapshot_write_module
 #define mytpi_snapshot_read_module tpi_snapshot_read_module
 
-#define MYTPI_NAME      "TPI"
 
-/*----------------------------------------------------------------------*/
-/* CPU binding */
+void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context, WORD addr, BYTE
+byte);
+BYTE REGPARM2 tpicore_read(struct tpi_context_s *tpi_context, WORD addr);
+BYTE REGPARM2 tpicore_peek(struct tpi_context_s *tpi_context, WORD addr);
 
-#define mycpu_set_int(a,b)              do {} while(0)
-#define mycpu_restore_int(a,b)          do {} while(0)
+void REGPARM3 tpi_store(WORD addr, BYTE data)
+{
+    tpicore_store(&(machine_context.tpi1), addr, data);
+}
 
-#define mycpu_rmw_flag maincpu_rmw_flag
-#define myclk maincpu_clk
-#define mycpu_int_status maincpu_int_status
+BYTE REGPARM2 tpi_read(WORD addr)
+{
+    return tpicore_read(&(machine_context.tpi1), addr);
+}
 
-/*----------------------------------------------------------------------*/
-/* I/O */
+BYTE REGPARM2 tpi_peek(WORD addr)
+{
+    return tpicore_peek(&(machine_context.tpi1), addr);
+}
 
-_TPI_FUNC void tpi_set_ca(int a)
+static void mycpu_set_int(unsigned int int_num, int value)
 {
 }
 
-_TPI_FUNC void tpi_set_cb(int a)
+static void mycpu_restore_int(unsigned int int_num, int value)
+{
+}
+
+static void tpi_set_ca(tpi_context_t *tpi_context, int a)
+{
+}
+
+static void tpi_set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
 static int ieee_is_dev = 1;
 static BYTE ieee_is_out = 1;
 
-_TPI_FUNC void _tpi_reset(void)
+static void _tpi_reset(tpi_context_t *tpi_context)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);
@@ -87,15 +105,14 @@ _TPI_FUNC void _tpi_reset(void)
     ieee_is_out = 1;
 }
 
-_TPI_FUNC void store_pa(BYTE byte)
+static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
-    if (byte != oldpa)
-    {
+    if (byte != tpi_context->oldpa) {
         BYTE tmp = ~byte;
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
-        parallel_cpu_set_bus((BYTE)(ieee_is_out ? oldpb : 0xff));
+        parallel_cpu_set_bus((BYTE)(ieee_is_out ? tpi_context->oldpb : 0xff));
 
         if (ieee_is_out) {
             parallel_cpu_set_ndac(0);
@@ -116,18 +133,18 @@ _TPI_FUNC void store_pa(BYTE byte)
     }
 }
 
-_TPI_FUNC void store_pb(BYTE byte)
+static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 {
     parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
 }
 
-_TPI_FUNC void undump_pa(BYTE byte)
+static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
 {
     BYTE tmp = ~byte;
     ieee_is_dev = byte & 0x01;
     ieee_is_out = byte & 0x02;
 
-    parallel_cpu_set_bus((BYTE)(ieee_is_out ? oldpb : 0xff));
+    parallel_cpu_set_bus((BYTE)(ieee_is_out ? tpi_context->oldpb : 0xff));
 
     if (ieee_is_out) {
         parallel_cpu_set_ndac(0);
@@ -147,22 +164,22 @@ _TPI_FUNC void undump_pa(BYTE byte)
     }
 }
 
-_TPI_FUNC void undump_pb(BYTE byte)
+static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
 {
     parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
 }
 
-_TPI_FUNC void store_pc(BYTE byte)
+static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
     /* 1 = active */
     mem_set_exrom((byte & 8) ? 0 : 1);
 }
 
-_TPI_FUNC void undump_pc(BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC BYTE read_pa(void)
+static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
@@ -188,12 +205,13 @@ _TPI_FUNC BYTE read_pa(void)
             byte &= 0xf7;
     }
 
-    byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA])
+           | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
 
     return byte;
 }
 
-_TPI_FUNC BYTE read_pb(void)
+static BYTE read_pb(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
@@ -203,16 +221,42 @@ _TPI_FUNC BYTE read_pb(void)
         drive1_cpu_execute(maincpu_clk);
 
     byte = ieee_is_out ? 0xff : parallel_bus;
-    byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB])
+           | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
 
     return byte;
 }
 
-_TPI_FUNC BYTE read_pc(void)
+static BYTE read_pc(tpi_context_t *tpi_context)
 {
     BYTE byte;
-    byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
+    byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC])
+           | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
     return byte;
+}
+
+void tpi_init(tpi_context_t *tpi_context)
+{
+    tpi_context->log = log_open(tpi_context->myname);
+}
+
+void tpi_setup_context(machine_context_t *machine_context)
+{
+    tpi_context_t *tpi_context;
+
+    tpi_context = &(machine_context->tpi1);
+
+    tpi_context->prv = NULL;
+
+    tpi_context->context = (void *)machine_context;
+
+    tpi_context->rmw_flag = &maincpu_rmw_flag;
+    tpi_context->clk_ptr = &maincpu_clk;
+
+    sprintf(tpi_context->myname, "TPI");
+    tpi_context->irq_previous = 0;
+    tpi_context->irq_stack = 0;
+    tpi_context->tpi_last_read = 0;
 }
 
 #include "tpicore.c"

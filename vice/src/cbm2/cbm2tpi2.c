@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,40 +25,58 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
+
+#include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2tpi.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "log.h"
 #include "maincpu.h"
-#include "tpicore.h"
 #include "types.h"
 
-/*----------------------------------------------------------------------*/
-/* renaming of exported functions */
 
 #define mytpi_init tpi2_init
 #define mytpi_reset tpi2_reset
-#define mytpi_store tpi2_store
-#define mytpi_read tpi2_read
-#define mytpi_peek tpi2_peek
+#define mytpi_store tpicore2_store
+#define mytpi_read tpicore2_read
+#define mytpi_peek tpicore2_peek
 #define mytpi_set_int tpi2_set_int
 #define mytpi_restore_int tpi2_restore_int
 #define mytpi_snapshot_write_module tpi2_snapshot_write_module
 #define mytpi_snapshot_read_module tpi2_snapshot_read_module
 
-#define MYTPI_NAME "TPI2"
 
-/*----------------------------------------------------------------------*/
-/* CPU binding */
+void REGPARM3 tpicore2_store(struct tpi_context_s *tpi_context, WORD addr, BYTE
+byte);
+BYTE REGPARM2 tpicore2_read(struct tpi_context_s *tpi_context, WORD addr);
+BYTE REGPARM2 tpicore2_peek(struct tpi_context_s *tpi_context, WORD addr);
 
-#define mycpu_set_int(a,b)              do {} while(0)
-#define mycpu_restore_int(a,b)          do {} while(0)
+void REGPARM3 tpi2_store(WORD addr, BYTE data)
+{
+    tpicore2_store(&(machine_context.tpi2), addr, data);
+}
 
-#define mycpu_rmw_flag maincpu_rmw_flag
-#define myclk maincpu_clk
-#define mycpu_int_status maincpu_int_status
+BYTE REGPARM2 tpi2_read(WORD addr)
+{
+    return tpicore2_read(&(machine_context.tpi2), addr);
+}
 
-/*----------------------------------------------------------------------*/
-/* I/O */
+BYTE REGPARM2 tpi2_peek(WORD addr)
+{
+    return tpicore2_peek(&(machine_context.tpi2), addr);
+}
+
+static void mycpu_set_int(unsigned int int_num, int value)
+{
+}
+
+static void mycpu_restore_int(unsigned int int_num, int value)
+{
+}
 
 static BYTE cbm2_model_port_mask = 0xc0;
 
@@ -66,63 +85,66 @@ void set_cbm2_model_port_mask(BYTE val)
     cbm2_model_port_mask = val & 0xc0;
 }
 
-_TPI_FUNC void tpi_set_ca(int a)
+static void tpi_set_ca(tpi_context_t *tpi_context, int a)
 {
 }
 
-_TPI_FUNC void tpi_set_cb(int a)
+static void tpi_set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
-_TPI_FUNC void _tpi_reset(void)
+static void _tpi_reset(tpi_context_t *tpi_context)
 {
 }
 
-_TPI_FUNC void store_pa(BYTE byte)
+static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void store_pb(BYTE byte)
+static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void store_pc(BYTE byte)
+static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
     cbm2_set_tpi2pc(byte);
 }
 
-_TPI_FUNC void undump_pa(BYTE byte)
+static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pb(BYTE byte)
+static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pc(BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
 {
     cbm2_set_tpi2pc(byte);
 }
 
-_TPI_FUNC BYTE read_pa(void)
+static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
-    byte = (0xff & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+    byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPA])
+           | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
     return byte;
 }
 
-_TPI_FUNC BYTE read_pb(void)
+static BYTE read_pb(tpi_context_t *tpi_context)
 {
     BYTE byte;
-    byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+    byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPB])
+           | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
     return byte;
 }
 
-_TPI_FUNC BYTE read_pc(void)
+static BYTE read_pc(tpi_context_t *tpi_context)
 {
     BYTE byte;
-    BYTE val = ~tpi[TPI_DDPC] | 0xc0;
-    int msk = (oldpa & 0xff) | ((oldpb << 8) & 0xff00);
+    BYTE val = ~(tpi_context->c_tpi)[TPI_DDPC] | 0xc0;
+    int msk = (tpi_context->oldpa & 0xff)
+              | ((tpi_context->oldpb << 8) & 0xff00);
     int m;
     int i;
 
@@ -132,6 +154,30 @@ _TPI_FUNC BYTE read_pc(void)
     byte = (val & 0x3f) | cbm2_model_port_mask;
 
     return byte;
+}
+
+void tpi2_init(tpi_context_t *tpi_context)
+{
+    tpi_context->log = log_open(tpi_context->myname);
+}
+
+void tpi2_setup_context(machine_context_t *machine_context)
+{
+    tpi_context_t *tpi_context;
+
+    tpi_context = &(machine_context->tpi2);
+
+    tpi_context->prv = NULL;
+
+    tpi_context->context = (void *)machine_context;
+
+    tpi_context->rmw_flag = &maincpu_rmw_flag;
+    tpi_context->clk_ptr = &maincpu_clk;
+
+    sprintf(tpi_context->myname, "TPI2");
+    tpi_context->irq_previous = 0;
+    tpi_context->irq_stack = 0;
+    tpi_context->tpi_last_read = 0;
 }
 
 #include "tpicore.c"

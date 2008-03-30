@@ -1,3 +1,18 @@
+2003-08-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.21.
+
+	* data/C128/win_pos.vkm, data/C128/win_sym.vkm,
+	data/C128/dos_pos.vkm, data/C128/dos_sym.vkm,
+	data/C128/beos_pos.vkm, data/C128/beos_sym.vkm: Added numpad
+	enter key.
+
+	* data/C64/c64hq.vpl, data/C128/c64hq.vpl,
+	data/CBM-II/c64hq.vpl: New files.
+
+	* data/C64/Makefile.am, data/C128/Makefile.am,
+	data/CBM-II/Makefile.am: Added new files.
+
 2003-07-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.20.

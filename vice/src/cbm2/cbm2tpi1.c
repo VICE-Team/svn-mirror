@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,47 +27,62 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cbm2.h"
 #include "cbm2cia.h"
 #include "cbm2mem.h"
+#include "cbm2tpi.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
-#include "tpicore.h"
 #include "types.h"
 
 
-/*----------------------------------------------------------------------*/
-/* renaming of exported functions */
-
 #define mytpi_init tpi1_init
 #define mytpi_reset tpi1_reset
-#define mytpi_store tpi1_store
-#define mytpi_read tpi1_read
-#define mytpi_peek tpi1_peek
+#define mytpi_store tpicore1_store
+#define mytpi_read tpicore1_read
+#define mytpi_peek tpicore1_peek
 #define mytpi_set_int tpi1_set_int
 #define mytpi_restore_int tpi1_restore_int
 #define mytpi_snapshot_write_module tpi1_snapshot_write_module
 #define mytpi_snapshot_read_module tpi1_snapshot_read_module
 
-#define MYTPI_NAME "TPI1"
 
-/*----------------------------------------------------------------------*/
-/* CPU binding */
+void REGPARM3 tpicore1_store(struct tpi_context_s *tpi_context, WORD addr, BYTE byte);
+BYTE REGPARM2 tpicore1_read(struct tpi_context_s *tpi_context, WORD addr);
+BYTE REGPARM2 tpicore1_peek(struct tpi_context_s *tpi_context, WORD addr);
 
-#define mycpu_set_int(a, b) maincpu_set_irq((a), (b))
-#define mycpu_restore_int(a, b) \
-    interrupt_restore_irq(maincpu_int_status, (a), (b))
+void REGPARM3 tpi1_store(WORD addr, BYTE data)
+{
+    tpicore1_store(&(machine_context.tpi1), addr, data);
+}
 
-#define mycpu_rmw_flag maincpu_rmw_flag
-#define myclk maincpu_clk
-#define mycpu_int_status maincpu_int_status
+BYTE REGPARM2 tpi1_read(WORD addr)
+{
+    return tpicore1_read(&(machine_context.tpi1), addr);
+}
 
-#define MYIRQ IK_IRQ
+BYTE REGPARM2 tpi1_peek(WORD addr)
+{
+    return tpicore1_peek(&(machine_context.tpi1), addr);
+}
+
+static void mycpu_set_int(unsigned int int_num, int value)
+{
+    maincpu_set_irq(int_num, value);
+}
+
+static void mycpu_restore_int(unsigned int int_num, int value)
+{
+    interrupt_restore_irq(maincpu_int_status, int_num, value);
+}
 
 /*----------------------------------------------------------------------*/
 /* TPI resources. */
@@ -81,17 +97,17 @@ void tpi1_set_tape_sense(int v)
 /*----------------------------------------------------------------------*/
 /* I/O */
 
-_TPI_FUNC void tpi_set_ca(int a)
+static void tpi_set_ca(tpi_context_t *tpi_context, int a)
 {
     cbm2_set_tpi1ca(a);
 }
 
-_TPI_FUNC void tpi_set_cb(int a)
+static void tpi_set_cb(tpi_context_t *tpi_context, int a)
 {
     cbm2_set_tpi1cb(a);
 }
 
-_TPI_FUNC void _tpi_reset(void)
+static void _tpi_reset(tpi_context_t *tpi_context)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);
@@ -103,9 +119,9 @@ _TPI_FUNC void _tpi_reset(void)
     cia1_set_ieee_dir(&(machine_context.cia1), 0);
 }
 
-_TPI_FUNC void store_pa(BYTE byte)
+static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
-    if (byte != oldpa)
+    if (byte != tpi_context->oldpa)
     {
         BYTE tmp = ~byte;
         cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
@@ -126,7 +142,7 @@ _TPI_FUNC void store_pa(BYTE byte)
     }
 }
 
-_TPI_FUNC void undump_pa(BYTE byte)
+static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
 {
     BYTE tmp = ~byte;
     cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
@@ -146,27 +162,27 @@ _TPI_FUNC void undump_pa(BYTE byte)
     }
 }
 
-_TPI_FUNC void store_pb(BYTE byte)
+static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 {
-    if ((byte ^ oldpb) & 0x40)
+    if ((byte ^ tpi_context->oldpb) & 0x40)
         datasette_set_motor(!(byte & 0x40));
-    if ((byte ^ oldpb) & 0x20)
+    if ((byte ^ tpi_context->oldpb) & 0x20)
         datasette_toggle_write_bit(byte & 0x20);
 }
 
-_TPI_FUNC void store_pc(BYTE byte)
+static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pb(BYTE byte)
+static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC void undump_pc(BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC BYTE read_pa(void)
+static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
@@ -182,27 +198,59 @@ _TPI_FUNC BYTE read_pa(void)
     byte += parallel_ndac ? 0 : 64;
     byte += parallel_nrfd ? 0 : 128;
 
-    byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPA])
+           | (tpi_context->c_tpi[TPI_PA] & tpi_context->c_tpi[TPI_DDPA]);
 
     return byte;
 }
 
-_TPI_FUNC BYTE read_pb(void)
+static BYTE read_pb(tpi_context_t *tpi_context)
 {
     BYTE byte;
 
     byte = 0x7f;
     byte += tape1_sense ? 0x80 : 0;
 
-    byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB])
+           | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
     return byte;
 }
 
-_TPI_FUNC BYTE read_pc(void)
+static BYTE read_pc(tpi_context_t *tpi_context)
 {
     BYTE byte;
-    byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
+    byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC])
+           | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
     return byte;
+}
+
+void tpi1_init(tpi_context_t *tpi_context)
+{
+    tpi_context->log = log_open(tpi_context->myname);
+
+    tpi_context->tpi_int_num
+        = interrupt_cpu_status_int_new(maincpu_int_status, tpi_context->myname);
+}
+
+void tpi1_setup_context(machine_context_t *machine_context)
+{
+    tpi_context_t *tpi_context;
+
+    tpi_context = &(machine_context->tpi1);
+
+    tpi_context->prv = NULL;
+
+    tpi_context->context = (void *)machine_context;
+
+    tpi_context->rmw_flag = &maincpu_rmw_flag;
+    tpi_context->clk_ptr = &maincpu_clk;
+
+    sprintf(tpi_context->myname, "TPI1");
+    tpi_context->irq_previous = 0;
+    tpi_context->irq_stack = 0;
+    tpi_context->tpi_last_read = 0;
+
+    tpi_context->irq_line = IK_IRQ;
 }
 
 #include "tpicore.c"

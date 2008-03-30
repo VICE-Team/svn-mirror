@@ -26,180 +26,220 @@
 
 #include "vice.h"
 
-struct drive_context_s;
-#define TPI_SHARED_CODE
-#define TPICONTEXT struct drive_context_s
+#include <stdio.h>
 
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "lib.h"
+#include "log.h"
 #include "rotation.h"
 #include "tpi.h"
-#include "tpicore.h"
 #include "tpid.h"
 #include "types.h"
-
-/*----------------------------------------------------------------------*/
-/* renaming of exported functions */
 
 
 #define mytpi_init tpid_init
 #define mytpi_reset tpid_reset
-#define mytpi_store tpid_store
-#define mytpi_read tpid_read
-#define mytpi_peek tpid_peek
+#define mytpi_store tpicore_store
+#define mytpi_read tpicore_read
+#define mytpi_peek tpicore_peek
 #define mytpi_set_int tpid_set_int
 #define mytpi_restore_int tpid_restore_int
 #define mytpi_snapshot_write_module tpid_snapshot_write_module
 #define mytpi_snapshot_read_module tpid_snapshot_read_module
 
-#define MYTPI_NAME (ctxptr->tpid.myname)
 
-/* Renaming formerly global variables */
-#define tpi             (ctxptr->tpid.c_tpi)
-#define irq_previous    (ctxptr->tpid.irq_previous)
-#define irq_stack       (ctxptr->tpid.irq_stack)
-#define tpi_last_read   (ctxptr->tpid.tpi_last_read)
-#define tpi_int_num     (ctxptr->tpid.tpi_int_num)
+void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context, WORD addr, BYTE byte);
+BYTE REGPARM2 tpicore_read(struct tpi_context_s *tpi_context, WORD addr);
+BYTE REGPARM2 tpicore_peek(struct tpi_context_s *tpi_context, WORD addr);
 
-#define oldpa (ctxptr->tpid.oldpa)
-#define oldpb (ctxptr->tpid.oldpb)
-#define oldpc (ctxptr->tpid.oldpc)
-
-#define ca_state (ctxptr->tpid.ca_state)
-#define cb_state (ctxptr->tpid.cb_state)
-
-#define mytpi_log       (ctxptr->tpid.log)
-
-
-/*----------------------------------------------------------------------*/
-/* CPU binding */
-
-#define mycpu_set_int(a,b)              do {} while(0)
-#define mycpu_restore_int(a,b)          do {} while(0)
-
-#define mycpu_rmw_flag (ctxptr->cpu.rmw_flag)
-#define myclk (*(ctxptr->clk_ptr))
-#define mycpu_int_status (ctxptr->cpu.int_status)
-
-void tpid_setup_context(drive_context_t *ctxptr)
+void REGPARM3 tpid_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    sprintf(ctxptr->tpid.myname, "Drive%dTPI", ctxptr->mynumber);
-    irq_previous = 0;
-    irq_stack = 0;
-    tpi_last_read = 0;
-    tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
-                                               ctxptr->tpid.myname);
+    tpicore_store(&(ctxptr->tpid), addr, data);
 }
 
-/*----------------------------------------------------------------------*/
-/* I/O */
+BYTE REGPARM2 tpid_read(drive_context_t *ctxptr, WORD addr)
+{
+    return tpicore_read(&(ctxptr->tpid), addr);
+}
 
-_TPI_FUNC void tpi_set_ca(TPI_CONTEXT_PARAM int a)
+BYTE REGPARM2 tpid_peek(drive_context_t *ctxptr, WORD addr)
+{
+    return tpicore_peek(&(ctxptr->tpid), addr);
+}
+
+static void mycpu_set_int(unsigned int int_num, int value)
 {
 }
 
-_TPI_FUNC void tpi_set_cb(TPI_CONTEXT_PARAM int a)
+static void mycpu_restore_int(unsigned int int_num, int value)
 {
 }
 
-_TPI_FUNC void _tpi_reset(TPI_CONTEXT_PARVOID)
-{
-    plus4tcbm_update_pa(0xff, ctxptr->mynumber);
-    plus4tcbm_update_pb(0xff, ctxptr->mynumber);
-    plus4tcbm_update_pc(0xff, ctxptr->mynumber);
-}
-
-_TPI_FUNC void store_pa(TPI_CONTEXT_PARAM BYTE byte)
-{
-    plus4tcbm_update_pa(byte, ctxptr->mynumber);
-}
-
-_TPI_FUNC void store_pb(TPI_CONTEXT_PARAM BYTE byte)
-{
-    if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(ctxptr->drive_ptr);
-
-    ctxptr->drive_ptr->GCR_write_value = byte;
-}
-
-_TPI_FUNC void undump_pa(TPI_CONTEXT_PARAM BYTE byte)
+static void tpi_set_ca(tpi_context_t *tpi_context, int a)
 {
 }
 
-_TPI_FUNC void undump_pb(TPI_CONTEXT_PARAM BYTE byte)
+static void tpi_set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
-_TPI_FUNC void store_pc(TPI_CONTEXT_PARAM BYTE byte)
+static void _tpi_reset(tpi_context_t *tpi_context)
 {
-    plus4tcbm_update_pc(byte, ctxptr->mynumber);
+    drivetpi_context_t *tpip;
 
-    ctxptr->drive_ptr->read_write_mode = byte & 0x10;
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    if ((byte & 0x10) != (oldpc & 0x10)) {
-        if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-            rotation_rotate_disk(ctxptr->drive_ptr);
-        rotation_change_mode(ctxptr->mynumber);
+    plus4tcbm_update_pa(0xff, tpip->number);
+    plus4tcbm_update_pb(0xff, tpip->number);
+    plus4tcbm_update_pc(0xff, tpip->number);
+}
+
+static void store_pa(tpi_context_t *tpi_context, BYTE byte)
+{
+    drivetpi_context_t *tpip;
+
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
+
+    plus4tcbm_update_pa(byte, tpip->number);
+}
+
+static void store_pb(tpi_context_t *tpi_context, BYTE byte)
+{
+    drivetpi_context_t *tpip;
+
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
+
+    if (tpip->drive_ptr->byte_ready_active == 0x06)
+        rotation_rotate_disk(tpip->drive_ptr);
+
+    tpip->drive_ptr->GCR_write_value = byte;
+}
+
+static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
+{
+}
+
+static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
+{
+}
+
+static void store_pc(tpi_context_t *tpi_context, BYTE byte)
+{
+    drivetpi_context_t *tpip;
+
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
+
+    plus4tcbm_update_pc(byte, tpip->number);
+
+    tpip->drive_ptr->read_write_mode = byte & 0x10;
+
+    if ((byte & 0x10) != (tpi_context->oldpc & 0x10)) {
+        if (tpip->drive_ptr->byte_ready_active == 0x06)
+            rotation_rotate_disk(tpip->drive_ptr);
+        rotation_change_mode(tpip->number);
     }
 }
 
-_TPI_FUNC void undump_pc(TPI_CONTEXT_PARAM BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
 {
 }
 
-_TPI_FUNC BYTE read_pa(TPI_CONTEXT_PARVOID)
+static BYTE read_pa(tpi_context_t *tpi_context)
 {
     /* TCBM data port */
     BYTE byte;
+    drivetpi_context_t *tpip;
 
-    byte = (tpi[TPI_PA] | ~tpi[TPI_DDPA]) & plus4tcbm_outputa[ctxptr->mynumber];
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    ctxptr->drive_ptr->byte_ready_level = 0;
+    byte = (tpi_context->c_tpi[TPI_PA] | ~(tpi_context->c_tpi)[TPI_DDPA])
+           & plus4tcbm_outputa[tpip->number];
+
+    tpip->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
 
-_TPI_FUNC BYTE read_pb(TPI_CONTEXT_PARVOID)
+static BYTE read_pb(tpi_context_t *tpi_context)
 {
     /* GCR data port */
     BYTE byte;
+    drivetpi_context_t *tpip;
 
-    rotation_byte_read(ctxptr->drive_ptr);
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    byte = (tpi[TPI_PB] | ~tpi[TPI_DDPB]) & ctxptr->drive_ptr->GCR_read;
+    rotation_byte_read(tpip->drive_ptr);
 
-    ctxptr->drive_ptr->byte_ready_level = 0;
+    byte = (tpi_context->c_tpi[TPI_PB] | ~(tpi_context->c_tpi)[TPI_DDPB])
+           & tpip->drive_ptr->GCR_read;
+
+    tpip->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
 
-_TPI_FUNC BYTE read_pc(TPI_CONTEXT_PARVOID)
+static BYTE read_pc(tpi_context_t *tpi_context)
 {
     /* TCBM control / GCR data control */
     BYTE byte;
+    drivetpi_context_t *tpip;
 
-    if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-        rotation_rotate_disk(ctxptr->drive_ptr);
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
 
-    byte = (tpi[TPI_PC] | ~tpi[TPI_DDPC])
+    if (tpip->drive_ptr->byte_ready_active == 0x06)
+        rotation_rotate_disk(tpip->drive_ptr);
+
+    byte = (tpi_context->c_tpi[TPI_PC] | ~(tpi_context->c_tpi)[TPI_DDPC])
            /* Bit 0, 1 */
-           & (plus4tcbm_outputb[ctxptr->mynumber] | ~0x03)
+           & (plus4tcbm_outputb[tpip->number] | ~0x03)
            /* Bit 3 */
-           & ((plus4tcbm_outputc[ctxptr->mynumber] >> 4) | ~0x08)
+           & ((plus4tcbm_outputc[tpip->number] >> 4) | ~0x08)
            /* Bit 5 */
            & (~0x20)
            /* Bit 6 */
-           & (rotation_sync_found(ctxptr->drive_ptr) ? 0xff : ~0x40)
+           & (rotation_sync_found(tpip->drive_ptr) ? 0xff : ~0x40)
            /* Bit 7 */
-           & ((plus4tcbm_outputc[ctxptr->mynumber] << 1) | ~0x80);
+           & ((plus4tcbm_outputc[tpip->number] << 1) | ~0x80);
 
     return byte;
 }
 
 void tpid_init(drive_context_t *ctxptr)
 {
-    mytpi_log = log_open(MYTPI_NAME);
+    tpi_context_t *tpi_context;
+
+    tpi_context = &(ctxptr->tpid);
+
+    tpi_context->log = log_open(tpi_context->myname);
+}
+
+void tpid_setup_context(drive_context_t *ctxptr)
+{
+    drivetpi_context_t *tpip;
+    tpi_context_t *tpi_context;
+
+    tpi_context = &(ctxptr->tpid);
+
+    tpi_context->prv = lib_malloc(sizeof(drivetpi_context_t));
+    tpip = (drivetpi_context_t *)(tpi_context->prv);
+    tpip->number = ctxptr->mynumber;
+
+    tpi_context->context = (void *)ctxptr;
+
+    tpi_context->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    tpi_context->clk_ptr = ctxptr->clk_ptr;
+
+    sprintf(tpi_context->myname, "Drive%dTPI", ctxptr->mynumber);
+    tpi_context->irq_previous = 0;
+    tpi_context->irq_stack = 0;
+    tpi_context->tpi_last_read = 0;
+    tpi_context->tpi_int_num
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+                                       tpi_context->myname);
+    tpi_context->irq_line = IK_IRQ;
+    tpip->drive_ptr = ctxptr->drive_ptr;
 }
 
 #include "tpicore.c"
