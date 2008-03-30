@@ -223,6 +223,11 @@ struct raster_s {
     /* Open border flags.  */
     int open_right_border, open_left_border;
 
+    /*  Overrides the blank flag when forced DMA switches on screen and the
+        store that forced DMA sets the blank flag.  The flag should be cleared
+        at line zero.  */
+    int blank_off;
+
     /* blank_enabled is set when line display_ystop is reached and reset when
        line display_ystart is reached and blank is 0.  */
     int blank;

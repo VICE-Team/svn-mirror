@@ -1112,6 +1112,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
         vic_ii.memptr = 0;
         vic_ii.mem_counter = 0;
         vic_ii.light_pen.triggered = 0;
+        vic_ii.raster.blank_off = 0;
 
 #ifdef __MSDOS__
         if (vic_ii.raster.viewport.width <= VIC_II_SCREEN_XPIX
