@@ -772,6 +772,18 @@ void util_add_extension(char **name, const char *extension)
     memcpy(&((*name)[name_len + 1]), extension, ext_len + 1);
 }
 
+/* Like util_add_extension() but a const filename is passed.  */
+char *util_add_extension_const(const char *filename, const char *extension)
+{
+    char *ext_filename;
+
+    ext_filename = stralloc(filename);
+
+    util_add_extension(&ext_filename, extension);
+
+    return ext_filename;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* xmsprintf() is like sprintf() but xmalloc's the buffer by itself.  */
