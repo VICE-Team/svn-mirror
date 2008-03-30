@@ -66,6 +66,7 @@
 #include "log.h"
 #include "p00.h"
 #include "resources.h"
+#include "serial.h"
 #include "utils.h"
 #include "vdrive.h"
 

@@ -57,6 +57,7 @@
 #include "mon.h"
 #include "mon_parse.h"
 #include "resources.h"
+#include "serial.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "vsync.h"

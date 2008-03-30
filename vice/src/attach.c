@@ -34,8 +34,9 @@
 #include "attach.h"
 #include "fliplist.h"
 #include "resources.h"
-#include "vdrive.h"
+#include "serial.h"
 #include "ui.h"
+#include "vdrive.h"
 
 static int file_system_device_enabled[4];
 
@@ -72,8 +73,8 @@ int file_system_init_resources(void)
 
 /* Warning: this must be called /before/ `file_system_init()'.  */
 int file_system_set_hooks(int unit,
-                          int (*attach_func)(DRIVE *),
-                          int (*detach_func)(DRIVE *))
+                          int (*attach_func)(void *),
+                          int (*detach_func)(void *))
 {
     if (unit < 8 || unit > 11)
         return -1;
