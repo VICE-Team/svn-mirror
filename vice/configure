@@ -309,7 +309,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE QNX_COMPILE_TRUE QNX_COMPILE_FALSE SOLARIS_COMPILE_TRUE SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=20
+VICE_VERSION_BUILD=21
 
 
 
@@ -10313,7 +10313,7 @@ cat >>confdefs.h <<\_ACEOF
 #define HAVE_USBHID_H 1
 _ACEOF
 
-	     usb_header=yes
+             usb_header=yes
 else
   if test "${ac_cv_header_libusbhid_h+set}" = set; then
   echo "$as_me:$LINENO: checking for libusbhid.h" >&5
@@ -10458,16 +10458,203 @@ fi
 fi
 
 
-	if test x"$usb_header" = "xyes" ; then
+        if test x"$usb_header" = "xyes" ; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAS_USB_JOYSTICK
 _ACEOF
 
-	    LIBS="$LIBS -lusbhid"
-	fi
+            LIBS="$LIBS -lusbhid"
+        fi
 fi
 
+
+      if test "${ac_cv_header_HID_Utilities_External_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for HID_Utilities_External.h" >&5
+echo $ECHO_N "checking for HID_Utilities_External.h... $ECHO_C" >&6
+if test "${ac_cv_header_HID_Utilities_External_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_HID_Utilities_External_h" >&5
+echo "${ECHO_T}$ac_cv_header_HID_Utilities_External_h" >&6
+else
+  # Is the header compilable?
+echo "$as_me:$LINENO: checking HID_Utilities_External.h usability" >&5
+echo $ECHO_N "checking HID_Utilities_External.h usability... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <HID_Utilities_External.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_header_compiler=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_header_compiler=no
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+echo "${ECHO_T}$ac_header_compiler" >&6
+
+# Is the header present?
+echo "$as_me:$LINENO: checking HID_Utilities_External.h presence" >&5
+echo $ECHO_N "checking HID_Utilities_External.h presence... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <HID_Utilities_External.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_c_preproc_warn_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_header_preproc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+echo "${ECHO_T}$ac_header_preproc" >&6
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc in
+  yes:no )
+    { echo "$as_me:$LINENO: WARNING: HID_Utilities_External.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: HID_Utilities_External.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: HID_Utilities_External.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: HID_Utilities_External.h: proceeding with the preprocessor's result" >&2;}
+    (
+      cat <<\_ASBOX
+## ------------------------------------ ##
+## Report this to bug-autoconf@gnu.org. ##
+## ------------------------------------ ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+  no:yes )
+    { echo "$as_me:$LINENO: WARNING: HID_Utilities_External.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: HID_Utilities_External.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: HID_Utilities_External.h: check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: HID_Utilities_External.h: check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: HID_Utilities_External.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: HID_Utilities_External.h: proceeding with the preprocessor's result" >&2;}
+    (
+      cat <<\_ASBOX
+## ------------------------------------ ##
+## Report this to bug-autoconf@gnu.org. ##
+## ------------------------------------ ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+echo "$as_me:$LINENO: checking for HID_Utilities_External.h" >&5
+echo $ECHO_N "checking for HID_Utilities_External.h... $ECHO_C" >&6
+if test "${ac_cv_header_HID_Utilities_External_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_cv_header_HID_Utilities_External_h=$ac_header_preproc
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_HID_Utilities_External_h" >&5
+echo "${ECHO_T}$ac_cv_header_HID_Utilities_External_h" >&6
+
+fi
+
+
+  if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
+    echo "$as_me:$LINENO: checking whether we can link the (mac) HIDUtilities library" >&5
+echo $ECHO_N "checking whether we can link the (mac) HIDUtilities library... $ECHO_C" >&6
+    old_LIBS="${LIBS}"
+    LIBS="${LIBS} -lHIDUtilities -framework IOKit -framework CoreServices"
+    cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <HID_Utilities_External.h>
+int
+main ()
+{
+HIDCountDevices()
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6;
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define MAC_JOYSTICK
+_ACEOF
+
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6;
+                 LIBS=${old_LIBS}
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+  fi
 fi
 
 
@@ -22407,11 +22594,11 @@ fi
 
 
 if true; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
 else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
 fi
 
       ;;
@@ -22420,11 +22607,11 @@ fi
 
 
 if true; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
 else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
 fi
 
       ;;
@@ -22436,11 +22623,11 @@ fi
 
 
 if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
 else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
 fi
 
   fi
@@ -22449,11 +22636,11 @@ fi
 
 
 if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
 else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
 fi
 
   fi
@@ -22508,6 +22695,26 @@ fi
 
 
 
+if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
 if true; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
@@ -22564,26 +22771,6 @@ if false; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 elif test x"$is_amiga" = "xyes"; then
@@ -22613,6 +22800,26 @@ fi
 
 
 if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
+if false; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
 else
@@ -22668,26 +22875,6 @@ if true; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 elif test x"$is_dos" = "xyes"; then
@@ -22721,6 +22908,26 @@ fi
 
 
 if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
+if false; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
 else
@@ -22776,26 +22983,6 @@ if false; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 elif test x"$is_os2" = "xyes"; then
@@ -22825,6 +23012,26 @@ fi
 
 
 if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
+if false; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
 else
@@ -22880,26 +23087,6 @@ if false; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 elif test x"$is_beos" = "xyes"; then
@@ -22929,6 +23116,26 @@ fi
 
 
 if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
+if false; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
 else
@@ -22984,26 +23191,6 @@ if false; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 elif test x"$is_riscos" = "xyes"; then
@@ -23033,6 +23220,26 @@ fi
 
 
 if false; then
+  UNIX_QNX_COMPILE_TRUE=
+  UNIX_QNX_COMPILE_FALSE='#'
+else
+  UNIX_QNX_COMPILE_TRUE='#'
+  UNIX_QNX_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_SOLARIS_COMPILE_TRUE=
+  UNIX_SOLARIS_COMPILE_FALSE='#'
+else
+  UNIX_SOLARIS_COMPILE_TRUE='#'
+  UNIX_SOLARIS_COMPILE_FALSE=
+fi
+
+
+
+if false; then
   WIN32_COMPILE_TRUE=
   WIN32_COMPILE_FALSE='#'
 else
@@ -23088,26 +23295,6 @@ if false; then
 else
   AMIGA_COMPILE_TRUE='#'
   AMIGA_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  QNX_COMPILE_TRUE=
-  QNX_COMPILE_FALSE='#'
-else
-  QNX_COMPILE_TRUE='#'
-  QNX_COMPILE_FALSE=
-fi
-
-
-
-if false; then
-  SOLARIS_COMPILE_TRUE=
-  SOLARIS_COMPILE_FALSE='#'
-else
-  SOLARIS_COMPILE_TRUE='#'
-  SOLARIS_COMPILE_FALSE=
 fi
 
 else
@@ -23568,31 +23755,31 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23621,6 +23808,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23666,20 +23867,6 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${UNIX_COMPILE_TRUE}" && test -z "${UNIX_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -23691,6 +23878,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23736,20 +23937,6 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${UNIX_COMPILE_TRUE}" && test -z "${UNIX_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -23761,6 +23948,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23806,20 +24007,6 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${UNIX_COMPILE_TRUE}" && test -z "${UNIX_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -23831,6 +24018,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23876,20 +24077,6 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${UNIX_COMPILE_TRUE}" && test -z "${UNIX_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -23901,6 +24088,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -23946,20 +24147,6 @@ echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${UNIX_COMPILE_TRUE}" && test -z "${UNIX_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -23971,6 +24158,20 @@ if test -z "${UNIX_GP2X_COMPILE_TRUE}" && test -z "${UNIX_GP2X_COMPILE_FALSE}"; 
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_SOLARIS_COMPILE_TRUE}" && test -z "${UNIX_SOLARIS_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -24013,20 +24214,6 @@ if test -z "${AMIGA_COMPILE_TRUE}" && test -z "${AMIGA_COMPILE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"AMIGA_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"AMIGA_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${QNX_COMPILE_TRUE}" && test -z "${QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"QNX_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SOLARIS_COMPILE_TRUE}" && test -z "${SOLARIS_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SOLARIS_COMPILE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SOLARIS_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -24793,10 +24980,10 @@ s,@BEOS_COMPILE_TRUE@,$BEOS_COMPILE_TRUE,;t t
 s,@BEOS_COMPILE_FALSE@,$BEOS_COMPILE_FALSE,;t t
 s,@AMIGA_COMPILE_TRUE@,$AMIGA_COMPILE_TRUE,;t t
 s,@AMIGA_COMPILE_FALSE@,$AMIGA_COMPILE_FALSE,;t t
-s,@QNX_COMPILE_TRUE@,$QNX_COMPILE_TRUE,;t t
-s,@QNX_COMPILE_FALSE@,$QNX_COMPILE_FALSE,;t t
-s,@SOLARIS_COMPILE_TRUE@,$SOLARIS_COMPILE_TRUE,;t t
-s,@SOLARIS_COMPILE_FALSE@,$SOLARIS_COMPILE_FALSE,;t t
+s,@UNIX_QNX_COMPILE_TRUE@,$UNIX_QNX_COMPILE_TRUE,;t t
+s,@UNIX_QNX_COMPILE_FALSE@,$UNIX_QNX_COMPILE_FALSE,;t t
+s,@UNIX_SOLARIS_COMPILE_TRUE@,$UNIX_SOLARIS_COMPILE_TRUE,;t t
+s,@UNIX_SOLARIS_COMPILE_FALSE@,$UNIX_SOLARIS_COMPILE_FALSE,;t t
 s,@UNIX_GP2X_COMPILE_TRUE@,$UNIX_GP2X_COMPILE_TRUE,;t t
 s,@UNIX_GP2X_COMPILE_FALSE@,$UNIX_GP2X_COMPILE_FALSE,;t t
 s,@HAVE_READLINE@,$HAVE_READLINE,;t t

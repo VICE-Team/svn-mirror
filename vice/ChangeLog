@@ -1,3 +1,13 @@
+2006-07-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.21.
+
+	* configure.in: Added USB joystick patch by Christian
+	Vogelgsang.
+
+	* Makefile.am, configure.in: Renamed Solaris and QNX compile
+	switches.
+
 2006-07-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.20.

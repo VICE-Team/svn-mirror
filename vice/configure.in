@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=20
+VICE_VERSION_BUILD=21
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -681,18 +681,34 @@ if test x"$is_unix_x11" = "xyes" ; then
   dnl NetBSD/FreeBSD USB joystick support
   usbhid_header=no
   AC_CHECK_LIB(usbhid, hid_get_report_desc,
-  	[AC_CHECK_HEADER(usbhid.h,
-	    [AC_DEFINE(HAVE_USBHID_H,1,
-		[Define to 1 if you have the <usbhid.h> header file.])
-	     usb_header=yes],
- 	     [AC_CHECK_HEADER(libusbhid.h,
-	    	[AC_DEFINE(HAVE_LIBUSBHID_H,1,
-		 [Define to 1 if you have the <libusbhid.h> header file.])],
-	        usbhid_header=no)])
-	if test x"$usb_header" = "xyes" ; then
-	    AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
-	    LIBS="$LIBS -lusbhid"
-	fi])
+        [AC_CHECK_HEADER(usbhid.h,
+            [AC_DEFINE(HAVE_USBHID_H,1,
+                [Define to 1 if you have the <usbhid.h> header file.])
+             usb_header=yes],
+             [AC_CHECK_HEADER(libusbhid.h,
+                [AC_DEFINE(HAVE_LIBUSBHID_H,1,
+                 [Define to 1 if you have the <libusbhid.h> header file.])],
+                usbhid_header=no)])
+        if test x"$usb_header" = "xyes" ; then
+            AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
+            LIBS="$LIBS -lusbhid"
+        fi])
+
+  dnl --- Mac joystick support ---
+  dnl check for HID utility library
+  AC_CHECK_HEADER(HID_Utilities_External.h,,)
+  if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
+    AC_MSG_CHECKING(whether we can link the (mac) HIDUtilities library)
+    old_LIBS="${LIBS}"
+    LIBS="${LIBS} -lHIDUtilities -framework IOKit -framework CoreServices"
+    AC_TRY_LINK([#include <HID_Utilities_External.h>],
+                [HIDCountDevices()],
+                [AC_MSG_RESULT(yes);
+                 AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
+                 AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
+                [AC_MSG_RESULT(no);
+                 LIBS=${old_LIBS}])
+  fi
 fi
 
 
@@ -1545,22 +1561,22 @@ if test x"$is_unix" = "xyes"; then
   case "$host_os" in
     nto*)
       qnxcompile=yes
-      AM_CONDITIONAL(QNX_COMPILE, true)
+      AM_CONDITIONAL(UNIX_QNX_COMPILE, true)
       ;;
     solaris*)
       solariscompile=yes
-      AM_CONDITIONAL(SOLARIS_COMPILE, true)
+      AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, true)
       ;;
     *)
       ;;  
   esac
 
   if test x"$qnxcompile" = "xno"; then
-    AM_CONDITIONAL(QNX_COMPILE, false)
+    AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
   fi
 
   if test x"$solariscompile" = "xno"; then
-    AM_CONDITIONAL(SOLARIS_COMPILE, false)
+    AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   fi
 
   if test x"$is_unix_gp2x" = "xyes" ; then
@@ -1575,28 +1591,28 @@ elif test x"$is_win32" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
@@ -1607,56 +1623,56 @@ elif test x"$is_dos" = "xyes"; then
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, true)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(QNX_COMPILE, false)
-  AM_CONDITIONAL(SOLARIS_COMPILE, false)
 else
   AC_MSG_WARN([No architecture defined!])
 fi

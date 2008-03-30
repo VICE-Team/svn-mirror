@@ -48,7 +48,7 @@
 /* Enable emulation for digital joysticks. */
 #undef HAS_DIGITAL_JOYSTICK
 
-/* Enable joystick emulation. */
+/* Enable Joystick emulation. */
 #undef HAS_JOYSTICK
 
 /* Support 64bit integer for Win32 performance counter */
@@ -486,6 +486,9 @@
 
 /* Enable support for Linux style joysticks. */
 #undef LINUX_JOYSTICK
+
+/* Enable Mac Joystick support. */
+#undef MAC_JOYSTICK
 
 /* are we compiling under Minix-Vmd */
 #undef MINIXVMD

@@ -48,12 +48,12 @@ bindistzip:
 	$(SHELL) $(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
-if QNX_COMPILE
+if UNIX_QNX_COMPILE
 bindist:
 	$(SHELL) $(srcdir)/src/arch/unix/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
-if SOLARIS_COMPILE
+if UNIX_SOLARIS_COMPILE
 bindist:
 	$(SHELL) $(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
