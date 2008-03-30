@@ -468,23 +468,13 @@ enum WindowType
 typedef enum WindowType WindowType;
 
 
-enum MinimizedMaximized
-{
-    MM_NORMAL = 0, MM_MINIMIZED, MM_MAXIMIZED
-};
-typedef enum MinimizedMaximized MinimizedMaximized;
-
 struct WindowDimensions
 {
     BYTE *pMonitorDimensionsBuffer;
     BYTE *pMonitorDimensions;
     int   MonitorLen;
 
-	LONG x;
-	LONG y;
-	LONG dx;
-	LONG dy;
-    MinimizedMaximized minimizedmaximized;
+	WINDOWPLACEMENT wpPlacement;
 };
 typedef struct WindowDimensions WindowDimensions;
 typedef WindowDimensions *PWindowDimensions;
@@ -504,6 +494,19 @@ WORD GetWord(BYTE **p, int* len)
 }
 
 static
+BOOLEAN GetPlacement( BYTE **p, int* len, WINDOWPLACEMENT *pwp )
+{
+	UINT i;
+
+	PBYTE pNext = (PBYTE) pwp;
+	for (i=sizeof(WINDOWPLACEMENT);(i>0) && (*len>0);i--)
+		*pNext++ = (BYTE) GetByte(p,len);
+
+	return (i==0) ? FALSE : TRUE;
+}
+ 
+
+static
 BYTE **WriteByte(BYTE **p, BYTE a)
 {
 	*(*p)++ = a;
@@ -518,7 +521,17 @@ BYTE **WriteWord(BYTE **p, WORD a)
 	return p;
 }
 
+static
+BYTE **WritePlacement( BYTE **p, WINDOWPLACEMENT *pwp )
+{
+	UINT i;
+	PBYTE pNext = (PBYTE) pwp;
+	for (i=0;i<pwp->length;i++)
+		WriteByte(p,*pNext++);
 
+	return p;
+}
+ 
 static
 WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
 {
@@ -532,20 +545,16 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
     {
         ret = GetByte(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
 
-        if (pwd->MonitorLen < 9)
+        if (pwd->MonitorLen < sizeof(WINDOWPLACEMENT))
         {
             ret = WT_END;
 
-            UIM_DEBUG(( "UIMON.C [-2-]: pwd->MonitorLen has size %u, "
-                "should have size of at least 9.", pwd->MonitorLen ));
+            UIM_DEBUG(( "UIMON.C: pwd->MonitorLen has size %u, "
+                "should have size of at least %u.", pwd->MonitorLen, sizeof(WINDOWPLACEMENT) ));
         }
         else
         {
-            pwd->x                  = (LONG) (signed) GetWord(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
-            pwd->y                  = (LONG) (signed) GetWord(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
-            pwd->dx                 = GetWord(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
-            pwd->dy                 = GetWord(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
-            pwd->minimizedmaximized = GetByte(&(pwd->pMonitorDimensions),&pwd->MonitorLen);
+			GetPlacement(&(pwd->pMonitorDimensions),&pwd->MonitorLen,&(pwd->wpPlacement));
         }
     }
     return ret;
@@ -554,29 +563,13 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
 static
 void SetNextMonitorDimensions( HWND hwnd, WindowType wt, BYTE **p )
 {
-    RECT rect;
-    DWORD dwStyle;
-    MinimizedMaximized mm = MM_NORMAL;
+	WINDOWPLACEMENT wpPlacement;
+	wpPlacement.length = sizeof(WINDOWPLACEMENT);
+	GetWindowPlacement(hwnd,&wpPlacement);
 
     WriteByte(p,(BYTE)wt);
 
-    GetWindowRect( hwnd, &rect );
-    dwStyle = GetWindowLong( hwnd, GWL_STYLE );
-
-    if (dwStyle & WS_MAXIMIZE)
-        mm = MM_MAXIMIZED;
-
-    if (dwStyle & WS_MINIMIZE)
-        mm = MM_MINIMIZED;
-
-	ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
-	ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
-
-    WriteWord(p, (WORD) rect.left ); // (WORD) pwd->x );
-    WriteWord(p, (WORD) rect.top  ); // (WORD) pwd->y );
-    WriteWord(p, (WORD) (rect.right-rect.left) ); // (WORD) pwd->dx);
-    WriteWord(p, (WORD) (rect.bottom-rect.top) ); // (WORD) pwd->dy);
-    WriteByte(p, (BYTE) mm );
+	WritePlacement(p,&wpPlacement);
 }
 
 static
@@ -587,38 +580,22 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 
     while ((wt = GetNextMonitorDimensions(wd)) != WT_END)
     {
-        DWORD dwStyle = 0; // to be ORed with the window style
-
-        switch (wd->minimizedmaximized)
-        {
-        case MM_MINIMIZED:
-            dwStyle = WS_MINIMIZE;
-            break;
-
-        case MM_MAXIMIZED:
-            dwStyle = WS_MAXIMIZE;
-            break;
-
-        default:
-            break;
-        }
-
         switch (wt)
         {
         case WT_CONSOLE:
-            hwndOpened = iOpenConsole(hwnd,TRUE,dwStyle,wd->x,wd->y,wd->dx,wd->dy);
+            hwndOpened = OpenConsole(hwnd,TRUE);
             break;
 
         case WT_DISASSEMBLY:
-            hwndOpened = iOpenDisassembly(hwnd,dwStyle,wd->x,wd->y,wd->dx,wd->dy);
+            hwndOpened = OpenDisassembly(hwnd);
             break;
 
         case WT_REGISTER:
-            hwndOpened = iOpenRegistry(hwnd,dwStyle,wd->x,wd->y,wd->dx,wd->dy);
+            hwndOpened = OpenRegistry(hwnd);
             break;
         };
 
-        wt = GetNextMonitorDimensions( wd );
+		SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
     };
 
     free(wd->pMonitorDimensionsBuffer);
@@ -626,7 +603,7 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 }
 
 static
-PWindowDimensions LoadMonitorDimensions(void)
+PWindowDimensions LoadMonitorDimensions(HWND hwnd)
 {
 	PWindowDimensions ret = NULL;
 
@@ -646,14 +623,9 @@ PWindowDimensions LoadMonitorDimensions(void)
             bError = TRUE;
         else
         {
-            ret     = xmalloc( sizeof(*ret) );
-
-		    ret->x  = (LONG) (signed short) GetWord(&p,&len);
-		    ret->y  = (LONG) (signed short) GetWord(&p,&len);
-		    ret->dx = GetWord(&p,&len);
-		    ret->dy = GetWord(&p,&len);
-
-            UIM_DEBUG(( "*** Dimensions: x=%lu, y=%lu, dx=%lu, dy=%lu.", ret->x, ret->y, ret->dx, ret->dy ));
+            ret    = xmalloc( sizeof(*ret) );
+			bError = GetPlacement( &p, &len, &(ret->wpPlacement) );
+			SetWindowPlacement( hwnd, &(ret->wpPlacement) );
 
             ret->pMonitorDimensionsBuffer = buffer;
             ret->pMonitorDimensions       = p;
@@ -667,40 +639,57 @@ PWindowDimensions LoadMonitorDimensions(void)
 	return ret;
 }
 
+static
+VOID iWindowStore( HWND hwnd, BYTE **p )
+{
+    LONG WindowType = WT_CONSOLE;
+
+	UIM_DEBUG(( "UIMON.C: +++ called WindowStoreProc %8lx", (LONG) hwnd ));
+
+    SendMessage( hwnd, WM_GETWINDOWTYPE, 0, (LPARAM) &WindowType );
+
+    SetNextMonitorDimensions( hwnd, WindowType, p );
+}
+
+static int  nHwndStack = 0;
+static HWND hwndStack[256]; // @SRT
+
+static
+VOID WindowStore( BYTE **p )
+{
+	while (nHwndStack--)
+	{
+		UIM_DEBUG(( "UIMON.C: POP   hwndStack[%u] = %08x", nHwndStack, hwndStack[nHwndStack] ));
+		iWindowStore(hwndStack[nHwndStack], p);
+	}
+	nHwndStack = 0;
+}
 
 static
 BOOL CALLBACK WindowStoreProc( HWND hwnd, LPARAM lParam )
 {
-    LONG WindowType = WT_CONSOLE;
-
-	UIM_DEBUG(( "+++ called WindowStoreProc %8lx", (LONG) hwnd ));
-
-    SendMessage( hwnd, WM_GETWINDOWTYPE, 0, (LPARAM) &WindowType );
-
-    SetNextMonitorDimensions( hwnd, WindowType, /*WT_DISASSEMBLY, */(BYTE**)lParam );
+    UIM_DEBUG(( "UIMON.C: STORE hwndStack[%u] = %08x", nHwndStack, hwnd ));
+	hwndStack[nHwndStack++] = hwnd;
 	return TRUE;
 }
- 
+
 static
 void StoreMonitorDimensions(HWND hwnd)
 {
     char *dimensions;
-    BYTE  buffer[512]; // @SRT
+    BYTE  buffer[1024]; // @SRT
     BYTE *p = buffer;
-    RECT  rect;
 
-    GetWindowRect( hwnd, &rect );
-    WriteWord( &p, (WORD) rect.left );
-    WriteWord( &p, (WORD) rect.top  );
-    WriteWord( &p, (WORD) (rect.right  - rect.left) );
-    WriteWord( &p, (WORD) (rect.bottom - rect.top ) );
+	WINDOWPLACEMENT wpPlacement;
+	wpPlacement.length = sizeof(WINDOWPLACEMENT);
+
+	GetWindowPlacement( hwnd, &wpPlacement );
+
+	WritePlacement( &p, &wpPlacement );
 
 	// store info for open windows in structure
-/**
-    if (hwndConsole)
-        SetNextMonitorDimensions( hwndConsole, WT_CONSOLE, &p );
-/**/
-	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,(LPARAM)&p);
+	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,0);
+	WindowStore(&p);
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
     resources_set_value("MonitorDimensions",(resource_value_t *)dimensions);
@@ -1473,16 +1462,6 @@ console_t *arch_mon_window_open( void )
 
     hwndParent = GetActiveWindow();
 
-    wd = LoadMonitorDimensions();
-
-    if (wd)
-    {
-        x  = wd->x;
-        y  = wd->y;
-        dx = wd->dx;
-        dy = wd->dy;
-    }
-
 	SuspendFullscreenMode( hwndParent );
 
     arch_mon_init();
@@ -1498,6 +1477,8 @@ console_t *arch_mon_window_open( void )
         NULL,
         winmain_instance,
         NULL);
+
+    wd = LoadMonitorDimensions(hwnd);
 
     if (!wd)
     {

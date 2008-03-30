@@ -127,14 +127,21 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
 _RIOT_FUNC void set_handshake(drive_context_t *ctxptr, BYTE pa)
 {
-    ctxptr->func.parallel_set_nrfd((char)
-	(((pa & 0x4) == 0)
-	|| ((pa & 1) && !atn_active)
-	|| (((pa & 1) == 0) && atn_active)
+    /* IEEE handshake logic (named as in schematics):
+	Inputs: /ATN	= inverted IEEE atn (true = active)
+		ATNA	= pa bit 0
+		/DACO	= pa bit 1
+		RFDO	= pa bit 2
+	Output:	DACO	= /DACO & (ATN | ATNA) -> to IEEE via MC3446
+		RFDO	= (/ATN == ATNA) & RFDO -> to IEEE via MC3446
+    */
+    /* RFDO = (/ATN == ATNA) & RFDO */
+    ctxptr->func.parallel_set_nrfd((char)(
+	!( ((atn_active ? 1 : 0) == (pa & 1)) && (pa & 4) ) 
 	));
-    ctxptr->func.parallel_set_ndac((char)
-	((pa & 0x2)
-	|| (((pa & 0x1) == 0) && atn_active)
+    /* DACO = /DACO & (ATNA | ATN) */
+    ctxptr->func.parallel_set_ndac((char)(
+	!( (!(pa & 2)) && ((pa & 1) || (!atn_active)) )
 	));
 }
 
@@ -164,7 +171,11 @@ _RIOT_FUNC void undump_pra(drive_context_t *ctxptr, BYTE byte)
 _RIOT_FUNC void store_pra(drive_context_t *ctxptr, BYTE byte)
 {
     /* bit 0 = atna */
-    set_handshake(ctxptr, byte);
+    /* bit 1 = /daco */
+    /* bit 2 = rfdo */
+    /* bit 3 = eoio */
+    /* bit 4 = davo */
+    set_handshake(ctxptr, byte);  /* handle atna, nrfd, ndac */
     ctxptr->func.parallel_set_eoi(!(byte & 0x08));
     ctxptr->func.parallel_set_dav(!(byte & 0x10));
 }

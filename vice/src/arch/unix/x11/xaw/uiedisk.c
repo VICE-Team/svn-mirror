@@ -67,7 +67,8 @@ static Widget options_form;
 static Widget options_filling_box_left;
 
 /* static Widget options_filling_box_right; */
-static Widget disk_type_d64_button, disk_type_d71_button;
+static Widget disk_type_d64_button, disk_type_d67_button;
+static Widget disk_type_d71_button;
 static Widget disk_type_d81_button, disk_type_d80_button;
 static Widget disk_type_d82_button, disk_type_g64_button;
 static Widget disk_type_label;
@@ -102,11 +103,12 @@ static UI_CALLBACK(cancel_callback)
     ui_popdown(emptydisk_dialog);
 }
 
-static char *extensions[] = { "d64", "d71", "d81", "d80", "d82", "g64" };
+static char *extensions[] = { "d64", "d67", "d71", "d81", "d80", "d82", "g64" };
 
 static UI_CALLBACK(save_callback)
 {
-    int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D71,
+    int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D67,
+    	             DISK_IMAGE_TYPE_D71,
                      DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D80,
                      DISK_IMAGE_TYPE_D82, DISK_IMAGE_TYPE_G64 };
     char *filename;
@@ -120,7 +122,9 @@ static UI_CALLBACK(save_callback)
     type_cnt = 0;
     XtVaGetValues(disk_type_d64_button, XtNstate, &disk_type_flag, NULL);
     if (disk_type_flag == False) {
-	type_cnt ++;
+      type_cnt ++;
+      XtVaGetValues(disk_type_d67_button, XtNstate, &disk_type_flag, NULL);
+      if (disk_type_flag == False) {
         XtVaGetValues(disk_type_d71_button, XtNstate, &disk_type_flag, NULL);
         if (disk_type_flag == False) {
 	    type_cnt ++;
@@ -145,6 +149,7 @@ static UI_CALLBACK(save_callback)
 		}
 	    }
 	}
+      }
     }
   
     if (type_cnt < 0 || type_cnt > 5)
@@ -302,10 +307,22 @@ static void build_emptydisk_dialog(void)
          XtNlabel, "D64",
          NULL);
 
+    disk_type_d67_button = XtVaCreateManagedWidget
+        ("ImageTypeD67Button",
+         toggleWidgetClass, options_form,
+         XtNfromHoriz, disk_type_d64_button,
+         XtNfromVert, browse_button,
+         XtNwidth, 40,
+         XtNheight, 20,
+         XtNright, XtChainRight,
+         XtNleft, XtChainRight,
+         XtNlabel, "D67",
+         NULL);
+
     disk_type_d71_button = XtVaCreateManagedWidget
         ("ImageTypeD71Button",
          toggleWidgetClass, options_form,
-         XtNfromHoriz, disk_type_d64_button,
+         XtNfromHoriz, disk_type_d67_button,
          XtNfromVert, browse_button,
          XtNwidth, 40,
          XtNheight, 20,

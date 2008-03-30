@@ -107,6 +107,9 @@ static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
       case VDRIVE_IMAGE_FORMAT_1541:
         disk_type = DISK_IMAGE_TYPE_D64;
         break;
+      case VDRIVE_IMAGE_FORMAT_2040:
+        disk_type = DISK_IMAGE_TYPE_D67;
+	break;
       case VDRIVE_IMAGE_FORMAT_1571:
         disk_type = DISK_IMAGE_TYPE_D71;
         break;
@@ -292,6 +295,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
     if (vdrive->find_length < 0) {
         int sector;
         switch (vdrive->image_format) {
+          case VDRIVE_IMAGE_FORMAT_2040:
           case VDRIVE_IMAGE_FORMAT_1541:
             for (sector = 1;
                 sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64,

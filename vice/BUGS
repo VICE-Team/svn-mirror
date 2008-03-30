@@ -15,6 +15,9 @@ These are the most important known problems with VICE 1.6:
 
 - The CBM-II emulation is not fully supported in all ports.
 
+- When loading a snapshot, the monitor break/watchpoints break.
+  (at least in xpet)
+
 - The German translation doesn't work properly under
   Solaris/gettext. The menus are just partially filled, other entries
   are blanked and some are wrong.

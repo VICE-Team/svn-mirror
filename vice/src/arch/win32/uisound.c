@@ -28,6 +28,7 @@
 #include "res.h"
 #include "resources.h"
 #include "sound.h"
+#include "ui.h"
 #include "winmain.h"
 
 static int ui_sound_freq[]={

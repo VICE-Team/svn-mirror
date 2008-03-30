@@ -54,7 +54,7 @@ static unsigned int current_drive;
 static struct fliplist_t *iterator;
 
 static const char flip_file_header[] = "# Vice fliplist file";
-static const size_t buffer_size = 1024;
+#define buffer_size 1024
 
 static void show_fliplist(unsigned int unit);
 

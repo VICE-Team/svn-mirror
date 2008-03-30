@@ -487,10 +487,13 @@ struct mon_cmds mon_cmd_array[] = {
    { "verify", 		"v", 	CMD_VERIFY, 		STATE_FNAME },
 
    { "watch", 		"w", 	CMD_WATCH, 		STATE_INITIAL,
-     "[address [address]]",
+     "[loadstore] [address [address]]",
      "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
      "for that address.  If two addresses are specified, set a watchpoint\n"
-     "for the memory locations between the two addresses." },
+     "for the memory locations between the two addresses.\n" 
+     "`loadstore' is either `load' or `store' to specify on which operation\n"
+     "the monitor breaks. If not specified, the monitor breaks on both\n"
+     "operations." },
 
    { "", 		"", 	-1, 			STATE_INITIAL }
 

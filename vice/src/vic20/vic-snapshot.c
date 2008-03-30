@@ -142,8 +142,9 @@ vic_snapshot_read_module (snapshot_t *s)
       vic_store(i, b);
     }
 
-  alarm_set (&vic.raster_draw_alarm,
-             clk + VIC_CYCLES_PER_LINE - VIC_RASTER_CYCLE (clk));
+  vic.last_emulate_line_clk += clk - VIC_RASTER_CYCLE (clk);
+  vic.draw_clk = vic.last_emulate_line_clk + VIC_CYCLES_PER_LINE;
+  alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
 
   raster_force_repaint (&vic.raster);
   return snapshot_module_close (m);

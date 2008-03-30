@@ -1,6 +1,6 @@
 /*
  * soundwmm.c - Implementation of a Windows Waveout sound device.
- * Version 1.06
+ * Version 1.07
  *
  * Written by
  *  Lasse ™”rni <loorni@student.oulu.fi>
@@ -159,6 +159,7 @@ static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD dwUser, D
 
 static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
+    DWORD dwVersion;
 
     DEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d, bufsize = %.4f\n",
            *speed, *fragsize, *fragnr, bufsize));
@@ -214,6 +215,10 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, d
     play_cursor_offset = *speed / 16;
     if (is16bit) play_cursor_offset <<= 1;
     if (play_cursor_offset >= buffer_size) play_cursor_offset = 0;
+
+    /* If we're on Windows 2000/ME(?), no magic offset */
+    dwVersion = GetVersion();
+    if ((dwVersion & 0xff) >= 5) play_cursor_offset = 0;
 
     /* Reset writing pos, wrapping subtract, inactivity timer */
     write_cursor = buffer_size - fragment_bytesize;

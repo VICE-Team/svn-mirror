@@ -10,6 +10,12 @@ list of all the changes in the code.
 * Changes in VICE 1.7
 =====================
 
+** Drive changes
+-----------------
+
+- implemented experimental DOS1 (670 blocks free) support with CBM 2040 
+  emulation.
+
 ** CBM-II changes
 -----------------
 

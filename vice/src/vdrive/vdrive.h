@@ -35,6 +35,7 @@
 #define VDRIVE_IMAGE_FORMAT_1581 2
 #define VDRIVE_IMAGE_FORMAT_8050 3
 #define VDRIVE_IMAGE_FORMAT_8250 4
+#define VDRIVE_IMAGE_FORMAT_2040 5
 
 #define BUFFER_NOT_IN_USE      0
 #define BUFFER_DIRECTORY_READ  1
@@ -65,6 +66,18 @@
 #define BAM_NAME_1541          144
 #define BAM_ID_1541            162
 #define BAM_EXT_BIT_MAP_1541   192
+
+#define NUM_TRACKS_2040        35
+#define NUM_BLOCKS_2040	       690	/* 670 free */
+#define MAX_TRACKS_2040	       35
+#define MAX_BLOCKS_2040	       690
+#define DIR_TRACK_2040         18
+#define DIR_SECTOR_2040        1
+#define BAM_TRACK_2040         18
+#define BAM_SECTOR_2040        0
+#define BAM_NAME_2040          144
+#define BAM_ID_2040            162
+#define BAM_EXT_BIT_MAP_2040   192
 
 #define NUM_TRACKS_1571	       70
 #define NUM_BLOCKS_1571	       1366	/* 1328 free */

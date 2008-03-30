@@ -52,6 +52,7 @@ extern BYTE drive_rom1571[];
 extern BYTE drive_rom1581[];
 extern BYTE drive_rom2031[];
 extern BYTE drive_rom1001[];
+extern BYTE drive_rom2040[];
 
 /* If nonzero, the ROM image has been loaded.  */
 extern int rom1541_loaded;
@@ -60,6 +61,7 @@ extern int rom1571_loaded;
 extern int rom1581_loaded;
 extern int rom2031_loaded;
 extern int rom1001_loaded;
+extern int rom2040_loaded;
 
 #define IP_MAX_COMMAND_LEN 128 /* real 58 */
 
@@ -841,6 +843,12 @@ int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
 
         if (addr >= 0x8000) {
             switch (vdrive->image_format) {
+              case VDRIVE_IMAGE_FORMAT_2040:
+		if (rom2040_loaded)
+		    val = drive_rom2040[addr & 0x3fff];
+		else
+		    val = 0x55;
+		break;
               case VDRIVE_IMAGE_FORMAT_1541:
                 if (rom1541_loaded)
                     val = drive_rom1541[addr & 0x3fff];
