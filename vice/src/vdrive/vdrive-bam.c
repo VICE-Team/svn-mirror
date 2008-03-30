@@ -159,19 +159,19 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
     return -1;
 }
 
-static void vdrive_bam_set(int type, BYTE *bamp, unsigned int sector)
+static void vdrive_bam_set(unsigned int type, BYTE *bamp, unsigned int sector)
 {
     bamp[1 + sector / 8] |= (1 << (sector % 8));
     return;
 }
 
-static void vdrive_bam_clr(int type, BYTE *bamp, unsigned int sector)
+static void vdrive_bam_clr(unsigned int type, BYTE *bamp, unsigned int sector)
 {
     bamp[1 + sector / 8] &= ~(1 << (sector % 8));
     return;
 }
 
-static int vdrive_bam_isset(int type, BYTE *bamp, unsigned int sector)
+static int vdrive_bam_isset(unsigned int type, BYTE *bamp, unsigned int sector)
 {
     return bamp[1 + sector / 8] & (1 << (sector % 8));
 }
@@ -224,7 +224,8 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
     return IPE_OK;
 }
 
-BYTE *vdrive_bam_calculate_track(int type, BYTE *bam, unsigned int track)
+static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
+                                        unsigned int track)
 {
     BYTE *bamp = NULL;
 
@@ -278,7 +279,7 @@ BYTE *vdrive_bam_calculate_track(int type, BYTE *bam, unsigned int track)
     return bamp;
 }
 
-static void vdrive_bam_sector_free(int type, BYTE *bamp, BYTE *bam,
+static void vdrive_bam_sector_free(unsigned int type, BYTE *bamp, BYTE *bam,
                                    unsigned int track, int add)
 {
     switch (type) {
@@ -300,8 +301,8 @@ static void vdrive_bam_sector_free(int type, BYTE *bamp, BYTE *bam,
     }
 }
 
-int vdrive_bam_allocate_sector(int type, BYTE *bam, unsigned int track,
-                               unsigned int sector)
+int vdrive_bam_allocate_sector(unsigned int type, BYTE *bam,
+                               unsigned int track, unsigned int sector)
 {
     BYTE *bamp;
 
@@ -314,7 +315,7 @@ int vdrive_bam_allocate_sector(int type, BYTE *bam, unsigned int track,
     return 0;
 }
 
-int vdrive_bam_free_sector(int type, BYTE *bam, unsigned int track,
+int vdrive_bam_free_sector(unsigned int type, BYTE *bam, unsigned int track,
                            unsigned int sector)
 {
     BYTE *bamp;

@@ -411,7 +411,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
  * Calculate and return the total number of blocks available on a disk.
  */
 
-int vdrive_calc_num_blocks(int format, int tracks)
+int vdrive_calc_num_blocks(unsigned int format, unsigned int tracks)
 {
     int blocks = -1;
 
@@ -566,7 +566,7 @@ int vdrive_internal_format_disk_image(const char *filename,
 
 int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
-                                             int type)
+                                             unsigned int type)
 {
     if (disk_image_create(filename, type) < 0)
         return -1;

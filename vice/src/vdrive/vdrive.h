@@ -248,7 +248,7 @@ extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
                                vdrive_t *vdrive);
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
                                 vdrive_t *vdrive);
-extern int vdrive_calc_num_blocks(int format, int tracks);
+extern int vdrive_calc_num_blocks(unsigned int format, unsigned int tracks);
 extern int vdrive_parse_name(const char *name, unsigned int length,
                              char *realname, unsigned int *reallength,
                              unsigned int *readmode, unsigned int *filetype,
@@ -261,7 +261,7 @@ extern vdrive_t *vdrive_internal_open_disk_image(const char *name);
 extern int vdrive_internal_close_disk_image(vdrive_t *vdrive);
 extern int vdrive_internal_create_format_disk_image(const char *filename,
                                                     const char *diskname,
-                                                    int type);
+                                                    unsigned int type);
 
 #endif
 
