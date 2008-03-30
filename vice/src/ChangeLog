@@ -1,3 +1,41 @@
+1999-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.3.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Removed `lnx' from
+	filter pattern.
+
+	* arch/msdos/uisnapshot.c (file_name_callback): Check for `NULL'
+	before copying file name.
+
+1999-01-11  Tibor Biczo  <crown@mail.matav.hu>
+
+	* utils.c (spawn): Implemented spawn function for Win32.
+
+	* zfile.c (zfile_list_add): On Win32 file names always contain
+	full path information.
+
+1999-01-10  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* vice.h, sid/sid.c sid/resid.cc: casting large floating point
+	values to integers produces undefined results; on RISC OS these
+	are unrecoverable floating exceptions. Therefore I added the
+	macros BIG_FLOAT_TO_INT, BIG_FLOAT_TO_UINT to vice.h to handle
+	casting potentially large FP-values to (un)signed integers by
+	optionally applying fmod() first. These should be used whenever
+	clocks, sound_sample_position() and similarily unbounded floating
+	values are cast to ints (not all casts, of course!)
+
+	* sounddrv/soundacorn.c: some restructuring.
+
+1999-01-09  Michael Klein  <100.251394@germanynet.de>
+
+	* vdrive.c, vdrive.h (vdrive_bam_read_bam): Made non-static and
+	added missing `break' statement.
+
+	* imagecontents.c (image_contents_read_disk): Use
+	`vdrive_bam_read_bam' to retrive BAM data.
+
 1999-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.2.

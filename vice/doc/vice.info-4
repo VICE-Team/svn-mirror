@@ -161,6 +161,8 @@ File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 652
 SID module
 ..........
 
+   TODO
+
 
 File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 module,  Up: Module formats
 
@@ -196,11 +198,15 @@ File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 mod
 VIC-I module
 ............
 
+   TODO
+
 
 File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module,  Up: Module formats
 
 VIC-II module
 .............
+
+   TODO
 
 
 File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II module,  Up: Module formats
@@ -209,7 +215,7 @@ CRTC module
 ...........
 
    Warning: This module is still under construction.  Especially the
-RASTERLINE value might be bogus.
+RASTERY and RASTERLINE values might be bogus.
 
 Type    Name                          Description                          
 BYTE    RASTERY                       The number of clock cycles from      
@@ -222,7 +228,8 @@ BYTE    HWFLAG                        Bit 0: 1= hardware cursor
                                       available.  Bit 1: 1= number of      
                                       columns is doubled by external       
                                       hardware                             
-20 BYTE REGISTERS                     register DUMP of the CRTC registers. 
+20 BYTE REGISTERS                     register DUMP of the CRTC registers  
+                                      0-19.                                
 BYTE    CRSRSTATE                     Hardware cursor: Bits 0-3: frame     
                                       counter till next crsr line toggle.  
                                       Bit 7: 1= cursor line active         
@@ -233,11 +240,63 @@ File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: CRT
 C64 memory module
 .................
 
+   The C64 memory module actually consists of two modules.  The
+"C128MEM" module is mandatory and contains the RAM dump.  The "C64ROM"
+module is optional and contains a dump of the ROM images.
+
+   The size of the C64 memory modules differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded. The attached cartridges are not
+yet(!) saved and not yet restored upon load.
+
+   Version numbers: Major 0, Minor 0
+
+   The C64MEM module
+
+Type    Name                          Description                          
+BYTE    CPUDATA                       CPU port data byte                   
+BYTE    CPUDIR                        CPU port direction byte              
+BYTE    EXROM                         state of the EXROM line (?)          
+BYTE    GAME                          state of the GAME line (?)           
+ARRAY   RAM                           64k RAM dump                         
+
+   The C64ROM module
+
+Type    Name                          Description                          
+ARRAY   KERNAL                        8k dump of the kernal ROM            
+ARRAY   BASIC                         8k dump of the basic ROM             
+ARRAY   CHARGEN                       4k dump of the chargen ROM           
+
 
 File: vice.info,  Node: C128 memory module,  Next: VIC20 memory module,  Prev: C64 memory module,  Up: Module formats
 
 C128 memory module
 ..................
+
+   The C128 memory module actually consists of two modules.  The
+"C128MEM" module is mandatory and contains the RAM dump.  The "C128ROM"
+module is optional and contains a dump of the ROM images.
+
+   The size of the C128 memory modules differs with each different
+memory configuration. The RAM configuration is saved in the snapshot,
+and restored when the snapshot is loaded. The attached cartridges are
+also restored upon load if they have been saved in the snapshot.
+
+   Version numbers: Major 0, Minor 0
+
+   The C128MEM module
+
+Type    Name                          Description                          
+12 BYTE MMU                           dump of the 12 MMU registers         
+ARRAY   RAM                           128k RAM dump banks 0 and 1          
+
+   The C128ROM module
+
+Type    Name                          Description                          
+ARRAY   KERNAL                        8k dump of the kernal ROM            
+ARRAY   BASIC                         32k dump of the basic ROM            
+ARRAY   EDITOR                        4k dump of the editor ROM            
+ARRAY   4k CHARGEN                    dump of the chargen ROM              
 
 
 File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C128 memory module,  Up: Module formats
@@ -245,13 +304,14 @@ File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C1
 VIC20 memory module
 ...................
 
-   The size of the VIC20 memory module differs with each different
-memory configuration.  The RAM configuration is saved in the snapshot,
-and restored when the snapshot is loaded.
+   The VIC20 memory module actually consists of two modules.  The
+"VIC20MEM" module is mandatory and contains the RAM dump.  The
+"VIC20ROM" module is optional and contains a dump of the ROM images.
 
    The size of the VIC20 memory modules differs with each different
-memory configuration.  The RAM configuration is saved in the snapshot,
-and restored when the snapshot is loaded.
+memory configuration. The RAM configuration is saved in the snapshot,
+and restored when the snapshot is loaded. The attached cartridges are
+also restored upon load if they have been saved in the snapshot.
 
    Version numbers: Major 1, Minor 0
 

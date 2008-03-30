@@ -1099,7 +1099,9 @@ Snapshots
 *********
 
    Every VICE emulator has a built-in snapshot feature, that saves the
-complete emulator state into one file for later use.
+complete emulator state into one file for later use.  You can therefore
+save the emulator state - including the state of the game you are
+playing for example - in a single file.
 
 * Menu:
 
@@ -1118,21 +1120,13 @@ at any time.  This will pop up a requester from which you can specify
 whether the snapshot should also contain the disk and ROM status.
 
    A snapshot file can be used to restore the emulator state by
-selecting the `load snapshot' menu entry at any time.
+selecting the `load snapshot' menu entry at any time.  Unfortunately
+attached ROM images/cartridges are only supported in the VIC20, the PET
+and the CBM-II emulators at this time.
 
-   Warning: The complete state is saved, but the following things have
-to be considered:
-
-   * The ROMs if they are not saved in the snapshot.  This can pose
-     problems when restoring the state of a PET 3032 into a PET 4032
-     for example.  Also attached cartridges are not saved.  I.e. you
-     have to attach them before restoring a snapshot of a run of such a
-     cartridge.  However, saving the ROMs in the snapshot fixes this
-     behaviour.
-
-   * The memory configuration.  The VIC20, PET and CBM-II emulators do
-     have some memory expansion info.  This is saved and restored when
-     the snapshot is loaded.
+   The memory configuration of the emulator is saved in the snapshot
+file as well. This configuration is restored when the snapshot is
+loaded.
 
 
 File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
@@ -1140,9 +1134,9 @@ File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
 Snapshot format
 ===============
 
-   A snapshot file consists of several modules, and each module has a
-name.  A module saves the state of an entity like a CIA, the CPU, or the
-memory.
+   A snapshot file consists of several modules of mostly different
+types.  Each module has a name and saves the state of an entity like a
+CIA, the CPU, or the memory.
 
 * Menu:
 
@@ -1182,12 +1176,13 @@ MAINCPU 6502                          The Main CPU - although it is a
 C64MEM  Memory                        Holds the RAM contents of the C64.   
                                       Also the CPU I/O register contents   
                                       are saved here.                      
+C64ROM  ROM images                    Dump of the system ROMs              
 VIC-II  656*                          The VIC-II of the C64/128            
 CIA1    6526                          The CIA for the interrupts and the   
                                       keyboard                             
 CIA2    6526                          The CIA for the userport, IEC-bus    
                                       and RS232.                           
-SID     6581                          The SID sound chip of the C64        
+SID     6581                          The SID sound chip of the C64/C128   
 REU*                                  The RAM Extension Unit state         
                                       (optional)                           
 ACIA1   6551                          An ACIA at $DE00 (optional)          
@@ -1206,11 +1201,42 @@ File: vice.info,  Node: x128 modules,  Next: xvic modules,  Prev: x64 modules,  
 x128 modules
 ............
 
+   The modules in the x128 emulator are:
+
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU - although it is a      
+                                      6510, only the 6502 core is saved    
+                                      here                                 
+C128MEM Memory                        Holds the RAM contents of the C64.   
+                                      Also the CPU I/O register contents   
+                                      are saved here.                      
+C128ROM ROM images                    Dump of the system ROMs              
+VIC-II  656*                          The VIC-II of the C64/128            
+CIA1    6526                          The CIA for the interrupts and the   
+                                      keyboard                             
+CIA2    6526                          The CIA for the userport, IEC-bus    
+                                      and RS232.                           
+SID     6581                          The SID sound chip of the C64/C128   
+ACIA1   6551                          An ACIA at $DE00 (optional)          
+TPI     6525                          A TPI at $DF00 for a parallel        
+                                      IEEE488 interface (optional)         
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
+
+   Some of the modules are optional and are only saved if the specific
+feature is enabled at save-time.  If the module is found when restoring
+the state the optional features are enabled, and disabled otherwise.
+
+   Not yet supported are the 80 column video chip, cartridges and RAM
+expansion unit.
+
 
 File: vice.info,  Node: xvic modules,  Next: xpet modules,  Prev: x128 modules,  Up: Emulator modules
 
 xvic modules
 ............
+
+   The modules in the xvic emulator are:
 
 Name    Type                          Description                          
 MAINCPU 6502                          The Main CPU                         
@@ -1231,6 +1257,8 @@ File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,
 
 xpet modules
 ............
+
+   The modules in the xpet emulator are:
 
 Name    Type                          Description                          
 MAINCPU 6502                          The Main CPU                         

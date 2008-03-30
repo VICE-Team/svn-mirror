@@ -91,7 +91,11 @@ static TUI_MENU_CALLBACK(file_name_callback)
     if (been_activated) {
         PATH_VAR(new_file_name);
 
-        strcpy(new_file_name, file_name);
+        if (file_name == NULL)
+            memset(new_file_name, 0, GET_PATH_MAX);
+        else
+            strcpy(new_file_name, file_name);
+
         while (tui_input_string("Save snapshot", "Enter file name:",
                                 new_file_name, GET_PATH_MAX) != -1) {
             remove_spaces(new_file_name);
