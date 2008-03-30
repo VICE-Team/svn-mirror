@@ -289,8 +289,8 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 sid-cmdline-options.o: sid-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h sid-cmdline-options.h
 sid-resources.o: sid-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/machine.h ../../src/resources.h sid-resources.h \
-	../../src/sound.h ../../src/arch/unix/types.h
+	../../src/machine.h ../../src/resources.h sid-resources.h sid.h \
+	../../src/arch/unix/types.h ../../src/sound.h
 sid-snapshot.o: sid-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h sid-snapshot.h sid.h \
 	../../src/arch/unix/types.h ../../src/sound.h \
@@ -298,7 +298,8 @@ sid-snapshot.o: sid-snapshot.c ../../src/vice.h ../../src/config.h \
 sid.o: sid.c ../../src/vice.h ../../src/config.h fastsid.h \
 	../../src/arch/unix/types.h sid.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/resources.h sid-resources.h \
-	../../src/sound.h ../../src/arch/unix/mouse.h resid.h
+	../../src/sound.h ../../src/arch/unix/mouse.h resid.h \
+	../../src/arch/unix/catweaselmkiii.h
 
 info-am:
 info: info-am

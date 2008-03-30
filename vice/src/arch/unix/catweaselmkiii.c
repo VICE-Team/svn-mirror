@@ -1,5 +1,5 @@
 /*
- * version.h
+ * catweaselmkiii.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,15 +24,34 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.11.2"
-#endif
+#include "catweaselmkiii.h"
+#include "types.h"
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
 
-#endif
+int catweaselmkiii_init(void)
+{
+    return 0;
+}
+
+int catweaselmkiii_open(void)
+{
+    return 0;
+}
+
+int catweaselmkiii_close(void)
+{
+    return 0;
+}
+
+
+int catweaselmkiii_read(ADDRESS addr, int chipno)
+{
+    return 0;
+}
+
+void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
+{
+}
+

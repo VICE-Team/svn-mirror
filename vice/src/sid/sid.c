@@ -49,6 +49,11 @@
 #include "resid.h"
 #endif
 
+#ifdef HAVE_CATWEASELMKIII
+#include "catweaselmkiii.h"
+#endif
+
+
 /* SID engine hooks. */
 static sid_engine_t sid_engine;
 
@@ -58,10 +63,40 @@ static BYTE lastsidread;
 /* register data */
 static BYTE siddata[SOUND_CHANNELS_MAX][32];
 
+static int (*sid_read_func)(ADDRESS addr, int chipno);
+static void (*sid_store_func)(ADDRESS addr, BYTE val, int chipno);
+
+static int sid_enable, sid_engine_type = -1;
+
 BYTE *sid_get_siddata(unsigned int channel)
 {
     return siddata[channel];
 }
+
+/* ------------------------------------------------------------------------- */
+
+int sid_read_off(ADDRESS addr, int chipno)
+{
+    BYTE val;
+
+    if (addr == 0x19 || addr == 0x1a)
+        val = 0xff;
+    else {
+        if (addr == 0x1b || addr == 0x1c)
+            val = maincpu_clk % 256;
+        else
+            val = 0;
+    }
+
+    /* FIXME: Change API, return BYTE! */
+    return (int)val;
+}
+
+void sid_write_off(ADDRESS addr, BYTE val, int chipno)
+{
+}
+
+/* ------------------------------------------------------------------------- */
 
 static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 {
@@ -72,9 +107,9 @@ static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
     machine_handle_pending_alarms(0);
 
 #ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled)
+    if (addr == 0x19 && _mouse_enabled && chipno == 0)
         val = mouse_get_x();
-    else if (addr == 0x1a && _mouse_enabled)
+    else if (addr == 0x1a && _mouse_enabled && chipno == 0)
         val = mouse_get_y();
     else
 #endif
@@ -82,7 +117,7 @@ static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
     /* Account for that read functions in VICE are called _before_
        incrementing the clock. */
     maincpu_clk++;
-    val = sound_read(addr, chipno);
+    val = sid_read_func(addr, chipno);
     maincpu_clk--;
 
     /* Fallback when sound is switched off. */
@@ -112,11 +147,11 @@ static void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
 
     if (maincpu_rmw_flag) {
 	maincpu_clk--;
-	sound_store(addr, lastsidread, chipno);
+	sid_store_func(addr, lastsidread, chipno);
 	maincpu_clk++;
     }
 
-    sound_store(addr, byte, chipno);
+    sid_store_func(addr, byte, chipno);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -184,6 +219,10 @@ sound_t *sound_machine_open(int chipno)
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+#ifdef HAVE_CATWEASELMKIII
+    catweaselmkiii_init();
+#endif
+
     return sid_engine.init(psid, speed, cycles_per_sec);
 }
 
@@ -233,5 +272,48 @@ int sound_machine_channels(void)
     int stereo = 0;
     resources_get_value("SidStereo", (resource_value_t *)&stereo);
     return stereo ? 2 : 1;
+}
+
+void set_sound_func(void)
+{
+    if (sid_enable) {
+        if (sid_engine_type == SID_ENGINE_FASTSID) {
+            sid_read_func = sound_read;
+            sid_store_func = sound_store;
+        }
+#ifdef HAVE_CATWEASELMKIII
+        if (sid_engine_type == SID_ENGINE_CATWEASELMKIII) {
+            sid_read_func = catweaselmkiii_read;
+            sid_store_func = catweaselmkiii_store;
+        }
+#endif
+    } else {
+        sid_read_func = sid_read_off;
+        sid_store_func = sid_write_off;
+    }
+}
+
+void sound_machine_enable(int enable)
+{
+    sid_enable = enable;
+
+    set_sound_func();
+}
+
+void sid_engine_set(int engine)
+{
+#ifdef HAVE_CATWEASELMKIII
+    if (engine == SID_ENGINE_CATWEASELMKIII
+        && sid_engine_type != SID_ENGINE_CATWEASELMKIII)
+        catweaselmkiii_open();
+
+    if (engine != SID_ENGINE_CATWEASELMKIII
+        && sid_engine_type == SID_ENGINE_CATWEASELMKIII)
+        catweaselmkiii_close();
+#endif
+
+    sid_engine_type = engine;
+
+    set_sound_func();
 }
 

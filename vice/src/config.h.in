@@ -151,6 +151,9 @@
 /* Support for block device disk image access */
 #undef HAVE_RAWDRIVE
 
+/* Support for Catweasel MKIII */
+#undef HAVE_CATWEASELMKIII
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 
