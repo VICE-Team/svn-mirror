@@ -22,6 +22,8 @@ list of all the changes in the code.
 
 - Drive memory can be loaded/saved in the monitor now.
 
+- The monitor can read and write blocks from disk.
+
 ** MS-DOS changes
 -----------------
 
@@ -52,6 +54,8 @@ list of all the changes in the code.
 - New 1541-II emulation.
 
 - Disk change detection has been improved.
+
+- The virtual drive emulation can be used with G64 images now.
 
 ** C64 changes
 ---------------
@@ -94,6 +98,7 @@ list of all the changes in the code.
 ------------------------
 
 - P00 and PRG files can be autostarted from the command line again.
+
 
 * Changes in VICE 0.16.1a
 =========================
