@@ -28,7 +28,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#ifndef __riscos
+
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 
