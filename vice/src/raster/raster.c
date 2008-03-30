@@ -564,7 +564,7 @@ inline static void handle_blank_line (raster_t *raster)
       raster_changes_remove_all (border_changes);
       raster->changes.have_on_this_line = 0;
 
-      raster->cache[raster->current_line].border_color = -1;
+      raster->cache[raster->current_line].border_color = 0xFF;
       raster->cache[raster->current_line].blank = 1;
 
       add_line_and_double_scan (raster,

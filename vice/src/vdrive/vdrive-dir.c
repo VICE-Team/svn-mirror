@@ -225,7 +225,7 @@ void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
 }
 
 void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
-                                unsigned int length, unsigned int type)
+                                int length, unsigned int type)
 {
     vdrive->find_name   = name;
     vdrive->find_type   = type;
@@ -233,7 +233,8 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
 
     vdrive->Curr_track  = vdrive->Dir_Track;
     vdrive->Curr_sector = vdrive->Dir_Sector;
-    vdrive->SlotNumber = -1;
+    vdrive->SlotNumber = 0;
+    vdrive->SlotNumber--;
 
     disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
                            vdrive->Dir_Track, vdrive->Dir_Sector);
