@@ -94,6 +94,10 @@ SOURCE="..\..\core\riotcore.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\core\tpicore.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\core\viacore.c"
 # End Source File
 # End Target
