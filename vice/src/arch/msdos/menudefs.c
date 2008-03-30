@@ -1531,8 +1531,8 @@ static void create_special_submenu(int has_serial_traps)
     }
 
     if (has_serial_traps)
-        tui_menu_add_item(ui_special_submenu, "Disable Kernal _Traps:",
-                          "Disable the Kernal ROM patches used by tape and fast drive emulation",
+        tui_menu_add_item(ui_special_submenu, "Enable virtual device _traps:",
+                          "Enable virtual device traps for fast tape and drive emulation",
                           toggle_VirtualDevices_callback, NULL, 4,
                           TUI_MENU_BEH_CONTINUE);
 
