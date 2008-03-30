@@ -194,6 +194,9 @@ void archdep_setup_signals(int do_core_dumps)
 
 int archdep_path_is_relative(const char *path)
 {
+    if (path == NULL)
+        return 0;
+
     return (isalpha(path[0]) && path[1] == ':'
             && (path[2] == '/' || path[2] == '\\'));
 }
