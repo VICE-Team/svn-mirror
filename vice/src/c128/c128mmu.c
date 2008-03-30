@@ -33,6 +33,7 @@
 #include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "reu.h"
@@ -139,6 +140,8 @@ static void mmu_set_ram_bank(BYTE value)
 
 BYTE REGPARM1 mmu_read(ADDRESS addr)
 {
+    vic_ii_handle_pending_alarms_external(0);
+
     addr &= 0xff;
 
 #ifdef MMU_DEBUG
@@ -159,6 +162,8 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 
 void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 {
+    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+
     address &= 0xff;
 
 #ifdef MMU_DEBUG
@@ -222,10 +227,19 @@ BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
 {
     if (addr == 0xff00)
         return mmu[0];
-    else if (kernal_in)
+
+    if (kernal_in)
         return read_kernal(addr);
-    else
-        return read_top_shared(addr);
+   
+    return read_top_shared(addr);
+}
+
+BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
+{
+    if (addr == 0xff00)
+        return mmu[0];
+
+    return read_top_shared(addr);
 }
 
 void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
