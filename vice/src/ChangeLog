@@ -1,3 +1,81 @@
+2003-04-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.38.
+
+	* interrupt.c (interrupt_cpu_status_int_new,
+	interrupt_cpu_status_destroy): Add interrupt name support.
+
+	* debug.c (debug_int): New function.
+
+2003-04-24  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_popup): Set title of window
+	and add WM decorations. Fixes bug report D. Vogt.
+	(x11ui_open_canvas_window): Set all events for the toplevel
+	window. This fixes that the keypress were not handled when the
+	mouse was outside the window and the focus remained. Bug
+	reported by D. Vogt.
+
+	* arch/unix/uisettings.c (callback save_resources):
+	Adapted to changed malloc/free behavior of
+	`archdep_default_fliplist_file_name()'.
+	* arch/win32/ui.c (handle_wm_command): Likewise.
+
+	* arch/beos/archdep.c (archdep_default_resource_file_name):
+	Removed static caching of fname for allocation/deallocation
+	purposes. The calling function now has to free the returned
+	pointer.
+	* arch/msdos/archdep.c (archdep_default_resource_file_name):
+	Likewise.
+	* arch/os2/archdep.c (archdep_default_resource_file_name):
+	Likewise.
+	* arch/unix/archdep.c (archdep_default_resource_file_name):
+	Likewise.
+	(archdep_default_fliplist_file_name): Likewise.
+	* arch/win32/archdep.c (archdep_default_resource_file_name):
+	Likewise.
+	(archdep_default_fliplist_file_name): Likewise.
+
+2003-04-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_record, event_alarm_handler): Handle
+	EVENT_KEYBOARD_RESTORE events.
+
+	* event.h: New ID for EVENT_KEYBOARD_RESTORE events.
+
+	* keyboard.c: New function keyboard_restore_event_playback.
+	(keyboard_key_pressed, keyboard_key_released): Record restore
+	key.
+
+2003-04-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/archdep.c (archdep_default_fliplist_file_name):
+	Initialize char pointer.
+
+	* zfile.c (handle_close): Fix prev pointer when removing item
+	from list.
+
+2003-04-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c128ui.c, c64ui.c, cbm2ui.c, res.h, res128.rc,
+	res64.rc, rescbm2.rc: Removed SID selection stuff.
+
+	* arch/win32/res.rc: Added combobox for SID engine in the SID
+	settings dialog.
+
+	* arch/win32/res64.rc: Reenabled Recording/Playback UI.
+
+	* arch/win32/uisid.c: Changed to handle new engine resource.
+
+	* datasette.c (datasette_read_snapshot): Removed setting of
+	tape sense.
+
+	* snapshot.c (snapshot_write_byte_array,
+	snapshot_read_byte_array): Test for zero length.
+
+	* tape/tape-snapshot: tap image size is written to snapshot,
+	image is written and read in one block.
+
 2003-04-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.37.
