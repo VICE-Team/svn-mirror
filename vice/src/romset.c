@@ -192,7 +192,7 @@ int romset_file_save(const char *filename, const char **resource_list)
     while (s != NULL) {
         int enable;
 
-        resources_get_sprintf("Romset%s", (void *)&enable, s);
+        resources_get_int_sprintf("Romset%s", &enable, s);
 
         if (enable != 0)
             resources_write_item_to_file(fp, s);
@@ -218,7 +218,7 @@ char *romset_file_list(const char **resource_list)
         int enable;
         char *line;
 
-        resources_get_sprintf("Romset%s", (void *)&enable, s);
+        resources_get_int_sprintf("Romset%s", &enable, s);
 
         if (enable != 0) {
             line = resources_write_item_to_string(s, ARCHDEP_LINE_DELIMITER);
@@ -447,6 +447,7 @@ int romset_archive_item_select(const char *romset_name)
     for (i = 0, item = romsets; i < num_romsets; i++, item++) {
         if (strcmp(romset_name, item->name) == 0) {
             while (item->next != NULL) {
+                /* FIXME: Apparently there are no boundary checks! */
                 char buffer[256];
                 char *b, *d;
 
@@ -462,7 +463,6 @@ int romset_archive_item_select(const char *romset_name)
                 *b++ = '\0';
                 if (*d == '=') {
                     resource_type_t tp;
-                    resource_value_t val = (resource_value_t)0;
                     char *arg;
 
                     arg = b; d++;
@@ -475,17 +475,14 @@ int romset_archive_item_select(const char *romset_name)
                     tp = resources_query_type(buffer);
                     switch (tp) {
                       case RES_INTEGER:
-                        val = (resource_value_t)atoi(arg);
+                        resources_set_int(buffer, atoi(arg));
                         break;
                       case RES_STRING:
-                        val = (resource_value_t)arg;
+                        resources_set_string(buffer, arg);
                         break;
                       default:
                         b = NULL;
                         break;
-                    }
-                    if (b != NULL) {
-                        resources_set_value(buffer, val);
                     }
                 }
             }

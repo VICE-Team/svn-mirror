@@ -124,8 +124,8 @@ static void init_dialog(HWND hwnd, int num)
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
 	int drive_true_emulation, iecdevice, enabled;
 
-    resources_get_sprintf("IECDevice%i", (void *)&iecdevice, num);
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_int_sprintf("IECDevice%i", &iecdevice, num);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
     enabled = drive_true_emulation && !iecdevice;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
@@ -157,12 +157,10 @@ static void init_dialog(HWND hwnd, int num)
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_NONE),
                  enabled);
 
-    resources_get_sprintf("Drive%dType",
-                          (void *)&drive_type, num);
-    resources_get_sprintf("Drive%dExtendImagePolicy",
-                          (void *)&drive_extend_image_policy, num);
-    resources_get_sprintf("Drive%dIdleMethod",
-                          (void *)&drive_idle_method, num);
+    resources_get_int_sprintf("Drive%dType", &drive_type, num);
+    resources_get_int_sprintf("Drive%dExtendImagePolicy",
+                              &drive_extend_image_policy, num);
+    resources_get_int_sprintf("Drive%dIdleMethod", &drive_idle_method, num);
 
     switch (drive_type) {
       case DRIVE_TYPE_NONE:
@@ -247,27 +245,27 @@ static void init_dialog(HWND hwnd, int num)
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE,
                      IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
 
-    resources_get_sprintf("Drive%dParallelCable", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dParallelCable", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM2000", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dRAM2000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM4000", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dRAM4000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM6000", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dRAM6000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAM8000", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dRAM8000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_sprintf("Drive%dRAMA000", (void *)&n, num);
+    resources_get_int_sprintf("Drive%dRAMA000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n
                    ? BST_CHECKED : BST_UNCHECKED);
 }
@@ -275,7 +273,6 @@ static void init_dialog(HWND hwnd, int num)
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
-    int n;
     char tmp[256];
 
     switch (msg) {
@@ -285,131 +282,108 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
       case WM_COMMAND:
         switch (LOWORD(wparam)) {
           case IDC_SELECT_DRIVE_TYPE_NONE:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_NONE, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_NONE, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1541:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1541, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1541II:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1541II, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1541II, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1570:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1570, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1570, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1571:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1571, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1571, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1571cr:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1571CR, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1571CR, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1581:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1581, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1581, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_2031:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_2031, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2031, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_2040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_2040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_3040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_3040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_3040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_4040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_4040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_4040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1001:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1001, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1001, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_8050:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_8050, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8050, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_8250:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_8250, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8250, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_EXTEND_NEVER:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_NEVER, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_NEVER, num);
             break;
           case IDC_SELECT_DRIVE_EXTEND_ASK:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_ASK, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_ASK, num);
             break;
           case IDC_SELECT_DRIVE_EXTEND_ACCESS:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_ACCESS, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_ACCESS, num);
             break;
           case IDC_SELECT_DRIVE_IDLE_NO_IDLE:
-            resources_set_sprintf("Drive%dIdleMethod",
-                                  (resource_value_t *)DRIVE_IDLE_NO_IDLE,
-                                  num);
+            resources_set_int_sprintf("Drive%dIdleMethod",
+                                      DRIVE_IDLE_NO_IDLE, num);
             break;
           case IDC_SELECT_DRIVE_IDLE_TRAP_IDLE:
-            resources_set_sprintf("Drive%dIdleMethod",
-                                  (resource_value_t *)DRIVE_IDLE_TRAP_IDLE,
-                                  num);
+            resources_set_int_sprintf("Drive%dIdleMethod",
+                                      DRIVE_IDLE_TRAP_IDLE, num);
             break;
           case IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES:
-            resources_set_sprintf("Drive%dIdleMethod",
-                                  (resource_value_t *)DRIVE_IDLE_SKIP_CYCLES,
-                                  num);
+            resources_set_int_sprintf("Drive%dIdleMethod",
+                                      DRIVE_IDLE_SKIP_CYCLES, num);
             break;
           case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
             sprintf(tmp, "Drive%dParallelCable", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_2000:
             sprintf(tmp, "Drive%dRAM2000", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_4000:
             sprintf(tmp, "Drive%dRAM4000", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_6000:
             sprintf(tmp, "Drive%dRAM6000", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_8000:
             sprintf(tmp, "Drive%dRAM8000", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_A000:
             sprintf(tmp, "Drive%dRAMA000", num);
-            resources_get_value(tmp, (void *)&n);
-            resources_set_value(tmp, (resource_value_t)!n);
+            resources_toggle(tmp, NULL);
             break;
           default:
             return FALSE;

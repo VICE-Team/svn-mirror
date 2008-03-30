@@ -80,8 +80,7 @@ UI_CALLBACK(attach_disk)
     lib_free(title);
     if (attach_wp) {
         printf("Write protect attach requested.\n");
-        resources_set_sprintf("AttachDevice%dReadonly",
-                              (resource_value_t)attach_wp, unit);
+        resources_set_int_sprintf("AttachDevice%dReadonly", attach_wp, unit);
     }
 
     switch (button) {

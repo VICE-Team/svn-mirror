@@ -57,16 +57,22 @@ static int toggle_drive_res(char *format, int drive)
 {
     int res;
     char *tmp;
-    tmp=lib_msprintf(format, drive+8);
-    resources_toggle(tmp, (resource_value_t*)&res);
+
+    tmp = lib_msprintf(format, drive + 8);
+
+    resources_toggle(tmp, &res);
+
     lib_free(tmp);
+
     return res;
 }
 
 static int get_drive_res(char *format, int drive)
 {
-    long val;
-    resources_get_sprintf(format, (void *)&val, drive+8);
+    int val;
+
+    resources_get_int_sprintf(format, &val, drive + 8);
+
     return val;
 }
 
@@ -211,15 +217,15 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case RB_ASK:
             case RB_ALWAYS:
                 if (drive==0 || drive==1)
-                    resources_set_sprintf("Drive%dExtendImagePolicy",
-                                          (resource_value_t)(SHORT1FROMMP(mp1)&0x3), drive+8);
+                    resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                              (SHORT1FROMMP(mp1)&0x3), drive+8);
                 break;
             case RB_NONE:
             case RB_TRAP:
             case RB_SKIP:
                 if (drive==0 || drive==1)
-                    resources_set_sprintf("Drive%dIdleMethod",
-                                          (resource_value_t)(SHORT1FROMMP(mp1)&0x3), drive+8);
+                    resources_set_int_sprintf("Drive%dIdleMethod",
+                                              (SHORT1FROMMP(mp1)&0x3), drive+8);
                 break;
            case CBS_IMAGE:
                if (SHORT2FROMMP(mp1)==CBN_ENTER)
@@ -247,13 +253,14 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                         char path[255];
                         WinSendDlgMsg(hwnd, CBS_PATH, SPBM_QUERYVALUE, &path, 255);
                         if (!chdir(path))
-                            resources_set_sprintf("FSDevice%dDir", (resource_value_t*)path, drive+8);
+                            resources_set_string_sprintf("FSDevice%dDir", path, drive+8);
                     }
                     break;
                 case SPBN_KILLFOCUS:
                     {
-                        char *path;
-                        resources_get_sprintf("FSDevice%dDir", (void *)&path, drive+8);
+                        const char *path;
+                        resources_get_string_sprintf("FSDevice%dDir", &path,
+                                                     drive + 8);
                         WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                         WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
                     }
@@ -265,7 +272,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 {
                     const int nr  = WinQueryLboxSelectedItem((HWND)mp2);
                     const int val = WinLboxItemHandle((HWND)mp2, nr);
-                    resources_set_sprintf("Drive%dType", (resource_value_t)val, drive+8);
+                    resources_set_int_sprintf("Drive%dType", val, drive+8);
                 }
                 return FALSE;
             }
@@ -394,7 +401,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 int conv = get_drive_res("FSDevice%dConvertP00", drive) != 0;
 
                 if (!conv)
-                    resources_set_sprintf("FSDevice%dHideCBMFiles", 0, drive+8);
+                    resources_set_int_sprintf("FSDevice%dHideCBMFiles", 0, drive+8);
 
                 WinCheckButton(hwnd, CB_ALLOWACCESS, acc);
                 WinCheckButton(hwnd, CB_CONVERTP00, conv);
@@ -420,8 +427,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 WinDlgLboxSelectItem(hwnd, CBS_IMAGE, pos);
             }
             {
-                char *path;
-                resources_get_sprintf("FSDevice%dDir", (void *)&path, drive+8);
+                const char *path;
+                resources_get_string_sprintf("FSDevice%dDir", &path, drive + 8);
                 WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
                 WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
             }

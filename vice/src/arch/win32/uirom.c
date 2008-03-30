@@ -62,7 +62,7 @@ static void init_rom_dialog(HWND hwnd, unsigned int type)
             const char *filename;
             TCHAR *st_filename;
 
-            resources_get_value(settings[n].resname, (void *)&filename);
+            resources_get_string(settings[n].resname, &filename);
             st_filename = system_mbstowcs_alloc(filename);
             SetDlgItemText(hwnd, settings[n].idc_filename,
                            st_filename != NULL ? st_filename : TEXT(""));
@@ -84,8 +84,7 @@ static void set_dialog_proc(HWND hwnd, unsigned int type)
             GetDlgItemText(hwnd, settings[n].idc_filename, st_filename,
                            MAX_PATH);
             system_wcstombs(filename, st_filename, MAX_PATH);
-            resources_set_value(settings[n].resname,
-                                (resource_value_t)filename);
+            resources_set_string(settings[n].resname, filename);
         }
         n++;
     }
@@ -199,7 +198,7 @@ static void update_romset_archive(HWND hwnd)
     active = 0;
     num = romset_archive_get_number();
 
-    resources_get_value("RomsetArchiveActive", (void *)&conf);
+    resources_get_string("RomsetArchiveActive", &conf);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
     SendMessage(temp_hwnd, CB_RESETCONTENT, 0, 0);
@@ -234,20 +233,20 @@ static void update_romset_dialog(HWND hwnd, int idc_active)
 static void init_romset_dialog(HWND hwnd)
 {
     int res_value, idc_active;
-    char *name;
+    const char *name;
     TCHAR *st_name;
 
-    resources_get_value("RomsetSourceFile", (void *)&res_value);
+    resources_get_int("RomsetSourceFile", &res_value);
     idc_active = IDC_ROMSET_SELECT_ARCHIVE + res_value;
     update_romset_dialog(hwnd, idc_active);
 
-    resources_get_value("RomsetArchiveName", (void *)&name);
+    resources_get_string("RomsetArchiveName", &name);
     st_name = system_mbstowcs_alloc(name);
     SetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME,
                    name != NULL ? st_name : TEXT(""));
     system_mbstowcs_free(st_name);
 
-    resources_get_value("RomsetFileName", (void *)&name);
+    resources_get_string("RomsetFileName", &name);
     st_name = system_mbstowcs_alloc(name);
     SetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME,
                    name != NULL ? st_name : TEXT(""));
@@ -260,25 +259,27 @@ static void end_romset_dialog(HWND hwnd)
     char s[MAX_PATH];
 
     if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
-        resources_set_value("RomsetSourceFile", (resource_value_t)0);
+        resources_set_int("RomsetSourceFile", 0);
     if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED)
-        resources_set_value("RomsetSourceFile", (resource_value_t)1);
+        resources_set_int("RomsetSourceFile", 1);
 
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RomsetArchiveName", (resource_value_t)s);
+    resources_set_string("RomsetArchiveName", s);
 
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("RomsetFileName", (resource_value_t)s);
+    resources_set_string("RomsetFileName", s);
 }
 
+/*
 static void browse_archive_romset_dialog(HWND hwnd)
 {
     uilib_select_browse(hwnd, translate_text(IDS_SELECT_ROMSET_ARCHIVE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
                         IDC_ROMSET_ARCHIVE_NAME);
 }
+*/
 
 static void load_archive_romset_dialog(HWND hwnd)
 {
@@ -395,8 +396,8 @@ static void init_resources_dialog(HWND hwnd, unsigned int type)
         if (settings[n].type == type) {
             int enable;
 
-            resources_get_sprintf("Romset%s", (void *)&enable,
-                                  settings[n].resname);
+            resources_get_int_sprintf("Romset%s", &enable,
+                                      settings[n].resname);
 
             CheckDlgButton(hwnd, settings[n].idc_resource,
                            enable ? BST_CHECKED : BST_UNCHECKED);
@@ -416,8 +417,7 @@ static void end_resources_dialog(HWND hwnd, unsigned int type)
             enable = (IsDlgButtonChecked(hwnd, settings[n].idc_resource)
                      == BST_CHECKED) ? 1 : 0;
 
-            resources_set_sprintf("Romset%s", (resource_value_t)enable,
-                                 settings[n].resname);
+            resources_set_int_sprintf("Romset%s", enable, settings[n].resname);
         }
         n++;
     }

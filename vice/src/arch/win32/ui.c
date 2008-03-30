@@ -438,8 +438,8 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     int xpos, ypos;
     HMENU menu;
 
-    resources_get_sprintf("Window%dXpos", &xpos, number_of_windows);
-    resources_get_sprintf("Window%dYpos", &ypos, number_of_windows);
+    resources_get_int_sprintf("Window%dXpos", &xpos, number_of_windows);
+    resources_get_int_sprintf("Window%dYpos", &ypos, number_of_windows);
 
     hwnd_titles[number_of_windows] = system_mbstowcs_alloc(title);
     hwnd = CreateWindow(APPLICATION_CLASS,
@@ -571,31 +571,30 @@ static void update_menus(HWND hwnd)
     int i, j;
     int value;
     int result;
-    char *lang;
+    const char *lang;
 
     for (i = 0; grayed_list[i].name != NULL; i++) {
-        resources_get_value(grayed_list[i].name, (void *)&value);
+        resources_get_int(grayed_list[i].name, &value);
         EnableMenuItem(menu, grayed_list[i].item_id,
                       value ? MF_GRAYED : MF_ENABLED);
     }
     
     for (i = 0; toggle_list[i].name != NULL; i++) {
-        resources_get_value(toggle_list[i].name, (void *)&value);
+        resources_get_int(toggle_list[i].name, &value);
         CheckMenuItem(menu, toggle_list[i].item_id,
                       value ? MF_CHECKED : MF_UNCHECKED);
     }
     
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
-            resources_get_value(machine_specific_toggles[i].name,
-                                (void *)&value);
+            resources_get_int(machine_specific_toggles[i].name, &value);
             CheckMenuItem(menu, machine_specific_toggles[i].item_id,
                           value ? MF_CHECKED : MF_UNCHECKED);
         }
     }
 
     for (i = 0; value_list[i].name != NULL; i++) {
-        result = resources_get_value(value_list[i].name, (void *)&value);
+        result = resources_get_int(value_list[i].name, &value);
         if (result == 0) {
             unsigned int checked = 0;
 
@@ -617,8 +616,7 @@ static void update_menus(HWND hwnd)
 
     if (machine_specific_values) {
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
-            result = resources_get_value(machine_specific_values[i].name,
-                                         (void *)&value);
+            result = resources_get_int(machine_specific_values[i].name, &value);
             if (result == 0) {
                 for (j = 0; machine_specific_values[i].vals[j].item_id != 0;
                     j++) {
@@ -638,8 +636,9 @@ static void update_menus(HWND hwnd)
     CheckMenuItem(menu, IDM_PAUSE,
                   ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
 
-    resources_get_value("Language", (void *)&lang);
-    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL) && (i < countof(ui_lang_menu_entries)); i++) {
+    resources_get_string("Language", &lang);
+    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
+        && (i < countof(ui_lang_menu_entries)); i++) {
         if (strcmp(lang, ui_lang_menu_entries[i].lang_code) == 0) {
             CheckMenuItem(menu, ui_lang_menu_entries[i].item_id, MF_CHECKED);
         } else {
@@ -656,7 +655,7 @@ static void ui_set_language(unsigned int lang_id)
     for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
         && (i < countof(ui_lang_menu_entries)); i++) {
         if (ui_lang_menu_entries[i].item_id == lang_id) {
-            resources_set_value("Language", ui_lang_menu_entries[i].lang_code);
+            resources_set_string("Language", ui_lang_menu_entries[i].lang_code);
             break;
         }
     }
@@ -1079,8 +1078,8 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         for (j = 0; value_list[i].vals[j].item_id != 0
             && !command_found; j++) {
             if (value_list[i].vals[j].item_id == wparam) {
-                resources_set_value(value_list[i].name,
-                    (resource_value_t) value_list[i].vals[j].value);
+                resources_set_int(value_list[i].name,
+                                  value_list[i].vals[j].value);
                 command_found = 1;
             }
         }
@@ -1092,9 +1091,8 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             for (j = 0; machine_specific_values[i].vals[j].item_id != 0
                 && !command_found; j++) {
                 if (machine_specific_values[i].vals[j].item_id == wparam) {
-                    resources_set_value(machine_specific_values[i].name,
-                        (resource_value_t)
-                        machine_specific_values[i].vals[j].value);
+                    resources_set_int(machine_specific_values[i].name,
+                                      machine_specific_values[i].vals[j].value);
                     command_found = 1;
                 }
             }
@@ -1338,10 +1336,10 @@ static void ui_wm_move(HWND window, int window_index)
         GetWindowPlacement(window, &place);
         GetWindowRect(window, &rect);
         if (place.showCmd == SW_SHOWNORMAL) {
-            resources_set_sprintf("Window%dXpos",
-                                  (resource_value_t)rect.left, window_index);
-            resources_set_sprintf("Window%dYpos",
-                                (resource_value_t)rect.top, window_index);
+            resources_set_int_sprintf("Window%dXpos",
+                                      rect.left, window_index);
+            resources_set_int_sprintf("Window%dYpos",
+                                      rect.top, window_index);
         }
     }
 }
@@ -1351,8 +1349,8 @@ static void ui_wm_close(HWND window)
     int quit = 1;
     int confirm_on_exit, save_on_exit;
 
-    resources_get_value("ConfirmOnExit", &confirm_on_exit);
-    resources_get_value("SaveResourcesOnExit", &save_on_exit);
+    resources_get_int("ConfirmOnExit", &confirm_on_exit);
+    resources_get_int("SaveResourcesOnExit", &save_on_exit);
 
     SuspendFullscreenModeKeep(window);
     vsync_suspend_speed_eval();

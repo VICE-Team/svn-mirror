@@ -98,10 +98,9 @@ static void init_dialog(HWND hwnd, int num)
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
                  drive_check_type(DRIVE_TYPE_8250, num - 8));
 
-    resources_get_sprintf("Drive%dType",
-                          (void *)&drive_type, num);
-    resources_get_sprintf("Drive%dExtendImagePolicy",
-                          (void *)&drive_extend_image_policy, num);
+    resources_get_int_sprintf("Drive%dType", &drive_type, num);
+    resources_get_int_sprintf("Drive%dExtendImagePolicy",
+                              &drive_extend_image_policy, num);
 
     switch (drive_type) {
       case DRIVE_TYPE_NONE:
@@ -161,56 +160,48 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
       case WM_COMMAND:
         switch (LOWORD(wparam)) {
           case IDC_SELECT_DRIVE_TYPE_NONE:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_NONE, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_NONE, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_2031:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_2031, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2031, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_2040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_2040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_3040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_3040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_3040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_4040:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_4040, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_4040, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1001:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_1001, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1001, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_8050:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_8050, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8050, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_8250:
-            resources_set_sprintf("Drive%dType",
-                                  (resource_value_t *)DRIVE_TYPE_8250, num);
+            resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8250, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_EXTEND_NEVER:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_NEVER, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_NEVER, num);
             break;
           case IDC_SELECT_DRIVE_EXTEND_ASK:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_ASK, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_ASK, num);
             break;
           case IDC_SELECT_DRIVE_EXTEND_ACCESS:
-            resources_set_sprintf("Drive%dExtendImagePolicy",
-                                  (resource_value_t *)DRIVE_EXTEND_ACCESS, num);
+            resources_set_int_sprintf("Drive%dExtendImagePolicy",
+                                      DRIVE_EXTEND_ACCESS, num);
             break;
           default:
             return FALSE;
