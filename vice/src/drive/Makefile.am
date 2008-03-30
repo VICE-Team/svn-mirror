@@ -35,6 +35,8 @@ libdrive_a_SOURCES = \
 	drivetypes.h \
 	iec.h \
 	ieee.h \
+	rotation.c \
+	rotation.h \
 	tcbm.h \
 	via1d.c \
 	via2d.c \
