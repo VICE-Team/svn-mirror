@@ -115,6 +115,8 @@ static void interrupt_function(unsigned long buf)
     }
 }
 
+/* FIXME: This routine is not used.  */
+/*
 static void interrupt_function_end(void) {}
 
 static void lock_mem(void)
@@ -131,6 +133,7 @@ static void lock_mem(void)
     _go32_dpmi_lock_data((void *) &detect_done, sizeof(detect_done));
     _go32_dpmi_lock_data((void *) &is_16bit, sizeof(is_16bit));
 }
+*/
 
 static int sb_init(warn_t *w, const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)

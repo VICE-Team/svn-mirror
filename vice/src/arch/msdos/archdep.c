@@ -117,7 +117,6 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 const char *archdep_default_resource_file_name(void)
 {
     static char *fname;
-    char *home;
 
     if (fname != NULL)
         free(fname);

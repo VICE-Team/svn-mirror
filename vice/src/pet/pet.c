@@ -92,6 +92,8 @@ int machine_class = VICE_MACHINE_PET;
 
 /* ------------------------------------------------------------------------- */
 
+#if 0
+
 /* PET resources.  */
 
 /* PET model name.  */
@@ -111,8 +113,6 @@ static int set_model_name(resource_value_t v)
 }
 
 /* ------------------------------------------------------------------------- */
-
-#if 0
 
 static resource_t resources[] = {
     { "Model", RES_STRING, (resource_value_t) "8032",

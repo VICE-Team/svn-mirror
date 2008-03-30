@@ -344,7 +344,6 @@ int vicesb_detect(int *is_16bit)
     char *msg;
     int dma8 = 1;
     int dma16 = 5;
-    int default_freq;
 
     /* what breed of SB are we looking for? */
     switch (digi_card) {

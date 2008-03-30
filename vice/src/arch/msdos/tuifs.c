@@ -609,7 +609,6 @@ char *tui_file_selector(const char *title, const char *directory,
                 && fl->items[curr_item].type != FT_DIR
                 && browse_file_return != NULL) {
 		char *name;
-		char *contents;
 
 		name = alloca(strlen(return_path)
                               + strlen(fl->items[curr_item].name) + 1);

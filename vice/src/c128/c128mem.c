@@ -830,6 +830,8 @@ static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
         STORE_TOP_SHARED(addr, value);
 }
 
+/* FIXME: These routines are not used.  */
+/*
 static BYTE REGPARM1 read_empty_io(ADDRESS addr)
 {
     if (io_in)
@@ -845,6 +847,7 @@ static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
     if (!io_in)
         STORE_TOP_SHARED(addr, value);
 }
+*/
 
 /* ------------------------------------------------------------------------- */
 /* those are approximate copies from the c64 versions....

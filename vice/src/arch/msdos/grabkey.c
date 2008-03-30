@@ -103,6 +103,8 @@ static void my_kbd_interrupt_handler(void)
 
 static void my_kbd_interrupt_handler_end() { }
 
+/* FIXME: This routine is not used.  */
+/*
 static void lock_stuff(void)
 {
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
@@ -111,6 +113,7 @@ static void lock_stuff(void)
     _go32_dpmi_lock_data((void *) &grabbed_key, sizeof grabbed_key);
     _go32_dpmi_lock_data((void *) &tmp_grabbed_key, sizeof tmp_grabbed_key);
 }
+*/
 
 static int install_kbd_handler(void)
 {

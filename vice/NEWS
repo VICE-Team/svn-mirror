@@ -15,7 +15,9 @@ list of all the changes in the code.
 
 - Drive 9 can be emulated at hardware level.
 
-- The 2031, 1571 and 1581 disk drives are emulated.
+- The 1571, 1581 and 2031 disk drives are emulated.
+
+- Moved drive ROM images into a separate directory.
 
 ** SID changes
 --------------
@@ -35,6 +37,15 @@ list of all the changes in the code.
 
 - It is now possible to save the emulator's state into a file, and
   load it back at any time.
+
+- Final Cartridge and Ocean Cartridge image support has been added.
+
+- Display modes in Ultimax mode have been corrected.
+
+** C128 changes
+---------------
+
+- Some memory banking bugs have been fixed (C128 GEOS works).
 
 ** CBM-II changes
 -----------------
@@ -57,6 +68,10 @@ list of all the changes in the code.
 
 - C1541 has been restructured; the batch mode syntax has changed, and
   some commands take different parameters.
+
+- You can create D71 and D81 disk images now.
+
+- Lynx and zipcode support has been improved.
 
 * Changes in VICE 0.15.0
 ========================

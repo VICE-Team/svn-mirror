@@ -183,12 +183,14 @@ static int set_video_cache_enabled(resource_value_t v)
 /* prototype for resources - moved to raster.c */
 static int set_palette_file_name(resource_value_t v);
 
+#ifdef NEED_2x
 static int set_double_size_enabled(resource_value_t v)
 {
     double_size_enabled = (int) v;
     video_resize();
     return 0;
 }
+#endif
 
 static int set_double_scan_enabled(resource_value_t v)
 {

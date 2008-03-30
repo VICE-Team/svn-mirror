@@ -214,11 +214,14 @@ static int set_crtc_enabled(resource_value_t v)
     return 0;
 }
 
+/* FIXME: This routine is not used.  */
+/*
 static int set_kbd_type(resource_value_t v)
 {
     petres.kbd_type = (int) v;
     return 0;
 }
+*/
 
 static int set_ramsize(resource_value_t v)
 {

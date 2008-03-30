@@ -306,7 +306,6 @@ int do_vsync(int been_skipped)
     static int num_skipped_frames = 0;
     static int frame_counter = 0;
     int skip_next_frame = 0;
-    static unsigned int old_rawclock;
 
     vsync_hook();
 

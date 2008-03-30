@@ -61,7 +61,7 @@ static void display_item(int x, int y, int width, int offset,
                          image_contents_file_list_t *element,
                          int is_selected)
 {
-    int x1, y1, j;
+    int x1, y1;
 
     y1 = y + offset;
 
