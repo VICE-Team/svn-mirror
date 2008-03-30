@@ -31,6 +31,7 @@
 
 #include "imagecontents.h"
 
+#include "log.h"
 #include "tape.h"
 #include "utils.h"
 #include "vdrive.h"

@@ -38,6 +38,8 @@
 
 #include "vice.h"
 
+/* #define DEBUG_DRIVE */
+
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
@@ -109,12 +111,12 @@ static int floppy_create_directory(DRIVE *floppy, char *name,
     *l++ = '"';
 
     memcpy(l, &floppy->bam[floppy->bam_name], 16);
-    no_a0_pads(l, 16);
+    vdrive_dir_no_a0_pads(l, 16);
     l += 16;
     *l++ = '"';
     *l++ = ' ';
     memcpy(l, &floppy->bam[floppy->bam_id], 5);
-    no_a0_pads(l, 5);
+    vdrive_dir_no_a0_pads(l, 5);
     l += 5;
     *l++ = 0;
 
@@ -135,9 +137,9 @@ static int floppy_create_directory(DRIVE *floppy, char *name,
      * Wildcards can be used too.
      */
 
-    set_find_first_slot(floppy, name, length, filetype);
+    vdrive_dir_find_first_slot(floppy, name, length, filetype);
 
-    while ((p = find_next_slot(floppy))) {
+    while ((p = vdrive_dir_find_next_slot(floppy))) {
         BYTE *tl;
 
         /* Check whether the directory exceeds the malloced memory.  We make
@@ -175,7 +177,7 @@ static int floppy_create_directory(DRIVE *floppy, char *name,
             for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
                 i++;
 
-            no_a0_pads(l, 16);
+            vdrive_dir_no_a0_pads(l, 16);
 
             l[16] = ' ';
             l[i] = '"';
@@ -251,9 +253,10 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
      * First block of a file ?
      */
     if (slot[SLOT_FIRST_TRACK] == 0) {
-        e = alloc_first_free_sector(floppy, floppy->bam, &t_new, &s_new);
+        e = vdrive_bam_alloc_first_free_sector(floppy, floppy->bam, &t_new,
+                                               &s_new);
         if (e < 0) {
-            floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
             return -1;
         }
         slot[SLOT_FIRST_TRACK]  = bi->track  = t_new;
@@ -266,9 +269,10 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
          */
         t_new = bi->track;
         s_new = bi->sector;
-        e = alloc_next_free_sector(floppy, floppy->bam, &t_new, &s_new);
+        e = vdrive_bam_alloc_next_free_sector(floppy, floppy->bam, &t_new,
+                                              &s_new);
         if (e < 0) {
-            floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
             return -1;
         }
         buf[0] = t_new;
@@ -331,11 +335,15 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
-       floppy_error(&floppy->buffers[15], IPE_NOT_READY, 18, 0);
-       log_error(vdrive_log, "Drive not ready.");
+       vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_READY, 18, 0);
+       log_message(vdrive_log, "Drive not ready.");
        return SERIAL_ERROR;
    }
 
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "VDRIVE#%i: OPEN: FD = %d - Name '%s' (%d) on ch %d\n",
+	        floppy->unit, (int)(floppy->ActiveFd), name, length, secondary);
+#endif
 #ifdef __riscos
     ui_set_drive_leds(floppy->unit - 8, 1);
 #endif
@@ -360,13 +368,16 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
     /*
      * Clear error flag
      */
-    floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
+    vdrive_command_set_error(&floppy->buffers[15], IPE_OK, 0, 0);
 
     /*
      * In use ?
      */
     if (p->mode != BUFFER_NOT_IN_USE) {
-	floppy_error(&floppy->buffers[15], IPE_NO_CHANNEL, 0, 0);
+#ifdef DEBUG_DRIVE
+	printf (logfile, "Cannot open channel %d. Mode is %d.\n", secondary, p->mode);
+#endif
+	vdrive_command_set_error(&floppy->buffers[15], IPE_NO_CHANNEL, 0, 0);
         return SERIAL_ERROR;
     }
 
@@ -422,7 +433,7 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
             p->mode = BUFFER_NOT_IN_USE;
             free(p->buffer);
             p->length = 0;
-            floppy_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
         p->bufptr = 0;
@@ -440,13 +451,13 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
     /*
      * Check that there is room on directory.
      */
-    set_find_first_slot(floppy, realname, reallength, 0);
+    vdrive_dir_find_first_slot(floppy, realname, reallength, 0);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
      */
     do
-        slot = find_next_slot(floppy);
+        slot = vdrive_dir_find_next_slot(floppy);
     while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == FT_DEL));
 
     p->readmode = readmode;
@@ -461,7 +472,7 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
 
         if (!slot) {
             vdrive_close(floppy, secondary);
-            floppy_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
 
@@ -469,7 +480,7 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
 
         /*  I don't think that this one is needed - EP
         if (filetype && type != filetype) {
-            floppy_error(&floppy->buffers[15], IPE_BAD_TYPE, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_BAD_TYPE, 0, 0);
             return SERIAL_ERROR;
 	    }
         */
@@ -508,16 +519,18 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
      */
 
     if (floppy->ReadOnly) {
-        floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
+        vdrive_command_set_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON,
+                                 0, 0);
         return SERIAL_ERROR;
     }
 
     if (slot) {
         if (*name == '@')
-            remove_slot(floppy, slot);
+            vdrive_dir_remove_slot(floppy, slot);
         else {
             vdrive_close(floppy, secondary);
-            floppy_error(&floppy->buffers[15], IPE_FILE_EXISTS, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_FILE_EXISTS,
+                                     0, 0);
             return SERIAL_ERROR;
         }
     }
@@ -531,12 +544,47 @@ int vdrive_open(void *flp, char *name, int length, int secondary)
     memset(p->slot, 0, 32);
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
-
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "DIR: name (%d) '%s'\n", reallength, realname);
+#endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;	/* unclosed */
+
     p->buffer = (BYTE *)xmalloc(256);
     p->mode = BUFFER_SEQUENTIAL;
     p->bufptr = 2;
 
+#if 0
+    /* XXX keeping entry until close not implemented */
+    /* Write the directory entry to disk as an UNCLOSED file. */
+
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
+#endif
+
+    vdrive_dir_find_first_slot(floppy, NULL, -1, 0);
+    e = vdrive_dir_find_next_slot(floppy);
+
+    if (!e) {
+        p->mode = BUFFER_NOT_IN_USE;
+        free((char *)p->buffer);
+        p->buffer = NULL;
+        vdrive_command_set_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
+        return SERIAL_ERROR;
+    }
+
+    memcpy(&floppy->Dir_buffer[floppy->SlotNumber * 32 + 2],
+           p->slot + 2, 30);
+
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "DEBUG: create, write DIR slot (%d %d).\n",
+            floppy->Curr_track, floppy->Curr_sector);
+#endif
+    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                       floppy->Dir_buffer, floppy->Curr_track,
+                       floppy->Curr_sector, floppy->D64_Header);
+
+    /*vdrive_bam_write_bam(floppy);*/
+#endif  /* BAM write */
     return SERIAL_OK;
 }
 
@@ -547,6 +595,9 @@ int vdrive_close(void *flp, int secondary)
     BYTE   *e;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
+#ifdef DEBUG_DRIVE
+    fprintf(logfile, "DEBUG: closing file #%d.\n", secondary);
+#endif
 #ifdef __riscos
     ui_set_drive_leds(floppy->unit - 8, 0);
 #endif
@@ -569,20 +620,29 @@ int vdrive_close(void *flp, int secondary)
              */
 
             if (floppy->ReadOnly) {
-                floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
+                vdrive_command_set_error(&floppy->buffers[15],
+                                         IPE_WRITE_PROTECT_ON, 0, 0);
                 return SERIAL_ERROR;
             }
 
+#ifdef DEBUG_DRIVE
+            fprintf(logfile, "DEBUG: flush.\n");
+#endif
             write_sequential_buffer(floppy, p, p->bufptr);
-            set_find_first_slot(floppy, NULL, -1, 0);
-            e = find_next_slot(floppy);
+
+#ifdef DEBUG_DRIVE
+            fprintf(logfile, "DEBUG: find empty DIR slot.\n");
+#endif
+            vdrive_dir_find_first_slot(floppy, NULL, -1, 0);
+            e = vdrive_dir_find_next_slot(floppy);
 
             if (!e) {
                 p->mode = BUFFER_NOT_IN_USE;
                 free((char *)p->buffer);
                 p->buffer = NULL;
 
-                floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
+                vdrive_command_set_error(&floppy->buffers[15], IPE_DISK_FULL,
+                                         0, 0);
                 return SERIAL_ERROR;
             }
             p->slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
@@ -590,10 +650,14 @@ int vdrive_close(void *flp, int secondary)
             memcpy(&floppy->Dir_buffer[floppy->SlotNumber * 32 + 2],
                    p->slot + 2, 30);
 
+#ifdef DEBUG_DRIVE
+            fprintf(logfile, "DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
+                    floppy->Curr_track, floppy->Curr_sector);
+#endif
             floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                floppy->Dir_buffer, floppy->Curr_track,
                                floppy->Curr_sector, floppy->D64_Header);
-            floppy_write_bam(floppy);
+            vdrive_bam_write_bam(floppy);
         }
         p->mode = BUFFER_NOT_IN_USE;
         free((char *)p->buffer);
@@ -603,12 +667,12 @@ int vdrive_close(void *flp, int secondary)
         /* I'm not sure if this is correct, but really closing the buffer
            should reset the read pointer to the beginning for the next
            write! */
-        floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
+        vdrive_command_set_error(&floppy->buffers[15], IPE_OK, 0, 0);
         floppy_close_all_channels(floppy);
         break;
       default:
-        log_error(vdrive_log,
-                  "Fatal: unknown floppy-close-mode: %i.", p->mode);
+        log_error(vdrive_log, "Fatal: unknown floppy-close-mode: %i.",
+                  p->mode);
         exit (-1);
     }
     return SERIAL_OK;
@@ -620,9 +684,14 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
     DRIVE *floppy = (DRIVE *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
+#ifdef DEBUG_DRIVE
+    if (p->mode == BUFFER_COMMAND_CHANNEL)
+	fprintf(logfile, "Disk read  %d [%02d %02d]\n", p->mode, 0, 0);
+#endif
+
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
-	floppy_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
+	vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
 	return SERIAL_ERROR;
 
       case BUFFER_DIRECTORY_READ:
@@ -672,7 +741,10 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 
       case BUFFER_COMMAND_CHANNEL:
 	if (p->bufptr > p->length) {
-	    floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
+	    vdrive_command_set_error(&floppy->buffers[15], IPE_OK, 0, 0);
+#ifdef DEBUG_DRIVE
+	    fprintf(logfile, "end of buffer in command channel\n" );
+#endif
             *data = 0xc7;
 	    return SERIAL_EOF;
 	}
@@ -695,16 +767,23 @@ int vdrive_write(void *flp, BYTE data, int secondary)
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
     if (floppy->ReadOnly && p->mode != BUFFER_COMMAND_CHANNEL) {
-        floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
+        vdrive_command_set_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON,
+                                 0, 0);
         return SERIAL_ERROR;
     }
 
+#ifdef DEBUG_DRIVE
+    if (p -> mode == BUFFER_COMMAND_CHANNEL)
+        printf("Disk write %d [%02d %02d] data %02x (%c)\n",
+               p->mode, 0, 0, data, (isprint(data) ? data : '.') );
+#endif
+
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
-        floppy_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
+        vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
         return SERIAL_ERROR;
       case BUFFER_DIRECTORY_READ:
-        floppy_error(&floppy->buffers[15], IPE_NOT_WRITE, 0, 0);
+        vdrive_command_set_error(&floppy->buffers[15], IPE_NOT_WRITE, 0, 0);
         return SERIAL_ERROR;
       case BUFFER_MEMORY_BUFFER:
         if (p->bufptr >= 256)
@@ -747,16 +826,22 @@ void vdrive_flush(void *flp, int secondary)
     bufferinfo_t *p = &(floppy->buffers[secondary]);
     int status;
 
+#ifdef DEBUG_DRIVE
+printf("VDRIVE#%i: FLUSH:, secondary = %d, buffer=%s\n   bufptr=%d, length=%d, "
+       "read?=%d\n", floppy->unit, secondary, p->buffer, p->bufptr, p->length,
+       p->readmode==FAM_READ);
+#endif
+
     if (p->mode != BUFFER_COMMAND_CHANNEL)
         return;
 
     if (p->readmode == FAM_READ)
         return;
     if (p->length) { /* if no command, do nothing - keep error code. */
-        status = ip_execute(floppy, p->buffer, p->bufptr);
+        status = vdrive_command_execute(floppy, p->buffer, p->bufptr);
         p->bufptr = 0;
         if (status == IPE_OK)
-            floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
+            vdrive_command_set_error(&floppy->buffers[15], IPE_OK, 0, 0);
     }
 }
 

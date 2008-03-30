@@ -42,9 +42,9 @@
 #include <time.h>
 #endif
 
-#include "log.h"
 #include "types.h"
 #include "fs_cbm.h"
+#include "log.h"
 
 #define SET_LO_HI(p, val)                       \
     do {                                        \
@@ -248,6 +248,7 @@ typedef struct errortext_s {
 
 extern log_t vdrive_log;
 
+/* This mess will be cleaned up.  */
 extern int initialize_1541(int dev, int type,
                            drive_attach_func_t attach_func,
                            drive_detach_func_t detach_func,
@@ -255,44 +256,46 @@ extern int initialize_1541(int dev, int type,
 extern int find_devno(int dev, const char *name);
 extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
 extern void detach_floppy_image(DRIVE *floppy);
-
-extern int ip_execute(DRIVE *floppy, BYTE *buf, int length);
-extern int do_validate(DRIVE *floppy);
-extern int check_track_sector(int format, int track, int sector);
-
-extern int floppy_free_block_count (DRIVE *floppy);
+extern int vdrive_check_track_sector(int format, int track, int sector);
+extern int floppy_free_block_count(DRIVE *floppy);
 extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 			     int sector, int d64);
 extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
 			      int sector, int d64);
-
 extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
-extern void no_a0_pads(BYTE *ptr, int l);
-extern int vdrive_free_sector(int type, BYTE *bam, int track, int sector);
-extern int vdrive_allocate_sector(int type, BYTE *bam, int track, int sector);
-
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
 extern int floppy_parse_name(char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl );
-
-extern void floppy_error(bufferinfo_t *p, int code, int track, int sector);
-extern int alloc_first_free_sector(DRIVE *floppy, BYTE *bam,
-                                   int *track, int *sector);
-extern int alloc_next_free_sector(DRIVE *floppy, BYTE *bam,
-                                  int *track, int *sector);
-extern BYTE *find_next_slot(DRIVE *floppy);
 extern void floppy_close_all_channels(DRIVE *);
-extern int floppy_write_bam(DRIVE *floppy);
-extern void remove_slot(DRIVE *floppy, BYTE *slot);
 extern void set_disk_geometry(DRIVE *floppy, int type);
-extern void set_find_first_slot(DRIVE *floppy, char *name, 
-                                int length, int type);
-
 extern int compare_filename(char *name, char *pattern);
-
 char *read_disk_image_contents(const char *fname);
 
+/* BAM related functions.  */
+extern int vdrive_bam_alloc_first_free_sector(DRIVE *floppy, BYTE *bam,
+                                              int *track, int *sector);
+extern int vdrive_bam_alloc_next_free_sector(DRIVE *floppy, BYTE *bam,
+                                             int *track, int *sector);
+extern int vdrive_bam_allocate_sector(int type, BYTE *bam, int track,
+                                      int sector);
+extern int vdrive_bam_free_sector(int type, BYTE *bam, int track, int sector);
+extern int vdrive_bam_write_bam(DRIVE *floppy);
+
+/* Directory related functions.  */
+extern void  vdrive_dir_find_first_slot(DRIVE *floppy, char *name,
+                                       int length, int type);
+extern BYTE *vdrive_dir_find_next_slot(DRIVE *floppy);
+extern void  vdrive_dir_no_a0_pads(BYTE *ptr, int l);
+extern void  vdrive_dir_remove_slot(DRIVE *floppy, BYTE *slot);
+
+/* Drive command related functions.  */
+extern int  vdrive_command_execute(DRIVE *floppy, BYTE *buf, int length);
+extern void vdrive_command_set_error(bufferinfo_t *p, int code,
+                                     int track, int sector);
+extern int  vdrive_command_validate(DRIVE *floppy);
+
 #endif				/* _VDRIVE_H */
+
