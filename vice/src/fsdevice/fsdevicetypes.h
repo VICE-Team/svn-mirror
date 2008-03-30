@@ -28,6 +28,7 @@
 #define _FSDEVICETYPES_H
 
 #include "vice.h"
+#include "tape.h"
 
 #include <stdio.h>
 
@@ -55,6 +56,7 @@ enum fsmode {
 struct fs_buffer_info_s {
     FILE *fd;
     DIR  *dp;
+    tape_image_t tape;
     enum fsmode mode;
     char dir[MAXPATHLEN];
     BYTE name[MAXPATHLEN + 5];

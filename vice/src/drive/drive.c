@@ -355,11 +355,13 @@ int drive_enable(drive_context_t *drv)
         }
     }
 
+    /* FIXME: this doesn't care about dual drives anymore */
     drive_set_active_led_color(drive->type, dnr);
     ui_enable_drive_status(enabled_drives,
                            drive_led_color);
 
 #if 0
+    /* this is the old code not respecting more than 2 drives */
     ui_enable_drive_status((drive_context[0]->drive->enable
                            ? UI_DRIVE_ENABLE_0 : 0)
                            | ((drive_context[1]->drive->enable

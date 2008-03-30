@@ -256,6 +256,9 @@ libvic20_a_SOURCES = \
 	vic20drive.c \
 	vic20iec.c \
 	vic20iec.h \
+	vic20ieeevia.h \
+	vic20ieeevia1.c \
+	vic20ieeevia2.c \
 	vic20mem.c \
 	vic20mem.h \
 	vic20memsnapshot.c \
@@ -270,9 +273,7 @@ libvic20_a_SOURCES = \
 	vic20via.h \
 	vic20via1.c \
 	vic20via2.c \
-	vic20ieeevia.h \
-	vic20ieeevia1.c \
-	vic20ieeevia2.c 
+	vic20video.c
 
 subdir = src/vic20
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -288,11 +289,11 @@ am_libvic20_a_OBJECTS = vic-cmdline-options.$(OBJEXT) \
 	vic20-cmdline-options.$(OBJEXT) vic20-resources.$(OBJEXT) \
 	vic20-snapshot.$(OBJEXT) vic20.$(OBJEXT) vic20bus.$(OBJEXT) \
 	vic20cartridge.$(OBJEXT) vic20datasette.$(OBJEXT) \
-	vic20drive.$(OBJEXT) vic20iec.$(OBJEXT) vic20mem.$(OBJEXT) \
+	vic20drive.$(OBJEXT) vic20iec.$(OBJEXT) vic20ieeevia1.$(OBJEXT) \
+	vic20ieeevia2.$(OBJEXT) vic20mem.$(OBJEXT) \
 	vic20memsnapshot.$(OBJEXT) vic20printer.$(OBJEXT) \
 	vic20rom.$(OBJEXT) vic20rsuser.$(OBJEXT) vic20sound.$(OBJEXT) \
-	vic20via1.$(OBJEXT) vic20via2.$(OBJEXT) vic20ieeevia1.$(OBJEXT) \
-	vic20ieeevia2.$(OBJEXT)
+	vic20via1.$(OBJEXT) vic20via2.$(OBJEXT) vic20video.$(OBJEXT)
 libvic20_a_OBJECTS = $(am_libvic20_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -316,7 +317,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/vic20printer.Po ./$(DEPDIR)/vic20rom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20rsuser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20sound.Po ./$(DEPDIR)/vic20via1.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vic20via2.Po
+@AMDEP_TRUE@	./$(DEPDIR)/vic20via2.Po ./$(DEPDIR)/vic20video.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -374,6 +375,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20sound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20via1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20via2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20video.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

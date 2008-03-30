@@ -1,3 +1,9 @@
+2003-12-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.36.
+
+	* configure.in: Do not check for windows headers separately.
+
 2003-11-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.35.
@@ -7,6 +13,11 @@
 2003-11-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.34.
+
+2003-11-26  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Added check for mp3lame to make ffmpeg happy, in
+	certain conditions.
 
 2003-11-26  Andreas Boose  <viceteam@t-online.de>
 

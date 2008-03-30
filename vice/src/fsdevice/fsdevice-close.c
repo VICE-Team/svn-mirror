@@ -70,11 +70,17 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
       case Write:
       case Read:
       case Append:
-        if (!fs_info[secondary].fd)
-            return FLOPPY_ERROR;
-
-        fclose(fs_info[secondary].fd);
-        fs_info[secondary].fd = NULL;
+        if( fs_info[secondary].tape.name )
+          {
+            tape_image_close(&(fs_info[secondary].tape));
+          }
+        else if( fs_info[secondary].fd )
+          {
+            fclose(fs_info[secondary].fd);
+            fs_info[secondary].fd = NULL;
+          }
+        else
+          return FLOPPY_ERROR;
         break;
       case Directory:
         if (!fs_info[secondary].dp)

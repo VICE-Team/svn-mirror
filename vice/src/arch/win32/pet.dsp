@@ -148,5 +148,9 @@ SOURCE=..\..\pet\petsound.c
 
 SOURCE=..\..\pet\petvia.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\pet\petvideo.c
+# End Source File
 # End Target
 # End Project

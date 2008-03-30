@@ -148,5 +148,9 @@ SOURCE=..\..\cbm2\cbm2tpi1.c
 
 SOURCE=..\..\cbm2\cbm2tpi2.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\cbm2\cbm2video.c
+# End Source File
 # End Target
 # End Project

@@ -261,6 +261,7 @@ libplus4_a_SOURCES = \
 	plus4rom.h \
 	plus4tcbm.c \
 	plus4tcbm.h \
+	plus4video.c \
 	ted-badline.c \
 	ted-badline.h \
 	ted-cmdline-options.c \
@@ -305,9 +306,10 @@ am_libplus4_a_OBJECTS = plus4-cmdline-options.$(OBJEXT) \
 	plus4memlimit.$(OBJEXT) plus4memsnapshot.$(OBJEXT) \
 	plus4parallel.$(OBJEXT) plus4pio1.$(OBJEXT) plus4pio2.$(OBJEXT) \
 	plus4printer.$(OBJEXT) plus4rom.$(OBJEXT) plus4tcbm.$(OBJEXT) \
-	ted-badline.$(OBJEXT) ted-cmdline-options.$(OBJEXT) \
-	ted-color.$(OBJEXT) ted-draw.$(OBJEXT) ted-fetch.$(OBJEXT) \
-	ted-irq.$(OBJEXT) ted-mem.$(OBJEXT) ted-resources.$(OBJEXT) \
+	plus4video.$(OBJEXT) ted-badline.$(OBJEXT) \
+	ted-cmdline-options.$(OBJEXT) ted-color.$(OBJEXT) \
+	ted-draw.$(OBJEXT) ted-fetch.$(OBJEXT) ted-irq.$(OBJEXT) \
+	ted-mem.$(OBJEXT) ted-resources.$(OBJEXT) \
 	ted-snapshot.$(OBJEXT) ted-sound.$(OBJEXT) ted-timer.$(OBJEXT) \
 	ted-timing.$(OBJEXT) ted.$(OBJEXT)
 libplus4_a_OBJECTS = $(am_libplus4_a_OBJECTS)
@@ -328,7 +330,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/plus4parallel.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4pio1.Po ./$(DEPDIR)/plus4pio2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4printer.Po ./$(DEPDIR)/plus4rom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/plus4tcbm.Po ./$(DEPDIR)/ted-badline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4tcbm.Po ./$(DEPDIR)/plus4video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ted-badline.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-color.Po ./$(DEPDIR)/ted-draw.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-fetch.Po ./$(DEPDIR)/ted-irq.Po \
@@ -386,6 +389,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4printer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4rom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4tcbm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ted-badline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ted-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ted-color.Po@am__quote@

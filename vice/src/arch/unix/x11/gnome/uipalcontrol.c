@@ -171,23 +171,28 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(true_palemu);
 
+    resources_get_value("PALMode", (void *) &v);
+    if (v == 0)
+    {
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fake_palemu), TRUE);
+    }
+    else
+    {
+    	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), TRUE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(true_palemu), TRUE);
+    }
+    
+    /* connect signals later to avoid callback to `upd_palmode' when setting 
+       the default */
     gtk_signal_connect(GTK_OBJECT(fake_palemu), "clicked",
 		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 0);
     
     gtk_signal_connect(GTK_OBJECT(true_palemu), "clicked",
 		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 1);
     
-    resources_get_value("PALMode", (void *) &v);
-    if (v == 0)
-    {
-	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), FALSE);
-	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), FALSE);
-    }
-    else
-    {
-    	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[0].w), TRUE);
-	gtk_widget_set_sensitive(GTK_WIDGET(ctrls[1].w), TRUE);
-    }
     gtk_widget_show(box);
 
     gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);

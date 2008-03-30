@@ -77,7 +77,22 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         return FLOPPY_ERROR;
 
       case Read:
-        if (info->fd) {
+        if (info->tape.name)
+          {
+            if( info->buflen > 0 )
+              {
+                *data = *info->bufp++;
+                info->buflen--;
+              }
+            else if( tape_read(&(info->tape), data, 1)!=1 )
+              {
+                *data = 0xc7;
+                return SERIAL_EOF;
+              }
+            
+            return SERIAL_OK;
+          }
+        else if (info->fd) {
             i = fgetc(info->fd);
             if (ferror(info->fd))
                 return FLOPPY_ERROR;

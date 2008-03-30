@@ -184,5 +184,9 @@ SOURCE=..\..\vic20\vic20via1.c
 
 SOURCE=..\..\vic20\vic20via2.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\vic20\vic20video.c
+# End Source File
 # End Target
 # End Project

@@ -158,6 +158,10 @@ SOURCE=..\..\plus4\plus4tcbm.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\plus4\plus4video.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\plus4\ted-badline.c"
 # End Source File
 # Begin Source File

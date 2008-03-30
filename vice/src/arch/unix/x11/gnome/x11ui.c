@@ -738,7 +738,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
 
-    if (resources_get_value("PALEmulation", (void *)&i) > 0 && (i > 0))
+    if ((resources_get_value("PALEmulation", (void *)&i) != -1) && (i > 0))
 	gtk_widget_show(pal_ctrl_checkbox);
     else	
 	gtk_widget_hide(pal_ctrl_checkbox);

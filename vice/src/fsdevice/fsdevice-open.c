@@ -74,6 +74,7 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
     char *mask, *comma;
     int status = 0, rc, i;
     cmd_parse_t cmd_parse;
+    tape_image_t *tape;
 
     if (fs_info[secondary].fd)
         return FLOPPY_ERROR;
@@ -322,6 +323,28 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
         }
 
         /* Open file for read mode access.  */
+
+        tape = &(fs_info[secondary].tape);
+        tape->name = lib_stralloc(cmd_parse.parsecmd);
+        tape->read_only = 1;
+        if( tape_image_open(tape)<0 )
+          {
+            lib_free(tape->name);
+            tape->name = NULL;
+          }
+        else
+          {
+            tape_file_record_t *r;
+            static BYTE startaddr[2];
+            tape_seek_start(tape);
+            r = tape_get_current_file_record(tape);
+            startaddr[0] = r->start_addr & 255;
+            startaddr[1] = r->start_addr >> 8;
+            fs_info[secondary].bufp   = startaddr;
+            fs_info[secondary].buflen = 2;
+            goto out;
+          }
+
         fd = fopen(cmd_parse.parsecmd, MODE_READ);
         if (!fd) {
             if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {

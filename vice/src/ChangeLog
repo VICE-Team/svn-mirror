@@ -1,3 +1,52 @@
+2003-12-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.36.
+
+	* video.h, vicii/vicii-resources.c, vdc/vdc-resources.c,
+	vic20/vic-resources.c, crtc/crtc-resources.c,
+	plus4/ted-resources.c, video/video-resources.c: Added PAL
+	capability.
+
+	* c64/c64video.c, c128/c128video.c, vic20/vic20video.c,
+	pet/petvideo.c, plus4/plus4video.c, cbm2/cbm2video.c,
+	machine-video.h: New files.
+
+	* c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, plus4/Makefile.am, cbm2/Makefile.am,
+	arch/win32/c64.dsp, arch/win32/c128.dsp, arch/win32/vic20.dsp,
+	arch/win32/pet.dsp, arch/win32/plus4.dsp, arch/win32/cbm2.dsp:
+	Added new files.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c, machine.h, arch/unix/plus4ui.c,
+	arch/unix/vic20ui.c, arch/unix/c64ui.c, arch/unix/cbm2ui.c,
+	arch/unix/c128ui.c, arch/unix/petui.c: Changed to use new
+	machine video API.
+
+	* drive/iec/iec.c, drive/iec.h, c64/c64drive.c,
+	vic20/vic20drive.c, plus4/plus4drive.c, cbm2/cbm2drive.c,
+	pet/petdrive.c, machine-drive.h: Removed job code function.
+
+2003-12-01  David Hansel  <hansel@reactive-systems.com>
+
+	* fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c,
+	fsdevice/fsdevice-close.c, fsdevice/fsdevicetypes.h:
+	Added code to read contents (first file) of tape files.
+
+	* arch/win32/res.rc:  fixed size of "printer" peripheral
+	dialog page
+
+	* arch/win32/uidrivec128.c, src/arch/win32/uidriveplus4.c:
+	disable drive options if iec device is enabled.
+
+2003-11-30  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): small
+	fix to show PAL control checkbox.
+
+	* arch/unix/x11/gnome/uipalcontrol.c (build_pal_ctrl_widget):
+	Properly set pal mode radio button when creating the widget.
+
 2003-11-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.35.
@@ -87,11 +136,16 @@
 
 2003-11-27  pottendo  <pottendo@utanet.at>
 
+	* drive/drive.c (drive_enable): Derive enabled drives and pass
+	information to the UI. Fixme: dual drives are not respected with
+	this!
+
 	* arch/unix/uicommands.c (ui_update_flip_menus): Use new more
 	general ui_drive_menu interface.
+
 	* arch/unix/x11/gnome/x11ui.c (fliplist_popup_cb): ditto.
-	(ui_create_status_bar): fixed bug. Don't show PAL control for
-	machines that don't support PAL emu.
+	(ui_create_status_bar): fixed bug. Show PAL control widget
+	depending in resource "PALEmulation".
 
 2003-11-26  Andreas Dehmel  <zarquon@t-online.de>
 
