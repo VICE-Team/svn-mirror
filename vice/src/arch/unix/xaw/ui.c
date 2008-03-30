@@ -1932,6 +1932,10 @@ void ui_display_drive_led(int drive_number, int status)
 
 void ui_display_drive_current_image(int drive_number, const char *image)
 {
+    /* FIXME: Allow more than two drives.  */
+    if (drive_number >= 2)
+        return;
+
     strcpy(&(last_attached_images[drive_number][0]), image);
 
     /* update drive mapping */

@@ -314,30 +314,19 @@ void file_system_detach_disk(int unit)
     vdrive_t *vdrive;
     
     if (unit < 0) {
-        vdrive = file_system_get_vdrive(8);
-        detach_disk_image(vdrive->image, vdrive, 8);
-        set_file_system_device8((resource_value_t)
-                                file_system_device_enabled[0]);
-        vdrive = file_system_get_vdrive(9);
-        detach_disk_image(vdrive->image, vdrive, 9);
-        set_file_system_device9((resource_value_t)
-                                file_system_device_enabled[1]);
-        vdrive = file_system_get_vdrive(10);
-        detach_disk_image(vdrive->image, vdrive, 10);
-        set_file_system_device10((resource_value_t)
-                                 file_system_device_enabled[2]);
-        vdrive = file_system_get_vdrive(11);
-        detach_disk_image(vdrive->image, vdrive, 11);
-        set_file_system_device11((resource_value_t)
-                                 file_system_device_enabled[3]);
-
         /* XXX Fixme: Hardcoded 2 drives here! */
-        for (i = 8; i <= 9; i++)
-            ui_display_drive_current_image(i - 8, "");
-	    
+        for (i = 0; i <= 3; i++) {
+            vdrive = file_system_get_vdrive(i + 8);
+            if (vdrive != NULL)
+                detach_disk_image(vdrive->image, vdrive, i + 8);
+            set_file_system_device8((resource_value_t)
+                                    file_system_device_enabled[i]);
+            ui_display_drive_current_image(i, "");
+	    }
     } else {
         vdrive = file_system_get_vdrive(unit);
-        detach_disk_image(vdrive->image, vdrive, unit);
+        if (vdrive != NULL)
+            detach_disk_image(vdrive->image, vdrive, unit);
         switch(unit) {
           case 8:
             set_file_system_device8((resource_value_t)
@@ -352,10 +341,12 @@ void file_system_detach_disk(int unit)
           case 10:
             set_file_system_device10((resource_value_t)
                                      file_system_device_enabled[2]);
+            ui_display_drive_current_image(2, "");
             break;
           case 11:
             set_file_system_device11((resource_value_t)
                                      file_system_device_enabled[3]);
+            ui_display_drive_current_image(3, "");
             break;
         }
     }
