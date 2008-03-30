@@ -61,8 +61,15 @@ extern int archdep_default_logger(const char *level_string, const char *format,
 extern int archdep_spawn(const char *name, char **argv,
                          const char *stdout_redir, const char *stderr_redir);
 
+/* spawn need quoting the params or expanding the filename in some archs */
+extern char *archdep_filename_parameter(const char *name);
+extern char *archdep_quote_parameter(const char *name);
+
 extern int archdep_num_text_lines(void);
 extern int archdep_num_text_columns(void);
+
+/* Allocates a filename for a tempfile */
+extern char *archdep_tmpnam(void);
 
 #endif
 

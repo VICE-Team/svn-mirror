@@ -119,16 +119,17 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     static char *default_path;
 
     if (default_path == NULL) {
-#if 0
+#if 1
         const char *boot_path = archdep_boot_path();
 
         default_path = concat(boot_path, "\\", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "\\DRIVES", NULL);
-#endif
+#else
         default_path = concat(emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               "DRIVES", NULL);
+#endif
     }
 
     return default_path;
@@ -312,3 +313,31 @@ void archdep_startup_log_error(const char *format, ...)
         ui_error_string(tmp);
 }
 
+
+char *archdep_quote_parameter(const char *name)
+{
+    char *a;
+    a = concat("\"", name, "\"", NULL);
+    return a;
+}
+
+
+char *archdep_filename_parameter(const char *name)
+{
+    char *exp;
+    char *a;
+    archdep_expand_path(&exp, name);
+    a = archdep_quote_parameter(exp);
+    free(exp);
+    return a;
+}
+
+char *archdep_tmpnam(void)
+{
+    if (getenv("temp"))
+        return concat(getenv("temp"),tmpnam(NULL),NULL);
+    else if (getenv("tmp"))
+        return concat(getenv("tmp"),tmpnam(NULL),NULL);
+    else
+        return stralloc(tmpnam(NULL));
+}

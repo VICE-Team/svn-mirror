@@ -314,3 +314,19 @@ void archdep_startup_log_error(const char *format, ...)
     vfprintf(stderr, format, ap);
 }
 
+char *archdep_filename_parameter(const char *name)
+{
+    /* nothing special(?) */
+    return stralloc(name);
+}
+
+char *archdep_quote_parameter(const char *name)
+{
+    /*not needed(?) */
+    return stralloc(name);
+}
+
+char *archdep_tmpnam(void)
+{
+    return stralloc(tmpnam(NULL));
+}

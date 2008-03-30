@@ -401,3 +401,27 @@ void archdep_startup_log_error(const char *format, ...)
 #endif
 }
 
+
+char *archdep_quote_parameter(const char *name)
+{
+    char *a;
+    a = concat("\"", name, "\"", NULL);
+    return a;
+}
+
+
+char *archdep_filename_parameter(const char *name)
+{
+    char *exp;
+    char *a;
+    archdep_expand_path(&exp, name);
+    a = archdep_quote_parameter(exp);
+    free(exp);
+    return a;
+}
+
+
+char *archdep_tmpnam(void)
+{
+    return stralloc(tmpnam(NULL));
+}
