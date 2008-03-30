@@ -36,7 +36,6 @@ extern ui_menu_entry_t ui_joystick_settings_menu[];
 extern ui_menu_entry_t ui_video_settings_menu[];
 extern ui_menu_entry_t ui_vic_video_settings_menu[];
 extern ui_menu_entry_t video_settings_submenu[];
-extern ui_menu_entry_t ui_crtc_video_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_submenu[];
 extern ui_menu_entry_t ui_keyboard_settings_menu[];
@@ -53,6 +52,7 @@ extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_unload_rom_file);
 extern UI_CALLBACK(ui_dump_romset);
 extern UI_CALLBACK(ui_load_palette);
+extern UI_CALLBACK(toggle_UseXSync);
 
 extern ui_menu_entry_t ser1_baud_submenu[];
 extern ui_menu_entry_t ser2_baud_submenu[];

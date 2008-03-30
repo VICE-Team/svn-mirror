@@ -237,7 +237,7 @@ static UI_CALLBACK(load_resources)
     }
 #if 0
     else if (w != NULL)
-            ui_message(_("Settings loaded."));
+        ui_message(_("Settings loaded."));
 #endif
 
     ui_update_menus();
@@ -252,7 +252,13 @@ static UI_CALLBACK(set_default_resources)
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(UseXSync)
+/*UI_MENU_DEFINE_TOGGLE(UseXSync)*/
+
+UI_CALLBACK(toggle_UseXSync)
+{
+_ui_menu_toggle_helper(w, client_data, call_data, "UseXSync");
+}
+
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
@@ -280,9 +286,9 @@ static UI_CALLBACK(set_keymap_type)
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
     { N_("*Symbolic mapping"), (ui_callback_t)set_keymap_type,
-	(ui_callback_data_t) 0, NULL },
+        (ui_callback_data_t) 0, NULL },
     { N_("*Positional mapping (US)"), (ui_callback_t)set_keymap_type,
-	(ui_callback_data_t) 1, NULL },
+        (ui_callback_data_t) 1, NULL },
     { NULL }
 };
 
@@ -337,9 +343,9 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
       NULL, NULL, keyboard_maptype_submenu },
     { "--" },
     { N_("Set symbolic keymap file"), (ui_callback_t)select_user_keymap,
-		(ui_callback_data_t)0, NULL},
+                (ui_callback_data_t)0, NULL},
     { N_("Set positional keymap file"), (ui_callback_t)select_user_keymap,
-		(ui_callback_data_t)1, NULL},
+                (ui_callback_data_t)1, NULL},
     { "--" },
     { N_("Dump keymap to file"),
       (ui_callback_t) dump_keymap, NULL, NULL },
@@ -477,18 +483,17 @@ UI_CALLBACK(ui_unload_rom_file)
 
 /* RS232 stuff */
 
-
 UI_MENU_DEFINE_RADIO(RsUserDev)
 
 ui_menu_entry_t rsuser_device_submenu[] = {
     { N_("*Serial 1"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)0, NULL },
     { N_("*Serial 2"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)1, NULL },
     { N_("*Dump to file"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)2, NULL },
     { N_("*Exec process"),
-      (ui_callback_t) radio_RsUserDev, (ui_callback_data_t)3, NULL },
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -496,13 +501,13 @@ UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 ui_menu_entry_t acia1_device_submenu[] = {
     { N_("*Serial 1"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)0, NULL },
     { N_("*Serial 2"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)1, NULL },
     { N_("*Dump to file"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)2, NULL },
     { N_("*Exec process"),
-      (ui_callback_t) radio_Acia1Dev, (ui_callback_data_t)3, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 
@@ -510,11 +515,11 @@ UI_MENU_DEFINE_RADIO(Acia1Irq)
 
 ui_menu_entry_t acia1_irq_submenu[] = {
     { N_("*No IRQ/NMI"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)0, NULL },
     { N_("*IRQ"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)1, NULL },
     { N_("*NMI"),
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -522,15 +527,15 @@ UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
 ui_menu_entry_t ser1_baud_submenu[] = {
   { "*300",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -538,15 +543,15 @@ UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
 ui_menu_entry_t ser2_baud_submenu[] = {
   { "*300",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
   { "*1200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
   { "*2400",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
   { "*9600",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
   { "*19200",
-      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
   { NULL }
 };
 
@@ -560,7 +565,7 @@ UI_CALLBACK(set_rs232_device_file)
 
     filename = ui_select_file(_("Select RS232 device file"),
                               NULL, False, "/dev", "ttyS*", &button, False,
-			      NULL);
+                              NULL);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t)filename);
@@ -828,7 +833,7 @@ static UI_CALLBACK(radio_Drive8Type)
         }
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
-        if (drive_check_type((int) UI_MENU_CB_PARAM, 0)) {
+        if (drive_check_type((int)UI_MENU_CB_PARAM, 0)) {
             ui_menu_set_sensitive(w, True);
         } else {
             ui_menu_set_sensitive(w, False);
@@ -849,7 +854,7 @@ static UI_CALLBACK(radio_Drive9Type)
         }
     } else {
         ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
-        if (drive_check_type((int) UI_MENU_CB_PARAM, 1)) {
+        if (drive_check_type((int)UI_MENU_CB_PARAM, 1)) {
             ui_menu_set_sensitive(w, True);
         } else {
             ui_menu_set_sensitive(w, False);
@@ -1190,7 +1195,7 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
       (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."), (ui_callback_t)set_fsdevice_directory,
-      (ui_callback_data_t) 8, NULL },
+      (ui_callback_data_t)8, NULL },
     { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice8ConvertP00,
       NULL, NULL },
     { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice8SaveP00,
@@ -1205,10 +1210,10 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
       (ui_callback_t)toggle_FileSystemDevice9, NULL, NULL },
     { "--" },
     { N_("*Read only access"),
-      (ui_callback_t) toggle_AttachDevice9Readonly, NULL, NULL },
+      (ui_callback_t)toggle_AttachDevice9Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."), (ui_callback_t)set_fsdevice_directory,
-      (ui_callback_data_t) 9, NULL },
+      (ui_callback_data_t)9, NULL },
     { N_("*Convert P00 file names"), (ui_callback_t)toggle_FSDevice9ConvertP00,
       NULL, NULL },
     { N_("*Create P00 files on save"), (ui_callback_t)toggle_FSDevice9SaveP00,
@@ -1226,7 +1231,7 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
       (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."),
-      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t)10, NULL },
     { N_("*Convert P00 file names"),
       (ui_callback_t)toggle_FSDevice10ConvertP00, NULL, NULL },
     { N_("*Create P00 files on save"),
@@ -1244,7 +1249,7 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
       (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
     { "--" },
     { N_("File system directory..."),
-      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t) 11, NULL },
+      (ui_callback_t)set_fsdevice_directory, (ui_callback_data_t)11, NULL },
     { N_("*Convert P00 file names"),
       (ui_callback_t)toggle_FSDevice11ConvertP00, NULL, NULL },
     { N_("*Create P00 files on save"),
@@ -1262,7 +1267,7 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
     { "--" },
     { N_("Printer settings"), NULL, NULL, printer_settings_menu },
     { "--" },
-    { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices, 
+    { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices,
       NULL, NULL },
     { NULL }
 };
@@ -1333,9 +1338,7 @@ ui_menu_entry_t ui_drive_options_submenu[] = {
 #ifdef USE_XF86_EXTENSIONS
 
 UI_MENU_DEFINE_TOGGLE(UseFullscreen)
-
 UI_MENU_DEFINE_TOGGLE(FullscreenDoubleSize)
-
 UI_MENU_DEFINE_TOGGLE(FullscreenDoubleScan)
 
 ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
@@ -1351,14 +1354,12 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
       (ui_callback_t) NULL, NULL, NULL },
     { NULL }
 };
-#endif 
+#endif
 
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(VideoCache)
-
 UI_MENU_DEFINE_TOGGLE(DoubleSize)
-
 UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
 ui_menu_entry_t video_settings_submenu[] = {
@@ -1382,30 +1383,6 @@ ui_menu_entry_t ui_video_settings_menu[] = {
 ui_menu_entry_t ui_vic_video_settings_menu[] = {
     { N_("VIC Video settings"),
       NULL, NULL, video_settings_submenu },
-    { NULL }
-};
-
-/*---- CRTC -----------*/
-
-UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
-UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
-
-static ui_menu_entry_t crtc_video_settings_submenu[] = {
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
-    { N_("*Use XSync()"),
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t ui_crtc_video_settings_menu[] = {
-    { N_("Crtc Video settings"),
-      NULL, NULL, crtc_video_settings_submenu },
     { NULL }
 };
 
@@ -1435,7 +1412,7 @@ ui_menu_entry_t ui_fullscreen_settings_menu[] = {
       (ui_callback_t)FullscreenMenu, NULL, ui_fullscreen_settings_submenu },
     { NULL }
 };
-#endif 
+#endif
 
 
 

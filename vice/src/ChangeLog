@@ -1,3 +1,84 @@
+2001-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.28.
+
+	* c64/reu.c (reu_dma): Fixed unsigned int bug.
+
+	* arch/unix/vic20ui.c: Added VIC video standard and palette
+	settings.
+
+	* arch/unix/uidatasette.c, arch/unix/uidatasette.h,
+	arch/unix/uicrtc.c, arch/unix/uicrtc.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/c610ui.c: Moved datasette
+	specific UI controls to separate files.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h: Moved CRTC
+	specific UI controls to separate files.
+
+2001-05-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vicemenu.cc: added menuitem for
+	video standard in VIC20
+
+	* arch/msdos/vic20ui.c: new menu callback function
+	toggle_VideoStandard_callback; new menuitem
+
+	* arch/win32/resvic.rc: renamed 'Drive sync factor' to
+	'Video standard'
+
+	* crtc/crtc-draw.c, vdc/vdc-draw.c, vicii/vicii-draw.c:
+	Every parameter of a function registered in raster_mode that
+	represents a char- or pixelborder is changed from unsigned
+	to signed int
+
+	* raster/raster_modes.h: every drawing function of raster_mode
+	now uses signed instead of unsigned parameters for the
+	interval borders
+
+	* sounddrv/soundwmm.c: Win ME behaves like Win2000: no
+	magic offset needed
+
+	* vic20/vic-draw.c: draw(_2x) checks if display_xstop is
+	reached
+
+	* vic20/vic-mem.c (vic_store): uses several new values of the
+	vic struct instead of fixed PAL values
+	(vic_read): uses vic.cycle_offset to determine the rasterline
+
+	* vic20/vic-snapshot.c: bigfix
+
+	* vic20/vic.c: new include resources.h, new functions
+	(vic_change_timing), (vic_set_geometry)
+	uses several new members of the vic struct instead of PAL
+	constants
+	(init_raster), (vic_reset) use the new function to set the
+	correct geometry and sync values
+
+	* vic20/vic.h: added several items to vic struct:
+	cycles_per_line, screen_height, first_displayed_line,
+	last_displayed_line, screen_width, display_width, cycle_offset
+
+	* vic20/vic20.c (machine_init): exchanged PAL constants with
+	variables in several init calls
+	(machine_get_cycles): uses cycles_per_sec instead of PAL
+	constant
+	(machine_change_timing) sets cycles_per_sec, cycles_per_rfsh
+	and rfsh_per_sec, uses these values to set parameters for
+	vsync and sound and patches the kernal
+
+	* vic20/vic20.h: several constants for PAL and NTSC
+
+	* vic20/vic20mem.c: new include "drive.h"
+	(mem_load) patches the kernal at last
+	(mem_pach_kernal) patches the kernal ROM depending on the
+	current video standard
+
+	* vic20/vic20mem.h: prototype for (mem_patch_kernal)
+
 2001-05-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.27.
