@@ -88,6 +88,13 @@ inline static void update_sprite_collisions(raster_t *raster)
                                          raster->zero_gfx_msk);
 }
 
+inline static void update_cached_sprite_collisions(raster_t *raster)
+{
+    if (raster->sprite_status->cache_function != NULL)
+        raster->sprite_status->cache_function(
+        &(raster->cache[raster->current_line]));
+}
+
 inline static void handle_blank_line(raster_t *raster)
 {
     /* Changes... Should/could be handled better.  */
@@ -386,6 +393,8 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
             *changed_start = MAX(*changed_start, raster->display_xstart);
             *changed_end = MIN(*changed_end, raster->display_xstop);
         }
+    } else {
+        update_cached_sprite_collisions(raster);
     }
 
     if (!sprites_need_update) {
@@ -436,6 +445,9 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 
         *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
                        + 8 * (changed_end_char + 1) - 1;
+    } else {
+        /* Is this really necessary?  */
+        update_cached_sprite_collisions(raster);
     }
 
     /* FIXME: Why always doing so?  */
