@@ -102,7 +102,7 @@ void ViceStatusbar::DisplayDriveStatus(
 	int drive_led_color,
 	double drive_track)
 {
-	char str[256];
+	char str[256], str2[256];
 	bool erase_bar=false;
 	BRect frame;
 	rgb_color led_col;
@@ -112,12 +112,14 @@ void ViceStatusbar::DisplayDriveStatus(
 		drive_num = -drive_num-1;
 	}	 
 	frame = BRect(155,1+drive_num*13,215,13+drive_num*13);
-	sprintf(str, "%d:  %.1f", drive_num+8, drive_track);
+	sprintf(str, "%2d:", drive_num+8);
+	sprintf(str2, "%.1f", drive_track);
 	statusbitmap->Lock();
 	drawview->SetLowColor(statusbar_background);
 	drawview->FillRect(frame, B_SOLID_LOW);
 	if (!erase_bar) {
 		drawview->DrawString(str, BPoint(160,10+drive_num*13));
+		drawview->DrawString(str2, BPoint(173,10+drive_num*13));
 		switch (drive_led_color) {
 			case DRIVE_ACTIVE_GREEN:
 				led_col = statusbar_green_led;
@@ -143,31 +145,31 @@ void ViceStatusbar::DisplayTapeStatus(
 {
 	char str[256];
 	BRect frame;
-	const BPoint play_button[] = {BPoint(198,29), BPoint(201,32), BPoint(198,35)};
-	const BPoint ff_button1[] = {BPoint(197,29), BPoint(200,32), BPoint(197,35)};
-	const BPoint ff_button2[] = {BPoint(200,29), BPoint(203,32), BPoint(200,35)};
-	const BPoint rewind_button1[] = {BPoint(203,29), BPoint(200,32), BPoint(203,35)};
-	const BPoint rewind_button2[] = {BPoint(200,29), BPoint(197,32), BPoint(200,35)};
+	const BPoint play_button[] = {BPoint(198,55), BPoint(201,58), BPoint(198,61)};
+	const BPoint ff_button1[] = {BPoint(197,55), BPoint(200,58), BPoint(197,61)};
+	const BPoint ff_button2[] = {BPoint(200,55), BPoint(203,58), BPoint(200,61)};
+	const BPoint rewind_button1[] = {BPoint(203,55), BPoint(200,58), BPoint(203,61)};
+	const BPoint rewind_button2[] = {BPoint(200,55), BPoint(197,58), BPoint(200,61)};
 
-	frame = BRect(155,27,215,39);
+	frame = BRect(155,53,215,65);
 	sprintf(str, "T:  %03d", counter);
 	statusbitmap->Lock();
 	drawview->SetLowColor(statusbar_background);
 	drawview->FillRect(frame, B_SOLID_LOW);
 	if (enabled) {
-		drawview->DrawString(str, BPoint(160,36));
+		drawview->DrawString(str, BPoint(160,62));
 		if (motor)
 			drawview->SetLowColor(statusbar_motor_on);
 		else
 			drawview->SetLowColor(statusbar_motor_off);
-		drawview->FillRect(BRect(195, 27, 205, 37), B_SOLID_LOW);
+		drawview->FillRect(BRect(195, 53, 205, 63), B_SOLID_LOW);
 		switch (control) {
 			case DATASETTE_CONTROL_STOP:
-				drawview->FillRect(BRect(197, 29, 203, 35), B_SOLID_HIGH);
+				drawview->FillRect(BRect(197, 55, 203, 61), B_SOLID_HIGH);
 				break;
             case DATASETTE_CONTROL_RECORD:
             	drawview->SetLowColor(statusbar_red_led);
-            	drawview->FillEllipse(BRect(208,30,212,34), B_SOLID_LOW);
+            	drawview->FillEllipse(BRect(208,56,212,60), B_SOLID_LOW);
             case DATASETTE_CONTROL_START:
             	drawview->FillPolygon(play_button, 3);
                 break;
@@ -194,7 +196,7 @@ void ViceStatusbar::DisplayImage(
 	BRect frame;
 	
 	if (drive_num<0)
-		drive_num=2; /* tape image */
+		drive_num=4; /* tape image */
 	
 	frame = BRect(220,1+drive_num*13,250,13+drive_num*13);
 	frame.right = Bounds().Width()-5;

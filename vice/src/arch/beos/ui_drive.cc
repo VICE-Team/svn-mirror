@@ -292,7 +292,7 @@ class DriveWindow : public BWindow {
 		~DriveWindow();
 		virtual void MessageReceived(BMessage *msg);
 	private:
-		DriveView *dv[2]; /* pointers to the DriveViews 8 and 9 */
+		DriveView *dv[DRIVE_NUM]; /* pointers to the DriveViews 8 and 9 */
 };	
 
 
@@ -307,6 +307,8 @@ DriveWindow::DriveWindow()
 	BRect r;
 	BTabView *tabview;
 	BTab *tab;
+	int i;
+	char str[16];
 	
 	r = Bounds();
 	
@@ -317,14 +319,13 @@ DriveWindow::DriveWindow()
 	r.InsetBy(5,5);
 	r.bottom -= tabview->TabHeight();
 
-	tab = new BTab();
-	tabview->AddTab(dv[0] = new DriveView(r,8), tab);
-	tab->SetLabel("Drive 8");
-
-	tab = new BTab();
-	tabview->AddTab(dv[1] = new DriveView(r,9), tab);
-	tab->SetLabel("Drive 9");
-
+	for (i = 0; i < DRIVE_NUM; i++) {
+		tab = new BTab();
+		tabview->AddTab(dv[i] = new DriveView(r,8 + i), tab);
+		sprintf(str, "Drive %d", 8 + i);
+		tab->SetLabel(str);
+	}
+	
 	AddChild(tabview);
 	tabview->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	Show();

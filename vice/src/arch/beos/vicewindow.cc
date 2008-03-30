@@ -55,7 +55,7 @@ extern "C" {
 #include "tape.h"
 #include "ui.h"
 #include "ui_file.h"
-#include "utils.h"
+#include "util.h"
 #include "video.h"
 #include "vicewindow.h"
 #include "vsync.h"
@@ -156,7 +156,7 @@ void ViceView::MouseDown(BPoint point) {
 	msg = Window()->CurrentMessage();
 	msg->FindInt32("buttons", &buttons);
 	if (buttons & B_PRIMARY_MOUSE_BUTTON)
-		joystick_set_value_or(1,16);
+		mouse_button_left(1);
 }
 
 void ViceView::MouseUp(BPoint point) {
@@ -164,7 +164,7 @@ void ViceView::MouseUp(BPoint point) {
 	if (!_mouse_enabled)
 		return;
 	
-	joystick_set_value_and(1,239);
+	mouse_button_left(0);
 }
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
@@ -288,7 +288,7 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 			statusbar = NULL;
 		}
 		statusbar_frame.top = view->Frame().bottom + 1;
-		statusbar_frame.bottom = view->Frame().bottom + 41;
+		statusbar_frame.bottom = view->Frame().bottom + 67;
 		statusbar_frame.left = 0;
 		statusbar_frame.right = view->Frame().right;
 		statusbar = new ViceStatusbar(statusbar_frame);

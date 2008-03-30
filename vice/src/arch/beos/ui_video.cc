@@ -45,7 +45,7 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_video.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 }
 
@@ -61,17 +61,38 @@ static struct _colorcontrol {
 	{ "Brightness", "ColorBrightness", 2000, NULL },
 	{ "Gamma", "ColorGamma", 2000, NULL },
 	{ "PAL Scanline Shade", "PALScanLineShade", 1000, NULL },
+	{ "PAL Blur", "PALBlur", 1000, NULL },
 	{ NULL, NULL, 0, NULL}
 };
 
 static char *modes[]=
 {
 	"Fast PAL",
-	"Y/C cable (sharp)",
-	"Composite (blurry)",
+	"PAL emulation",
 	NULL
 };
 
+typedef struct {
+    char *res_PaletteFile_name;
+    char *res_ExternalPalette_name;
+    char *page_title;
+} Chip_Parameters;
+
+static Chip_Parameters chip_param_table[] =
+{
+    { "VICIIPaletteFile", "VICIIExternalPalette",
+      "VICII Palette"},
+    { "VICPaletteFile", "VICExternalPalette",
+      "VIC Palette"},
+    { "CRTCPaletteFile", NULL,
+      "CRTC Palette"},
+    { "VDCPaletteFile", NULL,
+      "VDC Palette"},
+    { "TEDPaletteFile", "TEDExternalPalette",
+      "TED Palette"},
+};
+
+static int chip[] = { -1, -1 };
 
 BListView *palettelistview;
 
@@ -88,7 +109,7 @@ static VideoWindow *videowindow = NULL;
 
 
 VideoWindow::VideoWindow() 
-	: BWindow(BRect(250,50,500,300),"Video settings",
+	: BWindow(BRect(250,50,500,345),"Video settings",
 		B_TITLED_WINDOW, 
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
@@ -105,6 +126,31 @@ VideoWindow::VideoWindow()
 	char *palettefile;
 	BRadioButton *rb_mode;
 
+	switch (machine_class) {
+		case VICE_MACHINE_C128:
+			chip[0] = 0;
+			chip[1] = 3;
+			break;
+		case VICE_MACHINE_C64:
+			chip[0] = 0;
+			break;
+		case VICE_MACHINE_CBM2:
+			chip[0] = 2;
+			break;
+		case VICE_MACHINE_PET:
+			chip[0] = 2;
+			break;
+		case VICE_MACHINE_PLUS4:
+			chip[0] = 4;
+			break;
+		case VICE_MACHINE_VIC20:
+			chip[0] = 1;
+			break;
+		default:
+			chip[0] = 0;
+			break;
+	}			
+
 	r = Bounds();
 	background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
 	background->SetViewColor(220,220,220,0);
@@ -113,8 +159,9 @@ VideoWindow::VideoWindow()
 	/* Sliders for color control */
 	for (i=0; color_control[i].name; i++)
 	{
-		if (resources_get_value(color_control[i].res_name, 
-			(void *)&res_val) == 0)
+		if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL
+			&& resources_get_value(color_control[i].res_name, 
+				(void *)&res_val) == 0)
 		{
 			msg = new BMessage(MESSAGE_VIDEO_COLOR);
 			msg->AddInt32("index", i);
@@ -130,14 +177,21 @@ VideoWindow::VideoWindow()
 	}
 	
 	/* External Palette */
-	resources_get_value("ExternalPalette", (void *)&res_val);
 	checkbox = new BCheckBox(BRect(110, 10, 240, 25),
 		"External Palette", "External Palette",
 		new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE));
-	checkbox->SetValue(res_val);
 	background->AddChild(checkbox);
+	if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL) {
+		resources_get_value(chip_param_table[chip[0]].res_ExternalPalette_name,
+							(void *)&res_val);
+	} else {
+		res_val = 1;
+		checkbox->SetEnabled(0);
+	}
+	checkbox->SetValue(res_val);
 	
-	resources_get_value("PaletteFile",	(void *)&palettefile);
+	resources_get_value(chip_param_table[chip[0]].res_PaletteFile_name,	(void *)&palettefile);
+	util_add_extension(&palettefile, "vpl");
 	palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
 	palettelistview->SetSelectionMessage(
 		new BMessage(MESSAGE_VIDEO_PALETTEFILE));
@@ -162,7 +216,7 @@ VideoWindow::VideoWindow()
 	if (resources_get_value("PALMode", 
 		(void *)&res_val) == 0)
 	{
-		box = new BBox(BRect(110, 140, 240, 220));
+		box = new BBox(BRect(110, 140, 240, 200));
 		box->SetLabel("PAL Mode");
 		background->AddChild(box);
 		for (i=0; modes[i]!=NULL; i++)
@@ -204,9 +258,10 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			break;
 		case MESSAGE_VIDEO_EXTERNALPALETTE:
-			resources_get_value("ExternalPalette", (void *)&val);
+			resources_get_value(chip_param_table[chip[0]].res_ExternalPalette_name,
+								(void *)&val);
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			msr->AddString("resname", "ExternalPalette");
+			msr->AddString("resname", chip_param_table[chip[0]].res_ExternalPalette_name);
 			msr->AddInt32("resval", 1-val);
 			ui_add_event((void*)msr);
 			break;
@@ -216,7 +271,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			if (item)
 			{
 				msr = new BMessage(MESSAGE_SET_RESOURCE);
-				msr->AddString("resname", "PaletteFile");
+				msr->AddString("resname", chip_param_table[chip[0]].res_PaletteFile_name);
 				msr->AddString("resvalstr", ((BStringItem*) item)->Text());
 				ui_add_event((void*)msr);
 			}
@@ -244,7 +299,7 @@ void ui_video() {
 	if (videowindow != NULL)
 		return;
 
-	videowindow = new VideoWindow;
+	videowindow = new VideoWindow();
 
 }
 

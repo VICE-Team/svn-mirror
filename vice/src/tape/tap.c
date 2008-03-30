@@ -40,6 +40,7 @@
 #include "util.h"
 #include "zfile.h"
 
+#define TAP_DEBUG 0
 
 #define TAP_PULSE_SHORT(x) \
     ((x) >= tap_pulse_short_min && (x) <= tap_pulse_short_max)
@@ -48,14 +49,13 @@
 #define TAP_PULSE_LONG(x) \
     ((x) >= tap_pulse_long_min && (x) <= tap_pulse_long_max)
 
-#define TAP_PILOT_HEADER_MIN 1000
+#define TAP_PILOT_HEADER_MIN 7500
 #define TAP_PILOT_DATA_MIN   1000
-
 #define TAP_PILOT_REPEAT_MIN 50
-#define TAP_PILOT_REPEAT_MAX 500
+#define MAX_ERRORS 30
 
 
-/* Default values are for C64 tapes.  Call tap_init() to change. */
+/* Default values.  Call tap_init() to change. */
 static int tap_pulse_short_min  =  36;
 static int tap_pulse_short_max  =  54;
 static int tap_pulse_middle_min =  55;
@@ -207,12 +207,13 @@ int tap_create(const char *name)
 
 /* ------------------------------------------------------------------------- */
 
-inline static void tap_unget_bit(tap_t *tap)
+inline static void tap_unget_pulse(tap_t *tap)
 {
     fseek(tap->fd, -1, SEEK_CUR);
 }
 
-inline static int tap_get_bit(tap_t *tap)
+
+inline static int tap_get_pulse(tap_t *tap)
 {
     BYTE data;
     size_t res;
@@ -222,27 +223,29 @@ inline static int tap_get_bit(tap_t *tap)
     if (res == 0)
         return -1;
 
-    /*if( TAP_PULSE_SHORT(data) )
-      fprintf(stderr, "s");
-    else if( TAP_PULSE_MIDDLE(data) )
-      fprintf(stderr, "m");
-    else if( TAP_PULSE_LONG(data) )
-    fprintf(stderr, "l");*/
+#if TAP_DEBUG > 2
+    if( TAP_PULSE_SHORT(data) )
+      fprintf(stderr, "s"); 
+    else if( TAP_PULSE_MIDDLE(data) ) 
+      fprintf(stderr, "m"); 
+    else if( TAP_PULSE_LONG(data) ) 
+    fprintf(stderr, "l");
+#endif
 
     return (int)data;
 }
+
 
 static int tap_find_pilot(tap_t *tap, unsigned int min_length)
 {
     unsigned int i, count, res;
     BYTE data[256];
 
+    res = ftell(tap->fd);
     count = 0;
     while( count<min_length )
       {
-        res = fread(&data, 256, 1, tap->fd);
-
-        if( res < 1 )
+        if( fread(&data, 256, 1, tap->fd)<1 )
           return -1;
 
         for (i = 0; (i < 256) && (count < min_length) ; i++)
@@ -250,11 +253,12 @@ static int tap_find_pilot(tap_t *tap, unsigned int min_length)
             if( TAP_PULSE_SHORT(data[i]) )
               count++;
             else
-              count = 0;
+              { res+=count+1; count = 0; }
           }
       }
 
-    return (int) (ftell(tap->fd) - count);
+    fseek(tap->fd, res, SEEK_SET);
+    return 0;
 }
 
 static int tap_skip_pilot(tap_t *tap)
@@ -262,155 +266,242 @@ static int tap_skip_pilot(tap_t *tap)
     int data, count;
 
     count = 0;
-    do {
-        data = tap_get_bit(tap);
+    do 
+      {
+        data = tap_get_pulse(tap);
         if (data < 0) return -1;
         count++;
-    } while( TAP_PULSE_SHORT(data) );
+      } 
+    while( TAP_PULSE_SHORT(data) );
 
-    tap_unget_bit(tap);
+    tap_unget_pulse(tap);
     return count;
 }
 
+
+inline static int tap_read_bit(tap_t *tap)
+{
+  int pulse1, pulse2;
+
+  pulse1 = tap_get_pulse(tap);
+  if (pulse1 < 0) return -1;
+  pulse2 = tap_get_pulse(tap);
+  if (pulse2 < 0) return -1;
+  
+  /* when reading a bit, treat L as M */
+  if( TAP_PULSE_SHORT(pulse1) && (TAP_PULSE_MIDDLE(pulse2)||TAP_PULSE_LONG(pulse2)) )
+    return  0; /* S-M => 0 */  
+  else if( (TAP_PULSE_MIDDLE(pulse1)||TAP_PULSE_LONG(pulse1)) && TAP_PULSE_SHORT(pulse2) )
+    return  1; /* M-S => 1 */
+  else
+    return -2; /* either M-M or S-S or out-of-range => read error */
+}
+
+
 static int tap_read_byte(tap_t *tap)
 {
-    unsigned int i, checksum;
-    int data, data2;
+    int i, data, parity;
     BYTE read;
 
+    /* wait for L pulse (start-of-byte) */
+    do
+      {
+        data = tap_get_pulse(tap);
+        if (data < 0) return -1;
+      }
+    while( !TAP_PULSE_LONG(data) );
+
+    /* expect either M (L-M: start-of-byte) or S (L-S: end-of-data-block) */
+    data = tap_get_pulse(tap);
+    if (data < 0)
+      return -1; /* end of tape */
+    else if( TAP_PULSE_SHORT(data) )
+      return -3; /* end-of-data-block */
+    else if( TAP_PULSE_LONG(data) )
+      return -2; /* found L-L sequence within a block: read error */
+
+    /* read eight bits */
     read = 0;
-    checksum = 1;
-
-    data = tap_get_bit(tap);
-    if (data < 0)
-        return -1;
-    if (!TAP_PULSE_LONG(data))
-        return -2;
-
-    data = tap_get_bit(tap);
-    if (data < 0)
-        return -1;
-    if (TAP_PULSE_SHORT(data))
-        return -3;
-    if (!TAP_PULSE_MIDDLE(data))
-        return -2;
-
-    for (i = 0; i < 8; i++) {
-        data = tap_get_bit(tap);
-        if (data < 0)
-            return -1;
-        data2 = tap_get_bit(tap);
-        if (data2 < 0)
-            return -1;
+    parity = 1;
+    for (i = 0; i < 8; i++) 
+      {
         read >>= 1;
-        if (TAP_PULSE_MIDDLE(data) && TAP_PULSE_SHORT(data2)) {
-            read |= 0x80;
-            checksum ^= 1;
-        }
-    }
+        data = tap_read_bit(tap);
+        if (data < 0) 
+          return data;
+        else if( data > 0 )
+          read |= 0x80;
 
-    data = tap_get_bit(tap);
-    if (data < 0)
-        return -1;
-    data2 = tap_get_bit(tap);
-    if (data2 < 0)
-        return -1;
+        parity ^= data;
+      }
 
-    if (TAP_PULSE_MIDDLE(data) && TAP_PULSE_SHORT(data2))
-        checksum ^= 1;
-
-    if (checksum)
-        return -2;
+    /* read and check parity bit */
+    data = tap_read_bit(tap);
+    if (data < 0) return data;
+    if (data != parity) return -2;
 
     return read;
 }
 
-static int tap_read_sync(tap_t *tap, int start)
+#if TAP_DEBUG>0 
+void tap_print_error(int ret)
 {
-    unsigned int i;
-    int read;
+  switch( ret )
+    {
+    case -1: fprintf(stderr, "ERROR (tape end)\n"); break;
+    case -2: fprintf(stderr, "ERROR (pilot read)\n"); break;
+    case -3: fprintf(stderr, "ERROR (sync read)\n"); break;
+    case -4: fprintf(stderr, "ERROR (short block)\n"); break;
+    case -5: fprintf(stderr, "ERROR (long block)\n"); break;
+    case -6: fprintf(stderr, "ERROR (too many single errors)\n"); break;
+    case -7: fprintf(stderr, "ERROR (double read error)\n"); break;
+    case -8: fprintf(stderr, "ERROR (repeat not found)\n"); break;
+    case -9: fprintf(stderr, "ERROR (checksum error)\n"); break;
 
-    for (i = 0; i < 9; i++) {
-        read = tap_read_byte(tap);
-        if (read < 0)
-            return read;
-        if (read != start - (int)i)
-            return -2;
+    default: fprintf(stderr, "OK (%i bytes read)\n", ret);
     }
-    return 0;
 }
+#endif
 
-static int tap_read_block_once(tap_t *tap, BYTE *buffer, int buf_size)
+static int tap_read_block_once(tap_t *tap, int pass, BYTE *buffer, int size, int *error_buf, int *error_count)
 {
-  int count, ret, data, data2;
-  BYTE checksum;
+  int count, data, ecount;
 
-  /* skip pilot */
-  ret=tap_skip_pilot(tap);
-  if( ret<0 ) return ret;
+  /* return values:
+     >0 : ok, number of bytes read (without checksum)
+     -1 : TAP file end reached
+     -2 : error reading pilot
+     -3 : error reading sync 
+     -4 : short block
+     -5 : long block
+     -6 : too many single errors
+     -7 : double read error */
+
+#if TAP_DEBUG > 1
+  fprintf(stderr, "TAP_READ_BLOCK_ONCE: ");
+#endif
 
   /* check sync */
-  ret = tap_read_sync(tap, 0x89);
-  if( ret<0 ) return ret;
+  for (count = 9; count >= 1; count--)
+    {
+      data = tap_read_byte(tap);
+      if (data == -1)
+        return -1; /* end-of-tape */
+      else if (data != (count+(pass==1 ? 0x80 : 0x00)) )
+        return -3; /* sync read error */
+    }
 
   /* read data */
   count    = 0;
-  checksum = 0;
-  data2    = -1;
+  ecount   = 0;
   while(1)
     {
       data = tap_read_byte(tap);
-      if( data==-3 )
+
+      if( data==-1 )
+        return -1; /* end-of-tape */
+      else if( data==-2 )
         {
-          /* found L-S sequence (end-of-block) */
-          if( checksum != 0 )
-            return -2; /* checksum error */
-          else
-            return count;
-        }
-      else if( data<0 )
-        return data;
-      else
-        {
-          if( data2>=0 )
+#if TAP_DEBUG > 1
+          fprintf(stderr, "** ");
+#endif
+          if( pass==1 )
             {
-              if( count<buf_size ) buffer[count] = (BYTE) data2;
-              count++;
+              /* error in first pass => store position in error_buf and go on */
+              if( *error_count < MAX_ERRORS )
+                error_buf[(*error_count)++] = count;
+              else
+                return -6; /* too many single errors */
+            }
+          else if( pass==2 )
+            {
+              /* error in second pass => check if this byte was also in error on
+                 first pass.  If so, fail otherwise go on. */
+              while( ecount<*error_count && error_buf[ecount]<count ) ecount++;
+              if( (error_count<0) || error_buf[ecount] == count )
+                return -7; /* error: double read error  */
             }
 
-          data2 = data;
+          count++;
         }
-
-      checksum ^= (BYTE) data;
+      else if( data==-3 )
+        {
+          /* found L-S sequence (end-of-block) */
+          if( count<size )
+            return -4; /* error: small block */
+          else
+            return count-1;
+        }
+      else
+        {
+          /* byte ok */
+          if( count<size ) 
+            {
+#if TAP_DEBUG > 1
+              fprintf(stderr, " %02x", (BYTE) data);
+#endif
+              buffer[count++] = (BYTE) data;
+            }
+          else
+            return -5; /* error: long block */
+        }
     }
 }
 
-static int tap_read_block(tap_t *tap, BYTE *buffer, int buf_size)
-{
-  int ret;
 
-  /* try to read block */
-  ret = tap_read_block_once(tap, buffer, buf_size);
+/* NOTE: parameter size must equal expected block size + 1 (for parity byte) */
+static int tap_read_block(tap_t *tap, BYTE *buffer, int size)
+{
+  int i, ret, error_count, error_buf[MAX_ERRORS];
+
+#if TAP_DEBUG > 0
+  fprintf(stderr, "\nTAP_READ_BLOCK(size %i): ", size);
+#endif
+
+  /* skip pilot */
+  ret=tap_skip_pilot(tap);
+  if( ret<0 ) return -2;
+
+  /* try to read data */
+  error_count = 0;
+  ret = tap_read_block_once(tap, 1, buffer, size, error_buf, &error_count);
+
   if( ret==-1 ) 
     {
       /* reached the end of the tape */
       return -1;
     }
-  else if( ret<0 )
+  else if( ret<0 || error_count>0 )
     {
-      /* read error.  find start of repeat */
+      /* set error_count=0 if whole block read failed */
+      if( ret<0 ) error_count=-1;
+
+      /* read error. find start of repeat */
       ret = tap_find_pilot(tap, TAP_PILOT_REPEAT_MIN);
       if( ret<0 ) return ret;
 
-      /* if the pilot we found is too long then it's an 
-	     entirely different block */ 
+      /* if the pilot we found is too long then we found an 
+         entirely different block */ 
       ret = tap_skip_pilot(tap);
       if( ret < 0 ) return ret;
-      if( ret > TAP_PILOT_REPEAT_MAX ) return -2;
+      if( ret > TAP_PILOT_DATA_MIN ) return -8;
 
-      /* try again */
-      ret = tap_read_block_once(tap, buffer, buf_size);
+      /* try to correct errors by reading repeat */
+      ret = tap_read_block_once(tap, 2, buffer, size, error_buf, &error_count);
     }
+
+  if( ret>0 )
+    {
+      /* last byte in block is checksum over previous bytes */
+      int parity;
+      parity = 0;
+      for(i=0; i<size; i++) parity ^= buffer[i];
+      if( parity != 0 ) ret = -9;
+    }
+
+#if TAP_DEBUG>0 
+  tap_print_error(ret);
+#endif
 
   return ret;
 }
@@ -418,12 +509,14 @@ static int tap_read_block(tap_t *tap, BYTE *buffer, int buf_size)
 static int tap_read_header(tap_t *tap)
 {
   int ret;
-  BYTE buffer[21];
+  BYTE buffer[300];
 
   /* read header data */
-  ret = tap_read_block(tap, buffer, 21);
-  if( ret<0  ) return ret;
-  if( ret<21 ) return -2;
+  ret = tap_read_block(tap, buffer, 193);
+  if( ret<0 ) return ret;
+
+  /* first byte of header must represent a valid file type (1-5) */
+  if( buffer[0]<1 || buffer[0]>5 ) return -2;
 
   /* extract info */
   tap->tap_file_record->type       = buffer[0];
@@ -436,26 +529,36 @@ static int tap_read_header(tap_t *tap)
 
 static int tap_find_header(tap_t *tap)
 {
-  int res, pilot_start;
-  
+  int res;
+  long fpos;
+
   while (1) 
     {
-      /* find the beginning of a header */
-      pilot_start = tap_find_pilot(tap, TAP_PILOT_HEADER_MIN);
-      if( pilot_start < 0 )
-        {
-          /* reached the end of the tape */
-          return -1;
-        }
-      
-      /* try to read the header */
+      /* store current position in TAP file */
+      fpos = ftell(tap->fd);
+
+      /* try to read a header */
       res = tap_read_header(tap);
       if( res == 0 )
         {
+          if( tap->tap_file_record->type == 5 )
+            {
+              /* found end-of-tape marker */
+              return -1;
+            }
+
           /* success.  Rewind to start of header and return. */
-          fseek(tap->fd, pilot_start, SEEK_SET);
-          tap->current_file_seek_position = pilot_start;
+          fseek(tap->fd, fpos, SEEK_SET);
+          tap->current_file_seek_position = fpos;
           return 0;
+        }
+
+      /* find pilot marking the beginning of a header */
+      res = tap_find_pilot(tap, TAP_PILOT_HEADER_MIN);
+      if( res < 0 )
+        {
+          /* reached the end of the tape */
+          return -1;
         }
     }
 }
@@ -464,21 +567,21 @@ static int tap_find_header(tap_t *tap)
 static int tap_read_file_prg(tap_t *tap)
 {
   int size, ret;
-  size = tap->tap_file_record->end_addr - tap->tap_file_record->start_addr + 1;
+  size = tap->tap_file_record->end_addr - tap->tap_file_record->start_addr;
 
   if( size<0 )
     return -1;
   else
     {
       tap->current_file_size = size;
-      tap->current_file_data = lib_malloc(tap->current_file_size);
+      tap->current_file_data = lib_malloc(tap->current_file_size+1);
 
       /* find data pilot */
       ret = tap_find_pilot(tap, TAP_PILOT_DATA_MIN);
       if( ret<0 ) return ret;
 
       return tap_read_block(tap, tap->current_file_data,
-                            tap->current_file_size);
+                            tap->current_file_size+1);
     }
 }
 
@@ -486,7 +589,7 @@ static int tap_read_file_prg(tap_t *tap)
 static int tap_read_file_seq(tap_t *tap)
 {
   int ret;
-  BYTE buffer[200];
+  BYTE buffer[193];
 
   while(1)
     {
@@ -499,7 +602,7 @@ static int tap_read_file_seq(tap_t *tap)
         }
 
       /* read next data block */
-      ret = tap_read_block(tap, buffer, 200);
+      ret = tap_read_block(tap, buffer, 193);
       if( ret<1 ) return -1;
 
       if( ret<1 || buffer[0] != 2 )
@@ -508,8 +611,8 @@ static int tap_read_file_seq(tap_t *tap)
           break;
         }
 
-      /* add received data minus the first byte (which is the continuation
-         marker) */
+      /* add received data minus the first byte (continuation marker)
+         and last byte (checksum) */
       tap->current_file_size += ret-1;
       tap->current_file_data  = lib_realloc(tap->current_file_data, 
                                             tap->current_file_size);
@@ -524,6 +627,10 @@ static int tap_read_file_seq(tap_t *tap)
 static int tap_read_file(tap_t *tap)
 {
   int res;
+  long fpos;
+
+  /* store current position in TAP file */
+  fpos = ftell(tap->fd);
 
   /* clear old file data */
   tap->current_file_size = 0;
@@ -557,6 +664,9 @@ static int tap_read_file(tap_t *tap)
           tap->current_file_data = NULL;
         }
     }
+
+  /* go back to previous position in TAP file */
+  fseek(tap->fd, fpos, SEEK_SET);
 
   return res;
 }
@@ -614,11 +724,13 @@ int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
 
   do
     {
-      /* skip over current pilot.  that way, tap_find_header() will
-         actually find the NEXT header and not the current one again.
-         don't skip if we're at the beginning of the file. */
+      /* skip over current and find NEXT header pilot 
+         (only if not at beginning of tape) */
       if( tap->current_file_number>=0 )
-        tap_skip_pilot(tap);
+        {
+          tap_skip_pilot(tap);
+          tap_find_pilot(tap, TAP_PILOT_HEADER_MIN);
+        }
   
       res = tap_find_header(tap);
       if( res < 0 )

@@ -35,7 +35,7 @@
 #include "video.h"
 
 struct video_draw_buffer_callback_s;
-truct video_resource_chip_s;
+struct video_resource_chip_s;
 
 struct video_canvas_s {
     unsigned int initialized;

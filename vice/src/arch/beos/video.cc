@@ -199,9 +199,8 @@ void video_canvas_destroy(video_canvas_t *c)
 		delete c->vicewindow->bitmap;
 		delete c->vicewindow;
 	}
-	free(c->title);
+	lib_free(c->title);
 	video_canvas_shutdown(c);
-	free(c);
 }
 
 

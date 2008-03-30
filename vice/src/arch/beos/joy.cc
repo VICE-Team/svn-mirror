@@ -44,7 +44,7 @@ extern "C" {
 #include "keyboard.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 }
 
 /* Notice that this has to be `int' to make resources work.  */

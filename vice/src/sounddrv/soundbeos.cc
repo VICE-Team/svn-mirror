@@ -34,7 +34,7 @@
 extern "C" {
 #include "log.h"
 #include "sound.h"
-#include "utils.h"
+#include "util.h"
 }
 /* ------------------------------------------------------------------------- */
 

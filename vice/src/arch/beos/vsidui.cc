@@ -121,7 +121,9 @@ int vsid_ui_init(void)
 	
 	window->AddChild(view);
 	
-    c64_ui_init();
+/*
+	c64_ui_init();
+*/
     return 0;
 }
 

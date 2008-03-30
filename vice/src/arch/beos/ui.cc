@@ -81,7 +81,7 @@ extern "C" {
 #include "ui_vicii.h"
 #include "ui_video.h"
 #include "uicmdline.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 #include "vsync.h"
 #include "viceapp.h"
@@ -906,14 +906,14 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 }
 
 static ui_drive_enable_t    ui_drive_enabled;
-static int                  ui_status_led[2];
-static double               ui_status_track[2];
+static int                  ui_status_led[DRIVE_NUM];
+static double               ui_status_track[DRIVE_NUM];
 static int                  *ui_drive_active_led;
-static char 				*ui_drive_image_name[2];
+static char 				*ui_drive_image_name[DRIVE_NUM];
 static char 				*ui_tape_image_name;
 	
 
-void ui_display_drive_status(int drive_num)
+static void ui_display_drive_status(int drive_num)
 {
 	int i;
 	int drive_num_active;
@@ -922,8 +922,8 @@ void ui_display_drive_status(int drive_num)
     for (i=0; i<window_count; i++) {
 		while (!windowlist[i]->Lock());
 		if (windowlist[i]->statusbar) {
-		    if (((drive_num == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0))
-        		|| ((drive_num == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1)))
+			int this_drive = 1 << drive_num;
+		    if (ui_drive_enabled & this_drive)
         	{
         		drive_num_active = drive_num;
         	} else {
@@ -947,6 +947,8 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 	ui_drive_active_led = drive_led_color;	
 	ui_display_drive_status(0);
 	ui_display_drive_status(1);
+	ui_display_drive_status(2);
+	ui_display_drive_status(3);
 	
 }
 
@@ -956,7 +958,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    double track_number = (double)half_track_number;
+    double track_number = (double)half_track_number / 2.0;
 
 	ui_status_track[drive_number] = track_number;
 	ui_display_drive_status(drive_number);
@@ -992,7 +994,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
 	char *directory_name;
 	
-	if (drivenum>=2)
+	if (drivenum>=4)
 		return;
 		
 	if (ui_drive_image_name[drivenum]) free(ui_drive_image_name[drivenum]);

@@ -43,7 +43,7 @@ extern "C" {
 #include "sid.h"
 #include "ui.h"
 #include "ui_sid.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 }
 

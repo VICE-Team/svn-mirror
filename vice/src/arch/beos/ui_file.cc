@@ -50,7 +50,7 @@ extern "C" {
 #include "ui.h"
 #include "uiapi.h"
 #include "ui_file.h"
-#include "utils.h"
+#include "util.h"
 #include "vic20ui.h"
 #include "vicemenu.h"
 }
