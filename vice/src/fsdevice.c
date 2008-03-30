@@ -1226,6 +1226,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
                             fclose(fd);
                             continue;
                         }
+                        closedir(dp);
                         return fd;
                     }
                 }
@@ -1252,6 +1253,8 @@ static int fsdevice_compare_wildcards(char *name, char *p00name)
         if (name[i] != '?' && name[i] != p00name[i])
             return 0;
     }
+    if (strlen(p00name) > len)
+        return 0;
     return 1;
 }
 
