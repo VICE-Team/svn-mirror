@@ -38,6 +38,5 @@ extern char   *sprint_binary ( BYTE code );
 extern char   *sprint_ophex ( ADDRESS p);
 extern char   *sprint_opcode ( ADDRESS counter, int base );
 extern char   *sprint_disassembled ( ADDRESS counter, BYTE x, BYTE p1, BYTE p2, int base );
-extern int     eff_address(ADDRESS counter, int step);
 
 #endif  /* X64_MISC_H */
