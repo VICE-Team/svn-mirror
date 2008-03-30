@@ -50,6 +50,8 @@ list of all the changes in the code.
 ** Miscellaneous changes
 ------------------------
 
+- A major cleanup of the code has been done.
+
 - A brand new monitor with watchpoints and breakpoint has been added.
   It now allows access to the 1541 CPU when the true 1541 emulation is
   turned on.
@@ -57,7 +59,7 @@ list of all the changes in the code.
 - "On the fly" Lynx and Zipcode support has been added.
 
 - A couple of bugs in the fast serial emulation have been fixed
-  (courtesy of Petschy <petschy@derceto.sch.bme.hu>).
+  (courtesy of Peter Andrew Felvegi <petschy@derceto.sch.bme.hu>).
 
 - Sound output can now be oversampled.
 

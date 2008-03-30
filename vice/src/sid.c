@@ -2695,7 +2695,6 @@ void initialize_sound(void)
     init_sid(&siddata.sid, NULL, SOUND_SAMPLE_RATE);
 }
 
-#ifdef SID
 /* adjust clk before overflow */
 void sid_prevent_clk_overflow(void)
 {
@@ -2708,6 +2707,7 @@ void sid_prevent_clk_overflow(void)
     siddata.fclk -= PREVENT_CLK_OVERFLOW_SUB;
 }
 
+#ifdef SID
 /* read register value from sid */
 BYTE REGPARM1 read_sid(ADDRESS addr)
 {
