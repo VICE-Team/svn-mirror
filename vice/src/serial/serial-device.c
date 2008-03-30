@@ -26,27 +26,65 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-
-#include "attach.h"
-#include "diskimage.h"
+#include "serial-device.h"
 #include "serial.h"
-#include "vdrive.h"
 
+
+/* Initialized serial devices.  */
+static serial_t serialdevices[SERIAL_MAXDEVICES];
+
+
+serial_t *serial_device_get(unsigned int unit)
+{
+    return &serialdevices[unit];
+}
+
+unsigned int serial_device_type_get(unsigned int unit)
+{
+    serial_t *p;
+
+    p = serial_device_get(unit);
+
+    return p->device;
+}
+
+void serial_device_type_set(unsigned int type, unsigned int unit)
+{
+    serial_t *p;
+
+    p = serial_device_get(unit);
+
+    p->device = type;
+}
+
+unsigned int serial_device_get_fsimage_state(unsigned int unit)
+{
+    unsigned int type;
+
+    if (unit < 8)
+        return 1;
+
+    type = serial_device_type_get(unit);
+
+    if (type == SERIAL_DEVICE_REAL)
+        return 0;
+
+    if (type == SERIAL_DEVICE_RAW)
+        return 0;
+
+    return 1;
+}
 
 unsigned int serial_device_get_realdevice_state(unsigned int unit)
 {
-    vdrive_t *vdrive;
+    unsigned int type;
 
     if (unit < 8)
         return 0;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    type = serial_device_type_get(unit);
 
-    if (vdrive->image == NULL)
-        return 0;
-
-    if (vdrive->image->device == DISK_IMAGE_DEVICE_REAL)
+    if (type == SERIAL_DEVICE_REAL)
         return 1;
 
     return 0;

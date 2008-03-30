@@ -42,8 +42,6 @@ extern int file_system_attach_disk(unsigned int unit, const char *filename);
 extern void file_system_detach_disk(int unit);
 extern void file_system_detach_disk_shutdown(void);
 extern void *file_system_get_vdrive(unsigned int unit);
-extern unsigned int file_system_get_fsimage_state(unsigned int unit);
-extern unsigned int file_system_get_realdevice_state(unsigned int unit);
 
 #endif
 

@@ -68,9 +68,6 @@
 #include "vdrive.h"
 
 
-/* Initialized serial devices.  */
-static serial_t serialdevices[SERIAL_MAXDEVICES];
-
 extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 extern int SerialPtr;
 
@@ -128,7 +125,7 @@ static int parallelcommand(void)
     }
 
     /* which device ? */
-    p = serial_get_device(TrapDevice & 0x0f);
+    p = serial_device_get(TrapDevice & 0x0f);
     vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
     channel = TrapSecondary & 0x0f;
 
@@ -216,7 +213,7 @@ int parallelattention(int b)
 
           case 0xf0:            /* Open File needs the filename first */
             TrapSecondary = b;
-            p = serial_get_device(TrapDevice & 0x0f);
+            p = serial_device_get(TrapDevice & 0x0f);
             vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
             if (p->isopen[b & 0x0f] == 2) {
                (*(p->closef))(vdrive, b & 0x0f);
@@ -226,7 +223,8 @@ int parallelattention(int b)
         }
     }
 
-    if (!(serialdevices[TrapDevice & 0x0f].inuse))
+    p = serial_device_get(TrapDevice & 0x0f);
+    if (!(p->inuse))
         st |= 0x80;
 
     if ((b == 0x3f) || (b == 0x5f)) {
@@ -253,7 +251,7 @@ int parallelsendbyte(BYTE data)
         return 0x83;    /* device not present */
     }
 
-    p = serial_get_device(TrapDevice & 0x0f);
+    p = serial_device_get(TrapDevice & 0x0f);
     vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
 
     if (p->inuse) {
@@ -287,7 +285,7 @@ int parallelreceivebyte(BYTE * data, int fake)
         return 0x83;    /* device not present */
     }
 
-    p = serial_get_device(TrapDevice & 0x0f);
+    p = serial_device_get(TrapDevice & 0x0f);
     vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
 
     /* first fill up buffers */
@@ -357,7 +355,7 @@ int serial_init(const trap_t *trap_list, ADDRESS tmpin)
     for (i = 0; i < SERIAL_MAXDEVICES; i++) {
         serial_t *p;
 
-        p = serial_get_device(i);
+        p = serial_device_get(i);
 
         p->inuse = 0;
         p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int))fn;
@@ -411,7 +409,7 @@ int serial_attach_device(unsigned int unit, const char *name,
     if (unit >= SERIAL_MAXDEVICES)
         return 1;
 
-    p = serial_get_device(unit);
+    p = serial_device_get(unit);
 
     p->getf = getf;
     p->putf = putf;
@@ -443,7 +441,7 @@ int serial_detach_device(unsigned int unit)
         log_error(serial_log, "Illegal device number %d.", unit);
         return -1;
     }
-    p = serial_get_device(unit);
+    p = serial_device_get(unit);
 
     if (!p || !(p->inuse)) {
         log_error(serial_log, "Attempting to remove empty device #%d.", unit);
@@ -454,35 +452,10 @@ int serial_detach_device(unsigned int unit)
     return 0;
 }
 
-serial_t *serial_get_device(unsigned int unit)
-{
-    return &serialdevices[unit];
-}
-
 /* Close all files.  */
 void serial_reset(void)
 {
     iec_reset();
-}
-
-/* ------------------------------------------------------------------------- */
-
-unsigned int serial_type_get(unsigned int unit)
-{
-    serial_t *p;
-
-    p = serial_get_device(unit);
-
-    return p->device;
-}
-
-void serial_type_set(unsigned int type, unsigned int unit)
-{
-    serial_t *p;
-
-    p = serial_get_device(unit);
-
-    p->device = type;
 }
 
 /* ------------------------------------------------------------------------- */

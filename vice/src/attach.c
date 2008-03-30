@@ -182,24 +182,24 @@ void file_system_init(void)
     attach_log = log_open("Attach");
 
     for (i = 0; i < 4; i++) {
-        file_system[i].serial = serial_get_device(i + 8);;
+        file_system[i].serial = serial_device_get(i + 8);;
         file_system[i].vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
         switch (file_system_device_enabled[i]) {
           case ATTACH_DEVICE_NONE:
             vdrive_setup_device(file_system[i].vdrive, i + 8);
-            serial_type_set(SERIAL_DEVICE_VIRT, i + 8);
+            serial_device_type_set(SERIAL_DEVICE_VIRT, i + 8);
             break;
           case ATTACH_DEVICE_FS:
             vdrive_setup_device(file_system[i].vdrive, i + 8);
-            serial_type_set(SERIAL_DEVICE_FS, i + 8);
+            serial_device_type_set(SERIAL_DEVICE_FS, i + 8);
             break;
           case ATTACH_DEVICE_REAL:
             vdrive_setup_device(file_system[i].vdrive, i + 8);
-            serial_type_set(SERIAL_DEVICE_REAL, i + 8);
+            serial_device_type_set(SERIAL_DEVICE_REAL, i + 8);
             break;
           case ATTACH_DEVICE_RAW:
             vdrive_setup_device(file_system[i].vdrive, i + 8);
-            serial_type_set(SERIAL_DEVICE_RAW, i + 8);
+            serial_device_type_set(SERIAL_DEVICE_RAW, i + 8);
             break;
         }
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
@@ -214,24 +214,6 @@ void *file_system_get_vdrive(unsigned int unit)
         return NULL;
     }
     return (void *)(file_system[unit - 8].vdrive);
-}
-
-unsigned int file_system_get_fsimage_state(unsigned int unit)
-{
-    vdrive_t *vdrive;
-
-    if (unit < 8)
-        return 1;
-
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
-
-    if (vdrive->image == NULL)
-        return 1;
-
-    if (vdrive->image->device == DISK_IMAGE_DEVICE_FS)
-        return 1;
-
-    return 0;
 }
 
 const char *file_system_get_disk_name(unsigned int unit)
@@ -307,7 +289,7 @@ static int set_file_system_device(resource_value_t v, void *param)
             detach_disk_image(vdrive->image, vdrive, unit);
         if (vdrive != NULL && vdrive->image == NULL) {
             vdrive_setup_device(vdrive, unit);
-            serial_type_set(SERIAL_DEVICE_VIRT, unit);
+            serial_device_type_set(SERIAL_DEVICE_VIRT, unit);
             file_system_set_serial_hooks(unit, 0);
         }
         break;
@@ -318,7 +300,7 @@ static int set_file_system_device(resource_value_t v, void *param)
             detach_disk_image(vdrive->image, vdrive, unit);
         if (vdrive != NULL && vdrive->image == NULL) {
             vdrive_setup_device(vdrive, unit);
-            serial_type_set(SERIAL_DEVICE_FS, unit);
+            serial_device_type_set(SERIAL_DEVICE_FS, unit);
             file_system_set_serial_hooks(unit, 1);
         }
         break;
@@ -336,7 +318,7 @@ static int set_file_system_device(resource_value_t v, void *param)
             ui_display_drive_current_image(unit - 8, "");
             vdrive_setup_device(vdrive, unit);
         }
-        serial_type_set(SERIAL_DEVICE_REAL, unit);
+        serial_device_type_set(SERIAL_DEVICE_REAL, unit);
         break;
 #endif
 #ifdef HAVE_RAWDRIVE
@@ -351,7 +333,7 @@ static int set_file_system_device(resource_value_t v, void *param)
         attach_disk_image(&(vdrive->image), vdrive, "DUMMY", unit,
                           ATTACH_DEVICE_RAW);
         file_system_set_serial_hooks(unit, 0);
-        serial_type_set(SERIAL_DEVICE_RAW, unit);
+        serial_device_type_set(SERIAL_DEVICE_RAW, unit);
         break;
 #endif
       default:
@@ -492,7 +474,7 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     /* FIXME: Is this clever?  */
     vdrive_setup_device(vdrive, unit);
-    serial_type_set(SERIAL_DEVICE_VIRT, unit);
+    serial_device_type_set(SERIAL_DEVICE_VIRT, unit);
 
     if (attach_disk_image(&(vdrive->image), vdrive, filename, unit,
         file_system_device_enabled[unit - 8]) < 0) {

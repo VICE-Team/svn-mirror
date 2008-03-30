@@ -46,6 +46,7 @@
 #include "mon.h"
 #include "mos6510.h"
 #include "resources.h"
+#include "serial.h"
 #include "sound.h"
 #include "tape.h"
 #include "types.h"
@@ -70,7 +71,7 @@ void ui_set_selected_file(int num)
 
 static char *read_disk_image_contents(const char *name, unsigned int unit)
 {
-    if (file_system_get_fsimage_state(unit))
+    if (serial_device_get_fsimage_state(unit))
         unit = 0;
 
 #ifdef USE_GNOMEUI
