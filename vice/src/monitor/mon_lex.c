@@ -727,10 +727,10 @@ char *yytext;
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "mon_command.h"
 #include "montypes.h"
 #include "mon_parse.h" /* FIXME ! */
-#include "utils.h"
 #include "types.h"
 
 #undef min
@@ -1120,7 +1120,7 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 134 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return STRING; }
+{ yylval.str = lib_stralloc(yytext); return STRING; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
@@ -1189,7 +1189,7 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 160 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return CPUTYPE; }
+{ yylval.str = lib_stralloc(yytext); return CPUTYPE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
@@ -1211,18 +1211,18 @@ case 26:
 YY_RULE_SETUP
 #line 171 "mon_lex.l"
 { yytext[yyleng-1] = '\0';
-                yylval.str = stralloc(yytext+1);
+                yylval.str = lib_stralloc(yytext+1);
                 BEGIN (INITIAL); return FILENAME; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 175 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return BANKNAME; }
+{ yylval.str = lib_stralloc(yytext); return BANKNAME; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 177 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return R_O_L; }
+{ yylval.str = lib_stralloc(yytext); return R_O_L; }
 	YY_BREAK
 
 case 29:
@@ -1342,49 +1342,49 @@ case 51:
 YY_RULE_SETUP
 #line 209 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 211 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 213 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 215 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 217 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 219 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 #line 221 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
 #line 223 "mon_lex.l"
 {
-    yylval.str = stralloc(yytext); return OPCODE; }
+    yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
@@ -1439,17 +1439,17 @@ YY_RULE_SETUP
 case 69:
 YY_RULE_SETUP
 #line 235 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return OPCODE; }
+{ yylval.str = lib_stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
 #line 236 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return LABEL; }
+{ yylval.str = lib_stralloc(yytext); return LABEL; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
 #line 237 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return LABEL; }
+{ yylval.str = lib_stralloc(yytext); return LABEL; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
@@ -1526,7 +1526,7 @@ YY_RULE_SETUP
 case 86:
 YY_RULE_SETUP
 #line 257 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return B_NUMBER_GUESS; }
+{ yylval.str = lib_stralloc(yytext); return B_NUMBER_GUESS; }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
@@ -1541,7 +1541,7 @@ YY_RULE_SETUP
 case 89:
 YY_RULE_SETUP
 #line 260 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return O_NUMBER_GUESS; }
+{ yylval.str = lib_stralloc(yytext); return O_NUMBER_GUESS; }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
@@ -1551,7 +1551,7 @@ YY_RULE_SETUP
 case 91:
 YY_RULE_SETUP
 #line 262 "mon_lex.l"
-{ yylval.str = stralloc(yytext); return D_NUMBER_GUESS; }
+{ yylval.str = lib_stralloc(yytext); return D_NUMBER_GUESS; }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP

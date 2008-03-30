@@ -33,8 +33,8 @@ extern "C" {
 #include <string.h>
 
 #include "sid/sid.h" /* sid_engine_t */
+#include "lib.h"
 #include "log.h"
-#include "utils.h"
 #include "resources.h"
 #include "sid-snapshot.h"
 #include "sound.h"
@@ -156,7 +156,7 @@ void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 
 char *resid_dump_state(sound_t *psid)
 {
-    return stralloc("");
+    return lib_stralloc("");
 }
 
 void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)

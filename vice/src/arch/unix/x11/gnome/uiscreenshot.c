@@ -29,10 +29,10 @@
 #include <gnome.h>
 
 #include "gfxoutput.h"
+#include "lib.h"
 #include "screenshot.h"
 #include "ui.h"
 #include "uiarch.h"
-#include "utils.h"
 
 
 static GtkWidget *screenshot_dialog, *fileentry;
@@ -80,7 +80,7 @@ static GtkWidget *build_screenshot_dialog(void)
     
     num_buttons = gfxoutput_num_drivers();
     if (! buttons)
-	buttons = xmalloc(sizeof (img_type_buttons) * num_buttons);
+	buttons = lib_malloc(sizeof (img_type_buttons) * num_buttons);
     
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < num_buttons; i++)

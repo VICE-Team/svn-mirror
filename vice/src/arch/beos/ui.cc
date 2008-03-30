@@ -55,6 +55,7 @@ extern "C" {
 #include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -342,7 +343,7 @@ static void scan_files(void)
     lastindex=-1;
     for (i=0; i<10; i++) {
         files[i].valid=0;
-    	filename = stralloc("quicksnap?.vsf");
+    	filename = lib_stralloc("quicksnap?.vsf");
     	filename[strlen(filename)-5] = '0'+i;
     	fullname = util_concat(archdep_boot_path(),"/",machine_name,"/",filename,NULL);
     	entry.SetTo(fullname);

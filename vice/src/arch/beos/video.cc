@@ -35,6 +35,7 @@ extern "C" {
 #include "vice.h"
 #include "cmdline.h"
 #include "fullscreen.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "raster.h"
@@ -42,7 +43,6 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 }
@@ -144,7 +144,7 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
 {
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-	canvas->title = stralloc(canvas->viewport->title);
+	canvas->title = lib_stralloc(canvas->viewport->title);
     switch (BScreen().ColorSpace()) {
     	case B_CMAP8:
     		canvas->depth = 8;

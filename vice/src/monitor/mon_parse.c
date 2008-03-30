@@ -156,7 +156,7 @@ extern char *alloca();
 
 #include "asm.h"
 #include "console.h"
-#include "uimon.h"
+#include "lib.h"
 #include "machine.h"
 #include "mon_breakpoint.h"
 #include "mon_command.h"
@@ -167,7 +167,8 @@ extern char *alloca();
 #include "mon_util.h"
 #include "montypes.h"
 #include "types.h"
-#include "utils.h"
+#include "uimon.h"
+
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
@@ -206,7 +207,7 @@ extern int cur_len, last_len;
 #define CHECK_ADDR(x) ((x) == LO16(x))
 
 
-#line 107 "mon_parse.y"
+#line 108 "mon_parse.y"
 typedef union {
         MON_ADDR a;
         int i;
@@ -378,27 +379,27 @@ static const short yyrhs[] = {   132,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   162,   163,   164,   167,   168,   171,   172,   173,   176,   177,
-   178,   179,   180,   181,   182,   183,   184,   185,   186,   187,
-   190,   192,   194,   196,   198,   200,   202,   204,   206,   208,
-   210,   212,   214,   217,   219,   221,   224,   229,   231,   233,
-   235,   239,   240,   241,   243,   245,   249,   251,   253,   255,
-   257,   259,   261,   263,   265,   267,   269,   271,   273,   277,
-   282,   287,   293,   299,   304,   306,   308,   310,   315,   317,
-   319,   321,   323,   325,   327,   329,   333,   335,   340,   342,
-   360,   365,   367,   371,   373,   375,   377,   379,   381,   383,
-   385,   389,   391,   393,   395,   397,   399,   401,   405,   407,
-   409,   413,   415,   419,   422,   423,   426,   427,   430,   431,
-   434,   435,   438,   439,   442,   445,   446,   449,   450,   453,
-   454,   457,   459,   461,   469,   470,   473,   474,   475,   478,
-   479,   482,   485,   487,   488,   489,   490,   491,   492,   493,
-   496,   501,   503,   505,   507,   511,   516,   523,   524,   527,
-   528,   531,   532,   535,   536,   537,   538,   541,   542,   543,
-   546,   547,   548,   549,   550,   553,   554,   555,   558,   568,
-   569,   572,   576,   581,   586,   591,   593,   595,   597,   598,
-   599,   600,   601,   602,   603,   605,   607,   609,   611,   612,
-   613,   614,   615,   616,   617,   618,   619,   620,   621,   622,
-   623,   624,   625,   626,   627,   628,   629
+   163,   164,   165,   168,   169,   172,   173,   174,   177,   178,
+   179,   180,   181,   182,   183,   184,   185,   186,   187,   188,
+   191,   193,   195,   197,   199,   201,   203,   205,   207,   209,
+   211,   213,   215,   218,   220,   222,   225,   230,   232,   234,
+   236,   240,   241,   242,   244,   246,   250,   252,   254,   256,
+   258,   260,   262,   264,   266,   268,   270,   272,   274,   278,
+   283,   288,   294,   300,   305,   307,   309,   311,   316,   318,
+   320,   322,   324,   326,   328,   330,   334,   336,   341,   343,
+   361,   366,   368,   372,   374,   376,   378,   380,   382,   384,
+   386,   390,   392,   394,   396,   398,   400,   402,   406,   408,
+   410,   414,   416,   420,   423,   424,   427,   428,   431,   432,
+   435,   436,   439,   440,   443,   446,   447,   450,   451,   454,
+   455,   458,   460,   462,   470,   471,   474,   475,   476,   479,
+   480,   483,   486,   488,   489,   490,   491,   492,   493,   494,
+   497,   502,   504,   506,   508,   512,   517,   524,   525,   528,
+   529,   532,   533,   536,   537,   538,   539,   542,   543,   544,
+   547,   548,   549,   550,   551,   554,   555,   556,   559,   569,
+   570,   573,   577,   582,   587,   592,   594,   596,   598,   599,
+   600,   601,   602,   603,   604,   606,   608,   610,   612,   613,
+   614,   615,   616,   617,   618,   619,   620,   621,   622,   623,
+   624,   625,   626,   627,   628,   629,   630
 };
 #endif
 
@@ -1308,188 +1309,188 @@ yyreduce:
   switch (yyn) {
 
 case 1:
-#line 162 "mon_parse.y"
-{ yyval.i = 0; ;
-    break;}
-case 2:
 #line 163 "mon_parse.y"
 { yyval.i = 0; ;
     break;}
-case 3:
+case 2:
 #line 164 "mon_parse.y"
+{ yyval.i = 0; ;
+    break;}
+case 3:
+#line 165 "mon_parse.y"
 { new_cmd = 1; asm_mode = 0;  yyval.i = 0; ;
     break;}
 case 8:
-#line 173 "mon_parse.y"
+#line 174 "mon_parse.y"
 { return ERR_EXPECT_END_CMD; ;
     break;}
 case 20:
-#line 187 "mon_parse.y"
+#line 188 "mon_parse.y"
 { return ERR_BAD_CMD; ;
     break;}
 case 21:
-#line 191 "mon_parse.y"
+#line 192 "mon_parse.y"
 { mon_bank(yyvsp[-2].i,yyvsp[-1].str); ;
     break;}
 case 22:
-#line 193 "mon_parse.y"
+#line 194 "mon_parse.y"
 { mon_jump(yyvsp[-1].a); ;
     break;}
 case 23:
-#line 195 "mon_parse.y"
+#line 196 "mon_parse.y"
 { mon_display_io_regs(); ;
     break;}
 case 24:
-#line 197 "mon_parse.y"
+#line 198 "mon_parse.y"
 { mon_cpu_type(yyvsp[-1].str); ;
     break;}
 case 25:
-#line 199 "mon_parse.y"
+#line 200 "mon_parse.y"
 { mon_instruction_return(); ;
     break;}
 case 26:
-#line 201 "mon_parse.y"
+#line 202 "mon_parse.y"
 { machine_write_snapshot(yyvsp[-1].str,0,0,0); /* FIXME */ ;
     break;}
 case 27:
-#line 203 "mon_parse.y"
+#line 204 "mon_parse.y"
 { machine_read_snapshot(yyvsp[-1].str, 0); ;
     break;}
 case 28:
-#line 205 "mon_parse.y"
+#line 206 "mon_parse.y"
 { mon_instructions_step(yyvsp[-1].i); ;
     break;}
 case 29:
-#line 207 "mon_parse.y"
+#line 208 "mon_parse.y"
 { mon_instructions_next(yyvsp[-1].i); ;
     break;}
 case 30:
-#line 209 "mon_parse.y"
+#line 210 "mon_parse.y"
 { mon_stack_up(yyvsp[-1].i); ;
     break;}
 case 31:
-#line 211 "mon_parse.y"
+#line 212 "mon_parse.y"
 { mon_stack_down(yyvsp[-1].i); ;
     break;}
 case 32:
-#line 213 "mon_parse.y"
+#line 214 "mon_parse.y"
 { mon_display_screen(); ;
     break;}
 case 34:
-#line 218 "mon_parse.y"
+#line 219 "mon_parse.y"
 { (monitor_cpu_type.mon_register_print)(default_memspace); ;
     break;}
 case 35:
-#line 220 "mon_parse.y"
+#line 221 "mon_parse.y"
 { (monitor_cpu_type.mon_register_print)(yyvsp[-1].i); ;
     break;}
 case 37:
-#line 225 "mon_parse.y"
+#line 226 "mon_parse.y"
 {
                         playback = TRUE; playback_name = yyvsp[-1].str;
                         /*mon_load_symbols($2, $3);*/
                     ;
     break;}
 case 38:
-#line 230 "mon_parse.y"
+#line 231 "mon_parse.y"
 { mon_save_symbols(yyvsp[-2].i, yyvsp[-1].str); ;
     break;}
 case 39:
-#line 232 "mon_parse.y"
+#line 233 "mon_parse.y"
 { mon_add_name_to_symbol_table(yyvsp[-2].a, yyvsp[-1].str); ;
     break;}
 case 40:
-#line 234 "mon_parse.y"
+#line 235 "mon_parse.y"
 { mon_remove_name_from_symbol_table(yyvsp[-2].i, yyvsp[-1].str); ;
     break;}
 case 41:
-#line 236 "mon_parse.y"
+#line 237 "mon_parse.y"
 { mon_print_symbol_table(yyvsp[-1].i); ;
     break;}
 case 42:
-#line 240 "mon_parse.y"
+#line 241 "mon_parse.y"
 { mon_start_assemble_mode(yyvsp[0].a, NULL); ;
     break;}
 case 44:
-#line 242 "mon_parse.y"
+#line 243 "mon_parse.y"
 { mon_start_assemble_mode(yyvsp[-1].a, NULL); ;
     break;}
 case 45:
-#line 244 "mon_parse.y"
+#line 245 "mon_parse.y"
 { mon_disassemble_lines(yyvsp[-2].a,yyvsp[-1].a); ;
     break;}
 case 46:
-#line 246 "mon_parse.y"
+#line 247 "mon_parse.y"
 { mon_disassemble_lines(BAD_ADDR, BAD_ADDR); ;
     break;}
 case 47:
-#line 250 "mon_parse.y"
+#line 251 "mon_parse.y"
 { mon_memory_move(yyvsp[-3].a, yyvsp[-2].a, yyvsp[-1].a); ;
     break;}
 case 48:
-#line 252 "mon_parse.y"
+#line 253 "mon_parse.y"
 { mon_memory_compare(yyvsp[-3].a, yyvsp[-2].a, yyvsp[-1].a); ;
     break;}
 case 49:
-#line 254 "mon_parse.y"
+#line 255 "mon_parse.y"
 { mon_memory_fill(yyvsp[-3].a,yyvsp[-2].a,(unsigned char *)yyvsp[-1].str); ;
     break;}
 case 50:
-#line 256 "mon_parse.y"
+#line 257 "mon_parse.y"
 { mon_memory_hunt(yyvsp[-3].a,yyvsp[-2].a,(unsigned char *)yyvsp[-1].str); ;
     break;}
 case 51:
-#line 258 "mon_parse.y"
+#line 259 "mon_parse.y"
 { mon_memory_display(yyvsp[-3].rt, yyvsp[-2].a, yyvsp[-1].a); ;
     break;}
 case 52:
-#line 260 "mon_parse.y"
+#line 261 "mon_parse.y"
 { mon_memory_display(default_radix, yyvsp[-2].a, yyvsp[-1].a); ;
     break;}
 case 53:
-#line 262 "mon_parse.y"
+#line 263 "mon_parse.y"
 { mon_memory_display(default_radix, BAD_ADDR, BAD_ADDR); ;
     break;}
 case 54:
-#line 264 "mon_parse.y"
+#line 265 "mon_parse.y"
 { mon_memory_display_data(yyvsp[-2].a, yyvsp[-1].a, 8, 8); ;
     break;}
 case 55:
-#line 266 "mon_parse.y"
+#line 267 "mon_parse.y"
 { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 8, 8); ;
     break;}
 case 56:
-#line 268 "mon_parse.y"
+#line 269 "mon_parse.y"
 { mon_memory_display_data(yyvsp[-2].a, yyvsp[-1].a, 24, 21); ;
     break;}
 case 57:
-#line 270 "mon_parse.y"
+#line 271 "mon_parse.y"
 { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 24, 21); ;
     break;}
 case 58:
-#line 272 "mon_parse.y"
+#line 273 "mon_parse.y"
 { mon_memory_display(0, yyvsp[-2].a, yyvsp[-1].a); ;
     break;}
 case 59:
-#line 274 "mon_parse.y"
+#line 275 "mon_parse.y"
 { mon_memory_display(0, BAD_ADDR, BAD_ADDR); ;
     break;}
 case 60:
-#line 278 "mon_parse.y"
+#line 279 "mon_parse.y"
 {
                       mon_breakpoint_add_checkpoint(yyvsp[-2].a, yyvsp[-1].a, FALSE, FALSE,
                                                     FALSE, FALSE);
                   ;
     break;}
 case 61:
-#line 283 "mon_parse.y"
+#line 284 "mon_parse.y"
 {
                       mon_breakpoint_add_checkpoint(yyvsp[-2].a, yyvsp[-1].a, FALSE, FALSE,
                                                     FALSE, TRUE);
                   ;
     break;}
 case 62:
-#line 288 "mon_parse.y"
+#line 289 "mon_parse.y"
 {
                       temp = mon_breakpoint_add_checkpoint(yyvsp[-4].a, yyvsp[-3].a, FALSE,
                                                            FALSE, FALSE, FALSE);
@@ -1497,7 +1498,7 @@ case 62:
                   ;
     break;}
 case 63:
-#line 294 "mon_parse.y"
+#line 295 "mon_parse.y"
 {
                       mon_breakpoint_add_checkpoint(yyvsp[-2].a, yyvsp[-1].a, FALSE,
                       (yyvsp[-3].i == e_load || yyvsp[-3].i == e_load_store),
@@ -1505,77 +1506,77 @@ case 63:
                   ;
     break;}
 case 64:
-#line 300 "mon_parse.y"
+#line 301 "mon_parse.y"
 {
                       mon_breakpoint_add_checkpoint(yyvsp[-2].a, yyvsp[-1].a, TRUE, FALSE, FALSE,
                                                     FALSE);
                   ;
     break;}
 case 65:
-#line 305 "mon_parse.y"
+#line 306 "mon_parse.y"
 { mon_breakpoint_print_checkpoints(); ;
     break;}
 case 66:
-#line 307 "mon_parse.y"
+#line 308 "mon_parse.y"
 { mon_breakpoint_print_checkpoints(); ;
     break;}
 case 67:
-#line 309 "mon_parse.y"
+#line 310 "mon_parse.y"
 { mon_breakpoint_print_checkpoints(); ;
     break;}
 case 68:
-#line 311 "mon_parse.y"
+#line 312 "mon_parse.y"
 { mon_breakpoint_print_checkpoints(); ;
     break;}
 case 69:
-#line 316 "mon_parse.y"
+#line 317 "mon_parse.y"
 { mon_breakpoint_switch_checkpoint(e_ON, yyvsp[-1].i); ;
     break;}
 case 70:
-#line 318 "mon_parse.y"
+#line 319 "mon_parse.y"
 { mon_breakpoint_switch_checkpoint(e_OFF, yyvsp[-1].i); ;
     break;}
 case 71:
-#line 320 "mon_parse.y"
+#line 321 "mon_parse.y"
 { mon_breakpoint_set_ignore_count(yyvsp[-2].i, yyvsp[-1].i); ;
     break;}
 case 72:
-#line 322 "mon_parse.y"
+#line 323 "mon_parse.y"
 { mon_breakpoint_delete_checkpoint(yyvsp[-1].i); ;
     break;}
 case 73:
-#line 324 "mon_parse.y"
+#line 325 "mon_parse.y"
 { mon_breakpoint_delete_checkpoint(-1); ;
     break;}
 case 74:
-#line 326 "mon_parse.y"
+#line 327 "mon_parse.y"
 { mon_breakpoint_set_checkpoint_condition(yyvsp[-3].i, yyvsp[-1].cond_node); ;
     break;}
 case 75:
-#line 328 "mon_parse.y"
+#line 329 "mon_parse.y"
 { mon_breakpoint_set_checkpoint_command(yyvsp[-2].i, yyvsp[-1].str); ;
     break;}
 case 76:
-#line 330 "mon_parse.y"
+#line 331 "mon_parse.y"
 { return ERR_EXPECT_STRING; ;
     break;}
 case 77:
-#line 334 "mon_parse.y"
+#line 335 "mon_parse.y"
 { sidefx = ((yyvsp[-1].action == e_TOGGLE) ? (sidefx ^ 1) : yyvsp[-1].action); ;
     break;}
 case 78:
-#line 336 "mon_parse.y"
+#line 337 "mon_parse.y"
 {
                          mon_out("I/O side effects are %s\n",
                                    sidefx ? "enabled" : "disabled");
                      ;
     break;}
 case 79:
-#line 341 "mon_parse.y"
+#line 342 "mon_parse.y"
 { default_radix = yyvsp[-1].rt; ;
     break;}
 case 80:
-#line 343 "mon_parse.y"
+#line 344 "mon_parse.y"
 {
                          const char *p;
 
@@ -1594,168 +1595,168 @@ case 80:
                      ;
     break;}
 case 81:
-#line 361 "mon_parse.y"
+#line 362 "mon_parse.y"
 {
                          mon_out("Setting default device to `%s'\n",
                          _mon_space_strings[(int) yyvsp[-1].i]); default_memspace = yyvsp[-1].i;
                      ;
     break;}
 case 82:
-#line 366 "mon_parse.y"
+#line 367 "mon_parse.y"
 { exit_mon = 2; YYACCEPT; ;
     break;}
 case 83:
-#line 368 "mon_parse.y"
+#line 369 "mon_parse.y"
 { exit_mon = 1; YYACCEPT; ;
     break;}
 case 84:
-#line 372 "mon_parse.y"
+#line 373 "mon_parse.y"
 { mon_drive_execute_disk_cmd(yyvsp[-1].str); ;
     break;}
 case 85:
-#line 374 "mon_parse.y"
+#line 375 "mon_parse.y"
 { mon_out("\t%d\n",yyvsp[-1].i); ;
     break;}
 case 86:
-#line 376 "mon_parse.y"
+#line 377 "mon_parse.y"
 { mon_command_print_help(NULL); ;
     break;}
 case 87:
-#line 378 "mon_parse.y"
+#line 379 "mon_parse.y"
 { mon_command_print_help(yyvsp[-1].str); ;
     break;}
 case 88:
-#line 380 "mon_parse.y"
+#line 381 "mon_parse.y"
 { printf("SYSTEM COMMAND: %s\n",yyvsp[-1].str); ;
     break;}
 case 89:
-#line 382 "mon_parse.y"
+#line 383 "mon_parse.y"
 { mon_print_convert(yyvsp[-1].i); ;
     break;}
 case 90:
-#line 384 "mon_parse.y"
+#line 385 "mon_parse.y"
 { mon_change_dir(yyvsp[-1].str); ;
     break;}
 case 91:
-#line 386 "mon_parse.y"
+#line 387 "mon_parse.y"
 { mon_keyboard_feed(yyvsp[-1].str); ;
     break;}
 case 92:
-#line 390 "mon_parse.y"
+#line 391 "mon_parse.y"
 { mon_file_load(yyvsp[-3].str,yyvsp[-2].i,yyvsp[-1].a,FALSE); ;
     break;}
 case 93:
-#line 392 "mon_parse.y"
+#line 393 "mon_parse.y"
 { mon_file_load(yyvsp[-3].str,yyvsp[-2].i,yyvsp[-1].a,TRUE); ;
     break;}
 case 94:
-#line 394 "mon_parse.y"
+#line 395 "mon_parse.y"
 { mon_file_save(yyvsp[-4].str,yyvsp[-3].i,yyvsp[-2].a,yyvsp[-1].a,FALSE); ;
     break;}
 case 95:
-#line 396 "mon_parse.y"
+#line 397 "mon_parse.y"
 { mon_file_save(yyvsp[-4].str,yyvsp[-3].i,yyvsp[-2].a,yyvsp[-1].a,TRUE); ;
     break;}
 case 96:
-#line 398 "mon_parse.y"
+#line 399 "mon_parse.y"
 { mon_file_verify(yyvsp[-3].str,yyvsp[-2].i,yyvsp[-1].a); ;
     break;}
 case 97:
-#line 400 "mon_parse.y"
+#line 401 "mon_parse.y"
 { mon_drive_block_cmd(0,yyvsp[-3].i,yyvsp[-2].i,yyvsp[-1].a); ;
     break;}
 case 98:
-#line 402 "mon_parse.y"
+#line 403 "mon_parse.y"
 { mon_drive_block_cmd(1,yyvsp[-3].i,yyvsp[-2].i,yyvsp[-1].a); ;
     break;}
 case 99:
-#line 406 "mon_parse.y"
+#line 407 "mon_parse.y"
 { mon_record_commands(yyvsp[-1].str); ;
     break;}
 case 100:
-#line 408 "mon_parse.y"
+#line 409 "mon_parse.y"
 { mon_end_recording(); ;
     break;}
 case 101:
-#line 410 "mon_parse.y"
+#line 411 "mon_parse.y"
 { playback=TRUE; playback_name = yyvsp[-1].str; ;
     break;}
 case 102:
-#line 414 "mon_parse.y"
+#line 415 "mon_parse.y"
 { mon_memory_fill(yyvsp[-2].a, BAD_ADDR, (unsigned char *)yyvsp[-1].str); ;
     break;}
 case 103:
-#line 416 "mon_parse.y"
+#line 417 "mon_parse.y"
 { printf("Not yet.\n"); ;
     break;}
 case 104:
-#line 419 "mon_parse.y"
+#line 420 "mon_parse.y"
 { yyval.str = yyvsp[0].str; ;
     break;}
 case 106:
-#line 423 "mon_parse.y"
+#line 424 "mon_parse.y"
 { yyval.str = NULL; ;
     break;}
 case 108:
-#line 427 "mon_parse.y"
+#line 428 "mon_parse.y"
 { return ERR_EXPECT_FILENAME; ;
     break;}
 case 109:
-#line 430 "mon_parse.y"
+#line 431 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 110:
-#line 431 "mon_parse.y"
+#line 432 "mon_parse.y"
 { yyval.i = e_load_store; ;
     break;}
 case 111:
-#line 434 "mon_parse.y"
+#line 435 "mon_parse.y"
 { yyval.i = new_reg(default_memspace, yyvsp[0].reg); ;
     break;}
 case 112:
-#line 435 "mon_parse.y"
+#line 436 "mon_parse.y"
 { yyval.i = new_reg(yyvsp[-1].i, yyvsp[0].reg); ;
     break;}
 case 115:
-#line 442 "mon_parse.y"
+#line 443 "mon_parse.y"
 { (monitor_cpu_type.mon_register_set_val)(reg_memspace(yyvsp[-2].i), reg_regid(yyvsp[-2].i), yyvsp[0].i); ;
     break;}
 case 116:
-#line 445 "mon_parse.y"
+#line 446 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 117:
-#line 446 "mon_parse.y"
+#line 447 "mon_parse.y"
 { yyval.i = -1; ;
     break;}
 case 118:
-#line 449 "mon_parse.y"
+#line 450 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 119:
-#line 450 "mon_parse.y"
+#line 451 "mon_parse.y"
 { return ERR_EXPECT_BRKNUM; ;
     break;}
 case 120:
-#line 453 "mon_parse.y"
+#line 454 "mon_parse.y"
 { yyval.a = yyvsp[0].a; ;
     break;}
 case 121:
-#line 454 "mon_parse.y"
+#line 455 "mon_parse.y"
 { yyval.a = BAD_ADDR; ;
     break;}
 case 122:
-#line 457 "mon_parse.y"
+#line 458 "mon_parse.y"
 { yyval.a = new_addr(e_default_space,yyvsp[0].i);
                   if (opt_asm) new_cmd = asm_mode = 1; ;
     break;}
 case 123:
-#line 459 "mon_parse.y"
+#line 460 "mon_parse.y"
 { yyval.a = new_addr(yyvsp[-1].i,yyvsp[0].i);
                            if (opt_asm) new_cmd = asm_mode = 1; ;
     break;}
 case 124:
-#line 461 "mon_parse.y"
+#line 462 "mon_parse.y"
 { temp = mon_symbol_table_lookup_addr(e_default_space, yyvsp[0].str);
                  if (temp >= 0)
                     yyval.a = new_addr(e_default_space, temp);
@@ -1764,94 +1765,94 @@ case 124:
                ;
     break;}
 case 125:
-#line 469 "mon_parse.y"
+#line 470 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 126:
-#line 470 "mon_parse.y"
+#line 471 "mon_parse.y"
 { yyval.i = e_default_space; ;
     break;}
 case 127:
-#line 473 "mon_parse.y"
+#line 474 "mon_parse.y"
 { yyval.i = e_comp_space; ;
     break;}
 case 128:
-#line 474 "mon_parse.y"
+#line 475 "mon_parse.y"
 { yyval.i = e_disk8_space; ;
     break;}
 case 129:
-#line 475 "mon_parse.y"
+#line 476 "mon_parse.y"
 { yyval.i = e_disk9_space; ;
     break;}
 case 130:
-#line 478 "mon_parse.y"
+#line 479 "mon_parse.y"
 { yyval.i = CPU_6502; ;
     break;}
 case 131:
-#line 479 "mon_parse.y"
+#line 480 "mon_parse.y"
 { yyval.i = CPU_Z80 ;
     break;}
 case 132:
-#line 482 "mon_parse.y"
+#line 483 "mon_parse.y"
 { yyval.i = yyvsp[0].i; if (!CHECK_ADDR(yyvsp[0].i)) return ERR_ADDR_TOO_BIG; ;
     break;}
 case 133:
-#line 485 "mon_parse.y"
+#line 486 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 134:
-#line 487 "mon_parse.y"
+#line 488 "mon_parse.y"
 { yyval.i = yyvsp[-2].i + yyvsp[0].i; ;
     break;}
 case 135:
-#line 488 "mon_parse.y"
+#line 489 "mon_parse.y"
 { yyval.i = yyvsp[-2].i - yyvsp[0].i; ;
     break;}
 case 136:
-#line 489 "mon_parse.y"
+#line 490 "mon_parse.y"
 { yyval.i = yyvsp[-2].i * yyvsp[0].i; ;
     break;}
 case 137:
-#line 490 "mon_parse.y"
+#line 491 "mon_parse.y"
 { yyval.i = (yyvsp[0].i) ? (yyvsp[-2].i / yyvsp[0].i) : 1; ;
     break;}
 case 138:
-#line 491 "mon_parse.y"
+#line 492 "mon_parse.y"
 { yyval.i = yyvsp[-1].i; ;
     break;}
 case 139:
-#line 492 "mon_parse.y"
+#line 493 "mon_parse.y"
 { return ERR_MISSING_CLOSE_PAREN; ;
     break;}
 case 140:
-#line 493 "mon_parse.y"
+#line 494 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 141:
-#line 497 "mon_parse.y"
+#line 498 "mon_parse.y"
 {
                yyval.cond_node = new_cond; yyval.cond_node->is_parenthized = FALSE;
                yyval.cond_node->child1 = yyvsp[-2].cond_node; yyval.cond_node->child2 = yyvsp[0].cond_node; yyval.cond_node->operation = yyvsp[-1].cond_op;
            ;
     break;}
 case 142:
-#line 502 "mon_parse.y"
+#line 503 "mon_parse.y"
 { return ERR_INCOMPLETE_COMPARE_OP; ;
     break;}
 case 143:
-#line 504 "mon_parse.y"
+#line 505 "mon_parse.y"
 { yyval.cond_node = yyvsp[-1].cond_node; yyval.cond_node->is_parenthized = TRUE; ;
     break;}
 case 144:
-#line 506 "mon_parse.y"
+#line 507 "mon_parse.y"
 { return ERR_MISSING_CLOSE_PAREN; ;
     break;}
 case 145:
-#line 508 "mon_parse.y"
+#line 509 "mon_parse.y"
 { yyval.cond_node = yyvsp[0].cond_node; ;
     break;}
 case 146:
-#line 511 "mon_parse.y"
+#line 512 "mon_parse.y"
 { yyval.cond_node = new_cond;
                             yyval.cond_node->operation = e_INV;
                             yyval.cond_node->is_parenthized = FALSE;
@@ -1859,7 +1860,7 @@ case 146:
                           ;
     break;}
 case 147:
-#line 516 "mon_parse.y"
+#line 517 "mon_parse.y"
 { yyval.cond_node = new_cond;
                             yyval.cond_node->operation = e_INV;
                             yyval.cond_node->is_parenthized = FALSE;
@@ -1867,71 +1868,71 @@ case 147:
                           ;
     break;}
 case 150:
-#line 527 "mon_parse.y"
+#line 528 "mon_parse.y"
 { mon_add_number_to_buffer(yyvsp[0].i); ;
     break;}
 case 151:
-#line 528 "mon_parse.y"
+#line 529 "mon_parse.y"
 { mon_add_string_to_buffer(yyvsp[0].str); ;
     break;}
 case 152:
-#line 531 "mon_parse.y"
+#line 532 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 153:
-#line 532 "mon_parse.y"
+#line 533 "mon_parse.y"
 { yyval.i = (monitor_cpu_type.mon_register_get_val)(reg_memspace(yyvsp[0].i), reg_regid(yyvsp[0].i)); ;
     break;}
 case 154:
-#line 535 "mon_parse.y"
+#line 536 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
 case 155:
-#line 536 "mon_parse.y"
-{ yyval.i = strtol(yyvsp[0].str, NULL, 10); ;
-    break;}
-case 156:
 #line 537 "mon_parse.y"
 { yyval.i = strtol(yyvsp[0].str, NULL, 10); ;
     break;}
-case 157:
+case 156:
 #line 538 "mon_parse.y"
 { yyval.i = strtol(yyvsp[0].str, NULL, 10); ;
     break;}
+case 157:
+#line 539 "mon_parse.y"
+{ yyval.i = strtol(yyvsp[0].str, NULL, 10); ;
+    break;}
 case 158:
-#line 541 "mon_parse.y"
+#line 542 "mon_parse.y"
 { yyval.i = resolve_datatype(B_NUMBER,yyvsp[0].str); ;
     break;}
 case 159:
-#line 542 "mon_parse.y"
+#line 543 "mon_parse.y"
 { yyval.i = resolve_datatype(O_NUMBER,yyvsp[0].str); ;
     break;}
 case 160:
-#line 543 "mon_parse.y"
+#line 544 "mon_parse.y"
 { yyval.i = resolve_datatype(D_NUMBER,yyvsp[0].str); ;
     break;}
 case 161:
-#line 546 "mon_parse.y"
-{ yyval.i = yyvsp[0].i; ;
-    break;}
-case 162:
 #line 547 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
-case 163:
+case 162:
 #line 548 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
-case 164:
+case 163:
 #line 549 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
-case 165:
+case 164:
 #line 550 "mon_parse.y"
 { yyval.i = yyvsp[0].i; ;
     break;}
+case 165:
+#line 551 "mon_parse.y"
+{ yyval.i = yyvsp[0].i; ;
+    break;}
 case 169:
-#line 558 "mon_parse.y"
+#line 559 "mon_parse.y"
 { yyval.i = 0;
                                                 if (yyvsp[-1].str) {
                                                     (monitor_cpu_type.mon_assemble_instr)(yyvsp[-1].str, yyvsp[0].i);
@@ -1943,18 +1944,18 @@ case 169:
                                               ;
     break;}
 case 171:
-#line 569 "mon_parse.y"
+#line 570 "mon_parse.y"
 { asm_mode = 0; ;
     break;}
 case 172:
-#line 572 "mon_parse.y"
+#line 573 "mon_parse.y"
 { if (yyvsp[0].i > 0xff)
                           yyval.i = join_ints(ASM_ADDR_MODE_IMMEDIATE_16,yyvsp[0].i);
                         else
                           yyval.i = join_ints(ASM_ADDR_MODE_IMMEDIATE,yyvsp[0].i); ;
     break;}
 case 173:
-#line 576 "mon_parse.y"
+#line 577 "mon_parse.y"
 { if (yyvsp[0].i < 0x100)
                yyval.i = join_ints(ASM_ADDR_MODE_ZERO_PAGE,yyvsp[0].i);
              else
@@ -1962,7 +1963,7 @@ case 173:
            ;
     break;}
 case 174:
-#line 581 "mon_parse.y"
+#line 582 "mon_parse.y"
 { if (yyvsp[-2].i < 0x100)
                             yyval.i = join_ints(ASM_ADDR_MODE_ZERO_PAGE_X,yyvsp[-2].i);
                           else
@@ -1970,7 +1971,7 @@ case 174:
                         ;
     break;}
 case 175:
-#line 586 "mon_parse.y"
+#line 587 "mon_parse.y"
 { if (yyvsp[-2].i < 0x100)
                             yyval.i = join_ints(ASM_ADDR_MODE_ZERO_PAGE_Y,yyvsp[-2].i);
                           else
@@ -1978,131 +1979,131 @@ case 175:
                         ;
     break;}
 case 176:
-#line 592 "mon_parse.y"
+#line 593 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,yyvsp[-1].i); ;
     break;}
 case 177:
-#line 594 "mon_parse.y"
+#line 595 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_INDIRECT_X,yyvsp[-3].i); ;
     break;}
 case 178:
-#line 596 "mon_parse.y"
+#line 597 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_INDIRECT_Y,yyvsp[-3].i); ;
     break;}
 case 179:
-#line 597 "mon_parse.y"
+#line 598 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_BC,0); ;
     break;}
 case 180:
-#line 598 "mon_parse.y"
+#line 599 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_DE,0); ;
     break;}
 case 181:
-#line 599 "mon_parse.y"
+#line 600 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_HL,0); ;
     break;}
 case 182:
-#line 600 "mon_parse.y"
+#line 601 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_IX,0); ;
     break;}
 case 183:
-#line 601 "mon_parse.y"
+#line 602 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_IY,0); ;
     break;}
 case 184:
-#line 602 "mon_parse.y"
+#line 603 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); ;
     break;}
 case 185:
-#line 604 "mon_parse.y"
+#line 605 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,yyvsp[-3].i); ;
     break;}
 case 186:
-#line 606 "mon_parse.y"
+#line 607 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,yyvsp[-3].i); ;
     break;}
 case 187:
-#line 608 "mon_parse.y"
+#line 609 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ABSOLUTE_IX,yyvsp[-3].i); ;
     break;}
 case 188:
-#line 610 "mon_parse.y"
+#line 611 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ABSOLUTE_IY,yyvsp[-3].i); ;
     break;}
 case 189:
-#line 611 "mon_parse.y"
+#line 612 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_IMPLIED,0); ;
     break;}
 case 190:
-#line 612 "mon_parse.y"
+#line 613 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); ;
     break;}
 case 191:
-#line 613 "mon_parse.y"
+#line 614 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_B,0); ;
     break;}
 case 192:
-#line 614 "mon_parse.y"
+#line 615 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_C,0); ;
     break;}
 case 193:
-#line 615 "mon_parse.y"
+#line 616 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_D,0); ;
     break;}
 case 194:
-#line 616 "mon_parse.y"
+#line 617 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_E,0); ;
     break;}
 case 195:
-#line 617 "mon_parse.y"
+#line 618 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_H,0); ;
     break;}
 case 196:
-#line 618 "mon_parse.y"
+#line 619 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IXH,0); ;
     break;}
 case 197:
-#line 619 "mon_parse.y"
+#line 620 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IYH,0); ;
     break;}
 case 198:
-#line 620 "mon_parse.y"
+#line 621 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_L,0); ;
     break;}
 case 199:
-#line 621 "mon_parse.y"
+#line 622 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IXL,0); ;
     break;}
 case 200:
-#line 622 "mon_parse.y"
+#line 623 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IYL,0); ;
     break;}
 case 201:
-#line 623 "mon_parse.y"
+#line 624 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_AF,0); ;
     break;}
 case 202:
-#line 624 "mon_parse.y"
+#line 625 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_BC,0); ;
     break;}
 case 203:
-#line 625 "mon_parse.y"
+#line 626 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_DE,0); ;
     break;}
 case 204:
-#line 626 "mon_parse.y"
+#line 627 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_HL,0); ;
     break;}
 case 205:
-#line 627 "mon_parse.y"
+#line 628 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IX,0); ;
     break;}
 case 206:
-#line 628 "mon_parse.y"
+#line 629 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_IY,0); ;
     break;}
 case 207:
-#line 629 "mon_parse.y"
+#line 630 "mon_parse.y"
 { yyval.i = join_ints(ASM_ADDR_MODE_REG_SP,0); ;
     break;}
 }
@@ -2303,7 +2304,7 @@ yyerrhandle:
   yystate = yyn;
   goto yynewstate;
 }
-#line 633 "mon_parse.y"
+#line 634 "mon_parse.y"
 
 
 void parse_and_execute_line(char *input)
@@ -2311,7 +2312,7 @@ void parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   temp_buf = (char *)xmalloc(strlen(input) + 3);
+   temp_buf = (char *)lib_malloc(strlen(input) + 3);
    strcpy(temp_buf,input);
    i = strlen(input);
    temp_buf[i++] = '\n';
