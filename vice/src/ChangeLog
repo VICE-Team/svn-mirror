@@ -1,3 +1,11 @@
+2002-07-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.57.
+
+2002-07-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* video/render1x2.c: Make yys depend on yt.
+
 2002-07-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.56.
