@@ -961,6 +961,20 @@ static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         msk_ptr = gfx_msk_ptr + VICII_RASTER_X(0) / 8
                   + ((sprite_offset - VICII_RASTER_X(0)
                   - vicii.raster.xsmooth) / 8);
+#if 0
+{
+   static int oldval = 0;
+   int newval;
+
+   newval = VICII_RASTER_X(0) / 8 + ((sprite_offset - VICII_RASTER_X(0)
+            - vicii.raster.xsmooth) / 8);
+
+   if (newval < oldval) {
+       oldval = newval;
+       log_debug("offset %i", newval);
+   }
+}
+#endif
         ptr = line_ptr + sprite_offset;
         lshift = (sprite_offset
                  - vicii.raster.xsmooth) & 0x7;

@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "lib.h"
 #include "raster-sprite-cache.h"
@@ -96,6 +97,9 @@ void raster_sprite_status_reset(raster_sprite_status_t *status)
 
     status->mc_sprite_color_1 = 0;
     status->mc_sprite_color_2 = 0;
+
+    memset(status->sprite_data_1, 0, sizeof(DWORD) * status->num_sprites);
+    memset(status->sprite_data_2, 0, sizeof(DWORD) * status->num_sprites);
 
     status->sprite_data = status->sprite_data_1;
     status->new_sprite_data = status->sprite_data_2;

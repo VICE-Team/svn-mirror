@@ -1,3 +1,57 @@
+2003-11-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.28.
+
+	* drive/drivecpu.c (drive_cpu_setup_context): Initialize CPU
+	status by using `lib_calloc'.
+
+	* gcr.c (gcr_create_image): Initialize GCR struct by using
+	`lib_calloc'.
+
+	* raster/raster-sprite-status.c (raster_sprite_status_init):
+
+	* raster/raster.c (raster_realize_frame_buffer): Clear fake
+	draw buffer line.
+
+	* raster/raster-cache.c (raster_cache_new): Initialize whole
+	cache.
+
+	* serial/serial-iec-device.c: Include `string.h' instead of
+	`ctype.h'.  (get_st): Fixed prototype.  Define
+	`serial_iec_device_log' only if debugging is enabled.
+
+	* iecbus/iecbus.c (iecbus_status_set): Removed hack.
+
+2003-11-19  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.{c,h}, arch/riscos/uiconfig.{c,h},
+	arch/riscos/uihelp.c, arch/riscos/uihelp.c,
+	arch/riscos/video.c: added support for four truedrives
+
+	* arch/riscos/uiconfig.c: added new drive ROM types
+
+	* fsdevice/fsdevice.c, fsdevice/fsdevice-close.c,
+	fsdevice/fsdevice-open.c, vdrive/vdrive.c: removed superfluous
+	RISC OS ui.h include
+
+2003-11-19  David Hansel  <hansel@reactive-systems.com>
+
+	* iecbus.h, iecbus/iecbus.c:  Added functions
+	BYTE iecbus_device_read(void);
+	int  iecbus_device_write(BYTE unit, BYTE data);
+	void (*iecbus_update_ports) (void);
+
+	* serial/serial-iec-device.c:  Inserted implementation
+	of iec bus protocol that serves as a medium between iecbus
+	and serial-iec-bus
+
+	* c64/c64iec.c, plus4/plus4iec.c:  In function
+	iec_update_ports, run "for" loop from 4-11 instead of 8-11
+
+	* c64/c64iec.c, vic20/vic20iec.c, plus4/plus4iec.c:
+	In function *iec_init(), initialize iecbus_update_ports
+	function pointer
+
 2003-11-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.27.
