@@ -327,9 +327,6 @@ struct vic_ii_s {
        not in idle state and thus do not need to update `idle_data'.  */
     vic_ii_idle_data_location_t idle_data_location;
 
-    /* Flag: Are the C128 extended keyboard rows enabled?  */
-    int extended_keyboard_rows_enabled;
-
     /* All the VIC-II logging goes here.  */
     log_t log;                  /* = LOG_ERR; */
 
@@ -395,6 +392,12 @@ struct vic_ii_s {
     idle_3fff_t *idle_3fff;
     unsigned int num_idle_3fff_old;
     idle_3fff_t *idle_3fff_old;
+
+    /* Flag: Enable VIC-IIe features.  */
+    unsigned int viciie;
+
+    /* VIC-IIe clock mode.  */
+    unsigned int fastmode;
 };
 typedef struct vic_ii_s vic_ii_t;
 
@@ -408,6 +411,8 @@ extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
 extern void vic_ii_resize(void);
 extern void vic_ii_handle_pending_alarms(int num_write_cycles);
 extern void vic_ii_raster_irq_alarm_handler(CLOCK offset);
+extern void vic_ii_delay_clk(void);
+extern void vic_ii_delay_oldclk(CLOCK num);
 
 /* Debugging options.  */
 

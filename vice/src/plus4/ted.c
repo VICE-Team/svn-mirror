@@ -128,8 +128,33 @@ static void ted_change_timing(void)
     }
 }
 
+static CLOCK old_maincpu_clk = 0;
+
+void ted_delay_oldclk(CLOCK num)
+{
+    old_maincpu_clk += num;
+}
+
+inline void ted_delay_clk(void)
+{
+    CLOCK diff;
+
+    /*log_debug("MCLK %d OMCLK %d", maincpu_clk, old_maincpu_clk);*/
+
+    if (ted.fastmode == 0) {
+        diff = maincpu_clk - old_maincpu_clk;
+        maincpu_steal_cycles(maincpu_clk, diff, 0);
+    }
+
+    old_maincpu_clk = maincpu_clk;
+
+    return;
+}
+
 inline void ted_handle_pending_alarms(int num_write_cycles)
 {
+    ted_delay_clk();
+
     if (num_write_cycles != 0) {
         int f;
 
@@ -147,13 +172,15 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk > ted.fetch_clk) {
-               ted_raster_fetch_alarm_handler(0);
-               f = 1;
+                ted_raster_fetch_alarm_handler(0);
+                f = 1;
+                ted_delay_clk();
             }
             if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler((long)(maincpu_clk
                                               - ted.draw_clk));
                 f = 1;
+                ted_delay_clk();
             }
         }
         while (f);
@@ -173,10 +200,12 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk >= ted.fetch_clk) {
                 ted_raster_fetch_alarm_handler(0);
                 f = 1;
+                ted_delay_clk();
             }
             if (maincpu_clk >= ted.draw_clk) {
                 ted_raster_draw_alarm_handler(0);
                 f = 1;
+                ted_delay_clk();
             }
         }
         while (f);
@@ -347,6 +376,8 @@ void ted_reset(void)
 
     ted.cursor_visible = 0;
     ted.cursor_phase = 0;
+
+    ted.fastmode = 1;
 }
 
 void ted_reset_registers(void)
