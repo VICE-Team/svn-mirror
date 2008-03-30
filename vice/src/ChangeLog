@@ -1,4 +1,116 @@
+Mon Aug 24 14:16:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.68.
+
+	* serial.c (serial_set_eof_callback): New function; specifies a
+ 	callback function for the EOF condition on `serialreceivebyte()'.
+	(serialreceivebyte): Call specified callback function on EOF.
+
+	* traps.c (traps_handler): Save the resume address into a
+ 	temporary value before calling the trap function; use the
+	temporary value instead of `p->trap->resume_address()'.  This way,
+	the trap function can even remove trap themselves.
+
+	* mon.c (mon_check_icount): If `MI_STEP' is set, disassemble the
+	current instruction.
+	(mon_delete_checkpoint): Do not free `bp' if NULL.
+
+	* fs_cbm.h: Removed `C1541_VERSION_MAJOR', `C1541_VERSION_MINOR'
+ 	#defines.
+	* c1541.c: Moved here.
+
+	* mon_parse.y: Parser error values incremented by 1.
+
+	* sound.h: #define `SOUND_ADJUST_FLEXIBLE',
+ 	`SOUND_ADJUST_ADJUSTING', `SOUND_ADJUST_EXACT'.
+	* arch/unix/xaw/uisettings.c: Use them instead of hardcoded
+	values.
+	* sound.c (sound_flush): Use them instead of hardcoded values.
+
+	* types.h: Typedef `SWORD' and `SDWORD'.
+
+	* sound.h: Removed `SWORD' and `SDWORD' typedefs.
+
+	* c64/sid.c (store_sid): RMW warning `#if 0'ed out.
+
+Mon Aug 24 12:37:24 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* via-tmpl.c (myviata): Removed incorrect fix by Ettore.
+	(reset_myvia): Initialize timer values to 0xff.
+
+Mon Aug 24 11:56:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon.c (mon_watch_push_load_addr): Removed `assert()'.
+	(mon_watch_push_store_addr): Removed `assert()'.
+
+	* 6510core.c (BRK): Removed bogus `INC_PC()'.
+
+	* maincpu.c (reset): Preserve the `IK_MONITOR' condition.
+
+	* 6510core.c (DO_INTERRUPT): No longer preserve the `IK_MONITOR'
+ 	condition.
+
+	* true1541/1541cpu.c (true1541_cpu_reset): Preserve the
+	`IK_MONITOR' condition.
+	(reset): Likewise.
+
+Sun Aug 23 18:51:37 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* arch/unix/xaw/uisettings.c (SoundSpeedAdjustment,
+ 	sound_settings_submenu, set_sound_adjustment_submenu,
+ 	sound_settings_submenu): Changed 'Speed adjustment' from toggle to
+ 	three-state radio button. States 0/1 are as earlier and new state
+ 	2 specifies exact 1:1 syncronization between soundcode and VICE
+ 	run speed.
+
+	* arch/unix/vsync.c (timer_patch, patch_timer,
+ 	update_elapsed_frames): Implemented VICE runspeed finetuning.
+  	VICE can go forward/backward one frame on request.  This is used
+ 	by exact 1:1 sound syncronization code.
+
+	* arch/unix/vsync.c (do_vsync): Use sound_flush() return value to
+	finetune VICE runspeed.
+
+	* sound.c (speed_adjustment_enabled, resources): Renamed to
+ 	'speed_adjustment_setting'.
+
+	* sound.c (set_speed_adjustment_enabled, resources): Renamed to
+	set_speed_adjustment_setting'.
+
+	* sound.c (cmdline_options): New option '-soundsync'.
+
+	* sound.c (sound_flush): Finetune VICE runspeed every second if
+ 	using new exact 1:1 sound syncronization.
+
+	* c64/sid.c (lastsidread): Store value read from SID last time.
+
+	* c64/sid.c (read_sid): Modified to store read value to
+ 	'lastsidread'.
+
+	* c64/sid.c (store_sid): Implement rmw -instructions.
+
+	* c64/sid.c (sid_reset): We have 32 registers, not 64.
+
+	* vic20/vic20sound.c: Major cleanup of obsolete code.
+
+	* c64/resid.cc: Modified to use reSID-0.3 interface.
+
+	* c64/resid.h (resid_sound_machine_open): New parameter (sid) model.
+
+	* c64/resid.cc (resid_sound_machine_open): Added chip selection.
+
+	* c64/sid.c (sid_useresid, set_sid_useresid, resources,
+ 	cmdline_options): Added new option 'SidUseResid'.
+
+	* c64/sid.c (cmdline_options, sound_machine_open): Use new
+ 	'SidUseResid' -option.
+
+	* arch/unix/xaw/c64ui.c (sid_model_submenu, SidUseResid,
+ 	sid_submenu): New toggle to use reSID.
+
 Sun Aug 23 18:35:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.67.
 
 	* mon_parse.y (parse_and_execute_line): Errors interrupt assembler
 	mode.
@@ -17,6 +129,8 @@ Sun Aug 23 18:35:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* c128/c128cpu.c (JAM): Use `reg_pc' instead of
 	`maincpu_cpu_regs.pc', which does not exist anymore.
 
+	* Version 0.14.2.66.
+
 Sun Aug 23 17:45:42 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* c64/cartridge.c (cartridge_attach_image): Do not detach
@@ -31,6 +145,8 @@ Sun Aug 23 16:28:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
  	mon_cmds'.
 
 Sun Aug 23 00:36:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.65.
 
 	* true1541/1541cpu.c (true1541_cpu_execute): Let the CPU use
 	`true1541_cpu_regs' instead of local copies of the registers.
@@ -125,7 +241,9 @@ Sun Aug 23 00:36:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* arch/msdos/menudefs.c (quit_callback): Removed Greeting message.
+	* Version 0.14.2.64.
+
+	* arch/msdos/menudefs.c (quit_callback): Removed greeting message.
 
 	* arch/msdos/ui.c (ui_exit): Set 25-line mode and print greeting
  	message (using `cprintf()' to avoid being logged).
@@ -147,6 +265,8 @@ Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/menudefs.c (quit_callback): Call `serial_remove(-1)'
 	before `log_disable()'.
+
+	* Version 0.14.2.63.
 
 	* 6510core.c (DO_INTERRUPT): Reset keeps `IK_MONITOR'.
 
@@ -177,6 +297,8 @@ Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.62.
+
 	* arch/unix/kbd.c (kbd_event_handler): Call `check_clr_joykeys()'
 	and `check_set_joykeys()' with the correct `joynum' parameter.
 	(check_clr_joykeys, check_set_joykeys): If neither of
@@ -190,7 +312,7 @@ Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	(kbd_flag_joykeys): Removed.
 
 	* arch/unix/joystick.c (joystick): Removed unnecessary operations
-	on `joy[1]'.
+ 	on `joy[1]'.
 
 	* arch/msdos/joystick.c (joystick_handle_key): Inverted `joy[1]'
 	and `joy[2]'.
@@ -214,6 +336,8 @@ Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/unix/xaw/uimenu.c (make_menu_label): Updated
 	`UI_HOTMOD_CTRL' -> `UI_HOTMOD_CONTROL'.
+
+	* Version 0.14.2.61.
 
 	* arch/unix/kbd.c (kbd_event_handler): Restore moded to
  	`XK_PageUp'.
@@ -263,6 +387,8 @@ Thu Aug 20 12:16:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
  	"SID Model" submenu.
 
 Wed Aug 19 12:03:19 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.60.
 
 	* arch/msdos/video.h (canvas_refresh): If we are busy doing a
 	previous flip, discard the frame.
@@ -321,6 +447,8 @@ Tue Aug 18 16:37:32 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	Added 4x oversampling.
 
 Mon Aug 17 13:33:31 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.59.
 
 	* arch/unix/xaw/uicommands.c (browse_manual): Open
  	`html/vice_toc.html' instead of `MANUAL.html' in `DOCDIR'.
@@ -420,7 +548,11 @@ Sat Aug 15 16:33:52 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 
 Sat Aug 15 15:18:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.58.
+
 	* sound.h: Fixed typo.
+
+	* Version 0.14.2.57.
 
 	* arch/msdos/tuifs.c (file_list_read_lfn): New function derived
  	from old `file_list_read()'; reads the directory with DJGPP's
@@ -553,6 +685,8 @@ Tue Aug 11 20:01:53 1998  Dag Lem  <resid@nimrod.no>
 
 Mon Aug 10 21:18:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.56.
+
 	* c128/c128.c (machine_init) [!__MSDOS__]: Call `c128_kbd_init()'
 	instead of `c64_kbd_init()'.
 
@@ -563,6 +697,8 @@ Mon Aug 10 21:18:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* arch/msdos/c128ui.c, arch/msdos/c128ui.h: New files.
 
 Tue Jul 28 00:08:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.55.
 
 	* main.c (MAIN_PROGRAM): Initialize joystick resources (even if
 	`JOYSTICK' is not #defined).
@@ -613,6 +749,8 @@ Mon Jul 27 11:30:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
  	`JOYDEV_NONE'.
 
 Sun Jul 26 01:52:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.54.
 
 	* sounddrv/soundallegro.c (allegro_resume): New function.
 
@@ -720,6 +858,8 @@ Sun Jul 26 01:52:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Sat Jul 25 03:08:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.53.
+
 	* vic20/vic20sound.c (sound_machine_calculate_samples): Call
  	`setup_sid()'; call `setup_voice()' on all of the 4 voices.  Type
  	of `o0', `o1', `o2', `o3' changed from WORD to `DWORD'.
@@ -740,6 +880,8 @@ Sat Jul 25 03:08:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* arch/msdos/vic20kbd.c: Likewise.
 
 Fri Jul 24 13:18:59 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.52.
 
 	* arch/msdos/kbd.c: New variable `freeze_function'; new command
  	`KCMD_FREEZE'.
@@ -874,6 +1016,8 @@ Thu Jul 23 16:51:05 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	according to the screen mode being set.
 
 Thu Jul 23 02:42:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.51.
 
 	* arch/msdos/tuifs.c (file_selector_display_path): New parameters
  	`x', `y', `width'.
@@ -1158,6 +1302,8 @@ Tue Jul 14 15:38:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Sun Jul 12 18:49:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.50.
+
 	* Makefile.am: Added `printer_ldadd' to `x64_DEPENDENCIES',
  	`x128_DEPENDENCIES', `xvic_DEPENDENCIES' and `xpet_DEPENDENCIES'
 
@@ -1171,6 +1317,8 @@ Fri Jul 10 23:37:04 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 	for KCS power cartridge too.
 
 Fri Jul 10 21:55:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.49.
 
 	* arch/msdos/joystick.c (joystick_init): Display joystick
 	initialization messages to the console (with `cprintf()') instead
@@ -1258,6 +1406,8 @@ Fri Jul 10 14:32:41 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
  	show all files.
 
 Thu Jul  9 14:09:52 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Version 0.14.2.48.
 
 	* arch/msdos/kbd.c: #Include "machine.h", replace
  	`maincpu_set_nmi()' with `machine_set_restore_key()' for the
@@ -1373,6 +1523,8 @@ Wed Jul  8 14:05:55 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 	* vic20/vic20mem.c (set_emu_id_enabled): Return valid value.
 
 Tue Jul  7 21:30:30 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.47.
 
 	* true1541/Makefile.am: Added dependencies to build `viad1.c' and
  	`viad2.c' from `viad1.def' and `viad2.def' respectively.
@@ -1636,6 +1788,8 @@ Mon Jun 29 14:20:42 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 Mon Jun 29 18:33:27 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.46.
+
 	* autostart.c (autostart_advance): Check for `READY.' in the
 	`AUTOSTART_LOADINGTAPE' case.
 
@@ -1669,6 +1823,8 @@ Mon Jun 29 00:00:29 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 	* drive.h: Changed likewise.
 
 Sun Jun 28 12:21:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.45.
 
 	* main.c [WIN32]: #include <fcntl.h> as on MS-DOS.
 
@@ -1779,6 +1935,8 @@ Sat Jun 27 19:05:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Thu Jun 25 10:37:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.44.
+
 	* Makefile.am (x64-all, x128-all, xvic-all, xpet-all): New
  	targets.
 
@@ -1861,6 +2019,8 @@ Tue Jun 23 15:12:50 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
  	instead.
 
 Mon Jun 22 21:40:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.43.
 
 	* c64/Makefile.am: Added `@RESID_INCLUDES@' to `INCLUDES'.  If the
  	`HAVE_RESID' conditional is true, link `libc64.a' and
@@ -2072,6 +2232,8 @@ Sun Jun 21 19:18:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Sat Jun 20 23:39:53 1998 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.14.2.42.
+
 	* arch/unix/xaw/uisettings.c: Added new menu entries to toggle
 	CBM file support.
 
@@ -2159,6 +2321,10 @@ Thu Jun 18 13:02:21 1998  Teemu Rantanen  <tvr@cs.hut.fi>
  	-device. Now this is identical to speed -device, but it's not a big
 	deal.
 
+Wed Jun 17 22:07:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.41.
+
 Wed Jun 17 13:59:22 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/coproc.c (sigignore): Renamed to ignore, do not
@@ -2177,6 +2343,8 @@ Wed Jun 17 13:59:22 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
  	timer alarm.
 
 Wed Jun 17 00:01:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.40.
 
 	* arch/unix/coproc.c: #include <sys/types.h>
 
@@ -2211,6 +2379,10 @@ Tue Jun 16 21:51:01 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* petcat.c: #define `PETCATVERSION' and `PETCATLEVEL'; do not
 	#include "patchlevel.h"
+
+Tue Jun 16 18:49:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.39.
 
 Mon Jun 15 23:55:43 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
@@ -2280,6 +2452,8 @@ Mon Jun 15 23:55:43 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 Sun Jun 14 21:25:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.38.
+
 	* pet/crtc.c (crtc_set_screen_mode): Set `memptr_inc' according to
  	the new video width; resize the width of the window proportionally
  	to the change in the number of columns if not in double size mode
@@ -2344,6 +2518,8 @@ Sun Jun 14 19:48:20 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 	(pet_set_model): Fix to use keymap index.
 
 Sun Jun 14 18:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.37.
 
 	* arch/msdos/menudefs.c (create_special_submenu): New parameter
  	`has_serial_traps'.  If nonzero, add the `Remove serial traps'
@@ -2456,6 +2632,8 @@ Fri Jun 12 23:58:16 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 Fri Jun 12 17:47:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.36.
+
 	* fsdevice.c (flush_fs, open_fs, read_fs): Put a '/' after the
  	device-specific path.
 	(fs_test_pc64_name, fs_find_pc64_name): Likewise.
@@ -2524,6 +2702,8 @@ Wed Jun 10 22:26:59 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 	* pet/pets.h: New format of `struct PetInfo'.
 
 Mon Jun  8 11:08:16 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.35.
 
 	* maincpu.c: Use `mem_rom_trap_allowed()' instead of the removed
  	`rom_trap_allowed()'.
@@ -2612,6 +2792,8 @@ Sun Jun  7 22:19:16 1998  Andreas Boose  <unixserv@linux.rz.fh-hannover.de>
 	for cartridge support.
 
 Sun Jun  7 11:40:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.34.
 
 	* c128/c128mem.c (store_mmu): Set the VIC-II video-bank base
 	according to bits 7 and 6 stored to $D506.

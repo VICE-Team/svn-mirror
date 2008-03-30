@@ -707,7 +707,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=0.14.2.67
+VERSION=0.14.2.68
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -1723,8 +1723,8 @@ if test x"$with_resid" != "xno" -a x"$with_resid" != "x"; then
      echo "Cannot find \`$with_resid/include/resid/sid.h', giving up."
      exit 1
    fi
-   if test ! -f "$with_resid/lib/libmos6581.a"; then
-     echo "Cannot find \`$with_resid/lib/libmos6581.a', giving up."
+   if test ! -f "$with_resid/lib/libresid.a"; then
+     echo "Cannot find \`$with_resid/lib/libresid.a', giving up."
      exit 1
    fi
    for ac_prog in $CCC c++ g++ gcc CC cxx cc++
@@ -1863,7 +1863,7 @@ fi
 #define HAVE_RESID 1
 EOF
 
-   RESID_LIBS="$with_resid/lib/libmos6581.a"
+   RESID_LIBS="$with_resid/lib/libresid.a"
    RESID_INCLUDES="-I$with_resid/include"
    
 

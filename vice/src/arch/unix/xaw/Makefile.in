@@ -339,15 +339,16 @@ uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h ../../../../src/resources.h \
-	../../../../src/arch/unix/vsync.h \
+	uihotkey.h ../../../../src/fsdevice.h \
+	../../../../src/arch/unix/kbd.h ../../../../src/resources.h \
+	../../../../src/sound.h ../../../../src/warn.h \
 	../../../../src/true1541/true1541.h ../../../../src/drive.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/true1541/1541cpu.h \
 	../../../../src/mos6510.h ../../../../src/mon.h \
 	../../../../src/mem.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/fsdevice.h ../../../../src/arch/unix/kbd.h
+	../../../../src/arch/unix/vsync.h
 vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/types.h \
 	../../../../src/arch/unix/joystick.h \

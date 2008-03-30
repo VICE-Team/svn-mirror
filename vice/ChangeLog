@@ -1,3 +1,7 @@
+Mon Aug 24 18:17:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.68.
+
 Sun Aug 23 15:24:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.67.
@@ -11,6 +15,10 @@ Sat Aug 22 21:20:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* Version 0.14.2.64.
 
 	* Version 0.14.2.63.
+
+Fri Aug 21 23:53:02 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* configure.in: reSID library name changed to libresid.a (resid-0.3).
 
 Fri Aug 21 22:48:14 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

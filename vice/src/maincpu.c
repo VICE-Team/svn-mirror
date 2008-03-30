@@ -214,12 +214,19 @@ inline static void evaluate_speed(unsigned long clk)
 
 static void reset(void)
 {
+    int preserve_monitor;
+
+    preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
+
     printf("Main CPU: RESET\n");
 
     serial_reset();
 
     cpu_int_status_init(&maincpu_int_status,
 			NUMOFALRM, NUMOFINT, &last_opcode_info);
+
+    if (preserve_monitor)
+        monitor_trap_on(&maincpu_int_status);
 
     /* Do machine-specific initialization.  */
     machine_reset();

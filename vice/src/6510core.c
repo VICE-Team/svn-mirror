@@ -212,8 +212,6 @@
             if (ik & IK_RESET) {                                        \
                 ack_reset(&CPU_INT_STATUS);                             \
                 reset();                                                \
-                if (ik & IK_MONITOR)                                    \
-                    monitor_trap_on(&CPU_INT_STATUS);                   \
                 JUMP(LOAD_ADDR(0xfffc));                                \
             }                                                           \
         }                                                               \
@@ -527,7 +525,6 @@
           LOCAL_SET_INTERRUPT(1);                               \
           JUMP(LOAD_ADDR(0xfffe));                              \
       } else {                                                  \
-          INC_PC(2);                                            \
           IMPORT_REGISTERS();                                   \
       }                                                         \
   } while (0)

@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.67)
+AM_INIT_AUTOMAKE(vice, 0.14.2.68)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -142,13 +142,13 @@ if test x"$with_resid" != "xno" -a x"$with_resid" != "x"; then
      echo "Cannot find \`$with_resid/include/resid/sid.h', giving up."
      exit 1
    fi
-   if test ! -f "$with_resid/lib/libmos6581.a"; then
-     echo "Cannot find \`$with_resid/lib/libmos6581.a', giving up."
+   if test ! -f "$with_resid/lib/libresid.a"; then
+     echo "Cannot find \`$with_resid/lib/libresid.a', giving up."
      exit 1
    fi
    AC_PROG_CXX
    AC_DEFINE(HAVE_RESID)
-   RESID_LIBS="$with_resid/lib/libmos6581.a"
+   RESID_LIBS="$with_resid/lib/libresid.a"
    RESID_INCLUDES="-I$with_resid/include"
    AM_CONDITIONAL(HAVE_RESID, true)
 else
