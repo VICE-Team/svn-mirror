@@ -152,7 +152,7 @@ static int mem_config;
 static unsigned int mem_machine_type;
 
 /* Logging goes here.  */
-static log_t c128_mem_log = LOG_ERR;
+static log_t c128_mem_log = LOG_DEFAULT;
 
 /* Status of the CAPS key (ASCII/DIN).  */
 static int caps_sense = 1;
@@ -707,8 +707,8 @@ void mem_initialize_memory(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[3];
     mem_read_limit_tab_ptr = mem_read_limit_tab[3];
 
-    pport.data = 0x37;
-    pport.dir = 0x2f;
+    c64pla_pport_reset();
+
     cartridge_init_config();
 }
 

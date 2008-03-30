@@ -1,3 +1,24 @@
+2003-06-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.9.
+
+	* event.c, event.h: Added support for reset start mode.
+
+	* machine.c (machine_reset): Ack event reset.
+
+	* monitor/mon_register6502.c, monitor/mon_registerz80.c
+	(mon_register_print): Limit address.
+
+	* c64/c64mem.c, c128/c128mem.c (mem_initialize_memory): Call
+	`c64pla_pport_reset()'.
+
+	* c64/c64pla.c c64/c64pla.h (c64pla_pport_reset): Reset
+	processor port to zero.
+
+	* arch/unix/cbm2ui.c [cbm2_menu]: Use `CrtcMenu'.
+
+	* arch/unix/x11/video.c, arch/unix/x11/dga2.c: Fixed warnings.
+
 2003-06-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.8.

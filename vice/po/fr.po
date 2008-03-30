@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.11\n"
-"POT-Creation-Date: 2003-06-24 15:25+0200\n"
+"POT-Creation-Date: 2003-06-29 19:25+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2851,16 +2851,16 @@ msgstr ""
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:286
+#: src/arch/unix/x11/video.c:280
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:284
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:356
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr ""
 

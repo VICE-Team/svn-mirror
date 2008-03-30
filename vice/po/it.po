@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-06-24 15:25+0200\n"
+"POT-Creation-Date: 2003-06-29 19:25+0200\n"
 "PO-Revision-Date: 2003-05-14 19:56+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2826,16 +2826,16 @@ msgstr "Richiede il formato YUV FOURCC"
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Imposta il rapporto di formato (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:286
+#: src/arch/unix/x11/video.c:280
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'estensione MITSHM non è supportata su questo display."
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:284
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/video.c:356
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 

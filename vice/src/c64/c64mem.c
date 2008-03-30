@@ -322,10 +322,6 @@ void mem_initialize_memory(void)
 
     mem_limit_init(mem_read_limit_tab);
 
-/*
-    if (c64_mem_log == LOG_ERR)
-        c64_mem_log = log_open("C64MEM");
-*/
     /* Default is RAM.  */
     for (i = 0; i <= 0x100; i++) {
         mem_read_tab_watch[i] = read_watch;
@@ -446,8 +442,7 @@ void mem_initialize_memory(void)
         }
     }
 
-    pport.data = 0x37;
-    pport.dir = 0x2f;
+    c64pla_pport_reset();
     export.exrom = 0;
     export.game = 0;
 
