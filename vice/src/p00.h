@@ -43,7 +43,8 @@ extern int p00_read_header(FILE * fd, BYTE *cbmname_return,
                            unsigned int *recsize_return);
 extern int p00_write_header(FILE * fd, BYTE *cbmname, BYTE recsize);
 
-extern struct fileio_info_s *p00_info(const char *file_name);
+extern struct fileio_info_s *p00_info(const char *file_name, const char *path,
+                                      unsigned int command);
 
 #endif
 
