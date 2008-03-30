@@ -89,7 +89,7 @@ inline static void update_sprite_collisions(raster_t *raster)
                                          raster->zero_gfx_msk);
 }
 
-inline static void handle_blank_line(raster_t *raster)
+static void handle_blank_line(raster_t *raster)
 {
     /* Changes... Should/could be handled better.  */
     if (raster->changes.have_on_this_line) {
@@ -229,9 +229,9 @@ inline static void fill_background(raster_t *raster)
     }
 }
 
-inline static int check_for_major_changes_and_update(raster_t *raster,
-                                                   unsigned int *changed_start,
-                                                   unsigned int *changed_end)
+static int check_for_major_changes_and_update(raster_t *raster,
+                                              unsigned int *changed_start,
+                                              unsigned int *changed_end)
 {
     raster_cache_t *cache;
     unsigned int video_mode;
@@ -392,7 +392,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
     }
 }
 
-inline static void handle_visible_line_with_changes(raster_t *raster)
+static void handle_visible_line_with_changes(raster_t *raster)
 {
     unsigned int i;
     int xs, xstop, old_draw_idle_state, old_video_mode;
@@ -465,9 +465,9 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
         raster_changes_apply(&raster->changes.sprites, i);
     }
     if (xs <= (int)(geometry->screen_size.width 
-                    + geometry->extra_offscreen_border_right) - 1)
+        + geometry->extra_offscreen_border_right) - 1)
         draw_sprites_partial(raster, xs, geometry->screen_size.width 
-                                + geometry->extra_offscreen_border_right - 1);
+                             + geometry->extra_offscreen_border_right - 1);
 #endif
 
     /* Draw left border.  */
