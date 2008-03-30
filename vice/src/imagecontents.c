@@ -45,6 +45,51 @@ void image_contents_free(image_contents_t *contents)
     free(contents);
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* This code is used to check whether the directory is circular.  It should
+   be replaced by a more simple check that just stops if the number of
+   entries is bigger than expected, but this needs some support in `vdrive.c'
+   which we currently do not have (yet).  */
+
+static struct {
+    unsigned int track;
+    unsigned int sector;
+} *block_list = NULL;
+
+unsigned int block_list_nelems;
+unsigned int block_list_size;
+
+static void circular_check_init(void)
+{
+    block_list_nelems = 0;
+}
+
+static int circular_check(unsigned int track, unsigned int sector)
+{
+    int i;
+
+    for (i = 0; i < block_list_nelems; i++)
+        if (block_list[i].track == track && block_list[i].sector == sector)
+            return 1;
+
+    if (block_list_nelems == block_list_size) {
+        if (block_list_size == 0) {
+            block_list_size = 512;
+            block_list = xmalloc(sizeof(*block_list) * block_list_size);
+        } else {
+            block_list_size *= 2;
+            block_list = xrealloc(block_list,
+                                  sizeof(*block_list) * block_list_size);
+        }
+    }
+
+    block_list[block_list_nelems].track = track;
+    block_list[block_list_nelems++].sector = sector;
+
+    return 0;
+}
+
 /* ------------------------------------------------------------------------ */
 
 /* Disk contents.  */
@@ -125,7 +170,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         return NULL;
 
     retval = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                               floppy->bam, DSK_BAM_TRACK, DSK_BAM_SECTOR,
+                               floppy->bam, BAM_TRACK_1541, BAM_SECTOR_1541,
                                floppy->D64_Header);
     if (retval < 0) {
         zclose(floppy->ActiveFd);
@@ -135,10 +180,10 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 
     new = xmalloc(sizeof(image_contents_t));
 
-    memcpy(new->name, floppy->bam + BAM_DISK_NAME, IMAGE_CONTENTS_NAME_LEN);
+    memcpy(new->name, floppy->bam + BAM_NAME_1541, IMAGE_CONTENTS_NAME_LEN);
     new->name[IMAGE_CONTENTS_NAME_LEN] = 0;
 
-    memcpy(new->id, floppy->bam + BAM_DISK_ID, IMAGE_CONTENTS_ID_LEN);
+    memcpy(new->id, floppy->bam + BAM_ID_1541, IMAGE_CONTENTS_ID_LEN);
     new->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
     new->blocks_free = floppy_free_block_count(floppy);
@@ -148,6 +193,8 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 
     lp = NULL;
     new->file_list = NULL;
+
+    circular_check_init();
 
     while (1) {
         BYTE *p;
@@ -159,7 +206,9 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                                    floppy->Curr_track,
                                    floppy->Curr_sector,
                                    floppy->D64_Header);
-        if (retval < 0) {
+
+        if (retval < 0
+            || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
             image_contents_free(new);
             zclose(floppy->ActiveFd);
             free(floppy);

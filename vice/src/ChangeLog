@@ -1,3 +1,119 @@
+1998-11-22  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* imagecontents.c (circular_check, circular_check_init): New
+	functions to check for a circular block chain.
+	(image_contents_read_disk): Use them, and return NULL if the
+	directory is circular.
+
+	* arch/msdos/tuifs.c (tui_file_selector): Do not call the
+ 	`contents_func' if the file is a directory.
+	(tui_file_selector): Border color changed from `MENU_FORE' to
+ 	`MENU_BORDER'.
+	(file_selector_display_path): Likewise.
+
+	* arch/msdos/tuiimagebrowser.c: #include "cbmcharsets.h".
+	(display_item): Display using the PETSCII -> charset conversion.
+	(tui_image_browser): Backspace switches charset.
+
+	* arch/msdos/ui.c (ui_main): Setup CBM graphics charset.
+
+	* c64/vicii.c (turn_sprite_dma_on): Do not reset DMA if already
+ 	turned on.
+
+1998-11-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/msdos/Makefile.am: Added `archdefs.h' to
+	`libarch_a_SOURCES'.
+	* arch/unix/Makefile.am: Likewise.
+
+	* arch/win32/Makefile.am: Added `archdefs.h', `uivicii.h' and
+	`uivicii.c' to`libarch_a_SOURCES'.
+
+	* arch/msdos/archdefs.h: New file.
+	* arch/unix/archdefs.h: New file.
+	* arch/win32/archdefs.h: New file.
+
+	* arch/win32/c128ui.c (c128_ui_specific): New function.
+	(c128_ui_init): Register c128 specific UI.
+
+	* arch/win32/c64ui.c (c64_ui_specific): Added call to VIC-II UI
+	dialog.
+
+	* arch/win32/resc64.h, arch/win32/resc64.r: Added new menu items
+	for VIC-II settings.
+
+	* arch/win32/ui.c (ui_message): Use correct icon.
+	(handle_wm_command) [IDM_SETTINGS_LOAD]: Fixed typo.
+
+	* arch/win32/uiattach.h: #include <windows.h>.
+
+	* arch/win32/uisnapshot.c (ui_snapshot_save_dialog_proc): Added
+	handling for `OK' and `Cancel' button.  (ui_snapshot_save_dialog):
+	Use a simple dialog box instead of a property sheet.
+
+	* arch/win32/uivicii.c: New file.
+	* arch/win32/uivicii.h: New file.
+
+	* fsdevice.c: Moved architecture dependant filesystem operators to
+	`archdefs.h'.
+
+	* resources.c: Moved architecture dependant resource file name to
+	`archdefs.h'.
+
+	* vdrive.c (check_header): Use `image_size' for all architectures.
+
+1998-11-19  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/cbmcharsets.c: New file.
+
+	* arch/msdos/tuicharset.c: New file.
+
+	* arch/msdos/tuicharset.h: New file.
+
+1998-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/msdos/c64ui.c (attach_cartridge_submenu_items): Added menu
+	entry for Super Snapshot cartridge.
+
+	* arch/msdos/menudefs.c (drive_settings_submenu): Fixed length
+	of menu entries.
+
+	* arch/win32/Makefile.am: Set include directories for `windres'.
+	
+	* arch/win32/resc64.r: Include "config.h" instead of
+	"../../config.h".
+
+	* c1541.c: Use 1541 specific drive constants.
+	* imagecontents.c: Likewise.
+	* vdrive.c: Likewise.
+
+	* drive/drivecpu-tmpl.c (mydrive_jam): Fixed drive jam dialog.
+
+	* drive/via1drive0.def (READ_PRA) [DRIVE_TYPE_1571]: Rotate disk
+	to update the byte ready status.
+	* drive/via1drive1.def: Likewise.
+
+	* fs_cbm.h: Define 1541, 1571 and 1581 drive constants.
+
+	* vdrive.c (initialize_1541): Use xmalloc.
+	(floppy_read_bam, set_disk_geometry): Made 1571 and 1581 aware.
+
+	* vdrive.h: Added `bam_name' and `bam_id' to struct DRIVE.  Set max
+	BAM size to 3 blocks.  Removed unused macros.
+
+1998-11-18  Tibor Biczo <crown@mail.matav.hu>
+
+	* Makefile.am: Added x64_LDFLAGS, x128_LDFLAGS, xvic_LDFLAGS,
+        xpet_LDFLAGS, xcbm2_LDFLAGS variables.
+        Included X64_WINRES, X128_WINRES, XVIC_WINRES, XPET_WINRES,
+        XCBM2_WINRES in appropriate xxx_LDADD.
+
+1998-11-18  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/ui.c (ui_exit): Exit with a zero error code.
+
+	* main.c: `-help', `-?' and `-default' do not need a parameter.
+
 1998-11-17  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.28.
