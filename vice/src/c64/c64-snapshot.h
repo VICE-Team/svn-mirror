@@ -1,5 +1,5 @@
 /*
- * c64-snapshot.h -- C64 snapshot handling.
+ * c64-snapshot.h - C64 snapshot handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,13 +24,12 @@
  *
  */
 
-#ifndef _C64SNAPSHOT_H
-#define _C64SNAPSHOT_H
+#ifndef _C64_SNAPSHOT_H
+#define _C64_SNAPSHOT_H
 
-struct snapshot_s;
-
-extern int c64_snapshot_write_module(struct snapshot_s *s, int save_roms);
-extern int c64_snapshot_read_module(struct snapshot_s *s);
+extern int c64_snapshot_write(const char *name, int save_roms, int save_disks,
+                              int event_mode);
+extern int c64_snapshot_read(const char *name, int event_mode);
  
 #endif
 

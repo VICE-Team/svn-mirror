@@ -1,5 +1,5 @@
 /*
- * c128-snapshot.h - C128 snapshot handling.
+ * c64memsnapshot.h - C64 memory snapshot handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,13 @@
  *
  */
 
-#ifndef _C128SNAPSHOT_H
-#define _C128SNAPSHOT_H
+#ifndef _C64MEMSNAPSHOT_H
+#define _C64MEMSNAPSHOT_H
 
-extern int c128_snapshot_write(const char *name, int save_roms, int save_disks,
-                               int event_mode);
-extern int c128_snapshot_read(const char *name, int event_mode);
+struct snapshot_s;
 
+extern int c64_snapshot_write_module(struct snapshot_s *s, int save_roms);
+extern int c64_snapshot_read_module(struct snapshot_s *s);
+ 
 #endif
 

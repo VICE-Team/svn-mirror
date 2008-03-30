@@ -32,6 +32,8 @@ libc128_a_SOURCES = \
 	c128meminit.h \
 	c128memlimit.c \
 	c128memlimit.h \
+	c128memsnapshot.c \
+	c128memsnapshot.h \
 	c128mmu.c \
 	c128mmu.h \
 	c128rom.c \
