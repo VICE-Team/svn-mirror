@@ -282,7 +282,11 @@ void autostart_advance(void)
             {
                 int traps;
 
-                log_message(autostart_log, "Loading program.");
+                if (autostart_program_name)
+                    log_message(autostart_log, "Loading program '%s'",
+                                autostart_program_name);
+                else
+                    log_message(autostart_log, "Loading program '*'");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
                     resources_get_value("VirtualDevices",
@@ -301,12 +305,14 @@ void autostart_advance(void)
                 } else
                     traps = 1;
 
-                if (autostart_program_name) {
-                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
-                    kbd_buf_feed(tmp);
-                    free(tmp);
-                } else
-                    kbd_buf_feed("LOAD\"*\",8,1\r");
+                if (autostart_program_name)
+                    tmp = xmsprintf("LOAD\"%s\",8,1\r",
+                                    autostart_program_name);
+                else
+                    tmp = xmsprintf("LOAD\"*\",8,1\r", autostart_program_name);
+
+                kbd_buf_feed(tmp);
+                free(tmp);
 
                 if (!traps) {
                     kbd_buf_feed("RUN\r");
@@ -344,19 +350,21 @@ void autostart_advance(void)
 static int autostart_ignore_reset = 0;
 
 /* Clean memory and reboot for autostart.  */
-static void reboot_for_autostart(const char *program_name)
+static void reboot_for_autostart(const char *program_name, int mode)
 {
     if (!autostart_enabled)
 	return;
 
-    log_message(autostart_log, "Resetting the machine...");
-
+    log_message(autostart_log, "Resetting the machine to autostart '%s'", program_name?program_name:"*");
     mem_powerup();
     autostart_ignore_reset = 1;
-    maincpu_trigger_reset();
     deallocate_program_name();
     if (program_name)
 	autostart_program_name = (BYTE *)stralloc(program_name);
+    maincpu_trigger_reset();
+    /* The autostartmode must be set AFTER the shutdown to make the autostart
+     threadsafe for OS/2 */
+    autostartmode=mode;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -379,8 +387,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
-    autostartmode = AUTOSTART_HASSNAPSHOT;
-    reboot_for_autostart(file_name);	/* use for snapshot */
+    reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT);	/* use for snapshot */
 
     return 0;
 }
@@ -392,35 +399,37 @@ int autostart_tape(const char *file_name, const char *program_name,
     if (file_name == NULL || !autostart_enabled)
 	return -1;
 
-    if (tape_attach_image(file_name) < 0) {
-	autostartmode = AUTOSTART_ERROR;
-	deallocate_program_name();
-	return -1;
-    }
+    if (tape_attach_image(file_name) >= 0)
+    {
+        log_message(autostart_log, "Attached file `%s' as a tape image.",
+                    file_name);
 
-    log_message(autostart_log, "Attached file `%s' as a tape image.",
-                file_name);
-    autostartmode = AUTOSTART_HASTAPE;
+        if (program_name == NULL && program_number > 0) {
+            char *number_name;
 
-    if (program_name == NULL && program_number > 0) {
-        char *number_name;
-
-        number_name = image_contents_tape_filename_by_number(file_name,
-                                                             program_number);
-
-        if (number_name == NULL) {
-            autostartmode = AUTOSTART_ERROR;
-            deallocate_program_name();
-            return -1;
+            /* If we don't close the file here we cannot access it to get the image
+             contents because the file is open (OS/2) */
+            tape_detach_image();
+            number_name = image_contents_tape_filename_by_number(file_name,
+                                                                 program_number);
+            if (number_name)
+            {
+                tape_attach_image(file_name);
+                reboot_for_autostart(number_name, AUTOSTART_HASTAPE);
+                free (number_name);
+                return 0;
+            }
         }
-
-        reboot_for_autostart(number_name);
-        free (number_name);
-    } else {
-        reboot_for_autostart(program_name);
+        else
+        {
+            reboot_for_autostart(program_name, AUTOSTART_HASTAPE);
+            return 0;
+        }
     }
 
-    return 0;
+    autostartmode = AUTOSTART_ERROR;
+    deallocate_program_name();
+    return -1;
 }
 
 /* Autostart disk image `file_name'.  */
@@ -430,37 +439,36 @@ int autostart_disk(const char *file_name, const char *program_name,
     if (file_name == NULL || !autostart_enabled)
 	return -1;
 
-    if (file_system_attach_disk(8, file_name) < 0) {
-	file_system_detach_disk(8);
-	autostartmode = AUTOSTART_ERROR;
-	deallocate_program_name();
-	return -1;
-    }
-
-    log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
-                file_name);
-
-    autostartmode = AUTOSTART_HASDISK;
-
-    if (program_name == NULL && program_number > 0) {
-        char *number_name;
-
-        number_name = image_contents_disk_filename_by_number(file_name,
-                                                             program_number);
-
-        if (number_name == NULL) {
+    if (file_system_attach_disk(8, file_name) >= 0)
+    {
+        if (program_name == NULL && program_number > 0)
+        {
+            char *number_name;
+            /* If we don't close the file here we cannot access it to get the image
+             contents because the file is open (OS/2) */
             file_system_detach_disk(8);
-            autostartmode = AUTOSTART_ERROR;
-            deallocate_program_name();
-            return -1;
+            number_name=image_contents_disk_filename_by_number(file_name,
+                                                                     program_number);
+            if (number_name)
+            {
+                file_system_attach_disk(8, file_name);
+                log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
+                            file_name);
+                reboot_for_autostart(number_name, AUTOSTART_HASDISK);
+                free (number_name);
+                return 0;
+            }
         }
-
-        reboot_for_autostart(number_name);
-        free (number_name);
-    } else {
-        reboot_for_autostart(program_name);
+        else
+        {
+            reboot_for_autostart(program_name, AUTOSTART_HASDISK);
+            return 0;
+        }
     }
-    return 0;
+
+    autostartmode = AUTOSTART_ERROR;
+    deallocate_program_name();
+    return -1;
 }
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
@@ -538,8 +546,7 @@ int autostart_prg(const char *file_name)
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
-    autostartmode = AUTOSTART_HASDISK;
-    reboot_for_autostart(cbm_name);
+    reboot_for_autostart(cbm_name, AUTOSTART_HASDISK);
 
     free(directory);
     free(file);
@@ -599,18 +606,14 @@ int autostart_device(int num)
 	return -1;
 
     switch (num) {
-      case 8:
-        autostartmode = AUTOSTART_HASDISK;
-        break;
-      case 1:
-        autostartmode = AUTOSTART_HASTAPE;
-        break;
-      default:
-        return -1;
+    case 8:
+        reboot_for_autostart(NULL, AUTOSTART_HASDISK);
+        return 0;
+    case 1:
+        reboot_for_autostart(NULL, AUTOSTART_HASTAPE);
+        return 0;
     }
-
-    reboot_for_autostart(NULL);
-    return 0;
+    return -1;
 }
 
 /* Disable autostart on reset.  */
