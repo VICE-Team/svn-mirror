@@ -112,12 +112,11 @@ static int tape_control_status = -1;
 static GtkWidget *drive8menu, *drive9menu, *tape_menu;
 static GtkWidget *status_bar;
 static GdkCursor *blankCursor;
-static GtkWidget *image_preview_list;
+static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static char *(*current_image_contents_func)(const char *);
 static GdkFont *fixedfont;
 /* FIXME, ask Xresources here */
 static char *fixedfontname="-*-lucidatypewriter-medium-r-*-*-12-*";	
-static char *current_image_contents;
 
 static int cursor_is_blank = 0;
 
@@ -975,55 +974,7 @@ void update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
 
 static void filesel_autostart_cb(GtkWidget *w, gpointer data)
 {
-    GList *selected, *tmp;
-    char *s, *t1, *t2;
-    int num;
-    int found = FALSE;
-    
     *((ui_button_t *)data) = UI_BUTTON_AUTOSTART;
-
-    g_return_if_fail(GTK_IS_LIST(image_preview_list));
-    
-    if (current_image_contents == NULL)
-	return;
-    
-    selected = GTK_LIST(image_preview_list)->selection;
-    if (! selected || !selected->data)
-	return;
-
-    g_return_if_fail(GTK_IS_LIST_ITEM(selected->data));
-    tmp = gtk_container_children(GTK_CONTAINER(selected->data));
-    gtk_label_get(GTK_LABEL(tmp->data), &s);
-
-    /* now find program number from earlier read contents */
-    num = 0;
-    t1 = t2 = current_image_contents;
-    t1 = find_next_line(NULL, t2);
-    while (t1 > t2)
-    {
-	*(t1 - 1) = '\0';
-	if (strcmp(t2, s) == 0)
-	{
-	    found = TRUE;
-	    break;
-	}
-	num++;
-	t2 = t1;
-	t1 = find_next_line(NULL, t2);
-    }
-
-    if (found == FALSE)
-    {
-	/* last line without \n */
-	if (strcmp(t1, s) == 0)
-	    ui_set_selected_file(num);
-    }
-    else
-	ui_set_selected_file(num);
-
-    free(current_image_contents);
-    current_image_contents = NULL;
-    printf("autostart-select: `%s', %d.\n", s, num);
 }
 
 
@@ -2224,7 +2175,7 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 
 /* ------------------------------------------------------------------------- */
 
-/* Report an error to the user.  */
+/* Message Helper */
 static void ui_message2(const char *type, const char *msg, const char *title)
 {
     static GtkWidget* msgdlg;
@@ -2279,9 +2230,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
     char str[1024];
     va_list ap;
-    static GtkWidget *jam_dialog, *message, *buttonw;
-    static ui_button_t button;
-
+    static GtkWidget *jam_dialog, *message;
+    gint res;
     
     va_start(ap, format);
 
@@ -2297,67 +2247,43 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	return UI_JAM_HARD_RESET;
     }
 
-    jam_dialog = gtk_dialog_new();
-
-    ui_make_window_transient(_ui_top_level,jam_dialog);
+    jam_dialog = gnome_dialog_new("", "Reset", "Hard Reset", "Monitor", NULL);
+    gtk_signal_connect(GTK_OBJECT(jam_dialog),
+		       "destroy",
+		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+		       &jam_dialog);
 
     vsprintf(str, format, ap);
     message = gtk_label_new(str);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->vbox),
-		       message,TRUE,TRUE,0);
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(jam_dialog)->vbox),
+		       message, TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(message);
-
-    buttonw = gtk_button_new_with_label("RESET");
-    gtk_signal_connect(GTK_OBJECT(buttonw),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_RESET),
-		       (gpointer) &button);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->action_area),
-		       buttonw,TRUE,TRUE,0);
-    gtk_widget_show(buttonw);
-
-    buttonw = gtk_button_new_with_label("HARDRESET");
-    gtk_signal_connect(GTK_OBJECT(buttonw),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_HARDRESET),
-		       (gpointer) &button);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->action_area),
-		       buttonw,TRUE,TRUE,0);
-    gtk_widget_show(buttonw);
-
-    buttonw = gtk_button_new_with_label("Monitor");
-    gtk_signal_connect(GTK_OBJECT(buttonw),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_MON),
-		       (gpointer) &button);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->action_area),
-		       buttonw,TRUE,TRUE,0);
-    gtk_widget_show(buttonw);
+    gnome_dialog_set_default(GNOME_DIALOG(jam_dialog), 0);
 
     ui_popup(jam_dialog, "VICE", False);
-    button = UI_BUTTON_NONE;
-    do
-        ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
+    res = gnome_dialog_run(GNOME_DIALOG(jam_dialog));
     ui_popdown(jam_dialog);
-    gtk_widget_destroy(jam_dialog);
+    if (jam_dialog)
+	gtk_widget_destroy(jam_dialog);
 
     suspend_speed_eval();
     ui_dispatch_events();
 
-    switch (button) {
-      case UI_BUTTON_MON:
+    switch (res) {
+      case 2:
 	ui_restore_mouse();
 #ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
 #endif
 	return UI_JAM_MONITOR;
-      case UI_BUTTON_HARDRESET:
+      case 1:
         return UI_JAM_HARD_RESET;
-      case UI_BUTTON_RESET:
+      case 0:
       default:
         return UI_JAM_RESET;
     }
 
     return 0;
-  
 }
 
 int ui_extend_image_dialog(void)
@@ -2375,24 +2301,22 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
 			    GdkEventButton *bevent, gpointer data)
 {
     char *tmp1, *tmp2, *fname, *contents;
-    GtkWidget *li;
     GtkStyle *style;
+    char *text[2];
+    gint cwidth, tmpw;
 
     g_return_if_fail(data != NULL);
     g_return_if_fail(GTK_IS_FILE_SELECTION(data));
     
     fname = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
 
-    if (current_image_contents)
-	free(current_image_contents);
-    
     if (!fname || !current_image_contents_func)
-	current_image_contents = stralloc("No image contents available");
+	contents = stralloc("No image contents available");
     else
-	current_image_contents = current_image_contents_func(fname);
+	contents = current_image_contents_func(fname);
 
-    if (!current_image_contents)
-	current_image_contents = stralloc("No image contents available");
+    if (!contents)
+	contents = stralloc("No image contents available");
 
     style = gtk_style_new();
     gdk_font_unref(style->font);
@@ -2401,36 +2325,61 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     gtk_widget_set_style(image_preview_list, style);
     gtk_style_unref(style);
 
-    /* copy contents, in order to save '\n's for finding the selection later */
-    tmp1 = tmp2 = contents = stralloc(current_image_contents);
-    gtk_list_clear_items(GTK_LIST(image_preview_list), 0, -1);
+    tmp1 = tmp2 = contents;
+    text[1] = NULL;
+    cwidth = 1;
+    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 0, cwidth);
+    gtk_clist_freeze(GTK_CLIST(image_preview_list));
+    gtk_clist_clear(GTK_CLIST(image_preview_list));
     
     tmp1 = find_next_line(NULL, tmp2);
     while (tmp1 > tmp2)
     {
-	GtkWidget *label;
-	
 	*(tmp1 - 1) = '\0';
-	label = gtk_label_new(tmp2);
-	li = gtk_list_item_new();
-	gtk_container_add(GTK_CONTAINER(li), label);
-	gtk_widget_set_style(label, style);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, -1);
-	gtk_widget_show(label);
-	
-	gtk_container_add(GTK_CONTAINER(image_preview_list), 
-			  li);
-	gtk_widget_show(li);
+	text[0] = tmp2;
+	gtk_clist_append(GTK_CLIST(image_preview_list), text);
+	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
+	if (tmpw > cwidth)
+	{
+	    cwidth = tmpw;
+	    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 
+				       0, cwidth);
+	}
+
 	tmp2 = tmp1;
 	tmp1 = find_next_line(NULL, tmp2);
     }
-    
+
     /* Last Line might be without newline char*/
-    li = gtk_list_item_new_with_label(tmp2);
-    gtk_container_add(GTK_CONTAINER(image_preview_list), 
-		      li);
-    gtk_widget_show(li);
+    if (strcmp(tmp2, "") != 0)
+    {
+	text[0] = tmp2;
+	gtk_clist_append(GTK_CLIST(image_preview_list), text);
+    }
+    
+    gtk_widget_grab_default(
+	GTK_FILE_SELECTION(last_file_selection)->ok_button);
+    
+    gtk_clist_thaw(GTK_CLIST(image_preview_list));
     free(contents);
+}
+
+static void ui_select_contents_cb(GtkWidget *w, int row, int col, 
+				  GdkEventButton *bevent, gpointer data)
+{
+    if (data)
+    {
+	ui_set_selected_file(row);
+	gtk_widget_grab_default(auto_start_button);
+	if (bevent->type == GDK_2BUTTON_PRESS)
+	    gtk_button_clicked(GTK_BUTTON(auto_start_button));
+    }
+    else
+    {
+	ui_set_selected_file(0);
+	gtk_widget_grab_default(
+	    GTK_FILE_SELECTION(last_file_selection)->ok_button);
+    }
 }
 
 /* File browser. */
@@ -2459,6 +2408,11 @@ char *ui_select_file(const char *title,
     }
 
     file_selector = build_file_selector(&button, &icw, &asb);
+    gtk_signal_connect(GTK_OBJECT(file_selector),
+		       "destroy",
+		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+		       &file_selector);
+
     current_image_contents_func = read_contents_func;
     
     if (default_dir != NULL) {
@@ -2497,27 +2451,18 @@ char *ui_select_file(const char *title,
     ui_popup(file_selector, title, False);
     do {
         button = UI_BUTTON_NONE;
-	while (button == UI_BUTTON_NONE)
-	  ui_dispatch_next_event();
+	while (file_selector && /* we might have a killed dlg due to
+				   WM actions */
+	       (button == UI_BUTTON_NONE))
+	    ui_dispatch_next_event();
 
-	filename = gtk_file_selection_get_filename(GTK_FILE_SELECTION(file_selector));
+	if (!file_selector)
+	    break;
+	
+	filename = gtk_file_selection_get_filename(
+	    GTK_FILE_SELECTION(file_selector));
 
-#ifdef BUTTON_CONTENTS
-	if (filename
-	    && button == UI_BUTTON_CONTENTS
-	    && read_contents_func != NULL)
-	{
-	    char *contents;
-	    contents = read_contents_func(filename);
-	    if (contents != NULL) {
-	        ui_show_text((const char*) current_dir,(const char*) contents, 250, 240);
-		free(contents);
-	    } else {
-	      ui_error("Unknown image type.");
-	    }
-	}
-#endif
-    } while ((!filename  && button != UI_BUTTON_CANCEL)
+    } while ((!filename && button != UI_BUTTON_CANCEL)
 	     || button == UI_BUTTON_CONTENTS);
     if (ret != NULL)
         free(ret);
@@ -2527,6 +2472,12 @@ char *ui_select_file(const char *title,
 	ret = stralloc("");
 
     ui_popdown(file_selector);
+
+    if (file_selector)
+    {
+	gtk_widget_destroy(file_selector);
+	auto_start_button = NULL;
+    }
 
     if (filesel_dir != NULL) {
         free(filesel_dir);
@@ -2682,7 +2633,11 @@ void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
     ui_dispatch_events();
-    
+
+#if 0				/* this code centers popups arount the main 
+				   emulation window,
+				   We decided to let the WM take care of
+				   placing popups */
     gtk_widget_set_parent_window(w,_ui_top_level->window);
     gtk_window_set_title(GTK_WINDOW(w),title);
     {
@@ -2723,8 +2678,10 @@ void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 	gdk_window_move(w->window,my_x,my_y);
     }
     gdk_flush();
-
-
+#endif
+    gtk_window_set_transient_for(GTK_WINDOW(w),GTK_WINDOW(_ui_top_level));
+    gtk_widget_show(w);
+    
     ui_block_shells();
     /* If requested, wait for this widget to be popped down before
        returning. */
@@ -2761,7 +2718,10 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 				      GtkWidget **image_contents_widget,
 				      GtkWidget **autostart_button_widget)
 {  
-    GtkWidget *fileselect, *button, *scrollw, *frame, *table;
+    GtkWidget *fileselect, *button, *scrollw, *buttonbox;
+    GtkWidget *hbox = NULL;
+    GList *tmp;
+    char *contents_title[2];
 
     fileselect = gtk_file_selection_new("");
     gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(fileselect)->ok_button),
@@ -2773,50 +2733,51 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CANCEL),
 		       (gpointer) button_return);
 
-#ifdef BUTTON_CONTENTS
-    button = gtk_button_new_with_label("Contents");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CONTENTS),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-#endif
-
-    table = gtk_table_new(2, 1, FALSE);
-    gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
-		       table, FALSE, FALSE, 10);
-    gtk_widget_show(table);
+    gtk_file_selection_hide_fileop_buttons(GTK_FILE_SELECTION(fileselect));
     
-    frame = gtk_frame_new("Image contents");
-    gtk_table_attach(GTK_TABLE(table),
-		     frame,
-		     0, 1,
-		     0, 1,
-		     GTK_FILL,
-		     GTK_FILL | GTK_EXPAND,
-		     10, 
-		     10);
+    /* try to find hbox in fileselector, in order to append the preview window
+       there, instead of adding it to the action area.
+       This should save space in Y-direction */
+    if (GTK_IS_VBOX(GTK_FILE_SELECTION(fileselect)->main_vbox))
+    {
+	tmp = gtk_container_children(
+	    GTK_CONTAINER(GTK_FILE_SELECTION(fileselect)->main_vbox));
+	while (tmp && !GTK_IS_HBOX(tmp->data))
+	{
+	    tmp = g_list_next(tmp);
+	    if (GTK_IS_HBOX(tmp->data)) /* Yick, but there is another */
+		tmp = g_list_next(tmp); /* hbox before the real one */
+	}
+	if (tmp)
+	    hbox = tmp->data;
+    }
+    
+    contents_title[0] = "Contents";
+    contents_title[1] = NULL;
+    image_preview_list = 
+	gtk_clist_new_with_titles(1, (gchar **) contents_title);
+    gtk_widget_set_usize(image_preview_list, 180, 180);
 
-    gtk_widget_show(frame);
-    *image_contents_widget = frame;
+    gtk_clist_column_titles_passive (GTK_CLIST (image_preview_list));
+    *image_contents_widget = image_preview_list;
     
     /* Contents preview */
     scrollw = gtk_scrolled_window_new(NULL, NULL);
-    gtk_container_add(GTK_CONTAINER(frame), scrollw);
+    
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
 				    GTK_POLICY_AUTOMATIC,
 				    GTK_POLICY_AUTOMATIC);
 
-    gtk_widget_set_usize(scrollw, 250, 200);
-    gtk_container_set_border_width(GTK_CONTAINER(scrollw), 4);
+    gtk_container_set_border_width(GTK_CONTAINER(scrollw), 5);
     
-    image_preview_list = gtk_list_new();
-    
-    gtk_list_set_selection_mode (GTK_LIST (image_preview_list), 
+    gtk_clist_set_selection_mode (GTK_CLIST (image_preview_list), 
 				 GTK_SELECTION_SINGLE);
+#if 0 
     gtk_scrolled_window_add_with_viewport
         (GTK_SCROLLED_WINDOW (scrollw), image_preview_list);
+#endif
+    gtk_container_add(GTK_CONTAINER(scrollw), image_preview_list);
+
     gtk_container_set_focus_vadjustment
         (GTK_CONTAINER (image_preview_list),
          gtk_scrolled_window_get_vadjustment
@@ -2827,6 +2788,12 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
          (GTK_SCROLLED_WINDOW (scrollw)));
 
     gtk_widget_show(image_preview_list);
+
+    if (hbox)
+	gtk_box_pack_start(GTK_BOX(hbox), scrollw, TRUE, TRUE, 0);
+    else
+	gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(
+	    fileselect)->action_area), scrollw, TRUE, TRUE, 0);
     gtk_widget_show(scrollw);
 
     gtk_signal_connect_after(
@@ -2835,22 +2802,35 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 	(GtkSignalFunc) ui_fill_preview,
 	(gpointer) fileselect);
 
-    button = gtk_button_new_with_label("Autostart");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(filesel_autostart_cb),
-		       (gpointer) button_return);
-    gtk_table_attach(GTK_TABLE(table),
-		     button,
-		     1, 2,
-		     0, 1,
-		     0,
-		     0,
-		     10, 
-		     10);
-    
-    gtk_widget_show(button);
-    *autostart_button_widget = button;
+    gtk_signal_connect_after(
+	GTK_OBJECT(image_preview_list),
+	"select-row",
+	(GtkSignalFunc) ui_select_contents_cb,
+	(gpointer) 1);
 
+    gtk_signal_connect_after(
+	GTK_OBJECT(image_preview_list),
+	"unselect-row",
+	(GtkSignalFunc) ui_select_contents_cb,
+	(gpointer) 0);
+
+    buttonbox = GTK_FILE_SELECTION(fileselect)->ok_button->parent;
+    auto_start_button = button = gnome_stock_or_ordinary_button("Autostart");
+    gtk_signal_connect(GTK_OBJECT(button),"clicked",
+                       GTK_SIGNAL_FUNC(filesel_autostart_cb),
+                       (gpointer) button_return);
+
+    if (buttonbox)
+      gtk_box_pack_start(GTK_BOX(buttonbox), button, FALSE, FALSE, 0);
+    else
+      gtk_box_pack_start(
+          GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
+          button, FALSE, FALSE, 0);
+    GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+    gtk_widget_show(button);
+    *image_contents_widget = scrollw;
+    *autostart_button_widget = button;
+    last_file_selection = fileselect;
     return fileselect;
 }
 
@@ -2914,7 +2894,7 @@ static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message)
 
 UI_CALLBACK(enter_window_callback)
 {
-    _ui_top_level = w;
+    _ui_top_level = gtk_widget_get_toplevel(w);
 }
 
 UI_CALLBACK(exposure_callback)

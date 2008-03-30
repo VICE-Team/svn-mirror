@@ -261,22 +261,20 @@ Special keys
 The following keys perform special actions on *all emulators*:
 
     Esc           Enter the emulation menu
-
     Alt-F1        Attach next disk image from flip list
-
     Alt-F2        Attach previous disk image from flip list
-
     Alt-F3        Add current disk image to flip list
-
     Alt-F4        Remove current disk image from flip list
-
+    Alt-F5        Toggle the statusbar that displays drive + speed infos
     Alt-F12       Soft reset
-
+    Alt-Ctrl-F4   Datasette Record Key
+    Alt-Ctrl-F5   Datasette Play Key
+    Alt-Ctrl-F6   Datasette Rewind Key
+    Alt-Ctrl-F7   Datasette FF Key
+    Alt-Ctrl-F8   Datasette Stop Key
     Alt-Ctrl-F12  Hard reset (wipes out RAM)
-
     ScrollLock    Toggle warp mode (it makes the emulator run as fast as
                   possible and turns sound off)
-
     Alt-Pause     Freeze (emulates the Action Replay freeze button
                   when an Action Replay image is loaded in the C64
                   emulator)
