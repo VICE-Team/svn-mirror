@@ -253,7 +253,7 @@ inline static void check_cia2todalarm(CLOCK rclk)
     if (!memcmp(cia2todalarm, cia2 + CIA_TOD_TEN, sizeof(cia2todalarm))) {
 	cia2int |= CIA_IM_TOD;
 	if (cia2[CIA_ICR] & CIA_IM_TOD) {
-	    my_set_int(I_CIA2TOD, IK_NMI, rclk);
+            my_set_int(I_CIA2FL, IK_NMI, clk);
 	}
     }
 }
@@ -436,6 +436,7 @@ void reset_cia2(void)
     maincpu_set_alarm(A_CIA2TOD, cia2todticks);
 
     cia2int = 0;
+    my_set_int(I_CIA2FL, 0, clk);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -1374,6 +1375,7 @@ void cia2_prevent_clk_overflow(CLOCK sub)
  * UBYTE	TODL_HR
  * DWORD	TOD_TICKS	clk ticks till next tenth of second
  *
+ * UBYTE	IRQ		0=IRQ line inactive, 1=IRQ line active
  */
 
 /* FIXME!!!  Error check.  */
@@ -1447,8 +1449,6 @@ printf("CIA2: write cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
 
     snapshot_module_write_byte(m, (get_int(&maincpu_int_status, I_CIA2FL)
                                    ? 0xff : 0x00));
-    snapshot_module_write_byte(m, (get_int(&maincpu_int_status, I_CIA2TOD)
-                                   ? 0xff : 0x00));
 
     snapshot_module_close(m);
 
@@ -1464,12 +1464,6 @@ int cia2_read_snapshot_module(snapshot_t *p)
     ADDRESS addr;
     CLOCK rclk = clk;
     snapshot_module_t *m;
-
-#if 0	/* might set IRQ flag! */
-    update_tai(clk); /* schedule alarm in case latch value is changed */
-    update_tbi(clk); /* schedule alarm in case latch value is changed */
-    update_cia2(clk);
-#endif
 
     /* stop timers, just in case */
     cia2_tas = CIAT_STOPPED;
@@ -1488,7 +1482,6 @@ int cia2_read_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    /* Argh.  This is ugly.  */
     {
         snapshot_module_read_byte(m, &cia2[CIA_PRA]);
         snapshot_module_read_byte(m, &cia2[CIA_PRB]);
@@ -1596,8 +1589,6 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
 #endif
 
-#if 1
-
     if ((cia2[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
         cia2_tas = CIAT_RUNNING;
         cia2_tau = rclk + (cia2_tac /*+ 1) + ((byte & 0x10) >> 4*/ );
@@ -1618,20 +1609,6 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2
         }
     }
 
-#else
-
-    cia2_tau = clk + cia2_tac;
-    my_set_tai_clk(cia2_tau + 1);
-    cia2_tbu = clk + cia2_tbc;
-    my_set_tbi_clk(cia2_tbu + 1);
-
-    cia2_tas = (cia2[CIA_CRA] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    cia2_tbs = (cia2[CIA_CRB] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    if ((cia2[CIA_CRB] & 0x41) == 0x41)
-        cia2_tbs = CIAT_COUNTTA;
-
-#endif
-
 #ifdef CIA2_DUMP_DEBUG
 printf("CIA2: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
@@ -1639,11 +1616,11 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2
 #endif
 
     snapshot_module_read_byte(m, &byte);
-    if (byte)
+    if (byte) {
         set_int_noclk(&maincpu_int_status, I_CIA2FL, IK_NMI);
-    snapshot_module_read_byte(m, &byte);
-    if (byte)
-        set_int_noclk(&maincpu_int_status, I_CIA2TOD, IK_NMI);
+    } else {
+        set_int_noclk(&maincpu_int_status, I_CIA2FL, 0);
+    }
 
     if (snapshot_module_close(m) < 0)
         return -1;

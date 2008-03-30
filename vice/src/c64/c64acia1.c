@@ -174,6 +174,7 @@ void reset_acia1(void) {
  */
 
 /* FIXME!!!  Error check.  */
+/* FIXME!!!  If no connection, emulate carrier lost or so */
 int acia1_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
@@ -223,7 +224,9 @@ int acia1_read_snapshot_module(snapshot_t * p)
     if(status & 0x80) {
 	status &= 0x7f;
 	irq = 1;
-	/* maincpu_set_int(I_ACIA1, acia1_irq); */
+	set_int_noclk(&maincpu_int_status, I_ACIA1, acia1_irq);
+    } else {
+	set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
     }
 
     snapshot_module_read_byte(m, &cmd);
