@@ -35,6 +35,7 @@
 
 #include "diskimage.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "serial.h"
 #include "types.h"
 #include "utils.h"
@@ -894,38 +895,29 @@ int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
         if (addr >= 0x8000) {
             switch (vdrive->image_format) {
               case VDRIVE_IMAGE_FORMAT_2040:
-                if (rom2040_loaded)
-                    val = drive_rom2040[addr & 0x3fff];
-                else
+                if (machine_drive_rom_read(2040, addr, &val) < 0)
                     val = 0x55;
                 break;
               case VDRIVE_IMAGE_FORMAT_1541:
-                if (rom1541_loaded)
-                    val = drive_rom1541[addr & 0x3fff];
-                else
+                if (machine_drive_rom_read(1541, addr, &val) < 0)
                     val = 0x55;
                 break;
               case VDRIVE_IMAGE_FORMAT_1571:
-                if (rom1571_loaded)
-                    val = drive_rom1571[addr & 0x7fff];
-                else
+                if (machine_drive_rom_read(1571, addr, &val) < 0)
                     val = 0x55;
                 break;
               case VDRIVE_IMAGE_FORMAT_1581:
-                if (rom1581_loaded)
-                    val = drive_rom1581[addr & 0x7fff];
-                else
+                if (machine_drive_rom_read(1581, addr, &val) < 0)
                     val = 0x55;
                 break;
               case VDRIVE_IMAGE_FORMAT_8050:
               case VDRIVE_IMAGE_FORMAT_8250:
-                if (rom1001_loaded)
-                    val = drive_rom1001[addr & 0x3fff];
-                else
+                if (machine_drive_rom_read(1001, addr, &val) < 0)
                     val = 0x55;
                 break;
             }
         }
+
         vdrive->mem_buf[i] = val;
         addr++;
     }
