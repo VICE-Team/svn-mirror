@@ -381,8 +381,8 @@ static void vsync_hook(void)
 
     sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
 
-    /* The 1541 has to deal both with our overflowing and its own one, so it
-       is called even when there is no overflowing in the main CPU.  */
+    /* The drive has to deal both with our overflowing and its own one, so
+       it is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
     drive_prevent_clk_overflow(sub, 0);
     drive_prevent_clk_overflow(sub, 1);
