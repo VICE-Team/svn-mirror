@@ -264,10 +264,12 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
     { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
+#if 0
     { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 1,
       NULL, "Enable the $D6** ACIA RS232 interface emulation" },
     { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 0,
       NULL, "Disable the $D6** ACIA RS232 interface emulation" },
+#endif
 #endif
     { NULL }
 };
@@ -544,7 +546,7 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 
 void REGPARM2 store_d6(ADDRESS addr, BYTE value)
 {
-#ifdef HAVE_RS232
+#if 0 /*def HAVE_RS232*/
     if (acia_d6_enabled)
         store_acia2(addr,value);
     else
@@ -555,7 +557,7 @@ void REGPARM2 store_d6(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_d6(ADDRESS addr)
 {
-#ifdef HAVE_RS232
+#if 0 /*def HAVE_RS232*/
     if (acia_d6_enabled)
         return read_acia2(addr);
 #endif

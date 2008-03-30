@@ -59,6 +59,13 @@
 #ifdef HAVE_RS232
 #include "rs232.h"
 #include "c64acia.h"
+#include "rsuser.h"
+#endif
+
+#ifdef HAVE_PRINTER
+#include "print.h"
+#include "prdevice.h"
+#include "pruser.h"
 #endif
 
 static void vsync_hook(void);
@@ -161,8 +168,13 @@ int machine_init_resources(void)
         || sid_init_resources() < 0
 #ifdef HAVE_RS232
         || acia1_init_resources() < 0
-        || acia2_init_resources() < 0
         || rs232_init_resources() < 0
+	|| rsuser_init_resources() < 0
+#endif
+#ifdef HAVE_PRINTER
+	|| print_init_resources() < 0
+	|| prdevice_init_resources() < 0
+	|| pruser_init_resources() < 0
 #endif
         || kbd_init_resources() < 0
         || true1541_init_resources() < 0)
@@ -183,8 +195,13 @@ int machine_init_cmdline_options(void)
         || sid_init_cmdline_options() < 0
 #ifdef HAVE_RS232
         || acia1_init_cmdline_options() < 0
-        || acia2_init_cmdline_options() < 0
         || rs232_init_cmdline_options() < 0
+        || rsuser_init_cmdline_options() < 0
+#endif
+#ifdef HAVE_PRINTER
+	|| print_init_cmdline_options() < 0
+	|| prdevice_init_cmdline_options() < 0
+	|| pruser_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
@@ -211,6 +228,17 @@ int machine_init(void)
        drive 8 (which is the only true 1541-capable device).  */
     file_system_set_hooks(8, true1541_attach_floppy, true1541_detach_floppy);
     file_system_init();
+
+#ifdef HAVE_RS232
+    /* initialize RS232 handler */
+    rs232_init();
+    rsuser_init();
+#endif
+
+#ifdef HAVE_PRINTER
+    /* initialize print devices */
+    print_init();
+#endif
 
     /* Initialize the tape emulation.  */
     tape_init(c64_tape_traps);
@@ -269,7 +297,7 @@ void machine_reset(void)
 
 #ifdef HAVE_RS232
     maincpu_int_status.alarm_handler[A_ACIA1] = int_acia1;
-    maincpu_int_status.alarm_handler[A_ACIA2] = int_acia2;
+    maincpu_int_status.alarm_handler[A_RSUSER] = int_rsuser;
 #endif
 
     reset_cia1();
@@ -280,7 +308,13 @@ void machine_reset(void)
 
 #ifdef HAVE_RS232
     reset_acia1();
-    reset_acia2();
+
+    rs232_reset();
+    rsuser_reset();
+#endif
+
+#ifdef HAVE_PRINTER
+    print_reset();
 #endif
 
     /* reset_reu(); */                /* FIXME */

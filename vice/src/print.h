@@ -1,8 +1,9 @@
+
 /*
- * uisettings.h - Implementation of common UI settings.
+ * print.h - Printer interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,21 +25,36 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+/*
+ * The printer emulation captures the bytes sent to device 4 on the
+ * IEC bus and/or the bytes sent to an emulated userport interface
+ */
 
-#include "ui.h"
-#include "uimenu.h"
+#ifndef _PRINT_H
+#define _PRINT_H
 
-extern ui_menu_entry_t ui_performance_settings_menu[];
-extern ui_menu_entry_t ui_joystick_settings_menu[];
-extern ui_menu_entry_t ui_video_settings_menu[];
-extern ui_menu_entry_t ui_keyboard_settings_menu[];
-extern ui_menu_entry_t ui_sound_settings_menu[];
-extern ui_menu_entry_t ui_true1541_settings_menu[];
-extern ui_menu_entry_t ui_serial_settings_menu[];
-extern ui_menu_entry_t ui_settings_settings_menu[];
-extern ui_menu_entry_t ui_print_settings_menu[];
-extern ui_menu_entry_t rs232_submenu[];
+#include "types.h"
+
+/* initializes all print stuff */
+extern void print_init(void);
+
+/* called when doing a system reset */
+extern void print_reset(void);
+
+/* opens a print window, returns handle to give to functions below. */
+extern int print_open(int device);
+
+/* closes the print window again */
+extern void print_close(int fd);
+
+/* sends a byte to the print line */
+extern int print_putc(int fd, BYTE b);
+
+/* flushes buffer to printer */
+extern int print_flush(int fd);
+
+extern int print_init_resources(void);
+extern int print_init_cmdline_options(void);
 
 #endif
+

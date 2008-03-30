@@ -49,6 +49,12 @@
 #include "vmachine.h"
 #include "vsync.h"
 
+#ifdef HAVE_PRINTER
+#include "print.h"
+#include "prdevice.h"
+#include "pruser.h"
+#endif
+
 static void vsync_hook(void);
 
 const char machine_name[] = "VIC20";
@@ -111,6 +117,11 @@ int machine_init_resources(void)
         || vic20_mem_init_resources() < 0
         || vic_init_resources() < 0
         || sound_init_resources() < 0
+#ifdef HAVE_PRINTER
+        || print_init_resources() < 0
+        || prdevice_init_resources() < 0
+        || pruser_init_resources() < 0
+#endif
         || kbd_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
@@ -127,6 +138,11 @@ int machine_init_cmdline_options(void)
         || vic20_mem_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+#ifdef HAVE_PRINTER
+        || print_init_cmdline_options() < 0
+        || prdevice_init_cmdline_options() < 0
+        || pruser_init_cmdline_options() < 0
+#endif
         || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
@@ -153,6 +169,11 @@ int machine_init(void)
        drive 8 (which is the only true 1541-capable device).  */
     file_system_set_hooks(8, true1541_attach_floppy, true1541_detach_floppy);
     file_system_init();
+
+#ifdef HAVE_PRINTER
+    /* initialize print devices */
+    print_init();
+#endif
 
     /* Fire up the hardware-level 1541 emulation. */
     true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
@@ -209,6 +230,10 @@ void machine_reset(void)
     true1541_reset();
 
     sound_reset();
+
+#ifdef HAVE_PRINTER
+    print_reset();
+#endif
 }
 
 void machine_shutdown(void)

@@ -54,6 +54,12 @@
 #include "vmachine.h"
 #include "vsync.h"
 
+#ifdef HAVE_PRINTER
+#include "print.h"
+#include "prdevice.h"
+#include "pruser.h"
+#endif
+
 static void vsync_hook(void);
 
 const char machine_name[] = "PET";
@@ -113,6 +119,11 @@ int machine_init_resources(void)
         || crtc_init_resources() < 0
         || pia_init_resources() < 0
         || sound_init_resources() < 0
+#ifdef HAVE_PRINTER
+        || print_init_resources() < 0
+        || prdevice_init_resources() < 0
+        || pruser_init_resources() < 0
+#endif
 #ifdef __MSDOS__
         || kbd_init_resources() < 0)
 #else
@@ -137,6 +148,11 @@ int machine_init_cmdline_options(void)
         || crtc_init_cmdline_options() < 0
         || pia_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+#ifdef HAVE_PRINTER
+        || print_init_cmdline_options() < 0
+        || prdevice_init_cmdline_options() < 0
+        || pruser_init_cmdline_options() < 0
+#endif
 #ifdef __MSDOS__
         || kbd_init_cmdline_options() < 0)
 #else
@@ -162,6 +178,11 @@ int machine_init(void)
 
     /* Initialize drives.  */
     file_system_init();
+
+#ifdef HAVE_PRINTER
+    /* initialize print devices */
+    print_init();
+#endif
 
     /* Initialize autostart.  FIXME: We could probably use smaller values.  */
     autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0);
@@ -207,6 +228,9 @@ void machine_reset(void)
     reset_pia2();
     reset_via();
     reset_crtc();
+#ifdef HAVE_PRINTER
+    print_reset();
+#endif
 }
 
 void machine_shutdown(void)

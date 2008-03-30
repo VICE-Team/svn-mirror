@@ -41,6 +41,9 @@
 #include "types.h"
 
 /* initializes all RS232 stuff */
+extern void rs232_init(void);
+
+/* reset for RS232 interfaces */
 extern void rs232_reset(void);
 
 /* opens a rs232 window, returns handle to give to functions below. */

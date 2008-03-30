@@ -45,6 +45,7 @@ INCLUDES()
     #include "kbd.h"
     #include "vic20iec.h"
     #include "vic20via.h"
+    #include "pruser.h"
 }
 
 
@@ -58,9 +59,24 @@ INCLUDES()
 #define	PRE_VIA_FUNCS
 
 
-#define STORE_PRB 	via2[addr] = byte;
+STORE_PRB()
+{
+     via2[addr] = byte;
+     userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+}
 
-#define	STORE_PCR
+STORE_PCR()
+{
+        if(byte != via2[VIA_PCR]) {
+          register BYTE tmp = byte;
+          /* first set bit 1 and 5 to the real output values */
+          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+                                     /* switching userport strobe with CB2 */
+          userport_printer_write_strobe( byte & 0x20 );
+        }
+}
+
 #define	STORE_ACR
 #define	STORE_SR
 #define	STORE_T2L
@@ -68,6 +84,9 @@ INCLUDES()
 RESET_VIA()
 {
      iec_pa_write(0xff);
+
+     userport_printer_write_data(0xff);
+     userport_printer_write_strobe(1);
 }
 
 
@@ -114,7 +133,15 @@ READ_PRB()
      byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 }
 
-#define POST_VIA_FUNCS
+POST_VIA_FUNCS()
+{
+
+void userport_printer_set_busy(int b) {
+    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+
+}
+
 
 
 

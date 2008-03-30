@@ -1,8 +1,11 @@
+
 /*
- * uisettings.h - Implementation of common UI settings.
+ * pruser.h - Printer device for userport.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *
+ * Patches by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,21 +27,15 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+#ifndef _PRUSER_H_
+#define _PRUSER_H_
 
-#include "ui.h"
-#include "uimenu.h"
+int pruser_init_resources(void);
+int pruser_init_cmdline_options(void);
 
-extern ui_menu_entry_t ui_performance_settings_menu[];
-extern ui_menu_entry_t ui_joystick_settings_menu[];
-extern ui_menu_entry_t ui_video_settings_menu[];
-extern ui_menu_entry_t ui_keyboard_settings_menu[];
-extern ui_menu_entry_t ui_sound_settings_menu[];
-extern ui_menu_entry_t ui_true1541_settings_menu[];
-extern ui_menu_entry_t ui_serial_settings_menu[];
-extern ui_menu_entry_t ui_settings_settings_menu[];
-extern ui_menu_entry_t ui_print_settings_menu[];
-extern ui_menu_entry_t rs232_submenu[];
+void userport_printer_write_data(BYTE);
+void userport_printer_write_strobe(int);
+void userport_printer_set_busy(int);
 
 #endif
+

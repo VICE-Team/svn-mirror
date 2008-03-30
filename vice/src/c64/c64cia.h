@@ -37,6 +37,9 @@ extern BYTE REGPARM1 read_cia1(ADDRESS addr);
 extern int int_cia1ta(long offset);
 extern int int_cia1tb(long offset);
 extern int int_cia1tod(long offset);
+extern void cia1_prevent_clk_overflow(CLOCK sub);
+extern void cia1_set_flag(void);
+extern void cia1_set_sdr(BYTE received_byte);
 
 extern void reset_cia2(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
@@ -44,9 +47,9 @@ extern BYTE REGPARM1 read_cia2(ADDRESS addr);
 extern int int_cia2ta(long offset);
 extern int int_cia2tb(long offset);
 extern int int_cia2tod(long offset);
-extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia2_prevent_clk_overflow(CLOCK sub);
 extern void cia2_set_flag(void);
+extern void cia2_set_sdr(BYTE received_byte);
 
 #endif /* _C64_CIA_H */
 

@@ -26,6 +26,7 @@ libarch_a_SOURCES = \
 	kbdef.h \
 	kmap.c \
 	petkmap.c \
+	print.c \
 	rs232.c \
 	ui.h \
 	video.c \

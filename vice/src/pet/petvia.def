@@ -43,16 +43,22 @@
 INCLUDES()
 {
 #include "parallel.h"
-#include "sid.h"
+#include "../c64/sid.h"
 #include "kbd.h"
 #include "crtc.h"
+#include "pruser.h"
 }
 
 #define GLOBALS()
 
 #define	PRE_VIA_FUNCS
 
-#define STORE_PRA 	via[addr] = byte;
+STORE_PRA()
+{
+ 	via[addr] = byte;
+	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+	userport_printer_write_data(byte);
+}
 
 STORE_PRB()
 {
@@ -69,7 +75,9 @@ STORE_PCR()
           /* first set bit 1 and 5 to the real output values */
           if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
           if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          crtc_set_char( byte & 2 ); /* switching PET charrom */
+          crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
+				     /* switching userport strobe with CB2 */
+          userport_printer_write_strobe( byte & 0x20 ); 
 	}
 }
 
@@ -104,6 +112,9 @@ RESET_VIA()
     /* set IEC output lines */
     par_set_atn(0);
     par_set_nrfd(0);
+
+    userport_printer_write_data(0xff);
+    userport_printer_write_strobe(1);
 }
 
 
@@ -164,6 +175,11 @@ int     show_keyarr(void)
     }
     return (0);
 }
+
+void userport_printer_set_busy(int b) {
+    via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+}
+
 }
 
 

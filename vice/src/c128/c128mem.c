@@ -55,7 +55,12 @@
 #include "mon.h"
 #include "utils.h"
 #include "vdc.h"
+#include "rs232.h"
 #include "../c64/vicii.h"
+
+#ifdef HAVE_RS232
+#include "c64acia.h"
+#endif
 
 /* #define DEBUG_MMU */
 
@@ -89,6 +94,14 @@ static int ieee488_enabled;
 
 /* Flag: Do we enable the external REU?  */
 static int reu_enabled;
+
+#ifdef HAVE_RS232
+/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
+static int acia_de_enabled;
+
+/* Flag: Do we enable the $D7** ACIA RS232 interface emulation?  */
+static int acia_d7_enabled;
+#endif
 
 /* Flag: Do we enable Action Replay Cartridge support?  */
 static int action_replay_enabled;
@@ -181,6 +194,20 @@ static int set_reu_enabled(resource_value_t v)
     }
 }
 
+#ifdef HAVE_RS232
+static int set_acia_d7_enabled(resource_value_t v)
+{
+    acia_d7_enabled = (int) v;
+    return 0;
+}
+
+static int set_acia_de_enabled(resource_value_t v)
+{
+    acia_de_enabled = (int) v;
+    return 0;
+}
+#endif
+
 static resource_t resources[] = {
     { "ChargenName", RES_STRING, (resource_value_t) "chargen",
       (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
@@ -194,6 +221,12 @@ static resource_t resources[] = {
       (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+#ifdef HAVE_RS232
+    { "AciaDE", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &acia_de_enabled, set_acia_de_enabled },
+    { "AciaD7", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &acia_d7_enabled, set_acia_d7_enabled },
+#endif
     { NULL }
 };
 
@@ -227,6 +260,18 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Disable the IEEE488 interface emulation" },
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
+#ifdef HAVE_RS232
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
+      NULL, "Enable the $DE** ACIA RS232 interface emulation" },
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
+      NULL, "Disable the $DE** ACIA RS232 interface emulation" },
+#if 0
+    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t) 1,
+      NULL, "Enable the $D7** ACIA RS232 interface emulation" },
+    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t) 0,
+      NULL, "Disable the $D7** ACIA RS232 interface emulation" },
+#endif
+#endif
     { NULL }
 };
 
@@ -659,6 +704,33 @@ static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
         STORE_TOP_SHARED(addr, value);
 }
 
+static BYTE REGPARM1 read_d7xx(ADDRESS addr)
+{
+    if (io_in) {
+#if 0 /*def HAVE_RS232*/
+	if(acia_d7_enabled) 
+            return read_acia2(addr);
+	else
+#endif
+	    return 0xff;
+    } else if (chargen_in)
+        return chargen_rom[addr];
+    else
+        return READ_TOP_SHARED(addr);
+}
+
+static void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
+{
+    if (io_in) {
+#if 0 /*def HAVE_RS232*/
+	if(acia_d7_enabled) {
+            store_acia2(addr, value);
+	}
+#endif
+    } else
+        STORE_TOP_SHARED(addr, value);
+}
+
 static BYTE REGPARM1 read_d8xx(ADDRESS addr)
 {
     if (io_in)
@@ -768,6 +840,73 @@ static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
 }
 
 /* ------------------------------------------------------------------------- */
+/* those are approximate copies from the c64 versions.... 
+ * they leave out the cartridge support 
+ */
+
+void REGPARM2 store_io1(ADDRESS addr, BYTE value)
+{
+    if(!io_in) {
+	STORE_TOP_SHARED(addr, value);
+    } else {
+#ifdef HAVE_RS232
+        if (acia_de_enabled)
+            store_acia1(addr & 0x03, value);
+#endif
+    }
+    return;
+}
+
+BYTE REGPARM1 read_io1(ADDRESS addr)
+{
+    if(io_in) {
+#ifdef HAVE_RS232
+        if (acia_de_enabled)
+            return read_acia1(addr & 0x03);
+#endif
+        return 0xff; 	/* rand(); - C64 has rand(), which is correct? */
+    } else 
+    if (chargen_in)
+        return chargen_rom[addr - 0xd000];
+    else
+        return READ_TOP_SHARED(addr);
+}
+
+void REGPARM2 store_io2(ADDRESS addr, BYTE value)
+{
+    if(!io_in) {
+	STORE_TOP_SHARED(addr, value);
+    } else {
+        if (ieee488_enabled) {
+            store_tpi(addr & 0x07, value);
+        }
+    }
+    return;
+}
+
+BYTE REGPARM1 read_io2(ADDRESS addr)
+{
+    if(io_in) {
+#if 0
+        if (emu_id_enabled && addr >= 0xdfa0) {
+            addr &= 0xff;
+            if (addr == 0xff)
+                emulator_id[addr - 0xa0] ^= 0xff;
+            return emulator_id[addr - 0xa0];
+        }
+#endif
+        if (ieee488_enabled) {
+            return read_tpi(addr & 0x07);
+	}
+        return 0xff; 	/* rand(); - C64 has rand(), which is correct? */
+    } else 
+    if (chargen_in)
+        return chargen_rom[addr - 0xd000];
+    else
+        return READ_TOP_SHARED(addr);
+}
+
+/* ------------------------------------------------------------------------- */
 
 void initialize_memory(void)
 {
@@ -810,8 +949,8 @@ void initialize_memory(void)
     _mem_read_tab[0xd6] = read_d6xx;
     _mem_write_tab[0xd6] = store_d6xx;
 
-    _mem_read_tab[0xd7] = read_empty_io;
-    _mem_write_tab[0xd7] = store_empty_io;
+    _mem_read_tab[0xd7] = read_d7xx;	/* read_empty_io; */
+    _mem_write_tab[0xd7] = store_d7xx;	/* store_empty_io; */
 
     _mem_read_tab[0xd8] = _mem_read_tab[0xd9] = read_d8xx;
     _mem_read_tab[0xda] = _mem_read_tab[0xdb] = read_d8xx;
@@ -823,8 +962,11 @@ void initialize_memory(void)
     _mem_read_tab[0xdd] = read_ddxx;
     _mem_write_tab[0xdd] = store_ddxx;
 
-    _mem_read_tab[0xde] = _mem_read_tab[0xdf] = read_empty_io;
-    _mem_write_tab[0xde] = _mem_write_tab[0xdf] = store_empty_io;
+    _mem_read_tab[0xde] = read_io1;
+    _mem_write_tab[0xde] = store_io1;
+
+    _mem_read_tab[0xdf] = read_io2;
+    _mem_write_tab[0xdf] = store_io2;
 
     for (i = 0xe0; i <= 0xfe; i++) {
         _mem_read_tab[i] = read_hi;

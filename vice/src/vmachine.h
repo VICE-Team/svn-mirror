@@ -46,7 +46,7 @@
 
 #ifdef HAVE_RS232
 #define A_ACIA1		9   	/* ACIA */
-#define A_ACIA2		10   	/* ACIA */
+#define A_RSUSER	10  
 #define NUMOFALRM	11
 #else
 #define NUMOFALRM       9
@@ -73,18 +73,21 @@
 
 /* CIA 1 / VIA 2 IRQs */
 #define I_CIA1FL	 4	/* CIA 1 FLAG1 */
-#define I_CIA1SP	 5	/* CIA 1 serial port */
 #define I_CIA1TOD	 6	/* CIA 1 TOD alarm */
+#if 0
+#define I_CIA1SP	 5	/* CIA 1 serial port */
 #define I_CIA1TA	 7      /* CIA 1 timer A */
 #define I_CIA1TB	 8 	/* CIA 1 timer B */
+#endif
 
 /* CIA 2 / VIA 1 NMIs */
 #define I_CIA2FL	 9 	/* CIA 2 FLAG 1 */
-
-#define I_CIA2SP	 10 	/* CIA 2 serial port */
 #define I_CIA2TOD	 11 	/* CIA 2 TOD alarm */
+#if 0
+#define I_CIA2SP	 10 	/* CIA 2 serial port */
 #define I_CIA2TA	 12	/* CIA 2 timer A */
 #define I_CIA2TB	 13	/* CIA 2 timer B */
+#endif
 
 #define	I_ACIA1		 14
 #define	I_ACIA2		 15
@@ -97,8 +100,8 @@
 
 /* PET IRQs */
 #define	I_VIAFL		I_CIA1FL	/* pet via flag */
-#define	I_PIA1		I_CIA1TA	/* pet via flag */
-#define	I_PIA2		I_CIA1TB	/* pet via flag */
+#define	I_PIA1		7	/* I_CIA1TA */	/* pet pia1 flag */
+#define	I_PIA2		8	/* I_CIA1TB */	/* pet pia2 flag */
 
 /* SPECIAL */
 #define I_SPECX		16	/* Special "interrupt" for x_loop */

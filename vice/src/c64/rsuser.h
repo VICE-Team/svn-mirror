@@ -1,8 +1,12 @@
+
+
 /*
- * uisettings.h - Implementation of common UI settings.
+ * pruser.h - Printer device for userport.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *
+ * Patches by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,21 +28,28 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+#ifndef _RSUSER_H_
+#define _RSUSER_H_
 
-#include "ui.h"
-#include "uimenu.h"
+#define	RTS_OUT		0x02
+#define	DTR_OUT		0x04
 
-extern ui_menu_entry_t ui_performance_settings_menu[];
-extern ui_menu_entry_t ui_joystick_settings_menu[];
-extern ui_menu_entry_t ui_video_settings_menu[];
-extern ui_menu_entry_t ui_keyboard_settings_menu[];
-extern ui_menu_entry_t ui_sound_settings_menu[];
-extern ui_menu_entry_t ui_true1541_settings_menu[];
-extern ui_menu_entry_t ui_serial_settings_menu[];
-extern ui_menu_entry_t ui_settings_settings_menu[];
-extern ui_menu_entry_t ui_print_settings_menu[];
-extern ui_menu_entry_t rs232_submenu[];
+#define	DCD_IN		0x10
+#define	CTS_IN		0x40
+#define	DSR_IN		0x80
+
+void rsuser_init(void);
+
+int rsuser_init_resources(void);
+int rsuser_init_cmdline_options(void);
+
+int rsuser_enabled;
+
+void userport_serial_write_sr(BYTE);
+void userport_serial_write_ctrl(int);
+BYTE userport_serial_read_ctrl();
+
+int int_rsuser(long offset);
 
 #endif
+

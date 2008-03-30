@@ -37,6 +37,10 @@
 
 #define MYCIA CIA2
 
+#define READ_SDR
+
+#define STORE_SDR
+
 
 /* #define CIA2_TIMER_DEBUG */
 
@@ -49,10 +53,18 @@ INCLUDES()
     #include "c64mem.h"
     #include "c64iec.h"
     #include "c64cia.h"
+    #include "pruser.h"
+    #include "rsuser.h"
 }
 
 #define	PRE_CIA_FUNCS
-#define	POST_CIA_FUNCS
+
+RESET_CIA()
+{
+    userport_printer_write_strobe(1);
+    userport_printer_write_data(0xff);
+    userport_serial_write_ctrl(0xff);
+}
 
 STORE_CIAPA()
 {
@@ -63,15 +75,18 @@ STORE_CIAPA()
 	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
 	 mem_set_vbank(tmp & 3);
 	 iec_cpu_write(tmp);
+	 userport_printer_write_strobe(tmp & 0x04);
     }
 }
 
 STORE_CIAPB()
 {
     cia2[addr] = byte;
+    byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (true1541_parallel_cable_enabled)
-	parallel_cable_cpu_write(cia2[CIA_PRB] | ~cia2[CIA_DDRB],
-                                 ((addr == CIA_PRB) ? 1 : 0));
+	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+    userport_printer_write_data(byte);
+    userport_serial_write_ctrl(byte);
 }
 
 READ_CIAPA()
@@ -87,7 +102,9 @@ READ_CIAPB()
 {
     byte = (true1541_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
+            : (rsuser_enabled 
+		? userport_serial_read_ctrl()
+		: cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
 
 }
 
@@ -96,4 +113,17 @@ READ_CIAICR()
     if (true1541_parallel_cable_enabled)
 	true1541_cpu_execute();
 }
+
+POST_CIA_FUNCS()
+{
+
+void userport_printer_set_busy(int flank)
+{
+    if(!flank) {
+	cia2_set_flag();
+    }
+}
+
+}
+
 

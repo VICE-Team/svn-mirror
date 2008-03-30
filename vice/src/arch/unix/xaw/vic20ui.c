@@ -192,6 +192,12 @@ static ui_menu_entry_t ui_joystick_settings_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t print_settings_menu[] = {
+    { "Printer settings",
+      NULL, NULL, ui_print_settings_menu },
+    { NULL }
+};
+
 int vic20_ui_init(void)
 {
 #ifdef XPM
@@ -228,6 +234,8 @@ int vic20_ui_init(void)
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
+                                     ui_menu_separator,
+				     print_settings_menu,
                                      ui_menu_separator,
                                      memory_settings_menu,
                                      ui_menu_separator,

@@ -44,11 +44,25 @@ INCLUDES()
 {
 #include "kbd.h"
 #include "c64cia.h"
+#include "rsuser.h"
 }
 
 #define PRE_CIA_FUNCS
 
+#define RESET_CIA
+
+#define	READ_SDR
+
 #define STORE_CIAPA 		cia1[addr] = byte;
+
+
+STORE_SDR()
+{
+    if(rsuser_enabled) {
+	userport_serial_write_sr(byte);
+    }
+}
+
 
 STORE_CIAPB()
 {
