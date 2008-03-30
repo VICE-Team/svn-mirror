@@ -99,7 +99,7 @@ static int cmdline_help(const char *param, void *extra_param)
     cmdline_show_help(NULL);
     exit(0);
 
-    return 0;	/* OSF1 cc complains */
+    return 0;   /* OSF1 cc complains */
 }
 
 static int cmdline_default(const char *param, void *extra_param)
@@ -158,14 +158,14 @@ static cmdline_option_t vsid_cmdline_options[] = {
 #ifndef __OS2__
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
-    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Allow production of core dumps" },
-    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
       NULL, "Do not produce core dumps" },
 #else
-    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Don't call exception handler" },
-    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
       NULL, "Call exception handler (default)" },
 #endif
     { NULL }
@@ -180,27 +180,27 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Restore default (factory) settings" },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
       "<name>", "Attach and autostart tape/disk image <name>" },
-    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *) 1, NULL, NULL,
+    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *)1, NULL, NULL,
       "<name>", "Attach <name> as a tape image" },
-    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *) 8, NULL, NULL,
+    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *)8, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #8" },
-    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *) 9, NULL, NULL,
+    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *)9, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #9" },
-    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *) 10, NULL, NULL,
+    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *)10, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #10" },
-    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
+    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *)11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
 #ifdef __OS2__
-    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Don't call exception handler" },
-    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
       NULL, "Call exception handler (default)" },
 #else
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
-    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Allow production of core dumps" },
-    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
       NULL, "Do not produce core dumps" },
 #endif
     { NULL }
@@ -232,8 +232,7 @@ static int init_resources(void)
         return -1;
     }
     if (log_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize log resource handling.\n");
-        return -1;
+        archdep_startup_log_error("Cannot initialize log resource handling.\n");        return -1;
     }
     if (resources_register(resources) < 0) {
         archdep_startup_log_error("Cannot initialize main resources.\n");
@@ -244,8 +243,7 @@ static int init_resources(void)
         return -1;
     }
     if (ui_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");
-        return -1;
+        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");        return -1;
     }
     if (file_system_init_resources() < 0) {
         archdep_startup_log_error("Cannot initialize file system-specific resources.\n");
@@ -410,28 +408,28 @@ int MAIN_PROGRAM(int argc, char **argv)
     for (i = 0; i < argc; i++) {
 #ifndef __OS2__
         if (strcmp(argv[i], "-console") == 0) {
-	    console_mode = 1;
-	} else
+            console_mode = 1;
+        } else
 #endif
-	if (strcmp(argv[i], "-vsid") == 0) {
-	    vsid_mode = 1;
-	}
+        if (strcmp(argv[i], "-vsid") == 0) {
+            vsid_mode = 1;
+        }
     }
 
 #ifdef ENABLE_NLS
     /* gettext stuff, not needed in Gnome, but here I can
        overrule the default locale path */
-    setlocale (LC_ALL, "");
+    setlocale(LC_ALL, "");
     bindtextdomain (PACKAGE, NLS_LOCALEDIR);
-    textdomain (PACKAGE);
+    textdomain(PACKAGE);
 #endif
 
     archdep_startup(&argc, argv);
 
 #ifndef __riscos
     if (atexit (main_exit) < 0) {
-	perror ("atexit");
-	return -1;
+        perror ("atexit");
+        return -1;
     }
 #endif
 
@@ -456,16 +454,16 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Load the user's default configuration file.  */
     if (vsid_mode) {
-	resources_set_value("Drive8Type", (resource_value_t)0);
-	resources_set_value("Sound", (resource_value_t)1);
+        resources_set_value("Drive8Type", (resource_value_t)0);
+        resources_set_value("Sound", (resource_value_t)1);
 #ifdef HAVE_RESID
-	resources_set_value("SidUseResid", (resource_value_t)1);
+        resources_set_value("SidUseResid", (resource_value_t)1);
 #endif
-	resources_set_value("SidModel", (resource_value_t)0);
-	resources_set_value("SidFilters", (resource_value_t)1);
-	resources_set_value("SoundSampleRate", (resource_value_t)44100);
-	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
-	resources_set_value("SoundBufferSize", (resource_value_t)1000);
+        resources_set_value("SidModel", (resource_value_t)0);
+        resources_set_value("SidFilters", (resource_value_t)1);
+        resources_set_value("SoundSampleRate", (resource_value_t)44100);
+        resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
+        resources_set_value("SoundBufferSize", (resource_value_t)1000);
         resources_set_value("SoundSuspendTime", (resource_value_t)0);
     } else {
         int retval = resources_load(NULL);
@@ -517,7 +515,8 @@ int MAIN_PROGRAM(int argc, char **argv)
                 archdep_program_name(), machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
-    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz,");
+    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel,
+T. Bretz,");
     log_message(LOG_DEFAULT, "A. Matthies, M. Pottendorfer, M. Brenner, S. Trikaliotis.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
@@ -539,12 +538,12 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (vsid_mode)
     {
         if (autostart_string
-	    && machine_autodetect_psid(autostart_string) == -1)
-	{
-	    log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
-		      autostart_string);
-	    return -1;
-	}
+            && machine_autodetect_psid(autostart_string) == -1)
+        {
+            log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
+                      autostart_string);
+            return -1;
+        }
     }
 
     if (!vsid_mode)
@@ -643,7 +642,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         fullscreen_mode_init();
 #endif
 
-    mainloop(((ADDRESS)0));
+    maincpu_mainloop();
 
     log_error(LOG_DEFAULT, "perkele!");
 
