@@ -2,7 +2,7 @@
  * pet.h
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -48,6 +48,7 @@
                                         / (double)PET_NTSC_CYCLES_PER_SEC))
 */
 
-void pet_crtc_set_screen(void);
+extern void pet_crtc_set_screen(void);
 
 #endif
+

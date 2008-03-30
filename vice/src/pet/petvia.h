@@ -2,7 +2,7 @@
  * petvia.h - PET VIA emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,15 +27,17 @@
 #ifndef _PET_VIA_H
 #define _PET_VIA_H
 
+#include "snapshot.h"
 #include "types.h"
 
-void via_reset(void);
-void via_init(void);
-BYTE REGPARM1 read_via(ADDRESS addr);
-BYTE REGPARM1 peek_via(ADDRESS addr);
-void REGPARM2 store_via(ADDRESS addr, BYTE value);
+extern void via_reset(void);
+extern void via_init(void);
+extern BYTE REGPARM1 read_via(ADDRESS addr);
+extern BYTE REGPARM1 peek_via(ADDRESS addr);
+extern void REGPARM2 store_via(ADDRESS addr, BYTE value);
 
 extern int via_read_snapshot_module(snapshot_t *);
 extern int via_write_snapshot_module(snapshot_t *);
 
 #endif
+

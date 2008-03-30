@@ -46,6 +46,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "serial.h"
+#include "sound.h"
 #include "tape.h"
 #include "traps.h"
 #include "types.h"

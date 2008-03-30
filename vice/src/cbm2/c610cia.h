@@ -3,8 +3,8 @@
  * c610cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,7 +43,7 @@ extern void cia1_set_sdr(BYTE received_byte);
 extern int cia1_write_snapshot_module(snapshot_t *p);
 extern int cia1_read_snapshot_module(snapshot_t *p);
 
-void cia1_set_ieee_dir(int);
+extern void cia1_set_ieee_dir(int);
 
 #endif	/* _C610_CIA_H */
 

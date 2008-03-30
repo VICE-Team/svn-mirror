@@ -2,8 +2,8 @@
  * riotd.h - Drive VIA definitions.
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,8 +34,8 @@
 extern void riot1d0_set_atn(BYTE state);
 extern void riot1d1_set_atn(BYTE state);
 
-void riot1d0_set_pardata(void);
-void riot1d1_set_pardata(void);
+extern void riot1d0_set_pardata(void);
+extern void riot1d1_set_pardata(void);
 
 extern void riot1d0_init(void);
 extern void riot1d0_signal(int sig, int type);

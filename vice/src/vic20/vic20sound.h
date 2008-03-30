@@ -2,7 +2,7 @@
  * vic20sound.h - implementation of VIC20 sound code
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,10 @@
 #ifndef _VIC20SOUND_H
 #define _VIC20SOUND_H
 
-#include "sound.h"
+#include "types.h"
 
-void store_vic_sound(ADDRESS address, BYTE byte);
-void vic_sound_reset(void);
+extern void store_vic_sound(ADDRESS address, BYTE byte);
+extern void vic_sound_reset(void);
 
 #endif
+

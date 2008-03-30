@@ -64,22 +64,24 @@ typedef struct resource {
 
 /* ------------------------------------------------------------------------- */
 
-int resources_init(const char *machine);
-int resources_register(const resource_t *r);
-int resources_set_value(const char *name, resource_value_t value);
-int resources_set_value_string(const char *name, const char *value);
-int resources_toggle(const char *name, resource_value_t *new_value_return);
-int resources_get_value(const char *name, resource_value_t *value_return);
-int resources_get_default_value(const char *name, 
-				const resource_value_t *value_return);
-resource_type_t resources_query_type(const char *name);
-int resources_save(const char *fname);
-int resources_load(const char *fname);
+extern int resources_init(const char *machine);
+extern int resources_register(const resource_t *r);
+extern int resources_set_value(const char *name, resource_value_t value);
+extern int resources_set_value_string(const char *name, const char *value);
+extern int resources_toggle(const char *name,
+                            resource_value_t *new_value_return);
+extern int resources_get_value(const char *name,
+                               resource_value_t *value_return);
+extern int resources_get_default_value(const char *name, 
+                                       const resource_value_t *value_return);
+extern resource_type_t resources_query_type(const char *name);
+extern int resources_save(const char *fname);
+extern int resources_load(const char *fname);
 
-int resources_write_item_to_file(FILE *fp, const char *name);
-int resources_read_item_from_file(FILE *fp);
+extern int resources_write_item_to_file(FILE *fp, const char *name);
+extern int resources_read_item_from_file(FILE *fp);
 
-void resources_set_defaults(void);
+extern void resources_set_defaults(void);
 
 #endif /* _RESOURCES_H */
 

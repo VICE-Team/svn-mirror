@@ -27,12 +27,11 @@
 #ifndef _PSID_H
 #define _PSID_H
 
-#include "types.h"
-
-int psid_init_resources(void);
-int psid_init_cmdline_options(void);
-int psid_load_file(const char* filename);
-void psid_init_tune(void);
-void psid_init_driver(void);
+extern int psid_init_resources(void);
+extern int psid_init_cmdline_options(void);
+extern int psid_load_file(const char* filename);
+extern void psid_init_tune(void);
+extern void psid_init_driver(void);
 
 #endif
+

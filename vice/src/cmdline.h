@@ -68,10 +68,10 @@ typedef struct cmdline_option {
 
 } cmdline_option_t;
 
-int cmdline_init(void);
-int cmdline_register_options(const cmdline_option_t *c);
-int cmdline_parse(int *argc, char **argv);
-void cmdline_show_help(void);
+extern int cmdline_init(void);
+extern int cmdline_register_options(const cmdline_option_t *c);
+extern int cmdline_parse(int *argc, char **argv);
+extern void cmdline_show_help(void);
 
 #endif
 

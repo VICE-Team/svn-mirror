@@ -36,16 +36,16 @@
 #define DATASETTE_CONTROL_RECORD  4
 #define DATASETTE_CONTROL_RESET   5
 
-void datasette_init(void);
-void datasette_set_tape_image(tap_t *image);
-void datasette_control(int command);
-void datasette_set_motor(int flag);
-void datasette_toggle_write_bit(int write_bit);
-void datasette_reset(void);
+extern void datasette_init(void);
+extern void datasette_set_tape_image(tap_t *image);
+extern void datasette_control(int command);
+extern void datasette_set_motor(int flag);
+extern void datasette_toggle_write_bit(int write_bit);
+extern void datasette_reset(void);
 
 /* Emulator specific functions.  */
-void datasette_trigger_flux_change(void);
-void datasette_set_tape_sense(int sense);
+extern void datasette_trigger_flux_change(void);
+extern void datasette_set_tape_sense(int sense);
 
 #endif
 

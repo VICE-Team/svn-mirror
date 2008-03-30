@@ -2,8 +2,8 @@
  * petmem.h - PET memory handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -54,6 +54,7 @@ extern int superpet_diag(void);
 extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);
 
-void set_screen(void);
+extern void set_screen(void);
 
 #endif
+

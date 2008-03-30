@@ -2,7 +2,7 @@
  * vic-mem.h - Memory interface for the VIC-I emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,8 +30,9 @@
 #include "types.h"
 
 /* FIXME: Names should be changed.  */
-void REGPARM2 store_vic (ADDRESS addr, BYTE value);
-BYTE REGPARM1 read_vic (ADDRESS addr);
-BYTE REGPARM1 peek_vic (ADDRESS addr);
+extern void REGPARM2 store_vic (ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 read_vic (ADDRESS addr);
+extern BYTE REGPARM1 peek_vic (ADDRESS addr);
 
 #endif
+

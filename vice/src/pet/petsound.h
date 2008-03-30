@@ -2,7 +2,7 @@
  * petsound.h - implementation of PET sound code
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,10 +29,11 @@
 
 #include "types.h"
 
-void store_petsnd_onoff(int value);
-void store_petsnd_rate(CLOCK t);
-void store_petsnd_sample(BYTE value);
+extern void store_petsnd_onoff(int value);
+extern void store_petsnd_rate(CLOCK t);
+extern void store_petsnd_sample(BYTE value);
 
-void petsnd_reset(void);
+extern void petsnd_reset(void);
 
 #endif
+

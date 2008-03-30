@@ -2,11 +2,11 @@
  * vic.h - A VIC-I emulation (under construction)
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,13 +35,11 @@
 
 #include "alarm.h"
 #include "log.h"
+#include "raster.h"
 #include "snapshot.h"
+#include "vic-mem.h"
 #include "vic20.h"
 #include "video.h"
-
-#include "raster.h"
-
-#include "vic-mem.h"
 
 
 
@@ -148,22 +146,22 @@ extern vic_t vic;
 
 
 
-canvas_t vic_init (void);
-void vic_reset (void);
+extern canvas_t vic_init (void);
+extern void vic_reset (void);
 
-int vic_init_resources (void);
-int vic_init_cmdline_options (void);
+extern int vic_init_resources (void);
+extern int vic_init_cmdline_options (void);
 
-int vic_write_snapshot_module (snapshot_t *s);
-int vic_read_snapshot_module (snapshot_t *s);
+extern int vic_write_snapshot_module (snapshot_t *s);
+extern int vic_read_snapshot_module (snapshot_t *s);
 
 
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */
-void vic_update_memory_ptrs (void);
-int vic_load_palette (const char *name);
-void vic_resize (void);
+extern void vic_update_memory_ptrs (void);
+extern int vic_load_palette (const char *name);
+extern void vic_resize (void);
 
 
 
@@ -185,3 +183,4 @@ void vic_resize (void);
 #endif
 
 #endif /* _VIC_H */
+

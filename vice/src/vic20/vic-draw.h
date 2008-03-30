@@ -2,7 +2,7 @@
  * vic-draw.h - Drawing functions for the VIC emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,7 +27,8 @@
 #ifndef _VIC_DRAW_H
 #define _VIC_DRAW_H
 
-void vic_draw_init (void);
-void vic_draw_set_double_size (int enabled);
+extern void vic_draw_init (void);
+extern void vic_draw_set_double_size (int enabled);
 
 #endif
+

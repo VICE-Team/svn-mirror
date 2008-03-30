@@ -2,7 +2,7 @@
  * warn.h - General-purpose warning message handler.
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,24 +33,25 @@ typedef struct warn_s warn_t;
  * Init warning -pointer. nrwarnings is the maximum warnid used on warn().
  * name is the name of the module, eg "SID".
  */
-warn_t *warn_init(const char *name, int nrwarnings);
+extern warn_t *warn_init(const char *name, int nrwarnings);
 
 /*
  * Warn every warning with warnid >= 0 only once.
  * Warn other warnings always.
  */
-void warn(warn_t *pwarn, int warnid, const char *msg, ...);
+extern void warn(warn_t *pwarn, int warnid, const char *msg, ...);
 
 /*
  * This resets warning-information for one module or all modules
  * (NULL-parameter). After reset warning with warnid >= 0 will be
  * displayed again.
  */
-void warn_reset(warn_t *pwarn);
+extern void warn_reset(warn_t *pwarn);
 
 /*
  * Free warnings structure.
  */
-void warn_free(warn_t *pwarn);
+extern void warn_free(warn_t *pwarn);
 
 #endif /* _WARN_H */
+
