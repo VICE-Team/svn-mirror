@@ -66,7 +66,7 @@
 struct vdrive_s;
 
 extern void vdrive_command_init(void);
-extern int vdrive_command_execute(struct vdrive_s *vdrive, BYTE *buf,
+extern int vdrive_command_execute(struct vdrive_s *vdrive, const BYTE *buf,
                                   unsigned int length);
 extern int vdrive_command_format(struct vdrive_s *vdrive,
                                  const char *disk_name);

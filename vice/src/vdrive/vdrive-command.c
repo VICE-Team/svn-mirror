@@ -121,7 +121,8 @@ void vdrive_command_init(void)
     vdrive_command_log = log_open("VDriveCommand");
 }
 
-int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
+int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
+                           unsigned int length)
 {
     int status = IPE_OK;
     BYTE *p, *p2;
