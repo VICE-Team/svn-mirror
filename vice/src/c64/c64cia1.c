@@ -808,7 +808,7 @@ BYTE read_cia1_(ADDRESS addr)
 	    int m, i;
 
 	    msk &= ~joy[1];
-	    for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~rev_keyarr[i];
 	    byte= val & ~joy[1];
@@ -824,7 +824,7 @@ BYTE read_cia1_(ADDRESS addr)
 	    BYTE m;
 	    int i;
 
-	    for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
+	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~keyarr[i];
 	    byte= (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
@@ -1406,18 +1406,5 @@ void cia1_undump_line(char *s)
 
 #endif
 
-
-
-int     show_keyarr(void)
-{
-    int     i, j;
-    for (j = 0; j < KBD_ROWS; j++) {
-	printf("%d:", j);
-	for (i = 0x80; i; i >>= 1)
-	    printf(" %d", keyarr[j] & i);
-	printf("\n");
-    }
-    return (0);
-}
 
 
