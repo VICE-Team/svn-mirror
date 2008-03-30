@@ -4,7 +4,7 @@
  * disk drive ($4000).
  *
  * Written by
- *   Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *   Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,9 +36,9 @@
 
 #define mycia_init cia1571d1_init
 #define mycia_reset cia1571d1_reset
-#define store_mycia store_cia1571d1
-#define read_mycia read_cia1571d1
-#define peek_mycia peek_cia1571d1
+#define mycia_store cia1571d1_store
+#define mycia_read cia1571d1_read
+#define mycia_peek cia1571d1_peek
 #define mycia_set_flag cia1571d1_set_flag
 #define mycia_set_sdr cia1571d1_set_sdr
 #define mycia_write_snapshot_module cia1571d1_write_snapshot_module

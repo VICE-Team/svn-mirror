@@ -280,14 +280,14 @@ void mycia_reset(void)
 }
 
 
-void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
+void REGPARM2 mycia_store(ADDRESS addr, BYTE byte)
 {
     CLOCK rclk;
 
     if (mycpu_rmw_flag) {
 	myclk --;
 	mycpu_rmw_flag = 0;
-	store_mycia(addr, cia_last_read);
+	mycia_store(addr, cia_last_read);
 	myclk ++;
     }
 
@@ -535,12 +535,12 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 /* ------------------------------------------------------------------------- */
 
 
-BYTE REGPARM1 read_mycia(ADDRESS addr)
+BYTE REGPARM1 mycia_read(ADDRESS addr)
 {
 #if defined( CIA_TIMER_DEBUG )
 
-    BYTE read_cia_(ADDRESS addr);
-    BYTE tmp = read_cia_(addr);
+    BYTE cia_read_(ADDRESS addr);
+    BYTE tmp = cia_read_(addr);
 
     if (mycia_debugFlag)
 	log_message(cia_log, "read cia[%x] returns %02x @ clk=%d.",
@@ -548,7 +548,7 @@ BYTE REGPARM1 read_mycia(ADDRESS addr)
     return tmp;
 }
 
-BYTE read_cia_(ADDRESS addr)
+BYTE cia_read_(ADDRESS addr)
 {
 
 #endif
@@ -716,7 +716,7 @@ BYTE read_cia_(ADDRESS addr)
     return (cia[addr]);
 }
 
-BYTE REGPARM1 peek_mycia(ADDRESS addr)
+BYTE REGPARM1 mycia_peek(ADDRESS addr)
 {
     /* This code assumes that update_cia is a projector - called at
      * the same cycle again it doesn't change anything. This way
@@ -817,7 +817,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 	break;
     }				/* switch */
 
-    return read_mycia(addr);
+    return mycia_read(addr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1119,7 +1119,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_word(m, ciat_read_latch(&ciata, myclk));
     snapshot_module_write_word(m, ciat_read_latch(&ciatb, myclk));
-    snapshot_module_write_byte(m, peek_mycia(CIA_ICR));
+    snapshot_module_write_byte(m, mycia_peek(CIA_ICR));
 
     /* Bits 2 & 3 are compatibility to snapshot format v1.0 */
     snapshot_module_write_byte(m, ((cia_tat ? 0x40 : 0)

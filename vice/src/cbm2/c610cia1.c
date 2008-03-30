@@ -35,9 +35,9 @@
 
 #define mycia_init cia1_init
 #define mycia_reset cia1_reset
-#define store_mycia store_cia1
-#define read_mycia read_cia1
-#define peek_mycia peek_cia1
+#define mycia_store cia1_store
+#define mycia_read cia1_read
+#define mycia_peek cia1_peek
 #define mycia_set_flag cia1_set_flag
 #define mycia_set_sdr cia1_set_sdr
 #define mycia_write_snapshot_module cia1_write_snapshot_module
