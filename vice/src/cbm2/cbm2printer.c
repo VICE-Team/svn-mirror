@@ -28,6 +28,7 @@
 
 #include "cbm2.h"
 #include "machine-printer.h"
+#include "printer.h"
 
 
 void machine_printer_setup_context(struct machine_context_s *machine_context)
@@ -35,8 +36,34 @@ void machine_printer_setup_context(struct machine_context_s *machine_context)
 
 }
 
+int machine_printer_resources_init(void)
+{
+    if (printer_interface_serial_init_resources() < 0
+        || printer_interface_userport_init_resources() < 0)
+        return -1;
+    return 0;
+}
+
+void machine_printer_resources_shutdown(void)
+{
+}
+
+int machine_printer_cmdline_options_init(void)
+{
+    if (printer_interface_serial_init_cmdline_options() < 0
+        || printer_interface_userport_init_cmdline_options() < 0)
+        return -1;
+    return 0;
+}
+
 void machine_printer_init(void)
 {
+    printer_serial_init();
     printer_userport_init();
+}
+
+void machine_printer_shutdown(void)
+{
+    interface_serial_shutdown();
 }
 
