@@ -35,6 +35,7 @@
 #include "video.h"
 #include "videoarch.h"
 #include "ui.h"
+#include "utils.h"
 
 
 video_resources_t video_resources =
@@ -197,3 +198,28 @@ int video_resources_init(int mode)
     return result | video_arch_init_resources();
 }
 
+/*-----------------------------------------------------------------------*/
+/* Per chip resources.  */
+#if 0
+
+#ifdef __MSDOS__
+#define DEFAULT_VideoCache_VALUE 0
+#else
+#define DEFAULT_VideoCache_VALUE 1
+#endif
+
+static char[] rname_chip = { "VideoCache", NULL };
+
+static resource_t resources_chip[] =
+{
+    { NULL, RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
+      (resource_value_t *)&vic_ii_resources.video_cache_enabled,
+      set_video_cache_enabled, NULL },
+}
+
+int video_resources_chip_init(const char *chipname)
+{
+    for (i = 0; rname_chip[i] != NULL; i++)
+        resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
+}
+#endif

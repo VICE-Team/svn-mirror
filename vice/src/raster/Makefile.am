@@ -16,6 +16,8 @@ libraster_a_SOURCES = \
 	raster-line.h \
 	raster-modes.c \
 	raster-modes.h \
+	raster-resources.c \
+	raster-resources.h \
 	raster-sprite.c \
 	raster-sprite.h \
 	raster-sprite-status.c \
