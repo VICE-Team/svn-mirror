@@ -308,7 +308,7 @@ Directory.o: Directory.c Directory.h RegExp.h
 DrawImageString.o: DrawImageString.c TabString.h
 DrawString.o: DrawString.c TabString.h
 FileSel.o: FileSel.c ../../../../../src/config.h \
-	../../../../../src/utils.h ../../../../../src/types.h \
+	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
 	ScrListP.h ScrList.h FileSelP.h DirMgr.h Directory.h RegExp.h \
 	FileSel.h TextField.h
 MultiList.o: MultiList.c MultiListP.h MultiList.h TabString.h

@@ -153,6 +153,7 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	respet.rc \
 	resvic.rc \
+	types.h \
 	ui.c \
 	ui.h \
 	uiattach.c \
@@ -372,6 +373,116 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/findpath.h archdep.h ../../../src/log.h \
+	../../../src/utils.h types.h
+c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/cartridge.h types.h kbd.h
+c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	c128ui.h res.h ui.h video.h types.h ../../../src/palette.h \
+	uivicii.h
+c610kbd.o: c610kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	kbd.h types.h
+c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	petui.h res.h ui.h video.h types.h ../../../src/palette.h \
+	uicbm2set.h winmain.h
+c64kbd.o: c64kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	kbd.h types.h
+c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
+	video.h types.h ../../../src/palette.h c64ui.h \
+	../../../src/cartridge.h kbd.h res.h uilib.h uivicii.h \
+	winmain.h
+dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/utils.h types.h dirent.h
+joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/cmdline.h ../../../src/resources.h \
+	joystick.h kbd.h types.h winmain.h
+kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h lose32.h kbd.h \
+	types.h ../../../src/cmdline.h ../../../src/resources.h \
+	joystick.h
+petkbd.o: petkbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	kbd.h types.h
+petui.o: petui.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	petui.h res.h ui.h video.h types.h ../../../src/palette.h \
+	uipetset.h winmain.h
+print.o: print.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/print.h types.h
+ui.o: ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
+	video.h types.h ../../../src/palette.h ../../../src/attach.h \
+	../../../src/vdrive.h ../../../src/fs_cbm.h \
+	../../../src/serial.h ../../../src/traps.h ../../../src/log.h \
+	../../../src/snapshot.h ../../../src/autostart.h archdep.h \
+	../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/datasette.h ../../../src/tap.h \
+	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
+	../../../src/alarm.h ../../../src/clkguard.h \
+	../../../src/mos6510.h ../../../src/mon.h ../../../src/mem.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/fliplist.h kbd.h ../../../src/machine.h \
+	../../../src/maincpu.h res.h ../../../src/tape.h uiattach.h \
+	uidrive.h uijoystick.h uilib.h uisnapshot.h uisound.h \
+	../../../src/utils.h vsync.h winmain.h
+uiattach.o: uiattach.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/attach.h types.h ../../../src/vdrive.h \
+	../../../src/fs_cbm.h ../../../src/serial.h \
+	../../../src/traps.h ../../../src/log.h ../../../src/snapshot.h \
+	../../../src/autostart.h res.h ../../../src/resources.h ui.h \
+	video.h ../../../src/palette.h uiattach.h uilib.h winmain.h
+uicbm2set.o: uicbm2set.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/cbm2/c610mem.h types.h res.h \
+	../../../src/resources.h ui.h video.h ../../../src/palette.h \
+	uicbm2set.h uilib.h ../../../src/utils.h winmain.h
+uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/drive/drive.h types.h ../../../src/vdrive.h \
+	../../../src/fs_cbm.h ../../../src/serial.h \
+	../../../src/traps.h ../../../src/log.h \
+	../../../src/drive/drivecpu.h ../../../src/alarm.h \
+	../../../src/clkguard.h ../../../src/mos6510.h \
+	../../../src/mon.h ../../../src/mem.h ../../../src/snapshot.h \
+	../../../src/interrupt.h ../../../src/6510core.h res.h \
+	../../../src/resources.h ui.h video.h ../../../src/palette.h \
+	uidrive.h uilib.h winmain.h
+uijoystick.o: uijoystick.c res.h ../../../src/resources.h joystick.h \
+	kbd.h types.h winmain.h
+uilib.o: uilib.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	../../../src/resources.h ui.h video.h types.h \
+	../../../src/palette.h uilib.h ../../../src/utils.h winmain.h
+uipetset.o: uipetset.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/pet/pets.h types.h res.h \
+	../../../src/resources.h ui.h video.h ../../../src/palette.h \
+	uilib.h uipetset.h ../../../src/utils.h winmain.h
+uisnapshot.o: uisnapshot.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h ../../../src/drive/drive.h types.h \
+	../../../src/vdrive.h ../../../src/fs_cbm.h \
+	../../../src/serial.h ../../../src/traps.h ../../../src/log.h \
+	../../../src/drive/drivecpu.h ../../../src/alarm.h \
+	../../../src/clkguard.h ../../../src/mos6510.h \
+	../../../src/mon.h ../../../src/mem.h ../../../src/snapshot.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/machine.h res.h ../../../src/resources.h ui.h \
+	video.h ../../../src/palette.h uidrive.h uilib.h winmain.h
+uisound.o: uisound.c res.h ../../../src/resources.h ../../../src/sound.h \
+	types.h ../../../src/warn.h winmain.h
+uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	res.h ../../../src/resources.h ui.h video.h types.h \
+	../../../src/palette.h uilib.h ../../../src/utils.h winmain.h
+vic20kbd.o: vic20kbd.c ../../../src/vice.h ../../../src/config.h \
+	lose32.h kbd.h types.h
+vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	ui.h video.h types.h ../../../src/palette.h \
+	../../../src/cartridge.h res.h uilib.h vic20ui.h winmain.h
+video.o: video.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	video.h types.h ../../../src/palette.h ui.h \
+	../../../src/utils.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/log.h
+vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	vsync.h types.h ../../../src/cmdline.h ../../../src/resources.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/mem.h ../../../src/snapshot.h \
+	../../../src/kbdbuf.h ../../../src/sound.h ../../../src/warn.h \
+	ui.h video.h ../../../src/palette.h joystick.h kbd.h
+winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h lose32.h \
+	winmain.h
 
 info: info-recursive
 dvi: dvi-recursive

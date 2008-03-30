@@ -229,7 +229,7 @@ static int set_double_scan_enabled(resource_value_t v)
 
 #ifdef USE_VIDMODE_EXTENSION
 
-void fullscreen_forcerepaint();
+void fullscreen_forcerepaint(void);
 
 #ifdef NEED_2x
 static int set_fullscreen_double_size_enabled(resource_value_t v)

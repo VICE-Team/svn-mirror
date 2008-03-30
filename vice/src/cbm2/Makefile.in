@@ -293,13 +293,13 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
-	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/log.h ../../src/snapshot.h ../../src/autostart.h \
-	c610acia.h c610cia.h ../../src/cia.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/mem.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/interrupt.h c610mem.h c610tpi.h \
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/snapshot.h \
+	../../src/autostart.h c610acia.h c610cia.h ../../src/cia.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h c610mem.h c610tpi.h \
 	../../src/arch/unix/xaw/c610ui.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/crtc.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
@@ -312,14 +312,15 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
 	../../src/rs232.h
 c610acia1.o: c610acia1.c ../../src/maincpu.h ../../src/config.h \
-	../../src/6510core.h ../../src/mem.h ../../src/types.h \
-	../../src/snapshot.h ../../src/alarm.h ../../src/log.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/interrupt.h c610tpi.h ../../src/aciacore.c \
-	../../src/vice.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/machine.h ../../src/rs232.h ../../src/acia.h
+	../../src/6510core.h ../../src/mem.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	c610tpi.h ../../src/aciacore.c ../../src/vice.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
+	../../src/rs232.h ../../src/acia.h
 c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/config.h ../../src/cia.h ../../src/arch/unix/types.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
@@ -329,24 +330,26 @@ c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	c610cia.h c610tpi.h ../../src/ciacore.c ../../src/ciatimer.h
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/mem.h ../../src/snapshot.h \
-	../maincpu.c ../vice.h ../maincpu.h ../config.h ../6510core.h \
-	../mem.h ../types.h ../alarm.h ../log.h ../clkguard.h ../mon.h \
-	../mos6510.h ../interrupt.h ../snapshot.h ../machine.h \
-	../resources.h ../traps.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h ../vdrive.h \
-	../fs_cbm.h ../serial.h ../6510core.c
+	../../src/arch/unix/types.h ../../src/mem.h \
+	../../src/snapshot.h ../maincpu.c ../vice.h ../maincpu.h \
+	../config.h ../6510core.h ../mem.h ../alarm.h ../log.h \
+	../clkguard.h ../mon.h ../mos6510.h ../interrupt.h \
+	../snapshot.h ../machine.h ../resources.h ../traps.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../vdrive.h ../fs_cbm.h ../serial.h \
+	../6510core.c
 c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/tap.h ../../src/types.h
+	../../src/datasette.h ../../src/tap.h \
+	../../src/arch/unix/types.h
 c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/iecdrive.h
+	../../src/arch/unix/types.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/iecdrive.h
 c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
-	../../src/autostart.h ../../src/types.h c610acia.h \
+	../../src/autostart.h ../../src/arch/unix/types.h c610acia.h \
 	../../src/snapshot.h c610cia.h ../../src/cia.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
@@ -360,7 +363,7 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/warn.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/arch/unix/vsync.h
 c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
-	../../src/config.h ../../src/types.h ../../src/log.h \
+	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
@@ -372,21 +375,22 @@ c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/resources.h ../../src/tpicore.c
 c610tpi2.o: c610tpi2.c ../../src/tpicore.h ../../src/vice.h \
-	../../src/config.h ../../src/types.h ../../src/log.h \
+	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/arch/unix/kbd.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/interrupt.h ../../src/tpicore.c
-crtc.o: crtc.c ../../src/config.h ../../src/types.h ../../src/snapshot.h \
-	c610tpi.h ../../src/crtc.h ../../src/vice.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/crtccore.c ../../src/cmdline.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
-	../../src/log.h ../../src/machine.h ../../src/raster.h \
-	../../src/utils.h ../../src/alarm.h ../../src/maincpu.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/raster.c ../../src/arch/unix/vsync.h
+crtc.o: crtc.c ../../src/config.h ../../src/arch/unix/types.h \
+	../../src/snapshot.h c610tpi.h ../../src/crtc.h \
+	../../src/vice.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/crtccore.c ../../src/cmdline.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/log.h \
+	../../src/machine.h ../../src/raster.h ../../src/utils.h \
+	../../src/alarm.h ../../src/maincpu.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

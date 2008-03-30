@@ -135,6 +135,7 @@ libarch_a_SOURCES = \
 	petkmap.c \
 	print.c \
 	rs232.c \
+	types.h \
 	ui.h \
 	video.c \
 	video.h \
@@ -300,50 +301,48 @@ distdir: $(DISTFILES)
 	done
 archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
 	../../../src/findpath.h ../../../src/log.h ../../../src/utils.h \
-	../../../src/types.h
+	types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h kbd.h ../../../src/log.h \
-	../../../src/resources.h ../../../src/cmdline.h joystick.h
+joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h types.h \
+	kbd.h ../../../src/log.h ../../../src/resources.h \
+	../../../src/cmdline.h joystick.h
 kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/types.h \
-	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/snapshot.h joystick.h kbd.h kbdef.h \
-	../../../src/log.h ../../../src/machine.h \
+	../../../src/interrupt.h types.h ../../../src/6510core.h \
+	../../../src/mem.h ../../../src/snapshot.h joystick.h kbd.h \
+	kbdef.h ../../../src/log.h ../../../src/machine.h \
 	../../../src/memutils.h ../../../src/sysfile.h ui.h xaw/ui.h \
 	../../../src/palette.h ../../../src/utils.h video.h
-kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/utils.h kbd.h
+kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
+	../../../src/resources.h ../../../src/cmdline.h \
+	../../../src/utils.h kbd.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h mouse.h \
-	../../../src/types.h ../../../src/cmdline.h \
-	../../../src/resources.h kbd.h ../../../src/log.h ui.h xaw/ui.h \
-	../../../src/palette.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/utils.h \
-	../../../src/resources.h ../../../src/cmdline.h kbd.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/log.h \
-	../../../src/resources.h ../../../src/cmdline.h \
-	../../../src/print.h ../../../src/utils.h
-rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/log.h \
-	../../../src/resources.h ../../../src/cmdline.h \
-	../../../src/rs232.h ../../../src/utils.h coproc.h
+	types.h ../../../src/cmdline.h ../../../src/resources.h kbd.h \
+	../../../src/log.h ui.h xaw/ui.h ../../../src/palette.h
+petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
+	../../../src/utils.h ../../../src/resources.h \
+	../../../src/cmdline.h kbd.h
+print.o: print.c ../../../src/vice.h ../../../src/config.h types.h \
+	../../../src/log.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/print.h \
+	../../../src/utils.h
+rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h types.h \
+	../../../src/log.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/rs232.h \
+	../../../src/utils.h coproc.h
 video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
-	../../../src/palette.h ../../../src/types.h ui.h xaw/ui.h \
+	../../../src/palette.h types.h ui.h xaw/ui.h \
 	../../../src/resources.h kbd.h ../../../src/log.h \
 	../../../src/cmdline.h ../../../src/utils.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
-	../../../src/types.h ../../../src/clkguard.h \
-	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/mem.h ../../../src/snapshot.h \
-	../../../src/kbdbuf.h ../../../src/log.h ../../../src/maincpu.h \
-	../../../src/alarm.h ../../../src/mon.h ../../../src/mos6510.h \
-	../../../src/sound.h ../../../src/warn.h ui.h xaw/ui.h \
-	../../../src/palette.h video.h joystick.h
+	types.h ../../../src/clkguard.h ../../../src/cmdline.h \
+	../../../src/resources.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/snapshot.h ../../../src/kbdbuf.h \
+	../../../src/log.h ../../../src/maincpu.h ../../../src/alarm.h \
+	../../../src/mon.h ../../../src/mos6510.h ../../../src/sound.h \
+	../../../src/warn.h ui.h xaw/ui.h ../../../src/palette.h \
+	video.h joystick.h
 
 info: info-recursive
 dvi: dvi-recursive

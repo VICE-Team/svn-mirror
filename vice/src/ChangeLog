@@ -1,3 +1,33 @@
+1999-05-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.5.
+
+	* arch/msdos/archdep.c (archdep_path_is_relative): Check for NULL
+	pointer.
+	* arch/win32/archdep.c: Changed likewise.
+
+	* arch/msdos/types.h, arch/riscos/types.h, arch/unix/types.h,
+	arch/win32/types.h: New files.
+
+	* types.h: Removed.
+
+	* c1541.c: Use `HAVE_READLINE' instead of obsolete `EDIT' define.
+
+	* vice.h: Removed `EDIT' define.
+
+	* vicii/vicii.c, vic20/vic.c, crtccore.c: Fixed prototype.
+
+	* autostart.c (autostart_autodetect): More verbose logging.
+	(autostart_advance): Press play on datasette if a tape image is
+	attached.
+
+	* drive/drivecpu0.c, drive/drivecpu1.c, 6510core.c: Use
+	`DRIVE_CPU' instead of obsolete `__1541__'.
+
+	* pet/petmem.c: Removed some cruft.
+
+	* memcmp.c, info.h: Added proper copyright notice.
+
 1999-05-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.4.
