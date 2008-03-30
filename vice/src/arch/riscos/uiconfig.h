@@ -295,6 +295,7 @@ typedef struct menu_icon_s {
 #define Icon_ConfSys_Basic		7
 #define Icon_ConfSys_REU		8
 #define Icon_ConfSys_GEORAM		9
+#define Icon_ConfSys_RAMCART		17
 #define Icon_ConfSys_IEEE488		11
 #define Icon_ConfSys_EmuID		12
 #define Icon_ConfSys_NoTraps		13

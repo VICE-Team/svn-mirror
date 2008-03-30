@@ -8,6 +8,7 @@
 #include "reside64.rc"
 #include "resreu.rc"
 #include "resgeoram.rc"
+#include "resramcart.rc"
 #include "resrs232user.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
@@ -240,6 +241,7 @@ BEGIN
         BEGIN
             MENUITEM "&REU settings...",      IDM_REU_SETTINGS
             MENUITEM "&GEORAM settings...",      IDM_GEORAM_SETTINGS
+            MENUITEM "&RAMCART settings...",      IDM_RAMCART_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS

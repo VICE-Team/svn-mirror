@@ -50,6 +50,7 @@
 #include "resources.h"
 #include "retroreplay.h"
 #include "ide64.h"
+#include "ramcart.h"
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
@@ -307,6 +308,10 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 
 BYTE REGPARM1 roml_read(WORD addr)
 {
+    if (ramcart_enabled)
+    {
+      return ramcart_roml_read(addr);
+    }
     switch (mem_cartridge_type) {
       case CARTRIDGE_ZAXXON:
         return zaxxon_roml_read(addr);
@@ -340,6 +345,11 @@ BYTE REGPARM1 roml_read(WORD addr)
 
 void REGPARM2 roml_store(WORD addr, BYTE value)
 {
+    if (ramcart_enabled)
+    {
+      ramcart_roml_store(addr,value);
+      return;
+    }
     switch (mem_cartridge_type) {
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_roml_store(addr, value);

@@ -260,6 +260,13 @@
 #define IDC_GEORAM_FILE                 1338
 #define IDC_GEORAM_BROWSE               1339
 
+#define IDD_RAMCART_SETTINGS_DIALOG     1359
+#define IDC_RAMCART_ENABLE              1360
+#define IDC_RAMCART_SIZE                1361
+#define IDC_RAMCART_FILE                1362
+#define IDC_RAMCART_BROWSE              1363
+#define IDC_RAMCART_RO                  1364
+
 #define IDD_SID_GENERAL_SETTINGS_DIALOG 1340
 #define IDD_SID_RESID_SETTINGS_DIALOG   1341
 #define IDD_SID_HARDSID_SETTINGS_DIALOG 1342
@@ -785,6 +792,7 @@
 #define IDM_FLIP_SAVE                   40175
 #define IDM_REU_SETTINGS                40180
 #define IDM_GEORAM_SETTINGS             40176
+#define IDM_RAMCART_SETTINGS            40178
 #define IDM_TOGGLE_CRTCDOUBLESIZE       40181
 #define IDM_TOGGLE_CRTCDOUBLESCAN       40182
 #define IDM_TOGGLE_CRTCVIDEOCACHE       40183

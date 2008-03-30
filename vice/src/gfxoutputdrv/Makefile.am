@@ -29,6 +29,7 @@ EXTRA_DIST = \
     ffmpeg/avformat.h \
     ffmpeg/avio.h \
     ffmpeg/common.h \
+    ffmpeg/rational.h \
     ffmpeg/rtp.h \
     ffmpeg/rtsp.h \
     ffmpeg/rtspcodes.h

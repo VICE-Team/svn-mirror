@@ -52,6 +52,8 @@
 
 #define strcasecmp(s1, s2)      _stricmp(s1, s2)
 
+#define snprintf _snprintf
+
 /* Temporary kludge.  */
 #define PATH_MAX                256
 

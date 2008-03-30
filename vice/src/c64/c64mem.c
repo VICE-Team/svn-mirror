@@ -457,6 +457,7 @@ void mem_initialize_memory(void)
     /* Setup initial memory configuration.  */
     mem_pla_config_changed();
     cartridge_init_config();
+    ramcart_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

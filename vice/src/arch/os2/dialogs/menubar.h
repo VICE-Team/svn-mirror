@@ -131,6 +131,11 @@
 #define IDM_GEORAM2048   0x920
 #define IDM_GEORAM4096   0x940
 
+#define IDM_RAMCART      0x16e
+#define IDM_RAMCARTSIZE  0x16f
+#define IDM_RAMCART64    0x941
+#define IDM_RAMCART128   0x942
+
 #define IDM_TFE          0x158
 
 #define IDM_MOUSE        0x151

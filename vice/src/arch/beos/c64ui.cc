@@ -52,6 +52,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
     { "GEORAM", MENU_TOGGLE_GEORAM },
+    { "RAMCART", MENU_TOGGLE_RAMCART },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
@@ -81,9 +82,16 @@ ui_res_possible_values GeoRAMSize[] = {
         {-1, 0}
 };
 
+ui_res_possible_values RamCartSize[] = {
+        {64, MENU_RAMCART_SIZE_64},
+        {128, MENU_RAMCART_SIZE_128},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
+    {"RAMCARTsize", RamCartSize},
     {NULL,NULL}
 };
 

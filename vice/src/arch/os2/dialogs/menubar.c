@@ -528,6 +528,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_GEORAM:
         toggle("GEORAM");
         return;
+    case IDM_RAMCART:
+        toggle("RAMCART");
+        return;
 #ifdef HAVE_TFE
     case IDM_TFE:
         toggle("ETHERNET_ACTIVE");
@@ -554,6 +557,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_GEORAM4096:
         resources_set_value("GEORAMSize",
                             (resource_value_t*)((idm&0xff)<<6));
+        return;
+
+    case IDM_RAMCART64:
+    case IDM_RAMCART128:
+        resources_set_value("RAMCARTSize",
+                            (resource_value_t*)((idm&0xf)<<6));
         return;
 #endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
@@ -1192,6 +1201,9 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("GEORAM", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_GEORAM,     val);
         WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
+        resources_get_value("RAMCART", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_RAMCART,     val);
+        WinEnableMenuItem(hwnd, IDM_RAMCARTSIZE, val);
 #endif
 #ifdef __XPET__
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
@@ -1269,6 +1281,12 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_GEORAM1024,  val==1024);
         WinCheckMenuItem(hwnd, IDM_GEORAM2048,  val==2048);
         WinCheckMenuItem(hwnd, IDM_GEORAM4096,  val==4096);
+        return;
+
+    case IDM_RAMCARTSIZE:
+        resources_get_value("RAMCARTSize", (void *)&val);
+        WinCheckMenuItem(hwnd, IDM_RAMCART64,   val==64);
+        WinCheckMenuItem(hwnd, IDM_RAMCART256,   val==256);
         return;
 #endif
 #ifdef __X128__

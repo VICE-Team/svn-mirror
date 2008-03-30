@@ -109,6 +109,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiramcart.c \
+	uiramcart.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \

@@ -61,6 +61,7 @@ libarch_a_SOURCES = \
 	resplus4.rc \
 	resreu.rc \
 	resgeoram.rc \
+	resramcart.rc \
 	resrs232user.rc \
 	ressid.rc \
 	restfe.rc \
@@ -133,6 +134,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiramcart.c \
+	uiramcart.h \
 	uirom.c \
 	uirom.h \
 	uirs232.c \
@@ -228,10 +231,10 @@ EXTRA_DIST = \
         montb.bmp \
         c64.ico 
 
-resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc reside64.rc
+resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc resramcart.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc reside64.rc resdrivec64vic20.rc
+resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc resramcart.rc reside64.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 rescbm2.o : rescbm2.rc res.rc res.h resacia.rc ressid.rc resdrivepetcbm2.rc

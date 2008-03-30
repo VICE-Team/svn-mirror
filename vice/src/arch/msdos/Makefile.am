@@ -79,6 +79,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiramcart.c \
+	uiramcart.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \

@@ -35,6 +35,7 @@
 #include "monitor.h"
 #include "reu.h"
 #include "georam.h"
+#include "ramcart.h"
 #include "sid-resources.h"
 #include "sid.h"
 #include "types.h"
@@ -53,6 +54,8 @@ BYTE REGPARM1 io1_read(WORD addr)
         return sid2_read(addr);
     if (georam_enabled)
         return georam_window_read((WORD)(addr & 0xff));
+    if (ramcart_enabled)
+        return ramcart_reg_read(addr&1);
 #ifdef HAVE_TFE
     if (tfe_enabled)
         return tfe_read((WORD)(addr & 0x0f));
@@ -76,6 +79,10 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
         georam_window_store((WORD)(addr & 0xff), value);
         return;
     }
+    if (ramcart_enabled) {
+        ramcart_reg_store((WORD)(addr&1), value);
+        return;
+    }
 #ifdef HAVE_TFE
     if (tfe_enabled)
         tfe_store((WORD)(addr & 0x0f), value);
@@ -95,6 +102,8 @@ BYTE REGPARM1 io2_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+    if (ramcart_enabled)
+        return ramcart_window_read(addr);
     if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY)
         return cartridge_read_io2(addr);
     if (reu_enabled)
@@ -127,6 +136,10 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         georam_reg_store((WORD)(addr & 1), value);
         return;
     }
+    if (ramcart_enabled) {
+        ramcart_window_store(addr, value);
+        return;
+    }
     if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
         return;
@@ -139,8 +152,15 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
     if (reu_enabled)
         mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
     if (georam_enabled)
-        mon_ioreg_add_list(mem_ioreg_list, "REU", 0xde00, 0xdeff);
-        mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdffe, 0xdfff);
+    {
+        mon_ioreg_add_list(mem_ioreg_list, "GEORAM", 0xde00, 0xdeff);
+        mon_ioreg_add_list(mem_ioreg_list, "GEORAM", 0xdffe, 0xdfff);
+    }
+    if (ramcart_enabled)
+    {
+        mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xde00, 0xde01);
+        mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xdf00, 0xdfff);
+    }
 
 #ifdef HAVE_TFE
     if (tfe_enabled)

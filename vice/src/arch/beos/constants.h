@@ -103,6 +103,7 @@ const uint32 MENU_TOGGLE_DOUBLESCAN				= 'M107';
 const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
 const uint32 MENU_TOGGLE_REU					= 'M109';
 const uint32 MENU_TOGGLE_GEORAM					= 'M143';
+const uint32 MENU_TOGGLE_RAMCART					= 'M145';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
 const uint32 MENU_TOGGLE_DIRECTWINDOW			= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';
@@ -173,6 +174,9 @@ const uint32 MENU_GEORAM_SIZE_512					= 'M453';
 const uint32 MENU_GEORAM_SIZE_1024					= 'M454';
 const uint32 MENU_GEORAM_SIZE_2048					= 'M455';
 const uint32 MENU_GEORAM_SIZE_4096					= 'M456';
+
+const uint32 MENU_RAMCART_SIZE_64					= 'M457';
+const uint32 MENU_RAMCART_SIZE_128					= 'M458';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';

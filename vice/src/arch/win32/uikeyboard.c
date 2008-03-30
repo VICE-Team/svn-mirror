@@ -54,7 +54,7 @@ static int mapping_idc_dump;
 
 static int mapping_index_get(void)
 {
-    int index;
+    unsigned int index;
 
     resources_get_value("KeymapIndex", (void *)&index);
 

@@ -77,6 +77,7 @@
 #include "printer.h"
 #include "reu.h"
 #include "georam.h"
+#include "ramcart.h"
 #include "rs232drv.h"
 #include "rsuser.h"
 #include "screenshot.h"
@@ -318,6 +319,7 @@ int machine_resources_init(void)
         || c64export_resources_init() < 0
         || reu_resources_init() < 0
         || georam_resources_init() < 0
+        || ramcart_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -354,6 +356,7 @@ void machine_resources_shutdown(void)
     c128_resources_shutdown();
     reu_resources_shutdown();
     georam_resources_shutdown();
+    ramcart_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -371,6 +374,7 @@ int machine_cmdline_options_init(void)
         || c128_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
+        || ramcart_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
@@ -516,6 +520,9 @@ int machine_specific_init(void)
     /* Initialize the GEORAM.  */
     georam_init();
 
+    /* Initialize the RAMCART.  */
+    ramcart_init();
+
 #ifdef HAVE_TFE
     /* Initialize the TFE.  */
     tfe_init();
@@ -564,6 +571,7 @@ void machine_specific_reset(void)
     datasette_reset();
     reu_reset();
     georam_reset();
+    ramcart_reset();
 
     z80mem_initialize();
     z80_reset();
@@ -592,6 +600,7 @@ void machine_specific_shutdown(void)
 
     reu_shutdown();
     georam_shutdown();
+    ramcart_shutdown();
 
 #ifdef HAVE_TFE
     /* Shutdown the TFE.  */

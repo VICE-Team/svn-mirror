@@ -74,6 +74,8 @@ libc64_a_SOURCES = \
 	reu.h \
 	georam.c \
 	georam.h \
+	ramcart.c \
+	ramcart.h \
 	tfe.c \
 	tfe.h \
         tfearch.h
@@ -113,6 +115,8 @@ libc64c128_a_SOURCES = \
 	reu.h \
 	georam.c \
 	georam.h \
+	ramcart.c \
+	ramcart.h \
 	tfe.c \
 	tfe.h \
         tfearch.h

@@ -214,6 +214,10 @@ SOURCE=..\..\c64\georam.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\ramcart.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\tfe.c
 # End Source File
 # End Target

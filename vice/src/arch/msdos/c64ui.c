@@ -44,6 +44,7 @@
 #include "uic64cart.h"
 #include "uireu.h"
 #include "uigeoram.h"
+#include "uiramcart.h"
 #include "uisid.h"
 
 
@@ -339,6 +340,8 @@ int c64ui_init(void)
     uireu_init(ui_ioextensions_submenu);
 
     uigeoram_init(ui_ioextensions_submenu);
+
+    uiramcart_init(ui_ioextensions_submenu);
 
     return 0;
 }

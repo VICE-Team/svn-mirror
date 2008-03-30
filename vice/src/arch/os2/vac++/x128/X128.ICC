@@ -60,6 +60,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "reu.c",
             "georam.c",
+            "ramcart.c",
             "c64acia1.c",
             "c64bus.c",
             "c64cia2.c",

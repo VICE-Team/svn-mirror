@@ -28,5 +28,6 @@ source type(c)
     "patchrom.c",
     "reu.c",
     "georam.c",
+    "ramcart.c",
     "tfe.c",
     "tfearch.c"

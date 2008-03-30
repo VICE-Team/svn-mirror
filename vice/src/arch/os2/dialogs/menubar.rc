@@ -404,6 +404,12 @@ BEGIN
         MENUITEM "204~8kB",               IDM_GEORAM2048,   MIS_TEXT
         MENUITEM "409~6kB",               IDM_GEORAM4096,   MIS_TEXT
       END
+      MENUITEM "R~AMCART - Memory Expansion", IDM_RAMCART,       MIS_TEXT
+      SUBMENU  "RAMCART Memory ~Size",        IDM_RAMCARTSIZE,   MIS_TEXT
+      BEGIN
+        MENUITEM "~64kB",                IDM_RAMCART64,    MIS_TEXT
+        MENUITEM "~128kB",                IDM_RAMCART128,    MIS_TEXT
+      END
 #endif // __X64__ || __X128__
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT

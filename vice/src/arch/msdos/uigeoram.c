@@ -92,7 +92,7 @@ static tui_menu_item_def_t georam_menu_items[] = {
     { "_Enable GEORAM:", "Emulate GEORAM Expansion Unit",
       toggle_GEORAM_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "REU _size:", "Select the size of the GEORAM",
+    { "GEORAM _size:", "Select the size of the GEORAM",
       georam_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, georam_size_submenu,
       "GEORAM size" },
@@ -108,7 +108,7 @@ void uigeoram_init(struct tui_menu *parent_submenu)
 
     ui_georam_submenu = tui_menu_create("GEORAM settings", 1);
 
-    tui_menu_add(ui_reu_submenu, reu_menu_items);
+    tui_menu_add(ui_georam_submenu, georam_menu_items);
 
     tui_menu_add_submenu(parent_submenu, "_GEORAM settings...",
                          "GEORAM settings",
