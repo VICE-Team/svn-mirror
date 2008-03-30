@@ -1,3 +1,56 @@
+2006-09-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.7.
+
+	* drive/iec/via1d1541.c, drive/ieee/via1d2031.c,
+	drive/iecieee/via2d.c: Initialize VIA struct.
+
+	* arch/unix/x11/xaw/widgets/FileSel.c (UpdateTextLines): Fixed
+	some bug.
+
+	* arch/unix/console.c, arch/msdos/console.c,
+	arch/riscos/console.c, arch/beos/console.c (console_open):
+	Inititalize `console_cannot_output'.
+
+	* arch/unix/gui/uinetplay.c: Moved down IPV6 settings.
+
+	* network.c (network_hook): Splitted into separate functions,
+	made portable, fixed memory leaks and checked return values.
+	(network_event_record_sync_test): Made portable.
+	(network_send_buffer): Prevent SIGPIPE on writes to
+	disconnected sockets.
+
+	* snapshot.c,  snapshot.h
+	(snapshot_module_read_dword_into_uint): New function.
+
+	* maincpu.c, drive/drive-snapshot.c, drive/drivecpu.c,
+	event.c Use new snapshot function.
+
+	* datasette.c [datasette_zero_gap_delay,
+	datasette_speed_tuning]: Changed it `int'.
+
+	* arch/win32/uivicii.c, arch/win32/uivideo.c,
+	arch/win32/uipetset.c, arch/win32/uimon.c,
+	arch/win32/console.c, arch/win32/tfearch.c: Removed or
+	commented out unused functions.
+
+2006-09-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/mui/uidrivec128.c,
+	arch/amigaos/mui/uidrivec64vic20.c,
+	arch/amigaos/mui/uidrivepetcbm2.c,
+	arch/amigaos/mui/uidriveplus4.c,
+	arch/amigaos/mui/uijoystick.c,
+	arch/amigaos/mui/uisound.c: Fixed some ui related issues.
+
+2006-09-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/uinetplay.c: Fixed some ui related issue.
+
+2006-09-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc: Deleted some unused parts.
+
 2006-09-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.6.

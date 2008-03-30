@@ -1,3 +1,14 @@
+2006-09-25  Andreas Boose  <viceteam@t-online.de>
+
+	POTFILES.in: Commented out win32 and amiga files.
+
+2006-09-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.in.in, POTFILES.in, intl2po.c: Added a new program
+	that converts the win32 .rc files and the amiga intl.c file to
+	a unix intl compatible format, thereby unifying the different
+	translations.
+
 2006-09-02  pottendo  <pottendo@utanet.at>
 
 	* de.po: Updated.
