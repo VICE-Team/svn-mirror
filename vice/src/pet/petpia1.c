@@ -34,6 +34,7 @@
 #include "resources.h"
 
 #include "crtc.h"
+#include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -110,7 +111,9 @@ int pia1_init_cmdline_options(void)
 
 static int tape1_sense = 0;
 
-void mem_set_tape_sense(int v)
+static int old_cb2_status = 0xff;
+
+void pia1_set_tape_sense(int v)
 {
     tape1_sense = v;
 }
@@ -127,6 +130,10 @@ _PIA_FUNC void pia_set_ca2(int a)
 
 _PIA_FUNC void pia_set_cb2(int a)
 {
+    if (old_cb2_status != a) {
+        datasette_set_motor(!a);
+        old_cb2_status = a;
+    }
 }
 
 _PIA_FUNC void pia_reset(void)
