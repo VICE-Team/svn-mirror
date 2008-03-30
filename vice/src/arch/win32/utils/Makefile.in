@@ -282,6 +282,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 genwinres_SOURCES = genwinres.c
 EXTRA_DIST = \
+	genmsvcver.c \
 	gentranslate.c
 
 all: all-am
