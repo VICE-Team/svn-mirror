@@ -262,7 +262,7 @@ plus4-cmdline-options.o: plus4-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 plus4-resources.o: plus4-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h ../../src/lib.h \
 	../../src/machine.h ../../src/mem.h plus4mem.h plus4rom.h \
 	../../src/resources.h ../../src/utils.h ../../src/interrupt.h \
 	../../src/vsync.h

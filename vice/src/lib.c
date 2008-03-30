@@ -44,23 +44,23 @@ static void *lib_debug_caller[LIB_DEBUG_SIZE];
 static unsigned int lib_debug_initialized = 0;
 
 #ifdef __GNUC__
-void *lib_debug_func_level1(void)
+static void *lib_debug_func_level1(void)
 {
     return __builtin_return_address(1 + 1);
 }
 
-void *lib_debug_func_level2(void)
+static void *lib_debug_func_level2(void)
 {
     return __builtin_return_address(2 + 1);
 }
 
-void *lib_debug_func_level3(void)
+static void *lib_debug_func_level3(void)
 {
     return __builtin_return_address(3 + 1);
 }
 #endif
 
-void lib_debug_alloc(void *ptr, size_t size, int level)
+static void lib_debug_alloc(void *ptr, size_t size, int level)
 {
     unsigned int index;
     void *func = NULL;
@@ -103,9 +103,13 @@ void lib_debug_alloc(void *ptr, size_t size, int level)
     lib_debug_size[index] = (unsigned int)size;
 }
 
-void lib_debug_free(void *ptr)
+static void lib_debug_free(void *ptr, unsigned int level, unsigned int fill)
 {
     unsigned int index;
+    void *func = NULL;
+
+    if (ptr == NULL)
+        return;
 
     index = 0;
 
@@ -113,12 +117,34 @@ void lib_debug_free(void *ptr)
         index++;
 
     if (index == LIB_DEBUG_SIZE) {
+#if 0
         printf("lib_debug_free(): Cannot find debug address!");
+#endif
         return;
     }
-#if 0
-    printf("lib_debug_free(): Free address %p slot %i.\n", ptr, index);
+
+#ifdef __GNUC__
+    switch (level) {
+      case 1:
+        func = lib_debug_func_level1();
+        break;
+      case 2:
+        func = lib_debug_func_level2();
+        break;
+      case 3:
+        func = lib_debug_func_level3();
+        break;
+    }
 #endif
+
+#if 0
+    printf("lib_debug_free(): Free address %p size %i slot %i from %p.\n",
+           ptr, lib_debug_size[index], index, func);
+#endif
+
+    if (fill)
+        memset(ptr, 0xdd, lib_debug_size[index]);
+
     lib_debug_address[index] = NULL;
 }
 #endif
@@ -184,7 +210,7 @@ void *lib_realloc(void *ptr, size_t size)
         exit(-1);
 #endif
 #ifdef LIB_DEBUG
-    lib_debug_free(ptr);
+    lib_debug_free(ptr, 1, 0);
     lib_debug_alloc(new_ptr, size, 1);
 #endif
 
@@ -193,11 +219,11 @@ void *lib_realloc(void *ptr, size_t size)
 
 void lib_free(void *ptr)
 {
-    free(ptr);
-
 #ifdef LIB_DEBUG
-    lib_debug_free(ptr);
+    lib_debug_free(ptr, 1, 1);
 #endif
+
+    free(ptr);
 }
 
 /*-----------------------------------------------------------------------*/

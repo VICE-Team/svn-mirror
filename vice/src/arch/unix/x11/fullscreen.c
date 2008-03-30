@@ -176,8 +176,7 @@ int fullscreen_init_alloc_hooks(struct video_canvas_s *canvas)
 void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas)
 {
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    if (dga2_shutdown_alloc_hooks(canvas) < 0)
-        return -1;
+    dga2_shutdown_alloc_hooks(canvas);
 #endif
 }
 

@@ -269,8 +269,9 @@ tcbm-cmdline-options.o: tcbm-cmdline-options.c ../../../src/vice.h \
 	tcbm-cmdline-options.h
 tcbm-resources.o: tcbm-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/driverom.h \
-	../../../src/arch/unix/types.h ../../../src/resources.h \
-	tcbm-resources.h tcbmrom.h ../../../src/utils.h
+	../../../src/arch/unix/types.h ../../../src/lib.h \
+	../../../src/resources.h tcbm-resources.h tcbmrom.h \
+	../../../src/utils.h
 tcbm.o: tcbm.c ../../../src/vice.h ../../../src/config.h mem1551.h \
 	glue1551.h ../../../src/arch/unix/types.h \
 	tcbm-cmdline-options.h tcbm-resources.h \

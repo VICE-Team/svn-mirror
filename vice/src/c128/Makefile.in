@@ -261,9 +261,9 @@ c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
 	c128.h c128mem.h ../../src/arch/unix/types.h c128rom.h \
 	../../src/drive/drive.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
-	../../src/c64/reu.h ../../src/sid/sid-resources.h \
-	../../src/utils.h
+	../../src/keyboard.h ../../src/lib.h ../../src/machine.h \
+	../../src/resources.h ../../src/c64/reu.h \
+	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
 	c128mmu.h c128rom.h ../../src/c64/c64tpi.h ../../src/log.h \

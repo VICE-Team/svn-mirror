@@ -266,7 +266,7 @@ drv-mps803.o: drv-mps803.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	driver-select.h ../../src/arch/unix/types.h ../../src/log.h \
 	output-select.h output.h ../../src/palette.h \
-	../../src/sysfile.h ../../src/utils.h
+	../../src/sysfile.h
 interface-serial.o: interface-serial.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h driver-select.h \
 	../../src/arch/unix/types.h interface-serial.h ../../src/log.h \
@@ -288,8 +288,9 @@ output-select.o: output-select.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h
 output-text.o: output-text.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/cmdline.h output-select.h ../../src/arch/unix/types.h \
-	output-text.h output.h ../../src/resources.h ../../src/utils.h
+	../../src/cmdline.h ../../src/lib.h output-select.h \
+	../../src/arch/unix/types.h output-text.h output.h \
+	../../src/resources.h ../../src/utils.h
 printer.o: printer.c ../../src/vice.h ../../src/config.h driver-select.h \
 	../../src/arch/unix/types.h drv-ascii.h drv-mps803.h \
 	interface-serial.h interface-userport.h output-graphics.h \

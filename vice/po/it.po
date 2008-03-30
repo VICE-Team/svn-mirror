@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-04-06 18:32+0200\n"
+"POT-Creation-Date: 2003-04-08 00:12+0200\n"
 "PO-Revision-Date: 2002-08-28 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -1012,7 +1012,7 @@ msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:725 src/arch/unix/uicommands.c:740
 #: src/arch/unix/x11/gnome/x11ui.c:788 src/arch/unix/x11/gnome/x11ui.c:798
-#: src/arch/unix/x11/gnome/x11ui.c:1447
+#: src/arch/unix/x11/gnome/x11ui.c:1448
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1181,7 +1181,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1024 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1827
+#: src/arch/unix/x11/gnome/x11ui.c:1828
 msgid "Reset"
 msgstr "Reset"
 
@@ -2579,74 +2579,74 @@ msgstr "Vuoi veramente uscire?"
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/unix/x11/xaw/x11ui.c:1050
+#: src/arch/unix/x11/gnome/x11ui.c:1294 src/arch/unix/x11/xaw/x11ui.c:1051
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1313 src/arch/unix/x11/gnome/x11ui.c:1316
-#: src/arch/unix/x11/xaw/x11ui.c:1071 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1314 src/arch/unix/x11/gnome/x11ui.c:1317
+#: src/arch/unix/x11/xaw/x11ui.c:1072 src/arch/unix/x11/xaw/x11ui.c:1078
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1599
+#: src/arch/unix/x11/gnome/x11ui.c:1600
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1636 src/arch/unix/x11/xaw/x11ui.c:1287
+#: src/arch/unix/x11/gnome/x11ui.c:1637 src/arch/unix/x11/xaw/x11ui.c:1288
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1790
+#: src/arch/unix/x11/gnome/x11ui.c:1791
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1801
+#: src/arch/unix/x11/gnome/x11ui.c:1802
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1827
+#: src/arch/unix/x11/gnome/x11ui.c:1828
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1828
+#: src/arch/unix/x11/gnome/x11ui.c:1829
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1872 src/arch/unix/x11/xaw/x11ui.c:1565
+#: src/arch/unix/x11/gnome/x11ui.c:1873 src/arch/unix/x11/xaw/x11ui.c:1566
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873
+#: src/arch/unix/x11/gnome/x11ui.c:1874
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1886
+#: src/arch/unix/x11/gnome/x11ui.c:1887
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1894 src/arch/unix/x11/gnome/x11ui.c:1903
+#: src/arch/unix/x11/gnome/x11ui.c:1895 src/arch/unix/x11/gnome/x11ui.c:1904
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2030 src/arch/unix/x11/gnome/x11ui.c:2035
+#: src/arch/unix/x11/gnome/x11ui.c:2031 src/arch/unix/x11/gnome/x11ui.c:2036
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2498
+#: src/arch/unix/x11/gnome/x11ui.c:2499
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2545
+#: src/arch/unix/x11/gnome/x11ui.c:2546
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2571
+#: src/arch/unix/x11/gnome/x11ui.c:2572
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2945,16 +2945,16 @@ msgstr "Salva le ROM attualmente caricate:"
 msgid "Save snapshot"
 msgstr "Salva snapshot"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1160
+#: src/arch/unix/x11/xaw/x11ui.c:1161
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1450
+#: src/arch/unix/x11/xaw/x11ui.c:1451
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1634
+#: src/arch/unix/x11/xaw/x11ui.c:1635
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 

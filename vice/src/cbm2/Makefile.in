@@ -263,7 +263,7 @@ cbm2-resources.o: cbm2-resources.c ../../src/vice.h ../../src/config.h \
 	cbm2-resources.h cbm2.h cbm2mem.h ../../src/arch/unix/types.h \
 	cbm2rom.h cbm2tpi.h ../../src/crtc/crtc.h \
 	../../src/drive/drive.h ../../src/interrupt.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h ../../src/lib.h \
 	../../src/machine.h ../../src/resources.h \
 	../../src/sid/sid-resources.h ../../src/utils.h \
 	../../src/vsync.h

@@ -268,7 +268,8 @@ ieee-cmdline-options.o: ieee-cmdline-options.c ../../../src/vice.h \
 ieee-resources.o: ieee-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/driverom.h \
 	../../../src/arch/unix/types.h ieee-resources.h ieeerom.h \
-	../../../src/resources.h ../../../src/utils.h
+	../../../src/lib.h ../../../src/resources.h \
+	../../../src/utils.h
 ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \

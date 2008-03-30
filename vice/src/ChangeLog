@@ -1,3 +1,41 @@
+2003-04-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.26.
+
+	* viacore.c (myvia_init): Fixed typo.
+
+	* lib.c (lib_debug_free): Fill memory with `0xdd' first.
+
+	* raster/raster.c (raster_free): Free canvas as last.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c
+	(ui_exit): Free dialog.
+
+	* sysfile.c (sysfile_shutdown): Free extended system path.
+
+	* drive/ieee/ieee-resources.c, drive/ieee/ieee-resources.h,
+	drive/iec/iec-resources.c, drive/iec/iec-resources.h,
+	drive/tcbm/tcbm-resources.c, drive/tcbm/tcbm-resources.h,
+	c64/c64drive.c, vic20/vic20drive.c, pet/petdrive.c,
+	plus4/plus4drive.c, cbm2/cbm2drive.c, machine-drive.h,
+	drive/iec.h, drive/ieee.h, drive/tcbm.h, drive/iec/iec.c,
+	drive/ieee/ieee.c, drive/tcbm/tcbm.c, drive/drive-resources.c,
+	machine.h, machine.c, c64/c64-resources.c, c64/reu.c,
+	c64/c64-resources.h, c128/c128-resources.c, c64/reu.h,
+	c128/c128-resources.h, vic20/vic20-resources.c,
+	vic20/vic20-resources.h, pet/pet-resources.c,
+	pet/pet-resources.h, plus4/plus4-resources.c,
+	plus4/plus4-resources.h, cbm2/cbm2-resources.c,
+	cbm2/cbm2-resources.h,printerdrv/output-text.c,
+	printerdrv/output-text.h, printerdrv/output-select.c,
+	printerdrv/output-select.h, printerdrv/printer.c, printer.h:
+	Added resources shutdown.
+
+2003-04-06  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/fullscreen.c
+	(fullscreen_shutdown_alloc_hooks): removed `return'.
+
 2003-04-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.25.

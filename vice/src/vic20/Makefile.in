@@ -317,7 +317,7 @@ vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	vic20mem.h ../../src/arch/unix/types.h
 vic20-resources.o: vic20-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h ../../src/lib.h \
 	../../src/machine.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
 	vic20mem.h vic20rom.h

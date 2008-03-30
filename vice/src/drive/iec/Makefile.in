@@ -280,7 +280,8 @@ iec-resources.o: iec-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/drive.h \
 	../../../src/arch/unix/types.h ../../../src/drive/drivemem.h \
 	../../../src/drive/driverom.h iec-resources.h iecrom.h \
-	../../../src/resources.h ../../../src/utils.h
+	../../../src/lib.h ../../../src/resources.h \
+	../../../src/utils.h
 iec.o: iec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \

@@ -247,7 +247,7 @@ void dga2_create_menus(struct ui_menu_entry_s menu[])
     buf[0] = '*';
     buf[50] = '\0';
 
-    resolutions_submenu = (ui_menu_entry_t*)liv_malloc(sizeof(ui_menu_entry_t)
+    resolutions_submenu = (ui_menu_entry_t*)lib_malloc(sizeof(ui_menu_entry_t)
                           * (size_t)(fs_bestmode_counter + 1));
 
     for(i = 0; i < fs_bestmode_counter ; i++) {
