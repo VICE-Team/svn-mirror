@@ -27,9 +27,13 @@
 #include "vice.h"
 
 #include "c64keyboard.h"
+#include "interrupt.h"
 #include "keyboard.h"
 #include "maincpu.h"
 #include "vicii.h"
+
+
+static unsigned int c64keyboard_int_num;
 
 
 static void c64keyboard_machine_func(int *keyarr)
@@ -50,9 +54,14 @@ static void c64keyboard_machine_func(int *keyarr)
     old_lightpen = lightpen;
 }
 
-void c64keyboard_init(void)
+void c64keyboard_restore_key(int v)
 {
-    keyboard_register_machine(c64keyboard_machine_func);
+    maincpu_set_nmi(c64keyboard_int_num, v ? 1 : 0);
 }
 
+void c64keyboard_init(void)
+{
+    c64keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    keyboard_register_machine(c64keyboard_machine_func);
+}
 

@@ -41,21 +41,25 @@
 
 /* Initialization.  */
 void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
-                               unsigned int num_ints,
                                unsigned int *last_opcode_info_ptr)
 {
-    cs->num_ints = num_ints;
+    cs->num_ints = 0;
+    cs->pending_int = NULL;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
 }
 
 void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
 {
-    unsigned int num_ints, *last_opcode_info_ptr;
+    unsigned int num_ints, *pending_int, *last_opcode_info_ptr;
 
     num_ints = cs->num_ints;
+    pending_int = cs->pending_int;
     last_opcode_info_ptr = cs->last_opcode_info_ptr;
+    if (num_ints > 0)
+        memset(pending_int, 0, num_ints * sizeof(*(cs->pending_int)));
     memset(cs, 0, sizeof(interrupt_cpu_status_t));
     cs->num_ints = num_ints;
+    cs->pending_int = pending_int;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
 
     cs->num_last_stolen_cycles = 0;
@@ -65,13 +69,25 @@ void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs)
     cs->reset_trap_func = NULL;
 }
 
+unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs)
+{
+    cs->num_ints += 1;
+    cs->pending_int = lib_realloc(cs->pending_int, cs->num_ints
+                                  * sizeof(*(cs->pending_int)));
+    cs->pending_int[cs->num_ints - 1] = 0;
+    return cs->num_ints - 1;
+}
+
 interrupt_cpu_status_t *interrupt_cpu_status_new(void)
 {
-    return (interrupt_cpu_status_t *)lib_malloc(sizeof(interrupt_cpu_status_t));
+    return (interrupt_cpu_status_t *)lib_calloc(
+        1, sizeof(interrupt_cpu_status_t));
 }
 
 void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs)
 {
+    if (cs != NULL)
+        lib_free(cs->pending_int);
     lib_free(cs);
 }
 
@@ -124,7 +140,7 @@ void interrupt_log_wrong_nirq(void)
 
 void interrupt_log_wrong_nnmi(void)
 {
-    log_error(LOG_DEFAULT, "set_nmi(): wrong nnmi!");
+    log_error(LOG_DEFAULT, "interrupt_set_nmi(): wrong nnmi!");
 }
 
 /* ------------------------------------------------------------------------- */

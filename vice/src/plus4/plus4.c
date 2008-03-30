@@ -429,8 +429,7 @@ static void machine_vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    maincpu_set_nmi(I_RESTORE, v ? 1 : 0);
-    return 1;
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

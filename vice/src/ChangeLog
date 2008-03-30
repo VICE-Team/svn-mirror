@@ -1,3 +1,22 @@
+2003-04-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.33.
+
+	* interrupt.c, interrupt.h, drive/drive.h, drive/drivetypes.h,
+	drive/iec/cia1571d.c, drive/iec/cia1581d.c, 
+	drive/iecieee/via1d.c, drive/iecieee/via2d.c,
+	drive/ieee/riot2d.c, drive/tcbm/glue1551.c, drive/drivecpu.c,
+	vicii/vicii-irq.c, vicii/viciitypes.h, vicii/vicii-snapshot.c,
+	vicii/vicii.c, vicii/vicii-irq.h, c64/cart/c64cart.c,
+	c64/cart/final.c, c64/c64.c, c128/c128.c, c64/c64acia1.c,
+	aciacore.c, c64/c64cia1.c, c64/c64cia2.c, c64/reu.c,
+	c128/c128cia1.c, maincpu.c, viacore.c, piacore.c,
+	pet/petpia1.c, pet/petpia2.c, plus4/tedtypes.h, plus4/ted.c,
+	plus4/ted-mem.c, plus4/ted-snapshot.c, cbm2/cbm2cia1.c,
+	tpicore.c, cbm2/cbm2tpi1.c, cbm2/cbm2tpi2.c, plus4/plus4.c,
+	c64/c64keyboard.c, c64/c64keyboard.h: Removed fixed interrupt
+	number table, alloc interrupt numbers at runtime.
+
 2003-04-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.32.
