@@ -34,7 +34,7 @@ list of all the changes in the code.
 - Fixed VIC crash.
 
 ** MS-DOS changes
-----------------
+-----------------
 
 - Fixed crash due to the use of uninitialized variables.
 

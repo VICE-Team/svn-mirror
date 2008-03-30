@@ -1,3 +1,26 @@
+2000-04-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.
+
+	* raster/raster-sprite-status.c (raster_sprite_status_init):
+	Fixed initialization of different pointer types.
+
+2000-04-10  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* raster/raster-sprite-status.c 
+	(raster_sprite_status_init): Added check wether num_sprites >
+	0. This avoids calling `xmalloc(0)' in xvic.
+
+	* arch/unix/x11/gnome/uimenu.c 
+	(ui_menu_create): Added initialization to keep compiler silent.
+
+	* arch/unix/x11/gnome/uicartridge.c 
+	(ui_cartridge_dialog): New Function. Implementation of cartridge
+	save dialog.
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES): Added
+	`uicartridge.c'.
+
 2000-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.3.6.

@@ -41,8 +41,6 @@ raster_sprite_status_init (raster_sprite_status_t *s,
 
   s->draw_function = NULL;
 
-  s->sprites = xmalloc (sizeof (*s->sprites) * num_sprites);
-
   s->visible_msk = 0;
   s->dma_msk = 0;
   s->new_dma_msk = 0;
@@ -50,8 +48,15 @@ raster_sprite_status_init (raster_sprite_status_t *s,
   s->mc_sprite_color_1 = 0;
   s->mc_sprite_color_2 = 0;
 
-  s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
-  s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
+  if (num_sprites > 0) {
+      s->sprites = xmalloc (sizeof (*s->sprites) * num_sprites);
+      s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
+      s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
+  } else {
+      s->sprites = NULL;
+      s->sprite_data_1 = NULL;
+      s->sprite_data_2 = NULL;
+  }
 
   s->sprite_data = s->sprite_data_1;
   s->new_sprite_data = s->sprite_data_2;
