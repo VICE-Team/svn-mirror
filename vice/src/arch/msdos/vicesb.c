@@ -43,12 +43,11 @@
 #error This file should only be used by the djgpp version of Allegro
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <dos.h>
-#include <go32.h>
 #include <dpmi.h>
-#include <limits.h>
+#include <go32.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/farptr.h>
 
 #include <allegro.h>

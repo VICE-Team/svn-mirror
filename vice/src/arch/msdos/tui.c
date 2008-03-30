@@ -26,15 +26,15 @@
 
 #include "vice.h"
 
-#include <sys/farptr.h>
-#include <go32.h>
-#include <strings.h>
-#include <stdio.h>
-#include <ctype.h>
 #include <conio.h>
+#include <ctype.h>
+#include <go32.h>
 #include <pc.h>
 #include <keys.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/farptr.h>
 
 #include <allegro.h>
 

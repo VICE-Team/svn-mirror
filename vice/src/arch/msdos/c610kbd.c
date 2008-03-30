@@ -24,8 +24,6 @@
  *
  */
 
-#include "vice.h"
-
 #include "kbd.h"
 
 static keyconv c610_keyboard[256] = {
@@ -143,3 +141,4 @@ int c610_kbd_init(void)
 {
     return kbd_init(1, 8, 4, c610_keyboard, sizeof(c610_keyboard));
 }
+

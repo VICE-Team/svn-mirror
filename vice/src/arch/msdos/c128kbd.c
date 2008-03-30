@@ -24,10 +24,6 @@
  *
  */
 
-#include "vice.h"
-
-#include <stdio.h>
-
 #include "cartridge.h"
 #include "kbd.h"
 

@@ -24,10 +24,6 @@
  *
  */
 
-#include "vice.h"
-
-#include <stdio.h>
-
 #include "kbd.h"
 
 /* PET 3032/4032 keyboard map.  */

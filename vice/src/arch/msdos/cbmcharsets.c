@@ -24,7 +24,6 @@
  *
  */
 
-#include "vice.h"
 #include "types.h"
 
 #include "cbmcharsets.h"

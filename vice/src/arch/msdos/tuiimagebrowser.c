@@ -27,8 +27,9 @@
 #include "vice.h"
 
 #include <conio.h>
-#include <pc.h>
 #include <keys.h>
+#include <pc.h>
+#include <stdio.h>
 
 #include "cbmcharsets.h"
 #include "imagecontents.h"

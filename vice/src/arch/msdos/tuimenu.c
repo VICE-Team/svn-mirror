@@ -26,12 +26,13 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
-#include <strings.h>
-#include <ctype.h>
 #include <conio.h>
-#include <pc.h>
+#include <ctype.h>
 #include <keys.h>
+#include <pc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "log.h"
 #include "tui.h"
