@@ -1,7 +1,6 @@
 # List of Files which already gettext aware.
 
 # Emulator core files
-src/print.c
 src/vsync.c
 
 # Architecture Unix
