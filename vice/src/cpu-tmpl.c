@@ -37,7 +37,6 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
-#include "misc.h"
 #include "mon.h"
 #include "resources.h"
 #include "snapshot.h"

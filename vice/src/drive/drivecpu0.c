@@ -40,20 +40,20 @@
 #include <stdio.h>
 #endif
 
-#include "types.h"
-#include "drive.h"
-#include "via.h"
-#include "interrupt.h"
-#include "ui.h"
-#include "resources.h"
-#include "viad.h"
-#include "ciad.h"
-#include "wd1770.h"
 #include "6510core.h"
-#include "misc.h"
+#include "ciad.h"
+#include "drive.h"
+#include "interrupt.h"
 #include "mon.h"
-#include "drivecpu.h"
+#include "resources.h"
 #include "snapshot.h"
+#include "types.h"
+#include "ui.h"
+#include "via.h"
+#include "viad.h"
+#include "wd1770.h"
+
+#include "drivecpu.h"
 
 /* -------------------------------------------------------------------------- */
 
