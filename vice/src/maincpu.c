@@ -91,7 +91,7 @@
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    read_zero(addr)
+    read_zero((ADDRESS)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \
