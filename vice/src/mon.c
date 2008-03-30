@@ -2,11 +2,9 @@
  * mon.c - The VICE built-in monitor.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *
- * Patches and improvements by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -68,6 +66,7 @@
 #include "mon.h"
 #include "mon_parse.h"
 #include "resources.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "vsync.h"
@@ -2161,6 +2160,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         int i,j, dst;
         MEMSPACE dest_mem;
 
+        /* We ignore disk error codes here.  */
         if (disk_image_read_sector(floppy->image, readdata, track, sector)
             < 0) {
             fprintf(mon_output, "Error reading track %d sector %d\n",

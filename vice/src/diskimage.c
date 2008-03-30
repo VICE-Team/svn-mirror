@@ -2,7 +2,7 @@
  * diskimage.c - Common low-level disk image access.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +37,7 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "log.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "zfile.h"
@@ -102,7 +103,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     }
 
     if (blk < NUM_BLOCKS_1541) {
-        log_error(disk_image_log, "Cannot read block %d", blk);
+        log_error(disk_image_log, "Cannot read block %d.", blk);
         return 0;
     }
 
@@ -112,9 +113,16 @@ static int disk_image_check_for_d64(disk_image_t *image)
         break;
       case 685:
         if (len != 171) {
-            log_message(disk_image_log, "Cannot read block %d", blk);
+            log_message(disk_image_log, "Cannot read block %d.", blk);
             return 0;
         }
+        image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
+        memset(image->error_info, 0, MAX_BLOCKS_1541);
+        if (fseek(image->fd, 256 * NUM_BLOCKS_1541, SEEK_SET) < 0)
+            return 0;
+        if (fread(image->error_info, 1, NUM_BLOCKS_1541, image->fd)
+            < NUM_BLOCKS_1541)
+            return 0;
         image->tracks = NUM_TRACKS_1541;
         break;
       case 768:
@@ -127,7 +135,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
         return 0;
     }
     log_message(disk_image_log, "D64 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
 
@@ -147,13 +155,13 @@ static int disk_image_check_for_d71(disk_image_t *image)
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > 1372) {
-            log_error(disk_image_log, "Disk image too large");
+            log_error(disk_image_log, "Disk image too large.");
             break;
         }
     }
 
     if (blk < NUM_BLOCKS_1571) {
-        log_error(disk_image_log, "Cannot read block %d", blk);
+        log_error(disk_image_log, "Cannot read block %d.", blk);
         return 0;
     }
 
@@ -165,7 +173,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
         return 0;
     }
     log_message(disk_image_log, "D71 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
 
@@ -185,13 +193,13 @@ static int disk_image_check_for_d81(disk_image_t *image)
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > 3213) {
-            log_error(disk_image_log, "Disk image too large");
+            log_error(disk_image_log, "Disk image too large.");
             break;
         }
     }
 
     if (blk < NUM_BLOCKS_1581) {
-        log_error(disk_image_log, "Cannot read block %d", blk);
+        log_error(disk_image_log, "Cannot read block %d.", blk);
         return 0;
     }
 
@@ -203,7 +211,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
         return 0;
     }
     log_message(disk_image_log, "D81 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : "");
     return 1;
 }
 
@@ -223,13 +231,13 @@ static int disk_image_check_for_d80(disk_image_t *image)
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8050 + 6) {
-            log_error(disk_image_log, "Disk image too large");
+            log_error(disk_image_log, "Disk image too large.");
             break;
         }
     }
 
     if (blk < NUM_BLOCKS_8050) {
-        log_error(disk_image_log, "Cannot read block %d", blk);
+        log_error(disk_image_log, "Cannot read block %d.", blk);
         return 0;
     }
 
@@ -241,7 +249,7 @@ static int disk_image_check_for_d80(disk_image_t *image)
         return 0;
     }
     log_message(disk_image_log, "D80 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
 
@@ -261,13 +269,13 @@ static int disk_image_check_for_d82(disk_image_t *image)
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8250 + 6) {
-            log_error(disk_image_log, "Disk image too large");
+            log_error(disk_image_log, "Disk image too large.");
             break;
         }
     }
 
     if (blk < NUM_BLOCKS_8250) {
-        log_error(disk_image_log, "Cannot read block %d", blk);
+        log_error(disk_image_log, "Cannot read block %d.", blk);
         return 0;
     }
 
@@ -279,7 +287,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
         return 0;
     }
     log_message(disk_image_log, "D82 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
 
@@ -305,7 +313,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
     image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
 
     log_message(disk_image_log, "X64 disk image recognised: %s%s.",
-                image->name, image->read_only ? " (read only)" : "");
+                image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
 
@@ -455,6 +463,8 @@ int disk_image_open(disk_image_t *image)
         image->read_only = 0;
     }
 
+    image->error_info = NULL;
+
     if (image->fd == NULL) {
         log_error(disk_image_log, "Cannot open file `%s'.", image->name);
         return -1;
@@ -490,6 +500,10 @@ int disk_image_close(disk_image_t *image)
     zfclose(image->fd);
     free(image->name);
     image->name = NULL;
+    if (image->error_info != NULL) {
+        free(image->error_info);
+        image->error_info = NULL;
+    }
     return 0;
 }
 
@@ -860,8 +874,8 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
     long offset;
 
     if (image->fd == NULL) {
-        log_error(disk_image_log, "Attempt to write without disk image.");
-        return -1;
+        log_error(disk_image_log, "Attempt to read without disk image.");
+        return IPE_NOT_READY;
     }
 
     switch (image->type) {
@@ -876,8 +890,9 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
         if (sectors < 0) {
             log_error(disk_image_log, "Track %i, Sector %i out of bounds.",
                       track, sector);
-            return -1;
+            return IPE_ILLEGAL_TRACK_OR_SECTOR;
         }
+
         offset = sectors << 8;
 
         if (image->type == DISK_IMAGE_TYPE_X64)
@@ -891,6 +906,10 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, int track,
                       track, sector);
             return -1;
         }
+
+        if (image->error_info != NULL)
+            return image->error_info[sectors];
+
         break;
       case DISK_IMAGE_TYPE_GCR:
         {

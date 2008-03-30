@@ -271,7 +271,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                                         vdrive->Curr_track,
                                         vdrive->Curr_sector);
 
-        if (retval < 0
+        if (retval != 0
             || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
             image_contents_destroy(new);
             close_disk_image(vdrive);

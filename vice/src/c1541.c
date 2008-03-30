@@ -77,6 +77,7 @@
 #include "p00.h"
 #include "serial.h"
 #include "t64.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
@@ -699,7 +700,7 @@ static int block_cmd(int nargs, char **args)
 
     /* Read one block */
     if (disk_image_read_sector(vdrive->image, sector_data, track, sector) 
-        < 0) {
+        != 0) {
         fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
         return FD_RDERR;
     }

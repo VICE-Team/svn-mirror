@@ -58,6 +58,7 @@
 #include "cmdline.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
@@ -68,6 +69,7 @@
 #include "serial.h"
 #include "snapshot.h"
 #include "sysfile.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive-bam.h"
@@ -733,7 +735,7 @@ static void drive_read_image_d64_d71(int dnr)
                 log_error(drive[dnr].log,
                           "Cannot read T:%d S:%d from disk image.",
                           track, sector);
-                /* FIXME: could be handled better. */
+                /* FIXME: Error codes should be handled here.  */
             } else {
                 chksum = buffer[1];
                 for (i = 2; i < 257; i++)
