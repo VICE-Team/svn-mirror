@@ -111,7 +111,6 @@ int kbd_buf_is_empty(void)
    are automatically converted into PETSCII.  */
 void kbd_buf_flush(void)
 {
-    BYTE *p;
     int i, n;
 
     if ( (!kbd_buf_enabled)

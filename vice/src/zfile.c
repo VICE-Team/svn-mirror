@@ -816,7 +816,7 @@ static int compress(const char *src, const char *dest,
 /* `open()' wrapper.  */
 int zopen(const char *name, mode_t opt, int flags)
 {
-    char *tmp_name, *tmp_name2;
+    char *tmp_name;
     int fd;
     enum compression_type type;
     int write_mode;

@@ -100,7 +100,6 @@ static int fn()
 static int  serialcommand()
 {
     serial_t *p;
-    BYTE    b;
     int     channel;
     int     i, st = 0;
 

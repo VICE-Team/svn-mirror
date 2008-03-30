@@ -147,7 +147,6 @@ static int install_trap(const trap_t *t)
 
 int traps_add(const trap_t *t)
 {
-    int i;
     traplist_t *p;
 
     DEBUG(("TRAPS: Adding trap `%s' at $%04X (enabled=%d).\n", t->name, t->address, !no_traps_enabled));

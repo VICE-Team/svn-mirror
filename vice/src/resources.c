@@ -102,8 +102,6 @@ static resource_t *lookup(const char *name)
 
 int resources_init(const char *machine)
 {
-    int i;
-
     machine_id = stralloc(machine);
     num_allocated_resources = 100;
     num_resources = 0;
