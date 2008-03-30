@@ -137,7 +137,7 @@ void Filter::enable_filter(bool enable)
 void Filter::set_chip_model(chip_model model)
 {
   if (model == MOS6581) {
-    // The DC offset of each voice is approximately -1/4 of the dynamic
+    // The DC offset of each voice is approximately -1/3 of the dynamic
     // range of one voice. This is calculated as follows from results
     // in C= Hacking Issue #20:
     //
@@ -149,7 +149,7 @@ void Filter::set_chip_model(chip_model model)
     //   This confirms that the mixer output is inverted.
     // * The DC offset of one voice is -(5.69V - 5.39V) = -0.30V
     // * The dynamic range of one voice is |5.29V - 6.34V| = 1.05V
-    // * The DC offset is thus -0.30V/1.05V ~ -1/4 of the dynamic range.
+    // * The DC offset is thus -0.30V/1.05V ~ -1/3 of the dynamic range.
     //
     // Note that by removing the DC offset, we get the following ranges for
     // one voice:
@@ -160,7 +160,7 @@ void Filter::set_chip_model(chip_model model)
     // D/A converters, in the mixer, or both.
     // NB! This is not modeled.
 
-    voice_DC = -4095*255/4 >> 7;
+    voice_DC = -4095*255/3 >> 7;
 
     // The mixer also has a small input DC offset, approximately 1/25
     // of the dynamic range of one voice. This is calculated as

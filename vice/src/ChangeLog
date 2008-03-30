@@ -1,3 +1,39 @@
+2001-12-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.42.
+
+2001-12-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/videoarch.h: added video_render_config_t to
+	canvas_t
+
+	* plus4/ted.c: protect ted_resources.double_scan_enabled by
+	VIC_II_NEED_2X
+
+	* vicii/vicii.c: protect vic_ii_resources.double_scan_enabled
+	by VIC_II_NEED_2X
+
+2001-12-17  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/uijoystick2.c (set_joystick_device_1,
+	set_joystick_device_2): Don't call vsync_suspend_speed_eval().
+
+	* arch/unix/x11/gnome/ui.c (exposure_callback): Likewise.
+
+	* arch/unix/x11/xaw/ui.c (exposure_callback): Likewise.
+
+2001-12-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster.c (update_sprite_collision): Even the
+	fake_frame_buffer_ptr uses extra_offscreen_border as
+	offset.
+	(raster_reset): Use extra_offscreen_border as first offset
+	for frame_buffer_ptr.
+
+	* sounddrv/sounddx.c (dx_write): Better test for overflow of
+	buffer_offset.
+	(dx_suspend): Clears buffer and resets buffer_offset.
+
 2001-12-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.41.

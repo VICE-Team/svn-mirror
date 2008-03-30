@@ -1,3 +1,9 @@
+	* configure.in: Added return type int to main() in compiler check.
+
+	* envelope.h (clock): Reset rate_step on state change.
+
+	* extfilt.cc, filter.cc: Increased voice DC level.
+
 2001-10-20  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.12 released.

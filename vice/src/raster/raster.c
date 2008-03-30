@@ -508,11 +508,11 @@ inline static void update_sprite_collisions(raster_t *raster)
 
 #ifndef VIDEO_REMOVE_2X
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                            + raster->geometry.extra_offscreen_border / 2
+                            + raster->geometry.extra_offscreen_border
                             * raster->viewport.pixel_size.width);
 #else /* VIDEO_REMOVE_2X */
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                            + raster->geometry.extra_offscreen_border / 2);
+                            + raster->geometry.extra_offscreen_border);
 #endif /* VIDEO_REMOVE_2X */
   raster->sprite_status->draw_function(fake_frame_buffer_ptr,
                                          raster->zero_gfx_msk);
@@ -1401,7 +1401,7 @@ void raster_reset(raster_t *raster)
     if (!console_mode && !vsid_mode) {
         raster->frame_buffer_ptr
             = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
-            + 2 * raster->geometry.extra_offscreen_border);
+            + raster->geometry.extra_offscreen_border);
     }
 
     raster->current_line = 0;

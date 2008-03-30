@@ -33,6 +33,7 @@
 #include "palette.h"
 #include "types.h"
 #include "ui.h"
+#include "video.h"
 
 
 struct video_frame_buffer_s {
@@ -55,6 +56,7 @@ struct video_canvas_s {
   PIXEL *pixel_translation;
   unsigned int num_colours;
   unsigned int colour_table[256];
+  video_render_config_t videoconfig;
 };
 
 typedef struct video_canvas_s video_canvas_t;

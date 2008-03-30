@@ -63,5 +63,9 @@ that each voice independently contributes to the DC level in the
 mixer. He also found that if no waveform is selected, the waveform
 output is at maximum level, not at minimum level.
 
+The author of SIDPLAY2, Simon White, has given a lot of feedback on
+reSID. Most importantly he found and fixed a bug in the fast clock
+version of the ADSR emulation.
+
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

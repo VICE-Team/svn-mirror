@@ -239,7 +239,7 @@ static int init_raster(void)
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? ted_resources.fullscreen_double_scan_enabled 
+                              ? ted_resources.fullscreen_double_scan_enabled
                               : ted_resources.double_scan_enabled);
 #else
     raster_enable_double_scan(raster, ted_resources.double_scan_enabled);
@@ -280,7 +280,7 @@ inline void ted_fetch_matrix(int offs, int num)
 
     /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
     p = ted.screen_ptr;
- 
+
     start_char = (ted.mem_counter + offs) & 0x3ff;
     c = 0x3ff - start_char + 1;
 
@@ -995,6 +995,7 @@ void ted_resize(void)
         ted_draw_set_double_size(0);
     }
 
+#ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         raster_enable_double_scan(&ted.raster,
@@ -1003,6 +1004,7 @@ void ted_resize(void)
 #endif
         raster_enable_double_scan(&ted.raster,
                                   ted_resources.double_scan_enabled);
+#endif
 }
 
 int vic_ii_write_snapshot_module(snapshot_t *s)

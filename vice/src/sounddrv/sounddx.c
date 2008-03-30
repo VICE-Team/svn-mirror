@@ -406,7 +406,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
         result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
                                                    lpvPtr2, dwBytes2);
         buffer_offset+=buffer_lock_size;
-        if (buffer_offset==buffer_size) buffer_offset=0;
+        if (buffer_offset>=buffer_size) buffer_offset=0;
         pbuf+=fragment_size;
     }
     return 0;
@@ -415,7 +415,23 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
 static int dx_suspend(void)
 {
+    LPVOID lpvPtr1,lpvPtr2;
+    DWORD dwBytes1,dwBytes2;
+
+    if (IDirectSoundBuffer_Lock(buffer, buffer_offset, buffer_size-fragment_size,
+                                 &lpvPtr1, &dwBytes1, &lpvPtr2,
+                                 &dwBytes2, 0) == DS_OK)
+    {
+        memset(lpvPtr1,0,dwBytes1);
+        if (lpvPtr2)
+            memset(lpvPtr2,0,dwBytes2);
+        IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
+                                    lpvPtr2, dwBytes2);
+    }
+    
     IDirectSoundBuffer_Stop(buffer);
+    buffer_offset = buffer_size - fragment_size;
+
     return 0;
 }
 
@@ -423,6 +439,7 @@ static int dx_suspend(void)
 static int dx_resume(void)
 {
     IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
+
     return 0;
 }
 

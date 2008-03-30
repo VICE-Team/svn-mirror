@@ -307,7 +307,7 @@ static void vic_ii_set_geometry(void)
                         0,
                         vic_ii.first_displayed_line,
                         vic_ii.last_displayed_line,
-                        vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX - 
+                        vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                             vic_ii.screen_borderwidth * 2);
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
@@ -337,7 +337,7 @@ static int init_raster(void)
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? vic_ii_resources.fullscreen_double_scan_enabled 
+                              ? vic_ii_resources.fullscreen_double_scan_enabled
                               : vic_ii_resources.double_scan_enabled);
 #else
     raster_enable_double_scan(raster, vic_ii_resources.double_scan_enabled);
@@ -1394,7 +1394,7 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
        until BA is high again; write accesses happen as usual instead.  */
 
     if (offset > 0) {
-        switch (OPINFO_NUMBER(last_opcode_info)) { 
+        switch (OPINFO_NUMBER(last_opcode_info)) {
           case 0:
             /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
                accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
@@ -1525,6 +1525,7 @@ void vic_ii_resize(void)
         vic_ii_sprites_set_double_size(0);
     }
 
+#ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         raster_enable_double_scan(&vic_ii.raster,
@@ -1533,6 +1534,7 @@ void vic_ii_resize(void)
 #endif
         raster_enable_double_scan(&vic_ii.raster,
                                   vic_ii_resources.double_scan_enabled);
+#endif
 }
 
 void vic_ii_set_canvas_refresh(int enable)
