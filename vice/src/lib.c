@@ -356,7 +356,7 @@ void *lib_malloc(size_t size)
         exit(-1);
 #endif
 #ifdef LIB_DEBUG
-    lib_debug_alloc(ptr, size, 1);
+    lib_debug_alloc(ptr, size, 3);
 #endif
 
     return ptr;

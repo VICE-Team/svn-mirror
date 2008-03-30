@@ -50,11 +50,12 @@ struct fliplist_t {
     unsigned int unit;
 };
 
-static struct fliplist_t *fliplist[NUM_DRIVES] =
-        { (struct fliplist_t *) NULL,
-          (struct fliplist_t *) NULL };
+static struct fliplist_t *fliplist[NUM_DRIVES] = {
+    (struct fliplist_t *)NULL,
+    (struct fliplist_t *)NULL
+};
 
-static char *current_image = (char *) NULL;
+static char *current_image = (char *)NULL;
 static unsigned int current_drive;
 static struct fliplist_t *iterator;
 
