@@ -14,8 +14,7 @@ INCLUDES = \
 noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
-        fullscreen.c \
-	fullscreenkbd.c 
+        fullscreen.c
 
 libx11ui_a_SOURCES = \
 	kbd.c \
@@ -24,6 +23,9 @@ libx11ui_a_SOURCES = \
 	ui-resources.c \
 	video.c \
 	videoarch.h \
+	x11kbd.c \
+	x11kbd.h \
+	uihotkey.c \
 	x11menu.c \
 	x11menu.h \
 	c128icon.xpm \

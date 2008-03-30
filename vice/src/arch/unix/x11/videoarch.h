@@ -31,6 +31,8 @@
 #include "vice.h"
 
 #include <X11/Xlib.h>
+#include <X11/keysym.h>
+
 #ifdef USE_MITSHM
 #include <X11/extensions/XShm.h>
 #include <sys/ipc.h>

@@ -11,7 +11,6 @@ libgnomeui_a_SOURCES = \
 	ui.c \
 	uiarch.h \
 	videoarch.h \
-	uihotkey.c \
 	uimenu.c \
 	uimenu.h \
 	gnomekbd.c \

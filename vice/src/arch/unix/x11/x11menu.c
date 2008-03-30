@@ -33,12 +33,6 @@
 #include "utils.h"
 #include "x11menu.h"
 
-#ifdef USE_GNOMEUI
-#include "uihotkey.h"
-#else
-#include "xaw/uihotkey.h"
-#endif
-
 char *make_menu_label(ui_menu_entry_t *e)
 {
     const char *key_string;
@@ -50,7 +44,7 @@ char *make_menu_label(ui_menu_entry_t *e)
     else
 	trans = stralloc(_(e->string));
     
-    if (e->hotkey_keysym == (KeySym) 0)
+    if (e->hotkey_keysym == (ui_keysym_t) 0)
         return trans;
 
     tmp = xmalloc(1024);

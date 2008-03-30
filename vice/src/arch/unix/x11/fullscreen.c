@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
+#include <X11/keysym.h>
 
 #include <X11/extensions/xf86dga.h>
 #define DGA_MINMAJOR 0
@@ -59,6 +60,7 @@
 #include "vsyncapi.h"
 #include "utils.h"
 #include "videoarch.h"
+#include "x11kbd.h"
 
 typedef struct {
   int modeindex;
@@ -176,8 +178,8 @@ int fullscreen_vidmode_available(void)
 #ifndef FS_DEBUG
     if (XF86DGAForkApp(XDefaultScreen(display)) != 0)
     {
-	perror("Can't fork for DGA; quitting");
-	exit(1);
+	log_error(LOG_DEFAULT, "Can't fork for DGA; quitting");
+	return 1;
     }
     log_message(LOG_DEFAULT, _("Successfully forked DGA\n"));
 #endif
@@ -522,6 +524,7 @@ int fullscreen_set_bestmode(resource_value_t v, void *param)
 int fullscreen_mode_on(void)
 {
     if (!fullscreen_is_enabled) {
+	x11kbd_focus_change();
         fullscreen_set_mode((resource_value_t) 1, NULL);
         ui_update_menus();
         return 0;
@@ -533,6 +536,7 @@ int fullscreen_mode_off(void)
 {
     fullscreen_is_enabled_restore = 0;
     if (fullscreen_is_enabled) {
+	x11kbd_focus_change();
         fullscreen_set_mode(0, NULL);
         ui_update_menus();
         return 1;
@@ -595,13 +599,13 @@ char *fullscreen_mode_name(int mode)
 
 #ifdef CHECK_DGA_V2
 
-/* event & keyboard handling */
-static void fullscreen_kbd_event_handler(XKeyEvent *event, int type);
-
 static void fullscreen_dispatch_events_2(void)
 {
     XDGAEvent event;
     XKeyEvent xk;
+    KeySym key;
+    XComposeStatus compose;
+    static char buffer[20];
     
     while (XPending(display))
     {
@@ -609,10 +613,21 @@ static void fullscreen_dispatch_events_2(void)
 	switch (event.type - EventBase)
 	{
 	case KeyPress:
-	case KeyRelease:
  	    XDGAKeyEventToXKeyEvent(&(event.xkey), &xk); 
-  	    fullscreen_kbd_event_handler(&xk, event.type - EventBase);
+	    XLookupString(&xk, buffer, 20, &key, &compose);
+#ifdef FS_DEBUG
+	    if (key == XK_d)
+		fullscreen_request_set_mode(0, NULL);
+#endif
+	    x11kbd_press(key);
 	    break;
+	    
+	case KeyRelease:
+ 	    XDGAKeyEventToXKeyEvent(&(event.xkey), &xk);
+	    XLookupString(&xk, buffer, 20, &key, &compose);
+	    x11kbd_release(key);
+	    break;
+
 	default:
 	    break;
 	}
@@ -629,6 +644,5 @@ static void fullscreen_dispatch_events(void)
     request_fullscreen_mode = 0;
 }
 
-#include "fullscreenkbd.c"
 #endif
 

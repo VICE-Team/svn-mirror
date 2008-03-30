@@ -31,7 +31,6 @@
 #define _UIMENU_H
 
 #include "ui.h"
-#include "uihotkey.h"
 #include "../x11menu.h"
 
 typedef enum { 

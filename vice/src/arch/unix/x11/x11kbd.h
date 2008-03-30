@@ -1,9 +1,8 @@
 /*
- * x11menu.h - Common X11 menu functions.
+ * x11kbd.h - x11 keyboard interface layer
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Martin Pottendorfer <pottendo@utanet.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,22 +24,14 @@
  *
  */
 
-#ifndef _X11MENU_H
-#define _X11MENU_H
+/* X11 keyboard driver. */
 
-#include "ui.h"
-#include "uihotkey.h"
+#ifndef __x11kbd_h__
+#define __x11kbd_h__
 
-typedef struct ui_menu_entry_s {
-    char *string;
-    ui_callback_t callback;
-    ui_callback_data_t callback_data;
-    struct ui_menu_entry_s *sub_menu;
-    ui_keysym_t hotkey_keysym;
-    ui_hotkey_modifier_t hotkey_modifier;
-} ui_menu_entry_t;
+void x11kbd_press(int key);
+void x11kbd_release(int key);
+void x11kbd_enter_leave(void);
+void x11kbd_focus_change (void);
 
-extern char *make_menu_label(ui_menu_entry_t *e);
-
-#endif
-
+#endif /* __x11kbd_h__ */

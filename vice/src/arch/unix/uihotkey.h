@@ -41,5 +41,6 @@ int ui_hotkey_init(void);
 void ui_hotkey_register(ui_hotkey_modifier_t modifier,
                         ui_keysym_t keysym, ui_callback_t callback,
                         ui_callback_data_t client_data);
+int ui_dispatch_hotkeys(int key);
 
 #endif
