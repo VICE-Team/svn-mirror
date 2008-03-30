@@ -301,6 +301,7 @@ const vicii_sprites_fetch_t vicii_sprites_fetch_table[256][4] =
 };
 
 
+/* This table was first published in the demo Krestage by Crest.  */
 const int vicii_sprites_crunch_table[64] =
 {
     1,   4,   3, /* 0 */
