@@ -69,7 +69,8 @@ int serial_trap_attention(void)
             return 0;
         }
     } else {
-        if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+        if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
+            && ((TrapDevice & 0x0f) != 5)) {
             return 0;
         }
     }
@@ -118,7 +119,8 @@ int serial_trap_send(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
+        && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
@@ -137,7 +139,8 @@ int serial_trap_receive(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
+        && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
@@ -165,7 +168,8 @@ int serial_trap_receive(void)
 
 int serial_trap_ready(void)
 {
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
+        && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
