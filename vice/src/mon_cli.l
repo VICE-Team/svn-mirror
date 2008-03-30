@@ -40,7 +40,9 @@ YY_BUFFER_STATE my_state;
 <CMD>bw			{ BEGIN INITIAL; return CMD_BLOCK_WRITE; }
 <CMD>up			{ BEGIN INITIAL; return CMD_UP; }
 <CMD>down		{ BEGIN INITIAL; return CMD_DOWN; }
+<CMD>n |
 <CMD>next 		{ BEGIN INITIAL; return CMD_NEXT; }
+<CMD>s |
 <CMD>step 		{ BEGIN INITIAL; return CMD_STEP; }
 <CMD>ignore		{ BEGIN INITIAL; return CMD_IGNORE; }
 <CMD>load		{ BEGIN FNAME; return CMD_LOAD; }
@@ -86,11 +88,16 @@ YY_BUFFER_STATE my_state;
 <CMD>system  		{ BEGIN ROL; return CMD_SYSTEM; }
 <CMD>cd			{ BEGIN ROL; return CMD_CHDIR; }
 <CMD>@ 			{ BEGIN ROL; return CMD_DISK; }
-<CMD>load_label   	{ BEGIN FNAME; return CMD_LOAD_LABELS; }
-<CMD>save_label 	{ BEGIN FNAME; return CMD_SAVE_LABELS; }
+<CMD>ll |
+<CMD>load_labels   	{ BEGIN FNAME; return CMD_LOAD_LABELS; }
+<CMD>sl |
+<CMD>save_labels 	{ BEGIN FNAME; return CMD_SAVE_LABELS; }
+<CMD>al |
 <CMD>add_label 		{ BEGIN INITIAL; return CMD_ADD_LABEL; }
+<CMD>dl |
 <CMD>del_label 		{ BEGIN INITIAL; return CMD_DEL_LABEL; }
-<CMD>label 		{ BEGIN INITIAL; return CMD_LABEL; }
+<CMD>shl |
+<CMD>show_labels 	{ BEGIN INITIAL; return CMD_SHOW_LABELS; }
 
 <CMD>\? |
 <CMD>help		{ BEGIN INITIAL; return CMD_HELP; }
@@ -138,17 +145,17 @@ SP		{ yylval.i = e_SP; return REGISTER; }
 \.TP		{ yylval.i = e_text_petscii; return INPUT_SPEC; }
 \.\>		{ yylval.i = e_6502_asm; return INPUT_SPEC; }
 
-   /* D		{ yylval.i = e_decimal; return DATA_TYPE; } */
-   /* H		{ yylval.i = e_hexadecimal; return DATA_TYPE; } */
-   /* B		{ yylval.i = e_binary; return DATA_TYPE; } */
-   /* O		{ yylval.i = e_octal; return DATA_TYPE; } */
-   /* C		{ yylval.i = e_character; return DATA_TYPE; } */
-   /* S		{ yylval.i = e_sprite; return DATA_TYPE; } */
-   /* TA		{ yylval.i = e_text_ascii; return DATA_TYPE; } */
-   /* TP		{ yylval.i = e_text_petscii; return DATA_TYPE; } */
+D		{ yylval.i = e_decimal; return DATA_TYPE; }
+H		{ yylval.i = e_hexadecimal; return DATA_TYPE; }
+B		{ yylval.i = e_binary; return DATA_TYPE; }
+O		{ yylval.i = e_octal; return DATA_TYPE; }
+C		{ yylval.i = e_character; return DATA_TYPE; }
+S		{ yylval.i = e_sprite; return DATA_TYPE; }
+TA		{ yylval.i = e_text_ascii; return DATA_TYPE; }
+TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
 
-c|C { return MEM_COMP; }
-d|D { return MEM_DISK; }
+c:              { return MEM_COMP; }
+d:              { return MEM_DISK; }
 
 == 		{ yylval.i = e_EQU; return COMPARE_OP; }
 != 		{ yylval.i = e_NEQ; return COMPARE_OP; }

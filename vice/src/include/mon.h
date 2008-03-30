@@ -310,18 +310,19 @@ extern void jump(M_ADDR addr);
 
 extern char *symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr);
 extern int symbol_table_lookup_addr(MEMSPACE mem, char *name);
-extern void add_name_to_symbol_table(MEMSPACE mem, char *name, ADDRESS addr);
+extern void add_name_to_symbol_table(M_ADDR addr, char *name);
 extern void remove_name_from_symbol_table(MEMSPACE mem, char *name);
 extern void print_symbol_table(MEMSPACE mem);
 extern void free_symbol_table(MEMSPACE mem);
-extern void mon_load_symbols(char *filename, MEMSPACE mem);
-extern void mon_save_symbols(char *filename, MEMSPACE mem);
+extern void mon_load_symbols(MEMSPACE mem, char *filename);
+extern void mon_save_symbols(MEMSPACE mem, char *filename);
 
 extern void watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 extern bool mon_force_import(MEMSPACE mem);
 
-extern void mon_helper(ADDRESS a);
+extern void mon_check_icount(ADDRESS a);
+extern void mon_check_watchpoints(ADDRESS a);
 extern void mon(ADDRESS a);
 
 extern int mon_assemble_instr(char *opcode_name, unsigned operand);

@@ -68,7 +68,7 @@ typedef union {
 #define	CMD_SAVE_LABELS	314
 #define	CMD_ADD_LABEL	315
 #define	CMD_DEL_LABEL	316
-#define	CMD_LABEL	317
+#define	CMD_SHOW_LABELS	317
 #define	L_PAREN	318
 #define	R_PAREN	319
 #define	ARG_IMMEDIATE	320

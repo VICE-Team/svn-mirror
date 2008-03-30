@@ -415,8 +415,10 @@ static int  disk_cdd(void)
 static int  disk_gcrformat (void)
 {
     int fd, track;
-    BYTE gcrheader[12];
-    BYTE gcrtrack[9912];
+    BYTE gcr_header[12];
+    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
+    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
+    BYTE gcr_track[7930];
 
     if (nargs < 2)
 	return 0;
@@ -426,31 +428,52 @@ static int  disk_gcrformat (void)
 	return (FD_BADIMAGE);
     }
 
-    strcpy(gcrheader, "GCR-VICE");
+    strcpy(gcr_header, "GCR-1541");
 
-    gcrheader[8] = 0;
-    gcrheader[9] = 42;
-    gcrheader[10] = 7928 % 256;
-    gcrheader[11] = 7928 / 256;
+    gcr_header[8] = 0;
+    gcr_header[9] = MAX_TRACKS_1541;
+    gcr_header[10] = 7928 % 256;
+    gcr_header[11] = 7928 / 256;
 
-    if(write(fd, (char *)gcrheader, sizeof(gcrheader)) != sizeof(gcrheader)) {
+    if(write(fd, (char *)gcr_header, sizeof(gcr_header)) !=
+						sizeof(gcr_header)) {
 	printf("Cannot write header.\n");
 	close(fd);
 	return 0;
     }
-    memset(&gcrtrack[2], 0, 7928);
 
-    for(track = 1; track <= MAX_TRACKS_1541; track++) {
+    for(track = 0; track < MAX_TRACKS_1541; track++) {
+	gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
+	gcr_track_p[track * 2 + 1] = 0;
+	gcr_speed_p[track * 2] = speed_map[track];
+	gcr_speed_p[track * 2 + 1] = 0;
+    }
 
-	int comp_speed[4] = { 0x00, 0x99, 0xaa, 0xff };
+    if(write(fd, (char *)gcr_track_p, sizeof(gcr_track_p)) != 
+						sizeof(gcr_track_p)) {
+	printf("Cannot write track header.\n");
+	close(fd);
+	return 0;
+    }
+
+    if(write(fd, (char *)gcr_speed_p, sizeof(gcr_speed_p)) !=
+						sizeof(gcr_speed_p)) {
+	printf("Cannot write speed header.\n");
+	close(fd);
+	return 0;
+    }
+
+    memset(&gcr_track[2], 0, 7928);
+
+    for(track = 0; track < MAX_TRACKS_1541; track++) {
+
 	int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
-	gcrtrack[0] = raw_track_size[speed_map[track - 1]] % 256;
-	gcrtrack[1] = raw_track_size[speed_map[track - 1]] / 256;
+	gcr_track[0] = raw_track_size[speed_map[track]] % 256;
+	gcr_track[1] = raw_track_size[speed_map[track]] / 256;
 
-	memset(&gcrtrack[2+7928], comp_speed[speed_map[track - 1]], 1982);
-
-	if(write(fd, (char *)gcrtrack, sizeof(gcrtrack)) != sizeof(gcrtrack)) {
+	if(write(fd, (char *)gcr_track, sizeof(gcr_track)) != 
+						sizeof(gcr_track)) {
 	    printf("Cannot write track data.\n");
 	    close(fd);
 	    return 0;

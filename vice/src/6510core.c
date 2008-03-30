@@ -185,7 +185,6 @@
 #define TRACE_IRQ()
 #endif
 
-#ifdef __1541__
 #define DO_INTERRUPT(int_kind)                                          \
     do {                                                                \
         BYTE ik = (int_kind);                                           \
@@ -232,102 +231,27 @@
             }                                                           \
         }                                                               \
         if (ik & (IK_MONITOR)) {					\
-           if (FORCE_IMPORT())						\
+           caller_space = CALLER;					\
+           if (mon_force_import(CALLER))				\
               IMPORT_REGISTERS();					\
-           if (mon_mask[e_disk_space] & (MI_BREAK)) {			\
+           if (mon_mask[CALLER])					\
               EXPORT_REGISTERS();					\
-              if (check_breakpoints(e_disk_space, reg_pc)) {		\
-                 caller_space = e_disk_space;				\
+           if (mon_mask[CALLER] & (MI_BREAK)) {				\
+              if (check_breakpoints(CALLER, reg_pc)) {			\
                  mon(reg_pc);						\
                  IMPORT_REGISTERS();					\
               }								\
            }								\
-           if (mon_mask[e_disk_space] & (MI_STEP)) {			\
-              EXPORT_REGISTERS();					\
-              caller_space = e_disk_space;				\
-              mon_helper(reg_pc);					\
+           if (mon_mask[CALLER] & (MI_STEP)) {				\
+              mon_check_icount(reg_pc);					\
               IMPORT_REGISTERS();					\
            }								\
-           if (mon_mask[e_disk_space] & (MI_WATCH)) {			\
-              EXPORT_REGISTERS();					\
-              caller_space = e_disk_space;				\
-              mon_helper(reg_pc);					\
+           if (mon_mask[CALLER] & (MI_WATCH)) {				\
+              mon_check_watchpoints(reg_pc);				\
               IMPORT_REGISTERS();					\
            }								\
         }								\
     } while (0)
-#else
-#define DO_INTERRUPT(int_kind)                                          \
-    do {                                                                \
-        BYTE ik = (int_kind);                                           \
-                                                                        \
-        if (ik & (IK_IRQ | IK_NMI)) {                                   \
-            if ((ik & IK_NMI)                                           \
-		&& check_nmi_delay(&CPU_INT_STATUS, CLK)) {             \
-                TRACE_NMI();                                            \
-                ack_nmi(&CPU_INT_STATUS);                               \
-                LOCAL_SET_BREAK(0);                                     \
-                PUSH(reg_pc >> 8);                                      \
-                PUSH(reg_pc & 0xff);                                    \
-                PUSH(LOCAL_STATUS());                                   \
-                LOCAL_SET_INTERRUPT(1);                                 \
-                JUMP(LOAD_ADDR(0xfffa));                                \
-                SET_LAST_OPCODE(0);                                     \
-                CLK += NMI_CYCLES;                                      \
-            } else if ((ik & IK_IRQ)                                    \
-                       && (!LOCAL_INTERRUPT()                           \
-                           || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))    \
-                       && check_irq_delay(&CPU_INT_STATUS, CLK)) {      \
-                TRACE_IRQ();                                            \
-                LOCAL_SET_BREAK(0);                                     \
-                PUSH(reg_pc >> 8);                                      \
-                PUSH(reg_pc & 0xff);                                    \
-                PUSH(LOCAL_STATUS());                                   \
-                LOCAL_SET_INTERRUPT(1);                                 \
-                JUMP(LOAD_ADDR(0xfffe));                                \
-                SET_LAST_OPCODE(0);                                     \
-                CLK += IRQ_CYCLES;                                      \
-            }                                                           \
-        }                                                               \
-        if (ik & (IK_TRAP | IK_RESET)) {                                \
-            if (ik & IK_TRAP) {                                         \
-                ack_trap(&CPU_INT_STATUS);                              \
-                EXPORT_REGISTERS();                                     \
-                CPU_INT_STATUS.trap_func(reg_pc);                       \
-                IMPORT_REGISTERS();                                     \
-            }                                                           \
-            if (ik & IK_RESET) {                                        \
-                ack_reset(&CPU_INT_STATUS);                             \
-                reset();                                                \
-                JUMP(LOAD_ADDR(0xfffc));                                \
-            }                                                           \
-        }                                                               \
-        if (ik & (IK_MONITOR)) {					\
-           if (FORCE_IMPORT())						\
-              IMPORT_REGISTERS();					\
-           if (mon_mask[e_comp_space] & (MI_BREAK)) {			\
-              EXPORT_REGISTERS();					\
-              if (check_breakpoints(e_comp_space, reg_pc)) {		\
-                 caller_space = e_comp_space;				\
-                 mon(reg_pc);						\
-                 IMPORT_REGISTERS();					\
-              }								\
-           }								\
-           if (mon_mask[e_comp_space] & (MI_STEP)) {			\
-              EXPORT_REGISTERS();					\
-              caller_space = e_comp_space;				\
-              mon_helper(reg_pc);					\
-              IMPORT_REGISTERS();					\
-           }								\
-           if (mon_mask[e_comp_space] & (MI_WATCH)) {			\
-              EXPORT_REGISTERS();					\
-              caller_space = e_comp_space;				\
-              mon_helper(reg_pc);					\
-              IMPORT_REGISTERS();					\
-           }								\
-        }								\
-    } while (0)
-#endif
 
 /* ------------------------------------------------------------------------- */
 

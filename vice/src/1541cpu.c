@@ -463,7 +463,7 @@ void true1541_cpu_execute(void)
 #define ROM_TRAP_HANDLER() \
     true1541_trap_handler()
 
-#define FORCE_IMPORT() mon_force_import(e_disk_space)
+#define CALLER e_disk_space
 
 #define GLOBAL_REGS true1541_cpu_regs
 

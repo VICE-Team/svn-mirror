@@ -42,7 +42,7 @@ extern int yylex(void);
 %token<i> CMD_DUMP CMD_UNDUMP CMD_EXIT CMD_DELETE CMD_CONDITION CMD_COMMAND
 %token<i> CMD_ASSEMBLE CMD_DISASSEMBLE CMD_NEXT CMD_STEP CMD_PRINT CMD_DEVICE
 %token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR 
-%token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_LABEL
+%token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<str> STRING FILENAME R_O_L OPCODE LABEL
 %token<reg> REGISTER
@@ -59,7 +59,7 @@ extern int yylex(void);
 %type<i> memory_display space_mod file_cmd no_arg_cmds disassemble
 %type<i> set_list_breakpts set_list_watchpts set_list_tracepts value
 %type<i> display_type asm_operand_mode assembly_instruction
-%type<i> assembly_instr_list post_assemble
+%type<i> assembly_instr_list post_assemble opt_memspace
 %type<str> rest_of_line data_list data_element 
 
 %left '+' '-'
@@ -111,11 +111,11 @@ command: COMMAND_NAME {puts("Unsupported command"); }
        | CONVERT_OP expression { print_convert($2); }
        | CMD_QUIT { printf("Quit.\n"); exit(-1); exit(0); }
        | CMD_CHDIR rest_of_line { change_dir($2); }
-       | CMD_LOAD_LABELS FILENAME { mon_load_symbols($2, e_comp_space); }
-       | CMD_SAVE_LABELS FILENAME { mon_save_symbols($2, e_comp_space); }
-       | CMD_ADD_LABEL address LABEL { add_name_to_symbol_table(e_comp_space, $3, $2); }
-       | CMD_DEL_LABEL LABEL { remove_name_from_symbol_table(e_comp_space, $2); }
-       | CMD_LABEL { print_symbol_table(e_comp_space); }
+       | CMD_LOAD_LABELS opt_memspace FILENAME { mon_load_symbols($2, $3); }
+       | CMD_SAVE_LABELS opt_memspace FILENAME { mon_save_symbols($2, $3); }
+       | CMD_ADD_LABEL address LABEL { add_name_to_symbol_table($2, $3); }
+       | CMD_DEL_LABEL opt_memspace LABEL { remove_name_from_symbol_table($2, $3); }
+       | CMD_SHOW_LABELS opt_memspace { print_symbol_table($2); }
        | BAD_CMD { YYABORT; }
        ;
 
@@ -202,7 +202,7 @@ reg_list: reg_list ',' reg_asgn
         ;
 
 reg_asgn: REGISTER '=' number { set_reg_val($1, default_writespace, $3); }
-        | memspace ':' REGISTER '=' number { set_reg_val($3, $1, $5); }
+        | memspace REGISTER '=' number { set_reg_val($2, $1, $4); }
         ;
  
 file_cmd: CMD_LOAD FILENAME address { mon_load_file($2,$3); } 
@@ -237,7 +237,12 @@ opt_address: address { $$ = $1; }
            ;
 
 address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_mode = 1; }
-       | memspace ':' memloc { $$ = new_addr($1,$3); if (opt_asm) new_cmd = asm_mode = 1; }
+       | memspace memloc { $$ = new_addr($1,$2); if (opt_asm) new_cmd = asm_mode = 1; }
+       ;
+
+opt_memspace: memspace { $$ = $1; }
+            |          { $$ = e_default_space; }
+            ;
 
 memspace: MEM_COMP { $$ = e_comp_space; } 
         | MEM_DISK { $$ = e_disk_space; }
@@ -263,8 +268,8 @@ cond_expr: compare_operand COMPARE_OP compare_operand {
 
 compare_operand: REGISTER { $$ = new_cond; $$->operation = e_INV; 
                             $$->reg_num = $1; $$->is_reg = default_readspace; }
-               | memspace ':' REGISTER { $$ = new_cond; $$->operation = e_INV; 
-                            $$->reg_num = $3; $$->is_reg = $1; }
+               | memspace REGISTER { $$ = new_cond; $$->operation = e_INV; 
+                            $$->reg_num = $2; $$->is_reg = $1; }
                | number   { $$ = new_cond; $$->operation = e_INV;
                             $$->value = $1; $$->is_reg = 0; }
                ;
@@ -279,7 +284,7 @@ data_element: number { add_number_to_buffer($1); }
 
 value: number { $$ = $1; }
      | REGISTER { $$ = get_reg_val(default_readspace, $1); }
-     | memspace ':' REGISTER { $$ = get_reg_val($1, $3); }
+     | memspace REGISTER { $$ = get_reg_val($1, $2); }
      ;
 
 number: H_NUMBER { $$ = $1; }

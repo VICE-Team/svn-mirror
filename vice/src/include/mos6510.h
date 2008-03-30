@@ -37,13 +37,13 @@ typedef struct _mos6510_regs {
     BYTE y;
     BYTE sp;
     struct {
-        int z:1;
-        int n:1;
-        int v:1;
-        int b:1;
-        int d:1;
-        int i:1;
-        int c:1;
+        int z;
+        int n;
+        int v;
+        int b;
+        int d;
+        int i;
+        int c;
     } psp;
 } mos6510_regs_t;
 
