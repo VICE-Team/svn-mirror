@@ -1,9 +1,151 @@
+Sat Apr 25 00:13:20 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.12.
+
+	* 1541cpu.c: Static memory read/store functions prepended with
+ 	`true1541_' to avoid conflicts with the maincpu ones.
+
+Fri Apr 24 21:30:05 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* 1541cpu.c: `true1541_monitor_interface'.
+	(true1541_turn_watchpoints_on): Removed.
+	(true1541_turn_watchpoints_off): Removed.
+	(true1541_toggle_watchpoints): New.
+
+	* c64/c64mem.c, vic20/vic20mem.c, pet/petmem.c (machine_init):
+	Initialize the monitor passing the proper functions.
+
+	* c64/c64mem.c, vic20/vic20mem.c (maincpu_turn_watchpoints_off):
+ 	Removed.
+	(maincpu_turn_watchpoints_on): Removed.
+	(mem_toggle_watchpoints): New.
+	(mem_store, mem_read): New.
+
+	* include/macro.h: Removed.
+
+	* Makefile.in: Compile `mon.c' once.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c (machine_init): Initialize
+	it here.
+
+	* main.c (main): Do not initialize the monitor anymore.
+
+	* mon.c: Access the registers the main and 1541 CPUs via
+ 	`monitor_interface_t'.  Removed all the `NO_DRIVE' #ifdefs.
+	(init_monitor): Renamed to `monitor_init'.
+	(monitor_init): New parameters `maincpu_interface_init',
+ 	`true1541_interface_init'.
+
+	* include/mon.h: New typedef `monitor_interface_t'.
+
+	* 1541cpu.c: `read_func', `store_func', `read_func_watch',
+	`store_func_watch', `read_func_nowatch', `store_func_nowatch' made
+	static again.
+	(true1541_read, true1541_store): New functions.
+
+	* 6510core.c (IMPORT_REGISTERS, EXPORT_REGISTERS): New macros
+	using `GLOBAL_REGS'.
+
+	* maincpu.c, 1541cpu.c: Declare registers using `mos6510_regs_t';
+ 	all files using CPU registers updated accordingly.  Removed
+ 	`IMPORT_REGISTERS()' and `EXPORT_REGISTERS()' macros.  Just
+ 	#define `GLOBAL_REGS' to `maincpu_regs' and `true541_cpu_regs'
+ 	respectively instead.
+
+	* include/maincpu.h: Removed 6510 macros.
+
+	* include/mos6510.h: New file; defines the `mos6510_regs_t'
+	typedef for storing register status.
+
+	* include/6510core.h: #include "types.h".
+
+	* configure.in, Makefile.in: Compile `xdebug.c' only once and use
+	the resulting object files for all the emulators.
+
+	* Makefile.in: Compile `serial.c', `traps.c', `tapeunit.c' and
+ 	`misc.c' only once and use the resulting object files for all the
+ 	emulators.  Link `parallel.o' to all the emulators.
+
+	* pet/petmem.c (mem_set_tape_sense): New (dummy) function.
+
+	* c64/c64.c: Added tape trap list.
+	(machine_init): Call `initialize_tape()' with the trap list.
+
+	* include/tapeunit.h (initialize_tape): Non-system specific
+ 	#defines copied to `tapeunit.c'.  Other ones removed.
+
+	* tapeunit.c (initialize_tape): Removed parameter `number'; new
+ 	parameter `trap_list'.  Make `tape_traps' point to `trap_list'.
+	Use `xmalloc' instead of `malloc()'/`assert()'.
+	(tapereceive, findheader, writeheader): Made public.
+
+	* serial.c: Never exclude any function through `#ifdef'.
+
+	* tapeunit.c: Completed trap lists with `resume_address'.
+	(writeheader, tapereceive, findheader): Do not change `PC'
+ 	anymore.
+
+	* serial.c (serialattention, serialsendbyte): Do not change `PC'
+ 	anymore.
+	(serialreceivebyte, trap_serial_ready): Ditto.
+
+	* c64/c64.c, vic20/vic20.c: Completed trap list with
+ 	`resume_address'.
+
+	* traps.c (trap_handler): Set `PC' to `resume_address' when done
+	calling the trap.
+
+	* include/traps.h: New member `resume_address' in `trap_t'.
+
+	* true1541.c (true1541_detach_floppy): New parameter `floppy'.
+	Do a little sanity check.
+
+	* serial.c (serial_select_file): Do not try initialize a new
+ 	device if necessary anymore: just return -1.
+
+	* drive.c (initialize_1541): New parameters `attach_func' and
+ 	`detach_func'.
+	(attach_floppy_image): Call `floppy->attach_func()' if successful.
+	(detach_floppy_image): Call `floppy->detach_func()' if successful.
+
+	* include/drive.h: New members `attach_func' and `detatch_func' in
+	`DRIVE'.
+
+Fri Apr 24 11:00:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* serial.c: Removed any true 1541 references.
+
+	* c64/c64.c, vic20/vic20.c: Moved serial trap initialization array
+ 	here.
+
+	* serial.c (serialattention, serialsendbyte, serialreceivebyte):
+	Made public.
+ 	(trap_serial_ready): Made public.
+
+	* traps.c (set_trap, remove_trap): Made const-safe.
+
+	* serial.c (initialize_serial): New parameter `trap_list'; removed
+ 	parameter `notraps'; set the list of traps to `trap_list'.  Remove
+ 	existing traps.  Return type changed to `int' (zero for success,
+ 	nonzero for failure).
+	(install_serial_traps, remove_serial_traps): Remove all the traps
+ 	in `trap_list'; the first element whose callback function is NULL
+ 	marks the end of the list.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c (machine_shutdown): New
+	function.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c (machine_init): Return type
+ 	changed to `int', and moved machine-specific initialization here.
+
+	* main.c (main): Removed machine-specific initialization.
+
 Wed Apr 22 18:22:43 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.11.
 
 Wed Apr 22 17:33:29 1998   Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
-	
+
 	* Makefile.in: Added `gcr.o' to `COMMON_OBJS' and `C1541_DEPS'.
 	Added `gcr.h' to `VICEHDR'.
 
@@ -39,8 +181,8 @@ Wed Apr 22 11:19:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Wed Apr 22 10:11:05 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
 
-	* arch/unix/kbdef.h: (shift_type) changed SHIFT defines to enum 
-	again. 
+	* arch/unix/kbdef.h: (shift_type) changed SHIFT defines to enum
+	again.
 	outcommented default and both PET keyconvmaps.
 	* arch/unix/kbd.c (numpad_status, joy1pad_status, joy2pad_status):
  	`joy*pad_status' replace `numpad_status'.
@@ -82,7 +224,7 @@ Wed Apr 22 02:53:48 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
 	* mon.c/mon.h (mon_assemble_instr): New function.
 	(assemble_line): Removed function.
-    
+
 	* mon_cli.l: Assembly support.  Fixed datatype detection.
 
 	* mon_cli.y: Assembly support.
