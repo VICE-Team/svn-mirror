@@ -37,6 +37,9 @@
 #include "vsync.h"
 
 
+/*#define DEBUG_RD*/
+
+
 static log_t realdevice_log = LOG_DEFAULT;
 
 static unsigned int realdevice_available = 0;
@@ -55,6 +58,10 @@ void realdevice_open(unsigned int device, BYTE secondary,
 
     (*opencbmlib.p_cbm_open)(realdevice_fd, device & 0x0f, secondary & 0x0f,
                              NULL, 0);
+
+#ifdef DEBUG_RD
+    log_debug("OPEN DEVICE %i SECONDARY %i", device & 0x0f, secondary & 0x0f);
+#endif
 }
 
 void realdevice_close(unsigned int device, BYTE secondary,
@@ -63,6 +70,10 @@ void realdevice_close(unsigned int device, BYTE secondary,
     vsync_suspend_speed_eval();
 
     (*opencbmlib.p_cbm_close)(realdevice_fd, device & 0x0f, secondary & 0x0f);
+
+#ifdef DEBUG_RD
+    log_debug("CLOSE DEVICE %i SECONDARY %i", device & 0x0f, secondary & 0x0f);
+#endif
 }
 
 void realdevice_listentalk(unsigned int device, BYTE secondary,
@@ -74,10 +85,18 @@ void realdevice_listentalk(unsigned int device, BYTE secondary,
       case 0x20:
         (*opencbmlib.p_cbm_listen)(realdevice_fd, device & 0x0f,
                                    secondary & 0x0f);
+#ifdef DEBUG_RD
+        log_debug("LISTEN DEVICE %i SECONDARY %i", device & 0x0f,
+                  secondary & 0x0f);
+#endif
         break;
       case 0x40:
         (*opencbmlib.p_cbm_talk)(realdevice_fd, device & 0x0f,
                                  secondary & 0x0f);
+#ifdef DEBUG_RD
+        log_debug("TALK DEVICE %i SECONDARY %i", device & 0x0f,
+                  secondary & 0x0f);
+#endif
         break;
     }
 }
@@ -87,6 +106,9 @@ void realdevice_unlisten(void(*st_func)(BYTE))
     vsync_suspend_speed_eval();
 
     (*opencbmlib.p_cbm_unlisten)(realdevice_fd);
+#ifdef DEBUG_RD
+    log_debug("UNLISTEN");
+#endif
 }
 
 void realdevice_untalk(void(*st_func)(BYTE))
@@ -94,16 +116,27 @@ void realdevice_untalk(void(*st_func)(BYTE))
     vsync_suspend_speed_eval();
 
     (*opencbmlib.p_cbm_untalk)(realdevice_fd);
+#ifdef DEBUG_RD
+    log_debug("UNTALK");
+#endif
 }
 
 void realdevice_write(BYTE data, void(*st_func)(BYTE))
 {
     BYTE st;
 
+#ifdef DEBUG_RD
+    BYTE mydata = data;
+#endif
+
     vsync_suspend_speed_eval();
 
     st = ((*opencbmlib.p_cbm_raw_write)(realdevice_fd, &data, 1) == 1)
          ? 0 : 0x83;
+
+#ifdef DEBUG_RD
+    log_debug("WRITE DATA %02x ST %02x", mydata, st);
+#endif
 
     st_func(st);
 }
@@ -116,8 +149,16 @@ BYTE realdevice_read(void(*st_func)(BYTE))
 
     st = ((*opencbmlib.p_cbm_raw_read)(realdevice_fd, &data, 1) == 1) ? 0 : 2;
 
+#ifdef DEBUG_RD
+    log_debug("READ %02x ST %02x", data, st);
+#endif
+
     if ((*opencbmlib.p_cbm_get_eoi)(realdevice_fd))
         st |= 0x40;
+
+#ifdef DEBUG_RD
+    log_debug("READ NEWST %02x", st);
+#endif
 
     st_func(st);
 

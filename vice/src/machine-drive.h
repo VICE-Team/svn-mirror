@@ -58,6 +58,7 @@ extern int machine_drive_image_attach(struct disk_image_s *image,
 extern int machine_drive_image_detach(struct disk_image_s *image,
                                       unsigned int unit);
 extern void machine_drive_port_default(struct drive_context_s *drv);
+extern void machine_drive_flush(void);
 extern void machine_drive_stub(void);
 
 #endif

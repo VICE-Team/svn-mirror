@@ -179,6 +179,11 @@ void machine_drive_port_default(struct drive_context_s *drv)
     iec_drive_port_default(drv);
 }
 
+void machine_drive_flush(void)
+{
+    drive_gcr_data_writeback_all();
+}
+
 void machine_drive_stub(void)
 {
 

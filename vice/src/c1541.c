@@ -3002,6 +3002,10 @@ unsigned int machine_bus_device_realdevice_state_get(unsigned int unit)
     return serial_device_realdevice_state_get(unit);
 }
 
+void machine_drive_flush(void)
+{
+}
+
 #ifdef WIN32
 /* Kludge! Will be removed someday.  */
 size_t system_wcstombs(char *mbs, const char *wcs, size_t len)

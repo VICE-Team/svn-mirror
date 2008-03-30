@@ -253,6 +253,7 @@ libarch_a_SOURCES = \
 	icon.h \
 	joy.c \
 	joy.h \
+	joy_usb.c \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
@@ -365,25 +366,25 @@ libarch_a_LIBADD =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	c128ui.$(OBJEXT) c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) \
 	cbm2ui.$(OBJEXT) console.$(OBJEXT) coproc.$(OBJEXT) \
-	ffmpeglib.$(OBJEXT) joy.$(OBJEXT) mousedrv.$(OBJEXT) \
-	opencbmlib.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
-	rs232.$(OBJEXT) signals.$(OBJEXT) tfearch.$(OBJEXT) \
-	ui.$(OBJEXT) uiattach.$(OBJEXT) uic64cart.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uicommands.$(OBJEXT) uicrtc.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) \
-	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimon.$(OBJEXT) \
-	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
-	uirs232.$(OBJEXT) uisettings.$(OBJEXT) uisid.$(OBJEXT) \
-	uisound.$(OBJEXT) uited.$(OBJEXT) uitfe.$(OBJEXT) \
-	uivdc.$(OBJEXT) uivic.$(OBJEXT) uivicii.$(OBJEXT) \
-	unixmain.$(OBJEXT) vic20ui.$(OBJEXT) vsyncarch.$(OBJEXT) \
-	vsidui.$(OBJEXT)
+	ffmpeglib.$(OBJEXT) joy.$(OBJEXT) joy_usb.$(OBJEXT) \
+	mousedrv.$(OBJEXT) opencbmlib.$(OBJEXT) petui.$(OBJEXT) \
+	plus4ui.$(OBJEXT) rs232.$(OBJEXT) signals.$(OBJEXT) \
+	tfearch.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uicommands.$(OBJEXT) \
+	uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) uidrive.$(OBJEXT) \
+	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
+	uimon.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
+	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
+	uiperipheralieee.$(OBJEXT) uiprinter.$(OBJEXT) \
+	uiprinteriec.$(OBJEXT) uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uisettings.$(OBJEXT) \
+	uisid.$(OBJEXT) uisound.$(OBJEXT) uited.$(OBJEXT) \
+	uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
+	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
+	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 SCRIPTS = $(bin_SCRIPTS)
 
@@ -396,14 +397,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/catweaselmkiii.Po ./$(DEPDIR)/cbm2ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/coproc.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ffmpeglib.Po ./$(DEPDIR)/joy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/opencbmlib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/signals.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiattach.Po ./$(DEPDIR)/uic64cart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uicommands.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicrtc.Po ./$(DEPDIR)/uidatasette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uidrivec128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/joy_usb.Po ./$(DEPDIR)/mousedrv.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/opencbmlib.Po ./$(DEPDIR)/petui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/rs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/tfearch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicommands.Po ./$(DEPDIR)/uicrtc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po ./$(DEPDIR)/uidrive.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
@@ -494,6 +496,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/coproc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ffmpeglib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy_usb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opencbmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@

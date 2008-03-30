@@ -1,3 +1,28 @@
+2004-08-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.38.
+
+	* serial/realdevice.c: Added debugging.
+
+	* vdrive/vdrive-internal.c (vdrive_internal_open_disk_image):
+	Flush machine drive cache.
+
+	* machine-drive.h, c64/c64drive.c, c128/c128drive.c,
+	vic20/vic20drive.c, pet/petdrive.c, plus4/plus4drive.c,
+	cbm2/cbm2drive.c, c1541.c (machine_drive_flush): New function.
+
+2004-08-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.c (vic_raster_draw_alarm_handler): Once the
+	graphic area has started ycounter is incremented even in
+	blank lines but memptr isn't incremented in that case.
+
+2004-07-26  Dieter Baron  <dillo@danbala.ifoer.tuwien.ac.at>
+
+	* arch/unix/Makefile.am, arch/unix/vic20ui.c, arch/unix/joy.h,
+	arch/unix/uijoystick2.c, arch/unix/joy_usb.c, arch/unix/joy.c:
+	Added BSD USB joystick support.
+
 2004-07-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.37.

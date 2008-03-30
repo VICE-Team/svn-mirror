@@ -35,6 +35,7 @@
 #include "diskimage.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "types.h"
 #include "vdrive-command.h"
 #include "vdrive-internal.h"
@@ -88,6 +89,8 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
                                           unsigned int unit,
                                           unsigned int read_only)
 {
+    machine_drive_flush();
+
     switch (unit) {
       case 8:
       case 9:

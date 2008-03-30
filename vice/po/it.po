@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-07-17 15:04+0200\n"
+"POT-Creation-Date: 2004-08-07 21:35+0200\n"
 "PO-Revision-Date: 2004-05-04 21:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -376,7 +376,7 @@ msgid "Memory and I/O extensions"
 msgstr "Memoria ed estensioni di I/O"
 
 #: src/arch/unix/c128ui.c:369 src/arch/unix/c64ui.c:350
-#: src/arch/unix/cbm2ui.c:379 src/arch/unix/vic20ui.c:367
+#: src/arch/unix/cbm2ui.c:379 src/arch/unix/vic20ui.c:375
 msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
@@ -386,26 +386,26 @@ msgstr "Impostazioni del modello"
 
 #: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
 #: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:400
-#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:488
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:496
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "File"
 
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
 #: src/arch/unix/cbm2ui.c:492 src/arch/unix/petui.c:417
-#: src/arch/unix/plus4ui.c:213 src/arch/unix/vic20ui.c:507
+#: src/arch/unix/plus4ui.c:213 src/arch/unix/vic20ui.c:515
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:439
 #: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:220 src/arch/unix/vic20ui.c:514
+#: src/arch/unix/plus4ui.c:220 src/arch/unix/vic20ui.c:522
 msgid "Options"
 msgstr "Opzioni"
 
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
+#: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:528
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1209
 #: src/arch/unix/x11/gnome/x11ui.c:1301
 msgid "Settings"
@@ -415,7 +415,7 @@ msgstr "Impostazioni"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c64ui.c:465
 #: src/arch/unix/cbm2ui.c:523 src/arch/unix/petui.c:446
-#: src/arch/unix/plus4ui.c:242 src/arch/unix/vic20ui.c:535
+#: src/arch/unix/plus4ui.c:242 src/arch/unix/vic20ui.c:543
 msgid "RJHelp"
 msgstr "RJAiuto"
 
@@ -439,7 +439,7 @@ msgstr "Carica una nuova ROM del Chargen"
 
 #: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:409
 #: src/arch/unix/petui.c:334 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:408
+#: src/arch/unix/vic20ui.c:416
 msgid "Screenshot..."
 msgstr "Cattura schermo..."
 
@@ -565,32 +565,32 @@ msgid "ACIA device"
 msgstr "Dispositivo ACIA"
 
 #: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:253
-#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:356
 msgid "Serial 1 device..."
 msgstr "Dispositivo seriale 1..."
 
 #: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:255
-#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:358
 msgid "Serial 1 baudrate"
 msgstr "VelocitÃ  della seriale 1 (in baud)"
 
 #: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:258
-#: src/arch/unix/vic20ui.c:353
+#: src/arch/unix/vic20ui.c:361
 msgid "Serial 2 device..."
 msgstr "Dispositivo seriale 2..."
 
 #: src/arch/unix/cbm2ui.c:348 src/arch/unix/petui.c:260
-#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:355
+#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:363
 msgid "Serial 2 baudrate"
 msgstr "VelocitÃ  della seriale 2 (in baud)"
 
 #: src/arch/unix/cbm2ui.c:351 src/arch/unix/petui.c:263
-#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:358
+#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:366
 msgid "Dump filename..."
 msgstr "Scrivi su file..."
 
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/petui.c:266
-#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:361
+#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:369
 msgid "Program name to exec..."
 msgstr "Nome del programma da eseguire..."
 
@@ -614,56 +614,56 @@ msgstr "Imposta il dispositivo per la porta joystick 1"
 msgid "Set device for joystick port 2"
 msgstr "Imposta il dispositivo per la porta joystick 2"
 
-#: src/arch/unix/joy.c:200 src/arch/unix/joy.c:249 src/arch/unix/joy.c:401
+#: src/arch/unix/joy.c:209 src/arch/unix/joy.c:258 src/arch/unix/joy.c:410
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Non Ã¨ possibile aprire il dipositivo `%s'."
 
-#: src/arch/unix/joy.c:211
+#: src/arch/unix/joy.c:220
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Errore durante la lettura del dispositivo `%s'."
 
-#: src/arch/unix/joy.c:230
+#: src/arch/unix/joy.c:239
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Calibrazione joystick per il dispositivo `%s':"
 
-#: src/arch/unix/joy.c:283
+#: src/arch/unix/joy.c:292
 msgid "Error reading digital joystick device."
 msgstr "Errore durante la lettura del joystick digitale."
 
-#: src/arch/unix/joy.c:303
+#: src/arch/unix/joy.c:312
 msgid "Error reading joystick device."
 msgstr "Errore durante la lettura del joystick."
 
-#: src/arch/unix/joy.c:349
+#: src/arch/unix/joy.c:358
 msgid "Linux joystick interface initialization..."
 msgstr "Inizializzazione dell'interfaccia joystick di Linux..."
 
-#: src/arch/unix/joy.c:375
+#: src/arch/unix/joy.c:384
 #, c-format
 msgid "%s unknown type"
 msgstr "%s tipo sconosciuto"
 
-#: src/arch/unix/joy.c:377 src/arch/unix/joy.c:393
+#: src/arch/unix/joy.c:386 src/arch/unix/joy.c:402
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Versione del driver interno: %d.%d.%d"
 
-#: src/arch/unix/joy.c:380
+#: src/arch/unix/joy.c:389
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Versione del driver del kernel: 0.8 ??"
 
-#: src/arch/unix/joy.c:382
+#: src/arch/unix/joy.c:391
 msgid "Please update your Joystick driver !"
 msgstr "Per favore aggiorna il tuo driver del joystick!"
 
-#: src/arch/unix/joy.c:383
+#: src/arch/unix/joy.c:392
 msgid "Fall back to old api routine"
 msgstr "Ripiego sulle vecchie api"
 
-#: src/arch/unix/joy.c:396
+#: src/arch/unix/joy.c:405
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Versione del driver del kernel: %d.%d.%d"
@@ -1424,7 +1424,7 @@ msgstr "*Attiva l'emulazione hardware dei drive"
 #: src/arch/unix/uidrivepetcbm2.c:73 src/arch/unix/uidrivepetcbm2.c:83
 #: src/arch/unix/uidriveplus4.c:47 src/arch/unix/uidriveplus4.c:65
 #: src/arch/unix/uidriveplus4.c:83 src/arch/unix/uidriveplus4.c:101
-#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
+#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:115
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
@@ -1818,49 +1818,61 @@ msgstr ""
 msgid "*Sectors..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
+#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
 #: src/arch/unix/vic20ui.c:303
 msgid "*Numpad"
 msgstr "*Tastierino numerico"
 
-#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
+#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:121
 #: src/arch/unix/vic20ui.c:306
 msgid "*Custom Keys"
 msgstr "*Tasti personalizzati"
 
-#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:117
+#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:125
 #: src/arch/unix/vic20ui.c:310
 msgid "*Analog Joystick 0"
 msgstr "*Joystick analogico 0"
 
-#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:120
+#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:128
 #: src/arch/unix/vic20ui.c:313
 msgid "*Analog Joystick 1"
 msgstr "*Joystick analogico 1"
 
-#: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:124
+#: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:132
 #: src/arch/unix/vic20ui.c:317
 msgid "*Digital Joystick 0"
 msgstr "*Joystick digitale 0"
 
-#: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:127
+#: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:135
 #: src/arch/unix/vic20ui.c:320
 msgid "*Digital Joystick 1"
 msgstr "*Joystick digitale 1"
 
-#: src/arch/unix/uijoystick2.c:137
+#: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:140
+#: src/arch/unix/vic20ui.c:325
+#, fuzzy
+msgid "*USB Joystick 0"
+msgstr "*Joystick analogico 0"
+
+#: src/arch/unix/uijoystick2.c:106 src/arch/unix/uijoystick2.c:143
+#: src/arch/unix/vic20ui.c:328
+#, fuzzy
+msgid "*USB Joystick 1"
+msgstr "*Joystick analogico 1"
+
+#: src/arch/unix/uijoystick2.c:153
 msgid "Joystick device in port 1"
 msgstr "Joystick nella porta 1"
 
-#: src/arch/unix/uijoystick2.c:139
+#: src/arch/unix/uijoystick2.c:155
 msgid "Joystick device in port 2"
 msgstr "Joystick nella porta 2"
 
-#: src/arch/unix/uijoystick2.c:142 src/arch/unix/uijoystick2.c:148
+#: src/arch/unix/uijoystick2.c:158 src/arch/unix/uijoystick2.c:164
 msgid "Swap joystick ports"
 msgstr "Scambia le porte dei joystick"
 
-#: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:329
+#: src/arch/unix/uijoystick2.c:170 src/arch/unix/vic20ui.c:337
 msgid "Joystick settings"
 msgstr "Impostazioni dei joystick"
 
@@ -2343,15 +2355,15 @@ msgstr "Dispositivo ACIA a $DExx"
 msgid "ACIA $DExx Interrupt"
 msgstr "Interrupt dell'ACIA a $DExx"
 
-#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:339
+#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:347
 msgid "*No Userport RS232 emulation"
 msgstr "*Nessuna emulazione della RS232 su Userport"
 
-#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:341
+#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:349
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Emulazione della RS232 su Userport a 300 baud"
 
-#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:343
+#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:351
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Emulazione della RS232 su Userport a 1200 baud"
 
@@ -2359,7 +2371,7 @@ msgstr "*Emulazione della RS232 su Userport a 1200 baud"
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*Emulazione della RS232 su CIA a 9600 baud"
 
-#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:345
+#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:353
 msgid "Userport RS232 device"
 msgstr "Dispositivo RS232 su Userport"
 
@@ -2762,7 +2774,7 @@ msgstr "*Blocco 3 (8K a $6000-$7FFF)"
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blocco 5 (8K a $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:201 src/arch/unix/vic20ui.c:416
+#: src/arch/unix/vic20ui.c:201 src/arch/unix/vic20ui.c:424
 msgid "Memory expansions"
 msgstr "Espansioni di memoria"
 
@@ -2798,7 +2810,7 @@ msgstr "Seleziona un'immagine di 4KB a $B000..."
 msgid "Detach cartridge image(s)"
 msgstr "Rimuovi le immagini delle cartucce"
 
-#: src/arch/unix/vic20ui.c:414
+#: src/arch/unix/vic20ui.c:422
 msgid "VIC settings"
 msgstr "Impostazioni del VIC"
 
