@@ -10,6 +10,9 @@
  * Written by
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
+ * Patch by
+ *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -151,12 +154,10 @@ inline static void update_viaD1irq(void)
 
 /* the next two are used in read_viaD1() */
 
-inline static unsigned int viaD1ta()
+inline static unsigned int viaD1ta(void)
 {
     if (true1541_clk < viaD1tau - TAUOFFSET)
         return viaD1tau - TAUOFFSET - true1541_clk - 2;
-    else if (viaD1tal == 0)
-        return 0;               /* EP 98.08.23 FIXME? */
     else
 	return (viaD1tal - (true1541_clk - viaD1tau + TAUOFFSET) % (viaD1tal + 2));
 }
@@ -235,6 +236,8 @@ void reset_viaD1(void)
     /* clear registers */
     for (i = 0; i < 4; i++)
 	viaD1[i] = 0;
+    for (i = 4; i < 10; i++)
+        viaD1[i] = 0xff;        /* AB 98.08.23 */
     for (i = 11; i < 16; i++)
 	viaD1[i] = 0;
 

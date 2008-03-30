@@ -4,6 +4,9 @@
  * Written by
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
+ * Patch by
+ *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -142,12 +145,10 @@ inline static void update_myviairq(void)
 
 /* the next two are used in read_myvia() */
 
-inline static unsigned int myviata()
+inline static unsigned int myviata(void)
 {
     if (myclk < myviatau - TAUOFFSET)
         return myviatau - TAUOFFSET - myclk - 2;
-    else if (myviatal == 0)
-        return 0;               /* EP 98.08.23 FIXME? */
     else
 	return (myviatal - (myclk - myviatau + TAUOFFSET) % (myviatal + 2));
 }
@@ -210,6 +211,8 @@ void reset_myvia(void)
     /* clear registers */
     for (i = 0; i < 4; i++)
 	myvia[i] = 0;
+    for (i = 4; i < 10; i++)
+        myvia[i] = 0xff;        /* AB 98.08.23 */
     for (i = 11; i < 16; i++)
 	myvia[i] = 0;
 

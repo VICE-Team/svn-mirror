@@ -219,6 +219,10 @@ void true1541_cpu_set_sync_factor(unsigned int sync_factor)
 
 static void reset(void)
 {
+    int preserve_monitor;
+
+    preserve_monitor = true1541_int_status.global_pending_int & IK_MONITOR;
+
     printf("1541 CPU: RESET\n");
     cpu_int_status_init(&true1541_int_status, TRUE1541_NUMOFALRM,
 			TRUE1541_NUMOFINT, &true1541_last_opcode_info);
@@ -229,6 +233,9 @@ static void reset(void)
     true1541_clk = 6;
     reset_viaD1();
     reset_viaD2();
+
+    if (preserve_monitor)
+        monitor_trap_on(&true1541_int_status);
 }
 
 static void mem_init(void)
@@ -273,12 +280,21 @@ void true1541_toggle_watchpoints(int flag)
 
 void true1541_cpu_reset(void)
 {
+    int preserve_monitor;
+
     true1541_clk = 0;
     last_clk = 0;
     last_exc_cycles = 0;
+
+    preserve_monitor = true1541_int_status.global_pending_int & IK_MONITOR;
+
     cpu_int_status_init(&true1541_int_status,
 			TRUE1541_NUMOFALRM, TRUE1541_NUMOFINT,
 			&true1541_last_opcode_info);
+
+    if (preserve_monitor)
+        monitor_trap_on(&true1541_int_status);
+
     true1541_trigger_reset();
 }
 
