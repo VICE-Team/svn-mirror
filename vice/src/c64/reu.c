@@ -175,6 +175,8 @@ static int set_reu_filename(resource_value_t v, void *param)
         reu_deactivate();
         util_string_set(&reu_filename, name);
         reu_activate();
+    } else {
+        util_string_set(&reu_filename, name);
     }
 
     return 0;

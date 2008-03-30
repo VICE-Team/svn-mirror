@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,6 +35,9 @@
 #include "uireu.h"
 #include "uivicii.h"
 #include "vsync.h"
+#include "uisnapshot.h"
+#include "uilib.h"
+#include "fullscreen.h"
 
 ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -49,6 +53,8 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VDC_DoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDC_DoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC_64KB", IDM_TOGGLE_VDC_64KB },
+    { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
+    { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { NULL, 0 }
 };
 
@@ -77,6 +83,8 @@ ui_res_value_list c128_ui_res_values[] = {
 
 void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
+char    *s;
+
     switch (wparam) {
       case IDM_RESID_SAMPLE_FAST:
         resources_set_value("SidResidSampling", (resource_value_t) 0);
@@ -96,6 +104,28 @@ void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
         break;
+        case IDM_IFUNCTIONROM_NAME:
+            SuspendFullscreenMode(hwnd);
+            s = ui_select_file(hwnd,"Function ROM image","All files (*.*)\0*.*\0",FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            if (s != NULL) {
+                if (resources_set_value("InternalFunctionName", (resource_value_t) s) <0) {
+                    ui_error("Could not load function ROM image\n'%s'", s);
+                }
+                free(s);
+            }
+            ResumeFullscreenMode(hwnd);
+            break;
+        case IDM_EFUNCTIONROM_NAME:
+            SuspendFullscreenMode(hwnd);
+            s = ui_select_file(hwnd,"Function ROM image","All files (*.*)\0*.*\0",FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            if (s != NULL) {
+                if (resources_set_value("ExternalFunctionName", (resource_value_t) s) <0) {
+                    ui_error("Could not load function ROM image\n'%s'", s);
+                }
+                free(s);
+            }
+            ResumeFullscreenMode(hwnd);
+            break;
     }
 }
 

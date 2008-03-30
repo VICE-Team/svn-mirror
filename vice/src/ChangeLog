@@ -1,3 +1,26 @@
+2001-07-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.
+
+2001-07-22  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/c128ui.c : Added UI support for C128 function
+	roms.
+
+	* arch/win32/res.h: Added menu entry definitions for C128
+	function rom support.
+
+	* arch/win32/resc128.rc: Added menu entries for C128 function
+	rom.
+
+	* arch/win32/uisnapshot.h: Export ui_save_snapshot.
+
+	* arch/win32/video.c (canvas_destroy): Deallocate resources
+	safely.
+
+	* c64/reu.c (set_reu_filename): Bugfix, update filename
+	resource when REU is not enabled.
+
 2001-07-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.47.

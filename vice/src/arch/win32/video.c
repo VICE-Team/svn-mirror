@@ -597,8 +597,7 @@ GUID            *device_guid;
     return c;
 
 error:
-    if (c != NULL)
-        canvas_destroy(c);
+    canvas_destroy(c);
     return NULL;
 
 #if 0
@@ -785,8 +784,7 @@ error:
     return c;
 
 error:
-    if (c != NULL)
-        canvas_destroy(c);
+    canvas_destroy(c);
     return NULL;
 #endif
 }
@@ -794,12 +792,15 @@ error:
 /* Destroy `s'.  */
 void canvas_destroy(canvas_t *c)
 {
-    if (c == NULL)
-        return;
-
-    DestroyWindow(c->hwnd);
-    free(c->title);
-    free(c);
+    if (c != NULL) {
+        if (c->hwnd !=0) {
+            DestroyWindow(c->hwnd);
+        }
+        if (c->title != NULL) {
+            free(c->title);
+        }
+        free(c);
+    }
 }
 
 /* Make `s' visible.  */

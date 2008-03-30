@@ -371,6 +371,10 @@
 #define IDM_RESID_SAMPLE_FAST           40202
 #define IDM_RESID_SAMPLE_INTERPOLATE    40203
 #define IDM_RESID_SAMPLE_RESAMPLE       40204
+#define IDM_TOGGLE_IFUNCTIONROM         40205
+#define IDM_IFUNCTIONROM_NAME           40206
+#define IDM_TOGGLE_EFUNCTIONROM         40207
+#define IDM_EFUNCTIONROM_NAME           40208
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

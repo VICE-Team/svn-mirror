@@ -154,6 +154,13 @@ BEGIN
         END
         MENUITEM SEPARATOR
     	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
+        POPUP "Function ROMS"
+        BEGIN
+            MENUITEM "Internal Function ROM",       IDM_TOGGLE_IFUNCTIONROM
+            MENUITEM "Internal Function ROM name...", IDM_IFUNCTIONROM_NAME
+            MENUITEM "External Function ROM",       IDM_TOGGLE_EFUNCTIONROM
+            MENUITEM "External Function ROM name...", IDM_EFUNCTIONROM_NAME
+        END
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
 	MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
