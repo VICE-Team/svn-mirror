@@ -42,12 +42,15 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ASK),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ACCESS),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE),
                  type == IDC_SELECT_DRIVE_TYPE_1541
@@ -81,6 +84,9 @@ static void init_dialog(HWND hwnd, int num)
         break;
       case DRIVE_TYPE_1541:
         n = IDC_SELECT_DRIVE_TYPE_1541;
+        break;
+      case DRIVE_TYPE_1541II:
+        n = IDC_SELECT_DRIVE_TYPE_1541II;
         break;
       case DRIVE_TYPE_1571:
         n = IDC_SELECT_DRIVE_TYPE_1571;
@@ -148,6 +154,10 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
             break;
           case IDC_SELECT_DRIVE_TYPE_1541:
             ui_set_res_num("Drive%dType", DRIVE_TYPE_1541, num);
+            enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+            break;
+          case IDC_SELECT_DRIVE_TYPE_1541II:
+            ui_set_res_num("Drive%dType", DRIVE_TYPE_1541II, num);
             enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
             break;
           case IDC_SELECT_DRIVE_TYPE_1571:
