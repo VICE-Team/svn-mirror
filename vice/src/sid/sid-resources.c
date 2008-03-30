@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "hardsid.h"
 #include "machine.h"
 #include "resources.h"
 #include "sid-resources.h"
@@ -51,6 +52,11 @@ int sid_stereo;
 unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
 static int sid_engine;
+#ifdef HAVE_HARDSID
+static unsigned int sid_hardsid_main;
+static unsigned int sid_hardsid_right;
+#endif
+
 
 static int set_sid_engine(resource_value_t v, void *param)
 {
@@ -141,6 +147,24 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
 }
 #endif
 
+#ifdef HAVE_HARDSID
+static int set_sid_hardsid_main(resource_value_t v, void *param)
+{
+    sid_hardsid_main = (unsigned int)v;
+    hardsid_set_device(0, sid_hardsid_main);
+
+    return 0;
+}
+
+static int set_sid_hardsid_right(resource_value_t v, void *param)
+{
+    sid_hardsid_right = (unsigned int)v;
+    hardsid_set_device(1, sid_hardsid_right);
+
+    return 0;
+}
+#endif
+
 static const resource_t resources[] = {
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
       (void *)&sid_engine, set_sid_engine, NULL },
@@ -155,6 +179,12 @@ static const resource_t resources[] = {
       (void *)&sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
       (void *)&sid_resid_passband, set_sid_resid_passband, NULL },
+#endif
+#ifdef HAVE_HARDSID
+    { "SidHardSIDMain", RES_INTEGER, (resource_value_t)0,
+      (void *)&sid_hardsid_main, set_sid_hardsid_main, NULL },
+    { "SidHardSIDRight", RES_INTEGER, (resource_value_t)1,
+      (void *)&sid_hardsid_right, set_sid_hardsid_right, NULL },
 #endif
     { NULL }
 };
