@@ -1,3 +1,50 @@
+2006-07-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.22.
+
+	* arch/unix/uiacia1.h, arch/unix/uiattach.h,
+	arch/unix/uic64_256k.h, arch/unix/uic64cart.h,
+	arch/unix/uicartridge.h, arch/unix/uicommands.h,
+	arch/unix/uicrtc.h, arch/unix/uidatasette.h,
+	arch/unix/uidrivec128.h, arch/unix/uidriveiec.h,
+	arch/unix/uidriveplus4.h, arch/unix/uidrive.h,
+	arch/unix/uidrivec64vic20.h, arch/unix/uidrivepetcbm2.h,
+	arch/unix/uiedisk.h, arch/unix/uifliplist.h,
+	arch/unix/uigeoram.h, arch/unix/uihotkey.h,
+	arch/unix/uiide64.h, arch/unix/uijoystick2.h,
+	arch/unix/uikeyboard.h, arch/unix/uilib.h,
+	arch/unix/uinetplay.h, arch/unix/uipalemu.h,
+	arch/unix/uipalette.h, arch/unix/uiperipheral.h,
+	arch/unix/uiperipheraliec.h, arch/unix/uiperipheralieee.h,
+	arch/unix/uipetreu.h, arch/unix/uiplus256k.h,
+	arch/unix/uiplus60k.h, arch/unix/uiprinter.h,
+	arch/unix/uiprinteriec.h, arch/unix/uiprinteriecplus4.h,
+	arch/unix/uiprinterieee.h, arch/unix/uiramcart.h,
+	arch/unix/uireu.h, arch/unix/uiromset.h, arch/unix/uirs232.h,
+	arch/unix/uirs232c64c128.h, arch/unix/uirs232petplus4cbm2.h,
+	arch/unix/uirs232user.h, arch/unix/uiscreenshot.h,
+	arch/unix/uisettings.h, arch/unix/uisid.h,
+	arch/unix/uisnapshot.h, arch/unix/uisound.h,
+	arch/unix/uited.h, arch/unix/uitfe.h, arch/unix/uivdc.h,
+	arch/unix/uivic.h, arch/unix/uivicii.h: Moved to `gui'
+	directory.
+
+	* arch/unix/Makefile.am, arch/unix/gui/Makefile.am: Updated.
+
+	* arch/unix/x11/xaw/Makefile.am,
+	arch/unix/x11/gnome/Makefile.am, arch/unix/x11/Makefile.am:
+	Updated include paths.
+
+	* arch/unix/gui/uimouse.c, arch/unix/gui/uimouse.h: New files.
+
+	* arch/unix/gui/c64ui.c, arch/unix/gui/c128ui.c: Moved mouse
+	UI to separate file.
+
+2006-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gp2x/Makefile.am, arch/unix/gp2x/icon.h,
+	arch/unix/gp2x/ui_gp2x.c: More cleanup.
+
 2006-07-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.21.

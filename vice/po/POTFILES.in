@@ -107,6 +107,7 @@ src/arch/unix/gui/uijoystick2.c
 src/arch/unix/gui/uikeyboard.c
 src/arch/unix/gui/uilib.c
 src/arch/unix/gui/uimon.c
+src/arch/unix/gui/uimouse.c
 src/arch/unix/gui/uinetplay.c
 src/arch/unix/gui/uipalemu.c
 src/arch/unix/gui/uipalette.c

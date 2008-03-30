@@ -48,6 +48,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uimouse.h"
 #include "uiperipheraliec.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
@@ -261,9 +262,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
-#ifdef HAVE_MOUSE
-UI_MENU_DEFINE_TOGGLE(Mouse)
-#endif
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("RAM Expansion Unit"),
@@ -288,7 +286,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t)toggle_EmuID, NULL, NULL },
 #ifdef HAVE_MOUSE
     { N_("*1351 Mouse Emulation"),
-      (ui_callback_t)toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+      NULL, NULL, mouse_submenu },
 #endif
     { NULL }
 };

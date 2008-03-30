@@ -23,54 +23,108 @@ libarchgui_a_SOURCES = \
 	plus4ui.c \
 	ui.c \
 	uiacia1.c \
+	uiacia1.h \
+	uiattach.h \
 	uiattach.c \
 	uic64_256k.c \
+	uic64_256k.h \
 	uic64cart.c \
+	uic64cart.h \
+	uicartridge.h \
 	uicmdline.c \
 	uicommands.c \
+	uicommands.h \
 	uicrtc.c \
+	uicrtc.h \
 	uidatasette.c \
+	uidatasette.h \
 	uidrive.c \
+	uidrive.h \
 	uidrivec128.c \
+	uidrivec128.h \
 	uidrivec64vic20.c \
+	uidrivec64vic20.h \
 	uidriveiec.c \
+	uidriveiec.h \
 	uidrivepetcbm2.c \
+	uidrivepetcbm2.h \
 	uidriveplus4.c \
+	uidriveplus4.h \
+	uiedisk.h \
 	uifliplist.c \
+	uifliplist.h \
 	uigeoram.c \
+	uigeoram.h \
+	uihotkey.h \
 	uiide64.c \
+	uiide64.h \
 	uijoystick2.c \
+	uijoystick2.h \
 	uikeyboard.c \
+	uikeyboard.h \
 	uilib.c \
+	uilib.h \
 	uimon.c \
+	uimouse.c \
+	uimouse.h \
 	uinetplay.c \
+	uinetplay.h \
 	uipalemu.c \
+	uipalemu.h \
 	uipalette.c \
+	uipalette.h \
 	uiperipheral.c \
+	uiperipheral.h \
 	uiperipheraliec.c \
+	uiperipheraliec.h \
 	uiperipheralieee.c \
+	uiperipheralieee.h \
 	uipetreu.c \
+	uipetreu.h \
 	uiplus256k.c \
+	uiplus256k.h \
 	uiplus60k.c \
+	uiplus60k.h \
 	uiprinter.c \
+	uiprinter.h \
 	uiprinteriec.c \
+	uiprinteriec.h \
 	uiprinteriecplus4.c \
+	uiprinteriecplus4.h \
 	uiprinterieee.c \
+	uiprinterieee.h \
 	uiramcart.c \
+	uiramcart.h \
 	uireu.c \
+	uireu.h \
 	uiromset.c \
+	uiromset.h \
 	uirs232.c \
+	uirs232.h \
 	uirs232c64c128.c \
+	uirs232c64c128.h \
 	uirs232petplus4cbm2.c \
+	uirs232petplus4cbm2.h \
 	uirs232user.c \
+	uirs232user.h \
+	uiscreenshot.h \
 	uisettings.c \
+	uisettings.h \
 	uisid.c \
+	uisid.h \
+	uisnapshot.h \
 	uisound.c \
+	uisound.h \
 	uited.c \
+	uited.h \
 	uitfe.c \
+	uitfe.h \
 	uivdc.c \
+	uivdc.h \
 	uivic.c \
+	uivic.h \
 	uivicii.c \
+	uivicii.h \
 	vic20ui.c \
 	vsidui.c
 
