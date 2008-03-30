@@ -65,6 +65,7 @@
 
 #include "archdep.h"
 #include "charsets.h"
+#include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
 #include "p00.h"
@@ -2333,8 +2334,14 @@ int main(int argc, char **argv)
 	args[i] = NULL;
     nargs = 0;
 
-    initialize_1541(8, DT_DISK | DT_1541, NULL, NULL, NULL);
-    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL, NULL);
+    drives[0] = (vdrive_t)xmalloc(sizeof(vdrive_t));
+    drives[1] = (vdrive_t)xmalloc(sizeof(vdrive_t));
+
+    drives[0]->image = xmalloc(sizeof(disk_image_t));
+    drives[1]->image = xmalloc(sizeof(disk_image_t));
+
+    vdrive_setup_device(drives[0], 8, DT_DISK);
+    vdrive_setup_device(drives[1], 9, DT_DISK);
 
     retval = 0;
 

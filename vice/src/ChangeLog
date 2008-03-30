@@ -1,3 +1,33 @@
+1999-06-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.33.
+
+	* tap.c, tap.h (tap_open): Try to open read only as well.
+
+	* datasette.c (datasette_control): Do not write if opened read
+	only.
+
+	* arch/win32/ui.c (handle_wm_command): Allow to autostart TAP
+	images.
+
+	* serial.c, serial.h (serial_remove_file, serial_select_file):
+	Removed.
+
+	* prdevice.c (detach_prdevice, attach_prdevice): Removed.
+
+	* vdrive/vdrive.h, vdrive/vdrive.c (get_diskformat): Removed.
+
+	* attach.c: Do not use DT_* defines anymore.
+	(detach_disk_image): Actually detach disk image.
+
+	* imagecontents.c (image_contents_read_disk, open_disk_image,
+	close_disk_image): Rewritten for new attach code.
+
+	* diskimage.c (disk_image_close): Free disk image name.
+
+	* c1541.c (main): Switched from `initialize_1541' to
+	`vdrive_setup_device'.
+
 1999-06-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.32.

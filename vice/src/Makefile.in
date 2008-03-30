@@ -705,8 +705,8 @@ autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
 	traps.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
 	uiapi.h utils.h vdrive/vdrive.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
-	charsets.h arch/unix/types.h gcr.h info.h p00.h serial.h \
-	diskimage.h traps.h t64.h utils.h vdrive/vdrive-bam.h \
+	charsets.h arch/unix/types.h diskimage.h gcr.h info.h p00.h \
+	serial.h traps.h t64.h utils.h vdrive/vdrive-bam.h \
 	vdrive/vdrive.h attach.h snapshot.h log.h vdrive/vdrive-dir.h \
 	vdrive/vdrive-iec.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h arch/unix/types.h
@@ -734,8 +734,9 @@ fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h
 imagecontents.o: imagecontents.c vice.h config.h imagecontents.h \
 	arch/unix/types.h arch/unix/archdep.h archapi.h charsets.h \
-	log.h t64.h utils.h vdrive/vdrive-bam.h vdrive/vdrive.h \
-	attach.h snapshot.h diskimage.h vdrive/vdrive-dir.h zfile.h
+	diskimage.h log.h serial.h traps.h t64.h utils.h \
+	vdrive/vdrive-bam.h vdrive/vdrive.h attach.h snapshot.h \
+	vdrive/vdrive-dir.h zfile.h
 info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
 	6510core.h mem.h snapshot.h
