@@ -168,7 +168,7 @@ static TUI_MENU_CALLBACK(toggle_callback)
 static TUI_MENU_CALLBACK(write_snapshot_callback)
 {
     if (been_activated) {
-        if (*file_name == 0) {
+        if (file_name == NULL || *file_name == 0) {
             tui_error("Specify a file name first.");
             return NULL;
         }

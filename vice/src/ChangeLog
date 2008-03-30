@@ -1,3 +1,29 @@
+1999-06-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.39.
+
+	* vicii/vicii.c (vic_ii_update_memory_ptrs): Allow the use of the
+	upper charset in Ultimax mode.
+
+	* c64/c64cia2.c (do_reset_cia): Initialize video bank.
+
+	* arch/msdos/uisnapshot.c (write_snapshot_callback): Check for
+	NULL pointer.
+
+1999-06-24  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: general cleanup (char[] -> const char[] etc.)
+
+	* arch/riscos/archdep.c: properly initialize monitor console.
+
+	* arch/riscos/kbd.c, arch/riscos/video.*, arch/riscos/vsync.c,
+	arch/riscos/ui.*: added support for multiple canvases.
+
+	* arch/riscos/ui.c: added support for coredumps.
+
+	* raster/raster.c: catch case of undefined palette on a mode
+	change (current VDC implementation requires this)
+
 1999-06-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.38.
