@@ -59,14 +59,14 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION           "IDE64 Einstellungen"
-    IDS_IDE64_IMAGE             "&HD Image Datei"
-    IDS_IDE64_GEOMETRY          "&Geometry"
-    IDS_IDE64_AUTODETECT        "&Automatisch erkennen"
+    IDS_IDE64_IMAGE             "&HD Image Name"
+    IDS_IDE64_GEOMETRY          "&Geometrie"
+    IDS_IDE64_AUTODETECT        "&Automatische Erkennung"
     IDS_IDE64_CYLINDERS         "Zylinder"
     IDS_IDE64_HEADS             "Köpfe"
     IDS_IDE64_SECTORS           "Sektoren"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_TOTAL_SIZE        "Gesamtgröße: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "HD Image Datei selektieren"
 END
 
 // FRENCH text
@@ -141,12 +141,12 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION           "IDE64-inställningar"
-    IDS_IDE64_IMAGE             "&HD Avbildningsfil"
-    IDS_IDE64_GEOMETRY          "&Geometry"
+    IDS_IDE64_IMAGE             "&HD-avbildningsfil"
+    IDS_IDE64_GEOMETRY          "&Geometri"
     IDS_IDE64_AUTODETECT        "&Autodetektera"
     IDS_IDE64_CYLINDERS         "Cylindrar"
     IDS_IDE64_HEADS             "Huvuden"
     IDS_IDE64_SECTORS           "Sektorer"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_TOTAL_SIZE        "Total storlek: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "Ange HD-avbildningsfil"
 END

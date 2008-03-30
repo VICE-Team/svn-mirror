@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-09-14 22:40+0200\n"
+"POT-Creation-Date: 2005-10-01 17:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:139 src/sid/sid-cmdline-options.c:102
-#: src/sid/sid-cmdline-options.c:105
+#: src/vsync.c:139 src/sid/sid-cmdline-options.c:123
+#: src/sid/sid-cmdline-options.c:126
 msgid "<percent>"
 msgstr ""
 
@@ -957,7 +957,7 @@ msgid "Set drive type (0: no drive)"
 msgstr ""
 
 #: src/drive/drive-cmdline-options.c:70
-#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:99
+#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:120
 msgid "<method>"
 msgstr ""
 
@@ -1475,45 +1475,77 @@ msgstr ""
 msgid "<engine>"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:85
-msgid "Enable second SID"
+#: src/sid/sid-cmdline-options.c:76
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:88
-msgid "<base address>"
+#: src/sid/sid-cmdline-options.c:78
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:88
-msgid "Specify base address for 2nd SID"
+#: src/sid/sid-cmdline-options.c:82
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:84
+msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:90
-msgid "<model>"
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:90
-msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
-msgstr ""
-
-#: src/sid/sid-cmdline-options.c:93
-msgid "Emulate SID filters"
+#: src/sid/sid-cmdline-options.c:92
+msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:96
+msgid "Specify SID engine (0: FastSID, 3: HardSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:98
+msgid "Specify SID engine (0: FastSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:106
+msgid "Enable second SID"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:109
+msgid "<base address>"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:109
+msgid "Specify base address for 2nd SID"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:111
+msgid "<model>"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:111
+msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:114
+msgid "Emulate SID filters"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:117
 msgid "Do not emulate SID filters"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:100
+#: src/sid/sid-cmdline-options.c:121
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:103
+#: src/sid/sid-cmdline-options.c:124
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:106
+#: src/sid/sid-cmdline-options.c:127
 msgid "reSID gain in percent (90 - 100)"
 msgstr ""
 

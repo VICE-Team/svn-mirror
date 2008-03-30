@@ -41,7 +41,7 @@ void ui_cmdline_show_help(unsigned int num_options,
         fputs(options[i].name, stdout);
         if (options[i].need_arg && options[i].param_name != NULL)
             printf(" %s", options[i].param_name);
-        printf("\n\t%s\n", options[i].description);
+        printf("\n\t%s\n", _(options[i].description));
     }
     putchar('\n');
 }

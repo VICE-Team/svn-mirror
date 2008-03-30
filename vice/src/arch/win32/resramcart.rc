@@ -51,11 +51,11 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_RAMCART_CAPTION         "RAMCART Einstellungen"
-    IDS_RAMCART_ENABLE          "&RAMCART aktivieren"
-    IDS_RAMCART_READONLY        "&Schreibgeschützter"
-    IDS_RAMCART_SIZE            "RAMCART größe"
-    IDS_RAMCART_FILE            "RAMCART datei"
-    IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+    IDS_RAMCART_ENABLE          "RAMCART aktivi&eren"
+    IDS_RAMCART_READONLY        "Sch&reibgschutz"
+    IDS_RAMCART_SIZE            "RAMCART Größe"
+    IDS_RAMCART_FILE            "RAMCART Datei"
+    IDS_RAMCART_SELECT_FILE     "Datei für RAMCART selektieren"
 END
 
 // FRENCH text
@@ -119,8 +119,8 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_RAMCART_CAPTION         "RAMCART-inställningar"
     IDS_RAMCART_ENABLE          "&Aktivera RAMCART"
-    IDS_RAMCART_READONLY        "&Läsåtkomst"
+    IDS_RAMCART_READONLY        "&Endast läsåtkomst"
     IDS_RAMCART_SIZE            "Storlek på RAMCART"
     IDS_RAMCART_FILE            "RAMCART-fil"
-    IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+    IDS_RAMCART_SELECT_FILE     "Välj fil för RAMCART"
 END

@@ -69,17 +69,38 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
-    N_("<engine>"), "Specify SID engine (0: FastSID"
+    N_("<engine>"),
 #ifdef HAVE_RESID
-    ", 1: ReSID"
+#  ifdef HAVE_CATWEASELMKIII
+#    ifdef HAVE_HARDSID
+       N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)")
+#    else
+       N_("Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)")
+#    endif
+#  else
+#    ifdef HAVE_HARDSID
+       N_("Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)")
+#    else
+       N_("Specify SID engine (0: FastSID, 1: ReSID)")
+#    endif
+#  endif
+#else
+#  ifdef HAVE_CATWEASELMKIII
+#    ifdef HAVE_HARDSID
+       N_("Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)")
+#    else
+       N_("Specify SID engine (0: FastSID, 2: Catweasel)")
+#    endif
+#  else
+#    ifdef HAVE_HARDSID
+       N_("Specify SID engine (0: FastSID, 3: HardSID)")
+#    else
+       N_("Specify SID engine (0: FastSID)")
+#    endif
+#  endif
 #endif
-#ifdef HAVE_CATWEASELMKIII
-    ", 2: Catweasel"
-#endif
-#ifdef HAVE_HARDSID
-    ", 3: HardSID"
-#endif
-    ")" },
+
+    },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
       NULL, N_("Enable second SID") },

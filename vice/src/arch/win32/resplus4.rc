@@ -214,6 +214,7 @@ BEGIN
 	MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Confirm on exit",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+#if 0
     POPUP "&Language"
     BEGIN
         MENUITEM "&English", IDM_LANG_EN
@@ -224,6 +225,7 @@ BEGIN
         MENUITEM "&Polish", IDM_LANG_PL
         MENUITEM "&Swedish", IDM_LANG_SV
     END
+#endif
     POPUP "&Help"
     BEGIN
 //        MENUITEM "H&elp", IDM_HELP
@@ -245,16 +247,16 @@ IDR_MENUPLUS4_DE MENU DISCARDABLE
 BEGIN
     POPUP "&Datei"
     BEGIN
-        MENUITEM "Diskette/Kassette &autostarten...", IDM_AUTOSTART
+        MENUITEM "&Autostart Disk/Band Image...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "&Diskette einlegen"
+        POPUP "&Disk Image einlegen"
         BEGIN
             MENUITEM "Laufwerk &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Laufwerk &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Laufwerk 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Laufwerk &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Diskette &entfernen"
+        POPUP "Disk Image &entfernen"
         BEGIN
             MENUITEM "Laufwerk &8",  IDM_DETACH_8
             MENUITEM "Laufwerk &9",  IDM_DETACH_9
@@ -265,47 +267,47 @@ BEGIN
         END
         POPUP "&Flipliste"
         BEGIN
-            MENUITEM "&Aktuelle Diskette hinzufügen\tAlt+I", IDM_FLIP_ADD
-            MENUITEM "Aktuelle Diskette entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "&Nächste Diskette\tAlt+N",             IDM_FLIP_NEXT
-            MENUITEM "&Vorige Diskette\tAlt+B",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Aktuelles Image hinzufügen\tAlt+I", IDM_FLIP_ADD
+            MENUITEM "Aktuelles Image entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "Nächstes Image\tAlt+N",             IDM_FLIP_NEXT
+            MENUITEM "Voriges Image\tAlt+B",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "Fliplist Datei &laden",     IDM_FLIP_LOAD
-            MENUITEM "Fliplist Datei &speichern", IDM_FLIP_SAVE
+            MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
+            MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Kassette einlegen...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Kassette &entfernen",          IDM_DETACH_TAPE
-        POPUP "Data&sette"
+        MENUITEM "Band Image einlegen...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
+        POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
             MENUITEM "S&top",              IDM_DATASETTE_CONTROL_STOP
             MENUITEM "&Start",             IDM_DATASETTE_CONTROL_START
-            MENUITEM "&Vorspulen",         IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "&Rückspulen",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "&Aufnahme",          IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "&Forward",         IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Rewind",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "Re&cord",          IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",             IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "&Zähler rücksetzen", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Z&ähler zurücksetzen", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "&Modul einstecken......"
+        POPUP "Erweiterungsmodule einlegen..."
         BEGIN
-            MENUITEM "C1 low  Modul...", IDM_CART_ATTACH_C1LO
-            MENUITEM "C1 high Modul...", IDM_CART_ATTACH_C1HI
-            MENUITEM "C2 low  Modul...", IDM_CART_ATTACH_C2LO
-            MENUITEM "C2 high Modul...", IDM_CART_ATTACH_C2HI
+            MENUITEM "C1 low Image Datei...", IDM_CART_ATTACH_C1LO
+            MENUITEM "C1 high Image Datei...", IDM_CART_ATTACH_C1HI
+            MENUITEM "C2 low Image Datei...", IDM_CART_ATTACH_C2LO
+            MENUITEM "C2 high Image Datei...", IDM_CART_ATTACH_C2HI
 	    MENUITEM SEPARATOR
-            MENUITEM "Function low  Modul (3plus1)...", IDM_CART_ATTACH_FUNCLO
-            MENUITEM "Function high Modul (3plus1)...", IDM_CART_ATTACH_FUNCHI
+            MENUITEM "Funktions ROM Image Datei low (3plus1)", IDM_CART_ATTACH_FUNCLO
+            MENUITEM "Funktions ROM Image Datei high (3plus1)", IDM_CART_ATTACH_FUNCHI
         END
-        MENUITEM "Modul ent&fernen",  IDM_CART_DETACH
+        MENUITEM "Erweiterungsmodul &Image entfernen",  IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE
         , CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Kaltstart\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Warmstart\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hart\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -315,30 +317,30 @@ BEGIN
 #ifdef DEBUG
 		POPUP "&Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "M&odus"
             BEGIN
                 MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Klein", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
        MENUITEM SEPARATOR
-        MENUITEM "Been&den\tAlt+X", IDM_EXIT
+        MENUITEM "E&xit\tAlt+X", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "&Snapshot Laden...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Snapshot S&peichern...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Snapshot schnell &Laden\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Snapshot schnell &Speichern\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Sna&pshot Image Speichern...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Schnell&laden von Snapshot Image\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Schnellspeichern von Snapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Aufnahme Sta&rt/Stop",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Aufn&ahme Wiedergabe Start/Stop",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Setze Aufnahme Meilenstein\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Rückkehr zum Meilenstein\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Aufnahme Start Modus"
@@ -346,17 +348,17 @@ BEGIN
             MENUITEM "&Speichere neuen Snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Lade existierenden Snapshot", IDM_EVENT_START_MODE_LOAD
             MENUITEM "Mit &Reset starten",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Aufnahme übersc&hreiben",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "Laufende Aufnahme überschreiben",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Optionen"
     BEGIN
         POPUP "Wiederhol&rate"
         BEGIN
-            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "&Automatisch", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
             MENUITEM "1/&2",  IDM_REFRESH_RATE_2
             MENUITEM "1/&3",  IDM_REFRESH_RATE_3
@@ -383,7 +385,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Benutzerdefiniert", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
@@ -392,19 +394,19 @@ BEGIN
         , CHECKED
         MENUITEM "&Doppelte Größe", IDM_TOGGLE_DOUBLESIZE
         , CHECKED
-        MENUITEM "Dop&pelt Scan", IDM_TOGGLE_DOUBLESCAN
+        MENUITEM "Do&ppelt Scan", IDM_TOGGLE_DOUBLESCAN
         , CHECKED
         MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
         , CHECKED
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "&Joystick ports austauschen\tAlt+J", IDM_SWAP_JOYSTICK
+	MENUITEM "Joystick ports austauschen\tAlt+J", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
-        MENUITEM "&Sound", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "&Sound Einschalten", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Präzise Floppy Emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Virtuelle Geräte Traps", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
         POPUP "Vide&o standard"
         BEGIN
@@ -417,8 +419,8 @@ BEGIN
     BEGIN
         MENUITEM "&Video Einstellungen...",     IDM_VIDEO_SETTINGS
         MENUITEM "&Peripherie Einstellungen...",IDM_DEVICEMANAGER
-        MENUITEM "Floppy Ei&nstellungen...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette Einstellungen...", IDM_DATASETTE_SETTINGS
+        MENUITEM "&Floppy Einstellungen...",     IDM_DRIVE_SETTINGS
+        MENUITEM "B&andlaufwerk Einstellungen", IDM_DATASETTE_SETTINGS
         MENUITEM "P&lus4 Einstellungen...",     IDM_PLUS4_SETTINGS
         MENUITEM "&Joystick Einstellungen...",  IDM_JOY_SETTINGS
         MENUITEM "&Tastatur Einstellungen...",  IDM_KEYBOARD_SETTINGS
@@ -431,22 +433,22 @@ BEGIN
             MENUITEM "&ACIA Einstellungen...",  IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "Einstellungen &Speichern", IDM_SETTINGS_SAVE
+        MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
         MENUITEM "Einstellungen &Laden",   IDM_SETTINGS_LOAD
-        MENUITEM "Wiederherstellen Stan&dard Einstellungen",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Wiederherstellen Standard Einstellungen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-	MENUITEM "Einstellungen beim &Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-	MENUITEM "Bestäti&gung beim Beenden",	   IDM_TOGGLE_CONFIRM_ON_EXIT
+	MENUITEM "Einstellungen beim Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "&Bestätigung beim Beenden",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Sprache"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Englisch", IDM_LANG_EN
+        MENUITEM "&Deutsch", IDM_LANG_DE
+        MENUITEM "&Französisch", IDM_LANG_FR
+        MENUITEM "&Italienisch", IDM_LANG_IT
+        MENUITEM "&Holländisch", IDM_LANG_NL
+        MENUITEM "&Polnisch", IDM_LANG_PL
+        MENUITEM "&Schwedisch", IDM_LANG_SV
     END
     POPUP "&Hilfe"
     BEGIN
@@ -454,11 +456,11 @@ BEGIN
 //        MENUITEM SEPARATOR
         MENUITEM "&Über VICE...", IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "Kommandozeilen &Optionen", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "Beträge zum VI&CE Projekt", IDM_CONTRIBUTORS
+        MENUITEM "VICE Hackers", IDM_CONTRIBUTORS
         MENUITEM "&Lizenz",      IDM_LICENSE
-        MENUITEM "Ke&ine Garantie",  IDM_WARRANTY
+        MENUITEM "Keine &Garantie!",  IDM_WARRANTY
     END
 END
 
@@ -1367,16 +1369,16 @@ IDR_MENUPLUS4_SV MENU DISCARDABLE
 BEGIN
     POPUP "&Arkiv"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "&Autostarta disk-/bandavbildningsfil...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Anslut en &diskettavbildningsfil"
+        POPUP "Anslut &diskettavbildningsfil"
         BEGIN
             MENUITEM "Enhet &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Enhet &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Enhet 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Enhet &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Koppla från disk&ettavbildningsfil"
+        POPUP "Koppla &från diskettavbildningsfil"
         BEGIN
             MENUITEM "Enhet &8",    IDM_DETACH_8
             MENUITEM "Enhet &9",    IDM_DETACH_9
@@ -1387,96 +1389,96 @@ BEGIN
         END
         POPUP "&Vallista"
         BEGIN
-            MENUITEM "Lägg till &aktuell avbildning\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Ta bo&rt aktuell avbildning\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "&Lägg till aktuell avbildning\tAlt+I",     IDM_FLIP_ADD
+            MENUITEM "&Ta bort aktuell avbildning\tAlt+K",  IDM_FLIP_REMOVE
             MENUITEM "Anslut &nästa avbildning\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Anslut &föregående avbildning\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "&Ladda vallistefil", IDM_FLIP_LOAD
+            MENUITEM "&Läs in vallistefil", IDM_FLIP_LOAD
             MENUITEM "&Spara vallistefil", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Anslu&t bandavbildningsfil...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Kop&pla från bandavbildningsfil",           IDM_DETACH_TAPE
-        POPUP "Datasettest&yrning"
+        MENUITEM "Anslut en &bandavbildningsfil...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Koppla f&rån bandavbildningsfil",           IDM_DETACH_TAPE
+        POPUP "Datasette&styrning"
         BEGIN
             MENUITEM "S&toppa",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Spela",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Starta",         IDM_DATASETTE_CONTROL_START
             MENUITEM "Spola &framåt",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "Spo&la bakåt",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "S&pela in",        IDM_DATASETTE_CONTROL_RECORD
-            MENUITEM "Åt&erställ",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Spola &bakåt",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "Spela &in",        IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "&Nollställ",         IDM_DATASETTE_CONTROL_RESET
+            MENUITEM "Nollställ r&äknare", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Anslut insticks&modulfil..."
+        POPUP "Anslut &insticksmodulfil..."
         BEGIN
-            MENUITEM "C1 low  image...",	    IDM_CART_ATTACH_C1LO
-            MENUITEM "C1 high image...",            IDM_CART_ATTACH_C1HI
-            MENUITEM "C2 low  image...",      	    IDM_CART_ATTACH_C2LO
-            MENUITEM "C2 high image...",     	    IDM_CART_ATTACH_C2HI
+            MENUITEM "C1 låg-avbildning...",	    IDM_CART_ATTACH_C1LO
+            MENUITEM "C1 hög-avbildning...",            IDM_CART_ATTACH_C1HI
+            MENUITEM "C2 låg-avbildning...",      	    IDM_CART_ATTACH_C2LO
+            MENUITEM "C2 hög-avbildning...",     	    IDM_CART_ATTACH_C2HI
 	    MENUITEM SEPARATOR
-            MENUITEM "Function low  image (3plus1)...",    IDM_CART_ATTACH_FUNCLO
-            MENUITEM "Function high image (3plus1)...",    IDM_CART_ATTACH_FUNCHI
+            MENUITEM "Funktion låg-avbildning (3plus1)...",    IDM_CART_ATTACH_FUNCLO
+            MENUITEM "Funktion hög-avbildning (3plus1)...",    IDM_CART_ATTACH_FUNCHI
         END
-        MENUITEM "Koppla från &insticksmodulfil",  IDM_CART_DETACH
+        MENUITEM "Koppla &från insticksmodulfil",  IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Paus\tAlt+Pause", IDM_PAUSE
         , CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
-        POPUP "Åte&rställ"
+        POPUP "&Nollställ"
         BEGIN
             MENUITEM "&Hård\tCtrl+Alt+R", IDM_RESET_HARD
             MENUITEM "&Mjuk\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
-            MENUITEM "Enhet #&8",         IDM_RESET_DRIVE8
-            MENUITEM "Enhet #&9",         IDM_RESET_DRIVE9
-            MENUITEM "Enhet #1&0",        IDM_RESET_DRIVE10
-            MENUITEM "Enhet #&11",        IDM_RESET_DRIVE11
+            MENUITEM "Enhet &8",         IDM_RESET_DRIVE8
+            MENUITEM "Enhet &9",         IDM_RESET_DRIVE9
+            MENUITEM "Enhet 1&0",        IDM_RESET_DRIVE10
+            MENUITEM "Enhet &11",        IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-		POPUP "&Debug"
+		POPUP "&Felsök"
         BEGIN
-            POPUP "M&ode"
+            POPUP "&Läge"
             BEGIN
                 MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&Liten", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Historik", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "&Spela upp historik automatiskt", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Spåra &huvud-CPU\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
        MENUITEM SEPARATOR
-        MENUITEM "A&vsluta\tAlt+X", IDM_EXIT
+        MENUITEM "&Avsluta\tAlt+X", IDM_EXIT
     END
-    POPUP "ögonblicks&bild"
+    POPUP "&Ögonblicksbild"
     BEGIN
-        MENUITEM "Laddar ögonbl&icksbild...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara ö&gonblicksbild...", IDM_SNAPSHOT_SAVE
-        MENUITEM "Snabb&ladda ögonblicksbild\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Snabb&spara ögonblicksbild\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "&Läs in ögonblicksbild...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Spara &ögonblicksbild...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
+        MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Börja/Sluta spela in händelse&r",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Börja/Sluta spel&a upp händelser",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Börja/sluta spela in &händelser",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Börja/sluta spela &upp händelser",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Ange inspelningsbokmärke\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Åtegå till bokmärke\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Återgå till bokmärke\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Spelar in startläge"
         BEGIN
             MENUITEM "&Spara ny ögonblicksbild",      IDM_EVENT_START_MODE_SAVE
-            MENUITEM "&Ladda existerande ögonblicksbild", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Sta&rta med nollställning",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Skriv över aktiv u&ppspelning",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "&Läs in existerande ögonblicksbild", IDM_EVENT_START_MODE_LOAD
+            MENUITEM "Starta med &nollställning",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Skriv &över aktiv uppspelning",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Ange historikkatalog",    IDM_EVENT_DIRECTORY
+        MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Alternativ"
     BEGIN
-        POPUP "Uppdate&ringshastighet"
+        POPUP "&Uppdateringshastighet"
         BEGIN
             MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -1518,57 +1520,57 @@ BEGIN
         , CHECKED
         MENUITEM "PAL-emulering", IDM_TOGGLE_FASTPAL
         , CHECKED
-        MENUITEM "Skala2x", IDM_TOGGLE_SCALE2X
+        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
 	MENUITEM "Vä&xla spelportarna\tAlt+J", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
-        MENUITEM "Ljudåte&rgivning", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "Aktivera &ljudåtergivning", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Äk&ta diskettenhetsemulering", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Äkta diskettenhetsemulering", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&Virtuella enhetstrap:ar", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Grafi&kstandard"
+        POPUP "&TV-standard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
     END
-    POPUP "Inställning&ar"
+    POPUP "&Inställningar"
     BEGIN
         MENUITEM "&Grafikinställningar...",     IDM_VIDEO_SETTINGS
-        MENUITEM "&Inställningar för kringutrustning...",IDM_DEVICEMANAGER
+        MENUITEM "Inställningar för &kringutrustning...",IDM_DEVICEMANAGER
         MENUITEM "&Diskettenhetsinställningar...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette-Inställningar...", IDM_DATASETTE_SETTINGS
-        MENUITEM "P&lus4-Inställningar...",     IDM_PLUS4_SETTINGS
-        MENUITEM "Inställningar för st&yrspak...",  IDM_JOY_SETTINGS
-        MENUITEM "Tangentbordsinstä&llningar...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Lj&udinställningar...",     IDM_SOUND_SETTINGS
-        MENUITEM "&ROM-Inställningar...",       IDM_ROM_SETTINGS
-        MENUITEM "RA&M-Inställningar...",       IDM_RAM_SETTINGS
-        MENUITEM "RS&232-Inställningar...",     IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO-Inställningar"
+        MENUITEM "D&atasetteinställningar...", IDM_DATASETTE_SETTINGS
+        MENUITEM "P&lus4-inställningar...",     IDM_PLUS4_SETTINGS
+        MENUITEM "Inställningar för &styrspak...",  IDM_JOY_SETTINGS
+        MENUITEM "&Tangentbordsinställningar...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "L&judinställningar...",     IDM_SOUND_SETTINGS
+        MENUITEM "&ROM-inställningar...",       IDM_ROM_SETTINGS
+        MENUITEM "RA&M-inställningar...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232-inställningar...",     IDM_RS232_SETTINGS
+        POPUP "&Modul/IO-inställningar"
         BEGIN
-            MENUITEM "&ACIA-Inställningar...",  IDM_ACIA_SETTINGS
+            MENUITEM "&ACIA-inställningar...",  IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Spara inställningar", IDM_SETTINGS_SAVE
-        MENUITEM "&Ladda inställningar",   IDM_SETTINGS_LOAD
-        MENUITEM "Återställ &förvalda inställningar",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Spara nuvarande inställningar", IDM_SETTINGS_SAVE
+        MENUITEM "&Läs sparade inställningar",   IDM_SETTINGS_LOAD
+        MENUITEM "&Återställ förvalda inställningar",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-	MENUITEM "Spara inställningar &vid avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "Spara inställningar vid &avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Bekräfta avslutning",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Språk"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Engelska", IDM_LANG_EN
+        MENUITEM "&Tyska", IDM_LANG_DE
+        MENUITEM "&Franska", IDM_LANG_FR
+        MENUITEM "&Italiense", IDM_LANG_IT
+        MENUITEM "&Nederländska", IDM_LANG_NL
+        MENUITEM "&Polska", IDM_LANG_PL
+        MENUITEM "&Svenska", IDM_LANG_SV
     END
     POPUP "&Hjälp"
     BEGIN
@@ -1576,9 +1578,9 @@ BEGIN
 //        MENUITEM SEPARATOR
         MENUITEM "&Om VICE...", IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "Kommandorads&flaggor", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "Bidragslämnare till VI&CE-projektet", IDM_CONTRIBUTORS
+        MENUITEM "&Bidragslämnare", IDM_CONTRIBUTORS
         MENUITEM "&Licens",      IDM_LICENSE
         MENUITEM "Ingen &garanti",  IDM_WARRANTY
     END
@@ -1753,11 +1755,11 @@ BEGIN
     EDITTEXT    IDC_PLUS4ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP
     PUSHBUTTON  "Bläddra...", IDC_PLUS4ROM_BASIC_BROWSE, 185,27,50,14, 0
 
-    LTEXT       "3+1 Lo", IDC_STATIC, 9,48,40,8
+    LTEXT       "3+1 Lå", IDC_STATIC, 9,48,40,8
     EDITTEXT    IDC_PLUS4ROM_3P1LO_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "Bläddra...", IDC_PLUS4ROM_3P1LO_BROWSE, 185,47,50,14, 0
 
-    LTEXT       "3+1 Hi",IDC_STATIC, 9,68,40,8
+    LTEXT       "3+1 Hö",IDC_STATIC, 9,68,40,8
     EDITTEXT    IDC_PLUS4ROM_3P1HI_FILE, 55,67,125,12,WS_TABSTOP
     PUSHBUTTON  "Bläddra...", IDC_PLUS4ROM_3P1HI_BROWSE, 185,67,50,14, 0
 END
@@ -2028,7 +2030,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resourcen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Computer Resourcen gespeichert zum romset",
+    GROUPBOX        "Computer Resourcen zum ROM Satz gespeichert",
                     IDC_STATIC,4,3,151,70
     AUTOCHECKBOX    "Kernal",IDC_PLUS4ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2142,18 +2144,18 @@ END
 
 IDD_PLUS4ROM_RESOURCE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 160, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dator resurser"
+CAPTION "Datorresurser"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Dator resurser har till romset",
+    GROUPBOX        "Datorresurser lagrade i ROM-uppsättning",
                     IDC_STATIC,4,3,151,70
     AUTOCHECKBOX    "Kernal",IDC_PLUS4ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic",IDC_PLUS4ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "3 plus 1 LO",IDC_PLUS4ROM_3P1LO_RESOURCE,
+    AUTOCHECKBOX    "3 plus 1 LÅ",IDC_PLUS4ROM_3P1LO_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "3 plus 1 HI",IDC_PLUS4ROM_3P1HI_RESOURCE,
+    AUTOCHECKBOX    "3 plus 1 HÖ",IDC_PLUS4ROM_3P1HI_RESOURCE,
                     11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,80,50,14, WS_TABSTOP
@@ -2196,7 +2198,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Floppy resourcen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Floppy resourcen gespeichert zum romset",
+    GROUPBOX        "Floppy Resourcen zum ROM Satz gespeichert",
                     IDC_STATIC,4,3,151,100
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2330,10 +2332,10 @@ END
 
 IDD_PLUS4ROMDRIVE_RESOURCE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 160, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Diskettstation resurser"
+CAPTION "Enhetsresurser"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Diskettstation resurser har till romset",
+    GROUPBOX        "Enhetsresurser lagrade i ROM-uppsättning",
                     IDC_STATIC,4,3,151,100
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2477,12 +2479,12 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Plus4-inställningar"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Minnes",IDC_STATIC,5,15,70,75
-    AUTORADIOBUTTON "&16 kByte",IDC_SELECT_PLUS4_MEM_16,  15,30,55,10,
+    GROUPBOX        "&Minne",IDC_STATIC,5,15,70,75
+    AUTORADIOBUTTON "&16 kbyte",IDC_SELECT_PLUS4_MEM_16,  15,30,55,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&32 kByte",IDC_SELECT_PLUS4_MEM_32,  15,45,55,10,
+    AUTORADIOBUTTON "&32 kbyte",IDC_SELECT_PLUS4_MEM_32,  15,45,55,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "&64 kByte",IDC_SELECT_PLUS4_MEM_64,  15,60,55,10,
+    AUTORADIOBUTTON "&64 kbyte",IDC_SELECT_PLUS4_MEM_64,  15,60,55,10,
                             BS_AUTORADIOBUTTON
     DEFPUSHBUTTON   "OK", IDOK, 5,119,50,14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 75,119,50,14, WS_TABSTOP
@@ -2546,7 +2548,7 @@ IDD_DRIVE_SETTINGS_DIALOG_PLUS4_DE DIALOG DISCARDABLE  0, 0, 250, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Floppy typ",IDC_STATIC,5,15,60,120
+    GROUPBOX        "&Geräte Typ",IDC_STATIC,5,15,60,120
     AUTORADIOBUTTON "15&41",IDC_SELECT_DRIVE_TYPE_1541,15,30,35,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "154&1-II",IDC_SELECT_DRIVE_TYPE_1541II,15,45,35,10,
@@ -2561,7 +2563,7 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&Kein",IDC_SELECT_DRIVE_TYPE_NONE,15,120,35,10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "40 &spuren behandlung",IDC_STATIC,75,15,90,60
+    GROUPBOX        "40 &Spur Umgang",IDC_STATIC,75,15,90,60
     AUTORADIOBUTTON "Nie Erweitern",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "Bei Erweiterung Rückfrage",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
@@ -2803,7 +2805,7 @@ IDD_DRIVE_SETTINGS_DIALOG_PLUS4_SV DIALOG DISCARDABLE  0, 0, 250, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Diskettstation typ",IDC_STATIC,5,15,60,120
+    GROUPBOX        "&Enhetstyp",IDC_STATIC,5,15,60,120
     AUTORADIOBUTTON "15&41",IDC_SELECT_DRIVE_TYPE_1541,15,30,35,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "154&1-II",IDC_SELECT_DRIVE_TYPE_1541II,15,45,35,10,
@@ -2818,23 +2820,23 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&Ingen",IDC_SELECT_DRIVE_TYPE_NONE,15,120,35,10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "40-&spårsstöd",IDC_STATIC,75,15,90,60
+    GROUPBOX        "Hantering av 40 &spår",IDC_STATIC,75,15,90,60
     AUTORADIOBUTTON "Utöka aldrig",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "Fråga vid utökning",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "Utöka vid åtkomst",IDC_SELECT_DRIVE_EXTEND_ACCESS,
                             85,60,65,10, BS_AUTORADIOBUTTON
-    GROUPBOX        "Paus&metod",IDC_STATIC,175,15,70,60
+    GROUPBOX        "Pa&usmetod",IDC_STATIC,175,15,70,60
     AUTORADIOBUTTON "Ingen",IDC_SELECT_DRIVE_IDLE_NO_IDLE,185,30,51,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Fånga inaktiva cykler",IDC_SELECT_DRIVE_IDLE_TRAP_IDLE,185,45,51,10,
+    AUTORADIOBUTTON "Fånga inaktiva",IDC_SELECT_DRIVE_IDLE_TRAP_IDLE,185,45,51,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "Hoppa över cykler",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
+    AUTORADIOBUTTON "Hoppa cykler",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
                             185,60,51,10,BS_AUTORADIOBUTTON
     AUTOCHECKBOX    "&Parallellkabel",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
                     185,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    GROUPBOX        "&utökning för enhet",IDC_STATIC,75,75,90,90
+    GROUPBOX        "Enhets&utökning",IDC_STATIC,75,75,90,90
     AUTOCHECKBOX    "$2000-$3FFF &RAM",IDC_TOGGLE_DRIVE_EXPANSION_2000,
                     85,90,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "$4&000-$5FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_4000,
@@ -2875,9 +2877,9 @@ IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "&Symbolische",IDC_PLUS4KBD_MAPPING_SELECT_SYM,
+    AUTORADIOBUTTON "&Symbolisch",IDC_PLUS4KBD_MAPPING_SELECT_SYM,
                     10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Positions",IDC_PLUS4KBD_MAPPING_SELECT_POS,
+    AUTORADIOBUTTON "&Positional",IDC_PLUS4KBD_MAPPING_SELECT_POS,
                     10,30,54,10,BS_AUTORADIOBUTTON
 
     EDITTEXT    IDC_PLUS4KBD_MAPPING_SYM, 65,9,110,12,WS_TABSTOP
@@ -2885,7 +2887,7 @@ BEGIN
     EDITTEXT    IDC_PLUS4KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Stöbern...", IDC_PLUS4KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Keymap speichern", IDC_PLUS4KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Aktuelle Keymap auf Datei speichern", IDC_PLUS4KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 
@@ -2987,7 +2989,7 @@ BEGIN
     EDITTEXT    IDC_PLUS4KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Bläddra...", IDC_PLUS4KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Spara tangentbordsemulering", IDC_PLUS4KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Spara tangentbord", IDC_PLUS4KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 // -----------------------------------------------------------------------------
@@ -3009,12 +3011,12 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_DE    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART_DE   "Attach cartridge image for Function High"
-  IDS_ATTACH_CART1_LOW_DE            "Attach cartridge image for Cartridge1 Low"
-  IDS_ATTACH_CART1_HIGH_DE           "Attach cartridge image for Cartridge1 High"
-  IDS_ATTACH_CART2_LOW_DE            "Attach cartridge image for Cartridge2 Low"
-  IDS_ATTACH_CART2_HIGH_DE           "Attach cartridge image for Cartridge2 High"
+  IDS_ATTACH_FUNCTION_LOW_CART_DE    "Funktions ROM (low) Erweiterungsmodule einlegen"
+  IDS_ATTACH_FUNCTION_HIGH_CART_DE   "Funktions ROM (high) Erweiterungsmodule einlegen"
+  IDS_ATTACH_CART1_LOW_DE            "Cartridge1 (low) Erweiterungsmodule einlegen"
+  IDS_ATTACH_CART1_HIGH_DE           "Cartridge1 (high) Erweiterungsmodule einlegen"
+  IDS_ATTACH_CART2_LOW_DE            "Cartridge2 (low) Erweiterungsmodule einlegen"
+  IDS_ATTACH_CART2_HIGH_DE           "Cartridge2 (high) Erweiterungsmodule einlegen"
 END
 
 
@@ -3076,10 +3078,10 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART_SV    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART_SV   "Attach cartridge image for Function High"
-  IDS_ATTACH_CART1_LOW_SV            "Attach cartridge image for Cartridge1 Low"
-  IDS_ATTACH_CART1_HIGH_SV           "Attach cartridge image for Cartridge1 High"
-  IDS_ATTACH_CART2_LOW_SV            "Attach cartridge image for Cartridge2 Low"
-  IDS_ATTACH_CART2_HIGH_SV           "Attach cartridge image for Cartridge2 High"
+  IDS_ATTACH_FUNCTION_LOW_CART_SV    "Anslut insticksmodulfil för funktion låg"
+  IDS_ATTACH_FUNCTION_HIGH_CART_SV   "Anslut insticksmodulfil för funktion hög"
+  IDS_ATTACH_CART1_LOW_SV            "Anslut insticksmodulfil för modul1 låg"
+  IDS_ATTACH_CART1_HIGH_SV           "Anslut insticksmodulfil för modul1 hög"
+  IDS_ATTACH_CART2_LOW_SV            "Anslut insticksmodulfil för modul2 låg"
+  IDS_ATTACH_CART2_HIGH_SV           "Anslut insticksmodulfil för modul2 hög"
 END

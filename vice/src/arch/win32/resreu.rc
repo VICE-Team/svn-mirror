@@ -48,10 +48,10 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_REU_CAPTION             "REU Einstellungen"
-    IDS_REU_ENABLE              "&REU aktivieren"
-    IDS_REU_SIZE                "REU größe"
-    IDS_REU_FILE                "REU datei"
-    IDS_REU_SELECT_FILE         "Select file for REU"
+    IDS_REU_ENABLE              "REU aktivi&eren"
+    IDS_REU_SIZE                "REU Größe"
+    IDS_REU_FILE                "REU Datei"
+    IDS_REU_SELECT_FILE         "Datei für REU selektieren"
 END
 
 // FRENCH text
@@ -109,9 +109,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_REU_CAPTION             "REU-inställningar"
+    IDS_REU_CAPTION             "REU-Inställningar"
     IDS_REU_ENABLE              "&Aktivera REU"
-    IDS_REU_SIZE                "Storlek på REU"
+    IDS_REU_SIZE                "Storlek på minnesexpansion"
     IDS_REU_FILE                "REU-fil"
-    IDS_REU_SELECT_FILE         "Select file for REU"
+    IDS_REU_SELECT_FILE         "Välj fil för REU"
 END

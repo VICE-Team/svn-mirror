@@ -56,10 +56,10 @@ BEGIN
   IDS_IRQ              "IRQ"
   IDS_NMI              "NMI"
   IDS_ACIA_CAPTION     "ACIA Einstellungen"
-  IDS_ACIA_ENABLE      "&ACIA Aktivieren"
-  IDS_ACIA_DEVICE      "ACIA gerät"
-  IDS_ACIA_LOCATION    "ACIA adresse"
-  IDS_ACIA_INTERRUPT   "ACIA interrupt"
+  IDS_ACIA_ENABLE      "ACIA Aktivier&en"
+  IDS_ACIA_DEVICE      "ACIA Gerät"
+  IDS_ACIA_LOCATION    "ACIA Adresse"
+  IDS_ACIA_INTERRUPT   "ACIA Interrupt"
 END
 
 
@@ -134,7 +134,7 @@ BEGIN
   IDS_NMI              "NMI"
   IDS_ACIA_CAPTION     "ACIA-inställningar"
   IDS_ACIA_ENABLE      "&Aktivera ACIA"
-  IDS_ACIA_DEVICE      "ACIA enhet"
-  IDS_ACIA_LOCATION    "adress ACIA"
+  IDS_ACIA_DEVICE      "ACIA-enhet"
+  IDS_ACIA_LOCATION    "Placering av ACIA"
   IDS_ACIA_INTERRUPT   "ACIA-avbrott"
 END

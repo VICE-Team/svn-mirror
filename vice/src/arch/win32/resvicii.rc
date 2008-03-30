@@ -111,8 +111,8 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION           "VIC-II-inställningar"
-    IDS_VICII_SPRITEGROUP       "Sprite-kollision"
-    IDS_VICII_SPRITECOLL        "Sprite-till-&sprite-kollision"
-    IDS_VICII_BACKCOLL          "Sprite-till-bakgrund-&kollision"
+    IDS_VICII_SPRITEGROUP       "Spritekollisioner"
+    IDS_VICII_SPRITECOLL        "Sprite-&sprite-kollisioner"
+    IDS_VICII_BACKCOLL          "Sprite-&bakgrundkollisioner"
     IDS_VICII_LUMINANCE         "Nya ljusstyrkor"
 END

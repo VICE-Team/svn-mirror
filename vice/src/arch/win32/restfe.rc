@@ -48,7 +48,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_TFE_CAPTION         "Ethernet Einstellungen"
     IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Schnittstelle"
+    IDS_TFE_INTERFACE       "Schn&ittstelle"
 END
 
 // FRENCH text
@@ -98,7 +98,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet-inställningar"
+    IDS_TFE_CAPTION         "Ethernetinställningar"
     IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&gränssnitt"
+    IDS_TFE_INTERFACE       "&Gränssnitt"
 END

@@ -37,9 +37,9 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PLUS60K_CAPTION             "+60K Einstellungen"
-    IDS_PLUS60K_ENABLE              "+&60K aktivieren"
-    IDS_PLUS60K_FILE                "+60K datei"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_ENABLE              "+60K aktivi&eren"
+    IDS_PLUS60K_FILE                "+60K Datei"
+    IDS_PLUS60K_SELECT_FILE         "Datei für +60K selektieren"
 END
 
 // FRENCH text
@@ -96,5 +96,5 @@ BEGIN
     IDS_PLUS60K_CAPTION             "+60K-inställningar"
     IDS_PLUS60K_ENABLE              "&Aktivera +60K"
     IDS_PLUS60K_FILE                "+60K-fil"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_SELECT_FILE         "Ange fil för +60K"
 END

@@ -168,3 +168,24 @@ src/arch/unix/x11/xaw/uisnapshot.c
 src/arch/unix/x11/xaw/uivsidcontrol.c
 src/arch/unix/x11/xaw/x11ui.c
 src/arch/unix/x11/xaw/x11video.c
+
+# win32 files
+#src/arch/win32/res.rc
+#src/arch/win32/resacia.rc
+#src/arch/win32/resc128.rc
+#src/arch/win32/resc64.rc
+#src/arch/win32/rescbm2.rc
+#src/arch/win32/resdrivec64vic20.rc
+#src/arch/win32/resdrivepetcbm2.rc
+#src/arch/win32/resgeoram.rc
+#src/arch/win32/reside64.rc
+#src/arch/win32/respet.rc
+#src/arch/win32/resplus4.rc
+#src/arch/win32/resplus60k.rc
+#src/arch/win32/resramcart.rc
+#src/arch/win32/resreu.rc
+#src/arch/win32/resrs232user.rc
+#src/arch/win32/ressid.rc
+#src/arch/win32/restfe.rc
+#src/arch/win32/resvic20.rc
+#src/arch/win32/resvicii.rc

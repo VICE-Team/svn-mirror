@@ -44,9 +44,9 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_RS232USER_CAPTION       "RS232 Userport Einstellungen"
-    IDS_RS232USER_ENABLE        "&RS232 userport aktivieren"
-    IDS_RS232USER_DEVICE        "Userport gerät"
-    IDS_RS232USER_BAUD          "Userport baud rate"
+    IDS_RS232USER_ENABLE        "RS232 Userport Emulation aktivi&eren"
+    IDS_RS232USER_DEVICE        "Userport Gerät"
+    IDS_RS232USER_BAUD          "Userport Baud Rate"
 END
 
 // FRENCH text
@@ -100,8 +100,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 användarporten-inställningar"
-    IDS_RS232USER_ENABLE        "&Aktivera RS232 användarporten"
-    IDS_RS232USER_DEVICE        "Användarporten-enhet"
-    IDS_RS232USER_BAUD          "Användarportens-baudhastighet"
+    IDS_RS232USER_CAPTION       "RS232-användarportinställningar"
+    IDS_RS232USER_ENABLE        "&Aktivera RS232-användarport"
+    IDS_RS232USER_DEVICE        "Användarportensenhet"
+    IDS_RS232USER_BAUD          "Användarportens baudhastighet"
 END

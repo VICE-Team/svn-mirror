@@ -214,6 +214,7 @@ BEGIN
 	MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Confirm on exit",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+#if 0
     POPUP "&Language"
     BEGIN
         MENUITEM "&English", IDM_LANG_EN
@@ -224,6 +225,7 @@ BEGIN
         MENUITEM "&Polish", IDM_LANG_PL
         MENUITEM "&Swedish", IDM_LANG_SV
     END
+#endif
     POPUP "&Help"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
@@ -245,16 +247,16 @@ IDR_MENUVIC_DE MENU DISCARDABLE
 BEGIN
     POPUP "&Datei"
     BEGIN
-        MENUITEM "Diskette/Kassette &autostarten...", IDM_AUTOSTART
+        MENUITEM "&Autostart Disk/Band Image...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "&Diskette einlegen"
+        POPUP "&Disk Image einlegen"
         BEGIN
             MENUITEM "Laufwerk &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Laufwerk &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Laufwerk 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Laufwerk &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Diskette &entfernen"
+        POPUP "Disk Image &entfernen"
         BEGIN
             MENUITEM "Laufwerk &8",  IDM_DETACH_8
             MENUITEM "Laufwerk &9",  IDM_DETACH_9
@@ -265,45 +267,45 @@ BEGIN
         END
         POPUP "&Flipliste"
         BEGIN
-            MENUITEM "&Aktuelle Diskette hinzufügen\tAlt+I", IDM_FLIP_ADD
-            MENUITEM "Aktuelle Diskette entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "&Nächste Diskette\tAlt+N",             IDM_FLIP_NEXT
-            MENUITEM "&Vorige Diskette\tAlt+B",              IDM_FLIP_PREVIOUS
+            MENUITEM "&Aktuelles Image hinzufügen\tAlt+I", IDM_FLIP_ADD
+            MENUITEM "Aktuelles Image entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "Nächstes Image\tAlt+N",             IDM_FLIP_NEXT
+            MENUITEM "Voriges Image\tAlt+B",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "Fliplist Datei &laden",     IDM_FLIP_LOAD
-            MENUITEM "Fliplist Datei &speichern", IDM_FLIP_SAVE
+            MENUITEM "Fliplist Datei &Laden",     IDM_FLIP_LOAD
+            MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Kassette einlegen...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Kassette &entfernen",          IDM_DETACH_TAPE
-        POPUP "Data&sette"
+        MENUITEM "Band Image einlegen...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Band Image entfernen",          IDM_DETACH_TAPE
+        POPUP "Bandlaufwerk Kontro&lle"
         BEGIN
             MENUITEM "S&top",              IDM_DATASETTE_CONTROL_STOP
             MENUITEM "&Start",             IDM_DATASETTE_CONTROL_START
-            MENUITEM "&Vorspulen",         IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "&Rückspulen",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "&Aufnahme",          IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "&Forward",         IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Rewind",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "Re&cord",          IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",             IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "&Zähler rücksetzen", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Z&ähler zurücksetzen", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "&Modul einstecken..."
+        POPUP "Erweiterungsmodule einlegen..."
         BEGIN
-            MENUITEM "4/8/16KB Modul bei $&2000...", IDM_CART_VIC20_8KB_2000
-            MENUITEM "4/8/16KB Modul bei $&4000...", IDM_CART_VIC20_16KB_4000
-            MENUITEM "4/8/16KB Modul bei $&6000...", IDM_CART_VIC20_8KB_6000
-            MENUITEM "4/8KB Modul bei $&A000...",    IDM_CART_VIC20_8KB_A000
-            MENUITEM "4KB Modul bei $&B000...",      IDM_CART_VIC20_4KB_B000
+            MENUITEM "4/8/16KB Modul Image bei $2000...", IDM_CART_VIC20_8KB_2000
+            MENUITEM "4/8/16KB Modul Image bei $4000...", IDM_CART_VIC20_16KB_4000
+            MENUITEM "4/8/16KB Modul Image bei $6000...", IDM_CART_VIC20_8KB_6000
+            MENUITEM "4/8KB Modul Image bei $A000...",    IDM_CART_VIC20_8KB_A000
+            MENUITEM "4KB Modul Image bei $B000...",      IDM_CART_VIC20_4KB_B000
         END
-        MENUITEM "Modul ent&fernen", IDM_CART_DETACH
+        MENUITEM "Erweiterungsmodul &Image entfernen", IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Pause\tAlt+Pause",       IDM_PAUSE
         , CHECKED
         MENUITEM "&Monitor\tAlt+M",         IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Kaltstart\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Warmstart\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hart\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
             MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
             MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
@@ -313,30 +315,30 @@ BEGIN
 #ifdef DEBUG
 		POPUP "&Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "M&odus"
             BEGIN
                 MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Klein", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&History Automatische Wiedergabe", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Laufwerk&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "Been&den\tAlt+X", IDM_EXIT
+        MENUITEM "E&xit\tAlt+X", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "&Snapshot Laden...",  IDM_SNAPSHOT_LOAD
-        MENUITEM "Snapshot S&peichern...",  IDM_SNAPSHOT_SAVE
-        MENUITEM "Snapshot schnell &Laden\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Snapshot schnell &Speichern\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Snapshot &Image Laden...",  IDM_SNAPSHOT_LOAD
+        MENUITEM "Sna&pshot Image Speichern...",  IDM_SNAPSHOT_SAVE
+        MENUITEM "Schnell&laden von Snapshot Image\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Schnellspeichern von Snapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Aufnahme Sta&rt/Stop",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Aufn&ahme Wiedergabe Start/Stop",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Sta&rt/Stop Aufnahme History",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "St&art/Stop Wiedergabe History",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Setze Aufnahme Meilenstein\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Rückkehr zum Meilenstein\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Aufnahme Start Modus"
@@ -344,17 +346,17 @@ BEGIN
             MENUITEM "&Speichere neuen Snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Lade existierenden Snapshot", IDM_EVENT_START_MODE_LOAD
             MENUITEM "Mit &Reset starten",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Aufnahme übersc&hreiben",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "Laufende Aufnahme überschreiben",     IDM_EVENT_START_MODE_PLAYBACK
         END
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Optionen"
     BEGIN
         POPUP "Wiederhol&rate"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
+            MENUITEM "&Automatisch",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
             MENUITEM "1/&2",    IDM_REFRESH_RATE_2
             MENUITEM "1/&3",    IDM_REFRESH_RATE_3
@@ -381,7 +383,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Benutzerdefiniert",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
@@ -390,19 +392,19 @@ BEGIN
         , CHECKED
         MENUITEM "&Doppelte Größe", IDM_TOGGLE_DOUBLESIZE
         , CHECKED
-        MENUITEM "Dop&pelt Scan", IDM_TOGGLE_DOUBLESCAN
+        MENUITEM "Do&ppelt Scan", IDM_TOGGLE_DOUBLESCAN
         , CHECKED
         MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
         , CHECKED
         MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
-	MENUITEM "&Joystick ports austauschen\tAlt+J", IDM_SWAP_JOYSTICK
+	MENUITEM "Joystick ports austauschen\tAlt+J", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
-        MENUITEM "&Sound",       IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "&Sound Einschalten",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Präzise Floppy Emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Virtuelle Geräte Traps", IDM_TOGGLE_VIRTUAL_DEVICES
 	MENUITEM SEPARATOR
         POPUP "Vide&o standard"
         BEGIN
@@ -411,15 +413,15 @@ BEGIN
         END
 	MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identifikation",  IDM_TOGGLE_EMUID
-	MENUITEM "VIC-1112 IEEE &488 module", IDM_IEEE488
+	MENUITEM "VIC-1112 IEEE &488 Modul", IDM_IEEE488
     END
     POPUP "&Einstellungen"
     BEGIN
         MENUITEM "&Video Einstellungen...",     IDM_VIDEO_SETTINGS
         MENUITEM "V&IC Einstellungen...",       IDM_VIC_SETTINGS
         MENUITEM "&Peripherie Einstellungen...",IDM_DEVICEMANAGER
-        MENUITEM "Floppy Ei&nstellungen...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette Einstellungen...", IDM_DATASETTE_SETTINGS
+        MENUITEM "&Floppy Einstellungen...",     IDM_DRIVE_SETTINGS
+        MENUITEM "B&andlaufwerk Einstellungen", IDM_DATASETTE_SETTINGS
         MENUITEM "&Joystick Einstellungen...",  IDM_JOY_SETTINGS
         MENUITEM "&Tastatur Einstellungen...",  IDM_KEYBOARD_SETTINGS
         MENUITEM "S&ound Einstellungen...",     IDM_SOUND_SETTINGS
@@ -428,25 +430,25 @@ BEGIN
         MENUITEM "RS&232 Einstellungen...",     IDM_RS232_SETTINGS
         POPUP "&Erweiterungsmodul Einstellungen"
         BEGIN
-            MENUITEM "RS&232 userport Einstellungen...", IDM_RS232USER_SETTINGS
+            MENUITEM "RS&232 Userport Einstellungen...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "Einstellungen &Speichern", IDM_SETTINGS_SAVE
+        MENUITEM "Einstellungen &speichern", IDM_SETTINGS_SAVE
         MENUITEM "Einstellungen &Laden",   IDM_SETTINGS_LOAD
-        MENUITEM "Wiederherstellen Stan&dard Einstellungen",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Wiederherstellen Standard Einstellungen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-	MENUITEM "Einstellungen beim &Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-	MENUITEM "Bestäti&gung beim Beenden",	   IDM_TOGGLE_CONFIRM_ON_EXIT
+	MENUITEM "Einstellungen beim Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "&Bestätigung beim Beenden",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Sprache"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Englisch", IDM_LANG_EN
+        MENUITEM "&Deutsch", IDM_LANG_DE
+        MENUITEM "&Französisch", IDM_LANG_FR
+        MENUITEM "&Italienisch", IDM_LANG_IT
+        MENUITEM "&Holländisch", IDM_LANG_NL
+        MENUITEM "&Polnisch", IDM_LANG_PL
+        MENUITEM "&Schwedisch", IDM_LANG_SV
     END
     POPUP "&Hilfe"
     BEGIN
@@ -454,11 +456,11 @@ BEGIN
 //        MENUITEM SEPARATOR
         MENUITEM "&Über VICE...",             IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "Kommandozeilen &Optionen", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "Beträge zum VI&CE Projekt",         IDM_CONTRIBUTORS
+        MENUITEM "VICE Hackers",         IDM_CONTRIBUTORS
         MENUITEM "&Lizenz",              IDM_LICENSE
-        MENUITEM "Ke&ine Garantie",          IDM_WARRANTY
+        MENUITEM "Keine &Garantie!",          IDM_WARRANTY
     END
 END
 
@@ -1367,16 +1369,16 @@ IDR_MENUVIC_SV MENU DISCARDABLE
 BEGIN
     POPUP "&Arkiv"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "&Autostarta disk-/bandavbildningsfil...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Anslut en &diskettavbildningsfil"
+        POPUP "Anslut &diskettavbildningsfil"
         BEGIN
-            MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "Enhet &8\tAlt+8",  IDM_ATTACH_8
+            MENUITEM "Enhet &9\tAlt+9",  IDM_ATTACH_9
+            MENUITEM "Enhet 1&0\tAlt+0", IDM_ATTACH_10
+            MENUITEM "Enhet &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Koppla från disk&ettavbildningsfil"
+        POPUP "Koppla &från diskettavbildningsfil"
         BEGIN
             MENUITEM "Enhet &8",  IDM_DETACH_8
             MENUITEM "Enhet &9",  IDM_DETACH_9
@@ -1387,94 +1389,94 @@ BEGIN
         END
         POPUP "&Vallista"
         BEGIN
-            MENUITEM "Lägg till &aktuell avbildning\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Ta bo&rt aktuell avbildning\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "&Lägg till aktuell avbildning\tAlt+I",     IDM_FLIP_ADD
+            MENUITEM "&Ta bort aktuell avbildning\tAlt+K",  IDM_FLIP_REMOVE
             MENUITEM "Anslut &nästa avbildning\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Anslut &föregående avbildning\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "&Ladda vallistefil", IDM_FLIP_LOAD
+            MENUITEM "&Läs in vallistefil", IDM_FLIP_LOAD
             MENUITEM "&Spara vallistefil", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Anslu&t bandavbildningsfil...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Kop&pla från bandavbildningsfil",           IDM_DETACH_TAPE
-        POPUP "Datasettest&yrning"
+        MENUITEM "Anslut en &bandavbildningsfil...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Koppla f&rån bandavbildningsfil",           IDM_DETACH_TAPE
+        POPUP "Datasette&styrning"
         BEGIN
             MENUITEM "S&toppa",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Spela",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Starta",         IDM_DATASETTE_CONTROL_START
             MENUITEM "Spola &framåt",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "Spo&la bakåt",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "S&pela in",        IDM_DATASETTE_CONTROL_RECORD
-            MENUITEM "Åt&erställ",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Spola &bakåt",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "Spela &in",        IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "&Nollställ",         IDM_DATASETTE_CONTROL_RESET
+            MENUITEM "Nollställ r&äknare", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Anslut insticks&modulfil..."
+        POPUP "Anslut &insticksmodulfil..."
         BEGIN
-            MENUITEM "Anslut 4/8/16KB-fil vid $&2000...", IDM_CART_VIC20_8KB_2000
-            MENUITEM "Anslut 4/8/16KB-fil vid $&4000...", IDM_CART_VIC20_16KB_4000
-            MENUITEM "Anslut 4/8/16KB-fil vid $&6000...", IDM_CART_VIC20_8KB_6000
-            MENUITEM "Anslut 4/8KB-fil vid $&A000...",    IDM_CART_VIC20_8KB_A000
-            MENUITEM "Anslut 4KB-fil vid $&B000...",      IDM_CART_VIC20_4KB_B000
+            MENUITEM "4/8/16KB-fil vid $&2000...", IDM_CART_VIC20_8KB_2000
+            MENUITEM "4/8/16KB-fil vid $&4000...", IDM_CART_VIC20_16KB_4000
+            MENUITEM "4/8/16KB-fil vid $&6000...", IDM_CART_VIC20_8KB_6000
+            MENUITEM "4/8KB-fil vid $&A000...",    IDM_CART_VIC20_8KB_A000
+            MENUITEM "4KB-fil vid $&B000...",      IDM_CART_VIC20_4KB_B000
         END
-        MENUITEM "Koppla från &insticksmodulfil", IDM_CART_DETACH
+        MENUITEM "Koppla &från insticksmodulfil", IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Paus\tAlt+Pause",       IDM_PAUSE
         , CHECKED
         MENUITEM "&Monitor\tAlt+M",         IDM_MONITOR
-        POPUP "Åte&rställ"
+        POPUP "&Nollställ"
         BEGIN
             MENUITEM "&Hård\tCtrl+Alt+R", IDM_RESET_HARD
             MENUITEM "&Mjuk\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
-            MENUITEM "Enhet #&8",         IDM_RESET_DRIVE8
-            MENUITEM "Enhet #&9",         IDM_RESET_DRIVE9
-            MENUITEM "Enhet #1&0",        IDM_RESET_DRIVE10
-            MENUITEM "Enhet #&11",        IDM_RESET_DRIVE11
+            MENUITEM "Enhet &8",         IDM_RESET_DRIVE8
+            MENUITEM "Enhet &9",         IDM_RESET_DRIVE9
+            MENUITEM "Enhet 1&0",        IDM_RESET_DRIVE10
+            MENUITEM "Enhet &11",        IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-		POPUP "&Debug"
+		POPUP "&Felsök"
         BEGIN
-            POPUP "M&ode"
+            POPUP "&Läge"
             BEGIN
                 MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&Liten", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Historik", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "&Spela upp historik automatiskt", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Spåra &huvud-CPU\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Spåra CPU för enhet &1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "A&vsluta\tAlt+X", IDM_EXIT
+        MENUITEM "&Avsluta\tAlt+X", IDM_EXIT
     END
-    POPUP "ögonblicks&bild"
+    POPUP "&Ögonblicksbild"
     BEGIN
-        MENUITEM "Laddar ögonbl&icksbild...",  IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara ö&gonblicksbild...",  IDM_SNAPSHOT_SAVE
-        MENUITEM "Snabb&ladda ögonblicksbild\tAlt+L", IDM_LOADQUICK
-        MENUITEM "Snabb&spara ögonblicksbild\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "&Läs in ögonblicksbild...",  IDM_SNAPSHOT_LOAD
+        MENUITEM "Spara &ögonblicksbild...",  IDM_SNAPSHOT_SAVE
+        MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
+        MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Börja/Sluta spela in händelse&r",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Börja/Sluta spel&a upp händelser",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Börja/sluta spela in &händelser",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Börja/sluta spela &upp händelser",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Ange inspelningsbokmärke\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Åtegå till bokmärke\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Återgå till bokmärke\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Spelar in startläge"
         BEGIN
             MENUITEM "&Spara ny ögonblicksbild",      IDM_EVENT_START_MODE_SAVE
-            MENUITEM "&Ladda existerande ögonblicksbild", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Sta&rta med nollställning",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Skriv över aktiv u&ppspelning",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "&Läs in existerande ögonblicksbild", IDM_EVENT_START_MODE_LOAD
+            MENUITEM "Starta med &nollställning",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "Skriv &över aktiv uppspelning",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Ange historikkatalog",    IDM_EVENT_DIRECTORY
+        MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Alternativ"
     BEGIN
-        POPUP "Uppdate&ringshastighet"
+        POPUP "&Uppdateringshastighet"
         BEGIN
             MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
@@ -1516,59 +1518,59 @@ BEGIN
         , CHECKED
         MENUITEM "PAL-emulering", IDM_TOGGLE_FASTPAL
         , CHECKED
-        MENUITEM "Skala2x", IDM_TOGGLE_SCALE2X
+        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
         , CHECKED
         MENUITEM SEPARATOR
 	MENUITEM "Vä&xla spelportarna\tAlt+J", IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
-        MENUITEM "Ljudåte&rgivning",       IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "Aktivera &ljudåtergivning",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Äk&ta diskettenhetsemulering", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Äkta diskettenhetsemulering", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&Virtuella enhetstrap:ar", IDM_TOGGLE_VIRTUAL_DEVICES
 	MENUITEM SEPARATOR
-        POPUP "Grafi&kstandard"
+        POPUP "&TV-standard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
 	MENUITEM SEPARATOR
 	MENUITEM "Emulator&identifiering",  IDM_TOGGLE_EMUID
-	MENUITEM "VIC-1112 IEEE &488 module", IDM_IEEE488
+	MENUITEM "VIC-1112 IEEE &488-modul", IDM_IEEE488
     END
-    POPUP "Inställning&ar"
+    POPUP "&Inställningar"
     BEGIN
         MENUITEM "&Grafikinställningar...",     IDM_VIDEO_SETTINGS
-        MENUITEM "V&IC-Inställningar...",       IDM_VIC_SETTINGS
-        MENUITEM "&Inställningar för kringutrustning...",IDM_DEVICEMANAGER
+        MENUITEM "V&IC-inställningar...",       IDM_VIC_SETTINGS
+        MENUITEM "Inställningar för &kringutrustning...",IDM_DEVICEMANAGER
         MENUITEM "&Diskettenhetsinställningar...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette-Inställningar...", IDM_DATASETTE_SETTINGS
-        MENUITEM "Inställningar för st&yrspak...",  IDM_JOY_SETTINGS
-        MENUITEM "Tangentbordsinstä&llningar...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Lj&udinställningar...",     IDM_SOUND_SETTINGS
-        MENUITEM "&ROM-Inställningar...",       IDM_ROM_SETTINGS
-        MENUITEM "RA&M-Inställningar...",       IDM_RAM_SETTINGS
-        MENUITEM "RS&232-Inställningar...",     IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO-Inställningar"
+        MENUITEM "D&atasetteinställningar...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Inställningar för &styrspak...",  IDM_JOY_SETTINGS
+        MENUITEM "&Tangentbordsinställningar...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "L&judinställningar...",     IDM_SOUND_SETTINGS
+        MENUITEM "&ROM-inställningar...",       IDM_ROM_SETTINGS
+        MENUITEM "RA&M-inställningar...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232-inställningar...",     IDM_RS232_SETTINGS
+        POPUP "&Modul/IO-inställningar"
         BEGIN
-            MENUITEM "RS&232 userport-Inställningar...", IDM_RS232USER_SETTINGS
+            MENUITEM "RS&232-användarportinställningar...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Spara inställningar", IDM_SETTINGS_SAVE
-        MENUITEM "&Ladda inställningar",   IDM_SETTINGS_LOAD
-        MENUITEM "Återställ &förvalda inställningar",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Spara nuvarande inställningar", IDM_SETTINGS_SAVE
+        MENUITEM "&Läs sparade inställningar",   IDM_SETTINGS_LOAD
+        MENUITEM "&Återställ förvalda inställningar",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-	MENUITEM "Spara inställningar &vid avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "Spara inställningar vid &avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "&Bekräfta avslutning",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Språk"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Engelska", IDM_LANG_EN
+        MENUITEM "&Tyska", IDM_LANG_DE
+        MENUITEM "&Franska", IDM_LANG_FR
+        MENUITEM "&Italiense", IDM_LANG_IT
+        MENUITEM "&Nederländska", IDM_LANG_NL
+        MENUITEM "&Polska", IDM_LANG_PL
+        MENUITEM "&Svenska", IDM_LANG_SV
     END
     POPUP "&Hjälp"
     BEGIN
@@ -1576,9 +1578,9 @@ BEGIN
 //        MENUITEM SEPARATOR
         MENUITEM "&Om VICE...",             IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "Kommandorads&flaggor", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "Bidragslämnare till VI&CE-projektet",         IDM_CONTRIBUTORS
+        MENUITEM "&Bidragslämnare",         IDM_CONTRIBUTORS
         MENUITEM "&Licens",              IDM_LICENSE
         MENUITEM "Ingen &garanti",          IDM_WARRANTY
     END
@@ -1726,13 +1728,13 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resourcen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Computer Resourcen gespeichert zum romset",
+    GROUPBOX        "Computer Resourcen zum ROM Satz gespeichert",
                     IDC_STATIC,4,3,151,55
     AUTOCHECKBOX    "Kernal",IDC_VIC20ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic",IDC_VIC20ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Character",IDC_VIC20ROM_CHARGEN_RESOURCE,
+    AUTOCHECKBOX    "Zeichensatz",IDC_VIC20ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
@@ -1830,16 +1832,16 @@ END
 
 IDD_VIC20ROM_RESOURCE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 160, 85
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dator resurser"
+CAPTION "Datorresurser"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Dator resurser har till romset",
+    GROUPBOX        "Datorresurser lagrade i ROM-uppsättning",
                     IDC_STATIC,4,3,151,55
     AUTOCHECKBOX    "Kernal",IDC_VIC20ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic",IDC_VIC20ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Character",IDC_VIC20ROM_CHARGEN_RESOURCE,
+    AUTOCHECKBOX    "Teckengenerator",IDC_VIC20ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
@@ -1890,7 +1892,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Floppy resourcen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Floppy resourcen gespeichert zum romset",
+    GROUPBOX        "Floppy Resourcen zum ROM Satz gespeichert",
                     IDC_STATIC,4,3,151,160
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2064,10 +2066,10 @@ END
 
 IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 160, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Diskettstation resurser"
+CAPTION "Enhetsresurser"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Diskettstation resurser har till romset",
+    GROUPBOX        "Enhetsresurser lagrade i ROM-uppsättning",
                     IDC_STATIC,4,3,151,160
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2122,9 +2124,9 @@ IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "&Symbolische",IDC_VIC20KBD_MAPPING_SELECT_SYM,
+    AUTORADIOBUTTON "&Symbolisch",IDC_VIC20KBD_MAPPING_SELECT_SYM,
                     10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Positions",IDC_VIC20KBD_MAPPING_SELECT_POS,
+    AUTORADIOBUTTON "&Positional",IDC_VIC20KBD_MAPPING_SELECT_POS,
                     10,30,54,10,BS_AUTORADIOBUTTON
 
     EDITTEXT    IDC_VIC20KBD_MAPPING_SYM, 65,9,110,12,WS_TABSTOP
@@ -2132,7 +2134,7 @@ BEGIN
     EDITTEXT    IDC_VIC20KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Stöbern...", IDC_VIC20KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Keymap speichern", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Aktuelle Keymap auf Datei speichern", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 
@@ -2234,7 +2236,7 @@ BEGIN
     EDITTEXT    IDC_VIC20KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Bläddra...", IDC_VIC20KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Spara tangentbordsemulering", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Spara tangentbord", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 // -----------------------------------------------------------------------------
@@ -2404,11 +2406,11 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC20ROM_KERNAL         "Kernal"
     IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
+    IDS_VIC20ROM_CHARGEN        "Teckengenerator"
     IDS_VIC20ROM_BROWSE         "&Bläddra..."
     IDS_VIC_CAPTION             "VIC-inställningar"
-    IDS_VIC_MEMORY              "&Minnes"
-    IDS_VIC_NOEXPANSION         "&Ingen minnesutökning"
+    IDS_VIC_MEMORY              "&Minne"
+    IDS_VIC_NOEXPANSION         "&ingen minnesutökning"
     IDS_VIC_3KEXPANSION         "3&K (block 0)"
     IDS_VIC_8KEXPANSION         "&8K (block 1)"
     IDS_VIC_16KEXPANSION        "1&6K (block 1/2)"
@@ -2440,11 +2442,11 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_DE   "Attach 4/8/16KB cartridge image at $2000"
-  IDS_ATTACH_4_8_16_CART_4000_DE   "Attach 4/8/16KB cartridge image at $4000"
-  IDS_ATTACH_4_8_16_CART_6000_DE   "Attach 4/8/16KB cartridge image at $6000"
-  IDS_ATTACH_4_8_CART_A000_DE      "Attach 4/8KB cartridge image at $A000"
-  IDS_ATTACH_4_CART_B000_DE        "Attach 4KB cartridge image at $B000"
+  IDS_ATTACH_4_8_16_CART_2000_DE   "4/8/16KB Modul Image bei $2000 einlegen"
+  IDS_ATTACH_4_8_16_CART_4000_DE   "4/8/16KB Modul Image bei $4000 einlegen"
+  IDS_ATTACH_4_8_16_CART_6000_DE   "4/8/16KB Modul Image bei $6000 einlegen"
+  IDS_ATTACH_4_8_CART_A000_DE      "4/8KB Modul Image bei $A000 einlegen"
+  IDS_ATTACH_4_CART_B000_DE        "4KB Modul Image bei $B000 einlegen"
 END
 
 
@@ -2502,9 +2504,9 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_ATTACH_4_8_16_CART_2000_SV  "Attach 4/8/16KB cartridge image at $2000"
-  IDS_ATTACH_4_8_16_CART_4000_SV  "Attach 4/8/16KB cartridge image at $4000"
-  IDS_ATTACH_4_8_16_CART_6000_SV  "Attach 4/8/16KB cartridge image at $6000"
-  IDS_ATTACH_4_8_CART_A000_SV     "Attach 4/8KB cartridge image at $A000"
-  IDS_ATTACH_4_CART_B000_SV       "Attach 4KB cartridge image at $B000"
+  IDS_ATTACH_4_8_16_CART_2000_SV  "Anslut 4/8/16KB-modulfil vid $2000"
+  IDS_ATTACH_4_8_16_CART_4000_SV  "Anslut 4/8/16KB-modulfil vid $4000"
+  IDS_ATTACH_4_8_16_CART_6000_SV  "Anslut 4/8/16KB-modulfil vid $6000"
+  IDS_ATTACH_4_8_CART_A000_SV     "Anslut 4/8KB-modulfil vid $A000"
+  IDS_ATTACH_4_CART_B000_SV       "Anslut 4KB-modulfil vid $B000"
 END
