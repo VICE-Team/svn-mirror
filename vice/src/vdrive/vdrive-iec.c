@@ -40,7 +40,7 @@
 
 #include "vice.h"
 
-/* #define DEBUG_DRIVE */
+#define DEBUG_DRIVE
 
 #include <string.h>
 
@@ -223,8 +223,12 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     rl = 0;  /* REL */
 
     if (vdrive_parse_name(name, length, realname, &reallength,
-                          &readmode, &filetype, &rl) != SERIAL_OK)
+        &readmode, &filetype, &rl) != SERIAL_OK)
         return SERIAL_ERROR;
+#ifdef DEBUG_DRIVE
+        log_debug("Raw file name: `%s', length: %i.", name, length);
+        log_debug("Parsed file name: `%s', reallength: %i.", name, reallength);
+#endif
 
     /* Limit file name to 16 chars.  */
     reallength = (reallength > 16) ? 16 : reallength;
