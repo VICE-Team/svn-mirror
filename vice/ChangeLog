@@ -1,8 +1,16 @@
-2002-05-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2002-05-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.19.
+
+	* data/*: Reorganized *.vkm files.
+
+	* doc/vice.texi: Fixed snapshot module size documentation.
+
+2002-05-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.18.
 
-2002-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2002-05-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.17.
 

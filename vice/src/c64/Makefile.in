@@ -362,6 +362,8 @@ c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
 c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
 	c64cart.h ../../src/arch/unix/types.h c64mem.h \
 	../../src/cartridge.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/kbd.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
 	reu.h ../../src/sid/sid-resources.h ../../src/utils.h
 c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
@@ -401,8 +403,8 @@ c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/rs232.h ../../src/snapshot.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
-	../../src/arch/unix/types.h c64cia.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/vicii/vicii.h ../../src/rsuser.h \
+	../../src/arch/unix/types.h c64cia.h ../../src/keyboard.h \
+	../../src/vicii/vicii.h ../../src/rsuser.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
 	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h

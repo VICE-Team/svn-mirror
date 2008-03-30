@@ -314,10 +314,10 @@ vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/arch/unix/types.h vic20mem.h ../../src/mem.h
 vic20-resources.o: vic20-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/resources.h \
+	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
+	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
+	../../src/machine.h ../../src/resources.h ../../src/utils.h \
 	vic20mem.h ../../src/mem.h
 vic20-snapshot.o: vic20-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
@@ -393,19 +393,19 @@ vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	vic20sound.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/viacore.h ../../src/via.h vic20iec.h vic20via.h \
-	../../src/viacore.c ../../src/alarm.h ../../src/clkguard.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/utils.h
-vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/printer.h ../../src/viacore.h ../../src/via.h \
-	vic20iec.h vic20via.h ../../src/rsuser.h ../../src/viacore.c \
+	../../src/arch/unix/types.h ../../src/keyboard.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/viacore.h \
+	../../src/via.h vic20iec.h vic20via.h ../../src/viacore.c \
 	../../src/alarm.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/utils.h
+vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
+	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/keyboard.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/printer.h \
+	../../src/viacore.h ../../src/via.h vic20iec.h vic20via.h \
+	../../src/rsuser.h ../../src/viacore.c ../../src/alarm.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h \
+	../../src/utils.h
 
 info-am:
 info: info-am

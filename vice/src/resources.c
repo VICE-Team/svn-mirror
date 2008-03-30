@@ -411,7 +411,7 @@ int resources_set_defaults(void)
     for (i = 0; i < num_resources; i++) {
         if ((*resources[i].set_func)(resources[i].factory_value,
             resources[i].param) < 0) {
-            printf("Cannot set resource %s", resources[i].name);
+            /*printf("Cannot set resource %s", resources[i].name);*/
             return -1;
         }
 

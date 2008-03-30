@@ -142,7 +142,7 @@ noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES =  	dga2.c 	vidmode.c 	vidmode.h 	fullscreen-common.c 	fullscreen-common.h         fullscreen.c 
 
 
-libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	kbdef.h 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11kbd.c 	x11kbd.h 	x11menu.c 	x11menu.h
+libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11menu.c 	x11menu.h
 
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
@@ -162,7 +162,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libx11ui_a_OBJECTS =  c128icon.o c610icon.o c64icon.o kbd.o peticon.o \
 plus4icon.o renderxv.o ui-cmdline-options.o ui-resources.o uihotkey.o \
-vic20icon.o video.o x11kbd.o x11menu.o
+vic20icon.o video.o x11menu.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -340,16 +340,10 @@ c128icon.o: c128icon.c
 c610icon.o: c610icon.c
 c64icon.o: c64icon.c
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/archdep.h ../../../../src/archapi.h \
-	../../../../src/cmdline.h ../../../../src/interrupt.h \
-	../../../../src/6510core.h ../../../../src/arch/unix/types.h \
-	../../../../src/arch/unix/joystick.h \
-	../../../../src/arch/unix/kbd.h kbdef.h \
-	../../../../src/keyboard.h ../../../../src/log.h \
-	../../../../src/machine.h ../../../../src/resources.h \
-	../../../../src/sysfile.h ../../../../src/arch/unix/ui.h \
-	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h \
-	../../../../src/video.h
+	../../../../src/arch/unix/kbd.h ../../../../src/arch/unix/ui.h \
+	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
+	xaw/uiarch.h ../../../../src/keyboard.h \
+	../../../../src/machine.h ../../../../src/arch/unix/uihotkey.h
 peticon.o: peticon.c
 plus4icon.o: plus4icon.c
 renderxv.o: renderxv.c ../../../../src/vice.h ../../../../src/config.h
@@ -373,11 +367,10 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/video.h videoarch.h \
 	../../../../src/fullscreen.h
 x11kbd.o: x11kbd.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/kbd.h \
-	../../../../src/arch/unix/types.h kbdef.h \
-	../../../../src/keyboard.h ../../../../src/machine.h \
+	../../../../src/keyboard.h ../../../../src/arch/unix/types.h \
+	../../../../src/log.h ../../../../src/machine.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
-	xaw/uiarch.h x11kbd.h ../../../../src/arch/unix/uihotkey.h
+	xaw/uiarch.h ../../../../src/arch/unix/uihotkey.h x11kbd.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/utils.h ../../../../src/arch/unix/types.h \
 	x11menu.h ../../../../src/arch/unix/ui.h \

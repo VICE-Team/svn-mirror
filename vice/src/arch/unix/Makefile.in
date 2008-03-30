@@ -392,9 +392,6 @@ coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h joystick.h ../../../src/keyboard.h \
 	types.h ../../../src/log.h ../../../src/resources.h
-kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/resources.h ../../../src/cmdline.h \
-	../../../src/utils.h kbd.h
 main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
 	main_exit.h ../../../src/sound.h types.h ../../../src/video.h
@@ -402,9 +399,6 @@ mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/keyboard.h types.h mouse.h \
 	../../../src/log.h ../../../src/resources.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
-	../../../src/utils.h
 petui.o: petui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h icon.h ../../../src/pet/pets.h types.h \
 	petui.h ../../../src/resources.h uicommands.h uicrtc.h \
@@ -492,13 +486,14 @@ uirs232.o: uirs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
 	x11/xaw/../x11menu.h ../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h kbd.h types.h ../../../src/mem.h \
+	../../../src/archapi.h ../../../src/debug.h \
+	../../../src/fliplist.h ../../../src/keyboard.h types.h \
+	../../../src/machine.h ../../../src/mem.h \
 	../../../src/resources.h ../../../src/romset.h uidrive.h \
 	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h uihotkey.h x11/xaw/../x11menu.h uiperipheral.h \
 	uirs232.h uisettings.h uisound.h ../../../src/utils.h \
-	../../../src/vsync.h ../../../src/archapi.h \
-	../../../src/fliplist.h
+	../../../src/vsync.h
 uisid.o: uisid.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \

@@ -623,8 +623,9 @@ interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
 kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h maincpu.h 6510core.h \
 	arch/unix/types.h mem.h kbdbuf.h utils.h
 keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
-	keyboard.h log.h machine.h maincpu.h 6510core.h resources.h \
-	utils.h
+	arch/unix/archdep.h archapi.h arch/unix/kbd.h arch/unix/ui.h \
+	uiapi.h arch/unix/x11/xaw/uiarch.h keyboard.h log.h machine.h \
+	maincpu.h 6510core.h resources.h sysfile.h utils.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	log.h resources.h utils.h arch/unix/types.h
 machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
@@ -652,7 +653,7 @@ resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	mem.h arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
-	cmdline.h resources.h interrupt.h 6510core.h log.h maincpu.h \
+	cmdline.h interrupt.h 6510core.h log.h maincpu.h resources.h \
 	rs232.h rsuser.h
 screenshot.o: screenshot.c vice.h config.h gfxoutput.h log.h machine.h \
 	palette.h arch/unix/types.h screenshot.h utils.h video.h

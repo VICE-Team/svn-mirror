@@ -259,8 +259,10 @@ c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
 	c128mem.h ../../src/arch/unix/types.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/keyboard.h ../../src/machine.h \
-	../../src/resources.h ../../src/c64/reu.h \
+	../../src/log.h ../../src/arch/unix/kbd.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
+	../../src/machine.h ../../src/resources.h ../../src/c64/reu.h \
 	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
@@ -297,8 +299,8 @@ c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/c64/c64cia.h \
 	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/vicii/vicii.h ../../src/rsuser.h \
+	../../src/iecdrive.h ../../src/keyboard.h \
+	../../src/vicii/vicii.h ../../src/rsuser.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
 	../../src/alarm.h ../../src/snapshot.h ../../src/utils.h

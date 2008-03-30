@@ -402,12 +402,10 @@ uivsidcontrol.o: uivsidcontrol.c ../../../../../src/vice.h \
 	../../../../../src/arch/unix/vsiduiunix.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/arch/unix/x11/kbdef.h \
-	../../../../../src/keyboard.h \
-	../../../../../src/arch/unix/x11/x11kbd.h \
-	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/machine.h
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/keyboard.h \
+	../../../../../src/machine.h
 x11video.o: x11video.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \

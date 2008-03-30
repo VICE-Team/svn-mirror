@@ -1,4 +1,60 @@
-2002-05-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2002-05-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.19.
+
+	* keyboard.c, keyboard.h, arch/unix/x11/kbd.c,
+	arch/unix/x11/x11kbd.c, arch/unix/kbd.h: Rewritten for generic
+	keyboard support.
+
+	* c128/c128mmu.c, arch/win32/kbd.c, arch/msdos/kbd.c,
+	arch/riscos/kbd.c, arch/os2/kbd/proc.c, arch/beos/kbd.c,
+	c128/c128mem.c, arch/unix/uisettings.c: Cosmetic changes.
+
+	* c64/c64cia1.c, c128/c128cia1.c, vic20/vic20via1.c,
+	vic20/vic20via2.c, pet/petmem.c, pet/petpia1.c, pet/petvia.c,
+	cbm2/c610cia1.c, cbm2/c610mem.c, cbm2/c610tpi2.c,
+	arch/unix/x11/gnome/ui.c, arch/unix/x11/gnome/gnomekbd.c,
+	arch/unix/x11/xaw/x11kbd.c: Do not include #include "kbd.h".
+
+	* arch/unix/x11/kbdef.h, arch/unix/x11/x11kbd.c,
+	arch/unix/x11/x11kbd.h: Removed.
+
+	* arch/unix/x11/Makefile.am: Updated.
+
+	* arch/unix/x11/dga2.c, arch/unix/x11/fullscreen.c,
+	arch/unix/x11/gnome/gnomekbd.c, arch/unix/x11/xaw/x11kbd.c:
+	Include "kbd.h" instead of "x11kbd.h".
+
+	* arch/msdos/vsync.c: Changed "clk" to "main_clk".
+
+	* arch/msdos/console.c, arch/msdos/ui.c:
+	#include "videoarch.h".
+
+	* arch/msdos/uimon.c: #include "utils.h".
+
+	* arch/msdos/c64kbd.c, arch/msdos/c128kbd.c,
+	arch/msdos/vic20kbd.c, arch/msdos/petkbd.c,
+	arch/msdos/plus4kbd.c, arch/msdos/c610kbd.c: Those hardcoded
+	tables are not needed if `COMMON_KBD' is defined.
+
+	* arch/msdos/kbd.c, arch/msdos/kbd.h: Added support for common
+	keyboard code.
+
+	* arch/unix/kbd.h, arch/msdos/kbd.h, arch/win32/kbd.h,
+	arch/riscos/kbd.h, arch/os2/kbd.h, arch/beos/kbd.h: Added
+	prototypes and default kbd file names.
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	plus4/plus4-resources.c, cbm2/c610-resources.c: Use kbd file
+	names specified in `kbd.h'.
+
+	* vice.h: Define `COMMON_KBD' for msdos.
+
+	* resources.c (resources_set_defaults): Removed debugging
+	output.
+
+2002-05-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.18.
 
@@ -51,7 +107,7 @@
 	fullscreen.h, arch/unix/x11/ui-cmdline-options.c: Use
 	`void *' for resource value.
 
-2002-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+2002-05-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.17.
 

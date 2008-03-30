@@ -11,10 +11,8 @@ src/arch/unix/c64ui.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
 src/arch/unix/joystick.c
-src/arch/unix/kmap.c
 src/arch/unix/main_exit.c
 src/arch/unix/mouse.c
-src/arch/unix/petkmap.c
 src/arch/unix/petui.c
 src/arch/unix/plus4ui.c
 src/arch/unix/rs232.c
@@ -59,7 +57,6 @@ src/arch/unix/x11/gnome/uivsidcontrol.c
 src/arch/unix/x11/fullscreen.c
 src/arch/unix/x11/dga2.c
 src/arch/unix/x11/kbd.c
-src/arch/unix/x11/x11kbd.c
 src/arch/unix/x11/x11menu.c
 src/arch/unix/x11/ui-cmdline-options.c
 src/arch/unix/x11/ui-resources.c

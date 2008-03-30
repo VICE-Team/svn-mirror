@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-19 21:01+0200\n"
+"POT-Creation-Date: 2002-05-21 00:42+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -313,8 +313,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:491 src/arch/unix/c610ui.c:495
 #: src/arch/unix/c64ui.c:456 src/arch/unix/petui.c:420
 #: src/arch/unix/plus4ui.c:219 src/arch/unix/vic20ui.c:535
-#: src/arch/unix/vsidui.c:266 src/arch/unix/x11/gnome/ui.c:1117
-#: src/arch/unix/x11/gnome/ui.c:1209
+#: src/arch/unix/vsidui.c:266 src/arch/unix/x11/gnome/ui.c:1115
+#: src/arch/unix/x11/gnome/ui.c:1207
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -582,14 +582,6 @@ msgstr "Ripiego sulle vecchie api"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Versione del driver del kernel: %d.%d.%d"
 
-#: src/arch/unix/kmap.c:73
-msgid "Specify name of symbolic keymap file"
-msgstr "Specifica il nome del file della mappa simbolica della tastiera"
-
-#: src/arch/unix/kmap.c:75
-msgid "Specify name of positional keymap file"
-msgstr "Specifica il nome del file della mappa posizionale della tastiera"
-
 #: src/arch/unix/main_exit.c:45
 msgid ""
 "\n"
@@ -605,38 +597,6 @@ msgstr "Attiva l'emulazione del mouse 1351"
 #: src/arch/unix/mouse.c:71
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Disattiva l'emulazione del mouse 1351"
-
-#: src/arch/unix/petkmap.c:117
-msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr ""
-"Specifica il nome del file della mappa simbolica della tastiera grafica"
-
-#: src/arch/unix/petkmap.c:120
-msgid "Specify name of graphics keyboard positional keymap file"
-msgstr ""
-"Specifica il nome del file della mappa posizionale della tastiera grafica"
-
-#: src/arch/unix/petkmap.c:123
-msgid "Specify name of UK business keyboard symbolic keymap file"
-msgstr ""
-"Specifica il nome del file della mappa simbolica della tastiera UK business"
-
-#: src/arch/unix/petkmap.c:126
-msgid "Specify name of UK business keyboard positional keymap file"
-msgstr ""
-"Specifica il nome del file della mappa posizionale della tastiera UK business"
-
-#: src/arch/unix/petkmap.c:129
-msgid "Specify name of German business keyboard symbolic keymap file"
-msgstr ""
-"Specifica il nome del file della mappa simbolica della tastiera business "
-"tedesca"
-
-#: src/arch/unix/petkmap.c:132
-msgid "Specify name of German business keyboard positional keymap file"
-msgstr ""
-"Specifica il nome del file della mappa posizionale della tastiera business "
-"tedesca"
 
 #: src/arch/unix/petui.c:97
 msgid "*4 kByte"
@@ -1121,8 +1081,8 @@ msgid "Next: "
 msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:718 src/arch/unix/uicommands.c:733
-#: src/arch/unix/x11/gnome/ui.c:782 src/arch/unix/x11/gnome/ui.c:792
-#: src/arch/unix/x11/gnome/ui.c:1461
+#: src/arch/unix/x11/gnome/ui.c:780 src/arch/unix/x11/gnome/ui.c:790
+#: src/arch/unix/x11/gnome/ui.c:1459
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1275,7 +1235,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1007 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1829
+#: src/arch/unix/x11/gnome/ui.c:1827
 msgid "Reset"
 msgstr "Reset"
 
@@ -1772,7 +1732,7 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1256
+#: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1254
 #: src/arch/unix/x11/xaw/ui.c:1032
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -2298,151 +2258,151 @@ msgstr "Inizializzazione riuscita utilizzando XVideo (%dx%d %.4s)."
 msgid "Successfully initialized video."
 msgstr "Video inizializzato con successo."
 
-#: src/arch/unix/x11/gnome/ui.c:397
+#: src/arch/unix/x11/gnome/ui.c:395
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Non è possibile aggiungere il percorso per i font `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:399
+#: src/arch/unix/x11/gnome/ui.c:397
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Imposto il percorso per i font: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:634 src/arch/unix/x11/xaw/ui.c:469
+#: src/arch/unix/x11/gnome/ui.c:632 src/arch/unix/x11/xaw/ui.c:469
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Questo display non supporta visuali di %dbit adatte."
 
-#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:472
 msgid "Please select a bit depth supported by your display."
 msgstr "Per favore seleziona una profondita supportata dal tuo display"
 
-#: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/gnome/ui.c:658
+#: src/arch/unix/x11/gnome/ui.c:638 src/arch/unix/x11/gnome/ui.c:656
 #: src/arch/unix/x11/xaw/ui.c:475 src/arch/unix/x11/xaw/ui.c:492
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Trovata una visuale %dbit/%s."
 
-#: src/arch/unix/x11/gnome/ui.c:666 src/arch/unix/x11/xaw/ui.c:500
+#: src/arch/unix/x11/gnome/ui.c:664 src/arch/unix/x11/xaw/ui.c:500
 msgid "Cannot autodetect a proper visual."
 msgstr "Non è possibile determinare una visuale appropriata."
 
-#: src/arch/unix/x11/gnome/ui.c:673
+#: src/arch/unix/x11/gnome/ui.c:671
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Non è possibile caricare il font %s."
 
-#: src/arch/unix/x11/gnome/ui.c:680
+#: src/arch/unix/x11/gnome/ui.c:678
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Non è possibile caricare il font CBM %s."
 
-#: src/arch/unix/x11/gnome/ui.c:747
+#: src/arch/unix/x11/gnome/ui.c:745
 msgid "PAL Controls"
 msgstr "Controlli PAL"
 
-#: src/arch/unix/x11/gnome/ui.c:768
+#: src/arch/unix/x11/gnome/ui.c:766
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:878
+#: src/arch/unix/x11/gnome/ui.c:876
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/ui.c:951 src/arch/unix/x11/xaw/ui.c:587
+#: src/arch/unix/x11/gnome/ui.c:949 src/arch/unix/x11/xaw/ui.c:587
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/ui.c:1115 src/arch/unix/x11/gnome/ui.c:1198
+#: src/arch/unix/x11/gnome/ui.c:1113 src/arch/unix/x11/gnome/ui.c:1196
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/ui.c:1121
+#: src/arch/unix/x11/gnome/ui.c:1119
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1016
+#: src/arch/unix/x11/gnome/ui.c:1238 src/arch/unix/x11/xaw/ui.c:1016
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/ui.c:1242 src/arch/unix/x11/xaw/ui.c:1022
+#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1022
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1029
+#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1029
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/ui.c:1299 src/arch/unix/x11/xaw/ui.c:1066
+#: src/arch/unix/x11/gnome/ui.c:1297 src/arch/unix/x11/xaw/ui.c:1066
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/ui.c:1319 src/arch/unix/x11/gnome/ui.c:1322
+#: src/arch/unix/x11/gnome/ui.c:1317 src/arch/unix/x11/gnome/ui.c:1320
 #: src/arch/unix/x11/xaw/ui.c:1087 src/arch/unix/x11/xaw/ui.c:1093
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1613
+#: src/arch/unix/x11/gnome/ui.c:1611
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1650 src/arch/unix/x11/xaw/ui.c:1303
+#: src/arch/unix/x11/gnome/ui.c:1648 src/arch/unix/x11/xaw/ui.c:1303
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/ui.c:1788
+#: src/arch/unix/x11/gnome/ui.c:1786
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1803
+#: src/arch/unix/x11/gnome/ui.c:1801
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1829
+#: src/arch/unix/x11/gnome/ui.c:1827
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1829
+#: src/arch/unix/x11/gnome/ui.c:1827
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1873 src/arch/unix/x11/xaw/ui.c:1543
+#: src/arch/unix/x11/gnome/ui.c:1871 src/arch/unix/x11/xaw/ui.c:1543
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/ui.c:1874
+#: src/arch/unix/x11/gnome/ui.c:1872
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/ui.c:1887
+#: src/arch/unix/x11/gnome/ui.c:1885
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1895 src/arch/unix/x11/gnome/ui.c:1904
+#: src/arch/unix/x11/gnome/ui.c:1893 src/arch/unix/x11/gnome/ui.c:1902
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/ui.c:2032 src/arch/unix/x11/gnome/ui.c:2037
+#: src/arch/unix/x11/gnome/ui.c:2030 src/arch/unix/x11/gnome/ui.c:2035
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/ui.c:2495
+#: src/arch/unix/x11/gnome/ui.c:2493
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/ui.c:2542
+#: src/arch/unix/x11/gnome/ui.c:2540
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/ui.c:2568
+#: src/arch/unix/x11/gnome/ui.c:2566
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2729,21 +2689,6 @@ msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 msgid "Couldn't allocate color cache"
 msgstr "Non è possibile allocare la cache dei colori"
 
-#: src/arch/unix/x11/kbd.c:319
-#, c-format
-msgid "Could not find KeySym `%s'!"
-msgstr "Non è possibile trovare il simbolo `%s'!"
-
-#: src/arch/unix/x11/kbd.c:376
-#, c-format
-msgid "Bad row/column value (%d/%d) for keysym `%s'."
-msgstr "Coppia riga/colonna (%d/%d) non valida per il simbolo `%s'."
-
-#: src/arch/unix/x11/kbd.c:400
-#, c-format
-msgid "Loading keymap `%s'."
-msgstr "Caricamento della mappa della tastiera `%s'."
-
 #: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Specifica un browser HTML per l'help in linea"
@@ -2976,6 +2921,47 @@ msgstr "Le prestazioni saranno scarse."
 #: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
+
+#~ msgid "Specify name of symbolic keymap file"
+#~ msgstr "Specifica il nome del file della mappa simbolica della tastiera"
+
+#~ msgid "Specify name of positional keymap file"
+#~ msgstr "Specifica il nome del file della mappa posizionale della tastiera"
+
+#~ msgid "Specify name of graphics keyboard symbolic keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa simbolica della tastiera grafica"
+
+#~ msgid "Specify name of graphics keyboard positional keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa posizionale della tastiera grafica"
+
+#~ msgid "Specify name of UK business keyboard symbolic keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa simbolica della tastiera UK business"
+
+#~ msgid "Specify name of UK business keyboard positional keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa posizionale della tastiera UK business"
+
+#~ msgid "Specify name of German business keyboard symbolic keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa simbolica della tastiera business "
+#~ "tedesca"
+
+#~ msgid "Specify name of German business keyboard positional keymap file"
+#~ msgstr ""
+#~ "Specifica il nome del file della mappa posizionale della tastiera business "
+#~ "tedesca"
+
+#~ msgid "Could not find KeySym `%s'!"
+#~ msgstr "Non è possibile trovare il simbolo `%s'!"
+
+#~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
+#~ msgstr "Coppia riga/colonna (%d/%d) non valida per il simbolo `%s'."
+
+#~ msgid "Loading keymap `%s'."
+#~ msgstr "Caricamento della mappa della tastiera `%s'."
 
 #~ msgid "Cannot load keymap `%s'."
 #~ msgstr "Non è possibile caricare la mappa della tastiera `%s'."
