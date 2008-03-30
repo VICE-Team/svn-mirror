@@ -64,37 +64,6 @@
 #define DRIVE_TYPE_8250   8250  /* DOS 2.7 dual floppy drive, 1M/disk */
 #define DRIVE_TYPE_ANY    9999
 
-/* some defines */
-
-/* the drive uses an IEEE488 interface */
-#define DRIVE_IS_IEEE(type)     (           \
-        ((type) == DRIVE_TYPE_2031)         \
-        || ((type) == DRIVE_TYPE_2040)      \
-        || ((type) == DRIVE_TYPE_3040)      \
-        || ((type) == DRIVE_TYPE_4040)      \
-        || ((type) == DRIVE_TYPE_1001)      \
-        || ((type) == DRIVE_TYPE_8050)      \
-        || ((type) == DRIVE_TYPE_8250)      \
-        )
-
-/* the drive is an old type, with RIOTs, FDC, and two CPUs */
-#define DRIVE_IS_OLDTYPE(type)  (           \
-        ((type) == DRIVE_TYPE_2040)         \
-        || ((type) == DRIVE_TYPE_3040)      \
-        || ((type) == DRIVE_TYPE_4040)      \
-        || ((type) == DRIVE_TYPE_1001)      \
-        || ((type) == DRIVE_TYPE_8050)      \
-        || ((type) == DRIVE_TYPE_8250)      \
-        )
-
-/* the drive is a dual disk drive */
-#define DRIVE_IS_DUAL(type)     (           \
-        ((type) == DRIVE_TYPE_2040)         \
-        || ((type) == DRIVE_TYPE_3040)      \
-        || ((type) == DRIVE_TYPE_4040)      \
-        || ((type) == DRIVE_TYPE_8050)      \
-        || ((type) == DRIVE_TYPE_8250)      \
-        )
 
 /* Possible colors of the drive active LED.  */
 #define DRIVE_ACTIVE_RED     0
@@ -299,8 +268,6 @@ extern void drive_set_disk_memory(BYTE *id, unsigned int track,
 extern void drive_set_last_read(unsigned int track, unsigned int sector,
                                 BYTE *buffer, struct drive_context_s *drv);
 
-extern int drive_match_bus(unsigned int drive_type, unsigned int drv,
-                           int bus_map);
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_check_extend_policy(unsigned int drive_type);
 extern int drive_check_idle_method(unsigned int drive_type);
