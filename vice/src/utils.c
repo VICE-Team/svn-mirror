@@ -35,27 +35,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef __IBMC__
-#include <direct.h>
-#endif
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -163,6 +145,7 @@ char *concat(const char *s, ...)
     *ptr = '\0';
 
     va_end(ap);
+
     return newp;
 }
 
@@ -593,7 +576,7 @@ char *util_find_next_line(const char *pos)
 {
     char *p = strchr(pos, '\n');
 
-    return (char *) (p == NULL ? pos : p + 1);
+    return (char *)(p == NULL ? pos : p + 1);
 }
 
 char *util_find_prev_line(const char *text, const char *pos)
@@ -610,7 +593,7 @@ char *util_find_prev_line(const char *text, const char *pos)
     if (*p == '\n')
         p++;
 
-    return (char *) p;
+    return (char *)p;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -730,15 +713,16 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n)
     while (n-- && *s1 && *s2) {
         /* According to A. Cox, some platforms have islower's that don't work
            right on non-uppercase.  */
-        c1 = isupper ((unsigned int)*s1) ? tolower ((unsigned int)*s1) : *s1;
-        c2 = isupper ((unsigned int)*s2) ? tolower ((unsigned int)*s2) : *s2;
+        c1 = isupper((unsigned int)*s1) ? tolower((unsigned int)*s1) : *s1;
+        c2 = isupper((unsigned int)*s2) ? tolower((unsigned int)*s2) : *s2;
         if (c1 != c2)
             return (c1 - c2);
-        s1++; s2++;
+        s1++;
+        s2++;
     }
 
     if (n)
-        return (((int)(unsigned char) *s1) - ((int)(unsigned char) *s2));
+        return (((int)(unsigned char)*s1) - ((int)(unsigned char)*s2));
     else
         return 0;
 }
