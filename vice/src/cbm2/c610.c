@@ -31,6 +31,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c610-resources.h"
 #include "c610.h"
 #include "c610acia.h"
 #include "c610cia.h"
@@ -118,7 +119,7 @@ int machine_init_resources(void)
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
         || video_init_resources() < 0
-        || c610_mem_init_resources() < 0
+        || c610_init_resources() < 0
         || crtc_init_resources() < 0
         || vic_ii_init_resources() < 0
         || sound_init_resources() < 0
