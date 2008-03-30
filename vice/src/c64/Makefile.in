@@ -360,9 +360,9 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 c64acia1.o: c64acia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/rs232.h \
-	../../src/acia.h
+	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/rs232.h ../../src/acia.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h ../../src/cia.h \
 	../../src/types.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
@@ -405,9 +405,9 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/utils.h vicii.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h c64acia.h
-c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
-	c64cia.h ../../src/types.h ../../src/cia.h ../../src/snapshot.h \
-	../../src/rsuser.h
+c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h ../../src/types.h c64.h c64cia.h \
+	../../src/cia.h ../../src/snapshot.h ../../src/rsuser.h
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tpi.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \

@@ -1,4 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.67 from the
+This is Info file vice.info, produced by Makeinfo version 1.68 from the
 input file vice.texi.
 
 START-INFO-DIR-ENTRY
@@ -431,6 +431,7 @@ C64/128 system ROM resources
           Commodore SX-64 ROM
 
     `100'
+
     `4064'
           Commodore 4064 (also known as "PET64" or "Educator 64") ROM
 
@@ -1153,6 +1154,8 @@ WORD    T1L            Timer 1 Latch value
 WORD    T1C            Timer 1 counter value                              
 BYTE    T2L            Timer 2 latch (8 bit as only lower byte is used)   
 WORD    T2C            Timer 2 counter value                              
+BYTE    RUNFL          bit 7: timer 1 will generate IRQ on underflow;     
+                       bit 6: timer 2 will generate IRQ on underflow      
 BYTE    SR             Shift register value                               
 BYTE    ACR            Auxiliary control register                         
 BYTE    PCR            Peripheral control register                        
@@ -1289,6 +1292,7 @@ BYTE    CONFIG  Configuration register. Bits 0,1,2,3,5 reflect if the
                 corresponding memory block is RAM (bit=1) or not (bit=0).  
 ARRAY   RAM0    1k RAM dump $0000-$03ff                                    
 ARRAY   RAM1    4k RAM dump $1000-$1fff                                    
+ARRAY   COLORRAM2k Color RAM, $9400-$9bff                                  
 ARRAY   BLK0    if CONFIG & 1 then: 3k RAM dump $0400-$0fff                
 ARRAY   BLK1    if CONFIG & 2 then: 8k RAM dump $2000-$3fff                
 ARRAY   BLK2    if CONFIG & 4 then: 8k RAM dump $4000-$5fff                

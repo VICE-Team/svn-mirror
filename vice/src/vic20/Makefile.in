@@ -329,7 +329,8 @@ vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/drive/viad.h ../../src/via.h
+	../../src/6510core.h ../../src/drive/viad.h ../../src/via.h \
+	../../src/drive/ciad.h ../../src/cia.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/types.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
@@ -340,8 +341,8 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	vic20via.h ../../src/via.h ../../src/cartridge.h
 vic20rsuser.o: vic20rsuser.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h ../../src/rsuser.h vic20via.h ../../src/via.h \
-	../../src/snapshot.h vic20.h
+	../../src/machine.h ../../src/types.h ../../src/rsuser.h \
+	vic20via.h ../../src/via.h ../../src/snapshot.h vic20.h
 vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/types.h ../../src/warn.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \

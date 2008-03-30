@@ -306,9 +306,9 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
 	../../src/prdevice.h ../../src/pruser.h ../../src/rs232.h
 c610acia1.o: c610acia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/rs232.h \
-	../../src/acia.h c610tpi.h
+	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/rs232.h ../../src/acia.h c610tpi.h
 c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \

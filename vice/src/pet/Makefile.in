@@ -314,9 +314,9 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 petacia1.o: petacia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vice.h ../../src/config.h ../../src/types.h \
-	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/rs232.h \
-	../../src/acia.h
+	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/rs232.h ../../src/acia.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/memutils.h ../../src/snapshot.h petpia.h pet.h \
 	petvia.h petacia.h crtc.h ../../src/arch/unix/video.h \
