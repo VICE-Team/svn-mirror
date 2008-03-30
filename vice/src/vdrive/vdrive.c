@@ -1074,6 +1074,10 @@ void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
         log_message(vdrive_log, "Unit %d: GCR disk image detached: %s.",
                     unit, image->name);
         break;
+      case DISK_IMAGE_TYPE_X64:
+        log_message(vdrive_log, "Unit %d: X64 disk image detached: %s.",
+                    unit, image->name);
+        break;
       default:
         return;
     }
@@ -1122,6 +1126,12 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = 35;
+        break;
+      case DISK_IMAGE_TYPE_X64:
+        log_message(vdrive_log, "Unit %d: X64 disk image attached: %s.",
+                    vdrive->unit, image->name);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+        vdrive->num_tracks = image->tracks;
         break;
       default:
         return -1;
