@@ -1,4 +1,26 @@
-1999-02-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.
+
+	* arch/msdos/vicesb.c (vicesb_detect): Use new logging system
+	instead of using stdio.
+	* sounddrv/soundsb.c (sb_write): Changed likewise.
+
+	* arch/msdos/vsync.c (vsync_disable_timer): Fixed CBM-II sync.
+
+	* arch/win32/res.r: Updated dates.
+
+	* attach.c, drive/drive.c: Increased snapshot major to `1'.
+
+1999-01-04  Daniel Sladic  <Daniel_Sladic@evans.stampede.cs.cmu.edu>
+
+	* arch/unix/joystick.c: Added a new joystick driver.  Not enabled
+	yet.
+
+	* mon.c, mon.h, mon_lex.l, mon_parse.h, mon_parse.y: Some
+	undocumented changes (for now).
+
+1999-01-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.15.0.42.
 
