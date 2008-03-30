@@ -44,18 +44,23 @@ struct _image_contents_file_list {
 };
 typedef struct _image_contents_file_list image_contents_file_list_t;
 
-struct _contents {
+struct _image_contents {
     BYTE name[IMAGE_CONTENTS_NAME_LEN + 1];
     BYTE id[IMAGE_CONTENTS_ID_LEN + 1];
-    int blocks_free;   /* -1: no free space.  */
+    int blocks_free;   /* -1: No free space information.  */
     image_contents_file_list_t *file_list;
 };
-typedef struct _contents image_contents_t;
+typedef struct _image_contents image_contents_t;
 
 /* ------------------------------------------------------------------------- */
 
+void image_contents_destroy(image_contents_t *contents);
+image_contents_t *image_contents_new(void);
+char *image_contents_to_string(image_contents_t *contents);
+
+/* FIXME: Some day this will have to be removed to the disk/tape image
+   -specific modules.  */
 image_contents_t *image_contents_read_disk(const char *file_name);
 image_contents_t *image_contents_read_tape(const char *file_name);
-void image_contents_free(image_contents_t *contents);
 
 #endif
