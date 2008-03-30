@@ -726,7 +726,7 @@ int     close_1541(void *flp, int secondary)
 
 int     read_1541(void *flp, BYTE *data, int secondary)
 {
-DRIVE *floppy = (DRIVE *)flp;
+    DRIVE *floppy = (DRIVE *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
@@ -741,15 +741,19 @@ DRIVE *floppy = (DRIVE *)flp;
 
       case BUFFER_DIRECTORY_READ:
 	/*printf("read %d/%d [%02X]\n", p->bufptr, p->length, p->buffer[p->bufptr]);*/
-	if (p->bufptr >= p->length)
+	if (p->bufptr >= p->length) {
+            *data = 0xc7;
 	    return SERIAL_EOF;
+        }
 	*data = p->buffer[p->bufptr];
 	p->bufptr++;
 	break;
 
       case BUFFER_MEMORY_BUFFER:
-	if (p->bufptr >= 256)
+	if (p->bufptr >= 256) {
+            *data = 0xc7;
 	    return SERIAL_EOF;
+        }
 	*data = p->buffer[p->bufptr];
 	p->bufptr++;
 	break;
@@ -771,8 +775,10 @@ DRIVE *floppy = (DRIVE *)flp;
 		p->bufptr = 2;
 	    }
 	} else {
-	    if (p->bufptr > p->buffer[1])
+	    if (p->bufptr > p->buffer[1]) {
+                *data = 0xc7;
 		return SERIAL_EOF;
+            }
 	}
 
 	*data = p->buffer[p->bufptr];
@@ -785,6 +791,7 @@ DRIVE *floppy = (DRIVE *)flp;
 #ifdef DEBUG_DRIVE
 	    printf( "end of buffer in command channel\n" );
 #endif
+            *data = 0xc7;
 	    return SERIAL_EOF;
 	}
 	*data = p->buffer[p->bufptr];
@@ -2884,7 +2891,7 @@ int get_std64_header(int fd, BYTE *header) {
 
     switch (blk) {
       case 683:
-        tracks = 35;
+        tracks = NUM_TRACKS_1541;
         errblk = 0;
         break;
 
@@ -2894,17 +2901,17 @@ int get_std64_header(int fd, BYTE *header) {
             return (FD_NOTRD);
         }
 
-        tracks = 35;
+        tracks = NUM_TRACKS_1541;
         errblk = 1;
         break;
 
       case 768:
-        tracks = 40;
+        tracks = EXT_TRACKS_1541;
         errblk = 0;
         break;
 
       case 771:
-        tracks = 40;
+        tracks = EXT_TRACKS_1541;
         errblk = 1;
         break;
 
@@ -3283,6 +3290,7 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 	  return SERIAL_OK;
 	} else {
 	  fs_error(IPE_OK);
+          *data = 0xc7;
 	  return SERIAL_EOF;
 	}
     }
@@ -3296,8 +3304,10 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 	    i = fgetc(info->fd);
 	    if (ferror(info->fd))
 		return FLOPPY_ERROR;
-	    if (feof(info->fd))
+	    if (feof(info->fd)) {
+                *data = 0xc7;
 		return SERIAL_EOF;
+            }
 	    *data = i;
 	    return SERIAL_OK;
 	}
@@ -3314,8 +3324,10 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 
 		info->bufp = info->name;
 
-		if (info->eof)
+		if (info->eof) {
+                    *data = 0xc7;
 		    return SERIAL_EOF;
+                }
 
 		/*
 		 * Find the next directory entry and return it as a CBM
