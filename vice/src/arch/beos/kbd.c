@@ -147,13 +147,11 @@ int kbd_handle_keydown(int kcode)
         }
     }
 
-#if 0
-    if (kcode == ?which?) /* F4 */ {
+    if (kcode == 5) /* F4 */ {
         if (key_ctrl_caps_func != NULL) {
             key_ctrl_caps_func();
         }
     }
-#endif
 
     if (kcode == 33) /* PgUp */ {
         machine_set_restore_key(1);

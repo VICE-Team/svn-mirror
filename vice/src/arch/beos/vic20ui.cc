@@ -83,7 +83,7 @@ static ui_cartridge_t vic20_ui_cartridges[]={
 void vic20_ui_attach_cartridge(void *msg, void *window)
 {
 	int menu = ((BMessage*)msg)->what;
-	BFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
+	ViceFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
 	int i = 0;
 	
 	while (menu != vic20_ui_cartridges[i].menu_item 

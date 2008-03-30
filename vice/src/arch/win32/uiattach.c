@@ -57,6 +57,8 @@ static void enable_controls_for_disk_device_type(HWND hwnd, int type)
                  type == IDC_SELECTDISK);
     EnableWindow(GetDlgItem(hwnd, IDC_AUTOSTART),
                  type == IDC_SELECTDISK);
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),
+                 type == IDC_SELECTDISK);
     EnableWindow(GetDlgItem(hwnd, IDC_DIR),
                  type == IDC_SELECTDIR);
     EnableWindow(GetDlgItem(hwnd, IDC_BROWSEDIR),
@@ -101,6 +103,11 @@ static void init_dialog(HWND hwnd, unsigned int num)
         resources_get_sprintf("FSDevice%dHideCBMFiles",
                               (resource_value_t *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
+                       n ? BST_CHECKED : BST_UNCHECKED);
+
+        resources_get_sprintf("AttachDevice%dReadonly",
+                              (resource_value_t *)&n, num);
+        CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
         n = IDC_SELECTNONE;
@@ -259,6 +266,11 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             break;
           case IDC_TOGGLE_HIDENONP00:
             sprintf(tmp, "FSDevice%dHideCBMFiles", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_ATTACH_READONLY:
+            sprintf(tmp, "AttachDevice%dReadonly", num);
             resources_get_value(tmp, (resource_value_t *) &n);
             resources_set_value(tmp, (resource_value_t) !n);
             break;

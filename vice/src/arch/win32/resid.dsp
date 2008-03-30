@@ -7,19 +7,19 @@
 CFG=resid - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "resid.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "resid.mak" CFG="resid - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "resid - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "resid - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -92,7 +92,7 @@ InputPath=..\..\resid\envelope.cc
 InputName=envelope
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -104,11 +104,11 @@ InputPath=..\..\resid\envelope.cc
 InputName=envelope
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -123,7 +123,7 @@ InputPath=..\..\resid\extfilt.cc
 InputName=extfilt
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -135,11 +135,11 @@ InputPath=..\..\resid\extfilt.cc
 InputName=extfilt
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -154,7 +154,7 @@ InputPath=..\..\resid\filter.cc
 InputName=filter
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -166,11 +166,11 @@ InputPath=..\..\resid\filter.cc
 InputName=filter
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -185,7 +185,7 @@ InputPath=..\..\resid\pot.cc
 InputName=pot
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -197,11 +197,11 @@ InputPath=..\..\resid\pot.cc
 InputName=pot
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -216,7 +216,7 @@ InputPath=..\..\resid\sid.cc
 InputName=sid
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -228,11 +228,11 @@ InputPath=..\..\resid\sid.cc
 InputName=sid
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -247,7 +247,7 @@ InputPath=..\..\resid\version.cc
 InputName=version
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -259,11 +259,11 @@ InputPath=..\..\resid\version.cc
 InputName=version
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -278,7 +278,7 @@ InputPath=..\..\resid\voice.cc
 InputName=voice
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -290,11 +290,11 @@ InputPath=..\..\resid\voice.cc
 InputName=voice
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -309,7 +309,7 @@ InputPath=..\..\resid\wave.cc
 InputName=wave
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -321,11 +321,11 @@ InputPath=..\..\resid\wave.cc
 InputName=wave
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -340,7 +340,7 @@ InputPath=..\..\resid\wave6581__ST.cc
 InputName=wave6581__ST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -352,11 +352,11 @@ InputPath=..\..\resid\wave6581__ST.cc
 InputName=wave6581__ST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -371,7 +371,7 @@ InputPath=..\..\resid\wave6581_P_T.cc
 InputName=wave6581_P_T
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -383,11 +383,11 @@ InputPath=..\..\resid\wave6581_P_T.cc
 InputName=wave6581_P_T
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -402,7 +402,7 @@ InputPath=..\..\resid\wave6581_PS_.cc
 InputName=wave6581_PS_
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -414,11 +414,11 @@ InputPath=..\..\resid\wave6581_PS_.cc
 InputName=wave6581_PS_
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -433,7 +433,7 @@ InputPath=..\..\resid\wave6581_PST.cc
 InputName=wave6581_PST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -445,11 +445,11 @@ InputPath=..\..\resid\wave6581_PST.cc
 InputName=wave6581_PST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -464,7 +464,7 @@ InputPath=..\..\resid\wave8580__ST.cc
 InputName=wave8580__ST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -476,11 +476,11 @@ InputPath=..\..\resid\wave8580__ST.cc
 InputName=wave8580__ST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -495,7 +495,7 @@ InputPath=..\..\resid\wave8580_P_T.cc
 InputName=wave8580_P_T
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -507,11 +507,11 @@ InputPath=..\..\resid\wave8580_P_T.cc
 InputName=wave8580_P_T
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -526,7 +526,7 @@ InputPath=..\..\resid\wave8580_PS_.cc
 InputName=wave8580_PS_
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -538,11 +538,11 @@ InputPath=..\..\resid\wave8580_PS_.cc
 InputName=wave8580_PS_
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # Begin Source File
@@ -557,7 +557,7 @@ InputPath=..\..\resid\wave8580_PST.cc
 InputName=wave8580_PST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
@@ -569,11 +569,11 @@ InputPath=..\..\resid\wave8580_PST.cc
 InputName=wave8580_PST
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D   PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"$(INTDIR)\resid.pch"   /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
 
 # End Custom Build
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 # End Target

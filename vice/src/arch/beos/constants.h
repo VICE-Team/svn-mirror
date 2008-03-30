@@ -34,6 +34,7 @@
 // Messages for window interaction with application
 
 const uint32 WINDOW_CLOSED						= 'WRcl';
+const uint32 MESSAGE_ATTACH_READONLY            = 'MARO';
 
 // Messages for menu commands
 

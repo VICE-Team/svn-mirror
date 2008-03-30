@@ -26,6 +26,7 @@
 
 #include <Application.h>
 #include <Button.h>
+#include <CheckBox.h>
 #include <FilePanel.h>
 #include <Font.h>
 #include <ListView.h>
@@ -44,6 +45,7 @@ extern "C" {
 #include "constants.h"
 #include "imagecontents.h"
 #include "machine.h"
+#include "resources.h"
 #include "tape.h"
 #include "ui.h"
 #include "uiapi.h"
@@ -55,6 +57,7 @@ extern "C" {
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
 static int last_filetype[2];
+static BCheckBox *cb_readonly;
 
 
 char *read_disk_image_contents(const char *name)
@@ -210,12 +213,27 @@ ViceFilePanel::ViceFilePanel(
 	
 	: BFilePanel(mode, target, panel_directory, node_flavors, allow_multiple_selection)
 {
-	if (mode == B_OPEN_PANEL)
+	if (mode == B_OPEN_PANEL) {
+		/* readonly checkbox */
+		if (Window()->Lock()) {
+			BView *back = Window()->ChildAt(0);
+			BRect rect = back->Bounds();
+			rect.InsetBy(20,20);
+			rect.right = rect.left + 150;
+			rect.top = rect.bottom - 10;
+			cb_readonly = new BCheckBox(rect,
+				"Attach read only", "Attach read only", NULL);
+			cb_readonly->SetTarget(Messenger());
+			Window()->Unlock();
+		}
+		
+		/* create window for the previewlist */
 		previewwindow = new VicePreview(
 			BPoint(Window()->Frame().left, Window()->Frame().bottom),
 			this);
-	else
+	} else {
 		previewwindow = NULL;
+	}
 }
 
 
@@ -251,7 +269,7 @@ void ViceFilePanel::SelectionChanged(void)
 }
 
 
-void ui_select_file(BFilePanel *filepanel, 
+void ui_select_file(ViceFilePanel *filepanel, 
 					filetype_t filetype, 
 					void *fileparam) {
 
@@ -260,7 +278,27 @@ void ui_select_file(BFilePanel *filepanel,
 	sprintf(title,"VICE filepanel"); /* default */
 
 	/* Modify the panel */
+	/* first we may remove the readonly checkbox */
+	if (filepanel->Window()->Lock()) {
+		filepanel->Window()->ChildAt(0)->RemoveChild(cb_readonly);
+		filepanel->Window()->Unlock();
+	}
 	if (filetype == DISK_FILE) {
+		static BMessage msg = BMessage(MESSAGE_ATTACH_READONLY);
+		int n;
+
+		/* attach readonly checkbox */
+		if (filepanel->Window()->Lock()) {
+			filepanel->Window()->ChildAt(0)->AddChild(cb_readonly);
+			msg.MakeEmpty();
+			msg.AddInt32("device", *(int*)fileparam);
+			cb_readonly->SetMessage(&msg);
+	    	resources_get_sprintf("AttachDevice%dReadonly",
+				(resource_value_t *)&n, *(int*)fileparam);
+			cb_readonly->SetValue(n);
+			filepanel->Window()->Unlock();
+		}
+			
 		sprintf(title,"Attach Disk %d",*(int*)fileparam);
 		last_fileparam[panelnr] = *(int*)fileparam;
 	}

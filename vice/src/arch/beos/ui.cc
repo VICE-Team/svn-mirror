@@ -358,7 +358,7 @@ void ui_dispatch_events(void)
 	int m;
 	int attachdrive;
 	int key;
-	BFilePanel *filepanel = windowlist[0]->filepanel;
+	ViceFilePanel *filepanel = windowlist[0]->filepanel;
 	
 	for (i=0; i<num_queued_messages; i++) {
 
@@ -633,6 +633,17 @@ void ui_dispatch_events(void)
 				/* now we can use the selected file */
 				ui_select_file_action(&message_queue[i]);
 				break;
+			case MESSAGE_ATTACH_READONLY:
+			{
+				int res_val;
+				message_queue[i].FindInt32("device",(int32*)&attachdrive);
+				resources_get_sprintf("AttachDevice%dReadonly",
+				(resource_value_t*)&res_val, attachdrive);
+				resources_set_sprintf("AttachDevice%dReadonly",
+				(resource_value_t)!res_val, attachdrive);
+			}
+			break;
+
 			default:
 				if (message_queue[i].what >= 'M000' &&
 					message_queue[i].what <= 'M999') {

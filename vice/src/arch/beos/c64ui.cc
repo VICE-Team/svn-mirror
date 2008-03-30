@@ -139,7 +139,7 @@ ui_res_value_list c64_ui_res_values[] = {
 static void c64_ui_attach_cartridge(void *msg, void *window)
 {
 	int menu = ((BMessage*)msg)->what;
-	BFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
+	ViceFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
 	int i = 0;
 	
 	while (menu != c64_ui_cartridges[i].menu_item 
