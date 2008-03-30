@@ -103,8 +103,8 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
     int rendermode;
 
 #if 0
-printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
-        width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
+    log_debug("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i",
+              width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
 #endif
 
     if (width <= 0)
