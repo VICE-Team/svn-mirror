@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-08-01 02:08+0200\n"
+"POT-Creation-Date: 2000-08-06 19:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1613,11 +1613,11 @@ msgstr ""
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr ""
 
-#: src/arch/unix/kmap.c:116
+#: src/arch/unix/kmap.c:118
 msgid "Specify name of symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:120
 msgid "Specify name of positional keymap file"
 msgstr ""
 
@@ -1629,27 +1629,27 @@ msgstr ""
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:143
+#: src/arch/unix/petkmap.c:148
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:146
+#: src/arch/unix/petkmap.c:151
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:149
+#: src/arch/unix/petkmap.c:154
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:152
+#: src/arch/unix/petkmap.c:157
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:155
+#: src/arch/unix/petkmap.c:160
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:158
+#: src/arch/unix/petkmap.c:163
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 
@@ -1665,7 +1665,7 @@ msgstr ""
 msgid "Specify command for printer 2 (|lpr)"
 msgstr ""
 
-#: src/arch/unix/print.c:176 src/arch/unix/rs232.c:303
+#: src/arch/unix/print.c:176 src/arch/unix/rs232.c:311
 msgid "No more devices available."
 msgstr ""
 
@@ -1674,12 +1674,12 @@ msgstr ""
 msgid "print_open(device=%d)."
 msgstr ""
 
-#: src/arch/unix/print.c:215 src/arch/unix/rs232.c:350
+#: src/arch/unix/print.c:215 src/arch/unix/rs232.c:358
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/print.c:219 src/arch/unix/rs232.c:354
+#: src/arch/unix/print.c:219 src/arch/unix/rs232.c:362
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr ""
@@ -1704,69 +1704,69 @@ msgstr ""
 msgid "Trying to flush non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:159
+#: src/arch/unix/rs232.c:167
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr ""
 
-#: src/arch/unix/rs232.c:161
+#: src/arch/unix/rs232.c:169
 msgid "Specify baudrate of first RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:163
+#: src/arch/unix/rs232.c:171
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
 msgstr ""
 
-#: src/arch/unix/rs232.c:165
+#: src/arch/unix/rs232.c:173
 msgid "Specify baudrate of second RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:167
+#: src/arch/unix/rs232.c:175
 msgid "Specify name of third RS232 device (rs232.dump)"
 msgstr ""
 
-#: src/arch/unix/rs232.c:169
+#: src/arch/unix/rs232.c:177
 msgid "Specify baudrate of third RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:171
+#: src/arch/unix/rs232.c:179
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr ""
 
-#: src/arch/unix/rs232.c:173
+#: src/arch/unix/rs232.c:181
 msgid "Specify baudrate of 4th RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:308
+#: src/arch/unix/rs232.c:316
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr ""
 
-#: src/arch/unix/rs232.c:323
+#: src/arch/unix/rs232.c:331
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr ""
 
-#: src/arch/unix/rs232.c:374
+#: src/arch/unix/rs232.c:382
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:378
+#: src/arch/unix/rs232.c:386
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:390
+#: src/arch/unix/rs232.c:398
 #, c-format
 msgid "Error writing: %s."
 msgstr ""
 
-#: src/arch/unix/rs232.c:405
+#: src/arch/unix/rs232.c:413
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:409
+#: src/arch/unix/rs232.c:417
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr ""
@@ -1801,23 +1801,23 @@ msgstr ""
 msgid "*Tune %d"
 msgstr ""
 
-#: src/arch/unix/vsync.c:118
+#: src/arch/unix/vsync.c:121
 msgid "Limit emulation speed to specified value"
 msgstr ""
 
-#: src/arch/unix/vsync.c:120
+#: src/arch/unix/vsync.c:123
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr ""
 
-#: src/arch/unix/vsync.c:122
+#: src/arch/unix/vsync.c:125
 msgid "Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/vsync.c:124
+#: src/arch/unix/vsync.c:127
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/arch/unix/vsync.c:191
+#: src/arch/unix/vsync.c:194
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -2311,42 +2311,42 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:120
+#: src/arch/unix/x11/video.c:121
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:123
+#: src/arch/unix/x11/video.c:124
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:126
+#: src/arch/unix/x11/video.c:127
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:319
+#: src/arch/unix/x11/video.c:320
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:321
+#: src/arch/unix/x11/video.c:322
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:324
+#: src/arch/unix/x11/video.c:325
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:359
+#: src/arch/unix/x11/video.c:360
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:363
+#: src/arch/unix/x11/video.c:364
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:409
+#: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr ""
 

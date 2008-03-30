@@ -128,7 +128,7 @@ static int ram_block_5_enabled;
 /* Old program counter.  Not used without MMU support.  */
 unsigned int old_reg_pc;
 
-static int set_chargen_rom_name(resource_value_t v)
+static int set_chargen_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -141,7 +141,7 @@ static int set_chargen_rom_name(resource_value_t v)
     return mem_load_chargen();
 }
 
-static int set_kernal_rom_name(resource_value_t v)
+static int set_kernal_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -154,7 +154,7 @@ static int set_kernal_rom_name(resource_value_t v)
     return mem_load_kernal();
 }
 
-static int set_basic_rom_name(resource_value_t v)
+static int set_basic_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -169,7 +169,7 @@ static int set_basic_rom_name(resource_value_t v)
 
 /* Ugly hack...  */
 #define DEFINE_SET_BLOCK_FUNC(num)                                      \
-    static int set_ram_block_##num##_enabled(resource_value_t v)        \
+    static int set_ram_block_##num##_enabled(resource_value_t v, void *param)        \
     {                                                                   \
         int value = (int) v;                                            \
                                                                         \
@@ -187,13 +187,13 @@ DEFINE_SET_BLOCK_FUNC(2)
 DEFINE_SET_BLOCK_FUNC(3)
 DEFINE_SET_BLOCK_FUNC(5)
 
-static int set_emu_id_enabled(resource_value_t v)
+static int set_emu_id_enabled(resource_value_t v, void *param)
 {
     emu_id_enabled = (int) v;
     return 0;
 }
 
-static int set_ieee488_enabled(resource_value_t v)
+static int set_ieee488_enabled(resource_value_t v, void *param)
 {
     ieee488_enabled = (int) v;
 
@@ -211,25 +211,35 @@ void mem_toggle_emu_id(int flag)
 static resource_t resources[] =
 {
     {"ChargenName", RES_STRING, (resource_value_t) "chargen",
-     (resource_value_t *) & chargen_rom_name, set_chargen_rom_name},
+     (resource_value_t *) & chargen_rom_name,
+     set_chargen_rom_name, NULL },
     {"KernalName", RES_STRING, (resource_value_t) "kernal",
-     (resource_value_t *) & kernal_rom_name, set_kernal_rom_name},
+     (resource_value_t *) & kernal_rom_name,
+     set_kernal_rom_name, NULL },
     {"BasicName", RES_STRING, (resource_value_t) "basic",
-     (resource_value_t *) & basic_rom_name, set_basic_rom_name},
+     (resource_value_t *) & basic_rom_name,
+     set_basic_rom_name, NULL },
     {"RAMBlock0", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & ram_block_0_enabled, set_ram_block_0_enabled},
+     (resource_value_t *) & ram_block_0_enabled,
+     set_ram_block_0_enabled, NULL },
     {"RAMBlock1", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & ram_block_1_enabled, set_ram_block_1_enabled},
+     (resource_value_t *) & ram_block_1_enabled,
+     set_ram_block_1_enabled, NULL },
     {"RAMBlock2", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & ram_block_2_enabled, set_ram_block_2_enabled},
+     (resource_value_t *) & ram_block_2_enabled,
+     set_ram_block_2_enabled, NULL },
     {"RAMBlock3", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & ram_block_3_enabled, set_ram_block_3_enabled},
+     (resource_value_t *) & ram_block_3_enabled,
+     set_ram_block_3_enabled, NULL },
     {"RAMBlock5", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & ram_block_5_enabled, set_ram_block_5_enabled},
+     (resource_value_t *) & ram_block_5_enabled,
+     set_ram_block_5_enabled, NULL },
     {"EmuID", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & emu_id_enabled, set_emu_id_enabled},
+     (resource_value_t *) & emu_id_enabled,
+     set_emu_id_enabled, NULL },
     {"IEEE488", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & ieee488_enabled, set_ieee488_enabled},
+     (resource_value_t *) & ieee488_enabled,
+     set_ieee488_enabled, NULL },
     {NULL}
 };
 
@@ -325,34 +335,34 @@ static int cmdline_memory(const char *param, void *extra_param)
     /* FIXME: this is before log is initialized, right? */
     log_message(vic20_mem_log, "Extension memory enabled: ");
     if (memconf & VIC_BLK0) {
-	set_ram_block_0_enabled((resource_value_t) 1);
+	set_ram_block_0_enabled((resource_value_t) 1, NULL);
 	log_message(vic20_mem_log, "blk0 ");
     } else {
-	set_ram_block_0_enabled((resource_value_t) 0);
+	set_ram_block_0_enabled((resource_value_t) 0, NULL);
     }
     if (memconf & VIC_BLK1) {
-	set_ram_block_1_enabled((resource_value_t) 1);
+	set_ram_block_1_enabled((resource_value_t) 1, NULL);
 	log_message(vic20_mem_log, "blk1 ");
     } else {
-	set_ram_block_1_enabled((resource_value_t) 0);
+	set_ram_block_1_enabled((resource_value_t) 0, NULL);
     }
     if (memconf & VIC_BLK2) {
-	set_ram_block_2_enabled((resource_value_t) 1);
+	set_ram_block_2_enabled((resource_value_t) 1, NULL);
 	log_message(vic20_mem_log, "blk2 ");
     } else {
-	set_ram_block_2_enabled((resource_value_t) 0);
+	set_ram_block_2_enabled((resource_value_t) 0, NULL);
     }
     if (memconf & VIC_BLK3) {
-	set_ram_block_3_enabled((resource_value_t) 1);
+	set_ram_block_3_enabled((resource_value_t) 1, NULL);
 	log_message(vic20_mem_log, "blk3 ");
     } else {
-	set_ram_block_3_enabled((resource_value_t) 0);
+	set_ram_block_3_enabled((resource_value_t) 0, NULL);
     }
     if (memconf & VIC_BLK5) {
-	set_ram_block_5_enabled((resource_value_t) 1);
+	set_ram_block_5_enabled((resource_value_t) 1, NULL);
 	log_message(vic20_mem_log, "blk5");
     } else {
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
     }
     if (memconf == 0)
 	log_message(vic20_mem_log, "none");
@@ -972,13 +982,13 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $2000.");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
 	mem_rom_blocks |= VIC_ROM_BLK1A;
-	set_ram_block_1_enabled((resource_value_t) 0);
+	set_ram_block_1_enabled((resource_value_t) 0, NULL);
 	break;
       case CARTRIDGE_VIC20_8KB_2000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $2000.");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
-	set_ram_block_1_enabled((resource_value_t) 0);
+	set_ram_block_1_enabled((resource_value_t) 0, NULL);
         break;
       case CARTRIDGE_VIC20_16KB_2000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $2000.");
@@ -986,21 +996,21 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B
 			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-	set_ram_block_1_enabled((resource_value_t) 0);
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_1_enabled((resource_value_t) 0, NULL);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
 
       case CARTRIDGE_VIC20_4KB_4000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $4000.");
         memcpy(cartrom + 0x4000, rawcart, 0x2000);
 	mem_rom_blocks |= VIC_ROM_BLK2A;
-	set_ram_block_2_enabled((resource_value_t) 0);
+	set_ram_block_2_enabled((resource_value_t) 0, NULL);
 	break;
       case CARTRIDGE_VIC20_8KB_4000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $4000.");
         memcpy(cartrom + 0x4000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B;
-	set_ram_block_2_enabled((resource_value_t) 0);
+	set_ram_block_2_enabled((resource_value_t) 0, NULL);
         break;
       case CARTRIDGE_VIC20_16KB_4000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $4000.");
@@ -1008,21 +1018,21 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B
 			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-	set_ram_block_2_enabled((resource_value_t) 0);
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_2_enabled((resource_value_t) 0, NULL);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
 
       case CARTRIDGE_VIC20_4KB_6000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $6000.");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
-	set_ram_block_3_enabled((resource_value_t) 0);
+	set_ram_block_3_enabled((resource_value_t) 0, NULL);
         break;
       case CARTRIDGE_VIC20_8KB_6000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $6000.");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
-	set_ram_block_3_enabled((resource_value_t) 0);
+	set_ram_block_3_enabled((resource_value_t) 0, NULL);
         break;
       case CARTRIDGE_VIC20_16KB_6000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $6000.");
@@ -1030,28 +1040,28 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B
 			| VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-	set_ram_block_3_enabled((resource_value_t) 0);
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_3_enabled((resource_value_t) 0, NULL);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
 
       case CARTRIDGE_VIC20_4KB_A000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $A000.");
         memcpy(cartrom + 0xa000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
       case CARTRIDGE_VIC20_8KB_A000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $A000.");
         memcpy(cartrom + 0xA000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
 
       case CARTRIDGE_VIC20_4KB_B000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $B000.");
         memcpy(cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
-	set_ram_block_5_enabled((resource_value_t) 0);
+	set_ram_block_5_enabled((resource_value_t) 0, NULL);
         break;
       default:
         log_error(vic20_mem_log, "Unknown Cartridge Type!");
@@ -1289,23 +1299,23 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     snapshot_module_read_byte_array(m, ram + 0x9400, 0x0800);
 
-    set_ram_block_0_enabled((resource_value_t)(config & 1));
+    set_ram_block_0_enabled((resource_value_t)(config & 1), NULL);
     if (config & 1) {
         snapshot_module_read_byte_array(m, ram + 0x0400, 0x0c00);
     }
-    set_ram_block_1_enabled((resource_value_t)(config & 2));
+    set_ram_block_1_enabled((resource_value_t)(config & 2), NULL);
     if (config & 2) {
         snapshot_module_read_byte_array(m, ram + 0x2000, 0x2000);
     }
-    set_ram_block_2_enabled((resource_value_t)(config & 4));
+    set_ram_block_2_enabled((resource_value_t)(config & 4), NULL);
     if (config & 4) {
         snapshot_module_read_byte_array(m, ram + 0x4000, 0x2000);
     }
-    set_ram_block_3_enabled((resource_value_t)(config & 8));
+    set_ram_block_3_enabled((resource_value_t)(config & 8), NULL);
     if (config & 8) {
         snapshot_module_read_byte_array(m, ram + 0x6000, 0x2000);
     }
-    set_ram_block_5_enabled((resource_value_t)(config & 32));
+    set_ram_block_5_enabled((resource_value_t)(config & 32), NULL);
     if (config & 32) {
         snapshot_module_read_byte_array(m, ram + 0xA000, 0x2000);
     }

@@ -82,21 +82,23 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_sym_file(resource_value_t v)
+static int set_keymap_sym_file(resource_value_t v, void *param)
 {
     return set_keymap_file(0, (const char *) v);
 }
 
-static int set_keymap_pos_file(resource_value_t v)
+static int set_keymap_pos_file(resource_value_t v, void *param)
 {
     return set_keymap_file(1, (const char *) v);
 }
 
 static resource_t resources[] = {
     { "KeymapSymFile", RES_STRING, (resource_value_t) "default.vkm",
-      (resource_value_t *) &keymap_file_list[0], set_keymap_sym_file },
+      (resource_value_t *) &keymap_file_list[0],
+      set_keymap_sym_file, NULL },
     { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
-      (resource_value_t *) &keymap_file_list[1], set_keymap_pos_file },
+      (resource_value_t *) &keymap_file_list[1],
+      set_keymap_pos_file, NULL },
     { NULL }
 };
 

@@ -82,6 +82,7 @@ int resources_register(const resource_t *r)
         dp->factory_value = sp->factory_value;
         dp->value_ptr = sp->value_ptr;
         dp->set_func = sp->set_func;
+        dp->param = sp->param;
         num_resources++, sp++, dp++;
     }
 
@@ -148,7 +149,7 @@ int resources_set_value(const char *name, resource_value_t value)
         return -1;
     }
 
-    return r->set_func(value);
+    return r->set_func(value, r->param);
 }
 
 int resources_set_sprintf(const char *name, resource_value_t value, ...)
@@ -179,9 +180,9 @@ int resources_set_value_string(const char *name, const char *value)
 
     switch (r->type) {
       case RES_INTEGER:
-        return r->set_func((resource_value_t) atoi(value));
+        return r->set_func((resource_value_t) atoi(value), r->param);
       case RES_STRING:
-        return r->set_func((resource_value_t) value);
+        return r->set_func((resource_value_t) value, r->param);
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
         return -1;
@@ -264,7 +265,7 @@ void resources_set_defaults(void)
     int i;
 
     for (i = 0; i < num_resources; i++)
-        resources[i].set_func(resources[i].factory_value);
+        resources[i].set_func(resources[i].factory_value, resources[i].param);
 }
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
@@ -284,7 +285,7 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     if (new_value_return != NULL)
         *(int *)new_value_return = value;
 
-    return r->set_func((resource_value_t) value);
+    return r->set_func((resource_value_t) value, r->param);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -364,10 +365,10 @@ int resources_read_item_from_file(FILE *f)
 
         switch (r->type) {
           case RES_INTEGER:
-            result = r->set_func((resource_value_t) atoi(arg_ptr));
+            result = r->set_func((resource_value_t) atoi(arg_ptr), r->param);
             break;
           case RES_STRING:
-            result = r->set_func((resource_value_t) arg_ptr);
+            result = r->set_func((resource_value_t) arg_ptr, r->param);
             break;
           default:
             log_error(LOG_DEFAULT, "Unknown resource type for `%s'.",

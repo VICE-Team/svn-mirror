@@ -88,42 +88,42 @@ static int set_devbaud(int v, int dev)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_dev1_file(resource_value_t v)
+static int set_dev1_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 0);
 }
 
-static int set_dev2_file(resource_value_t v)
+static int set_dev2_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 1);
 }
 
-static int set_dev3_file(resource_value_t v)
+static int set_dev3_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 2);
 }
 
-static int set_dev4_file(resource_value_t v)
+static int set_dev4_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 3);
 }
 
-static int set_dev1_baud(resource_value_t v)
+static int set_dev1_baud(resource_value_t v, void *param)
 {
     return set_devbaud((int) v, 0);
 }
 
-static int set_dev2_baud(resource_value_t v)
+static int set_dev2_baud(resource_value_t v, void *param)
 {
     return set_devbaud((int) v, 1);
 }
 
-static int set_dev3_baud(resource_value_t v)
+static int set_dev3_baud(resource_value_t v, void *param)
 {
     return set_devbaud((int) v, 2);
 }
 
-static int set_dev4_baud(resource_value_t v)
+static int set_dev4_baud(resource_value_t v, void *param)
 {
     return set_devbaud((int) v, 3);
 }
@@ -131,21 +131,29 @@ static int set_dev4_baud(resource_value_t v)
 
 static resource_t resources[] = {
     { "RsDevice1", RES_STRING, (resource_value_t) "/dev/ttyS0",
-     (resource_value_t *) & devfile[0], set_dev1_file },
+      (resource_value_t *) & devfile[0],
+      set_dev1_file, NULL },
     { "RsDevice1Baud", RES_INTEGER, (resource_value_t) 9600,
-     (resource_value_t *) & devbaud[0], set_dev1_baud },
+      (resource_value_t *) & devbaud[0],
+      set_dev1_baud, NULL },
     { "RsDevice2", RES_STRING, (resource_value_t) "/dev/ttyS1",
-     (resource_value_t *) & devfile[1], set_dev2_file },
+      (resource_value_t *) & devfile[1],
+      set_dev2_file, NULL },
     { "RsDevice2Baud", RES_INTEGER, (resource_value_t) 9600,
-     (resource_value_t *) & devbaud[1], set_dev2_baud },
+      (resource_value_t *) & devbaud[1],
+      set_dev2_baud, NULL },
     { "RsDevice3", RES_STRING, (resource_value_t) "rs232.dump",
-     (resource_value_t *) & devfile[2], set_dev3_file },
+      (resource_value_t *) & devfile[2],
+      set_dev3_file, NULL },
     { "RsDevice3Baud", RES_INTEGER, (resource_value_t) 9600,
-     (resource_value_t *) & devbaud[2], set_dev3_baud },
+      (resource_value_t *) & devbaud[2],
+      set_dev3_baud, NULL },
     { "RsDevice4", RES_STRING, (resource_value_t) "|lpr",
-     (resource_value_t *) & devfile[3], set_dev4_file },
+      (resource_value_t *) & devfile[3],
+      set_dev4_file, NULL },
     { "RsDevice4Baud", RES_INTEGER, (resource_value_t) 9600,
-     (resource_value_t *) & devbaud[3], set_dev4_baud },
+      (resource_value_t *) & devbaud[3],
+      set_dev4_baud, NULL },
     { NULL }
 };
 

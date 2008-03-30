@@ -85,13 +85,13 @@ int _video_use_xsync;
 /* Flag: Do we try to use the MIT shared memory extensions?  */
 static int try_mitshm;
 
-static int set_use_xsync(resource_value_t v)
+static int set_use_xsync(resource_value_t v, void *param)
 {
     _video_use_xsync = (int) v;
     return 0;
 }
 
-static int set_try_mitshm(resource_value_t v)
+static int set_try_mitshm(resource_value_t v, void *param)
 {
     try_mitshm = (int) v;
     return 0;
@@ -100,9 +100,10 @@ static int set_try_mitshm(resource_value_t v)
 /* Video-related resources.  */
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) & _video_use_xsync, set_use_xsync },
-    { "MITSHM", RES_INTEGER, (resource_value_t) 1,         /* turn MITSHM on by default */
-      (resource_value_t *) & try_mitshm, set_try_mitshm },
+      (resource_value_t *) & _video_use_xsync, set_use_xsync, NULL },
+      /* turn MITSHM on by default */
+    { "MITSHM", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) & try_mitshm, set_try_mitshm, NULL },
     { NULL }
 };
 

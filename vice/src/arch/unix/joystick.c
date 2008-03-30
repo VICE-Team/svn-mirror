@@ -54,13 +54,13 @@ int joystick_port_map[2];
 
 /* Resources.  */
 
-static int joyport1select(resource_value_t v)
+static int joyport1select(resource_value_t v, void *param)
 {
     joystick_port_map[0] = (int) v;
     return 0;
 }
 
-static int joyport2select(resource_value_t v)
+static int joyport2select(resource_value_t v, void *param)
 {
     joystick_port_map[1] = (int) v;
     return 0;
@@ -68,9 +68,9 @@ static int joyport2select(resource_value_t v)
 
 static resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & joystick_port_map[0], joyport1select },
+      (resource_value_t *) & joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & joystick_port_map[1], joyport2select },
+      (resource_value_t *) & joystick_port_map[1], joyport2select, NULL },
     { NULL },
 };
 

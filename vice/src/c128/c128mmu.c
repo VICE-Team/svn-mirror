@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c64mem.h"
@@ -64,7 +66,7 @@ static log_t mmu_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_column4080_key(resource_value_t v)
+static int set_column4080_key(resource_value_t v, void *param)
 {
     mmu_column4080_key = (int)v;
 
@@ -77,7 +79,8 @@ static int set_column4080_key(resource_value_t v)
 
 static resource_t resources[] = {
     { "40/80ColumnKey", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &mmu_column4080_key, set_column4080_key },
+      (resource_value_t *) &mmu_column4080_key,
+      set_column4080_key, NULL },
     { NULL }
 };
 
@@ -265,7 +268,7 @@ void mmu_init(void)
     if (mmu_log == LOG_ERR)
         mmu_log = log_open("MMU");
 
-    set_column4080_key((resource_value_t)mmu_column4080_key);
+    set_column4080_key((resource_value_t)mmu_column4080_key, NULL);
 
     mmu[5] = 0;
 }

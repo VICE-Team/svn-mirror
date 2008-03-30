@@ -72,14 +72,14 @@ typedef struct psid {
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
 
-int psid_ui_set_tune(resource_value_t tune);
+int psid_ui_set_tune(resource_value_t tune, void *param);
 
 static psid_t* psid = NULL;
 static int psid_tune = 0;    /* app_resources.PSIDTune */
 
 static resource_t resources[] = {
     { "PSIDTune", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &psid_tune, psid_ui_set_tune },
+      (resource_value_t *) &psid_tune, psid_ui_set_tune, NULL },
     { NULL }
 };
 
@@ -281,7 +281,7 @@ void psid_set_tune(int tune)
   }
 }
 
-int psid_ui_set_tune(resource_value_t tune)
+int psid_ui_set_tune(resource_value_t tune, void *param)
 {
   psid_tune = (int)tune == -1 ? 0 : (int)tune;
   vsid_set_tune(psid_tune);

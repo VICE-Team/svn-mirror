@@ -83,7 +83,8 @@ static int bit_clk_ticks = 0;		/* clk ticks per character */
 
 static int rsuser_device;
 
-static int set_up_enabled(resource_value_t v) {
+static int set_up_enabled(resource_value_t v, void *param)
+{
     int newval = ((int) v);
 
     if(newval && !rsuser_enabled) {
@@ -114,7 +115,8 @@ static int set_up_enabled(resource_value_t v) {
     return 0;
 }
 
-static int set_up_device(resource_value_t v) {
+static int set_up_device(resource_value_t v, void *param)
+{
     rsuser_device = (int) v;
     if(fd != -1) {
 	rs232_close(fd);
@@ -125,9 +127,9 @@ static int set_up_device(resource_value_t v) {
 
 static resource_t resources[] = {
     { "RsUser", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &rsuser_enabled, set_up_enabled },
+      (resource_value_t *) &rsuser_enabled, set_up_enabled, NULL },
     { "RsUserDev", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &rsuser_device, set_up_device },
+      (resource_value_t *) &rsuser_device, set_up_device, NULL },
     { NULL }
 };
 
@@ -171,7 +173,7 @@ void rsuser_init(long cycles, void (*startfunc)(void),
 
 
     cycles_per_sec = cycles;
-    set_up_enabled((resource_value_t) rsuser_enabled);
+    set_up_enabled((resource_value_t) rsuser_enabled, NULL);
 
     start_bit_trigger = startfunc;
     byte_rx_func = bytefunc;

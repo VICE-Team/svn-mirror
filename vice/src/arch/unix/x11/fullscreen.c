@@ -163,7 +163,7 @@ int fullscreen_vidmode_available(void)
     return 1;
 }
 
-/*static*/ int set_fullscreen(resource_value_t v)
+/*static*/ int set_fullscreen(resource_value_t v, void *param)
 {
     static Dimension x,y,w,h;
     static Dimension canvas_width, canvas_height;
@@ -425,7 +425,7 @@ void fullscreen_focus_window_again(void)
     fullscreen_set_mouse_timeout();
 }
 
-/*static*/ int set_bestmode(resource_value_t v)
+/*static*/ int set_bestmode(resource_value_t v, void *param)
 {
     int i;
     if (!vidmodeavail) {
@@ -436,7 +436,8 @@ void fullscreen_focus_window_again(void)
     for (i = 0; i < bestmode_counter; i++) {
         if (! strcmp(selected_videomode, bestmodes[i].name)) {
 	    selected_videomode_index = bestmodes[i].modeindex;
-	    if (use_fullscreen) set_fullscreen((resource_value_t) 2);
+	    if (use_fullscreen)
+                set_fullscreen((resource_value_t) 2, NULL);
 	    return(0);
 	}
     }
@@ -453,7 +454,7 @@ void fullscreen_focus_window_again(void)
 int fullscreen_mode_on(void)
 {
     if (!use_fullscreen) {
-        set_fullscreen((resource_value_t) 1);
+        set_fullscreen((resource_value_t) 1, NULL);
         ui_update_menus();
         return 0;
     }
@@ -463,7 +464,7 @@ int fullscreen_mode_on(void)
 int fullscreen_mode_off(void)
 {
     if (use_fullscreen) {
-        set_fullscreen(0);
+        set_fullscreen(0, NULL);
         ui_update_menus();
         return 1;
     }
@@ -472,7 +473,7 @@ int fullscreen_mode_off(void)
 
 void fullscreen_mode_init(void)
 {
-    set_bestmode(selected_videomode_at_start);
+    set_bestmode(selected_videomode_at_start, NULL);
     if (selected_videomode_index == -1 && bestmode_counter > 0)
         selected_videomode_index = bestmodes[0].modeindex;
     if (use_fullscreen_at_start) {

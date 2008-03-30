@@ -77,17 +77,17 @@ static int set_devbaud(int v, int dev)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_dev1_file(resource_value_t v)
+static int set_dev1_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 0);
 }
 
-static int set_dev2_file(resource_value_t v)
+static int set_dev2_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 1);
 }
 
-static int set_dev3_file(resource_value_t v)
+static int set_dev3_file(resource_value_t v, void *param)
 {
     return set_devfile((char *) v, 2);
 }
@@ -95,11 +95,11 @@ static int set_dev3_file(resource_value_t v)
 static resource_t resources[] =
 {
     { "PrDevice1", RES_STRING, (resource_value_t) "print.dump",
-     (resource_value_t *) & devfile[0], set_dev1_file },
+     (resource_value_t *) & devfile[0], set_dev1_file, NULL },
     { "PrDevice2", RES_STRING, (resource_value_t) "|lpr",
-     (resource_value_t *) & devfile[1], set_dev2_file },
+     (resource_value_t *) & devfile[1], set_dev2_file, NULL },
     { "PrDevice3", RES_STRING, (resource_value_t) "|petlp -F PS|lpr",
-     (resource_value_t *) & devfile[2], set_dev3_file },
+     (resource_value_t *) & devfile[2], set_dev3_file, NULL },
     { NULL }
 };
 

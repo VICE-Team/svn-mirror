@@ -60,7 +60,7 @@ static char *cartfile;
 
 static alarm_t cartridge_alarm;
 
-static int set_cartridge_type(resource_value_t v)
+static int set_cartridge_type(resource_value_t v, void *param)
 {
     cartridge_type = (int) v;
     carttype = cartridge_type;
@@ -68,7 +68,7 @@ static int set_cartridge_type(resource_value_t v)
     return cartridge_attach_image(carttype, cartfile);
 }
 
-static int set_cartridge_file(resource_value_t v)
+static int set_cartridge_file(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -81,23 +81,26 @@ static int set_cartridge_file(resource_value_t v)
     return cartridge_attach_image(carttype, cartfile);
 }
 
-static int set_cartridge_mode(resource_value_t v)
-	{
-	/*
-	 * Set cartridge mode.
-	 */
-	cartridge_mode = (int) v;
-	cartmode = cartridge_mode;
-	return 0;
-	}
+static int set_cartridge_mode(resource_value_t v, void *param)
+{
+    /*
+     * Set cartridge mode.
+     */
+    cartridge_mode = (int) v;
+    cartmode = cartridge_mode;
+    return 0;
+}
 
 static resource_t resources[] = {
     { "CartridgeType", RES_INTEGER, (resource_value_t) CARTRIDGE_NONE,
-      (resource_value_t *) &cartridge_type, set_cartridge_type },
+      (resource_value_t *) &cartridge_type,
+      set_cartridge_type, NULL },
     { "CartridgeFile", RES_STRING, (resource_value_t) "",
-      (resource_value_t *) &cartridge_file, set_cartridge_file },
-	{ "CartridgeMode", RES_INTEGER, (resource_value_t) CARTRIDGE_MODE_OFF,
-	      (resource_value_t *) &cartridge_mode, set_cartridge_mode },
+      (resource_value_t *) &cartridge_file,
+      set_cartridge_file, NULL },
+    { "CartridgeMode", RES_INTEGER, (resource_value_t) CARTRIDGE_MODE_OFF,
+      (resource_value_t *) &cartridge_mode,
+      set_cartridge_mode, NULL },
     { NULL }
 };
 
@@ -461,9 +464,9 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_type((resource_value_t) carttype);
+    set_cartridge_type((resource_value_t) carttype, NULL);
     set_cartridge_file((resource_value_t) ((carttype == CARTRIDGE_NONE) ?
-                       "" : cartfile));
+                       "" : cartfile), NULL);
 }
 
 static int cartridge_change_mapping(CLOCK offset)

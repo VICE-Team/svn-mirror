@@ -67,7 +67,7 @@ static char *cartfile6;
 static char *cartfileA;
 static char *cartfileB;
 
-static int set_cartridge_file_2(resource_value_t v)
+static int set_cartridge_file_2(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -80,7 +80,7 @@ static int set_cartridge_file_2(resource_value_t v)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, cartfile2);
 }
 
-static int set_cartridge_file_4(resource_value_t v)
+static int set_cartridge_file_4(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -93,7 +93,7 @@ static int set_cartridge_file_4(resource_value_t v)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, cartfile4);
 }
 
-static int set_cartridge_file_6(resource_value_t v)
+static int set_cartridge_file_6(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -106,7 +106,7 @@ static int set_cartridge_file_6(resource_value_t v)
     return cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, cartfile6);
 }
 
-static int set_cartridge_file_A(resource_value_t v)
+static int set_cartridge_file_A(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -119,7 +119,7 @@ static int set_cartridge_file_A(resource_value_t v)
     return cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, cartfileA);
 }
 
-static int set_cartridge_file_B(resource_value_t v)
+static int set_cartridge_file_B(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -135,15 +135,20 @@ static int set_cartridge_file_B(resource_value_t v)
 static resource_t resources[] =
 {
     {"CartridgeFile2000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_2, set_cartridge_file_2},
+     (resource_value_t *) & cartridge_file_2,
+     set_cartridge_file_2, NULL },
     {"CartridgeFile4000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_4, set_cartridge_file_4},
+     (resource_value_t *) & cartridge_file_4,
+     set_cartridge_file_4, NULL },
     {"CartridgeFile6000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_6, set_cartridge_file_6},
+     (resource_value_t *) & cartridge_file_6,
+     set_cartridge_file_6, NULL },
     {"CartridgeFileA000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_A, set_cartridge_file_A},
+     (resource_value_t *) & cartridge_file_A,
+     set_cartridge_file_A, NULL },
     {"CartridgeFileB000", RES_STRING, (resource_value_t) "",
-     (resource_value_t *) & cartridge_file_B, set_cartridge_file_B},
+     (resource_value_t *) & cartridge_file_B,
+     set_cartridge_file_B, NULL },
     {NULL}
 };
 
@@ -332,11 +337,11 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_file_2((resource_value_t) cartfile2);
-    set_cartridge_file_4((resource_value_t) cartfile4);
-    set_cartridge_file_6((resource_value_t) cartfile6);
-    set_cartridge_file_A((resource_value_t) cartfileA);
-    set_cartridge_file_B((resource_value_t) cartfileB);
+    set_cartridge_file_2((resource_value_t) cartfile2, NULL);
+    set_cartridge_file_4((resource_value_t) cartfile4, NULL);
+    set_cartridge_file_6((resource_value_t) cartfile6, NULL);
+    set_cartridge_file_A((resource_value_t) cartfileA, NULL);
+    set_cartridge_file_B((resource_value_t) cartfileB, NULL);
 }
 
 const char *cartridge_get_file_name(ADDRESS addr)

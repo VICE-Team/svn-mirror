@@ -143,7 +143,7 @@ const char *mem_romset_resources_list[] = {
 
 static int ramsize;
 
-static int set_ramsize(resource_value_t v)
+static int set_ramsize(resource_value_t v, void *param)
 {
     int rs = (int) v;
     if(rs==128 || rs==256 || rs==512 || rs==1024) {
@@ -162,7 +162,7 @@ static int set_ramsize(resource_value_t v)
 /* Flag: Do we enable the Emulator ID?  */
 static int emu_id_enabled;
 
-static int set_emu_id_enabled(resource_value_t v)
+static int set_emu_id_enabled(resource_value_t v, void *param)
 {
     emu_id_enabled = (int)v;
     return 0;
@@ -195,7 +195,7 @@ static int cbm2_model_line = 0;
 
 static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
-static int set_cbm2_model_line(resource_value_t v)
+static int set_cbm2_model_line(resource_value_t v, void *param)
 {
     int tmp = (int) v;
 
@@ -210,7 +210,7 @@ static int set_cbm2_model_line(resource_value_t v)
     return 0;
 }
 
-static int set_chargen_rom_name(resource_value_t v)
+static int set_chargen_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -223,7 +223,7 @@ static int set_chargen_rom_name(resource_value_t v)
     return mem_load_chargen();	/* only does something after mem_load() */
 }
 
-static int set_kernal_rom_name(resource_value_t v)
+static int set_kernal_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -236,7 +236,7 @@ static int set_kernal_rom_name(resource_value_t v)
     return mem_load_kernal();	/* only does something after mem_load() */
 }
 
-static int set_basic_rom_name(resource_value_t v)
+static int set_basic_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -250,7 +250,7 @@ static int set_basic_rom_name(resource_value_t v)
     return mem_load_basic();	/* only does something after mem_load() */
 }
 
-static int set_cart1_rom_name(resource_value_t v)
+static int set_cart1_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -264,7 +264,7 @@ static int set_cart1_rom_name(resource_value_t v)
     return mem_load_cart_1();	/* only does something after mem_load() */
 }
 
-static int set_cart2_rom_name(resource_value_t v)
+static int set_cart2_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -278,7 +278,7 @@ static int set_cart2_rom_name(resource_value_t v)
     return mem_load_cart_2();	/* only does something after mem_load() */
 }
 
-static int set_cart4_rom_name(resource_value_t v)
+static int set_cart4_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -292,7 +292,7 @@ static int set_cart4_rom_name(resource_value_t v)
     return mem_load_cart_4();	/* only does something after mem_load() */
 }
 
-static int set_cart6_rom_name(resource_value_t v)
+static int set_cart6_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -306,42 +306,42 @@ static int set_cart6_rom_name(resource_value_t v)
     return mem_load_cart_6();	/* only does something after mem_load() */
 }
 
-static int set_cart08_ram(resource_value_t v)
+static int set_cart08_ram(resource_value_t v, void *param)
 {
     cart08_ram = (int) v;
     initialize_memory();
     return 0;
 }
 
-static int set_cart1_ram(resource_value_t v)
+static int set_cart1_ram(resource_value_t v, void *param)
 {
     cart1_ram = (int) v;
     initialize_memory();
     return 0;
 }
 
-static int set_cart2_ram(resource_value_t v)
+static int set_cart2_ram(resource_value_t v, void *param)
 {
     cart2_ram = (int) v;
     initialize_memory();
     return 0;
 }
 
-static int set_cart4_ram(resource_value_t v)
+static int set_cart4_ram(resource_value_t v, void *param)
 {
     cart4_ram = (int) v;
     initialize_memory();
     return 0;
 }
 
-static int set_cart6_ram(resource_value_t v)
+static int set_cart6_ram(resource_value_t v, void *param)
 {
     cart6_ram = (int) v;
     initialize_memory();
     return 0;
 }
 
-static int set_cartC_ram(resource_value_t v)
+static int set_cartC_ram(resource_value_t v, void *param)
 {
     cartC_ram = (int) v;
     initialize_memory();
@@ -352,40 +352,53 @@ static int set_cartC_ram(resource_value_t v)
 
 static resource_t resources[] = {
     {"RamSize", RES_INTEGER, (resource_value_t) 128,
-     (resource_value_t *) & ramsize, set_ramsize},
+      (resource_value_t *) & ramsize,
+      set_ramsize, NULL },
     { "ChargenName", RES_STRING, (resource_value_t) CBM2_CHARGEN600,
-     (resource_value_t *) &chargen_name, set_chargen_rom_name },
+      (resource_value_t *) &chargen_name,
+      set_chargen_rom_name, NULL },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
-     (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
+      (resource_value_t *) &kernal_rom_name,
+      set_kernal_rom_name, NULL },
     { "BasicName", RES_STRING, (resource_value_t) CBM2_BASIC128,
-     (resource_value_t *) &basic_rom_name, set_basic_rom_name },
+      (resource_value_t *) &basic_rom_name,
+      set_basic_rom_name, NULL },
     { "Cart1Name", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) &cart_1_name, set_cart1_rom_name },
+      (resource_value_t *) &cart_1_name,
+      set_cart1_rom_name, NULL },
     { "Cart2Name", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) &cart_2_name, set_cart2_rom_name },
+      (resource_value_t *) &cart_2_name,
+      set_cart2_rom_name, NULL },
     { "Cart4Name", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) &cart_4_name, set_cart4_rom_name },
+      (resource_value_t *) &cart_4_name,
+      set_cart4_rom_name, NULL },
     { "Cart6Name", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) &cart_6_name, set_cart6_rom_name },
-
+      (resource_value_t *) &cart_6_name,
+      set_cart6_rom_name, NULL },
     { "Ram08", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart08_ram, set_cart08_ram },
+      (resource_value_t *) &cart08_ram,
+      set_cart08_ram, NULL },
     { "Ram1", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart1_ram, set_cart1_ram },
+      (resource_value_t *) &cart1_ram,
+      set_cart1_ram, NULL },
     { "Ram2", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart2_ram, set_cart2_ram },
+      (resource_value_t *) &cart2_ram,
+      set_cart2_ram, NULL },
     { "Ram4", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart4_ram, set_cart4_ram },
+      (resource_value_t *) &cart4_ram,
+      set_cart4_ram, NULL },
     { "Ram6", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cart6_ram, set_cart6_ram },
+      (resource_value_t *) &cart6_ram,
+      set_cart6_ram, NULL },
     { "RamC", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cartC_ram, set_cartC_ram },
-
+      (resource_value_t *) &cartC_ram,
+      set_cartC_ram, NULL },
     { "ModelLine", RES_INTEGER, (resource_value_t) 2,
-      (resource_value_t *) &cbm2_model_line, set_cbm2_model_line },
-
+      (resource_value_t *) &cbm2_model_line,
+      set_cbm2_model_line, NULL },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+      (resource_value_t *) &emu_id_enabled,
+      set_emu_id_enabled, NULL },
     { NULL }
 };
 
@@ -479,10 +492,10 @@ int cbm2_set_model(const char *model, void *extra)
     for(i=0; modtab[i].model; i++) {
 	if(!strcmp(modtab[i].model, model)) {
             suspend_speed_eval();
-	    set_ramsize((resource_value_t)modtab[i].ramsize);
-	    set_basic_rom_name((resource_value_t)modtab[i].basic);
-	    set_chargen_rom_name((resource_value_t)modtab[i].charrom);
-	    set_cbm2_model_line((resource_value_t)modtab[i].line);
+	    set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
+	    set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
+	    set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
+	    set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
 
 	    /* we have to wait until we did enough initialization */
 	    if(cbm2_init_ok) {

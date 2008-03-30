@@ -99,7 +99,7 @@ static int joypad_bits[10] = {
 static int keymap_index;
 static int load_keymap_ok = 0;
 
-static int set_keymap_index(resource_value_t v)
+static int set_keymap_index(resource_value_t v, void *param)
 {
     const char *name, *resname = keymap_res_name_list[(int) v];
 
@@ -122,7 +122,7 @@ static int set_keymap_index(resource_value_t v)
 
 static resource_t resources[] = {
     { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &keymap_index, set_keymap_index },
+      (resource_value_t *) &keymap_index, set_keymap_index, NULL },
     { NULL }
 };
 
@@ -252,7 +252,7 @@ int kbd_init(void)
 
     /* load current keymap table */
     load_keymap_ok = 1;
-    set_keymap_index((resource_value_t)keymap_index);
+    set_keymap_index((resource_value_t)keymap_index, NULL);
 
     return 0;
 }

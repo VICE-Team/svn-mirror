@@ -44,7 +44,7 @@ int mouse_accel;
 
 /* ------------------------------------------------------------------------- */
 
-static int set_mouse_enabled(resource_value_t v)
+static int set_mouse_enabled(resource_value_t v, void *param)
 {
     _mouse_enabled = (int) v;
     ui_check_mouse_cursor();
@@ -53,7 +53,7 @@ static int set_mouse_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "Mouse", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_mouse_enabled, set_mouse_enabled },
+      (resource_value_t *) &_mouse_enabled, set_mouse_enabled, NULL },
     { NULL }
 };
 
