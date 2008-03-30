@@ -1,3 +1,27 @@
+2005-04-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.7.
+
+2005-04-19  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/monitor.c: mon_set_mem_val() now allows writes into
+	the address space of floppy drives.
+
+2005-04-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/ffmpeglib.c, arch/win32/fullscrn.c,
+	arch/win32/intl.c, arch/win32/intl.h,
+	arch/win32/ui.c: Start of the text translation step of the
+	win32 localization.
+
+2005-04-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/intl.h, arch/win32/res.h,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc, arch/win32/ui.c,
+	main.c: Finished up the menu step of the win32 localization.
+
 2005-04-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.6.
