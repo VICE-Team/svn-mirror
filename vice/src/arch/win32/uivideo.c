@@ -40,11 +40,11 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uivideo.h"
@@ -342,7 +342,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             querynewpalette = 1;
             if (resources_set_value(current_chip->res_PaletteFile_name,
                 (resource_value_t)palette_file) < 0) {
-                ui_error(intl_translate_text(IDS_COULD_NOT_LOAD_PALETTE));
+                ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
                 resources_set_value(current_chip->res_ExternalPalette_name,
                                      (resource_value_t)res_extpalette);
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
@@ -376,7 +376,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                 TCHAR *st_name;
 
                 if ((st_name = uilib_select_file(hwnd,
-                    TEXT(intl_translate_text(IDS_LOAD_VICE_PALETTE_FILE)),
+                    translate_text(IDS_LOAD_VICE_PALETTE_FILE),
                     UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
                     UILIB_SELECTOR_TYPE_FILE_LOAD,
                     UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
@@ -425,7 +425,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
             querynewpalette = 1;
             if (resources_set_value(current_chip2->res_PaletteFile_name,
                 (resource_value_t)palette_file2) < 0) {
-                ui_error(intl_translate_text(IDS_COULD_NOT_LOAD_PALETTE));
+                ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                 return TRUE;
             }
@@ -447,7 +447,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                 TCHAR *st_name;
 
                 if ((st_name = uilib_select_file(hwnd,
-                    TEXT(intl_translate_text(IDS_LOAD_VICE_PALETTE_FILE)),
+                    translate_text(IDS_LOAD_VICE_PALETTE_FILE),
                     UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
                     UILIB_SELECTOR_TYPE_FILE_LOAD,
                     UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
@@ -502,44 +502,44 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     if (chip_param->palette_mode == UI_VIDEO_PAL) {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = TEXT(intl_translate_text(IDS_FULLSCREEN));
+        psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
         psp[1].pfnDlgProc = dialog_advanced_proc;
         psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
         psp[2].pfnDlgProc = dialog_color_proc;
-        psp[2].pszTitle = TEXT(intl_translate_text(IDS_COLORS));
+        psp[2].pszTitle = translate_text(IDS_COLORS);
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_FULLSCREEN_SETTINGS_DIALOG));
-        psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_ADVANCED_DIALOG));
-        psp[2].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_COLORS_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
+        psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
+        psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_ADVANCED_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_ADVANCED_DIALOG));
         psp[2].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_COLORS_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_COLORS_DIALOG));
 #endif
         psh.nPages = 3;
     } else {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = TEXT(intl_translate_text(IDS_FULLSCREEN));
+        psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
         psp[1].pfnDlgProc = dialog_palette_proc;
         psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_FULLSCREEN_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
 #endif
         psh.nPages = 2;
     }
@@ -555,10 +555,10 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[index].pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
 #else
         psp[index].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate(IDD_VIDEO_PALETTE_DIALOG));
+            = MAKEINTRESOURCE(translate_res(IDD_VIDEO_PALETTE_DIALOG));
 #endif
         psh.nPages++;
     }
@@ -567,7 +567,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(intl_translate_text(IDS_VIDEO_SETTINGS));
+    psh.pszCaption = translate_text(IDS_VIDEO_SETTINGS);
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;

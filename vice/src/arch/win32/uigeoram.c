@@ -31,10 +31,10 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uilib.h"
 #include "uigeoram.h"
 #include "winmain.h"
@@ -76,7 +76,7 @@ static void init_georam_dialog(HWND hwnd)
         res_value_loop++) {
         TCHAR st[10];
         _itot(ui_georam_size[res_value_loop], st, 10);
-        _tcscat(st, TEXT(" kB"));
+        _tcscat(st, translate_text(IDS_SPACE_KB));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_value("GEORAMsize", (void *)&res_value);
@@ -117,7 +117,7 @@ static void end_georam_dialog(HWND hwnd)
 
 static void browse_georam_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT(intl_translate_text(IDS_SELECT_FILE_GEORAM)),
+    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_GEORAM),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_GEORAM_FILE);
 }
@@ -157,7 +157,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_georam_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_GEORAM_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_GEORAM_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

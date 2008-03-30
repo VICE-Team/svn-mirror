@@ -33,8 +33,8 @@
 #include <windows.h>
 
 #include "c128ui.h"
-#include "intl.h"
 #include "res.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
 #include "uic128.h"
@@ -198,8 +198,8 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         uiide64_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate(IDD_C128ROM_SETTINGS_DIALOG),
-                              intl_translate(IDD_C128DRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, translate_res(IDD_C128ROM_SETTINGS_DIALOG),
+                              translate_res(IDD_C128DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings);
         break;
 #ifdef HAVE_TFE

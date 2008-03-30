@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "res.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "statusbar.h"
 
@@ -343,8 +344,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
                 led.left = part_left + 2;
                 led.right = part_left + 34;
 
-                /* FIXME: tape text untranslated for now because of great speed reduction */
-                DrawText(hDC, TEXT("Tape:"), -1, &led, 0);
+                DrawText(hDC, translate_text(IDS_TAPE), -1, &led, 0);
 
                 /* the tape-motor */
                 led.top = part_top + 1;
@@ -405,8 +405,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             led.top = part_top + 22;
             led.bottom = part_top + 38;
 
-            /* FIXME: joystick text untranslated for now because of great speed reduction */
-            DrawText(hDC, TEXT("Joystick:"), -1, &led, 0);
+            DrawText(hDC, translate_text(IDS_JOYSTICK), -1, &led, 0);
 
             for (joynum = 1; joynum <= 2; joynum ++) {
 
@@ -457,22 +456,19 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             /* it's the event history part */
             switch (event_mode) {
                 case EVENT_RECORDING:
-                    /* FIXME: recording text untranslated for now because of great speed reduction */
-                    _stprintf(text, TEXT("Recording\n%02d:%02d"),
+                    _stprintf(text, translate_text(IDS_RECORDING),
                         event_time_current / 60,
                         event_time_current % 60);
                     break;
                 case EVENT_PLAYBACK:
-                    /* FIXME: playback text untranslated for now because of great speed reduction */
-                    _stprintf(text, TEXT("Playback\n%02d:%02d (%02d:%02d)"),
+                    _stprintf(text, translate_text(IDS_PLAYBACK),
                         event_time_current / 60,
                         event_time_current % 60,
                         event_time_total / 60,
                         event_time_total % 60);
                     break;
                 default:
-                    /* FIXME: unknown text untranslated for now because of great speed reduction */
-                    _stprintf(text, TEXT("Unknown"));
+                    _stprintf(text, translate_text(IDS_UNKNOWN));
             }
             led = ((DRAWITEMSTRUCT*)lparam)->rcItem;
             led.left += 2;

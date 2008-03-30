@@ -30,10 +30,10 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include "intl.h"
 #include "petui.h"
 #include "res.h"
 #include "resources.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
 #include "uicbm2set.h"
@@ -134,8 +134,8 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
         ui_sid_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate(IDD_CBM2ROM_SETTINGS_DIALOG),
-                              intl_translate(IDD_CBM2DRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, translate_res(IDD_CBM2ROM_SETTINGS_DIALOG),
+                              translate_res(IDD_CBM2DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:

@@ -242,6 +242,10 @@ SOURCE="..\..\sysfile.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\translate.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\traps.c"
 # End Source File
 # Begin Source File

@@ -2511,6 +2511,86 @@
 #define IDS_MEDIA_FILES_FILTER_PL        13981
 #define IDS_MEDIA_FILES_FILTER_SV        13982
 
+#define IDS_SPACE_KB                     13983
+#define IDS_SPACE_KB_DE                  13984
+#define IDS_SPACE_KB_FR                  13985
+#define IDS_SPACE_KB_IT                  13986
+#define IDS_SPACE_KB_NL                  13987
+#define IDS_SPACE_KB_PL                  13988
+#define IDS_SPACE_KB_SV                  13989
+
+#define IDS_CONFIGURE_KEYSET_A           13990
+#define IDS_CONFIGURE_KEYSET_A_DE        13991
+#define IDS_CONFIGURE_KEYSET_A_FR        13992
+#define IDS_CONFIGURE_KEYSET_A_IT        13993
+#define IDS_CONFIGURE_KEYSET_A_NL        13994
+#define IDS_CONFIGURE_KEYSET_A_PL        13995
+#define IDS_CONFIGURE_KEYSET_A_SV        13996
+
+#define IDS_CONFIGURE_KEYSET_B           13997
+#define IDS_CONFIGURE_KEYSET_B_DE        13998
+#define IDS_CONFIGURE_KEYSET_B_FR        13999
+#define IDS_CONFIGURE_KEYSET_B_IT        14000
+#define IDS_CONFIGURE_KEYSET_B_NL        14001
+#define IDS_CONFIGURE_KEYSET_B_PL        14002
+#define IDS_CONFIGURE_KEYSET_B_SV        14003
+
+#define IDS_SAVE_MEDIA_IMAGE             14004
+#define IDS_SAVE_MEDIA_IMAGE_DE          14005
+#define IDS_SAVE_MEDIA_IMAGE_FR          14006
+#define IDS_SAVE_MEDIA_IMAGE_IT          14007
+#define IDS_SAVE_MEDIA_IMAGE_NL          14008
+#define IDS_SAVE_MEDIA_IMAGE_PL          14009
+#define IDS_SAVE_MEDIA_IMAGE_SV          14010
+
+#define IDS_S_AT_D_SPEED                 14011
+#define IDS_S_AT_D_SPEED_DE              14012
+#define IDS_S_AT_D_SPEED_FR              14013
+#define IDS_S_AT_D_SPEED_IT              14014
+#define IDS_S_AT_D_SPEED_NL              14015
+#define IDS_S_AT_D_SPEED_PL              14016
+#define IDS_S_AT_D_SPEED_SV              14017
+
+#define IDS_TAPE                         14018
+#define IDS_TAPE_DE                      14019
+#define IDS_TAPE_FR                      14020
+#define IDS_TAPE_IT                      14021
+#define IDS_TAPE_NL                      14022
+#define IDS_TAPE_PL                      14023
+#define IDS_TAPE_SV                      14024
+
+#define IDS_JOYSTICK                     14025
+#define IDS_JOYSTICK_DE                  14026
+#define IDS_JOYSTICK_FR                  14027
+#define IDS_JOYSTICK_IT                  14028
+#define IDS_JOYSTICK_NL                  14029
+#define IDS_JOYSTICK_PL                  14030
+#define IDS_JOYSTICK_SV                  14031
+
+#define IDS_RECORDING                    14032
+#define IDS_RECORDING_DE                 14033
+#define IDS_RECORDING_FR                 14034
+#define IDS_RECORDING_IT                 14035
+#define IDS_RECORDING_NL                 14036
+#define IDS_RECORDING_PL                 14037
+#define IDS_RECORDING_SV                 14038
+
+#define IDS_PLAYBACK                     14039
+#define IDS_PLAYBACK_DE                  14040
+#define IDS_PLAYBACK_FR                  14041
+#define IDS_PLAYBACK_IT                  14042
+#define IDS_PLAYBACK_NL                  14043
+#define IDS_PLAYBACK_PL                  14044
+#define IDS_PLAYBACK_SV                  14045
+
+#define IDS_UNKNOWN                      14046
+#define IDS_UNKNOWN_DE                   14047
+#define IDS_UNKNOWN_FR                   14048
+#define IDS_UNKNOWN_IT                   14049
+#define IDS_UNKNOWN_NL                   14050
+#define IDS_UNKNOWN_PL                   14051
+#define IDS_UNKNOWN_SV                   14052
+
 /* ---------------------------------------------------- */
 /* ---------------------------------------------------- */
 /* ---------------------------------------------------- */

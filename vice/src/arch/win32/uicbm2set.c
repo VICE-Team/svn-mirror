@@ -35,10 +35,10 @@
 #endif
 
 #include "cbm2mem.h"
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uicbm2set.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -225,23 +225,23 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = TEXT(intl_translate_text(IDS_MODEL));
+    psp[0].pszTitle = translate_text(IDS_MODEL);
     psp[1].pfnDlgProc = dialog_proc;
-    psp[1].pszTitle = TEXT(intl_translate_text(IDS_MEMORY));
+    psp[1].pszTitle = translate_text(IDS_MEMORY);
 
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_CBMII_SETTINGS_MODEL_DIALOG));
-    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_CBMII_SETTINGS_IO_DIALOG));
+    psp[0].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_CBMII_SETTINGS_MODEL_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_CBMII_SETTINGS_IO_DIALOG));
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_CBMII_SETTINGS_MODEL_DIALOG));
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_CBMII_SETTINGS_IO_DIALOG));
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_CBMII_SETTINGS_MODEL_DIALOG));
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_CBMII_SETTINGS_IO_DIALOG));
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(intl_translate_text(IDS_CBM2_SETTINGS));
+    psh.pszCaption = translate_text(IDS_CBM2_SETTINGS);
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

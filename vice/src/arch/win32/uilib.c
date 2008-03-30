@@ -44,11 +44,11 @@
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "util.h"
@@ -201,7 +201,7 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), TEXT(intl_translate_text(IDS_ATTACH)));
+        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), translate_text(IDS_ATTACH));
 
         if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -240,7 +240,7 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
                 CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
-                ui_error(intl_translate_text(IDS_PLEASE_ENTER_A_FILENAME));
+                ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
                 return -1;
             }
             if (strchr(filename,'.') == NULL) {
@@ -262,14 +262,14 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
                 }
                 if (util_file_exists(filename)) {
                     int ret;
-                    ret = ui_messagebox(TEXT(intl_translate_text(IDS_OVERWRITE_EXISTING_IMAGE)),
-                                        TEXT(intl_translate_text(IDS_VICE_QUESTION)),
+                    ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE),
+                                        translate_text(IDS_VICE_QUESTION),
                                         MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
                 }
                 if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
-                    ui_error(intl_translate_text(IDS_CANNOT_CREATE_IMAGE));
+                    ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
                     return -1;
                 }
             }
@@ -335,7 +335,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), intl_translate_text(IDS_ATTACH));
+        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), translate_text(IDS_ATTACH));
         image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
         for (counter = 0; image_type_name[counter]; counter++) {
             SendMessage(image_type_list, CB_ADDSTRING, 0,
@@ -400,7 +400,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
                 CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
-                ui_error(intl_translate_text(IDS_PLEASE_ENTER_A_FILENAME));
+                ui_error(translate_text(IDS_PLEASE_ENTER_A_FILENAME));
                 return -1;
             }
             if (_tcschr(st_filename, '.') == NULL) {
@@ -435,8 +435,8 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
                 system_wcstombs(filename, st_filename, 256);
                 if (util_file_exists(st_filename)) {
                     int ret;
-                    ret = ui_messagebox(TEXT(intl_translate_text(IDS_OVERWRITE_EXISTING_IMAGE)),
-                                        TEXT(intl_translate_text(IDS_VICE_QUESTION)),
+                    ret = ui_messagebox(translate_text(IDS_OVERWRITE_EXISTING_IMAGE),
+                                        translate_text(IDS_VICE_QUESTION),
                                         MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
@@ -446,7 +446,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
                 format_name = lib_msprintf("%s,%s", disk_name, disk_id);
                 if (vdrive_internal_create_format_disk_image(st_filename,
                     format_name, image_type[counter]) < 0) {
-                    ui_error(intl_translate_text(IDS_CANNOT_CREATE_IMAGE));
+                    ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
                     lib_free(format_name);
                     return -1;
                 }
@@ -574,8 +574,8 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     /* create the strings for the file filters */
     for (i = 0, b = 1; uilib_filefilter[i].name != 0; i++, b <<= 1) {
         if (filterlist & b) {
-            j = _tcslen(intl_translate_text(uilib_filefilter[i].name)) + 1;
-            memcpy(current, intl_translate_text(uilib_filefilter[i].name), j * sizeof(TCHAR));
+            j = _tcslen(translate_text(uilib_filefilter[i].name)) + 1;
+            memcpy(current, translate_text(uilib_filefilter[i].name), j * sizeof(TCHAR));
             current += j;
 
             j = _tcslen(uilib_filefilter[i].pattern) + 1;
@@ -675,7 +675,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     if (styles[style].TemplateID != 0) {
         ofn.Flags |= OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
         ofn.lpfnHook = styles[style].hook_proc;
-        ofn.lpTemplateName = MAKEINTRESOURCE(intl_translate(styles[style].TemplateID));
+        ofn.lpTemplateName = MAKEINTRESOURCE(translate_res(styles[style].TemplateID));
     } else {
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
@@ -805,7 +805,7 @@ void ui_show_text(HWND hWnd,
 // of the executable that created the current process.
 // Win32: module handle == instance handle == task [Win3.1 legacy]
 
-                   MAKEINTRESOURCE(intl_translate(IDD_TEXTDLG)),
+                   MAKEINTRESOURCE(translate_res(IDD_TEXTDLG)),
                    hWnd,
                    TextDlgProc,
                    (LPARAM)&info);
@@ -890,8 +890,8 @@ void uilib_show_options(HWND param)
     char *options;
 
     options = cmdline_options_string();
-    ui_show_text(param, intl_translate_text(IDS_COMMAND_LINE_OPTIONS),
-                 intl_translate_text(IDS_COMMAND_OPTIONS_AVAIL), options);
+    ui_show_text(param, translate_text(IDS_COMMAND_LINE_OPTIONS),
+                 translate_text(IDS_COMMAND_OPTIONS_AVAIL), options);
     lib_free(options);
 }
 

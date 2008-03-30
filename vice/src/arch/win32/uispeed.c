@@ -30,11 +30,11 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uispeed.h"
@@ -100,7 +100,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 void ui_speed_settings_dialog(HWND hwnd)
 {
 /*
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_CUSTOM_SPEED_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_CUSTOM_SPEED_DIALOG), hwnd,
               dialog_proc);
 */
     uilib_dialogbox_param_t param;
@@ -109,7 +109,7 @@ void ui_speed_settings_dialog(HWND hwnd)
     resources_get_value("Speed", (void *)&speed);
 
     param.hwnd = hwnd;
-    param.idd_dialog = intl_translate(IDD_CUSTOM_SPEED_DIALOG);
+    param.idd_dialog = translate_res(IDD_CUSTOM_SPEED_DIALOG);
     param.idc_dialog = IDC_CUSTOM_SPEED;
     _itot(speed, param.string, 10);
 

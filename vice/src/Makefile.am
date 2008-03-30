@@ -129,6 +129,7 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
+	translate.h \
 	traps.h \
 	uiapi.h \
 	uicmdline.h \
@@ -192,6 +193,7 @@ base_sources = \
 	snapshot.c \
 	sound.c \
 	sysfile.c \
+	translate.c \
 	traps.c \
 	util.c \
 	vsync.c \

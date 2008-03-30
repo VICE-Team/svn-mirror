@@ -34,7 +34,6 @@
 #include <commdlg.h>
 
 #include "gfxoutput.h"
-#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -42,6 +41,7 @@
 #include "screenshot.h"
 #include "sound.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -149,6 +149,7 @@ static char *ui_save_mediafile(const TCHAR *title, const TCHAR *filter,
 
 void ui_mediafile_save_dialog(HWND hwnd)
 {
+    int filter_len;
     char *s;
     char filter[100];
 
@@ -159,16 +160,19 @@ void ui_mediafile_save_dialog(HWND hwnd)
         return;
     }
 
-    sprintf(filter,"%s\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",intl_translate_text(IDS_MEDIA_FILES_FILTER));
-    s = ui_save_mediafile(TEXT("Save media image"),
-        TEXT(filter),
+    filter_len=strlen(translate_text(IDS_MEDIA_FILES_FILTER));
+    sprintf(filter,"%s0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg0",translate_text(IDS_MEDIA_FILES_FILTER));
+    filter[filter_len]='\0';
+    filter[filter_len+26]='\0';
+    s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
+        filter,
         hwnd,
-        intl_translate(IDD_MEDIAFILE_DIALOG));
+        translate_res(IDD_MEDIAFILE_DIALOG));
 
     if (s != NULL) {
         selected_driver = gfxoutput_get_driver(screendrivername);
         if (!selected_driver) {
-            ui_error(intl_translate_text(IDS_NO_DRIVER_SELECT_SUPPORT));
+            ui_error(translate_text(IDS_NO_DRIVER_SELECT_SUPPORT));
             return;
         }
 
@@ -176,7 +180,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
 
         if (screenshot_save(selected_driver->name, s,
             video_canvas_for_hwnd(hwnd)) < 0)
-            ui_error(intl_translate_text(IDS_CANT_WRITE_SCREENSHOT_S), s);
+            ui_error(translate_text(IDS_CANT_WRITE_SCREENSHOT_S), s);
         lib_free(s);
     }
 }

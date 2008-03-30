@@ -30,9 +30,9 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include "intl.h"
 #include "petui.h"
 #include "res.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
 #include "uidrivepetcbm2.h"
@@ -125,8 +125,8 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         ui_pet_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate(IDD_PETROM_SETTINGS_DIALOG),
-                              intl_translate(IDD_PETDRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG),
+                              translate_res(IDD_PETDRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:

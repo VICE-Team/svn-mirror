@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-05-08 22:10+0200\n"
+"POT-Creation-Date: 2005-05-15 22:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,161 +35,147 @@ msgstr ""
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
-#: src/screenshot.c:156
+#: src/screenshot.c:162
 msgid "Sorry. Multiple recording is not supported."
 msgstr ""
 
-#: src/autostart.c:180
+#: src/autostart.c:186
 msgid "Cannot load snapshot file."
 msgstr ""
 
-#: src/sound.c:420
+#: src/sound.c:426
 msgid "write to sound device failed."
 msgstr ""
 
-#: src/sound.c:431
+#: src/sound.c:441
 msgid "Cannot open SID engine"
 msgstr ""
 
-#: src/sound.c:466
+#: src/sound.c:480
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:568
+#: src/sound.c:586
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr ""
 
-#: src/sound.c:576
+#: src/sound.c:595
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:622
+#: src/sound.c:644
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:639
+#: src/sound.c:665
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:643
+#: src/sound.c:673
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:649
+#: src/sound.c:683
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:655
+#: src/sound.c:693
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr ""
 
-#: src/sound.c:666
+#: src/sound.c:708
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:743
+#: src/sound.c:789
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:753
+#: src/sound.c:803
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:875
+#: src/sound.c:929
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:920
+#: src/sound.c:978
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:949
+#: src/sound.c:1008
 msgid "Buffer drained"
 msgstr ""
 
-#: src/sound.c:985
+#: src/sound.c:1047
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:997 src/sound.c:1003
+#: src/sound.c:1063 src/sound.c:1073
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1232
+#: src/sound.c:1306
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:215
+#: src/event.c:221
 #, c-format
 msgid "Cannot create image file %s"
 msgstr ""
 
-#: src/event.c:220
+#: src/event.c:230
 #, c-format
 msgid "Cannot write image file %s"
 msgstr ""
 
-#: src/event.c:228
+#: src/event.c:242
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr ""
 
-#: src/event.c:522
+#: src/event.c:540
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:537 src/event.c:800
+#: src/event.c:559 src/event.c:850
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 
-#: src/event.c:600 src/event.c:771
+#: src/event.c:626 src/event.c:817
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 
-#: src/event.c:661
+#: src/event.c:691
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 
-#: src/event.c:672
+#: src/event.c:706
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:692
+#: src/event.c:730
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 
-#: src/event.c:718
+#: src/event.c:760
 msgid "Error reading start snapshot file."
 msgstr ""
 
-#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
+#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
 #, c-format
-msgid "Resource IO1 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:54 src/c64/c64export.c:58
-#, c-format
-msgid "Resource IO2 blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:64
-#, c-format
-msgid "Resource ROML blocked by %s."
-msgstr ""
-
-#: src/c64/c64export.c:70
-#, c-format
-msgid "Resource ROMH blocked by %s."
+msgid "Resource %s blocked by %s."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67

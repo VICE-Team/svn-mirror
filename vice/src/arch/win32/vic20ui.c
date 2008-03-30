@@ -32,9 +32,9 @@
 #include <windows.h>
 
 #include "cartridge.h"
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
+#include "translate.h"
 #include "ui.h"
 #include "uicart.h"
 #include "uidrivec64vic20.h"
@@ -177,8 +177,8 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         ui_vic_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate(IDD_VIC20ROM_SETTINGS_DIALOG),
-                              intl_translate(IDD_VIC20DRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, translate_res(IDD_VIC20ROM_SETTINGS_DIALOG),
+                              translate_res(IDD_VIC20DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings); 
         break;
       case IDM_VIDEO_SETTINGS:

@@ -30,10 +30,10 @@
 #include <tchar.h>
 
 #include "cartridge.h"
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uicart.h"
 #include "uilib.h"
@@ -51,18 +51,18 @@ void uicart_attach(WPARAM wparam, HWND hwnd,
         i++;
 
     if (cartridges[i].wparam == 0) {
-        ui_error(intl_translate_text(IDS_BAD_CARTRIDGE_CONFIG));
+        ui_error(translate_text(IDS_BAD_CARTRIDGE_CONFIG));
         return;
     }
 
-    if ((st_name = uilib_select_file(hwnd, intl_translate_text(cartridges[i].title),
+    if ((st_name = uilib_select_file(hwnd, translate_text(cartridges[i].title),
         cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
         if (cartridge_attach_image(cartridges[i].type, name) < 0)
-            ui_error(intl_translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
+            ui_error(translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

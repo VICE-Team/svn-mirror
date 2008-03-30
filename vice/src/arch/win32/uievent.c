@@ -31,9 +31,9 @@
 #include <tchar.h>
 
 #include "event.h"
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
+#include "translate.h"
 #include "uievent.h"
 #include "uilib.h"
 
@@ -45,13 +45,13 @@ void uievent_command(HWND hwnd, WPARAM wparam)
     switch (wparam) {
       case IDM_EVENT_DIRECTORY:
         fname = uilib_select_file(hwnd,
-                          TEXT(intl_translate_text(IDS_SELECT_START_SNAP_EVENT)),
+                          translate_text(IDS_SELECT_START_SNAP_EVENT),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_START);
         lib_free(fname);
         fname = uilib_select_file(hwnd,
-                          TEXT(intl_translate_text(IDS_SELECT_END_SNAP_EVENT)),
+                          translate_text(IDS_SELECT_END_SNAP_EVENT),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_END);

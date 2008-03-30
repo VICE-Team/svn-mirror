@@ -38,15 +38,12 @@
 #include "lib.h"
 #include "res.h" /* 10456 */
 #include "resources.h"
+#include "translate.h"
 #include "util.h"
 #include "ui.h"
 #include "winmain.h"
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
-
-
-static char *current_language = NULL;
-static int current_language_index = 0;
 
 typedef struct windows_iso_s {
     int windows_code;
@@ -70,7 +67,11 @@ static windows_iso_t windows_to_iso[]={
   {0, NULL}
 };
 
-static char *intl_language_table[] = {
+/* The language table is duplicated in
+   the translate.c, make sure they match
+   when adding a new language */
+
+static char *language_table[] = {
 
 /* english */
   "en",
@@ -94,7 +95,7 @@ static char *intl_language_table[] = {
   "sv"
 };
 
-static int intl_table[][countof(intl_language_table)] = {
+static int intl_table[][countof(language_table)] = {
 
 /* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
@@ -852,7 +853,7 @@ static int intl_table[][countof(intl_language_table)] = {
 
 /* --------------------------------------------------------------------- */
 
-static int intl_translate_text_table[][countof(intl_language_table)] = {
+static int intl_translate_text_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDS_RS232_DEVICE_I,
@@ -2422,23 +2423,274 @@ static int intl_translate_text_table[][countof(intl_language_table)] = {
 /* it */  IDS_MEDIA_FILES_FILTER_IT,    /* fuzzy */
 /* nl */  IDS_MEDIA_FILES_FILTER_NL,
 /* pl */  IDS_MEDIA_FILES_FILTER_PL,    /* fuzzy */
-/* sv */  IDS_MEDIA_FILES_FILTER_SV}    /* fuzzy */
+/* sv */  IDS_MEDIA_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SPACE_KB,
+/* de */  IDS_SPACE_KB_DE,    /* fuzzy */
+/* fr */  IDS_SPACE_KB_FR,    /* fuzzy */
+/* it */  IDS_SPACE_KB_IT,    /* fuzzy */
+/* nl */  IDS_SPACE_KB_NL,
+/* pl */  IDS_SPACE_KB_PL,    /* fuzzy */
+/* sv */  IDS_SPACE_KB_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CONFIGURE_KEYSET_A,
+/* de */  IDS_CONFIGURE_KEYSET_A_DE,    /* fuzzy */
+/* fr */  IDS_CONFIGURE_KEYSET_A_FR,    /* fuzzy */
+/* it */  IDS_CONFIGURE_KEYSET_A_IT,    /* fuzzy */
+/* nl */  IDS_CONFIGURE_KEYSET_A_NL,
+/* pl */  IDS_CONFIGURE_KEYSET_A_PL,    /* fuzzy */
+/* sv */  IDS_CONFIGURE_KEYSET_A_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CONFIGURE_KEYSET_B,
+/* de */  IDS_CONFIGURE_KEYSET_B_DE,    /* fuzzy */
+/* fr */  IDS_CONFIGURE_KEYSET_B_FR,    /* fuzzy */
+/* it */  IDS_CONFIGURE_KEYSET_B_IT,    /* fuzzy */
+/* nl */  IDS_CONFIGURE_KEYSET_B_NL,
+/* pl */  IDS_CONFIGURE_KEYSET_B_PL,    /* fuzzy */
+/* sv */  IDS_CONFIGURE_KEYSET_B_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SAVE_MEDIA_IMAGE,
+/* de */  IDS_SAVE_MEDIA_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_SAVE_MEDIA_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_SAVE_MEDIA_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_SAVE_MEDIA_IMAGE_NL,
+/* pl */  IDS_SAVE_MEDIA_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_SAVE_MEDIA_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_S_AT_D_SPEED,
+/* de */  IDS_S_AT_D_SPEED_DE,    /* fuzzy */
+/* fr */  IDS_S_AT_D_SPEED_FR,    /* fuzzy */
+/* it */  IDS_S_AT_D_SPEED_IT,    /* fuzzy */
+/* nl */  IDS_S_AT_D_SPEED_NL,
+/* pl */  IDS_S_AT_D_SPEED_PL,    /* fuzzy */
+/* sv */  IDS_S_AT_D_SPEED_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_TAPE,
+/* de */  IDS_TAPE_DE,    /* fuzzy */
+/* fr */  IDS_TAPE_FR,    /* fuzzy */
+/* it */  IDS_TAPE_IT,    /* fuzzy */
+/* nl */  IDS_TAPE_NL,
+/* pl */  IDS_TAPE_PL,    /* fuzzy */
+/* sv */  IDS_TAPE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_JOYSTICK,
+/* de */  IDS_JOYSTICK_DE,    /* fuzzy */
+/* fr */  IDS_JOYSTICK_FR,    /* fuzzy */
+/* it */  IDS_JOYSTICK_IT,    /* fuzzy */
+/* nl */  IDS_JOYSTICK_NL,
+/* pl */  IDS_JOYSTICK_PL,    /* fuzzy */
+/* sv */  IDS_JOYSTICK_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_RECORDING,
+/* de */  IDS_RECORDING_DE,    /* fuzzy */
+/* fr */  IDS_RECORDING_FR,    /* fuzzy */
+/* it */  IDS_RECORDING_IT,    /* fuzzy */
+/* nl */  IDS_RECORDING_NL,
+/* pl */  IDS_RECORDING_PL,    /* fuzzy */
+/* sv */  IDS_RECORDING_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PLAYBACK,
+/* de */  IDS_PLAYBACK_DE,    /* fuzzy */
+/* fr */  IDS_PLAYBACK_FR,    /* fuzzy */
+/* it */  IDS_PLAYBACK_IT,    /* fuzzy */
+/* nl */  IDS_PLAYBACK_NL,
+/* pl */  IDS_PLAYBACK_PL,    /* fuzzy */
+/* sv */  IDS_PLAYBACK_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_UNKNOWN,
+/* de */  IDS_UNKNOWN_DE,    /* fuzzy */
+/* fr */  IDS_UNKNOWN_FR,    /* fuzzy */
+/* it */  IDS_UNKNOWN_IT,    /* fuzzy */
+/* nl */  IDS_UNKNOWN_NL,
+/* pl */  IDS_UNKNOWN_PL,    /* fuzzy */
+/* sv */  IDS_UNKNOWN_SV}    /* fuzzy */
 
 };
 
-static char *intl_text_table[countof(intl_translate_text_table)][countof(intl_language_table)];
+/* --------------------------------------------------------------------- */
+
+/* codepage 28591 (ISO 8859-1) to current codepage conversion tables */
+
+static char cp28591[256];
+
+static const WCHAR wcp28591[256] =
+{
+    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007,
+    0x0008, 0x0009, 0x000a, 0x000b, 0x000c, 0x000d, 0x000e, 0x000f,
+    0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017,
+    0x0018, 0x0019, 0x001a, 0x001b, 0x001c, 0x001d, 0x001e, 0x001f,
+    0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027,
+    0x0028, 0x0029, 0x002a, 0x002b, 0x002c, 0x002d, 0x002e, 0x002f,
+    0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037,
+    0x0038, 0x0039, 0x003a, 0x003b, 0x003c, 0x003d, 0x003e, 0x003f,
+    0x0040, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047,
+    0x0048, 0x0049, 0x004a, 0x004b, 0x004c, 0x004d, 0x004e, 0x004f,
+    0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057,
+    0x0058, 0x0059, 0x005a, 0x005b, 0x005c, 0x005d, 0x005e, 0x005f,
+    0x0060, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067,
+    0x0068, 0x0069, 0x006a, 0x006b, 0x006c, 0x006d, 0x006e, 0x006f,
+    0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077,
+    0x0078, 0x0079, 0x007a, 0x007b, 0x007c, 0x007d, 0x007e, 0x007f,
+    0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087,
+    0x0088, 0x0089, 0x008a, 0x008b, 0x008c, 0x008d, 0x008e, 0x008f,
+    0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097,
+    0x0098, 0x0099, 0x009a, 0x009b, 0x009c, 0x009d, 0x009e, 0x009f,
+    0x00a0, 0x00a1, 0x00a2, 0x00a3, 0x00a4, 0x00a5, 0x00a6, 0x00a7,
+    0x00a8, 0x00a9, 0x00aa, 0x00ab, 0x00ac, 0x00ad, 0x00ae, 0x00af,
+    0x00b0, 0x00b1, 0x00b2, 0x00b3, 0x00b4, 0x00b5, 0x00b6, 0x00b7,
+    0x00b8, 0x00b9, 0x00ba, 0x00bb, 0x00bc, 0x00bd, 0x00be, 0x00bf,
+    0x00c0, 0x00c1, 0x00c2, 0x00c3, 0x00c4, 0x00c5, 0x00c6, 0x00c7,
+    0x00c8, 0x00c9, 0x00ca, 0x00cb, 0x00cc, 0x00cd, 0x00ce, 0x00cf,
+    0x00d0, 0x00d1, 0x00d2, 0x00d3, 0x00d4, 0x00d5, 0x00d6, 0x00d7,
+    0x00d8, 0x00d9, 0x00da, 0x00db, 0x00dc, 0x00dd, 0x00de, 0x00df,
+    0x00e0, 0x00e1, 0x00e2, 0x00e3, 0x00e4, 0x00e5, 0x00e6, 0x00e7,
+    0x00e8, 0x00e9, 0x00ea, 0x00eb, 0x00ec, 0x00ed, 0x00ee, 0x00ef,
+    0x00f0, 0x00f1, 0x00f2, 0x00f3, 0x00f4, 0x00f5, 0x00f6, 0x00f7,
+    0x00f8, 0x00f9, 0x00fa, 0x00fb, 0x00fc, 0x00fd, 0x00fe, 0x00ff
+};
+
+
+/* codepage 28592 (ISO 8859-2) to current codepage conversion tables */
+
+static char cp28592[256];
+
+static const WCHAR wcp28592[256] =
+{
+    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007,
+    0x0008, 0x0009, 0x000a, 0x000b, 0x000c, 0x000d, 0x000e, 0x000f,
+    0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017,
+    0x0018, 0x0019, 0x001a, 0x001b, 0x001c, 0x001d, 0x001e, 0x001f,
+    0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027,
+    0x0028, 0x0029, 0x002a, 0x002b, 0x002c, 0x002d, 0x002e, 0x002f,
+    0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037,
+    0x0038, 0x0039, 0x003a, 0x003b, 0x003c, 0x003d, 0x003e, 0x003f,
+    0x0040, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047,
+    0x0048, 0x0049, 0x004a, 0x004b, 0x004c, 0x004d, 0x004e, 0x004f,
+    0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057,
+    0x0058, 0x0059, 0x005a, 0x005b, 0x005c, 0x005d, 0x005e, 0x005f,
+    0x0060, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067,
+    0x0068, 0x0069, 0x006a, 0x006b, 0x006c, 0x006d, 0x006e, 0x006f,
+    0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077,
+    0x0078, 0x0079, 0x007a, 0x007b, 0x007c, 0x007d, 0x007e, 0x007f,
+    0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087,
+    0x0088, 0x0089, 0x008a, 0x008b, 0x008c, 0x008d, 0x008e, 0x008f,
+    0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097,
+    0x0098, 0x0099, 0x009a, 0x009b, 0x009c, 0x009d, 0x009e, 0x009f,
+    0x00a0, 0x0104, 0x02d8, 0x0141, 0x00a4, 0x013d, 0x015a, 0x00a7,
+    0x00a8, 0x0160, 0x015e, 0x0164, 0x0179, 0x00ad, 0x017d, 0x017b,
+    0x00b0, 0x0105, 0x02db, 0x0142, 0x00b4, 0x013e, 0x015b, 0x02c7,
+    0x00b8, 0x0161, 0x015f, 0x0165, 0x017a, 0x02dd, 0x017e, 0x017c,
+    0x0154, 0x00c1, 0x00c2, 0x0102, 0x00c4, 0x0139, 0x0106, 0x00c7,
+    0x010c, 0x00c9, 0x0118, 0x00cb, 0x011a, 0x00cd, 0x00ce, 0x010e,
+    0x0110, 0x0143, 0x0147, 0x00d3, 0x00d4, 0x0150, 0x00d6, 0x00d7,
+    0x0158, 0x016e, 0x00da, 0x0170, 0x00dc, 0x00dd, 0x0162, 0x00df,
+    0x0155, 0x00e1, 0x00e2, 0x0103, 0x00e4, 0x013a, 0x0107, 0x00e7,
+    0x010d, 0x00e9, 0x0119, 0x00eb, 0x011b, 0x00ed, 0x00ee, 0x010f,
+    0x0111, 0x0144, 0x0148, 0x00f3, 0x00f4, 0x0151, 0x00f6, 0x00f7,
+    0x0159, 0x016f, 0x00fa, 0x0171, 0x00fc, 0x00fd, 0x0163, 0x02d9
+};
+
+
+/* codepage 28605 (ISO 8859-15) to current codepage conversion tables */
+
+static char cp28605[256];
+
+static const WCHAR wcp28605[256] =
+{
+    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007,
+    0x0008, 0x0009, 0x000a, 0x000b, 0x000c, 0x000d, 0x000e, 0x000f,
+    0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017,
+    0x0018, 0x0019, 0x001a, 0x001b, 0x001c, 0x001d, 0x001e, 0x001f,
+    0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027,
+    0x0028, 0x0029, 0x002a, 0x002b, 0x002c, 0x002d, 0x002e, 0x002f,
+    0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037,
+    0x0038, 0x0039, 0x003a, 0x003b, 0x003c, 0x003d, 0x003e, 0x003f,
+    0x0040, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047,
+    0x0048, 0x0049, 0x004a, 0x004b, 0x004c, 0x004d, 0x004e, 0x004f,
+    0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057,
+    0x0058, 0x0059, 0x005a, 0x005b, 0x005c, 0x005d, 0x005e, 0x005f,
+    0x0060, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067,
+    0x0068, 0x0069, 0x006a, 0x006b, 0x006c, 0x006d, 0x006e, 0x006f,
+    0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077,
+    0x0078, 0x0079, 0x007a, 0x007b, 0x007c, 0x007d, 0x007e, 0x007f,
+    0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087,
+    0x0088, 0x0089, 0x008a, 0x008b, 0x008c, 0x008d, 0x008e, 0x008f,
+    0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097,
+    0x0098, 0x0099, 0x009a, 0x009b, 0x009c, 0x009d, 0x009e, 0x009f,
+    0x00a0, 0x00a1, 0x00a2, 0x00a3, 0x20ac, 0x00a5, 0x0160, 0x00a7,
+    0x0161, 0x00a9, 0x00aa, 0x00ab, 0x00ac, 0x00ad, 0x00ae, 0x00af,
+    0x00b0, 0x00b1, 0x00b2, 0x00b3, 0x017d, 0x00b5, 0x00b6, 0x00b7,
+    0x017e, 0x00b9, 0x00ba, 0x00bb, 0x0152, 0x0153, 0x0178, 0x00bf,
+    0x00c0, 0x00c1, 0x00c2, 0x00c3, 0x00c4, 0x00c5, 0x00c6, 0x00c7,
+    0x00c8, 0x00c9, 0x00ca, 0x00cb, 0x00cc, 0x00cd, 0x00ce, 0x00cf,
+    0x00d0, 0x00d1, 0x00d2, 0x00d3, 0x00d4, 0x00d5, 0x00d6, 0x00d7,
+    0x00d8, 0x00d9, 0x00da, 0x00db, 0x00dc, 0x00dd, 0x00de, 0x00df,
+    0x00e0, 0x00e1, 0x00e2, 0x00e3, 0x00e4, 0x00e5, 0x00e6, 0x00e7,
+    0x00e8, 0x00e9, 0x00ea, 0x00eb, 0x00ec, 0x00ed, 0x00ee, 0x00ef,
+    0x00f0, 0x00f1, 0x00f2, 0x00f3, 0x00f4, 0x00f5, 0x00f6, 0x00f7,
+    0x00f8, 0x00f9, 0x00fa, 0x00fb, 0x00fc, 0x00fd, 0x00fe, 0x00ff
+};
+
+char *intl_convert_cp(char *text, int cp)
+{
+  int len,i;
+  char *cp_table;
+  char *buffer;
+
+  if (text==NULL)
+    return NULL;
+  len=strlen(text);
+  if (len==0)
+    return NULL;
+  switch (cp)
+  {
+    case 28591:
+      cp_table=cp28591;
+      break;
+    case 28592:
+      cp_table=cp28592;
+      break;
+    case 28605:
+      cp_table=cp28605;
+      break;
+    default:
+      cp_table=cp28591;
+  }
+  buffer=lib_stralloc(text);
+  for (i = 0; i < len; i++)
+  {
+    buffer[i]=cp_table[(unsigned char)text[i]];
+  }
+  return buffer;
+}
+
+/* --------------------------------------------------------------------- */
+
+static char *intl_text_table[countof(intl_translate_text_table)][countof(language_table)];
 
 /* this routine fills in the table of resources and pointers to the
    text that belongs to them with the right data, this is because of
    the way that the text resources have to be copied into a buffer
-   before they can be used, so it might be best to do that at init. */
+   before they can be used, so it might be best to do that at init.
 
-static int intl_text_init(void)
+   It also prepares any codepage conversion tables. */
+
+static void intl_text_init(void)
 {
   int i,j;
   char temp_buffer[4098*sizeof(TCHAR)];
 
-  for (i = 0; i < countof(intl_language_table); i++)
+  for (i = 0; i < countof(language_table); i++)
   {
     for (j = 0; j < countof(intl_translate_text_table); j++)
     {
@@ -2452,14 +2704,22 @@ static int intl_text_init(void)
       }
     }
   }
-  return 0;
+
+  /* prepare the codepage 28591 (ISO 8859-1) to current codepage conversion */
+  WideCharToMultiByte(CP_ACP, 0, wcp28591, 256, cp28591, 256, NULL, NULL);  
+
+  /* prepare the codepage 28592 (ISO 8859-2) to current codepage conversion */
+  WideCharToMultiByte(CP_ACP, 0, wcp28592, 256, cp28592, 256, NULL, NULL);  
+
+  /* prepare the codepage 28605 (ISO 8859-15) to current codepage conversion */
+  WideCharToMultiByte(CP_ACP, 0, wcp28605, 256, cp28605, 256, NULL, NULL);  
 }
 
 static void intl_text_free(void)
 {
   int i,j;
 
-  for (i = 0; i < countof(intl_language_table); i++)
+  for (i = 0; i < countof(language_table); i++)
   {
     for (j = 0; j < countof(intl_translate_text_table); j++)
     {
@@ -2488,14 +2748,19 @@ char *intl_translate_text(int en_resource)
   return "";
 }
 
+/* pre-translated main window caption text so the emulation won't
+   slow down because of all the translation calls */
+
+char *intl_speed_at_text;
+
 /* --------------------------------------------------------------------- */
 
-static void intl_init(void)
+void intl_init(void)
 {
   intl_text_init();
 }
 
-int intl_translate(int en_resource)
+int intl_translate_res(int en_resource)
 {
   int i;
 
@@ -2510,14 +2775,20 @@ int intl_translate(int en_resource)
   return en_resource;
 }
 
-static void intl_text_shutdown(void)
+void intl_shutdown(void)
 {
   intl_text_free();
 }
 
 /* --------------------------------------------------------------------- */
 
-static char *get_current_windows_language(void)
+
+static void intl_update_pre_translated_text(void)
+{
+  intl_speed_at_text=intl_translate_text(IDS_S_AT_D_SPEED);
+}
+
+char *intl_arch_language_init(void)
 {
   int i;
   WORD winlang;
@@ -2531,64 +2802,8 @@ static char *get_current_windows_language(void)
   return "en";
 }
 
-static int set_current_language(resource_value_t v, void *param)
+void intl_update_ui(void)
 {
-  int i;
-
-  const char *lang = (const char *)v;
-
-  util_string_set(&current_language, "en");
-  current_language_index=0;
-  if (strlen(lang)!=2)
-    return 0;
-
-  for (i = 0; i < countof(intl_language_table); i++)
-  {
-    if (!strcasecmp(lang,intl_language_table[i]))
-    {
-      current_language_index=i;
-      util_string_set(&current_language, intl_language_table[i]);
-      ui_update_menu();
-      return 0;
-    }
-  }
-  return 0;
-}
-
-void intl_windows_language_init(void)
-{
-  char *lang;
-
-  lang=get_current_windows_language();
-  set_current_language(lang,"");
-}
-
-static const resource_t resources[] = {
-  { "Language", RES_STRING, (resource_value_t)"en",
-    (void *)&current_language, set_current_language, NULL },
-  { NULL }
-};
-
-int intl_resources_init(void)
-{
-  intl_init();
-  return resources_register(resources);
-}
-
-void intl_resources_shutdown(void)
-{
-  intl_text_shutdown();
-  lib_free(current_language);
-}
-
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-lang", SET_RESOURCE, 1, NULL, NULL, "Language", NULL,
-      "<iso language code>", "Specify the iso code of the language" },
-    { NULL }
-};
-
-int intl_cmdline_options_init(void)
-{
-    return cmdline_register_options(cmdline_options);
+  intl_update_pre_translated_text();
+  ui_update_menu();
 }

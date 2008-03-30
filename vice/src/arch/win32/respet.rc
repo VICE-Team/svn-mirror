@@ -630,6 +630,7 @@ END
 
 // ITALIAN version of menu
 
+#pragma code_page(28605)
 IDR_MENUPET_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -831,6 +832,7 @@ BEGIN
         MENUITEM "Nessuna &garanzia",          IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -1564,6 +1566,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PETROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 150
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1597,6 +1600,7 @@ BEGIN
     EDITTEXT    IDC_PETROM_ROMB_FILE, 55,127,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_PETROM_ROMB_BROWSE, 185,127,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1802,6 +1806,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PETDRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1827,6 +1832,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1001_FILE, 55,87,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_DRIVEROM_1001_BROWSE, 185,87,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2008,6 +2014,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PETROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
@@ -2033,6 +2040,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,125,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,125,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2202,6 +2210,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PETROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 115
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resources del drive"
@@ -2223,6 +2232,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,95,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,95,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2410,6 +2420,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PET_SETTINGS_MODEL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2441,6 +2452,7 @@ BEGIN
     AUTORADIOBUTTON "128KB",IDC_SELECT_PET_MEM128K,105,105,45,10,
                             BS_AUTORADIOBUTTON
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2649,6 +2661,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PET_SETTINGS_IO_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2677,6 +2690,7 @@ BEGIN
     AUTORADIOBUTTON "&Business (UK)",IDC_SELECT_PET_KEYB_BUSINESS,115,115,75,10,
                             BS_AUTORADIOBUTTON
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2819,6 +2833,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PET_SETTINGS_SUPER_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2828,6 +2843,7 @@ BEGIN
                             IDC_TOGGLE_PET_SUPER_IO_ENABLE, 15,30,145,10,
                             BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2916,6 +2932,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PET_SETTINGS_8296_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 225
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2926,6 +2943,7 @@ BEGIN
     AUTOCHECKBOX "$&A*** come RAM",IDC_TOGGLE_PET_8296_RAMA,15,45,75,10,
                             BS_AUTOCHECKBOX
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3086,6 +3104,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PETKBD_MAPPING_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 160
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -3119,6 +3138,7 @@ BEGIN
     PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_PETKBD_MAPPING_DUMP, 10,134,50,14, 0
 
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3264,11 +3284,13 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_INPUT_OUTPUT_IT   "Input/Output"
   IDS_PET_SETTINGS_IT   "PET settings"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

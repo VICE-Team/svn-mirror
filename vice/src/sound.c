@@ -45,6 +45,9 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "sound.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -417,7 +420,11 @@ static void fill_buffer(int size, int rise)
     lib_free(p);
 
     if (i)
+#ifdef HAS_TRANSLATION
+        sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+#else
         sound_error(_("write to sound device failed."));
+#endif
 }
 
 
@@ -428,7 +435,11 @@ static int sid_open(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!(snddata.psid[c] = sound_machine_open(c))) {
+#ifdef HAS_TRANSLATION
+            return sound_error(translate_text(IDGS_CANNOT_OPEN_SID_ENGINE));
+#else
             return sound_error(_("Cannot open SID engine"));
+#endif
         }
     }
 
@@ -463,7 +474,11 @@ static int sid_init(void)
 
     for (c = 0; c < snddata.channels; c++) {
         if (!sound_machine_init(snddata.psid[c], speed, cycles_per_sec)) {
+#ifdef HAS_TRANSLATION
+            return sound_error(translate_text(IDGS_CANNOT_INIT_SID_ENGINE));
+#else
             return sound_error(_("Cannot initialize SID engine"));
+#endif
         }
     }
 
@@ -565,7 +580,11 @@ int sound_open(void)
             int channels_cap = snddata.channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 char *err;
+#ifdef HAS_TRANSLATION
+                err = lib_msprintf(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
+#else
                 err = lib_msprintf(_("initialization failed for device `%s'."),
+#endif
                                    pdev->name);
                 sound_error(err);
                 lib_free(err);
@@ -619,7 +638,11 @@ int sound_open(void)
             }
         }
     } else {
+#ifdef HAS_TRANSLATION
+        char *err = lib_msprintf(translate_text(IDGS_DEVICE_S_NOT_FOUND_SUPPORT),
+#else
         char *err = lib_msprintf(_("device '%s' not found or not supported."),
+#endif
                                  playname);
         sound_error(err);
         lib_free(err);
@@ -636,23 +659,39 @@ int sound_open(void)
     }
 
     if (recname && rdev == NULL)
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_RECORD_DEVICE_S_NOT_EXIST), recname);
+#else
         ui_error(_("Recording device %s doesn't exist!"), recname);
+#endif
 
     if (rdev) {
         if (rdev == pdev) {
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RECORD_DIFFERENT_PLAYBACK));
+#else
             ui_error(_("Recording device must be different from playback device"));
+#endif
             resources_set_value("SoundRecordDeviceName", "");
             return 0;
         }
 
         if (rdev->bufferspace != NULL) {
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_WARNING_RECORDING_REALTIME));
+#else
             ui_error(_("Warning! Recording device %s seems to be a realtime device!"));
+#endif
         }
 
         if (rdev->init) {
             int channels_cap = snddata.channels;
             if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {
+#ifdef HAS_TRANSLATION
+                ui_error(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
+#else
                 ui_error(_("Initialization failed for device `%s'."),
+#endif
                                    rdev->name);
                 resources_set_value("SoundRecordDeviceName", "");
                 return 0;
@@ -663,7 +702,11 @@ int sound_open(void)
                 || snddata.fragnr != fragnr
                 || snddata.channels != channels_cap)
             {
+#ifdef HAS_TRANSLATION
+                ui_error(translate_text(IDGS_RECORD_NOT_SUPPORT_SOUND_PAR));
+#else
                 ui_error(_("The recording device doesn't support current sound parameters"));
+#endif
                 rdev->close();
                 resources_set_value("SoundRecordDeviceName", "");
             } else {
@@ -740,7 +783,11 @@ static int sound_run_sound(void)
                                                  snddata.channels,
                                                  &delta_t);
             if (delta_t) {
+#ifdef HAS_TRANSLATION
+                return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
+#else
                 return sound_error(_("Sound buffer overflow (cycle based)"));
+#endif
             }
         }
     } else {
@@ -750,7 +797,11 @@ static int sound_run_sound(void)
         if (!nr)
             return 0;
         if (snddata.bufptr + nr > BUFSIZE) {
+#ifdef HAS_TRANSLATION
+            return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW));
+#else
             return sound_error(_("Sound buffer overflow."));
+#endif
         }
         for (c = 0; c < snddata.channels; c++) {
             sound_machine_calculate_samples(snddata.psid[c],
@@ -872,7 +923,11 @@ double sound_flush(int relative_speed)
         i = snddata.playdev->flush(state);
         lib_free(state);
         if (i) {
+#ifdef HAS_TRANSLATION
+            sound_error(translate_text(IDGS_CANNOT_FLUSH));
+#else
             sound_error(_("cannot flush."));
+#endif
             return 0;
         }
     }
@@ -917,7 +972,11 @@ double sound_flush(int relative_speed)
             log_warning(sound_log, "fragment problems %d %d",
                  space, snddata.bufsize);
 
+#ifdef HAS_TRANSLATE
+            sound_error(translate_text(IDGS_FRAGMENT_PROBLEMS));
+#else
             sound_error(_("fragment problems."));
+#endif
             return 0;
         }
         used = snddata.bufsize - space;
@@ -982,7 +1041,11 @@ double sound_flush(int relative_speed)
             if (suspend_time > 0)
                 suspendsound("running too slow");
             else {
+#ifdef HAS_TRANSLATION
+                sound_error(translate_text(IDGS_RUNNING_TOO_SLOW));
+#else
                 sound_error(_("running too slow."));
+#endif
             }
             return 0;
         }
@@ -994,13 +1057,21 @@ double sound_flush(int relative_speed)
 
     /* Flush buffer, all channels are already mixed into it. */
     if (snddata.playdev->write(snddata.buffer, nr * snddata.channels)) {
+#ifdef HAS_TRANSLATION
+        sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+#else
         sound_error(_("write to sounddevice failed."));
+#endif
         return 0;
     }
 
     if (snddata.recdev) {
         if (snddata.recdev->write(snddata.buffer, nr * snddata.channels)) {
+#ifdef HAS_TRANSLATION
+            sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+#else
             sound_error(_("write to sounddevice failed."));
+#endif
             return 0;
         }
     }
@@ -1229,7 +1300,11 @@ void sound_store(WORD addr, BYTE val, int chipno)
     snddata.wclk = maincpu_clk;
 
     if (i)
+#ifdef HAS_TRANSLATION
+        sound_error(translate_text(IDGS_STORE_SOUNDDEVICE_FAILED));
+#else
         sound_error(_("store to sounddevice failed."));
+#endif
 }
 
 

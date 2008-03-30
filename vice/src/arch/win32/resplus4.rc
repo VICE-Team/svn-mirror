@@ -687,6 +687,7 @@ END
 
 // ITALIAN version of menu
 
+#pragma code_page(28605)
 IDR_MENUPLUS4_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -907,6 +908,7 @@ BEGIN
         MENUITEM "Nessuna &garanzia",  IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -1661,6 +1663,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1682,6 +1685,7 @@ BEGIN
     EDITTEXT    IDC_PLUS4ROM_3P1HI_FILE, 55,67,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_PLUS4ROM_3P1HI_BROWSE, 185,67,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1863,6 +1867,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1892,6 +1897,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1581_FILE, 55,107,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_DRIVEROM_1581_BROWSE, 185,107,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2067,6 +2073,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
@@ -2086,6 +2093,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,80,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,80,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2243,6 +2251,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resources del drive"
@@ -2266,6 +2275,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,110,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,110,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2411,6 +2421,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4_MEMORY_DIALOG_IT DIALOG DISCARDABLE  0, 0, 130, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del Plus4"
@@ -2426,6 +2437,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 5,119,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 75,119,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2642,6 +2654,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_DRIVE_SETTINGS_DIALOG_PLUS4_IT DIALOG DISCARDABLE  0, 0, 250, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2689,6 +2702,8 @@ BEGIN
     AUTOCHECKBOX    "$&A000-$BFFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_A000,
                     85,150,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
+
 
 // DUTCH version of dialog
 
@@ -2908,6 +2923,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2924,6 +2940,7 @@ BEGIN
 
     PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_PLUS4KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3030,6 +3047,7 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_ATTACH_FUNCTION_LOW_CART_IT    "Attach cartridge image for Function Low"
@@ -3039,6 +3057,7 @@ BEGIN
   IDS_ATTACH_CART2_LOW_IT            "Attach cartridge image for Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH_IT           "Attach cartridge image for Cartridge2 High"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

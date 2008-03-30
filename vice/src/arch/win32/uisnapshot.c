@@ -37,12 +37,12 @@
 #include "drive.h"
 #include "fullscrn.h"
 #include "interrupt.h"
-#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -137,18 +137,23 @@ static char *ui_save_snapshot(const TCHAR *title, const char *filter,
 
 static void ui_snapshot_save_dialog(HWND hwnd)
 {
+    int filter_len;
     char *s;
     char filter[100];
 
-    sprintf(filter,"%s\0*.vsf\0",intl_translate_text(IDS_SNAPSHOT_FILES_FILTER));
-    s = ui_save_snapshot(TEXT(intl_translate_text(IDS_SAVE_SNAPSHOT_IMAGE)),
+    filter_len=strlen(translate_text(IDS_SNAPSHOT_FILES_FILTER));
+    sprintf(filter,"%s0*.vsf0",translate_text(IDS_SNAPSHOT_FILES_FILTER));
+    filter[filter_len]='\0';
+    filter[filter_len+6]='\0';
+
+    s = ui_save_snapshot(translate_text(IDS_SAVE_SNAPSHOT_IMAGE),
                          filter,
-                         hwnd, intl_translate(IDD_SNAPSHOT_SAVE_DIALOG));
+                         hwnd, translate_res(IDD_SNAPSHOT_SAVE_DIALOG));
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 
         if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0)
-            ui_error(intl_translate_text(IDS_CANNOT_WRITE_SNAPSHOT_S), s);
+            ui_error(translate_text(IDS_CANNOT_WRITE_SNAPSHOT_S), s);
         lib_free(s);
     }
 }
@@ -158,7 +163,7 @@ static void ui_snapshot_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_LOAD_SNAPSHOT_IMAGE)),
+    if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_SNAPSHOT_IMAGE),
         UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
         UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_SNAPSHOT)) != NULL) {
@@ -166,7 +171,7 @@ static void ui_snapshot_load_dialog(HWND hwnd)
 
         name = system_wcstombs_alloc(st_name);
         if (machine_read_snapshot(name, 0) < 0)
-            ui_error(intl_translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
+            ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

@@ -33,6 +33,9 @@
 /* Is only one canvas supported? */
 #undef HAS_SINGLE_CANVAS
 
+/* Enable internationalization support */
+#undef HAS_TRANSLATION
+
 /* Do we have UnlockResource()? */
 #undef HAS_UNLOCKRESOURCE
 

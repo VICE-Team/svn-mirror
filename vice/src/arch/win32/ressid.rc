@@ -84,6 +84,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_SID_GENERAL_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del SID"
@@ -105,6 +106,7 @@ BEGIN
     AUTOCHECKBOX    "i filtri SID", IDC_SID_FILTERS,
                     15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -235,6 +237,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_SID_RESID_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del SID"
@@ -247,6 +250,7 @@ BEGIN
     LTEXT           "Banda passante (0-90%)",IDC_STATIC,15,37,60,8
     EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -353,6 +357,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_SID_HARDSID_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Configure SID Settings"
@@ -366,6 +371,7 @@ BEGIN
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -466,6 +472,7 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_THIS_MACHINE_NO_SID_IT   "This machine may not have a SID"
@@ -476,6 +483,7 @@ BEGIN
   IDS_RESAMPLING_IT            "resampling"
   IDS_FAST_RESAMPLING_IT       "fast resampling"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

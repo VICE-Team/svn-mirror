@@ -28,10 +28,10 @@
 
 #include <windows.h>
 
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uilib.h"
 #include "winmain.h"
 
@@ -103,7 +103,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_plus4_memory_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_PLUS4_MEMORY_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_PLUS4_MEMORY_DIALOG)),
               hwnd, dialog_proc);
 }
 

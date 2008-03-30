@@ -31,11 +31,11 @@
 #include <tchar.h>
 #include <windows.h>
 
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uiide64.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -71,7 +71,7 @@ static void update_text(HWND hwnd)
 
     total = (cylinders_idx + 1) * (heads_idx + 1) * sectors_idx / 2;
 
-    str = lib_msprintf(intl_translate_text(IDS_TOTAL_SIZE_I_KB), total);
+    str = lib_msprintf(translate_text(IDS_TOTAL_SIZE_I_KB), total);
     st = system_mbstowcs_alloc(str);
     SetDlgItemText(hwnd, IDC_IDE64_SIZE, st);
     system_mbstowcs_free(st);
@@ -163,7 +163,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_IDE64_HDIMAGE_BROWSE:
-            uilib_select_browse(hwnd, TEXT(intl_translate_text(IDS_SELECT_HD_IMAGE)),
+            uilib_select_browse(hwnd, translate_text(IDS_SELECT_HD_IMAGE),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_IDE64_HDIMAGE_FILE);
@@ -195,7 +195,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void uiide64_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_IDE64_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_IDE64_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

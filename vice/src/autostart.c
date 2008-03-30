@@ -52,6 +52,9 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -177,7 +180,11 @@ static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_FILE));
+#else
         ui_error(_("Cannot load snapshot file."));
+#endif
     ui_update_menus();
 }
 

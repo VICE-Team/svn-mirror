@@ -34,11 +34,11 @@
 #include "attach.h"
 #include "autostart.h"
 #include "fullscrn.h"
-#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"
 #include "tape.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiattach.h"
 #include "uilib.h"
@@ -67,7 +67,7 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
         break;
     }
     resource = lib_msprintf("AttachDevice%dReadonly", unit);
-    if ((st_name = uilib_select_file_autostart(hwnd, TEXT(intl_translate_text(IDS_ATTACH_DISK_IMAGE)),
+    if ((st_name = uilib_select_file_autostart(hwnd, translate_text(IDS_ATTACH_DISK_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK,
         &autostart_index, resource)) != NULL) {
@@ -77,10 +77,10 @@ static void uiattach_disk_dialog(HWND hwnd, WPARAM wparam)
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
-                ui_error(intl_translate_text(IDS_CANNOT_AUTOSTART_FILE));
+                ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
         } else {
             if (file_system_attach_disk(unit, name) < 0)
-                ui_error(intl_translate_text(IDS_CANNOT_ATTACH_FILE));
+                ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
         }
         system_wcstombs_free(name);
         lib_free(st_name);
@@ -95,7 +95,7 @@ static void uiattach_tape_dialog(HWND hwnd)
     int autostart_index = -1;
 
     SuspendFullscreenModeKeep(hwnd);
-    if ((st_name = uilib_select_file_autostart(hwnd, TEXT(intl_translate_text(IDS_ATTACH_TAPE_IMAGE)),
+    if ((st_name = uilib_select_file_autostart(hwnd, translate_text(IDS_ATTACH_TAPE_IMAGE),
         UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
         &autostart_index, NULL)) != NULL) {
@@ -105,10 +105,10 @@ static void uiattach_tape_dialog(HWND hwnd)
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
-                ui_error(intl_translate_text(IDS_CANNOT_AUTOSTART_FILE));
+                ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
         } else {
             if (tape_image_attach(1, name) < 0)
-                ui_error(intl_translate_text(IDS_CANNOT_ATTACH_FILE));
+                ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
         }
         system_wcstombs_free(name);
         lib_free(st_name);
@@ -122,7 +122,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
     int autostart_index = 0;
 
     if ((st_name = uilib_select_file_autostart(hwnd,
-        TEXT(intl_translate_text(IDS_AUTOSTART_IMAGE)),
+        translate_text(IDS_AUTOSTART_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
         | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index, NULL)) != NULL) {
@@ -131,7 +131,7 @@ static void uiattach_autostart_dialog(HWND hwnd)
         name = system_wcstombs_alloc(st_name);
         if (autostart_autodetect(name, NULL, autostart_index,
             AUTOSTART_MODE_RUN) < 0)
-            ui_error(intl_translate_text(IDS_CANNOT_AUTOSTART_FILE));
+            ui_error(translate_text(IDS_CANNOT_AUTOSTART_FILE));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

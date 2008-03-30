@@ -30,6 +30,9 @@
 #include <string.h>
 
 #include "c64export.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "ui.h"
 #include "sid-resources.h"
 
@@ -41,33 +44,57 @@ int c64export_query(const c64export_resource_t *export_res)
 {
     if (export_res->use_io1 > 0) {
         if (usage_io1 != NULL && strcmp(usage_io1, export_res->name)!=0) {
-            ui_error(_("Resource IO1 blocked by %s."), usage_io1);
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO1", usage_io1);
+#else
+            ui_error(_("Resource %s blocked by %s."),"IO1", usage_io1);
+#endif
             return -1;
         }
         if (sid_stereo && sid_stereo_address_start >= 0xde00 && sid_stereo_address_start <=0xdeff && checking_sid_stereo==0) {
-            ui_error(_("Resource IO1 blocked by %s."),"STEREO_SID");
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO1","STEREO_SID");
+#else
+            ui_error(_("Resource %s blocked by %s."),"IO1","STEREO_SID");
+#endif
             return -1;
         }
     }
     if (export_res->use_io2 > 0) {
         if (usage_io2 != NULL && strcmp(usage_io2, export_res->name)!=0) {
-            ui_error(_("Resource IO2 blocked by %s."), usage_io2);
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO2", usage_io2);
+#else
+            ui_error(_("Resource %s blocked by %s."),"IO2", usage_io2);
+#endif
             return -1;
         }
         if (sid_stereo && sid_stereo_address_start >= 0xdf00 && sid_stereo_address_start <=0xdfff&& checking_sid_stereo==0) {
-            ui_error(_("Resource IO2 blocked by %s."),"STEREO_SID.");
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO2","STEREO_SID.");
+#else
+            ui_error(_("Resource %s blocked by %s."),"IO2","STEREO_SID.");
+#endif
             return -1;
         }
     }
     if (export_res->use_roml > 0) {
         if (usage_roml != NULL && strcmp(usage_roml, export_res->name)!=0) {
-            ui_error(_("Resource ROML blocked by %s."), usage_roml);
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROML", usage_roml);
+#else
+            ui_error(_("Resource %s blocked by %s."),"ROML", usage_roml);
+#endif
            return -1;
         }
     }
     if (export_res->use_romh > 0) {
         if (usage_romh != NULL && strcmp(usage_romh, export_res->name)!=0) {
-            ui_error(_("Resource ROMH blocked by %s."), usage_romh);
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"ROMH", usage_romh);
+#else
+            ui_error(_("Resource %s blocked by %s."),"ROMH", usage_romh);
+#endif
             return -1;
         }
     }

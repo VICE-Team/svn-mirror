@@ -29,12 +29,12 @@
 #include <tchar.h>
 #include <windows.h>
 
-#include "intl.h"
 #include "lib.h"
 #include "ram.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uiram.h"
 #include "winmain.h"
 
@@ -179,7 +179,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_ram_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_RAM_SETTINGS_DIALOG)), hwnd,
+    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_RAM_SETTINGS_DIALOG)), hwnd,
               dialog_proc);
 }
 

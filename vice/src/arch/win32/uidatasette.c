@@ -30,10 +30,10 @@
 #include <windows.h>
 
 #include "datasette.h"
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uidatasette.h"
 #include "winmain.h"
@@ -130,7 +130,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void uidatasette_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_DATASETTE_SETTINGS_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_DATASETTE_SETTINGS_DIALOG)),
               hwnd, dialog_proc);
 }
 

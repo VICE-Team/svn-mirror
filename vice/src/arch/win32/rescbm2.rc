@@ -648,6 +648,7 @@ END
 
 // ITALIAN version of menu
 
+#pragma code_page(28605)
 IDR_MENUCBM2_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -855,6 +856,7 @@ BEGIN
         MENUITEM "Nessuna &garanzia",  IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -1606,6 +1608,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBM2ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 150
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1639,6 +1642,7 @@ BEGIN
     EDITTEXT    IDC_CBM2ROM_CART6_FILE, 55,127,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CART6_BROWSE, 185,127,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1844,6 +1848,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBM2DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1869,6 +1874,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1001_FILE, 55,87,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_DRIVEROM_1001_BROWSE, 185,87,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2050,6 +2056,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBM2ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
@@ -2075,6 +2082,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,125,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,125,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2244,6 +2252,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 115
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resources del drive"
@@ -2265,6 +2274,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,95,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,95,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2416,6 +2426,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBMII_SETTINGS_MODEL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2435,6 +2446,7 @@ BEGIN
     AUTORADIOBUTTON "6x0 &50 Hz",IDC_SELECT_CBMII_HW2,   105,60,65,10,
                             BS_AUTORADIOBUTTON
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2619,6 +2631,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBMII_SETTINGS_IO_DIALOG_IT DIALOG DISCARDABLE  0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2651,6 +2664,7 @@ BEGIN
     AUTOCHECKBOX    "Banco 15 $&C000-$CFFF RAM",IDC_TOGGLE_CBMII_RAMC,
                     105,105,115,10, BS_AUTOCHECKBOX
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2877,6 +2891,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 160
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2910,6 +2925,7 @@ BEGIN
     PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_CBM2KBD_MAPPING_DUMP, 10,134,50,14, 0
 
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3055,11 +3071,13 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_MEMORY_IT          "Memory"
   IDS_CBM2_SETTINGS_IT   "CBM2 settings"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

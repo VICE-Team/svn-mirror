@@ -37,12 +37,12 @@
 #include <commdlg.h>
 
 #include "drive.h"
-#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -115,7 +115,7 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
                  | OFN_SHAREAWARE
                  | OFN_ENABLESIZING);
     ofn.lpfnHook = hook_save_as_console;
-    ofn.lpTemplateName = MAKEINTRESOURCE(intl_translate(IDD_CONSOLE_SAVE_DIALOG));
+    ofn.lpTemplateName = MAKEINTRESOURCE(translate_res(IDD_CONSOLE_SAVE_DIALOG));
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
@@ -132,11 +132,15 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
 FILE *ui_console_save_dialog(HWND hwnd)
 {
     FILE *pfile = NULL;
+    int filter_len;
     char *s;
     char filter[100];
 
-    sprintf(filter,"%s\0*.dbg\0",intl_translate_text(IDS_LOG_FILES_TYPE));
-    s = ui_save_as_console(TEXT(intl_translate_text(IDS_LOG_CONSOLE_OUTPUT_IMAGE)),
+    filter_len=strlen(translate_text(IDS_LOG_FILES_TYPE));
+    sprintf(filter,"%s0*.dbg0",translate_text(IDS_LOG_FILES_TYPE));
+    filter[filter_len]='\0';
+    filter[filter_len+6]='\0';
+    s = ui_save_as_console(translate_text(IDS_LOG_CONSOLE_OUTPUT_IMAGE),
         filter,hwnd);
 
     if (s != NULL) {
@@ -145,7 +149,7 @@ FILE *ui_console_save_dialog(HWND hwnd)
         pfile = fopen(s, append_log ? "at+" : "wt");
 
         if (!pfile)
-            ui_error(intl_translate_text(IDS_CANNOT_WRITE_LOGFILE_S), s);
+            ui_error(translate_text(IDS_CANNOT_WRITE_LOGFILE_S), s);
 
         lib_free(s);
     }

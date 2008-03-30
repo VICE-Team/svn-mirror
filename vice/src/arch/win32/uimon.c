@@ -35,13 +35,13 @@
 
 #include "console.h"
 #include "fullscrn.h"
-#include "intl.h"
 #include "lib.h"
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
 #include "res.h"
 #include "resources.h"
+#include "translate.h"
 #include "ui.h"
 #include "uimon.h"
 #include "winmain.h"
@@ -70,7 +70,7 @@ static void uimon_debug(const char *format, ...)
         buffer = lib_mvsprintf(format, args);
         va_end(args);
         OutputDebugString(buffer);
-	    log_message(LOG_DEFAULT,buffer);
+        log_message(LOG_DEFAULT,buffer);
         printf(buffer);
         lib_free(buffer);
 }
@@ -81,6 +81,8 @@ static void uimon_debug(const char *format, ...)
 
 
 #define UIMON_EXPERIMENTAL 1
+
+static console_t *console_log = NULL;
 
 #ifdef UIMON_EXPERIMENTAL
 
@@ -103,7 +105,6 @@ struct uimon_client_windows_s
 uimon_client_windows_t *first_client_window = NULL;
 
 
-static console_t *console_log = NULL;
 static console_t  console_log_for_mon = { -50, -50, -50 };
 static char *pchCommandLine   = NULL;
 
@@ -177,11 +178,11 @@ void uimon_set_interface(monitor_interface_t **monitor_interface_init,
 
 typedef struct CToolBarData
 {
-	WORD wVersion;
-	WORD wWidth;
-	WORD wHeight;
-	WORD wItemCount;
-	WORD aItems[1];
+    WORD wVersion;
+    WORD wWidth;
+    WORD wHeight;
+    WORD wItemCount;
+    WORD aItems[1];
 } CToolBarData;
 
 
@@ -316,14 +317,14 @@ HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 static
 HWND OpenDisassembly( HWND hwnd )
 {
-	// @SRT: TODO: Adjust parameter!
+    // @SRT: TODO: Adjust parameter!
     return iOpenDisassembly( hwnd, 0, 0, 0, 300, 300 );
 }
 
 static
 void DestroyMdiWindow(HWND hwndMdiClient, HWND hwndChild)
 {
-	SendMessage(hwndMdiClient,WM_MDIDESTROY,(WPARAM)hwndChild,0);
+    SendMessage(hwndMdiClient,WM_MDIDESTROY,(WPARAM)hwndChild,0);
 }
 
 static
@@ -336,7 +337,7 @@ HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx
     }
     else
     {
-		DestroyMdiWindow(hwndMdiClient,hwndConsole);
+        DestroyMdiWindow(hwndMdiClient,hwndConsole);
 
         hwndConsole = NULL;
     }
@@ -346,8 +347,8 @@ HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx
 static
 HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
 {
-	// @SRT: TODO: Adjust parameter!
-	return iOpenConsole(hwnd,bOpen,WS_MAXIMIZE,0,0,0,0);
+    // @SRT: TODO: Adjust parameter!
+    return iOpenConsole(hwnd,bOpen,WS_MAXIMIZE,0,0,0,0);
 }
 
 static
@@ -400,7 +401,7 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 static
 HWND OpenRegistry( HWND hwnd )
 {
-	// @SRT: TODO: Adjust parameter!
+    // @SRT: TODO: Adjust parameter!
     return iOpenRegistry( hwnd, 0, 30, 100, 100, 100 );
 }
 
@@ -590,7 +591,7 @@ struct WindowDimensions
     BYTE *pMonitorDimensions;
     int   MonitorLen;
 
-	WINDOWPLACEMENT wpPlacement;
+    WINDOWPLACEMENT wpPlacement;
 };
 typedef struct WindowDimensions WindowDimensions;
 typedef WindowDimensions *PWindowDimensions;
@@ -599,53 +600,53 @@ static
 WORD GetByte(BYTE **p, int* len)
 {
     --(*len);
-	return *(*p)++;
+    return *(*p)++;
 }
 
 static
 WORD GetWord(BYTE **p, int* len)
 {
-	WORD   ah = GetByte(p,len) << 8;
-	return ah | GetByte(p,len);
+    WORD   ah = GetByte(p,len) << 8;
+    return ah | GetByte(p,len);
 }
 
 static
 BOOLEAN GetPlacement( BYTE **p, int* len, WINDOWPLACEMENT *pwp )
 {
-	UINT i;
+    UINT i;
 
-	PBYTE pNext = (PBYTE) pwp;
-	for (i=sizeof(WINDOWPLACEMENT);(i>0) && (*len>0);i--)
-		*pNext++ = (BYTE) GetByte(p,len);
+    PBYTE pNext = (PBYTE) pwp;
+    for (i=sizeof(WINDOWPLACEMENT);(i>0) && (*len>0);i--)
+        *pNext++ = (BYTE) GetByte(p,len);
 
-	return (i==0) ? FALSE : TRUE;
+    return (i==0) ? FALSE : TRUE;
 }
  
 
 static
 BYTE **WriteByte(BYTE **p, BYTE a)
 {
-	*(*p)++ = a;
-	return p;
+    *(*p)++ = a;
+    return p;
 }
 
 static
 BYTE **WriteWord(BYTE **p, WORD a)
 {
-	WriteByte(p,(BYTE) ((a>>8) & 0xFF));
-	WriteByte(p,(BYTE) ( a     & 0xFF));
-	return p;
+    WriteByte(p,(BYTE) ((a>>8) & 0xFF));
+    WriteByte(p,(BYTE) ( a     & 0xFF));
+    return p;
 }
 
 static
 BYTE **WritePlacement( BYTE **p, WINDOWPLACEMENT *pwp )
 {
-	UINT i;
-	PBYTE pNext = (PBYTE) pwp;
-	for (i=0;i<pwp->length;i++)
-		WriteByte(p,*pNext++);
+    UINT i;
+    PBYTE pNext = (PBYTE) pwp;
+    for (i=0;i<pwp->length;i++)
+        WriteByte(p,*pNext++);
 
-	return p;
+    return p;
 }
  
 static
@@ -670,7 +671,7 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
         }
         else
         {
-			GetPlacement(&(pwd->pMonitorDimensions),&pwd->MonitorLen,&(pwd->wpPlacement));
+            GetPlacement(&(pwd->pMonitorDimensions),&pwd->MonitorLen,&(pwd->wpPlacement));
         }
     }
     return ret;
@@ -679,13 +680,13 @@ WindowType GetNextMonitorDimensions( PWindowDimensions pwd )
 static
 void SetNextMonitorDimensions( HWND hwnd, WindowType wt, BYTE **p )
 {
-	WINDOWPLACEMENT wpPlacement;
-	wpPlacement.length = sizeof(WINDOWPLACEMENT);
-	GetWindowPlacement(hwnd,&wpPlacement);
+    WINDOWPLACEMENT wpPlacement;
+    wpPlacement.length = sizeof(WINDOWPLACEMENT);
+    GetWindowPlacement(hwnd,&wpPlacement);
 
     WriteByte(p,(BYTE)wt);
 
-	WritePlacement(p,&wpPlacement);
+    WritePlacement(p,&wpPlacement);
 }
 
 static
@@ -714,7 +715,7 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
             hwndOpened = NULL;
         };
 
-		SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
+        SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
     };
 
     lib_free(wd->pMonitorDimensionsBuffer);
@@ -724,7 +725,7 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 static
 PWindowDimensions LoadMonitorDimensions(HWND hwnd)
 {
-	PWindowDimensions ret = NULL;
+    PWindowDimensions ret = NULL;
 
     char *dimensions;
     BYTE *buffer;
@@ -734,7 +735,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
     resources_get_value("MonitorDimensions", (void *)&dimensions);
     buffer = decode(dimensions,&len);
 
-	if (len!=0)
+    if (len!=0)
     {
         char *p = buffer;
 
@@ -743,19 +744,19 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
         else
         {
             ret    = lib_malloc( sizeof(*ret) );
-			bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
-			SetWindowPlacement( hwnd, &(ret->wpPlacement) );
+            bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
+            SetWindowPlacement( hwnd, &(ret->wpPlacement) );
 
             ret->pMonitorDimensionsBuffer = buffer;
             ret->pMonitorDimensions       = p;
             ret->MonitorLen               = len;
         }
-	}
+    }
 
     if (bError)
         lib_free(buffer);
 
-	return ret;
+    return ret;
 }
 
 static
@@ -774,18 +775,18 @@ static HWND hwndStack[256]; // @SRT
 static
 VOID WindowStore( BYTE **p )
 {
-	while (nHwndStack--)
-	{
-		iWindowStore(hwndStack[nHwndStack], p);
-	}
-	nHwndStack = 0;
+    while (nHwndStack--)
+    {
+        iWindowStore(hwndStack[nHwndStack], p);
+    }
+    nHwndStack = 0;
 }
 
 static
 BOOL CALLBACK WindowStoreProc( HWND hwnd, LPARAM lParam )
 {
-	hwndStack[nHwndStack++] = hwnd;
-	return TRUE;
+    hwndStack[nHwndStack++] = hwnd;
+    return TRUE;
 }
 
 static
@@ -796,20 +797,20 @@ void StoreMonitorDimensions(HWND hwnd)
     BYTE *p = buffer;
     uimon_client_windows_t *clients;
 
-	WINDOWPLACEMENT wpPlacement;
-	wpPlacement.length = sizeof(WINDOWPLACEMENT);
+    WINDOWPLACEMENT wpPlacement;
+    wpPlacement.length = sizeof(WINDOWPLACEMENT);
 
-	GetWindowPlacement( hwnd, &wpPlacement );
+    GetWindowPlacement( hwnd, &wpPlacement );
 
-	WritePlacement( &p, &wpPlacement );
+    WritePlacement( &p, &wpPlacement );
 
-	// store info for open windows in structure
-	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,0);
+    // store info for open windows in structure
+    EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,0);
 
     for (clients = first_client_window; clients; clients=clients->next )
         WindowStoreProc( clients->hwnd, 0 );
 
-	WindowStore(&p);
+    WindowStore(&p);
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
     resources_set_value("MonitorDimensions",(resource_value_t *)dimensions);
@@ -853,21 +854,21 @@ void EnableCommands( HMENU hmnu, HWND hwndToolbar )
 static
 void SetMemspace( HWND hwnd, MEMSPACE memspace )
 {
-	BOOL bComputer = FALSE;
-	BOOL bDrive8   = FALSE;
-	BOOL bDrive9   = FALSE;
+    BOOL bComputer = FALSE;
+    BOOL bDrive8   = FALSE;
+    BOOL bDrive9   = FALSE;
         BOOL bDrive10  = FALSE;
         BOOL bDrive11  = FALSE;
-	HMENU hmnu     = GetMenu(hwnd);
+    HMENU hmnu     = GetMenu(hwnd);
     int drive_true_emulation;
 
-	char *pText = "";
+    char *pText = "";
 
-	switch (memspace)
-	{
-	case e_comp_space:  bComputer = TRUE; pText = "Computer"; break;
-	case e_disk8_space: bDrive8   = TRUE; pText = "Drive 8";  break;
-	case e_disk9_space: bDrive9   = TRUE; pText = "Drive 9";  break;
+    switch (memspace)
+    {
+    case e_comp_space:  bComputer = TRUE; pText = "Computer"; break;
+    case e_disk8_space: bDrive8   = TRUE; pText = "Drive 8";  break;
+    case e_disk9_space: bDrive9   = TRUE; pText = "Drive 9";  break;
         case e_disk10_space: bDrive10 = TRUE; pText = "Drive 10";  break;
         case e_disk11_space: bDrive11 = TRUE; pText = "Drive 11";  break;
 
@@ -877,47 +878,47 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
     */
     case e_default_space: /* FALL THROUGH */
     case e_invalid_space: break; 
-	}
+    }
 
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
-	ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);
+    ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);
     ENABLE( IDM_MON_DRIVE9,   drive_true_emulation ? 1 : 0);
     CHECK ( IDM_MON_COMPUTER, drive_true_emulation ? bComputer : TRUE);
-	CHECK ( IDM_MON_DRIVE8,   drive_true_emulation ? bDrive8   : FALSE);
+    CHECK ( IDM_MON_DRIVE8,   drive_true_emulation ? bDrive8   : FALSE);
     CHECK ( IDM_MON_DRIVE9,   drive_true_emulation ? bDrive9   : FALSE);
 
-	if (drive_true_emulation)
-	{
-		char pOldText[256];
-		int  n = GetWindowText( hwnd, pOldText, 256 );
+    if (drive_true_emulation)
+    {
+        char pOldText[256];
+        int  n = GetWindowText( hwnd, pOldText, 256 );
 
-		if (n!=0)
-		{
-			char *pWrite = strchr(pOldText,':');
-			if (pWrite==NULL)
-			{
-				pWrite = strchr(pOldText,0);
-				*pWrite=':';
-			}
-		
-			strcpy( ++pWrite, pText );
-			SetWindowText(hwnd,pOldText);
-		}
-	}
+        if (n!=0)
+        {
+            char *pWrite = strchr(pOldText,':');
+            if (pWrite==NULL)
+            {
+                pWrite = strchr(pOldText,0);
+                *pWrite=':';
+            }
+        
+            strcpy( ++pWrite, pText );
+            SetWindowText(hwnd,pOldText);
+        }
+    }
 }
 
 static
 void ClearMemspace( HWND hwnd )
 {
-	HMENU hmnu = GetMenu(hwnd);
+    HMENU hmnu = GetMenu(hwnd);
 
-	ENABLE( IDM_MON_COMPUTER, 0 );
-	ENABLE( IDM_MON_DRIVE8,   0 );
+    ENABLE( IDM_MON_COMPUTER, 0 );
+    ENABLE( IDM_MON_DRIVE8,   0 );
     ENABLE( IDM_MON_DRIVE9,   0 );
-	CHECK ( IDM_MON_COMPUTER, FALSE );
-	CHECK ( IDM_MON_DRIVE8,   FALSE );
+    CHECK ( IDM_MON_COMPUTER, FALSE );
+    CHECK ( IDM_MON_DRIVE8,   FALSE );
     CHECK ( IDM_MON_DRIVE9,   FALSE );
 }
 
@@ -954,6 +955,49 @@ void ResizeMdiClient(HWND hwnd)
             rect.right-rect.left,
             rect.bottom-rect.top-wHeightToolbar,
             TRUE);
+    }
+}
+
+#define MAX(_x, _y) ((_x)>(_y) ? (_x) : (_y))
+
+static
+BOOL CALLBACK WindowMinsizeProc(HWND hwnd, LPARAM lParam)
+{
+    LPPOINT minDimen = (LPPOINT) lParam;
+    MINMAXINFO mmi;
+
+    memset(&mmi, 0, sizeof(mmi));
+
+    if (SendMessage(hwnd, WM_GETMINMAXINFO, 0, (LPARAM) &mmi) == 0)
+    {
+        minDimen->x = MAX(minDimen->x, mmi.ptMinTrackSize.x);
+        minDimen->y = MAX(minDimen->y, mmi.ptMinTrackSize.y);
+    }
+    return TRUE;
+}
+
+static
+void MinsizeMdiClient(HWND hwnd, POINT *pMin)
+{
+    memset(pMin, 0, sizeof(*pMin));
+
+    if (hwndMdiClient)
+    {
+        RECT rectWindow;
+        RECT rectClient;
+
+        memset(pMin, 0, sizeof(*pMin));
+
+        /* get the minimum size of all the MDI windows */
+
+        EnumChildWindows(hwndMdiClient, (WNDENUMPROC)WindowMinsizeProc, (LPARAM) pMin);
+
+        /* now, add our surrounding box to this */
+        GetWindowRect(hwnd, &rectWindow);
+        GetClientRect(hwnd, &rectClient);
+
+        pMin->x += (rectWindow.right - rectWindow.left) - (rectClient.right - rectClient.left);
+        pMin->y += (rectWindow.bottom - rectWindow.top) - (rectClient.bottom - rectClient.top);
     }
 }
 
@@ -1017,16 +1061,16 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
         EnableCommands(GetMenu(hwnd),hwndToolbar);
         break;
 
-	case IDM_MON_COMPUTER:
-		/* FALL THROUGH */
+    case IDM_MON_COMPUTER:
+        /* FALL THROUGH */
 
-	case IDM_MON_DRIVE8:
-		/* FALL THROUGH */
+    case IDM_MON_DRIVE8:
+        /* FALL THROUGH */
 
-	case IDM_MON_DRIVE9:
-		if (hwndActive)
-			SendMessage( hwndActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
-		break;
+    case IDM_MON_DRIVE9:
+        if (hwndActive)
+            SendMessage( hwndActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
+        break;
     }
 }
 
@@ -1034,12 +1078,12 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
 /* window procedure */
 static 
 long CALLBACK mon_window_proc(HWND hwnd, 
-	UINT msg, WPARAM wParam, LPARAM lParam)
+    UINT msg, WPARAM wParam, LPARAM lParam)
 
 {
-	switch (msg)
-	{
-	case WM_CLOSE:
+    switch (msg)
+    {
+    case WM_CLOSE:
         SET_COMMAND("x");
         /*
         return 0 so we don't use DefFrameProc(), so we're sure 
@@ -1048,7 +1092,7 @@ long CALLBACK mon_window_proc(HWND hwnd,
         */
         return 0;
 
-	case WM_DESTROY:
+    case WM_DESTROY:
         return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
 
     case WM_CONSOLE_RESIZED:
@@ -1056,8 +1100,25 @@ long CALLBACK mon_window_proc(HWND hwnd,
         return 0;
 
     case WM_CONSOLE_ACTIVATED:
-		hwndActive = NULL;
+        hwndActive = NULL;
         ClearMemspace( hwnd );
+        return 0;
+
+    case WM_GETMINMAXINFO:
+        {
+            LPMINMAXINFO lpmmi; 
+            POINT minSize;
+
+            DefWindowProc(hwnd, msg, wParam, lParam);
+
+            /* adjust: minimum size */
+            MinsizeMdiClient(hwnd, &minSize);
+
+            lpmmi = (LPMINMAXINFO) lParam; // address of structure 
+
+            lpmmi->ptMinTrackSize.x = lpmmi->ptMinTrackSize.x + minSize.x;
+            lpmmi->ptMinTrackSize.y = lpmmi->ptMinTrackSize.y + minSize.y;
+        }
         return 0;
 
     case WM_CONSOLE_CLOSED:
@@ -1068,7 +1129,7 @@ long CALLBACK mon_window_proc(HWND hwnd,
 
     case WM_SIZE:
         {
-    	    if (wParam != SIZE_MINIMIZED)
+            if (wParam != SIZE_MINIMIZED)
             {
                 // Tell the toolbar to resize itself to fill the top of the window.
                 if (hwndToolbar)
@@ -1099,45 +1160,45 @@ long CALLBACK mon_window_proc(HWND hwnd,
             ShowWindow( hwndMdiClient, SW_SHOW );
         }
 
-		ClearMemspace( hwnd );
+        ClearMemspace( hwnd );
         break;
 
     case WM_COMMAND:
         OnCommand(hwnd,HIWORD(wParam),LOWORD(wParam),(HWND)lParam);
         break;
 
-	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc;
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc;
 
-			hdc = BeginPaint(hwnd,&ps);
-			EndPaint(hwnd,&ps);
+            hdc = BeginPaint(hwnd,&ps);
+            EndPaint(hwnd,&ps);
 
-			return 0;
-		}
-	}
+            return 0;
+        }
+    }
 
-	return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
+    return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
 }
 
 static
 void ActivateChild( BOOL bActivated, HWND hwndOwn, MEMSPACE memspace )
 {
-	if (bActivated)
-	{
-		// we are activated
-		hwndActive = hwndOwn;
+    if (bActivated)
+    {
+        // we are activated
+        hwndActive = hwndOwn;
         SetMemspace( hwndOwn, memspace );
-	}
-	else
-	{
+    }
+    else
+    {
 /**/
-		// we are deactivated
-		hwndActive = NULL;
+        // we are deactivated
+        hwndActive = NULL;
         ClearMemspace( hwndOwn );
 /**/
-	}
+    }
 }
 
 
@@ -1146,8 +1207,8 @@ struct reg_private
 {
     int           charwidth;
     int           charheight;
-	MEMSPACE      memspace;
-	unsigned int *LastShownRegs;
+    MEMSPACE      memspace;
+    unsigned int *LastShownRegs;
     unsigned int  RegCount;
 } reg_private_t;
 
@@ -1305,24 +1366,24 @@ BOOLEAN output_register(HDC hdc, reg_private_t *prp, RECT *clientrect)
 /* window procedure */
 static 
 long CALLBACK reg_window_proc(HWND hwnd, 
-	UINT msg, WPARAM wParam, LPARAM lParam)
+    UINT msg, WPARAM wParam, LPARAM lParam)
 
 {
-	reg_private_t *prp = (reg_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
+    reg_private_t *prp = (reg_private_t*) GetWindowLong( hwnd, GWL_USERDATA );
 
-	switch (msg)
-	{
+    switch (msg)
+    {
     case WM_UPDATEVAL:
         update_last_shown_regs(prp);
         return 0;
 
-	case WM_DESTROY:
+    case WM_DESTROY:
         delete_client_window(hwnd);
-		// free the reg_private info 
-		lib_free(prp);
-		SetWindowLong( hwnd, GWL_USERDATA, 0 );
+        // free the reg_private info 
+        lib_free(prp);
+        SetWindowLong( hwnd, GWL_USERDATA, 0 );
 
-	    return DEF_REG_PROG(hwnd, msg, wParam, lParam);
+        return DEF_REG_PROG(hwnd, msg, wParam, lParam);
 
 #ifdef OPEN_REGISTRY_AS_POPUP
 
@@ -1332,9 +1393,9 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 #else  // #ifdef OPEN_REGISTRY_AS_POPUP
 
-	case WM_MDIACTIVATE:
+    case WM_MDIACTIVATE:
         ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, prp->memspace );
-		break;
+        break;
 
 #endif  // #ifdef OPEN_REGISTRY_AS_POPUP
 
@@ -1345,79 +1406,79 @@ long CALLBACK reg_window_proc(HWND hwnd,
         }
         return 0;
 
-	case WM_CHANGECOMPUTERDRIVE:
-		switch (wParam)
-		{
-		case IDM_MON_COMPUTER:
-			prp->memspace = e_comp_space;
-			break;
+    case WM_CHANGECOMPUTERDRIVE:
+        switch (wParam)
+        {
+        case IDM_MON_COMPUTER:
+            prp->memspace = e_comp_space;
+            break;
 
-		case IDM_MON_DRIVE8:
-			prp->memspace = e_disk8_space;
-			break;
+        case IDM_MON_DRIVE8:
+            prp->memspace = e_disk8_space;
+            break;
 
-		case IDM_MON_DRIVE9:
-			prp->memspace = e_disk9_space;
-			break;
-		}
+        case IDM_MON_DRIVE9:
+            prp->memspace = e_disk9_space;
+            break;
+        }
         SetMemspace( hwnd, prp->memspace );
-		InvalidateRect(hwnd,NULL,FALSE);
-		break;
+        InvalidateRect(hwnd,NULL,FALSE);
+        break;
 
     case WM_CREATE:
         {
             HDC hdc = GetDC( hwnd );
-           	SIZE size;
+            SIZE size;
 
-			prp = lib_malloc(sizeof(reg_private_t));
+            prp = lib_malloc(sizeof(reg_private_t));
 
             prp->LastShownRegs = NULL;
             prp->RegCount      = 0;
-			
-			/* store pointer to structure with window */
-			SetWindowLong( hwnd, GWL_USERDATA, (long) prp );
+            
+            /* store pointer to structure with window */
+            SetWindowLong( hwnd, GWL_USERDATA, (long) prp );
 
-	        SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
+            SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
             // get height and width of a character
             GetTextExtentPoint32( hdc, " ", 1, &size );
-        	prp->charwidth  = size.cx;
-	        prp->charheight = size.cy;
+            prp->charwidth  = size.cx;
+            prp->charheight = size.cy;
 
-			prp->memspace = e_comp_space;
+            prp->memspace = e_comp_space;
 
             break;
         }
 
-	case WM_COMMAND:
-		{
-		    switch (LOWORD(wParam))
-			{
-			case IDM_MON_COMPUTER:
-				prp->memspace = e_comp_space;
-				break;
+    case WM_COMMAND:
+        {
+            switch (LOWORD(wParam))
+            {
+            case IDM_MON_COMPUTER:
+                prp->memspace = e_comp_space;
+                break;
 
-			case IDM_MON_DRIVE8:
-				prp->memspace = e_disk8_space;
-				break;
+            case IDM_MON_DRIVE8:
+                prp->memspace = e_disk8_space;
+                break;
 
-			case IDM_MON_DRIVE9:
-				prp->memspace = e_disk9_space;
-				break;
-		    }
-		}
-		break;
+            case IDM_MON_DRIVE9:
+                prp->memspace = e_disk9_space;
+                break;
+            }
+        }
+        break;
 
-	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC         hdc;
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC         hdc;
             RECT        rect;
             BOOLEAN     changed_dimension;
 
             GetClientRect( hwnd, &rect );
 
-			hdc = BeginPaint(hwnd,&ps);
+            hdc = BeginPaint(hwnd,&ps);
             changed_dimension = output_register( hdc, prp, &rect );
             EndPaint(hwnd,&ps);
 
@@ -1425,27 +1486,27 @@ long CALLBACK reg_window_proc(HWND hwnd,
             {
                 // resize the window
 
-            	ClientToScreen( hwnd,  (LPPOINT) &rect);
-	            ClientToScreen( hwnd, ((LPPOINT) &rect) + 1);
+                ClientToScreen( hwnd,  (LPPOINT) &rect);
+                ClientToScreen( hwnd, ((LPPOINT) &rect) + 1);
 
 /**/
 #ifdef OPEN_REGISTRY_AS_POPUP
 #else  // #ifdef OPEN_REGISTRY_AS_POPUP
                 ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
-		        ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
+                ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
 #endif // #ifdef OPEN_REGISTRY_AS_POPUP
 /**/
 
                 AdjustWindowRectEx( &rect, 
                     GetWindowLong( hwnd, GWL_STYLE ), FALSE, GetWindowLong( hwnd, GWL_EXSTYLE ) );
 
-            	MoveWindow( hwnd, rect.left, rect.top,
-	    	        rect.right - rect.left, rect.bottom - rect.top, TRUE );
+                MoveWindow( hwnd, rect.left, rect.top,
+                    rect.right - rect.left, rect.bottom - rect.top, TRUE );
             }
 
-			return 0;
-		}
-	}
+            return 0;
+        }
+    }
 
     return DEF_REG_PROG(hwnd, msg, wParam, lParam);
 }
@@ -1568,17 +1629,17 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
 static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                                      LPARAM lParam)
 {
-	dis_private_t *pdp = (dis_private_t*)GetWindowLong(hwnd, GWL_USERDATA);
+    dis_private_t *pdp = (dis_private_t*)GetWindowLong(hwnd, GWL_USERDATA);
 
-	switch (msg)
-	{
-	case WM_DESTROY:
+    switch (msg)
+    {
+    case WM_DESTROY:
         delete_client_window(hwnd);
-		// clear the dis_private info 
-		SetWindowLong( hwnd, GWL_USERDATA, 0 );
-		lib_free(pdp);
+        // clear the dis_private info 
+        SetWindowLong( hwnd, GWL_USERDATA, 0 );
+        lib_free(pdp);
 
-		return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+        return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
 #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
@@ -1588,9 +1649,9 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
 
 #else  // #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
-	case WM_MDIACTIVATE:
+    case WM_MDIACTIVATE:
         ActivateChild( ((HWND) wParam==hwnd)?FALSE:TRUE, hwnd, pdp->memspace );
-		break;
+        break;
 
 #endif // #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
@@ -1601,41 +1662,41 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         }
         return 0;
 
-	case WM_CHANGECOMPUTERDRIVE:
-		switch (wParam)
-		{
-		case IDM_MON_COMPUTER:
+    case WM_CHANGECOMPUTERDRIVE:
+        switch (wParam)
+        {
+        case IDM_MON_COMPUTER:
             mon_disassembly_set_memspace(pdp->pmdp, e_comp_space);
-			break;
+            break;
 
-		case IDM_MON_DRIVE8:
+        case IDM_MON_DRIVE8:
             mon_disassembly_set_memspace(pdp->pmdp, e_disk8_space);
-			break;
+            break;
 
-		case IDM_MON_DRIVE9:
+        case IDM_MON_DRIVE9:
             mon_disassembly_set_memspace(pdp->pmdp, e_disk9_space);
-			break;
-		}
+            break;
+        }
         SetMemspace( hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
-		InvalidateRect(hwnd,NULL,FALSE);
-		break;
+        InvalidateRect(hwnd,NULL,FALSE);
+        break;
 
     case WM_CREATE:
         {
             HDC hdc = GetDC( hwnd );
-           	SIZE size;
+            SIZE size;
 
-			pdp = lib_malloc(sizeof(dis_private_t));
-			
-			/* store pointer to structure with window */
-			SetWindowLong( hwnd, GWL_USERDATA, (long) pdp );
+            pdp = lib_malloc(sizeof(dis_private_t));
+            
+            /* store pointer to structure with window */
+            SetWindowLong( hwnd, GWL_USERDATA, (long) pdp );
 
-	        SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
+            SelectObject( hdc, GetStockObject( ANSI_FIXED_FONT ) );
 
             // get height and width of a character
             GetTextExtentPoint32( hdc, " ", 1, &size );
-        	pdp->charwidth    = size.cx;
-	        pdp->charheight   = size.cy;
+            pdp->charwidth    = size.cx;
+            pdp->charheight   = size.cy;
 
             {
             SCROLLINFO ScrollInfo;
@@ -1649,7 +1710,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, FALSE );
             }
 
-			// initialize some window parameter
+            // initialize some window parameter
             pdp->pmdp = mon_disassembly_init();
 
             {
@@ -1692,12 +1753,12 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             switch ( LOWORD(wParam) )
             {
             case SB_THUMBPOSITION:
-        	    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+                return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
             case SB_THUMBTRACK:
                 ScrollInfo.nPos = mon_disassembly_scroll_to( pdp->pmdp, (WORD)ScrollInfo.nTrackPos );
                 changed         = TRUE;
-        	    break;
+                break;
 
             case SB_LINEUP:
                 ScrollInfo.nPos = mon_disassembly_scroll( pdp->pmdp, MON_SCROLL_UP );
@@ -1792,7 +1853,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         {
             struct mon_disassembly *md_contents = NULL;
             PAINTSTRUCT ps;
-			HDC         hdc;
+            HDC         hdc;
             RECT        rect;
             int         nHeightToPrint;
             COLORREF    crOldTextColor;
@@ -1835,7 +1896,7 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             GetClientRect(hwnd,&rect);
             nHeightToPrint = (rect.bottom - rect.top) / pdp->charheight + 1;
 
-			hdc = BeginPaint(hwnd,&ps);
+            hdc = BeginPaint(hwnd,&ps);
 
             for (i=0; i<LT_LAST; i++)
             {
@@ -1914,11 +1975,11 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 DeleteObject( hpenBack[i]   );
             }
 
-			EndPaint(hwnd,&ps);
+            EndPaint(hwnd,&ps);
         }
-	}
+    }
 
-	return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
+    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 }
 
 
@@ -1929,7 +1990,7 @@ void uimon_init( void )
 
     if (bFirstTime)
     {
-    	WNDCLASSEX wc;
+        WNDCLASSEX wc;
 
         bFirstTime = FALSE;
 
@@ -1943,7 +2004,7 @@ void uimon_init( void )
         wc.hIcon         = LoadIcon(winmain_instance, MAKEINTRESOURCE(IDI_ICON1));
         wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0xc0, 0xc0, 0xc0));
-        wc.lpszMenuName  = MAKEINTRESOURCE(intl_translate(IDR_MENUMONITOR));
+        wc.lpszMenuName  = MAKEINTRESOURCE(translate_res(IDR_MENUMONITOR));
         wc.lpszClassName = MONITOR_CLASS;
         wc.hIconSm       = NULL;
 
@@ -1981,9 +2042,9 @@ static
 BOOL CALLBACK WindowUpdateProc( HWND hwnd, LPARAM lParam )
 {
     SendMessage( hwnd, WM_UPDATE, 0, 0 );
-	InvalidateRect(hwnd,NULL,FALSE);
-	UpdateWindow(hwnd);
-	return TRUE;
+    InvalidateRect(hwnd,NULL,FALSE);
+    UpdateWindow(hwnd);
+    return TRUE;
 }
  
 static
@@ -1992,12 +2053,12 @@ void UpdateAll(void)
     uimon_client_windows_t *p;
 
     if (hwndMdiClient)
-	    EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
+        EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
 
     for (p = first_client_window; p; p=p->next )
         WindowUpdateProc( p->hwnd, 0 );
 
-	InvalidateRect(hwndMonitor,NULL,FALSE);
+    InvalidateRect(hwndMonitor,NULL,FALSE);
     UpdateWindow( hwndMonitor );
 }
 
@@ -2005,7 +2066,7 @@ static
 BOOL CALLBACK WindowUpdateShown( HWND hwnd, LPARAM lParam )
 {
     SendMessage( hwnd, WM_UPDATEVAL, 0, 0 );
-	return TRUE;
+    return TRUE;
 }
  
 static
@@ -2025,7 +2086,7 @@ void update_shown(void)
 void uimon_notify_change()
 {
 #ifdef UIMON_EXPERIMENTAL
-	UpdateAll();
+    UpdateAll();
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
@@ -2038,11 +2099,11 @@ void uimon_window_close( void )
     update_shown();
 
     StoreMonitorDimensions(hwndMonitor);
-	DestroyWindow(hwndMonitor);
-	hwndMonitor   =
+    DestroyWindow(hwndMonitor);
+    hwndMonitor   =
     hwndMdiClient = NULL;
 
-	ResumeFullscreenMode( hwndParent );
+    ResumeFullscreenMode( hwndParent );
 
 #else // #ifdef UIMON_EXPERIMENTAL
     console_close(console_log);
@@ -2058,7 +2119,7 @@ console_t *uimon_window_open( void )
 
 #ifdef UIMON_EXPERIMENTAL
 
-	WindowDimensions *wd;
+    WindowDimensions *wd;
     int x  = 0;
     int y  = 0;
     int dx = 472;
@@ -2066,13 +2127,13 @@ console_t *uimon_window_open( void )
 
     hwndParent = GetActiveWindow();
 
-	SuspendFullscreenMode( hwndParent );
+    SuspendFullscreenMode( hwndParent );
 
     uimon_init();
 
     hwndMonitor = CreateWindow(MONITOR_CLASS,
-		"VICE monitor",
-		WS_OVERLAPPED|WS_CLIPCHILDREN/*|WS_CLIPSIBLINGS*/|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
+        "VICE monitor",
+        WS_OVERLAPPED|WS_CLIPCHILDREN/*|WS_CLIPSIBLINGS*/|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
         x,
         y,
         dx,
@@ -2109,9 +2170,9 @@ console_t *uimon_window_open( void )
 
     EnableCommands(GetMenu(hwndMonitor),hwndToolbar);
 
-	SetActiveWindow( hwndMonitor );
+    SetActiveWindow( hwndMonitor );
 
-	ShowWindow( hwndMonitor, SW_SHOW );
+    ShowWindow( hwndMonitor, SW_SHOW );
 
     return &console_log_for_mon;
 
@@ -2140,7 +2201,7 @@ console_t *uimon_window_resume( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
-	pchCommandLine = NULL;
+    pchCommandLine = NULL;
 
     return &console_log_for_mon;
 

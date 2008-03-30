@@ -27,10 +27,15 @@
 #ifndef _INTL_H
 #define _INTL_H
 
-extern int intl_translate(int en_resource);
+extern char *intl_speed_at_text;
+
 extern char *intl_translate_text(int en_resource);
-extern int intl_resources_init(void);
-extern void intl_resources_shutdown(void);
-extern int intl_cmdline_options_init(void);
-extern void intl_windows_language_init(void);
+extern int intl_translate_res(int en_resource);
+
+extern void intl_init(void);
+extern void intl_shutdown(void);
+extern char *intl_arch_language_init(void);
+extern void intl_update_ui(void);
+extern char *intl_convert_cp(char *text, int cp);
+
 #endif

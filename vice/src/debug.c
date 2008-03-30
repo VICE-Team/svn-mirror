@@ -38,6 +38,9 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -384,8 +387,12 @@ inline static void debug_history_step(const char *st)
 
         if (strncmp(st, debug_buffer + debug_buffer_ptr, strlen(st)) != 0) {
             event_playback_stop();
-            ui_error("Playback error: %s different from line %d of file "
-                     "debug%06d", st, debug_file_line, debug_file_current - 1);
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_PLAYBACK_ERROR_DIFFERENT)
+#else
+            ui_error(_("Playback error: %s different from line %d of file debug%06d")
+#endif
+                     , st, debug_file_line, debug_file_current - 1);
         }
 
         debug_buffer_ptr += line_len;

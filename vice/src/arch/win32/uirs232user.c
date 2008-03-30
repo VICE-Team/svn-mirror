@@ -30,9 +30,9 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
+#include "translate.h"
 #include "uirs232user.h"
 #include "winmain.h"
 
@@ -73,7 +73,7 @@ static void init_rs232user_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_RS232USER_DEVICE);
     for (res_value_loop = 0; res_value_loop < MAXRS232; res_value_loop++) {
         TCHAR st[20];
-        _stprintf(st, TEXT(intl_translate_text(IDS_RS232_DEVICE_I)), res_value_loop + 1);
+        _stprintf(st, translate_text(IDS_RS232_DEVICE_I), res_value_loop + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -151,7 +151,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_rs232user_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_RS232USER_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_RS232USER_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

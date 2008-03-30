@@ -798,6 +798,7 @@ END
 
 // ITALIAN version of menu
 
+#pragma code_page(28605)
 IDR_MENUC128_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -1055,6 +1056,7 @@ BEGIN
         MENUITEM "Nessuna &garanzia",          IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -2052,6 +2054,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 310
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -2117,6 +2120,7 @@ BEGIN
     EDITTEXT    IDC_C128ROM_BASIC64_FILE, 55,287,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_C128ROM_BASIC64_BROWSE, 185,287,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2490,6 +2494,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 230
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -2539,6 +2544,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1001_FILE, 55,207,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_DRIVEROM_1001_BROWSE, 185,207,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2840,6 +2846,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
@@ -2881,6 +2888,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,245,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,245,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3134,6 +3142,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 205
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resources del drive"
@@ -3167,6 +3176,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,185,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,185,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3324,6 +3334,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128_MACHINE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 220, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Tipo di macchina"
@@ -3333,6 +3344,7 @@ BEGIN
     COMBOBOX        IDC_C128_MACHINE_TYPE, 60,7,60,50,
                     CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3456,6 +3468,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128_FUNCTIONROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Function ROM"
@@ -3478,6 +3491,7 @@ BEGIN
     PUSHBUTTON      "Sfoglia...", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
                     175,80,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3758,6 +3772,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_DRIVE_SETTINGS_DIALOG_C128_IT DIALOG DISCARDABLE  0, 0, 250, 250
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -3819,6 +3834,7 @@ BEGIN
     AUTOCHECKBOX    "$&A000-$BFFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_A000,
                     85,150,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -4081,6 +4097,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_C128KBD_MAPPING_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -4097,6 +4114,7 @@ BEGIN
 
     PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_C128KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -4200,6 +4218,7 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_SELECT_INT_FUNCTION_ROM_IT   "Select internal function ROM image"
@@ -4208,6 +4227,7 @@ BEGIN
   IDS_FUNCTION_ROM_IT              "Function ROM"
   IDS_C128_SETTINGS_IT             "C128 settings"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

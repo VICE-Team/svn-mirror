@@ -687,6 +687,7 @@ END
 
 // ITALIAN version of menu
 
+#pragma code_page(28605)
 IDR_MENUVIC_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -907,6 +908,7 @@ BEGIN
         MENUITEM "Nessuna &garanzia",          IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -1654,6 +1656,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC20ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1671,6 +1674,7 @@ BEGIN
     EDITTEXT    IDC_VIC20ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "&Sfoglia...", IDC_VIC20ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1888,6 +1892,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC20DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del ROM"
@@ -1933,6 +1938,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1001_FILE, 55,187,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_DRIVEROM_1001_BROWSE, 185,187,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2197,6 +2203,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 215, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del VIC"
@@ -2230,6 +2237,7 @@ BEGIN
     AUTOCHECKBOX    "Blocco &5",IDC_VIC_MEMORY_BLOCK5,
                     132,83,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2411,6 +2419,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC20ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 85
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
@@ -2428,6 +2437,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,65,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2603,6 +2613,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resources del drive"
@@ -2634,6 +2645,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2806,6 +2818,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2822,6 +2835,7 @@ BEGIN
 
     PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2925,6 +2939,7 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_ATTACH_4_8_16_CART_2000_IT   "Attach 4/8/16KB cartridge image at $2000"
@@ -2933,6 +2948,7 @@ BEGIN
   IDS_ATTACH_4_8_CART_A000_IT      "Attach 4/8KB cartridge image at $A000"
   IDS_ATTACH_4_CART_B000_IT        "Attach 4KB cartridge image at $B000"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

@@ -33,11 +33,11 @@
 
 #include "archdep.h"
 #include "interrupt.h"
-#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "system.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiquicksnapshot.h"
 #include "util.h"
@@ -162,7 +162,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
                       files[lastindex].name, NULL);
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
-        ui_error(intl_translate_text(IDS_CANT_WRITE_SNAPSHOT_FILE));
+        ui_error(translate_text(IDS_CANT_WRITE_SNAPSHOT_FILE));
     }
     lib_free(fullname);
 }
@@ -174,7 +174,7 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
                            files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname, 0) < 0) {
-        ui_error(intl_translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
+        ui_error(translate_text(IDS_CANNOT_READ_SNAPSHOT_IMG));
     }
     lib_free(fullname);
 }

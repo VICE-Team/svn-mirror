@@ -99,6 +99,7 @@ END
 
 // ITALIAN version of dialog
 
+#pragma code_page(28605)
 IDD_IDE64_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del IDE64"
@@ -125,6 +126,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 60,150,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 120,150,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -249,11 +251,13 @@ END
 
 // ITALIAN text
 
+#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_TOTAL_SIZE_I_KB_IT   "Total size: %iKB"
   IDS_SELECT_HD_IMAGE_IT   "Select HD image file"
 END
+#pragma code_page(28591)
 
 
 // DUTCH text

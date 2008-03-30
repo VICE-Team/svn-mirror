@@ -28,10 +28,10 @@
 
 #include <windows.h>
 
-#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "translate.h"
 #include "uilib.h"
 #include "uivicset.h"
 #include "winmain.h"
@@ -201,7 +201,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_vic_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_VIC_SETTINGS_DIALOG)), hwnd,
+    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_VIC_SETTINGS_DIALOG)), hwnd,
               dialog_proc);
 }
 
