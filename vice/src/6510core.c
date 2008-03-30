@@ -222,8 +222,7 @@
                 EXPORT_REGISTERS();                                   \
                 interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);      \
                 IMPORT_REGISTERS();                                   \
-                if (interrupt_check_pending_interrupt(CPU_INT_STATUS) \
-                    & IK_RESET)                                       \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET)    \
                     ik |= IK_RESET;                                   \
             }                                                         \
             if (ik & IK_RESET) {                                      \
@@ -1456,7 +1455,7 @@
 /* ------------------------------------------------------------------------- */
 
 #ifdef ACCURATE_FETCH
-static BYTE fetch_tab[] = {
+static const BYTE fetch_tab[] = {
             /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
     /* $00 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $00 */
     /* $10 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, /* $10 */
@@ -1600,7 +1599,7 @@ static BYTE fetch_tab[] = {
     {
         enum cpu_int pending_interrupt;
 
-        pending_interrupt = interrupt_check_pending_interrupt(CPU_INT_STATUS);
+        pending_interrupt = CPU_INT_STATUS->global_pending_int;
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
             CPU_DELAY_CLK
