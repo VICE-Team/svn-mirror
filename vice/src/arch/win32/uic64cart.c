@@ -122,6 +122,12 @@ static const uicart_params_t c64_ui_cartridges[] = {
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
+        IDM_CART_ATTACH_STB,
+        CARTRIDGE_STRUCTURED_BASIC,
+        IDS_ATTACH_STB_CART_IMAGE,
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
+    },
+    {
         0, 0, 0, 0
     }
 };
@@ -152,6 +158,7 @@ void uic64cart_proc(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_IDE64:
       case IDM_CART_ATTACH_SS4:
       case IDM_CART_ATTACH_SS5:
+      case IDM_CART_ATTACH_STB:
       case IDM_CART_ENABLE_EXPERT:
         uic64cart_attach(wparam, hwnd, c64_ui_cartridges);
         break;
