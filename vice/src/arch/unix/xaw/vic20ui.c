@@ -41,6 +41,115 @@
 
 /* ------------------------------------------------------------------------- */
 
+enum {
+    MEM_NONE,
+    MEM_ALL,
+    MEM_3K,
+    MEM_8K,
+    MEM_16K,
+    MEM_24K
+};
+
+enum {
+    BLOCK_0 = 1,
+    BLOCK_1 = 1 << 1,
+    BLOCK_2 = 1 << 2,
+    BLOCK_3 = 1 << 3,
+    BLOCK_5 = 1 << 5
+};
+
+static UI_CALLBACK(set_common_memory_configuration)
+{
+    if (!call_data) {
+        int blocks;
+
+        switch ((int) client_data) {
+          case MEM_NONE:
+            blocks = 0;
+          case MEM_ALL:
+            blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
+            break;
+          case MEM_3K:
+            blocks = BLOCK_0;
+            break;
+          case MEM_8K:
+            blocks = BLOCK_1;
+            break;
+          case MEM_16K:
+            blocks = BLOCK_1 | BLOCK_2;
+            break;
+          case MEM_24K:
+            blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
+            break;
+          default:
+            /* Shouldn't happen.  */
+            fprintf(stderr, "What?!\n");
+            blocks = 0;         /* Make compiler happy.  */
+        }
+        resources_set_value("RamBlock0",
+                            (resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
+        resources_set_value("RamBlock1",
+                            (resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
+        resources_set_value("RamBlock2",
+                            (resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
+        resources_set_value("RamBlock3",
+                            (resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
+        resources_set_value("RamBlock5",
+                            (resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
+        ui_menu_update_all();
+        suspend_speed_eval();
+    }
+}
+
+static ui_menu_entry_t common_memory_configurations_submenu[] = {
+    { "None",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_NONE, NULL },
+    { "3K (block 0)",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_3K, NULL },
+    { "8K (block 1)",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_8K, NULL },
+    { "16K (blocks 1/2)",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_16K, NULL },
+    { "24K (blocks 1/2/3)",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_24K, NULL },
+    { "--" },
+    { "All (blocks 0/1/2/3/5)",
+      set_common_memory_configuration, (ui_callback_data_t) MEM_ALL, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(RAMBlock0)
+UI_MENU_DEFINE_TOGGLE(RAMBlock1)
+UI_MENU_DEFINE_TOGGLE(RAMBlock2)
+UI_MENU_DEFINE_TOGGLE(RAMBlock3)
+UI_MENU_DEFINE_TOGGLE(RAMBlock4)
+UI_MENU_DEFINE_TOGGLE(RAMBlock5)
+
+static ui_menu_entry_t memory_settings_submenu[] = {
+    { "Common configurations",
+      NULL, NULL, common_memory_configurations_submenu },
+    { "--" },
+    { "*Block 0 (3K at $0400-$0F00)",
+      (ui_callback_t) toggle_RAMBlock0, NULL, NULL },
+    { "*Block 1 (8K at $2000-$3FFF)",
+      (ui_callback_t) toggle_RAMBlock1, NULL, NULL },
+    { "*Block 2 (8K at $4000-$5F00)",
+      (ui_callback_t) toggle_RAMBlock2, NULL, NULL },
+    { "*Block 3 (8K at $6000-$7FFF)",
+      (ui_callback_t) toggle_RAMBlock3, NULL, NULL },
+    { "*Block 5 (8K at $A000-$BFFF)",
+      (ui_callback_t) toggle_RAMBlock5, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t memory_settings_menu[] = {
+    { "Memory expansions",
+      NULL, NULL, memory_settings_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static UI_CALLBACK(set_joystick_device)
 {
     int tmp;
@@ -119,6 +228,8 @@ int vic20_ui_init(void)
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
+                                     ui_menu_separator,
+                                     memory_settings_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
                                      NULL));

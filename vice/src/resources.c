@@ -349,8 +349,6 @@ int resources_load(const char *fname)
     if (fname == NULL)
 	fname = default_resource_file();
 
-    printf("Reading configuration file `%s'.\n", fname);
-
 #ifdef __MSDOS__
     f = fopen(fname, "rt");
 #else
@@ -361,6 +359,8 @@ int resources_load(const char *fname)
 	/*perror(fname);*/
 	return -1;
     }
+
+    printf("Reading configuration file `%s'.\n", fname);
 
     /* Find the start of the configuration section for this emulator. */
     for (line_num = 1; ; line_num++) {
