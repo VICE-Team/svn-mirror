@@ -378,7 +378,9 @@ static int split_args(const char *line, int *nargs, char **args)
               }
               if (*s == 0)
                   return 0;
-              break;
+              if (!(*s == ' ' && in_quote)) {
+                  break;
+              }
           default:
               begin_of_arg = 0;
               *(d++) = *s;
@@ -903,13 +905,15 @@ static int copy_cmd(int nargs, char **args)
 
         {
             BYTE c;
+            int status = 0;
 
-            while (!vdrive_iec_read(drives[src_unit], ((BYTE *)&c), 0)) {
+            do {
+                status = vdrive_iec_read(drives[src_unit], ((BYTE *)&c), 0);
                 if (vdrive_iec_write(drives[dest_unit], ((BYTE)(c)), 1)) {
                     fprintf(stderr, "No space on image ?\n");
                     break;
                 }
-            }
+            } while (status == SERIAL_OK);
         }
 
         vdrive_iec_close(drives[src_unit], 0);
@@ -1035,6 +1039,7 @@ static int extract_cmd(int nargs, char **args)
                 BYTE *file_name = buf + i + SLOT_NAME_OFFSET;
                 BYTE c, name[17], cbm_name[17];
                 FILE *fd;
+                int status = 0;
 
                 memset(name, 0, 17);
                 memset(cbm_name, 0, 17);
@@ -1062,8 +1067,10 @@ static int extract_cmd(int nargs, char **args)
                     vdrive_iec_close(floppy, 0);
                     continue;
                 }
-                while (!vdrive_iec_read(floppy, &c, 0))
+                do {
+                    status = vdrive_iec_read(floppy, &c, 0);
                     fputc(c, fd);
+                } while (status == SERIAL_OK);
 
                 vdrive_iec_close(floppy, 0);
 
@@ -1349,6 +1356,7 @@ static int read_cmd(int nargs, char **args)
     fileio_info_t *finfo = NULL;
     unsigned int format = FILEIO_FORMAT_RAW;
     BYTE c;
+    int status = 0;
 
     p = extract_unit_from_file_name(args[1], &dnr);
     if (p == NULL)
@@ -1434,13 +1442,14 @@ static int read_cmd(int nargs, char **args)
 
     printf("Reading file `%s' from unit %d.\n", src_name_ascii, dnr + 8);
 
-    while (!vdrive_iec_read(drives[dnr], &c, 0)) {
+    do {
+        status = vdrive_iec_read(drives[dnr], &c, 0);
         if (dest_name_ascii == NULL) {
             fputc(c, outf);
         } else {
             fileio_write(finfo, &c, 1);
         }
-    }
+    } while (status == SERIAL_OK);
 
     if (dest_name_ascii != NULL)
         fileio_close(finfo);

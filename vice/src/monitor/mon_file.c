@@ -47,7 +47,8 @@
 
 static FILE *fp;
 static vdrive_t *vdrive;
-
+/* we require an EOF buffer to support CBM EOFs. */
+static int mon_file_read_eof[4][16];
 
 static int mon_file_open(const char *filename, unsigned int secondary,
                          int device)
@@ -72,6 +73,9 @@ static int mon_file_open(const char *filename, unsigned int secondary,
         if (vdrive_iec_open(vdrive, (const BYTE *)filename,
             (int)strlen(filename), secondary) != SERIAL_OK)
             return -1;
+
+        /* initialize EOF buffer. */
+        mon_file_read_eof[device-8][secondary] = 0;
         break;
     }
     return 0;
@@ -88,8 +92,14 @@ static int mon_file_read(BYTE *data, unsigned int secondary, int device)
       case 9:
       case 10:
       case 11:
-        if (vdrive_iec_read(vdrive, data, secondary) != SERIAL_OK)
+        /* Return EOF if we hit a CBM EOF on the last read. */
+        if (mon_file_read_eof[device-8][secondary]) {
+            *data = 0xc7;
             return -1;
+        }
+        /* Set next EOF based on CBM EOF. */
+        mon_file_read_eof[device-8][secondary] = 
+            vdrive_iec_read(vdrive, data, secondary);
         break;
     }
     return 0;
