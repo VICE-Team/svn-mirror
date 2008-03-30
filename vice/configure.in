@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.6.4)
+AM_INIT_AUTOMAKE(vice, 1.6.5)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -567,7 +567,7 @@ else
 fi
 
 if [[ x"$is_win32" = "xyes" ]] ; then
-    SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o"
+    SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
 fi
 
 if [[ x"$is_beos" = "xyes" ]] ; then

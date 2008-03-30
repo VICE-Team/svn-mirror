@@ -56,6 +56,7 @@ static void init_sound_dialog(HWND hwnd)
 {
 HWND    snd_hwnd;
 int     res_value;
+char    *devicename;
 
     snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_FREQ);
     SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"8000 Hz");
@@ -137,6 +138,15 @@ int     res_value;
             break;
     }
     SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+
+    resources_get_value("SoundDeviceName",(resource_value_t *)&devicename);
+    if (devicename && !strcasecmp("wmm", devicename))
+        res_value = IDC_SOUND_WMM;
+    else
+        res_value = IDC_SOUND_DIRECTX;
+        
+    CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
+
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -150,6 +160,12 @@ int     command;
         case WM_COMMAND:
             command=LOWORD(wparam);
             switch (command) {
+                case IDC_SOUND_DIRECTX:
+                    resources_set_value("SoundDeviceName",(resource_value_t)"dx");
+                    break;
+                case IDC_SOUND_WMM:
+                    resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
+                    break;
                 case IDOK:
                     resources_set_value("SoundSampleRate",(resource_value_t)ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ),CB_GETCURSEL,0,0)]);
                     resources_set_value("SoundBufferSize",(resource_value_t)ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER),CB_GETCURSEL,0,0)]);

@@ -211,7 +211,7 @@ static char *try_uncompress_with_gzip(const char *name)
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
     tmp_name = archdep_tmpnam();
-    
+
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
     exit_status = archdep_spawn("gzip", argv, tmp_name, NULL);
 
@@ -772,6 +772,8 @@ static int compress_with_gzip(const char *src, const char *dest)
 
     gzclose(fddest);
     fclose(fdsrc);
+
+    archdep_file_set_gzip(dest);
 
     return 0;
 #else

@@ -39,6 +39,10 @@
 
 
 
+/* File types */
+static const int FileType_GZIP = 0xf89;
+
+
 int archdep_startup(int *argc, char **argv)
 {
   return 0;
@@ -260,7 +264,7 @@ int archdep_file_is_gzip(const char *name)
 
     type = GetFileType(name);
     /* only look at filename if the filetype differs from 0xF89 */
-    if (type != 0xF89)
+    if (type != FileType_GZIP)
     {
         size_t l = strlen(name);
 
@@ -272,3 +276,10 @@ int archdep_file_is_gzip(const char *name)
     return 1;
 }
 
+int archdep_file_set_gzip(const char *name)
+{
+  if (SetFileType(name, FileType_GZIP) != NULL)
+    return -1;
+
+  return 0;
+}

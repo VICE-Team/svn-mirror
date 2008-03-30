@@ -73,6 +73,7 @@ extern char *archdep_tmpnam(void);
 
 /* Check file for gzip extension. */
 extern int archdep_file_is_gzip(const char *name);
+extern int archdep_file_set_gzip(const char *name);
 
 #endif
 

@@ -784,6 +784,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #ifdef WIN32
     sound_init_dx_device();
+    sound_init_wmm_device();
 #endif
 
 #ifdef WINCE

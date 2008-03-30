@@ -1,5 +1,5 @@
 /*
- * petdummy.c - dummy functions needed for PET and CBM-II.
+ * petdummy.c - dummy functions needed for PET
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>

@@ -101,10 +101,10 @@ const char *archdep_home_path(void)
         struct passwd *pwd;
 
         pwd = getpwuid(getuid());
-        if ((pwd == NULL) 
+        if ((pwd == NULL)
 	    || ((home = pwd->pw_dir) == NULL)) {
 	    /* give up */
-	    home = "."; 
+	    home = ".";
 	}
     }
 
@@ -126,13 +126,13 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 	   and then in the `boot_path'.  */
         default_path = concat(LIBDIR, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
-                              home_path, "/", VICEUSERDIR, "/", emu_id, 
+                              home_path, "/", VICEUSERDIR, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               LIBDIR, "/DRIVES",
                               FINDPATH_SEPARATOR_STRING,
-                              home_path, "/", VICEUSERDIR, "/DRIVES", 
+                              home_path, "/", VICEUSERDIR, "/DRIVES",
                               FINDPATH_SEPARATOR_STRING,
                               boot_path, "/DRIVES", NULL);
     }
@@ -341,4 +341,9 @@ int archdep_file_is_gzip(const char *name)
         && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
         return 0;
     return 1;
+}
+
+int archdep_file_set_gzip(const char *name)
+{
+  return 0;
 }

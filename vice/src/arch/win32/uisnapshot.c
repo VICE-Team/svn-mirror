@@ -210,14 +210,16 @@ void ui_soundshot_save_dialog(HWND hwnd)
 {
     char *s;
     char *devicename;
+    static char old_device[16] = "dx";
 
     resources_get_value("SoundDeviceName",(resource_value_t *) &devicename);
     if (devicename && !strcmp(devicename,"wav")) {
         /* the recording is active; stop it by switching to the default device*/
-        resources_set_value("SoundDeviceName","");
+        resources_set_value("SoundDeviceName", old_device);
         ui_display_statustext("");
     } else {
         /* get the filename and switch to wav device */
+        strcpy(old_device, devicename);
         s = ui_save_snapshot("Save sound file",
             "Sound files (*.wav)\0*.wav\0",hwnd,0);
         if (s != NULL) {

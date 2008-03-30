@@ -711,7 +711,7 @@ static struct MenuCBM2Memory {
   }
 };
 
-#define Menu_CBM2Model_Items	6
+#define Menu_CBM2Model_Items	7
 #define Menu_CBM2Model_Width	200
 static struct MenuCBM2Model {
   RO_MenuHead head;
@@ -719,6 +719,7 @@ static struct MenuCBM2Model {
 } MenuCBM2Model = {
   MENU_HEADER("\\MenC2MdTit", Menu_CBM2Model_Width),
   {
+    MENU_ITEM("\\MenC2Md51"),
     MENU_ITEM("\\MenC2Md61"),
     MENU_ITEM("\\MenC2Md62"),
     MENU_ITEM("\\MenC2Md62P"),
@@ -1111,12 +1112,13 @@ static struct MenuDisplayCBM2Memory {
   {128, 256, 512, 1024}
 };
 
-static const char CBM2Model0[] = "610";
-static const char CBM2Model1[] = "620";
-static const char CBM2Model2[] = "620+";
-static const char CBM2Model3[] = "710";
-static const char CBM2Model4[] = "720";
-static const char CBM2Model5[] = "720+";
+static const char CBM2Model0[] = "510";
+static const char CBM2Model1[] = "610";
+static const char CBM2Model2[] = "620";
+static const char CBM2Model3[] = "620+";
+static const char CBM2Model4[] = "710";
+static const char CBM2Model5[] = "720";
+static const char CBM2Model6[] = "720+";
 
 static struct MenuDisplayCBM2Model {
   disp_desc_t dd;
@@ -1124,7 +1126,7 @@ static struct MenuDisplayCBM2Model {
 } MenuDisplayCBM2Model = {
   {NULL, {CONF_WIN_CBM2, Icon_Conf_CBM2ModelT},
     (RO_MenuHead*)&MenuCBM2Model, Menu_CBM2Model_Items, DISP_DESC_STRING, 0},
-  {(int)CBM2Model0, (int)CBM2Model1, (int)CBM2Model2, (int)CBM2Model3, (int)CBM2Model4, (int)CBM2Model5}
+  {(int)CBM2Model0, (int)CBM2Model1, (int)CBM2Model2, (int)CBM2Model3, (int)CBM2Model4, (int)CBM2Model5, (int)CBM2Model6}
 };
 
 static struct MenuDisplayCBM2RAM {

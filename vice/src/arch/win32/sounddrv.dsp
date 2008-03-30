@@ -104,5 +104,9 @@ SOURCE=..\..\sounddrv\soundspeed.c
 
 SOURCE=..\..\sounddrv\soundwav.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\sounddrv\soundwmm.c
+# End Source File
 # End Target
 # End Project

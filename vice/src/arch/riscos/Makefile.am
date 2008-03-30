@@ -24,6 +24,7 @@ libarch_a_SOURCES = \
 	c64c128ui.h \
 	c64ui.c \
 	c64ui.h \
+	cbm2dummy.c \
 	config.h \
 	console.c \
 	joystick.c \
