@@ -26,8 +26,8 @@
 
 /* This file is ugly, and needs better organization.  In particular, it would
    be nice to remove all the machine-specific hacks.  And it would be nice to
-   put it into a standalone module, although this might affect
-   performance. */
+   put it into a standalone module, although this would probably affect
+   performance.  */
 
 #define _RASTER_C
 
@@ -61,7 +61,7 @@
 #define MAX(a, b)	((a) > (b) ? (a) : (b))
 
 /* XShmPutImage is a bit more picky about its parameters than XPutImage.
-   This is useful to debug XLib failures caused by wrong calls. */
+   This is useful to debug XLib failures caused by wrong calls.  */
 /* #define RASTER_DEBUG_PUTIMAGE_CALLS */
 
 inline static void refresh_all(void);
@@ -205,7 +205,7 @@ inline static void vid_memset(PIXEL *dst, PIXEL c, int cnt)
 	dst[i] = c;
 }
 
-/* This is used to paint borders and blank lines. */
+/* This is used to paint borders and blank lines.  */
 #define DRAW_BLANK(p, start, end, pixel_width)			\
     do {							\
 	PIXEL *dst;						\
@@ -219,7 +219,7 @@ inline static void vid_memset(PIXEL *dst, PIXEL c, int cnt)
 #else  /* 8 bit depth */
 #define vid_memset(dst, c, cnt) memset(dst,c,cnt)
 
-/* This is used to paint borders and blank lines. */
+/* This is used to paint borders and blank lines.  */
 #define DRAW_BLANK(p, start, end, pixel_width)		\
     vid_memset(((BYTE *)(p) + (start) * pixel_width),	\
 	       PIXEL(border_color),			\
@@ -229,7 +229,7 @@ inline static void vid_memset(PIXEL *dst, PIXEL c, int cnt)
 
 /* ------------------------------------------------------------------------- */
 
-/* Initialization. */
+/* Initialization.  */
 static void reset_raster(void)
 {
     int i;
@@ -273,7 +273,7 @@ static void reset_raster(void)
 static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 {
     /* Keep enough space on the left and the right for one sprite of the
-       maximum size.  This way we can clip sprites more easily. */
+       maximum size.  This way we can clip sprites more easily.  */
     if (frame_buffer_alloc(&frame_buffer,
 			   ((SCREEN_WIDTH + 2 * 2 * SCREEN_MAX_SPRITE_WIDTH)
 			    * max_pixel_width),
@@ -286,7 +286,7 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 }
 
 /* Resize the canvas with the specified values and center the screen image on
-   it.  The actual size can be different if the parameters are not suitable. */
+   it.  The actual size can be different if the parameters are not suitable.  */
 static void resize(unsigned int width, unsigned int height)
 {
     if (width >= SCREEN_WIDTH * pixel_width) {
@@ -325,7 +325,7 @@ static void resize(unsigned int width, unsigned int height)
 
     canvas_resize(canvas, width, height);
 
-    /* Make sure we don't waste space showing unused lines. */
+    /* Make sure we don't waste space showing unused lines.  */
     if ((window_first_line < SCREEN_FIRST_DISPLAYED_LINE
 	 && window_last_line < SCREEN_LAST_DISPLAYED_LINE)
 	|| (window_first_line > SCREEN_FIRST_DISPLAYED_LINE
@@ -338,7 +338,7 @@ static void resize(unsigned int width, unsigned int height)
     window_height = height;
 }
 
-/* Open the emulation window. */
+/* Open the emulation window.  */
 static int open_output_window(char *win_name, unsigned int width,
 			      unsigned int height, palette_t *palette,
 			      canvas_redraw_t exposure_handler)
@@ -351,7 +351,7 @@ static int open_output_window(char *win_name, unsigned int width,
     canvas = canvas_create(win_name, &window_width, &window_height, !asleep,
 			   exposure_handler, palette, pixel_table);
 
-    /* Prepare the double and quad pixel tables. */
+    /* Prepare the double and quad pixel tables.  */
     for (i = 0; i < 0x100; i++)
 	*((PIXEL *)(double_pixel_table + i))
 	    = *((PIXEL *)(double_pixel_table + i) + 1) = pixel_table[i];
@@ -412,7 +412,7 @@ inline static int _fill_cache(BYTE *dest, BYTE *src, int length, int srcstep,
 }
 
 /* Do as _fill_cache(), but split each byte into low and high nibble.  These
-   are stored into different destinations. */
+   are stored into different destinations.  */
 inline static int _fill_cache_nibbles(BYTE * desthi, BYTE * destlo, BYTE * src,
 				      int length, int srcstep, int *xs, int *xe,
 				      int no_check)
@@ -458,7 +458,7 @@ inline static int _fill_cache_nibbles(BYTE * desthi, BYTE * destlo, BYTE * src,
 
 
 /* This function is used for text modes.  It checks for differences in the
-   character memory too. */
+   character memory too.  */
 inline static int _fill_cache_text(BYTE * dest, BYTE * src, BYTE * charmem,
 				   int length, int l, int *xs, int *xe,
 				   int no_check)
@@ -496,7 +496,7 @@ inline static int _fill_cache_text(BYTE * dest, BYTE * src, BYTE * charmem,
 
 #if SCREEN_NUM_SPRITES > 0
 /* Fill the sprite cache with the new sprite data. [*xs; *xe] is the changed
-   interval (in pixels). */
+   interval (in pixels).  */
 inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
 {
     int rr = 0, i, r, sxe, sxs, sxe1, sxs1, n = 0, msk;
@@ -592,7 +592,7 @@ inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
 
 /* Increase the size of the rectangle to be refreshed so that it also includes
    the interval [xs; xe] of line y.  The lines must be added in order: from
-   top to bottom. */
+   top to bottom.  */
 inline static void add_line(int y, int xs, int xe)
 {
 #ifdef RASTER_DEBUG_PUTIMAGE_CALLS
@@ -617,7 +617,7 @@ inline static void add_line(int y, int xs, int xe)
 #endif
 }
 
-/* Refresh the changed rectangle. */
+/* Refresh the changed rectangle.  */
 inline static void refresh_changed(void)
 {
     int x, y, xx, yy;
@@ -665,7 +665,7 @@ inline static void refresh_changed(void)
     changed_area.is_null = 1;
 }
 
-/* Unconditionally refresh the whole screen. */
+/* Unconditionally refresh the whole screen.  */
 inline static void refresh_all(void)
 {
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
@@ -720,7 +720,7 @@ inline static void handle_blank_line(void)
 	       || !cache[rasterline].blank) {
 
         /* Even when the actual caching is disabled, redraw blank lines only if
-           it is really necessary to do so. */
+           it is really necessary to do so.  */
 	cache[rasterline].border_color = border_color;
 	cache[rasterline].blank = 1;
 	cache[rasterline].is_dirty = 0;
@@ -738,7 +738,7 @@ inline static void handle_blank_line(void)
 #endif
 }
 
-/* Draw the borders. */
+/* Draw the borders.  */
 inline static void draw_borders(void)
 {
     if (!open_left_border)
@@ -790,7 +790,7 @@ inline static void handle_visible_line_with_cache(void)
 #endif /* defined(__VIC_II__) */
 
 	/* Fill the space between the border and the graphics with the
-	   background color (necessary if `xsmooth' is != 0). */
+	   background color (necessary if `xsmooth' is != 0).  */
 	vid_memset(frame_buffer_ptr + SCREEN_BORDERWIDTH * pixel_width,
 		   PIXEL(overscan_background_color), xsmooth * pixel_width);
 
@@ -812,7 +812,7 @@ inline static void handle_visible_line_with_cache(void)
 
 	/* [ `changed_start' ; `changed_end' ] now covers the whole line, as
 	   we have called fill_cache() with `1' as the last parameter (no
-	   check). */
+	   check).  */
 	video_modes[vm].draw_line_cached(l, changed_start, changed_end);
 
 	changed_start = 0;
@@ -822,7 +822,7 @@ inline static void handle_visible_line_with_cache(void)
 
     } else {
 
-	/* There are no `major' changes: try to do some optimization. */
+	/* There are no `major' changes: try to do some optimization.  */
 
 #if SCREEN_NUM_SPRITES > 0
 
@@ -832,7 +832,7 @@ inline static void handle_visible_line_with_cache(void)
 	sprites_need_update = _fill_sprite_cache(l, &sprite_changed_start,
 						 &sprite_changed_end);
 	/* If sprites have changed, do not bother trying to reduce the amount
-	   of recalculated data, but simply redraw everything. */
+	   of recalculated data, but simply redraw everything.  */
 	needs_update = video_modes[vm].fill_cache(l, &changed_start,
 						  &changed_end,
 						  sprites_need_update);
@@ -850,12 +850,12 @@ inline static void handle_visible_line_with_cache(void)
 	    video_modes[vm].draw_line_cached(l, changed_start, changed_end);
 
 	    /* Fill the space between the border and the graphics with the
-	       background color (necessary if xsmooth is > 0). */
+	       background color (necessary if xsmooth is > 0).  */
 	    vid_memset(frame_buffer_ptr + SCREEN_BORDERWIDTH * pixel_width,
 		       PIXEL(overscan_background_color), xsmooth * pixel_width);
 
 	    /* If xsmooth > 0, drawing the graphics might have corrupted
-	       part of the border... fix it here. */
+	       part of the border... fix it here.  */
 	    if (!open_right_border)
 		DRAW_BLANK(frame_buffer_ptr, SCREEN_BORDERWIDTH + SCREEN_XPIX,
 			   SCREEN_BORDERWIDTH + SCREEN_XPIX + 8, pixel_width);
@@ -882,7 +882,7 @@ inline static void handle_visible_line_with_cache(void)
 			   - 1);
 
 	    if (sprites_need_update) {
-		/* FIXME: wrong. */
+		/* FIXME: wrong.  */
 		if (open_left_border)
 		    changed_start = 0;
 		if (open_right_border)
@@ -890,12 +890,12 @@ inline static void handle_visible_line_with_cache(void)
 
 		/* Even if we have recalculated the whole line, we will refresh
 		   only the part that has actually changed when writing to the
-		   window. */
+		   window.  */
 		changed_start = MIN(changed_start, sprite_changed_start);
 		changed_end = MAX(changed_end, sprite_changed_end);
 
 		/* The borders have not changed, so do not repaint them even
-		   if there are sprites under them. */
+		   if there are sprites under them.  */
 		changed_start = MAX(changed_start, display_xstart);
 		changed_end = MIN(changed_end, display_xstop);
 	    }
@@ -915,7 +915,7 @@ inline static void handle_visible_line_with_cache(void)
 	if (needs_update) {
 	    video_modes[vm].draw_line_cached(l, changed_start, changed_end);
 
-	    /* Convert from character to pixel coordinates. */
+	    /* Convert from character to pixel coordinates.  */
 	    changed_start = SCREEN_BORDERWIDTH + xsmooth + 8 * changed_start;
 	    changed_end = (SCREEN_BORDERWIDTH + xsmooth + 8 * (changed_end + 1)
 			   - 1);
@@ -943,7 +943,7 @@ inline static void handle_visible_line_with_cache(void)
 inline static void handle_visible_line_without_cache()
 {
     /* If screen is scrolled to the right, we need to fill with the background
-       color the blank part on the left. */
+       color the blank part on the left.  */
     vid_memset(frame_buffer_ptr + SCREEN_BORDERWIDTH * pixel_width,
 	       PIXEL(overscan_background_color), xsmooth * pixel_width);
 
@@ -957,7 +957,7 @@ inline static void handle_visible_line_without_cache()
 		    (SCREEN_WIDTH - SCREEN_BORDERWIDTH - SCREEN_XPIX
 		     - xsmooth) * pixel_width);
 
-    /* Draw the graphics and sprites. */
+    /* Draw the graphics and sprites.  */
     if (draw_idle_state)
 	video_modes[SCREEN_IDLE_MODE].draw_line();
     else
@@ -965,7 +965,7 @@ inline static void handle_visible_line_without_cache()
 
     draw_borders();
 
-    /* Still do some minimal caching anyway. */
+    /* Still do some minimal caching anyway.  */
     if (dont_cache
 	|| dma_msk
 	|| cache[rasterline].is_dirty
@@ -1046,7 +1046,7 @@ inline static void handle_visible_line_with_changes(void)
     draw_sprites();
 #endif
 
-    /* Draw left border. */
+    /* Draw left border.  */
     xstop = display_xstart - 1;
     if (!open_left_border) {
 	for (xs = i = 0;
@@ -1071,7 +1071,7 @@ inline static void handle_visible_line_with_changes(void)
 	    apply_change(&border_changes, i);
     }
 
-    /* Draw right border. */
+    /* Draw right border.  */
     if (!open_right_border) {
 	for (;
 	     (i < border_changes.count
@@ -1098,7 +1098,7 @@ inline static void handle_visible_line_with_changes(void)
     background_changes.count =  0;
     border_changes.count = 0;
 
-    /* Do not cache this line. */
+    /* Do not cache this line.  */
     cache[rasterline].is_dirty = 1;
 
     add_line(rasterline, 0, SCREEN_WIDTH - 1);
@@ -1159,7 +1159,7 @@ inline static void handle_end_of_frame(void)
 #endif
 }
 
-/* Emulate one raster line. */
+/* Emulate one raster line.  */
 inline static void emulate_line(void)
 {
     oldclk += CYCLES_PER_LINE;
@@ -1201,7 +1201,7 @@ inline static void emulate_line(void)
 	    mem_counter = (mem_counter + mem_counter_inc) & 0x3ff;
 	mem_counter_inc = SCREEN_TEXTCOLS;
 	/* `ycounter' makes the chip go to idle state when it reaches the
-	   maximum value. */
+	   maximum value.  */
 	if (ycounter == 7) {
 	    idle_state = 1;
 	    memptr = mem_counter;
@@ -1269,7 +1269,7 @@ inline static void emulate_line(void)
     blank_this_line = 0;
 }
 
-/* Disable all the caching for the next frame. */
+/* Disable all the caching for the next frame.  */
 inline static void force_repaint(void)
 {
     dont_cache = 1;
