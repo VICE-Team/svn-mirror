@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# Makefile.am for the OS2 version of `libarch.a'.
+
 
 SHELL = /bin/sh
 
@@ -38,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -93,7 +95,6 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
-SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 WINDRES = @WINDRES@
 X128_WINRES = @X128_WINRES@
@@ -109,48 +110,51 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
+SUBDIRS = pm
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/crtc \
-	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/drive
 
-noinst_LIBRARIES = libpet.a
+noinst_LIBRARIES = libarch.a
 
-libpet_a_SOURCES = \
-	pet.c \
-	pet.h \
-	petacia.h \
-	petacia1.c \
-	petdatasette.c \
-	petiec.c \
-	petmem.c \
-	petmem.h \
-	petpia.h \
-	petpia1.c \
-	petpia2.c \
-	pets.h \
-	petsound.c \
-	petsound.h \
-	petvia.c \
-	petvia.h
+libarch_a_SOURCES = \
+	archdep.c \
+	archdep.h \
+	c64kbd.c \
+	c64ui.c \
+	c64ui.h \
+	joystick.c \
+	joystick.h \
+	kbd.c \
+	kbd.h \
+	types_new.h \
+	ui.c \
+	ui.h \
+	video.c \
+	video.h \
+	vsync.c \
+	vsync.h
+
+EXTRA_DIST = \
+	vice.def
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libpet_a_LIBADD = 
-libpet_a_OBJECTS =  pet.o petacia1.o petdatasette.o petiec.o petmem.o \
-petpia1.o petpia2.o petsound.o petvia.o
+libarch_a_LIBADD = 
+libarch_a_OBJECTS =  archdep.o c64kbd.o c64ui.o joystick.o kbd.o ui.o \
+video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -161,15 +165,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libpet_a_SOURCES)
-OBJECTS = $(libpet_a_OBJECTS)
+SOURCES = $(libarch_a_SOURCES)
+OBJECTS = $(libarch_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/pet/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -204,10 +208,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libpet.a: $(libpet_a_OBJECTS) $(libpet_a_DEPENDENCIES)
-	-rm -f libpet.a
-	$(AR) cru libpet.a $(libpet_a_OBJECTS) $(libpet_a_LIBADD)
-	$(RANLIB) libpet.a
+libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
+	-rm -f libarch.a
+	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
+	$(RANLIB) libarch.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -276,7 +280,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/pet
+subdir = src/arch/os2
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -293,121 +297,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
-	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/snapshot.h ../../src/autostart.h ../../src/clkguard.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
-	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h petmem.h pets.h \
-	petsound.h ../../src/arch/unix/xaw/petui.h petvia.h petacia.h \
-	petpia.h ../../src/serial.h ../../src/traps.h ../../src/sound.h \
-	../../src/warn.h ../../src/utils.h ../../src/via.h \
-	../../src/arch/unix/vsync.h ../../src/rs232.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h
-petacia1.o: petacia1.c ../../src/maincpu.h ../../src/config.h \
-	../../src/6510core.h ../../src/mem.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/aciacore.c ../../src/vice.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/machine.h ../../src/rs232.h \
-	../../src/acia.h
-petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
-	petpia.h ../../src/arch/unix/types.h ../../src/snapshot.h
-petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/iecdrive.h
-petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
-	../../src/autostart.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
-	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	../../src/crtc/crtc-mem.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h pet.h petacia.h petmem.h petpia.h pets.h \
-	petvia.h ../../src/sysfile.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/arch/unix/vsync.h
-petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/piacore.h ../../src/log.h \
-	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/crtc/crtc.h ../../src/alarm.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
-	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/maincpu.h ../../src/parallel.h \
-	pets.h petmem.h petpia.h ../../src/piacore.c
-petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/piacore.h ../../src/log.h \
-	../../src/snapshot.h ../../src/parallel.h \
-	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	petpia.h ../../src/maincpu.h ../../src/piacore.c
-petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
-	../../src/arch/unix/types.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/sound.h ../../src/warn.h ../../src/utils.h
-petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
-	../../src/viacore.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/log.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
-	../../src/via.h ../../src/maincpu.h ../../src/mon.h \
-	../../src/mos6510.h petvia.h ../../src/crtc/crtc.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
-	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
-	../../src/parallel.h petsound.h ../../src/pruser.h \
-	../../src/viacore.c
 
 info: info-recursive
 dvi: dvi-recursive
@@ -484,6 +373,10 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+.PHONY: pm
+:pm
+	(cd pm; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
