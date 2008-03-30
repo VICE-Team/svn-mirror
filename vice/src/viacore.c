@@ -50,37 +50,37 @@
  * Except for shift register and input latching everything should be ok now.
  */
 
-				/* Timer debugging */
+                                /* Timer debugging */
 /*#define MYVIA_TIMER_DEBUG */
-				/* when PB7 is really used, set this
-				   to enable pulse output from the timer.
-				   Otherwise PB7 state is computed only
-				   when port B is read -
-				   not yet implemented */
+                                /* when PB7 is really used, set this
+                                   to enable pulse output from the timer.
+                                   Otherwise PB7 state is computed only
+                                   when port B is read -
+                                   not yet implemented */
 /*#define MYVIA_NEED_PB7 */
-				/* When you really need latching, define this.
-				   It implies additional READ_PR* when
-				   writing the snapshot. When latching is
-				   enabled: it reads the port when enabling,
-				   and when an active C*1 transition occurs.
-				   It does not read the port when reading the
-				   port register. Side-effects beware! */
+                                /* When you really need latching, define this.
+                                   It implies additional READ_PR* when
+                                   writing the snapshot. When latching is
+                                   enabled: it reads the port when enabling,
+                                   and when an active C*1 transition occurs.
+                                   It does not read the port when reading the
+                                   port register. Side-effects beware! */
 /*#define MYVIA_NEED_LATCHING */
 
 #ifdef VIA_SHARED_CODE
-#define VIA_CONTEXT_PARAM	VIACONTEXT *ctxptr,
-#define VIA_CONTEXT_PARVOID	VIACONTEXT *ctxptr
-#define VIA_CONTEXT_CALL	ctxptr,
-#define VIA_CONTEXT_CALLVOID	ctxptr
-#define VIARPARM1		REGPARM2
-#define VIARPARM2		REGPARM3
+#define VIA_CONTEXT_PARAM       VIACONTEXT *ctxptr,
+#define VIA_CONTEXT_PARVOID     VIACONTEXT *ctxptr
+#define VIA_CONTEXT_CALL        ctxptr,
+#define VIA_CONTEXT_CALLVOID    ctxptr
+#define VIARPARM1               REGPARM2
+#define VIARPARM2               REGPARM3
 #else
 #define VIA_CONTEXT_PARAM
-#define VIA_CONTEXT_PARVOID	void
+#define VIA_CONTEXT_PARVOID     void
 #define VIA_CONTEXT_CALL
 #define VIA_CONTEXT_CALLVOID
-#define VIARPARM1		REGPARM1
-#define VIARPARM2		REGPARM2
+#define VIARPARM1               REGPARM1
+#define VIARPARM2               REGPARM2
 /*
  * local variables
  */
@@ -114,8 +114,8 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 #define IS_CB2_PULSE_MODE()      ((myvia[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((myvia[VIA_PCR] & 0xe0) == 0x80)
 
-#define	IS_PA_INPUT_LATCH()	 (myvia[VIA_ACR] & 0x01)
-#define	IS_PB_INPUT_LATCH()	 (myvia[VIA_ACR] & 0x02)
+#define IS_PA_INPUT_LATCH()      (myvia[VIA_ACR] & 0x01)
+#define IS_PB_INPUT_LATCH()      (myvia[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -142,7 +142,7 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
                                                      |
                                                      |
                                                   call of
-			                        int_myvia*
+                                                int_myvia*
                                                    here
 
    real myviatau value = myviatau* + TAUOFFSET
@@ -156,11 +156,11 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
  */
 
 /* timer values do not depend on a certain value here, but PB7 does... */
-#define	TAUOFFSET	(-1)
+#define TAUOFFSET       (-1)
 
 
-#ifndef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
-#define	via_restore_int(a)                                    \
+#ifndef via_restore_int /* if VIA reports to other chip (TPI) for IRQ */
+#define via_restore_int(a)                                    \
         interrupt_set_int_noclk(&mycpu_int_status, I_MYVIAFL, \
         (a) ? MYVIA_INT : 0)
 #endif
@@ -180,7 +180,7 @@ inline static CLOCK myviata(VIA_CONTEXT_PARVOID)
     if (myclk < myviatau - TAUOFFSET)
         return myviatau - TAUOFFSET - myclk - 2;
     else
-	return (myviatal - (myclk - myviatau + TAUOFFSET) % (myviatal + 2));
+        return (myviatal - (myclk - myviatau + TAUOFFSET) % (myviatal + 2));
 }
 
 inline static CLOCK myviatb(VIA_CONTEXT_PARVOID)
@@ -194,24 +194,25 @@ inline static void update_myviatal(VIA_CONTEXT_PARAM CLOCK rclk)
     myviapb7xx = 0;
 
     if (rclk > myviatau) {
-	int nuf = (myviatal + 1 + rclk - myviatau) / (myviatal + 2);
+        int nuf = (myviatal + 1 + rclk - myviatau) / (myviatal + 2);
 
-	if (!(myvia[VIA_ACR] & 0x40)) {
-	    if (((nuf - myviapb7sx) > 1) || (!myviapb7)) {
-		myviapb7o = 1;
-		myviapb7sx = 0;
-	    }
-	}
-	myviapb7 ^= (nuf & 1);
+        if (!(myvia[VIA_ACR] & 0x40)) {
+            if (((nuf - myviapb7sx) > 1) || (!myviapb7)) {
+                myviapb7o = 1;
+                myviapb7sx = 0;
+            }
+        }
+        myviapb7 ^= (nuf & 1);
 
-	myviatau = TAUOFFSET + myviatal + 2 + (rclk - (rclk - myviatau + TAUOFFSET) % (myviatal + 2));
-	if (rclk == myviatau - myviatal - 1) {
-	    myviapb7xx = 1;
-	}
+        myviatau = TAUOFFSET + myviatal + 2
+                   + (rclk - (rclk - myviatau + TAUOFFSET) % (myviatal + 2));
+        if (rclk == myviatau - myviatal - 1) {
+            myviapb7xx = 1;
+        }
     }
 
     if (myviatau == rclk)
-	myviapb7x = 1;
+        myviapb7x = 1;
 
     myviatal = myvia[VIA_T1LL] + (myvia[VIA_T1LH] << 8);
 }
@@ -251,11 +252,11 @@ void myvia_reset(VIA_CONTEXT_PARVOID)
 
     /* clear registers */
     for (i = 0; i < 4; i++)
-	myvia[i] = 0;
+        myvia[i] = 0;
     for (i = 4; i < 10; i++)
         myvia[i] = 0xff;        /* AB 98.08.23 */
     for (i = 11; i < 16; i++)
-	myvia[i] = 0;
+        myvia[i] = 0;
 
     myviatal = 0;
     myviatbl = 0;
@@ -279,8 +280,8 @@ void myvia_reset(VIA_CONTEXT_PARVOID)
 
     ca2_state = 1;
     cb2_state = 1;
-    VIA_SET_CA2( ca2_state )	/* input = high */
-    VIA_SET_CB2( cb2_state )	/* input = high */
+    VIA_SET_CA2(ca2_state)      /* input = high */
+    VIA_SET_CB2(cb2_state)      /* input = high */
 
     res_via(VIA_CONTEXT_CALLVOID);
 }
@@ -289,19 +290,19 @@ void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
 {
     switch (line) {
       case VIA_SIG_CA1:
-	if ( (edge ? 1 : 0) == (myvia[VIA_PCR] & 0x01) ) {
-	    if (IS_CA2_TOGGLE_MODE() && !ca2_state) {
-		ca2_state = 1;
-		VIA_SET_CA2( ca2_state )
-	    }
+        if ( (edge ? 1 : 0) == (myvia[VIA_PCR] & 0x01) ) {
+            if (IS_CA2_TOGGLE_MODE() && !ca2_state) {
+                ca2_state = 1;
+                VIA_SET_CA2( ca2_state )
+            }
             myviaifr |= VIA_IM_CA1;
             update_myviairq(VIA_CONTEXT_CALLVOID);
 #ifdef MYVIA_NEED_LATCHING
-	    if (IS_PA_INPUT_LATCH()) {
-		myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
-	    }
+            if (IS_PA_INPUT_LATCH()) {
+                myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
+            }
 #endif
-	}
+        }
         break;
       case VIA_SIG_CA2:
         if (!(myvia[VIA_PCR] & 0x08)) {
@@ -311,19 +312,19 @@ void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
         }
         break;
       case VIA_SIG_CB1:
-	if ( (edge ? 0x10 : 0) == (myvia[VIA_PCR] & 0x10) ) {
-	    if (IS_CB2_TOGGLE_MODE() && !cb2_state) {
-		cb2_state = 1;
-		VIA_SET_CB2( cb2_state )
-	    }
+        if ( (edge ? 0x10 : 0) == (myvia[VIA_PCR] & 0x10) ) {
+            if (IS_CB2_TOGGLE_MODE() && !cb2_state) {
+                cb2_state = 1;
+                VIA_SET_CB2( cb2_state )
+            }
             myviaifr |= VIA_IM_CB1;
             update_myviairq(VIA_CONTEXT_CALLVOID);
 #ifdef MYVIA_NEED_LATCHING
-	    if (IS_PB_INPUT_LATCH()) {
-		myvia_ilb = read_prb(VIA_CONTEXT_CALLVOID);
-	    }
+            if (IS_PB_INPUT_LATCH()) {
+                myvia_ilb = read_prb(VIA_CONTEXT_CALLVOID);
+            }
 #endif
-	}
+        }
         break;
       case VIA_SIG_CB2:
         if (!(myvia[VIA_PCR] & 0x80)) {
@@ -346,40 +347,40 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         myclk ++;
     }
 
-    rclk = myclk - 1;	/* stores have a one-cylce offset */
+    rclk = myclk - 1;   /* stores have a one-cylce offset */
 
     addr &= 0xf;
 
     switch (addr) {
 
       /* these are done with saving the value */
-      case VIA_PRA:		/* port A */
+      case VIA_PRA:             /* port A */
         myviaifr &= ~VIA_IM_CA1;
         if (!IS_CA2_INDINPUT()) {
             myviaifr &= ~VIA_IM_CA2;
         }
-	if(IS_CA2_HANDSHAKE()) {
-	    ca2_state = 0;
-	    VIA_SET_CA2( ca2_state )
-	    if(IS_CA2_PULSE_MODE()) {
-	  	ca2_state = 1;
-	    	VIA_SET_CA2( ca2_state )
-	    }
-	}
-	if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
+        if(IS_CA2_HANDSHAKE()) {
+            ca2_state = 0;
+            VIA_SET_CA2( ca2_state )
+            if(IS_CA2_PULSE_MODE()) {
+                ca2_state = 1;
+                VIA_SET_CA2( ca2_state )
+            }
+        }
+        if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
             update_myviairq(VIA_CONTEXT_CALLVOID);
 
-      case VIA_PRA_NHS:	/* port A, no handshake */
+      case VIA_PRA_NHS: /* port A, no handshake */
         myvia[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
-	myvia[addr] = byte;
-	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
+        myvia[addr] = byte;
+        byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
         store_pra(VIA_CONTEXT_CALL byte, oldpa, addr);
-	oldpa = byte;
+        oldpa = byte;
         break;
 
-      case VIA_PRB:		/* port B */
+      case VIA_PRB:             /* port B */
         myviaifr &= ~VIA_IM_CB1;
         if ((myvia[VIA_PCR] & 0xa0) != 0x20) {
             myviaifr &= ~VIA_IM_CB2;
@@ -392,17 +393,17 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
                 VIA_SET_CB2( cb2_state )
             }
         }
-	if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
+        if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
             update_myviairq(VIA_CONTEXT_CALLVOID);
 
       case VIA_DDRB:
-	myvia[addr] = byte;
-	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
+        myvia[addr] = byte;
+        byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
         store_prb(VIA_CONTEXT_CALL byte, oldpb, addr);
-	oldpb = byte;
+        oldpb = byte;
         break;
 
-      case VIA_SR:		/* Serial Port output buffer */
+      case VIA_SR:              /* Serial Port output buffer */
         myvia[addr] = byte;
         store_sr(VIA_CONTEXT_CALL byte);
         break;
@@ -415,7 +416,7 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         update_myviatal(VIA_CONTEXT_CALL rclk);
         break;
 
-      case VIA_T1CH:	/* Write timer A high */
+      case VIA_T1CH:    /* Write timer A high */
         myvia[VIA_T1LH] = byte;
         update_myviatal(VIA_CONTEXT_CALL rclk);
         /* load counter with latch value */
@@ -432,7 +433,7 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
-      case VIA_T1LH:		/* Write timer A high order latch */
+      case VIA_T1LH:            /* Write timer A high order latch */
         myvia[addr] = byte;
         update_myviatal(VIA_CONTEXT_CALL rclk);
 
@@ -441,13 +442,13 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
-      case VIA_T2LL:		/* Write timer 2 low latch */
+      case VIA_T2LL:            /* Write timer 2 low latch */
         myvia[VIA_T2LL] = byte;
         update_myviatbl(VIA_CONTEXT_CALLVOID);
         store_t2l(VIA_CONTEXT_CALL byte);
         break;
 
-      case VIA_T2CH:		/* Write timer 2 high */
+      case VIA_T2CH:            /* Write timer 2 high */
         myvia[VIA_T2CH] = byte;
         update_myviatbl(VIA_CONTEXT_CALLVOID);
         myviatbu = rclk + myviatbl + 3;
@@ -461,12 +462,12 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 
         /* Interrupts */
 
-      case VIA_IFR:		/* 6522 Interrupt Flag Register */
+      case VIA_IFR:             /* 6522 Interrupt Flag Register */
         myviaifr &= ~byte;
         update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
-      case VIA_IER:		/* Interrupt Enable Register */
+      case VIA_IER:             /* Interrupt Enable Register */
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
             myviaier |= byte & 0x7f;
@@ -495,7 +496,8 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
                         myviapb7o = 1;
                     } else {
                         myviapb7o = 0;
-                        if ((myvia[VIA_ACR] & 0x80) && myviapb7x && (!myviapb7xx))
+                        if ((myvia[VIA_ACR] & 0x80) && myviapb7x
+                            && (!myviapb7xx))
                             myviapb7 ^= 1;
                     }
                 }
@@ -505,14 +507,14 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 
         /* bit 1, 0  latch enable port B and A */
 #ifdef MYVIA_NEED_LATCHING
-	/* switch on port A latching - FIXME: is this ok? */
-	if ( (!(myvia[addr] & 1)) && (byte & 1)) {
-	    myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
-	}
-	/* switch on port B latching - FIXME: is this ok? */
-	if ( (!(myvia[addr] & 2)) && (byte & 2)) {
-	    myvia_ilb = read_prb;
-	}
+        /* switch on port A latching - FIXME: is this ok? */
+        if ( (!(myvia[addr] & 1)) && (byte & 1)) {
+            myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
+        }
+        /* switch on port B latching - FIXME: is this ok? */
+        if ( (!(myvia[addr] & 2)) && (byte & 2)) {
+            myvia_ilb = read_prb;
+        }
 #endif
 
         myvia[addr] = byte;
@@ -536,27 +538,27 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         /* bit 3, 2, 1  CA2 handshake/interrupt control */
         /* bit 0  CA1 interrupt control */
 
-	if ( (byte & 0x0e) == 0x0c ) {	/* set output low */
-	    ca2_state = 0;
-	} else
-	if ( (byte & 0x0e) == 0x0e ) {	/* set output high */
-	    ca2_state = 1;
-	} else {			/* set to toggle/pulse/input */
-	    /* FIXME: is this correct if handshake is already active? */
-	    ca2_state = 1;
-	}
-	VIA_SET_CA2( ca2_state )
+        if ( (byte & 0x0e) == 0x0c ) {  /* set output low */
+            ca2_state = 0;
+        } else
+        if ( (byte & 0x0e) == 0x0e ) {  /* set output high */
+            ca2_state = 1;
+        } else {                        /* set to toggle/pulse/input */
+            /* FIXME: is this correct if handshake is already active? */
+            ca2_state = 1;
+        }
+        VIA_SET_CA2( ca2_state )
 
-	if ( (byte & 0xe0) == 0xc0 ) {	/* set output low */
-	    cb2_state = 0;
-	} else
-	if ( (byte & 0xe0) == 0xe0 ) {	/* set output high */
-	    cb2_state = 1;
-	} else {			/* set to toggle/pulse/input */
-	    /* FIXME: is this correct if handshake is already active? */
-	    cb2_state = 1;
-	}
-	VIA_SET_CB2( cb2_state )
+        if ( (byte & 0xe0) == 0xc0 ) {  /* set output low */
+            cb2_state = 0;
+        } else
+        if ( (byte & 0xe0) == 0xe0 ) {  /* set output high */
+            cb2_state = 1;
+        } else {                        /* set to toggle/pulse/input */
+            /* FIXME: is this correct if handshake is already active? */
+            cb2_state = 1;
+        }
+        VIA_SET_CB2( cb2_state )
 
         store_pcr(VIA_CONTEXT_CALL byte, addr);
 
@@ -567,7 +569,7 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
       default:
         myvia[addr] = byte;
 
-    }				/* switch */
+    }                           /* switch */
 }
 
 
@@ -580,7 +582,7 @@ BYTE VIARPARM1 myvia_read(VIA_CONTEXT_PARAM ADDRESS addr)
     BYTE retv = myvia_read_(VIA_CONTEXT_CALL addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
-	log_message(myvia_log,
+        log_message(myvia_log,
                     "myvia_read(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
@@ -603,116 +605,117 @@ BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM ADDRESS addr)
 
     if (addr >= VIA_T1CL && addr <= VIA_IER) {
         if (myviatai && (myviatai <= myclk))
-	    int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
+            int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
         if (myviatbi && (myviatbi <= myclk))
-	    int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
+            int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
     }
 
     switch (addr) {
 
-      case VIA_PRA:		/* port A */
+      case VIA_PRA:             /* port A */
         myviaifr &= ~VIA_IM_CA1;
         if ((myvia[VIA_PCR] & 0x0a) != 0x02) {
             myviaifr &= ~VIA_IM_CA2;
         }
         if(IS_CA2_HANDSHAKE()) {
             ca2_state = 0;
-            VIA_SET_CA2( ca2_state )
+            VIA_SET_CA2(ca2_state)
             if(IS_CA2_PULSE_MODE()) {
                 ca2_state = 1;
-                VIA_SET_CA2( ca2_state )
+                VIA_SET_CA2(ca2_state)
             }
         }
         if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
-	    update_myviairq(VIA_CONTEXT_CALLVOID);
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 
-      case VIA_PRA_NHS:	/* port A, no handshake */
+      case VIA_PRA_NHS: /* port A, no handshake */
         /* WARNING: this pin reads the voltage of the output pins, not
            the ORA value as the other port. Value read might be different
            from what is expected due to excessive load. */
 #ifdef MYVIA_NEED_LATCHING
-	if (IS_PA_INPUT_LATCH()) {
-	    byte = myvia_ila;
-	} else {
-	    byte = read_pra(VIA_CONTEXT_CALL addr);
-	}
+        if (IS_PA_INPUT_LATCH()) {
+            byte = myvia_ila;
+        } else {
+            byte = read_pra(VIA_CONTEXT_CALL addr);
+        }
 #else
         byte = read_pra(VIA_CONTEXT_CALL addr);
 #endif
-	myvia_ila = byte;
-	via_last_read = byte;
-	return byte;
+        myvia_ila = byte;
+        via_last_read = byte;
+        return byte;
 
-      case VIA_PRB:		/* port B */
+      case VIA_PRB:             /* port B */
         myviaifr &= ~VIA_IM_CB1;
         if ((myvia[VIA_PCR] & 0xa0) != 0x20)
             myviaifr &= ~VIA_IM_CB2;
         if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
-	    update_myviairq(VIA_CONTEXT_CALLVOID);
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 
         /* WARNING: this pin reads the ORA for output pins, not
            the voltage on the pins as the other port. */
 #ifdef MYVIA_NEED_LATCHING
-	if (IS_PB_INPUT_LATCH()) {
-	    byte = myvia_ilb;
-	} else {
-	    byte = read_prb(VIA_CONTEXT_CALLVOID);
-	}
+        if (IS_PB_INPUT_LATCH()) {
+            byte = myvia_ilb;
+        } else {
+            byte = read_prb(VIA_CONTEXT_CALLVOID);
+        }
 #else
         byte = read_prb(VIA_CONTEXT_CALLVOID);
 #endif
-	myvia_ilb = byte;
+        myvia_ilb = byte;
         byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
         if (myvia[VIA_ACR] & 0x80) {
             update_myviatal(VIA_CONTEXT_CALL rclk);
-            byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
+            byte = (byte & 0x7f)
+                   | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
         }
-	via_last_read = byte;
+        via_last_read = byte;
         return byte;
 
         /* Timers */
 
-      case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
+      case VIA_T1CL /*TIMER_AL */ :     /* timer A low */
         myviaifr &= ~VIA_IM_T1;
         update_myviairq(VIA_CONTEXT_CALLVOID);
         via_last_read = (BYTE)(myviata(VIA_CONTEXT_CALLVOID) & 0xff);
-	return via_last_read;
+        return via_last_read;
 
-      case VIA_T1CH /*TIMER_AH */ :	/* timer A high */
+      case VIA_T1CH /*TIMER_AH */ :     /* timer A high */
         via_last_read = (BYTE)((myviata(VIA_CONTEXT_CALLVOID) >> 8) & 0xff);
-	return via_last_read;
+        return via_last_read;
 
-      case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
+      case VIA_T2CL /*TIMER_BL */ :     /* timer B low */
         myviaifr &= ~VIA_IM_T2;
         update_myviairq(VIA_CONTEXT_CALLVOID);
         via_last_read = (BYTE)(myviatb(VIA_CONTEXT_CALLVOID) & 0xff);
-	return via_last_read;
+        return via_last_read;
 
-      case VIA_T2CH /*TIMER_BH */ :	/* timer B high */
+      case VIA_T2CH /*TIMER_BH */ :     /* timer B high */
         via_last_read = (BYTE)((myviatb(VIA_CONTEXT_CALLVOID) >> 8) & 0xff);
-	return via_last_read;
+        return via_last_read;
 
-      case VIA_SR:		/* Serial Port Shift Register */
+      case VIA_SR:              /* Serial Port Shift Register */
         via_last_read = (myvia[addr]);
-	return via_last_read;
+        return via_last_read;
 
         /* Interrupts */
 
-      case VIA_IFR:		/* Interrupt Flag Register */
+      case VIA_IFR:             /* Interrupt Flag Register */
         {
             BYTE t = myviaifr;
             if (myviaifr & myviaier /*[VIA_IER] */ )
                 t |= 0x80;
-	    via_last_read = t;
+            via_last_read = t;
             return (t);
         }
 
-      case VIA_IER:		/* 6522 Interrupt Control Register */
+      case VIA_IER:             /* 6522 Interrupt Control Register */
         via_last_read = (myviaier /*[VIA_IER] */  | 0x80);
-	return via_last_read;
+        return via_last_read;
 
-    }				/* switch */
+    }                           /* switch */
 
     via_last_read = myvia[addr];
     return (myvia[addr]);
@@ -725,27 +728,28 @@ BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
     addr &= 0xf;
 
     if (myviatai && (myviatai <= myclk))
-	int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
+        int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
     if (myviatbi && (myviatbi <= myclk))
-	int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
+        int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
 
     switch (addr) {
       case VIA_PRA:
         return myvia_read(VIA_CONTEXT_CALL VIA_PRA_NHS);
 
-      case VIA_PRB:		/* port B */
+      case VIA_PRB:             /* port B */
         {
             BYTE byte;
 #ifdef MYVIA_NEED_LATCHING
-	    if (IS_PB_INPUT_LATCH()) {
-	        byte = myvia_ilb;
-	    } else {
-	        byte = read_prb(VIA_CONTEXT_CALLVOID);
-	    }
+            if (IS_PB_INPUT_LATCH()) {
+                byte = myvia_ilb;
+            } else {
+                byte = read_prb(VIA_CONTEXT_CALLVOID);
+            }
 #else
             byte = read_prb(VIA_CONTEXT_CALLVOID);
 #endif
-            byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
+            byte = (byte & ~myvia[VIA_DDRB])
+                   | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
             if (myvia[VIA_ACR] & 0x80) {
                 update_myviatal(VIA_CONTEXT_CALL rclk);
                 byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
@@ -755,15 +759,15 @@ BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
 
         /* Timers */
 
-      case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
+      case VIA_T1CL /*TIMER_AL */ :     /* timer A low */
         return (BYTE)(myviata(VIA_CONTEXT_CALLVOID) & 0xff);
 
-      case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
+      case VIA_T2CL /*TIMER_BL */ :     /* timer B low */
         return (BYTE)(myviatb(VIA_CONTEXT_CALLVOID) & 0xff);
 
       default:
         break;
-    }				/* switch */
+    }                           /* switch */
 
     return myvia_read(VIA_CONTEXT_CALL addr);
 }
@@ -775,18 +779,18 @@ static void int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	log_message(myvia_log, "myvia timer A interrupt");
+        log_message(myvia_log, "myvia timer A interrupt");
 #endif
 
-    if (!(myvia[VIA_ACR] & 0x40)) {	/* one-shot mode */
+    if (!(myvia[VIA_ACR] & 0x40)) {     /* one-shot mode */
 #ifdef MYVIA_TIMER_DEBUG
-	log_message(myvia_log, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
+        log_message(myvia_log, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
 #endif
         alarm_unset(&myvia_t1_alarm);
-	myviatai = 0;
-    } else {			/* continuous mode */
-	/* load counter with latch value */
-	myviatai += myviatal + 2;
+        myviatai = 0;
+    } else {                    /* continuous mode */
+        /* load counter with latch value */
+        myviatai += myviatal + 2;
         alarm_set(&myvia_t1_alarm, myviatai);
     }
     myviaifr |= VIA_IM_T1;
@@ -804,10 +808,10 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	log_message(myvia_log, "MYVIA timer B interrupt.");
+        log_message(myvia_log, "MYVIA timer B interrupt.");
 #endif
 
-    alarm_unset(&myvia_t2_alarm);	/*int_clk[I_MYVIAT2] = 0; */
+    alarm_unset(&myvia_t2_alarm);       /*int_clk[I_MYVIAT2] = 0; */
     myviatbi = 0;
 
     myviaifr |= VIA_IM_T2;
@@ -822,7 +826,7 @@ static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data)
     t = (myviatbu - (myclk + sub)) & 0xffff;
     myviatbu = myclk + t;
     if (myviatai)
-	myviatai -= sub;
+        myviatai -= sub;
     if (via_read_clk > sub)
         via_read_clk -= sub;
     else
@@ -848,20 +852,20 @@ static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data)
  * UBYTE        DDRA
  * UBYTE        ORB
  * UBYTE        DDRB
- * UWORD	T1L
- * UWORD	T1C
- * UBYTE	T2L
- * UWORD	T2C
- * UBYTE	SR
- * UBYTE	ACR
- * UBYTE	PCR
- * UBYTE	IFR		 active interrupts
- * UBYTE	IER		 interrupt masks
- * UBYTE	PB7		 bit 7 = pb7 state
- * UBYTE	SRHBITS		 number of half bits to shift out on SR
- * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
- * UBYTE	ILA		 input latch port A
- * UBYTE	ILB		 input latch port B
+ * UWORD        T1L
+ * UWORD        T1C
+ * UBYTE        T2L
+ * UWORD        T2C
+ * UBYTE        SR
+ * UBYTE        ACR
+ * UBYTE        PCR
+ * UBYTE        IFR              active interrupts
+ * UBYTE        IER              interrupt masks
+ * UBYTE        PB7              bit 7 = pb7 state
+ * UBYTE        SRHBITS          number of half bits to shift out on SR
+ * UBYTE        CABSTATE         bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE        ILA              input latch port A
+ * UBYTE        ILB              input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -891,7 +895,7 @@ int myvia_write_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_write_word(m, (WORD)myviatb(VIA_CONTEXT_CALLVOID));
 
     snapshot_module_write_byte(m, (BYTE)((myviatai ? 0x80 : 0)
-					| (myviatbi ? 0x40 : 0)));
+                                        | (myviatbi ? 0x40 : 0)));
 
     snapshot_module_write_byte(m, myvia[VIA_SR]);
     snapshot_module_write_byte(m, myvia[VIA_ACR]);
@@ -900,10 +904,10 @@ int myvia_write_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_write_byte(m, (BYTE)myviaifr);
     snapshot_module_write_byte(m, (BYTE)myviaier);
 
-						/* FIXME! */
+                                                /* FIXME! */
     snapshot_module_write_byte(m, (BYTE)((((myviapb7 ^ myviapb7x)
                                | myviapb7o) ? 0x80 : 0)));
-    snapshot_module_write_byte(m, 0);		/* SRHBITS */
+    snapshot_module_write_byte(m, 0);           /* SRHBITS */
 
     snapshot_module_write_byte(m, (BYTE)((ca2_state ? 0x80 : 0)
                                | (cb2_state ? 0x40 : 0)));
@@ -949,14 +953,14 @@ int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_read_byte(m, &myvia[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
-	undump_pra(VIA_CONTEXT_CALL byte);
-	oldpa = byte;
+        byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
+        undump_pra(VIA_CONTEXT_CALL byte);
+        oldpa = byte;
 
-	addr = VIA_DDRB;
-	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
-	undump_prb(VIA_CONTEXT_CALL byte);
-	oldpb = byte;
+        addr = VIA_DDRB;
+        byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
+        undump_prb(VIA_CONTEXT_CALL byte);
+        oldpb = byte;
     }
 
     snapshot_module_read_word(m, &word);
@@ -976,12 +980,12 @@ int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     if (byte & 0x80) {
         alarm_set(&myvia_t1_alarm, myviatai);
     } else {
-	myviatai = 0;
+        myviatai = 0;
     }
     if (byte & 0x40) {
         alarm_set(&myvia_t2_alarm, myviatbi);
     } else {
-	myviatbi = 0;
+        myviatbi = 0;
     }
 
     snapshot_module_read_byte(m, &myvia[VIA_SR]);
@@ -1000,28 +1004,28 @@ int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     myviapb7 = byte ? 1 : 0;
     myviapb7x = 0;
     myviapb7o = 0;
-    snapshot_module_read_byte(m, &byte);	/* SRHBITS */
+    snapshot_module_read_byte(m, &byte);        /* SRHBITS */
 
-    snapshot_module_read_byte(m, &byte);	/* CABSTATE */
+    snapshot_module_read_byte(m, &byte);        /* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
 
     /* undump_pcr also restores the ca2_state/cb2_state effects if necessary;
        i.e. calls VIA_SET_C*2( c*2_state ) if necessary */
     {
-	addr = VIA_PCR;
-	byte = myvia[addr];
-	undump_pcr(VIA_CONTEXT_CALL byte);
+        addr = VIA_PCR;
+        byte = myvia[addr];
+        undump_pcr(VIA_CONTEXT_CALL byte);
     }
     {
-	addr = VIA_SR;
-	byte = myvia[addr];
-	store_sr(VIA_CONTEXT_CALL byte);
+        addr = VIA_SR;
+        byte = myvia[addr];
+        store_sr(VIA_CONTEXT_CALL byte);
     }
     {
-	addr = VIA_ACR;
-	byte = myvia[addr];
-	undump_acr(VIA_CONTEXT_CALL byte);
+        addr = VIA_ACR;
+        byte = myvia[addr];
+        undump_acr(VIA_CONTEXT_CALL byte);
     }
 
     snapshot_module_read_byte(m, &myvia_ila);
