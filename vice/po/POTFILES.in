@@ -12,7 +12,7 @@ src/arch/unix/cbm2ui.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
 src/arch/unix/joy.c
-src/arch/unix/mouse.c
+src/arch/unix/mousedrv.c
 src/arch/unix/petui.c
 src/arch/unix/plus4ui.c
 src/arch/unix/rs232.c
