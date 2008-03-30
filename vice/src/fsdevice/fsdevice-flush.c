@@ -51,7 +51,6 @@
 #include "fsdevicetypes.h"
 #include "ioutil.h"
 #include "lib.h"
-#include "serial.h"
 #include "types.h"
 #include "vdrive-command.h"
 #include "vdrive.h"

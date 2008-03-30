@@ -49,7 +49,6 @@
 #include "fsdevice.h"
 #include "lib.h"
 #include "log.h"
-#include "serial.h"
 #include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"

@@ -34,7 +34,6 @@
 #include "diskimage.h"
 #include "lib.h"
 #include "log.h"
-#include "serial.h"
 #include "vdrive-dir.h"
 #include "vdrive-rel.h"
 #include "vdrive.h"

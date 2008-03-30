@@ -50,7 +50,6 @@
 #include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevicetypes.h"
-#include "serial.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 

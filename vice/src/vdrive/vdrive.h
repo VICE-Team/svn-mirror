@@ -77,6 +77,16 @@
 #define FAM_M           4
 #define FAM_F           8
 
+/* Serial Error Codes. */
+#define SERIAL_OK               0
+#define SERIAL_WRITE_TIMEOUT    1
+#define SERIAL_READ_TIMEOUT     2
+#define SERIAL_FILE_NOT_FOUND   64
+#define SERIAL_NO_DEVICE        128
+
+#define SERIAL_ERROR            (2)
+#define SERIAL_EOF              (64)
+
 typedef struct bufferinfo_s {
     unsigned int mode;     /* Mode on this buffer */
     unsigned int readmode; /* Is this channel for reading or writing */

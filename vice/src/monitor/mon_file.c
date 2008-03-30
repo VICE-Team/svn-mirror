@@ -37,7 +37,6 @@
 #include "montypes.h"
 #include "mon_file.h"
 #include "mon_util.h"
-#include "serial.h"
 #include "uimon.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"

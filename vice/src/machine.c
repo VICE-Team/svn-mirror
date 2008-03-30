@@ -54,7 +54,6 @@
 #include "monitor.h"
 #include "printer.h"
 #include "resources.h"
-#include "serial.h"
 #include "sound.h"
 #include "sysfile.h"
 #include "tape.h"
@@ -186,8 +185,6 @@ void machine_shutdown(void)
     tape_shutdown();
 
     traps_shutdown();
-
-    serial_shutdown();
 
     kbd_buf_shutdown();
     keyboard_shutdown();
