@@ -37,6 +37,7 @@
 #include "uiacia.h"
 #include "uicbm2set.h"
 #include "uidrivepetcbm2.h"
+#include "uikeyboard.h"
 #include "uirom.h"
 #include "uisid.h"
 #include "uivideo.h"
@@ -100,6 +101,27 @@ static const ui_res_value_list_t cbm2_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
 
+#define CBM2UI_KBD_NUM_MAP 6
+
+static const uikeyboard_mapping_entry_t mapping_entry[CBM2UI_KBD_NUM_MAP] = {
+    { IDC_CBM2KBD_MAPPING_SELECT_UKSYM, IDC_CBM2KBD_MAPPING_UKSYM,
+      IDC_CBM2KBD_MAPPING_UKSYM_BROWSE, "KeymapBusinessUKSymFile" },
+    { IDC_CBM2KBD_MAPPING_SELECT_UKPOS, IDC_CBM2KBD_MAPPING_UKPOS,
+      IDC_CBM2KBD_MAPPING_UKPOS_BROWSE, "KeymapBusinessUKPosFile" },
+    { IDC_CBM2KBD_MAPPING_SELECT_GRSYM, IDC_CBM2KBD_MAPPING_GRSYM,
+      IDC_CBM2KBD_MAPPING_GRSYM_BROWSE, "KeymapGraphicsSymFile" },
+    { IDC_CBM2KBD_MAPPING_SELECT_GRPOS, IDC_CBM2KBD_MAPPING_GRPOS,
+      IDC_CBM2KBD_MAPPING_GRPOS_BROWSE, "KeymapGraphicsPosFile" },
+    { IDC_CBM2KBD_MAPPING_SELECT_DESYM, IDC_CBM2KBD_MAPPING_DESYM,
+      IDC_CBM2KBD_MAPPING_DESYM_BROWSE, "KeymapBusinessDESymFile" },
+    { IDC_CBM2KBD_MAPPING_SELECT_DEPOS, IDC_CBM2KBD_MAPPING_DEPOS,
+      IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, "KeymapBusinessDEPosFile" }
+};
+
+static uikeyboard_config_t uikeyboard_config =
+    { IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG, CBM2UI_KBD_NUM_MAP, mapping_entry };
+
+
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -122,6 +144,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        break;
+      case IDM_KEYBOARD_SETTINGS:
+        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
     }
 }

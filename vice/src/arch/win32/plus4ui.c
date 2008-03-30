@@ -36,9 +36,9 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiacia.h"
-#include "uiplus4cart.h"
 #include "uidriveplus4.h"
-#include "uilib.h"
+#include "uikeyboard.h"
+#include "uiplus4cart.h"
 #include "uiplus4mem.h"
 #include "uirom.h"
 #include "uivideo.h"
@@ -98,6 +98,19 @@ static const ui_res_value_list_t plus4_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
 
+#define PLUS4UI_KBD_NUM_MAP 2
+
+static const uikeyboard_mapping_entry_t mapping_entry[PLUS4UI_KBD_NUM_MAP] = {
+    { IDC_PLUS4KBD_MAPPING_SELECT_SYM, IDC_PLUS4KBD_MAPPING_SYM,
+      IDC_PLUS4KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
+    { IDC_PLUS4KBD_MAPPING_SELECT_POS, IDC_PLUS4KBD_MAPPING_POS,
+      IDC_PLUS4KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
+};
+
+static uikeyboard_config_t uikeyboard_config =
+   { IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG, PLUS4UI_KBD_NUM_MAP, mapping_entry };
+
+
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uiplus4cart_proc(wparam, hwnd);
@@ -119,6 +132,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        break;
+      case IDM_KEYBOARD_SETTINGS:
+        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
     }
 }

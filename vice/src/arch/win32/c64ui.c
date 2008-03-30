@@ -39,6 +39,7 @@
 #include "uic64cart.h"
 #include "uidrivec64vic20.h"
 #include "uiide64.h"
+#include "uikeyboard.h"
 #include "uireu.h"
 #include "uirom.h"
 #include "uirs232user.h"
@@ -109,6 +110,19 @@ static const uirom_settings_t uirom_settings[] = {
     { 0, NULL, NULL, 0, 0, 0 }
 };
 
+#define C64UI_KBD_NUM_MAP 2
+
+static const uikeyboard_mapping_entry_t mapping_entry[C64UI_KBD_NUM_MAP] = {
+    { IDC_C64KBD_MAPPING_SELECT_SYM, IDC_C64KBD_MAPPING_SYM,
+      IDC_C64KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
+    { IDC_C64KBD_MAPPING_SELECT_POS, IDC_C64KBD_MAPPING_POS,
+      IDC_C64KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
+};
+
+static uikeyboard_config_t uikeyboard_config =
+    { IDD_C64KBD_MAPPING_SETTINGS_DIALOG, C64UI_KBD_NUM_MAP, mapping_entry };
+
+
 static void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uic64cart_proc(wparam, hwnd);
@@ -147,6 +161,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_RS232USER_SETTINGS:
         ui_rs232user_settings_dialog(hwnd);
+        break;
+      case IDM_KEYBOARD_SETTINGS:
+        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
     }
 }

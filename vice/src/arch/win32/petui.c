@@ -35,6 +35,7 @@
 #include "ui.h"
 #include "uiacia.h"
 #include "uidrivepetcbm2.h"
+#include "uikeyboard.h"
 #include "uipetset.h"
 #include "uirom.h"
 #include "uivideo.h"
@@ -94,6 +95,26 @@ static const uirom_settings_t uirom_settings[] = {
     { 0, NULL, NULL, 0, 0, 0 }
 };
 
+#define PETUI_KBD_NUM_MAP 6
+
+static const uikeyboard_mapping_entry_t mapping_entry[PETUI_KBD_NUM_MAP] = {
+    { IDC_PETKBD_MAPPING_SELECT_UKSYM, IDC_PETKBD_MAPPING_UKSYM,
+      IDC_PETKBD_MAPPING_UKSYM_BROWSE, "KeymapBusinessUKSymFile" },
+    { IDC_PETKBD_MAPPING_SELECT_UKPOS, IDC_PETKBD_MAPPING_UKPOS,
+      IDC_PETKBD_MAPPING_UKPOS_BROWSE, "KeymapBusinessUKPosFile" },
+    { IDC_PETKBD_MAPPING_SELECT_GRSYM, IDC_PETKBD_MAPPING_GRSYM,
+      IDC_PETKBD_MAPPING_GRSYM_BROWSE, "KeymapGraphicsSymFile" },
+    { IDC_PETKBD_MAPPING_SELECT_GRPOS, IDC_PETKBD_MAPPING_GRPOS,
+      IDC_PETKBD_MAPPING_GRPOS_BROWSE, "KeymapGraphicsPosFile" },
+    { IDC_PETKBD_MAPPING_SELECT_DESYM, IDC_PETKBD_MAPPING_DESYM,
+      IDC_PETKBD_MAPPING_DESYM_BROWSE, "KeymapBusinessDESymFile" },
+    { IDC_PETKBD_MAPPING_SELECT_DEPOS, IDC_PETKBD_MAPPING_DEPOS,
+      IDC_PETKBD_MAPPING_DEPOS_BROWSE, "KeymapBusinessDEPosFile" }
+};
+
+static uikeyboard_config_t uikeyboard_config =
+    { IDD_PETKBD_MAPPING_SETTINGS_DIALOG, PETUI_KBD_NUM_MAP, mapping_entry };
+
 
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
@@ -114,6 +135,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        break;
+      case IDM_KEYBOARD_SETTINGS:
+        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
     }
 }

@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uicart.h"
 #include "uidrivec64vic20.h"
+#include "uikeyboard.h"
 #include "uilib.h"
 #include "uirom.h"
 #include "uirs232user.h"
@@ -104,6 +105,19 @@ static const uirom_settings_t uirom_settings[] = {
       IDC_DRIVEROM_1001_RESOURCE },
     { 0, NULL, NULL, 0, 0, 0 }
 };
+
+#define VIC20UI_KBD_NUM_MAP 2
+
+static const uikeyboard_mapping_entry_t mapping_entry[VIC20UI_KBD_NUM_MAP] = {
+    { IDC_VIC20KBD_MAPPING_SELECT_SYM, IDC_VIC20KBD_MAPPING_SYM,
+      IDC_VIC20KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
+    { IDC_VIC20KBD_MAPPING_SELECT_POS, IDC_VIC20KBD_MAPPING_POS,
+      IDC_VIC20KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
+};
+
+static uikeyboard_config_t uikeyboard_config =
+    { IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG, VIC20UI_KBD_NUM_MAP,
+      mapping_entry };
 
 static const uicart_params_t vic20_ui_cartridges[] = {
     {
@@ -174,6 +188,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_RS232USER_SETTINGS:
         ui_rs232user_settings_dialog(hwnd);
+        break;
+      case IDM_KEYBOARD_SETTINGS:
+        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);
         break;
     }
 }
