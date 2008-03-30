@@ -1,3 +1,7 @@
+2002-04-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.35.
+
 2002-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.34.
@@ -57,7 +61,7 @@
 
 	* arch/unix/plus4ui.c: Added RAM settings.
 
-	* vsync.h: Added deklaration of `video_canvas_s'.
+	* vsync.h: Added declaration of `video_canvas_s'.
 
 2002-04-03  John Selck  <graham@cruise.de>
 
@@ -1539,7 +1543,7 @@
 
 	* drive/drive-resources.c: New resources for 1551 ROM.
 
-	* drive/drive-cmdline-options.c_ New command line options for
+	* drive/drive-cmdline-options.c: New command line options for
 	1551 ROM.
 
 	* drive/drive.c (drive_load_1551): New function.

@@ -1,11 +1,72 @@
-                                                        -*- Outline -*-
-
 * About this file
 =================
 
 This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
+
+* Changes in VICE 1.9
+=====================
+
+** General
+----------
+
+- Real PAL filter emulation.
+
+** C64 changes
+--------------
+
+- The REU emulation has been improved.
+
+** VIC-II
+---------
+
+- Various fixes to make more demos work.
+
+** SID changes
+--------------
+
+- The standard SID had problems with filters if stereo SID was
+  enabled.
+
+** Drive changes
+-----------------
+
+- True drive emulation is default now.
+
+- A reset during autostart restores true drive emulation if enabled
+  before.
+
+- Relaxed disk change timing a bit and fixed the sync bit.  More
+  programs will recognise the disk change now.
+
+** Unix changes
+---------------
+
+- New polish translation. Credits to Mariusz M³ynek.
+
+- XFree86 fullscreen support is disabled by default. To enable
+  fullscreen support use the `--enable-fullscreen' of configure.
+
+- Fliplists can be saved and restored via GUI.
+
+- Fliplists are now automatically saved to
+  ${HOME}/.vice/fliplist-{EMU}.vfl when save settings is requested.
+
+- Those ^L are gone, readline should compile again.
+
+** MS-Windows changes
+---------------------
+
+- A bug in the stereo SID implementation causing a crash has been
+  fixed.
+
+- Fixed the monitor close button.
+
+** Miscellaneous changes
+------------------------
+
+- A zipcode bug has been fixed.
 
 
 * Changes in VICE 1.8

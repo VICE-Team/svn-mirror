@@ -129,19 +129,6 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
         } while (f);
     }
 
-#if 0
-#a1 rrrw xxxXX   -
-#a2  rrrwxxxXX   vor     mclk + 1 = vic_ii.fetch_clk
-#a3   rrrwxxXX   vor     mclk = vic_ii.fetch_clk
-#a4    rrxxxXXrw -
-
-#b1 rrrrww xxxXX    -
-#b2  rrrrwwxxxXX    vor  
-#b3   rrrrwwxxXX    vor  mclk + 1 = vic_ii.fetch_clkv
-#b4    rrrrwwxXX    vor  mclk = vic_ii.fetch_clk
-#b5     rrrxxxXXrww -
-#endif
-
     vic_ii.ram_base_phi2[addr] = value;
 }
 
