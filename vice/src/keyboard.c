@@ -198,9 +198,49 @@ keyboard_conv_t joykeys[2][10];
 /*-----------------------------------------------------------------------*/
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
+static int key_latch_row, key_latch_column;
+
+static void keyboard_key_deshift(void)
+{
+    keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+    keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+}
+
+static int keyboard_key_pressed_matrix(int row, int column, int shift)
+{
+    if (row >= 0) {
+        key_latch_row = row;
+        key_latch_column = column;
+
+        if (shift == NO_SHIFT) {
+            keyboard_key_deshift();
+        } else {
+            if (shift & VIRTUAL_SHIFT)
+                virtual_shift_down = 1;
+            if (shift & LEFT_SHIFT)
+                left_shift_down = 1;
+            if (left_shift_down > 0
+                || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
+                keyboard_set_latch_keyarr(kbd_lshiftrow,
+                                          kbd_lshiftcol, 1);
+            if (shift & RIGHT_SHIFT)
+                right_shift_down = 1;
+            if (right_shift_down > 0
+                || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
+                keyboard_set_latch_keyarr(kbd_rshiftrow,
+                                          kbd_rshiftcol, 1);
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
 
 void keyboard_key_pressed(signed long key)
 {
+    int i, latch;
+
     if (event_playback_active())
         return;
 
@@ -226,50 +266,62 @@ void keyboard_key_pressed(signed long key)
     if (joystick_check_set(key, 2))
         return;
 
-    if (keyconvmap) {
-        int i;
+    if (keyconvmap == NULL)
+        return;
 
-        for (i = 0; keyconvmap[i].sym != 0; ++i) {
-            if (key == keyconvmap[i].sym) {
-                int row = keyconvmap[i].row;
-                int column = keyconvmap[i].column;
+    latch = 0;
 
-                if (row >= 0) {
-                    keyboard_set_latch_keyarr(row, column, 1);
-
-                    if (keyconvmap[i].shift == NO_SHIFT) {
-                        keyboard_set_latch_keyarr(kbd_lshiftrow,
-                                                  kbd_lshiftcol, 0);
-                        keyboard_set_latch_keyarr(kbd_rshiftrow,
-                                                  kbd_rshiftcol, 0);
-                    } else {
-                        if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                            virtual_shift_down = 1;
-                        if (keyconvmap[i].shift & LEFT_SHIFT)
-                            left_shift_down = 1;
-                        if (left_shift_down > 0
-                            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
-                            keyboard_set_latch_keyarr(kbd_lshiftrow,
-                                                      kbd_lshiftcol, 1);
-                        if (keyconvmap[i].shift & RIGHT_SHIFT)
-                            right_shift_down = 1;
-                        if (right_shift_down > 0
-                            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
-                            keyboard_set_latch_keyarr(kbd_rshiftrow,
-                                                      kbd_rshiftcol, 1);
-                    }
-
-                    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
-
-                    return;
-                }
-            }
+    for (i = 0; keyconvmap[i].sym != 0; ++i) {
+        if (key == keyconvmap[i].sym) {
+            if (keyboard_key_pressed_matrix(keyconvmap[i].row,
+                                            keyconvmap[i].column,
+                                            keyconvmap[i].shift))
+                latch = 1;
         }
     }
+
+    if (latch) {
+        keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
+        alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+    }
+}
+
+static int keyboard_key_released_matrix(int row, int column, int shift)
+{
+    if (row >= 0) {
+        key_latch_row = row;
+        key_latch_column = column;
+
+        if (shift & VIRTUAL_SHIFT)
+            virtual_shift_down = 0;
+        if (shift & LEFT_SHIFT)
+            left_shift_down = 0;
+        if (shift & RIGHT_SHIFT)
+            right_shift_down = 0;
+
+        /* Map shift keys. */
+        if (right_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+        else
+            keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+
+        if (left_shift_down > 0
+            || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+        else
+            keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+
+        return 1;
+    }
+
+    return 0;
 }
 
 void keyboard_key_released(signed long key)
 {
+    int i, latch;
+
     if (event_playback_active())
         return;
 
@@ -283,48 +335,24 @@ void keyboard_key_released(signed long key)
     if (joystick_check_clr(key, 2))
         return;
 
-    if (keyconvmap) {
-        int i;
+    if (keyconvmap == NULL)
+        return;
 
-        for (i = 0; keyconvmap[i].sym != 0; i++) {
-            if (key == keyconvmap[i].sym) {
-                int row = keyconvmap[i].row;
-                int column = keyconvmap[i].column;
+    latch = 0;
 
-                if (row >= 0) {
-                    keyboard_set_latch_keyarr(row, column, 0);
-                    if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                        virtual_shift_down = 0;
-                    if (keyconvmap[i].shift & LEFT_SHIFT)
-                        left_shift_down = 0;
-                    if (keyconvmap[i].shift & RIGHT_SHIFT)
-                        right_shift_down = 0;
-
-                    /* Map shift keys. */
-                    if (right_shift_down > 0
-                        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
-                        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol,
-                                                  1);
-                    else
-                        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol,
-                                                  0);
-
-                    if (left_shift_down > 0
-                        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
-                        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol,
-                                                  1);
-                    else
-                        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol,
-                                                  0);
-
-                    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
-
-                }
-            }
+    for (i = 0; keyconvmap[i].sym != 0; i++) {
+        if (key == keyconvmap[i].sym) {
+            if (keyboard_key_released_matrix(keyconvmap[i].row,
+                                             keyconvmap[i].column,
+                                             keyconvmap[i].shift))
+                latch = 1;
         }
     }
 
-    return;
+    if (latch) {
+        keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 0);
+        alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+    }
 }
 
 void keyboard_key_clear(void)
