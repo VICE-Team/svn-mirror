@@ -59,18 +59,6 @@ static void set_drive_ram(unsigned int dnr)
     return;
 }
 
-static int set_drive_parallel_cable(int val, void *param)
-{
-    if (val != DRIVE_PC_NONE && val != DRIVE_PC_STANDARD
-        && val != DRIVE_PC_DD3)
-        return -1;
-
-    drive_context[(unsigned int)param]->drive->parallel_cable = val;
-    set_drive_ram((unsigned int)param);
-
-    return 0;
-}
-
 static int set_drive_idling_method(int val, void *param)
 {
     unsigned int dnr;
@@ -248,8 +236,6 @@ static const resource_int_t resources_int[] = {
 };
 
 static resource_int_t res_drive[] = {
-    { NULL, 0,  RES_EVENT_SAME, NULL,
-      NULL, set_drive_parallel_cable, NULL },
     { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
@@ -273,27 +259,24 @@ int iec_resources_init(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        res_drive[0].name = lib_msprintf("Drive%iParallelCable", dnr + 8);
-        res_drive[0].value_ptr = &(drive->parallel_cable);
+        res_drive[0].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
+        res_drive[0].value_ptr = &(drive->idling_method);
         res_drive[0].param = (void *)dnr;
-        res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        res_drive[1].value_ptr = &(drive->idling_method);
+        res_drive[1].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        res_drive[1].value_ptr = &(drive->drive_ram2_enabled);
         res_drive[1].param = (void *)dnr;
-        res_drive[2].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        res_drive[2].value_ptr = &(drive->drive_ram2_enabled);
+        res_drive[2].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        res_drive[2].value_ptr = &(drive->drive_ram4_enabled);
         res_drive[2].param = (void *)dnr;
-        res_drive[3].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        res_drive[3].value_ptr = &(drive->drive_ram4_enabled);
+        res_drive[3].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        res_drive[3].value_ptr = &(drive->drive_ram6_enabled);
         res_drive[3].param = (void *)dnr;
-        res_drive[4].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        res_drive[4].value_ptr = &(drive->drive_ram6_enabled);
+        res_drive[4].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        res_drive[4].value_ptr = &(drive->drive_ram8_enabled);
         res_drive[4].param = (void *)dnr;
-        res_drive[5].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        res_drive[5].value_ptr = &(drive->drive_ram8_enabled);
+        res_drive[5].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
+        res_drive[5].value_ptr = &(drive->drive_rama_enabled);
         res_drive[5].param = (void *)dnr;
-        res_drive[6].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
-        res_drive[6].value_ptr = &(drive->drive_rama_enabled);
-        res_drive[6].param = (void *)dnr;
 
         if (resources_register_int(res_drive) < 0)
             return -1;
@@ -304,7 +287,6 @@ int iec_resources_init(void)
         lib_free((char *)(res_drive[3].name));
         lib_free((char *)(res_drive[4].name));
         lib_free((char *)(res_drive[5].name));
-        lib_free((char *)(res_drive[6].name));
     }
 
     if (resources_register_string(resources_string) < 0)
