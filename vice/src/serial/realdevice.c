@@ -45,21 +45,24 @@ static unsigned int realdevice_enabled = 0;
 static CBM_FILE realdevice_fd;
 
 
-void realdevice_open(unsigned int device, BYTE secondary)
+void realdevice_open(unsigned int device, BYTE secondary,
+                     void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
     cbm_open(realdevice_fd, device & 0x0f, secondary & 0x0f, NULL, 0);
 }
 
-void realdevice_close(unsigned int device, BYTE secondary)
+void realdevice_close(unsigned int device, BYTE secondary,
+                      void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
     cbm_close(realdevice_fd, device & 0x0f, secondary & 0x0f);
 }
 
-void realdevice_listentalk(unsigned int device, BYTE secondary)
+void realdevice_listentalk(unsigned int device, BYTE secondary,
+                           void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
@@ -73,14 +76,14 @@ void realdevice_listentalk(unsigned int device, BYTE secondary)
     }
 }
 
-void realdevice_unlisten(void)
+void realdevice_unlisten(void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
     cbm_unlisten(realdevice_fd);
 }
 
-void realdevice_untalk(void)
+void realdevice_untalk(void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
