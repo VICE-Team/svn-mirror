@@ -137,6 +137,7 @@ extern void true1541_update_zone_bits(int zone);
 extern void true1541_update_viad2_pcr(int pcrval);
 extern void true1541_prevent_clk_overflow(void);
 extern void true1541_motor_control(int flag);
+extern void true1541_update_ui_status(void);
 
 extern BYTE true1541_rom[TRUE1541_ROM_SIZE];
 extern BYTE true1541_ram[TRUE1541_RAM_SIZE];
