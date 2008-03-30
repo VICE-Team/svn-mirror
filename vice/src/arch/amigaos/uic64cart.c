@@ -52,73 +52,73 @@ static const uicart_params_t c64_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_CRT,
         CARTRIDGE_CRT,
-        "Attach CRT cartridge image",
+        IDS_ATTACH_CRT_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
         IDM_CART_ATTACH_8KB,
         CARTRIDGE_GENERIC_8KB,
-        "Attach raw 8KB cartridge image",
+        IDS_ATTACH_RAW_8KB_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_16KB,
         CARTRIDGE_GENERIC_16KB,
-        "Attach raw 16KB cartridge image",
+        IDS_ATTACH_RAW_16KB_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AR,
         CARTRIDGE_ACTION_REPLAY,
-        "Attach Action Replay cartridge image",
+        IDS_ATTACH_ACTION_REPLAY_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AT,
         CARTRIDGE_ATOMIC_POWER,
-        "Attach Atomic Power cartridge image",
+        IDS_ATTACH_ATOMIC_POWER_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_EPYX,
         CARTRIDGE_EPYX_FASTLOAD,
-        "Attach Epyx fastload cartridge image",
+        IDS_ATTACH_EPYX_FASTLOAD_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IEEE488,
         CARTRIDGE_IEEE488,
-        "Attach IEEE interface cartridge image",
+        IDS_ATTACH_IEEE488_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_RR,
         CARTRIDGE_RETRO_REPLAY,
-        "Attach Retro Replay cartridge image",
+        IDS_ATTACH_RETRO_REPLAY_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IDE64,
         CARTRIDGE_IDE64,
-        "Attach IDE64 interface cartridge image",
+        IDS_ATTACH_IDE64_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS4,
         CARTRIDGE_SUPER_SNAPSHOT,
-        "Attach Super Snapshot 4 cartridge image",
+        IDS_ATTACH_SS4_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS5,
         CARTRIDGE_SUPER_SNAPSHOT_V5,
-        "Attach Super Snapshot 5 cartridge image",
+        IDS_ATTACH_SS5_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_STB,
         CARTRIDGE_STRUCTURED_BASIC,
-        "Attach Structured Basic cartridge image",
+        IDS_ATTACH_SB_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {

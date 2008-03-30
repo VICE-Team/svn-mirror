@@ -61,6 +61,10 @@
 #include "mui/uiram.h"
 #include "mui/uisound.h"
 
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+#include <proto/cybergraphics.h>
+#endif
+
 static int do_quit_vice = 0;
 
 struct MenuItem *step_item(struct MenuItem *first_item, int idm)
@@ -123,6 +127,10 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+    { "StatusbarEnabled", IDM_TOGGLE_STATUSBAR },
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    { "VideoOverlayEnabled", IDM_TOGGLE_OVERLAY },
+#endif
     { NULL, 0 }
 };
 
@@ -532,13 +540,13 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
 
       case IDM_EVENT_DIRECTORY:
         fname = uilib_select_file(
-                          "Select start snapshot for event history",
+                          translate_text(IDS_SELECT_START_SNAPSHOT),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_START);
         lib_free(fname);
         fname = uilib_select_file(
-                          "Select end snapshot for event history",
+                          translate_text(IDS_SELECT_END_SNAPSHOT),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_END);
@@ -738,7 +746,7 @@ void ui_event_handle(void)
       }
 
       /* Check for IDCMP messages */
-      if ((imsg = (struct IntuiMessage *)GetMsg(window->UserPort))) {
+      while ((imsg = (struct IntuiMessage *)GetMsg(window->UserPort))) {
         imClass = imsg->Class;
         imCode = imsg->Code;
         mousex = imsg->MouseX;
@@ -756,6 +764,10 @@ void ui_event_handle(void)
             done = 1;
             break;
 
+          case IDCMP_SIZEVERIFY:
+            canvas->waiting_for_resize = 1;
+            break;
+
           default:
             break;
         }
@@ -769,7 +781,7 @@ void ui_event_handle(void)
 
           case IDCMP_RAWKEY:
             if (!ui_emulation_is_paused()) {
-              if (imCode & 0x80) {
+              if (imCode & IECODE_UP_PREFIX) {
                 /* key is released */
                 imCode &= 0x7f;
                 if (!joystick_handle_key(imCode, 0)) {
@@ -786,9 +798,24 @@ void ui_event_handle(void)
             break;
 
           case IDCMP_CHANGEWINDOW:
-            if (canvas->os->waiting_for_resize) {
-              canvas->os->waiting_for_resize = 0;
-              BltBitMapRastPort(canvas->os->window_bitmap, 0, 0, canvas->os->window->RPort, 0, 0, canvas->width, canvas->height, 0xc0);
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+            if (canvas->os->vlayer_handle) {
+              canvas->waiting_for_resize = 0;
+              if ((LONG)canvas->os->vlayer_colorkey != -1) {
+                FillPixelArray(window->RPort, window->BorderLeft, window->BorderTop,
+                               window->Width - window->BorderLeft- window->BorderRight,
+                               window->Height - window->BorderTop - window->BorderBottom, /* - statusheight,*/
+                               canvas->os->vlayer_colorkey);
+              }
+
+              statusbar_refresh(REFRESH_ALL);
+              break;
+            }
+#endif
+            if (canvas->waiting_for_resize) {
+              struct Window *window = canvas->os->window;
+              canvas->waiting_for_resize = 0;
+              BltBitMapRastPort(canvas->os->window_bitmap, 0, 0, window->RPort, window->BorderLeft, window->BorderTop, canvas->width, canvas->height, 0xc0);
               statusbar_refresh(REFRESH_ALL);
             }
             break;
@@ -823,7 +850,9 @@ void ui_event_handle(void)
     resources_get_value("SaveResourcesOnExit", &save_on_exit);
 
     if (confirm_on_exit) {
-      do_quit_vice=ui_requester("VICE Quit", "Do you really want to exit?\n\nAll the data present in the emulated RAM will be lost.", "Yes|No", 1);
+      do_quit_vice=ui_requester(translate_text(IDS_VICE_QUESTION),
+                                translate_text(IDS_REALLY_EXIT),
+                                translate_text(IDS_YES_NO), 1);
     }
 
     if (do_quit_vice) {

@@ -48,7 +48,6 @@ int joystick_inited = 0;
 /* Joystick devices. */
 static int joystick_device[2];
 static int joystick_fire[2];
-static int joystick_direction[2];
 
 int joystick_port_map[2];
 
@@ -60,8 +59,6 @@ int joy_arch_init(void)
 
     joystick_port_map[0] = 1;
     joystick_port_map[1] = 2;
-    joystick_direction[0] = 0;
-    joystick_direction[1] = 0;
   }
 
   return 0;
@@ -244,10 +241,10 @@ int joystick_init_resources(void)
 static const cmdline_option_t cmdline_options[] = {
   { "-joydev1", SET_RESOURCE, 1, NULL, NULL,
     "JoyDevice1", NULL,
-    "<number>", "Set input device for joystick #1" },
+    IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_1 },
   { "-joydev2", SET_RESOURCE, 1, NULL, NULL,
     "JoyDevice2", NULL,
-    "<number>", "Set input device for joystick #2" },
+    IDCLS_P_NUMBER, IDS_SET_INPUT_JOYLL_2 },
   { NULL }
 };
 

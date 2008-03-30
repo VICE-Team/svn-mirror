@@ -31,14 +31,18 @@
 #include "mui.h"
 
 #include "uigeoram.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_georam_on_off[] = {
-  "off",
-  "on",
-  NULL
+static int ui_georam_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_georam_on_off_values[] = {
+static char *ui_georam_enable[countof(ui_georam_enable_translate)];
+
+static const int ui_georam_enable_values[] = {
   0,
   1,
   -1
@@ -67,7 +71,7 @@ static const int ui_georam_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_on_off, ui_georam_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values },
   { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values },
   UI_END /* mandatory */
 };
@@ -75,12 +79,13 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "GEORAM Enabled", ui_georam_on_off)
-    CYCLE(ui_to_from[1].object, "GEORAM Size", ui_georam_size)
+    CYCLE(ui_to_from[0].object, "GEORAM", ui_georam_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_GEORAM_SIZE), ui_georam_size)
   End;
 }
 
 void ui_georam_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "GEORAM Settings", ui_to_from);
+  intl_convert_mui_table(ui_georam_enable_translate, ui_georam_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_GEORAM_SETTINGS), ui_to_from);
 }

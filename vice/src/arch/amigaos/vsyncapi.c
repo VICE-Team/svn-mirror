@@ -36,6 +36,8 @@
 #include "timer.h"
 #include "mousedrv.h"
 #include "joy.h"
+#include "intl.h"
+#include "translate.h"
 
 #define __USE_INLINE__
 
@@ -79,7 +81,7 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
   for (canvas = canvaslist; canvas; canvas = canvas->next) {
     struct Window *window = canvas->os->window;
 
-    sprintf(canvas->os->window_title, "%s at %d%% speed, %d fps%s", canvas->os->window_name, (int)(speed + .5), (int)(fps + .5), warp_enabled ? " (warp)" : "");
+    sprintf(canvas->os->window_title, intl_speed_at_text, canvas->os->window_name, (int)(speed + .5), (int)(fps + .5), warp_enabled ? " (warp)" : "");
 
     SetWindowTitles(window, canvas->os->window_title, (void *)-1);
   }
@@ -126,4 +128,3 @@ int vsyncarch_vbl_sync_enabled(void)
 {
   return 0;
 }
-

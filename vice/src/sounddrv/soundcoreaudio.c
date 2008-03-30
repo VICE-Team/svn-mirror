@@ -3,6 +3,7 @@
  *
  * Written by
  *  Michael Klein <michael.klein@puffin.lb.shuttle.de>
+ *  Christian Vogelgsang <C.Vogelgsang@web.de> (Ported to Intel Mac)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -67,6 +68,26 @@ static atomic_int_t fragments_in_queue;
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef __i386__
+/* Intel Mac Implementation */
+
+static inline void atomic_increment(atomic_int_t * addr)
+{
+    __asm__ __volatile__ ("lock ; incl %0"
+                          :"=m" (*addr)
+                          :"m" (*addr));
+}
+
+static inline void atomic_decrement(atomic_int_t * addr)
+{
+    __asm__ __volatile__ ("lock ; decl %0"
+                          :"=m" (*addr)
+                          :"m" (*addr));
+}
+
+#else
+/* PowerPC Mac Implementation */
+
 static inline void atomic_add(atomic_int_t * addr, int val)
 {
     register int tmp;
@@ -90,6 +111,7 @@ static inline void atomic_decrement(atomic_int_t * addr)
     atomic_add(addr, -1);
 }
 
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -191,7 +213,11 @@ static int coreaudio_init(const char *param, int *speed,
     in.mChannelsPerFrame = *channels;
     in.mSampleRate = (float)*speed;
     in.mFormatID = kAudioFormatLinearPCM;
+#ifdef __i386__
+    in.mFormatFlags = kAudioFormatFlagIsSignedInteger;
+#else
     in.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian;
+#endif
     in.mBytesPerFrame = sizeof(SWORD) * *channels;
     in.mBytesPerPacket = in.mBytesPerFrame;
     in.mFramesPerPacket = 1;

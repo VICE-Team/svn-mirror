@@ -83,7 +83,6 @@
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
 #include "video/video-resources.h"
-extern DWORD yuv_table[128];
 #endif
 
 
@@ -631,7 +630,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
                          &canvas->yuv_image,
                          canvas->draw_buffer->draw_buffer,
                          canvas->draw_buffer->draw_buffer_width,
-                         yuv_table,
+                         canvas->videoconfig->color_tables.yuv_table,
                          xs, ys, w, h,
                          xi, yi);
 

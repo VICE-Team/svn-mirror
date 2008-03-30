@@ -39,13 +39,6 @@
 #include "videoarch.h"
 #include "video.h"
 
-
-SDWORD ytable[128];		/* unscaled luminance */
-SDWORD ytablel[128];	/* luminance for neighbouring pixels */
-SDWORD ytableh[128];	/* luminance for current pixel */
-SDWORD cbtable[128];
-SDWORD crtable[128];
-
 DWORD gamma_red[256 * 3];
 DWORD gamma_grn[256 * 3];
 DWORD gamma_blu[256 * 3];
@@ -57,10 +50,6 @@ DWORD gamma_blu_fac[256 * 3];
 DWORD color_red[256];
 DWORD color_grn[256];
 DWORD color_blu[256];
-
-/* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
-DWORD yuv_table[128];
-
 
 void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
 {
@@ -224,13 +213,12 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
     g = (int)gf;
     b = (int)bf;
 
-    if (r <   0) r =   0;
-    if (r > 255) r = 255;
-    if (g <   0) g =   0;
-    if (g > 255) g = 255;
-    if (b <   0) b =   0;
-    if (b > 255) b = 255;
-
+    if (r < 0) r = 0;
+    else if (r > 255) r = 255;
+    if (g < 0) g = 0;
+    else if (g > 255) g = 255;
+    if (b < 0) b = 0;
+    else if (b > 255) b = 255;
     dst->dither = 0;
     dst->red    = (BYTE)r;
     dst->green  = (BYTE)g;
@@ -243,6 +231,19 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
                                        video_ycbcr_color_t *dst)
 {
+#if 1
+
+/* The code in else clearly is broken. This routine makes C128 RGB
+ * colors work properly with HAVE_XVIDEO (overlay). - Piru
+ */
+    /* convert RGB to YCbCr */
+ 
+    dst->y = 0.2989f*src->red + 0.5866f*src->green + 0.1145f*src->blue;
+    dst->cb = - 0.168736f*src->red - 0.331264f*src->green + 0.5f*src->blue;
+    dst->cr = 0.5f*src->red - 0.418688f*src->green - 0.081312f*src->blue;
+
+#else
+
     float yf, cbf, crf;
     int y, cb, cr;
 
@@ -268,6 +269,7 @@ static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
     dst->y  = (BYTE)y;
     dst->cb = (BYTE)cb;
     dst->cr = (BYTE)cr;
+#endif
 }
 
 /* gammatable calculation */
@@ -305,7 +307,8 @@ static void video_calc_gammatable(void)
 
 /* ycbcr table calculation */
 
-static void video_calc_ycbcrtable(const video_ycbcr_palette_t *p)
+static void video_calc_ycbcrtable(const video_ycbcr_palette_t *p,
+                                  video_render_color_tables_t *color_tab)
 {
     video_ycbcr_color_t *primary;
     unsigned int i, lf, hf;
@@ -315,15 +318,17 @@ static void video_calc_ycbcrtable(const video_ycbcr_palette_t *p)
     hf = 256 - (lf << 1);
     sat = ((float)(video_resources.color_saturation)) * (256.0f / 1000.0f);
     for (i = 0;i < p->num_entries; i++) {
+        SDWORD val;
         primary = &p->entries[i];
-        ytable[i] = (SDWORD)(primary->y * 256.0f);
-        ytablel[i] = ytable[i]*lf;
-        ytableh[i] = ytable[i]*hf;
-        cbtable[i] = (SDWORD)(primary->cb * sat);
-        crtable[i] = (SDWORD)(primary->cr * sat);
-
+        val = (SDWORD)(primary->y * 256.0f);
+        color_tab->ytable[i] = val;
+        color_tab->ytablel[i] = val*lf;
+        color_tab->ytableh[i] = val*hf;
+        color_tab->cbtable[i] = (SDWORD)(primary->cb * sat);
+        color_tab->crtable[i] = (SDWORD)(primary->cr * sat);
+ 
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
-        yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
+        color_tab->yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
             | ((BYTE)(0.493111 * primary->cb * 255 / 256 + 128.5) << 8)
             | (BYTE)(0.877283 * primary->cr * 255 / 256 + 128.5);
     }
@@ -437,7 +442,7 @@ int video_color_update_palette(struct video_canvas_s *canvas)
         video_calc_gammatable();
         ycbcr = video_ycbcr_palette_create(palette->num_entries);
         video_palette_to_ycbcr(palette, ycbcr);
-        video_calc_ycbcrtable(ycbcr);
+        video_calc_ycbcrtable(ycbcr, &canvas->videoconfig->color_tables);
         if (video_resources.delayloop_emulation) {
             palette_free(palette);
             palette = video_calc_palette(ycbcr);
@@ -446,7 +451,7 @@ int video_color_update_palette(struct video_canvas_s *canvas)
         video_calc_gammatable();
         ycbcr = video_ycbcr_palette_create(canvas->videoconfig->cbm_palette->num_entries);
         video_cbm_palette_to_ycbcr(canvas->videoconfig->cbm_palette, ycbcr);
-        video_calc_ycbcrtable(ycbcr);
+        video_calc_ycbcrtable(ycbcr, &canvas->videoconfig->color_tables);
         palette = video_calc_palette(ycbcr);
     }
 

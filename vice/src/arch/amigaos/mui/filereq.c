@@ -38,6 +38,8 @@
 #include "vdrive-internal.h"
 #include "cbmimage.h"
 #include "filereq.h"
+#include "intl.h"
+#include "translate.h"
 
 #ifndef AMIGA_OS4
 #include <sys/cdefs.h>
@@ -89,18 +91,21 @@ static const int image_type[] = {
     -1
 };
 
-static struct ObjApp * CreateApp(const char *title, int template, char *resource_readonly)
+static struct ObjApp * CreateApp(const char *title, int template, char *resource_readonly, char *initialdir)
 {
 	struct ObjApp * Object_ok;
 
 	APTR	GROUP_ROOT, GR_FILEREQ, LA_FILEREQ, GR_FILEBROWSE, GR_BUTTONS, GR_MISC_1;
 	APTR	GR_CONTENTS, GR_MISC_2, GR_READONLY, LA_READONLY, GR_NEWIMAGE, GR_MISC_3;
 	APTR GR_NEWTAPIMAGE;
+	char *new_image_text;
+	char *new_tap_image_text;
+	char *image_contents_text;
 
 	if (!(Object_ok = AllocVec(sizeof(struct ObjApp), MEMF_PUBLIC|MEMF_CLEAR)))
 		return(NULL);
 
-	LA_FILEREQ = Label("File");
+	LA_FILEREQ = Label(translate_text(IDMS_FILE));
 
 	Object_ok->STR_PA_FILEREQ = String("", 1024);
 
@@ -123,7 +128,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 	Object_ok->LV_FILELIST = DirlistObject,
 		MUIA_Background, MUII_ListBack,
 		MUIA_Frame, MUIV_Frame_InputList,
-		MUIA_Dirlist_Directory, "RAM:",
+		MUIA_Dirlist_Directory, initialdir,
 	End;
 
 	Object_ok->LV_FILELIST = ListviewObject,
@@ -149,11 +154,11 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		Child, Object_ok->LV_VOLUMELIST,
 	End;
 
-	Object_ok->BT_ATTACH = SimpleButton("Attach");
+	Object_ok->BT_ATTACH = SimpleButton(translate_text(IDS_ATTACH));
 
-	Object_ok->BT_PARENT = SimpleButton("Parent");
+	Object_ok->BT_PARENT = SimpleButton(translate_text(IDS_PARENT));
 
-	Object_ok->BT_CANCEL = SimpleButton("Cancel");
+	Object_ok->BT_CANCEL = SimpleButton(translate_text(IDS_CANCEL));
 
 	GR_BUTTONS = GroupObject,
 		MUIA_HelpNode, "GR_BUTTONS",
@@ -175,16 +180,18 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		MUIA_Listview_List, Object_ok->LV_CONTENTS,
 	End;
 
+      image_contents_text=translate_text(IDS_IMAGE_CONTENTS);
+
 	GR_CONTENTS = GroupObject,
 		MUIA_HelpNode, "GR_CONTENTS",
 		MUIA_Frame, MUIV_Frame_Group,
-		MUIA_FrameTitle, "Image Contents",
+		MUIA_FrameTitle, image_contents_text,
 		Child, Object_ok->LV_CONTENTS,
 	End;
 
 	Object_ok->CH_READONLY = CheckMark(FALSE);
 
-	LA_READONLY = Label("Attach read only");
+	LA_READONLY = Label(translate_text(IDS_ATTACH_READ_ONLY));
 
 	GR_READONLY = GroupObject,
 		MUIA_HelpNode, "GR_READONLY",
@@ -195,7 +202,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 
 	Object_ok->STR_IMAGENAME = StringObject,
 		MUIA_Frame, MUIV_Frame_String,
-		MUIA_FrameTitle, "Name",
+		MUIA_FrameTitle, translate_text(IDS_NAME),
 		MUIA_HelpNode, "STR_IMAGENAME",
 		MUIA_String_MaxLen, 17,
 	End;
@@ -219,23 +226,27 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		Child, Object_ok->CY_IMAGETYPE,
 	End;
 
-	Object_ok->BT_CREATEIMAGE = SimpleButton("Create Image");
+	Object_ok->BT_CREATEIMAGE = SimpleButton(translate_text(IDS_CREATE_IMAGE));
+
+      new_image_text=translate_text(IDS_NEW_IMAGE);
 
 	GR_NEWIMAGE = GroupObject,
 		MUIA_HelpNode, "GR_NEWIMAGE",
 		MUIA_Frame, MUIV_Frame_Group,
-		MUIA_FrameTitle, "New Image",
+		MUIA_FrameTitle, new_image_text,
 		Child, Object_ok->STR_IMAGENAME,
 		Child, GR_MISC_3,
 		Child, Object_ok->BT_CREATEIMAGE,
 	End;
 
-	Object_ok->BT_CREATETAPIMAGE = SimpleButton("Create Image");
+	Object_ok->BT_CREATETAPIMAGE = SimpleButton(translate_text(IDS_CREATE_IMAGE));
+
+      new_tap_image_text=translate_text(IDS_NEW_TAP_IMAGE);
 
 	GR_NEWTAPIMAGE = GroupObject,
 		MUIA_HelpNode, "GR_NEWTAPIMAGE",
 		MUIA_Frame, MUIV_Frame_Group,
-		MUIA_FrameTitle, "New TAP Image",
+		MUIA_FrameTitle, new_tap_image_text,
 		Child, Object_ok->BT_CREATETAPIMAGE,
 	End;
 
@@ -486,7 +497,8 @@ static ULONG NewCreateImage( struct Hook *hook, Object *obj, APTR arg )
   }
 
   if (util_file_exists(name)) {
-    LONG result = MUI_RequestA(app->App, app->FILEREQ, 0, "VICE question", "_Yes|*_No", "Overwrite existing image?", NULL);
+    LONG result = MUI_RequestA(app->App, app->FILEREQ, 0, translate_text(IDS_VICE_QUESTION),
+                               translate_text(IDS_YES_NO), translate_text(IDS_OVERWRITE_EXISTING_IMAGE), NULL);
     if (result != 1) {
       return 0;
     }
@@ -494,7 +506,7 @@ static ULONG NewCreateImage( struct Hook *hook, Object *obj, APTR arg )
 
   format_name = lib_msprintf("%s,%s", disk_name, disk_id);
   if (vdrive_internal_create_format_disk_image(name, format_name, image_type[imagetype]) < 0) {
-    ui_error("Cannot create image");
+    ui_error(translate_text(IDMES_CANNOT_CREATE_IMAGE));
   } else {
     char newdir[1024], *ptr = PathPart(name);
 
@@ -533,14 +545,15 @@ static ULONG NewCreateTAPImage( struct Hook *hook, Object *obj, APTR arg )
   }
 
   if (util_file_exists(name)) {
-    LONG result = MUI_RequestA(app->App, app->FILEREQ, 0, "VICE question", "_Yes|*_No", "Overwrite existing image?", NULL);
+    LONG result = MUI_RequestA(app->App, app->FILEREQ, 0, translate_text(IDS_VICE_QUESTION),
+                               translate_text(IDS_YES_NO), translate_text(IDS_OVERWRITE_EXISTING_IMAGE), NULL);
     if (result != 1) {
       return 0;
     }
   }
 
   if (cbmimage_create_image(name, DISK_IMAGE_TYPE_TAP)) {
-    ui_error("Cannot create image");
+    ui_error(translate_text(IDMES_CANNOT_CREATE_IMAGE));
   } else {
     char newdir[1024], *ptr = PathPart(name);
 
@@ -631,7 +644,7 @@ char *ui_filereq(const char *title, int template,
         resources_get_value(resource_readonly, (void *)&readonly);
     }
 
-      app = CreateApp(title, template, resource_readonly);
+      app = CreateApp(title, template, resource_readonly, initialdir);
       if (app) {
 	DoMethod(app->BT_ATTACH,
 	MUIM_Notify, MUIA_Pressed, FALSE,
@@ -720,7 +733,7 @@ char *ui_filereq(const char *title, int template,
 	/* Initialize */
 
 	set(app->CH_READONLY, MUIA_Selected, readonly);
-	set(app->LV_FILELIST, MUIA_Dirlist_Directory, initialdir);
+	/* set(app->LV_FILELIST, MUIA_Dirlist_Directory, initialdir); */
 
 	strcpy(filename, initialdir);
 	AddPart(filename, initialfile, 1024);

@@ -42,11 +42,11 @@ static void video_render_1x2_main(video_render_config_t *config,
                                   const unsigned int pitcht,
                                   int depth)
 {
-    DWORD *colortab;
+    const video_render_color_tables_t *colortab;
     int doublescan;
 
     doublescan = config->doublescan;
-    colortab = config->physical_colors;
+    colortab = &config->color_tables;
 
     switch (depth) {
       case 8:

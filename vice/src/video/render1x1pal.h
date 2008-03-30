@@ -30,7 +30,9 @@
 
 #include "types.h"
 
-extern void render_16_1x1_pal(const DWORD *colortab,
+#include "video.h"
+
+extern void render_16_1x1_pal(video_render_color_tables_t *color_tab,
                               const BYTE *src, BYTE *trg,
                               unsigned int width, const unsigned int height,
                               const unsigned int xs, const unsigned int ys,
@@ -38,7 +40,7 @@ extern void render_16_1x1_pal(const DWORD *colortab,
                               const unsigned int pitchs,
                               const unsigned int pitcht);
 
-extern void render_32_1x1_pal(const DWORD *colortab,
+extern void render_32_1x1_pal(video_render_color_tables_t *color_tab,
                               const BYTE *src, BYTE *trg,
                               unsigned int width, const unsigned int height,
                               const unsigned int xs, const unsigned int ys,
@@ -46,4 +48,3 @@ extern void render_32_1x1_pal(const DWORD *colortab,
                               const unsigned int pitchs,
                               const unsigned int pitcht);
 #endif
-

@@ -31,6 +31,8 @@
 #include "mui.h"
 
 #include "uiram.h"
+#include "intl.h"
+#include "translate.h"
 
 static const char *ui_ram_1st_byte[] = {
   "0",
@@ -118,13 +120,13 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "Value of first byte", ui_ram_1st_byte)
-    CYCLE(ui_to_from[1].object, "Length of constant values", ui_ram_constant_val)
-    CYCLE(ui_to_from[2].object, "Length of constant pattern", ui_ram_constant_pat)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_VALUE_FIRST_BYTE), ui_ram_1st_byte)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_LENGTH_CONSTANT_VALUES), ui_ram_constant_val)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_LENGTH_CONSTANT_PATTERN), ui_ram_constant_pat)
   End;
 }
 
 void ui_ram_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "RAM Settings", ui_to_from);
+  mui_show_dialog(build_gui(), translate_text(IDS_RAM_SETTINGS), ui_to_from);
 }

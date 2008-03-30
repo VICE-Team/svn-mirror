@@ -50,7 +50,7 @@ void uicart_attach(video_canvas_t *canvas, int idm,
         return;
     }
 
-    if ((name = uilib_select_file(cartridges[i].title,
+    if ((name = uilib_select_file(translate_text(cartridges[i].title),
         cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
 
@@ -59,4 +59,3 @@ void uicart_attach(video_canvas_t *canvas, int idm,
         lib_free(name);
     }
 }
-

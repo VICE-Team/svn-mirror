@@ -25,6 +25,8 @@
  */
 
 #include "mui.h"
+#include "intl.h"
+#include "translate.h"
 
 ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource)
 {
@@ -270,7 +272,7 @@ void ui_about(void)
     i++;
   }
 
-  mui_show_dialog(gui, "About", NULL);
+  mui_show_dialog(gui, translate_text(IDS_ABOUT), NULL);
 }
 
 /* ---------- */
@@ -358,14 +360,14 @@ APTR mui_make_ok_cancel_window(APTR gui, char *title)
         Child, ok = TextObject,
           ButtonFrame,
           MUIA_Background, MUII_ButtonBack,
-          MUIA_Text_Contents, "Ok",
+          MUIA_Text_Contents, translate_text(IDMES_OK),
           MUIA_Text_PreParse, "\033c",
           MUIA_InputMode, MUIV_InputMode_RelVerify,
         End,
         Child, cancel = TextObject,
           ButtonFrame,
           MUIA_Background, MUII_ButtonBack,
-          MUIA_Text_Contents, "Cancel",
+          MUIA_Text_Contents, translate_text(IDS_CANCEL),
           MUIA_Text_PreParse, "\033c",
           MUIA_InputMode, MUIV_InputMode_RelVerify,
         End,

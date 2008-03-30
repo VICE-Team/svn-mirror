@@ -31,12 +31,16 @@
 #include "mui.h"
 
 #include "uirs232user.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_rs232user_enable[] = {
-  "Disabled",
-  "Enabled",
-  NULL
+static int ui_rs232user_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
+
+static char *ui_rs232user_enable[countof(ui_rs232user_enable_translate)];
 
 static const int ui_rs232user_enable_values[] = {
   0,
@@ -44,13 +48,15 @@ static const int ui_rs232user_enable_values[] = {
   -1
 };
 
-static const char *ui_rs232user_device[] = {
-  "RS232 Device 1",
-  "RS232 Device 2",
-  "RS232 Device 3",
-  "RS232 Device 4",
-  NULL
+static int ui_rs232user_device_translate[] = {
+  IDS_RS232_DEVICE_1,
+  IDS_RS232_DEVICE_2,
+  IDS_RS232_DEVICE_3,
+  IDS_RS232_DEVICE_4,
+  0
 };
+
+static char *ui_rs232user_device[countof(ui_rs232user_device_translate)];
 
 static const int ui_rs232user_device_values[] = {
   0,
@@ -90,13 +96,15 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "Userport RS232", ui_rs232user_enable)
-    CYCLE(ui_to_from[1].object, "Userport Device", ui_rs232user_device)
-    CYCLE(ui_to_from[2].object, "Userport Baud-rate", ui_rs232user_baud)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_USERPORT_RS232), ui_rs232user_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_USERPORT_DEVICE), ui_rs232user_device)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_USERPORT_BAUD_RATE), ui_rs232user_baud)
   End;
 }
 
 void ui_rs232user_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "RS232 Userport Settings", ui_to_from);
+  intl_convert_mui_table(ui_rs232user_enable_translate, ui_rs232user_enable);
+  intl_convert_mui_table(ui_rs232user_device_translate, ui_rs232user_device);
+  mui_show_dialog(build_gui(), translate_text(IDS_RS232_USERPORT_SETTINGS), ui_to_from);
 }

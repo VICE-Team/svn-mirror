@@ -31,88 +31,45 @@
 #include "mui.h"
 
 #include "uivic20mem.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_vic20mem_block0_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
+static int ui_vic20mem_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_vic20mem_block0_on_off_values[] = {
-  0,
-  1,
-  -1
-};
+static char *ui_vic20mem_enable[countof(ui_vic20mem_enable_translate)];
 
-static const char *ui_vic20mem_block1_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vic20mem_block1_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_vic20mem_block2_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vic20mem_block2_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_vic20mem_block3_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vic20mem_block3_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_vic20mem_block5_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vic20mem_block5_on_off_values[] = {
+static const int ui_vic20mem_enable_values[] = {
   0,
   1,
   -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock0", ui_vic20mem_block0_on_off, ui_vic20mem_block0_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock1", ui_vic20mem_block1_on_off, ui_vic20mem_block1_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock2", ui_vic20mem_block2_on_off, ui_vic20mem_block2_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock3", ui_vic20mem_block3_on_off, ui_vic20mem_block3_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "RAMBlock5", ui_vic20mem_block5_on_off, ui_vic20mem_block5_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMBlock0", ui_vic20mem_enable, ui_vic20mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMBlock1", ui_vic20mem_enable, ui_vic20mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMBlock2", ui_vic20mem_enable, ui_vic20mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMBlock3", ui_vic20mem_enable, ui_vic20mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMBlock5", ui_vic20mem_enable, ui_vic20mem_enable_values },
   UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "RAM Block $0400-$0FFF", ui_vic20mem_block0_on_off)
-    CYCLE(ui_to_from[1].object, "RAM Block $2000-$3FFF", ui_vic20mem_block1_on_off)
-    CYCLE(ui_to_from[2].object, "RAM Block $4000-$5FFF", ui_vic20mem_block2_on_off)
-    CYCLE(ui_to_from[3].object, "RAM Block $6000-$7FFF", ui_vic20mem_block3_on_off)
-    CYCLE(ui_to_from[4].object, "RAM Block $A000-$BFFF", ui_vic20mem_block5_on_off)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_RAM_BLOCK_0400_0FFF), ui_vic20mem_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_vic20mem_enable)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_vic20mem_enable)
+    CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_vic20mem_enable)
+    CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_A000_BFFF), ui_vic20mem_enable)
   End;
 }
 
 void ui_vic_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "VIC Settings", ui_to_from);
+  intl_convert_mui_table(ui_vic20mem_enable_translate, ui_vic20mem_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_VIC_SETTINGS), ui_to_from);
 }

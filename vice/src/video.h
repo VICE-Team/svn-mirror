@@ -108,6 +108,21 @@ struct video_chip_cap_s {
 };
 typedef struct video_chip_cap_s video_chip_cap_t;
 
+struct video_render_color_tables_s {
+    DWORD physical_colors[256];
+    SDWORD ytable[128];		/* unscaled luminance */
+    SDWORD ytablel[128];	/* luminance for neighbouring pixels */
+    SDWORD ytableh[128];	/* luminance for current pixel */
+    SDWORD cbtable[128];
+    SDWORD crtable[128];
+
+    /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
+    DWORD yuv_table[128];
+    SDWORD line_yuv_0[1024 * 3];
+    SDWORD line_yuv_1[1024 * 3];
+};
+typedef struct video_render_color_tables_s video_render_color_tables_t;
+
 struct video_render_config_s {
     video_chip_cap_t *cap;         /* Which renders are allowed?  */
     int rendermode;                /* What render is active?  */
@@ -116,10 +131,10 @@ struct video_render_config_s {
     int doublescan;                /* Doublescan enabled?  */
     int hwscale;                   /* Hardware scaling enabled? */
     int scale2x;                   /* Scale2x enabled?  */
-    DWORD physical_colors[256];
     unsigned int external_palette; /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
+    struct video_render_color_tables_s color_tables;
 };
 typedef struct video_render_config_s video_render_config_t;
 

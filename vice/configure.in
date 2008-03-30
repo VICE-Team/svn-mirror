@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=13
+VICE_VERSION_BUILD=14
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -17,7 +17,7 @@ AC_SUBST(VICE_VERSION_BUILD)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
-if test x"$VICE_VERSION_BUILD" == "x" -o x"$VICE_VERSION_BUILD" == "x0" ; then
+if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
 else
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
@@ -27,7 +27,7 @@ AC_SUBST(VICE_VERSION)
 AM_INIT_AUTOMAKE(vice, $VICE_VERSION)
 AM_CONFIG_HEADER(src/config.h)
 
-if test x"$VICE_VERSION_BUILD" == "x" -o x"$VICE_VERSION_BUILD" == "x0" ; then
+if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR",0,0"
 else
   VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
@@ -134,7 +134,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
 
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
 
@@ -158,6 +158,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
     is_amigaos4=no
   fi
 
@@ -211,7 +212,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
 
@@ -756,7 +757,7 @@ if test x"$is_win32" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes
   fi
 fi
 
-if test x"$is_beos" == "xyes"; then
+if test x"$is_beos" = "xyes"; then
 
   dnl Check for needed network headers
 
@@ -1050,7 +1051,7 @@ dnl Check for ParSID support
 
 if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
 
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
     dnl Check for needed parallel port io headers
 
     LIBIEEE1284_HEADERS_PRESENT=yes

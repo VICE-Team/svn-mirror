@@ -32,6 +32,7 @@
 extern int mousedrv_resources_init(void);
 extern int mousedrv_cmdline_options_init(void);
 extern void mousedrv_init(void);
+extern void rem_inputhandler(void);
 
 extern void mousedrv_mouse_changed(void);
 

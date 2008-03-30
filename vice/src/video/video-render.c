@@ -71,7 +71,7 @@ void video_render_initconfig(video_render_config_t *config)
     config->doublescan = 0;
 
     for (i = 0; i < 256; i++)
-        config->physical_colors[i] = 0;
+        config->color_tables.physical_colors[i] = 0;
 }
 
 void video_render_setphysicalcolor(video_render_config_t *config, int index,
@@ -92,14 +92,14 @@ void video_render_setphysicalcolor(video_render_config_t *config, int index,
       case 32:
         break;
     }
-    config->physical_colors[index] = color;
+    config->color_tables.physical_colors[index] = color;
 }
 
 void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                        int width, int height, int xs, int ys, int xt, int yt,
                        int pitchs, int pitcht, int depth)
 {
-    DWORD *colortab;
+    const video_render_color_tables_t *colortab;
     int rendermode;
 
 #if 0
@@ -111,7 +111,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
         return; /* some render routines don't like invalid width */
 
     rendermode = config->rendermode;
-    colortab = config->physical_colors;
+    colortab = &config->color_tables;
 
     switch (rendermode) {
       case VIDEO_RENDER_NULL:

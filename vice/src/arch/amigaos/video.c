@@ -63,6 +63,9 @@
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
 #include <proto/cybergraphics.h>
 #include <cybergraphx/cybergraphics.h>
+#ifdef AMIGA_MORPHOS
+#include <exec/execbase.h>
+#endif
 #if !defined(AMIGA_MORPHOS) && !defined(AMIGA_AROS)
 #include <inline/cybergraphics.h>
 #endif
@@ -77,6 +80,13 @@
 #include "private.h"
 #include "statusbar.h"
 #include "mui/mui.h"
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+#include <cybergraphx/cgxvideo.h>
+#include <proto/cgxvideo.h>
+#include "video/renderyuv.h"
+#include "video/video-resources.h"
+#endif
 
 #ifdef AMIGA_OS4
 struct Library *GadToolsBase = NULL;
@@ -97,6 +107,9 @@ struct SocketIFace *ISocket = NULL;
 #else
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
 struct Library *CyberGfxBase = NULL;
+#ifdef HAVE_XVIDEO
+struct Library *CGXVideoBase = NULL;
+#endif
 #else
 struct Library *P96Base = NULL;
 #endif
@@ -106,11 +119,19 @@ struct Library *P96Base = NULL;
 struct Library *LowLevelBase;
 #endif
 
+struct Process *self;
+struct Window *orig_windowptr;
+
 int video_init(void)
 {
+  self = (APTR)FindTask(NULL);
+  orig_windowptr = self->pr_WindowPtr;
 #ifndef AMIGA_OS4
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
   if ((CyberGfxBase=OpenLibrary(CYBERGFXNAME,41))) {
+#ifdef HAVE_XVIDEO
+    CGXVideoBase = OpenLibrary("cgxvideo.library",41);
+#endif
 #else
   if ((P96Base=OpenLibrary("Picasso96API.library",2))) {
 #endif
@@ -154,9 +175,29 @@ int video_init(void)
 
 void video_shutdown(void)
 {
+  struct video_canvas_s *nextcanvas, *canvas;
+
   mui_exit();
+
+  /* make sure the process window ref won't be bad */
+  self->pr_WindowPtr = orig_windowptr;
+
+  /* close any possibly open canvas */
+  nextcanvas = canvaslist;
+  while ((canvas = nextcanvas))
+  {
+    nextcanvas = canvas->next;
+
+    video_canvas_destroy(canvas);
+  }
+
 #ifndef AMIGA_OS4
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
+#ifdef HAVE_XVIDEO
+  if (CGXVideoBase) {
+    CloseLibrary(CGXVideoBase);
+  }
+#endif
   if (CyberGfxBase) {
     CloseLibrary(CyberGfxBase);
   }
@@ -203,34 +244,91 @@ static int IsFullscreenEnabled(void)
   return b;
 }
 
-static ULONG lock;
-#ifdef HAVE_PROTO_CYBERGRAPHICS_H
-static ULONG cgx_base_addy;
-#else
-static struct RenderInfo ri;
+static int IsFullscreenStatusbarEnabled(void)
+{
+   int b;
+   resources_get_value("StatusBarEnabled", (void *)&b);
+   return b;
+}
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+
+static int IsVideoOverlayEnabled(void)
+{
+  int b;
+  resources_get_value("VideoOverlayEnabled", (void *)&b);
+  return b;
+}
+
 #endif
+
+static void closecanvaswindow(struct video_canvas_s *canvas)
+{
+  struct Window *window = canvas->os->window;
+  if (window != NULL) {
+    canvas->os->window = NULL;
+    if (canvas->current_fullscreen == 0) {
+      canvas->window_left = window->LeftEdge;
+      canvas->window_top = window->TopEdge;
+    }
+    /* make sure the process window ref won't be bad */
+    if (self->pr_WindowPtr == window) {
+      self->pr_WindowPtr = orig_windowptr;
+    }
+    CloseWindow(window);
+  }
+}
 
 static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, int height)
 {
-  static int current_fullscreen = 0; /* remember previous state */
-  int amiga_width, amiga_height, fullscreen;
-  unsigned long dispid;
+  int amiga_width, amiga_height, fullscreen, fullscreenstatusbar, overlay;
+  ULONG dispid = INVALID_ID; /* stfu compiler */
+  int nofullscreen = 0;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  int nooverlay = 0;
+#endif
 
   if (canvas == NULL) {
     return NULL;
   }
 
   fullscreen = IsFullscreenEnabled();
+  fullscreenstatusbar = IsFullscreenStatusbarEnabled();
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  overlay = IsVideoOverlayEnabled();
+#else
+  overlay = 0;
+#endif
+
+  /* if there is no change, don't bother with anything else */
+  if (canvas->current_fullscreen == fullscreen &&
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+      canvas->current_overlay == overlay &&
+#endif
+      canvas->os->visible_width == width &&
+      canvas->os->visible_height == height) {
+    return canvas;
+  }
 
   /* if changing to/from fullscreen, close screen and window */
-  if ((current_fullscreen != fullscreen) || (fullscreen == 1)) {
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  if ((canvas->current_fullscreen != fullscreen) || fullscreen ||
+      canvas->current_overlay != overlay || overlay) {
+#else
+  if ((canvas->current_fullscreen != fullscreen) || fullscreen) {
+#endif
     pointer_show();
     ui_menu_destroy(canvas);
     statusbar_destroy(canvas);
-    if (canvas->os->window != NULL) {
-      CloseWindow(canvas->os->window);
-      canvas->os->window = NULL;
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    if (canvas->os->vlayer_handle) {
+      DetachVLayer(canvas->os->vlayer_handle);
+      DeleteVLayerHandle(canvas->os->vlayer_handle);
+      canvas->os->vlayer_handle = NULL;
     }
+#endif
+    closecanvaswindow(canvas);
     if (canvas->os->screen != NULL) {
       CloseScreen(canvas->os->screen);
       canvas->os->screen = NULL;
@@ -246,10 +344,29 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
   /* try to get screenmode to use */
   if (fullscreen) {
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
-    dispid = BestCModeIDTags(CYBRBIDTG_Depth, 16,
-                             CYBRBIDTG_NominalWidth, width,
-                             CYBRBIDTG_NominalHeight, (height+ statusbar_get_status_height()),
-                             TAG_DONE);
+    static const UBYTE depths_lowend[] = {16, 15, 0};
+#ifdef AMIGA_MORPHOS
+    static const UBYTE depths_highend[] = {32, 24, 16, 15, 0};
+#endif
+    const UBYTE *depths;
+    int i;
+
+    depths = depths_lowend;
+#ifdef AMIGA_MORPHOS
+    if (SysBase->MaxLocMem == NULL) {
+      depths = depths_highend;
+    }
+#endif
+
+    for (i = 0; depths[i]; i++) {
+      dispid = BestCModeIDTags(CYBRBIDTG_Depth, depths[i],
+                               CYBRBIDTG_NominalWidth, width,
+                               CYBRBIDTG_NominalHeight, height + (fullscreenstatusbar ? statusbar_get_status_height() : 0),
+                               TAG_DONE);
+      if (dispid != INVALID_ID) {
+        break;
+      }
+    }
 #else
 
     unsigned long cmodels = RGBFF_R5G5B5 | RGBFF_R5G6B5 | RGBFF_R5G5B5PC | RGBFF_R5G6B5PC;
@@ -261,31 +378,36 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 #endif
 
     if (dispid == INVALID_ID) {
-      fullscreen = 0;
+      nofullscreen = 1;
     }
   }
 
   /* if fullscreen, open the screen */
-  if (fullscreen) {
+  if (fullscreen && nofullscreen == 0) {
     static const UWORD penarray[1] = { ~0 };
+    int amiga_depth;
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
     amiga_width = GetCyberIDAttr(CYBRIDATTR_WIDTH, dispid);
     amiga_height = GetCyberIDAttr(CYBRIDATTR_HEIGHT, dispid);
+    amiga_depth = GetCyberIDAttr(CYBRIDATTR_DEPTH, dispid);
 #else
     amiga_width = p96GetModeIDAttr(dispid, P96IDA_WIDTH);
     amiga_height = p96GetModeIDAttr(dispid, P96IDA_HEIGHT);
+    amiga_depth = 8;
 #endif
 
     /* open screen */
     canvas->os->screen = OpenScreenTags(NULL,
              SA_Width, amiga_width,
              SA_Height, amiga_height,
-             SA_Depth, 8,
+             SA_Depth, amiga_depth,
              SA_Quiet, TRUE,
              SA_ShowTitle, FALSE,
              SA_Type, CUSTOMSCREEN,
              SA_DisplayID, dispid,
-             SA_Pens, (ULONG) penarray,
+             SA_Title, (ULONG)"VICE",
+             SA_Pens, (ULONG)penarray,
+             SA_SharePens, TRUE,
              SA_FullPalette, TRUE,
              TAG_DONE);
 
@@ -299,12 +421,18 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
              WA_CustomScreen, (ULONG)canvas->os->screen,
              WA_Width, canvas->os->screen->Width,
              WA_Height, canvas->os->screen->Height,
-             WA_IDCMP, IDCMP_RAWKEY|IDCMP_CHANGEWINDOW|IDCMP_MENUPICK|IDCMP_MENUVERIFY,
-             WA_Backdrop, TRUE,
+             WA_IDCMP, IDCMP_RAWKEY|IDCMP_MENUPICK|IDCMP_MENUVERIFY,
+             WA_Backdrop, FALSE,
              WA_Borderless, TRUE,
              WA_Activate, TRUE,
              WA_NewLookMenus, TRUE,
              TAG_DONE);
+
+    if (canvas->os->window == NULL) {
+      CloseScreen(canvas->os->screen);
+      canvas->os->screen = NULL;
+      return NULL;
+    }
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
     FillPixelArray(&canvas->os->screen->RastPort, 0, 0,
@@ -318,9 +446,13 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     pointer_hide();
 
     canvas->os->visible_width = canvas->os->screen->Width;
-/* FIXME: only ask for statusbar height if it should be shown */
-    canvas->os->visible_height = canvas->os->screen->Height - statusbar_get_status_height();
-  } else {
+    canvas->os->visible_height = canvas->os->screen->Height;
+    if (fullscreenstatusbar) {
+      canvas->os->visible_height -= statusbar_get_status_height();
+    }
+  } 
+else {
+reopenwindow:
     /* if window already is open, just resize it, otherwise, open it */
     if (canvas->os->window != NULL) {
       ChangeWindowBox(canvas->os->window,
@@ -329,19 +461,35 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
             canvas->os->window->BorderLeft+width+canvas->os->window->BorderRight,
             canvas->os->window->BorderTop+height+statusbar_get_status_height()+
                                 canvas->os->window->BorderBottom);
-      canvas->os->waiting_for_resize = 1;
+      canvas->waiting_for_resize = 1;
     } else {
+      int statusheight = statusbar_get_status_height();
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+      int have_resize = overlay && CGXVideoBase && nooverlay == 0;
+#else
+      const int have_resize = FALSE;
+#endif
       canvas->os->window = OpenWindowTags(NULL,
                WA_Title, (ULONG)canvas->os->window_name,
-               WA_Flags, WFLG_NOCAREREFRESH|WFLG_DRAGBAR|WFLG_DEPTHGADGET|WFLG_CLOSEGADGET|WFLG_GIMMEZEROZERO,
-               WA_IDCMP, IDCMP_CLOSEWINDOW|IDCMP_RAWKEY|IDCMP_CHANGEWINDOW|IDCMP_MENUPICK|IDCMP_MENUVERIFY,
-               WA_Left, 100,
-               WA_Top, 100,
+               WA_Flags, WFLG_NOCAREREFRESH|WFLG_DRAGBAR|WFLG_DEPTHGADGET|WFLG_CLOSEGADGET,
+               WA_IDCMP, IDCMP_CLOSEWINDOW|IDCMP_RAWKEY|IDCMP_SIZEVERIFY|IDCMP_CHANGEWINDOW|IDCMP_MENUPICK|IDCMP_MENUVERIFY,
+               WA_Left, canvas->window_left,
+               WA_Top, canvas->window_top,
                WA_InnerWidth, width,
-               WA_InnerHeight, height + statusbar_get_status_height(),
+               WA_InnerHeight, height + statusheight,
                WA_Activate, TRUE,
                WA_NewLookMenus, TRUE,
+               WA_AutoAdjust, TRUE,
+               have_resize ? WA_MinWidth : TAG_IGNORE, 64*2,
+               have_resize ? WA_MinHeight : TAG_IGNORE, 48*2 + statusheight,
+               have_resize ? WA_MaxWidth : TAG_IGNORE, ~0,
+               have_resize ? WA_MaxHeight : TAG_IGNORE, ~0,
+               have_resize ? WA_SizeGadget : TAG_IGNORE, TRUE,
                TAG_DONE);
+
+      if (canvas->os->window == NULL) {
+        return NULL;
+      }
     }
 
     pointer_set_default(POINTER_SHOW);
@@ -351,24 +499,122 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     canvas->os->visible_height = height;
   }
 
-  if (canvas->os->window == NULL) {
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+
+  if (overlay && CGXVideoBase && nooverlay == 0) {
+    static const struct {
+      int      srcfmt;
+      int      pixfmt;
+      fourcc_t yuvfmt;
+    } vlayer_formats[] = {
+      {SRCFMT_YCbCr16, 0, {FOURCC_YUY2}},
+      /*{SRCFMT_YUV16, 0, {FOURCC_YUY2}},*/    /* untested */
+      {SRCFMT_RGB16, PIXFMT_RGB16PC, {0}},
+      {SRCFMT_RGB15, PIXFMT_RGB15PC, {0}},
+      {-1,}
+    };
+    int i;
+    for (i = 0; vlayer_formats[i].srcfmt != -1; i++) {
+      canvas->os->vlayer_handle = CreateVLayerHandleTags(canvas->os->window->WScreen,
+             VOA_SrcType, vlayer_formats[i].srcfmt,
+             VOA_SrcWidth, width,
+             VOA_SrcHeight, height,
+             VOA_UseColorKey, TRUE,
+             TAG_DONE);
+      if (canvas->os->vlayer_handle) {
+        break;
+      }
+    }
+
+    if (canvas->os->vlayer_handle != NULL) {
+      int statusheight = canvas->os->screen == NULL || fullscreenstatusbar ? statusbar_get_status_height() : 0;
+
+      canvas->os->pixfmt = vlayer_formats[i].pixfmt;
+      canvas->vlayer_yuvfmt.id = vlayer_formats[i].yuvfmt.id;
+
+      if (AttachVLayerTags(canvas->os->vlayer_handle, canvas->os->window,
+             VOA_BottomIndent, statusheight,
+             TAG_DONE) == 0) {
+        struct Window *window = canvas->os->window;
+
+        canvas->vlayer_image.width = width * 2;
+        canvas->vlayer_image.height = height;
+        canvas->vlayer_image.data_size = width * 2 * height * 2;
+        canvas->vlayer_image.num_planes = 0;
+        canvas->vlayer_image.pitches = canvas->vlayer_pitches;
+        canvas->vlayer_pitches[0] = width * 2;
+        canvas->vlayer_image.offsets = canvas->vlayer_offsets;
+        canvas->vlayer_offsets[0] = 0;
+        canvas->vlayer_image.data = NULL;
+
+        canvas->os->bpr = GetVLayerAttr(canvas->os->vlayer_handle, VOA_Modulo);
+        canvas->os->bpp = 2;
+
+        canvas->os->vlayer_colorkey = GetVLayerAttr(canvas->os->vlayer_handle, VOA_ColorKey);
+        if ((LONG)canvas->os->vlayer_colorkey != -1) {
+          FillPixelArray(window->RPort, window->BorderLeft, window->BorderTop,
+                         window->Width - window->BorderLeft- window->BorderRight,
+                         window->Height - window->BorderTop - window->BorderBottom - statusheight,
+                         canvas->os->vlayer_colorkey);
+        }
+      }
+      else {
+        DeleteVLayerHandle(canvas->os->vlayer_handle);
+        canvas->os->vlayer_handle = NULL;
+      }
+    }
+
+    if (canvas->os->vlayer_handle == NULL && canvas->os->screen == NULL) {
+      /* overlay creation failed for some reason, close window and reopen without resize */
+      closecanvaswindow(canvas);
+      nooverlay = 1;
+      goto reopenwindow;
+    }
+  }
+#endif
+
+  if (canvas->os->screen == NULL || fullscreenstatusbar) {
+    statusbar_create(canvas);
+  }
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  if (canvas->os->vlayer_handle == NULL) {
+#endif
+  canvas->os->window_bitmap = AllocBitMap(width, height, GetBitMapAttr(canvas->os->window->RPort->BitMap, BMA_DEPTH),
+                                          BMF_CLEAR|BMF_DISPLAYABLE|BMF_INTERLEAVED|BMF_MINPLANES,
+                                          canvas->os->window->RPort->BitMap);
+  if (canvas->os->window_bitmap == NULL) {
+    closecanvaswindow(canvas);
+    if (canvas->os->screen != NULL) {
+      CloseScreen(canvas->os->screen);
+      canvas->os->screen = NULL;
+    }
     return NULL;
   }
 
-  statusbar_create(canvas);
-
-  canvas->os->window_bitmap = AllocBitMap(width, height, 8,
-                                          BMF_CLEAR|BMF_DISPLAYABLE|BMF_INTERLEAVED|BMF_MINPLANES,
-                                          canvas->os->window->RPort->BitMap);
-
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  /* make sure we didn't get some incompatible bitmap */
+  if (GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_ISCYBERGFX) == 0) {
+    FreeBitMap(canvas->os->window_bitmap);
+    canvas->os->window_bitmap = NULL;
+    closecanvaswindow(canvas);
+    if (canvas->os->screen != NULL) {
+      CloseScreen(canvas->os->screen);
+      canvas->os->screen = NULL;
+    }
+    return NULL;
+  }
+
   canvas->os->pixfmt = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_PIXFMT);
   canvas->os->bpr = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_XMOD);
-  canvas->os->bpp = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_DEPTH)/8;
+  canvas->os->bpp = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_BPPIX);
 #else
   canvas->os->pixfmt = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_RGBFORMAT);
   canvas->os->bpr = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_BYTESPERROW);
   canvas->os->bpp = p96GetBitMapAttr(canvas->os->window_bitmap, P96BMA_BYTESPERPIXEL);
+#endif
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  }
 #endif
 
   canvas->width = width;
@@ -383,7 +629,14 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
   video_canvas_refresh_all(canvas);
 
   /* remember previous state */
-  current_fullscreen = fullscreen;
+  canvas->current_fullscreen = fullscreen;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  canvas->current_overlay = overlay;
+#endif
+  /* make sure we get the possible requesters */
+  if (self->pr_WindowPtr == orig_windowptr) {
+    self->pr_WindowPtr = canvas->os->window;
+  }
 
   return canvas;
 }
@@ -405,8 +658,18 @@ struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
   }
 
   canvas->os->window_name = lib_stralloc(canvas->viewport->title);
+  if (canvas->os->window_name == NULL) {
+    lib_free(canvas->os);
+    canvas->os = NULL;
+    return NULL;
+  }
 
-  reopen(canvas, *width, *height);
+  if (reopen(canvas, *width, *height) == NULL) {
+    lib_free(canvas->os->window_name);
+    lib_free(canvas->os);
+    canvas->os = NULL;
+    return NULL;
+  }
 
   if (canvaslist == NULL) {
     canvaslist = canvas;
@@ -423,6 +686,13 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
   canvas->os = NULL;
   canvas->video_draw_buffer_callback = NULL;
+  canvas->window_left = 100;
+  canvas->window_top = 100;
+  canvas->current_fullscreen = 0;
+  canvas->waiting_for_resize = 0;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  canvas->current_overlay = 0;
+#endif
 }
 
 void video_canvas_refresh(struct video_canvas_s *canvas,
@@ -431,6 +701,57 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int w, unsigned int h)
 {
   int dx, dy, sx, sy;
+  ULONG lock;
+#ifdef HAVE_PROTO_CYBERGRAPHICS_H
+  ULONG cgx_base_addy;
+#else
+  struct RenderInfo ri;
+#endif
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+
+  if (canvas->os->vlayer_handle) {
+    if (LockVLayer(canvas->os->vlayer_handle)) {
+
+      cgx_base_addy = GetVLayerAttr(canvas->os->vlayer_handle, VOA_BaseAddress);
+
+      if (canvas->vlayer_yuvfmt.id == 0) {
+        /* it's RGB overlay, render to it directly */
+        video_canvas_render(canvas,
+                            (UBYTE *)cgx_base_addy,
+                            w, h,
+                            xs, ys,
+                            xi, yi,
+                            canvas->bytes_per_line,
+                            canvas->depth);
+      }
+      else {
+        int doublesize = canvas->videoconfig->doublesizex
+          && canvas->videoconfig->doublesizey;
+
+        /* everything else is preset at creation time */
+        canvas->vlayer_image.data = (APTR) cgx_base_addy;
+
+        render_yuv_image(doublesize,
+                         canvas->videoconfig->doublescan,
+                         video_resources.pal_mode,
+                         video_resources.pal_blur * 64 / 1000,
+                         video_resources.pal_scanlineshade * 1024 / 1000,
+                         canvas->vlayer_yuvfmt,
+                         &canvas->vlayer_image,
+                         canvas->draw_buffer->draw_buffer,
+                         canvas->draw_buffer->draw_buffer_width,
+                         canvas->videoconfig->color_tables.yuv_table,
+                         xs, ys, w, h,
+                         xi, yi);
+      }
+
+      UnlockVLayer(canvas->os->vlayer_handle);
+    }
+    return;
+  }
+
+#endif
 
   if (canvas->videoconfig->doublesizex) {
     xi *= 2;
@@ -488,36 +809,40 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     h = canvas->os->visible_height;
   }
 
-  if ((w > 0) && (h > 0)) {
-    BltBitMapRastPort(canvas->os->window_bitmap, sx, sy, canvas->os->window->RPort, dx, dy, w, h, 0xc0);
+  if (canvas->waiting_for_resize == 0 && w > 0 && h > 0) {
+    struct Window *window = canvas->os->window;
+    BltBitMapRastPort(canvas->os->window_bitmap, sx, sy, window->RPort, window->BorderLeft + dx, window->BorderTop + dy, w, h, 0xc0);
   }
 }
 
 /* dummy */
 
-int makecol_dummy(int r, int g, int b)
+static int makecol_dummy(int r, int g, int b)
 {
   return 0;
 }
 
 /* 16bit - BE */
 
-int makecol_RGB565BE(int r, int g, int b)
+static int makecol_RGB565BE(int r, int g, int b)
 {
   int c = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
   return c;
 }
-int makecol_BGR565BE(int r, int g, int b)
+
+static int makecol_BGR565BE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
   return c;
 }
-int makecol_RGB555BE(int r, int g, int b)
+
+static int makecol_RGB555BE(int r, int g, int b)
 {
   int c = ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
   return c;
 }
-int makecol_BGR555BE(int r, int g, int b)
+
+static int makecol_BGR555BE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 7) | ((g & 0xf8) << 2) | ((r & 0xf8) >> 3);
   return c;
@@ -525,25 +850,28 @@ int makecol_BGR555BE(int r, int g, int b)
 
 /* 16bit - LE */
 
-int makecol_RGB565LE(int r, int g, int b)
+static int makecol_RGB565LE(int r, int g, int b)
 {
   int c = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
   c = ((c << 8) & 0xff00) | ((c >> 8) & 0x00ff);
   return c;
 }
-int makecol_BGR565LE(int r, int g, int b)
+
+static int makecol_BGR565LE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
   c = ((c << 8) & 0xff00) | ((c >> 8) & 0x00ff);
   return c;
 }
-int makecol_RGB555LE(int r, int g, int b)
+
+static int makecol_RGB555LE(int r, int g, int b)
 {
   int c = ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
   c = ((c << 8) & 0xff00) | ((c >> 8) & 0x00ff);
   return c;
 }
-int makecol_BGR555LE(int r, int g, int b)
+
+static int makecol_BGR555LE(int r, int g, int b)
 {
   int c = ((b & 0xf8) << 7) | ((g & 0xf8) << 2) | ((r & 0xf8) >> 3);
   c = ((c << 8) & 0xff00) | ((c >> 8) & 0x00ff);
@@ -552,13 +880,14 @@ int makecol_BGR555LE(int r, int g, int b)
 
 /* 24bit (swapped these as VICE read from LSB, *NOT* MSB when rendering) */
 
-int makecol_RGB24(int r, int g, int b)
+static int makecol_RGB24(int r, int g, int b)
 {
 //  int c = (r << 16) | (g << 8) | b;
   int c = (b << 16) | (g << 8) | r;
   return c;
 }
-int makecol_BGR24(int r, int g, int b)
+
+static int makecol_BGR24(int r, int g, int b)
 {
 //  int c = (b << 16) | (g << 8) | r;
   int c = (r << 16) | (g << 8) | b;
@@ -567,32 +896,39 @@ int makecol_BGR24(int r, int g, int b)
 
 /* 32bit */
 
-int makecol_ARGB32(int r, int g, int b)
+static int makecol_ARGB32(int r, int g, int b)
 {
   int c = (r << 16) | (g << 8) | b;
   return c;
 }
-int makecol_ABGR32(int r, int g, int b)
+
+static int makecol_ABGR32(int r, int g, int b)
 {
   int c = (b << 16) | (g << 8) | r;
   return c;
 }
-int makecol_RGBA32(int r, int g, int b)
+
+static int makecol_RGBA32(int r, int g, int b)
 {
   int c = (r << 24) | (g << 16) | (b << 8);
   return c;
 }
-int makecol_BGRA32(int r, int g, int b)
+
+static int makecol_BGRA32(int r, int g, int b)
 {
   int c = (b << 24) | (g << 16) | (r << 8);
   return c;
 }
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
-struct {
+static const struct {
   unsigned long color_format;
   int (*makecol)(int r, int g, int b);
 } color_formats[] = {
+  { PIXFMT_RGB15, makecol_RGB555BE },
+  { PIXFMT_BGR15, makecol_BGR555BE },
+  { PIXFMT_RGB15PC, makecol_RGB555LE },
+  { PIXFMT_BGR15PC, makecol_BGR555LE },
   { PIXFMT_RGB16, makecol_RGB565BE },
   { PIXFMT_BGR16, makecol_BGR565BE },
   { PIXFMT_RGB16PC, makecol_RGB565LE },
@@ -605,7 +941,7 @@ struct {
   { 0, NULL }
 };
 #else
-struct {
+static const struct {
   unsigned long color_format;
   int (*makecol)(int r, int g, int b);
 } color_formats[] = {
@@ -674,10 +1010,15 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     statusbar_destroy(canvas);
     lib_free(canvas->os->window_name);
 
-    if (canvas->os->window != NULL) {
-      CloseWindow(canvas->os->window);
-      canvas->os->window = NULL;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    if (canvas->os->vlayer_handle) {
+      DetachVLayer(canvas->os->vlayer_handle);
+      DeleteVLayerHandle(canvas->os->vlayer_handle);
+      canvas->os->vlayer_handle = NULL;
     }
+#endif
+
+    closecanvaswindow(canvas);
     if (canvas->os->screen != NULL) {
       CloseScreen(canvas->os->screen);
       canvas->os->screen = NULL;
@@ -694,6 +1035,9 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
       while (node->next != canvas) { node = node->next; }
       node->next = canvas->next;
     }
+
+    lib_free(canvas->os);
+    canvas->os = NULL;
   }
 }
 
@@ -706,7 +1050,9 @@ void video_canvas_resize(struct video_canvas_s *canvas,
   if (canvas->videoconfig->doublesizey)
     height *= 2;
 
-  reopen(canvas, width, height);
+  if (reopen(canvas, width, height) == NULL) {
+    exit(20);
+  }
 }
 
 int video_arch_resources_init(void)
@@ -729,7 +1075,9 @@ void video_arch_fullscreen_update(void)
 {
   if (fullscreen_update_needed == 1) {
     if (canvaslist != NULL) {
-      reopen(canvaslist, canvaslist->width, canvaslist->height);
+      if (reopen(canvaslist, canvaslist->width, canvaslist->height) == NULL) {
+        exit(20);
+      }
     }
     fullscreen_update_needed = 0;
   }

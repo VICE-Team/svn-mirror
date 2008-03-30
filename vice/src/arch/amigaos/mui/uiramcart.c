@@ -31,24 +31,30 @@
 #include "mui.h"
 
 #include "uiramcart.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_ramcart_on_off[] = {
-  "off",
-  "on",
-  NULL
+static const char *ui_ramcart_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_ramcart_on_off_values[] = {
+static char *ui_ramcart_enable[countof(ui_ramcart_enable_translate)];
+
+static const int ui_ramcart_enable_values[] = {
   0,
   1,
   -1
 };
 
-static const char *ui_ramcart_read_only[] = {
-  "read/write",
-  "read-only",
-  NULL
+static int ui_ramcart_read_only_translate[] = {
+  IDS_READ_WRITE,
+  IDS_READ_ONLY,
+  0
 };
+
+static char *ui_ramcart_read_only[countof(ui_ramcart_read_only_translate)];
 
 static const int ui_ramcart_read_only_values[] = {
   0,
@@ -69,7 +75,7 @@ static const int ui_ramcart_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "RAMCART", ui_ramcart_on_off, ui_ramcart_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "RAMCART", ui_ramcart_enable, ui_ramcart_enable_values },
   { NULL, MUI_TYPE_CYCLE, "RAMCART_RO", ui_ramcart_read_only, ui_ramcart_read_only_values },
   { NULL, MUI_TYPE_CYCLE, "RAMCARTsize", ui_ramcart_size, ui_ramcart_size_values },
   UI_END /* mandatory */
@@ -78,13 +84,15 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "RAMCART Enabled", ui_ramcart_on_off)
-    CYCLE(ui_to_from[1].object, "RAMCART Read/Write", ui_ramcart_read_only)
-    CYCLE(ui_to_from[2].object, "RAMCART Size", ui_ramcart_size)
+    CYCLE(ui_to_from[0].object, "RAMCART", ui_ramcart_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_RAMCART_READ_WRITE), ui_ramcart_read_only)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_RAMCART_SIZE), ui_ramcart_size)
   End;
 }
 
 void ui_ramcart_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "RAMCART Settings", ui_to_from);
+  intl_convert_mui_table(ui_ramcart_enable_translate, ui_ramcart_enable);
+  intl_convert_mui_table(ui_ramcart_read_only_translate, ui_ramcart_read_only);
+  mui_show_dialog(build_gui(), translate_text(IDS_RAMCART_SETTINGS), ui_to_from);
 }

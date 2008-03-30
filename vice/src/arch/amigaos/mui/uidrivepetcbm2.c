@@ -32,17 +32,26 @@
 
 #include "drive.h"
 #include "uidrivepetcbm2.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *drive_number_strings[] = {
-  "Drive 8",
-  "Drive 9",
-  "Drive 10",
-  "Drive 11",
-  NULL
+static int drive_number_strings_translate[] = {
+  IDMS_DRIVE_8,
+  IDMS_DRIVE_9,
+  IDMS_DRIVE_10,
+  IDMS_DRIVE_11,
+  0
+};
+
+static char *drive_number_strings[countof(drive_number_strings_translate)];
+
+static int drive_type_strings_translate[] = {
+  IDS_NONE,
+  0
 };
 
 static const char *drive_type_strings_8[] = {
-  "None",
+  NULL,		/* "None" placeholder */
   "2031",
   "2040",
   "3040",
@@ -66,7 +75,7 @@ static const int drive_type_values_8[] = {
 };
 
 static const char *drive_type_strings_9[] = {
-  "None",
+  NULL,		/* "None" placeholder */
   "2031",
   "1001",
   NULL
@@ -80,7 +89,7 @@ static const int drive_type_values_9[] = {
 };
 
 static const char *drive_type_strings_10[] = {
-  "None",
+  NULL,		/* "None" placeholder */
   "2031",
   "1001",
   NULL
@@ -94,7 +103,7 @@ static const int drive_type_values_10[] = {
 };
 
 static const char *drive_type_strings_11[] = {
-  "None",
+  NULL,		/* "None" placeholder */
   "2031",
   "1001",
   NULL
@@ -107,12 +116,14 @@ static const int drive_type_values_11[] = {
   -1
 };
 
-static const char *drive_extend_strings[] = {
-  "Never extend",
-  "Ask on extend",
-  "Extend on access",
-  NULL
+static int drive_extend_strings_translate[] = {
+  IDS_NEVER_EXTEND,
+  IDS_ASK_ON_EXTEND,
+  IDS_EXTEND_ON_ACCESS,
+  0
 };
+
+static char *drive_extend_strings[countof(drive_extend_strings_translate)];
 
 static const int drive_extend_values[] = {
   DRIVE_EXTEND_NEVER,
@@ -151,12 +162,12 @@ static APTR build_gui(void)
       MUIA_Group_Horiz, TRUE,
       Child, data[0].object = RadioObject,
         MUIA_Frame, MUIV_Frame_Group,
-        MUIA_FrameTitle, "Drive type",
+        MUIA_FrameTitle, translate_text(IDS_DRIVE_TYPE),
         MUIA_Radio_Entries, drive_type_strings[num],
       End,
       Child, data[1].object = RadioObject,
         MUIA_Frame, MUIV_Frame_Group,
-        MUIA_FrameTitle, "40 track handling",
+        MUIA_FrameTitle, translate_text(IDS_40_TRACK_HANDLING),
         MUIA_Radio_Entries, drive_extend_strings,
       End,
     End;
@@ -169,5 +180,11 @@ static APTR build_gui(void)
 
 void uidrivepetcbm2_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "Drive Settings", ui_to_from);
+  intl_convert_mui_table(drive_number_strings_translate, drive_number_strings);
+  intl_convert_mui_table(drive_type_strings_translate, drive_type_strings_8);
+  intl_convert_mui_table(drive_type_strings_translate, drive_type_strings_9);
+  intl_convert_mui_table(drive_type_strings_translate, drive_type_strings_10);
+  intl_convert_mui_table(drive_type_strings_translate, drive_type_strings_11);
+  intl_convert_mui_table(drive_extend_strings_translate, drive_extend_strings);
+  mui_show_dialog(build_gui(), translate_text(IDS_DRIVE_SETTINGS), ui_to_from);
 }

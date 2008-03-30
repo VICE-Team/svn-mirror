@@ -674,7 +674,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
             }
             canvas_palette = dga2_cached_canvas->palette;
             memcpy(fs_cached_physical_colors,
-                   dga2_cached_canvas->videoconfig->physical_colors,
+                   dga2_cached_canvas->videoconfig->color_tables.physical_colors,
                    sizeof(DWORD) * 256);
             cm = XDGACreateColormap(display, screen, dgadev, AllocNone);
 	
@@ -709,7 +709,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
             }
 
             memcpy(fs_saved_colors,
-                   dga2_cached_canvas->videoconfig->physical_colors,
+                   dga2_cached_canvas->videoconfig->color_tables.physical_colors,
                    sizeof(DWORD) * 256);
 
         }
@@ -721,7 +721,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
                 log_error(dga_log, "inconsistent view for color management, disabling fullscreen.");
                 goto nodga;
             }
-            memcpy(dga2_cached_canvas->videoconfig->physical_colors,
+            memcpy(dga2_cached_canvas->videoconfig->color_tables.physical_colors,
                    fs_saved_colors, sizeof(DWORD) * 256);
         }
 
@@ -783,7 +783,7 @@ static int dga2_set_mode(resource_value_t v, void *param)
 #ifndef DGA2_DEBUG_BUFFER
         fb_addr = (unsigned char *)0;
         /* Restore pixel values of window mode */
-        memcpy(dga2_cached_canvas->videoconfig->physical_colors,
+        memcpy(dga2_cached_canvas->videoconfig->color_tables.physical_colors,
                fs_cached_physical_colors,
                sizeof(DWORD) * 256);
 #endif

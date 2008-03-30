@@ -30,7 +30,7 @@
 struct uicart_params_s {
     int idm;
     int type;
-    char *title;
+    int title;
     int filter;
 };
 typedef struct uicart_params_s uicart_params_t;
@@ -39,4 +39,3 @@ extern void uicart_attach(video_canvas_t *canvas, int idm,
                           const uicart_params_t *cartridges);
 
 #endif
-

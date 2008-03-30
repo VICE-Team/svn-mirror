@@ -46,12 +46,12 @@ static void video_render_pal_main(video_render_config_t *config,
                                   int width, int height, int xs, int ys, int xt,
                                   int yt, int pitchs, int pitcht, int depth)
 {
-    DWORD *colortab;
+    video_render_color_tables_t *colortab;
     int doublescan, delayloop, rendermode, palmode, scale2x;
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;
-    colortab = config->physical_colors;
+    colortab = &config->color_tables;
     scale2x = config->scale2x;
 
     delayloop = video_resources.delayloop_emulation;

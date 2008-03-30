@@ -28,15 +28,15 @@
 
 #define __USE_INLINE__
 
-#include "private.h"
-#include "lib.h"
-#include "ui.h"
-
 #ifdef AMIGA_OS4
 #define ASL_PRE_V38_NAMES
 #endif
 
-#include <proto/asl.h>
+#include "private.h"
+#include "lib.h"
+#include "ui.h"
+#include "intl.h"
+#include "translate.h"
 
 enum { SS_BMP=1,
 #ifdef HAVE_GIF
@@ -64,19 +64,25 @@ enum { SS_BMP=1,
 #define SS_PNG 1002
 #endif
 
-static void save_screenshot_file(char *title, char *pattern, char *screenshot_type, video_canvas_t *canvas)
+static void save_screenshot_file(char *pattern, char *screenshot_type, video_canvas_t *canvas)
 {
   struct FileRequester *request;
   UBYTE fname[1024];
+  char *save_text;
+  char title[100];
+
+  sprintf(title,translate_text(IDS_SAVE_S_SCREENSHOT), screenshot_type);
 
   request = (struct FileRequester *)AllocAslRequestTags(ASL_FileRequest,
   ASL_Hail, title,
   (struct TagItem *)TAG_DONE);
 
+  save_text=translate_text(IDS_SAVE);
+
   if (AslRequestTags(request, ASLFR_Window, canvas->os->window,
                               ASLFR_InitialDrawer, "PROGDIR:",
                               ASLFR_InitialPattern, pattern,
-                              ASLFR_PositiveText, "Save",
+                              ASLFR_PositiveText, save_text,
                               (struct TagItem *)TAG_DONE))
   {
     strcat(fname,request->rf_Dir);
@@ -90,9 +96,9 @@ static void save_screenshot_file(char *title, char *pattern, char *screenshot_ty
         strcat(fname, pattern+2);
       }
       if (screenshot_save(screenshot_type, fname, canvas)<0)
-        ui_error("Screenshot save of %s failed", fname);
+        ui_error(translate_text(IDMES_SCREENSHOT_SAVE_S_FAILED), fname);
       else
-        ui_message("Screenshot %s saved.", fname);
+        ui_message(translate_text(IDMES_SCREENSHOT_S_SAVED), fname);
     }
   }
   if (request)
@@ -103,43 +109,47 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
 {
   int format;
   char *name;
+  char choices[100]="";
 
-  format=ui_requester("Save Screenshot", "Choose screenshot format", "BMP|"
+  strcat(choices,"BMP|");
 #ifdef HAVE_GIF
-  "GIF|"
+  strcat(choices,"GIF|");
 #endif
-  "IFF|"
+  strcat(choices,"IFF|");
 #ifdef HAVE_JPEG
-  "JPG|"
+  strcat(choices,"JPG|");
 #endif
-  "PCX|"
+  strcat(choices,"PCX|");
 #ifdef HAVE_PNG
-  "PNG|"
+  strcat(choices,"PNG|");
 #endif
-  "PPM|CANCEL", 0);
+  strcat(choices,"PPM|");
+  strcat(choices, translate_text(IDS_CANCEL));
+
+  format=ui_requester(translate_text(IDS_SAVE_SCREENSHOT), translate_text(IDS_CHOOSE_SCREENSHOT_FORMAT), choices, 0);
 
   switch (format)
   {
     case SS_BMP:
-      save_screenshot_file("Save BMP screenshot","#?.bmp","BMP",canvas);
+      save_screenshot_file("#?.bmp","BMP",canvas);
       break;
     case SS_GIF:
-      save_screenshot_file("Save GIF screenshot","#?.gif","GIF",canvas);
+      save_screenshot_file("#?.gif","GIF",canvas);
       break;
     case SS_IFF:
-      save_screenshot_file("Save IFF screenshot","#?.iff","IFF",canvas);
+      save_screenshot_file("#?.iff","IFF",canvas);
       break;
     case SS_JPG:
-      save_screenshot_file("Save JPG screenshot","#?.jpg","JPEG",canvas);
+      save_screenshot_file("#?.jpg","JPEG",canvas);
       break;
     case SS_PCX:
-      save_screenshot_file("Save PCX screenshot","#?.pcx","PCX",canvas);
+      save_screenshot_file("#?.pcx","PCX",canvas);
       break;
     case SS_PNG:
-      save_screenshot_file("Save PNG screenshot","#?.png","PNG",canvas);
+      save_screenshot_file("#?.png","PNG",canvas);
       break;
     case SS_PPM:
-      save_screenshot_file("Save PPM screenshot","#?.ppm","PPM",canvas);
+      save_screenshot_file("#?.ppm","PPM",canvas);
       break;
     default:
       break;

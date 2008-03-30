@@ -31,14 +31,20 @@
 #include "mui.h"
 
 #include "uic64_256k.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_c64_256k_on_off[] = {
-  "off",
-  "on",
-  NULL
+
+static int ui_c64_256k_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_c64_256k_on_off_values[] = {
+static char *ui_c64_256k_enable[countof(ui_c64_256k_enable_translate)];
+
+
+static const int ui_c64_256k_enable_values[] = {
   0,
   1,
   -1
@@ -61,7 +67,7 @@ static const int ui_c64_256k_base_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_on_off, ui_c64_256k_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_enable, ui_c64_256k_enable_values },
   { NULL, MUI_TYPE_CYCLE, "C64_256Kbase", ui_c64_256k_base, ui_c64_256k_base_values },
   UI_END /* mandatory */
 };
@@ -69,12 +75,13 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "256K Enabled", ui_c64_256k_on_off)
-    CYCLE(ui_to_from[1].object, "256K Base", ui_c64_256k_base)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_256K_ENABLED), ui_c64_256k_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_256K_BASE), ui_c64_256k_base)
   End;
 }
 
 void ui_c64_256k_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "256K Settings", ui_to_from);
+  intl_convert_mui_table(ui_c64_256k_enable_translate, ui_c64_256k_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_256K_SETTINGS), ui_to_from);
 }

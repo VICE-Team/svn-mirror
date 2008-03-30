@@ -31,60 +31,40 @@
 #include "mui.h"
 
 #include "uivicii.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_vicii_spr_spr_collisions[] = {
-  "disabled",
-  "enabled",
-  NULL
+static int ui_vicii_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_vicii_spr_spr_collisions_values[] = {
-  0,
-  1,
-  -1
-};
+static char *ui_vicii_enable[countof(ui_vicii_enable_translate)];
 
-static const char *ui_vicii_spr_bg_collisions[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vicii_spr_bg_collisions_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_vicii_new_luminances[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_vicii_new_luminances_values[] = {
+static const int ui_vicii_enable_values[] = {
   0,
   1,
   -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_spr_spr_collisions, ui_vicii_spr_spr_collisions_values },
-  { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_spr_bg_collisions, ui_vicii_spr_bg_collisions_values },
-  { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_vicii_new_luminances, ui_vicii_new_luminances_values },
+  { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_vicii_enable, ui_vicii_enable_values },
   UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "Sprite Sprite Collisions", ui_vicii_spr_spr_collisions)
-    CYCLE(ui_to_from[1].object, "Sprite Background Collisions", ui_vicii_spr_bg_collisions)
-    CYCLE(ui_to_from[2].object, "New Luminances", ui_vicii_new_luminances)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_SPRITE_SPRITE_COL), ui_vicii_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_SPRITE_BACKGROUND_COL), ui_vicii_enable)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_NEW_LUMINANCES), ui_vicii_enable)
   End;
 }
 
 void ui_vicii_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "VICII Settings", ui_to_from);
+  mui_show_dialog(build_gui(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
 }

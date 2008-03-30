@@ -54,31 +54,31 @@ static const uicart_params_t vic20_ui_cartridges[] = {
     {
         IDM_CART_VIC20_8KB_2000,
         CARTRIDGE_VIC20_16KB_2000,
-        "Attach 4/8/16KB cartridge image at $2000",
+        IDS_ATTACH_4_8_16KB_AT_2000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_16KB_4000,
         CARTRIDGE_VIC20_16KB_4000,
-        "Attach 4/8/16KB cartridge image at $4000",
+        IDS_ATTACH_4_8_16KB_AT_4000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_6000,
         CARTRIDGE_VIC20_16KB_6000,
-        "Attach 4/8/16KB cartridge image at $6000",
+        IDS_ATTACH_4_8_16KB_AT_6000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_A000,
         CARTRIDGE_VIC20_8KB_A000,
-        "Attach 4/8KB cartridge image at $A000",
+        IDS_ATTACH_4_8KB_AT_A000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_4KB_B000,
         CARTRIDGE_VIC20_4KB_B000,
-        "Attach 4KB cartridge image at $B000",
+        IDS_ATTACH_4KB_AT_B000,
         UILIB_FILTER_ALL
     },
     {

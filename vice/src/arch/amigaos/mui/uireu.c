@@ -31,14 +31,18 @@
 #include "mui.h"
 
 #include "uireu.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_reu_on_off[] = {
-  "off",
-  "on",
-  NULL
+static int ui_reu_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_reu_on_off_values[] = {
+static char *ui_reu_enable[countof(ui_reu_enable_translate)];
+
+static const int ui_reu_enable_values[] = {
   0,
   1,
   -1
@@ -69,7 +73,7 @@ static const int ui_reu_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "REU", ui_reu_on_off, ui_reu_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "REU", ui_reu_enable, ui_reu_enable_values },
   { NULL, MUI_TYPE_CYCLE, "REUsize", ui_reu_size, ui_reu_size_values },
   UI_END /* mandatory */
 };
@@ -77,12 +81,13 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "REU Enabled", ui_reu_on_off)
-    CYCLE(ui_to_from[1].object, "REU Size", ui_reu_size)
+    CYCLE(ui_to_from[0].object, "REU", ui_reu_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_REU_SIZE), ui_reu_size)
   End;
 }
 
 void ui_reu_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "REU Settings", ui_to_from);
+  intl_convert_mui_table(ui_reu_enable_translate, ui_reu_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_REU_SETTINGS), ui_to_from);
 }

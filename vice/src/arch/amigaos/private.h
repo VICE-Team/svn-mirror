@@ -77,7 +77,10 @@ struct os_s {
   int pens[16];
   struct TextFont *font;
   int disk_width, tape_width;
-  int waiting_for_resize;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+  APTR vlayer_handle;
+  ULONG vlayer_colorkey;
+#endif
 };
 
 extern video_canvas_t *canvaslist;

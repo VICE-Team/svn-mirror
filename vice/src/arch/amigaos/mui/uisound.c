@@ -32,6 +32,8 @@
 
 #include "sound.h"
 #include "uisound.h"
+#include "intl.h"
+#include "translate.h"
 
 static const char *ui_sound_freq[] = {
   "8000 Hz",
@@ -69,8 +71,13 @@ static const int ui_sound_buffer_values[] = {
   -1
 };
 
-static const char *ui_sound_oversample[] = {
-  "None",
+static int ui_sound_oversample_translate[] = {
+  IDS_NONE,
+  0
+};
+
+static char *ui_sound_oversample[] = {
+  NULL,		/* "None" placeholder */
   "2x",
   "4x",
   "8x",
@@ -85,12 +92,14 @@ static const int ui_sound_oversample_values[] = {
   -1
 };
 
-static const char *ui_sound_adjusting[] = {
-  "Flexible",
-  "Adjusting",
-  "Exact",
-  NULL
+static int ui_sound_adjusting_translate[] = {
+  IDS_FLEXIBLE,
+  IDS_ADJUSTING,
+  IDS_EXACT,
+  0
 };
+
+static char *ui_sound_adjusting[countof(ui_sound_adjusting_translate)];
 
 static const int ui_sound_adjusting_values[] = {
   SOUND_ADJUST_FLEXIBLE,
@@ -110,14 +119,15 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "Sample Rate", ui_sound_freq)
-    CYCLE(ui_to_from[1].object, "Buffer Size", ui_sound_buffer)
-    CYCLE(ui_to_from[2].object, "Oversample", ui_sound_oversample)
-    CYCLE(ui_to_from[3].object, "Speed Adjustment", ui_sound_adjusting)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_SAMPLE_RATE), ui_sound_freq)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_BUFFER_SIZE), ui_sound_buffer)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_OVERSAMPLE), ui_sound_oversample)
+    CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
   End;
 }
 
 void ui_sound_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "Sound Settings", ui_to_from);
+  intl_convert_mui_table(ui_sound_oversample_translate, ui_sound_oversample);
+  mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
 }

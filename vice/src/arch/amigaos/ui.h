@@ -36,6 +36,10 @@ typedef struct ui_resources_s {
     int fullscreenwidth;
     int fullscreenheight;
     int fullscreenenabled;
+    int statusbarenabled;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    int videooverlayenabled;
+#endif
     int save_resources_on_exit;
     int confirm_on_exit;
     char *monitor_dimensions;

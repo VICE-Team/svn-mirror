@@ -90,15 +90,15 @@ const char *archdep_boot_path(void)
 {
   if (boot_path == NULL) {
     char cwd[1024];
-    BPTR lock = 0;
+    BPTR lock;
 
     lock = GetProgramDir();
-    NameFromLock(lock, cwd, 1024);
-    if (cwd[strlen(cwd) - 1] != ':') {
-      strcat(cwd, "/");
+    if (NameFromLock(lock, cwd, 1024)) {
+      if (cwd[strlen(cwd) - 1] != ':') {
+        strcat(cwd, "/");
+      }
+      boot_path = lib_stralloc(cwd);
     }
-
-    boot_path = lib_stralloc(cwd);
   }
 
   return boot_path;
@@ -217,6 +217,19 @@ int archdep_spawn(const char *name, char **argv,
 /* return malloc'd version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
+  BPTR lock;
+
+  lock = Lock(orig_name, ACCESS_READ);
+  if (lock) {
+    char name[1024];
+    LONG rc;
+    rc = NameFromLock(lock, name, 1024);
+    UnLock(lock);
+    if (rc) {
+      *return_path = lib_stralloc(name);
+      return 0;
+    }
+  }
   *return_path = lib_stralloc(orig_name);
   return 0;
 }

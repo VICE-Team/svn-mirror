@@ -846,7 +846,7 @@ BEGIN
                 MENUITEM SEPARATOR
                 MENUITEM "No",    IDM_CART_MODE_OFF
                 MENUITEM "Prg",    IDM_CART_MODE_PRG
-                MENUITEM "SÃ¬",     IDM_CART_MODE_ON
+                MENUITEM "Sì",     IDM_CART_MODE_ON
             END
             MENUITEM SEPARATOR
             MENUITEM "Imposta la cartuccia come &predefinita", IDM_CART_SET_DEFAULT

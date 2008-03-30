@@ -30,11 +30,6 @@
 #include "render2x2pal.h"
 #include "types.h"
 
-extern SDWORD ytablel[128];
-extern SDWORD ytableh[128];
-extern SDWORD cbtable[128];
-extern SDWORD crtable[128];
-
 extern DWORD gamma_red[256 * 3];
 extern DWORD gamma_grn[256 * 3];
 extern DWORD gamma_blu[256 * 3];
@@ -43,18 +38,20 @@ extern DWORD gamma_red_fac[256 * 3];
 extern DWORD gamma_grn_fac[256 * 3];
 extern DWORD gamma_blu_fac[256 * 3];
 
-extern SDWORD line_yuv_0[1024 * 3];
-extern SDWORD line_yuv_1[1024 * 3];
-
 /* PAL 2x2 renderers */
 
-void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_16_2x2_pal(video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
                        const unsigned int doublescan)
 {
+    const SDWORD *cbtable = color_tab->cbtable;
+    const SDWORD *crtable = color_tab->crtable;
+    const SDWORD *ytablel = color_tab->ytablel;
+    const SDWORD *ytableh = color_tab->ytableh;
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     WORD *tmptrg;
     SDWORD *lineptr0;
@@ -84,8 +81,8 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
     wint = width + wfirst + wlast + 5;
-    lineptr0 = line_yuv_0;
-    lineptr1 = line_yuv_1;
+    lineptr0 = color_tab->line_yuv_0;
+    lineptr1 = color_tab->line_yuv_1;
 
     tmpsrc = src - pitchs;
     line = lineptr0;
@@ -305,13 +302,18 @@ void render_16_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_32_2x2_pal(video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
                        unsigned int width, const unsigned int height,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
                        const unsigned int doublescan)
 {
+    const SDWORD *cbtable = color_tab->cbtable;
+    const SDWORD *crtable = color_tab->crtable;
+    const SDWORD *ytablel = color_tab->ytablel;
+    const SDWORD *ytableh = color_tab->ytableh;
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     DWORD *tmptrg;
     SDWORD *lineptr0;
@@ -341,8 +343,8 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
     wint = width + wfirst + wlast + 5;
-    lineptr0 = line_yuv_0;
-    lineptr1 = line_yuv_1;
+    lineptr0 = color_tab->line_yuv_0;
+    lineptr1 = color_tab->line_yuv_1;
 
     tmpsrc = src - pitchs;
     line = lineptr0;

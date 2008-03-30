@@ -43,8 +43,6 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
 {
   static char keyname[20];
 
-  memset(keyname, 0, 20);
-
   sprintf(keyname, "%li", keynum);
 
   return keyname;

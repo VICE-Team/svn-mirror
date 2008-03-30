@@ -31,7 +31,6 @@ extern char *intl_speed_at_text;
 
 extern char *intl_translate_text(int en_resource);
 extern int intl_translate_res(int en_resource);
-extern char *intl_translate_text_new(int en_resource);
 
 extern void intl_init(void);
 extern void intl_shutdown(void);
@@ -39,6 +38,7 @@ extern char *intl_arch_language_init(void);
 extern void intl_update_ui(void);
 extern char *intl_convert_cp(char *text, int cp);
 
+extern void intl_convert_mui_table(int x[], char *y[]);
 
 /* ----------------------- AmigaOS Menu Strings ----------------------- */
 
@@ -1466,6 +1466,22 @@ extern char *intl_convert_cp(char *text, int cp);
 #define IDMS_LANGUAGE_PL                  0x4d6
 #define IDMS_LANGUAGE_SV                  0x4d7
 
+#define IDMS_FULLSCREEN_STATUSBAR         0x59c
+#define IDMS_FULLSCREEN_STATUSBAR_DE      0x59d
+#define IDMS_FULLSCREEN_STATUSBAR_FR      0x59e
+#define IDMS_FULLSCREEN_STATUSBAR_IT      0x59f
+#define IDMS_FULLSCREEN_STATUSBAR_NL      0x5a0
+#define IDMS_FULLSCREEN_STATUSBAR_PL      0x5a1
+#define IDMS_FULLSCREEN_STATUSBAR_SV      0x5a2
+
+#define IDMS_VIDEO_OVERLAY                0x5a3
+#define IDMS_VIDEO_OVERLAY_DE             0x5a4
+#define IDMS_VIDEO_OVERLAY_FR             0x5a5
+#define IDMS_VIDEO_OVERLAY_IT             0x5a6
+#define IDMS_VIDEO_OVERLAY_NL             0x5a7
+#define IDMS_VIDEO_OVERLAY_PL             0x5a8
+#define IDMS_VIDEO_OVERLAY_SV             0x5a9
+
 /* ----------------------- AmigaOS Message/Error Strings ----------------------- */
 
 #define IDMES_SETTINGS_SAVED_SUCCESS      0x4d8
@@ -1684,6 +1700,22 @@ extern char *intl_convert_cp(char *text, int cp);
 #define IDMES_THIS_MACHINE_NO_SID_PL      0x593
 #define IDMES_THIS_MACHINE_NO_SID_SV      0x594
 
+#define IDMES_SCREENSHOT_SAVE_S_FAILED    0x5b1
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_DE 0x5b2
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_FR 0x5b3
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_IT 0x5b4
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_NL 0x5b5
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_PL 0x5b6
+#define IDMES_SCREENSHOT_SAVE_S_FAILED_SV 0x5b7
+
+#define IDMES_SCREENSHOT_S_SAVED          0x5b8
+#define IDMES_SCREENSHOT_S_SAVED_DE       0x5b9
+#define IDMES_SCREENSHOT_S_SAVED_FR       0x5ba
+#define IDMES_SCREENSHOT_S_SAVED_IT       0x5bb
+#define IDMES_SCREENSHOT_S_SAVED_NL       0x5bc
+#define IDMES_SCREENSHOT_S_SAVED_PL       0x5bd
+#define IDMES_SCREENSHOT_S_SAVED_SV       0x5be
+
 /* ----------------------- AmigaOS Strings ----------------------- */
 
 #define IDS_PRESS_KEY_BUTTON              0x595
@@ -1694,6 +1726,1316 @@ extern char *intl_convert_cp(char *text, int cp);
 #define IDS_PRESS_KEY_BUTTON_PL           0x59a
 #define IDS_PRESS_KEY_BUTTON_SV           0x59b
 
+#define IDS_SAVE                          0x5aa
+#define IDS_SAVE_DE                       0x5ab
+#define IDS_SAVE_FR                       0x5ac
+#define IDS_SAVE_IT                       0x5ad
+#define IDS_SAVE_NL                       0x5ae
+#define IDS_SAVE_PL                       0x5af
+#define IDS_SAVE_SV                       0x5b0
 
+#define IDS_SAVE_SCREENSHOT               0x5bf
+#define IDS_SAVE_SCREENSHOT_DE            0x5c0
+#define IDS_SAVE_SCREENSHOT_FR            0x5c1
+#define IDS_SAVE_SCREENSHOT_IT            0x5c2
+#define IDS_SAVE_SCREENSHOT_NL            0x5c3
+#define IDS_SAVE_SCREENSHOT_PL            0x5c4
+#define IDS_SAVE_SCREENSHOT_SV            0x5c5
+
+#define IDS_CANCEL                        0x5c6
+#define IDS_CANCEL_DE                     0x5c7
+#define IDS_CANCEL_FR                     0x5c8
+#define IDS_CANCEL_IT                     0x5c9
+#define IDS_CANCEL_NL                     0x5ca
+#define IDS_CANCEL_PL                     0x5cb
+#define IDS_CANCEL_SV                     0x5cc
+
+#define IDS_CHOOSE_SCREENSHOT_FORMAT      0x5cd
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_DE   0x5ce
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_FR   0x5cf
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_IT   0x5d0
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_NL   0x5d1
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_PL   0x5d2
+#define IDS_CHOOSE_SCREENSHOT_FORMAT_SV   0x5d3
+
+#define IDS_SAVE_S_SCREENSHOT             0x5d4
+#define IDS_SAVE_S_SCREENSHOT_DE          0x5d5
+#define IDS_SAVE_S_SCREENSHOT_FR          0x5d6
+#define IDS_SAVE_S_SCREENSHOT_IT          0x5d7
+#define IDS_SAVE_S_SCREENSHOT_NL          0x5d8
+#define IDS_SAVE_S_SCREENSHOT_PL          0x5d9
+#define IDS_SAVE_S_SCREENSHOT_SV          0x5da
+
+#define IDS_DETACHED_DEVICE_D             0x5db
+#define IDS_DETACHED_DEVICE_D_DE          0x5dc
+#define IDS_DETACHED_DEVICE_D_FR          0x5dd
+#define IDS_DETACHED_DEVICE_D_IT          0x5de
+#define IDS_DETACHED_DEVICE_D_NL          0x5df
+#define IDS_DETACHED_DEVICE_D_PL          0x5e0
+#define IDS_DETACHED_DEVICE_D_SV          0x5e1
+
+#define IDS_ATTACHED_S_TO_DEVICE_D        0x5e2
+#define IDS_ATTACHED_S_TO_DEVICE_D_DE     0x5e3
+#define IDS_ATTACHED_S_TO_DEVICE_D_FR     0x5e4
+#define IDS_ATTACHED_S_TO_DEVICE_D_IT     0x5e5
+#define IDS_ATTACHED_S_TO_DEVICE_D_NL     0x5e6
+#define IDS_ATTACHED_S_TO_DEVICE_D_PL     0x5e7
+#define IDS_ATTACHED_S_TO_DEVICE_D_SV     0x5e8
+
+#define IDS_VICE_QUESTION                 0x5e9
+#define IDS_VICE_QUESTION_DE              0x5ea
+#define IDS_VICE_QUESTION_FR              0x5eb
+#define IDS_VICE_QUESTION_IT              0x5ec
+#define IDS_VICE_QUESTION_NL              0x5ed
+#define IDS_VICE_QUESTION_PL              0x5ee
+#define IDS_VICE_QUESTION_SV              0x5ef
+
+#define IDS_EXTEND_TO_40_TRACK            0x5f0
+#define IDS_EXTEND_TO_40_TRACK_DE         0x5f1
+#define IDS_EXTEND_TO_40_TRACK_FR         0x5f2
+#define IDS_EXTEND_TO_40_TRACK_IT         0x5f3
+#define IDS_EXTEND_TO_40_TRACK_NL         0x5f4
+#define IDS_EXTEND_TO_40_TRACK_PL         0x5f5
+#define IDS_EXTEND_TO_40_TRACK_SV         0x5f6
+
+#define IDS_YES_NO                        0x5f7
+#define IDS_YES_NO_DE                     0x5f8
+#define IDS_YES_NO_FR                     0x5f9
+#define IDS_YES_NO_IT                     0x5fa
+#define IDS_YES_NO_NL                     0x5fb
+#define IDS_YES_NO_PL                     0x5fc
+#define IDS_YES_NO_SV                     0x5fd
+
+#define IDS_DETACHED_TAPE                 0x5fe
+#define IDS_DETACHED_TAPE_DE              0x5ff
+#define IDS_DETACHED_TAPE_FR              0x600
+#define IDS_DETACHED_TAPE_IT              0x601
+#define IDS_DETACHED_TAPE_NL              0x602
+#define IDS_DETACHED_TAPE_PL              0x603
+#define IDS_DETACHED_TAPE_SV              0x604
+
+#define IDS_ATTACHED_TAPE_S               0x605
+#define IDS_ATTACHED_TAPE_S_DE            0x606
+#define IDS_ATTACHED_TAPE_S_FR            0x607
+#define IDS_ATTACHED_TAPE_S_IT            0x608
+#define IDS_ATTACHED_TAPE_S_NL            0x609
+#define IDS_ATTACHED_TAPE_S_PL            0x60a
+#define IDS_ATTACHED_TAPE_S_SV            0x60b
+
+#define IDS_SELECT_START_SNAPSHOT         0x60c
+#define IDS_SELECT_START_SNAPSHOT_DE      0x60d
+#define IDS_SELECT_START_SNAPSHOT_FR      0x60e
+#define IDS_SELECT_START_SNAPSHOT_IT      0x60f
+#define IDS_SELECT_START_SNAPSHOT_NL      0x610
+#define IDS_SELECT_START_SNAPSHOT_PL      0x611
+#define IDS_SELECT_START_SNAPSHOT_SV      0x612
+
+#define IDS_SELECT_END_SNAPSHOT           0x613
+#define IDS_SELECT_END_SNAPSHOT_DE        0x614
+#define IDS_SELECT_END_SNAPSHOT_FR        0x615
+#define IDS_SELECT_END_SNAPSHOT_IT        0x616
+#define IDS_SELECT_END_SNAPSHOT_NL        0x617
+#define IDS_SELECT_END_SNAPSHOT_PL        0x618
+#define IDS_SELECT_END_SNAPSHOT_SV        0x619
+
+#define IDS_VICE_QUIT                     0x61a
+#define IDS_VICE_QUIT_DE                  0x61b
+#define IDS_VICE_QUIT_FR                  0x61c
+#define IDS_VICE_QUIT_IT                  0x61d
+#define IDS_VICE_QUIT_NL                  0x61e
+#define IDS_VICE_QUIT_PL                  0x61f
+#define IDS_VICE_QUIT_SV                  0x620
+
+#define IDS_REALLY_EXIT                   0x621
+#define IDS_REALLY_EXIT_DE                0x622
+#define IDS_REALLY_EXIT_FR                0x623
+#define IDS_REALLY_EXIT_IT                0x624
+#define IDS_REALLY_EXIT_NL                0x625
+#define IDS_REALLY_EXIT_PL                0x626
+#define IDS_REALLY_EXIT_SV                0x627
+
+#define IDS_ATTACH_CRT_IMAGE              0x628
+#define IDS_ATTACH_CRT_IMAGE_DE           0x629
+#define IDS_ATTACH_CRT_IMAGE_FR           0x62a
+#define IDS_ATTACH_CRT_IMAGE_IT           0x62b
+#define IDS_ATTACH_CRT_IMAGE_NL           0x62c
+#define IDS_ATTACH_CRT_IMAGE_PL           0x62d
+#define IDS_ATTACH_CRT_IMAGE_SV           0x62e
+
+#define IDS_ATTACH_RAW_8KB_IMAGE          0x62f
+#define IDS_ATTACH_RAW_8KB_IMAGE_DE       0x630
+#define IDS_ATTACH_RAW_8KB_IMAGE_FR       0x631
+#define IDS_ATTACH_RAW_8KB_IMAGE_IT       0x632
+#define IDS_ATTACH_RAW_8KB_IMAGE_NL       0x633
+#define IDS_ATTACH_RAW_8KB_IMAGE_PL       0x634
+#define IDS_ATTACH_RAW_8KB_IMAGE_SV       0x635
+
+#define IDS_ATTACH_RAW_16KB_IMAGE         0x636
+#define IDS_ATTACH_RAW_16KB_IMAGE_DE      0x637
+#define IDS_ATTACH_RAW_16KB_IMAGE_FR      0x638
+#define IDS_ATTACH_RAW_16KB_IMAGE_IT      0x639
+#define IDS_ATTACH_RAW_16KB_IMAGE_NL      0x63a
+#define IDS_ATTACH_RAW_16KB_IMAGE_PL      0x63b
+#define IDS_ATTACH_RAW_16KB_IMAGE_SV      0x63c
+
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE    0x63d
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_DE 0x63e
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_FR 0x63f
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_IT 0x640
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_NL 0x641
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_PL 0x642
+#define IDS_ATTACH_ACTION_REPLAY_IMAGE_SV 0x643
+
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE     0x644
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_DE  0x645
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_FR  0x646
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_IT  0x647
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_NL  0x648
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_PL  0x649
+#define IDS_ATTACH_ATOMIC_POWER_IMAGE_SV  0x64a
+
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE    0x64b
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DE 0x64c
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_FR 0x64d
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_IT 0x64e
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_NL 0x64f
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_PL 0x650
+#define IDS_ATTACH_EPYX_FASTLOAD_IMAGE_SV 0x651
+
+#define IDS_ATTACH_IEEE488_IMAGE          0x652
+#define IDS_ATTACH_IEEE488_IMAGE_DE       0x653
+#define IDS_ATTACH_IEEE488_IMAGE_FR       0x654
+#define IDS_ATTACH_IEEE488_IMAGE_IT       0x655
+#define IDS_ATTACH_IEEE488_IMAGE_NL       0x656
+#define IDS_ATTACH_IEEE488_IMAGE_PL       0x657
+#define IDS_ATTACH_IEEE488_IMAGE_SV       0x658
+
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE     0x659
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_DE  0x65a
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_FR  0x65b
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_IT  0x65c
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_NL  0x65d
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_PL  0x65e
+#define IDS_ATTACH_RETRO_REPLAY_IMAGE_SV  0x65f
+
+#define IDS_ATTACH_IDE64_IMAGE            0x660
+#define IDS_ATTACH_IDE64_IMAGE_DE         0x661
+#define IDS_ATTACH_IDE64_IMAGE_FR         0x662
+#define IDS_ATTACH_IDE64_IMAGE_IT         0x663
+#define IDS_ATTACH_IDE64_IMAGE_NL         0x664
+#define IDS_ATTACH_IDE64_IMAGE_PL         0x665
+#define IDS_ATTACH_IDE64_IMAGE_SV         0x666
+
+#define IDS_ATTACH_SS4_IMAGE              0x667
+#define IDS_ATTACH_SS4_IMAGE_DE           0x668
+#define IDS_ATTACH_SS4_IMAGE_FR           0x669
+#define IDS_ATTACH_SS4_IMAGE_IT           0x66a
+#define IDS_ATTACH_SS4_IMAGE_NL           0x66b
+#define IDS_ATTACH_SS4_IMAGE_PL           0x66c
+#define IDS_ATTACH_SS4_IMAGE_SV           0x66d
+
+#define IDS_ATTACH_SS5_IMAGE              0x66e
+#define IDS_ATTACH_SS5_IMAGE_DE           0x66f
+#define IDS_ATTACH_SS5_IMAGE_FR           0x670
+#define IDS_ATTACH_SS5_IMAGE_IT           0x671
+#define IDS_ATTACH_SS5_IMAGE_NL           0x672
+#define IDS_ATTACH_SS5_IMAGE_PL           0x673
+#define IDS_ATTACH_SS5_IMAGE_SV           0x674
+
+#define IDS_ATTACH_SB_IMAGE               0x675
+#define IDS_ATTACH_SB_IMAGE_DE            0x676
+#define IDS_ATTACH_SB_IMAGE_FR            0x677
+#define IDS_ATTACH_SB_IMAGE_IT            0x678
+#define IDS_ATTACH_SB_IMAGE_NL            0x679
+#define IDS_ATTACH_SB_IMAGE_PL            0x67a
+#define IDS_ATTACH_SB_IMAGE_SV            0x67b
+
+#define IDS_AVAILABLE_CMDLINE_OPTIONS     0x67c
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_DE  0x67d
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_FR  0x67e
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_IT  0x67f
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_NL  0x680
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_PL  0x681
+#define IDS_AVAILABLE_CMDLINE_OPTIONS_SV  0x682
+
+#define IDS_ATTACH_4_8_16KB_AT_2000       0x683
+#define IDS_ATTACH_4_8_16KB_AT_2000_DE    0x684
+#define IDS_ATTACH_4_8_16KB_AT_2000_FR    0x685
+#define IDS_ATTACH_4_8_16KB_AT_2000_IT    0x686
+#define IDS_ATTACH_4_8_16KB_AT_2000_NL    0x687
+#define IDS_ATTACH_4_8_16KB_AT_2000_PL    0x688
+#define IDS_ATTACH_4_8_16KB_AT_2000_SV    0x689
+
+#define IDS_ATTACH_4_8_16KB_AT_4000       0x68a
+#define IDS_ATTACH_4_8_16KB_AT_4000_DE    0x68b
+#define IDS_ATTACH_4_8_16KB_AT_4000_FR    0x68c
+#define IDS_ATTACH_4_8_16KB_AT_4000_IT    0x68d
+#define IDS_ATTACH_4_8_16KB_AT_4000_NL    0x68e
+#define IDS_ATTACH_4_8_16KB_AT_4000_PL    0x68f
+#define IDS_ATTACH_4_8_16KB_AT_4000_SV    0x690
+
+#define IDS_ATTACH_4_8_16KB_AT_6000       0x691
+#define IDS_ATTACH_4_8_16KB_AT_6000_DE    0x692
+#define IDS_ATTACH_4_8_16KB_AT_6000_FR    0x693
+#define IDS_ATTACH_4_8_16KB_AT_6000_IT    0x694
+#define IDS_ATTACH_4_8_16KB_AT_6000_NL    0x695
+#define IDS_ATTACH_4_8_16KB_AT_6000_PL    0x696
+#define IDS_ATTACH_4_8_16KB_AT_6000_SV    0x697
+
+#define IDS_ATTACH_4_8KB_AT_A000          0x698
+#define IDS_ATTACH_4_8KB_AT_A000_DE       0x699
+#define IDS_ATTACH_4_8KB_AT_A000_FR       0x69a
+#define IDS_ATTACH_4_8KB_AT_A000_IT       0x69b
+#define IDS_ATTACH_4_8KB_AT_A000_NL       0x69c
+#define IDS_ATTACH_4_8KB_AT_A000_PL       0x69d
+#define IDS_ATTACH_4_8KB_AT_A000_SV       0x69e
+
+#define IDS_ATTACH_4KB_AT_B000            0x69f
+#define IDS_ATTACH_4KB_AT_B000_DE         0x6a0
+#define IDS_ATTACH_4KB_AT_B000_FR         0x6a1
+#define IDS_ATTACH_4KB_AT_B000_IT         0x6a2
+#define IDS_ATTACH_4KB_AT_B000_NL         0x6a3
+#define IDS_ATTACH_4KB_AT_B000_PL         0x6a4
+#define IDS_ATTACH_4KB_AT_B000_SV         0x6a5
+
+#define IDS_S_AT_D_SPEED                  0x6a6
+#define IDS_S_AT_D_SPEED_DE               0x6a7
+#define IDS_S_AT_D_SPEED_FR               0x6a8
+#define IDS_S_AT_D_SPEED_IT               0x6a9
+#define IDS_S_AT_D_SPEED_NL               0x6aa
+#define IDS_S_AT_D_SPEED_PL               0x6ab
+#define IDS_S_AT_D_SPEED_SV               0x6ac
+
+#define IDS_ATTACH                        0x6ad
+#define IDS_ATTACH_DE                     0x6ae
+#define IDS_ATTACH_FR                     0x6af
+#define IDS_ATTACH_IT                     0x6b0
+#define IDS_ATTACH_NL                     0x6b1
+#define IDS_ATTACH_PL                     0x6b2
+#define IDS_ATTACH_SV                     0x6b3
+
+#define IDS_PARENT                        0x6b4
+#define IDS_PARENT_DE                     0x6b5
+#define IDS_PARENT_FR                     0x6b6
+#define IDS_PARENT_IT                     0x6b7
+#define IDS_PARENT_NL                     0x6b8
+#define IDS_PARENT_PL                     0x6b9
+#define IDS_PARENT_SV                     0x6ba
+
+#define IDS_ATTACH_READ_ONLY              0x6bb
+#define IDS_ATTACH_READ_ONLY_DE           0x6bc
+#define IDS_ATTACH_READ_ONLY_FR           0x6bd
+#define IDS_ATTACH_READ_ONLY_IT           0x6be
+#define IDS_ATTACH_READ_ONLY_NL           0x6bf
+#define IDS_ATTACH_READ_ONLY_PL           0x6c0
+#define IDS_ATTACH_READ_ONLY_SV           0x6c1
+
+#define IDS_NAME                          0x6c2
+#define IDS_NAME_DE                       0x6c3
+#define IDS_NAME_FR                       0x6c4
+#define IDS_NAME_IT                       0x6c5
+#define IDS_NAME_NL                       0x6c6
+#define IDS_NAME_PL                       0x6c7
+#define IDS_NAME_SV                       0x6c8
+
+#define IDS_CREATE_IMAGE                  0x6c9
+#define IDS_CREATE_IMAGE_DE               0x6ca
+#define IDS_CREATE_IMAGE_FR               0x6cb
+#define IDS_CREATE_IMAGE_IT               0x6cc
+#define IDS_CREATE_IMAGE_NL               0x6cd
+#define IDS_CREATE_IMAGE_PL               0x6ce
+#define IDS_CREATE_IMAGE_SV               0x6cf
+
+#define IDS_NEW_IMAGE                     0x6d0
+#define IDS_NEW_IMAGE_DE                  0x6d1
+#define IDS_NEW_IMAGE_FR                  0x6d2
+#define IDS_NEW_IMAGE_IT                  0x6d3
+#define IDS_NEW_IMAGE_NL                  0x6d4
+#define IDS_NEW_IMAGE_PL                  0x6d5
+#define IDS_NEW_IMAGE_SV                  0x6d6
+
+#define IDS_NEW_TAP_IMAGE                 0x6d7
+#define IDS_NEW_TAP_IMAGE_DE              0x6d8
+#define IDS_NEW_TAP_IMAGE_FR              0x6d9
+#define IDS_NEW_TAP_IMAGE_IT              0x6da
+#define IDS_NEW_TAP_IMAGE_NL              0x6db
+#define IDS_NEW_TAP_IMAGE_PL              0x6dc
+#define IDS_NEW_TAP_IMAGE_SV              0x6dd
+
+#define IDS_OVERWRITE_EXISTING_IMAGE      0x6de
+#define IDS_OVERWRITE_EXISTING_IMAGE_DE   0x6df
+#define IDS_OVERWRITE_EXISTING_IMAGE_FR   0x6e0
+#define IDS_OVERWRITE_EXISTING_IMAGE_IT   0x6e1
+#define IDS_OVERWRITE_EXISTING_IMAGE_NL   0x6e2
+#define IDS_OVERWRITE_EXISTING_IMAGE_PL   0x6e3
+#define IDS_OVERWRITE_EXISTING_IMAGE_SV   0x6e4
+
+#define IDS_IMAGE_CONTENTS                0x6e5
+#define IDS_IMAGE_CONTENTS_DE             0x6e6
+#define IDS_IMAGE_CONTENTS_FR             0x6e7
+#define IDS_IMAGE_CONTENTS_IT             0x6e8
+#define IDS_IMAGE_CONTENTS_NL             0x6e9
+#define IDS_IMAGE_CONTENTS_PL             0x6ea
+#define IDS_IMAGE_CONTENTS_SV             0x6eb
+
+#define IDS_ABOUT                         0x6ec
+#define IDS_ABOUT_DE                      0x6ed
+#define IDS_ABOUT_FR                      0x6ee
+#define IDS_ABOUT_IT                      0x6ef
+#define IDS_ABOUT_NL                      0x6f0
+#define IDS_ABOUT_PL                      0x6f1
+#define IDS_ABOUT_SV                      0x6f2
+
+#define IDS_DISABLED                      0x6f3
+#define IDS_DISABLED_DE                   0x6f4
+#define IDS_DISABLED_FR                   0x6f5
+#define IDS_DISABLED_IT                   0x6f6
+#define IDS_DISABLED_NL                   0x6f7
+#define IDS_DISABLED_PL                   0x6f8
+#define IDS_DISABLED_SV                   0x6f9
+
+#define IDS_ENABLED                       0x6fa
+#define IDS_ENABLED_DE                    0x6fb
+#define IDS_ENABLED_FR                    0x6fc
+#define IDS_ENABLED_IT                    0x6fd
+#define IDS_ENABLED_NL                    0x6fe
+#define IDS_ENABLED_PL                    0x6ff
+#define IDS_ENABLED_SV                    0x700
+
+#define IDS_RS232_DEVICE_1                0x701
+#define IDS_RS232_DEVICE_1_DE             0x702
+#define IDS_RS232_DEVICE_1_FR             0x703
+#define IDS_RS232_DEVICE_1_IT             0x704
+#define IDS_RS232_DEVICE_1_NL             0x705
+#define IDS_RS232_DEVICE_1_PL             0x706
+#define IDS_RS232_DEVICE_1_SV             0x707
+
+#define IDS_RS232_DEVICE_2                0x708
+#define IDS_RS232_DEVICE_2_DE             0x709
+#define IDS_RS232_DEVICE_2_FR             0x70a
+#define IDS_RS232_DEVICE_2_IT             0x70b
+#define IDS_RS232_DEVICE_2_NL             0x70c
+#define IDS_RS232_DEVICE_2_PL             0x70d
+#define IDS_RS232_DEVICE_2_SV             0x70e
+
+#define IDS_RS232_DEVICE_3                0x70f
+#define IDS_RS232_DEVICE_3_DE             0x710
+#define IDS_RS232_DEVICE_3_FR             0x711
+#define IDS_RS232_DEVICE_3_IT             0x712
+#define IDS_RS232_DEVICE_3_NL             0x713
+#define IDS_RS232_DEVICE_3_PL             0x714
+#define IDS_RS232_DEVICE_3_SV             0x715
+
+#define IDS_RS232_DEVICE_4                0x716
+#define IDS_RS232_DEVICE_4_DE             0x717
+#define IDS_RS232_DEVICE_4_FR             0x718
+#define IDS_RS232_DEVICE_4_IT             0x719
+#define IDS_RS232_DEVICE_4_NL             0x71a
+#define IDS_RS232_DEVICE_4_PL             0x71b
+#define IDS_RS232_DEVICE_4_SV             0x71c
+
+#define IDS_NONE                          0x71d
+#define IDS_NONE_DE                       0x71e
+#define IDS_NONE_FR                       0x71f
+#define IDS_NONE_IT                       0x720
+#define IDS_NONE_NL                       0x721
+#define IDS_NONE_PL                       0x722
+#define IDS_NONE_SV                       0x723
+
+#define IDS_IRQ                           0x724
+#define IDS_IRQ_DE                        0x725
+#define IDS_IRQ_FR                        0x726
+#define IDS_IRQ_IT                        0x727
+#define IDS_IRQ_NL                        0x728
+#define IDS_IRQ_PL                        0x729
+#define IDS_IRQ_SV                        0x72a
+
+#define IDS_NMI                           0x72b
+#define IDS_NMI_DE                        0x72c
+#define IDS_NMI_FR                        0x72d
+#define IDS_NMI_IT                        0x72e
+#define IDS_NMI_NL                        0x72f
+#define IDS_NMI_PL                        0x730
+#define IDS_NMI_SV                        0x731
+
+#define IDS_ACIA_DEVICE                   0x732
+#define IDS_ACIA_DEVICE_DE                0x733
+#define IDS_ACIA_DEVICE_FR                0x734
+#define IDS_ACIA_DEVICE_IT                0x735
+#define IDS_ACIA_DEVICE_NL                0x736
+#define IDS_ACIA_DEVICE_PL                0x737
+#define IDS_ACIA_DEVICE_SV                0x738
+
+#define IDS_ACIA_INTERRUPT                0x739
+#define IDS_ACIA_INTERRUPT_DE             0x73a
+#define IDS_ACIA_INTERRUPT_FR             0x73b
+#define IDS_ACIA_INTERRUPT_IT             0x73c
+#define IDS_ACIA_INTERRUPT_NL             0x73d
+#define IDS_ACIA_INTERRUPT_PL             0x73e
+#define IDS_ACIA_INTERRUPT_SV             0x73f
+
+#define IDS_ACIA_MODE                     0x740
+#define IDS_ACIA_MODE_DE                  0x741
+#define IDS_ACIA_MODE_FR                  0x742
+#define IDS_ACIA_MODE_IT                  0x743
+#define IDS_ACIA_MODE_NL                  0x744
+#define IDS_ACIA_MODE_PL                  0x745
+#define IDS_ACIA_MODE_SV                  0x746
+
+#define IDS_ACIA_SETTINGS                 0x747
+#define IDS_ACIA_SETTINGS_DE              0x748
+#define IDS_ACIA_SETTINGS_FR              0x749
+#define IDS_ACIA_SETTINGS_IT              0x74a
+#define IDS_ACIA_SETTINGS_NL              0x74b
+#define IDS_ACIA_SETTINGS_PL              0x74c
+#define IDS_ACIA_SETTINGS_SV              0x74d
+
+#define IDS_256K_ENABLED                  0x74e
+#define IDS_256K_ENABLED_DE               0x74f
+#define IDS_256K_ENABLED_FR               0x750
+#define IDS_256K_ENABLED_IT               0x751
+#define IDS_256K_ENABLED_NL               0x752
+#define IDS_256K_ENABLED_PL               0x753
+#define IDS_256K_ENABLED_SV               0x754
+
+#define IDS_256K_BASE                     0x755
+#define IDS_256K_BASE_DE                  0x756
+#define IDS_256K_BASE_FR                  0x757
+#define IDS_256K_BASE_IT                  0x758
+#define IDS_256K_BASE_NL                  0x759
+#define IDS_256K_BASE_PL                  0x75a
+#define IDS_256K_BASE_SV                  0x75b
+
+#define IDS_256K_SETTINGS                 0x75c
+#define IDS_256K_SETTINGS_DE              0x75d
+#define IDS_256K_SETTINGS_FR              0x75e
+#define IDS_256K_SETTINGS_IT              0x75f
+#define IDS_256K_SETTINGS_NL              0x760
+#define IDS_256K_SETTINGS_PL              0x761
+#define IDS_256K_SETTINGS_SV              0x762
+
+#define IDS_MODEL_LINE                    0x763
+#define IDS_MODEL_LINE_DE                 0x764
+#define IDS_MODEL_LINE_FR                 0x765
+#define IDS_MODEL_LINE_IT                 0x766
+#define IDS_MODEL_LINE_NL                 0x767
+#define IDS_MODEL_LINE_PL                 0x768
+#define IDS_MODEL_LINE_SV                 0x769
+
+#define IDS_RAM_SIZE                      0x76a
+#define IDS_RAM_SIZE_DE                   0x76b
+#define IDS_RAM_SIZE_FR                   0x76c
+#define IDS_RAM_SIZE_IT                   0x76d
+#define IDS_RAM_SIZE_NL                   0x76e
+#define IDS_RAM_SIZE_PL                   0x76f
+#define IDS_RAM_SIZE_SV                   0x770
+
+#define IDS_RAM_BLOCK_0800_0FFF           0x771
+#define IDS_RAM_BLOCK_0800_0FFF_DE        0x772
+#define IDS_RAM_BLOCK_0800_0FFF_FR        0x773
+#define IDS_RAM_BLOCK_0800_0FFF_IT        0x774
+#define IDS_RAM_BLOCK_0800_0FFF_NL        0x775
+#define IDS_RAM_BLOCK_0800_0FFF_PL        0x776
+#define IDS_RAM_BLOCK_0800_0FFF_SV        0x777
+
+#define IDS_RAM_BLOCK_1000_1FFF           0x778
+#define IDS_RAM_BLOCK_1000_1FFF_DE        0x779
+#define IDS_RAM_BLOCK_1000_1FFF_FR        0x77a
+#define IDS_RAM_BLOCK_1000_1FFF_IT        0x77b
+#define IDS_RAM_BLOCK_1000_1FFF_NL        0x77c
+#define IDS_RAM_BLOCK_1000_1FFF_PL        0x77d
+#define IDS_RAM_BLOCK_1000_1FFF_SV        0x77e
+
+#define IDS_RAM_BLOCK_2000_3FFF           0x77f
+#define IDS_RAM_BLOCK_2000_3FFF_DE        0x780
+#define IDS_RAM_BLOCK_2000_3FFF_FR        0x781
+#define IDS_RAM_BLOCK_2000_3FFF_IT        0x782
+#define IDS_RAM_BLOCK_2000_3FFF_NL        0x783
+#define IDS_RAM_BLOCK_2000_3FFF_PL        0x784
+#define IDS_RAM_BLOCK_2000_3FFF_SV        0x785
+
+#define IDS_RAM_BLOCK_4000_5FFF           0x786
+#define IDS_RAM_BLOCK_4000_5FFF_DE        0x787
+#define IDS_RAM_BLOCK_4000_5FFF_FR        0x788
+#define IDS_RAM_BLOCK_4000_5FFF_IT        0x789
+#define IDS_RAM_BLOCK_4000_5FFF_NL        0x78a
+#define IDS_RAM_BLOCK_4000_5FFF_PL        0x78b
+#define IDS_RAM_BLOCK_4000_5FFF_SV        0x78c
+
+#define IDS_RAM_BLOCK_6000_7FFF           0x78d
+#define IDS_RAM_BLOCK_6000_7FFF_DE        0x78e
+#define IDS_RAM_BLOCK_6000_7FFF_FR        0x78f
+#define IDS_RAM_BLOCK_6000_7FFF_IT        0x790
+#define IDS_RAM_BLOCK_6000_7FFF_NL        0x791
+#define IDS_RAM_BLOCK_6000_7FFF_PL        0x792
+#define IDS_RAM_BLOCK_6000_7FFF_SV        0x793
+
+#define IDS_RAM_BLOCK_C000_CFFF           0x794
+#define IDS_RAM_BLOCK_C000_CFFF_DE        0x795
+#define IDS_RAM_BLOCK_C000_CFFF_FR        0x796
+#define IDS_RAM_BLOCK_C000_CFFF_IT        0x797
+#define IDS_RAM_BLOCK_C000_CFFF_NL        0x798
+#define IDS_RAM_BLOCK_C000_CFFF_PL        0x799
+#define IDS_RAM_BLOCK_C000_CFFF_SV        0x79a
+
+#define IDS_CBM2_SETTINGS                 0x79b
+#define IDS_CBM2_SETTINGS_DE              0x79c
+#define IDS_CBM2_SETTINGS_FR              0x79d
+#define IDS_CBM2_SETTINGS_IT              0x79e
+#define IDS_CBM2_SETTINGS_NL              0x79f
+#define IDS_CBM2_SETTINGS_PL              0x7a0
+#define IDS_CBM2_SETTINGS_SV              0x7a1
+
+#define IDS_RESET_DATASETTE_WITH_CPU      0x7a2
+#define IDS_RESET_DATASETTE_WITH_CPU_DE   0x7a3
+#define IDS_RESET_DATASETTE_WITH_CPU_FR   0x7a4
+#define IDS_RESET_DATASETTE_WITH_CPU_IT   0x7a5
+#define IDS_RESET_DATASETTE_WITH_CPU_NL   0x7a6
+#define IDS_RESET_DATASETTE_WITH_CPU_PL   0x7a7
+#define IDS_RESET_DATASETTE_WITH_CPU_SV   0x7a8
+
+#define IDS_ADDITIONAL_DELAY              0x7a9
+#define IDS_ADDITIONAL_DELAY_DE           0x7aa
+#define IDS_ADDITIONAL_DELAY_FR           0x7ab
+#define IDS_ADDITIONAL_DELAY_IT           0x7ac
+#define IDS_ADDITIONAL_DELAY_NL           0x7ad
+#define IDS_ADDITIONAL_DELAY_PL           0x7ae
+#define IDS_ADDITIONAL_DELAY_SV           0x7af
+
+#define IDS_DELAY_AT_ZERO_VALUES          0x7b0
+#define IDS_DELAY_AT_ZERO_VALUES_DE       0x7b1
+#define IDS_DELAY_AT_ZERO_VALUES_FR       0x7b2
+#define IDS_DELAY_AT_ZERO_VALUES_IT       0x7b3
+#define IDS_DELAY_AT_ZERO_VALUES_NL       0x7b4
+#define IDS_DELAY_AT_ZERO_VALUES_PL       0x7b5
+#define IDS_DELAY_AT_ZERO_VALUES_SV       0x7b6
+
+#define IDS_DATASETTE_SETTINGS            0x7b7
+#define IDS_DATASETTE_SETTINGS_DE         0x7b8
+#define IDS_DATASETTE_SETTINGS_FR         0x7b9
+#define IDS_DATASETTE_SETTINGS_IT         0x7ba
+#define IDS_DATASETTE_SETTINGS_NL         0x7bb
+#define IDS_DATASETTE_SETTINGS_PL         0x7bc
+#define IDS_DATASETTE_SETTINGS_SV         0x7bd
+
+#define IDS_NEVER_EXTEND                  0x7be
+#define IDS_NEVER_EXTEND_DE               0x7bf
+#define IDS_NEVER_EXTEND_FR               0x7c0
+#define IDS_NEVER_EXTEND_IT               0x7c1
+#define IDS_NEVER_EXTEND_NL               0x7c2
+#define IDS_NEVER_EXTEND_PL               0x7c3
+#define IDS_NEVER_EXTEND_SV               0x7c4
+
+#define IDS_ASK_ON_EXTEND                 0x7c5
+#define IDS_ASK_ON_EXTEND_DE              0x7c6
+#define IDS_ASK_ON_EXTEND_FR              0x7c7
+#define IDS_ASK_ON_EXTEND_IT              0x7c8
+#define IDS_ASK_ON_EXTEND_NL              0x7c9
+#define IDS_ASK_ON_EXTEND_PL              0x7ca
+#define IDS_ASK_ON_EXTEND_SV              0x7cb
+
+#define IDS_EXTEND_ON_ACCESS              0x7cc
+#define IDS_EXTEND_ON_ACCESS_DE           0x7cd
+#define IDS_EXTEND_ON_ACCESS_FR           0x7ce
+#define IDS_EXTEND_ON_ACCESS_IT           0x7cf
+#define IDS_EXTEND_ON_ACCESS_NL           0x7d0
+#define IDS_EXTEND_ON_ACCESS_PL           0x7d1
+#define IDS_EXTEND_ON_ACCESS_SV           0x7d2
+
+#define IDS_NO_TRAPS                      0x7d3
+#define IDS_NO_TRAPS_DE                   0x7d4
+#define IDS_NO_TRAPS_FR                   0x7d5
+#define IDS_NO_TRAPS_IT                   0x7d6
+#define IDS_NO_TRAPS_NL                   0x7d7
+#define IDS_NO_TRAPS_PL                   0x7d8
+#define IDS_NO_TRAPS_SV                   0x7d9
+
+#define IDS_SKIP_CYCLES                   0x7da
+#define IDS_SKIP_CYCLES_DE                0x7db
+#define IDS_SKIP_CYCLES_FR                0x7dc
+#define IDS_SKIP_CYCLES_IT                0x7dd
+#define IDS_SKIP_CYCLES_NL                0x7de
+#define IDS_SKIP_CYCLES_PL                0x7df
+#define IDS_SKIP_CYCLES_SV                0x7e0
+
+#define IDS_TRAP_IDLE                     0x7e1
+#define IDS_TRAP_IDLE_DE                  0x7e2
+#define IDS_TRAP_IDLE_FR                  0x7e3
+#define IDS_TRAP_IDLE_IT                  0x7e4
+#define IDS_TRAP_IDLE_NL                  0x7e5
+#define IDS_TRAP_IDLE_PL                  0x7e6
+#define IDS_TRAP_IDLE_SV                  0x7e7
+
+#define IDS_DRIVE_TYPE                    0x7e8
+#define IDS_DRIVE_TYPE_DE                 0x7e9
+#define IDS_DRIVE_TYPE_FR                 0x7ea
+#define IDS_DRIVE_TYPE_IT                 0x7eb
+#define IDS_DRIVE_TYPE_NL                 0x7ec
+#define IDS_DRIVE_TYPE_PL                 0x7ed
+#define IDS_DRIVE_TYPE_SV                 0x7ee
+
+#define IDS_40_TRACK_HANDLING             0x7ef
+#define IDS_40_TRACK_HANDLING_DE          0x7f0
+#define IDS_40_TRACK_HANDLING_FR          0x7f1
+#define IDS_40_TRACK_HANDLING_IT          0x7f2
+#define IDS_40_TRACK_HANDLING_NL          0x7f3
+#define IDS_40_TRACK_HANDLING_PL          0x7f4
+#define IDS_40_TRACK_HANDLING_SV          0x7f5
+
+#define IDS_DRIVE_EXPANSION               0x7f6
+#define IDS_DRIVE_EXPANSION_DE            0x7f7
+#define IDS_DRIVE_EXPANSION_FR            0x7f8
+#define IDS_DRIVE_EXPANSION_IT            0x7f9
+#define IDS_DRIVE_EXPANSION_NL            0x7fa
+#define IDS_DRIVE_EXPANSION_PL            0x7fb
+#define IDS_DRIVE_EXPANSION_SV            0x7fc
+
+#define IDS_IDLE_METHOD                   0x7fd
+#define IDS_IDLE_METHOD_DE                0x7fe
+#define IDS_IDLE_METHOD_FR                0x7ff
+#define IDS_IDLE_METHOD_IT                0x800
+#define IDS_IDLE_METHOD_NL                0x801
+#define IDS_IDLE_METHOD_PL                0x802
+#define IDS_IDLE_METHOD_SV                0x803
+
+#define IDS_PARALLEL_CABLE                0x804
+#define IDS_PARALLEL_CABLE_DE             0x805
+#define IDS_PARALLEL_CABLE_FR             0x806
+#define IDS_PARALLEL_CABLE_IT             0x807
+#define IDS_PARALLEL_CABLE_NL             0x808
+#define IDS_PARALLEL_CABLE_PL             0x809
+#define IDS_PARALLEL_CABLE_SV             0x80a
+
+#define IDS_DRIVE_SETTINGS                0x80b
+#define IDS_DRIVE_SETTINGS_DE             0x80c
+#define IDS_DRIVE_SETTINGS_FR             0x80d
+#define IDS_DRIVE_SETTINGS_IT             0x80e
+#define IDS_DRIVE_SETTINGS_NL             0x80f
+#define IDS_DRIVE_SETTINGS_PL             0x810
+#define IDS_DRIVE_SETTINGS_SV             0x811
+
+#define IDS_GEORAM_SIZE                   0x812
+#define IDS_GEORAM_SIZE_DE                0x813
+#define IDS_GEORAM_SIZE_FR                0x814
+#define IDS_GEORAM_SIZE_IT                0x815
+#define IDS_GEORAM_SIZE_NL                0x816
+#define IDS_GEORAM_SIZE_PL                0x817
+#define IDS_GEORAM_SIZE_SV                0x818
+
+#define IDS_GEORAM_SETTINGS               0x819
+#define IDS_GEORAM_SETTINGS_DE            0x81a
+#define IDS_GEORAM_SETTINGS_FR            0x81b
+#define IDS_GEORAM_SETTINGS_IT            0x81c
+#define IDS_GEORAM_SETTINGS_NL            0x81d
+#define IDS_GEORAM_SETTINGS_PL            0x81e
+#define IDS_GEORAM_SETTINGS_SV            0x81f
+
+#define IDS_JOYSTICK_IN_PORT_1            0x820
+#define IDS_JOYSTICK_IN_PORT_1_DE         0x821
+#define IDS_JOYSTICK_IN_PORT_1_FR         0x822
+#define IDS_JOYSTICK_IN_PORT_1_IT         0x823
+#define IDS_JOYSTICK_IN_PORT_1_NL         0x824
+#define IDS_JOYSTICK_IN_PORT_1_PL         0x825
+#define IDS_JOYSTICK_IN_PORT_1_SV         0x826
+
+#define IDS_JOYSTICK_IN_PORT_2            0x827
+#define IDS_JOYSTICK_IN_PORT_2_DE         0x828
+#define IDS_JOYSTICK_IN_PORT_2_FR         0x829
+#define IDS_JOYSTICK_IN_PORT_2_IT         0x82a
+#define IDS_JOYSTICK_IN_PORT_2_NL         0x82b
+#define IDS_JOYSTICK_IN_PORT_2_PL         0x82c
+#define IDS_JOYSTICK_IN_PORT_2_SV         0x82d
+
+#define IDS_JOYSTICK_SETTINGS             0x82e
+#define IDS_JOYSTICK_SETTINGS_DE          0x82f
+#define IDS_JOYSTICK_SETTINGS_FR          0x830
+#define IDS_JOYSTICK_SETTINGS_IT          0x831
+#define IDS_JOYSTICK_SETTINGS_NL          0x832
+#define IDS_JOYSTICK_SETTINGS_PL          0x833
+#define IDS_JOYSTICK_SETTINGS_SV          0x834
+
+#define IDS_KEYPAD                        0x835
+#define IDS_KEYPAD_DE                     0x836
+#define IDS_KEYPAD_FR                     0x837
+#define IDS_KEYPAD_IT                     0x838
+#define IDS_KEYPAD_NL                     0x839
+#define IDS_KEYPAD_PL                     0x83a
+#define IDS_KEYPAD_SV                     0x83b
+
+#define IDS_JOY_PORT_0                    0x83c
+#define IDS_JOY_PORT_0_DE                 0x83d
+#define IDS_JOY_PORT_0_FR                 0x83e
+#define IDS_JOY_PORT_0_IT                 0x83f
+#define IDS_JOY_PORT_0_NL                 0x840
+#define IDS_JOY_PORT_0_PL                 0x841
+#define IDS_JOY_PORT_0_SV                 0x842
+
+#define IDS_JOY_PORT_1                    0x843
+#define IDS_JOY_PORT_1_DE                 0x844
+#define IDS_JOY_PORT_1_FR                 0x845
+#define IDS_JOY_PORT_1_IT                 0x846
+#define IDS_JOY_PORT_1_NL                 0x847
+#define IDS_JOY_PORT_1_PL                 0x848
+#define IDS_JOY_PORT_1_SV                 0x849
+
+#define IDS_JOY_PORT_2                    0x84a
+#define IDS_JOY_PORT_2_DE                 0x84b
+#define IDS_JOY_PORT_2_FR                 0x84c
+#define IDS_JOY_PORT_2_IT                 0x84d
+#define IDS_JOY_PORT_2_NL                 0x84e
+#define IDS_JOY_PORT_2_PL                 0x84f
+#define IDS_JOY_PORT_2_SV                 0x850
+
+#define IDS_JOY_PORT_3                    0x851
+#define IDS_JOY_PORT_3_DE                 0x852
+#define IDS_JOY_PORT_3_FR                 0x853
+#define IDS_JOY_PORT_3_IT                 0x854
+#define IDS_JOY_PORT_3_NL                 0x855
+#define IDS_JOY_PORT_3_PL                 0x856
+#define IDS_JOY_PORT_3_SV                 0x857
+
+#define IDS_STOP_BLUE                     0x858
+#define IDS_STOP_BLUE_DE                  0x859
+#define IDS_STOP_BLUE_FR                  0x85a
+#define IDS_STOP_BLUE_IT                  0x85b
+#define IDS_STOP_BLUE_NL                  0x85c
+#define IDS_STOP_BLUE_PL                  0x85d
+#define IDS_STOP_BLUE_SV                  0x85e
+
+#define IDS_SELECT_RED                    0x85f
+#define IDS_SELECT_RED_DE                 0x860
+#define IDS_SELECT_RED_FR                 0x861
+#define IDS_SELECT_RED_IT                 0x862
+#define IDS_SELECT_RED_NL                 0x863
+#define IDS_SELECT_RED_PL                 0x864
+#define IDS_SELECT_RED_SV                 0x865
+
+#define IDS_REPEAT_YELLOW                 0x866
+#define IDS_REPEAT_YELLOW_DE              0x867
+#define IDS_REPEAT_YELLOW_FR              0x868
+#define IDS_REPEAT_YELLOW_IT              0x869
+#define IDS_REPEAT_YELLOW_NL              0x86a
+#define IDS_REPEAT_YELLOW_PL              0x86b
+#define IDS_REPEAT_YELLOW_SV              0x86c
+
+#define IDS_SHUFFLE_GREEN                 0x86d
+#define IDS_SHUFFLE_GREEN_DE              0x86e
+#define IDS_SHUFFLE_GREEN_FR              0x86f
+#define IDS_SHUFFLE_GREEN_IT              0x870
+#define IDS_SHUFFLE_GREEN_NL              0x871
+#define IDS_SHUFFLE_GREEN_PL              0x872
+#define IDS_SHUFFLE_GREEN_SV              0x873
+
+#define IDS_FORWARD_CHARCOAL              0x874
+#define IDS_FORWARD_CHARCOAL_DE           0x875
+#define IDS_FORWARD_CHARCOAL_FR           0x876
+#define IDS_FORWARD_CHARCOAL_IT           0x877
+#define IDS_FORWARD_CHARCOAL_NL           0x878
+#define IDS_FORWARD_CHARCOAL_PL           0x879
+#define IDS_FORWARD_CHARCOAL_SV           0x87a
+
+#define IDS_REVERSE_CHARCOAL              0x87b
+#define IDS_REVERSE_CHARCOAL_DE           0x87c
+#define IDS_REVERSE_CHARCOAL_FR           0x87d
+#define IDS_REVERSE_CHARCOAL_IT           0x87e
+#define IDS_REVERSE_CHARCOAL_NL           0x87f
+#define IDS_REVERSE_CHARCOAL_PL           0x880
+#define IDS_REVERSE_CHARCOAL_SV           0x881
+
+#define IDS_PLAY_PAUSE_GREY               0x882
+#define IDS_PLAY_PAUSE_GREY_DE            0x883
+#define IDS_PLAY_PAUSE_GREY_FR            0x884
+#define IDS_PLAY_PAUSE_GREY_IT            0x885
+#define IDS_PLAY_PAUSE_GREY_NL            0x886
+#define IDS_PLAY_PAUSE_GREY_PL            0x887
+#define IDS_PLAY_PAUSE_GREY_SV            0x888
+
+#define IDS_JOY_1_DEVICE                  0x889
+#define IDS_JOY_1_DEVICE_DE               0x88a
+#define IDS_JOY_1_DEVICE_FR               0x88b
+#define IDS_JOY_1_DEVICE_IT               0x88c
+#define IDS_JOY_1_DEVICE_NL               0x88d
+#define IDS_JOY_1_DEVICE_PL               0x88e
+#define IDS_JOY_1_DEVICE_SV               0x88f
+
+#define IDS_JOY_2_DEVICE                  0x890
+#define IDS_JOY_2_DEVICE_DE               0x891
+#define IDS_JOY_2_DEVICE_FR               0x892
+#define IDS_JOY_2_DEVICE_IT               0x893
+#define IDS_JOY_2_DEVICE_NL               0x894
+#define IDS_JOY_2_DEVICE_PL               0x895
+#define IDS_JOY_2_DEVICE_SV               0x896
+
+#define IDS_JOY_1_FIRE                    0x897
+#define IDS_JOY_1_FIRE_DE                 0x898
+#define IDS_JOY_1_FIRE_FR                 0x899
+#define IDS_JOY_1_FIRE_IT                 0x89a
+#define IDS_JOY_1_FIRE_NL                 0x89b
+#define IDS_JOY_1_FIRE_PL                 0x89c
+#define IDS_JOY_1_FIRE_SV                 0x89d
+
+#define IDS_JOY_2_FIRE                    0x89e
+#define IDS_JOY_2_FIRE_DE                 0x89f
+#define IDS_JOY_2_FIRE_FR                 0x8a0
+#define IDS_JOY_2_FIRE_IT                 0x8a1
+#define IDS_JOY_2_FIRE_NL                 0x8a2
+#define IDS_JOY_2_FIRE_PL                 0x8a3
+#define IDS_JOY_2_FIRE_SV                 0x8a4
+
+#define IDS_SET_INPUT_JOYSTICK_1          0x8b3
+#define IDS_SET_INPUT_JOYSTICK_1_DE       0x8b4
+#define IDS_SET_INPUT_JOYSTICK_1_FR       0x8b5
+#define IDS_SET_INPUT_JOYSTICK_1_IT       0x8b6
+#define IDS_SET_INPUT_JOYSTICK_1_NL       0x8b7
+#define IDS_SET_INPUT_JOYSTICK_1_PL       0x8b8
+#define IDS_SET_INPUT_JOYSTICK_1_SV       0x8b9
+
+#define IDS_SET_INPUT_JOYSTICK_2          0x8ba
+#define IDS_SET_INPUT_JOYSTICK_2_DE       0x8bb
+#define IDS_SET_INPUT_JOYSTICK_2_FR       0x8bc
+#define IDS_SET_INPUT_JOYSTICK_2_IT       0x8bd
+#define IDS_SET_INPUT_JOYSTICK_2_NL       0x8be
+#define IDS_SET_INPUT_JOYSTICK_2_PL       0x8bf
+#define IDS_SET_INPUT_JOYSTICK_2_SV       0x8c0
+
+#define IDS_SET_INPUT_JOYLL_1             0x8c1
+#define IDS_SET_INPUT_JOYLL_1_DE          0x8c2
+#define IDS_SET_INPUT_JOYLL_1_FR          0x8c3
+#define IDS_SET_INPUT_JOYLL_1_IT          0x8c4
+#define IDS_SET_INPUT_JOYLL_1_NL          0x8c5
+#define IDS_SET_INPUT_JOYLL_1_PL          0x8c6
+#define IDS_SET_INPUT_JOYLL_1_SV          0x8c7
+
+#define IDS_SET_INPUT_JOYLL_2             0x8c8
+#define IDS_SET_INPUT_JOYLL_2_DE          0x8c9
+#define IDS_SET_INPUT_JOYLL_2_FR          0x8ca
+#define IDS_SET_INPUT_JOYLL_2_IT          0x8cb
+#define IDS_SET_INPUT_JOYLL_2_NL          0x8cc
+#define IDS_SET_INPUT_JOYLL_2_PL          0x8cd
+#define IDS_SET_INPUT_JOYLL_2_SV          0x8ce
+
+#define IDS_SAVE_SETTINGS_ON_EXIT         0x8cf
+#define IDS_SAVE_SETTINGS_ON_EXIT_DE      0x8d0
+#define IDS_SAVE_SETTINGS_ON_EXIT_FR      0x8d1
+#define IDS_SAVE_SETTINGS_ON_EXIT_IT      0x8d2
+#define IDS_SAVE_SETTINGS_ON_EXIT_NL      0x8d3
+#define IDS_SAVE_SETTINGS_ON_EXIT_PL      0x8d4
+#define IDS_SAVE_SETTINGS_ON_EXIT_SV      0x8d5
+
+#define IDS_NEVER_SAVE_SETTINGS_EXIT      0x8d6
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_DE   0x8d7
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_FR   0x8d8
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_IT   0x8d9
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_NL   0x8da
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_PL   0x8db
+#define IDS_NEVER_SAVE_SETTINGS_EXIT_SV   0x8dc
+
+#define IDS_CONFIRM_QUITING_VICE          0x8dd
+#define IDS_CONFIRM_QUITING_VICE_DE       0x8de
+#define IDS_CONFIRM_QUITING_VICE_FR       0x8df
+#define IDS_CONFIRM_QUITING_VICE_IT       0x8e0
+#define IDS_CONFIRM_QUITING_VICE_NL       0x8e1
+#define IDS_CONFIRM_QUITING_VICE_PL       0x8e2
+#define IDS_CONFIRM_QUITING_VICE_SV       0x8e3
+
+#define IDS_NEVER_CONFIRM_QUITING_VICE    0x8e4
+#define IDS_NEVER_CONFIRM_QUITING_VICE_DE 0x8e5
+#define IDS_NEVER_CONFIRM_QUITING_VICE_FR 0x8e6
+#define IDS_NEVER_CONFIRM_QUITING_VICE_IT 0x8e7
+#define IDS_NEVER_CONFIRM_QUITING_VICE_NL 0x8e8
+#define IDS_NEVER_CONFIRM_QUITING_VICE_PL 0x8e9
+#define IDS_NEVER_CONFIRM_QUITING_VICE_SV 0x8ea
+
+#define IDS_PET_REU_SIZE                  0x8eb
+#define IDS_PET_REU_SIZE_DE               0x8ec
+#define IDS_PET_REU_SIZE_FR               0x8ed
+#define IDS_PET_REU_SIZE_IT               0x8ee
+#define IDS_PET_REU_SIZE_NL               0x8ef
+#define IDS_PET_REU_SIZE_PL               0x8f0
+#define IDS_PET_REU_SIZE_SV               0x8f1
+
+#define IDS_PET_REU_SETTINGS              0x8f2
+#define IDS_PET_REU_SETTINGS_DE           0x8f3
+#define IDS_PET_REU_SETTINGS_FR           0x8f4
+#define IDS_PET_REU_SETTINGS_IT           0x8f5
+#define IDS_PET_REU_SETTINGS_NL           0x8f6
+#define IDS_PET_REU_SETTINGS_PL           0x8f7
+#define IDS_PET_REU_SETTINGS_SV           0x8f8
+
+#define IDS_PLUS256K_SETTINGS             0x8f9
+#define IDS_PLUS256K_SETTINGS_DE          0x8fa
+#define IDS_PLUS256K_SETTINGS_FR          0x8fb
+#define IDS_PLUS256K_SETTINGS_IT          0x8fc
+#define IDS_PLUS256K_SETTINGS_NL          0x8fd
+#define IDS_PLUS256K_SETTINGS_PL          0x8fe
+#define IDS_PLUS256K_SETTINGS_SV          0x8ff
+
+#define IDS_PLUS60K_BASE                  0x900
+#define IDS_PLUS60K_BASE_DE               0x901
+#define IDS_PLUS60K_BASE_FR               0x902
+#define IDS_PLUS60K_BASE_IT               0x903
+#define IDS_PLUS60K_BASE_NL               0x904
+#define IDS_PLUS60K_BASE_PL               0x905
+#define IDS_PLUS60K_BASE_SV               0x906
+
+#define IDS_PLUS60K_SETTINGS              0x907
+#define IDS_PLUS60K_SETTINGS_DE           0x908
+#define IDS_PLUS60K_SETTINGS_FR           0x909
+#define IDS_PLUS60K_SETTINGS_IT           0x90a
+#define IDS_PLUS60K_SETTINGS_NL           0x90b
+#define IDS_PLUS60K_SETTINGS_PL           0x90c
+#define IDS_PLUS60K_SETTINGS_SV           0x90d
+
+#define IDS_VALUE_FIRST_BYTE              0x90e
+#define IDS_VALUE_FIRST_BYTE_DE           0x90f
+#define IDS_VALUE_FIRST_BYTE_FR           0x910
+#define IDS_VALUE_FIRST_BYTE_IT           0x911
+#define IDS_VALUE_FIRST_BYTE_NL           0x912
+#define IDS_VALUE_FIRST_BYTE_PL           0x913
+#define IDS_VALUE_FIRST_BYTE_SV           0x914
+
+#define IDS_LENGTH_CONSTANT_VALUES        0x915
+#define IDS_LENGTH_CONSTANT_VALUES_DE     0x916
+#define IDS_LENGTH_CONSTANT_VALUES_FR     0x917
+#define IDS_LENGTH_CONSTANT_VALUES_IT     0x918
+#define IDS_LENGTH_CONSTANT_VALUES_NL     0x919
+#define IDS_LENGTH_CONSTANT_VALUES_PL     0x91a
+#define IDS_LENGTH_CONSTANT_VALUES_SV     0x91b
+
+#define IDS_LENGTH_CONSTANT_PATTERN       0x91c
+#define IDS_LENGTH_CONSTANT_PATTERN_DE    0x91d
+#define IDS_LENGTH_CONSTANT_PATTERN_FR    0x91e
+#define IDS_LENGTH_CONSTANT_PATTERN_IT    0x91f
+#define IDS_LENGTH_CONSTANT_PATTERN_NL    0x920
+#define IDS_LENGTH_CONSTANT_PATTERN_PL    0x921
+#define IDS_LENGTH_CONSTANT_PATTERN_SV    0x922
+
+#define IDS_RAM_SETTINGS                  0x923
+#define IDS_RAM_SETTINGS_DE               0x924
+#define IDS_RAM_SETTINGS_FR               0x925
+#define IDS_RAM_SETTINGS_IT               0x926
+#define IDS_RAM_SETTINGS_NL               0x927
+#define IDS_RAM_SETTINGS_PL               0x928
+#define IDS_RAM_SETTINGS_SV               0x929
+
+#define IDS_READ_WRITE                    0x92a
+#define IDS_READ_WRITE_DE                 0x92b
+#define IDS_READ_WRITE_FR                 0x92c
+#define IDS_READ_WRITE_IT                 0x92d
+#define IDS_READ_WRITE_NL                 0x92e
+#define IDS_READ_WRITE_PL                 0x92f
+#define IDS_READ_WRITE_SV                 0x930
+
+#define IDS_READ_ONLY                     0x931
+#define IDS_READ_ONLY_DE                  0x932
+#define IDS_READ_ONLY_FR                  0x933
+#define IDS_READ_ONLY_IT                  0x934
+#define IDS_READ_ONLY_NL                  0x935
+#define IDS_READ_ONLY_PL                  0x936
+#define IDS_READ_ONLY_SV                  0x937
+
+#define IDS_RAMCART_READ_WRITE            0x938
+#define IDS_RAMCART_READ_WRITE_DE         0x939
+#define IDS_RAMCART_READ_WRITE_FR         0x93a
+#define IDS_RAMCART_READ_WRITE_IT         0x93b
+#define IDS_RAMCART_READ_WRITE_NL         0x93c
+#define IDS_RAMCART_READ_WRITE_PL         0x93d
+#define IDS_RAMCART_READ_WRITE_SV         0x93e
+
+#define IDS_RAMCART_SIZE                  0x93f
+#define IDS_RAMCART_SIZE_DE               0x940
+#define IDS_RAMCART_SIZE_FR               0x941
+#define IDS_RAMCART_SIZE_IT               0x942
+#define IDS_RAMCART_SIZE_NL               0x943
+#define IDS_RAMCART_SIZE_PL               0x944
+#define IDS_RAMCART_SIZE_SV               0x945
+
+#define IDS_RAMCART_SETTINGS              0x946
+#define IDS_RAMCART_SETTINGS_DE           0x947
+#define IDS_RAMCART_SETTINGS_FR           0x948
+#define IDS_RAMCART_SETTINGS_IT           0x949
+#define IDS_RAMCART_SETTINGS_NL           0x94a
+#define IDS_RAMCART_SETTINGS_PL           0x94b
+#define IDS_RAMCART_SETTINGS_SV           0x94c
+
+#define IDS_REU_SIZE                      0x94d
+#define IDS_REU_SIZE_DE                   0x94e
+#define IDS_REU_SIZE_FR                   0x94f
+#define IDS_REU_SIZE_IT                   0x950
+#define IDS_REU_SIZE_NL                   0x951
+#define IDS_REU_SIZE_PL                   0x952
+#define IDS_REU_SIZE_SV                   0x953
+
+#define IDS_REU_SETTINGS                  0x954
+#define IDS_REU_SETTINGS_DE               0x955
+#define IDS_REU_SETTINGS_FR               0x956
+#define IDS_REU_SETTINGS_IT               0x957
+#define IDS_REU_SETTINGS_NL               0x958
+#define IDS_REU_SETTINGS_PL               0x959
+#define IDS_REU_SETTINGS_SV               0x95a
+
+#define IDS_USERPORT_RS232                0x95b
+#define IDS_USERPORT_RS232_DE             0x95c
+#define IDS_USERPORT_RS232_FR             0x95d
+#define IDS_USERPORT_RS232_IT             0x95e
+#define IDS_USERPORT_RS232_NL             0x95f
+#define IDS_USERPORT_RS232_PL             0x960
+#define IDS_USERPORT_RS232_SV             0x961
+
+#define IDS_USERPORT_DEVICE               0x962
+#define IDS_USERPORT_DEVICE_DE            0x963
+#define IDS_USERPORT_DEVICE_FR            0x964
+#define IDS_USERPORT_DEVICE_IT            0x965
+#define IDS_USERPORT_DEVICE_NL            0x966
+#define IDS_USERPORT_DEVICE_PL            0x967
+#define IDS_USERPORT_DEVICE_SV            0x968
+
+#define IDS_USERPORT_BAUD_RATE            0x969
+#define IDS_USERPORT_BAUD_RATE_DE         0x96a
+#define IDS_USERPORT_BAUD_RATE_FR         0x96b
+#define IDS_USERPORT_BAUD_RATE_IT         0x96c
+#define IDS_USERPORT_BAUD_RATE_NL         0x96d
+#define IDS_USERPORT_BAUD_RATE_PL         0x96e
+#define IDS_USERPORT_BAUD_RATE_SV         0x96f
+
+#define IDS_RS232_USERPORT_SETTINGS       0x970
+#define IDS_RS232_USERPORT_SETTINGS_DE    0x971
+#define IDS_RS232_USERPORT_SETTINGS_FR    0x972
+#define IDS_RS232_USERPORT_SETTINGS_IT    0x973
+#define IDS_RS232_USERPORT_SETTINGS_NL    0x974
+#define IDS_RS232_USERPORT_SETTINGS_PL    0x975
+#define IDS_RS232_USERPORT_SETTINGS_SV    0x976
+
+#define IDS_FAST                          0x977
+#define IDS_FAST_DE                       0x978
+#define IDS_FAST_FR                       0x979
+#define IDS_FAST_IT                       0x97a
+#define IDS_FAST_NL                       0x97b
+#define IDS_FAST_PL                       0x97c
+#define IDS_FAST_SV                       0x97d
+
+#define IDS_INTERPOLATING                 0x97e
+#define IDS_INTERPOLATING_DE              0x97f
+#define IDS_INTERPOLATING_FR              0x980
+#define IDS_INTERPOLATING_IT              0x981
+#define IDS_INTERPOLATING_NL              0x982
+#define IDS_INTERPOLATING_PL              0x983
+#define IDS_INTERPOLATING_SV              0x984
+
+#define IDS_RESAMPLING                    0x985
+#define IDS_RESAMPLING_DE                 0x986
+#define IDS_RESAMPLING_FR                 0x987
+#define IDS_RESAMPLING_IT                 0x988
+#define IDS_RESAMPLING_NL                 0x989
+#define IDS_RESAMPLING_PL                 0x98a
+#define IDS_RESAMPLING_SV                 0x98b
+
+#define IDS_FAST_RESAMPLING               0x98c
+#define IDS_FAST_RESAMPLING_DE            0x98d
+#define IDS_FAST_RESAMPLING_FR            0x98e
+#define IDS_FAST_RESAMPLING_IT            0x98f
+#define IDS_FAST_RESAMPLING_NL            0x990
+#define IDS_FAST_RESAMPLING_PL            0x991
+#define IDS_FAST_RESAMPLING_SV            0x992
+
+#define IDS_6581_OLD                      0x993
+#define IDS_6581_OLD_DE                   0x994
+#define IDS_6581_OLD_FR                   0x995
+#define IDS_6581_OLD_IT                   0x996
+#define IDS_6581_OLD_NL                   0x997
+#define IDS_6581_OLD_PL                   0x998
+#define IDS_6581_OLD_SV                   0x999
+
+#define IDS_8580_NEW                      0x99a
+#define IDS_8580_NEW_DE                   0x99b
+#define IDS_8580_NEW_FR                   0x99c
+#define IDS_8580_NEW_IT                   0x99d
+#define IDS_8580_NEW_NL                   0x99e
+#define IDS_8580_NEW_PL                   0x99f
+#define IDS_8580_NEW_SV                   0x9a0
+
+#define IDS_SID_MODEL                     0x9a1
+#define IDS_SID_MODEL_DE                  0x9a2
+#define IDS_SID_MODEL_FR                  0x9a3
+#define IDS_SID_MODEL_IT                  0x9a4
+#define IDS_SID_MODEL_NL                  0x9a5
+#define IDS_SID_MODEL_PL                  0x9a6
+#define IDS_SID_MODEL_SV                  0x9a7
+
+#define IDS_SID_STEREO                    0x9a8
+#define IDS_SID_STEREO_DE                 0x9a9
+#define IDS_SID_STEREO_FR                 0x9aa
+#define IDS_SID_STEREO_IT                 0x9ab
+#define IDS_SID_STEREO_NL                 0x9ac
+#define IDS_SID_STEREO_PL                 0x9ad
+#define IDS_SID_STEREO_SV                 0x9ae
+
+#define IDS_STEREO_SID_AT                 0x9af
+#define IDS_STEREO_SID_AT_DE              0x9b0
+#define IDS_STEREO_SID_AT_FR              0x9b1
+#define IDS_STEREO_SID_AT_IT              0x9b2
+#define IDS_STEREO_SID_AT_NL              0x9b3
+#define IDS_STEREO_SID_AT_PL              0x9b4
+#define IDS_STEREO_SID_AT_SV              0x9b5
+
+#define IDS_SID_FILTERS                   0x9b6
+#define IDS_SID_FILTERS_DE                0x9b7
+#define IDS_SID_FILTERS_FR                0x9b8
+#define IDS_SID_FILTERS_IT                0x9b9
+#define IDS_SID_FILTERS_NL                0x9ba
+#define IDS_SID_FILTERS_PL                0x9bb
+#define IDS_SID_FILTERS_SV                0x9bc
+
+#define IDS_SAMPLE_METHOD                 0x9bd
+#define IDS_SAMPLE_METHOD_DE              0x9be
+#define IDS_SAMPLE_METHOD_FR              0x9bf
+#define IDS_SAMPLE_METHOD_IT              0x9c0
+#define IDS_SAMPLE_METHOD_NL              0x9c1
+#define IDS_SAMPLE_METHOD_PL              0x9c2
+#define IDS_SAMPLE_METHOD_SV              0x9c3
+
+#define IDS_PASSBAND_0_90                 0x9c4
+#define IDS_PASSBAND_0_90_DE              0x9c5
+#define IDS_PASSBAND_0_90_FR              0x9c6
+#define IDS_PASSBAND_0_90_IT              0x9c7
+#define IDS_PASSBAND_0_90_NL              0x9c8
+#define IDS_PASSBAND_0_90_PL              0x9c9
+#define IDS_PASSBAND_0_90_SV              0x9ca
+
+#define IDS_NOT_IMPLEMENTED_YET           0x9cb
+#define IDS_NOT_IMPLEMENTED_YET_DE        0x9cc
+#define IDS_NOT_IMPLEMENTED_YET_FR        0x9cd
+#define IDS_NOT_IMPLEMENTED_YET_IT        0x9ce
+#define IDS_NOT_IMPLEMENTED_YET_NL        0x9cf
+#define IDS_NOT_IMPLEMENTED_YET_PL        0x9d0
+#define IDS_NOT_IMPLEMENTED_YET_SV        0x9d1
+
+#define IDS_SID_SETTINGS                  0x9d2
+#define IDS_SID_SETTINGS_DE               0x9d3
+#define IDS_SID_SETTINGS_FR               0x9d4
+#define IDS_SID_SETTINGS_IT               0x9d5
+#define IDS_SID_SETTINGS_NL               0x9d6
+#define IDS_SID_SETTINGS_PL               0x9d7
+#define IDS_SID_SETTINGS_SV               0x9d8
+
+#define IDS_FLEXIBLE                      0x9d9
+#define IDS_FLEXIBLE_DE                   0x9da
+#define IDS_FLEXIBLE_FR                   0x9db
+#define IDS_FLEXIBLE_IT                   0x9dc
+#define IDS_FLEXIBLE_NL                   0x9dd
+#define IDS_FLEXIBLE_PL                   0x9de
+#define IDS_FLEXIBLE_SV                   0x9df
+
+#define IDS_ADJUSTING                     0x9e0
+#define IDS_ADJUSTING_DE                  0x9e1
+#define IDS_ADJUSTING_FR                  0x9e2
+#define IDS_ADJUSTING_IT                  0x9e3
+#define IDS_ADJUSTING_NL                  0x9e4
+#define IDS_ADJUSTING_PL                  0x9e5
+#define IDS_ADJUSTING_SV                  0x9e6
+
+#define IDS_EXACT                         0x9e7
+#define IDS_EXACT_DE                      0x9e8
+#define IDS_EXACT_FR                      0x9e9
+#define IDS_EXACT_IT                      0x9ea
+#define IDS_EXACT_NL                      0x9eb
+#define IDS_EXACT_PL                      0x9ec
+#define IDS_EXACT_SV                      0x9ed
+
+#define IDS_SAMPLE_RATE                   0x9ee
+#define IDS_SAMPLE_RATE_DE                0x9ef
+#define IDS_SAMPLE_RATE_FR                0x9f0
+#define IDS_SAMPLE_RATE_IT                0x9f1
+#define IDS_SAMPLE_RATE_NL                0x9f2
+#define IDS_SAMPLE_RATE_PL                0x9f3
+#define IDS_SAMPLE_RATE_SV                0x9f4
+
+#define IDS_BUFFER_SIZE                   0x9f5
+#define IDS_BUFFER_SIZE_DE                0x9f6
+#define IDS_BUFFER_SIZE_FR                0x9f7
+#define IDS_BUFFER_SIZE_IT                0x9f8
+#define IDS_BUFFER_SIZE_NL                0x9f9
+#define IDS_BUFFER_SIZE_PL                0x9fa
+#define IDS_BUFFER_SIZE_SV                0x9fb
+
+#define IDS_OVERSAMPLE                    0x9fc
+#define IDS_OVERSAMPLE_DE                 0x9fd
+#define IDS_OVERSAMPLE_FR                 0x9fe
+#define IDS_OVERSAMPLE_IT                 0x9ff
+#define IDS_OVERSAMPLE_NL                 0xa00
+#define IDS_OVERSAMPLE_PL                 0xa01
+#define IDS_OVERSAMPLE_SV                 0xa02
+
+#define IDS_SPEED_ADJUSTMENT              0xa03
+#define IDS_SPEED_ADJUSTMENT_DE           0xa04
+#define IDS_SPEED_ADJUSTMENT_FR           0xa05
+#define IDS_SPEED_ADJUSTMENT_IT           0xa06
+#define IDS_SPEED_ADJUSTMENT_NL           0xa07
+#define IDS_SPEED_ADJUSTMENT_PL           0xa08
+#define IDS_SPEED_ADJUSTMENT_SV           0xa09
+
+#define IDS_SOUND_SETTINGS                0xa0a
+#define IDS_SOUND_SETTINGS_DE             0xa0b
+#define IDS_SOUND_SETTINGS_FR             0xa0c
+#define IDS_SOUND_SETTINGS_IT             0xa0d
+#define IDS_SOUND_SETTINGS_NL             0xa0e
+#define IDS_SOUND_SETTINGS_PL             0xa0f
+#define IDS_SOUND_SETTINGS_SV             0xa10
+
+#define IDS_RAM_BLOCK_0400_0FFF           0xa11
+#define IDS_RAM_BLOCK_0400_0FFF_DE        0xa12
+#define IDS_RAM_BLOCK_0400_0FFF_FR        0xa13
+#define IDS_RAM_BLOCK_0400_0FFF_IT        0xa14
+#define IDS_RAM_BLOCK_0400_0FFF_NL        0xa15
+#define IDS_RAM_BLOCK_0400_0FFF_PL        0xa16
+#define IDS_RAM_BLOCK_0400_0FFF_SV        0xa17
+
+#define IDS_RAM_BLOCK_A000_BFFF           0xa18
+#define IDS_RAM_BLOCK_A000_BFFF_DE        0xa19
+#define IDS_RAM_BLOCK_A000_BFFF_FR        0xa1a
+#define IDS_RAM_BLOCK_A000_BFFF_IT        0xa1b
+#define IDS_RAM_BLOCK_A000_BFFF_NL        0xa1c
+#define IDS_RAM_BLOCK_A000_BFFF_PL        0xa1d
+#define IDS_RAM_BLOCK_A000_BFFF_SV        0xa1e
+
+#define IDS_VIC_SETTINGS                  0xa1f
+#define IDS_VIC_SETTINGS_DE               0xa20
+#define IDS_VIC_SETTINGS_FR               0xa21
+#define IDS_VIC_SETTINGS_IT               0xa22
+#define IDS_VIC_SETTINGS_NL               0xa23
+#define IDS_VIC_SETTINGS_PL               0xa24
+#define IDS_VIC_SETTINGS_SV               0xa25
+
+#define IDS_SPRITE_SPRITE_COL             0xa26
+#define IDS_SPRITE_SPRITE_COL_DE          0xa27
+#define IDS_SPRITE_SPRITE_COL_FR          0xa28
+#define IDS_SPRITE_SPRITE_COL_IT          0xa29
+#define IDS_SPRITE_SPRITE_COL_NL          0xa2a
+#define IDS_SPRITE_SPRITE_COL_PL          0xa2b
+#define IDS_SPRITE_SPRITE_COL_SV          0xa2c
+
+#define IDS_SPRITE_BACKGROUND_COL         0xa2d
+#define IDS_SPRITE_BACKGROUND_COL_DE      0xa2e
+#define IDS_SPRITE_BACKGROUND_COL_FR      0xa2f
+#define IDS_SPRITE_BACKGROUND_COL_IT      0xa30
+#define IDS_SPRITE_BACKGROUND_COL_NL      0xa31
+#define IDS_SPRITE_BACKGROUND_COL_PL      0xa32
+#define IDS_SPRITE_BACKGROUND_COL_SV      0xa33
+
+#define IDS_NEW_LUMINANCES                0xa34
+#define IDS_NEW_LUMINANCES_DE             0xa35
+#define IDS_NEW_LUMINANCES_FR             0xa36
+#define IDS_NEW_LUMINANCES_IT             0xa37
+#define IDS_NEW_LUMINANCES_NL             0xa38
+#define IDS_NEW_LUMINANCES_PL             0xa39
+#define IDS_NEW_LUMINANCES_SV             0xa3a
+
+#define IDS_VICII_SETTINGS                0xa3b
+#define IDS_VICII_SETTINGS_DE             0xa3c
+#define IDS_VICII_SETTINGS_FR             0xa3d
+#define IDS_VICII_SETTINGS_IT             0xa3e
+#define IDS_VICII_SETTINGS_NL             0xa3f
+#define IDS_VICII_SETTINGS_PL             0xa40
+#define IDS_VICII_SETTINGS_SV             0xa41
 
 #endif

@@ -31,12 +31,16 @@
 #include "mui.h"
 
 #include "uidatasette.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_datasette_reset_with_cpu[] = {
-  "disabled",
-  "enabled",
-  NULL
+static int ui_datasette_reset_with_cpu_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
+
+static char *ui_datasette_reset_with_cpu[countof(ui_datasette_reset_with_cpu_translate)];
 
 static const int ui_datasette_reset_with_cpu_values[] = {
   0,
@@ -45,7 +49,7 @@ static const int ui_datasette_reset_with_cpu_values[] = {
 };
 
 static const char *ui_datasette_additional_delay[] = {
-  "0 cyles",
+  "0 cycles",
   "1 cycle",
   "2 cycles",
   "3 cycles",
@@ -100,13 +104,14 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "Reset Datasette with CPU", ui_datasette_reset_with_cpu)
-    CYCLE(ui_to_from[1].object, "Additional Delay", ui_datasette_additional_delay)
-    CYCLE(ui_to_from[2].object, "Delay at Zero Values", ui_datasette_delay_at_zero)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_RESET_DATASETTE_WITH_CPU), ui_datasette_reset_with_cpu)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_ADDITIONAL_DELAY), ui_datasette_additional_delay)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_DELAY_AT_ZERO_VALUES), ui_datasette_delay_at_zero)
   End;
 }
 
 void ui_datasette_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "DATASETTE Settings", ui_to_from);
+  intl_convert_mui_table(ui_datasette_reset_with_cpu_translate, ui_datasette_reset_with_cpu);
+  mui_show_dialog(build_gui(), translate_text(IDS_DATASETTE_SETTINGS), ui_to_from);
 }

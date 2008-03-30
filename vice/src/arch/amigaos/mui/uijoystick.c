@@ -33,9 +33,16 @@
 #include "joy.h"
 #include "joyai.h"
 #include "uijoystick.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_joystick[] = {
-  "None",
+static int ui_joystick_translate[] = {
+  IDS_NONE,
+  0
+};
+
+static char *ui_joystick[] = {
+  NULL,			/* "None" placeholder */
   "Numpad + Ctrl",
   "AI/Keyset A",
   "AI/Keyset B",
@@ -81,12 +88,12 @@ static APTR build_gui(void)
       MUIA_Group_Horiz, TRUE,
       Child, GroupObject,
         MUIA_Frame, MUIV_Frame_Group,
-        MUIA_FrameTitle, "Joystick in port #1",
+        MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_1),
         CYCLE(ui_to_from[0].object, "", ui_joystick)
       End,
       Child, GroupObject,
         MUIA_Frame, MUIV_Frame_Group,
-        MUIA_FrameTitle, "Joystick in port #2",
+        MUIA_FrameTitle, translate_text(IDS_JOYSTICK_IN_PORT_2),
         CYCLE(ui_to_from[1].object, "", ui_joystick)
       End,
     End,
@@ -110,7 +117,8 @@ static APTR build_gui(void)
 
 void ui_joystick_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "Joystick Settings", ui_to_from);
+  intl_convert_mui_table(ui_joystick_translate, ui_joystick);
+  mui_show_dialog(build_gui(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
 void ui_joystick_swap_joystick(void)

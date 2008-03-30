@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define __USE_INLINE__
+
 #include <proto/intuition.h>
 #include <proto/exec.h>
 
@@ -43,6 +45,7 @@
 #include "util.h"
 #include "fullscreenarch.h"
 #include "videoarch.h"
+#include "mousedrv.h"
 #include "statusbar.h"
 #include "intl.h"
 #include "translate.h"
@@ -81,6 +84,28 @@ static int set_fullscreen_enabled(resource_value_t v, void *param)
 {
     ui_resources.fullscreenenabled = (int)v;
 
+    video_arch_fullscreen_toggle();
+
+    return 0;
+}
+
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+
+static int set_videooverlay_enabled(resource_value_t v, void *param)
+{
+    ui_resources.videooverlayenabled = (int)v;
+
+    /* reuse the fullscreen toggle */
+    video_arch_fullscreen_toggle();
+
+    return 0;
+}
+
+#endif
+
+static int set_statusbar_enabled(resource_value_t v, void *param)
+{
+    ui_resources.statusbarenabled = (int)v;
     video_arch_fullscreen_toggle();
 
     return 0;
@@ -132,6 +157,14 @@ static const resource_t resources[] = {
     { "FullscreenEnabled", RES_INTEGER, (resource_value_t)0,
       RES_EVENT_NO, NULL,
       (void *)&ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
+    { "StatusBarEnabled", RES_INTEGER, (resource_value_t)1,
+      RES_EVENT_NO, NULL,
+      (void *)&ui_resources.statusbarenabled, set_statusbar_enabled, NULL },
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    { "VideoOverlayEnabled", RES_INTEGER, (resource_value_t)0,
+      RES_EVENT_NO, NULL,
+      (void *)&ui_resources.videooverlayenabled, set_videooverlay_enabled, NULL },
+#endif
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
       RES_EVENT_NO, NULL,
       (void *)&ui_resources.save_resources_on_exit,
@@ -190,16 +223,16 @@ void ui_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t)1,
-      NULL, "Save settings (resources) on exit" },
+      NULL, IDS_SAVE_SETTINGS_ON_EXIT },
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t)0,
-      NULL, "Never save settings (resources) on exit" },
+      NULL, IDS_NEVER_SAVE_SETTINGS_EXIT },
     { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
       "ConfirmOnExit", (resource_value_t)0,
-      NULL, "Confirm quiting VICE" },
+      NULL, IDS_CONFIRM_QUITING_VICE },
     { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
       "ConfirmOnExit", (resource_value_t)1,
-      NULL, "Never confirm quiting VICE" },
+      NULL, IDS_NEVER_CONFIRM_QUITING_VICE },
     { NULL }
 };
 
@@ -226,6 +259,8 @@ int ui_init_finalize(void)
 
 void ui_shutdown(void)
 {
+  /* if mousedrv.c inputhandler is active, remove it */
+  rem_inputhandler();
 }
 
 int ui_requester(char *title, char *msg, char *buttons, int defval)

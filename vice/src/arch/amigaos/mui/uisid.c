@@ -34,6 +34,8 @@
 #include "machine.h"
 #include "ui.h"
 #include "uisid.h"
+#include "intl.h"
+#include "translate.h"
 
 static const char *ui_sid_pages[] =
 {
@@ -49,6 +51,7 @@ static const char *ui_sid_pages[] =
 #endif
   NULL
 };
+
 
 static const char *ui_sid_engine[] =
 {
@@ -80,14 +83,16 @@ static const int ui_sid_engine_values[] =
   -1
 };
 
-static const char *ui_sid_samplemethod[] =
+static int ui_sid_samplemethod_translate[] =
 {
-  "fast",
-  "interpolating",
-  "resampling",
-  "fast resampling",
-  NULL
+  IDS_FAST,
+  IDS_INTERPOLATING,
+  IDS_RESAMPLING,
+  IDS_FAST_RESAMPLING,
+  0
 };
+
+static char *ui_sid_samplemethod[countof(ui_sid_samplemethod_translate)];
 
 static const int ui_sid_samplemethod_values[] =
 {
@@ -98,12 +103,14 @@ static const int ui_sid_samplemethod_values[] =
   -1
 };
 
-static const char *ui_sid_model[] =
+static int ui_sid_model_translate[] =
 {
-  "6581 (old)",
-  "8580 (new)",
-  NULL
+  IDS_6581_OLD,
+  IDS_8580_NEW,
+  0
 };
+
+static char *ui_sid_model[countof(ui_sid_model_translate)];
 
 static const int ui_sid_model_values[] =
 {
@@ -163,7 +170,7 @@ static void build_stereo_cycle(void)
         hadr = ui_sid_cbm2baseaddress;
         break;
       default:
-        ui_error("This machine may not have a SID");
+        ui_error(translate_text(IDMES_THIS_MACHINE_NO_SID));
         return;
     }
 
@@ -194,24 +201,24 @@ static APTR build_gui(void)
       Child, ui_to_from[1].object = RadioObject,
         MUIA_Frame, MUIV_Frame_Group,
         MUIA_Group_Horiz, TRUE,
-        MUIA_FrameTitle, "SID Model",
+        MUIA_FrameTitle, translate_text(IDS_SID_MODEL),
         MUIA_Radio_Entries, ui_sid_model,
       End,
       Child, GroupObject,
         MUIA_Frame, MUIV_Frame_Group,
         MUIA_Group_Horiz, TRUE,
-        MUIA_FrameTitle, "SID Stereo",
-          CHECK(ui_to_from[2].object, "Stereo SID at")
+        MUIA_FrameTitle, translate_text(IDS_SID_STEREO),
+          CHECK(ui_to_from[2].object, translate_text(IDS_STEREO_SID_AT))
           CYCLE(ui_to_from[3].object, "", ui_sid_baseaddress_name)
       End,
-      CHECK(ui_to_from[4].object, "SID Filters")
+      CHECK(ui_to_from[4].object, translate_text(IDS_SID_FILTERS))
     End,
 #ifdef HAVE_RESID
     Child, GroupObject,
-      CYCLE(ui_to_from[5].object, "Sample method", ui_sid_samplemethod)
+      CYCLE(ui_to_from[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
       Child, ui_to_from[6].object = StringObject,
         MUIA_Frame, MUIV_Frame_String,
-        MUIA_FrameTitle, "Passband (0-90%)",
+        MUIA_FrameTitle, translate_text(IDS_PASSBAND_0_90),
         MUIA_String_Accept, "0123456789",
         MUIA_String_MaxLen, 3,
       End,
@@ -219,12 +226,12 @@ static APTR build_gui(void)
 #endif
 #ifdef HAVE_CATWEASELMKIII
     Child, GroupObject,
-      Child, CLabel("Not implemented yet!"),
+      Child, CLabel(translate_text(IDS_NOT_IMPLEMENTED_YET)),
     End,
 #endif
 #ifdef HAVE_HARDSID
     Child, GroupObject,
-      Child, CLabel("Not implemented yet!"),
+      Child, CLabel(translate_text(IDS_NOT_IMPLEMENTED_YET)),
     End,
 #endif
   End;
@@ -232,6 +239,7 @@ static APTR build_gui(void)
 
 void ui_sid_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "SID Settings", ui_to_from);
+  intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
+  intl_convert_mui_table(ui_sid_model_translate, ui_sid_model);
+  mui_show_dialog(build_gui(), translate_text(IDS_SID_SETTINGS), ui_to_from);
 }
-

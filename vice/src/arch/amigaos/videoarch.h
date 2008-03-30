@@ -29,6 +29,10 @@
 
 #include "video.h"
 
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+#include "video/renderyuv.h"
+#endif
+
 struct palette_s;
 struct video_draw_buffer_callback_s;
 struct video_resource_chip_s;
@@ -47,6 +51,17 @@ struct video_canvas_s {
     struct video_resource_chip_s *video_resource_chip;
     struct os_s *os; /* AmigaOS specific */
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
+    int current_fullscreen;
+    int window_left;
+    int window_top;
+    int waiting_for_resize;
+#if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
+    int current_overlay;
+    fourcc_t vlayer_yuvfmt;
+    image_t vlayer_image;
+    int vlayer_pitches[3];
+    int vlayer_offsets[3];
+#endif
 };
 
 typedef struct video_canvas_s video_canvas_t;

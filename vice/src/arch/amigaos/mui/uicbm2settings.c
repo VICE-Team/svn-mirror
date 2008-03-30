@@ -31,6 +31,8 @@
 #include "mui.h"
 
 #include "uicbm2settings.h"
+#include "intl.h"
+#include "translate.h"
 
 static const char *ui_cbm2_model[] = {
   "7x0 (50 Hz)",
@@ -62,72 +64,15 @@ static const int ui_cbm2_memsize_values[] = {
   -1
 };
 
-static const char *ui_cbm2mem_block08_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
+static int ui_cbm2mem_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_cbm2mem_block08_on_off_values[] = {
-  0,
-  1,
-  -1
-};
+static char *ui_cbm2mem_enable[countof(ui_cbm2mem_enable_translate)];
 
-static const char *ui_cbm2mem_block1_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_cbm2mem_block1_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-static const char *ui_cbm2mem_block2_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_cbm2mem_block2_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_cbm2mem_block4_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_cbm2mem_block4_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_cbm2mem_block6_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_cbm2mem_block6_on_off_values[] = {
-  0,
-  1,
-  -1
-};
-
-static const char *ui_cbm2mem_blockC_on_off[] = {
-  "disabled",
-  "enabled",
-  NULL
-};
-
-static const int ui_cbm2mem_blockC_on_off_values[] = {
+static const int ui_cbm2mem_enable_values[] = {
   0,
   1,
   -1
@@ -136,30 +81,31 @@ static const int ui_cbm2mem_blockC_on_off_values[] = {
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "ModelLine", ui_cbm2_model, ui_cbm2_model_values },
   { NULL, MUI_TYPE_CYCLE, "RamSize", ui_cbm2_memsize, ui_cbm2_memsize_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_block08_on_off, ui_cbm2mem_block08_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_block1_on_off, ui_cbm2mem_block1_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_block2_on_off, ui_cbm2mem_block2_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_block4_on_off, ui_cbm2mem_block4_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_block6_on_off, ui_cbm2mem_block6_on_off_values },
-  { NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_blockC_on_off, ui_cbm2mem_blockC_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "Ram08", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "Ram1", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "Ram2", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "Ram4", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "Ram6", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
+  { NULL, MUI_TYPE_CYCLE, "RamC", ui_cbm2mem_enable, ui_cbm2mem_enable_values },
   UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "model line", ui_cbm2_model)
-    CYCLE(ui_to_from[1].object, "RAM Size", ui_cbm2_memsize)
-    CYCLE(ui_to_from[2].object, "RAM Block $0800-$0FFF", ui_cbm2mem_block08_on_off)
-    CYCLE(ui_to_from[3].object, "RAM Block $1000-$1FFF", ui_cbm2mem_block1_on_off)
-    CYCLE(ui_to_from[4].object, "RAM Block $2000-$3FFF", ui_cbm2mem_block2_on_off)
-    CYCLE(ui_to_from[5].object, "RAM Block $4000-$5FFF", ui_cbm2mem_block4_on_off)
-    CYCLE(ui_to_from[6].object, "RAM Block $6000-$7FFF", ui_cbm2mem_block6_on_off)
-    CYCLE(ui_to_from[7].object, "RAM Block $C000-$CFFF", ui_cbm2mem_blockC_on_off)
+    CYCLE(ui_to_from[0].object, translate_text(IDS_MODEL_LINE), ui_cbm2_model)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_RAM_SIZE), ui_cbm2_memsize)
+    CYCLE(ui_to_from[2].object, translate_text(IDS_RAM_BLOCK_0800_0FFF), ui_cbm2mem_enable)
+    CYCLE(ui_to_from[3].object, translate_text(IDS_RAM_BLOCK_1000_1FFF), ui_cbm2mem_enable)
+    CYCLE(ui_to_from[4].object, translate_text(IDS_RAM_BLOCK_2000_3FFF), ui_cbm2mem_enable)
+    CYCLE(ui_to_from[5].object, translate_text(IDS_RAM_BLOCK_4000_5FFF), ui_cbm2mem_enable)
+    CYCLE(ui_to_from[6].object, translate_text(IDS_RAM_BLOCK_6000_7FFF), ui_cbm2mem_enable)
+    CYCLE(ui_to_from[7].object, translate_text(IDS_RAM_BLOCK_C000_CFFF), ui_cbm2mem_enable)
   End;
 }
 
 void ui_cbm2_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "CBM2 Settings", ui_to_from);
+  intl_convert_mui_table(ui_cbm2mem_enable_translate, ui_cbm2mem_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_CBM2_SETTINGS), ui_to_from);
 }

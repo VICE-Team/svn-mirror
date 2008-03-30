@@ -31,8 +31,7 @@
 #include "mouse.h"
 #include "pointer.h"
 
-/* FIXME: I should probably semaphore protect these */
-static int mx = 0, my = 0, mb = 0;
+static int g_mx = 0, g_my = 0, g_mb = 0;
 
 #include <devices/input.h>
 #include <devices/inputevent.h>
@@ -46,56 +45,85 @@ static int mx = 0, my = 0, mb = 0;
 #define MB_LEFT (1 << 0)
 #define MB_RIGHT (1 << 1)
 
-struct InputEvent *MyInputHandler(struct InputEvent *event)
+#ifdef AMIGA_MORPHOS
+static struct InputEvent *_MyInputHandler(void);
+static const struct EmulLibEntry gate_MyInputHandler = {
+  TRAP_LIB,
+  0,
+  (void (*)(void))_MyInputHandler
+}, *MyInputHandler = &gate_MyInputHandler;
+
+static struct InputEvent *_MyInputHandler(void)
 {
-  if (event->ie_Class == IECLASS_RAWMOUSE) {
-    switch(event->ie_Code) {
-      case (IECODE_LBUTTON):
-        mb |= MB_LEFT;
-        mx += event->ie_position.ie_xy.ie_x;
-        my += event->ie_position.ie_xy.ie_y;
-        return NULL; /* remove event */
-        break;
+  struct InputEvent *event_list = (APTR) REG_A0;
+#else
+static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
+{
+#endif
+  struct InputEvent *event;
 
-      case (IECODE_LBUTTON | IECODE_UP_PREFIX):
-        mb &= ~MB_LEFT;
-        mx += event->ie_position.ie_xy.ie_x;
-        my += event->ie_position.ie_xy.ie_y;
-        return NULL; /* remove event */
-        break;
+  for (event = event_list;
+       event;
+       event = event->ie_NextEvent) {
+    if (event->ie_Class == IECLASS_RAWMOUSE) {
+      switch(event->ie_Code) {
+        case (IECODE_LBUTTON):
+          Forbid();
+          g_mb |= MB_LEFT;
+          g_mx += event->ie_position.ie_xy.ie_x;
+          g_my += event->ie_position.ie_xy.ie_y;
+          Permit();
+          event->ie_Class = IECLASS_NULL; /* remove event */
+          break;
 
-      case (IECODE_RBUTTON):
-        mb |= MB_RIGHT;
-        mx += event->ie_position.ie_xy.ie_x;
-        my += event->ie_position.ie_xy.ie_y;
-        return NULL; /* remove event */
-        break;
+        case (IECODE_LBUTTON | IECODE_UP_PREFIX):
+          Forbid();
+          g_mb &= ~MB_LEFT;
+          g_mx += event->ie_position.ie_xy.ie_x;
+          g_my += event->ie_position.ie_xy.ie_y;
+          Permit();
+          event->ie_Class = IECLASS_NULL; /* remove event */
+          break;
 
-      case (IECODE_RBUTTON | IECODE_UP_PREFIX):
-        mb &= ~MB_RIGHT;
-        mx += event->ie_position.ie_xy.ie_x;
-        my += event->ie_position.ie_xy.ie_y;
-        return NULL; /* remove event */
-        break;
+        case (IECODE_RBUTTON):
+          Forbid();
+          g_mb |= MB_RIGHT;
+          g_mx += event->ie_position.ie_xy.ie_x;
+          g_my += event->ie_position.ie_xy.ie_y;
+          Permit();
+          event->ie_Class = IECLASS_NULL; /* remove event */
+          break;
 
-      case (IECODE_NOBUTTON):
-        mx += event->ie_position.ie_xy.ie_x;
-        my += event->ie_position.ie_xy.ie_y;
-        return NULL; /* remove event */
-        break;
+        case (IECODE_RBUTTON | IECODE_UP_PREFIX):
+          Forbid();
+          g_mb &= ~MB_RIGHT;
+          g_mx += event->ie_position.ie_xy.ie_x;
+          g_my += event->ie_position.ie_xy.ie_y;
+          Permit();
+          event->ie_Class = IECLASS_NULL; /* remove event */
+          break;
 
-      default:
-        break;
+        case (IECODE_NOBUTTON):
+          Forbid();
+          g_mx += event->ie_position.ie_xy.ie_x;
+          g_my += event->ie_position.ie_xy.ie_y;
+          Permit();
+          event->ie_Class = IECLASS_NULL; /* remove event */
+          break;
+
+        default:
+          break;
+      }
     }
   }
 
-  return event; /* let someone else process the event */
+  return event_list; /* let someone else process the events */
 }
 
 static struct IOStdReq *inputReqBlk = NULL;
 static struct MsgPort *inputPort = NULL;
 static struct Interrupt *inputHandler = NULL;
-static char HandlerName[] = __FILE__ " input handler";
+static const UBYTE HandlerName[] = __FILE__ " input handler";
 static int input_error = -1;
 
 void rem_inputhandler(void)
@@ -133,7 +161,7 @@ int add_inputhandler(void)
           inputHandler->is_Code         = (void *)MyInputHandler;
           inputHandler->is_Data         = NULL;
           inputHandler->is_Node.ln_Pri  = 100;
-          inputHandler->is_Node.ln_Name = HandlerName;
+          inputHandler->is_Node.ln_Name = (STRPTR)HandlerName;
           inputReqBlk->io_Data    = (APTR)inputHandler;
           inputReqBlk->io_Command = IND_ADDHANDLER;
           DoIO((struct IORequest *)inputReqBlk);
@@ -184,21 +212,36 @@ void mousedrv_mouse_changed(void)
 
 BYTE mousedrv_get_x(void)
 {
+  int mx;
+
   if (!_mouse_enabled)
     return 0xff;
+  Forbid();
+  mx = g_mx;
+  Permit();
   return (BYTE)(mx >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
+  int my;
+
   if (!_mouse_enabled)
     return 0xff;
+  Forbid();
+  my = g_my;
+  Permit();
   return (BYTE)(~my >> 1) & 0x7e;
 }
 
 void mousedrv_sync(void)
 {
   if (mouse_acquired) {
+    int mb;
+
+    Forbid();
+    mb = g_mb;
+    Permit();
     mouse_button_left(mb & MB_LEFT);
     mouse_button_right(mb & MB_RIGHT);
   }

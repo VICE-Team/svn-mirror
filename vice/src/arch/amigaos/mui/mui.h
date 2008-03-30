@@ -118,6 +118,8 @@ void ui_get_to(ui_to_from_t *data);
 
 #define BTN_OK (32)
 
+#define countof(array) (sizeof(array) / sizeof((array)[0]))
+
 int mui_init(void);
 APTR mui_get_app(void);
 APTR mui_make_simple_window(APTR gui, char *title);

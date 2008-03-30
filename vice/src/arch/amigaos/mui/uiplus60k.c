@@ -31,14 +31,18 @@
 #include "mui.h"
 
 #include "uiplus60k.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_plus60k_on_off[] = {
-  "off",
-  "on",
-  NULL
+static int ui_plus60k_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_plus60k_on_off_values[] = {
+static char *ui_plus60k_enable[countof(ui_plus60k_enable_translate)];
+
+static const int ui_plus60k_enable_values[] = {
   0,
   1,
   -1
@@ -57,7 +61,7 @@ static const int ui_plus60k_base_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "PLUS60K", ui_plus60k_on_off, ui_plus60k_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "PLUS60K", ui_plus60k_enable, ui_plus60k_enable_values },
   { NULL, MUI_TYPE_CYCLE, "PLUS60Kbase", ui_plus60k_base, ui_plus60k_base_values },
   UI_END /* mandatory */
 };
@@ -65,12 +69,13 @@ static ui_to_from_t ui_to_from[] = {
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "PLUS60K Enabled", ui_plus60k_on_off)
-    CYCLE(ui_to_from[1].object, "PLUS60K Base", ui_plus60k_base)
+    CYCLE(ui_to_from[0].object, "PLUS60K", ui_plus60k_enable)
+    CYCLE(ui_to_from[1].object, translate_text(IDS_PLUS60K_BASE), ui_plus60k_base)
   End;
 }
 
 void ui_plus60k_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "PLUS60K Settings", ui_to_from);
+  intl_convert_mui_table(ui_plus60k_enable_translate, ui_plus60k_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_PLUS60K_SETTINGS), ui_to_from);
 }

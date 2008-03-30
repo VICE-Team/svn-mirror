@@ -31,32 +31,37 @@
 #include "mui.h"
 
 #include "uiplus256k.h"
+#include "intl.h"
+#include "translate.h"
 
-static const char *ui_plus256k_on_off[] = {
-  "off",
-  "on",
-  NULL
+static int ui_plus256k_enable_translate[] = {
+  IDS_DISABLED,
+  IDS_ENABLED,
+  0
 };
 
-static const int ui_plus256k_on_off_values[] = {
+static char *ui_plus256k_enable[countof(ui_plus256k_enable_translate)];
+
+static const int ui_plus256k_enable_values[] = {
   0,
   1,
   -1
 };
 
 static ui_to_from_t ui_to_from[] = {
-  { NULL, MUI_TYPE_CYCLE, "PLUS256K", ui_plus256k_on_off, ui_plus256k_on_off_values },
+  { NULL, MUI_TYPE_CYCLE, "PLUS256K", ui_plus256k_enable, ui_plus256k_enable_values },
   UI_END /* mandatory */
 };
 
 static APTR build_gui(void)
 {
   return GroupObject,
-    CYCLE(ui_to_from[0].object, "PLUS256K Enabled", ui_plus256k_on_off)
+    CYCLE(ui_to_from[0].object, "PLUS256K", ui_plus256k_enable)
   End;
 }
 
 void ui_plus256k_settings_dialog(void)
 {
-  mui_show_dialog(build_gui(), "PLUS256K Settings", ui_to_from);
+  intl_convert_mui_table(ui_plus256k_enable_translate, ui_plus256k_enable);
+  mui_show_dialog(build_gui(), translate_text(IDS_PLUS256K_SETTINGS), ui_to_from);
 }

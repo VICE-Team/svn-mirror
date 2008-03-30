@@ -32,12 +32,18 @@
 #include "ui.h"
 #include "util.h"
 #include "datasette.h"
+#include "intl.h"
+#include "translate.h"
 
 #include <proto/diskfont.h>
 
-#define LINE(x1, y1, x2, y2) \
-  Move(window->RPort, x1, y1); \
-  Draw(window->RPort, x2, y2);
+#define _Move(rp,x,y) Move(rp,basex+(x),basey+(y))
+#define _Draw(rp,x,y) Draw(rp,basex+(x),basey+(y))
+#define _RectFill(rp,x1,y1,x2,y2) RectFill(rp,basex+(x1),basey+(y1),basex+(x2),basey+(y2))
+
+#define LINE(x1, y1, x2, y2) do { \
+  _Move(window->RPort, x1, y1); \
+  _Draw(window->RPort, x2, y2); } while (0)
 
 static int enabled_drives = 0;
 static ui_drive_enable_t status_enabled = UI_DRIVE_ENABLE_NONE;
@@ -93,7 +99,7 @@ int statusbar_create(video_canvas_t *canvas)
 
   for (i=0; i<b_num; i++) {
 #ifndef AMIGAOS4
-    canvas->os->pens[i] = ObtainBestPen(canvas->os->window->WScreen->ViewPort.ColorMap, palette[i].red * 0x01010101, palette[i].green * 0x01010101, palette[i].blue * 0x01010101,0);
+    canvas->os->pens[i] = ObtainBestPen(canvas->os->window->WScreen->ViewPort.ColorMap, palette[i].red * 0x01010101, palette[i].green * 0x01010101, palette[i].blue * 0x01010101, TAG_DONE);
 #else
     canvas->os->pens[i] = ObtainBestPen(canvas->os->window->WScreen->ViewPort.ColorMap, palette[i].red * 0x01010101, palette[i].green * 0x01010101, palette[i].blue * 0x01010101);
 #endif
@@ -125,6 +131,7 @@ void statusbar_destroy(video_canvas_t *canvas)
   }
   if (canvas->os->font != NULL) {
     CloseFont(canvas->os->font);
+    canvas->os->font = NULL;
   }
   canvas->os->has_statusbar = 0;
 }
@@ -139,14 +146,19 @@ void statusbar_set_statustext(const char *text, int text_time)
   video_canvas_t *canvas;
 
   for (canvas = canvaslist; canvas; canvas = canvas->next) {
-    struct Window *window = canvas->os->window;
+    struct Window *window;
     struct TextExtent te;
     int x, width, height, max_chars;
+    int basex, basey;
 
-    if (!canvas->os->has_statusbar) continue;
+    if (!canvas->os->has_statusbar ||
+        canvas->waiting_for_resize) continue;
 
-    width = canvas->os->visible_width;
-    height = canvas->os->visible_height;
+    window = canvas->os->window;
+    width = window->Width - window->BorderLeft - window->BorderRight;
+    height = window->Height - window->BorderTop - window->BorderBottom - statusbar_get_status_height();
+    basex = window->BorderLeft;
+    basey = window->BorderTop;
 
     if (canvas->os->font) {
       SetFont(window->RPort, canvas->os->font);
@@ -157,12 +169,12 @@ void statusbar_set_statustext(const char *text, int text_time)
 
     SetAPen(window->RPort, 0);
     SetBPen(window->RPort, 0);
-    RectFill(window->RPort, 0, height, x - 1, height + statusbar_get_status_height());
+    _RectFill(window->RPort, 0, height, x - 1, height + statusbar_get_status_height() - 1);
 
     max_chars = TextFit(window->RPort, text, strlen(text), &te, NULL, 1, x - (7 * 2), 20);
 
     SetAPen(window->RPort, canvas->os->pens[b_black]);
-    Move(window->RPort, 7, height + 13);
+    _Move(window->RPort, 7, height + 13);
     Text(window->RPort, text, max_chars /* strlen(text) */);
   }
   statusbar_statustext_time=text_time;
@@ -194,14 +206,19 @@ void statusbar_refresh(int drive_number)
   }
 
   for (canvas = canvaslist; canvas; canvas = canvas->next) {
-    struct Window *window = canvas->os->window;
+    struct Window *window;
     char str[32];
     int x, width, height;
+    int basex, basey;
 
-    if (!canvas->os->has_statusbar) continue;
+    if (!canvas->os->has_statusbar ||
+        canvas->waiting_for_resize) continue;
 
-    width = canvas->os->visible_width;
-    height = canvas->os->visible_height;
+    window = canvas->os->window;
+    width = window->Width - window->BorderLeft - window->BorderRight;
+    height = window->Height - window->BorderTop - window->BorderBottom - statusbar_get_status_height();
+    basex = window->BorderLeft;
+    basey = window->BorderTop;
 
     if (canvas->os->font) {
       SetFont(window->RPort, canvas->os->font);
@@ -212,7 +229,7 @@ void statusbar_refresh(int drive_number)
       x = width - (canvas->os->disk_width * enabled_drives) - (tape_enabled ? canvas->os->tape_width : 0);
       SetAPen(window->RPort, 0);
       SetBPen(window->RPort, 0);
-      RectFill(window->RPort, 0, height, x - 1, height + statusbar_get_status_height());
+      _RectFill(window->RPort, 0, height, x - 1, height + statusbar_get_status_height() - 1);
     }
 
     for (i=0; i<enabled_drives; i++) {
@@ -226,15 +243,15 @@ void statusbar_refresh(int drive_number)
 
       SetAPen(window->RPort, 0);
       SetBPen(window->RPort, 0);
-      RectFill(window->RPort, x, height, x + canvas->os->disk_width - 1, height + statusbar_get_status_height());
+      _RectFill(window->RPort, x, height, x + canvas->os->disk_width - 1, height + statusbar_get_status_height() - 1);
 
       SetAPen(window->RPort, canvas->os->pens[b_black]);
-      Move(window->RPort, x, height + 13);
+      _Move(window->RPort, x, height + 13);
       Text(window->RPort, str, strlen(str));
       x += canvas->os->disk_width - (10 + 7);
 
       SetAPen(window->RPort, canvas->os->pens[(status_led[drive] ? (drive_active_led[drive] ? b_green : b_red) : b_black)]);
-      RectFill(window->RPort, x, height + 4, x + 10, height + 14);
+      _RectFill(window->RPort, x, height + 4, x + 10, height + 14);
     }
 
     if ((tape_enabled) && ((drive_number == REFRESH_ALL) || (drive_number == TAPE_NUM))) {
@@ -252,17 +269,17 @@ void statusbar_refresh(int drive_number)
 
       SetAPen(window->RPort, 0);
       SetBPen(window->RPort, 0);
-      RectFill(window->RPort, x, height, x + canvas->os->tape_width - 1, height + statusbar_get_status_height());
+      _RectFill(window->RPort, x, height, x + canvas->os->tape_width - 1, height + statusbar_get_status_height() - 1);
 
       SetAPen(window->RPort, canvas->os->pens[motor_color]);
-      RectFill(window->RPort, x, height + 4, x + 10, height + 14);
+      _RectFill(window->RPort, x, height + 4, x + 10, height + 14);
 
       /* control */
       record_led = b_black;
       switch (tape_control) {
         case DATASETTE_CONTROL_STOP:
           SetAPen(window->RPort, canvas->os->pens[b_black]);
-          RectFill(window->RPort, x + 2, height + 4 + 2, x + 10 - 2, height + 14 - 2);
+          _RectFill(window->RPort, x + 2, height + 4 + 2, x + 10 - 2, height + 14 - 2);
           break;
         case DATASETTE_CONTROL_RECORD:
           record_led = b_red;
@@ -289,12 +306,12 @@ void statusbar_refresh(int drive_number)
           break;
       }
       SetAPen(window->RPort, canvas->os->pens[record_led]);
-      RectFill(window->RPort, x + 2 + 14, height + 4 + 2, x + 10 - 2 + 14, height + 14 - 2);
+      _RectFill(window->RPort, x + 2 + 14, height + 4 + 2, x + 10 - 2 + 14, height + 14 - 2);
 
       /* counter */
       sprintf(str, "%03d", tape_counter);
       SetAPen(window->RPort, canvas->os->pens[b_black]);
-      Move(window->RPort, x + 28, height + 13);
+      _Move(window->RPort, x + 28, height + 13);
       Text(window->RPort, str, strlen(str));
     }
   }
@@ -341,27 +358,24 @@ void ui_display_drive_led(int drivenum, unsigned int led_pwm1,
 /* display current image */
 void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
-    char *directory_name, *image_name, *text;
-    char device_str[4];
+    char *directory_name, *image_name;
+    char text[200];
 
     if (image == NULL || image[0] == 0) {
-        sprintf(device_str, "%d", drivenum + 8);
-        text = util_concat("Detached device ", device_str, NULL);
+        sprintf(text, translate_text(IDS_DETACHED_DEVICE_D), drivenum + 8);
     } else {
         util_fname_split(image, &directory_name, &image_name);
-        sprintf(device_str, "%d", drivenum + 8);
-        text = util_concat("Attached ", image_name, " to device#", device_str, NULL);
+        sprintf(text, translate_text(IDS_ATTACHED_S_TO_DEVICE_D), image_name, drivenum + 8);
         lib_free(image_name);
         lib_free(directory_name);
     }
 
     statusbar_set_statustext(text, 5);
-    lib_free(text);
 }
 
 int ui_extend_image_dialog(void)
 {
-  return ui_requester("VICE Question", "Extend image to 40-track format?", "YES|NO", 0);
+  return ui_requester(translate_text(IDS_VICE_QUESTION), translate_text(IDS_EXTEND_TO_40_TRACK), translate_text(IDS_YES_NO), 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -398,17 +412,17 @@ void ui_display_tape_counter(int counter)
 /* display the attched tape image */
 void ui_display_tape_current_image(const char *image)
 {
-    char *directory_name, *image_name, *text;
+    char *directory_name, *image_name;
+    char text[200];
 
     if (image == NULL || image[0] == 0) {
-        text = lib_stralloc("Detached tape");
+        sprintf(text, "%s", translate_text(IDS_DETACHED_TAPE));
     } else {
         util_fname_split(image, &directory_name, &image_name);
-        text = util_concat("Attached tape ", image_name, NULL);
+        sprintf(text, translate_text(IDS_ATTACHED_TAPE_S), image_name);
         lib_free(image_name);
         lib_free(directory_name);
     }
 
     statusbar_set_statustext(text, 5);
-    lib_free(text);
 }

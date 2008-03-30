@@ -1,3 +1,11 @@
+2006-06-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po: Fixed some translations.
+
+2006-06-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po, nl.po: Fixed some translations.
+
 2006-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* translate.c: Fixed a dutch translation.
