@@ -45,12 +45,12 @@
 #include "utils.h"
 
 
-typedef struct _traplist_t {
-    struct _traplist_t *next;
+typedef struct traplist_s {
+    struct traplist_s *next;
     const trap_t *trap;
 } traplist_t;
 
-static traplist_t *traplist;
+static traplist_t *traplist = NULL;
 
 static int install_trap(const trap_t *t);
 static int remove_trap(const trap_t *t);
@@ -125,8 +125,20 @@ int traps_cmdline_options_init(void)
 
 void traps_init(void)
 {
-    traplist = NULL;
     traps_log = log_open("Traps");
+}
+
+void traps_shutdown(void)
+{
+    traplist_t *list, *list_next;
+
+    list = traplist;
+
+    while (list != NULL) {
+        list_next = list->next;
+        free(list);
+        list = list_next;
+    }
 }
 
 static int install_trap(const trap_t *t)
@@ -148,57 +160,57 @@ static int install_trap(const trap_t *t)
     return 0;
 }
 
-int traps_add(const trap_t *t)
+int traps_add(const trap_t *trap)
 {
     traplist_t *p;
 
     p = (traplist_t *)xmalloc(sizeof(traplist_t));
     p->next = traplist;
-    p->trap = t;
+    p->trap = trap;
     traplist = p;
 
     if (traps_enabled)
-        install_trap(t);
+        install_trap(trap);
 
     return 0;
 }
 
-static int remove_trap(const trap_t *t)
+static int remove_trap(const trap_t *trap)
 {
-    if ((t->readfunc)(t->address) != 0x00) {
-        log_error(traps_log, "No trap `%s' installed?", t->name);
+    if ((trap->readfunc)(trap->address) != 0x00) {
+        log_error(traps_log, "No trap `%s' installed?", trap->name);
         return -1;
     }
 
-    (t->storefunc)(t->address, t->check[0]);
+    (trap->storefunc)(trap->address, trap->check[0]);
     return 0;
 }
 
-int traps_remove(const trap_t *t)
+int traps_remove(const trap_t *trap)
 {
     traplist_t *p = traplist, *prev = NULL;
 
     while (p) {
-        if (p->trap->address == t->address)
+        if (p->trap->address == trap->address)
             break;
         prev = p;
         p = p->next;
     }
 
     if (!p) {
-        log_error(traps_log, "Trap `%s' not found.", t->name);
+        log_error(traps_log, "Trap `%s' not found.", trap->name);
         return -1;
     }
 
     if (prev)
         prev->next = p->next;
     else
-        traplist = p ->next;
+        traplist = p->next;
 
     free(p);
 
     if (traps_enabled)
-        remove_trap(t);
+        remove_trap(trap);
 
     return 0;
 }
