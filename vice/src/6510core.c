@@ -1595,7 +1595,7 @@ static const BYTE fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
-            debug_drive(reg_pc, CLK,
+            debug_drive((DWORD)(reg_pc), CLK,
                         mon_disassemble_to_string(e_disk8_space, reg_pc, op,
                         lo, hi, (BYTE)0, 1, "6502"), 
                         reg_a, reg_x, reg_y, reg_sp);
@@ -1606,7 +1606,7 @@ static const BYTE fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
-            debug_maincpu(reg_pc, maincpu_clk,
+            debug_maincpu((DWORD)(reg_pc), maincpu_clk,
                           mon_disassemble_to_string(e_comp_space, reg_pc, op,
                           lo, hi, (BYTE)0, 1, "6502"),
                           reg_a, reg_x, reg_y, reg_sp);

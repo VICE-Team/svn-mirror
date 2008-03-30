@@ -58,7 +58,7 @@ BYTE REGPARM1 io1_read(WORD addr)
         return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
-        return acia1_read(addr & 0x03);
+        return acia1_read((WORD)(addr & 0x03));
 #endif
     return vicii_read_phi1();
 }
@@ -77,7 +77,7 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
         cartridge_store_io1(addr, value);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
-        acia1_store(addr & 0x03, value);
+        acia1_store((WORD)(addr & 0x03), value);
 #endif
     return;
 }

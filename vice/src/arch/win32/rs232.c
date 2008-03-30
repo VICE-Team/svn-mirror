@@ -168,7 +168,7 @@ getaddr(char *dev, struct sockaddr_in *ad)
 
     *p = 0;
     ad->sin_addr.s_addr = inet_addr(dev);
-    ad->sin_port = htons(atoi(p+1));
+    ad->sin_port = htons((unsigned short)atoi(p+1));
     free(dev);
     if(ad->sin_addr.s_addr == -1 || ad->sin_port == 0)
         return -1;
