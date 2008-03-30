@@ -124,6 +124,7 @@ static int gcrformat_cmd(int nargs, char **args);
 static int help_cmd(int nargs, char **args);
 static int info_cmd(int nargs, char **args);
 static int list_cmd(int nargs, char **args);
+static int name_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
 static int read_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
@@ -224,6 +225,10 @@ command_t command_list[] = {
       "List files matching <pattern> (default is all files).",
       0, 1,
       list_cmd },
+    { "name",
+      "name <diskname>[,<id>] <unit>",
+      "Change image name.",
+      1, 2, name_cmd },
     { "quit",
       "quit",
       "Exit (same as `exit').",
@@ -1474,6 +1479,50 @@ static int list_cmd(int nargs, char **args)
 	free(listing);
     }
 
+    return FD_OK;
+}
+
+static int name_cmd(int nargs, char **args)
+{
+    char *id;
+    char *name;
+    char *dst;
+    int i;
+    int unit;
+    DRIVE *floppy;
+
+    if (nargs > 2) {
+        if (arg_to_int(args[2], &unit) < 0)
+            return FD_BADDEV;
+        if (check_drive(unit, CHK_NUM) < 0)
+            return FD_BADDEV;
+        unit -= 8;
+    } else {
+        unit = drive_number;
+    }
+
+    if (check_drive(unit, CHK_RDY) < 0)
+       return FD_NOTREADY;
+
+    floppy = drives[unit];
+    vdrive_bam_read_bam(floppy);
+    name = args[1];
+    petconvstring(name, 0);
+    id = strrchr(args[1], ',');
+    if (id)
+       *id++ = '\0';
+
+    dst = floppy->bam + floppy->bam_name;
+    for (i = 0; i < 16; i++)
+       *dst++ = *name ? *name++ : 0xa0;
+
+    if (id) {
+       dst = floppy->bam + floppy->bam_id;
+       for (i = 0; i < 5 && *id; i++)
+           *dst++ = *id++;
+    }
+
+    vdrive_bam_write_bam(floppy);
     return FD_OK;
 }
 
