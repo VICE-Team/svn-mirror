@@ -1548,3 +1548,13 @@ void monitor_startup(void)
     monitor_close(1);
 }
 
+static void monitor_trap(WORD addr, void *unused_data)
+{
+    monitor_startup();
+}
+
+void monitor_startup_trap(void)
+{
+    interrupt_maincpu_trigger_trap(monitor_trap, (void *)0);
+}
+

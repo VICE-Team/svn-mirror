@@ -63,8 +63,10 @@ struct interrupt_cpu_status_s;
 
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
-    unsigned int (*asm_addr_mode_get_size)(unsigned int mode, BYTE p0, BYTE p1);
-    struct asm_opcode_info_s *(*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
+    const unsigned int (*asm_addr_mode_get_size)(unsigned int mode,
+                                                 BYTE p0, BYTE p1);
+    const struct asm_opcode_info_s *(*asm_opcode_info_get)(BYTE p0, BYTE p1,
+                                                           BYTE p2);
     int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
     unsigned int (*mon_register_get_val)(int mem, int reg_id);
     void (*mon_register_set_val)(int mem, int reg_id, WORD val);
@@ -124,6 +126,7 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
 extern void monitor_startup(void);
+extern void monitor_startup_trap(void);
 
 extern void mon_abort(void);
 
