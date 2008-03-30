@@ -31,6 +31,7 @@
 #include <unistd.h>
 
 #include "cartridge.h"
+#include "debug.h"
 #include "drive.h"
 #include "icon.h"
 #include "joystick.h"
@@ -486,6 +487,10 @@ int vic20_ui_init(void)
                                      vic20_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_tape_menu(ui_menu_create("TapeMenu",

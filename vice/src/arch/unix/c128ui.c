@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug.h"
 #include "drive.h"
 #include "icon.h"
 #include "resources.h"
@@ -441,6 +442,10 @@ int c128_ui_init(void)
                                      c128_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_topmenu("TopLevelMenu",

@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug.h"
 #include "drive.h"
 #include "icon.h"
 #include "resources.h"
@@ -159,6 +160,10 @@ int plus4_ui_init(void)
                                      plus4_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_topmenu("TopLevelMenu",

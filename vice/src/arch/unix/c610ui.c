@@ -31,8 +31,9 @@
 
 #include "c610.h"
 #include "c610mem.h"
-#include "icon.h"
+#include "debug.h"
 #include "drive.h"
+#include "icon.h"
 #include "petui.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -445,6 +446,10 @@ int c610_ui_init(void)
                                      c610_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_tape_menu(ui_menu_create("TapeMenu",

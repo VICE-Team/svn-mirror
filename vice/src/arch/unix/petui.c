@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "debug.h"
 #include "icon.h"
 #include "pets.h"
 #include "petui.h"
@@ -370,6 +371,10 @@ int pet_ui_init(void)
                                      pet_menu,
                                      ui_menu_separator,
                                      ui_settings_settings_menu,
+#ifdef DEBUG
+                                     ui_menu_separator,
+                                     ui_debug_settings_menu,
+#endif
                                      NULL));
 
     ui_set_tape_menu(ui_menu_create("TapeMenu",
