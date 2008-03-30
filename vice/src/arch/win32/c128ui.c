@@ -44,6 +44,7 @@
 #include "ui.h"
 #include "uidrivec64c128vic20.h"
 #include "uireu.h"
+#include "uisid.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "vsync.h"
@@ -226,6 +227,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);
+        break;
+      case IDM_SID_SETTINGS:
+        ui_sid_settings_dialog(hwnd);
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);

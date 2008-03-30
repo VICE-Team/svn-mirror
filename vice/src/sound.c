@@ -35,12 +35,10 @@
 #include <time.h>
 
 #include "archdep.h"
-#include "catweaselmkiii.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "fixpoint.h"
-#include "hardsid.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -993,13 +991,6 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
     cycles_per_rfsh = ticks_per_frame;
     rfsh_per_sec    = (1.0 /
                       ((double)cycles_per_rfsh / (double)cycles_per_sec));
-
-#ifdef HAVE_CATWEASELMKIII
-    catweaselmkiii_set_machine_parameter(clock_rate);
-#endif
-#ifdef HAVE_HARDSID
-    hardsid_set_machine_parameter(clock_rate);
-#endif
 }
 
 /* initialize sid at program start -time */

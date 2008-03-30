@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uicbm2set.h"
 #include "uidrivepetcbm2.h"
+#include "uisid.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -57,6 +58,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_CBM2_SETTINGS:
         ui_cbm2_settings_dialog(hwnd);
+        break;
+      case IDM_SID_SETTINGS:
+        ui_sid_settings_dialog(hwnd);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_RGB);
