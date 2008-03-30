@@ -16,18 +16,12 @@ Emulator, whose name was chosen independently.)
 
   - Reorganize the sound emulation.
 
-  - More ports!  (E.g. MacOS, Win32, BeOS, PSX, N64...)  Any
-    volunteers?
-
-  - Better built-in monitor and improved XDebugger.  These two
-    could/should also be integrated.
+  - More ports!  (E.g. MacOS, Win32, BeOS...)  Any volunteers?
 
   - Snapshot format to freeze the emulators' state.  The main issue is
     to make it as implementation-independent as possible, so that
     snapshots made with the current versions will still run on the
     future ones.
-
-  - "True" P00 support with the real names.
 
   - Support for cartridges.
 
@@ -35,15 +29,10 @@ Emulator, whose name was chosen independently.)
     options, or menus.  This can be done by writing to the keyboard
     buffer or by changing the values in the keyboard port.
 
-  - Code cleanup (work is in progress, but it's still a bit
-    ugly-looking in several places).
-
   - Convert all the documentation to texinfo, so that it can be
     translated to different formats more easily.
 
   - Write real MS-DOS documentation (any volunteers?).
-
-  - FS-based drive emulation on any serial device, not just #11.
 
   - Allow tape loading without the virtually pressed "Play" button,
     which can break some programs that do not like this.
@@ -78,8 +67,6 @@ Emulator, whose name was chosen independently.)
 --------------------
 
   - Ability to change the memory configuration at Run-time.
-
-  - Warn about disabling/enabling true1541 in the middle of loading.
 
   - Better, possibly cycle-based, emulation of the VIC-I chip.
 
