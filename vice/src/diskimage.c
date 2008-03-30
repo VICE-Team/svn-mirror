@@ -829,6 +829,11 @@ int disk_image_read_track(disk_image_t *image, unsigned int track,
     DWORD gcr_track_p;
     long offset;
 
+    if (image->fd == NULL) {
+        log_error(disk_image_log, "Attempt to write without disk image.");
+        return -1;
+    }
+
     fseek(image->fd, 12 + (track - 1) * 8, SEEK_SET);
     if (read_dword(image->fd, &gcr_track_p, 4) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
@@ -1002,6 +1007,16 @@ int disk_image_write_track(disk_image_t *image, unsigned int track,
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     int offset;
 
+    if (image->fd == NULL) {
+        log_error(disk_image_log, "Attempt to write without disk image.");
+        return -1;
+    }
+
+    if (image->read_only != 0) {
+        log_error(disk_image_log, "Attempt to write to read-only disk image.");
+        return -1;
+    }
+
     num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
@@ -1112,6 +1127,11 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 
     if (image->fd == NULL) {
         log_error(disk_image_log, "Attempt to write without disk image.");
+        return -1;
+    }
+
+    if (image->read_only != 0) {
+        log_error(disk_image_log, "Attempt to write to read-only disk image.");
         return -1;
     }
 
