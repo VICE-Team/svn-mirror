@@ -48,6 +48,7 @@
 #include "charsets.h"
 #include "cmdline.h"
 #include "diskimage.h"
+#include "drive.h"
 #include "drivecpu.h"
 #include "fsdevice.h"
 #include "joystick.h"
@@ -408,6 +409,8 @@ int MAIN_PROGRAM(int argc, char **argv)
 	}
     }
 
+    drive_setup_context();
+
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
 
@@ -509,7 +512,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 	    log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
 		      autostart_string);
 	    return -1;
-	}	    
+	}
 
 	if (machine_init() < 0) {
 	    log_error(LOG_DEFAULT, "Machine initialization failed.");
