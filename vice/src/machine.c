@@ -31,19 +31,23 @@
 #include <stdlib.h>
 
 #include "alarm.h"
+#include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "console.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "printer.h"
 #include "resources.h"
 #include "sound.h"
+#include "traps.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
@@ -135,6 +139,14 @@ void machine_shutdown(void)
     sound_close();
 
     printer_shutdown();
+
+    file_system_shutdown();
+
+    traps_shutdown();
+
+    keyboard_shutdown();
+
+    monitor_shutdown();
 
     console_close_all();
 

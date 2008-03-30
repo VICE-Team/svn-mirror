@@ -38,6 +38,7 @@
 struct vdrive_s;
 
 extern void file_system_init(void);
+extern void file_system_shutdown(void);
 extern int file_system_resources_init(void);
 extern int file_system_cmdline_options_init(void);
 
