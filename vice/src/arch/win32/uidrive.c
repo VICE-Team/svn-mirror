@@ -49,6 +49,35 @@
 
 static void enable_controls_for_drive_settings(HWND hwnd, int type)
 {
+    int drive_type = 0;
+
+    switch (type) {
+      case IDC_SELECT_DRIVE_TYPE_1541:
+      drive_type = DRIVE_TYPE_1541;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_1541II:
+      drive_type = DRIVE_TYPE_1541II;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_1571:
+      drive_type = DRIVE_TYPE_1571;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_1581:
+      drive_type = DRIVE_TYPE_1581;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_2031:
+      drive_type = DRIVE_TYPE_2031;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_1001:
+      drive_type = DRIVE_TYPE_1001;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_8050:
+      drive_type = DRIVE_TYPE_8050;
+      break;
+      case IDC_SELECT_DRIVE_TYPE_8250:
+      drive_type = DRIVE_TYPE_8250;
+      break;
+    }
+
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_NEVER),
                  type == IDC_SELECT_DRIVE_TYPE_1541
                  || type == IDC_SELECT_DRIVE_TYPE_1541II
@@ -63,16 +92,32 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_TRAP_IDLE),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
+
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE),
                  type == IDC_SELECT_DRIVE_TYPE_1541
+                 || type == IDC_SELECT_DRIVE_TYPE_1541II
                  || type == IDC_SELECT_DRIVE_TYPE_2031);
+
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000),
+                 DRIVE_EXPANSION_2000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000),
+                 DRIVE_EXPANSION_4000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000),
+                 DRIVE_EXPANSION_6000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000),
+                 DRIVE_EXPANSION_8000(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000),
+                 DRIVE_EXPANSION_A000(drive_type));
 }
 
 static void init_dialog(HWND hwnd, int num)
@@ -81,21 +126,21 @@ static void init_dialog(HWND hwnd, int num)
     char tmp[256];
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
-                 drive_check_type(DRIVE_TYPE_1541,num));
+                 drive_check_type(DRIVE_TYPE_1541, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
-                 drive_check_type(DRIVE_TYPE_1541II,num));
+                 drive_check_type(DRIVE_TYPE_1541II, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
-                 drive_check_type(DRIVE_TYPE_1571,num));
+                 drive_check_type(DRIVE_TYPE_1571, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
-                 drive_check_type(DRIVE_TYPE_1581,num));
+                 drive_check_type(DRIVE_TYPE_1581, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
-                 drive_check_type(DRIVE_TYPE_2031,num));
+                 drive_check_type(DRIVE_TYPE_2031, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1001),
-                 drive_check_type(DRIVE_TYPE_1001,num));
+                 drive_check_type(DRIVE_TYPE_1001, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8050),
-                 drive_check_type(DRIVE_TYPE_8050,num));
+                 drive_check_type(DRIVE_TYPE_8050, num));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
-                 drive_check_type(DRIVE_TYPE_8250,num));
+                 drive_check_type(DRIVE_TYPE_8250, num));
 
     sprintf(tmp, "Drive%dType", num);
     resources_get_value(tmp, (resource_value_t *) &drive_type);
@@ -136,6 +181,7 @@ static void init_dialog(HWND hwnd, int num)
 
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541,
                      IDC_SELECT_DRIVE_TYPE_NONE, n);
+
     enable_controls_for_drive_settings(hwnd, n);
 
     switch (drive_extend_image_policy) {
@@ -172,11 +218,39 @@ static void init_dialog(HWND hwnd, int num)
     resources_get_value(tmp, (resource_value_t *) &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n
                    ? BST_CHECKED : BST_UNCHECKED);
+
+    sprintf(tmp, "Drive%dRAM2000", num);
+    resources_get_value(tmp, (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n
+                   ? BST_CHECKED : BST_UNCHECKED);
+
+    sprintf(tmp, "Drive%dRAM4000", num);
+    resources_get_value(tmp, (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000, n
+                   ? BST_CHECKED : BST_UNCHECKED);
+
+    sprintf(tmp, "Drive%dRAM6000", num);
+    resources_get_value(tmp, (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000, n
+                   ? BST_CHECKED : BST_UNCHECKED);
+
+    sprintf(tmp, "Drive%dRAM8000", num);
+    resources_get_value(tmp, (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_8000, n
+                   ? BST_CHECKED : BST_UNCHECKED);
+
+    sprintf(tmp, "Drive%dRAMA000", num);
+    resources_get_value(tmp, (resource_value_t *) &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_A000, n
+                   ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
+    int n;
+    char tmp[256];
+
     switch (msg) {
       case WM_INITDIALOG:
         init_dialog(hwnd, num);
@@ -238,14 +312,34 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
             ui_set_res_num("Drive%dIdleMethod", DRIVE_IDLE_SKIP_CYCLES, num);
             break;
           case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
-            {
-                int n;
-                char tmp[256];
-                sprintf(tmp, "Drive%dParallelCable", num);
-                resources_get_value(tmp, (resource_value_t *) &n);
-                resources_set_value(tmp, (resource_value_t) !n);
-                break;
-            }
+            sprintf(tmp, "Drive%dParallelCable", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_DRIVE_EXPANSION_2000:
+            sprintf(tmp, "Drive%dRAM2000", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_DRIVE_EXPANSION_4000:
+            sprintf(tmp, "Drive%dRAM4000", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_DRIVE_EXPANSION_6000:
+            sprintf(tmp, "Drive%dRAM6000", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_DRIVE_EXPANSION_8000:
+            sprintf(tmp, "Drive%dRAM8000", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
+            break;
+          case IDC_TOGGLE_DRIVE_EXPANSION_A000:
+            sprintf(tmp, "Drive%dRAMA000", num);
+            resources_get_value(tmp, (resource_value_t *) &n);
+            resources_set_value(tmp, (resource_value_t) !n);
             break;
           default:
             return FALSE;
