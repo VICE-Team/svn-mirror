@@ -216,7 +216,11 @@ extern void video_color_palette_internal(struct video_canvas_s *canvas,
 extern int video_color_update_palette(struct video_canvas_s *canvas);
 extern void video_color_palette_free(struct palette_s *palette);
 extern void video_color_set_canvas(struct video_canvas_s *canvas);
+
 extern int video_render_get_fake_pal_state(void);
+extern void video_render_1x2_init(void);
+extern void video_render_2x2_init(void);
+extern void video_render_pal_init(void);
 
 #endif
 

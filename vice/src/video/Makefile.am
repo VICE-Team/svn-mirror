@@ -27,8 +27,9 @@ libvideo_a_SOURCES = \
 	video-cmdline-options.h \
 	video-color.c \
 	video-color.h \
+	video-render-1x2.c \
+	video-render-2x2.c \
 	video-render-pal.c \
-	video-render-pal.h \
 	video-render.c \
 	video-render.h \
 	video-resources-pal.c \
