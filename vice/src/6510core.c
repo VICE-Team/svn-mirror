@@ -176,6 +176,9 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
+/* FIXME: Dummy LOAD() cycles are missing!  */
+/* FIXME: NMI should not set I bit!  */
+/* FIXME: No proper BRK handling!  */
 #define DO_INTERRUPT(int_kind)                                        \
     do {                                                              \
         BYTE ik = (int_kind);                                         \
@@ -655,8 +658,7 @@
       unsigned int tmp;                                         \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      RMW_FLAG = 1;                                             \
-      CLK += 5;                                                 \
+      CLK += 4;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
       CLK++;                                                    \
       tmp_addr += reg_y;                                        \
@@ -664,8 +666,9 @@
       tmp = (tmp - 1) & 0xff;                                   \
       LOCAL_SET_CARRY(reg_a >= tmp);                            \
       LOCAL_SET_NZ((reg_a - tmp));                              \
+      RMW_FLAG = 1;                                             \
       INC_PC(2);                                                \
-      STORE_ABS(tmp_addr, tmp, 2);                              \
+      STORE_ABS(tmp_addr, tmp, 3);                              \
       RMW_FLAG = 0;                                             \
   } while (0)
 
@@ -747,8 +750,8 @@
       CLK += (clk_inc1);                                              \
       my_src = load_func(my_addr);                                    \
       my_src = (my_src + 1) & 0xff;                                   \
-      RMW_FLAG = 1;                                                   \
       SBC(my_src, 0, 0, 0);                                           \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(my_addr, my_src, clk_inc2);                          \
       RMW_FLAG = 0;                                                   \
@@ -759,16 +762,16 @@
       BYTE my_src;                                            \
       int my_addr = LOAD_ZERO_ADDR(addr);                     \
                                                               \
-      RMW_FLAG = 1;                                           \
-      CLK += 5;                                               \
+      CLK += 4;                                               \
       LOAD((my_addr & 0xff00) | ((my_addr + reg_y) & 0xff));  \
       CLK++;                                                  \
       my_addr += reg_y;                                       \
       my_src = LOAD(my_addr);                                 \
       my_src = (my_src + 1) & 0xff;                           \
       SBC(my_src, 0, 0, 0);                                   \
+      RMW_FLAG = 1;                                           \
       INC_PC(2);                                              \
-      STORE_ABS(my_addr, my_src, 2);                          \
+      STORE_ABS(my_addr, my_src, 3);                          \
       RMW_FLAG = 0;                                           \
   } while (0)
 
@@ -853,13 +856,13 @@
       unsigned int tmp, tmp_addr;                                     \
                                                                       \
       tmp_addr = (addr);                                              \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       tmp = load_func(tmp_addr);                                      \
-      INC_PC(pc_inc);                                                 \
       LOCAL_SET_CARRY(tmp & 0x01);                                    \
       tmp >>= 1;                                                      \
       LOCAL_SET_NZ(tmp);                                              \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, tmp, clk_inc2);                            \
       RMW_FLAG = 0;                                                   \
   } while (0)
@@ -970,8 +973,7 @@
       unsigned int tmp;                                         \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      RMW_FLAG = 1;                                             \
-      CLK += 5;                                                 \
+      CLK += 4;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
       CLK++;                                                    \
       tmp_addr += reg_y;                                        \
@@ -979,8 +981,9 @@
       LOCAL_SET_CARRY(tmp & 0x100);                             \
       reg_a &= tmp;                                             \
       LOCAL_SET_NZ(reg_a);                                      \
+      RMW_FLAG = 1;                                             \
       INC_PC(2);                                                \
-      STORE_ABS(tmp_addr, tmp, 2);                              \
+      STORE_ABS(tmp_addr, tmp, 3);                              \
       RMW_FLAG = 0;                                             \
   } while (0)
 
@@ -1016,7 +1019,6 @@
       unsigned int src, tmp_addr;                                     \
                                                                       \
       tmp_addr = (addr);                                              \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       src = load_func(tmp_addr);                                      \
       if (reg_p & P_CARRY)                                            \
@@ -1024,6 +1026,7 @@
       LOCAL_SET_CARRY(src & 0x01);                                    \
       src >>= 1;                                                      \
       LOCAL_SET_NZ(src);                                              \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, src, (clk_inc2));                          \
       RMW_FLAG = 0;                                                   \
@@ -1065,20 +1068,20 @@
       unsigned int my_tmp_addr;                                       \
       unsigned int my_temp;                                           \
                                                                       \
-      RMW_FLAG = 1;                                                   \
-      CLK += 5;                                                       \
+      CLK += 4;                                                       \
       my_tmp_addr = LOAD_ZERO_ADDR(addr);                             \
       LOAD((my_tmp_addr & 0xff00) | ((my_tmp_addr + reg_y) & 0xff));  \
       CLK++;                                                          \
       my_tmp_addr += reg_y;                                           \
       src = LOAD(my_tmp_addr);                                        \
+      RMW_FLAG = 1;                                                   \
       INC_PC(2);                                                      \
       my_temp = src >> 1;                                             \
       if (reg_p & P_CARRY)                                            \
           my_temp |= 0x80;                                            \
       LOCAL_SET_CARRY(src & 0x1);                                     \
       ADC(my_temp, 0, 0, 0);                                          \
-      STORE_ABS(my_tmp_addr, my_temp, 2);                             \
+      STORE_ABS(my_tmp_addr, my_temp, 3);                             \
       RMW_FLAG = 0;                                                   \
   } while (0)
 
@@ -1213,10 +1216,10 @@
   do {                                                \
       unsigned int tmp;                               \
                                                       \
-      CLK += 5;                                       \
+      CLK += 4;                                       \
       tmp = LOAD_ZERO_ADDR(addr);                     \
       LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));  \
-      CLK++;                                          \
+      CLK += 2;                                       \
       tmp += reg_y;                                   \
       INC_PC(2);                                      \
       STORE(tmp, reg_a & reg_x & ((tmp >> 8) + 1));   \
@@ -1257,11 +1260,11 @@
       CLK += (clk_inc1);                                              \
       tmp_addr = (addr);                                              \
       tmp_value = load_func(tmp_addr);                                \
-      RMW_FLAG = 1;                                                   \
       LOCAL_SET_CARRY(tmp_value & 0x80);                              \
       tmp_value <<= 1;                                                \
       reg_a |= tmp_value;                                             \
       LOCAL_SET_NZ(reg_a);                                            \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, tmp_value, clk_inc2);                      \
       RMW_FLAG = 0;                                                   \
@@ -1272,19 +1275,19 @@
       BYTE tmp_value;                                           \
       unsigned int tmp_addr;                                    \
                                                                 \
-      CLK += 5;                                                 \
+      CLK += 4;                                                 \
       tmp_addr = LOAD_ZERO_ADDR(addr);                          \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
       CLK++;                                                    \
       tmp_addr += reg_y;                                        \
       tmp_value = LOAD(tmp_addr);                               \
-      RMW_FLAG = 1;                                             \
       LOCAL_SET_CARRY(tmp_value & 0x80);                        \
       tmp_value <<= 1;                                          \
       reg_a |= tmp_value;                                       \
       LOCAL_SET_NZ(reg_a);                                      \
+      RMW_FLAG = 1;                                             \
       INC_PC(2);                                                \
-      STORE_ABS(tmp_addr, tmp_value, 2);                        \
+      STORE_ABS(tmp_addr, tmp_value, 3);                        \
       RMW_FLAG = 0;                                             \
   } while (0)
 
@@ -1311,8 +1314,7 @@
       BYTE tmp;                                                 \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      RMW_FLAG = 1;                                             \
-      CLK += 5;                                                 \
+      CLK += 4;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
       CLK++;                                                    \
       tmp_addr += reg_y;                                        \
@@ -1321,8 +1323,9 @@
       tmp >>= 1;                                                \
       reg_a ^= tmp;                                             \
       LOCAL_SET_NZ(reg_a);                                      \
+      RMW_FLAG = 1;                                             \
       INC_PC(2);                                                \
-      STORE_ABS(tmp_addr, tmp, 2);                              \
+      STORE_ABS(tmp_addr, tmp, 3);                              \
       RMW_FLAG = 0;                                             \
   } while (0)
 
@@ -1347,10 +1350,10 @@
   do {                                                    \
       unsigned int tmp;                                   \
                                                           \
-      CLK += 5;                                           \
+      CLK += 4;                                           \
       tmp = LOAD_ZERO_ADDR(addr);                         \
       LOAD_IND((tmp & 0xff00) | ((tmp + reg_y) & 0xff));  \
-      CLK++;                                              \
+      CLK += 2;                                           \
       INC_PC(2);                                          \
       STORE_IND(tmp + reg_y, reg_a);                      \
   } while (0)
@@ -1696,7 +1699,7 @@ trap_skipped:
             break;
 
           case 0x11:            /* ORA ($nn),Y */
-            ORA(LOAD_IND_Y(p1), 2, 3, 2);
+            ORA(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0x13:            /* SLO ($nn),Y */
@@ -1831,7 +1834,7 @@ trap_skipped:
             break;
 
           case 0x31:            /* AND ($nn),Y */
-            AND(LOAD_IND_Y(p1), 2, 3, 2);
+            AND(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0x33:            /* RLA ($nn),Y */
@@ -1939,7 +1942,7 @@ trap_skipped:
             break;
 
           case 0x51:            /* EOR ($nn),Y */
-            EOR(LOAD_IND_Y(p1), 2, 3, 2);
+            EOR(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0x53:            /* SRE ($nn),Y */
@@ -2047,7 +2050,7 @@ trap_skipped:
             break;
 
           case 0x71:            /* ADC ($nn),Y */
-            ADC(LOAD_IND_Y(p1), 2, 3, 2);
+            ADC(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0x73:            /* RRA ($nn),Y */
@@ -2279,11 +2282,11 @@ trap_skipped:
             break;
 
           case 0xb1:            /* LDA ($nn),Y */
-            LDA(LOAD_IND_Y_BANK(p1), 2, 3, 2);
+            LDA(LOAD_IND_Y_BANK(p1), 4, 1, 2);
             break;
 
           case 0xb3:            /* LAX ($nn),Y */
-            LAX(LOAD_IND_Y(p1), 2, 3, 2);
+            LAX(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0xb4:            /* LDY $nn,X */
@@ -2399,7 +2402,7 @@ trap_skipped:
             break;
 
           case 0xd1:            /* CMP ($nn),Y */
-            CMP(LOAD_IND_Y(p1), 2, 3, 2);
+            CMP(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0xd3:            /* DCP ($nn),Y */
@@ -2507,7 +2510,7 @@ trap_skipped:
             break;
 
           case 0xf1:            /* SBC ($nn),Y */
-            SBC(LOAD_IND_Y(p1), 2, 3, 2);
+            SBC(LOAD_IND_Y(p1), 4, 1, 2);
             break;
 
           case 0xf3:            /* ISB ($nn),Y */
