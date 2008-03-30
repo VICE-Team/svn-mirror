@@ -80,7 +80,7 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     drv->cpu = lib_calloc(1, sizeof(drivecpu_context_t));
     cpu = drv->cpu;
 
-    drv->cpud = lib_malloc(sizeof(drivecpud_context_t));
+    drv->cpud = lib_calloc(1, sizeof(drivecpud_context_t));
     drv->func = lib_malloc(sizeof(drivefunc_context_t));
 
     cpu->int_status = interrupt_cpu_status_new();
