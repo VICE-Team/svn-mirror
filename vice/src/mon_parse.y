@@ -211,10 +211,26 @@ checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { mon_switch_c
                         ;
 
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
-                   | CMD_SIDEFX end_cmd 	       { fprintf(mon_output, "sidefx %d\n",sidefx); }
+                   | CMD_SIDEFX end_cmd 	       { fprintf(mon_output, "I/O side effects are %s\n",sidefx ? "enabled" : "disabled"); }
                    | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
-                   | CMD_RADIX end_cmd 	       	       { fprintf(mon_output, "Default radix is %d\n",
-                                                         default_radix); }
+                   | CMD_RADIX end_cmd
+                     {
+                         const char *p;
+
+                         if (default_radix == e_hexadecimal)
+                             p = "Hexadecimal";
+                         else if (default_radix == e_decimal)
+                             p = "Decimal";
+                         else if (default_radix == e_octal)
+                             p = "Octal";
+                         else if (default_radix == e_binary)
+                             p = "Binary";
+                         else
+                             p = "Unknown";
+
+                         fprintf(mon_output, "Default radix is %s\n", p);
+                     }
+
                    | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to `%s'\n",
                                                          _mon_space_strings[(int) $2]); default_memspace = $2; }
                    | CMD_QUIT end_cmd 		       { exit_mon = 2; YYACCEPT; }
@@ -397,43 +413,46 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
-       fprintf(mon_output, "ERROR: ");
+       fprintf(mon_output, "ERROR -- ");
        switch(rc) {
            case ERR_BAD_CMD:
-               fprintf(mon_output, "Bad command:\n  %s\n", input);
+               fprintf(mon_output, "Bad command:\n");
                break;
            case ERR_RANGE_BAD_START:
-               fprintf(mon_output, "Bad first address in range:\n  %s\n", input);
+               fprintf(mon_output, "Bad first address in range:\n");
                break;
            case ERR_RANGE_BAD_END:
-               fprintf(mon_output, "Bad second address in range:\n  %s\n", input);
+               fprintf(mon_output, "Bad second address in range:\n");
                break;
            case ERR_EXPECT_BRKNUM:
-               fprintf(mon_output, "Checkpoint number expected:\n  %s\n", input);
+               fprintf(mon_output, "Checkpoint number expected:\n");
                break;
            case ERR_EXPECT_END_CMD:
-               fprintf(mon_output, "Newline or ';'  expected:\n  %s\n", input);
+               fprintf(mon_output, "Unexpected token:\n");
                break;
            case ERR_MISSING_CLOSE_PAREN:
-               fprintf(mon_output, "')' expected:\n  %s\n", input);
+               fprintf(mon_output, "')' expected:\n");
                break;
            case ERR_INCOMPLETE_COMPARE_OP:
-               fprintf(mon_output, "Compare operation missing an operand\n  %s\n", input);
+               fprintf(mon_output, "Compare operation missing an operand:\n");
                break;
            case ERR_EXPECT_FILENAME:
-               fprintf(mon_output, "Expecting a filename\n  %s\n", input);
+               fprintf(mon_output, "Expecting a filename:\n");
                break;
            case ERR_ADDR_TOO_BIG:
-               fprintf(mon_output, "Address too large\n  %s\n", input);
+               fprintf(mon_output, "Address too large:\n");
                break;
            case ERR_IMM_TOO_BIG:
-               fprintf(mon_output, "Immediate argument too large\n  %s\n", input);
+               fprintf(mon_output, "Immediate argument too large:\n");
                break;
            default:
-               fprintf(mon_output, "Illegal input:\n  %s\n", input);
+               fprintf(mon_output, "Illegal input:\n");
        }
-       for (i=0;i<last_len;i++)   fprintf(mon_output, " ");
+       fprintf(mon_output, "  %s\n", input);
+       for (i = 0; i < last_len; i++)
+           fprintf(mon_output, " ");
        fprintf(mon_output, "  ^\n");
+       asm_mode = 0;
        new_cmd = 1;
    }
    free_buffer();

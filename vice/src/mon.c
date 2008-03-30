@@ -4,6 +4,9 @@
  * Written by
  *  Daniel Sladic (sladic@eecg.toronto.edu)
  *
+ * Patches and improvements by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -127,8 +130,8 @@ static char *last_cmd = NULL;
 int exit_mon = 0;
 
 int sidefx;
-int default_radix;
-int default_memspace;
+RADIXTYPE default_radix;
+MEMSPACE default_memspace;
 static bool inside_monitor = FALSE;
 static unsigned instruction_count;
 static bool skip_jsrs;
@@ -170,6 +173,10 @@ char *playback_name;
 
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
+
+   { "~", 		"", 	CONVERT_OP, 		STATE_INITIAL,
+     "<number>",
+     "Display the specified number in decimal, hex, octal and binary."},
 
    { ">", 		"", 	CMD_ENTER_DATA, 	STATE_INITIAL,
      "[<address>] <data_list>",
@@ -426,10 +433,6 @@ struct mon_cmds mon_cmd_array[] = {
      "for that address.  If two addresses are specified, set a watchpoint\n"
      "for the memory locations between the two addresses." },
 
-   { "~", 		"", 	CONVERT_OP, 		STATE_INITIAL,
-     "<number>",
-     "Display the specified number in decimal, hex, octal and binary."},
-
    { "", 		"", 	-1, 			STATE_INITIAL }
 
 };
@@ -577,7 +580,7 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
       len = get_range_len(*start_addr, *end_addr);
    } else {
       if (!is_valid_addr(*start_addr))
-         *start_addr = dot_addr[default_memspace];
+         *start_addr = dot_addr[(int) default_memspace];
       else
          evaluate_default_addr(start_addr);
 
@@ -793,6 +796,7 @@ void mon_add_number_to_buffer(int number)
 
 void mon_add_string_to_buffer(char *str)
 {
+    printf("%s(`%s')\n", __FUNCTION__, str);
    strcpy(&(data_buf[data_buf_len]), str);
    data_buf_len += strlen(str);
    data_buf[data_buf_len] = '\0';
@@ -1337,7 +1341,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
   MEMSPACE mem;
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-  if (len < 0) {
+  if (len < 0 || len < data_buf_len) {
      fprintf(mon_output, "Invalid range.\n");
      return;
   }
