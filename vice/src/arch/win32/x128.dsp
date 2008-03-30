@@ -201,6 +201,14 @@ SOURCE=..\..\parallel.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pruser.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\prdevice.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\resc128.rc
 # End Source File
 # Begin Source File

@@ -100,5 +100,9 @@ SOURCE=..\..\vdrive\vdrive.c
 
 SOURCE=..\..\vdrive\vdrive-command.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\vdrive\vdrive-snapshot.c
+# End Source File
 # End Target
 # End Project

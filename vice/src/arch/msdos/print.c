@@ -47,7 +47,7 @@ static int set_printer_file(resource_value_t v)
 {
   const char *name = (const char*)v;
 
-  if ((PrinterFile == NULL) && (name != NULL) && (strcmp(name, PrinterFile) == 0))
+  if ((PrinterFile != NULL) && (name != NULL) && (strcmp(name, PrinterFile) == 0))
     return 0;
 
   string_set(&PrinterFile, name);
@@ -115,6 +115,11 @@ int print_putc(int fi, BYTE b)
 {
   if (fd[fi] == NULL) return -1;
   fputc(b, fd[fi]);
+
+  /* DOS/Win-compatible lineend */
+  if (b==13)
+      fputc(10, fd[fi]);
+
   return 0;
 }
 

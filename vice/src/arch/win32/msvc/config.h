@@ -8,7 +8,8 @@
 #define X_DISPLAY_DEPTH         0
 #define HAVE_RESID              1
 #define HAS_JOYSTICK            1
-#define HAVE_MOUSE		1
+#define HAVE_MOUSE              1
+#define HAVE_PRINTER            1
 
 #define SIZEOF_UNSIGNED_INT     4
 #define SIZEOF_UNSIGNED_LONG    4
@@ -24,7 +25,7 @@
 #define HAVE_IO_H               1
 #define HAVE_SYS_TYPES_H        1
 #define HAVE_SYS_STAT_H         1
-#define HAVE_SIGNAL_H		1
+#define HAVE_SIGNAL_H           1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
 
