@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="xvic" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** NICHT BEARBEITEN **
+# ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
 CFG=xvic - Win32 Debug
-!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
-!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
 !MESSAGE 
 !MESSAGE NMAKE /f "xvic.mak".
 !MESSAGE 
-!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
-!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
 !MESSAGE NMAKE /f "xvic.mak" CFG="xvic - Win32 Debug"
 !MESSAGE 
-!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "xvic - Win32 Release" (basierend auf  "Win32 (x86) Application")
-!MESSAGE "xvic - Win32 Debug" (basierend auf  "Win32 (x86) Application")
+!MESSAGE "xvic - Win32 Release" (based on "Win32 (x86) Application")
+!MESSAGE "xvic - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -97,19 +97,38 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\res.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resdrivec64vic20.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resrs232user.rc
-# End Source File
-# Begin Source File
-
 SOURCE=.\resvic20.rc
+
+!IF  "$(CFG)" == "xvic - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivec64vic20.rc"	"resrs232user.rc"	
+# Begin Custom Build
+InputPath=.\resvic20.rc
+
+"resvic20cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resvic20.rc + res.rc + resdrivec64vic20.rc + resrs232user.rc resvic20cat.rc /b
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "xvic - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESVI="resvic20.rc"	"res.rc"	"resdrivec64vic20.rc"	"resrs232user.rc"	
+# Begin Custom Build
+InputPath=.\resvic20.rc
+
+"resvic20cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resvic20.rc + res.rc + resdrivec64vic20.rc + resrs232user.rc resvic20cat.rc /b
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\resvic20cat.rc
 # End Source File
 # End Target
 # End Project

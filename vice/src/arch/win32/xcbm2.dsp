@@ -7,19 +7,19 @@
 CFG=xcbm2 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "xcbm2.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "xcbm2.mak" CFG="xcbm2 - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "xcbm2 - Win32 Release" (based on "Win32 (x86) Application")
 !MESSAGE "xcbm2 - Win32 Debug" (based on "Win32 (x86) Application")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -81,7 +81,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 dxguid.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib wsock32.lib version.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -93,27 +93,38 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\res.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resacia.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resdrivepetcbm2.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\ressid.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resvicii.rc
-# End Source File
-# Begin Source File
-
 SOURCE=.\rescbm2.rc
+
+!IF  "$(CFG)" == "xcbm2 - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESCB="rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
+# Begin Custom Build
+InputPath=.\rescbm2.rc
+
+"rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b rescbm2.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressid.rc + resvicii.rc rescbm2cat.rc /b
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "xcbm2 - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESCB="rescbm2.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressid.rc"	"resvicii.rc"	
+# Begin Custom Build
+InputPath=.\rescbm2.rc
+
+"rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b rescbm2.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressid.rc + resvicii.rc rescbm2cat.rc /b
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\rescbm2cat.rc
 # End Source File
 # End Target
 # End Project

@@ -93,15 +93,38 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\res.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resacia.rc
-# End Source File
-# Begin Source File
-
 SOURCE=.\resplus4.rc
+
+!IF  "$(CFG)" == "xplus4 - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESPL="resplus4.rc"	"res.rc"	"resacia.rc"	
+# Begin Custom Build
+InputPath=.\resplus4.rc
+
+"resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resplus4.rc + res.rc + resacia.rc resplus4cat.rc /b
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "xplus4 - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESPL="resplus4.rc"	"res.rc"	"resacia.rc"	
+# Begin Custom Build
+InputPath=.\resplus4.rc
+
+"resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resplus4.rc + res.rc + resacia.rc resplus4cat.rc /b
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\resplus4cat.rc
 # End Source File
 # End Target
 # End Project

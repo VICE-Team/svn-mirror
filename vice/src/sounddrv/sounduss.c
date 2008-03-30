@@ -24,6 +24,13 @@
  *
  */
 
+/* on FreeBSD SDL sound is to be used, even though
+   the machine/soundcard.h file is present it is not
+   compatible with this implementation of a uss
+   sound driver */
+
+#ifndef __FreeBSD__
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -282,3 +289,4 @@ int sound_init_uss_device(void)
     return sound_register_device(&uss_device);
 }
 
+#endif

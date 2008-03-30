@@ -33,7 +33,10 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#ifdef HAVE_MEMORY_H
 #include <memory.h>
+#endif
 
 #include "log.h"
 #include "mem.h"

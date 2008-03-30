@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="x64" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** NICHT BEARBEITEN **
+# ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
 CFG=x64 - Win32 Debug
-!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
-!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE This is not a valid makefile. To build this project using NMAKE,
+!MESSAGE use the Export Makefile command and run
 !MESSAGE 
 !MESSAGE NMAKE /f "x64.mak".
 !MESSAGE 
-!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
-!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
 !MESSAGE NMAKE /f "x64.mak" CFG="x64 - Win32 Debug"
 !MESSAGE 
-!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "x64 - Win32 Release" (basierend auf  "Win32 (x86) Application")
-!MESSAGE "x64 - Win32 Debug" (basierend auf  "Win32 (x86) Application")
+!MESSAGE "x64 - Win32 Release" (based on "Win32 (x86) Application")
+!MESSAGE "x64 - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -97,51 +97,38 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\res.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resacia.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resdrivec64vic20.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\reside64.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resreu.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resgeoram.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resramcart.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resrs232user.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\ressid.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resvicii.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\restfe.rc
-# End Source File
-# Begin Source File
-
 SOURCE=.\resc64.rc
+
+!IF  "$(CFG)" == "x64 - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrc232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+# Begin Custom Build
+InputPath=.\resc64.rc
+
+"resc64cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "x64 - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+# Begin Custom Build
+InputPath=.\resc64.rc
+
+"resc64cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\resc64cat.rc
 # End Source File
 # End Target
 # End Project

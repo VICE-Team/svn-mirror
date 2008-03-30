@@ -7,19 +7,19 @@
 CFG=x128 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "x128.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "x128.mak" CFG="x128 - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "x128 - Win32 Release" (based on "Win32 (x86) Application")
 !MESSAGE "x128 - Win32 Debug" (based on "Win32 (x86) Application")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -81,7 +81,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 dxguid.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib shell32.lib comctl32.lib winmm.lib ddraw.lib dsound.lib dinput.lib wsock32.lib version.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -93,46 +93,38 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\res.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resacia.rc
-# Begin Source File
-
-SOURCE=.\reside64.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resreu.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resgeoram.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resramcart.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resrs232user.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\ressid.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\resvicii.rc
-# End Source File
-# Begin Source File
-
-SOURCE=.\restfe.rc
-# End Source File
-# Begin Source File
-
 SOURCE=.\resc128.rc
+
+!IF  "$(CFG)" == "x128 - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+# Begin Custom Build
+InputPath=.\resc128.rc
+
+"resc128cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc128cat.rc /b
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "x128 - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+# Begin Custom Build
+InputPath=.\resc128.rc
+
+"resc128cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc128cat.rc /b
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\resc128cat.rc
 # End Source File
 # End Target
 # End Project

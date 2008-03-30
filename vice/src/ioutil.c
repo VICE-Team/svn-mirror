@@ -133,11 +133,11 @@ int ioutil_isatty(int desc)
 }
 
 #ifndef PATH_MAX
-#ifdef MAX_PATH
-#define PATH_MAX MAX_PATH
-#else
-#define PATH_MAX 1024
-#endif
+#  ifdef MAX_PATH
+#    define PATH_MAX MAX_PATH
+#  else
+#    define PATH_MAX 1024
+#  endif
 #endif
 
 int ioutil_maxpathlen(void)

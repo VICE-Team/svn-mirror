@@ -33,6 +33,14 @@
 #include <limits.h>
 #endif
 
+#ifndef PATH_MAX
+#  ifdef MAX_PATH
+#    define PATH_MAX MAX_PATH
+#  else
+#    define PATH_MAX 1024
+#  endif
+#endif
+
 #include "archdep.h"
 #include "cmdline.h"
 #include "fsdevice.h"
