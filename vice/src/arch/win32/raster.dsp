@@ -86,6 +86,10 @@ SOURCE="..\..\raster\raster-cache.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\raster\raster-canvas.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\raster\raster-changes.c"
 # End Source File
 # Begin Source File

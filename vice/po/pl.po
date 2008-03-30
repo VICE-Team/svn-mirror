@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-05 18:49+0200\n"
+"POT-Creation-Date: 2002-05-08 23:44+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1788,7 +1788,7 @@ msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1256
-#: src/arch/unix/x11/xaw/ui.c:1036
+#: src/arch/unix/x11/xaw/ui.c:1032
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
@@ -2337,22 +2337,22 @@ msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Ustaw ¶cie¿kê czcionki: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:634 src/arch/unix/x11/xaw/ui.c:473
+#: src/arch/unix/x11/gnome/ui.c:634 src/arch/unix/x11/xaw/ui.c:469
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Ten wy¶wietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
 
-#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:476
+#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:472
 msgid "Please select a bit depth supported by your display."
 msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan± przez twój ekran."
 
 #: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/gnome/ui.c:658
-#: src/arch/unix/x11/xaw/ui.c:479 src/arch/unix/x11/xaw/ui.c:496
+#: src/arch/unix/x11/xaw/ui.c:475 src/arch/unix/x11/xaw/ui.c:492
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 
-#: src/arch/unix/x11/gnome/ui.c:666 src/arch/unix/x11/xaw/ui.c:504
+#: src/arch/unix/x11/gnome/ui.c:666 src/arch/unix/x11/xaw/ui.c:500
 msgid "Cannot autodetect a proper visual."
 msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz±dzenia wizualnego"
 
@@ -2380,7 +2380,7 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/ui.c:951 src/arch/unix/x11/xaw/ui.c:591
+#: src/arch/unix/x11/gnome/ui.c:951 src/arch/unix/x11/xaw/ui.c:587
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
@@ -2392,24 +2392,24 @@ msgstr "Komendy"
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1020
+#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1016
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1242 src/arch/unix/x11/xaw/ui.c:1026
+#: src/arch/unix/x11/gnome/ui.c:1242 src/arch/unix/x11/xaw/ui.c:1022
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1033
+#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1029
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/ui.c:1299 src/arch/unix/x11/xaw/ui.c:1070
+#: src/arch/unix/x11/gnome/ui.c:1299 src/arch/unix/x11/xaw/ui.c:1066
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
 #: src/arch/unix/x11/gnome/ui.c:1319 src/arch/unix/x11/gnome/ui.c:1322
-#: src/arch/unix/x11/xaw/ui.c:1091 src/arch/unix/x11/xaw/ui.c:1097
+#: src/arch/unix/x11/xaw/ui.c:1087 src/arch/unix/x11/xaw/ui.c:1093
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
@@ -2420,7 +2420,7 @@ msgstr "(przyspieszony)"
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1650 src/arch/unix/x11/xaw/ui.c:1307
+#: src/arch/unix/x11/gnome/ui.c:1650 src/arch/unix/x11/xaw/ui.c:1303
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
@@ -2441,7 +2441,7 @@ msgstr "Zimny reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1873 src/arch/unix/x11/xaw/ui.c:1547
+#: src/arch/unix/x11/gnome/ui.c:1873 src/arch/unix/x11/xaw/ui.c:1543
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
@@ -2860,16 +2860,16 @@ msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 msgid "VICE Information"
 msgstr "Informacje"
 
-#: src/arch/unix/x11/xaw/ui.c:1180
+#: src/arch/unix/x11/xaw/ui.c:1176
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/ui.c:1435
+#: src/arch/unix/x11/xaw/ui.c:1431
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/ui.c:1615
+#: src/arch/unix/x11/xaw/ui.c:1611
 msgid "Unknown image type."
 msgstr "Nieznany typ obrazu."
 

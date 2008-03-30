@@ -130,12 +130,12 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/vdrive
 
 
-noinst_LIBRARIES = libvideo.a
+noinst_LIBRARIES = libimagecontents.a
 
-libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
+libimagecontents_a_SOURCES =  	diskcontents.c 	imagecontents.c 	tapecontents.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -149,9 +149,9 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libvideo_a_LIBADD = 
-libvideo_a_OBJECTS =  render1x1.o render1x1pal.o render1x2.o render2x2.o \
-render2x2pal.o video-color.o video-render.o video-resources.o
+libimagecontents_a_LIBADD = 
+libimagecontents_a_OBJECTS =  diskcontents.o imagecontents.o \
+tapecontents.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -163,14 +163,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libvideo_a_SOURCES)
-OBJECTS = $(libvideo_a_OBJECTS)
+SOURCES = $(libimagecontents_a_SOURCES)
+OBJECTS = $(libimagecontents_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/video/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/imagecontents/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -205,10 +205,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libvideo.a: $(libvideo_a_OBJECTS) $(libvideo_a_DEPENDENCIES)
-	-rm -f libvideo.a
-	$(AR) cru libvideo.a $(libvideo_a_OBJECTS) $(libvideo_a_LIBADD)
-	$(RANLIB) libvideo.a
+libimagecontents.a: $(libimagecontents_a_OBJECTS) $(libimagecontents_a_DEPENDENCIES)
+	-rm -f libimagecontents.a
+	$(AR) cru libimagecontents.a $(libimagecontents_a_OBJECTS) $(libimagecontents_a_LIBADD)
+	$(RANLIB) libimagecontents.a
 
 tags: TAGS
 
@@ -241,7 +241,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/video
+subdir = src/imagecontents
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -254,36 +254,17 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-render1x1.o: render1x1.c ../../src/vice.h ../../src/config.h render1x1.h \
-	../../src/arch/unix/types.h
-render1x1pal.o: render1x1pal.c ../../src/vice.h ../../src/config.h \
-	render1x1.h ../../src/arch/unix/types.h
-render1x2.o: render1x2.c ../../src/vice.h ../../src/config.h render1x2.h \
-	../../src/arch/unix/types.h
-render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
-	../../src/arch/unix/types.h
-render2x2pal.o: render2x2pal.c ../../src/vice.h ../../src/config.h \
-	render2x2.h ../../src/arch/unix/types.h
-video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
-	../../src/machine.h ../../src/palette.h \
-	../../src/arch/unix/types.h video-color.h video-resources.h \
-	../../src/video.h
-video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-canvas.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	render1x1.h render1x1pal.h render1x2.h render2x2.h \
-	render2x2pal.h video-render.h video-resources.h \
-	../../src/video.h
-video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h video-resources.h video-color.h \
-	../../src/video.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/fullscreen.h \
-	../../src/arch/unix/x11/fullscreen-common.h
+diskcontents.o: diskcontents.c ../../src/vice.h ../../src/config.h \
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/imagecontents.h ../../src/utils.h \
+	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive-dir.h \
+	../../src/vdrive/vdrive.h
+imagecontents.o: imagecontents.c ../../src/vice.h ../../src/config.h \
+	../../src/charset.h ../../src/arch/unix/types.h \
+	../../src/imagecontents.h ../../src/utils.h
+tapecontents.o: tapecontents.c ../../src/vice.h ../../src/config.h \
+	../../src/imagecontents.h ../../src/arch/unix/types.h \
+	../../src/t64.h ../../src/utils.h
 
 info-am:
 info: info-am

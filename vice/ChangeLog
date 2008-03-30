@@ -1,3 +1,14 @@
+2002-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.12.
+
+	* configure.in: Added `imagecontents' library.
+
+2002-05-06  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Unix fullscreen: added common fullscreen
+	module `fullscreen-common.o'.
+
 2002-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.11.

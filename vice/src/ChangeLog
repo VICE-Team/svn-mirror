@@ -1,3 +1,68 @@
+2002-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.9.12.
+
+	* imagecontents/Makefile.am, imagecontents/diskcontents.c,
+	imagecontents/imagecontents.c, imagecontents/tapecontents.c,
+	tape/tapeimage.c, tape/tapeimage.h: New files.
+
+	* imagecontents.c: Moved to `imagecontents' directory.
+
+	* tape/tape.c: Moved tape image specific code to
+	`tapeimage.c'.
+
+	* Makefile.am, tape/Makefile.am: Updated.
+
+	* autostart.c, initcmdline.c, tape/tapeimage.c, tape.h,
+	arch/unix/uicommands.c, arch/win32/ui.c, arch/riscos/ui.c,
+	arch/msdos/menudefs.c, arch/os2/dialogs/dlg-fileio.c:
+	Renamed `tape_attach_image()' to `tape_image_attach()'.
+
+	* tape/tape.c, tape/tapeimage.c, tape.h, c64/c64.c,
+	c128/c128.c, vic20/vic20.c, pet/pet.c, plus4/plus4.c,
+	cbm2/c610.c, arch/unix/uicommands.c, arch/win32/ui.c,
+	arch/msdos/menudefs.c, arch/riscos/ui.c,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/dlg-datasette.c:
+	Renamed `tape_detach_image()' to `tape_image_detach()'.
+
+2002-05-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/raster.dsp: Added new file.
+
+2002-05-06  pottendo  <pottendo@utanet.at>
+
+	* main.c (MAIN_PROGRAM): Call fullscreen specific initialization
+	just for dga2.
+
+	* fullscreen.h: Include `x11/fullscreen-common.h'.
+
+	* arch/unix/x11/xaw/ui.c: all reworked all dga2 specific cases to
+	check `USE_XF86_DGA2_EXTENSIONS' instead of
+	`USE_XF86_EXTENSIONS'. 
+	* arch/unix/x11/gnome/ui.c: ditto.
+
+	* arch/unix/x11/vidmode.c (vidmode_available): New function.
+
+	* arch/unix/x11/fullscreen-common.c: New file. Implementation of
+	common stuff for Unix fullscreen.
+	* arch/unix/x11/fullscreen-common.h: New file.
+
+	* arch/unix/x11/dga2.c (dga2_available): New function. 
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	`fullscreen-common.[ch]'. 
+
+	* arch/unix/main_exit.c (main_exit): Call `fullscreen_mode_exit()'
+	just for DGA2,
+
+	* arch/unix/uicommands.c:
+	callback activate_monitor: ditto.
+	callback run_c1541: ditto.
+
+2002-05-06  Matti Hamalainen  <mhamalai@ratol.fi>
+
+	* petcat.c: Added FC3 support.
+
 2002-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.11.
