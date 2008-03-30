@@ -1,0 +1,136 @@
+/* -*- C -*-
+ *
+ * viad2.def - Definitions for the VIA2 emulation in the 1541 disk drive.
+ *
+ * Written by
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+
+#define mycpu true1541
+
+#define myclk true1541_clk
+
+#define myrmwf true1541_rmw_flag
+
+#define myvia viaD2
+
+#define MYVIA VIAD2
+
+INCLUDES()
+{
+	#include "true1541.h"
+        #include "viad.h"
+}
+
+#define	GLOBALS
+
+#define	via_set_int		true1541_set_irq
+#define	VIAD2_INT		IK_IRQ
+
+/* #define VIAD2_TIMER_DEBUG */
+
+PRE_VIA_FUNCS()
+{
+}
+
+STORE_PRA()
+{
+	viaD2[addr] = byte;
+        true1541_rotate_disk(0);
+	true1541_write_gcr(viaD2[VIA_PRA] | ~viaD2[VIA_DDRA]);
+}
+
+STORE_PRB()
+{
+	{
+	  BYTE oldval = viaD2[VIA_PRB] | ~viaD2[VIA_DDRB];
+
+	  viaD2[addr] = byte;
+	  byte = viaD2[VIA_PRB] | ~viaD2[VIA_DDRB];	/* newval */
+
+	  true1541_led_status = byte & 8;
+
+	  if (((oldval ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
+	  {
+	    if ((oldval & 0x3) == ((byte + 1) & 0x3))
+              true1541_move_head(-1);
+            else if ((oldval & 0x3) == ((byte - 1) & 0x3))
+              true1541_move_head(+1);
+	  }
+	  if ((oldval ^ byte) & 0x60)     /* Zone bits */
+	      true1541_update_zone_bits((byte >> 5) & 0x3);
+
+	  if ((oldval ^ byte) & 0x04)     /* Motor on/off */
+	      true1541_motor_control(byte & 0x04);
+	}
+}
+
+STORE_PCR()
+{
+        if(byte != viaD2[VIA_PCR]) {
+          register BYTE tmp = byte;
+          /* first set bit 1 and 5 to the real output values */
+          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+          /* insert_your_favourite_true1541_function_here(tmp);
+	     bit 5 is the write output to the analog circuitry:
+	     0 = writing, 0x20 = reading */
+	     true1541_update_viad2_pcr(tmp);
+          if ((byte&0x20) != (viaD2[addr]&0x20)) {
+             true1541_rotate_disk(0);
+             true1541_rotate_disk(1);
+          }
+          byte = tmp;
+        }
+}
+
+#define	STORE_ACR
+
+#define	STORE_SR
+
+#define	STORE_T2L
+
+#define	RESET_VIA
+
+READ_PRA()
+{
+       return ((true1541_read_disk_byte() & ~viaD2[VIA_DDRA])
+	       | (viaD2[VIA_PRA] & viaD2[VIA_DDRA]));
+}
+
+READ_PRB()
+{
+	true1541_rotate_disk(0);
+
+	/* I hope I got the polarities right */
+	byte = (true1541_sync_found() ? 0 : 0x80)
+		| (true1541_write_protect_sense() ? 0 : 0x10);
+	byte = (byte & ~viaD2[VIA_DDRB])
+			| (viaD2[VIA_PRB] & viaD2[VIA_DDRB]);
+}
+
+#define POST_VIA_FUNCS
+
+

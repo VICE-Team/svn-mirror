@@ -1,4 +1,3 @@
-
 /*
  * coproc.c - co-process fork
  *
@@ -60,16 +59,23 @@
 
 #define	SHELL	"/bin/sh"
 
-static struct sigaction sigignore = {
-	SIG_IGN, 0, SA_NOCLDSTOP | SA_RESTART, NULL
-};
+/* HP-UX 9 fix */
+#ifndef SA_RESTART
+#define SA_RESTART      0
+#endif
+
+static struct sigaction ignore;
 
 int fork_coproc(int *fd_wr, int *fd_rd, char *cmd) {
 	int fd1[2], fd2[2];
 	pid_t pid;
 
-	sigaction(SIGCHLD, &sigignore, NULL);
-	sigaction(SIGPIPE, &sigignore, NULL);
+	ignore.sa_handler = SIG_IGN;
+	sigemptyset(&ignore.sa_mask);
+	ignore.sa_flags = SA_NOCLDSTOP | SA_RESTART;
+
+	sigaction(SIGCHLD, &ignore, NULL);
+	sigaction(SIGPIPE, &ignore, NULL);
 
 	if(pipe(fd1) < 0) {
 	  fprintf(stderr,"Coproc: Couldn't open pipe!\n");

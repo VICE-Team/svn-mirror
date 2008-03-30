@@ -90,6 +90,8 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
+SUFFIXES = .def
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -104,7 +106,9 @@ libtrue1541_a_SOURCES = \
 	true1541.h \
 	viad.h \
 	viad1.c \
-	viad2.c
+	viad1.def \
+	viad2.c \
+	viad2.def
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -135,7 +139,7 @@ OBJECTS = $(libtrue1541_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/true1541/Makefile
 
