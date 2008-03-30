@@ -59,6 +59,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/drive.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
+        include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"
         include "../incl/kbd.icc"

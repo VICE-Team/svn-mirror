@@ -8,6 +8,7 @@ source type(c)
     "c128iec.c",
     "c128io.c",
     "c128mem.c",
+    "c128meminit.c",
     "c128memlimit.c",
     "c128mmu.c",
     "c128rom.c",

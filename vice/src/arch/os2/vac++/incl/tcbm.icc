@@ -5,4 +5,4 @@ source type(c)
     "tcbm/tcbm-resources.c",
     "tcbm/tcbm.c",
     "tcbm/tcbmrom.c",
-    "tcbm/tia1551.c"
+    "tcbm/tpid.c"

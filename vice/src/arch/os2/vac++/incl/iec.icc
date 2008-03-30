@@ -1,0 +1,5 @@
+source type(c)
+    "iec/iec.c",
+    "iec/memiec.c",
+    "iec/cia1571d.c",
+    "iec/cia1581d.c"

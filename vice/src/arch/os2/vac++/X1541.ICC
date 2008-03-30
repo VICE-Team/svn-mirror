@@ -27,10 +27,12 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
       source type (lib) "..\\..\\..\\..\\data\\vice2.lib"
 
       source type(c)    "c1541.c",
+                        "cbmimage.c",
                         "charset.c",
                         "gcr.c",
                         "info.c",
                         "ioutil.c",
+                        "lib.c",
                         "log.c",
                         "p00.c",
                         "resources.c",

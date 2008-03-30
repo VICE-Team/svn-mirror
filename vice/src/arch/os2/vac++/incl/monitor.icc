@@ -1,6 +1,6 @@
 source type(c)
     "asm6502.c",
-    "mon.c",
+    "monitor.c",
     "mon_assemble6502.c",
     "mon_breakpoint.c",
     "mon_command.c",

@@ -19,9 +19,11 @@ source type(c)
     "ted-color.c",
     "ted-draw.c",
     "ted-fetch.c",
+    "ted-irq.c",
     "ted-mem.c",
     "ted-resources.c",
     "ted-snapshot.c",
     "ted-sound.c",
     "ted-timer.c",
+    "ted-timing.c",
     "ted.c"

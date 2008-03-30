@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "types.h"
+
 
 /* #define LIB_DEBUG */
 
@@ -79,7 +81,7 @@ static void lib_debug_alloc(void *ptr, size_t size, int level)
     if (index == LIB_DEBUG_SIZE) {
         printf("lib_debug_alloc(): Out of debug address slots.");
         return;
-    }    
+    }
 
 #ifdef __GNUC__
     switch (level) {

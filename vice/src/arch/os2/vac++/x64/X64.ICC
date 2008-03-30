@@ -1,6 +1,6 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
-    link(debug, "yes"),      gen(debug, "yes"),
+    link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
     opt(autoinline, "yes"), opt(inline, "yes"),
     info(cnd, "no"),        info(ppc, "no"),
@@ -58,6 +58,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/drive.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
+        include "../incl/iec.icc"
+        include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"
         include "../incl/kbd.icc"

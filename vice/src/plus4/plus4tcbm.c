@@ -50,7 +50,7 @@ typedef struct tiatcbm_s {
 static tiatcbm_t tiatcbm[2];
 
 BYTE plus4tcbm_outputa[2], plus4tcbm_outputb[2], plus4tcbm_outputc[2];
-static BYTE tpid_outputa[2], tpid_outputb[2], tpid_outputc[2];
+BYTE tpid_outputa[2], tpid_outputb[2], tpid_outputc[2];
 
 /*-----------------------------------------------------------------------*/
 

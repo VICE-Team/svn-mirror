@@ -118,7 +118,8 @@
 #define HAVE_ZLIB             1
 #define NAME_NEED_QM          1
 
-#define HAVE_OPENCBM          0
+//#define HAVE_OPENCBM          0
+//#define HAVE_RAWDRIVE         0
 
 /* This seems to be needed to prevent the emulator from FPEs */
 #define FIXPOINT_ARITHMETIC   1
