@@ -43,7 +43,7 @@
 
 
 
-#define STATUS_LINE_SIZE        64
+#define STATUS_LINE_SIZE	64
 
 
 /* Colour translation table, only used in 16/32bpp modes */
@@ -190,19 +190,25 @@ int video_init(void)
 }*/
 
 
-int video_frame_buffer_alloc(video_frame_buffer_t *i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
+  video_frame_buffer_t *fb;
   PIXEL *data;
+
+  if ((fb = (video_frame_buffer_t *)malloc(sizeof(video_frame_buffer_t))) == NULL)
+    return -1;
 
   width = (width + 3) & ~3;
 
   if ((data = (PIXEL*)malloc(width * height * sizeof(PIXEL))) == NULL)
     return -1;
 
-  i->tmpframebuffer = data;
-  i->tmpframebufferlinesize = width;
-  i->width = width; i->height = height;
+  fb->tmpframebuffer = data;
+  fb->tmpframebufferlinesize = width;
+  fb->width = width; fb->height = height;
+
+  *i = fb;
 
   return 0;
 }
@@ -219,6 +225,8 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
     clist = clist->next;
   }
   free(i->tmpframebuffer);
+
+  free(i);
 }
 
 
@@ -402,7 +410,7 @@ void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 }
 
 
-void canvas_refresh(canvas_t canvas, video_frame_buffer_t frame_buffer,
+void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
 			unsigned int xs, unsigned int ys,
 			unsigned int xi, unsigned int yi,
 			unsigned int w, unsigned int h)
@@ -413,12 +421,12 @@ void canvas_refresh(canvas_t canvas, video_frame_buffer_t frame_buffer,
   if (ModeChanging != 0) return;
 
   FrameBufferUpdate = 0;
-  ge.dimx = frame_buffer.width; ge.dimy = frame_buffer.height;
+  ge.dimx = frame_buffer->width; ge.dimy = frame_buffer->height;
   canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
 
-  if ((canvas->fb.tmpframebuffer == NULL) || (canvas->fb.tmpframebuffer != frame_buffer.tmpframebuffer))
+  if ((canvas->fb.tmpframebuffer == NULL) || (canvas->fb.tmpframebuffer != frame_buffer->tmpframebuffer))
   {
-    memcpy(&(canvas->fb), &frame_buffer, sizeof(video_frame_buffer_t));
+    memcpy(&(canvas->fb), frame_buffer, sizeof(video_frame_buffer_t));
   }
 
   if (FullScreenMode == 0)
@@ -444,11 +452,11 @@ void canvas_refresh(canvas_t canvas, video_frame_buffer_t frame_buffer,
 
       if (canvas->scale == 1)
       {
-        PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, canvas->colour_table);
+        PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer->tmpframebuffer, canvas->colour_table);
       }
       else
       {
-        PlotZoom2(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, canvas->colour_table);
+        PlotZoom2(&ge, block + RedrawB_CMinX, frame_buffer->tmpframebuffer, canvas->colour_table);
       }
       more = Wimp_GetRectangle(block);
     }
@@ -480,7 +488,7 @@ void canvas_refresh(canvas_t canvas, video_frame_buffer_t frame_buffer,
     if (clip[1] < clipYlow) clip[1] = clipYlow;
     if (clip[3] > FullScrDesc.resy) clip[3] = FullScrDesc.resy;
 
-    PlotZoom1(&ge, clip, frame_buffer.tmpframebuffer, canvas->colour_table);
+    PlotZoom1(&ge, clip, frame_buffer->tmpframebuffer, canvas->colour_table);
 
   }
 }
@@ -652,7 +660,7 @@ int video_full_screen_refresh(void)
   ColourTrans_SetGCOL(0, 0x100, 0);
   OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
 
-  canvas_refresh(canvas, canvas->fb, -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
+  canvas_refresh(canvas, &(canvas->fb), -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
 
   video_full_screen_init_status();
 

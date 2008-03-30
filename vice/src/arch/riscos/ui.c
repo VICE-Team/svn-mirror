@@ -237,6 +237,7 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Conf_DataPlay	10
 #define Icon_Conf_DataForward	11
 #define Icon_Conf_DataRecord	12
+#define Icon_Conf_DataDoReset	13
 
 /* Device config */
 #define Icon_Conf_ACIAIrq	2
@@ -280,6 +281,8 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Conf_SoundBuff	18
 #define Icon_Conf_SoundBuffT	19
 #define Icon_Conf_UseResid	20
+#define Icon_Conf_SpeedAdjust	21
+#define Icon_Conf_SpeedAdjustT	22
 
 /* System config */
 #define Icon_Conf_CharGen	3
@@ -1223,14 +1226,15 @@ static struct MenuSampleRate {
   }
 };
 
-#define Menu_SoundDev_Items	6
+#define Menu_SoundDev_Items	7
 #define Menu_SoundDev_Width	200
 #define Menu_SoundDev_VIDC	0
-#define Menu_SoundDev_Dummy	1
-#define Menu_SoundDev_FS	2
-#define Menu_SoundDev_WAV	3
-#define Menu_SoundDev_Speed	4
-#define Menu_SoundDev_Dump	5
+#define Menu_SoundDev_VIDCS	1
+#define Menu_SoundDev_Dummy	2
+#define Menu_SoundDev_FS	3
+#define Menu_SoundDev_WAV	4
+#define Menu_SoundDev_Speed	5
+#define Menu_SoundDev_Dump	6
 static struct MenuSoundDevice {
   RO_MenuHead head;
   RO_MenuItem item[Menu_SoundDev_Items];
@@ -1284,6 +1288,24 @@ static struct MenuSoundBuffer {
     MENU_ITEM_LAST("\\MenSBf50")
   }
 };
+
+#define Menu_SpeedAdjust_Items	3
+#define Menu_SpeedAdjust_Width	200
+#define Menu_SpeedAdjust_Flex	0
+#define Menu_SpeedAdjust_Adjust	1
+#define Menu_SpeedAdjust_Exact	2
+static struct MenuSpeedAdjust {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_SpeedAdjust_Items];
+} MenuSpeedAdjust = {
+  MENU_HEADER("\\MenSAdjTit", Menu_SpeedAdjust_Width),
+  {
+    MENU_ITEM("\\MenSAdjFlx"),
+    MENU_ITEM("\\MenSAdjAdj"),
+    MENU_ITEM_LAST("\\MenSAdjXct")
+  }
+};
+
 
 #define Menu_TrueExtend_Items	3
 #define Menu_TrueExtend_Width	200
@@ -1536,7 +1558,7 @@ static struct MenuSerialBaud {
   }
 };
 
-#define Menu_Cartridge_Items	17
+#define Menu_Cartridge_Items	23
 #define Menu_Cartridge_Width	200
 static struct MenuCartridgeType {
   RO_MenuHead head;
@@ -1893,6 +1915,7 @@ static struct MenuSysKeyboard {
 #define CONF_MENU_ROMSET	38
 #define CONF_MENU_ROMACT	39
 #define CONF_MENU_SYSKBD	40
+#define CONF_MENU_SPDADJUST	41
 
 /* Config Menus */
 static menu_icon ConfigMenus[] = {
@@ -1978,6 +2001,8 @@ static menu_icon ConfigMenus[] = {
     {CONF_WIN_SYSTEM, Icon_Conf_ROMAction}},		/* 39 */
   {(RO_MenuHead*)&MenuSysKeyboard, NULL,
     {CONF_WIN_SYSTEM, Icon_Conf_Keyboard}},		/* 40 */
+  {(RO_MenuHead*)&MenuSpeedAdjust, Rsrc_SpdAdjust,
+    {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust}},		/* 41 */
   {NULL, NULL, {0, 0}}
 };
 

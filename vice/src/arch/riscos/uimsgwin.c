@@ -41,9 +41,9 @@
 
 
 
-#define MSGWIN_FLAG_OPEN        1
-#define MSGWIN_FLAG_BUSY        2
-#define MSGWIN_FLAG_PENDCLOSE   4
+#define MSGWIN_FLAG_OPEN	1
+#define MSGWIN_FLAG_BUSY	2
+#define MSGWIN_FLAG_PENDCLOSE	4
 
 
 typedef struct message_window_s {
