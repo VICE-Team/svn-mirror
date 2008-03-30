@@ -59,8 +59,7 @@ static int cmdline_help(const char *param, void *extra_param)
 
 static int cmdline_default(const char *param, void *extra_param)
 {
-    resources_set_defaults();
-    return 0;
+    return resources_set_defaults();
 }
 
 static int cmdline_autostart(const char *param, void *extra_param)
