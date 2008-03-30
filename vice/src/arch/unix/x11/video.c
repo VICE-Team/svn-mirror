@@ -441,7 +441,11 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 #if X_DISPLAY_DEPTH == 0
     memset(f->tmpframebuffer, value,
            f->x_image->height * f->tmpframebufferlinesize);
-    if (_convert_func)
+    if (_convert_func
+#ifdef USE_XF86_EXTENSIONS
+        && !fullscreen_is_enabled
+#endif
+        )
         _convert_func(f, 0, 0, f->x_image->width, f->x_image->height);
 #else
     int i;
@@ -449,6 +453,13 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
     for (i = 0; i < f->x_image->height * f->x_image->bytes_per_line;
          i += sizeof(PIXEL))
         *((PIXEL *) (f->x_image->data + i)) = value;
+#endif
+}
+
+void video_register_raster(raster_t *raster)
+{
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_set_raster(raster);
 #endif
 }
 
@@ -492,6 +503,9 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
         return c;
 #ifdef USE_GNOMEUI
     fb->canvas = c;
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    fullscreen_set_palette(palette, pixel_return);
 #endif
     return c;
 }
@@ -545,6 +559,14 @@ void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
                     unsigned int w, unsigned int h)
 {
     Display *display;
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+    {
+	fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
+	return;
+    }
+
+#endif
 #if X_DISPLAY_DEPTH == 0
     if (_convert_func)
         _convert_func(frame_buffer, xs, ys, w, h);
@@ -553,11 +575,6 @@ void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
     /* This could be optimized away.  */
     display = ui_get_display_ptr();
 
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-      fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
-    else
-#endif
     _refresh_func(display, canvas->drawable, _video_gc,
                   frame_buffer->x_image, xs, ys, xi, yi, w, h, False,
                   frame_buffer, canvas);

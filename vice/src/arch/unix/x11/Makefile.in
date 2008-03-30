@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libx11ui.a
 
-EXTRA_libx11ui_a_SOURCES =          fullscreen.c
+EXTRA_libx11ui_a_SOURCES =  	dga2.c         fullscreen.c
 
 
 libx11ui_a_SOURCES =  	c128icon.c 	c610icon.c 	c64icon.c 	kbd.c 	kbdef.h 	peticon.c 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11kbd.c 	x11kbd.h 	x11menu.c 	x11menu.h
@@ -368,7 +368,9 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/machine.h ../../../../src/palette.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h \
-	videoarch.h
+	videoarch.h ../../../../src/fullscreen.h \
+	../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h
 x11kbd.o: x11kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h \
 	../../../../src/arch/unix/types.h kbdef.h \

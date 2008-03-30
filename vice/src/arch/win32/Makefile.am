@@ -41,7 +41,7 @@ libarch_a_SOURCES = \
 	kbd.h \
 	lose32.h \
 	main_exit.c \
-    main_exit.h \
+	main_exit.h \
 	mouse.c \
 	mouse.h \
 	petkbd.c \
@@ -77,8 +77,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
-    uireu.c \
-    uireu.h \
+	uireu.c \
+	uireu.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uisound.c \
@@ -111,13 +111,13 @@ EXTRA_DIST = \
 	cbm2.dsp \
 	crtc.dsp \
 	drive.dsp \
+	gfxoutputdrv.dsp \
 	monitor.dsp \
 	pet.dsp \
 	petcat.dsp \
 	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
-	screendrv.dsp \
 	sid.dsp \
 	sounddrv.dsp \
 	vdc.dsp \

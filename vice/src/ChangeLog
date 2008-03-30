@@ -1,3 +1,152 @@
+2001-09-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.5.
+
+	* arch/unix/x11/video.c (video_frame_buffer_clear): Fixed
+	non-DGA compile.
+
+2001-09-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/vice.dsw, arch/win32/gfxoutputdrv.dsp, 
+	arch/win32/screendrv.dsp: replaced the later with the former
+	(reflecting the change in the gcc makefiles)
+
+	* arch/win32/uimon.c: HACK: SIF_TRACKPOS conditionally defined
+	so Mingw can compile again (SIF_TRACKPOS is missing in the
+	MINGW headers).
+
+2001-08-23  pottendo  <pottendo@utanet.at>
+
+	* raster/raster.c (raster_init): Tell video code about current
+	raster struct for caching framebuffer pointers and changing color
+	palettes during fullscreen modes.
+
+	* arch/unix/x11/videoarch.h 
+	video_register_raster(): New prototype.
+	fullscreen_set_raster(): ditto.
+	fullscreen_set_palette(): ditto.
+
+	* arch/unix/x11/video.c (video_frame_buffer_clear): convert only
+	if fullscreen is disabled.
+	(video_register_raster): New function, pass raster for caching to
+	fullscreen driver.
+	(canvas_create): Initialize palette in fullscreen driver.
+	(canvas_refresh): Cleanup for fullscreen.
+
+	* arch/unix/x11/ui-resources.c: Temporarily disabled fullscreen
+	resource: UseFullscreen.
+
+	* arch/unix/x11/gnome/gnomevideo.c (video_frame_buffer_alloc):
+	* arch/unix/x11/xaw/x11video.c (video_frame_buffer_alloc): 
+	Pass new framebuffer structure to fullscreen video driver.
+
+	* arch/unix/x11/fullscreen.c: Do nothing in case
+	`USE_XF86_DGA2_EXTENSIONS' is defined in `config.h'. This will
+	change!
+
+	* arch/unix/x11/dga2.c: New file, derived from fullscreen.c,
+	implements direct-into-framebuffer rendering with double
+	buffering. 
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	dga2.c 
+
+2001-08-22  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/spritedrv.c: modified to new open/write/close
+	interface.
+
+	* arch/riscos/uiimage.c: load "*" when double-clicking on
+	image title in image contents window (this patch seems to have
+	been forgotten some time ago).
+
+2001-08-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c, arch/os2/joystick.c, arch/os2/video.c,
+	arch/os2/vsidui.c, arch/os2/vsyncarch.c, c64/psid.c, sound.c:
+	added static log
+   
+	* arch/os2/dialogs/dialogs.h: changed width, height of TEXT to
+	static -1, -1
+   
+	* arch/os2/dialogs/dialogs.rc: moved close button in the
+	middle of the window
+   
+	* arch/os2/dialogs/dlg-cmdopt.c: added second WM_INSERT style
+	to provide the right style for commandline and log-window
+     
+	* arch/os2/dialogs/dlg-color.[h,c,rc]: added default button
+
+	* arch/os2/dialogs/dlg-datasette.rc,
+	arch/os2/dialogs/dlg-drive.rc,
+	arch/os2/dialogs/dlg-emulator.rc,
+	arch/os2/dialogs/dlg-fileio.rc,
+	arch/os2/dialogs/dlg-joystick.rc: changed TEXT to new style
+   
+	* arch/os2/dialogs/dlg-fileio.[h,c]: changed lbox style for
+	usage of screencode chargen fonts
+   
+	* arch/os2/dialogs/dlg-vsid.[h,c,rc]: added static log
+	added support for drag'n'drop
+   
+	* arch/os2/dialogs/dragndrop.c: added support for sid (vsid)
+   
+	* arch/os2/dialogs/menubar.[h,c,rc]: added new printer
+	controls
+   
+	* arch/os2/fonts/chargen2fnt.cc: changed to convert the raw
+	chargens into fonts
+   
+	* arch/os2/fonts/vice-cbm.cmd, arch/os2/fonts/vice2.rc: added
+	all changen screencode fonts
+   
+	* arch/os2/snippets/pmwin2.[h,c]: added WinSubclassDlg
+   
+	* arch/os2/sounddrv.c: changed logging output
+   
+	* arch/os2/uicmdline.c: support new WM_INSERT style
+   
+	* arch/os2/vac++/C1541.ICC: changed charset.c to charsets.c
+
+	* arch/os2/vac++/incl/dialogs.icc: removed dlg-color.c
+   
+	* arch/os2/vac++/incl/printerdrv.icc: removed output-file.c
+	added output-graphics.c, added output-text.c,
+	added output-select.c
+ 
+	* arch/os2/vac++/X128.ICC, arch/os2/vac++/X64.ICC,
+	arch/os2/vac++/Xcbm2.ICC: added dlg-color.c
+   
+	* arch/os2/vac++/Xpet.ICC, src/arch/os2/vac++/Xvic.ICC:
+	removed path to vicii
+   
+	* arch/riscos/uiconfig.c, src/arch/unix/uiprinter.c,
+	printerdrv/interface-userport.c: changed PrUser to
+	PrinterUserport
+   
+	* imagecontents.c: removed (eMPTY IMAGE) for OS/2
+   
+	* log.c: added static log name to archdep output
+	reorganized code of log_helper
+   
+	* log.h: changed log_t to explicit signed.
+   
+	* main.c: added "-h" for help
+   
+	* printerdrv/drv-mps803.[h,c]:
+	changed to support full sized chargen rom
+	changed writeline to use of output_writeline
+
+	* printerdrv/interface-serial.c: added a logging information
+  
+	* printerdrv/output-graphics.c: added code to output graphics
+   
+	* printerdrv/output-select.[h,c]: added
+	output_select_writeline
+   
+	* vicii/vicii-cmdline-options.c: changed '<number>' to
+	corresponding values
+   
 2001-08-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.4.
