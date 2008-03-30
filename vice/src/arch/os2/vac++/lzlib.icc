@@ -8,7 +8,8 @@ option ProjectOptions =
    opt(inline, "yes"),
    opt(autoinline, "yes"), 
    info(cnd, "no"),
-   incl(searchpath, "..\\..\\..\\lib\\zlib")
+   incl(searchpath, "..\\..\\..\\lib\\zlib"),
+   define("DONT_USE_UNISTD_H", )
 {
    target "zlib.lib"
    {

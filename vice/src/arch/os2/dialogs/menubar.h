@@ -137,6 +137,9 @@
 #define IDM_RAMCART128   0x942
 
 #define IDM_PLUS60K      0x17c
+#define IDM_PLUS60KBASE  0x17d
+#define IDM_PLUS60KD040  0x17e
+#define IDM_PLUS60KD100  0x17f
 
 #define IDM_TFE          0x158
 

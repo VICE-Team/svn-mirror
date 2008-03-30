@@ -569,6 +569,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         resources_set_value("RAMCARTSize",
                             (resource_value_t*)((idm&0xf)<<6));
         return;
+
+#ifdef __X64__
+    case IDM_PLUS60KD040:
+        resources_set_value("PLUS60Kbase",
+                            (resource_value_t*)0xd040);
+        return;
+
+    case IDM_PLUS60KD100:
+        resources_set_value("PLUS60Kbase",
+                            (resource_value_t*)0xd100);
+        return;
+#endif
+
 #endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
     case IDM_MOUSE:
@@ -1213,6 +1226,7 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef __X64__
         resources_get_value("PLUS60K", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
+        WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
 #endif
 #ifdef __XPET__
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
@@ -1297,6 +1311,14 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_RAMCART64,   val==64);
         WinCheckMenuItem(hwnd, IDM_RAMCART128,   val==128);
         return;
+
+#ifdef __X64__
+    case IDM_PLUS60KBASE:
+        resources_get_value("PLUS60Kbase", (void *)&val);
+        WinCheckMenuItem(hwnd, IDM_PLUS60KD040,   val==0xd040);
+        WinCheckMenuItem(hwnd, IDM_PLUS60KD100,   val==0xd100);
+        return;
+#endif
 #endif
 #ifdef __X128__
     case IDM_C128TYPE:

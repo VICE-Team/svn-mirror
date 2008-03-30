@@ -2377,7 +2377,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_SECOND_SID_PL              0x115ff
 #define IDCLS_ENABLE_SECOND_SID_SV              0x11600
 
-/* sid/sid-cmdline-options.c */
+/* sid/sid-cmdline-options.c, c64/plus60k.c */
 #define IDCLS_P_BASE_ADDRESS                    0x11601
 #define IDCLS_P_BASE_ADDRESS_DE                 0x11602
 #define IDCLS_P_BASE_ADDRESS_FR                 0x11603
@@ -3542,5 +3542,14 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_STB_CART_NL            0x1197f
 #define IDCLS_ATTACH_RAW_STB_CART_PL            0x11980
 #define IDCLS_ATTACH_RAW_STB_CART_SV            0x11981
+
+/* c64/plus60k.c */
+#define IDCLS_PLUS60K_BASE                      0x11982
+#define IDCLS_PLUS60K_BASE_DE                   0x11983
+#define IDCLS_PLUS60K_BASE_FR                   0x11984
+#define IDCLS_PLUS60K_BASE_IT                   0x11985
+#define IDCLS_PLUS60K_BASE_NL                   0x11986
+#define IDCLS_PLUS60K_BASE_PL                   0x11987
+#define IDCLS_PLUS60K_BASE_SV                   0x11988
 
 #endif

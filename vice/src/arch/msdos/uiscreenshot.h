@@ -1,8 +1,8 @@
 /*
- * network.c - Connecting emulators via network.
+ * uiscreenshot.h - Screenshot save dialog for the MS-DOS version of VICE.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,25 +24,11 @@
  *
  */
 
-#ifndef _NETWORK_H
-#define _NETWORK_H
+#ifndef UISCREENSHOT_H
+#define UISCREENSHOT_H
 
-typedef enum {
-    NETWORK_IDLE,
-    NETWORK_SERVER,
-    NETWORK_SERVER_CONNECTED,
-    NETWORK_CLIENT
-} network_mode_t;
+struct tui_menu_item_def_s;
 
-extern int network_resources_init(void);
-extern int network_start_server(void);
-extern int network_connect_client(void);
-extern void network_disconnect(void);
-extern void network_hook(void);
-extern int network_connected(void);
-extern int network_get_mode(void);
-extern void network_hook(void);
-extern void network_event_record(unsigned int type, void *data, unsigned int size);
-extern void network_shutdown(void);
+extern struct tui_menu_item_def_s ui_screenshot_menu_def[];
 
 #endif

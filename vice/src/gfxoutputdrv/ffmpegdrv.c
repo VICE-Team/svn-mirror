@@ -43,6 +43,7 @@
 #include "translate.h"
 #endif
 #include "ui.h"
+#include "vsync.h"
 
 
 /* general */
@@ -463,7 +464,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = (screenshot->width + 15) & ~0xf; 
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
-    c->frame_rate = 50;  /* FIXME */
+    c->frame_rate = (int)(vsync_get_refresh_frequency() + 0.5);
     c->frame_rate_base = 1;
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
 

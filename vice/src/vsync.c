@@ -235,6 +235,11 @@ void vsync_set_machine_parameter(double refresh_rate, long cycles)
     set_timer_speed(relative_speed);
 }
 
+double vsync_get_refresh_frequency(void)
+{
+    return refresh_frequency;
+}
+
 void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;

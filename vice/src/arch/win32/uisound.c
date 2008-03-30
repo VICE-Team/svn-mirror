@@ -178,13 +178,13 @@ static void end_sound_dialog(HWND hwnd)
 static void select_dx(void)
 {
     resources_set_value("SoundDeviceName",(resource_value_t)"dx");
-    ui_display_statustext(translate_text(IDS_SOUND_DRIVER_DIRECTX));
+    ui_display_statustext(translate_text(IDS_SOUND_DRIVER_DIRECTX), 1);
 }
 
 static void select_wmm(void)
 {
     resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
-    ui_display_statustext(translate_text(IDS_SOUND_DRIVER_WMM));
+    ui_display_statustext(translate_text(IDS_SOUND_DRIVER_WMM), 1);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,

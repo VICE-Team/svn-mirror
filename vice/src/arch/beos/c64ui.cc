@@ -79,7 +79,7 @@ ui_res_possible_values GeoRAMSize[] = {
         {512, MENU_GEORAM_SIZE_512},
         {1024, MENU_GEORAM_SIZE_1024},
         {2048, MENU_GEORAM_SIZE_2048},
-        {4096, MENU_GEOREM_SIZE_4096},
+        {4096, MENU_GEORAM_SIZE_4096},
         {-1, 0}
 };
 
@@ -89,10 +89,17 @@ ui_res_possible_values RamCartSize[] = {
         {-1, 0}
 };
 
+ui_res_possible_values Plus60kBase[] = {
+        {0xd040, MENU_PLUS60K_BASE_D040},
+        {0xd100, MENU_PLUS60K_BASE_D100},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
     {"RAMCARTsize", RamCartSize},
+    {"PLUS60Kbase", Plus60kBase},
     {NULL,NULL}
 };
 

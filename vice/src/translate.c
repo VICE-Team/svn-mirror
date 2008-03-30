@@ -2538,7 +2538,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_SECOND_SID_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SECOND_SID_SV, "Aktivera andra SID"},
 
-/* sid/sid-cmdline-options.c */
+/* sid/sid-cmdline-options.c, c64/plus60k */
 /* en */ {IDCLS_P_BASE_ADDRESS,    "<base address>"},
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, "<adresse de base>"},
@@ -3691,6 +3691,15 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_PLUS60K_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PLUS60K_NAME_SV, "Ange namn på +60K-avbildning"},
 
+/* c64/plus60k.c */
+/* en */ {IDCLS_PLUS60K_BASE,    "Base address of the +60K expansion"},
+/* de */ {IDCLS_PLUS60K_BASE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PLUS60K_BASE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_PLUS60K_BASE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PLUS60K_BASE_NL, "Basis adres van de +60K geheugen uitbreiding"},
+/* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
+
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
@@ -4426,7 +4435,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_GEORAM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_GEORAM_NAME_SV},
 
-/* c64/georam.c */
+/* c64/georam.c, c64/ramcart.c, c64/reu.c */
 /* en */ {IDCLS_P_SIZE_IN_KB,
 /* de */  IDCLS_P_SIZE_IN_KB_DE,
 /* fr */  IDCLS_P_SIZE_IN_KB_FR,
@@ -7190,6 +7199,15 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDCLS_SPECIFY_PLUS60K_NAME_NL,
 /* pl */  IDCLS_SPECIFY_PLUS60K_NAME_PL,
 /* sv */  IDCLS_SPECIFY_PLUS60K_NAME_SV},
+
+/* c64/plus60k.c */
+/* en */ {IDCLS_PLUS60K_BASE,
+/* de */  IDCLS_PLUS60K_BASE_DE,
+/* fr */  IDCLS_PLUS60K_BASE_FR,
+/* it */  IDCLS_PLUS60K_BASE_IT,
+/* nl */  IDCLS_PLUS60K_BASE_NL,
+/* pl */  IDCLS_PLUS60K_BASE_PL,
+/* sv */  IDCLS_PLUS60K_BASE_SV},
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,

@@ -611,6 +611,11 @@ void ui_joystick_swap_joystick(void)
     resources_set_value("JoyAutofire1Button",(resource_value_t)device2);
     resources_set_value("JoyAutofire2Button",(resource_value_t)device1);
 
+/* swapping the keyset definitions when swapping the joysticks is
+   improper bahaviour in my opinion, if needed a swap keyset can be
+   made later, for now the keyset swapping is commented out. */
+
+#if 0
     resources_get_value("KeySet1NorthWest",(void *)&device1);
     resources_get_value("KeySet2NorthWest",(void *)&device2);
     resources_set_value("KeySet1NorthWest",(resource_value_t)device2);
@@ -647,4 +652,5 @@ void ui_joystick_swap_joystick(void)
     resources_get_value("KeySet2Fire",(void *)&device2);
     resources_set_value("KeySet1Fire",(resource_value_t)device2);
     resources_set_value("KeySet2Fire",(resource_value_t)device1);
+#endif
 }

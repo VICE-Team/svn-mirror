@@ -179,6 +179,9 @@ const uint32 MENU_GEORAM_SIZE_4096					= 'M456';
 const uint32 MENU_RAMCART_SIZE_64					= 'M457';
 const uint32 MENU_RAMCART_SIZE_128					= 'M458';
 
+const uint32 MENU_PLUS60K_BASE_D040					= 'M459';
+const uint32 MENU_PLUS60K_BASE_D100					= 'M460';
+
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';
 const uint32 MENU_LICENSE						= 'M904';

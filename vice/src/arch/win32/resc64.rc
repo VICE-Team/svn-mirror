@@ -146,9 +146,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Start server...", IDM_NETWORK_SERVER
-        MENUITEM "Connect client...", IDM_NETWORK_CLIENT
-        MENUITEM "Disconnect", IDM_NETWORK_DISCONNECT
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Options"
     BEGIN
@@ -1470,7 +1468,7 @@ BEGIN
             MENUITEM "Ustawienia &REU...",      IDM_REU_SETTINGS
             MENUITEM "Ustawienia &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Ustawienia &RAMCART...",      IDM_RAMCART_SETTINGS
-            MENUITEM "Ustawienia +&60K settings...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "Ustawienia +&60K...",      IDM_PLUS60K_SETTINGS
             MENUITEM "Ustawienia &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Ustawienia &Ethernet...", IDM_TFE_SETTINGS

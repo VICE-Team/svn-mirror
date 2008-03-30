@@ -63,6 +63,7 @@
 #include "uijoystick.h"
 #include "uiperipherial.h"
 #include "uiprinter.h"
+#include "uiscreenshot.h"
 #include "uisnapshot.h"
 #include "uisound.h"
 #include "util.h"
@@ -82,6 +83,7 @@ tui_menu_t ui_main_menu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_reset_submenu;
 tui_menu_t ui_rom_submenu;
+tui_menu_t ui_screenshot_submenu;
 tui_menu_t ui_settings_submenu;
 tui_menu_t ui_snapshot_submenu;
 tui_menu_t ui_special_submenu;
@@ -705,6 +707,16 @@ static void create_ui_video_submenu(void)
                       toggle_TripleBuffering_callback, NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 #endif
+
+    tui_menu_add_separator(ui_video_submenu);
+
+    ui_screenshot_submenu = tui_menu_create("Screenshot Commands", 1);
+    tui_menu_add(ui_screenshot_submenu, ui_screenshot_menu_def);
+
+    tui_menu_add_submenu(ui_video_submenu, "_Screenshot Commands...",
+                         "Commands for saving screenshots",
+                         ui_screenshot_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 }
 
 /* ------------------------------------------------------------------------- */

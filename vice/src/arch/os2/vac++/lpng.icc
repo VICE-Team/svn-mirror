@@ -8,7 +8,8 @@ option ProjectOptions =
    opt(inline, "yes"),
    opt(autoinline, "yes"),
    incl(searchpath, "..\\..\\..\\lib\\zlib"),
-   incl(searchpath, "..\\..\\..\\lib\\lpng")
+   incl(searchpath, "..\\..\\..\\lib\\lpng"),
+   define("DONT_USE_UNISTD_H", )
 {
    target "png.lib"
    {

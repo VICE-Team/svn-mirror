@@ -2826,3 +2826,7 @@ void ui_set_tape_menu(GtkWidget *w)
     tape_menu = w;
 }
 
+void ui_display_statustext(const char *text, int fade_out)
+{
+}
+

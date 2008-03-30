@@ -34,6 +34,25 @@
 #include "uiplus60k.h"
 
 TUI_MENU_DEFINE_TOGGLE(PLUS60K)
+TUI_MENU_DEFINE_RADIO(PLUS60Kbase)
+
+static TUI_MENU_CALLBACK(plus60k_base_submenu_callback)
+{
+    int value;
+    static char s[100];
+
+    resources_get_value("PLUS60Kbase", (void *)&value);
+    sprintf(s, "$%X",value);
+    return s;
+}
+
+static tui_menu_item_def_t plus60k_base_submenu[] = {
+    { "$_D040", NULL, radio_PLUS60Kbase_callback,
+      (void *)0xd040, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$D_100", NULL, radio_PLUS60Kbase_callback,
+      (void *)0xd100, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
 
 static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 {
@@ -61,6 +80,10 @@ static tui_menu_item_def_t plus60k_menu_items[] = {
     { "_Enable +60K:", "Emulate +60K RAM Expansion Hack",
       toggle_PLUS60K_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "PLUS60K _base:", "Select the base address of the PLUS60K",
+      plus60k_base_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
+      "PLUS60K base" },
     { "+60K _image file:", "Select the +60K image file",
       plus60k_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },

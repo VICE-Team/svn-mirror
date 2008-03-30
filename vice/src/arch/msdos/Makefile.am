@@ -89,6 +89,8 @@ libarch_a_SOURCES = \
 	uiramcart.h \
 	uireu.c \
 	uireu.h \
+	uiscreenshot.c \
+	uiscreenshot.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \

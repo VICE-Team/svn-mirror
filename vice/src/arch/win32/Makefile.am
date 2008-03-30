@@ -130,6 +130,8 @@ libarch_a_SOURCES = \
 	uimediafile.h \
 	uimon.c \
 	uimonmsg.h \
+	uinetwork.c \
+	uinetwork.h \
 	uiperipheral.c \
 	uiperipheral.h \
 	uipetset.c \

@@ -2101,3 +2101,7 @@ static void close_action(Widget w, XEvent * event, String * params,
     ui_exit();
 }
 
+void ui_display_statustext(const char *text, int fade_out)
+{
+}
+

@@ -389,6 +389,12 @@ BMenuBar *menu_create(int machine_class) {
 
 			menu->AddItem(new BMenuItem("+60K emulation",
 				new BMessage(MENU_TOGGLE_PLUS60K)));
+			menu->AddItem(submenu = new BMenu("PLUS60K base"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("$D040",
+				new BMessage(MENU_PLUS60K_BASE_D040)));
+			submenu->AddItem(new BMenuItem("$D100",
+				new BMessage(MENU_PLUS60K_BASE_D100)));
 
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));

@@ -4004,6 +4004,26 @@ END
 
 // -----------------------------------------------------------------------------
 
+// original and default ENGLISH version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Network Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
 // original and default ENGLISH text
 
 STRINGTABLE

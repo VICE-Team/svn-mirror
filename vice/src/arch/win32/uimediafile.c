@@ -156,7 +156,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
     if (screenshot_is_recording()) {
         /* the recording is active; stop it  */
         screenshot_stop_recording();
-        ui_display_statustext("");
+        ui_display_statustext("", 0);
         return;
     }
 

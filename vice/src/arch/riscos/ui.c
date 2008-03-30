@@ -5270,3 +5270,8 @@ void ui_display_drive_current_image(unsigned int drive_number,
   video_full_screen_display_image(drive_number, useimg);
 }
 
+void ui_display_statustext(const char *text, int fade_out)
+{
+}
+
+

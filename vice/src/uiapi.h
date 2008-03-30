@@ -53,6 +53,9 @@ extern void ui_shutdown(void);
 /* Print an error message.  */
 extern void ui_error(const char *format,...);
 
+/* Display a mesage without interrupting emulation */
+extern void ui_display_statustext(const char *text, int fade_out);
+
 /* Drive related UI.  */
 extern void ui_enable_drive_status(ui_drive_enable_t state,
                                    int *drive_led_color);

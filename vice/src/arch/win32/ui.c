@@ -72,6 +72,7 @@
 #include "uijoystick.h"
 #include "uilib.h"
 #include "uimediafile.h"
+#include "uinetwork.h"
 #include "uiquicksnapshot.h"
 #include "uiram.h"
 #include "uirs232.h"
@@ -772,7 +773,7 @@ int ui_emulation_is_paused(void)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Dispay the current emulation speed.  */
+/* Display the current emulation speed.  */
 static int statustext_display_time = 0;
 
 void ui_display_speed(float percent, float framerate, int warp_flag)
@@ -799,15 +800,18 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     if (statustext_display_time > 0) {
         statustext_display_time--;
         if (statustext_display_time == 0)
-            ui_display_statustext("");
+            statusbar_setstatustext("");
     }
 }
 
 
-void ui_display_statustext(const char *text)
+void ui_display_statustext(const char *text, int fade_out)
 {
     statusbar_setstatustext(text);
-    statustext_display_time = 5;
+    if (fade_out > 0)
+        statustext_display_time = 5;
+    else
+        statustext_display_time = 0;
 }
 
 
@@ -852,7 +856,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
         lib_free(directory_name);
     }
 
-    ui_display_statustext(text);
+    ui_display_statustext(text, 1);
     lib_free(text);
 }
 
@@ -893,7 +897,7 @@ void ui_display_tape_current_image(const char *image)
         lib_free(directory_name);
     }
 
-    ui_display_statustext(text);
+    ui_display_statustext(text, 1);
     lib_free(text);
 }
 
@@ -917,7 +921,7 @@ void ui_display_playback(int playback_status, char *version)
             sprintf(st, translate_text(IDS_HISTORY_RECORDED_UNKNOWN));
         else 
             sprintf(st, translate_text(IDS_HISTORY_RECORDED_VICE_S), version);
-        ui_display_statustext(st);
+        ui_display_statustext(st, 1);
     } else {
         statusbar_event_status(EVENT_OFF);
     }
@@ -1248,14 +1252,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_EVENT_RESETMILESTONE | 0x00010000:
         uievent_command(hwnd, wparam);
         break;
-      case IDM_NETWORK_DISCONNECT:
-        network_disconnect();
-        break;
-      case IDM_NETWORK_SERVER:
-        network_start_server();
-        break;
-      case IDM_NETWORK_CLIENT:
-        network_connect_client();
+      case IDM_NETWORK_SETTINGS:
+        ui_network_dialog(hwnd);
         break;
       case IDM_RS232_SETTINGS:
         ui_rs232_settings_dialog(hwnd);

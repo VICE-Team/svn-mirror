@@ -413,6 +413,11 @@ BEGIN
 #endif // __X64__ || __X128__
 #ifdef __X64__
       MENUITEM "+~60K - Memory Expansion Hack", IDM_PLUS60K,       MIS_TEXT
+      SUBMENU  "+60K Base ~Address",        IDM_PLUS60KBASE,   MIS_TEXT
+      BEGIN
+        MENUITEM "$~D040",                IDM_PLUS60KD040,    MIS_TEXT
+        MENUITEM "$D~100",                IDM_PLUS60KD100,    MIS_TEXT
+      END
 #endif
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT

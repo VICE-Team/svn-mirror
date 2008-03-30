@@ -72,6 +72,7 @@
  *
  */
 
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -109,6 +110,8 @@ static int plus60k_activate(void);
 static int plus60k_deactivate(void);
 
 int plus60k_enabled=0;
+
+int plus60k_base=0xd100;
 
 /* Filename of the +60K image.  */
 static char *plus60k_filename = NULL;
@@ -164,9 +167,36 @@ static int set_plus60k_filename(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_plus60k_base(resource_value_t v, void *param)
+{
+    if ((DWORD)v == plus60k_base)
+        return 0;
+
+    switch ((DWORD)v) {
+      case 0xd040:
+      case 0xd100:
+        break;
+      default:
+        log_message(plus60k_log, "Unknown +60K base address $%X.", (long)v);
+        return -1;
+    }
+
+    if (plus60k_enabled) {
+        plus60k_deactivate();
+        plus60k_base = (DWORD)v;
+        plus60k_activate();
+    } else {
+        plus60k_base = (DWORD)v;
+    }
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "PLUS60K", RES_INTEGER, (resource_value_t)0,
       (void *)&plus60k_enabled, set_plus60k_enabled, NULL },
+    { "PLUS60Kbase", RES_INTEGER, (resource_value_t)0xd100,
+      (void *)&plus60k_base, set_plus60k_base, NULL },
     { "PLUS60Kfilename", RES_STRING, (resource_value_t)"",
       (void *)&plus60k_filename, set_plus60k_filename, NULL },
     { NULL }
@@ -193,6 +223,8 @@ static const cmdline_option_t cmdline_options[] =
       0, IDCLS_DISABLE_PLUS60K_EXPANSION },
     { "-60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
       IDCLS_P_NAME, IDCLS_SPECIFY_PLUS60K_NAME },
+    { "-60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
+      IDCLS_P_BASE_ADDRESS, IDCLS_PLUS60K_BASE },
     { NULL }
 };
 #else
@@ -204,6 +236,8 @@ static const cmdline_option_t cmdline_options[] =
       NULL, N_("Disable the +60K RAM expansion") },
     { "-60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
       N_("<name>"), N_("Specify name of +60K image") },
+    { "-60kbase", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kbase", NULL,
+      N_("<base address>"), N_("Base address of the +60K expansion") },
     { NULL }
 };
 #endif
@@ -323,6 +357,34 @@ void REGPARM2 plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 void REGPARM2 plus60k_ram_hi_store(WORD addr, BYTE value)
 {
   plus60k_mem_write_tab[plus60k_reg+6](addr, value);
+}
+
+static BYTE REGPARM1 vicii_read_wrapper(WORD addr)
+{
+  return vicii_read(addr);
+}
+
+static void REGPARM2 vicii_store_wrapper(WORD addr, BYTE value)
+{
+  vicii_store(addr, value);
+}
+
+static read_func_ptr_t plus60k_partial_vicii_read_tab[] =
+{ vicii_read_wrapper, plus60k_vicii_read,
+  plus60k_vicii_read0, plus60k_vicii_read0 };
+
+static store_func_ptr_t plus60k_partial_vicii_write_tab[] =
+{ vicii_store_wrapper, plus60k_vicii_store,
+  plus60k_vicii_store0, plus60k_vicii_store0 };
+
+BYTE REGPARM1 plus60k_vicii_read_old(WORD addr)
+{
+  return plus60k_partial_vicii_read_tab[(addr&0x3f)>>6](addr);
+}
+
+void REGPARM2 plus60k_vicii_store_old(WORD addr, BYTE value)
+{
+  plus60k_partial_vicii_write_tab[(addr&0x3f)>>6](addr, value);
 }
 
 BYTE REGPARM1 plus60k_vicii_read(WORD addr)

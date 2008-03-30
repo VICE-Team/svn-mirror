@@ -1,5 +1,5 @@
 /*
- * network.c - Connecting emulators via network.
+ * uinetwork.h - Implementation of the network dialog.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,25 +24,9 @@
  *
  */
 
-#ifndef _NETWORK_H
-#define _NETWORK_H
+#ifndef _UINETWORK_H
+#define _UINETWORK_H
 
-typedef enum {
-    NETWORK_IDLE,
-    NETWORK_SERVER,
-    NETWORK_SERVER_CONNECTED,
-    NETWORK_CLIENT
-} network_mode_t;
-
-extern int network_resources_init(void);
-extern int network_start_server(void);
-extern int network_connect_client(void);
-extern void network_disconnect(void);
-extern void network_hook(void);
-extern int network_connected(void);
-extern int network_get_mode(void);
-extern void network_hook(void);
-extern void network_event_record(unsigned int type, void *data, unsigned int size);
-extern void network_shutdown(void);
+void ui_network_dialog(HWND hwnd);
 
 #endif

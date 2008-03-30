@@ -40,6 +40,11 @@
 #include "winmain.h"
 #include "intl.h"
 
+#define NUM_OF_PLUS60K_BASE 2
+static const int ui_plus60k_base[NUM_OF_PLUS60K_BASE] = {
+    0xd040, 0xd100
+};
+
 static void enable_plus60k_controls(HWND hwnd)
 {
     int is_enabled;
@@ -47,6 +52,7 @@ static void enable_plus60k_controls(HWND hwnd)
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_PLUS60K_ENABLE)
                  == BST_CHECKED) ? 1 : 0;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_PLUS60K_BASE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_PLUS60K_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_PLUS60K_FILE), is_enabled);
 }
@@ -54,6 +60,7 @@ static void enable_plus60k_controls(HWND hwnd)
 static uilib_localize_dialog_param plus60k_dialog[] = {
     {0, IDS_PLUS60K_CAPTION, -1},
     {IDC_PLUS60K_ENABLE, IDS_PLUS60K_ENABLE, 0},
+    {IDC_PLUS60K_BASE_LABEL, IDS_PLUS60K_BASE, 0},
     {IDC_PLUS60K_FILE_LABEL, IDS_PLUS60K_FILE, 0},
     {IDC_PLUS60K_BROWSE, IDS_BROWSE, 0},
     {IDOK, IDS_OK, 0},
@@ -61,30 +68,29 @@ static uilib_localize_dialog_param plus60k_dialog[] = {
     {0, 0, 0}
 };
 
-static uilib_dialog_group plus60k_group1[] = {
-    {IDC_PLUS60K_ENABLE, 1},
-    {0, 0}
-};
-
 static uilib_dialog_group plus60k_leftgroup[] = {
+    {IDC_PLUS60K_BASE_LABEL, 0},
     {IDC_PLUS60K_FILE_LABEL, 0},
     {0, 0}
 };
 
 static uilib_dialog_group plus60k_rightgroup[] = {
+    {IDC_PLUS60K_BASE, 0},
     {IDC_PLUS60K_BROWSE, 0},
     {0, 0}
 };
 
 static void init_plus60k_dialog(HWND hwnd)
 {
+    HWND temp_hwnd;
     int res_value;
     const char *plus60kfile;
     TCHAR *st_plus60kfile;
+    int res_value_loop;
+    int active_value;
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, plus60k_dialog);
-    uilib_adjust_group_width(hwnd, plus60k_group1);
     uilib_get_group_extent(hwnd, plus60k_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, plus60k_leftgroup);
     uilib_move_group(hwnd, plus60k_rightgroup, xsize + 30);
@@ -93,6 +99,22 @@ static void init_plus60k_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_PLUS60K_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    temp_hwnd = GetDlgItem(hwnd, IDC_PLUS60K_BASE);
+    for (res_value_loop = 0; res_value_loop < NUM_OF_PLUS60K_BASE;
+        res_value_loop++) {
+        TCHAR st[10];
+        _stprintf(st, "$%X", ui_plus60k_base[res_value_loop]);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+    }
+    resources_get_value("PLUS60Kbase", (void *)&res_value);
+    active_value = 0;
+    for (res_value_loop = 0; res_value_loop < NUM_OF_PLUS60K_BASE;
+        res_value_loop++) {
+        if (ui_plus60k_base[res_value_loop] == res_value)
+            active_value = res_value_loop;
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
     resources_get_value("PLUS60Kfilename", (void *)&plus60kfile);
     st_plus60kfile = system_mbstowcs_alloc(plus60kfile);
     SetDlgItemText(hwnd, IDC_PLUS60K_FILE,
@@ -111,6 +133,10 @@ static void end_plus60k_dialog(HWND hwnd)
                         (IsDlgButtonChecked
                         (hwnd, IDC_PLUS60K_ENABLE) == BST_CHECKED ?
                         1 : 0 ));
+
+    resources_set_value("PLUS60Kbase",(resource_value_t)
+                        ui_plus60k_base[SendMessage(GetDlgItem(
+                        hwnd, IDC_PLUS60K_BASE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_PLUS60K_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -155,6 +181,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     }
     return FALSE;
 }
+
 
 void ui_plus60k_settings_dialog(HWND hwnd)
 {

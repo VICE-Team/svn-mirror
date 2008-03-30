@@ -30,6 +30,7 @@
 #include "types.h"
 
 extern int plus60k_enabled;
+extern int plus60k_base;
 extern int plus60k_resources_init(void);
 extern void plus60k_resources_shutdown(void);
 extern int plus60k_cmdline_options_init(void);
@@ -47,5 +48,8 @@ extern void REGPARM2 plus60k_vicii_store(WORD addr, BYTE value);
 extern void REGPARM2 plus60k_vicii_store0(WORD addr, BYTE value);
 extern BYTE REGPARM1 plus60k_ram_read(WORD addr);
 extern void REGPARM2 plus60k_ram_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 plus60k_vicii_read_old(WORD addr);
+extern void REGPARM2 plus60k_vicii_store_old(WORD addr, BYTE value);
 
 #endif

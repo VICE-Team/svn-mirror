@@ -385,3 +385,8 @@ int ui_extend_image_dialog(void)
 void ui_update_menus(void)
 {
 }
+
+void ui_display_statustext(const char *text, int fade_out)
+{
+}
+
