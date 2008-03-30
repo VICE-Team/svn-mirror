@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "clkguard.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -726,15 +727,15 @@ void fdc_init(unsigned int fnum, BYTE *buffermem, BYTE *ipromp)
 
 
     if (fnum == 0) {
-        alarm_init(&fdc[fnum].fdc_alarm, &drive0_context.cpu.alarm_context,
+        alarm_init(&fdc[fnum].fdc_alarm, drive0_context.cpu.alarm_context,
                "fdc0", int_fdc0);
-        clk_guard_add_callback(&drive0_context.cpu.clk_guard,
+        clk_guard_add_callback(drive0_context.cpu.clk_guard,
                                clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
-        alarm_init(&fdc[fnum].fdc_alarm, &drive1_context.cpu.alarm_context,
+        alarm_init(&fdc[fnum].fdc_alarm, drive1_context.cpu.alarm_context,
                    "fdc1", int_fdc1);
-        clk_guard_add_callback(&drive1_context.cpu.clk_guard,
+        clk_guard_add_callback(drive1_context.cpu.clk_guard,
                                clk_overflow_callback1, NULL);
     }
 }

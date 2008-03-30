@@ -1463,8 +1463,8 @@
 /* Here, the CPU is emulated. */
 
 {
-    while (CLK >= alarm_context_next_pending_clk(&ALARM_CONTEXT))
-        alarm_context_dispatch(&ALARM_CONTEXT, CLK);
+    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT))
+        alarm_context_dispatch(ALARM_CONTEXT, CLK);
 
     {
         enum cpu_int pending_interrupt;
@@ -1472,8 +1472,8 @@
         pending_interrupt = interrupt_check_pending_interrupt(&CPU_INT_STATUS);
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
-            while (CLK >= alarm_context_next_pending_clk(&ALARM_CONTEXT))
-                alarm_context_dispatch(&ALARM_CONTEXT, CLK);
+            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT))
+                alarm_context_dispatch(ALARM_CONTEXT, CLK);
         }
     }
 
