@@ -819,14 +819,14 @@ BYTE read_cia1_(ADDRESS addr)
 
     {
 	BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
-	BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[1];
+	BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[2];
 	BYTE m;
 	int i;
 
 	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
-	byte = val & ~joy[1];
+	byte = val & ~joy[2];
     }
 	return byte;
 	break;
@@ -835,7 +835,7 @@ BYTE read_cia1_(ADDRESS addr)
 
     {
 	BYTE val = ~cia1[CIA_DDRB];
-	BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
+	BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[1];
 	BYTE m;
 	int i;
 
@@ -848,7 +848,7 @@ BYTE read_cia1_(ADDRESS addr)
 		if (!(extended_keyboard_rows_mask & m))
 		    val &= ~keyarr[i];
 
-	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
+	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[1];
     }
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);
