@@ -1,25 +1,25 @@
-# Microsoft Developer Studio Project File - Name="c64c128" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="rs232drv" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=c64c128 - Win32 Debug
+CFG=rs232drv - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
-!MESSAGE NMAKE /f "c64c128.mak".
-!MESSAGE 
+!MESSAGE
+!MESSAGE NMAKE /f "rs232drv.mak".
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
-!MESSAGE NMAKE /f "c64c128.mak" CFG="c64c128 - Win32 Debug"
-!MESSAGE 
+!MESSAGE
+!MESSAGE NMAKE /f "rs232drv.mak" CFG="rs232drv - Win32 Debug"
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
-!MESSAGE "c64c128 - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "c64c128 - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE 
+!MESSAGE
+!MESSAGE "rs232drv - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "rs232drv - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -28,7 +28,7 @@ CFG=c64c128 - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "c64c128 - Win32 Release"
+!IF  "$(CFG)" == "rs232drv - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -37,11 +37,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\c64c128\Release"
-# PROP Intermediate_Dir "libs\c64c128\Release"
+# PROP Output_Dir "libs\rs232drv\Release"
+# PROP Intermediate_Dir "libs\rs232drv\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\sid" /I "..\..\vicii" /I "..\..\raster" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\rs232drv" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -51,7 +51,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "c64c128 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "rs232drv - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -60,11 +60,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "libs\c64c128\Debug"
-# PROP Intermediate_Dir "libs\c64c128\Debug"
+# PROP Output_Dir "libs\rs232drv\Debug"
+# PROP Intermediate_Dir "libs\rs232drv\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\sid" /I "..\..\vicii" /I "..\..\raster" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\rs232drv" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -74,47 +74,19 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
-# Name "c64c128 - Win32 Release"
-# Name "c64c128 - Win32 Debug"
+# Name "rs232drv - Win32 Release"
+# Name "rs232drv - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\c64\c64acia1.c
+SOURCE="..\..\rs232drv\rs232drv.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\c64cia2.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64datasette.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64tpi.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64pla.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64rsuser.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\c64-snapshot.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\patchrom.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\reu.c
+SOURCE="..\..\rs232drv\rsuser.c"
 # End Source File
 # End Target
 # End Project

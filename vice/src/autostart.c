@@ -104,6 +104,8 @@ static int autostart_enabled = 0;
 /* Flag: Autostart the file or just load it?  */
 static unsigned int autostart_run_mode;
 
+/* Flag: maincpu_clk isn't resetted yet */
+static int autostart_wait_for_reset;
 /* ------------------------------------------------------------------------- */
 
 /* Deallocate program name if we have one */
@@ -403,8 +405,18 @@ static void advance_hassnapshot(void)
    mode if necessary.  */
 void autostart_advance(void)
 {
-    if (maincpu_clk < min_cycles || !autostart_enabled)
+    if (!autostart_enabled)
         return;
+
+    if (maincpu_clk < min_cycles)
+    {
+        autostart_wait_for_reset = 0;
+        return;
+    }
+
+    if (autostart_wait_for_reset)
+        return;
+
 
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
@@ -454,6 +466,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
        threadsafe for OS/2 */
     autostartmode = mode;
     autostart_run_mode = runmode;
+    autostart_wait_for_reset = 1;
 }
 
 /* ------------------------------------------------------------------------- */
