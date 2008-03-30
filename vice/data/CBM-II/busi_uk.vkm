@@ -144,7 +144,7 @@ ampersand 14 1 1
 semicolon 0 4 0
 minus 1 2 0
 equal 2 1 0
-space 14 5 0
+space 14 5 8
 greater 15 5 1
 less 15 4 1
 period 15 5 0

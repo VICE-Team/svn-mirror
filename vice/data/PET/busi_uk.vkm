@@ -68,7 +68,7 @@ KP_Enter 3 4 0
 KP_Decimal 6 4 0
 period 6 4 0
 minus 0 3 0
-space 8 2 0
+space 8 2 8
 colon 9 5 0
 underscore 9 0 0
 comma 7 3 0

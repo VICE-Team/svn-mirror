@@ -461,7 +461,7 @@ int save_file(const char *name, const void *src, int size)
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something
-   better, line GNU `getline()'.  */
+   better, like GNU `getline()'.  */
 int get_line(char *buf, int bufsize, FILE *f)
 {
     char *r;

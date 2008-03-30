@@ -251,7 +251,8 @@ int machine_init(void)
                    0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
-    vic_init();
+    if (vic_init() == NULL)
+        return -1;
  
     /* needed for VC1571/1581 emulation */
     ciat_init_table();

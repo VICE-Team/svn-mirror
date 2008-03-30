@@ -117,9 +117,6 @@
 /* Version number.  */
 #define VERSION ""
 
-/* Define if this version is unstable.  */
-#define UNSTABLE
-
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 

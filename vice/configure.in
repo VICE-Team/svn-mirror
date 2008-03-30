@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.1.57)
+AM_INIT_AUTOMAKE(vice, 0.16.1.58)
 AM_CONFIG_HEADER(src/config.h)
 
-AC_DEFINE(UNSTABLE)
+dnl AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no

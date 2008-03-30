@@ -60,10 +60,9 @@ image_contents_t *image_contents_new(void)
 
 void image_contents_destroy(image_contents_t *contents)
 {
-    image_contents_file_list_t *p;
+    image_contents_file_list_t *p, *h;
 
-    for (p = contents->file_list; p != NULL; p = p->next)
-        free(p);
+    for (p = contents->file_list; p != NULL; h = p, p = p->next, free(h));
 
     free(contents);
 }

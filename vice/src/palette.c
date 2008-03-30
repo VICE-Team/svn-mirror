@@ -112,7 +112,7 @@ static char *next_nonspace(const char *p)
 int palette_load(const char *file_name, palette_t *palette_return)
 {
     char buf[1024];
-    int line_num, entry_num;
+    int line_num, entry_num, line_len;
     palette_t *tmp;
     char *complete_path;
     FILE *f;
@@ -133,7 +133,8 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
     tmp = palette_create(palette_return->num_entries, NULL);
     line_num = entry_num = 0;
-    while (get_line(buf, 1024, f) >= 0) {
+    line_len = get_line(buf, 1024, f);
+    while (line_len >= 0) {
         line_num++;
         if (*buf != '#') {
             int i;
@@ -184,6 +185,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                 entry_num++;
             }
         }
+        line_len = get_line(buf, 1024, f);
     }
 
     fclose(f);
