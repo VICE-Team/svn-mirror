@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.35
+ VERSION=1.14.36
 
 
 cat >>confdefs.h <<_ACEOF
@@ -9910,7 +9910,8 @@ _ACEOF
 
 
 
-for ac_header in linux/soundcard.h machine/soundcard.h
+
+for ac_header in linux/soundcard.h machine/soundcard.h sys/soundcard.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
