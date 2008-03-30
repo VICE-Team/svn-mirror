@@ -126,6 +126,7 @@ EXTRA_DIST = \
 	c64c128.dsp \
 	c64cart.dsp \
 	cbm2.dsp \
+	core.dsp \
 	crtc.dsp \
 	diskimage.dsp \
 	drive.dsp \

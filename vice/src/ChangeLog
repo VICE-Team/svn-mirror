@@ -1,6 +1,27 @@
 2003-06-28  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.12.6.
+	* Version 1.12.8.
+
+	* drive/iecieee/via1d.c, drive/iecieee/via2d.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c: Use new `viacore.c'.
+
+	* core/viacore.c, core/Makefile.am, arch/win32/core.dsp: New
+	files.
+
+	* Makefile.am, arch/win32/Makefile.am, arch/win32/vice.dsw:
+	Updated.
+
+	* viacore.c, viacore.h: Removed.
+
+	* vic20/vic20-snapshot.c, vic20/vic20.c, vic20/vic20rsuser.c,
+	pet/pet.c, pet/pet-snapshot.c, drive/iecieee/iecieee.c,
+	drive/viad.h, pet/petvia.h, vic20/vic20ieeevia.h,
+	vic20/vic20via.h, drive/viad.h: Changed to context interface.
+
+2003-06-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.7.
 
 	* vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
 	vic20/vic20ieeevia2.c, vic20/vic20ieeevia.h, vic20/vic20via.h,
