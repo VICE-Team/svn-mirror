@@ -134,7 +134,7 @@ Machine state commands
 
 `return'
      Continues execution  and returns to the monitor just
-     before(after?) the next RTS or RTI is executed.
+     after the next RTS or RTI is executed.
 
 `step [<count>]'
      Single step through instructions.  An optional count allows

@@ -31,6 +31,7 @@
 #include "log.h"
 #include "resources.h"
 #include "statusbar.h"
+#include "videoarch.h"
 
 /* the bitmap with the status informations */
 BITMAP *status_bitmap = NULL;
@@ -65,6 +66,7 @@ int statusbar_init(void)
         rect(status_bitmap,0,0,STATUSBAR_WIDTH-1,
             STATUSBAR_HEIGHT-1,STATUSBAR_COLOR_WHITE);
     }
+    return 0;
 
 }
 
@@ -126,9 +128,9 @@ void statusbar_disable()
     if (!video_in_gfx_mode() || (behind_status_bitmap == NULL))
         return;
 
-    /* FIXME: Only clearing the statusbar 
-        makes problems with videocache enabled */
     statusbar_to_screen(behind_status_bitmap);
+    raster_mode_change();
+
 }
 
 

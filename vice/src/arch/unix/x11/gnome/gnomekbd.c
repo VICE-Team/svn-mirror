@@ -40,7 +40,8 @@
 #include "kbdef.h"
 
 /* Meta status (used to filter out keypresses when meta is pressed).  */
-static int meta_count = 0;
+extern int meta_count;	/* coming from uihotkey.c */
+int ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp);
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
@@ -53,6 +54,9 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
         return;
     }
 
+    if (ui_hotkey_event_handler(w, report, gp))
+	return;
+    
     key = report->key.keyval;
 
     if (key != NoSymbol

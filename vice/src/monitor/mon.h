@@ -252,6 +252,7 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive9_interface_init);
 extern bool mon_force_import(MEMSPACE mem);
 extern void mon_check_icount(ADDRESS a);
+extern void mon_check_icount_interrupt(void);
 extern void mon_check_watchpoints(ADDRESS a);
 extern void mon(ADDRESS a);
 

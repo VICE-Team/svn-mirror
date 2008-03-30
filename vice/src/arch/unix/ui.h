@@ -119,5 +119,6 @@ extern void ui_display_tape_current_image(char *image);
 extern void ui_proc_start(void);
 extern void ui_destroy_widget(ui_window_t w);
 extern void ui_set_topmenu(void);
+extern void ui_set_selected_file(int num);
 
 #endif /* !_UI_H_ */

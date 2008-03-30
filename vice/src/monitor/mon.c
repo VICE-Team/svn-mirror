@@ -2175,7 +2175,10 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
    instruction_count = 1;
-   wait_for_return_level = 1;
+   wait_for_return_level = (GET_OPCODE(caller_space) == OP_RTS) 
+                           ? 0 
+                           : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1;
+   skip_jsrs = TRUE;
    exit_mon = 1;
 
    mon_mask[caller_space] |= MI_STEP;
@@ -2891,9 +2894,25 @@ void mon_check_icount(ADDRESS a)
             if (GET_OPCODE(caller_space) == OP_RTS)
                wait_for_return_level--;
 
-            /* FIXME: Should this set the return level to 0? */
             if (GET_OPCODE(caller_space) == OP_RTI)
                wait_for_return_level--;
+
+            if (wait_for_return_level < 0)
+            {
+               wait_for_return_level = 0;
+
+               /* FIXME: [SRT], 01-24-2000: this is only a workaround.
+               this occurs when the commands 'n' or  'ret' are executed 
+               out of an active IRQ or NMI processing routine. 
+
+               the following command immediately stops executing when used
+               with 'n' and parameter > 1, but it's necessary because else,
+               it can occur that the monitor will not come back at all.
+               Don't know so far how this can be avoided. The only 
+               solution I see is to keep track of every IRQ and NMI 
+               invocation and every RTI. */
+               instruction_count = 0;
+            }
         }
 
         if (instruction_count == 0) {
@@ -2907,6 +2926,18 @@ void mon_check_icount(ADDRESS a)
            mon(a);
         }
     }
+}
+
+void mon_check_icount_interrupt(void)
+{
+    /* this is a helper for mon_check_icount.
+    It's called whenever a IRQ or NMI is executed
+    and the mon_mask[caller_space] | MI_STEP is
+    active, i.e., we're in the single step mode */
+
+    if (instruction_count)
+        if (skip_jsrs == TRUE)
+            wait_for_return_level++;
 }
 
 void mon_check_watchpoints(ADDRESS a)

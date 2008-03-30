@@ -138,14 +138,14 @@ inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
         /* (This should be theoretically correct, but in practice it makes us
            loose time, and sometimes click.  So it's better to just discard
            the frame if this happens, as we do in the #else case.  */
-        while (poll_scroll())
+        while (poll_modex_scroll())
             /* Make sure we have finished flipping the previous frame.  */ ;
 #else
-        if (poll_scroll())
+        if (poll_modex_scroll())
             return;
 #endif
         blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
-        request_scroll(0, c->back_page * c->height);
+        request_modex_scroll(0, c->back_page * c->height);
         c->back_page = 1 - c->back_page;
     } else {
         blit(f, screen, xs, ys, xi, yi, w, h);

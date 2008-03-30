@@ -160,9 +160,8 @@ int ui_empty_disk_dialog(char *name)
 
     ui_popup(edisk_dialog, "Create empty Diskimage", FALSE);
     res = gnome_dialog_run(GNOME_DIALOG(edisk_dialog));
-    if (edisk_dialog)
-	gtk_widget_hide(edisk_dialog);
-    
+    ui_popdown(edisk_dialog);
+
     if (res != 0)
 	return -1;
 

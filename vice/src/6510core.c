@@ -176,6 +176,9 @@
             if ((ik & IK_NMI)                                            \
                 && interrupt_check_nmi_delay(&CPU_INT_STATUS, CLK)) {    \
                 TRACE_NMI();                                             \
+                if (mon_mask[CALLER] & (MI_STEP)) {                      \
+                    mon_check_icount_interrupt();                        \
+                }                                                        \
                 interrupt_ack_nmi(&CPU_INT_STATUS);                      \
                 LOCAL_SET_BREAK(0);                                      \
                 PUSH(reg_pc >> 8);                                       \
@@ -191,6 +194,9 @@
                        && interrupt_check_irq_delay(&CPU_INT_STATUS,     \
                                                     CLK)) {              \
                 TRACE_IRQ();                                             \
+                if (mon_mask[CALLER] & (MI_STEP)) {                      \
+                    mon_check_icount_interrupt();                        \
+                }                                                        \
                 LOCAL_SET_BREAK(0);                                      \
                 PUSH(reg_pc >> 8);                                       \
                 PUSH(reg_pc & 0xff);                                     \

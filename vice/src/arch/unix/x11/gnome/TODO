@@ -8,13 +8,13 @@ Missing features
 - Session Management
 
 Known Bugs (help is appreciated !):
-- Hotkey event doesn't eat key 
-  e.g. ALT-w enables warp but `w' is also passed on
-- Currently events aren't blocked for the main window, when a popup window
-  is open (-> one can open multiple file dialogs, which leads to confusion
-  of the uicode).
-- x128 shows topmenu only on VDC window and gives a GTK warning.
+- x128 gives a GTK warning because topmenu is reused.
 - vsid mode doesn't work properly. Dag takes care of this.
+- Gnome commandline is ignored.
+- Get font from Xresource database for textwindows
+- Setting the color palette twice leads to GTK/X error assertion (Help needed!)
+  doesn't happen on my 16bit Xserver@home; problem maybe with 8bit color depth?
 
 Things, which will change:
-- Contents preview will go inside the file selector (as in win32 version).
+- Dialogs will use changed to use more Gnome Stock stuff. 
+- Monitor GUI

@@ -57,6 +57,14 @@
 #include "utils.h"
 #include "vsync.h"
 
+static int selection_from_image = 0;
+
+/* ------------------------------------------------------------------------- */
+void ui_set_selected_file(int num)
+{
+    selection_from_image = num;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static char *read_disk_image_contents(const char *name)
@@ -98,8 +106,8 @@ static UI_CALLBACK(attach_disk)
 	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_disk(filename, NULL, 0) < 0)
-	    ui_error("Invalid Disk Image");
+	if (autostart_disk(filename, NULL, selection_from_image) < 0)
+	    ui_error("Invalid Disk Image or Filename");
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
@@ -163,7 +171,7 @@ static UI_CALLBACK(attach_tape)
     suspend_speed_eval();
 
     filename = ui_select_file("Attach a tape image", read_tape_image_contents,
-			      True, last_dir, "*.t*", &button);
+			      True, last_dir, "*.[tT]*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -176,7 +184,7 @@ static UI_CALLBACK(attach_tape)
 	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_tape(filename, NULL, 0) < 0)
+	if (autostart_tape(filename, NULL, selection_from_image) < 0)
 	    ui_error("Invalid Tape Image");
 	else
 	    ui_display_tape_current_image(filename);
@@ -230,7 +238,7 @@ static UI_CALLBACK(smart_attach)
 	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
-	if (autostart_autodetect(filename, NULL, 0) < 0)
+	if (autostart_autodetect(filename, NULL, selection_from_image) < 0)
 	    ui_error("Unknown image type");
 	if (last_dir)
 	    free(last_dir);

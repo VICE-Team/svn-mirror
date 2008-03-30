@@ -43,7 +43,8 @@ typedef struct {
 static registered_hotkey_t *registered_hotkeys;
 static int num_registered_hotkeys;
 static int num_allocated_hotkeys;
-static int meta_count, control_count, shift_count;
+static int control_count, shift_count;
+int meta_count;			/* used also in gnomekbd.c */
 
 /* ------------------------------------------------------------------------- */
 
@@ -89,7 +90,7 @@ void ui_hotkey_register(ui_hotkey_modifier_t modifier,
 
 /* ------------------------------------------------------------------------- */
 
-gint ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
+int ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint keysym;
     int i;
@@ -145,7 +146,7 @@ gint ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
                 if (p->keysym == keysym) {
 		  ((void*(*)(GtkWidget*, ui_callback_data_t))
 		    p->callback) (NULL, p->client_data);
-		  return TRUE;	/* tell GTK we've done it */
+		  return TRUE;	/* we've done it */
                 }
             }
         }

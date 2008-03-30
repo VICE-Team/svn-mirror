@@ -107,8 +107,7 @@ void ui_snapshot_dialog(void)
 
     ui_popup(snapshot_dialog, "Save Snapshot", FALSE);
     res = gnome_dialog_run(GNOME_DIALOG(snapshot_dialog));
-    if (snapshot_dialog)
-	gtk_widget_hide(snapshot_dialog);
+    ui_popdown(snapshot_dialog);
     
     if (res != 0)
 	return;

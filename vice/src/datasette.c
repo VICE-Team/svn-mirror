@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@arcormail.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -476,6 +477,17 @@ void datasette_reset(void)
 }
 
 
+static void datasette_start_motor(void)
+{
+    fseek(current_image->fd, current_image->current_file_seek_position
+          + current_image->offset, SEEK_SET);
+    if (!datasette_alarm_pending) {
+        alarm_set(&datasette_alarm, clk + 1000);
+        datasette_alarm_pending = 1;
+    }
+}
+
+
 void datasette_control(int command)
 {
     if (current_image != NULL) {
@@ -494,18 +506,21 @@ void datasette_control(int command)
             current_image->mode = DATASETTE_CONTROL_START;
             datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
+            if (datasette_motor) datasette_start_motor();
             break;
           case DATASETTE_CONTROL_FORWARD:
             current_image->mode = DATASETTE_CONTROL_FORWARD;
             datasette_forward();
             datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
+            if (datasette_motor) datasette_start_motor();
             break;
           case DATASETTE_CONTROL_REWIND:
             current_image->mode = DATASETTE_CONTROL_REWIND;
             datasette_rewind();
             datasette_set_tape_sense(1);
             last_write_clk = (CLOCK)0;
+            if (datasette_motor) datasette_start_motor();
             break;
           case DATASETTE_CONTROL_RECORD:
             if (current_image->read_only == 0) {
@@ -527,12 +542,7 @@ void datasette_set_motor(int flag)
     if (current_image != NULL) {
         if (flag && !datasette_motor)
         {
-            fseek(current_image->fd, current_image->current_file_seek_position
-                  + current_image->offset, SEEK_SET);
-            if (!datasette_alarm_pending) {
-                alarm_set(&datasette_alarm, clk + 1000);
-                datasette_alarm_pending = 1;
-            }
+            datasette_start_motor();
         }
         if (!flag && datasette_motor)
         {
