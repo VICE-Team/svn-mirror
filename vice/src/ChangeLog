@@ -1,3 +1,49 @@
+1999-07-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.53.
+
+	* vdc/vdc.h: Fixed VDC screen geometry.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler): Adjusted memory
+	pointers on line 0.
+
+	* raster/raster.h (ycounter): Made int.
+
+	* autostart.c, c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+	pet/petmem.c, cbm2/c610mem.c, arch/msdos/menudefs.c: Renamed
+	`NoTraps' to `VirtualDevices'.
+
+	* vdrive/vdrive.c (get_block_parameters): Allow '#' as parameter
+	separator.  Renamed to `vdrive_get_block_parameters'.
+	(vdrive_parse_name): Do not exit on ',' if `FAM_READ' or
+	`FAM_WRITE' is already set.
+
+1999-07-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128mem.c (mem_set_exrom): new function
+
+	* c64/c64iec.c (iec_available_busses): use carttype to 
+	determine possible disk drives
+
+	* c64/c64mem.c (mem_set_exrom): new function to set state
+	of EXROM line
+
+	* c64/c64tpi.c (store_pc): call mem_set_exrom()
+
+	* c64/cartridge.c (carttype): make exported
+	(attach_ieee488, cmdline_options): new function, added
+	cmdline option to attach IEEE488 image
+
+	* ciatimer.h (ciat_update): fix hangup
+
+	* crtc/crtc.c (clk_overflow_callback): new function
+	(crtc_init): add clock guard callback
+	(crtc_reset): reset clock values
+	(crtc_raster_draw_alarm_handler): handle CRTC frame length
+	and call machine_set_cycles_per_frame()
+
+	* crtc.h (crtc_t): add frame_start, cycles_per_frame
+
 1999-07-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.52.

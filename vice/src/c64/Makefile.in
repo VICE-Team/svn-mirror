@@ -434,7 +434,7 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
-	../../src/drive/viad.h ../../src/via.h
+	../../src/cartridge.h ../../src/drive/viad.h ../../src/via.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
 	../../src/arch/unix/types.h c64cia.h ../../src/cia.h \
@@ -466,7 +466,7 @@ c64tpi.o: c64tpi.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/maincpu.h ../../src/tpicore.c
+	../../src/maincpu.h c64mem.h ../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \

@@ -396,7 +396,8 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
  * This function is modeled after BLKPAR, in the 1541 ROM at CC6F.
  */
 
-static int  get_block_parameters(char *buf, int *p1, int *p2, int *p3, int *p4)
+static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
+                                       int *p4)
 {
     int ip;
     char *bp;
@@ -409,7 +410,7 @@ static int  get_block_parameters(char *buf, int *p1, int *p2, int *p3, int *p4)
     bp = buf;
 
     for (ip = 0; ip < 4; ip++) {
-	while (*bp == ' ' || *bp == ')' || *bp == ',')
+	while (*bp == ' ' || *bp == ')' || *bp == ',' || *bp == '#')
 	    bp++;
 	if (*bp == 0)
 	    break;
@@ -430,7 +431,8 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
     switch (command) {
       case 'R':
       case 'W':
-        l = get_block_parameters(buffer, &channel, &drive, &track, &sector);
+        l = vdrive_get_block_parameters(buffer, &channel, &drive, &track,
+                                        &sector);
 
         if (l < 0) {
 #ifdef DEBUG_DRIVE
@@ -460,7 +462,8 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
         break;
       case 'A':
       case 'F':
-        l = get_block_parameters(buffer, &drive, &track, &sector, &channel);
+        l = vdrive_get_block_parameters(buffer, &drive, &track, &sector,
+                                        &channel);
         if (l > 0) /* just 3 args used */
             return l;
         if (command == 'A') {
@@ -492,9 +495,10 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
         }
         break;
       case 'P':
-        l = get_block_parameters(buffer, &channel, &position, &track, &sector);
-            if (l > 0) /* just 2 args used */
-        return l;
+        l = vdrive_get_block_parameters(buffer, &channel, &position, &track,
+                                        &sector);
+        if (l > 0) /* just 2 args used */
+            return l;
         if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
             return IPE_NO_CHANNEL;
         vdrive->buffers[channel].bufptr = position;
@@ -564,11 +568,11 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
     p = (char *)memchr(name, ':', length);
     if (p)
         p++;
-    else {	/* no colon found */
+    else {      /* no colon found */
         if (*name != '$')
             p = name;
         else
-            p = name + strlen(name);	/* set to null byte */
+            p = name + strlen(name);    /* set to null byte */
     }
 #ifdef DEBUG_DRIVE
     log_debug("Name (%d): '%s'.", length, p);
@@ -583,98 +587,72 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
     *reallength = 0;
 
     while (*p != ',' && t-- > 0) {
-	(*reallength)++;
-	*(ptr++) = *(p++);	/* realname pointer */
+        (*reallength)++;
+        *(ptr++) = *(p++);      /* realname pointer */
 #ifdef DEBUG_DRIVE
-	log_debug("parsing... [%d] %02x  t=%d.", *reallength, *(ptr-1), t);
+        log_debug("parsing... [%d] %02x  t=%d.", *reallength, *(ptr-1), t);
 #endif
     }  /* while */
 
 
-    *filetype = 0;		/* EP */
+    *filetype = 0;              /* EP */
 
     /*
      * Change modes ?
      */
     while (t > 0) {
-	t--;
-	p++;
+        t--;
+        p++;
 
-	if (t == 0) {
+        if (t == 0) {
 #ifdef DEBUG_DRIVE
-	    log_debug("done. [%d] %02x  t=%d.", *reallength, *p, t);
-	    log_debug("No type.");
+            log_debug("done. [%d] %02x  t=%d.", *reallength, *p, t);
+            log_debug("No type.");
 #endif
-	    return FLOPPY_ERROR;
-	}
+            return FLOPPY_ERROR;
+        }
 
-	switch (*p) {
-	  case 'S':
-	    *filetype = FT_SEQ;
-	    break;
-	  case 'P':
-	    *filetype = FT_PRG;
-	    break;
-	  case 'U':
-	    *filetype = FT_USR;
-	    break;
-	  case 'L':			/* L,(#record length)  max 254 */
-	    if (rl && p[1] == ',') {
-		*rl = p[2];		/* Changing RL causes error */
+        switch (*p) {
+          case 'S':
+            *filetype = FT_SEQ;
+            break;
+          case 'P':
+            *filetype = FT_PRG;
+            break;
+          case 'U':
+            *filetype = FT_USR;
+            break;
+          case 'L':                     /* L,(#record length)  max 254 */
+            if (rl && p[1] == ',') {
+                *rl = p[2];             /* Changing RL causes error */
 
-		if (*rl > 254)
-		    return FLOPPY_ERROR;
-	    }
-	    *filetype = FT_REL;
-	    break;
-
-
-	    /* 1581 types */
-
-	  case 'C':
-	    *filetype = FT_CBM;		/* 1581 partition */
-	    break;
-	  case 'J':
-	    *filetype = FT_DJJ;
-	    break;
-	  case 'F':
-	    *filetype = FT_FAB;		/* Fred's format */
-	    break;
+                if (*rl > 254)
+                    return FLOPPY_ERROR;
+            }
+            *filetype = FT_REL;
+            break;
 
 
-	    /* Access Control Methods */
-
-	  case 'R':
-	    *readmode = FAM_READ;
-	    break;
-	  case 'W':
-	    *readmode = FAM_WRITE;
-	    break;
-	  case 'A':
-	    if (*filetype != FT_SEQ)
-		return FLOPPY_ERROR;
-	    *readmode = FAM_APPEND;		/* Append on a SEQ file */
-	    break;
-
-	  default:
+          default:
 #ifdef DEBUG_DRIVE
-	    log_debug("No way. p='%s'.", p);
+            log_debug("Invalid extension. p='%s'.", p);
 #endif
-	    return FLOPPY_ERROR;
-	}
+            if (*readmode != FAM_READ && *readmode != FAM_WRITE)
+                return FLOPPY_ERROR;
+        }
 
-	c = (char *)memchr(p, ',', t);
+        c = (char *)memchr(p, ',', t);
 
-	if (c) {
-	    t -= (c - p);
-	    p = c;
-	} else
-	    t = 0;
+        if (c) {
+            t -= (c - p);
+            p = c;
+        } else
+            t = 0;
     }  /* while (t) */
 
 #ifdef DEBUG_DRIVE
     log_debug("Type = %s  %s.", slot_type[*filetype],
-	    (*readmode == FAM_READ ?  "read" : "write"));
+            (*readmode == FAM_READ ?  "read" : "write"));
 #endif
 
     return FLOPPY_COMMAND_OK;
@@ -744,8 +722,8 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
 {
     char *src;
     char dest_name[256], src_name[256];
-    int dest_reallength, dest_readmode, dest_filetype, dest_rl;
-    int	src_reallength, src_readmode, src_filetype, src_rl;
+    int dest_reallength, dest_readmode = FAM_READ, dest_filetype, dest_rl;
+    int	src_reallength, src_readmode = FAM_READ, src_filetype, src_rl;
     BYTE *slot;
 
     if (!dest || !(src = memchr(dest, '=', length)) )
