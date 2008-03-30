@@ -96,7 +96,7 @@ static UI_CALLBACK(radio_Drive9Type)
     }
 }
 
-static ui_menu_entry_t set_drive0_type_submenu[] = {
+ui_menu_entry_t set_drive0_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive8Type,
@@ -124,7 +124,7 @@ static ui_menu_entry_t set_drive0_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive1_type_submenu[] = {
+ui_menu_entry_t set_drive1_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive9Type,
@@ -242,49 +242,16 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { NULL }
 };
 
-/* This menu is for the PET/CBM2 */
-static ui_menu_entry_t par_drive_settings_submenu[] = {
-    { N_("*Enable true drive emulation"),
-      (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
-    { "--" },
-    { N_("Drive #8 floppy disk type"),
-      NULL, NULL, set_drive0_type_submenu },
-    { N_("Drive #8 40-track image support"),
-      NULL, NULL, set_drive0_extend_image_policy_submenu },
-#if 0
-    { N_("Drive #8 idle method"),
-      NULL, NULL, set_drive0_idle_method_submenu },
-#endif
-    { "--" },
-    { N_("Drive #9 floppy disk type"),
-      NULL, NULL, set_drive1_type_submenu },
-    { N_("Drive #9 40-track image support"),
-      NULL, NULL, set_drive1_extend_image_policy_submenu },
-#if 0
-    { N_("Drive #9 idle method"),
-      NULL, NULL, set_drive1_idle_method_submenu },
-#endif
-    { NULL }
-};
-
 ui_menu_entry_t ui_drive_options_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { NULL }
 };
 
-
 /* c64 */
 ui_menu_entry_t ui_drive_settings_menu[] = {
     { N_("Drive settings"),
       NULL, NULL, drive_settings_submenu },
-    { NULL }
-};
-
-/* PET/CBM2 */
-ui_menu_entry_t ui_par_drive_settings_menu[] = {
-    { N_("Drive settings"),
-      NULL, NULL, par_drive_settings_submenu },
     { NULL }
 };
 

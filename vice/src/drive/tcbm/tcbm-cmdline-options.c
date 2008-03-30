@@ -1,5 +1,5 @@
 /*
- * uidrive.h
+ * tcbm-cmdline-options.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,16 +24,22 @@
  *
  */
 
-#ifndef _UI_DRIVE_H
-#define _UI_DRIVE_H
+#include "vice.h"
 
-struct ui_menu_entry_s;
+#include <stdio.h>
 
-extern struct ui_menu_entry_s drive_settings_submenu[];
-extern struct ui_menu_entry_s ui_drive_options_submenu[];
-extern struct ui_menu_entry_s ui_drive_settings_menu[];
-extern struct ui_menu_entry_s set_drive0_type_submenu[];
-extern struct ui_menu_entry_s set_drive1_type_submenu[];
+#include "cmdline.h"
+#include "tcbm-cmdline-options.h"
 
-#endif
+
+static cmdline_option_t cmdline_options[] = {
+    { "-dos1551", SET_RESOURCE, 1, NULL, NULL, "DosName1551", "dos1551",
+      "<name>", "Specify name of 1551 DOS ROM image" },
+    { NULL }
+};
+
+int tcbm_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
