@@ -30,11 +30,13 @@
 #include <dir.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "fcntl.h"
 #include "findpath.h"
 #include "archdep.h"
 
+#include "log.h"
 #include "utils.h"
 
 static char *orig_workdir;
@@ -161,5 +163,31 @@ int archdep_default_logger(const char *level_string, const char *format,
                                                                 va_list ap)
 {
     return 0;
+}
+
+static RETSIGTYPE break64(int sig)
+{
+
+#ifdef SYS_SIGLIST_DECLARED
+    log_message(LOG_DEFAULT, "Received signal %d (%s).",
+                sig, sys_siglist[sig]);
+#else
+    log_message(LOG_DEFAULT, "Received signal %d.", sig);
+#endif
+
+    exit (-1);
+}
+
+void archdep_setup_signals(int do_core_dumps)
+{
+    signal(SIGINT, SIG_IGN);
+
+    if (!do_core_dumps) {
+        signal(SIGSEGV,  break64);
+        signal(SIGILL,   break64);
+        signal(SIGPIPE,  break64);
+        signal(SIGHUP,   break64);
+        signal(SIGQUIT,  break64);
+    }
 }
 

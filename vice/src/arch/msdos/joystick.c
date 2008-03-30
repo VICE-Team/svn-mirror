@@ -288,6 +288,12 @@ void joystick_update(void)
     }
 }
 
+void joystick_close(void)
+{
+   /* Nothing to do on MSDOS.  */
+   return;
+}
+
 /* Handle keys to emulate the joystick.  Warning: this is called within the
    keyboard interrupt, so take care when modifying this code!  */
 int joystick_handle_key(kbd_code_t kcode, int pressed)

@@ -83,7 +83,6 @@
 /* ------------------------------------------------------------------------- */
 
 #ifndef __riscos
-static RETSIGTYPE break64(int sig);
 static void exit64(void);
 #endif
 
@@ -434,26 +433,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (ui_init_finish() < 0)
         return -1;
 
-#ifndef __riscos
-#ifdef __MSDOS__
-    signal(SIGINT, SIG_IGN);
-#else
-    signal(SIGINT, break64);
-    signal(SIGTERM, break64);
-#endif
-
-    if (!do_core_dumps) {
-        signal(SIGSEGV,  break64);
-        signal(SIGILL,   break64);
-
-#ifndef WIN32
-        /* Windows does not have these ones.  */
-        signal(SIGPIPE,  break64);
-        signal(SIGHUP,   break64);
-        signal(SIGQUIT,  break64);
-#endif
-    }
-#endif
+    archdep_setup_signals(do_core_dumps);
 
     /* Initialize real joystick.  */
 #ifdef HAS_JOYSTICK
@@ -538,18 +518,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 
 #ifndef __riscos
 
-static RETSIGTYPE break64(int sig)
-{
-#ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, "Received signal %d (%s).",
-                sig, sys_siglist[sig]);
-#else
-    log_message(LOG_DEFAULT, "Received signal %d.", sig);
-#endif
-
-    exit (-1);
-}
-
 void video_free(void);
 
 static void exit64(void)
@@ -565,7 +533,7 @@ static void exit64(void)
     video_free();
     sound_close();
 
-#if defined(HAS_JOYSTICK) && !defined(__MSDOS__)
+#ifdef HAS_JOYSTICK
     joystick_close();
 #endif
 
@@ -573,3 +541,4 @@ static void exit64(void)
 }
 
 #endif
+
