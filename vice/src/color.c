@@ -274,19 +274,21 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                                     PIXEL pixel_return[],
                                     unsigned long *col_return)
 {
-    unsigned int colnr;
+    unsigned int colnr, dest_colnr;
     color_list_t *cdest;
 
     colnr = 0;
 
     while (src->next != NULL) {
         cdest = dest;
+        dest_colnr = 0;
+
         while (cdest->next != NULL) {
             if (src->color_rgb_req.red == cdest->color_rgb_req.red
                 && src->color_rgb_req.green == cdest->color_rgb_req.green
                 && src->color_rgb_req.blue == cdest->color_rgb_req.blue) {
                 pixel_return[colnr] = cdest->pixel_data;
-                uicolor_convert_color_table(colnr, &(pixel_return[colnr]),
+                uicolor_convert_color_table(dest_colnr, &(pixel_return[colnr]),
                                             &(cdest->pixel_data),
                                             cdest->color_rgb_req.dither,
                                             cdest->color_pixel);
@@ -295,6 +297,7 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                 colnr++;
             }
             cdest = cdest->next;
+            dest_colnr++;
         }
         src = src->next;
     }
