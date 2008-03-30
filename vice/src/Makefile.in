@@ -570,12 +570,11 @@ autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	snapshot.h tape.h arch/unix/ui.h uiapi.h \
 	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h \
 	vdrive/vdrive-bam.h zfile.h
-c1541.o: c1541.c vice.h config.h arch/win32/lose32.h \
-	arch/win32/archdep.h archapi.h charset.h arch/win32/types.h \
-	diskimage.h gcr.h info.h log.h p00.h serial.h snapshot.h t64.h \
-	utils.h vdrive/vdrive-bam.h vdrive/vdrive-command.h \
-	vdrive/vdrive-dir.h vdrive/vdrive-iec.h vdrive/vdrive.h \
-	zipcode.h
+c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h charset.h \
+	arch/unix/types.h diskimage.h gcr.h info.h log.h p00.h serial.h \
+	snapshot.h t64.h utils.h vdrive/vdrive-bam.h \
+	vdrive/vdrive-command.h vdrive/vdrive-dir.h vdrive/vdrive-iec.h \
+	vdrive/vdrive.h zipcode.h
 charset.o: charset.c vice.h config.h charset.h arch/unix/types.h log.h \
 	utils.h
 ciatimer.o: ciatimer.c vice.h config.h alarm.h arch/unix/types.h \
@@ -638,8 +637,7 @@ palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 parallel.o: parallel.c vice.h config.h cmdline.h resources.h \
 	drive/drive.h log.h arch/unix/types.h drive/drivecpu.h \
 	maincpu.h 6510core.h parallel.h serial.h
-petcat.o: petcat.c vice.h config.h arch/win32/lose32.h charset.h \
-	arch/win32/types.h p00.h
+petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \

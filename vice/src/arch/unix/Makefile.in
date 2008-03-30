@@ -525,7 +525,7 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/../videoarch.h ../../../src/fullscreen.h \
 	../../../src/raster/raster.h \
 	../../../src/raster/raster-changes.h ../../../src/palette.h \
-	../../../src/vsync.h
+	../../../src/video.h ../../../src/vsync.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/kbdbuf.h types.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h ../../../src/vsyncapi.h joystick.h

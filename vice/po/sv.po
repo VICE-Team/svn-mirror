@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-08 19:52+0100\n"
+"POT-Creation-Date: 2001-12-09 22:37+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2566,30 +2566,30 @@ msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:299
+#: src/arch/unix/x11/video.c:300
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Enbart %ibitar/pixel stöds av denna emulator."
 
-#: src/arch/unix/x11/video.c:301
+#: src/arch/unix/x11/video.c:302
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
 
-#: src/arch/unix/x11/video.c:304
+#: src/arch/unix/x11/video.c:305
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:339
+#: src/arch/unix/x11/video.c:340
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MTSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:344
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:393
+#: src/arch/unix/x11/video.c:394
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 

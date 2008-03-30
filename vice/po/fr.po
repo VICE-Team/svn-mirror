@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.7\n"
-"POT-Creation-Date: 2001-12-08 19:52+0100\n"
+"POT-Creation-Date: 2001-12-09 22:37+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2553,30 +2553,30 @@ msgstr ""
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:299
+#: src/arch/unix/x11/video.c:300
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:301
+#: src/arch/unix/x11/video.c:302
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:304
+#: src/arch/unix/x11/video.c:305
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:339
+#: src/arch/unix/x11/video.c:340
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:344
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:393
+#: src/arch/unix/x11/video.c:394
 msgid "Cannot release shared memory!"
 msgstr ""
 

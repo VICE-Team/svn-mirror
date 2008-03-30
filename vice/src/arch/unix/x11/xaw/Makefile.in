@@ -334,7 +334,8 @@ about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/fullscreen.h ../../../../../src/resources.h \
 	../../../../../src/raster/raster.h \
 	../../../../../src/raster/raster-changes.h \
-	../../../../../src/palette.h ../../../../../src/vsync.h
+	../../../../../src/palette.h ../../../../../src/video.h \
+	../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/drive/drive.h ../../../../../src/log.h \
 	../../../../../src/arch/unix/types.h \

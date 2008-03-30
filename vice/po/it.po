@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-08 19:52+0100\n"
+"POT-Creation-Date: 2001-12-09 22:37+0100\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2574,30 +2574,30 @@ msgstr "Non chiamare `XSync()' dopo aver aggiornato la finestra di emulazione"
 msgid "Never use shared memory (slower)"
 msgstr "Non usare mai la memoria condivisa (più lento)"
 
-#: src/arch/unix/x11/video.c:299
+#: src/arch/unix/x11/video.c:300
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Solo %ibpp sono supportati da questo emulatore."
 
-#: src/arch/unix/x11/video.c:301
+#: src/arch/unix/x11/video.c:302
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "La profondita attuale dell'X server è %ibpp."
 
-#: src/arch/unix/x11/video.c:304
+#: src/arch/unix/x11/video.c:305
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Cambia la profondita dell'X server o ricompila con --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:339
+#: src/arch/unix/x11/video.c:340
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Le estensioni MITSHM non sono supportate su questo display."
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:344
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevate le estensioni MITSHM versione %d.%d."
 
-#: src/arch/unix/x11/video.c:393
+#: src/arch/unix/x11/video.c:394
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 

@@ -1,3 +1,69 @@
+2001-12-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.36.
+
+	* arch/unix/x11/videoarch.h: Added `video_render_config_t'
+	to canvas.
+
+	* arch/unix/x11/video.c (video_convert_color_table,
+	convert_8to8, convert_8to16, convert_8to32, convert_8toall,
+	convert_8to1_dither): Changed to new video render API.
+	(video_canvas_create): Initialize videoconfig.
+
+	* vdc/vdc-draw.c (get_idle, draw_idle_cached, draw_idle): New
+	functions.
+	(setup_single_size_modes): Added idle modes.
+	(get_std_text, draw_std_text_cached, draw_std_text,
+	get_std_bitmap, draw_std_bitmap_cached, draw_std_bitmap):
+	Removed some hardcoded constants.
+
+	* vdc/vdc-mem.c (vdc_store): Added more support for register
+	#1, #7, #22, #24 and #25.
+
+	* vdc/vdc.c (vdc_set_geometry, vdc_update_geometry): Removed
+	some hardcoded constants.
+	(vdc_set_video_mode): New function.
+
+	* vdc/vdctypes.h: Removed some hardcoded constants.
+
+2001-12-09  John Selck  <graham@cruise.de>
+
+	* arch/win32/videoarch.h: Replaced videorendermode
+	variable by videoconfig (video_render_config_t).
+
+	* video.h: Added video_render_config_t definition.
+	video_render_main() prototype changed: Now the videoconfig
+	is given to the function instead of rendermode and colortab.
+	Added prototype of video_render_initconfig().
+	Added prototype of video_render_setphysicalcolor().
+
+	* arch/win32/video.c: Changed video_render_main() call.
+	video_canvas_create() now initializes the videoconfig with
+	a video_render_initconfig() call.
+	set_physical_colors() now calls video_render_setphysicalcolor()
+	instead of setting the colors directly into the table.
+
+	* video/video-render.c: video_render_main() adapted for
+	new parameters. video_render_initconfig() and
+	video_render_setphysicalcolor() added.
+	Removed double_scan_bad global variable.
+
+	* raster/raster.c: raster_set_pixel_size() adapted for
+	video_render_config_t. raster_enable_double_scan() now
+	changes videoconfig.doublescan.
+
+	* vicii/vicii-resources.c: set_double_size_enabled() doesn't
+	write to double_scan_bad anymore.
+
+	* vic/vic-resources.c: set_double_size_enabled() doesn't
+	write to double_scan_bad anymore.
+
+	* crtc/crtc-resources.c: set_double_size_enabled() doesn't
+	write to double_scan_bad anymore.
+
+	* plus4/ted-resources.c: set_double_size_enabled() doesn't
+	write to double_scan_bad anymore.
+
 2001-12-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.35.
