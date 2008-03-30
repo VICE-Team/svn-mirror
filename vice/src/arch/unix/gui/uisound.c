@@ -29,16 +29,26 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "sound.h"
+#include "uilib.h"
 #include "uimenu.h"
+#include "uisound.h"
 
 
 UI_MENU_DEFINE_TOGGLE(Sound)
+UI_MENU_DEFINE_STRING_RADIO(SoundDeviceName);
 UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
 UI_MENU_DEFINE_RADIO(SoundOversample)
+
+UI_CALLBACK(set_sound_device_arg)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Sound driver argument"),
+                        _("Argument:"));
+}
 
 ui_menu_entry_t set_sound_sample_rate_submenu[] = {
     { "*8000Hz", (ui_callback_t)radio_SoundSampleRate,
@@ -119,6 +129,13 @@ ui_menu_entry_t sound_settings_submenu[] = {
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
     { "--" },
+      /* Do not change position as position 2 is hard coded. */
+    { N_("Sound device name"),
+      NULL, NULL, NULL },
+    { N_("Sound driver argument..."),
+      (ui_callback_t)set_sound_device_arg,
+      (ui_callback_data_t)"SoundDeviceArg", NULL },
+    { "--" },
     { N_("Sound synchronization"),
       NULL, NULL, set_sound_adjustment_submenu },
     { "--" },
@@ -138,4 +155,51 @@ ui_menu_entry_t ui_sound_settings_menu[] = {
       NULL, NULL, sound_settings_submenu },
     { NULL }
 };
+
+void uisound_menu_create(void)
+{
+    unsigned int i, num;
+    ui_menu_entry_t *devices_submenu;
+
+    num = sound_device_num();
+
+    if (num == 0)
+        return;
+
+    devices_submenu = (ui_menu_entry_t *)lib_calloc((size_t)(num + 1),
+                      sizeof(ui_menu_entry_t));
+
+    for (i = 0; i < num ; i++) {
+        devices_submenu[i].string =
+            (ui_callback_data_t)lib_msprintf("*%s", sound_device_name(i));
+        devices_submenu[i].callback = (ui_callback_t)radio_SoundDeviceName;
+        devices_submenu[i].callback_data
+            = (ui_callback_data_t)lib_stralloc(sound_device_name(i));
+    }
+
+    sound_settings_submenu[2].sub_menu = devices_submenu;
+}
+
+void uisound_menu_shutdown(void)
+{
+    unsigned int i;
+    ui_menu_entry_t *devices_submenu = NULL;
+
+    devices_submenu = sound_settings_submenu[2].sub_menu;
+
+    if (devices_submenu == NULL)
+        return;
+
+    sound_settings_submenu[2].sub_menu = NULL;
+
+    i = 0;
+
+    while (devices_submenu[i].string != NULL) {
+        lib_free(devices_submenu[i].string);
+        lib_free(devices_submenu[i].callback_data);
+        i++;
+    }
+
+    lib_free(devices_submenu);
+}
 
