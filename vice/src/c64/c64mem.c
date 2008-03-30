@@ -1042,8 +1042,7 @@ void mem_detach_cartridge(int type)
 
 void mem_freeze_cartridge(int type)
 {
-    if (type == CARTRIDGE_ACTION_REPLAY
-             || CARTRIDGE_SUPER_SNAPSHOT)
+    if (type == CARTRIDGE_ACTION_REPLAY || CARTRIDGE_SUPER_SNAPSHOT)
 	cartridge_config_changed(35);
     if (type == CARTRIDGE_KCS_POWER)
 	cartridge_config_changed(3);
