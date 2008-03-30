@@ -199,20 +199,20 @@ static void draw_std_text_cached(raster_cache_t *cache,
                                  int xe)
 {
 #ifndef VIDEO_REMOVE_2X
-  ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
+    ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
-  ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, cache->gfx_msk);
 #endif
 }
 
 static void draw_std_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
-  ALIGN_DRAW_FUNC(_draw_std_text, 0,
-                  VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk, 1);
+    ALIGN_DRAW_FUNC(_draw_std_text, 0,
+                    VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk, 1);
 #else /* VIDEO_REMOVE_2X */
-  ALIGN_DRAW_FUNC(_draw_std_text, 0,
-                  VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_std_text, 0,
+                    VIC_II_SCREEN_TEXTCOLS - 1, vic_ii.raster.gfx_msk);
 #endif /* VIDEO_REMOVE_2X */
 }
 
@@ -242,7 +242,7 @@ inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
 
 static void draw_std_text_cached_2x(raster_cache_t *cache, int xs, int xe)
 {
-  ALIGN_DRAW_FUNC(_draw_std_text_2x, xs, xe, cache->gfx_msk, 2);
+    ALIGN_DRAW_FUNC(_draw_std_text_2x, xs, xe, cache->gfx_msk, 2);
 }
 
 static void draw_std_text_2x(void)
@@ -307,7 +307,7 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
         PIXEL2 f;
 
         b = char_ptr[vic_ii.vbuf[i] * 8];
-        f = RASTER_PIXEL2 (&vic_ii.raster, vic_ii.cbuf[i]);
+        f = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i]);
 
         *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
 
@@ -523,7 +523,7 @@ inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
             = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
 #else
         c[3] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
-        *((PIXEL2 *) c + 9) = *((PIXEL2 *)c + 10)
+        *((PIXEL2 *)c + 9) = *((PIXEL2 *)c + 10)
             = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
 #endif
 
