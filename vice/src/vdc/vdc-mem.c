@@ -314,7 +314,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 26:
-        if ((vdc.regs[25] & 0xe0) && (vdc.regs[26] != oldval))
+        if ((!(vdc.regs[25] & 0x40)) && (vdc.regs[26] != oldval))
             vdc.force_repaint = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "Color register %x.", vdc.regs[26]);
