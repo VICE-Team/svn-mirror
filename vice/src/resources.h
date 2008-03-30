@@ -93,6 +93,8 @@ extern int resources_load(const char *fname);
 
 extern int resources_write_item_to_file(FILE *fp, const char *name);
 extern int resources_read_item_from_file(FILE *fp);
+extern char *resources_write_item_to_string(const char *name,
+                                            const char *delim);
 
 extern int resources_set_defaults(void);
 

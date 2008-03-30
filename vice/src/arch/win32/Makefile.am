@@ -65,10 +65,9 @@ libarch_a_SOURCES = \
 	system.c \
 	tfearch.c \
 	types.h \
+	ui-resources.c \
 	ui.c \
 	ui.h \
-	uiperipheral.c \
-	uiperipheral.h \
 	uic128.c \
 	uic128.h \
 	uic64cart.c \
@@ -100,9 +99,11 @@ libarch_a_SOURCES = \
 	uimediafile.c \
 	uimediafile.h \
 	uimon.c \
+	uiperipheral.c \
+	uiperipheral.h \
 	uipetset.c \
 	uipetset.h \
-    uiplus4cart.c \
+	uiplus4cart.c \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
@@ -128,7 +129,6 @@ libarch_a_SOURCES = \
 	uivicset.c \
 	uivideo.c \
 	uivideo.h \
-	ui-resources.c \
 	vic20ui.c \
 	video.c \
 	videoarch.h \

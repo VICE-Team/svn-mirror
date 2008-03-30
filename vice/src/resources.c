@@ -97,6 +97,7 @@ static resource_ram_t *resources;
 static char *machine_id = NULL;
 
 static void write_resource_item(FILE *f, int num);
+static char *string_resource_item(int num, const char *delim);
 
 /* use a hash table with 1024 entries */
 static const unsigned int logHashSize = 10;
@@ -294,6 +295,18 @@ int resources_write_item_to_file(FILE *fp, const char *name)
     log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
 
     return -1;
+}
+
+char *resources_write_item_to_string(const char *name, const char *delim)
+{
+    resource_ram_t *res = lookup(name);
+
+    if (res != NULL)
+        return string_resource_item(res - resources, delim);
+
+    log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
+
+    return NULL;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -668,29 +681,45 @@ int resources_load(const char *fname)
     return err ? RESERR_FILE_INVALID : 0;
 }
 
-/* Write the resource specification for resource number `num' to file
-   descriptor `f'.  */
-static void write_resource_item(FILE *f, int num)
+
+static char *string_resource_item(int num, const char *delim)
 {
+    char *line = NULL;
     resource_value_t v;
 
-    fprintf(f, "%s=", resources[num].name);
     switch (resources[num].type) {
       case RES_INTEGER:
         v = (resource_value_t)*(int *)resources[num].value_ptr;
-        fprintf(f, "%d", (int)v);
+        line = lib_msprintf("%s=%d%s", resources[num].name, (int)v, delim);
         break;
       case RES_STRING:
         v = *resources[num].value_ptr;
         if ((char *)v != NULL)
-            fprintf(f, "\"%s\"", (char *)v);
+            line = lib_msprintf("%s=\"%s\"%s", resources[num].name, (char *)v,
+                   delim);
+        else
+            line = lib_msprintf("%s=%s", resources[num].name, delim);
         break;
       default:
         log_error(LOG_DEFAULT, "Unknown value type for resource `%s'.",
                   resources[num].name);
-	break;
+        break;
     }
-    fputc('\n', f);
+    return line;
+}
+
+/* Write the resource specification for resource number `num' to file
+   descriptor `f'.  */
+static void write_resource_item(FILE *f, int num)
+{
+    char *line;
+
+    line = string_resource_item(num, "\n");
+
+    if (line != NULL) {
+        fprintf(f, line);
+        lib_free(line);
+    }
 }
 
 /* Save all the resources into file `fname'.  If `fname' is NULL, save them

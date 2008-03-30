@@ -51,6 +51,10 @@ static log_t romset_log = LOG_DEFAULT;
 
 static int romset_source_file;
 
+static char *romset_filename = NULL;
+static char *romset_archivename = NULL;
+
+
 static int set_romset_source_file(resource_value_t v, void *param)
 {
     int source;
@@ -65,9 +69,29 @@ static int set_romset_source_file(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_romset_archivename(resource_value_t v, void *param)
+{
+    if (util_string_set(&romset_archivename, (const char *)v))
+        return 0;
+
+    return 0;
+}
+
+static int set_romset_filename(resource_value_t v, void *param)
+{
+    if (util_string_set(&romset_filename, (const char *)v))
+        return 0;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "RomsetSourceFile", RES_INTEGER, (resource_value_t)1,
       (void *)&romset_source_file, set_romset_source_file, NULL },
+    { "RomsetArchiveName", RES_STRING, (resource_value_t)"default",
+      (void *)&romset_archivename, set_romset_archivename, NULL },
+    { "RomsetFileName", RES_STRING, (resource_value_t)"default",
+      (void *)&romset_filename, set_romset_filename, NULL },
     { NULL }
 };
 
@@ -156,6 +180,36 @@ int romset_save(const char *filename, const char **resource_list)
     lib_free(newname);
 
     return 0;
+}
+
+char *romset_file_list(const char **resource_list, const char *delim)
+{
+    char *list;
+    const char *s;
+
+    list = lib_stralloc("");
+    s = *resource_list++;
+
+    while (s != NULL) {
+        int enable;
+        char *tmp, *line;
+
+        resources_get_sprintf("Romset%s", (void *)&enable, s);
+
+        /*if (enable != 0)*/ {
+            line = resources_write_item_to_string(s, delim);
+            if (line != NULL) {
+                tmp = util_concat(list, line, NULL);
+                lib_free(line);
+                lib_free(list);
+                list = tmp;
+            }
+        }
+
+        s = *resource_list++;
+    }
+
+    return list;
 }
 
 

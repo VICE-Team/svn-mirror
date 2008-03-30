@@ -1,5 +1,5 @@
 /*
- * uirom.h - Implementation of the ROM settings dialog box.
+ * uirom.c - Implementation of the ROM settings dialog box.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -31,6 +31,7 @@
 #include <tchar.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -87,20 +88,14 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
 
     while (settings[n].realname != NULL) {
         if ((unsigned int)command == settings[n].idc_browse) {
-            TCHAR *st_filename, st_realname[100];
+            TCHAR st_realname[100];
 
             _stprintf(st_realname, TEXT("Load %s ROM image"),
                       settings[n].realname);
-            st_filename = uilib_select_file(hwnd, st_realname, UILIB_FILTER_ALL,
-                                            UILIB_SELECTOR_TYPE_FILE_LOAD,
-                                            UILIB_SELECTOR_STYLE_DEFAULT);
 
-            if (st_filename == NULL)
-                return TRUE;
-
-            SetDlgItemText(hwnd, settings[n].idc_filename, st_filename);
-            lib_free(st_filename);
-
+            uilib_select_browse(hwnd, st_realname,
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                settings[n].idc_filename);
             return TRUE;
         }
         n++;
@@ -170,28 +165,92 @@ static void enable_controls_for_romset(HWND hwnd, int idc_active)
                  idc_active == IDC_ROMSET_SELECT_FILE);
 }
 
-static void set_romset_dialog(HWND hwnd)
-{
-    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
-        resources_set_value("RomsetSourceFile", 0);
-    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED)
-        resources_set_value("RomsetSourceFile", 1);
-}
-
 static void update_romset_dialog(HWND hwnd, int idc_active)
 {
-    CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE, IDC_ROMSET_SELECT_FILE,
-                     idc_active);
-    enable_controls_for_romset(hwnd, idc_active);
+    char *list;
+    TCHAR *st_list;
+
+    if (idc_active == IDC_ROMSET_SELECT_ARCHIVE
+        || idc_active == IDC_ROMSET_SELECT_FILE) {
+        CheckRadioButton(hwnd, IDC_ROMSET_SELECT_ARCHIVE,
+                         IDC_ROMSET_SELECT_FILE, idc_active);
+        enable_controls_for_romset(hwnd, idc_active);
+    }
+
+    list = machine_romset_file_list("\r\n");
+
+    st_list = system_mbstowcs_alloc(list);
+    SetDlgItemText(hwnd, IDC_ROMSET_PREVIEW, st_list);
+    system_mbstowcs_free(st_list);
+
+    lib_free(list);
 }
 
 static void init_romset_dialog(HWND hwnd)
 {
     int res_value, idc_active;
+    char *name;
+    TCHAR *st_name;
 
     resources_get_value("RomsetSourceFile", (void *)&res_value);
     idc_active = IDC_ROMSET_SELECT_ARCHIVE + res_value;
     update_romset_dialog(hwnd, idc_active);
+
+    resources_get_value("RomsetArchiveName", (void *)&name);
+    st_name = system_mbstowcs_alloc(name);
+    SetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME,
+                   name != NULL ? st_name : TEXT(""));
+    system_mbstowcs_free(st_name);
+
+    resources_get_value("RomsetFileName", (void *)&name);
+    st_name = system_mbstowcs_alloc(name);
+    SetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME,
+                   name != NULL ? st_name : TEXT(""));
+    system_mbstowcs_free(st_name);
+}
+
+static void end_romset_dialog(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_ARCHIVE) == BST_CHECKED)
+        resources_set_value("RomsetSourceFile", (resource_value_t)0);
+    if (IsDlgButtonChecked(hwnd, IDC_ROMSET_SELECT_FILE) == BST_CHECKED)
+        resources_set_value("RomsetSourceFile", (resource_value_t)1);
+
+    GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_value("RomsetArchiveName", (resource_value_t)s);
+
+    GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_value("RomsetfileName", (resource_value_t)s);
+}
+
+static void saveactive_archive_romset_dialog(HWND hwnd)
+{
+
+}
+
+static void savenew_archive_romset_dialog(HWND hwnd)
+{
+
+}
+
+static void delete_archive_romset_dialog(HWND hwnd)
+{
+
+}
+
+static void save_file_romset_dialog(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
+    GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    machine_romset_save(s);
 }
 
 static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
@@ -205,7 +264,7 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            /*set_resources(hwnd, type);*/
+            end_romset_dialog(hwnd);
             return TRUE;
         }
         return FALSE;
@@ -214,6 +273,28 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
           case IDC_ROMSET_SELECT_ARCHIVE:
           case IDC_ROMSET_SELECT_FILE:
             update_romset_dialog(hwnd, LOWORD(wparam));
+            break;
+          case IDC_ROMSET_ARCHIVE_BROWSE:
+            uilib_select_browse(hwnd, TEXT("Select romset archive"),
+                                UILIB_SELECTOR_TYPE_FILE_SAVE,
+                                IDC_ROMSET_ARCHIVE_NAME);
+            break;
+          case IDC_ROMSET_ARCHIVE_SAVEACTIVE:
+            saveactive_archive_romset_dialog(hwnd);
+            break;
+          case IDC_ROMSET_ARCHIVE_SAVENEW:
+            savenew_archive_romset_dialog(hwnd);
+            break;
+          case IDC_ROMSET_ARCHIVE_DELETE:
+            delete_archive_romset_dialog(hwnd);
+            break;
+          case IDC_ROMSET_FILE_BROWSE:
+            uilib_select_browse(hwnd, TEXT("Select romset file"),
+                                UILIB_SELECTOR_TYPE_FILE_SAVE,
+                                IDC_ROMSET_FILE_NAME);
+            break;
+          case IDC_ROMSET_FILE_SAVE:
+            save_file_romset_dialog(hwnd);
             break;
         }
         return TRUE;

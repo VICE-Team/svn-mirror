@@ -157,9 +157,10 @@ struct image_contents_s;
 extern struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
 
 /* Romset handling.  */
+extern void machine_romset_init(void);
 extern int machine_romset_load(char *filename);
 extern int machine_romset_save(char *filename);
-extern void machine_romset_init(void);
+extern char *machine_romset_file_list(const char *delim);
 
 #endif
 

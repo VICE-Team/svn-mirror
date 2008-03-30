@@ -57,6 +57,11 @@ int machine_romset_save(char *filename)
     return romset_save(filename, machine_romset_resources_list);
 }
 
+char *machine_romset_file_list(const char *delim)
+{
+    return romset_file_list(machine_romset_resources_list, delim);
+}
+
 void machine_romset_init(void)
 {
 }

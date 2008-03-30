@@ -33,6 +33,7 @@ extern int romset_resources_init(void);
 
 extern int romset_load(const char *filename);
 extern int romset_save(const char *filename, const char **resource_list);
+extern char *romset_file_list(const char **resource_list, const char *delim);
 
 extern int romset_load_archive(const char *filename, int autostart);
 extern int romset_dump_archive(const char *filename);
