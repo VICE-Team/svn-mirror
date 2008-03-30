@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-06-12 00:35+0200\n"
+"POT-Creation-Date: 2006-06-21 22:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1355,11 +1355,11 @@ msgstr ""
 msgid "EOI does not blank screen"
 msgstr ""
 
-#: src/pet/petpia1.c:122
+#: src/pet/petpia1.c:121
 msgid "Enable userport diagnostic pin"
 msgstr ""
 
-#: src/pet/petpia1.c:124
+#: src/pet/petpia1.c:123
 msgid "Disable userport diagnostic pin"
 msgstr ""
 
@@ -1407,19 +1407,19 @@ msgstr ""
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr ""
 
-#: src/plus4/plus4memcsory256k.c:120
+#: src/plus4/plus4memcsory256k.c:119
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:135
+#: src/plus4/plus4memhannes256k.c:134
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:137
+#: src/plus4/plus4memhannes256k.c:136
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr ""
 
-#: src/plus4/plus4memhannes256k.c:139
+#: src/plus4/plus4memhannes256k.c:138
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr ""
 
@@ -2537,67 +2537,67 @@ msgstr ""
 msgid "TED settings"
 msgstr ""
 
-#: src/arch/unix/rs232.c:109
+#: src/arch/unix/rs232.c:108
 msgid "Specify baudrate of first RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:111
+#: src/arch/unix/rs232.c:110
 msgid "Specify baudrate of second RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:113
+#: src/arch/unix/rs232.c:112
 msgid "Specify baudrate of third RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:115
+#: src/arch/unix/rs232.c:114
 msgid "Specify baudrate of 4th RS232 device"
 msgstr ""
 
-#: src/arch/unix/rs232.c:246
+#: src/arch/unix/rs232.c:245
 msgid "No more devices available."
 msgstr ""
 
-#: src/arch/unix/rs232.c:251
+#: src/arch/unix/rs232.c:250
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr ""
 
-#: src/arch/unix/rs232.c:271
+#: src/arch/unix/rs232.c:270
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr ""
 
-#: src/arch/unix/rs232.c:298
+#: src/arch/unix/rs232.c:297
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:302
+#: src/arch/unix/rs232.c:301
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:322
+#: src/arch/unix/rs232.c:321
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:326
+#: src/arch/unix/rs232.c:325
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:338
+#: src/arch/unix/rs232.c:337
 #, c-format
 msgid "Error writing: %s."
 msgstr ""
 
-#: src/arch/unix/rs232.c:353
+#: src/arch/unix/rs232.c:352
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr ""
 
-#: src/arch/unix/rs232.c:357
+#: src/arch/unix/rs232.c:356
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr ""
@@ -2991,7 +2991,7 @@ msgstr ""
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uinetplay.c:117
+#: src/arch/unix/uicommands.c:478 src/arch/unix/uinetplay.c:116
 msgid "Netplay (experimental)"
 msgstr ""
 
@@ -3677,55 +3677,55 @@ msgstr ""
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:69
+#: src/arch/unix/uinetplay.c:68
 msgid "Enter port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:70
+#: src/arch/unix/uinetplay.c:69
 msgid "Netplay TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:82
+#: src/arch/unix/uinetplay.c:81
 msgid "Invalid TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:90
+#: src/arch/unix/uinetplay.c:89
 msgid "Error starting the netplay server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:95
+#: src/arch/unix/uinetplay.c:94
 msgid "Netplay Server name"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:96
+#: src/arch/unix/uinetplay.c:95
 msgid "Hostname:"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:102
+#: src/arch/unix/uinetplay.c:101
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:112
 msgid "*Enable IPV6"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:120
+#: src/arch/unix/uinetplay.c:119
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:122
+#: src/arch/unix/uinetplay.c:121
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:124
+#: src/arch/unix/uinetplay.c:123
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:127
+#: src/arch/unix/uinetplay.c:126
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:203
 msgid "Disconnect"
 msgstr ""
 

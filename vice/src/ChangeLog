@@ -1,3 +1,63 @@
+2006-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.15.
+
+	* drive/ieee/fdc.c (fdc_detach_image): Fixed warning.
+
+	* diskimage.h, diskimage/fsimage-create.c,
+	diskimage/fsimage-gcr.c, diskimage/fsimage-probe.c,
+	diskimage/fsimage.c, diskimage/rawimage.c, c1541.c
+	[disk_image_t]: Use a union for private media structs.
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	cbm2/cbm2-resources.c, plus4/plus4-resources.c, pet/petpia1.c,
+	pet/petpia2.c, pet/petvia.c, pet/petiec.c, c64/c64tpi.c,
+	c64/c64cia2.c, c128/c128cia1.c, cbm2/cbm2tpi1.c,
+	cbm2/cbm2iec.c, cbm2/cbm2cia1.c, c64/c64iec.c,
+	plus4/plus4iec.c, vic20/vic20via1.c, vic20/vic20via2.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c,
+	plus4/plus4mem.c, c64/cart/stb.c, arch/unix/rs232.c,
+	arch/unix/uinetplay.c, plus4/plus4memhannes256k.c,
+	plus4/plus4memcsory256k.c, fileio/fileio.c: Updated includes.
+
+2006-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h,
+	arch/amigaos/make-bindist.sh, arch/amigaos/mui/uiacia.c,
+	arch/amigaos/mui/uic64_256k.c,
+	arch/amigaos/mui/uicbm2settings.c,
+	arch/amigaos/mui/uidatasette.c, arch/amigaos/mui/uigeoram.c,
+	arch/amigaos/mui/uipetreu.c, arch/amigaos/mui/uiplus256k.c,
+	arch/amigaos/mui/uiplus60k.c, arch/amigaos/mui/uiramcart.c,
+	arch/amigaos/mui/uireu.c, arch/amigaos/mui/uirs232user.c,
+	arch/amigaos/mui/uivic20mem.c, arch/amigaos/mui/uivicii.c,
+	arch/amigaos/video.c: Added ppc-aros support.
+
+2006-06-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h,
+	arch/amigaos/mui/uisound.c, arch/amigaos/mui/uivicii.c,
+	arch/amigaos/uiattach.c: Fixed some intl support function
+	calls and added some new items.
+
+	* arch/amigaos/screenshot.c: Fixed an uninited variable that
+	caused 'garbage' at the beginning of the screenshot file name.
+
+	* arch/amigaos/ui.c: Fixed window->UserPort so that it won't
+	crash when switching screens/resolutions.
+
+	* arch/amigaos/video.c: Fixed the rendering style and color
+	routines for the AROS port to make it work properly, thanx to
+	Kalamatee for help on this.
+
+2006-06-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_file.c: mon_file_open() returns -1 now if the
+	drive does not exist. This prevents an error if people use the
+	old format for the "load", "l" command, for example, 'l "file"
+	c000, which resulted in a hangup of the system.
+
 2006-06-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.14.

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-06-12 00:35+0200\n"
+"POT-Creation-Date: 2006-06-21 22:16+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1380,11 +1380,11 @@ msgstr "EOI maakt het scherm leeg"
 msgid "EOI does not blank screen"
 msgstr "EOI maakt het scherm niet leeg"
 
-#: src/pet/petpia1.c:122
+#: src/pet/petpia1.c:121
 msgid "Enable userport diagnostic pin"
 msgstr "Aktiveer PET userport diagnostic pin"
 
-#: src/pet/petpia1.c:124
+#: src/pet/petpia1.c:123
 msgid "Disable userport diagnostic pin"
 msgstr "PET userport diagnostic pin afsluiten"
 
@@ -1432,19 +1432,19 @@ msgstr "Geef de naam van het Cartridge 2 high ROM bestand"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:120
+#: src/plus4/plus4memcsory256k.c:119
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktiveer de CSORY 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:135
+#: src/plus4/plus4memhannes256k.c:134
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktiveer de HANNES 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:137
+#: src/plus4/plus4memhannes256k.c:136
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktiveer de HANNES 1024K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:139
+#: src/plus4/plus4memhannes256k.c:138
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktiveer de HANNES 4096K geheugen uitbreiding"
 
@@ -2588,67 +2588,67 @@ msgstr "RAM instellingen"
 msgid "TED settings"
 msgstr "TED instellingen"
 
-#: src/arch/unix/rs232.c:109
+#: src/arch/unix/rs232.c:108
 msgid "Specify baudrate of first RS232 device"
 msgstr "Geef de baudrate van het eerste RS232 apparaat"
 
-#: src/arch/unix/rs232.c:111
+#: src/arch/unix/rs232.c:110
 msgid "Specify baudrate of second RS232 device"
 msgstr "Geef de baudrate van het tweede RS232 apparaat"
 
-#: src/arch/unix/rs232.c:113
+#: src/arch/unix/rs232.c:112
 msgid "Specify baudrate of third RS232 device"
 msgstr "Geef de baudrate van het derde RS232 apparaat"
 
-#: src/arch/unix/rs232.c:115
+#: src/arch/unix/rs232.c:114
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Geef de baudrate van het vierde RS232 apparaat"
 
-#: src/arch/unix/rs232.c:246
+#: src/arch/unix/rs232.c:245
 msgid "No more devices available."
 msgstr "Geen apparaten meer beschikbaar."
 
-#: src/arch/unix/rs232.c:251
+#: src/arch/unix/rs232.c:250
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(apparaat=%d)."
 
-#: src/arch/unix/rs232.c:271
+#: src/arch/unix/rs232.c:270
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Kan bestand \"%s\" niet openen: %s"
 
-#: src/arch/unix/rs232.c:298
+#: src/arch/unix/rs232.c:297
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Poging om ongeldig fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:302
+#: src/arch/unix/rs232.c:301
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Poging om niet-open fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:322
+#: src/arch/unix/rs232.c:321
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Poging om te schrijven naar ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:326
+#: src/arch/unix/rs232.c:325
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Poging om te schrijven naar niet-open fs %d."
 
-#: src/arch/unix/rs232.c:338
+#: src/arch/unix/rs232.c:337
 #, c-format
 msgid "Error writing: %s."
 msgstr "Fout bij schrijven: %s."
 
-#: src/arch/unix/rs232.c:353
+#: src/arch/unix/rs232.c:352
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Poging om te lezen van ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:357
+#: src/arch/unix/rs232.c:356
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Poging om te lezen van niet-open fd %d."
@@ -3049,7 +3049,7 @@ msgstr "Ga terug naar mijlpaal"
 msgid "Recording start mode"
 msgstr "Opname start modus"
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uinetplay.c:117
+#: src/arch/unix/uicommands.c:478 src/arch/unix/uinetplay.c:116
 msgid "Netplay (experimental)"
 msgstr "Netplay (experimenteel)"
 
@@ -3735,55 +3735,55 @@ msgstr "Schrijf toetsenbord naar bestand"
 msgid "Keyboard settings"
 msgstr "Toetsenbord instellingen"
 
-#: src/arch/unix/uinetplay.c:69
+#: src/arch/unix/uinetplay.c:68
 msgid "Enter port"
 msgstr "Geef poort"
 
-#: src/arch/unix/uinetplay.c:70
+#: src/arch/unix/uinetplay.c:69
 msgid "Netplay TCP port"
 msgstr "Netplay TCP poort"
 
-#: src/arch/unix/uinetplay.c:82
+#: src/arch/unix/uinetplay.c:81
 msgid "Invalid TCP port"
 msgstr "Ongeldige TCP poort"
 
-#: src/arch/unix/uinetplay.c:90
+#: src/arch/unix/uinetplay.c:89
 msgid "Error starting the netplay server."
 msgstr "Fout bij het starten van de netplay server."
 
-#: src/arch/unix/uinetplay.c:95
+#: src/arch/unix/uinetplay.c:94
 msgid "Netplay Server name"
 msgstr "Netplay Server naam"
 
-#: src/arch/unix/uinetplay.c:96
+#: src/arch/unix/uinetplay.c:95
 msgid "Hostname:"
 msgstr "Hostnaam:"
 
-#: src/arch/unix/uinetplay.c:102
+#: src/arch/unix/uinetplay.c:101
 msgid "Error connecting to server."
 msgstr "Fout bij het verbinden met de server."
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:112
 msgid "*Enable IPV6"
 msgstr "*Aktiveer IPV6"
 
-#: src/arch/unix/uinetplay.c:120
+#: src/arch/unix/uinetplay.c:119
 msgid "TCP port"
 msgstr "TCP poort"
 
-#: src/arch/unix/uinetplay.c:122
+#: src/arch/unix/uinetplay.c:121
 msgid "Start server"
 msgstr "Start server"
 
-#: src/arch/unix/uinetplay.c:124
+#: src/arch/unix/uinetplay.c:123
 msgid "Server to connect to"
 msgstr "Server om mee te verbinden"
 
-#: src/arch/unix/uinetplay.c:127
+#: src/arch/unix/uinetplay.c:126
 msgid "Connect to server"
 msgstr "maak verbinding met de server"
 
-#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/uinetplay.c:128 src/arch/unix/x11/gnome/uinetplay.c:203
 msgid "Disconnect"
 msgstr "Verbreek verbinding"
 
