@@ -308,9 +308,14 @@ raster_cache_data_fill_attr_text (BYTE *dest,
 			     int length,
 			     int l,
 			     int *xs, int *xe,
-			     int no_check)
+			     int no_check,
+                             int blink)
 {
-#define _GET_ATTR_CHAR_DATA(c, a, l) (((a) & 0x80)?char_mem+0x1000:char_mem)[((c) * bytes_per_char) + (l)]
+
+#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
+  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
+  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? 0xff : 0x00))
+
   if (no_check)
     {
       int i;

@@ -131,61 +131,6 @@ init_drawing_tables (void)
 }
 
 
-/*
-inline static int
-raster_cache_data_fill_attr_text (BYTE *dest,
-                                  BYTE *src,
-                                  BYTE *attr,
-                                  BYTE *char_mem,
-                                  int bytes_per_char,
-                                  int length,
-                                  int l,
-                                  int *xs, int *xe,
-                                  int no_check)
-{
-    #define _GET_ATTR_CHAR_DATA(c, a, l) (((a) & VDC_ALTCHARSET_ATTR)?char_mem+0x1000:char_mem)[(c) * bytes_per_char + (l)]
-
-
-    if (no_check)
-    {
-        int i;
-        *xs = 0;
-        *xe = length - 1;
-        for (i = 0; i < length; i++, src++, attr++)
-            dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
-        return 1;
-    }
-    else
-    {
-        BYTE b;
-        int i;
-
-        for (i = 0;
-             i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
-             i++, src++, attr++)
-*/
-            /* do nothing */
-/*
-        if (i < length)
-        {
-            *xs = *xe = i;
- 
-            for (; i < length; i++, src++, attr++)
-                if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr[0], l)))
-                {
-                    dest[i] = b;
-                    *xe = i;
-                }
-            return 1;
-        }
-        else
-            return 0;
-    }
-#undef _GET_ATTR_CHAR_DATA
-}
-*/
-
-
 static int
 get_std_text(raster_cache_t *cache,
              int *xs,
@@ -213,7 +158,8 @@ get_std_text(raster_cache_t *cache,
                                     (vdc.raster.ycounter
                                     / vdc.raster_ycounter_divide),
                                     xs, xe,
-                                    rr);
+                                    rr,
+                                    vdc.text_blink_visible);
 
     r |= raster_cache_data_fill(cache->color_data_1,
                                 vdc.ram+vdc.attribute_adr+vdc.mem_counter,

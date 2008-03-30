@@ -167,8 +167,11 @@ void vdc_reset(void)
     raster_reset(&vdc.raster);
     vdc.regs[0] = 49;
     vdc.cursor_visible = 0;
-    vdc.cursor_freqency = 0;
+    vdc.cursor_frequency = 0;
     vdc.cursor_counter = 0;
+    vdc.text_blink_frequency = 32;
+    vdc.text_blink_counter = 0;
+    vdc.text_blink_visible = 0;
     alarm_set(&vdc.raster_draw_alarm, VDC_CYCLES_PER_LINE());
 }
 
@@ -212,12 +215,20 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
         vdc.bitmap_counter = 0;
         vdc.raster.ycounter = 0;
 
-        if (vdc.cursor_freqency > 0) {
+        if (vdc.cursor_frequency > 0) {
             if (vdc.cursor_counter == 0) {
                 vdc.cursor_visible ^= 1;
-                vdc.cursor_counter = vdc.cursor_freqency;
+                vdc.cursor_counter = vdc.cursor_frequency;
             }
             vdc.cursor_counter--;
+        }
+
+        if (vdc.text_blink_frequency > 0) {
+            if (vdc.text_blink_counter == 0) {
+                vdc.text_blink_visible ^= 1;
+                vdc.text_blink_counter = vdc.text_blink_frequency;
+            }
+            vdc.text_blink_counter--;
         }
 
         if (vdc.force_resize) {

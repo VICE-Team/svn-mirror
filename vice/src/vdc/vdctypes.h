@@ -162,7 +162,7 @@ struct _vdc
     int cursor_visible;
 
     /* Cursor blinking frequency.  */
-    int cursor_freqency;
+    int cursor_frequency;
 
     /* Cursor frame counter.  */
     int cursor_counter;
@@ -172,6 +172,15 @@ struct _vdc
 
     /* Resize geometry next frame.  */
     int force_resize;
+
+    /* Is the flashing text visible?  */
+    int text_blink_visible;
+
+    /* Text blinking frequency.  */
+    int text_blink_frequency;
+
+    /* Text blink counter.  */
+    int text_blink_counter;
 
     /* VDC raster.  */
     raster_t raster;
