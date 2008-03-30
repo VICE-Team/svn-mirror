@@ -2,7 +2,7 @@
  * video.c - Video implementation for Win32, using DirectDraw.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,14 +41,14 @@
 #include <graph.h>
 #endif
 
-#include "cmdline.h"
-#include "kbd.h"
-#include "log.h"
-#include "resources.h"
-#include "types.h"
+#include "video.h"
+
 #include "ui.h"
 #include "utils.h"
-#include "video.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "log.h"
+#include "kbd.h"
 
 static CHAR  szClientClass [] = "VICE/2 Gfx";
 static CHAR  szTitleBarText[] = "VICE/2 1.0";

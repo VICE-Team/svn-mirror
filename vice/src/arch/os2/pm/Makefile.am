@@ -9,7 +9,7 @@ INCLUDES = \
 noinst_LIBRARIES = libpm.a
 
 libpm_a_SOURCES = \
-	pbar.c \
-	pbar.h \
 	scrollbars.c \
-	scrollbars.h
+	scrollbars.h \
+        winaddon.c \
+        winaddon.h

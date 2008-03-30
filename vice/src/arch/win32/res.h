@@ -161,6 +161,12 @@
 #define IDD_OPEN_TEMPLATE		1250
 #define IDC_PREVIEW                     1251
 
+#define IDD_DATASETTE_SETTINGS_DIALOG   1260
+#define IDC_DATASETTE_RESET_WITH_CPU    1261
+#define IDC_DATASETTE_SPEED_TUNING      1262
+#define IDC_DATASETTE_ZERO_GAP_DELAY    1263
+
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -251,8 +257,7 @@
 #define IDM_DATASETTE_CONTROL_REWIND    40163
 #define IDM_DATASETTE_CONTROL_RECORD    40164
 #define IDM_DATASETTE_CONTROL_RESET     40165
-#define IDM_DATASETTE_RESET_WITH_CPU    40166
-#define IDM_DATASETTE_RESET_COUNTER     40167
+#define IDM_DATASETTE_RESET_COUNTER     40166
 #define IDM_FLIP_ADD                    40170
 #define IDM_FLIP_REMOVE                 40171
 #define IDM_FLIP_NEXT                   40172
@@ -265,5 +270,6 @@
 #define IDM_TOGGLE_EMUID		40185
 #define IDM_IEEE488			40186
 #define IDM_MOUSE			40187
+#define IDM_DATASETTE_SETTINGS  40188
 
 #endif

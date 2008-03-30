@@ -39,7 +39,7 @@ extern void *xmalloc(size_t s);
 extern void *xcalloc(size_t nmemb, size_t size);
 extern void *xrealloc(void *p, size_t s);
 extern char *concat(const char *s1, ...);
-extern char *bufcat(char *buf, int *buf_size, int *max_buf_size,
+extern char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
                     const char *src, int src_size);
 extern void remove_spaces(char *s);
 extern int make_backup_file(const char *fname);

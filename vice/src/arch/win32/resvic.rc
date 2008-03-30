@@ -47,7 +47,6 @@ BEGIN
             MENUITEM "&Rewind",                   IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",                   IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",                    IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset with &Main-CPU",      IDM_DATASETTE_RESET_WITH_CPU, CHECKED
             MENUITEM "Reset C&ounter",            IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
@@ -138,6 +137,7 @@ BEGIN
     BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
+        MENUITEM "D&atasette settings...",          IDM_DATASETTE_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR

@@ -33,8 +33,6 @@ typedef struct _canvas {
 
 /* ------------------------------------------------------------------------ */
 
-extern void video_free(void);
-
 extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);
 extern int video_init(void);

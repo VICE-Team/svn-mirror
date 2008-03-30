@@ -273,7 +273,6 @@ void vsync_init(void (*hook)(void))
 
 static void display_speed(int num_frames)
 {
-    static ULONG vice_secs=0;
     static ULONG prev_time;
     if (!speed_eval_suspended) {
         ULONG curr_time = gettime();
@@ -282,7 +281,7 @@ static void display_speed(int num_frames)
 	float speed_index = diff_clk/(time_diff*cycles_per_sec);
 	float frame_rate  = num_frames/time_diff;
 
-        ui_display_speed(speed_index*100, frame_rate, vice_secs++);
+        ui_display_speed(speed_index*100, frame_rate);
 
         prev_time = curr_time;
     }
@@ -334,9 +333,11 @@ int do_vsync(int been_skipped)
         sound_flush(0);
     }
     else
+    {
         if (refresh_rate) { // !=0
             update_elapsed_frames(0); /* Fixed refresh rate.  */
-            if (timer_speed && skip_counter >= elapsed_frames) timer_sleep();
+            if (timer_speed && skip_counter >= elapsed_frames)
+                timer_sleep();
             if (skip_counter < refresh_rate - 1) {
                 skip_next_frame = 1;
                 skip_counter++;
@@ -361,7 +362,7 @@ int do_vsync(int been_skipped)
                 else skip_counter = elapsed_frames = 0;
             patch_timer(sound_flush(relative_speed));
         }
-
+    }
     if (frame_counter >= refresh_frequency * 2) {
         display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;

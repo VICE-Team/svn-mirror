@@ -46,6 +46,8 @@
 //#include <sys/hw.h>
 //#endif
 
+#include "pm/winaddon.h"
+
 #include "ui.h"
 #include "ui_status.h"
 
@@ -100,17 +102,64 @@ int ui_init_cmdline_options(void)
 /* ------------------------ VICE/2 Status Window ------------------------ */
 
 /* Tape related UI */
-void ui_set_tape_status(int tape_status) {}
-void ui_display_tape_motor_status(int motor) {}
-void ui_display_tape_control_status(int control) {}
-void ui_display_tape_counter(int counter) {}
+void ui_set_tape_status(int tape_status)
+{   // attached or not attached
+    BYTE keyState[256];
+    RECTL rectl;
 
+    if (!ui_status.init) return;
+
+    ui_set_rectl_lwth(&rectl, 0, 234, 5, 8, 12);
+    WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+    ui_set_rectl_lwth(&rectl, 0, 235, 3, 9, 10);
+    WinFillRect(ui_status.hps, &rectl, tape_status?5:SYSCLR_FIELDBACKGROUND);
+//    ui_status.lastTapeMotor=motor;
+}
+
+void ui_display_tape_motor_status(int motor)
+{
+    BYTE keyState[256];
+    RECTL rectl;
+
+    if (!ui_status.init) return;
+
+    ui_set_rectl_lwth(&rectl, 0, 242, 5, 7, 12);
+    WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+    ui_set_rectl_lwth(&rectl, 0, 243, 3, 8, 10);
+    WinFillRect(ui_status.hps, &rectl, motor?5:SYSCLR_FIELDBACKGROUND);
+    ui_status.lastTapeMotor=motor;
+}
+
+void ui_display_tape_control_status(int control)
+{
+    char str[40];
+    RECTL rectl;
+    if (!ui_status.init) return;
+
+    sprintf(str,"C:%02i",control);
+    ui_set_rectl_lwth(&rectl, 0, 220, 32, 6, 15);
+    WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
+                DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT);
+//    ui_status.lastTapeCounter=counter;
+}
+
+void ui_display_tape_counter(int counter)
+{
+    char str[40];
+    RECTL rectl;
+    if (!ui_status.init) return;
+
+    sprintf(str,"%04i",counter);
+    ui_set_rectl_lwth(&rectl, 0, 250, 32, 6, 15);
+    WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
+                DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT);
+    ui_status.lastTapeCounter=counter;
+}
 
 void ui_display_drive_led(int drive_number, int status)
 {
     BYTE keyState[256];
-    RECTL rectl=ui_status.rectl;
-    int  height=rectl.yTop-rectl.yBottom;
+    RECTL rectl;
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (PM_winActive) {
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
@@ -120,15 +169,8 @@ void ui_display_drive_led(int drive_number, int status)
     }
     DosReleaseMutexSem(hmtxKey);
     if (!ui_status.init || drive_number>1) return;
-    rectl.xLeft   =rectl.xRight-(2-drive_number)*20-2;
-    rectl.xRight  =rectl.xLeft+10+3;
-    rectl.yTop    =height/2+10;
-    rectl.yBottom =height/2+5;
-    WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
-    rectl.xLeft   +=1;
-    rectl.xRight  -=1;
-    rectl.yBottom +=1;
-    rectl.yTop    -=1;
+
+    ui_set_rectl_lwth(&rectl, 0, drive_number*20+153, 12, 2, 3);
     WinFillRect(ui_status.hps, &rectl, status?4:SYSCLR_FIELDBACKGROUND);
 }
 
@@ -136,14 +178,11 @@ void ui_display_drive_track(int drive_number, int drive_base,
                             double track_number)
 {
     char str[40];
-    RECTL rectl=ui_status.rectl;
-    int height=rectl.yTop-rectl.yBottom;
+    RECTL rectl;
     if (!ui_status.init || drive_number>1) return;
-    rectl.xLeft   =rectl.xRight-(2-drive_number)*20-4;
-    rectl.xRight  =rectl.xLeft+10+6;
-    rectl.yBottom =height/2-10;
-    rectl.yTop   -=height/2+5;
+
     sprintf(str,"%.0f",track_number);
+    ui_set_rectl_lwth(&rectl, 0, drive_number*20+150, 16, 6, 15);
     WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
                 DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT|
                 (track_number-(int)track_number?DT_UNDERSCORE:0));
@@ -157,53 +196,43 @@ extern void ui_enable_drive_status(ui_drive_enable_t state,
     if (!ui_status.init) return;
     for (i=0; i<2; i++) {
         RECTL rectl;
-        int height=ui_status.rectl.yTop-ui_status.rectl.yBottom;
-        rectl=ui_status.rectl;
-        rectl.xLeft   = rectl.xRight-(2-i)*20-2;
-        rectl.xRight  = rectl.xLeft+10+3;
-        rectl.yTop    = height/2+10;
-        rectl.yBottom = height/2+5;
-        if ((state&(1<<i))) {
-            ui_display_drive_track(i,0,ui_status.lastTrack[i]);
-            WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
-            rectl.xLeft   +=1;
-            rectl.xRight  -=1;
-            rectl.yBottom +=1;
-            rectl.yTop    -=1;
-        }
+        ui_set_rectl_lwth(&rectl, 0, i*20+152, 14, 1, 20);
         WinFillRect(ui_status.hps, &rectl, SYSCLR_FIELDBACKGROUND);
+        if ((state&(1<<i))) {
+            ui_set_rectl_lwth(&rectl, 0, i*20+152, 14, 1, 5);
+            WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+            ui_display_drive_led(i,0);
+            ui_display_drive_track(i,0,ui_status.lastTrack[i]);
+        }
     }
     ui_status.lastDriveState=state;
 }
 
 void ui_display_drive_current_image(int drive_number, const char *image)
-{   // what happens if the image name is to long to fit?
-    if (image) {
+{
+    const ULONG flCmd =
+        DT_TEXTATTRS|DT_VCENTER|DT_LEFT|DT_ERASERECT|DT_WORDBREAK;
+
+    if (image && ui_status.init)
+    {
         RECTL rectl;
         char *text = xmalloc(strlen(image)+11);
 
         strcpy(ui_status.lastImage[drive_number], image);
-
-        rectl.xLeft   = 2;
-        rectl.xRight  = ui_status.rectl.xRight-2;
-        rectl.yBottom = 2+ui_status.step*(3-drive_number);
-        rectl.yTop    = rectl.yBottom+ui_status.step-2;
-        WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
-        rectl.xLeft   += 1; rectl.xRight-=1;
-        rectl.yBottom += 1; rectl.yTop  -=1;
-        WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONMIDDLE);
-
-        rectl.yBottom -= 1;
-        rectl.xLeft   += 2;
-
         sprintf(text, "Drive %2i: %s", drive_number+8, image);
-        GpiSetMix(ui_status.hps, FM_NOTXORSRC); // Draw Text in bar
-        WinDrawText(ui_status.hps, strlen(text), text, &rectl, 0, 0,
-                    DT_TEXTATTRS | DT_VCENTER | DT_LEFT);
 
-        free(text);
+        ui_set_rectl_lrth(&rectl, drive_number+1, 4, 4, 0, 1);
+        WinDraw3dLine(ui_status.hps, &rectl, 0);
+
+        ui_set_rectl_lrtb(&rectl, drive_number+1, 6, 6, 2, 0);
+        if (WinDrawText(ui_status.hps,
+                        strlen(text), text, &rectl, 0, 0, flCmd)<strlen(text))
+        {
+            sprintf(text, "Drive %2i: %s", drive_number+8, strrchr(image, '\\')+1);
+            WinDrawText(ui_status.hps, strlen(text), text, &rectl, 0, 0, flCmd);
+        }
+        free (text);
     }
-
 }
 
 /* ------------------------ VICE only stuff ------------------------ */
@@ -215,6 +244,8 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
+    log_message(LOG_DEFAULT, "VICE/2-Port done by");
+    log_message(LOG_DEFAULT, "T. Bretz.\n");
     ui_open_status_window();
     return 0;
 }
@@ -240,8 +271,6 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
 void ui_update_menus(void)
 {
-/*    if (ui_main_menu != NULL)
-        tui_menu_update(ui_main_menu);*/
 }
 
 int ui_extend_image_dialog(void)

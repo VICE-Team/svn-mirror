@@ -43,14 +43,15 @@ typedef struct _ui_status
     HPS   hps;
     RECTL rectl;
     UINT  step;
+    UINT  width, height; // in steps
+    UINT  xOffset, yOffset;
     BOOL  init;
-    //    float maxSpeed;
-    //    float maxFps;
     float lastSpeed;
     float lastFps;
-    int   lastSec;
     float lastTrack[4];
     CHAR  lastImage[4][255];
+    int   lastTapeMotor;
+    int   lastTapeCounter;
     ui_drive_enable_t lastDriveState;
 
 } ui_status_t;
@@ -62,6 +63,12 @@ HMTX        hmtxKey;
 void PM_status(void *unused);
 void ui_open_status_window(void);
 void ui_draw_status_window(HWND hwnd);
-void ui_display_speed(float spd, float fps, int sec);
+
+void ui_set_rectl_lrtb(RECTL *rectl, int nr, int left, int right, int top, int bottom);
+void ui_set_rectl_lrth(RECTL *rectl, int nr, int left, int right, int top, int height);
+void ui_set_rectl_lwtb(RECTL *rectl, int nr, int left, int width, int top, int bottom);
+void ui_set_rectl_lwth(RECTL *rectl, int nr, int left, int width, int top, int height);
+
+void ui_display_speed(float spd, float fps);
 
 #endif

@@ -55,7 +55,7 @@
 
 static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Gfx";
-static CHAR  szTitleBarText[] = "VICE/2 1.0";
+static CHAR  szTitleBarText[] = "VICE/2 " VICE2VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
 

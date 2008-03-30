@@ -56,6 +56,7 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "uidrive.h"
+#include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
 #include "uisnapshot.h"
@@ -93,7 +94,6 @@ ui_menu_toggle  toggle_list[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
-    { "DatasetteResetWithCPU", IDM_DATASETTE_RESET_WITH_CPU },
     { NULL, 0 }
 };
 
@@ -1108,6 +1108,9 @@ char *dname;
         break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(hwnd);
+        break;
+      case IDM_DATASETTE_SETTINGS:
+        ui_datasette_settings_dialog(hwnd);
         break;
       case IDM_JOY_SETTINGS:
         ui_joystick_settings_dialog(hwnd);

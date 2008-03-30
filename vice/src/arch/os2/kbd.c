@@ -36,17 +36,17 @@
 #include <direct.h>
 
 
-#include "attach.h"        // file_system_attach_disk
-#include "cmdline.h"
-#include "interrupt.h"     // maincpu_trigger_reset
-#include "kbd.h"
-#include "joystick.h"
-#include "machine.h"       // machine_powerup
-#include "resources.h"
-#include "sound.h"
-#include "types.h"
 #include "ui.h"
+#include "kbd.h"
+#include "sound.h"
 #include "vsync.h"
+#include "tape.h"
+#include "attach.h"        // file_system_attach_disk
+#include "machine.h"       // machine_powerup
+#include "cmdline.h"
+#include "resources.h"
+#include "interrupt.h"     // maincpu_trigger_reset
+#include "joystick.h"
 
 int  keyarr        [KBD_ROWS];
 int  rev_keyarr    [KBD_COLS];
@@ -157,6 +157,38 @@ void switch_capslock_led_off(void)
 #ifdef __EMXC__
 #define _getcwd _getcwd2
 #endif
+static void ui_attach_tape(HWND hwnd)
+{
+    static char drive[3]="g:";                        // maybe a resource
+    static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
+    char   result [CCHMAXPATH];
+    char   dirname[CCHMAXPATH];
+
+    _getcwd(dirname, CCHMAXPATH);        // store working dir
+
+    strcat(strcpy(result, drive),path);
+    if (chdir(result))                   // try if actual image dir exist
+    {                                    // if it doesn't exist, set
+        drive[0]=dirname[0];             // imagedir to working dir
+        drive[1]=':';                    // maybe drive is empty at first call
+        strcpy(path, dirname+2);
+    }
+    chdir(dirname);                      // change back to working dir
+
+    if (!ui_file_dialog(hwnd,"Attach tape image", drive, path,
+                        "*.t64;*.t64.gz",
+                        "Attach", result))
+        return;
+    if (tape_attach_image(result) < 0)
+    {
+        ui_error("Cannot attach specified file");
+        return;
+    }
+    drive[0]=result[0];
+    *strrchr(result,'\\')='\0';
+    strcpy(path, result+2);
+}
+
 static void ui_attach_disk(HWND hwnd, int number)
 {
     static char drive[3]="g:";                        // maybe a resource
@@ -176,7 +208,7 @@ static void ui_attach_disk(HWND hwnd, int number)
     chdir(dirname);                      // change back to working dir
 
     if (!ui_file_dialog(hwnd,"Attach disk image", drive, path,
-                        "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
+                        "*.d??;*.d??.gz",
                         "Attach", result))
         return;
     if (file_system_attach_disk(number, result) < 0)
@@ -241,6 +273,7 @@ void wmChar(HWND hwnd, MPARAM mp1)
         {
         case  9/*8*/: ui_attach_disk(hwnd, 8); break;
         case 10/*9*/: ui_attach_disk(hwnd, 9); break;
+        case 11/*0*/: ui_attach_tape(hwnd); break;
         case 16/*Q*/: /*suspend_speed_eval(void);*/ ui_hard_reset(hwnd);   break;
         case 17/*W*/:
             if (resources_save(NULL) < 0) ui_OK_dialog("Resources","Cannot save settings.");

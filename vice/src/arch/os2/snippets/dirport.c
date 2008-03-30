@@ -3,13 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-void flog(char *n, long i) {
-    FILE *f=fopen("output","a");
-    fprintf(f,"%s %li\n",n,i);
-    fclose(f);
-}
-
-
 DIR *opendir (char *path)
 {
     APIRET ulrc;
@@ -23,7 +16,6 @@ DIR *opendir (char *path)
        dir->handle = HDIR_CREATE;
        ulrc = DosFindFirst (name, &(dir->handle), _A_ANY, &(dir->buffer),
                             sizeof(struct _FILEFINDBUF3), &cnt, FIL_STANDARD);
-       flog(name ,ulrc);
        free(name);
     }
     if (!name || ulrc) {
@@ -43,7 +35,6 @@ struct dirent *readdir (DIR *dir)
 int closedir (DIR *dir)
 {
     APIRET ulrc = DosFindClose (dir->handle);
-    flog("DosFindClose",ulrc);
     free(dir);
     return (int)ulrc;
 }

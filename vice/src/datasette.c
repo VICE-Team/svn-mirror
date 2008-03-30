@@ -504,7 +504,7 @@ void datasette_set_motor(int flag)
             fseek(current_image->fd, current_image->current_file_seek_position
                   + current_image->offset, SEEK_SET);
             if (!datasette_alarm_pending) {
-                alarm_set(&datasette_alarm, clk + 10000);
+                alarm_set(&datasette_alarm, clk + 1000);
                 datasette_alarm_pending = 1;
             }
         }

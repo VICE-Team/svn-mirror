@@ -23,20 +23,12 @@
  *  02111-1307  USA.
  *
  */
-/*#define INCL_WINSYS
-#define INCL_GPILCIDS // vac++
-#define INCL_WINSTDFILE
-#define INCL_WINFRAMEMGR
-#define INCL_WINWINDOWMGR
-#define INCL_WINSCROLLBARS
-
-#include "vice.h"*/
 
 #include "ui_status.h"
 
 #include <stdlib.h>
 
-#include "pm/pbar.h"
+#include "pm/winaddon.h"
 #include "log.h"
 
 /* ------------------------ VICE/2 Status Window ------------------------ */
@@ -59,35 +51,65 @@ void ui_open_status_window(void) {
     atexit(ui_close_status_window);
 }
 
-void ui_display_speed(float spd, float fps, int sec)
+/*                         | top
+ ------------------        v
+ nr                    lt-> -> rt
+ ------------------        ^
+ nr                        | bottom
+ ------------------
+ nr
+ ------------------
+ */
+
+void ui_set_rectl_lrtb(RECTL *rectl, int nr, int left, int right, int top, int bottom)
+{
+    rectl->yTop    = (ui_status.height-nr  )*ui_status.step+ui_status.yOffset-1-top;
+    rectl->yBottom = (ui_status.height-nr-1)*ui_status.step+ui_status.yOffset  +bottom;
+    rectl->xLeft   = left+ui_status.xOffset;
+    rectl->xRight  = ui_status.width*ui_status.step-right;
+}
+
+void ui_set_rectl_lrth(RECTL *rectl, int nr, int left, int right, int top, int height)
+{
+    rectl->yTop    = (ui_status.height-nr  )*ui_status.step+ui_status.yOffset-1-top;
+    rectl->yBottom = rectl->yTop-height;
+    rectl->xLeft   = left+ui_status.xOffset;
+    rectl->xRight  = ui_status.width*ui_status.step-right;
+}
+
+void ui_set_rectl_lwtb(RECTL *rectl, int nr, int left, int width, int top, int bottom)
+{
+    rectl->yTop    = (ui_status.height-nr  )*ui_status.step+ui_status.yOffset-1-top;
+    rectl->yBottom = (ui_status.height-nr-1)*ui_status.step+ui_status.yOffset  +bottom;
+    rectl->xLeft   = left+ui_status.xOffset;
+    rectl->xRight  = rectl->xLeft+width;
+}
+
+void ui_set_rectl_lwth(RECTL *rectl, int nr, int left, int width, int top, int height)
+{
+    rectl->yTop    = (ui_status.height-nr  )*ui_status.step+ui_status.yOffset-1-top;
+    rectl->yBottom = rectl->yTop-height;
+    rectl->xLeft   = left+ui_status.xOffset;
+    rectl->xRight  = rectl->xLeft+width;
+}
+
+void ui_display_speed(float spd, float fps)
 {
     char str[80];
-    RECTL rectl=ui_status.rectl;
+    RECTL rectl;
 
     if (!ui_status.init) return;
 
-    //    if (spd>ui_status.maxSpeed) ui_status.maxSpeed=spd;
-    //    if (fps>ui_status.maxFps)   ui_status.maxFps  =fps;
-
-    rectl.xLeft  +=2;                rectl.xRight =rectl.xLeft+50;
-    rectl.yBottom =rectl.yTop-ui_status.step+2; rectl.yTop  -=2;
     sprintf(str,"%3.0f%%", spd);
+    ui_set_rectl_lwtb(&rectl, 0,  5, 47, 2, 2);
     drawBar(ui_status.hps, rectl, spd, 100, str); // 100%
 
-    rectl.xLeft  += 55;
-    rectl.xRight += 55;
     sprintf(str,"%2.0ffps", fps);
+    ui_set_rectl_lwtb(&rectl, 0, 60, 47, 2, 2);
     drawBar(ui_status.hps, rectl, fps, 50, str); // 50fps
 
-    /*    rectl.xLeft  +=55; //rectl.yBottom -=1;
-     rectl.xRight +=75; //rectl.yTop    -=1;
-     sprintf(str,"%02i:%02i:%02i", (sec/(24*60))%24, (sec/60)%60, sec%60);
-     WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
-     DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT);
-     */
-    ui_status.lastSpeed=spd;
-    ui_status.lastFps  =fps;
-    ui_status.lastSec  =sec;
+    ui_status.lastSpeed = spd;
+    ui_status.lastFps   = fps;
 }
 
 
@@ -106,18 +128,20 @@ MRESULT EXPENTRY PM_statProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
         case WM_CREATE:
             if (ui_status.init) break;
-            ui_status.hps = WinGetPS(hwnd);
-            ui_status.init=hwnd;
+            ui_status.hps  = WinGetPS(hwnd);
+            ui_status.init = hwnd;
             break;
         case WM_PAINT:
             if (!ui_status.init) break;
             ui_draw_status_window(hwnd);
-            ui_display_speed(ui_status.lastSpeed, ui_status.lastFps, ui_status.lastSec);
+            ui_display_speed(ui_status.lastSpeed, ui_status.lastFps);
             ui_enable_drive_status(ui_status.lastDriveState, 0);
             ui_display_drive_current_image(0, ui_status.lastImage[0]);
             ui_display_drive_current_image(1, ui_status.lastImage[1]);
             ui_display_drive_current_image(2, ui_status.lastImage[2]);
             ui_display_drive_current_image(3, ui_status.lastImage[3]);
+            ui_display_tape_motor_status(ui_status.lastTapeMotor);
+            ui_display_tape_counter(ui_status.lastTapeCounter);
             break;
         case WM_QUIT:
             if (!ui_status.init) break;
@@ -141,11 +165,8 @@ void PM_status(void *unused)
     HWND hwndFrame, hwndClient;
 
     //    archdep_setup_signals(0);
-    //    ui_status.maxSpeed =0.01;
-    //    ui_status.maxFps   =0.01;
     ui_status.lastSpeed=0;
     ui_status.lastFps  =0;
-    ui_status.lastSec  =0;
     ui_status.lastDriveState=UI_DRIVE_ENABLE_NONE;
 
     hab = WinInitialize(0);            // Initialize PM
@@ -159,9 +180,14 @@ void PM_status(void *unused)
     hwndFrame = WinCreateStdWindow(HWND_DESKTOP, 0, &flStatusFrameFlags,
                                    szStatusClntClass, szStatusBarTitle,
                                    0L, 0, 0, &hwndClient);
-    ui_status.step = WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    ui_status.step    = WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    ui_status.xOffset = WinQuerySysValue(HWND_DESKTOP, SV_CXBORDER);
+    ui_status.yOffset = WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+    ui_status.height  =  5;
+    ui_status.width   = 20;
     WinSetWindowPos(hwndFrame, HWND_TOP, 0, 0,
-                    20*ui_status.step+2, 6*ui_status.step+2,
+                     ui_status.width    *ui_status.step+2*ui_status.xOffset,
+                    (ui_status.height+1)*ui_status.step+2*ui_status.yOffset,
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER); // Make visible, resize, top window
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))

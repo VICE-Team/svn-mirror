@@ -100,6 +100,9 @@ int log_init(void)
         log_file = fopen(log_file_name, "wt");
     }
 
+    /* flush all data direct to the output stream. */
+    if (log_file) setbuf(log_file, NULL);
+
     return log_file == NULL ? -1 : 0;
 }
 

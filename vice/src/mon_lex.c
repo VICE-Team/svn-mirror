@@ -8,7 +8,7 @@
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
 
-#ifdef HAVE_IO_H
+#if defined(__EMXC__) || defined(__IBMC__)
 #include <io.h>
 #endif
 #include <stdio.h>
@@ -720,7 +720,7 @@ static int yy_top_state YY_PROTO(( void ));
 #ifdef YY_MALLOC_DECL
 YY_MALLOC_DECL
 #else
-#if __STDC__
+#if defined(__STDC__) || defined (__EMXC__) || defined (__IBMC__)
 #ifndef __cplusplus
 #include <stdlib.h>
 #endif

@@ -33,6 +33,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "mon.h"
 #include "mon_parse.h"

@@ -24,16 +24,21 @@
  *
  */
 
+#include "ctype.h"
+
 #include "types.h"
 #include "log.h"
 
 int sound_err(ULONG rc, char *s)
 {
     char text[128];
-    mciGetErrorString(rc, text, 128);  // angegebener einheitenname ungueltig
-    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s %li",s,rc);
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s",text);
+    mciGetErrorString(rc, text, 128);
+    if (isprint(text[0]))
+    {
+        WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
+        log_message(LOG_DEFAULT, "soundmmos2.c: %s",text);
+    }
+    log_message(LOG_DEFAULT, "soundmmos2.c: %s (rc=%li)",s,rc);
     return 1;
     //    WORD lo order=unsigned short
 }

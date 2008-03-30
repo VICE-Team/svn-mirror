@@ -1,5 +1,4 @@
 /*
- * sounddrv.h - Implementation of Sound for Vice/2
  *
  * Written by
  *  Thomas Bretz (tbretz@gsi.de)
@@ -24,11 +23,26 @@
  *
  */
 
-#ifndef _SOUNDDRV_H
-#define _SOUNDDRV_H
+#ifndef _WINADDON_H
+#define _WINADDON_H
 
-#include "types.h"
+#define INCL_WINSYS
+#define INCL_WININPUT
+#define INCL_WINRECTANGLES
+#define INCL_WINWINDOWMGR
 
-int sound_err(ULONG rc, char *s);
+#ifdef __IBMC__
+#define INCL_GPIPRIMITIVES
+#endif
+
+#include <os2.h>
+#include <string.h>
+
+#define BORDER_LOWER 0
+#define BORDER_RAISE 1
+
+void WinDraw3dLine  (HPS hps, RECTL *rectl, int raise);
+void WinDraw3dBorder(HPS hps, RECTL *rectl, int width, int raise);
+void drawBar(HPS hps, RECTL rectl, float val, float cut, char *txt);
 
 #endif

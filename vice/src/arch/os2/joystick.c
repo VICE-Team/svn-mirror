@@ -31,10 +31,9 @@
 
 #include "cmdline.h"
 #include "joystick.h"
+
 #include "log.h"
 #include "resources.h"
-#include "types.h"
-
 //#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
 //                                 here...  */
 

@@ -158,6 +158,10 @@ SOURCE=.\uidrive.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uidatasette.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uijoystick.c
 # End Source File
 # Begin Source File
@@ -199,6 +203,10 @@ SOURCE=.\vsync.c
 # Begin Source File
 
 SOURCE=.\winmain.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\main_exit.c
 # End Source File
 # End Target
 # End Project

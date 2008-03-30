@@ -34,10 +34,6 @@
 #include <direct.h>
 #endif
 
-#ifdef __riscos
-typedef int off_t;
-#endif
-
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif

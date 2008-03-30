@@ -24,7 +24,7 @@
  *
  */
 
-#includ "vice.h"
+#include "vice.h"
 
 #include <string.h>
 
