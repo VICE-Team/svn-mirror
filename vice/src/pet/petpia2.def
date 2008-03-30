@@ -94,7 +94,7 @@ READ_PA()
 	        drive1_cpu_execute();
 
 	    if (parallel_debug)
-		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
+		fprintf(logfile, "read pia2 port A %x, parallel_bus=%x, gives %x\n",
 			pia2.port_a, parallel_bus,
 			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
 

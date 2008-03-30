@@ -101,7 +101,7 @@ static int set_up_enabled(resource_value_t v) {
     }
     bit_clk_ticks = char_clk_ticks / 10.0;
 #ifdef DEBUG
-    printf("RS232: %d cycles per char (cycles_per_sec=%ld)\n",
+    fprintf(logfile, "RS232: %d cycles per char (cycles_per_sec=%ld)\n",
            char_clk_ticks, cycles_per_sec);
 #endif
     return 0;
@@ -199,7 +199,7 @@ static void rsuser_setup(void)
 {
     /* switch rs232 on */
 #ifdef DEBUG
-    printf("switch rs232 on\n");
+    fprintf(logfile, "switch rs232 on\n");
 #endif
     rxstate = 0;
     clk_start_rx = 0;
@@ -214,7 +214,7 @@ void rsuser_write_ctrl(BYTE b) {
     int new_rts = b & RTS_OUT;	/* = 0 is active, != 0 is inactive */
 
 #ifdef DEBUG
-printf("userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
+fprintf(logfile, "userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
 		b, new_dtr, new_rts);
 #endif
     if(rsuser_enabled) {
@@ -224,7 +224,7 @@ printf("userport_serial_write_ctrl(b=%02x (dtr=%02x, rts=%02x)\n",
         if(new_dtr && !dtr && fd>=0) {
 #if 0	/* This is a bug in the X-line handshake of the C64... */
 #ifdef DEBUG
-            printf("switch rs232 off\n");
+            fprintf(logfile, "switch rs232 off\n");
 #endif
 	    maincpu_unset_alarm(A_RSUSER);
             rs232_close(fd);
@@ -242,18 +242,18 @@ static void check_tx_buffer(void) {
 
     while(valid >= 10 && (buf & masks[valid-1])) valid--;
 
-    /* printf("rsuser_write_sr(%02x), buf=%x, valid=%d\n",b, buf, valid); */
+    /* fprintf(logfile, "rsuser_write_sr(%02x), buf=%x, valid=%d\n",b, buf, valid); */
 
     if(valid>=10) {	/* (valid-1)-th bit is not set = start bit! */
 	if(!(buf & masks[valid-10])) {
-	    fprintf(stderr, "frame error!\n");
+	    fprintf(errfile, "frame error!\n");
 	} else {
 	    c = (buf >> (valid-9)) & 0xff;
-	    /*printf("rsuser_send %c (%02x), buf=%x, valid=%d\n",
+	    /*fprintf(logfile, "rsuser_send %c (%02x), buf=%x, valid=%d\n",
 						code[c],code[c], buf, valid);*/
 	    if(fd>=0) {
 #ifdef DEBUG
-		printf("\"%c\" (%02x)\n", code[c], code[c]);
+		fprintf(logfile, "\"%c\" (%02x)\n", code[c], code[c]);
 #endif
 		rs232_putc(fd, code[c]);
 	    }
@@ -266,12 +266,12 @@ static void keepup_tx_buffer(void) {
 
     if((!clk_start_bit) || clk < clk_start_bit) return;
 /*
-printf("keepup: clk=%d, _bit=%d, tx=%d, tx+char=%d\n",
+fprintf(logfile, "keepup: clk=%d, _bit=%d, tx=%d, tx+char=%d\n",
 		clk, clk_start_bit, clk_start_tx, clk_start_tx + char_clk_ticks);
 */
     while(clk_start_bit < (clk_start_tx + char_clk_ticks)) {
 #ifdef DEBUG
-	printf("keepup: clk=%d, _bit=%d (%d), _tx=%d\n",
+	fprintf(logfile, "keepup: clk=%d, _bit=%d (%d), _tx=%d\n",
 		clk, clk_start_bit-clk_start_tx, clk_start_bit, clk_start_tx);
 #endif
 	buf= buf<< 1;
@@ -291,7 +291,7 @@ printf("keepup: clk=%d, _bit=%d, tx=%d, tx+char=%d\n",
 
 void rsuser_set_tx_bit(int b) {
 #ifdef DEBUG
-    printf("rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d)\n",
+    fprintf(logfile, "rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d)\n",
 		clk, clk_start_tx, b);
 #endif
 
@@ -310,7 +310,7 @@ void rsuser_set_tx_bit(int b) {
 	clk_start_bit = clk_start_tx;
 	txdata = 0;
 #ifdef DEBUG
-printf("\n");
+fprintf(logfile, "\n");
 #endif
     }
 }
@@ -321,7 +321,7 @@ BYTE rsuser_get_rx_bit(void) {
 	byte = 0;
 	bit = (clk - clk_start_rx)/(bit_clk_ticks);
 #ifdef DEBUG
-	printf("read ctrl(_rx=%d, clk-start_rx=%d -> bit=%d)\n",
+	fprintf(logfile, "read ctrl(_rx=%d, clk-start_rx=%d -> bit=%d)\n",
 		clk_start_rx, clk-clk_start_rx, bit);
 #endif
 	if(!bit) {
@@ -354,7 +354,7 @@ void rsuser_tx_byte(BYTE b) {
 int int_rsuser(long offset) {
 	CLOCK rclk = clk - offset;
 #if 0 /* def DEBUG */
-        printf("int_rsuser(clk=%d, rclk=%ld)\n",clk, clk-offset);
+        fprintf(logfile, "int_rsuser(clk=%d, rclk=%ld)\n",clk, clk-offset);
 #endif
 
         keepup_tx_buffer();

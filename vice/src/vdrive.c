@@ -52,15 +52,19 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#include "ui.h"
+#else
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <memory.h>
-#include <assert.h>
-#include <errno.h>
-
 #include <unistd.h>
 #include <dirent.h>
+#include <memory.h>
+#endif
+#include <assert.h>
+#include <errno.h>
 #endif
 
 #include "serial.h"
@@ -236,7 +240,7 @@ int     initialize_1541(int dev, int type,
     memset (floppy, 0, sizeof(DRIVE));  /* init all pointers */
 
     floppy->type     = type;
-    floppy->ActiveFd = -1;
+    floppy->ActiveFd = ILLEGAL_FILE_DESC;
     floppy->unit     = dev;
 
     for (i = 0; i < 15; i++)
@@ -255,12 +259,12 @@ int     initialize_1541(int dev, int type,
     if (!(type & DT_FS)) {
 	if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
 	    read_1541, write_1541, open_1541, close_1541, flush_1541)) {
-	    printf("could not initialize 1541 ????\n");
+	    fprintf(logfile, "could not initialize 1541 ????\n");
 	    return(-1);
 	}
     } else {
 	if (attach_fsdevice(dev, (char *)floppy, "1541 FS Drive")) {
-	    printf("could not initialize FS 1541 ????\n");
+	    fprintf(logfile, "could not initialize FS 1541 ????\n");
 	    return(-1);
 	}
     }
@@ -334,18 +338,21 @@ int     open_1541(void *flp, char *name, int length, int secondary)
      * If ActiveName exists, the file may have been temporarily closed.
      */
 
-   if (floppy->ActiveFd < 0
+   if (floppy->ActiveFd == ILLEGAL_FILE_DESC
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
        floppy_error(&floppy->buffers[15], IPE_NOT_READY, 18, 0);
-       printf("Drive not ready.\n");
+       fprintf(logfile, "Drive not ready.\n");
        return SERIAL_ERROR;
    }
 
 #ifdef DEBUG_DRIVE
-    printf("OPEN 1541: FD = %d - Name '%s' (%d) on ch %d\n",
-	   floppy->ActiveFd, name, length, secondary);
+    fprintf(logfile, "OPEN 1541: FD = %d - Name '%s' (%d) on ch %d\n",
+	   (int)(floppy->ActiveFd), name, length, secondary);
+#endif
+#ifdef __riscos
+    ui_set_drive_leds(floppy->unit - 8, 1);
 #endif
 
     /*
@@ -375,7 +382,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
      */
     if (p->mode != BUFFER_NOT_IN_USE) {
 #ifdef DEBUG_DRIVE
-	printf ("Cannot open channel %d. Mode is %d.\n", secondary, p->mode);
+	printf (logfile, "Cannot open channel %d. Mode is %d.\n", secondary, p->mode);
 #endif
 	floppy_error(&floppy->buffers[15], IPE_NO_CHANNEL, 0, 0);
 	return SERIAL_ERROR;
@@ -555,7 +562,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
 #ifdef DEBUG_DRIVE
-    printf("DIR: name (%d) '%s'\n", reallength, realname);
+    fprintf(logfile, "DIR: name (%d) '%s'\n", reallength, realname);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;	/* unclosed */
 
@@ -568,7 +575,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
     /* Write the directory entry to disk as an UNCLOSED file. */
 
 #ifdef DEBUG_DRIVE
-    printf("DEBUG: find empty DIR slot.\n");
+    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
 #endif
 
     set_find_first_slot(floppy, NULL, -1, 0);
@@ -587,7 +594,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
 	   p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
-    printf("DEBUG: create, write DIR slot (%d %d).\n",
+    fprintf(logfile, "DEBUG: create, write DIR slot (%d %d).\n",
 	   floppy->Curr_track, floppy->Curr_sector);
 #endif
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
@@ -611,7 +618,10 @@ int     close_1541(void *flp, int secondary)
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
-    printf("DEBUG: closing file #%d.\n", secondary);
+    fprintf(logfile, "DEBUG: closing file #%d.\n", secondary);
+#endif
+#ifdef __riscos
+    ui_set_drive_leds(floppy->unit - 8, 0);
 #endif
 
     switch (p->mode) {
@@ -639,12 +649,12 @@ int     close_1541(void *flp, int secondary)
 	    }
 
 #ifdef DEBUG_DRIVE
-	    printf("DEBUG: flush.\n");
+	    fprintf(logfile, "DEBUG: flush.\n");
 #endif
 	    write_sequential_buffer(floppy, p, p->bufptr);
 
 #ifdef DEBUG_DRIVE
-	    printf("DEBUG: find empty DIR slot.\n");
+	    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
 #endif
 	    set_find_first_slot(floppy, NULL, -1, 0);
 	    e = find_next_slot(floppy);
@@ -663,7 +673,7 @@ int     close_1541(void *flp, int secondary)
 		p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
-	    printf("DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
+	    fprintf(logfile, "DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
 		   floppy->Curr_track, floppy->Curr_sector);
 #endif
 	    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
@@ -688,7 +698,7 @@ int     close_1541(void *flp, int secondary)
 	break;
 
       default:
-	fprintf (stderr, "\nFatal: unknown floppy-close-mode\n");
+	fprintf (errfile, "\nFatal: unknown floppy-close-mode\n");
 	exit(-1);
     }
 
@@ -703,7 +713,7 @@ int     read_1541(void *flp, BYTE *data, int secondary)
 
 #ifdef DEBUG_DRIVE
     if (p->mode == BUFFER_COMMAND_CHANNEL)
-	printf("Disk read  %d [%02d %02d]\n", p->mode, 0, 0);
+	fprintf(logfile, "Disk read  %d [%02d %02d]\n", p->mode, 0, 0);
 #endif
 
     switch (p->mode) {
@@ -761,7 +771,7 @@ int     read_1541(void *flp, BYTE *data, int secondary)
 	if (p->bufptr > p->length) {
 	    floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
 #ifdef DEBUG_DRIVE
-	    printf( "end of buffer in command channel\n" );
+	    fprintf(logfile, "end of buffer in command channel\n" );
 #endif
             *data = 0xc7;
 	    return SERIAL_EOF;
@@ -771,7 +781,7 @@ int     read_1541(void *flp, BYTE *data, int secondary)
 	break;
 
       default:
-	fprintf (stderr, "\nFatal: unknown buffermode on floppy-read\n");
+	fprintf (errfile, "\nFatal: unknown buffermode on floppy-read\n");
 	exit(-1);
     }
 
@@ -836,7 +846,7 @@ int     write_1541(void *flp, BYTE data, int secondary)
 	break;
 
       default:
-	fprintf (stderr, "\nFatal: Unknown write mode\n");
+	fprintf (errfile, "\nFatal: Unknown write mode\n");
 	exit(-1);
     }
 
@@ -923,7 +933,7 @@ printf("floppy_error: code =%d, last_code =%d, track =%d, sector =%d\n",
     p->bufptr = 0;
 
     if (code && code != IPE_DOS_VERSION)
-	fprintf(stderr, "1541: ERR = %02d, %s, %02d, %02d\n",
+	fprintf(errfile, "1541: ERR = %02d, %s, %02d, %02d\n",
 		code == IPE_DELETED ? deleted_files : code,
 		message, track, sector);
 
@@ -999,7 +1009,7 @@ int  ip_execute(DRIVE *floppy, BYTE *buf, int length)
 		status = IPE_WRITE_PROTECT_ON;
 	    } else {
 #ifdef DEBUG_DRIVE
-		printf("remove name= '%s' len=%d (%d) type= %d.\n",
+		fprintf(errlog, "remove name= '%s' len=%d (%d) type= %d.\n",
 		       realname, reallength, length, filetype);
 #endif
 		deleted_files = 0;
@@ -1118,7 +1128,7 @@ int  ip_execute(DRIVE *floppy, BYTE *buf, int length)
     } /* commands */
 
     if (status == IPE_INVAL)
-        fprintf(stderr, "1541: wrong command `%s'\n", p);
+        fprintf(errfile, "1541: wrong command `%s'\n", p);
 
     floppy_error(&floppy->buffers[15], status, 0, 0);
 
@@ -1173,7 +1183,7 @@ static int  do_block_command(DRIVE *floppy, char command, char *buffer)
         if (l < 0) {
 
 #ifdef DEBUG_DRIVE
-	    printf("B-R/W parsed ok. (l=%d) channel %d mode %d, drive=%d, track=%d sector=%d\n",
+	    fprintf(errfile, "B-R/W parsed ok. (l=%d) channel %d mode %d, drive=%d, track=%d sector=%d\n",
 		   l, channel, floppy->buffers[channel].mode, drive, track, sector);
 #endif
 
@@ -1317,7 +1327,7 @@ int floppy_parse_name(char *name, int length, char *ptr,
 	else p = name + strlen(name);	/* set to null byte */
     }
 #ifdef DEBUG_DRIVE
-	    printf("Name (%d): '%s'\n", length, p);
+	    fprintf(logfile, "Name (%d): '%s'\n", length, p);
 #endif
 
 #if 0
@@ -1332,7 +1342,7 @@ int floppy_parse_name(char *name, int length, char *ptr,
 	(*reallength)++;
 	*(ptr++) = *(p++);	/* realname pointer */
 #ifdef DEBUG_DRIVE
-	printf("parsing... [%d] %02x  t=%d\n", *reallength, *(ptr-1), t);
+	fprintf(logfile, "parsing... [%d] %02x  t=%d\n", *reallength, *(ptr-1), t);
 #endif
     }  /* while */
 
@@ -1348,8 +1358,8 @@ int floppy_parse_name(char *name, int length, char *ptr,
 
 	if (t == 0) {
 #ifdef DEBUG_DRIVE
-	    printf("done. [%d] %02x  t=%d\n", *reallength, *p, t);
-	    printf("No type.\n");
+	    fprintf(logfile, "done. [%d] %02x  t=%d\n", *reallength, *p, t);
+	    fprintf(logfile, "No type.\n");
 #endif
 	    return FLOPPY_ERROR;
 	}
@@ -1404,7 +1414,7 @@ int floppy_parse_name(char *name, int length, char *ptr,
 
 	  default:
 #ifdef DEBUG_DRIVE
-	    printf("No way. p='%s'\n", p);
+	    fprintf(logfile, "No way. p='%s'\n", p);
 #endif
 	    return FLOPPY_ERROR;
 	}
@@ -1420,7 +1430,7 @@ int floppy_parse_name(char *name, int length, char *ptr,
 
 
 #ifdef DEBUG_DRIVE
-    printf ("Type = %s  %s\n",
+    fprintf (logfile, "Type = %s  %s\n",
 	    slot_type[*filetype],
 	    (*readmode == FAM_READ ?  "read" : "write"));
 #endif
@@ -1580,7 +1590,7 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
            sure there is enough space for two lines because we also have to
            add the final ``...BLOCKS FREE'' line.  */
 	if ((l - origptr) >= DIR_MAXBUF - 64) {
-	    fprintf(stderr, "Directory too long: giving up.\n");
+	    fprintf(errfile, "Directory too long: giving up.\n");
 	    return -1;
 	}
 
@@ -1702,7 +1712,7 @@ static int  do_copy( DRIVE *floppy, char *dest, int length)
 	dest = strchr (dest, ':') +1;
 
 #ifdef DEBUG_DRIVE
-    printf("COPY: dest= '%s'\n      orig= '%s'\n", dest, files);
+    fprintf(logfile, "COPY: dest= '%s'\n      orig= '%s'\n", dest, files);
 #endif
 
     if (open_1541(floppy, dest, strlen(dest), 1))
@@ -1718,7 +1728,7 @@ static int  do_copy( DRIVE *floppy, char *dest, int length)
 	name = strchr (name, ':') +1;
 
 #ifdef DEBUG_DRIVE
-	printf("searching for file '%s'\n", name);
+	fprintf(logfile, "searching for file '%s'\n", name);
 #endif
 	if (open_1541(floppy, name, strlen(name), 0)) {
 	    close_1541(floppy, 1);
@@ -1763,7 +1773,7 @@ static int do_rename( DRIVE *floppy, char *dest, int length)
 	dest = strchr (dest, ':') +1;
 
 #ifdef DEBUG_DRIVE
-    printf("RENAME: dest= '%s'\n      orig= '%s'\n", dest, src);
+    fprintf(logfile, "RENAME: dest= '%s'\n      orig= '%s'\n", dest, src);
 #endif
 
     if (!floppy_parse_name(dest, strlen(dest), dest_name, &dest_reallength, &dest_readmode,
@@ -1838,7 +1848,8 @@ static int  do_initialize(DRIVE *floppy)
     floppy_close_all_channels(floppy);
 
     /* Update BAM in memory */
-    if (floppy->ActiveFd > 0)
+    /*if (floppy->ActiveFd > 0)*/
+    if (floppy->ActiveFd != ILLEGAL_FILE_DESC)
 	floppy_read_bam(floppy);
 
     if (floppy->ErrFlg)
@@ -2044,14 +2055,14 @@ static int  set_error_data(DRIVE *floppy, int flags)
 
     if (flags & 2) {		/* read from file */
 	if (read(floppy->ActiveFd, (char *)floppy->ErrData, size) < size) {
-	    fprintf(stderr, "\nfloppy image read error\n");
+	    fprintf(errfile, "\nfloppy image read error\n");
 	    return(-2);
 	}
     }
 
     if (flags & 4) {		/* write to file */
 	if (write(floppy->ActiveFd, (char *)floppy->ErrData, size) < size) {
-	    fprintf(stderr, "\nfloppy image write error\n");
+	    fprintf(errfile, "\nfloppy image write error\n");
 	    return(-2);
 	}
     }
@@ -2195,7 +2206,7 @@ static off_t offset_from_track_and_sector(int format, int track,
 	return -1;
 
 #ifdef DEBUG_DRIVE
-    printf("DEBUG SECTOR %3d (%2d,%2d) OFF_T: %ld\n",
+    fprintf(logfile, "DEBUG SECTOR %3d (%2d,%2d) OFF_T: %ld\n",
 	   sectors, track, sector,
 	   ((off_t)sectors << 8) /* + (off_t)HEADER_LENGTH*/ );
 #endif
@@ -2210,7 +2221,7 @@ static off_t offset_from_track_and_sector(int format, int track,
  * Read one block
  */
 
-int  floppy_read_block(int fd, int format, BYTE *buf, int track,
+int  floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 		       int sector, int d64)
 {
     off_t   offset;
@@ -2223,7 +2234,7 @@ int  floppy_read_block(int fd, int format, BYTE *buf, int track,
     lseek(fd, offset, SEEK_SET);
 
     if (read(fd, (char *)buf, 256) < 256) {
-	fprintf (stderr, "Floppy image file read failed.\n");
+	fprintf (errfile, "Floppy image file read failed.\n");
 	return(-2);
     }
     return 0;
@@ -2234,7 +2245,7 @@ int  floppy_read_block(int fd, int format, BYTE *buf, int track,
  * Write one block
  */
 
-int  floppy_write_block(int fd, int format, BYTE *buf, int track,
+int  floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
 			int sector, int d64)
 {
     off_t   offset;
@@ -2331,8 +2342,8 @@ static void set_find_first_slot(DRIVE *floppy, char *name, int length, int type)
 
 
 #ifdef DEBUG_DRIVE
-    if (name) printf ("name = >%s<  *name = $%02x\n", name, *name);
-    printf("Prepare seeking entry for '%s' of type %d. (len =%d)\n",
+    if (name) fprintf (logfile, "name = >%s<  *name = $%02x\n", name, *name);
+    fprintf(logfile, "Prepare seeking entry for '%s' of type %d. (len =%d)\n",
 	   (name ? name : "<noname>"),
 	   type, length);
 #endif
@@ -2361,7 +2372,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
     floppy->SlotNumber++;
 
 #ifdef DEBUG_DRIVE
-    printf("find next slot for '%s' of type %d. slot: %d\n",
+    fprintf(logfile, "find next slot for '%s' of type %d. slot: %d\n",
 	   (floppy->find_name ? floppy->find_name : "<noname>"),
 	   floppy->find_type, floppy->SlotNumber);
 #endif
@@ -2378,7 +2389,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 	if (floppy->SlotNumber >= 8) {
 	    if (!(*(floppy->Dir_buffer))) {
 #ifdef DEBUG_DRIVE
-		printf("error.\n");
+		fprintf(logfile, "error.\n");
 #endif
 		return NULL;
 	    }
@@ -2402,7 +2413,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 		memcpy(return_slot,
 		    &floppy->Dir_buffer[floppy->SlotNumber * 32], 32);
 #ifdef DEBUG_DRIVE
-		printf("found slot %d  on %d %d.\n",
+		fprintf(logfile, "found slot %d  on %d %d.\n",
 		       floppy->SlotNumber,
 		       floppy->Curr_track,
 		       floppy->Curr_sector);
@@ -2422,7 +2433,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 	int     s;
 
 #ifdef DEBUG_DRIVE
-		printf("create a new entry.\n");
+		printf(logfile, "create a new entry.\n");
 #endif
 
 	for (s = 1; s < sector_map_1541[DSK_DIR_TRACK]; s++) {
@@ -2436,7 +2447,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 				   floppy->D64_Header);
 
 #ifdef DEBUG_DRIVE
-		printf("Found (%d %d) TR = %d SE = %d.\n",
+		fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
 		       DSK_DIR_TRACK, s,
 		       floppy->Curr_track,
 		       floppy->Curr_sector);
@@ -2462,7 +2473,7 @@ static void free_chain(DRIVE *floppy, int t, int s)
 
     while (t) {
 #ifdef DEBUG_DRIVE
-	printf("free_chain free %d,%d\n", t, s);
+	fprintf(logfile, "free_chain free %d,%d\n", t, s);
 #endif
 	if (check_track_sector(floppy->ImageFormat, t, s) < 0) {
 	    /* ILLEGAL TRACK OR SECTOR */
@@ -2566,7 +2577,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
     for (d = 1; d <= DSK_HALF_MAX_TRACKS; d++) {
 	t = DSK_DIR_TRACK - d;
 #ifdef DEBUG_DRIVE
-	printf("alloc_first_free_sector on track %d?\n", t);
+	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
 	if (t < 1)
 	    continue;
@@ -2575,14 +2586,14 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
 		*track = t;
 		*sector = s;
 #ifdef DEBUG_DRIVE
-		printf("alloc_first_free_sector: %d,%d\n", t, s);
+		fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
 #endif
 		return 0;
 	    }
 	}
 	t = DSK_DIR_TRACK + d;
 #ifdef DEBUG_DRIVE
-	printf("alloc_first_free_sector on track %d?\n", t);
+	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
 	if (t > MAX_TRACKS_1541)
 	    continue;
@@ -2591,7 +2602,7 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
 		*track = t;
 		*sector = s;
 #ifdef DEBUG_DRIVE
-		printf("alloc_first_free_sector: %d,%d\n", t, s);
+		fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
 #endif
 		return 0;
 	    }
@@ -2625,7 +2636,7 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
 	for (; d <= DSK_HALF_MAX_TRACKS; d++) {
 	    t = DSK_DIR_TRACK + dir * d;
 #ifdef DEBUG_DRIVE
-	    printf("alloc_next_free_sector on track %d?\n", t);
+	    fprintf(logfile, "alloc_next_free_sector on track %d?\n", t);
 #endif
 	    if (t < 1 || t > MAX_TRACKS_1541) {
 		dir = -dir;
@@ -2637,7 +2648,7 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
 		    *track = t;
 		    *sector = s;
 #ifdef DEBUG_DRIVE
-		    printf("alloc_next_free_sector: %d,%d\n", t, s);
+		    fprintf(logfile, "alloc_next_free_sector: %d,%d\n", t, s);
 #endif
 		    return 0;
 		}
@@ -2716,12 +2727,12 @@ void    detach_floppy_image(DRIVE *floppy)
 {
     floppy_close_all_channels(floppy);
 
-    if (floppy->ActiveFd >= 0) {
-	printf("Detaching disk image %s\n", floppy->ActiveName);
+    if (floppy->ActiveFd != ILLEGAL_FILE_DESC) {
+	fprintf(logfile, "Detaching disk image %s\n", floppy->ActiveName);
 	if (floppy->detach_func != NULL)
 	    floppy->detach_func(floppy);
 	zclose(floppy->ActiveFd);
-	floppy->ActiveFd = -1;
+	floppy->ActiveFd = ILLEGAL_FILE_DESC;
 	floppy->ActiveName[0] = 0;		/* Name is used as flag */
     }
 }
@@ -2729,13 +2740,13 @@ void    detach_floppy_image(DRIVE *floppy)
 
 int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 {
-    int     DType = -1;
-    int     fd;
+    int DType = -1;
+    file_desc_t fd;
     hdrinfo hdr;
 
 
     if ( !(floppy -> type & DT_DISK)) {
-	printf("Incompatible emulator mode: FS 1541 Drive.\n");
+	fprintf(logfile, "Incompatible emulator mode: FS 1541 Drive.\n");
 	return (-1);
     }
 
@@ -2747,23 +2758,23 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
     fd = zopen(name, O_RDWR, 0);
 
     /* If we cannot open the image read/write, try to open it read only. */
-    if (fd < 0) {
+    if (fd == ILLEGAL_FILE_DESC) {
 	fd = zopen(name, O_RDONLY, 0);
 	floppy->ReadOnly = 1;
     } else {
 	floppy->ReadOnly = 0;
     }
 
-    if (fd >= 0) {
+    if (fd != ILLEGAL_FILE_DESC) {
 	if (check_header(fd, &hdr)) {
-	    printf("File '%s' was not recognized as a disk image\n", name);
+	    fprintf(logfile, "File '%s' was not recognized as a disk image\n", name);
 	    zclose(fd);
 	    return (-2);
 	}
 	if (hdr.v_major > HEADER_VERSION_MAJOR
 	    || (hdr.v_major == HEADER_VERSION_MAJOR
 		&& hdr.v_minor > HEADER_VERSION_MINOR)) {
-	    printf("Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
+	    fprintf(logfile, "Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
 		   name, hdr.v_major, hdr.v_minor,
 		   HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
 
@@ -2779,7 +2790,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	DType = get_diskformat (hdr.devtype);
 	if (DType < 0 || DType != get_diskformat (hdr.devtype)) {
 
-	    fprintf(stderr, "\nError: Disk drive type mismatch.\n");
+	    fprintf(errfile, "\nError: Disk drive type mismatch.\n");
 
 	    /*
 	     * mode defines what to do if the attached disk image is
@@ -2815,7 +2826,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 
         if (floppy->attach_func != NULL) {
             if (floppy->attach_func(floppy) < 0) {
-                fprintf(stderr, "DRIVE#%i: Wrong disk type.\n", floppy->unit);
+                fprintf(errfile, "DRIVE#%i: Wrong disk type.\n", floppy->unit);
                 zclose(floppy->ActiveFd);
                 floppy->ActiveFd = -1;
                 floppy->ActiveName[0] = 0;
@@ -2824,26 +2835,26 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
         }
 
         if (hdr.d64)
-            printf ("D64 disk image attached: %s%s\n", name,
+            fprintf (logfile, "D64 disk image attached: %s%s\n", name,
                     floppy->ReadOnly ? " (read only)" : "");
         if (hdr.d71)
-            printf ("D71 disk image attached: %s%s\n", name,
+            fprintf (logfile, "D71 disk image attached: %s%s\n", name,
                     floppy->ReadOnly ? " (read only)" : "");
         if (hdr.d81)
-            printf ("D81 disk image attached: %s%s\n", name,
+            fprintf (logfile, "D81 disk image attached: %s%s\n", name,
                     floppy->ReadOnly ? " (read only)" : "");
         if (hdr.gcr)
-            printf ("GCR disk image attached: %s%s\n", name,
+            fprintf (logfile, "GCR disk image attached: %s%s\n", name,
                     floppy->ReadOnly ? " (read only)" : "");
 
         if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.gcr))
-            printf ("VICE disk image version %d.%02d attached (CBM%d format%s):\n%s\n",
+            fprintf (logfile, "VICE disk image version %d.%02d attached (CBM%d format%s):\n%s\n",
                     hdr.v_major, hdr.v_minor, DType,
                     floppy->ReadOnly ? ", read only" : "",
                     name);
 
     } else {
-        fprintf(stderr, "Couldn't open file %s\n",name);
+        fprintf(errfile, "Couldn't open file %s\n",name);
         return -1;
     }
     return 0;
@@ -2856,7 +2867,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
  * Information Acquisition routines.
  */
 
-int get_std64_header(int fd, BYTE *header)
+int get_std64_header(file_desc_t fd, BYTE *header)
 {
     int devtype = DEFAULT_DEVICE_TYPE;
     int tracks = NUM_TRACKS_1541;
@@ -2886,12 +2897,12 @@ int get_std64_header(int fd, BYTE *header)
 	return FD_BADIMAGE;
     while ((len = read(fd, block, 256)) == 256) {
         if (++blk > 771) {
-            printf("Nice try.\n");
+            fprintf(logfile, "Nice try.\n");
             break;
         }
     }
     if (blk <  NUM_BLOCKS_1541) {
-            printf("Cannot read block %d\n", blk);
+            fprintf(logfile, "Cannot read block %d\n", blk);
             return (FD_NOTRD);
     }
 
@@ -2903,7 +2914,7 @@ int get_std64_header(int fd, BYTE *header)
 
       case 685:
         if (len != 171) {               /* check if 683 error bytes */
-            printf("cannot read block %d\n", blk);
+            fprintf(logfile, "cannot read block %d\n", blk);
             return (FD_NOTRD);
         }
 
@@ -2933,7 +2944,7 @@ int get_std64_header(int fd, BYTE *header)
     return(0);
 }
 
-int get_std71_header(int fd, BYTE *header)
+int get_std71_header(file_desc_t fd, BYTE *header)
 {
     int devtype = DT_1571;
     int tracks = NUM_TRACKS_1571;
@@ -2963,12 +2974,12 @@ int get_std71_header(int fd, BYTE *header)
         return FD_BADIMAGE;
     while ((len = read(fd, block, 256)) == 256) {
         if (++blk > 1372) {
-            printf("Nice try.\n");
+            fprintf(logfile, "Nice try.\n");
             break;
         }
     }
     if (blk <  NUM_BLOCKS_1571) {
-            printf("Cannot read block %d\n", blk);
+            fprintf(logfile, "Cannot read block %d\n", blk);
             return (FD_NOTRD);
     }
     switch (blk) {
@@ -2987,7 +2998,8 @@ int get_std71_header(int fd, BYTE *header)
 
     return(0);
 }
-int get_std81_header(int fd, BYTE *header)
+
+int get_std81_header(file_desc_t fd, BYTE *header)
 {
     int devtype = DT_1581;
     int tracks = NUM_TRACKS_1581;
@@ -3017,12 +3029,12 @@ int get_std81_header(int fd, BYTE *header)
         return FD_BADIMAGE;
     while ((len = read(fd, block, 256)) == 256) {
         if (++blk > 3213) {
-            printf("Nice try.\n");
+            fprintf(logfile, "Nice try.\n");
             break;
         }
     }
     if (blk <  NUM_BLOCKS_1581) {
-            printf("Cannot read block %d\n", blk);
+            fprintf(logfile, "Cannot read block %d\n", blk);
             return (FD_NOTRD);
     }
     switch (blk) {
@@ -3042,13 +3054,13 @@ int get_std81_header(int fd, BYTE *header)
     return(0);
 }
 
-int    check_header(int fd, hdrinfo *hdr)
+int check_header(file_desc_t fd, hdrinfo *hdr)
 {
     BYTE    header[HEADER_LENGTH];
 
     lseek (fd, (off_t) 0, SEEK_SET);
     if (read(fd, (BYTE *)header, sizeof (header)) != sizeof (header)) {
-        fprintf(stderr, "\nCannot read image header\n");
+        fprintf(errfile, "\nCannot read image header\n");
         return FD_RDERR;
     }
 
@@ -3064,31 +3076,42 @@ int    check_header(int fd, hdrinfo *hdr)
         header[HEADER_MAGIC_OFFSET + 2] != HEADER_MAGIC_3 ||
         header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
 
+        size_t imageSize;
+#ifdef __riscos
+        size_t current;
+
+        current = ftell(fd);
+        fseek(fd, 0, SEEK_END);
+        imageSize = ftell(fd);
+        fseek(fd, current, SEEK_SET);
+#else
         struct stat s;
 
-        if (!fstat (fd, &s)) {
-            if (IS_D64_LEN(s.st_size)) {
-                if (get_std64_header(fd, header))
-                    return FD_BADIMAGE;
-                hdr->d64 = 1;
-            } else if (IS_D71_LEN(s.st_size)) {
-                if (get_std71_header(fd, header))
-                    return FD_BADIMAGE;
-                hdr->d71 = 1;
-            } else if (IS_D81_LEN(s.st_size)) {
-                if (get_std81_header(fd, header))
-                    return FD_BADIMAGE;
-                hdr->d81 = 1;
-            } else {
-                if (import_GCR_image(header, hdr))
-                    return FD_OK;
-                else
-                    return FD_BADIMAGE;
-            }
-        } else {
+        if (fstat (fd, &s)) {
             perror ("stat");
             return FD_BADIMAGE;
+        } else {
+            imageSize = s.st_size;
         }
+#endif
+        if (IS_D64_LEN(s.st_size)) {
+            if (get_std64_header(fd, header))
+                return FD_BADIMAGE;
+            hdr->d64 = 1;
+        } else if (IS_D71_LEN(s.st_size)) {
+            if (get_std71_header(fd, header))
+                return FD_BADIMAGE;
+            hdr->d71 = 1;
+        } else if (IS_D81_LEN(s.st_size)) {
+            if (get_std81_header(fd, header))
+                return FD_BADIMAGE;
+            hdr->d81 = 1;
+        } else {
+            if (import_GCR_image(header, hdr))
+                return FD_OK;
+            else
+                return FD_BADIMAGE;
+        } 
     }
 
     hdr-> v_major = header[HEADER_VERSION_OFFSET + 0];
@@ -3120,23 +3143,23 @@ int import_GCR_image(BYTE *header, hdrinfo *hdr)
 {
     int trackfield;
 
-    if (strncmp("GCR-1541",header,8))
+    if (strncmp("GCR-1541",(char*)header,8))
 	return 0;
 
     if (header[8] != 0) {
-	printf("Import GCR: Wrong GCR image version.\n");
+	fprintf(logfile, "Import GCR: Wrong GCR image version.\n");
 	return 0;
     }
 
     if ((header[9] < (NUM_TRACKS_1541 * 2))
 			|| (header[9] > (MAX_TRACKS_1541 * 2))) {
-	printf("Import GCR: invalid number of tracks.\n");
+	fprintf(logfile, "Import GCR: invalid number of tracks.\n");
 	return 0;
     }
 
     trackfield = header[10] + header[11] * 256;
     if (trackfield != 7928) {
-	printf("Import GCR: invalid track field number.\n");
+        fprintf(logfile, "Import GCR: invalid track field number.\n");
 	return 0;
     }
 
@@ -3392,10 +3415,10 @@ char *read_disk_image_contents(const char *fname)
     DRIVE floppy;
     char *buf;
     hdrinfo hdr;
-    int fd;
+    file_desc_t fd;
 
     fd = zopen(fname, O_RDONLY, 0);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return NULL;
     if (check_header(fd, &hdr))
 	return NULL;
@@ -3403,7 +3426,7 @@ char *read_disk_image_contents(const char *fname)
     if (hdr.v_major > HEADER_VERSION_MAJOR
 	|| (hdr.v_major == HEADER_VERSION_MAJOR
 	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-	printf("Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
+	fprintf(logfile, "Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d)\n",
 	       fname, hdr.v_major, hdr.v_minor,
 	       HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
 
@@ -3414,7 +3437,7 @@ char *read_disk_image_contents(const char *fname)
     /* Initialize floppy. */
     floppy.ImageFormat = get_diskformat(hdr.devtype);
     if (floppy.ImageFormat < 0) {
-	fprintf(stderr, "Error: unknown image format.\n");
+	fprintf(errfile, "Error: unknown image format.\n");
 	zclose(fd);
 	return NULL;
     }
@@ -3425,7 +3448,7 @@ char *read_disk_image_contents(const char *fname)
     floppy.D64_Header= hdr.d64 | hdr.d71 | hdr.d81;
     floppy.ReadOnly = 1;	/* Just to be sure... */
     if (floppy_read_bam(&floppy) < 0) {
-	fprintf(stderr, "Error: cannot read BAM.\n");
+	fprintf(errfile, "Error: cannot read BAM.\n");
 	zclose(fd);
 	return NULL;
     }

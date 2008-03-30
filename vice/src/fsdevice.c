@@ -46,12 +46,17 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#include "ui.h"
+#else
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <memory.h>
+#endif
 #include <assert.h>
 #include <errno.h>
 #endif
@@ -64,6 +69,21 @@
 #include "utils.h"
 #include "cmdline.h"
 #include "fsdevice.h"
+
+#ifdef __riscos
+#define FSDEVICE_DEFAULT_DIR   "@"
+#define FSDEV_DIR_SEP_STR      "."
+#define FSDEV_DIR_SEP_CHR      '.'
+#define FSDEV_EXT_SEP_STR      "/"
+#define FSDEV_EXT_SEP_CHR      '/'
+#else
+#define FSDEVICE_DEFAULT_DIR   "."
+#define FSDEV_DIR_SEP_STR      "/"
+#define FSDEV_DIR_SEP_CHR      '/'
+#define FSDEV_EXT_SEP_STR      "."
+#define FSDEV_EXT_SEP_CHR      '.'
+#endif
+
 
 enum fsmode {
     Write, Read, Append, Directory
@@ -257,13 +277,13 @@ static resource_t resources[] = {
     { "FSDevice11ConvertP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_convert_p00_enabled[3],
       set_fsdevice_11_convert_p00 },
-    { "FSDevice8Dir", RES_STRING, (resource_value_t) ".",
+    { "FSDevice8Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
       (resource_value_t *) &fsdevice_8_dir, set_fsdevice_8_dir },
-    { "FSDevice9Dir", RES_STRING, (resource_value_t) ".",
+    { "FSDevice9Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
       (resource_value_t *) &fsdevice_9_dir, set_fsdevice_9_dir },
-    { "FSDevice10Dir", RES_STRING, (resource_value_t) ".",
+    { "FSDevice10Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
       (resource_value_t *) &fsdevice_10_dir, set_fsdevice_10_dir },
-    { "FSDevice11Dir", RES_STRING, (resource_value_t) ".",
+    { "FSDevice11Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
       (resource_value_t *) &fsdevice_11_dir, set_fsdevice_11_dir },
     { "FSDevice8SaveP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_save_p00_enabled[0],
@@ -305,7 +325,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
     char directory[MAXPATHLEN];
 
     strcpy(directory, param);
-    strcat(directory, "/");
+    strcat(directory, FSDEV_DIR_SEP_STR);
 
     switch (unit) {
       case 8:
@@ -321,7 +341,7 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
 	set_fsdevice_11_dir((resource_value_t) directory);
 	break;
       default:
-	fprintf(stderr, "cmdline_fsdirectory(): unexpected unit number %d?!\n",
+	fprintf(errfile, "cmdline_fsdirectory(): unexpected unit number %d?!\n",
 		unit);
     }
 
@@ -362,7 +382,7 @@ void fsdevice_set_directory(char *filename, int unit)
     char *p;
 
     /* FIXME: Remove this once the select directory dialog is available.  */
-    p = strrchr(filename, '/');
+    p = strrchr(filename, FSDEV_DIR_SEP_CHR);
     *(++p) = '\0';
 #endif
 
@@ -432,7 +452,7 @@ void fs_error(int code)
     fs_eptr = 0;
 
     if (code && code != IPE_DOS_VERSION)
-	fprintf(stderr, "UnixFS: ERR = %02d, %s\n", code, message);
+	fprintf(errfile, "UnixFS: ERR = %02d, %s\n", code, message);
 }
 
 void flush_fs(void *flp, int secondary)
@@ -466,7 +486,7 @@ void flush_fs(void *flp, int secondary)
 	*realarg++ = '\0';
     }
 #ifdef DEBUG_FS
-    printf("Flush_FS: command='%s', cmd='%s'\n", cmd, arg);
+    fprintf(logfile, "Flush_FS: command='%s', cmd='%s'\n", cmd, arg);
 #endif
     if (!strcmp(cmd, "cd")) {
 	er = IPE_OK;
@@ -505,7 +525,7 @@ void flush_fs(void *flp, int secondary)
 		    return;
 		}
 		strcpy(name1, fsdevice_get_path(floppy->unit));
-                strcat(name1, "/");
+                strcat(name1, FSDEV_DIR_SEP_STR);
 		strcat(name1, arg);
 	    }
 	if (unlink(name1)) {
@@ -528,10 +548,10 @@ void flush_fs(void *flp, int secondary)
 		char name1p00[MAXPATHLEN], name2p00[MAXPATHLEN];
 		fclose(fd);
 		strcpy(name2p00, name2long);
-		p = strrchr(name2long, '.');
+		p = strrchr(name2long, FSDEV_EXT_SEP_CHR);
 		p00type = p[1];
 		*p = '\0';
-		p = strrchr(name2long, '/');
+		p = strrchr(name2long, FSDEV_DIR_SEP_CHR);
 		strcpy(name2, ++p);
 		name1len = fsdevice_evaluate_name_p00(realarg, strlen(realarg),
 							name1);
@@ -552,9 +572,9 @@ void flush_fs(void *flp, int secondary)
 		    for (i = 0; i < 100; i++) {
 			memset(name1p00, 0, MAXPATHLEN);
 			strcpy(name1p00, fsdevice_get_path(floppy->unit));
-                        strcat(name1p00, "/");
+                        strcat(name1p00, FSDEV_DIR_SEP_STR);
 			strcat(name1p00, name1);
-			strcat(name1p00, ".");
+			strcat(name1p00, FSDEV_EXT_SEP_STR);
 			strncat(name1p00, &p00type, 1);
 			sprintf(p00count, "%02i", i);
 			strncat(name1p00, p00count, 2);
@@ -575,10 +595,10 @@ void flush_fs(void *flp, int secondary)
 		    return;
 		}
 		strcpy(name1, fsdevice_get_path(floppy->unit));
-                strcat(name1, "/");
+                strcat(name1, FSDEV_DIR_SEP_STR);
 		strcat(name1, arg);
 		strcpy(name2, fsdevice_get_path(floppy->unit));
-                strcat(name2, "/");
+                strcat(name2, FSDEV_DIR_SEP_STR);
 		strcat(name2, arg2);
 		if (rename(name2, name1)) {
 		    er = IPE_NOT_FOUND;
@@ -596,7 +616,7 @@ int write_fs(void *flp, BYTE data, int secondary)
 {
     if (secondary == 15) {
 #ifdef DEBUG_FS_
-	printf("Write_FS(secadr=15, data=%02x, '%c')\n", data, data);
+	fprintf(logfile, "Write_FS(secadr=15, data=%02x, '%c')\n", data, data);
 #endif
 	if (fs_cptr < MAXPATHLEN - 1) {		/* keep place for nullbyte */
 	    fs_cmdbuf[fs_cptr++] = data;
@@ -624,7 +644,12 @@ int read_fs(void *flp, BYTE * data, int secondary)
     int i, l, f;
     unsigned short blocks;
     struct dirent *dirp;	/* defined in /usr/include/sys/dirent.h */
+#ifdef __riscos
+    int objType;
+    int catInfo[4];
+#else
     struct stat statbuf;
+#endif
     struct fs_buffer_info *info = &fs_info[secondary];
     char rname[256];
 
@@ -634,7 +659,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 	if (fs_eptr < fs_elen) {
 	    *data = fs_errorl[fs_eptr++];
 #ifdef DEBUG_FS
-	    printf("Read_FS(secadr=15) reads '%c'\n", *data);
+	    fprintf(logfile, "Read_FS(secadr=15) reads '%c'\n", *data);
 #endif
 	    return SERIAL_OK;
 	} else {
@@ -668,7 +693,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		  char buf[MAXPATHLEN];
 
 #ifdef DEBUG_FSDRIVE
-		  printf("reading\n");
+		  fprintf(logfile, "reading\n");
 #endif
 
 		  info->bufp = info->name;
@@ -685,7 +710,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		  /* first test if dirmask is needed - maybe this should be
 		     replaced by some regex functions... */
 #ifdef DEBUG_FS
-		  printf("FS_ReadDir: mask ='%s'\n", fs_dirmask);
+		  fprintf(logfile, "FS_ReadDir: mask ='%s'\n", fs_dirmask);
 #endif
 		  f = 1;
 		  do {
@@ -694,7 +719,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      if (!dirp)
 			  break;
 #ifdef DEBUG_FS
-		      printf("FS_ReadDir: testing file '%s'\n", dirp->d_name);
+		      fprintf(logfile, "FS_ReadDir: testing file '%s'\n", dirp->d_name);
 #endif
 		      fs_info[secondary].type = FT_PRG;
 		      strcpy(rname, dirp->d_name);
@@ -730,7 +755,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		  while (f);
 
 #ifdef DEBUG_FS
-		  printf("FS_ReadDir: printing file '%s'\n",
+		  fprintf(logfile, "FS_ReadDir: printing file '%s'\n",
 			 dirp ? rname : NULL);
 #endif
 
@@ -739,18 +764,22 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      char *tp;
 
 		      strcpy(buf, info->dir);
-		      strcat(buf, "/");
+		      strcat(buf, FSDEV_DIR_SEP_STR);
 		      tp = buf + strlen(buf);
 		      strcat(buf, dirp->d_name);
 
 		      /* Line link, Length and spaces */
 
 		      p += 2;	/* skip link addr, fill in later */
-
-		      if (stat(buf, &statbuf) < 0)
-			  blocks = 0;	/* this file can't be opened */
-		      else
-			  blocks = (unsigned short) ((statbuf.st_size + 253) / 254);
+#ifdef __riscos
+                     if ((objType = ReadCatalogueInfo(buf, catInfo)) != 0)
+                         blocks = (unsigned short) ((catInfo[2] + 253) / 254);
+#else
+                     if (stat(buf, &statbuf) >= 0)
+                         blocks = (unsigned short) ((statbuf.st_size + 253) / 254);
+#endif
+                     else
+                         blocks = 0;   /* this file can't be opened */
 
 		      SET_LO_HI(p, blocks);
 
@@ -781,7 +810,12 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      for (; i < 17; i++)
 			  *p++ = ' ';
 
-		      if (S_ISDIR(statbuf.st_mode)) {
+#ifdef __riscos
+                     if ((objType & 2) != 0)
+#else
+                     if (S_ISDIR(statbuf.st_mode))
+#endif
+                     {
 			  *p++ = 'D';
 			  *p++ = 'I';
 			  *p++ = 'R';
@@ -834,7 +868,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      info->buflen = (int) (p - info->name);
 
 #ifdef DEBUG_FSDRIVE
-		      printf("found %4d>%s< (%d)  buf:>%s< (%d)\n",
+		      fprintf(logfile, "found %4d>%s< (%d)  buf:>%s< (%d)\n",
 			     blocks, dirp->d_name, i,
 			     info->name + 4, info->buflen);
 #endif
@@ -877,7 +911,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 
     if (secondary == 15) {
 #ifdef DEBUG_FS
-	printf("Open_FS(secadr=15, name='%s'\n", fsname2);
+	fprintf(logfile, "Open_FS(secadr=15, name='%s'\n", fsname2);
 #endif
 	for (i = 0; i < length; i++) {
 	    status = write_fs(flp, name[i], 15);
@@ -938,7 +972,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		strcpy(fsname, fsdevice_get_path(floppy->unit));
 	}
 #ifdef DEBUG_FS
-	printf("Opening Dir with dir='%s', mask='%s')\n", fsname, fs_dirmask);
+	fprintf(logfile, "Opening Dir with dir='%s', mask='%s')\n", fsname, fs_dirmask);
 #endif
 	/* trying to open */
 	if (!(dp = opendir((char *) fsname))) {
@@ -1000,7 +1034,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	fs_info[secondary].dirmpos = i;		/* start address of next line */
 
 #ifdef DEBUG_FSDRIVE
-	printf("opened directory\n");
+	fprintf(logfile, "opened directory\n");
 #endif
 
 
@@ -1030,13 +1064,13 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    }
 	}
 
-	strcpy(fsname2, fsname);
-	strcpy(fsname, fsdevice_get_path(floppy->unit));
-        strcat(fsname, "/");
-	strcat(fsname, fsname2);
+        strcpy(fsname2, fsname);
+        strcpy(fsname, fsdevice_get_path(floppy->unit));
+        strcat(fsname, FSDEV_DIR_SEP_STR);
+        strcat(fsname, fsname2);
 
 #ifdef DEBUG_FSDRIVE
-    printf("Open file name '%s' (before wildcard expansion).\n", fsname);
+    fprintf(logfile, "Open file name '%s' (before wildcard expansion).\n", fsname);
 #endif
 
 	/* Test on wildcards.  */
@@ -1051,20 +1085,20 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	}
 
 #ifdef DEBUG_FSDRIVE
-    printf("Open file name '%s' (after wildcard expansion).\n", fsname);
+    fprintf(logfile, "Open file name '%s' (after wildcard expansion).\n", fsname);
 #endif
 
 	/* Open file for write mode access.  */
 	if (fs_info[secondary].mode == Write) {
 	    fd = fopen(fsname, READ);
-	    if (fd > 0) {
+	    if (fd != NULL) {
 		fclose(fd);
 		fs_error(IPE_FILE_EXISTS);
 		return FLOPPY_ERROR;
 	    }
 	    if (fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
 		fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
-		if (fd > 0) {
+		if (fd != NULL) {
 		    fclose(fd);
 		    fs_error(IPE_FILE_EXISTS);
 		    return FLOPPY_ERROR;
@@ -1157,9 +1191,15 @@ int open_fs(void *flp, char *name, int length, int secondary)
 
 int close_fs(void *flp, int secondary)
 {
+#ifdef __riscos
+    DRIVE *floppy = (DRIVE*)flp;
+
+    ui_set_drive_leds(floppy->unit - 8, 0);
+#endif
+
     if (secondary == 15) {
 #ifdef DEBUG_FS
-	printf("Close_FS(secadr=15)\n");
+	fprintf(logfile, "Close_FS(secadr=15)\n");
 #endif
 	fs_error(IPE_OK);
 	return FLOPPY_COMMAND_OK;
@@ -1198,12 +1238,12 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
 
     tmptype = is_pc64name(rname);
     if (tmptype >= 0) {
-	strcpy(pathname, fsdevice_get_path(floppy->unit));
-        strcat(pathname, "/");
-	strcat(pathname, rname);
-	fd = fopen(pathname, READ);
-	if (!fd)
-	    return;
+        strcpy(pathname, fsdevice_get_path(floppy->unit));
+        strcat(pathname, FSDEV_DIR_SEP_STR);
+        strcat(pathname, rname);
+        fd = fopen(pathname, READ);
+        if (!fd)
+            return;
 
 	fread((char *) p00id, 8, 1, fd);
 	if (ferror(fd)) {
@@ -1244,7 +1284,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 	dirp = readdir(dp);
 	if (dirp != NULL) {
 	    strcpy(pname, fsdevice_get_path(floppy->unit));
-            strcat(pname, "/");
+            strcat(pname, FSDEV_DIR_SEP_STR);
 	    strcat(pname, dirp->d_name);
 	    p = pname;
 	    if (is_pc64name(p) >= 0) {
@@ -1316,7 +1356,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
 		fs_test_pc64_name(flp, rname, secondary);
 		if (strcmp(rname, dirp->d_name) == 0) {
 		    strcpy(fsname, fsdevice_get_path(floppy->unit));
-		    strcat(fsname, "/");
+		    strcat(fsname, FSDEV_DIR_SEP_STR);
 		    strcat(fsname, dirp->d_name);
 		    closedir(dp);
 		    return;
@@ -1345,23 +1385,23 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
     len = fsdevice_evaluate_name_p00(name, length, filename);
 
     strcpy(fsname, fsdevice_get_path(floppy->unit));
-    strcat(fsname, "/");
+    strcat(fsname, FSDEV_DIR_SEP_STR);
     strncat(fsname, filename, len);
     switch (fs_info[secondary].type) {
       case FT_DEL:
-	strcat(fsname, ".D");
+	strcat(fsname, FSDEV_EXT_SEP_STR ".D");
 	break;
       case FT_SEQ:
-	strcat(fsname, ".S");
+	strcat(fsname, FSDEV_EXT_SEP_STR ".S");
 	break;
       case FT_PRG:
-	strcat(fsname, ".P");
+	strcat(fsname, FSDEV_EXT_SEP_STR ".P");
 	break;
       case FT_USR:
-	strcat(fsname, ".U");
+	strcat(fsname, FSDEV_EXT_SEP_STR ".U");
 	break;
       case FT_REL:
-	strcat(fsname, ".R");
+	strcat(fsname, FSDEV_EXT_SEP_STR ".R");
 	break;
     }
     strcat(fsname, "00");

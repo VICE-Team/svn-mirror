@@ -210,7 +210,7 @@ void signal_pia1(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*printf("signal_pia1(line=%d, edge=%d, ctrl=%02x)\n",
+        /*fprintf(logfile, "signal_pia1(line=%d, edge=%d, ctrl=%02x)\n",
 						line,edge,pia1.ctrl_b);*/
 	if ( ((pia1.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    pia1.ctrl_b |= 0x80;
@@ -234,7 +234,7 @@ void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
     addr &= 3;
 
 #if 0
-    printf("store pia1 [%x] %x\n", (int) addr, (int) byte);
+    fprintf(logfile, "store pia1 [%x] %x\n", (int) addr, (int) byte);
 #endif
 
     switch (addr) {
@@ -325,7 +325,7 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
     addr &= 3;
 
 #if 0
-    printf("read pia1 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
+    fprintf(logfile, "read pia1 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
            addr,
            pia1.port_a, pia1.ddr_a, pia1.ctrl_a,
            pia1.port_b, pia1.ddr_b, pia1.ctrl_b);
@@ -379,14 +379,14 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 		j = ~keyarr[row];
 
 #if 0
-            printf("read pia1 port B %d\n", j);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read pia1 port B %d\n", j);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) pia1.port_a, (int) j,
                    (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
 #endif
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
 	    if (j < 255)
-                printf("%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
+                fprintf(logfile, "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
                        keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
                        keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
                        row, j);

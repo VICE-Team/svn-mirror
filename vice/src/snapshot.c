@@ -209,7 +209,7 @@ int snapshot_read_string(FILE *f, char **s)
         *s = p;
 
         for (i = 0; i < len; i++) {
-            if (snapshot_read_byte(f, p+i) < 0) {
+            if (snapshot_read_byte(f, (BYTE*)(p+i)) < 0) {
 		p[0] = 0;
                 return -1;
     	    }
@@ -358,7 +358,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     unsigned int name_len = strlen(name);
     off_t start_pos;
 
-    /* printf("snapshot_module_open(%s)\n", name); */
+    /* fprintf(logfile, "snapshot_module_open(%s)\n", name); */
 
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
         return NULL;
@@ -372,7 +372,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     /* Search for the module name.  This is quite inefficient, but I don't
        think we care.  */
     while (1) {
-        if (snapshot_read_byte_array(s->file, n, SNAPSHOT_MODULE_NAME_LEN) < 0
+        if (snapshot_read_byte_array(s->file, (BYTE*)n, SNAPSHOT_MODULE_NAME_LEN) < 0
             || snapshot_read_byte(s->file, major_version_return) < 0
             || snapshot_read_byte(s->file, minor_version_return) < 0
             || snapshot_read_dword(s->file, &m->size))
@@ -393,7 +393,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     return m;
 
 fail:
-    /* printf("-> failed!\n"); */
+    /* fprintf(logfile, "-> failed!\n"); */
 
     fseek(s->file, s->first_module_offset, SEEK_SET);
     free(m);
@@ -473,7 +473,7 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Magic string.  */
-    if (snapshot_read_byte_array(f, magic, SNAPSHOT_MAGIC_LEN) < 0
+    if (snapshot_read_byte_array(f, (BYTE*)magic, SNAPSHOT_MAGIC_LEN) < 0
         || memcmp(magic, snapshot_magic_string, SNAPSHOT_MAGIC_LEN) != 0)
         goto fail;
 
@@ -483,7 +483,7 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Machine.  */
-    if (snapshot_read_byte_array(f, read_name,
+    if (snapshot_read_byte_array(f, (BYTE*)read_name,
                                  SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
@@ -492,7 +492,7 @@ snapshot_t *snapshot_open(const char *filename,
     if (memcmp(read_name, machine_name, machine_name_len) != 0
         || (machine_name_len != SNAPSHOT_MODULE_NAME_LEN
             && read_name[machine_name_len] != 0)) {
-        fprintf(stderr, "SNAPSHOT: Wrong machine type.\n");
+        fprintf(errfile, "SNAPSHOT: Wrong machine type.\n");
         goto fail;
     }
 

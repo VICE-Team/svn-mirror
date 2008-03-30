@@ -103,7 +103,7 @@ static int set_file_system_device8(resource_value_t v)
     p = serial_get_device(8);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd < 0) {
+	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
 	    p->inuse = 0;
 	    initialize_1541(8, (file_system_device_enabled[0]
                                 ? DT_FS : DT_DISK) | DT_1541,
@@ -123,7 +123,7 @@ static int set_file_system_device9(resource_value_t v)
     p = serial_get_device(9);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd < 0) {
+	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
 	    p->inuse = 0;
 	    initialize_1541(9, (file_system_device_enabled[1]
                                 ? DT_FS : DT_DISK) | DT_1541,
@@ -143,7 +143,7 @@ static int set_file_system_device10(resource_value_t v)
     p = serial_get_device(10);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd < 0) {
+	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
 	    p->inuse = 0;
 	    initialize_1541(10, (file_system_device_enabled[2]
                                  ? DT_FS : DT_DISK) | DT_1541,
@@ -163,7 +163,7 @@ static int set_file_system_device11(resource_value_t v)
     p = serial_get_device(11);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd < 0) {
+	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
 	    p->inuse = 0;
 	    initialize_1541(11, (file_system_device_enabled[3]
                                  ? DT_FS : DT_DISK) | DT_1541,
@@ -260,7 +260,7 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
             if (m == NULL)
                 return -1;
 
-            if (snapshot_module_write_byte_array(m, floppy->ActiveName,
+            if (snapshot_module_write_byte_array(m, (BYTE *)floppy->ActiveName,
                     sizeof(floppy->ActiveName)) < 0) {
                 if (m != NULL)
                     snapshot_module_close(m);
@@ -288,7 +288,7 @@ int vdrive_read_snapshot_module(snapshot_t *s, int start)
             return 0;
 
         if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-            fprintf(stderr,
+            fprintf(errfile,
                 "VDRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version, SNAP_MAJOR, SNAP_MINOR);
         }

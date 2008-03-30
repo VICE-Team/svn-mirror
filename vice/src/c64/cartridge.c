@@ -31,10 +31,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifndef __riscos
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <memory.h>
+#endif
 #include <assert.h>
 #include <errno.h>
 #endif
@@ -157,7 +159,7 @@ int cartridge_attach_image(int type, const char *filename)
 	    fclose(fd);
 	    goto done;
 	}
-	if (strncmp(header, "C64 CARTRIDGE   ", 16)) {
+	if (strncmp((char*)header, "C64 CARTRIDGE   ", 16)) {
 	    fclose(fd);
 	    goto done;
 	}

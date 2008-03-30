@@ -29,7 +29,9 @@
 #define _FINDPATH_H
 
 #ifdef STDC_HEADERS
+#ifndef __riscos
 #include <unistd.h>
+#endif
 #endif
 
 #ifdef __MSDOS__

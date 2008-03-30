@@ -85,6 +85,8 @@ static void vsync_hook(void);
 
 const char machine_name[] = "C128";
 
+int machine_class = VICE_MACHINE_C128;
+
 static trap_t c128_serial_traps[] = {
     {
 	"SerialListen",
@@ -233,7 +235,7 @@ int machine_init(void)
     if (mem_load() < 0)
 	return -1;
 
-    printf("\nInitializing Serial Bus...\n");
+    fprintf(logfile, "\nInitializing Serial Bus...\n");
 
     /* Setup trap handling.  */
     traps_init();
@@ -414,6 +416,17 @@ int machine_set_restore_key(int v)
     maincpu_set_nmi(I_RESTORE, v?1:0);
     return 1;
 }
+
+#ifdef __riscos
+void cartridge_detach_image(void)
+{
+}
+
+int pet_set_model(const char *name, void *extra)
+{
+  return 0;
+}
+#endif
 
 /* ------------------------------------------------------------------------- */
 

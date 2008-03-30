@@ -58,7 +58,7 @@
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#ifndef __MSDOS__
+#if(!defined(__MSDOS__) && !defined(__riscos))
 #define NEED_2x
 #else  /* __MSDOS__ */
 #define pixel_width 1
@@ -92,6 +92,10 @@ static void update_sprite_collisions(void);
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stdio.h>
+#endif
+
+#ifdef __riscos
+#include "ROlib.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -659,7 +663,7 @@ canvas_t vic_ii_init(void)
         return NULL;
 
     if (palette_load(palette_file_name, palette) < 0) {
-        printf("Cannot load palette file `%s'.\n", palette_file_name);
+        fprintf(logfile, "Cannot load palette file `%s'.\n", palette_file_name);
         return NULL;
     }
 
@@ -670,7 +674,7 @@ canvas_t vic_ii_init(void)
 			    - VIC_II_FIRST_DISPLAYED_LINE),
 			   palette,
 			   ((canvas_redraw_t)vic_ii_exposure_handler))) {
-	fprintf(stderr,
+	fprintf(errfile,
 		"fatal error: can't open window for the VIC-II emulation.\n");
 	return NULL;
     }
@@ -1802,7 +1806,7 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 	    DEBUG_REGISTER(("\tSprite-background collision mask: $%02X\n",
 			    vic[addr]));
 #if defined (DEBUG_SB_COLLISIONS)
-	    printf("VIC: sb_collmask reset by $D01F read at line 0x%X.\n",
+	    fprintf(logfile, "VIC: sb_collmask reset by $D01F read at line 0x%X.\n",
 		   RASTER_Y);
 #endif
 	    return vic[addr];
@@ -3993,7 +3997,7 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "VIC-II: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);
@@ -4036,13 +4040,13 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
             goto fail;
 
         if (RasterCycle != (BYTE) RASTER_CYCLE) {
-            fprintf(stderr, "VIC-II: Not matching raster cycle (%d) in snapshot; should be %d.\n",
+            fprintf(errfile, "VIC-II: Not matching raster cycle (%d) in snapshot; should be %d.\n",
                     RasterCycle, RASTER_CYCLE);
             goto fail;
         }
 
         if (RasterLine != (WORD) RASTER_Y) {
-            fprintf(stderr, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.\n",
+            fprintf(errfile, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.\n",
                     RasterLine, RASTER_Y);
             goto fail;
         }

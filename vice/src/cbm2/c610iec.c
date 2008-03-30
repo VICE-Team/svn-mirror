@@ -38,23 +38,23 @@ void iec_update_ports(void)
 
 void iec_drive0_write(BYTE data)
 {
-    printf("BUG: iec_drive0_write(%02x)\n", data);
+    fprintf(errfile, "BUG: iec_drive0_write(%02x)\n", data);
 }
 
 void iec_drive1_write(BYTE data)
 {
-    printf("BUG: iec_drive1_write(%02x)\n", data);
+    fprintf(errfile, "BUG: iec_drive1_write(%02x)\n", data);
 }
 
 BYTE iec_drive0_read(void)
 {
-    printf("BUG: iec_drive0_read()\n");
+    fprintf(errfile, "BUG: iec_drive0_read()\n");
     return 0;
 }
 
 BYTE iec_drive1_read(void)
 {
-    printf("BUG: iec_drive1_read()\n");
+    fprintf(errfile, "BUG: iec_drive1_read()\n");
     return 0;
 }
 

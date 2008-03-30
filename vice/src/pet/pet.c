@@ -79,6 +79,8 @@ static double	pet_rfsh_per_sec 	= PET_PAL_RFSH_PER_SEC;
 
 const char machine_name[] = "PET";
 
+int machine_class = VICE_MACHINE_PET;
+
 /* ------------------------------------------------------------------------- */
 
 /* PET resources.  */
@@ -91,7 +93,7 @@ static int set_model_name(resource_value_t v)
     char *name = (char *)v;
 
     if (pet_set_model(name, NULL) < 0) {
-        fprintf(stderr, "Invalid PET model `%s'.\n", name);
+        fprintf(errfile, "Invalid PET model `%s'.\n", name);
         return -1;
     }
 
@@ -146,7 +148,7 @@ int machine_init_resources(void)
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
 #endif
-#if defined __MSDOS__ || defined WIN32
+#if defined __MSDOS__ || defined WIN32 || defined(__riscos)
         || kbd_init_resources() < 0)
 #else
         || pet_kbd_init_resources() < 0)
@@ -203,7 +205,7 @@ int machine_init(void)
     if (mem_load() < 0)
         return -1;
 
-    printf("\nInitializing IEEE488 bus...\n");
+    fprintf(logfile, "\nInitializing IEEE488 bus...\n");
 
     /* No traps installed on the PET.  */
     serial_init(NULL);
@@ -341,7 +343,7 @@ void machine_set_cycles_per_frame(long cpf) {
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    printf("machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf,
+    fprintf(logfile, "machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf,
 							pet_rfsh_per_sec);
 
     vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -403,7 +405,7 @@ int machine_read_snapshot(const char *name)
     }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
+        fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
                major, minor, SNAP_MAJOR, SNAP_MINOR);
         ef = -1;
     }
@@ -433,3 +435,18 @@ int machine_read_snapshot(const char *name)
     }
     return ef;
 }
+
+#ifdef __riscos
+/* Dummies needed for RISC OS version (accessed by ui.c) */
+void cartridge_detach_image(void)
+{
+}
+
+CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
+
+int int_rasterfetch(long offset)
+{
+  return 0;
+}
+#endif
+

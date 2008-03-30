@@ -16,16 +16,16 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
-        c128kbd.c \
-        c128kbd.h \
-        c128ui.c \
-        c128ui.h \
-        c610kbd.c \
-        c610kbd.h \
-        c610ui.c \
-        c610ui.h \
+	c128kbd.c \
+	c128kbd.h \
+	c128ui.c \
+	c128ui.h \
+	c610kbd.c \
+	c610kbd.h \
+	c610ui.c \
+	c610ui.h \
 	c64kbd.c \
-        c64kbd.h \
+	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
 	dirent.c \
@@ -34,28 +34,30 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
-        lose32.h \
-        petkbd.c \
-        petkbd.h \
-        petui.c \
-        petui.h \
-        print.c \
-        resc64.r \
-        resc64.h \
+	lose32.h \
+	petkbd.c \
+	petkbd.h \
+	petui.c \
+	petui.h \
+	print.c \
+	resc64.r \
+	resc64.h \
 	ui.c \
 	ui.h \
-        uiattach.c \
-        uiattach.h \
-        vic20kbd.c \
-        vic20kbd.h \
-        vic20ui.c \
-        vic20ui.h \
+	uiattach.c \
+	uiattach.h \
+	uidrive.c \
+	uidrive.h \
+	vic20kbd.c \
+	vic20kbd.h \
+	vic20ui.c \
+	vic20ui.h \
 	video.c \
 	video.h \
 	vsync.c \
-        vsync.h \
-        winmain.c \
-        winmain.h
+	vsync.h \
+	winmain.c \
+	winmain.h
 
 libarch_a_DEPENDENCIES = \
 	resc64.o

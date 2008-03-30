@@ -34,7 +34,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <sys/stat.h>
+#endif
 #endif
 
 #include "memutils.h"
@@ -55,9 +59,17 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
     if (fp == NULL)
         goto fail;
 
-    printf("Loading file `%s'\n", complete_path);
+    fprintf(logfile, "Loading file `%s'\n", complete_path);
 
     {
+#ifdef __riscos
+        size_t current;
+
+        current = ftell(fp);
+        fseek(fp, 0, SEEK_END);
+        rsize = ftell(fp) - current;
+        fseek(fp, current, SEEK_SET);
+#else
 	struct stat s;
 
 	/* Check if the file is large enough before loading it. */
@@ -66,29 +78,30 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
             goto fail;
         }
 	rsize = s.st_size - ftell(fp);
+#endif
 
 #if 0
-	printf("ROM %s: size=%04x, minsize=%04x, maxsize=%04x romp=%p\n",
+	fprintf(logfile, "ROM %s: size=%04x, minsize=%04x, maxsize=%04x romp=%p\n",
 	       complete_path, rsize, minsize, maxsize, dest);
 #endif
 
 	if (rsize < minsize) {
-	    fprintf(stderr, "ROM %s: short file.\n", complete_path);
+	    fprintf(errfile, "ROM %s: short file.\n", complete_path);
             goto fail;
 	}
 	if (rsize == maxsize + 2) {
-	    printf("ROM %s: two bytes too large - removing assumed start "
+	    fprintf(logfile, "ROM %s: two bytes too large - removing assumed start "
 		   "address\n", complete_path);
 	    fread((char*)dest, 1, 2, fp);
 	    rsize -= 2;
 	}
 	if (rsize < maxsize) {
 #if 0
-	    printf("ROM %s: short file, reading to the end\n", complete_path);
+	    fprintf(logfile, "ROM %s: short file, reading to the end\n", complete_path);
 #endif
 	    dest += maxsize-rsize;
 	} else if (rsize > maxsize) {
-	    printf("ROM %s: long file, discarding end\n", complete_path);
+	    fprintf(logfile, "ROM %s: long file, discarding end\n", complete_path);
 	    rsize = maxsize;
 	}
 	if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)

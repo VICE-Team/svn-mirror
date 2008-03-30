@@ -110,4 +110,21 @@ typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #define REGPARM3
 #endif
 
+/* Use ANSI IO on RISC OS */
+#ifdef __riscos
+#include <stdio.h>
+typedef FILE *file_desc_t;
+#define ILLEGAL_FILE_DESC      NULL
+#define lseek(fd,off,dir)      fseek(fd,off,dir)
+#define read(fd,buf,len)       fread(buf,1,len,fd)
+#define write(fd,buf,len)      fwrite(buf,1,len,fd)
+#define close(fd)              fclose(fd)
+#define fileno(fd)             fd
+extern file_desc_t open(const char *file, int oflag, ...);
+#else
+typedef int file_desc_t;
+#define ILLEGAL_FILE_DESC      -1
+#endif
+
+
 #endif  /* _VICE_TYPES_H */

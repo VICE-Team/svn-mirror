@@ -42,7 +42,11 @@ typedef struct palette {
     palette_entry_t *entries;
 } palette_t;
 
+#ifdef __riscos
+#define PALETTE_FILE_EXTENSION "/vpl"
+#else
 #define PALETTE_FILE_EXTENSION  ".vpl"
+#endif
 
 palette_t *palette_create(int num_entries, const char *entry_names[]);
 extern void palette_free(palette_t *p);

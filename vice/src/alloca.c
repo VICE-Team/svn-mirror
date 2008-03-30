@@ -37,7 +37,7 @@
 #endif
 
 /* If compiling with GCC 2, this file's not needed.  */
-#if !defined (__GNUC__) || __GNUC__ < 2
+#if !defined (__GNUC__) || __GNUC__ < 2 || defined(__riscos)
 
 /* If someone has defined alloca as a macro,
    there must be some other way alloca is supposed to work.  */
@@ -465,7 +465,7 @@ i00afunc (long address)
   while (!(this_segment <= address && address <= stkl))
     {
 #ifdef DEBUG_I00AFUNC
-      fprintf (stderr, "%011o %011o %011o\n", this_segment, address, stkl);
+      fprintf (errfile, "%011o %011o %011o\n", this_segment, address, stkl);
 #endif
       if (pseg == 0)
 	break;
@@ -486,7 +486,7 @@ i00afunc (long address)
   while (pseg != 0)
     {
 #ifdef DEBUG_I00AFUNC
-      fprintf (stderr, "%011o %011o\n", pseg, size);
+      fprintf (errfile, "%011o %011o\n", pseg, size);
 #endif
       stkl = stkl - pseg;
       ssptr = (struct stack_segment_linkage *) stkl;

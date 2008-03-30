@@ -186,10 +186,10 @@ inline static void update_myviairq(void)
 #if 0	/* DEBUG */
     static int irq = 0;
     if(irq && !(myviaifr & myviaier & 0x7f)) {
-       printf("myvia: clk=%d, IRQ off\n", clk);
+       fprintf(logfile, "myvia: clk=%d, IRQ off\n", clk);
     }
     if(!irq && (myviaifr & myviaier & 0x7f)) {
-       printf("myvia: clk=%d, IRQ on\n", clk);
+       fprintf(logfile, "myvia: clk=%d, IRQ on\n", clk);
     }
     irq = (myviaifr & myviaier & 0x7f);
 #endif
@@ -259,7 +259,7 @@ void reset_myvia(void)
     int i;
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("MYVIA: reset\n");
+	fprintf(logfile, "MYVIA: reset\n");
 #endif
     /* clear registers */
     for (i = 0; i < 4; i++)
@@ -356,7 +356,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef MYVIA_TIMER_DEBUG
     if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
-	printf("store myvia[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
+	fprintf(logfile, "store myvia[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 	       (int) addr, (int) byte, myrmwf, myclk, rclk);
 #endif
 
@@ -428,7 +428,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
       case VIA_T1CH /*TIMER_AH */ :	/* Write timer A high */
 #ifdef MYVIA_TIMER_DEBUG
         if (app_resources.debugFlag)
-            printf("Write timer A high: %02x\n", byte);
+            fprintf(logfile, "Write timer A high: %02x\n", byte);
 #endif
         myvia[VIA_T1LH] = byte;
         update_myviatal(rclk);
@@ -482,7 +482,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 
       case VIA_IER:		/* Interrupt Enable Register */
 #if defined (MYVIA_TIMER_DEBUG)
-        printf("Via#1 set VIA_IER: 0x%x\n", byte);
+        fprintf(logfile, "Via#1 set VIA_IER: 0x%x\n", byte);
 #endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
@@ -550,7 +550,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 
       case VIA_PCR:
 
-        /* if(viadebug) printf("VIA1: write %02x to PCR\n",byte); */
+        /* if(viadebug) fprintf(logfile, "VIA1: write %02x to PCR\n",byte); */
 
         /* bit 7, 6, 5  CB2 handshake/interrupt control */
         /* bit 4  CB1 interrupt control */
@@ -602,7 +602,7 @@ BYTE REGPARM1 read_myvia(ADDRESS addr)
     BYTE retv = read_myvia_(addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
-	printf("read_myvia(%x) -> %02x, clk=%d\n", addr, retv, myclk);
+	fprintf(logfile, "read_myvia(%x) -> %02x, clk=%d\n", addr, retv, myclk);
     return retv;
 }
 BYTE REGPARM1 read_myvia_(ADDRESS addr)
@@ -778,12 +778,12 @@ int int_myviat1(long offset)
 /*    CLOCK rclk = myclk - offset; */
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("myvia timer A interrupt\n");
+	fprintf(logfile, "myvia timer A interrupt\n");
 #endif
 
     if (!(myvia[VIA_ACR] & 0x40)) {	/* one-shot mode */
 #if 0				/* defined (MYVIA_TIMER_DEBUG) */
-	printf("MYVIA Timer A interrupt -- one-shot mode: next int won't happen\n");
+	fprintf(logfile, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen\n");
 #endif
 	mycpu_unset_alarm(A_MYVIAT1);	/*int_clk[I_MYVIAT1] = 0; */
 	myviatai = 0;
@@ -807,7 +807,7 @@ int int_myviat2(long offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("MYVIA timer B interrupt\n");
+	fprintf(logfile, "MYVIA timer B interrupt\n");
 #endif
     mycpu_unset_alarm(A_MYVIAT2);	/*int_clk[I_MYVIAT2] = 0; */
     myviatbi = 0;
@@ -880,10 +880,10 @@ int myvia_write_snapshot_module(snapshot_t * p)
     if (m == NULL)
         return -1;
 /*
-printf("myvia: write: myclk=%d, tai=%d, tau=%d\n"
+fprintf(logfile, "myvia: write: myclk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",
 		myclk, myviatai, myviatau, myviatbi, myviatbu);
-printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
+fprintf(logfile,"     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
 */
     snapshot_module_write_byte(m, myvia[VIA_PRA]);
     snapshot_module_write_byte(m, myvia[VIA_DDRA]);
@@ -934,7 +934,7 @@ int myvia_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
@@ -1031,10 +1031,10 @@ int myvia_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &myvia_ilb);
 
 /*
-printf("myvia: read: myclk=%d, tai=%d, tau=%d\n"
+fprintf(logfile, "myvia: read: myclk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",
 		myclk, myviatai, myviatau, myviatbi, myviatbu);
-printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
+fprintf(logfile, "     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
 */
     return snapshot_module_close(m);
 }

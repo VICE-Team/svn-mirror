@@ -18,6 +18,12 @@
 #define IDC_TOGGLE_READP00              1014
 #define IDC_TOGGLE_WRITEP00             1015
 #define IDC_TOGGLE_HIDENONP00           1016
+#define IDD_DRIVE_SETTINGS_DIALOG       1020
+#define IDC_SELECT_DRIVE_TYPE_NONE      1021
+#define IDC_SELECT_DRIVE_TYPE_1541      1022
+#define IDC_SELECT_DRIVE_TYPE_1571      1023
+#define IDC_SELECT_DRIVE_TYPE_1581      1024
+#define IDC_SELECT_DRIVE_TYPE_2031      1025
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -38,10 +44,11 @@
 #define IDM_TOGGLE_SOUND                40019
 #define IDM_TOGGLE_DOUBLESIZE           40020
 #define IDM_TOGGLE_DOUBLESCAN           40021
-#define IDM_TOGGLE_TRUE1541             40022
+#define IDM_TOGGLE_DRIVE_TRUE_EMULATION 40022
 #define IDM_TOGGLE_VIDEOCACHE           40023
 #define IDM_TOGGLE_SIDFILTERS           40024
 #define IDM_DEVICEMANAGER               40025
+#define IDM_DRIVE_SETTINGS              40030
 
 // Next default values for new objects
 //

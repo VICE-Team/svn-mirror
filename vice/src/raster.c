@@ -37,7 +37,12 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef __riscos
+#include "ROlib.h"
+#include "sound.h"
+#else
 #include <unistd.h>
+#endif
 #include <stdarg.h>
 #include <string.h>
 #endif
@@ -383,6 +388,34 @@ static int open_output_window(char *win_name, unsigned int width,
 
 /* ------------------------------------------------------------------------- */
 
+/* handle mode changes (needed on RISC OS) */
+
+int handle_mode_change(void)
+{
+    int i;
+
+    if (palette == NULL) return 0;
+
+    canvas_set_palette(canvas, palette, pixel_table);
+
+    /* Prepare the double and quad pixel tables.  */
+    for (i = 0; i < 0x100; i++)
+       *((PIXEL *)(double_pixel_table + i))
+           = *((PIXEL *)(double_pixel_table + i) + 1) = pixel_table[i];
+    for (i = 0; i < 0x100; i++)
+       *((PIXEL2 *)(quad_pixel_table + i))
+           = *((PIXEL2 *)(quad_pixel_table + i) + 1) = double_pixel_table[i];
+
+    init_drawing_tables();
+
+    /* Make sure the pixel tables are recalculated properly.  */
+    video_resize();
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* set a new palette */
 
 static int set_palette_file_name(resource_value_t v)
@@ -397,7 +430,7 @@ static int set_palette_file_name(resource_value_t v)
     }
 
     if (palette_load((char *) v, palette) < 0) {
-        fprintf(stderr, "Couldn't load palette `%s'\n", (char *) v);
+        fprintf(errfile, "Couldn't load palette `%s'\n", (char *) v);
         return -1;
     }
     canvas_set_palette(canvas, palette, pixel_table);
@@ -645,7 +678,7 @@ inline static int _fill_sprite_cache(struct line_cache *ll, int *xs, int *xe)
 inline static void add_line(int y, int xs, int xe)
 {
 #ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
-    printf("add_line(): y = %d, xs = %d, xe = %d\n", y, xs, xe);
+    fprintf(logfile, "add_line(): y = %d, xs = %d, xe = %d\n", y, xs, xe);
 #endif
 
     if (changed_area.is_null) {
@@ -660,7 +693,7 @@ inline static void add_line(int y, int xs, int xe)
     }
 
 #ifdef RASTER_DEBUG_PUTIMAGE_CALLS 
-    printf("add_line(): current changed_area has "
+    fprintf(logfile, "add_line(): current changed_area has "
 	   "ys = %d, ye = %d, xs = %d, xe = %d\n",
      changed_area.ys, changed_area.ye, changed_area.xs, changed_area.xe);
 #endif
@@ -702,11 +735,11 @@ inline static void refresh_changed(void)
     h *= pixel_height;
 
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    printf("Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d\n",
+    fprintf(logfile, "Refresh x=%d y=%d xx=%d yy=%d w=%d h=%d scrw=%d scrh=%d\n",
 		 x, y, xx, yy, w, h, SCREEN_WIDTH, SCREEN_HEIGHT);
-    printf("        changed: xs=%d ys=%d xe=%d ye=%d\n", 
+    fprintf(logfile, "        changed: xs=%d ys=%d xe=%d ye=%d\n", 
 		changed_area.xs, changed_area.ys, changed_area.xe, changed_area.ye); 
-    printf("    window: x=%d y=%d w=%d h=%d\n", 
+    fprintf(logfile, "    window: x=%d y=%d w=%d h=%d\n", 
 		window_first_x, window_first_line, window_width, window_height);
 #endif
 
@@ -723,7 +756,7 @@ inline static void refresh_changed(void)
 inline static void refresh_all(void)
 {
 #if defined (RASTER_DEBUG_PUTIMAGE_CALLS)
-    printf("Global refresh %d %d %d %d %d %d\n",
+    fprintf(logfile, "Global refresh %d %d %d %d %d %d\n",
 	   window_first_x * pixel_width + 2 * SCREEN_MAX_SPRITE_WIDTH,
 	   window_first_line * pixel_height,
 	   window_x_offset, window_y_offset,
@@ -1340,6 +1373,15 @@ inline static void emulate_line(void)
     memory_fetch_done = 0;
 
     blank_this_line = 0;
+
+#ifdef __riscos
+    SoundLines++;
+    if (SoundLines >= SoundEvery)
+    {
+       SoundLines = 0;
+       sound_poll();
+    }
+#endif
 }
 
 /* Disable all the caching for the next frame.  */

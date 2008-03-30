@@ -37,6 +37,10 @@
 #include "warn.h"
 #include "utils.h"
 
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 struct warn_s
 {
     char		*name;
@@ -81,9 +85,14 @@ void warn(warn_t *pwarn, int warnid, char *msg, ...)
 	*p |= m;
     }
     va_start(ap, msg);
-    fprintf(stdout, "%s: warning: ", pwarn->name);
-    vfprintf(stdout, msg, ap);
-    fprintf(stdout, "\n");
+    fprintf(logfile, "%s: warning: ", pwarn->name);
+    /* Bugfix for GCC + SharedCLib */
+#if (defined (__riscos) && defined(__GNUC__))
+    vfprintf(logfile, msg, (va_list)(&ap));
+#else
+    vfprintf(logfile, msg, ap);
+#endif
+    fprintf(logfile, "\n");
     va_end(ap);
 }
 

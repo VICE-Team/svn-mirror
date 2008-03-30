@@ -90,7 +90,7 @@ BYTE **_mem_read_base_tab_ptr;
 BYTE **_mem_read_ind_base_tab_ptr;
 
 /* Flag: nonzero if the ROM has been loaded. */
-int rom_loaded = 0;
+static int rom_loaded = 0;
 
 /* CRTC register pointer. */
 static BYTE crtc_ptr = 0;
@@ -456,14 +456,14 @@ int cbm2_set_model(const char *model, void *extra)
 void set_bank_exec(int val) {
     int i;
 
-    /* printf("set_bank_exec(%d)\n",val); */
+    /* fprintf(logfile, "set_bank_exec(%d)\n",val); */
 
     val &= 0x0f;
     if(val != bank_exec) {
 
         /*if(val == 1) traceflg=1; else traceflg=0;*/
 
-        /*printf("bank_exec=%d, ptr=%p, base_ptr=%p\n",bank_exec, _mem_read_tab_ptr, _mem_read_base_tab_ptr);*/
+        /*fprintf(logfile, "bank_exec=%d, ptr=%p, base_ptr=%p\n",bank_exec, _mem_read_tab_ptr, _mem_read_base_tab_ptr);*/
 
     	bank_exec = val;
 
@@ -490,7 +490,7 @@ void set_bank_ind(int val) {
     int i;
     val &= 0x0f;
     if(val != bank_ind) {
-/* printf("set_bank_ind(%d)\n",val); */
+/* fprintf(logfile, "set_bank_ind(%d)\n",val); */
     	bank_ind = val;
     	_mem_read_ind_tab_ptr      = _mem_read_tab[bank_ind];
     	_mem_write_ind_tab_ptr     = _mem_write_tab[bank_ind];
@@ -610,28 +610,28 @@ READ_RAM(D)
 READ_RAM(E)
 READ_RAM(F)
 
-static void REGPARM2 (*store_zero_tab[16])(ADDRESS addr, BYTE value) = {
+static void (*store_zero_tab[16])(ADDRESS addr, BYTE value) = {
 	store_zero_0, store_zero_1, store_zero_2, store_zero_3,
 	store_zero_4, store_zero_5, store_zero_6, store_zero_7,
 	store_zero_8, store_zero_9, store_zero_A, store_zero_B,
 	store_zero_C, store_zero_D, store_zero_E, store_zero_F
 };
 
-static void REGPARM2 (*store_ram_tab[16])(ADDRESS addr, BYTE value) = {
+static void (*store_ram_tab[16])(ADDRESS addr, BYTE value) = {
 	store_ram_0, store_ram_1, store_ram_2, store_ram_3,
 	store_ram_4, store_ram_5, store_ram_6, store_ram_7,
 	store_ram_8, store_ram_9, store_ram_A, store_ram_B,
 	store_ram_C, store_ram_D, store_ram_E, store_ram_F
 };
 
-static BYTE REGPARM1 (*read_ram_tab[16])(ADDRESS addr) = {
+static BYTE (*read_ram_tab[16])(ADDRESS addr) = {
 	read_ram_0, read_ram_1, read_ram_2, read_ram_3,
 	read_ram_4, read_ram_5, read_ram_6, read_ram_7,
 	read_ram_8, read_ram_9, read_ram_A, read_ram_B,
 	read_ram_C, read_ram_D, read_ram_E, read_ram_F
 };
 
-static BYTE REGPARM1 (*read_zero_tab[16])(ADDRESS addr) = {
+static BYTE (*read_zero_tab[16])(ADDRESS addr) = {
 	read_zero_0, read_zero_1, read_zero_2, read_zero_3,
 	read_zero_4, read_zero_5, read_zero_6, read_zero_7,
 	read_zero_8, read_zero_9, read_zero_A, read_zero_B,
@@ -967,7 +967,7 @@ void mem_powerup(void)
     int i;
 
 #ifndef __MSDOS__
-    printf("Initializing RAM for power-up...\n");
+    fprintf(logfile, "Initializing RAM for power-up...\n");
 #endif
     for (i = 0; i < C610_RAM_SIZE; i += 0x80) {
         memset(ram + i, 0, 0x40);
@@ -1008,7 +1008,7 @@ int mem_load(void)
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
     if ((krsize=mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096)) < 0) {
-        fprintf(stderr, "Couldn't load character ROM '%s'.\n", chargen_name);
+        fprintf(errfile, "Couldn't load character ROM '%s'.\n", chargen_name);
         return -1;
     }
 
@@ -1029,7 +1029,7 @@ int mem_load(void)
     if (!IS_NULL(kernal_rom_name)
         && ((krsize = mem_load_sys_file(kernal_rom_name,
                                         rom + 0xe000, 0x2000, 0x2000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n\n", kernal_rom_name);
+        fprintf(errfile, "Couldn't load ROM `%s'.\n\n", kernal_rom_name);
         return -1;
     }
 
@@ -1037,7 +1037,7 @@ int mem_load(void)
     if (!IS_NULL(basic_rom_name)
         && ((rsize = mem_load_sys_file(basic_rom_name,
                                        rom + 0x8000, 0x4000, 0x4000)) < 0)) {
-        fprintf(stderr, "Couldn't load BASIC ROM `%s'.\n\n",
+        fprintf(errfile, "Couldn't load BASIC ROM `%s'.\n\n",
                 basic_rom_name);
         return -1;
     }
@@ -1046,25 +1046,25 @@ int mem_load(void)
     if (!IS_NULL(cart_1_name)
         && ((rsize = mem_load_sys_file(cart_1_name,
                                    rom + 0x1000, 0x1000, 0x1000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load ROM `%s'.\n",
                 cart_1_name);
     }
     if (!IS_NULL(cart_2_name)
         && ((rsize = mem_load_sys_file(cart_2_name,
                                    rom + 0x2000, 0x2000, 0x2000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load ROM `%s'.\n",
                 cart_2_name);
     }
     if (!IS_NULL(cart_4_name)
         && ((rsize = mem_load_sys_file(cart_4_name,
                                    rom + 0x4000, 0x2000, 0x2000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load ROM `%s'.\n",
                 cart_4_name);
     }
     if (!IS_NULL(cart_6_name)
          && ((rsize = mem_load_sys_file(cart_6_name,
 				   rom + 0x6000, 0x2000, 0x2000)) < 0)) {
-        fprintf(stderr, "Couldn't load ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load ROM `%s'.\n",
                 cart_6_name);
     }
 
@@ -1072,7 +1072,7 @@ int mem_load(void)
     for (i = 0xe000, sum = 0; i < 0x10000; i++)
         sum += rom[i];
 
-    printf("CBM-II: Loaded ROM, checksum is %d ($%04X).\n", sum, sum);
+    fprintf(logfile, "CBM-II: Loaded ROM, checksum is %d ($%04X).\n", sum, sum);
 
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
 
@@ -1515,12 +1515,12 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 */
     snapshot_module_read_byte(m, &config);
 
-    /* printf("CBM-II: config=%x\n",config); */
+    /* fprintf(logfile, "CBM-II: config=%x\n",config); */
 
 #if 0
     if (flag & 1) {	/* Save ROM filenames */
 
-	printf("CBM-II: read ROM names\n");
+	fprintf(logfile, "CBM-II: read ROM names\n");
 
 	snapshot_module_read_string(m, &kernal_rom_name);
 	snapshot_module_read_string(m, &basic_rom_name);

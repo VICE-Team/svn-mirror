@@ -54,7 +54,7 @@ inline void resolve_bus_signals(void)
                      ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0xff)
                  & NOT(cpu_data);
 #if BUS_DBG
-    printf("SB: [%ld]  data:%d clock:%d atn:%d\n",
+    fprintf(logfile, "SB: [%ld]  data:%d clock:%d atn:%d\n",
 	   drive_clk[0], bus_data, bus_clock, bus_atn);
 #endif
 }

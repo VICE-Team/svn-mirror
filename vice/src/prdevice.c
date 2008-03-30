@@ -105,7 +105,7 @@ static cmdline_option_t cmdline_options[] = {
 	(resource_value_t) 0, NULL,
 	"Disable the IEC device #4 printer emulation" },
     { "-pr4dev", SET_RESOURCE, 1, NULL, NULL, "Printer4Device",
-	(resource_value_t) 0, 
+	(resource_value_t) 0,
       "<0-2>", "Specify VICE printer device for IEC printer #4" },
     { NULL }
 };
@@ -117,7 +117,7 @@ int prdevice_init_cmdline_options(void)
 
 /***********************************************************************/
 
-static int currfd;
+static file_desc_t currfd;
 static int inuse;
 
 static int write_pr(void *var, BYTE byte, int secondary)
@@ -125,7 +125,7 @@ static int write_pr(void *var, BYTE byte, int secondary)
     /* FIXME: switch(secondary) for code conversion */
 
     if(!inuse) {
-	fprintf(stderr,"prdevice: printing while printer not open!\n");
+	fprintf(errfile,"prdevice: printing while printer not open!\n");
 	return -1;
     }
 
@@ -135,13 +135,13 @@ static int write_pr(void *var, BYTE byte, int secondary)
 static int open_pr(void *var, char *name, int length, int secondary)
 {
     if(inuse) {
-	fprintf(stderr, "prdevice: open printer while still open - ignoring\n");
+	fprintf(errfile, "prdevice: open printer while still open - ignoring\n");
 	return 0;
     }
 
     currfd = print_open(pr4_device);
-    if(currfd < 0) {
-	fprintf(stderr, "prdevice: Couldn't open device %d\n", pr4_device);
+    if(currfd == ILLEGAL_FILE_DESC) {
+	fprintf(errfile, "prdevice: Couldn't open device %d\n", pr4_device);
 	return -1;
     }
 
@@ -154,7 +154,7 @@ static int open_pr(void *var, char *name, int length, int secondary)
 static int close_pr(void *var, int secondary)
 {
     if(!inuse) {
-	fprintf(stderr, "prdevice: close printer while being closed - ignoring\n");
+	fprintf(errfile, "prdevice: close printer while being closed - ignoring\n");
 	return 0;
     }
 
@@ -168,7 +168,7 @@ static int close_pr(void *var, int secondary)
 static void flush_pr(void *var, int secondary)
 {
     if(!inuse) {
-	fprintf(stderr, "prdevice: flush printer while being closed - ignoring\n");
+	fprintf(errfile, "prdevice: flush printer while being closed - ignoring\n");
 	return;
     }
 
@@ -197,6 +197,6 @@ static int prdevice_attach(int device)
 
 static int prdevice_detach(int device)
 {
-    fprintf(stderr,"Printer device #4: Don't know how to detach (yet)\n");
+    fprintf(errfile, "Printer device #4: Don't know how to detach (yet)\n");
     return 0;
 }

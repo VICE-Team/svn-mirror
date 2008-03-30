@@ -38,7 +38,7 @@
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#ifndef __MSDOS__
+#if (!defined(__MSDOS__) && !defined(__riscos))
 #define NEED_2x
 #endif /* !__MSDOS__ */
 
@@ -201,6 +201,12 @@ typedef PIXEL2 VIC_PIXEL2;
 #define VIC_PIXEL_WIDTH	1
 #endif
 
+/*
+ *  For some reason the RISC OS GCC-preprocessor doesn't like the original
+ *  declaration of c[4], so use this hack to force it.
+ */
+#define DUMMY_SEPARATOR
+
 #include "raster.c"
 /* ------------------------------------------------------------------------- */
 
@@ -241,14 +247,14 @@ canvas_t vic_init(void)
         return NULL;
 
     if (palette_load(palette_file_name, palette) < 0) {
-        printf("Cannot load default palette.\n");
+        fprintf(logfile, "Cannot load default palette.\n");
         return NULL;
     }
 
     if (open_output_window(VIC_WINDOW_TITLE,
 			   width, height, palette,
 			   (canvas_redraw_t)vic_exposure_handler)) {
-	fprintf(stderr,
+	fprintf(errfile,
 		"fatal error: cannot open window for the VIC emulation.\n");
 	return NULL;
     }
@@ -318,7 +324,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
     vic[addr] = value;
 
 #ifdef VIC_REGISTERS_DEBUG
-    printf("VIC: write $90%02X, value = $%02X\n", addr, value);
+    fprintf(logfile, "VIC: write $90%02X, value = $%02X\n", addr, value);
 #endif
 
     switch (addr) {
@@ -333,14 +339,14 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	if (display_xstop >= VIC_SCREEN_WIDTH)
 	    display_xstop = VIC_SCREEN_WIDTH - 1;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tscreen X location: $%02X\n", value);
+	fprintf(logfile, "\tscreen X location: $%02X\n", value);
 #endif
 	return;
       case 1:			/* $9001  Screen Y Location. */
 	display_ystart = value * 2;
 	display_ystop = display_ystart + text_lines * char_height;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tscreen Y location: $%02X\n", value);
+	fprintf(logfile, "\tscreen Y location: $%02X\n", value);
 	return;
 #endif
 	return;
@@ -356,8 +362,8 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	set_memory_ptrs();
         memptr_inc = text_cols;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tcolor RAM at $%04X\n", colormem - ram);
-	printf("\tcolumns displayed: %d\n", text_cols);
+	fprintf(logfile, "\tcolor RAM at $%04X\n", colormem - ram);
+	fprintf(logfile, "\tcolumns displayed: %d\n", text_cols);
 #endif
 	break;
 
@@ -368,15 +374,15 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	char_height = (value & 0x1) ? 16 : 8;
 	display_ystop = display_ystart + text_lines * char_height;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\trows displayed: %d\n", text_lines);
-	printf("\tcharacter height: %d\n", char_height);
+	fprintf(logfile, "\trows displayed: %d\n", text_lines);
+	fprintf(logfile, "\tcharacter height: %d\n", char_height);
 #endif
 	set_memory_ptrs();
 	return;
 
       case 4:			/* $9004  Raster line count -- read only. */
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\t(raster line counter, read-only)\n");
+	fprintf(logfile, "\t(raster line counter, read-only)\n");
 #endif
 	return;
 
@@ -387,14 +393,14 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
       case 6:			/* $9006. */
       case 7:			/* $9007  Light Pen X,Y. */
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\t(light pen register, read-only)\n");
+	fprintf(logfile, "\t(light pen register, read-only)\n");
 #endif
 	return;
 
       case 8:			/* $9008. */
       case 9:			/* $9009  Paddle X,Y. */
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\t(paddle, read-only)\n");
+	fprintf(logfile, "\t(paddle, read-only)\n");
 #endif
 	return;
 
@@ -403,7 +409,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
       case 12:			/* $900C  Soprano Enable and Frequency. */
       case 13:			/* $900D  Noise Enable and Frequency. */
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\t(sound register, not implemented)\n");
+	fprintf(logfile, "\t(sound register, not implemented)\n");
 #endif
 	store_sound(addr, value);
 	return;
@@ -411,8 +417,8 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
       case 14:			/* $900E  Auxiliary Colour, Master Volume. */
 	auxiliary_color = value >> 4;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tauxiliary color set to $%02X\n", auxiliary_color);
-	printf("\t(master volume not implemented)\n");
+	fprintf(logfile, "\tauxiliary color set to $%02X\n", auxiliary_color);
+	fprintf(logfile, "\t(master volume not implemented)\n");
 #endif
 	store_sound(addr, value);
 	return;
@@ -423,8 +429,8 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	background_color = value >> 4;
 	video_mode = (value & 8) ? VIC_STANDARD_MODE : VIC_REVERSE_MODE;
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tborder color: $%02X\n", border_color);
-	printf("\tbackground color: $%02X\n", background_color);
+	fprintf(logfile, "\tborder color: $%02X\n", border_color);
+	fprintf(logfile, "\tbackground color: $%02X\n", background_color);
 #endif
 	return;
     }
@@ -459,7 +465,7 @@ static void set_memory_ptrs(void)
     if (charaddr >= 0x8000 && charaddr < 0x9000) {
 	chargen_ptr = chargen_rom + 0x400 + (charaddr & 0xfff);
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tcharacter memory at $%04X (character ROM + $%04X)\n",
+	fprintf(logfile, "\tcharacter memory at $%04X (character ROM + $%04X)\n",
 	       charaddr, charaddr & 0xfff);
 #endif
     } else {
@@ -469,14 +475,14 @@ static void set_memory_ptrs(void)
 	   chargen_ptr = ram + charaddr;
 	}
 #ifdef VIC_REGISTERS_DEBUG
-	printf("\tcharacter memory at $%04X\n", charaddr);
+	fprintf(logfile, "\tcharacter memory at $%04X\n", charaddr);
 #endif
     }
     colormem = ram + 0x9400 + (vic[0x2] & 0x80 ? 0x200 : 0x0);
     screenmem = ram + (((vic[0x2] & 0x80) << 2) | ((vic[0x5] & 0x70) << 6));
 #ifdef VIC_REGISTERS_DEBUG
-    printf("\tcolor memory at $%04X\n", colormem - ram);
-    printf("\tscreen memory at $%04X\n", screenmem - ram);
+    fprintf(logfile, "\tcolor memory at $%04X\n", colormem - ram);
+    fprintf(logfile, "\tscreen memory at $%04X\n", screenmem - ram);
 #endif
 }
 
@@ -549,7 +555,7 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
 
 #define DRAW_LINE(p, xs, xe, reverse)					     \
   do {									     \
-      static VIC_PIXEL c[4];			    			     \
+      static VIC_PIXEL DUMMY_SEPARATOR c[4];		 		     \
       int b, i;								     \
       BYTE d;								     \
       PIXEL *pp = (PIXEL *)(p) + (xs) * 8 * VIC_PIXEL_WIDTH;		     \
@@ -606,7 +612,7 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe)
 
 #define DRAW_LINE_2x(p, xs, xe, reverse)				     \
   do {									     \
-      static VIC_PIXEL2 c[4];						     \
+      static VIC_PIXEL2 DUMMY_SEPARATOR c[4];				     \
       BYTE d, b;							     \
       int i;								     \
       PIXEL *pp = (PIXEL *)(p) + (xs) * 16 * VIC_PIXEL_WIDTH;		     \
@@ -725,7 +731,7 @@ int vic_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "VIC: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);
@@ -735,7 +741,7 @@ int vic_read_snapshot_module(snapshot_t *s)
     if (snapshot_module_read_byte(m, &b) < 0)
         goto fail;
     if (b != RASTER_CYCLE) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "VIC: Cycle value (%d) incorrect; should be %d.\n",
                 (int) b, RASTER_CYCLE);
         goto fail;
@@ -744,7 +750,7 @@ int vic_read_snapshot_module(snapshot_t *s)
     if (snapshot_module_read_word(m, &w) < 0)
         goto fail;
     if (w != RASTER_Y) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "VIC: Raster line value (%d) incorrect; should be %d.\n",
                 (int) w, RASTER_Y);
         goto fail;

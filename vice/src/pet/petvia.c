@@ -214,10 +214,10 @@ inline static void update_viairq(void)
 #if 0	/* DEBUG */
     static int irq = 0;
     if(irq && !(viaifr & viaier & 0x7f)) {
-       printf("via: clk=%d, IRQ off\n", clk);
+       fprintf(logfile, "via: clk=%d, IRQ off\n", clk);
     }
     if(!irq && (viaifr & viaier & 0x7f)) {
-       printf("via: clk=%d, IRQ on\n", clk);
+       fprintf(logfile, "via: clk=%d, IRQ on\n", clk);
     }
     irq = (viaifr & viaier & 0x7f);
 #endif
@@ -287,7 +287,7 @@ void reset_via(void)
     int i;
 #ifdef VIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("VIA: reset\n");
+	fprintf(logfile, "VIA: reset\n");
 #endif
     /* clear registers */
     for (i = 0; i < 4; i++)
@@ -361,8 +361,8 @@ void via_signal(int line, int edge)
 	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", byte);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read port A %d\n", byte);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
@@ -408,8 +408,8 @@ void via_signal(int line, int edge)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -438,7 +438,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIA_TIMER_DEBUG
     if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
-	printf("store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
+	fprintf(logfile, "store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 	       (int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
 
@@ -495,7 +495,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
 
 	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
-	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
+	    fprintf(errfile,"PET: Killer POKE! might kill a real PET!\n");
 	}
         parallel_cpu_set_nrfd(!(byte & 0x02));
         parallel_cpu_set_atn(!(byte & 0x04));
@@ -519,7 +519,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
       case VIA_T1CH /*TIMER_AH */ :	/* Write timer A high */
 #ifdef VIA_TIMER_DEBUG
         if (app_resources.debugFlag)
-            printf("Write timer A high: %02x\n", byte);
+            fprintf(logfile, "Write timer A high: %02x\n", byte);
 #endif
         via[VIA_T1LH] = byte;
         update_viatal(rclk);
@@ -579,7 +579,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
       case VIA_IER:		/* Interrupt Enable Register */
 #if defined (VIA_TIMER_DEBUG)
-        printf("Via#1 set VIA_IER: 0x%x\n", byte);
+        fprintf(logfile, "Via#1 set VIA_IER: 0x%x\n", byte);
 #endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
@@ -637,8 +637,8 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", byte);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read port A %d\n", byte);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
@@ -665,8 +665,8 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -694,7 +694,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
       case VIA_PCR:
 
-        /* if(viadebug) printf("VIA1: write %02x to PCR\n",byte); */
+        /* if(viadebug) fprintf(logfile, "VIA1: write %02x to PCR\n",byte); */
 
         /* bit 7, 6, 5  CB2 handshake/interrupt control */
         /* bit 4  CB1 interrupt control */
@@ -759,7 +759,7 @@ BYTE REGPARM1 read_via(ADDRESS addr)
     BYTE retv = read_via_(addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
-	printf("read_via(%x) -> %02x, clk=%d\n", addr, retv, clk);
+	fprintf(logfile, "read_via(%x) -> %02x, clk=%d\n", addr, retv, clk);
     return retv;
 }
 BYTE REGPARM1 read_via_(ADDRESS addr)
@@ -819,8 +819,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", byte);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read port A %d\n", byte);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
@@ -846,8 +846,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", byte);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read port A %d\n", byte);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
@@ -887,8 +887,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -912,8 +912,8 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -1006,8 +1006,8 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -1031,8 +1031,8 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
@@ -1071,12 +1071,12 @@ int int_viat1(long offset)
 /*    CLOCK rclk = clk - offset; */
 #ifdef VIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("via timer A interrupt\n");
+	fprintf(logfile, "via timer A interrupt\n");
 #endif
 
     if (!(via[VIA_ACR] & 0x40)) {	/* one-shot mode */
 #if 0				/* defined (VIA_TIMER_DEBUG) */
-	printf("VIA Timer A interrupt -- one-shot mode: next int won't happen\n");
+	fprintf(logfile, "VIA Timer A interrupt -- one-shot mode: next int won't happen\n");
 #endif
 	maincpu_unset_alarm(A_VIAT1);	/*int_clk[I_VIAT1] = 0; */
 	viatai = 0;
@@ -1100,7 +1100,7 @@ int int_viat2(long offset)
 {
 #ifdef VIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	printf("VIA timer B interrupt\n");
+	fprintf(logfile, "VIA timer B interrupt\n");
 #endif
     maincpu_unset_alarm(A_VIAT2);	/*int_clk[I_VIAT2] = 0; */
     viatbi = 0;
@@ -1173,10 +1173,10 @@ int via_write_snapshot_module(snapshot_t * p)
     if (m == NULL)
         return -1;
 /*
-printf("via: write: clk=%d, tai=%d, tau=%d\n"
+fprintf(logfile, "via: write: clk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",
 		clk, viatai, viatau, viatbi, viatbu);
-printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
+fprintf(logfile,"     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
 */
     snapshot_module_write_byte(m, via[VIA_PRA]);
     snapshot_module_write_byte(m, via[VIA_DDRA]);
@@ -1227,7 +1227,7 @@ int via_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
@@ -1331,10 +1331,10 @@ int via_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &via_ilb);
 
 /*
-printf("via: read: clk=%d, tai=%d, tau=%d\n"
+fprintf(logfile, "via: read: clk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",
 		clk, viatai, viatau, viatbi, viatbu);
-printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
+fprintf(logfile, "     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
 */
     return snapshot_module_close(m);
 }

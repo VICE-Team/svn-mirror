@@ -175,14 +175,14 @@ READ_PB()
 		j = ~keyarr[row];
 
 #if 0
-            printf("read pia1 port B %d\n", j);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read pia1 port B %d\n", j);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) pia1.port_a, (int) j,
                    (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
 #endif
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
 	    if (j < 255)
-                printf("%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
+                fprintf(logfile, "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
                        keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
                        keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
                        row, j);

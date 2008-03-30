@@ -62,7 +62,7 @@ static int aix_init(warn_t *w, char *param, int *speed,
 			     UMSAudioDevice_BlockingIO);
     if (audio_device == NULL)
     {
-    	fprintf(stderr,"can't create audio device object\nError: %s\n",
+    	fprintf(errfile,"can't create audio device object\nError: %s\n",
 		error_string);
 	return 1;
     }
@@ -135,7 +135,7 @@ static int aix_bufferstatus(warn_t *w, int first)
     rc = UMSAudioDevice_write_buff_remain(audio_device, ev, &i);
     if (i < 0)
       return -1;
-    /* fprintf(stderr,"Audio Buffer remains: %d\n blocks",i); */
+    /* fprintf(errfile,"Audio Buffer remains: %d\n blocks",i); */
     return i/sizeof(SWORD);
 }
 

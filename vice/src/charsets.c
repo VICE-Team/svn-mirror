@@ -333,7 +333,7 @@ int  set_locale(char *localename)
 int  p_toichar(int lang, int lwcase, BYTE c)
 {
     if (lang < 0 || lang > NUM_LANGUAGES) {
-	fprintf (stderr, "Fatal error: language not recognized.\n");
+	fprintf (errfile, "Fatal error: language not recognized.\n");
 	exit (2);
     }
 
@@ -419,7 +419,7 @@ int  str_to_lang(char *name)
 
 	/* found an exact match */
 	if (j && !*p) {
-	    /*fprintf (stderr, "found %s %2x\n", langnames[token], token);*/
+	    /*fprintf (errfile, "found %s %2x\n", langnames[token], token);*/
 	    return token;
 	}
     } /* for */

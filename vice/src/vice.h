@@ -48,8 +48,13 @@
 
 /* Define the default system directory (where the ROMs are). */
 
+#ifdef __riscos
+#define LIBDIR         PREFIX ".lib"
+#define DOCDIR         LIBDIR ".doc"
+#else
 #define LIBDIR		PREFIX "/lib/vice"
 #define DOCDIR          LIBDIR "/doc"
+#endif
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
@@ -116,6 +121,17 @@
 #endif
 #ifdef UNDER_CE
 #include "ce32.h"
+#endif
+
+/* Apparently mingw32 lacks complete ANSI C header.  But it is enough to
+   compile VICE.  Also WORDS_BIGENDIAN is defined by mistake!?  */
+#ifdef __MINGW32__
+#ifndef STDC_HEADERS
+#define STDC_HEADERS 1
+#endif
+#ifdef WORDS_BIGENDIAN
+#undef WORDS_BIGENDIAN
+#endif
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -194,5 +210,11 @@ extern char *progname;
 
 /* Path to the directory of our executable.  */
 extern char *boot_path;
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+/* Filepointers for log and error messages */
+extern FILE *logfile, *errfile;
 
 #endif  /* _VICE_H */

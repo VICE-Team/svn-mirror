@@ -1,8 +1,9 @@
 /*
- * print.h - Printer interface.
+ * uidrive.h - Implementation of the drive settings dialog box.
  *
  * Written by
- *  André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,36 +25,10 @@
  *
  */
 
-/*
- * The printer emulation captures the bytes sent to device 4 on the
- * IEC bus and/or the bytes sent to an emulated userport interface
- */
+#ifndef _UIDRIVE_H
+#define _UIDRIVE_H
 
-#ifndef _PRINT_H
-#define _PRINT_H
-
-#include "types.h"
-
-/* initializes all print stuff */
-extern void print_init(void);
-
-/* called when doing a system reset */
-extern void print_reset(void);
-
-/* opens a print window, returns handle to give to functions below. */
-extern file_desc_t print_open(int device);
-
-/* closes the print window again */
-extern void print_close(file_desc_t fd);
-
-/* sends a byte to the print line */
-extern int print_putc(file_desc_t fd, BYTE b);
-
-/* flushes buffer to printer */
-extern int print_flush(file_desc_t fd);
-
-extern int print_init_resources(void);
-extern int print_init_cmdline_options(void);
+void ui_drive_settings_dialog(HWND hwnd);
 
 #endif
 

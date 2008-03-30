@@ -163,7 +163,7 @@ void signal_pia2(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*printf("signal_pia2(line=%d, edge=%d, ctrl=%02x)\n",
+        /*fprintf(logfile, "signal_pia2(line=%d, edge=%d, ctrl=%02x)\n",
 						line,edge,pia2.ctrl_b);*/
 	if ( ((pia2.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    pia2.ctrl_b |= 0x80;
@@ -187,7 +187,7 @@ void REGPARM2 store_pia2(ADDRESS addr, BYTE byte)
     addr &= 3;
 
 #if 0
-    printf("store pia2 [%x] %x\n", (int) addr, (int) byte);
+    fprintf(logfile, "store pia2 [%x] %x\n", (int) addr, (int) byte);
 #endif
 
     switch (addr) {
@@ -279,7 +279,7 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
     addr &= 3;
 
 #if 0
-    printf("read pia2 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
+    fprintf(logfile, "read pia2 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
            addr,
            pia2.port_a, pia2.ddr_a, pia2.ctrl_a,
            pia2.port_b, pia2.ddr_b, pia2.ctrl_b);
@@ -304,7 +304,7 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	        drive1_cpu_execute();
 
 	    if (parallel_debug)
-		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
+		fprintf(logfile, "read pia2 port A %x, parallel_bus=%x, gives %x\n",
 			pia2.port_a, parallel_bus,
 			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
 

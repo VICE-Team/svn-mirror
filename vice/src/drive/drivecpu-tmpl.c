@@ -272,7 +272,7 @@ static void reset(void)
 
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
-    printf("MYIDENTIFICATION: RESET\n");
+    fprintf(logfile, "MYIDENTIFICATION: RESET\n");
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
 			DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
     mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
@@ -405,7 +405,7 @@ inline void mydrive_cpu_wake_up(void)
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
     if (clk - last_clk > 0xffffff && drive_clk[mynumber] > 934639) {
-	printf("MYIDENTIFICATION: skipping cycles.\n");
+	fprintf(logfile, "MYIDENTIFICATION: skipping cycles.\n");
 	last_clk = clk;
     }
 }
@@ -512,7 +512,7 @@ void mydrive_cpu_execute(void)
 #ifdef IO_AREA_WARNING
 #warning IO_AREA_WARNING
 	    if (!bank_base)
-		printf ("Executing from I/O area at $%04X: "
+		fprintf (logfile, "Executing from I/O area at $%04X: "
 			"$%02X $%02X $%04X at clk %ld\n",
 			reg_pc, p0, p1, p2, clk);
 #endif
@@ -657,7 +657,7 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         )
         goto fail;
 
-    printf("MYIDENTIFICATION: RESET (UNDUMP)\n");
+    fprintf(logfile, "MYIDENTIFICATION: RESET (UNDUMP)\n");
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
             DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
     mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;

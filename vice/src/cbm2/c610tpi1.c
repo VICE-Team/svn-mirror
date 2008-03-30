@@ -88,7 +88,7 @@ static BYTE cb_state;
 
 static void set_latch_bit(int bit) {
     if(tpi1_debug && !(bit & irq_latches)) {
-	printf("tpi1: set_latch_bit(%02x, mask=%02x)\n",bit, irq_mask);
+	fprintf(logfile, "tpi1: set_latch_bit(%02x, mask=%02x)\n",bit, irq_mask);
     }
 
     irq_latches |= bit;
@@ -112,7 +112,7 @@ static void set_latch_bit(int bit) {
 
 static void pop_irq_state(void) {
     if(tpi1_debug) {
-        printf("tpi1: pop_irq_state(latches=%02x, stack=%02x, active=%02x)\n",
+        fprintf(logfile, "tpi1: pop_irq_state(latches=%02x, stack=%02x, active=%02x)\n",
                 (int)irq_latches, (int)irq_stack, (int)irq_active);
     }
     if(irq_priority) {
@@ -135,7 +135,7 @@ static BYTE push_irq_state(void) {
     old_active = irq_active;
 
     if(tpi1_debug) {
-        printf("tpi1: push_irq_state(latches=%02x, act=%02x, stack=%02x, "
+        fprintf(logfile, "tpi1: push_irq_state(latches=%02x, act=%02x, stack=%02x, "
 		"mask=%02x)\n", (int)irq_latches, (int)irq_active,
 		(int)irq_stack, (int)irq_mask);
     }
@@ -257,7 +257,7 @@ void store_tpi1 ( ADDRESS addr, BYTE byte ) {
 	case TPI_CREG:
 	    tpi[addr] = byte;
 	    if(tpi1_debug) {
-		printf("write %02x to CREG\n",byte);
+		fprintf(logfile, "write %02x to CREG\n",byte);
 	    }
 	    if(tpi[TPI_CREG] & 0x20) {
 		ca_state = (tpi[TPI_CREG] & 0x10);

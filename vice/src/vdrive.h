@@ -103,7 +103,7 @@ struct _DRIVE {
 
     int mode;			/* Read/Write */
     int ImageFormat;		/* 1541/71/81 */
-    int ActiveFd;
+    file_desc_t ActiveFd;
     char ActiveName[256];	/* Image name */
     char ReadOnly;
     int unit;
@@ -261,13 +261,13 @@ extern int ip_execute(DRIVE *floppy, BYTE *buf, int length);
 extern int do_validate(DRIVE *floppy);
 extern int check_track_sector(int format, int track, int sector);
 
-extern int floppy_read_block(int fd, int format, BYTE *buf, int track,
+extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 			     int sector, int d64);
-extern int floppy_write_block(int fd, int format, BYTE *buf, int track,
+extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
 			      int sector, int d64);
 
-extern int get_std64_header(int fd, BYTE *header);
-extern int check_header(int fd, hdrinfo *hdr);
+extern int get_std64_header(file_desc_t fd, BYTE *header);
+extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern void no_a0_pads(BYTE *ptr, int l);

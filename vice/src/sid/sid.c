@@ -1061,7 +1061,7 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
     siddata[addr] = byte;
-    /*printf("%x %x\n", addr, byte);*/
+    /*fprintf(logfile, "%x %x\n", addr, byte);*/
     machine_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
     {
@@ -1178,7 +1178,7 @@ int sid_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);

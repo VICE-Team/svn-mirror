@@ -33,6 +33,8 @@
 #include <types.h>
 #endif
 
+#include "types.h"
+
 extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);
 extern void *xrealloc(void *p, size_t s);
@@ -43,7 +45,7 @@ extern void remove_spaces(char *s);
 extern char *make_backup_filename(const char *fname);
 extern int make_backup_file(const char *fname);
 extern char *get_current_dir(void);
-extern unsigned long file_length(int fd);
+extern unsigned long file_length(file_desc_t fd);
 extern int spawn(const char *name, char **argv, const char *stdout_redir,
 		 const char *stderr_redir);
 extern int load_file(const char *name, void *dest, int size);
@@ -68,8 +70,8 @@ extern int atexit(void (*function)(void));
 extern char *strerror(int errnum);
 #endif
 
-extern int read_dword(int fd, DWORD *buf, int num);
-extern int write_dword(int fd, DWORD *buf, int num);
+extern int read_dword(file_desc_t fd, DWORD *buf, int num);
+extern int write_dword(file_desc_t fd, DWORD *buf, int num);
 
 int file_exists_p(const char *name);
 

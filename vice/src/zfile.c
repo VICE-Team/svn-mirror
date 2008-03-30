@@ -36,7 +36,11 @@
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <unistd.h>
+#endif
 #include <limits.h>
 #include <string.h>
 #include <stdarg.h>
@@ -53,7 +57,7 @@
 /* #define DEBUG_ZFILE */
 
 #ifdef DEBUG_ZFILE
-#define ZDEBUG(a) printf a
+#define ZDEBUG(a) fprintf a
 #else
 #define ZDEBUG(a)
 #endif
@@ -75,7 +79,7 @@ struct zfile {
     char *orig_name;		/* Name of the original file.  */
     int write_mode;		/* Non-zero if the file is open for writing.  */
     FILE *stream;		/* Associated stdio-style stream.  */
-    int fd;			/* Associated file descriptor.  */
+    file_desc_t fd;		/* Associated file descriptor.  */
     enum compression_type type;	/* Compression algorithm.  */
     struct zfile *prev, *next;  /* Link to the previous and next nodes.  */
 };
@@ -112,7 +116,7 @@ static void zfile_list_add(const char *tmp_name,
 			   const char *orig_name,
 			   enum compression_type type,
 			   int write_mode,
-			   FILE *stream, int fd)
+			   FILE *stream, file_desc_t fd)
 {
     struct zfile *new_zfile = (struct zfile *)xmalloc(sizeof(struct zfile));
 
@@ -122,10 +126,15 @@ static void zfile_list_add(const char *tmp_name,
     /* MS-DOS version.  */
     new_zfile->orig_name = _truename(orig_name, NULL);
     if (new_zfile->orig_name == NULL) {
-	fprintf(stderr, "zfile_list_add: warning, illegal file name `%s'.\n",
+	fprintf(errfile, "zfile_list_add: warning, illegal file name `%s'.\n",
 		orig_name);
 	new_zfile->orig_name = stralloc(orig_name);
     }
+#else
+#ifdef __riscos
+    /* Always treat it as the full pathname... */
+    new_zfile->orig_name = (char*)malloc(strlen(orig_name) + 1);
+    strcpy(new_zfile->orig_name, orig_name);
 #else
     /* Unix version.  */
     if (*orig_name == '/') {
@@ -137,6 +146,7 @@ static void zfile_list_add(const char *tmp_name,
 	new_zfile->orig_name = concat(cwd, "/", orig_name, NULL);
 	free(cwd);
     }
+#endif
 #endif
 
     /* The new zfile becomes first on the list.  */
@@ -161,6 +171,9 @@ static void zfile_list_add(const char *tmp_name,
    return NULL otherwise.  */
 static char *try_uncompress_with_gzip(const char *name)
 {
+#ifdef __riscos
+    return NULL;
+#else
     static char tmp_name[L_tmpnam];
     int l = strlen(name);
     int exit_status;
@@ -181,7 +194,7 @@ static char *try_uncompress_with_gzip(const char *name)
     argv[2] = stralloc(name);
     argv[3] = NULL;
 
-    ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s\n", name));
+    ZDEBUG((logfile, "try_uncompress_with_gzip: spawning gzip -cd %s\n", name));
     tmpnam(tmp_name);
     exit_status = spawn("gzip", argv, tmp_name, NULL);
 
@@ -190,13 +203,14 @@ static char *try_uncompress_with_gzip(const char *name)
     free(argv[2]);
 
     if (exit_status == 0) {
-	ZDEBUG(("try_uncompress_with_gzip: OK\n"));
+	ZDEBUG((logfile, "try_uncompress_with_gzip: OK\n"));
 	return tmp_name;
     } else {
-	ZDEBUG(("try_uncompress_with_gzip: failed\n"));
+	ZDEBUG((logfile, "try_uncompress_with_gzip: failed\n"));
 	unlink(tmp_name);
 	return NULL;
     }
+#endif
 }
 
 /* If `name' has a bzip-like extension, try to uncompress it into a temporary
@@ -249,7 +263,11 @@ static int is_zipcode_name(char *name)
 
 /* Extensions we know about */
 static char *extensions[] = {
+#ifdef __riscos
+    "/d64", "/x64", "/dsk", "/t64", "/p00", "/prg", "/lnx", NULL
+#else
     ".d64", ".x64", ".dsk", ".t64", ".p00", ".prg", ".lnx", NULL
+#endif
 };
 
 static int is_valid_extension(char *end, int l, int nameoffset)
@@ -281,6 +299,9 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 				    char *extractopts, char *extension,
 				    char *search)
 {
+#ifdef __riscos
+    return NULL;
+#else
     static char tmp_name[L_tmpnam];
     int l = strlen(name), nameoffset, found = 0, len;
     int exit_status;
@@ -299,7 +320,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     argv[2] = stralloc(name);
     argv[3] = NULL;
 
-    ZDEBUG(("try_uncompress_archive: spawning `%d %s %s'\n",
+    ZDEBUG((logfile, "try_uncompress_archive: spawning `%d %s %s'\n",
 	    program, listopts, name));
     tmpnam(tmp_name);
     exit_status = spawn(program, argv, tmp_name, NULL);
@@ -310,24 +331,24 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     /* No luck?  */
     if (exit_status != 0) {
-	ZDEBUG(("try_uncompress_archive: `%s %s' failed.\n", program,
+	ZDEBUG((logfile, "try_uncompress_archive: `%s %s' failed.\n", program,
 		listopts));
 	unlink(tmp_name);
 	return NULL;
     }
 
-    ZDEBUG(("try_uncompress_archive: `%s %s' successful.\n", program,
+    ZDEBUG((logfile, "try_uncompress_archive: `%s %s' successful.\n", program,
 	    listopts));
 
     fd = fopen(tmp_name, "r");
     if (!fd) {
-	ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.\n",
+	ZDEBUG((logfile, "try_uncompress_archive: cannot read `%s %s' output.\n",
 		program, archive));
 	unlink(tmp_name);
 	return NULL;
     }
 
-    ZDEBUG(("try_uncompress_archive: searching for the first valid file.\n"));
+    ZDEBUG((logfile, "try_uncompress_archive: searching for the first valid file.\n"));
 
     /* Search for `search' first (if any) to see the offset where
        filename begins, then search for first recognizeable file.  */
@@ -343,7 +364,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 	    nameoffset = l - 4;
 	}
 	if (nameoffset >= 0 && is_valid_extension(tmp, l, nameoffset)) {
-	    ZDEBUG(("try_uncompress_archive: found `%s'.\n",
+	    ZDEBUG((logfile, "try_uncompress_archive: found `%s'.\n",
 		    tmp + nameoffset));
 	    found = 1;
 	    break;
@@ -353,14 +374,14 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     fclose(fd);
     unlink(tmp_name);
     if (!found) {
-	ZDEBUG(("try_uncompress_archive: no valid file found.\n"));
+	ZDEBUG((logfile, "try_uncompress_archive: no valid file found.\n"));
 	return NULL;
     }
 
     /* This would be a valid ZIP file, but we cannot handle ZIP files in
        write mode.  Return a null temporary file name to report this.  */
     if (write_mode) {
-	ZDEBUG(("try_uncompress_archive: cannot open file in write mode.\n"));
+	ZDEBUG((logfile, "try_uncompress_archive: cannot open file in write mode.\n"));
 	return "";
     }
 
@@ -384,7 +405,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 	argv[4] = NULL;
     }
 
-    ZDEBUG(("try_uncompress_archive: spawning `%s %s %s %s'.\n",
+    ZDEBUG((logfile, "try_uncompress_archive: spawning `%s %s %s %s'.\n",
 	    program, extractopts, name, tmp + nameoffset));
     exit_status = spawn(program, argv, tmp_name, NULL);
 
@@ -400,30 +421,38 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     if (exit_status != 0) {
-	ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
+	ZDEBUG((logfile, "try_uncompress_archive: `%s %s' failed.",
 		program, extractopts));
 	unlink(tmp_name);
 	return NULL;
     }
 
-    ZDEBUG(("try_uncompress_archive: `%s %s' successful.", program,
+    ZDEBUG((logfile, "try_uncompress_archive: `%s %s' successful.", program,
 	    archive));
     return tmp_name;
+#endif
 }
+
+#ifdef __riscos
+#define C1541_NAME     "Vice:c1541"
+#else
+#define C1541_NAME     "c1541"
+#endif
 
 /* If this file looks like a zipcode, try to extract is using c1541. We have
    to figure this out by reading the contents of the file */
 static char *try_uncompress_zipcode(const char *name, int write_mode)
 {
     static char			 tmp_name[L_tmpnam];
-    int				 fd, i, count, sector, sectors = 0;
-    unsigned char		 tmp[256];
+    int                                 i, count, sector, sectors = 0;
+    file_desc_t                         fd;
+    char			 tmp[256];
     char			*argv[5];
     int				 exit_status;
 
     /* can we read this file? */
     fd = open(name, O_RDONLY);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return NULL;
     /* Read first track to see if this is zipcode */
     lseek(fd, 4, SEEK_SET);
@@ -443,13 +472,13 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 
     /* format image first */
     tmpnam(tmp_name);
-    argv[0] = stralloc("c1541");
+    argv[0] = stralloc(C1541_NAME);
     argv[1] = stralloc("-format");
     argv[2] = stralloc(tmp_name);
     argv[3] = stralloc("a,bc");
     argv[4] = NULL;
 
-    exit_status = spawn("c1541", argv, NULL, NULL);
+    exit_status = spawn(C1541_NAME, argv, NULL, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -462,13 +491,13 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     }
 
     /* ok, now extract the zipcode */
-    argv[0] = stralloc("c1541");
+    argv[0] = stralloc(C1541_NAME);
     argv[1] = stralloc("-zcreate");
     argv[2] = stralloc(tmp_name);
     argv[3] = stralloc(name);
     argv[4] = NULL;
 
-    exit_status = spawn("c1541", argv, NULL, NULL);
+    exit_status = spawn(C1541_NAME, argv, NULL, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -488,14 +517,15 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 static char *try_uncompress_lynx(const char *name, int write_mode)
 {
     static char			 tmp_name[L_tmpnam];
-    int				 fd, i, count;
-    unsigned char		 tmp[256];
+    int                                 i, count;
+    file_desc_t                         fd;
+    char			 tmp[256];
     char			*argv[5];
     int				 exit_status;
 
     /* can we read this file? */
     fd = open(name, O_RDONLY);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return NULL;
     /* is this lynx -image? */
     i = read(fd, tmp, 2);
@@ -547,13 +577,13 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
 
     /* format image first */
     tmpnam(tmp_name);
-    argv[0] = stralloc("c1541");
+    argv[0] = stralloc(C1541_NAME);
     argv[1] = stralloc("-format");
     argv[2] = stralloc(tmp_name);
     argv[3] = stralloc("a,bc");
     argv[4] = NULL;
 
-    exit_status = spawn("c1541", argv, NULL, NULL);
+    exit_status = spawn(C1541_NAME, argv, NULL, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -595,7 +625,7 @@ static struct {
     char	*extension;
     char	*search;
 } valid_archives[] = {
-#ifndef __MSDOS__
+#if (!defined(__MSDOS__) && !defined(__riscos))
     { "unzip",	"-l",	"-p",		".zip",		"Name" },
     { "lha",	"lv",	"pq",		".lzh",		NULL },
     { "lha",	"lv",	"pq",		".lha",		NULL },
@@ -668,7 +698,7 @@ static int compress_with_gzip(const char *src, const char *dest)
     argv[2] = stralloc(src);
     argv[3] = NULL;
 
-    ZDEBUG(("compress_with_gzip: spawning gzip -c %s\n", src));
+    ZDEBUG((logfile, "compress_with_gzip: spawning gzip -c %s\n", src));
     exit_status = spawn("gzip", argv, dest, NULL);
 
     free(argv[0]);
@@ -676,10 +706,10 @@ static int compress_with_gzip(const char *src, const char *dest)
     free(argv[2]);
 
     if (exit_status == 0) {
-	ZDEBUG(("compress_with_gzip: OK.\n"));
+	ZDEBUG((logfile, "compress_with_gzip: OK.\n"));
 	return 0;
     } else {
-	ZDEBUG(("compress_with_gzip: failed.\n"));
+	ZDEBUG((logfile, "compress_with_gzip: failed.\n"));
 	return -1;
     }
 }
@@ -696,7 +726,7 @@ static int compress_with_bzip(const char *src, const char *dest)
     argv[2] = stralloc(src);
     argv[3] = NULL;
 
-    ZDEBUG(("compress_with_bzip: spawning bzip -c %s\n", src));
+    ZDEBUG((logfile, "compress_with_bzip: spawning bzip -c %s\n", src));
     exit_status = spawn("bzip2", argv, dest, NULL);
 
     free(argv[0]);
@@ -704,10 +734,10 @@ static int compress_with_bzip(const char *src, const char *dest)
     free(argv[2]);
 
     if (exit_status == 0) {
-	ZDEBUG(("compress_with_bzip: OK.\n"));
+	ZDEBUG((logfile, "compress_with_bzip: OK.\n"));
 	return 0;
     } else {
-	ZDEBUG(("compress_with_bzip: failed.\n"));
+	ZDEBUG((logfile, "compress_with_bzip: failed.\n"));
 	return -1;
     }
 }
@@ -722,39 +752,39 @@ static int compress(const char *src, const char *dest,
     /* This shouldn't happen */
     if (type == COMPR_ARCHIVE)
     {
-	fprintf(stderr, "compress: trying to compress archive -file\n");
+	fprintf(errfile, "compress: trying to compress archive -file\n");
 	return -1;
     }
 
     /* This shouldn't happen */
     if (type == COMPR_ZIPCODE)
     {
-	fprintf(stderr, "compress: trying to compress zipcode -file\n");
+	fprintf(errfile, "compress: trying to compress zipcode -file\n");
 	return -1;
     }
 
     /* This shouldn't happen */
     if (type == COMPR_LYNX)
     {
-	fprintf(stderr, "compress: trying to compress lynx -file\n");
+	fprintf(errfile, "compress: trying to compress lynx -file\n");
 	return -1;
     }
 
     /* Check whether `compression_type' is a known one.  */
     if (type != COMPR_GZIP && type != COMPR_BZIP) {
-        ZDEBUG(("compress: unknown compression type\n"));
+        ZDEBUG((logfile, "compress: unknown compression type\n"));
 	return -1;
     }
 
     /* If we have no write permissions for `dest', give up.  */
     if (access(dest, W_OK) < 0) {
-        ZDEBUG(("compress: no write permissions for `%s'\n",
+        ZDEBUG((logfile, "compress: no write permissions for `%s'\n",
                 dest));
 	return -1;
     }
 
     if (access(dest, R_OK) < 0) {
-        ZDEBUG(("compress: no read permissions for `%s'\n",
+        ZDEBUG((logfile, "compress: no read permissions for `%s'\n",
                dest));
 	perror(dest);
 	dest_backup_name = NULL;
@@ -762,14 +792,14 @@ static int compress(const char *src, const char *dest,
 	/* If `dest' exists, make a backup first.  */
 	dest_backup_name = make_backup_filename(dest);
 	if (dest_backup_name != NULL)
-	    ZDEBUG(("compress: making backup %s... ", dest_backup_name));
+	    ZDEBUG((logfile, "compress: making backup %s... ", dest_backup_name));
 	if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
-	    ZDEBUG(("failed.\n"));
+	    ZDEBUG((logfile, "failed.\n"));
 	    perror("rename");
-	    fprintf(stderr, "Could not make pre-compression backup.\n");
+	    fprintf(errfile, "Could not make pre-compression backup.\n");
 	    return -1;
 	} else {
-	    ZDEBUG(("OK\n"));
+	    ZDEBUG((logfile, "OK\n"));
 	}
     }
 
@@ -788,13 +818,13 @@ static int compress(const char *src, const char *dest,
 	/* Compression failed: restore original file.  */
 	if (dest_backup_name != NULL && rename(dest_backup_name, dest) < 0) {
 	    perror("rename");
-	    fprintf(stderr, "Could not restore backup file after failed compression.\n");
+	    fprintf(errfile, "Could not restore backup file after failed compression.\n");
 	}
     } else {
 	/* Compression succeeded: remove backup file.  */
 	if (dest_backup_name != NULL && unlink(dest_backup_name) < 0) {
 	    perror("unlink");
-	    fprintf(stderr, "Warning: could not remove backup file.\n");
+	    fprintf(errfile, "Warning: could not remove backup file.\n");
 	    /* Do not return an error anyway (no data is lost).  */
 	}
     }
@@ -816,10 +846,10 @@ static int compress(const char *src, const char *dest,
    uncompressed version and update the original file.  */
 
 /* `open()' wrapper.  */
-int zopen(const char *name, mode_t opt, int flags)
+file_desc_t zopen(const char *name, mode_t opt, int flags)
 {
     char *tmp_name;
-    int fd;
+    file_desc_t fd;
     enum compression_type type;
     int write_mode;
 
@@ -831,14 +861,14 @@ int zopen(const char *name, mode_t opt, int flags)
 
     /* Check for write permissions.  */
     if (write_mode && access(name, W_OK) < 0)
-	return -1;
+	return ILLEGAL_FILE_DESC;
 
     type = try_uncompress(name, &tmp_name, write_mode);
     if (type == COMPR_NONE)
 	return open(name, opt, flags);
     else if (*tmp_name == '\0') {
 	errno = EACCES;
-	return -1;
+	return ILLEGAL_FILE_DESC;
     }
 
     /* (Arghl...  The following code is very nice, except that it cannot work
@@ -864,7 +894,7 @@ int zopen(const char *name, mode_t opt, int flags)
 
     /* Open the uncompressed version of the file.  */
     fd = open(tmp_name, opt, flags);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return fd;
 
     zfile_list_add(tmp_name, name, type, write_mode, NULL, fd);
@@ -902,14 +932,14 @@ FILE *zfopen(const char *name, const char *mode)
     if (stream == NULL)
 	return NULL;
 
-    zfile_list_add(tmp_name, name, type, write_mode, stream, -1);
+    zfile_list_add(tmp_name, name, type, write_mode, stream, ILLEGAL_FILE_DESC);
     return stream;
 }
 
 /* Handle close of a compressed file.  `ptr' points to the zfile to close.  */
 static int handle_close(struct zfile *ptr)
 {
-    ZDEBUG(("handle_close: closing `%s' (`%s'), write_mode = %d\n",
+    ZDEBUG((logfile, "handle_close: closing `%s' (`%s'), write_mode = %d\n",
             ptr->tmp_name, ptr->orig_name, ptr->write_mode));
 
     /* Recompress into the original file.  */
@@ -934,27 +964,27 @@ static int handle_close(struct zfile *ptr)
 }
 
 /* `close()' wrapper.  */
-int zclose(int fd)
+int zclose(file_desc_t fd)
 {
     struct zfile *ptr;
 
     if (!zinit_done) {
-        ZDEBUG(("zclose: closing without init!?\n"));
+        ZDEBUG((logfile, "zclose: closing without init!?\n"));
 	errno = EBADF;
 	return -1;
     }
 
-    ZDEBUG(("zclose: searching for the matching file...\n"));
+    ZDEBUG((logfile, "zclose: searching for the matching file...\n"));
 
     /* Search for the matching file in the list.  */
     for (ptr = zfile_list; ptr != NULL; ptr = ptr->next) {
 	if (ptr->fd == fd) {
 
-	    ZDEBUG(("zclose: file found, closing.\n"));
+	    ZDEBUG((logfile, "zclose: file found, closing.\n"));
 
 	    /* Close temporary file.  */
 	    if (close(fd) == -1) {
-	        ZDEBUG(("zclose: cannot close temporary file: %s\n",
+	        ZDEBUG((logfile, "zclose: cannot close temporary file: %s\n",
 	                strerror(errno)));
 		return -1;
 	    }
@@ -968,7 +998,7 @@ int zclose(int fd)
 	}
     }
 
-    ZDEBUG(("zclose: file descriptor not in the list, closing normally.\n"));
+    ZDEBUG((logfile, "zclose: file descriptor not in the list, closing normally.\n"));
     return close(fd);
 }
 
@@ -1015,11 +1045,11 @@ int zclose_all(void)
 	if (p->stream != NULL) {
 	    if (fclose(p->stream) == -1)
 		ret = -1;
-	} else if (p->fd != -1) {
+	} else if (p->fd != ILLEGAL_FILE_DESC) {
 	    if (close(p->fd) == -1)
 		ret = -1;
 	} else {
-	    fprintf(stderr, "Inconsistent zfile list!\n");
+	    fprintf(errfile, "Inconsistent zfile list!\n");
             if (p->orig_name != NULL)
                 free(p->orig_name);
             if (p->tmp_name != NULL)

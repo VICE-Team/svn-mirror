@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "tapeunit.h"
 #include "uiattach.h"
+#include "uidrive.h"
 #include "utils.h"
 #include "winmain.h"
 
@@ -66,7 +67,7 @@ struct {
     UINT item_id;
 } toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
-    { "True1541", IDM_TOGGLE_TRUE1541 },
+    { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -488,6 +489,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
                 mem_powerup();
             maincpu_trigger_reset();
         }
+        break;
+      case IDM_DRIVE_SETTINGS:
+        ui_drive_settings_dialog(main_hwnd);
         break;
       default:
         {

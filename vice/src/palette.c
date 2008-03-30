@@ -127,7 +127,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
             return -1;
     }
 
-    printf("Loading palette `%s'.\n", complete_path);
+    fprintf(logfile, "Loading palette `%s'.\n", complete_path);
     free(complete_path);
 
     tmp = palette_create(palette_return->num_entries, NULL);
@@ -146,7 +146,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                 if (i == 0 && *p1 == '\0') /* empty line */
                     break;
                 if (string_to_long(p1, &p2, 16, &result) < 0) {
-                    fprintf(stderr, "%s, %d: number expected.\n",
+                    fprintf(errfile, "%s, %d: number expected.\n",
                             file_name, line_num);
                     fclose(f);
                     return -1;
@@ -155,7 +155,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                     || (i == 3 && result > 0xf)
                     || result > 0xff
                     || result < 0) {
-                    fprintf(stderr, "%s, %d: invalid value.\n",
+                    fprintf(errfile, "%s, %d: invalid value.\n",
                             file_name, line_num);
                     fclose(f);
                     return -1;
@@ -166,13 +166,13 @@ int palette_load(const char *file_name, palette_t *palette_return)
             if (i > 0) {
                 p1 = next_nonspace(p1);
                 if (*p1 != '\0') {
-                    fprintf(stderr, "%s, %d: garbage at end of line.\n",
+                    fprintf(errfile, "%s, %d: garbage at end of line.\n",
                             file_name, line_num);
                     fclose(f);
                     return -1;
                 }
                 if (entry_num >= palette_return->num_entries) {
-                    fprintf(stderr, "%s: too many entries.\n", file_name);
+                    fprintf(errfile, "%s: too many entries.\n", file_name);
                     fclose(f);
                     return -1;
                 }
@@ -186,7 +186,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
     fclose(f);
 
     if (entry_num < palette_return->num_entries) {
-        fprintf(stderr, "%s: too few entries.\n", file_name);
+        fprintf(errfile, "%s: too few entries.\n", file_name);
         return -1;
     }
 

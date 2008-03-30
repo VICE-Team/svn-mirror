@@ -29,12 +29,16 @@
 #ifdef STDC_HEADERS
 #include <ctype.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#endif
 #endif
 
 #include <stdarg.h>
@@ -63,7 +67,7 @@ void *xmalloc(size_t size)
     void *p = malloc(size);
 
     if (p == NULL) {
-	fprintf(stderr,
+	fprintf(errfile,
 		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
 		(unsigned long)size);
 	exit(-1);
@@ -78,7 +82,7 @@ void *xrealloc(void *p, size_t size)
     void *new_p = realloc(p, size);
 
     if (new_p == NULL) {
-	fprintf(stderr,
+	fprintf(errfile,
 		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
 		(unsigned long)size);
 	exit(-1);
@@ -343,6 +347,7 @@ int make_backup_file(const char *fname)
     return retval;
 }
 
+#ifndef __riscos
 /* Get the current working directory as a malloc'ed string.  */
 char *get_current_dir(void)
 {
@@ -359,28 +364,40 @@ char *get_current_dir(void)
 
     return p;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
-unsigned long file_length(int fd)
+unsigned long file_length(file_desc_t fd)
 {
+#ifdef __riscos
+    size_t off, filesize;
+
+    off = ftell(fd);
+    fseek(fd, 0, SEEK_END);
+    filesize = ftell(fd);
+    fseek(fd, off, SEEK_SET);
+    return filesize;
+#else
     struct stat statbuf;
 
     if (fstat(fd, &statbuf) < 0)
 	return -1;
 
     return statbuf.st_size;
+#endif
 }
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
 int load_file(const char *name, void *dest, int size)
 {
-    int fd, r;
+    file_desc_t fd;
+    int r;
 
     fd = open(name, O_RDONLY);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return -1;
 
     r = read(fd, (char *)dest, size);
@@ -401,10 +418,11 @@ int load_file(const char *name, void *dest, int size)
    success, -1 on failure.  */
 int save_file(const char *name, const void *src, int size)
 {
-    int fd, r;
+    file_desc_t fd;
+    int r;
 
     fd = open(name, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return -1;
 
     r = write(fd, (char *)src, size);
@@ -498,7 +516,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 int spawn(const char *name, char **argv,
 	  const char *stdout_redir, const char *stderr_redir)
 {
-#if !defined __MSDOS__ && !defined WIN32 && !defined WINCE
+#if !defined __MSDOS__ && !defined WIN32 && !defined WINCE && !defined(__riscos)
 
     /* Unix version.  */
 
@@ -589,6 +607,8 @@ cleanup:
 
     return retval;
 
+#elif (defined(__riscos__))
+    return 0;
 #else
 
     /* On Win32, this is not implemented.  */
@@ -675,7 +695,7 @@ char *strerror(int errnum)
 
 /* ------------------------------------------------------------------------- */
 
-int read_dword(int fd, DWORD *buf, int num)
+int read_dword(file_desc_t fd, DWORD *buf, int num)
 {
     int i;
     BYTE *tmpbuf;
@@ -695,7 +715,7 @@ int read_dword(int fd, DWORD *buf, int num)
     return 0;
 }
 
-int write_dword(int fd, DWORD *buf, int num)
+int write_dword(file_desc_t fd, DWORD *buf, int num)
 {
     int i;
     BYTE *tmpbuf;

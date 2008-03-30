@@ -31,7 +31,7 @@ INCLUDES
 #undef	DEBUG
 
 static int acia_ticks = 21111;	/* number of clock ticks per char */
-static int fd = -1;
+static int fd = ILLEGAL_FILE_DESC;
 static int intx = 0;	/* indicates that a transmit is currently ongoing */
 static int irq = 0;
 static BYTE cmd;
@@ -76,8 +76,8 @@ static int myacia_irq_res;
 
 static int myacia_set_device(resource_value_t v) {
 
-    if(fd>=0) {
-	fprintf(stderr, "MYACIA: device open, change effective only after "
+    if(fd!=ILLEGAL_FILE_DESC) {
+	fprintf(errfile, "MYACIA: device open, change effective only after "
 		"close!\n");
     }
     myacia_device = (int) v;
@@ -140,7 +140,7 @@ static double acia_baud_table[16] = {
 void reset_myacia(void) {
 
 #ifdef DEBUG
-	printf("reset_myacia\n");
+	fprintf(logfile, "reset_myacia\n");
 #endif
 
 	cmd = 0;
@@ -152,8 +152,8 @@ void reset_myacia(void) {
 	status = 0x10;
 	intx = 0;
 
-	if(fd>=0) rs232_close(fd);
-	fd = -1;
+	if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
+	fd = ILLEGAL_FILE_DESC;
 
 	mycpu_unset_alarm(A_MYACIA);
 	alarm_active = 0;
@@ -287,7 +287,7 @@ int myacia_read_snapshot_module(snapshot_t * p)
 void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 
 #ifdef DEBUG
-	printf("store_myacia(%04x,%02x\n",a,b);
+	fprintf(logfile, "store_myacia(%04x,%02x\n",a,b);
 #endif
 
 	switch(a & 3) {
@@ -306,8 +306,8 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		}
 		break;
 	case ACIA_SR:
-		if(fd>=0) rs232_close(fd);
-		fd = -1;
+		if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
+		fd = ILLEGAL_FILE_DESC;
 		status &= ~4;
 		cmd &= 0xe0;
 		intx = 0;
@@ -323,16 +323,16 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		break;
 	case ACIA_CMD:
 		cmd = b;
-		if((cmd & 1) && (fd<0)) {
+		if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
 		  fd = rs232_open(myacia_device);
 		  mycpu_set_alarm(A_MYACIA, acia_ticks);
                   alarm_active = 1;
 		} else
-		if(fd>=0 && !(cmd&1)) {
+		if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
 		  rs232_close(fd);
 		  mycpu_unset_alarm(A_MYACIA);
                   alarm_active = 0;
-		  fd = -1;
+		  fd = ILLEGAL_FILE_DESC;
 		}
 		break;
 	}
@@ -346,7 +346,7 @@ BYTE REGPARM1 read_myacia(ADDRESS a) {
 	static BYTE lastb = 0;
 
 	if((a!=lasta) || (b!=lastb)) {
-	  printf("read_myacia(%04x) -> %02x\n",a,b);
+	  fprintf(logfile, "read_myacia(%04x) -> %02x\n",a,b);
 	}
 	lasta = a; lastb = b;
 	return b;
@@ -393,17 +393,17 @@ BYTE peek_myacia(ADDRESS a) {
 
 int int_myacia(long offset) {
 #if 0 /*def DEBUG*/
-	printf("int_myacia(clk=%ld)\n",myclk-offset);
+	fprintf(logfile, "int_myacia(clk=%ld)\n",myclk-offset);
 #endif
 
-	if(intx==2 && fd>=0) rs232_putc(fd,txdata);
+	if(intx==2 && fd!=ILLEGAL_FILE_DESC) rs232_putc(fd,txdata);
 	if(intx) intx--;
 
 	if(!(status&0x10)) {
 	  status |= 0x10;
 	}
 
-        if( fd>=0 && (!(status&8)) && rs232_getc(fd, &rxdata)) {
+        if( fd!=ILLEGAL_FILE_DESC && (!(status&8)) && rs232_getc(fd, &rxdata)) {
           status |= 8;
         }
 

@@ -133,10 +133,10 @@ int show_keyarr(void)
 {
     int     i, j;
     for (j = 0; j < KBD_ROWS; j++) {
-        printf("%d:", j);
+        fprintf(logfile, "%d:", j);
         for (i = 0x80; i; i >>= 1)
-            printf(" %d", keyarr[j] & i);
-        printf("\n");
+            fprintf(logfile, " %d", keyarr[j] & i);
+        fprintf(logfile, "\n");
     }
     return (0);
 }

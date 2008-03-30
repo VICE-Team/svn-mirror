@@ -196,7 +196,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 {
 #ifdef CIA1571D0_TIMER_DEBUG
     if(cia1571d0_debugFlag) {
-        printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",
+        fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",
            rclk,(int_num),(value));
     }
 #endif
@@ -215,7 +215,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 #define	my_set_int(value, rclk)						\
     do {								\
         if (cia1571d0_debugFlag)						\
-	    printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
+	    fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
 		   rclk,(int_num),(value));				\
 	drive0_set_irq_clk((I_CIA1571D0FL), (value), (rclk));		\
 	if ((value))							\
@@ -380,7 +380,7 @@ static int update_cia1571d0(CLOCK rclk)
 
 #ifdef CIA1571D0_TIMER_DEBUG
     if (cia1571d0_debugFlag)
-	printf("CIA1571D0: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
+	fprintf(logfile, "CIA1571D0: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
 	       rclk, cia1571d0_tas, cia1571d0_tau, cia1571d0_tal);
 #endif
 
@@ -432,7 +432,7 @@ static int update_cia1571d0(CLOCK rclk)
     }
 #ifdef CIA1571D0_TIMER_DEBUG
     if (cia1571d0_debugFlag)
-	printf("aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, cia1571d0_tac, cia1571d0_tau, tmp);
+	fprintf(logfile, "aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, cia1571d0_tac, cia1571d0_tau, tmp);
 #endif
 
     if (cia1571d0[CIA_CRA] & 0x04) {
@@ -483,7 +483,7 @@ static int update_cia1571d0(CLOCK rclk)
 
 #ifdef CIA1571D0_TIMER_DEBUG
     if (cia1571d0_debugFlag)
-	printf("tbc-> %u, tbu-> %d, int %02x ->",
+	fprintf(logfile, "tbc-> %u, tbu-> %d, int %02x ->",
 	       cia1571d0_tbc, cia1571d0_tbu, cia1571d0int);
 #endif
 
@@ -500,7 +500,7 @@ static int update_cia1571d0(CLOCK rclk)
 		cia1571d0int &= 0x7f;
 #ifdef CIA1571D0_TIMER_DEBUG
 		if (cia1571d0_debugFlag)
-		    printf("CIA1571D0: TA Reading ICR at rclk=%d prevented IRQ\n",
+		    fprintf(logfile, "CIA1571D0: TA Reading ICR at rclk=%d prevented IRQ\n",
 			   rclk);
 #endif
 	    } else {
@@ -513,7 +513,7 @@ static int update_cia1571d0(CLOCK rclk)
     }
 #ifdef CIA1571D0_TIMER_DEBUG
     if (cia1571d0_debugFlag)
-	printf("%02x\n", cia1571d0int);
+	fprintf(logfile, "%02x\n", cia1571d0int);
 #endif
 
     /* return true sif interrupt line is set at this clock time */
@@ -573,7 +573,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 
 #ifdef CIA1571D0_TIMER_DEBUG
     if (cia1571d0_debugFlag)
-	printf("store cia1571d0[%02x] %02x @ clk=%d, pc=\n",
+	fprintf(logfile, "store cia1571d0[%02x] %02x @ clk=%d, pc=\n",
 	       (int) addr, (int) byte, rclk);
 #endif
 
@@ -709,7 +709,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1571D0_TIMER_DEBUG)
 	        if (cia1571d0_debugFlag)
-	    	    printf("CIA1571D0: start SDR rclk=%d\n", rclk);
+	    	    fprintf(logfile, "CIA1571D0: start SDR rclk=%d\n", rclk);
 #endif
   	    }
 	}
@@ -722,7 +722,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("CIA1571D0 set CIA_ICR: 0x%x\n", byte);
+	    fprintf(logfile, "CIA1571D0 set CIA_ICR: 0x%x\n", byte);
 #endif
 
 	if (byte & CIA_IM_SET) {
@@ -734,7 +734,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 	/* This must actually be delayed one cycle! */
 #if defined(CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
+	    fprintf(logfile, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
 		   cia1571d0ier & cia1571d0int & 0x7f, cia1571d0int);
 #endif
 	if (cia1571d0ier & cia1571d0int & 0x7f) {
@@ -756,7 +756,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 	update_cia1571d0(rclk);
 #if defined (CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("CIA1571D0 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
+	    fprintf(logfile, "CIA1571D0 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
 		   byte, rclk, /*program_counter,*/ cia1571d0_tal, cia1571d0_tac);
 #endif
 
@@ -799,7 +799,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 	}
 #if defined (CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("    -> tas=%d, tau=%d\n", cia1571d0_tas, cia1571d0_tau);
+	    fprintf(logfile, "    -> tas=%d, tau=%d\n", cia1571d0_tas, cia1571d0_tau);
 #endif
 	cia1571d0[addr] = byte & 0xef;	/* remove strobe */
 
@@ -811,7 +811,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("CIA1571D0 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
+	    fprintf(logfile, "CIA1571D0 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
 		   byte, rclk, cia1571d0_tbl, cia1571d0_tbc);
 #endif
 
@@ -824,7 +824,7 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 		cia1571d0_tbu = rclk + cia1571d0_tbc + 2;
 #if defined(CIA1571D0_TIMER_DEBUG)
 		if (cia1571d0_debugFlag)
-		    printf("CIA1571D0: rclk=%d force load: set tbu alarm to %d\n", rclk, cia1571d0_tbu);
+		    fprintf(logfile, "CIA1571D0: rclk=%d force load: set tbu alarm to %d\n", rclk, cia1571d0_tbu);
 #endif
 		my_set_tbi_clk(cia1571d0_tbu + 1);
 	    }
@@ -841,14 +841,14 @@ void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE byte)
 		cia1571d0_tbu = rclk + (cia1571d0_tbc + 1) + ((byte & 0x10) >> 4);
 #if defined(CIA1571D0_TIMER_DEBUG)
 		if (cia1571d0_debugFlag)
-		    printf("CIA1571D0: rclk=%d start timer: set tbu alarm to %d\n", rclk, cia1571d0_tbu);
+		    fprintf(logfile, "CIA1571D0: rclk=%d start timer: set tbu alarm to %d\n", rclk, cia1571d0_tbu);
 #endif
 		my_set_tbi_clk(cia1571d0_tbu + 1);
 		cia1571d0_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
 #if defined(CIA1571D0_TIMER_DEBUG)
 		if (cia1571d0_debugFlag)
-		    printf("CIA1571D0: rclk=%d stop timer: set tbu alarm\n", rclk);
+		    fprintf(logfile, "CIA1571D0: rclk=%d stop timer: set tbu alarm\n", rclk);
 #endif
 		my_unset_tbi();
 		cia1571d0_tbu = 0;
@@ -893,7 +893,7 @@ BYTE REGPARM1 read_cia1571d0(ADDRESS addr)
     BYTE tmp = read_cia1571d0_(addr);
 
     if (cia1571d0_debugFlag)
-	printf("read cia1571d0[%x] returns %02x @ clk=%d, pc=\n",
+	fprintf(logfile, "read cia1571d0[%x] returns %02x @ clk=%d, pc=\n",
 	       addr, tmp, drive_clk[0] - READ_OFFSET);
     return tmp;
 }
@@ -987,11 +987,11 @@ BYTE read_cia1571d0_(ADDRESS addr)
 	/* little hack .... */
 	{
 	    int i;
-	    printf("\ndrive0_ints:");
+	    fprintf(logfile, "\ndrive0_ints:");
 	    for (i = 0; i < NUMOFINT; i++) {
-		printf(" %d", drive0_int_status.pending_int[i]);
+		fprintf(logfile, " %d", drive0_int_status.pending_int[i]);
 	    }
-	    printf("\n");
+	    fprintf(logfile, "\n");
 	}
 #endif
 	return (cia1571d0[addr]);
@@ -1006,7 +1006,7 @@ BYTE read_cia1571d0_(ADDRESS addr)
 
 #ifdef CIA1571D0_TIMER_DEBUG
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		fprintf(logfile, "CIA1571D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
 			rclk, drive0_int_status.alarm_clk[A_CIA1571D0TA],
 			drive0_int_status.alarm_clk[A_CIA1571D0TB]);
 #endif
@@ -1027,7 +1027,7 @@ BYTE read_cia1571d0_(ADDRESS addr)
 
 #ifdef CIA1571D0_TIMER_DEBUG
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0 read intfl gives cia1571d0int=%02x -> %02x @"
+		fprintf(logfile, "CIA1571D0 read intfl gives cia1571d0int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
 		       cia1571d0int, t, cia1571d0sr_bits, clk,
 			(cia1571d0_tac ? cia1571d0_tac : cia1571d0_tal),
@@ -1090,7 +1090,7 @@ BYTE REGPARM1 peek_cia1571d0(ADDRESS addr)
 
 #ifdef CIA1571D0_TIMER_DEBUG
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		fprintf(logfile, "CIA1571D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
 			rclk, drive0_int_status.alarm_clk[A_CIA1571D0TA],
 			drive0_int_status.alarm_clk[A_CIA1571D0TB]);
 #endif
@@ -1111,7 +1111,7 @@ BYTE REGPARM1 peek_cia1571d0(ADDRESS addr)
 
 #ifdef CIA1571D0_TIMER_DEBUG
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0 read intfl gives cia1571d0int=%02x -> %02x @"
+		fprintf(logfile, "CIA1571D0 read intfl gives cia1571d0int=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
 		       cia1571d0int, t, cia1571d0sr_bits, clk,
 			(cia1571d0_tac ? cia1571d0_tac : cia1571d0_tal),
@@ -1140,7 +1140,7 @@ int int_cia1571d0ta(long offset)
 
 #if defined(CIA1571D0_TIMER_DEBUG)
     if (cia1571d0_debugFlag)
-	printf("CIA1571D0: int_cia1571d0ta(rclk = %u, tal = %u, cra=%02x\n",
+	fprintf(logfile, "CIA1571D0: int_cia1571d0ta(rclk = %u, tal = %u, cra=%02x\n",
 	       rclk, cia1571d0_tal, cia1571d0[CIA_CRA]);
 #endif
 
@@ -1161,7 +1161,7 @@ int int_cia1571d0ta(long offset)
 	    }
 	} else {
 	    /* cia1571d0_tai = rclk + cia1571d0_tal +1; - now keeps tai */
-	    /* printf("cia1571d0 unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
+	    /* fprintf(logfile, "cia1571d0 unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
 			drive_clk[0], rclk, cia1571d0rdi, cia1571d0_tai); */
 	    drive0_unset_alarm(A_CIA1571D0TA);	/* do _not_ clear cia1571d0_tai */
 	}
@@ -1178,7 +1178,7 @@ int int_cia1571d0ta(long offset)
 	if (cia1571d0sr_bits) {
 #if defined(CIA1571D0_TIMER_DEBUG)
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0: rclk=%d SDR: timer A underflow, bits=%d\n",
+		fprintf(logfile, "CIA1571D0: rclk=%d SDR: timer A underflow, bits=%d\n",
 		       rclk, cia1571d0sr_bits);
 #endif
 	    if (!(--cia1571d0sr_bits)) {
@@ -1196,7 +1196,7 @@ int int_cia1571d0ta(long offset)
 	    cia1571d0_tbu = rclk;
 #if defined(CIA1571D0_TIMER_DEBUG)
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
+		fprintf(logfile, "CIA1571D0: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
 #endif
 	    cia1571d0int |= CIA_IM_TB;
 	    my_set_tbi_clk(rclk);
@@ -1233,7 +1233,7 @@ int int_cia1571d0tb(long offset)
 
 #if defined(CIA1571D0_TIMER_DEBUG)
     if (cia1571d0_debugFlag)
-	printf("CIA1571D0: timer B int_cia1571d0tb(rclk=%d, tbs=%d)\n", rclk, cia1571d0_tbs);
+	fprintf(logfile, "CIA1571D0: timer B int_cia1571d0tb(rclk=%d, tbs=%d)\n", rclk, cia1571d0_tbs);
 #endif
 
     cia1571d0_tbt = (cia1571d0_tbt + 1) & 1;
@@ -1243,7 +1243,7 @@ int int_cia1571d0tb(long offset)
 	if (!(cia1571d0[CIA_CRB] & 8)) {
 #if defined(CIA1571D0_TIMER_DEBUG)
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0: rclk=%d cia1571d0tb: set tbu alarm to %d\n", rclk, rclk + cia1571d0_tbl + 1);
+		fprintf(logfile, "CIA1571D0: rclk=%d cia1571d0tb: set tbu alarm to %d\n", rclk, rclk + cia1571d0_tbl + 1);
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia1571d0ier & CIA_IM_TB) {
@@ -1265,7 +1265,7 @@ int int_cia1571d0tb(long offset)
 #endif /* 0 */
 #if defined(CIA1571D0_TIMER_DEBUG)
 	    if (cia1571d0_debugFlag)
-		printf("CIA1571D0: rclk=%d cia1571d0tb: unset tbu alarm\n", rclk);
+		fprintf(logfile, "CIA1571D0: rclk=%d cia1571d0tb: unset tbu alarm\n", rclk);
 #endif
 	    my_unset_tbi();
 	}
@@ -1281,7 +1281,7 @@ int int_cia1571d0tb(long offset)
 	my_unset_tbi();
 #if defined(CIA1571D0_TIMER_DEBUG)
 	if (cia1571d0_debugFlag)
-	    printf("CIA1571D0: rclk=%d cia1571d0tb: unset tbu alarm\n", rclk);
+	    fprintf(logfile, "CIA1571D0: rclk=%d cia1571d0tb: unset tbu alarm\n", rclk);
 #endif
     }
 
@@ -1323,7 +1323,7 @@ int int_cia1571d0tod(long offset)
 
 #ifdef DEBUG
     if (cia1571d0_debugFlag)
-	printf("CIA1571D0: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
+	fprintf(logfile, "CIA1571D0: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
 	       cia1571d0[CIA_TOD_HR], cia1571d0[CIA_TOD_MIN], cia1571d0[CIA_TOD_SEC],
 	       cia1571d0[CIA_TOD_TEN]);
 #endif
@@ -1357,7 +1357,7 @@ int int_cia1571d0tod(long offset)
 	}
 #ifdef DEBUG
 	if (cia1571d0_debugFlag)
-	    printf("CIA1571D0: TOD after event :tod=%02x:%02x,%02x.%x\n",
+	    fprintf(logfile, "CIA1571D0: TOD after event :tod=%02x:%02x,%02x.%x\n",
 	       cia1571d0[CIA_TOD_HR], cia1571d0[CIA_TOD_MIN], cia1571d0[CIA_TOD_SEC],
 		   cia1571d0[CIA_TOD_TEN]);
 #endif
@@ -1460,10 +1460,10 @@ int cia1571d0_write_snapshot_module(snapshot_t *p)
     update_cia1571d0(drive_clk[0]);
 
 #ifdef CIA1571D0_DUMP_DEBUG
-printf("CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
-printf("CIA1571D0: write cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, cia1571d0ier);
+fprintf(logfile, "CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
+fprintf(logfile, "CIA1571D0: write cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, cia1571d0ier);
 #endif
 
     snapshot_module_write_byte(m, cia1571d0[CIA_PRA]);
@@ -1591,7 +1591,7 @@ int cia1571d0_read_snapshot_module(snapshot_t *p)
     cia1571d0int = byte;
 
 #ifdef CIA1571D0_DUMP_DEBUG
-printf("CIA1571D0: read cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, cia1571d0ier);
+fprintf(logfile, "CIA1571D0: read cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, cia1571d0ier);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1615,8 +1615,8 @@ printf("CIA1571D0: read cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, c
 	cia1571d0rdi = 0;
     }
 #ifdef CIA1571D0_DUMP_DEBUG
-printf("CIA1571D0: snap read rdi=%02x\n", byte);
-printf("CIA1571D0: snap setting rdi to %d (rclk=%d)\n", cia1571d0rdi, drive_clk[0]);
+fprintf(logfile, "CIA1571D0: snap read rdi=%02x\n", byte);
+fprintf(logfile, "CIA1571D0: snap setting rdi to %d (rclk=%d)\n", cia1571d0rdi, drive_clk[0]);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1633,9 +1633,9 @@ printf("CIA1571D0: snap setting rdi to %d (rclk=%d)\n", cia1571d0rdi, drive_clk[
     /* timer switch-on code from store_cia1571d0[CIA_CRA/CRB] */
 
 #ifdef CIA1571D0_DUMP_DEBUG
-printf("CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
+fprintf(logfile, "CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
 #endif
 
     if ((cia1571d0[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
@@ -1659,9 +1659,9 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1
     }
 
 #ifdef CIA1571D0_DUMP_DEBUG
-printf("CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
+fprintf(logfile, "CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1571d0[CIA_CRA], cia1571d0[CIA_CRB],cia1571d0_tas, cia1571d0_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
 #endif
 
     if (cia1571d0[CIA_ICR] & 0x80) {

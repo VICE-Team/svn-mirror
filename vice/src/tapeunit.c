@@ -46,7 +46,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <unistd.h>
+#endif
 #endif
 
 #include "tapeunit.h"
@@ -136,7 +140,7 @@ int tape_init(int _bufpaddr, int _status, int _verfl, int _irqtmp,
 			     (int (*)(void *, char *, int, int)) fn,
 			     (int (*)(void *, int)) fn,
 			     (void (*)(void *, int)) fn)) {
-	printf("could not initialize Cassette ????\n");
+	fprintf(logfile, "could not initialize Cassette ????\n");
 	return -1;
     }
     return 0;
@@ -152,7 +156,7 @@ void tape_detach_image(TAPE *tape)
 	return;
 
     if (tape->FileDs != NULL) {
-	printf("Detaching tape image %s\n", tape->ActiveName);
+	fprintf(logfile, "Detaching tape image %s\n", tape->ActiveName);
 	zfclose(tape->FileDs);
 	tape->FileDs = NULL;
 	tape->ActiveName[0] = 0;	/* Name is used as flag */
@@ -203,14 +207,14 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
     tape_detach_image(tape);
 
     if (!name || !*name) {
-	printf("No name, detaching image.\n");
+	fprintf(logfile, "No name, detaching image.\n");
 	return -1;
     }
-    if ((tape->FileDs = zfopen(name, mode ? "rwb" : "rb")) == NULL ||
-	(flen = file_length(fileno(tape->FileDs))) < 0) {
+    tape->FileDs = zfopen(name, mode ? "rwb" : "rb");
+    if ((tape->FileDs == NULL) || ((flen = file_length(fileno(tape->FileDs))) < 0)) {
 	perror(name);
 
-	printf("Tape: cannot open file `%s'.\n", name);
+	fprintf(logfile, "Tape: cannot open file `%s'.\n", name);
 	return FD_NOTRD;
     }
 
@@ -219,7 +223,7 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
 
     if (flen == 0) {
 	if (!mode) {
-	    printf("Tape: Cannot open file `%s'.\n", name);
+	    fprintf(logfile, "Tape: Cannot open file `%s'.\n", name);
 	    return FD_BADIMAGE;
 	}
 	/* Writing: Try to get format out of filename ... */
@@ -238,7 +242,7 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
 	  case TFF_P00:	/* Write P00 image header */
 
 	  default:
-            fprintf(stderr, "cannot create tape %s: %s format specified.\n",
+            fprintf(errfile, "cannot create tape %s: %s format specified.\n",
                     name, (format < 0) ? "No" : "Illegal");
 
             return FD_BADIMAGE;
@@ -267,13 +271,13 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
     }
     if (format < 0) {		/* There is no header.  */
 	if (is_valid_prgfile(tape->FileDs)) {
-	    fprintf(stderr, "Tape: Not Relocatable Program File.\n");
+	    fprintf(errfile, "Tape: Not Relocatable Program File.\n");
 	    format = TFF_CBM;
 	} else {
 #ifdef DEBUG_TAPE
-	    printf("Tape: realtype %d  entries %d.\n", format, entries);
+	    fprintf(logfile, "Tape: realtype %d  entries %d.\n", format, entries);
 #endif
-	    fprintf(stderr, "Tape: Invalid fileformat.\n");
+	    fprintf(errfile, "Tape: Invalid fileformat.\n");
 	    return -1;
 	}
     }
@@ -282,10 +286,10 @@ int tape_attach_image(TAPE *tape, const char *name, int mode)
     strcpy(tape->ActiveName, name);
 
 #ifdef DEBUG_TAPE
-    printf("Tape: realtype %d  entries %d.\n", format, entries);
+    fprintf(logfile, "Tape: realtype %d  entries %d.\n", format, entries);
 #endif
 
-    printf("Tape file '%s' [%s] attached.\n", name, typenames[format]);
+    fprintf(logfile, "Tape file '%s' [%s] attached.\n", name, typenames[format]);
 
     /* Tape attached: press play. */
     mem_set_tape_sense(1);
@@ -337,11 +341,11 @@ void findheader(void)
     int err = 0;
 
     if (tape->FileDs == NULL) {
-	fprintf(stderr, "No Tape.\n");
+	fprintf(errfile, "No Tape.\n");
 	err++;
     }
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "findheader\n");
+    fprintf(errfile, "findheader\n");
 #endif
 
     /*
@@ -400,7 +404,7 @@ void findheader(void)
             break;
 
 	  default:
-            fprintf(stderr, "Tape: Invalid fileformat.\n");
+            fprintf(errfile, "Tape: Invalid fileformat.\n");
 
 	}			/* switch */
     }
@@ -408,10 +412,10 @@ void findheader(void)
 	s[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
     }
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "Tape: find next header (type %d).\n",
+    fprintf(errfile, "Tape: find next header (type %d).\n",
 	    s[CAS_TYPE_OFFSET]);
 
-    printf(" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
+    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
 	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
@@ -454,11 +458,11 @@ void writeheader(void)
     BYTE *s;
     int sense = 0;
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "writeheader\n");
+    fprintf(errfile, "writeheader\n");
 #endif
 
     if (tape->FileDs == NULL) {
-	fprintf(stderr, "No Tape.\n");
+	fprintf(errfile, "No Tape.\n");
     }
     /* Write the filename record on tape */
 
@@ -489,7 +493,7 @@ void writeheader(void)
 	  case TFF_SFX:
 	  case TFF_LYNX:
 	  case TFF_TAPE:
-            fprintf(stderr, "Tape: No writing allowed on format specified.\n");
+            fprintf(errfile, "Tape: No writing allowed on format specified.\n");
             sense = 0;
             break;
 
@@ -498,14 +502,14 @@ void writeheader(void)
             break;
 
 	  default:
-            fprintf(stderr, "Tape: Invalid fileformat.\n");
+            fprintf(errfile, "Tape: Invalid fileformat.\n");
 
 	}			/* switch */
     }
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "Tape: write file header.\n");
+    fprintf(errfile, "Tape: write file header.\n");
 
-    printf(" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
+    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
 	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
@@ -532,7 +536,7 @@ void checkplay(void)
 {
 
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "Tape: check play on tape.\n");
+    fprintf(errfile, "Tape: check play on tape.\n");
 #endif
 
 }
@@ -566,10 +570,10 @@ void tapereceive(void)
     end = (mem_read(eal) | (mem_read(eal + 1) << 8));	/* C64: EAL */
 
 #ifdef DEBUG_TAPE
-    fprintf(stderr, "TapeReceive: start %04X  end %04X\n",
+    fprintf(errfile, "TapeReceive: start %04X  end %04X\n",
 	    start, end);
 
-    printf(" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
+    fprintf(logfile, " BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
 	   ram[0xad], ram[0xac], ram[eal + 1], ram[eal],
@@ -585,7 +589,7 @@ void tapereceive(void)
       case 0x08:		/* Write Block */
 
 #ifdef DEBUG_TAPE
-        fprintf(stderr, "Tape: send next block.\n");
+        fprintf(errfile, "Tape: send next block.\n");
 #endif
 
         len = end - start;
@@ -595,7 +599,7 @@ void tapereceive(void)
         } else {
             st |= 0xB4;	/* All possible errors... */
 
-            fprintf(stderr, "Error: Tape write failed.\n");
+            fprintf(errfile, "Error: Tape write failed.\n");
         }
         break;
 
@@ -603,7 +607,7 @@ void tapereceive(void)
       case 0x0e:		/* Read Block */
 
 #ifdef DEBUG_TAPE
-        fprintf(stderr, "Tape: get next block.\n");
+        fprintf(errfile, "Tape: get next block.\n");
 #endif
 
         len = end - start;
@@ -613,14 +617,14 @@ void tapereceive(void)
         } else {
             st |= 0x10;
 
-            fprintf(stderr,
+            fprintf(errfile,
                     "Error: Unexpected end of tape. File may be truncated.\n");
         }
 
         break;
 
       default:
-        fprintf(stderr, "Tape: unknown command.\n");
+        fprintf(errfile, "Tape: unknown command.\n");
 
     }				/* switch */
 

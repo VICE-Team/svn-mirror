@@ -27,6 +27,7 @@
  *
  */
 
+#ifndef __riscos
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -193,3 +194,5 @@ void main(int argc, char ** argv)
     exit(0);
 }
 #endif
+#endif /* __riscos */
+

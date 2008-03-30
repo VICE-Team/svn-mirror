@@ -31,7 +31,9 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
+#ifndef __riscos
 #include <malloc.h>
+#endif
 #endif
 
 #include "reu.h"
@@ -80,11 +82,11 @@ int    reset_reu(int size)
 
     if (reuram == NULL) {
 	reuram = xmalloc(ReuSize);
-	printf("REU: %dKB unit installed.\n", REUSIZE);
+	fprintf(logfile, "REU: %dKB unit installed.\n", REUSIZE);
 	if (load_file(reu_file_name, reuram, ReuSize) == 0) {
-	    printf ("REU: image `%s' loaded successfully.\n", reu_file_name);
+	    fprintf (logfile, "REU: image `%s' loaded successfully.\n", reu_file_name);
 	} else {
-	    printf ("REU: (no image loaded).\n");
+	    fprintf (logfile, "REU: (no image loaded).\n");
 	}
     }
 
@@ -103,9 +105,9 @@ void close_reu(void)
 	return;
 
     if (save_file(reu_file_name, reuram, ReuSize) == 0)
-	printf("REU: image `%s' saved successfully.\n", reu_file_name);
+	fprintf(logfile, "REU: image `%s' saved successfully.\n", reu_file_name);
     else
-	fprintf(stderr,"REU: cannot save image `%s'.\n", reu_file_name);
+	fprintf(errfile, "REU: cannot save image `%s'.\n", reu_file_name);
 }
 
 
@@ -152,7 +154,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
     }
 
 #ifdef REU_DEBUG
-    printf("REU: read [$%02X] => $%02X\n", addr, retval);
+    fprintf(logfile, "REU: read [$%02X] => $%02X\n", addr, retval);
 #endif
     return retval;
 }
@@ -166,7 +168,7 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
     reu[addr] = byte;
 
 #ifdef REU_DEBUG
-    printf("REU: store [$%02X] <= $%02X\n", addr, (int) byte);
+    fprintf(logfile, "REU: store [$%02X] <= $%02X\n", addr, (int) byte);
 #endif
 
     /* write REC command register
@@ -220,7 +222,7 @@ void    reu_dma(int immed)
     switch (reu[1] & 0x03) {
       case 0: /* C64 -> REU */
 #ifdef REU_DEBUG
-	printf("REU: copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.\n",
+	fprintf(logfile, "REU: copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.\n",
 	       reu_addr, reu_step ? "" : "(fixed) ", host_addr,
 	       host_step ? "" : " (fixed)", len, len);
 #endif
@@ -232,7 +234,7 @@ void    reu_dma(int immed)
 
       case 1: /* REU -> C64 */
 #ifdef REU_DEBUG
-	printf("REU: copy ext $%05X %s=> main $%04X%s, $%04X (%d) bytes.\n",
+	fprintf(logfile, "REU: copy ext $%05X %s=> main $%04X%s, $%04X (%d) bytes.\n",
 	       reu_addr, reu_step ? "" : "(fixed) ", host_addr,
 	       host_step ? "" : " (fixed)", len, len);
 #endif
@@ -244,7 +246,7 @@ void    reu_dma(int immed)
         /* for-loop corrected - RH */
 	/* clk += len; */	/* [EP] 04-16-97. */
 #ifdef REU_DEBUG
-	printf("REU: swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.\n",
+	fprintf(logfile, "REU: swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.\n",
 	       reu_addr, reu_step ? "" : "(fixed) ", host_addr,
 	       host_step ? "" : " (fixed)", len, len);
 #endif
@@ -257,7 +259,7 @@ void    reu_dma(int immed)
 
       case 3: /* compare */
 #ifdef REU_DEBUG
-	printf("REU: compare ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.\n",
+	fprintf(logfile, "REU: compare ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.\n",
 	       reu_addr, reu_step ? "" : "(fixed) ", host_addr,
 	       host_step ? "" : " (fixed)", len, len);
 #endif
@@ -287,7 +289,7 @@ void    reu_dma(int immed)
 	 * address changes only if not fixed, correct reu base registers  -RH
 	 */
 #ifdef REU_DEBUG
-	printf("No autoload\n");
+	fprintf(logfile, "No autoload\n");
 #endif
         if ( !(reu[0xA] & 0x80)) {
 	    reu[2] = host_addr & 0xff;
@@ -352,7 +354,7 @@ int reu_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version != SNAP_MAJOR) {
-        fprintf(stderr, "REU: Major version %d not valid; should be %d.\n",
+        fprintf(errfile, "REU: Major version %d not valid; should be %d.\n",
                 major_version, SNAP_MAJOR);
         goto fail;
     }
@@ -362,7 +364,7 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (size > REUSIZE) {
-        fprintf(stderr, "REU: Size %d in snapshot not supported.\n", size);
+        fprintf(errfile, "REU: Size %d in snapshot not supported.\n", size);
         goto fail;
     }
 

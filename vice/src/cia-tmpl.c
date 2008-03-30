@@ -187,7 +187,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 {
 #ifdef MYCIA_TIMER_DEBUG
     if(mycia_debugFlag) {
-        printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",
+        fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",
            rclk,(int_num),(value));
     }
 #endif
@@ -206,7 +206,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 #define	my_set_int(value, rclk)						\
     do {								\
         if (mycia_debugFlag)						\
-	    printf("set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
+	    fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
 		   rclk,(int_num),(value));				\
 	mycia_set_int_clk((I_MYCIAFL), (value), (rclk));		\
 	if ((value))							\
@@ -370,7 +370,7 @@ static int update_mycia(CLOCK rclk)
 
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
-	printf("MYCIA: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
+	fprintf(logfile, "MYCIA: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
 	       rclk, mycia_tas, mycia_tau, mycia_tal);
 #endif
 
@@ -421,7 +421,7 @@ static int update_mycia(CLOCK rclk)
     }
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
-	printf("aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, mycia_tac, mycia_tau, tmp);
+	fprintf(logfile, "aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, mycia_tac, mycia_tau, tmp);
 #endif
 
     if (mycia[CIA_CRA] & 0x04) {
@@ -472,7 +472,7 @@ static int update_mycia(CLOCK rclk)
 
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
-	printf("tbc-> %u, tbu-> %d, int %02x ->",
+	fprintf(logfile, "tbc-> %u, tbu-> %d, int %02x ->",
 	       mycia_tbc, mycia_tbu, myciaint);
 #endif
 
@@ -489,7 +489,7 @@ static int update_mycia(CLOCK rclk)
 		myciaint &= 0x7f;
 #ifdef MYCIA_TIMER_DEBUG
 		if (mycia_debugFlag)
-		    printf("MYCIA: TA Reading ICR at rclk=%d prevented IRQ\n",
+		    fprintf(logfile, "MYCIA: TA Reading ICR at rclk=%d prevented IRQ\n",
 			   rclk);
 #endif
 	    } else {
@@ -502,7 +502,7 @@ static int update_mycia(CLOCK rclk)
     }
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
-	printf("%02x\n", myciaint);
+	fprintf(logfile, "%02x\n", myciaint);
 #endif
 
     /* return true sif interrupt line is set at this clock time */
@@ -561,7 +561,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 #ifdef MYCIA_TIMER_DEBUG
     if (mycia_debugFlag)
-	printf("store mycia[%02x] %02x @ clk=%d, pc=\n",
+	fprintf(logfile, "store mycia[%02x] %02x @ clk=%d, pc=\n",
 	       (int) addr, (int) byte, rclk);
 #endif
 
@@ -694,7 +694,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 #if defined (MYCIA_TIMER_DEBUG)
 	        if (mycia_debugFlag)
-	    	    printf("MYCIA: start SDR rclk=%d\n", rclk);
+	    	    fprintf(logfile, "MYCIA: start SDR rclk=%d\n", rclk);
 #endif
   	    }
 	}
@@ -707,7 +707,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 #if defined (MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("MYCIA set CIA_ICR: 0x%x\n", byte);
+	    fprintf(logfile, "MYCIA set CIA_ICR: 0x%x\n", byte);
 #endif
 
 	if (byte & CIA_IM_SET) {
@@ -719,7 +719,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	/* This must actually be delayed one cycle! */
 #if defined(MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
+	    fprintf(logfile, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
 		   myciaier & myciaint & 0x7f, myciaint);
 #endif
 	if (myciaier & myciaint & 0x7f) {
@@ -741,7 +741,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	update_mycia(rclk);
 #if defined (MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("MYCIA set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
+	    fprintf(logfile, "MYCIA set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
 		   byte, rclk, /*program_counter,*/ mycia_tal, mycia_tac);
 #endif
 
@@ -784,7 +784,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 	}
 #if defined (MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("    -> tas=%d, tau=%d\n", mycia_tas, mycia_tau);
+	    fprintf(logfile, "    -> tas=%d, tau=%d\n", mycia_tas, mycia_tau);
 #endif
 	mycia[addr] = byte & 0xef;	/* remove strobe */
 
@@ -796,7 +796,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 #if defined (MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("MYCIA set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
+	    fprintf(logfile, "MYCIA set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
 		   byte, rclk, mycia_tbl, mycia_tbc);
 #endif
 
@@ -809,7 +809,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		mycia_tbu = rclk + mycia_tbc + 2;
 #if defined(MYCIA_TIMER_DEBUG)
 		if (mycia_debugFlag)
-		    printf("MYCIA: rclk=%d force load: set tbu alarm to %d\n", rclk, mycia_tbu);
+		    fprintf(logfile, "MYCIA: rclk=%d force load: set tbu alarm to %d\n", rclk, mycia_tbu);
 #endif
 		my_set_tbi_clk(mycia_tbu + 1);
 	    }
@@ -826,14 +826,14 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 		mycia_tbu = rclk + (mycia_tbc + 1) + ((byte & 0x10) >> 4);
 #if defined(MYCIA_TIMER_DEBUG)
 		if (mycia_debugFlag)
-		    printf("MYCIA: rclk=%d start timer: set tbu alarm to %d\n", rclk, mycia_tbu);
+		    fprintf(logfile, "MYCIA: rclk=%d start timer: set tbu alarm to %d\n", rclk, mycia_tbu);
 #endif
 		my_set_tbi_clk(mycia_tbu + 1);
 		mycia_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
 #if defined(MYCIA_TIMER_DEBUG)
 		if (mycia_debugFlag)
-		    printf("MYCIA: rclk=%d stop timer: set tbu alarm\n", rclk);
+		    fprintf(logfile, "MYCIA: rclk=%d stop timer: set tbu alarm\n", rclk);
 #endif
 		my_unset_tbi();
 		mycia_tbu = 0;
@@ -878,7 +878,7 @@ BYTE REGPARM1 read_mycia(ADDRESS addr)
     BYTE tmp = read_mycia_(addr);
 
     if (mycia_debugFlag)
-	printf("read mycia[%x] returns %02x @ clk=%d, pc=\n",
+	fprintf(logfile, "read mycia[%x] returns %02x @ clk=%d, pc=\n",
 	       addr, tmp, myclk - READ_OFFSET);
     return tmp;
 }
@@ -970,11 +970,11 @@ BYTE read_mycia_(ADDRESS addr)
 	/* little hack .... */
 	{
 	    int i;
-	    printf("\nmycpu_ints:");
+	    fprintf(logfile, "\nmycpu_ints:");
 	    for (i = 0; i < NUMOFINT; i++) {
-		printf(" %d", mycpu_int_status.pending_int[i]);
+		fprintf(logfile, " %d", mycpu_int_status.pending_int[i]);
 	    }
-	    printf("\n");
+	    fprintf(logfile, "\n");
 	}
 #endif
 	return (mycia[addr]);
@@ -988,7 +988,7 @@ BYTE read_mycia_(ADDRESS addr)
 	    READ_CIAICR
 #ifdef MYCIA_TIMER_DEBUG
 	    if (mycia_debugFlag)
-		printf("MYCIA read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		fprintf(logfile, "MYCIA read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
 			rclk, mycpu_int_status.alarm_clk[A_MYCIATA],
 			mycpu_int_status.alarm_clk[A_MYCIATB]);
 #endif
@@ -1009,7 +1009,7 @@ BYTE read_mycia_(ADDRESS addr)
 
 #ifdef MYCIA_TIMER_DEBUG
 	    if (mycia_debugFlag)
-		printf("MYCIA read intfl gives myciaint=%02x -> %02x @"
+		fprintf(logfile, "MYCIA read intfl gives myciaint=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
 		       myciaint, t, myciasr_bits, clk,
 			(mycia_tac ? mycia_tac : mycia_tal),
@@ -1071,7 +1071,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 	    READ_CIAICR
 #ifdef MYCIA_TIMER_DEBUG
 	    if (mycia_debugFlag)
-		printf("MYCIA read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		fprintf(logfile, "MYCIA read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
 			rclk, mycpu_int_status.alarm_clk[A_MYCIATA],
 			mycpu_int_status.alarm_clk[A_MYCIATB]);
 #endif
@@ -1092,7 +1092,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
 #ifdef MYCIA_TIMER_DEBUG
 	    if (mycia_debugFlag)
-		printf("MYCIA read intfl gives myciaint=%02x -> %02x @"
+		fprintf(logfile, "MYCIA read intfl gives myciaint=%02x -> %02x @"
 		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
 		       myciaint, t, myciasr_bits, clk,
 			(mycia_tac ? mycia_tac : mycia_tal),
@@ -1121,7 +1121,7 @@ int int_myciata(long offset)
 
 #if defined(MYCIA_TIMER_DEBUG)
     if (mycia_debugFlag)
-	printf("MYCIA: int_myciata(rclk = %u, tal = %u, cra=%02x\n",
+	fprintf(logfile, "MYCIA: int_myciata(rclk = %u, tal = %u, cra=%02x\n",
 	       rclk, mycia_tal, mycia[CIA_CRA]);
 #endif
 
@@ -1142,7 +1142,7 @@ int int_myciata(long offset)
 	    }
 	} else {
 	    /* mycia_tai = rclk + mycia_tal +1; - now keeps tai */
-	    /* printf("mycia unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
+	    /* fprintf(logfile, "mycia unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
 			myclk, rclk, myciardi, mycia_tai); */
 	    mycpu_unset_alarm(A_MYCIATA);	/* do _not_ clear mycia_tai */
 	}
@@ -1159,7 +1159,7 @@ int int_myciata(long offset)
 	if (myciasr_bits) {
 #if defined(MYCIA_TIMER_DEBUG)
 	    if (mycia_debugFlag)
-		printf("MYCIA: rclk=%d SDR: timer A underflow, bits=%d\n",
+		fprintf(logfile, "MYCIA: rclk=%d SDR: timer A underflow, bits=%d\n",
 		       rclk, myciasr_bits);
 #endif
 	    if (!(--myciasr_bits)) {
@@ -1176,7 +1176,7 @@ int int_myciata(long offset)
 	    mycia_tbu = rclk;
 #if defined(MYCIA_TIMER_DEBUG)
 	    if (mycia_debugFlag)
-		printf("MYCIA: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
+		fprintf(logfile, "MYCIA: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
 #endif
 	    myciaint |= CIA_IM_TB;
 	    my_set_tbi_clk(rclk);
@@ -1213,7 +1213,7 @@ int int_myciatb(long offset)
 
 #if defined(MYCIA_TIMER_DEBUG)
     if (mycia_debugFlag)
-	printf("MYCIA: timer B int_myciatb(rclk=%d, tbs=%d)\n", rclk, mycia_tbs);
+	fprintf(logfile, "MYCIA: timer B int_myciatb(rclk=%d, tbs=%d)\n", rclk, mycia_tbs);
 #endif
 
     mycia_tbt = (mycia_tbt + 1) & 1;
@@ -1223,7 +1223,7 @@ int int_myciatb(long offset)
 	if (!(mycia[CIA_CRB] & 8)) {
 #if defined(MYCIA_TIMER_DEBUG)
 	    if (mycia_debugFlag)
-		printf("MYCIA: rclk=%d myciatb: set tbu alarm to %d\n", rclk, rclk + mycia_tbl + 1);
+		fprintf(logfile, "MYCIA: rclk=%d myciatb: set tbu alarm to %d\n", rclk, rclk + mycia_tbl + 1);
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (myciaier & CIA_IM_TB) {
@@ -1245,7 +1245,7 @@ int int_myciatb(long offset)
 #endif /* 0 */
 #if defined(MYCIA_TIMER_DEBUG)
 	    if (mycia_debugFlag)
-		printf("MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
+		fprintf(logfile, "MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
 #endif
 	    my_unset_tbi();
 	}
@@ -1261,7 +1261,7 @@ int int_myciatb(long offset)
 	my_unset_tbi();
 #if defined(MYCIA_TIMER_DEBUG)
 	if (mycia_debugFlag)
-	    printf("MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
+	    fprintf(logfile, "MYCIA: rclk=%d myciatb: unset tbu alarm\n", rclk);
 #endif
     }
 
@@ -1303,7 +1303,7 @@ int int_myciatod(long offset)
 
 #ifdef DEBUG
     if (mycia_debugFlag)
-	printf("MYCIA: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
+	fprintf(logfile, "MYCIA: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
 	       mycia[CIA_TOD_HR], mycia[CIA_TOD_MIN], mycia[CIA_TOD_SEC],
 	       mycia[CIA_TOD_TEN]);
 #endif
@@ -1337,7 +1337,7 @@ int int_myciatod(long offset)
 	}
 #ifdef DEBUG
 	if (mycia_debugFlag)
-	    printf("MYCIA: TOD after event :tod=%02x:%02x,%02x.%x\n",
+	    fprintf(logfile, "MYCIA: TOD after event :tod=%02x:%02x,%02x.%x\n",
 	       mycia[CIA_TOD_HR], mycia[CIA_TOD_MIN], mycia[CIA_TOD_SEC],
 		   mycia[CIA_TOD_TEN]);
 #endif
@@ -1440,10 +1440,10 @@ int mycia_write_snapshot_module(snapshot_t *p)
     update_mycia(myclk);
 
 #ifdef MYCIA_DUMP_DEBUG
-printf("MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
-printf("MYCIA: write myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
+fprintf(logfile, "MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
+fprintf(logfile, "MYCIA: write myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
 #endif
 
     snapshot_module_write_byte(m, mycia[CIA_PRA]);
@@ -1570,7 +1570,7 @@ int mycia_read_snapshot_module(snapshot_t *p)
     myciaint = byte;
 
 #ifdef MYCIA_DUMP_DEBUG
-printf("MYCIA: read myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
+fprintf(logfile, "MYCIA: read myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1594,8 +1594,8 @@ printf("MYCIA: read myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
 	myciardi = 0;
     }
 #ifdef MYCIA_DUMP_DEBUG
-printf("MYCIA: snap read rdi=%02x\n", byte);
-printf("MYCIA: snap setting rdi to %d (rclk=%d)\n", myciardi, myclk);
+fprintf(logfile, "MYCIA: snap read rdi=%02x\n", byte);
+fprintf(logfile, "MYCIA: snap setting rdi to %d (rclk=%d)\n", myciardi, myclk);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1612,9 +1612,9 @@ printf("MYCIA: snap setting rdi to %d (rclk=%d)\n", myciardi, myclk);
     /* timer switch-on code from store_mycia[CIA_CRA/CRB] */
 
 #ifdef MYCIA_DUMP_DEBUG
-printf("MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
+fprintf(logfile, "MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
 #endif
 
     if ((mycia[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
@@ -1638,9 +1638,9 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, m
     }
 
 #ifdef MYCIA_DUMP_DEBUG
-printf("MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
-printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
-printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
+fprintf(logfile, "MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
+fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
+fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
 #endif
 
     if (mycia[CIA_ICR] & 0x80) {

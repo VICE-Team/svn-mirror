@@ -1,3 +1,196 @@
+1998-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/win32/Makefile.am: Added `uidrive.c' and `uidrive.h' to
+	`libarch_a_SOURCES'.
+
+	* arch/win32/resc64.h: Define new drive objects.
+
+	* arch/win32/resc64.r (IDD_DRIVE_SETTINGS_DIALOG): New dialog.
+
+	* arch/win32/ui.c: #include "uidrive.h".
+	(handle_wm_command): Call the drive settings dialog.
+
+	* arch/win32/uidrive.c: New file.
+	* arch/win32/uidrive.h: New file.
+
+	* main.c (set_boot_path): If `boot_path' is NULL set it to the
+	current directory.
+
+	* utils.h: #include "types.h".  Changed file descriptors to
+	`file_desc_t'.
+
+	* vice.h: Added mingw32 compatibility defines.
+
+1998-11-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* attach.c, c64/patchrom.c, c64/reu.c, cbm2/c610.c, c610cia1.def,
+ 	cbm2/c610iec.c, cbm2/c610mem.c, charsets.c, cia-tmpl.c,
+ 	crtc-tmpl.c, drive/wd1770.c, memutils.c, pet/petmem.c, rsuser.c,
+ 	sid/sid.c, snapshot.c, sounddrv/soundaix.c,
+ 	sounddrv/soundallegro.c, tpi-tmpl.c, traps.c, vdrive.c, zfile.c:
+ 	Changed all `printf' to `fprintf'.  Print to `logfile' or
+ 	`errfile' instead to `stdout' or `stderr' so the output can be
+ 	written into a file.
+
+1998-11-13  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* 6510core.c, acia-tmpl.c, alloca.c, attach.c, autostart.c,
+	c128/c128.c, c128/c128mem.c, c1541.c, c1541.h, c64/c64.c,
+	c64/c64mem.c, c64/cartridge.c, c64/patchrom.c, c64/reu.c,
+	c64/vicii.c, charsets.c, cpu-tmpl.c, crtc-tmpl.c, drive/drive.c,
+	drive/drivecpu-tmpl.c, findpath.c, findpath.h, fsdevice.c, gcr.c,
+	info.c, main.c, maincpu.def, memutils.c, misc.c, mon.c, mshell.c,
+	palette.c, palette.h, parallel.c, pet/pet.c, pet/petmem.c,
+	pet/petpia1.def, pet/petpia2.def, pet/pets.h, pet/petvia.def,
+	petcat.c, pia-tmpl.c, prdevice.c, print.h, pruser.c, raster.c,
+	resources.c, rs232.h, serial.c, sound.c, sound.h, sysfile.c, tape.c,
+	tapeunit.c, traps.c, types.h, utils.c, vdrive.c, vdrive.h,
+	via-tmpl.c, vic20/cartridge.c, vic20/vic.c, vic20/vic20.c,
+	vic20/vic20iec.c, vic20/vic20mem.c, vic20via1.def, vice.h, warn.c,
+	zfile.c, zfile.h, zipcode.c, zipcode.h: Changed all `printf' to
+	`fprintf'.  Print to `logfile' or `errfile' instead to `stdout' or
+	`stderr' so that the output can be written into a file.  Use
+	`file_desc_t' as return value of POSIX open.  Compare the file
+	descriptor with `ILLEGAL_FILE_DESC' to check whether it is valid
+	or not.  Do not inlcude system header like `unistd.h', `fcntl.h'
+	or `sys/stat.h' when compiling on RISC OS.  Include "ROlib.h"
+	when necessary.
+
+	* alloca.c: Ifdef'ed out this file on RISC OS.
+	* findpath.c: Likewise.
+
+	* c128/c128.c: Added tempoary stubs `cartridge_detach_image' and
+	`pet_set_model' to compile the RISC OS port.
+	* c64/c64.c: Likewise.
+	* pet/pet.c: Likswise.
+	* vic20/vic20.c: Likewise.
+
+	* c1541.c: Set drive LEDs in virtual drive emulation when compiled
+	on RISC OS.
+	* vdrive.c: Likewise.
+
+	* fsdevice.c: Define file system separators for POSIX and RISC OS
+	file systems.
+
+	* info.c: Do not use newlines within a string.
+
+	* machine.h: Added ID for any machine.
+
+	* main.c: Do not use `break64' or `exit64' on RISC OS.
+	(MAIN_PROGRAM): Use custom log and error files on RISC OS.
+
+	* memutils.c (mem_load_sys_file): Do not use `s.st_size' to
+	determine the length of a file on RISC OS.
+	* utils.c (file_length): Likewise.
+	* vdrive.c: Likewise.
+
+	* mon.c: `stop_output': New variable.
+	(handle_abort): New function to abort monitor output.
+
+	* raster.c (handle_mode_change): New function.
+
+	* sound.c (sound_synthesize): New function. Call 
+	`sound_init_vidc_device' when compiled on RISC OS.
+
+	* sysfile.c (sysfile_open): RISC OS uses a different method for
+	path handling.  Not activated yet!
+
+	* types.h: Only use ANSI IO functions on RISC OS.
+
+	* vic20/vic.c (DRAW_LINE_2x): Inserted dummy separator.
+
+1998-11-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* configure.in: Added `xmingw32' host compiler support.
+
+	* arch/unix/kbdef.h (shift_type): Omitted comma after last element.
+	* mon.h (mon_int): Likewise.
+
+	* arch/unix/xaw/ui.c (ui_popup): The last 4 parameter of
+	`XGetGeometry' need to be `unsigned int'.
+	* arch/unix/xaw/uimenu.c (position_submenu): Likewise.
+
+	* arch/unix/xaw/uicommands.h: Removed external declaration of
+	`ui_cartridge_commands_menu',
+
+	* attach.c: Added missing cast.
+	* c1541: Added missing cast.
+	* c64/cartridge.c: Added missing cast.
+	* drive/drive.c: Added missing cast.
+	* gcr.c: Added missing cast.
+	* mon.c: Added missing cast.
+	* pet/petmem.c: Added missing cast.
+	* snapshot.c: Added missing cast.
+	* vdrive.c: Added missing cast.
+
+	* c128/c128mem.c: `rom_loaded' made static.
+	(mem_bank_read, mem_bank_write): Avoid empty `case' element.
+	* pet/petmem.c (mem_bank_read), mem_bank_write): Likewise.
+
+	* c64/c64mem.c: `rom_loaded' made static.
+	* cbm2/c610mem.c: `rom_loaded' made static.
+	* drive/drive.c: `rom_loaded' made static.
+	* pet/petmem.c: `rom_loaded' made static.
+	* vic20/vic20mem.c: `rom_loaded' made static.
+
+	* c64/c64rsuser.c (c64_rsuser_init): Do not return something.
+	* vic20/vic20rsuser.c (vic20_rsuser_init): Likewise.
+
+	* c64/vicii.h: Removed external declaration of `vbank'.
+
+	* cbm2/c610mem.c: Removed unused `REGPARM'.
+
+	* fsdevice.c (open_fs): Use `NULL' instead of `0'.
+
+	* mem.h: Removed external declaration of `rom_loaded'.
+	* vic20/vic20mem.h: Likewise.
+
+	* mon.h: Removed external declaration of `register_string' and
+	`memspace_string'.
+
+	* pet/petmem.c (patch_2001): Use `BYTE' instead of `char'.
+
+	* zfile.c (try_uncompress_zipcode, try_uncompress_lynx): Use
+	`char' instead of `unsigned char'.
+
+1998-11-12  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/video.c (frame_buffer_alloc): Added a cast in the
+	assignment to `tmpframebuffer'.
+
+	* arch/unix/xaw/checkmark.xbm: `checkmark_bits' changed from
+ 	`unsigned char []' to `char []'.
+
+	* arch/unix/xaw/right_arrow.xbm: `right_arrow_bits' changed from
+	`unsigned char []' to `char []'.
+
+	* arch/unix/xaw/uimenu.c: `display' and `screen' renamed to
+ 	`my_display' and `my_screen', respectively.
+	(position_submenu): Pass pointers to unsigned (intead of signed)
+ 	ints to `XGetGeometry' where appropriate.
+
+	* arch/unix/xaw/ui.c: `wm_command_data' made a pointer to an
+ 	unsigned char.
+	(ui_open_canvas_window): Added proper cast in the call to
+ 	`XtAddEventHandler()'.
+
+1998-11-10  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/kbd.c (kbd_debug): Added printf to output debug
+ 	information to stdout.
+
+	* arch/win32/uiattach.c (dialog_proc): Removed printing of debug
+ 	information.
+
+	* arch/win32/video.c (video_debug): Added printf to output debug
+ 	information to stdout.
+	(set_palette): Added default return value.
+	(set_physical_colors): Added default return value.
+
+	* arch/win32/vsync.c (vsync_debug): Added printf to output debug
+ 	information to stdout.
+        (vsync_cleanup): Changed OutputDebugSring call to DEBUG.
+
 1998-11-10  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.26.
@@ -32,12 +225,6 @@
 	the wrong type.
 	(get_std81_header): New function.
 	(check_header): Also check for D81 disk images.
-
-1998-11-08  Dag Lem  <resid@nimrod.no>
-
-	* configure.in: CXXFLAGS defaults to CFLAGS. Added -fno-exceptions
-	for g++. Removed -fno-strength-reduce since -funroll-loops implies
-	-fstrength-reduce.
 
 1998-11-08  Ettore Perazzoli  <ettore@comm2000.it>
 

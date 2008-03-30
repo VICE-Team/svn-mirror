@@ -63,6 +63,10 @@
 #include "c64acia.h"
 #endif
 
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* C64 memory-related resources.  */
@@ -296,7 +300,7 @@ BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
 int ram_size = C64_RAM_SIZE;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-int rom_loaded = 0;
+static int rom_loaded = 0;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -935,7 +939,7 @@ void mem_powerup(void)
     int i;
 
 #ifndef __MSDOS__
-    printf("Initializing RAM for power-up...\n");
+    fprintf(logfile, "Initializing RAM for power-up...\n");
 #endif
 
 #ifdef AVOID_STATIC_ARRAYS
@@ -979,7 +983,7 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
                           kernal_rom, C64_KERNAL_ROM_SIZE,
                           C64_KERNAL_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load kernal ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load kernal ROM `%s'.\n",
                 kernal_rom_name);
         return -1;
     }
@@ -989,7 +993,7 @@ int mem_load(void)
 
     id = read_rom(0xff80);
 
-    printf("Kernal rev #%d.\n", id);
+    fprintf(logfile, "Kernal rev #%d.\n", id);
 
     if ((id == 0
          && sum != C64_KERNAL_CHECKSUM_R00)
@@ -1000,7 +1004,7 @@ int mem_load(void)
             && sum != C64_KERNAL_CHECKSUM_R43)
         || (id == 0x64
             && sum != C64_KERNAL_CHECKSUM_R64)) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "Warning: Unknown Kernal image `%s'.  Sum: %d ($%04X)\n",
                 kernal_rom_name, sum, sum);
     } else if (kernal_revision != NULL) {
@@ -1011,7 +1015,7 @@ int mem_load(void)
     if (mem_load_sys_file(basic_rom_name,
                           basic_rom, C64_BASIC_ROM_SIZE,
                           C64_BASIC_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load basic ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load basic ROM `%s'.\n",
                 basic_rom_name);
         return -1;
     }
@@ -1021,7 +1025,7 @@ int mem_load(void)
         sum += basic_rom[i];
 
     if (sum != C64_BASIC_CHECKSUM)
-        fprintf(stderr,
+        fprintf(errfile,
                 "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
                 basic_rom_name, sum, sum);
 
@@ -1030,7 +1034,7 @@ int mem_load(void)
     if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C64_CHARGEN_ROM_SIZE,
                           C64_CHARGEN_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load character ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load character ROM `%s'.\n",
                 chargen_rom_name);
         return -1;
     }
@@ -1457,7 +1461,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     }
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
@@ -1556,7 +1560,7 @@ int mem_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);

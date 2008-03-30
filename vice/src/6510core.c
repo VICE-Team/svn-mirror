@@ -31,7 +31,7 @@
 #endif
 
 #if 0
-#define UNDOC_WARNING() printf(CPU_STR " Warning: undocumented $%02X\n", p0);
+#define UNDOC_WARNING() fprintf(logfile, CPU_STR " Warning: undocumented $%02X\n", p0);
 #else
 #define UNDOC_WARNING()
 #endif
@@ -98,7 +98,7 @@
 #define DO_DEBUG(ab)                                                    \
     do {                                                                \
         if (app_resources.debugFlag)                                    \
-            printf("CPU " ab " at clk=%d, PC=%04x\n", clk, reg_pc);     \
+            fprintf(logfile, "CPU " ab " at clk=%d, PC=%04x\n", clk, reg_pc);     \
     } while(0)
 #endif
 
@@ -1507,7 +1507,10 @@
 #endif
 
     {
+/* CPU128 doesn't need this variable */
+#ifndef _C128CPU_C
         opcode_t opcode;
+#endif
 
         FETCH_OPCODE(opcode);
 
@@ -1518,7 +1521,7 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            printf("1541: .%04X\t%ld\t%s\n",
+            fprintf(logfile, "DRIVE: .%04X\t%ld\t%s\n",
                    reg_pc, (long)drive_clk[0],
                    sprint_disassembled(reg_pc, op, lo, hi, 1));
         }
@@ -1528,7 +1531,7 @@
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            printf(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
+            fprintf(logfile, ".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
                   reg_pc, op, lo, hi,
                   (long)clk, sprint_opcode(reg_pc, 1),
                   reg_a, reg_x, reg_y);

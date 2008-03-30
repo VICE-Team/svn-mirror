@@ -237,7 +237,7 @@ int machine_init(void)
     if (mem_load() < 0)
         return -1;
 
-    printf("\nInitializing Serial Bus...\n");
+    fprintf(logfile, "\nInitializing Serial Bus...\n");
 
     /* Setup trap handling.  */
     traps_init();
@@ -415,6 +415,13 @@ int machine_set_restore_key(int v)
     return 1;
 }
 
+#ifdef __riscos
+int pet_set_model(const char *name, void *extra)
+{
+  return 0;
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 long machine_get_cycles_per_second(void)
@@ -428,6 +435,8 @@ long machine_get_cycles_per_second(void)
 #define SNAP_MINOR          0
 
 const char machine_name[] = "C64";
+
+int machine_class = VICE_MACHINE_C64;
 
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
@@ -466,7 +475,7 @@ int machine_read_snapshot(const char *name)
         return -1;
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
+        fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
                major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }

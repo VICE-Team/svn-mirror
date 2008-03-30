@@ -35,6 +35,10 @@
 #include "findpath.h"
 #include "sysfile.h"
 #include "utils.h"
+#ifdef __riscos
+#include "ROlib.h"
+#include "machine.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -81,11 +85,18 @@ int sysfile_init(const char *boot_path, const char *emu_id)
     default_path = concat(boot_path, "/", emu_id, FINDPATH_SEPARATOR_STRING,
                           boot_path, "/DRIVES", NULL);
 #else
+#ifdef __riscos
+    /* On RISCOS we look in Vice$Path */
+    if ((default_path = (char*)malloc(strlen("Vice:") + strlen(machine_name) + 2)) == NULL)
+      return -1;
+    sprintf(default_path, "Vice:%s.", machine_name);
+#else
     /* On Unix, first search in the `LIBDIR' and then in the `boot_path'.  */
     default_path = concat(LIBDIR, "/", emu_id, FINDPATH_SEPARATOR_STRING,
                           boot_path, "/", emu_id, FINDPATH_SEPARATOR_STRING,
 			  LIBDIR, "/DRIVES", FINDPATH_SEPARATOR_STRING,
 			  boot_path, "/DRIVES", NULL);
+#endif
 #endif
 
     /* printf("Default path set to `%s'\n", default_path); */
@@ -109,6 +120,30 @@ int sysfile_init_cmdline_options(void)
    complete path if the file was found or is NULL if not.  */
 FILE *sysfile_open(const char *name, char **complete_path_return)
 {
+/* Does not work on Unix!
+    char *p = NULL;
+
+#ifdef __riscos
+    FILE *f = NULL;
+
+    p = (char*)malloc(strlen(default_path) + strlen(name) + 1);
+    sprintf(p, "%s%s", default_path, name);
+    if (complete_path_return != NULL)
+       f = fopen(p, "r");
+    if (f == NULL)
+    {
+       free(p);
+       if (complete_path_return != NULL)
+           *complete_path_return = NULL;
+       return NULL;
+    }
+    else
+    {
+       if (complete_path_return != NULL)
+          *complete_path_return = p;
+       return f;
+    }
+#elsea*/
     char *p = findpath(name, expanded_system_path, R_OK);
 
     if (p == NULL) {
@@ -126,6 +161,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             *complete_path_return = p;
         return f;
     }
+/*#endif*/
 }
 
 /* As `sysfile_open', but do not open the file.  Just return 0 if the file is

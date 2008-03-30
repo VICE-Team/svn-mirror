@@ -28,18 +28,22 @@
 #define _ZFILE_H
 
 #ifdef STDC_HEADERS
+#ifndef __riscos
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#endif
 #include <stdio.h>
 #endif
 
-#if defined(WIN32) || defined(WINCE)
+#include "types.h"
+
+#if defined(WIN32) || defined(WINCE) || defined(__riscos)
 typedef int mode_t;
 #endif
 
-int zopen(const char *name, mode_t mode, int flags);
-int zclose(int fd);
+file_desc_t zopen(const char *name, mode_t mode, int flags);
+int zclose(file_desc_t fd);
 FILE *zfopen(const char *name, const char *mode);
 int zfclose(FILE *stream);
 int zclose_all(void);

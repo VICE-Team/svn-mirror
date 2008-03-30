@@ -267,7 +267,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 		       || strcmp(opt, "A0") == 0) {
 		memconf |= VIC_BLK5;
 	    } else {
-		fprintf(stderr,
+		fprintf(errfile,
 			"Unsupported memory extension option: \"%s\"\n",
 			opt);
 		return -1;
@@ -278,40 +278,40 @@ static int cmdline_memory(const char *param, void *extra_param)
 	}
     }
 
-    printf("Extension memory enabled: ");
+    fprintf(logfile, "Extension memory enabled: ");
     if (memconf & VIC_BLK0) {
 	set_ram_block_0_enabled((resource_value_t) 1);
-	printf("blk0 ");
+	fprintf(logfile, "blk0 ");
     } else {
 	set_ram_block_0_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK1) {
 	set_ram_block_1_enabled((resource_value_t) 1);
-	printf("blk1 ");
+	fprintf(logfile, "blk1 ");
     } else {
 	set_ram_block_1_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK2) {
 	set_ram_block_2_enabled((resource_value_t) 1);
-	printf("blk2 ");
+	fprintf(logfile, "blk2 ");
     } else {
 	set_ram_block_2_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK3) {
 	set_ram_block_3_enabled((resource_value_t) 1);
-	printf("blk3 ");
+	fprintf(logfile, "blk3 ");
     } else {
 	set_ram_block_3_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK5) {
 	set_ram_block_5_enabled((resource_value_t) 1);
-	printf("blk5");
+	fprintf(logfile, "blk5");
     } else {
 	set_ram_block_5_enabled((resource_value_t) 0);
     }
     if (memconf == 0)
-	printf("none");
-    printf("\n");
+	fprintf(logfile, "none");
+    fprintf(logfile, "\n");
 
     return 0;
 }
@@ -365,7 +365,7 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-int rom_loaded = 0;
+static int rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -723,7 +723,7 @@ void mem_powerup(void)
     int i;
 
 #ifndef __MSDOS__
-    printf("Initializing RAM for power-up...\n");
+    fprintf(logfile, "Initializing RAM for power-up...\n");
 #endif
 
     for (i = 0; i < VIC20_RAM_SIZE; i += 0x80) {
@@ -745,7 +745,7 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
 			  VIC20_KERNAL_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load kernal ROM.\n\n");
+	fprintf(errfile, "Couldn't load kernal ROM.\n\n");
 	return -1;
     }
     /* Check Kernal ROM.  */
@@ -753,14 +753,14 @@ int mem_load(void)
 	sum += kernal_rom[i];
 
     if (sum != VIC20_KERNAL_CHECKSUM) {
-	fprintf(stderr, "Warning: Unknown Kernal image.  Sum: %d ($%04X)\n",
+	fprintf(errfile, "Warning: Unknown Kernal image.  Sum: %d ($%04X)\n",
 		sum, sum);
     }
     /* Load Basic ROM. */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, VIC20_BASIC_ROM_SIZE,
 			  VIC20_BASIC_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load basic ROM.\n\n");
+	fprintf(errfile, "Couldn't load basic ROM.\n\n");
 	return -1;
     }
     /* Check Basic ROM. */
@@ -768,14 +768,14 @@ int mem_load(void)
 	sum += basic_rom[i];
 
     if (sum != VIC20_BASIC_CHECKSUM)
-	fprintf(stderr, "Warning: Unknown Basic image.  Sum: %d ($%04X)\n",
+	fprintf(errfile, "Warning: Unknown Basic image.  Sum: %d ($%04X)\n",
 		sum, sum);
 
     /* Load chargen ROM. */
     if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
 			  VIC20_CHARGEN_ROM_SIZE) < 0) {
-	fprintf(stderr, "Couldn't load character ROM.\n");
+	fprintf(errfile, "Couldn't load character ROM.\n");
 	return -1;
     }
     rom_loaded = 1;
@@ -789,49 +789,49 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 {
     switch(type) {
       case CARTRIDGE_VIC20_4KB_2000:
-        printf("CART: attaching 4KB cartridge at $2000\n");
+        fprintf(logfile, "CART: attaching 4KB cartridge at $2000\n");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
 	mem_rom_blocks |= VIC_ROM_BLK1A;
 	set_ram_block_1_enabled((resource_value_t) 0);
 	break;
       case CARTRIDGE_VIC20_8KB_2000:
-        printf("CART: attaching 8KB cartridge at $2000\n");
+        fprintf(logfile, "CART: attaching 8KB cartridge at $2000\n");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
 	set_ram_block_1_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_6000:
-        printf("CART: attaching 4KB cartridge at $6000\n");
+        fprintf(logfile, "CART: attaching 4KB cartridge at $6000\n");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
 	set_ram_block_3_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_8KB_6000:
-        printf("CART: attaching 8KB cartridge at $6000\n");
+        fprintf(logfile, "CART: attaching 8KB cartridge at $6000\n");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
 	set_ram_block_3_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_A000:
-        printf("CART: attaching 4KB cartridge at $A000\n");
+        fprintf(logfile, "CART: attaching 4KB cartridge at $A000\n");
         memcpy(cartrom + 0xa000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_8KB_A000:
-        printf("CART: attaching 8KB cartridge at $A000\n");
+        fprintf(logfile, "CART: attaching 8KB cartridge at $A000\n");
         memcpy(cartrom + 0xA000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_B000:
-        printf("CART: attaching 4KB cartridge at $B000\n");
+        fprintf(logfile, "CART: attaching 4KB cartridge at $B000\n");
         memcpy(cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       default:
-        fprintf(stderr, "Unknown Cartridge Type!\n");
+        fprintf(errfile, "Unknown Cartridge Type!\n");
         return;
     }
 

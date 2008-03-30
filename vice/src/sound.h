@@ -95,7 +95,7 @@ extern int  sound_init_test_device(void);	/* XXX: missing */
 extern int  sound_init_uss_device(void);
 extern int  sound_init_dx_device(void);
 extern int  sound_init_ce_device(void);
-
+extern int  sound_init_vidc_device(void);
 
 /* internal function for sound device registration */
 extern int  sound_register_device(sound_device_t *pdevice);
@@ -115,5 +115,13 @@ extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
 extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+
+#ifdef __riscos
+extern int SoundEvery;
+extern int SoundLines;
+extern unsigned char *LinToLog;
+extern void sound_poll(void);
+extern void sound_synthesize(unsigned char *buffer, int length);
+#endif
 
 #endif /* !defined (_SOUND_H) */

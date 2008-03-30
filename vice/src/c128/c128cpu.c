@@ -275,7 +275,7 @@ static void reset(void)
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
-    printf("Main CPU: RESET\n");
+    fprintf(logfile, "Main CPU: RESET\n");
 
     serial_reset();
 
@@ -328,7 +328,7 @@ void mainloop(ADDRESS start_address)
     else
 	JUMP(LOAD_ADDR(0xfffc));
 
-    printf("Main CPU: starting at $%04X.\n", reg_pc);
+    fprintf(logfile, "Main CPU: starting at $%04X.\n", reg_pc);
 
     while (1) {
 

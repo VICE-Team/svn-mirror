@@ -49,11 +49,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#endif
 #include <memory.h>
 #include <assert.h>
 #endif
@@ -90,12 +94,19 @@ static int  nargs;
 
 char    newname[256];
 
+FILE *logfile, *errfile;
+
+#ifdef __riscos
+void ui_set_drive_leds(unsigned int led, int status)
+{
+}
+#endif
 
 /* Local functions */
 
 static int  check_drive ( int dev, int mode );
 static int  open_image ( int dev, char *name, int create );
-static int  create_image ( int fd, int devtyp, int tracks, int errb, char *label );
+static int  create_image ( file_desc_t fd, int devtyp, int tracks, int errb, char *label );
 static void usage( void );
 
 static int  disk_attach ( void );
@@ -201,7 +212,7 @@ struct ms_table disk_cmds[] = {
  * Create Floppy Image
  */
 
-static int  create_image (int fd, int devtype, int tracks, int errb, char *label)
+static int  create_image (file_desc_t fd, int devtype, int tracks, int errb, char *label)
 {
     BYTE    header[HEADER_LENGTH];
     BYTE    block[256];
@@ -265,7 +276,7 @@ static int  create_image (int fd, int devtype, int tracks, int errb, char *label
 }
 
 
-static int  set_label(int fd, char *label)
+static int  set_label(file_desc_t fd, char *label)
 {
     int     siz = HEADER_LABEL_LEN +1;
     char    buf[HEADER_LABEL_LEN +2];
@@ -290,7 +301,7 @@ static int  set_label(int fd, char *label)
    * They contain: Device Type, Max Tracks, Side, and Error Flag.
    */
 
-static int  set_disk_size(int fd, int tracks, int sides, int errblk)
+static int  set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
 {
     int     siz = HEADER_FLAGS_LEN;
     char    buf[HEADER_FLAGS_LEN +1];
@@ -317,7 +328,7 @@ static int  set_disk_size(int fd, int tracks, int sides, int errblk)
 static int  open_image(int dev, char *name, int create)
 {
     DRIVE  *floppy;
-    int     fd;
+    file_desc_t fd;
 
 
     if (dev < 0 || dev > MAXDRIVE)
@@ -327,7 +338,7 @@ static int  open_image(int dev, char *name, int create)
     floppy = DriveData[dev & 3];
 
     if (create) {
-	if ((fd = open(name, O_RDWR | O_CREAT, 0666)) < 0) {
+	if ((fd = open(name, O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
 	    printf("could not create image %s\n", name);
 	    return (-1);
 	}
@@ -371,7 +382,7 @@ static int  check_drive(int dev, int flags)
 
     floppy = DriveData[dev & 3];
 
-    if (!floppy || (flags != CHK_NUM && floppy->ActiveFd < 0)) {
+    if (!floppy || (flags != CHK_NUM && floppy->ActiveFd == ILLEGAL_FILE_DESC)) {
 	return (FD_NOTREADY);
     }
 
@@ -419,7 +430,8 @@ static int  disk_cdd(void)
 
 static int  disk_gcrformat (void)
 {
-    int fd, track, sector;
+    file_desc_t fd;
+    int track, sector;
     BYTE gcr_header[12], id[2];
     char name[16], *idptr;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
@@ -446,7 +458,7 @@ static int  disk_gcrformat (void)
 	    *idptr = '\0';
 	    for (i = 0; i < 16 && newname[i] != '\0'; i++)
 		name[i] = newname[i];
-	    strncpy(id, ++idptr, 2);
+	    strncpy((char*)id, ++idptr, 2);
 	    if (idptr[1] != '\0') {
 		id[0] = idptr[1];
 		if (idptr[2] != '\0')
@@ -455,12 +467,12 @@ static int  disk_gcrformat (void)
 	}
     }
 
-    if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) < 0) {
+    if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
 	printf("Could not create image `%s'.\n", args[1]);
 	return (FD_BADIMAGE);
     }
 
-    strcpy(gcr_header, "GCR-1541");
+    strcpy((char*)gcr_header, "GCR-1541");
 
     gcr_header[8] = 0;
     gcr_header[9] = MAX_TRACKS_1541 * 2;
@@ -940,7 +952,8 @@ static int  disk_import_zipfile (void)
     DRIVE  *floppy = DriveData[DriveNum];
     DiskFormats  *format = Legal_formats;
     char    tmp[256];
-    int     fsfd=-1, errblk = 0;
+    file_desc_t fsfd=ILLEGAL_FILE_DESC;
+    int errblk = 0;
     int track, sector, count;
     char *fname;
     int    channel = 2;
@@ -987,7 +1000,7 @@ static int  disk_import_zipfile (void)
 	if (singlefilemode || track == 1) {
 	    if (track == 1) {
 		fsfd = open(fname + 2, O_RDONLY);
-		if (fsfd >= 0) {
+		if (fsfd != ILLEGAL_FILE_DESC) {
 		    printf("reading zipfile on onefile -mode\n");
 		    singlefilemode = 1;
 		    lseek(fsfd, 4, SEEK_SET);
@@ -1003,9 +1016,9 @@ static int  disk_import_zipfile (void)
 	    case 17:
 	    case 26:
 		fname[0]++;
-		if (fsfd >= 0)
+		if (fsfd != ILLEGAL_FILE_DESC)
 		    close(fsfd);
-		if ((fsfd = open(fname, O_RDONLY)) < 0) {
+		if ((fsfd = open(fname, O_RDONLY)) == ILLEGAL_FILE_DESC) {
 		    printf("cannot open %s\n", fname);
 		    perror (fname);
 		    return (FD_NOTRD);
@@ -1016,7 +1029,8 @@ static int  disk_import_zipfile (void)
 	}
 
        for (count = 0; count < sector_map_1541[track]; count++) {
-          if ( (zipcode_read_sector(fsfd, track, &sector, floppy->buffers[channel].buffer)) != 0) {
+          if ( (zipcode_read_sector(fsfd, track, &sector,
+                            (char *)(floppy->buffers[channel].buffer))) != 0) {
 	      close(fsfd);
 	      return (FD_BADIMAGE);
           }
@@ -1059,7 +1073,8 @@ static int  disk_import (void)
     DRIVE  *floppy = DriveData[DriveNum];
     DiskFormats  *format;
     char    tmp[256];
-    int     fsfd, len, blk = 0, errblk = 0;
+    file_desc_t fsfd;
+    int len, blk = 0, errblk = 0;
 
 
     /*
@@ -1069,7 +1084,7 @@ static int  disk_import (void)
     if (open_image(DriveNum, args[1], 1) < 0)
 	return (FD_BADIMAGE);
 
-    if ((fsfd = open(args[2], O_RDONLY)) < 0) {
+    if ((fsfd = open(args[2], O_RDONLY)) == ILLEGAL_FILE_DESC) {
 	printf("cannot open %s\n", args[2]);
 	perror (args[2]);
 	return (FD_NOTRD);
@@ -1446,17 +1461,17 @@ static int  disk_extract(void)
 		    len= 16;
 		}
 
-		petconvstring(name,1);
+		petconvstring((char*)name,1);
 		printf("%s\n",name);
 
-		unix_filename(name);	/* for now, convert '/' to '_' */
+		unix_filename((char*)name);	/* for now, convert '/' to '_' */
 
-		if (open_1541(floppy,entry->FileName,len,0)) {
+		if (open_1541(floppy,(char*)(entry->FileName),len,0)) {
 		    printf("u%d: cannot open `%s' on image.\n", drive, name);
 		    continue;
 		}
 
-		if (!(fd= fopen(name,"wb"))) {
+		if (!(fd= fopen((char*)name,"wb"))) {
 		    perror("Couldn't open unix file");
 		    close_1541(floppy,0);
 		    continue;
@@ -1822,6 +1837,8 @@ int     main(argc, argv)
     /* Set the default file mode.  */
     _fmode = O_BINARY;
 #endif
+    logfile = stdout;
+    errfile = stderr;
 
     progname = argv[0];
     nargs    = 0;

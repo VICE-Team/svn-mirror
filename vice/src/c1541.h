@@ -37,7 +37,7 @@
 
 extern int  ip_execute ( DRIVE *floppy, BYTE *buf, int length );
 extern int  do_validate ( DRIVE *floppy );
-extern int  check_header ( int fd, hdrinfo *hdr );
+extern int  check_header ( file_desc_t fd, hdrinfo *hdr );
 extern int  check_track_sector( int format, int track, int sector );
 extern int  get_diskformat ( int devtype );
 extern int  num_blocks ( int format, int tracks );

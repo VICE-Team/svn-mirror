@@ -29,7 +29,9 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
+#ifndef __riscos
 #include <fcntl.h>
+#endif
 #include <ctype.h>
 #include <string.h>
 #endif
@@ -149,7 +151,7 @@ void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
 {
     BYTE *offset = ptr;
     BYTE *GCR_track_end = GCR_track_start_ptr + GCR_current_track_size;
-    char GCR_header[5];
+    BYTE GCR_header[5];
     int i, j;
 
     for (i = 0; i < 65; i++) {

@@ -32,7 +32,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#ifndef __riscos
 #include <sys/types.h>
+#endif
 #endif
 
 #include "types.h"

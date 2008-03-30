@@ -45,7 +45,7 @@
 /* #define DEBUG_TRAPS */
 
 #ifdef DEBUG_TRAPS
-#define DEBUG(x)        printf x
+#define DEBUG(x)        fprintf x
 #else
 #define DEBUG(x)
 #endif
@@ -130,12 +130,12 @@ static int install_trap(const trap_t *t)
 {
     int i;
 
-    DEBUG(("TRAPS: Patching ROM for trap `%s' at $%04X\n",
+    DEBUG((logfile, "TRAPS: Patching ROM for trap `%s' at $%04X\n",
            t->name, t->address));
 
     for (i = 0; i < 3; i++) {
 	if (read_rom(t->address + i) != t->check[i]) {
-	    printf("TRAPS: Incorrect checkbyte for trap `%s'.  Not installed.\n",
+	    fprintf(logfile, "TRAPS: Incorrect checkbyte for trap `%s'.  Not installed.\n",
                    t->name);
 	    return -1;
 	}
@@ -151,7 +151,7 @@ int traps_add(const trap_t *t)
 {
     traplist_t *p;
 
-    DEBUG(("TRAPS: Adding trap `%s' at $%04X (enabled=%d).\n", t->name, t->address, !no_traps_enabled));
+    DEBUG((logfile, "TRAPS: Adding trap `%s' at $%04X (enabled=%d).\n", t->name, t->address, !no_traps_enabled));
 
     p = (traplist_t *) xmalloc (sizeof (traplist_t));
     p->next = traplist;
@@ -166,10 +166,11 @@ int traps_add(const trap_t *t)
 
 static int remove_trap(const trap_t *t)
 {
-    DEBUG(("TRAPS: Removing trap `%s' at $%04X.\n", t->name, t->address));
+    DEBUG((logfile, "TRAPS: Removing trap `%s' at $%04X.\n", t->name,
+                   t->address));
 
     if (read_rom(t->address) != 0x00) {
-	printf("TRAPS: No trap `%s' installed?\n", t->name);
+	fprintf(logfile, "TRAPS: No trap `%s' installed?\n", t->name);
         return -1;
     }
 
@@ -189,7 +190,7 @@ int traps_remove(const trap_t *t)
     }
 
     if (!p) {
-	printf("TRAPS: Trap `%s' not found.\n", t->name);
+	fprintf(logfile, "TRAPS: Trap `%s' not found.\n", t->name);
 	return -1;
     }
 
@@ -211,15 +212,15 @@ int traps_handler(void)
     traplist_t *p = traplist;
     unsigned int pc = MOS6510_REGS_GET_PC(&maincpu_regs);
 
-    DEBUG(("TRAPS: Checking for trap at PC=$%04X, p=%p.\n", maincpu_regs.pc,p));
+    DEBUG((logfile, "TRAPS: Checking for trap at PC=$%04X, p=%p.\n", maincpu_regs.pc,p));
 
     while (p) {
-        DEBUG(("TRAPS: check Address %04X\n", p->trap->address));
+        DEBUG((logfile, "TRAPS: check Address %04X\n", p->trap->address));
 	if (p->trap->address == pc) {
             /* This allows the trap function to remove traps.  */
             ADDRESS resume_address = p->trap->resume_address;
 
-            DEBUG(("TRAPS: Found %s\n", p->trap->name));
+            DEBUG((logfile, "TRAPS: Found %s\n", p->trap->name));
 	    (*p->trap->func)();
             /* XXX ALERT!  `p' might not be valid anymore here, because
                `p->trap->func()' might have removed all the traps.  */

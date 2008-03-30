@@ -38,7 +38,7 @@
 
 static BYTE value;		/* userport value */
 static int strobe;
-static int fd;
+static file_desc_t fd;
 
 /***********************************************************************
  * resource handling
@@ -54,7 +54,7 @@ static int set_up_enabled(resource_value_t v)
     if (newval && !userport_printer_enabled) {
 	/* switch printer on */
 	fd = print_open(userport_printer_device);
-	if (fd>=0) {
+	if (fd!=ILLEGAL_FILE_DESC) {
             userport_printer_enabled = 1;
 	}
     }

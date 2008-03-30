@@ -137,7 +137,7 @@ void signal_mypia(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*printf("signal_mypia(line=%d, edge=%d, ctrl=%02x)\n",
+        /*fprintf(logfile, "signal_mypia(line=%d, edge=%d, ctrl=%02x)\n",
 						line,edge,mypia.ctrl_b);*/
 	if ( ((mypia.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    mypia.ctrl_b |= 0x80;
@@ -161,7 +161,7 @@ void REGPARM2 store_mypia(ADDRESS addr, BYTE byte)
     addr &= 3;
 
 #if 0
-    printf("store mypia [%x] %x\n", (int) addr, (int) byte);
+    fprintf(logfile, "store mypia [%x] %x\n", (int) addr, (int) byte);
 #endif
 
     switch (addr) {
@@ -252,7 +252,7 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
     addr &= 3;
 
 #if 0
-    printf("read mypia [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
+    fprintf(logfile, "read mypia [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
            addr,
            mypia.port_a, mypia.ddr_a, mypia.ctrl_a,
            mypia.port_b, mypia.ddr_b, mypia.ctrl_b);

@@ -35,7 +35,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <unistd.h>
+#endif
 #include <ctype.h>
 #include <assert.h>
 #endif
@@ -61,6 +66,11 @@
 #include "vdrive.h"
 #include "mon_parse.h"
 #include "utils.h"
+
+/* May be called different things on various platforms... */
+typedef void (*signal_handler_t)(int);
+
+static int stop_output;
 
 /* Defines */
 
@@ -885,7 +895,7 @@ void mon_add_number_to_buffer(int number)
 
 void mon_add_string_to_buffer(char *str)
 {
-   strcpy(&(data_buf[data_buf_len]), str);
+   strcpy((char *) &(data_buf[data_buf_len]), str);
    data_buf_len += strlen(str);
    data_buf[data_buf_len] = '\0';
    free(str);
@@ -1020,6 +1030,7 @@ void mon_print_help(char *cmd)
                    fputc(' ', mon_output);
                column = 1;
            }
+           if (stop_output != 0) break;
        }
        fputs("\n\n", mon_output);
    } else {
@@ -1189,7 +1200,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
      fprintf(mon_output, "Invalid range.\n");
      return;
   }
-  printf("len:%d (%s:%04x) (%s:%04x)\n",len,memspace_string[addr_memspace(start_addr)],addr_location(start_addr),
+  fprintf(logfile, "len:%d (%s:%04x) (%s:%04x)\n",len,memspace_string[addr_memspace(start_addr)],addr_location(start_addr),
          memspace_string[addr_memspace(end_addr)], addr_location(end_addr));
 }
 #else
@@ -1211,6 +1222,7 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
       bytes = disassemble_instr(dot_addr[mem]);
       i += bytes;
       inc_addr_location(&(dot_addr[mem]), bytes);
+      if (stop_output != 0) break;
    }
 }
 #endif
@@ -1238,9 +1250,11 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
          }
          fprintf(mon_output, "\n");
          addr = ADDR_LIMIT(addr + (x/8));
+         if (stop_output != 0) break;
       }
 
       fprintf(mon_output, "\n");
+      if (stop_output != 0) break;
    }
 
    set_addr_location(&(dot_addr[mem]),addr);
@@ -1325,6 +1339,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
       }
       fprintf(mon_output, "\n");
       addr = ADDR_LIMIT(addr+real_width);
+      if (stop_output != 0) break;
    }
 
    set_addr_location(&(dot_addr[mem]),addr);
@@ -1561,7 +1576,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 	perror(filename);
 	fprintf(mon_output, "Saving failed.\n");
    } else {
-	printf("Saving file `%s'...\n", filename);
+	fprintf(logfile, "Saving file `%s'...\n", filename);
 	fputc((BYTE) adr & 0xff, fp);
 	fputc((BYTE) (adr >> 8) & 0xff, fp);
         if (end < adr) {
@@ -1593,7 +1608,7 @@ void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 	perror(filename);
 	fprintf(mon_output, "Saving failed.\n");
    } else {
-	printf("Saving file `%s'...\n", filename);
+	fprintf(logfile, "Saving file `%s'...\n", filename);
         if (end < adr) {
 	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
 	   fwrite((char *) ram, 1, end, fp);
@@ -1997,7 +2012,7 @@ void mon_execute_disk_command(char *cmd)
    floppy = (DRIVE *)p->info;
 
    len = strlen(cmd);
-   rc = ip_execute(floppy, cmd, len);
+   rc = ip_execute(floppy, (BYTE*)cmd, len);
 }
 
 
@@ -2307,7 +2322,7 @@ void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
 #if 0
       /* DEBUG */
       evaluate_conditional(cnode);
-      printf("Condition evaluates to: %d\n",cnode->value);
+      fprintf(logfile, "Condition evaluates to: %d\n",cnode->value);
 #endif
    }
 }
@@ -2646,6 +2661,14 @@ static void make_prompt(char *str)
             addr_location(dot_addr[default_memspace]));
 }
 
+static signal_handler_t old_handler;
+
+static void handle_abort(int signo)
+{
+  stop_output = 1;
+  signal(SIGINT, (signal_handler_t) handle_abort);
+}
+
 void mon(ADDRESS a)
 {
    char prompt[40];
@@ -2669,6 +2692,11 @@ void mon(ADDRESS a)
     mon_input = stdin;
 #endif
 
+    old_handler = signal(SIGINT, handle_abort);
+#ifdef __riscos
+    Wimp_CommandWindow((int)"Vice Monitor");
+#endif
+
     inside_monitor = TRUE;
     suspend_speed_eval();
 
@@ -2685,6 +2713,7 @@ void mon(ADDRESS a)
         }
 
         myinput = readline(prompt);
+        stop_output = 0;
         if (myinput) {
             if (!myinput[0]) {
                 if (!asm_mode) {
@@ -2728,6 +2757,11 @@ void mon(ADDRESS a)
 
     if (exit_mon)
         exit(0);
+
+#ifdef __riscos
+    Wimp_CommandWindow(-1);
+#endif
+    signal(SIGINT, old_handler);
 
 #ifdef __MSDOS__
     setmode(STDIN_FILENO, old_input_mode);

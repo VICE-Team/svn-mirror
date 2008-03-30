@@ -87,7 +87,7 @@ UNDUMP_PRA()
 STORE_PRB()
 {
 	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
-	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
+	    fprintf(errfile,"PET: Killer POKE! might kill a real PET!\n");
 	}
         parallel_cpu_set_nrfd(!(byte & 0x02));
         parallel_cpu_set_atn(!(byte & 0x04));
@@ -172,8 +172,8 @@ READ_PRA()
 	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", byte);
-            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+            fprintf(logfile, "read port A %d\n", byte);
+            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
@@ -199,8 +199,8 @@ READ_PRB()
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", byte);
-                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                fprintf(logfile, "read port B %d\n", byte);
+                fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif

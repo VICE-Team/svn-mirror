@@ -314,7 +314,7 @@ canvas_t crtc_init(void)
     if (palette == NULL)
         return NULL;
     if (palette_load(palette_file_name, palette) < 0) {
-        printf("Cannot load palette file `%s'.\n", palette_file_name);
+        fprintf(logfile, "Cannot load palette file `%s'.\n", palette_file_name);
         return NULL;
     }
 
@@ -323,7 +323,7 @@ canvas_t crtc_init(void)
 			   SCREEN_HEIGHT,
                            palette,
 			   (canvas_redraw_t) crtc_arrange_window)) {
-	fprintf(stderr, "fatal error: can't open window for CRTC emulation.\n");
+	fprintf(errfile, "fatal error: can't open window for CRTC emulation.\n");
 	return NULL;
     }
 
@@ -434,7 +434,7 @@ void video_resize(void)
 		window_height *= 2;
 */
 	}
-/* printf("foo: old_size=%d, height=%d, frameh=%d\n",old_size, 
+/* fprintf(errfile, "foo: old_size=%d, height=%d, frameh=%d\n",old_size, 
 		crtc_screen_textlines*screen_charheight,
 		FRAMEB_HEIGHT); */
 	if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight)) {
@@ -495,7 +495,7 @@ static void crtc_update_timing(int change)
     if (new_crtc_cycles_per_line != crtc_cycles_per_line) {
 	crtc_cycles_per_line = new_crtc_cycles_per_line;
 
-	printf("CRTC: set cycles per line to %d\n", crtc_cycles_per_line);
+	fprintf(logfile, "CRTC: set cycles per line to %d\n", crtc_cycles_per_line);
 
 	change = 1;
     }
@@ -505,7 +505,7 @@ static void crtc_update_timing(int change)
 	    if ((!IS_DOUBLE_WIDTH_ALLOWED(memptr_inc))
 		&& IS_DOUBLE_WIDTH_ALLOWED(new_memptr_inc) ) {
 		/* make window smaller */
-		printf("CRTC: double_size_enabled and window shrinks\n");
+		fprintf(logfile, "CRTC: double_size_enabled and window shrinks\n");
                 pixel_width = 2;
                 video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
                 video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached_2x;
@@ -517,7 +517,7 @@ static void crtc_update_timing(int change)
 	    if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc)
 		&& (!IS_DOUBLE_WIDTH_ALLOWED(new_memptr_inc)) ) {
 		/* make window wider */
-		printf("CRTC: double_size_enabled and window grows\n");
+		fprintf(logfile, "CRTC: double_size_enabled and window grows\n");
                 pixel_width = 1;
                 video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
                 video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached;
@@ -541,21 +541,21 @@ static void crtc_update_timing(int change)
 
 	if (DOUBLE_SIZE_ENABLED()) {
 /*
-printf("double_size_enabled when update_timing(): \n");
-printf("new_textlines=%d, new_charheight=%d -> height=%d\n",
+fprintf(logfile, "double_size_enabled when update_timing(): \n");
+fprintf(logfile, "new_textlines=%d, new_charheight=%d -> height=%d\n",
 		new_crtc_screen_textlines, new_screen_charheight,
 		new_crtc_screen_textlines * new_screen_charheight);
-printf("    textlines=%d,     charheight=%d -> height=%d\n",
+fprintf(logfile, "    textlines=%d,     charheight=%d -> height=%d\n",
 		crtc_screen_textlines, screen_charheight,
 		crtc_screen_textlines * screen_charheight);
-printf(" framb_height=%d\n",FRAMEB_HEIGHT);
+fprintf(logfile, " framb_height=%d\n",FRAMEB_HEIGHT);
 */
 	    if (IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
 				* new_screen_charheight)
 		&& !IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
 				* screen_charheight)
 	    ) {
-		printf("CRTC: double_size_enabled and window shrinks\n");
+		fprintf(logfile, "CRTC: double_size_enabled and window shrinks\n");
 		pixel_height = 2;
 	    } else
 	    if (!IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
@@ -563,14 +563,14 @@ printf(" framb_height=%d\n",FRAMEB_HEIGHT);
 		&& IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
 				* screen_charheight)
 	    ) {
-		printf("CRTC: double_size_enabled and window grows\n");
+		fprintf(logfile, "CRTC: double_size_enabled and window grows\n");
 		pixel_height = 1;
 	    }
 	}
 	
 	while (new_crtc_screen_textlines * new_screen_charheight * pixel_height
 		+ 2 * SCREEN_BORDERHEIGHT >= FRAMEB_HEIGHT) {
-	    printf("CRTC: screen to high (ypix=%d, FRAMEB_H=%d!\n",
+	    fprintf(logfile, "CRTC: screen to high (ypix=%d, FRAMEB_H=%d!\n",
 			new_crtc_screen_textlines* new_screen_charheight,
 			FRAMEB_HEIGHT);
 	    new_screen_charheight--;
@@ -630,7 +630,7 @@ static void crsr_set_dirty(void)
     j = (crsrrel / memptr_inc) * screen_charheight + crsrend;
     j += SCREEN_BORDERHEIGHT + ysmooth;
 
-    /* printf("crsr_set_dirty(%d-%d)\n",i,j); */
+    /* fprintf(logfile, "crsr_set_dirty(%d-%d)\n",i,j); */
     while (i<=j) {
 	if (i < SCREEN_HEIGHT)
 	  cache[i].is_dirty = 1;
@@ -653,7 +653,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 
       case 1:			/* R01  Horizontal characters displayed */
 	if(!crtc[1]) {
-	    printf("store_crtc: set memptr_inc to 0!\n");
+	    fprintf(logfile, "store_crtc: set memptr_inc to 0!\n");
 	    return;
 	}
 	new_memptr_inc = crtc[1];
@@ -696,7 +696,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
         crsrstart = value & 0x1f;
         value = ((value >> 5) & 0x03) ^ 0x01;
         if(crsr_enable && (crsrmode != value)) {
-          /* printf("crtc: write R10 new cursormode = %d\n",value); */
+          /* fprintf(logfile, "crtc: write R10 new cursormode = %d\n",value); */
           crsrmode = value;
           crsrstate = 1;
           crsrcnt = 16;
@@ -843,7 +843,7 @@ int crtc_offscreen(void)
 
 void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
 {
-    printf("crtc_set_screen: set memptr_inc to %d\n", num_cols);
+    fprintf(logfile, "crtc_set_screen: set memptr_inc to %d\n", num_cols);
 
     addr_mask = vmask;
 
@@ -854,7 +854,7 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
     hw_double_cols = hwflags & 2;
 
     if(!num_cols) {
-        printf("crtc_set_screen_mode: set memptr_inc to 0!\n");
+        fprintf(logfile, "crtc_set_screen_mode: set memptr_inc to 0!\n");
         new_memptr_inc=1;
     } else {
         new_memptr_inc = num_cols;
@@ -1228,7 +1228,7 @@ int crtc_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major != SNAP_MAJOR) {
-        fprintf(stderr, "CRTC: Major snapshot number (%d) invalid; %d expected.\n",
+        fprintf(errfile, "CRTC: Major snapshot number (%d) invalid; %d expected.\n",
                 major, SNAP_MAJOR);
         goto fail;
     }

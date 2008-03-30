@@ -70,7 +70,7 @@ static int written_samples;
 
 static int allegro_startup(unsigned int freq)
 {
-    printf("Starting up Allegro sound...  ");
+    fprintf(logfile, "Starting up Allegro sound...  ");
 
     remove_sound();
 
@@ -80,7 +80,7 @@ static int allegro_startup(unsigned int freq)
     reserve_voices(1, 0);
 
     if (install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL) != 0) {
-        printf("Failed: %s\n", allegro_error);
+        fprintf(logfile, "Failed: %s\n", allegro_error);
         return -1;
     }
 
@@ -88,7 +88,7 @@ static int allegro_startup(unsigned int freq)
        setup program.  */
     /* set_volume(255, 0); */
 
-    printf("OK: %s, %s\n", digi_driver->name, digi_driver->desc);
+    fprintf(logfile, "OK: %s, %s\n", digi_driver->name, digi_driver->desc);
     return 0;
 }
 
@@ -123,7 +123,7 @@ static int allegro_init_sound(warn_t *w, char *param, int *speed,
 
     voice = allocate_voice(buffer);
     if (voice < 0) {
-        fprintf(stderr, "Cannot allocate Allegro voice!\n");
+        fprintf(errfile, "Cannot allocate Allegro voice!\n");
         _unlock_dpmi_data(buffer->data, buffer_len * 2);
         _unlock_dpmi_data(buffer, sizeof(SAMPLE));
         return 1;
@@ -264,6 +264,6 @@ static sound_device_t allegro_device =
 
 int sound_init_allegro_device(void)
 {
-    printf("Initializing Allegro sound device.\n");
+    fprintf(logfile, "Initializing Allegro sound device.\n");
     return sound_register_device(&allegro_device);
 }

@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.26)
+AM_INIT_AUTOMAKE(vice, 0.15.0.27)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -82,7 +82,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_PRINTER, false)
 
-elif test x"$host_os" = "xcygwin32"; then
+elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
@@ -198,6 +198,8 @@ if test x"$with_resid" = "xno"; then
   dnl into VICE.
   no_recursion=yes
 else
+  AC_LANG_SAVE
+  AC_LANG_CPLUSPLUS
   AC_PROG_CXX
 
   dnl Set CXXFLAGS. Use -fno-exceptions for G++ if supported.
@@ -227,9 +229,11 @@ else
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
     RESID_DEP=libresid
   else
+    dnl reSID is installed elsewhere, no need to configure.
+    no_recursion=yes
+
     LDFLAGS="$LDFLAGS -L$with_resid/lib"
     CPPFLAGS="$CPPFLAGS -I$with_resid/include"
-    AC_LANG_CPLUSPLUS
 
     dnl Test for libresid.a and resid/sid.h
     AC_CHECK_LIB(resid, resid_version_string,
@@ -238,13 +242,13 @@ else
         AC_MSG_ERROR([reSID header file not found])),
       AC_MSG_ERROR([reSID library not found]))
 
-    AC_LANG_C
-
     AC_DEFINE(HAVE_RESID)
     RESID_DIR=
     RESID_LIBS="$with_resid/lib/libresid.a"
     RESID_INCLUDES="-I$with_resid/include"
   fi
+
+  AC_LANG_RESTORE
 fi
 
 AC_SUBST(LINKCC)
@@ -298,7 +302,7 @@ AC_DECL_SYS_SIGLIST
 
 dnl Check for system-specific header files.
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32"; then
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ JOYSTICK="-DHAS_JOYSTICK -DLINUX_JOYSTICK";
 		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )

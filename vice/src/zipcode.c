@@ -28,11 +28,16 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
+#ifdef __riscos
+#include "types.h"
+#else
 #include <unistd.h>
 #endif
+#endif
 
+#include "zipcode.h"
 
-int zipcode_read_sector(int zip_fd, int track, int *sector, char *buf)
+int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
 {
   unsigned char trk, sec, len, rep, repnum, chra;
   int i, j, count, t1, t2;

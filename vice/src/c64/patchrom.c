@@ -37,6 +37,10 @@
 #include <ctype.h>
 #endif
 
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 #include "mem.h"
 #include "patchrom.h"
 
@@ -251,7 +255,7 @@ int  patch_rom(const char *str)
         if (strcasecmp(str, "sx") == 0) {
             rev = 67;
         } else {
-            fprintf(stderr, "Invalid ROM revision `%s'.\n", str);
+            fprintf(errfile, "Invalid ROM revision `%s'.\n", str);
             return -1;
         }
     } else {
@@ -261,7 +265,7 @@ int  patch_rom(const char *str)
     curr = read_rom(0xff80);
 
     if (rev == curr) {
-	printf("ROM not patched: Already revision #%d\n", curr);
+	fprintf(logfile, "ROM not patched: Already revision #%d\n", curr);
 	return (0);
     }
 
@@ -287,18 +291,18 @@ int  patch_rom(const char *str)
       case 0:
 	break;
       default:
-	printf("Cannot patch ROM to revision #%d\n", rev);
+	fprintf(logfile, "Cannot patch ROM to revision #%d\n", rev);
 	return (-1);
     }
 
-    printf("\nInstalling ROM patch for revision #%d:\n", num);
+    fprintf(logfile, "\nInstalling ROM patch for revision #%d:\n", num);
 
     lcount = 0;
     i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
 	a = (ADDRESS)patch_bytes[i++];
 
-	printf("%.4X (%d byte%s)",
+	fprintf(logfile, "%.4X (%d byte%s)",
 	       a & 0xFFFF, bytes, ((bytes > 1) ? "s":""));
 
 	lcount++;

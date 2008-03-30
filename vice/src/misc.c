@@ -69,7 +69,7 @@
 #if 0
 void    show(void)
 {
-    printf(app_resources.hexFlag ? "%lx %4X %s\n" : "%ld %4d %s\n",
+    fprintf(logfile, app_resources.hexFlag ? "%lx %4X %s\n" : "%ld %4d %s\n",
            clk, maincpu_regs.pc,
            sprint_opcode(maincpu_regs.pc, app_resources.hexFlag));
 }
@@ -79,12 +79,11 @@ void    print_stack(BYTE sp)
 {
     int     i;
 
-    printf("Stack: ");
+    fprintf(logfile, "Stack: ");
     for (i = 0x101 + sp; i < 0x200; i += 2)
-	printf("%02X%02X  ", ram[i + 1], ram[i]);
-    printf("\n");
+	fprintf(logfile, "%02X%02X  ", ram[i + 1], ram[i]);
+    fprintf(logfile, "\n");
 }
-
 
 char   *sprint_binary(BYTE code)
 {

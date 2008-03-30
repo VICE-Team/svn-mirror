@@ -121,7 +121,7 @@ void wd1770d1_prevent_clk_overflow(CLOCK sub)
 static void store_wd1770(ADDRESS addr, BYTE byte, int dnr)
 {
 #ifdef WD_DEBUG
-    printf("WD WRITE ADDR: %i DATA:%x\n",addr,byte);
+    fprintf(logfile, "WD WRITE ADDR: %i DATA:%x\n",addr,byte);
 #endif
     wd1770[dnr].busy_clk = drive_clk[dnr];
 
@@ -209,7 +209,7 @@ static BYTE read_wd1770(ADDRESS addr, int dnr)
     }
     /*drive0_traceflg = 1;*/
 #ifdef WD_DEBUG
-    printf("WD READ ADDR: %i DATA:%x\n",addr,tmp);
+    fprintf(logfile, "WD READ ADDR: %i DATA:%x\n",addr,tmp);
 #endif
     return tmp;
 }
@@ -340,7 +340,7 @@ int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
                            sector_data, track, sector,
                            drive[dnr].drive_floppy->D64_Header);
     if (rc < 0) {
-        fprintf(stderr, 
+        fprintf(errfile, 
                 "DRIVE#%i: Error reading T:%d S:%d from the disk image\n",
                 dnr + 8, track, sector);
         return 2;
@@ -372,7 +372,7 @@ int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
                             sector_data, track, sector,
                             drive[dnr].drive_floppy->D64_Header);
     if (rc < 0) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "DRIVE#%i: Could not update T:%d S:%d.\n",
                  dnr + 8, track, sector);
         return 2;
@@ -398,7 +398,7 @@ void wd1770_handle_job_code(int dnr)
         }
         if (command & 0x80) {
 #ifdef WD_DEBUG
-            printf("WD1770 Buffer:%i Command:%x T:%i S:%i\n",
+            fprintf(logfile, "WD1770 Buffer:%i Command:%x T:%i S:%i\n",
             buffer, command, track, sector);
 #endif
             if (drive[dnr].drive_floppy != NULL

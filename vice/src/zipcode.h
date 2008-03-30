@@ -27,6 +27,8 @@
 #ifndef _ZIPCODE_H
 #define _ZIPCODE_H
 
-int zipcode_read_sector(int zip_fd, int track, int *sector, char *buf);
+#include "types.h"
+
+int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf);
 
 #endif /* _ZIPCODE_H */

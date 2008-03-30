@@ -67,7 +67,7 @@
 /* #define DEBUG_MMU */
 
 #ifdef DEBUG_MMU
-#define DEBUG(x) printf x
+#define DEBUG(x) fprintf x
 #else
 #define DEBUG(x)
 #endif
@@ -307,7 +307,7 @@ BYTE *page_zero, *page_one;
 static BYTE mmu[11];
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-int rom_loaded = 0;
+static int rom_loaded = 0;
 
 /* Memory read and write tables.  These are non-static to allow the CPU code
    to access them.  */
@@ -375,8 +375,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
                 /* (We handle only 128K here.)  */
                 ram_bank = ram + (((long) value & 0x40) << 10);
-                DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
-                DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
+                DEBUG((logfile, "MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
+                DEBUG((logfile, "MMU: RAM bank at $%05X\n", ram_bank - ram));
             }
             break;
 
@@ -388,8 +388,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 /* XXX: We only support 128K here.  */
                 vic_ii_set_ram_base(ram + ((value & 0x40) << 10));
 
-                DEBUG(("MMU: Store RCR = $%02x\n", value));
-                DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
+                DEBUG((logfile, "MMU: Store RCR = $%02x\n", value));
+                DEBUG((logfile, "MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
                 if ((value & 0x3) == 0)
                     shared_size = 1024;
@@ -399,21 +399,21 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 /* Share high memory?  */
                 if (value & 0x8) {
                     top_shared_limit = 0xffff - shared_size;
-                    DEBUG(("MMU: Sharing high RAM from $%04X\n",
+                    DEBUG((logfile, "MMU: Sharing high RAM from $%04X\n",
                            top_shared_limit + 1));
                 } else {
                     top_shared_limit = 0xffff;
-                    DEBUG(("MMU: No high shared RAM\n"));
+                    DEBUG((logfile, "MMU: No high shared RAM\n"));
                 }
 
                 /* Share low memory?  */
                 if (value & 0x4) {
                     bottom_shared_limit = shared_size;
-                    DEBUG(("MMU: Sharing low RAM up to $%04X\n",
+                    DEBUG((logfile, "MMU: Sharing low RAM up to $%04X\n",
                            bottom_shared_limit - 1));
                 } else {
                     bottom_shared_limit = 0;
-                    DEBUG(("MMU: No low shared RAM\n"));
+                    DEBUG((logfile, "MMU: No low shared RAM\n"));
                 }
             }
             break;
@@ -421,7 +421,7 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
           case 5:
             value = (value & 0x7f) | 0x30;
             if ((value & 0x41) != 0x01)
-                fprintf(stderr,
+                fprintf(errfile,
                         "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.\n",
                         value);
             break;
@@ -434,7 +434,7 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                          + (mmu[0x7] << 8));
             page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
                         + (mmu[0x9] << 8));
-            DEBUG(("MMU: Page Zero at $%05X, Page One at $%05X\n",
+            DEBUG((logfile, "MMU: Page Zero at $%05X, Page One at $%05X\n",
                    page_zero - ram, page_one - ram));
             break;
         }
@@ -998,7 +998,7 @@ void mem_powerup(void)
     int i;
 
 #ifndef __MSDOS__
-    printf("Initializing RAM for power-up...\n");
+    fprintf(logfile, "Initializing RAM for power-up...\n");
 #endif
 
     for (i = 0; i < 0x20000; i += 0x80) {
@@ -1026,7 +1026,7 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
                           kernal_rom, C128_KERNAL_ROM_SIZE,
                           C128_KERNAL_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load kernal ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load kernal ROM `%s'.\n",
                 kernal_rom_name);
         return -1;
     }
@@ -1036,19 +1036,19 @@ int mem_load(void)
 
     id = read_rom(0xff80);
 
-    printf("Kernal rev #%d.\n", id);
+    fprintf(logfile, "Kernal rev #%d.\n", id);
     if (id == 1
         && sum != C128_KERNAL_CHECKSUM_R01
         && sum != C128_KERNAL_CHECKSUM_R01SWE
         && sum != C128_KERNAL_CHECKSUM_R01GER)
-        fprintf(stderr, "Warning: Kernal image may be corrupted. Sum: %d\n",
+        fprintf(errfile, "Warning: Kernal image may be corrupted. Sum: %d\n",
                 sum);
 
     /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
                    basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
                        C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load basic ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load basic ROM `%s'.\n",
                 basic_rom_name);
         return -1;
     }
@@ -1057,7 +1057,7 @@ int mem_load(void)
         sum += basic_rom[i];
 
     if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
-        fprintf(stderr,
+        fprintf(errfile,
                 "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
                 basic_rom_name, sum, sum);
 
@@ -1071,15 +1071,15 @@ int mem_load(void)
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
         && sum != C128_EDITOR_CHECKSUM_R01GER) {
-        fprintf(stderr, "Warning: EDITOR image may be corrupted. Sum: %d\n",
+        fprintf(errfile, "Warning: EDITOR image may be corrupted. Sum: %d\n",
                 sum);
-        fprintf(stderr, "Check your Basic ROM\n");
+        fprintf(errfile, "Check your Basic ROM\n");
     }
     /* Load chargen ROM.  */
     if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C128_CHARGEN_ROM_SIZE,
                           C128_CHARGEN_ROM_SIZE) < 0) {
-        fprintf(stderr, "Couldn't load character ROM `%s'.\n",
+        fprintf(errfile, "Couldn't load character ROM `%s'.\n",
                 chargen_rom_name);
         return -1;
     }
@@ -1321,6 +1321,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
+        break;
     }
     return ram[addr];
 }
@@ -1361,6 +1362,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
             return;
         }
       case 1:                   /* ram */
+        break;
     }
     ram[addr] = byte;
 }
@@ -1431,7 +1433,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
@@ -1530,7 +1532,7 @@ int mem_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(stderr,
+        fprintf(errfile,
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);

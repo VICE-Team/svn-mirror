@@ -30,9 +30,15 @@
 #define PET_KERNAL2001NAME  "pet2001"
 #define PET_KERNAL3032NAME  "pet3032"
 #define PET_KERNAL4032NAME  "pet4032"
+#ifdef __riscos
+#define PET_EDITOR2B40NAME  "edit2/b"
+#define PET_EDITOR4B40NAME  "edit4/b40"
+#define PET_EDITOR4B80NAME  "edit4/b80"
+#else
 #define PET_EDITOR2B40NAME  "edit2.b"
 #define PET_EDITOR4B40NAME  "edit4.b40"
 #define PET_EDITOR4B80NAME  "edit4.b80"
+#endif
 #define PET_COLS	80
 
 typedef struct PetInfo {
@@ -50,7 +56,7 @@ typedef struct PetInfo {
 	/* ROM image resources */
 	char		*chargenName;	/* Character ROM */
 	char		*kernalName;	/* ROM to load before others */
-					/* the following override kernalName 
+					/* the following override kernalName
 					   for their specific area */
 	char		*editorName;	/* $E*** ROM image filename */
 	char		*memBname;	/* $B*** ROM image filename */

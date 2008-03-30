@@ -30,9 +30,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifndef __riscos
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#endif
 #include <memory.h>
 #include <assert.h>
 #include <errno.h>
@@ -179,7 +181,7 @@ int cartridge_attach_image(int type, const char *filename)
     if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
 
-    printf("Cartridge: Attach type %d, file=%s\n", type, filename);
+    fprintf(logfile, "Cartridge: Attach type %d, file=%s\n", type, filename);
 
     fd = zfopen(filename, READ);
     if (!fd)

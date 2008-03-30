@@ -34,6 +34,14 @@
 /* Name of the machine.  */
 extern const char machine_name[];
 
+/* A little handier way to identify the machine: */
+#define VICE_MACHINE_NONE      0
+#define VICE_MACHINE_C64       1
+#define VICE_MACHINE_C128      2
+#define VICE_MACHINE_VIC20     3
+#define VICE_MACHINE_PET       4
+extern int machine_class;
+
 /* Initialize the machine's resources.  */
 int machine_init_resources(void);
 

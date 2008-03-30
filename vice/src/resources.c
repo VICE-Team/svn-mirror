@@ -48,6 +48,10 @@
 #include "utils.h"
 #include "ui.h"
 
+#ifdef __riscos
+#include "machine.h"
+#endif
+
 static int num_resources, num_allocated_resources;
 static resource_t *resources;
 static const char *machine_id;
@@ -57,12 +61,6 @@ static const char *machine_id;
 #define RESOURCE_FILE_NAME	"VICERC"
 #else
 #define RESOURCE_FILE_NAME	".vicerc"
-#endif
-
-#if 0
-#define RWARNING(s)     printf s
-#else
-#define RWARNING(s)
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -124,8 +122,8 @@ int resources_set_value(const char *name, resource_value_t value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        RWARNING(("Warning: Trying to assign value to unknown resource `%s'\n",
-                  name));
+        fprintf(logfile, "Warning: Trying to assign value to unknown resource `%s'\n",
+                  name);
         return -1;
     }
 
@@ -137,8 +135,8 @@ int resources_set_value_string(const char *name, const char *value)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        RWARNING(("Warning: Trying to assign value to unknown resource `%s'\n",
-                  name));
+        fprintf(logfile, "Warning: Trying to assign value to unknown resource `%s'\n",
+                  name);
         return -1;
     }
 
@@ -148,7 +146,7 @@ int resources_set_value_string(const char *name, const char *value)
       case RES_STRING:
         return r->set_func((resource_value_t) value);
       default:
-        fprintf(stderr, "Warning: unknown resource type for `%s'\n",
+        fprintf(errfile, "Warning: unknown resource type for `%s'\n",
                 name);
         return -1;
     }
@@ -161,8 +159,8 @@ int resources_get_value(const char *name, resource_value_t *value_return)
     resource_t *r = lookup(name);
 
     if (r == NULL) {
-        RWARNING(("Warning: Trying to read value from unknown resource `%s'\n",
-                  name));
+        fprintf(logfile, "Warning: Trying to read value from unknown resource `%s'\n",
+                  name);
         return -1;
     }
 
@@ -174,7 +172,7 @@ int resources_get_value(const char *name, resource_value_t *value_return)
         *(char **)value_return = *(char **)r->value_ptr;
         break;
       default:
-        fprintf(stderr, "Warning: unknown resource type for `%s'\n",
+        fprintf(errfile, "Warning: unknown resource type for `%s'\n",
                 name);
         return -1;
     }
@@ -198,8 +196,8 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     int value;
 
     if (r == NULL) {
-        RWARNING((stderr, "Warning: Trying to toggle boolean value of unknown resource `%s'\n",
-                  name));
+        fprintf(logfile, "Warning: Trying to toggle boolean value of unknown resource `%s'\n",
+                  name);
         return -1;
     }
 
@@ -277,7 +275,12 @@ static const char *default_resource_file(void)
 	   stored.  */
 	fname = concat(boot_path, "\\", RESOURCE_FILE_NAME, NULL);
 #else
+#ifdef __riscos
+        fname = malloc(strlen("Vice:vicerc") + strlen(machine_name) + 2);
+        sprintf(fname, "Vice:%s.vicerc", machine_name);
+#else
 	fname = concat(getenv("HOME"), "/", RESOURCE_FILE_NAME, NULL);
+#endif
 #endif
     }
 
@@ -330,7 +333,7 @@ static int read_resource_item(FILE *f)
 
         r = lookup(buf);
         if (r == NULL) {
-            fprintf(stderr, "Unknown resource `%s'.\n", buf);
+            fprintf(errfile, "Unknown resource `%s'.\n", buf);
             return -1;
         }
 
@@ -342,14 +345,14 @@ static int read_resource_item(FILE *f)
             result = r->set_func((resource_value_t) arg_ptr);
             break;
           default:
-            fprintf(stderr, "Warning: Unknown resource type for `%s'.\n",
+            fprintf(errfile, "Warning: Unknown resource type for `%s'.\n",
                     r->name);
             result = -1;
         }
 
         if (result < 0) {
-            RWARNING((stderr, "Warning: Cannot assign value to resource `%s'.\n",
-                      r->name));
+            fprintf(logfile, "Warning: Cannot assign value to resource `%s'.\n",
+                      r->name);
             return -1;
         }
 
@@ -380,7 +383,7 @@ int resources_load(const char *fname)
 	return RESERR_FILE_NOT_FOUND;
     }
 
-    printf("Reading configuration file `%s'.\n", fname);
+    fprintf(logfile, "Reading configuration file `%s'.\n", fname);
 
     /* Find the start of the configuration section for this emulator.  */
     for (line_num = 1; ; line_num++) {
@@ -400,7 +403,7 @@ int resources_load(const char *fname)
     do {
 	retval = read_resource_item(f);
 	if (retval == -1) {
-	    fprintf(stderr, "%s: Invalid resource specification at line %d.\n",
+	    fprintf(errfile, "%s: Invalid resource specification at line %d.\n",
 		    fname, line_num);
 	    err = 1;
 	}
@@ -433,7 +436,7 @@ static void write_resource_item(FILE *f, int num)
             fprintf(f, "\"%s\"", (char *)v);
         break;
       default:
-        fprintf(stderr, "Warning: Unknown value type for resource `%s'.\n",
+        fprintf(errfile, "Warning: Unknown value type for resource `%s'.\n",
                 resources[num].name);
     }
     fputc('\n', f);
@@ -459,7 +462,7 @@ int resources_save(const char *fname)
     else
 	have_old = 0;
 
-    printf("Writing configuration file `%s'.\n", fname);
+    fprintf(logfile, "Writing configuration file `%s'.\n", fname);
 
 #ifdef __MSDOS__
     out_file = fopen(fname, "wt");
@@ -533,6 +536,9 @@ int resources_save(const char *fname)
 	fclose(in_file);
 
     fclose(out_file);
+#ifdef __riscos
+    remove(backup_name);
+#endif
     free(backup_name);
     return 0;
 }

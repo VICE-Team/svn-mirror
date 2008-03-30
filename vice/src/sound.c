@@ -42,6 +42,14 @@
 #include "maincpu.h"
 #include "utils.h"
 
+/* Move to header files later on */
+#ifdef __riscos
+/* Hack; we defined write as fwrite at another place */
+#undef write
+#undef close
+#endif
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
@@ -51,8 +59,8 @@
 
 static int playback_enabled;          /* app_resources.sound */
 static int sample_rate;               /* app_resources.soundSampleRate */
-static char *device_name;             /* app_resources.soundDeviceName */
-static char *device_arg;              /* app_resources.soundDeviceArg */
+static char *device_name=NULL;        /* app_resources.soundDeviceName */
+static char *device_arg=NULL;         /* app_resources.soundDeviceArg */
 static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
@@ -115,7 +123,7 @@ static int set_oversampling_factor(resource_value_t v)
 {
     oversampling_factor = (int)v;
     if (oversampling_factor < 0 || oversampling_factor > 3) {
-        fprintf(stderr, "Warning: invalid oversampling factor %d."
+        fprintf(errfile, "Warning: invalid oversampling factor %d."
                 "  Forcing 3.\n", oversampling_factor);
         oversampling_factor = 3;
     }
@@ -131,7 +139,7 @@ static resource_t resources[] = {
       (resource_value_t *) &sample_rate, set_sample_rate },
     { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
       (resource_value_t) &device_name, set_device_name },
-    { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
+    { "SoundDeviceArg", RES_STRING, (resource_value_t) "SoundDump",
       (resource_value_t *) &device_arg, set_device_arg },
     { "SoundBufferSize", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
       (resource_value_t *) &buffer_size, set_buffer_size },
@@ -413,6 +421,10 @@ static int sound_run_sound(void)
 	if (i)
 	    return i;
     }
+#ifdef __riscos
+    /* RISC OS vidc device uses a different approach... */
+    if (LinToLog != NULL) return 0;
+#endif
     nr = (clk - snddata.fclk) / snddata.clkstep;
     if (!nr)
 	return 0;
@@ -425,6 +437,14 @@ static int sound_run_sound(void)
     snddata.fclk += nr*snddata.clkstep;
     return 0;
 }
+
+#ifdef __riscos
+void sound_synthesize(unsigned char *buffer, int length)
+{
+    sound_machine_calculate_samples(snddata.psid, (SWORD*)buffer, length);
+    snddata.fclk += length * snddata.clkstep;
+}
+#endif
 
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
@@ -557,7 +577,7 @@ int sound_flush(int relative_speed)
 		if (minspace > snddata.fragsize)
 		    dir = 1;
 #if 0
-		printf("sync %d %d %f\n", dir, minspace, snddata.clkfactor);
+		fprintf(logfile, "sync %d %d %f\n", dir, minspace, snddata.clkfactor);
 #endif
 		minspace = snddata.bufsize;
 	    }
@@ -689,6 +709,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef WINCE
     sound_init_ce_device();
 #endif
+#ifdef __riscos
+    sound_init_vidc_device();
+#endif
 
     sound_init_dummy_device();
     sound_init_fs_device();
@@ -710,7 +733,8 @@ void sound_prevent_clk_overflow(CLOCK sub)
 
 double sound_sample_position(void)
 {
-    return (clk - snddata.fclk) / snddata.clkstep;
+    return (snddata.clkstep == 0) 
+               ? 0.0 : (clk - snddata.fclk) / snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)

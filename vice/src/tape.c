@@ -32,12 +32,16 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#ifdef __riscos
+#include "ROlib.h"
+#else
 #include <sys/types.h>
+#include <unistd.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <unistd.h>
 #endif
 
 #include "vdrive.h"
@@ -114,7 +118,7 @@ int  read_pc64header (FILE *fd, char *name, int *reclen)
 
 
     if (fread (&hdr, sizeof(X00HDR), 1, fd) != 1) {
-	fprintf (stderr, "\nP00 header read failed.\n");
+	fprintf (errfile, "\nP00 header read failed.\n");
 	return (FD_RDERR);
     }
 
@@ -335,17 +339,17 @@ int  check_t64_header (FILE *fd)
 
 
     if (buf[32] != 0 || buf[33] != 1)
-	fprintf (stderr, "Warning: Unknown tape version.\n");
+	fprintf (errfile, "Warning: Unknown tape version.\n");
 
     maxentries = buf[34];
     maxentries |= (buf[35] << 8);
 
     if (!maxentries) {
-	printf("Cannot locate any files on the tape.\n");
+	fprintf(logfile, "Cannot locate any files on the tape.\n");
 	return (FD_BADIMAGE);		/* tapeimage, that is */
     }
 
-    printf("Tape version %d.%.2d with %2d out of %d files.\n",
+    fprintf(logfile, "Tape version %d.%.2d with %2d out of %d files.\n",
 	   buf[33], buf[32], (buf[37] << 8) | buf[36], maxentries);
 
     return (maxentries);
@@ -360,10 +364,11 @@ char *read_tape_image_contents(const char *fname)
     BYTE inbuf[TAPE_HDR_SIZE + 1];
     char linebuf[512], *outbuf;
     int outbuf_size, max_outbuf_size;
-    int no_entries, max_entries, res, fd, len, i;
+    int no_entries, max_entries, res, len, i;
+    file_desc_t fd;
 
     fd = zopen(fname, O_RDONLY, 0);
-    if (fd < 0)
+    if (fd == ILLEGAL_FILE_DESC)
 	return NULL;
 
     /* Check whether this really looks like a tape image. */
@@ -383,7 +388,7 @@ char *read_tape_image_contents(const char *fname)
 
     /* Check a little bit... */
     if (no_entries > max_entries) {
-	fprintf(stderr, "Tape inconsistency, giving up!\n");
+	fprintf(errfile, "Tape inconsistency, giving up!\n");
 	zclose(fd);
 	return NULL;
     }

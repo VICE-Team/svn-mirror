@@ -294,10 +294,11 @@ void autostart_advance(void)
                     no_traps = 0;
 
                 if (autostart_program_name) {
-                    tmp = alloca(strlen(autostart_program_name) + 20);
+                    tmp = malloc(strlen(autostart_program_name) + 20);
                     sprintf(tmp, "load\"%s\",8,1\r",
                             autostart_program_name);
                     kbd_buf_feed(tmp);
+                    free(tmp);
                 } else
                     kbd_buf_feed("load\"*\",8,1\r");
 
@@ -425,7 +426,7 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 	return -1;
 
     if (!autostart_enabled) {
-	fprintf(stderr, "Couldn't autostart - unknown kernal!");
+	fprintf(errfile, "Couldn't autostart - unknown kernal!");
 	return -1;
     }
     if (autostart_disk(file_name, program_name) == 0)
