@@ -27,6 +27,7 @@ libxawui_a_SOURCES = \
 	uihotkey.h \
 	uimenu.c \
 	uimenu.h \
+	uiscreenshot.c \
 	uisnapshot.c \
 	videoarch.h \
 	x11video.c \

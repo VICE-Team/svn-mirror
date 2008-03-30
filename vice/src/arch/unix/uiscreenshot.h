@@ -35,7 +35,7 @@
 #define UISS_BMP 0
 #define UISS_PNG 1
 
-extern UI_CALLBACK(save_screenshot);
+extern int ui_screenshot_dialog(char *, int);
 
 #endif
 
