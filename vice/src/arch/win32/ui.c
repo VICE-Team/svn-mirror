@@ -865,7 +865,7 @@ char *dname;
 
             if ((s = ui_select_file("Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
-                "Tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
+                "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (autostart_autodetect(s, "*") < 0)
                     ui_error("Cannot autostart specified file.");
