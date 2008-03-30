@@ -409,13 +409,13 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-#define ANE(value, clk_inc1, clk_inc2, pc_inc)          \
-  do {                                                  \
-      CLK += (clk_inc1);                                \
-      reg_a = ((reg_a | 0xee) & reg_x & (value));       \
-      LOCAL_SET_NZ(reg_a);                              \
-      CLK += (clk_inc2);                                \
-      INC_PC(pc_inc);                                   \
+#define ANE(value, clk_inc1, clk_inc2, pc_inc)            \
+  do {                                                    \
+      CLK += (clk_inc1);                                  \
+      reg_a = ((reg_a | 0xee) & reg_x & ((BYTE)(value))); \
+      LOCAL_SET_NZ(reg_a);                                \
+      CLK += (clk_inc2);                                  \
+      INC_PC(pc_inc);                                     \
   } while (0)
 
 /* The fanciest opcode ever... ARR! */
@@ -786,7 +786,7 @@
 #define LDA(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                          \
       CLK += (clk_inc1);                        \
-      reg_a = (value);                          \
+      reg_a = (BYTE)(value);                    \
       CLK += (clk_inc2);                        \
       LOCAL_SET_NZ(reg_a);                      \
       INC_PC(pc_inc);                           \
@@ -795,7 +795,7 @@
 #define LDX(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                          \
       CLK += (clk_inc1);                        \
-      reg_x = (value);                          \
+      reg_x = (BYTE)(value);                    \
       LOCAL_SET_NZ(reg_x);                      \
       CLK += (clk_inc2);                        \
       INC_PC(pc_inc);                           \
@@ -804,7 +804,7 @@
 #define LDY(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                          \
       CLK += (clk_inc1);                        \
-      reg_y = (value);                          \
+      reg_y = (BYTE)(value);                    \
       LOCAL_SET_NZ(reg_y);                      \
       CLK += (clk_inc2);                        \
       INC_PC(pc_inc);                           \
@@ -840,7 +840,7 @@
 #define LXA(value, clk_inc1, clk_inc2, pc_inc)                  \
   do {                                                          \
       CLK += (clk_inc1);                                        \
-      reg_a = reg_x = ((reg_a | 0xee) & (value));               \
+      reg_a = reg_x = ((reg_a | 0xee) & ((BYTE)(value)));       \
       LOCAL_SET_NZ(reg_a);                                      \
       CLK += (clk_inc2);                                        \
       INC_PC(pc_inc);                                           \
@@ -1094,7 +1094,7 @@
       WORD src, tmp;                                                         \
                                                                              \
       CLK += (clk_inc1);                                                     \
-      src = (value);                                                         \
+      src = (WORD)(value);                                                   \
       CLK += (clk_inc2);                                                     \
       tmp = reg_a - src - ((reg_p & P_CARRY) ? 0 : 1);                       \
       if (reg_p & P_DECIMAL) {                                               \
