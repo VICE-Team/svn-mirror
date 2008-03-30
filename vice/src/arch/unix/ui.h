@@ -31,11 +31,7 @@
 
 #include "types.h"
 #include "uiapi.h"
-#ifdef USE_GNOMEUI
-#include "x11/gnome/uiarch.h"
-#else
-#include "x11/xaw/uiarch.h"
-#endif
+
 
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
    systems which have Meta, it's better to use Meta instead of Alt as
@@ -66,19 +62,6 @@ typedef enum {
 struct video_canvas_s;
 struct palette_s;
 
-extern int ui_proc_read_msg(char* msg, size_t size, int block);
-extern ui_window_t ui_open_canvas_window(struct video_canvas_s *c,
-                                         const char *title, int width,
-                                         int height, int no_autorepeat,
-                                         ui_exposure_handler_t exposure_proc,
-                                         const struct palette_s *p,
-                                         BYTE pixel_return[]);
-extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
-extern void ui_move_canvas_window(ui_window_t w, int x, int y);
-extern void ui_canvas_position(ui_window_t w, int *x, int *y);
-extern void ui_get_widget_size(ui_window_t win, int *w, int *h);
-extern void ui_map_canvas_window(ui_window_t w);
-extern void ui_unmap_canvas_window(ui_window_t w);
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
@@ -108,17 +91,13 @@ extern void ui_update_flip_menus(int from_unit, int to_unit);
 
 extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
-extern void ui_proc_start(void);
-extern void ui_destroy_widget(ui_window_t w);
 extern void ui_set_topmenu(const char *menu_name, ...);
 extern void ui_set_selected_file(int num);
-extern int ui_get_display_depth(void);
-extern Display *ui_get_display_ptr(void);
 
 extern void ui_destroy_drive8_menu(void);
 extern void ui_destroy_drive9_menu(void);
 
 extern void ui_update_pal_ctrls(int v);
 
-#endif /* !_UI_H_ */
+#endif
 
