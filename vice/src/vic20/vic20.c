@@ -227,7 +227,7 @@ int machine_init(void)
 
     /* Load the default keymap file.  */
 #ifndef __MSDOS__
-    if (kbd_init(/* "default.vkm" */) < 0)
+    if (kbd_init() < 0)
         return -1;
 #else
     if (vic20_kbd_init() < 0)

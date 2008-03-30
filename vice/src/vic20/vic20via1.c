@@ -483,7 +483,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	BYTE m;
 	int i;
 
-	for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
+	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
 
@@ -505,7 +505,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
 	int m, i;
 
-	for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 	    if (!(msk & m))
 	        val &= ~keyarr[i];
 
@@ -587,7 +587,7 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
 	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
 	int m, i;
 
-	for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 	    if (!(msk & m))
 	        val &= ~keyarr[i];
 

@@ -1,4 +1,32 @@
+/*
+ * vic20kbd.c -- VIC20 keyboard handling for MS-DOS.
+ *
+ * Written by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
 #include "vice.h"
+
+#include <stdio.h>
 
 #include "vic20kbd.h"
 #include "kbd.h"
@@ -111,11 +139,10 @@ static keyconv vic20_keyboard[256] = {
     { -1, -1, 0 },		/*    Right Alt -> (no key) 	*/
     { -1, -1, 0 },		/*        Break -> (no key) 	*/
     { -1, -1, 0 },		/*   Left Win95 -> (no key) 	*/
-    { -1, -1, 0 },		/*  Right Win95 -> (no key) 	*/
+    { -1, -1, 0 }		/*  Right Win95 -> (no key) 	*/
 };
 
 int vic20_kbd_init(void)
 {
-    return kbd_init(vic20_keyboard, sizeof(vic20_keyboard),
-		    3, 1);
+    return kbd_init(3, 1, vic20_keyboard, sizeof(vic20_keyboard), NULL);
 }
