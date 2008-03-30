@@ -31,15 +31,25 @@
 #include <tchar.h>
 #include <prsht.h>
 
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
+#endif
+
+#include "keyboard.h"
+#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "ui.h"
 #include "uikeyboard.h"
+#include "uilib.h"
+#include "util.h"
 #include "winmain.h"
 
 
 static unsigned int uikeyboard_mapping_num;
 static const uikeyboard_mapping_entry_t *mapping_entry;
+static int mapping_idc_dump;
 
 
 static int mapping_index_get(void)
@@ -93,6 +103,44 @@ static void init_mapping_dialog(HWND hwnd)
 
 static void end_mapping_dialog(HWND hwnd)
 {
+    unsigned int i;
+
+    for (i = 0; i < uikeyboard_mapping_num; i++) {
+        TCHAR st[MAX_PATH];
+        char s[MAX_PATH];
+
+        GetDlgItemText(hwnd, mapping_entry[i].idc_filename, st, MAX_PATH);
+        system_wcstombs(s, st, MAX_PATH);
+        resources_set_value(mapping_entry[i].res_filename,
+                            (resource_value_t)s);
+    }
+}
+
+static void browse_mapping(HWND hwnd, unsigned int index)
+{
+    uilib_select_browse(hwnd, TEXT("Select keymap file"),
+                        UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
+                        mapping_entry[index].idc_filename);
+}
+
+static void dump_mapping(HWND hwnd)
+{
+    TCHAR *st_name;
+
+    if ((st_name = uilib_select_file(hwnd, TEXT("Save keymap file"),
+        UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
+        UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
+
+        util_add_extension(&name, "vkm");
+
+        if (keyboard_keymap_dump(name) != 0)
+            ui_error("Cannot write keymap file");
+        system_wcstombs_free(name);
+        lib_free(st_name);
+    }
 }
 
 static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -123,7 +171,11 @@ static BOOL CALLBACK mapping_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             for (i = 0; i < uikeyboard_mapping_num; i++) {
                 if (LOWORD(wparam) == mapping_entry[i].idc_select)
                     enable_mapping_controls(hwnd, LOWORD(wparam));
+                if (LOWORD(wparam) == mapping_entry[i].idc_browse)
+                    browse_mapping(hwnd, i);
             }
+            if (LOWORD(wparam) == mapping_idc_dump)
+                dump_mapping(hwnd);
         }
         return FALSE;
       case WM_CLOSE:
@@ -145,6 +197,7 @@ void uikeyboard_settings_dialog(HWND hwnd,
 
     uikeyboard_mapping_num = uikeyboard_config->num_mapping;
     mapping_entry = uikeyboard_config->mapping_entry;
+    mapping_idc_dump = uikeyboard_config->idc_dump;
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;

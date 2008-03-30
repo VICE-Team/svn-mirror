@@ -32,6 +32,10 @@
 #include <windows.h>
 #include <prsht.h>
 
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
+#endif
+
 #include "hardsid.h"
 #include "machine.h"
 #include "res.h"

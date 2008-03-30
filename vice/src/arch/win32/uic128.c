@@ -31,6 +31,10 @@
 #include <tchar.h>
 #include <windows.h>
 
+#ifndef DUMMYUNIONNAME
+#define DUMMYUNIONNAME  u1
+#endif
+
 #include "lib.h"
 #include "machine.h"
 #include "res.h"

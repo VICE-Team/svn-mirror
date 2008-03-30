@@ -133,13 +133,13 @@ static void init_sound_dialog(HWND hwnd)
     switch (res_value) {
       case SOUND_ADJUST_FLEXIBLE:
       default:
-        res_value=0;
+        res_value = 0;
         break;
       case SOUND_ADJUST_ADJUSTING:
-        res_value=1;
+        res_value = 1;
         break;
       case SOUND_ADJUST_EXACT:
-        res_value=2;
+        res_value = 2;
         break;
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -173,6 +173,18 @@ static void end_sound_dialog(HWND hwnd)
                         CB_GETCURSEL, 0, 0)]);
 }
 
+static void select_dx(void)
+{
+    resources_set_value("SoundDeviceName",(resource_value_t)"dx");
+    ui_display_statustext("Sound driver: DirectX");
+}
+
+static void select_wmm(void)
+{
+    resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
+    ui_display_statustext("Sound driver: WMM");
+}
+
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
@@ -187,12 +199,10 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_SOUND_DIRECTX:
-            resources_set_value("SoundDeviceName",(resource_value_t)"dx");
-            ui_display_statustext("Sound driver: DirectX");
+            select_dx();
             break;
           case IDC_SOUND_WMM:
-            resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
-            ui_display_statustext("Sound driver: WMM");
+            select_wmm();
             break;
           case IDOK:
             end_sound_dialog(hwnd);
