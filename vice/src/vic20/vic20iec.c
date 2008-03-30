@@ -59,12 +59,17 @@ void vic20iec_init(void)
 
 static inline void resolve_bus_signals(void)
 {
+    drive_t *drive0, *drive1;
+
+    drive0 = drive_context[0]->drive;
+    drive1 = drive_context[1]->drive;
+
     bus_atn = NOT(cpu_atn);
-    bus_clock = NOT(cpu_clock) & (drive[0].enable ? NOT(drive_clock) : 0x01)
-                               & (drive[1].enable ? NOT(drive2_clock) : 0x01);
-    bus_data = (drive[0].enable
+    bus_clock = NOT(cpu_clock) & (drive0->enable ? NOT(drive_clock) : 0x01)
+                               & (drive1->enable ? NOT(drive2_clock) : 0x01);
+    bus_data = (drive0->enable
                      ? NOT(drive_data) & NOT(drive_data_modifier) : 0x01)
-                 & (drive[1].enable
+                 & (drive1->enable
                      ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0x01)
                  & NOT(cpu_data);
 #ifdef BUS_DBG
@@ -85,7 +90,7 @@ void iec_update_ports_embedded(void)
 
 static void iec_calculate_data_modifier(void)
 {
-    if (drive[0].type != DRIVE_TYPE_1581)
+    if (drive_context[0]->drive->type != DRIVE_TYPE_1581)
         drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
     else
         drive_data_modifier = (cpu_atn & drive_atna);
@@ -93,7 +98,7 @@ static void iec_calculate_data_modifier(void)
 
 static void iec_calculate_data_modifier2(void)
 {
-    if (drive[1].type != DRIVE_TYPE_1581)
+    if (drive_context[1]->drive->type != DRIVE_TYPE_1581)
         drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
     else
         drive2_data_modifier = (cpu_atn & drive2_atna);
@@ -163,21 +168,25 @@ BYTE iec_pa_read(void)
 void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
+    drive_t *drive0, *drive1;
+
+    drive0 = drive_context[0]->drive;
+    drive1 = drive_context[1]->drive;
 
     drivecpu_execute_all(maincpu_clk);
 
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
-        if (drive[0].enable) {
-            if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
+        if (drive0->enable) {
+            if (drive0->type != DRIVE_TYPE_1581)
+                viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
                                VIA_SIG_RISE);
             else
                 ciacore_set_flag(drive0_context.cia1581);
         }
-        if (drive[1].enable) {
-            if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
+        if (drive1->enable) {
+            if (drive1->type != DRIVE_TYPE_1581)
+                viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
                                VIA_SIG_RISE);
             else
                 ciacore_set_flag(drive1_context.cia1581);
@@ -186,13 +195,13 @@ void iec_pa_write(BYTE data)
 
     /* Release ATN signal.  */
     if (!(data & 128)) {
-        if (drive[0].enable) {
-            if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1, 0);
+        if (drive0->enable) {
+            if (drive0->type != DRIVE_TYPE_1581)
+                viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1, 0);
         }
-        if (drive[1].enable) {
-            if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1, 0);
+        if (drive1->enable) {
+            if (drive1->type != DRIVE_TYPE_1581)
+                viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1, 0);
         }
     }
 
@@ -215,7 +224,8 @@ void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
         return;
 
     drivecpu_execute_all(maincpu_clk);
@@ -270,5 +280,4 @@ void iec_calculate_callback_index(void)
 {
     /* This callback can be used for optimization.  */
 }
-
 
