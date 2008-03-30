@@ -33,6 +33,7 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "lib.h"
+#include "mc6821.h"
 #include "memiec.h"
 #include "types.h"
 #include "via1d1541.h"
@@ -273,8 +274,15 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         }
     }
 
-    if (rom_loaded && (type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
+    if (rom_loaded && (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
+        || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
         || type == DRIVE_TYPE_1571CR)) {
+        if (drv->drive->drive_mc6821_enabled) {
+            for (i = 0x50; i < 0x60; i++) {
+                cpud->read_func_nowatch[i] = mc6821_read;
+                cpud->store_func_nowatch[i] = mc6821_store;
+            }
+        }
         if (drv->drive->drive_ram6_enabled) {
             if (drv->drive->drive_ram_expand6 != NULL)
                 lib_free(drv->drive->drive_ram_expand6);
