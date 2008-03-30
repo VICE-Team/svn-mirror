@@ -28,40 +28,44 @@ register, two timers, a Time of Day clock and interrupts.
 
    Version numbers: Major 1, Minor 0.
 
-Type    Name           Description                                        
-BYTE    ORA            Output register A                                  
-BYTE    ORB            Output register B                                  
-BYTE    DDRA           Data direction register A                          
-BYTE    DDRB           Data direction register B                          
-WORD    TAC            Timer A counter value                              
-WORD    TBC            Timer B counter value                              
-BYTE    TOD_TEN        Time of Day - current tenth of second              
-BYTE    TOD_SEC        Time of Day - current seconds                      
-BYTE    TOD_MIN        Time of Day - current minutes                      
-BYTE    TOD_HR         Time of Day - current hours                        
-BYTE    SDR            contents of shift register                         
-BYTE    IER            mask of enabled interrupt masks                    
-BYTE    CRA            Control register A                                 
-BYTE    CRB            Control register B                                 
-WORD    TAL            Timer A latch value                                
-WORD    TBL            Timer B latch value                                
-BYTE    IFR            mask of currently active interrupts                
-BYTE    PBSTATE        Bit 6/7 reflect the PB6/7 toggle bit state. Bit    
-                       2/3 reflect the corresponding port bit state.      
-BYTE    SRHBITS        number of half-bits to still shift in/out SDR      
-BYTE    ALARM_TEN      Time of Day - alarm tenth of second                
-BYTE    ALARM_SEC      Time of Day - alarm seconds                        
-BYTE    ALARM_MIN      Time of Day - alarm minutes                        
-BYTE    ALARM_HR       Time of Day - alarm hours                          
-BYTE    READICR        current clock minus the clock when ICR was read    
-                       last plus 128.                                     
-BYTE    TODLATCHED     Bit 0: 1= latched for reading, Bit 1: 2=stopped    
-                       for writing                                        
-BYTE    TODL_TEN       Time of Day - latched tenth of second              
-BYTE    TODL_SEC       Time of Day - latched seconds                      
-BYTE    TODL_MIN       Time of Day - latched minutes                      
-BYTE    TODL_HR        Time of Day - latched hours                        
-DWORD   TOD_TICKS      clk ticks till next tenth of second                
+Type    Name                          Description                          
+BYTE    ORA                           Output register A                    
+BYTE    ORB                           Output register B                    
+BYTE    DDRA                          Data direction register A            
+BYTE    DDRB                          Data direction register B            
+WORD    TAC                           Timer A counter value                
+WORD    TBC                           Timer B counter value                
+BYTE    TOD_TEN                       Time of Day - current tenth of       
+                                      second                               
+BYTE    TOD_SEC                       Time of Day - current seconds        
+BYTE    TOD_MIN                       Time of Day - current minutes        
+BYTE    TOD_HR                        Time of Day - current hours          
+BYTE    SDR                           contents of shift register           
+BYTE    IER                           mask of enabled interrupt masks      
+BYTE    CRA                           Control register A                   
+BYTE    CRB                           Control register B                   
+WORD    TAL                           Timer A latch value                  
+WORD    TBL                           Timer B latch value                  
+BYTE    IFR                           mask of currently active interrupts  
+BYTE    PBSTATE                       Bit 6/7 reflect the PB6/7 toggle     
+                                      bit state.  Bit 2/3 reflect the      
+                                      corresponding port bit state.        
+BYTE    SRHBITS                       number of half-bits to still shift   
+                                      in/out SDR                           
+BYTE    ALARM_TEN                     Time of Day - alarm tenth of second  
+BYTE    ALARM_SEC                     Time of Day - alarm seconds          
+BYTE    ALARM_MIN                     Time of Day - alarm minutes          
+BYTE    ALARM_HR                      Time of Day - alarm hours            
+BYTE    READICR                       current clock minus the clock when   
+                                      ICR was read last plus 128.          
+BYTE    TODLATCHED                    Bit 0: 1= latched for reading, Bit   
+                                      1: 2=stopped for writing             
+BYTE    TODL_TEN                      Time of Day - latched tenth of       
+                                      second                               
+BYTE    TODL_SEC                      Time of Day - latched seconds        
+BYTE    TODL_MIN                      Time of Day - latched minutes        
+BYTE    TODL_HR                       Time of Day - latched hours          
+DWORD   TOD_TICKS                     clk ticks till next tenth of second  
 
 
 File: vice.info,  Node: VIA 6522 module,  Next: PIA 6520 module,  Prev: CIA 6526 module,  Up: Module formats
@@ -74,27 +78,31 @@ with 2 8-bit I/O ports, a shift register, two timers and interrupts.
 
    Version numbers: Major 1, Minor 0.
 
-Type    Name           Description                                        
-BYTE    ORA            Output register A                                  
-BYTE    DDRA           Data direction register A                          
-BYTE    ORB            Output register B                                  
-BYTE    DDRB           Data direction register B                          
-WORD    T1L            Timer 1 Latch value                                
-WORD    T1C            Timer 1 counter value                              
-BYTE    T2L            Timer 2 latch (8 bit as only lower byte is used)   
-WORD    T2C            Timer 2 counter value                              
-BYTE    RUNFL          bit 7: timer 1 will generate IRQ on underflow;     
-                       bit 6: timer 2 will generate IRQ on underflow      
-BYTE    SR             Shift register value                               
-BYTE    ACR            Auxiliary control register                         
-BYTE    PCR            Peripheral control register                        
-BYTE    IFR            active interrupts                                  
-BYTE    IER            interrupt mask                                     
-BYTE    PB7            bit 7 = pb7 state                                  
-BYTE    SRHBITS        number of half-bits to shift out on SR             
-BYTE    CABSTATE       bit 7: state of CA2 pin, bit 6: state of CB2 pin   
-BYTE    ILA            Port A Input Latch (see ACR bit 0)                 
-BYTE    ILB            Port B Input Latch (see ACR bit 1)                 
+Type    Name                          Description                          
+BYTE    ORA                           Output register A                    
+BYTE    DDRA                          Data direction register A            
+BYTE    ORB                           Output register B                    
+BYTE    DDRB                          Data direction register B            
+WORD    T1L                           Timer 1 Latch value                  
+WORD    T1C                           Timer 1 counter value                
+BYTE    T2L                           Timer 2 latch (8 bit as only lower   
+                                      byte is used)                        
+WORD    T2C                           Timer 2 counter value                
+BYTE    RUNFL                         bit 7: timer 1 will generate IRQ on  
+                                      underflow; bit 6: timer 2 will       
+                                      generate IRQ on underflow            
+BYTE    SR                            Shift register value                 
+BYTE    ACR                           Auxiliary control register           
+BYTE    PCR                           Peripheral control register          
+BYTE    IFR                           active interrupts                    
+BYTE    IER                           interrupt mask                       
+BYTE    PB7                           bit 7 = pb7 state                    
+BYTE    SRHBITS                       number of half-bits to shift out on  
+                                      SR                                   
+BYTE    CABSTATE                      bit 7: state of CA2 pin, bit 6:      
+                                      state of CB2 pin                     
+BYTE    ILA                           Port A Input Latch (see ACR bit 0)   
+BYTE    ILB                           Port B Input Latch (see ACR bit 1)   
 
 
 File: vice.info,  Node: PIA 6520 module,  Next: TPI 6525 module,  Prev: VIA 6522 module,  Up: Module formats
@@ -103,20 +111,21 @@ PIA module
 ..........
 
    The PIA 6520 is a chip with two I/O ports (Parallel Interface
-Adapter) and four additional handshake lines. The chip is pretty the
+Adapter) and four additional handshake lines.  The chip is pretty the
 same for Port A and B, only that Port A implements handshake on read
 operation and port B on write operation.
 
    Version numbers: Major 1, Minor 0.
 
-Type    Name    Description                                                
-UBYTE   ORA     Output register A                                          
-UBYTE   DDRA    Data Direction Register A                                  
-UBYTE   CTRLA   Control Register A                                         
-UBYTE   ORB     Output register B                                          
-UBYTE   DDRB    Data Direction Register B                                  
-UBYTE   CTRLB   Control Register B                                         
-UBYTE   CABSTATEBit 7 = state of CA2, Bit 6 = state of CB2                 
+Type    Name                          Description                          
+UBYTE   ORA                           Output register A                    
+UBYTE   DDRA                          Data Direction Register A            
+UBYTE   CTRLA                         Control Register A                   
+UBYTE   ORB                           Output register B                    
+UBYTE   DDRB                          Data Direction Register B            
+UBYTE   CTRLB                         Control Register B                   
+UBYTE   CABSTATE                      Bit 7 = state of CA2, Bit 6 = state  
+                                      of CB2                               
 
 
 File: vice.info,  Node: TPI 6525 module,  Next: SID 6581 module,  Prev: PIA 6520 module,  Up: Module formats
@@ -125,25 +134,26 @@ TPI module
 ..........
 
    The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface).
-One of the ports can double as an interrupt prioritizer. Therefore we
+One of the ports can double as an interrupt prioritizer.  Therefore we
 also have to save the states of the interrupt stack etc.
 
    Version numbers: Major 1, Minor 0.
 
-Type    Name    Description                                                
-BYTE    PRA     Port A output register                                     
-BYTE    PRB     Port B output register                                     
-BYTE    PRC     Port C output register (doubles as IRQ latch register)     
-BYTE    DDRA    Port A data direction register                             
-BYTE    DDRB    Port B data direction register                             
-BYTE    DDRC    Port C data direction register (doubles as IRQ mask        
-                register)                                                  
-BYTE    CR      Control Register                                           
-BYTE    AIR     Active interrupt register                                  
-BYTE    STACK   Interrupt stack - the interrupt bits that are not (yet)    
-                served.                                                    
-BYTE    CABSTATEState of CA/CB pins. Bit 7 = state of CA, Bit 6 = state    
-                of CB                                                      
+Type    Name                          Description                          
+BYTE    PRA                           Port A output register               
+BYTE    PRB                           Port B output register               
+BYTE    PRC                           Port C output register (doubles as   
+                                      IRQ latch register)                  
+BYTE    DDRA                          Port A data direction register       
+BYTE    DDRB                          Port B data direction register       
+BYTE    DDRC                          Port C data direction register       
+                                      (doubles as IRQ mask register)       
+BYTE    CR                            Control Register                     
+BYTE    AIR                           Active interrupt register            
+BYTE    STACK                         Interrupt stack - the interrupt      
+                                      bits that are not (yet) served.      
+BYTE    CABSTATE                      State of CA/CB pins.  Bit 7 = state  
+                                      of CA, Bit 6 = state of CB           
 
 
 File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 6525 module,  Up: Module formats
@@ -157,25 +167,28 @@ File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 m
 ACIA module
 ...........
 
-   The ACIA 6551 is an RS232 interface chip. VICE emulates RS232
+   The ACIA 6551 is an RS232 interface chip.  VICE emulates RS232
 connections via `/dev/ttyS*' (Unix) or `COM:' (DOS/WIN - not yet?).
 When saving a snapshot, those connections are of course lost.  The
-state of the ACIA however is restored if possible. I.e. if a connection
+state of the ACIA however is restored if possible.  I.e. if a connection
 is already open when restoring the snapshot, this connection is used
-instead. If no connection is open, a carrier/DTR drop is emulated.
+instead.  If no connection is open, a carrier/DTR drop is emulated.
 
    Version numbers: Major 1, Minor 0.
 
-Type    Name    Description                                                
-BYTE    TDR     Transmit Data Register                                     
-BYTE    RDR     Receiver Data Register                                     
-BYTE    SR      Status Register                                            
-BYTE    CMD     Command Register                                           
-BYTE    CTRL    Ctrl Register                                              
-BYTE    INTX    0 = no data to tx; 1 = Data is being transmitted; 2 =      
-                Data is being transmitted while data in TDR waiting to be  
-                put to internal transmit register                          
-DWORD   TICKS   Clock ticks till the next TDR empty interrupt              
+Type    Name                          Description                          
+BYTE    TDR                           Transmit Data Register               
+BYTE    RDR                           Receiver Data Register               
+BYTE    SR                            Status Register                      
+BYTE    CMD                           Command Register                     
+BYTE    CTRL                          Ctrl Register                        
+BYTE    INTX                          0 = no data to tx; 1 = Data is       
+                                      being transmitted; 2 = Data is       
+                                      being transmitted while data in TDR  
+                                      waiting to be put to internal        
+                                      transmit register                    
+DWORD   TICKS                         Clock ticks till the next TDR empty  
+                                      interrupt                            
 
 
 File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 module,  Up: Module formats
@@ -195,19 +208,24 @@ File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II mod
 CRTC module
 ...........
 
-   Warning: This module is still under construction. Especially the
+   Warning: This module is still under construction.  Especially the
 RASTERLINE value might be bogus.
 
-Type    Name    Description                                                
-BYTE    RASTERY The number of clock cycles from rasterlines start          
-WORD    RASTERLINEThe current rasterline                                     
-WORD    ADDRMASKThe address mask valid for the CRTC. All memory accesses   
-                are masked with this value                                 
-BYTE    HWFLAG  Bit 0: 1= hardware cursor available. Bit 1: 1= number of   
-                columns is doubled by external hardware                    
-20 BYTE REGISTERSregister DUMP of the CRTC registers.                       
-BYTE    CRSRSTATEHardware cursor: Bits 0-3: frame counter till next crsr    
-                line toggle. Bit 7: 1= cursor line active                  
+Type    Name                          Description                          
+BYTE    RASTERY                       The number of clock cycles from      
+                                      rasterlines start                    
+WORD    RASTERLINE                    The current rasterline               
+WORD    ADDRMASK                      The address mask valid for the       
+                                      CRTC.  All memory accesses are       
+                                      masked with this value               
+BYTE    HWFLAG                        Bit 0: 1= hardware cursor            
+                                      available.  Bit 1: 1= number of      
+                                      columns is doubled by external       
+                                      hardware                             
+20 BYTE REGISTERS                     register DUMP of the CRTC registers. 
+BYTE    CRSRSTATE                     Hardware cursor: Bits 0-3: frame     
+                                      counter till next crsr line toggle.  
+                                      Bit 7: 1= cursor line active         
 
 
 File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: CRTC module,  Up: Module formats
@@ -228,45 +246,54 @@ VIC20 memory module
 ...................
 
    The size of the VIC20 memory module differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
+memory configuration.  The RAM configuration is saved in the snapshot,
 and restored when the snapshot is loaded.
 
    The size of the VIC20 memory modules differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
+memory configuration.  The RAM configuration is saved in the snapshot,
 and restored when the snapshot is loaded.
 
    Version numbers: Major 1, Minor 0
 
    The VIC20MEM module
 
-Type    Name    Description                                                
-BYTE    CONFIG  Configuration register. Bits 0,1,2,3,5 reflect if the      
-                corresponding memory block is RAM (bit=1) or not (bit=0).  
-ARRAY   RAM0    1k RAM dump $0000-$03ff                                    
-ARRAY   RAM1    4k RAM dump $1000-$1fff                                    
-ARRAY   COLORRAM2k Color RAM, $9400-$9bff                                  
-ARRAY   BLK0    if CONFIG & 1 then: 3k RAM dump $0400-$0fff                
-ARRAY   BLK1    if CONFIG & 2 then: 8k RAM dump $2000-$3fff                
-ARRAY   BLK2    if CONFIG & 4 then: 8k RAM dump $4000-$5fff                
-ARRAY   BLK3    if CONFIG & 8 then: 8k RAM dump $6000-$7fff                
-ARRAY   BLK5    if CONFIG & 32 then: 8k RAM dump $a000-$bfff               
+Type    Name                          Description                          
+BYTE    CONFIG                        Configuration register.  Bits        
+                                      0,1,2,3,5 reflect if the             
+                                      corresponding memory block is RAM    
+                                      (bit=1) or not (bit=0).              
+ARRAY   RAM0                          1k RAM dump $0000-$03ff              
+ARRAY   RAM1                          4k RAM dump $1000-$1fff              
+ARRAY   COLORRAM                      2k Color RAM, $9400-$9bff            
+ARRAY   BLK0                          if CONFIG & 1 then: 3k RAM dump      
+                                      $0400-$0fff                          
+ARRAY   BLK1                          if CONFIG & 2 then: 8k RAM dump      
+                                      $2000-$3fff                          
+ARRAY   BLK2                          if CONFIG & 4 then: 8k RAM dump      
+                                      $4000-$5fff                          
+ARRAY   BLK3                          if CONFIG & 8 then: 8k RAM dump      
+                                      $6000-$7fff                          
+ARRAY   BLK5                          if CONFIG & 32 then: 8k RAM dump     
+                                      $a000-$bfff                          
 
    The VIC20ROM module
 
-Type    Name    Description                                                
-BYTE    CONFIG  Bit 0: 1= ROM block $2*** enabled. Bit 1: 1= ROM block     
-                $3*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5:   
-                1= ROM block $7*** enabled. Bit 6: 1= ROM block $A***      
-                enabled. Bit 7: 1= ROM block $B*** enabled.                
-ARRAY   KERNAL  8k KERNAL ROM image $e000-$ffff                            
-ARRAY   BASIC   16k BASIC ROM image $c000-$dfff                            
-ARRAY   CHARGEN 4k CHARGEN ROM image                                       
-ARRAY   BLK1A   4k ROM image $2*** (if CONFIG & 1)                         
-ARRAY   BLK1B   4k ROM image $3*** (if CONFIG & 2)                         
-ARRAY   BLK3A   4k ROM image $6*** (if CONFIG & 16)                        
-ARRAY   BLK3B   4k ROM image $7*** (if CONFIG & 32)                        
-ARRAY   BLK5A   4k ROM image $A*** (if CONFIG & 64)                        
-ARRAY   BLK5B   4k ROM image $B*** (if CONFIG & 128)                       
+Type    Name                          Description                          
+BYTE    CONFIG                        Bit 0: 1= ROM block $2*** enabled.   
+                                      Bit 1: 1= ROM block $3*** enabled.   
+                                      Bit 4: 1= ROM block $6*** enabled.   
+                                      Bit 5: 1= ROM block $7*** enabled.   
+                                      Bit 6: 1= ROM block $A*** enabled.   
+                                      Bit 7: 1= ROM block $B*** enabled.   
+ARRAY   KERNAL                        8k KERNAL ROM image $e000-$ffff      
+ARRAY   BASIC                         16k BASIC ROM image $c000-$dfff      
+ARRAY   CHARGEN                       4k CHARGEN ROM image                 
+ARRAY   BLK1A                         4k ROM image $2*** (if CONFIG & 1)   
+ARRAY   BLK1B                         4k ROM image $3*** (if CONFIG & 2)   
+ARRAY   BLK3A                         4k ROM image $6*** (if CONFIG & 16)  
+ARRAY   BLK3B                         4k ROM image $7*** (if CONFIG & 32)  
+ARRAY   BLK5A                         4k ROM image $A*** (if CONFIG & 64)  
+ARRAY   BLK5B                         4k ROM image $B*** (if CONFIG & 128) 
 
 
 File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
@@ -274,50 +301,61 @@ File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: V
 PET memory module
 .................
 
-   The PET memory module actually consists of two modules. The "PETMEM"
-module is mandatory and contains the RAM dump. The "PETROM" module is
-optional and contains a dump of the ROM images.
+   The PET memory module actually consists of two modules.  The
+"PETMEM" module is mandatory and contains the RAM dump.  The "PETROM"
+module is optional and contains a dump of the ROM images.
 
    The size of the PET memory modules differs with each different memory
-configuration. The RAM configuration is saved in the snapshot, and
+configuration.  The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
    Version numbers: Major 1, Minor 0
 
    The PETMEM module
 
-Type    Name    Description                                                
-BYTE    CONFIG  Configuration value. Bits 0-3: 0= 40 col PET without       
-                CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with        
-                CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at     
-                $9***. Bit 7: 1= RAM at $A***.                             
-BYTE    KEYBOARDKeyboard type. 0= UK business; 1= Graphics                 
-BYTE    MEMSIZE memory size of low 32k in k (possible values 4, 8, 16, 32) 
-BYTE    CONF8X96Value of the 8x96 configuration register                   
-BYTE    SUPERPETSuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1=    
-                RAM write protected. Bit 2: 1= CTRL register write         
-                protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block  
-                in use.                                                    
-ARRAY   RAM     4-32k RAM (not 8296, size depends on MEMSIZE)              
-ARRAY   VRAM    2/4k RAM (not 8296, size depends on CONFIG)                
-ARRAY   EXTRAM  64k expansion RAM (SuperPET and 8096 only)                 
-ARRAY   RAM     128k RAM (8296 only)                                       
+Type    Name                          Description                          
+BYTE    CONFIG                        Configuration value. Bits 0-3: 0=    
+                                      40 col PET without CRTC; 1= 40 col   
+                                      PET with CRTC; 2 = 80 col PET (with  
+                                      CRTC); 3= SuperPET; 4= 8096; 5=      
+                                      8296. Bit 6: 1= RAM at $9***. Bit    
+                                      7: 1= RAM at $A***.                  
+BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=    
+                                      Graphics                             
+BYTE    MEMSIZE                       memory size of low 32k in k          
+                                      (possible values 4, 8, 16, 32)       
+BYTE    CONF8X96                      Value of the 8x96 configuration      
+                                      register                             
+BYTE    SUPERPET                      SuperPET config. Bit 0: 1= $9***     
+                                      RAM enabled. Bit 1: 1= RAM write     
+                                      protected. Bit 2: 1= CTRL register   
+                                      write protected. Bit 3: 0= DIAG pin  
+                                      active. Bits 4-7: RAM block in use.  
+ARRAY   RAM                           4-32k RAM (not 8296, size depends    
+                                      on MEMSIZE)                          
+ARRAY   VRAM                          2/4k RAM (not 8296, size depends on  
+                                      CONFIG)                              
+ARRAY   EXTRAM                        64k expansion RAM (SuperPET and      
+                                      8096 only)                           
+ARRAY   RAM                           128k RAM (8296 only)                 
 
    The PETROM module
 
-Type    Name    Description                                                
-BYTE    CONFIG  Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM          
-                included. Bit 2: 1= $B*** ROM included. Bit 3: 1=          
-                $e900-$efff ROM included                                   
-ARRAY   KERNAL  4k KERNAL ROM image $f000-$ffff                            
-ARRAY   EDITOR  2k EDITOR ROM image $e000-$e7ff                            
-ARRAY   CHARGEN 2k CHARGEN ROM image                                       
-ARRAY   ROM9    4k $9*** ROM image (if CONFIG & 1)                         
-ARRAY   ROMA    4k $A*** ROM image (if CONFIG & 2)                         
-ARRAY   ROMB    4k $B*** ROM image (if CONFIG & 4)                         
-ARRAY   ROMC    4k $C*** ROM image                                         
-ARRAY   ROMD    4k $D*** ROM image                                         
-ARRAY   ROME9   7 blocks $e900-$efff ROM image (if CONFIG & 8)             
+Type    Name                          Description                          
+BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit    
+                                      1: 1= $A*** ROM included. Bit 2: 1=  
+                                      $B*** ROM included. Bit 3: 1=        
+                                      $e900-$efff ROM included             
+ARRAY   KERNAL                        4k KERNAL ROM image $f000-$ffff      
+ARRAY   EDITOR                        2k EDITOR ROM image $e000-$e7ff      
+ARRAY   CHARGEN                       2k CHARGEN ROM image                 
+ARRAY   ROM9                          4k $9*** ROM image (if CONFIG & 1)   
+ARRAY   ROMA                          4k $A*** ROM image (if CONFIG & 2)   
+ARRAY   ROMB                          4k $B*** ROM image (if CONFIG & 4)   
+ARRAY   ROMC                          4k $C*** ROM image                   
+ARRAY   ROMD                          4k $D*** ROM image                   
+ARRAY   ROME9                         7 blocks $e900-$efff ROM image (if   
+                                      CONFIG & 8)                          
 
 
 File: vice.info,  Node: CBM-II memory module,  Prev: PET memory module,  Up: Module formats
@@ -325,37 +363,47 @@ File: vice.info,  Node: CBM-II memory module,  Prev: PET memory module,  Up: Mod
 CBM-II memory module
 ....................
 
-   The CBM-II memory module actually consists of two modules. The
-"CBM2MEM" module is mandatory and contains the RAM dump. The "CBM2ROM"
+   The CBM-II memory module actually consists of two modules.  The
+"CBM2MEM" module is mandatory and contains the RAM dump.  The "CBM2ROM"
 module is optional and contains a dump of the ROM images.
 
    The size of the CBM-II memory modules differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
+memory configuration.  The RAM configuration is saved in the snapshot,
 and restored when the snapshot is loaded.
 
    Version numbers: Major 1, Minor 0
 
    The CBM2MEM module
 
-Type    Name    Description                                                
-UBYTE   MEMSIZE Memory size in 128k blocks (1=128k, 2=256k, 4=512k,        
-                8=1024k)                                                   
-UBYTE   CONFIG  Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit  
-                2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 =  
-                $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM               
-UBYTE   HWCONFIGBit 0: 0 = CRTC, 1 = VIC-II video chip (Basically the      
-                destinction between C500 and C600/700)                     
-UBYTE   EXECBANKCPUs execution bank register                               
-UBYTE   INDBANK CPUs indirection bank register                             
-ARRAY   SYSRAM  2k system RAM $f0000-$f07ff                                
-ARRAY   VIDEO   2k video RAM $fd000-$fd7ff                                 
-ARRAY   RAM     RAM dump, size according to MEMSIZE                        
-ARRAY   RAM08   if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff      
-ARRAY   RAM1    if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff      
-ARRAY   RAM2    if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff      
-ARRAY   RAM4    if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff      
-ARRAY   RAM6    if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff     
-ARRAY   RAMC    if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff     
+Type    Name                          Description                          
+UBYTE   MEMSIZE                       Memory size in 128k blocks (1=128k,  
+                                      2=256k, 4=512k, 8=1024k)             
+UBYTE   CONFIG                        Bit 0 = $f0800-$f0fff RAM, Bit 1 =   
+                                      $f1000-$f1fff RAM, Bit 2 =           
+                                      $f2000-$f3fff RAM, Bit 3 =           
+                                      $f4000-$f5fff RAM, Bit 4 =           
+                                      $f6000-$f7fff RAM, Bit 5 =           
+                                      $fc000-$fcfff RAM                    
+UBYTE   HWCONFIG                      Bit 0: 0 = CRTC, 1 = VIC-II video    
+                                      chip (Basically the destinction      
+                                      between C500 and C600/700)           
+UBYTE   EXECBANK                      CPUs execution bank register         
+UBYTE   INDBANK                       CPUs indirection bank register       
+ARRAY   SYSRAM                        2k system RAM $f0000-$f07ff          
+ARRAY   VIDEO                         2k video RAM $fd000-$fd7ff           
+ARRAY   RAM                           RAM dump, size according to MEMSIZE  
+ARRAY   RAM08                         if memsize < 1M and CONFIG & 1 : 2k  
+                                      RAM $f0800-$f0fff                    
+ARRAY   RAM1                          if memsize < 1M and CONFIG & 2 : 4k  
+                                      RAM $f1000-$f1fff                    
+ARRAY   RAM2                          if memsize < 1M and CONFIG & 4 : 8k  
+                                      RAM $f2000-$f3fff                    
+ARRAY   RAM4                          if memsize < 1M and CONFIG & 8 : 8k  
+                                      RAM $f4000-$f5fff                    
+ARRAY   RAM6                          if memsize < 1M and CONFIG & 16 :    
+                                      8k RAM $f6000-$f7fff                 
+ARRAY   RAMC                          if memsize < 1M and CONFIG & 32 :    
+                                      4k RAM $fc000-$fcfff                 
 
    The RAM* arrays are only saved if the RAM itself is less than 1M.
 If the memory size is 1M then those areas are taken from the bank 15
@@ -363,17 +411,23 @@ area of the normal RAM.
 
    The CBM2ROM module
 
-Type    Name    Description                                                
-UBYTE   CONFIG  Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff  
-                ROM image included. Bit 3: 1= $4000-$5fff ROM image        
-                included. Bit 4: 1= $6000-$7fff ROM image included.        
-ARRAY   KERNAL  8 KERNAL ROM image ($e000-$efff)                           
-ARRAY   BASIC   BASIC ROM image ($8000-$bfff)                              
-ARRAY   CHARGEN 4k CHARGEN ROM image                                       
-ARRAY   ROM1    4k cartridge ROM image for $1*** (if CONFIG & 2)           
-ARRAY   ROM2    8k cartridge ROM image for $2000-$3fff (if CONFIG & 4)     
-ARRAY   ROM4    8k cartridge ROM image for $4000-$5fff (if CONFIG & 8)     
-ARRAY   ROM6    8k cartridge ROM image for $6000-$7fff (if CONFIG & 16)    
+Type    Name                          Description                          
+UBYTE   CONFIG                        Bit 1: 1= $1*** ROM image included.  
+                                      Bit 2: 1= $2000-$3fff ROM image      
+                                      included. Bit 3: 1= $4000-$5fff ROM  
+                                      image included. Bit 4: 1=            
+                                      $6000-$7fff ROM image included.      
+ARRAY   KERNAL                        8 KERNAL ROM image ($e000-$efff)     
+ARRAY   BASIC                         BASIC ROM image ($8000-$bfff)        
+ARRAY   CHARGEN                       4k CHARGEN ROM image                 
+ARRAY   ROM1                          4k cartridge ROM image for $1***     
+                                      (if CONFIG & 2)                      
+ARRAY   ROM2                          8k cartridge ROM image for           
+                                      $2000-$3fff (if CONFIG & 4)          
+ARRAY   ROM4                          8k cartridge ROM image for           
+                                      $4000-$5fff (if CONFIG & 8)          
+ARRAY   ROM6                          8k cartridge ROM image for           
+                                      $6000-$7fff (if CONFIG & 16)         
 
 
 File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
@@ -899,9 +953,11 @@ involved in the development of X64 and VICE:
    * Andreas Boose (<boose@linux.rz.fh-hannover.de>) gave lots of
      information and bug reports about the VIC-II, the 6510 and the
      CIAs; moreover, he wrote several test-routines that were used to
-     improve the emulation.  Also contributed some important patches,
-     fixed several problems in the 1541 emulation, implemented the
-     SpeedDOS parallel cable emulation and added cartridge support.
+     improve the emulation.  He also added cartridge support and has
+     been the main head behind the drive emulation since version 0.15.
+
+   * Dag Lem (<resid@nimrod.no>) implemented the reSID SID emulation
+     engine.
 
    Former team members:
 
@@ -946,10 +1002,6 @@ involved in the development of X64 and VICE:
    * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
      sound support for NetBSD.
 
-   * Dag Lem (<resid@nimrod.no>) implemented an alternative cycle-exact
-     SID emulator (reSID), and contributed a bugfix in our SID
-     emulation.
-
    * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
      fixed a couple of bugs in the fast serial emulation.
 
@@ -987,7 +1039,7 @@ involved in the development of X64 and VICE:
      version of the REU Emulation.
 
    * Vesa-Matti Puro (<vmp@lut.fi>) wrote the very first 6502 CPU
-     emulator in x64 0.1.0. That was the beginning of the story...
+     emulator in x64 0.1.0.  That was the beginning of the story...
 
    * Dan Miner (<dminer@nyx10.cs.du.edu>) contributed some patches to
      the fast disk drive emulation.
@@ -1079,6 +1131,8 @@ Copyright
 
    Copyright (C) 1993-1994 Jarkko Sonninen
 
+   The reSID engine: Copyright (C) 1998 Dag Lem
+
    This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or (at
@@ -1124,134 +1178,4 @@ well, so you might want to have a look at it periodically.  If you are
 going to report a bug, please check those pages *first*; it is possible
 that the problem you encountered has already been fixed with a newer
 version.
-
-
-File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
-
-How to send feedback
-====================
-
-   If you want to report bugs, make suggestions or contribute to the
-project, please email one of the following people:
-
-   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
-
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
-     drive;
-
-   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
-     CBM-II;
-
-   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
-     for everything else.
-
-   It's always nice to receive feedback and/or bugreports about VICE,
-but please read these few notes before sending mail to anybody in the
-team.
-
-   * Please put the word `VICE' *in all capitals* in your subject line
-     (e.g., `VICE fails to run game XXX').  This helps mail splitting
-     and reduces chances that your message is unintentionally deleted,
-     forgotten or lost.
-
-   * Please don't send any HTML mail (we really hate that!).  If you use
-     M$ Outlook or Netscape Communicator, make sure you turn off the
-     "rich text" (HTML) feature.
-
-   * Please don't send *any* binaries without asking first.
-
-   * Please read the following documents carefully before reporting a
-     bug or a problem you cannot solve:
-
-        * the VICE documentation (you are reading it!);
-
-        * the VICE FAQ (it is available on the Internet, and reachable
-          from the VICE home page:
-          http://www.tu-chemnitz.de/~fachat/vice/vice.html);
-
-        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
-          you should read::.).
-
-   * When you report a bug, please try to be as accurate as possible and
-     describe how it can be reproduced to the very detail.  You should
-     also tell us what machine you are running on, what operating
-     system you are using as well as the version of it.
-
-   * Please don't ask us how to transfer original C64 disk or tapes to
-     your PC; this has been asked a gazillion times through email.  To
-     transfer disks, you can use the Star Commander
-     (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
-     disks with your old 5"1/4 PC drive.
-
-   * Please don't ask us where to find games for the emulator on the
-     Internet.
-
-   * Please don't ask us when the next version will be out, because we
-     really don't know.
-
-   * Please write in English, or in the language of the person you are
-     writing to (Ettore is Italian, Andr'e and Andreas are German,
-     Teemu is Finnish, Daniel is from Canada).
-
-   In any case, we would be *really* glad to receive your comments
-about VICE.
-
-   Thanks!
-
-
-File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
-
-How to contribute
-=================
-
-   If you want to make a major contribution, please *ask* first.  It
-has already happened a couple of times that somebody started working at
-something that had already been done but not released to the public yet,
-and we really do *not* want anybody to waste time.
-
-   If you are going to make a patch, please make sure the patch is
-relative to the very latest version, and provide us with the following:
-
-   * a diff file containing all the changes you have made (`diff -c' or
-     `diff -u' (better) is fine; please don't use plain `diff');
-
-   * GNU-style `ChangeLog' entries with a description of the changes you
-     have made (look at the `ChangeLog's provided with the original VICE
-     sources for an example).
-
-   This is very important, and makes adding patches much smoother and
-safer.
-
-   People willing to port VICE to other platforms are always welcome.  A
-Windows and a MacOS port are in the works, so if you are interested in
-those platforms, please let us know.  There is plenty of work to do and
-any sort of help can be very useful.
-
-
-File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
-
-Interesting newsgroups
-======================
-
-   There are some Usenet newsgroups you might be interested in:
-
-   * `comp.emulators.cbm', discussing about emulators of Commodore 8-bit
-     machines (definitely not Amiga emulators).
-
-   * `comp.sys.cbm', discussing various topics regarding real Commodore
-     8-bit machines.  This newsgroup is mainly for people who actually
-     use original Commodore equipment (so please don't talk about
-     emulation here).
-
-   * `comp.emulators.misc', discussing emulators in general.
-
-
-File: vice.info,  Node: FAQs you should read,  Prev: Newsgroups,  Up: Contacts
-
-FAQs you should read
-====================
-
-   We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
-FAQs, which are posted regularly on the corresponding newsgroups and
-are also available via FTP from ftp://rtfm.mit.edu.
 

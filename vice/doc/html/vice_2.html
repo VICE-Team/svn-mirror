@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 5 November 1998 -->
+     from ../vice.texi on 17 November 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -50,19 +50,24 @@ good as the C64 one, as they are still under construction.
 <P>
 The C64 emulator, called <SAMP>`x64'</SAMP>, features a fairly complete
 emulation of the VIC-II video chip: sprites, all registers and all video
-modes are fully emulated. The emulation has been fully cycle-accurate
+modes are fully emulated.  The emulation has been fully cycle-accurate
 since version 0.13.0.
 
 </P>
 <P>
-A rather complete emulation of the SID sound chip is also provided.
-All the basic features are implemented as well as most of the complex
-ones including synchronisation, ring modulation and filters.
+A rather complete emulation of the SID sound chip is also provided.  All
+the basic features are implemented as well as most of the complex ones
+including synchronisation, ring modulation and filters.  There are two
+emulators of the SID chip available: one is the "standard" VICE
+emulator, available since VICE 0.12; the other one is Dag Lem's reSID
+engine.  The reSID engine is a lot more accurate than the standard
+engine, but it is also a lot slower, and only suitable for faster
+machines.
 
 </P>
 <P>
-Naturally, both CIAs (or VIAs, in some cases) are fully emulated and
-cycle accurate.
+Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
+and cycle accurate.
 
 </P>
 
@@ -145,10 +150,10 @@ text and 32k for variables.  See <TT>`PETdoc'</TT> for more information.
 
 </P>
 <P>
-The SuperPET also is a PET 8032 with an expansion board. It can map
-4k at a time out of 64k into the <CODE>$9***</CODE> area. Also it has an
-ACIA 6551 for RS232 communication. The 6809 that is built into the
-SuperPET is not emulated, though.
+The SuperPET also is a PET 8032 with an expansion board.  It can map 4k
+at a time out of 64k into the <CODE>$9***</CODE> area.  Also it has an ACIA
+6551 for RS232 communication.  The 6809 that is built into the SuperPET
+is not emulated, though.
 
 </P>
 <P>
@@ -156,19 +161,18 @@ The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
 is horribly broken with respect to IEEE488 (they shipped it before they
-tested it with the floppy drive, so only tape worked. Therefore the emulator 
-patches the ROM to fix the IEEE488 routines.
+tested it with the floppy drive, so only tape worked.  Therefore the
+emulator patches the ROM to fix the IEEE488 routines.
 
 </P>
 <P>
-As well as other low-level fixes the 2001 patch obtains
-the load address for a program file from the first two
-bytes of the file.  This allows the loading of both PET2001-saved files (that
-have $0400 as their load address) and other PET files (that have $0401).
-The PET2001 saves from $0400 and not from $0401 as other PETs do.
+As well as other low-level fixes the 2001 patch obtains the load address
+for a program file from the first two bytes of the file.  This allows
+the loading of both PET2001-saved files (that have $0400 as their load
+address) and other PET files (that have $0401).  The PET2001 saves from
+$0400 and not from $0401 as other PETs do.
 
 </P>
-
 <P>
 Moreover, the secondary addresses used are now <CODE>0</CODE> and <CODE>1</CODE> for
 load and save, respectively, and not arbitrary unused secondary
@@ -203,10 +207,10 @@ supposedly had those processors.  However these models are not emulated.
 </P>
 <P>
 The basic difference is the amount of RAM these machines have been
-supplied with. The <CODE>B128</CODE> and the <CODE>CBM *10</CODE> models had 128k
-RAM, the others 256k. This implies some banking scheme, as the 6502 can
+supplied with.  The <CODE>B128</CODE> and the <CODE>CBM *10</CODE> models had 128k
+RAM, the others 256k.  This implies some banking scheme, as the 6502 can
 only address 64k.  And indeed those machines use a 6509, that can
-address 1 MByte of RAM. It has 2 registers at addresses 0 and 1.  The
+address 1 MByte of RAM.  It has 2 registers at addresses 0 and 1.  The
 indirect bank register at address 1 determines the bank (0-15) where the
 opcodes <CODE>LDA (zp),Y</CODE> and <CODE>STA (zp),Y</CODE> take the data from.  The
 exec bank register at address 0 determines the bank where all other read
@@ -447,7 +451,7 @@ and how to resolve them.
 VICE should compile and run without major problems on many UNIX systems,
 but there are some known issues related to the sound driver.  In fact,
 the sound code is the least portable part of the emulator and has not
-yet been thoroughly tested on all supported platforms.
+yet been thoroughly tested on all the supported platforms.
 
 </P>
 <P>
@@ -470,7 +474,7 @@ finding HP-UX and SUN consoles to work at...
 Some problems have been reported with the proprietary version of the
 Open Sound System for Linux.  With a Crystal sound card, sound output
 was significantly delayed and, apparently, the allocated buffer size was 
-wrong.  This is not a VICE bug, but rather an OSS bug.
+completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 </P>
 
@@ -481,8 +485,8 @@ wrong.  This is not a VICE bug, but rather an OSS bug.
 <P>
 <A NAME="IDX4"></A>
 <A NAME="IDX5"></A>
-If you cannot start VICE, because you get errors about shared memory,
-try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
+If you cannot start VICE because you get errors about shared memory, try
+to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
 that are normally used to speed up the emulation window updates.  Of
 course, this will also result in a big loss in speed.
 

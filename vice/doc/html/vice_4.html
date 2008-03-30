@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 5 November 1998 -->
+     from ../vice.texi on 17 November 1998 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -227,9 +227,9 @@ business keyboard (2 KBytes)
 
 <P> <LI>
 
-<TT>`chargen'</TT>, the character generator ROM (2k). It has two sets
-with 128 chars each. The second (inverted) half of each set is computed from
-the first half by inverting it. This is a PET hardware feature.
+<TT>`chargen'</TT>, the character generator ROM (2k).  It has two sets
+with 128 chars each.  The second (inverted) half of each set is computed from
+the first half by inverting it.  This is a PET hardware feature.
 
 </UL> </P>
 
@@ -253,22 +253,22 @@ at $E000-$E7FF with the <CODE>-petromEditor</CODE> option.
 
 </P>
 <P>
-The CBM-II emulator again uses another setup. For those models the kernal
-used is the same for all. However, for different amounts of memory
-exist different versions of the BASIC ROMs. The 128k RAM version
-(C610, C710, B128) uses one bank of 64k for the BASIC text and
-another one for all the variables. The 256k RAM version uses 
-one bank for text, one for variables, one for arrays and one for strings.
+The CBM-II emulator again uses another setup.  For those models the
+kernal used is the same for all.  However, for different amounts of
+memory exist different versions of the BASIC ROMs.  The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and another
+one for all the variables.  The 256k RAM version uses one bank for text,
+one for variables, one for arrays and one for strings.
 
 </P>
 <P>
-Also the character generator ROMs have a format different from the above.
-The other character ROMs have 8 bytes of pixel data per character.
-Those ROMs have 16 bytes per character instead. The C6x0 only uses
-the first 8 of it, but the C7x0 uses 14 lines per character and needs
-those increased ROMs. Both ROMs hold, like the PET, two character
-sets with 128 characters each. Again the second half of the full
-(256 char) character set is computed by inverting. 
+Also the character generator ROMs have a format different from the
+above.  The other character ROMs have 8 bytes of pixel data per
+character.  Those ROMs have 16 bytes per character instead.  The C6x0
+only uses the first 8 of it, but the C7x0 uses 14 lines per character
+and needs those increased ROMs.  Both ROMs hold, like the PET, two
+character sets with 128 characters each.  Again the second half of the
+full (256 char) character set is computed by inverting.
 
 </P>
 

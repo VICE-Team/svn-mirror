@@ -40,7 +40,7 @@ Commodore Emulator.
 
 * Machine-specific features::   Peculiar characteristics of the emulators.
 
-* Snapshots::			Save the emulator state in one file
+* Snapshots::                   Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
 
@@ -50,221 +50,6 @@ Commodore Emulator.
 
 * Concept Index::
 * Resource Index::
-
- -- The Detailed Node Listing --
-
-About VICE
-
-* C64 emulator features::
-* C128 emulator features::
-* VIC20 emulator features::
-* PET emulator features::
-* Keyboard emulation::
-* Joystick emulation::
-* Disk drive emulation::
-* File formats::
-* Common problems::
-
-Common problems
-
-* Sound problems::
-* Shared memory problems::
-
-Invoking the emulators
-
-* Command-line initialization::
-* Command-line autostart::
-
-System files
-
-* ROM files::                   Files containing dumps of the original ROMs.
-* Keymap files::                Files describing the keyboard layout.
-* Palette files::               Files defining the machine's colors.
-
-Basic operation
-
-* Emulation window::            The window the emulator runs in.
-* Menus::                       Using emulator menus.
-* Help::                        Getting help if you are stuck.
-* File Selector::               Selecting files interactively.
-* Disk and tape images::        Using virtual disks and tapes.
-* Reset::                       Resetting the virtual machines.
-
-Using disk and tape images
-
-* Previewing contents::         Looking into the image before attaching it.
-* Autostart::                   Starting a program automagically.
-* Compressed files::            Dealing with compressed files.
-* Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
-
-Settings and resources
-
-* Resource files::              Format of resource files.
-* Resources and command-line::  Specifying settings from the
-                                command-line
-
-* Performance settings::        Settings that affect speed of execution.
-* Video settings::              Settings dealing with the video output.
-* Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::              Settings that control audio playback
-* 1541 settings::               Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated external devices.
-* Misc settings::               Other settings.
-
-Performance settings
-
-* Performance resources::
-* Performance options::
-
-Video settings
-
-* Video resources::
-* Video options::
-
-Keyboard settings
-
-* Keyboard resources::
-* Keyboard options::
-
-Sound settings
-
-* Sound resources::
-* Sound options::
-
-1541 settings
-
-* 1541 resources::
-* 1541 options::
-
-Peripheral settings
-
-* File system device settings::  Settings for file system devices.
-* Printer settings::            Settings for emulating a printer.
-* No kernal traps::             Disabling kernal traps completely.
-
-Settings for file system devices
-
-* File system device resources::
-* File system device options::
-
-Printer settings
-
-* Printer resources::
-* Printer options::
-
-Disabling kernal traps
-
-* No traps resources::
-* No traps options::
-
-Miscellaneous settings
-
-* Misc resources::
-* Misc options::
-
-Machine-specific features
-
-* C64/128-specific::            Commands and settings specific to the
-                                C64/128 emulators
-* VIC20-specific::              Commands and settings specific to the
-                                VIC20 emulator
-* PET-specific::                Commands and settings specific to the
-                                PET emulator
-* CBM-II-specific::		Commands and settings specific to the
-				CBM-II (C610, ...) emulator
-
-C64/128-specific commands and settings
-
-* C64 cartridges::              Using cartridge images with the C64 emulator.
-* VIC-II settings::             Settings that control the video chip.
-* SID settings::                Settings that control the audio chip.
-* C64 I/O extension settings::  Settings that enable special extensions.
-* RS232 settings::              Settings that control the RS232 emulation.
-* C64/128 system ROM settings::  Settings to control the system ROMs.
-
-VIC-II settings
-
-* VIC-II resources::
-* VIC-II options::
-
-SID settings
-
-* SID resources::
-* SID options::
-
-C64 I/O extension settings
-
-* C64 I/O extension resources::
-* C64 I/O extension options::
-
-RS232 settings
-
-* RS232 resources::
-* RS232 options::
-
-C64/128 system ROM settings
-
-* C64/128 system ROM resources::
-* C64/128 system ROM options::
-
-VIC20-specific commands and settings
-
-* VIC20 cartridges::
-* VIC20 memory expansions::
-* VIC20 system ROM settings::
-
-Changing memory configuration
-
-* VIC20 memconf resources::
-* VIC20 memconf options::
-
-VIC20 system ROM settings
-
-* VIC20 system ROM resources::
-* VIC20 system ROM options::
-
-PET-specific commands and settings
-
-* PET model::
-* PET diagnostic pin::
-* PET commandline options::
-* PET colors::
-
-CBM-II-specific commands and settings
-
-* CBM-II model::
-* CBM-II colors::
-
-Snapshots
-
-* Snapshot usage::
-* Snapshot format::
-
-Monitor
-
-* Terminology::
-* Machine state commands::
-* Memory commands::
-* Assembly commands::
-* Checkpoint commands::
-* General commands::
-* Disk commands::
-* Command file commands::
-* Label commands::
-* Miscellaneous commands::
-
-c1541
-
-* c1541 commands and options::
-
-Contact information
-
-* Home page::                   The official VICE WWW page.
-* Sending feedback::            How to report impressions and
-                                bugs to the authors.
-* Contributing::                How to help developing VICE.
-* Newsgroups::                  VICE-related Usenet groups.
-* FAQs you should read::        VICE-related Frequently Asked Questions.
 
 
 File: vice.info,  Node: License,  Next: Preface,  Prev: Top,  Up: Top
@@ -679,15 +464,20 @@ C64 emulator features
 
    The C64 emulator, called `x64', features a fairly complete emulation
 of the VIC-II video chip: sprites, all registers and all video modes
-are fully emulated. The emulation has been fully cycle-accurate since
+are fully emulated.  The emulation has been fully cycle-accurate since
 version 0.13.0.
 
    A rather complete emulation of the SID sound chip is also provided.
 All the basic features are implemented as well as most of the complex
-ones including synchronisation, ring modulation and filters.
+ones including synchronisation, ring modulation and filters.  There are
+two emulators of the SID chip available: one is the "standard" VICE
+emulator, available since VICE 0.12; the other one is Dag Lem's reSID
+engine.  The reSID engine is a lot more accurate than the standard
+engine, but it is also a lot slower, and only suitable for faster
+machines.
 
-   Naturally, both CIAs (or VIAs, in some cases) are fully emulated and
-cycle accurate.
+   Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
+and cycle accurate.
 
 
 File: vice.info,  Node: C128 emulator features,  Next: VIC20 emulator features,  Prev: C64 emulator features,  Up: Preface
@@ -751,10 +541,10 @@ emulations run the Commodore LOS-96 operating system - basically an
 improved BASIC 4 version with up to 32k for BASIC text and 32k for
 variables.  See `PETdoc' for more information.
 
-   The SuperPET also is a PET 8032 with an expansion board. It can map
-4k at a time out of 64k into the `$9***' area. Also it has an ACIA 6551
-for RS232 communication. The 6809 that is built into the SuperPET is
-not emulated, though.
+   The SuperPET also is a PET 8032 with an expansion board.  It can map
+4k at a time out of 64k into the `$9***' area.  Also it has an ACIA
+6551 for RS232 communication.  The 6809 that is built into the SuperPET
+is not emulated, though.
 
    The PET computers came with three major ROM revisions, so-called
 BASIC 1, 2 and 4, all of which are provided.  The PET 2001 uses the
@@ -793,10 +583,10 @@ States they have been sold as `B128' and `B256', in Europe as `CBM
 supposedly had those processors.  However these models are not emulated.
 
    The basic difference is the amount of RAM these machines have been
-supplied with. The `B128' and the `CBM *10' models had 128k RAM, the
-others 256k. This implies some banking scheme, as the 6502 can only
+supplied with.  The `B128' and the `CBM *10' models had 128k RAM, the
+others 256k.  This implies some banking scheme, as the 6502 can only
 address 64k.  And indeed those machines use a 6509, that can address 1
-MByte of RAM. It has 2 registers at addresses 0 and 1.  The indirect
+MByte of RAM.  It has 2 registers at addresses 0 and 1.  The indirect
 bank register at address 1 determines the bank (0-15) where the opcodes
 `LDA (zp),Y' and `STA (zp),Y' take the data from.  The exec bank
 register at address 0 determines the bank where all other read and
@@ -975,7 +765,7 @@ Sound problems
    VICE should compile and run without major problems on many UNIX
 systems, but there are some known issues related to the sound driver.
 In fact, the sound code is the least portable part of the emulator and
-has not yet been thoroughly tested on all supported platforms.
+has not yet been thoroughly tested on all the supported platforms.
 
    Linux, AIX and SGI systems should play sound without any problems; if
 you are running Linux please use a 2.x kernel, as VICE needs some
@@ -990,7 +780,7 @@ finding HP-UX and SUN consoles to work at...
    Some problems have been reported with the proprietary version of the
 Open Sound System for Linux.  With a Crystal sound card, sound output
 was significantly delayed and, apparently, the allocated buffer size was
-wrong.  This is not a VICE bug, but rather an OSS bug.
+completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 
 File: vice.info,  Node: Shared memory problems,  Prev: Sound problems,  Up: Common problems
@@ -998,7 +788,7 @@ File: vice.info,  Node: Shared memory problems,  Prev: Sound problems,  Up: Comm
 Shared memory problems
 ----------------------
 
-   If you cannot start VICE, because you get errors about shared memory,
+   If you cannot start VICE because you get errors about shared memory,
 try to run it with the `+mitshm' command-line option (*note Video
 options::.).  This will completely disable usage of the MITSHM
 extensions, that are normally used to speed up the emulation window
@@ -1172,4 +962,180 @@ files::.).
 * ROM files::                   Files containing dumps of the original ROMs.
 * Keymap files::                Files describing the keyboard layout.
 * Palette files::               Files defining the machine's colors.
+
+
+File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
+
+ROM files
+=========
+
+   Every emulator requires its own ROM set.  For the VIC20 and the C64,
+the ROM set consists of the following files:
+
+   * `kernal',  the Kernal ROM (8 KBytes)
+
+   * `basic', the Basic ROM (8 KBytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128 needs the following files:
+
+   * `kernal', the Kernal ROM (8 Kbytes)
+
+   * `basic', the Basic + Editor ROM (32 Kbytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128, VIC20 and C64 emulators also need the following DOS ROMs
+for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
+
+   * `dos1541', the 1541 drive ROM (16 Kbytes)
+
+   * `dos1571', the 1571 drive ROM (32 Kbytes)
+
+   * `dos1581', the 1581 drive ROM (32 Kbytes)
+
+   In addition to those all emulators except the VIC20 can handle a
+parallel IEEE488 interface (the C64 and C128 via `$df**' extension) so
+they also need the DOS ROM for the 2031 disk drive, basically a VC1541
+with a parallel IEEE488 interface:
+
+   * `dos2031', the 2031 drive ROM (16 Kbytes)
+
+   The PET emulator uses a rather different setup: the Basic and Kernal
+ROMS are packed into a single file and only three kernal files are
+provided; one for each Basic revision.  To handle the different screen
+sizes and keyboards, different so-called "editor-ROMs" for the memory
+range $E000-$E800 are provided.  The kernal files already contain an
+editor ROM for use with 40 columns and the graphics keyboard.  The PET
+ROMs have the following names:
+
+   * `pet2001', the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+
+   * `pet3032', the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+
+   * `pet4032', the PET4032/8032 Basic 4 + Kernal ROM (20 KBytes)
+
+   * `edit2.b', the PET3032 editor for business keyboard (2 KBytes)
+
+   * `edit4.b40', the PET4032 editor for business keyboard (2 KBytes)
+
+   * `edit4.b80', the PET8032 editor for 80 columns and business
+     keyboard (2 KBytes)
+
+   * `chargen', the character generator ROM (2k).  It has two sets with
+     128 chars each.  The second (inverted) half of each set is
+     computed from the first half by inverting it.  This is a PET
+     hardware feature.
+
+   The PETs also have sockets for extension ROMs for the addresses
+$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
+PET3032 only).  You can specify ROM image files for those extensions
+command line options `-petrom9', `-petromA' and `-petromB' resp.
+
+   An alternative would be to specify a long kernal ROM with the
+`-kernal' option that includes the extension ROM areas.
+
+   Also, you can specify replacements for the basic ROM at $B000-$DFFF
+with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
+with the `-petromEditor' option.
+
+   The CBM-II emulator again uses another setup.  For those models the
+kernal used is the same for all.  However, for different amounts of
+memory exist different versions of the BASIC ROMs.  The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and another
+one for all the variables.  The 256k RAM version uses one bank for text,
+one for variables, one for arrays and one for strings.
+
+   Also the character generator ROMs have a format different from the
+above.  The other character ROMs have 8 bytes of pixel data per
+character.  Those ROMs have 16 bytes per character instead.  The C6x0
+only uses the first 8 of it, but the C7x0 uses 14 lines per character
+and needs those increased ROMs.  Both ROMs hold, like the PET, two
+character sets with 128 characters each.  Again the second half of the
+full (256 char) character set is computed by inverting.
+
+   * `kernal', the KERNAL (8k)
+
+   * `basic.128', the CBM-II 128k BASIC (16k)
+
+   * `basic.256', CBM-II 256k BASIC (16k)
+
+   * `chargen.600', character generator ROM for the C6x0 (4k)
+
+   * `chargen.700', character generator ROM for the C7x0 (4k)
+
+
+File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
+
+Keymap files
+============
+
+   "Keymap files" are used to define the keyboard layout, defining which
+key (or combination of keys) must be mapped to each keysym.
+
+   In other words, the keyboard emulation works like this: whenever the
+user presses or releases a key while the emulation window has the input
+focus, the emulator receives an X-Window event with a value that
+identifies that key.  That value is called a "keysym" and is unique to
+that key.  The emulator then looks up that keysym in an internal table
+that tells it which key(s) to press or release on the emulated keyboard.
+
+   This table is described by the keymap file, which is made up of lines
+like the following:
+
+     KEYSYM ROW COLUMN SHIFTFLAG
+
+   Where:
+
+   * `KEYSYM' is a string identifying the keysym: you can use the `xev'
+     utility (shipped with the X Window system) to see what keysym is
+     bound to any key;
+
+   * `ROW' and `COLUMN' identify the key on the emulated keyboard;
+
+   * `SHIFTFLAG' can have one of the following values:
+
+        * `0': the key is never shifted;
+
+        * `1': the key is shifted;
+
+        * `2': the key is the left shift;
+
+        * `4': the key is the right shift;
+
+        * `8': the key can be (optionally) shifted by the user.
+
+   The `SHIFTFLAG' is useful if you want certain keys to be
+"artificially" shifted by the emulator, and not by the user.  For
+example, <F2> is shifted on the C64 keyboard, but you might want it to
+be mapped to the unshifted <F2> key on the PC keyboard.  To do so, you
+just have to use a line like the following:
+
+     F2 0 4 1
+
+   where `0' and `4' identify the key (row 0, column 4 on the keyboard
+matrix), and `1' specifies that every time the user presses <F2> the
+shift key on the C64 keyboard must be pressed.
+
+   There are also some special commands you can put into the keyboard
+file; they are recognized because they start with an exclamation mark:
+
+   * `!CLEAR' clears the currently loaded keyboard map; it is necessary
+     to put this at the beginning of the file if you want the keymap
+     file to override all of the current internal settings;
+
+   * `!LSHIFT', `!RSHIFT', followed by a row and a column value,
+     specify where the left and right shift keys are located on the
+     emulated keyboard; for example, C64 default keymaps will specify
+
+          !LSHIFT 1 7
+          !RSHIFT 6 4
+
+   Any line starting with the `#' sign, instead, is completely ignored.
+This is useful for adding comments within the keymap file.
+
+   VICE keymap files have the `.vkm' default extension, and every
+emulator comes with a default positional mapping and a default symbolic
+mapping.
 

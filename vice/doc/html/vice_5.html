@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 5 November 1998 -->
+     from ../vice.texi on 17 November 1998 -->
 
 <TITLE>VICE Manual - 5  Basic operation</TITLE>
 </HEAD>
@@ -75,10 +75,10 @@ work in VICE.
 <P>
 Sometimes commands can be reached via <EM>shortcuts</EM> or <EM>hotkeys</EM>,
 i.e., it is possible to execute them by pressing a sequence of keys
-instead of going through the menu with the mouse. Where shortcuts exist,
-they are displayed in parentheses at the right edge of the menu item.
-In VICE, all shortcuts must begin with the <KBD>Meta</KBD> or <KBD>Alt</KBD>
-key.  So, for example, to attach a disk image to drive #8 (the
+instead of going through the menu with the mouse.  Where shortcuts
+exist, they are displayed in parentheses at the right edge of the menu
+item.  In VICE, all shortcuts must begin with the <KBD>Meta</KBD> or
+<KBD>Alt</KBD> key.  So, for example, to attach a disk image to drive #8 (the
 corresponding menu item displays "M-8"), you have to press the
 <KBD>Meta</KBD> (or <KBD>Alt</KBD>) and then <KBD>8</KBD>.
 
@@ -219,10 +219,10 @@ that file, e.g., by doing a <CODE>chmod a-w</CODE>.
 <H3><A NAME="SEC31" HREF="vice_toc.html#TOC31">5.5.1  Previewing the image contents</A></H3>
 
 <P>
-It is possible to examine the directory of a disk or tape image
-before attaching it. Just press the "Contents" button in the
-file selector window and a new window will pop up with the
-contents of the selected image.
+It is possible to examine the directory of a disk or tape image before
+attaching it.  Just press the "Contents" button in the file selector
+window and a new window will pop up with the contents of the selected
+image.
 
 </P>
 <P>
@@ -246,7 +246,7 @@ a proper disk or tape image file.
 
 </P>
 <P>
-Notice that, if true 1541 emulation is turned on, it will be turned off
+Notice that, if true drive emulation is turned on, it will be turned off
 before running the program and then turned on again after it has been
 loaded.  This way, you get the maximum possible speed while loading the
 file, but you do not lose compatibility once the program itself is
@@ -255,10 +255,10 @@ running.
 </P>
 <P>
 This method is not completely safe, because some autostarting methods
-might cause the true 1541 emulation not to be turned on again.  In such
+might cause the true drive emulation not to be turned on again.  In such
 cases, the best thing to do is to disable kernal traps (which will cause
-true 1541 emulation to be always kept turned on), or to manually load
-the program with true 1541 emulation turned on.
+true drive emulation to be always kept turned on), or to manually load
+the program with true drive emulation turned on.
 
 </P>
 
@@ -384,9 +384,9 @@ hard reset instead.
 
 </P>
 <P>
-This is especially the case for the CBM-II emulators. Those machines
-examine a memory location and if they find a certain "magic" value
-they only do what you know from the C64 as <CODE>Run/Stop-Restore</CODE>.
+This is especially the case for the CBM-II emulators.  Those machines
+examine a memory location and if they find a certain "magic" value they
+only do what you know from the C64 as <CODE>Run/Stop-Restore</CODE>.
 Therefore, to really reset a CBM-II use hard reset.
 
 </P>

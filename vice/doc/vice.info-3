@@ -17,135 +17,6 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
-File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
-
-Printer settings
-----------------
-
-   The VICE emulators can emulate printers connected to either the IEC
-buffer or the user port.  Emulation can be achieved by redirecting the
-printer output to a file or by piping it through an external process.
-This is defined by so-called "printer device file names"; a printer
-device file name can be either a simple path, or a command name
-preceeded by a pipe symbol `|'.
-
-   For example, printer device `filename' will cause the output to be
-appended to the file `filename', while printer device `|lpr' will cause
-the `lpr' command to be executed and be fed the printer output. The
-printer output will not be converted but saved as printed by the
-emulated machine.
-
-   Up to three printer devices may be specified through the following
-resources:
-
-   * device 1, whose default value is `print.dump';
-
-   * device 2, whose default value is `|petlp |lpr';
-
-   * device 3, whose default value is `|lpr'.
-
-   So, basically, by default printer device 1 will simply dump printer
-output to `print.dump'; printer device 2 will print it via `petlp' (a
-not-yet-complete utility that will produce Postscript output from the
-Commodore printer code) and `lpr'; printer device 3 will print it with
-`lpr'.
-
-* Menu:
-
-* Printer resources::
-* Printer options::
-
-
-File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
-
-Printer resources
-.................
-
-`PrDevice1'
-`PrDevice2'
-`PrDevice3'
-     Strings specifying the printer devices (*note Printer settings::.).
-
-`Printer4'
-     Boolean specifying if the IEC printer (device 4) is being emulated.
-
-`Printer4Dev'
-     Integer (ranging from 0 to 2, for device 1-3) specifying what
-     printer device (*note Printer settings::.) the IEC printer is
-     using.
-
-`PrUser'
-     Boolean specifying if the user-port printer is being emulated.
-
-`PrUserDev'
-     Integer (ranging from 0 to 2, for device 1-3) specifying what
-     printer device the user-port printer is using.
-
-
-File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
-
-Printer command-line options
-............................
-
-`-prdev1 NAME'
-`-prdev2 NAME'
-`-prdev3 NAME'
-     Specify `NAME' as printer devices 1, 2 and 3, respectively
-     (`PrDevice1', `PrDevice2' and `PrDevice3').
-
-`-printer4'
-`+printer4'
-     Enable/disable emulation of the IEC printer (`Printer4=1',
-     `Printer4=0').
-
-`-pr4dev DEV'
-     Specify device for the IEC printer (`Printer4Dev').
-
-`-pruser'
-`+pruser'
-     Enable/disable emulation of the IEC printer (`PrUser=1',
-     `PrUser=0').
-
-`-pruserdev DEV'
-     Specify device for the IEC printer (`PrUserDev').
-
-
-File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
-
-Disabling kernal traps
-----------------------
-
-   If you have compatibility problems, you can completely disable Kernal
-traps with the "Disable kernal traps" option.  This will of course
-disable all the features that depend on it, such as the fast 1541
-emulation (so you will have to turn true 1541 emulation on if you want
-to be able to read or write disk images) and tape support.
-
-* Menu:
-
-* No traps resources::
-* No traps options::
-
-
-File: vice.info,  Node: No traps resources,  Next: No traps options,  Prev: No kernal traps,  Up: No kernal traps
-
-Resources to control Kernal traps
-.................................
-
-`NoTraps'
-     Boolean specifying whether all the Kernal trap should be disabled.
-
-
-File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
-
-Command-line options to control Kernal traps
-............................................
-
-`-traps'
-`+traps'
-     Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
-
-
 File: vice.info,  Node: RS232 settings,  Next: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
 
 RS232 settings
@@ -153,9 +24,9 @@ RS232 settings
 
    The VICE emulators can emulate the RS232 device most of the machines
 have.  The C64, C128 and VIC20 emulators emulate the userport RS232
-interface at 300 and 1200 baud. The C64 and C128 can also use the 9600
+interface at 300 and 1200 baud.  The C64 and C128 can also use the 9600
 baud interface by Daniel Dallmann, using the shift registers of the two
-CIA 6526 chips. The PET can have a 6551 ACIA RS232 interface when
+CIA 6526 chips.  The PET can have a 6551 ACIA RS232 interface when
 running as a SuperPET, and the CBM-II has such an ACIA by default.  The
 C64 and C128 emulators can emulate an ACIA 6551 (also known as Datapump
 for example) as extension at `$de**'.
@@ -171,27 +42,27 @@ for example) as extension at `$de**'.
 decide which interface should be connected to which device.  This is
 done by so-called "rs232 device file names"; an rs232 device file name
 can be either a simple path, or a command name preceeded by a pipe
-symbol `|'. If the path specifies a special device (`/dev/ttyS0') it is
-recognized by VICE and the emulator can set the baudrate.
+symbol `|'.  If the path specifies a special device (`/dev/ttyS0') it
+is recognized by VICE and the emulator can set the baudrate.
 
    For example, rs232 device `filename' will cause the output to be
 written (not appended) to the file `filename', while printer device
 `|lpr' will cause the `lpr' command to be executed and be fed the rs232
-output. The rs232 output will not be converted but saved as sent by the
-emulated machine. The same holds true for the rs232 input.  If the
+output.  The rs232 output will not be converted but saved as sent by
+the emulated machine.  The same holds true for the rs232 input.  If the
 command writes data to standard out it will be caught by VICE and sent
-back to the emulator. Also the data sent by the pseudo device will be
+back to the emulator.  Also the data sent by the pseudo device will be
 sent back to VICE.
 
    For example you can setup a null-modem cable between two serial ports
-of your PC, setup one port for login and use the other in VICE. Then you
-can login from your emulator via the RS232 emulation and the null-modem
-cable to your machine again.
+of your PC, setup one port for login and use the other in VICE.  Then
+you can login from your emulator via the RS232 emulation and the
+null-modem cable to your machine again.
 
    You can not simply run a shell from VICE, as the shell will notice
 that it does not run on its own pseudo terminal and will thus buffer its
-output. You need to write some program that opens an own pseudo terminal
-and runs the shell from there (not yet finished).
+output.  You need to write some program that opens an own pseudo
+terminal and runs the shell from there (not yet finished).
 
    Up to four RS232 devices may be specified through the following
 resources:
@@ -205,10 +76,10 @@ resources:
    * device 4, whose default value is `|lpr'.
 
    For the first two devices you can change the baudrate the tty device
-is set to by specifying it on the commandline or in the menu. This
+is set to by specifying it on the commandline or in the menu.  This
 baudrate is 9600 by default for the latter two, but can be changed only
-by resources (The baudrate is independent from the baudrate the
-emulator actually expects).
+by resources (The baudrate is independent from the baudrate the emulator
+actually expects).
 
 * Menu:
 
@@ -345,6 +216,10 @@ Miscellaneous resources
      settings before exiting.  If this is enabled, the user will be
      always prompted first, in case the settings have changed.
 
+`DoCoreDump'
+     Boolean specifying whether the emulator should dump core when it
+     gets a signal.
+
 
 File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
 
@@ -363,6 +238,11 @@ Miscellaneous command-line options
      Enable/disable automatic saving of settings on exit
      (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
 
+`-core'
+`+core'
+     Enable/disable generation of core dumps (`DoCoreDump=1',
+     `DoCoreDump=0').
+
 
 File: vice.info,  Node: Machine-specific features,  Next: Snapshots,  Prev: Settings and resources,  Up: Top
 
@@ -377,7 +257,7 @@ Machine-specific features
                                 VIC20 emulator
 * PET-specific::                Commands and settings specific to the
                                 PET emulator
-* CBM-II-specific::		Commands and settings specific to the
+* CBM-II-specific::             Commands and settings specific to the
 				CBM-II emulator
 
 
@@ -395,7 +275,6 @@ specific and thus are not present in the other emulators.
 * VIC-II settings::             Settings that control the video chip.
 * SID settings::                Settings that control the audio chip.
 * C64 I/O extension settings::  Settings that enable special extensions.
-* RS232 settings::              Settings that control the RS232 emulation.
 * C64/128 system ROM settings::  Settings to control the system ROMs.
 
 
@@ -517,6 +396,9 @@ audio chip.
      there are two slightly different generations of SID chips: MOS6581
      ones and MOS8580 ones.
 
+   * "Use reSID emulation" specifies whether the more accurate (and
+     resource hungry) reSID emulation is turned on or off.
+
 * Menu:
 
 * SID resources::
@@ -536,6 +418,10 @@ SID resources
      Integer specifying what model of the SID must be emulated (`0':
      MOS6581, `1': MOS8580).
 
+`SidUseResid'
+     Boolean specifying whether the accurate reSID emulation is being
+     used.
+
 
 File: vice.info,  Node: SID options,  Prev: SID resources,  Up: SID settings
 
@@ -550,6 +436,11 @@ SID command-line options
 `+sidfilters'
      Enable (`SidFilters=1') or disable (`SidFilters=0') emulation of
      the built-in SID filters.
+
+`-resid'
+`+resid'
+     Enable (`SidFilters=1') or disable (`SidFilters=0') usage of the
+     reSID emulator.
 
 
 File: vice.info,  Node: C64 I/O extension settings,  Next: C64/128 system ROM settings,  Prev: SID settings,  Up: C64/128-specific
@@ -667,19 +558,19 @@ C64/128 system ROM resources
      revisions without changing the ROM set.  Valid values are:
 
     `0'
-          Kernal revision 0
+          Kernal revision 0;
 
     `3'
-          Kernal revision 3
+          Kernal revision 3;
 
     `sx'
     `67'
-          Commodore SX-64 ROM
+          Commodore SX-64 ROM;
 
     `100'
 
     `4064'
-          Commodore 4064 (also known as "PET64" or "Educator 64") ROM
+          Commodore 4064 (also known as "PET64" or "Educator 64") ROM.
 
 
 File: vice.info,  Node: C64/128 system ROM options,  Prev: C64/128 system ROM resources,  Up: C64/128 system ROM settings
@@ -939,13 +830,13 @@ file, command line options or right-menu items):
      Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
 
 `IOSize'
-     Size of I/O area in Byte. Either 2048 or 256 for 8296.
+     Size of I/O area in Byte.  Either 2048 or 256 for 8296.
 
 `Crtc'
      Enables CRTC 6545 emulation (all models from 40xx and above)
 
 `VideoSize'
-     The number of columns on the screen (40 or 80). A 0 auto-detects
+     The number of columns on the screen (40 or 80).  A 0 auto-detects
      this from the ROM.
 
 `Ram9'
@@ -962,24 +853,24 @@ file, command line options or right-menu items):
      Specify `NAME' as the character generator ROM file
 
 `KernalName'
-     Specify `NAME' as the kernal ROM file. This file contains the
+     Specify `NAME' as the kernal ROM file.  This file contains the
      complete BASIC, EDITOR and KERNAL ROMs and is either 16k (BASIC 1
      and 2) or 20k (BASIC 4) in size.
 
 `EditorName'
-     Specify `NAME' as the editor ROM file. This file contains an
+     Specify `NAME' as the editor ROM file.  This file contains an
      overlay for the editor ROM at $E000-$E7FF if necessary.
 
 `RomModule9Name'
-     Specify `NAME' as the $9*** Expansion ROM file. This file contains
+     Specify `NAME' as the $9*** Expansion ROM file.  This file contains
      an expansion ROM image of 4k.
 
 `RomModuleAName'
-     Specify `NAME' as the $A*** Expansion ROM file. This file contains
+     Specify `NAME' as the $A*** Expansion ROM file.  This file contains
      an expansion ROM image of 4k.
 
 `RomModuleBName'
-     Specify `NAME' as the $B*** Expansion ROM file. This file contains
+     Specify `NAME' as the $B*** Expansion ROM file.  This file contains
      an expansion ROM image of 4k.  This file overlays the lowest 4k of
      a BASIC 4 ROM.
 
@@ -1106,7 +997,8 @@ set of CBM models so that all the features are selected accordingly.
 file, command line options or right-menu items):
 
 `RamSize'
-     Size of memory in kByte. Possible values are 128, 256, 512 and 1024
+     Size of memory in kByte.  Possible values are 128, 256, 512 and
+     1024
 
 `Ram08, Ram1, Ram2, Ram4, Ram6, RamC'
      Expanded CBM-II models could map RAM to the expansion ROM areas at
@@ -1115,7 +1007,7 @@ file, command line options or right-menu items):
 
 `Cart2Name, Cart4Name, Cart6Name'
      Specify `NAME' as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
-     Expansion ROM file. This file contains an 8k ROM dump.
+     Expansion ROM file.  This file contains an 8k ROM dump.
 
 `ModelLine'
      The CBM-II models have two hardcoded lines at one of the I/O ports.
@@ -1200,8 +1092,7 @@ Snapshots
 *********
 
    Every VICE emulator has a built-in snapshot feature, that saves the
-complete Emulator state (see below) into one file. This file can then
-be used to restore the emulator state by loading it.
+complete emulator state into one file for later use.
 
 * Menu:
 
@@ -1214,10 +1105,10 @@ File: vice.info,  Node: Snapshot usage,  Next: Snapshot format,  Prev: Snapshots
 Snapshot usage
 ==============
 
-   A snapshot is one file.  It contains the complete emulator state.  A
-snapshot file can be generated by selecting the `save snapshot' menu
-entry at any time. In the dialog for saving the snapshot you can decide
-whether to put the disk images and/or the ROM images into the snapshot.
+   A snapshot is one file containining the complete emulator state.  A
+snapshot file can be generated by selecting the "Save snapshot" command
+at any time.  This will pop up a requester from which you can specify
+whether the snapshot should also contain the disk and ROM status.
 
    A snapshot file can be used to restore the emulator state by
 selecting the `load snapshot' menu entry at any time.
@@ -1227,9 +1118,9 @@ to be considered:
 
    * The ROMs if they are not saved in the snapshot.  This can pose
      problems when restoring the state of a PET 3032 into a PET 4032
-     for example. Also attached cartridges are not saved.  I.e. you
+     for example.  Also attached cartridges are not saved.  I.e. you
      have to attach them before restoring a snapshot of a run of such a
-     cartridge. However, saving the ROMs in the snapshot fixes this
+     cartridge.  However, saving the ROMs in the snapshot fixes this
      behaviour.
 
    * The memory configuration.  The VIC20, PET and CBM-II emulators do
@@ -1242,8 +1133,8 @@ File: vice.info,  Node: Snapshot format,  Prev: Snapshot usage,  Up: Snapshots
 Snapshot format
 ===============
 
-   A snapshot file consists of several modules.  Each module has a name.
-A module saves the state of an entity like a CIA, the CPU, or the
+   A snapshot file consists of several modules, and each module has a
+name.  A module saves the state of an entity like a CIA, the CPU, or the
 memory.
 
 * Menu:
@@ -1277,24 +1168,29 @@ x64 modules
 
    The modules in the x64 emulator are:
 
-Name    Type           Description                                        
-MAINCPU 6502           The Main CPU - although it is a 6510, only the     
-                       6502 core is saved here                            
-C64MEM  Memory         Holds the RAM contents of the C64. Also the CPU    
-                       I/O register contents are saved here.              
-VIC-II  656*           The VIC-II of the C64                              
-CIA1    6526           The CIA for the interrupts and the keyboard        
-CIA2    6526           The CIA for the userport, IEC-bus and RS232.       
-SID     6581           The SID sound chip of the C64                      
-REU*                   The RAM Extension Unit state (optional)            
-ACIA1   6551           An ACIA at $DE00 (optional)                        
-TPI     6525           A TPI at $DF00 for a parallel IEEE488 interface    
-                       (optional)                                         
-*       Drive modules  The emulated drive(s) have their own modules       
-                       *note Drive modules::.                             
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU - although it is a      
+                                      6510, only the 6502 core is saved    
+                                      here                                 
+C64MEM  Memory                        Holds the RAM contents of the C64.   
+                                      Also the CPU I/O register contents   
+                                      are saved here.                      
+VIC-II  656*                          The VIC-II of the C64/128            
+CIA1    6526                          The CIA for the interrupts and the   
+                                      keyboard                             
+CIA2    6526                          The CIA for the userport, IEC-bus    
+                                      and RS232.                           
+SID     6581                          The SID sound chip of the C64        
+REU*                                  The RAM Extension Unit state         
+                                      (optional)                           
+ACIA1   6551                          An ACIA at $DE00 (optional)          
+TPI     6525                          A TPI at $DF00 for a parallel        
+                                      IEEE488 interface (optional)         
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
 
    Some of the modules are optional and are only saved if the specific
-feature is enabled at save-time. If the module is found when restoring
+feature is enabled at save-time.  If the module is found when restoring
 the state the optional features are enabled, and disabled otherwise.
 
 
@@ -1309,16 +1205,19 @@ File: vice.info,  Node: xvic modules,  Next: xpet modules,  Prev: x128 modules, 
 xvic modules
 ............
 
-Name    Type           Description                                        
-MAINCPU 6502           The Main CPU                                       
-VIC20MEMMemory         Holds the RAM contents of the VIC20.               
-VIC20ROMROM images     Holds the ROM images of the VIC20, including       
-                       possibly attached cartridges                       
-VIC-I   656*           The VIC-I of the VIC20                             
-VIA1    6522           The VIA for the interrupts and the keyboard        
-VIA2    6522           The VIA for the userport, IEC-bus and RS232.       
-*       Drive modules  The emulated drive(s) have their own modules       
-                       *note Drive modules::.                             
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU                         
+VIC20MEMMemory                        Holds the RAM contents of the VIC20. 
+VIC20ROMROM images                    Holds the ROM images of the VIC20,   
+                                      including possibly attached          
+                                      cartridges                           
+VIC-I   656*                          The VIC-I of the VIC20               
+VIA1    6522                          The VIA for the interrupts and the   
+                                      keyboard                             
+VIA2    6522                          The VIA for the userport, IEC-bus    
+                                      and RS232.                           
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
 
 
 File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,  Up: Emulator modules
@@ -1326,20 +1225,23 @@ File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,
 xpet modules
 ............
 
-Name    Type           Description                                        
-MAINCPU 6502           The Main CPU                                       
-PETMEM  Memory         Holds the RAM contents of the PET.                 
-PETROM  ROM images     Holds the ROM images of the PET, including         
-                       possibly attached cartridges                       
-CRTC    6545           The CRTC of the PET. This can even be included if  
-                       it is a dump of a PET without CRTC.                
-PIA1    6520           The PIA for the interrupts, tape and the keyboard  
-PIA2    6520           The PIA for the IEEE488-bus                        
-VIA     6522           The VIA for IEEE488, userport, sound               
-ACIA1   6551           The ACIA for the SuperPET. This module is          
-                       optional.                                          
-*       Drive modules  The emulated drive(s) have their own modules       
-                       *note Drive modules::.                             
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU                         
+PETMEM  Memory                        Holds the RAM contents of the PET.   
+PETROM  ROM images                    Holds the ROM images of the PET,     
+                                      including possibly attached          
+                                      cartridges                           
+CRTC    6545                          The CRTC of the PET.  This can even  
+                                      be included if it is a dump of a     
+                                      PET without CRTC.                    
+PIA1    6520                          The PIA for the interrupts, tape     
+                                      and the keyboard                     
+PIA2    6520                          The PIA for the IEEE488-bus          
+VIA     6522                          The VIA for IEEE488, userport, sound 
+ACIA1   6551                          The ACIA for the SuperPET.  This     
+                                      module is optional.                  
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
 
 
 File: vice.info,  Node: xcbm2 modules,  Next: Drive modules,  Prev: xpet modules,  Up: Emulator modules
@@ -1349,26 +1251,29 @@ xcbm2 modules
 
    The modules in the xcbm2 emulator are:
 
-Name    Type           Description                                        
-MAINCPU 6502           The Main CPU - although it is a 6509, only the     
-                       6502 core is saved here                            
-CBM2MEM Memory         Holds the RAM contents of the CBM-II models. Also  
-                       holds the exec-bank and indirection bank registers 
-CBM2ROM Memory         optional. Holds the ROM images.                    
-CRTC    6545           The video chip for the C6*0 and C7*0 models (only  
-                       those models).                                     
-VIC-II  656?           The video chip for the C5*0 models (only the C5*0  
-                       models).                                           
-CIA1    6526           The CIA for IEEE 488 and userport.                 
-TPI1    6525           TPI 1 for IEEE488                                  
-TPI2    6525           TPI 2 for interrupts and keyboard.                 
-ACIA1   6551           The RS232 interface                                
-SID     6581           The CBM2s SID sound chip                           
-*       Drive modules  The emulated drive(s) have their own modules       
-                       *note Drive modules::.                             
+Name    Type                          Description                          
+MAINCPU 6502                          The Main CPU - although it is a      
+                                      6509, only the 6502 core is saved    
+                                      here                                 
+CBM2MEM Memory                        Holds the RAM contents of the        
+                                      CBM-II models.  Also holds the       
+                                      exec-bank and indirection bank       
+                                      registers                            
+CBM2ROM Memory                        optional.  Holds the ROM images.     
+CRTC    6545                          The video chip for the C6*0 and      
+                                      C7*0 models (only those models).     
+VIC-II  656?                          The video chip for the C5*0 models   
+                                      (only the C5*0 models).              
+CIA1    6526                          The CIA for IEEE 488 and userport.   
+TPI1    6525                          TPI 1 for IEEE488                    
+TPI2    6525                          TPI 2 for interrupts and keyboard.   
+ACIA1   6551                          The RS232 interface                  
+SID     6581                          The CBM2s SID sound chip             
+*       Drive modules                 The emulated drive(s) have their     
+                                      own modules *note Drive modules::.   
 
    The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both. Depending on which module is found, a C5*0 or C6*0 is
+not both.  Depending on which module is found, a C5*0 or C6*0 is
 emulated.
 
 
@@ -1381,9 +1286,9 @@ Drive modules
 emulator when the emulation is enabled during the writing of the
 snapshot.
 
-Name    Type           Description                                        
-*CPU    6502           The Drive 0 CPU                                    
-*       *              *                                                  
+Name    Type                          Description                          
+*CPU    6502                          The Drive 0 CPU                      
+*       *                             *                                    
 
 
 File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot format
@@ -1395,7 +1300,7 @@ Module formats
 different types of modules.
 
    The single chip modules contain the chip state, not the state of the
-emulator. We tried to make the format as implementation-independent as
+emulator.  We tried to make the format as implementation-independent as
 possible, to allow reuse of snapshots in later versions of this
 emulator, or even in other emulators.
 
@@ -1403,7 +1308,6 @@ emulator, or even in other emulators.
 
 * Module Terminology::
 * Module framework::
-
 * CPU 6502 module::
 * CIA 6526 module::
 * VIA 6522 module::
@@ -1414,7 +1318,6 @@ emulator, or even in other emulators.
 * VIC-I module::
 * VIC-II module::
 * CRTC module::
-
 * C64 memory module::
 * C128 memory module::
 * VIC20 memory module::
@@ -1434,17 +1337,17 @@ the data saved in the snapshot.
      8 bit integer.
 
 `WORD'
-     16 bit integer. Saved with low-byte first, high-byte last.
+     16 bit integer.  Saved with low-byte first, high-byte last.
 
 `DWORD'
-     32 bit integer. Saved with low-word first, then high-word. Each
+     32 bit integer.  Saved with low-word first, then high-word.  Each
      word saved with its low-byte first.
 
 `ARRAY'
-     Array of BYTE values. Length depends on the description.
+     Array of BYTE values.  Length depends on the description.
 
    The tables for the single modules state the type, name and
-description of the data saved in the modules. The data is saved in the
+description of the data saved in the modules.  The data is saved in the
 order it is in the tables, so no offset is given.
 
 
@@ -1456,31 +1359,34 @@ Module framework
    The VICE snapshot file starts with the magic string and includes the
 fileformat version number.
 
-Type    Name           Description                                        
-19 BYTE MAGIC          "VICE Snapshot File\032", padded with 0            
-BYTE    VMAJOR         fileformat major version number                    
-BYTE    VMINOR         fileformat minor version number                    
-16 BYTE MACHINENAME    Name of emulated machine, like "PET", "CBM-II",    
-                       "VIC20", "C64" or "C128". zerobyte-padded.         
+Type    Name                          Description                          
+19 BYTE MAGIC                         "VICE Snapshot File\032", padded     
+                                      with 0                               
+BYTE    VMAJOR                        fileformat major version number      
+BYTE    VMINOR                        fileformat minor version number      
+16 BYTE MACHINENAME                   Name of emulated machine, like       
+                                      "PET", "CBM-II", "VIC20", "C64" or   
+                                      "C128". zerobyte-padded.             
 
    The file header is followed by a number of different snapshot
 modules.
 
    Each module has a header with the information given in the table
 below.  The header includes two version numbers, VMAJOR and VMINOR.
-Modules with the same VMAJOR should be able to be exchanged. I.e.
-higher VMINOR numbers only append to the data for lower VMINOR. This
-additional data is ignored by older restore routines. The other way
+Modules with the same VMAJOR should be able to be exchanged.  I.e.
+higher VMINOR numbers only append to the data for lower VMINOR.  This
+additional data is ignored by older restore routines.  The other way
 around newer restore routines must accept the fewer info from lower
 VMINOR dumps.  Changes in VMAJOR might introduce any incompatibility
 you like, but that's what VMAJOR is for after all :-)
 
-Type    Name           Description                                        
-16 BYTE MODULENAME     The name of the module in ASCII, padded with 0 to  
-                       16 byte.                                           
-BYTE    VMAJOR         major version number                               
-BYTE    VMINOR         minor version number                               
-DWORD   SIZE           size of the module, not including this header      
+Type    Name                          Description                          
+16 BYTE MODULENAME                    The name of the module in ASCII,     
+                                      padded with 0 to 16 byte.            
+BYTE    VMAJOR                        major version number                 
+BYTE    VMINOR                        minor version number                 
+DWORD   SIZE                          size of the module, not including    
+                                      this header                          
 
 
 File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats
@@ -1488,26 +1394,29 @@ File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module f
 CPU module
 ..........
 
-   This module saves the core 6502 state. You will find a clock value
+   This module saves the core 6502 state.  You will find a clock value
 there.  All other modules save their own clock values relative to this
 value.  However, the drive modules save their clocks relative to their
 appropriate CPUs of course.
 
    Warning: This module is still under construction and saves some
-information that is not sure to be VICE-independent. If in doubt, read
+information that is not sure to be VICE-independent.  If in doubt, read
 the source.
 
-Type    Name           Description                                        
-DWORD   CLK            the current CPU clock value. All other clock       
-                       values are relative to this.                       
-BYTE    AC             Accumulator                                        
-BYTE    XR             X index register                                   
-BYTE    YR             Y index register                                   
-BYTE    SP             Stack Pointer                                      
-WORD    PC             Programm Counter                                   
-BYTE    ST             Status Registers                                   
-DWORD   LASTOPCODE     ?                                                  
-DWORD   IRQCLK         absolute CLK when the IRQ line came active         
-DOWRD   NMICLK         absolute CLK when the NMI line came active         
-DWORD   ?              ?                                                  
-DWORD   ?              ?                                                  
+Type    Name                          Description                          
+DWORD   CLK                           the current CPU clock value.  All    
+                                      other clock values are relative to   
+                                      this.                                
+BYTE    AC                            Accumulator                          
+BYTE    XR                            X index register                     
+BYTE    YR                            Y index register                     
+BYTE    SP                            Stack Pointer                        
+WORD    PC                            Programm Counter                     
+BYTE    ST                            Status Registers                     
+DWORD   LASTOPCODE                    ?                                    
+DWORD   IRQCLK                        absolute CLK when the IRQ line came  
+                                      active                               
+DOWRD   NMICLK                        absolute CLK when the NMI line came  
+                                      active                               
+DWORD   ?                             ?                                    
+DWORD   ?                             ?                                    

@@ -17,6 +17,136 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
+
+How to send feedback
+====================
+
+   If you want to report bugs, make suggestions or contribute to the
+project, please email one of the following people:
+
+   * Teemu Rantanen (<tvr@cs.hut.fi>) for the SID stuff;
+
+   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for the 1541 disk
+     drive;
+
+   * Andr'e Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
+     CBM-II;
+
+   * Ettore Perazzoli (<ettore@comm2000.it>), the current maintainer,
+     for everything else.
+
+   It's always nice to receive feedback and/or bugreports about VICE,
+but please read these few notes before sending mail to anybody in the
+team.
+
+   * Please put the word `VICE' *in all capitals* in your subject line
+     (e.g., `VICE fails to run game XXX').  This helps mail splitting
+     and reduces chances that your message is unintentionally deleted,
+     forgotten or lost.
+
+   * Please don't send any HTML mail (we really hate that!).  If you use
+     M$ Outlook or Netscape Communicator, make sure you turn off the
+     "rich text" (HTML) feature.
+
+   * Please don't send *any* binaries without asking first.
+
+   * Please read the following documents carefully before reporting a
+     bug or a problem you cannot solve:
+
+        * the VICE documentation (you are reading it!);
+
+        * the VICE FAQ (it is available on the Internet, and reachable
+          from the VICE home page:
+          http://www.tu-chemnitz.de/~fachat/vice/vice.html);
+
+        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
+          you should read::.).
+
+   * When you report a bug, please try to be as accurate as possible and
+     describe how it can be reproduced to the very detail.  You should
+     also tell us what machine you are running on, what operating
+     system you are using as well as the version of it.
+
+   * Please don't ask us how to transfer original C64 disk or tapes to
+     your PC; this has been asked a gazillion times through email.  To
+     transfer disks, you can use the Star Commander
+     (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
+     disks with your old 5"1/4 PC drive.
+
+   * Please don't ask us where to find games for the emulator on the
+     Internet.
+
+   * Please don't ask us when the next version will be out, because we
+     really don't know.
+
+   * Please write in English, or in the language of the person you are
+     writing to (Ettore is Italian, Andr'e and Andreas are German,
+     Teemu is Finnish, Daniel is from Canada).
+
+   In any case, we would be *really* glad to receive your comments
+about VICE.
+
+   Thanks!
+
+
+File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
+
+How to contribute
+=================
+
+   If you want to make a major contribution, please *ask* first.  It
+has already happened a couple of times that somebody started working at
+something that had already been done but not released to the public yet,
+and we really do *not* want anybody to waste time.
+
+   If you are going to make a patch, please make sure the patch is
+relative to the very latest version, and provide us with the following:
+
+   * a diff file containing all the changes you have made (`diff -c' or
+     `diff -u' (better) is fine; please don't use plain `diff');
+
+   * GNU-style `ChangeLog' entries with a description of the changes you
+     have made (look at the `ChangeLog's provided with the original VICE
+     sources for an example).
+
+   This is very important, and makes adding patches much smoother and
+safer.
+
+   People willing to port VICE to other platforms are always welcome.  A
+Windows and a MacOS port are in the works, so if you are interested in
+those platforms, please let us know.  There is plenty of work to do and
+any sort of help can be very useful.
+
+
+File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
+
+Interesting newsgroups
+======================
+
+   There are some Usenet newsgroups you might be interested in:
+
+   * `comp.emulators.cbm', discussing about emulators of Commodore 8-bit
+     machines (definitely not Amiga emulators).
+
+   * `comp.sys.cbm', discussing various topics regarding real Commodore
+     8-bit machines.  This newsgroup is mainly for people who actually
+     use original Commodore equipment (so please don't talk about
+     emulation here).
+
+   * `comp.emulators.misc', discussing emulators in general.
+
+
+File: vice.info,  Node: FAQs you should read,  Prev: Newsgroups,  Up: Contacts
+
+FAQs you should read
+====================
+
+   We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
+FAQs, which are posted regularly on the corresponding newsgroups and
+are also available via FTP from ftp://rtfm.mit.edu.
+
+
 File: vice.info,  Node: Concept Index,  Next: Resource Index,  Prev: Contacts,  Up: Top
 
 Concept Index
@@ -28,7 +158,6 @@ Concept Index
 * -1:                                    Command-line initialization.
 * -10:                                   Command-line initialization.
 * -11:                                   Command-line initialization.
-* -1541, +1541:                          1541 options.
 * -8:                                    Command-line initialization.
 * -9:                                    Command-line initialization.
 * -?:                                    Command-line initialization.
@@ -51,15 +180,20 @@ Concept Index
 * -checksb, +checksb:                    VIC-II options.
 * -checkss, +checkss:                    VIC-II options.
 * -copy:                                 c1541 commands and options.
+* -core, +core:                          Misc options.
 * -create:                               c1541 commands and options.
 * -default:                              Command-line initialization.
 * -delete:                               c1541 commands and options.
 * -detach:                               c1541 commands and options.
 * -directory:                            Misc options.
 * -displaydepth:                         Video options.
-* -dosname:                              1541 options.
-* -driveidle:                            1541 options.
-* -drivesync:                            1541 options.
+* -dos1541:                              Drive options.
+* -dos1571:                              Drive options.
+* -dos1581:                              Drive options.
+* -dos2031:                              Drive options.
+* -drive8idle, -drive9idle:              Drive options.
+* -drive8type, -drive9type:              Drive options.
+* -drivesync:                            Drive options.
 * -dscan, +dscan:                        Video options.
 * -dsize, +dsize:                        Video options.
 * -editor:                               PET commandline options.
@@ -91,9 +225,10 @@ Concept Index
 * -mitshmauto:                           Video options.
 * -model:                                PET commandline options.
 * -modelline:                            CBM-II commandline options.
-* -ntscdrive:                            1541 options.
-* -paldrive:                             1541 options.
-* -parallel, +parallel:                  1541 options.
+* -ntscdrive:                            Drive options.
+* -paldrive:                             Drive options.
+* -parallel8, +parallel8:                Drive options.
+* -parallel9, +parallel9:                Drive options.
 * -petramA:                              PET commandline options.
 * -petramB:                              PET commandline options.
 * -poskeymap:                            Keyboard options.
@@ -112,6 +247,7 @@ Concept Index
 * -ramC:                                 CBM-II commandline options.
 * -read:                                 c1541 commands and options.
 * -refresh:                              Performance options.
+* -resid, +resid:                        SID options.
 * -reu, +reu:                            C64 I/O extension options.
 * -rom9:                                 PET commandline options.
 * -romA:                                 PET commandline options.
@@ -140,6 +276,7 @@ Concept Index
 * -symkeymap:                            Keyboard options.
 * -tape:                                 c1541 commands and options.
 * -traps, +traps:                        No traps options.
+* -truedrive, +truedrive:                Drive options.
 * -unlynx:                               c1541 commands and options.
 * -validate:                             c1541 commands and options.
 * -vcache, +vcache:                      Video options.
@@ -212,6 +349,7 @@ Concept Index
 * Sprite collision detection:            VIC-II settings.
 * SuperPET:                              PET model.
 * tape:                                  c1541 commands and options.
+* Toggling reSID emulation:              SID settings.
 * Turning sound playback on/off:         Sound settings.
 * unlynx:                                c1541 commands and options.
 * Using XSync():                         Video settings.
@@ -238,9 +376,23 @@ Index of Resources
 * CheckSsColl:                           VIC-II resources.
 * Directory:                             Misc resources.
 * DisplayDepth:                          Video resources.
-* DosName:                               1541 resources.
+* DoCoreDump:                            Misc resources.
+* DosName1541:                           Drive resources.
+* DosName1571:                           Drive resources.
+* DosName1581:                           Drive resources.
+* DosName2031:                           Drive resources.
 * DoubleScan:                            Video resources.
 * DoubleSize:                            Video resources.
+* Drive8ExtendImagePolicy:               Drive resources.
+* Drive8IdleMethod:                      Drive resources.
+* Drive8ParallelCable:                   Drive resources.
+* Drive8Type:                            Drive resources.
+* Drive9ExtendImagePolicy:               Drive resources.
+* Drive9IdleMethod:                      Drive resources.
+* Drive9ParallelCable:                   Drive resources.
+* Drive9Type:                            Drive resources.
+* DriveSyncFactor:                       Drive resources.
+* DriveTrueEmulation:                    Drive resources.
 * EmuID <1>:                             VIC20 memconf resources.
 * EmuID:                                 C64 I/O extension resources.
 * FSDevice10ConvertP00:                  File system device resources.
@@ -297,6 +449,7 @@ Index of Resources
 * SaveResourcesOnExit:                   Misc resources.
 * SidFilters:                            SID resources.
 * SidModel:                              SID resources.
+* SidUseResid:                           SID resources.
 * Sound:                                 Sound resources.
 * SoundBufferSize:                       Sound resources.
 * SoundDeviceArg:                        Sound resources.
@@ -306,11 +459,6 @@ Index of Resources
 * SoundSpeedAdjustment:                  Sound resources.
 * SoundSuspendTime:                      Sound resources.
 * Speed:                                 Performance resources.
-* True1541:                              1541 resources.
-* True1541ExtendImagePolicy:             1541 resources.
-* True1541IdleMethod:                    1541 resources.
-* True1541ParallelCable:                 1541 resources.
-* True1541SyncFactor:                    1541 resources.
 * UseXSync:                              Video resources.
 * VideoCache:                            Video resources.
 * WarpMode:                              Performance resources.
