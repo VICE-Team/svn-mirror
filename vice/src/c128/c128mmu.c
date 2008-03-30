@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "cmdline.h"
 #include "functionrom.h"
+#include "iecdrive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "log.h"
@@ -221,6 +222,7 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             value = (value & 0x7f) | 0x30;
             if ((value & 1) ^ (oldvalue & 1))
                 mmu_switch_cpu(value & 1);
+            iec_fast_cpu_direction(value & 8);
             break;
           case 6: /* RAM configuration register (RCR).  */
             mem_set_ram_config(value);
