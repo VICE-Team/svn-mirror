@@ -238,7 +238,7 @@ void mem_set_ram_config(BYTE value)
     if (value & 0x8) {
         top_shared_limit = 0xffff - shared_size;
         DEBUG_PRINT(("MMU: Sharing high RAM from $%04X\n",
-              top_shared_limit + 1));
+                    top_shared_limit + 1));
     } else {
         top_shared_limit = 0xffff;
         DEBUG_PRINT(("MMU: No high shared RAM\n"));
@@ -248,7 +248,7 @@ void mem_set_ram_config(BYTE value)
     if (value & 0x4) {
         bottom_shared_limit = shared_size;
         DEBUG_PRINT(("MMU: Sharing low RAM up to $%04X\n",
-              bottom_shared_limit - 1));
+                    bottom_shared_limit - 1));
     } else {
         bottom_shared_limit = 0;
         DEBUG_PRINT(("MMU: No low shared RAM\n"));
