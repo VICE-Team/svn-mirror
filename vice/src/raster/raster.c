@@ -287,7 +287,7 @@ static int realize_frame_buffer (raster_t *raster)
 static void perform_mode_change(raster_t *raster)
 {
   raster_viewport_t *viewport;
-  canvas_t canvas;
+  canvas_t *canvas;
 #ifdef RECALC_FRAME_BUFFER
   PIXEL old_colours[256];
   PIXEL colour_map[256];
@@ -1406,7 +1406,7 @@ void raster_set_geometry (raster_t *raster,
 }
 
 void raster_set_exposure_handler (raster_t *raster,
-                             canvas_redraw_t exposure_handler)
+                                  void *exposure_handler)
 {
   raster->viewport.exposure_handler = exposure_handler;
 }
@@ -1724,6 +1724,8 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->max_width = raster->geometry.screen_size.width;
     screenshot->max_height = raster->geometry.screen_size.height;
     screenshot->x_offset = raster->geometry.extra_offscreen_border;
+    screenshot->size_width = raster->viewport.pixel_size.width;
+    screenshot->size_height = raster->viewport.pixel_size.height;
     return 0;
 }
 
