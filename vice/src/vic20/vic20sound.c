@@ -160,7 +160,7 @@ void store_sound(ADDRESS addr, BYTE value)
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 {
     DWORD			freq;
-    int				sbase, shift, div;
+    int				sbase, shift, divide;
 
 #if 0
     {
@@ -183,14 +183,14 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 	shift = addr - 10;
 	if (addr == 13)
 	    shift = 0;
-	div = 255 - value;
+	divide = 255 - value;
 	/* XXX: ? */
-	if (!div)
-	    div = 127;
+	if (!divide)
+	    divide = 127;
 	if (!(value & 0x80))
 	    freq = 0;
 	else
-	    freq = VIC20FREQBASE*(1 << shift)/div;
+	    freq = VIC20FREQBASE*(1 << shift) / divide;
 	psid->v[addr - 10].fs = psid->speed1 * freq;
 	break;
     case 14:

@@ -248,7 +248,7 @@ int  sound_register_device(sound_device_t *pdevice)
 
 
 /* close sid device and show error dialog if needed */
-static int closesound(char *msg)
+static int closesound(const char *msg)
 {
     if (snddata.pdev)
     {
@@ -284,7 +284,7 @@ static int closesound(char *msg)
 /* code to disable sid for a given number of seconds if needed */
 static int disabletime;
 
-static void suspendsound(char *reason)
+static void suspendsound(const char *reason)
 {
     disabletime = time(0);
     warn(snddata.pwarn, -1, "SUSPEND: disabling sound for %d secs (%s)",

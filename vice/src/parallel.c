@@ -129,8 +129,8 @@ static int par_status = 0;	/* lower 8 bits = PET par_status, upper bits own */
 #define	NRFDhi		7
 
 typedef struct State_t {
-	char	*name;
-	void	(*m[NTRANS])(int);
+    const char *name;
+    void (*m[NTRANS])(int);
 } State_t;
 
 static const char *Trans[NTRANS] = {
