@@ -286,7 +286,7 @@ memieee.o: memieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/driverom.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
 	../../../src/drive/drive.h ../../../src/mos6510.h memieee.h \
-	riotd.h
+	riotd.h ../../../src/drive/viad.h
 riot1d.o: riot1d.c ../../../src/riotcore.h ../../../src/vice.h \
 	../../../src/config.h ../../../src/log.h ../../../src/riot.h \
 	../../../src/arch/unix/types.h ../../../src/interrupt.h \

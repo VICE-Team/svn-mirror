@@ -371,7 +371,7 @@ drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/arch/unix/types.h driverom.h drivetypes.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/log.h ../../src/machine-drive.h ../../src/mem.h \
-	../../src/monitor.h viad.h
+	../../src/monitor.h
 driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/arch/unix/types.h driverom.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/resources.h \

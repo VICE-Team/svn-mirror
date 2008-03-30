@@ -303,7 +303,7 @@ memiec.o: memiec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivemem.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
 	../../../src/drive/drive.h ../../../src/mos6510.h \
-	../../../src/lib.h memiec.h wd1770.h
+	../../../src/lib.h memiec.h ../../../src/drive/viad.h wd1770.h
 wd1770.o: wd1770.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h ../../../src/arch/unix/types.h \
 	../../../src/diskimage.h ../../../src/drive/drive.h \
