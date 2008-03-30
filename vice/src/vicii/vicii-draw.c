@@ -331,8 +331,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
     msk_ptr = vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
-    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
-        + vic_ii.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b, f;
@@ -433,9 +432,31 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     ALIGN_DRAW_FUNC(_draw_hires_bitmap_cached, xs, xe, cache);
 }
 
+inline static void _draw_hires_bitmap_foreground(BYTE *p, int xs, int xe,
+                                                 BYTE *gfx_msk_ptr)
+{
+    BYTE *bmptr, *msk_ptr;
+    unsigned int i, j;
+
+    bmptr = vic_ii.bitmap_ptr;
+    msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
+
+    for (j = ((vic_ii.memptr << 3)
+        + vic_ii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+        i <= xe; i++, j = (j + 8) & 0x1fff) {
+
+        DWORD *ptr = hr_table + (vic_ii.vbuf[i - vic_ii.buf_offset] << 4);
+        int d;
+
+        d = *(msk_ptr + i) = bmptr[j];
+        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
+        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+    }
+}
+
 static void draw_hires_bitmap_foreground(int start_char, int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char,
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap_foreground, start_char, end_char,
                     vic_ii.raster.gfx_msk);
 }
 
@@ -610,8 +631,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
     msk_ptr = vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
     c1 = vic_ii.ext_background_color[0];
     c2 = vic_ii.ext_background_color[1];
-    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
-        + vic_ii.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b, c;
@@ -768,13 +788,13 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, int xs, int xe,
 
 static void draw_mc_bitmap(void)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+    _draw_mc_bitmap(GFX_PTR(), 0, VIC_II_SCREEN_TEXTCOLS - 1,
                     vic_ii.raster.gfx_msk);
 }
 
 static void draw_mc_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap_cached, xs, xe, cache);
+    _draw_mc_bitmap_cached(GFX_PTR(), xs, xe, cache);
 }
 
 static void draw_mc_bitmap_foreground(int start_char, int end_char)
@@ -782,8 +802,7 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
     BYTE *p, *bmptr, *msk_ptr;
     unsigned int i, j;
 
-    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
-        + vic_ii.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
     bmptr = vic_ii.bitmap_ptr;
     msk_ptr = vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
@@ -926,7 +945,6 @@ static void draw_ext_text_cached(raster_cache_t *cache, int xs, int xe)
     ALIGN_DRAW_FUNC(_draw_ext_text_cached, xs, xe, cache);
 }
 
-/* FIXME: This is *slow* and might not be 100% correct.  */
 static void draw_ext_text_foreground(int start_char, int end_char)
 {
     unsigned int i;
@@ -934,8 +952,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
     msk_ptr = vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
-    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
-        + vic_ii.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b, f;
@@ -1048,13 +1065,13 @@ inline static void _draw_illegal_text_cached(BYTE *p, int xs, int xe,
 
 static void draw_illegal_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_text, 0, VIC_II_SCREEN_TEXTCOLS - 1,
-                    vic_ii.raster.gfx_msk);
+    _draw_illegal_text(GFX_PTR(), 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                       vic_ii.raster.gfx_msk);
 }
 
 static void draw_illegal_text_cached(raster_cache_t *cache, int xs, int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_text_cached, xs, xe, cache);
+    _draw_illegal_text_cached(GFX_PTR(), xs, xe, cache);
 }
 
 static void draw_illegal_text_foreground(int start_char, int end_char)
@@ -1064,9 +1081,7 @@ static void draw_illegal_text_foreground(int start_char, int end_char)
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
     msk_ptr = vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
-
-    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
-        + vic_ii.raster.xsmooth + 8 * start_char);
+    p = GFX_PTR() + 8 * start_char;
 
     memset(p, 0, (end_char - start_char + 1) * 8);
 
@@ -1148,20 +1163,20 @@ inline static void _draw_illegal_bitmap_mode1_cached(BYTE *p, int xs, int xe,
 
 static void draw_illegal_bitmap_mode1(void)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1, 0, VIC_II_SCREEN_TEXTCOLS - 1,
-                    vic_ii.raster.gfx_msk);
+    _draw_illegal_bitmap_mode1(GFX_PTR(), 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                               vic_ii.raster.gfx_msk);
 }
 
 static void draw_illegal_bitmap_mode1_cached(raster_cache_t *cache, int xs,
                                              int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1_cached, xs, xe, cache);
+    _draw_illegal_bitmap_mode1_cached(GFX_PTR(), xs, xe, cache);
 }
 
 static void draw_illegal_bitmap_mode1_foreground(int start_char, int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1, start_char, end_char,
-                    vic_ii.raster.gfx_msk);
+    _draw_illegal_bitmap_mode1(GFX_PTR(), start_char, end_char,
+                               vic_ii.raster.gfx_msk);
 }
 
 /* Illegal bitmap mode 2.  */
@@ -1237,20 +1252,20 @@ inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, int xs, int xe,
 
 static void draw_illegal_bitmap_mode2(void)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2, 0, VIC_II_SCREEN_TEXTCOLS - 1,
-                    vic_ii.raster.gfx_msk);
+    _draw_illegal_bitmap_mode2(GFX_PTR(), 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                               vic_ii.raster.gfx_msk);
 }
 
 static void draw_illegal_bitmap_mode2_cached(raster_cache_t *cache, int xs,
                                              int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2_cached, xs, xe, cache);
+    _draw_illegal_bitmap_mode2_cached(GFX_PTR(), xs, xe, cache);
 }
 
 static void draw_illegal_bitmap_mode2_foreground(int start_char, int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2, start_char, end_char,
-                    vic_ii.raster.gfx_msk);
+    _draw_illegal_bitmap_mode2(GFX_PTR(), start_char, end_char,
+                               vic_ii.raster.gfx_msk);
 }
 
 /* Idle state.  */

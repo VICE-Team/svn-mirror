@@ -1,3 +1,24 @@
+2002-07-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.65.
+
+	* raster/raster-line.c (handle_visible_line_with_changes): As
+	`draw_idle_state' is used for both background and foreground
+	changes, save and restore this value.
+
+	* vicii/vicii-draw.c (draw_std_text_foreground,
+	draw_mc_text_foreground, draw_mc_bitmap_foreground,
+	draw_ext_text_foreground, draw_illegal_text_foreground): Use
+	`GFX_PTR()' macro.
+	(draw_hires_bitmap_foreground): Rewritten.
+	(draw_mc_bitmap, draw_mc_bitmap_cached, draw_illegal_text,
+	draw_illegal_text_cached, draw_illegal_bitmap_mode1,
+	draw_illegal_bitmap_mode1_cached,
+	draw_illegal_bitmap_mode1_foreground,
+	draw_illegal_bitmap_mode2, draw_illegal_bitmap_mode2_cached,
+	draw_illegal_bitmap_mode2_foreground): It is not necessary to
+	use `ALIGN_DRAW_FUNC()' on those functions.
+
 2002-07-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.64.
