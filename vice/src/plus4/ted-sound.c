@@ -195,7 +195,7 @@ void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return xmsprintf("#SID: clk=%d v=%d\n", clk, psid->volume);
+    return xmsprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->volume);
 }
 
 int sound_machine_cycle_based(void)

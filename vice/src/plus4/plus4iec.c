@@ -113,7 +113,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute(clk);
+    drive0_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -146,7 +146,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute(clk);
+    drive1_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -178,8 +178,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute(clk);
-    drive1_cpu_execute(clk);
+    drive0_cpu_execute(maincpu_clk);
+    drive1_cpu_execute(maincpu_clk);
 
     iec_update_cpu_bus(data);
 
@@ -239,9 +239,9 @@ BYTE iec_cpu_read(void)
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+	drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+	drive1_cpu_execute(maincpu_clk);
     return iec_info.cpu_port;
 }
 

@@ -25,7 +25,7 @@
  */
 
 #define mycpu maincpu
-#define myclk clk
+#define myclk maincpu_clk
 #define myvia via
 #define myvia_init via_init
 
@@ -33,7 +33,7 @@
 #define MYVIA_INT VIA_INT
 #define MYVIA_NAME "Via"
 
-#define mycpu_rmw_flag rmw_flag
+#define mycpu_rmw_flag maincpu_rmw_flag
 #define mycpu_int_status maincpu_int_status
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard
@@ -200,9 +200,9 @@ inline static BYTE read_prb(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     /* read parallel IEC interface line states */
     byte = 255

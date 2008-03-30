@@ -186,14 +186,14 @@ static void display_speed(int num_frames)
        should have a slightly different understanding of time. */
     double factor = timer_speed ? (double)frame_ticks/frame_ticks_orig : 1.0;
 
-    diff_clk = clk - speed_eval_prev_clk;
+    diff_clk = maincpu_clk - speed_eval_prev_clk;
     diff_sec = (double)(signed long)(now - display_start) / vsyncarch_freq
                / factor;
     frame_rate = num_frames / diff_sec;
     speed_index = 100.0*diff_clk / (cycles_per_sec * diff_sec);
     vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
 
-    speed_eval_prev_clk = clk;
+    speed_eval_prev_clk = maincpu_clk;
 }
 
 static void clk_overflow_callback(CLOCK amount, void *data)
@@ -324,7 +324,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (speed_eval_suspended) {
         speed_eval_suspended = 0;
 
-        speed_eval_prev_clk = clk;
+        speed_eval_prev_clk = maincpu_clk;
 
         display_start = now;
         frame_counter = 0;

@@ -412,9 +412,9 @@ static int sid_init(void)
     }
     snddata.origclkstep = snddata.clkstep;
     snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
-    snddata.fclk = SOUNDCLK_CONSTANT(clk);
-    snddata.wclk = clk;
-    snddata.lastclk = clk;
+    snddata.fclk = SOUNDCLK_CONSTANT(maincpu_clk);
+    snddata.wclk = maincpu_clk;
+    snddata.lastclk = maincpu_clk;
 
     return 0;
 }
@@ -594,7 +594,7 @@ static int sound_run_sound(void)
     /* Handling of cycle based sound engines. */
     if (cycle_based) {
         for (c = 0; c < snddata.channels; c++) {
-            delta_t = clk - snddata.lastclk;
+            delta_t = maincpu_clk - snddata.lastclk;
             nr = sound_machine_calculate_samples(snddata.psid[c],
                                                  snddata.buffer
                                                  + snddata.bufptr
@@ -609,7 +609,8 @@ static int sound_run_sound(void)
     }
     /* Handling of sample based sound engines. */
     else {
-        nr = (int)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);
+        nr = (int)((SOUNDCLK_CONSTANT(maincpu_clk) - snddata.fclk)
+             / snddata.clkstep);
         if (!nr)
             return 0;
         if (snddata.bufptr + nr > BUFSIZE) {
@@ -628,7 +629,7 @@ static int sound_run_sound(void)
     }
 
     snddata.bufptr += nr;
-    snddata.lastclk = clk;
+    snddata.lastclk = maincpu_clk;
 
     return 0;
 }
@@ -638,13 +639,13 @@ void sound_reset(void)
 {
     int c;
 
-    snddata.fclk = SOUNDCLK_CONSTANT(clk);
-    snddata.wclk = clk;
-    snddata.lastclk = clk;
+    snddata.fclk = SOUNDCLK_CONSTANT(maincpu_clk);
+    snddata.wclk = maincpu_clk;
+    snddata.lastclk = maincpu_clk;
     snddata.bufptr = 0;         /* ugly hack! */
     for (c = 0; c < snddata.channels; c++) {
         if (snddata.psid[c])
-            sound_machine_reset(snddata.psid[c], clk);
+            sound_machine_reset(snddata.psid[c], maincpu_clk);
     }
 }
 
@@ -1036,7 +1037,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 long sound_sample_position(void)
 {
     return (snddata.clkstep == 0)
-        ? 0 : (long)((SOUNDCLK_CONSTANT(clk) - snddata.fclk)
+        ? 0 : (long)((SOUNDCLK_CONSTANT(maincpu_clk) - snddata.fclk)
         / snddata.clkstep);
 }
 
@@ -1068,8 +1069,8 @@ void sound_store(ADDRESS addr, BYTE val, int chipno)
     if (!snddata.pdev->dump)
         return;
 
-    i = snddata.pdev->dump(addr, val, clk - snddata.wclk);
-    snddata.wclk = clk;
+    i = snddata.pdev->dump(addr, val, maincpu_clk - snddata.wclk);
+    snddata.wclk = maincpu_clk;
     if (i)
         sound_error("store to sounddevice failed.");
 }

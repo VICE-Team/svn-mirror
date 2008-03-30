@@ -39,6 +39,7 @@
 #include "types.h"
 #include "utils.h"
 
+
 /* Maximum number of characters we can queue.  */
 #define QUEUE_SIZE      16384
 
@@ -176,7 +177,7 @@ void kbd_buf_flush(void)
 
     if ((!kbd_buf_enabled)
           || num_pending == 0
-          || clk < kernal_init_cycles
+          || maincpu_clk < kernal_init_cycles
           || !kbd_buf_is_empty())
         return;
 

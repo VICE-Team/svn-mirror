@@ -88,7 +88,7 @@ void keyboard_set_keyarr(int row, int col, int value)
         latch_rev_keyarr[col] &= ~(1 << row);
     }
 
-    alarm_set(&keyboard_alarm, clk + 1000);
+    alarm_set(&keyboard_alarm, maincpu_clk + 1000);
 }
 
 void keyboard_set_keyarr_and_latch(int row, int col, int value)
@@ -117,19 +117,19 @@ void keyboard_clear_keymatrix(void)
 void joystick_set_value_absolute(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] = value;
-    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
+    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void joystick_set_value_or(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] |= value;
-    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
+    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void joystick_set_value_and(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] &= value;
-    alarm_set(&joystick_alarm, clk + KEYBOARD_RAND());
+    alarm_set(&joystick_alarm, maincpu_clk + KEYBOARD_RAND());
 }
 
 void joystick_clear(unsigned int joyport)

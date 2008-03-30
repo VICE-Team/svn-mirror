@@ -483,13 +483,13 @@ static void datasette_read_bit(CLOCK offset)
     gap -= offset;
 
     if (gap > 0) {
-        alarm_set(&datasette_alarm, clk +
+        alarm_set(&datasette_alarm, maincpu_clk +
                   (CLOCK)(gap * (DS_V_PLAY / speed_of_tape)));
         datasette_alarm_pending = 1;
     } else {
         /* If the offset is geater than the gap to the next flux
            change, the change happend during DMA.  Schedule it now.  */
-        alarm_set(&datasette_alarm, clk);
+        alarm_set(&datasette_alarm, maincpu_clk);
         datasette_alarm_pending = 1;
     }
     datasette_update_ui_counter();
@@ -550,7 +550,7 @@ static void datasette_forward(void)
         alarm_unset(&datasette_alarm);
         datasette_alarm_pending = 0;
     }
-    alarm_set(&datasette_alarm, clk + 1000);
+    alarm_set(&datasette_alarm, maincpu_clk + 1000);
     datasette_alarm_pending = 1;
 }
 
@@ -561,7 +561,7 @@ static void datasette_rewind(void)
         alarm_unset(&datasette_alarm);
         datasette_alarm_pending = 0;
     }
-    alarm_set(&datasette_alarm, clk + 1000);
+    alarm_set(&datasette_alarm, maincpu_clk + 1000);
     datasette_alarm_pending = 1;
 }
 
@@ -603,7 +603,7 @@ static void datasette_start_motor(void)
     fseek(current_image->fd, current_image->current_file_seek_position
           + current_image->offset, SEEK_SET);
     if (!datasette_alarm_pending) {
-        alarm_set(&datasette_alarm, clk + 1000);
+        alarm_set(&datasette_alarm, maincpu_clk + 1000);
         datasette_alarm_pending = 1;
     }
 }
@@ -679,8 +679,8 @@ inline static void bit_write(void)
     CLOCK write_time;
     BYTE write_gap;
 
-    write_time = clk - last_write_clk;
-    last_write_clk = clk;
+    write_time = maincpu_clk - last_write_clk;
+    last_write_clk = maincpu_clk;
 
     if (write_time < (CLOCK)7)
         return;
@@ -728,7 +728,7 @@ void datasette_toggle_write_bit(int write_bit)
     if (current_image != NULL && datasette_motor && write_bit
         && current_image->mode == DATASETTE_CONTROL_RECORD) {
         if (last_write_clk == (CLOCK)0) {
-            last_write_clk = clk;
+            last_write_clk = maincpu_clk;
         } else {
             bit_write();
         }

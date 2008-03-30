@@ -61,10 +61,6 @@
 #include "fullscreen.h"
 #endif
 
-/* FIXME: PAL/NTSC constants should be moved from drive.h */
-#define DRIVE_SYNC_PAL     -1
-#define DRIVE_SYNC_NTSC    -2
-#define DRIVE_SYNC_NTSCOLD -3
 
 vic_t vic;
 
@@ -77,10 +73,10 @@ void vic_change_timing(void)
 {
     resource_value_t mode;
 
-    resources_get_value("VideoStandard", &mode);
+    resources_get_value("MachineVideoStandard", &mode);
 
     switch ((int)mode) {
-      case DRIVE_SYNC_NTSC:
+      case MACHINE_SYNC_NTSC:
         clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_NTSC_CYCLES_PER_RFSH);
         vic.screen_height = VIC20_NTSC_SCREEN_LINES;
         vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
@@ -90,7 +86,7 @@ void vic_change_timing(void)
         vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
         vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
         break;
-      case DRIVE_SYNC_PAL:
+      case MACHINE_SYNC_PAL:
       default:
         clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_PAL_CYCLES_PER_RFSH);
         vic.screen_height = VIC20_PAL_SCREEN_LINES;
@@ -493,7 +489,7 @@ void vic_update_memory_ptrs(void)
 
     if (new_chargen_ptr != old_chargen_ptr) {
         raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
                                          + 2),
                                          (void*)&vic.chargen_ptr,
                                          new_chargen_ptr);
@@ -502,7 +498,7 @@ void vic_update_memory_ptrs(void)
 
     if (new_color_ptr != old_color_ptr) {
         raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
                                          + 3),
                                          (void*)&vic.color_ptr,
                                          new_color_ptr);
@@ -511,7 +507,7 @@ void vic_update_memory_ptrs(void)
 
     if (new_screen_ptr != old_screen_ptr) {
         raster_add_ptr_change_foreground(&vic.raster,
-                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(maincpu_clk)
                                          + 3),
                                          (void*)&vic.screen_ptr,
                                          new_screen_ptr);

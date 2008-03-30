@@ -25,7 +25,7 @@
  */
 
 #define mycpu maincpu
-#define myclk clk
+#define myclk maincpu_clk
 #define myvia ieeevia2
 #define myvia_init ieeevia2_init
 
@@ -34,7 +34,7 @@
 #define MYVIA_INT IK_IRQ
 #define MYVIA_NAME "IeeeVia2"
 
-#define mycpu_rmw_flag rmw_flag
+#define mycpu_rmw_flag maincpu_rmw_flag
 #define mycpu_int_status maincpu_int_status
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard
@@ -112,14 +112,14 @@ static void res_via(void)
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 {
 #if 0
-        if(byte != myvia[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          parallel_cpu_set_atn( (byte & 2) ? 0 : 1 );
-          parallel_cpu_set_eoi( (byte & 0x20) ? 0 : 1 );
-        }
+    if (byte != myvia[VIA_PCR]) {
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+        if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+        parallel_cpu_set_atn( (byte & 2) ? 0 : 1 );
+        parallel_cpu_set_eoi( (byte & 0x20) ? 0 : 1 );
+    }
 #endif
     return byte;
 }
@@ -129,12 +129,12 @@ inline static BYTE read_prb(void)
     BYTE byte;
 
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
 
     byte = (parallel_bus & ~myvia[VIA_DDRB])
-                                | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
+           | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
     return byte;
 }
 

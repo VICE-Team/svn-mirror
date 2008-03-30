@@ -208,7 +208,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return xmsprintf("#SID: clk=%d v=%d\n", clk, psid->vol);
+    return xmsprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->vol);
 }
 
 int sound_machine_cycle_based(void)

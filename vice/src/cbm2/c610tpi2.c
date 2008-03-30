@@ -52,8 +52,8 @@
 #define mycpu_set_int(a,b)              do {} while(0)
 #define mycpu_restore_int(a,b)          do {} while(0)
 
-#define mycpu_rmw_flag  rmw_flag
-#define myclk           clk
+#define mycpu_rmw_flag  maincpu_rmw_flag
+#define myclk           maincpu_clk
 
 /*----------------------------------------------------------------------*/
 /* I/O */
