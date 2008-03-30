@@ -1,8 +1,8 @@
 /*
- * ui.h - A (very) simple user interface for MS-DOS.
+ * statusbar.h
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Matthies <andreas.matthies@arcormail.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,18 +24,30 @@
  *
  */
 
-#ifndef _UI_DOS_H
-#define _UI_DOS_H
+#ifndef _STATUSBAR_H
+#define _STATUSBAR_H
 
-#include "uiapi.h"
+#include <allegro.h>
 
-/* ------------------------------------------------------------------------- */
+#define STATUSBAR_HEIGHT    12
+#define STATUSBAR_WIDTH     320
 
-extern void ui_show_text(const char *title, const char *text);
-extern void ui_main(char hotkey);
-extern void ui_set_warp_status(int status);
-extern void ui_dispatch_events(void);
-extern void ui_display_speed(float percent, float framerate, int warp_flag);
+enum {
+    STATUSBAR_COLOR_BLACK  = 230, /* this should be free */
+    STATUSBAR_COLOR_WHITE,
+    STATUSBAR_COLOR_GREY,
+    STATUSBAR_COLOR_YELLOW,
+    STATUSBAR_COLOR_RED,
+    STATUSBAR_COLOR_GREEN
+};
+
+extern void statusbar_update(void);
+extern void statusbar_disable(void);
+extern int statusbar_init(void);
+extern void statusbar_exit(void);
+extern int statusbar_enabled(void);
+extern void statusbar_reset_bitmaps_to_update(void);
+extern void statusbar_append_bitmap_to_update(BITMAP *b);
+extern void statusbar_set_width(int w);
 
 #endif
-

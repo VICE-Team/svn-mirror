@@ -53,6 +53,8 @@ libarch_a_SOURCES = \
 	print.c \
 	sidui.c \
 	sidui.h \
+	statusbar.c \
+	statusbar.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \

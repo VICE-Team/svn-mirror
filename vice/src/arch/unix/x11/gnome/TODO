@@ -2,7 +2,6 @@
 # systematic and probably not complete!
 
 Missing features
-- Implement missing dialogs: create image, save snapshot
 - Implement remaining dummy (fullscreen support is missing,).
 - Implement 2 color LEDs
 - Internationalization
@@ -15,9 +14,7 @@ Known Bugs (help is appreciated !):
   is open (-> one can open multiple file dialogs, which leads to confusion
   of the uicode).
 - x128 shows topmenu only on VDC window and gives a GTK warning.
-- vsid mode doesn't work properly. GTK Events aren't dispatched once a
-  popup is there. This is probably simple, but I found no time to
-  investigate this so far.
+- vsid mode doesn't work properly. Dag takes care of this.
 
 Things, which will change:
 - Contents preview will go inside the file selector (as in win32 version).

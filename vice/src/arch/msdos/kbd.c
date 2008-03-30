@@ -48,6 +48,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "vsync.h"
@@ -169,7 +170,8 @@ typedef enum {
         KCMD_FLIP_NEXT,
         KCMD_FLIP_PREVIOUS,
         KCMD_FLIP_ADD,
-        KCMD_FLIP_REMOVE
+        KCMD_FLIP_REMOVE,
+        KCMD_TOGGLE_STATUSBAR
 } kbd_command_type_t;
 
 typedef DWORD kbd_command_data_t;
@@ -212,46 +214,49 @@ void kbd_flush_commands(void)
 
     for (i = 0; i < num_queued_commands; i++) {
 	switch (command_queue[i].type) {
-	  case KCMD_HARD_RESET:
+	    case KCMD_HARD_RESET:
             suspend_speed_eval();
             machine_powerup();
             break;
             
-	  case KCMD_RESET:
-	    suspend_speed_eval();
-	    maincpu_trigger_reset();
-	    break;
+	    case KCMD_RESET:
+	        suspend_speed_eval();
+	        maincpu_trigger_reset();
+	        break;
 
-	  case KCMD_RESTORE_PRESSED:
-	    machine_set_restore_key(1);
-	    break;
+	    case KCMD_RESTORE_PRESSED:
+	        machine_set_restore_key(1);
+	        break;
 
-	  case KCMD_RESTORE_RELEASED:
-	    machine_set_restore_key(0);
-	    break;
+	    case KCMD_RESTORE_RELEASED:
+	        machine_set_restore_key(0);
+    	    break;
 
-          case KCMD_FREEZE:
+        case KCMD_FREEZE:
             if (freeze_function != NULL)
                 freeze_function();
             break;
-          case KCMD_FLIP_NEXT:
+        case KCMD_FLIP_NEXT:
             flip_attach_head(8, 1);
             break;
-          case KCMD_FLIP_PREVIOUS:
+        case KCMD_FLIP_PREVIOUS:
             flip_attach_head(8, 0);
             break;
-          case KCMD_FLIP_ADD:
+        case KCMD_FLIP_ADD:
             flip_add_image(8);
             break;
-          case KCMD_FLIP_REMOVE:
+        case KCMD_FLIP_REMOVE:
             flip_remove(-1, NULL);
             break;
-          case KCMD_TOGGLE_WARP:
+        case KCMD_TOGGLE_WARP:
             resources_toggle("WarpMode", NULL);
             break;
 
-          case KCMD_MENU:
+        case KCMD_MENU:
             maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
+            break;
+        case KCMD_TOGGLE_STATUSBAR:
+            resources_toggle("ShowStatusbar", NULL);
             break;
 
 	  default:
@@ -382,6 +387,10 @@ static void my_kbd_interrupt_handler(void)
                   case K_F4:
                     /* Alt-F4 remove image from flip list.  */
                     queue_command(KCMD_FLIP_REMOVE, (kbd_command_data_t) 0);
+                    break;
+                  case K_F5:
+                    /* Alt-F5 toggles statusbar.  */
+                      queue_command(KCMD_TOGGLE_STATUSBAR,(kbd_command_data_t) 0);
                     break;
                   case K_PAUSE:
                     /* Alt-Pause enables cartridge freezing.  */

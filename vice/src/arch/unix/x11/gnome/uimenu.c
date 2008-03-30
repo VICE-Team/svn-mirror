@@ -40,6 +40,7 @@
 #include <X11/Xaw/SmeLine.h>
 #include <X11/Xaw/SmeBSB.h>
 
+#include "machine.h"
 #include "resources.h"
 #include "utils.h"
 #include "vsync.h"
@@ -460,6 +461,8 @@ void _ui_menu_toggle_helper(GtkWidget *w,
                             const char *resource_name)
 {
     int current_value;
+    char buf[100];
+
     if (resources_get_value(resource_name,
                             (resource_value_t *) &current_value) < 0)
         return;
@@ -467,6 +470,10 @@ void _ui_menu_toggle_helper(GtkWidget *w,
     if(!CHECK_MENUS) {
         resources_set_value(resource_name, (resource_value_t) !current_value);
 	ui_update_menus();
+	if (psid_mode) {
+	    sprintf(buf, "resource %s %d\n", resource_name, !current_value);
+	    ui_proc_write_msg(buf);
+	}
     } else {
         ui_menu_set_tick(w, current_value);
     }
@@ -477,6 +484,7 @@ void _ui_menu_radio_helper(GtkWidget *w,
                            const char *resource_name)
 {
     int current_value;
+    char buf[100];
 
     resources_get_value(resource_name, (resource_value_t *) &current_value);
 
@@ -485,6 +493,11 @@ void _ui_menu_radio_helper(GtkWidget *w,
             resources_set_value(resource_name,
 				(resource_value_t) UI_MENU_CB_PARAM);
             ui_update_menus();
+	    if (psid_mode) {
+	        sprintf(buf, "resource %s %d\n", resource_name,
+                        (int)UI_MENU_CB_PARAM);
+		ui_proc_write_msg(buf);
+	    }
         }
     } else {
 	ui_menu_set_tick(w, current_value == (int) UI_MENU_CB_PARAM);

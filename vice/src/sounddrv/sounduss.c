@@ -184,8 +184,14 @@ static int uss_bufferstatus(int first)
     ret = info.fragments*info.fragsize;
     if (ret != info.bytes)
     {
+/*
+The following GETOSPACE warning should only be displayed once since
+some sound drivers always return a multiple of a fixed block size
+instead of the exact requested size, causing the console to be flooded
+with messages. For now the warning is simply disabled.
 	log_message(LOG_DEFAULT,
                     "GETOSPACE: ret(%d)!=bytes(%d)", ret, info.bytes);
+*/
 	ret = info.bytes;
     }
     if (ret < 0)

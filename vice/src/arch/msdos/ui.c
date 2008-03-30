@@ -37,6 +37,7 @@
 #include <unistd.h>
 
 #include "cmdline.h"
+#include "datasette.h"
 #include "dos.h"
 #include "log.h"
 #include "machine.h"
@@ -44,6 +45,7 @@
 #include "mon.h"
 #include "resources.h"
 #include "sound.h"
+#include "statusbar.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "tuicharset.h"
@@ -63,6 +65,9 @@ static int kbd_led_status;
 #define DRIVE1_LED_MSK 4
 #define WARP_LED_MSK 1
 
+/* not very nice but okay for now */
+extern BITMAP *status_bitmap;
+
 /* ------------------------------------------------------------------------- */
 
 /* UI-related resources and command-line options.  */
@@ -70,15 +75,29 @@ static int kbd_led_status;
 /* Flag: Use keyboard LEDs?  */
 static int use_leds;
 
+static int statusbar_is_enabled;
+
 static int set_use_leds(resource_value_t v)
 {
     use_leds = (int) v;
     return 0;
 }
 
+static int set_statusbar_enabled(resource_value_t v) 
+{
+    statusbar_is_enabled = (int) v;
+    if (statusbar_is_enabled)
+        statusbar_update();
+    else
+        statusbar_disable();
+    return 0;
+}
+
 static resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &use_leds, set_use_leds },
+    { "ShowStatusbar", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &statusbar_is_enabled, set_statusbar_enabled },
     { NULL }
 };
 
@@ -92,6 +111,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable usage of PC keyboard LEDs" },
     { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 0,
       NULL, "Disable usage of PC keyboard LEDs" },
+    { "-statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar", (resource_value_t) 0,
+      NULL, "Disable the Statusbar" },
+    { "+statusbar", SET_RESOURCE, 0, NULL, NULL, "ShowStatusbar", (resource_value_t) 1,
+      NULL, "Enable the Statusbar" },
     { NULL },
 };
 
@@ -117,6 +140,7 @@ inline static void set_kbd_leds(int value)
 
 static void ui_exit(void)
 {
+    statusbar_exit();
     _setcursortype(_NORMALCURSOR);
     normvideo();
     _set_screen_lines(25);
@@ -135,6 +159,8 @@ int ui_init(int *argc, char **argv)
     /* This forces Ctrl-C and Ctrl-Break to be treated as normal key
        sequences.  */
     _go32_want_ctrl_break(1);
+
+    statusbar_init();
 
     return 0;
 }
@@ -289,20 +315,96 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 
 
 /* tape-related ui, dummies so far */
+
+static int ui_tape_enabled = 0;
+static int ui_tape_counter = -1;
+static int ui_tape_motor = -1;
+static int ui_tape_control = -1;
+
+static void ui_draw_tape_status()
+{
+    BITMAP *tape_bitmap;
+    int motor_color;
+    int record_led;
+
+    tape_bitmap = create_sub_bitmap(status_bitmap,130,2,100,8);
+    if (ui_tape_enabled == 0)
+    {
+        clear(tape_bitmap);
+    } else {
+
+        /* motor */
+        if (ui_tape_motor)
+            motor_color = STATUSBAR_COLOR_YELLOW;
+        else
+            motor_color = STATUSBAR_COLOR_GREY;
+        rectfill(tape_bitmap, 0, 0, 7, 6, motor_color);
+
+        /* control */
+        record_led = STATUSBAR_COLOR_BLACK;
+        switch (ui_tape_control) {
+            case DATASETTE_CONTROL_STOP:
+                rectfill(tape_bitmap, 2,2, 5,4, STATUSBAR_COLOR_BLACK);
+                break;
+            case DATASETTE_CONTROL_RECORD:
+                record_led = STATUSBAR_COLOR_RED;
+            case DATASETTE_CONTROL_START:
+                triangle(tape_bitmap, 2,1, 2,5, 4,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 2,1, 2,5, STATUSBAR_COLOR_BLACK);
+                break;
+            case DATASETTE_CONTROL_REWIND:
+                line(tape_bitmap, 3,1, 1,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 1,3, 3,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 6,1, 4,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 4,3, 6,5, STATUSBAR_COLOR_BLACK);
+                break;
+            case DATASETTE_CONTROL_FORWARD:
+                line(tape_bitmap, 1,1, 3,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 3,3, 1,5, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 4,1, 6,3, STATUSBAR_COLOR_BLACK);
+                line(tape_bitmap, 6,3, 4,5, STATUSBAR_COLOR_BLACK);
+                break;
+        }
+        rectfill(tape_bitmap, 11,2, 13,4, record_led);
+
+        /* counter */
+        textprintf(tape_bitmap,font,20,0,STATUSBAR_COLOR_WHITE,
+            "%03d",ui_tape_counter);
+
+        statusbar_update();
+
+    }
+
+    statusbar_update();
+}
+
+
 void ui_set_tape_status(int tape_status)
 {
+    ui_tape_enabled = tape_status;
+    ui_draw_tape_status();
 }
 
 void ui_display_tape_motor_status(int motor)
 {
+    ui_tape_motor = motor;
+    ui_draw_tape_status();
 }
 
 void ui_display_tape_control_status(int control)
 {
+    ui_tape_control = control;
+    ui_draw_tape_status();
 }
 
+
 void ui_display_tape_counter(int counter)
-{
+{   
+    if ((status_bitmap == NULL) || (counter == ui_tape_counter))
+        return;
+
+    ui_tape_counter = counter;
+    ui_draw_tape_status();
 }
 
 
@@ -327,6 +429,27 @@ int ui_extend_image_dialog(void)
 
     return ret;
 }
+
+void ui_display_speed(float percent, float framerate, int warp_flag)
+{
+    char buf[256];
+
+    if (status_bitmap == NULL)
+        return;
+    
+    if ((percent < 0) || (framerate < 0)) 
+    {
+        sprintf(buf, "suspended");
+    } else {
+        sprintf(buf, "%4d%% %2dfps %s",
+            (int)(percent + .5), (int)(framerate + .5),
+            warp_flag ? "W " : "  ");
+    }
+    textout(status_bitmap,font,buf,5,2,STATUSBAR_COLOR_WHITE);
+    statusbar_update();
+}
+
+
 
 /* ------------------------------------------------------------------------- */
 

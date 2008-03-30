@@ -2140,6 +2140,18 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     
     va_start(ap, format);
 
+    if (console_mode) {
+        vfprintf(stderr, format, ap);
+	exit(0);
+    }
+
+    if (psid_mode) {
+        vfprintf(stderr, format, ap);
+	machine_play_psid(-1);
+	/* return UI_JAM_MONITOR; */
+	return UI_JAM_HARD_RESET;
+    }
+
     jam_dialog = gtk_dialog_new();
 
     ui_make_window_transient(_ui_top_level,jam_dialog);

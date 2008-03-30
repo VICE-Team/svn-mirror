@@ -36,9 +36,13 @@
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
+#else
+#define strerror(errno) "No detailed info available."
 #endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
+#else
+#error "Need signals"
 #endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>

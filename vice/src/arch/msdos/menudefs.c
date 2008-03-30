@@ -1400,6 +1400,7 @@ static TUI_MENU_CALLBACK(speed_callback)
 
 TUI_MENU_DEFINE_TOGGLE(WarpMode)
 TUI_MENU_DEFINE_TOGGLE(UseLeds)
+TUI_MENU_DEFINE_TOGGLE(ShowStatusbar)
 
 static void create_special_submenu(int has_serial_traps)
 {
@@ -1475,6 +1476,11 @@ static void create_special_submenu(int has_serial_traps)
                       "Use _Keyboard LEDs:",
                       "Use PC keyboard LEDs for the disk drive and Warp Mode",
                       toggle_UseLeds_callback, NULL, 4,
+                      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_special_submenu,
+                      "Show Status_bar:",
+                      "Shows a Statusbar to display Speed, Tape and Drive properties",
+                      toggle_ShowStatusbar_callback, NULL, 4,
                       TUI_MENU_BEH_CONTINUE);
 }
 

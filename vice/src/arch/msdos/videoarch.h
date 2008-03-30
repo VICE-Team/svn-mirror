@@ -32,6 +32,7 @@
 #include <allegro.h>
 
 #include "types.h"
+#include "statusbar.h"
 
 #define NUM_AVAILABLE_COLORS	0x100
 
@@ -102,6 +103,7 @@ extern void enable_text(void);
 extern void disable_text(void);
 
 extern void video_ack_vga_mode(void);
+extern int video_in_gfx_mode(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -110,23 +112,40 @@ inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
                                   unsigned int xi, unsigned int yi,
                                   unsigned int w, unsigned int h)
 {
+    int y_diff;
+
     /* Just to be sure...  */
     if (screen == NULL)
         return;
+
+    /* don't overwrite statusbar */
+    if (statusbar_enabled() && (yi < STATUSBAR_HEIGHT)) {
+        y_diff = STATUSBAR_HEIGHT - yi;
+        ys += y_diff;
+        yi += y_diff;
+        h -= y_diff;
+    }
+    if (statusbar_enabled() && (c->use_triple_buffering)
+        && (yi >= c->height) && (yi < c->height + STATUSBAR_HEIGHT)) {
+        y_diff = STATUSBAR_HEIGHT + c->height - yi;
+        ys += y_diff;
+        yi += y_diff;
+        h -= y_diff;
+    }
 
     if (c->use_triple_buffering) {
 #if 0
         /* (This should be theoretically correct, but in practice it makes us
            loose time, and sometimes click.  So it's better to just discard
            the frame if this happens, as we do in the #else case.  */
-        while (poll_modex_scroll())
+        while (poll_scroll())
             /* Make sure we have finished flipping the previous frame.  */ ;
 #else
-        if (poll_modex_scroll())
+        if (poll_scroll())
             return;
 #endif
         blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
-        request_modex_scroll(0, c->back_page * c->height);
+        request_scroll(0, c->back_page * c->height);
         c->back_page = 1 - c->back_page;
     } else {
         blit(f, screen, xs, ys, xi, yi, w, h);
