@@ -51,6 +51,8 @@
  *
  */
 
+/* #define DEBUG */
+
 #include "vice.h"
 
 #include "version.h"
@@ -190,13 +192,34 @@ static const unsigned char MagicHeaderP00[8] = "C64File\0";
   * Printer's control code symbols
   */
 
+/* all numeric codes */
+static const char *hexcodes[] = {
+	"$00","$01","$02","$03","$04","$05","$06","$07","$08","$09","$0a","$0b","$0c","$0d","$0e","$0f",
+	"$10","$11","$12","$13","$14","$15","$16","$17","$18","$19","$1a","$1b","$1c","$1d","$1e","$1f",
+	"$20","$21","$22","$23","$24","$25","$26","$27","$28","$29","$2a","$2b","$2c","$2d","$2e","$2f",
+	"$30","$31","$32","$33","$34","$35","$36","$37","$38","$39","$3a","$3b","$3c","$3d","$3e","$3f",
+	"$40","$41","$42","$43","$44","$45","$46","$47","$48","$49","$4a","$4b","$4c","$4d","$4e","$4f",
+	"$50","$51","$52","$53","$54","$55","$56","$57","$58","$59","$5a","$5b","$5c","$5d","$5e","$5f",
+	"$60","$61","$62","$63","$64","$65","$66","$67","$68","$69","$6a","$6b","$6c","$6d","$6e","$6f",
+	"$70","$71","$72","$73","$74","$75","$76","$77","$78","$79","$7a","$7b","$7c","$7d","$7e","$7f",
+	"$80","$81","$82","$83","$84","$85","$86","$87","$88","$89","$8a","$8b","$8c","$8d","$8e","$8f",
+	"$90","$91","$92","$93","$94","$95","$96","$97","$98","$99","$9a","$9b","$9c","$9d","$9e","$9f",
+	"$a0","$a1","$a2","$a3","$a4","$a5","$a6","$a7","$a8","$a9","$aa","$ab","$ac","$ad","$ae","$af",
+	"$b0","$b1","$b2","$b3","$b4","$b5","$b6","$b7","$b8","$b9","$ba","$bb","$bc","$bd","$be","$bf",
+	"$c0","$c1","$c2","$c3","$c4","$c5","$c6","$c7","$c8","$c9","$ca","$cb","$cc","$cd","$ce","$cf",
+	"$d0","$d1","$d2","$d3","$d4","$d5","$d6","$d7","$d8","$d9","$da","$db","$dc","$dd","$de","$df",
+	"$e0","$e1","$e2","$e3","$e4","$e5","$e6","$e7","$e8","$e9","$ea","$eb","$ec","$ed","$ee","$ef",
+	"$f0","$f1","$f2","$f3","$f4","$f5","$f6","$f7","$f8","$f9","$fa","$fb","$fc","$fd","$fe","$ff",
+};
+
+/* 0x00 - 0x1f */
 static const char *ctrl1[] = {
     "",  "", "", "", "", "wht", "", "",
     "dish", "ensh", "\n", "", "\f", "\n", "swlc", "",
     "",  "down", "rvon", "home", "del", "", "", "",
     "",  "",  "", "esc", "red", "rght", "grn", "blu"
 };
-
+/* 0x80 - 0x9f */
 static const char *ctrl2[] = {
     "", "orng",  "",  "",  "",  "F1",  "F3",  "F5",
     "F7",  "F2", "F4",   "F6",   "F8",  "sret", "swuc", "",
@@ -204,13 +227,47 @@ static const char *ctrl2[] = {
     "gry2", "lgrn", "lblu", "gry3", "pur", "left", "yel", "cyn"
 };
 
+/*
+ * Alternate mnemonics for control codes
+ * These are used by MikroBITTI for clarification
+ */
 
+/* 0x00 - 0x1f */
+const char *a_ctrl1[] = {
+    "", "", "", "", "", "wht", "", "",
+    "up/lo lock on", "up/lo lock off", "", "", "", "return", "lower case", "",
+    "", "down", "rvs on", "home", "delete", "", "", "",
+    "",  "",  "",  "esc", "red", "right", "grn", "blu"
+};
+/* 0x80 - 0x9f */
+const char *a_ctrl2[] = {
+    "", "orange", "", "", "", "f1", "f3", "f5",
+    "f7", "f2", "f4", "f6", "f8", "shift return", "upper case", "",
+    "blk",  "up", "rvs off", "clr", "insert", "brown", "lt red", "grey1",
+    "grey2", "lt green", "lt blue", "grey3", "pur", "left", "yel", "cyn"
+};
+
+/* keys for charcodes 0xa0-0xe0 */
 static const char *cbmkeys[] = {
-    "SHIFT-SPACE", "CBM-K", "CBM-I", "CBM-T", "CBM-@", "CBM-G", "CBM-+",
-    "CBM-M", "CBM-POUND",
-    "SHIFT-POUND", "CBM-N", "CBM-Q", "CBM-D", "CBM-Z", "CBM-S", "CBM-P",
-    "CBM-A", "CBM-E", "CBM-R", "CBM-W", "CBM-H", "CBM-J", "CBM-L", "CBM-Y",
-    "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
+	"SHIFT-SPACE", "CBM-K", "CBM-I", "CBM-T", "CBM-@", "CBM-G", "CBM-+","CBM-M", 
+	"CBM-POUND","SHIFT-POUND", "CBM-N", "CBM-Q", "CBM-D", "CBM-Z", "CBM-S", "CBM-P",
+	"CBM-A", "CBM-E", "CBM-R", "CBM-W", "CBM-H", "CBM-J", "CBM-L", "CBM-Y",
+	"CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B",
+	"SHIFT-*","SHIFT-A","SHIFT-B","SHIFT-C","SHIFT-D","SHIFT-E","SHIFT-F","SHIFT-G",
+	"SHIFT-H","SHIFT-I","SHIFT-J","SHIFT-K","SHIFT-L","SHIFT-M","SHIFT-N","SHIFT-O",
+	"SHIFT-P","SHIFT-Q","SHIFT-R","SHIFT-S","SHIFT-T","SHIFT-U","SHIFT-V","SHIFT-W",
+	"SHIFT-X","SHIFT-Y","SHIFT-Z","SHIFT-+","CBM--","SHIFT--","SHIFT-^","CBM-*"
+};
+/* alternative keys for charcodes 0xa0-0xe0 */
+static const char *a_cbmkeys[] = {
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","","",
+	"","","","","","","CBM-^",""
 };
 
 #define NUM_VERSIONS  28
@@ -585,28 +642,6 @@ const char *fc3kw[] = {
     "trace", "replace", "order", "pack", "unpack", "mread", "mwrite"
 };
 
-
-/* ------------------------------------------------------------------------- */
-
-
-/*
- * Alternate mnemonics for control codes
- * These are used by MikroBITTI for clarification
- */
-
-const char *a_ctrl1[] = {
-    "", "", "", "", "", "wht", "", "",
-    "up/lo lock on", "up/lo lock off", "", "", "", "return", "lower case", "",
-    "", "down", "rvs on", "home", "delete", "", "", "",
-    "",  "",  "",  "esc", "red", "right", "grn", "blu"
-};
-
-const char *a_ctrl2[] = {
-    "", "orange", "", "", "", "f1", "f3", "f5",
-    "f7", "f2", "f4", "f6", "f8", "shift return", "upper case", "",
-    "blk",  "up", "rvs off", "clr", "insert", "brown", "lt red", "grey1",
-    "grey2", "lt green", "lt blue", "grey3", "pur", "left", "yel", "cyn"
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -1588,10 +1623,18 @@ static int p_expand(int version, int addr, int ctrls)
     return (!feof(source) && (*line | line[1]) && sysflg);
 }
 
-
+/*
+03/09/2006 gpz:
+- changed to output tokenized line into a second buffer instead of
+  putting the tokens back in the input buffer. i wonder how this ever
+  worked, control codes with a reasonable high repeatcount made
+  previous versions of petcat segfault (or with luck, output trash)
+- added error message when there is an unknown controlcode inside braces
+*/
 static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[256];
+    static char tokenizedline[256];
     unsigned char *p1, *p2, quote, c;
     unsigned char rem_data_mode, rem_data_endchar = '\0';
     int len = 0, match;
@@ -1601,7 +1644,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
     /* Copies from p2 to p1 */
 
-    while((p1 = p2 = (unsigned char *)fgets(line, 255, source)) != NULL) {
+    while((p2 = (unsigned char *)fgets(line, 255, source)) != NULL) {
+
+	memset(tokenizedline,0,256);
+	p1=tokenizedline;
 
 #ifndef GEMDOS
         if (sscanf(line, "%d%n", &linum, &len) == 1)
@@ -1609,6 +1655,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 #else
         if (sscanf(line, "%d", &linum) == 1)
             while (isspace(*p2) || isdigit(*p2)) p2++;
+#endif
+
+#ifdef DEBUG
+	fprintf(stderr,"line: %d\n",linum);
 #endif
         quote = 0;
         rem_data_mode = 0;
@@ -1633,6 +1683,10 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     unsigned char *p;
                     p = p2;
 
+#ifdef DEBUG
+	fprintf(stderr,"controlcode start: %c\n", *p2);
+#endif
+
                     /* repetition count */
                     len = 1;
 #ifndef GEMDOS
@@ -1642,28 +1696,56 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     if (sscanf(++p, "%d", &len) == 1) {
                         while (isspace(*p) || isdigit(*p)) p++;
 #endif
+
+#ifdef DEBUG
+	fprintf(stderr,"controlcode repeat count: len:%d kwlen:%d\n", len,kwlen);
+#endif
+
                         if (*p == ' ')
                             ++p;
                     }
 
-                    if (( ((c = sstrcmp(p, ctrl1, 0, 0x20)) != KW_NONE) ||
-                         ((c = sstrcmp(p, a_ctrl1, 0, 0x20)) !=KW_NONE) ||
+		if (
+		    ( 
+			((c = sstrcmp(p,hexcodes, 0, 0x100)) != KW_NONE) || /* 0x00-0xff */
 
-                        ((((c = sstrcmp(p, ctrl2, 0, 0x20)) != KW_NONE) ||
-                         ((c = sstrcmp(p, a_ctrl2, 0, 0x20)) !=KW_NONE)) &&
-                         (c |= 0x80)) ||
+			((c = sstrcmp(p,   ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x20 */
+                        ((c = sstrcmp(p, a_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x20 */
 
-                        ( ((c = sstrcmp(p, cbmkeys, 0, 0x20)) != KW_NONE) &&
-                         (c |= 0xA0)) ) &&      /* CBM-x images */
+                       (( ((c = sstrcmp(p,   ctrl2, 0, 0x20)) != KW_NONE) ||
+                          ((c = sstrcmp(p, a_ctrl2, 0, 0x20)) != KW_NONE)
+                         ) && (c += 0x80)) ||
 
-                        p[kwlen] == CLARIF_RP) {
+                       (( ((c = sstrcmp(p, cbmkeys, 0, 0x40)) != KW_NONE) ||
+			  ((c = sstrcmp(p,a_cbmkeys, 0, 0x40)) != KW_NONE)
+			) && (c += 0xA0)) 
+
+
+                    ) && (p[kwlen] == CLARIF_RP)
+		   ) {
 
                         for (; len-- > 0;)
+			{
                             *p1++ = c;
+			}
                         p2 = p + (++kwlen);
+
+#ifdef DEBUG
+	fprintf(stderr,"controlcode continue\n");
+#endif
+
                         continue;
-                    }
+                    	}
+			else
+			{
+				fprintf(stderr,"error: line %d - unknown control code: %s\n",linum,p);
+				exit(-1);
+			}
                 }
+#ifdef DEBUG
+/*	fprintf(stderr,"controlcode end\n"); */
+#endif
+
             }
             else if (rem_data_mode) {
                 /* if we have already encountered a REM or a DATA, 
@@ -1927,14 +2009,24 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             } /* match */
         } /* while */
 
+#ifdef DEBUG
+	fprintf(stderr,"output line start: %s\n", line);
+/*	fprintf(stderr,"output line petscii: %s\n", tokenizedline); */
+#endif
+
         *p1 = 0;
-        if ((len = strlen(line) ) > 0) {
+        if ((len = strlen(tokenizedline) ) > 0) {
             addr += len + 5;
             fprintf(dest, "%c%c%c%c%s%c", addr & 255, (addr>>8) & 255,
-                   linum & 255, (linum>>8) & 255, line, '\0');
+                   linum & 255, (linum>>8) & 255, tokenizedline, '\0');
 
             linum += 2; /* auto line numbering by default */
         }
+
+#ifdef DEBUG
+	fprintf(stderr,"output line end\n");
+#endif
+
     } /* while */
 
     fprintf(dest, "%c%c", 0, 0);        /* program end marker */

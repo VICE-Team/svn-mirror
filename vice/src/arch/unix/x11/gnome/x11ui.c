@@ -413,14 +413,15 @@ void archdep_ui_init(int argc, char *argv[])
        For now I discard gnome-specific options. FIXME MP */
 
     char *fake_argv[2];
+    int fake_argc = 1;
+    char **fake_args = fake_argv;
     if (console_mode) {
         return;
     }
 
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
-    gnome_program_init(PACKAGE, VERSION, LIBGNOMEUI_MODULE, 1, fake_argv,
-		       GNOME_PARAM_POPT_TABLE, NULL, NULL);
+    gtk_init(&fake_argc, &fake_args);
 
     /* set X11 fontpath */
     if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
@@ -1074,7 +1075,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	return -1;
     }
 
-    new_window = gnome_app_new(PACKAGE, PACKAGE);
+    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
     gtk_widget_set_events(new_window,
 			  GDK_LEAVE_NOTIFY_MASK |
 			  GDK_ENTER_NOTIFY_MASK |			  
@@ -1089,14 +1091,14 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	_ui_top_level = new_window;
     
     new_pane = gtk_vbox_new(FALSE, 0);
-    gnome_app_set_contents(GNOME_APP(new_window), new_pane);
+    gtk_container_add(GTK_CONTAINER(new_window), new_pane);
     gtk_widget_show(new_pane);
     
     topmenu = gtk_menu_bar_new();
     gtk_widget_show(topmenu);
     g_signal_connect(G_OBJECT(topmenu),"button-press-event",
 		     G_CALLBACK(update_menu_cb),NULL);
-    gnome_app_set_menus(GNOME_APP(new_window), GTK_MENU_BAR(topmenu));
+    gtk_box_pack_start(GTK_BOX(new_pane),topmenu,TRUE,TRUE,0);
 
     gtk_widget_show(new_window);
     if (vsid_mode)

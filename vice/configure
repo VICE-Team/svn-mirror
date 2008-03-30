@@ -1349,7 +1349,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=1
+VICE_VERSION_BUILD=2
 
 
 
@@ -3768,7 +3768,7 @@ _ACEOF
       if test x"$enable_gnomeui" != "xyes" ; then
           warnings_c="-Wstrict-prototypes $warnings_cxx"
       else
-	  	  	  warnings_c="$warnings_cxx"
+	  	  	  warnings_c="$warnings_gnome $warnings_cxx"
       fi
 
 
@@ -22567,7 +22567,7 @@ fi
 
   if [ x"${enable_gnomeui}" = "xyes" ] ; then
 
-    LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
+    LIBS="${LIBS} `pkg-config --libs gtk+-2.0`"
 
         echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
 echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
