@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/vdc 	-I$(top_srcdir)/src/monitor
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/vdc
 
 
 noinst_LIBRARIES = libc128.a
@@ -270,15 +270,15 @@ c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/c64/c64acia.h
-c128.o: c128.c ../../src/vice.h ../../src/config.h \
-	../../src/monitor/asm.h ../../src/arch/unix/types.h \
-	../../src/attach.h ../../src/autostart.h c128-cmdline-options.h \
-	c128-resources.h c128-snapshot.h c128.h c128iec.h c128mem.h \
-	c128mmu.h ../../src/arch/unix/c128ui.h ../../src/c64/c64acia.h \
-	../../src/c64/c64cia.h ../../src/c64/c64keyboard.h \
-	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
-	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/datasette.h ../../src/debug.h \
+c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
+	../../src/arch/unix/types.h ../../src/autostart.h \
+	c128-cmdline-options.h c128-resources.h c128-snapshot.h c128.h \
+	c128iec.h c128mem.h c128mmu.h ../../src/arch/unix/c128ui.h \
+	../../src/c64/c64acia.h ../../src/c64/c64cia.h \
+	../../src/c64/c64keyboard.h ../../src/c64/c64rsuser.h \
+	../../src/c64/c64tpi.h ../../src/cartridge.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \

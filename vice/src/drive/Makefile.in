@@ -130,15 +130,15 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS =  	iec 	ieee 	tcbm
+SUBDIRS =  	iec 	iecieee 	ieee 	tcbm
 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/monitor 	-I$(top_srcdir)/src/vdrive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/vdrive
 
 
 noinst_LIBRARIES = libdrive.a
 
-libdrive_a_SOURCES =  	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	iec.h 	ieee.h 	rotation.c 	rotation.h 	tcbm.h 	via1d.c 	via2d.c 	viad.h
+libdrive_a_SOURCES =  	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	iec.h 	iecieee.h 	ieee.h 	rotation.c 	rotation.h 	tcbm.h 	viad.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -155,7 +155,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
 libdrive_a_OBJECTS =  drive-cmdline-options.o drive-resources.o \
 drive-snapshot.o drive.o drivecpu.o drivemem.o driveimage.o driverom.o \
-drivesync.o rotation.o via1d.o via2d.o
+drivesync.o rotation.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -344,7 +344,7 @@ drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/iecdrive.h ../../src/lib.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/resources.h rotation.h \
 	../../src/snapshot.h ../../src/vdrive/vdrive-bam.h \
-	../../src/vdrive/vdrive-snapshot.h viad.h ../../src/zfile.h
+	../../src/vdrive/vdrive-snapshot.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
@@ -354,7 +354,7 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/lib.h ../../src/log.h ../../src/machine-drive.h \
 	../../src/machine.h ../../src/parallel.h ../../src/resources.h \
 	rotation.h ../../src/serial.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h viad.h
+	../../src/uiapi.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
@@ -362,7 +362,7 @@ drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/ciatimer.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
 	../../src/mem.h ../../src/monitor.h rotation.h \
-	../../src/snapshot.h viad.h ../../src/6510core.c
+	../../src/snapshot.h ../../src/6510core.c
 driveimage.o: driveimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h drive.h driveimage.h \
@@ -471,10 +471,12 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-.PHONY: libdriveiec libdriveieee libdrivetcbm
+.PHONY: libdriveiec libdriveiecieee libdriveieee libdrivetcbm
 
 libdriveiec:
 	(cd iec; $(MAKE))
+libdriveiecieee:
+	(cd iecieee; $(MAKE))
 libdriveieee:
 	(cd ieee; $(MAKE))
 libdrivetcbm:

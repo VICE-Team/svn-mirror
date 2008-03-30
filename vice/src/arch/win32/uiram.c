@@ -59,7 +59,7 @@ static void update_preview(HWND hwnd)
 
     s = ram_init_print_pattern();
 
-    s_win = lib_malloc(2 * lstrlen(s) + 1);
+    s_win = lib_malloc(2 * strlen(s) + 1);
     i = j =0;
     while(s[i] != '\0') {
         if(s[i] == '\n')
@@ -71,8 +71,6 @@ static void update_preview(HWND hwnd)
     SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
     lib_free(s_win);
 }
-
-
 
 
 static void init_ram_dialog(HWND hwnd)
@@ -121,7 +119,6 @@ HFONT hfont;
 
     update_preview(hwnd);
 }
-
 
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

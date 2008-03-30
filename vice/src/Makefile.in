@@ -133,7 +133,7 @@ ARCH_LIBS = @ARCH_LIBS@
 SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	serial 	tape 	imagecontents 	video 	raster 	vicii 	vdc 	crtc 	gfxoutputdrv 	printerdrv 	rs232drv 	sid 	monitor 	c64 	c128 	vic20 	pet 	plus4 	cbm2 	arch
 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
 
 
 noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	blockdev.h 	cartridge.h 	catweaselmkiii.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	dma.h 	emuid.h 	event.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	lib.h 	log.h 	machine-drive.h 	machine.h 	main.h 	maincpu.h 	mem.h 	monitor.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232drv.h 	rsuser.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
@@ -159,6 +159,7 @@ crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
 driveiec_lib = $(top_builddir)/src/drive/iec/libdriveiec.a
+driveiecieee_lib = $(top_builddir)/src/drive/iecieee/libdriveiecieee.a
 driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
@@ -192,7 +193,7 @@ bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 EXTRA_PROGRAMS = 
 
 # x64
-x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveiecieee_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -201,7 +202,7 @@ x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
-x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(c64cart_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveiecieee_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(driver_libs) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 x128_SOURCES = $(base_sources)
@@ -210,7 +211,7 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
-xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveiecieee_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -219,7 +220,7 @@ xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
-xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(crtc_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(driveiecieee_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(crtc_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -228,7 +229,7 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xplus4
-xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(drivetcbm_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(driveiec_lib) 	$(driveiecieee_lib) 	$(drivetcbm_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 xplus4_SOURCES = $(base_sources)
@@ -237,7 +238,7 @@ xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
 # xcbm2
-xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(sid_lib) 	$(crtc_lib) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(driveiecieee_lib) 	$(driveieee_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(sid_lib) 	$(crtc_lib) 	$(vicii_lib) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 xcbm2_SOURCES = $(base_sources)
@@ -796,6 +797,7 @@ x64-all: \
 	libc64cart \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -826,6 +828,7 @@ x128-all: \
 	librs232drv \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libarch \
@@ -847,6 +850,7 @@ x128-all: \
 xvic-all: \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -868,6 +872,7 @@ xvic-all: \
 .PHONY: xpet-all
 xpet-all: \
 	libdrive \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -891,6 +896,7 @@ xpet-all: \
 xplus4-all: \
 	libdrive \
 	libdriveiec \
+	libdriveiecieee \
 	libdrivetcbm \
 	libvdrive \
 	libraster \
@@ -920,6 +926,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	libdrive \
+	libdriveiecieee \
 	libdriveieee \
 	libvdrive \
 	libraster \
@@ -961,6 +968,8 @@ libdrive:
 	(cd drive && $(MAKE))
 libdriveiec:
 	(cd drive && $(MAKE) libdriveiec)
+libdriveiecieee:
+	(cd drive && $(MAKE) libdriveiecieee)
 libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:

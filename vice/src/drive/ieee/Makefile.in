@@ -271,9 +271,9 @@ ieee-resources.o: ieee-resources.c ../../../src/vice.h \
 	../../../src/lib.h ../../../src/resources.h \
 	../../../src/utils.h
 ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
-	../../../src/alarm.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/mos6510.h fdc.h \
+	../../../src/alarm.h ../../../src/mos6510.h fdc.h \
 	ieee-cmdline-options.h ieee-resources.h \
 	../../../src/drive/ieee.h ieeerom.h memieee.h riotd.h \
 	../../../src/drive/viad.h

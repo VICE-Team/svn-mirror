@@ -61,6 +61,7 @@ extern "C" {
 #include "main.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "mos6510.h"
 #include "mouse.h"
 #include "resources.h"
@@ -243,7 +244,7 @@ static void ui_exit_early(void)
 
 static void mon_trap(WORD addr, void *unused_data)
 {
-    mon(addr);
+    monitor_startup();
 }
 
 static void save_snapshot_trap(WORD unused_addr, void *unused_data)
@@ -591,6 +592,8 @@ void ui_dispatch_events(void)
 		        if (resources_save(NULL) < 0) {
 	    	        ui_error("Cannot save settings.");
     	    	}
+                flip_save_list((unsigned int) -1, 
+                    archdep_default_fliplist_file_name());
 				break;
 			case MENU_SETTINGS_DEFAULT:
 	        	resources_set_defaults();

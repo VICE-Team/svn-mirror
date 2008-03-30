@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive
 
 
 noinst_LIBRARIES = libpet.a
@@ -269,9 +269,9 @@ pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h pet.h \
 	petmem.h petrom.h pets.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/tape.h
-pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
-	../../src/arch/unix/types.h ../../src/attach.h \
-	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
+pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
+	../../src/arch/unix/types.h ../../src/autostart.h \
+	../../src/clkguard.h ../../src/cmdline.h \
 	../../src/crtc/crtc-mem.h ../../src/crtc/crtc.h \
 	../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
@@ -299,8 +299,8 @@ petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h
 petdrive.o: petdrive.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/ieee.h ../../src/arch/unix/types.h \
-	../../src/machine-drive.h
+	../../src/drive/iecieee.h ../../src/arch/unix/types.h \
+	../../src/drive/ieee.h ../../src/machine-drive.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
 	../../src/iecdrive.h ../../src/log.h petiec.h

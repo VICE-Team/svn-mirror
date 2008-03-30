@@ -133,9 +133,9 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive
 
 
-noinst_LIBRARIES = libdriveiec.a
+noinst_LIBRARIES = libdriveiecieee.a
 
-libdriveiec_a_SOURCES =  	cia1571d.c 	cia1581d.c 	iec-cmdline-options.c 	iec-cmdline-options.h 	iec-resources.c 	iec-resources.h 	iec.c 	iecrom.c 	iecrom.h 	jobcode1581.c 	jobcode1581.h 	memiec.c 	memiec.h 	wd1770.c 	wd1770.h
+libdriveiecieee_a_SOURCES =  	iecieee.c 	via1d.c 	via2d.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -149,9 +149,8 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libdriveiec_a_LIBADD = 
-libdriveiec_a_OBJECTS =  cia1571d.o cia1581d.o iec-cmdline-options.o \
-iec-resources.o iec.o iecrom.o jobcode1581.o memiec.o wd1770.o
+libdriveiecieee_a_LIBADD = 
+libdriveiecieee_a_OBJECTS =  iecieee.o via1d.o via2d.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -163,14 +162,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libdriveiec_a_SOURCES)
-OBJECTS = $(libdriveiec_a_OBJECTS)
+SOURCES = $(libdriveiecieee_a_SOURCES)
+OBJECTS = $(libdriveiecieee_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/drive/iec/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/drive/iecieee/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -205,10 +204,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libdriveiec.a: $(libdriveiec_a_OBJECTS) $(libdriveiec_a_DEPENDENCIES)
-	-rm -f libdriveiec.a
-	$(AR) cru libdriveiec.a $(libdriveiec_a_OBJECTS) $(libdriveiec_a_LIBADD)
-	$(RANLIB) libdriveiec.a
+libdriveiecieee.a: $(libdriveiecieee_a_OBJECTS) $(libdriveiecieee_a_DEPENDENCIES)
+	-rm -f libdriveiecieee.a
+	$(AR) cru libdriveiecieee.a $(libdriveiecieee_a_OBJECTS) $(libdriveiecieee_a_LIBADD)
+	$(RANLIB) libdriveiecieee.a
 
 tags: TAGS
 
@@ -241,7 +240,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/drive/iec
+subdir = src/drive/iecieee
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -254,62 +253,29 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-cia1571d.o: cia1571d.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/ciacore.h ../../../src/cia.h ../../../src/log.h \
-	../../../src/arch/unix/types.h ../../../src/drive/ciad.h \
-	../../../src/clkguard.h ../../../src/drive/drive.h \
-	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
-	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/mos6510.h ../../../src/iecdrive.h \
-	../../../src/interrupt.h ../../../src/ciacore.c \
-	../../../src/snapshot.h
-cia1581d.o: cia1581d.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/ciacore.h ../../../src/cia.h ../../../src/log.h \
-	../../../src/arch/unix/types.h ../../../src/drive/ciad.h \
-	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
+iecieee.o: iecieee.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/mos6510.h \
-	../../../src/iecdrive.h ../../../src/interrupt.h \
-	../../../src/ciacore.c ../../../src/clkguard.h \
-	../../../src/snapshot.h
-iec-cmdline-options.o: iec-cmdline-options.c ../../../src/vice.h \
-	../../../src/config.h ../../../src/cmdline.h \
-	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
-	iec-cmdline-options.h
-iec-resources.o: iec-resources.c ../../../src/vice.h \
-	../../../src/config.h ../../../src/drive/drive.h \
-	../../../src/arch/unix/types.h ../../../src/drive/drivemem.h \
-	../../../src/drive/driverom.h iec-resources.h iecrom.h \
-	../../../src/lib.h ../../../src/resources.h \
-	../../../src/utils.h
-iec.o: iec.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/drive/drivetypes.h \
-	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/mos6510.h iec-cmdline-options.h iec-resources.h \
-	../../../src/drive/iec.h iecrom.h jobcode1581.h \
-	../../../src/lib.h memiec.h ../../../src/resources.h wd1770.h
-iecrom.o: iecrom.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
-	../../../src/drive/driverom.h iecrom.h ../../../src/log.h \
-	../../../src/resources.h ../../../src/sysfile.h
-jobcode1581.o: jobcode1581.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/diskimage.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
-	../../../src/log.h wd1770.h
-memiec.o: memiec.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drivemem.h ../../../src/drive/drivetypes.h \
-	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/drive/drive.h ../../../src/mos6510.h \
-	../../../src/lib.h memiec.h ../../../src/drive/viad.h wd1770.h
-wd1770.o: wd1770.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/iecieee.h ../../../src/drive/viad.h
+via1d.o: via1d.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h ../../../src/arch/unix/types.h \
-	../../../src/diskimage.h ../../../src/drive/drive.h \
-	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
+	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
+	../../../src/drive/drivesync.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/mos6510.h ../../../src/interrupt.h \
-	../../../src/log.h wd1770.h
+	../../../src/mos6510.h ../../../src/iecdrive.h \
+	../../../src/interrupt.h ../../../src/log.h \
+	../../../src/parallel.h ../../../src/drive/rotation.h \
+	../../../src/via.h ../../../src/drive/viad.h \
+	../../../src/viacore.c ../../../src/snapshot.h
+via2d.o: via2d.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/alarm.h ../../../src/mos6510.h \
+	../../../src/interrupt.h ../../../src/log.h \
+	../../../src/drive/rotation.h ../../../src/via.h \
+	../../../src/drive/viad.h ../../../src/viacore.c \
+	../../../src/clkguard.h ../../../src/snapshot.h
 
 info-am:
 info: info-am

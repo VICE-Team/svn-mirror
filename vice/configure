@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.11.29
+VERSION=1.11.30
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -8298,6 +8298,7 @@ if false ; then
     mkdir -p diskimage
     mkdir -p drive
     mkdir -p drive/iec
+    mkdir -p drive/iecieee
     mkdir -p drive/ieee
     mkdir -p drive/tcbm
     mkdir -p fsdevice
@@ -8475,6 +8476,7 @@ trap 'rm -fr `echo "Makefile
            src/diskimage/Makefile
            src/drive/Makefile
            src/drive/iec/Makefile
+           src/drive/iecieee/Makefile
            src/drive/ieee/Makefile
            src/drive/tcbm/Makefile
            src/fsdevice/Makefile
@@ -8729,6 +8731,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/diskimage/Makefile
            src/drive/Makefile
            src/drive/iec/Makefile
+           src/drive/iecieee/Makefile
            src/drive/ieee/Makefile
            src/drive/tcbm/Makefile
            src/fsdevice/Makefile

@@ -60,6 +60,7 @@
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "utils.h"
 
 
@@ -247,7 +248,14 @@ const char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return NULL;
+    static char *fname;
+
+    if (fname != NULL)
+        lib_free(fname);
+
+    fname = util_concat(archdep_boot_path(), "\\fliplist-", 
+                        machine_name, ".vfl", NULL);
+    return fname;
 }
 
 FILE *archdep_open_default_log_file(void)

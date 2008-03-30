@@ -1024,7 +1024,7 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
 
 static void mon_trap(WORD addr, void *unused_data)
 {
-    mon(addr);
+    monitor_startup();
 }
 
 static void save_snapshot_trap(WORD unused_addr, void *hwnd)
@@ -1468,12 +1468,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MONITOR:
         if (!ui_emulation_is_paused())
             interrupt_maincpu_trigger_trap(mon_trap, (void *)0);
-        else
-            /* 
-            FIXME: Following is copied from UNIX but doesn't run well
-            mon_trap((WORD)MOS6510_REGS_GET_PC(&maincpu_regs), 0);
-            */
-            ;
         break;
       case IDM_HARD_RESET + 0x00010000:
       case IDM_SOFT_RESET + 0x00010000:
@@ -1598,6 +1592,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             ui_error("Cannot save settings.");
         else
             ui_message("Settings saved successfully.");
+        flip_save_list((unsigned int) -1, archdep_default_fliplist_file_name());
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {

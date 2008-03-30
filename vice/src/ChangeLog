@@ -1,3 +1,54 @@
+2003-04-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.30.
+
+	* interrupt.c, interrupt.h, maincpu.c, drive/drivecpu.c,
+	maincpu.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c, drive/drivecpu.h, machine.c:
+	Allocate maincpu monitor interface at runtime.
+
+	* monitor/monitor.c, monitor.h, maincpu.c, 6510core.c,
+	drive/drivecpu.c, c128/z80.c, arch/unix/uicommands.c,
+	arch/win32/ui.c, arch/win32/ui.c, arch/msdos/menudefs.c,
+	arch/riscos/ui.c, arch/os2/dialogs/menubar.c, arch/beos/ui.h,
+	arch/beos/ui.cc: Changed monitor startup prototpye.
+
+	* Makefile.am, drive/Makefile.am, c64/Makefile.am,
+	c128/Makefile.am, vic20/Makefile.am, pet/Makefile.am,
+	plus4/Makefile.am, cbm2/Makefile.am, arch/unix/Makefile.am,
+	arch/win32/Makefile.am, arch/msdos/Makefile.am,
+	arch/riscos/Makefile.am, arch/os2/Makefile.am,
+	arch/beos/Makefile.am: Removed monitor include.
+
+	* monitor/asm.h: Moved prototypes to `monitor.h'.
+
+	* monitor/monitor.c [GET_PC]: New macro.
+	(monitor_open): Set PC for all memspaces.
+
+	* drive/iecieee/Makefile.am, drive/iecieee/via1d.c,
+	drive/iecieee/via2d.c, drive/iecieee.h,
+	arch/win32/iecieee.dsp: New files.
+
+	* drive/Makefile.am, Makefile.am, arch/win32/vice.dsw,
+	arch/win32/drive.dsp, arch/win32/Makefile.am: Updated.
+
+	* c64/c64drive.c, vic20/vic20drive.c, pet/petdrive.c,
+	plus4/plus4drive.c, cbm2/cbm2drive.c: Call iecieee functions.
+
+	* drive/drivecpu.c, drive/drive.c, drive/drive-snapshot.c:
+	Removed VIA specific code.
+
+2003-04-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/archdep.c, arch/win32/archdep.c: Include
+	machine.h, implemented archdep_default_fliplist_file_name.
+
+	* arch/beos/ui.cc, arch/win32/ui.c: Save fliplist with
+	resources.
+
+	* arch/win32/uiram.c: Replaced lstrlen with strlen (thanks,
+	Markus!).
+
 2003-04-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.29.
