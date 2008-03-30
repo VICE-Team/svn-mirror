@@ -184,10 +184,10 @@ static const resource_string_t resources_string[] = {
     { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
-    { "KeymapSymDeFile", KBD_C64_SYM_DE, RES_EVENT_NO, NULL,
+    { "KeymapPosFile", KBD_C64_POS, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
-    { "KeymapPosFile", KBD_C64_POS, RES_EVENT_NO, NULL,
+    { "KeymapSymDeFile", KBD_C64_SYM_DE, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[2],
       keyboard_set_keymap_file, (void *)2 },
 #endif
