@@ -145,7 +145,7 @@ static void mon_register_print(int mem)
         mon_out("\n");
 
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
-              mon_register_get_val(mem, e_PC),
+              addr_location(mon_register_get_val(mem, e_PC)),
               mon_register_get_val(mem, e_A),
               mon_register_get_val(mem, e_X),
               mon_register_get_val(mem, e_Y),

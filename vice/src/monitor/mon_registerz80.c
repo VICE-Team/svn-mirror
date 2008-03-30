@@ -171,7 +171,7 @@ static void mon_register_print(int mem)
 
     mon_out("  ADDR AF   BC   DE   HL   IX   IY   SP   I  R  AF'  BC'  DE'  HL'\n");
     mon_out(".;%04x %04x %04x %04x %04x %04x %04x %04x %02x %02x %04x %04x %04x %04x\n",
-              mon_register_get_val(mem, e_PC),
+              addr_location(mon_register_get_val(mem, e_PC)),
               mon_register_get_val(mem, e_AF),
               mon_register_get_val(mem, e_BC),
               mon_register_get_val(mem, e_DE),
