@@ -105,30 +105,43 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
       case e_AF:
         Z80_REGS_SET_AF(reg_ptr, val);
         break;
+      case e_BC:
         Z80_REGS_SET_BC(reg_ptr, val);
         break;
+      case e_DE:
         Z80_REGS_SET_DE(reg_ptr, val);
         break;
+      case e_HL:
         Z80_REGS_SET_HL(reg_ptr, val);
         break;
+      case e_IX:
         Z80_REGS_SET_IX(reg_ptr, val);
         break;
+      case e_IY:
         Z80_REGS_SET_IY(reg_ptr, val);
         break;
+      case e_SP:
         Z80_REGS_SET_SP(reg_ptr, val);
         break;
+      case e_PC:
         Z80_REGS_SET_PC(reg_ptr, val);
         break;
-        Z80_REGS_SET_I(reg_ptr, val);
+      case e_I:
+        Z80_REGS_SET_I(reg_ptr, (BYTE)val);
         break;
-        Z80_REGS_SET_R(reg_ptr, val);
+      case e_R:
+        Z80_REGS_SET_R(reg_ptr, (BYTE)val);
         break;
+      case e_AF2:
         Z80_REGS_SET_AF2(reg_ptr, val);
         break;
+      case e_BC2:
         Z80_REGS_SET_BC2(reg_ptr, val);
         break;
+      case e_DE2:
         Z80_REGS_SET_DE2(reg_ptr, val);
         break;
+      case e_HL2:
         Z80_REGS_SET_HL2(reg_ptr, val);
         break;
       default:

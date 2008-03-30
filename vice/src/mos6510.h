@@ -65,7 +65,7 @@ typedef struct mos6510_regs_s {
     (regs)->reg_sp = (val)
 #define MOS6510_REGS_SET_PC(regs, val) \
     (regs)->reg_pc = (val)
-/* FIXME: This does not handle "byte ready" status on 1541.  */
+
 #define MOS6510_REGS_SET_OVERFLOW(regs, val) \
     ((val) ? ((regs)->reg_p |= P_OVERFLOW) : ((regs)->reg_p &= ~P_OVERFLOW))
 #define MOS6510_REGS_SET_BREAK(regs, val) \

@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "log.h"
@@ -92,13 +93,13 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 
     switch(reg_id) {
       case e_A:
-        MOS6510_REGS_SET_A(reg_ptr, val);
+        MOS6510_REGS_SET_A(reg_ptr, (BYTE)val);
         break;
       case e_X:
-        MOS6510_REGS_SET_X(reg_ptr, val);
+        MOS6510_REGS_SET_X(reg_ptr, (BYTE)val);
         break;
       case e_Y:
-        MOS6510_REGS_SET_Y(reg_ptr, val);
+        MOS6510_REGS_SET_Y(reg_ptr, (BYTE)val);
         break;
       case e_PC:
         MOS6510_REGS_SET_PC(reg_ptr, val);
@@ -108,7 +109,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
             mon_interfaces[mem]->set_bank_base();
         break;
       case e_SP:
-        MOS6510_REGS_SET_SP(reg_ptr, val);
+        MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
         break;
       default:
         log_error(LOG_ERR, "Unknown register!");
