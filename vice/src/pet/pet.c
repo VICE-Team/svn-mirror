@@ -349,10 +349,8 @@ void machine_specific_reset(void)
     datasette_reset();
 }
 
-void machine_powerup(void)
+void machine_specific_powerup(void)
 {
-    mem_powerup();
-    maincpu_trigger_reset();
 }
 
 void machine_specific_shutdown(void)
@@ -512,7 +510,7 @@ int machine_read_snapshot(const char *name, int event_mode)
     snapshot_close(s);
 
     if (ef) {
-        maincpu_trigger_reset();
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     }
     return ef;
 }

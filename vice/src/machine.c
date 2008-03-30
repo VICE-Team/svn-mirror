@@ -94,6 +94,19 @@ unsigned int machine_jam(const char *format, ...)
     return JAM_NONE;
 }
 
+void machine_trigger_reset(const unsigned int mode)
+{
+    switch (mode) {
+      case MACHINE_RESET_MODE_HARD:
+        mem_powerup();
+        machine_specific_powerup();
+        /* Fall through.  */
+      case MACHINE_RESET_MODE_SOFT:
+        maincpu_trigger_reset();
+        break;
+    }
+}
+
 void machine_reset(void)
 {
     log_message(LOG_DEFAULT, "Main CPU: RESET.");

@@ -529,11 +529,9 @@ void machine_specific_reset(void)
     z80_reset();
 }
 
-void machine_powerup(void)
+void machine_specific_powerup(void)
 {
-    mem_powerup();
     /*vicii_reset_registers();*/
-    maincpu_trigger_reset();
 }
 
 void machine_specific_shutdown(void)
@@ -621,7 +619,7 @@ void machine_change_timing(int timeval)
 
     vicii_change_timing(&machine_timing);
 
-    machine_powerup();
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -692,7 +690,9 @@ int machine_read_snapshot(const char *name, int event_mode)
 fail:
     if (s != NULL)
         snapshot_close(s);
-    maincpu_trigger_reset();
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
     return -1;
 }
 

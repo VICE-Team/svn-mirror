@@ -366,10 +366,8 @@ void machine_specific_reset(void)
     mem_reset();
 }
 
-void machine_powerup(void)
+void machine_specific_powerup(void)
 {
-    mem_powerup();
-    maincpu_trigger_reset();
 }
 
 void machine_specific_shutdown(void)
@@ -536,7 +534,9 @@ int machine_read_snapshot(const char *name, int event_mode)
 fail:
     if (s != NULL)
         snapshot_close(s);
-    maincpu_trigger_reset();
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
     return -1;
 }
 
