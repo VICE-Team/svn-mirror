@@ -114,6 +114,7 @@ init_raster (void)
   raster_set_exposure_handler (raster, vic_ii_exposure_handler);
   raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
   raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+  raster_set_canvas_refresh(raster, 1);
 
   width = VIC_II_SCREEN_XPIX + VIC_II_SCREEN_BORDERWIDTH * 2;
   height = VIC_II_LAST_DISPLAYED_LINE - VIC_II_FIRST_DISPLAYED_LINE;
@@ -1319,6 +1320,16 @@ vic_ii_resize (void)
       vic_ii_sprites_set_double_size (0);
     }
 }
+
+void vic_ii_set_set_canvas_refresh(int enable)
+{
+    raster_t *raster;
+
+    raster = &vic_ii.raster;
+
+    raster_set_canvas_refresh(raster, enable);
+}
+
 
 
 

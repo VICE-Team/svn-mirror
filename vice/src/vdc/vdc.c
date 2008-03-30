@@ -74,7 +74,7 @@ static void init_raster(void)
     raster_set_exposure_handler(raster, vdc_exposure_handler);
     raster_enable_cache(raster, vdc_resources.video_cache_enabled);
     raster_enable_double_scan(raster, vdc_resources.double_scan_enabled);
-
+    raster_set_canvas_refresh(raster, 1);
 /*
     width = VDC_SCREEN_XPIX + VDC_SCREEN_BORDERWIDTH * 2;
     height = VDC_LAST_DISPLAYED_LINE - VDC_FIRST_DISPLAYED_LINE;
@@ -285,6 +285,15 @@ void vdc_resize(void)
         raster_set_pixel_size(&vdc.raster, 1, 1);
         vdc_draw_set_double_size(0);
     }
+}
+
+void vdc_set_set_canvas_refresh(int enable)
+{
+    raster_t *raster;
+
+    raster = &vdc.raster;
+
+    raster_set_canvas_refresh(raster, enable);
 }
 
 

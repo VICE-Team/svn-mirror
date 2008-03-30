@@ -182,6 +182,6 @@ void vdc_fetch_matrix (int offs, int num);
 void vdc_update_memory_ptrs (unsigned int cycle);
 void vdc_update_video_mode (unsigned int cycle);
 int vdc_raster_draw_alarm_handler (long offset);
-
+void vdc_set_set_canvas_refresh(int enable);
 
 #endif /* _VDC_H */

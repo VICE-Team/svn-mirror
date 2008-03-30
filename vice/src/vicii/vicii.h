@@ -334,6 +334,7 @@ void vic_ii_enable_extended_keyboard_rows (int flag);
 void vic_ii_prepare_for_snapshot (void);
 void vic_ii_powerup (void);
 void vic_ii_resize (void);
+void vic_ii_set_set_canvas_refresh(int enable);
 
 int vic_ii_write_snapshot_module (snapshot_t *s);
 int vic_ii_read_snapshot_module (snapshot_t *s);
