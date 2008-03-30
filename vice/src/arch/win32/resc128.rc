@@ -3,6 +3,7 @@
 #include "config.h"
 #include "debug.h"
 #include "res.rc"
+#include "reside64.rc"
 #include "resreu.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
@@ -224,6 +225,7 @@ BEGIN
         POPUP "&Cartridge Settings"
         BEGIN
             MENUITEM "&REU settings...",      IDM_REU_SETTINGS
+            MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
 #endif

@@ -49,6 +49,7 @@ libarch_a_SOURCES = \
 	resc128.rc \
 	resc64.rc \
 	rescbm2.rc \
+	reside64.rc \
 	respet.rc \
 	resplus4.rc \
 	resreu.rc \
@@ -86,6 +87,8 @@ libarch_a_SOURCES = \
 	uidriveplus4.h \
 	uifliplist.c \
 	uifliplist.h \
+	uiide64.c \
+	uiide64.h \
 	uijoystick.c \
 	uijoystick.h \
 	uilib.c \
@@ -188,10 +191,10 @@ EXTRA_DIST = \
         montb.bmp \
         c64.ico 
 
-resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
+resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
+resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 rescbm2.o : rescbm2.rc res.rc res.h ressid.rc

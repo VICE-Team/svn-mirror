@@ -38,6 +38,7 @@
 #include "uic128.h"
 #include "uic64cart.h"
 #include "uidrivec128.h"
+#include "uiide64.h"
 #include "uireu.h"
 #include "uirom.h"
 #include "uisid.h"
@@ -113,6 +114,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
+        break;
+      case IDM_IDE64_SETTINGS:
+        uiide64_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG,
