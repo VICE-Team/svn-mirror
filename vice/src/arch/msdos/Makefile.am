@@ -62,14 +62,26 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.h \
 	uiattach.c \
+	uic64cart.c \
+	uic64cart.h \
 	uicmdline.c \
+	uidrive.c \
+	uidrive.h \
+	uijoystick.c \
+	uijoystick.h \
 	uimon.c \
+	uiperipherial.c \
+	uiperipherial.h \
+	uiprinter.c \
+	uiprinter.h \
 	uireu.c \
 	uireu.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
 	uisnapshot.h \
+	uisound.c \
+	uisound.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \
