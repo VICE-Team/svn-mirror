@@ -55,9 +55,10 @@
 #include "utils.h"
 
 
-static char *argv0;
+static char *argv0 = NULL;
+static char *boot_path = NULL;
 
-int archdep_startup(int *argc, char **argv)
+int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
 
@@ -84,8 +85,6 @@ char *archdep_program_name(void)
 
 const char *archdep_boot_path(void)
 {
-    static char *boot_path;
-
     if (boot_path == NULL) {
         boot_path = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
 
@@ -387,5 +386,11 @@ int archdep_file_is_chardev(const char *name)
         return 1;
 
     return 0;
+}
+
+void archdep_shutdown(void)
+{
+    lib_free(argv0);
+    lib_free(boot_path);
 }
 

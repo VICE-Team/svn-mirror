@@ -61,10 +61,10 @@
 
 
 static char *orig_workdir;
-static char *argv0;
+static char *argv0 = NULL;
 
 
-int archdep_startup(int *argc, char **argv)
+int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
     orig_workdir = getcwd(NULL, GET_PATH_MAX);
@@ -336,5 +336,10 @@ int archdep_file_is_blockdev(const char *name)
 int archdep_file_is_chardev(const char *name)
 {
     return 0;
+}
+
+void archdep_shutdown(void)
+{
+    lib_free(argv0);
 }
 

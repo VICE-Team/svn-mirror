@@ -34,7 +34,7 @@
 
 
 /* Program start and signals.  */
-extern int archdep_startup(int *argc, char **argv);
+extern int archdep_init(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
 extern void archdep_setup_signals(int do_core_dumps);
 
@@ -82,6 +82,9 @@ extern int archdep_file_set_gzip(const char *name);
 /* Check file name for block or char device.  */
 extern int archdep_file_is_blockdev(const char *name);
 extern int archdep_file_is_chardev(const char *name);
+
+/* Free everything on exit.  */
+extern void archdep_shutdown(void);
 
 #endif
 

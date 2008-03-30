@@ -134,7 +134,7 @@ HMTX hmtxSpawn;
 
 #endif
 
-int archdep_startup(int *argc, char **argv)
+int archdep_init(int *argc, char **argv)
 {
     /* This is right way to do this in OS/2 (not via argv[0]) */
     TIB *pTib;
@@ -545,5 +545,10 @@ int archdep_file_is_blockdev(const char *name)
 int archdep_file_is_chardev(const char *name)
 {
     return 0;
+}
+
+void archdep_shutdown(void)
+{
+
 }
 

@@ -68,7 +68,7 @@ static char *orig_workdir;
 static char *argv0;
 
 
-int archdep_startup(int *argc, char **argv)
+int archdep_init(int *argc, char **argv)
 {
     _fmode = O_BINARY;
 
@@ -476,5 +476,10 @@ int archdep_file_is_blockdev(const char *name)
 int archdep_file_is_chardev(const char *name)
 {
     return 0;
+}
+
+void archdep_shutdown(void)
+{
+
 }
 
