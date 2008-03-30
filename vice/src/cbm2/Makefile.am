@@ -21,7 +21,6 @@ libcbm2_a_SOURCES = \
 	c610cia1.c \
 	c610cia1.def \
 	c610cpu.c \
-	c610cpu.def \
 	c610iec.c \
 	c610mem.c \
 	c610mem.h \
@@ -31,7 +30,7 @@ libcbm2_a_SOURCES = \
 	c610tpi2.c \
 	c610tpi2.def
 
-BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c c610cpu.c
+BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c 
 
 c610dir = $(top_srcdir)/src/cbm2
 
@@ -73,13 +72,5 @@ crtc.c: crtc.def $(top_srcdir)/src/crtc-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/crtc-tmpl.c \
 	           $(c610dir)/crtc.def $(c610dir)/crtc.c; \
-	   fi )
-
-c610cpu.c: c610cpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610cpu.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/cpu-tmpl.c \
-	           $(c610dir)/c610cpu.def $(c610dir)/c610cpu.c; \
 	   fi )
 

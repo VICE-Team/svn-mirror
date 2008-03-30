@@ -58,7 +58,8 @@
 
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName", 
-    /* FIXME: cartridges */
+    "CartridgeFile2000", "CartridgeFile6000", 
+    "CartridgeFileA000", "CartridgeFileB000",
     "DosName1541", "DosName1571", "DosName1581",
     NULL
 };
@@ -86,6 +87,16 @@ const char *mem_romset_resources_list[] = {
 #define	VIC_ROM_BLK2A	0
 #define	VIC_ROM_BLK2B	0
 
+/*----------------------------------------------------------------------*/
+
+static int mem_load_kernal(void);
+static int mem_load_basic(void);
+static int mem_load_chargen(void);
+
+/*----------------------------------------------------------------------*/
+
+/* Resource handling */
+
 /* Name of the character ROM.  */
 static char *chargen_rom_name;
 
@@ -111,7 +122,6 @@ static int ram_block_5_enabled;
 /* Old program counter.  Not used without MMU support.  */
 unsigned int old_reg_pc;
 
-/* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -121,10 +131,10 @@ static int set_chargen_rom_name(resource_value_t v)
 	return 0;
 
     string_set(&chargen_rom_name, name);
-    return 0;
+
+    return mem_load_chargen();
 }
 
-/* FIXME: Should load the new Kernal ROM.  */
 static int set_kernal_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -134,10 +144,10 @@ static int set_kernal_rom_name(resource_value_t v)
 	return 0;
 
     string_set(&kernal_rom_name, name);
-    return 0;
+
+    return mem_load_kernal();
 }
 
-/* FIXME: Should load the new BASIC ROM.  */
 static int set_basic_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -147,7 +157,8 @@ static int set_basic_rom_name(resource_value_t v)
 	return 0;
 
     string_set(&basic_rom_name, name);
-    return 0;
+
+    return mem_load_basic();
 }
 
 /* Ugly hack...  */
@@ -761,17 +772,12 @@ void mem_powerup(void)
     }
 }
 
-/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'. */
-int mem_load(void)
+int mem_load_kernal(void) 
 {
-    WORD sum;			/* ROM checksum */
     int i;
+    WORD sum;
 
-    if (vic20_mem_log == LOG_ERR)
-        vic20_mem_log = log_open("VIC20MEM");
-
-    mem_powerup();
+    if(!rom_loaded) return 0;
 
     /* Load Kernal ROM. */
     if (mem_load_sys_file(kernal_rom_name,
@@ -789,6 +795,16 @@ int mem_load(void)
                   "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
                   sum, sum);
     }
+    return 0;
+}
+
+int mem_load_basic(void) 
+{
+    int i;
+    WORD sum;
+
+    if(!rom_loaded) return 0;
+
     /* Load Basic ROM. */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, VIC20_BASIC_ROM_SIZE,
@@ -804,6 +820,12 @@ int mem_load(void)
 	log_error(vic20_mem_log,
                   "Warning: Unknown Basic image.  Sum: %d ($%04X).",
                   sum, sum);
+    return 0;
+}
+
+int mem_load_chargen(void) 
+{
+    if(!rom_loaded) return 0;
 
     /* Load chargen ROM. */
     if (mem_load_sys_file(chargen_rom_name,
@@ -812,7 +834,31 @@ int mem_load(void)
 	log_error(vic20_mem_log, "Couldn't load character ROM.");
 	return -1;
     }
+    return 0;
+}
+
+/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
+   `memory.c'. */
+int mem_load(void)
+{
+    WORD sum;			/* ROM checksum */
+    int i;
+
+    if (vic20_mem_log == LOG_ERR)
+        vic20_mem_log = log_open("VIC20MEM");
+
+    mem_powerup();
+
     rom_loaded = 1;
+
+    if (mem_load_kernal() < 0) 
+	return -1;
+
+    if (mem_load_basic() < 0) 
+	return -1;
+
+    if( mem_load_chargen() < 0) 
+	return -1;
 
     return 0;
 }

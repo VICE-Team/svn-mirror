@@ -132,7 +132,6 @@ cpucore_sources = \
 	6510core.c
 
 maincpu_sources = \
-	maincpu.def \
 	maincpu.c
 
 printer_sources = \
@@ -152,7 +151,6 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	acia-tmpl.c \
 	cia-tmpl.c \
-	cpu-tmpl.c \
 	crtc-tmpl.c \
 	convio \
 	fixpoint.c \
@@ -163,7 +161,7 @@ EXTRA_DIST = \
 	$(printer_sources) \
 	$(rs232_sources)
 
-BUILT_SOURCES = mon_parse.h mon_parse.c maincpu.c
+BUILT_SOURCES = mon_parse.h mon_parse.c 
 
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
@@ -301,12 +299,4 @@ libsid:
 	(cd sid && $(MAKE))
 libresid:
 	(cd resid && $(MAKE))
-
-maincpu.c: maincpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`maincpu.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/cpu-tmpl.c \
-	           $(top_srcdir)/src/maincpu.def $(top_srcdir)/src/maincpu.c; \
-	   fi )
 

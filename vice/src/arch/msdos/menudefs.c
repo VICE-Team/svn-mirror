@@ -978,7 +978,7 @@ static TUI_MENU_CALLBACK(quit_callback)
 	_setcursortype(_NORMALCURSOR);
 	normvideo();
 	clrscr();
-        serial_remove(-1);
+        serial_remove_file(-1);
 	exit(0);
     }
 

@@ -24,6 +24,13 @@
  *
  */
 
+/*
+ * Those cartridge files are different from "normal" ROM images.
+ * The VIC20 cartridges are saved with their start address before
+ * the actual data.
+ * This allows us to autodetect them etc.
+ */
+
 #include "vice.h"
 
 #include <stdio.h>

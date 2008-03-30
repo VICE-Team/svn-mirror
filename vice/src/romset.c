@@ -45,7 +45,7 @@ extern int romset_load(const char *filename) {
     fp = sysfile_open(filename, NULL);
 
     if(!fp) {
-        log_warning(LOG_DEFAULT, "Could not open file '%s' for writing (%s)!",
+        log_warning(LOG_DEFAULT, "Could not open file '%s' for reading (%s)!",
 		filename,strerror(errno));
 	return -1;
     }
@@ -65,15 +65,14 @@ extern int romset_load(const char *filename) {
     } while (retval != 0);
     fclose(fp);
 
-    mem_load();
+    /* mem_load(); setting the resources is now enought */
 
     return err;
 }
 
 extern int romset_dump(const char *filename, const char **resource_list) {
-    va_list args;
     FILE *fp;
-    char *s;
+    const char *s;
 
     fp = fopen(filename, "w");
     if (fp) {

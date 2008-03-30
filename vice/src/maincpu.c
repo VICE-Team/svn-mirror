@@ -1,11 +1,6 @@
 
 /*
- * ../src/maincpu.c
- * This file is generated from ../src/cpu-tmpl.c and ../src/maincpu.def,
- * Do not edit!
- */
-/*
- * cpu-tmpl.c - Emulation of the main 6510 processor.
+ * maincpu.c - Emulation of the main 6510 processor.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -78,8 +73,9 @@
    makes things much faster.
 
    This define affects only this file! */
-#define INSTRUCTION_FETCH_HACK
-
+# ifndef NO_INSTRUCTION_FETCH_HACK
+#  define INSTRUCTION_FETCH_HACK
+# endif
 # ifndef INSTRUCTION_FETCH_HACK
 /* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
    to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */

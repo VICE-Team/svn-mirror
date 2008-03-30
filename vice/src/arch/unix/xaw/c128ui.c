@@ -227,6 +227,26 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t c128_romset_submenu[] = {
+    { "Load default ROMs",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+    { "--" },
+    { "Load new Kernal ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "KernalName", NULL },
+    { "Load new Basic ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "BasicName", NULL },
+    { "Load new Chargen ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "ChargenName", NULL },
+    { "--" },
+    { "Load custom ROM set from file",
+      (ui_callback_t) ui_load_romset, NULL, NULL },
+    { "Dump ROM set definition to file",
+      (ui_callback_t) ui_dump_romset, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t c128_menu[] = {
     { "VIC-II settings",
       NULL, NULL, vic_submenu },
@@ -236,6 +256,8 @@ static ui_menu_entry_t c128_menu[] = {
       NULL, NULL, io_extensions_submenu },
     { "RS232 settings",
       NULL, NULL, rs232_submenu },
+    { "Memory settings",
+      NULL, NULL, c128_romset_submenu },
     { NULL }
 };
 

@@ -1583,17 +1583,23 @@ int mem_load(void)
         rom[i] = 0x80 + ((i >> 8) & 0xff);
     }
 
-    mem_load_chargen();
+    if( mem_load_chargen() < 0)
+	return -1;
 
-    mem_load_kernal();
+    if( mem_load_kernal() < 0)
+	return -1;
 
-    mem_load_editor();
+    if( mem_load_editor() < 0)
+	return -1;
 
-    mem_load_rom9();
+    if( mem_load_rom9() < 0)
+	return -1;
 
-    mem_load_romA();
+    if( mem_load_romA() < 0)
+	return -1;
 
-    mem_load_romB();
+    if( mem_load_romB() < 0)
+	return -1;
 
     sum = petres.kernal_checksum + petres.editor_checksum;
 

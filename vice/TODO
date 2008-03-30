@@ -17,13 +17,13 @@ What are we going to do next
 
 - Emulate the RESTORE key more accurately.
 
-- Better support for alternative ROM sets.
+- Better support for alternative ROM sets. (-> in the works)
 
 - Some more Kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
 - Filtering video output to make it look more like an old monitor or
-  a TV set.
+  a TV set. (-> done (on Unix) with palettes?)
 
 - More ports.  Any volunteers?  Win32 and Acorn RISC-OS ports are in
   the works; if you want to help, please let us know.
@@ -35,6 +35,8 @@ What are we going to do next
   menu entries to do this.
 
 - More accurate REU emulation, with 16 Mbyte mode.
+
+- Fix Emulator test suite (CPUPORT and CIA are still broken in this respect)
 
 * C128 improvements
 -------------------
@@ -51,9 +53,61 @@ What are we going to do next
 * PET improvements
 ------------------
 
-- Complete CRTC emulation.
+* CBM-II improvements
+------------------
 
 * Plus/4
 --------
 
 - Implement a Plus/4 emulator.
+
+
+
+This is our wishlist for long-term development 
+==============================================
+
+* General improvements
+----------------------
+
+- .TAP file support
+
+* C64 improvements
+------------------
+
+* C128 improvements
+-------------------
+
+- VDC emulation, i.e. 2MHz/80 cols modes. 
+
+- improve speed (make OPCODE_FETCH_HACK work). 
+
+* VIC20 improvements
+--------------------
+
+* PET improvements
+------------------
+
+- SuperPET 6809 emulation.
+  (GPLd 6809 emulation? trap to reset 6502 CPU only but not I/O, to return 
+  from 6809 mode)
+
+- cycle-based CRTC emulation (currently somewhat line-based but working
+  quite well).
+
+* CBM-II improvements
+------------------
+
+- C5x0 emulation (Like C6x0, but with VIC-II video chip)
+  (non-(C64-)compatible mapping of pixel/char data for the VIC-II,
+  halting CPU is different from C64)
+
+- cycle-based CRTC emulation (currently somewhat line-based but working
+  quite well).
+
+* KIM-1
+--------
+
+- Implement a KIM-1 emulator.
+  (needs 6530/6532 emulation and a 6-digit 7-segment display.
+  Probably needs .TAP file support)
+

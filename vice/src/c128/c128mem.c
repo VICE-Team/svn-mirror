@@ -74,8 +74,14 @@
 
 /* ------------------------------------------------------------------------- */
 
+static int mem_load_kernal(void);
+static int mem_load_basic(void);
+static int mem_load_chargen(void);
+
+/* ------------------------------------------------------------------------- */
+
 const char *mem_romset_resources_list[] = {
-    "KernalName", "ChargenName", "BasicName", "EditorName",
+    "KernalName", "ChargenName", "BasicName",
     "DosName2031", "DosName1541", "DosName1571", "DosName1581",
     NULL
 };
@@ -106,11 +112,12 @@ static int reu_enabled;
 /* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
 static int acia_de_enabled;
 
+#if 0
 /* Flag: Do we enable the $D7** ACIA RS232 interface emulation?  */
 static int acia_d7_enabled;
 #endif
+#endif
 
-/* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -120,10 +127,10 @@ static int set_chargen_rom_name(resource_value_t v)
         return 0;
 
     string_set(&chargen_rom_name, name);
-    return 0;
+
+    return mem_load_chargen();
 }
 
-/* FIXME: Should load the new Kernal ROM.  */
 static int set_kernal_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -133,10 +140,10 @@ static int set_kernal_rom_name(resource_value_t v)
         return 0;
 
     string_set(&kernal_rom_name, name);
-    return 0;
+
+    return mem_load_kernal();
 }
 
-/* FIXME: Should load the new BASIC ROM.  */
 static int set_basic_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -146,7 +153,8 @@ static int set_basic_rom_name(resource_value_t v)
         return 0;
 
     string_set(&basic_rom_name, name);
-    return 0;
+
+    return mem_load_basic();
 }
 
 static int set_emu_id_enabled(resource_value_t v)
@@ -192,11 +200,13 @@ static int set_reu_enabled(resource_value_t v)
 }
 
 #ifdef HAVE_RS232
+#if 0
 static int set_acia_d7_enabled(resource_value_t v)
 {
     acia_d7_enabled = (int) v;
     return 0;
 }
+#endif
 
 static int set_acia_de_enabled(resource_value_t v)
 {
@@ -222,8 +232,10 @@ static resource_t resources[] =
 #ifdef HAVE_RS232
     { "AciaDE", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & acia_de_enabled, set_acia_de_enabled },
+#if 0
     { "AciaD7", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & acia_d7_enabled, set_acia_d7_enabled },
+#endif
 #endif
     { NULL }
 };
@@ -1017,23 +1029,12 @@ void mem_powerup(void)
     }
 }
 
-/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'.  */
-int mem_load(void)
+static int mem_load_kernal(void) 
 {
-    WORD sum;                   /* ROM checksum */
-    int id;                     /* ROM identification number */
-    int i;
+    WORD sum;
+    int i, id;
 
-    if (c128_mem_log == LOG_ERR)
-        c128_mem_log = log_open("C128MEM");
-
-    mem_powerup();
-
-    page_zero = ram;
-    page_one = ram + 0x100;
-
-    initialize_memory();
+    if(!rom_loaded) return 0;
 
     /* Load Kernal ROM.  */
     if (mem_load_sys_file(kernal_rom_name,
@@ -1055,6 +1056,14 @@ int mem_load(void)
         && sum != C128_KERNAL_CHECKSUM_R01GER)
         log_error(c128_mem_log, "Warning: Kernal image may be corrupted. Sum: %d.",
                   sum);
+}
+
+static int mem_load_basic(void)
+{
+    WORD sum;
+    int i, id;
+
+    if(!rom_loaded) return 0;
 
     /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
@@ -1079,6 +1088,7 @@ int mem_load(void)
          i++)
         sum += basic_rom[i];
 
+    id = read_rom(0xff80);
     if (id == 01
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
@@ -1087,6 +1097,12 @@ int mem_load(void)
                   sum);
         log_error(c128_mem_log, "Check your Basic ROM.");
     }
+}
+
+static int mem_load_chargen(void)
+{
+    if(!rom_loaded) return 0;
+
     /* Load chargen ROM.  */
     if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C128_CHARGEN_ROM_SIZE,
@@ -1095,11 +1111,37 @@ int mem_load(void)
                   chargen_rom_name);
         return -1;
     }
+}
+
+/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
+   `memory.c'.  */
+int mem_load(void)
+{
+    if (c128_mem_log == LOG_ERR)
+        c128_mem_log = log_open("C128MEM");
+
+    mem_powerup();
+
+    page_zero = ram;
+    page_one = ram + 0x100;
+
+    initialize_memory();
+
+    rom_loaded = 1;
+
+    if( mem_load_kernal() < 0)
+	return -1;
+
+    if( mem_load_basic() < 0)
+	return -1;
+
+    if( mem_load_chargen() < 0)
+	return -1;
+
     /* Fake BIOS initialization.  This is needed because the real C128 is
        initialized by the Z80, which we currently do not implement.  */
     memcpy(ram + 0xffd0, biostab, sizeof(biostab));
 
-    rom_loaded = 1;
     return 0;
 }
 

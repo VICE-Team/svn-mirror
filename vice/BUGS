@@ -27,7 +27,7 @@ These are the most important known problems with VICE 0.16.1a:
   keys.
 
 - The C610 emulator, when the execution bank is set to an open memory
-  area, sets the zeropage and stack access to unmapped, but actually
+  bank, sets the zeropage and stack access to unmapped, but actually
   existing memory. This is a bug but cannot be avoided with the current
   CPU code architecture.
 

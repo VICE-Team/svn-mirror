@@ -105,8 +105,15 @@ static UI_CALLBACK(set_common_memory_configuration)
 }
 
 static ui_menu_entry_t vic20_romset_submenu[] = {
-    { "Default",
+    { "Load default ROMs",
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+    { "--" },
+    { "Load new Kernal ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+    { "Load new Basic ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+    { "Load new Character ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
     { "Load custom ROM set from file",
       (ui_callback_t) ui_load_romset, NULL, NULL },

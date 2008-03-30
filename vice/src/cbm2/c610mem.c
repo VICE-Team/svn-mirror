@@ -101,6 +101,11 @@ BYTE **_mem_read_base_tab_ptr;
 BYTE **_mem_read_ind_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
+/* Adjust this pointer when the MMU changes banks.  */
+static BYTE **bank_base;
+static int *bank_limit = NULL;
+unsigned int old_reg_pc;
+
 int cbm2_init_ok = 0;
 
 /* Flag: nonzero if the ROM has been loaded. */
@@ -506,6 +511,14 @@ void set_bank_exec(int val) {
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
     	_mem_read_base_tab_ptr = _mem_read_base_tab[bank_exec];
     	mem_read_limit_tab_ptr = mem_read_limit_tab[(bank_exec < 15) ? 0 : 1];
+
+        if (bank_limit != NULL) {
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+            if (*bank_base != 0)
+                *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
+                         - (old_reg_pc & 0xff00);
+            *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+        }
 
     	/* set all register mirror locations */
 	for(i=0;i<16;i++) {
@@ -1219,30 +1232,43 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    mem_load_chargen();
+    if( mem_load_chargen() < 0)
+	return -1;
 
     /* Init Disk/Cartridge ROM with 'unused address' values.  */
-    for (i = 0x1000; i < 0x8000; i++) {
-        rom[i] = ((i >> 8) & 0xff);
+    for (i = 0x800; i < 0x8000; i++) {
+        rom[i] = 0xff;
     }
 
-    mem_load_kernal();
+    if( mem_load_kernal() < 0)
+	return -1;
 
-    mem_load_basic();
+    if( mem_load_basic() < 0)
+	return -1;
 
     /* Load extension ROMs.  */
 
-    mem_load_cart_1();
+    if( mem_load_cart_1() < 0)
+	return -1;
 
-    mem_load_cart_2();
+    if( mem_load_cart_2() < 0)
+	return -1;
 
-    mem_load_cart_4();
+    if( mem_load_cart_4() < 0)
+	return -1;
 
-    mem_load_cart_6();
+    if( mem_load_cart_6() < 0)
+	return -1;
 
     crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
 
     return 0;
+}
+
+void mem_set_bank_pointer(BYTE **base, int *limit)
+{
+    bank_base = base;
+    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */
