@@ -1,3 +1,11 @@
+2006-10-21  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Added new file.
+
+2006-10-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in, nl.po: Updated.
+
 2006-10-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* intl2po.c: Updated to handle \" correctly.
