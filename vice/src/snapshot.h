@@ -33,19 +33,7 @@
 #define SNAPSHOT_MODULE_NAME_LEN        16
 
 typedef struct snapshot_module snapshot_module_t;
-
-#if 0
-extern int snapshot_write_byte(FILE *f, BYTE b);
-extern int snapshot_write_word(FILE *f, WORD w);
-extern int snapshot_write_dword(FILE *f, DWORD w);
-extern int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
-                                        int len);
-extern int snapshot_write_byte_array(FILE *f, BYTE *b, int len);
-extern int snapshot_read_byte(FILE *f, BYTE *b_return);
-extern int snapshot_read_word(FILE *f, WORD *w_return);
-extern int snapshot_read_dword(FILE *f, DWORD *dw_return);
-extern int snapshot_read_byte_array(FILE *f, BYTE *b_return, int size);
-#endif
+typedef struct snapshot snapshot_t;
 
 extern int snapshot_module_write_byte(snapshot_module_t *m, BYTE b);
 extern int snapshot_module_write_word(snapshot_module_t *m, WORD w);
@@ -62,23 +50,23 @@ extern int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return);
 extern int snapshot_module_read_byte_array(snapshot_module_t *m,
                                            BYTE *b_return, int size);
 
-extern snapshot_module_t *snapshot_module_create(FILE *f,
+extern snapshot_module_t *snapshot_module_create(snapshot_t *s,
                                                  const char *name,
                                                  BYTE major_version,
                                                  BYTE minor_version);
-extern snapshot_module_t *snapshot_module_open(FILE *f,
-                                               char *name_return,
+extern snapshot_module_t *snapshot_module_open(snapshot_t *s,
+                                               const char *name,
                                                BYTE *major_version_return,
                                                BYTE *minor_version_return);
 extern int snapshot_module_close(snapshot_module_t *m);
 
-extern FILE *snapshot_create(const char *filename,
-                             BYTE major_version, BYTE minor_version,
-                             const char *machine_name);
-extern FILE *snapshot_open(const char *filename,
-                           BYTE *major_version_return,
-                           BYTE *minor_version_return,
-                           char *machine_name_return);
-extern int snapshot_close(FILE *f);
+extern snapshot_t *snapshot_create(const char *filename,
+                                   BYTE major_version, BYTE minor_version,
+                                   const char *machine_name);
+extern snapshot_t *snapshot_open(const char *filename,
+                                 BYTE *major_version_return,
+                                 BYTE *minor_version_return,
+                                 char *machine_name_return);
+extern int snapshot_close(snapshot_t *s);
 
 #endif

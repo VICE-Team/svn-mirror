@@ -32,6 +32,8 @@
 
 #include "types.h"
 
+#include "snapshot.h"
+
 typedef BYTE REGPARM1 read_func_t(ADDRESS addr);
 typedef read_func_t *read_func_ptr_t;
 typedef void REGPARM2 store_func_t(ADDRESS addr, BYTE value);
@@ -76,7 +78,9 @@ extern BYTE mem_bank_read(int bank, ADDRESS addr);
 extern BYTE mem_bank_peek(int bank, ADDRESS addr);
 extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 
-extern int mem_write_snapshot_module(FILE *f);
-extern int mem_read_snapshot_module(FILE *f);
+/* Snapshots.  */
+
+extern int mem_write_snapshot_module(snapshot_t *s);
+extern int mem_read_snapshot_module(snapshot_t *s);
 
 #endif

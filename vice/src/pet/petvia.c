@@ -535,7 +535,7 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 BYTE REGPARM1 read_via_(ADDRESS addr)
 {
 #endif
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk = clk;
 
     addr &= 0xf;
@@ -576,9 +576,10 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
                    (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
+	    /* joystick always pulls low, even if high output, so no
+	       masking with DDRA */
             /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
         }
-        byte = (byte & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]);
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -599,8 +600,11 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
-            /* byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));*/
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
+	/* VIA port B reads the value of the output register for pins set
+ 	   to output, not the voltage levels as any other port */
         byte = (byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]);
 
         if (via[VIA_ACR] & 0x80) {
@@ -679,7 +683,8 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
                        (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
-            /* byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));*/
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
             if (via[VIA_ACR] & 0x80) {
                 update_viatal(rclk);
@@ -796,7 +801,7 @@ void via_prevent_clk_overflow(CLOCK sub)
 
 /* FIXME!!!  Error check.  */
 
-int via_write_snapshot_module(FILE * p)
+int via_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -836,7 +841,7 @@ int via_write_snapshot_module(FILE * p)
     return 0;
 }
 
-int via_read_snapshot_module(FILE * p)
+int via_read_snapshot_module(snapshot_t * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -863,7 +868,6 @@ int via_read_snapshot_module(FILE * p)
     {
         addr = VIA_DDRA;
 	byte = via[VIA_PRA] | ~via[VIA_DDRA];
-	oldpa = byte ^ 0xff;
 
 #ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
@@ -872,7 +876,6 @@ int via_read_snapshot_module(FILE * p)
 
 	addr = VIA_DDRB;
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
-	oldpb = byte ^ 0xff;
 
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));

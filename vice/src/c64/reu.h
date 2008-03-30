@@ -32,7 +32,7 @@
 #define _REU_H
 
 #include "types.h"
-#include "resources.h"
+#include "snapshot.h"
 
 extern int reset_reu(int size);
 extern void activate_reu(void);
@@ -40,5 +40,7 @@ extern void close_reu(void);
 extern BYTE REGPARM1 read_reu(ADDRESS addr);
 extern void REGPARM2 store_reu(ADDRESS addr, BYTE byte);
 extern void reu_dma(int immed);
+extern int reu_read_snapshot_module(snapshot_t *s);
+extern int reu_write_snapshot_module(snapshot_t *s);
 
 #endif

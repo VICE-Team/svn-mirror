@@ -524,7 +524,7 @@ BYTE REGPARM1 read_via2d0(ADDRESS addr)
 BYTE REGPARM1 read_via2d0_(ADDRESS addr)
 {
 #endif
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk = drive_clk[0];
 
     addr &= 0xf;
@@ -546,13 +546,12 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
       case VIA_PRA_NHS:	/* port A, no handshake */
 
     {
-        byte = ((drive_read_disk_byte(0) /* & ~via2d0[VIA_DDRA])
-            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] */ ));
+        byte = ((drive_read_disk_byte(0) & ~via2d0[VIA_DDRA])
+            | (via2d0[VIA_PRA] & via2d0[VIA_DDRA] ));
         if (drive[0].type == DRIVE_TYPE_1571)
             if (drive_byte_ready(0))
                 drive_set_byte_ready(0, 0);
     }
-        byte = (byte & ~via2d0[VIA_DDRA]) | (via2d0[VIA_PRA] & via2d0[VIA_DDRA]);
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -562,8 +561,10 @@ BYTE REGPARM1 read_via2d0_(ADDRESS addr)
         update_via2d0irq();
 
 
-	byte = (drive_read_viad2_prb(0) /* & ~via2d0[VIA_DDRB])
-			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] */ );
+	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
+	/* VIA port B reads the value of the output register for pins set
+ 	   to output, not the voltage levels as any other port */
         byte = (byte & ~via2d0[VIA_DDRB]) | (via2d0[VIA_PRB] & via2d0[VIA_DDRB]);
 
         if (via2d0[VIA_ACR] & 0x80) {
@@ -631,8 +632,8 @@ BYTE REGPARM1 peek_via2d0(ADDRESS addr)
             BYTE byte;
 
 
-	byte = (drive_read_viad2_prb(0) /* & ~via2d0[VIA_DDRB])
-			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] */ );
+	byte = (drive_read_viad2_prb(0) & ~via2d0[VIA_DDRB])
+			| (via2d0[VIA_PRB] & via2d0[VIA_DDRB] );
             if (via2d0[VIA_ACR] & 0x80) {
                 update_via2d0tal(rclk);
                 byte = (byte & 0x7f) | (((via2d0pb7 ^ via2d0pb7x) | via2d0pb7o) ? 0x80 : 0);
@@ -748,7 +749,7 @@ void via2d0_prevent_clk_overflow(CLOCK sub)
 
 /* FIXME!!!  Error check.  */
 
-int via2d0_write_snapshot_module(FILE * p)
+int via2d0_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -788,7 +789,7 @@ int via2d0_write_snapshot_module(FILE * p)
     return 0;
 }
 
-int via2d0_read_snapshot_module(FILE * p)
+int via2d0_read_snapshot_module(snapshot_t * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -815,14 +816,12 @@ int via2d0_read_snapshot_module(FILE * p)
     {
         addr = VIA_DDRA;
 	byte = via2d0[VIA_PRA] | ~via2d0[VIA_DDRA];
-	oldpa = byte ^ 0xff;
 
      drive_write_gcr(byte, 0);
 	oldpa = byte;
 
 	addr = VIA_DDRB;
 	byte = via2d0[VIA_PRB] | ~via2d0[VIA_DDRB];
-	oldpb = byte ^ 0xff;
 	/* FIXME!!!! */
 	oldpb = byte;
     }

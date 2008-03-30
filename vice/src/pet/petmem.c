@@ -1251,35 +1251,130 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 #define	PETMEM_DUMP_VER_MAJOR	0
 #define	PETMEM_DUMP_VER_MINOR	0
 
-int petmem_dump(FILE *p)
+/*
+ * UBYTE 	CONFIG		0 = 40 col normal PET
+ *				1 = 80 col normal PET
+ * 				2 = SuperPET
+ *				3 = 8096
+ *				4 = 8296
+ * UBYTE	MEMSIZE		memory size of low 32k in k (4,8,16,32)
+ *
+ * UBYTE	CONF8X96	8x96 configuration register
+ * UBYTE	SUPERPET	SuperPET config:
+ *				Bit 0: spet_ramen,  1= RAM enabled
+ *				    1: spet_ramwp,  1= RAM write protected
+ *				    2: spet_ctrlwp, 1= CTRL reg write prot.
+ *				    3: spet_diag,   0= diag active
+ *				    4-7: spet_bank, RAM block in use
+ *
+ * ARRAY	RAM		4-32k RAM (not 8296, dep. on MEMSIZE)
+ * ARRAY	VRAM		2/4k RAM (not 8296, dep in CONFIG)
+ * ARRAY	EXTRAM		64k (SuperPET and 8096 only)
+ * ARRAY	RAM		128k RAM (8296 only)
+ *
+ */
+
+int mem_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
+    BYTE config, memsize, conf8x96, superpet;
 
-    m = snapshot_module_create(p, "RAM",
+    memsize = pet.ramSize >> 10;
+    if(memsize > 32) {
+	memsize = 32;
+    }
+
+    config = pet.videoSize == 0x400 ? 0 : 1;
+    if(pet.map) {
+	config = pet.map + 2;
+    } else
+    if(pet.superpet) {
+	config = 2;
+    }
+
+    conf8x96 = map_reg;
+
+    superpet = (spet_ramen ? 1 : 0)
+		| (spet_ramwp ? 2 : 0)
+		| (spet_ctrlwp ? 4 : 0)
+		| (spet_diag ? 8 : 0)
+		| ((spet_bank << 4) & 0xf0) ;
+
+    m = snapshot_module_create(p, "PETMEM",
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
+    snapshot_module_write_byte(m, config);
+    snapshot_module_write_byte(m, memsize);
+    snapshot_module_write_byte(m, conf8x96);
+    snapshot_module_write_byte(m, superpet);
 
-    snapshot_module_write_byte_array(m, ram, RAM_ARRAY);
+    if(config != 4) {
+        snapshot_module_write_byte_array(m, ram, memsize << 10);
 
-    return snapshot_module_close(m);
+	snapshot_module_write_byte_array(m, ram + 0x8000,
+					(config == 0) ? 0x400 : 0x800);
+
+        if(config == 2 || config == 3) {
+            snapshot_module_write_byte_array(m, ram + 0x10000, 0x10000);
+	}
+    } else {	/* 8296 */
+        snapshot_module_write_byte_array(m, ram, 0x20000);
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
 }
 
-int petmem_undump(FILE *p)
+int mem_read_snapshot_module(snapshot_t *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     snapshot_module_t *m;
+    BYTE config, memsize, conf8x96, superpet;
 
     m = snapshot_module_open(p, name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
-
-    if (strcmp(name, "RAM") || vmajor != PETMEM_DUMP_VER_MAJOR)
+    if (strcmp(name, "PETMEM") || vmajor != PETMEM_DUMP_VER_MAJOR)
         return -1;
 
-    snapshot_module_read_byte_array(p, ram, RAM_ARRAY);
+    snapshot_module_read_byte(m, &config);
+    snapshot_module_read_byte(m, &memsize);
+    snapshot_module_read_byte(m, &conf8x96);
+    snapshot_module_read_byte(m, &superpet);
 
-    return snapshot_module_close(m);
+    /* TODO: warning if RAM size does not match */
+
+    /* TODO: warning if config does not match */
+
+    if(pet.map) {
+	store_8x96(0xfff0, conf8x96);
+    }
+    map_reg = conf8x96;
+
+    spet_ramen = superpet & 1;
+    spet_ramwp = superpet & 2;
+    spet_ctrlwp= superpet & 4;
+    spet_diag  = superpet & 8;
+    spet_bank  = (superpet >> 4) & 0xf;
+
+    if(config != 4) {
+        snapshot_module_read_byte_array(m, ram, memsize << 10);
+
+	snapshot_module_read_byte_array(m, ram + 0x8000,
+					(config == 0) ? 0x400 : 0x800);
+
+        if(config == 2 || config == 3) {
+            snapshot_module_read_byte_array(m, ram + 0x10000, 0x10000);
+	}
+    } else {	/* 8296 */
+        snapshot_module_read_byte_array(m, ram, 0x20000);
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
 }
 

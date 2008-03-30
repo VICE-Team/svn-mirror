@@ -27,26 +27,27 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "c610.h"
 
 #include "attach.h"
 #include "autostart.h"
+#include "c610acia.h"
+#include "c610cia.h"
+#include "c610mem.h"
+#include "c610tpi.h"
+#include "c610ui.h"
 #include "cmdline.h"
-#include "snapshot.h"
 #include "crtc.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "c610mem.h"
-#include "c610ui.h"
-#include "c610cia.h"
-#include "c610acia.h"
-#include "c610tpi.h"
-#include "sid.h"
 #include "resources.h"
+#include "sid.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "traps.h"
 #include "utils.h"
@@ -62,6 +63,10 @@
 
 #ifdef HAVE_RS232
 #include "rs232.h"
+#endif
+
+#ifdef __MSDOS__
+#include "c610kbd.h"
 #endif
 
 static void vsync_hook(void);
@@ -183,7 +188,7 @@ int machine_init(void)
 
     /* Initialize the keyboard.  */
 #ifdef __MSDOS__
-    if (pet_kbd_init() < 0)
+    if (c610_kbd_init() < 0)
         return -1;
 #else
     if (kbd_init() < 0)
@@ -278,36 +283,36 @@ int machine_set_restore_key(int v)
 
 int machine_write_snapshot(const char *name)
 {
-    FILE *f;
+    snapshot_t *s;
 
-    f = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
-    if (f == NULL) {
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    if (s == NULL) {
         perror(name);
         return -1;
     }
-    if (maincpu_write_snapshot_module(f) < 0
+    if (maincpu_write_snapshot_module(s) < 0
 /*
-        || mem_write_snapshot_module(f) < 0
-        || vic_ii_write_snapshot_module(f) < 0
-        || cia1_write_snapshot_module(f) < 0
-        || cia2_write_snapshot_module(f) < 0 */ ) {
-        fclose(f);
+        || mem_write_snapshot_module(s) < 0
+        || vic_ii_write_snapshot_module(s) < 0
+        || cia1_write_snapshot_module(s) < 0
+        || cia2_write_snapshot_module(s) < 0 */ ) {
+        snapshot_close(s);
         unlink(name);
         return -1;
     }
 
-    fclose(f);
+    snapshot_close(s);
     return 0;
 }
 
 int machine_read_snapshot(const char *name)
 {
-    FILE *f;
+    snapshot_t *s;
     BYTE minor, major;
     char machine_name[SNAPSHOT_MACHINE_NAME_LEN];
 
-    f = snapshot_open(name, &major, &minor, machine_name);
-    if (f == NULL) {
+    s = snapshot_open(name, &major, &minor, machine_name);
+    if (s == NULL) {
         perror(name);
         return -1;
     }
@@ -318,7 +323,7 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    if (maincpu_read_snapshot_module(f) < 0
+    if (maincpu_read_snapshot_module(s) < 0
 /*
         || mem_read_snapshot_module(f) < 0
         || vic_ii_read_snapshot_module(f) < 0
@@ -329,8 +334,8 @@ int machine_read_snapshot(const char *name)
     return 0;
 
 fail:
-    if (f != NULL)
-        fclose(f);
+    if (s != NULL)
+        snapshot_close(s);
     return -1;
 }
 

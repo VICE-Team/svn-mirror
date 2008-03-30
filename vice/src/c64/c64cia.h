@@ -29,7 +29,9 @@
 #define _C64_CIA_H
 
 #include "types.h"
+
 #include "cia.h"
+#include "snapshot.h"
 
 extern void reset_cia1(void);
 extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
@@ -43,8 +45,8 @@ extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
 extern void cia1_enable_extended_keyboard_rows(int flag);
-extern int cia1_write_snapshot_module(FILE *p);
-extern int cia1_read_snapshot_module(FILE *p);
+extern int cia1_write_snapshot_module(snapshot_t *p);
+extern int cia1_read_snapshot_module(snapshot_t *p);
 
 extern void reset_cia2(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
@@ -56,7 +58,7 @@ extern int int_cia2tod(long offset);
 extern void cia2_prevent_clk_overflow(CLOCK sub);
 extern void cia2_set_flag(void);
 extern void cia2_set_sdr(BYTE received_byte);
-extern int cia2_write_snapshot_module(FILE *p);
-extern int cia2_read_snapshot_module(FILE *p);
+extern int cia2_write_snapshot_module(snapshot_t *p);
+extern int cia2_read_snapshot_module(snapshot_t *p);
 
 #endif				/* _C64_CIA_H */

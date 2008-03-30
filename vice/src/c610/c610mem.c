@@ -311,21 +311,21 @@ static cmdline_option_t cmdline_options[] = {
     { "-cart6", SET_RESOURCE, 1, NULL, NULL, "Cart2Name", NULL,
       "<name>", "Specify name of cartridge ROM image for $6000" },
 
-    { "-ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 1, 
+    { "-ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 1,
       NULL, "Enable RAM mapping in $1000-$1FFF" },
-    { "+ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 0, 
+    { "+ram1", SET_RESOURCE, 0, NULL, NULL, "Ram1", (resource_value_t) 0,
       NULL, "Disable RAM mapping in $1000-$1FFF" },
-    { "-ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 1, 
+    { "-ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 1,
       NULL, "Enable RAM mapping in $2000-$3FFF" },
-    { "+ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 0, 
+    { "+ram2", SET_RESOURCE, 0, NULL, NULL, "Ram2", (resource_value_t) 0,
       NULL, "Disable RAM mapping in $2000-$3FFF" },
-    { "-ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 1, 
+    { "-ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 1,
       NULL, "Enable RAM mapping in $4000-$5FFF" },
-    { "+ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 0, 
+    { "+ram4", SET_RESOURCE, 0, NULL, NULL, "Ram4", (resource_value_t) 0,
       NULL, "Disable RAM mapping in $4000-$5FFF" },
-    { "-ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 1, 
+    { "-ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 1,
       NULL, "Enable RAM mapping in $6000-$7FFF" },
-    { "+ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 0, 
+    { "+ram6", SET_RESOURCE, 0, NULL, NULL, "Ram6", (resource_value_t) 0,
       NULL, "Disable RAM mapping in $6000-$7FFF" },
 
     { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
@@ -512,30 +512,30 @@ READ_RAM(E)
 READ_RAM(F)
 
 static void REGPARM2 (*store_zero_tab[16])(ADDRESS addr, BYTE value) = {
-	store_zero_0, store_zero_1, store_zero_2, store_zero_3, 
+	store_zero_0, store_zero_1, store_zero_2, store_zero_3,
 	store_zero_4, store_zero_5, store_zero_6, store_zero_7,
-	store_zero_8, store_zero_9, store_zero_A, store_zero_B, 
+	store_zero_8, store_zero_9, store_zero_A, store_zero_B,
 	store_zero_C, store_zero_D, store_zero_E, store_zero_F
 };
 
 static void REGPARM2 (*store_ram_tab[16])(ADDRESS addr, BYTE value) = {
-	store_ram_0, store_ram_1, store_ram_2, store_ram_3, 
+	store_ram_0, store_ram_1, store_ram_2, store_ram_3,
 	store_ram_4, store_ram_5, store_ram_6, store_ram_7,
-	store_ram_8, store_ram_9, store_ram_A, store_ram_B, 
+	store_ram_8, store_ram_9, store_ram_A, store_ram_B,
 	store_ram_C, store_ram_D, store_ram_E, store_ram_F
 };
 
 static BYTE REGPARM1 (*read_ram_tab[16])(ADDRESS addr) = {
-	read_ram_0, read_ram_1, read_ram_2, read_ram_3, 
+	read_ram_0, read_ram_1, read_ram_2, read_ram_3,
 	read_ram_4, read_ram_5, read_ram_6, read_ram_7,
-	read_ram_8, read_ram_9, read_ram_A, read_ram_B, 
+	read_ram_8, read_ram_9, read_ram_A, read_ram_B,
 	read_ram_C, read_ram_D, read_ram_E, read_ram_F
 };
 
 static BYTE REGPARM1 (*read_zero_tab[16])(ADDRESS addr) = {
-	read_zero_0, read_zero_1, read_zero_2, read_zero_3, 
+	read_zero_0, read_zero_1, read_zero_2, read_zero_3,
 	read_zero_4, read_zero_5, read_zero_6, read_zero_7,
-	read_zero_8, read_zero_9, read_zero_A, read_zero_B, 
+	read_zero_8, read_zero_9, read_zero_A, read_zero_B,
 	read_zero_C, read_zero_D, read_zero_E, read_zero_F
 };
 
@@ -1057,7 +1057,7 @@ static BYTE peek_bank_io(ADDRESS addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram0", "ram1", "ram2", "ram3", 
+    "default", "cpu", "ram0", "ram1", "ram2", "ram3",
 	"ram4", "ram5", "ram6", "ram7", "ram8", "ram9",
 	"ramA", "ramB", "ramC", "ramD", "ramE", "ramF",
 	"romio", NULL
@@ -1135,5 +1135,111 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 	}
     }
     store_dummy(addr, byte);
+}
+
+/*-----------------------------------------------------------------------*/
+
+/*
+ * CBM2 memory dump should be 128, 256, 512 or 1024k, depending on the
+ * config, as RAM.
+ */
+#define CBM2MEM_DUMP_VER_MAJOR   0
+#define CBM2MEM_DUMP_VER_MINOR   0
+
+/*
+ * UBYTE        MEMSIZE         size in 128k (1=128, 2=256, 3=512, 4=1024)
+ * UBYTE	CONFIG		Bit 0: cart1_ram
+ *				    1: cart2_ram
+ *				    2: cart4_ram
+ *				    3: cart6_ram
+ * ARRAY	RAM		size according to MEMSIZE
+ * ARRAY	RAM1		(only if memsize < 1M) 4k for cart1_ram
+ * ARRAY	RAM2		(only if memsize < 1M) 8k for cart2_ram
+ * ARRAY	RAM4		(only if memsize < 1M) 8k for cart4_ram
+ * ARRAY	RAM6		(only if memsize < 1M) 8k for cart6_ram
+ */
+
+int mem_write_snapshot_module(snapshot_t *p)
+{
+    snapshot_module_t *m;
+    BYTE config, memsize;
+
+    m = snapshot_module_create(p, "CBM2MEM",
+                               CBM2MEM_DUMP_VER_MAJOR, CBM2MEM_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    memsize = ramsize >> 17;
+
+    config = (cart1_ram ? 1 : 0)
+		| (cart2_ram ? 2 : 0)
+		| (cart4_ram ? 4 : 0)
+		| (cart6_ram ? 6 : 0) ;
+
+    snapshot_module_write_byte(m, memsize);
+    snapshot_module_write_byte(m, config);
+
+    snapshot_module_write_byte_array(m, ram, memsize << 17);
+
+    if(memsize < 4) {	/* if 1M memory, bank 15 is included */
+	if(config & 1) {
+    	    snapshot_module_write_byte_array(m, ram + 0xf1000, 0x1000);
+	}
+	if(config & 2) {
+    	    snapshot_module_write_byte_array(m, ram + 0xf2000, 0x2000);
+	}
+	if(config & 4) {
+    	    snapshot_module_write_byte_array(m, ram + 0xf4000, 0x2000);
+	}
+	if(config & 8) {
+    	    snapshot_module_write_byte_array(m, ram + 0xf6000, 0x2000);
+	}
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int mem_read_snapshot_module(snapshot_t *p)
+{
+    char name[SNAPSHOT_MODULE_NAME_LEN];
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    BYTE config, memsize;
+
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
+    if (strcmp(name, "CBM2MEM") || vmajor != CBM2MEM_DUMP_VER_MAJOR)
+        return -1;
+
+    snapshot_module_read_byte(m, &memsize);
+    snapshot_module_read_byte(m, &config);
+
+    /* TODO: warning if memsize does not match */
+
+    /* TODO: warning if config does not match */
+
+    snapshot_module_read_byte_array(m, ram, memsize << 17);
+
+    if(memsize < 4) {	/* if 1M memory, bank 15 is included */
+	if(config & 1) {
+    	    snapshot_module_read_byte_array(m, ram + 0xf1000, 0x1000);
+	}
+	if(config & 2) {
+    	    snapshot_module_read_byte_array(m, ram + 0xf2000, 0x2000);
+	}
+	if(config & 4) {
+    	    snapshot_module_read_byte_array(m, ram + 0xf4000, 0x2000);
+	}
+	if(config & 8) {
+    	    snapshot_module_read_byte_array(m, ram + 0xf6000, 0x2000);
+	}
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
 }
 

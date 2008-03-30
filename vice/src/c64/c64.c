@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "machine.h"
 
@@ -63,8 +64,9 @@
 #endif
 
 #ifdef HAVE_RS232
-#include "rs232.h"
 #include "c64acia.h"
+#include "c64rsuser.h"
+#include "rs232.h"
 #include "rsuser.h"
 #endif
 
@@ -413,36 +415,37 @@ int machine_set_restore_key(int v)
 
 int machine_write_snapshot(const char *name)
 {
-    FILE *f;
+    snapshot_t *s;
 
-    f = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
-    if (f == NULL) {
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    if (s == NULL) {
         perror(name);
         return -1;
     }
 
-    if (maincpu_write_snapshot_module(f) < 0
-        || mem_write_snapshot_module(f) < 0
-        || vic_ii_write_snapshot_module(f) < 0
-        || cia1_write_snapshot_module(f) < 0
-        || cia2_write_snapshot_module(f) < 0) {
-        fclose(f);
+    if (maincpu_write_snapshot_module(s) < 0
+        || mem_write_snapshot_module(s) < 0
+        || vic_ii_write_snapshot_module(s) < 0
+        || cia1_write_snapshot_module(s) < 0
+        || cia2_write_snapshot_module(s) < 0
+        || sid_write_snapshot_module(s) < 0) {
+        snapshot_close(s);
         unlink(name);
         return -1;
     }
 
-    fclose(f);
+    snapshot_close(s);
     return 0;
 }
 
 int machine_read_snapshot(const char *name)
 {
-    FILE *f;
+    snapshot_t *s;
     BYTE minor, major;
     char machine_name[SNAPSHOT_MACHINE_NAME_LEN];
 
-    f = snapshot_open(name, &major, &minor, machine_name);
-    if (f == NULL) {
+    s = snapshot_open(name, &major, &minor, machine_name);
+    if (s == NULL) {
         perror(name);
         return -1;
     }
@@ -453,17 +456,18 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
-    if (maincpu_read_snapshot_module(f) < 0
-        || mem_read_snapshot_module(f) < 0
-        || vic_ii_read_snapshot_module(f) < 0
-        || cia1_read_snapshot_module(f) < 0
-        || cia2_read_snapshot_module(f) < 0)
+    if (maincpu_read_snapshot_module(s) < 0
+        || mem_read_snapshot_module(s) < 0
+        || vic_ii_read_snapshot_module(s) < 0
+        || cia1_read_snapshot_module(s) < 0
+        || cia2_read_snapshot_module(s) < 0
+        || sid_read_snapshot_module(s) < 0)
         goto fail;
 
     return 0;
 
 fail:
-    if (f != NULL)
-        fclose(f);
+    if (s != NULL)
+        snapshot_close(s);
     return -1;
 }

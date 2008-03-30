@@ -541,7 +541,7 @@ BYTE REGPARM1 read_via2(ADDRESS addr)
 BYTE REGPARM1 read_via2_(ADDRESS addr)
 {
 #endif
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk = clk;
 
     addr &= 0xf;
@@ -590,11 +590,9 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 
 	/* We assume `iec_pa_read()' returns the non-IEC bits
 	   as zeroes. */
-	/* return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); */
-	byte = iec_pa_read() | joy_bits;
+	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
     }
-        byte = (byte & ~via2[VIA_DDRA]) | (via2[VIA_PRA] & via2[VIA_DDRA]);
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -609,6 +607,8 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 #else
     byte = 0xff;
 #endif
+	/* VIA port B reads the value of the output register for pins set
+ 	   to output, not the voltage levels as any other port */
         byte = (byte & ~via2[VIA_DDRB]) | (via2[VIA_PRB] & via2[VIA_DDRB]);
 
         if (via2[VIA_ACR] & 0x80) {
@@ -796,7 +796,7 @@ void via2_prevent_clk_overflow(CLOCK sub)
 
 /* FIXME!!!  Error check.  */
 
-int via2_write_snapshot_module(FILE * p)
+int via2_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -836,7 +836,7 @@ int via2_write_snapshot_module(FILE * p)
     return 0;
 }
 
-int via2_read_snapshot_module(FILE * p)
+int via2_read_snapshot_module(snapshot_t * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -863,14 +863,12 @@ int via2_read_snapshot_module(FILE * p)
     {
         addr = VIA_DDRA;
 	byte = via2[VIA_PRA] | ~via2[VIA_DDRA];
-	oldpa = byte ^ 0xff;
 
     iec_pa_write(byte);
 	oldpa = byte;
 
 	addr = VIA_DDRB;
 	byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
-	oldpb = byte ^ 0xff;
 
 #ifdef HAVE_PRINTER
     userport_printer_write_data(byte);

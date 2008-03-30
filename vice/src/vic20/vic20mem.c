@@ -923,3 +923,111 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         return;
     }
 }
+
+/*
+ * VIC20 memory dump contains the available memory at the moment
+ */
+#define VIC20MEM_DUMP_VER_MAJOR   0
+#define VIC20MEM_DUMP_VER_MINOR   0
+
+/*
+ * UBYTE        CONFIG          Bit 0: 1 = expansion block 0 RAM enabled
+ *				    1: 1 = expansion block 1 RAM enabled
+ *				    2: 1 = expansion block 2 RAM enabled
+ *				    3: 1 = expansion block 3 RAM enabled
+ *				    5: 1 = expansion block 5 RAM enabled
+ *
+ * ARRAY	RAM0		1k RAM $0000-$03ff
+ * ARRAY	RAM1		4k RAM $1000-$1fff
+ * ARRAY	BLK0		3k RAM $0400-$0fff (if blk 0 RAM enabled)
+ * ARRAY	BLK1		8k RAM $2000-$3fff (if blk 1 RAM enabled)
+ * ARRAY	BLK2		8k RAM $4000-$5fff (if blk 2 RAM enabled)
+ * ARRAY	BLK3		8k RAM $6000-$7fff (if blk 3 RAM enabled)
+ * ARRAY	BLK5		8k RAM $A000-$Bfff (if blk 5 RAM enabled)
+ *
+ */
+
+int mem_write_snapshot_module(snapshot_t *p)
+{
+    snapshot_module_t *m;
+    BYTE config;
+
+    config = (ram_block_0_enabled ? 1 : 0)
+		| (ram_block_1_enabled ? 2 : 0)
+		| (ram_block_2_enabled ? 4 : 0)
+		| (ram_block_3_enabled ? 8 : 0)
+		| (ram_block_5_enabled ? 32 : 0) ;
+
+    m = snapshot_module_create(p, "VIC20MEM",
+                               VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    snapshot_module_write_byte(m, config);
+
+    snapshot_module_write_byte_array(m, ram, 0x0400);
+    snapshot_module_write_byte_array(m, ram + 0x1000, 0x1000);
+
+    if(config & 1) {
+        snapshot_module_write_byte_array(m, ram + 0x0400, 0x0c00);
+    }
+    if(config & 2) {
+        snapshot_module_write_byte_array(m, ram + 0x2000, 0x2000);
+    }
+    if(config & 4) {
+        snapshot_module_write_byte_array(m, ram + 0x4000, 0x2000);
+    }
+    if(config & 8) {
+        snapshot_module_write_byte_array(m, ram + 0x6000, 0x2000);
+    }
+    if(config & 32) {
+        snapshot_module_write_byte_array(m, ram + 0xA000, 0x2000);
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int mem_read_snapshot_module(snapshot_t *p)
+{
+    char name[SNAPSHOT_MODULE_NAME_LEN];
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    BYTE config;
+
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
+    if (strcmp(name, "VIC20MEM") || vmajor != VIC20MEM_DUMP_VER_MAJOR)
+        return -1;
+
+    snapshot_module_read_byte(m, &config);
+
+    /* TODO: warning if config does not match */
+
+    snapshot_module_read_byte_array(m, ram, 0x0400);
+    snapshot_module_read_byte_array(m, ram + 0x1000, 0x1000);
+
+    if(config & 1) {
+        snapshot_module_read_byte_array(m, ram + 0x0400, 0x0c00);
+    }
+    if(config & 2) {
+        snapshot_module_read_byte_array(m, ram + 0x2000, 0x2000);
+    }
+    if(config & 4) {
+        snapshot_module_read_byte_array(m, ram + 0x4000, 0x2000);
+    }
+    if(config & 8) {
+        snapshot_module_read_byte_array(m, ram + 0x6000, 0x2000);
+    }
+    if(config & 32) {
+        snapshot_module_read_byte_array(m, ram + 0xA000, 0x2000);
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+

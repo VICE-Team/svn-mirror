@@ -484,7 +484,7 @@ BYTE REGPARM1 read_myvia(ADDRESS addr)
 BYTE REGPARM1 read_myvia_(ADDRESS addr)
 {
 #endif
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk = myclk;
 
     addr &= 0xf;
@@ -505,7 +505,6 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         READ_PRA
-        byte = (byte & ~myvia[VIA_DDRA]) | (myvia[VIA_PRA] & myvia[VIA_DDRA]);
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -515,6 +514,8 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
         update_myviairq();
 
         READ_PRB
+	/* VIA port B reads the value of the output register for pins set
+ 	   to output, not the voltage levels as any other port */
         byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
         if (myvia[VIA_ACR] & 0x80) {
@@ -697,7 +698,7 @@ void myvia_prevent_clk_overflow(CLOCK sub)
 
 /* FIXME!!!  Error check.  */
 
-int myvia_write_snapshot_module(FILE * p)
+int myvia_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -737,7 +738,7 @@ int myvia_write_snapshot_module(FILE * p)
     return 0;
 }
 
-int myvia_read_snapshot_module(FILE * p)
+int myvia_read_snapshot_module(snapshot_t * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -764,13 +765,11 @@ int myvia_read_snapshot_module(FILE * p)
     {
         addr = VIA_DDRA;
 	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
-	oldpa = byte ^ 0xff;
 	UNDUMP_PRA
 	oldpa = byte;
 
 	addr = VIA_DDRB;
 	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
-	oldpb = byte ^ 0xff;
 	UNDUMP_PRB
 	oldpb = byte;
     }

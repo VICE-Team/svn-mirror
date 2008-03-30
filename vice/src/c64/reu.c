@@ -39,7 +39,7 @@
 #include "mem.h"
 #include "utils.h"
 
-/* #define REU_DEBUG */
+#define REU_DEBUG
 
 #define REUSIZE 512
 
@@ -198,8 +198,9 @@ void    reu_dma(int immed)
     }
 
     /* wrong address of bank register & calculations corrected  - RH */
-    host_addr = (ADDRESS)(reu[2]) | ( (ADDRESS)( reu[3] ) << 8 );
-    reu_addr  = (int)(reu[4]) | ((int)(reu[5]) << 8) | ((int)(reu[6] & 7) << 16);
+    host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
+    reu_addr  = ((int)reu[4] | ((int)reu[5] << 8)
+                 | (((int)reu[6] & 7) << 16));
     if (( len = (int)(reu[7]) | ( (int)(reu[8]) << 8)) == 0)
 	len = 0x10000;
 
@@ -208,6 +209,9 @@ void    reu_dma(int immed)
     reu_step = reu[0xA] & 0x40 ? 0 : 1;
 
     /* clk += len; */
+
+    printf("REU DMA: host_addr $%05X\treu_addr $%05X\thost_step %d\treu_step %d\n",
+           host_addr, reu_addr, host_step, reu_step);
 
     switch (reu[1] & 0x03) {
       case 0: /* C64 -> REU */
@@ -260,6 +264,9 @@ void    reu_dma(int immed)
 	    }
 	    host_addr += host_step; reu_addr += reu_step;
 	}
+
+        if ((reu[9] & 0xa0) == 0xa0)
+            reu[0] |= 0x80;
 	break;
     }
 
@@ -278,7 +285,7 @@ void    reu_dma(int immed)
         if ( !(reu[0xA] & 0x40)) {
 	    reu[4] = reu_addr & 0xff;
 	    reu[5] = (reu_addr >> 8) & 0xff;
-	    reu[6] = (reu_addr>>16);
+	    reu[6] = (reu_addr >> 16);
 	}
 
 	reu[7] = 1;
@@ -288,5 +295,68 @@ void    reu_dma(int immed)
     /* [EP] 04-16-97. */
     reu[0] |= 0x40;
     reu[1] &= 0x7f;
+
+    /* Bit 7: interrupt enable.  */
+    /* Bit 6: interrupt on end of block */
+    if ((reu[9] & 0xc0) == 0xc0)
+        reu[0] |= 0x80;
 }
 
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "REU1750";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int reu_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (snapshot_module_write_dword(m, (DWORD) (ReuSize >> 10)) < 0
+        || snapshot_module_write_byte_array(m, reu, sizeof(reu)) < 0
+        || snapshot_module_write_byte_array(m, reuram, ReuSize) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int reu_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    char module_name[SNAPSHOT_MODULE_NAME_LEN];
+    snapshot_module_t *m;
+    DWORD size;
+
+    m = snapshot_module_open(s, module_name, &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (strcmp(module_name, snap_module_name) != 0)
+        goto fail;
+
+    /* Read RAM size.  */
+    if (snapshot_module_read_dword(m, &size) < 0)
+        goto fail;
+    if (size > REUSIZE) {
+        fprintf(stderr, "REU: Size %d in snapshot not supported.\n", size);
+        goto fail;
+    }
+
+    if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
+        || snapshot_module_read_byte_array(m, reuram, size) < 0)
+        goto fail;
+
+    snapshot_module_close(m);
+    return 0;
+
+fail:
+    snapshot_module_close(m);
+    return -1;
+}

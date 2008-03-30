@@ -29,6 +29,8 @@
 
 #include "sound.h"
 
+#include "snapshot.h"
+
 extern int sid_init_resources(void);
 extern int sid_init_cmdline_options(void);
 
@@ -36,5 +38,8 @@ extern void REGPARM2 store_sid(ADDRESS address, BYTE byte);
 extern BYTE REGPARM1 read_sid(ADDRESS address);
 
 extern void sid_reset(void);
+
+extern int sid_write_snapshot_module(snapshot_t *s);
+extern int sid_read_snapshot_module(snapshot_t *s);
 
 #endif

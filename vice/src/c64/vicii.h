@@ -29,6 +29,7 @@
 
 #include "vice.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "video.h"
 
 /* Color definitions. */
@@ -160,8 +161,8 @@ extern void reset_vic_ii(void);
 extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern int vbank;
 
-extern int vic_ii_write_snapshot_module(FILE *f);
-extern int vic_ii_read_snapshot_module(FILE *f);
+extern int vic_ii_write_snapshot_module(snapshot_t *s);
+extern int vic_ii_read_snapshot_module(snapshot_t *s);
 
 extern CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
 

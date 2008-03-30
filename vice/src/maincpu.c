@@ -85,7 +85,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+#define TRACE
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
@@ -449,11 +449,11 @@ static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int maincpu_write_snapshot_module(FILE *f)
+int maincpu_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
 
@@ -480,24 +480,16 @@ fail:
     return -1;
 }
 
-int maincpu_read_snapshot_module(FILE *f)
+int maincpu_read_snapshot_module(snapshot_t *s)
 {
     BYTE a, x, y, sp, status;
     WORD pc;
     BYTE major, minor;
-    char module_name[SNAPSHOT_MODULE_NAME_LEN];
     snapshot_module_t *m;
 
-    m = snapshot_module_open(f, module_name, &major, &minor);
+    m = snapshot_module_open(s, snap_module_name, &major, &minor);
     if (m == NULL)
         return -1;
-
-    if (strcmp(module_name, snap_module_name) != 0) {
-        fprintf(stderr,
-                "MAINCPU: Snapshot module name (`%s') incorrect; should be `%s'.\n",
-                module_name, snap_module_name);
-        goto fail;
-    }
 
     /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
        wrong number of cycles.  */

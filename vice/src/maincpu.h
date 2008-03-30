@@ -27,22 +27,23 @@
 #ifndef _MAINCPU_H
 #define _MAINCPU_H
 
-#include "types.h"
-#include "mem.h"
-#include "mos6510.h"
 #include "6510core.h"
+#include "mem.h"
 #include "mon.h"
+#include "mos6510.h"
+#include "snapshot.h"
+#include "types.h"
 
 /* ------------------------------------------------------------------------- */
 
-/* Information about the last opcode executed by the CPU.  */
+/* Information about the last opcode executed by the main CPU.  */
 extern DWORD last_opcode_info;
 
 /* The lowest 8 bits are the opcode number.  */
 #define OPINFO_NUMBER_MASK	       	(last_opcode_info & 0xff)
 
 /* If this is set to 1, the opcode has delayed interrupts by one more cycle
-   (this happens with conditional jumps when jump is taken.  */
+   (this happens with conditional jumps when jump is taken).  */
 #define OPINFO_DELAYS_INTERRUPT_MASK	(last_opcode_info & 0x100)
 
 /* The VIC-II emulation needs this ugly hack.  */
@@ -67,7 +68,7 @@ inline static CLOCK maincpu_num_write_cycles(void)
 
 extern void mainloop(ADDRESS start_address);
 
-extern int maincpu_read_snapshot_module(FILE *f);
-extern int maincpu_write_snapshot_module(FILE *f);
+extern int maincpu_read_snapshot_module(snapshot_t *s);
+extern int maincpu_write_snapshot_module(snapshot_t *s);
 
 #endif /* !defined(_MAINCPU_H) */

@@ -3759,14 +3759,14 @@ static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int vic_ii_write_snapshot_module(FILE *f)
+int vic_ii_write_snapshot_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
 
     /* FIXME: Dispatch all events?  */
 
-    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
 
@@ -3849,23 +3849,16 @@ static int read_word_into_int(snapshot_module_t *m, int *value_return)
     return 0;
 }
 
-int vic_ii_read_snapshot_module(FILE *f)
+int vic_ii_read_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
-    char module_name[SNAPSHOT_MODULE_NAME_LEN];
     int i;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(f, module_name, &major_version, &minor_version);
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
     if (m == NULL)
         return -1;
-
-    if (strcmp(module_name, snap_module_name) != 0) {
-        fprintf(stderr,
-                "VIC-II: Snapshot module name (`%s') incorrect; should be `%s'.\n",
-                module_name, snap_module_name);
-        goto fail;
-    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         fprintf(stderr,
