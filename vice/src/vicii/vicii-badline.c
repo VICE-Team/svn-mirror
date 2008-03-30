@@ -27,7 +27,8 @@
 
 #include "vice.h"
 
-#include "interrupt.h"
+#include "dma.h"
+#include "maincpu.h"
 #include "raster.h"
 #include "types.h"
 #include "vicii-badline.h"
@@ -88,7 +89,7 @@ inline static void line_becomes_bad(int cycle)
         num_chars = VIC_II_SCREEN_TEXTCOLS - xpos;
 
         /* Take over the bus until the memory fetch is done.  */
-        maincpu_steal_cycles(maincpu_clk, num_chars, 0);
+        dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
 
         if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
             /* Matrix fetches starts immediately, but the VICII needs

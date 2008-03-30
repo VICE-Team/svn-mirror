@@ -49,6 +49,7 @@
 #include "cartridge.h"
 #include "c64cart.h"
 #include "clkguard.h"
+#include "dma.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -179,7 +180,7 @@ inline void vicii_delay_clk(void)
 
     if (vic_ii.fastmode == 0) {
         diff = maincpu_clk - old_maincpu_clk;
-        maincpu_steal_cycles(maincpu_clk, diff, 0);
+        dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
     }
 
     old_maincpu_clk = maincpu_clk;

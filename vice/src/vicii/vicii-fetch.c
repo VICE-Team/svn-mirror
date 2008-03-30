@@ -31,7 +31,7 @@
 
 #include "alarm.h"
 #include "c64cart.h"
-#include "interrupt.h"
+#include "dma.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
@@ -131,8 +131,8 @@ inline static int do_matrix_fetch(CLOCK sub)
             vic_ii.ycounter_reset_checked = 1;
             vic_ii.memory_fetch_done = 2;
 
-            maincpu_steal_cycles(vic_ii.fetch_clk,
-                                 VIC_II_SCREEN_TEXTCOLS + 3 - sub, 0);
+            dma_maincpu_steal_cycles(vic_ii.fetch_clk,
+                                     VIC_II_SCREEN_TEXTCOLS + 3 - sub, 0);
 
             vic_ii.bad_line = 1;
             return 1;
@@ -314,8 +314,8 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
     if (vic_ii.store_clk != CLOCK_MAX) {
         if (vic_ii.store_clk + offset - 3 < vic_ii.fetch_clk) {
             vic_ii.ram_base_phi2[vic_ii.store_addr] = vic_ii.store_value;
-            vic_ii.store_clk = CLOCK_MAX;
         }
+        vic_ii.store_clk = CLOCK_MAX;
     }
 
     vic_ii.num_idle_3fff_old = vic_ii.num_idle_3fff;
@@ -381,7 +381,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         }
     }
 
-    maincpu_steal_cycles(vic_ii.fetch_clk, sf->num - sub, sub);
+    dma_maincpu_steal_cycles(vic_ii.fetch_clk, sf->num - sub, sub);
 
     *write_offset = sub == 0 ? sf->num : 0;
 
