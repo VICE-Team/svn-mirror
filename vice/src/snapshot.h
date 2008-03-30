@@ -51,6 +51,30 @@ extern int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return);
 extern int snapshot_module_read_byte_array(snapshot_module_t *m,
                                            BYTE *b_return, int size);
 extern int snapshot_module_read_string(snapshot_module_t *m, char **s);
+extern int snapshot_module_read_byte_into_int(snapshot_module_t *m,
+                                              int *value_return);
+extern int snapshot_module_read_word_into_int(snapshot_module_t *m,
+                                              int *value_return);
+extern int snapshot_module_read_dword_into_ulong(snapshot_module_t *m,
+                                                 unsigned long *value_return);
+extern int snapshot_module_read_dword_into_int(snapshot_module_t *m,
+                                               int *value_return);
+
+#define SMW_B      snapshot_module_write_byte
+#define SMW_W      snapshot_module_write_word
+#define SMW_DW     snapshot_module_write_dword
+#define SMW_PSTR   snapshot_module_write_padded_string
+#define SMW_BA     snapshot_module_write_byte_array
+#define SMW_STR    snapshot_module_write_string
+#define SMR_B      snapshot_module_read_byte
+#define SMR_W      snapshot_module_read_word
+#define SMR_DW     snapshot_module_read_dword
+#define SMR_BA     snapshot_module_read_byte_array
+#define SMR_STR    snapshot_module_read_string
+#define SMR_B_INT  snapshot_module_read_byte_into_int
+#define SMR_W_INT  snapshot_module_read_word_into_int
+#define SMR_DW_UL  snapshot_module_read_dword_into_ulong
+#define SMR_DW_INT snapshot_module_read_dword_into_int
 
 extern snapshot_module_t *snapshot_module_create(snapshot_t *s,
                                                  const char *name,
