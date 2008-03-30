@@ -180,7 +180,6 @@ static int serialcommand()
     return st;
 }
 
-
 /* ------------------------------------------------------------------------- */
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
