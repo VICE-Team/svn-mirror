@@ -130,6 +130,8 @@ static int LastMousePtr = 0;
 
 static int keymap_index;
 
+static int keyboard_int_num;
+
 
 
 /* Lookup table internal keynumbers to descriptive strings */
@@ -214,6 +216,7 @@ int kbd_init(void)
 {
   /*kbd_resources_init();*/
   memset(last_keys, 0, 32);
+  keyboard_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
   return 0;
 }
 
@@ -463,7 +466,7 @@ void kbd_poll(void)
               ui_activate_monitor();
               break;
             case IntKey_F7:
-              maincpu_set_nmi(I_RESTORE, 1);
+              maincpu_set_nmi(keyboard_int_num, 1);
               break;
             case IntKey_F8:
               maincpu_trigger_reset();

@@ -68,6 +68,12 @@ int rs232_resources_init(void)
 }
 
 
+int rs232_resources_shutdown(void)
+{
+  return 0;
+}
+
+
 int rs232_cmdline_options_init(void)
 {
   return 0;
