@@ -20,8 +20,6 @@ What are we going to do next (or not)
 - Some more Kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
-- Include datasette in snapshot.
-
 - Improve sound snapshot.
 
 - Add some wishlist.
@@ -33,8 +31,6 @@ What are we going to do next (or not)
 
 * C128 improvements
 -------------------
-
-- Fast serial support.
 
 - Support for fast mode (2MHz).
 
@@ -58,8 +54,7 @@ What are we going to do next (or not)
 * Plus/4
 --------
 
-- Implement a Plus/4 emulator (already started, but not ready for
-  prime time).
+- Improve Plus/4 emulator.
 
 * Drive improvements
 --------------------

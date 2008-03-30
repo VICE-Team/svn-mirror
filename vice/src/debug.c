@@ -167,20 +167,20 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
             }  
         }
 
-        log_debug("%04X %ld %02X%02X%02X %s",
-                  reg_pc, (long)mclk, reg_a, reg_x, reg_y, small_dis);
+        log_debug("%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
+                  (long)mclk, reg_a, reg_x, reg_y, small_dis);
     } else {
         log_debug(".%04X %03i %03i %10ld  %-20s "
-                  "A=$%02X X=$%02X Y=$%02X SP=$%02X",
-                  reg_pc, RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                  "A=$%02X X=$%02X Y=$%02X SP=$%02X", (unsigned int)reg_pc,
+                  RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
                   reg_a, reg_x, reg_y, reg_sp);
     }
 }
 
 void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
 {
-    log_debug("Drive: .%04X %10ld %-20s A=$%02x.", reg_pc, (long)mclk, dis,
-              reg_a);
+    log_debug("Drive: .%04X %10ld %-20s A=$%02x.", (unsigned int)reg_pc,
+              (long)mclk, dis, reg_a);
 }
 
 void debug_text(const char *text)
