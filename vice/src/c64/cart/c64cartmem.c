@@ -77,7 +77,7 @@ int mem_cartridge_type = CARTRIDGE_NONE;
 void cartridge_config_changed(BYTE mode, unsigned int wflag)
 {
     if (wflag == CMODE_WRITE)
-        machine_handle_pending_alarms(rmw_flag + 1);
+        machine_handle_pending_alarms(maincpu_rmw_flag + 1);
     else
         machine_handle_pending_alarms(0);
 
