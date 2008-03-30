@@ -720,7 +720,7 @@ static void write_resource_item(FILE *f, int num)
     line = string_resource_item(num, "\n");
 
     if (line != NULL) {
-        fprintf(f, line);
+        fputs(line, f);
         lib_free(line);
     }
 }
@@ -780,7 +780,7 @@ int resources_save(const char *fname)
             if (check_emu_id(buf))
                 break;
 
-                fprintf(out_file, "%s\n", buf);
+            fprintf(out_file, "%s\n", buf);
         }
     } else {
         in_file = NULL;
