@@ -176,7 +176,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
     case 0x2c:
     case 0x2d:
     case 0x2f:outd030=(WORD)rand();break;
-    case 0x30:return outd030;
+    case 0x30:return (BYTE)outd030;
     case 0x31:return outd030 >> 8;
     case 0x5f:
             if ((kill_port ^ 0x02) & 0x02) return 1;
@@ -270,10 +270,10 @@ void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value)
 		if (size==0 || size>16384) {ide_error=IDE_ABRT;goto aborted_command;}
                 ide_identify[110]=(ide_head & 0xf)+1;
                 ide_identify[112]=ide_sector_count;
-                ide_identify[114]=size & 0xff;size>>=8;
-                ide_identify[115]=size & 0xff;size>>=8;
-                ide_identify[116]=size & 0xff;size>>=8;
-                ide_identify[117]=size & 0xff;
+                ide_identify[114]=(BYTE)(size & 0xff);size>>=8;
+                ide_identify[115]=(BYTE)(size & 0xff);size>>=8;
+                ide_identify[116]=(BYTE)(size & 0xff);size>>=8;
+                ide_identify[117]=(BYTE)(size & 0xff);
                 break;
             }
         case 0xec:
@@ -366,7 +366,7 @@ aborted_command:
     case 0xff:current_cfg=2;break;
     default:return;
     }
-    cartridge_config_changed(1, current_cfg | (current_bank << 3), CMODE_READ);
+    cartridge_config_changed(1, (BYTE)(current_cfg | (current_bank << 3)), CMODE_READ);
 }
 
 

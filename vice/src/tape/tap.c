@@ -294,7 +294,7 @@ static int tap_read_sync(tap_t *tap, int start)
         read = tap_read_byte(tap);
         if (read < 0)
             return read;
-        if (read != start - i)
+        if (read != start - (int)i)
             return -2;
     }
     return 0;
