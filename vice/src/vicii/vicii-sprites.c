@@ -357,7 +357,7 @@ static void init_drawing_tables(void)
                      pos, color, collmsk_return)              \
     do {                                                      \
         if ((do_draw) && (collmskptr)[(pos)] == 0)            \
-            (imgptr)[(pos)]  = (color);                       \
+            (imgptr)[(pos)]  = (BYTE)(color);                 \
         (collmsk_return)    |= (collmskptr)[(pos)];           \
         (collmskptr)[(pos)] |= (sprite_bit);                  \
     } while (0)
@@ -1093,7 +1093,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     }
 }
 
-void vic_ii_sprites_reset_line(void)
+void vic_ii_sprites_reset_xshift(void)
 {
     int n;
 
@@ -1103,8 +1103,12 @@ void vic_ii_sprites_reset_line(void)
         vic_ii.raster.sprite_status->sprites[n].x_shift_sum = 0;
     }
 
-    memset(sprline, 0, sizeof(sprline));
     vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
     vic_ii.raster.sprite_status->sprite_background_collisions = 0;
 
+}
+
+void vic_ii_sprites_reset_sprline(void)
+{
+    memset(sprline, 0, sizeof(sprline));
 }

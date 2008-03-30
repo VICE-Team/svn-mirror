@@ -281,6 +281,10 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
     swap_sprite_data_buffers();
 
     check_sprite_dma();
+    if (vic_ii.raster.sprite_status->dma_msk 
+		|| vic_ii.raster.sprite_status->new_dma_msk) {
+		vic_ii_sprites_reset_sprline();
+	}
 
     /* FIXME?  Slow!  */
     vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)

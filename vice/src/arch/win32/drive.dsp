@@ -118,6 +118,10 @@ SOURCE=..\..\drive\drivesync.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\rotation.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\via1d.c
 # End Source File
 # Begin Source File

@@ -904,7 +904,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
 
     vic_ii.raster.xsmooth_shift_left = 0;
 
-    vic_ii_sprites_reset_line();
+    vic_ii_sprites_reset_xshift();
 
     raster_line_emulate(&vic_ii.raster);
 

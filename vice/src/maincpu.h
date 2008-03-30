@@ -32,7 +32,7 @@
 
 
 /* Information about the last opcode executed by the main CPU.  */
-extern DWORD last_opcode_info;
+extern unsigned int last_opcode_info;
 
 /* Masks to extract information. */
 #define OPINFO_NUMBER_MSK               0xff
