@@ -42,7 +42,8 @@ struct disp_desc_s;
 typedef unsigned int ui_window_t;
 
 /* Function type for setting a value */
-typedef int (*set_var_function)(const char *name, resource_value_t val);
+typedef int (*set_varstr_function)(const char *name, const char *val);
+typedef int (*set_varint_function)(const char *name, int val);
 
 extern int ui_init_named_app(const char *appname, const char *iconname);
 
@@ -86,8 +87,9 @@ extern int  ui_load_template(const char *tempname, RO_Window **wptr, struct wimp
 extern void ui_create_emulator_menu(int *block);
 extern int  ui_open_centered_or_raise_block(RO_Window *win, int *block);
 extern void ui_setup_menu_display(const struct disp_desc_s *dd);
-extern void ui_set_menu_display_core(const struct disp_desc_s *dd, set_var_function func, int number);
-extern void ui_update_menu_disp_strshow(const struct disp_desc_s *dd, resource_value_t val);
+extern void ui_set_menu_display_core_string(const struct disp_desc_s *dd, set_varstr_function func, int number);
+extern void ui_set_menu_display_core_int(const struct disp_desc_s *dd, set_varint_function func, int number);
+extern void ui_update_menu_disp_strshow(const struct disp_desc_s *dd, const char *val);
 extern void ui_setup_config_item(struct conf_item_s *ci);
 extern void ui_update_rom_names(void);
 extern const char *ui_check_for_syspath(const char *path);

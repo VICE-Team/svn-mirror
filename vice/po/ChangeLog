@@ -1,3 +1,13 @@
+2006-10-01  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Added new files.
+
+2006-10-01  pottendo  <pottendo@utanet.at>
+
+	* it.po: Fixed non-ISO chars.
+
+	* de.po: Updated.
+
 2006-09-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* Makefile.in.in, POTFILES.in, intl2po.c: Fixed.

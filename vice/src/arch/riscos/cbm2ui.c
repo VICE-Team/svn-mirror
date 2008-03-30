@@ -155,9 +155,9 @@ static const char *cbm2_get_keyboard_name(void)
   return CBM2keyGraphicName;
 }
 
-static int set_cbm2_model_by_name(const char *name, resource_value_t val)
+static int set_cbm2_model_by_name(const char *name, const char *val)
 {
-  util_string_set(&CBM2ModelName, (char*)val);
+  util_string_set(&CBM2ModelName, val);
   return cbm2_set_model(CBM2ModelName, NULL);
 }
 
@@ -175,7 +175,7 @@ static int cbm2ui_menu_select_config(int *block, int wnum)
 {
   if (wnum == CONF_MENU_C2MODEL)
   {
-    ui_set_menu_display_core(ConfigMenus[CONF_MENU_C2MODEL].desc, set_cbm2_model_by_name, block[0]);
+    ui_set_menu_display_core_string(ConfigMenus[CONF_MENU_C2MODEL].desc, set_cbm2_model_by_name, block[0]);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_C2MEM].desc);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_C2RAM].desc);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_C2LINE].desc);
@@ -192,7 +192,7 @@ static int cbm2ui_key_pressed_config(int *block, int wnum, const char *data)
   {
     if (block[KeyPB_Icon] == Icon_ConfCBM_CBM2CartF)
     {
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)data);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, data);
       return 0;
     }
   }
@@ -206,7 +206,7 @@ static int cbm2ui_usr_msg_data_load(int *block)
     if (block[6] == Icon_ConfCBM_CBM2CartF)
     {
       const char *name = ((const char*)block) + 44;
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)name);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, name);
       return 0;
     }
   }

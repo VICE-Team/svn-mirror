@@ -806,15 +806,15 @@ int network_connect_client(void)
 
     vsync_suspend_speed_eval();
 
-    snapshotfilename = archdep_tmpnam();
-    f = fopen(snapshotfilename, MODE_WRITE);
+    snapshotfilename = NULL;
+
+    f = archdep_mkstemp_fd(&snapshotfilename, MODE_WRITE);
     if (f == NULL) {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT), snapshotfilename);
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT));
 #else
-        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), snapshotfilename);
+        ui_error(_("Cannot create snapshot file. Select different history directory!"));
 #endif
-        lib_free(snapshotfilename);
         return -1;
     }
 
@@ -1139,6 +1139,8 @@ void network_shutdown(void)
 
 #else
 
+#include "network.h"
+
 int network_resources_init(void)
 {
     return 0;
@@ -1181,6 +1183,11 @@ void network_hook(void)
 
 void network_shutdown(void)
 {
+}
+
+int network_get_mode(void)
+{
+    return NETWORK_IDLE;
 }
 
 #endif

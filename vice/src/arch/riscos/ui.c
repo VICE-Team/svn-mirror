@@ -1113,14 +1113,14 @@ static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
   {
     disp_strshow_t *ds;
     char **resources;
-    resource_value_t val;
+    const char *val;
     int greyflag;
 
     ds = ((disp_strshow_t*)(dd->resource));
     resources = (char**)(dd + 1);
-    if (resources_get_value(resources[ds->item], (void *)&val) == 0)
+    if (resources_get_string(resources[ds->item], &val) == 0)
     {
-      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
+      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, val);
       greyflag = 0;
     }
     else
@@ -1133,17 +1133,17 @@ static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
 }
 
 
-void ui_update_menu_disp_strshow(const disp_desc_t *dd, resource_value_t val)
+void ui_update_menu_disp_strshow(const disp_desc_t *dd, const char *val)
 {
   disp_strshow_t *ds;
   char **resources;
 
   ds = ((disp_strshow_t*)(dd->resource));
   resources = (char**)(dd + 1);
-  if (resources_set_value(resources[ds->item], val) == 0)
+  if (resources_set_string(resources[ds->item], val) == 0)
   {
     if (ConfWindows[dd->id.win] != NULL)
-      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
+      wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, val);
   }
 }
 
@@ -1179,62 +1179,76 @@ static void ui_set_menu_display_text(const disp_desc_t *dd, int number, RO_MenuH
 }
 
 
-static void ui_setup_menu_disp_core(const disp_desc_t *dd, resource_value_t val)
+static int ui_setup_menu_disp_core_strshow(const disp_desc_t *dd, const char *val)
 {
-  RO_MenuHead *menu;
-  RO_MenuItem *item;
-  int *values;
-  int i=-1;
-
-  menu = dd->menu;
-  item = (RO_MenuItem*)(menu + 1); values = (int*)(dd + 1);
-
   if ((dd->flags & DISP_DESC_STRSHOW) != 0)
   {
-    i = ((disp_strshow_t*)(dd->resource))->item;
-  }
-  else
-  {
-    for (i=0; i<dd->items; i++)
+    int i = ((disp_strshow_t*)(dd->resource))->item;
+    if (i >= 0)
     {
-      if ((dd->flags & DISP_DESC_STRING) != 0)
-      {
-        if (val == (resource_value_t)0) continue;
-        if (strcmp((char*)(values[i]), (char*)val) == 0) break;
-      }
-      else
-      {
-        if (values[i] == (int)val) break;
-      }
+      ui_set_menu_display_text(dd, i, dd->menu);
+      return 0;
     }
-    if (i >= dd->items) i = -1;
   }
-
-  if (i >= 0)
-  {
-    ui_set_menu_display_text(dd, i, menu);
-  }
+  return -1;
 }
 
+static int ui_setup_menu_disp_core_string(const disp_desc_t *dd, const char *val)
+{
+  if (((dd->flags & DISP_DESC_STRING) != 0) && (val != NULL))
+  {
+    const char **values = (const char**)(dd + 1);
+    int i = -1;
+    for (i=0; i<dd->items; i++)
+    {
+      if (strcmp(values[i], val) == 0)
+        break;
+    }
+    if (i < dd->items)
+    {
+      ui_set_menu_display_text(dd, i, dd->menu);
+      return 0;
+    }
+  }
+  return -1;
+}
+
+static int ui_setup_menu_disp_core_int(const disp_desc_t *dd, int val)
+{
+  if ((dd->flags & (DISP_DESC_STRING | DISP_DESC_STRSHOW)) == 0)
+  {
+    const int *values = (const int*)(dd + 1);
+    int i = -1;
+    for (i=0; i<dd->items; i++)
+    {
+      if (values[i] == val)
+        break;
+    }
+    if (i < dd->items)
+    {
+      ui_set_menu_display_text(dd, i, dd->menu);
+      return 0;
+    }
+  }
+  return -1;
+}
 
 void ui_setup_menu_display(const disp_desc_t *dd)
 {
   if (ConfWindows[dd->id.win] != NULL)
   {
-    resource_value_t val;
-
     if ((dd->flags & DISP_DESC_BITFIELD) != 0)
     {
       unsigned int bits = 0;
       char **values;
-      int i;
+      int i, val;
 
       values = (char**)(dd + 1);
       for (i=0; i<dd->items; i++)
       {
 	int greyflag;
 
-	if (resources_get_value(values[i], (void *)&val) == 0)
+	if (resources_get_int(values[i], &val) == 0)
 	{
 	  if (val != 0) bits |= (1<<i);
 	  greyflag = 0;
@@ -1249,20 +1263,30 @@ void ui_setup_menu_display(const disp_desc_t *dd)
     }
     else if ((dd->flags & DISP_DESC_STRSHOW) != 0)
     {
-      ui_setup_menu_disp_core(dd, 0);
+      ui_setup_menu_disp_core_strshow(dd, NULL);
       ui_set_menu_disp_strshow(dd);
     }
     else if (dd->resource != NULL)
     {
-      int greyflag;
-      if (resources_get_value(dd->resource, (void *)&val) == 0)
+      int greyflag = IFlg_Grey;
+
+      if ((dd->flags & DISP_DESC_STRING) != 0)
       {
-	ui_setup_menu_disp_core(dd, val);
-	greyflag = 0;
+        const char *val;
+        if (resources_get_string(dd->resource, &val) == 0)
+        {
+          ui_setup_menu_disp_core_string(dd, val);
+          greyflag = 0;
+        }
       }
       else
       {
-	greyflag = IFlg_Grey;
+        int val;
+        if (resources_get_int(dd->resource, &val) == 0)
+        {
+          ui_setup_menu_disp_core_int(dd, val);
+          greyflag = 0;
+        }
       }
       wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
     }
@@ -1271,42 +1295,66 @@ void ui_setup_menu_display(const disp_desc_t *dd)
 
 
 /* Special set-functions */
-int set_romset_by_name(const char *name, resource_value_t val)
+int set_romset_by_name(const char *name, const char *val)
 {
-  if (val == (resource_value_t)0) return -1;
+  if (val == NULL) return -1;
   if (ROMSetName != NULL) lib_free(ROMSetName);
-  ROMSetName = lib_stralloc((char*)val);
-  return romset_archive_item_select((char*)val);
+  ROMSetName = lib_stralloc(val);
+  return romset_archive_item_select(val);
 }
 
 
-void ui_set_menu_display_core(const disp_desc_t *dd, set_var_function func, int number)
+static int ui_set_menu_display_core_base(const disp_desc_t *dd, int number)
 {
-  RO_MenuHead *menu;
-  RO_MenuItem *item;
-  int *values;
-  int state=0;
-
-  if (number >= dd->items) return;
-
-  menu = dd->menu;
-  item = (RO_MenuItem*)(menu + 1); item += number;
-  values = (int*)(dd + 1); values += number;
-
-  if ((dd->writable & (1<<number)) != 0)
+  if (number < dd->items)
   {
-    if ((item->iflags & IFlg_Indir) == 0)
-      *values = atoi(item->dat.strg);
-    else
-      *values = atoi((char*)(item->dat.ind.tit));
+    RO_MenuItem *item = (RO_MenuItem*)(dd->menu + 1);
+    int *values = (int*)(dd + 1);
+
+    item += number; values += number;
+    if ((dd->writable & (1<<number)) != 0)
+    {
+      if ((item->iflags & IFlg_Indir) == 0)
+        *values = atoi(item->dat.strg);
+      else
+        *values = atoi((char*)(item->dat.ind.tit));
+    }
+    return 0;
   }
-  if (func != (set_var_function)NULL)
+  return -1;
+}
+
+void ui_set_menu_display_core_string(const disp_desc_t *dd, set_varstr_function func, int number)
+{
+  if (ui_set_menu_display_core_base(dd, number) == 0)
   {
-    state = func(dd->resource, (resource_value_t)(*values));
+    int state = 0;
+    if (func != NULL)
+    {
+      const char **values = (const char**)(dd + 1);
+      state = func(dd->resource, values[number]);
+    }
+    if (state == 0)
+    {
+      ui_set_menu_display_text(dd, number, dd->menu);
+    }
   }
-  if (state == 0)
+}
+
+void ui_set_menu_display_core_int(const disp_desc_t *dd, set_varint_function func, int number)
+{
+  if (ui_set_menu_display_core_base(dd, number) == 0)
   {
-    ui_set_menu_display_text(dd, number, menu);
+    int state = 0;
+    if (func != NULL)
+    {
+      const int *values = (const int*)(dd + 1);
+      state = func(dd->resource, values[number]);
+    }
+    if (state == 0)
+    {
+      ui_set_menu_display_text(dd, number, dd->menu);
+    }
   }
 }
 
@@ -1330,12 +1378,15 @@ static void ui_set_menu_display_value(const disp_desc_t *dd, int number)
   else if ((dd->flags & DISP_DESC_STRSHOW) != 0)
   {
     ((disp_strshow_t*)(dd->resource))->item = number;
-    ui_set_menu_display_core(dd, (set_var_function)NULL, number);
+    ui_set_menu_display_core_string(dd, NULL, number);
     ui_set_menu_disp_strshow(dd);
   }
   else if (dd->resource != NULL)
   {
-    ui_set_menu_display_core(dd, resources_set_value, number);
+    if ((dd->flags & DISP_DESC_STRING) != 0)
+      ui_set_menu_display_core_string(dd, resources_set_string, number);
+    else
+      ui_set_menu_display_core_int(dd, resources_set_int, number);
   }
 }
 
@@ -2418,29 +2469,37 @@ void ui_setup_config_item(config_item_t *ci)
 {
   if (ConfWindows[ci->id.win] != NULL)
   {
-    resource_value_t val;
+    int status = -1;
 
-    if (resources_get_value(ci->resource, (void *)&val) != 0)
-    {
-      wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
-      return;
-    }
-    /* Development!
-       if (ci->icon == 0) return;*/
-
-    switch(ci->ctype)
+    switch (ci->ctype)
     {
       case CONFIG_INT:
-	wimp_window_write_icon_number(ConfWindows[ci->id.win], ci->id.icon, (int)val);
-	break;
+        {
+          int val;
+          if ((status = resources_get_int(ci->resource, &val)) == 0)
+            wimp_window_write_icon_number(ConfWindows[ci->id.win], ci->id.icon, val);
+        }
+        break;
       case CONFIG_SELECT:
-	wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, (val == 0) ? 0 : IFlg_Slct, IFlg_Slct);
-	break;
+        {
+          int val;
+          if ((status = resources_get_int(ci->resource, &val)) == 0)
+            wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, (val == 0) ? 0 : IFlg_Slct, IFlg_Slct);
+        }
+        break;
       case CONFIG_STRING:
-	wimp_window_write_icon_text(ConfWindows[ci->id.win], ci->id.icon, (char*)val);
-	break;
-      default: break;
+        {
+          const char *val;
+          if ((status = resources_get_string(ci->resource, &val)) == 0)
+            wimp_window_write_icon_text(ConfWindows[ci->id.win], ci->id.icon, val);
+        }
+        break;
+      default:
+        break;
     }
+
+    if (status != 0)
+      wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
   }
 }
 
@@ -3578,7 +3637,7 @@ static void ui_key_press_config(int *b)
           case Icon_ConfSys_CartFile:
             ui_set_cartridge_file(data); break;
           case Icon_ConfSys_DosName:
-            ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, (resource_value_t)data);
+            ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, data);
             break;
           default: Wimp_ProcessKey(key); return;
         }
@@ -4040,7 +4099,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
     case CONF_MENU_ROMSET:
       if (MenuDisplayROMSet != NULL)
       {
-        ui_set_menu_display_core(ConfigMenus[CONF_MENU_ROMSET].desc, set_romset_by_name, b[0]);
+        ui_set_menu_display_core_string(ConfigMenus[CONF_MENU_ROMSET].desc, set_romset_by_name, b[0]);
         ui_setup_menu_display(ConfigMenus[CONF_MENU_DOSNAME].desc);
         ui_update_rom_names();
         /*ui_issue_reset(1);*/
@@ -4442,7 +4501,7 @@ static void ui_user_msg_data_load(int *b)
     }
     else if (b[6] == Icon_ConfSys_DosNameF)
     {
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, (resource_value_t)ui_check_for_syspath(name));
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, ui_check_for_syspath(name));
       action = 1;
     }
     if ((b[10] == FileType_Data) || (b[10] == FileType_Text))

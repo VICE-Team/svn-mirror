@@ -221,9 +221,9 @@ static const char *pet_get_keyboard_name(void)
   return PETkeyGraphicName;
 }
 
-static int set_pet_model_by_name(const char *name, resource_value_t val)
+static int set_pet_model_by_name(const char *name, const char *val)
 {
-  util_string_set(&PetModelName, (char*)val);
+  util_string_set(&PetModelName, val);
   return pet_set_model(PetModelName, NULL);
 }
 
@@ -244,7 +244,7 @@ static int petui_menu_select_config(int *block, int wnum)
   {
     int i;
 
-    ui_set_menu_display_core(ConfigMenus[CONF_MENU_PETMODEL].desc, set_pet_model_by_name, block[0]);
+    ui_set_menu_display_core_string(ConfigMenus[CONF_MENU_PETMODEL].desc, set_pet_model_by_name, block[0]);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_PETMEM].desc);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_PETIO].desc);
     ui_setup_menu_display(ConfigMenus[CONF_MENU_PETVIDEO].desc);

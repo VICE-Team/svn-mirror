@@ -274,9 +274,9 @@ int kbd_update_joykeys(int port)
   return resources_set_string(rsrc, b);
 }
 
-static int set_keymap_index(resource_value_t v, void *param)
+static int set_keymap_index(int v, void *param)
 {
-  keymap_index = (int)v;
+  keymap_index = v;
   memset(last_keys, 0, 32);
   return 0;
 }

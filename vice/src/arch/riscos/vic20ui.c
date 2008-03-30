@@ -141,7 +141,7 @@ static int vic20ui_key_pressed_config(int *block, int wnum, const char *data)
   {
     if (block[KeyPB_Icon] == Icon_ConfVIC_VICCartF)
     {
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)data);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, data);
       return 0;
     }
   }
@@ -155,7 +155,7 @@ static int vic20ui_usr_msg_data_load(int *block)
     if (block[6] == Icon_ConfVIC_VICCartF)
     {
       const char *name = ((const char*)block) + 44;
-      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)name);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, name);
       return 0;
     }
   }
