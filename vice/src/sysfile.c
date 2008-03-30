@@ -123,3 +123,16 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
         return f;
     }
 }
+
+/* As `sysfile_open', but do not open the file.  Just return 0 if the file is
+   found and is readable, or -1 if an error occurs.  */
+int sysfile_locate(const char *name, char **complete_path_return)
+{
+    FILE *f = sysfile_open(name, complete_path_return);
+
+    if (f != NULL) {
+        fclose(f);
+        return 0;
+    } else
+        return -1;
+}
