@@ -148,6 +148,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->current_bank = 0;
     mi->mem_bank_list = NULL;
     mi->mem_bank_from_name = NULL;
+    mi->get_line_cycle = NULL;
 
     if (drv->mynumber == 0) {
         mi->mem_bank_read = drive0_bank_read;
