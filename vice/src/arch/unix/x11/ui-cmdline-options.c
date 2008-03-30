@@ -6,9 +6,6 @@
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
- * Support for multiple visuals and depths by
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
