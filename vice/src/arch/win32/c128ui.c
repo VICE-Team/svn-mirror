@@ -29,11 +29,15 @@
 #include "vice.h"
 
 #include "c128ui.h"
+#include "cartridge.h"
+#include "kbd.h"
+#include "keyboard.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
 #include "uireu.h"
 #include "uivicii.h"
+#include "uivideo.h"
 #include "vsync.h"
 #include "uisnapshot.h"
 #include "uilib.h"
@@ -59,12 +63,123 @@ ui_res_value_list c128_ui_res_values[] = {
     { NULL, NULL }
 };
 
+static ui_cartridge_params c128_ui_cartridges[] = {
+    {
+        IDM_CART_ATTACH_CRT,
+        CARTRIDGE_CRT,
+        "Attach CRT cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
+    },
+    {
+        IDM_CART_ATTACH_8KB,
+        CARTRIDGE_GENERIC_8KB,
+        "Attach raw 8KB cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_16KB,
+        CARTRIDGE_GENERIC_16KB,
+        "Attach raw 16KB cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_AR,
+        CARTRIDGE_ACTION_REPLAY,
+        "Attach Action Replay cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_AT,
+        CARTRIDGE_ATOMIC_POWER,
+        "Attach Atomic Power cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_EPYX,
+        CARTRIDGE_EPYX_FASTLOAD,
+        "Attach Epyx fastload cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_IEEE488,
+        CARTRIDGE_IEEE488,
+        "Attach IEEE interface cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_RR,
+        CARTRIDGE_RETRO_REPLAY,
+        "Attach Retro Replay cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_SS4,
+        CARTRIDGE_SUPER_SNAPSHOT,
+        "Attach Super Snapshot 4 cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        IDM_CART_ATTACH_SS5,
+        CARTRIDGE_SUPER_SNAPSHOT_V5,
+        "Attach Super Snapshot 5 cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
+        0, 0, NULL, 0
+    }
+};
+
+static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
+                                    ui_cartridge_params *cartridges)
+{
+    int i;
+    char *s;
+
+    i = 0;
+    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
+        i++;
+    if (cartridges[i].wparam == 0) {
+        ui_error("Bad cartridge config in UI!");
+        return;
+    }
+    if ((s = ui_select_file(hwnd, cartridges[i].title,
+        cartridges[i].filter, FILE_SELECTOR_DEFAULT_STYLE, NULL)) != NULL) {
+        if (cartridge_attach_image(cartridges[i].type, s) < 0)
+            ui_error("Invalid cartridge image");
+        free(s);
+    }
+}
+
+
 
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     char *s;
 
     switch (wparam) {
+      case IDM_CART_ATTACH_CRT:
+      case IDM_CART_ATTACH_8KB:
+      case IDM_CART_ATTACH_16KB:
+      case IDM_CART_ATTACH_AR:
+      case IDM_CART_ATTACH_AT:
+      case IDM_CART_ATTACH_EPYX:
+      case IDM_CART_ATTACH_IEEE488:
+      case IDM_CART_ATTACH_RR:
+      case IDM_CART_ATTACH_SS4:
+      case IDM_CART_ATTACH_SS5:
+        c128_ui_attach_cartridge(wparam, hwnd, c128_ui_cartridges);
+        break;
+      case IDM_CART_SET_DEFAULT:
+        cartridge_set_default();
+        break;
+      case IDM_CART_DETACH:
+        cartridge_detach_image();
+        break;
+      case IDM_CART_FREEZE|0x00010000:
+      case IDM_CART_FREEZE:
+        keyboard_clear_keymatrix();
+        cartridge_trigger_freeze();
+        break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);
         break;
@@ -97,7 +212,10 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             }
             ResumeFullscreenMode(hwnd);
             break;
-    }
+       case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd);
+        break;
+   }
 }
 
 int c128_ui_init(void)

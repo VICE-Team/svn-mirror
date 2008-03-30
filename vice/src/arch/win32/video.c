@@ -293,6 +293,7 @@ void video_frame_buffer_translate(video_canvas_t *c)
     int i;
     raster_t *r;
 
+    return;
     r=video_find_raster_for_canvas(c);
 
     if (r) {
@@ -337,50 +338,152 @@ int set_physical_colors(video_canvas_t *c)
     HRESULT result;
     COLORREF    oldcolor;
 	DWORD pcol;
+    DDPIXELFORMAT   format;
+    DWORD   mask=0;
+    int     rshift=0;
+    int     rbits=0;
+    int     gshift=0;
+    int     gbits=0;
+    int     bshift=0;
+    int     bbits=0;
+    DWORD   rmask=0;
+    DWORD   gmask=0;
+    DWORD   bmask=0;
+
+    format.dwSize=sizeof(DDPIXELFORMAT);    
+    IDirectDrawSurface_GetPixelFormat(c->primary_surface,&format);
+    if (format.dwFlags&DDPF_RGB) {
+        log_debug("RGB surface...");
+#ifdef HAVE_UNNAMED_UNIONS
+        log_debug("dwRGBBitCount: %d",format.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x",format.dwRBitMask);
+        log_debug("dwGBitMask: %08x",format.dwGBitMask);
+        log_debug("dwBBitMask: %08x",format.dwBBitMask);
+#else
+        log_debug("dwRGBBitCount: %d",format.u1.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x",format.u2.dwRBitMask);
+        log_debug("dwGBitMask: %08x",format.u3.dwGBitMask);
+        log_debug("dwBBitMask: %08x",format.u4.dwBBitMask);
+#endif
+    if (c->depth!=8){
+
+#ifdef HAVE_UNNAMED_UNIONS
+        mask=format.dwRBitMask;
+#else
+        mask=format.u2.dwRBitMask;
+#endif
+        rshift=0;
+        while (!(mask&1)) {
+            rshift++;
+            mask>>=1;
+        }
+        rmask=mask;
+        rbits=8;
+        while(mask&1) {
+            rbits--;
+            mask>>=1;
+        }
+        log_debug("rshift: %d",rshift);
+        log_debug("rmask: %02x",rmask);
+        log_debug("rbits: %d",rbits);
+
+#ifdef HAVE_UNNAMED_UNIONS
+        mask=format.dwGBitMask;
+#else
+        mask=format.u3.dwGBitMask;
+#endif
+        gshift=0;
+        while (!(mask&1)) {
+            gshift++;
+            mask>>=1;
+        }
+        gmask=mask;
+        gbits=8;
+        while(mask&1) {
+            gbits--;
+            mask>>=1;
+        }
+        log_debug("gshift: %d",gshift);
+        log_debug("gmask: %02x",gmask);
+        log_debug("gbits: %d",gbits);
+
+#ifdef HAVE_UNNAMED_UNIONS
+        mask=format.dwBBitMask;
+#else
+        mask=format.u4.dwBBitMask;
+#endif
+        bshift=0;
+        while (!(mask&1)) {
+            bshift++;
+            mask>>=1;
+        }
+        bmask=mask;
+        bbits=8;
+        while(mask&1) {
+            bbits--;
+            mask>>=1;
+        }
+        log_debug("bshift: %d",bshift);
+        log_debug("bmask: %02x",bmask);
+        log_debug("bbits: %d",bbits);
+    }
+    } else {
+        log_debug("Non RGB surface...");
+    }
+
 
     for (i = 0; i < c->palette->num_entries; i++) {
         DWORD p;
 
         DEBUG(("Allocating color \"%s\"",
                c->palette->entries[i].name));
-        result = IDirectDrawSurface_GetDC(c->primary_surface,
-                                          &hdc);
-        if (result == DDERR_SURFACELOST) {
-            IDirectDrawSurface_Restore(c->primary_surface);
+
+        if (c->depth==8) {
+//            log_debug("depth==8");
             result = IDirectDrawSurface_GetDC(c->primary_surface,
                                               &hdc);
-        }
-        if (result != DD_OK) {
-            ui_error("Cannot get DC on DirectDraw surface while allocating colors:\n%s",
-                     dd_error(result));
-            return -1;
-        }
-        oldcolor = GetPixel(hdc,0,0);
-        SetPixel(hdc, 0, 0, PALETTERGB(c->palette->entries[i].red,
-                                       c->palette->entries[i].green,
-                                       c->palette->entries[i].blue));
-        IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
+            if (result == DDERR_SURFACELOST) {
+                IDirectDrawSurface_Restore(c->primary_surface);
+                result = IDirectDrawSurface_GetDC(c->primary_surface,
+                                                  &hdc);
+            }
+            if (result != DD_OK) {
+                ui_error("Cannot get DC on DirectDraw surface while allocating colors:\n%s",
+                         dd_error(result));
+                return -1;
+            }
+            oldcolor = GetPixel(hdc,0,0);
+            SetPixel(hdc, 0, 0, PALETTERGB(c->palette->entries[i].red,
+                                           c->palette->entries[i].green,
+                                           c->palette->entries[i].blue));
+            IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
 
-        ddsd.dwSize = sizeof(ddsd);
-        while ((result
-                = IDirectDrawSurface_Lock(c->primary_surface,
-                                          NULL, &ddsd, 0,
-                                          NULL))
-               == DDERR_WASSTILLDRAWING)
-            ;
-        if (result == DDERR_SURFACELOST) {
-            IDirectDrawSurface_Restore(c->primary_surface);
-            result = IDirectDrawSurface_Lock(c->primary_surface,
-                                             NULL, &ddsd, 0,
-                                             NULL);
-        }
-        if (result != DD_OK) {
-            ui_error("Cannot lock temporary surface:\n%s",
-                     dd_error(result));
-            return -1;
-        }
+            ddsd.dwSize = sizeof(ddsd);
+            while ((result
+                    = IDirectDrawSurface_Lock(c->primary_surface,
+                                              NULL, &ddsd, 0,
+                                              NULL))
+                   == DDERR_WASSTILLDRAWING)
+                ;
+            if (result == DDERR_SURFACELOST) {
+                IDirectDrawSurface_Restore(c->primary_surface);
+                result = IDirectDrawSurface_Lock(c->primary_surface,
+                                                 NULL, &ddsd, 0,
+                                                 NULL);
+            }
+            if (result != DD_OK) {
+                ui_error("Cannot lock temporary surface:\n%s",
+                         dd_error(result));
+                return -1;
+            }
 
-        p = *(DWORD *)ddsd.lpSurface;
+            p = *(DWORD *)ddsd.lpSurface;
+        } else {
+//            log_debug("depth!=8");
+            p = (((c->palette->entries[i].red&(rmask<<rbits))>>rbits)<<rshift) +
+                (((c->palette->entries[i].green&(gmask<<gbits))>>gbits)<<gshift) +
+                (((c->palette->entries[i].blue&(bmask<<bbits))>>bbits)<<bshift);
+        }
         c->pixel_translate[c->pixels[i]]=i;
         c->pixels[i] = i;
         pcol = p;
@@ -407,14 +510,16 @@ int set_physical_colors(video_canvas_t *c)
 
         DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
         DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
-        if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
-            == DDERR_SURFACELOST) {
-            IDirectDrawSurface_Restore(c->primary_surface);
-            IDirectDrawSurface_Unlock(c->primary_surface, NULL);
+        if (c->depth==8) {
+            if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
+                == DDERR_SURFACELOST) {
+                IDirectDrawSurface_Restore(c->primary_surface);
+                IDirectDrawSurface_Unlock(c->primary_surface, NULL);
+            }
+            IDirectDrawSurface_GetDC(c->primary_surface,&hdc);
+            SetPixel(hdc, 0, 0, oldcolor);
+            IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
         }
-        IDirectDrawSurface_GetDC(c->primary_surface,&hdc);
-        SetPixel(hdc, 0, 0, oldcolor);
-        IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
     }
     return 0;
 }

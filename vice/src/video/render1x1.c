@@ -272,7 +272,6 @@ void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	BYTE *tmpsrc;
 	BYTE *tmptrg;
 	int x,y,wstart,wfast,wend;
-	register DWORD rcolor;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + xt;
@@ -327,7 +326,6 @@ void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	BYTE *tmpsrc;
 	WORD *tmptrg;
 	int x,y,wstart,wfast,wend;
-	register DWORD rcolor;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
@@ -382,7 +380,6 @@ void render_24_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	BYTE *tmpsrc;
 	BYTE *tmptrg;
 	int x,y,wstart,wfast,wend;
-	register DWORD rcolor;
 	register DWORD color;
 
 	src=src + pitchs*ys + xs;
@@ -464,7 +461,6 @@ void render_32_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	BYTE *tmpsrc;
 	DWORD *tmptrg;
 	int x,y,wstart,wfast,wend;
-	register DWORD rcolor;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);

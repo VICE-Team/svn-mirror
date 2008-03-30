@@ -43,6 +43,7 @@
 #include "uilib.h"
 #include "uireu.h"
 #include "uivicii.h"
+#include "uivideo.h"
 #include "vsync.h"
 #include "winmain.h"
 
@@ -178,6 +179,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
+        break;
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd);
         break;
     }
 }

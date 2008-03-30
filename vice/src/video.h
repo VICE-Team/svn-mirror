@@ -71,6 +71,7 @@ extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
 #define VIDEO_RENDER_PAL                      0   /* standard, pixel size 1x1 or 2x2, pal emu possible */
 #define VIDEO_RENDER_MONOCHROME               1   /* mono, pixel size 1x1 or 2x2, no pal emu */
 #define VIDEO_RENDER_MONOCHROME_FIXEDWIDTH    2   /* mono, pixel size 1x1 or 1x2, no pal emu */
+#define VIDEO_RENDER_MONOCHROME_FIXEDSIZE     3   /* mono, pixel size 1x1 , no pal emu */
 
 extern void video_render_set_rendermode(int mode);
 

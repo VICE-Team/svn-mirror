@@ -130,11 +130,11 @@ int datasette_resources_init(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
-      "DatasetteResetWithCPU", (resource_value_t) 0,
-      NULL, "Disable automatic Datasette-Reset" },
-    { "+dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
       "DatasetteResetWithCPU", (resource_value_t) 1,
       NULL, "Enable automatic Datasette-Reset" },
+    { "+dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
+      "DatasetteResetWithCPU", (resource_value_t) 0,
+      NULL, "Disable automatic Datasette-Reset" },
     { "-dszerogapdelay", SET_RESOURCE, 1, NULL, NULL,
       "DatasetteZeroGapDelay", NULL,
       "<value>", "Set delay in cycles for a zero in the tap" },

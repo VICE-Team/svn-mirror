@@ -34,7 +34,7 @@
 #include "video-color.h"
 #include "video.h"
 #include "videoarch.h"
-
+#include "ui.h"
 
 video_resources_t video_resources=
 {
@@ -103,6 +103,11 @@ static int set_palette_file_name(resource_value_t v, void *param)
     return video_color_update_palette();
 }
 
+#ifndef USE_GNOMEUI
+/* remove this once all ports have implemented this ui function */
+#define ui_update_pal_ctrls(a) 
+#endif
+
 static int set_delayloop_emulation(resource_value_t v, void *param)
 {
     int old = video_resources.delayloop_emulation;
@@ -111,8 +116,10 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
     if (video_color_update_palette() < 0)
     {
         video_resources.delayloop_emulation = old;
+	ui_update_pal_ctrls(video_resources.delayloop_emulation);
         return -1;
     }
+    ui_update_pal_ctrls(video_resources.delayloop_emulation);
 
     return 0;
 }

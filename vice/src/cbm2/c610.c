@@ -121,7 +121,7 @@ int machine_init_resources(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init(VIDEO_RESOURCES_MONOCHROME) < 0
+        || video_resources_init(VIDEO_RESOURCES_PAL) < 0
         || c610_resources_init() < 0
         || crtc_resources_init() < 0
         || vic_ii_resources_init() < 0

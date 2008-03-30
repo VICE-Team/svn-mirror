@@ -82,19 +82,10 @@
 #define IDC_TOGGLE_SNAPSHOT_SAVE_ROMS   1073
 #define IDD_SCREENSHOT_SAVE_DIALOG      1074
 #define IDC_SCREENSHOT_DRIVER           1075
-#define IDD_VICII_COLOURS_DIALOG        1080
-#define IDC_VICII_COLOURS_SAT           1081
-#define IDC_VICII_COLOURS_CON           1082
-#define IDC_VICII_COLOURS_BRI           1083
-#define IDC_VICII_COLOURS_GAM           1084
-#define IDC_TOGGLE_VICII_NEWLUM         1085
-#define IDC_TOGGLE_VICII_EXTPALETTE     1086
-#define IDC_SELECT_VICII_CUSTOM         1087
-#define IDC_VICII_CUSTOM_NAME           1090
-#define IDC_VICII_CUSTOM_BROWSE         1091
-#define IDD_VICII_SPRITES_DIALOG        1092
-#define IDC_TOGGLE_VICII_SSC            1093
-#define IDC_TOGGLE_VICII_SBC            1094
+#define IDD_VICII_DIALOG                1080
+#define IDC_TOGGLE_VICII_SSC            1081
+#define IDC_TOGGLE_VICII_SBC            1082
+#define IDC_TOGGLE_VICII_NEWLUM         1083
 #define IDD_PET_SETTINGS_MODEL_DIALOG   1095
 #define IDD_PET_SETTINGS_IO_DIALOG      1096
 #define IDD_PET_SETTINGS_SUPER_DIALOG   1097
@@ -258,6 +249,23 @@
 #define IDC_SID_RESID_SAMPLING          1346
 #define IDC_SID_RESID_PASSBAND          1347
 
+#define IDD_VIDEO_COLORS_DIALOG         1400
+#define IDC_VIDEO_COLORS_SAT            1401
+#define IDC_VIDEO_COLORS_CON            1402
+#define IDC_VIDEO_COLORS_BRI            1403
+#define IDD_VIDEO_FULLSCREEN_DIALOG     1404
+#define IDC_VIDEO_FULLSCREEN_DEVICE     1405
+#define IDC_VIDEO_FULLSCREEN_BITDEPTH   1406
+#define IDC_VIDEO_FULLSCREEN_RESOLUTION 1407
+#define IDC_VIDEO_FULLSCREEN_REFRESHRATE 1408
+#define IDD_VIDEO_ADVANCED_DIALOG       1409
+#define IDC_VIDEO_COLORS_GAM            1410
+#define IDC_VIDEO_COLORS_PHA            1411
+#define IDC_TOGGLE_VIDEO_EXTPALETTE     1412
+#define IDC_VIDEO_CUSTOM_NAME           1413
+#define IDC_VIDEO_CUSTOM_BROWSE         1414
+#define IDC_SELECT_VIDEO_CUSTOM         1415
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -382,6 +390,7 @@
 #define IDM_TOGGLE_EFUNCTIONROM         40207
 #define IDM_EFUNCTIONROM_NAME           40208
 #define IDM_TOGGLE_FASTPAL              40209
+#define IDM_VIDEO_SETTINGS              40210
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

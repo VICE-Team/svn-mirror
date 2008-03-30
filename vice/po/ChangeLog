@@ -1,3 +1,7 @@
+2001-12-06  pottendo  <pottendo@utanet.at>
+
+	* POTFILES.in: Added uipalcontrol.c to gnome file list.  
+
 2001-12-02  pottendo  <pottendo@utanet.at>
 
 	* POTFILES.in: Updated file list for Arch Unix. 

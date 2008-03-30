@@ -115,5 +115,7 @@ extern Display *ui_get_display_ptr(void);
 extern void ui_destroy_drive8_menu(void);
 extern void ui_destroy_drive9_menu(void);
 
+extern void ui_update_pal_ctrls(int v);
+
 #endif /* !_UI_H_ */
 

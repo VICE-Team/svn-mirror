@@ -542,7 +542,10 @@ void crtc_resize (void)
 	}
 	else
 	{
-		video_render_set_rendermode(VIDEO_RENDER_MONOCHROME);
+		if (double_h)
+			video_render_set_rendermode(VIDEO_RENDER_MONOCHROME_FIXEDWIDTH);
+		else
+			video_render_set_rendermode(VIDEO_RENDER_MONOCHROME_FIXEDSIZE);
 	}
 
     if (double_h) {

@@ -115,6 +115,7 @@ static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
 static GtkWidget *status_bar;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
+static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox;
 static char *(*current_image_contents_func)(const char *);
 static GdkFont *fixedfont, *textfont;
 /* FIXME, ask Xresources here */
@@ -289,6 +290,7 @@ static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback);
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
+extern GtkWidget* build_pal_ctrl_widget(void);
 
 /* ------------------------------------------------------------------------- */
 #if 0
@@ -700,10 +702,22 @@ int ui_init_finalize(void)
     return 0;
 }
 
+static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
+{
+    if (!w || !GTK_IS_TOGGLE_BUTTON(w))
+	return;
+
+    if (GTK_TOGGLE_BUTTON(w)->active)
+	gtk_widget_show(pal_ctrl_widget);
+    else
+	gtk_widget_hide(pal_ctrl_widget);
+    gtk_widget_queue_resize(pal_ctrl_widget->parent);
+}
+
 void ui_create_status_bar(GtkWidget *pane, int width, int height)
 {
     /* Create the status bar on the bottom.  */
-    GtkWidget *speed_label, *drive_box, *frame, *event_box;
+    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb;
     int i;
     app_shell_type *as;
 
@@ -731,6 +745,19 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(speed_label);      
 
     as=&app_shells[num_app_shells - 1];
+    /* PAL Control checkbox */
+    pal_ctrl_checkbox = gtk_frame_new(NULL);
+    gtk_frame_set_shadow_type (GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
+    pcb = gtk_check_button_new_with_label(_("PAL Controls"));
+    gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
+    gtk_signal_connect(GTK_OBJECT(pcb), "toggled", 
+		       GTK_SIGNAL_FUNC(ui_update_pal_checkbox),
+		       pcb);
+    gtk_widget_show(pcb);
+    gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
+		       FALSE, FALSE, 0);
+    gtk_widget_hide(pal_ctrl_checkbox);
+    
     /* drive stuff */
     drive_box = gtk_hbox_new(FALSE, 0);
     for (i = 0; i < NUM_DRIVES; i++) {
@@ -970,7 +997,10 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     gtk_widget_queue_resize(new_canvas);
 
     ui_create_status_bar(new_pane, width, height);
-
+    pal_ctrl_widget = build_pal_ctrl_widget();
+    gtk_container_add(GTK_CONTAINER(new_pane), pal_ctrl_widget);
+    gtk_widget_hide(pal_ctrl_widget);
+    
     if (no_autorepeat) {
       gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
 	 		 GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
@@ -1682,6 +1712,18 @@ void ui_autorepeat_on(void)
 void ui_autorepeat_off(void)
 {
     gdk_key_repeat_disable();
+}
+
+void ui_update_pal_ctrls(int v)
+{
+    if (!pal_ctrl_checkbox)
+	return;
+
+    if (v)
+	gtk_widget_show(pal_ctrl_checkbox);
+    else
+	gtk_widget_hide(pal_ctrl_checkbox);
+    ui_update_pal_checkbox(pal_ctrl_checkbox, NULL);
 }
 
 /* ------------------------------------------------------------------------- */

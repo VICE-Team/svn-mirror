@@ -226,6 +226,10 @@ SOURCE=.\uivicset.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uivideo.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\vic20kbd.c
 # End Source File
 # Begin Source File

@@ -167,9 +167,9 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 	}
 	else	/* other render mode than VIDEO_RENDER_PAL */
 	{
-		if (doublesize)
+		if (doublesize && (rendermode != VIDEO_RENDER_MONOCHROME_FIXEDSIZE))
 		{
-			if (VIDEO_RENDER_MONOCHROME_FIXEDWIDTH)
+			if (rendermode == VIDEO_RENDER_MONOCHROME_FIXEDWIDTH)
 			{
 				switch (depth)
 				{

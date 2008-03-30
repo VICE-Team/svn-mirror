@@ -37,6 +37,7 @@
 #include "cartridge.h"
 #include "res.h"
 #include "uilib.h"
+#include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
 #include "uivicset.h"
@@ -44,6 +45,7 @@
 ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "DelayLoopEmulation", IDM_TOGGLE_FASTPAL },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { NULL, 0 }
@@ -125,6 +127,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIC_SETTINGS:
         ui_vic_settings_dialog(hwnd);
+        break;
+      case IDM_VIDEO_SETTINGS:
+        ui_video_settings_dialog(hwnd);
         break;
     }
 }
