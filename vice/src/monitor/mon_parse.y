@@ -106,7 +106,7 @@ extern int cur_len, last_len;
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
-        CONDITIONAL_NODE *cond_node;
+        cond_node_t *cond_node;
         RADIXTYPE rt;
         ACTION action;
         char *str;
@@ -184,82 +184,158 @@ command: machine_state_rules
        | BAD_CMD { return ERR_BAD_CMD; }
        ;
 
-machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd { mon_bank($2,$3); }
-                   | CMD_GOTO address end_cmd { mon_jump($2); }
-                   | CMD_IO end_cmd { mon_display_io_regs(); }
-                   | CMD_CPU CPUTYPE end_cmd { mon_cpu_type($2); }
-                   | CMD_RETURN end_cmd { mon_instruction_return(); }
-                   | CMD_DUMP filename end_cmd { machine_write_snapshot($2,0,0); /* FIXME */ }
-                   | CMD_UNDUMP filename end_cmd { machine_read_snapshot($2); }
-                   | CMD_STEP opt_count end_cmd { mon_instructions_step($2); }
-                   | CMD_NEXT opt_count end_cmd { mon_instructions_next($2); }
-                   | CMD_UP opt_count end_cmd { mon_stack_up($2); }
-                   | CMD_DOWN opt_count end_cmd { mon_stack_down($2); }
-                   | CMD_SCREEN end_cmd { mon_display_screen(); }
+machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd
+                     { mon_bank($2,$3); }
+                   | CMD_GOTO address end_cmd
+                     { mon_jump($2); }
+                   | CMD_IO end_cmd
+                     { mon_display_io_regs(); }
+                   | CMD_CPU CPUTYPE end_cmd
+                     { mon_cpu_type($2); }
+                   | CMD_RETURN end_cmd
+                     { mon_instruction_return(); }
+                   | CMD_DUMP filename end_cmd
+                     { machine_write_snapshot($2,0,0); /* FIXME */ }
+                   | CMD_UNDUMP filename end_cmd
+                     { machine_read_snapshot($2); }
+                   | CMD_STEP opt_count end_cmd
+                     { mon_instructions_step($2); }
+                   | CMD_NEXT opt_count end_cmd
+                     { mon_instructions_next($2); }
+                   | CMD_UP opt_count end_cmd
+                     { mon_stack_up($2); }
+                   | CMD_DOWN opt_count end_cmd
+                     { mon_stack_down($2); }
+                   | CMD_SCREEN end_cmd
+                     { mon_display_screen(); }
                    | register_mod
                    ;
 
-register_mod: CMD_REGISTERS end_cmd                { (monitor_cpu_type.mon_register_print)(default_memspace); }
-            | CMD_REGISTERS memspace end_cmd    { (monitor_cpu_type.mon_register_print)($2); }
+register_mod: CMD_REGISTERS end_cmd
+              { (monitor_cpu_type.mon_register_print)(default_memspace); }
+            | CMD_REGISTERS memspace end_cmd
+              { (monitor_cpu_type.mon_register_print)($2); }
             | CMD_REGISTERS reg_list end_cmd
             ;
 
-symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd         { playback = TRUE; playback_name = $3; /*mon_load_symbols($2, $3);*/ }
-                  | CMD_SAVE_LABELS opt_memspace filename end_cmd         { mon_save_symbols($2, $3); }
-                  | CMD_ADD_LABEL address LABEL end_cmd                 { mon_add_name_to_symbol_table($2, $3); }
-                  | CMD_DEL_LABEL opt_memspace LABEL end_cmd                 { mon_remove_name_from_symbol_table($2, $3); }
-                  | CMD_SHOW_LABELS opt_memspace end_cmd                 { mon_print_symbol_table($2); }
+symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd
+                    {
+                        playback = TRUE; playback_name = $3;
+                        /*mon_load_symbols($2, $3);*/
+                    }
+                  | CMD_SAVE_LABELS opt_memspace filename end_cmd
+                    { mon_save_symbols($2, $3); }
+                  | CMD_ADD_LABEL address LABEL end_cmd
+                    { mon_add_name_to_symbol_table($2, $3); }
+                  | CMD_DEL_LABEL opt_memspace LABEL end_cmd
+                    { mon_remove_name_from_symbol_table($2, $3); }
+                  | CMD_SHOW_LABELS opt_memspace end_cmd
+                    { mon_print_symbol_table($2); }
                   ;
 
-asm_rules: CMD_ASSEMBLE address { mon_start_assemble_mode($2, NULL); } post_assemble end_cmd
-         | CMD_ASSEMBLE address end_cmd                 { mon_start_assemble_mode($2, NULL); }
-         | CMD_DISASSEMBLE address opt_address end_cmd  { mon_disassemble_lines($2,$3); }
-         | CMD_DISASSEMBLE end_cmd                         { mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
+asm_rules: CMD_ASSEMBLE address
+           { mon_start_assemble_mode($2, NULL); } post_assemble end_cmd
+         | CMD_ASSEMBLE address end_cmd
+           { mon_start_assemble_mode($2, NULL); }
+         | CMD_DISASSEMBLE address opt_address end_cmd
+           { mon_disassemble_lines($2,$3); }
+         | CMD_DISASSEMBLE end_cmd
+           { mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
          ;
 
-memory_rules: CMD_MOVE address address address end_cmd                   { mon_move_memory($2, $3, $4); }
-            | CMD_COMPARE address address address end_cmd           { mon_compare_memory($2, $3, $4); }
-            | CMD_FILL address address data_list end_cmd           { mon_fill_memory($2,$3,(unsigned char *)$4); }
-            | CMD_HUNT address address data_list end_cmd           { mon_hunt_memory($2,$3,(unsigned char *)$4); }
-            | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd { mon_display_memory($2, $3, $4); }
-            | CMD_MEM_DISPLAY address opt_address end_cmd           { mon_display_memory(default_radix, $2, $3); }
-            | CMD_MEM_DISPLAY end_cmd                                   { mon_display_memory(default_radix, BAD_ADDR, BAD_ADDR); }
-            | CMD_CHAR_DISPLAY address opt_address end_cmd           { mon_display_data($2, $3, 8, 8); }
-            | CMD_CHAR_DISPLAY end_cmd                                  { mon_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
-            | CMD_SPRITE_DISPLAY address opt_address end_cmd           { mon_display_data($2, $3, 24, 21); }
-            | CMD_SPRITE_DISPLAY end_cmd                          { mon_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
-            | CMD_TEXT_DISPLAY address opt_address end_cmd           { mon_display_memory(0, $2, $3); }
-            | CMD_TEXT_DISPLAY end_cmd                                   { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
+memory_rules: CMD_MOVE address address address end_cmd
+              { mon_move_memory($2, $3, $4); }
+            | CMD_COMPARE address address address end_cmd
+              { mon_compare_memory($2, $3, $4); }
+            | CMD_FILL address address data_list end_cmd
+              { mon_fill_memory($2,$3,(unsigned char *)$4); }
+            | CMD_HUNT address address data_list end_cmd
+              { mon_hunt_memory($2,$3,(unsigned char *)$4); }
+            | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd
+              { mon_display_memory($2, $3, $4); }
+            | CMD_MEM_DISPLAY address opt_address end_cmd
+              { mon_display_memory(default_radix, $2, $3); }
+            | CMD_MEM_DISPLAY end_cmd
+              { mon_display_memory(default_radix, BAD_ADDR, BAD_ADDR); }
+            | CMD_CHAR_DISPLAY address opt_address end_cmd
+              { mon_display_data($2, $3, 8, 8); }
+            | CMD_CHAR_DISPLAY end_cmd
+              { mon_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
+            | CMD_SPRITE_DISPLAY address opt_address end_cmd
+              { mon_display_data($2, $3, 24, 21); }
+            | CMD_SPRITE_DISPLAY end_cmd
+              { mon_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
+            | CMD_TEXT_DISPLAY address opt_address end_cmd
+              { mon_display_memory(0, $2, $3); }
+            | CMD_TEXT_DISPLAY end_cmd
+              { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
             ;
 
-checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE); }
-                | CMD_UNTIL address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, TRUE); }
-                | CMD_BREAK address opt_address IF cond_expr end_cmd {
-                          temp = mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE, FALSE, FALSE);
-                          mon_breakpoint_set_checkpoint_condition(temp, $5); }
-                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_breakpoint_add_checkpoint($3, $4, FALSE,
-                              ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store), FALSE); }
-                | CMD_TRACE address opt_address end_cmd { mon_breakpoint_add_checkpoint($2, $3, TRUE, FALSE, FALSE, FALSE); }
-                | CMD_BREAK end_cmd { mon_breakpoint_print_checkpoints(); }
-                | CMD_UNTIL end_cmd { mon_breakpoint_print_checkpoints(); }
-                | CMD_TRACE end_cmd { mon_breakpoint_print_checkpoints(); }
-                | CMD_WATCH end_cmd { mon_breakpoint_print_checkpoints(); }
+checkpoint_rules: CMD_BREAK address opt_address end_cmd
+                  {
+                      mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE,
+                                                    FALSE, FALSE);
+                  }
+                | CMD_UNTIL address opt_address end_cmd
+                  {
+                      mon_breakpoint_add_checkpoint($2, $3, FALSE, FALSE,
+                                                    FALSE, TRUE);
+                  }
+                | CMD_BREAK address opt_address IF cond_expr end_cmd
+                  {
+                      temp = mon_breakpoint_add_checkpoint($2, $3, FALSE,
+                                                           FALSE, FALSE, FALSE);
+                      mon_breakpoint_set_checkpoint_condition(temp, $5);
+                  }
+                | CMD_WATCH opt_mem_op address opt_address end_cmd
+                  {
+                      mon_breakpoint_add_checkpoint($3, $4, FALSE,
+                      ($2 == e_load || $2 == e_load_store),
+                      ($2 == e_store || $2 == e_load_store), FALSE);
+                  }
+                | CMD_TRACE address opt_address end_cmd
+                  {
+                      mon_breakpoint_add_checkpoint($2, $3, TRUE, FALSE, FALSE,
+                                                    FALSE);
+                  }
+                | CMD_BREAK end_cmd
+                  { mon_breakpoint_print_checkpoints(); }
+                | CMD_UNTIL end_cmd
+                  { mon_breakpoint_print_checkpoints(); }
+                | CMD_TRACE end_cmd
+                  { mon_breakpoint_print_checkpoints(); }
+                | CMD_WATCH end_cmd
+                  { mon_breakpoint_print_checkpoints(); }
                 ;
 
 
-checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd          { mon_breakpoint_switch_checkpoint(e_ON, $2); }
-                        | CMD_CHECKPT_OFF breakpt_num end_cmd          { mon_breakpoint_switch_checkpoint(e_OFF, $2); }
-                        | CMD_IGNORE breakpt_num opt_count end_cmd          { mon_breakpoint_set_ignore_count($2, $3); }
-                        | CMD_DELETE breakpt_num end_cmd                  { mon_breakpoint_delete_checkpoint($2); }
-                        | CMD_DELETE end_cmd                                 { mon_breakpoint_delete_checkpoint(-1); }
-                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd { mon_breakpoint_set_checkpoint_condition($2, $4); }
-                        | CMD_COMMAND breakpt_num STRING end_cmd          { mon_breakpoint_set_checkpoint_command($2, $3); }
-                        | CMD_COMMAND breakpt_num error end_cmd          { return ERR_EXPECT_STRING; }
+checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd
+                          { mon_breakpoint_switch_checkpoint(e_ON, $2); }
+                        | CMD_CHECKPT_OFF breakpt_num end_cmd
+                          { mon_breakpoint_switch_checkpoint(e_OFF, $2); }
+                        | CMD_IGNORE breakpt_num opt_count end_cmd
+                          { mon_breakpoint_set_ignore_count($2, $3); }
+                        | CMD_DELETE breakpt_num end_cmd
+                          { mon_breakpoint_delete_checkpoint($2); }
+                        | CMD_DELETE end_cmd
+                          { mon_breakpoint_delete_checkpoint(-1); }
+                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd
+                          { mon_breakpoint_set_checkpoint_condition($2, $4); }
+                        | CMD_COMMAND breakpt_num STRING end_cmd
+                          { mon_breakpoint_set_checkpoint_command($2, $3); }
+                        | CMD_COMMAND breakpt_num error end_cmd
+                          { return ERR_EXPECT_STRING; }
                         ;
 
-monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd                { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
-                   | CMD_SIDEFX end_cmd                { uimon_out("I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); }
-                   | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
+monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
+                     { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
+                   | CMD_SIDEFX end_cmd
+                     {
+                         uimon_out("I/O side effects are %s\n",
+                                   sidefx ? "enabled" : "disabled");
+                     }
+                   | CMD_RADIX RADIX_TYPE end_cmd
+                     { default_radix = $2; }
                    | CMD_RADIX end_cmd
                      {
                          const char *p;
@@ -278,37 +354,61 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd                { sidefx = (($2==e
                          uimon_out("Default radix is %s\n", p);
                      }
 
-                   | CMD_DEVICE memspace end_cmd       { uimon_out("Setting default device to `%s'\n",
-                                                         _mon_space_strings[(int) $2]); default_memspace = $2; }
-                   | CMD_QUIT end_cmd                        { exit_mon = 2; YYACCEPT; }
-                   | CMD_EXIT end_cmd                        { exit_mon = 1; YYACCEPT; }
+                   | CMD_DEVICE memspace end_cmd
+                     {
+                         uimon_out("Setting default device to `%s'\n",
+                         _mon_space_strings[(int) $2]); default_memspace = $2;
+                     }
+                   | CMD_QUIT end_cmd
+                     { exit_mon = 2; YYACCEPT; }
+                   | CMD_EXIT end_cmd
+                     { exit_mon = 1; YYACCEPT; }
                    ;
 
-monitor_misc_rules: CMD_DISK rest_of_line end_cmd         { mon_drive_execute_disk_cmd($2); }
-                  | CMD_PRINT expression end_cmd         { uimon_out("\t%d\n",$2); }
-                  | CMD_HELP end_cmd                         { mon_command_print_help(NULL); }
-                  | CMD_HELP rest_of_line end_cmd         { mon_command_print_help($2); }
-                  | CMD_SYSTEM rest_of_line end_cmd         { printf("SYSTEM COMMAND: %s\n",$2); }
-                  | CONVERT_OP expression end_cmd         { mon_print_convert($2); }
-                  | CMD_CHDIR rest_of_line end_cmd         { mon_change_dir($2); }
+monitor_misc_rules: CMD_DISK rest_of_line end_cmd
+                    { mon_drive_execute_disk_cmd($2); }
+                  | CMD_PRINT expression end_cmd
+                    { uimon_out("\t%d\n",$2); }
+                  | CMD_HELP end_cmd
+                    { mon_command_print_help(NULL); }
+                  | CMD_HELP rest_of_line end_cmd
+                    { mon_command_print_help($2); }
+                  | CMD_SYSTEM rest_of_line end_cmd
+                    { printf("SYSTEM COMMAND: %s\n",$2); }
+                  | CONVERT_OP expression end_cmd
+                    { mon_print_convert($2); }
+                  | CMD_CHDIR rest_of_line end_cmd
+                    { mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename opt_address end_cmd                         { mon_file_load($2,$3,FALSE); }
-          | CMD_BLOAD filename opt_address end_cmd                         { mon_file_load($2,$3,TRUE); }
-          | CMD_SAVE filename address address end_cmd                 { mon_file_save($2,$3,$4,FALSE); }
-          | CMD_BSAVE filename address address end_cmd                 { mon_file_save($2,$3,$4,TRUE); }
-          | CMD_VERIFY filename address end_cmd                 { mon_file_verify($2,$3); }
-          | CMD_BLOCK_READ expression expression opt_address end_cmd        { mon_drive_block_cmd(0,$2,$3,$4); }
-          | CMD_BLOCK_WRITE expression expression address end_cmd        { mon_drive_block_cmd(1,$2,$3,$4); }
+disk_rules: CMD_LOAD filename opt_address end_cmd
+            { mon_file_load($2,$3,FALSE); }
+          | CMD_BLOAD filename opt_address end_cmd
+            { mon_file_load($2,$3,TRUE); }
+          | CMD_SAVE filename address address end_cmd
+            { mon_file_save($2,$3,$4,FALSE); }
+          | CMD_BSAVE filename address address end_cmd
+            { mon_file_save($2,$3,$4,TRUE); }
+          | CMD_VERIFY filename address end_cmd
+            { mon_file_verify($2,$3); }
+          | CMD_BLOCK_READ expression expression opt_address end_cmd
+            { mon_drive_block_cmd(0,$2,$3,$4); }
+          | CMD_BLOCK_WRITE expression expression address end_cmd
+            { mon_drive_block_cmd(1,$2,$3,$4); }
           ;
 
-cmd_file_rules: CMD_RECORD filename end_cmd         { mon_record_commands($2); }
-              | CMD_STOP end_cmd                 { mon_end_recording(); }
-              | CMD_PLAYBACK filename end_cmd         { playback=TRUE; playback_name = $2; }
+cmd_file_rules: CMD_RECORD filename end_cmd
+                { mon_record_commands($2); }
+              | CMD_STOP end_cmd
+                { mon_end_recording(); }
+              | CMD_PLAYBACK filename end_cmd
+                { playback=TRUE; playback_name = $2; }
               ;
 
-data_entry_rules: CMD_ENTER_DATA address data_list end_cmd { mon_fill_memory($2, BAD_ADDR, $3); }
-                | CMD_ENTER_BIN_DATA end_cmd { printf("Not yet.\n"); }
+data_entry_rules: CMD_ENTER_DATA address data_list end_cmd
+                  { mon_fill_memory($2, BAD_ADDR, $3); }
+                | CMD_ENTER_BIN_DATA end_cmd
+                  { printf("Not yet.\n"); }
                 ;
 
 rest_of_line: R_O_L { $$ = $1; }
@@ -349,8 +449,10 @@ opt_address: address { $$ = $1; }
            |         { $$ = BAD_ADDR; }
            ;
 
-address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_mode = 1; }
-       | memspace memloc { $$ = new_addr($1,$2); if (opt_asm) new_cmd = asm_mode = 1; }
+address: memloc { $$ = new_addr(e_default_space,$1);
+                  if (opt_asm) new_cmd = asm_mode = 1; }
+       | memspace memloc { $$ = new_addr($1,$2);
+                           if (opt_asm) new_cmd = asm_mode = 1; }
        | LABEL { temp = mon_symbol_table_lookup_addr(e_default_space, $1);
                  if (temp >= 0)
                     $$ = new_addr(e_default_space, temp);
@@ -381,23 +483,36 @@ expression: expression '+' expression { $$ = $1 + $3; }
           | expression '-' expression { $$ = $1 - $3; }
           | expression '*' expression { $$ = $1 * $3; }
           | expression '/' expression { $$ = ($3) ? ($1 / $3) : 1; }
-          | '(' expression ')'               { $$ = $2; }
-          | '(' expression error      { return ERR_MISSING_CLOSE_PAREN; }
-          | value                        { $$ = $1; }
+          | '(' expression ')' { $$ = $2; }
+          | '(' expression error { return ERR_MISSING_CLOSE_PAREN; }
+          | value { $$ = $1; }
           ;
 
-cond_expr: cond_expr COMPARE_OP cond_expr { $$ = new_cond; $$->is_parenthized = FALSE;
-                                            $$->child1 = $1; $$->child2 = $3; $$->operation = $2; }
-         | cond_expr COMPARE_OP error           { return ERR_INCOMPLETE_COMPARE_OP; }
-         | L_PAREN cond_expr R_PAREN           { $$ = $2; $$->is_parenthized = TRUE; }
-         | L_PAREN cond_expr error           { return ERR_MISSING_CLOSE_PAREN; }
-         | compare_operand                   { $$ = $1; }
+cond_expr: cond_expr COMPARE_OP cond_expr
+           {
+               $$ = new_cond; $$->is_parenthized = FALSE;
+               $$->child1 = $1; $$->child2 = $3; $$->operation = $2;
+           }
+         | cond_expr COMPARE_OP error
+           { return ERR_INCOMPLETE_COMPARE_OP; }
+         | L_PAREN cond_expr R_PAREN
+           { $$ = $2; $$->is_parenthized = TRUE; }
+         | L_PAREN cond_expr error
+           { return ERR_MISSING_CLOSE_PAREN; }
+         | compare_operand
+           { $$ = $1; }
          ;
 
-compare_operand: register { $$ = new_cond; $$->operation = e_INV; $$->is_parenthized = FALSE;
-                            $$->reg_num = $1; $$->is_reg = TRUE; }
-               | number   { $$ = new_cond; $$->operation = e_INV; $$->is_parenthized = FALSE;
-                            $$->value = $1; $$->is_reg = FALSE; }
+compare_operand: register { $$ = new_cond;
+                            $$->operation = e_INV;
+                            $$->is_parenthized = FALSE;
+                            $$->reg_num = $1; $$->is_reg = TRUE;
+                          }
+               | number   { $$ = new_cond;
+                            $$->operation = e_INV;
+                            $$->is_parenthized = FALSE;
+                            $$->value = $1; $$->is_reg = FALSE;
+                          }
                ;
 
 data_list: data_list data_element
@@ -468,19 +583,26 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
                           else
                             $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_Y,$1);
                         }
-  | L_PAREN number R_PAREN  { $$ = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,$2); }
-  | L_PAREN number COMMA REG_X R_PAREN { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_X,$2); }
-  | L_PAREN number R_PAREN COMMA REG_Y { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_Y,$2); }
+  | L_PAREN number R_PAREN
+    { $$ = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,$2); }
+  | L_PAREN number COMMA REG_X R_PAREN
+    { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_X,$2); }
+  | L_PAREN number R_PAREN COMMA REG_Y
+    { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_Y,$2); }
   | L_PAREN REG_BC R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_BC,0); }
   | L_PAREN REG_DE R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_DE,0); }
   | L_PAREN REG_HL R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_HL,0); }
   | L_PAREN REG_IX R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_IX,0); }
   | L_PAREN REG_IY R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_IY,0); }
   | L_PAREN REG_SP R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); }
-  | L_PAREN number R_PAREN COMMA REG_A { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
-  | L_PAREN number R_PAREN COMMA REG_HL { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,$2); }
-  | L_PAREN number R_PAREN COMMA REG_IX { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IX,$2); }
-  | L_PAREN number R_PAREN COMMA REG_IY { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IY,$2); }
+  | L_PAREN number R_PAREN COMMA REG_A
+    { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
+  | L_PAREN number R_PAREN COMMA REG_HL
+    { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_HL,$2); }
+  | L_PAREN number R_PAREN COMMA REG_IX
+    { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IX,$2); }
+  | L_PAREN number R_PAREN COMMA REG_IY
+    { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_IY,$2); }
   | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
   | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
   | REG_B { $$ = join_ints(ASM_ADDR_MODE_REG_B,0); }
@@ -510,7 +632,7 @@ void parse_and_execute_line(char *input)
    char *temp_buf;
    int i, rc;
 
-   temp_buf = (char *)xmalloc(strlen(input)+3);
+   temp_buf = (char *)xmalloc(strlen(input) + 3);
    strcpy(temp_buf,input);
    i = strlen(input);
    temp_buf[i++] = '\n';
@@ -521,45 +643,45 @@ void parse_and_execute_line(char *input)
    if ( (rc =yyparse()) != 0) {
        uimon_out("ERROR -- ");
        switch(rc) {
-           case ERR_BAD_CMD:
-               uimon_out("Bad command:\n");
-               break;
-           case ERR_RANGE_BAD_START:
-               uimon_out("Bad first address in range:\n");
-               break;
-           case ERR_RANGE_BAD_END:
-               uimon_out("Bad second address in range:\n");
-               break;
-           case ERR_EXPECT_BRKNUM:
-               uimon_out("Checkpoint number expected:\n");
-               break;
-           case ERR_EXPECT_END_CMD:
-               uimon_out("Unexpected token:\n");
-               break;
-           case ERR_MISSING_CLOSE_PAREN:
-               uimon_out("')' expected:\n");
-               break;
-           case ERR_INCOMPLETE_COMPARE_OP:
-               uimon_out("Compare operation missing an operand:\n");
-               break;
-           case ERR_EXPECT_FILENAME:
-               uimon_out("Expecting a filename:\n");
-               break;
-           case ERR_ADDR_TOO_BIG:
-               uimon_out("Address too large:\n");
-               break;
-           case ERR_IMM_TOO_BIG:
-               uimon_out("Immediate argument too large:\n");
-               break;
-           case ERR_EXPECT_STRING:
-               uimon_out("Expecting a string.\n");
-               break;
-           case ERR_UNDEFINED_LABEL:
-               uimon_out("Found an undefined label.\n");
-               break;
-           case ERR_ILLEGAL_INPUT:
-           default:
-               uimon_out("Wrong syntax:\n");
+         case ERR_BAD_CMD:
+           uimon_out("Bad command:\n");
+           break;
+         case ERR_RANGE_BAD_START:
+           uimon_out("Bad first address in range:\n");
+           break;
+         case ERR_RANGE_BAD_END:
+           uimon_out("Bad second address in range:\n");
+           break;
+         case ERR_EXPECT_BRKNUM:
+           uimon_out("Checkpoint number expected:\n");
+           break;
+         case ERR_EXPECT_END_CMD:
+           uimon_out("Unexpected token:\n");
+           break;
+         case ERR_MISSING_CLOSE_PAREN:
+           uimon_out("')' expected:\n");
+           break;
+         case ERR_INCOMPLETE_COMPARE_OP:
+           uimon_out("Compare operation missing an operand:\n");
+           break;
+         case ERR_EXPECT_FILENAME:
+           uimon_out("Expecting a filename:\n");
+           break;
+         case ERR_ADDR_TOO_BIG:
+           uimon_out("Address too large:\n");
+           break;
+         case ERR_IMM_TOO_BIG:
+           uimon_out("Immediate argument too large:\n");
+           break;
+         case ERR_EXPECT_STRING:
+           uimon_out("Expecting a string.\n");
+           break;
+         case ERR_UNDEFINED_LABEL:
+           uimon_out("Found an undefined label.\n");
+           break;
+         case ERR_ILLEGAL_INPUT:
+         default:
+           uimon_out("Wrong syntax:\n");
        }
        uimon_out("  %s\n", input);
        for (i = 0; i < last_len; i++)
@@ -574,7 +696,7 @@ void parse_and_execute_line(char *input)
 static int yyerror(char *s)
 {
    YYABORT;
-   fprintf(stderr, "ERR:%s\n",s);
+   fprintf(stderr, "ERR:%s\n", s);
    return 0;
 }
 
@@ -582,16 +704,17 @@ static int resolve_datatype(unsigned guess_type, char *num)
 {
    /* FIXME: Handle cases when default type is non-numerical */
    if (default_radix == e_hexadecimal) {
-      return strtol(num, NULL, 16);
+       return strtol(num, NULL, 16);
    }
 
    if ((guess_type == D_NUMBER) || (default_radix == e_decimal)) {
-      return strtol(num, NULL, 10);
+       return strtol(num, NULL, 10);
    }
 
    if ((guess_type == O_NUMBER) || (default_radix == e_octal)) {
-      return strtol(num, NULL, 8);
+       return strtol(num, NULL, 8);
    }
 
    return strtol(num, NULL, 2);
 }
+
