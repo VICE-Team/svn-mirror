@@ -66,7 +66,8 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
     if (strchr(cmd, FSDEV_DIR_SEP_CHR)) {
-        int l, state;
+        size_t l;
+        int state;
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
@@ -78,7 +79,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
             l = 0;
         }
 
-        if (l + strlen(cmd) >= sizeof buf - 5)
+        if (l + strlen(cmd) >= sizeof(buf) - 5)
             goto fail;
 
         ps = cmd;
@@ -126,7 +127,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     {
 	const char * path = syspath;
 	const char * s;
-	int cl = strlen(cmd) + 1;
+	size_t cl = strlen(cmd) + 1;
 
 	for (s = path; s; path = s + 1)
 	{
