@@ -30,6 +30,7 @@
 #define FLIP_NEXT 1
 #define FLIP_PREV 0
 
+
 extern void flip_set_current(unsigned int unit, const char *image);
 extern void flip_add_image(unsigned int unit);
 extern void flip_remove(unsigned int unit, char *image);
@@ -43,8 +44,9 @@ extern char *flip_get_image(void *fl);
 extern unsigned int flip_get_unit(void *fl);
 
 extern void flip_clear_list(unsigned int unit);
-extern int  flip_save_list(unsigned int unit, const char *filename);
-extern int  flip_load_list(unsigned int unit, const char *filename, int autoattach);
+extern int flip_save_list(unsigned int unit, const char *filename);
+extern int flip_load_list(unsigned int unit, const char *filename,
+                          int autoattach);
 
-#endif /* _FLIPLIST_H */
+#endif
 

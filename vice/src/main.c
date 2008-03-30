@@ -48,6 +48,7 @@
 #include "init.h"
 #include "initcmdline.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -149,6 +150,7 @@ int main_program(int argc, char **argv)
         resources_set_value("SoundSuspendTime", (resource_value_t)0);
     } else {
         int retval = resources_load(NULL);
+        char *filename;
 
         if (retval < 0) {
             /* The resource file might contain errors, and thus certain
@@ -158,8 +160,9 @@ int main_program(int argc, char **argv)
                 return -1;
             }
         }
-	flip_load_list((unsigned int)-1, archdep_default_fliplist_file_name(),
-		       0);
+        filename = archdep_default_fliplist_file_name();
+        flip_load_list((unsigned int)-1, filename, 0);
+        lib_free(filename);
     }
 
     if (initcmdline_check_args(argc, argv) < 0)

@@ -92,7 +92,7 @@ static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-static trap_t plus4_serial_traps[] = {
+static const trap_t plus4_serial_traps[] = {
     {
         "SerialListen",
         0xE16B,
@@ -170,7 +170,7 @@ static trap_t plus4_serial_traps[] = {
 };
 
 /* Tape traps.  */
-static trap_t plus4_tape_traps[] = {
+static const trap_t plus4_tape_traps[] = {
     {
         "TapeFindHeader",
         0xE9CC,
@@ -200,7 +200,7 @@ static trap_t plus4_tape_traps[] = {
     }
 };
 
-static tape_init_t tapeinit = {
+static const tape_init_t tapeinit = {
     0x0333,
     0x90,
     0x93,
@@ -256,6 +256,7 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     plus4_resources_shutdown();
+    sound_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
 }

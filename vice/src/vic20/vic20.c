@@ -98,7 +98,7 @@ static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-static trap_t vic20_serial_traps[] = {
+static const trap_t vic20_serial_traps[] = {
     {
         "SerialListen",
         0xEE2E,
@@ -156,7 +156,7 @@ static trap_t vic20_serial_traps[] = {
 };
 
 /* Tape traps.  */
-static trap_t vic20_tape_traps[] = {
+static const trap_t vic20_tape_traps[] = {
     {
         "TapeFindHeader",
         0xF7B2,
@@ -186,7 +186,7 @@ static trap_t vic20_tape_traps[] = {
     }
 };
 
-static tape_init_t tapeinit = {
+static const tape_init_t tapeinit = {
     0xb2,
     0x90,
     0x93,
@@ -238,6 +238,7 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     vic20_resources_shutdown();
+    sound_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
 }

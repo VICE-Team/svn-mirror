@@ -614,33 +614,29 @@ static UI_CALLBACK(load_save_fliplist)
     title = util_concat(what ? _("Load ") : _("Save"), _("Fliplist File"),
                         NULL);
     filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vfl",
-			      &button, True, NULL);
+                              &button, True, NULL);
     lib_free(title);
-    switch (button)
-    {
-    case UI_BUTTON_OK:
-	if (what)
-	{
- 	    if (flip_load_list((unsigned int) -1, filename, 0) == 0)
-		ui_message(_("Successfully read `%s'."), filename);
-	    else
-		ui_error(_("Error reading `%s'."), filename);
-	}
-	else
-	{
- 	    if (flip_save_list((unsigned int) -1, filename) == 0)
-		ui_message(_("Successfully wrote `%s'."), filename);
-	    else
-		ui_error(_("Error writing `%s'."), filename);
-	}
-	if (last_dir)
-	    lib_free(last_dir);
-	util_fname_split(filename, &last_dir, NULL);
-	break;
-    default:
-	break;
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (what) {
+            if (flip_load_list((unsigned int) -1, filename, 0) == 0)
+                ui_message(_("Successfully read `%s'."), filename);
+            else
+                ui_error(_("Error reading `%s'."), filename);
+        } else {
+            if (flip_save_list((unsigned int) -1, filename) == 0)
+                ui_message(_("Successfully wrote `%s'."), filename);
+            else
+                ui_error(_("Error writing `%s'."), filename);
+        }
+        if (last_dir)
+            lib_free(last_dir);
+        util_fname_split(filename, &last_dir, NULL);
+        break;
+      default:
+        break;
     }
-    
+
 }
 
 #ifdef USE_GNOMEUI

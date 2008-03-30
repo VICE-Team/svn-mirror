@@ -62,8 +62,10 @@
 #include "log.h"
 #include "utils.h"
 
+
 static char *orig_workdir;
 static char *argv0;
+
 
 int archdep_startup(int *argc, char **argv)
 {
@@ -76,7 +78,7 @@ int archdep_startup(int *argc, char **argv)
     return 0;
 }
 
-static char *program_name=NULL;
+static char *program_name = NULL;
 
 const char *archdep_program_name(void)
 {
@@ -108,27 +110,27 @@ static HANDLE   hkernel = NULL;
 static HANDLE   hpsapi = NULL;
 
 typedef HANDLE (WINAPI * _CreateToolhelp32Snapshot)(
-	DWORD dwFlags,       
-	DWORD th32ProcessID  
+    DWORD dwFlags,
+    DWORD th32ProcessID
 );
 
 typedef BOOL (WINAPI * _Module32First)(
-	HANDLE hSnapshot,     
-	LPMODULEENTRY32 lpme
+    HANDLE hSnapshot,
+    LPMODULEENTRY32 lpme
 );
 
 typedef BOOL (WINAPI * _EnumProcessModules)(
-	HANDLE hProcess,      // handle to process
-	HMODULE *lphModule,   // array of module handles
-	DWORD cb,             // size of array
-	LPDWORD lpcbNeeded    // number of bytes required
+    HANDLE hProcess,      // handle to process
+    HMODULE *lphModule,   // array of module handles
+    DWORD cb,             // size of array
+    LPDWORD lpcbNeeded    // number of bytes required
 );
 
 typedef DWORD (WINAPI * _GetModuleFileNameEx)(
-	HANDLE hProcess,    // handle to process
-	HMODULE hModule,    // handle to module
-	LPTSTR lpFilename,  // path buffer
-	DWORD nSize         // maximum characters to retrieve
+    HANDLE hProcess,    // handle to process
+    HMODULE hModule,    // handle to module
+    LPTSTR lpFilename,  // path buffer
+    DWORD nSize         // maximum characters to retrieve
 );
 
 const char *archdep_boot_path(void)
@@ -243,7 +245,7 @@ const char *archdep_default_resource_file_name(void)
     return fname;
 }
 
-const char *archdep_default_fliplist_file_name(void)
+char *archdep_default_fliplist_file_name(void)
 {
     return NULL;
 }

@@ -452,7 +452,7 @@ void tap_get_header(tap_t *tap, BYTE *name)
     memcpy(name, tap->name, 12);
 }
 
-void tap_init(tape_init_t *init)
+void tap_init(const tape_init_t *init)
 {
     tap_pulse_short_min = init->pulse_short_min / 8;
     tap_pulse_short_max = init->pulse_short_max / 8;

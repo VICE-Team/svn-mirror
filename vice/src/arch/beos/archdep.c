@@ -58,8 +58,10 @@
 #include "log.h"
 #include "utils.h"
 
+
 static char *orig_workdir;
 static char *argv0;
+
 
 int archdep_startup(int *argc, char **argv)
 {
@@ -152,7 +154,7 @@ const char *archdep_default_resource_file_name(void)
     return fname;
 }
 
-const char *archdep_default_fliplist_file_name(void)
+char *archdep_default_fliplist_file_name(void)
 {
     return NULL;
 }

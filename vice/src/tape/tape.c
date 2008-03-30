@@ -118,7 +118,7 @@ void tape_traps_deinstall(void)
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
 /* FIXME: This should be passed through a struct.  */
-int tape_init(tape_init_t *init)
+int tape_init(const tape_init_t *init)
 {
     tape_log = log_open("Tape");
 

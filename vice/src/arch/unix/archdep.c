@@ -172,7 +172,7 @@ const char *archdep_default_resource_file_name(void)
     return fname;
 }
 
-const char *archdep_default_fliplist_file_name(void)
+char *archdep_default_fliplist_file_name(void)
 {
     static char *fname;
     const char *home;

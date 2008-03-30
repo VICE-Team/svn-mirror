@@ -32,8 +32,10 @@
 
 #include "types.h"
 
+
 #define TAPE_TYPE_T64 0
 #define TAPE_TYPE_TAP 1
+
 
 struct trap_s;
 
@@ -76,7 +78,7 @@ typedef struct tape_file_record_s tape_file_record_t;
 
 extern tape_image_t *tape_image_dev1;
 
-extern int tape_init(tape_init_t *init);
+extern int tape_init(const tape_init_t *init);
 extern int tape_deinstall(void);
 extern void tape_get_header(tape_image_t *tape_image, BYTE *name);
 extern int tape_find_header_trap(void);

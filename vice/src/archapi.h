@@ -32,6 +32,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+
 /* Program start and signals.  */
 extern int archdep_startup(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
@@ -51,7 +52,7 @@ extern const char *archdep_default_resource_file_name(void);
 extern const char *archdep_default_save_resource_file_name(void);
 
 /* Fliplist.  */
-const char *archdep_default_fliplist_file_name(void);
+extern char *archdep_default_fliplist_file_name(void);
 
 /* Logfile stuff.  */
 extern FILE *archdep_open_default_log_file(void);

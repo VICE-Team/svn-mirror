@@ -116,7 +116,7 @@ static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-static trap_t c128_serial_traps[] = {
+static const trap_t c128_serial_traps[] = {
     {
         "SerialListen",
         0xE355,
@@ -228,7 +228,7 @@ static trap_t c128_serial_traps[] = {
 };
 
 /* Tape traps.  */
-static trap_t c128_tape_traps[] = {
+static const trap_t c128_tape_traps[] = {
     {
         "TapeFindHeader",
         0xE8D3,
@@ -276,7 +276,7 @@ static trap_t c128_tape_traps[] = {
     }
 };
 
-static tape_init_t tapeinit = {
+static const tape_init_t tapeinit = {
     0xb2,
     0x90,
     0x93,
@@ -339,8 +339,10 @@ void machine_resources_shutdown(void)
 {
     c128_resources_shutdown();
     reu_resources_shutdown();
+    sound_resources_shutdown();
     printer_resources_shutdown();
     drive_resources_shutdown();
+    cartridge_resources_shutdown();
 }
 
 /* C128-specific command-line option initialization.  */

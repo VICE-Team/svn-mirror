@@ -1950,8 +1950,10 @@ void mem_initialize_memory(void)
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
     for (j = 0; j < 32; j++) {
         /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
-        int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
-                              1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1 };
+        const int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1,
+                                    0, 0, 0, 0, 0, 1, 1, 1,
+                                    1, 1, 1, 1, 1, 1, 1, 1,
+                                    0, 0, 0, 0, 0, 1, 1, 1 };
 
         if (io_config[j]) {
             for (i = 0xd0; i <= 0xd3; i++) {
