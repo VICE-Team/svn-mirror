@@ -164,8 +164,11 @@ typedef struct drive_s {
     /* Size of the GCR data for the current track.  */
     unsigned int GCR_current_track_size;
 
-    /* Offset of the R/W head on the current track.  */
+    /* Offset of the R/W head on the current track (bytes).  */
     unsigned int GCR_head_offset;
+
+    /* Offset of the R/W head on the current track (bits).  */
+    unsigned int GCR_head_bitoff;
 
     /* Are we in read or write mode?  */
     int read_write_mode;
