@@ -23,6 +23,8 @@ libx11ui_a_SOURCES = \
 	ui-resources.c \
 	video.c \
 	videoarch.h \
+	x11menu.c \
+	x11menu.h \
 	c128icon.xpm \
 	c610icon.xpm \
 	c64icon.xpm \
