@@ -197,9 +197,9 @@ Monitor
    Every VICE emulator has a complete built-in monitor, which can be
 used to examine, disassemble and assemble machine language programs, as
 well as debug them through breakpoints.  It can be activated by using
-the "Activate monitor" command (left button menu).  Notice that you have
-to run the emulator from a terminal emulation program (such as `rxvt'
-or `xterm') in order to use the monitor.
+the "Activate monitor" command (left button menu).  Notice that you
+have to run the emulator from a terminal emulation program (such as
+`rxvt' or `xterm') in order to use the monitor.
 
    Warning: this version of the monitor is still under construction,
 and some of the features are not fully working yet.
@@ -245,8 +245,8 @@ Terminology
 
 `address_range'
      Two addresses.  If the second address is less than the first, the
-     range is assumed to wraparound from $FFFF to $0000.  Both
-     addresses must be in the same address space.
+     range is assumed to wraparound from $FFFF to $0000.  Both addresses
+     must be in the same address space.
 
 `address_opt_range'
      An address or an address range.
@@ -258,8 +258,8 @@ Terminology
 
 `checkpoint'
      The monitor has the ability to setup triggers that perform an
-     action when a specified situation occurs.  There are three types
-     of checkpoints; breakpoints, tracepoints and watchpoints.
+     action when a specified situation occurs.  There are three types of
+     checkpoints; breakpoints, tracepoints and watchpoints.
 
 `breakpoint'
      A breakpoint is triggered based on the program counter.  When it is
@@ -394,12 +394,11 @@ Assembly commands
      to exit assembly mode).
 
 `d [<address> [<address>]]'
-     Disassemble instructions.  If two addresses are specified, they
-     are used as a start and end address.  If only one is specified, it
-     is treated as the start address and a default number of
-     instructions are disassembled.  If no addresses are specified, a
-     default number of instructions are disassembled from the dot
-     address.
+     Disassemble instructions.  If two addresses are specified, they are
+     used as a start and end address.  If only one is specified, it is
+     treated as the start address and a default number of instructions
+     are disassembled.  If no addresses are specified, a default number
+     of instructions are disassembled from the dot address.
 
 
 
@@ -431,8 +430,8 @@ Checkpoint commands
      Each time the specified checkpoint is examined, the condition is
      evaluated.  If it evalutes to true, the checkpoint is activated.
      Otherwise, it is ignores.  If registers are specified in the
-     expression, the values used are those at the time the checkpoint
-     is examined, not when the condition is set.
+     expression, the values used are those at the time the checkpoint is
+     examined, not when the condition is set.
 
 `delete <checknum>'
      Delete the specified checkpoint.
@@ -443,10 +442,10 @@ Checkpoint commands
 
 `trace [address [address]]'
      This command is similar to the `break' command except that it
-     operates on tracepoints.  A tracepoint differs from a breakpoint
-     by not stopping execution but simply printing the PC, giving the
-     user an execution trace.  The second optional address can be used
-     to specify the end of an range of addresses to be traced.
+     operates on tracepoints.  A tracepoint differs from a breakpoint by
+     not stopping execution but simply printing the PC, giving the user
+     an execution trace.  The second optional address can be used to
+     specify the end of an range of addresses to be traced.
 
 `watch [loadstore] [address [address]]'
      This command is similar to the previous two commands except that it
@@ -494,8 +493,8 @@ Disk commands
 
 `br <track> <sector> [<address>]'
      Read the block at the specified track and sector.  If an address is
-     specified, the data is loaded into memory.  If no address is
-     given, the data is displayed using the default datatype.
+     specified, the data is loaded into memory.  If no address is given,
+     the data is displayed using the default datatype.
 
 `bw <track> <sector> <address>'
      Write a block of data at `address' to the specified track and
@@ -506,11 +505,17 @@ Disk commands
      drive 8.  The specified disk command is sent to the drive's
      channel #15.
 
-`load "<filename>" <address>'
-     Load the specified file into memory at the specified address.
+`load "<filename>" <device> [<address>]'
+     Load the specified file into memory.  If no address is given, the
+     file is loaded to the address specified by the first two bytes
+     read from the file.  If address is given, the file is loaded to
+     the specified address and the first two bytes read from the file
+     are skipped.  If device is 0, the file is read from the file
+     system.
 
-`save "<filename>" <address1> <address2>'
+`save "<filename>" <device> <address1> <address2>'
      Save the memory from address1 to address2 to the specified file.
+     If device is 0, the file is written to the file system.
 
 
 

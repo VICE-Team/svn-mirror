@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.11\n"
-"POT-Creation-Date: 2003-07-27 20:24+0200\n"
+"POT-Creation-Date: 2003-09-06 22:31+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1347,15 +1347,15 @@ msgid "Datassette control"
 msgstr ""
 
 #: src/arch/unix/uidrive.c:83 src/arch/unix/uidrivec64c128vic20.c:93
-#: src/arch/unix/uidrivepetcbm2.c:72 src/arch/unix/uidriveplus4.c:77
+#: src/arch/unix/uidrivepetcbm2.c:72 src/arch/unix/uidriveplus4.c:78
 #, fuzzy
 msgid "*Enable true drive emulation"
 msgstr "*Utiliser l'émulation reSID"
 
 #: src/arch/unix/uidrivec64c128vic20.c:45
 #: src/arch/unix/uidrivec64c128vic20.c:73 src/arch/unix/uidrivepetcbm2.c:42
-#: src/arch/unix/uidrivepetcbm2.c:62 src/arch/unix/uidriveplus4.c:43
-#: src/arch/unix/uidriveplus4.c:59 src/arch/unix/uijoystick2.c:78
+#: src/arch/unix/uidrivepetcbm2.c:62 src/arch/unix/uidriveplus4.c:44
+#: src/arch/unix/uidriveplus4.c:60 src/arch/unix/uijoystick2.c:78
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:98
 #: src/arch/unix/uiperipheral.c:129 src/arch/unix/uiperipheral.c:160
 #: src/arch/unix/uiperipheral.c:191 src/arch/unix/uiprinter.c:173
@@ -1363,54 +1363,54 @@ msgstr "*Utiliser l'émulation reSID"
 msgid "*None"
 msgstr "*Aucun"
 
-#: src/arch/unix/uidrivec64c128vic20.c:96 src/arch/unix/uidriveplus4.c:80
+#: src/arch/unix/uidrivec64c128vic20.c:96 src/arch/unix/uidriveplus4.c:81
 msgid "Drive #8 model"
 msgstr ""
 
-#: src/arch/unix/uidrivec64c128vic20.c:98 src/arch/unix/uidriveplus4.c:82
+#: src/arch/unix/uidrivec64c128vic20.c:98 src/arch/unix/uidriveplus4.c:83
 #, fuzzy
 msgid "Drive #8 RAM expansion"
 msgstr "Unité d'expantion RAM"
 
-#: src/arch/unix/uidrivec64c128vic20.c:100
+#: src/arch/unix/uidrivec64c128vic20.c:100 src/arch/unix/uidriveplus4.c:85
 msgid "*Drive #8 enable parallel cable"
 msgstr ""
 
 #: src/arch/unix/uidrivec64c128vic20.c:102 src/arch/unix/uidrivepetcbm2.c:78
-#: src/arch/unix/uidriveplus4.c:84
+#: src/arch/unix/uidriveplus4.c:87
 msgid "Drive #8 40-track image support"
 msgstr ""
 
 #: src/arch/unix/uidrivec64c128vic20.c:104 src/arch/unix/uidrivepetcbm2.c:80
-#: src/arch/unix/uidriveplus4.c:86
+#: src/arch/unix/uidriveplus4.c:89
 msgid "Drive #8 idle method"
 msgstr ""
 
-#: src/arch/unix/uidrivec64c128vic20.c:107 src/arch/unix/uidriveplus4.c:89
+#: src/arch/unix/uidrivec64c128vic20.c:107 src/arch/unix/uidriveplus4.c:92
 msgid "Drive #9 model"
 msgstr ""
 
-#: src/arch/unix/uidrivec64c128vic20.c:109 src/arch/unix/uidriveplus4.c:91
+#: src/arch/unix/uidrivec64c128vic20.c:109 src/arch/unix/uidriveplus4.c:94
 #, fuzzy
 msgid "Drive #9 RAM expansion"
 msgstr "Unité d'expantion RAM"
 
-#: src/arch/unix/uidrivec64c128vic20.c:111
+#: src/arch/unix/uidrivec64c128vic20.c:111 src/arch/unix/uidriveplus4.c:96
 msgid "*Drive #9 enable parallel cable"
 msgstr ""
 
 #: src/arch/unix/uidrivec64c128vic20.c:113 src/arch/unix/uidrivepetcbm2.c:87
-#: src/arch/unix/uidriveplus4.c:93
+#: src/arch/unix/uidriveplus4.c:98
 msgid "Drive #9 40-track image support"
 msgstr ""
 
 #: src/arch/unix/uidrivec64c128vic20.c:115 src/arch/unix/uidrivepetcbm2.c:89
-#: src/arch/unix/uidriveplus4.c:95
+#: src/arch/unix/uidriveplus4.c:100
 msgid "Drive #9 idle method"
 msgstr ""
 
 #: src/arch/unix/uidrivec64c128vic20.c:121 src/arch/unix/uidrivepetcbm2.c:96
-#: src/arch/unix/uidriveplus4.c:101
+#: src/arch/unix/uidriveplus4.c:106
 #, fuzzy
 msgid "Drive settings"
 msgstr "Paramètres VDC"

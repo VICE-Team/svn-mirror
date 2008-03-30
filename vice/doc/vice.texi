@@ -6248,10 +6248,10 @@ Version numbers: Major 0, Minor 0
 @chapter Monitor
 
 Every VICE emulator has a complete built-in monitor, which can be used
-to examine, disassemble and assemble machine language programs, as well
-as debug them through breakpoints.  It can be activated by using the
-``Activate monitor'' command (left button menu).  Notice that you have
-to run the emulator from a terminal emulation program (such as
+to examine, disassemble and assemble machine language programs, as
+well as debug them through breakpoints.  It can be activated by using
+the ``Activate monitor'' command (left button menu).  Notice that you
+have to run the emulator from a terminal emulation program (such as
 @code{rxvt} or @code{xterm}) in order to use the monitor.
 
 @b{Warning}: this version of the monitor is still under construction,
@@ -6278,8 +6278,8 @@ and some of the features are not fully working yet.
 @item address_space
 This refers to the range of memory locations and a set of registers.
 This can be the addresses available to the computer's processor, the
-disk drive's processor or a specific memory configuration of one of the
-mentioned processors.
+disk drive's processor or a specific memory configuration of one of
+the mentioned processors.
 
 @item bankname
 The CPU can only see 64k of memory at any one time, due to its 16 bit
@@ -6296,9 +6296,9 @@ accumulator (A), X register (X), or Y register (Y).
 A specific memory location in the range $0000 to $FFFF.
 
 @item address_range
-Two addresses.  If the second address is less than the first, the range
-is assumed to wraparound from $FFFF to $0000.  Both addresses must be in
-the same address space.
+Two addresses.  If the second address is less than the first, the
+range is assumed to wraparound from $FFFF to $0000.  Both addresses
+must be in the same address space.
 
 @item address_opt_range
 An address or an address range.
@@ -6308,13 +6308,13 @@ An address or an address range.
 
 @item prompt
 The prompt has the format [x:y].  If x is -, memory reads from the
-monitor do not have side effects.  Otherwise, x is S.  The second part of
-the prompt, y, shows the default address space.
+monitor do not have side effects.  Otherwise, x is S.  The second part
+of the prompt, y, shows the default address space.
 
 @item checkpoint
 The monitor has the ability to setup triggers that perform an action
-when a specified situation occurs.  There are three types of checkpoints;
-breakpoints, tracepoints and watchpoints.
+when a specified situation occurs.  There are three types of
+checkpoints; breakpoints, tracepoints and watchpoints.
 
 @item breakpoint
 A breakpoint is triggered based on the program counter.  When it is
@@ -6326,8 +6326,8 @@ counter.  Instead of entering the monitor, the program counter is
 printed and execution continues.
 
 @item watchpoint
-Watchpoints are triggered by a read and/or write to an address.  When a
-watchpoint is triggered, the monitor is entered.
+Watchpoints are triggered by a read and/or write to an address.  When
+a watchpoint is triggered, the monitor is entered.
 
 @item <...>
 A data type.
@@ -6352,19 +6352,20 @@ Change the PC to address and continue execution.
 Nothing yet.  Will display VIC/VIA/CIA/SID registers.
 
 @item next [<count>]
-Advance to the next instruction.  Subroutines are treated as
-a single instruction.
+Advance to the next instruction.  Subroutines are treated as a single
+instruction.
 
 @item registers [<reg_name> = <number> [, <reg_name> = <number>]*]
-Assign respective registers.  With no parameters, display register values.
+Assign respective registers.  With no parameters, display register
+values.
 
 @item return
 Continues execution  and returns to the monitor just
 after the next RTS or RTI is executed.
 
 @item step [<count>]
-Single step through instructions.  An optional count allows stepping more
-than a single instruction at a time.
+Single step through instructions.  An optional count allows stepping
+more than a single instruction at a time.
 
 @c @item up
 @c Nothing yet.  Is this really useful?
@@ -6395,22 +6396,22 @@ Set the default address space to either the computer `c:' or the
 specified drive `8:' or `9:'
 @item fill <address_range> <data_list>
 Fill memory in the specified address range with the data in
-<data_list>.  If the size of the address range is greater than the size
-of the data_list, the data_list is repeated.
+<data_list>.  If the size of the address range is greater than the
+size of the data_list, the data_list is repeated.
 
 @item hunt <address_range> <data_list>
 Hunt memory in the specified address range for the data in
-<data_list>.  If the data is found, the starting address of the match is
-displayed.  The entire range is searched for all possible matches.
+<data_list>.  If the data is found, the starting address of the match
+is displayed.  The entire range is searched for all possible matches.
 
 @item i <address_opt_range>
 Display memory contents as PETSCII text.
 
 @item m [<data_type>] [<address_opt_range>]
-Display the contents of memory.  If no datatype is given, the default is
-used.  If only one address is specified, the length of data displayed is
-based on the datatype.  If no addresses are given, the 'dot' address is
-used.
+Display the contents of memory.  If no datatype is given, the default
+is used.  If only one address is specified, the length of data
+displayed is based on the datatype.  If no addresses are given, the
+'dot' address is used.
 
 @item mc [<data_type>] [<address_opt_range>]
 Display the contents of memory as character data.  If only one address
@@ -6419,20 +6420,20 @@ given, the ``dot'' address is used.
 
 @item ms [<data_type>] [<address_opt_range>]
 Display the contents of memory as sprite data.  If only one address is
-specified, only one sprite is displayed.  If no addresses are given, the
-``dot'' address is used.
+specified, only one sprite is displayed.  If no addresses are given,
+the ``dot'' address is used.
 
 @item move <address_range> <address>
-Move memory from the source specified by the address range to
-the destination specified by the address.  The regions may overlap.
+Move memory from the source specified by the address range to the
+destination specified by the address.  The regions may overlap.
 
 @item sidefx [on|off|toggle]
 Control how monitor generated reads affect memory locations that have
 read side-effects, like CIA interrupt registers for example.  
-If the argument is 'on' then reads may cause
-side-effects.  If the argument is 'off' then reads don't cause
-side-effects.  If the argument is 'toggle' then the current mode is
-switched.  No argument displays the current state.
+If the argument is 'on' then reads may cause side-effects.  If the
+argument is 'off' then reads don't cause side-effects.  If the
+argument is 'toggle' then the current mode is switched.  No argument
+displays the current state.
 
 @item > [<address>] <data_list>
 Write the specified data at @code{address}.
@@ -6445,14 +6446,14 @@ Write the specified data at @code{address}.
 @table @code
 
 @item a <address> [ <instruction> [: <instruction>]* ]
-Assemble instructions to the specified address.  If only one instruction
-is specified, enter assembly mode (enter an empty line to exit assembly
-mode).
+Assemble instructions to the specified address.  If only one
+instruction is specified, enter assembly mode (enter an empty line to
+exit assembly mode).
 
 @item d [<address> [<address>]]
-Disassemble instructions.  If two addresses are specified, they are used
-as a start and end address.  If only one is specified, it is treated as
-the start address and a default number of instructions are
+Disassemble instructions.  If two addresses are specified, they are
+used as a start and end address.  If only one is specified, it is
+treated as the start address and a default number of instructions are
 disassembled.  If no addresses are specified, a default number of
 instructions are disassembled from the dot address.
 
@@ -6468,26 +6469,26 @@ instructions are disassembled from the dot address.
 This command allows setting a breakpoint or listing the current
 breakpoints.  If no address is given, the currently valid checkpoints
 are printed.  If an address is given, a breakpoint is set for that
-address and the breakpoint number is printed.  A conditional expression
-can also be specified for the breakpoint.  For more information on
-conditions, see the CONDITION command.
+address and the breakpoint number is printed.  A conditional
+expression can also be specified for the breakpoint.  For more
+information on conditions, see the CONDITION command.
 
 @item enable <checknum>
 @item disable <checknum>
-Each checkpoint can be enabled or disabled.  This command allows changing
-between these states.
+Each checkpoint can be enabled or disabled.  This command allows
+changing between these states.
 
 @item command <checknum> "<command>"
-When checkpoint @code{checknum} is hit, the specified command is executed by
-the monitor.  Note that the @code{x} command is not yet supported as a
-command argument.
+When checkpoint @code{checknum} is hit, the specified command is
+executed by the monitor.  Note that the @code{x} command is not yet
+supported as a command argument.
 
 @item condition <checknum> if <cond_expr>
 Each time the specified checkpoint is examined, the condition is
 evaluated.  If it evalutes to true, the checkpoint is activated.
-Otherwise, it is ignores.  If registers are specified in the expression,
-the values used are those at the time the checkpoint is examined, not
-when the condition is set.
+Otherwise, it is ignores.  If registers are specified in the
+expression, the values used are those at the time the checkpoint is
+examined, not when the condition is set.
 
 @item delete <checknum>
 Delete the specified checkpoint.
@@ -6498,16 +6499,16 @@ given, the default value is 1.
 
 @item trace [address [address]]
 This command is similar to the @code{break} command except that it
-operates on tracepoints.  A tracepoint differs from a breakpoint by not
-stopping execution but simply printing the PC, giving the user an
-execution trace.  The second optional address can be used to specify the
-end of an range of addresses to be traced.
+operates on tracepoints.  A tracepoint differs from a breakpoint by
+not stopping execution but simply printing the PC, giving the user an
+execution trace.  The second optional address can be used to specify
+the end of an range of addresses to be traced.
 
 @item watch [loadstore] [address [address]]
 This command is similar to the previous two commands except that it
 operates on watchpoints.  A watchpoint differs from the others by
-stopping on a read and/or write to an address or range of addresses.  If
-no addresses are given, a list of all the watchpoints is printed.
+stopping on a read and/or write to an address or range of addresses.
+If no addresses are given, a list of all the watchpoints is printed.
 The loadstore parameter can be either "load" or "store" to determine
 on which operation the monitor breaks. If not specified, the monitor
 breaks on both operations.
@@ -6525,8 +6526,8 @@ breaks on both operations.
 Change the working directory.
 
 @item device [c:|d:]
-Set the default memory device to either the computer (@code{c:}) or the
-disk (@code{d:}).
+Set the default memory device to either the computer (@code{c:}) or
+the disk (@code{d:}).
 
 @item radix [H|D|O|B]
 Set the default radix to hex, decimal, octal, or binary.  With no
@@ -6552,22 +6553,27 @@ Nothing yet.
 
 @item br <track> <sector> [<address>]
 Read the block at the specified track and sector.  If an address is
-specified, the data is loaded into memory.  If no address is given, the
-data is displayed using the default datatype.
+specified, the data is loaded into memory.  If no address is given,
+the data is displayed using the default datatype.
 
 @item bw <track> <sector> <address>
 Write a block of data at @code{address} to the specified track and
 sector of disk in drive 8.
 
 @item @@<disk command>
-Perform a disk command on the currently attached disk image on drive 8.  The
-specified disk command is sent to the drive's channel #15.
+Perform a disk command on the currently attached disk image on drive
+8.  The specified disk command is sent to the drive's channel #15.
 
-@item load "<filename>" <address>
-Load the specified file into memory at the specified address.
+@item load "<filename>" <device> [<address>]
+Load the specified file into memory.  If no address is given, the file
+is loaded to the address specified by the first two bytes read from
+the file.  If address is given, the file is loaded to the specified
+address and the first two bytes read from the file are skipped.  If
+device is 0, the file is read from the file system.
 
-@item save "<filename>" <address1> <address2>
-Save the memory from address1 to address2 to the specified file.
+@item save "<filename>" <device> <address1> <address2>
+Save the memory from address1 to address2 to the specified file.  If
+device is 0, the file is written to the file system.
 
 @c @item v "<filename>" <address>
 @c Nothing yet.  Is this really needed?
@@ -6671,8 +6677,8 @@ c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
 @end example
 
 @code{IMAGE1} and @code{IMAGE2} are disk image names that can be
-attached before @code{c1541} starts.  @code{c1541} can handle up to two
-disk images at the same time by using two virtual built-in drives,
+attached before @code{c1541} starts.  @code{c1541} can handle up to
+two disk images at the same time by using two virtual built-in drives,
 numbered @code{8} and @code{9}; @code{IMAGE1} (if present) is always
 attached to drive @code{8}, while @code{IMAGE2} is attached to drive
 @code{9}.
