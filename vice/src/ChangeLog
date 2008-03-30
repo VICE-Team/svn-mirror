@@ -1,3 +1,67 @@
+2001-05-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.20.
+
+	* c128/functionrom.c, c128/functionrom.h: New files.
+
+	* c128/Makefile.am, arch/win32/c128.dsp: Added new files.
+
+	* c128/c128mem.c (mem_initialize_memory): Rewritten to support
+	internal and external function ROM images.
+
+	* c128/c128mmu.c (mmu_store, mmu_ffxx_read): Fixed to support
+	function ROM images.
+
+	* c128/c128.c (machine_init_resources,
+	machine_init_cmdline_options): Initialize function ROM image
+	support resources and command line options.
+
+	* diskimage.c, sysfile.c, utils.c, utils.h,
+	c64/c64cartridge.c, c128/functionrom.c (file_length): Renamed
+	to `util_file_length'.
+
+	* utils.c, utils.h, c64/reu.c (load_file, save_file): Renamed
+	to `util_load_file' and `util_save_file'.
+
+	* sysfile.c, utils.c, utils.h (subst): Renamed to
+	`util_subst'.
+
+	* c1541.c, imagecontents.c, utils.c, utils.h (bufcat): Renamed
+	to `util_bufcat'.
+
+2001-05-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/monitor.dsp: added mon_assemble.c and 
+	mon_disassemble.c.
+
+	* arch/win32/console.c: added support to mark a region with
+	the mouse (left-click and right-click have different functions!)
+	and copy it to the clipboard (with CTRL+C)
+
+2001-04-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-draw.c: use vic.raster.ycounter modulo
+	vic.char_height for correct display when switching height from
+	16 to 8
+
+	* vic20/vic-mem.c (vic_store): use raster_change api for
+	vic.char_height
+
+	* vic20/vic.c (vic_raster_draw_alarm_handler) completely
+	rewritten to handle memptr offset and row counter more exact
+
+2001-04-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.c new function (clk_overflow_callback) to reset
+	vic.last_emulate_line_clk at overflow
+	(vic_init) initializes this new overflow handler
+	(vic_raster_draw_alarm_handler): removed obsolete alarm_set
+
+2001-04-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-mem.c (vic_store): vic.raster.display_ystop has
+	to be recalculated immediately when $9001 changes
+
 2001-04-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.19.

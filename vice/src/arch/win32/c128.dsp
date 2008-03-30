@@ -110,6 +110,10 @@ SOURCE=..\..\c128\daa.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\functionrom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\z80.c
 # End Source File
 # Begin Source File
