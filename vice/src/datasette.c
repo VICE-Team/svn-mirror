@@ -55,7 +55,7 @@ int datasette_read_bit(long offset)
         if (fread(&comp_gap, 1, 1, current_image->fd) < 1)
             return 0;
 
-        gap = (CLOCK)comp_gap * 8 - offset;
+        gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)256) * 8 - offset;
 
         if (gap > 0) {
             alarm_set(&datasette_alarm, clk + gap);
@@ -70,14 +70,6 @@ void datasette_init(void)
 {
     alarm_init(&datasette_alarm, &maincpu_alarm_context,
                "Datasette", datasette_read_bit);
-}
-
-static void datasette_wait_read(void)
-{
-    if (current_image != NULL)
-    {
-        alarm_set(&datasette_alarm, clk + 1000);
-    }
 }
 
 void datasette_set_tape_image(tap_t *image)
@@ -95,7 +87,6 @@ void datasette_control(int command)
       case DATASETTE_CONTROL_START:
         datasette_play = 1;
         mem_set_tape_sense(1);
-        datasette_wait_read();
         break;
       case DATASETTE_CONTROL_FORWARD:
         datasette_play = 0;
