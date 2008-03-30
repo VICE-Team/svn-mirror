@@ -35,11 +35,6 @@
 /* This handles the interrupt lines and the CPU alarms (i.e. events that happen
    at specified clock ticks during emulation).  */
 
-/* If this is defined, the interrupt routines take account of the 2-cycle
-   delay required by the CPU to detect the NMI/IRQ line transition
-   (otherwise, it must be handled somewhere else).  */
-#define HANDLE_INTERRUPT_DELAY
-
 #ifdef DEBUG
 extern int debugflg;
 #endif
@@ -70,11 +65,7 @@ enum {
 /* ------------------------------------------------------------------------- */
 
 /* Define the number of cycles needed by the CPU to detect the NMI or IRQ.  */
-#ifdef HANDLE_INTERRUPT_DELAY
-#  define INTERRUPT_DELAY 2
-#else
-#  define INTERRUPT_DELAY 0
-#endif
+#define INTERRUPT_DELAY 2
 
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
@@ -158,7 +149,7 @@ inline static void interrupt_set_irq(cpu_int_status_t *cs, int int_num,
             cs->pending_int[int_num] = (enum cpu_int)
                 (cs->pending_int[int_num] | IK_IRQ);
 
-#ifdef HANDLE_INTERRUPT_DELAY
+#if 1
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
             if (cs->last_stolen_cycles_clk <= cpu_clk) {
@@ -191,7 +182,7 @@ inline static void interrupt_set_nmi(cpu_int_status_t *cs, int int_num,
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
                 cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int | IK_NMI);
-#ifdef HANDLE_INTERRUPT_DELAY
+#if 1
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
                 if (cs->last_stolen_cycles_clk <= cpu_clk) {
@@ -353,7 +344,7 @@ extern enum cpu_int interrupt_get_int(cpu_int_status_t *cs, int int_num);
 /* ------------------------------------------------------------------------- */
 
 extern cpu_int_status_t maincpu_int_status;
-extern CLOCK clk;
+extern CLOCK maincpu_clk;
 
 extern cpu_int_status_t *drive0_int_status_ptr;
 extern cpu_int_status_t *drive1_int_status_ptr;
@@ -362,27 +353,27 @@ extern CLOCK drive_clk[2];
 /* For convenience...  */
 
 #define maincpu_set_irq(int_num, value) \
-    interrupt_set_irq(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_irq(&maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_irq_clk(int_num, value, clk) \
     interrupt_set_irq(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_nmi(int_num, value) \
-    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_nmi_clk(int_num, value, clk) \
     interrupt_set_nmi(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int(int_num, value) \
-    interrupt_set_int(&maincpu_int_status, (int_num), (value), clk)
+    interrupt_set_int(&maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_int_clk(int_num, value, clk) \
     interrupt_set_int(&maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int_noclk(int_num, value) \
     interrupt_set_int_noclk(&maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
-    interrupt_trigger_reset(&maincpu_int_status, clk)
+    interrupt_trigger_reset(&maincpu_int_status, maincpu_clk)
 #define maincpu_trigger_dma() \
-    interrupt_trigger_dma(&maincpu_int_status, clk)
+    interrupt_trigger_dma(&maincpu_int_status, maincpu_clk)
 #define maincpu_trigger_trap(trap_func, data) \
-    interrupt_trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
+    interrupt_trigger_trap(&maincpu_int_status, (trap_func), (data), maincpu_clk)
 #define maincpu_steal_cycles(start_clk, num, sub) \
-    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &clk, (num), (sub))
+    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &maincpu_clk, (num), (sub))
 
 #define drive0_set_irq(int_num, value) \
     interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])

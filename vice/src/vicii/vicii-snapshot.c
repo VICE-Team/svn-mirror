@@ -126,9 +126,9 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
         || snapshot_module_write_dword(m,
             (DWORD)(vic_ii.ram_base_phi1 - ram)) < 0
         /* RasterCycle */
-        || snapshot_module_write_byte(m, (BYTE)(VIC_II_RASTER_CYCLE(clk))) < 0
+        || snapshot_module_write_byte(m, (BYTE)(VIC_II_RASTER_CYCLE(maincpu_clk))) < 0
         /* RasterLine */
-        || snapshot_module_write_word(m, (WORD)(VIC_II_RASTER_Y(clk))) < 0
+        || snapshot_module_write_word(m, (WORD)(VIC_II_RASTER_Y(maincpu_clk))) < 0
         )
         goto fail;
 
@@ -177,7 +177,7 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* FetchEventTick */
-        || snapshot_module_write_dword (m, vic_ii.fetch_clk - clk) < 0
+        || snapshot_module_write_dword (m, vic_ii.fetch_clk - maincpu_clk) < 0
         /* FetchEventType */
         || snapshot_module_write_byte (m, (BYTE)vic_ii.fetch_idx) < 0
         )
@@ -293,17 +293,17 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             || snapshot_module_read_word(m, &RasterLine) < 0)
             goto fail;
 
-        if (RasterCycle != (BYTE)VIC_II_RASTER_CYCLE(clk)) {
+        if (RasterCycle != (BYTE)VIC_II_RASTER_CYCLE(maincpu_clk)) {
             log_error(vic_ii.log,
                       "Not matching raster cycle (%d) in snapshot; should be %d.",
-                      RasterCycle, VIC_II_RASTER_CYCLE(clk));
+                      RasterCycle, VIC_II_RASTER_CYCLE(maincpu_clk));
             goto fail;
         }
 
-        if (RasterLine != (WORD)VIC_II_RASTER_Y(clk)) {
+        if (RasterLine != (WORD)VIC_II_RASTER_Y(maincpu_clk)) {
             log_error(vic_ii.log,
                       "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
-                      RasterLine, VIC_II_RASTER_Y(clk));
+                      RasterLine, VIC_II_RASTER_Y(maincpu_clk));
             goto fail;
         }
     }
@@ -359,7 +359,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
     vic_ii.ram_base_phi2 = vic_ii.ram_base_phi1;
     vic_ii.vbank_phi2 = vic_ii.vbank_phi1;
 
-    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+    vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
 
     /* Update sprite parameters.  We had better do this manually, or the
        VIC-II emulation could be quite upset.  */
@@ -393,7 +393,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
 
     vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
     vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
-    vic_ii.raster.current_line = VIC_II_RASTER_Y(clk);     /* FIXME? */
+    vic_ii.raster.current_line = VIC_II_RASTER_Y(maincpu_clk); /* FIXME? */
 
     vic_ii.raster.sprite_status->visible_msk = vic_ii.regs[0x15];
 
@@ -443,9 +443,10 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
 
     vic_ii.memory_fetch_done = 0; /* FIXME? */
 
-    vic_ii_update_video_mode(VIC_II_RASTER_CYCLE(clk));
+    vic_ii_update_video_mode(VIC_II_RASTER_CYCLE(maincpu_clk));
 
-    vic_ii.draw_clk = clk + (vic_ii.draw_cycle - VIC_II_RASTER_CYCLE(clk));
+    vic_ii.draw_clk = maincpu_clk + (vic_ii.draw_cycle
+                      - VIC_II_RASTER_CYCLE(maincpu_clk));
     vic_ii.last_emulate_line_clk = vic_ii.draw_clk - vic_ii.cycles_per_line;
     alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
@@ -459,7 +460,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             )
             goto fail;
 
-        vic_ii.fetch_clk = clk + dw;
+        vic_ii.fetch_clk = maincpu_clk + dw;
         vic_ii.fetch_idx = b;
 
         alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
@@ -479,7 +480,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             goto fail;
         vic_ii.ram_base_phi2 = ram + RamBase;
 
-        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
+        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(maincpu_clk));
     }
 
     raster_force_repaint(&vic_ii.raster);
