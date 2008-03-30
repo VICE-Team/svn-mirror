@@ -918,11 +918,11 @@ static BYTE peek_bank_io(WORD addr)
 
 static const char *banknames[] = {
     "default", "cpu", "ram", "rom", "io", "ram1", "intfunc", "extfunc", "cart",
-    "c64rom", NULL
+    "c64rom", "vdc", NULL
 };
 
 static const int banknums[] = {
-    1, 0, 1, 2, 3, 4, 5, 6, 7, 8
+    1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 };
 
 const char **mem_bank_list(void)
@@ -997,6 +997,9 @@ BYTE mem_bank_read(int bank, WORD addr)
         if (addr >= 0xe000) {
             return mem_kernal64_rom[addr & 0x1fff];
         }
+        break;
+      case 9:
+        return vdc_ram_read(addr);
     }
     return mem_ram[addr];
 }
@@ -1065,6 +1068,10 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
         if (addr >= 0xe000) {
             return;
         }
+        break;
+      case 9:
+        vdc_ram_store(addr, byte);
+        break;
     }
     mem_ram[addr] = byte;
 }
