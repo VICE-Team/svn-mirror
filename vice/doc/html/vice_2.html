@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 18 January 2003 -->
+     from ../vice.texi on 18 April 2003 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -81,9 +81,9 @@ and cycle accurate.
 
 <P>
 The C128 emulator, called <SAMP>`x128'</SAMP>, features a complete emulation of
-the internal MMU (<EM>Memory Management Unit</EM>), 80 column VDC screen, Z80
-emulation plus all the features of the C64 emulation.  The following
-things are missing, though:
+the internal MMU (<EM>Memory Management Unit</EM>), 80 column VDC screen, fast
+IEC bus emulation, Z80 emulation plus all the features of the C64 emulation.
+The following things are missing, though:
 
 </P>
 
@@ -99,8 +99,8 @@ things are missing, though:
 
 <P>
 The VIC20 emulates all the internal hardware, including the VIA chips.
-The VIC-I video chip is only partially emulated, so some
-graphical effects will not work correctly.
+The VIC-I video chip is fully emulated except NTSC interlace mode, so most 
+graphical effects will work correctly.
 
 </P>
 <P>
@@ -259,7 +259,7 @@ There are two ways of emulating the keyboard in VICE.
 
 </P>
 <P>
-The default way (<EM>symbolic mapping</EM>) is to map every X11 key
+The default way (<EM>symbolic mapping</EM>) is to map every key
 combination to the corresponding key combination on the real machine:
 for example, if you press <KBD>*</KBD>, which is bound to <KBD>Shift-8</KBD> on a
 U.S. keyboard, in the C64 emulator, the emulated machine will have just
@@ -346,7 +346,7 @@ and <KBD>space</KBD> for the fire button instead.
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
 Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and 
-8250 drives in one of two ways:
+8250 drives in one of four ways:
 
 </P>
 
@@ -363,25 +363,42 @@ accessing file system directories, thus giving you the use of files
 without having to copy them to disk images; this also allows you to
 read and write files in the <CODE>P00</CODE> format (again, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ for more info).
+<LI>
+
+accessing a real device connected to the host machine. As of VICE 1.11
+it is possible to connect real drives like Commodore 1541 to the
+printer port of the host using the XA1541 or XM1541 cable. Currently
+this only works on Linux using the OpenCBM library. You can get it
+from <A HREF="http://www.lb.shuttle.de/puffin/cbm4linux">http://www.lb.shuttle.de/puffin/cbm4linux</A>.
+<LI>
+
+directly using the disk drive of the host. The 3.5" disk
+drive of the host can be used to read or write Commodore 1581
+formatted disks. Currently this raw drive access feature is only
+available for Linux hosts.
 </UL>
 
 <P>
 When using disk images there are two available types of drive
-emulation.  One of them the <EM>DOS level</EM> drive emulation.  It
-does <EM>not</EM> really emulate the serial line, but patches the kernal
-ROM (with the so-called <EM>kernal traps</EM>) so that serial line
-operations can be emulated via C language routines.  This emulation is
-very fast, but only allows use of standard DOS functions (and not even
-all of them). The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050 and 8250) 
-do not use
-kernal traps. Instead the IEEE488 interface lines are monitored and
-the data is passed to the drive emulation. To use them on the C64,
-you need to enable the IEEE488 interface emulation. Only if the 
-IEEE488 emulation is enabled, those drives can be selected.
+emulation.  One of them the <EM>virtual drive</EM> emulation.  It does
+<EM>not</EM> really emulate the serial line, but patches the kernal ROM
+(with the so-called <EM>kernal traps</EM>) so that serial line operations
+can be emulated via C language routines.  This emulation is very fast,
+but only allows use of standard DOS functions (and not even all of
+them).  For real device or raw drive access it is required to enable
+this type of emulation.
 
 </P>
 <P>
-The other alternative is a <EM>hardware level</EM> drive emulation.  The
+The IEEE488 drives (2031, 2040, 3040, 4040, 1001, 8050 and 8250) do
+not use kernal traps. Instead the IEEE488 interface lines are
+monitored and the data is passed to the drive emulation. To use them
+on the C64, you need to enable the IEEE488 interface emulation. Only
+if the IEEE488 emulation is enabled, those drives can be selected.
+
+</P>
+<P>
+The other alternative is a <EM>true drive</EM> emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
 VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
@@ -523,9 +540,7 @@ and conversions between these formats.
 
 </P>
 <P>
-Notice that the native format for disk images is <CODE>X64</CODE>; this
-means that, although the emulators and utilities can both read and write
-on <CODE>D64</CODE> disk images, they never produce <CODE>D64</CODE> files.
+Notice that the use of the <CODE>X64</CODE> file format is depreciated now.
 
 </P>
 <P>
