@@ -33,8 +33,8 @@ libarch_a_SOURCES = \
 	c64ui.h \
 	console.c \
 	constants.h \
-	joystick.cc \
-	joystick.h \
+	joy.cc \
+	joy.h \
 	kbd.c \
 	kbd.h \
 	main.cc \

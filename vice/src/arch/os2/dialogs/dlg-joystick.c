@@ -41,7 +41,7 @@
 
 #include "log.h"
 #include "utils.h"        // xmsprintf
-#include "joystick.h"
+#include "joy.h"
 #include "resources.h"
 #include "snippets\pmwin2.h"
 

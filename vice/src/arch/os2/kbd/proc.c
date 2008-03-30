@@ -32,7 +32,7 @@
 #include "log.h"
 #include "parse.h"        // keyconvmap
 #include "machine.h"      // machine_set_restore_key
-#include "joystick.h"     // joystick_handle_key
+#include "joy.h"          // joystick_handle_key
 #include "keyboard.h"     // keyboard_set_keyarr
 #include "resources.h"    // resource_value_t
 

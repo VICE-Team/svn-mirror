@@ -36,7 +36,7 @@
 #include "mouse.h"
 
 #ifdef HAS_JOYSTICK
-#include "joystick.h"
+#include "joy.h"
 #endif
 
 #include "vsyncapi.h"

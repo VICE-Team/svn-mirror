@@ -27,8 +27,8 @@ libarch_a_SOURCES = \
 	cbm2dummy.c \
 	config.h \
 	console.c \
-	joystick.c \
-	joystick.h \
+	joy.c \
+	joy.h \
 	kbd.c \
 	kbd.h \
 	main_exit.h \

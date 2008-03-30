@@ -31,7 +31,7 @@
 #include "ui.h"
 #include "vsyncapi.h"
 
-#include "joystick.h"
+#include "joy.h"
 
 #include <OS.h>
 #include <sys/time.h>

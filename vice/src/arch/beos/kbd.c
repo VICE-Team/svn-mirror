@@ -31,7 +31,7 @@
 
 #include "kbd.h"
 #include "cmdline.h"
-#include "joystick.h"
+#include "joy.h"
 #include "keyboard.h"
 #include "resources.h"
 #include "machine.h"

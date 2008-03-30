@@ -42,7 +42,7 @@
 #include "datasette.h"
 #include "fliplist.h"
 #include "interrupt.h"
-#include "joystick.h"
+#include "joy.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "log.h"

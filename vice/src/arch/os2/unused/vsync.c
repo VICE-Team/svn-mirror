@@ -61,7 +61,7 @@
 #include "usleep.h"
 
 #ifdef HAS_JOYSTICK
-#include "joystick.h"
+#include "joy.h"
 #endif
 
 #ifndef SA_RESTART

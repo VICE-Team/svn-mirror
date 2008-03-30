@@ -43,7 +43,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
-#include "joystick.h"
+#include "joy.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "machine.h"

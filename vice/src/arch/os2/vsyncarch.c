@@ -48,7 +48,7 @@
 //#include "ui_status.h" // ui_display_speed
 
 #ifdef HAS_JOYSTICK
-#include "joystick.h"
+#include "joy.h"
 #endif
 
 static log_t vsynclog = LOG_ERR;

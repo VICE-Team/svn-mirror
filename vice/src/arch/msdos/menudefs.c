@@ -45,7 +45,7 @@
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
-#include "joystick.h"
+#include "joy.h"
 #include "kbd.h"
 #include "log.h"
 #include "machine.h"

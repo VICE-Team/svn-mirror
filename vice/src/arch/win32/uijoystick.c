@@ -27,7 +27,7 @@
 #include <windows.h>
 #include "res.h"
 #include "resources.h"
-#include "joystick.h"
+#include "joy.h"
 #include "winmain.h"
 
 /*  This is in joystick.c . */
@@ -50,41 +50,43 @@ static char *keydefine_texts[]={
     "Press key for Fire"
 };
 
-static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
+                                   LPARAM lparam)
 {
-int             kcode;
+    int kcode;
 
     switch (msg) {
-        case WM_CLOSE:
-            EndDialog(hwnd,0);
-            return 0;
-        case WM_GETDLGCODE:
-            return DLGC_WANTALLKEYS;
-        case WM_KEYDOWN:
-            kcode=(lparam >> 16) & 0xff;
+      case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        return 0;
+      case WM_GETDLGCODE:
+        return DLGC_WANTALLKEYS;
+      case WM_KEYDOWN:
+        kcode = (lparam >> 16) & 0xff;
 
-            /*  Translate Extended scancodes */
-            if (lparam & (1<<24)) {
-                kcode=_kbd_extended_key_tab[kcode];
-            }
-            if (kcode==K_ESC) {
-                kcode=0;
-            }
-            keyset[current_key_index]=kcode;
-            EndDialog(hwnd,0);
-            return 0;
+        /*  Translate Extended scancodes */
+        if (lparam & (1 << 24)) {
+            kcode = _kbd_extended_key_tab[kcode];
+        }
+        if (kcode == K_ESC) {
+            kcode = 0;
+        }
+        keyset[current_key_index] = kcode;
+        EndDialog(hwnd, 0);
+        return 0;
 
     }
-    return DefDlgProc(hwnd,msg,wparam,lparam);
+    return DefDlgProc(hwnd, msg, wparam, lparam);
 }
 
-static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
+                                LPARAM lparam)
 {
     switch (msg) {
-        case WM_INITDIALOG:
-            SetWindowText(hwnd,keydefine_texts[current_key_index]);
-            SetWindowLong(hwnd,GWL_WNDPROC,(LONG)real_callback);
-            return FALSE;
+      case WM_INITDIALOG:
+        SetWindowText(hwnd, keydefine_texts[current_key_index]);
+        SetWindowLong(hwnd, GWL_WNDPROC, (LONG)real_callback);
+        return FALSE;
     }
     return FALSE;
 }
@@ -93,279 +95,386 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 static void init_keyset_dialog(HWND hwnd)
 {
     if (current_keyset_index==0) {
-        resources_get_value("KeySet1NorthWest",(resource_value_t *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet1North",(resource_value_t *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet1NorthEast",(resource_value_t *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet1East",(resource_value_t *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet1SouthEast",(resource_value_t *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet1South",(resource_value_t *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet1SouthWest",(resource_value_t *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet1West",(resource_value_t *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet1Fire",(resource_value_t *)&keyset[KEYSET_FIRE]);
+        resources_get_value("KeySet1NorthWest",
+                            (resource_value_t *)&keyset[KEYSET_NW]);
+        resources_get_value("KeySet1North",
+                            (resource_value_t *)&keyset[KEYSET_N]);
+        resources_get_value("KeySet1NorthEast",
+                            (resource_value_t *)&keyset[KEYSET_NE]);
+        resources_get_value("KeySet1East",
+                            (resource_value_t *)&keyset[KEYSET_E]);
+        resources_get_value("KeySet1SouthEast",
+                            (resource_value_t *)&keyset[KEYSET_SE]);
+        resources_get_value("KeySet1South",
+                            (resource_value_t *)&keyset[KEYSET_S]);
+        resources_get_value("KeySet1SouthWest",
+                            (resource_value_t *)&keyset[KEYSET_SW]);
+        resources_get_value("KeySet1West",
+                            (resource_value_t *)&keyset[KEYSET_W]);
+        resources_get_value("KeySet1Fire",
+                            (resource_value_t *)&keyset[KEYSET_FIRE]);
         SetWindowText(hwnd,"Configure Keyset A");
     } else {
-        resources_get_value("KeySet2NorthWest",(resource_value_t *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet2North",(resource_value_t *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet2NorthEast",(resource_value_t *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet2East",(resource_value_t *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet2SouthEast",(resource_value_t *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet2South",(resource_value_t *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet2SouthWest",(resource_value_t *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet2West",(resource_value_t *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet2Fire",(resource_value_t *)&keyset[KEYSET_FIRE]);
+        resources_get_value("KeySet2NorthWest",
+                            (resource_value_t *)&keyset[KEYSET_NW]);
+        resources_get_value("KeySet2North",
+                            (resource_value_t *)&keyset[KEYSET_N]);
+        resources_get_value("KeySet2NorthEast",
+                            (resource_value_t *)&keyset[KEYSET_NE]);
+        resources_get_value("KeySet2East",
+                            (resource_value_t *)&keyset[KEYSET_E]);
+        resources_get_value("KeySet2SouthEast",
+                            (resource_value_t *)&keyset[KEYSET_SE]);
+        resources_get_value("KeySet2South",
+                            (resource_value_t *)&keyset[KEYSET_S]);
+        resources_get_value("KeySet2SouthWest",
+                            (resource_value_t *)&keyset[KEYSET_SW]);
+        resources_get_value("KeySet2West",
+                            (resource_value_t *)&keyset[KEYSET_W]);
+        resources_get_value("KeySet2Fire",
+                            (resource_value_t *)&keyset[KEYSET_FIRE]);
         SetWindowText(hwnd,"Configure Keyset B");
     }
-    SetDlgItemText(hwnd,IDC_KEY_NW,kbd_code_to_string((kbd_code_t)keyset[KEYSET_NW]));
-    SetDlgItemText(hwnd,IDC_KEY_N,kbd_code_to_string((kbd_code_t)keyset[KEYSET_N]));
-    SetDlgItemText(hwnd,IDC_KEY_NE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_NE]));
-    SetDlgItemText(hwnd,IDC_KEY_E,kbd_code_to_string((kbd_code_t)keyset[KEYSET_E]));
-    SetDlgItemText(hwnd,IDC_KEY_SE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_SE]));
-    SetDlgItemText(hwnd,IDC_KEY_S,kbd_code_to_string((kbd_code_t)keyset[KEYSET_S]));
-    SetDlgItemText(hwnd,IDC_KEY_SW,kbd_code_to_string((kbd_code_t)keyset[KEYSET_SW]));
-    SetDlgItemText(hwnd,IDC_KEY_W,kbd_code_to_string((kbd_code_t)keyset[KEYSET_W]));
-    SetDlgItemText(hwnd,IDC_KEY_FIRE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_FIRE]));
+    SetDlgItemText(hwnd, IDC_KEY_NW,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_NW]));
+    SetDlgItemText(hwnd, IDC_KEY_N,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_N]));
+    SetDlgItemText(hwnd, IDC_KEY_NE,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_NE]));
+    SetDlgItemText(hwnd, IDC_KEY_E,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_E]));
+    SetDlgItemText(hwnd, IDC_KEY_SE,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_SE]));
+    SetDlgItemText(hwnd, IDC_KEY_S,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_S]));
+    SetDlgItemText(hwnd, IDC_KEY_SW,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_SW]));
+    SetDlgItemText(hwnd, IDC_KEY_W,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_W]));
+    SetDlgItemText(hwnd, IDC_KEY_FIRE,
+                   kbd_code_to_string((kbd_code_t)keyset[KEYSET_FIRE]));
 }
 
 static void set_keyset(void)
 {
-    if (current_keyset_index==0) {
-        resources_set_value("KeySet1NorthWest",(resource_value_t)keyset[KEYSET_NW]);
-        resources_set_value("KeySet1North",(resource_value_t)keyset[KEYSET_N]);
-        resources_set_value("KeySet1NorthEast",(resource_value_t)keyset[KEYSET_NE]);
-        resources_set_value("KeySet1East",(resource_value_t)keyset[KEYSET_E]);
-        resources_set_value("KeySet1SouthEast",(resource_value_t)keyset[KEYSET_SE]);
-        resources_set_value("KeySet1South",(resource_value_t)keyset[KEYSET_S]);
-        resources_set_value("KeySet1SouthWest",(resource_value_t)keyset[KEYSET_SW]);
-        resources_set_value("KeySet1West",(resource_value_t)keyset[KEYSET_W]);
-        resources_set_value("KeySet1Fire",(resource_value_t)keyset[KEYSET_FIRE]);
+    if (current_keyset_indexi == 0) {
+        resources_set_value("KeySet1NorthWest",
+                            (resource_value_t)keyset[KEYSET_NW]);
+        resources_set_value("KeySet1North",
+                            (resource_value_t)keyset[KEYSET_N]);
+        resources_set_value("KeySet1NorthEast",
+                            (resource_value_t)keyset[KEYSET_NE]);
+        resources_set_value("KeySet1East",
+                            (resource_value_t)keyset[KEYSET_E]);
+        resources_set_value("KeySet1SouthEast",
+                            (resource_value_t)keyset[KEYSET_SE]);
+        resources_set_value("KeySet1South",
+                            (resource_value_t)keyset[KEYSET_S]);
+        resources_set_value("KeySet1SouthWest",
+                            (resource_value_t)keyset[KEYSET_SW]);
+        resources_set_value("KeySet1West",
+                            (resource_value_t)keyset[KEYSET_W]);
+        resources_set_value("KeySet1Fire",
+                            (resource_value_t)keyset[KEYSET_FIRE]);
     } else {
-        resources_set_value("KeySet2NorthWest",(resource_value_t)keyset[KEYSET_NW]);
-        resources_set_value("KeySet2North",(resource_value_t)keyset[KEYSET_N]);
-        resources_set_value("KeySet2NorthEast",(resource_value_t)keyset[KEYSET_NE]);
-        resources_set_value("KeySet2East",(resource_value_t)keyset[KEYSET_E]);
-        resources_set_value("KeySet2SouthEast",(resource_value_t)keyset[KEYSET_SE]);
-        resources_set_value("KeySet2South",(resource_value_t)keyset[KEYSET_S]);
-        resources_set_value("KeySet2SouthWest",(resource_value_t)keyset[KEYSET_SW]);
-        resources_set_value("KeySet2West",(resource_value_t)keyset[KEYSET_W]);
-        resources_set_value("KeySet2Fire",(resource_value_t)keyset[KEYSET_FIRE]);
+        resources_set_value("KeySet2NorthWest",
+                            (resource_value_t)keyset[KEYSET_NW]);
+        resources_set_value("KeySet2North",
+                            (resource_value_t)keyset[KEYSET_N]);
+        resources_set_value("KeySet2NorthEast",
+                            (resource_value_t)keyset[KEYSET_NE]);
+        resources_set_value("KeySet2East",
+                            (resource_value_t)keyset[KEYSET_E]);
+        resources_set_value("KeySet2SouthEast",
+                            (resource_value_t)keyset[KEYSET_SE]);
+        resources_set_value("KeySet2South",
+                            (resource_value_t)keyset[KEYSET_S]);
+        resources_set_value("KeySet2SouthWest",
+                            (resource_value_t)keyset[KEYSET_SW]);
+        resources_set_value("KeySet2West",
+                            (resource_value_t)keyset[KEYSET_W]);
+        resources_set_value("KeySet2Fire",
+                            (resource_value_t)keyset[KEYSET_FIRE]);
     }
 }
 
-static BOOL CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK keyset_dialog(HWND hwnd, UINT msg, WPARAM wparam,
+                                   LPARAM lparam)
 {
-int     command;
+    int command;
 
     switch (msg) {
-        case WM_INITDIALOG:
-            init_keyset_dialog(hwnd);
+      case WM_INITDIALOG:
+        init_keyset_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        switch (command) {
+          case IDC_KEYSET_NW:
+            current_key_index = KEYSET_NW;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_NW,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_NW]));
             return TRUE;
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDC_KEYSET_NW:
-                    current_key_index=KEYSET_NW;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_NW,kbd_code_to_string((kbd_code_t)keyset[KEYSET_NW]));
-                    return TRUE;
-                case IDC_KEYSET_N:
-                    current_key_index=KEYSET_N;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_N,kbd_code_to_string((kbd_code_t)keyset[KEYSET_N]));
-                    return TRUE;
-                case IDC_KEYSET_NE:
-                    current_key_index=KEYSET_NE;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_NE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_NE]));
-                    return TRUE;
-                case IDC_KEYSET_E:
-                    current_key_index=KEYSET_E;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_E,kbd_code_to_string((kbd_code_t)keyset[KEYSET_E]));
-                    return TRUE;
-                case IDC_KEYSET_SE:
-                    current_key_index=KEYSET_SE;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_SE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_SE]));
-                    return TRUE;
-                case IDC_KEYSET_S:
-                    current_key_index=KEYSET_S;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_S,kbd_code_to_string((kbd_code_t)keyset[KEYSET_S]));
-                    return TRUE;
-                case IDC_KEYSET_SW:
-                    current_key_index=KEYSET_SW;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_SW,kbd_code_to_string((kbd_code_t)keyset[KEYSET_SW]));
-                    return TRUE;
-                case IDC_KEYSET_W:
-                    current_key_index=KEYSET_W;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_W,kbd_code_to_string((kbd_code_t)keyset[KEYSET_W]));
-                    return TRUE;
-                case IDC_KEYSET_FIRE:
-                    current_key_index=KEYSET_FIRE;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEY_DIALOG,hwnd,key_dialog);
-                    SetDlgItemText(hwnd,IDC_KEY_FIRE,kbd_code_to_string((kbd_code_t)keyset[KEYSET_FIRE]));
-                    return TRUE;
-                case IDOK:
-                    set_keyset();
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
-            break;
+          case IDC_KEYSET_N:
+            current_key_index = KEYSET_N;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_N,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_N]));
+            return TRUE;
+          case IDC_KEYSET_NE:
+            current_key_index = KEYSET_NE;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_NE,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_NE]));
+            return TRUE;
+          case IDC_KEYSET_E:
+            current_key_index = KEYSET_E;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_E,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_E]));
+            return TRUE;
+          case IDC_KEYSET_SE:
+            current_key_index = KEYSET_SE;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_SE,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_SE]));
+            return TRUE;
+          case IDC_KEYSET_S:
+            current_key_index = KEYSET_S;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_S,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_S]));
+            return TRUE;
+          case IDC_KEYSET_SW:
+            current_key_index = KEYSET_SW;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_SW,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_SW]));
+            return TRUE;
+          case IDC_KEYSET_W:
+            current_key_index = KEYSET_W;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_W,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_W]));
+            return TRUE;
+          case IDC_KEYSET_FIRE:
+            current_key_index = KEYSET_FIRE;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEY_DIALOG, hwnd,
+                      key_dialog);
+            SetDlgItemText(hwnd, IDC_KEY_FIRE,
+                           kbd_code_to_string((kbd_code_t)keyset[KEYSET_FIRE]));
+            return TRUE;
+          case IDOK:
+            set_keyset();
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            return TRUE;
+        }
+        break;
     }
     return FALSE;
 }
 
 static void init_joystick_dialog(HWND hwnd)
 {
-HWND    joy_hwnd;
-int     res_value;
-int     device;
+    HWND joy_hwnd;
+    int res_value;
+    int device;
 
-    joy_hwnd=GetDlgItem(hwnd,IDC_JOY_DEV1);
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"None");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Numpad + RCtrl");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Keyset A");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Keyset B");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #1");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #2");
-    resources_get_value("JoyDevice1",(resource_value_t *)&res_value);
-    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
-    device=res_value;
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"None");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Numpad + RCtrl");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset A");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
+    resources_get_value("JoyDevice1", (resource_value_t *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
+    device = res_value;
 
-    resources_get_value("JoyAutofire1Speed",(resource_value_t*)&res_value);
-    SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,res_value,FALSE);
+    resources_get_value("JoyAutofire1Speed", (resource_value_t*)&res_value);
+    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
-    resources_get_value("JoyAutofire1Axis",(resource_value_t*)&res_value);
-    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
-    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),((device==JOYDEV_HW1)||(device==JOYDEV_HW2))&&(res_value==0));
-    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),(device==JOYDEV_HW1)||(device==JOYDEV_HW2));
+    resources_get_value("JoyAutofire1Axis", (resource_value_t*)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                            ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
+                            && (res_value == 0));
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                            (device == JOYDEV_HW1) || (device == JOYDEV_HW2));
 
-    joy_hwnd=GetDlgItem(hwnd,IDC_JOY_DEV2);
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"None");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Numpad + RCtrl");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Keyset A");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"Keyset B");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #1");
-    SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #2");
-    resources_get_value("JoyDevice2",(resource_value_t *)&res_value);
-    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
-    device=res_value;
+    joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"None");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Numpad + RCtrl");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset A");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
+    resources_get_value("JoyDevice2", (resource_value_t *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
+    device = res_value;
 
-    resources_get_value("JoyAutofire2Speed",(resource_value_t*)&res_value);
-    SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,res_value,FALSE);
+    resources_get_value("JoyAutofire2Speed", (resource_value_t*)&res_value);
+    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
-    resources_get_value("JoyAutofire2Axis",(resource_value_t*)&res_value);
-    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
-    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),((device==JOYDEV_HW1)||(device==JOYDEV_HW2))&&(res_value==0));
-    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),(device==JOYDEV_HW1)||(device==JOYDEV_HW2));
+    resources_get_value("JoyAutofire2Axis", (resource_value_t*)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                            ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
+                            && (res_value == 0));
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                            (device == JOYDEV_HW1) || (device == JOYDEV_HW2));
 
-    EnableWindow(GetDlgItem(hwnd,IDC_JOY_CALIBRATE),joystick_inited);
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_inited);
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                 LPARAM lparam)
 {
-int     command;
-int     res_value;
-int     axis;
+    int command;
+    int res_value;
+    int axis;
 
     switch (msg) {
-        case WM_INITDIALOG:
-            init_joystick_dialog(hwnd);
+      case WM_INITDIALOG:
+        init_joystick_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        command = LOWORD(wparam);
+        switch (command) {
+          case IDC_JOY_CALIBRATE:
+            joystick_calibrate(hwnd);
             return TRUE;
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDC_JOY_CALIBRATE:
-                    joystick_calibrate(hwnd);
-                    return TRUE;
-                case IDC_JOY_CONFIG_A:
-                    current_keyset_index=0;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,hwnd,keyset_dialog);
-                    return TRUE;
-                case IDC_JOY_CONFIG_B:
-                    current_keyset_index=1;
-                    DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,hwnd,keyset_dialog);
-                    return TRUE;
-                case IDC_JOY_DEV1:
-                    if(HIWORD(wparam)==CBN_SELCHANGE) {
-                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_DEV1,CB_GETCURSEL,0,0);
-                        axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),((res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2))&&(axis==0));
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),(res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2));
-                    }
-                    return TRUE;
-                case IDC_JOY_DEV2:
-                    if(HIWORD(wparam)==CBN_SELCHANGE) {
-                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_DEV2,CB_GETCURSEL,0,0);
-                        axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE2_AXIS,CB_GETCURSEL,0,0);
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),((res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2))&&(axis==0));
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),(res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2));
-                    }
-                    return TRUE;
-                case IDC_JOY_FIRE1_AXIS:
-                    if(HIWORD(wparam)==CBN_SELCHANGE) {
-                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),(res_value==0));
-                    }
-                    return TRUE;
-                case IDC_JOY_FIRE1_SPEED:
-                    if(HIWORD(wparam)==EN_KILLFOCUS) {
-                        res_value = GetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,NULL,FALSE);
-                        if(res_value > 32) SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,32,FALSE);
-                        if(res_value < 1) SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,1,FALSE);
-                    }
-                    return TRUE;
-                case IDC_JOY_FIRE2_AXIS:
-                    if(HIWORD(wparam)==CBN_SELCHANGE) {
-                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_FIRE2_AXIS,CB_GETCURSEL,0,0);
-                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),(res_value==0));
-                    }
-                    return TRUE;
-                case IDC_JOY_FIRE2_SPEED:
-                    if(HIWORD(wparam)==EN_KILLFOCUS) {
-                        res_value = GetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,NULL,FALSE);
-                        if(res_value > 32) SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,32,FALSE);
-                        if(res_value < 1) SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,1,FALSE);
-                    }
-                    return TRUE;
-                case IDOK:
-                    resources_set_value("JoyDevice1",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV1),CB_GETCURSEL,0,0));
-                    resources_set_value("JoyDevice2",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV2),CB_GETCURSEL,0,0));
-                    resources_set_value("JoyAutofire1Speed",(resource_value_t)GetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,NULL,FALSE));
-                    resources_set_value("JoyAutofire1Axis",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),CB_GETCURSEL,0,0));
-                    resources_set_value("JoyAutofire2Speed",(resource_value_t)GetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,NULL,FALSE));
-                    resources_set_value("JoyAutofire2Axis",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),CB_GETCURSEL,0,0));
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
+          case IDC_JOY_CONFIG_A:
+            current_keyset_index = 0;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,
+                      hwnd, keyset_dialog);
+            return TRUE;
+          case IDC_JOY_CONFIG_B:
+            current_keyset_index = 1;
+            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,
+                      hwnd, keyset_dialog);
+            return TRUE;
+          case IDC_JOY_DEV1:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
+                                               CB_GETCURSEL, 0, 0);
+                axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                             ((res_value == JOYDEV_HW1)
+                             || (res_value == JOYDEV_HW2)) && (axis == 0));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                             (res_value == JOYDEV_HW1)
+                             || (res_value == JOYDEV_HW2));
             }
-            break;
+            return TRUE;
+          case IDC_JOY_DEV2:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
+                                               CB_GETCURSEL, 0, 0);
+                axis = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
+                                          CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                             ((res_value == JOYDEV_HW1)
+                             || (res_value == JOYDEV_HW2)) && (axis == 0));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                             (res_value == JOYDEV_HW1)
+                             || (res_value == JOYDEV_HW2));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE1_AXIS:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS,
+                                               CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
+                             (res_value == 0));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE1_SPEED:
+            if (HIWORD(wparam) == EN_KILLFOCUS) {
+                res_value = GetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED,NULL,
+                                          FALSE);
+                if (res_value > 32)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, 32, FALSE);
+                if (res_value < 1)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, 1, FALSE);
+            }
+            return TRUE;
+          case IDC_JOY_FIRE2_AXIS:
+            if (HIWORD(wparam) == CBN_SELCHANGE) {
+                res_value = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
+                                               CB_GETCURSEL, 0, 0);
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
+                             (res_value == 0));
+            }
+            return TRUE;
+          case IDC_JOY_FIRE2_SPEED:
+            if (HIWORD(wparam) == EN_KILLFOCUS) {
+                res_value = GetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, NULL,
+                                          FALSE);
+                if (res_value > 32)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, 32, FALSE);
+                if (res_value < 1)
+                    SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, 1, FALSE);
+            }
+            return TRUE;
+          case IDOK:
+            resources_set_value("JoyDevice1",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
+            resources_set_value("JoyDevice2",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
+            resources_set_value("JoyAutofire1Speed",
+                                (resource_value_t)GetDlgItemInt(hwnd,
+                                IDC_JOY_FIRE1_SPEED, NULL, FALSE));
+            resources_set_value("JoyAutofire1Axis",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_FIRE1_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_value("JoyAutofire2Speed",
+                                (resource_value_t)GetDlgItemInt(hwnd,
+                                IDC_JOY_FIRE2_SPEED, NULL, FALSE));
+            resources_set_value("JoyAutofire2Axis",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            return TRUE;
+        }
+        break;
     }
     return FALSE;
 }
 
 void ui_joystick_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_JOY_SETTINGS_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_JOY_SETTINGS_DIALOG,
+              hwnd,dialog_proc);
 }
 
 void ui_joystick_swap_joystick(void)
 {
-int device1;
-int device2;
+    int device1;
+    int device2;
 
     resources_get_value("JoyDevice1",(resource_value_t *)&device1);
     resources_get_value("JoyDevice2",(resource_value_t *)&device2);
@@ -417,3 +526,4 @@ int device2;
     resources_set_value("KeySet1Fire",(resource_value_t)device2);
     resources_set_value("KeySet2Fire",(resource_value_t)device1);
 }
+

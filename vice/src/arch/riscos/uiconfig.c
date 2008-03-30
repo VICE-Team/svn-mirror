@@ -29,7 +29,7 @@
 #include "wimp.h"
 
 #include "cartridge.h"
-#include "joystick.h"
+#include "joy.h"
 #include "machine.h"
 #include "sound.h"
 #include "uiconfig.h"

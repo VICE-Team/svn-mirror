@@ -37,7 +37,7 @@
 #include "ui.h"
 #include "kbd.h"
 #include "kbdbuf.h"
-#include "joystick.h"
+#include "joy.h"
 #include "maincpu.h"
 
 
