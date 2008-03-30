@@ -1298,7 +1298,7 @@ inline static void _draw_idle(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
                 ptmp += 8;
             }
         } else {
-            memset(p, xs * 8, (xe + 1 - xs) * 8);
+            memset(p + xs * 8, 0, (xe + 1 - xs) * 8);
             memset(msk_ptr + xs, d, xe + 1 - xs);
         }
     }
