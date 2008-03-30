@@ -83,12 +83,10 @@
 #define divecaps.fccColorEncoding
 #define divecaps.ulDepth
 #else
-//#define SRC_COLORFORMAT FOURCC_LUT8
-//#define SRC_COLORDEPTH  8
-#define SRC_COLORFORMAT   FOURCC_R565
-#define SRC_COLORDEPTH    16
-//#define SRC_COLORFORMAT   FOURCC_RGB4
-//#define SRC_COLORDEPTH    32
+//#define SRC_COLORFORMAT  FOURCC_LUT8
+#define SRC_COLORFORMAT  FOURCC_R565
+//#define SRC_COLORFORMAT  FOURCC_RGB3
+//#define SRC_COLORFORMAT  FOURCC_RGB4
 #endif
 
 //
@@ -665,30 +663,81 @@ void video_close(void)
 /* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
 
-static ULONG GetRed(ULONG n)
+static ULONG GetDepth(FOURCC fcc)
 {
-    return (n>>3)<<11;
+    switch (fcc)
+    {
+    case FOURCC_LUT8: return 8;
+    case FOURCC_R565:
+    case FOURCC_R555:
+    case FOURCC_R664: return 16;
+    case FOURCC_RGB3:
+    case FOURCC_BGR3:// return 24;
+    case FOURCC_RGB4:
+    case FOURCC_BGR4: return 32;
+    }
+    return 0;
 }
 
-static ULONG GetGreen(ULONG n)
+static ULONG GetRed(FOURCC fcc, ULONG n)
 {
-    return (n>>2)<<5;
+    switch (fcc)
+    {
+    case FOURCC_R565: return (n>>3)<<11;
+    case FOURCC_R555: return (n>>3)<<10;
+    case FOURCC_R664: return (n>>2)<<10;
+    case FOURCC_RGB3:
+    case FOURCC_RGB4: return n<<16;
+    case FOURCC_BGR3:
+    case FOURCC_BGR4: return n<<16;
+    }
+    return 0;
 }
 
-static ULONG GetBlue(ULONG n)
+static ULONG GetGreen(FOURCC fcc, ULONG n)
 {
-    return n>>3;
+    switch (fcc)
+    {
+    case FOURCC_R565: return (n>>2)<<5;
+    case FOURCC_R555: return (n>>3)<<5;
+    case FOURCC_R664: return (n>>2)<<4;
+    case FOURCC_RGB3:
+    case FOURCC_RGB4: return n<<8;
+    case FOURCC_BGR3:
+    case FOURCC_BGR4: return n<<8;
+    }
+    return 0;
+}
+
+static ULONG GetBlue(FOURCC fcc, ULONG n)
+{
+    switch (fcc)
+    {
+    case FOURCC_R565:
+    case FOURCC_R555: return (n>>3);
+    case FOURCC_R664: return (n>>4);
+    case FOURCC_RGB3:
+    case FOURCC_RGB4: return n;
+    case FOURCC_BGR3:
+    case FOURCC_BGR4: return n;
+    }
+    return 0;
 }
 
 static void VideoInitRenderer(video_canvas_t *c)
 {
+    const FOURCC fcc = c->divesetup.fccSrcColorFormat;
+
     int i;
 
     video_render_initconfig(&c->videoconfig);
 
     // video_render_setrawrgb: index, r, g, b
     for (i=0; i<0x100; i++)
-        video_render_setrawrgb(i, GetRed(i), GetGreen(i), GetBlue(i));
+        video_render_setrawrgb(i,
+                               GetRed(fcc, i),
+                               GetGreen(fcc, i),
+                               GetBlue(fcc, i));
 
     video_render_initraw();
 }
@@ -701,6 +750,8 @@ MRESULT WmCreate(HWND hwnd)
 
     archdep_create_mutex_sem(&canvas_new->hmtx, "Video", FALSE);
 
+    canvas_new->video_draw_buffer_callback  = NULL;
+
     //
     // Setup divesetup, so that dive doesn't crash when trying to call
     // DiveSetupBlitter. This can happen as soon as hDiveInst != 0
@@ -711,7 +762,7 @@ MRESULT WmCreate(HWND hwnd)
     canvas_new->divesetup.ulDitherType      = 0; // 0=1x1, 1=2x2
     canvas_new->divesetup.fInvert           = 0; // Bit0=vertical, Bit1=horz
     canvas_new->divesetup.fccSrcColorFormat = SRC_COLORFORMAT;
-    canvas_new->bDepth                      = SRC_COLORDEPTH;
+    canvas_new->bDepth                      = GetDepth(SRC_COLORFORMAT);
     canvas_new->divesetup.fccDstColorFormat = FOURCC_SCRN;
     canvas_new->divesetup.pVisDstRects      = calloc(DIVE_RECTLS, sizeof(RECTL));
 
@@ -897,6 +948,8 @@ void WmVrnDisabled(HWND hwnd)
 {
     video_canvas_t *c = GetCanvas(hwnd);
 
+    ULONG rc;
+
     DEBUG("WM VRN DISABLED 0");
 
     if (!c->hDiveInst)
@@ -906,7 +959,13 @@ void WmVrnDisabled(HWND hwnd)
     // Now stop drawing into this canvas
     //
     c->vrenabled=FALSE;
-    DiveSetupBlitter(c->hDiveInst, NULL);
+
+    rc = DiveSetupBlitter(c->hDiveInst, NULL);
+    if (rc!=DIVE_SUCCESS)
+    {
+        log_error(vidlog, "WmVrnDisabled: Call to DiveSetupBlitter failed, rc = 0x%x", rc);
+        return;
+    }
 
     DEBUG("WM VRN DISABLED 1");
 }
@@ -946,6 +1005,19 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
         log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, bufh, dsy, c->height);
         h = dsy*bufh-ys;
     }
+    if (xs<0)
+    {
+        log_message(vidlog, "Debug - fbuf read x: %d < 0", xs);
+        w += xs;
+        xs = 0;
+    }
+    if (ys<0)
+    {
+        log_message(vidlog, "Debug - fbuf read y: %d < 0", ys);
+        h += ys;
+        ys = 0;
+
+    }
     if (xi+w > c->width)
     {
         log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
@@ -955,6 +1027,18 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
     {
         log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
         h = c->height-yi;
+    }
+    if (xi<0)
+    {
+        log_message(vidlog, "Debug - scr write x: %d < 0", xi);
+        w += xi;
+        xi = 0;
+    }
+    if (yi<0)
+    {
+        log_message(vidlog, "Debug - scr write y: %d < 0", yi);
+        h += yi;
+        yi = 0;
     }
 
 #ifndef DIRECT_ACCESS
@@ -987,7 +1071,12 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
     //
     // FIXME: maybe this should only be done when
     //        video cache is enabled
-    DiveSetupBlitter(c->hDiveInst, &c->divesetup);
+    rc = DiveSetupBlitter(c->hDiveInst, &c->divesetup);
+    if (rc!=DIVE_SUCCESS)
+    {
+        log_error(vidlog, "VideoCanvasBlit: Call to DiveSetupBlitter failed, rc = 0x%x", rc);
+        return;
+    }
 
     //
     // Dependant on the underlaying hardware here we get
@@ -1643,7 +1732,6 @@ video_canvas_t *video_canvas_create(const char *title,
     canvini.stretch =  stretch;
     canvini.expose  = (canvas_redraw_t)exposure_handler;
     canvini.canvas  =  NULL;
-    canvini.video_draw_buffer_callback = NULL;
 
     _beginthread(CanvasMainLoop, NULL, 0x4000, &canvini);
 

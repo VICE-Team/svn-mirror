@@ -7331,7 +7331,7 @@ engine.
 RISC OS port.
 
 @item
-@b{Thomas Bretz} (@email{tbretz@@ph.tum.de responsible}) for the OS/2 port.
+@b{Thomas Bretz} (@email{tbretz@@ph.tum.de}) responsible for the OS/2 port.
 
 @item
 @b{Andreas Matthies} (@email{andreas.matthies@@gmx.net}) improved the

@@ -48,7 +48,7 @@ involved in the development of X64 and VICE:
    * Andreas Dehmel (<dehmel@forwiss.tu-muenchen.de>) wrote the Acorn
      RISC OS port.
 
-   * Thomas Bretz (<tbretz@ph.tum.de responsible>) for the OS/2 port.
+   * Thomas Bretz (<tbretz@ph.tum.de>) responsible for the OS/2 port.
 
    * Andreas Matthies (<andreas.matthies@gmx.net>) improved the
      datasette support, the VIC20 video emulation and some ui stuff in

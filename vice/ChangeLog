@@ -1,3 +1,12 @@
+2002-02-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.10.
+
+2002-02-01  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* doc/vice.texi:
+	- fexid a typo in my eMail address
+
 2002-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.9.

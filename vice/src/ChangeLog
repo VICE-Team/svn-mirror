@@ -1,3 +1,34 @@
+2002-02-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.10.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler, vdc_set_geometry):
+	Use video API to scale for double heigth mode.
+
+	* vdc/vdc-draw.c: Removed odd/even line support.
+
+	* video/video-render.c: Removed unused variables.
+
+2002-02-01  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* src/arch/os2/config.h:
+	- fixed a bug in defining HAVE_MOUSE
+    
+	* src/arch/os2/video.c:
+	- added an automatic depth detection
+	- added some more color formats
+	- added some debug output in case of a failing of
+	DiveSetupBlitter or DiveBlit
+	- added some more security checks in canvas_refresh
+    
+	* src/raster/raster.c:
+	- simplified many parts of the code exspecially
+	raster_emulate_line, and raster_resize_viewport (I'm sorry,
+	this part cannot be tested by me, please check whether
+	everything works fine)
+	- removed the 1x1 draw_buffer allocation. For what is a
+	workaround necessary if you could do it more straight forward?
+      
 2002-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.9.
