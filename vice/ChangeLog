@@ -1,3 +1,9 @@
+2001-08-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.1.
+
+	* configure.in: Define `UNSTABLE'.
+
 2001-07-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.
@@ -36,8 +42,8 @@
 
 2001-06-24  pottendo  <pottendo@utanet.at>
 
-	* configure.in (intl): Fixed NLS_LOCALEDIR path to be specific to
-	DATADIRNAME.
+	* configure.in (intl): Fixed NLS_LOCALEDIR path to be specific
+	to DATADIRNAME.
 
 2001-06-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -269,8 +275,8 @@
 
 2001-01-20  Andre Fachat  <a.fachat@gmx.net>
 
-	* doc/vice.texi: updated CRTC, CBM2MEM, CBM2ROM snapshot module 
-	config
+	* doc/vice.texi: updated CRTC, CBM2MEM, CBM2ROM snapshot
+	module config
 
 2001-01-20  Andre Fachat  <a.fachat@gmx.net>
 
@@ -304,12 +310,13 @@
 
 2001-01-02  pottendo  <pottendo@utanet.at>
 
-	* configure.in (intl): Set CATOBJEXT to default `.gmo' when msgfmt
-	is not available. 
+	* configure.in (intl): Set CATOBJEXT to default `.gmo' when
+	msgfmt is not available.
 
 2000-12-29  Oliver Schaertel  <schaertel@atrada.net>
 
-	* configure.in: Renamed USE_VIDMODE_EXTENSION to USE_XF86_EXTENSIONS.
+	* configure.in: Renamed USE_VIDMODE_EXTENSION to
+	USE_XF86_EXTENSIONS.
 
 2000-12-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -632,8 +639,8 @@
 2000-06-12  pottendo  <pottendo@utanet.at>
 
 	configure.in: added Option `--diable-nls'.
-	Replaced standard gettext autoconf checks with an excerpt of GNU
-	gettext's gettext.m4.
+	Replaced standard gettext autoconf checks with an excerpt of
+	GNU gettext's gettext.m4.
 
 	* Makefile.am: (SUBDIRS): Removed `intl'.
 	intl/*: Removed.
@@ -743,11 +750,11 @@
 	* intl/*: New files. Introduced with `gettextize'. Modified
 	`Makefile.in' to find `config.h'.
 
-	* configure.in:	Added (ALL_LINGUAS). Output `intl/Makefile', and
-	`po/Makefile.in'.
+	* configure.in:	Added (ALL_LINGUAS). Output `intl/Makefile',
+	and `po/Makefile.in'.
 
-	* aclocal.m4: Added a few gettext related AC_* macros. (As written
-	in the gettext info page).
+	* aclocal.m4: Added a few gettext related AC_* macros. (As
+	written in the gettext info page).
 
 	* acconfig.h: Added gettext macros.
 
@@ -775,8 +782,8 @@
 
 2000-04-10  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
 
-	* configure.in: Add flags `-Wno-implicit-int' in case we find gcc,
-	solaris and /usr/openwin/include. This avoids zillions of
+	* configure.in: Add flags `-Wno-implicit-int' in case we find
+	gcc, solaris and /usr/openwin/include. This avoids zillions of
 	unnecessary warnings in X11 headers.
 
 2000-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
@@ -853,8 +860,8 @@
 
 	* data/DRIVES/Makefile.am: added dos2040, dos3040, dos4040
 
-	* data/DRIVES/dos2040, data/DRIVES/dos3040, data/DRIVES/dos4040:
-	new files
+	* data/DRIVES/dos2040, data/DRIVES/dos3040,
+	data/DRIVES/dos4040: new files
 
 	* doc/vice.texi: Added description of 3040 and 4040 disk drives
 	Added the ROM numbers of the ROM images used to produce the PET
@@ -1136,8 +1143,9 @@
 
 	* acconfig.h: Added DWORD_IS_LONG.
 
-	* configure.in: Check if DWORD is defined as unsigned long or unsigned
-	int in <windows.h>, and define DWORD_IS_LONG as needed.
+	* configure.in: Check if DWORD is defined as unsigned long or
+	unsigned int in <windows.h>, and define DWORD_IS_LONG as
+	needed.
 
 1999-09-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1219,7 +1227,8 @@
 
 1999-08-23  Tibor Biczo  <crown@mail.matav.hu>
 
-	* data/c128/vdc_deft.vpl: Compacted line containing only one space.
+	* data/c128/vdc_deft.vpl: Compacted line containing only one
+	space.
 
 1999-08-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1294,7 +1303,8 @@
 
 	* Version 1.0.48.
 
-	* doc/Readme.dos, BUGS, INSTALL, NEWS, README, vice.spec: Updated.
+	* doc/Readme.dos, BUGS, INSTALL, NEWS, README, vice.spec:
+	Updated.
 
 1999-07-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1449,9 +1459,9 @@
 
 1999-05-17  Tibor Biczo  <crown@mail.matav.hu>
 
-	* configure.in: Import WINDRES environment variable. This variable
-	  must be set to point to the mingw32 binary of windres, when
-	  compiling the Win32 target.
+	* configure.in: Import WINDRES environment variable. Thisi
+	variable must be set to point to the mingw32 binary of
+	windres, when compiling the Win32 target.
 
 1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1544,9 +1554,9 @@
 
 	* Version 1.0.1.
 
-	* configure.in: Define `AC_DEFINE(UNSTABLE)'. Moved the definition
-	of `PREFIX' from the command line to `config.h'. Changed `CFLAGS'
-	to emit more warnings.
+	* configure.in: Define `AC_DEFINE(UNSTABLE)'. Moved the
+	definition of `PREFIX' from the command line to `config.h'.
+	Changed `CFLAGS' to emit more warnings.
 
 	* acconfig.h: Added `PREFIX'.
 
@@ -1872,8 +1882,8 @@
 
 	* Version 0.16.1.3.
 
-	* configure.in: Accumulate libraries for the linking stage in the
-	separate variable `LINK_X_LIBS'.
+	* configure.in: Accumulate libraries for the linking stage in
+	the separate variable `LINK_X_LIBS'.
 
 1999-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1920,12 +1930,13 @@
 	* configure.in: Commented out `AC_DEFINE(UNSTABLE)'.
 	Use `$host_os' to check for HP-UX.
 
-	* BUGS, INSTALL, README, vice.spec, dos/Readme.dos, NEWS: Updated.
+	* BUGS, INSTALL, README, vice.spec, dos/Readme.dos, NEWS:
+	Updated.
 
 1999-01-11  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
 
-	* doc/vice.texi (snapshots): add x128 modules list, C64 and C128
-	memory modules description, fixed some minor quirks.
+	* doc/vice.texi (snapshots): add x128 modules list, C64 and
+	C128 memory modules description, fixed some minor quirks.
 
 1999-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -1956,8 +1967,9 @@
 	* configure.in: Commented out `AC_DEFINE(UNSTABLE)'.
 
 	* BUGS, FEEDBACK, INSTALL, NEWS, README, TODO, doc/vice.texi,
-	man/c1541.1, man/vice.1, vice.spec: Some tweaks to update version
-	number, dates, copyright, VICE home page URL and some features.
+	man/c1541.1, man/vice.1, vice.spec: Some tweaks to update
+	version number, dates, copyright, VICE home page URL and some
+	features.
 
 1998-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -2020,9 +2032,9 @@
 1998-11-18  Tibor Biczo <crown@mail.matav.hu>
 
 	* configure.in: Added x64_LDFLAGS, x128_LDFLAGS, xvic_LDFLAGS,
-	xpet_LDFLAGS, xcbm2_LDFLAGS, X64_WINRES, X128_WINRES, XVIC_WINRES,
-	XPET_WINRES, XCBM2_WINRES variables. Removed /src/arch/win32/resc64.o
-	from LIBS.
+	xpet_LDFLAGS, xcbm2_LDFLAGS, X64_WINRES, X128_WINRES,
+	XVIC_WINRES, XPET_WINRES, XCBM2_WINRES variables.
+	Removed /src/arch/win32/resc64.o from LIBS.
 
 1998-11-17  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2075,11 +2087,11 @@
 
 	* data/C128/Makefile.am (c128_DATA): Added `position.vkm'.
 
-	* data/C128/pc64.vpl, data/C128/c64s.vpl: New files, contributed
- 	by Andrea Musuruane <musuruan@biella.alpcom.it>.
+	* data/C128/pc64.vpl, data/C128/c64s.vpl: New files,
+	contributed by Andrea Musuruane <musuruan@biella.alpcom.it>.
 	
-	* data/C64/pc64.vpl, data/C64/c64s.vpl: New files, contributed by
-	Andrea Musuruane <musuruan@biella.alpcom.it>.
+	* data/C64/pc64.vpl, data/C64/c64s.vpl: New files, contributed
+	by Andrea Musuruane <musuruan@biella.alpcom.it>.
 
 1998-10-06  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2095,9 +2107,9 @@
 
 1998-10-04  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: Define `@LINKCC@' to `$(CXX)' if configuring with
- 	reSID support and the C++ compiler is found; define it to `$(CC)'
- 	otherwise.
+	* configure.in: Define `@LINKCC@' to `$(CXX)' if configuring
+	with reSID support and the C++ compiler is found; define it to
+	`$(CC)' otherwise.
 
 1998-10-02  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2107,13 +2119,13 @@
 
 	* Version 0.15.0.16.
 
-	* configure.in: Set `RESID_INCLUDES' properly when compiling the
- 	bundled reSID.
+	* configure.in: Set `RESID_INCLUDES' properly when compiling
+	the bundled reSID.
 
 1998-09-30  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: Check for `dmedia/audio.h' with `AC_CHECK_HEADERS'
-	instead of using `AC_CHECK_HEADER'.
+	* configure.in: Check for `dmedia/audio.h' with
+	`AC_CHECK_HEADERS' instead of using `AC_CHECK_HEADER'.
 
 1998-09-29  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2175,9 +2187,9 @@
 
 1998-09-10  Dag Lem  <resid@nimrod.no>
 
-	* configure.in: Disable configuration of reSID if --without-resid
- 	is specified.  Output help for --without-resid instead of
- 	--with-resid=PATH.
+	* configure.in: Disable configuration of reSID if
+	--without-resid is specified.  Output help for --without-resid
+	instead of --with-resid=PATH.
 
 1998-09-08  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2202,9 +2214,10 @@
 
 	* configure.in: Added support for Win32 compiling, new variable
  	is_win32.  Set is_dos to no at startup, was causing dos related
- 	options to appear in generated makefiles.  Added new conditional
- 	variable WIN32_COMPILE.  Fixed setting UNIX_COMPILE DOS_COMPILE,
- 	they were interpreted true if not set.
+ 	options to appear in generated makefiles.  Added new
+	conditional variable WIN32_COMPILE.  Fixed setting
+	UNIX_COMPILE DOS_COMPILE, they were interpreted true if not
+	set.
 
 1998-09-06  Dag Lem  <resid@nimrod.no>
 
@@ -2236,15 +2249,15 @@ Sun Aug 30 14:34:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.75.
 
-	* configure.in: Fixed `=' -> `!=' typo in check for `--with-resid'
-	option.
+	* configure.in: Fixed `=' -> `!=' typo in check for
+	`--with-resid' option.
 
 Fri Aug 28 21:06:44 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.74.
 
-	* configure.in: Don't support reSID as default.  Check for the C++
-	compiler only if reSID support is requested.
+	* configure.in: Don't support reSID as default.  Check for the
+	C++ compiler only if reSID support is requested.
 
 Sat Aug 29 17:06:23 1998  Dag Lem  <resid@nimrod.no>
 
@@ -2266,8 +2279,8 @@ Tue Aug 25 15:16:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.70.
 
-	* configure.in: Put `-DNO_REGPARM' in `CFLAGS' when compiling with
-	GCC.
+	* configure.in: Put `-DNO_REGPARM' in `CFLAGS' when compiling
+	with GCC.
 
 Mon Aug 24 18:17:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2291,14 +2304,16 @@ Sat Aug 22 21:20:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Fri Aug 21 23:53:02 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
-	* configure.in: reSID library name changed to libresid.a (resid-0.3).
+	* configure.in: reSID library name changed to libresid.a
+	(resid-0.3).
 
 Fri Aug 21 22:48:14 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.62.
 
 	* configure.in: Pass joystick options in `JOYSTICK' again.  Do
- 	`AC_PATH_XTRA' before checking for `-lsocket', `-lICE' and `-lSM'.
+ 	`AC_PATH_XTRA' before checking for `-lsocket', `-lICE' and
+	`-lSM'.
 
 Fri Aug 21 14:42:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2307,8 +2322,8 @@ Fri Aug 21 14:42:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* data/PET/busi_uk.vkm: RPT moved to `Control_R'.  RVS moved to
 	`Page_Down'.
 
-	* data/C64/position.vkm, data/C64/default.vkm: CTRL key moved to
- 	`Tab'; Commodore key moved to `Control_L'.
+	* data/C64/position.vkm, data/C64/default.vkm: CTRL key moved
+	to `Tab'; Commodore key moved to `Control_L'.
 	* data/C128/position.vkm, data/C128/default.vkm: Likewise.
 	* data/VIC20/position.vkm, data/VIC20/default.vkm: Likewise.
 
@@ -2391,8 +2406,8 @@ Tue Jul 14 15:39:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Sun Jul 12 19:47:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: Ooops...  Set the `HAVE_PRINTER' conditional false
- 	on MS-DOS, as I meant to do.  :-)
+	* configure.in: Ooops...  Set the `HAVE_PRINTER' conditional
+	false on MS-DOS, as I meant to do.  :-)
 
 Sat Jul 11 20:43:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -2400,8 +2415,8 @@ Sat Jul 11 20:43:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Fri Jul 10 09:31:14 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: Fixed recursive assignment to `@ARCH_LIBS@' when
- 	compiling for MS-DOS.  New conditionals `HAVE_RS232' and
+	* configure.in: Fixed recursive assignment to `@ARCH_LIBS@'
+	when compiling for MS-DOS.  New conditionals `HAVE_RS232' and
  	`HAVE_PRINTER'; both are true on Unix, false on MS-DOS.
 
 	* Version 0.14.2.48.
@@ -2433,10 +2448,10 @@ Tue Jun 23 00:05:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Mon Jun 22 22:15:39 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: New option `--with-resid=PATH' which compiles VICE
- 	with support of the reSID module, which must be available at
- 	`PATH'.  New SUBSTed variables `RESID_LIBS' and `RESID_INCLUDES'.
-  	New automake conditional `HAVE_RESID'.
+	* configure.in: New option `--with-resid=PATH' which compiles
+	VICE with support of the reSID module, which must be available
+	at `PATH'.  New SUBSTed variables `RESID_LIBS' and
+	`RESID_INCLUDES'. New automake conditional `HAVE_RESID'.
 
 	* acconfig.h: New #define `HAVE_RESID'.
 
@@ -2459,13 +2474,14 @@ Wed Jun 17 00:29:23 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* data/C64/position.vkm: New file: positional mapping for US
  	keyboards.
 
-	* data/C64/default.vkm: Removed double definition of `asciitilde'
- 	and `asciicircum'.  `grave' mapped to up arrow.  Sorted up a bit.
+	* data/C64/default.vkm: Removed double definition of
+	`asciitilde' and `asciicircum'.  `grave' mapped to up arrow.
+	Sorted up a bit.
 
 Tue Jun 16 18:49:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
-	* configure.in: Put X libraries in `X_LIBS' instead of `LIBS'.  Do
- 	not put the readline library into `ARCH_LIBS': put it into
+	* configure.in: Put X libraries in `X_LIBS' instead of `LIBS'.
+	Do not put the readline library into `ARCH_LIBS': put it into
 	`READLINE' instead.
 
 	* Version 0.14.2.39.
@@ -2522,8 +2538,8 @@ Wed May 27 19:24:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* data/PET/Makefile.am: Install under `$(prefix)/lib/vice/PET',
 	not `$(prefix)/lib/PET'.
 
-	* data/C128/Makefile.am: Install under `$(prefix)/lib/vice/C128',
- 	not `$(prefix)/lib/C128'.
+	* data/C128/Makefile.am: Install under
+	`$(prefix)/lib/vice/C128', not `$(prefix)/lib/C128'.
 
 	* data/C64/Makefile.am: Install under `$(prefix)/lib/vice/C64',
 	not `$(prefix)/lib/C64'.
@@ -2533,7 +2549,7 @@ Sat May 23 14:06:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* configure.in: New cpp symbol `HAVE_READLINE', set if we use
 	`readline' or its lightweight replacement.
 
-	* configure.in: Handle `msdosdjgpp' as a host os string.  Put the
- 	sound drivers to link in `@SOUND_DRIVERS@' instead of using
+	* configure.in: Handle `msdosdjgpp' as a host os string.  Put
+	the sound drivers to link in `@SOUND_DRIVERS@' instead of using
  	automake conditionals.
 
