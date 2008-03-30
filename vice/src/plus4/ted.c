@@ -104,7 +104,7 @@ void ted_delay_oldclk(CLOCK num)
     old_cycle += num;
 }
 
-inline void ted_delay_clk(void)
+void ted_delay_clk(void)
 {
     CLOCK diff;
 
@@ -278,7 +278,7 @@ static int init_raster(void)
     char *title;
 
     raster = &ted.raster;
-    video_color_set_raster(raster);
+    video_color_set_canvas(raster->canvas);
 
     raster->sprite_status = NULL;
     raster_line_changes_init(raster);

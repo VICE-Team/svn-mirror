@@ -61,7 +61,7 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
   unsigned int version, release, request_base, event_base, error_base;
 
   /* XvQueryAdaptors */
-  int num_adaptors;
+  unsigned int num_adaptors;
   XvAdaptorInfo* adaptor_info = NULL;
   XvPortID port_id;
 
@@ -102,7 +102,7 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
   }
 
   /* Find YUV capable adaptor. */
-  for (i = 0; i < num_adaptors; i++) {
+  for (i = 0; i < (int)num_adaptors; i++) {
     if (!(adaptor_info[i].type & XvInputMask
 	  && adaptor_info[i].type & XvImageMask))
     {

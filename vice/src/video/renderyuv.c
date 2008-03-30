@@ -61,16 +61,16 @@ static YUV_avg yuv_lines[2][1024];
 
 /* Render packed YUV 4:2:2 formats. */
 void renderyuv_4_2_2(image_t* image,
-                  int shift_y0, int shift_u, int shift_v, int shift_y1,
-                  unsigned char* src,
-                  int src_pitch,
-                  unsigned int* src_color,
-                  int src_x, int src_y,
-                  unsigned int src_w, unsigned int src_h,
-                  int dest_x, int dest_y)
+                     int shift_y0, int shift_u, int shift_v, int shift_y1,
+                     unsigned char* src,
+                     int src_pitch,
+                     unsigned int* src_color,
+                     int src_x, int src_y,
+                     unsigned int src_w, unsigned int src_h,
+                     int dest_x, int dest_y)
 {
   unsigned int x, y;
-  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
   /* Normalize to 2x1 blocks. */
@@ -80,12 +80,12 @@ void renderyuv_4_2_2(image_t* image,
     src_w++;
   }
   if (src_w & 1) {
-    src_w++;
+      src_w++;
   }
 
   /* Add start offsets. */
-  dest += dest_pitch*dest_y + (dest_x >> 1);
-  src += src_pitch*src_y + src_x;
+  dest += dest_pitch * dest_y + (dest_x >> 1);
+  src += src_pitch * src_y + src_x;
 
   /* Render 2x1 blocks, YUV 4:2:2 */
   for (y = 0; y < src_h; y++) {
@@ -116,7 +116,7 @@ void renderyuv_2x_4_2_2(image_t* image,
                         int double_scan, int pal_scanline_shade)
 {
   unsigned int x, y;
-  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
   /* No need to normalize to 2x1 blocks because of size doubling. */
@@ -171,7 +171,7 @@ void renderyuv_4_2_2_pal(image_t* image,
   int lineno = 0;
   YUV_avg* linepre;
   YUV_avg* line;
-  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
   /* Normalize to 2x1 blocks. */
@@ -337,7 +337,7 @@ void renderyuv_2x_4_2_2_pal(image_t* image,
   int lineno = 0;
   YUV_avg* linepre;
   YUV_avg* line;
-  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
   /* No need to normalize to 2x1 blocks because of size doubling. */
