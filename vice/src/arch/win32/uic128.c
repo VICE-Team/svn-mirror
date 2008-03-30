@@ -30,6 +30,7 @@
 #include <string.h>
 #include <tchar.h>
 #include <windows.h>
+#include <commdlg.h>
 
 #include "machine.h"
 #include "res.h"

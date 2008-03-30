@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <commdlg.h>
 
 #include "gfxoutput.h"
 #include "lib.h"

@@ -1,6 +1,14 @@
+2004-02-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.2.
+
+	* configure.in: Added `iec128dcr' library.
+
 2004-02-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.1.
+
+	* configure.in: Define `UNSTABLE'.
 
 2004-01-25  Andreas Boose  <viceteam@t-online.de>
 

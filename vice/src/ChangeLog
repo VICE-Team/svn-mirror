@@ -1,3 +1,46 @@
+2004-02-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.2.
+
+	* drive/iec128dcr.h, drive/iec128dcr/iec128dcr.c,
+	drive/iec128dcr/Makefile.am, arch/win32/iec128dcr.dsp,
+	drive/iec128dcr/iec128dcr-resources.c,
+	drive/iec128dcr/iec128dcr-resources.h,
+	drive/iec128dcr/iec128dcr-cmdline-options.c,
+	drive/iec128dcr/iec128dcr-cmdline-options.h: New files.
+
+	* drive/Makefile.am, Makefile.am, arch/win32/vice.dsw:
+	Updated.
+
+	* drive/ieee/iec-resources.c, drive/ieee/ieee-resources.c,
+	drive/tcbm/tcbm-resources.c, drive/iec/iec.c: Fixed includes.
+
+	* c128/c128drive.c: New file.
+
+	* c128/Makefile.am, c64/Makefile.am, arch/win32/c128.dsp,
+	arch/win32/c64c128.dsp: Updated.
+
+	* drive/iec/iec-resources.c, drive/iec/iecrom.c,
+	drive/iec/iecrom.h, drive/iec/iec-cmdline-options.c: Removed
+	C128DCR specific code.
+
+	* arch/win32/evc/config.h: New file.
+
+	* vice.h, arch/win32/msvc/config.h: Moved win32 specific
+	define to config file.
+
+	* event.c, event.h, machine.c [EVENT_RESET]: Renamed.
+
+	* arch/win32/uiide64.c, arch/win32/uic128.c,
+	arch/win32/uiconsole.c, arch/win32/uimediafile.c,
+	arch/win32/uilib.c, arch/win32/uisnapshot.c,
+	arch/win32/uireu.c: #include <commdlg.h>.
+
+	* main.c (main_program): Replaced call to `perror()'.
+
+	* c1541.c, pet/pet-snapshot.c, cbm2/cbm2-snapshot.c,
+	vic20/vic20-snapshot.c: Removed call to `perror()'.
+
 2004-02-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.1.

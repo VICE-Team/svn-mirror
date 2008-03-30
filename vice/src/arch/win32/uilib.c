@@ -30,10 +30,12 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
+#include <commdlg.h>
 
 #include "archdep.h"
 #include "cbmimage.h"

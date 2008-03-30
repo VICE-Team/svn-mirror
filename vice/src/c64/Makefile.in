@@ -300,7 +300,6 @@ libc64c128_a_SOURCES = \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
-	c64drive.c \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
@@ -357,11 +356,11 @@ libc64_a_OBJECTS = $(am_libc64_a_OBJECTS)
 libc64c128_a_AR = $(AR) cru
 libc64c128_a_LIBADD =
 am_libc64c128_a_OBJECTS = c64acia1.$(OBJEXT) c64bus.$(OBJEXT) \
-	c64cia2.$(OBJEXT) c64datasette.$(OBJEXT) c64drive.$(OBJEXT) \
-	c64iec.$(OBJEXT) c64io.$(OBJEXT) c64keyboard.$(OBJEXT) \
-	c64meminit.$(OBJEXT) c64memrom.$(OBJEXT) c64printer.$(OBJEXT) \
-	c64pla.$(OBJEXT) c64parallel.$(OBJEXT) c64rsuser.$(OBJEXT) \
-	c64tpi.$(OBJEXT) patchrom.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
+	c64cia2.$(OBJEXT) c64datasette.$(OBJEXT) c64iec.$(OBJEXT) \
+	c64io.$(OBJEXT) c64keyboard.$(OBJEXT) c64meminit.$(OBJEXT) \
+	c64memrom.$(OBJEXT) c64printer.$(OBJEXT) c64pla.$(OBJEXT) \
+	c64parallel.$(OBJEXT) c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) \
+	patchrom.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64c128_a_OBJECTS = $(am_libc64c128_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src

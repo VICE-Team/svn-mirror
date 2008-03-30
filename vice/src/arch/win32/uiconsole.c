@@ -30,8 +30,10 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <commdlg.h>
 
 #include "drive.h"
 #include "lib.h"
