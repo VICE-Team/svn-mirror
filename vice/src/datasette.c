@@ -43,6 +43,8 @@
 #include "types.h"
 #include "ui.h"
 
+#define MOTOR_DELAY     32000
+
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
 
@@ -57,6 +59,9 @@ static int datasette_motor = 0;
 
 /* Last time we have recorded a flux change.  */
 static CLOCK last_write_clk = (CLOCK)0;
+
+/* Motor stop is delayed.  */
+static CLOCK motor_stop_clk = (CLOCK)0;
 
 static alarm_t datasette_alarm;
 
@@ -500,6 +505,8 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 {
     if (last_write_clk > (CLOCK)0)
         last_write_clk -= sub;
+    if (motor_stop_clk > (CLOCK)0)
+        motor_stop_clk -= sub;
 }
 
 void datasette_init(void)
@@ -662,12 +669,13 @@ void datasette_set_motor(int flag)
 {
     if (current_image != NULL) {
         if (flag && !datasette_motor) {
+            last_write_clk = (CLOCK)0;
             datasette_start_motor();
         }
         if (!flag && datasette_motor) {
             alarm_unset(&datasette_alarm);
             datasette_alarm_pending = 0;
-            last_write_clk = (CLOCK)0;
+            motor_stop_clk = maincpu_clk + MOTOR_DELAY;
         }
         ui_display_tape_motor_status(flag);
     }
@@ -725,11 +733,15 @@ inline static void bit_write(void)
 
 void datasette_toggle_write_bit(int write_bit)
 {
-    if (current_image != NULL && datasette_motor && write_bit
+    if (current_image != NULL && write_bit
         && current_image->mode == DATASETTE_CONTROL_RECORD) {
-        if (last_write_clk == (CLOCK)0) {
-            last_write_clk = maincpu_clk;
-        } else {
+        if (datasette_motor) {
+            if (last_write_clk == (CLOCK)0) {
+                last_write_clk = maincpu_clk;
+            } else {
+                bit_write();
+            }
+        } else if (maincpu_clk < motor_stop_clk) {
             bit_write();
         }
     }

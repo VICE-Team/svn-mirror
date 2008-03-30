@@ -122,6 +122,10 @@ SOURCE="..\..\debug.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\dma.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\emuid.c"
 # End Source File
 # Begin Source File

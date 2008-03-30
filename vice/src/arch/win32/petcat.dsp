@@ -96,6 +96,10 @@ SOURCE=..\..\findpath.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\ioutil.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\log.c
 # End Source File
 # Begin Source File
