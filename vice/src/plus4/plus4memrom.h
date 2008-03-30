@@ -1,5 +1,5 @@
 /*
- * plus4mem.h -- Plus4 memory handling.
+ * plus4memrom.h -- Plus4 ROM access.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,34 +24,29 @@
  *
  */
 
-#ifndef _PLUS4MEM_H
-#define _PLUS4MEM_H
+#ifndef _PLUS4MEMROM_H
+#define _PLUS4MEMROM_H
 
 #include "types.h"
 
-#define PLUS4_RAM_SIZE        0x10000
-#define PLUS4_BASIC_ROM_SIZE  0x4000
-#define PLUS4_KERNAL_ROM_SIZE 0x4000
-#define PLUS4_CART8K_SIZE     0x2000
-#define PLUS4_CART16K_SIZE    0x4000
+extern BYTE plus4memrom_basic_rom[];
+extern BYTE plus4memrom_kernal_rom[];
+extern BYTE plus4memrom_kernal_trap_rom[];
 
-extern unsigned int mem_config;
+extern BYTE REGPARM1 plus4memrom_kernal_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_basic_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_trap_read(WORD addr);
+extern void REGPARM2 plus4memrom_trap_store(WORD addr, BYTE value);
 
-extern BYTE extromlo1[PLUS4_BASIC_ROM_SIZE];
-extern BYTE extromlo2[PLUS4_BASIC_ROM_SIZE];
-extern BYTE extromlo3[PLUS4_BASIC_ROM_SIZE];
-extern BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
-extern BYTE extromhi2[PLUS4_KERNAL_ROM_SIZE];
-extern BYTE extromhi3[PLUS4_KERNAL_ROM_SIZE];
+extern BYTE REGPARM1 plus4memrom_extromlo1_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_extromlo2_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_extromlo3_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_extromhi1_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_extromhi2_read(WORD addr);
+extern BYTE REGPARM1 plus4memrom_extromhi3_read(WORD addr);
 
-extern int plus4_mem_init_resources(void);
-extern int plus4_mem_init_cmdline_options(void);
-
-extern void mem_config_ram_set(unsigned int config);
-extern BYTE *mem_get_tedmem_base(unsigned int segment);
-
-extern void mem_proc_port_trigger_flux_change(unsigned int on);
-extern void pio1_set_tape_sense(int sense);
+extern BYTE REGPARM1 plus4memrom_rom_read(WORD addr);
+extern void REGPARM2 plus4memrom_rom_store(WORD addr, BYTE value);
 
 #endif
 
