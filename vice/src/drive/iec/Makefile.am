@@ -7,6 +7,8 @@ INCLUDES = \
 noinst_LIBRARIES = libdriveiec.a
 
 libdriveiec_a_SOURCES = \
+	cia1571d.c \
+	cia1581d.c \
 	iec-cmdline-options.c \
 	iec-cmdline-options.h \
 	iec-resources.c \
@@ -14,9 +16,9 @@ libdriveiec_a_SOURCES = \
 	iec.c \
 	iecrom.c \
 	iecrom.h \
+	jobcode1581.c \
+	jobcode1581.h \
 	memiec.c \
 	memiec.h \
-	cia1571d.c \
-	cia1581d.c \
 	wd1770.c \
 	wd1770.h
