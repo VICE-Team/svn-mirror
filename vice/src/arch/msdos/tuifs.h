@@ -2,7 +2,7 @@
  * tuifs.c - A simple text-based file selector.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,3 +34,4 @@ extern char *tui_file_selector(const char *title, const char *directory,
                                char **browse_file_return);
 
 #endif
+

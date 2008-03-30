@@ -2,7 +2,7 @@
  * dirent.h - Fake implementation of dirent stuff for Windows.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,8 +34,9 @@ struct dirent {
     int d_namlen;
 };
 
-DIR *opendir(const char *path);
+extern DIR *opendir(const char *path);
 struct dirent *readdir(DIR *dir);
-void closedir(DIR *dir);
+extern void closedir(DIR *dir);
 
 #endif
+

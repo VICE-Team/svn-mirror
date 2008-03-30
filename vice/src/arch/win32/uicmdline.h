@@ -2,7 +2,7 @@
  * ui_cmdline.c - Command-line output.
  *
  * Written by
- *  Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,6 +29,7 @@
 
 #include "cmdline.h"
 
-extern void ui_cmdline_show_help  (int num_options, cmdline_option_t *options);
+extern void ui_cmdline_show_help(int num_options, cmdline_option_t *options);
 
 #endif
+

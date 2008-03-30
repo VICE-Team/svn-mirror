@@ -2,7 +2,7 @@
  * uilib.h - Common UI elements for the Windows user interface.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,11 +25,19 @@
  *
  */
 
+#ifndef _UILIB_H
+#define _UILIB_H
+
+#include <windows.h>
+
 extern char *ui_select_file(const char *title, const char *filter,
                             char*(*content_read_function)(const char*),
                             HWND hwnd);
 extern void ui_set_res_num(char *res, int value, int num);
 
-char *read_disk_image_contents(const char *name);
-char *read_tape_image_contents(const char *name);
-char *read_disk_or_tape_image_contents(const char *name);
+extern char *read_disk_image_contents(const char *name);
+extern char *read_tape_image_contents(const char *name);
+extern char *read_disk_or_tape_image_contents(const char *name);
+
+#endif
+

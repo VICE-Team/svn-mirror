@@ -2,7 +2,7 @@
  * kbd.h - Keyboard emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -55,14 +55,14 @@ typedef enum {
 
 extern BYTE _kbd_extended_key_tab[];
 
-int kbd_init(int num, ...);
-int kbd_init_resources(void);
-int pet_kbd_init_resources(void);
-int kbd_init_cmdline_options(void);
-int pet_kbd_init_cmdline_options(void);
-int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
-int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
-const char *kbd_code_to_string(kbd_code_t kcode);
+extern int kbd_init(int num, ...);
+extern int kbd_init_resources(void);
+extern int pet_kbd_init_resources(void);
+extern int kbd_init_cmdline_options(void);
+extern int pet_kbd_init_cmdline_options(void);
+extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
+extern int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
+extern const char *kbd_code_to_string(kbd_code_t kcode);
 
 extern int c64_kbd_init(void);
 extern int c128_kbd_init(void);

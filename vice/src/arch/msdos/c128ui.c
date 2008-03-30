@@ -2,7 +2,7 @@
  * c128ui.c - Definition of the C128-specific part of the UI.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -32,11 +32,11 @@
 #include <string.h>
 
 #include "c128ui.h"
-
 #include "cartridge.h"
 #include "menudefs.h"
 #include "sidui.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "ui.h"
 #include "utils.h"

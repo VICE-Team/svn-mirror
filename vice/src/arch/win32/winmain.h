@@ -2,7 +2,7 @@
  * winmain.c - Windows startup.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,3 +39,4 @@ extern int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
                           LPSTR cmd_line, int cmd_show);
 
 #endif /* WINMAIN_H */
+

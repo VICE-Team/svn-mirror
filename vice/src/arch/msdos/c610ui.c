@@ -2,7 +2,7 @@
  * c610ui.c - Definition of the C610-specific part of the UI.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -31,10 +31,10 @@
 #include <stdlib.h>
 
 #include "c610ui.h"
-
 #include "menudefs.h"
 #include "sidui.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "ui.h"
 
 static struct {

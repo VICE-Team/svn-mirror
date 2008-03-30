@@ -2,7 +2,7 @@
  * joystick.h - Joystick support for Windows.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,13 +50,14 @@ typedef enum {
     KEYSET_FIRE
 } joystick_direction_t;
 
-int joystick_init(void);
-int joystick_init_resources(void);
-int joystick_init_cmdline_options(void);
-int joystick_close(void);
-void joystick_update(void);
-int joystick_handle_key(kbd_code_t kcode, int pressed);
+extern int joystick_init(void);
+extern int joystick_init_resources(void);
+extern int joystick_init_cmdline_options(void);
+extern int joystick_close(void);
+extern void joystick_update(void);
+extern int joystick_handle_key(kbd_code_t kcode, int pressed);
 
-int joystick_inited;
+extern int joystick_inited;
 
 #endif
+

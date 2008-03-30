@@ -2,7 +2,7 @@
  * tuicharset.h - Setup custom character set.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,3 +37,4 @@ extern int tui_charset_init(void);
 extern int tui_charset_set(tui_charset_t which);
 
 #endif
+

@@ -2,7 +2,7 @@
  * sidui.c - SID UI interface for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,3 +32,4 @@
 extern tui_menu_item_def_t sid_ui_menu_items[];
 
 #endif
+

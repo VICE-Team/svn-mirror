@@ -2,8 +2,8 @@
  * mouse.h - Mouse handling for Win32.
  *
  * Written by
- *  Tibor Biczo (crown@mail.matav.hu)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Tibor Biczo <crown@mail.matav.hu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,13 +29,13 @@
 
 #include "types.h"
 
-int mouse_init_resources(void);
-int mouse_init_cmdline_options(void);
-void mouse_set_format(void);
-void mouse_update_mouse(void);
-void mouse_init(void);
-void mouse_update_mouse_acquire(void);
-void mouse_set_cooperative_level(void);
+extern int mouse_init_resources(void);
+extern int mouse_init_cmdline_options(void);
+extern void mouse_set_format(void);
+extern void mouse_update_mouse(void);
+extern void mouse_init(void);
+extern void mouse_update_mouse_acquire(void);
+extern void mouse_set_cooperative_level(void);
 
 extern int _mouse_enabled;
 extern int _mouse_x, _mouse_y;
@@ -57,3 +57,4 @@ inline static BYTE mouse_get_y(void)
 }
 
 #endif
+

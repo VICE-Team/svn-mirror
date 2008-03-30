@@ -3,7 +3,7 @@
  * Hargreaves (http://www.talula.demon.co.uk/allegro).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -98,6 +98,8 @@ enum vga_mode_id {
 #define NUM_VGA_MODES ((int)VGA_640x480 + 1)
 
 /* ------------------------------------------------------------------------- */
+
+extern void video_free(void);
 
 extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);

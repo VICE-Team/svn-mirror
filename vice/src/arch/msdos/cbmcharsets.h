@@ -2,7 +2,7 @@
  * cbmcharsets.c - CBM lookalike character sets.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,3 +41,4 @@ extern BYTE cbm_petscii_business_to_ascii[0x100];
 extern BYTE cbm_petscii_graphics_to_ascii[0x100];
 
 #endif
+

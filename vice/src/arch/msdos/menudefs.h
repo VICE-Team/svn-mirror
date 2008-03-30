@@ -2,7 +2,7 @@
  * menudefs.h - Definition of menu commands and settings.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -48,3 +48,4 @@ extern void ui_create_main_menu(int has_tape, int has_true1541,
                                 int has_datasette);
 
 #endif /* _MENUDEFS_H */
+

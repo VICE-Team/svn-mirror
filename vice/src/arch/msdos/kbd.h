@@ -2,11 +2,10 @@
  * kbd.h - MS-DOS keyboard driver.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  * Based on the X11 code by
- *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  Andre' Fachat    (fachat@physik.tu-chemnitz.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

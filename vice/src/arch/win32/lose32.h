@@ -2,7 +2,7 @@
  * lose32.h - Some ugly portability cruft for M$ Windows.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -66,3 +66,4 @@ int main_program(int argc, char **argv);
 #define MAIN_PROGRAM        main_program
 
 #endif
+
