@@ -60,11 +60,6 @@ static void draw_std_background(int start_pixel, int end_pixel)
 
 static void draw_idle_std_background(int start_pixel, int end_pixel)
 {
-    if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
-        vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-                   0,
-                   end_pixel - start_pixel + 1);
-    else
         vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                    vic_ii.raster.overscan_background_color,
                    end_pixel - start_pixel + 1);
@@ -765,10 +760,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
         unsigned int offs;
         DWORD c1, c2;
 
-        if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
-            offs = 0;
-        else
-            offs = vic_ii.raster.overscan_background_color << 4;
+        offs = vic_ii.raster.overscan_background_color << 4;
         c1 = *(hr_table + offs + (d >> 4));
         c2 = *(hr_table + offs + (d & 0xf));
 
