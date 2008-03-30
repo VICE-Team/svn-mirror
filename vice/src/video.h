@@ -46,6 +46,19 @@ struct palette_s;
 #define VIDEO_RENDER_RGB_1X2	4
 #define VIDEO_RENDER_RGB_2X2	5
 
+struct canvas_refresh_s
+{
+    BYTE *draw_buffer;
+    int draw_buffer_line_size;
+#ifdef __OS2__
+    int bufh;
+#endif
+    int x;
+    int y;
+};
+
+typedef struct canvas_refresh_s canvas_refresh_t;
+
 struct video_render_config_s {
     int rendermode;             /* what renderers are allowed? */
     int doublesizex;            /* doublesizex enabled?        */
@@ -93,11 +106,13 @@ extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
                                 unsigned int height);
 
 typedef struct video_draw_buffer_callback_s {
-    int (*draw_buffer_alloc)(BYTE **draw_buffer, unsigned int fb_width,
-                             unsigned int fb_height);
-    void (*draw_buffer_free)(BYTE *draw_buffer);
-    void (*draw_buffer_clear)(BYTE *draw_buffer, unsigned int fb_width,
-                             unsigned int fb_height);
+    int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
+                             unsigned int fb_width, unsigned int fb_height,
+                             unsigned int *fb_pitch);
+    void (*draw_buffer_free)(struct video_canvas_s *canvas, BYTE *draw_buffer);
+    void (*draw_buffer_clear)(struct video_canvas_s *canvas, BYTE *draw_buffer,
+                             BYTE value, unsigned int fb_width, unsigned int fb_height,
+                             unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
 
 /* These constants tell the video layer what */

@@ -40,8 +40,10 @@ struct video_draw_buffer_callback_s;
 
 struct video_frame_buffer_s {
   unsigned int width, height, depth, pitch;
+  int paldirty, transdirty;
   BYTE *framedata;
   void *spritebase;
+  char *transtab;
 };
 
 typedef struct video_frame_buffer_s video_frame_buffer_t;
@@ -54,7 +56,6 @@ struct video_canvas_s {
   int shiftx, shifty;
   RO_Window *window;
   video_frame_buffer_t fb;
-  BYTE *pixel_translation;
   unsigned int num_colours;
   unsigned int colour_table[256];
   video_render_config_t videoconfig;
@@ -77,6 +78,8 @@ extern video_canvas_t *canvas_for_handle(int handle);
 extern unsigned int canvas_number_for_handle(int handle);
 extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
+
+extern void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block);
 
 extern int video_full_screen_on(int *sprites);
 extern int video_full_screen_off(void);

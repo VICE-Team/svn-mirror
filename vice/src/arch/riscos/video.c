@@ -57,9 +57,6 @@ video_canvas_t *ActiveCanvas = NULL;
 int FullScreenMode = 0;
 int FullScreenStatLine = 1;
 
-/* last canvas (belonging to pending frame buffer) */
-static video_canvas_t *nextCanvas = NULL;
-
 static int NumberOfCanvases = 0;
 static screen_mode_t newScreenMode;
 static screen_mode_t oldScreenMode;
@@ -190,61 +187,8 @@ int video_init(void)
 }
 
 
-/*void video_free(void)
-{
-}*/
 
-
-#if 0
-int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
-                             unsigned int height)
-{
-  video_frame_buffer_t *fb;
-  BYTE *data;
-
-  if ((fb = (video_frame_buffer_t *)malloc(sizeof(video_frame_buffer_t))) == NULL)
-    return -1;
-
-  width = (width + 3) & ~3;
-
-  if ((data = (BYTE*)malloc(width * height * sizeof(BYTE))) == NULL)
-    return -1;
-
-  fb->tmpframebuffer = data;
-  fb->tmpframebufferlinesize = width;
-  fb->width = width; fb->height = height;
-
-  *i = fb;
-
-  return 0;
-}
-
-
-void video_frame_buffer_free(video_frame_buffer_t *i)
-{
-  canvas_list_t *clist = CanvasList;
-
-  while (clist != NULL)
-  {
-    if (clist->canvas->fb.tmpframebuffer == i->tmpframebuffer)
-      clist->canvas->fb.tmpframebuffer = NULL;
-    clist = clist->next;
-  }
-  free(i->tmpframebuffer);
-
-  free(i);
-}
-
-
-void video_frame_buffer_clear(video_frame_buffer_t *i, BYTE value)
-{
-  if (ModeChanging == 0)
-    memset(i->tmpframebuffer, value, i->width * i->height);
-}
-
-#else
-
-static int video_frame_buffer_alloc(BYTE **draw_buffer, unsigned int fb_width, unsigned int fb_height)
+static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, unsigned int fb_width, unsigned int fb_height, unsigned int *fb_pitch)
 {
   unsigned int palette[256];
   unsigned int i;
@@ -257,52 +201,115 @@ static int video_frame_buffer_alloc(BYTE **draw_buffer, unsigned int fb_width, u
   {
     sprite_desc_t *sprite = SpriteGetSprite(sarea);
 
-    if (nextCanvas != NULL)
+    if (canvas != NULL)
     {
-      nextCanvas->fb.width = fb_width;
-      nextCanvas->fb.height = fb_height;
-      nextCanvas->fb.depth = 8;
-      nextCanvas->fb.pitch = (sprite->wwidth+1)*4;
-      nextCanvas->fb.framedata = (BYTE*)SpriteGetImage(sprite);
-      nextCanvas->fb.spritebase = sarea;
+      canvas->fb.width = fb_width;
+      canvas->fb.height = fb_height;
+      canvas->fb.depth = 8;
+      canvas->fb.pitch = (sprite->wwidth+1)*4;
+      canvas->fb.framedata = (BYTE*)SpriteGetImage(sprite);
+      canvas->fb.spritebase = sarea;
 
-      /*log_message(LOG_DEFAULT, "width = %d, height = %d, pitch = %d", nextCanvas->fb.width, nextCanvas->fb.height, nextCanvas->fb.pitch);*/
-      nextCanvas = NULL;
+      /*log_message(LOG_DEFAULT, "width = %d, height = %d, pitch = %d", canvas->fb.width, canvas->fb.height, canvas->fb.pitch);*/
     }
+    *fb_pitch = (sprite->wwidth+1)*4;
+
     *draw_buffer = (BYTE*)SpriteGetImage(sprite);
+
+    return 0;
   }
   return -1;
 }
 
 
-static void video_frame_buffer_free(BYTE *draw_buffer)
+static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 {
-  canvas_list_t *cl = CanvasList;
-
-  while (cl != NULL)
+  if (canvas->fb.spritebase != NULL)
   {
-    if (cl->canvas != NULL)
-    {
-      video_frame_buffer_t *fb = &(cl->canvas->fb);
-      if (fb->framedata == draw_buffer)
-      {
-        free(fb->spritebase);
-        fb->spritebase = NULL;
-        fb->framedata = NULL;
-        break;
-      }
-    }
-    cl = cl->next;
+    free(canvas->fb.spritebase);
+    canvas->fb.spritebase = NULL;
+    canvas->fb.framedata = NULL;
   }
 }
 
 
-static void video_frame_buffer_clear(BYTE *draw_buffer, unsigned int fb_width, unsigned int fb_height)
+static void video_frame_buffer_clear(video_canvas_t *canvas, BYTE *draw_buffer, BYTE value, unsigned int fb_width, unsigned int fb_height, unsigned int fb_pitch)
 {
-  memset(draw_buffer, 0, fb_width * fb_height);
+  memset(draw_buffer, value, fb_pitch * fb_height);
 }
-#endif
 
+
+
+
+void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  if (canvas->fb.framedata != NULL)
+  {
+    int shiftx, shifty;
+
+    shiftx = (canvas->shiftx << UseEigen) * (canvas->scale);
+    shifty = (canvas->shifty << UseEigen) * (canvas->scale);
+
+    /* Coordinates of top left corner of canvas */
+    ge->x = block[RedrawB_VMinX] - block[RedrawB_ScrollX] + shiftx;
+    ge->y = block[RedrawB_VMaxY] - block[RedrawB_ScrollY] + shifty;
+
+    /* the frame buffer palette is dirty if the palette changed while there was no
+       frame buffer allocated, e.g. on startup */
+    if (canvas->fb.paldirty != 0)
+    {
+      unsigned int i, numsprpal;
+      sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
+      sprite_desc_t *sprite;
+      unsigned int *sprpal;
+      unsigned int *ct = canvas->colour_table;
+
+      sprite = SpriteGetSprite(sarea);
+      sprpal = (unsigned int*)(sprite + 1);
+      numsprpal = (1 << canvas->fb.depth);
+      for (i=0; i<numsprpal; i++)
+      {
+        sprpal[2*i] = 0x10 | (ct[i] << 8);
+        sprpal[2*i+1] = sprpal[2*i];
+      }
+      canvas->fb.paldirty = 0;
+
+      if (canvas->fb.transtab != NULL)
+      {
+        free(canvas->fb.transtab);
+        canvas->fb.transtab = NULL;
+      }
+      canvas->fb.transdirty = 1;
+    }
+
+    /* do we need to make a new sprite translation table? */
+    if ((canvas->fb.transdirty != 0) && (canvas->fb.transtab == NULL))
+    {
+      sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
+      sprite_desc_t *sprite = SpriteGetSprite(sarea);
+      char *dummy = NULL;
+
+      ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
+
+      if ((int)dummy > 0)
+      {
+        canvas->fb.transtab = (char*)xmalloc((int)dummy);
+        dummy = canvas->fb.transtab;
+        ColourTrans_SelectTable((int)sarea, (int)sprite, -1, -1, &dummy, 1, NULL, NULL);
+      }
+      canvas->fb.transdirty = 0;
+    }
+
+    if (canvas->scale == 1)
+    {
+      PlotZoom1(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->colour_table);
+    }
+    else
+    {
+      PlotZoom2(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->colour_table);
+    }
+  }
+}
 
 
 
@@ -310,57 +317,62 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
 {
   int i;
   palette_entry_t *p;
+  unsigned int numsprpal;
   unsigned int *ct;
 
   if (palette == NULL) return 0;
 
   p = palette->entries;
   ct = canvas->colour_table;
+  numsprpal = (1<<canvas->fb.depth);
 
-  switch (ScreenMode.ldbpp)
+  /* adapt the palette stored in the frame buffer sprite */
+  if (canvas->fb.spritebase != NULL)
   {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      {
-        for (i=0; i<palette->num_entries; i++)
-        {
-          pixel_return[i] = (BYTE)ColourTrans_ReturnColourNumber((p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24));
-          ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);/*pixel_return[i];*/
-        }
-      }
-      break;
-    case 4:
-      {
-        for (i=0; i<palette->num_entries; i++)
-        {
-          int r,g,b;
+    sprite_area_t *sarea = (sprite_area_t*)(canvas->fb.spritebase);
+    sprite_desc_t *sprite;
+    unsigned int *sprpal;
 
-          r = (p[i].red   + 4) & 0x1f8; if (r > 0xff) r = 0xff;
-          g = (p[i].green + 4) & 0x1f8; if (g > 0xff) g = 0xff;
-          b = (p[i].blue  + 4) & 0x1f8; if (b > 0xff) b = 0xff;
-          pixel_return[i] = i;
-          ct[i] = (r>>3) | (g << 2) | (b << 7);
-        }
-      }
-      break;
-    case 5:
-      {
-        for (i=0; i<palette->num_entries; i++)
-        {
-          pixel_return[i] = i;
-          ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
-        }
-      }
-      break;
+    sprite = SpriteGetSprite(sarea);
+    sprpal = (unsigned int*)(sprite+1);
+
+    for (i=0; i<palette->num_entries; i++)
+    {
+      sprpal[2*i] = 0x10 | (p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24);
+      sprpal[2*i+1] = sprpal[2*i];
+    }
+    for (; i<numsprpal; i++)
+    {
+      sprpal[2*i] = 0x10;
+      sprpal[2*i+1] = 0x10;
+    }
+    canvas->fb.paldirty = 0;
   }
-  if (canvas->pixel_translation == NULL)
+  else
   {
-    if ((canvas->pixel_translation = (BYTE*)malloc(palette->num_entries * sizeof(BYTE))) == NULL)
-      return -1;
+    /* no frame buffer allocated, make a note that the palette is dirty */
+    canvas->fb.paldirty = 1;
   }
-  memcpy(canvas->pixel_translation, pixel_return, palette->num_entries * sizeof(BYTE));
+
+  if (canvas->fb.transtab != NULL)
+  {
+    free(canvas->fb.transtab);
+    canvas->fb.transtab = NULL;
+  }
+  canvas->fb.transdirty = 1;
+
+  /* remember the current palette in canvas->colour_table */
+  for (i=0; i<palette->num_entries; i++)
+  {
+    /* FIXME: will go entirely eventually */
+    pixel_return[i] = i;
+
+    ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
+  }
+  for (; i<numsprpal; i++)
+  {
+    ct[i] = 0;
+  }
 
   return 0;
 }
@@ -374,9 +386,6 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   if ((canvas = (video_canvas_t *)malloc(sizeof(struct video_canvas_s))) == NULL)
     return (video_canvas_t *)0;
 
-  /* make a note for the frame buffer creation */
-  nextCanvas = canvas;
-
   canvas->video_draw_buffer_callback = xmalloc(sizeof(video_draw_buffer_callback_t));
   canvas->video_draw_buffer_callback->draw_buffer_alloc = video_frame_buffer_alloc;
   canvas->video_draw_buffer_callback->draw_buffer_free = video_frame_buffer_free;
@@ -385,10 +394,10 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   canvas->width = *width; canvas->height = *height;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
-  canvas->pixel_translation = NULL;
   memset(canvas->colour_table, 0, 256*sizeof(int));
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
+  canvas->fb.transdirty = 1;
 
   video_canvas_set_palette(canvas, palette, pixel_return);
 
@@ -497,7 +506,6 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 			  unsigned int w, unsigned int h)
 {
   graph_env ge;
-  int shiftx, shifty;
 
   if (ModeChanging != 0) return;
 
@@ -518,24 +526,11 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     block[2] = (- (yi + h) << UseEigen) * (canvas->scale);
     block[3] = ((xi + w) << UseEigen) * (canvas->scale);
     block[4] = (-yi << UseEigen) * (canvas->scale);
-    shiftx = (canvas->shiftx << UseEigen) * (canvas->scale);
-    shifty = (canvas->shifty << UseEigen) * (canvas->scale);
 
     more = Wimp_UpdateWindow(block);
     while (more != 0)
     {
-      /* Coordinates of top left corner of canvas */
-      ge.x = block[RedrawB_VMinX] - block[RedrawB_ScrollX] + shiftx;
-      ge.y = block[RedrawB_VMaxY] - block[RedrawB_ScrollY] + shifty;
-
-      if (canvas->scale == 1)
-      {
-        PlotZoom1(&ge, block + RedrawB_CMinX, draw_buffer, canvas->colour_table);
-      }
-      else
-      {
-        PlotZoom2(&ge, block + RedrawB_CMinX, draw_buffer, canvas->colour_table);
-      }
+      video_canvas_redraw_core(canvas, &ge, block);
       more = Wimp_GetRectangle(block);
     }
   }
@@ -544,6 +539,7 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     int clip[4];
     int dx, dy;
     int clipYlow;
+    int shiftx, shifty;
 
     if (FullScreenStatLine == 0)
       clipYlow = 0;
@@ -568,6 +564,24 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 
     PlotZoom1(&ge, clip, draw_buffer, canvas->colour_table);
 
+  }
+}
+
+
+void canvas_mode_change(void)
+{
+  canvas_list_t *clist = CanvasList;
+
+  /* delete all sprite translation tables, will be recreated on demand */
+  while (clist != NULL)
+  {
+    if (clist->canvas->fb.transtab != NULL)
+    {
+      free(clist->canvas->fb.transtab);
+      clist->canvas->fb.transtab = NULL;
+    }
+    clist->canvas->fb.transdirty = 1;
+    clist = clist->next;
   }
 }
 
@@ -659,24 +673,12 @@ void video_full_screen_colours(void)
       unsigned int *ct;
 
       ct = canvas->colour_table;
-      if (ScreenMode.ldbpp == 4)
+
+      for (i=0; i<num_colours; i++)
       {
-        for (i=0; i<num_colours; i++)
-        {
-          /* Lossy, but shouldn't be too bad */
-          entries[3*i] = (ct[i] & 0x1f) << 3;
-          entries[3*i+1] = (ct[i] & 0x3e0) >> 2;
-          entries[3*i+2] = (ct[i] & 0x7c00) >> 7;
-        }
-      }
-      else
-      {
-        for (i=0; i<num_colours; i++)
-        {
-          entries[3*i] = ct[i] & 0xff;
-          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
-          entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
-        }
+        entries[3*i] = ct[i] & 0xff;
+        entries[3*i+1] = (ct[i] & 0xff00) >> 8;
+        entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
       }
       InstallPaletteRange(entries, 0, num_colours);
       ColourTrans_InvalidateCache();

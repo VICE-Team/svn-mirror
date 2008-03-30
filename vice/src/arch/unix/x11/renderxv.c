@@ -376,25 +376,28 @@ void render_4_2_2_yc(XvImage* image,
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
-  /* Normalize to 2x1 blocks. Enlarge the rendered area to ensure that
-     neighboring pixels are correctly averaged. */
-
+  /* Normalize to 2x1 blocks. */
   if (dest_x & 1) {
     dest_x--;
     src_x--;
     src_w++;
   }
+  if (src_w & 1) {
+    src_w++;
+  }
+
+  /* Enlarge the rendered area to ensure that neighboring pixels are
+     correctly averaged. */
   if (dest_x > 0) {
     dest_x -= 2;
     src_x -= 2;
     src_w += 2;
   }
-
-  if (src_w & 1) {
-    src_w++;
-  }
   if (dest_x + src_w < image->width) {
     src_w += 2;
+  }
+  if (dest_y + src_h < image->height) {
+    src_h++;
   }
 
   /* Add start offsets. */
@@ -525,25 +528,28 @@ void render_4_2_2_composite(XvImage* image,
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
-  /* Normalize to 2x1 blocks. Enlarge the rendered area to ensure that
-     neighboring pixels are correctly averaged. */
-
+  /* Normalize to 2x1 blocks. */
   if (dest_x & 1) {
     dest_x--;
     src_x--;
     src_w++;
   }
+  if (src_w & 1) {
+    src_w++;
+  }
+
+  /* Enlarge the rendered area to ensure that neighboring pixels are
+     correctly averaged. */
   if (dest_x > 0) {
     dest_x -= 2;
     src_x -= 2;
     src_w += 2;
   }
-
-  if (src_w & 1) {
-    src_w++;
-  }
   if (dest_x + src_w < image->width) {
     src_w += 2;
+  }
+  if (dest_y + src_h < image->height) {
+    src_h++;
   }
 
   /* Add start offsets. */
@@ -681,13 +687,13 @@ void render_4_1_1(XvImage* image,
     src_x--;
     src_w++;
   }
+  if (src_w & 1) {
+    src_w++;
+  }
   if (dest_y & 1) {
     dest_y--;
     src_y--;
     src_h++;
-  }
-  if (src_w & 1) {
-    src_w++;
   }
   if (src_h & 1) {
     src_h++;
@@ -715,6 +721,258 @@ void render_4_1_1(XvImage* image,
       *Uptr++ = (U(YUV0) + U(YUV1) + U(YUV2) + U(YUV3)) >> 2;
       *Vptr++ = (V(YUV0) + V(YUV1) + V(YUV2) + V(YUV3)) >> 2;
     }
+    src += (src_pitch << 1) - src_w;
+    Yptr += (Ypitch << 1) - src_w;
+    Uptr += Upitch - (src_w >> 1);
+    Vptr += Vpitch - (src_w >> 1);
+  }
+}
+
+
+/* Render planar YUV 4:1:1 formats - PAL Y/C emulation. */
+void render_4_1_1_yc(XvImage* image,
+		     int plane_y, int plane_u, int plane_v,
+		     unsigned char* src,
+		     int src_pitch,
+		     unsigned int* src_color,
+		     int src_x, int src_y,
+		     unsigned int src_w, unsigned int src_h,
+		     int dest_x, int dest_y)
+{
+  int x, y;
+  unsigned int
+    YUVm10, YUV00, YUV10, YUV20,
+    YUVm11, YUV01, YUV11, YUV21;
+  unsigned char* Yptr = image->data + image->offsets[plane_y];
+  unsigned char* Uptr = image->data + image->offsets[plane_u];
+  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  int Ypitch = image->pitches[plane_y];
+  int Upitch = image->pitches[plane_u];
+  int Vpitch = image->pitches[plane_v];
+
+  /* Normalize to 2x2 blocks. */
+  if (dest_x & 1) {
+    dest_x--;
+    src_x--;
+    src_w++;
+  }
+  if (src_w & 1) {
+    src_w++;
+  }
+  if (dest_y & 1) {
+    dest_y--;
+    src_y--;
+    src_h++;
+  }
+  if (src_h & 1) {
+    src_h++;
+  }
+
+  /* Enlarge the rendered area to ensure that neighboring pixels are
+     correctly averaged. */
+  if (dest_x > 0) {
+    dest_x -= 2;
+    src_x -= 2;
+    src_w += 2;
+  }
+  if (dest_x + src_w < image->width) {
+    src_w += 2;
+  }
+
+  /* Add start offsets. */
+  Yptr += Ypitch*dest_y + dest_x;
+  Uptr += (Upitch*dest_y + dest_x) >> 1;
+  Vptr += (Vpitch*dest_y + dest_x) >> 1;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x2 blocks, YUV 4:1:1 */
+  for (y = 0; y < src_h; y += 2) {
+    /* Read first 2x2 block. */
+    if (dest_x > 0) {
+      YUVm10 = src_color[*(src - 1)];
+      YUVm11 = src_color[*(src + src_pitch - 1)];
+    }
+    else {
+      YUVm10 = src_color[*src];
+      YUVm11 = src_color[*(src + src_pitch)];
+    }
+    YUV00 =  src_color[*src];
+    YUV01 =  src_color[*(src + src_pitch)];
+    for (x = 0; x < src_w - 2; x += 2) {
+      /* Read next 2x2 block. */
+      YUV10 = src_color[*(src + 1)];
+      YUV20 = src_color[*(src + 2)];
+      YUV11 = src_color[*(src + src_pitch + 1)];
+      YUV21 = src_color[*(src + src_pitch + 2)];
+      src += 2;
+
+      *Yptr = Y(YUV00);
+      *(Yptr + 1) = Y(YUV10);
+      *(Yptr + Ypitch) = Y(YUV01);
+      *(Yptr + Ypitch + 1) = Y(YUV11);
+      Yptr += 2;
+      *Uptr++ =
+	(U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
+	 U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
+      *Vptr++ =
+	(V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
+	 V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
+
+      /* Prepare to read next 2x2 block. */
+      YUVm10 = YUV10; YUV00 = YUV20;
+      YUVm11 = YUV11; YUV01 = YUV21;
+    }
+    /* Read last 2x2 block. */
+    YUV10 = src_color[*(src + 1)];
+    YUV11 = src_color[*(src + src_pitch + 1)];
+    if (dest_x + src_w < image->width) {
+      YUV20 = YUV10;
+      YUV21 = YUV11;
+    }
+    else {
+      YUV20 = src_color[*(src + 2)];
+      YUV21 = src_color[*(src + src_pitch + 2)];
+    }
+    src += 2;
+
+    *Yptr = Y(YUV00);
+    *(Yptr + 1) = Y(YUV10);
+    *(Yptr + Ypitch) = Y(YUV01);
+    *(Yptr + Ypitch + 1) = Y(YUV11);
+    Yptr += 2;
+    *Uptr++ =
+      (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
+       U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
+    *Vptr++ =
+      (V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
+       V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
+
+    src += (src_pitch << 1) - src_w;
+    Yptr += (Ypitch << 1) - src_w;
+    Uptr += Upitch - (src_w >> 1);
+    Vptr += Vpitch - (src_w >> 1);
+  }
+}
+
+
+/* Render planar YUV 4:1:1 formats - PAL Composite emulation. */
+void render_4_1_1_composite(XvImage* image,
+			    int plane_y, int plane_u, int plane_v,
+			    unsigned char* src,
+			    int src_pitch,
+			    unsigned int* src_color,
+			    int src_x, int src_y,
+			    unsigned int src_w, unsigned int src_h,
+			    int dest_x, int dest_y)
+{
+  int x, y;
+  unsigned int
+    YUVm10, YUV00, YUV10, YUV20,
+    YUVm11, YUV01, YUV11, YUV21;
+  unsigned char* Yptr = image->data + image->offsets[plane_y];
+  unsigned char* Uptr = image->data + image->offsets[plane_u];
+  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  int Ypitch = image->pitches[plane_y];
+  int Upitch = image->pitches[plane_u];
+  int Vpitch = image->pitches[plane_v];
+
+  /* Normalize to 2x2 blocks. */
+  if (dest_x & 1) {
+    dest_x--;
+    src_x--;
+    src_w++;
+  }
+  if (src_w & 1) {
+    src_w++;
+  }
+  if (dest_y & 1) {
+    dest_y--;
+    src_y--;
+    src_h++;
+  }
+  if (src_h & 1) {
+    src_h++;
+  }
+
+  /* Enlarge the rendered area to ensure that neighboring pixels are
+     correctly averaged. */
+  if (dest_x > 0) {
+    dest_x -= 2;
+    src_x -= 2;
+    src_w += 2;
+  }
+  if (dest_x + src_w < image->width) {
+    src_w += 2;
+  }
+
+  /* Add start offsets. */
+  Yptr += Ypitch*dest_y + dest_x;
+  Uptr += (Upitch*dest_y + dest_x) >> 1;
+  Vptr += (Vpitch*dest_y + dest_x) >> 1;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x2 blocks, YUV 4:1:1 */
+  for (y = 0; y < src_h; y += 2) {
+    /* Read first 2x2 block. */
+    if (dest_x > 0) {
+      YUVm10 = src_color[*(src - 1)];
+      YUVm11 = src_color[*(src + src_pitch - 1)];
+    }
+    else {
+      YUVm10 = src_color[*src];
+      YUVm11 = src_color[*(src + src_pitch)];
+    }
+    YUV00 =  src_color[*src];
+    YUV01 =  src_color[*(src + src_pitch)];
+    for (x = 0; x < src_w - 2; x += 2) {
+      /* Read next 2x2 block. */
+      YUV10 = src_color[*(src + 1)];
+      YUV20 = src_color[*(src + 2)];
+      YUV11 = src_color[*(src + src_pitch + 1)];
+      YUV21 = src_color[*(src + src_pitch + 2)];
+      src += 2;
+
+      *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
+      *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
+      *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
+      *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
+      Yptr += 2;
+      *Uptr++ =
+	(U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
+	 U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
+      *Vptr++ =
+	(V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
+	 V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
+
+      /* Prepare to read next 2x2 block. */
+      YUVm10 = YUV10; YUV00 = YUV20;
+      YUVm11 = YUV11; YUV01 = YUV21;
+    }
+    /* Read last 2x2 block. */
+    YUV10 = src_color[*(src + 1)];
+    YUV11 = src_color[*(src + src_pitch + 1)];
+    if (dest_x + src_w < image->width) {
+      YUV20 = YUV10;
+      YUV21 = YUV11;
+    }
+    else {
+      YUV20 = src_color[*(src + 2)];
+      YUV21 = src_color[*(src + src_pitch + 2)];
+    }
+    src += 2;
+
+    *Yptr =               (Y(YUVm10) + (Y(YUV00) << 1) + Y(YUV10)) >> 2;
+    *(Yptr + 1) =          (Y(YUV00) + (Y(YUV10) << 1) + Y(YUV20)) >> 2;
+    *(Yptr + Ypitch) =    (Y(YUVm11) + (Y(YUV01) << 1) + Y(YUV11)) >> 2;
+    *(Yptr + Ypitch + 1) = (Y(YUV01) + (Y(YUV11) << 1) + Y(YUV21)) >> 2;
+    Yptr += 2;
+    *Uptr++ =
+      (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
+       U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
+    *Vptr++ =
+      (V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
+       V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
+
     src += (src_pitch << 1) - src_w;
     Yptr += (Ypitch << 1) - src_w;
     Uptr += Upitch - (src_w >> 1);
@@ -846,8 +1104,23 @@ void render_YV12(int pal_mode,
 		 unsigned int src_w, unsigned int src_h,
 		 int dest_x, int dest_y)
 {
-  render_4_1_1(image, 0, 2, 1, src, src_pitch, src_color,
-	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+  int plane_y = 0, plane_u = 2, plane_v = 1;
+
+  switch(pal_mode) {
+  default:
+  case VIDEO_RESOURCE_PAL_MODE_FAST:
+    render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		 src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  case VIDEO_RESOURCE_PAL_MODE_SHARP:
+    render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		    src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+    render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			   src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  }
 }
 
 
@@ -860,8 +1133,23 @@ void render_I420(int pal_mode,
 		 unsigned int src_w, unsigned int src_h,
 		 int dest_x, int dest_y)
 {
-  render_4_1_1(image, 0, 1, 2, src, src_pitch, src_color,
-	       src_x, src_y, src_w, src_h, dest_x, dest_y);
+  int plane_y = 0, plane_u = 1, plane_v = 2;
+
+  switch(pal_mode) {
+  default:
+  case VIDEO_RESOURCE_PAL_MODE_FAST:
+    render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		 src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  case VIDEO_RESOURCE_PAL_MODE_SHARP:
+    render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		    src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  case VIDEO_RESOURCE_PAL_MODE_BLUR:
+    render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			   src_x, src_y, src_w, src_h, dest_x, dest_y);
+    break;
+  }
 }
 
 #endif /* HAVE_XVIDEO */

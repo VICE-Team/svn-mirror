@@ -32,6 +32,7 @@
 
 struct snapshot_s;
 struct screenshot_s;
+struct canvas_refresh_s;
 
 extern int ted_resources_init(void);
 extern int ted_cmdline_options_init(void);
@@ -43,7 +44,8 @@ extern void ted_prepare_for_snapshot(void);
 extern void ted_powerup(void);
 extern void ted_reset_registers(void);
 extern void ted_handle_pending_alarms(int num_write_cycles);
-extern int ted_screenshot(struct screenshot_s *screenshot);
+extern void ted_screenshot(struct screenshot_s *screenshot);
+extern void ted_async_refresh(struct canvas_refresh_s *r);
 extern void ted_free(void);
 
 extern int ted_snapshot_write_module(struct snapshot_s *s);

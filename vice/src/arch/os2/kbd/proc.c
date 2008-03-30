@@ -186,13 +186,11 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
         return;
 
     // Process all keys whichs are pressed together with Alt.
-#ifdef __X128__
+#if 0
     if (usScancode==K_V && key_ctrl_column4080_func)
         key_ctrl_column4080_func(); // press/release 40/80-key
-#if 0 /* FIXME!!! */
     if (usScancode==K_V && key_ctrl_caps_func)
         key_ctrl_caps_func(); // press/release caps key
-#endif
 #endif
 }
 

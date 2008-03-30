@@ -1565,9 +1565,14 @@ void vic_ii_free(void)
     raster_free(&vic_ii.raster);
 }
 
-int vic_ii_screenshot(screenshot_t *screenshot)
+void vic_ii_screenshot(screenshot_t *screenshot)
 {
-    return raster_screenshot(&vic_ii.raster, screenshot);
+    raster_screenshot(&vic_ii.raster, screenshot);
+}
+
+void vic_ii_async_refresh(struct canvas_refresh_s *refresh)
+{
+    raster_async_refresh(&vic_ii.raster, refresh);
 }
 
 void vic_ii_video_refresh(void)

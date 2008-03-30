@@ -3047,27 +3047,13 @@ static void ui_redraw_window(int *b)
   if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
     graph_env ge;
-    unsigned int *ct = canvas->colour_table;
     video_frame_buffer_t *fb = &(canvas->fb);
 
+    ge.dimx = fb->pitch; ge.dimy = fb->height;
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
-      if (fb->framedata != NULL)
-      {
-        ge.x = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + (canvas->shiftx << UseEigen)*(canvas->scale);
-        ge.y = b[RedrawB_VMaxY] - b[RedrawB_ScrollY] + (canvas->shifty << UseEigen)*(canvas->scale);
-        ge.dimx = fb->width; ge.dimy = fb->height;
-
-        if (canvas->scale == 1)
-        {
-          PlotZoom1(&ge, b + RedrawB_CMinX, fb->framedata, ct);
-        }
-        else
-        {
-          PlotZoom2(&ge, b + RedrawB_CMinX, fb->framedata, ct);
-        }
-      }
+      video_canvas_redraw_core(canvas, &ge, b);
       more = Wimp_GetRectangle(b);
     }
   }
@@ -5311,13 +5297,14 @@ static void ui_user_message(int *b)
     case Message_Quit: ui_exit(); break;
     case Message_ModeChange:
       ui_user_msg_mode_change(b);
+      canvas_mode_change();
       break;
     case Message_PaletteChange:
       wimp_read_screen_mode(&ScreenMode);
-      /*memcpy(oldColours, CanvasList->canvas->pixel_translation, 16*sizeof(PIXEL));*/
       FrameBufferUpdate = 1;
       ModeChanging = 1;
       raster_mode_change();
+      canvas_mode_change();
       ModeChanging = 0;
       break;
     case Message_DataLoad:

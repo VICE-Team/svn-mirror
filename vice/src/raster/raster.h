@@ -36,6 +36,7 @@
 #include "types.h"
 
 struct palette_s;
+struct canvas_refresh_s;
 
 /* We assume that, if already #defined, the provided `MAX' and `MIN' actually
    work.  */
@@ -174,6 +175,7 @@ struct raster_s {
     /* Size of a draw buffer line.  */
     unsigned int draw_buffer_width;
     unsigned int draw_buffer_height;
+    unsigned int draw_buffer_pitch;
 
     /* This is a temporary draw buffer line used for sprite collision
        checking without drawing to the real frame buffer.  */
@@ -312,7 +314,8 @@ extern void raster_mode_change(void);
 extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
-extern int raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
+extern void raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
+extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref);
 extern void raster_free(raster_t *raster);
 
 

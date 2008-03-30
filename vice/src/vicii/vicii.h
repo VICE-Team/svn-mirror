@@ -32,6 +32,7 @@
 
 struct snapshot_s;
 struct screenshot_s;
+struct canvas_refresh_s;
 
 extern int vic_ii_resources_init(void);
 extern int vic_ii_cmdline_options_init(void);
@@ -49,13 +50,14 @@ extern void vic_ii_set_canvas_refresh(int enable);
 extern void vic_ii_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
 extern void vic_ii_handle_pending_alarms(int num_write_cycles);
-extern int vic_ii_screenshot(struct screenshot_s *screenshot);
+extern void vic_ii_screenshot(struct screenshot_s *screenshot);
 extern void vic_ii_free(void);
 
 extern int vic_ii_snapshot_write_module(struct snapshot_s *s);
 extern int vic_ii_snapshot_read_module(struct snapshot_s *s);
 
 extern void vic_ii_video_refresh(void);
+extern void vic_ii_async_refresh(struct canvas_refresh_s *r);
 extern void video_free(void);
 
 void vic_ii_set_phi1_vbank(int num_vbank);

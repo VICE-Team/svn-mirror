@@ -663,21 +663,48 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-    if (wn == 0)
-        return vdc_screenshot(screenshot);
-    if (wn == 1)
-        return vic_ii_screenshot(screenshot);
+    switch (wn)
+    {
+    case 0:
+        vdc_screenshot(screenshot);
+        return 0;
+    case 1:
+        vic_ii_screenshot(screenshot);
+        return 0;
+    }
     return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-  if (canvas == vic_ii_get_canvas())
-      return vic_ii_screenshot(screenshot);
-  if (canvas == vdc_get_canvas())
-      return vdc_screenshot(screenshot);
-  return -1;
+    if (canvas == vic_ii_get_canvas())
+    {
+        vic_ii_screenshot(screenshot);
+        return 0;
+    }
+    if (canvas == vdc_get_canvas())
+    {
+        vdc_screenshot(screenshot);
+        return 0;
+    }
+    return -1;
+}
+
+int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
+                                 struct video_canvas_s *canvas)
+{
+    if (canvas == vic_ii_get_canvas())
+    {
+        vic_ii_async_refresh(refresh);
+        return 0;
+    }
+    if (canvas == vdc_get_canvas())
+    {
+        vdc_async_refresh(refresh);
+        return 0;
+    }
+    return -1;
 }
 
 void machine_video_refresh(void) {

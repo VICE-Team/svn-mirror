@@ -907,9 +907,14 @@ void crtc_enable_hw_screen_blank(int enable)
     crtc.hw_blank = enable;
 }
 
-int crtc_screenshot(screenshot_t *screenshot)
+void crtc_screenshot(screenshot_t *screenshot)
 {
-    return raster_screenshot(&crtc.raster, screenshot);
+    raster_screenshot(&crtc.raster, screenshot);
+}
+
+void crtc_async_refresh(struct canvas_refresh_s *refresh)
+{
+    raster_async_refresh(&crtc.raster, refresh);
 }
 
 void crtc_video_refresh(void)

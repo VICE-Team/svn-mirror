@@ -1030,9 +1030,14 @@ void ted_free(void)
     raster_free(&ted.raster);
 }
 
-int ted_screenshot(screenshot_t *screenshot)
+void ted_screenshot(screenshot_t *screenshot)
 {
-    return raster_screenshot(&ted.raster, screenshot);
+    raster_screenshot(&ted.raster, screenshot);
+}
+
+void ted_async_refresh(struct canvas_refresh_s *refresh)
+{
+    raster_async_refresh(&ted.raster, refresh);
 }
 
 void ted_video_refresh(void)

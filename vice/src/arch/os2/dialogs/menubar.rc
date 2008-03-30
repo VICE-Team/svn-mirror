@@ -499,6 +499,7 @@ BEGIN
    VK_F3,        IDM_FILEOPEN,    ALT, VIRTUALKEY
    VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
    "0",          IDM_ATTACHTAPE,  ALT
+   "2",          IDM_DSIZE,       ALT
    "4",          IDM_PRT4IEC,     ALT
    "5",          IDM_PRT5IEC,     ALT
    "8",          IDM_ATTACH8,     ALT
@@ -533,6 +534,10 @@ BEGIN
    "R",          IDM_SOFTRESET,   ALT, SHIFT
    "t",          IDM_TRUEDRIVE,   ALT
    "T",          IDM_TRUEDRIVE,   ALT, SHIFT
+#ifdef HAVE_PAL
+   "v",          IDM_TOGGLEPAL,   ALT
+   "V",          IDM_TOGGLEPAL,   ALT, SHIFT
+#endif
    "w",          IDM_WRITECONFIG, ALT
    "W",          IDM_WRITECONFIG, ALT, SHIFT
    "+",          IDM_PLUS,        ALT

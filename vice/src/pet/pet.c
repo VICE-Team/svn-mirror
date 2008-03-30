@@ -552,17 +552,31 @@ void pet_crtc_set_screen(void)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-    if (wn == 0)
-        return crtc_screenshot(screenshot);
-    return -1;
+    if (wn != 0)
+        return -1;
+
+    crtc_screenshot(screenshot);
+    return 0;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-    if (canvas == crtc_get_canvas())
-        return crtc_screenshot(screenshot);
-    return -1;
+    if (canvas != crtc_get_canvas())
+        return -1;
+
+    crtc_screenshot(screenshot);
+    return 0;
+}
+
+int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
+                                 struct video_canvas_s *canvas)
+{
+    if (canvas != crtc_get_canvas())
+        return -1;
+
+    crtc_async_refresh(refresh);
+    return 0;
 }
 
 void machine_video_refresh(void)

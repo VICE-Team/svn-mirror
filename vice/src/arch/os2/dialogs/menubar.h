@@ -328,13 +328,14 @@
 #define IDM_CARTRIDGEDET 0x50e
 
 #define IDM_PALCONTROL   0x510
-#define IDM_PALEMU       0x511
-#define IDM_PALOFF       0x512
-#define IDM_PALFAST      0x513
-#define IDM_PALSHARP     0x514
-#define IDM_PALBLUR      0x515
-#define IDM_INTERNALPAL  0x516
-#define IDM_LUMINANCES   0x517
+#define IDM_TOGGLEPAL    0x511  // used for accel key
+#define IDM_PALEMU       0x512
+#define IDM_PALOFF       0x513
+#define IDM_PALFAST      0x514
+#define IDM_PALSHARP     0x515
+#define IDM_PALBLUR      0x516
+#define IDM_INTERNALPAL  0x517
+#define IDM_LUMINANCES   0x518
 
 #define IDM_PRINTER      0x6ff
 

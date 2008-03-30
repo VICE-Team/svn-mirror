@@ -49,7 +49,6 @@ struct video_canvas_s {
     ViceWindow *vicewindow;
 #else
     void *vicewindow;
-    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 #endif
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };

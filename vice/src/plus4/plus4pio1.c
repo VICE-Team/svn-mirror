@@ -31,6 +31,9 @@
 
 static BYTE pio1_data = 0xff;
 
+/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
+static int tape_sense = 0;
+
 BYTE REGPARM1 pio1_read(ADDRESS addr)
 {
     return pio1_data;
@@ -38,11 +41,12 @@ BYTE REGPARM1 pio1_read(ADDRESS addr)
 
 void REGPARM2 pio1_store(ADDRESS addr, BYTE value)
 {
-    pio1_data = value;
+    pio1_data = (value & ~4) | (BYTE)(tape_sense ? 0 : 4);
 }
 
 void pio1_set_tape_sense(int sense)
 {
+    tape_sense = sense;
     pio1_data = (BYTE)(pio1_data & ~4) | (BYTE)(sense ? 0 : 4);
 }
 

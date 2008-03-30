@@ -823,6 +823,7 @@ void VideoBufferFree(video_canvas_t *c)
         log_error(vidlog,"DiveFreeImageBuffer (rc=0x%x).", rc);
     else
         log_message(vidlog,"Dive buffer #%d freed.", c->ulBuffer);
+
     free(c->bitmaptrg);
 }
 
@@ -1169,7 +1170,7 @@ void VideoCanvasBlit(video_canvas_t *c, BYTE *buf,
 
 void WmPaint(HWND hwnd)
 {
-    screenshot_t geom;
+    canvas_refresh_t ref;
 
     //
     // get pointer to actual canvas from user data area
@@ -1198,7 +1199,7 @@ void WmPaint(HWND hwnd)
     //
     // get the frame_buffer and geometry from the machine
     //
-    if (machine_canvas_screenshot(&geom, c) >= 0)
+    if (machine_canvas_async_refresh(&ref, c) >= 0)
     {
         DEBUG("WM_PAINT 2");
 
@@ -1212,11 +1213,8 @@ void WmPaint(HWND hwnd)
         //
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
-        VideoCanvasBlit(c, geom.draw_buffer, geom.draw_buffer_line_size,
-                        geom.bufh,
-                        (c->videoconfig.doublesizex + 1) * geom.first_displayed_col,
-                        (c->videoconfig.doublesizey + 1) * geom.first_displayed_line,
-                        0, 0, c->width, c->height);
+        VideoCanvasBlit(c, ref.draw_buffer, ref.draw_buffer_line_size, ref.bufh,
+                        ref.x, ref.y, 0, 0, c->width, c->height);
     }
 /*
 #else
@@ -1798,9 +1796,9 @@ void video_canvas_destroy(video_canvas_t *c)
     // No close the dive instance of this canvas
     //
     if (rc=DiveClose(hdive))
-        log_error(vidlog, "Closing Dive instance #%d (DiveClose, rc=0x%x)", c->hDiveInst, rc);
+        log_error(vidlog, "Closing Dive instance #%d (DiveClose, rc=0x%x)", hdive, rc);
     else
-        log_message(vidlog, "Dive instance #%d successfully closed.", c->hDiveInst);
+        log_message(vidlog, "Dive instance #%d successfully closed.", hdive);
 
     //
     // Free the rectangles used for blitting

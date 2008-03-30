@@ -40,6 +40,7 @@ typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
 
 struct snapshot_s;
 struct screenshot_s;
+struct canvas_refresh_s;
 
 extern struct raster_s *crtc_init(void);
 extern struct video_canvas_s *crtc_get_canvas(void);
@@ -60,7 +61,8 @@ extern void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
 extern void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
 extern void crtc_set_retrace_type(int type);
 extern void crtc_enable_hw_screen_blank(int enable);
-extern int crtc_screenshot(struct screenshot_s *screenshot);
+extern void crtc_screenshot(struct screenshot_s *screenshot);
+extern void crtc_async_refresh(struct canvas_refresh_s *refresh);
 extern void crtc_free(void);
 
 extern void crtc_screen_enable(int);

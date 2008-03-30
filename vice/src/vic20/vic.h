@@ -114,6 +114,7 @@ typedef enum vic_video_mode_s vic_video_mode_t;
 struct snapshot_s;
 struct screenshot_s;
 struct palette_s;
+struct canvas_refresh_s;
 
 struct vic_s
 {
@@ -188,7 +189,8 @@ extern int vic_cmdline_options_init(void);
 extern int vic_snapshot_write_module(struct snapshot_s *s);
 extern int vic_snapshot_read_module(struct snapshot_s *s);
 
-extern int vic_screenshot(struct screenshot_s *screenshot);
+extern void vic_screenshot(struct screenshot_s *screenshot);
+extern void vic_async_refresh(struct canvas_refresh_s *refresh);
 extern void vic_free(void);
 
 /* Private function calls, used by the other VIC modules.  FIXME:

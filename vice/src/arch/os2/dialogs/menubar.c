@@ -364,6 +364,34 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("NewLuminances");
         return;
 #endif
+    case IDM_TOGGLEPAL:
+        {
+            long val1, val2;
+            resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+            resources_get_value("PALMode",            (resource_value_t*)&val2);
+            if (!val1)
+            {
+                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
+                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                return;
+            }
+
+            switch (val2)
+            {
+            case VIDEO_RESOURCE_PAL_MODE_FAST:
+                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
+                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                return;
+            case VIDEO_RESOURCE_PAL_MODE_SHARP:
+                resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
+                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                return;
+            case VIDEO_RESOURCE_PAL_MODE_BLUR:
+                resources_set_value("DelayLoopEmulation", (resource_value_t*)0);
+                return;
+            }
+        }
+        return;
     case IDM_PALOFF:
         resources_set_value("DelayLoopEmulation", (resource_value_t*)0);
         return;

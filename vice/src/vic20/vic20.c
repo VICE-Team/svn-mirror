@@ -537,17 +537,31 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-    if (wn == 0)
-        return vic_screenshot(screenshot);
-    return -1;
+    if (wn != 0)
+        return -1;
+
+    vic_screenshot(screenshot);
+    return 0;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
-    if (canvas == vic_get_canvas())
-        return vic_screenshot(screenshot);
-    return -1;
+    if (canvas != vic_get_canvas())
+        return -1;
+
+    vic_screenshot(screenshot);
+    return 0;
+}
+
+int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
+                                 struct video_canvas_s *canvas)
+{
+    if (canvas != vic_get_canvas())
+        return -1;
+
+    vic_async_refresh(refresh);
+    return 0;
 }
 
 void machine_video_refresh(void)

@@ -62,6 +62,7 @@ static unsigned int t3_value;
 static void ted_t1(CLOCK offset)
 {
     alarm_set(&ted_t1_alarm, clk + (t1_start == 0 ? 65536 : t1_start) * 2 - offset);
+    t1_value = (t1_start == 0 ? 65536 : t1_start) * 2 - offset;
 /*printf("TI1 ALARM %x\n", clk);*/
     ted.irq_status |= 0x08;
     t1_last_restart = clk - offset;
@@ -71,6 +72,7 @@ static void ted_t2(CLOCK offset)
 {
     alarm_set(&ted_t2_alarm, clk + 65536 * 2 - offset);
     t2_start = 0;
+    t2_value = 65536 * 2 - offset;
 /*printf("TI2 ALARM %x\n", clk);*/
     ted.irq_status |= 0x10;
     t2_last_restart = clk - offset;
@@ -80,6 +82,7 @@ static void ted_t3(CLOCK offset)
 {
     alarm_set(&ted_t3_alarm, clk + 65536 * 2 - offset);
     t3_start = 0;
+    t3_value = 65536 * 2 - offset;
 /*printf("TI3 ALARM\n");*/
     ted.irq_status |= 0x40;
     t3_last_restart = clk - offset;

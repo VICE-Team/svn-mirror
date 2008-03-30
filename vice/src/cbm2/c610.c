@@ -514,10 +514,15 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
-    if (wn == 0)
-        return crtc_screenshot(screenshot);
-    if (wn == 1)
-        return vic_ii_screenshot(screenshot);
+    switch (wn)
+    {
+    case 0:
+        crtc_screenshot(screenshot);
+        return 0;
+    case 1:
+        vic_ii_screenshot(screenshot);
+        return 0;
+    }
     return -1;
 }
 
@@ -525,9 +530,31 @@ int machine_canvas_screenshot(screenshot_t *screenshot,
                               struct video_canvas_s *canvas)
 {
     if (canvas == vic_ii_get_canvas())
-        return vic_ii_screenshot(screenshot);
+    {
+        vic_ii_screenshot(screenshot);
+        return 0;
+    }
     if (canvas == crtc_get_canvas())
-        return crtc_screenshot(screenshot);
+    {
+        crtc_screenshot(screenshot);
+        return 0;
+    }
+    return -1;
+}
+
+int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
+                                 struct video_canvas_s *canvas)
+{
+    if (canvas == vic_ii_get_canvas())
+    {
+        vic_ii_async_refresh(refresh);
+        return 0;
+    }
+    if (canvas == crtc_get_canvas())
+    {
+        crtc_async_refresh(refresh);
+        return 0;
+    }
     return -1;
 }
 

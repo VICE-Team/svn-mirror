@@ -33,6 +33,7 @@
 
 struct snapshot_s;
 struct screenshot_s;
+struct canvas_refresh_s;
 
 extern int vdc_init_resources(void);
 extern int vdc_init_cmdline_options(void);
@@ -43,7 +44,8 @@ extern void vdc_reset(void);
 extern void vdc_prepare_for_snapshot(void);
 extern void vdc_powerup(void);
 extern void vdc_resize(void);
-extern int vdc_screenshot(struct screenshot_s *screenshot);
+extern void vdc_screenshot(struct screenshot_s *screenshot);
+extern void vdc_async_refresh(struct canvas_refresh_s *r);
 
 extern int vdc_write_snapshot_module(struct snapshot_s *s);
 extern int vdc_read_snapshot_module(struct snapshot_s *s);

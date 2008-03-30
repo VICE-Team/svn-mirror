@@ -589,10 +589,11 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 	display = ui_get_display_ptr();
 
-	/* FIXME: raster.c passes off-screen areas on resize! */
+	/* FIXME: raster.c passes off-screen areas! */
 	if (ys < xv_raster->geometry.first_displayed_line
-	    || h > xv_raster->geometry.last_displayed_line
-	           - xv_raster->geometry.first_displayed_line + 1)
+	    || ys + h > xv_raster->geometry.last_displayed_line
+	    || xs < xv_raster->geometry.extra_offscreen_border_left
+	    || xs - xv_raster->geometry.extra_offscreen_border_left + w > xv_raster->geometry.screen_size.width - 1)
 	{
             log_error(video_log, "Off-screen area passed to video_canvas_refresh: x=%i, y=%i, w=%i, h=%i",
 		      xs - xv_raster->geometry.extra_offscreen_border_left,
@@ -601,6 +602,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	    ys = xv_raster->geometry.first_displayed_line;
 	    h = xv_raster->geometry.last_displayed_line
 	      - xv_raster->geometry.first_displayed_line + 1;
+	    xs = xv_raster->geometry.extra_offscreen_border_left;
+	    w = xv_raster->geometry.screen_size.width;
 	}
 
 	canvas->xv_render.render_function(video_resources.pal_mode,
