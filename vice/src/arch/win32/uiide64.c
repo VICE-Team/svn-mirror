@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uiide64.h"
 #include "winmain.h"
@@ -61,6 +62,7 @@ static void enable_ide64_controls(HWND hwnd)
 static void update_text(HWND hwnd)
 {
     char *str;
+    TCHAR *st;
     HWND ide64_hwnd;
     int cylinders_idx, heads_idx, sectors_idx, total;
 
@@ -76,7 +78,9 @@ static void update_text(HWND hwnd)
     total = (cylinders_idx + 1) * (heads_idx + 1) * sectors_idx / 2;
 
     str = lib_msprintf("Total size: %iKB", total);
-    SetDlgItemText(hwnd, IDC_IDE64_SIZE, str);
+    st = system_mbstowcs_alloc(str);
+    SetDlgItemText(hwnd, IDC_IDE64_SIZE, st);
+    system_mbstowcs_free(st);
     lib_free(str);
 }
 
@@ -84,12 +88,15 @@ static void init_ide64_dialog(HWND hwnd)
 {
     int res_value, index;
     const char *ide64file;
+    TCHAR *st_ide64file;
     TCHAR memb[20];
     HWND ide64_hwnd;
 
     resources_get_value("IDE64Image", (void *)&ide64file);
+    st_ide64file = system_mbstowcs_alloc(ide64file);
     SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE,
-                   ide64file != NULL ? ide64file : "");
+                   st_ide64file != NULL ? st_ide64file : TEXT(""));
+    system_mbstowcs_free(st_ide64file);
 
     resources_get_value("IDE64AutodetectSize", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT, res_value
@@ -126,10 +133,12 @@ static void init_ide64_dialog(HWND hwnd)
 static void end_ide64_dialog(HWND hwnd)
 {
     char s[MAX_PATH];
+    TCHAR st[MAX_PATH];
     HWND ide64_hwnd;
     int res_value;
 
-    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, s, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
     resources_set_value("IDE64Image", (resource_value_t)s);
 
     resources_set_value("IDE64AutodetectSize",
@@ -161,14 +170,14 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         switch (command) {
           case IDC_IDE64_HDIMAGE_BROWSE:
             {
-                char name[1024] = "";
+                TCHAR name[1024] = TEXT("");
                 OPENFILENAME ofn;
 
                 memset(&ofn, 0, sizeof(ofn));
                 ofn.lStructSize = sizeof(ofn);
                 ofn.hwndOwner = hwnd;
                 ofn.hInstance = winmain_instance;
-                ofn.lpstrFilter = "All files (*.*)\0*.*\0";
+                ofn.lpstrFilter = TEXT("All files (*.*)\0*.*\0");
                 ofn.lpstrCustomFilter = NULL;
                 ofn.nMaxCustFilter = 0;
                 ofn.nFilterIndex = 1;
@@ -177,7 +186,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                 ofn.lpstrFileTitle = NULL;
                 ofn.nMaxFileTitle = 0;
                 ofn.lpstrInitialDir = NULL;
-                ofn.lpstrTitle = "Select HD image file";
+                ofn.lpstrTitle = TEXT("Select HD image file");
                 ofn.Flags = (OFN_EXPLORER
                     | OFN_HIDEREADONLY
                     | OFN_NOTESTFILECREATE
