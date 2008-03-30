@@ -7,19 +7,28 @@
 # - keyword lines start with '!keyword'
 # - normal line has 'keysym/scancode row column shiftflag'
 #
-# keywords and their lines are:
+# Keywords and their lines are:
 # '!CLEAR'               clear whole table
 # '!INCLUDE filename'    read file as mapping file
 # '!LSHIFT row col'      left shift keyboard row/column
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
+# '!UNDEF keysym'        remove keysym from table
 #
-# shiftflag can have the values:
+# Shiftflag can have the values:
 # 0      key is not shifted for this keysym
 # 1      key is shifted for this keysym
 # 2      left shift
 # 4      right shift
 # 8      key can be shifted or not with this keysym
+#
+# Negative row values:
+# 'keysym -1 n' joystick #1, direction n
+# 'keysym -2 n' joystick #2, direction n
+# 'keysym -3 0' first RESTORE key
+# 'keysym -3 1' second RESTORE key
+# 'keysym -4 0' 40/80 column key
+# 'keysym -4 1' CAPS (ASCII/DIN) key
 #
 
 !CLEAR
