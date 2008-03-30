@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <ctype.h>
 #include <dos.h>
 #include <dpmi.h>
 #include <go32.h>
@@ -164,13 +165,20 @@ int kbd_init_cmdline_options(void)
    interrupt.  They are dispatched via `kbd_flush_commands()'.  */
 
 typedef enum {
-    KCMD_ESC_PRESSED,
-    KCMD_RESET,
-    KCMD_HARD_RESET,
-    KCMD_RESTORE_PRESSED,
-    KCMD_RESTORE_RELEASED,
-    KCMD_TOGGLE_WARP,
-    KCMD_FREEZE
+        KCMD_MENU,
+        KCMD_RESET,
+        KCMD_HARD_RESET,
+        KCMD_RESTORE_PRESSED,
+        KCMD_RESTORE_RELEASED,
+        KCMD_TOGGLE_WARP,
+        KCMD_FREEZE
+} kbd_command_type_t;
+
+typedef DWORD kbd_command_data_t;
+
+typedef struct {
+    kbd_command_type_t type;
+    kbd_command_data_t data;
 } kbd_command_t;
 
 #define MAX_COMMAND_QUEUE_SIZE	256
@@ -178,12 +186,23 @@ static kbd_command_t command_queue[MAX_COMMAND_QUEUE_SIZE];
 static int num_queued_commands;
 
 /* Add a command to the queue.  */
-static void queue_command(kbd_command_t c)
+static void queue_command(kbd_command_type_t type,
+                          kbd_command_data_t data)
 {
-    if (num_queued_commands < MAX_COMMAND_QUEUE_SIZE)
-	command_queue[num_queued_commands++] = c;
+    if (num_queued_commands < MAX_COMMAND_QUEUE_SIZE) {
+        int i = num_queued_commands++;
+
+	command_queue[i].type = type;
+        command_queue[i].data = data;
+    }
 }
 static void queue_command_end(void) { }
+
+/* CPU trap to enter the main menu.  */
+static void menu_trap(ADDRESS addr, void *data)
+{
+    ui_main((char) data);
+}
 
 /* Dispatch all the pending keyboard commands.  */
 void kbd_flush_commands(void)
@@ -197,7 +216,7 @@ void kbd_flush_commands(void)
 
     for (i = 0; i < num_queued_commands; i++) {
 	DEBUG(("Executing command #%d: %d", i, command_queue[i]));
-	switch (command_queue[i]) {
+	switch (command_queue[i].type) {
 	  case KCMD_HARD_RESET:
 	    mem_powerup();
 	    /* Fall through.  */
@@ -223,13 +242,13 @@ void kbd_flush_commands(void)
             resources_toggle("WarpMode", NULL);
             break;
 
-          case KCMD_ESC_PRESSED:
-            maincpu_trigger_trap(ui_main);
+          case KCMD_MENU:
+            maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
             break;
 
 	  default:
 	    fprintf(stderr, "Warning: Unknown keyboard command %d\n",
-		    (int)command_queue[i]);
+		    (int)command_queue[i].type);
 	}
     }
     num_queued_commands = 0;
@@ -250,6 +269,24 @@ inline static void set_keyarr(int row, int col, int value)
 	keyarr[row] &= ~(1 << col);
 	rev_keyarr[col] &= ~(1 << row);
     }
+}
+
+/* Convert a kcode to a printable ASCII character.  If not possible, return
+   0.  Warning: this only works for the US layout, and does not handle the
+   keypad correctly.  But for our current needs, this is more than enough.  */
+static char kcode_to_ascii(unsigned int kcode)
+{
+    char conv_table[256] = {
+        0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 0,
+        0, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\n',
+        0, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', '`', 0,
+        '\\', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 0, '*', 0,
+        ' ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '-', 0,
+        0, 0, '+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, '\n', 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    return conv_table[kcode];
 }
 
 static void my_kbd_interrupt_handler(void)
@@ -309,29 +346,34 @@ static void my_kbd_interrupt_handler(void)
 
 	switch (kcode) {
 	  case K_ESC:
-            queue_command(KCMD_ESC_PRESSED);
+            queue_command(KCMD_MENU, (kbd_command_data_t) 0);
 	    break;
 	  case K_PGUP: /* Restore */
-	    queue_command(KCMD_RESTORE_PRESSED);
+	    queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t) 0);
 	    break;
 	  case K_F12:
 	    /* F12 does a reset, Alt-F12 does a reset and clears the
                memory.  */
 	    if (modifiers.left_alt || modifiers.right_alt)
-		queue_command(KCMD_HARD_RESET);
+		queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
 	    else
-		queue_command(KCMD_RESET);
+		queue_command(KCMD_RESET, (kbd_command_data_t) 0);
 	    break;
           case K_PAUSE:
             /* Alt-Pause enables cartridge freezing.  */
             if (modifiers.left_alt || modifiers.right_alt)
-                queue_command(KCMD_FREEZE);
+                queue_command(KCMD_FREEZE, (kbd_command_data_t) 0);
             break;
           case K_SCROLLOCK:
-            queue_command(KCMD_TOGGLE_WARP);
+            queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t) 0);
             break;
 	  default:
-	    if (!joystick_handle_key(kcode, 1)) {
+            /* Alt-{letter,number} enters the monitor.  */
+            if ((modifiers.left_alt || modifiers.right_alt)
+                && isalnum((int) kcode_to_ascii(kcode))) {
+                queue_command(KCMD_MENU,
+                              (kbd_command_data_t) kcode_to_ascii(kcode));
+            } else if (!joystick_handle_key(kcode, 1)) {
 		set_keyarr(keyconv_base[kcode].row,
                            keyconv_base[kcode].column, 1);
 		if (keyconv_base[kcode].vshift)
@@ -374,7 +416,7 @@ static void my_kbd_interrupt_handler(void)
           case K_ESC:
             break;
 	  case K_PGUP:
-	    queue_command(KCMD_RESTORE_RELEASED);
+	    queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t) 0);
 	    break;
 	  default:
 	    if (!joystick_handle_key(kcode, 0)) {
@@ -457,7 +499,7 @@ int kbd_init(int shift_column, int shift_row, ...)
 
     DEBUG(("Locking custom keyboard handler code"));
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
-    _go32_dpmi_lock_data(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
+    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
     DEBUG(("Locking keyboard handler variables"));
     {
