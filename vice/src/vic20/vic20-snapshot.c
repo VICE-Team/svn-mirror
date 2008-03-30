@@ -41,6 +41,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "vic20-resources.h"
+#include "vic20-snapshot.h"
 #include "vic20mem.h"
 #include "vic20rom.h"
 

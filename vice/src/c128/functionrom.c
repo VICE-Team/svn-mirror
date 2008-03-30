@@ -31,6 +31,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "functionrom.h"
 #include "resources.h"
 #include "utils.h"
 #include "types.h"

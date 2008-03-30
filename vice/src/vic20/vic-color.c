@@ -30,8 +30,10 @@
 
 #include "vice.h"
 
+#include "vic-color.h"
 #include "vic.h"
 #include "video.h"
+
 
 /* base saturation of all colors except the grey tones */
 

@@ -37,6 +37,7 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
+#include "vic20-cmdline-options.h"
 #include "vic20mem.h"
 
 
