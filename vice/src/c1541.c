@@ -2932,6 +2932,10 @@ void ui_error_string(const char *text)
 {
 }
 
+void vsync_suspend_speed_eval(void)
+{
+}
+
 #ifdef WIN32
 #undef BYTE
 #undef WORD
