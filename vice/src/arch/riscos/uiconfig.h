@@ -301,18 +301,20 @@ typedef struct disp_desc_s {
 #define Icon_ConfVid_SetPalette		9
 #define Icon_ConfVid_Refresh		10
 #define Icon_ConfVid_RefreshT		11
-#define Icon_ConfVid_FullScreen		16
+#define Icon_ConfVid_FullScrNorm	16
+#define Icon_ConfVid_FullScrPAL		35
+#define Icon_ConfVid_FullScrDbl		37
 #define Icon_ConfVid_MaxSkipFrms	13
 #define Icon_ConfVid_VideoCache		17
-#define Icon_ConfVid_Palette		34
-#define Icon_ConfVid_ExtPal		35
+#define Icon_ConfVid_Palette		32
+#define Icon_ConfVid_ExtPal		33
 #define Icon_ConfVid_ColourSat		18
 #define Icon_ConfVid_Contrast		20
 #define Icon_ConfVid_Brightness		22
 #define Icon_ConfVid_Gamma		24
 #define Icon_ConfVid_LineShade		26
-#define Icon_ConfVid_PalMode		30
-#define Icon_ConfVid_PalModeT		31
+#define Icon_ConfVid_PalMode		28
+#define Icon_ConfVid_PalModeT		29
 
 /* Joystick conf */
 #define Icon_ConfJoy_JoyPort1		2

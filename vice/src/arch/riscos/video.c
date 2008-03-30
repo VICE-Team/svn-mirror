@@ -60,9 +60,13 @@ int FullScreenMode = 0;
 int FullScreenStatLine = 1;
 
 static int NumberOfCanvases = 0;
-static screen_mode_t newScreenMode;
+static screen_mode_t newScreenModeNorm;
+static screen_mode_t newScreenModePAL;
+static screen_mode_t newScreenModeDouble;
 static screen_mode_t oldScreenMode;
-static int newScreenValid = 0;
+static int newScreenValidNorm = 0;
+static int newScreenValidPAL = 0;
+static int newScreenValidDouble = 0;
 static int oldSingleTask;
 static int newModesAvailable;
 static RO_Screen FullScrDesc;
@@ -90,7 +94,10 @@ static const int StatusLEDSpace = 16;
 
 
 
-static char *ScreenModeString = NULL;
+static char *ScreenModeNormString = NULL;
+static char *ScreenModePALString = NULL;
+static char *ScreenModeDoubleString = NULL;
+
 static int ScreenSetPalette;
 static int UseBPlotModule;
 static int PALEmuDepth;
@@ -250,64 +257,95 @@ static void video_init_pal_double(void)
 }
 
 
-static int set_screen_mode(resource_value_t v, void *param)
+static int parse_screen_mode_string(const char *str, char **modestr, screen_mode_t *mode)
 {
-  char *str, *rest;
+  const char *rest;
   int modenum, resx, resy, depth;
 
-  str = (char*)v;
-
-  if ((ScreenModeString != NULL) && (str != NULL) && (strcmp(str, ScreenModeString) == 0))
+  if ((modestr != NULL) && (str != NULL) && (strcmp(str, *modestr) == 0))
     return 0;
 
   resx = 0; resy = 0; depth = 0;
-  modenum = strtol(str, &rest, 0);
+  modenum = strtol(str, (char**)&rest, 0);
   if (rest == str) return -1;
   if (*rest == ':')
   {
-    str = rest+1;
-    resx = strtol(str, &rest, 0);
-    if ((rest == str) || (*rest != ',')) return -1;
-    str = rest+1;
-    resy = strtol(str, &rest, 0);
-    if ((rest == str) || (*rest != ',')) return -1;
-    str = rest+1;
-    depth = strtol(str, &rest, 0);
-    if ((rest == str) || (*rest != '\0')) return -1;
+    const char *s = rest+1;
+
+    resx = strtol(s, (char**)&rest, 0);
+    if ((rest == s) || (*rest != ',')) return -1;
+    s = rest+1;
+    resy = strtol(s, (char**)&rest, 0);
+    if ((rest == s) || (*rest != ',')) return -1;
+    s = rest+1;
+    depth = strtol(s, (char**)&rest, 0);
+    if ((rest == s) || (*rest != '\0')) return -1;
   }
 
   newModesAvailable = CheckNewModes();
 
   if ((newModesAvailable == 0) || (resx == 0))
   {
-    newScreenMode.mode.mode_num = modenum;
+    mode->mode.mode_num = modenum;
   }
   else
   {
     int i;
 
-    newScreenMode.mode.mode_ptr = newScreenMode.new_mode;
-    newScreenMode.new_mode[0] = 1;
-    newScreenMode.new_mode[1] = resx;
-    newScreenMode.new_mode[2] = resy;
-    newScreenMode.new_mode[3] = depth;
-    newScreenMode.new_mode[4] = -1;
+    mode->mode.mode_ptr = mode->new_mode;
+    mode->new_mode[0] = 1;
+    mode->new_mode[1] = resx;
+    mode->new_mode[2] = resy;
+    mode->new_mode[3] = depth;
+    mode->new_mode[4] = -1;
 
     i = 5;
     if (depth < 4)
     {
       /* Set the number of palette entries according to the mode depth */
-      newScreenMode.new_mode[i++] = 3;
-      newScreenMode.new_mode[i++] = (1 << (1 << depth) ) - 1;
+      mode->new_mode[i++] = 3;
+      mode->new_mode[i++] = (1 << (1 << depth) ) - 1;
     }
-    newScreenMode.new_mode[i++] = -1;
+    mode->new_mode[i++] = -1;
   }
 
-  util_string_set(&ScreenModeString, (char*)v);
-
-  newScreenValid = 1;
+  util_string_set(modestr, str);
 
   return 0;
+}
+
+
+static int set_screen_mode_norm(resource_value_t v, void *param)
+{
+  if (parse_screen_mode_string((const char *)v, &ScreenModeNormString, &newScreenModeNorm) == 0)
+  {
+    newScreenValidNorm = 1;
+    return 0;
+  }
+  newScreenValidNorm = 0;
+  return -1;
+}
+
+static int set_screen_mode_pal(resource_value_t v, void *param)
+{
+  if (parse_screen_mode_string((const char *)v, &ScreenModePALString, &newScreenModePAL) == 0)
+  {
+    newScreenValidPAL = 1;
+    return 0;
+  }
+  newScreenValidPAL = 0;
+  return -1;
+}
+
+static int set_screen_mode_double(resource_value_t v, void *param)
+{
+  if (parse_screen_mode_string((const char *)v, &ScreenModeDoubleString, &newScreenModeDouble) == 0)
+  {
+    newScreenValidDouble = 1;
+    return 0;
+  }
+  newScreenValidDouble = 0;
+  return -1;
 }
 
 static int set_screen_palette(resource_value_t v, void *param)
@@ -343,7 +381,11 @@ static int set_pal_emu_double(resource_value_t v, void *param)
 
 static resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
-    (resource_value_t *)&ScreenModeString, set_screen_mode, NULL },
+    (resource_value_t *)&ScreenModeNormString, set_screen_mode_norm, NULL },
+  {"ScreenModePAL", RES_STRING, (resource_value_t)"28:640,480,5",
+    (resource_value_t *)&ScreenModePALString, set_screen_mode_pal, NULL },
+  {"ScreenModeDouble", RES_STRING, (resource_value_t)"31:800,600,5",
+    (resource_value_t *)&ScreenModeDoubleString, set_screen_mode_double, NULL },
   {"ScreenSetPalette", RES_INTEGER, (resource_value_t) 1,
     (resource_value_t *)&ScreenSetPalette, set_screen_palette, NULL },
   {"UseBPlot", RES_INTEGER, (resource_value_t) 1,
@@ -1584,11 +1626,32 @@ void video_full_screen_colours(void)
 
 int video_full_screen_on(int *sprites)
 {
-  if (newScreenValid == 0) return -1;
+  screen_mode_t *usemode = NULL;
+
+  if (ActualPALDepth == 0)
+  {
+    if (newScreenValidNorm != 0)
+      usemode = &newScreenModeNorm;
+  }
+  else
+  {
+    if (ActiveCanvas->videoconfig.rendermode == VIDEO_RENDER_PAL_2X2)
+    {
+      if (newScreenValidDouble != 0)
+        usemode = &newScreenModeDouble;
+    }
+    else
+    {
+      if (newScreenValidPAL != 0)
+        usemode = &newScreenModePAL;
+    }
+  }
+
+  if (usemode == NULL) return -1;
 
   vsync_suspend_speed_eval();
 
-  if (SwitchToMode(&newScreenMode, &oldScreenMode) != NULL)
+  if (SwitchToMode(usemode, &oldScreenMode) != NULL)
     return -1;
 
   oldSingleTask = SingleTasking;

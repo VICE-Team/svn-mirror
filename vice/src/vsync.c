@@ -247,7 +247,7 @@ void vsync_sync_reset(void)
 
 /* This is called at the end of each screen frame. It flushes the
    audio buffer and keeps control of the emulation speed. */
-int vsync_do_vsync(int been_skipped)
+int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 {
     static unsigned long next_frame_start = 0;
 

@@ -796,7 +796,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 
     if (ted.raster.current_line == 0) {
         raster_skip_frame(&ted.raster,
-                          vsync_do_vsync(ted.raster.skip_frame));
+                          vsync_do_vsync(ted.raster.viewport.canvas, ted.raster.skip_frame));
         ted.memptr = 0;
         ted.memptr_col = 0;
         ted.mem_counter = 0;

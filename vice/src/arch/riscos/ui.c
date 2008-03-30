@@ -745,7 +745,9 @@ static const char Rsrc_PetRAM9[] = "Ram9";
 static const char Rsrc_PetRAMA[] = "RamA";
 static const char Rsrc_PetDiag[] = "DiagPin";
 static const char Rsrc_PetSuper[] = "SuperPET";
-static const char Rsrc_FullScr[] = "ScreenMode";
+static const char Rsrc_FullScrNorm[] = "ScreenMode";
+static const char Rsrc_FullScrPal[] = "ScreenModePAL";
+static const char Rsrc_FullScrPal2[] = "ScreenModeDouble";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
@@ -3537,8 +3539,12 @@ static void ui_key_press_config(int *b)
         {
           case Icon_ConfVid_MaxSkipFrms:
             resources_set_value(Rsrc_MaxSkipped, (resource_value_t)atoi(data)); break;
-          case Icon_ConfVid_FullScreen:
-            resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
+          case Icon_ConfVid_FullScrNorm:
+            resources_set_value(Rsrc_FullScrNorm, (resource_value_t)data); break;
+          case Icon_ConfVid_FullScrPAL:
+            resources_set_value(Rsrc_FullScrPal, (resource_value_t)data); break;
+          case Icon_ConfVid_FullScrDbl:
+            resources_set_value(Rsrc_FullScrPal2, (resource_value_t)data); break;
           case Icon_ConfVid_ColourSat:
             resources_set_value(Rsrc_ColourSat, (resource_value_t)atoi(data)); break;
           case Icon_ConfVid_Contrast:

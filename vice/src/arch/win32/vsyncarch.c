@@ -90,6 +90,32 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 
 }
 
+static unsigned long last;
+static unsigned long max;
+
+void vsyncarch_verticalblank(video_canvas_t *c)
+{
+	LARGE_INTEGER now;
+	HANDLE prc;
+	unsigned long nowi;
+	int i;
+
+	prc = GetCurrentProcess();
+	SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
+	QueryPerformanceCounter(&now);
+	nowi = (unsigned long)now.QuadPart;
+	i = 1;
+	while (1)
+	{
+		if ((nowi - last) >= max) break;
+		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
+		QueryPerformanceCounter(&now);
+		nowi = (unsigned long)now.QuadPart;
+	}
+	last = nowi;
+	SetPriorityClass(prc, NORMAL_PRIORITY_CLASS);
+}
+
 void vsyncarch_sleep(signed long delay)
 {
 	LARGE_INTEGER start, now;

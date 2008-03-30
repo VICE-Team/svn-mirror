@@ -1321,10 +1321,13 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         vsync_suspend_speed_eval();
+/*
         if (ui_messagebox("Do you really want to reset the emulated machine?",
                           ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
                           : "Soft reset"),
-                          MB_YESNO | MB_ICONQUESTION) == IDYES) {
+                          MB_YESNO | MB_ICONQUESTION) == IDYES)
+*/
+		{
             if (machine_class == VICE_MACHINE_PLUS4) {
                 if ((keyarr[7]&128)) {
                     keyboard_clear_keymatrix();

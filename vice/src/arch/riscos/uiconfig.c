@@ -154,7 +154,9 @@ static const char Rsrc_C2RAM6[] = "Ram6";
 static const char Rsrc_C2RAMC[] = "RamC";
 static const char Rsrc_C2Line[] = "ModelLine";
 static const char Rsrc_C2Mem[] = "RamSize";
-static const char Rsrc_FullScr[] = "ScreenMode";
+static const char Rsrc_FullScrNorm[] = "ScreenMode";
+static const char Rsrc_FullScrPAL[] = "ScreenModePAL";
+static const char Rsrc_FullScrDbl[] = "ScreenModeDouble";
 static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
 static const char Rsrc_UseBPlot[] = "UseBPlot";
 static const char Rsrc_Key8040[] = "40/80ColumnKey";
@@ -1529,7 +1531,9 @@ config_item_t Configurations[] = {
   {Rsrc_Speed, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_ConfSys_SpeedEvery}},
   {Rsrc_SndEvery, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_ConfSys_SoundEvery}},
   {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_AutoPause}},
-  {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_FullScreen}},
+  {Rsrc_FullScrNorm, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_FullScrNorm}},
+  {Rsrc_FullScrPAL, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_FullScrPAL}},
+  {Rsrc_FullScrDbl, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_FullScrDbl}},
   {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_SetPalette}},
   {Rsrc_UseBPlot, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_UseBPlot}},
   {Rsrc_MaxSkipped, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_MaxSkipFrms}},
