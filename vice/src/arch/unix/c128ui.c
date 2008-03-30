@@ -77,11 +77,26 @@ static ui_menu_entry_t vdc_palette_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(VDC_Revision)
+
+static ui_menu_entry_t set_vdc_revison_submenu[] = {
+    { N_("*Revison 0"), (ui_callback_t)radio_VDC_Revision,
+      (ui_callback_data_t)0, NULL },
+    { N_("*Revison 1"), (ui_callback_t)radio_VDC_Revision,
+      (ui_callback_data_t)1, NULL },
+    { N_("*Revison 2"), (ui_callback_t)radio_VDC_Revision,
+      (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(VDC_VideoCache)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDC_64KB)
 
 static ui_menu_entry_t vdc_submenu[] = {
+    { N_("*Video cache"),
+      (ui_callback_t)toggle_VDC_VideoCache, NULL, NULL },
     { N_("*Double size"),
       (ui_callback_t)toggle_VDC_DoubleSize, NULL, NULL },
     { N_("*Double scan"),
@@ -89,6 +104,8 @@ static ui_menu_entry_t vdc_submenu[] = {
     { "--" },
     { N_("*64KB display memory"),
       (ui_callback_t)toggle_VDC_64KB, NULL, NULL },
+    { N_("Revision"),
+      NULL, NULL, set_vdc_revison_submenu },
     { "--" },
     { N_("Color set"),
       NULL, NULL, vdc_palette_submenu },
