@@ -1,3 +1,15 @@
+Wed Apr  1 12:22:13 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.6.
+
+	* arch/msdos/ui.c [CBM64 && HAVE_TRUE1541]
+ 	(toggle_true1541_parallel_cable_callback): New function.
+	(UiInitFinish): new item for toggling the parallel cable
+ 	emulation.
+
+	* true1541.c (serial_bus_drive_read, serial_bus_drive_write)
+	[!FAST_BUS]:  Inverted polarities.
+
 Tue Mar 31 13:06:25 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.5.

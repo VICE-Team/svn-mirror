@@ -4,7 +4,7 @@
  */
 
 /* Global VICE release version.  */
-#define VERSION		"0.14.1.5"
+#define VERSION		"0.14.1.6"
 
 /* Define this for unstable, untested versions for developers only.  */
 #define UNSTABLE
