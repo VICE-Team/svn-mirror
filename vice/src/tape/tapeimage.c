@@ -125,7 +125,7 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
 
             tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
             memcpy(rec.name, tape_rec->name, 16);
-            rec.type = 1;
+            rec.type = tape_rec->type;
             rec.start_addr = tape_rec->start_addr;
             rec.end_addr = tape_rec->end_addr;
             break;
@@ -172,10 +172,8 @@ int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size)
     switch (tape_image->type) {
       case TAPE_TYPE_T64:
         return t64_read((t64_t *)tape_image->data, buf, size);
-#if 0
       case TAPE_TYPE_TAP:
         return tap_read((tap_t *)tape_image->data, buf, size);
-#endif
     }
     return -1;
 }

@@ -41,10 +41,9 @@
 #endif
 
 #define NUM_OF_REU_SIZE 8
-static const int ui_reu_size[] = {
+static const int ui_reu_size[NUM_OF_REU_SIZE] = {
     128, 256, 512, 1024, 2048, 4096, 8192, 16384
 };
-
 
 
 static void init_reu_dialog(HWND hwnd)
@@ -59,13 +58,13 @@ static void init_reu_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
-    temp_hwnd=GetDlgItem(hwnd,IDC_REU_SIZE);
+    temp_hwnd = GetDlgItem(hwnd,IDC_REU_SIZE);
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
         char st[10];
         itoa(ui_reu_size[res_value_loop], st, 10);
         strcat(st, " kB");
-        SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)st);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_value("REUsize", (void *)&res_value);
     active_value = 0; /* default */
@@ -123,8 +122,8 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
                 if (GetSaveFileName(&ofn))
                     SetDlgItemText(hwnd, IDC_REU_FILE, name);
-                }
-                break;
+            }
+            break;
 
           case IDOK:
             resources_set_value("REU", (resource_value_t)
@@ -138,12 +137,12 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             GetDlgItemText(hwnd, IDC_REU_FILE, s, MAX_PATH);
             resources_set_value("REUfilename", (resource_value_t)s);
           case IDCANCEL:
-            EndDialog(hwnd,0);
+            EndDialog(hwnd, 0);
             return TRUE;
         }
         return FALSE;
       case WM_CLOSE:
-        EndDialog(hwnd,0);
+        EndDialog(hwnd, 0);
         return TRUE;
       case WM_INITDIALOG:
         init_reu_dialog(hwnd);

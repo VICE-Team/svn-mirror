@@ -166,6 +166,10 @@ SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic64cart.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uicbm2set.c
 # End Source File
 # Begin Source File
@@ -195,6 +199,10 @@ SOURCE=.\uidrivepetcbm2.c
 # Begin Source File
 
 SOURCE=.\uidriveplus4.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uifliplist.c
 # End Source File
 # Begin Source File
 
@@ -231,6 +239,10 @@ SOURCE=.\uiram.c
 # Begin Source File
 
 SOURCE=.\uireu.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uirom.c
 # End Source File
 # Begin Source File
 

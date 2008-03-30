@@ -69,6 +69,8 @@ libarch_a_SOURCES = \
 	uiperipheral.h \
 	uic128.c \
 	uic128.h \
+	uic64cart.c \
+	uic64cart.h \
 	uicbm2set.c \
 	uicbm2set.h \
 	uicmdline.c \
@@ -83,6 +85,8 @@ libarch_a_SOURCES = \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uifliplist.c \
+	uifliplist.h \
 	uijoystick.c \
 	uijoystick.h \
 	uilib.c \
@@ -98,6 +102,8 @@ libarch_a_SOURCES = \
 	uiram.h \
 	uireu.c \
 	uireu.h \
+	uirom.c \
+	uirom.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.h \

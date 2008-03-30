@@ -51,6 +51,8 @@
 #include "lib.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
+#include "util.h"
+#include "archdep.h"
 
 
 static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
@@ -212,7 +214,11 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for read mode access.  */
     tape = &(fs_info[secondary].tape);
-    tape->name = lib_stralloc(rname);
+    tape->name = util_concat(fsdevice_get_path(vdrive->unit), 
+                             FSDEV_DIR_SEP_STR, rname, NULL);
+    charset_petconvstring(tape->name + 
+                          strlen(fsdevice_get_path(vdrive->unit))+
+                          strlen(FSDEV_DIR_SEP_STR), 1);
     tape->read_only = 1;
     if (tape_image_open(tape) < 0) {
         lib_free(tape->name);
@@ -221,11 +227,18 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         tape_file_record_t *r;
         static BYTE startaddr[2];
         tape_seek_start(tape);
+        tape_seek_to_file(tape, 0);
         r = tape_get_current_file_record(tape);
-        startaddr[0] = r->start_addr & 255;
-        startaddr[1] = r->start_addr >> 8;
-        fs_info[secondary].bufp = startaddr;
-        fs_info[secondary].buflen = 2;
+        if( (r->type==1) || (r->type==3) )
+          {
+            startaddr[0] = r->start_addr & 255;
+            startaddr[1] = r->start_addr >> 8;
+            fs_info[secondary].bufp = startaddr;
+            fs_info[secondary].buflen = 2;
+          }
+        else
+          fs_info[secondary].buflen = 0;
+          
         return FLOPPY_COMMAND_OK;
     }
 

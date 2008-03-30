@@ -236,11 +236,6 @@ static int sprite_save(screenshot_t *screenshot, const char *filename)
   return sprite_close(screenshot);
 }
 
-static int sprite_record(screenshot_t *screenshot)
-{
-  return -1;
-}
-
 
 static gfxoutputdrv_t sprite_drv =
 {
@@ -251,7 +246,7 @@ static gfxoutputdrv_t sprite_drv =
   sprite_close,
   sprite_write,
   sprite_save,
-  sprite_record
+  NULL
 };
 
 

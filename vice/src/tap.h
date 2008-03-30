@@ -67,6 +67,11 @@ typedef struct tap_s {
     /* Position in the current file.  */
     int current_file_seek_position;
 
+    /* buffer for decoded content of current file */
+    size_t current_file_data_pos; 
+    size_t current_file_size;
+    BYTE * current_file_data;
+
     /* Header offset.  */
     int offset;
 
@@ -103,6 +108,8 @@ extern int tap_seek_to_file(tap_t *tap, unsigned int file_number);
 extern int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind);
 extern void tap_get_header(tap_t *tap, BYTE *name);
 extern struct tape_file_record_s *tap_get_current_file_record(tap_t *tap);
+
+extern int tap_read(tap_t *tap, BYTE *buf, size_t size);
 
 #endif
 

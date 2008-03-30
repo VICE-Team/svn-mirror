@@ -2213,7 +2213,7 @@ static int tape_cmd(int nargs, char **args)
             BYTE *buf;
             size_t name_len;
             WORD file_size;
-            int retval;
+            int i, retval;
 
             /* Ignore traling spaces and 0xa0's.  */
             name_len = strlen((char *)(rec->name));
@@ -2242,49 +2242,89 @@ static int tape_cmd(int nargs, char **args)
                     continue;
             }
 
-            /* FIXME: This does not write the actual file type.  */
-            if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
-                fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
-                       dest_name_ascii, drive_number + 8);
-                lib_free(dest_name_petscii);
-                lib_free(dest_name_ascii);
-                continue;
-            }
-
-            fprintf(stderr, "Writing `%s' ($%04X - $%04X) to drive %d.\n",
-                   dest_name_ascii, rec->start_addr, rec->end_addr,
-                   drive_number + 8);
-
-            vdrive_iec_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
-            vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
-
-            file_size = rec->end_addr - rec->start_addr;
-
-            buf = lib_calloc((size_t)file_size, 1);
-
-            retval = tape_read(tape_image, buf, file_size);
-
-            if (retval < 0 || retval != (int) file_size)
-                fprintf(stderr,
-                        "Unexpected end of tape: file may be truncated.\n");
-            {
-                int i;
+            if( rec->type==1 || rec->type==3 )
+              {
+                if (vdrive_iec_open(drive, dest_name_petscii, (int)name_len, 1)) {
+                  fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
+                          dest_name_ascii, drive_number + 8);
+                  lib_free(dest_name_petscii);
+                  lib_free(dest_name_ascii);
+                  continue;
+                }
+                
+                fprintf(stderr, "Writing `%s' ($%04X - $%04X) to drive %d.\n",
+                        dest_name_ascii, rec->start_addr, rec->end_addr,
+                        drive_number + 8);
+                
+                vdrive_iec_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
+                vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
+                
+                file_size = rec->end_addr - rec->start_addr;
+                
+                buf = lib_calloc((size_t)file_size, 1);
+                
+                retval = tape_read(tape_image, buf, file_size);
+                
+                if (retval < 0 || retval != (int) file_size)
+                  fprintf(stderr,
+                          "Unexpected end of tape: file may be truncated.\n");
 
                 for (i = 0; i < file_size; i++)
-                    if (vdrive_iec_write(drives[drive_number],
-                        ((BYTE)(buf[i])), 1)) {
+                  if (vdrive_iec_write(drives[drive_number],
+                                       ((BYTE)(buf[i])), 1)) {
+                    tape_internal_close_tape_image(tape_image);
+                    lib_free(dest_name_petscii);
+                    lib_free(dest_name_ascii);
+                    lib_free(buf);
+                    return FD_WRTERR;
+                  }
+
+                lib_free(buf);
+              }
+            else if( rec->type==4 )
+              {
+                BYTE b;
+                char *dest_name_plustype;
+                dest_name_plustype = util_concat(dest_name_petscii, ",S,W", NULL);
+                retval = vdrive_iec_open(drive, dest_name_plustype, 
+                                         (int) name_len+4, 2);
+                lib_free(dest_name_plustype);
+
+                if( retval ) {
+                  fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
+                          dest_name_ascii, drive_number + 8);
+                  lib_free(dest_name_petscii);
+                  lib_free(dest_name_ascii);
+                  continue;
+                }
+                
+                fprintf(stderr, "Writing SEQ file `%s' to drive %d.\n",
+                        dest_name_ascii, drive_number + 8);
+               
+                do
+                  {
+                    retval = tape_read(tape_image, &b, 1);
+
+                    if( retval<0 )
+                      {
+                        fprintf(stderr,
+                                "Unexpected end of tape: file may be truncated.\n");
+                        break;
+                      }
+                    else if (vdrive_iec_write(drives[drive_number], b, 2)) 
+                      {
                         tape_internal_close_tape_image(tape_image);
                         lib_free(dest_name_petscii);
                         lib_free(dest_name_ascii);
-                        lib_free(buf);
                         return FD_WRTERR;
-                    }
-            }
+                      }
+                  }
+                while( retval==1 );
+              }
 
             vdrive_iec_close(drive, 1);
             lib_free(dest_name_petscii);
             lib_free(dest_name_ascii);
-            lib_free(buf);
             count++;
         }
     }
@@ -2553,13 +2593,13 @@ static int write_cmd(int nargs, char **args)
     if (vdrive_iec_open(drives[dnr], (char *)finfo->name,
                         (int)finfo->length, 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
-                dest_name_ascii);
+                finfo->name);
         fileio_close(finfo);
         lib_free(dest_name_ascii);
         return FD_WRTERR;
     }
 
-    printf("Writing file `%s' to unit %d.\n", dest_name_ascii, dnr + 8);
+    printf("Writing file `%s' to unit %d.\n", finfo->name, dnr + 8);
     while (1) {
         BYTE c;
 
