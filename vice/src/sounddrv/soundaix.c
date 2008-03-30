@@ -30,6 +30,8 @@
 /* XXX: includes? */
 
 #include "vice.h"
+
+#include "lib.h"
 #include "sound.h"
 
 #include <UMS/UMSAudioDevice.h>
@@ -97,9 +99,9 @@ static int aix_init(const char *param, int *speed,
 				      &left_gain, &right_gain);
 
     /* set buffer size */
-    tmp = (*fragsize)*(*fragnr)*sizeof(SWORD);
+    tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
     buffer._maximum = tmp;
-    buffer._buffer  = (char *) xmalloc(tmp);
+    buffer._buffer  = (char *)lib_malloc(tmp);
     buffer._length = 0;
 
 

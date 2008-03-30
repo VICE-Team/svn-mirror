@@ -31,9 +31,9 @@
 
 #include "attach.h"
 #include "diskimage.h"
+#include "lib.h"
 #include "log.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
@@ -46,7 +46,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
     vdrive_t *vdrive;
     disk_image_t *image;
 
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
 
     image->gcr = NULL;
     image->read_only = read_only;
@@ -55,7 +55,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
 
     disk_image_media_create(image);
 
-    disk_image_name_set(image, stralloc(name));
+    disk_image_name_set(image, lib_stralloc(name));
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
@@ -64,7 +64,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
         return NULL;
     }
 
-    vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
+    vdrive = (vdrive_t *)lib_calloc(1, sizeof(vdrive_t));
 
     vdrive_device_setup(vdrive, 100);
     vdrive->image = image;

@@ -51,10 +51,10 @@
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsdevice.h"
+#include "lib.h"
 #include "log.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
@@ -101,7 +101,7 @@ int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
     vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
 
     if (vdrive->buffers[15].buffer == NULL)
-        vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
+        vdrive->buffers[15].buffer = (BYTE *)lib_malloc(256);
     memset(vdrive->buffers[15].buffer, 0, 256);
 
     vdrive_command_set_error(vdrive, IPE_DOS_VERSION, 0, 0);

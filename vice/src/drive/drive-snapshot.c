@@ -40,13 +40,13 @@
 #include "driverom.h"
 #include "gcr.h"
 #include "iecdrive.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "resources.h"
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-snapshot.h"
 #include "viad.h"
@@ -601,7 +601,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     if (m == NULL)
         return -1;
 
-    tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (BYTE *)lib_malloc(MAX_TRACKS_1571 * 4);
 
     for (i = 0; i < MAX_TRACKS_1571; i++) {
         tmpbuf[i * 4] = drive[dnr].gcr->track_size[i] & 0xff;
@@ -653,7 +653,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
                   GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
     }
 
-    tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (BYTE *)lib_malloc(MAX_TRACKS_1571 * 4);
 
     if (0
         || SMR_BA(m, drive[dnr].gcr->data,

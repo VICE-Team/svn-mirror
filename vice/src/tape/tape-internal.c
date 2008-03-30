@@ -28,10 +28,10 @@
 
 #include <stdlib.h>
 
+#include "lib.h"
 #include "log.h"
 #include "tape-internal.h"
 #include "tape.h"
-#include "utils.h"
 
 
 int tape_internal_close_tape_image(tape_image_t *tape_image)
@@ -49,8 +49,8 @@ tape_image_t *tape_internal_open_tape_image(const char *name,
 {
     tape_image_t *image;
 
-    image = (tape_image_t *)xmalloc(sizeof(tape_image_t));
-    image->name = stralloc(name);
+    image = (tape_image_t *)lib_malloc(sizeof(tape_image_t));
+    image->name = lib_stralloc(name);
     image->read_only = read_only;
 
     if (tape_image_open(image) < 0) {

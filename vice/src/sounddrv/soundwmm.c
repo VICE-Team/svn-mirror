@@ -41,10 +41,10 @@
 #include <string.h>
 #endif
 
+#include "lib.h"
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 
 /* ------------------------------------------------------------------------ */
 
@@ -486,7 +486,7 @@ static int wmm_suspend(void)
     int c, i;
     SWORD *p;
 
-    p = (SWORD *)xmalloc(fragment_size * num_of_channels * sizeof(SWORD));
+    p = (SWORD *)lib_malloc(fragment_size * num_of_channels * sizeof(SWORD));
 
     if (!p)
         return 0;

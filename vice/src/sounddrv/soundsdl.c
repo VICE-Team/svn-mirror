@@ -30,8 +30,9 @@
 #include <unistd.h>
 
 #include "vice.h"
+
+#include "lib.h"
 #include "sound.h"
-#include "utils.h"
 
 
 static SWORD *sdl_buf = NULL;
@@ -90,7 +91,7 @@ static int sdl_init(const char *param, int *speed,
     }
     sdl_len = (*fragsize)*(*fragnr) + 1;
     sdl_inptr = sdl_outptr = 0;
-    sdl_buf = xmalloc(sizeof(SWORD)*sdl_len);
+    sdl_buf = lib_malloc(sizeof(SWORD)*sdl_len);
     if (!sdl_buf)
     {
 	SDL_CloseAudio();

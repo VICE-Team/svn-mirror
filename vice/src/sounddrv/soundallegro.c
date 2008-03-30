@@ -34,8 +34,8 @@
 #include <allegro.h>            /* Must come after <stdio.h>.  */
 #include <dpmi.h>
 
+#include "lib.h"
 #include "sound.h"
-#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -106,7 +106,7 @@ static int allegro_init_sound(const char *param, int *speed,
     fragment_size = *fragsize * sizeof(SWORD);
 
     buffer_len = fragment_size * *fragnr;
-    buffer = (SAMPLE *) xmalloc(sizeof(SAMPLE));
+    buffer = (SAMPLE *)lib_malloc(sizeof(SAMPLE));
     _go32_dpmi_lock_data(buffer, sizeof(SAMPLE));
 
     buffer->bits = 16;
@@ -117,7 +117,7 @@ static int allegro_init_sound(const char *param, int *speed,
     buffer->loop_end = buffer->len;
     buffer->param = -1;
 
-    buffer->data = xmalloc(buffer_len);
+    buffer->data = lib_malloc(buffer_len);
     _go32_dpmi_lock_data(buffer->data, buffer_len);
 
     for (i = 0; i < buffer_len / 2; i++)

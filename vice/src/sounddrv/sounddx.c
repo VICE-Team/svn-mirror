@@ -38,10 +38,10 @@
 #define DIRECTSOUND_VERSION 0x0500
 #include <dsound.h>
 
+#include "lib.h"
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
 
 #ifndef HAVE_GUIDLIB
 /* FIXME: It would be better to convert the dxguid.lib from DX5 into the
@@ -435,7 +435,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
 static int dx_suspend(void)
 {
     int c, i;
-    SWORD *p = (SWORD *)xmalloc(stream_buffer_size * sizeof(SWORD));
+    SWORD *p = (SWORD *)lib_malloc(stream_buffer_size * sizeof(SWORD));
 
     if (!p)
         return 0;

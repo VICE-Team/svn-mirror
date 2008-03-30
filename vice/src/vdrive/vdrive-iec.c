@@ -52,10 +52,10 @@
 #endif
 
 #include "diskimage.h"
+#include "lib.h"
 #include "log.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
@@ -82,7 +82,7 @@ static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary,
 
     p->mode = BUFFER_SEQUENTIAL;
     p->bufptr = 2;
-    p->buffer = (BYTE *)xmalloc(256);
+    p->buffer = (BYTE *)lib_malloc(256);
 
     status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
 
@@ -130,7 +130,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
                                         0);
 
     p->mode = BUFFER_DIRECTORY_READ;
-    p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
+    p->buffer = (BYTE *)lib_malloc(DIR_MAXBUF);
 
     retlen = vdrive_dir_create_directory(vdrive, cmd_parse->parsecmd,
                                          cmd_parse->parselength,
@@ -301,7 +301,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      */
     if (*name == '#') {
         p->mode = BUFFER_MEMORY_BUFFER;
-        p->buffer = (BYTE *)xmalloc(256);
+        p->buffer = (BYTE *)lib_malloc(256);
         p->bufptr = 0;
         status = SERIAL_OK;
         goto out;

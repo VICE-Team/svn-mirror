@@ -34,11 +34,11 @@
 #include <string.h>
 
 #include "diskimage.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
@@ -140,7 +140,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         return IPE_LONG_LINE;
     }
 
-    p = (BYTE *)xmalloc(length + 1);
+    p = (BYTE *)lib_malloc(length + 1);
     memcpy(p, buf, length);
 
     if (p[length - 1] == 0x0d)
@@ -762,11 +762,11 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 
     if (comma != NULL) {
         if (comma != disk_name) {
-            name = xmalloc(comma - disk_name + 1);
+            name = lib_malloc(comma - disk_name + 1);
             memcpy(name, disk_name, comma - disk_name);
             name[comma - disk_name] = '\0';
         } else {
-            name = stralloc(" ");
+            name = lib_stralloc(" ");
         }
         if (comma[1] != '\0') {
             if (comma[2] != '\0') {
@@ -780,7 +780,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
             id[0] = id[1] = ' ';
         }
     } else {
-        name = stralloc(disk_name);
+        name = lib_stralloc(disk_name);
         id[0] = id[1] = ' ';
     }
 
@@ -965,7 +965,7 @@ int vdrive_command_parse(cmd_parse_t *cmd_parse)
     cmd_parse->parselength = 0;
 
     /* Temporary hack.  */
-    cmd_parse->parsecmd = (char *)xcalloc(1, 256);
+    cmd_parse->parsecmd = (char *)lib_calloc(1, 256);
 
     parsecmd = cmd_parse->parsecmd;
 

@@ -32,10 +32,10 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "t64.h"
 #include "types.h"
-#include "utils.h"
 #include "zfile.h"
 
 static const char *magic_headers[] = {
@@ -150,7 +150,7 @@ t64_t *t64_new(void)
 {
     t64_t *new64;
 
-    new64 = xcalloc(1, sizeof(t64_t));
+    new64 = lib_calloc(1, sizeof(t64_t));
 
     new64->file_name = NULL;
     new64->fd = NULL;
@@ -192,8 +192,8 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
         return NULL;
     }
 
-    new->file_records = xmalloc(sizeof(t64_file_record_t)
-                                * new->header.num_entries);
+    new->file_records = lib_malloc(sizeof(t64_file_record_t)
+                                   * new->header.num_entries);
 
     for (i = 0; i < new->header.num_entries; i++)
         if (t64_file_record_read(new->file_records + i, fd) < 0) {
@@ -201,7 +201,7 @@ t64_t *t64_open(const char *name, unsigned int *read_only)
             return NULL;
         }
 
-    new->file_name = stralloc(name);
+    new->file_name = lib_stralloc(name);
 
     return new;
 }

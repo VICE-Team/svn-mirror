@@ -34,7 +34,7 @@
 #include "diskcontents-block.h"
 #include "diskimage.h"
 #include "imagecontents.h"
-#include "utils.h"
+#include "lib.h"
 #include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
@@ -74,11 +74,11 @@ static int circular_check(unsigned int track, unsigned int sector)
     if (block_list_nelems == block_list_size) {
         if (block_list_size == 0) {
             block_list_size = 512;
-            block_list = xmalloc(sizeof(*block_list) * block_list_size);
+            block_list = lib_malloc(sizeof(*block_list) * block_list_size);
         } else {
             block_list_size *= 2;
-            block_list = xrealloc(block_list,
-                                  sizeof(*block_list) * block_list_size);
+            block_list = lib_realloc(block_list,
+                                     sizeof(*block_list) * block_list_size);
         }
     }
 
@@ -148,7 +148,7 @@ image_contents_t *diskcontents_block_read(const char *file_name,
                 image_contents_file_list_t *new_list;
                 int i;
 
-                new_list = (image_contents_file_list_t *)xmalloc(
+                new_list = (image_contents_file_list_t *)lib_malloc(
                            sizeof(image_contents_file_list_t));
                 new_list->size = ((int)p[SLOT_NR_BLOCKS]
                                   + ((int)p[SLOT_NR_BLOCKS + 1] << 8));

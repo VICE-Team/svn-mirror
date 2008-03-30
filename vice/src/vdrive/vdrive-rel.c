@@ -32,11 +32,12 @@
 #include <string.h>
 
 #include "diskimage.h"
+#include "lib.h"
 #include "log.h"
 #include "serial.h"
-#include "utils.h"
 #include "vdrive-dir.h"
 #include "vdrive.h"
+
 
 #define SIDE_SECTORS_MAX 6
 #define SIDE_INDEX_MAX   120
@@ -49,8 +50,8 @@
 #define OFFSET_POINTER     16
 
 
-
 static log_t vdrive_rel_log = LOG_ERR;
+
 
 void vdrive_rel_init(void)
 {
@@ -95,7 +96,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
     if (vdrive->side_sector != NULL)    
         free(vdrive->side_sector);
 
-    vdrive->side_sector = (BYTE *)xmalloc(SIDE_SECTORS_MAX * 256);
+    vdrive->side_sector = (BYTE *)lib_malloc(SIDE_SECTORS_MAX * 256);
     memset(vdrive->side_sector, 0, SIDE_SECTORS_MAX * 256);
 
     if (p->slot) {
@@ -107,7 +108,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
 
     p->mode = BUFFER_RELATIVE;
     p->bufptr = 0;
-    p->buffer = (BYTE *)xmalloc(256);
+    p->buffer = (BYTE *)lib_malloc(256);
     p->record = 0;
 
     return SERIAL_OK;
@@ -163,7 +164,7 @@ static BYTE *vdrive_rel_read_buffer(vdrive_t *vdrive, unsigned int track,
     if (disk_image_read_sector(vdrive->image, secdata, track, sector) != 0)
         return NULL;
 
-    recbuf = (BYTE *)xmalloc(2 * 254);
+    recbuf = (BYTE *)lib_malloc(2 * 254);
 
     memcpy(recbuf, &secdata[2], 254);
 
