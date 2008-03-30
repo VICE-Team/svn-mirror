@@ -26,6 +26,7 @@
  *
  */
 
+#define X11_USE_RENDER
 
 /*** MITSHM-code rewritten by Dirk Farin <farin@ti.uni-mannheim.de>. **
 
@@ -152,12 +153,12 @@ static log_t video_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-#if X_DISPLAY_DEPTH == 0
-static void (*_convert_func) (video_frame_buffer_t * p, int x, int y, int w,
+#if VIDEO_DISPLAY_DEPTH == 0
+static void (*_convert_func) (video_frame_buffer_t *p, int x, int y, int w,
                               int h);
-static PIXEL real_pixel1[256];
-static PIXEL2 real_pixel2[256];
-static PIXEL4 real_pixel4[256];
+static DWORD real_pixel1[256];
+static DWORD real_pixel2[256];
+static DWORD real_pixel4[256];
 static long real_pixel[256];
 static BYTE shade_table[256];
 
@@ -165,16 +166,30 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
                                unsigned int dither, long col)
 {
     *pixel_return = i;
-    if (ui_get_display_depth() == 8)
+
+#ifdef X11_USE_RENDER
+    if (0) {
+#else
+    if (ui_get_display_depth() == 8) {
+#endif
         *pixel_return = *data;
-    else if (bits_per_pixel == 8)
-        real_pixel1[i] = *(PIXEL *)data;
-    else if (bits_per_pixel == 16)
-        real_pixel2[i] = (PIXEL2)col /**(PIXEL2 *)data*/;
-    else if (bits_per_pixel == 32)
-        real_pixel4[i] = (PIXEL4)col /**(PIXEL4 *)data*/;
-    else
-        real_pixel[i] = col;
+    } else {
+        switch (bits_per_pixel) {
+          case 8:
+            real_pixel1[i] = (DWORD)(*(PIXEL *)data);
+            break;
+          case 16:
+            real_pixel2[i] = (DWORD)col;
+            break;
+          case 32:
+            real_pixel4[i] = (DWORD)col;
+            break;
+          default:
+            real_pixel[i] = col;
+
+        }
+    }
+
     if (bits_per_pixel == 1)
         shade_table[i] = dither;
 }
@@ -190,6 +205,12 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
 static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
                           int h)
 {
+#ifdef X11_USE_RENDER
+    video_render_main(real_pixel2, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 16);
+
+#else
     PIXEL *src;
     PIXEL2 *dst;
     int x, y;
@@ -198,13 +219,21 @@ static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
         src = SRCPTR(p, sx, sy + y);
         dst = DESTPTR(p, sx, sy + y, PIXEL2);
         for (x = 0; x < w; x++)
-            dst[x] = real_pixel2[src[x]];
+            dst[x] = (PIXEL2)real_pixel2[src[x]];
+
     }
+#endif
 }
 
 static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
                           int h)
 {
+#ifdef X11_USE_RENDER
+    video_render_main(real_pixel4, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 32);
+
+#else
     PIXEL *src;
     PIXEL4 *dst;
     int x, y;
@@ -213,14 +242,21 @@ static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
         src = SRCPTR(p, sx, sy + y);
         dst = DESTPTR(p, sx, sy + y, PIXEL4);
         for (x = 0; x < w; x++)
-            dst[x] = real_pixel4[src[x]];
+            dst[x] = (PIXEL4)real_pixel4[src[x]];
     }
+#endif
 }
 
 /* This doesn't usually happen, but if it does, this is a great speedup
    comparing the general convert_8toall() -routine. */
 static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
 {
+#ifdef X11_USE_RENDER
+    video_render_main(real_pixel1, p->tmpframebuffer, p->x_image->data,
+                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      p->x_image->bytes_per_line, 8);
+
+#else
     PIXEL *src;
     PIXEL *dst;
     int x, y;
@@ -229,8 +265,9 @@ static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
         src = SRCPTR(p, sx, sy + y);
         dst = DESTPTR(p, sx, sy + y, PIXEL);
         for (x = 0; x < w; x++)
-            dst[x] = real_pixel1[src[x]];
+            dst[x] = (PIXEL)real_pixel1[src[x]];
     }
+#endif
 }
 
 /* Use dither on 1bit display. This is slow but who cares... */
@@ -276,15 +313,19 @@ static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
 int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
                        unsigned int height)
 {
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
+#ifdef X11_USE_RENDER
+    if (0) {
+#else
     if (depth == 8) {
+#endif
         i->tmpframebuffer = (PIXEL *)i->x_image->data;
         i->tmpframebufferlinesize = i->x_image->bytes_per_line;
         _convert_func = NULL;
     } else {
         i->tmpframebufferlinesize = width;
-        i->tmpframebuffer = (PIXEL *) xmalloc(width * height);
+        i->tmpframebuffer = (PIXEL *)xmalloc(width * height);
         switch (i->x_image->bits_per_pixel) {
           case 1:
             _convert_func = convert_8to1_dither;
@@ -303,14 +344,14 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
         }
     }
 #else
-/* X_DISPLAY_DEPTH == 24 should really be 32.  */
-#if X_DISPLAY_DEPTH == 24
+/* VIDEO_DISPLAY_DEPTH == 24 should really be 32.  */
+#if VIDEO_DISPLAY_DEPTH == 24
     unsigned int sup_depth = 32;
 #endif
-#if X_DISPLAY_DEPTH == 16
+#if VIDEO_DISPLAY_DEPTH == 16
     unsigned int sup_depth = 16;
 #endif
-#if X_DISPLAY_DEPTH == 8
+#if VIDEO_DISPLAY_DEPTH == 8
     unsigned int sup_depth = 8;
 #endif
     if (sup_depth != i->x_image->bits_per_pixel) {
@@ -416,7 +457,7 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 
 #endif
 
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     {
         int depth;
 
@@ -438,7 +479,7 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     memset(f->tmpframebuffer, value,
            f->x_image->height * f->tmpframebufferlinesize);
     if (_convert_func
@@ -567,7 +608,7 @@ void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
     }
 
 #endif
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     if (_convert_func)
         _convert_func(frame_buffer, xs, ys, w, h);
 #endif
