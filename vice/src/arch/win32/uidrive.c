@@ -35,6 +35,7 @@
 #include "serial.h"
 #include "ui.h"
 #include "uidrive.h"
+#include "uilib.h"
 #include "winmain.h"
 
 static void enable_controls_for_drive_settings(HWND hwnd, int type)

@@ -32,7 +32,6 @@
 int vsync_init_resources(void);
 int vsync_init_cmdline_options(void);
 int vsync_init(double hertz, long cycles, void (*hook)(void));
-void vsync_cleanup(void);
 int do_vsync(int been_skipped);
 void vsync_prevent_clk_overflow(CLOCK sub);
 double vsync_get_avg_frame_rate(void);

@@ -847,7 +847,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     DEBUG(("Original rect: %d %d %d %d",rect.left,rect.top,rect.right,rect.bottom));
 
     clipsize=2048;
-    IDirectDrawClipper_GetClipList(c->clipper,&rect,&Region,&clipsize);
+    IDirectDrawClipper_GetClipList(c->clipper,&rect,(LPRGNDATA)&Region,&clipsize);
     regioncount=((RGNDATA*)Region)->rdh.nCount;
     DEBUG(("REGION count: %d",regioncount));
     for (j=0; j<regioncount; j++) {
@@ -911,7 +911,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                     WORD    *p;
 
                     i=0;
-                    p=dp;
+                    p=(WORD*)dp;
                     /*  Start fragment */
                     if ((int)dp&2) {
                         *p++=(WORD)ct[*sp++];

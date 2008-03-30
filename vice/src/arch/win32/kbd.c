@@ -29,6 +29,7 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "kbd.h"
 #include "cmdline.h"

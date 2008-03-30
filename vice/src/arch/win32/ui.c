@@ -41,11 +41,13 @@
 #include "mem.h"
 #include "res.h"
 #include "resources.h"
+#include "tape.h"
 #include "uiattach.h"
 #include "uidrive.h"
 #include "uilib.h"
 #include "uisnapshot.h"
 #include "utils.h"
+#include "vsync.h"
 #include "winmain.h"
 
 /* Main window.  */
@@ -88,37 +90,37 @@ typedef struct {
 } res_possible_values;
 
 res_possible_values RefreshRateValues[]={
-        0, IDM_REFRESH_RATE_AUTO,
-        1, IDM_REFRESH_RATE_1,
-        2, IDM_REFRESH_RATE_2,
-        3, IDM_REFRESH_RATE_3,
-        4, IDM_REFRESH_RATE_4,
-        5, IDM_REFRESH_RATE_5,
-        6, IDM_REFRESH_RATE_6,
-        7, IDM_REFRESH_RATE_7,
-        8, IDM_REFRESH_RATE_8,
-        9, IDM_REFRESH_RATE_9,
-        10, IDM_REFRESH_RATE_10,
-        -1, 0
+        {0, IDM_REFRESH_RATE_AUTO},
+        {1, IDM_REFRESH_RATE_1},
+        {2, IDM_REFRESH_RATE_2},
+        {3, IDM_REFRESH_RATE_3},
+        {4, IDM_REFRESH_RATE_4},
+        {5, IDM_REFRESH_RATE_5},
+        {6, IDM_REFRESH_RATE_6},
+        {7, IDM_REFRESH_RATE_7},
+        {8, IDM_REFRESH_RATE_8},
+        {9, IDM_REFRESH_RATE_9},
+        {10, IDM_REFRESH_RATE_10},
+        {-1, 0}
 };
 
 res_possible_values SpeedValues[]={
-        0, IDM_MAXIMUM_SPEED_NO_LIMIT,
-        10, IDM_MAXIMUM_SPEED_10,
-        20, IDM_MAXIMUM_SPEED_20,
-        50, IDM_MAXIMUM_SPEED_50,
-        100, IDM_MAXIMUM_SPEED_100,
-        200, IDM_MAXIMUM_SPEED_200,
-        -1, 0
+        {0, IDM_MAXIMUM_SPEED_NO_LIMIT},
+        {10, IDM_MAXIMUM_SPEED_10},
+        {20, IDM_MAXIMUM_SPEED_20},
+        {50, IDM_MAXIMUM_SPEED_50},
+        {100, IDM_MAXIMUM_SPEED_100},
+        {200, IDM_MAXIMUM_SPEED_200},
+        {-1, 0}
 };
 
 struct {
     const char *name;
     const res_possible_values *vals;
 } value_list[]={
-    "RefreshRate", RefreshRateValues,
-    "Speed", SpeedValues,
-    NULL,NULL
+    {"RefreshRate", RefreshRateValues},
+    {"Speed", SpeedValues},
+    {NULL,NULL}
 };
 
 /* ------------------------------------------------------------------------ */

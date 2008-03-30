@@ -30,5 +30,6 @@
 extern int joystick_init(void);
 extern int joystick_init_resources(void);
 extern int joystick_init_cmdline_options(void);
+int joystick_close(void);
 
 #endif

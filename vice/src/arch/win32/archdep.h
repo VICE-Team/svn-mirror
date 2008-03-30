@@ -40,5 +40,7 @@ const char *archdep_boot_path(void);
 const char *archdep_default_sysfile_pathlist(const char *emu_id);
 const char *archdep_default_resource_file_name(void);
 FILE *archdep_open_default_log_file(void);
+int archdep_num_text_lines(void);
+int archdep_num_text_columns(void);
 
 #endif

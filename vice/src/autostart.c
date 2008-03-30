@@ -291,7 +291,7 @@ void autostart_advance(void)
                     no_traps = 0;
 
                 if (autostart_program_name) {
-                    tmp = malloc(strlen((char *)(autostart_program_name) + 20));
+                    tmp = malloc(strlen((char *)(autostart_program_name)) + 20);
                     sprintf(tmp, "LOAD\"%s\",8,1\r",
                             autostart_program_name);
                     kbd_buf_feed(tmp);

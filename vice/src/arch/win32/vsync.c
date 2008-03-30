@@ -2,6 +2,7 @@
  * vsync.c - Display synchronization for Win32.
  *
  * Written by
+ *  Tibor Biczo         (crown@mail.matav.hu)
  *  Ettore Perazzoli    (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -28,12 +29,6 @@
 
 #include <stdio.h>
 #include <windows.h>
-
-//#define NONAMELESSUNION
-//#define HTASK HANDLE
-//#include <wtypes.h>
-
-//#include <mmsystem.h>
 
 #include "vsync.h"
 
@@ -138,11 +133,6 @@ int vsync_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Wanted Win32 timer tolerance, in milliseconds.  */
-#define TARGET_TIMER_TOLERANCE 0
-/* Actual timer tolerance.  */
-static UINT timer_tolerance;
-
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically.  */
 #define MAX_SKIPPED_FRAMES      10
@@ -178,59 +168,9 @@ static CLOCK speed_eval_clk_start;
 /* Speed of the timer callback; 0 = no callback.  */
 static int timer_speed = 0;
 
-/* ID of the timer.  */
-static UINT timer_id;
+static int timer_interval;
 
-/* This struct is used by the timer event.  */
-struct {
-    /* Used to control concurrency between `do_vsync()' timer callback.  */
-    CRITICAL_SECTION critical_section;
-
-    /* Incremented every timer event.  */
-    int frame_counter;
-
-    /* Set to 1 by `do_vsync()' when it's waiting for the next timer event
-       for slowdown purposes.  */
-    int waiting;
-
-    /* Semaphore used for slowdown.  */
-    HANDLE semaphore;
-} timer_stuff;
-
-/* ------------------------------------------------------------------------- */
-
-void CALLBACK timer_callback(UINT timer_id, UINT msg,
-                             DWORD user, DWORD dw1, DWORD dw2)
-{
-        static int count;
-        static DWORD start_time;
-
-        count++;
-        if (count == 50) {
-                DEBUG(("timer_callback %d msec.", timeGetTime() - start_time));
-                start_time = timeGetTime();
-                count = 0;
-        }
-    EnterCriticalSection(&timer_stuff.critical_section);
-    DEBUG(("Callback! %d -> %d",
-           timer_stuff.frame_counter, timer_stuff.frame_counter + 1));
-    timer_stuff.frame_counter++;
-    if (timer_stuff.waiting) {
-        ReleaseSemaphore(timer_stuff.semaphore, 1, NULL);
-        timer_stuff.waiting = 0;
-        timer_stuff.frame_counter = 0;
-    }
-    LeaveCriticalSection(&timer_stuff.critical_section);
-}
-
-/* ------------------------------------------------------------------------ */
-
-void vsync_cleanup(void)
-{
-    timeKillEvent(timer_id);
-    timeEndPeriod(timer_tolerance);
-    DEBUG(("vsync_cleanup()"));
-}
+static DWORD    last_time;
 
 int vsync_init(double hertz, long cycles, void (*hook)(void))
 {
@@ -243,39 +183,14 @@ int vsync_init(double hertz, long cycles, void (*hook)(void))
     /* This makes sure we evaluate speed correctly the first time.  */
     speed_eval_suspended = 1;
 
-    {
-        TIMECAPS tc;
-
-        if (timeGetDevCaps(&tc, sizeof(TIMECAPS)) != TIMERR_NOERROR)
-            return -1;
-
-        timer_tolerance = min(max(tc.wPeriodMin, TARGET_TIMER_TOLERANCE),
-                              tc.wPeriodMax);
-        timeBeginPeriod(timer_tolerance);
-        DEBUG(("Timer tolerance set to %d msec.", timer_tolerance));
-        /* Darn M$ -- why doesn't `atexit()' work?!  */
-        atexit(vsync_cleanup);
-    }
-
-    /* Initialize critical section handling.  */
-    memset(&timer_stuff, 0, sizeof(timer_stuff));
-    InitializeCriticalSection(&timer_stuff.critical_section);
-
-    /* Create semaphore.  */
-    timer_stuff.semaphore = CreateSemaphore(NULL, 0, 1,
-                                            "VSyncSemaphore");
-
-    if (timer_stuff.semaphore == 0) {
-        DEBUG(("Cannot create semaphore!"));
-        return -1;
-    }
-
     return 0;
 }
 
 int do_vsync(int been_skipped)
 {
     int skip_next_frame = 0;    /* 0 means "never skip".  */
+    DWORD   now_time;
+    DWORD   diff_time;
 
     /* Call the hooks that need to be executed at every vertical retrace.  */
     vsync_hook();
@@ -283,26 +198,7 @@ int do_vsync(int been_skipped)
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
 
-    if (timer_speed != relative_speed) {
-        int interval;
-
-        if (timer_id != 0)
-            timeKillEvent(timer_id);
-        if (relative_speed!=0) {
-            interval = (int)(((100.0 / (double) relative_speed)
-                                / refresh_frequency) * 1000.0 + .5);
-            DEBUG(("Setting up timer -- interval = %d msec.", interval));
-            timer_id = timeSetEvent(interval, 0, timer_callback, 0, TIME_PERIODIC);
-            if (timer_id == 0) {
-                DEBUG(("timeSetEvent failed!"));
-                timer_speed = 0;
-            } else {
-                timer_speed = relative_speed;
-            }
-        } else {
-            timer_speed = relative_speed;
-        }
-    }
+    now_time=timeGetTime();
 
     if (warp_mode_enabled) {
         /* "Warp" mode: run as fast as possible.  */
@@ -313,82 +209,54 @@ int do_vsync(int been_skipped)
             skip_counter++;
             skip_next_frame = 1;
         }
-        sound_flush(0);
     } else if (refresh_rate > 0) {
         /* Fixed refresh rate.  */
+        if (timer_speed != 0) {
+            now_time=timeGetTime();
+            diff_time=now_time-last_time;
+            while (diff_time<timer_interval*(skip_counter+1)) {
+                now_time=timeGetTime();
+                diff_time=now_time-last_time;
+            }
+        }
         if (skip_counter >= refresh_rate - 1) {
             skip_counter = 0;
             skip_next_frame = 0;
+            last_time=now_time;
         } else {
             skip_counter++;
             skip_next_frame = 1;
         }
-        /* Notice that we check `timer_speed' and not `speed' here: this
-           allows us to handle the "not working timer" case more nicely.  */
-        if (timer_speed != 0) {
-            EnterCriticalSection(&timer_stuff.critical_section);
-            if (timer_stuff.frame_counter == 0) {
-                /* Signal we want to wait for the next timer event...  */
-                timer_stuff.waiting = 1;
-                LeaveCriticalSection(&timer_stuff.critical_section);
-                DEBUG(("Now waiting!"));
-                WaitForSingleObject(timer_stuff.semaphore, INFINITE);
-                DEBUG(("Now done!"));
-#if 0
-                EnterCriticalSection(&timer_stuff.critical_section);
-                timer_stuff.frame_counter = 0;
-                LeaveCriticalSection(&timer_stuff.critical_section);
-#endif
-            } else {
-                DEBUG(("Nothing to wait: timer_stuff.frame_counter = %d",
-                       timer_stuff.frame_counter));
-                timer_stuff.frame_counter = 0;
-                LeaveCriticalSection(&timer_stuff.critical_section);
-            }
-        }
-        sound_flush(relative_speed);
     } else {
         /* Automatic adjustment.  */
         if (timer_speed == 0) {
             skip_next_frame = 0;
             skip_counter = 0;
         } else {
-            if (timer_stuff.frame_counter <= skip_counter) {
-                /* We are too fast: sleep.  */
-                EnterCriticalSection(&timer_stuff.critical_section);
-                timer_stuff.waiting = 1;
-                DEBUG(("Now waiting! frame_counter %d skip_counter %d",
-                       timer_stuff.frame_counter, skip_counter));
-                LeaveCriticalSection(&timer_stuff.critical_section);
-                WaitForSingleObject(timer_stuff.semaphore, INFINITE);
-                DEBUG(("Now done!"));
-                skip_counter = 0;
-#if 0
-                EnterCriticalSection(&timer_stuff.critical_section);
-                timer_stuff.frame_counter = 0;
-#endif
+            now_time=timeGetTime();
+            diff_time=now_time-last_time;
+            if (diff_time<timer_interval*(skip_counter+1)) {
+                /*  We are too fast: wait */
+                while (diff_time<timer_interval*(skip_counter+1)) {
+                    now_time=timeGetTime();
+                    diff_time=now_time-last_time;
+                }
+                skip_counter=0;
+                last_time=now_time;
             } else {
-                DEBUG(("Too slow frame_counter %d skip_counter %d",
-                       timer_stuff.frame_counter, skip_counter));
-                EnterCriticalSection(&timer_stuff.critical_section);
-                /* We are too slow: skip frames to catch up.  */
+                /*  We are too slow: drop frames */
                 if (skip_counter < MAX_SKIPPED_FRAMES) {
                     skip_counter++;
                     skip_next_frame = 1;
                 } else {
-                    /* Too many skipped frames: give up!  */
-                    timer_stuff.frame_counter = 0;
+                    /*  Too many skipped frames: give up!  */
                     skip_counter = 0;
                     skip_next_frame = 0;
+                    last_time=now_time;
                 }
-                LeaveCriticalSection(&timer_stuff.critical_section);
             }
         }
-        sound_flush(relative_speed);
     }
-
-    /* Flush keypresses emulated through the keyboard buffer.  */
-    kbd_buf_flush();
 
     if (speed_eval_suspended || clk < speed_eval_clk_start) {
         drawn_frames = 0;
@@ -426,21 +294,29 @@ int do_vsync(int been_skipped)
     if (speed_eval_suspended)
         speed_eval_suspended = 0;
 
+    sound_flush(warp_mode_enabled ? 0 : relative_speed);
+
+    /* Flush keypresses emulated through the keyboard buffer.  */
+    kbd_buf_flush();
+
+
+
+    if (timer_speed!=relative_speed) {
+        if (relative_speed!=0) {
+            timer_interval=(int)(((100.0/(double)relative_speed)/refresh_frequency)*1000.0+.5);
+            DEBUG(("Setting up timer -- interval = %d msec.", interval));
+        }
+        timer_speed = relative_speed;
+        last_time=now_time;
+        skip_counter=0;
+    }
+
     return skip_next_frame;
 }
 
 void vsync_prevent_clk_overflow(CLOCK sub)
 {
-}
-
-double vsync_get_avg_frame_rate(void)
-{
-    return 0.0;
-}
-
-double vsync_get_avg_speed_index(void)
-{
-    return 0.0;
+    speed_eval_clk_start-=sub;
 }
 
 void suspend_speed_eval(void)
@@ -450,6 +326,5 @@ void suspend_speed_eval(void)
 
 void vsync_disable_timer(void)
 {
-    if (timer_id != 0) timeKillEvent(timer_id);
-    timer_speed=-1;
+    timer_speed=0;
 }

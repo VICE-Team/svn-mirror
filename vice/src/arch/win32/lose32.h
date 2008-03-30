@@ -54,6 +54,9 @@
 
 /* This is necessary because on Windows the first function to be called is
    `WinMain()' and not `main()'.  */
+
+int main_program(int argc, char **argv);
+
 #define MAIN_PROGRAM        main_program
 
 #endif

@@ -47,4 +47,6 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
     winmain_cmd_show = cmd_show;
 
     MAIN_PROGRAM(_argc, _argv);
+
+    return 0;
 }
