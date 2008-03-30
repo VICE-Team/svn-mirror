@@ -268,12 +268,11 @@ vic-cmdline-options.o: vic-cmdline-options.c ../../src/vice.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
 	../../src/video.h vic-cmdline-options.h
-vic-color.o: vic-color.c vic.h ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
+vic-color.o: vic-color.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h vic.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	vic-mem.h vic20.h ../../src/video.h ../../src/video-color.h \
-	../../src/palette.h ../../src/video-resources.h \
-	../../src/machine.h
+	vic-mem.h vic20.h ../../src/video.h
 vic-draw.o: vic-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-cache.h \
@@ -309,8 +308,7 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	vic-cmdline-options.h vic-draw.h vic-mem.h vic-resources.h \
 	vic-snapshot.h vic-color.h vic.h ../../src/alarm.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	vic20.h ../../src/video.h vic20mem.h ../../src/video-color.h \
-	../../src/vsync.h
+	vic20.h ../../src/video.h vic20mem.h ../../src/vsync.h
 vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/utils.h \

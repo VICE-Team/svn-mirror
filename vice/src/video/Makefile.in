@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for `libsounddrv.a'.
-
 
 SHELL = @SHELL@
 
@@ -132,26 +130,13 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 
-noinst_LIBRARIES = libsounddrv.a
+noinst_LIBRARIES = libvideo.a
 
-# These sources are linked only under certain circumstances.
-EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundarts.c 	soundacorn.c 	soundallegro.c 	soundbeos.cc         soundmmos2.c         sounddart.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c 	soundesd.c 	soundwmm.c
+libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render2x2.c 	render2x2.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
 
-
-# These sources are always built.
-libsounddrv_a_SOURCES =  	sounddummy.c 	sounddump.c 	soundfs.c 	soundspeed.c 	soundwav.c
-
-
-libsounddrv_a_DEPENDENCIES =  	@SOUND_DRIVERS@ 	sounddummy.o 	sounddump.o 	soundfs.o 	soundspeed.o 	soundwav.c
-
-
-libsounddrv_a_LIBADD =  	@SOUND_DRIVERS@
-
-
-EXTRA_DIST = 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -164,12 +149,9 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libsounddrv_a_OBJECTS =  sounddummy.o sounddump.o soundfs.o soundspeed.o \
-soundwav.o
-CXXFLAGS = @CXXFLAGS@
-CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXLD = $(CXX)
-CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+libvideo_a_LIBADD = 
+libvideo_a_OBJECTS =  render1x1.o render2x2.o video-color.o \
+video-render.o video-resources.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -181,14 +163,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libsounddrv_a_SOURCES) $(EXTRA_libsounddrv_a_SOURCES)
-OBJECTS = $(libsounddrv_a_OBJECTS)
+SOURCES = $(libvideo_a_SOURCES)
+OBJECTS = $(libvideo_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cc .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/sounddrv/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/video/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -223,12 +205,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libsounddrv.a: $(libsounddrv_a_OBJECTS) $(libsounddrv_a_DEPENDENCIES)
-	-rm -f libsounddrv.a
-	$(AR) cru libsounddrv.a $(libsounddrv_a_OBJECTS) $(libsounddrv_a_LIBADD)
-	$(RANLIB) libsounddrv.a
-.cc.o:
-	$(CXXCOMPILE) -c $<
+libvideo.a: $(libvideo_a_OBJECTS) $(libvideo_a_DEPENDENCIES)
+	-rm -f libvideo.a
+	$(AR) cru libvideo.a $(libvideo_a_OBJECTS) $(libvideo_a_LIBADD)
+	$(RANLIB) libvideo.a
 
 tags: TAGS
 
@@ -261,7 +241,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/sounddrv
+subdir = src/video
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -274,32 +254,27 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h
-sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
-sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/sound.h \
-	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
-	../../src/uiapi.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/utils.h
-soundesd.o: soundesd.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h
-soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h
-soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h
-sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/sound.h ../../src/arch/unix/types.h
-soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h \
-	../../src/arch/unix/archdep.h ../../src/archapi.h
-soundwmm.o: soundwmm.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/sound.h \
-	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
-	../../src/uiapi.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/utils.h
+render1x1.o: render1x1.c ../../src/vice.h ../../src/config.h render1x1.h \
+	../../src/arch/unix/types.h
+render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
+	../../src/arch/unix/types.h
+video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h ../../src/palette.h \
+	../../src/arch/unix/types.h video-color.h video-resources.h \
+	../../src/video.h
+video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
+	render1x1.h ../../src/arch/unix/types.h render2x2.h \
+	video-render.h video-resources.h
+video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/utils.h \
+	../../src/arch/unix/types.h video-resources.h video-color.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/fullscreen.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/palette.h
 
 info-am:
 info: info-am

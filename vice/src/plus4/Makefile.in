@@ -317,8 +317,7 @@ ted-draw.o: ted-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	ted-draw.h ted.h tedtypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video-render.h
+	../../src/raster/raster.h ../../src/raster/raster-changes.h
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/keyboard.h \
@@ -330,7 +329,7 @@ ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ted-resources.h tedtypes.h \
 	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	ted.h ../../src/utils.h ../../src/video-render.h
+	ted.h ../../src/utils.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/mem.h \
