@@ -16,87 +16,6 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
-File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
-
-PET memory module
-.................
-
-   The PET memory module actually consists of two modules.  The
-"PETMEM" module is mandatory and contains the RAM dump.  The "PETROM"
-module is optional and contains a dump of the ROM images.
-
-   The size of the PET memory modules differs with each different memory
-configuration.  The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
-
-   The PETMEM module
-
-   Version numbers: Major 1, Minor 2
-
-Type    Name                          Description
-BYTE    CONFIG                        Configuration value. Bits 0-3: 0=
-                                      40 col PET without CRTC; 1= 40 col
-                                      PET with CRTC; 2 = 80 col PET (with
-                                      CRTC); 3= SuperPET; 4= 8096; 5=
-                                      8296. Bit 6: 1= RAM at $9***. Bit
-                                      7: 1= RAM at $A***.
-BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=
-                                      Graphics; 2= German business
-BYTE    MEMSIZE                       memory size of low 32k in k
-                                      (possible values 4, 8, 16, 32)
-BYTE    CONF8X96                      Value of the 8x96 configuration
-                                      register
-BYTE    SUPERPET                      SuperPET config. Bit 0: 1= $9***
-                                      RAM enabled. Bit 1: 1= RAM write
-                                      protected. Bit 2: 1= CTRL register
-                                      write protected. Bit 3: 0= DIAG pin
-                                      active. Bits 4-7: RAM block in use.
-ARRAY   RAM                           4-32k RAM (not 8296, size depends
-                                      on MEMSIZE)
-ARRAY   VRAM                          2/4k RAM (not 8296, size depends on
-                                      CONFIG)
-ARRAY   EXTRAM                        64k expansion RAM (SuperPET and
-                                      8096 only)
-ARRAY   RAM                           128k RAM (8296 only)
--       -                             The following item has been added
-                                      in V1.1
-BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard
-                                      mapping, bit 0=1 = positional
-                                      mapping.
--       -                             The following item has been added
-                                      in V1.1
-BYTE    EOIBLANK                      bit 0=0 = EOI does not blank
-                                      screen, bit 0=1 = EOI blanks screen.
-
-   The last item has been added in PETMEM snapshot version 1.1. It is
-ignored by earlier restore routines (V1.0) and the V1.1 restore routines
-do not change the current setting when reading a V1.0 snapshot.
-
-   In V1.2 the new EOIBLANK variable has been added. This implements
-the "blank screen on EOI" feature that was previously linked to a wrong
-resource.
-
-   The PETROM module
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name                          Description
-BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit
-                                      1: 1= $A*** ROM included. Bit 2: 1=
-                                      $B*** ROM included. Bit 3: 1=
-                                      $e900-$efff ROM included
-ARRAY   KERNAL                        4k KERNAL ROM image $f000-$ffff
-ARRAY   EDITOR                        2k EDITOR ROM image $e000-$e7ff
-ARRAY   CHARGEN                       2k CHARGEN ROM image
-ARRAY   ROM9                          4k $9*** ROM image (if CONFIG & 1)
-ARRAY   ROMA                          4k $A*** ROM image (if CONFIG & 2)
-ARRAY   ROMB                          4k $B*** ROM image (if CONFIG & 4)
-ARRAY   ROMC                          4k $C*** ROM image
-ARRAY   ROMD                          4k $D*** ROM image
-ARRAY   ROME9                         7 blocks $e900-$efff ROM image (if
-                                      CONFIG & 8)
-
-
 File: vice.info,  Node: CBM-II memory module,  Next: C500 data module,  Prev: PET memory module,  Up: Module formats
 
 CBM-II memory module
@@ -1153,4 +1072,228 @@ needs to be added, the same procedure applies.  The location of the
 actual track or speed zone data is not important, meaning they do not
 have to be in any particular order since they are all referenced by the
 offsets at the beginning of the image.
+
+
+File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: File formats,  Up: Top
+
+Acknowledgments
+***************
+
+   VICE derives from X64, the first Commodore 64 emulator for the X
+Window System.  Here is an informal list of the people who were mostly
+involved in the development of X64 and VICE:
+
+   The VICE core team:
+   * Daniel Sladic started the work on hardware-level 1541 emulation
+     and wrote the new monitor introduced with VICE 0.15.
+
+   * Andreas Boose gave lots of information and bug reports about the
+     VIC-II, the 6510 and the CIAs; moreover, he wrote several
+     test-routines that were used to improve the emulation.  He also
+     added cartridge support and has been the main head behind the
+     drive and datasette emulation since version 0.15.  Also added
+     several UI elements to the MSDOS and MS-Windows ports. He rewrote
+     the C128 emulation adding Z80 mode, C64 mode and function ROM
+     support.
+
+   * Dag Lem implemented the reSID SID emulation engine.
+
+   * Tibor Biczo improved the MS-Windows port.
+
+   * Andreas Dehmel wrote the Acorn RISC OS port.
+
+   * Thomas Bretz responsible for the OS/2 port.
+
+   * Andreas Matthies improved the datasette support, the VIC20 video
+     emulation and some ui stuff in the Win32 and MSDOS port. He also
+     wrote the BeOS port.
+
+   * Martin Pottendorfer Implemented Gnome Port based on Oliver
+     Schaertels GTK+ port Added support code for internationalization
+     based on gettext Translated the Unix Port to German Implemented
+     the fliplists + ui (unix).
+
+   * Markus Brenner added VDC emulation to x128 and added support for
+     some more cartridges.
+
+   * Spiro Trikaliotis wrote the Win32 console implementation for the
+     built-in monitor and provided some further patches.
+
+
+   Former team members:
+
+   * Ettore Perazzoli Copyright (C) 1996-1999 Made the 6510, VIC-II,
+     VIC-I and CRTC emulations, part of the hardware-level 1541
+     emulation, speed optimizations, bug fixes, the event-driven
+     cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
+     code reorganization, the new resource handling, most of the
+     documentation.  He also wrote the MS-DOS port and the initial
+     MS-Windows port (well, somebody had to do it).
+
+   * André Fachat Copyright (C) 1996-2001 Wrote the PET and CBM-II
+     emulators, the CIA and VIA emulation, the IEEE488 interface,
+     implemented the IEC serial bus in `xvic' and made tons of bug
+     fixes.
+
+   * Teemu Rantanen Copyright (C) 1993-1994, 1997-1999 Implemented the
+     SID emulation and the trap-based disk drive and serial bus
+     implementation; added support for multiple display depths under
+     X11.  Also wrote `c1541'
+
+   * Jouko Valta Copyright (C) 1993-1996 Wrote `petcat' and `c1541',
+     `T64' handling, user service and maintenance (most of the work in
+     x64 0.3.x was made by him); retired from the project in July 96,
+     after VICE 0.10.0.
+
+   * Jarkko Sonninen Copyright (C) 1993-1994 He was the founder of the
+     project, wrote the old version of the 6502 emulation and the
+     XDebugger, and retired from the project after x64 0.2.1.
+
+
+   External contributors:
+
+   * Michael Schwendt helped with the SID (audio) chip emulation,
+     bringing important suggestions and bug reports, as well as the
+     wave tables and filter emulation from his SIDplay emulator.
+
+   * Christian Bauer wrote the very interesting "VIC article" from
+     which we got invaluable information about the VIC-II chip: without
+     this, the VIC-II implementation would have not been possible.
+
+   * Wolfgang Lorenz wrote an excellent 6510 test suite that helped us
+     to debug the CPU emulation.
+
+   * Giuliano Procida is the maintainer of the VICE `deb' package for
+     the Debian distribution, and also helped proofreading the
+     documentation.
+
+   * Marko Mäkelä wrote lots of CPU documentation.
+
+   * Chris Sharp wrote the AIX sound driver.
+
+   * Krister Walfridsson implemented joystick and sound support for
+     NetBSD.
+
+   * Mattias Engdegård got non-default depths to work.
+
+   * Peter Andrew Felvegi aka Petschy fixed a couple of bugs in the
+     fast serial emulation.
+
+   * Olaf Seibert contributed some PET, and disk drive patches.
+
+   * Daniel Fandrich contributed some disk drive patches.
+
+   * Heiko Selber contributed some VIC20 I/O patches.
+
+   * Steven Tieu added initial support for 16/24 bpp X11 displays.
+
+   * Alexander Lehmann added complete support for all the VIC20 memory
+     configurations for the old VICE 0.12.
+
+   * Lionel Ulmer implemented joystick support for Linux and a first
+     try of a SID emulation for SGI machines.
+
+   * Bernhard Kuhn made some joystick improvements for Linux.
+
+   * Gerhard Wesp contributed the `extract' command in `c1541'.
+
+   * Ricardo Ferreira contributed the `unlynx' and `system' commands in
+     `c1541'.
+
+   * Tomi Ollila donated `findpath.c'.
+
+   * Richard Hable contributed the initial version of the REU Emulation.
+
+   * Vesa-Matti Puro wrote the very first 6502 CPU emulator in x64
+     0.1.0.  That was the beginning of the story...
+
+   * Dan Miner contributed some patches to the fast disk drive
+     emulation.
+
+   * Frank Prindle contributed some patches.
+
+   * Peter Weighill gave many ideas and contributed the ROM patcher.
+
+   * Dominique Strigl, Craig Jackson and Lasse Jyrkinen contributed
+     miscellaneous patches in the old X64 times.
+
+   * Per Olofsson digitalized the C64 colors used in the default
+     palette.
+
+   * Paul David Doherty wrote `zip2disk', on which the Zipcode support
+     in `c1541' is based.
+
+   * Robert H. Forsman Jr., Brian Totty and Robert W. McMullen provided
+     the widget set for implementing the `Xaw' GUI.
+
+   * Shawn Hargreaves wrote Allegro, the graphics and audio library
+     used in the MS-DOS version.
+
+   * Peter Schepers contributed a document describing the G64 image
+     format.
+
+   * Oliver Schaertel wrote the X11 full screen, parts of custom ROM
+     set support and 1351 mouse emulation for unix.
+
+   * Luca Montecchiani contributed a new Unix joystick driver.
+
+   * Dirk Farin rewrote the MITSHM code.
+
+   * Manfred Spraul wrote the MS-Windows text lister.
+
+   * Eric provided the french translation for the Unix ports.
+
+   * Andrea Musuruane provided the italian translation for the Unix
+     ports
+
+   * Michael Klein contributed the ESD sound driver and some patches.
+
+   * David Holz provided a label file which gives the built-in monitor
+     the labels for the C64.
+
+   * Lasse Öörni contributed the Windows Multimedia sound driver
+
+   * Frank König contributed the Win32 joystick autofire feature.
+
+   * John Selck wrote the fast PAL emulation.
+
+   * webulator provided win32 drag & drop support
+
+   * ck! provided a win32 cbm character font.
+
+   * Lutz Sammer
+
+   * Ralph Mason
+
+   * George Caswell
+
+   * Per Olofsson
+
+   * Jasper Phillips
+
+   * Luca Forcucci
+
+   * Asger Alstrup
+
+   * Bernhard Schwall
+
+   * Salvatore Valente
+
+   * Arthur Hagen
+
+   * Douglas Carmichael
+
+   * Ferenc Veres
+
+   * Andrea Musuruane
+
+   * Frank Reichel
+
+   * Ullrich von Bassewitz
+
+   * Holger Busse
+
+   Last but not least, a very special thank to Andreas Arens, Lutz
+Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
+and Per Håkan Sundell for writing cool emulators to compete with.  :-)
 

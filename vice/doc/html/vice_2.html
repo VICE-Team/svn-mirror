@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 22 January 2005 -->
+     from ../vice.texi on 23 January 2005 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -353,9 +353,9 @@ Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
 <UL>
 <LI>
 
-using disk images, i.e., files that contain a dump
-of all the blocks contained in a real floppy disk (if you want more
-information about what a disk image is, consult the
+using disk images, i.e., files that contain a dump of all the blocks
+contained in a real floppy disk (if you want more information about
+what a disk image is, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ);
 <LI>
 
@@ -369,13 +369,16 @@ accessing a real device connected to the host machine. As of VICE 1.11
 it is possible to connect real drives like Commodore 1541 to the
 printer port of the host using the XA1541 or XM1541 cable. Currently
 this only works on Linux or Windows using the OpenCBM library. You can
-get it from <A HREF="http://www.lb.shuttle.de/puffin/cbm4linux">http://www.lb.shuttle.de/puffin/cbm4linux</A>.
+get it from <A HREF="http://www.lb.shuttle.de/puffin/cbm4linux">http://www.lb.shuttle.de/puffin/cbm4linux</A> (cbm4linux,
+Linux version) or from <A HREF="http://cbm4win.sf.net/">http://cbm4win.sf.net/</A> (cbm4win, Windows
+version).
+
 <LI>
 
-directly using the disk drive of the host. The 3.5" disk
-drive of the host can be used to read or write Commodore 1581
-formatted disks. Currently this raw drive access feature is only
-available for Linux hosts.
+directly using the disk drive of the host. The 3.5" disk drive of the
+host can be used to read or write Commodore 1581 formatted disks.
+Currently this raw drive access feature is only available for Linux
+hosts.
 </UL>
 
 <P>
@@ -401,88 +404,84 @@ if the IEEE488 emulation is enabled, those drives can be selected.
 The other alternative is a <EM>true drive</EM> emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
 VIC20 and the PETs) and their own RAM and ROM.  So, in order to more
-closely emulate its features, a complete emulation of this hardware must
-be provided and that is what the <EM>hardware level</EM> emulation does.
-When the <EM>hardware level</EM> emulation is used, the kernal routines are
-remain unpatched and the serial line is fully emulated.  The problem
-with this emulation is that it needs a lot of processing power, mainly
-because the emulator has to emulate two CPUs instead of one.
+closely emulate its features, a complete emulation of this hardware
+must be provided and that is what the <EM>hardware level</EM> emulation
+does. When the <EM>hardware level</EM> emulation is used, the kernal
+routines are remain unpatched and the serial line is fully emulated.
+The problem with this emulation is that it needs a lot of processing
+power, mainly because the emulator has to emulate two CPUs instead of
+one.
 
 </P>
 <P>
-As of 0.14.0 the <EM>hardware level</EM> emulation is available on all
-emulators.  It can only be used to emulate drive unit #8 or #9.  Other
-units are disabled if <EM>hardware level</EM> drive emulation is enabled.
-
-</P>
-<P>
-The PETs do not use a serial IEC bus to communicate with the
-floppy drive but instead use the parallel IEEE488 bus.  This does
+The PETs do not use a serial IEC bus to communicate with the floppy
+drive but instead use the parallel IEEE488 bus.  This does
 <EM>byte by byte</EM> transfers, as opposed to the <EM>bit by bit</EM>
 transfers of the C64 and VIC20, so making it feasible to emulate the
 parallel line completely while emulating the drive at DOS level only.
-The IEEE488 line interpreter maps the drives 8-11 (as described above)
-to the IEEE488 disk units, and no kernal traps are needed.  The same
-emulation of the Commodore IEEE488 bus interface is available for the
-C64 and the VIC20. With IEEE488 drives you can have true 2031 emulation 
-at unit #8, and still have filesystem access at units #10 or #11, because
-monitoring the IEEE488 lines does not interfere with the true drive
-emulation.
+The IEEE488 line interpreter maps the drives 8-11 (as described
+above) to the IEEE488 disk units, and no kernal traps are needed.
+The same emulation of the Commodore IEEE488 bus interface is
+available for the C64 and the VIC20. With IEEE488 drives you can have
+true 2031 emulation at unit #8, and still have filesystem access at
+units #10 or #11, because monitoring the IEEE488 lines does not
+interfere with the true drive emulation.
 
 </P>
 <P>
-The IEEE488 disk drives 3040, 4040, 8050 and 8250 are Dual Drive Floppy Disks. 
-This means that these drives handle two disks. To Accomplish the 
-emulation, only one disk can be emulated, namely unit #8. The 
-attached image, track display and LED display of unit #9 are used
-for the second drive of the dual disk drives. On unix the unit number
-display (8 or 9) in the emulation window changes to the drive number
-display (0 or 1). 
+The IEEE488 disk drives 3040, 4040, 8050 and 8250 are Dual Drive
+Floppy Disks. This means that these drives handle two disks. To
+Accomplish the emulation, only one disk can be emulated, namely unit
+#8. The attached image, track display and LED display of unit #9 are
+used for the second drive of the dual disk drives. On unix the unit
+number display (8 or 9) in the emulation window changes to the drive
+number display (0 or 1).
 
 </P>
 <P>
-The Commodore 3040, 4040, 1001, 8050 and 8250 disk drives are 
-so-called "old-style"
-disk drives. Their architecture includes not one, but two processors
-of the 6502 type, namely a 6502 for the file handling and communication
-with the PET (IP), and a 6504 (which is a 6502 with reduced address space) for 
-the drive handling (FDC). Both processors communicate over a shared memory
-area. The IP writes commands to read/write blocks to this area and
-the FDC executes them. To make the emulation feasible, the FDC processor
-is not emulated cycle-exactly as a 6504, but simply by checking 
-the commands and executing them on the host. This provides a fast
-FDC emulation, but disallows the sending the FDC processor commands
-to execute code. Applications where this is necessary are believed
-to be rather seldom. Only the format command uses this feature, but
-this is checked for.
+The Commodore 3040, 4040, 1001, 8050 and 8250 disk drives are
+so-called "old-style" disk drives. Their architecture includes not
+one, but two processors of the 6502 type, namely a 6502 for the file
+handling and communication with the PET (IP), and a 6504 (which is a
+6502 with reduced address space) for the drive handling (FDC). Both
+processors communicate over a shared memory area. The IP writes
+commands to read/write blocks to this area and the FDC executes them.
+To make the emulation feasible, the FDC processor is not emulated
+cycle-exactly as a 6504, but simply by checking the commands and
+executing them on the host. This provides a fast FDC emulation, but
+disallows the sending the FDC processor commands to execute code.
+Applications where this is necessary are believed to be rather
+seldom. Only the format command uses this feature, but this is
+checked for.
 
 </P>
 <P>
-The dual disk drive 2040 emulates one of the very first CBM disk drives.
-This drive has DOS version 1. DOS1 uses an own disk type, that is closely
-related to the 1541 disk image. Only on tracks 18-24 DOS1 disks have 
-a sector more than 1541 disks. DOS1 disk images have the extension .d67.
+The dual disk drive 2040 emulates one of the very first CBM disk
+drives. This drive has DOS version 1. DOS1 uses an own disk type,
+that is closely related to the 1541 disk image. Only on tracks 18-24
+DOS1 disks have a sector more than 1541 disks. DOS1 disk images have
+the extension .d67.
 
 </P>
 <P>
-The dual disk drives 3040 and 4040 use the same logical disk format as 
-the VC1541 and the 2031. In fact, the 4040 was the first disk with 
-DOS version 2. The 3040 emulated here originally was the same as 2040, only
-for the european 30xx PET series. As many of the original DOS1 disk drives
-were upgraded (a simple ROM upgrade!) to DOS2, I use the 3040 number for
-a DOS 2.0 disk drive, and 4040 for a revised DOS 2 disk drive.
-It is, however, not yet clear whether the disks here
-are write compatible to the 1541, as rumors exist that the write gap between 
-sectors is different. But read compatible they are. As VICE emulates
-the FDC processor in C and not as 6504 emulation, this does not matter
-in VICE.
+The dual disk drives 3040 and 4040 use the same logical disk format
+as the VC1541 and the 2031. In fact, the 4040 was the first disk with
+DOS version 2. The 3040 emulated here originally was the same as
+2040, only for the european 30xx PET series. As many of the original
+DOS1 disk drives were upgraded (a simple ROM upgrade!) to DOS2, I use
+the 3040 number for a DOS 2.0 disk drive, and 4040 for a revised DOS
+2 disk drive. It is, however, not yet clear whether the disks here
+are write compatible to the 1541, as rumors exist that the write gap
+between  sectors is different. But read compatible they are. As VICE
+emulates the FDC processor in C and not as 6504 emulation, this does
+not matter in VICE.
 
 </P>
 <P>
-The drives 1001, 8050 and 8250 do actually have the very same DOS ROM.
-Only the code in the FDC is different, which is taken care of by VICE.
-So for all three of those disk drives, only <CODE>dos1001</CODE> is needed.
-The DOS version used is 2.7.
+The drives 1001, 8050 and 8250 do actually have the very same DOS
+ROM. Only the code in the FDC is different, which is taken care of by
+VICE. So for all three of those disk drives, only <CODE>dos1001</CODE> is
+needed. The DOS version used is 2.7.
 
 </P>
 

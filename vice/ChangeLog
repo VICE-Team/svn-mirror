@@ -1,6 +1,12 @@
+2005-01-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.
+
+	* doc/vice.texi, doc/html/index.html: Updated.
+
 2005-01-22  Andreas Boose  <viceteam@t-online.de>
 
-        * Version 1.15.15.
+	* Version 1.15.15.
 
 	* configure.in: Do not define `UNSTABLE'.
 
