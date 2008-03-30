@@ -1,3 +1,29 @@
+2002-10-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.13.
+
+	* vicii/vicii-irq.c, vicii/vicii-irq.h: New files.
+
+	* vicii/Makefile.am: Updated.
+
+	* vicii/vicii.c (vicii_set_raster_irq): Moved.
+
+	* vicii/vicii-mem.c (vicii_irq_check_state): Moved.
+	(store_d019): Added fix proposed by AndreasM.
+
+	* vicii/vicii-irq.c (vicii_irq_set_line): New function.
+
+2002-10-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/beosmain.c: Removed
+
+	* arch/beos/main.cc,main.h: Renamed to viceapp.cc,viceapp.h.
+
+	* arch/beos/ui.cc: Fixed includes, fixed calls to interrupt
+	functions, new function ui_exit_early.
+
+	* arch/beos/Makefile.am: Updated
+
 2002-10-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.12.
