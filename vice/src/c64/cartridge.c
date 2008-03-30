@@ -263,7 +263,6 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
             }
-            fclose(fd);
             break;
           case 7:
             while (1) {
@@ -281,7 +280,6 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
             }
-            fclose(fd);
             break;
           case 8:
             while (1) {
@@ -299,7 +297,6 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
             }
-            fclose(fd);
             break;
           default:
             fclose(fd);
