@@ -43,6 +43,7 @@
 #include "datasette.h"
 #include "emuid.h"
 #include "functionrom.h"
+#include "keyboard.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mon.h"
@@ -386,7 +387,8 @@ static BYTE old_port_write_bit = 0xff;
 /* Logging goes here.  */
 static log_t c128_mem_log = LOG_ERR;
 
-extern BYTE mmu[11];
+/* Status of the CAPS key (ASCII/DIN).  */
+static int caps_sense = 1;
 
 /* ------------------------------------------------------------------------- */
 
@@ -476,7 +478,8 @@ static void pla_config_changed(void)
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
 
-    ram[1] = ((pport.data | ~pport.dir) & (pport.data_out | 0x17));
+    ram[1] = (((pport.data | ~pport.dir) & (pport.data_out | 0x17))
+             & 0xbf) | (caps_sense << 6);
 
     if (!(pport.dir & 0x20))
       ram[1] &= 0xdf;
@@ -495,6 +498,14 @@ static void pla_config_changed(void)
     }
 
     ram[0] = pport.dir;
+}
+
+static void mem_toggle_caps_key(void)
+{
+    caps_sense = (caps_sense) ? 0 : 1;
+    pla_config_changed();
+    log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.",
+                (caps_sense) ? "released" : "pressed");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2281,6 +2292,8 @@ void mem_initialize_memory(void)
     }
 
     mmu_reset();
+
+    kbd_register_caps_key(mem_toggle_caps_key);
 
     top_shared_limit = 0xffff;
     bottom_shared_limit = 0x0000;
