@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
 #include "vic-resources.h"
@@ -34,30 +37,9 @@
 #include "fullscreen.h"
 #endif
 
+
 vic_resources_t vic_resources;
 
-#ifdef __MSDOS__
-#define DEFAULT_VideoCache_VALUE 0
-#else
-#define DEFAULT_VideoCache_VALUE 1
-#endif
-
-static int set_video_cache_enabled(resource_value_t v, void *param)
-{
-    vic_resources.video_cache_enabled = (int)v;
-    if (vic.initialized)
-        raster_enable_cache(&vic.raster, vic_resources.video_cache_enabled);
-
-    return 0;
-}
-
-static resource_t resources[] =
-{
-    { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)&vic_resources.video_cache_enabled,
-      set_video_cache_enabled, NULL },
-    { NULL }
-};
 
 #ifdef VIC_NEED_2X
 
@@ -134,7 +116,9 @@ int vic_resources_init(void)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
+    if (raster_resources_chip_init("VIC", &vic.raster) < 0)
+        return -1;
 
-    return resources_register(resources);
+    return 0;
 }
 
