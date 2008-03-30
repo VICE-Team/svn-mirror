@@ -1575,9 +1575,11 @@ inline static BYTE drive_write_protect_sense(drive_t *dptr)
     }
     /* Set the write protection bit for the time the disk is put in on
        attach.  */
-    if ((dptr->attach_clk != (CLOCK)0) &&
-        ((*(dptr->clk)) - dptr->attach_clk < DRIVE_ATTACH_DELAY))
-        return 0x10;
+    if (dptr->attach_clk != (CLOCK)0) {
+        if (((*(dptr->clk)) - dptr->attach_clk < DRIVE_ATTACH_DELAY))
+            return 0x10;
+        dptr->attach_clk = (CLOCK)0;
+    }
 
     if (dptr->GCR_image_loaded == 0) {
         /* No disk in drive, write protection is on. */

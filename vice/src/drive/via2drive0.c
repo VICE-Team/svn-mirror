@@ -166,7 +166,14 @@ inline static BYTE read_pra(ADDRESS addr)
     if (drive[0].attach_clk != (CLOCK)0) {
         if (drive_clk[0] - drive[0].attach_clk < DRIVE_ATTACH_DELAY)
             drive[0].GCR_read = 0;
-        drive[0].attach_clk = (CLOCK)0;
+        else
+            drive[0].attach_clk = (CLOCK)0;
+    } else if (drive[0].attach_detach_clk != (CLOCK)0) {
+        if (drive_clk[0] - drive[0].attach_detach_clk
+            < DRIVE_ATTACH_DETACH_DELAY)
+            drive[0].GCR_read = 0;
+        else
+            drive[0].attach_detach_clk = (CLOCK)0;
     } else {
         if (drive[0].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[0]);
