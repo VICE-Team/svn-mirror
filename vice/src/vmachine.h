@@ -69,41 +69,24 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* Interrupts.  */
+/* Interrupts.  This is a bit of a mess...  */
 
-#define I_RASTER	 2	/* Raster compare */
-
-/* CIA 1 / VIA 2 IRQs */
-#define I_CIA1FL	 4	/* CIA 1 FLAG1 */
-#define I_CIA1TOD	 6	/* CIA 1 TOD alarm */
-
-/* CIA 2 / VIA 1 NMIs */
-#define I_CIA2FL	 9 	/* CIA 2 FLAG 1 */
-#define I_CIA2TOD	 11 	/* CIA 2 TOD alarm */
-
-#define	I_ACIA1		 14
-#define	I_ACIA2		 15
-
-/* VIA 2 IRQs */
-#define	I_VIA1FL	I_CIA1FL
-
-/* VIA 1 NMIs */
-#define	I_VIA2FL	I_CIA2FL
-
-/* PET IRQs */
-#define	I_VIAFL		I_CIA1FL	/* pet via flag */
-#define	I_PIA1		7	/* I_CIA1TA */	/* pet pia1 flag */
-#define	I_PIA2		8	/* I_CIA1TB */	/* pet pia2 flag */
-
-/* CBM-II IRQs */
-#define        I_TPI1          I_CIA2FL
-
-/* SPECIAL */
-#define I_RESTORE	17	/* Restore key NMI */
-#define I_RESET		18	/* Reset in startup */
-
-#define I_FREEZE	19	/* Cartridge freeze interrupt */
-
-#define NUMOFINT        20
+enum {
+    I_ACIA1,                    /* ACIA 1 */
+    I_ACIA2,                    /* ACIA 2 (unused) */
+    I_CIA1FL,                   /* CIA 1 */
+    I_CIA2FL,                   /* CIA 2 */
+    I_FREEZE,                   /* Cartridge freeze */
+    I_PIA1,                     /* PIA1 */
+    I_PIA2,                     /* PIA2 */
+    I_RASTER,                   /* Raster compare */
+    I_RESTORE,                  /* RESTORE key */
+    I_REU,                      /* REU */
+    I_TPI1,                     /* TPI 1 (CBM-II) */
+    I_VIA1FL,                   /* VIA 1 */
+    I_VIA2FL,                   /* VIA 2 */
+    I_VIAFL,                    /* VIA (PET) */
+    NUMOFINT
+};
 
 #endif  /* VICE_VMACHINE_H */
