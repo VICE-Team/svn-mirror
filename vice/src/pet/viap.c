@@ -70,12 +70,16 @@
                            |                           |
                            |<---- N + 1.5 CYCLES ----->|<--- N + 2 cycles --->
                                                          +---+
-      viat*u clk --------------------------------------+   +--------
+ viat*u* clk ------------------------------------------+   +--------
                                                      |
                                                      |
                                                   call of
 			                        int_via*
                                                    here
+
+   real viatau value = viatau* + TAUOFFSET
+   viatbu = viatbu* + 0
+
  *
  * IRQ and PB7 are set/toggled at the low-high transition of Phi2,
  * but int_* is called a half-cycle before that. Does that matter?
@@ -83,31 +87,43 @@
  * PB7 output is still to be implemented
  */
 
+/* timer values do not depend on a certain value here, but PB7 does... */
+#define	TAUOFFSET	-1
+
 #define update_viairq() \
         maincpu_set_irq(I_VIAFL, (viaifr & viaier & 0x7f) ? IK_IRQ : 0)
 
 /* the next two are used in read_via() */
 #define	viata() \
-	((clk<viatau)?(viatau-clk-2): \
-	(viatal-(clk-viatau)%(viatal+2)))
+	((clk<viatau-TAUOFFSET)?(viatau-TAUOFFSET-clk-2): \
+	(viatal-(clk-viatau+TAUOFFSET)%(viatal+2)))
 
 #define	viatb() \
 	(viatbu-clk-2)
 
-/* printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,viatau,nuf,viatal,viapb7); */
-/* printf(" pb7=%d, pb7x=%d\n",viapb7, viapb7x); */
-
-/* the next two are used in store_via() */
 #define	update_viatal() \
 	viapb7x = 0; \
+	viapb7xx= 0; \
 	if(rclk>viatau) { \
-	  int nuf = 1+(rclk-viatau)/(viatal+2); \
-	  if(via[VIA_ACR] & 0x40) { viapb7 ^= (nuf & 1); } \
-	  else { viapb7 = 1; }\
+	  int nuf = (viatal + 1 + rclk-viatau)/(viatal+2); \
+/*  printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,viatau,nuf,viatal ,viapb7); */\
+	  if(!(via[VIA_ACR] & 0x40)) { \
+	    if(((nuf-viapb7sx)>1) || (!viapb7)) { \
+	      viapb7o = 1; \
+	      viapb7sx= 0; \
+	    } \
+	  } \
+	  viapb7 ^= (nuf & 1); \
 	\
-	  viatau=viatal+2+(rclk-(rclk-viatau)%(viatal+2)); \
+	  viatau=TAUOFFSET+viatal+2+(rclk-(rclk-viatau+TAUOFFSET)%(viatal+2)); \
+	  if(rclk == viatau - viatal - 1) { \
+	    viapb7xx = 1; \
+	  }\
 	}\
-	if((via[VIA_ACR]&0x40) && (viatau == rclk+1)) viapb7x = 1;\
+	if(viatau == rclk) { \
+	  viapb7x = 1;\
+	} \
+/* printf(" pb7=%d, pb7x=%d, pb7o=%d, tau=%d\n",viapb7, viapb7x,viapb7o, viatau);*/\
 	viatal = via[VIA_T1LL] + (via[VIA_T1LH] << 8)
 
 #define	update_viatbl() \
@@ -131,10 +147,10 @@
 #include "interrupt.h"
 
 /*#define VIA_TIMER_DEBUG */
-/*#define VIA_NEED_PB7 */	/* when PB7 is really used, set this
+/*#define VIA_NEED_PB7 */	/* when PB7 is really used, set this 
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read -
+				   when port B is read - 
 				not yet implemented */
 
 /* global */
@@ -164,6 +180,9 @@ static CLOCK 		viatbi;   /* time when next timer A alarm is */
 
 static int 		viapb7;   /* state of PB7 for pulse output... */
 static int 		viapb7x;  /* to be xored herewith  */
+static int 		viapb7o;  /* to be ored herewith  */
+static int 		viapb7xx; 
+static int 		viapb7sx; 
 
 /* ------------------------------------------------------------------------- */
 /* VIA */
@@ -241,7 +260,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 #ifdef VIA_TIMER_DEBUG
-    if ((addr<10 && addr>3) ||  app_resources.debugFlag)
+    if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
 	printf("store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
 		(int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
@@ -301,12 +320,13 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	via[VIA_T1LH] = byte;
 	update_viatal();
         /* load counter with latch value */
-	viatau = rclk + viatal + 3;
+	viatau = rclk + viatal + 3 + TAUOFFSET;
 	viatai = rclk + viatal + 2;
         maincpu_set_alarm_clk(A_VIAT1, viatai);
 
 	/* set pb7 state */
 	viapb7 = 0;
+	viapb7o= 0;
 
         /* Clear T1 interrupt */
         viaifr &= ~VIA_IM_T1;
@@ -374,17 +394,29 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
       case VIA_ACR:
 	/* bit 7 timer 1 output to PB7 */
-	if((via[VIA_ACR] & 0x80)==0 && (byte & 0x80)) {
-	  update_viatal();
-	  viapb7 = 1;
-	}
-	if((via[VIA_ACR] ^ byte) & 0x40) {
-	  update_viatal();
-	  viapb7 ^= viapb7x;
-	  if((rclk + viatal + 2 == viatau) && (byte & 0x40)) {
-	    viapb7 ^= 1;
+	update_viatal();
+	if((via[VIA_ACR] ^ byte) & 0x80) {
+	  if(byte & 0x80) {
+	    viapb7 = 1 ^ viapb7x;
 	  }
 	}
+	if((via[VIA_ACR] ^ byte) & 0x40) {
+/* printf("store_acr (%02x): pb7=%d, pb7x=%d, pb7o=%d, pb7xx=%d pb7sx=%d->",
+byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
+	  viapb7 ^= viapb7sx;
+          if((byte & 0x40)) {
+            if(viapb7x || viapb7xx) {
+	      if(viatal) {
+                viapb7o = 1;
+	      } else {
+                viapb7o = 0;
+               if((via[VIA_ACR]&0x80) && viapb7x && (!viapb7xx)) viapb7 ^= 1;
+	      }
+            }
+	  }
+/*printf("pb7o=%d\n",viapb7o);*/
+	}
+	viapb7sx = viapb7x;
 	via[addr] = byte;
 
 
@@ -511,7 +543,9 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
         }
 	  if(via[VIA_ACR] & 0x80) {
 	    update_viatal();
-	    byte = (byte & 0x7f) | ((viapb7 ^ viapb7x) ? 0x80 : 0);
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, viapb7, viapb7o, viapb7ox, viapb7x, viapb7xx);*/
+	    byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
 	  }
 	  return byte;
 	}
