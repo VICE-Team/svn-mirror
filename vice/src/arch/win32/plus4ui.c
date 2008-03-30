@@ -38,6 +38,7 @@
 #include "uidriveplus4.h"
 #include "uilib.h"
 #include "uiplus4mem.h"
+#include "uirom.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -51,6 +52,18 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+static const uirom_settings_t uirom_settings[] = {
+    { "Kernal", "KernalName",
+      IDC_PLUS4ROM_KERNAL_FILE, IDC_PLUS4ROM_KERNAL_BROWSE },
+    { "Basic", "BasicName",
+      IDC_PLUS4ROM_BASIC_FILE, IDC_PLUS4ROM_BASIC_BROWSE },
+    { "3 plus 1 LO", "3plus1loName",
+      IDC_PLUS4ROM_3P1LO_FILE, IDC_PLUS4ROM_3P1LO_BROWSE },
+    { "3 plus 1 HI", "3plus1hiName",
+      IDC_PLUS4ROM_3P1HI_FILE, IDC_PLUS4ROM_3P1HI_BROWSE },
+    { NULL, NULL, 0, 0 }
+};
+
 static const ui_res_value_list_t plus4_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
@@ -60,6 +73,10 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_PLUS4_SETTINGS:
         ui_plus4_memory_dialog(hwnd);
+        break;
+      case IDM_ROM_SETTINGS:
+        uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG,
+                              uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);
