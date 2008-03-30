@@ -97,16 +97,15 @@ static int set_dx_primary_surface_rendering(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "DXPrimarySurfaceRendering", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
+static const resource_int_t resources_int[] = {
+    { "DXPrimarySurfaceRendering", 0, RES_EVENT_NO, NULL,
+      &dx_primary_surface_rendering, set_dx_primary_surface_rendering, NULL },
     { NULL }
 };
 
 int video_arch_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 void video_arch_resources_shutdown(void)
