@@ -847,7 +847,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_NETPLAY_IT, "Gioco in rete (sperimentale)..."},
 /* nl */ {IDMS_NETPLAY_NL, "Netplay (experimenteel)..."},
 /* pl */ {IDMS_NETPLAY_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_NETPLAY_SV, "nätverksspel (experimentell)"},
+/* sv */ {IDMS_NETPLAY_SV, "Nätverksspel (experimentellt)..."},
 
 /* en */ {IDMS_OPTIONS,    "Options"},
 /* de */ {IDMS_OPTIONS_DE, "Optionen"},
@@ -1297,7 +1297,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_SET_PET_MODEL_IT, "Cambia modello di PET"},
 /* nl */ {IDMS_SET_PET_MODEL_NL, "Verander PET model"},
 /* pl */ {IDMS_SET_PET_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_SET_PET_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_SET_PET_MODEL_SV, "Byt PET-modell"},
 
 /* en */ {IDMS_PET_SETTINGS,    "PET settings..."},
 /* de */ {IDMS_PET_SETTINGS_DE, "PET Einstellungen..."},
@@ -1414,7 +1414,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_COMPUTER_ROM_SETTINGS_IT, "Impostazioni ROM del computer..."},
 /* nl */ {IDMS_COMPUTER_ROM_SETTINGS_NL, "Computer ROM instellingen..."},
 /* pl */ {IDMS_COMPUTER_ROM_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_COMPUTER_ROM_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_COMPUTER_ROM_SETTINGS_SV, "ROM-inställningar för dator..."},
 
 /* en */ {IDMS_DRIVE_ROM_SETTINGS,    "Drive ROM settings..."},
 /* de */ {IDMS_DRIVE_ROM_SETTINGS_DE, "Floppy ROM Einstellungen..."},
@@ -1423,7 +1423,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_DRIVE_ROM_SETTINGS_IT, "Impostazioni ROM del drive..."},
 /* nl */ {IDMS_DRIVE_ROM_SETTINGS_NL, "Drive ROM instellingen..."},
 /* pl */ {IDMS_DRIVE_ROM_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_DRIVE_ROM_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_DRIVE_ROM_SETTINGS_SV, "ROM-inställningar för diskettenhet..."},
 
 /* en */ {IDMS_RAM_SETTINGS,    "RAM settings..."},
 /* de */ {IDMS_RAM_SETTINGS_DE, "RAM Einstellungen..."},
@@ -1513,7 +1513,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_PLUS256K_FILENAME_SELECT_IT, "Seleziona file per PLUS256K"},
 /* nl */ {IDS_PLUS256K_FILENAME_SELECT_NL, "Selecteer bestand voor PLUS256K"},
 /* pl */ {IDS_PLUS256K_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PLUS256K_FILENAME_SELECT_SV, "Välj fil för PLUS256K"},
+/* sv */ {IDS_PLUS256K_FILENAME_SELECT_SV, "Ange fil för PLUS256K"},
 
 /* en */ {IDMS_PLUS256K_SETTINGS,    "PLUS256K settings..."},
 /* de */ {IDMS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen..."},
@@ -1594,7 +1594,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_SIDCART_SETTINGS_IT, "Impostazioni cartuccia SID..."},
 /* nl */ {IDMS_SIDCART_SETTINGS_NL, "SID cart instellingen..."},
 /* pl */ {IDMS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_SIDCART_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_SIDCART_SETTINGS_SV, "SID-modulinställningar..."},
 
 /* en */ {IDMS_RS232_USERPORT_SETTINGS,    "RS232 userport settings..."},
 /* de */ {IDMS_RS232_USERPORT_SETTINGS_DE, "RS232 Userport Einstellungen..."},
@@ -1711,7 +1711,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_LANGUAGE_INTERNATIONAL_IT, "Internazionale"},
 /* nl */ {IDMS_LANGUAGE_INTERNATIONAL_NL, "Internationaal"},
 /* pl */ {IDMS_LANGUAGE_INTERNATIONAL_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_INTERNATIONAL_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_INTERNATIONAL_SV, "Internationell"},
 
 /* en */ {IDMS_LANGUAGE_ENGLISH,    "English"},
 /* de */ {IDMS_LANGUAGE_ENGLISH_DE, "Englisch"},
@@ -1738,7 +1738,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_LANGUAGE_FINNISH_IT, "Finlandese"},
 /* nl */ {IDMS_LANGUAGE_FINNISH_NL, "Fins"},
 /* pl */ {IDMS_LANGUAGE_FINNISH_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_FINNISH_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_FINNISH_SV, "Finska"},
 
 /* en */ {IDMS_LANGUAGE_FRENCH,    "French"},
 /* de */ {IDMS_LANGUAGE_FRENCH_DE, "Französisch"},
@@ -1756,7 +1756,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_LANGUAGE_HUNGARIAN_IT, "Ungherese"},
 /* nl */ {IDMS_LANGUAGE_HUNGARIAN_NL, "Hongaars"},
 /* pl */ {IDMS_LANGUAGE_HUNGARIAN_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_HUNGARIAN_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_HUNGARIAN_SV, "Ungerska"},
 
 /* en */ {IDMS_LANGUAGE_ITALIAN,    "Italian"},
 /* de */ {IDMS_LANGUAGE_ITALIAN_DE, "Italienisch"},
@@ -1765,7 +1765,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_LANGUAGE_ITALIAN_IT, "Italiano"},
 /* nl */ {IDMS_LANGUAGE_ITALIAN_NL, "Italiaans"},
 /* pl */ {IDMS_LANGUAGE_ITALIAN_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_ITALIAN_SV, "Italiense"},
+/* sv */ {IDMS_LANGUAGE_ITALIAN_SV, "Italienska"},
 
 /* en */ {IDMS_LANGUAGE_DUTCH,    "Dutch"},
 /* de */ {IDMS_LANGUAGE_DUTCH_DE, "Holländisch"},
@@ -1783,7 +1783,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_LANGUAGE_NORWEGIAN_IT, "Norvegese"},
 /* nl */ {IDMS_LANGUAGE_NORWEGIAN_NL, "Noors"},
 /* pl */ {IDMS_LANGUAGE_NORWEGIAN_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_LANGUAGE_NORWEGIAN_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_NORWEGIAN_SV, "Norska"},
 
 /* en */ {IDMS_LANGUAGE_POLISH,    "Polish"},
 /* de */ {IDMS_LANGUAGE_POLISH_DE, "Polnisch"},
@@ -2065,7 +2065,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMES_ERROR_STARTING_SERVER_IT, "Si è verificato un errore all'avvio del server."},
 /* nl */ {IDMES_ERROR_STARTING_SERVER_NL, "Er is een fout opgetreden bij het opstarten van de server"},
 /* pl */ {IDMES_ERROR_STARTING_SERVER_PL, ""},  /* fuzzy */
-/* sv */ {IDMES_ERROR_STARTING_SERVER_SV, "Ett fel inträffade när servern skulle startas"},
+/* sv */ {IDMES_ERROR_STARTING_SERVER_SV, "Fel vid anslutning till server."},
 
 /* en */ {IDMES_ERROR_CONNECTING_CLIENT,    "An error occured connecting the client."},
 /* de */ {IDMES_ERROR_CONNECTING_CLIENT_DE, "Fehler beim Verbindungsaufbau zum Client"},
@@ -2074,7 +2074,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMES_ERROR_CONNECTING_CLIENT_IT, "Si è verificato un errore durante il collegamento col client."},
 /* nl */ {IDMES_ERROR_CONNECTING_CLIENT_NL, "Een fout is opgetreden bij het verbinden."},
 /* pl */ {IDMES_ERROR_CONNECTING_CLIENT_PL, ""},  /* fuzzy */
-/* sv */ {IDMES_ERROR_CONNECTING_CLIENT_SV, "Ett fel inträffade vid försök att kontakta klienten"},
+/* sv */ {IDMES_ERROR_CONNECTING_CLIENT_SV, "Fel vid anslutning till klient."},
 
 /* en */ {IDMES_INVALID_PORT_NUMBER,    "Invalid port number"},
 /* de */ {IDMES_INVALID_PORT_NUMBER_DE, "Ungültige Port Nummer"},
@@ -2148,7 +2148,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CURRENT_MODE_IT, "Modalità attuale"},
 /* nl */ {IDS_CURRENT_MODE_NL, "Huidige modus"},
 /* pl */ {IDS_CURRENT_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CURRENT_MODE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CURRENT_MODE_SV, "Aktuellt läge"},
 
 /* en */ {IDS_TCP_PORT,    "TCP-Port"},
 /* de */ {IDS_TCP_PORT_DE, "TCP-Port"},
@@ -2157,7 +2157,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_TCP_PORT_IT, "Porta TCP"},
 /* nl */ {IDS_TCP_PORT_NL, "TCP-Poort"},
 /* pl */ {IDS_TCP_PORT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_TCP_PORT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_TCP_PORT_SV, "TCP-port"},
 
 /* en */ {IDS_START_SERVER,    "Start Server"},
 /* de */ {IDS_START_SERVER_DE, "Server starten"},
@@ -2175,7 +2175,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CONNECT_TO_IT, "Connetti a"},
 /* nl */ {IDS_CONNECT_TO_NL, "Maak verbinding naar"},
 /* pl */ {IDS_CONNECT_TO_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CONNECT_TO_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CONNECT_TO_SV, "Anslut till"},
 
 /* en */ {IDS_DISCONNECT,    "Disconnect"},
 /* de */ {IDS_DISCONNECT_DE, "Verbindung Trennen"},
@@ -2346,7 +2346,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_END_SNAPSHOT_IT, "Seleziona lo snapshot finale per la cronologia degli eventi"},
 /* nl */ {IDS_SELECT_END_SNAPSHOT_NL, "Selecteer eind momentopname voor gebeurtenis geschiedenis"},
 /* pl */ {IDS_SELECT_END_SNAPSHOT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_END_SNAPSHOT_SV, "Välj slutögonblicksbild för händelsehistorik"},
+/* sv */ {IDS_SELECT_END_SNAPSHOT_SV, "Välj slutögonblicksmodul för händelsehistorik"},
 
 /* en */ {IDS_REALLY_EXIT,    "Do you really want to exit?\n\nAll the data present in the emulated RAM will be lost."},
 /* de */ {IDS_REALLY_EXIT_DE, "Willst Du wirklich beenden?\n\nDaten im emulierten Speicher RAM gehen verloren."},
@@ -2742,7 +2742,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_256K_ENABLED_IT, "256K attivi"},
 /* nl */ {IDS_256K_ENABLED_NL, "256K Aan/Uit"},
 /* pl */ {IDS_256K_ENABLED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_256K_ENABLED_SV, ""},  /* fuzzy */
+/* sv */ {IDS_256K_ENABLED_SV, "256K aktiverat"},
 
 /* en */ {IDS_256K_BASE,    "256K Base"},
 /* de */ {IDS_256K_BASE_DE, "256K Basis"},
@@ -2769,7 +2769,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_256K_FILENAME_SELECT_IT, "Seleziona il file per il 256K"},
 /* nl */ {IDS_256K_FILENAME_SELECT_NL, "Selecteer bestand voor 256K"},
 /* pl */ {IDS_256K_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_256K_FILENAME_SELECT_SV, "Välj fil för 256K"},
+/* sv */ {IDS_256K_FILENAME_SELECT_SV, "Ange fil för 256K"},
 
 /* en */ {IDS_256K_SETTINGS,    "256K Settings"},
 /* de */ {IDS_256K_SETTINGS_DE, "256K Einstellungen"},
@@ -2778,7 +2778,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_256K_SETTINGS_IT, "Impostazioni 256K"},
 /* nl */ {IDS_256K_SETTINGS_NL, "256K Instellingen"},
 /* pl */ {IDS_256K_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_256K_SETTINGS_SV, "256K inställningar"},
+/* sv */ {IDS_256K_SETTINGS_SV, "256K-inställningar"},
 
 /* en */ {IDS_MODEL_LINE,    "model line"},
 /* de */ {IDS_MODEL_LINE_DE, "modell linie"},
@@ -3336,7 +3336,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_PET_REU_SETTINGS_IT, "Impostazioni PET REU"},
 /* nl */ {IDS_PET_REU_SETTINGS_NL, "PET REU Instellingen"},
 /* pl */ {IDS_PET_REU_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PET_REU_SETTINGS_SV, "PET REU-inställningar"},
+/* sv */ {IDS_PET_REU_SETTINGS_SV, "PET REU-Inställningar"},
 
 /* en */ {IDS_PLUS256K_SETTINGS,    "PLUS256K Settings"},
 /* de */ {IDS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen"},
@@ -3372,7 +3372,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_PLUS60K_FILENAME_SELECT_IT, "Seleziona file per PLUS60K"},
 /* nl */ {IDS_PLUS60K_FILENAME_SELECT_NL, "Selecteer bestand voor PLUS60K"},
 /* pl */ {IDS_PLUS60K_FILENAME_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PLUS60K_FILENAME_SELECT_SV, "Välj fil för PLUS60K"},
+/* sv */ {IDS_PLUS60K_FILENAME_SELECT_SV, "Ange fil för PLUS60K"},
 
 /* en */ {IDS_PLUS60K_SETTINGS,    "PLUS60K Settings"},
 /* de */ {IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen"},
@@ -3885,7 +3885,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_BIOS_REVISION_IT, "Revisione BIOS"},
 /* nl */ {IDS_BIOS_REVISION_NL, "Revisie"},
 /* pl */ {IDS_BIOS_REVISION_PL, ""},  /* fuzzy */
-/* sv */ {IDS_BIOS_REVISION_SV, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_REVISION_SV, "BIOS-utgåva"},
 
 /* en */ {IDS_BIOS_FLASH_JUMPER,    "BIOS Flash Jumper"},
 /* de */ {IDS_BIOS_FLASH_JUMPER_DE, "BIOS Flashjumper"},
@@ -3894,7 +3894,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_BIOS_FLASH_JUMPER_IT, "Flash Jumper del BIOS"},
 /* nl */ {IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper"},
 /* pl */ {IDS_BIOS_FLASH_JUMPER_PL, ""},  /* fuzzy */
-/* sv */ {IDS_BIOS_FLASH_JUMPER_SV, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_FLASH_JUMPER_SV, "BIOS-flashbygel"},
 
 /* en */ {IDS_SAVE_BIOS_WHEN_CHANGED,    "Save BIOS when changed"},
 /* de */ {IDS_SAVE_BIOS_WHEN_CHANGED_DE, "BIOS bei Änderung speichern"},
@@ -3903,7 +3903,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SAVE_BIOS_WHEN_CHANGED_IT, "Salva il BIOS al cambio"},
 /* nl */ {IDS_SAVE_BIOS_WHEN_CHANGED_NL, "BIOS Opslaan indien gewijzigd"},
 /* pl */ {IDS_SAVE_BIOS_WHEN_CHANGED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SAVE_BIOS_WHEN_CHANGED_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_BIOS_WHEN_CHANGED_SV, "Spara BIOS vid ändring"},
 
 /* en */ {IDS_BIOS_FILE,    "BIOS File"},
 /* de */ {IDS_BIOS_FILE_DE, "BIOS Datei"},
@@ -3912,7 +3912,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_BIOS_FILE_IT, "File del BIOS"},
 /* nl */ {IDS_BIOS_FILE_NL, "BIOS Bestand"},
 /* pl */ {IDS_BIOS_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_BIOS_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_FILE_SV, "BIOS-fil"},
 
 /* en */ {IDS_SELECT_BIOS_FILE,    "Select BIOS file"},
 /* de */ {IDS_SELECT_BIOS_FILE_DE, "BIOS Datei wählen"},
@@ -3921,7 +3921,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_BIOS_FILE_IT, "Seleziona il file del BIOS"},
 /* nl */ {IDS_SELECT_BIOS_FILE_NL, "Selecteer BIOS bestand"},
 /* pl */ {IDS_SELECT_BIOS_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_BIOS_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_BIOS_FILE_SV, "Välj BIOS-fil"},
 
 /* en */ {IDS_MMC64_IMAGE_READ_ONLY,    "MMC/SD Image read-only"},
 /* de */ {IDS_MMC64_IMAGE_READ_ONLY_DE, "MMC/SD Image Schreibschutz"},
@@ -3930,7 +3930,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MMC64_IMAGE_READ_ONLY_IT, "Immagine MMC/SD in sola lettura"},
 /* nl */ {IDS_MMC64_IMAGE_READ_ONLY_NL, "MMC/SD Bestand alleen-lezen"},
 /* pl */ {IDS_MMC64_IMAGE_READ_ONLY_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MMC64_IMAGE_READ_ONLY_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MMC64_IMAGE_READ_ONLY_SV, "MMC/SD-avbildning skrivskyddad"},
 
 /* en */ {IDS_MMC64_IMAGE_FILE,    "MMC/SD Image File"},
 /* de */ {IDS_MMC64_IMAGE_FILE_DE, "MMC/SD Image Name"},
@@ -3939,7 +3939,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_MMC64_IMAGE_FILE_IT, "File immagine MMC/SD"},
 /* nl */ {IDS_MMC64_IMAGE_FILE_NL, "MMC/SD Bestand"},
 /* pl */ {IDS_MMC64_IMAGE_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_MMC64_IMAGE_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_MMC64_IMAGE_FILE_SV, "MMC/SD-avbildningsfil"},
 
 /* en */ {IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file"},
 /* de */ {IDS_SELECT_MMC64_IMAGE_FILE_DE, "MMC/SD Image Date wählen"},
@@ -3948,7 +3948,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_MMC64_IMAGE_FILE_IT, "Seleziona il file immagine MMC/SD"},
 /* nl */ {IDS_SELECT_MMC64_IMAGE_FILE_NL, "Selecteer MMC/SD bestand"},
 /* pl */ {IDS_SELECT_MMC64_IMAGE_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_MMC64_IMAGE_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_MMC64_IMAGE_FILE_SV, "Ange MMC/SD-avbildningsfil"},
 
 /* en */ {IDS_MMC64_SETTINGS,    "MMC64 settings"},
 /* de */ {IDS_MMC64_SETTINGS_DE, "MMC64 Einstellungen"},
@@ -3966,7 +3966,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SID_CART_IT, "Cartuccia SID"},
 /* nl */ {IDS_SID_CART_NL, "SID Cart"},
 /* pl */ {IDS_SID_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SID_CART_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SID_CART_SV, "SID-modul"},
 
 /* en */ {IDS_SID_ENGINE,    "SID Engine"},
 /* de */ {IDS_SID_ENGINE_DE, "SID Engine"},
@@ -3984,7 +3984,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SID_ADDRESS_IT, "Indirizzo SID"},
 /* nl */ {IDS_SID_ADDRESS_NL, "SID Adres"},
 /* pl */ {IDS_SID_ADDRESS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SID_ADDRESS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SID_ADDRESS_SV, "SID-adress"},
 
 /* en */ {IDS_SID_CLOCK,    "SID Clock"},
 /* de */ {IDS_SID_CLOCK_DE, "SID Uhr"},
@@ -3993,7 +3993,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SID_CLOCK_IT, "SID Clock"},
 /* nl */ {IDS_SID_CLOCK_NL, "SID Klok"},
 /* pl */ {IDS_SID_CLOCK_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SID_CLOCK_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SID_CLOCK_SV, "SID-klocka"},
 
 /* en */ {IDS_SIDCART_SETTINGS,    "SID cart settings"},
 /* de */ {IDS_SIDCART_SETTINGS_DE, "SID Modul Einstellungen"},
@@ -4002,7 +4002,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SIDCART_SETTINGS_IT, "Impostazioni cartuccia SID"},
 /* nl */ {IDS_SIDCART_SETTINGS_NL, "SID cart instellingen"},
 /* pl */ {IDS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SIDCART_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SIDCART_SETTINGS_SV, "SID-modulinställningarg"},
 
 /* en */ {IDS_LOAD_FLIP_LIST_FILE,    "Load flip list file"},
 /* de */ {IDS_LOAD_FLIP_LIST_FILE_DE, "Fliplist Datei Laden"},
@@ -4137,7 +4137,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CANNOT_WRITE_SNAPSHOT_S_IT, "Non è possibile scrivere il file di snapshot `%s'."},
 /* nl */ {IDS_CANNOT_WRITE_SNAPSHOT_S_NL, "Kan momentopname bestand `%s' niet schrijven."},
 /* pl */ {IDS_CANNOT_WRITE_SNAPSHOT_S_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CANNOT_WRITE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_WRITE_SNAPSHOT_S_SV, "Kan inte skriva ögonblicksbildfil \"%s\"."},
 
 /* en */ {IDS_CANNOT_READ_SNAPSHOT_IMG,    "Cannot read snapshot image"},
 /* de */ {IDS_CANNOT_READ_SNAPSHOT_IMG_DE, "Kann Snapshot Datei nicht laden"},
@@ -4146,7 +4146,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CANNOT_READ_SNAPSHOT_IMG_IT, "Non è possibile leggere l'immagine dello snapshot"},
 /* nl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_NL, "Kan momentopname bestand niet lezen"},
 /* pl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CANNOT_READ_SNAPSHOT_IMG_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_READ_SNAPSHOT_IMG_SV, "Kan inte läsa in ögonblicksbildfil"},
 
 /* en */ {IDS_SNAPSHOT_FILE,    "snapshot file"},
 /* de */ {IDS_SNAPSHOT_FILE_DE, "Snapshot Datei"},
@@ -4155,7 +4155,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SNAPSHOT_FILE_IT, "File di snapshot"},
 /* nl */ {IDS_SNAPSHOT_FILE_NL, "momentopname bestand"},
 /* pl */ {IDS_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SNAPSHOT_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SNAPSHOT_FILE_SV, "ögonblicksbildfil"},
 
 /* en */ {IDS_SELECT_SNAPSHOT_FILE,    "Select snapshot file"},
 /* de */ {IDS_SELECT_SNAPSHOT_FILE_DE, "Snapshot Datei wählen"},
@@ -4164,7 +4164,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_SNAPSHOT_FILE_IT, "Seleziona il file di snapshot"},
 /* nl */ {IDS_SELECT_SNAPSHOT_FILE_NL, "Selecteer momentopname bestand"},
 /* pl */ {IDS_SELECT_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_SNAPSHOT_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_SNAPSHOT_FILE_SV, "Välj ögonblicksbildfil"},
 
 /* en */ {IDS_FAST_PAL,    "Fast PAL"},
 /* de */ {IDS_FAST_PAL_DE, "Schnelle PAL"},
@@ -4173,7 +4173,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_FAST_PAL_IT, "PAL veloce"},
 /* nl */ {IDS_FAST_PAL_NL, "Snelle PAL"},
 /* pl */ {IDS_FAST_PAL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_FAST_PAL_SV, ""},  /* fuzzy */
+/* sv */ {IDS_FAST_PAL_SV, "Snabb PAL"},
 
 /* en */ {IDS_PAL_EMULATION,    "PAL Emulation"},
 /* de */ {IDS_PAL_EMULATION_DE, "PAL Emulation"},
@@ -4191,7 +4191,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_EXTERNAL_PALETTE_SELECT_IT, "Seleziona il file per la palette esterna"},
 /* nl */ {IDS_EXTERNAL_PALETTE_SELECT_NL, "Selecteer extern palette bestand"},
 /* pl */ {IDS_EXTERNAL_PALETTE_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_EXTERNAL_PALETTE_SELECT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_PALETTE_SELECT_SV, "Använd en extern palett (fil)"},
 
 /* en */ {IDS_GAMMA_0_2,    "Gamma (0..2)"},
 /* de */ {IDS_GAMMA_0_2_DE, "Gamma (0..2)"},
@@ -4245,7 +4245,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_PALETTE_FILENAME_IT, "File di palette"},
 /* nl */ {IDS_PALETTE_FILENAME_NL, "Palette bestand"},
 /* pl */ {IDS_PALETTE_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_PALETTE_FILENAME_SV, "Palettfiler"},
 
 /* en */ {IDS_SATURATION_0_2,    "Saturation (0..2)"},
 /* de */ {IDS_SATURATION_0_2_DE, "Sättigung (0..2)"},
@@ -4290,7 +4290,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_VICII_PALETTE_FILENAME_IT, "File di palette VICII"},
 /* nl */ {IDS_VICII_PALETTE_FILENAME_NL, "VICII Palette bestand"},
 /* pl */ {IDS_VICII_PALETTE_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_VICII_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_VICII_PALETTE_FILENAME_SV, "Läs in VICII-palettfil"},
 
 /* en */ {IDS_VDC_PALETTE_FILENAME,    "VDC Palette file"},
 /* de */ {IDS_VDC_PALETTE_FILENAME_DE, "VDC Paletten Datei"},
@@ -4299,7 +4299,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_VDC_PALETTE_FILENAME_IT, "File di palette VDC"},
 /* nl */ {IDS_VDC_PALETTE_FILENAME_NL, "VDC Palette bestand"},
 /* pl */ {IDS_VDC_PALETTE_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_VDC_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_VDC_PALETTE_FILENAME_SV, "Läs in VDC-palettfil"},
 
 /* en */ {IDS_AUTO_FROM_ROM,    "Auto (from ROM)"},
 /* de */ {IDS_AUTO_FROM_ROM_DE, "Automatisch (von ROM)"},
@@ -4308,7 +4308,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_AUTO_FROM_ROM_IT, "Auto (dalla ROM)"},
 /* nl */ {IDS_AUTO_FROM_ROM_NL, "Automatisch (van ROM)"},
 /* pl */ {IDS_AUTO_FROM_ROM_PL, ""},  /* fuzzy */
-/* sv */ {IDS_AUTO_FROM_ROM_SV, ""},  /* fuzzy */
+/* sv */ {IDS_AUTO_FROM_ROM_SV, "Automatisk (från ROM)"},
 
 /* en */ {IDS_40_COLUMNS,    "40 Columns"},
 /* de */ {IDS_40_COLUMNS_DE, "40 Spalten"},
@@ -4317,7 +4317,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_40_COLUMNS_IT, "40 Colonne"},
 /* nl */ {IDS_40_COLUMNS_NL, "40 Kolommen"},
 /* pl */ {IDS_40_COLUMNS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_40_COLUMNS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_40_COLUMNS_SV, "40 kolumner"},
 
 /* en */ {IDS_80_COLUMNS,    "80 Columns"},
 /* de */ {IDS_80_COLUMNS_DE, "80 Spalten"},
@@ -4326,7 +4326,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_80_COLUMNS_IT, "80 Colonne"},
 /* nl */ {IDS_80_COLUMNS_NL, "80 Kolommen"},
 /* pl */ {IDS_80_COLUMNS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_80_COLUMNS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_80_COLUMNS_SV, "80 kolumner"},
 
 /* en */ {IDS_256_BYTE,    "256 Byte"},
 /* de */ {IDS_256_BYTE_DE, "256 Byte"},
@@ -4335,7 +4335,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_256_BYTE_IT, "256 Byte"},
 /* nl */ {IDS_256_BYTE_NL, "256 Byte"},
 /* pl */ {IDS_256_BYTE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_256_BYTE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_256_BYTE_SV, "256 byte"},
 
 /* en */ {IDS_2_KBYTE,    "2 kByte"},
 /* de */ {IDS_2_KBYTE_DE, "2 kByte"},
@@ -4344,7 +4344,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_2_KBYTE_IT, "2 kByte"},
 /* nl */ {IDS_2_KBYTE_NL, "2 kByte"},
 /* pl */ {IDS_2_KBYTE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_2_KBYTE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_2_KBYTE_SV, "2 kbyte"},
 
 /* en */ {IDS_GRAPHICS,    "Graphics"},
 /* de */ {IDS_GRAPHICS_DE, "Grafik"},
@@ -4353,7 +4353,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_GRAPHICS_IT, "Grafica"},
 /* nl */ {IDS_GRAPHICS_NL, "Graphics"},
 /* pl */ {IDS_GRAPHICS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_GRAPHICS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_GRAPHICS_SV, "Grafisk"},
 
 /* en */ {IDS_BUSINESS_UK,    "Business (UK)"},
 /* de */ {IDS_BUSINESS_UK_DE, "Business (UK)"},
@@ -4362,7 +4362,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_BUSINESS_UK_IT, "Business (UK)"},
 /* nl */ {IDS_BUSINESS_UK_NL, "Business (UK)"},
 /* pl */ {IDS_BUSINESS_UK_PL, ""},  /* fuzzy */
-/* sv */ {IDS_BUSINESS_UK_SV, ""},  /* fuzzy */
+/* sv */ {IDS_BUSINESS_UK_SV, "Business (Storbritannien)"},
 
 /* en */ {IDS_SET_PET_MODEL,    "Set PET Model"},
 /* de */ {IDS_SET_PET_MODEL_DE, "Wähle PET Modell"},
@@ -4371,7 +4371,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SET_PET_MODEL_IT, "Imposta modello di PET"},
 /* nl */ {IDS_SET_PET_MODEL_NL, "Zet PET Model"},
 /* pl */ {IDS_SET_PET_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SET_PET_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SET_PET_MODEL_SV, "Välj PET-modell"},
 
 /* en */ {IDS_MEMORY,    "Memory"},
 /* de */ {IDS_MEMORY_DE, "Speicher"},
@@ -4416,7 +4416,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CRTC_CHIP_IT, "Chip CRTC"},
 /* nl */ {IDS_CRTC_CHIP_NL, "CRTC chip"},
 /* pl */ {IDS_CRTC_CHIP_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CRTC_CHIP_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CRTC_CHIP_SV, "CRTC-krets"},
 
 /* en */ {IDS_SUPERPET_IO,    "SuperPET I/O enable (disables 8x96)"},
 /* de */ {IDS_SUPERPET_IO_DE, "SuperPET I/O aktivieren (deaktiviert 8x96)"},
@@ -4425,7 +4425,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SUPERPET_IO_IT, "Attiva I/O del SuperPET (disattiva 8x96)"},
 /* nl */ {IDS_SUPERPET_IO_NL, "SuperPET I/O aktiveren (zet 8x96 uit)"},
 /* pl */ {IDS_SUPERPET_IO_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SUPERPET_IO_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SUPERPET_IO_SV, "Aktivera SuperPET-I/O (inaktiverar 8x96)"},
 
 /* en */ {IDS_9xxx_AS_RAM,    "$9*** as RAM"},
 /* de */ {IDS_9xxx_AS_RAM_DE, "$9*** als RAM"},
@@ -4434,7 +4434,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_9xxx_AS_RAM_IT, "$9*** come RAM"},
 /* nl */ {IDS_9xxx_AS_RAM_NL, "$9*** als RAM"},
 /* pl */ {IDS_9xxx_AS_RAM_PL, ""},  /* fuzzy */
-/* sv */ {IDS_9xxx_AS_RAM_SV, ""},  /* fuzzy */
+/* sv */ {IDS_9xxx_AS_RAM_SV, "$9*** som RAM"},
 
 /* en */ {IDS_Axxx_AS_RAM,    "$A*** as RAM"},
 /* de */ {IDS_Axxx_AS_RAM_DE, "$A*** als RAM"},
@@ -4443,7 +4443,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_Axxx_AS_RAM_IT, "$A*** come RAM"},
 /* nl */ {IDS_Axxx_AS_RAM_NL, "$A*** als RAM"},
 /* pl */ {IDS_Axxx_AS_RAM_PL, ""},  /* fuzzy */
-/* sv */ {IDS_Axxx_AS_RAM_SV, ""},  /* fuzzy */
+/* sv */ {IDS_Axxx_AS_RAM_SV, "$A*** som RAM"},
 
 /* en */ {IDS_PET_SETTINGS,    "PET settings"},
 /* de */ {IDS_PET_SETTINGS_DE, "PET Einstellungen"},
@@ -4461,7 +4461,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CURRENT_MODEL_IT, "Modello attuale"},
 /* nl */ {IDS_CURRENT_MODEL_NL, "Huidig Model"},
 /* pl */ {IDS_CURRENT_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CURRENT_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDS_CURRENT_MODEL_SV, "Aktuell modell"},
 
 /* en */ {IDS_PET_MODEL,    "PET Model"},
 /* de */ {IDS_PET_MODEL_DE, "PET Modell"},
@@ -4470,7 +4470,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_PET_MODEL_IT, "Modello PET"},
 /* nl */ {IDS_PET_MODEL_NL, "PET Model"},
 /* pl */ {IDS_PET_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_PET_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDS_PET_MODEL_SV, "PET-modell"},
 
 /* en */ {IDS_PLUS4_SETTINGS,    "PLUS4 settings"},
 /* de */ {IDS_PLUS4_SETTINGS_DE, "PLUS4 Einstellungen"},
@@ -4488,7 +4488,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona il file della function ROM interna"},
 /* nl */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer Intern Functie ROM bestand"},
 /* pl */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_SV, "Välj avbildning för internt funktions-ROM"},
 
 /* en */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME,    "Select External Function ROM file"},
 /* de */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_DE, "Externes Funktions ROM Image Datei selektieren"},
@@ -4497,7 +4497,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "Seleziona il file della function ROM esterna"},
 /* nl */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer Extern Functie ROM bestand"},
 /* pl */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_SV, "Välj avbildning för externt funktions-ROM"},
 
 /* en */ {IDS_MACHINE_TYPE,    "Machine type"},
 /* de */ {IDS_MACHINE_TYPE_DE, "Maschinen Typ"},
@@ -4524,7 +4524,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_IT, "File della function ROM interna"},
 /* nl */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_NL, "Interne Functie ROM bestand"},
 /* pl */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_SV, "Internt funktions-ROM"},
 
 /* en */ {IDS_EXTERNAL_FUNCTION_ROM,    "External Function ROM"},
 /* de */ {IDS_EXTERNAL_FUNCTION_ROM_DE, "Externes Funktions ROM"},
@@ -4542,7 +4542,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_IT, "File della function ROM esterna"},
 /* nl */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Externe Functie ROM bestand"},
 /* pl */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_SV, "Externt funktions-ROM"},
 
 /* en */ {IDS_C128_SETTINGS,    "C128 settings"},
 /* de */ {IDS_C128_SETTINGS_DE, "C128 Einstellungen"},
@@ -4560,7 +4560,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_ROM_FILE_IT, "Seleziona file della ROM"},
 /* nl */ {IDS_SELECT_ROM_FILE_NL, "Selecteer ROM bestand"},
 /* pl */ {IDS_SELECT_ROM_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_ROM_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_ROM_FILE_SV, "Välj ROM-fil"},
 
 /* en */ {IDS_COMPUTER_ROM_SETTINGS,    "Computer ROM settings"},
 /* de */ {IDS_COMPUTER_ROM_SETTINGS_DE, "Computer ROM Einstellungen"},
@@ -4569,7 +4569,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_COMPUTER_ROM_SETTINGS_IT, "Impostazioni ROM del computer"},
 /* nl */ {IDS_COMPUTER_ROM_SETTINGS_NL, "Computer ROM instellingen"},
 /* pl */ {IDS_COMPUTER_ROM_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_COMPUTER_ROM_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_COMPUTER_ROM_SETTINGS_SV, "ROM-inställningar för dator"},
 
 /* en */ {IDS_DRIVE_ROM_SETTINGS,    "Drive ROM settings"},
 /* de */ {IDS_DRIVE_ROM_SETTINGS_DE, "Floppy ROM Einstellungen"},
@@ -4578,7 +4578,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DRIVE_ROM_SETTINGS_IT, "Impostazioni ROM del drive"},
 /* nl */ {IDS_DRIVE_ROM_SETTINGS_NL, "Drive ROM instellingen"},
 /* pl */ {IDS_DRIVE_ROM_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DRIVE_ROM_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DRIVE_ROM_SETTINGS_SV, "ROM-inställningar för diskettenhet"},
 
 /* en */ {IDS_DIGIMAX_ENABLED,    "Digimax Enabled"},
 /* de */ {IDS_DIGIMAX_ENABLED_DE, "Digimax aktiviert"},

@@ -39,16 +39,13 @@
   To avoid this deactivate openGL sync before leaving or entering
   fullscreen modes.
 
-- Gnome2: enabling double size no longer resizes the canvas
-  window. This is intentional and the user is obliged to resize the
-  window to the desired size.
-  Any suggestions to automate enlarging AND shrinking to the proper
-  canvas window needs are appreciated (non HW scaling support).
-
 - Xaw/XRandR fullscreen doesn't maximize the window automatically; for
   some reason the window manager hint is ignored. See also comment in 
   src/arch/unix/x11/xaw/x11ui.c:1443.
-
+  In the Gnome port the window is only expanded when XVideo HW scaling
+  is enabled. Otherwise the window remains in its original size, as
+  resizing is inhibited in the Gnome port without HW scaling.
+ 
 - The Image preview does not make use of CBM font in the Gnome2 port.
 
 - The custom TextField widget is buggy and can cause crashes on

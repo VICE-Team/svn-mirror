@@ -1609,7 +1609,7 @@ BEGIN
     POPUP "&Ögonblicksbild"
     BEGIN
         MENUITEM "&Läs in ögonblicksbild...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara &ögonblicksbild...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "Spara &ögonblicksbildfil...",          IDM_SNAPSHOT_SAVE
         MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
         MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -1665,7 +1665,7 @@ BEGIN
         MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullskärm\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Alltid överst", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Grafik&cache", IDM_TOGGLE_CRTCVIDEOCACHE
             , CHECKED
@@ -1720,8 +1720,8 @@ BEGIN
         MENUITEM "&Engelska", IDM_LANG_EN
         MENUITEM "&Tyska", IDM_LANG_DE
         MENUITEM "&Franska", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
-        MENUITEM "&Italiense", IDM_LANG_IT
+        MENUITEM "&Ungerska", IDM_LANG_HU
+        MENUITEM "&Italienska", IDM_LANG_IT
         MENUITEM "&Nederländska", IDM_LANG_NL
         MENUITEM "&Polska", IDM_LANG_PL
         MENUITEM "&Svenska", IDM_LANG_SV

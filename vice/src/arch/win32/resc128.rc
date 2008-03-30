@@ -1904,7 +1904,7 @@ BEGIN
             MENUITEM "Nollställ r&äknare", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Anslut &insticksmodulfil..."
+        POPUP "Anslut &insticksmodulavbild..."
         BEGIN
             MENUITEM "&CRT-fil...",                IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
@@ -1918,7 +1918,7 @@ BEGIN
             MENUITEM "IDE&64-gränssnittsfil...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4-fil...",   IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5-fil...",   IDM_CART_ATTACH_SS5
-            MENUITEM "Structured &Basic-fil...",   IDM_CART_ATTACH_STB
+            MENUITEM "Anslut &Basicavbildning...",   IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktivera", IDM_CART_ENABLE_EXPERT
@@ -1967,7 +1967,7 @@ BEGIN
     POPUP "&Ögonblicksbild"
     BEGIN
         MENUITEM "&Läs in ögonblicksbild...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara &ögonblicksbild...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Spara &ögonblicksbildfil...", IDM_SNAPSHOT_SAVE
         MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
         MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -2074,7 +2074,7 @@ BEGIN
             MENUITEM "&REU-inställningar...",      IDM_REU_SETTINGS
             MENUITEM "&GEORAM-inställningar...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART-inställningar...",      IDM_RAMCART_SETTINGS
-            MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&MMC64-inställningar...",    IDM_MMC64_SETTINGS
             MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64-inställningar...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
@@ -2096,8 +2096,8 @@ BEGIN
         MENUITEM "&Engelska", IDM_LANG_EN
         MENUITEM "&Tyska", IDM_LANG_DE
         MENUITEM "&Franska", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
-        MENUITEM "&Italiense", IDM_LANG_IT
+        MENUITEM "&Ungerska", IDM_LANG_HU
+        MENUITEM "&Italienska", IDM_LANG_IT
         MENUITEM "&Nederländska", IDM_LANG_NL
         MENUITEM "&Polska", IDM_LANG_PL
         MENUITEM "&Svenska", IDM_LANG_SV

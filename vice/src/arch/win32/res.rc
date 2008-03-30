@@ -2587,23 +2587,23 @@ IDD_MEDIAFILE_DIALOG_SV DIALOG DISCARDABLE 0,0, 300, 100
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Select Driver:",IDC_STATIC,5,0,45,20
+    LTEXT           "Välj drivrutin:",IDC_STATIC,5,0,45,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    GROUPBOX        "FFMPEG settings",IDC_STATIC,5,20,250,75
+    GROUPBOX        "FFMPEG-inställningar",IDC_STATIC,5,20,250,75
     LTEXT           "Format:",IDC_STATIC,15,37,40,20
     COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Audio: codec",IDC_STATIC,15,57,45,15
+    LTEXT           "Ljud: omkodare",IDC_STATIC,15,57,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 65,55,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate",IDC_STATIC,155,57,25,15
+    LTEXT           "bithastighet",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
+    LTEXT           "Video: omkodare",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate",IDC_STATIC,155,77,25,15
+    LTEXT           "bithastighet",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
                     WS_GROUP | WS_TABSTOP
 END
@@ -4406,7 +4406,7 @@ BEGIN
     PUSHBUTTON      "Dator", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Enhet", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
 #if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+    PUSHBUTTON      "Annan", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
 
@@ -5035,12 +5035,12 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Netplay Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    LTEXT           "Aktuellt läge",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
-    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    LTEXT           "TCP-port",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
     PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
-    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    PUSHBUTTON      "Anslut till", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,50,12,WS_TABSTOP
     PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
     GROUPBOX        "Control",IDC_STATIC,140,5,115,100
@@ -6691,7 +6691,7 @@ BEGIN
   IDS_DRIVE_11_SV                    "Enhet 11"
   IDS_PERIPHERAL_SETTINGS_SV         "Inställningar för kringutrustning"
   IDS_CANT_WRITE_SNAPSHOT_FILE_SV    "Kan inte skriva ögonblicksbildfil."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_SV    "Kan inte läsa ögonblicksbildfil"
+  IDS_CANNOT_READ_SNAPSHOT_IMG_SV    "Kan inte läsa in ögonblicksbildfil"
   IDS_LOAD_S_ROM_IMAGE_SV            "Läs %s-ROM-fil"
   IDS_SELECT_ROMSET_ARCHIVE_SV       "Välj ROM-uppsättningsarkiv"
   IDS_CANNOT_LOAD_ROMSET_ARCH_SV     "Kunde inte läsa ROM-uppsättningsarkiv!"
@@ -6797,18 +6797,18 @@ BEGIN
   IDS_USE_FIRST_CPU_SMP_SV           "Använd bara första CPU:n på SMP-system"
   IDS_START_VICE_FULLSCREEN_MODE_SV  "Starta VICE i fullskärmsläge"
 #ifdef SYS_SIGLIST_DECLARED
-  IDS_RECEIVED_SIGNAL_D_S_SV         "An unexpected error occured. Received signal %d (%s)."
+  IDS_RECEIVED_SIGNAL_D_S_SV         "Ett okänt fel uppstod. Tog emot signal %d (%s)."
 #else
-  IDS_RECEIVED_SIGNAL_D_SV           "An unexpected error occured. Received signal %d."
+  IDS_RECEIVED_SIGNAL_D_SV           "Ett okänt fel uppstod. Tog emot signal %d."
 #endif
 #ifdef HAVE_NETWORK
   IDS_IDLE_SV                        "Idle"
   IDS_SERVER_LISTENING_SV            "Server listening"
-  IDS_CONNECTED_SERVER_SV            "Connected server"
+  IDS_CONNECTED_SERVER_SV            "Ansluten server"
   IDS_CONNECTED_CLIENT_SV            "Connected client"
-  IDS_INVALID_PORT_NUMBER_SV         "Invalid port number"
-  IDS_ERROR_STARTING_SERVER_SV       "An error occured starting the server."
-  IDS_ERROR_CONNECTING_CLIENT_SV     "An error occured connecting the client."
+  IDS_INVALID_PORT_NUMBER_SV         "Ogiltigt portnummer"
+  IDS_ERROR_STARTING_SERVER_SV       "Fel vid anslutning till server."
+  IDS_ERROR_CONNECTING_CLIENT_SV     "Fel vid anslutning till klient."
 #endif
   IDS_SOUND_RECORDING_STARTED_SV     "Sound Recording started..."
   IDS_SOUND_RECORDING_STOPPED_SV     "Sound Recording stopped..."

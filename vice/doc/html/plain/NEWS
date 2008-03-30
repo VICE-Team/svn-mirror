@@ -65,6 +65,26 @@ list of all the changes in the code.
 
 - Fixed some bug in the XAW file selector.
 
+- New fullscreen mode based on XRandR - although restriced to XVideo
+  HW scaling. See also BUGS.
+
+- Raster synchronization based on openGL extension
+  `GLX_SGI_video_sync'. See openGL-sync.txt for details.
+
+- Fixed colormap handling on certain Gnome systems (sporadic black
+  menus, e.g. reported by some FC users).
+
+- New fullscreen mode based on XRandR - although restriced to XVideo
+  HW scaling. See also BUGS.
+
+- Raster synchronization based on openGL extension
+  `GLX_SGI_video_sync'. See openGL-sync.txt for details.
+
+- Fixed colormap handling on certain Gnome systems (sporadic black
+  menus, e.g. reported by some FC users).
+
+- ffmpeg support should work again.
+
 ** MS-Windows changes
 ---------------------
 

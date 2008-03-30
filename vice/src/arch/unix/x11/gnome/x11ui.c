@@ -1087,7 +1087,7 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat)
 {
-    GtkWidget *new_window, *new_pane, *new_pane2, *new_canvas, *topmenu;
+    GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
     int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
@@ -1157,13 +1157,21 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  GDK_STRUCTURE_MASK |
 			  GDK_EXPOSURE_MASK);
 
-    /* embed canvas in horizontal box - otherwise width setup fails on Mac GTK+
-       Mac GTK+ also requires a packing of expand=true but fill=false 
-       in both of the following packs - otherwise size collapses to one (cv) */
-    new_pane2 = gtk_hbox_new(FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(new_pane),new_pane2,TRUE,FALSE,0);
-    gtk_widget_show(new_pane2);
-    gtk_box_pack_start(GTK_BOX(new_pane2),new_canvas,TRUE,FALSE,0);
+#ifdef MACOSX_SUPPORT
+    {
+	GtkWidget *new_pane2;
+	
+	/* embed canvas in horizontal box - otherwise width setup fails on Mac GTK+
+	   Mac GTK+ also requires a packing of expand=true but fill=false 
+	   in both of the following packs - otherwise size collapses to one (cv) */
+	new_pane2 = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(new_pane),new_pane2,TRUE,FALSE,0);
+	gtk_widget_show(new_pane2);
+	gtk_box_pack_start(GTK_BOX(new_pane2),new_canvas,TRUE,FALSE,0);
+    }
+#else
+    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
+#endif
     gtk_widget_show(new_canvas);
 
     /* XVideo must be refreshed when the application window is moved. */

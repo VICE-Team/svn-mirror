@@ -493,7 +493,7 @@ static int intl_table[][countof(language_table)] = {
 /* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_MMC64_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_MMC64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_MMC64_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+/* sv */  IDD_MMC64_SETTINGS_DIALOG_SV},   /* size */
 
 /* resplus4.rc */
 /* en */ {IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG,
@@ -623,7 +623,7 @@ static int intl_table[][countof(language_table)] = {
 /* it */  IDD_MEDIAFILE_DIALOG_IT,    /* size */
 /* nl */  IDD_MEDIAFILE_DIALOG_NL,    /* size */
 /* pl */  IDD_MEDIAFILE_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_MEDIAFILE_DIALOG_SV},   /* fuzzy, size */
+/* sv */  IDD_MEDIAFILE_DIALOG_SV},   /* size */
 
 /* res.rc */
 /* en */ {IDD_CONSOLE_SAVE_DIALOG,
@@ -763,7 +763,7 @@ static int intl_table[][countof(language_table)] = {
 /* it */  IDD_SIDCART_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_SIDCART_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+/* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV},   /* size */
 
 /* res.rc */
 /* en */ {IDD_SOUND_RECORD_SETTINGS_DIALOG,
@@ -2687,7 +2687,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_RECEIVED_SIGNAL_D_S_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_S_NL,
 /* pl */  IDS_RECEIVED_SIGNAL_D_S_PL,    /* fuzzy */
-/* sv */  IDS_RECEIVED_SIGNAL_D_S_SV},   /* fuzzy */
+/* sv */  IDS_RECEIVED_SIGNAL_D_S_SV},
 #else
 /* res.rc */
 /* en */ {IDS_RECEIVED_SIGNAL_D,
@@ -2697,7 +2697,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_RECEIVED_SIGNAL_D_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_NL,
 /* pl */  IDS_RECEIVED_SIGNAL_D_PL,    /* fuzzy */
-/* sv */  IDS_RECEIVED_SIGNAL_D_SV},   /* fuzzy */
+/* sv */  IDS_RECEIVED_SIGNAL_D_SV},
 #endif
 
 #ifdef HAVE_NETWORK
@@ -2729,7 +2729,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_CONNECTED_SERVER_IT,
 /* nl */  IDS_CONNECTED_SERVER_NL,
 /* pl */  IDS_CONNECTED_SERVER_PL,    /* fuzzy */
-/* sv */  IDS_CONNECTED_SERVER_SV},   /* fuzzy */
+/* sv */  IDS_CONNECTED_SERVER_SV},
 
 /* res.rc */
 /* en */ {IDS_CONNECTED_CLIENT,
@@ -2749,7 +2749,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_INVALID_PORT_NUMBER_IT,
 /* nl */  IDS_INVALID_PORT_NUMBER_NL,
 /* pl */  IDS_INVALID_PORT_NUMBER_PL,    /* fuzzy */
-/* sv */  IDS_INVALID_PORT_NUMBER_SV},   /* fuzzy */
+/* sv */  IDS_INVALID_PORT_NUMBER_SV},
 
 /* res.rc */
 /* en */ {IDS_ERROR_STARTING_SERVER,
@@ -2759,7 +2759,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_ERROR_STARTING_SERVER_IT,
 /* nl */  IDS_ERROR_STARTING_SERVER_NL,
 /* pl */  IDS_ERROR_STARTING_SERVER_PL,    /* fuzzy */
-/* sv */  IDS_ERROR_STARTING_SERVER_SV},   /* fuzzy */
+/* sv */  IDS_ERROR_STARTING_SERVER_SV},
 
 /* res.rc */
 /* en */ {IDS_ERROR_CONNECTING_CLIENT,
@@ -2769,7 +2769,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_ERROR_CONNECTING_CLIENT_IT,
 /* nl */  IDS_ERROR_CONNECTING_CLIENT_NL,
 /* pl */  IDS_ERROR_CONNECTING_CLIENT_PL,    /* fuzzy */
-/* sv */  IDS_ERROR_CONNECTING_CLIENT_SV},   /* fuzzy */
+/* sv */  IDS_ERROR_CONNECTING_CLIENT_SV},
 #endif
 
 /* res.rc */

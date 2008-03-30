@@ -508,7 +508,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non è possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
 /* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopname bestand niet maken. Selecteer een andere geschiedenis folder!"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV, "Kan inte skapa ögonblicksbildfil. Välj en annan historikkatalog!"},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_RESOLVE_S,    "Cannot resolve %s"},
@@ -1302,7 +1302,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_MMC64_IT, "Attiva l'espansione MMC64"},
 /* nl */ {IDCLS_ENABLE_MMC64_NL, "Aktiveer de MMC64 uitbreiding"},
 /* pl */ {IDCLS_ENABLE_MMC64_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_MMC64_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_MMC64_SV, "Aktivera MMC64-expansion"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_DISABLE_MMC64,    "Disable the MMC64 expansion"},
@@ -1312,7 +1312,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_MMC64_IT, "Disattiva l'espansione MMC64"},
 /* nl */ {IDCLS_DISABLE_MMC64_NL, "De MMC64 uitbreiding afsluiten"},
 /* pl */ {IDCLS_DISABLE_MMC64_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_MMC64_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_MMC64_SV, "Inaktivera MMC64-expansion"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_BIOS_NAME,    "Specify name of MMC64 BIOS image"},
@@ -1322,7 +1322,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_IT, "Specifica il nome dell'immagine del BIOS MMC64"},
 /* nl */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_NL, "Geef de naam van het MMC64 BIOS bestand"},
 /* pl */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_SV, "Ange namn på MMC64-BIOS-avbildning"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME,    "Specify name of MMC64 image"},
@@ -1332,7 +1332,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_IT, "Specifica il nome dell'immagine MMC64"},
 /* nl */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_NL, "Geef de naam van het MMC64 bestand"},
 /* pl */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_SV, "Ange namn på MMC64-avbildning"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_READONLY,    "Set the MMC64 card to read-only"},
@@ -1342,7 +1342,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_MMC64_READONLY_IT, "Imposta la cartuccia MMC64 in sola lettura"},
 /* nl */ {IDCLS_MMC64_READONLY_NL, "Zet de MMC64 card als alleen lezen"},
 /* pl */ {IDCLS_MMC64_READONLY_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_MMC64_READONLY_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_READONLY_SV, "Skrivskydda MMC64-kort"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_READWRITE,    "Set the MMC64 card to read/write"},
@@ -1352,7 +1352,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_MMC64_READWRITE_IT, "Imposta la cartuccia MMC64 in lettura/scrittura"},
 /* nl */ {IDCLS_MMC64_READWRITE_NL, "Zet de MMC64 card als lezen/schrijven"},
 /* pl */ {IDCLS_MMC64_READWRITE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_MMC64_READWRITE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_READWRITE_SV, "Tillåt skrivning på MMC64-kort"},
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_BIOS_WRITE,    "Save the MMC64 bios when changed"},
@@ -1362,7 +1362,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_MMC64_BIOS_WRITE_IT, "Salva il bios MMC64 al cambio"},
 /* nl */ {IDCLS_MMC64_BIOS_WRITE_NL, "Sla de MMC64 buis op als er veranderingen zijn gemaakt"},
 /* pl */ {IDCLS_MMC64_BIOS_WRITE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_MMC64_BIOS_WRITE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_MMC64_BIOS_WRITE_SV, "Spara MMC64-BIOS vid ändring"},
 
 /* c64/reu.c */
 /* en */ {IDCLS_ENABLE_REU,    "Enable the RAM expansion unit"},
@@ -1413,7 +1413,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
 /* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"the final ethernet\")"},
+/* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"The Final Ethernet\")"},
 
 /* c64/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE,    "Disable the TFE (\"The Final Ethernet\") unit"},
@@ -1423,7 +1423,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFE (\"The Final Ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"the final ethernet\")"},
+/* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"The Final Ethernet\")"},
 
 /* c64/tfe.c */
 /* en */ {IDCLS_TFE_INTERFACE,    "Set the system ethernet interface for TFE emulation"},
@@ -1514,7 +1514,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay III di 16KB"},
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, "Koppel binair 16KB Action Replay III cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, "Anslut rå 16KB-Action Replay III-insticksmodulfil"},
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART,    "Attach raw 32KB Action Replay cartridge image"},
@@ -2229,7 +2229,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PAR_CABLE_C64EXP_TYPE_IT, "Imposta il tipo di cavo parallelo (0: nessuno, 1: standard, 2: Dolphin DOS 3)"},
 /* nl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard, 2: Dolphin DOS 3)"},
 /* pl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_PAR_CABLE_C64EXP_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PAR_CABLE_C64EXP_TYPE_SV, "Välj typ av parallellkabel (0: ingen, 1: standard, 2: Dolphin DOS 3)"},
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_PROFDOS,    "Enable Professional DOS"},
@@ -2239,7 +2239,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_PROFDOS_IT, "Attiva Professional DOS"},
 /* nl */ {IDCLS_ENABLE_PROFDOS_NL, "Aktiveer Professional DOS"},
 /* pl */ {IDCLS_ENABLE_PROFDOS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PROFDOS_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PROFDOS_SV, "Aktivera Professional DOS"},
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_PROFDOS,    "Disable Professional DOS"},
@@ -2249,7 +2249,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_PROFDOS_IT, "Disattiva Professional DOS"},
 /* nl */ {IDCLS_DISABLE_PROFDOS_NL, "Professional DOS afsluiten"},
 /* pl */ {IDCLS_DISABLE_PROFDOS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_PROFDOS_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PROFDOS_SV, "Inaktivera Professional DOS"},
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,    "Specify name of Professional DOS 1571 ROM image"},
@@ -2259,7 +2259,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_IT, "Specifica il nome dell'immagine della ROM del Professional DOS 1571"},
 /* nl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_NL, "Geef de naam van het Professional DOS 1571 ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_SV, "Ange namn på Professional DOS 1571-ROM-avbildning"},
 
 /* drive/iec/plus4exp/plus4exp-cmdline-options.c */
 /* en */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE,    "Set parallel cable type (0: none, 1: standard)"},
@@ -2269,7 +2269,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_IT, "Imposta il tipo di cavo parallelo (0: nessuno, 1: standard)"},
 /* nl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard)"},
 /* pl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_SV, "Välj typ av parallellkabel (0: ingen, 1: standard)"},
 
 /* drive/iec128dcr/iec128dcr-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,    "Specify name of 1571CR DOS ROM image"},
@@ -3421,7 +3421,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_SIDCART_IT, "Attiva cartuccia SID"},
 /* nl */ {IDCLS_ENABLE_SIDCART_NL, "Aktiveer SID Cartridge"},
 /* pl */ {IDCLS_ENABLE_SIDCART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SIDCART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SIDCART_SV, "Aktivera SID-instickskort"},
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
 /* en */ {IDCLS_P_BASE_ADDRESS,    "<base address>"},
@@ -4661,7 +4661,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, "<codice iso lingua>"},
 /* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taal code>"},
 /* pl */ {IDCLS_P_ISO_LANGUAGE_CODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_ISO_LANGUAGE_CODE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ISO_LANGUAGE_CODE_SV, "<iso-språkkod>"},
 
 /* translate.c */
 /* en */ {IDCLS_SPECIFY_ISO_LANG_CODE,    "Specify the iso code of the language"},
@@ -4671,7 +4671,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_ISO_LANG_CODE_IT, "Specifica il codice ISO della lingua"},
 /* nl */ {IDCLS_SPECIFY_ISO_LANG_CODE_NL, "Geef de iso code van de taal"},
 /* pl */ {IDCLS_SPECIFY_ISO_LANG_CODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_ISO_LANG_CODE_SV, "Ange ISO-koden för språket"},
 
 /* c64/plus256k.c */
 /* en */ {IDCLS_ENABLE_PLUS256K_EXPANSION,    "Enable the PLUS256K RAM expansion"},
@@ -4791,7 +4791,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
 /* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Structured Basic-insticksmodulfil"},
+/* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Strucured Basic-insticksmodulfil"},
 
 /* plus4/plus4memcsory256k.c */
 /* en */ {IDCLS_ENABLE_CS256K_EXPANSION,    "Enable the CSORY 256K RAM expansion"},

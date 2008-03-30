@@ -283,7 +283,7 @@ IDD_SIDCART_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable SID", IDC_SIDCART_ENABLE,
+    AUTOCHECKBOX    "&Aktivera SID", IDC_SIDCART_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "SID-motor",
                     IDC_SIDCART_ENGINE_LABEL, 9, 24, 53, 8
@@ -295,15 +295,15 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "SID-filter", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
+    LTEXT           "SID-adress",
                     IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Clock",
+    LTEXT           "SID-klocka",
                     IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Välj enhet",
+    LTEXT           "HardSID-enhetsval",
                     IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
     LTEXT           "Huvudenhet",
                     IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8

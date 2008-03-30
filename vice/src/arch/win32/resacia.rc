@@ -189,5 +189,5 @@ BEGIN
   IDS_ACIA_DEVICE      "ACIA-enhet"
   IDS_ACIA_LOCATION    "Placering av ACIA"
   IDS_ACIA_INTERRUPT   "ACIA-avbrott"
-  IDS_ACIA_MODE        "ACIA mode"
+  IDS_ACIA_MODE        "ACIA-läge"
 END

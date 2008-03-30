@@ -1,3 +1,28 @@
+2007-03-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.
+
+2007-03-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/resc64_256k.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdigimax.rc,
+	arch/win32/resmmc64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/ressidcart.rc,
+	arch/win32/resvic20.rc, translate.c: Updated the swedish
+	translations.
+
+2007-03-03  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window): Make
+	MACOSX hack local to MACOSX.
+
+2007-03-03  pottendo  <pottendo@utanet.at>
+
+	* Makefile.am (libdriveiecc64exp, libdriveiecplus4exp): fixed
+	path to `cd drive/iec'. Makes e.g. `make x64-all' work again.
+
 2007-03-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.24.

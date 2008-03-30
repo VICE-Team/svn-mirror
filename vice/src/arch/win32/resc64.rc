@@ -1890,14 +1890,14 @@ BEGIN
             MENUITEM "Nollställ r&äknare", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Anslut &insticksmodulfil..."
+        POPUP "Anslut &insticksmodulavbild..."
         BEGIN
             MENUITEM "&CRT-fil...",                IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
             MENUITEM "Vanlig &8KB-fil...",         IDM_CART_ATTACH_8KB
             MENUITEM "Vanlig &16KB-fil...",        IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay-fil...",      IDM_CART_ATTACH_AR
-            MENUITEM "Action Replay &III-fil...",  IDM_CART_ATTACH_AR3
+            MENUITEM "Action Replay &III-avbildning...",  IDM_CART_ATTACH_AR3
             MENUITEM "Atomic &Power-fil...",       IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload-fil...",      IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488-gränssnittsfil...", IDM_CART_ATTACH_IEEE488
@@ -1905,7 +1905,7 @@ BEGIN
             MENUITEM "IDE&64-gränssnittsfil...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4-fil...",   IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5-fil...",   IDM_CART_ATTACH_SS5
-            MENUITEM "Structured &Basic-fil...",   IDM_CART_ATTACH_STB
+            MENUITEM "Anslut &Basicavbildning...",   IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktivera", IDM_CART_ENABLE_EXPERT
@@ -1954,7 +1954,7 @@ BEGIN
     POPUP "&Ögonblicksbild"
     BEGIN
         MENUITEM "&Läs in ögonblicksbild...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara &ögonblicksbild...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Spara &ögonblicksbildfil...", IDM_SNAPSHOT_SAVE
         MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
         MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -1976,7 +1976,7 @@ BEGIN
         MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
         MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
         MENUITEM SEPARATOR
-        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
+        MENUITEM "Nätverksspel (experimentellt)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Alternativ"
     BEGIN
@@ -2012,7 +2012,7 @@ BEGIN
         MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullskärm\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Alltid överst", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Dubbel storlek", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -2059,7 +2059,7 @@ BEGIN
             MENUITEM "PLUS&60K-inställningar...",      IDM_PLUS60K_SETTINGS
             MENUITEM "PLUS2&56K-inställningar...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K-inställningar...",      IDM_C64_256K_SETTINGS
-            MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&MMC64-inställningar...",    IDM_MMC64_SETTINGS
             MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64-inställningar...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
@@ -2081,8 +2081,8 @@ BEGIN
         MENUITEM "&Engelska", IDM_LANG_EN
         MENUITEM "&Tyska", IDM_LANG_DE
         MENUITEM "&Franska", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
-        MENUITEM "&Italiense", IDM_LANG_IT
+        MENUITEM "&Ungerska", IDM_LANG_HU
+        MENUITEM "&Italienska", IDM_LANG_IT
         MENUITEM "&Nederländska", IDM_LANG_NL
         MENUITEM "&Polska", IDM_LANG_PL
         MENUITEM "&Svenska", IDM_LANG_SV

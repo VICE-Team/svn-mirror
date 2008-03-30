@@ -741,11 +741,11 @@ libdriveiec:
 libdriveiec128dcr:
 	(cd drive && $(MAKE) libdriveiec128dcr)
 libdriveiecc64exp:
-	(cd drive && $(MAKE) libdriveiecc64exp)
+	(cd drive/iec && $(MAKE) libdriveiecc64exp)
 libdriveiecieee:
 	(cd drive && $(MAKE) libdriveiecieee)
 libdriveiecplus4exp:
-	(cd drive && $(MAKE) libdriveiecplus4exp)
+	(cd drive/iec && $(MAKE) libdriveiecplus4exp)
 libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:

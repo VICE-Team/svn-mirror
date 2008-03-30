@@ -121,7 +121,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION             "256K-inställningar"
     IDS_C64_256K_ENABLE              "&Aktivera 256K"
-    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_BASE                "256K-basadress"
     IDS_C64_256K_FILE                "256K-fil"
     IDS_C64_256K_SELECT_FILE         "Ange fil för 256K"
 END

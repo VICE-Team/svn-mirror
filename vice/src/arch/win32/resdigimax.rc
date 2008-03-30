@@ -102,6 +102,6 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_ENABLE              "Aktiverad"
     IDS_DIGIMAX_BASE                "Digimax base address"
 END
