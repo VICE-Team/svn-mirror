@@ -206,13 +206,13 @@ BMenuBar *menu_create(int machine_class) {
 	
 	/* create the SETTINGS menu */
 	menu = new BMenu("Settings");
-	menu->AddItem(new BMenuItem("Drive Settings (not yet)", 
+	menu->AddItem(new BMenuItem("Drive Settings", 
 		new BMessage(MENU_DRIVE_SETTINGS)));
 	menu->AddItem(new BMenuItem("Device Settings (not yet)", 
 		new BMessage(MENU_DEVICE_SETTINGS)));
 	menu->AddItem(new BMenuItem("Sound Settings (not yet)", 
 		new BMessage(MENU_SOUND_SETTINGS)));
-	menu->AddItem(new BMenuItem("Joystick Settings (not yet)", 
+	menu->AddItem(new BMenuItem("Joystick Settings", 
 		new BMessage(MENU_JOYSTICK_SETTINGS)));
 	menu->AddItem(new BMenuItem("Datasette Settings (not yet)", 
 		new BMessage(MENU_DATASETTE_SETTINGS)));

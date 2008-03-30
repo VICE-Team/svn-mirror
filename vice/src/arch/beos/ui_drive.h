@@ -1,5 +1,5 @@
 /*
- * ui_joystick.h - Joystick settings
+ * ui_drive.h - Drive settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,11 +24,15 @@
  *
  */
 
-#ifndef __UI_JOYSTICK_H__
-#define __UI_JOYSTICK_H__
+#ifndef __UI_DRIVE_H__
+#define __UI_DRIVE_H__
 
-const uint32 JOYMESSAGE_DEVPORT = 'J000';
+const uint32 MESSAGE_DRIVE_TYPE				= 'MD01';
+const uint32 MESSAGE_DRIVE_EXTENDIMAGEPOLICY= 'MD02';
+const uint32 MESSAGE_DRIVE_IDLEMETHOD		= 'MD03';
+const uint32 MESSAGE_DRIVE_EXPANSION		= 'MD04';
+const uint32 MESSAGE_DRIVE_PARALLELCABLE	= 'MD05';
 
-extern void ui_joystick(void);
+extern void ui_drive(void);
 
 #endif

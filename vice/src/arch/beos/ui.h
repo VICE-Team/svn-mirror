@@ -95,5 +95,6 @@ extern void ui_show_text(const char *caption, const char *header,const char *tex
 extern void ui_cmdline_show_options(void);
 extern void ui_update_menus(void);
 extern void mon(ADDRESS a);
+extern void ui_statusbar_update(void);
 
 #endif

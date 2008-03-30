@@ -48,6 +48,7 @@ extern "C" {
 #include "main_exit.h"
 #include "resources.h"
 #include "sound.h"
+#include "statusbar.h"
 #include "tape.h"
 #include "ui.h"
 #include "ui_file.h"
@@ -138,13 +139,14 @@ void ViceView::Draw(BRect rect) {
 
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
-		: BWindow(BRect(frame.left,frame.top,frame.right,frame.bottom+20), title,
+		: BWindow(frame, title,
 		B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) {
 
 	BMenu *menu, *submenu;
 	BMenuItem *item;
-	
+	BRect r;
+
 	/* create the menubar */
 	menubar = menu_create(machine_class);
 	AddChild(menubar);
@@ -157,14 +159,21 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	savepanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
 				B_FILE_NODE, false);
 		
+	/* the bitmap and the corresponding view */
 	bitmap = new BBitmap(frame,B_CMAP8,false,true);
-	view = new ViceView(BRect(frame.left,frame.top+20,frame.right,frame.bottom+20));
+	r = menubar->Frame();
+	view = new ViceView(BRect(frame.left,frame.top+r.Height()+1,
+						frame.right,frame.bottom+r.Height()+2));
 	AddChild(view);
+
+	/* the statusbar is created in Resize() */
+	statusbar = NULL;
 
 	/* register the window */
 	windowlist[window_count++] = this;
 
 	/* finally display the window */
+	Resize(frame.Width(), frame.Height());
 	Show();
 }
 
@@ -173,6 +182,8 @@ ViceWindow::~ViceWindow() {
 	delete menubar;
 	RemoveChild(view);
 	delete view;
+	RemoveChild(statusbar);
+	delete statusbar;
 	delete filepanel;
 	delete savepanel;
 }
@@ -202,11 +213,29 @@ void ViceWindow::MessageReceived(BMessage *message) {
 
 void ViceWindow::Resize(unsigned int width, unsigned int height) {
 	BRect oldsize;
+	BRect statusbar_frame;
+	float new_windowheight;
+	
 	if (BWindow::Lock()) {
 		view->ResizeTo(width, height);
+		if (statusbar) {
+			RemoveChild(statusbar);
+			delete statusbar;
+			statusbar = NULL;
+		}
+		statusbar_frame.top = view->Frame().bottom+1;
+		statusbar_frame.bottom = view->Frame().bottom+41;
+		statusbar_frame.left = 0;
+		statusbar_frame.right = view->Frame().right;
+		statusbar = new ViceStatusbar(statusbar_frame);
+		AddChild(statusbar);
+		ui_statusbar_update();
+		new_windowheight = 	menubar->Frame().Height()+
+			view->Frame().Height()+
+			statusbar->Frame().Height();
+		BWindow::ResizeTo(width, new_windowheight);
 		BWindow::Unlock();
 	}
-	BWindow::ResizeTo(width,height+20);
 	/* create new bitmap if size has changed */
 	/* notice, that BRect sizes are simply differences of coordinates */
 	oldsize = bitmap->Bounds();
@@ -219,7 +248,7 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 void ViceWindow::DrawBitmap(void) {
 	if	(BWindow::Lock()) {
 		view->DrawBitmap(bitmap);
-		view->Flush();
+		view->Sync();
 		BWindow::Unlock();
 	} 
 }

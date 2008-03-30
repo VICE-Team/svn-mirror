@@ -119,13 +119,11 @@ const uint32 MENU_SETTINGS_LOAD					= 'M210';
 const uint32 MENU_SETTINGS_SAVE					= 'M211';
 const uint32 MENU_SETTINGS_DEFAULT				= 'M212';
 
-
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';
 const uint32 MENU_LICENSE						= 'M904';
 const uint32 MENU_WARRANTY						= 'M905';
 const uint32 MENU_CMDLINE						= 'M906';
-
 
 
 #endif

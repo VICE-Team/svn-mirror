@@ -50,6 +50,7 @@ class ViceWindow : public BWindow {
 
 		BBitmap			*bitmap;
 		BView			*view;
+		ViceStatusbar	*statusbar;
 		BFilePanel		*filepanel;	
 		BFilePanel		*savepanel;	
 };

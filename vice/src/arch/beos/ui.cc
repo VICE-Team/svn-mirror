@@ -62,9 +62,11 @@ extern "C" {
 #include "mouse.h"
 #include "resources.h"
 #include "sound.h"
+#include "statusbar.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
 #include "utils.h"
@@ -489,6 +491,9 @@ void ui_dispatch_events(void)
       		case MENU_MAXIMUM_SPEED_NO_LIMIT:
         		resources_set_value("Speed", (resource_value_t) 0);
         		break;
+        	case MENU_DRIVE_SETTINGS:
+        		ui_drive();
+        		break;	
 			case MENU_JOYSTICK_SETTINGS:
 				ui_joystick();
 				break;
@@ -515,20 +520,20 @@ void ui_dispatch_events(void)
 			case MENU_ABOUT:
 				char *abouttext;
 				abouttext = concat(
-					"BeVICE Version ", VERSION," alpha\n",
-					"Copyright (c) 1996-1999 Ettore Perazzoli\n",
-					"Copyright (c) 1997-2000 Daniel Sladic\n",
-					"Copyright (c) 1998-2000 Andreas Boose\n",
-					"Copyright (c) 1998-2000 Tibor Biczo\n",
-					"Copyright (c) 1999-2000 Andreas Dehmel\n",
-					"Copyright (c) 1999-2000 Thomas Bretz\n",
-					"Copyright (c) 1999-2000 Andreas Matthies\n",
-					"Copyright (c) 1999-2000 Martin Pottendorfer\n",
-					"Copyright (c) 1996-1999 Andre' Fachat\n",
-					"Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen\n",
+					"BeVICE Version ", VERSION," (alpha release)\n",
+					"(c) 1996-1999 Ettore Perazzoli\n",
+					"(c) 1997-2000 Daniel Sladic\n",
+					"(c) 1998-2000 Andreas Boose\n",
+					"(c) 1998-2000 Tibor Biczo\n",
+					"(c) 1999-2000 Andreas Dehmel\n",
+					"(c) 1999-2000 Thomas Bretz\n",
+					"(c) 1999-2000 Andreas Matthies\n",
+					"(c) 1999-2000 Martin Pottendorfer\n",
+					"(c) 1996-1999 Andre' Fachat\n",
+					"(c) 1993-1994,1997-1999 Teemu Rantanen\n",
 #ifdef HAVE_RESID
 					"reSID engine:\n",
-					"Copyright (c) 2000 Dag Lem\n",
+					"(c) 1998-2000 Dag Lem\n",
 #endif
 					"\nOfficial VICE homepage:\n",
 					"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
@@ -638,6 +643,9 @@ TextWindow::TextWindow(
 		BRect(10,10,390-B_V_SCROLL_BAR_WIDTH,290),
 		B_FOLLOW_NONE,
 		B_WILL_DRAW);
+	textview->MakeEditable(false);
+	textview->MakeSelectable(false);
+
 	scrollview = new BScrollView(
 		"vice scroller",
 		textview,B_FOLLOW_NONE,0,false,true);
@@ -728,6 +736,14 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
    dialog.  */
 int ui_extend_image_dialog(void)
 {
+	int ret;
+	BAlert *mb;
+	
+	mb = new BAlert("VICE question", "Extend image to 40-track format?",
+		"Yes", "No", NULL, B_WIDTH_AS_USUAL, B_IDEA_ALERT);
+	ret = mb->Go();
+	
+	return ret == 0;
 }
 
 void ui_update_menus(void)
@@ -742,10 +758,60 @@ void ui_update_menus(void)
 /* Dispay the current emulation speed.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
+	int i;
+	
+	for (i=0; i<window_count; i++) {
+		if (windowlist[i]->Lock()) {
+			if (windowlist[i]->statusbar)
+				windowlist[i]->statusbar->DisplaySpeed(
+					percent,framerate, warp_flag);
+			windowlist[i]->Unlock();
+		}
+	}
+}
+
+static ui_drive_enable_t    ui_drive_enabled;
+static int                  ui_status_led[2];
+static double               ui_status_track[2];
+static int                  *ui_drive_active_led;
+static char 				*ui_image_name[2];
+	
+
+void ui_display_drive_status(int drive_num)
+{
+	int i;
+	int drive_num_active;
+	int drive_led_index;
+
+    for (i=0; i<window_count; i++) {
+		while (!windowlist[i]->Lock());
+		if (windowlist[i]->statusbar) {
+		    if (((drive_num == 0) && (ui_drive_enabled & UI_DRIVE_ENABLE_0))
+        		|| ((drive_num == 1) && (ui_drive_enabled & UI_DRIVE_ENABLE_1)))
+        	{
+        		drive_num_active = drive_num;
+        	} else {
+        		drive_num_active = -1-drive_num; /* this codes erasing the statusbar */
+        	}
+        	if (!ui_status_led[drive_num])
+        		drive_led_index = -1;
+        	else
+        		drive_led_index = ui_drive_active_led[drive_num];
+       		windowlist[i]->statusbar->DisplayDriveStatus(
+				drive_num_active, drive_led_index,
+				ui_status_track[drive_num]);
+		}
+		windowlist[i]->Unlock();
+    }
 }
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
+	ui_drive_enabled = enable;
+	ui_drive_active_led = drive_led_color;	
+	ui_display_drive_status(0);
+	ui_display_drive_status(1);
+	
 }
 
 /* Toggle displaying of the drive track.  */
@@ -753,38 +819,115 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
+	ui_status_track[drivenum] = track_number;
+	ui_display_drive_status(drivenum);
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
+	ui_status_led[drivenum] = status;
+	ui_display_drive_status(drivenum);
+}
+
+static void ui_display_image(int drivenum)
+{
+    int i;
+    
+    for (i=0; i<window_count; i++) {
+		while (!windowlist[i]->Lock());
+		if (windowlist[i]->statusbar) {
+       		windowlist[i]->statusbar->DisplayImage(drivenum, ui_image_name[drivenum]);
+		}
+		windowlist[i]->Unlock();
+	}
 }
 
 /* display current image */
 void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
-    /* just a dummy so far */
+	int i;
+	char *directory_name;
+	
+	/* FIXME: displaying thetape image would be nice */
+	if (drivenum>=2)
+		return;
+		
+	if (ui_image_name[drivenum]) free(ui_image_name[drivenum]);
+				
+	fname_split(image, &directory_name, &ui_image_name[drivenum]);
+    free(directory_name);
+    ui_display_image(drivenum);
+}
+
+
+static int ui_tape_enabled = 0;
+static int ui_tape_counter = -1;
+static int ui_tape_motor = -1;
+static int ui_tape_control = -1;
+
+static void ui_draw_tape_status()
+{
+	int i;
+
+    for (i=0; i<window_count; i++) {
+		while (!windowlist[i]->Lock());
+		if (windowlist[i]->statusbar) {
+       		windowlist[i]->statusbar->DisplayTapeStatus(
+				ui_tape_enabled, ui_tape_counter, ui_tape_motor, ui_tape_control);
+		}
+		windowlist[i]->Unlock();
+    }
 }
 
 /* tape-status on*/
 void ui_set_tape_status(int tape_status)
 {
+	if (ui_tape_enabled != tape_status)
+	{
+	    ui_tape_enabled = tape_status;
+    	ui_draw_tape_status();
+    }
 }
 
 void ui_display_tape_motor_status(int motor)
-{   
+{  
+	if (ui_tape_motor != motor)
+	{
+	    ui_tape_motor = motor;
+    	ui_draw_tape_status();
+    }
 }
 
 void ui_display_tape_control_status(int control)
 {
+    if (ui_tape_control != control)
+    {
+    	ui_tape_control = control;
+    	ui_draw_tape_status();
+	}
 }
 
 void ui_display_tape_counter(int counter)
 {
+    if (ui_tape_counter != counter)
+    {
+    	ui_tape_counter = counter;
+    	ui_draw_tape_status();
+	}
 }
 
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {
 }
+
+void ui_statusbar_update()
+{
+	ui_display_drive_status(0);
+	ui_display_image(0);
+	ui_display_drive_status(1);
+	ui_display_image(1);
+	ui_draw_tape_status();
+}	
 

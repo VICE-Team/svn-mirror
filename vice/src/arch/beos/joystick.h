@@ -34,7 +34,7 @@
 #define JOYBORDER_MAXX	16384
 #define JOYBORDER_MINY	-16384
 #define JOYBORDER_MAXY	16384
-
+#define NUM_OF_JOYDEVICES	6
 
 typedef enum {
     JOYDEV_NONE,

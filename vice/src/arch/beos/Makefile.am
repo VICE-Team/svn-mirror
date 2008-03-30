@@ -47,9 +47,13 @@ libarch_a_SOURCES = \
 	petui.c \
 	petui.h \
 	print.c \
+	statusbar.cc \
+	statusbar.h \
 	types.h \
 	ui.cc \
 	ui.h \
+	ui_drive.cc \
+	ui_drive.h \
 	ui_file.cc \
 	ui_file.h \
 	ui_joystick.cc \

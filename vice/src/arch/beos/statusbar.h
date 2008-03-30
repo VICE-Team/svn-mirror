@@ -1,5 +1,5 @@
 /*
- * ui_joystick.h - Joystick settings
+ * statusbar.h - Implementation of the BeVICE's statusbar
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,11 +24,27 @@
  *
  */
 
-#ifndef __UI_JOYSTICK_H__
-#define __UI_JOYSTICK_H__
+#ifndef _STATUSBAR_H
+#define _STATUSBAR_H
 
-const uint32 JOYMESSAGE_DEVPORT = 'J000';
+#include "ui.h"
 
-extern void ui_joystick(void);
+#include <Bitmap.h>
+#include <View.h>
+
+
+class ViceStatusbar : public BView {
+	public:
+		ViceStatusbar(BRect r);
+		~ViceStatusbar();
+		void Draw(BRect rect);
+		void DisplaySpeed(float percent, float framerate, int warp_flag);
+		void DisplayDriveStatus(int drive_num,int drive_led_color,double drive_track);
+		void DisplayTapeStatus(int enabled, int counter, int motor, int control);
+		void DisplayImage(int drive_num, const char *image);
+	private:
+		BBitmap *statusbitmap;
+		BView *drawview;
+};
 
 #endif
