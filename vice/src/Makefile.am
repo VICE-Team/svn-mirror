@@ -82,6 +82,7 @@ noinst_HEADERS = \
 	kbdbuf.h \
 	keyboard.h \
 	log.h \
+	machine-drive.h \
 	machine.h \
 	main.h \
 	maincpu.h \
@@ -198,6 +199,7 @@ c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
@@ -401,6 +403,7 @@ xplus4_libs =  \
 	@XPLUS4_WINRES@ \
 	$(plus4_lib) \
 	$(drive_lib) \
+	$(drivetcbm_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
@@ -414,23 +417,24 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
 .PHONY: xplus4-all
 xplus4-all: \
-        libdrive \
-        libvdrive \
-        libraster \
-        libsounddrv \
-        libgfxoutputdrv \
-        libprinterdrv \
+	libdrive \
+	libdrivetcbm \
+	libvdrive \
+	libraster \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
 	librs232drv \
-        libplus4 \
+	libplus4 \
 	libvideo \
-        libarch \
-        libmonitor \
+	libarch \
+	libmonitor \
 	libdiskimage \
 	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-        xplus4
+	xplus4
 
 # xcbm2
 xcbm2_libs = \
@@ -548,6 +552,8 @@ libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libdrivetcbm:
+	(cd drive && $(MAKE) libdrivetcbm)
 libgfxoutputdrv:
 	(cd gfxoutputdrv && $(MAKE))
 libfsdevice:
