@@ -1,5 +1,5 @@
 /*
- * via2drive0.c - VIA2 emulation in the 1541 disk drive.
+ * via2drive0.c - VIA2 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
  *
  * Written by
  *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
@@ -35,13 +35,9 @@
 
 #define I_MYVIAFL I_VIA2D0FL
 #define MYVIA_INT VIA2D0_INT
-#define A_MYVIAT1 A_VIA2D0T1
-#define A_MYVIAT2 A_VIA2D0T2
 #define MYVIA_NAME "Drive0Via2"
 
 #define mycpu_int_status drive0_int_status
-#define mycpu_unset_alarm drive0_unset_alarm
-#define mycpu_set_alarm_clk drive0_set_alarm_clk
 #define mycpu_alarm_context drive0_alarm_context
 
 #define reset_myvia reset_via2d0
@@ -54,9 +50,6 @@
 #define myvia_prevent_clk_overflow via2d0_prevent_clk_overflow
 #define myvia_read_snapshot_module via2d0_read_snapshot_module
 #define myvia_write_snapshot_module via2d0_write_snapshot_module
-
-#define int_myviat1 int_via2d0t1
-#define int_myviat2 int_via2d0t2
 
 #include "vice.h"
 #include "viacore.h"

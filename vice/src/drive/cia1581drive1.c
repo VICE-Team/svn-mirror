@@ -115,6 +115,10 @@
  * the inline functions 
  */
 
+static int int_cia1581d1ta(long offset);
+static int int_cia1581d1tb(long offset);
+static int int_cia1581d1tod(long offset);
+
 static void my_set_tbi_clk(CLOCK tbi_clk);
 static void my_unset_tbi(void);
 static void my_set_tai_clk(CLOCK tai_clk);
@@ -1082,7 +1086,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-int int_cia1581d1ta(long offset)
+static int int_cia1581d1ta(long offset)
 {
     CLOCK rclk = drive_clk[1] - offset;
 
@@ -1169,7 +1173,7 @@ int int_cia1581d1ta(long offset)
  */
 
 
-int int_cia1581d1tb(long offset)
+static int int_cia1581d1tb(long offset)
 {
     CLOCK rclk = drive_clk[1] - offset;
 
@@ -1263,7 +1267,7 @@ void cia1581d1_set_sdr(BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-int int_cia1581d1tod(long offset)
+static int int_cia1581d1tod(long offset)
 {
     int t, pm;
     CLOCK rclk = drive_clk[1] - offset;

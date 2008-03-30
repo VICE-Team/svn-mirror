@@ -1,6 +1,6 @@
 /*
  * drivecpu.c - Template file of the 6502 processor in the Commodore 1541,
- * 1571 and 1581 floppy disk drive.
+ * 1541-II, 1571, 1581 and 2031 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -304,7 +304,8 @@ void mydrive_mem_init(int type)
     }
 
     /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_2031)
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II ||
+        type == DRIVE_TYPE_2031)
         for (i = 0x30; i < 0x40; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
@@ -324,9 +325,9 @@ void mydrive_mem_init(int type)
             store_func_nowatch[i] = mydrive_store_ram;
         }
 
-    /* Setup 1541 and 1571 VIAs.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571
-        || type == DRIVE_TYPE_2031) {
+    /* Setup 1541, 1541-II and 1571 VIAs.  */
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
+        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_2031) {
         read_func_nowatch[0x6] = read_myvia1;
         store_func_nowatch[0x6] = store_myvia1;
         read_func_nowatch[0x7] = read_myvia2;
@@ -627,6 +628,7 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[mynumber].type == DRIVE_TYPE_1541
+        || drive[mynumber].type == DRIVE_TYPE_1541II
         || drive[mynumber].type == DRIVE_TYPE_1571
         || drive[mynumber].type == DRIVE_TYPE_2031) {
         if (snapshot_module_write_byte_array(m, mydrive_ram, 0x800) < 0)
@@ -700,6 +702,7 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[mynumber].type == DRIVE_TYPE_1541
+        || drive[mynumber].type == DRIVE_TYPE_1541II
         || drive[mynumber].type == DRIVE_TYPE_1571
         || drive[mynumber].type == DRIVE_TYPE_2031) {
         if (snapshot_module_read_byte_array(m, mydrive_ram, 0x800) < 0)

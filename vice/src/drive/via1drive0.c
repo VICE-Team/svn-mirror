@@ -1,5 +1,5 @@
 /*
- * via1drive0.c - VIA1 emulation in the 1541 disk drive.
+ * via1drive0.c - VIA1 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
  *
  * Written by
  *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
@@ -35,13 +35,9 @@
 
 #define I_MYVIAFL I_VIA1D0FL
 #define MYVIA_INT VIA1D0_INT
-#define A_MYVIAT1 A_VIA1D0T1
-#define A_MYVIAT2 A_VIA1D0T2
 #define MYVIA_NAME "Drive0Via1"
 
 #define mycpu_int_status drive0_int_status
-#define mycpu_unset_alarm drive0_unset_alarm
-#define mycpu_set_alarm_clk drive0_set_alarm_clk
 #define mycpu_alarm_context drive0_alarm_context
 
 #define reset_myvia reset_via1d0
@@ -54,9 +50,6 @@
 #define myvia_prevent_clk_overflow via1d0_prevent_clk_overflow
 #define myvia_read_snapshot_module via1d0_read_snapshot_module
 #define myvia_write_snapshot_module via1d0_write_snapshot_module
-
-#define int_myviat1 int_via1d0t1
-#define int_myviat2 int_via1d0t2
 
 #include "vice.h"
 #include "viacore.h"
@@ -109,7 +102,8 @@ static void undump_pra(BYTE byte)
     if (drive[0].type == DRIVE_TYPE_2031) {
         parallel_drv0_set_bus(parieee_is_out ? byte : 0);
     }
-    if (drive[0].parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
+    if (drive[0].parallel_cable_enabled && (drive[0].type == DRIVE_TYPE_1541
+        || drive[0].type == DRIVE_TYPE_1541II))
         parallel_cable_drive0_write(byte, 0);
 }
 
@@ -127,7 +121,8 @@ inline static void store_pra(BYTE byte, BYTE oldpa_value, ADDRESS addr)
                 printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
                 parallel_drv0_set_bus(parieee_is_out ? byte : 0);
         } else
-        if (drive[0].parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
+        if (drive[0].parallel_cable_enabled && (drive[0].type == DRIVE_TYPE_1541
+            || drive[0].type == DRIVE_TYPE_1541II))
             parallel_cable_drive0_write(byte,
                                         (((addr == VIA_PRA)
                                         && ((via1d0[VIA_PCR] & 0xe) == 0xa))

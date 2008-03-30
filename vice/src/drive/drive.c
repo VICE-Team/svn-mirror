@@ -114,6 +114,7 @@ static int sync_factor;
 /* Name of the DOS ROMs.  */
 static char *dos_rom_name_1541 = 0;
 static char default_dos_rom_name_1541[] = "dos1541";
+static char *dos_rom_name_1541ii = 0;
 static char *dos_rom_name_1571 = 0;
 static char *dos_rom_name_1581 = 0;
 static char *dos_rom_name_2031 = 0;
@@ -160,6 +161,7 @@ static int set_drive0_type(resource_value_t v)
 
     switch (type) {
       case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -200,6 +202,7 @@ static int set_drive1_type(resource_value_t v)
 
     switch (type) {
       case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -364,6 +367,19 @@ static int set_dos_rom_name_1541(resource_value_t v)
     return 0;
 }
 
+static int set_dos_rom_name_1541ii(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_1541ii == NULL)
+        dos_rom_name_1541ii = stralloc(name);
+    else {
+        dos_rom_name_1541ii = xrealloc(dos_rom_name_1541ii, strlen(name) + 1);
+        strcpy(dos_rom_name_1541ii, name);
+    }
+    return 0;
+}
+
 static int set_dos_rom_name_1571(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -417,6 +433,8 @@ static resource_t resources[] = {
       (resource_value_t *) &sync_factor, set_sync_factor },
     { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
       (resource_value_t *) &dos_rom_name_1541, set_dos_rom_name_1541 },
+    { "DosName1541ii", RES_STRING, (resource_value_t) "dos1541II",
+      (resource_value_t *) &dos_rom_name_1541ii, set_dos_rom_name_1541ii },
     { "DosName1571", RES_STRING, (resource_value_t) "dos1571",
       (resource_value_t *) &dos_rom_name_1571, set_dos_rom_name_1571 },
     { "DosName1581", RES_STRING, (resource_value_t) "dos1581",
@@ -475,6 +493,8 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Use NTSC drive sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image name" },
+    { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "dos1541II",
+      "<name>", "Specify name of 1541-II DOS ROM image name" },
     { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
       "<name>", "Specify name of 1571 DOS ROM image name" },
     { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",
@@ -494,6 +514,7 @@ int drive_init_cmdline_options(void)
 /* RAM/ROM.  */
 #ifdef AVOID_STATIC_ARRAYS
 static BYTE *drive_rom1541;
+static BYTE *drive_rom1541ii;
 static BYTE *drive_rom1571;
 static BYTE *drive_rom1581;
 static BYTE *drive_rom2031;
@@ -502,6 +523,7 @@ BYTE *drive0_ram;
 BYTE *drive1_ram;
 #else
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
+static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
@@ -512,6 +534,7 @@ BYTE drive1_ram[DRIVE_RAM_SIZE];
 
 /* If nonzero, the ROM image has been loaded.  */
 static int rom1541_loaded = 0;
+static int rom1541ii_loaded = 0;
 static int rom1571_loaded = 0;
 static int rom1581_loaded = 0;
 static int rom2031_loaded = 0;
@@ -581,6 +604,7 @@ static void drive_read_image_d64_d71(int dnr)
        speed zones, we set them to standard values.  */
     if (drive[dnr].drive_floppy->ImageFormat == 1541
         && (drive[dnr].type == DRIVE_TYPE_1541
+        || drive[dnr].type == DRIVE_TYPE_1541II
         || drive[dnr].type == DRIVE_TYPE_2031)) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].GCR_track_size[track] =
@@ -944,6 +968,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
 #ifdef AVOID_STATIC_ARRAYS
     drive_rom1541 = xmalloc(DRIVE_ROM1541_SIZE);
+    drive_rom1541ii = xmalloc(DRIVE_ROM1541II_SIZE);
     drive_rom1571 = xmalloc(DRIVE_ROM1571_SIZE);
     drive_rom1581 = xmalloc(DRIVE_ROM1581_SIZE);
     drive_rom2031 = xmalloc(DRIVE_ROM2031_SIZE);
@@ -1031,6 +1056,9 @@ static void drive_set_active_led_color(int type, int dnr)
       case DRIVE_TYPE_1541:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
+      case DRIVE_TYPE_1541II:
+        drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
+        break;
       case DRIVE_TYPE_1571:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
@@ -1050,6 +1078,13 @@ static int drive_set_disk_drive_type(int type, int dnr)
     switch (type) {
       case DRIVE_TYPE_1541:
         if (rom1541_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[dnr]);
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1541II:
+        if (rom1541ii_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
@@ -1116,6 +1151,14 @@ static int drive_load_rom_images(void)
             log_warning(drive_log, "Unknown 1541 ROM image.  Sum: %lu.", s);
     }
 
+    if (mem_load_sys_file(dos_rom_name_1541ii, drive_rom1541ii, 
+                          DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
+        log_error(drive_log,
+                  "1541-II ROM image not found.  "
+                  "Hardware-level 1541-II emulation is not available.");
+    } else
+        rom1541ii_loaded = 1;
+
     if (mem_load_sys_file(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
                           DRIVE_ROM1571_SIZE) < 0) {
         log_error(drive_log,
@@ -1144,6 +1187,7 @@ static int drive_load_rom_images(void)
        if a ROM image is not loaded. */
 
     if (!rom1541_loaded
+        && !rom1541ii_loaded
         && !rom1571_loaded
         && !rom1581_loaded
         && !rom2031_loaded) {
@@ -1161,7 +1205,12 @@ static void drive_setup_rom_image(int dnr)
     if (rom_loaded) {
         switch (drive[dnr].type) {
           case DRIVE_TYPE_1541:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541, DRIVE_ROM1541_SIZE);
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541,
+                   DRIVE_ROM1541_SIZE);
+            break;
+          case DRIVE_TYPE_1541II:
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541ii,
+                   DRIVE_ROM1541II_SIZE);
             break;
           case DRIVE_TYPE_1571:
             memcpy(drive[dnr].rom, drive_rom1571, DRIVE_ROM1571_SIZE);
@@ -1170,7 +1219,8 @@ static void drive_setup_rom_image(int dnr)
             memcpy(drive[dnr].rom, drive_rom1581, DRIVE_ROM1581_SIZE);
             break;
           case DRIVE_TYPE_2031:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031, DRIVE_ROM2031_SIZE);
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031,
+                   DRIVE_ROM2031_SIZE);
             break;
         }
     }
@@ -1314,6 +1364,7 @@ static int drive_check_image_format(int format, int dnr)
     switch (format) {
       case 1541:
         if (drive[dnr].type != DRIVE_TYPE_1541
+            && drive[dnr].type != DRIVE_TYPE_1541II
             && drive[dnr].type != DRIVE_TYPE_1571
             && drive[dnr].type != DRIVE_TYPE_2031)
             return -1;
@@ -1563,7 +1614,7 @@ inline static BYTE drive_sync_found(drive_t *dptr)
 /* Move the head to half track `num'.  */
 static void drive_set_half_track(int num, drive_t *dptr)
 {
-    if ((dptr->type == DRIVE_TYPE_1541
+    if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
         || dptr->type == DRIVE_TYPE_2031) && num > 84)
         num = 84;
     if (dptr->type == DRIVE_TYPE_1571 && num > 140)
@@ -2002,6 +2053,7 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         if (drive0_cpu_write_snapshot_module(s) < 0)
             return -1;
         if (drive[0].type == DRIVE_TYPE_1541
+            || drive[0].type == DRIVE_TYPE_1541II
             || drive[0].type == DRIVE_TYPE_2031) {
             if (via1d0_write_snapshot_module(s) < 0
                 || via2d0_write_snapshot_module(s) < 0)
@@ -2022,6 +2074,7 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         if (drive1_cpu_write_snapshot_module(s) < 0)
             return -1;
         if (drive[1].type == DRIVE_TYPE_1541
+            || drive[1].type == DRIVE_TYPE_1541II
             || drive[1].type == DRIVE_TYPE_2031) {
             if (via1d1_write_snapshot_module(s) < 0
                 || via2d1_write_snapshot_module(s) < 0)
@@ -2179,6 +2232,7 @@ int drive_read_snapshot_module(snapshot_t *s)
 
     switch (drive[0].type) {
       case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -2198,6 +2252,7 @@ int drive_read_snapshot_module(snapshot_t *s)
 
     switch (drive[1].type) {
       case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -2223,6 +2278,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         if (drive0_cpu_read_snapshot_module(s) < 0)
             return -1;
         if (drive[0].type == DRIVE_TYPE_1541
+            || drive[0].type == DRIVE_TYPE_1541II
             || drive[0].type == DRIVE_TYPE_2031) {
             if (via1d0_read_snapshot_module(s) < 0
                 || via2d0_read_snapshot_module(s) < 0)
@@ -2244,6 +2300,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         if (drive1_cpu_read_snapshot_module(s) < 0)
             return -1;
         if (drive[1].type == DRIVE_TYPE_1541
+            || drive[1].type == DRIVE_TYPE_1541II
             || drive[1].type == DRIVE_TYPE_2031) {
             if (via1d1_read_snapshot_module(s) < 0
                 || via2d1_read_snapshot_module(s) < 0)
@@ -2399,6 +2456,10 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1541_SIZE;
         break;
+      case DRIVE_TYPE_1541II:
+        base = &(drive[dnr].rom[0x4000]);
+        len = DRIVE_ROM1541II_SIZE;
+        break;
       case DRIVE_TYPE_1571:
         base = drive[dnr].rom;
         len = DRIVE_ROM1571_SIZE;
@@ -2451,6 +2512,10 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
       case DRIVE_TYPE_1541:
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1541_SIZE;
+        break;
+      case DRIVE_TYPE_1541II:
+        base = &(drive[dnr].rom[0x4000]);
+        len = DRIVE_ROM1541II_SIZE;
         break;
       case DRIVE_TYPE_1571:
         base = drive[dnr].rom;

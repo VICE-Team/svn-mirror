@@ -125,6 +125,10 @@
  * the inline functions 
  */
 
+static int int_cia2ta(long offset);
+static int int_cia2tb(long offset);
+static int int_cia2tod(long offset);
+
 static void my_set_tbi_clk(CLOCK tbi_clk);
 static void my_unset_tbi(void);
 static void my_set_tai_clk(CLOCK tai_clk);
@@ -1142,7 +1146,7 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-int int_cia2ta(long offset)
+static int int_cia2ta(long offset)
 {
     CLOCK rclk = clk - offset;
 
@@ -1228,7 +1232,7 @@ int int_cia2ta(long offset)
  */
 
 
-int int_cia2tb(long offset)
+static int int_cia2tb(long offset)
 {
     CLOCK rclk = clk - offset;
 
@@ -1322,7 +1326,7 @@ void cia2_set_sdr(BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-int int_cia2tod(long offset)
+static int int_cia2tod(long offset)
 {
     int t, pm;
     CLOCK rclk = clk - offset;

@@ -130,12 +130,13 @@
 
 #define DRIVE_NUMOFINT 26
 
-#define DRIVE_ROM1541_SIZE	0x4000
-#define DRIVE_ROM1571_SIZE	0x8000
-#define DRIVE_ROM1581_SIZE	0x8000
-#define DRIVE_ROM2031_SIZE	0x4000
-#define DRIVE_ROM_SIZE		0x8000
-#define DRIVE_RAM_SIZE		0x2000
+#define DRIVE_ROM1541_SIZE   0x4000
+#define DRIVE_ROM1541II_SIZE 0x4000
+#define DRIVE_ROM1571_SIZE   0x8000
+#define DRIVE_ROM1581_SIZE   0x8000
+#define DRIVE_ROM2031_SIZE   0x4000
+#define DRIVE_ROM_SIZE       0x8000
+#define DRIVE_RAM_SIZE       0x2000
 #define DRIVE_ROM1541_CHECKSUM	1976666
 
 /* Sync factors.  */
@@ -153,15 +154,16 @@
 #define DRIVE_IDLE_TRAP_IDLE   2
 
 /* Drive type.  */
-#define DRIVE_TYPE_NONE 0
-#define DRIVE_TYPE_1541	1541
-#define DRIVE_TYPE_1571	1571
-#define DRIVE_TYPE_1581 1581
-#define DRIVE_TYPE_2031 2031
+#define DRIVE_TYPE_NONE      0
+#define DRIVE_TYPE_1541   1541
+#define DRIVE_TYPE_1541II 1542
+#define DRIVE_TYPE_1571   1571
+#define DRIVE_TYPE_1581   1581
+#define DRIVE_TYPE_2031   2031
 
 /* Possible colors of the drive active LED.  */
-#define DRIVE_ACTIVE_RED      0
-#define DRIVE_ACTIVE_GREEN    1
+#define DRIVE_ACTIVE_RED     0
+#define DRIVE_ACTIVE_GREEN   1
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
