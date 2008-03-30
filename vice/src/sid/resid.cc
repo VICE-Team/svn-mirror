@@ -34,6 +34,7 @@ extern "C" {
 
 #include "vice.h"
 
+#include "fixpoint.h"
 #include "log.h"
 #include "sid.h"
 #include "sound.h"

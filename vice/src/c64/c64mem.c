@@ -66,10 +66,6 @@
 #include "c64acia.h"
 #endif
 
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 static int mem_load_kernal(void);
