@@ -8,5 +8,7 @@ noinst_LIBRARIES = libtape.a
 libtape_a_SOURCES = \
 	t64.c \
 	tap.c \
-	tape.c
+	tape.c \
+	tapeimage.c \
+	tapeimage.h
 

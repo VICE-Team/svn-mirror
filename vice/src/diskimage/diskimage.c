@@ -50,8 +50,7 @@ static log_t disk_image_log = LOG_ERR;
 
 void disk_image_init(void)
 {
-    if (disk_image_log == LOG_ERR)
-        disk_image_log = log_open("Disk Access");
+    disk_image_log = log_open("Disk Access");
     disk_image_createdisk_init();
     disk_image_probe_init();
 }
