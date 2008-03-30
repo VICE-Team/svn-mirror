@@ -773,7 +773,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef OS2
     //    sound_init_mmos2_device();
     sound_init_dart_device();
-//    sound_init_dart2_device();
+    sound_init_dart2_device();
 #endif
 
 #ifdef __BEOS__

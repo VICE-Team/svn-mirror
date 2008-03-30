@@ -42,10 +42,16 @@
 char *make_menu_label(ui_menu_entry_t *e)
 {
     const char *key_string;
-    char *tmp, *retstr;
+    char *tmp, *retstr, *trans;
 
+    /* Check wether NO_TRANS prefix is there, if yes don't translate it */
+    if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
+	trans = stralloc(e->string + strlen(NO_TRANS));
+    else
+	trans = stralloc(_(e->string));
+    
     if (e->hotkey_keysym == (KeySym) 0)
-        return stralloc(_(e->string));
+        return trans;
 
     tmp = xmalloc(1024);
 
@@ -65,7 +71,7 @@ char *make_menu_label(ui_menu_entry_t *e)
     else
         key_string++;
 
-    retstr = concat(_(e->string), "    (", tmp, key_string, ")", NULL);
+    retstr = concat(trans, "    (", tmp, key_string, ")", NULL);
 
     free(tmp);
     return retstr;

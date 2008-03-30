@@ -22,5 +22,7 @@ libdialogs_a_SOURCES = \
 	dlg-monitor.c \
         dlg-reset.c \
         dlg-screenshot.c \
-	dlg-sound.c
+        dlg-snapshot.c \
+	dlg-sound.c \
+        dlg-hardware.c
 

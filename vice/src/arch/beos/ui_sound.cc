@@ -1,5 +1,5 @@
 /*
- * ui_sound.cc - Joystick settings
+ * ui_sound.cc - Sound settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>

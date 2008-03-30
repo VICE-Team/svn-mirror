@@ -67,6 +67,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_datasette.h"
+#include "ui_device.h"
 #include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
@@ -156,7 +157,19 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 /* ------------------------------------------------------------------------ */
 /* UI-related resources.  */
 
+static int joystickdisplay;
+
+static int set_joystickdisplay(resource_value_t v, void *param)
+{
+	joystickdisplay = (int) v;
+	ui_enable_joyport();
+	return 0;
+}
+
+
 static resource_t resources[] = {
+    { "JoystickDisplay", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &joystickdisplay, set_joystickdisplay, NULL },
     { NULL }
 };
 
@@ -507,6 +520,9 @@ void ui_dispatch_events(void)
         		break;
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
+        		break;	
+        	case MENU_DEVICE_SETTINGS:
+        		ui_device();
         		break;	
         	case MENU_DATASETTE_SETTINGS:
         		ui_datasette();
@@ -963,6 +979,66 @@ void ui_display_tape_counter(int counter)
 	}
 }
 
+static BYTE ui_joystick_status[2] = { 255, 255 };
+
+static void ui_display_joyport(int port_num)
+{
+	int i;
+	
+	if (!joystickdisplay)
+		return;
+	
+    for (i=0; i<window_count; i++) {
+		while (!windowlist[i]->Lock());
+		if (windowlist[i]->statusbar) {
+   			windowlist[i]->statusbar->DisplayJoyport(
+				port_num, ui_joystick_status[port_num]);
+		}
+		windowlist[i]->Unlock();
+    }
+}
+		
+void ui_enable_joyport(void)
+{
+	int i;
+	
+    for (i=0; i<window_count; i++) {
+		while (!windowlist[i]->Lock());
+		if (windowlist[i]->statusbar) {
+   			windowlist[i]->statusbar->EnableJoyport(joystickdisplay);
+			windowlist[i]->Unlock();
+    	}
+    }
+	ui_joystick_status[0]=ui_joystick_status[1]=0;
+	ui_display_joyport(0);
+	ui_display_joyport(1);
+}
+
+void ui_display_joyport_abs(int port_num, BYTE status)
+{
+	if (ui_joystick_status[port_num] != status) {
+		ui_joystick_status[port_num] = status;
+		ui_display_joyport(port_num);
+	}
+}
+
+void ui_display_joyport_or(int port_num, BYTE status)
+{
+	if ((ui_joystick_status[port_num]|status) != ui_joystick_status[port_num] ) {
+		ui_joystick_status[port_num] |= status;
+		ui_display_joyport(port_num);
+	}
+}
+
+void ui_display_joyport_and(int port_num, BYTE status)
+{
+	if ((ui_joystick_status[port_num]&status) != ui_joystick_status[port_num] ) {
+		ui_joystick_status[port_num] &= status;
+		ui_display_joyport(port_num);
+	}
+}
+
+
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {
@@ -976,5 +1052,6 @@ void ui_statusbar_update()
 	ui_display_image(1);
 	ui_display_image(-1);
 	ui_draw_tape_status();
+	ui_enable_joyport();
 }	
 

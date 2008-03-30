@@ -39,6 +39,10 @@ const rgb_color statusbar_red_led = {200,10,10,0};
 const rgb_color statusbar_black_led = {5,5,5,0};
 const rgb_color statusbar_motor_on = {250,250,0,0};
 const rgb_color statusbar_motor_off = {120,120,120,0};
+const rgb_color statusbar_joystick_dir = {10,250,10,0};
+const rgb_color statusbar_joystick_fire = {250,10,10,0};
+const rgb_color statusbar_joystick_off = {100,100,100,0};
+
 
 ViceStatusbar::ViceStatusbar(BRect r) 
 	: BView(r,"statusbar",B_FOLLOW_LEFT|B_FOLLOW_TOP, B_WILL_DRAW)
@@ -196,6 +200,64 @@ void ViceStatusbar::DisplayImage(
 	statusbitmap->Unlock();
 	Draw(frame);
 }		
+
+static struct _xy {int x; int y; } direction_offset[] = 
+{	{ 6, 1 },	/* up    */
+	{ 6, 11 },	/* down  */
+	{ 1, 6 },	/* left  */
+	{ 11, 6 },	/* right */
+	{ 6, 6 }	/* fire  */
+};
+
+static BRect joystickframe = BRect(10, 20, 130, 39);
+
+
+void ViceStatusbar::EnableJoyport(int on)
+{
+	statusbitmap->Lock();
+	drawview->SetLowColor(statusbar_background);
+	drawview->FillRect(joystickframe, B_SOLID_LOW);
+	if (on) {
+		drawview->DrawString("Port A", BPoint(10,30));
+		drawview->DrawString("Port B", BPoint(80,30));
+	}
+	drawview->Sync();
+	statusbitmap->Unlock();
+	Draw(joystickframe);
+}	
+
+
+void ViceStatusbar::DisplayJoyport(int port_num, int status)
+{
+	int dir_index;
+	BRect frame, led_template, led;
+	
+	frame = BRect(45, 20, 79, 39);
+	frame.OffsetBy(port_num*70, 0);
+	led_template = frame;
+	led_template.right = led_template.left+2;
+	led_template.bottom = led_template.top+2;
+	
+	statusbitmap->Lock();
+	for (dir_index=0; dir_index<5; dir_index++) {
+		if (status & (1 << dir_index)) {
+			drawview->SetLowColor(
+				(dir_index == 4)?
+				statusbar_joystick_fire:statusbar_joystick_dir);
+		} else {
+			drawview->SetLowColor(statusbar_joystick_off);
+		}
+		led = led_template;
+		led.OffsetBy(
+			direction_offset[dir_index].x,
+			direction_offset[dir_index].y);		
+		drawview->FillRect(led, B_SOLID_LOW);
+	}
+	drawview->Sync();
+	statusbitmap->Unlock();
+	Draw(frame);
+}	
+
 
 void ViceStatusbar::Draw(BRect rect)
 {	

@@ -56,6 +56,8 @@ libarch_a_SOURCES = \
 	ui_datasette.h \
 	ui_drive.cc \
 	ui_drive.h \
+	ui_device.cc \
+	ui_device.h \
 	ui_file.cc \
 	ui_file.h \
 	ui_joystick.cc \

@@ -30,6 +30,7 @@
 #define INCL_WINBIDI
 #define INCL_WINSTDDLGS
 #define INCL_WINSTDSPIN
+#define INCL_WINFRAMEMGR
 
 #include "../config.h"
 #include "../../../version.h"
@@ -228,67 +229,76 @@ END
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 155+16, STY_DIALOG
+    DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188+16, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",       DID_CLOSE,    5,   4,  40, 12, STY_CLOSEBUTTON |
                                                               WS_GROUP 
-        CONTROL "Drive",       ID_NONE,      5, 104+16, 251, 48, STY_GROUPBOX
+        CONTROL "Drive",       ID_NONE,      5,  154+16, 251, 31, STY_GROUPBOX
         CONTROL "True Drive Emulation",
-                               CB_TRUEDRIVE,12, 131+16, 100, 10, STY_AUTOCHECKBOX
+                               CB_TRUEDRIVE,12, 167+16, 100, 10, STY_AUTOCHECKBOX
 
-        TEXT("Track:", 12, 109+16, 26, 8)
-        CONTROL "",            SPB_TRACK8, 39, 109+16, 15, 12,  STY_STATUSDLG
+        TEXT("Track:", 12, 157+16, 26, 8)
+        CONTROL "",            SPB_TRACK8, 42, 157+16, 15, 12,  STY_STATUSDLG
                 CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
-	CONTROL "+",           SS_HALFTRACK8, 55, 109+16,  5, 8, WC_STATIC, 
+	CONTROL "+",           SS_HALFTRACK8, 58, 157+16,  5, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
-        CONTROL "",            SPB_TRACK9, 63, 109+16, 15, 12,  STY_STATUSDLG
+        CONTROL "",            SPB_TRACK9, 66, 157+16, 15, 12,  STY_STATUSDLG
                 CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
-	CONTROL "+",           SS_HALFTRACK9, 79, 109+16,  5, 8, WC_STATIC, 
+	CONTROL "+",           SS_HALFTRACK9, 82, 157+16,  5, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED8",        SS_LED8,  86, 109+16,  22, 8, WC_STATIC, 
+	CONTROL "LED8",        SS_LED8,  89, 157+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED9",        SS_LED9, 108, 109+16,  22, 8, WC_STATIC, 
+	CONTROL "LED9",        SS_LED9, 115, 157+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
-        CONTROL "Readonly",    CB_READONLY,173, 109+16,  50, 10, STY_AUTOCHECKBOX
-        TEXT("Drive:", 12, 120+16, 26, 8)
-        CONTROL "8",           RB_DRIVE8,   40, 119+16,  16, 10, STY_AUTORADIOBUTTON |
+        TEXT("Drive:", 130, 168+16, 26, 8)
+        CONTROL "8",           RB_DRIVE8,   160, 167+16,  16, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
-        CONTROL "9",           RB_DRIVE9,   62, 119+16,  16, 10, STY_AUTORADIOBUTTON
-        CONTROL "10",          RB_DRIVE10,  83, 119+16,  21, 10, STY_AUTORADIOBUTTON
-        CONTROL "11",          RB_DRIVE11, 107, 119+16,  21, 10, STY_AUTORADIOBUTTON
+        CONTROL "9",           RB_DRIVE9,   182, 167+16,  16, 10, STY_AUTORADIOBUTTON
+        CONTROL "10",          RB_DRIVE10,  204, 167+16,  21, 10, STY_AUTORADIOBUTTON
+        CONTROL "11",          RB_DRIVE11,  227, 167+16,  21, 10, STY_AUTORADIOBUTTON
 
-        CONTROL "",            ID_NONE,      5,  20+16, 251, 89, STY_GROUPBOX
-        CONTROL "",            CBS_IMAGE, 14, 18+16, 216/*234*/, 79, WC_COMBOBOX, 
+        CONTROL "",            ID_NONE,      5,  20+16, 251,139, STY_GROUPBOX
+        CONTROL "",            CBS_IMAGE, 14, 48+16, 216/*234*/, 89, WC_COMBOBOX, 
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
-        CONTROL "...",         PB_ATTACH, 232, 86+16, 16, 11, STY_PUSHBUTTON
-        TEXT("Drive Type:", 86, 73+16, 45, 8)
-        CONTROL "",            CBS_TYPE,   133, 41+16, 115, 42, WC_COMBOBOX, 
+        CONTROL "...",         PB_ATTACH, 232,126+16, 16, 11, STY_PUSHBUTTON
+        CONTROL "",            CBS_PATH, 14,140+16, 216, 10, WC_SPINBUTTON, 
+                               SPBS_JUSTLEFT | STY_STD
+                CTLDATA 24, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        TEXT("Drive Type:", 133,115+16, 50, 8)
+        CONTROL "",            CBS_TYPE,   133, 71+16, 115, 42, WC_COMBOBOX, 
                                CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
                                WS_VISIBLE
+        CONTROL "Readonly",    CB_READONLY, 14,113+16, 50, 10, STY_AUTOCHECKBOX
         CONTROL "Parallel Cable",
-                               CB_PARALLEL, 14, 72+16, 69, 10, STY_AUTOCHECKBOX
-        TEXT("Idle Method:", 13, 60+16, 50, 8)
-        CONTROL "None",        RB_NONE,    111, 59+16, 39, 10, STY_AUTORADIOBUTTON |
+                               CB_PARALLEL, 14,102+16, 69, 10, STY_AUTOCHECKBOX
+        TEXT("Idle Method:", 13, 90+16, 50, 8)
+        CONTROL "None",        RB_NONE,    111, 89+16, 39, 10, STY_AUTORADIOBUTTON |
                                                             WS_GROUP
-        CONTROL "Skip Cycles", RB_SKIP,    196, 59+16, 58, 10, STY_AUTORADIOBUTTON
-        CONTROL "Trap Idle",   RB_TRAP,    146, 59+16, 48, 10, STY_AUTORADIOBUTTON
-        TEXT("Extend 40 Track Image:",  13, 50+16, 95, 8)
-        CONTROL "Never",       RB_NEVER,   111, 49+16, 39, 10, STY_AUTORADIOBUTTON |
+        CONTROL "Skip Cycles", RB_SKIP,    196, 89+16, 58, 10, STY_AUTORADIOBUTTON
+        CONTROL "Trap Idle",   RB_TRAP,    146, 89+16, 48, 10, STY_AUTORADIOBUTTON
+        TEXT("Extend 40 Track Image:",  13, 80+16, 95, 8)
+        CONTROL "Never",       RB_NEVER,   111, 79+16, 39, 10, STY_AUTORADIOBUTTON |
                                                             WS_GROUP
-        CONTROL "Always",      RB_ALWAYS,  196, 49+16, 45, 10, STY_AUTORADIOBUTTON
-        CONTROL "Ask",         RB_ASK,     146, 49+16, 30, 10, STY_AUTORADIOBUTTON 
+        CONTROL "Always",      RB_ALWAYS,  196, 79+16, 45, 10, STY_AUTORADIOBUTTON
+        CONTROL "Ask",         RB_ASK,     146, 79+16, 30, 10, STY_AUTORADIOBUTTON 
         CONTROL "Allow FS-Directory Access",
-                               CB_ALLOWACCESS, 13, 34+16, 119, 10, STY_AUTOCHECKBOX
+                               CB_ALLOWACCESS, 13, 64+16, 119, 10, STY_AUTOCHECKBOX
         CONTROL "Convert p00-Filenames",
-                               CB_CONVERTP00, 140, 34+16, 114, 10, STY_AUTOCHECKBOX
+                               CB_CONVERTP00, 140, 64+16, 114, 10, STY_AUTOCHECKBOX
         CONTROL "Save p00-Files to FS",
-                               CB_SAVEP00,    140, 24+16,  98, 10, STY_AUTOCHECKBOX
+                               CB_SAVEP00,    140, 54+16,  98, 10, STY_AUTOCHECKBOX
         CONTROL "Hide non-p00-Files",
-        		       CB_HIDENONP00,  13, 24+16,  95, 10, STY_AUTOCHECKBOX
+        		       CB_HIDENONP00,  13, 54+16,  95, 10, STY_AUTOCHECKBOX
+        TEXT("Enable 8kB Memory Extension:",  13, 42+16,135, 8)
+        CONTROL "$2000-$3FFF", CB_MEM2000,  13, 32+16,  75, 10, STY_AUTOCHECKBOX
+        CONTROL "$4000-$5FFF", CB_MEM4000,  93, 32+16,  75, 10, STY_AUTOCHECKBOX
+        CONTROL "$6000-$7FFF", CB_MEM6000, 173, 32+16,  75, 10, STY_AUTOCHECKBOX
+        CONTROL "$8000-$9FFF", CB_MEM8000,  13, 22+16,  75, 10, STY_AUTOCHECKBOX
+        CONTROL "$A000-$BFFF", CB_MEMA000,  93, 22+16,  75, 10, STY_AUTOCHECKBOX
         TEXT("Fliplist:", 98, 20, 29, 8)
         CONTROL "Add",         PB_FLIPADD,    129, 18, 40, 12, STY_PUSHBUTTON
         CONTROL "Remove",      PB_FLIPREMOVE, 173, 18, 40, 12, STY_PUSHBUTTON
@@ -355,49 +365,46 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 192, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 193, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 166, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128+43, 167, STY_GROUPBOX
 
-        CONTROL "Pause",                       CB_PAUSE,  14, 169,  40,  9, STY_AUTOCHECKBOX
- 
-#if defined __X64__ || defined __X128__
-        TEXT("Video Standard:", 14, 157,  70, 8)
-        CONTROL "PAL",                         RB_PAL,      14, 147,  40, 10, STY_AUTORADIOBUTTON |
-                                                                              WS_GROUP
-        CONTROL "NTSC",                        RB_NTSC,     47, 147,  40, 10, STY_AUTORADIOBUTTON
-#ifdef __X64__        
-        CONTROL "old NTSC",                    RB_NTSCOLD,  84, 147,  50, 10, STY_AUTORADIOBUTTON
-#endif // __X64__
-#endif // __X64__ || __X128__
+        CONTROL "Pause",                       CB_PAUSE,     14, 170,  40, 9, STY_AUTOCHECKBOX
 #ifdef HAVE_MOUSE
-        CONTROL "Mouse 1531 Emulation",        CB_MOUSE,  14, 135, 100,  9, STY_AUTOCHECKBOX
-        CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,125,125,  9, STY_AUTOCHECKBOX
+        CONTROL "Mouse 1531 Emulation",        CB_MOUSE,     14, 160, 100, 9, STY_AUTOCHECKBOX
+        CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14, 150, 125, 9, STY_AUTOCHECKBOX
 #endif // HAVE_MOUSE
-        CONTROL "Emulator Identification",     CB_EMUID,  14, 115, 105,  9, STY_AUTOCHECKBOX
-        CONTROL "Video Cache",                 CB_VCACHE, 14, 105,  70,  9, STY_AUTOCHECKBOX
+        CONTROL "Emulator Identification",     CB_EMUID,     14, 140, 105, 9, STY_AUTOCHECKBOX
+        CONTROL "Video Cache",                 CB_VCACHE,    14, 130,  70, 9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
-        CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 95, 125,  9, STY_AUTOCHECKBOX
-        CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 85, 105,  9, STY_AUTOCHECKBOX
+        CONTROL "Sprite-Background Collision", CB_SBCOLL,    14, 120, 125, 9, STY_AUTOCHECKBOX
+        CONTROL "Sprite-Sprite Collision",     CB_SSCOLL,    14, 110, 105, 9, STY_AUTOCHECKBOX
 #endif // __X64__ || __X128__
+        TEXT("Save Snapshot as:", 14, 98,  85, 10)
+        CONTROL "",    CBS_SPSNAME, 14, 8+41, 216/*234*/-75, 79-30, WC_COMBOBOX, 
+                       CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "...", PB_SPSCHANGE, 232-75, 79+38-30, 16, 11, STY_PUSHBUTTON
+/*    AUTOCHECKBOX    "Save currently attached &disks images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Save currently loaded &ROM images",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+*/
         TEXT("Save Screenshot as:", 14, 73,  85, 10)
 #ifdef HAVE_PNG
-	CONTROL "BMP",         RB_BMP,   110, 74, 30, 10, STY_AUTORADIOBUTTON |
-                                                              WS_GROUP
-        CONTROL "PNG",         RB_PNG,   145, 74, 30, 10, STY_AUTORADIOBUTTON
+	CONTROL "BMP", RB_BMP,   110, 74, 30, 10, STY_AUTORADIOBUTTON | WS_GROUP
+        CONTROL "PNG", RB_PNG,   145, 74, 30, 10, STY_AUTORADIOBUTTON
 #endif // HAVE_PNG
-        CONTROL "",            CBS_SSNAME, 14, 8+16, 216/*234*/-75, 79-30, WC_COMBOBOX, 
-                               CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | 
-                               WS_VISIBLE
-        CONTROL "...",         PB_SSCHANGE, 232-75, 76+16-30, 16, 11, STY_PUSHBUTTON
-	TEXT("Refrash Rate",        14, 43,  55, 8)
-	TEXT("fps",                132, 43,  15, 8)
-        CONTROL "",          CBS_REFRATE, 70, 5, 33, 48, WC_COMBOBOX,
-         		     CBS_DROPDOWNLIST | STY_STD
-
+        CONTROL "",    CBS_SSNAME, 14, 8+16, 216/*234*/-75, 79-30, WC_COMBOBOX, 
+                       CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "...", PB_SSCHANGE, 232-75, 76+16-30, 16, 11, STY_PUSHBUTTON
+	TEXT("Refrash Rate", 14, 43,  55, 8)
+	TEXT("fps", 132, 43,  15, 8)
+        CONTROL "", CBS_REFRATE, 70, 5, 33, 48, WC_COMBOBOX, CBS_DROPDOWNLIST|STY_STD
         CONTROL "",          SPB_REFRATEDISP, 111, 43, 20, 13, STY_STATUSDLG
                 CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
 	TEXT("Max.Speed", 14, 30, 50, 8)
@@ -409,6 +416,28 @@ BEGIN
         CONTROL "",          SPB_SPEEDDISP, 107, 30, 24, 12,  STY_STATUSDLG
                 CTLDATA 24, 0, 4, 0, 0, 0, 9999, 0, 0, 0, 0, 0
 
+    END
+END
+
+DLGTEMPLATE DLG_HARDWARE 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Emulator Setup", DLG_HARDWARE, 162, 122, 207, 82, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
+                             WS_GROUP 
+        CONTROL "Hardware",  ID_NONE,    7, 22, 191, 56, STY_GROUPBOX
+
+#if defined __X64__ || defined __X128__
+        TEXT("Video Standard:", 14, 52,  70, 8)
+        CONTROL "PAL",                         RB_PAL,       14, 42, 40, 10, STY_AUTORADIOBUTTON |
+                                                                              WS_GROUP
+        CONTROL "NTSC",                        RB_NTSC,      47, 42, 40, 10, STY_AUTORADIOBUTTON
+#ifdef __X64__        
+        CONTROL "old NTSC",                    RB_NTSCOLD,   84, 42, 50, 10, STY_AUTORADIOBUTTON
+#endif // __X64__
+        CONTROL "Enable REU - 512kB Memory Extension", CB_REU, 14, 30, 170, 9, STY_AUTOCHECKBOX
+#endif // __X64__ || __X128__
     END
 END
 
@@ -443,7 +472,7 @@ END
 
 DLGTEMPLATE DLG_VSID 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 135, 88, STY_DIALOG
+    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 135, 88, STY_DIALOG | FCF_SYSMENU | FCF_TASKLIST
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
 	TEXT("Playing Tune Nr.", 14, 30, 70, 8)

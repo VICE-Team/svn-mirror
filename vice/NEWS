@@ -13,11 +13,33 @@ list of all the changes in the code.
 ** OS/2 changes
 ---------------
 
+- added a new dialog for hardware settings (Alt-H)
+
+- sounddev "dart2" enabled. necessary for vsid-mode. It has the 
+  possibility to adjust emulator speed from sound output.
+
+- basic sid-player support (-vsid) added
+
+- basic snapshot support added (emulator dialog, ALt-N).
+
+- x128: 40/80 col key is now mapped to F11
+
+- x128: palette of VDC window is now set correctly
+
 - CBM Restore Key is now mapped to F12
 
-- Readonly flag added to drive dialog
+- readonly option added to drive dialog
 
-- now only valid drives can be attached to the different emulators
+- directory path added to drive dialog
+
+- Video Standard (Pal/Ntsc) moved to hardware dialog.
+
+- added REU to hardware dialog
+
+- added memory extension resource to drive dialog
+
+- now only valid drives are displayed for usage in the 
+  drive dialog
 
 - switched to lpng 1.08
 
@@ -126,7 +148,7 @@ list of all the changes in the code.
 - Fixed VIC crash.
 
 ** OS/2 changes
------------------
+---------------
 
 - C128, CBM/2, VIC20 and PET keyboard layout fixed
 

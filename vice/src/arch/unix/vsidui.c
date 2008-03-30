@@ -68,7 +68,7 @@ static UI_CALLBACK(psid_load)
   ui_button_t button;
 
   filename = ui_select_file(_("Load PSID file"), NULL, False, NULL,
-			    "*.[psPS]*", &button, False);
+			    "*.[psPS]*", &button, False, NULL);
 
   suspend_speed_eval();
 
@@ -233,7 +233,9 @@ int vsid_ui_init(void)
   ui_set_application_icon(icon_data);
 
   vsid_create_menus();
+#ifdef LATER
   ui_set_topmenu();
+#endif
 
   return 0;
 }

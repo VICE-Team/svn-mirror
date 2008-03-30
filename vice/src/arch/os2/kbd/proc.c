@@ -57,6 +57,19 @@ static void mon_trap(ADDRESS addr, void *unused_data)
     mon(addr);
 }
 
+extern char *get_snapshot(int *save_roms, int *save_disks);
+
+static void save_snapshot(ADDRESS addr, void *hwnd)
+{
+    int save_roms, save_disks;
+    char *s=get_snapshot(&save_roms, &save_disks);
+
+    if (machine_write_snapshot(s, save_roms, save_disks) < 0)
+            WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
+                          "Unable to save snapshot - sorry!",
+                          "Save Snapshot", 0, MB_OK);
+}
+
 inline void kbd_set_key(const CHAR code1, const CHAR code2,
                         const USHORT release, const USHORT shift)
 {
@@ -256,6 +269,7 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
     case K_C:      datasette_dialog (hwnd);    return;
     case K_D:      drive_dialog     (hwnd);    return;
     case K_E:      emulator_dialog  (hwnd);    return;
+    case K_H:      hardware_dialog  (hwnd);    return;
     case K_Q:      hardreset_dialog (hwnd);    return;
     case K_R:      softreset_dialog (hwnd);    return;
     case K_S:      sound_dialog     (hwnd);    return;
@@ -275,8 +289,10 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
         break;
     case K_M: // invoke build-in monitor
         monitor_dialog(hwnd);
-        maincpu_trigger_trap(mon_trap, (void *) 0);
-        //mon(MOS6510_REGS_GET_PC(&maincpu_regs));
+        maincpu_trigger_trap(mon_trap, NULL);
+        return;
+    case K_N: // invoke build-in monitor
+        maincpu_trigger_trap(save_snapshot, (void*)hwnd);
         return;
     case K_F: // Flip Drive #8 to next image of fliplist
         flip_attach_head(8, FLIP_NEXT);

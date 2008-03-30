@@ -75,17 +75,18 @@
 #define RB_TRAP        0x1032
 
 #define CBS_IMAGE      0x1033
-#define CBS_TYPE       0x1034
-#define CB_PARALLEL    0x1035
+#define CBS_PATH       0x1034
+#define CBS_TYPE       0x1035
+#define CB_PARALLEL    0x1036
 
-#define CB_ALLOWACCESS 0x1036
-#define CB_CONVERTP00  0x1037
-#define CB_SAVEP00     0x1038
-#define CB_HIDENONP00  0x1039
-#define PB_CREATE      0x103a
-#define PB_ATTACH      0x103b
-#define PB_DETACH      0x103c
-#define CB_READONLY    0x103d
+#define CB_ALLOWACCESS 0x1037
+#define CB_CONVERTP00  0x1038
+#define CB_SAVEP00     0x1039
+#define CB_HIDENONP00  0x103a
+#define PB_CREATE      0x103b
+#define PB_ATTACH      0x103c
+#define PB_DETACH      0x103d
+#define CB_READONLY    0x103e
 
 #define RB_NEVER       0x1040
 #define RB_ASK         0x1041
@@ -94,6 +95,12 @@
 #define PB_FLIP        0x1045
 #define PB_FLIPADD     0x1046
 #define PB_FLIPREMOVE  0x1047
+
+#define CB_MEM2000     0x1048
+#define CB_MEM4000     0x1049
+#define CB_MEM6000     0x104a
+#define CB_MEM8000     0x104b
+#define CB_MEMA000     0x104c
 
 #define WM_SWITCH      WM_USER+0x1
 #define WM_DRIVEIMAGE  WM_USER+0x2
@@ -191,11 +198,10 @@
 #define CB_HIDEMOUSE     0x109c
 #define CBS_SSNAME       0x109d
 #define PB_SSCHANGE      0x109e
-#define RB_BMP           0x109f
-#define RB_PNG           0x10a0
-#define RB_PAL           0x10a1
-#define RB_NTSC          0x10a2
-#define RB_NTSCOLD       0x10a3
+#define CBS_SPSNAME      0x109f
+#define PB_SPSCHANGE     0x10a0
+#define RB_BMP           0x10a1
+#define RB_PNG           0x10a2
 #define WM_DISPLAY       WM_USER+1
 
 // Monitor Dialog
@@ -215,9 +221,16 @@
 #define DLG_CMDOPT     0x10d0
 #define LB_CMDOPT      0x10d1
 
-#define DLG_VSID       0x10e0
-#define SPB_TUNENO     0x10e1
-#define SPB_TUNES      0x10e2
+// Hardware Dialog
+#define DLG_HARDWARE   0x10e0
+#define RB_PAL         0x10e1
+#define RB_NTSC        0x10e2
+#define RB_NTSCOLD     0x10e3
+#define CB_REU         0x10e4
+
+#define DLG_VSID       0x10f0
+#define SPB_TUNENO     0x10f1
+#define SPB_TUNES      0x10f2
 
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */
@@ -273,6 +286,7 @@
 #define DLGO_CONTENTS   0x100
 #define DLGO_CMDOPT     0x200
 #define DLGO_KEYSET     0x400
+#define DLGO_HARDWARE   0x800
 
 extern int dlgOpen(int dlg);
 extern void setDlgOpen(int dlg);
@@ -303,6 +317,8 @@ extern void  attach_dialog    (HWND hwnd, int drive);
 extern void  create_dialog    (HWND hwnd);
 extern void  cmdopt_dialog    (HWND hwnd);
 extern char* screenshot_dialog(HWND hwnd);
+extern char* snapshot_dialog  (HWND hwnd);
+extern void  hardware_dialog  (HWND hwnd);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);

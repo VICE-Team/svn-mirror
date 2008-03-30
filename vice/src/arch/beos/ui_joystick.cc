@@ -26,6 +26,7 @@
 
 #include <Button.h>
 #include <Box.h>
+#include <CheckBox.h>
 #include <Joystick.h>
 #include <RadioButton.h>
 #include <TextControl.h>
@@ -103,9 +104,10 @@ JoyView::JoyView(BRect r, int joyport)
 		if (device < NUM_OF_SOFTDEVICES) {
 			item_name = joydevice_name[device];
 		} else {
-			sprintf(str,"%s (stick %d)",
+			sprintf(str,"%s (stick %d-%d)",
 				hardware_joystick[device-NUM_OF_SOFTDEVICES].device_name,
-				hardware_joystick[device-NUM_OF_SOFTDEVICES].stick);
+				hardware_joystick[device-NUM_OF_SOFTDEVICES].stick,
+				hardware_joystick[device-NUM_OF_SOFTDEVICES].axes);
 			item_name = str;
 		}
 
@@ -121,10 +123,9 @@ JoyView::JoyView(BRect r, int joyport)
 		AddChild(radio_joystick_device[device]);
 	}
 	
-	if (joyport==1)
-    	resources_get_value("JoyDevice1",(resource_value_t *)&device);
-	else
-    	resources_get_value("JoyDevice2",(resource_value_t *)&device);
+   	resources_get_sprintf("JoyDevice%d",
+   		(resource_value_t *)&device, joyport);
+
     if (device < NUM_OF_SOFTDEVICES+hardware_joystick_count)
 		radio_joystick_device[device]->SetValue(1);
 	r.InsetBy(5,5);
@@ -137,38 +138,50 @@ JoyView::JoyView(BRect r, int joyport)
 
 /* definition for JoystickWindow */
 JoystickWindow::JoystickWindow() 
-	: BWindow(BRect(50,50,400,200+hardware_joystick_count*20),"Joystick settings",
+	: BWindow(BRect(50,50,400,230+hardware_joystick_count*20),"Joystick settings",
 		B_TITLED_WINDOW, 
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
 	BRect r;
 	BView *background;
+	BCheckBox *checkbox;
+	int res_value;
 	
-	r = Bounds();
-	r.right -= r.Width()/2;
-	r.bottom -= 40;
-	AddChild(new JoyView(r,1));
-	
-	r = Bounds();
-	r.left += r.Width()/2;
-	r.bottom -= 40;
-	AddChild(new JoyView(r,2));
-	
-	r = Bounds();
-	r.top = r.bottom - 40;
-	r.right -= r.Width()/2;
-	r.InsetBy(5,10);
-	AddChild(new BButton(r, "Define1", "Define Keyset 1",
-		new BMessage(JOYMESSAGE_KEYSET1)));
-	
-	r.OffsetBy(r.Width()+10, 0);
-	AddChild(new BButton(r, "Define2", "Define Keyset 2",
-		new BMessage(JOYMESSAGE_KEYSET2)));
-
 	r = Bounds();
 	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
 	background->SetViewColor(220,220,220,0);
 	AddChild(background);
+
+	r = Bounds();
+	r.right -= r.Width()/2;
+	r.bottom -= 70;
+	background->AddChild(new JoyView(r,1));
+	
+	r = Bounds();
+	r.left += r.Width()/2;
+	r.bottom -= 70;
+	background->AddChild(new JoyView(r,2));
+	
+	r = Bounds();
+	r.top = r.bottom - 70;
+	r.bottom -= 30;
+	r.right -= r.Width()/2;
+	r.InsetBy(5,10);
+	background->AddChild(new BButton(r, "Define1", "Define Keyset 1",
+		new BMessage(JOYMESSAGE_KEYSET1)));
+	
+	r.OffsetBy(r.Width()+10, 0);
+	background->AddChild(new BButton(r, "Define2", "Define Keyset 2",
+		new BMessage(JOYMESSAGE_KEYSET2)));
+
+	r = Bounds();
+	r.top = r.bottom-35;
+	r.InsetBy(10,10);
+	checkbox = new BCheckBox(r, "Joydisplay", "Enable display for joysticks",
+		new BMessage(JOYMESSAGE_DISPLAY));
+   	resources_get_value("JoystickDisplay", (resource_value_t *)&res_value);
+   	checkbox->SetValue(res_value);
+   	background->AddChild(checkbox);
 
 	Show();
 }
@@ -183,7 +196,8 @@ JoystickWindow::~JoystickWindow()
 void JoystickWindow::MessageReceived(BMessage *msg) {
 	int32 port,device;
 	char resource_name[16];
-	
+	int res_value;
+		
 	switch(msg->what) {
 		case JOYMESSAGE_DEVPORT:
 			msg->FindInt32("device_num", &device);
@@ -199,6 +213,10 @@ void JoystickWindow::MessageReceived(BMessage *msg) {
 			keysetwindow = new KeysetWindow(2);
 			while (keysetwindow);
 			break;
+		case JOYMESSAGE_DISPLAY:
+		   	resources_get_value("JoystickDisplay", (resource_value_t *)&res_value);
+		   	resources_set_value("JoystickDisplay", (resource_value_t )!res_value);
+		   	break;
 		default:
 			BWindow::MessageReceived(msg);
 	}
@@ -274,9 +292,8 @@ KeysetWindow::KeysetWindow(int set_nr)
 	AddChild(background);
 
 	for (key_nr = 0; key_nr <9; key_nr++) {
-		sprintf(str, keydefine_resource[key_nr], set_nr); 
-        resources_get_value(str,
-        	(resource_value_t *)&keyset[key_nr]);
+        resources_get_sprintf(keydefine_resource[key_nr],
+        	(resource_value_t *)&keyset[key_nr], set_nr);
 		if (keyset[key_nr]>255)
 			/* invalid code */
 			keyset[key_nr] = 0;
@@ -335,10 +352,10 @@ void KeysetWindow::MessageReceived(BMessage *msg) {
 				keyset_instruction->SetText(str);
 			} else {
 				/* select a button twice clears the key */
-				sprintf(str, keydefine_resource[last_key], keyset_setnr); 
-				resources_set_value(str, (resource_value_t) 0);
+				resources_set_sprintf(keydefine_resource[last_key],
+					(resource_value_t) 0, keyset_setnr);
 				keyset_button[last_key]->SetLabel(
-					kbd_code_to_string(keyset[0]));
+					kbd_code_to_string(0));
 				keyset_instruction->SetText(keyset_instruction_first);
 				last_key = -1;
 			}
@@ -347,8 +364,8 @@ void KeysetWindow::MessageReceived(BMessage *msg) {
 		case B_UNMAPPED_KEY_DOWN:
 			msg->FindInt32("key",(int32*)&key);
 			if (last_key >= 0) {
-				sprintf(str, keydefine_resource[last_key], keyset_setnr); 
-				resources_set_value(str, (resource_value_t) key);
+				resources_set_sprintf(keydefine_resource[last_key],
+					(resource_value_t) key, keyset_setnr);
 				keyset_button[last_key]->SetLabel(
 					kbd_code_to_string(key));
 			}

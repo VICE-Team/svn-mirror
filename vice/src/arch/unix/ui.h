@@ -48,6 +48,10 @@
 /* Number of drives we support in the UI.  */
 #define NUM_DRIVES      2
 
+/* Tell menu system to ignore a string for translation 
+   (e.g. filenames in fliplists) */
+#define NO_TRANS "no-trans"
+
 typedef void (*ui_exposure_handler_t) (unsigned int width,
                                        unsigned int height);
 typedef enum {
@@ -89,7 +93,8 @@ extern char *ui_select_file(const char *title,
                             const char *default_dir,
                             const char *default_pattern,
                             ui_button_t *button_return,
-			    unsigned int show_preview);
+			    unsigned int show_preview,
+			    int *attach_wp);
 extern ui_button_t ui_input_string(const char *title, const char *prompt,
                                    char *buf, unsigned int buflen);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
@@ -105,7 +110,7 @@ extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
 extern void ui_proc_start(void);
 extern void ui_destroy_widget(ui_window_t w);
-extern void ui_set_topmenu(void);
+extern void ui_set_topmenu(const char *menu_name, ...);
 extern void ui_set_selected_file(int num);
 extern int ui_get_display_depth(void);
 extern Display *ui_get_display_ptr(void);

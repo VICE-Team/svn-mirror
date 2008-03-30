@@ -215,8 +215,9 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_SYNC_FACTOR_PAL)));
 		submenu->AddItem(new BMenuItem("NTSC-M", 
 			new BMessage(MENU_SYNC_FACTOR_NTSC)));
-		submenu->AddItem(new BMenuItem("Old NTSC-M", 
-			new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
+		if (machine_class == VICE_MACHINE_C64)
+			submenu->AddItem(new BMenuItem("Old NTSC-M", 
+				new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
 	} else {
 		menu->AddItem(submenu = new BMenu("Drive sync factor"));
 		submenu->SetRadioMode(true);
@@ -249,12 +250,17 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_CBM2_SETTINGS)));
 	}
 	
-	menu->AddItem(new BMenuItem("Device ... (not yet)", 
+	menu->AddItem(new BMenuItem("Device ...", 
 		new BMessage(MENU_DEVICE_SETTINGS)));
 	menu->AddItem(new BMenuItem("Drive ...", 
 		new BMessage(MENU_DRIVE_SETTINGS)));
-	menu->AddItem(new BMenuItem("Datasette ...", 
+	menu->AddItem(new BMenuItem("Datasette ...",
 		new BMessage(MENU_DATASETTE_SETTINGS)));
+	if (machine_class == VICE_MACHINE_C64
+		|| machine_class == VICE_MACHINE_C128) {
+		menu->AddItem(new BMenuItem("VIC-II ... (not yet)", 
+			new BMessage(MENU_VICII_SETTINGS)));
+	}
 	menu->AddItem(new BMenuItem("Joystick ...", 
 		new BMessage(MENU_JOYSTICK_SETTINGS)));
 	menu->AddItem(new BMenuItem("Sound ...", 

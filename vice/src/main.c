@@ -79,6 +79,9 @@
 /* ------------------------------------------------------------------------- */
 
 int vsid_mode = 0;
+#ifdef OS2
+const
+#endif
 int console_mode = 0;
 static int init_done;
 
@@ -112,11 +115,13 @@ static int cmdline_autostart(const char *param, void *extra_param)
     return 0;
 }
 
+#ifndef OS2
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;
     return 0;
 }
+#endif
 
 static int cmdline_attach(const char *param, void *extra_param)
 {
@@ -184,14 +189,14 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
-    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
-      NULL, "Console mode (for playing music)" },
 #ifdef OS2
     { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Don't call exception handler" },
     { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
       NULL, "Call exception handler (default)" },
 #else
+    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
+      NULL, "Console mode (for playing music)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
@@ -459,7 +464,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 	resources_set_value("SoundSampleRate", (resource_value_t)44100);
 	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
 	resources_set_value("SoundBufferSize", (resource_value_t)1000);
-	resources_set_value("SoundSuspendTime", (resource_value_t)0);
+        resources_set_value("SoundSuspendTime", (resource_value_t)0);
     } else {
         int retval = resources_load(NULL);
 

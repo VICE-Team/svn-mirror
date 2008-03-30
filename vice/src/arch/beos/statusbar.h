@@ -42,6 +42,8 @@ class ViceStatusbar : public BView {
 		void DisplayDriveStatus(int drive_num,int drive_led_color,double drive_track);
 		void DisplayTapeStatus(int enabled, int counter, int motor, int control);
 		void DisplayImage(int drive_num, const char *image);
+		void EnableJoyport(int onvoid);
+		void DisplayJoyport(int port_num, int status);
 	private:
 		BBitmap *statusbitmap;
 		BView *drawview;

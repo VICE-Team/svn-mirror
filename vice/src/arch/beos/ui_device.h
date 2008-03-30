@@ -1,5 +1,5 @@
 /*
- * ui_joystick.h - Joystick settings
+ * ui_device.h - Device settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,15 +24,16 @@
  *
  */
 
-#ifndef __UI_JOYSTICK_H__
-#define __UI_JOYSTICK_H__
+#ifndef __UI_DEVICE_H__
+#define __UI_DEVICE_H__
 
-const uint32 JOYMESSAGE_DEVPORT = 'J000';
-const uint32 JOYMESSAGE_KEYSET1 = 'J001';
-const uint32 JOYMESSAGE_KEYSET2 = 'J002';
-const uint32 JOYMESSAGE_KEYTEXT = 'J003';
-const uint32 JOYMESSAGE_DISPLAY = 'J004';
+const uint32 MESSAGE_DEVICE_P00				= 'MDV1';
+const uint32 MESSAGE_DEVICE_BROWSE			= 'MDV2';
+const uint32 MESSAGE_DEVICE_BROWSE_END		= 'MDV3';
+const uint32 MESSAGE_DEVICE_DIRECTORY		= 'MDV4';
+const uint32 MESSAGE_DEVICE_PRINTER4		= 'MDV5';
+const uint32 MESSAGE_DEVICE_PRINTERFILE		= 'MDV6';
 
-extern void ui_joystick(void);
+extern void ui_device(void);
 
 #endif

@@ -37,6 +37,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <direct.h> // chdir
 
 #include "log.h"
 #include "utils.h"
@@ -53,27 +54,16 @@ static int toggle_drive_res(char *format, int drive)
     int res;
     char *tmp;
     tmp=xmsprintf(format, drive+8);
-    res = toggle(tmp);
+    resources_toggle(tmp, (resource_value_t*)&res);
     free(tmp);
     return res;
 }
 
 static int get_drive_res(char *format, int drive)
 {
-    char *tmp;
     int val;
-    tmp=xmsprintf(format, drive+8);
-    resources_get_value(tmp, (resource_value_t*) &val);
-    free(tmp);
+    resources_get_sprintf(format, (resource_value_t*) &val, drive+8);
     return val;
-}
-
-static void set_drive_res(char *format, int drive, int val)
-{
-    char *tmp;
-    tmp=xmsprintf(format, drive+8);
-    resources_set_value(tmp, (resource_value_t) val);
-    free(tmp);
 }
 
 #define nDRIVES 12
@@ -198,8 +188,37 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case CB_HIDENONP00:
                 toggle_drive_res("FSDevice%dHideCBMFiles", drive);
                 break;
+            case CB_MEM2000:
+                toggle_drive_res("Drive%dRAM2000", drive);
+                break;
+            case CB_MEM4000:
+                toggle_drive_res("Drive%dRAM4000", drive);
+                break;
+            case CB_MEM6000:
+                toggle_drive_res("Drive%dRAM6000", drive);
+                break;
+            case CB_MEM8000:
+                toggle_drive_res("Drive%dRAM8000", drive);
+                break;
+            case CB_MEMA000:
+                toggle_drive_res("Drive%dRAMA000", drive);
+                break;
             case CB_READONLY:
-                toggle_drive_res("AttachDevice%dReadonly", drive);
+                {
+                    char *name;
+                    toggle_drive_res("AttachDevice%dReadonly", drive);
+
+                    name = file_system_get_disk_name(drive+8);
+
+                    if (name)
+                    {
+                        file_system_detach_disk(drive+8);
+                        if (file_system_attach_disk(drive+8, name))
+                            WinMessageBox(HWND_DESKTOP, hwnd,
+                                          "Cannot reattach disk image",
+                                          "VICE/2 Error", 0, MB_OK);
+                    }
+                }
                 break;
             case CB_PARALLEL:
                 if (drive==0 || drive==1)
@@ -209,15 +228,15 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case RB_ASK:
             case RB_ALWAYS:
                 if (drive==0 || drive==1)
-                    set_drive_res("Drive%dExtendImagePolicy", drive,
-                                  SHORT1FROMMP(mp1)&0x3);
+                    resources_set_sprintf("Drive%dExtendImagePolicy",
+                                          (resource_value_t)(SHORT1FROMMP(mp1)&0x3), drive+8);
                 break;
             case RB_NONE:
             case RB_TRAP:
             case RB_SKIP:
                 if (drive==0 || drive==1)
-                    set_drive_res("Drive%dIdleMethod", drive,
-                                  SHORT1FROMMP(mp1)&0x3);
+                    resources_set_sprintf("Drive%dIdleMethod",
+                                          (resource_value_t)(SHORT1FROMMP(mp1)&0x3), drive+8);
                 break;
            case CBS_IMAGE:
                 {
@@ -238,11 +257,32 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     }
                 }
                 return FALSE;
+            case CBS_PATH:
+                switch (SHORT2FROMMP(mp1))
+                {
+                case SPBN_CHANGE:
+                    {
+                        char path[255];
+                        WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_QUERYVALUE, (MPARAM)&path, (MPARAM)255);
+                        if (!chdir(path))
+                            resources_set_sprintf("FSDevice%dDir", (resource_value_t*)path, drive+8);
+                    }
+                    break;
+                case SPBN_KILLFOCUS:
+                    {
+                        char *path;
+                        resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
+                        WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_SETARRAY, (MPARAM)&path,(MPARAM)1);
+                        WinSetSpinVal(hwnd, CBS_PATH, 0);
+                    }
+                    break;
+                }
+                return FALSE;
             case CBS_TYPE:
                 if (SHORT2FROMMP(mp1)==CBN_ENTER && (drive==0 || drive==1))
                 {
                     int nr = WinLboxQuerySelectedItem(hwnd, CBS_TYPE);
-                    set_drive_res("Drive%dType", drive, exist[nr]);
+                    resources_set_sprintf("Drive%dType", (resource_value_t)exist[nr], drive+8);
                 }
                 return FALSE;
             }
@@ -250,6 +290,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
     case WM_DRIVEIMAGE:
         {
+            const char *name = (char *)mp1;
+
             int pos;
             for (pos=0; pos<9; pos++)
                 WinLboxDeleteItem(hwnd, CBS_IMAGE, 0);
@@ -261,7 +303,10 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinLboxInsertItem(hwnd, CBS_IMAGE, "");
 
             if (drive==(int)mp2)
-                WinLboxSelectItem(hwnd, CBS_IMAGE, *((char*)mp1)?0:pos);
+                WinLboxSelectItem(hwnd, CBS_IMAGE, name[0]?0:pos);
+
+            // WinShowDlg(hwnd, CBS_IMAGE, name[0]?1:0);
+            // WinShowDlg(hwnd, CBS_PATH,  name[0]?0:1);
         }
         return FALSE;
     case WM_TRACK:
@@ -297,11 +342,9 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 int i, nr;
                 WinCheckButton(hwnd, RB_NEVER |
-                               get_drive_res("Drive%dExtendImagePolicy",
-                                             drive), 1);
+                               get_drive_res("Drive%dExtendImagePolicy", drive), 1);
                 WinCheckButton(hwnd, RB_NONE |
-                               get_drive_res("Drive%dIdleMethod",
-                                             drive), 1);
+                               get_drive_res("Drive%dIdleMethod", drive), 1);
                 nr = 0;
                 for (i=0; i<nDRIVES; i++)
                 {
@@ -319,16 +362,26 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
             else
             {
-                WinCheckButton(hwnd, RB_NEVER,  0);
-                WinCheckButton(hwnd, RB_ASK,    0);
-                WinCheckButton(hwnd, RB_ALWAYS, 0);
-                WinCheckButton(hwnd, RB_NONE,   0);
-                WinCheckButton(hwnd, RB_SKIP,   0);
-                WinCheckButton(hwnd, RB_TRAP,   0);
+                WinCheckButton(hwnd, RB_NEVER,   0);
+                WinCheckButton(hwnd, RB_ASK,     0);
+                WinCheckButton(hwnd, RB_ALWAYS,  0);
+                WinCheckButton(hwnd, RB_NONE,    0);
+                WinCheckButton(hwnd, RB_SKIP,    0);
+                WinCheckButton(hwnd, RB_TRAP,    0);
             }
             WinLboxSelectItem(hwnd, CBS_TYPE, drive89 ? type : 0);
             WinCheckButton(hwnd, CB_PARALLEL, drive89 ?
-                           (get_drive_res("Drive%dParallelCable", drive)!=0):0);
+                           get_drive_res("Drive%dParallelCable", drive)!=0 : 0);
+            WinCheckButton(hwnd, CB_MEM2000, drive89 ?
+                           get_drive_res("Drive%dRAM2000", drive)!=0 : 0);
+            WinCheckButton(hwnd, CB_MEM4000, drive89 ?
+                           get_drive_res("Drive%dRAM4000", drive)!=0 : 0);
+            WinCheckButton(hwnd, CB_MEM6000, drive89 ?
+                           get_drive_res("Drive%dRAM6000", drive)!=0 : 0);
+            WinCheckButton(hwnd, CB_MEM8000, drive89 ?
+                           get_drive_res("Drive%dRAM8000", drive)!=0 : 0);
+            WinCheckButton(hwnd, CB_MEMA000, drive89 ?
+                           get_drive_res("Drive%dRAMA000", drive)!=0 : 0);
             WinEnableControl(hwnd, CB_PARALLEL, drive89);
             WinEnableControl(hwnd, RB_NEVER,    drive89);
             WinEnableControl(hwnd, RB_ASK,      drive89);
@@ -337,6 +390,11 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinEnableControl(hwnd, RB_SKIP,     drive89);
             WinEnableControl(hwnd, RB_TRAP,     drive89);
             WinEnableControl(hwnd, CBS_TYPE,    drive89);
+            WinEnableControl(hwnd, CB_MEM2000,  drive89);
+            WinEnableControl(hwnd, CB_MEM4000,  drive89);
+            WinEnableControl(hwnd, CB_MEM6000,  drive89);
+            WinEnableControl(hwnd, CB_MEM8000,  drive89);
+            WinEnableControl(hwnd, CB_MEMA000,  drive89);
             WinCheckButton(hwnd, CB_READONLY,
                            get_drive_res("AttachDevice%dReadonly", drive)!=0);
             WinCheckButton(hwnd, CB_SAVEP00,
@@ -357,6 +415,12 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 do WinLboxQueryItem(hwnd, CBS_IMAGE, ++pos, tmp, CCHMAXPATH);
                 while (pos<max && strcmp(ui_status.lastImage[drive], tmp));
                 WinLboxSelectItem(hwnd, CBS_IMAGE, pos);
+            }
+            {
+                char *path;
+                resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
+                WinSendDlgItemMsg(hwnd, CBS_PATH, SPBM_SETARRAY, (MPARAM)&path,(MPARAM)1);
+                WinSetSpinVal(hwnd, CBS_PATH, 0);
             }
         }
         return FALSE;

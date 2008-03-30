@@ -113,6 +113,7 @@ extern int sound_init_ce_device(void);
 extern int sound_init_vidc_device(void);
 extern int sound_init_mmos2_device(void);
 extern int sound_init_dart_device(void);
+extern int sound_init_dart2_device(void);
 extern int sound_init_beos_device(void);
 
 /* internal function for sound device registration */

@@ -37,6 +37,7 @@
 
 #include "log.h"
 #include "dialogs.h"
+#include "resources.h"
 
 extern int trigger_shutdown;
 
@@ -72,6 +73,8 @@ void vsid_mainloop(VOID *arg)
 
 int vsid_ui_init(void)
 {
+    resources_set_value("SoundDeviceName", (resource_value_t*)"dart2");
+
     _beginthread(vsid_mainloop, NULL, 0x4000, NULL);
 
     log_message(LOG_DEFAULT, "--> SID Player mode <--\n");

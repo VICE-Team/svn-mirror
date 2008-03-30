@@ -404,7 +404,7 @@ int autostart_tape(const char *file_name, const char *program_name,
         name = image_contents_tape_filename_by_number(file_name,
                                                       program_number);
     else
-        name = stralloc(program_name);
+        name = stralloc(program_name?program_name:"*");
 
     if (name)
         if (!(tape_attach_image(file_name) < 0))
@@ -439,7 +439,7 @@ int autostart_disk(const char *file_name, const char *program_name,
         name = image_contents_disk_filename_by_number(file_name,
                                                       program_number);
     else
-        name = stralloc(program_name);
+        name = stralloc(program_name?program_name:"*");
 
     if (name)
         if (!(file_system_attach_disk(8, file_name) < 0))

@@ -90,14 +90,23 @@ static UI_CALLBACK(attach_disk)
     char *filename, *title;
     ui_button_t button;
     static char *last_dir;
+    int attach_wp = 0;
 
     suspend_speed_eval();
     title = xmsprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents,
                               unit == 8 ? True : False, last_dir,
-                              "*.[gdxGDX]*", &button, True);
+                              "*.[gdxGDX]*", &button, True, &attach_wp);
 
     free(title);
+    if (attach_wp)
+    {
+	char res[64];
+	printf("Write protect attach requested.\n");
+	sprintf(res, "AttachDevice%dReadonly", unit);
+	resources_set_value(res, (resource_value_t) attach_wp);
+    }
+    
     switch (button) {
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
@@ -176,7 +185,7 @@ static UI_CALLBACK(attach_tape)
 
     filename = ui_select_file(_("Attach a tape image"),
                               read_tape_image_contents,
-			      True, last_dir, "*.[tT]*", &button, True);
+			      True, last_dir, "*.[tT]*", &button, True, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -228,7 +237,7 @@ static UI_CALLBACK(smart_attach)
 
     filename = ui_select_file(_("Smart-attach a file"),
 			      read_disk_or_tape_image_contents,
-			      True, last_dir, NULL, &button, True);
+			      True, last_dir, NULL, &button, True, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -445,7 +454,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 	filename = (char *)data;
     } else {
         filename = ui_select_file(_("Load snapshot"), NULL, False, last_dir,
-                              "*.vsf", &button, False);
+                              "*.vsf", &button, False, NULL);
         if (button != UI_BUTTON_OK) {
             if (filename)
                 free(filename);
@@ -571,6 +580,11 @@ static UI_CALLBACK(remove_from_fliplist2)
 			 ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
+#ifdef USE_GNOMEUI
+UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
+#endif
+
 #define FLIPLIST_MENU_LIMIT 256
 void ui_update_flip_menus(int from_unit, int to_unit)
 {
@@ -616,6 +630,14 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	   dynamically regenerated; The Gnome code is already fixed. */
 	memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu, 
 	       sizeof (ui_menu_entry_t));
+	i++;
+	/* Write protext UI controll */
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	flipmenu[drive][i].string = "*Write Protect";
+	if (drive == 0)
+	    flipmenu[drive][i].callback = toggle_AttachDevice8Readonly;
+	else
+	    flipmenu[drive][i].callback = toggle_AttachDevice9Readonly;
 	i++;
 #endif
 
@@ -705,7 +727,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	while (fl_iterator) {
 	    memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	    fname_split(flip_get_image(fl_iterator), &dir, &image);
-	    flipmenu[drive][i].string = image;
+	    flipmenu[drive][i].string = concat(NO_TRANS, image, NULL);
 	    flipmenu[drive][i].callback = 
 		(ui_callback_t) attach_from_fliplist2;
 	    flipmenu[drive][i].callback_data = 
@@ -714,7 +736,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	    fl_iterator = flip_next_iterate(drive + 8);
 	    if (dir)
 		free(dir);
-	    /* keep image here, this is freed afterwards */
+	    if (image)
+		free(image);
 	    i++;
 	    if (i >= (FLIPLIST_MENU_LIMIT - 1)) /* the end delimitor must fit */
 	    {
@@ -874,7 +897,7 @@ ui_menu_entry_t ui_directory_commands_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
+ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Load snapshot..."),
       (ui_callback_t) load_snapshot, NULL, NULL,
       XK_l, UI_HOTMOD_META },

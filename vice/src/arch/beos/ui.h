@@ -95,6 +95,10 @@ extern void ui_show_text(const char *caption, const char *header,const char *tex
 extern void ui_cmdline_show_options(void);
 extern void ui_update_menus(void);
 extern void mon(ADDRESS a);
+extern void ui_display_joyport_abs(int port_num, BYTE status);
+extern void ui_display_joyport_or(int port_num, BYTE status);
+extern void ui_display_joyport_and(int port_num, BYTE status);
+extern void ui_enable_joyport(void);
 extern void ui_statusbar_update(void);
 
 #endif

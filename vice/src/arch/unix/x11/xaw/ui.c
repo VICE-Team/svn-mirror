@@ -1016,7 +1016,7 @@ void ui_set_drive9_menu (Widget w)
     drive9_menu = w;
 }
 
-void ui_set_topmenu()
+void ui_set_topmenu(const char *menu_name, ...)
 {
 }
 
@@ -1589,7 +1589,7 @@ char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
-                     unsigned int show_preview)
+                     unsigned int show_preview, int *attach_wp)
 {
     static ui_button_t button;
     char *ret;

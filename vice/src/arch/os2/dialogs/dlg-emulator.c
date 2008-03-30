@@ -49,6 +49,7 @@ const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
 
 CHAR  screenshotHist[10][CCHMAXPATH];
+CHAR  snapshotHist[10][CCHMAXPATH];
 
 /* Needed prototype funtions                                        */
 /*----------------------------------------------------------------- */
@@ -64,6 +65,9 @@ extern int isEmulatorPaused(void);
 #define ID_TYPE (void*)1
 
 static char pszScreenshotName[CCHMAXPATH]="vice2.bmp";
+static char pszSnapshotName[CCHMAXPATH]="vice2.vsf";
+static int save_roms = 0;
+static int save_disks = 0;
 static int iSsType=0;
 
 char *screenshot_name()
@@ -74,6 +78,25 @@ char *screenshot_name()
 char *screenshot_type()
 {
     return iSsType?"PNG":"BMP";
+}
+
+char *get_snapshot(int *sr, int *sd)
+{
+    *sr = save_roms;
+    *sd = save_disks;
+    return pszSnapshotName;
+};
+
+
+void snapshot_check_name(const char *psz)
+{
+    if (strlen(psz)>4)
+    {
+        if (!stricmp(psz+strlen(psz)-4, ".vsf"))
+            strcpy(pszScreenshotName, psz);
+            return;
+    }
+    strcat(strcpy(pszScreenshotName, psz), ".vsf");
 }
 
 void screenshot_check_name(HWND hwnd, const char *psz)
@@ -157,6 +180,19 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinLboxSelectItem(hwnd, CBS_SSNAME, 0);
             }
             return FALSE;
+        case PB_SPSCHANGE:
+            {
+                char *c = snapshot_dialog(hwnd);
+
+                if (!c || !(*c))
+                    return FALSE;
+
+                snapshot_check_name(c);
+
+                WinLboxInsertItemAt(hwnd, CBS_SPSNAME, pszSnapshotName, 0);
+                WinLboxSelectItem(hwnd, CBS_SPSNAME, 0);
+            }
+            return FALSE;
         case DID_CLOSE:
             delDlgOpen(DLGO_EMULATOR);
             break;
@@ -216,6 +252,9 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 while (val<10 && screenshotHist[val][0])
                     WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
                 WinCheckButton(hwnd, iSsType?RB_PNG:RB_BMP, 1);
+                val=0;
+                while (val<10 && snapshotHist[val][0])
+                    WinLboxInsertItem(hwnd, CBS_SSNAME, snapshotHist[val++]);
                 for (val=0; val<11; val++)
                     WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
                 resources_get_value("Speed", (resource_value_t *) &val);
@@ -317,6 +356,19 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                         return FALSE;
 
                     screenshot_check_name(hwnd, psz);
+                }
+                return FALSE;
+            case CBS_SPSNAME:
+                {
+                    char psz[CCHMAXPATH]="";
+                    if (SHORT2FROMMP(mp1)==CBN_ENTER)
+                        WinLboxQuerySelectedItemText(hwnd, CBS_SPSNAME, psz, CCHMAXPATH);
+
+                    if (!(*psz))
+                        return FALSE;
+
+                    snapshot_check_name(psz);
+
                 }
                 return FALSE;
             case RB_BMP:

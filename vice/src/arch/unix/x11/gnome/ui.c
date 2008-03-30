@@ -301,7 +301,8 @@ static int alloc_colormap(void);
 /*static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);*/
 static GtkWidget* build_file_selector(ui_button_t *button_return,
 				      GtkWidget **image_contents_widget,
-				      GtkWidget **autostart_button_widget);
+				      GtkWidget **autostart_button_widget,
+				      GtkWidget **attach_write_protect);
 static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 UI_CALLBACK(enter_window_callback);
@@ -1091,6 +1092,7 @@ void ui_set_right_menu(GtkWidget *w)
     right_menu = w;
 }
 
+#ifdef OLD_TOPMENU
 void ui_set_topmenu(void)
 {
     int i;
@@ -1116,6 +1118,54 @@ void ui_set_topmenu(void)
 	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), settings);
 	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), help);
 	gtk_widget_show(app_shells[i].topmenu);
+    }
+}
+#endif
+
+void ui_set_topmenu(const char *menu_name, ...)
+{
+    va_list ap;
+    GtkWidget *sub_menu, *mitem;
+    char *item;
+    int i, do_right_justify = 0;
+    
+    va_start(ap, menu_name);
+    
+    for (i = 0; i < num_app_shells; i++)
+    {
+	gtk_container_foreach(
+	    GTK_CONTAINER(app_shells[i].topmenu), 
+	    (GtkCallback) gtk_widget_destroy,
+	    NULL);
+    }
+    
+    while ((item = va_arg(ap, char *)) != NULL) 
+    {
+	sub_menu = va_arg(ap, GtkWidget *);
+	if (! sub_menu)
+	{
+	    log_error(ui_log, "top_menu: sub_menu empty for '%s'.\n",
+		      item);
+	    return;
+	}
+
+	if (strncmp(item, "RJ", 2) == 0)
+	{
+	    do_right_justify = 1;
+	    item += 2;
+	}
+	    
+	for (i = 0; i < num_app_shells; i++)
+	{
+	    mitem = gtk_menu_item_new_with_label(item);
+	    gtk_widget_show(mitem);
+	    gtk_menu_item_set_submenu(GTK_MENU_ITEM(mitem), sub_menu);
+	    if (do_right_justify)
+		gtk_menu_item_right_justify(GTK_MENU_ITEM(mitem));
+	    
+	    gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), mitem);
+	    gtk_widget_show(app_shells[i].topmenu);
+	}
     }
 }
 
@@ -2036,7 +2086,7 @@ char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
-		     unsigned int show_preview)
+		     unsigned int show_preview, int *attach_wp)
 {  
     static ui_button_t button;
     static GtkWidget* file_selector = NULL;
@@ -2045,7 +2095,7 @@ char *ui_select_file(const char *title,
     char *current_dir = NULL;
     char *filename = NULL;
     char *path;
-    GtkWidget *icw, *asb;
+    GtkWidget *icw, *asb, *wp;
     
     /* reset old selection */
     ui_set_selected_file(0);
@@ -2056,7 +2106,11 @@ char *ui_select_file(const char *title,
       chdir(filesel_dir);
     }
 
-    file_selector = build_file_selector(&button, &icw, &asb);
+    if (attach_wp)
+	file_selector = build_file_selector(&button, &icw, &asb, &wp);
+    else
+	file_selector = build_file_selector(&button, &icw, &asb, NULL);
+
     gtk_signal_connect(GTK_OBJECT(file_selector),
 		       "destroy",
 		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
@@ -2121,6 +2175,9 @@ char *ui_select_file(const char *title,
 	ret = stralloc("");
 
     ui_popdown(file_selector);
+
+    if (attach_wp)
+	*attach_wp = GTK_TOGGLE_BUTTON(wp)->active;
 
     if (file_selector)
     {
@@ -2368,9 +2425,10 @@ void ui_popdown(GtkWidget *w)
 
 static GtkWidget *build_file_selector(ui_button_t *button_return, 
 				      GtkWidget **image_contents_widget,
-				      GtkWidget **autostart_button_widget)
+				      GtkWidget **autostart_button_widget,
+				      GtkWidget **attach_write_protect)
 {  
-    GtkWidget *fileselect, *button, *scrollw, *buttonbox;
+    GtkWidget *fileselect, *button, *scrollw, *buttonbox, *wp_checkbox;
     GtkWidget *hbox = NULL;
     GList *tmp;
     char *contents_title[2];
@@ -2447,6 +2505,17 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 	    fileselect)->action_area), scrollw, TRUE, TRUE, 0);
     gtk_widget_show(scrollw);
 
+    if (attach_write_protect)
+    {
+	/* write-protect checkbox */
+	wp_checkbox = gtk_check_button_new_with_label(
+	    _("Attach write protected"));
+	gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(
+	    fileselect)->action_area), wp_checkbox, TRUE, TRUE, 0);
+	gtk_widget_show(wp_checkbox);
+	*attach_write_protect = wp_checkbox;
+    }
+	
     gtk_signal_connect_after(
 	GTK_OBJECT(GTK_FILE_SELECTION(fileselect)->file_list),
 	"select-row",
@@ -2481,6 +2550,7 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
     gtk_widget_show(button);
     *image_contents_widget = scrollw;
     *autostart_button_widget = button;
+
     last_file_selection = fileselect;
     return fileselect;
 }

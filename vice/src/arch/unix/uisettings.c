@@ -303,7 +303,7 @@ static UI_CALLBACK(select_user_keymap)
 
     suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, False, last_dir,
-                              "*.vkm", &button, False);
+                              "*.vkm", &button, False, NULL);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -360,7 +360,7 @@ UI_CALLBACK(ui_load_palette)
     suspend_speed_eval();
     title = stralloc(_("Load custom palette"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
-			      False);
+			      False, NULL);
 
     free(title);
     switch (button) {
@@ -400,7 +400,7 @@ UI_CALLBACK(ui_load_romset)
     suspend_speed_eval();
     title = stralloc(_("Load custom ROM set definition"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button,
-			      False);
+			      False, NULL);
 
     free(title);
     switch (button) {
@@ -450,7 +450,7 @@ UI_CALLBACK(ui_load_rom_file)
     suspend_speed_eval();
     title = stralloc(_("Load ROM file"));
     filename = ui_select_file(title, NULL, False, last_dir, "*", &button,
-			      False);
+			      False, NULL);
 
     free(title);
     switch (button) {
@@ -562,7 +562,8 @@ UI_CALLBACK(set_rs232_device_file)
     suspend_speed_eval();
 
     filename = ui_select_file(_("Select RS232 device file"),
-                              NULL, False, "/dev", "ttyS*", &button, False);
+                              NULL, False, "/dev", "ttyS*", &button, False,
+			      NULL);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);
@@ -1310,6 +1311,13 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
     { NULL }
 };
 
+ui_menu_entry_t ui_drive_options_submenu[] = {
+    { N_("*Enable true drive emulation"),
+      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+    { NULL }
+};
+
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef USE_VIDMODE_EXTENSION
@@ -1343,7 +1351,7 @@ UI_MENU_DEFINE_TOGGLE(DoubleSize)
 
 UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
-static ui_menu_entry_t video_settings_submenu[] = {
+ui_menu_entry_t video_settings_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t) toggle_VideoCache, NULL, NULL },
     { N_("*Double size"),

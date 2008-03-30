@@ -190,8 +190,8 @@ static UI_CALLBACK(attach_cartridge)
 
     suspend_speed_eval();
     filename = ui_select_file(_("Attach cartridge image"),
-                              NULL, False, last_dir, "*.prg", &button, False);
-
+                              NULL, False, last_dir, "*.prg", &button, False,
+			      NULL);
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
@@ -462,7 +462,63 @@ int vic20_ui_init(void)
 				    ui_menu_separator,
                                     datasette_control_submenu, 
 				    NULL));
-    ui_set_topmenu();
+    ui_set_topmenu("TopLevelMenu",
+		   _("File"),
+		   ui_menu_create("File",
+				  ui_smart_attach_commands_menu,
+				  ui_menu_separator,
+				  ui_disk_commands_menu,
+				  ui_menu_separator,
+				  ui_tape_commands_menu,
+				  ui_datasette_commands_menu,
+				  ui_menu_separator,
+				  vic20_cartridge_commands_menu,
+				  ui_menu_separator,
+				  ui_directory_commands_menu,
+				  ui_menu_separator,
+				  ui_tool_commands_menu,
+				  ui_menu_separator,
+				  ui_run_commands_menu,
+				  ui_menu_separator,
+				  ui_exit_commands_menu,
+				  NULL),
+		   _("Snapshot"),
+		   ui_menu_create("Snapshot",
+				  ui_snapshot_commands_submenu,
+				  ui_menu_separator,
+				  ui_screenshot_commands_menu,
+				  NULL),
+		   _("Options"),
+		   ui_menu_create("Options",
+				  ui_performance_settings_menu,
+				  ui_menu_separator,
+#ifdef USE_VIDMODE_EXTENSION
+				  ui_fullscreen_settings_menu,
+				  ui_menu_separator,
+#endif
+				  ui_drive_options_submenu,
+				  NULL),
+		   _("Settings"),
+		   ui_menu_create("Settings",
+				  ui_peripheral_settings_menu,
+				  ui_drive_settings_menu,
+				  ui_keyboard_settings_menu,
+				  joystick_settings_menu,
+				  ui_sound_settings_menu,
+				  ui_menu_separator,
+				  rs232_settings_menu,
+				  ui_menu_separator,
+				  memory_settings_menu,
+				  ui_menu_separator,
+				  ui_settings_settings_menu,
+				  NULL),
+		   /* Translators: RJ means right justify and should be
+		      saved in your tranlation! e.g. german "RJHilfe" */
+		   _("RJHelp"),
+		   ui_menu_create("Help",
+				  ui_help_commands_menu,
+				  NULL),
+		   NULL);
     ui_set_speedmenu(ui_menu_create("SpeedMenu",
 				    ui_performance_settings_menu, 
 				    NULL));

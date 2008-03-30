@@ -68,11 +68,11 @@ static joystick_device_t cbm_joystick[2];
 
 static int set_cbm_joystick(resource_value_t v, void *param)
 {
-    int nr = (int)param;
+    const int nr = (int)param;
 
     cbm_joystick[nr] = (joystick_device_t)(int) v;
 
-    joystick_clear(nr);
+    joystick_clear(nr+1);
 
     return 0;
 }
@@ -136,7 +136,6 @@ static int set_keyset(resource_value_t v, void *param)
     log_debug("%x setting keyset %d, direction %d --> %d", i, i>>1, i&1, (int)v);
     return 0;
 }
-
 
 #define DEFINE_RES_SET_KEYDATA(txt, num, dir)                                       \
     { txt, RES_INTEGER, (resource_value_t) K_NONE,                                  \

@@ -429,7 +429,8 @@ int archdep_spawn(const char *name, char **argv,
                 log_message(LOG_DEFAULT,"archdep.c: Error in DosReadQueue (rc=%li).",rc);
             else
             {
-                rc = ((CHILDINFO*)pvData)->usReturn;
+                if (rc = ((CHILDINFO*)pvData)->usReturn)
+                    log_message(LOG_DEFAULT, "archdep.c: '%s' returns rc = %li", cmdline, rc);
                 DosFreeMem(pvData); /* Free the memory of the queue data element read */
             }
         }
@@ -439,9 +440,6 @@ int archdep_spawn(const char *name, char **argv,
     DosReleaseMutexSem(hmtxSpawn);
 #endif
     free(cmdline);
-    if (rc)
-        log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
-
     return rc;
 }
 

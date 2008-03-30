@@ -47,13 +47,19 @@ static int keyset1[9], keyset2[9];
 /* ------------------------------------------------------------------------ */
 
 /* device resource  */
-static joystick_device_t joystick_device_1, joystick_device_2;
+static joystick_device_t joystick_device[2];
+
+/* flag for display state of joysticks in statusbar */
+static int joystickdisplay;
 
 /* objects to access hardware devices */
 static BJoystick bjoystick[2];
 
 /* stick index in the open BJoystick devices */ 
 static int stick_nr[2];
+
+/* axes-pair index in the open BJoystick devices */ 
+static int axes_nr[2];
 
 /* to allocate buffers for the current axes values */
 static int16 *axes[2];
@@ -70,10 +76,7 @@ static void joystick_open_device(int dev_index)
 {
 	joystick_device_t joy_dev;
 	
-	if (dev_index == 0)
-		joy_dev = joystick_device_1;
-	else
-		joy_dev = joystick_device_2;
+	joy_dev = joystick_device[dev_index];
 
 	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
 		if (bjoystick[dev_index].Open(hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].device_name, true)
@@ -89,100 +92,76 @@ static void joystick_open_device(int dev_index)
 			free(axes[dev_index]);
 		axes[dev_index] = (int16*) malloc(sizeof(int16) * bjoystick[dev_index].CountAxes());		
 		stick_nr[dev_index] = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].stick; 
+		axes_nr[dev_index] = hardware_joystick[joy_dev-NUM_OF_SOFTDEVICES].axes; 
 	}
 }
 
 
-static int set_joystick_device_1(resource_value_t v, void *param)
+static int set_joystick_device(resource_value_t v, void *param)
 {
-    joystick_device_1 = (joystick_device_t) (int) v; /* argh */
+    joystick_device[(int) param] = (joystick_device_t) (int) v; /* argh */
 	
 	if (joystick_initialized)
-		joystick_open_device(0);
+		joystick_open_device((int) param);
 
     return 0;
 }
 
-static int set_joystick_device_2(resource_value_t v, void *param)
+
+static int set_keyset1(resource_value_t v, void *param)
 {
-    joystick_device_2 = (joystick_device_t) (int) v; /* C++ needs them */
-
-	if (joystick_initialized)
-		joystick_open_device(1);
-
-    return 0;
+        keyset1[(int) param] = (int) v;
+        return 0;
 }
 
+static int set_keyset2(resource_value_t v, void *param)
+{
+        keyset2[(int) param] = (int) v;
+        return 0;
+}
 
-#define DEFINE_SET_KEYSET(num, dir)                             \
-    static int set_keyset##num##_##dir##(resource_value_t v, void *param)    \
-    {                                                           \
-        keyset##num##[KEYSET_##dir##] = (int) v;                \
-                                                                \
-        return 0;                                               \
-    }
-
-DEFINE_SET_KEYSET(1, NW)
-DEFINE_SET_KEYSET(1, N)
-DEFINE_SET_KEYSET(1, NE)
-DEFINE_SET_KEYSET(1, E)
-DEFINE_SET_KEYSET(1, SE)
-DEFINE_SET_KEYSET(1, S)
-DEFINE_SET_KEYSET(1, SW)
-DEFINE_SET_KEYSET(1, W)
-DEFINE_SET_KEYSET(1, FIRE)
-
-DEFINE_SET_KEYSET(2, NW)
-DEFINE_SET_KEYSET(2, N)
-DEFINE_SET_KEYSET(2, NE)
-DEFINE_SET_KEYSET(2, E)
-DEFINE_SET_KEYSET(2, SE)
-DEFINE_SET_KEYSET(2, S)
-DEFINE_SET_KEYSET(2, SW)
-DEFINE_SET_KEYSET(2, W)
-DEFINE_SET_KEYSET(2, FIRE)
 
 static resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
-      (resource_value_t *) &joystick_device_1, set_joystick_device_1, NULL },
+      (resource_value_t *) &joystick_device[0], set_joystick_device, (void *) 0 },
     { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
-      (resource_value_t *) &joystick_device_2, set_joystick_device_2, NULL },
+      (resource_value_t *) &joystick_device[1], set_joystick_device, (void *) 1 },
     { "KeySet1NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_NW], set_keyset1_NW, NULL },
+      (resource_value_t *) &keyset1[KEYSET_NW], set_keyset1, (void *) KEYSET_NW },
     { "KeySet1North", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_N], set_keyset1_N, NULL },
+      (resource_value_t *) &keyset1[KEYSET_N], set_keyset1, (void *) KEYSET_N },
     { "KeySet1NorthEast", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_NE], set_keyset1_NE, NULL },
+      (resource_value_t *) &keyset1[KEYSET_NE], set_keyset1, (void *) KEYSET_NE },
     { "KeySet1East", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_E], set_keyset1_E, NULL },
+      (resource_value_t *) &keyset1[KEYSET_E], set_keyset1, (void *) KEYSET_E },
     { "KeySet1SouthEast", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_SE], set_keyset1_SE, NULL },
+      (resource_value_t *) &keyset1[KEYSET_SE], set_keyset1, (void *) KEYSET_SE },
     { "KeySet1South", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_S], set_keyset1_S, NULL },
+      (resource_value_t *) &keyset1[KEYSET_S], set_keyset1, (void *) KEYSET_S },
     { "KeySet1SouthWest", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_SW], set_keyset1_SW, NULL },
+      (resource_value_t *) &keyset1[KEYSET_SW], set_keyset1, (void *) KEYSET_SW },
     { "KeySet1West", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_W], set_keyset1_W, NULL },
+      (resource_value_t *) &keyset1[KEYSET_W], set_keyset1, (void *) KEYSET_W },
     { "KeySet1Fire", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset1[KEYSET_FIRE], set_keyset1_FIRE, NULL },
+      (resource_value_t *) &keyset1[KEYSET_FIRE], set_keyset1, (void *) KEYSET_FIRE },
     { "KeySet2NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_NW], set_keyset2_NW, NULL },
+      (resource_value_t *) &keyset2[KEYSET_NW], set_keyset2, (void *) KEYSET_NW },
     { "KeySet2North", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_N], set_keyset2_N, NULL },
+      (resource_value_t *) &keyset2[KEYSET_N], set_keyset2, (void *) KEYSET_N },
     { "KeySet2NorthEast", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_NE], set_keyset2_NE, NULL },
+      (resource_value_t *) &keyset2[KEYSET_NE], set_keyset2, (void *) KEYSET_NE },
     { "KeySet2East", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_E], set_keyset2_E, NULL },
+      (resource_value_t *) &keyset2[KEYSET_E], set_keyset2, (void *) KEYSET_E },
     { "KeySet2SouthEast", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_SE], set_keyset2_SE, NULL },
+      (resource_value_t *) &keyset2[KEYSET_SE], set_keyset2, (void *) KEYSET_SE },
     { "KeySet2South", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_S], set_keyset2_S, NULL },
+      (resource_value_t *) &keyset2[KEYSET_S], set_keyset2, (void *) KEYSET_S },
     { "KeySet2SouthWest", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_SW], set_keyset2_SW, NULL },
+      (resource_value_t *) &keyset2[KEYSET_SW], set_keyset2, (void *) KEYSET_SW },
     { "KeySet2West", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_W], set_keyset2_W, NULL },
+      (resource_value_t *) &keyset2[KEYSET_W], set_keyset2, (void *) KEYSET_W },
     { "KeySet2Fire", RES_INTEGER, (resource_value_t) K_NONE,
-      (resource_value_t *) &keyset2[KEYSET_FIRE], set_keyset2_FIRE, NULL },
+      (resource_value_t *) &keyset2[KEYSET_FIRE], set_keyset2, (void *) KEYSET_FIRE },
     { NULL }
 };
 
@@ -215,7 +194,7 @@ int joystick_init(void)
 {
 	BJoystick testbjoystick;
 	char current_devicename[B_OS_NAME_LENGTH];
-	int device_iter, stick_iter;
+	int device_iter, stick_iter, axes_iter;
 	int device_count;
 
 	if (joystick_initialized)
@@ -228,10 +207,14 @@ int joystick_init(void)
 		if (testbjoystick.Open(current_devicename, true) != B_ERROR)
 		{
 			for (stick_iter=0; stick_iter<testbjoystick.CountSticks(); stick_iter++) {
-				strcpy(hardware_joystick[hardware_joystick_count].device_name, current_devicename);
-				hardware_joystick[hardware_joystick_count++].stick = stick_iter;
-				if (hardware_joystick_count >= MAX_HARDWARE_JOYSTICK)
+				for (axes_iter=0; axes_iter*2<testbjoystick.CountAxes(); axes_iter++) {
+					strcpy(hardware_joystick[hardware_joystick_count].device_name, current_devicename);
+					hardware_joystick[hardware_joystick_count].stick = stick_iter;
+					hardware_joystick[hardware_joystick_count++].axes = axes_iter;
+				
+					if (hardware_joystick_count >= MAX_HARDWARE_JOYSTICK)
 					return 0;
+				}
 			}			
 			testbjoystick.Close();
 		}		
@@ -264,10 +247,7 @@ void joystick_update(void)
 	
     for (dev_index = 0; dev_index < 2; dev_index++) {
     	value = 0;
-    	if (dev_index == 0)
-    		joy_dev = joystick_device_1;
-    	else
-	   		joy_dev = joystick_device_2;
+    	joy_dev = joystick_device[dev_index];
  
      	if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count)
     	{
@@ -279,18 +259,19 @@ void joystick_update(void)
 				bjoystick[dev_index].GetAxisValues(axes[dev_index], stick_nr[dev_index]);
 				buttons = bjoystick[dev_index].ButtonValues(stick_nr[dev_index]);
 				value = 0;
-				if (axes[dev_index][0] < JOYBORDER_MINX)
+				if (axes[dev_index][2*axes_nr[dev_index]] < JOYBORDER_MINX)
 					value |= 4;
-				if (axes[dev_index][0] > JOYBORDER_MAXX)
+				if (axes[dev_index][2*axes_nr[dev_index]] > JOYBORDER_MAXX)
 					value |= 8;
-				if (axes[dev_index][1] < JOYBORDER_MINY)
+				if (axes[dev_index][2*axes_nr[dev_index]+1] < JOYBORDER_MINY)
 					value |= 1;
-				if (axes[dev_index][1] > JOYBORDER_MAXY)
+				if (axes[dev_index][2*axes_nr[dev_index]+1] > JOYBORDER_MAXY)
 					value |= 2;
-				if (buttons)
+				if (buttons & (1 << axes_nr[dev_index]*2) || buttons & (1 << axes_nr[dev_index]*2+1) )
 					value |= 16;
 
 				joystick_value[dev_index+1]=value;
+				ui_display_joyport_abs(dev_index, value);
 			}
 		}
 	}
@@ -300,7 +281,7 @@ void joystick_update(void)
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (joystick_device_1 == device || joystick_device_2 == device) {
+    if (joystick_device[0] == device || joystick_device[1] == device) {
         BYTE value = 0;
         if (kcode == set[KEYSET_NW])    /* North-West */
             value = 5;
@@ -324,15 +305,23 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
             return 0;
 
         if (pressed) {
-            if (joystick_device_1 == device)
+            if (joystick_device[0] == device) {
                 joystick_set_value_or(1, value);
-            if (joystick_device_2 == device)
+				ui_display_joyport_or(0, value);
+			}
+            if (joystick_device[1] == device) {
                 joystick_set_value_or(2, value);
+				ui_display_joyport_or(1, value);
+			}
         } else {
-            if (joystick_device_1 == device)
+            if (joystick_device[0] == device) {
                 joystick_set_value_and(1, ~value);
-            if (joystick_device_2 == device)
+				ui_display_joyport_and(0, ~value);
+			}
+            if (joystick_device[1] == device) {
                 joystick_set_value_and(2, ~value);
+				ui_display_joyport_and(1, ~value);
+			}
         }
         return 1;
     }
@@ -345,8 +334,8 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_device_1 == JOYDEV_NUMPAD
-        || joystick_device_2 == JOYDEV_NUMPAD) {
+    if (joystick_device[0] == JOYDEV_NUMPAD
+        || joystick_device[1] == JOYDEV_NUMPAD) {
 
         switch (kcode) {
           case K_KP7:               /* North-West */
@@ -384,15 +373,23 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
 
         if (pressed) {
-            if (joystick_device_1 == JOYDEV_NUMPAD)
+            if (joystick_device[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
-            if (joystick_device_2 == JOYDEV_NUMPAD)
+				ui_display_joyport_or(0, value);
+			}
+            if (joystick_device[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
+				ui_display_joyport_or(1, value);
+			}
         } else {
-            if (joystick_device_1 == JOYDEV_NUMPAD)
+            if (joystick_device[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
-            if (joystick_device_2 == JOYDEV_NUMPAD)
+				ui_display_joyport_and(0, ~value);
+			}
+            if (joystick_device[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
+				ui_display_joyport_and(1, ~value);
+			}
         }
     }
 

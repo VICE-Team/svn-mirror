@@ -1,5 +1,5 @@
 /*
- * ui_sound.h - Drive settings
+ * ui_sound.h - Sound settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>

@@ -34,12 +34,14 @@
 extern ui_menu_entry_t ui_performance_settings_menu[];
 extern ui_menu_entry_t ui_joystick_settings_menu[];
 extern ui_menu_entry_t ui_video_settings_menu[];
+extern ui_menu_entry_t video_settings_submenu[];
 extern ui_menu_entry_t ui_crtc_video_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_menu[];
 extern ui_menu_entry_t ui_fullscreen_settings_submenu[];
 extern ui_menu_entry_t ui_keyboard_settings_menu[];
 extern ui_menu_entry_t ui_sound_settings_menu[];
 extern ui_menu_entry_t ui_drive_settings_menu[];
+extern ui_menu_entry_t ui_drive_options_submenu[];
 extern ui_menu_entry_t ui_par_drive_settings_menu[];
 extern ui_menu_entry_t ui_peripheral_settings_menu[];
 extern ui_menu_entry_t ui_settings_settings_menu[];

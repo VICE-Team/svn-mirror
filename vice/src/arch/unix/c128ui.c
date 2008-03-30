@@ -94,6 +94,13 @@ static ui_menu_entry_t vic_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t vic_options_submenu[] = {
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu },
+    { NULL }
+};
+
+
 UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
@@ -153,6 +160,22 @@ static ui_menu_entry_t sid_submenu[] = {
       (ui_callback_t) toggle_SidUseResid, NULL, NULL },
 #endif
     { NULL },
+};
+
+UI_MENU_DEFINE_TOGGLE(Sound)
+
+static ui_menu_entry_t sid_options_submenu[] = {
+    { N_("*Enable sound playback"),
+      (ui_callback_t) toggle_Sound, NULL, NULL },
+#ifdef HAVE_RESID
+    { N_("*Use reSID emulation"),
+      (ui_callback_t) toggle_SidUseResid, NULL, NULL },
+#endif
+    { N_("*Emulate filters"),
+      (ui_callback_t) toggle_SidFilters, NULL, NULL },
+    { N_("Chip model"),
+      NULL, NULL, sid_model_submenu },
+    { NULL }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -264,6 +287,12 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
     { "--" },
     { N_("Swap joystick ports"),
       (ui_callback_t) swap_joystick_ports, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t joystick_options_submenu[] = {
+    { N_("Swap joystick ports"),
+      (ui_callback_t) swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -385,6 +414,20 @@ static ui_menu_entry_t c128_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t c128_settings_menu[] = {
+    { N_("VIC-II settings"),
+      NULL, NULL, vic_submenu },
+    { N_("VDC settings"),
+      NULL, NULL, vdc_submenu },
+    { N_("SID settings"),
+      NULL, NULL, sid_submenu },
+    { N_("RS232 settings"),
+      NULL, NULL, rs232_submenu },
+    { N_("Memory settings"),
+      NULL, NULL, c128_romset_submenu },
+    { NULL }
+};
+
 int c128_ui_init(void)
 {
     ui_set_application_icon(icon_data);
@@ -425,7 +468,64 @@ int c128_ui_init(void)
                                      ui_settings_settings_menu,
                                      NULL));
 
-    ui_set_topmenu();
+    ui_set_topmenu("TopLevelMenu",
+		   _("File"),
+		   ui_menu_create("File",
+				  ui_smart_attach_commands_menu,
+				  ui_menu_separator,
+				  ui_disk_commands_menu,
+				  ui_menu_separator,
+				  ui_directory_commands_menu,
+				  ui_menu_separator,
+				  ui_tool_commands_menu,
+				  ui_menu_separator,
+				  ui_run_commands_menu,
+				  ui_menu_separator,
+				  ui_exit_commands_menu,
+				  NULL),
+		   _("Snapshot"),
+		   ui_menu_create("Snapshot",
+				  ui_snapshot_commands_submenu,
+				  ui_menu_separator,
+				  screenshot_submenu,
+				  NULL),
+		   _("Options"),
+		   ui_menu_create("Options",
+				  ui_performance_settings_menu,
+				  ui_menu_separator,
+#ifdef USE_VIDMODE_EXTENSION
+				  ui_fullscreen_settings_menu,
+				  ui_menu_separator,
+#endif
+				  joystick_options_submenu,
+				  ui_menu_separator,
+				  sid_options_submenu,
+				  ui_menu_separator,
+				  ui_drive_options_submenu,
+				  ui_menu_separator,
+				  vic_options_submenu,
+				  ui_menu_separator,
+				  io_extensions_submenu,
+				  NULL),
+		   _("Settings"),
+		   ui_menu_create("Settings",
+				  ui_peripheral_settings_menu,
+				  ui_drive_settings_menu,
+				  ui_keyboard_settings_menu,
+				  joystick_settings_menu,
+				  ui_sound_settings_menu,
+				  ui_menu_separator,
+				  c128_settings_menu,
+				  ui_menu_separator,
+				  ui_settings_settings_menu,
+				  NULL),
+		   /* Translators: RJ means right justify and should be
+		      saved in your tranlation! e.g. german "RJHilfe" */
+		   _("RJHelp"),
+		   ui_menu_create("Help",
+				  ui_help_commands_menu,
+				  NULL),
+		   NULL);
     ui_set_speedmenu(ui_menu_create("SpeedMenu",
 				    ui_performance_settings_menu, 
 				    NULL));

@@ -1,18 +1,25 @@
-  Commandline options
------------------------
+  Special OS/2 Commandline options
+------------------------------------
 
 -stretch <number>  Stretch PM Window by a factor of <number>
--border <number>   Display border (2=big, 1=small, else=no border<default>)
--joydev1 <number>  Set CBM-Joystick #1 to 0=none, 1=Joystick 1, 2=Joystick 2
--joydev2 <number>  Set CBM-Joystick #2 to 0=none, 1=Joystick 1, 2=Joystick 2
--joy1cal           Start Auto Calibration for Joystick#1 at startup
--joy2cal           Start Auto Calibration for Joystick#1 at startup
+-border <number>   Display border (2=big, 1=small, 
+                   else=no border<default>)
+-joydev1 <number>  Set CBM-Joystick #1 to 0=none, 1=Joystick 1, 
+                   2=Joystick 2
+-joydev2 <number>  Set CBM-Joystick #2 to 0=none, 1=Joystick 1, 
+                   2=Joystick 2
+-joy1cal           Start Auto Calibration for Joystick#1 at 
+                   startup
+-joy2cal           Start Auto Calibration for Joystick#1 at 
+                   startup
 -mouse             Support mouse
 +mouse             Don't support mouse
 -hidemouseptr      Hide OS/2 mouse pointer in Vice-Window
 +hidemouseptr      Don't hide mouse pointer
--windowpos         Use the window position which is storted in the cfg-file <DEFAULT>
-+windowpos         Let the system position the window at your PM desktop
+-windowpos         Use the window position which is storted in 
+                   the cfg-file <DEFAULT>
++windowpos         Let the system position the window at your 
+                   PM desktop
 
 
   Keys
@@ -29,38 +36,42 @@ Alt-C:   Open datasette-control-dialog
 Alt-D:   Open drive-dialog
 Alt-E:   Open emulator-dialog
 Alt-F:   Flip Drive #8 to next image of fliplist
+Alt-H:   Open hardware-dialog
 Alt-J:   Open joystick-dialog
 Alt-M:   Open monitor
+Alt-N:   Save Snapshot (setup name in the emulator dialog)
 Alt-Q:   Do hard-reset (switch machine off and on)
 Alt-R:   Do soft-reset (press reset)
 Alt-S:   Open sound-dialog
 Alt-T:   Switch true drive emulation on/off
 Alt-V:   Switch VDC-Key on/off (x128 only)
 Alt-W:   Write actual configuration to file
-Alt-PrtScr: Write screenshot to file (setup file-type and -name in the
-emulator dialog)
+Alt-PrtScr: Write screenshot to file (setup file-type and 
+            -name in the emulator dialog)
+            
 
   Additional info
 -------------------
 
  - The video cache for CRTC doesn't work yet.
- - console- and psid-mode are not implemented yet.
  - The window isn't updated anymore when vice is paused
- - You cannot start more than one vice session at the same time
 
 
   Reported bugs/problems
 --------------------------
  
- - some people reported problems with caps-lock after exiting vice
+ - some people reported problems with caps-lock after exiting 
+   vice
  - somebody had problems with cs4235 based soundcard 
    (using sound-dialog hangs OS/2)
- - somebody had problems with the attach-dialog and a Matrox g400
- - x128 hangs when closing on systems with older dive.dll (older fixpacks)
- 
+ - somebody had problems with the attach-dialog and a 
+   Matrox g400
+ - x128 hangs when closing on some systems. This seems to be a
+   problem of the graphic card driver. The use of SciTech
+   Display Doctor instead of the drivers solves the problem. It 
+   is available from the IBM Device Driver Pack
+
 
   To Do
 ---------
 
- - joystick calibration with joystick B
- 

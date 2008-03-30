@@ -1,5 +1,5 @@
 /*
- * ui_drive.cc - Joystick settings
+ * ui_drive.cc - Drive settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -70,11 +70,11 @@ struct _drive_expansion {
 	char *name;
 	char *resource_name;
 } drive_expansion[] = {
-	{"$2000-$3FFF RAM", "Drive#RAM2000" },
-	{"$4000-$5FFF RAM", "Drive#RAM4000" },
-	{"$6000-$7FFF RAM", "Drive#RAM6000" },
-	{"$8000-$9FFF RAM", "Drive#RAM8000" },
-	{"$A000-$BFFF RAM", "Drive#RAMA000" },
+	{"$2000-$3FFF RAM", "Drive%dRAM2000" },
+	{"$4000-$5FFF RAM", "Drive%dRAM4000" },
+	{"$6000-$7FFF RAM", "Drive%dRAM6000" },
+	{"$8000-$9FFF RAM", "Drive%dRAM8000" },
+	{"$A000-$BFFF RAM", "Drive%dRAMA000" },
 	{NULL, NULL }
 };
 
@@ -155,8 +155,6 @@ DriveView::DriveView(BRect r, int drive_num)
 	int current_idlemethod;
 	int current_expansion;
 	int current_parallelcable;
-	char resource_name[256];
-	char *s;
 	BMessage *msg;
 		
 	BBox *box;
@@ -165,15 +163,12 @@ DriveView::DriveView(BRect r, int drive_num)
 			
 	BView::SetViewColor(220,220,220,0);
 	
-	if (drive_num==8) {
-    	resources_get_value("Drive8Type",(resource_value_t *)&current_type);
-    	resources_get_value("Drive8ExtendImagePolicy",(resource_value_t *)&current_extendimagepolicy);
-    	resources_get_value("Drive8IdleMethod",(resource_value_t *)&current_idlemethod);
-	} else {
-    	resources_get_value("Drive9Type",(resource_value_t *)&current_type);
-    	resources_get_value("Drive9ExtendImagePolicy",(resource_value_t *)&current_extendimagepolicy);
-    	resources_get_value("Drive9IdleMethod",(resource_value_t *)&current_idlemethod);
-	}
+   	resources_get_sprintf("Drive%dType",
+   		(resource_value_t *)&current_type, drive_num);
+   	resources_get_sprintf("Drive%dExtendImagePolicy",
+   		(resource_value_t *)&current_extendimagepolicy, drive_num);
+   	resources_get_sprintf("Drive%dIdleMethod",
+   		(resource_value_t *)&current_idlemethod, drive_num);
 	
 	/* extend image policy */
 	r.OffsetTo(90,0);
@@ -217,10 +212,8 @@ DriveView::DriveView(BRect r, int drive_num)
 			msg);
 		box->AddChild(checkbox);
 		cb_expansion[i] = checkbox;
-		strcpy(resource_name, drive_expansion[i].resource_name);
-		if (s = strchr(resource_name, '#'))
-			*s = '8' + (drive_num - 8);
-    	resources_get_value(resource_name,(resource_value_t *)&current_expansion);
+    	resources_get_sprintf(drive_expansion[i].resource_name,
+    		(resource_value_t *)&current_expansion, drive_num);
 		checkbox->SetValue(current_expansion);
 	}
 	
@@ -235,8 +228,8 @@ DriveView::DriveView(BRect r, int drive_num)
 		msg);
 	AddChild(checkbox);
 	cb_parallelcable = checkbox;
-	sprintf(resource_name,"Drive%dParallelCable", drive_num);
-   	resources_get_value(resource_name,(resource_value_t *)&current_parallelcable);
+   	resources_get_sprintf("Drive%dParallelCable",
+   		(resource_value_t *)&current_parallelcable, drive_num);
    	checkbox->SetValue(current_parallelcable);
    	
 	/* idle method */
@@ -321,13 +314,17 @@ DriveWindow::DriveWindow()
 	r = tabview->Bounds();
 	r.InsetBy(5,5);
 	r.bottom -= tabview->TabHeight();
+
 	tab = new BTab();
 	tabview->AddTab(dv[0] = new DriveView(r,8), tab);
 	tab->SetLabel("Drive 8");
+
 	tab = new BTab();
 	tabview->AddTab(dv[1] = new DriveView(r,9), tab);
 	tab->SetLabel("Drive 9");
+
 	AddChild(tabview);
+	tabview->SetTabWidth(B_WIDTH_FROM_WIDEST);
 	Show();
 }
 
@@ -339,8 +336,6 @@ DriveWindow::~DriveWindow()
 void DriveWindow::MessageReceived(BMessage *msg) {
 	int32 drive_num;
 	int32 resource_index;
-	char resource_name[256];
-	char *s;
 	resource_value_t dummy;
 		
 	msg->FindInt32("drive_num", &drive_num);
@@ -348,30 +343,31 @@ void DriveWindow::MessageReceived(BMessage *msg) {
 
 	switch (msg->what) {
 		case MESSAGE_DRIVE_TYPE:
-			sprintf(resource_name, "Drive%dType", drive_num);
-			resources_set_value(resource_name,
-				(resource_value_t) drive_type[resource_index].id);
+			resources_set_sprintf("Drive%dType",
+				(resource_value_t) drive_type[resource_index].id,
+				drive_num);
 			dv[drive_num-8]->EnableControlsForDriveSettings(resource_index);
 			break;
 		case MESSAGE_DRIVE_EXTENDIMAGEPOLICY:
-			sprintf(resource_name, "Drive%dExtendImagePolicy", drive_num);
-			resources_set_value(resource_name,
-				(resource_value_t) drive_extendimagepolicy[resource_index].id);
+			resources_set_sprintf("Drive%dExtendImagePolicy",
+				(resource_value_t) drive_extendimagepolicy[resource_index].id,
+				drive_num);
 			break;
 		case MESSAGE_DRIVE_IDLEMETHOD:
-			sprintf(resource_name, "Drive%dIdleMethod", drive_num);
-			resources_set_value(resource_name,
-				(resource_value_t) drive_idlemethod[resource_index].id);
+			resources_set_sprintf("Drive%dIdleMethod",
+				(resource_value_t) drive_idlemethod[resource_index].id,
+				drive_num);
 			break;
 		case MESSAGE_DRIVE_EXPANSION:
-			strcpy(resource_name, drive_expansion[resource_index].resource_name);
-			if (s = strchr(resource_name,'#'))
-				*s = '8' + (drive_num-8);
-			resources_toggle(resource_name, &dummy);
+			resources_get_sprintf(drive_expansion[resource_index].resource_name,
+				&dummy, drive_num);
+			resources_set_sprintf(drive_expansion[resource_index].resource_name,
+				(resource_value_t) !dummy, drive_num);
 			break;
 		case MESSAGE_DRIVE_PARALLELCABLE:
-			sprintf(resource_name,"Drive%dParallelCable",drive_num);
-			resources_toggle(resource_name, &dummy);
+			resources_get_sprintf("Drive%dParallelCable", &dummy, drive_num);
+			resources_set_sprintf("Drive%dParallelCable", 
+				(resource_value_t) !dummy, drive_num);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

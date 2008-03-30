@@ -1,0 +1,315 @@
+/*
+ * ui_device.cc - Device settings
+ *
+ * Written by
+ *  Andreas Matthies <andreas.matthies@gmx.net>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+ 
+#include <Box.h>
+#include <Button.h>
+#include <CheckBox.h>
+#include <FilePanel.h>
+#include <Path.h>
+#include <RadioButton.h>
+#include <string.h>
+#include <TabView.h>
+#include <TextControl.h>
+#include <Window.h>
+
+extern "C" {
+#include "attach.h"
+#include "drive.h"
+#include "resources.h"
+#include "ui.h"
+#include "ui_device.h"
+#include "vsync.h"
+}
+
+static char *resource_p00_name[] = {
+	"FSDevice%dConvertP00",
+	"FSDevice%dSaveP00",
+	"FSDevice%dHideCBMFiles"
+};
+
+static char *p00_text[] = {
+	"Read P00 files",
+	"Write P00 files",
+	"Hide non-P00 files"
+};
+
+class DeviceView : public BView {
+	public:
+		DeviceView(BRect r, int device_num);
+		void UpdateP00(int device_num);
+		BTextControl *dirtextcontrol;
+		BCheckBox *checkboxp00[3];
+};
+
+
+DeviceView::DeviceView(BRect r, int device_num)
+	: BView(r, "device_view", B_FOLLOW_NONE, B_WILL_DRAW)
+{
+	const char *instruction_text = 
+		"Remember that these settings only work if\n"
+		"  - True Drive Emulation is disabled\n"
+		"  - Virtual Devices are enabled\n"
+		"  - no diskimage is attached";
+		 
+	BButton *button;
+	BTextView *instruction;
+	BMessage *msg;
+	BBox *box;
+    const char *disk_image, *dir;
+	int res_value,i;
+	
+	BView::SetViewColor(220,220,220,0);
+	
+    disk_image = file_system_get_disk_name(device_num);
+    resources_get_sprintf("FSDevice%dDir",
+		(resource_value_t *)&dir, device_num);
+	r.InsetBy(10,10);
+	box = new BBox(r);
+	AddChild(box);
+	
+	/* the directory related controls */
+	msg = new BMessage(MESSAGE_DEVICE_DIRECTORY);
+	msg->AddInt32("device", device_num);
+	dirtextcontrol = new BTextControl(BRect(10,10,box->Bounds().right-10,20),
+		"dir text", "Directory", dir,msg);
+	dirtextcontrol->SetDivider(60);
+	box->AddChild(dirtextcontrol);
+	
+	msg = new BMessage(MESSAGE_DEVICE_BROWSE);
+	msg->AddInt32("device", device_num);
+	button = new BButton(BRect(70,30,130,40),
+		"browsedir", "Browse", msg);
+	box->AddChild(button);
+	
+	for (i=0; i<3; i++)	{
+		msg = new BMessage(MESSAGE_DEVICE_P00);
+		msg->AddInt32("type", i);
+		msg->AddInt32("device", device_num);
+		
+		checkboxp00[i] = new BCheckBox(BRect(150,30+i*20,260,40+i*20),
+			p00_text[i], p00_text[i], msg);
+		box->AddChild(checkboxp00[i]);
+	}
+	UpdateP00(device_num);
+			
+	/* some explanations */
+	r=box->Bounds();
+	r.InsetBy(5,5);
+	r.top += 100;		
+	instruction = new BTextView(
+		r,"instructions",
+		BRect(20,5,r.Width()-20,r.Height()-5),
+		B_FOLLOW_NONE,
+		B_WILL_DRAW);
+	box->AddChild(instruction);
+	instruction->MakeEditable(false);
+	instruction->MakeSelectable(false);
+	instruction->SetViewColor(180,180,180,0);
+	instruction->SetText(instruction_text);
+}
+
+void DeviceView::UpdateP00(int device_num)
+{
+	int res_value;
+	int i;
+	
+	for (i=0; i<3; i++) {
+		resources_get_sprintf(resource_p00_name[i],
+			(resource_value_t *) &res_value, device_num);
+		checkboxp00[i]->SetValue(res_value);
+	}
+}
+
+
+class DeviceWindow : public BWindow {
+	public:
+		DeviceWindow();
+		~DeviceWindow();
+		virtual void MessageReceived(BMessage *msg);
+	private:
+		DeviceView *dv[4]; /* pointers to the Devices 8-11 */
+		BTextControl *printertextcontrol;
+};	
+
+
+static DeviceWindow *devicewindow = NULL;
+
+
+DeviceWindow::DeviceWindow() 
+	: BWindow(BRect(50,50,400,270),"Device settings",
+		B_TITLED_WINDOW, 
+		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+{
+	BRect frame, r;
+	BView *printerview;
+	BTabView *tabview;
+	BTab *tab;
+	BBox *box;
+	BCheckBox *checkbox;
+	int device_num;
+	int printer4;
+	char *printerfile;
+	char str[20];	
+
+	frame = Bounds();
+	tabview = new BTabView(frame, "tab_view");
+	tabview->SetViewColor(220,220,220,0);
+	
+	frame = tabview->Bounds();
+	frame.InsetBy(5,5);
+	frame.OffsetTo(3,3);
+	frame.bottom -= tabview->TabHeight();
+
+	/* the printer 4 device */
+	r = frame;
+	tab = new BTab();
+	tabview->AddTab(
+		printerview = new BView(r, "printerview", B_FOLLOW_NONE, B_WILL_DRAW),
+		tab);
+	tab->SetLabel("Printer 4");
+	printerview->SetViewColor(220,220,220,0);
+	
+    resources_get_value("Printer4",	(resource_value_t *) &printer4);
+    resources_get_value("PrinterFile",	(resource_value_t *) &printerfile);
+	r.InsetBy(10,10);
+	box = new BBox(r);
+	printerview->AddChild(box);
+
+	checkbox = new BCheckBox(BRect(20,20,200,30),
+			"printer4",
+			"Printer 4 enabled",
+			new BMessage(MESSAGE_DEVICE_PRINTER4));
+	checkbox->SetValue(printer4);
+	box->AddChild(checkbox);
+
+	printertextcontrol = new BTextControl(BRect(10,50,240,60),
+		"printerfile", "Output to file", printerfile,
+		new BMessage(MESSAGE_DEVICE_PRINTERFILE));
+	printertextcontrol->SetDivider(80);
+	box->AddChild(printertextcontrol);
+				
+	/* the disk devices 8-11 */
+	for (device_num=8; device_num<12; device_num++) {
+		tab = new BTab();
+		tabview->AddTab(dv[device_num-8] = 
+			new DeviceView(frame,device_num), tab);
+		sprintf(str,"Drive %d", device_num);
+		tab->SetLabel(str);
+	}
+
+
+	AddChild(tabview);
+	tabview->SetTabWidth(B_WIDTH_FROM_WIDEST);
+	Show();
+}
+
+DeviceWindow::~DeviceWindow() 
+{
+	devicewindow = NULL;	
+}
+
+void DeviceWindow::MessageReceived(BMessage *msg) {
+	int32 device_num;
+	int32 resource_index;
+	char str[256];
+	char *s;
+	resource_value_t res_val;
+	BFilePanel *filepanel;
+	BMessage *newmsg;
+		
+	msg->FindInt32("device", &device_num);
+	
+	switch (msg->what) {
+		case MESSAGE_DEVICE_PRINTER4:
+		    resources_get_value("Printer4",	(resource_value_t *) &res_val);
+		    resources_set_value("Printer4",	(resource_value_t) !res_val);
+			break;
+		case MESSAGE_DEVICE_PRINTERFILE:
+		    resources_set_value("PrinterFile",
+		  		(resource_value_t) printertextcontrol->Text());
+		  	break;
+		case MESSAGE_DEVICE_P00:
+			msg->FindInt32("type", &resource_index);
+			resources_get_sprintf(resource_p00_name[resource_index],
+				&res_val, device_num);
+			resources_set_sprintf(resource_p00_name[resource_index],
+				(resource_value_t)!res_val, device_num);
+			/* the p00-resources have side effects on each other */
+			dv[device_num-8]->UpdateP00(device_num);
+			break;
+		case MESSAGE_DEVICE_BROWSE:
+			resources_get_sprintf("FSDevice%dDir",
+				(resource_value_t *)&s, device_num);
+			filepanel = new BFilePanel(
+				B_OPEN_PANEL,
+				new BMessenger(this),
+				NULL,
+				B_DIRECTORY_NODE,
+				false);
+			sprintf(str,"Choose directory for device %d", device_num);
+			filepanel->Window()->SetTitle(str);
+			filepanel->SetPanelDirectory(s);
+			/* we have to remember the device number */
+			newmsg = new BMessage(MESSAGE_DEVICE_BROWSE_END);
+			newmsg->AddInt32("device", device_num);
+			filepanel->SetMessage(newmsg);
+			delete newmsg;
+			filepanel->Show();
+			break;
+		case MESSAGE_DEVICE_BROWSE_END:
+		{
+			entry_ref 	ref;
+			BPath		*path;
+
+			msg->FindRef("refs", 0, &ref);
+			path = new BPath(&ref);
+	
+			resources_set_sprintf("FSDevice%dDir",
+				(resource_value_t) path->Path(), device_num);
+			dv[device_num-8]->dirtextcontrol->SetText(path->Path());
+			break;
+		}
+		case MESSAGE_DEVICE_DIRECTORY:
+			resources_set_sprintf("FSDevice%dDir",
+				(resource_value_t) dv[device_num-8]->dirtextcontrol->Text(),
+				device_num);
+			break;
+		default:
+			BWindow::MessageReceived(msg);
+	}
+}
+
+void ui_device() {
+	
+	if (devicewindow != NULL)
+		return;
+
+	devicewindow = new DeviceWindow;
+
+	suspend_speed_eval();
+	while (devicewindow); /* wait until window closed */
+}
+

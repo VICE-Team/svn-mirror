@@ -43,7 +43,11 @@ extern const char machine_name[];
 
 extern int machine_class;
 extern int vsid_mode;
-extern int console_mode;
+extern
+#ifdef OS2
+    const
+#endif
+int console_mode;
 
 /* Initialize the machine's resources.  */
 extern int machine_init_resources(void);

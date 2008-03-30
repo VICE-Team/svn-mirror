@@ -116,9 +116,8 @@ int print_putc(int fi, BYTE b)
   if (fd[fi] == NULL) return -1;
   fputc(b, fd[fi]);
 
-  /* BeOS-compatible lineend?? FIXME */
-//  if (b==13)
-//      fputc(10, fd[fi]);
+  if (b==13)
+      fputc(10, fd[fi]);
 
   return 0;
 }

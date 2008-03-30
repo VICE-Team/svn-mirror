@@ -205,6 +205,20 @@ int video_init(void) // initialize Dive
     divesetup.fccDstColorFormat = FOURCC_SCRN;
     divesetup.pVisDstRects      = xcalloc(DIVE_RECTLS, sizeof(RECTL));
 
+    //
+    // this is a dummy setup. It is needed for some graphic
+    // drivers that they get valid values for the first time we
+    // setup the dive blitter regions
+    //
+    divesetup.ulSrcWidth  = 1;
+    divesetup.ulSrcHeight = 1;
+    divesetup.ulSrcPosX   = 0;
+    divesetup.ulSrcPosY   = 0;
+    divesetup.ulDstWidth  = 1;
+    divesetup.ulDstHeight = 1;
+    divesetup.lDstPosX    = 0;
+    divesetup.lDstPosY    = 0;
+
     // FIXME
     // Is this the right place to initialize the keyboard semaphore?
     //
@@ -563,7 +577,7 @@ void PM_mainloop(VOID *arg)
     WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
     WinSetVisibleRegionNotify(c->hwndClient, TRUE);
-    c->vrenabled = TRUE;
+    WinSendMsg(c->hwndClient, WM_VRNENABLED, 0, 0); //c->vrenabled = TRUE;
 
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
         log_debug("video.c: Error DosSetPriority (rc=%li)", rc);
@@ -772,21 +786,26 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
             *2
 #endif
             ;
-        divesetup.ulDstHeight = h *stretch;
+        divesetup.ulDstHeight = h*stretch;
         divesetup.lDstPosX    = xi*stretch
 #if defined __XVIC__
             *2
 #endif
             ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
+
         //
         // now setup the draw areas
+        // (all other values are set already by WM_VRNENABLED)
         //
-        wmVrn(c->hwndClient);
+        // FIXME: maybe this should only be done when
+        //        video cache is enabled
+        DiveSetupBlitter(hDiveInst, &divesetup);
+
         //
         // and blit the image to the screen
         //
-        DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image
+        DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN);
     }
     DosReleaseMutexSem(hmtx);
 };

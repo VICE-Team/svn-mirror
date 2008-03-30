@@ -34,10 +34,9 @@
 int toggle(const char *resource_name)
 {
     int val;
-    if (resources_get_value(resource_name, (resource_value_t *) &val) <0)
+    if (resources_toggle(resource_name, (resource_value_t*)&val)<0)
         return -1;
-    resources_set_value(resource_name, (resource_value_t)   !val);
-    return !val;
+    return val;
 }
 
 static int dlg_open = FALSE;
