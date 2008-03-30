@@ -1753,8 +1753,9 @@ void mon_print_symbol_table(MEMSPACE mem)
 
 void mon_instructions_step(int count)
 {
-   fprintf(mon_output, "Stepping through the next %d instruction(s).\n",
-          (count>=0)?count:1);
+   if (count >= 0)
+       fprintf(mon_output, "Stepping through the next %d instruction(s).\n",
+               count);
    instruction_count = (count>=0)?count:1;
    wait_for_return_level = 0;
    skip_jsrs = FALSE;
@@ -1766,8 +1767,9 @@ void mon_instructions_step(int count)
 
 void mon_instructions_next(int count)
 {
-   fprintf(mon_output, "Nexting through the next %d instruction(s).\n",
-          (count>=0)?count:1);
+   if (count >= 0)
+       fprintf(mon_output, "Nexting through the next %d instruction(s).\n",
+               count);
    instruction_count = (count>=0)?count:1;
    wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
    skip_jsrs = TRUE;
@@ -1996,14 +1998,11 @@ void mon_switch_checkpoint(int op, int breakpt_num)
    bp = find_checkpoint(breakpt_num);
 
    if (!bp)
-   {
       fprintf(mon_output,"#%d not a valid breakpoint\n",breakpt_num);
-   }
    else
-   {
       bp->enabled = op;
-      fprintf(mon_output, "Set breakpoint #%d to state:%s\n",breakpt_num, (op==e_ON)?"enable":"disable");
-   }
+      fprintf(mon_output, "Set breakpoint #%d to state: %s\n",
+              breakpt_num, (op == e_ON) ? "enabled" : "disabled");
 }
 
 void mon_set_ignore_count(int breakpt_num, int count)
@@ -2120,9 +2119,11 @@ void mon_delete_checkpoint(int brknum)
       }
    }
 
-   delete_conditional(bp->condition);
-   if (bp->command)
-      free(bp->command);
+   if (bp != NULL) {
+      delete_conditional(bp->condition);
+      if (bp->command)
+         free(bp->command);
+   }
 }
 
 void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
@@ -2347,8 +2348,6 @@ void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
    if (inside_monitor)
       return;
 
-   assert(watch_load_count[mem] < 10);
-
    watch_load_occurred = TRUE;
    watch_load_array[watch_load_count[mem]][mem] = addr;
    watch_load_count[mem]++;
@@ -2358,8 +2357,6 @@ void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
 {
    if (inside_monitor)
       return;
-
-   assert(watch_store_count[mem] < 10);
 
    watch_store_occurred = TRUE;
    watch_store_array[watch_store_count[mem]][mem] = addr;
@@ -2432,7 +2429,10 @@ void mon_check_icount(ADDRESS a)
            wait_for_return_level--;
 
         if (!instruction_count) {
-           mon_mask[caller_space] &= ~MI_STEP;
+           if (mon_mask[caller_space] & MI_STEP) {
+              mon_mask[caller_space] &= ~MI_STEP;
+              disassemble_instr(new_addr(caller_space, a));
+           }
            if (!mon_mask[caller_space])
               monitor_trap_off(mon_interfaces[caller_space]->int_status);
 
