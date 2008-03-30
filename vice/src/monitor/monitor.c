@@ -372,7 +372,7 @@ bool check_drive_emu_level_ok(int drive_num)
    return TRUE;
 }
 
-void mon_cpu_type(const char *cpu_type)
+void monitor_cpu_type_set(const char *cpu_type)
 {
     CPU_TYPE_t serchcpu;
     monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;

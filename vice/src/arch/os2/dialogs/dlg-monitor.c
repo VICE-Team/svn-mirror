@@ -625,11 +625,11 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             return FALSE;
 /*
         case IDM_CPU6502:
-            mon_cpu_type("6502");
+            monitor_cpu_type_set("6502");
             WinSendMsg(hwnd, WM_UPDATE, 0, 0);
             return FALSE;
         case IDM_CPUZ80:
-            mon_cpu_type("Z80");
+            monitor_cpu_type_set("Z80");
             WinSendMsg(hwnd, WM_UPDATE, 0, 0);
             return FALSE;
             */
