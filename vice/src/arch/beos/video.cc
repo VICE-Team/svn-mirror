@@ -43,6 +43,7 @@ extern "C" {
 #include "uiapi.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 }
 
 /* #define DEBUG_VIDEO */
@@ -128,7 +129,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 
 canvas_t *canvas_create(const char *title, unsigned int *width,
                         unsigned int *height, int mapped,
-                        canvas_redraw_t exposure_handler,
+                        void_t exposure_handler,
                         const palette_t *palette, PIXEL *pixel_return)
 {
     canvas_t *new_canvas;
@@ -145,7 +146,7 @@ canvas_t *canvas_create(const char *title, unsigned int *width,
     new_canvas->height = *height;
     new_canvas->palette = palette; 
     
-    new_canvas->exposure_handler = exposure_handler;
+    new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
 	
 	new_canvas->vicewindow = 
 		new ViceWindow(BRect(0,0,*width-1,*height-1),title);

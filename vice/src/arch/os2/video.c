@@ -65,6 +65,7 @@
 #include "resources.h"
 #include "screenshot.h"  // screenshot_t
 #include "snippets\pmwin2.h"
+#include "videoarch.h"
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -1164,7 +1165,7 @@ void PM_mainloop(VOID *arg)
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
 canvas_t *canvas_create(const char *title, UINT *width,
-                        UINT *height, int mapped, canvas_redraw_t exposure_handler,
+                        UINT *height, int mapped, void_t exposure_handler,
                         const palette_t *palette, PIXEL *pixel_return)
 {
     canvas_t *canvas_new;
@@ -1182,7 +1183,7 @@ canvas_t *canvas_create(const char *title, UINT *width,
     canvas_new->height           = *height;
     canvas_new->stretch          =  stretch;
     canvas_new->palette          =  0;
-    canvas_new->exposure_handler =  exposure_handler;
+    canvas_new->exposure_handler =  (canvas_redraw_t)exposure_handler;
     canvas_new->vrenabled        =  FALSE;
 
     if (vsid_mode)

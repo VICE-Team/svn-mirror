@@ -41,6 +41,7 @@
 #include "types.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 
 static void update_pixel_tables (raster_t *raster);
 static int realize_canvas (raster_t *raster);
@@ -207,17 +208,17 @@ static int realize_canvas (raster_t *raster)
 
   if (viewport->canvas == NULL)
     {
-      viewport->canvas = canvas_create (viewport->title,
-                                        &viewport->width,
-                                        &viewport->height,
-                                        1,
-                                        (canvas_redraw_t)(raster->viewport.exposure_handler),
-                                        raster->palette,
-                                        raster->pixel_table.sing
+      viewport->canvas = canvas_create(viewport->title,
+                                       &viewport->width,
+                                       &viewport->height,
+                                       1,
+                                       (void_t)(raster->viewport.exposure_handler),
+                                       raster->palette,
+                                       raster->pixel_table.sing
 #ifdef USE_GNOMEUI
-					,raster->frame_buffer
+                                       ,raster->frame_buffer
 #endif
-					);
+                                       );
 
       if (viewport->canvas == NULL)
         return -1;
@@ -286,7 +287,7 @@ static int realize_frame_buffer (raster_t *raster)
 static void perform_mode_change(raster_t *raster)
 {
   raster_viewport_t *viewport;
-  canvas_t *canvas;
+  struct canvas_s *canvas;
 #ifdef RECALC_FRAME_BUFFER
   PIXEL old_colours[256];
   PIXEL colour_map[256];

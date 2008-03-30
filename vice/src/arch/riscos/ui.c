@@ -3028,7 +3028,7 @@ void ui_toggle_sid_emulation(void)
 static void ui_redraw_window(int *b)
 {
   int more;
-  canvas_t *canvas;
+  struct canvas_s *canvas;
 
   if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
@@ -3128,7 +3128,7 @@ static void ui_close_window(int *b)
 static void ui_set_emu_window_size(RO_Window *win)
 {
   int dx, dy;
-  canvas_t *canvas;
+  struct canvas_s *canvas;
 
   UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
 
@@ -3276,7 +3276,7 @@ static void ui_mouse_click_pane(int *b)
       case Icon_Pane_Toggle:
         {
           RO_Window *win;
-          canvas_t *canvas;
+          struct canvas_s *canvas;
           int block[WindowB_WFlags+1];
           int dx, dy;
 
@@ -3359,7 +3359,7 @@ static void ui_mouse_click_vsid(int *b)
 
 static void ui_mouse_click_canvas(int *b)
 {
-  canvas_t *canvas;
+  struct canvas_s *canvas;
 
   canvas = canvas_for_handle(b[MouseB_Window]);
 
@@ -4798,7 +4798,7 @@ static void ui_user_msg_mode_change(int *b)
 
 static void ui_user_msg_data_load(int *b)
 {
-  canvas_t *canvas;
+  struct canvas_s *canvas;
   int i;
   int action=0;
   char *name = ((char*)b)+44;
@@ -5011,7 +5011,7 @@ static void ui_user_msg_data_load(int *b)
 
 static void ui_user_msg_data_save(int *b)
 {
-  canvas_t *canvas;
+  struct canvas_s *canvas;
   int action=0;
   char *name = ((char*)b)+44;
 
@@ -5077,7 +5077,7 @@ static void ui_user_msg_data_save_ack(int *b)
           break;
         case SBOX_TYPE_SCRSHOT:
           {
-            canvas_t *canvas = canvas_for_handle(LastHandle);
+            struct canvas_s *canvas = canvas_for_handle(LastHandle);
             if (screenshot_canvas_save("Sprite", name, canvas) == 0)
             {
               wimp_strcpy(ViceScreenshotFile, name);

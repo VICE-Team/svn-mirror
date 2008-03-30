@@ -45,6 +45,7 @@
 #include "uicolor.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 
 extern int screen;
 extern GdkColormap *colormap;

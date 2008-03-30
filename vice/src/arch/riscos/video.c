@@ -34,6 +34,7 @@
 #include "types.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 #include "vsync.h"
 #include "ui.h"
 
@@ -298,7 +299,7 @@ int canvas_set_palette(canvas_t *canvas, const palette_t *palette, PIXEL *pixel_
 }
 
 
-canvas_t *canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, canvas_redraw_t exposure_handler, const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette, PIXEL *pixel_return)
 {
   canvas_t *canvas;
   canvas_list_t *newCanvas;
