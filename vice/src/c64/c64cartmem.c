@@ -33,8 +33,10 @@
 
 #include "c64cart.h"
 #include "c64mem.h"
+#include "c64tpi.h"
 #include "cartridge.h"
 #include "interrupt.h"
+#include "log.h"
 
 /* Expansion port signals.  */
 export_t export;
@@ -172,7 +174,9 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         }
         break;
       case CARTRIDGE_KCS_POWER:
-            return export_ram0[0x1f00 + (addr & 0xff)];
+        return export_ram0[0x1f00 + (addr & 0xff)];
+      case CARTRIDGE_IEEE488:
+        return read_tpi(addr & 0x07);
     }
     return rand();
 }
@@ -242,6 +246,9 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
             export.game = export.exrom = 0;
         pla_config_changed();
         break;
+      case CARTRIDGE_IEEE488:
+        store_tpi(addr & 0x07, value);
+        break;
     }
     return;
 }
@@ -308,6 +315,10 @@ void cartridge_init_config(void)
         cartridge_config_changed(1);
         store_io1((ADDRESS) 0xde00, 0);
         break;
+      case CARTRIDGE_IEEE488:
+        cartridge_config_changed(0);
+        /* FIXME: Insert interface init here.  */
+        break;
     }
 }
 
@@ -317,6 +328,7 @@ void cartridge_attach(int type, BYTE *rawcart)
     roml_bank = romh_bank = 0;
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
+      case CARTRIDGE_IEEE488:
         memcpy(roml_banks, rawcart, 0x2000);
         cartridge_config_changed(0);
         break;
@@ -384,6 +396,11 @@ void cartridge_attach(int type, BYTE *rawcart)
 
 void cartridge_detach(int type)
 {
+    switch (type) {
+      case CARTRIDGE_IEEE488:
+      /* FIXME: Insert interface removal here.  */
+      break;
+    }
     cartridge_config_changed(6);
     mem_cartridge_type = CARTRIDGE_NONE;
     return;
