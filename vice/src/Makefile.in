@@ -671,10 +671,10 @@ utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	log.h maincpu.h machine.h resources.h sound.h vsync.h \
-	vsyncapi.h arch/unix/videoarch.h \
-	arch/unix/x11/gnome/videoarch.h \
-	arch/unix/x11/gnome/../videoarch.h video.h viewport.h \
-	arch/unix/x11/gnome/../gnome/uiarch.h arch/unix/ui.h uiapi.h
+	vsyncapi.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
+	arch/unix/x11/xaw/../videoarch.h video.h viewport.h \
+	arch/unix/x11/xaw/../xaw/uiarch.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

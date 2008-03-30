@@ -269,10 +269,11 @@ video-canvas.o: video-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/utils.h video-render.h \
 	../../src/video.h ../../src/viewport.h \
 	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/gnome/videoarch.h \
-	../../src/arch/unix/x11/gnome/../videoarch.h \
-	../../src/arch/unix/x11/gnome/../gnome/uiarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-cmdline-options.o: video-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/utils.h \
 	../../src/arch/unix/types.h ../../src/video.h \
@@ -290,17 +291,19 @@ video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h video-resources.h video-color.h \
 	../../src/video.h ../../src/viewport.h \
 	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/gnome/videoarch.h \
-	../../src/arch/unix/x11/gnome/../videoarch.h \
-	../../src/arch/unix/x11/gnome/../gnome/uiarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-viewport.o: video-viewport.c ../../src/vice.h ../../src/config.h \
 	../../src/video.h ../../src/arch/unix/types.h \
 	../../src/viewport.h ../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/gnome/videoarch.h \
-	../../src/arch/unix/x11/gnome/../videoarch.h \
-	../../src/arch/unix/x11/gnome/../gnome/uiarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:
 info: info-am

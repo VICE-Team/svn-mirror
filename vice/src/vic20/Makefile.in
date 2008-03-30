@@ -312,10 +312,11 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h vic20.h \
 	../../src/video.h vic20mem.h ../../src/vsync.h \
 	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/gnome/videoarch.h \
-	../../src/arch/unix/x11/gnome/../videoarch.h \
-	../../src/arch/unix/x11/gnome/../gnome/uiarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/cmdline.h \
 	../../src/machine.h ../../src/resources.h ../../src/utils.h \
