@@ -124,42 +124,42 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     }
     else
     {
-	const char * path = syspath;
-	const char * s;
-	size_t cl = strlen(cmd) + 1;
+        const char * path = syspath;
+        const char * s;
+        size_t cl = strlen(cmd) + 1;
 
-	for (s = path; s; path = s + 1)
-	{
-	    char * p;
-	    int l;
+        for (s = path; s; path = s + 1)
+        {
+            char * p;
+            int l;
 
-	    s = strchr(path, FINDPATH_SEPARATOR_CHAR);
-	    l = s? (s - path): strlen(path);
+            s = strchr(path, FINDPATH_SEPARATOR_CHAR);
+            l = s? (s - path): strlen(path);
 
-	    if (l + cl > sizeof buf - 5)
-		continue;
+            if (l + cl > sizeof buf - 5)
+                continue;
 
-	    memcpy(buf + 1, path, l);
+            memcpy(buf + 1, path, l);
 
-	    p = buf + l;  /* buf + 1 + l - 1 */
+            p = buf + l;  /* buf + 1 + l - 1 */
 
-	    if (*p++ != '/')
-		*p++ = '/';
+            if (*p++ != '/')
+                *p++ = '/';
 
-	    memcpy(p, cmd, cl);
+            memcpy(p, cmd, cl);
 
-	    for(c= buf + 1; *c !='\0'; c++)
+            for(c= buf + 1; *c !='\0'; c++)
 #if defined (__MSDOS__) || defined (WIN32) || defined (__OS2__)
-	        if(*c=='/') *c='\\';
+                if(*c=='/') *c='\\';
 #else
-	        if(*c=='\\') *c='/';
+                if(*c=='\\') *c='/';
 #endif
-	    if (access(buf + 1, mode) == 0)
-	    {
-		pd = p /* + cl*/ ;
-		break;
-	    }
-	}
+            if (access(buf + 1, mode) == 0)
+            {
+                pd = p /* + cl*/ ;
+                break;
+            }
+        }
     }
 
 
@@ -167,14 +167,14 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     {
 #if 0
         do pd--;
-	while (*pd != '/'); /* there is at least one '/' */
+        while (*pd != '/'); /* there is at least one '/' */
 
-	if (*(pd - 1) == '\0')
-	    pd++;
-	*pd = '\0';
+        if (*(pd - 1) == '\0')
+            pd++;
+        *pd = '\0';
 #endif
 
-	return stralloc(buf + 1);
+        return stralloc(buf + 1);
     }
  fail:
     return NULL;

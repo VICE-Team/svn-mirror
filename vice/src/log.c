@@ -134,7 +134,8 @@ int log_open(const char *id)
                 logs = (char**)xmalloc(sizeof(*logs) * num_allocated_logs);
             } else {
                 num_allocated_logs *= 2;
-                logs = (char**)xrealloc(logs, sizeof(*logs) * num_allocated_logs);
+                logs = (char**)xrealloc(logs,
+                                        sizeof(*logs) * num_allocated_logs);
             }
         }
     }
@@ -197,7 +198,7 @@ static int log_helper(log_t log, unsigned int level,
     };
 
     if (log_file == NULL)
-	return log_archdep(level_strings[level], format, ap);
+        return log_archdep(level_strings[level], format, ap);
 
     if (log == LOG_ERR
         || (log != LOG_DEFAULT && logs[(unsigned int) log] == NULL)
@@ -249,3 +250,4 @@ int log_debug(const char *format, ...)
     va_start(ap, format);
     return log_helper(LOG_DEFAULT, 0, format, ap);
 }
+

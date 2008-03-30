@@ -36,14 +36,14 @@
 #ifdef FIXPOINT_ARITHMETIC
 
 #ifdef INLINE_FIXPOINT_FUNCTIONS
-#define FUNC_INLINE_STATEMENT	static inline
+#define FUNC_INLINE_STATEMENT   static inline
 #else
 #define FUNC_INLINE_STATEMENT
 #endif
 
 /* Only make the function(s) visible if no inlining or inlining _and_ we're
  *  not compiling fixpoint.c */
-#if (!defined(INLINE_FIXPOINT_FUNCTIONS) || (defined(INLINE_FIXPOINT_FUNCTIONS) && defined(FIXPOINT_FROM_HEADER)))
+#if (!defined(INLINE_FIXPOINT_FUNCTIONS) || (defined(INLINE_FIXPOINT_FUNCTIONS) && defined(FIXPOINT_FROM_HEADER))) 
 
 FUNC_INLINE_STATEMENT vreal_t fixpoint_mult(vreal_t x, vreal_t y)
 {
@@ -77,3 +77,4 @@ FUNC_INLINE_STATEMENT soundclk_t soundclk_mult(soundclk_t a, soundclk_t b)
 #endif
 
 #endif
+

@@ -1,9 +1,10 @@
 /*
- * interrupt.h - Implementation of 6510 interrupts and alarms.
+ * interrupt.c - Implementation of CPU interrupts and alarms.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -77,21 +78,21 @@ void interrupt_cpu_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
         cs->nmi_clk += warp_amount;
         cs->last_stolen_cycles_clk += warp_amount;
     } else {
-	if (cs->irq_clk > warp_amount) {
+        if (cs->irq_clk > warp_amount) {
             cs->irq_clk -= warp_amount;
-	} else {
+        } else {
             cs->irq_clk = (CLOCK) 0;
-	}
-	if (cs->nmi_clk > warp_amount) {
+        }
+        if (cs->nmi_clk > warp_amount) {
             cs->nmi_clk -= warp_amount;
-	} else {
+        } else {
             cs->nmi_clk = (CLOCK) 0;
-	}
+        }
         if (cs->last_stolen_cycles_clk > warp_amount) {
             cs->last_stolen_cycles_clk -= warp_amount;
         } else {
             cs->last_stolen_cycles_clk = (CLOCK) 0;
-	}
+        }
     }
 }
 
@@ -116,40 +117,40 @@ void interrupt_log_wrong_nnmi(void)
 void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
 {
     if (value) {
-	if (!(cs->pending_int[int_num] & IK_IRQ)) {
-	    cs->nirq++;
-	    cs->global_pending_int |= IK_IRQ;
-	    cs->pending_int[int_num] |= IK_IRQ;
-	}
+        if (!(cs->pending_int[int_num] & IK_IRQ)) {
+            cs->nirq++;
+            cs->global_pending_int |= IK_IRQ;
+            cs->pending_int[int_num] |= IK_IRQ;
+        }
     } else {
-	if (cs->pending_int[int_num] & IK_IRQ) {
-	    if (cs->nirq > 0) {
-		cs->pending_int[int_num] &= ~IK_IRQ;
- 		if (--cs->nirq == 0)
-		    cs->global_pending_int &= ~IK_IRQ;
-	    }
-	}
+        if (cs->pending_int[int_num] & IK_IRQ) {
+            if (cs->nirq > 0) {
+                cs->pending_int[int_num] &= ~IK_IRQ;
+                if (--cs->nirq == 0)
+                    cs->global_pending_int &= ~IK_IRQ;
+            }
+        }
     }
 }
 
 void interrupt_set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
 {
     if (value) {
-	if (!(cs->pending_int[int_num] & IK_NMI)) {
-	    if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI))
-		cs->global_pending_int |= IK_NMI;
-	    cs->nnmi++;
-	    cs->pending_int[int_num] |= IK_NMI;
-	}
+        if (!(cs->pending_int[int_num] & IK_NMI)) {
+            if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI))
+                cs->global_pending_int |= IK_NMI;
+            cs->nnmi++;
+            cs->pending_int[int_num] |= IK_NMI;
+        }
     } else {
-	if (cs->pending_int[int_num] & IK_NMI) {
-	    if (cs->nnmi > 0) {
-		cs->nnmi--;
-		cs->pending_int[int_num] &= ~IK_NMI;
-		if (clk == cs->nmi_clk)
-		    cs->global_pending_int &= ~IK_NMI;
-	    }
-	}
+        if (cs->pending_int[int_num] & IK_NMI) {
+            if (cs->nnmi > 0) {
+                cs->nnmi--;
+                cs->pending_int[int_num] &= ~IK_NMI;
+                if (clk == cs->nmi_clk)
+                    cs->global_pending_int &= ~IK_NMI;
+            }
+        }
     }
 }
 
@@ -196,8 +197,8 @@ void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_RESET;
 
-	if (cs->reset_trap_func)
-		cs->reset_trap_func();
+        if (cs->reset_trap_func)
+                cs->reset_trap_func();
 }
 
 /* Acknowledge a RESET condition, by removing it.  */
@@ -254,7 +255,7 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     DWORD dw;
 
     for (i = 0; i < cs->num_ints; i++)
-	cs->pending_int[i] = IK_NONE;
+        cs->pending_int[i] = IK_NONE;
     cs->global_pending_int = IK_NONE;
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
 
@@ -272,3 +273,4 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 
     return 0;
 }
+

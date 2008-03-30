@@ -41,5 +41,5 @@ extern void romset_clear_archive(void);
 extern int romset_get_number(void);
 extern char *romset_get_item(int number);
 
-#endif				/* _ROMSET_H */
+#endif /* _ROMSET_H */
 
