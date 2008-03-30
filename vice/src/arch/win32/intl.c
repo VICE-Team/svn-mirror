@@ -490,7 +490,7 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_MMC64_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_MMC64_SETTINGS_DIALOG_FR,    /* fuzzy, size */
 /* hu */  IDD_MMC64_SETTINGS_DIALOG_HU,    /* size */
-/* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_MMC64_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_MMC64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_MMC64_SETTINGS_DIALOG_SV},   /* fuzzy, size */
@@ -760,17 +760,17 @@ static int intl_table[][countof(language_table)] = {
 /* de */  IDD_SIDCART_SETTINGS_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_SIDCART_SETTINGS_DIALOG_FR,    /* fuzzy, size */
 /* hu */  IDD_SIDCART_SETTINGS_DIALOG_HU,    /* size */
-/* it */  IDD_SIDCART_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_SIDCART_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_SIDCART_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
 /* res.rc */
 /* en */ {IDD_SOUND_RECORD_SETTINGS_DIALOG,
-/* de */  IDD_SOUND_RECORD_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* de */  IDD_SOUND_RECORD_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_SOUND_RECORD_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* hu */  IDD_SOUND_RECORD_SETTINGS_DIALOG_HU,    /* fuzzy, size */
-/* it */  IDD_SOUND_RECORD_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* hu */  IDD_SOUND_RECORD_SETTINGS_DIALOG_HU,    /* size */
+/* it */  IDD_SOUND_RECORD_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_SOUND_RECORD_SETTINGS_DIALOG_SV},   /* fuzzy, size */
@@ -2776,8 +2776,8 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_SOUND_RECORDING_STARTED,
 /* de */  IDS_SOUND_RECORDING_STARTED_DE,    /* fuzzy */
 /* fr */  IDS_SOUND_RECORDING_STARTED_FR,    /* fuzzy */
-/* hu */  IDS_SOUND_RECORDING_STARTED_HU,    /* fuzzy */
-/* it */  IDS_SOUND_RECORDING_STARTED_IT,    /* fuzzy */
+/* hu */  IDS_SOUND_RECORDING_STARTED_HU,
+/* it */  IDS_SOUND_RECORDING_STARTED_IT,
 /* nl */  IDS_SOUND_RECORDING_STARTED_NL,
 /* pl */  IDS_SOUND_RECORDING_STARTED_PL,    /* fuzzy */
 /* sv */  IDS_SOUND_RECORDING_STARTED_SV},   /* fuzzy */
@@ -2786,8 +2786,8 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_SOUND_RECORDING_STOPPED,
 /* de */  IDS_SOUND_RECORDING_STOPPED_DE,    /* fuzzy */
 /* fr */  IDS_SOUND_RECORDING_STOPPED_FR,    /* fuzzy */
-/* hu */  IDS_SOUND_RECORDING_STOPPED_HU,    /* fuzzy */
-/* it */  IDS_SOUND_RECORDING_STOPPED_IT,    /* fuzzy */
+/* hu */  IDS_SOUND_RECORDING_STOPPED_HU,
+/* it */  IDS_SOUND_RECORDING_STOPPED_IT,
 /* nl */  IDS_SOUND_RECORDING_STOPPED_NL,
 /* pl */  IDS_SOUND_RECORDING_STOPPED_PL,    /* fuzzy */
 /* sv */  IDS_SOUND_RECORDING_STOPPED_SV},   /* fuzzy */

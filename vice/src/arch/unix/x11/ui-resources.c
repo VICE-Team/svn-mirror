@@ -42,6 +42,8 @@ struct ui_resources_s {
     int save_resources_on_exit;
     int confirm_on_exit;
     int depth;
+    int window_width;
+    int window_height;
 };
 typedef struct ui_resources_s ui_resources_t;
 
@@ -58,6 +60,26 @@ static int set_depth(int d, void *param)
         return -1;
 
     ui_resources.depth = d;
+    return 0;
+}
+
+static int set_width(int d, void *param)
+{
+    /* Minimal sanity check.  */
+    if (d < 0)
+        return -1;
+
+    ui_resources.window_width = d;
+    return 0;
+}
+
+static int set_height(int d, void *param)
+{
+    /* Minimal sanity check.  */
+    if (d < 0)
+        return -1;
+
+    ui_resources.window_height = d;
     return 0;
 }
 
@@ -107,6 +129,10 @@ static const resource_int_t resources_int[] = {
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &ui_resources.depth, set_depth, NULL },
+    { "WindowWidth", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window_width, set_width, NULL },
+    { "WindowHeight", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window_height, set_height, NULL },
     { NULL }
 };
 

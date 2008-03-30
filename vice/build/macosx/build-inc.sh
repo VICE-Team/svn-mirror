@@ -64,10 +64,18 @@ configure_make_install () {
   else
     
     # check for source archive
-    if [ ! -e "$SRC" ]; then
-      echo "FATAL: source archive '$SRC' missing in curent directory!"
-      echo "       please download first (from e.g. $URL)"
-      exit 1
+    if [ "x$SRC" = "x" ]; then
+      if [ ! -d "$DIR" ]; then
+        echo "FATAL: source dir '$DIR' is missing!"
+        echo "       please setup first (from e.g. $URL)"
+        exit 1
+      fi
+    else
+      if [ ! -e "$SRC" ]; then
+        echo "FATAL: source archive '$SRC' missing in curent directory!"
+        echo "       please download first (from e.g. $URL)"
+        exit 1
+      fi
     fi
     
     # check if source is already unpacked
@@ -104,12 +112,13 @@ configure_make_install () {
     
     # build
     echo "  configure options: $CONFIG_OPT"
-    (cd "$BUILD_DIR" && ../$DIR/configure --prefix="$INSTALL_DIR" $CONFIG_OPT $EXTRA_OPT)
+    (cd "$BUILD_DIR" && eval "../$DIR/configure --prefix=\"$INSTALL_DIR\" $CONFIG_OPT $EXTRA_OPT")
     (cd "$BUILD_DIR" && make)
     if [ "$?" != "0" ]; then
       echo "FATAL: make failed!"
       exit 1
     fi
+    echo "make $INSTALL"
     (cd "$BUILD_DIR" && make $INSTALL)
     
     # check for lib
@@ -122,7 +131,9 @@ configure_make_install () {
     if [ "$COMPILE_IN_SOURCE" = "" ]; then
       rm -rf BUILD
     fi
-    rm -rf "$DIR"
+    if [ "x$SRC" != "x" ]; then
+      rm -rf "$DIR"
+    fi
     
     echo "----- ready with $2 -----" 
   fi

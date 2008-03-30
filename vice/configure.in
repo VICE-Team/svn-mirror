@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=23
+VICE_VERSION_BUILD=24
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1155,14 +1155,9 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
 fi
 fi
 
-case "$host_os" in
-  solaris* | beos*)
-    LIBS="$LIBS $SOUND_LIBS"
-    SOUND_LIBS=""
-    ;;
-  *)
-    ;;
-esac
+dnl all libs in SOUND_LIBS are external libs and need to be moved to LIBS
+LIBS="$LIBS $SOUND_LIBS"
+SOUND_LIBS=""
 
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)

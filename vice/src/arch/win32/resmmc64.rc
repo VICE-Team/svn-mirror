@@ -139,23 +139,23 @@ IDD_MMC64_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
+    AUTOCHECKBOX    "&Attiva MMC64", IDC_MMC64_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "BIOS Revision",
+    LTEXT           "Revisione BIOS",
                     IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
+    AUTOCHECKBOX    "Attiva il &Flash Jumper del BIOS", IDC_MMC64_FLASHJUMPER,
                     7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Save BIOS when changed", IDC_MMC64_BIOS_SAVE,
+    AUTOCHECKBOX    "&Salva il BIOS al cambio", IDC_MMC64_BIOS_SAVE,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS File",
+    LTEXT           "File del &BIOS",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
     PUSHBUTTON      "Sfoglia...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
+    AUTOCHECKBOX    "Immagine MMC/SD in sola lettura", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image File",
+    LTEXT           "File &immagine MMC/SD",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
     PUSHBUTTON      "Sfoglia...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP

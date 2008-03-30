@@ -935,8 +935,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Hang felvétele...", IDM_SOUND_RECORD_START
+        MENUITEM "Hangfelvétel leállítása", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opciók"
     BEGIN
@@ -1025,7 +1025,7 @@ BEGIN
             MENUITEM "&GEORAM beállításai...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART beállításai...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 beállításai...",    IDM_MMC64_SETTINGS
-            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
+            MENUITEM "&DIGIMAX beállításai...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 beállításai...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet beállításai...", IDM_TFE_SETTINGS
@@ -1198,8 +1198,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Registra audio...", IDM_SOUND_RECORD_START
+        MENUITEM "Interrompi la registrazione audio", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opzioni"
     BEGIN
@@ -1287,8 +1287,8 @@ BEGIN
             MENUITEM "Impostazioni &REU...",      IDM_REU_SETTINGS
             MENUITEM "Impostazioni &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Impostazioni &RAMCART...",      IDM_RAMCART_SETTINGS
-            MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
-            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
+            MENUITEM "Impostazioni &MMC64...",    IDM_MMC64_SETTINGS
+            MENUITEM "Impostazioni &DIGIMAX...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Impostazioni &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Impostazioni &Ethernet...", IDM_TFE_SETTINGS
@@ -1309,7 +1309,7 @@ BEGIN
         MENUITEM "&Inglese", IDM_LANG_EN
         MENUITEM "&Tedesco", IDM_LANG_DE
         MENUITEM "&Francese", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Ungherese", IDM_LANG_HU
         MENUITEM "&Italiano", IDM_LANG_IT
         MENUITEM "&Olandese", IDM_LANG_NL
         MENUITEM "&Polacco", IDM_LANG_PL

@@ -109,12 +109,36 @@ fi
 # --- find VICE binary ---
 # derive emu name from bundle name
 if [ "x$PROGRAM" = "x" ]; then
-  PROGRAM="$BUNDLE_NAME"
-fi
-# it's the generic VICE bundle - ask the user
-if [ "$PROGRAM" = "VICE" ]; then
   EMUS="x128,x64,xcbm2,xpet,xplus,xvic"
-  PROGRAM=`xmessage -nearmouse -print -buttons "$EMUS" "Please select an Emulator to run:"`
+  case "$BUNDLE_NAME" in
+  x128*)
+    PROGRAM=x128
+    ;;
+  x64*)
+    PROGRAM=x64
+    ;;
+  xcbm2*)
+    PROGRAM=xcbm2
+    ;;
+  xpet*)
+    PROGRAM=xpet
+    ;;
+  xplus*)
+    PROGRAM=xplus
+    ;;
+  xvic*)
+    PROGRAM=xvic
+    ;;
+  VICE*)
+    # pick emu name in dialog
+    PROGRAM=`xmessage -nearmouse -print -buttons "$EMUS" "Please select an Emulator to run:"`
+    ;;
+  *)
+    # invalid bundle name
+    xmessage -nearmouse -buttons "Abort" -default "Abort" "Invalid Bundle Name! (use: VICE,$EMUS)"
+    PROGRAM=""
+    ;;
+  esac
 fi
 dbgecho "PROGRAM=$PROGRAM"
 PROGRAM_PATH="$BIN_DIR/$PROGRAM"

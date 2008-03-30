@@ -252,7 +252,7 @@ static GtkWidget* build_file_selector(const char *title,
 static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
-static gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer p);
+static gboolean exposure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer p);
 static gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
 					 gpointer p);
 static gboolean size_allocate(GtkWidget *w, GdkEvent *e, gpointer p);
@@ -1087,7 +1087,7 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat)
 {
-    GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
+    GtkWidget *new_window, *new_pane, *new_pane2, *new_canvas, *topmenu;
     int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
@@ -1156,7 +1156,14 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 			  GDK_POINTER_MOTION_MASK |
 			  GDK_STRUCTURE_MASK |
 			  GDK_EXPOSURE_MASK);
-    gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
+
+    /* embed canvas in horizontal box - otherwise width setup fails on Mac GTK+
+       Mac GTK+ also requires a packing of expand=true but fill=false 
+       in both of the following packs - otherwise size collapses to one (cv) */
+    new_pane2 = gtk_hbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(new_pane),new_pane2,TRUE,FALSE,0);
+    gtk_widget_show(new_pane2);
+    gtk_box_pack_start(GTK_BOX(new_pane2),new_canvas,TRUE,FALSE,0);
     gtk_widget_show(new_canvas);
 
     /* XVideo must be refreshed when the application window is moved. */
@@ -1174,9 +1181,14 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 		     (gpointer) c);
 
     if (!vsid_mode)
-	gtk_widget_set_size_request(new_canvas, width, height);
+	x11ui_resize_canvas_window(new_canvas, width, height, c->videoconfig->hwscale);
+    if (c->videoconfig->hwscale) {
+        gint window_width, window_height;
+        resources_get_int("WindowWidth", &window_width);
+        resources_get_int("WindowHeight", &window_height);
+        gtk_window_resize(new_window, window_width, window_height);
+    }
     gtk_widget_show(new_canvas);
-    gtk_widget_queue_resize(new_canvas);
 
     ui_create_status_bar(new_pane, width, height);
     pal_ctrl_widget = build_pal_ctrl_widget(c);
@@ -1666,9 +1678,6 @@ void ui_set_tape_status(int tape_status)
 	    else
 		gtk_widget_hide(app_shells[i].tape_status.event_box);
 	}
-
-	gdk_drawable_get_size(app_shells[i].canvas->window, &w, &h);
-	x11ui_resize_canvas_window(app_shells[i].canvas, w, h);
     }
 }
 
@@ -1879,34 +1888,16 @@ x11ui_fullscreen(int i)
 }
 
 /* Resize one window. */
-void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
+void x11ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
 {
-    GtkRequisition req;
-    int x, y;
+    gtk_window_set_resizable(GTK_WINDOW(gtk_widget_get_toplevel(w)), (gboolean)hwscale);
 
-/*     /\* FIXME: this is all broken! *\/ */
-/*     gtk_widget_set_size_request(w, width, height); */
-/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
-/*     gdk_window_resize(gdk_window_get_toplevel(w->window), */
-/* 		      req.width, req.height); */
-/*     gdk_flush(); */
-    
-/*     return; */
-    
-
-    gdk_drawable_get_size(w->window, &x, &y);
-/*  printf("\n%s: w = %p, w x h - 0: %dx%d, \n", __FUNCTION__, w->window,x,y); */
-    gdk_window_resize(w->window, width, height);
-/*     printf("%s: w = %p, w x h - 1: %dx%d, \n", __FUNCTION__, w->window, width, height); */
-    gdk_flush();
-    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
-//    gtk_widget_set_size_request(gtk_widget_get_toplevel(w), req.width, req.height);
-    gdk_flush();
-    
-/*     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req); */
-/*     printf("%s: w = %p, w x h - 2: %dx%d, \n", __FUNCTION__, w->window, req.width, req.height); */
-   
-    return;
+    if (hwscale)
+    {
+       width = 0;
+       height = 0;
+    }
+    gtk_widget_set_size_request(w, width, height);
 }
 
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
@@ -2884,10 +2875,12 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     return 0;
 }
 
-gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer client_data)
+gboolean exposure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
+    resources_set_int("WindowWidth", e->width);
+    resources_set_int("Windowheight", e->height);
     /* XVideo must be refreshed when the shell window is moved. */
     if (canvas && canvas->videoconfig->hwscale
 	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1

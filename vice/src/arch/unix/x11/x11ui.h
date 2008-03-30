@@ -39,7 +39,7 @@
 extern int x11ui_open_canvas_window(struct video_canvas_s *c,
                                     const char *title, int width,
                                     int height, int no_autorepeat);
-extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width);
+extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width, int hwscale);
 extern void x11ui_move_canvas_window(ui_window_t w, int x, int y);
 extern void x11ui_canvas_position(ui_window_t w, int *x, int *y);
 extern void x11ui_get_widget_size(ui_window_t win, int *w, int *h);

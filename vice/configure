@@ -1349,7 +1349,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=23
+VICE_VERSION_BUILD=24
 
 
 
@@ -17893,14 +17893,8 @@ rm -f conftest.err conftest.$ac_objext \
 fi
 fi
 
-case "$host_os" in
-  solaris* | beos*)
-    LIBS="$LIBS $SOUND_LIBS"
-    SOUND_LIBS=""
-    ;;
-  *)
-    ;;
-esac
+LIBS="$LIBS $SOUND_LIBS"
+SOUND_LIBS=""
 
 
 

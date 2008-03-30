@@ -568,7 +568,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     video_arch_frame_buffer_free(canvas);
     video_arch_frame_buffer_alloc(canvas, width, height);
 
-    x11ui_resize_canvas_window(canvas->emuwindow, width, height);
+    x11ui_resize_canvas_window(canvas->emuwindow, width, height, canvas->videoconfig->hwscale);
     canvas->width = width;
     canvas->height = height;
 
@@ -715,4 +715,3 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
-

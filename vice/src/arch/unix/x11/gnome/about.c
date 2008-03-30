@@ -48,6 +48,11 @@ static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
                  500, 300);
 }
 
+static void response_cb(GtkWidget *w, gint id, gpointer data)
+{
+    if(id==GTK_RESPONSE_CANCEL)
+	gtk_widget_hide(GTK_WIDGET(data));
+}
 
 void ui_about(gpointer data)
 {
@@ -67,6 +72,7 @@ void ui_about(gpointer data)
         "Copyright @ 1998-2007 Dag Lem",
         "Copyright @ 2000-2007 Spiro Trikaliotis",
         "Copyright @ 2005-2007 Marco van den Heuvel",
+        "Copyright @ 2006-2007 Christian Vogelgsang",
         "Copyright @ 1999-2005 Thomas Bretz",
         "Copyright @ 2003-2005 David Hansel",
         "Copyright @ 2000-2004 Markus Brenner",
@@ -88,7 +94,7 @@ void ui_about(gpointer data)
 	"Paul Dube - French\n"
 	"Marco van den Heuvel - Dutch\n"
 	"Flooder - Polish\n"
-	"Karai Csaba - Hungarian\n");
+	"Czirkos Zoltan, Karai Csaba - Hungarian\n");
     if (!about)
     {
 	/* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
@@ -102,7 +108,7 @@ void ui_about(gpointer data)
 			     "translator-credits", transl, 
 /* 			     "logo", logo, */
 			     NULL);
-	g_signal_connect(G_OBJECT(about),
+ 	g_signal_connect(G_OBJECT(about),
 			 "destroy",
 			 G_CALLBACK(gtk_widget_destroyed),
 			 &about);
@@ -118,6 +124,8 @@ void ui_about(gpointer data)
 				       GTK_RESPONSE_OK);
 	g_signal_connect(GTK_OBJECT(button), "clicked",
 			 GTK_SIGNAL_FUNC(contrib_cb), NULL);
+ 	g_signal_connect(G_OBJECT(about), "response",
+			 GTK_SIGNAL_FUNC(response_cb), about);
     }
     else
     {

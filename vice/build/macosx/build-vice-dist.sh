@@ -109,6 +109,7 @@ fi
 check_lib "libHIDUtilities.a"
 if [ "$?" = "0" ]; then
   echo "+++ With Joystick Support +++"
+  CONFIGURE_OPTS="Joystick"
 fi
 
 # check for libpcap and libnet
@@ -117,7 +118,19 @@ if [ "$?" = "0" ]; then
   check_lib "libnet.a"
   if [ "$?" = "0" ]; then
     CONFIGURE_FLAGS="--enable-ethernet $CONFIGURE_FLAGS"
+    CONFIGURE_OPTS="Ethernet $CONFIGURE_OPTS"
     echo "+++ With Ethernet Support +++"
+  fi
+fi
+
+# check for ffmpeg and lame
+check_lib "libavcodec.dylib"
+if [ "$?" = "0" ]; then
+  check_lib "libmp3lame.dylib"
+  if [ "$?" = "0" ]; then
+    CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
+    CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
+    echo "+++ With FFMPEG + Lame Support +++"
   fi
 fi
 
@@ -309,4 +322,5 @@ fi
 $SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC strip $VICE_VERSION $ZIP $UI_TYPE)
 
 echo "----- Ready: architecture: $ARCH, ui-type: $UI_TYPE, dist-type: $DIST_TYPE -----"
+echo "VICE was configured with: $CONFIGURE_OPTS"
 exit 0

@@ -57,9 +57,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+    IDS_DIGIMAX_CAPTION             "Digimax beállításai"
+    IDS_DIGIMAX_ENABLE              "Digimax &engedélyezése"
+    IDS_DIGIMAX_BASE                "Digimax báziscíme"
 END
 #pragma code_page(28591)
 
@@ -69,9 +69,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_DIGIMAX_CAPTION             "Digimax Settings"
-    IDS_DIGIMAX_ENABLE              "&Enable digimax"
-    IDS_DIGIMAX_BASE                "Digimax base address"
+    IDS_DIGIMAX_CAPTION             "Impostazioni digimax"
+    IDS_DIGIMAX_ENABLE              "&Attiva digimax"
+    IDS_DIGIMAX_BASE                "Indirizzo base Digimax"
 END
 
 // DUTCH text

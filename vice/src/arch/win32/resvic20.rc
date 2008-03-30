@@ -819,8 +819,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Hang felvétele...", IDM_SOUND_RECORD_START
+        MENUITEM "Hangfelvétel leállítása", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opciók"
     BEGIN
@@ -1050,8 +1050,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
-        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM "Registra audio...", IDM_SOUND_RECORD_START
+        MENUITEM "Interrompi la registrazione audio", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opzioni"
     BEGIN
@@ -1133,7 +1133,7 @@ BEGIN
         POPUP "Impostazioni &cartuccia/IO"
         BEGIN
             MENUITEM "Impostazioni RS&232 su userport...", IDM_RS232USER_SETTINGS
-            MENUITEM "&SID cart settings...",     IDM_SIDCART_SETTINGS
+            MENUITEM "Impostazioni cartuccia &SID...",     IDM_SIDCART_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
@@ -1148,7 +1148,7 @@ BEGIN
         MENUITEM "&Inglese", IDM_LANG_EN
         MENUITEM "&Tedesco", IDM_LANG_DE
         MENUITEM "&Francese", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Ungherese", IDM_LANG_HU
         MENUITEM "&Italiano", IDM_LANG_IT
         MENUITEM "&Olandese", IDM_LANG_NL
         MENUITEM "&Polacco", IDM_LANG_PL

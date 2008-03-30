@@ -1,3 +1,77 @@
+2007-03-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.24.
+
+2007-03-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/dialogs/dialogs.rc, arch/win32/res.rc: Added
+	Christian to the about dialogs.
+
+2007-03-02  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* info.c: added myself to VICE team
+
+	* arch/amigaos/mui/mui.c, arch/beos/ui.cc,
+	arch/msdos/menudefs.c, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c: added myself to VICE team in about
+	dialogs of ports
+
+2007-03-02  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/x11-launcher.sh: small fix to make bundle
+	naming more robust
+
+2007-02-27  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/ui-resources.c:
+	save window size, reload it at startup if videoconfig->hwscale
+	is true
+
+2007-02-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* info.c: Updated.
+
+2007-02-27  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/about.c (ui_about): add handling of
+	Cancel.
+
+2007-02-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdigimax.rc,
+	arch/win32/reside64.rc, arch/win32/resmmc64.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/ressidcart.rc, arch/win32/resvic20.rc,
+	translate.c: Updated
+
+	* arch/unix/x11/openGL_sync.c: Got rid of _() for log
+	messages.
+
+2007-02-26  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/x11/gnome/x11ui.c: minor layout adjustment around
+	canvas widget to fix initial canvas size on Mac Gtk+
+
+2007-02-26  pottendo  <pottendo@utanet.at>
+
+	* info.c: Added Zoltan.
+
+2007-02-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated the dutch translations.
+
+2007-02-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/x11ui.h,
+	arch/unix/x11/video.c: make main window non-resizable when
+	hardware scaling is off
+
+	* video/video-viewport.c: avoid viewport->first_line = 0,
+	which made render_32_1x1_pal read outside an allocated buffer,
+	causing memory corruption
+
 2007-02-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.23.

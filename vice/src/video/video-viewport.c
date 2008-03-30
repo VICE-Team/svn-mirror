@@ -106,9 +106,6 @@ void video_viewport_resize(video_canvas_t *canvas)
         viewport->last_line = (viewport->first_line + height) - 1;
     }
 
-    if (!vsid_mode && !console_mode)
-        video_canvas_resize(canvas, width, height);
-
     /* Make sure we don't waste space showing unused lines.  */
     if ((viewport->first_line < geometry->first_displayed_line
         && viewport->last_line < geometry->last_displayed_line)
@@ -117,6 +114,9 @@ void video_viewport_resize(video_canvas_t *canvas)
         viewport->first_line = geometry->first_displayed_line;
         viewport->last_line = (geometry->first_displayed_line + height - 1);
     }
+    if (!vsid_mode && !console_mode)
+        video_canvas_resize(canvas, width, height);
+
     video_canvas_refresh_all(canvas);
 }
 

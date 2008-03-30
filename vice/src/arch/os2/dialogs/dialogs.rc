@@ -60,33 +60,35 @@ ICON    IDM_VICE2 "..\\..\\icons\\xplus4.ico"
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 210, 213, STY_DIALOG|FCF_CLOSEBUTTON
+  DIALOG "About Vice...", DLG_ABOUT, 162, 122, 210, 227, STY_DIALOG|FCF_CLOSEBUTTON
   PRESPARAMS PP_FONTNAMESIZE, "11.System VIO" //9.Warp Sans Bold"
   BEGIN
     CONTROL "OK",  DID_CLOSE, 86,  5,  38,  12, STY_CLOSEBUTTON
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"  // ¸
     CONTROL "",    ID_NONE,     7, 22, 196, 188, STY_GROUPBOX
-    ICON IDM_VICE2, ID_NONE, 27, 170/*231*/, 0, 0
-    TEXT("V I C E",                                         15, 195, 180, 7)
-    TEXT("the Versatile Commodore Emulator",                15, 188, 180, 7)
-    TEXT("Version ",                                        65, 174,  35, 7)
-    TEXT(VERSION,                                          100, 174,  25, 7)
-    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 160, 180, 7)
-    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 153, 180, 7)
-    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 146, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 139, 180, 7)
-    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 132, 180, 7)
-    TEXT("Copyright (c) 1997-2001 Daniel Sladic",           15, 125, 180, 7)
-    TEXT("Copyright (c) 1998-2007 Andreas Boose",           15, 118, 180, 7)
-    TEXT("Copyright (c) 1998-2007 Tibor Biczo",             15, 111, 180, 7)
-    TEXT("Copyright (c) 1999-2007 Andreas Dehmel",          15, 104, 180, 7)
-    TEXT("Copyright (c) 1999-2007 Andreas Matthies",        15,  97, 180, 7)
-    TEXT("Copyright (c) 1999-2007 Martin Pottendorfer",     15,  90, 180, 7)
-    TEXT("Copyright (c) 2000-2007 Spiro Trikaliotis",       15,  83, 180, 7)
-    TEXT("Copyright (c) 2000-2004 Markus Brenner",          15,  76, 180, 7)
-    TEXT("Copyright (c) 2005-2007 Marco van den Heuvel",    15,  69, 180, 7)
-    TEXT("Vice/2 - Vice for OS/2",                          15,  59, 180, 7)
-    TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  52, 180, 7)
+    ICON IDM_VICE2, ID_NONE, 27, 184/*231*/, 0, 0
+    TEXT("V I C E",                                         15, 209, 180, 7)
+    TEXT("the Versatile Commodore Emulator",                15, 202, 180, 7)
+    TEXT("Version ",                                        65, 188,  35, 7)
+    TEXT(VERSION,                                          100, 188,  25, 7)
+    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 174, 180, 7)
+    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 167, 180, 7)
+    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 160, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 153, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 146, 180, 7)
+    TEXT("Copyright (c) 1997-2001 Daniel Sladic",           15, 139, 180, 7)
+    TEXT("Copyright (c) 1998-2007 Andreas Boose",           15, 132, 180, 7)
+    TEXT("Copyright (c) 1998-2007 Tibor Biczo",             15, 125, 180, 7)
+    TEXT("Copyright (c) 1999-2007 Andreas Dehmel",          15, 118, 180, 7)
+    TEXT("Copyright (c) 1999-2007 Andreas Matthies",        15, 111, 180, 7)
+    TEXT("Copyright (c) 1999-2007 Martin Pottendorfer",     15, 104, 180, 7)
+    TEXT("Copyright (c) 2000-2007 Spiro Trikaliotis",       15,  97, 180, 7)
+    TEXT("Copyright (c) 2000-2004 Markus Brenner",          15,  90, 180, 7)
+    TEXT("Copyright (c) 2005-2007 Marco van den Heuvel",    15,  83, 180, 7)
+    TEXT("Copyright (c) 2006-2007 Christian Vogelgsang",    15,  75, 180, 7)
+    TEXT("Vice/2 - Vice for OS/2",                          15,  66, 180, 7)
+    TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  59, 180, 7)
+    TEXT("Copyright (c) 2006-2007 Marco van den Heuvel",    15,  52, 180, 7)
     TEXT("reSID engine",                                    15,  42, 180, 7)
     TEXT("Copyright (c) 1998-2007 Dag Lem",                 15,  35, 180, 7)
     TEXT("Official VICE homepage:",                         15,  25, 180, 7)

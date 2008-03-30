@@ -120,7 +120,7 @@ BEGIN
     IDS_IDE64_HEADS             "Testine"
     IDS_IDE64_SECTORS           "Settori"
     IDS_IDE64_TOTAL_SIZE        "Dimensione totale: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Seleziona il file dell'immagine dell'HD"
+    IDS_IDE64_SELECT_IMAGE      "Seleziona il file immagine dell'HD"
 END
 
 // DUTCH text

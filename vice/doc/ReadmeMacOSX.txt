@@ -312,6 +312,11 @@ available.
     libpcap-0.9.5.tar.gz        http://www.tcpdump.org/
     libnet0_1.0.2a.orig.tar.gz  http://ftp.debian.org/debian/pool/main/libn/libnet0/libnet0_1.0.2a.orig.tar.gz
 
+- FFMPEG  (optional) (Video and Sound Capture)
+
+    lame-3.97.tar.gz            http://lame.sourceforge.net/
+    svn tree at                 svn checkout svn://svn.mplayerhq.hu/ffmpeg/trunk ffmpeg-svn
+
 3.4 Building Required Libraries
 
 First, build all external libraries. The VICE source distribution contains

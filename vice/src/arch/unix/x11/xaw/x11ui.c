@@ -89,6 +89,7 @@
 #include "videoarch.h"
 #include "screenshot.h"
 #include "event.h"
+#include "x11ui.h"
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
@@ -1464,7 +1465,7 @@ void x11ui_fullscreen(int i)
 }
 
 /* Resize one window. */
-void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
+void x11ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
 {
     Dimension canvas_width, canvas_height;
     Dimension form_width, form_height;

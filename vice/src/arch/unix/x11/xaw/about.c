@@ -140,6 +140,7 @@ UI_CALLBACK(ui_about)
              "Copyright C 1998-2007 Dag Lem",
              "Copyright C 2000-2007 Spiro Trikaliotis",
              "Copyright C 2005-2007 Marco van den Heuvel",
+             "Copyright C 2006-2007 Christian Vogelgsang",
              "Copyright C 1999-2005 Thomas Bretz",
              "Copyright C 2003-2005 David Hansel",
              "Copyright C 2000-2004 Markus Brenner",
