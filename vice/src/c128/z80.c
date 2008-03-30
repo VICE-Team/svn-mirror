@@ -31,6 +31,7 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "daa.h"
+#include "debug.h"
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
@@ -41,7 +42,6 @@
 #include "z80regs.h"
 
 
-/*#define TRACE*/
 /*#define DEBUG_Z80*/
 
 
@@ -924,6 +924,42 @@ static void export_registers(void)
       INC_PC(pc_inc);                          \
   } while (0)
 
+#define INDI(HL_FUNC)         \
+  do {                        \
+      BYTE tmp;               \
+                              \
+      CLK += 4;               \
+      tmp = IN(BC_WORD());    \
+      CLK += 4;               \
+      STORE(HL_WORD(), tmp);  \
+      HL_FUNC;                \
+      reg_b--;                \
+      reg_f = N_FLAG;         \
+      LOCAL_SET_ZERO(!reg_b); \
+      CLK += 4;               \
+      INC_PC(2);              \
+  } while (0)
+
+#define INDIR(HL_FUNC)             \
+  do {                             \
+      BYTE tmp;                    \
+                                   \
+      CLK += 4;                    \
+      tmp = IN(BC_WORD());         \
+      CLK += 4;                    \
+      STORE(HL_WORD(), tmp);       \
+      HL_FUNC;                     \
+      reg_b--;                     \
+      if (!reg_b) {                \
+          CLK += 4;                \
+          reg_f = N_FLAG | Z_FLAG; \
+          INC_PC(2);               \
+      } else {                     \
+          reg_f = N_FLAG;          \
+      }                            \
+      CLK += 4;                    \
+  } while (0)
+
 #define JMP(addr, clk_inc)  \
   do {                      \
       CLK += clk_inc;       \
@@ -1081,6 +1117,42 @@ static void export_registers(void)
       OUT(BC_WORD(), value);                      \
       CLK += clk_inc2;                            \
       INC_PC(pc_inc);                             \
+  } while (0)
+
+#define OUTDI(HL_FUNC)        \
+  do {                        \
+      BYTE tmp;               \
+                              \
+      CLK += 4;               \
+      tmp = LOAD(HL_WORD());  \
+      CLK += 4;               \
+      OUT(BC_WORD(), tmp);    \
+      HL_FUNC;                \
+      reg_b--;                \
+      reg_f = N_FLAG;         \
+      LOCAL_SET_ZERO(!reg_b); \
+      CLK += 4;               \
+      INC_PC(2);              \
+  } while (0)
+
+#define OTDIR(HL_FUNC)             \
+  do {                             \
+      BYTE tmp;                    \
+                                   \
+      CLK += 4;                    \
+      tmp = LOAD(HL_WORD());       \
+      CLK += 4;                    \
+      OUT(BC_WORD(), tmp);         \
+      HL_FUNC;                     \
+      reg_b--;                     \
+      if (!reg_b) {                \
+          CLK += 4;                \
+          reg_f = N_FLAG | Z_FLAG; \
+          INC_PC(2);               \
+      } else {                     \
+          reg_f = N_FLAG;          \
+      }                            \
+      CLK += 4;                    \
   } while (0)
 
 #define POP(reg_valh, reg_vall, pc_inc)  \
@@ -3985,11 +4057,23 @@ static void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0xa1: /* CPI */
         CPDI(INC_HL_WORD());
         break;
+      case 0xa2: /* INI */
+        INDI(INC_HL_WORD());
+        break;
+      case 0xa3: /* OUTI */
+        OUTDI(INC_HL_WORD());
+        break;
       case 0xa8: /* LDD */
         LDDI(DEC_DE_WORD(), DEC_HL_WORD());
         break;
       case 0xa9: /* CPD */
         CPDI(DEC_HL_WORD());
+        break;
+      case 0xaa: /* IND */
+        INDI(DEC_HL_WORD());
+        break;
+      case 0xab: /* OUTD */
+        OUTDI(DEC_HL_WORD());
         break;
       case 0xb0: /* LDIR */
         LDDIR(INC_DE_WORD(), INC_HL_WORD());
@@ -3997,11 +4081,23 @@ static void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
       case 0xb1: /* CPIR */
         CPDIR(INC_HL_WORD());
         break;
+      case 0xb2: /* INIR */
+        INDIR(INC_HL_WORD());
+        break;
+      case 0xb3: /* OTIR */
+        OTDIR(INC_HL_WORD());
+        break;
       case 0xb8: /* LDDR */
         LDDIR(DEC_DE_WORD(), DEC_HL_WORD());
         break;
       case 0xb9: /* CPDR */
         CPDIR(DEC_HL_WORD());
+        break;
+      case 0xba: /* INDR */
+        INDIR(DEC_HL_WORD());
+        break;
+      case 0xbb: /* OTDR */
+        OTDIR(DEC_HL_WORD());
         break;
       case 0xcb: /* NOP */
         NOP(8, 2);
@@ -5378,12 +5474,16 @@ void z80_mainloop(interrupt_cpu_status_t *cpu_int_status,
 
         FETCH_OPCODE(opcode);
 
-#ifdef TRACE
-        log_message(LOG_DEFAULT,
-                    "%i P%04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                    "H%02x L%02x S%04x X%04x Y%04x O%02x %02x %02x %02x",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                    reg_h, reg_l, reg_sp, IX_WORD(), IY_WORD(), p0, p1, p2, p3);
+#ifdef DEBUG
+        if (debug.maincpu_traceflg)
+            log_message(LOG_DEFAULT,
+                        ".%04x %i %-25s A%02x F%02x B%02x C%02x D%02x E%02x "
+                        "H%02x L%02x S%04x",
+                        z80_reg_pc, /*CLK*/ 0,
+                        mon_disassemble_to_string(e_comp_space, z80_reg_pc,
+                        p0, p1, p2, p3, 1, "z80"),
+                        reg_a, reg_f, reg_b, reg_c,
+                        reg_d, reg_e, reg_h, reg_l, reg_sp);
 #endif
 
         SET_LAST_OPCODE(p0);
