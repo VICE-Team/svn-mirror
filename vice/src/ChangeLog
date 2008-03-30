@@ -1,3 +1,34 @@
+2000-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.10.
+
+	* raster/raster.c, raster/raster.h (draw_blank): Fixed cast.
+	(raster_init): Return error code.
+
+	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c
+	(init_raster): Bail out on error.
+
+	* arch/unix/x11/video.c, arch/unix/x11/videoarch.h
+	(video_convert_func, video_convert_save_pixel,
+	video_convert_restore_pixel, video_convert_color_table,
+	video_refresh_func): New functions.
+	(convert_8to16, convert_8to32, convert_8to8, convert_8toall,
+	convert_8to1_dither, _convert_func: Made static.
+
+	* arch/unix/x11/gnome/gnomevideo.c,
+	arch/unix/x11/xaw/x11video.c (video_frame_buffer_alloc):
+	Call `video_convert_func' instead of duplicating code.
+	Separated some common X11 code.
+
+	* arch/unix/uicommands.c (browse_manual): Retrive browser
+	directory by resource code instead of using ugly globals.
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/ui.h: `_ui_resources' made static.  Moved command
+	line options into a separate file.
+
+	* arch/unix/x11/ui-cmdline-options.c: New file.
+
 2000-06-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.9.

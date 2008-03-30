@@ -65,8 +65,6 @@ struct ui_resources_s {
 };
 typedef struct ui_resources_s ui_resources_t;
 
-extern ui_resources_t _ui_resources;
-
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 

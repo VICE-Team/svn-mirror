@@ -18,7 +18,7 @@ ac_help="$ac_help
 ac_help="$ac_help
   --enable-16bpp          enable 16-bit only display depth support"
 ac_help="$ac_help
-  --enable-24bpp          enable 24-bit only display depth support"
+  --enable-32bpp          enable 32-bit only display depth support"
 ac_help="$ac_help
   --disable-textfield     disable enhanced text field widget"
 ac_help="$ac_help
@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.4.9
+VERSION=1.4.10
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -865,9 +865,9 @@ if test "${enable_16bpp+set}" = set; then
   :
 fi
 
-# Check whether --enable-24bpp or --disable-24bpp was given.
-if test "${enable_24bpp+set}" = set; then
-  enableval="$enable_24bpp"
+# Check whether --enable-32bpp or --disable-32bpp was given.
+if test "${enable_32bpp+set}" = set; then
+  enableval="$enable_32bpp"
   :
 fi
 
@@ -929,7 +929,7 @@ elif test x"$enable_16bpp" = "xyes" ; then
 #define X_DISPLAY_DEPTH 16
 EOF
 
-elif test x"$enable_24bpp" = "xyes" ; then
+elif test x"$enable_32bpp" = "xyes" ; then
   cat >> confdefs.h <<\EOF
 #define X_DISPLAY_DEPTH 24
 EOF
