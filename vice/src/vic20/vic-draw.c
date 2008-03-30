@@ -215,25 +215,28 @@ static void draw_rev_foreground(int start_char, int end_char)
     draw(p, start_char, end_char, 1, 1);
 }
 
+static void setup_modes(void)
+{
+    raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
+                     fill_cache,
+                     draw_line_cached,
+                     draw_line,
+                     draw_std_background,
+                     draw_std_foreground);
+    raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
+                     fill_cache,
+                     draw_reverse_line_cached,
+                     draw_reverse_line,
+                     draw_std_background,
+                     draw_rev_foreground);
+}
+
 void vic_draw_init(void)
 {
     init_drawing_tables();
-    raster_set_table_refresh_handler(&vic.raster, init_drawing_tables);
-}
 
-void vic_draw_set_double_size(int enabled)
-{
-        raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
-                         fill_cache,
-                         draw_line_cached,
-                         draw_line,
-                         draw_std_background,
-                         draw_std_foreground);
-        raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
-                         fill_cache,
-                         draw_reverse_line_cached,
-                         draw_reverse_line,
-                         draw_std_background,
-                         draw_rev_foreground);
+    setup_modes();
+
+    raster_set_table_refresh_handler(&vic.raster, init_drawing_tables);
 }
 

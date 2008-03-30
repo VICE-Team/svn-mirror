@@ -564,7 +564,7 @@ static void draw_idle(void)
 }
 
 
-static void setup_single_size_modes(void)
+static void setup_modes(void)
 {
     raster_modes_set(vdc.raster.modes, VDC_TEXT_MODE,
                      get_std_text,
@@ -588,53 +588,12 @@ static void setup_single_size_modes(void)
                      NULL); /*draw_std_text_foreground */
 }
 
-static void setup_double_size_modes(void)
-{
-    raster_modes_set(vdc.raster.modes, VDC_TEXT_MODE,
-/*
-                     cache_std_text,
-*/
-                     NULL,
-                     NULL,
-                     NULL,
-                     NULL, /* draw_std_background */
-                     NULL); /* draw_std_text_foreground */
-
-    raster_modes_set(vdc.raster.modes, VDC_BITMAP_MODE,
-                     NULL,
-                     NULL,
-                     NULL,
-                     NULL, /* draw_std_background */
-                     NULL); /* draw_std_text_foreground */
-
-    raster_modes_set(vdc.raster.modes, VDC_IDLE_MODE,
-                     NULL,
-                     NULL,
-                     NULL,
-                     NULL, /* draw_std_background */
-                     NULL); /* draw_std_text_foreground */
-}
-
-
-void vdc_draw_init (void)
+void vdc_draw_init(void)
 {
     init_drawing_tables();
 
+    setup_modes();
+
     raster_set_table_refresh_handler(&vdc.raster, init_drawing_tables);
-
-#ifdef VDC_NEED_2X
-    vdc_draw_set_double_size(0);
-#endif
-
-}
-
-void vdc_draw_set_double_size(int enabled)
-{
-#ifdef VDC_NEED_2X
-  if (enabled)
-    setup_double_size_modes();
-  else
-#endif
-    setup_single_size_modes();
 }
 

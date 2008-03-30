@@ -42,40 +42,11 @@
 
 
 static DWORD dwg_table_0[256], dwg_table_1[256];
-static DWORD dwg_table2x_0[256], dwg_table2x_1[256];
-static DWORD dwg_table2x_2[256], dwg_table2x_3[256];
 
 static void init_drawing_tables(void)
 {
     int byte, p;
     BYTE msk;
-
-    for (byte = 0; byte < 0x0100; byte++) {
-        *((BYTE *)(dwg_table2x_0 + byte))
-            = *((BYTE *)(dwg_table2x_0 + byte) + 1)
-            = (byte & 0x80 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_0 + byte) + 2)
-            = *((BYTE *)(dwg_table2x_0 + byte) + 3)
-            = (byte & 0x40 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_1 + byte))
-            = *((BYTE *)(dwg_table2x_1 + byte) + 1)
-            = (byte & 0x20 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_1 + byte) + 2)
-            = *((BYTE *)(dwg_table2x_1 + byte) + 3)
-            = (byte & 0x10 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_2 + byte))
-            = *((BYTE *)(dwg_table2x_2 + byte) + 1)
-            = (byte & 0x08 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_2 + byte) + 2)
-            = *((BYTE *)(dwg_table2x_2 + byte) + 3)
-            = (byte & 0x04 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_3 + byte))
-            = *((BYTE *)(dwg_table2x_3 + byte) + 1)
-            = (byte & 0x02 ? 1 : 0);
-        *((BYTE *)(dwg_table2x_3 + byte) + 2)
-            = *((BYTE *)(dwg_table2x_3 + byte) + 3)
-            = (byte & 0x01 ? 1 : 0);
-    }
 
     for (byte = 0; byte < 0x0100; byte++) {
         for (msk = 0x80, p = 0; p < 4; msk >>= 1, p++)
@@ -214,87 +185,7 @@ static void draw_reverse_line(void)
 
 /***************************************************************************/
 
-#if 0
-
-#define DRAW_CACHED(l, xs, xe, reverse_flag)                               \
-    do {                                                                   \
-        BYTE *p = draw_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;         \
-        register int i;                                                    \
-        register int mempos = ((l->n+1) / screen_charheight) * memptr_inc; \
-        register int ypos = (l->n+1) % screen_charheight;                  \
-                                                                           \
-        for (i = (xs); i <= (xe); i++, p += 8) {                           \
-            BYTE d = (l)->fgdata[i];                                       \
-            if ((reverse_flag))                                            \
-                d = ~d;                                                    \
-                                                                           \
-            if (crsrmode                                                   \
-                && crsrstate                                               \
-                && ypos >= crsrstart                                       \
-                && ypos <=crsrend                                          \
-                && mempos+i==crsrrel                                       \
-                ) {                                                        \
-                d = ~d;                                                    \
-            }                                                              \
-            *((DWORD *)p) = dwg_table_0[d];                                \
-            *((DWORD *)p + 1) = dwg_table_1[d];                            \
-        }                                                                  \
-    } while (0)
-
-
-static void draw_standard_line_cached(raster_cache_t *l, int xs, int xe)
-{
-    DRAW_CACHED(l, xs, xe, 0);
-}
-
-static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
-{
-    DRAW_CACHED(l, xs, xe, 1);
-}
-
-
-#define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
-    do {                                                       \
-        BYTE *p = (draw_buffer_ptr                             \
-                  + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));      \
-        register int i;                                        \
-        register int mempos = ((l->n + 1) / screen_charheight) \
-                              * memptr_inc;                    \
-        register int ypos = (l->n+1) % screen_charheight;      \
-                                                               \
-        for (i = (xs); i <= (xe); i++, p += 16) {              \
-            BYTE d = (l)->fgdata[i];                           \
-            if ((reverse_flag))                                \
-                d = ~d;                                        \
-                                                               \
-            if (crsrmode                                       \
-                && crsrstate                                   \
-                && ypos >= crsrstart                           \
-                && ypos <=crsrend                              \
-                && mempos+i==crsrrel                           \
-                ) {                                            \
-                d = ~d;                                        \
-            }                                                  \
-            *((DWORD *)p) = dwg_table2x_0[d];                  \
-            *((DWORD *)p + 1) = dwg_table2x_1[d];              \
-            *((DWORD *)p + 2) = dwg_table2x_2[d];              \
-            *((DWORD *)p + 3) = dwg_table2x_3[d];              \
-        }                                                      \
-    } while (0)
-
-static void draw_standard_line_cached_2x(raster_cache_t *l, int xs, int xe)
-{
-    DRAW_CACHED_2x(l, xs, xe, 0);
-}
-
-static void draw_reverse_line_cached_2x(raster_cache_t *l, int xs, int xe)
-{
-    DRAW_CACHED_2x(l, xs, xe, 1);
-}
-
-#endif
-
-static void setup_single_size_modes (void)
+static void setup_modes(void)
 {
     raster_modes_set(crtc.raster.modes, CRTC_STANDARD_MODE,
                      NULL /* get_std_text */,
@@ -314,17 +205,10 @@ static void setup_single_size_modes (void)
 
 void crtc_draw_init(void)
 {
-    init_drawing_tables ();
+    init_drawing_tables();
+
+    setup_modes();
 
     raster_set_table_refresh_handler(&crtc.raster, init_drawing_tables);
-
-#ifdef CRTC_NEED_2X
-    crtc_draw_set_double_size(0);
-#endif
-}
-
-void crtc_draw_set_double_size(int enabled)
-{
-    setup_single_size_modes();
 }
 

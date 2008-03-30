@@ -30,7 +30,6 @@
 #define _VDC_DRAW_H
 
 extern void vdc_draw_init(void);
-extern void vdc_draw_set_double_size(int enabled);
 
 #endif
 
