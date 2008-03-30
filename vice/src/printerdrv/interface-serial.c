@@ -61,7 +61,7 @@ static int set_printer_enabled(resource_value_t v, void *param)
 
     if (flag != PRINTER_DEVICE_NONE
         && flag != PRINTER_DEVICE_FS
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
         && flag != PRINTER_DEVICE_REAL
 #endif    
         )

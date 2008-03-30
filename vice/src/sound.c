@@ -733,7 +733,7 @@ void sound_synthesize(SWORD *buffer, int length)
 
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
-#if __MSDOS__ || __riscos
+#if defined(__MSDOS__) || defined(__riscos)
 int sound_flush(int relative_speed)
 #else
 double sound_flush(int relative_speed)
@@ -914,7 +914,7 @@ double sound_flush(int relative_speed)
 
     if (snddata.pdev->bufferspace
         && (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
-#if __MSDOS__ || __riscos
+#if defined(__MSDOS__) || (__riscos)
     {
         /* finetune VICE timer */
         static int lasttime = 0;

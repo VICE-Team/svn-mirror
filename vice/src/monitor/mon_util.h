@@ -38,15 +38,11 @@ extern char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc,
 extern void mon_set_command(struct console_s *console_log, char *command,
                             void (*)(void));
 
-#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
-
+#ifdef __GNUC__
 extern int mon_out(const char *format, ...)
     __attribute__((format(printf, 1, 2)));
-
 #else
-
 extern int mon_out(const char *format, ...);
-
 #endif
 
 #endif

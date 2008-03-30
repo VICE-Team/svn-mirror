@@ -97,7 +97,7 @@ static ui_menu_entry_t set_device8_type_submenu[] = {
       (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_FileSystemDevice8,
       (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice8,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
@@ -128,7 +128,7 @@ static ui_menu_entry_t set_device9_type_submenu[] = {
       (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_FileSystemDevice9,
       (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice9,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
@@ -159,7 +159,7 @@ static ui_menu_entry_t set_device10_type_submenu[] = {
       (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_FileSystemDevice10,
       (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice10,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif
@@ -190,7 +190,7 @@ static ui_menu_entry_t set_device11_type_submenu[] = {
       (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_FileSystemDevice11,
       (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_FileSystemDevice11,
       (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
 #endif

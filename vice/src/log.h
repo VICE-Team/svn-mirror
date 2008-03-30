@@ -42,8 +42,7 @@ extern log_t log_open(const char *id);
 extern int log_close(log_t log);
 extern void log_close_all(void);
 
-#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
-
+#ifdef __GNUC__
 extern int log_message(log_t log, const char *format, ...)
     __attribute__((format(printf, 2, 3)));
 extern int log_warning(log_t log, const char *format, ...)
@@ -52,14 +51,11 @@ extern int log_error(log_t log, const char *format, ...)
     __attribute__((format(printf, 2, 3)));
 extern int log_debug(const char *format, ...)
     __attribute__((format(printf, 1, 2)));
-
 #else
-
 extern int log_message(log_t log, const char *format, ...);
 extern int log_warning(log_t log, const char *format, ...);
 extern int log_error(log_t log, const char *format, ...);
 extern int log_debug(const char *format, ...);
-
 #endif
 
 #endif

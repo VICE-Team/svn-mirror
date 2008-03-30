@@ -174,7 +174,7 @@ static ui_menu_entry_t set_printer4_type_submenu[] = {
       (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_Printer4,
       (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_Printer4,
       (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
 #endif
@@ -186,7 +186,7 @@ static ui_menu_entry_t set_printer5_type_submenu[] = {
       (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
     { N_("*File system access"), (ui_callback_t)radio_Printer5,
       (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
-#if HAVE_OPENCBM
+#ifdef HAVE_OPENCBM
     { N_("*Real device access"), (ui_callback_t)radio_Printer5,
       (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
 #endif

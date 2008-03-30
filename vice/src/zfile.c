@@ -90,7 +90,7 @@ struct zfile_s {
 };
 typedef struct zfile_s zfile_t;
 
-zfile_t *zfile_list = NULL;
+static zfile_t *zfile_list = NULL;
 
 static log_t zlog = LOG_ERR;
 
