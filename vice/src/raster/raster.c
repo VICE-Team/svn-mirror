@@ -1258,6 +1258,7 @@ void raster_reset(raster_t *raster)
     raster->xsmooth = raster->ysmooth = 0;
     raster->skip_frame = 0;
 
+    raster->blank_off = 0;
     raster->blank_enabled = 0;
     raster->blank_this_line = 0;
     raster->open_right_border = 0;
@@ -1525,7 +1526,8 @@ void raster_emulate_line(raster_t *raster)
     viewport = &raster->viewport;
 
     /* Emulate the vertical blank flip-flops.  (Well, sort of.)  */
-    if (raster->current_line == raster->display_ystart && !raster->blank)
+    if (raster->current_line == raster->display_ystart && (!raster->blank
+        || raster->blank_off))
         raster->blank_enabled = 0;
     if (raster->current_line == raster->display_ystop)
         raster->blank_enabled = 1;
