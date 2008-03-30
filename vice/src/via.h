@@ -77,5 +77,50 @@
 #define VIA_SIG_FALL    0
 #define VIA_SIG_RISE    1
 
-#endif  /* _VIA_H */
+
+typedef struct via_context_s {
+
+    BYTE via[16];
+    int ifr;
+    int ier;
+    unsigned int tal;
+    unsigned int tbl;
+    CLOCK tau;
+    CLOCK tbu;
+    CLOCK tai;
+    CLOCK tbi;
+    int pb7;
+    int pb7x;
+    int pb7o;
+    int pb7xx;
+    int pb7sx;
+    BYTE oldpa;
+    BYTE oldpb;
+    BYTE ila;
+    BYTE ilb;
+    int ca2_state;
+    int cb2_state;
+    struct alarm_s *t1_alarm;
+    struct alarm_s *t2_alarm;
+    signed int log;               /* init to LOG_ERR */
+
+    CLOCK read_clk;               /* init to 0 */
+    int read_offset;              /* init to 0 */
+    BYTE last_read;               /* init to 0 */
+
+    int irq_line;                 /* IK_... */
+    unsigned int int_num;
+
+    char myname[12];              /* init to "DriveXViaY" */
+    char my_module_name[8];       /* init to "VIAXDY" */
+
+    CLOCK *clk_ptr;
+    int *rmw_flag;
+
+    void *prv;
+    void *context;
+
+} via_context_t;
+
+#endif
 
