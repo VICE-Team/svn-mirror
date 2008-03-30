@@ -41,7 +41,7 @@ static char snap_module_name[] = "SID";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
-int sid_write_snapshot_module(snapshot_t *s)
+int sid_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
@@ -59,7 +59,7 @@ int sid_write_snapshot_module(snapshot_t *s)
     return 0;
 }
 
-int sid_read_snapshot_module(snapshot_t *s)
+int sid_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;

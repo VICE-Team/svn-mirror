@@ -1543,16 +1543,6 @@ void vic_ii_set_canvas_refresh(int enable)
     raster_set_canvas_refresh(&vic_ii.raster, enable);
 }
 
-int vic_ii_write_snapshot_module(snapshot_t *s)
-{
-    return vic_ii_snapshot_write_module(s);
-}
-
-int vic_ii_read_snapshot_module(snapshot_t *s)
-{
-    return vic_ii_snapshot_read_module(s);
-}
-
 void vic_ii_free(void)
 {
     raster_free(&vic_ii.raster);

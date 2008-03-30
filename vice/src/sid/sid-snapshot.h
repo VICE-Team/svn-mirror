@@ -29,8 +29,8 @@
 
 struct snapshot_s;
 
-extern int sid_write_snapshot_module(struct snapshot_s *s);
-extern int sid_read_snapshot_module(struct snapshot_s *s);
+extern int sid_snapshot_write_module(struct snapshot_s *s);
+extern int sid_snapshot_read_module(struct snapshot_s *s);
 
 #endif
 
