@@ -53,6 +53,7 @@ extern void iec_update_ports(void);
 /* return value for iec_available_busses() (can be ored) */
 #define IEC_BUS_IEC     0x01    /* serial IEC bus */
 #define IEC_BUS_IEEE    0x02    /* parallel IEEE bus */
+#define IEC_BUS_TCBM    0x04    /* parallel TCBM bus */
 
 extern int iec_available_busses(void);
 
