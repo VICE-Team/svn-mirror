@@ -195,6 +195,7 @@ struct ted_s {
     /* Screen memory buffers (chars and color).  */
     BYTE vbuf[TED_SCREEN_TEXTCOLS];
     BYTE cbuf[TED_SCREEN_TEXTCOLS];
+    BYTE cbuf_tmp[TED_SCREEN_TEXTCOLS];
 
     /* If this flag is set, bad lines (DMA's) can happen.  */
     int allow_bad_lines;
@@ -218,6 +219,7 @@ struct ted_s {
 
     /* Internal memory pointer (VCBASE).  */
     int memptr;
+    int memptr_col;
 
     /* Internal memory counter (VC).  */
     int mem_counter;
