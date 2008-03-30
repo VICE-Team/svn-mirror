@@ -61,6 +61,7 @@ typedef struct video_canvas_s {
     HWND hwnd;
     LPDIRECTDRAW        dd_object;
     LPDIRECTDRAW2       dd_object2;
+    LPDIRECTDRAWSURFACE render_surface;
     LPDIRECTDRAWSURFACE primary_surface;
     LPDIRECTDRAWSURFACE back_surface;
     LPDIRECTDRAWSURFACE temporary_surface;
@@ -77,6 +78,9 @@ const char *dd_error(HRESULT ddrval);
 
 extern int set_palette(video_canvas_t *c);
 extern int set_physical_colors(video_canvas_t *c);
+
+extern int create_triple_surface(struct video_canvas_s *canvas, int width, int height);
+extern int create_single_surface(struct video_canvas_s *canvas, int width, int height);
 
 extern video_canvas_t *video_canvas_for_hwnd(HWND hwnd);
 

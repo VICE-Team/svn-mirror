@@ -507,6 +507,135 @@ int set_physical_colors(video_canvas_t *c)
     return 0;
 }
 
+static int attach_clipper(video_canvas_t *canvas)
+{
+    HRESULT ddresult;
+
+    ddresult = IDirectDraw2_CreateClipper(canvas->dd_object2, 0, &canvas->clipper, NULL);
+    if (ddresult != DD_OK) {
+        ui_error("Cannot create clipper for primary surface:\n%s",
+                 dd_error(ddresult));
+		return FALSE;
+    }
+    ddresult = IDirectDrawSurface_SetClipper(canvas->primary_surface, canvas->clipper);
+    if (ddresult != DD_OK) {
+        ui_error("Cannot set clipper for primary surface:\n%s",
+                 dd_error(ddresult));
+		return FALSE;
+    }
+	return TRUE;
+}
+
+static int create_temporary_surface(video_canvas_t *canvas, int width, int height, int force_videomem)
+{
+    HRESULT ddresult;
+    DDSURFACEDESC desc;
+
+    /* Create the temporary surface.  */
+    memset(&desc, 0, sizeof(desc));
+    desc.dwSize = sizeof(desc);
+    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
+    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_VIDEOMEMORY;
+    desc.dwWidth = width;
+    desc.dwHeight = height;
+    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                          &canvas->temporary_surface, NULL);
+    if (ddresult != DD_OK) {
+		if (!force_videomem)
+		{
+			/* if failed to create temporary videomemory surface, try in systemmemory */
+		    memset(&desc, 0, sizeof(desc));
+		    desc.dwSize = sizeof(desc);
+		    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
+		    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
+		    desc.dwWidth = width;
+		    desc.dwHeight = height;
+		    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+		                                          &canvas->temporary_surface, NULL);
+		}
+	    if (ddresult != DD_OK) {
+	        ui_error("Cannot create temporary DirectDraw surface:\n%s",
+	                 dd_error(ddresult));
+			canvas->temporary_surface = NULL;
+			return FALSE;
+		}
+    }
+	canvas->render_surface = canvas->temporary_surface;
+	return TRUE;
+}
+
+/* try to allocate a triple buffer and a temporary buffer in video memory */
+
+int create_triple_surface(video_canvas_t *canvas, int width, int height)
+{
+    HRESULT ddresult;
+    DDSURFACEDESC desc;
+	DDSCAPS ddscaps;
+
+    memset(&desc, 0, sizeof(desc));
+    desc.dwSize = sizeof(desc);
+    desc.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
+    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE | DDSCAPS_FLIP | DDSCAPS_COMPLEX;
+	desc.dwBackBufferCount = 2;
+
+    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                          &canvas->primary_surface, NULL);
+    if (ddresult != DD_OK) return FALSE;
+
+	ddscaps.dwCaps = DDSCAPS_BACKBUFFER;
+    ddresult = IDirectDrawSurface_GetAttachedSurface(canvas->primary_surface, &ddscaps, &canvas->back_surface);
+	if (ddresult != DD_OK) {
+        ui_error("Cannot get attached surface for primary surface:\n%s",
+                 dd_error(ddresult));
+    }
+
+	attach_clipper(canvas);
+
+	if (!create_temporary_surface(canvas, width, height, TRUE))
+	{
+		/* triple buffering needs a temporary surface... */
+	    IDirectDrawSurface_Release(canvas->primary_surface);
+		canvas->render_surface = NULL;
+		canvas->primary_surface = NULL;
+		canvas->back_surface = NULL;
+		canvas->temporary_surface = NULL;
+		return FALSE;
+    }
+	canvas->render_surface = canvas->temporary_surface;
+
+	return TRUE;
+}
+
+/* try to allocate a single buffer and a temporary buffer in video or system memory */
+
+int create_single_surface(video_canvas_t *canvas, int width, int height)
+{
+    HRESULT ddresult;
+    DDSURFACEDESC desc;
+
+    /*  Create Primary surface */
+    memset(&desc, 0, sizeof(desc));
+    desc.dwSize = sizeof(desc);
+    desc.dwFlags = DDSD_CAPS;
+    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+
+    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                          &canvas->primary_surface, NULL);
+    if (ddresult != DD_OK) return FALSE;
+
+	attach_clipper(canvas);
+
+	if (!create_temporary_surface(canvas, width, height, FALSE))
+		canvas->render_surface = canvas->primary_surface;
+	else
+		canvas->render_surface = canvas->temporary_surface;
+
+	return TRUE;
+}
+
+
+
+
 int video_number_of_canvases;
 video_canvas_t *video_canvases[2];
 extern int fullscreen_active;
@@ -585,7 +714,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     canvas->refreshrate = video_refresh_rate(canvas);
 
     /*  Create Primary surface */
-    memset(&desc, 0, sizeof(desc));
+/*    memset(&desc, 0, sizeof(desc));
     desc.dwSize = sizeof(desc);
     desc.dwFlags = DDSD_CAPS;
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
@@ -619,19 +748,24 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     /* For now, the back surface is always NULL because we have not
        implemented the full-screen mode yet.  */
+	canvas->render_surface = NULL;
+	canvas->primary_surface = NULL;
     canvas->back_surface = NULL;
+	canvas->temporary_surface = NULL;
 
 
     memset(&desc2, 0, sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(canvas->dd_object2, &desc2);
 
+	create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
+
     /* Create the temporary surface.  */
-    memset(&desc, 0, sizeof(desc));
+ /*   memset(&desc, 0, sizeof(desc));
     desc.dwSize = sizeof(desc);
     desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
     /* FIXME: SYSTEMMEMORY?  */
-    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
+/*    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
     desc.dwWidth = desc2.dwWidth;
     desc.dwHeight = desc2.dwHeight;
     result = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,

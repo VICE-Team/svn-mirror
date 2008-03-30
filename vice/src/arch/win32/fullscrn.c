@@ -760,43 +760,10 @@ void SwitchToFullscreenMode(HWND hwnd)
         c->refreshrate = fullscreen_refreshrate_buffer;
     }
 
-    /*  Create Primary surface */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS;
-    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->primary_surface, NULL);
-    if (ddresult != DD_OK) {
-    }
-    ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-    }
-    ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot set clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-    }
-
-    /* Create the temporary surface.  */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-    /* FIXME: SYSTEMMEMORY?  */
-    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-    desc.dwWidth = fullscreen_width;
-    desc.dwHeight = fullscreen_height;
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->temporary_surface, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create temporary DirectDraw surface:\n%s",
-                 dd_error(ddresult));
-    }
+	create_single_surface(c, fullscreen_width, fullscreen_height);
 
     c->depth=bitdepth;
+
     /* Create palette.  */
     if (c->depth == 8) {
         PALETTEENTRY ape[256];
@@ -861,45 +828,11 @@ void SwitchToWindowedMode(HWND hwnd)
     ddresult=IDirectDraw_QueryInterface(c->dd_object, (GUID *)&IID_IDirectDraw2,
                                         (LPVOID *)&c->dd_object2);
 
-    /*  Create Primary surface */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS;
-    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->primary_surface, NULL);
-    if (ddresult != DD_OK) {
-    }
-    ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-    }
-    ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot set clipper for primary surface:\n%s",
-                 dd_error(ddresult));
-    }
-
     memset(&desc2,0,sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
     ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2, &desc2);
 
-    /* Create the temporary surface.  */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-    /* FIXME: SYSTEMMEMORY?  */
-    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-    desc.dwWidth = desc2.dwWidth;
-    desc.dwHeight = desc2.dwHeight;
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->temporary_surface, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create temporary DirectDraw surface:\n%s",
-                 dd_error(ddresult));
-    }
+	create_single_surface(c, desc2.dwWidth, desc2.dwHeight);
 
     c->depth = old_bitdepth;
 
