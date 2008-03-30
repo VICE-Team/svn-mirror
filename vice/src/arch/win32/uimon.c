@@ -93,6 +93,8 @@ static HWND hwndMdiActive = NULL;
 
 
 #define WM_OWNCOMMAND (WM_USER+0x100)
+#define WM_CHANGECOMPUTERDRIVE (WM_OWNCOMMAND+1)
+#define WM_GETWINDOWTYPE       (WM_OWNCOMMAND+2)
 
 /*
  The following definitions (RT_TOOLBAR, CToolBarData) are from the MFC sources
@@ -209,6 +211,7 @@ HWND iOpenDisassembly( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 static
 HWND OpenDisassembly( HWND hwnd )
 {
+	// @SRT: TODO: Adjust parameter!
     return iOpenDisassembly( hwnd, 0, 0, 0, 500, 500 );
 }
 
@@ -219,12 +222,12 @@ void DestroyMdiWindow(HWND hwndMdiClient, HWND hwndChild)
 }
 
 static
-HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
+HWND iOpenConsole( HWND hwnd, BOOLEAN bOpen, DWORD dwStyle, int x, int y, int dx, int dy )
 {
     if (bOpen)
     {
         console_log = arch_console_open_mdi("Monitor",
-            &hwndConsole,&hwndParent,&hwndMdiClient);
+            &hwndConsole,&hwndParent,&hwndMdiClient,dwStyle,x,y,dx,dy);
     }
     else
     {
@@ -233,6 +236,13 @@ HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
         hwndConsole = NULL;
     }
     return hwndConsole;
+}
+
+static
+HWND OpenConsole( HWND hwnd, BOOLEAN bOpen )
+{
+	// @SRT: TODO: Adjust parameter!
+	return iOpenConsole(hwnd,bOpen,WS_MAXIMIZE,0,0,0,0);
 }
 
 static
@@ -274,6 +284,7 @@ HWND iOpenRegistry( HWND hwnd, DWORD dwStyle, int x, int y, int dx, int dy )
 static
 HWND OpenRegistry( HWND hwnd )
 {
+	// @SRT: TODO: Adjust parameter!
     return iOpenRegistry( hwnd, 0, 30, 100, 0, 0 );
 }
 
@@ -558,6 +569,9 @@ void SetNextMonitorDimensions( HWND hwnd, WindowType wt, BYTE **p )
     if (dwStyle & WS_MINIMIZE)
         mm = MM_MINIMIZED;
 
+	ScreenToClient( hwndMdiClient,  (LPPOINT) &rect);
+	ScreenToClient( hwndMdiClient, ((LPPOINT) &rect) + 1);
+
     WriteWord(p, (WORD) rect.left ); // (WORD) pwd->x );
     WriteWord(p, (WORD) rect.top  ); // (WORD) pwd->y );
     WriteWord(p, (WORD) (rect.right-rect.left) ); // (WORD) pwd->dx);
@@ -592,7 +606,7 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
         switch (wt)
         {
         case WT_CONSOLE:
-            hwndOpened = OpenConsole(hwnd,TRUE);
+            hwndOpened = iOpenConsole(hwnd,TRUE,dwStyle,wd->x,wd->y,wd->dx,wd->dy);
             break;
 
         case WT_DISASSEMBLY:
@@ -653,6 +667,20 @@ PWindowDimensions LoadMonitorDimensions(void)
 	return ret;
 }
 
+
+static
+BOOL CALLBACK WindowStoreProc( HWND hwnd, LPARAM lParam )
+{
+    LONG WindowType = WT_CONSOLE;
+
+	UIM_DEBUG(( "+++ called WindowStoreProc %8lx", (LONG) hwnd ));
+
+    SendMessage( hwnd, WM_GETWINDOWTYPE, 0, (LPARAM) &WindowType );
+
+    SetNextMonitorDimensions( hwnd, WindowType, /*WT_DISASSEMBLY, */(BYTE**)lParam );
+	return TRUE;
+}
+ 
 static
 void StoreMonitorDimensions(HWND hwnd)
 {
@@ -667,10 +695,12 @@ void StoreMonitorDimensions(HWND hwnd)
     WriteWord( &p, (WORD) (rect.right  - rect.left) );
     WriteWord( &p, (WORD) (rect.bottom - rect.top ) );
 
+	// store info for open windows in structure
+/**
     if (hwndConsole)
-    {
         SetNextMonitorDimensions( hwndConsole, WT_CONSOLE, &p );
-    }
+/**/
+	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowStoreProc,(LPARAM)&p);
 
     dimensions = encode(buffer,(int)(p-buffer)); // @SRT
     resources_set_value("MonitorDimensions",(resource_value_t *)dimensions);
@@ -709,6 +739,74 @@ void EnableCommands( HMENU hmnu, HWND hwndToolbar )
 //  ENABLE( IDM_MON_TILE_HORIZ   , 1 );
 //  ENABLE( IDM_MON_TILE_VERT    , 1 );
 //  ENABLE( IDM_MON_ARRANGE_ICONS, 1 );
+}
+
+static
+void SetMemspace( HWND hwnd, enum t_memspace memspace )
+{
+	BOOL bComputer = FALSE;
+	BOOL bDrive8   = FALSE;
+	BOOL bDrive9   = FALSE;
+	HMENU hmnu = GetMenu(hwnd);
+    int drive_true_emulation;
+
+	char *pText = "";
+
+	switch (memspace)
+	{
+	case e_comp_space:  bComputer = TRUE; pText = "Computer"; break;
+	case e_disk8_space: bDrive8   = TRUE; pText = "Drive 8";  break;
+	case e_disk9_space: bDrive9   = TRUE; pText = "Drive 9";  break;
+
+    /* 
+        these two cases should not occur; 
+        they're just there to avoid the warning 
+    */
+    case e_default_space: /* FALL THROUGH */
+    case e_invalid_space: break; 
+	}
+
+    resources_get_value("DriveTrueEmulation",
+        (resource_value_t *)&drive_true_emulation);
+
+    ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
+	ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);
+    ENABLE( IDM_MON_DRIVE9,   drive_true_emulation ? 1 : 0);
+    CHECK ( IDM_MON_COMPUTER, drive_true_emulation ? bComputer : TRUE);
+	CHECK ( IDM_MON_DRIVE8,   drive_true_emulation ? bDrive8   : FALSE);
+    CHECK ( IDM_MON_DRIVE9,   drive_true_emulation ? bDrive9   : FALSE);
+
+	if (drive_true_emulation)
+	{
+		char pOldText[256];
+		int  n = GetWindowText( hwnd, pOldText, 256 );
+
+		if (n!=0)
+		{
+			char *pWrite = strchr(pOldText,':');
+			if (pWrite==NULL)
+			{
+				pWrite = strchr(pOldText,0);
+				*pWrite=':';
+			}
+		
+			strcpy( ++pWrite, pText );
+			SetWindowText(hwnd,pOldText);
+		}
+	}
+}
+
+static
+void ClearMemspace( HWND hwnd )
+{
+	HMENU hmnu = GetMenu(hwnd);
+
+	ENABLE( IDM_MON_COMPUTER, 0 );
+	ENABLE( IDM_MON_DRIVE8,   0 );
+    ENABLE( IDM_MON_DRIVE9,   0 );
+	CHECK ( IDM_MON_COMPUTER, FALSE );
+	CHECK ( IDM_MON_DRIVE8,   FALSE );
+    CHECK ( IDM_MON_DRIVE9,   FALSE );
 }
 
 #define SET_COMMAND( _cmd ) \
@@ -835,7 +933,7 @@ void OnCommand( HWND hwnd, WORD wNotifyCode, WORD wID, HWND hwndCtrl )
 
 	case IDM_MON_DRIVE9:
 		if (hwndMdiActive)
-			SendMessage( hwndMdiActive, WM_OWNCOMMAND, wID, 0 );
+			SendMessage( hwndMdiActive, WM_CHANGECOMPUTERDRIVE, wID, 0 );
 		break;
     }
 }
@@ -851,7 +949,7 @@ long CALLBACK mon_window_proc(HWND hwnd,
 	{
 	case WM_CLOSE:
         SET_COMMAND("x");
-        /* FALL THROUGH */
+		break;
 
 	case WM_DESTROY:
         StoreMonitorDimensions(hwnd);
@@ -896,6 +994,8 @@ long CALLBACK mon_window_proc(HWND hwnd,
             ResizeMdiClient(hwnd);
             ShowWindow( hwndMdiClient, SW_SHOW );
         }
+
+		ClearMemspace( hwnd );
         break;
 
     case WM_COMMAND:
@@ -915,53 +1015,6 @@ long CALLBACK mon_window_proc(HWND hwnd,
 	}
 
 	return DefFrameProc(hwnd, hwndMdiClient, msg, wParam, lParam);
-}
-
-static
-void SetMemspace( HWND hwnd, enum t_memspace memspace )
-{
-	BOOL bComputer = FALSE;
-	BOOL bDrive8   = FALSE;
-	BOOL bDrive9   = FALSE;
-	HMENU hmnu = GetMenu(hwnd);
-    int drive_true_emulation;
-
-	switch (memspace)
-	{
-	case e_comp_space:  bComputer = TRUE; break;
-	case e_disk8_space: bDrive8   = TRUE; break;
-	case e_disk9_space: bDrive9   = TRUE; break;
-
-    /* 
-        these two cases should not occur; 
-        they're just there to avoid the warning 
-    */
-    case e_default_space: /* FALL THROUGH */
-    case e_invalid_space: break; 
-	}
-
-    resources_get_value("DriveTrueEmulation",
-        (resource_value_t *)&drive_true_emulation);
-
-    ENABLE( IDM_MON_COMPUTER, drive_true_emulation ? 1 : 0);
-	ENABLE( IDM_MON_DRIVE8,   drive_true_emulation ? 1 : 0);
-    ENABLE( IDM_MON_DRIVE9,   drive_true_emulation ? 1 : 0);
-    CHECK ( IDM_MON_COMPUTER, drive_true_emulation ? bComputer : TRUE);
-	CHECK ( IDM_MON_DRIVE8,   drive_true_emulation ? bDrive8   : FALSE);
-    CHECK ( IDM_MON_DRIVE9,   drive_true_emulation ? bDrive9   : FALSE);
-}
-
-static
-void ClearMemspace( HWND hwnd )
-{
-	HMENU hmnu = GetMenu(hwnd);
-
-	ENABLE( IDM_MON_COMPUTER, 0 );
-	ENABLE( IDM_MON_DRIVE8,   0 );
-    ENABLE( IDM_MON_DRIVE9,   0 );
-	CHECK ( IDM_MON_COMPUTER, FALSE );
-	CHECK ( IDM_MON_DRIVE8,   FALSE );
-    CHECK ( IDM_MON_DRIVE9,   FALSE );
 }
 
 static
@@ -1014,7 +1067,14 @@ long CALLBACK reg_window_proc(HWND hwnd,
 		ActivateMdiChild( (HWND) wParam, hwnd, prp->memspace );
 		break;
 
-	case WM_OWNCOMMAND:
+    case WM_GETWINDOWTYPE:
+        {
+            LONG* lp = (PLONG) lParam;
+            *lp = WT_REGISTER;
+        }
+        return 0;
+
+	case WM_CHANGECOMPUTERDRIVE:
 		switch (wParam)
 		{
 		case IDM_MON_COMPUTER:
@@ -1183,7 +1243,14 @@ long CALLBACK dis_window_proc(HWND hwnd,
 		ActivateMdiChild( (HWND) wParam, hwnd, pdp->memspace );
 		break;
 
-	case WM_OWNCOMMAND:
+    case WM_GETWINDOWTYPE:
+        {
+            LONG* lp = (PLONG) lParam;
+            *lp = WT_DISASSEMBLY;
+        }
+        return 0;
+
+	case WM_CHANGECOMPUTERDRIVE:
 		switch (wParam)
 		{
 		case IDM_MON_COMPUTER:
@@ -1401,8 +1468,8 @@ console_t *arch_mon_window_open( void )
 	WindowDimensions *wd;
     int x  = 0;
     int y  = 0;
-    int dx = 400;
-    int dy = 300;
+    int dx = 472;
+    int dy = (dx * 3) / 4;
 
     hwndParent = GetActiveWindow();
 
@@ -1514,6 +1581,7 @@ char *arch_mon_in()
 		if (console_log)
 		{
 	        p = console_in(console_log);
+/*
 			if (p)
 			{
 				if (*p==0)
@@ -1522,6 +1590,7 @@ char *arch_mon_in()
 					p = NULL;
 				}
 			}
+*/
 		}
 		else
 		{

@@ -24,20 +24,23 @@
  *
  */
 
-#define INCL_WINSTATICS     // SS_TEXT
-#define INCL_WINSTDFILE     // FILEDLG
-#define INCL_WINLISTBOXES   // Lbox
-#define INCL_WINWINDOWMGR   // QWL_USER
-#define INCL_WINENTRYFIELDS // WC_ENTRYFIELD
+#define INCL_WINSTATICS       // SS_TEXT
+#define INCL_WINSTDFILE       // FILEDLG
+#define INCL_WINLISTBOXES     // Lbox
+#define INCL_WINWINDOWMGR     // QWL_USER
+#define INCL_WINENTRYFIELDS   // WC_ENTRYFIELD
 #include "vice.h"
 
-#include <direct.h>         // chdir
-#include <string.h>         // strrchr
+#include <os2.h>
+
+#include <direct.h>           // chdir
+#include <string.h>           // strrchr
 
 #include "vdrive.h"
-#include "dialogs.h"        // WinLbox*
-#include "charsets.h"       // a2p, p2a
-#include "diskimage.h"      // DISK_IMAGE_TYPE_*
+#include "dialogs.h"          // WinLbox*
+#include "charsets.h"         // a2p, p2a
+#include "diskimage.h"        // DISK_IMAGE_TYPE_*
+#include "snippets\pmwin2.h"  // WinQueryDlgPos
 
 #define nTYPES 7
 
@@ -114,7 +117,7 @@ MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                             "Type:",
                             swp5.x-swp6.x+swp7.x, swp1.y, 45, swp1.cy);
 
-            WinCreateStdDlg(hwnd, CBS_IMGTYPE, WC_COMBOBOX,         
+            WinCreateStdDlg(hwnd, CBS_IMGTYPE, WC_COMBOBOX,
                             CBS_DROPDOWNLIST|WS_TABSTOP|WS_VISIBLE, "",
                             swp5.x+swp7.x-swp6.x,          swp2.y,
                             swp3.cx-swp5.cx-swp7.x+swp6.x, swp2.cy);                    /* Pres parameters     */
@@ -137,8 +140,7 @@ MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             int  *type = (int*)((FILEDLG*)WinQueryWindowPtr(hwnd,QWL_USER))->ulUser;
             char *name = (char*)type+sizeof(int);
 
-            const HWND hwndtype = WinWindowFromID(hwnd, CBS_IMGTYPE);
-            *type = WinQueryLboxSelectedItem(hwndtype);
+            *type = WinQueryDlgLboxSelectedItem(hwnd, CBS_IMGTYPE);
 
             WinQueryDlgText(hwnd, EF_NAME, name, 20);
         }
@@ -202,9 +204,8 @@ void create_dialog(HWND hwnd)
                                 a2p((char*)filedlg.ulUser+sizeof(int)),
                                 imgRes[type]))
         {
-            WinMessageBox(HWND_DESKTOP, hwnd,
-                          "Unable to create new diskimage.", "VICE/2 Error",
-                          0, MB_OK);
+            ViceErrorDlg(hwnd, PTR_INFO,
+                         " Create Image:\n Cannot create a new disk image.");
             return;
         }
     }

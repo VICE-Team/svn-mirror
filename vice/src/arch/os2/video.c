@@ -25,15 +25,14 @@
  */
 #include "vice.h"
 
-#define INCL_GPI
+#define INCL_GPI             // RGNRECT
 #define INCL_WINSYS          // SV_CYTITLEBAR
 #define INCL_WINHELP         // WinCreateHelpInstance
 #define INCL_WININPUT        // WM_CHAR
 #define INCL_WINMENUS        // PU_*
-#define INCL_WINSTDDRAG      // Drg*
+#define INCL_WINSTDDRAG      // PDRAGINFO in dragndrop.h
 #define INCL_DOSPROCESS      // DosSleep
 #define INCL_WINSTATICS      // SS_TEXT
-#define INCL_WINPOINTERS     // WinLoadPointer
 #define INCL_WINFRAMEMGR     // WM_TRANSLATEACCEL
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_DOSSEMAPHORES   // HMTX
@@ -50,6 +49,7 @@
 #endif
 
 #include "video.h"
+//#include "dlg-emulator.h" // ID_SPEEDDISP
 
 #include "log.h"
 #include "proc.h"
@@ -57,12 +57,13 @@
 #include "ui_status.h"
 #include "utils.h"
 #include "dialogs.h"
+#include "menubar.h"
+#include "dragndrop.h"
 #include "machine.h"      // machine_canvas_screenshot
 #include "cmdline.h"
-#include "autostart.h"   // autostart_autodetect
 #include "resources.h"
 #include "screenshot.h"  // screenshot_t
-
+#include "snippets\pmwin2.h"
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -142,7 +143,7 @@ static UINT statusbar_height(void)
 
     return fntht + 2*bdry + 2 + offset + 3;
 }
-
+/*
 static HWND AddStatusFrame(HWND hwnd, UINT x, UINT width, int frame)
 {
     const UINT fntht  = 11;
@@ -172,11 +173,11 @@ static HWND AddStatusTxt(HWND hwnd, UINT x, UINT width, int id, char *txt)
                                id, //FID_STATUS,
                                NULL, NULL);
 
-    WinSetPresParam(thwnd, PP_FONTNAMESIZE, strlen(font)+1, font);
+    WinSetFont(thwnd, font);
 
     return thwnd;
 }
-
+*/
 static UINT canvas_fullheight(UINT height)
 {
     height *= stretch;
@@ -198,6 +199,7 @@ static UINT canvas_fullwidth(UINT width)
 }
 
 /* ------------------------------------------------------------------------ */
+/*
 static void status_resize(canvas_t *c)
 {
     SWP swp;
@@ -255,7 +257,7 @@ static int set_status(resource_value_t v, void *hwnd)
 
     return 0;
 }
-
+*/
 static int set_menu(resource_value_t v, void *hwnd)
 {
     canvas_t *c = (canvas_t *)WinQueryWindowPtr((HWND)hwnd, QWL_USER);
@@ -298,12 +300,12 @@ void toggle_menubar(HWND hwnd)
 {
     set_menu((void*)!menu, (void*)hwnd);
 }
-
+/*
 void toggle_statusbar(HWND hwnd)
 {
     set_status((void*)!status, (void*)hwnd);
 }
-
+*/
 
 static int set_border_type(resource_value_t v, void *param)
 {
@@ -493,10 +495,10 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
 
     if (rc=DiveFreeImageBuffer(hDiveInst, f->ulBuffer))
         log_message(LOG_DEFAULT,"video.c: Error DiveFreeImageBuffer (rc=0x%x).", rc);
-    //
-    // this must be set to zero before the next image buffer could be allocated
-    // FIXME: Why? Could this be?
-    f->ulBuffer = 0;
+    else
+        log_message(LOG_DEFAULT,"video.c: Frame buffer #%d freed.", f->ulBuffer);
+
+
     //
     // if f is valid also f->bitmap must be valid, see video_frame_buffer_alloc
     //
@@ -768,88 +770,6 @@ static void DisplayPopupMenu(HWND hwnd, POINTS *pts)
                  PU_MOUSEBUTTON2DOWN|PU_HCONSTRAIN|PU_VCONSTRAIN);
 }
 
-MRESULT DragOver(PDRAGINFO pDraginfo)
-{
-    FILE     *f;
-    char      dir[CCHMAXPATH];
-    char      nam[CCHMAXPATH];
-    DRAGITEM *pditem;
-
-    /*
-     * Determine if a drop can be accepted.
-     */
-    if (pDraginfo->usOperation != DO_MOVE &&
-        pDraginfo->usOperation != DO_COPY &&
-        pDraginfo->usOperation != DO_LINK &&
-        pDraginfo->usOperation != DO_UNKNOWN &&
-        pDraginfo->usOperation != DO_DEFAULT)
-        return MRFROM2SHORT(DOR_NODROPOP, 0);
-
-    pditem = DrgQueryDragitemPtr (pDraginfo, 0);
-
-    /*
-     * check if it is an OS/2 File
-     */
-    if (!DrgVerifyRMF(pditem, "DRM_OS2FILE", NULL))
-        return MRFROM2SHORT(DOR_NEVERDROP, 0);
-
-    DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir);
-    DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam);
-
-    if (!(f = fopen(strcat(dir, nam), "r")))
-        return MRFROM2SHORT (DOR_NEVERDROP, 0);
-    fclose(f);
-
-    {
-        HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 111);//IDM_VICE2);
-        if (hpt)
-            DrgSetDragPointer(pDraginfo, hpt);
-    }
-    return MRFROM2SHORT(DOR_DROP, DO_UNKNOWN);
-}
-
-MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
-{
-    char      dir[CCHMAXPATH];
-    char      nam[CCHMAXPATH];
-    DRAGITEM *pditem;
-
-    pditem = DrgQueryDragitemPtr(pDraginfo, 0);
-
-    if (!DrgQueryStrName(pditem->hstrContainerName, sizeof(dir), dir) ||
-        !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam))
-        return NULL;
-
-    if (autostart_autodetect(strcat(dir, nam), NULL, 0) >= 0)
-        return NULL;
-
-    WinMessageBox(HWND_DESKTOP, hwnd,
-                  "Cannot autostart dropped file.", "VICE/2 Error",
-                  0, MB_OK);
-    return NULL;
-}
-
-MRESULT DragDrop(HWND hwnd, ULONG msg, DRAGINFO *info)
-{
-    MRESULT mr;
-
-    if (!DrgAccessDraginfo(info))
-        return MRFROM2SHORT (DOR_NODROPOP, 0);
-
-    switch (msg)
-    {
-    case DM_DRAGOVER:
-        mr = DragOver(info);
-        break;
-    case DM_DROP:
-        mr = Drop(hwnd, info);
-        break;
-    }
-
-    DrgFreeDraginfo(info);
-    return mr;
-}
-
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg)
@@ -974,21 +894,21 @@ static void InitMenuBar(canvas_t *c)
     //
     set_menu((void*)menu, (void*)c->hwndClient);
 }
-
+/*
 void InitStatusBar(canvas_t *c)
 {
-    HWND hwnd=WinCreateWindow(c->hwndFrame,       /* Parent window  */
-                              WC_FRAME,           /* Class name     */
-                              NULL,               /* Window text    */
-                              0,                  /* Frame control  */
-                              border_size_x(), border_size_y(), /* Position */
+    HWND hwnd=WinCreateWindow(c->hwndFrame,       // Parent window
+                              WC_FRAME,           // Class name
+                              NULL,               // Window text
+                              0,                  // Frame control
+                              border_size_x(), border_size_y(), // Position
                               c->width,
-                              statusbar_height(), /* Size (width,height) */
-                              NULLHANDLE,         /* Owner window    */
-                              HWND_TOP,           /* Sibling window  */
-                              FID_STATUS,         /* Window id       */
-                              NULL,               /* Control data    */
-                              NULL);              /* Pres parameters */
+                              statusbar_height(), // Size (width,height)
+                              NULLHANDLE,         // Owner window    
+                              HWND_TOP,           // Sibling window  
+                              FID_STATUS,         // Window id       
+                              NULL,               // Control data    
+                              NULL);              // Pres parameters 
 
     HWND fhwnd = AddStatusFrame(hwnd, 0, 55, TRUE);
     HWND stat  = AddStatusFrame(hwnd, c->width-110, 110, FALSE);
@@ -1004,7 +924,7 @@ void InitStatusBar(canvas_t *c)
 
     set_status((void*)status, (void*)c->hwndClient);
 }
-
+*/
 void PM_mainloop(VOID *arg)
 {
     APIRET rc;
@@ -1034,6 +954,7 @@ void PM_mainloop(VOID *arg)
                                       &flFrameFlags, szClientClass,
                                       c->title, 0L, 0, IDM_VICE2,
                                       &(c->hwndClient));
+
     //
     // get actual window size and position
     //
@@ -1052,7 +973,7 @@ void PM_mainloop(VOID *arg)
     //
     // initialize status bar
     //
-    InitStatusBar(c);
+    // InitStatusBar(c);
 
     //
     // initialize help system
@@ -1171,7 +1092,8 @@ canvas_t *canvas_create(const char *title, UINT *width,
     while (!canvas_new->vrenabled) // wait until canvas initialized
         DosSleep(1);
 
-    log_debug("video.c: Canvas '%s' (%ix%i) created.", title, *width, *height);
+    log_debug("video.c: Canvas '%s' (%ix%i) created, hwnd=%x.",
+              title, *width, *height, canvas_new->hwndClient);
 
     canvas_set_palette(canvas_new, palette, pixel_return);
 
@@ -1299,22 +1221,6 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
         return;
 
     DEBUG("CANVAS REFRESH 0");
-    //
-    // FIXME: I get:
-    // frame_buffer_alloc Size=480x312
-    // canvas_create Size=384x271
-    // canvas_refresh height=271 (called from update_canvas_all)
-    // Main CPU: starting at ($FFFC).
-    // Main CPU: RESET.
-    // canvas_refresh height=272 !!! called from update_canvas
-    // canvas_refresh height=224
-    // canvas_refresh height=  2
-    // canvas_refresh height=  2
-    // canvas_refresh height=  1
-    // canvas_refresh height=  8
-    // canvas_refresh height=  8
-    // canvas_refresh height=  8
-    //
 
     if (c->vrenabled)
     {
@@ -1338,8 +1244,8 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
             ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
 
-        if (status)
-            divesetup.lDstPosY += statusbar_height();
+//        if (status)
+//            divesetup.lDstPosY += statusbar_height();
 
         //
         // now setup the draw areas

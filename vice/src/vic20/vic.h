@@ -80,13 +80,17 @@ typedef PIXEL2 VIC_PIXEL2;
 #define VIC_CYCLES_PER_LINE VIC20_PAL_CYCLES_PER_LINE
 
 /* Cycle # within the current line.  */
-#define VIC_RASTER_CYCLE(clk) ((int)((clk) % VIC_CYCLES_PER_LINE))
+#define VIC_RASTER_CYCLE(clk) ((unsigned int)((clk) % VIC_CYCLES_PER_LINE))
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending `A_RASTERDRAW' event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
-#define VIC_RASTER_Y(clk)     ((int)((clk) / VIC_CYCLES_PER_LINE)   \
+#define VIC_RASTER_Y(clk)     ((unsigned int)((clk) / VIC_CYCLES_PER_LINE)   \
                                % VIC_SCREEN_HEIGHT)
+
+#define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4)
+
+#define VIC_RASTER_CHAR(cycle)   ((int)((cycle) - vic.raster.display_xstart / 4 - 6) / 2)
 
 /* Video mode definitions. */
 
@@ -124,16 +128,41 @@ struct vic_s
 
     alarm_t raster_draw_alarm;
 
-    BYTE auxiliary_color;
+    int auxiliary_color;
+    int mc_border_color;
+
     BYTE *color_ptr;
     BYTE *screen_ptr;
     BYTE *chargen_ptr; /* = chargen_rom + 0x400; */
 
-    unsigned int char_height;   /* = 8 */
+    unsigned int char_height;   /* changes immediately for memory fetch */
+    unsigned int row_increase_line; /* may change next line for row count */
     unsigned int text_cols;     /* = 22 */
     unsigned int text_lines;    /* = 23 */
 
     unsigned int memptr;
+
+    /* next frame with different ystart; -1 for no value pending */
+    int pending_ystart;
+
+    /* next frame with different number of text lines; -1 for no value pending */
+    int pending_text_lines;
+
+    /* counting the text lines in the current frame */
+    int row_counter;
+
+    /* offset for screen memory pointer if char_height changes from 8 to 16  */
+    int row_offset;
+
+    /* area in the frame: 0=upper border, 1=visible screen; 2=lower border */
+    int area;
+
+    /* Clock cycle for the next "raster draw" alarm.  */
+    CLOCK draw_clk;
+
+    /* FIXME: Bad name.  FIXME: Has to be initialized.  */
+    CLOCK last_emulate_line_clk;
+
   };
 typedef struct vic_s vic_t;
 
@@ -142,6 +171,7 @@ extern vic_t vic;
 extern struct raster_s *vic_init(void);
 extern struct canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
+extern int vic_raster_draw_alarm_handler (CLOCK offset);
 
 extern int vic_init_resources(void);
 extern int vic_init_cmdline_options(void);

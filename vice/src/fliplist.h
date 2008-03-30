@@ -42,5 +42,9 @@ extern char *flip_get_prev(unsigned int unit);
 extern char *flip_get_image(void *fl);
 extern unsigned int flip_get_unit(void *fl);
 
+extern void flip_clear_list(unsigned int unit);
+extern int  flip_save_list(unsigned int unit, const char *filename);
+extern int  flip_load_list(unsigned int unit, const char *filename, int autoattach);
+
 #endif /* _FLIPLIST_H */
 

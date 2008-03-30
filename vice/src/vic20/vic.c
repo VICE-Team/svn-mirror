@@ -59,7 +59,6 @@
 
 vic_t vic;
 
-static int raster_draw_alarm_handler (CLOCK offset);
 static void vic_exposure_handler (unsigned int width, unsigned int height);
 
 static void vic_exposure_handler (unsigned int width, unsigned int height)
@@ -74,38 +73,102 @@ static void vic_exposure_handler (unsigned int width, unsigned int height)
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
 
-static int raster_draw_alarm_handler (CLOCK offset)
+int vic_raster_draw_alarm_handler (CLOCK offset)
 {
-  int in_visible_area;
+    int blank_this_line;
+    int cols_in_this_line;
 
-  alarm_set (&vic.raster_draw_alarm, clk + VIC_CYCLES_PER_LINE - offset);
+    alarm_set (&vic.raster_draw_alarm, clk + VIC_CYCLES_PER_LINE - offset);
 
-  in_visible_area = (vic.raster.current_line >= vic.raster.display_ystart
-                     && vic.raster.current_line <= vic.raster.display_ystop);
+    if (vic.area == 0 && vic.raster.current_line >= vic.raster.display_ystart)
+        vic.area = 1;
 
-  raster_emulate_line (&vic.raster);
+    blank_this_line = vic.raster.blank_this_line;
+    if (blank_this_line)
+        vic.raster.display_ystop++;
 
-  if (in_visible_area)
+    cols_in_this_line = vic.text_cols;
+
+    raster_emulate_line (&vic.raster);
+
+    /* xstart may have changed; recalculate xstop */
+    vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
+
+    if (vic.area == 1)
     {
-      /* FIXME: I don't think this is exact emulation.  */
-      if (vic.raster.ycounter == vic.char_height - 1)
+        int increase_row = 
+            ((unsigned int)vic.raster.ycounter > vic.row_increase_line - 1
+            || (unsigned int)vic.raster.ycounter == vic.row_increase_line - 1
+                && !blank_this_line);
+
+        if (increase_row)
         {
-          vic.raster.ycounter = 0;
-          vic.memptr += vic.text_cols;
+            vic.row_counter++;
+            vic.raster.ycounter = 0;
+            vic.memptr += cols_in_this_line;
+
+            vic.raster.display_ystop = vic.raster.current_line
+                + (vic.text_lines - vic.row_counter) * vic.char_height;
+
+            /* if XPOS is 0 VIC displays one more rasterline */
+            if (vic.raster.display_xstart == 0)
+                vic.raster.display_ystop++;
+        
+        } else if (!blank_this_line) {
+            vic.raster.ycounter++;
+
+            if (vic.row_offset > 0)
+            {
+                /* this only happens if char_height changes from 8 to 16 within line 7 */
+                vic.memptr += vic.row_offset;
+                vic.row_offset = -1;
+            }
+
+            if (vic.raster.current_line >= vic.raster.display_ystop)
+                vic.area = 2;
         }
-      else
-        vic.raster.ycounter++;
     }
 
-  if (vic.raster.current_line == 0)
+    if (vic.raster.current_line == 0)
     {
-      raster_skip_frame (&vic.raster, do_vsync (vic.raster.skip_frame));
-      vic.raster.blank_enabled = 1;
-      vic.raster.ycounter = 0;
-      vic.memptr = 0;
+        raster_skip_frame (&vic.raster, do_vsync (vic.raster.skip_frame));
+        vic.raster.blank_enabled = 1;
+        vic.row_counter = 0;
+        vic.raster.ycounter = 0;
+        vic.memptr = 0;
+        vic.area = 0;
+
+        if (vic.pending_ystart >= 0)
+        {
+            vic.raster.display_ystart = vic.pending_ystart;
+            vic.raster.geometry.gfx_position.y = 
+                vic.pending_ystart - VIC_FIRST_DISPLAYED_LINE;
+            vic.raster.display_ystop = 
+                vic.raster.display_ystart + vic.text_lines * vic.char_height;
+
+            vic.pending_ystart = -1;
+        }
+
+        if (vic.pending_text_lines >= 0)
+        {
+            vic.text_lines = vic.pending_text_lines;
+            vic.raster.display_ystop = 
+                (vic.raster.display_ystart + vic.text_lines * vic.char_height);
+            vic.raster.geometry.gfx_size.height = vic.pending_text_lines * 8;
+            vic.raster.geometry.text_size.height = vic.pending_text_lines;
+
+            vic.pending_text_lines = -1;
+        }
+
+        vic.raster.blank = 0;
     }
 
-  return 0;
+    /* Set the next draw event.  */
+    vic.last_emulate_line_clk += VIC_CYCLES_PER_LINE;
+    vic.draw_clk = vic.last_emulate_line_clk + VIC_CYCLES_PER_LINE;
+    alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
+
+    return 0;
 }
 
 static int init_raster(void)
@@ -131,9 +194,9 @@ static int init_raster(void)
 
     raster_set_geometry (raster,
                          VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
-                         22*8, 23*8,    /* FIXME: this has to be handled dynamically  */
-                         22, 23,        /* FIXME: this has to be handled dynamically  */
-                         12*4, 38*2-VIC_FIRST_DISPLAYED_LINE, /* FIXME: this has to be handled dynamically  */
+                         22*8, 23*8,    /* handled dynamically  */
+                         22, 23,        /* handled dynamically  */
+                         12*4, 38*2 - VIC_FIRST_DISPLAYED_LINE, /* handled dynamically  */
                          1,
                          VIC_FIRST_DISPLAYED_LINE,
                          VIC_LAST_DISPLAYED_LINE,
@@ -181,10 +244,13 @@ raster_t *vic_init(void)
   vic.log = log_open ("VIC");
 
   alarm_init (&vic.raster_draw_alarm, &maincpu_alarm_context,
-              "VicIRasterDraw", raster_draw_alarm_handler);
+              "VicIRasterDraw", vic_raster_draw_alarm_handler);
 
   if (init_raster() < 0)
     return NULL;
+
+  vic.auxiliary_color = 0;
+  vic.mc_border_color = 0;
 
   vic.color_ptr = ram;
   vic.screen_ptr = ram;
@@ -192,6 +258,7 @@ raster_t *vic_init(void)
 
   /* FIXME */
   vic.char_height = 8;
+  vic.row_increase_line = 8;
   vic.text_cols = 22;
   vic.text_lines = 23;
 
@@ -228,7 +295,14 @@ void vic_reset (void)
   raster_reset (&vic.raster);
   alarm_set (&vic.raster_draw_alarm, VIC_CYCLES_PER_LINE);
 
+  vic.row_counter = 0;
   vic.memptr = 0;
+  vic.pending_ystart = -1;
+  vic.pending_text_lines = -1;
+  vic.row_offset = -1;
+  vic.last_emulate_line_clk = 0;
+  vic.area = 0;
+
 }
 
 /* WARNING: This does not change the resource value.  External modules are
@@ -303,8 +377,16 @@ void vic_resize (void)
    registers. */
 void vic_update_memory_ptrs (void)
 {
+  static BYTE *old_chargen_ptr = NULL;
+  static BYTE *old_color_ptr = NULL;
+  static BYTE *old_screen_ptr = NULL;
+
   ADDRESS char_addr;
   int tmp;
+  
+  BYTE *new_chargen_ptr;
+  BYTE *new_color_ptr;
+  BYTE *new_screen_ptr;
 
   tmp = vic.regs[0x5] & 0xf;
   char_addr = (tmp & 0x8) ? 0x0000 : 0x8000;
@@ -312,7 +394,7 @@ void vic_update_memory_ptrs (void)
 
   if (char_addr >= 0x8000 && char_addr < 0x9000)
     {
-      vic.chargen_ptr = chargen_rom + 0x400 + (char_addr & 0xfff);
+      new_chargen_ptr = chargen_rom + 0x400 + (char_addr & 0xfff);
       VIC_DEBUG_REGISTER (("Character memory at $%04X "
                            "(character ROM + $%04X).",
                            char_addr,
@@ -321,18 +403,47 @@ void vic_update_memory_ptrs (void)
   else
     {
       if (char_addr == 0x1c00)
-        vic.chargen_ptr = chargen_rom;    /* handle wraparound */
+        new_chargen_ptr = chargen_rom;    /* handle wraparound */
       else
-        vic.chargen_ptr = ram + char_addr;
+        new_chargen_ptr = ram + char_addr;
       VIC_DEBUG_REGISTER (("Character memory at $%04X.", char_addr));
     }
 
-  vic.color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
-  vic.screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
+  new_color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
+  new_screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
                           | ((vic.regs[0x5] & 0x70) << 6));
 
   VIC_DEBUG_REGISTER (("Color memory at $%04X.", vic.color_ptr - ram));
   VIC_DEBUG_REGISTER (("Screen memory at $%04X.", vic.screen_ptr - ram));
+
+  if (new_chargen_ptr != old_chargen_ptr)
+  {
+    raster_add_ptr_change_foreground (&vic.raster,
+          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 2),
+          (void*)&vic.chargen_ptr,
+          new_chargen_ptr);
+
+    old_chargen_ptr = new_chargen_ptr;
+  }
+
+  if (new_color_ptr != old_color_ptr)
+  {
+    raster_add_ptr_change_foreground (&vic.raster,
+          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 3),
+          (void*)&vic.color_ptr,
+          new_color_ptr);
+
+    old_color_ptr = new_color_ptr;
+  }
+  if (new_screen_ptr != old_screen_ptr)
+  {
+    raster_add_ptr_change_foreground (&vic.raster,
+          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 3),
+          (void*)&vic.screen_ptr,
+          new_screen_ptr);
+
+    old_screen_ptr = new_screen_ptr;
+  }
 }
 
 int vic_init_resources (void)

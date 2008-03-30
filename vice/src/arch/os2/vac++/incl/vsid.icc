@@ -1,4 +1,7 @@
+source type (rc)  
+    "dlg-vsid.rc"
+    
 source type(c)
     "psid.c",
     "vsidui.c",
-    "dialogs\\dlg-vsid.c"
+    "dlg-vsid.c"

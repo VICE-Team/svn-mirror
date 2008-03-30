@@ -1,4 +1,5 @@
 option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
+    link(linkwithsharedlib, "yes"),
     link(pmtype, "vio"),    gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
@@ -10,6 +11,7 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
     incl(searchpath, ".."),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\vdrive"),
+    incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
     incl(searchpathfirst, "yes"),
     define("__C1541__", ),
     res_rc_options("-i ..\\dialogs -d __C1541__ -x1")
@@ -17,20 +19,21 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
 {
 target type(exe) "..\\..\\..\\..\\data\\c1541.exe"
 {
-      source type (rc) "dialogs/c1541.rc"
-      source type(c) "c1541.c",
-                     "charsets.c",
-                     "diskimage.c",
-                     "gcr.c",
-                     "info.c",
-                     "log.c",
-                     "p00.c",
-                     "resources.c",
-                     "t64.c",
-                     "utils.c",
-                     "zfile.c",
-                     "zipcode.c"
-      source type(c) "archdep.c"
+      source type (rc)  "dialogs/c1541.rc"
+      source type (lib) "..\\..\\..\\..\\data\\vice2.lib"
+      source type(c)    "c1541.c",
+                        "charsets.c",
+                        "diskimage.c",
+                        "gcr.c",
+                        "info.c",
+                        "log.c",
+                        "p00.c",
+                        "resources.c",
+                        "t64.c",
+                        "utils.c",
+                        "zfile.c",
+                        "zipcode.c"
+      source type(c)    "archdep.c"
       include "incl/vdrive.icc"
 }
 }

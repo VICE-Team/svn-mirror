@@ -411,6 +411,9 @@ Package=<4>
     Project_Dep_Name sounddrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name vicii
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name raster
     End Project Dependency
     Begin Project Dependency

@@ -11,19 +11,30 @@ libdialogs_a_SOURCES = \
         dialogs.h \
         dialogs.rc \
         menubar.c \
+        menubar.h \
+        menubar.rc \
+        dragndrop.h \
+        dragndrop.c \
+        dlg-fileio.h \
+        dlg-fileio.c \
+	dlg-fileio.rc \
+        dlg-vsid.h \
         dlg-vsid.c \
-        dlg-attach.c \
-        dlg-autostart.c \
-        dlg-cmdopt.c \
-	dlg-contents.c \
-        dlg-create.c \
+        dlg-vsid.rc \
+	dlg-datasette.h \
 	dlg-datasette.c \
+	dlg-datasette.rc \
+	dlg-drive.h \
 	dlg-drive.c \
+	dlg-drive.rc \
+	dlg-emulator.h \
 	dlg-emulator.c \
+	dlg-emulator.rc \
+	dlg-joystick.h \
 	dlg-joystick.c \
+	dlg-joystick.rc \
+        dlg-cmdopt.c \
+        dlg-create.c \
 	dlg-monitor.c \
-        dlg-reset.c \
-        dlg-cartridge.c \
-        dlg-screenshot.c \
-        dlg-snapshot.c 
+        dlg-reset.c 
 

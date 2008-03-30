@@ -40,59 +40,161 @@
 void REGPARM2 
 vic_store(ADDRESS addr, BYTE value)
 {
-  addr &= 0xf;
-  vic.regs[addr] = value;
+    addr &= 0xf;
+    vic.regs[addr] = value;
+    VIC_DEBUG_REGISTER (("VIC: write $90%02X, value = $%02X.", addr, value));
 
-  VIC_DEBUG_REGISTER (("VIC: write $90%02X, value = $%02X.", addr, value));
+    if (clk >= vic.draw_clk)
+        vic_raster_draw_alarm_handler (clk - vic.draw_clk);
 
-  switch (addr)
+
+    switch (addr)
     {
     case 0:                     /* $9000  Screen X Location. */
-      value &= 0x7f;
-/*
-      if (value > 8)
-        value = 8;
-      if (value < 1)
-        value = 1;
-*/
-      vic.raster.display_xstart = value * 4;
-      vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
-      if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
-        vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
-      VIC_DEBUG_REGISTER (("Screen X location: $%02X.", value));
-      VIC_DEBUG_REGISTER (("X Start: $%03X.", vic.raster.display_xstart));
-      VIC_DEBUG_REGISTER (("X End: $%03X.", vic.raster.display_xstop));
-      return;
+        /* 
+            VIC checks in cycle n for peek($9000)=n 
+            and in this case opens the horizontal flipflop
+        */
+        {
+            int xstart, xstop;
+            
+            value &= 0x7f;
+
+            xstart = value * 4;
+            xstop = xstart + vic.text_cols * 8;
+            if (xstop >= VIC_SCREEN_WIDTH)
+                xstop = VIC_SCREEN_WIDTH - 1; /* FIXME: SCREEN-MIXUP not handled */
+
+            if (vic.raster.display_xstart < (signed int)VIC_RASTER_CYCLE(clk) * 4
+                && !vic.raster.blank_this_line)
+            {
+                /* the line has already started */
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.raster.display_xstart, xstart);
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.raster.geometry.gfx_position.x, xstart);
+            } else {
+                vic.raster.display_xstart = xstart;
+                vic.raster.display_xstop = xstop;
+                vic.raster.geometry.gfx_position.x = xstart;
+                /* the line may not start, if new xstart is already passed */
+                vic.raster.blank_this_line = (value < VIC_RASTER_CYCLE(clk));
+            }
+            return;
+        }
+
     case 1:                     /* $9001  Screen Y Location. */
-      vic.raster.display_ystart = value * 2;
-      vic.raster.display_ystop = (vic.raster.display_ystart
-                                  + vic.text_lines * vic.char_height);
-      VIC_DEBUG_REGISTER (("Screen Y location: $%02X.", value));
-      return;
+        /*
+            VIC checks from cycle 1 of line r*2 to cycle 0 of line r*2+2
+            if peek($9001)=r is true and in this case it opens the vertical flipflop
+        */
+        {
+            unsigned int ystart;
+            ystart = value * 2;
+
+            /* at least the next frame will start at the new ystart */
+            vic.pending_ystart = ystart;
+
+            if ((vic.raster.display_ystart > VIC_RASTER_Y(clk - 2))
+                || vic.raster.display_ystart < 0)
+            {
+                /* the vertical flipflop isn't open yet */
+                if (ystart / 2 < VIC_RASTER_Y(clk - 1) / 2)
+                {
+                    /* new ystart is already passed, vertical flipflop may not open this frame */
+                    vic.raster.display_ystart = vic.raster.display_ystop = -1;
+                } 
+                else if (ystart / 2 > VIC_RASTER_Y(clk - 1) / 2)
+                {
+                    /* the frame starts later */
+                    vic.raster.display_ystart = ystart;
+                    vic.raster.geometry.gfx_position.y = ystart - VIC_FIRST_DISPLAYED_LINE;
+                }
+                else
+                {
+                    /* the frame starts somewhere here */
+                    vic.raster.display_ystart = VIC_RASTER_Y(clk);
+                    vic.raster.geometry.gfx_position.y = VIC_RASTER_Y(clk)
+                        - VIC_FIRST_DISPLAYED_LINE;
+
+                    if (vic.raster.display_xstart < (signed int)VIC_RASTER_CYCLE(clk))
+                    {
+                        /* too late to start in current line */
+                        vic.raster.blank_this_line = 1;
+                    }
+                }
+            }
+            return;
+        }
 
     case 2:                     /* $9002  Columns Displayed. */
-      vic.color_ptr = ram + ((value & 0x80) ? 0x9600 : 0x9400);
-      vic.text_cols = value & 0x7f;
-      if (vic.text_cols > VIC_SCREEN_MAX_TEXT_COLS)
-        vic.text_cols = VIC_SCREEN_MAX_TEXT_COLS;
-      vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
-      if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)
-        vic.raster.display_xstop = VIC_SCREEN_WIDTH - 1;
-      vic_update_memory_ptrs ();
-      VIC_DEBUG_REGISTER (("Color RAM at $%04X.", vic.color_ptr - ram));
-      VIC_DEBUG_REGISTER (("Columns displayed: %d.", vic.text_cols));
-      return;
+        {
+            int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
+            int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8, 
+                VIC_SCREEN_WIDTH - 1);
+            
+            if (VIC_RASTER_CYCLE(clk) <= 1)
+            {
+                /* changes up to cycle 1 are visible in the current line */
+                vic.text_cols = new_text_cols;
+                vic.raster.display_xstop = new_xstop;
+                vic.raster.geometry.gfx_size.width = new_text_cols * 8;
+                vic.raster.geometry.text_size.width = new_text_cols;
+            } else {
+                /* later changes are visible in the next line */
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.text_cols, new_text_cols);
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.raster.display_xstop, new_xstop);
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.raster.geometry.gfx_size.width, new_text_cols * 8);
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.raster.geometry.text_size.width, new_text_cols);
+            }
+        }
+
+        vic_update_memory_ptrs ();
+
+        return;
 
     case 3:                     /* $9003  Rows Displayed, Character size . */
-      vic.text_lines = (value & 0x7e) >> 1;
-      if (vic.text_lines > VIC_SCREEN_MAX_TEXT_LINES)
-        vic.text_lines = VIC_SCREEN_MAX_TEXT_LINES;
-      vic.char_height = (value & 0x1) ? 16 : 8;
-      vic.raster.display_ystop = (vic.raster.display_ystart
-                                  + vic.text_lines * vic.char_height);
-      VIC_DEBUG_REGISTER (("Rows displayed: %d.", vic.text_lines));
-      VIC_DEBUG_REGISTER (("Character height: %d.", vic.char_height));
-      vic_update_memory_ptrs ();
+        {
+            int new_text_lines = MIN((value & 0x7e) >> 1, VIC_SCREEN_MAX_TEXT_LINES);
+            int new_char_height = (value & 0x1) ? 16 : 8;
+
+            if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 1)
+            {
+                /* changes up to cycle 1 of rasterline 0 are visible in current frame */
+                vic.text_lines = new_text_lines;
+                vic.raster.geometry.gfx_size.height = new_text_lines * 8;
+                vic.raster.geometry.text_size.height = new_text_lines;
+
+            } else {
+                /* later changes are visible in the next frame */
+                vic.pending_text_lines = new_text_lines;
+            }
+
+
+            if (VIC_RASTER_CYCLE(clk) >= 1)
+            {
+                raster_add_int_change_next_line (&vic.raster,
+                    &vic.row_increase_line, new_char_height);
+            } else {
+                vic.row_increase_line = new_char_height;
+            }
+
+            /* this is quite strange */
+            if (vic.char_height == 8 && new_char_height == 16
+                && vic.raster.ycounter == 7 && !vic.raster.blank_this_line)
+            {
+                vic.row_offset =
+                    (VIC_RASTER_CYCLE(clk) - vic.raster.display_xstart / 4 - 3) / 2;
+            } else {
+                vic.row_offset = -1; /* use vic.text_cols for offset */
+            }
+            vic.char_height = new_char_height;
+        }
+
       return;
 
     case 4:                     /* $9004  Raster line count -- read only. */
@@ -116,32 +218,92 @@ vic_store(ADDRESS addr, BYTE value)
     case 11:                    /* $900B  Alto Enable and Frequency. */
     case 12:                    /* $900C  Soprano Enable and Frequency. */
     case 13:                    /* $900D  Noise Enable and Frequency. */
-      store_vic_sound (addr, value);
-      return;
+        store_vic_sound (addr, value);
+        return;
 
     case 14:                    /* $900E  Auxiliary Colour, Master Volume. */
-      vic.auxiliary_color = value >> 4;
-      VIC_DEBUG_REGISTER (("Auxiliary color set to $%02X.",
-                          vic.auxiliary_color));
-      store_vic_sound (addr, value);
-      return;
+        /*
+            changes of auxiliary color in cycle n is visible at pixel 4*(n-7)
+        */
+        {
+            static int old_aux_color = -1;
+            int new_aux_color = value>>4;
+
+            if (new_aux_color != old_aux_color)
+            {
+                raster_add_int_change_foreground (&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)),
+                    &vic.auxiliary_color,
+                    new_aux_color);
+
+
+                old_aux_color = new_aux_color;
+            }
+        }
+
+        store_vic_sound (addr, value);
+        return;
 
     case 15:                    /* $900F  Screen and Border Colors,
                                    Reverse Video. */
-      vic.raster.border_color = value & 0x7;
-      vic.raster.background_color = value >> 4;
-      vic.raster.video_mode = ((value & 8)
-                               ? VIC_STANDARD_MODE : VIC_REVERSE_MODE);
+        /*
+            changes of border/background in cycle n are visible at pixel 4*(n-7),
+            changes of reverse mode at pixel 4*(n-7)+3, which is quite ugly 'cause
+            we're using a character-based emulation :(FIXME)
+        */
+        {
+            static int old_video_mode = -1;
+            static int old_background_color = -1;
+            static int old_border_color = -1;
+            int new_video_mode, new_background_color, new_border_color;
+        
+            new_background_color = value>>4;
+            new_border_color = value & 0x7;
+            new_video_mode = ((value & 0x8) ? VIC_STANDARD_MODE : VIC_REVERSE_MODE);
 
-      VIC_DEBUG_REGISTER (("Border color: $%02X.",
-                           vic.raster.border_color));
-      VIC_DEBUG_REGISTER (("Background color: $%02X.",
-                           vic.raster.background_color));
-      return;
+            if (new_background_color != old_background_color)
+            {
+                raster_add_int_change_background (&vic.raster,
+                    VIC_RASTER_X(VIC_RASTER_CYCLE(clk)),
+                    &vic.raster.background_color,
+                    new_background_color);
+
+                old_background_color = new_background_color;
+            }
+
+            if (new_border_color != old_border_color)
+            {
+                raster_add_int_change_border (&vic.raster,
+                    VIC_RASTER_X(VIC_RASTER_CYCLE(clk)),
+                    &vic.raster.border_color,
+                    new_border_color);
+
+                /* we also need the border color in multicolor mode, so we duplicate it */
+                raster_add_int_change_foreground (&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)),
+                    &vic.mc_border_color,
+                    new_border_color);
+
+
+                old_border_color = new_border_color;
+            }
+
+            if (new_video_mode != old_video_mode)
+            {
+                raster_add_int_change_foreground (&vic.raster,
+                    VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)),
+                    &vic.raster.video_mode,
+                    new_video_mode);
+
+                old_video_mode = new_video_mode;
+            }
+            
+            return;
+        }
     }
 }
 
-
+
 
 BYTE REGPARM1 
 vic_read(ADDRESS addr)

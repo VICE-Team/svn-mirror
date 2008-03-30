@@ -1,0 +1,29 @@
+option ProjectOptions =
+   link(linkwithmultithreadlib, "yes"),
+   link(pmtype, "novio"),
+   link(export, "gzopen"),
+   link(export, "gzread"),
+   link(export, "gzwrite"),
+   link(export, "gzclose"),
+   link(export, "deflateInit2_"),
+   link(export, "deflateEnd"),
+   link(export, "inflateReset"),
+   link(export, "deflate"),
+   link(export, "deflateReset"),
+   link(export, "crc32"),
+   link(export, "png_create_write_struct"),
+   link(export, "png_create_info_struct"),
+   link(export, "png_write_row"),
+   link(export, "png_set_compression_level"),
+   link(export, "png_destroy_write_struct"),
+   link(export, "png_write_info"),
+   link(export, "png_init_io"),
+   link(export, "png_set_invert_alpha"),
+   link(export, "png_write_end")
+{
+   target type(dll) "..\\..\\..\\..\\data\\vice2.dll"
+   {
+      source "zlib.lib"
+      source "png.lib"
+   }
+}

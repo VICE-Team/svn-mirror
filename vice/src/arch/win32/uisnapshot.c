@@ -219,7 +219,11 @@ void ui_soundshot_save_dialog(HWND hwnd)
         ui_display_statustext("");
     } else {
         /* get the filename and switch to wav device */
-        strcpy(old_device, devicename);
+        if (devicename)
+            strcpy(old_device, devicename);
+        else
+            strcpy(old_device, "");
+
         s = ui_save_snapshot("Save sound file",
             "Sound files (*.wav)\0*.wav\0",hwnd,0);
         if (s != NULL) {

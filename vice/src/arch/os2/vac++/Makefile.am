@@ -10,6 +10,7 @@ EXTRA_DIST = \
         RESID.ICC \
         VICE_INF.ICC \
         VICE_HLP.ICC \
+        vicedll.icc \
         lzlib.icc \
         lpng.icc \
         incl/archdep.icc \
@@ -32,6 +33,7 @@ EXTRA_DIST = \
         incl/vic20.icc \
         incl/vicii.icc \
         incl/vsid.icc \
+        incl/resources.icc \
         ctools/biosdump.icc \
         ctools/cformat.icc \
         ctools/ctools.icc \

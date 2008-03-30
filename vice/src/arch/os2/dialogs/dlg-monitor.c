@@ -29,8 +29,10 @@
 #define INCL_WINDIALOGS
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
-
 #include "vice.h"
+
+#include <os2.h>
+
 #include "dialogs.h"
 
 #include <string.h>
@@ -38,6 +40,7 @@
 
 #include "log.h"
 #include "utils.h"
+#include "snippets\pmwin2.h"   // WinSetDlgFont
 
 int trigger_console_exit;
 

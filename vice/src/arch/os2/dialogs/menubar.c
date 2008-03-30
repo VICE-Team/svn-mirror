@@ -30,6 +30,11 @@
 #define INCL_WINWINDOWMGR  // QWL_USER
 #include "video.h"         // canvas_*
 #include "dialogs.h"
+#include "menubar.h"
+#include "dlg-drive.h"
+#include "dlg-emulator.h"
+#include "dlg-joystick.h"
+#include "dlg-datasette.h"
 
 #include <string.h>      // strcmp
 
@@ -39,12 +44,13 @@
 #include "tape.h"        // tape_detach_image
 #include "drive.h"       // DRIVE_SYNC_*
 #include "attach.h"      // file_system_detach_disk
-#include "machine.h"     // machine_read/write_snapshot
+//#include "machine.h"     // machine_read/write_snapshot
 #include "cmdline.h"     // cmdline_show_help, include resources.h
 #include "fliplist.h"    // flip_attach_head
 #include "cartridge.h"   // CARTRIDGE_*
 #include "interrupt.h"   // maincpu_trigger_trap
 #include "screenshot.h"  // screenshot_canvas_save
+#include "dlg-fileio.h"  // ViceFileDialog
 
 // --------------------------------------------------------------------------
 
@@ -55,10 +61,6 @@ static const char *VIDEO_CACHE="VideoCache";
 static const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
 
-extern int isEmulatorPaused(void);
-extern void emulator_pause(void);
-extern void emulator_resume(void);
-
 extern void set_volume(int vol);
 extern int  get_volume(void);
 
@@ -68,7 +70,7 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
 }
-
+/*
 extern char *get_snapshot(int *save_roms, int *save_disks);
 static void save_snapshot(ADDRESS addr, void *hwnd)
 {
@@ -102,23 +104,30 @@ void save_screenshot(HWND hwnd)
     if (!screenshot_canvas_save(type, name, (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("proc.c: Screenshot successfully saved as %s (%s)", name, type);
 }
-
+*/
 // --------------------------------------------------------------------------
 
 void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
 {
     switch (idm)
     {
-    case IDM_AUTOSTART:
-        autostart_dialog(hwnd);
+    case IDM_FILEOPEN:
+        ViceFileDialog(hwnd, 0, FDS_OPEN_DIALOG);
+        return;
+
+    case IDM_FILESAVE:
+        ViceFileDialog(hwnd, 0, FDS_ENABLEFILELB | FDS_SAVEAS_DIALOG);
         return;
 
     case IDM_ATTACHTAPE:
+        ViceFileDialog(hwnd, 0x0201, FDS_OPEN_DIALOG);
+        return;
+
     case IDM_ATTACH8:
     case IDM_ATTACH9:
     case IDM_ATTACH10:
     case IDM_ATTACH11:
-        attach_dialog(hwnd, idm&0xf);
+        ViceFileDialog(hwnd, 0x0100|(idm&0xf), FDS_OPEN_DIALOG);
         return;
 
     case IDM_DETACHTAPE:
@@ -141,34 +150,34 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
 
 #ifdef __X64__
     case IDM_CRTGEN:
-        cartridge_dialog(hwnd, "Generic", CARTRIDGE_CRT);
+        ViceFileDialog(hwnd, 0x0501, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTGEN8KB:
-        cartridge_dialog(hwnd, "Generic 8kB", CARTRIDGE_GENERIC_8KB);
+        ViceFileDialog(hwnd, 0x0502, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTGEN16KB:
-        cartridge_dialog(hwnd, "Generic 16kB", CARTRIDGE_GENERIC_16KB);
+        ViceFileDialog(hwnd, 0x0503, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTACTREPL:
-        cartridge_dialog(hwnd, "Raw 32kB Action Replay", CARTRIDGE_ACTION_REPLAY);
+        ViceFileDialog(hwnd, 0x0504, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTATOMPOW:
-        cartridge_dialog(hwnd, "Raw 32kB Atomic Power", CARTRIDGE_ATOMIC_POWER);
+        ViceFileDialog(hwnd, 0x0505, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTEPYX:
-        cartridge_dialog(hwnd, "Raw 8kB Epyx Fastload", CARTRIDGE_EPYX_FASTLOAD);
+        ViceFileDialog(hwnd, 0x0506, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTSSSHOT:
-        cartridge_dialog(hwnd, "Raw 32kB Super Snapshot", CARTRIDGE_SUPER_SNAPSHOT);
+        ViceFileDialog(hwnd, 0x0507, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTSSSHOT5:
-        cartridge_dialog(hwnd, "Raw 64kB Super Snapshot", CARTRIDGE_SUPER_SNAPSHOT_V5);
+        ViceFileDialog(hwnd, 0x0508, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTWEST:
-        cartridge_dialog(hwnd, "Raw 16kB Westermann learning", CARTRIDGE_WESTERMANN);
+        ViceFileDialog(hwnd, 0x0509, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTIEEE:
-        cartridge_dialog(hwnd, "CBM IEEE488", CARTRIDGE_IEEE488);
+        ViceFileDialog(hwnd, 0x050a, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTEXPERT:
         cartridge_attach_image(CARTRIDGE_EXPERT, NULL);
@@ -180,7 +189,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         cartridge_trigger_freeze();
         return;
     case IDM_CRTSAVEIMG:
-        cartridge_save_image(crtsave_dialog(hwnd));
+        ViceFileDialog(hwnd, 0x0401, FDS_ENABLEFILELB | FDS_SAVEAS_DIALOG);
         return;
 #endif
 
@@ -190,7 +199,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
     case IDM_FLIPPREV9:
         flip_attach_head((idm>>4)&0xf, idm&1);
         return;
-
+/*
     case IDM_SNAPLOAD:
         maincpu_trigger_trap(load_snapshot, (void*)hwnd);
         return;
@@ -201,19 +210,18 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
 
     case IDM_READCONFIG:
         return;
-
+*/
     case IDM_WRITECONFIG:
         WinMessageBox(HWND_DESKTOP, hwnd,
                       resources_save(NULL)<0?"Cannot save settings.":
                       "Settings written successfully.",
                       "Resources", 0, MB_OK);
         return;
-
+/*
     case IDM_PRINTSCRN:
         save_screenshot(hwnd);
         return;
-
-
+*/
     case IDM_HARDRESET:
         hardreset_dialog(hwnd);
         return;
@@ -405,14 +413,14 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
             toggle_menubar(hwnd);
         }
         return;
-
+/*
     case IDM_STATUSBAR:
         {
             extern void toggle_statusbar(HWND hwnd);
             toggle_statusbar(hwnd);
         }
         return;
-
+*/
         //
         // FIXME: we get only the Handle for one canvas here
         //

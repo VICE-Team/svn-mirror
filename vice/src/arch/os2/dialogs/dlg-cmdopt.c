@@ -30,10 +30,13 @@
 #define INCL_WINLISTBOXES  // WinLbox*
 #include "vice.h"
 
+#include <os2.h>
+
 #include <stdio.h>
 #include <string.h>
 
 #include "dialogs.h"
+#include "menubar.h"
 
 static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {

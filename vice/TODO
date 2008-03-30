@@ -49,8 +49,12 @@ What are we going to do next (or not)
 * PET improvements
 ------------------
 
+- Reimplement the CRTC caching functionality
+
 * CBM-II improvements
 ------------------
+
+- Reimplement the CRTC caching functionality
 
 * Plus/4
 --------
@@ -88,10 +92,6 @@ This is our wishlist for long-term development
 
 * CBM-II improvements
 ------------------
-
-- C5x0 emulation (Like C6x0, but with VIC-II video chip)
-  (non-(C64-)compatible mapping of pixel/char data for the VIC-II,
-  halting CPU is different from C64)
 
 * KIM-1
 --------

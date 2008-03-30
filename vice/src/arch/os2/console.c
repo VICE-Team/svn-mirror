@@ -39,6 +39,7 @@
 #include "utils.h"
 #include "dialogs.h"
 #include "console.h"
+#include "snippets\pmwin2.h"   // WinShowDlg
 
 extern HWND hwndMonitor;
 

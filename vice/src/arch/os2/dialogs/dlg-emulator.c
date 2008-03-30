@@ -30,7 +30,11 @@
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
 #include "vice.h"
+
+#include <os2.h>
+
 #include "dialogs.h"
+#include "dlg-emulator.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -38,12 +42,11 @@
 #include "log.h"
 #include "vsync.h"
 #include "resources.h"
+#include "snippets\pmwin2.h"
 
+/*
 CHAR  screenshotHist[10][CCHMAXPATH];
 CHAR  snapshotHist[10][CCHMAXPATH];
-
-/* The Screenshot saveas name                                       */
-/*------------------------------------------------------------------*/
 
 #define ID_NAME (void*)0
 #define ID_TYPE (void*)1
@@ -122,7 +125,7 @@ void screenshot_check_type(HWND hwnd, int mp)
     WinLboxInsertItemAt(hwnd, CBS_SSNAME, pszScreenshotName, 0);
     WinLboxSelectItem(hwnd, CBS_SSNAME, 0);
 }
-
+*/
 /* Dialog procedures                                                */
 /*----------------------------------------------------------------- */
 
@@ -141,7 +144,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     case WM_INITDLG:
         {
             int val=0;
-
+/*
             while (val<10 && screenshotHist[val][0])
                 WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
             WinCheckButton(hwnd, iSsType?RB_PNG:RB_BMP, 1);
@@ -150,8 +153,9 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinLboxInsertItem(hwnd, CBS_SSNAME, snapshotHist[val++]);
             for (val=0; val<11; val++)
                 WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
+*/
             resources_get_value("Speed", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_SPEED, val);
+            WinSetDlgSpinVal(hwnd, SPB_SPEED, val);
             WinEnableControl(hwnd, PB_SPEED100, (val!=100));
             resources_get_value("RefreshRate", (resource_value_t *) &val);
             WinLboxSelectItem(hwnd, CBS_REFRATE, val);
@@ -162,11 +166,12 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         switch (LONGFROMMP(mp1))
         {
         case PB_SPEED100:
-            WinSetSpinVal(hwnd, SPB_SPEED, 100);
+            WinSetDlgSpinVal(hwnd, SPB_SPEED, 100);
             suspend_speed_eval();
             resources_set_value("Speed", (resource_value_t)100);
             WinEnableControl(hwnd, PB_SPEED100, FALSE);
             return FALSE;
+/*
         case PB_SSCHANGE:
             {
                 char *c = screenshot_dialog(hwnd);
@@ -193,6 +198,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinLboxSelectItem(hwnd, CBS_SPSNAME, 0);
             }
             return FALSE;
+*/
         }
         break;
 
@@ -210,14 +216,13 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         return FALSE;
     case WM_CONTROL:
         {
-            int ctrl = SHORT1FROMMP(mp1);
+            const int ctrl = SHORT1FROMMP(mp1);
             switch (ctrl)
             {
             case SPB_SPEED:
                 if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
                 {
-                    ULONG val;
-                    WinGetSpinVal(hwnd, ctrl, &val);
+                    const ULONG val = WinGetSpinVal((HWND)mp2);
                     suspend_speed_eval();
                     resources_set_value("Speed", (resource_value_t)val);
                     WinEnableControl(hwnd, PB_SPEED100, (val!=100));
@@ -230,6 +235,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                     resources_set_value("RefreshRate", (resource_value_t)val);
                 }
                 break;
+/*
             case CBS_SSNAME:
                 {
                     char psz[CCHMAXPATH]="";
@@ -261,6 +267,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             case RB_PNG:
                 screenshot_check_type(hwnd, 1);
                 break;
+*/
             }
             break;
         }

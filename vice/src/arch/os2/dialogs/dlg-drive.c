@@ -25,25 +25,27 @@
  */
 
 #define INCL_WINBUTTONS
-#define INCL_WINDIALOGS      // WinSendDlgItemMsg
+#define INCL_WINDIALOGS        // WinSendDlgItemMsg
 #define INCL_WINSTDSPIN
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
 #include "vice.h"
 
 #include "ui_status.h"
-#include "dialogs.h"   // WinLbox*
+#include "dialogs.h"           // WinLbox*
+#include "dlg-drive.h"
 
-#include <string.h>    // strlen
-#include <stdlib.h>    // free
-#include <direct.h>    // chdir
+#include <string.h>            // strlen
+#include <stdlib.h>            // free
+#include <direct.h>            // chdir
 
-//#include "log.h"
-#include "utils.h"     // xmsprintf
-#include "drive.h"     // DRIVE_TYPE_*
-#include "attach.h"    // file_system_*
-#include "fliplist.h"  // FLIP_NEXT
-#include "resources.h" // resources_
+#include "utils.h"             // xmsprintf
+#include "drive.h"             // DRIVE_TYPE_*
+#include "attach.h"            // file_system_*
+#include "fliplist.h"          // FLIP_NEXT
+#include "resources.h"         // resources_
+#include "dlg-fileio.h"        // ViceFileDialog
+#include "snippets\pmwin2.h"   // WinShowDlg
 
 /* Dialog procedures                                                */
 /*----------------------------------------------------------------- */
@@ -130,7 +132,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             create_dialog(hwnd);
             return FALSE;
         case PB_ATTACH:
-            attach_dialog(hwnd, drive+8);
+            ViceFileDialog(hwnd, 0x0100|(drive+1), FDS_OPEN_DIALOG);
             return FALSE;
         case PB_DETACH:
             file_system_detach_disk(drive+8);
@@ -260,7 +262,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                         char *path;
                         resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
                         WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
-                        WinSetSpinVal(hwnd, CBS_PATH, 0);
+                        WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
                     }
                     break;
                 }
@@ -299,7 +301,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_TRACK:
         if (ui_status.lastDriveState & (1<<(int)mp1))
         {
-            WinSetSpinVal(hwnd, SPB_TRACK8+(int)mp1, (int)((int)mp2/2));
+            WinSetDlgSpinVal(hwnd, SPB_TRACK8+(int)mp1, (int)((int)mp2/2));
             WinShowDlg(hwnd, SS_HALFTRACK8+(int)mp1, ((int)mp2%2));
         }
         break;
@@ -409,7 +411,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 char *path;
                 resources_get_sprintf("FSDevice%dDir", (resource_value_t*)&path, drive+8);
                 WinSendDlgMsg(hwnd, CBS_PATH, SPBM_SETARRAY, &path, 1);
-                WinSetSpinVal(hwnd, CBS_PATH, 0);
+                WinSetDlgSpinVal(hwnd, CBS_PATH, 0);
             }
         }
         return FALSE;

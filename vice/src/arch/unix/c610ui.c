@@ -35,6 +35,7 @@
 #include "c610mem.h"
 #include "datasette.h"
 #include "joystick.h"
+#include "drive.h"
 #include "petui.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -42,6 +43,60 @@
 #include "uisettings.h"
 #include "uimenu.h"
 #include "vsync.h"
+
+/* ------------------------------------------------------------------------- */
+
+
+UI_MENU_DEFINE_RADIO(VideoStandard)
+
+static ui_menu_entry_t set_video_standard_submenu[] = {
+    { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
+
+static ui_menu_entry_t palette_submenu[] = {
+    { N_("*Default"),
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
+    { "*C64S",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "c64s", NULL },
+    { N_("*CCS64"),
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "ccs64", NULL },
+    { N_("*Frodo"),
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "frodo", NULL },
+    { N_("*GoDot"),
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "godot", NULL },
+    { "*PC64",
+      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
+    { "--" },
+    { N_("Load custom"),
+      (ui_callback_t) ui_load_palette,
+      (ui_callback_data_t) "PaletteFile", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(CheckSsColl)
+UI_MENU_DEFINE_TOGGLE(CheckSbColl)
+
+static ui_menu_entry_t vic_submenu[] = {
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu },
+    { "--",
+      NULL, NULL, NULL },
+    { N_("*Sprite-sprite collisions"),
+      (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
+    { N_("*Sprite-background collisions"),
+      (ui_callback_t) toggle_CheckSbColl, NULL, NULL },
+    { "--",
+      NULL, NULL, NULL },
+    { N_("Color set"),
+      NULL, NULL, palette_submenu },
+    { NULL }
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -200,9 +255,16 @@ UI_MENU_DEFINE_TOGGLE(Ram4)
 UI_MENU_DEFINE_TOGGLE(Ram6)
 UI_MENU_DEFINE_TOGGLE(RamC)
 
+UI_CALLBACK(Cbm2modelMenu)
+{
+    if (CHECK_MENUS) {
+	ui_menu_set_sensitive(w, !cbm2_is_c500());
+    }
+}
+
 static ui_menu_entry_t model_settings_submenu[] = {
-    { N_("Model defaults"),
-      NULL, NULL, model_defaults_submenu },
+    { N_("*Model defaults"),
+      (ui_callback_t) Cbm2modelMenu, NULL, model_defaults_submenu },
     { "--" },
     { N_("ROM sets"),
       NULL, NULL, cbm2_romset_submenu },
@@ -374,18 +436,30 @@ static ui_menu_entry_t c610_rs232_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(CrtcMenu)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, !cbm2_is_c500());
+    }
+}
+
+static UI_CALLBACK(VicMenu)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cbm2_is_c500());
+    }
+}
+
 static ui_menu_entry_t c610_menu[] = {
     { N_("CBM-II model settings"),
       NULL, NULL, model_settings_submenu },
     { N_("RS232 settings"),
       NULL, NULL, c610_rs232_submenu },
     { "--" },
-    { N_("CRTC Screen color"),
-      NULL, NULL, crtc_palette_submenu },
-/*
-    { N_("VIC-II palette"),
-      NULL, NULL, vicii_palette_submenu },
-*/
+    { N_("*CRTC Screen color"),
+      (ui_callback_t) CrtcMenu, NULL, crtc_palette_submenu },
+    { N_("*VIC-II settings"),
+      (ui_callback_t) VicMenu, NULL, vic_submenu },
     { NULL }
 };
 

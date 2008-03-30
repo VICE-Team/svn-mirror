@@ -19,6 +19,11 @@ cbm2_DATA = \
 	rom128l.vrs \
 	rom128h.vrs \
 	rom256l.vrs \
-	rom256h.vrs
+	rom256h.vrs \
+	c64s.vpl \
+	ccs64.vpl \
+	frodo.vpl \
+	godot.vpl \
+	pc64.vpl
 
 EXTRA_DIST = $(cbm2_DATA)

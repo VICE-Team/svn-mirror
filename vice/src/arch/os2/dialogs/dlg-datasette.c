@@ -25,16 +25,20 @@
  */
 
 #define INCL_WINBUTTONS
+#define INCL_WINSTDSPIN   // SPBN_*
 #define INCL_WINDIALOGS
-#define INCL_WINSTDSPIN
 #include "vice.h"
 
 #include "ui_status.h"
-#include "dialogs.h"
 
-#include "tape.h"        // tape_*
-#include "datasette.h"   // datasette_*
-#include "resources.h"   // resources_*
+#include "dialogs.h"
+#include "dlg-datasette.h"
+
+#include "tape.h"              // tape_*
+#include "datasette.h"         // datasette_*
+#include "resources.h"         // resources_*
+#include "dlg-fileio.h"        // ViceFileDialog
+#include "snippets\pmwin2.h"   // WinShowDlg
 
 
 static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
@@ -56,14 +60,14 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             resources_get_value("DatasetteResetWithCPU", (resource_value_t *) &val);
             WinCheckButton(hwnd, CB_RESETWCPU, val);
             resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_DELAY, (val/100));
+            WinSetDlgSpinVal(hwnd, SPB_DELAY, (val/100));
             resources_get_value("DatasetteSpeedTuning", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_GAP, val);
+            WinSetDlgSpinVal(hwnd, SPB_GAP, val);
         }
         break;
 
     case WM_COUNTER:
-        WinSetSpinVal(hwnd, SPB_COUNT, mp1);
+        WinSetDlgSpinVal(hwnd, SPB_COUNT, (ULONG)mp1);
         return FALSE;
 
     case WM_TAPESTAT:
@@ -75,13 +79,16 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         WinEnableControl(hwnd, PB_RESET,    (int)mp2?1:0);
         WinEnableControl(hwnd, PB_RESETCNT, (int)mp2?1:0);
         WinEnableControl(hwnd, SPB_COUNT,   (int)mp2?1:0);
-        if (!mp2) WinShowDlg(hwnd, SS_SPIN, 0);
+
+        if (!mp2)
+            WinShowDlg(hwnd, SS_SPIN, 0);
+
         return FALSE;
 
     case WM_SPINNING:
         WinShowDlg(hwnd, SS_SPIN, (int)(mp2 && mp1)?1:0);
         return FALSE;
-
+ 
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
@@ -94,10 +101,12 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         case PB_RESETCNT:
             datasette_control(LONGFROMMP(mp1)&0xf);
             return FALSE;
-        case PB_ATTACH:
-            attach_dialog(hwnd, 0);
+
+        case PB_TATTACH:
+            ViceFileDialog(hwnd, 0x0201, FDS_OPEN_DIALOG);
             return FALSE;
-        case PB_DETACH:
+
+        case PB_TDETACH:
             tape_detach_image();
             return FALSE;
         }
@@ -105,17 +114,20 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     case WM_CONTROL:
         switch (SHORT1FROMMP(mp1))
         {
+        case CB_RESETWCPU:
+            toggle("DatasetteResetWithCPU");
+            break;
         case SPB_DELAY:
-            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN) {
-                ULONG val;
-                WinGetSpinVal(hwnd, SPB_DELAY, &val);
+            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
+            {
+                const ULONG val = WinGetSpinVal((HWND)mp2);
                 resources_set_value("DatasetteZeroGapDelay", (resource_value_t)(val*100));
             }
             break;
         case SPB_GAP:
-            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN) {
-                ULONG val;
-                WinGetSpinVal(hwnd, SPB_GAP, &val);
+            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
+            {
+                const ULONG val = WinGetSpinVal((HWND)mp2);
                 resources_set_value("DatasetteSpeedTuning", (resource_value_t)val);
             }
             break;

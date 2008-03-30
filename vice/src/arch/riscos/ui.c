@@ -112,10 +112,10 @@ static const char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceScrap";
 static const char VicePathVariable[] = "Vice$Path";
 static const char ResourceDriveDir[] = "DRIVES";
 static const char ViceSnapshotFile[] = "ViceSnap";
+static const char ViceDfltFlipFile[] = "Fliplist";
 static const char ViceNewDiscName[] = "NEWDISC,01";
 static const char ViceNewDiscFile[] = "imagefile";
 static const char PRGFileExtension[] = "prg";
-
 
 #define RSETARCH_EXT	"vra"
 #define KEYMAP_EXT	"vkm"
@@ -226,6 +226,7 @@ static const char PRGFileExtension[] = "prg";
 #define SBOX_TYPE_ROMSET	1
 #define SBOX_TYPE_KEYBOARD	2
 #define SBOX_TYPE_SCRSHOT	3
+#define SBOX_TYPE_FLIPLIST	4
 
 
 
@@ -497,6 +498,7 @@ char *ROMSetArchiveFile = NULL;
 static char ROMSetItemFile[256];
 static char SystemKeymapFile[256];
 static char ViceScreenshotFile[256];
+static char ViceFliplistFile[256];
 
 /* Mode changes */
 int FrameBufferUpdate = 0;
@@ -677,13 +679,15 @@ static struct MenuFlipImageTmpl {
 };
 
 /* Fliplist menu */
-#define Menu_Fliplist_Items	5
+#define Menu_Fliplist_Items	7
 #define Menu_Fliplist_Width	200
 #define Menu_Fliplist_Attach	0
 #define Menu_Fliplist_Detach	1
 #define Menu_Fliplist_Next	2
 #define Menu_Fliplist_Prev	3
-#define Menu_Fliplist_Images	4
+#define Menu_Fliplist_Clear	4
+#define Menu_Fliplist_Save	5
+#define Menu_Fliplist_Images	6
 static struct MenuFliplist {
   RO_MenuHead head;
   RO_MenuItem item[Menu_Fliplist_Items];
@@ -694,6 +698,8 @@ static struct MenuFliplist {
     MENU_ITEM("\\MenFlpDet"),
     MENU_ITEM("\\MenFlpNxt"),
     MENU_ITEM("\\MenFlpPrv"),
+    MENU_ITEM("\\MenFlpClr"),
+    {MFlg_Warning, (RO_MenuHead*)-1, Menu_Flags, {"\\MenFlpSav"}},
     MENU_ITEM_LAST("\\MenFlpImg")
   }
 };
@@ -2218,6 +2224,7 @@ int ui_init(int *argc, char *argv[])
   MenuIconBar.item[Menu_IBar_Info].submenu = (RO_MenuHead*)(InfoWindow->Handle);
   MenuEmuWindow.item[Menu_EmuWin_Snapshot].submenu = (RO_MenuHead*)(SnapshotWindow->Handle);
   MenuEmuWindow.item[Menu_EmuWin_Screenshot].submenu = (RO_MenuHead*)(SaveBox->Handle);
+  MenuFliplist.item[Menu_Fliplist_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
   wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, ViceSnapshotFile);
   wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_Name, ViceNewDiscName);
   wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, ViceNewDiscFile);
@@ -2240,6 +2247,7 @@ int ui_init(int *argc, char *argv[])
   sprintf(ROMSetItemFile, "rset/"RSETARCH_EXT);
   sprintf(SystemKeymapFile, "ROdflt/"KEYMAP_EXT);
   sprintf(ViceScreenshotFile, "scrshot");
+  strcpy(ViceFliplistFile, ViceDfltFlipFile);
 
   EmuPaused = 0; LastCaret.WHandle = -1;
   SoundVolume = Sound_Volume(0);
@@ -3468,6 +3476,7 @@ static void ui_user_drag_box(int *b)
       {
         case SBOX_TYPE_ROMSET:
         case SBOX_TYPE_KEYBOARD:
+        case SBOX_TYPE_FLIPLIST:
           filetype = FileType_Text; break;
         case SBOX_TYPE_SCRSHOT:
           filetype = FileType_Sprite; break;
@@ -3930,6 +3939,10 @@ static int ui_menu_select_emuwin(int *b, int **menu)
           break;
         case Menu_Fliplist_Prev:
           ui_flip_iterate_and_attach(-1);
+          break;
+        case Menu_Fliplist_Clear:
+          flip_clear_list(FlipListDrive + 8);
+          ui_build_fliplist_menu(1);
           break;
         case Menu_Fliplist_Images:
           if (b[2] >= 0)
@@ -4404,22 +4417,36 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == EmuPane->Handle)
   {
-    switch (b[6])
+    if (b[10] == FileType_Text)
     {
-      case Icon_Pane_Drive0:
-      case Icon_Pane_LED0: i = 0; break;
-      case Icon_Pane_Drive1:
-      case Icon_Pane_LED1: i = 1; break;
-      case Icon_Pane_Drive2:
-      case Icon_Pane_LED2: i = 2; break;
-      case Icon_Pane_Drive3:
-      case Icon_Pane_LED3: i = 3; break;
-      default: i = -1; break;
-    }
-    if (i >= 0)
-    {
-      if (ui_new_drive_image(i, name, 1) == 0)
+      /* Fliplist file? */
+      if (flip_load_list(FlipListDrive + 8, name, 0) == 0)
+      {
+        ui_build_fliplist_menu(1);
+        ui_flip_attach_image_no(0);
         action = 1;
+      }
+    }
+    else
+    {
+      /* Otherwise disk image */
+      switch (b[6])
+      {
+        case Icon_Pane_Drive0:
+        case Icon_Pane_LED0: i = 0; break;
+        case Icon_Pane_Drive1:
+        case Icon_Pane_LED1: i = 1; break;
+        case Icon_Pane_Drive2:
+        case Icon_Pane_LED2: i = 2; break;
+        case Icon_Pane_Drive3:
+        case Icon_Pane_LED3: i = 3; break;
+        default: i = -1; break;
+      }
+      if (i >= 0)
+      {
+        if (ui_new_drive_image(i, name, 1) == 0)
+          action = 1;
+      }
     }
   }
   else if (b[5] == ImgContWindow->Handle)
@@ -4592,6 +4619,7 @@ static void ui_user_msg_data_save(int *b)
 static void ui_user_msg_data_save_ack(int *b)
 {
   char *name = ((char*)b) + 44;
+  int status;
 
   switch (LastDrag)
   {
@@ -4609,28 +4637,54 @@ static void ui_user_msg_data_save_ack(int *b)
         Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
       }
       break;
+
     case DRAG_TYPE_SAVEBOX:
-      if (LastMenu == CONF_MENU_ROMACT + 0x100)
+      status = -1;
+      switch (LastSubDrag)
       {
-        if ((ROMSetName == NULL) || (romset_save_item(name, ROMSetName) != 0)) break;
-        wimp_strcpy(ROMSetItemFile, name);
+        case SBOX_TYPE_ROMSET:
+          if ((ROMSetName != NULL) && (romset_save_item(name, ROMSetName) == 0))
+          {
+            wimp_strcpy(ROMSetItemFile, name);
+            status = 0;
+          }
+          break;
+        case SBOX_TYPE_KEYBOARD:
+          if (kbd_dump_keymap(name, -1) == 0)
+          {
+            wimp_strcpy(SystemKeymapFile, name);
+            status = 0;
+          }
+          break;
+        case SBOX_TYPE_SCRSHOT:
+          {
+            canvas_t *canvas = canvas_for_handle(LastHandle);
+            if (screenshot_canvas_save("Sprite", name, canvas) == 0)
+            {
+              wimp_strcpy(ViceScreenshotFile, name);
+              status = 0;
+            }
+          }
+          break;
+        case SBOX_TYPE_FLIPLIST:
+          if (flip_save_list(FlipListDrive + 8, name) == 0)
+          {
+            wimp_strcpy(ViceFliplistFile, name);
+            status = 0;
+          }
+          break;
+        default:
+          break;
       }
-      else if (LastMenu == CONF_MENU_SYSKBD + 0x100)
+      if (status == 0)
       {
-        if (kbd_dump_keymap(name, -1) != 0) break;
-        wimp_strcpy(SystemKeymapFile, name);
+        SetFileType(name, b[10]);
+        b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
+        Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+        Wimp_CreateMenu((int*)-1, 0, 0);
       }
-      else if (LastMenu == Menu_Emulator)
-      {
-        canvas_t *canvas = canvas_for_handle(LastHandle);
-        if (screenshot_canvas_save("Sprite", name, canvas) != 0) break;
-        wimp_strcpy(ViceScreenshotFile, name);
-      }
-      SetFileType(name, b[10]);
-      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoad;
-      Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
-      Wimp_CreateMenu((int*)-1, 0, 0);
       break;
+
     case DRAG_TYPE_CREATEDISC:
       wimp_window_write_icon_text(CreateDiscWindow, Icon_Create_File, name);
       if (ui_create_new_disc_image() == 0)
@@ -4685,9 +4739,18 @@ static void ui_user_message(int *b)
       }
       else if (LastMenu == Menu_Emulator)
       {
-        wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ViceScreenshotFile);
-        wimp_set_icon_sprite_file(SaveBox, Icon_Save_Sprite, FileType_Sprite);
-        LastSubDrag = SBOX_TYPE_SCRSHOT;
+        if (b[8] == Menu_EmuWin_Screenshot)
+        {
+          wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ViceScreenshotFile);
+          wimp_set_icon_sprite_file(SaveBox, Icon_Save_Sprite, FileType_Sprite);
+          LastSubDrag = SBOX_TYPE_SCRSHOT;
+        }
+        else if (b[8] == Menu_EmuWin_Fliplist)
+        {
+          wimp_window_write_icon_text(SaveBox, Icon_Save_Path, ViceFliplistFile);
+          wimp_set_icon_sprite_file(SaveBox, Icon_Save_Sprite, FileType_Text);
+          LastSubDrag = SBOX_TYPE_FLIPLIST;
+        }
       }
       Wimp_CreateSubMenu((int*)(b[5]), b[6], b[7]);
       break;

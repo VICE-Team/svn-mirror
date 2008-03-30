@@ -13,6 +13,8 @@ These are the most important known problems with VICE 1.6:
 - The VIC-II implementation lacks proper cycle exact $D016 x smooth
   scroll support.
 
+- The CBM-II emulation is not fully supported in all ports.
+
 - The German translation doesn't work properly under
   Solaris/gettext. The menus are just partially filled, other entries
   are blanked and some are wrong.
@@ -43,13 +45,10 @@ These are the most important known problems with VICE 1.6:
   = Shift + F1, F4 = Shift + F3 and so on); this also works with other
   keys.
 
-- The C610 emulator, when the execution bank is set to an open memory
+- The CBM-II emulator, when the execution bank is set to an open memory
   bank, sets the zeropage and stack access to unmapped, but actually
   existing memory. This is a bug but cannot be avoided with the current
   CPU code architecture.
-
-- The MS-DOS port of the C610 emulator lacks C610 specific UI controls.
-  Use the command line to change C610 specific settings.
 
 - When running the burn-in and diagnostics test of the 8296 system disk
   on "xpet -model 8296" a lot of stuff fails.
@@ -60,4 +59,6 @@ These are the most important known problems with VICE 1.6:
 
 - Dual disk drive 2040/3040 support (DOS1, 670 blocks free) is not working 
 
+- In the C510 emulation the VIC-II timing is not exact, i.e. the
+  stopping of the CPU during bad lines is wrong.
 

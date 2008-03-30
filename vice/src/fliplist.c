@@ -26,10 +26,12 @@
 
 #include "vice.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "attach.h"
 #include "fliplist.h"
 #include "log.h"
@@ -50,6 +52,9 @@ static struct fliplist_t *fliplist[NUM_DRIVES] =
 static char *current_image = (char *) NULL;
 static unsigned int current_drive;
 static struct fliplist_t *iterator;
+
+static const char flip_file_header[] = "# Vice fliplist file";
+static const size_t buffer_size = 1024;
 
 static void show_fliplist(unsigned int unit);
 
@@ -160,7 +165,7 @@ void flip_remove(unsigned int unit, char *image)
     {
 	/* do a lookup and remove it */
 	struct fliplist_t *it = fliplist[unit - 8];
-	
+
 	if (strcmp(it->image, image) == 0) {
 	    /* it's the head */
 	    flip_remove(unit, NULL);
@@ -170,12 +175,12 @@ void flip_remove(unsigned int unit, char *image)
 	while ((strcmp(it->image, image) != 0) &&
 	       (it != fliplist[unit - 8]))
 	    it = it->next;
-	
+
 	if (it == fliplist[unit - 8]) {
 	    log_message(LOG_DEFAULT, "Cannot remove `%s'; not found in fliplist[%d]", it->image, unit);
 	    return;
 	}
-	
+
 	it->next->prev = it->prev;
 	it->prev->next = it->next;
 	free(it->image);
@@ -226,6 +231,123 @@ void *flip_next_iterate(unsigned int unit)
     }
     return ret;
 }
+
+void flip_clear_list(unsigned int unit)
+{
+    struct fliplist_t *flip = fliplist[unit - 8];
+
+    if (flip != NULL)
+    {
+        do
+        {
+            struct fliplist_t *tmp = flip->next;
+
+            free(flip->image);
+            free(flip);
+            flip = tmp;
+        }
+        while (flip != fliplist[unit - 8]);
+
+        fliplist[unit - 8] = NULL;
+    }
+}
+
+int flip_save_list(unsigned int unit, const char *filename)
+{
+    struct fliplist_t *flip = fliplist[unit - 8];
+
+    if (flip != (struct fliplist_t *)NULL)
+    {
+        FILE *fp;
+
+        if ((fp = fopen(filename, MODE_WRITE)) == NULL)
+            return -1;
+
+        fprintf(fp, "%s\n\n", flip_file_header);
+
+        do
+        {
+            fprintf(fp, "%s\n", flip->image);
+            flip = flip->next;
+        }
+        while (flip != fliplist[unit - 8]);
+
+        fclose(fp);
+    }
+    return 0;
+}
+
+int flip_load_list(unsigned int unit, const char *filename, int autoattach)
+{
+    FILE *fp;
+    char buffer[buffer_size];
+
+    if ((fp = fopen(filename, MODE_READ)) == NULL)
+        return -1;
+
+    buffer[0] = '\0';
+    fgets(buffer, buffer_size, fp);
+
+    if (strncmp(buffer, flip_file_header, strlen(flip_file_header)) != 0)
+    {
+        log_message(LOG_DEFAULT, "File %s is not a fliplist file", filename);
+        fclose(fp);
+        return -1;
+    }
+
+    flip_clear_list(unit);
+
+    while (!feof(fp))
+    {
+        char *b;
+
+        buffer[0] = '\0';
+        fgets(buffer, buffer_size, fp);
+        /* remove trailing whitespace (linefeeds etc) */
+        b = buffer + strlen(buffer);
+        while ((b > buffer) && (isspace((unsigned int)(b[-1]))))
+            b--;
+
+        if (b > buffer)
+        {
+            struct fliplist_t *tmp;
+
+            *b = '\0';
+
+            tmp = (struct fliplist_t*)xmalloc(sizeof(struct fliplist_t));
+            tmp->image = stralloc(buffer);
+            tmp->unit = unit;
+
+            if (fliplist[unit - 8] == NULL)
+            {
+                fliplist[unit - 8] = tmp;
+                tmp->prev = tmp;
+                tmp->next = tmp;
+            }
+            else
+            {
+                tmp->next = fliplist[unit - 8];
+                tmp->prev = fliplist[unit - 8]->prev;
+                tmp->next->prev = tmp;
+                tmp->prev->next = tmp;
+                fliplist[unit - 8] = tmp;
+            }
+        }
+    }
+
+    current_drive = unit;
+
+    fclose(fp);
+
+    show_fliplist(unit);
+
+    if (autoattach)
+        flip_attach_head(unit, 1);
+
+    return 0;
+}
+
+
 
 /* ------------------------------------------------------------------------- */
 

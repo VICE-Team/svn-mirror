@@ -25,10 +25,13 @@
  */
 
 #define INCL_WINDIALOGS
-
+#define INCL_WINBUTTONS   // BS_DEFAULT
+#define INCL_WINPOINTERS  // WinLoadPointer
 #include "vice.h"
-#include "dialogs.h"
 
+#include <os2.h>
+
+#include "dialogs.h"
 #include "resources.h"
 
 int toggle(const char *resource_name)
@@ -37,6 +40,18 @@ int toggle(const char *resource_name)
     if (resources_toggle(resource_name, (resource_value_t*)&val)<0)
         return -1;
     return val;
+}
+
+void ViceErrorDlg(HWND hwnd, int id, char *text)
+{
+    HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id);
+    MB2INFO mb =
+    {
+        sizeof(MB2INFO), hpt, 1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE,
+        "      OK      ", 0, BS_DEFAULT
+    };
+
+    WinMessageBox2(HWND_DESKTOP, hwnd, text, "VICE/2 Error", 0, &mb);
 }
 
 /* call to open dialog                                              */

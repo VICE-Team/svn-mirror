@@ -5,121 +5,121 @@
 
 #define YYBISON 1  /* Identify Bison output.  */
 
-#define	H_NUMBER	258
-#define	D_NUMBER	259
-#define	O_NUMBER	260
-#define	B_NUMBER	261
-#define	CONVERT_OP	262
-#define	B_DATA	263
-#define	D_NUMBER_GUESS	264
-#define	O_NUMBER_GUESS	265
-#define	B_NUMBER_GUESS	266
-#define	TRAIL	267
-#define	BAD_CMD	268
-#define	MEM_OP	269
-#define	IF	270
-#define	MEM_COMP	271
-#define	MEM_DISK8	272
-#define	MEM_DISK9	273
-#define	CMD_SEP	274
-#define	REG_ASGN_SEP	275
-#define	EQUALS	276
-#define	CMD_SIDEFX	277
-#define	CMD_RETURN	278
-#define	CMD_BLOCK_READ	279
-#define	CMD_BLOCK_WRITE	280
-#define	CMD_UP	281
-#define	CMD_DOWN	282
-#define	CMD_LOAD	283
-#define	CMD_SAVE	284
-#define	CMD_VERIFY	285
-#define	CMD_IGNORE	286
-#define	CMD_HUNT	287
-#define	CMD_FILL	288
-#define	CMD_MOVE	289
-#define	CMD_GOTO	290
-#define	CMD_REGISTERS	291
-#define	CMD_READSPACE	292
-#define	CMD_WRITESPACE	293
-#define	CMD_RADIX	294
-#define	CMD_MEM_DISPLAY	295
-#define	CMD_BREAK	296
-#define	CMD_TRACE	297
-#define	CMD_IO	298
-#define	CMD_BRMON	299
-#define	CMD_COMPARE	300
-#define	CMD_DUMP	301
-#define	CMD_UNDUMP	302
-#define	CMD_EXIT	303
-#define	CMD_DELETE	304
-#define	CMD_CONDITION	305
-#define	CMD_COMMAND	306
-#define	CMD_ASSEMBLE	307
-#define	CMD_DISASSEMBLE	308
-#define	CMD_NEXT	309
-#define	CMD_STEP	310
-#define	CMD_PRINT	311
-#define	CMD_DEVICE	312
-#define	CMD_HELP	313
-#define	CMD_WATCH	314
-#define	CMD_DISK	315
-#define	CMD_SYSTEM	316
-#define	CMD_QUIT	317
-#define	CMD_CHDIR	318
-#define	CMD_BANK	319
-#define	CMD_LOAD_LABELS	320
-#define	CMD_SAVE_LABELS	321
-#define	CMD_ADD_LABEL	322
-#define	CMD_DEL_LABEL	323
-#define	CMD_SHOW_LABELS	324
-#define	CMD_RECORD	325
-#define	CMD_STOP	326
-#define	CMD_PLAYBACK	327
-#define	CMD_CHAR_DISPLAY	328
-#define	CMD_SPRITE_DISPLAY	329
-#define	CMD_TEXT_DISPLAY	330
-#define	CMD_ENTER_DATA	331
-#define	CMD_ENTER_BIN_DATA	332
-#define	CMD_BLOAD	333
-#define	CMD_BSAVE	334
-#define	CMD_SCREEN	335
-#define	CMD_UNTIL	336
-#define	CMD_CPU	337
-#define	L_PAREN	338
-#define	R_PAREN	339
-#define	ARG_IMMEDIATE	340
-#define	REG_A	341
-#define	REG_X	342
-#define	REG_Y	343
-#define	COMMA	344
-#define	INST_SEP	345
-#define	REG_B	346
-#define	REG_C	347
-#define	REG_D	348
-#define	REG_E	349
-#define	REG_H	350
-#define	REG_L	351
-#define	REG_AF	352
-#define	REG_BC	353
-#define	REG_DE	354
-#define	REG_HL	355
-#define	REG_SP	356
-#define	CPUTYPE_6502	357
-#define	CPUTYPE_Z80	358
-#define	STRING	359
-#define	FILENAME	360
-#define	R_O_L	361
-#define	OPCODE	362
-#define	LABEL	363
-#define	BANKNAME	364
-#define	CPUTYPE	365
-#define	REGISTER	366
-#define	COMPARE_OP	367
-#define	RADIX_TYPE	368
-#define	INPUT_SPEC	369
-#define	CMD_CHECKPT_ON	370
-#define	CMD_CHECKPT_OFF	371
-#define	TOGGLE	372
+#define        H_NUMBER        258
+#define        D_NUMBER        259
+#define        O_NUMBER        260
+#define        B_NUMBER        261
+#define        CONVERT_OP        262
+#define        B_DATA        263
+#define        D_NUMBER_GUESS        264
+#define        O_NUMBER_GUESS        265
+#define        B_NUMBER_GUESS        266
+#define        TRAIL        267
+#define        BAD_CMD        268
+#define        MEM_OP        269
+#define        IF        270
+#define        MEM_COMP        271
+#define        MEM_DISK8        272
+#define        MEM_DISK9        273
+#define        CMD_SEP        274
+#define        REG_ASGN_SEP        275
+#define        EQUALS        276
+#define        CMD_SIDEFX        277
+#define        CMD_RETURN        278
+#define        CMD_BLOCK_READ        279
+#define        CMD_BLOCK_WRITE        280
+#define        CMD_UP        281
+#define        CMD_DOWN        282
+#define        CMD_LOAD        283
+#define        CMD_SAVE        284
+#define        CMD_VERIFY        285
+#define        CMD_IGNORE        286
+#define        CMD_HUNT        287
+#define        CMD_FILL        288
+#define        CMD_MOVE        289
+#define        CMD_GOTO        290
+#define        CMD_REGISTERS        291
+#define        CMD_READSPACE        292
+#define        CMD_WRITESPACE        293
+#define        CMD_RADIX        294
+#define        CMD_MEM_DISPLAY        295
+#define        CMD_BREAK        296
+#define        CMD_TRACE        297
+#define        CMD_IO        298
+#define        CMD_BRMON        299
+#define        CMD_COMPARE        300
+#define        CMD_DUMP        301
+#define        CMD_UNDUMP        302
+#define        CMD_EXIT        303
+#define        CMD_DELETE        304
+#define        CMD_CONDITION        305
+#define        CMD_COMMAND        306
+#define        CMD_ASSEMBLE        307
+#define        CMD_DISASSEMBLE        308
+#define        CMD_NEXT        309
+#define        CMD_STEP        310
+#define        CMD_PRINT        311
+#define        CMD_DEVICE        312
+#define        CMD_HELP        313
+#define        CMD_WATCH        314
+#define        CMD_DISK        315
+#define        CMD_SYSTEM        316
+#define        CMD_QUIT        317
+#define        CMD_CHDIR        318
+#define        CMD_BANK        319
+#define        CMD_LOAD_LABELS        320
+#define        CMD_SAVE_LABELS        321
+#define        CMD_ADD_LABEL        322
+#define        CMD_DEL_LABEL        323
+#define        CMD_SHOW_LABELS        324
+#define        CMD_RECORD        325
+#define        CMD_STOP        326
+#define        CMD_PLAYBACK        327
+#define        CMD_CHAR_DISPLAY        328
+#define        CMD_SPRITE_DISPLAY        329
+#define        CMD_TEXT_DISPLAY        330
+#define        CMD_ENTER_DATA        331
+#define        CMD_ENTER_BIN_DATA        332
+#define        CMD_BLOAD        333
+#define        CMD_BSAVE        334
+#define        CMD_SCREEN        335
+#define        CMD_UNTIL        336
+#define        CMD_CPU        337
+#define        L_PAREN        338
+#define        R_PAREN        339
+#define        ARG_IMMEDIATE        340
+#define        REG_A        341
+#define        REG_X        342
+#define        REG_Y        343
+#define        COMMA        344
+#define        INST_SEP        345
+#define        REG_B        346
+#define        REG_C        347
+#define        REG_D        348
+#define        REG_E        349
+#define        REG_H        350
+#define        REG_L        351
+#define        REG_AF        352
+#define        REG_BC        353
+#define        REG_DE        354
+#define        REG_HL        355
+#define        REG_SP        356
+#define        CPUTYPE_6502        357
+#define        CPUTYPE_Z80        358
+#define        STRING        359
+#define        FILENAME        360
+#define        R_O_L        361
+#define        OPCODE        362
+#define        LABEL        363
+#define        BANKNAME        364
+#define        CPUTYPE        365
+#define        REGISTER        366
+#define        COMPARE_OP        367
+#define        RADIX_TYPE        368
+#define        INPUT_SPEC        369
+#define        CMD_CHECKPT_ON        370
+#define        CMD_CHECKPT_OFF        371
+#define        TOGGLE        372
 
 #line 28 "mon_parse.y"
 
@@ -149,6 +149,7 @@ extern char *alloca ();
 
 #include "asm.h"
 #include "console.h"
+#include "uimon.h"
 #include "machine.h"
 #include "mon.h"
 #include "types.h"
@@ -193,7 +194,7 @@ extern int cur_len, last_len;
 
 #line 98 "mon_parse.y"
 typedef union {
-	MON_ADDR a;
+        MON_ADDR a;
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
@@ -216,9 +217,9 @@ typedef union {
 
 
 
-#define	YYFINAL		382
-#define	YYFLAG		-32768
-#define	YYNTBASE	124
+#define        YYFINAL                382
+#define        YYFLAG                -32768
+#define        YYNTBASE        124
 
 #define YYTRANSLATE(x) ((unsigned)(x) <= 372 ? yytranslate[x] : 169)
 
@@ -561,7 +562,7 @@ static const short yypgoto[] = {-32768,
 };
 
 
-#define	YYLAST		972
+#define        YYLAST                972
 
 
 static const short yytable[] = {    97,
@@ -828,50 +829,50 @@ void *alloca ();
    It is replaced by the list of actions, each action
    as one case of the switch.  */
 
-#define yyerrok		(yyerrstatus = 0)
-#define yyclearin	(yychar = YYEMPTY)
-#define YYEMPTY		-2
-#define YYEOF		0
-#define YYACCEPT	return(0)
-#define YYABORT 	return(1)
-#define YYERROR		goto yyerrlab1
+#define yyerrok                (yyerrstatus = 0)
+#define yyclearin        (yychar = YYEMPTY)
+#define YYEMPTY                -2
+#define YYEOF                0
+#define YYACCEPT        return(0)
+#define YYABORT         return(1)
+#define YYERROR                goto yyerrlab1
 /* Like YYERROR except do call yyerror.
    This remains here temporarily to ease the
    transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  */
-#define YYFAIL		goto yyerrlab
+#define YYFAIL                goto yyerrlab
 #define YYRECOVERING()  (!!yyerrstatus)
 #define YYBACKUP(token, value) \
-do								\
-  if (yychar == YYEMPTY && yylen == 1)				\
-    { yychar = (token), yylval = (value);			\
-      yychar1 = YYTRANSLATE (yychar);				\
-      YYPOPSTACK;						\
-      goto yybackup;						\
-    }								\
-  else								\
-    { yyerror ("syntax error: cannot back up"); YYERROR; }	\
+do                                                                \
+  if (yychar == YYEMPTY && yylen == 1)                                \
+    { yychar = (token), yylval = (value);                        \
+      yychar1 = YYTRANSLATE (yychar);                                \
+      YYPOPSTACK;                                                \
+      goto yybackup;                                                \
+    }                                                                \
+  else                                                                \
+    { yyerror ("syntax error: cannot back up"); YYERROR; }        \
 while (0)
 
-#define YYTERROR	1
-#define YYERRCODE	256
+#define YYTERROR        1
+#define YYERRCODE        256
 
 #ifndef YYPURE
-#define YYLEX		yylex()
+#define YYLEX                yylex()
 #endif
 
 #ifdef YYPURE
 #ifdef YYLSP_NEEDED
 #ifdef YYLEX_PARAM
-#define YYLEX		yylex(&yylval, &yylloc, YYLEX_PARAM)
+#define YYLEX                yylex(&yylval, &yylloc, YYLEX_PARAM)
 #else
-#define YYLEX		yylex(&yylval, &yylloc)
+#define YYLEX                yylex(&yylval, &yylloc)
 #endif
 #else /* not YYLSP_NEEDED */
 #ifdef YYLEX_PARAM
-#define YYLEX		yylex(&yylval, YYLEX_PARAM)
+#define YYLEX                yylex(&yylval, YYLEX_PARAM)
 #else
-#define YYLEX		yylex(&yylval)
+#define YYLEX                yylex(&yylval)
 #endif
 #endif /* not YYLSP_NEEDED */
 #endif
@@ -880,27 +881,27 @@ while (0)
 
 #ifndef YYPURE
 
-int	yychar;			/*  the lookahead symbol		*/
-YYSTYPE	yylval;			/*  the semantic value of the		*/
-				/*  lookahead symbol			*/
+int        yychar;                        /*  the lookahead symbol                */
+YYSTYPE        yylval;                        /*  the semantic value of the                */
+                                /*  lookahead symbol                        */
 
 #ifdef YYLSP_NEEDED
-YYLTYPE yylloc;			/*  location data for the lookahead	*/
-				/*  symbol				*/
+YYLTYPE yylloc;                        /*  location data for the lookahead        */
+                                /*  symbol                                */
 #endif
 
-int yynerrs;			/*  number of parse errors so far       */
+int yynerrs;                        /*  number of parse errors so far       */
 #endif  /* not YYPURE */
 
 #if YYDEBUG != 0
-int yydebug;			/*  nonzero means print parse trace	*/
+int yydebug;                        /*  nonzero means print parse trace        */
 /* Since this is uninitialized, it does not stop multiple parsers
    from coexisting.  */
 #endif
 
-/*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
+/*  YYINITDEPTH indicates the initial size of the parser's stacks        */
 
-#ifndef	YYINITDEPTH
+#ifndef        YYINITDEPTH
 #define YYINITDEPTH 200
 #endif
 
@@ -924,9 +925,9 @@ int yydebug;			/*  nonzero means print parse trace	*/
 YYPARSE_RETURN_TYPE yyparse (void);
 #endif
 
-#if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
-#define __yy_memcpy(TO,FROM,COUNT)	__builtin_memcpy(TO,FROM,COUNT)
-#else				/* not GNU C or C++ */
+#if __GNUC__ > 1                /* GNU C and GNU C++ define this.  */
+#define __yy_memcpy(TO,FROM,COUNT)        __builtin_memcpy(TO,FROM,COUNT)
+#else                                /* not GNU C or C++ */
 #ifndef __cplusplus
 
 /* This is the most reliable way to avoid incompatibilities
@@ -962,7 +963,7 @@ __yy_memcpy (char *to, char *from, int count)
 
 #endif
 #endif
-
+
 #line 196 "/usr/share/bison.simple"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
@@ -992,17 +993,17 @@ yyparse(YYPARSE_PARAM_ARG)
   register int yyn;
   register short *yyssp;
   register YYSTYPE *yyvsp;
-  int yyerrstatus;	/*  number of tokens to shift before error messages enabled */
-  int yychar1 = 0;		/*  lookahead token as an internal (translated) token number */
+  int yyerrstatus;        /*  number of tokens to shift before error messages enabled */
+  int yychar1 = 0;                /*  lookahead token as an internal (translated) token number */
 
-  short	yyssa[YYINITDEPTH];	/*  the state stack			*/
-  YYSTYPE yyvsa[YYINITDEPTH];	/*  the semantic value stack		*/
+  short        yyssa[YYINITDEPTH];        /*  the state stack                        */
+  YYSTYPE yyvsa[YYINITDEPTH];        /*  the semantic value stack                */
 
-  short *yyss = yyssa;		/*  refer to the stacks thru separate pointers */
-  YYSTYPE *yyvs = yyvsa;	/*  to allow yyoverflow to reallocate them elsewhere */
+  short *yyss = yyssa;                /*  refer to the stacks thru separate pointers */
+  YYSTYPE *yyvs = yyvsa;        /*  to allow yyoverflow to reallocate them elsewhere */
 
 #ifdef YYLSP_NEEDED
-  YYLTYPE yylsa[YYINITDEPTH];	/*  the location stack			*/
+  YYLTYPE yylsa[YYINITDEPTH];        /*  the location stack                        */
   YYLTYPE *yyls = yylsa;
   YYLTYPE *yylsp;
 
@@ -1022,9 +1023,9 @@ yyparse(YYPARSE_PARAM_ARG)
 #endif
 #endif
 
-  YYSTYPE yyval;		/*  the variable used to return		*/
-				/*  semantic values from the action	*/
-				/*  routines				*/
+  YYSTYPE yyval;                /*  the variable used to return                */
+                                /*  semantic values from the action        */
+                                /*  routines                                */
 
   int yylen;
 
@@ -1036,7 +1037,7 @@ yyparse(YYPARSE_PARAM_ARG)
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY;		/* Cause a token to be read.  */
+  yychar = YYEMPTY;                /* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
@@ -1071,20 +1072,20 @@ yynewstate:
 
 #ifdef yyoverflow
       /* Each stack pointer address is followed by the size of
-	 the data in use in that stack, in bytes.  */
+         the data in use in that stack, in bytes.  */
 #ifdef YYLSP_NEEDED
       /* This used to be a conditional around just the two extra args,
-	 but that might be undefined if yyoverflow is a macro.  */
+         but that might be undefined if yyoverflow is a macro.  */
       yyoverflow("parser stack overflow",
-		 &yyss1, size * sizeof (*yyssp),
-		 &yyvs1, size * sizeof (*yyvsp),
-		 &yyls1, size * sizeof (*yylsp),
-		 &yystacksize);
+                 &yyss1, size * sizeof (*yyssp),
+                 &yyvs1, size * sizeof (*yyvsp),
+                 &yyls1, size * sizeof (*yylsp),
+                 &yystacksize);
 #else
       yyoverflow("parser stack overflow",
-		 &yyss1, size * sizeof (*yyssp),
-		 &yyvs1, size * sizeof (*yyvsp),
-		 &yystacksize);
+                 &yyss1, size * sizeof (*yyssp),
+                 &yyvs1, size * sizeof (*yyvsp),
+                 &yystacksize);
 #endif
 
       yyss = yyss1; yyvs = yyvs1;
@@ -1094,13 +1095,13 @@ yynewstate:
 #else /* no yyoverflow */
       /* Extend the stack our own way.  */
       if (yystacksize >= YYMAXDEPTH)
-	{
-	  yyerror("parser stack overflow");
-	  return 2;
-	}
+        {
+          yyerror("parser stack overflow");
+          return 2;
+        }
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
-	yystacksize = YYMAXDEPTH;
+        yystacksize = YYMAXDEPTH;
       yyss = (short *) alloca (yystacksize * sizeof (*yyssp));
       __yy_memcpy ((char *)yyss, (char *)yyss1, size * sizeof (*yyssp));
       yyvs = (YYSTYPE *) alloca (yystacksize * sizeof (*yyvsp));
@@ -1119,11 +1120,11 @@ yynewstate:
 
 #if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Stack size increased to %d\n", yystacksize);
+        fprintf(stderr, "Stack size increased to %d\n", yystacksize);
 #endif
 
       if (yyssp >= yyss + yystacksize - 1)
-	YYABORT;
+        YYABORT;
     }
 
 #if YYDEBUG != 0
@@ -1153,21 +1154,21 @@ yynewstate:
     {
 #if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Reading a token: ");
+        fprintf(stderr, "Reading a token: ");
 #endif
       yychar = YYLEX;
     }
 
   /* Convert token to internal form (in yychar1) for indexing tables with */
 
-  if (yychar <= 0)		/* This means end of input. */
+  if (yychar <= 0)                /* This means end of input. */
     {
       yychar1 = 0;
-      yychar = YYEOF;		/* Don't call YYLEX any more */
+      yychar = YYEOF;                /* Don't call YYLEX any more */
 
 #if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Now at end of input.\n");
+        fprintf(stderr, "Now at end of input.\n");
 #endif
     }
   else
@@ -1176,15 +1177,15 @@ yynewstate:
 
 #if YYDEBUG != 0
       if (yydebug)
-	{
-	  fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
-	  /* Give the individual parser a way to print the precise meaning
-	     of a token, for further debugging info.  */
+        {
+          fprintf (stderr, "Next token is %d (%s", yychar, yytname[yychar1]);
+          /* Give the individual parser a way to print the precise meaning
+             of a token, for further debugging info.  */
 #ifdef YYPRINT
-	  YYPRINT (stderr, yychar, yylval);
+          YYPRINT (stderr, yychar, yylval);
 #endif
-	  fprintf (stderr, ")\n");
-	}
+          fprintf (stderr, ")\n");
+        }
 #endif
     }
 
@@ -1204,7 +1205,7 @@ yynewstate:
   if (yyn < 0)
     {
       if (yyn == YYFLAG)
-	goto yyerrlab;
+        goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -1255,11 +1256,11 @@ yyreduce:
       int i;
 
       fprintf (stderr, "Reducing via rule %d (line %d), ",
-	       yyn, yyrline[yyn]);
+               yyn, yyrline[yyn]);
 
       /* Print the symbols being reduced, and their result.  */
       for (i = yyprhs[yyn]; yyrhs[i] > 0; i++)
-	fprintf (stderr, "%s ", yytname[yyrhs[i]]);
+        fprintf (stderr, "%s ", yytname[yyrhs[i]]);
       fprintf (stderr, " -> %s\n", yytname[yyr1[yyn]]);
     }
 #endif
@@ -1508,7 +1509,7 @@ case 77:
     break;}
 case 78:
 #line 253 "mon_parse.y"
-{ console_out(console_log, "I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); ;
+{ arch_mon_out("I/O side effects are %s\n", sidefx ? "enabled" : "disabled"); ;
     break;}
 case 79:
 #line 254 "mon_parse.y"
@@ -1530,12 +1531,12 @@ case 80:
                          else
                              p = "Unknown";
 
-                         console_out(console_log, "Default radix is %s\n", p);
+                         arch_mon_out("Default radix is %s\n", p);
                      ;
     break;}
 case 81:
 #line 273 "mon_parse.y"
-{ console_out(console_log, "Setting default device to `%s'\n",
+{ arch_mon_out("Setting default device to `%s'\n",
                                                          _mon_space_strings[(int) yyvsp[-1].i]); default_memspace = yyvsp[-1].i; ;
     break;}
 case 82:
@@ -1552,7 +1553,7 @@ case 84:
     break;}
 case 85:
 #line 280 "mon_parse.y"
-{ console_out(console_log, "\t%d\n",yyvsp[-1].i); ;
+{ arch_mon_out("\t%d\n",yyvsp[-1].i); ;
     break;}
 case 86:
 #line 281 "mon_parse.y"
@@ -1688,7 +1689,7 @@ case 122:
     break;}
 case 123:
 #line 346 "mon_parse.y"
-{ temp = mon_symbol_table_lookup_addr(e_default_space, yyvsp[0].str); 
+{ temp = mon_symbol_table_lookup_addr(e_default_space, yyvsp[0].str);
                  if (temp >= 0)
                     yyval.a = new_addr(e_default_space, temp);
                  else
@@ -1992,7 +1993,7 @@ case 196:
 }
    /* the action file gets copied in in place of this dollarsign */
 #line 498 "/usr/share/bison.simple"
-
+
   yyvsp -= yylen;
   yyssp -= yylen;
 #ifdef YYLSP_NEEDED
@@ -2005,7 +2006,7 @@ case 196:
       short *ssp1 = yyss - 1;
       fprintf (stderr, "state stack now");
       while (ssp1 != yyssp)
-	fprintf (stderr, " %d", *++ssp1);
+        fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
 #endif
@@ -2055,44 +2056,44 @@ yyerrlab:   /* here on detecting error */
       yyn = yypact[yystate];
 
       if (yyn > YYFLAG && yyn < YYLAST)
-	{
-	  int size = 0;
-	  char *msg;
-	  int x, count;
+        {
+          int size = 0;
+          char *msg;
+          int x, count;
 
-	  count = 0;
-	  /* Start X at -yyn if nec to avoid negative indexes in yycheck.  */
-	  for (x = (yyn < 0 ? -yyn : 0);
-	       x < (sizeof(yytname) / sizeof(char *)); x++)
-	    if (yycheck[x + yyn] == x)
-	      size += strlen(yytname[x]) + 15, count++;
-	  msg = (char *) malloc(size + 15);
-	  if (msg != 0)
-	    {
-	      strcpy(msg, "parse error");
+          count = 0;
+          /* Start X at -yyn if nec to avoid negative indexes in yycheck.  */
+          for (x = (yyn < 0 ? -yyn : 0);
+               x < (sizeof(yytname) / sizeof(char *)); x++)
+            if (yycheck[x + yyn] == x)
+              size += strlen(yytname[x]) + 15, count++;
+          msg = (char *) malloc(size + 15);
+          if (msg != 0)
+            {
+              strcpy(msg, "parse error");
 
-	      if (count < 5)
-		{
-		  count = 0;
-		  for (x = (yyn < 0 ? -yyn : 0);
-		       x < (sizeof(yytname) / sizeof(char *)); x++)
-		    if (yycheck[x + yyn] == x)
-		      {
-			strcat(msg, count == 0 ? ", expecting `" : " or `");
-			strcat(msg, yytname[x]);
-			strcat(msg, "'");
-			count++;
-		      }
-		}
-	      yyerror(msg);
-	      free(msg);
-	    }
-	  else
-	    yyerror ("parse error; also virtual memory exceeded");
-	}
+              if (count < 5)
+                {
+                  count = 0;
+                  for (x = (yyn < 0 ? -yyn : 0);
+                       x < (sizeof(yytname) / sizeof(char *)); x++)
+                    if (yycheck[x + yyn] == x)
+                      {
+                        strcat(msg, count == 0 ? ", expecting `" : " or `");
+                        strcat(msg, yytname[x]);
+                        strcat(msg, "'");
+                        count++;
+                      }
+                }
+              yyerror(msg);
+              free(msg);
+            }
+          else
+            yyerror ("parse error; also virtual memory exceeded");
+        }
       else
 #endif /* YYERROR_VERBOSE */
-	yyerror("parse error");
+        yyerror("parse error");
     }
 
   goto yyerrlab1;
@@ -2104,11 +2105,11 @@ yyerrlab1:   /* here on error raised explicitly by an action */
 
       /* return failure if at end of input */
       if (yychar == YYEOF)
-	YYABORT;
+        YYABORT;
 
 #if YYDEBUG != 0
       if (yydebug)
-	fprintf(stderr, "Discarding token %d (%s).\n", yychar, yytname[yychar1]);
+        fprintf(stderr, "Discarding token %d (%s).\n", yychar, yytname[yychar1]);
 #endif
 
       yychar = YYEMPTY;
@@ -2117,7 +2118,7 @@ yyerrlab1:   /* here on error raised explicitly by an action */
   /* Else will try to reuse lookahead token
      after shifting the error token.  */
 
-  yyerrstatus = 3;		/* Each real token shifted decrements this */
+  yyerrstatus = 3;                /* Each real token shifted decrements this */
 
   goto yyerrhandle;
 
@@ -2145,7 +2146,7 @@ yyerrpop:   /* pop the current state because it cannot handle the error token */
       short *ssp1 = yyss - 1;
       fprintf (stderr, "Error: state stack now");
       while (ssp1 != yyssp)
-	fprintf (stderr, " %d", *++ssp1);
+        fprintf (stderr, " %d", *++ssp1);
       fprintf (stderr, "\n");
     }
 #endif
@@ -2164,7 +2165,7 @@ yyerrhandle:
   if (yyn < 0)
     {
       if (yyn == YYFLAG)
-	goto yyerrpop;
+        goto yyerrpop;
       yyn = -yyn;
       goto yyreduce;
     }
@@ -2204,52 +2205,52 @@ void parse_and_execute_line(char *input)
 
    make_buffer(temp_buf);
    if ( (rc =yyparse()) != 0) {
-       console_out(console_log, "ERROR -- ");
+       arch_mon_out("ERROR -- ");
        switch(rc) {
            case ERR_BAD_CMD:
-               console_out(console_log, "Bad command:\n");
+               arch_mon_out("Bad command:\n");
                break;
            case ERR_RANGE_BAD_START:
-               console_out(console_log, "Bad first address in range:\n");
+               arch_mon_out("Bad first address in range:\n");
                break;
            case ERR_RANGE_BAD_END:
-               console_out(console_log, "Bad second address in range:\n");
+               arch_mon_out("Bad second address in range:\n");
                break;
            case ERR_EXPECT_BRKNUM:
-               console_out(console_log, "Checkpoint number expected:\n");
+               arch_mon_out("Checkpoint number expected:\n");
                break;
            case ERR_EXPECT_END_CMD:
-               console_out(console_log, "Unexpected token:\n");
+               arch_mon_out("Unexpected token:\n");
                break;
            case ERR_MISSING_CLOSE_PAREN:
-               console_out(console_log, "')' expected:\n");
+               arch_mon_out("')' expected:\n");
                break;
            case ERR_INCOMPLETE_COMPARE_OP:
-               console_out(console_log, "Compare operation missing an operand:\n");
+               arch_mon_out("Compare operation missing an operand:\n");
                break;
            case ERR_EXPECT_FILENAME:
-               console_out(console_log, "Expecting a filename:\n");
+               arch_mon_out("Expecting a filename:\n");
                break;
            case ERR_ADDR_TOO_BIG:
-               console_out(console_log, "Address too large:\n");
+               arch_mon_out("Address too large:\n");
                break;
            case ERR_IMM_TOO_BIG:
-               console_out(console_log, "Immediate argument too large:\n");
+               arch_mon_out("Immediate argument too large:\n");
                break;
            case ERR_EXPECT_STRING:
-               console_out(console_log, "Expecting a string.\n");
+               arch_mon_out("Expecting a string.\n");
                break;
            case ERR_UNDEFINED_LABEL:
-               console_out(console_log, "Found an undefined label.\n");
+               arch_mon_out("Found an undefined label.\n");
                break;
            case ERR_ILLEGAL_INPUT:
            default:
-               console_out(console_log, "Wrong syntax:\n");
+               arch_mon_out("Wrong syntax:\n");
        }
-       console_out(console_log, "  %s\n", input);
+       arch_mon_out("  %s\n", input);
        for (i = 0; i < last_len; i++)
-           console_out(console_log, " ");
-       console_out(console_log, "  ^\n");
+           arch_mon_out(" ");
+       arch_mon_out("  ^\n");
        asm_mode = 0;
        new_cmd = 1;
    }
@@ -2280,4 +2281,3 @@ static int resolve_datatype(unsigned guess_type, char *num)
 
    return strtol(num, NULL, 2);
 }
-

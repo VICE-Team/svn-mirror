@@ -14,5 +14,5 @@ source type(c)
     "uicmdline.c",
     "sounddrv.c",
     "vsyncarch.c",
-    "snippets\\dirport.c",
-    "snippets\\filedlg.c"
+    "snippets\\pmwin2.c",
+    "snippets\\dirport.c"

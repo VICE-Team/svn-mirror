@@ -1,4 +1,5 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
+    link(linkwithsharedlib, "no"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
@@ -30,18 +31,18 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 {
     target type(exe) "..\\..\\..\\..\\data\\x64.exe"
     {
-        source type (rc)  "dialogs.rc"
         source type (lib)
-            "mmpm2.lib",
-            "zlib.lib",
-            "png.lib"
+            "mmpm2.lib", // "zlib.lib", "png.lib"
+            "..\\..\\..\\..\\data\\vice2.lib"
+        source type (dll)
+            "..\\..\\..\\..\\data\\vice2.dll"
         source type(c)
             "maincpu.c"
         source type(c)
             "kbd-c64.c",
-            "c64ui.c",
-            "dlg-cartridge.c"
+            "c64ui.c"
 
+        include "incl/resources.icc"
         include "incl/archdep.icc"
         include "incl/mainsrc.icc"
         include "incl/c64.icc"
@@ -58,5 +59,3 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/resid.icc"
     }
 }
-
-

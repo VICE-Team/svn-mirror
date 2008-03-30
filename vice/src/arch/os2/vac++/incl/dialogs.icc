@@ -1,15 +1,12 @@
 source type(c)
     "dialogs\\menubar.c",
+    "dialogs\\dragndrop.c",
     "dialogs\\dlg-drive.c",
     "dialogs\\dlg-reset.c",
     "dialogs\\dlg-create.c",
     "dialogs\\dlg-cmdopt.c",
-    "dialogs\\dlg-attach.c",
+    "dialogs\\dlg-fileio.c",
     "dialogs\\dlg-monitor.c",
     "dialogs\\dlg-emulator.c",
     "dialogs\\dlg-joystick.c" ,
-    "dialogs\\dlg-contents.c",
-    "dialogs\\dlg-snapshot.c",
-    "dialogs\\dlg-datasette.c",
-    "dialogs\\dlg-autostart.c",
-    "dialogs\\dlg-screenshot.c"
+    "dialogs\\dlg-datasette.c"

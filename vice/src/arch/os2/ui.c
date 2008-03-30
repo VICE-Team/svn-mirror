@@ -44,13 +44,16 @@
 #include "ui.h"
 #include "ui_status.h"
 
+#include "dialogs.h"
+#include "dlg-drive.h"
+#include "dlg-datasette.h"
+
 //#ifdef __EMX__
 //#include "dos.h"
 //#endif
 #include "log.h"
 #include "utils.h"
 #include "archdep.h"
-#include "dialogs.h"
 #include "cmdline.h"
 #include "resources.h"
 
@@ -215,24 +218,27 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
 void ui_error(const char *format,...)
 {
-    char *txt;
+    char *txt, *txt2;
     va_list ap;
     va_start(ap, format);
-    txt = xmvsprintf(format, ap);
-    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                  txt, "VICE/2 Error", 0, MB_OK);
+    txt  = xmvsprintf(format, ap);
+    txt2 = concat(" Emulation thread error:\n ", txt);
+    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt2);
+    free(txt2);
     free(txt);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    char *txt;
+    char *txt, *txt2;
     va_list ap;
     va_start(ap, format);
-    txt = xmvsprintf(format, ap);
-    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                  txt, "VICE/2 CPU JAM happend", 0, MB_OK);
+    txt  = xmvsprintf(format, ap);
+    txt2 = concat("    Chipset:\n ", txt, NULL);
+    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt2);
+    free(txt2);
     free(txt);
+
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }
 

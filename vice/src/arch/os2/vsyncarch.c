@@ -36,6 +36,9 @@
 #include <stdio.h>
 #include <stdlib.h>    // exit
 
+#include "dialogs.h"
+#include "dlg-emulator.h"
+
 #include "log.h"
 #include "utils.h"     // xmsprintf
 #include "vsync.h"     // suspend_speed_eval
@@ -43,7 +46,6 @@
 #include "kbdbuf.h"    // kbd_buf_flush
 #include "machine.h"   // machine_shutdown
 //#include "ui_status.h" // ui_display_speed
-#include "dialogs.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -112,12 +114,12 @@ unsigned long vsyncarch_timescale()
 // OS/2 functions to handle emulator paused
 void emulator_pause()
 {
-    suspend_speed_eval();
     emulator_paused = TRUE;
 }
 
 void emulator_resume()
 {
+    suspend_speed_eval();
     emulator_paused=FALSE;
 }
 

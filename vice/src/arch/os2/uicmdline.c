@@ -28,6 +28,8 @@
 #define INCL_WINDIALOGS // WinProcessDlg
 #include "vice.h"
 
+#include <os2.h>
+
 #include <string.h>
 #include <stdlib.h>
 

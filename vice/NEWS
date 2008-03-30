@@ -10,12 +10,22 @@ list of all the changes in the code.
 * Changes in VICE 1.7
 =====================
 
+** CBM-II changes
+-----------------
+
+- Implemented a C510 (aka P128) emulation, using the existing VIC-II
+  emulation
+
+- Fix a couple of bugs in the CBM-II emulation (C610-C720)
+
 ** OS/2 changes
 --------------
 
-- Dragging a file to the Vice Window now autostarts the file
+- Moved zlib and png APIs to a DLL to decrease the archive size
 
-- Included a base status bar
+- Added a new file dialog with a contents window
+
+- Dragging a file to the Vice Window now autostarts the file
 
 - Added autostart option to menu
 

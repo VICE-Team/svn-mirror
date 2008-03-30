@@ -107,7 +107,7 @@ int print_open(int device)
         if (PrinterDev[device] == NULL)
             return -1;
         if (fd[device] == NULL)
-            fd[device] = fopen(PrinterDev[device], "ab+");
+            fd[device] = fopen(PrinterDev[device], MODE_APPEND);
         return 0;
       default:
         return -1;

@@ -24,15 +24,24 @@
  *
  */
 
+#define INCL_WINSYS       // CV_*
+#define INCL_WINMENUS     // WinLoadMenu
 #define INCL_WINSTDSPIN   // WinSetSpinVal
 #define INCL_WINDIALOGS   // WinSendDlgItemMsg
 #define INCL_WINPOINTERS  // WinLoadPointer
 #define INCL_WINFRAMEMGR  // WM_SETICON
 #include "vice.h"
+
+#include <os2.h>
+
 #include "dialogs.h"
+#include "dlg-vsid.h"
+#include "menubar.h"
 
 #include "psid.h"
 #include "resources.h"
+
+#include "snippets\pmwin2.h"
 
 static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -42,13 +51,39 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
+            HWND hmenu;
+
             HPOINTER hicon=WinLoadPointer(HWND_DESKTOP, NULLHANDLE, IDM_VICE2);
             if (hicon)
                 WinSendMsg(hwnd, WM_SETICON, MPFROMLONG(hicon), MPVOID);
+
+            //
+            // Try to attach the menu and make it visible
+            //
+            hmenu = WinLoadMenu(hwnd, NULLHANDLE, IDM_VICE2);
+            if (hmenu)
+            {
+                SWP swp;
+                WinQueryWindowPos(hwnd, &swp);
+
+                WinDelMenuItem(hmenu, IDM_FILE);
+                WinDelMenuItem(hmenu, IDM_VIEW);
+                WinDelMenuItem(hmenu, IDM_SETUP);
+                WinDelMenuItem(hmenu, IDM_MONITOR);
+
+                swp.cy += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;
+                WinSetWindowPos(hwnd, 0, 0, 0, swp.cx, swp.cy, SWP_SIZE);
+
+                WinSendMsg(hwnd, WM_UPDATEFRAME, MPFROMLONG(FID_MENU), MPVOID);
+            }
         }
         return FALSE;
 
-    case WM_CLOSE:
+    case WM_MENUSELECT:
+        menu_select(HWNDFROMMP(mp2), SHORT1FROMMP(mp1));
+        break;
+
+    case WM_DESTROY:
         trigger_shutdown = 1;
         break;
 
@@ -58,23 +93,18 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         case DID_CLOSE:
             trigger_shutdown = 1;
             break;
+
+        default:
+            menu_action(hwnd, SHORT1FROMMP(mp1), mp2);
+            return FALSE;
         }
         break;
 
     case WM_CONTROL:
+        if (mp1==MPFROM2SHORT(SPB_SETTUNE, SPBN_ENDSPIN))
         {
-            int ctrl=SHORT1FROMMP(mp1);
-            switch (ctrl)
-            {
-            case SPB_SETTUNE:
-                if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
-                {
-                    ULONG val;
-                    WinGetSpinVal(hwnd, ctrl, &val);
-                    resources_set_value("PSIDTune", (resource_value_t)val);
-                }
-                break;
-            }
+            const ULONG val = WinGetSpinVal((HWND)mp2);
+            resources_set_value("PSIDTune", (resource_value_t)val);
         }
         break;
 

@@ -298,7 +298,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 int c128_ui_init(void)
 {
-    ui_create_main_menu(1, 1, 1, 2, 0);
+    ui_create_main_menu(1, 1, 1, 2, 1);
 
     tui_menu_add_separator(ui_video_submenu);
 

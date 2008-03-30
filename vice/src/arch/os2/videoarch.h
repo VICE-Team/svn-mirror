@@ -6,7 +6,6 @@
 /* #define ADDRESS 0                      */
 #undef BYTE
 #undef ADDRESS
-#define INCL_GPIBITMAPS
 #define INCL_DOSSEMAPHORES
 #include <os2.h>
 #include <dive.h>

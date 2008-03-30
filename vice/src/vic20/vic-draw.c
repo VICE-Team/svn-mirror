@@ -103,11 +103,13 @@ fill_cache (raster_cache_t *cache,
 
 
 
-#define PUT_PIXEL(p, d, c, b, x) \
-  *((VIC_PIXEL *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]]
+#define PUT_PIXEL(p, d, c, b, x, t) \
+  if (!t || drawing_table[(d)][(b)][(x)]) \
+    *((VIC_PIXEL *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]]
 
-#define PUT_PIXEL2(p, d, c, b, x) \
-  *((VIC_PIXEL2 *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]]
+#define PUT_PIXEL2(p, d, c, b, x, t) \
+  if (!t || drawing_table[(d)][(b)][(x)]) \
+    *((VIC_PIXEL2 *)(p) + (x)) = (c)[drawing_table[(d)][(b)][(x)]]
 
 #define GET_CHAR_DATA(code, row) \
   *(vic.chargen_ptr + ((code) * vic.char_height) + (row))
@@ -116,7 +118,8 @@ inline static void
 draw (PIXEL *p,
       int xs,
       int xe,
-      int reverse)
+      int reverse,
+      int transparent) /* transparent>0: don't overwrite background */
 {
   static VIC_PIXEL c[4];
   int b, i;
@@ -125,7 +128,7 @@ draw (PIXEL *p,
   p += xs * 8 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL (vic.raster.background_color);
-  c[1] = VIC_PIXEL (vic.raster.border_color);
+  c[1] = VIC_PIXEL (vic.mc_border_color);
   c[3] = VIC_PIXEL (vic.auxiliary_color);
 
   for (i = xs; i <= xe; i++, p += 8 * VIC_PIXEL_WIDTH)
@@ -138,14 +141,14 @@ draw (PIXEL *p,
       else
         d = GET_CHAR_DATA (*(vic.screen_ptr + vic.memptr + i),
                            vic.raster.ycounter);
-      PUT_PIXEL (p, d, c, b, 0);
-      PUT_PIXEL (p, d, c, b, 1);
-      PUT_PIXEL (p, d, c, b, 2);
-      PUT_PIXEL (p, d, c, b, 3);
-      PUT_PIXEL (p, d, c, b, 4);
-      PUT_PIXEL (p, d, c, b, 5);
-      PUT_PIXEL (p, d, c, b, 6);
-      PUT_PIXEL (p, d, c, b, 7);
+      PUT_PIXEL (p, d, c, b, 0, transparent);
+      PUT_PIXEL (p, d, c, b, 1, transparent);
+      PUT_PIXEL (p, d, c, b, 2, transparent);
+      PUT_PIXEL (p, d, c, b, 3, transparent);
+      PUT_PIXEL (p, d, c, b, 4, transparent);
+      PUT_PIXEL (p, d, c, b, 5, transparent);
+      PUT_PIXEL (p, d, c, b, 6, transparent);
+      PUT_PIXEL (p, d, c, b, 7, transparent);
     }
 }
 
@@ -157,7 +160,7 @@ draw_line (void)
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
 
-  draw (p, 0, vic.text_cols - 1, 0);
+  draw (p, 0, vic.text_cols - 1, 0, 0);
 }
 
 static void
@@ -168,7 +171,7 @@ draw_reverse_line (void)
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
 
-  draw (p, 0, vic.text_cols - 1, 1);
+  draw (p, 0, vic.text_cols - 1, 1, 0);
 }
 
 static void
@@ -181,7 +184,7 @@ draw_line_cached (raster_cache_t *cache,
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
 
-  draw (p, xs, xe, 0);
+  draw (p, xs, xe, 0, 0);
 }
 
 static void
@@ -194,14 +197,15 @@ draw_reverse_line_cached (raster_cache_t *cache,
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
 
-  draw (p, xs, xe, 1);
+  draw (p, xs, xe, 1, 0);
 }
 
 inline static void
 draw_2x(PIXEL *p,
         int xs,
         int xe,
-        int reverse)
+        int reverse,
+        int transparent)
 {
   static VIC_PIXEL2 c[4];
   BYTE d, b;
@@ -210,7 +214,7 @@ draw_2x(PIXEL *p,
   p += xs * 16 * VIC_PIXEL_WIDTH;
 
   c[0] = VIC_PIXEL2 (vic.raster.background_color);
-  c[1] = VIC_PIXEL2 (vic.raster.border_color);
+  c[1] = VIC_PIXEL2 (vic.mc_border_color);
   c[3] = VIC_PIXEL2 (vic.auxiliary_color);
 
   for (i = xs; i <= xe; i++, p += 16 * VIC_PIXEL_WIDTH)
@@ -225,14 +229,14 @@ draw_2x(PIXEL *p,
         d = GET_CHAR_DATA ((vic.screen_ptr + vic.memptr)[i],
                            vic.raster.ycounter);
 
-      PUT_PIXEL2 (p, d, c, b, 0);
-      PUT_PIXEL2 (p, d, c, b, 1);
-      PUT_PIXEL2 (p, d, c, b, 2);
-      PUT_PIXEL2 (p, d, c, b, 3);
-      PUT_PIXEL2 (p, d, c, b, 4);
-      PUT_PIXEL2 (p, d, c, b, 5);
-      PUT_PIXEL2 (p, d, c, b, 6);
-      PUT_PIXEL2 (p, d, c, b, 7);
+      PUT_PIXEL2 (p, d, c, b, 0, transparent);
+      PUT_PIXEL2 (p, d, c, b, 1, transparent);
+      PUT_PIXEL2 (p, d, c, b, 2, transparent);
+      PUT_PIXEL2 (p, d, c, b, 3, transparent);
+      PUT_PIXEL2 (p, d, c, b, 4, transparent);
+      PUT_PIXEL2 (p, d, c, b, 5, transparent);
+      PUT_PIXEL2 (p, d, c, b, 6, transparent);
+      PUT_PIXEL2 (p, d, c, b, 7, transparent);
     }
 }
 
@@ -244,7 +248,7 @@ draw_line_2x (void)
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
-  draw_2x (p, 0, vic.text_cols - 1, 0);
+  draw_2x (p, 0, vic.text_cols - 1, 0, 0);
 }
 
 static void
@@ -255,7 +259,7 @@ draw_reverse_line_2x (void)
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
-  draw_2x (p, 0, vic.text_cols - 1, 1);
+  draw_2x (p, 0, vic.text_cols - 1, 1, 0);
 }
 
 static void
@@ -268,7 +272,7 @@ draw_line_cached_2x (raster_cache_t *cache,
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
-  draw_2x (p, xs, xe, 0);
+  draw_2x (p, xs, xe, 0, 0);
 }
 
 static void
@@ -281,10 +285,71 @@ draw_reverse_line_cached_2x (raster_cache_t *cache,
   p = (vic.raster.frame_buffer_ptr
        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
-  draw_2x (p, xs, xe, 1);
+  draw_2x (p, xs, xe, 1, 0);
 }
 
-
+static void 
+draw_std_background (unsigned int start_pixel, unsigned int end_pixel)
+{
+  vid_memset (vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH,
+              RASTER_PIXEL (&vic.raster,
+                            vic.raster.background_color),
+              (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
+}
+
+static void
+draw_std_background_2x (unsigned int start_pixel, unsigned int end_pixel)
+{
+  vid_memset (vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH * 2,
+              RASTER_PIXEL (&vic.raster,
+                            vic.raster.background_color),
+              (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH * 2);
+}
+
+static void
+draw_std_foreground (unsigned int start_char, unsigned int end_char)
+{
+  PIXEL *p;
+
+  p = (vic.raster.frame_buffer_ptr
+       + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
+
+  draw(p, start_char, end_char, 0, 1);
+}
+
+static void
+draw_rev_foreground (unsigned int start_char, unsigned int end_char)
+{
+  PIXEL *p;
+
+  p = (vic.raster.frame_buffer_ptr
+       + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
+
+  draw(p, start_char, end_char, 1, 1);
+}
+
+static void
+draw_std_foreground_2x (unsigned int start_char, unsigned int end_char)
+{
+  PIXEL *p;
+
+  p = (vic.raster.frame_buffer_ptr
+       + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
+
+  draw_2x(p, start_char, end_char, 0, 1);
+}
+
+static void
+draw_rev_foreground_2x (unsigned int start_char, unsigned int end_char)
+{
+  PIXEL *p;
+
+  p = (vic.raster.frame_buffer_ptr
+       + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
+
+  draw_2x(p, start_char, end_char, 1, 1);
+}
+
 
 void
 vic_draw_init (void)
@@ -302,14 +367,14 @@ vic_draw_set_double_size (int enabled)
                        fill_cache,
                        draw_line_cached_2x,
                        draw_line_2x,
-                       NULL,
-                       NULL);
+                       draw_std_background_2x,
+                       draw_std_foreground_2x);
       raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
                        fill_cache,
                        draw_reverse_line_cached_2x,
                        draw_reverse_line_2x,
-                       NULL,
-                       NULL);
+                       draw_std_background_2x,
+                       draw_rev_foreground_2x);
     }
   else
     {
@@ -317,14 +382,14 @@ vic_draw_set_double_size (int enabled)
                        fill_cache,
                        draw_line_cached,
                        draw_line,
-                       NULL,
-                       NULL);
+                       draw_std_background,
+                       draw_std_foreground);
       raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
                        fill_cache,
                        draw_reverse_line_cached,
                        draw_reverse_line,
-                       NULL,
-                       NULL);
+                       draw_std_background,
+                       draw_rev_foreground);
     }
 }
 

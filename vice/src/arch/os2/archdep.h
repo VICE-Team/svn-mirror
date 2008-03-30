@@ -55,7 +55,7 @@
 #define MODE_APPEND_READ_WRITE "ab+"
 
 /* Printer default devices.  */
-#define PRINTER_DEFAULT_DEV1 "Printout"
+#define PRINTER_DEFAULT_DEV1 "Vice2.prn"
 #define PRINTER_DEFAULT_DEV2 "LPT1:"
 #define PRINTER_DEFAULT_DEV3 "LPT2:"
 

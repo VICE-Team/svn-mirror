@@ -29,18 +29,21 @@
  */
 
 #define INCL_DOSPROCESS // DosSetPriority
-#define INCL_WINSTDSPIN // WinSetSpinVal
 #define INCL_WINDIALOGS // WinSendDlgItemMsg
 #include "vice.h"
+
+#include <os2.h>
 
 #include <stdlib.h>
 
 #include "dialogs.h"
+#include "dlg-vsid.h"
 
 #include "log.h"
 #include "utils.h"
-#include "drive.h"      // DRIVE_SYNC_PAL
+#include "drive.h"            // DRIVE_SYNC_PAL
 #include "resources.h"
+#include "snippets\pmwin2.h"  // Win*Spin
 
 extern int trigger_shutdown;
 
@@ -135,7 +138,7 @@ void vsid_ui_display_tune_nr(int nr)
     if (nr<100)
         sprintf(txt, "%d", nr);
     WinSetDlgItemText(hwnd, ID_TUNENO, txt);
-    WinSetSpinVal(hwnd, SPB_SETTUNE, nr);
+    WinSetDlgSpinVal(hwnd, SPB_SETTUNE, nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)

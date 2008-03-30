@@ -33,7 +33,14 @@
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
+/* FIXME: handshake with a 2031 disk drive has a timing issue, where 
+   the CBM-II is slightly too fast. Reducing speed for about 1.3% from
+   the real 2MHz seems to help here...
+
 #define C610_PAL_CYCLES_PER_SEC		2000000
+*/
+#define C610_PAL_CYCLES_PER_SEC		1974000
+
 #define C610_PAL_CYCLES_PER_LINE 	128
 #define C610_PAL_SCREEN_LINES    	312
 #define C610_PAL_CYCLES_PER_RFSH (C610_PAL_SCREEN_LINES \
@@ -57,9 +64,7 @@
 #define C500_PAL_RFSH_PER_SEC    (1.0 / ((double)C500_PAL_CYCLES_PER_RFSH    \
                                         / (double)C500_PAL_CYCLES_PER_SEC))
 
-
-static int c500_write_snapshot_module(snapshot_t *p);
-static int c500_read_snapshot_module(snapshot_t *p);
+extern int cbm2_is_c500();
 
 #endif
 

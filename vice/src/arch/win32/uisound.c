@@ -162,9 +162,11 @@ int     command;
             switch (command) {
                 case IDC_SOUND_DIRECTX:
                     resources_set_value("SoundDeviceName",(resource_value_t)"dx");
+                    ui_display_statustext("Sound driver: DirectX");
                     break;
                 case IDC_SOUND_WMM:
                     resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
+                    ui_display_statustext("Sound driver: WMM");
                     break;
                 case IDOK:
                     resources_set_value("SoundSampleRate",(resource_value_t)ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ),CB_GETCURSEL,0,0)]);

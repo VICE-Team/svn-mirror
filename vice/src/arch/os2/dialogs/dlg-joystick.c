@@ -29,9 +29,12 @@
 #define INCL_WINDIALOGS
 #define INCL_WINSTDSPIN
 #define INCL_WINFRAMEMGR  // WM_TANSLATEACCEL
-
 #include "vice.h"
+
+#include <os2.h>
+
 #include "dialogs.h"
+#include "dlg-joystick.h"
 
 #include <ctype.h>        // isprint
 #include <stdlib.h>       // free
@@ -40,6 +43,7 @@
 #include "utils.h"        // xmsprintf
 #include "joystick.h"
 #include "resources.h"
+#include "snippets\pmwin2.h"
 
 #ifdef HAS_JOYSTICK
 
@@ -253,8 +257,7 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             case SPB_RIGHT:
                 if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
                 {
-                    ULONG val;
-                    WinGetSpinVal(hwnd, ctrl, &val);
+                    const ULONG val = WinGetSpinVal((HWND)mp2);
                     resources_set_value(ctrl==SPB_UP  ? (joy1?"joyAup"  :"joyBup")  :
                                         ctrl==SPB_DOWN? (joy1?"joyAdown":"joyBdown"):
                                         ctrl==SPB_LEFT? (joy1?"joyAleft":"joyBleft"):
@@ -298,13 +301,13 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         {
             int val;
             resources_get_value(joy1?"JoyAup":"JoyBup", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_UP, val);
+            WinSetDlgSpinVal(hwnd, SPB_UP, val);
             resources_get_value(joy1?"JoyAdown":"JoyBdown", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_DOWN, val);
+            WinSetDlgSpinVal(hwnd, SPB_DOWN, val);
             resources_get_value(joy1?"JoyAleft":"JoyBleft", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_LEFT, val);
+            WinSetDlgSpinVal(hwnd, SPB_LEFT, val);
             resources_get_value(joy1?"JoyAright":"JoyBright", (resource_value_t *) &val);
-            WinSetSpinVal(hwnd, SPB_RIGHT,val);
+            WinSetDlgSpinVal(hwnd, SPB_RIGHT,val);
         }
         return FALSE;
     }
@@ -431,7 +434,7 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
             out = xmsprintf("#%d", usScancode);
             WinSendDlgMsg(hwnd, id, SPBM_SETARRAY, &out, 1);
-            WinSetSpinVal(hwnd, id, 0);
+            WinSetDlgSpinVal(hwnd, id, 0);
             free(out);
         }
         break;
@@ -440,8 +443,6 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
             ULONG state1 = mp1?1:0;
             ULONG state2 = mp2?1:0;
-
-            log_debug("WM_SETKEY");
 
             WinEnableControl(hwnd, RB_SET1, state1);
             WinEnableControl(hwnd, RB_SET2, state2);
@@ -469,55 +470,55 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_N, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_N, 0);
+            WinSetDlgSpinVal(hwnd, SPB_N, 0);
             free(msg);
             resources_get_value(set1?"KeySet1NorthEast":"KeySet2NorthEast",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_NE, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_NE, 0);
+            WinSetDlgSpinVal(hwnd, SPB_NE, 0);
             free(msg);
             resources_get_value(set1?"KeySet1East":"KeySet2East",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_E, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_E, 0);
+            WinSetDlgSpinVal(hwnd, SPB_E, 0);
             free(msg);
             resources_get_value(set1?"KeySet1SouthEast":"KeySet2SouthEast",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_SE, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_SE, 0);
+            WinSetDlgSpinVal(hwnd, SPB_SE, 0);
             free(msg);
             resources_get_value(set1?"KeySet1South":"KeySet2South",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_S, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_S, 0);
+            WinSetDlgSpinVal(hwnd, SPB_S, 0);
             free(msg);
             resources_get_value(set1?"KeySet1SouthWest":"KeySet2SouthWest",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_SW, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_SW, 0);
+            WinSetDlgSpinVal(hwnd, SPB_SW, 0);
             free(msg);
             resources_get_value(set1?"KeySet1West":"KeySet2West",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_W, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_W, 0);
+            WinSetDlgSpinVal(hwnd, SPB_W, 0);
             free(msg);
             resources_get_value(set1?"KeySet1NorthWest":"KeySet2NorthWest",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_NW, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_NW, 0);
+            WinSetDlgSpinVal(hwnd, SPB_NW, 0);
             free(msg);
             resources_get_value(set1?"KeySet1Fire":"KeySet2Fire",
                                 (resource_value_t*) &val);
             msg=xmsprintf("#%d", val);
             WinSendDlgMsg(hwnd, SPB_FIRE, SPBM_SETARRAY, &msg, 1);
-            WinSetSpinVal(hwnd, SPB_FIRE, 0);
+            WinSetDlgSpinVal(hwnd, SPB_FIRE, 0);
             free(msg);
         }
         return FALSE;

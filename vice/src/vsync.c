@@ -262,60 +262,39 @@ int do_vsync(int been_skipped)
 
     frame_stop = frame_start + frame_ticks;
 
-    /* Calculate the delay since last time. Because of the base
-     arithmetic we don't need an overflow handling here */
+    /* Calculate the delay since last time. Because of the base  *
+     * arithmetic we don't need an overflow handling here        */
     delay = frame_stop - now;
 
-    /* Check whether we're on time. Allow a discrepancy of one frame
-      before possible skipping the next frame */
-    if (warp_mode_enabled || !timer_speed || (delay+frame_ticks < 0))
+    /* Decide if the next frame should be skipped or not                      */
+    if (skipped_redraw < MAX_SKIPPED_FRAMES &&    /* Only skip MAX_* Frames   */
+        (skipped_redraw < refresh_rate - 1 ||     /* skip only x% of frames   */
+         warp_mode_enabled                 ||     /* skip as many as possible */
+         (!refresh_rate && delay+frame_ticks<0))) /* Auto mode, keep up speed */
     {
-        /* Skip next frame if allowed.
-        // If warp_mode_enabled is set, as many frames are skipped as allowed.
-        // If refresh_rate is set, frames are only skipped to output frames
-        // at the specified interval, not to keep up to speed. */
-        if (skipped_redraw < MAX_SKIPPED_FRAMES &&
-            (warp_mode_enabled || !refresh_rate ||
-             skipped_redraw < refresh_rate - 1))
-        {
-            skip_next_frame = 1;
-            skipped_redraw++;
-        }
-        else
-        {
-            skip_next_frame = 0;
-            skipped_redraw  = 0;
-        }
+        skip_next_frame = 1; /* skip next frame                               */
+        skipped_redraw++;    /* increase number of sequentally skipped frames */
     }
     else
     {
-        /* Output frames at specified interval. */
-        if (refresh_rate && (skipped_redraw < refresh_rate - 1) &&
-            (skipped_redraw < MAX_SKIPPED_FRAMES))
-        {
-            skip_next_frame = 1;
-            skipped_redraw++;
-        }
-        else
-        {
-            skip_next_frame = 0;
-            skipped_redraw  = 0;
-        }
-
-        /* Sleep until start of frame. We have to sleep even if no frame
-        // is output because of sound synchronization. */
-        vsyncarch_sleep(delay);
+        skip_next_frame = 0; /* don't skip next frame                         */
+        skipped_redraw  = 0; /* reset number of frames sequentially skipped   */
     }
 
+    /* Check whether we're on time.
+     * Sleep until start of frame. We have to sleep even if no frame
+     * is output because of sound synchronization. */
+    if (!warp_mode_enabled && timer_speed && (delay+frame_ticks >= 0))
+        vsyncarch_sleep(delay);
+
     /* This point in the code is reached at a more or less constant time
-    // frequency; this is necessary for the synchronization in sound_flush. */
+     * frequency; this is necessary for the synchronization in sound_flush. */
     frame_delay = -sound_flush(warp_mode_enabled ? 0 : relative_speed);
 
     /* Set time for next frame. */
     frame_start += frame_ticks*(frame_delay + 1);
 
-    /* Update display every two seconds (user-time, not vice-time) */
-    /* was: if (++frame_counter > refresh_frequency*2) */
+    /* Update display every two seconds (pc system time) */
     frame_counter++;
 
     if (2*vsyncarch_timescale() < (now-display_timer))

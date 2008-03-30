@@ -24,7 +24,7 @@
  *
  */
 
-#define FILE_DLG_DID_INCLUDED
+#define INCL_WINSYS         // PP_FONTNAMESIZE
 #define INCL_WINSTDFILE
 #define INCL_WINDIALOGS     // WinSendDlgItemMsg
 #define INCL_WINWINDOWMGR   // QWL_USER
@@ -47,11 +47,15 @@ MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             int  i;
             SWP  swp;
             HWND lbox;
+            char font[0x100]="6.System VIO";
 
             const HWND filter = WinWindowFromID(hwnd, DID_FILTER_CB);
 
             const FILEDLG  *fdlg = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
             const FILEDLG2 *list = (FILEDLG2*)fdlg->ulUser;
+
+            if (!list)
+                break;
 
             WinQueryWindowPos(filter, &swp);
             WinShowWindow(filter, FALSE);
@@ -61,15 +65,17 @@ MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                                  swp.x, swp.y, swp.cx, swp.cy,
                                  hwnd, HWND_TOP, DID_FILE_FILTER,
                                  NULL, NULL);
-            if (!list)
-                break;
+
+            WinQueryPresParam(filter, PP_FONTNAMESIZE, NULLHANDLE,
+                              NULL, 0x100, font, 0);
+            WinSetPresParam(lbox, PP_FONTNAMESIZE, strlen(font)+1, font);
 
             //
             // fill entries in combobox
             //
             for (i=0; i<list->fN; i++)
             {
-                int len = strlen(list->fName[i])+strlen(list->fExt[i])+4;
+                int len = strlen(list->fName[i])+strlen(list->fExt[i])+5;
 
                 char *txt = malloc(len);
                 sprintf(txt, "<%s> %s", list->fName[i], list->fExt[i]);
@@ -114,7 +120,7 @@ MRESULT EXPENTRY WinFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefFileDlgProc (hwnd, msg, mp1, mp2);
 }
 
-extern HWND WinFileDialog(HWND hwnd, FILEDLG *filedlg)
+HWND WinFileDialog(HWND hwnd, FILEDLG *filedlg)
 {
     const FILEDLG2 *dlg2 = (FILEDLG2*)filedlg->ulUser;
 

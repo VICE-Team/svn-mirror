@@ -24,17 +24,48 @@
  *
  */
 
+#define INCL_WINBUTTONS    // HPOINTER
+#define INCL_WINPOINTERS   // BS_DEFAULT
 #include <os2.h>
+
+#include <string.h>
+#include <stdlib.h>
 
 #include "vsync.h"         // suspend_speed_eval
 #include "machine.h"       // machine_powerup
 #include "interrupt.h"     // maincpu_trigger_reset
 
+ULONG ResetDialog(HWND hwnd, char *text)
+{
+    ULONG rc;
+
+    const int sz   = sizeof(MB2INFO)+sizeof(MB2D);
+
+    HPOINTER hpt   = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x103); //PTR_NOTE);
+    MB2INFO *mb    = malloc(sz);
+    mb->cb         = sz;
+    mb->hIcon      = hpt;
+    mb->cButtons   = 2;
+    mb->flStyle    = MB_CUSTOMICON|WS_VISIBLE;
+    mb->hwndNotify = NULLHANDLE;
+    strcpy(mb->mb2d[0].achText, "      ~Yes      ");
+    strcpy(mb->mb2d[1].achText, "      ~No      ");
+    mb->mb2d[0].idButton = 0;
+    mb->mb2d[1].idButton = MBID_ERROR; // 0xffff
+    mb->mb2d[0].flStyle  = 0;
+    mb->mb2d[1].flStyle  = BS_DEFAULT;
+
+    rc = WinMessageBox2(HWND_DESKTOP, hwnd,
+                        text, "VICE/2 Reset", 0, mb);
+    free(mb);
+
+    return rc;
+
+}
+
 void hardreset_dialog(HWND hwnd)
 {
-    if (WinMessageBox(HWND_DESKTOP, hwnd,
-                      "Do you really want to hard reset the emulated machine?",
-                      "Hard Reset", 0, MB_YESNO)!=MBID_YES)
+    if (ResetDialog(hwnd, " Hard Reset:\n Do you really want to reset the emulated machine?"))
         return;
 
     suspend_speed_eval();
@@ -43,9 +74,7 @@ void hardreset_dialog(HWND hwnd)
 
 void softreset_dialog(HWND hwnd)
 {
-    if (WinMessageBox(HWND_DESKTOP, hwnd,
-                      "Do you really want to soft reset the emulated machine?",
-                      "Soft Reset", 0, MB_YESNO)!=MBID_YES)
+    if (ResetDialog(hwnd, " Soft Reset:\n Do you really want to reset the emulated machine?"))
         return;
 
     suspend_speed_eval();

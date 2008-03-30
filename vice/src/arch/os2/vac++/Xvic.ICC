@@ -1,4 +1,5 @@
 option ProjectOptions = link(linkwithmultithreadlib, "yes"),
+    link(linkwithsharedlib, "yes"),
     link(pmtype, "pm"),     gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
@@ -30,12 +31,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 {
     target type(exe) "..\\..\\..\\..\\data\\xvic.exe"
     {
-        source type (rc)  "dialogs/dialogs.rc"
         source type (lib)
             "mmpm2.lib",
-            "zlib.lib",
-            "png.lib"
+            "..\\..\\..\\..\\data\\vice2.lib"
+        source type (dll)
+            "..\\..\\..\\..\\data\\vice2.dll"
 
+        include "incl/resources.icc"
         include "incl/mainsrc.icc"
         include "incl/archdep.icc"
         include "incl/dialogs.icc"

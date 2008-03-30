@@ -1,0 +1,137 @@
+/*
+ * dialogs.rc - Resource script file
+ *
+ * Written by
+ *  Thomas Bretz <tbretz@gsi.de>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "dialogs.h"
+#include "dlg-fileio.h"  
+
+BITMAP DID_DIRUP "..\\icons\\dirup.bmp"
+
+DLGTEMPLATE DLG_FILEIO 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "File I/O", DLG_FILEIO, 126, 7, 279, 202+13, FS_NOBYTEALIGN | FS_DLGBORDER |
+                WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    BEGIN
+        CONTROL "OK",         DID_OK,            5,   3,  38,  12, WC_BUTTON,
+                              BS_PUSHBUTTON | BS_DEFAULT |
+                              WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "Cancel",     DID_CANCEL,       48,   3,  38,  12, WC_BUTTON,
+                              BS_PUSHBUTTON | WS_TABSTOP |
+                              WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "Autostart",  DID_AUTOSTART_PB, 91,   3,  38,  12, WC_BUTTON,
+                              BS_PUSHBUTTON | WS_TABSTOP |
+                              WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "Filename:",  DID_FILENAME_TXT, 5, 189+13,  NA,  NA, WC_STATIC, SS_TEXT |
+                              SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_FILENAME_ED, 55, 189+13, 217,   7, WC_ENTRYFIELD,  
+                              ES_MARGIN | /*ES_ANY | */WS_TABSTOP | WS_GROUP | WS_VISIBLE
+                CTLDATA 8, 32, 0, 0
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "File Action:"     0x2010,   5, 176+13,  NA,  NA, WC_STATIC, SS_TEXT |
+                              SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_ACTION_CB,   53, 128+13, 221-112,  56, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST /*| ES_ANY*/ | WS_TABSTOP |
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_SUBACTION_CB,   53+112, 128+13, 221-112,  56, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST /*| ES_ANY*/ | WS_TABSTOP |
+                              WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "File Type:", DID_FILTER_TXT,   5, 176,  NA,  NA, WC_STATIC, SS_TEXT |
+                              SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_FILTER_CB,   53, 128, 221,  56, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST //| ES_ANY 
+//                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_FFILTER_CB,  53, 128, 221,  56, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST | //ES_ANY |
+                              WS_TABSTOP | WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_DRIVE_CB,     5, 113, 117,  58, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST | /*ES_ANY |*/ WS_TABSTOP |
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_DIRECTORY_LB, 5, 106, 132,  53, WC_LISTBOX,
+                              LS_NOADJUSTPOS | LS_OWNERDRAW | WS_TABSTOP | 
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_FILES_LB,   142,  28, 132, 143, WC_LISTBOX,
+                              LS_NOADJUSTPOS | WS_TABSTOP |
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "",           DID_CONTENTS_LB,  5,  28, 132,  61, WC_LISTBOX,
+                              LS_NOADJUSTPOS | WS_TABSTOP | LS_OWNERDRAW |
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "6.System VIO"
+
+        CONTROL "#8194",      DID_DIRUP,      126, 162,  10,  10, WC_BUTTON,
+                              BS_PUSHBUTTON | BS_NOBORDER |
+                              BS_BITMAP | WS_VISIBLE
+
+        CONTROL "",           DID_DIR_SELECTED, 5, 17, 269, 8, WC_STATIC, 
+                              SS_TEXT | DT_LEFT |
+                              DT_TOP | WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "~Contents",   DID_CONTENTS_CB, 5,  93, 40, 10, WC_BUTTON,
+                               BS_AUTOCHECKBOX | WS_VISIBLE
+                CTLDATA 6, 1, 0 // checked
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "Ca~se",       DID_CBMFONT_CB, 49,  93, 25, 10, WC_BUTTON,
+                               BS_AUTOCHECKBOX | WS_VISIBLE
+                CTLDATA 6, 1, 0 // checked
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "Charset:"    ID_NONE,   79, 95,  NA,  NA, WC_STATIC, SS_TEXT |
+                              SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "",           DID_FONTNAME_CB, 107, 93+10-58, 30, 58, WC_COMBOBOX,
+                              CBS_DROPDOWNLIST | /*ES_ANY |*/ WS_TABSTOP |
+                              WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+
+        CONTROL "", DID_DRIVE_TXT,     0, 0, 0, 0, WC_STATIC, SS_TEXT 
+        CONTROL "", DID_DIRECTORY_TXT, 0, 0, 0, 0, WC_STATIC, SS_TEXT 
+        CONTROL "", DID_FILES_TXT,     0, 0, 0, 0, WC_STATIC, SS_TEXT 
+    END
+END

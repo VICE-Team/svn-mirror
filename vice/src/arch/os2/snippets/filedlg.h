@@ -24,7 +24,7 @@
  *
  */
 
-#define DID_FILE_FILTER 271
+#define DID_FILE_FILTER 0x1000
 
 struct _FILEDLG2
 {

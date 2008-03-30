@@ -205,6 +205,9 @@ const char *archdep_default_resource_file_name(void)
 int archdep_default_logger(const char *level_string,
                            const char *format, va_list ap)
 {
+    //
+    // This is used if archdep_open_default_log_file returns NULL
+    //
     return 0;
 }
 
@@ -461,8 +464,7 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_quote_parameter(const char *name)
 {
-    char *a = concat("\"", name, "\"", NULL);
-    return a;
+    return concat("\"", name, "\"", NULL);
 }
 
 
@@ -486,9 +488,9 @@ int archdep_file_is_gzip(const char *name)
 {
     size_t l = strlen(name);
 
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
-        && (l < 3 || strcasecmp(name + l - 2, ".z"))
-        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz")) &&
+        (l < 3 || strcasecmp(name + l - 2, ".z"))  &&
+        (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
         return 0;
     return 1;
 }

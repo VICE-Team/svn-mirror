@@ -98,6 +98,18 @@ int isC500 = 0;
 
 /* ------------------------------------------------------------------------- */
 
+static int c500_write_snapshot_module(snapshot_t *p);
+static int c500_read_snapshot_module(snapshot_t *p);
+
+/* ------------------------------------------------------------------------- */
+
+int cbm2_is_c500 (void)
+{
+    return isC500;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* CBM-II-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
 int machine_init_resources(void)

@@ -1145,7 +1145,7 @@ static console_private_t *find_console_entry(const char *id)
 	return pcp;
 }
 
-static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hwndMdiClient)
+static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hwndMdiClient, DWORD dwStyle, int x, int y, int dx, int dy )
 {
 	console_private_t *pcp;
 	
@@ -1162,11 +1162,11 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
     {
         pcp->hwndConsole = CreateMDIWindow(CONSOLE_CLASS,
     		(LPTSTR) id,
-	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX,
-            pcp->xWindow,
-            pcp->yWindow,
-            CW_USEDEFAULT,
-            0,
+	    	WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_SIZEBOX|dwStyle,
+            x, // pcp->xWindow,
+            y, // pcp->yWindow,
+            dx, // CW_USEDEFAULT,
+            dy, // 0,
             hwndMdiClient,
             winmain_instance,
             0);
@@ -1223,15 +1223,16 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
 
 console_t *console_open(const char *id)
 {
-    return console_open_internal(id,GetActiveWindow(),NULL);
+    return console_open_internal(id,GetActiveWindow(),NULL,0,0,0,0,0);
 }
 
 console_t *arch_console_open_mdi(const char *id, void *hw, void *hwndParent,
-                                 void *hwMdiClient)
+                                 void *hwMdiClient, 
+								 DWORD dwStyle, int x, int y, int dx, int dy )
 {
     console_t *console_log;
 
-    console_log = console_open_internal(id, *(HWND*)hwndParent, *(HWND*)hwMdiClient);
+    console_log = console_open_internal(id, *(HWND*)hwndParent, *(HWND*)hwMdiClient,dwStyle,x,y,dx,dy);
 
     if (hw)
     {
