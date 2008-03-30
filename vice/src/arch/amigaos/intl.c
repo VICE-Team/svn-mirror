@@ -1237,7 +1237,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_IEEE_488_INTERFACE_SV, "Emulering av IEEE488-gränssnitt"},
 
 /* en */ {IDMS_GRAB_MOUSE,    "Grab mouse events"},
-/* de */ {IDMS_GRAB_MOUSE_DE, ""},  /* fuzzy */
+/* de */ {IDMS_GRAB_MOUSE_DE, "Maus Ereignisse abfangen"},
 /* fr */ {IDMS_GRAB_MOUSE_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_GRAB_MOUSE_HU, ""},  /* fuzzy */
 /* it */ {IDMS_GRAB_MOUSE_IT, ""},  /* fuzzy */
@@ -1381,7 +1381,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_KEYBOARD_SETTINGS_SV, "Tangentbordsinställningar..."},
 
 /* en */ {IDMS_MOUSE_SETTINGS,    "Mouse settings..."},
-/* de */ {IDMS_MOUSE_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDMS_MOUSE_SETTINGS_DE, "Maus Einstellungen..."},
 /* fr */ {IDMS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_MOUSE_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDMS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
@@ -4707,7 +4707,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_VOLUME_SV, "Volym (0-100 %)"},
 
 /* en */ {IDS_MOUSE_TYPE,    "Mouse type"},
-/* de */ {IDS_MOUSE_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_TYPE_DE, "Maustyp"},
 /* fr */ {IDS_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_TYPE_IT, ""},  /* fuzzy */
@@ -4716,7 +4716,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_MOUSE_TYPE_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_MOUSE_SETTINGS,    "Mouse Settings"},
-/* de */ {IDS_MOUSE_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen"},
 /* fr */ {IDS_MOUSE_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_SETTINGS_IT, ""},  /* fuzzy */
@@ -4724,17 +4724,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_MOUSE_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_SETTINGS_SV, ""},  /* fuzzy */
 
-/* en */ {IDS_MOUSE_PORT,    "Mouse Port"},
-/* de */ {IDS_MOUSE_PORT_DE, ""},  /* fuzzy */
+/* en */ {IDS_MOUSE_PORT,    "Mouse port"},
+/* de */ {IDS_MOUSE_PORT_DE, "Maus Port"},
 /* fr */ {IDS_MOUSE_PORT_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_PORT_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_PORT_IT, ""},  /* fuzzy */
-/* nl */ {IDS_MOUSE_PORT_NL, "Muis Poort"},
+/* nl */ {IDS_MOUSE_PORT_NL, "Muis poort"},
 /* pl */ {IDS_MOUSE_PORT_PL, ""},  /* fuzzy */
 /* sv */ {IDS_MOUSE_PORT_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_MOUSE_1351,    "1351 mouse"},
-/* de */ {IDS_MOUSE_1351_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_1351_DE, "1351 Maus"},
 /* fr */ {IDS_MOUSE_1351_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_1351_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_1351_IT, ""},  /* fuzzy */
@@ -4743,7 +4743,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_MOUSE_1351_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_MOUSE_NEOS,    "NEOS mouse"},
-/* de */ {IDS_MOUSE_NEOS_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_NEOS_DE, "NEOS Maus"},
 /* fr */ {IDS_MOUSE_NEOS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_NEOS_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_NEOS_IT, ""},  /* fuzzy */
@@ -4752,7 +4752,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_MOUSE_NEOS_SV, ""},  /* fuzzy */
 
 /* en */ {IDS_MOUSE_AMIGA,    "Amiga mouse"},
-/* de */ {IDS_MOUSE_AMIGA_DE, ""},  /* fuzzy */
+/* de */ {IDS_MOUSE_AMIGA_DE, "Amiga Maus"},
 /* fr */ {IDS_MOUSE_AMIGA_FR, ""},  /* fuzzy */
 /* hu */ {IDS_MOUSE_AMIGA_HU, ""},  /* fuzzy */
 /* it */ {IDS_MOUSE_AMIGA_IT, ""},  /* fuzzy */

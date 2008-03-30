@@ -42,6 +42,7 @@
 
 
 #define BMP_HDR_OFFSET (14 + 40 + 4 * screenshot->palette->num_entries)
+#define BMP_HDR_OFFSET24 (14 + 40)
 
 typedef struct gfxoutputdrv_data_s {
     FILE *fd;
@@ -75,6 +76,10 @@ static DWORD bmpdrv_bmp_size(screenshot_t *screenshot)
         size = (DWORD)(BMP_HDR_OFFSET
                + (screenshot->width * screenshot->height));
         break;
+      case 24:
+        size = (DWORD)(BMP_HDR_OFFSET
+               + (screenshot->width * screenshot->height * 3));
+        break;
     }
 
     return size;
@@ -82,7 +87,10 @@ static DWORD bmpdrv_bmp_size(screenshot_t *screenshot)
 
 static int bmpdrv_write_file_header(screenshot_t *screenshot)
 {
+    gfxoutputdrv_data_t *sdata;
     BYTE header[14];
+
+    sdata = screenshot->gfxoutputdrv_data;
 
     memset(header, 0, sizeof(header));
 
@@ -91,7 +99,10 @@ static int bmpdrv_write_file_header(screenshot_t *screenshot)
 
     util_dword_to_le_buf(&header[2], bmpdrv_bmp_size(screenshot));
 
-    util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
+    if (sdata->bpp == 24)
+        util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET24);
+    else
+        util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
 
     if (fwrite(header, sizeof(header), 1, screenshot->gfxoutputdrv_data->fd)
         < 1)
@@ -125,39 +136,46 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     util_dword_to_le_buf(&binfo[24], screenshot->dpi_x * 10000 / 254);
     util_dword_to_le_buf(&binfo[28], screenshot->dpi_y * 10000 / 254);
 
-    util_dword_to_le_buf(&binfo[32], screenshot->palette->num_entries);
-    util_dword_to_le_buf(&binfo[36], screenshot->palette->num_entries);
+    if (screenshot->gfxoutputdrv_data->bpp == 24)
+    {
+        util_dword_to_le_buf(&binfo[32], 0);
+        util_dword_to_le_buf(&binfo[36], 0);
+    }
+    else
+    {
+        util_dword_to_le_buf(&binfo[32], screenshot->palette->num_entries);
+        util_dword_to_le_buf(&binfo[36], screenshot->palette->num_entries);
+    }
 
     if (fwrite(binfo, sizeof(binfo), 1, screenshot->gfxoutputdrv_data->fd) < 1)
         return -1;
 
-    bcolor = (BYTE *)lib_malloc(screenshot->palette->num_entries * 4);
+    if (screenshot->gfxoutputdrv_data->bpp != 24)
+    {
+        bcolor = (BYTE *)lib_malloc(screenshot->palette->num_entries * 4);
 
-    for (i = 0; i < screenshot->palette->num_entries; i++) {
-        bcolor[i * 4] = screenshot->palette->entries[i].blue;
-        bcolor[i * 4 + 1] = screenshot->palette->entries[i].green;
-        bcolor[i * 4 + 2] = screenshot->palette->entries[i].red;
-        bcolor[i * 4 + 3] = 0;
-    }
+        for (i = 0; i < screenshot->palette->num_entries; i++) {
+            bcolor[i * 4] = screenshot->palette->entries[i].blue;
+            bcolor[i * 4 + 1] = screenshot->palette->entries[i].green;
+            bcolor[i * 4 + 2] = screenshot->palette->entries[i].red;
+            bcolor[i * 4 + 3] = 0;
+        }
 
-    if (fwrite(bcolor, screenshot->palette->num_entries * 4, 1,
-               screenshot->gfxoutputdrv_data->fd) < 1) {
+        if (fwrite(bcolor, screenshot->palette->num_entries * 4, 1,
+                   screenshot->gfxoutputdrv_data->fd) < 1) {
+            lib_free(bcolor);
+            return -1;
+        }
+
         lib_free(bcolor);
-        return -1;
     }
 
-    lib_free(bcolor);
     return 0;
 }
 
 static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 {
     gfxoutputdrv_data_t *sdata;
-
-    if (screenshot->palette->num_entries > 256) {
-        log_error(LOG_DEFAULT, "Max 256 colors supported.");
-        return -1;
-    }
 
     sdata = (gfxoutputdrv_data_t *)lib_malloc(sizeof(gfxoutputdrv_data_t));
 
@@ -167,8 +185,10 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         sdata->bpp = 1;
     else if (screenshot->palette->num_entries <= 16)
         sdata->bpp = 4;
-    else
+    else if (screenshot->palette->num_entries <= 256)
         sdata->bpp = 8;
+    else
+        sdata->bpp = 24;
 
     sdata->line = 0;
 
@@ -197,17 +217,29 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    sdata->data = (BYTE *)lib_malloc(screenshot->width);
-    if (sdata->bpp == 1) {
-        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
-                                             * screenshot->width / 8);
-    }
-    else if (sdata->bpp == 4) {
-        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
-                                             * screenshot->width / 2);
-    } else {
-        sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
-                                             * screenshot->width);
+    if (sdata->bpp == 24)
+        sdata->data = (BYTE *)lib_malloc(screenshot->width * 3);
+    else
+        sdata->data = (BYTE *)lib_malloc(screenshot->width);
+
+    switch (sdata->bpp)
+    {
+        case 1:
+          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                               * screenshot->width / 8);
+          break;
+        case 4:
+          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                               * screenshot->width / 2);
+          break;
+        case 8:
+          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                               * screenshot->width);
+          break;
+        default:
+          sdata->bmp_data = (BYTE *)lib_malloc(screenshot->height
+                                               * screenshot->width * 3);
+          break;
     }
 
     return 0;
@@ -220,8 +252,10 @@ static int bmpdrv_write(screenshot_t *screenshot)
 
     sdata = screenshot->gfxoutputdrv_data;
 
-    (screenshot->convert_line)(screenshot, sdata->data, sdata->line,
-                               SCREENSHOT_MODE_PALETTE);
+    if (sdata->bpp == 24)
+        (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_RGB24);
+    else
+        (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_PALETTE);
 
     switch (sdata->bpp) {
       case 1:
@@ -251,6 +285,10 @@ static int bmpdrv_write(screenshot_t *screenshot)
         memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
                * screenshot->width, sdata->data, screenshot->width);
         break;
+      case 24:
+        memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
+               * screenshot->width * 3, sdata->data, screenshot->width * 3);
+        break;
     }
 
     sdata->line++;
@@ -274,6 +312,10 @@ static int bmpdrv_close(screenshot_t *screenshot)
       case 8:
         fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
                * screenshot->width, 1, screenshot->gfxoutputdrv_data->fd);
+        break;
+      case 24:
+        fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
+               * screenshot->width * 3, 1, screenshot->gfxoutputdrv_data->fd);
         break;
     }
     lib_free(screenshot->gfxoutputdrv_data->data);
@@ -322,4 +364,3 @@ void gfxoutput_init_bmp(void)
 {
     gfxoutput_register(&bmp_drv);
 }
-

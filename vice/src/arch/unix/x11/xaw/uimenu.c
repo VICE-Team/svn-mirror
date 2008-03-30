@@ -267,7 +267,7 @@ static void popdown_submenus_action(Widget w, XEvent *event,
     XtPopdown(top_menu);
     top_menu = NULL;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_set_mouse_timeout();
 #endif
     menu_popup = 0;

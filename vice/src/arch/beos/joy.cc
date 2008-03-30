@@ -292,7 +292,7 @@ void joystick_update(void)
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (joystick_device[0] == device || joystick_device[1] == device) {
+    if (joystick_port_map[0] == device || joystick_port_map[1] == device) {
         BYTE value = 0;
         if (kcode == set[KEYSET_NW])    /* North-West */
             value = 5;

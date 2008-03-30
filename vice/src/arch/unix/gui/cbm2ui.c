@@ -355,7 +355,7 @@ static ui_menu_entry_t cbm2_menu[] = {
     { "--" },
     { N_("Crtc settings"),
       (ui_callback_t)CrtcMenu, NULL, crtc_submenu },
-    { N_("*VIC-II settings"),
+    { N_("VIC-II settings"),
       (ui_callback_t)VicMenu, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },

@@ -120,13 +120,13 @@ static void ui_display_drive_current_image2(void);
 
 void ui_check_mouse_cursor()
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     int window_doublesize;
     if (fullscreen_is_enabled)
         return;
 #endif
     if (_mouse_enabled) {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         if (fullscreen_is_enabled) {
             if (resources_get_int("FullscreenDoubleSize",
                 &window_doublesize) < 0)
@@ -136,9 +136,13 @@ void ui_check_mouse_cursor()
 
 	if (ui_cached_video_canvas->videoconfig->doublesizex)
 	    mouse_accelx = 2;   
+	else
+	    mouse_accelx = 4;
 	
 	if (ui_cached_video_canvas->videoconfig->doublesizey)
 	    mouse_accely = 2;   
+	else
+	    mouse_accely = 4;
 
         XDefineCursor(display,XtWindow(canvas), blankCursor);
         cursor_is_blank = 1;
@@ -161,7 +165,7 @@ void ui_check_mouse_cursor()
 
 void ui_restore_mouse(void)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled)
         return;
 #endif
@@ -573,7 +577,7 @@ int ui_init_finish(void)
                     wm_command_data,
                     wm_command_size);
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (fullscreen_init() < 0)
         return -1;
 #endif 
@@ -1119,7 +1123,7 @@ void ui_exit(void)
         ui_autorepeat_on();
         ui_restore_mouse();
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         fullscreen_suspend(0);
 #endif
         lib_free(s);
@@ -1485,6 +1489,14 @@ void x11ui_fullscreen(int i)
 		SubstructureRedirectMask, &xev);
 }
 
+int
+ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
+{
+    log_message(ui_log, 
+		_("Toggling of Statusbar/Menu in Xaw is not supported."));
+    return 0;
+}
+
 /* Resize one window. */
 void x11ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
 {
@@ -1713,7 +1725,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (button) {
       case UI_BUTTON_MON:
         ui_restore_mouse();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         fullscreen_suspend(0);
 #endif
         return UI_JAM_MONITOR;
@@ -1930,7 +1942,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
 
@@ -2015,7 +2027,7 @@ void ui_popdown(Widget w)
     if (--popped_up_count < 0)
         popped_up_count = 0;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_resume();
 #endif
 }

@@ -36,6 +36,11 @@ Preconditions:
   To drop e.g. the autodetection features in the NVIDIA driver you
   might add `Option "UseEDID" "FALSE"' in section `Device'. 
 
+  XRandR cannot cope properly with the DynamicTwinView feature of the
+  proprietary nvidia driver. You might need 
+    Option 	   "DynamicTwinView" "False" 
+  to get proper results (in Screen or Device section of you xorg.conf).
+
   ATTENTION: Disabling such features might allow X11 to access your HW
   in a way that it gets damaged! You are at your own risk!
 

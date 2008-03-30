@@ -42,6 +42,7 @@
 #include "machine.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uimenu.h"
 
 void kbd_arch_init(void)
 {

@@ -18,4 +18,5 @@ source type(c)
     "video.c",
     "vsyncarch.c",
     "snippets\\pmwin2.c",
-    "snippets\\dirport.c"
+    "snippets\\dirport.c",
+    "snippets\\isatty.c"

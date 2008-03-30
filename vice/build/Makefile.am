@@ -13,4 +13,5 @@ EXTRA_DIST = \
 	macosx/build-ffmpeglame.sh \
 	minix3/build.sh \
 	minix3/build-package.sh \
+	qnx4/build.sh \
 	riscos/build-cross.sh

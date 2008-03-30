@@ -34,7 +34,10 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
+#include "openGL_sync.h"
 
+#include "uifullscreen-menu.h"
+UI_FULLSCREEN(VIC)
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
@@ -64,27 +67,11 @@ UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #endif
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
-#ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(VICFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(VICFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(VICFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VICFullscreenDoubleScan)
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(VICVidmodeFullscreenMode);
-#endif
+#ifdef HAVE_OPENGL_SYNC
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
-#endif
-
-#ifdef USE_XF86_EXTENSIONS
-static ui_menu_entry_t set_fullscreen_device_submenu[] = {
-#ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_VICFullscreenDevice,
-      (ui_callback_data_t)"Vidmode", NULL },
-#endif
-    { NULL }
-};
 #endif
 
 static UI_CALLBACK(color_set)
@@ -116,36 +103,25 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Color set"),
       (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
+    { N_("PAL Emulation Settings"),
+      NULL, NULL, PALMode_submenu },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_VICScale2x, NULL, NULL },
+    { "--" },
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu },
+    { "--" },
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_VICHwScale, NULL, NULL },
 #endif
-    { N_("PAL Emulation Settings"),
-      NULL, NULL, PALMode_submenu },
-    { "--" },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_VICScale2x, NULL, NULL },
-    { "--" },
-#ifdef USE_XF86_EXTENSIONS
-    { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_VICFullscreen, NULL, NULL, KEYSYM_d, UI_HOTMOD_META },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_VICFullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_VICFullscreenDoubleScan, NULL, NULL },
-    { N_("Fullscreen device"),
-      NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode' must remain in the beginning
-       of the translation e.g. German: "VidMode Auflösungen" */
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
+#ifdef HAVE_OPENGL_SYNC
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
 #endif
-    { "--" },
+#ifdef HAVE_FULLSCREEN
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVIC },
 #endif
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--" },
 #ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
@@ -155,19 +131,11 @@ ui_menu_entry_t vic_submenu[] = {
 
 void uivic_menu_create(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-#ifdef USE_XF86_VIDMODE_EXT
-    fullscreen_mode_callback("Vidmode",
-                             (void *)radio_VICVidmodeFullscreenMode);
-#endif
-    fullscreen_menu_create(vic_submenu);
-#endif
+    UI_FULLSCREEN_MENU_CREATE(VIC)
 }
 
 void uivic_menu_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_menu_shutdown(vic_submenu);
-#endif
+    UI_FULLSCREEN_MENU_SHUTDOWN(VIC);
 }
 

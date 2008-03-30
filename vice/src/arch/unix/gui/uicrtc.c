@@ -33,7 +33,11 @@
 #include "uicrtc.h"
 #include "uimenu.h"
 #include "uipalette.h"
+#include "resources.h"
+#include "openGL_sync.h"
 
+#include "uifullscreen-menu.h"
+UI_FULLSCREEN(CRTC)
 
 UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
 
@@ -54,27 +58,11 @@ UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcScale2x)
-#ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(CrtcFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(CrtcFullscreenDoubleScan)
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(CrtcVidmodeFullscreenMode);
-#endif
+#ifdef HAVE_OPENGL_SYNC
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
-#endif
-
-#ifdef USE_XF86_EXTENSIONS
-static ui_menu_entry_t set_fullscreen_device_submenu[] = {
-#ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_CrtcFullscreenDevice,
-      (ui_callback_data_t)"Vidmode", NULL },
-#endif
-    { NULL }
-};
 #endif
 
 ui_menu_entry_t crtc_submenu[] = {
@@ -87,27 +75,17 @@ ui_menu_entry_t crtc_submenu[] = {
     { "--" },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_CrtcScale2x, NULL, NULL },
-#ifdef USE_XF86_EXTENSIONS
-    { "--" },
-    { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_CrtcFullscreen, NULL, NULL, KEYSYM_f, UI_HOTMOD_META },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_CrtcFullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_CrtcFullscreenDoubleScan, NULL, NULL },
-    { N_("Fullscreen device"),
-      NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode' must remain in the beginning
-       of the translation e.g. German: "VidMode Auflösungen" */
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-#endif
-#endif
     { "--" },
     { N_("*CRTC Screen color"),
       NULL, NULL, crtc_palette_submenu },
     { "--" },
+#ifdef HAVE_OPENGL_SYNC
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+#endif
+#ifdef HAVE_FULLSCREEN
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuCRTC },
+#endif    
 #ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
@@ -117,19 +95,10 @@ ui_menu_entry_t crtc_submenu[] = {
 
 void uicrtc_menu_create(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-#ifdef USE_XF86_VIDMODE_EXT
-    fullscreen_mode_callback("Vidmode",
-                             (void *)radio_CrtcVidmodeFullscreenMode);
-#endif
-    fullscreen_menu_create(crtc_submenu);
-#endif
+    UI_FULLSCREEN_MENU_CREATE(CRTC)
 }
 
 void uicrtc_menu_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_menu_shutdown(crtc_submenu);
-#endif
+    UI_FULLSCREEN_MENU_SHUTDOWN(CRTC)
 }
-

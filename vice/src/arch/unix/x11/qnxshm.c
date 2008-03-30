@@ -4,7 +4,31 @@
  *
  */
 
-#ifdef __QNX__
+#if defined(__QNX__) && !defined(__QNXNTO__)
+
+#include <sys/types.h>
+
+int shmget(key_t key, size_t size, int flags)
+{
+  return -1;
+}
+
+void *shmat(int shmid, const void *shmaddr, int shmflg)
+{
+}
+
+int shmctl(int shmid, int cmd, struct shmid_ds * buf)
+{
+  return -1;
+}
+
+int shmdt(const void *addr)
+{
+  return -1;
+}
+#endif
+
+#ifdef __QNXNTO__
 
 #include <errno.h>
 #include <fcntl.h>

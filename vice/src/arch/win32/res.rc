@@ -636,15 +636,15 @@ BEGIN
 //    CTEXT    "Release " VERSION ,IDC_STATIC,7,31,118,8
 //#endif
     CTEXT    "Version 0.0",IDC_ABOUT_VERSION,7,31,118,8
-    LTEXT    "Copyright (c) 1998-2007 Andreas Boose",IDC_STATIC,5,50,158,8
-    LTEXT    "Copyright (c) 1998-2007 Dag Lem",IDC_STATIC,5,59,158,8
-    LTEXT    "Copyright (c) 1998-2007 Tibor Biczo",IDC_STATIC,5,68,158,8
-    LTEXT    "Copyright (c) 1999-2007 Andreas Dehmel",IDC_STATIC,5,77,158,8
-    LTEXT    "Copyright (c) 1999-2007 Andreas Matthies",IDC_STATIC,5,86,180,8
-    LTEXT    "Copyright (c) 1999-2007 Martin Pottendorfer",IDC_STATIC,5,95,180,8
-    LTEXT    "Copyright (c) 2000-2007 Spiro Trikaliotis",IDC_STATIC,5,104,180,8
-    LTEXT    "Copyright (c) 2005-2007 Marco van den Heuvel",IDC_STATIC,5,113,180,8
-    LTEXT    "Copyright (c) 2006-2007 Christian Vogelgsang",IDC_STATIC,5,122,180,8
+    LTEXT    "Copyright (c) 1998-2008 Andreas Boose",IDC_STATIC,5,50,158,8
+    LTEXT    "Copyright (c) 1998-2008 Dag Lem",IDC_STATIC,5,59,158,8
+    LTEXT    "Copyright (c) 1998-2008 Tibor Biczo",IDC_STATIC,5,68,158,8
+    LTEXT    "Copyright (c) 1999-2008 Andreas Matthies",IDC_STATIC,5,77,180,8
+    LTEXT    "Copyright (c) 1999-2008 Martin Pottendorfer",IDC_STATIC,5,86,180,8
+    LTEXT    "Copyright (c) 2000-2008 Spiro Trikaliotis",IDC_STATIC,5,95,180,8
+    LTEXT    "Copyright (c) 2005-2008 Marco van den Heuvel",IDC_STATIC,5,104,180,8
+    LTEXT    "Copyright (c) 2006-2008 Christian Vogelgsang",IDC_STATIC,5,113,180,8
+    LTEXT    "Copyright (c) 1999-2007 Andreas Dehmel",IDC_STATIC,5,122,158,8
     LTEXT    "Copyright (c) 1999-2005 Thomas Bretz",IDC_STATIC,5,131,180,8
     LTEXT    "Copyright (c) 2003-2005 David Hansel",IDC_STATIC,5,140,180,8
     LTEXT    "Copyright (c) 2000-2004 Markus Brenner",IDC_STATIC,5,149,180,8
@@ -4146,7 +4146,7 @@ BEGIN
     PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
     PUSHBUTTON      "New", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
     PUSHBUTTON      "Delete", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
-    AUTORADIOBUTTON "Romsetbestand",IDC_ROMSET_SELECT_FILE,
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
                     13,130,60,10,BS_AUTORADIOBUTTON
     EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
     PUSHBUTTON      "Browse", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
@@ -4323,7 +4323,7 @@ BEGIN
     PUSHBUTTON      "Toepassen", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
     PUSHBUTTON      "Nieuw", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
     PUSHBUTTON      "Verwijderen", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
-    AUTORADIOBUTTON "Romset bestand",IDC_ROMSET_SELECT_FILE,
+    AUTORADIOBUTTON "Romsetbestand",IDC_ROMSET_SELECT_FILE,
                     13,130,60,10,BS_AUTORADIOBUTTON
     EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
     PUSHBUTTON      "Bladeren", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
@@ -5378,7 +5378,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER         "VICE romset files (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER      "VICE romset archives (*.vra)"
   IDS_KEYMAP_FILES_FILTER         "VICE keymap files (*.vkm)"
-  IDS_PRGP00_FILES_FILTER         "Commodore emulator bestanden (*.prg;*.p00)"
+  IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE                    "Flexible"
   IDS_ADJUSTING                   "Adjusting"
   IDS_EXACT                       "Exact"
@@ -5446,7 +5446,7 @@ BEGIN
   IDS_CANNOT_LOAD_SETTINGS_DE        "Fehler beim Laden der Einstellungen."
   IDS_DEFAULT_SETTINGS_RESTORED_DE   "Standard wiederhergestellt"
   IDS_CANNOT_ATTACH_FILE_DE          "Kann Image Datei nicht einlegen"
-  IDS_START_MONITOR_DE               "%s\012\012Monitor Aktivieren ?"
+  IDS_START_MONITOR_DE               "%s\012\012Monitor starten? (Nein: reset, Abbruch: weiter)"
   IDS_VICE_CPU_JAM_DE                "VICE CPU JAM"
   IDS_EXTEND_TO_40_TRACKS_DE         "Image Dateu auf 40-Spur Format erweitern?"
   IDS_DETACHED_DEVICE_S_DE           "Gerät %s entfernt"
@@ -5578,6 +5578,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_DE         "VICE ROM Satzs Dateien (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_DE      "VICE ROM Satz Archiv Dateien (*.vra)"
   IDS_KEYMAP_FILES_FILTER_DE         "VICE Keymap Dateien (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_DE         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_DE                    "Flexibel"
   IDS_ADJUSTING_DE                   "Anpassend"
   IDS_EXACT_DE                       "Exakt"
@@ -5777,6 +5778,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_FR         "Fichiers Romset VICE (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_FR      "Archives Romset VICE (*.vra)"
   IDS_KEYMAP_FILES_FILTER_FR         "Fichiers de mappage clavier VICE (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_FR         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_FR                    "Flexible"
   IDS_ADJUSTING_FR                   "Ajusté"
   IDS_EXACT_FR                       "Exact"
@@ -5977,6 +5979,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_HU         "VICE ROM készlet fájlok (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_HU      "VICE ROM készlet archívumok (*.vra)"
   IDS_KEYMAP_FILES_FILTER_HU         "VICE billentyû leképezés fájlok (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_HU         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_HU                    "Rugalmas"
   IDS_ADJUSTING_HU                   "Igazodó"
   IDS_EXACT_HU                       "Pontos"
@@ -6177,6 +6180,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_IT         "ROM set (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_IT      "Archivi del ROM set (*.vra)"
   IDS_KEYMAP_FILES_FILTER_IT         "Mappe della tastiera (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_IT         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_IT                    "Flessibile"
   IDS_ADJUSTING_IT                   "Adattabile"
   IDS_EXACT_IT                       "Esatta"
@@ -6376,6 +6380,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_NL         "VICE romsetbestanden (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_NL      "VICE romsetarchieven (*.vra)"
   IDS_KEYMAP_FILES_FILTER_NL         "VICE keymapbestanden (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_NL         "Commodore emulator bestanden (*.prg;*.p00)"
   IDS_FLEXIBLE_NL                    "Flexibel"
   IDS_ADJUSTING_NL                   "Aanpassend"
   IDS_EXACT_NL                       "Exact"
@@ -6577,6 +6582,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_PL         "VICE romset files (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_PL      "VICE romset archives (*.vra)"
   IDS_KEYMAP_FILES_FILTER_PL         "VICE keymap files (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_PL         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_PL                    "Flexible"
   IDS_ADJUSTING_PL                   "Adjusting"
   IDS_EXACT_PL                       "Exact"
@@ -6779,6 +6785,7 @@ BEGIN
   IDS_ROMSET_FILES_FILTER_SV         "VICE-ROM-uppsättningsfiler (*.vrs)"
   IDS_ROMSET_ARCHIVES_FILTER_SV      "VICE-ROM-uppsättningsarkiv (*.vra)"
   IDS_KEYMAP_FILES_FILTER_SV         "VICE-tangentbordsfiler (*.vkm)"
+  IDS_PRGP00_FILES_FILTER_SV         "Commodore emulator files (*.prg;*.p00)"
   IDS_FLEXIBLE_SV                    "Flexibel"
   IDS_ADJUSTING_SV                   "Anpassande"
   IDS_EXACT_SV                       "Exakt"

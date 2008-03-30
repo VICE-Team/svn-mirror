@@ -20,16 +20,6 @@
 - When loading a snapshot, the monitor break/watchpoints break.
   (at least in xpet)
 
-- The Linux/DGA2 code is known to be unstable, especially when
-  switching back to window mode under some circumstances.
-  DGA2 shows strange keyboard behavior (shifted keys sometimes do not
-  work) with certain XFree drivers (e.g. NVIDIA drivers).
-  The code won't be improved significantly by the current author
-  (deprecated). 
-      
-- The Linux/DGA1 and Linux/VIDMODE fullscreen support may be unstable
-  on some systems. Double size/scan does not work currenty.
-
 - openGL sync is not well integrated in the current vsync code -
   switching back and forth xrandr fullscreen when openGL sync is
   activated might lead to strange vsync behavior; ie. very long time
@@ -40,6 +30,9 @@
 - In the Gnome port the window is only expanded when XVideo HW scaling
   is enabled. Otherwise the window remains in its original size, as
   resizing is inhibited in the Gnome port without HW scaling.
+
+- As CRTC/VDC HW scaling is not supported (yet) Gnome 2 fullscreen for
+  CRTC and VDC is broken.
 
 - The Image preview does not make use of CBM font in the Gnome2 port.
 

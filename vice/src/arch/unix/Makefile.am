@@ -72,11 +72,16 @@ libarch_a_SOURCES = \
 bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
+	hpux/getdate.pl \
+	hpux/getnow.pl \
+	hpux/make-bindist.sh \
 	minix/minix-ar.sh \
 	minix/descr \
-	qnx/getlibs.c \
-	qnx/getsize.c \
-	qnx/make-bindist.sh \
+	qnx4/install_msg \
+	qnx4/make-bindist.sh \
+	qnx6/getlibs.c \
+	qnx6/getsize.c \
+	qnx6/make-bindist.sh \
 	sco_sol/convertprototype.c \
 	sco_sol/make-bindist.sh \
 	vsid

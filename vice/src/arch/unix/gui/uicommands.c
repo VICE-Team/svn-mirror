@@ -84,7 +84,7 @@ static UI_CALLBACK(change_working_directory)
 
 static UI_CALLBACK(activate_monitor)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
@@ -102,7 +102,7 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
@@ -166,7 +166,7 @@ static UI_CALLBACK(browse_manual)
         char *res_ptr;
         int manual_path_len, cmd_len;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         fullscreen_suspend(0);
 #endif
         cmd_len = strlen(bcommand);

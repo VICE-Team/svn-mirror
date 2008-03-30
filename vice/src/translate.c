@@ -4424,7 +4424,7 @@ translate_t string_table[] = {
 
 /* mouse.c */
 /* en */ {IDCLS_ENABLE_MOUSE_GRAB,    "Enable mouse grab"},
-/* de */ {IDCLS_ENABLE_MOUSE_GRAB_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_MOUSE_GRAB_DE, "Maus aktivieren"},
 /* fr */ {IDCLS_ENABLE_MOUSE_GRAB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_MOUSE_GRAB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_MOUSE_GRAB_IT, ""},  /* fuzzy */
@@ -4434,7 +4434,7 @@ translate_t string_table[] = {
 
 /* mouse.c */
 /* en */ {IDCLS_DISABLE_MOUSE_GRAB,    "Disable mouse grab"},
-/* de */ {IDCLS_DISABLE_MOUSE_GRAB_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_MOUSE_GRAB_DE, "Maus deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MOUSE_GRAB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_MOUSE_GRAB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_MOUSE_GRAB_IT, ""},  /* fuzzy */
@@ -4454,7 +4454,7 @@ translate_t string_table[] = {
 
 /* mouse.c */
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */

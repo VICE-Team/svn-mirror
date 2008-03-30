@@ -155,6 +155,9 @@
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
 
+/* Enable Fullscreen support. */
+#undef HAVE_FULLSCREEN
+
 /* Define to 1 if you have the `getdtablesize' function. */
 #undef HAVE_GETDTABLESIZE
 

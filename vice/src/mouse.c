@@ -50,7 +50,7 @@ int _mouse_enabled = 0;
 int mouse_port;
 int mouse_type;
 
-int neos_buttons;
+int neos_and_amiga_buttons;
 int neos_prev;
 
 BYTE neos_x;
@@ -355,9 +355,9 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 0, NULL, NULL,
-      "Mouse", (void *)1, NULL, N_("Enable emulation of the 1351 proportional mouse") },
+      "Mouse", (void *)1, NULL, N_("Enable mouse grab") },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
-      "Mouse", (void *)0, NULL, N_("Disable emulation of the 1351 proportional mouse") },
+      "Mouse", (void *)0, NULL, N_("Disable mouse grab") },
     { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
       "Mouseport", NULL, N_("<value>"), N_("Select the joystick port the mouse is attached to") },
     { "-mousetype", SET_RESOURCE, 1, NULL, NULL,
@@ -376,7 +376,7 @@ int mouse_cmdline_options_init(void)
 
 void mouse_init(void)
 {
-    neos_buttons = 0;
+    neos_and_amiga_buttons = 0;
     neos_prev = 0xff;
     neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
     mousedrv_init();
@@ -393,15 +393,15 @@ void mouse_button_left(int pressed)
 
 void mouse_button_right(int pressed)
 {
-    if (mouse_type == MOUSE_TYPE_NEOS)
+    if (mouse_type != MOUSE_TYPE_1351)
     {
         if (pressed)
         {
-            neos_buttons |= 1;
+            neos_and_amiga_buttons |= 1;
         }
         else
         {
-            neos_buttons &= ~1;
+            neos_and_amiga_buttons &= ~1;
         }
     }
     else
@@ -419,7 +419,7 @@ void mouse_button_right(int pressed)
 
 BYTE mouse_get_x(void)
 {
-    return ((mouse_type == MOUSE_TYPE_1351) ? mousedrv_get_x() : (neos_buttons & 1) ? 0xff : 0);
+    return ((mouse_type == MOUSE_TYPE_1351) ? mousedrv_get_x() : (neos_and_amiga_buttons & 1) ? 0xff : 0);
 }
 
 BYTE mouse_get_y(void)

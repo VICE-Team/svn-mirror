@@ -81,7 +81,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
     canvas->video_draw_buffer_callback = NULL;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     canvas->fullscreenconfig
         = (fullscreenconfig_t *)lib_calloc(1, sizeof(fullscreenconfig_t));
     fullscreen_init_alloc_hooks(canvas);
@@ -111,7 +111,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_destroy(video_canvas_t *canvas)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
         lib_free(canvas->fullscreenconfig);
@@ -191,7 +191,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
         h *= 2;
     }
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (canvas->video_fullscreen_refresh_func) {
         canvas->video_fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
         return;

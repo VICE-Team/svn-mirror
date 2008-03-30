@@ -456,7 +456,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
         return;
 
     /* check for delay of motor stop */
-    if (motor_stop_clk > 0 && maincpu_clk > motor_stop_clk) {
+    if (motor_stop_clk > 0 && maincpu_clk >= motor_stop_clk) {
         motor_stop_clk = 0;
         ui_display_tape_motor_status(0);
         datasette_motor = 0;
@@ -753,12 +753,17 @@ void datasette_set_motor(int flag)
             if (!datasette_motor) {
                 last_write_clk = (CLOCK)0;
                 datasette_start_motor();
-                ui_display_tape_motor_status(flag);
+                ui_display_tape_motor_status(1);
                 datasette_motor = 1;
             }
         }
         if (!flag && datasette_motor && motor_stop_clk == 0) {
             motor_stop_clk = maincpu_clk + MOTOR_DELAY;
+            if (!datasette_alarm_pending) {
+                /* make sure that the motor will stop */
+                alarm_set(datasette_alarm, motor_stop_clk);
+                datasette_alarm_pending = 1;
+            }
         }
     }
 }
@@ -822,8 +827,6 @@ void datasette_toggle_write_bit(int write_bit)
             } else {
                 bit_write();
             }
-        } else if (maincpu_clk < motor_stop_clk) {
-            bit_write();
         }
     }
 }

@@ -221,7 +221,7 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 
 	/* use the resource to initialize stuff */
 	resources_get_int("DirectWindow", &use_direct_window);
-	if (!SupportsWindowMode())
+	if (!SupportsWindowMode() || CheckForHaiku())
 		use_direct_window = 0;
 	resources_set_int("DirectWindow", use_direct_window);
 

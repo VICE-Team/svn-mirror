@@ -31,7 +31,7 @@
 
 typedef enum mon_display_format_e {
     DF_PETSCII,
-    DF_SCREEN_CODE,
+    DF_SCREEN_CODE
 } mon_display_format_t;
 
 extern void mon_memory_move(MON_ADDR start_addr, MON_ADDR end_addr,

@@ -42,7 +42,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
+
+#ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
+#endif
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -50,6 +54,10 @@
 #include <unistd.h>
 
 #if defined(MINIX_SUPPORT) || defined(OPENSERVER6_COMPILE)
+#include <sys/select.h>
+#endif
+
+#if defined(__QNX__) && !defined(__QNXNTO__)
 #include <sys/select.h>
 #endif
 

@@ -39,10 +39,8 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <sys/utsname.h>
 #include <string.h>
-#endif
 
 extern "C" {
 #include "attach.h"
@@ -269,6 +267,19 @@ static void save_snapshot_trap(WORD unused_addr, void *unused_data)
 static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
 	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,(void*)0);
+}
+
+
+/* this check is needed for haiku, since it always returns 1 on
+   SupportsWindowMode() */
+int CheckForHaiku(void)
+{
+	struct utsname name;
+
+	uname(&name);
+	if (!strncasecmp(name.sysname,"Haiku",5))
+		return -1;
+	return 0;
 }
 
 typedef struct {
@@ -708,15 +719,15 @@ void ui_dispatch_events(void)
 				char *abouttext;
 				abouttext = util_concat(
 					"BeVICE Version ", VERSION,"\n",
-					"(c) 1998-2007 Andreas Boose\n",
-					"(c) 1998-2007 Dag Lem\n",
-					"(c) 1998-2007 Tibor Biczo\n",
+					"(c) 1998-2008 Andreas Boose\n",
+					"(c) 1998-2008 Dag Lem\n",
+					"(c) 1998-2008 Tibor Biczo\n",
+					"(c) 1999-2008 Andreas Matthies\n",
+					"(c) 1999-2008 Martin Pottendorfer\n",
+					"(c) 2000-2008 Spiro Trikaliotis\n",
+					"(c) 2005-2008 Marco van den Heuvel\n",
+					"(c) 2006-2008 Christian Vogelgsang\n",
 					"(c) 1999-2007 Andreas Dehmel\n",
-					"(c) 1999-2007 Andreas Matthies\n",
-					"(c) 1999-2007 Martin Pottendorfer\n",
-					"(c) 2000-2007 Spiro Trikaliotis\n",
-					"(c) 2005-2007 Marco van den Heuvel\n",
-					"(c) 2006-2007 Christian Vogelgsang\n",
 					"(c) 1999-2005 Thomas Bretz\n",
 					"(c) 2003-2005 David Hansel\n",
 					"(c) 2000-2004 Markus Brenner\n",
@@ -1301,7 +1312,7 @@ int ui_set_window_mode(int use_direct_window)
 			w->Lock();
 			
 			/* only use DirectWindow if Window Mode is supported */
-			if (!w->SupportsWindowMode())
+			if (!w->SupportsWindowMode() || CheckForHaiku())
 				use_direct_window = 0;
 			
 			w->use_direct_window = use_direct_window;

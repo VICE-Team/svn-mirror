@@ -1,9 +1,9 @@
 
-PETCAT version 2.16 PL 1					19 Feb 2006
+PETCAT version 2.17 PL 1					1 Jan 2008
 
 
   Listed below are keywords and token codes for all CBM Basic versions
-  supported on petcat v2.15 PL 1. They include the following:
+  supported on petcat v2.17 PL 1. They include the following:
  
 	Basic 1.0
 	Basic 2.0
@@ -15,6 +15,7 @@ PETCAT version 2.16 PL 1					19 Feb 2006
 	Basic 2.0 with Ultrabasic-64
 	Basic 2.0 with Graphics basic
 	Basic 2.0 with WS basic
+	Basic 2.0 with WS basic final
 	Basic 2.0 with Turtle basic
 	Basic 2.0 with Mighty basic
 	Basic 2.0 with Pegasus basic 4.0
@@ -25,6 +26,7 @@ PETCAT version 2.16 PL 1					19 Feb 2006
 	Basic 2.0 with Magic Basic
 	Basic 2.0 with Easy Basic
 	Basic 2.0 with Blarg
+	Basic 2.0 with Game Basic
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 4.0 extension for VIC20
@@ -424,71 +426,72 @@ e3	monitor
   Ultrabasic-64     Keywords (Tokens CC - FE)
   Graphics basic    Keywords (Tokens CC - FE)
   WS basic          Keywords (Tokens CC - FE)
+  WS basic Final    Keywords (Tokens CC - FE)
+
+
+Token  Speech  AtBasic    FC3      Ultra   Graph       WS       WSF
+
+cc     reset   trace      off      dot     background  copy     copy
+cd     basic   delete     auto     draw    border      old      bank
+ce     help    auto       del      box     dir         port     old
+cf     key     old        renum    tic     disk        doke     doke
+
+d0     himem   dump       ?ERROR?  copy    fill        vpoke    display
+d1     disk    find       find     sprite  key         fill     fill
+d2     dir     renumber   old      off     circle      error    error
+d3     bload   dload      dload    mode    procedure   send     send
+d4     bsave   dsave      dverify  norm    dot         call     call
+d5     map     dverify    dsave    graph   find        bit      bit
+d6     mem     directory  append   dump    change      dir      dir
+d7     pause   catalog    dappend  gread   ren         bload    bload
+
+d8     block   scratch    dos      char    else        bsave    bsave
+d9     hear    collect    kill     place   copy        find     find
+da     record  rename     mon      multi   scroll      speed    speed
+db     play    copy       pdir     hires   roll        pitch    pitch
+dc     voldef  backup     plist    hex     box         say      say
+dd     coldef  disk       bar      bit     scale       fast     fast
+de     hex     header     desktop  colors  do          slow     slow
+df     dez     append     dump     pixel   line        talk     talk
+
+e0     screen  merge      array    fill    sprite      shutup   shutup
+e1     exec    mload      mem      circle  color       stash    stash
+e2     mon     mverify    trace    block   hires       fetch    fetch
+e3     <-      msave      replace  sdata   clear       swap     swap
+e4     from    key        order    vol     text        off      off
+e5     speed   basic      pack     gen     window      screen   mode
+e6     off     reset      unpack   scoll   off         device   device
+e7             exit       mread    bcoll   at          object   object
+
+e8             enter      mwrite   joy     shape       vstash   vstash
+e9             doke                paddle  xysize      vfetch   vfetch
+ea             set                 pen     speed       quiet    latch
+eb             help                sound   from        color    color
+ec             screen              tune    setorigin   cls      cls
+ed             lomem               tdata   animate     curpos   curpos
+ee             himem               set     multi       monitor  monitor 
+ef             colour              turnto  eze         subend   subend
+
+f0             type                turn    move        do       do
+f1             time                tup     under       loop     loop
+f2             deek                tdown   edit        exit     exit
+f3             hex$                tcolor  reset       deek     deek
+f4             bin$                turtle  xpos        rsc      col
+f5             off                 move    gprint      rsm      rsm
+f6             alarm               bye     voice       dec      dec
+f7                                 rotate  adsr        hex$     hex$
+
+f8                                 tpos    wave        hi       hi
+f9                                 ctr     ne          lo       lo
+fa                                 sctr    volume      ds$      ds$
+fb                                 [       play        line     line
+fc                                 ]       ypos        vpeek    bnk
+fd                                 hard    sound       row      ypos
+fe                                 exit    joy         joy      joy
+
+
+
   Pegasus basic 4.0 Keywords (Tokens CC - EC)
-
-
-Token  Speech  AtBasic    FC3      Ultra   Graph       WS      Peg
-
-cc     reset   trace      off      dot     background  copy    off
-cd     basic   delete     auto     draw    border      old     asc(
-ce     help    auto       del      box     dir         port    sin(
-cf     key     old        renum    tic     disk        doke    cos(
-
-d0     himem   dump       ?ERROR?  copy    fill        vpoke   tan(
-d1     disk    find       find     sprite  key         fill    atn(
-d2     dir     renumber   old      off     circle      error   deg(
-d3     bload   dload      dload    mode    procedure   send    rad(
-d4     bsave   dsave      dverify  norm    dot         call    frac(
-d5     map     dverify    dsave    graph   find        bit     mod(
-d6     mem     directory  append   dump    change      dir     round(
-d7     pause   catalog    dappend  gread   ren         bload   dec(
-
-d8     block   scratch    dos      char    else        bsave   bin(
-d9     hear    collect    kill     place   copy        find    deek(
-da     record  rename     mon      multi   scroll      speed   instr(
-db     play    copy       pdir     hires   roll        pitch   joy(
-dc     voldef  backup     plist    hex     box         say     pot(
-dd     coldef  disk       bar      bit     scale       fast    screen(
-de     hex     header     desktop  colors  do          slow    test(
-df     dez     append     dump     pixel   line        talk    using
-
-e0     screen  merge      array    fill    sprite      shutup  ds$
-e1     exec    mload      mem      circle  color       stash   hex$(
-e2     mon     mverify    trace    block   hires       fetch   bin$(
-e3     <-      msave      replace  sdata   clear       swap    space$(
-e4     from    key        order    vol     text        off     ucase$(
-e5     speed   basic      pack     gen     window      screen  string$(
-e6     off     reset      unpack   scoll   off         device  input$(
-e7             exit       mread    bcoll   at          object  time$
-
-e8             enter      mwrite   joy     shape       vstash  spritex(
-e9             doke                paddle  xysize      vfetch  spritey(
-ea             set                 pen     speed       quiet   turtlex(
-eb             help                sound   from        color   turtley(
-ec             screen              tune    setorigin   cls     turtleang
-ed             lomem               tdata   animate     curpos
-ee             himem               set     multi       monitor
-ef             colour              turnto  eze         subend
-
-f0             type                turn    move        do
-f1             time                tup     under       loop
-f2             deek                tdown   edit        exit
-f3             hex$                tcolor  reset       deek
-f4             bin$                turtle  xpos        rsc
-f5             off                 move    gprint      rsm
-f6             alarm               bye     voice       dec
-f7                                 rotate  adsr        hex$
-
-f8                                 tpos    wave        hi
-f9                                 ctr     ne          lo
-fa                                 sctr    volume      ds$
-fb                                 [       play        line
-fc                                 ]       ypos        vpeek
-fd                                 hard    sound       row
-fe                                 exit    joy         joy
-
-
-
   Xbasic            Keywords (Tokens CC - EC)
   Drago basic 2.2   Keywords (Tokens CC - D8)
   REU-basic         Keywords (Tokens CC - DA)
@@ -497,65 +500,104 @@ fe                                 exit    joy         joy
   Blarg             Keywords (Tokens E0 - EA)
 
 
-Token  Xbasic    Drago    REU    Light     Magic      Blarg
+Token  Peg        Xbasic    Drago    REU    Light     Magic      Blarg
 
-cc     sprat     punkt    push   else      assembler
-cd     brdr      linia    pull   hex$      auto
-ce     screen    rysuj    flip   deek      cdrive
-cf     quit      param    rec    true      cat
+cc     off        sprat     punkt    push   else      assembler
+cd     asc(       brdr      linia    pull   hex$      auto
+ce     sin(       screen    rysuj    flip   deek      cdrive
+cf     cos(       quit      param    rec    true      cat
 
-d0     sprmult   kontur   stash  import    dappend
-d1     move      anim     fetch  cfn       delete
-d2     sprite    kolor    swap   size      dez
-d3     asprite   puwid    reu    false     dir
-d4     dsprite   ryselip  size   ver$      dload
-d5     sid       koguma   dir    lpx       dsave
-d6     envelope  fiut     @      lpy       dverify
-d7     gate      figura   kill   common%   config
+d0     tan(       sprmult   kontur   stash  import    dappend
+d1     atn(       move      anim     fetch  cfn       delete
+d2     deg(       sprite    kolor    swap   size      dez
+d3     rad(       asprite   puwid    reu    false     dir
+d4     frac(      dsprite   ryselip  size   ver$      dload
+d5     mod(       sid       koguma   dir    lpx       dsave
+d6     round(     envelope  fiut     @      lpy       dverify
+d7     dec(       gate      figura   kill   common%   config
 
-d8     frq       figuma   rom    crow      find
-d9     wave               ram    ccol
-da     vol                move   atr
-db     fcut                      inc       help
-dc     fmode                     num       hex
-dd     filter                    row2      jump
-de     frsn                      col2      llist
-df     cset                      spn2      lprint
+d8     bin(       frq       figuma   rom    crow      find
+d9     deek(      wave               ram    ccol
+da     instr(     vol                move   atr
+db     joy(       fcut                      inc       help
+dc     pot(       fmode                     num       hex
+dd     screen(    filter                    row2      jump
+de     test(      frsn                      col2      llist
+df     using      cset                      spn2      lprint
 
-e0     multi                     hgt       off        plot
-e1     extnd                     wid       old        line
-e2     locate                    row       renum      circle
-e3     center                    col       crun       gron
-e4     hires                     spn       send       groff
-e5     line                      task      status     mode
-e6     hprnt                     halt      hires      origin
-e7     plot                      repeat    multi      clear
+e0     ds$        multi                     hgt       off        plot
+e1     hex$(      extnd                     wid       old        line
+e2     bin$(      locate                    row       renum      circle
+e3     space$(    center                    col       crun       gron
+e4     ucase$(    hires                     spn       send       groff
+e5     string$(   line                      task      status     mode
+e6     input$(    hprnt                     halt      hires      origin
+e7     time$      plot                      repeat    multi      clear
 
-e8     text                      until     clear      buffer
-e9     clear                     while     plot       swap
-ea     colr                      wend      invert     color
-eb     stick                     cif       line
-ec     btn                       celse     text
-ed                               cend      graphik
-ee                               label     page
-ef                               doke      box
+e8     spritex(   text                      until     clear      buffer
+e9     spritey(   clear                     while     plot       swap
+ea     turtlex(   colr                      wend      invert     color
+eb     turrley(   stick                     cif       line
+ec     turtleang  btn                       celse     text
+ed                                          cend      graphik
+ee                                          label     page
+ef                                          doke      box
 
-f0                               exit      draw
-f1                               allocate  mix
-f2                               disable   copy
-f3                               pull      circle
-f4                               dload     gsave
-f5                               dsave     gload
-f6                               var       frame
-f7                               local     hprint
+f0                                          exit      draw
+f1                                          allocate  mix
+f2                                          disable   copy
+f3                                          pull      circle
+f4                                          dload     gsave
+f5                                          dsave     gload
+f6                                          var       frame
+f7                                          local     hprint
 
-f8                               procend   vprint
-f9                               proc      block
-fa                               casend    fill
-fb                               of
-fc                               case      replace
-fd                               rpt       lrun
-fe                               setatr
+f8                                          procend   vprint
+f9                                          proc      block
+fa                                          casend    fill
+fb                                          of
+fc                                          case      replace
+fd                                          rpt       lrun
+fe                                          setatr
+
+
+  Game Basic Keywords (Tokens CC - E8)
+
+Token  Game
+
+cc     window
+cd     bfile
+ce     upper
+cf     lower
+
+d0     cls
+d1     screen
+d2     parse
+d3     proc
+d4     else
+d5     scratch
+d6     replace
+d7     device
+
+d8     dir
+d9     repeat
+da     until
+db     disk
+dc     fetch#
+dd     put#
+de     prompt
+df     pop
+
+e0     help
+e1     exit
+e2     disable
+e3     enter
+e4     reset
+e5     warm
+e6     num
+e7     type
+
+e8     text$
 
 
  Simon's Basic Keywords

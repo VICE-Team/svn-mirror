@@ -37,7 +37,7 @@
 #include "videoarch.h"
 
 
-#ifdef USE_XF86_EXTENSIONS
+#if defined  (USE_XF86_EXTENSIONS) && defined (HAVE_FULLSCREEN)
 
 #define STR_VIDMODE "Vidmode"
 #define STR_XRANDR  "XRANDR"
@@ -145,6 +145,13 @@ void fullscreen_shutdown_alloc_hooks(struct video_canvas_s *canvas)
 {
 }
 
+static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
+{
+    if (!fullscreen_is_enabled)
+	return 0;
+    return ui_fullscreen_statusbar(canvas, enable);
+}
+
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
     if (canvas->fullscreenconfig->device == NULL)
@@ -216,7 +223,7 @@ static int fullscreen_mode_xrandr(struct video_canvas_s *canvas, int mode)
 }
 #endif
 
-#endif
+#endif	/* USE_XF86_EXTENSIONS && HAVE_FULLSCREEN */
 
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
@@ -225,6 +232,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 #ifdef USE_XF86_VIDMODE_EXT
     cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_VIDMODE;
     cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->statusbar = fullscreen_statusbar;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->device = fullscreen_device;
@@ -234,6 +242,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 #ifdef HAVE_XRANDR
     cap_fullscreen->device_name[cap_fullscreen->device_num] = STR_XRANDR;
     cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->statusbar = fullscreen_statusbar;
     cap_fullscreen->double_size = fullscreen_double_size;
     cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->device = fullscreen_device;

@@ -66,6 +66,7 @@ struct video_resource_chip_s {
     int hwscale_enabled;
     int scale2x_enabled;
     int fullscreen_enabled;
+    int fullscreen_statusbar_enabled;
     char *fullscreen_device;
     int fullscreen_double_size_enabled;
     int fullscreen_double_scan_enabled;
@@ -246,6 +247,37 @@ static resource_int_t resources_chip_scale2x[] =
 
 static int set_fullscreen_enabled(int val, void *param)
 {
+    int r = 0;
+    video_resource_chip_t *video_resource_chip;
+    video_chip_cap_t *video_chip_cap;
+    video_canvas_t *canvas;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+    video_chip_cap = video_resource_chip->video_chip_cap;
+    canvas = *(video_resource_chip->canvas);
+    
+    video_resource_chip->fullscreen_enabled = val;
+    
+    if (canvas->initialized)
+    {
+	if (val)
+	{
+	    r = (video_chip_cap->fullscreen.enable)(canvas, val);
+	    (void) (video_chip_cap->fullscreen.statusbar)
+		(canvas, video_resource_chip->fullscreen_statusbar_enabled); 
+	}
+	else
+	{
+	    /* always show statusbar when coming back to window mode */
+	    (void) (video_chip_cap->fullscreen.statusbar) (canvas, 1); 
+	    r = (video_chip_cap->fullscreen.enable)(canvas, val);
+	}
+    }
+    return r;
+}
+
+static int set_fullscreen_statusbar(int val, void *param)
+{
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
     video_canvas_t *canvas;
@@ -254,12 +286,9 @@ static int set_fullscreen_enabled(int val, void *param)
     video_chip_cap = video_resource_chip->video_chip_cap;
     canvas = *(video_resource_chip->canvas);
 
-    video_resource_chip->fullscreen_enabled = val;
+    video_resource_chip->fullscreen_statusbar_enabled = val;
 
-    if (canvas->initialized)
-        return (video_chip_cap->fullscreen.enable)(canvas, val);
-
-    return 0;
+    return (video_chip_cap->fullscreen.statusbar)(canvas, val);
 }
 
 static int set_fullscreen_double_size_enabled(int val, void *param)
@@ -317,8 +346,8 @@ static int set_fullscreen_device(const char *val, void *param)
 }
 
 static const char *vname_chip_fullscreen[] = {
-    "Fullscreen", "FullscreenDoubleSize", "FullscreenDoubleScan",
-    "FullscreenDevice", NULL
+    "Fullscreen", "FullscreenStatusbar", "FullscreenDoubleSize", 
+    "FullscreenDoubleScan", "FullscreenDevice", NULL
 };
 
 static resource_string_t resources_chip_fullscreen_string[] =
@@ -332,6 +361,8 @@ static resource_int_t resources_chip_fullscreen_int[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_enabled, NULL },
+    { NULL, 0, RES_EVENT_NO, NULL,
+      NULL, set_fullscreen_statusbar, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_fullscreen_double_size_enabled, NULL },
     { NULL, 0, RES_EVENT_NO, NULL,
@@ -526,17 +557,23 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_fullscreen_int[1].name
             = util_concat(chipname, vname_chip_fullscreen[1], NULL);
         resources_chip_fullscreen_int[1].value_ptr
-            = &(resource_chip->fullscreen_double_size_enabled);
+            = &(resource_chip->fullscreen_statusbar_enabled);
         resources_chip_fullscreen_int[1].param = (void *)resource_chip;
 
         resources_chip_fullscreen_int[2].name
             = util_concat(chipname, vname_chip_fullscreen[2], NULL);
         resources_chip_fullscreen_int[2].value_ptr
-            = &(resource_chip->fullscreen_double_scan_enabled);
+            = &(resource_chip->fullscreen_double_size_enabled);
         resources_chip_fullscreen_int[2].param = (void *)resource_chip;
 
-        resources_chip_fullscreen_string[0].name
+        resources_chip_fullscreen_int[3].name
             = util_concat(chipname, vname_chip_fullscreen[3], NULL);
+        resources_chip_fullscreen_int[3].value_ptr
+            = &(resource_chip->fullscreen_double_scan_enabled);
+        resources_chip_fullscreen_int[3].param = (void *)resource_chip;
+
+        resources_chip_fullscreen_string[0].name
+            = util_concat(chipname, vname_chip_fullscreen[4], NULL);
         resources_chip_fullscreen_string[0].factory_value
             = video_chip_cap->fullscreen.device_name[0];
         resources_chip_fullscreen_string[0].value_ptr
@@ -552,6 +589,7 @@ int video_resources_chip_init(const char *chipname,
         lib_free((char *)(resources_chip_fullscreen_int[0].name));
         lib_free((char *)(resources_chip_fullscreen_int[1].name));
         lib_free((char *)(resources_chip_fullscreen_int[2].name));
+        lib_free((char *)(resources_chip_fullscreen_int[3].name));
         lib_free((char *)(resources_chip_fullscreen_string[0].name));
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {

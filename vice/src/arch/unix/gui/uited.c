@@ -35,7 +35,10 @@
 #include "uipalemu.h"
 #include "uipalette.h"
 #include "uited.h"
+#include "openGL_sync.h"
 
+#include "uifullscreen-menu.h"
+UI_FULLSCREEN(TED)
 
 /*
 UI_MENU_DEFINE_STRING_RADIO(TEDPaletteFile)
@@ -65,27 +68,11 @@ UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
 #endif
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
-#ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(TEDFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(TEDFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(TEDFullscreenDoubleScan)
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(TEDVidmodeFullscreenMode);
-#endif
+#ifdef HAVE_OPENGL_SYNC
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
-#endif
-
-#ifdef USE_XF86_EXTENSIONS
-static ui_menu_entry_t set_fullscreen_device_submenu[] = {
-#ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_TEDFullscreenDevice,
-      (ui_callback_data_t)"Vidmode", NULL },
-#endif
-    { NULL }
-};
 #endif
 
 static UI_CALLBACK(color_set)
@@ -121,36 +108,25 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("*Fast PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
 #endif
+    { N_("PAL Emulation"),
+      NULL, NULL, PALMode_submenu },
+    { N_("*Scale 2x render"),
+      (ui_callback_t)toggle_TEDScale2x, NULL, NULL },
+    { "--" },
+    { N_("Video standard"),
+      NULL, NULL, set_video_standard_submenu },
+    { "--" },
 #ifdef HAVE_HWSCALE
     { N_("*Hardware scaling"),
       (ui_callback_t)toggle_TEDHwScale, NULL, NULL },
 #endif
-    { N_("PAL Emulation"),
-      NULL, NULL, PALMode_submenu },
-    { "--" },
-    { N_("*Scale 2x render"),
-      (ui_callback_t)toggle_TEDScale2x, NULL, NULL },
-    { "--" },
-#ifdef USE_XF86_EXTENSIONS
-    { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_TEDFullscreen, NULL, NULL, KEYSYM_d, UI_HOTMOD_META },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_TEDFullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_TEDFullscreenDoubleScan, NULL, NULL },
-    { N_("Fullscreen device"),
-      NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode' must remain in the beginning
-       of the translation e.g. German: "VidMode Auflösungen" */
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
+#ifdef HAVE_OPENGL_SYNC
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
 #endif
-    { "--" },
+#ifdef HAVE_FULLSCREEN
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuTED },
 #endif
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--" },
 #ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
@@ -160,19 +136,11 @@ ui_menu_entry_t ted_submenu[] = {
 
 void uited_menu_create(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-#ifdef USE_XF86_VIDMODE_EXT
-    fullscreen_mode_callback("Vidmode",
-                             (void *)radio_TEDVidmodeFullscreenMode);
-#endif
-    fullscreen_menu_create(ted_submenu);
-#endif
+    UI_FULLSCREEN_MENU_CREATE(TED)
 }
 
 void uited_menu_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_menu_shutdown(ted_submenu);
-#endif
+    UI_FULLSCREEN_MENU_SHUTDOWN(TED);
 }
 

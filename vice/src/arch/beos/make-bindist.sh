@@ -6,6 +6,12 @@
 # make-bindist.sh <strip> <vice-version> <cpu> <zip|nozip> <top-srcdir>
 #                 $1      $2             $3    $4          $5
 
+STRIP=$1
+VICEVERSION=$2
+CPU=$3
+ZIPKIND=$4
+TOPSRCDIR=$5
+
 if [ ! -e src/x64 -o ! -e src/x128 -o ! -e src/xvic -o ! -e src/xpet -o ! -e src/xplus4 -o ! -e src/xcbm2 -o ! -e src/c1541 -o ! -e src/petcat -o ! -e src/cartconv ]
 then
   echo Error: executable file\(s\) not found, do a \"make\" first
@@ -13,52 +19,52 @@ then
 fi
 
 echo Generating BEOS port binary distribution.
-if test x"$3" = "powerpc"; then
+if test x"$CPU" = "xpowerpc" -o x"$CPU" = "xppc"; then
   BEOSCPU=powerpc
 else
   BEOSCPU=x86
 fi
 
-rm -f -r BeVICE-$2.$BEOSCPU
-mkdir BeVICE-$2.$BEOSCPU
-$1 src/x64
-$1 src/x128
-$1 src/xvic
-$1 src/xpet
-$1 src/xplus4
-$1 src/xcbm2
-$1 src/c1541
-$1 src/petcat
-$1 src/cartconv
-cp src/x64 src/x128 src/xvic BeVICE-$2.$BEOSCPU
-cp src/xpet src/xplus4 src/xcbm2 BeVICE-$2.$BEOSCPU
-cp src/c1541 src/petcat src/cartconv BeVICE-$2.$BEOSCPU
-cp -a data/C128 data/C64 data/CBM-II data/DRIVES BeVICE-$2.$BEOSCPU
-cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$2.$BEOSCPU
-cp -a data/fonts BeVICE-$2.$BEOSCPU
-mkdir BeVICE-$2.$BEOSCPU/doc
-cp -a $5/doc/html BeVICE-$2.$BEOSCPU/doc
-cp $5/doc/iec-bus.txt BeVICE-$2.$BEOSCPU/doc
-cp $5/doc/mon.txt BeVICE-$2.$BEOSCPU/doc
-cp $5/doc/cartconv.txt BeVICE-$2.$BEOSCPU/doc
-cp $5/doc/Readme.beos BeVICE-$2.$BEOSCPU/doc
-cp $5/FEEDBACK $5/README BeVICE-$2.$BEOSCPU
-rm `find BeVICE-$2.$BEOSCPU -name "Makefile*"`
-rm `find BeVICE-$2.$BEOSCPU -name "amiga_*.vkm"`
-rm `find BeVICE-$2.$BEOSCPU -name "dos_*.vkm"`
-rm `find BeVICE-$2.$BEOSCPU -name "os2*.vkm"`
-rm `find BeVICE-$2.$BEOSCPU -name "osx*.vkm"`
-rm `find BeVICE-$2.$BEOSCPU -name "win_*.vkm"`
-rm `find BeVICE-$2.$BEOSCPU -name "x11_*.vkm"`
-rm BeVICE-$2.$BEOSCPU/html/texi2html
-if test x"$4" = "xzip"; then
+rm -f -r BeVICE-$VICEVERSION.$BEOSCPU
+mkdir BeVICE-$VICEVERSION.$BEOSCPU
+$STRIP src/x64
+$STRIP src/x128
+$STRIP src/xvic
+$STRIP src/xpet
+$STRIP src/xplus4
+$STRIP src/xcbm2
+$STRIP src/c1541
+$STRIP src/petcat
+$STRIP src/cartconv
+cp src/x64 src/x128 src/xvic BeVICE-$VICEVERSION.$BEOSCPU
+cp src/xpet src/xplus4 src/xcbm2 BeVICE-$VICEVERSION.$BEOSCPU
+cp src/c1541 src/petcat src/cartconv BeVICE-$VICEVERSION.$BEOSCPU
+cp -a data/C128 data/C64 data/CBM-II data/DRIVES BeVICE-$VICEVERSION.$BEOSCPU
+cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
+cp -a data/fonts BeVICE-$VICEVERSION.$BEOSCPU
+mkdir BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp $TOPSRCDIR/doc/iec-bus.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp $TOPSRCDIR/doc/mon.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp $TOPSRCDIR/doc/cartconv.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp $TOPSRCDIR/doc/Readme.beos BeVICE-$VICEVERSION.$BEOSCPU/doc
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "amiga_*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "dos_*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "os2*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "osx*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.vkm"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "x11_*.vkm"`
+rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
+if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
-    zip -r -9 -q BeVICE-$2.$BEOSCPU.zip BeVICE-$2.$BEOSCPU
+    zip -r -9 -q BeVICE-$VICEVERSION.$BEOSCPU.zip BeVICE-$VICEVERSION.$BEOSCPU
   else
-    $ZIP BeVICE-$2.$BEOSCPU.zip BeVICE-$2.$BEOSCPU
+    $ZIP BeVICE-$VICEVERSION.$BEOSCPU.zip BeVICE-$VICEVERSION.$BEOSCPU
   fi
-  rm -f -r BeVICE-$2.$BEOSCPU
-  echo BEOS port binary distribution archive generated as BeVICE-$2.$BEOSCPU.zip
+  rm -f -r BeVICE-$VICEVERSION.$BEOSCPU
+  echo BEOS port binary distribution archive generated as BeVICE-$VICEVERSION.$BEOSCPU.zip
 else
-  echo BEOS port binary distribution directory generated as BeVICE-$2.$BEOSCPU
+  echo BEOS port binary distribution directory generated as BeVICE-$VICEVERSION.$BEOSCPU
 fi

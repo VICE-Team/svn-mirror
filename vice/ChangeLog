@@ -1,3 +1,51 @@
+2008-01-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.8.
+
+2008-01-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, build/Makefile.am, build/qnx4/build.sh,
+	configure.in: Added qnx4 support.
+
+2008-01-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Finalized the hpux support.
+
+2008-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Added preliminary hpux support.
+
+2008-01-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Fixed the man and info directories for the
+	solaris, openserver and unixware binary distributions.
+
+	* configure.in: Fixed the detection of libXv and its header.
+
+2008-01-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* acinclude.m4: Added the pkg.m4 code.
+
+2008-01-02  pottendo  <pottendo@utanet.at>
+
+	* doc/html/plain/NEWS: Updated.
+
+	* configure.in (HAVE_FULLSCREEN): New global macro to compile
+	conditional fullscreen support.
+
+	* doc/html/plain/BUGS: Updated.
+	* doc/openGLsync-howto.txt: Updated.
+
+2008-01-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Updated with WSF and
+	game basic tokens.
+
+2008-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* README, doc/Readme.dos, doc/vice.texi: Updated '2007' to
+	'2008'.
+
 2007-12-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.7.

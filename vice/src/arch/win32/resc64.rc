@@ -472,7 +472,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identifikation", IDM_TOGGLE_EMUID
-        MENUITEM "&Grab mouse events\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&Maus Ereignisse abfangen\tAlt+Q",    IDM_MOUSE
     END
     POPUP "&Einstellungen"
     BEGIN
@@ -483,7 +483,7 @@ BEGIN
         MENUITEM "VIC-II Einstellungen...",     IDM_VICII_SETTINGS
         MENUITEM "&Joystick Einstellungen...",  IDM_JOY_SETTINGS
         MENUITEM "&Tastatur Einstellungen...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Mo&use settings...",     IDM_MOUSE_SETTINGS
+        MENUITEM "Ma&us Einstellungen...",     IDM_MOUSE_SETTINGS
         MENUITEM "S&ound Einstellungen...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID Einstellungen...",       IDM_SID_SETTINGS
         MENUITEM "&ROM Einstellungen...",       IDM_ROM_SETTINGS

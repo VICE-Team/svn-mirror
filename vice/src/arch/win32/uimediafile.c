@@ -197,7 +197,7 @@ static UINT APIENTRY hook_save_mediafile(HWND hwnd, UINT uimsg, WPARAM wparam,
                        st_selection, MAXSCRNDRVLEN);
             resources_get_string("FFMPEGFormat", &ffmpeg_format);
             if (strcmp(st_selection, ffmpeg_format) != 0) {
-                system_wcstombs(s_selection, st_selection, MAX_PATH);
+                system_wcstombs(s_selection, st_selection, MAXSCRNDRVLEN);
                 resources_set_string("FFMPEGFormat", s_selection);
                 update_ffmpeg_codecs(hwnd);
             }

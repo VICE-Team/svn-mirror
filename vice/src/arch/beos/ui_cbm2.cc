@@ -211,7 +211,7 @@ void Cbm2Window::MessageReceived(BMessage *msg) {
 
 void ui_cbm2() {
 	thread_id cbm2thread;
-	status_t exit_valie;
+	status_t exit_value;
 	
 	if (cbm2window != NULL)
 		return;

@@ -5,6 +5,18 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.23
+======================
+
+** Unix changes
+---------------
+
+- Broken DGA1/DGA2 code removed
+
+- XRandR fullscreen implemented for all (but CRTC/VDC) videochips.
+
+- XRandR/Fullscreen can now toggle the Statusbar/Menu
+
 * Changes in VICE 1.22
 ======================
 

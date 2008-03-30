@@ -310,7 +310,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE MACOSX_COCOA_TRUE MACOSX_COCOA_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE OBJC OBJCFLAGS OBJCDEPMODE am__fastdepOBJC_TRUE am__fastdepOBJC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_LIBS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES ZLIB_LIBS NETPLAY_LIBS FFMPEG_INCLUDES FFMPEG_LIBS DOS_TFE_PCAP_LIB TFE_LIBS WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE READLINE_LIBS VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS GFXOUTPUT_LIBS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS PKG_CONFIG ac_pt_PKG_CONFIG GTK_CFLAGS GTK_LIBS GTKGL_CFLAGS GTKGL_LIBS VICE_SYNC FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_MACOSX_UITYPE UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE HAVE_TRANSLATION_TRUE HAVE_TRANSLATION_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_OPENSERVER5_COMPILE_TRUE UNIX_OPENSERVER5_COMPILE_FALSE UNIX_OPENSERVER6_COMPILE_TRUE UNIX_OPENSERVER6_COMPILE_FALSE UNIX_UNIXWARE_COMPILE_TRUE UNIX_UNIXWARE_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE MAKE_BINDIST_TRUE MAKE_BINDIST_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR ARCH_EXTRA_SUBDIR UI_LIBS SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ ALTERNATE_DOCDIR_TRUE ALTERNATE_DOCDIR_FALSE VICEDIR BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE MACOSX_COCOA_TRUE MACOSX_COCOA_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE OBJC OBJCFLAGS OBJCDEPMODE am__fastdepOBJC_TRUE am__fastdepOBJC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_LIBS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES ZLIB_LIBS NETPLAY_LIBS FFMPEG_INCLUDES FFMPEG_LIBS DOS_TFE_PCAP_LIB TFE_LIBS WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE READLINE_LIBS VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS GFXOUTPUT_LIBS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS PKG_CONFIG ac_pt_PKG_CONFIG GTK_CFLAGS GTK_LIBS GTKGL_CFLAGS GTKGL_LIBS VICE_SYNC FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_MACOSX_UITYPE UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE HAVE_TRANSLATION_TRUE HAVE_TRANSLATION_FALSE UNIX_QNX4_COMPILE_TRUE UNIX_QNX4_COMPILE_FALSE UNIX_QNX6_COMPILE_TRUE UNIX_QNX6_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_OPENSERVER5_COMPILE_TRUE UNIX_OPENSERVER5_COMPILE_FALSE UNIX_OPENSERVER6_COMPILE_TRUE UNIX_OPENSERVER6_COMPILE_FALSE UNIX_UNIXWARE_COMPILE_TRUE UNIX_UNIXWARE_COMPILE_FALSE UNIX_HPUX_COMPILE_TRUE UNIX_HPUX_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE MAKE_BINDIST_TRUE MAKE_BINDIST_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR ARCH_EXTRA_SUBDIR UI_LIBS SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ ALTERNATE_DOCDIR_TRUE ALTERNATE_DOCDIR_FALSE VICEDIR BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1377,7 +1377,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=7
+VICE_VERSION_BUILD=8
 
 
 
@@ -12866,7 +12866,8 @@ NETPLAY_LIBS=
 old_LIBS="$LIBS"
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
 
-    UNIX_NETWORK_HEADERS_PRESENT=yes
+  if test x"$host_os" != "xqnx"; then
+        UNIX_NETWORK_HEADERS_PRESENT=yes
 
 
 
@@ -13026,6 +13027,9 @@ fi
 
 done
 
+  else
+    LIBS="-lsocket -lunix $LIBS"
+  fi
 
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
@@ -17174,7 +17178,8 @@ done
 
   fi
 
-  if test x"$host_os" = "xhpux"; then
+  case "$host_os" in
+    hpux*)
 
 for ac_header in sys/audio.h
 do
@@ -17325,7 +17330,10 @@ fi
 
 done
 
-  fi
+      ;;
+    *)
+      ;;
+  esac
 
 
 for ac_header in UMS/UMSAudioDevice.h
@@ -24267,7 +24275,8 @@ fi
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
-  have_xvideo=""
+  have_xvideo_header="no"
+  have_xvideo_lib="no"
 
   if [ x"${enable_gnomeui}" = "xyes" ] ; then
 
@@ -25068,6 +25077,58 @@ if test $ac_cv_lib_Xext_XQueryExtension = yes; then
 fi
 
 
+    echo "$as_me:$LINENO: checking for X11/extensions/Xvlib.h" >&5
+echo $ECHO_N "checking for X11/extensions/Xvlib.h... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <X11/Xlib.h>
+                 #include <X11/extensions/Xvlib.h>
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; have_xvideo_header="yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; have_xvideo_header="no"
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+
     echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
 echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
 if test "${ac_cv_lib_Xv_XvQueryExtension+set}" = set; then
@@ -25135,11 +25196,11 @@ echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
 if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
    X_LIBS="-lXv $X_LIBS";
                    LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                   have_xvideo="yes"
+                  have_xvideo_lib="yes"
 fi
 
 
-    if test x"$have_xvideo"="xyes" ; then
+    if test x"$have_xvideo_header" != "xno" -a x"$have_xvideo_lib" != "xno"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_XVIDEO
@@ -26065,6 +26126,11 @@ _ACEOF
 
 
 cat >>confdefs.h <<\_ACEOF
+#define HAVE_FULLSCREEN
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
 #define USE_XF86_EXTENSIONS
 _ACEOF
 
@@ -26193,6 +26259,11 @@ if test $ac_cv_lib_Xrandr_XRRGetScreenInfo = yes; then
 
 cat >>confdefs.h <<\_ACEOF
 #define USE_XF86_EXTENSIONS
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_FULLSCREEN
 _ACEOF
 
 
@@ -26829,19 +26900,34 @@ fi
   openserver5compile=no
   openserver6compile=no
   unixwarecompile=no
-  qnxcompile=no
+  qnx4compile=no
+  qnx6compile=no
   solariscompile=no
+  hpuxcompile=no
   case "$host_os" in
-    nto*)
-      qnxcompile=yes
+    qnx*)
+      qnx4compile=yes
 
 
 if true; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+      ;;
+    nto*)
+      qnx6compile=yes
+
+
+if true; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
       ;;
@@ -26912,19 +26998,45 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
       ;;
+    hpux*)
+      hpuxcompile=yes
+
+
+if true; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
+fi
+
+      ;;
     *)
       ;;
   esac
 
-  if test x"$qnxcompile" = "xno"; then
+  if test x"$qnx4compile" = "xno"; then
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+  fi
+
+  if test x"$qnx6compile" = "xno"; then
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
   fi
@@ -26977,6 +27089,19 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+  fi
+
+  if test x"$hpuxcompile" = "xno"; then
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
   fi
@@ -27103,11 +27228,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27148,6 +27283,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -27268,11 +27413,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27313,6 +27468,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -27437,11 +27602,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27482,6 +27657,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -27602,11 +27787,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27647,6 +27842,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -27767,11 +27972,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27812,6 +28027,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -27932,11 +28157,21 @@ fi
 
 
 if false; then
-  UNIX_QNX_COMPILE_TRUE=
-  UNIX_QNX_COMPILE_FALSE='#'
+  UNIX_QNX4_COMPILE_TRUE=
+  UNIX_QNX4_COMPILE_FALSE='#'
 else
-  UNIX_QNX_COMPILE_TRUE='#'
-  UNIX_QNX_COMPILE_FALSE=
+  UNIX_QNX4_COMPILE_TRUE='#'
+  UNIX_QNX4_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_QNX6_COMPILE_TRUE=
+  UNIX_QNX6_COMPILE_FALSE='#'
+else
+  UNIX_QNX6_COMPILE_TRUE='#'
+  UNIX_QNX6_COMPILE_FALSE=
 fi
 
 
@@ -27977,6 +28212,16 @@ if false; then
 else
   UNIX_UNIXWARE_COMPILE_TRUE='#'
   UNIX_UNIXWARE_COMPILE_FALSE=
+fi
+
+
+
+if false; then
+  UNIX_HPUX_COMPILE_TRUE=
+  UNIX_HPUX_COMPILE_FALSE='#'
+else
+  UNIX_HPUX_COMPILE_TRUE='#'
+  UNIX_HPUX_COMPILE_FALSE=
 fi
 
 
@@ -28612,10 +28857,17 @@ echo "$as_me: error: conditional \"HAVE_TRANSLATION\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28647,10 +28899,24 @@ echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28679,6 +28945,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28752,10 +29025,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28784,6 +29064,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28864,10 +29151,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28896,6 +29190,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -28976,10 +29277,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29008,6 +29316,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29088,10 +29403,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29120,6 +29442,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29200,10 +29529,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29232,6 +29568,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29312,10 +29655,17 @@ echo "$as_me: error: conditional \"UNIX_GP2X_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${UNIX_QNX_COMPILE_TRUE}" && test -z "${UNIX_QNX_COMPILE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+if test -z "${UNIX_QNX4_COMPILE_TRUE}" && test -z "${UNIX_QNX4_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"UNIX_QNX_COMPILE\" was never defined.
+echo "$as_me: error: conditional \"UNIX_QNX4_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_QNX6_COMPILE_TRUE}" && test -z "${UNIX_QNX6_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_QNX6_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29344,6 +29694,13 @@ if test -z "${UNIX_UNIXWARE_COMPILE_TRUE}" && test -z "${UNIX_UNIXWARE_COMPILE_F
   { { echo "$as_me:$LINENO: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"UNIX_UNIXWARE_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${UNIX_HPUX_COMPILE_TRUE}" && test -z "${UNIX_HPUX_COMPILE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"UNIX_HPUX_COMPILE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -30233,8 +30590,10 @@ s,@AMIGA_COMPILE_TRUE@,$AMIGA_COMPILE_TRUE,;t t
 s,@AMIGA_COMPILE_FALSE@,$AMIGA_COMPILE_FALSE,;t t
 s,@HAVE_TRANSLATION_TRUE@,$HAVE_TRANSLATION_TRUE,;t t
 s,@HAVE_TRANSLATION_FALSE@,$HAVE_TRANSLATION_FALSE,;t t
-s,@UNIX_QNX_COMPILE_TRUE@,$UNIX_QNX_COMPILE_TRUE,;t t
-s,@UNIX_QNX_COMPILE_FALSE@,$UNIX_QNX_COMPILE_FALSE,;t t
+s,@UNIX_QNX4_COMPILE_TRUE@,$UNIX_QNX4_COMPILE_TRUE,;t t
+s,@UNIX_QNX4_COMPILE_FALSE@,$UNIX_QNX4_COMPILE_FALSE,;t t
+s,@UNIX_QNX6_COMPILE_TRUE@,$UNIX_QNX6_COMPILE_TRUE,;t t
+s,@UNIX_QNX6_COMPILE_FALSE@,$UNIX_QNX6_COMPILE_FALSE,;t t
 s,@UNIX_SOLARIS_COMPILE_TRUE@,$UNIX_SOLARIS_COMPILE_TRUE,;t t
 s,@UNIX_SOLARIS_COMPILE_FALSE@,$UNIX_SOLARIS_COMPILE_FALSE,;t t
 s,@UNIX_OPENSERVER5_COMPILE_TRUE@,$UNIX_OPENSERVER5_COMPILE_TRUE,;t t
@@ -30243,6 +30602,8 @@ s,@UNIX_OPENSERVER6_COMPILE_TRUE@,$UNIX_OPENSERVER6_COMPILE_TRUE,;t t
 s,@UNIX_OPENSERVER6_COMPILE_FALSE@,$UNIX_OPENSERVER6_COMPILE_FALSE,;t t
 s,@UNIX_UNIXWARE_COMPILE_TRUE@,$UNIX_UNIXWARE_COMPILE_TRUE,;t t
 s,@UNIX_UNIXWARE_COMPILE_FALSE@,$UNIX_UNIXWARE_COMPILE_FALSE,;t t
+s,@UNIX_HPUX_COMPILE_TRUE@,$UNIX_HPUX_COMPILE_TRUE,;t t
+s,@UNIX_HPUX_COMPILE_FALSE@,$UNIX_HPUX_COMPILE_FALSE,;t t
 s,@UNIX_GP2X_COMPILE_TRUE@,$UNIX_GP2X_COMPILE_TRUE,;t t
 s,@UNIX_GP2X_COMPILE_FALSE@,$UNIX_GP2X_COMPILE_FALSE,;t t
 s,@MAKE_BINDIST_TRUE@,$MAKE_BINDIST_TRUE,;t t

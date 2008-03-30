@@ -56,6 +56,7 @@ enum ui_keysym_s {
   KEYSYM_8 = XK_8,
   KEYSYM_9 = XK_9,
   KEYSYM_a = XK_a,
+  KEYSYM_b = XK_b,
   KEYSYM_c = XK_c,
   KEYSYM_d = XK_d,
   KEYSYM_e = XK_e,
@@ -105,6 +106,7 @@ extern Widget ui_create_transient_shell(Widget parent, const char *name);
 extern void ui_popdown(Widget w);
 extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 extern void ui_about (Widget w, ui_callback_data_t cd, ui_callback_data_t cl);
+extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 
 #endif
 

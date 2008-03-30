@@ -81,7 +81,7 @@ static int ppmdrv_open(screenshot_t *screenshot, const char *filename)
   screenshot->gfxoutputdrv_data = sdata;
   sdata->line = 0;
   sdata->ext_filename=util_add_extension_const(filename, ppm_drv.default_extension);
-  sdata->fd = fopen(filename, "wb");
+  sdata->fd = fopen(sdata->ext_filename, "wb");
 
   if (sdata->fd==NULL)
   {

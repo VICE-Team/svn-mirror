@@ -71,7 +71,7 @@
 #include "types.h"
 
 
-#define PETCATVERSION   2.16
+#define PETCATVERSION   2.17
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -105,6 +105,7 @@
 #define B_VIC4          27
 #define B_VIC5          28
 #define B_WSF           29
+#define B_GB            30
 
 /* Limits */
 
@@ -140,6 +141,7 @@
 #define NUM_MAGICCC     50      /* Magic Basic (c64) */
 #define NUM_EASYCC      51      /* Easy Basic (vic20) */
 #define NUM_WSFCC       51      /* WS basic final (c64) */
+#define NUM_GBCC        29
 
 #define NUM_BLARGE0     11      /* Blarg (c64) */
 
@@ -169,6 +171,7 @@
 #define MAX_MAGICCC     0xFD    /* Magic Basic (c64) */
 #define MAX_EASYCC      0xFE    /* Easy Basic (vic20) */
 #define MAX_WSFCC       0xFE    /* WS basic final (c64) */
+#define MAX_GBCC        0xE8    /* Game Basic (c64) */
 
 #define MAX_BLARGE0     0xEA    /* Blarg (c64) */
 
@@ -273,7 +276,7 @@ static const char *a_cbmkeys[] = {
 	"","","","","","","CBM-^",""
 };
 
-#define NUM_VERSIONS  28
+#define NUM_VERSIONS  30
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -310,6 +313,7 @@ const char *VersNames[] = {
     "Basic 4.0 extension for VIC20",
     "Basic 5.0 extension for VIC20",
     "Basic 2.0 with WS basic final",
+    "Basic 2.0 with Game Basic",
     ""
 };
 
@@ -628,6 +632,16 @@ const char *magickwcc[] = {
     "replace",   "lrun"
 };
 
+/* Game Basic (c64) Keywords (Tokens CC - E8) -- Marco van den Heuvel */
+
+const char *gbkwcc[] = {
+    "window", "bfile",   "upper",   "lower",   "cls",    "screen", "parse",
+    "proc",   "else",    "scratch", "replace", "device", "dir",    "repeat",
+    "until",  "disk",    "fetch#",  "put#",    "prompt", "pop",    "help",
+    "exit",   "disable", "enter",   "reset",   "warm",   "num",    "type",
+    "text$"
+};
+
 /* Simon's Basic Keywords */
 
 const char *simonskw[] = {
@@ -687,12 +701,10 @@ int network_connected(void)
   return 0;
 }
 
-#ifdef HAVE_NETWORK
 int network_get_mode(void)
 {
   return NETWORK_IDLE;
 }
-#endif
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
@@ -848,6 +860,7 @@ int main(int argc, char **argv)
                 "\tmagic\tBasic v2.0 with Magic Basic (C64)\n"
                 "\teasy\tBasic v2.0 with Easy Basic (VIC20)\n"
                 "\tblarg\tBasic v2.0 with Blarg (C64)\n"
+                "\tGame\tBasic v2.0 with Game Basic (C64)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t3\tBasic v3.5 program (C16)\n"
                 "\t4v\tBasic 2.0 with Basic 4.0 extensions (VIC20)\n"
@@ -1141,7 +1154,17 @@ static int parse_version(char *str)
         break;
 
       case 'G':
-        version = B_GRAPH;
+        switch (str[1]) {
+          case 'R':
+            version = B_GRAPH;
+            break;
+          case 'A':
+            version = B_GB;
+            break;
+          default:
+            fprintf (stderr,
+                "Please, select one of the following: 70, 71\n");
+        }
         break;
 
       case 'W':
@@ -1288,6 +1311,11 @@ static void list_keywords(int version)
       case B_BLARG:
         for (n = 0; n < NUM_BLARGE0; n++)
             printf("%s\t", blargkwe0[n] /*, n + 0xe0*/);
+        break;
+
+      case B_GB:
+        for (n = 0; n < NUM_GBCC; n++)
+            printf("%s\t", gbkwcc[n] /*, n + 0xcc*/);
         break;
 
       case B_4:
@@ -1570,6 +1598,11 @@ static int p_expand(int version, int addr, int ctrls)
                   case B_BLARG:
                     if (c >= 0xe0 && c <= MAX_BLARGE0)
                         fprintf(dest, "%s", easykwcc[c - 0xe0]);
+                    break;
+
+                  case B_GB:
+                    if (c >= 0xcc && c <= MAX_GBCC)
+                        fprintf(dest, "%s", gbkwcc[c - 0xcc]);
                     break;
 
                   case B_SPEECH:        /* C64 Speech basic */
@@ -1892,6 +1925,14 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                     if ((c = sstrcmp(p2, blargkwe0, 0, NUM_BLARGE0)) !=KW_NONE) {
                         *p1++ = c + 0xe0;
                         p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_GB:
+                    if ((c = sstrcmp(p2, gbkwcc, 0, NUM_GBCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p1 += kwlen;
                         match++;
                     }
                     break;

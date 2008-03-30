@@ -61,6 +61,7 @@ libarchgui_a_SOURCES = \
 	uiedisk.h \
 	uifliplist.c \
 	uifliplist.h \
+	uifullscreen-menu.h \
 	uigeoram.c \
 	uigeoram.h \
 	uihotkey.h \

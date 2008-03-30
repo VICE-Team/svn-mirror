@@ -1334,7 +1334,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 
 #ifdef __BEOS__
-        sound_init_beos_device();
+        /* For now we disable sound for Haiku */
+        if (!CheckForHaiku())
+            sound_init_beos_device();
 #endif
 
 #ifdef __riscos

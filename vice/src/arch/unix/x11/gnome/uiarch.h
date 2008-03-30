@@ -50,6 +50,7 @@ enum ui_keysym_s {
   KEYSYM_8 = GDK_8,
   KEYSYM_9 = GDK_9,
   KEYSYM_a = GDK_a,
+  KEYSYM_b = GDK_b,
   KEYSYM_c = GDK_c,
   KEYSYM_d = GDK_d,
   KEYSYM_e = GDK_e,
@@ -97,5 +98,6 @@ void ui_about(gpointer data);
 gint ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp);
 void ui_block_shells(void);
 void ui_unblock_shells(void);
+int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 
 #endif /* !defined (_UIARCH_H) */

@@ -114,8 +114,7 @@ static int iffdrv_write_file_header(screenshot_t *screenshot)
   header[829]='O';
   header[830]='D';
   header[831]='Y';
-  
-util_dword_to_be_buf(&header[832],sdata->iff_rowbytes*screenshot->height*8);
+  util_dword_to_be_buf(&header[832],sdata->iff_rowbytes*screenshot->height*8);
 
   if (fwrite(header,836,1,sdata->fd)<1)
     return -1;
@@ -137,7 +136,7 @@ static int iffdrv_open(screenshot_t *screenshot, const char *filename)
   screenshot->gfxoutputdrv_data = sdata;
   sdata->line = 0;
   sdata->ext_filename=util_add_extension_const(filename, iff_drv.default_extension);
-  sdata->fd = fopen(filename, "wb");
+  sdata->fd = fopen(sdata->ext_filename, "wb");
 
   if (sdata->fd==NULL)
   {

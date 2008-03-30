@@ -33,6 +33,8 @@
 #include "uipalette.h"
 #include "uivdc.h"
 
+#include "uifullscreen-menu.h"
+UI_FULLSCREEN(VDC)
 
 UI_MENU_DEFINE_STRING_RADIO(VDCPaletteFile)
 
@@ -64,30 +66,6 @@ UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
 UI_MENU_DEFINE_TOGGLE(VDC64KB)
-#ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(VDCFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(VDCFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VDCFullscreenDoubleScan)
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(VDCVidmodeFullscreenMode);
-#endif
-#ifdef HAVE_XRANDR
-UI_MENU_DEFINE_RADIO(VDCXRANDRFullscreenMode)
-#endif
-
-static ui_menu_entry_t set_fullscreen_device_submenu[] = {
-#ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_VDCFullscreenDevice,
-      (ui_callback_data_t)"Vidmode", NULL },
-#endif
-#ifdef HAVE_XRANDR
-    { "*XRandR", (ui_callback_t)radio_VDCFullscreenDevice,
-      (ui_callback_data_t)"XRANDR", NULL },
-#endif
-    { NULL }
-};
-#endif
 
 ui_menu_entry_t vdc_submenu[] = {
     { N_("*Double size"),
@@ -97,34 +75,14 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { "--" },
+#ifdef HAVE_FULLSCREEN
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVDC },
+#endif
 #ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
     { "--" },
-#ifdef USE_XF86_EXTENSIONS
-    { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_VDCFullscreen, NULL, NULL, KEYSYM_f, UI_HOTMOD_META },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_VDCFullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_VDCFullscreenDoubleScan, NULL, NULL },
-    { N_("Fullscreen device"),
-      NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode' must remain in the beginning
-       of the translation e.g. German: "VidMode Auflösungen" */
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("VidMode Resolutions"),
-      (ui_callback_t) NULL, NULL, NULL },
-#endif
-#ifdef HAVE_XRANDR
-    /* Translators: `XRandR' must remain in the beginning of the translation:
-       e.g. German: "XRandR Aufloesungen" */
-    { N_("XRandR Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
-#endif
-    { "--" },
-#endif
     { N_("*64KB display memory"),
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },
     { N_("Revision"),
@@ -137,23 +95,10 @@ ui_menu_entry_t vdc_submenu[] = {
 
 void uivdc_menu_create(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-#ifdef USE_XF86_VIDMODE_EXT
-    fullscreen_mode_callback("Vidmode",
-                             (void *)radio_VDCVidmodeFullscreenMode);
-#endif
-#ifdef HAVE_XRANDR
-    fullscreen_mode_callback("XRANDR",
-                             (void *)radio_VDCXRANDRFullscreenMode);
-#endif
-    fullscreen_menu_create(vdc_submenu);
-#endif
+    UI_FULLSCREEN_MENU_CREATE(VDC)
 }
 
 void uivdc_menu_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_menu_shutdown(vdc_submenu);
-#endif
+    UI_FULLSCREEN_MENU_SHUTDOWN(VDC)
 }
-

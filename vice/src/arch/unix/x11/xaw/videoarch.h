@@ -92,7 +92,7 @@ struct video_canvas_s {
 #endif
     GC gc;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     struct fullscreenconfig_s *fullscreenconfig;
     video_refresh_func_t video_fullscreen_refresh_func;
 #endif

@@ -174,6 +174,7 @@ static int netplay_ipv6 = 0;
 #endif
 
 #ifndef HAVE_HTONL
+#ifndef htonl
 static unsigned int htonl(unsigned int ip)
 {
 #ifdef WORDS_BIGENDIAN
@@ -186,8 +187,10 @@ static unsigned int htonl(unsigned int ip)
 #endif
 }
 #endif
+#endif
 
 #ifndef HAVE_HTONS
+#ifndef htons
 static unsigned short htons(unsigned short ip)
 {
 #ifdef WORDS_BIGENDIAN
@@ -199,6 +202,7 @@ static unsigned short htons(unsigned short ip)
     return ip2;
 #endif
 }
+#endif
 #endif
 
 static int set_server_name(const char *val, void *param)

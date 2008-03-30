@@ -33,17 +33,17 @@ IDD_MOUSE_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 75
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Mouse type",
+    LTEXT           "Maustyp",
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Mouse port",
+    LTEXT           "Maus Port",
                     IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 
 
@@ -63,7 +63,7 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 
 
@@ -78,13 +78,13 @@ BEGIN
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Mouse port",
+    LTEXT           "Egér port",
                     IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -99,13 +99,13 @@ BEGIN
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Mouse port",
+    LTEXT           "Porta del mouse",
                     IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 
 
@@ -146,7 +146,7 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -161,12 +161,11 @@ BEGIN
                     IDC_MOUSE_TYPE_LABEL, 9, 6, 53, 8
     COMBOBOX        IDC_MOUSE_TYPE, 70, 5, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Mouse port",
+    LTEXT           "Musport",
                     IDC_MOUSE_PORT_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
-

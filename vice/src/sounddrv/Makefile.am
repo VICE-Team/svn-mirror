@@ -53,7 +53,6 @@ libsounddrv_a_DEPENDENCIES = \
 	soundvoc.o \
 	soundwav.o
 
-libsounddrv_a_LIBADD = \
-	@SOUND_DRIVERS@
+libsounddrv_a_LIBADD = @SOUND_DRIVERS@
 
 EXTRA_DIST =

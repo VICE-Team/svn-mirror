@@ -49,6 +49,7 @@
 static ffmpegdrv_codec_t avi_audio_codeclist[] = { 
     { CODEC_ID_MP2, "MP2" },
     { CODEC_ID_MP3, "MP3" },
+    { CODEC_ID_PCM_S16LE, "PCM uncompressed" },
     { 0, NULL }
 };
 
@@ -536,8 +537,10 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->pix_fmt = PIX_FMT_YUV420P;
 
     /* FFV1 isn't strict standard compliant */
-    if (c->codec_id == CODEC_ID_FFV1)
+    if (c->codec_id == CODEC_ID_FFV1) {
         c->strict_std_compliance = -1;
+        c->pix_fmt = PIX_FMT_RGBA32;
+    }
 
     video_st = st;
     video_pts = 0;

@@ -2418,7 +2418,14 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* sv */  IDS_KEYMAP_FILES_FILTER_SV},
 
 /* res.rc */
-/* en */ {IDS_PRGP00_FILES_FILTER},
+/* en */ {IDS_PRGP00_FILES_FILTER,
+/* de */  IDS_PRGP00_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_PRGP00_FILES_FILTER_FR,    /* fuzzy */
+/* hu */  IDS_PRGP00_FILES_FILTER_HU,    /* fuzzy */
+/* it */  IDS_PRGP00_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_PRGP00_FILES_FILTER_NL,
+/* pl */  IDS_PRGP00_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_PRGP00_FILES_FILTER_SV},   /* fuzzy */
 
 /* respet.rc */
 /* en */ {IDS_INPUT_OUTPUT,

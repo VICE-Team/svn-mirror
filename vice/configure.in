@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=22
-VICE_VERSION_BUILD=7
+VICE_VERSION_BUILD=8
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -905,10 +905,14 @@ NETPLAY_LIBS=
 old_LIBS="$LIBS"
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
 
-  dnl Check for needed network headers
-  UNIX_NETWORK_HEADERS_PRESENT=yes
-  AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
-                   [UNIX_NETWORK_HEADERS_PRESENT=no],)
+  if test x"$host_os" != "xqnx"; then
+    dnl Check for needed network headers
+    UNIX_NETWORK_HEADERS_PRESENT=yes
+    AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
+                     [UNIX_NETWORK_HEADERS_PRESENT=no],)
+  else
+    LIBS="-lsocket -lunix $LIBS"
+  fi
 
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
@@ -1178,10 +1182,14 @@ if test x"$is_unix" = "xyes"; then
                      [CFLAGS=$old_cflags; LIBS=$old_libs; break])
   fi
 
-  if test x"$host_os" = "xhpux"; then
-    AC_CHECK_HEADERS(sys/audio.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundhpux.o"; break])
-  fi
+  case "$host_os" in
+    hpux*)
+      AC_CHECK_HEADERS(sys/audio.h,
+                       [SOUND_DRIVERS="$SOUND_DRIVERS soundhpux.o"; break])
+      ;;
+    *)
+      ;;
+  esac
 
   AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,[AC_CHECK_HEADERS(UMS/UMSBAUDDevice.h,
                    [AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,
@@ -1514,7 +1522,8 @@ if test x"$is_unix_x11" = "xyes"; then
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
-  have_xvideo=""
+  have_xvideo_header="no"
+  have_xvideo_lib="no"
 
   if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
@@ -1557,12 +1566,19 @@ if test x"$is_unix_x11" = "xyes"; then
                  [ X_LIBS="-lXext $X_LIBS";
                    LINK_X_LIBS="-lXext $LINK_X_LIBS"],,$X_LIBS)
 
+    AC_MSG_CHECKING(for X11/extensions/Xvlib.h)
+    AC_TRY_LINK([#include <X11/Xlib.h>
+                 #include <X11/extensions/Xvlib.h>],
+                [return 0;],
+                [AC_MSG_RESULT(yes); have_xvideo_header="yes"],
+                [AC_MSG_RESULT(no); have_xvideo_header="no"])
+
     AC_CHECK_LIB(Xv, XvQueryExtension,
                  [ X_LIBS="-lXv $X_LIBS";
                    LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                   have_xvideo="yes" ],,$X_LIBS)
+                  have_xvideo_lib="yes" ],,$X_LIBS)
 
-    if test x"$have_xvideo"="xyes" ; then
+    if test x"$have_xvideo_header" != "xno" -a x"$have_xvideo_lib" != "xno"; then
        AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.])
        AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
     fi
@@ -1638,6 +1654,7 @@ if test x"$is_unix_x11" = "xyes"; then
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
                      AC_DEFINE(USE_XF86_VIDMODE_EXT,,
                                [Enable XF86 VidMode extensions.])
+                     AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
                      AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
     fi
@@ -1648,6 +1665,7 @@ if test x"$is_unix_x11" = "xyes"; then
                      LINK_X_LIBS="-lXrandr $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS xrandr.o";
                      AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+                     AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
                      AC_DEFINE(HAVE_XRANDR,,
                      [Enable XRandR extension.])],,$X_LIBS)
     fi
@@ -1832,12 +1850,18 @@ if test x"$is_unix" = "xyes"; then
   openserver5compile=no
   openserver6compile=no
   unixwarecompile=no
-  qnxcompile=no
+  qnx4compile=no
+  qnx6compile=no
   solariscompile=no
+  hpuxcompile=no
   case "$host_os" in
+    qnx*)
+      qnx4compile=yes
+      AM_CONDITIONAL(UNIX_QNX4_COMPILE, true)
+      ;;
     nto*)
-      qnxcompile=yes
-      AM_CONDITIONAL(UNIX_QNX_COMPILE, true)
+      qnx6compile=yes
+      AM_CONDITIONAL(UNIX_QNX6_COMPILE, true)
       ;;
     solaris*)
       solariscompile=yes
@@ -1858,12 +1882,20 @@ if test x"$is_unix" = "xyes"; then
       AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, true)
       AC_DEFINE(UNIXWARE_COMPILE,,[Enable SCO Unixware 7.x support])
       ;;
+    hpux*)
+      hpuxcompile=yes
+      AM_CONDITIONAL(UNIX_HPUX_COMPILE, true)
+      ;;
     *)
       ;;  
   esac
 
-  if test x"$qnxcompile" = "xno"; then
-    AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  if test x"$qnx4compile" = "xno"; then
+    AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  fi
+
+  if test x"$qnx6compile" = "xno"; then
+    AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   fi
 
   if test x"$solariscompile" = "xno"; then
@@ -1880,6 +1912,10 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$unixwarecompile" = "xno"; then
     AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  fi
+
+  if test x"$hpuxcompile" = "xno"; then
+    AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   fi
 
   if test x"$is_unix_gp2x" = "xyes" ; then
@@ -1911,11 +1947,13 @@ elif test x"$is_win32" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1932,11 +1970,13 @@ elif test x"$is_amiga" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1957,11 +1997,13 @@ elif test x"$is_dos" = "xyes"; then
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1978,11 +2020,13 @@ elif test x"$is_os2" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -1999,11 +2043,13 @@ elif test x"$is_beos" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)  
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)  
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, false)
@@ -2020,11 +2066,13 @@ elif test x"$is_riscos" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
   AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
   AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(RISCOS_COMPILE, true)

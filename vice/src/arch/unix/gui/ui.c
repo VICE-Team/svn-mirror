@@ -72,7 +72,7 @@ void ui_common_init(void)
 
 void ui_common_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_shutdown();
 #endif
 #if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR

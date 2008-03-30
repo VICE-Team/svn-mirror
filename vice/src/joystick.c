@@ -81,11 +81,7 @@ static void joystick_latch_matrix(CLOCK offset)
         else
             memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
     } else {
-        idx = latch_joystick_value[0];
-        if (idx > 0)
-            joystick_value[idx] = latch_joystick_value[idx];
-        else
-            memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+        memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
     }
     ui_display_joyport(joystick_value);
 }

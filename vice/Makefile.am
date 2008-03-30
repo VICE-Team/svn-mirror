@@ -66,44 +66,60 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip @UNIX_MACOSX_UITYPE@
 endif
 
-if UNIX_QNX_COMPILE
+if UNIX_QNX6_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
+endif
+
+if UNIX_QNX4_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) zip $(top_srcdir)
+endif
+
+if UNIX_HPUX_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/hpux/make-bindist.sh $(STRIP) $(PERL) $(VICE_VERSION) $(prefix) $(host_cpu) $(host_os) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/hpux/make-bindist.sh $(STRIP) $(PERL) $(VICE_VERSION) $(prefix) $(host_cpu) $(host_os) zip $(top_srcdir)
 endif
 
 if UNIX_SOLARIS_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(infodir) $(mandir) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir)
 endif
 
 if UNIX_OPENSERVER5_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(infodir) $(mandir) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir)
 endif
 
 if UNIX_OPENSERVER6_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(infodir) $(mandir) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir)
 endif
 
 if UNIX_UNIXWARE_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(infodir) $(mandir) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir)
 endif
 
 if WIN32_COMPILE

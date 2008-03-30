@@ -1,3 +1,187 @@
+2008-01-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.8.
+
+2008-01-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/ui.cc, arch/beos/ui.h, arch/beos/vicewindow.cc,
+	sound.c: Fixed for Haiku.
+
+2008-01-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am, arch/unix/qnx/getlibs.c,
+	arch/unix/qnx/getsize.c, arch/unix/qnx/make-bindist.sh,
+	arch/unix/qnx4/install_msg, arch/unix/qnx4/make-bindist.sh,
+	arch/unix/qnx6/getlibs.c, arch/unix/qnx6/getsize.c,
+	arch/unix/qnx6/make-bindist.sh, arch/unix/rs232.c,
+	arch/unix/x11/qnxshm.c: Added qnx4 support.
+
+	* arch/unix/x11/xaw/widgets/Directory.c: Fixed a typo.
+
+2008-01-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am, arch/unix/hpux/getdate.pl,
+	arch/unix/hpux/getnow.pl,
+	arch/unix/hpux/make-bindist.sh: Finalized the hpux support.
+
+2008-01-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uimediafile.c: Fixed buffer overrun.
+
+	* datasette.c: Use alarm handler to stop motor even for
+	recording.
+
+	* gfxoutputdrv/ffmpegdrv.c: New codec PCM for avi format.
+	Use PIX_FMT_RGBA32 for FFV1 codec.
+
+2008-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh: Changed the text a bit.
+
+	* arch/unix/Makefile.am, arch/unix/hpux/make-bindist.sh: Added
+	preliminary hpux support.
+
+	* network.c: Fixed for port where htonl and htons are not
+	functions but defines.
+
+2008-01-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/joy.cc: Fixed.
+
+	* arch/beos/ui_cbm2.cc: Fixed a typo.
+
+	* arch/os2/snippets/Makefile.am, arch/os2/snippets/isatty.c,
+	arch/os2/vac++/incl/archdep.icc: Added a dummy isatty
+	function.
+
+	* arch/riscos/make-bindist.sh: Fixed.
+
+	* arch/unix/sco_sol/make-bindist.sh: Fixed the man and info
+	directories.
+
+	* c1541.c, resources.c: Fixed the network_get_mode() problem
+	once and for all.
+
+	* joystick.c: Fixed to handle simultaneous joystick state
+	changes again.
+
+	* libm_math.c: Don't compile for riscos or beos.
+
+	* monitor/mon_memory.h: Changed "DF_SCREEN_CODE," to
+	"DF_SCREEN_CODE" to avoid compiler errors.
+
+	* sounddrv/Makefile.am: Fixed.
+
+2008-01-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/beos/make-bindist.sh,
+	arch/msdos/make-bindist.sh, arch/riscos/make-bindist.sh,
+	arch/unix/gp2x/make-bindist.sh, arch/unix/qnx/make-bindist.sh,
+	arch/unix/sco_sol/make-bindist.sh,
+	arch/win32/make-bindist.sh: Made the variables more readable.
+
+2008-01-09  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/msvc/wpcap/pcap-stdinc.h: Removed vsnprintf
+	definition which conflicts with some newer MSVC header.
+
+	* monitor/mon_lex.c, mon_parse.c, mon_parse.h: Recreated with
+	Flex-2.5.33 and Bison-2.3 to make it compile with MSVC.
+
+2008-01-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/resstrings.txt: Fixed.
+
+	* gfxoutputdrv/bmpdrv.c: Extended to support 24bit.
+
+2008-01-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11ui.c:
+	Fixed unix mouse for single size display.
+
+2008-01-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resmouse.rc, mouse.c, translate.c: Updated german
+	and dutch texts.
+
+2008-01-02  pottendo  <pottendo@utanet.at>
+
+	* video.h (struct cap_fullscreen_s): New field `statusbar'.
+
+	* video/video-resources.c (struct video_resource_chip_s): New
+	field `fullscreen_statusbar_enabled'.
+	(set_fullscreen_enabled): Handle statusbar.
+	(set_fullscreen_statusbar): New function.
+	(resources_chip_fullscreen_string): Added resource
+	`Fullscreen_Statusbar'. 
+	(video_resources_chip_init): Handle statusbar_enabled.
+
+	* arch/unix/x11/xaw/x11kbd.c: #include <uimenu.h>
+
+	* arch/unix/x11/xaw/uimenu.h: New Prototype `ui_dispatch_hotkeys()'.
+
+	* arch/unix/x11/gnome/x11ui.c (all): Removed old unused code:
+	GNOME_MENUS, etc.
+	(ui_fullscreen_statusbar): New function.
+
+	* arch/unix/x11/gnome/uiarch.h (enum ui_keysym_s): New hotkey
+	`KEYSYM_b'. New prototype for `ui_fullscreen_statusbar()'.
+	* arch/unix/x11/xaw/uiarch.h (enum ui_keysym_s): Likewise.
+
+	* arch/unix/x11/fullscreen.c (all): Compile only if
+	`HAVE_FULLSCREEN' is set.
+	(fullscreen_statusbar): New function. 
+	(fullscreen_capability): fill `fullscreen_statusbar'. 
+
+	* arch/unix/gui/uifullscreen-menu.h: New file.
+
+	* arch/unix/gui/uicrtc.c (all): Updated to use
+	`uifullscreen-menu.h'
+	 Replaced `USE_XF86_EXTENSIONS' by `HAVE_FULLSCREEN' where
+	appropriate.
+	* arch/unix/gui/uited.c (all): Likewise.
+	* arch/unix/gui/uivdc.c (all): Likewise.
+	* arch/unix/gui/uivic.c (all): Likewise.
+	* arch/unix/gui/uivicii.c (all): Likewise.
+
+	* arch/unix/gui/ui.c (all): Replaced `USE_XF86_EXTENSIONS' by
+	`HAVE_FULLSCREEN' where appropriate.
+	* arch/unix/gui/uicommands.c (all): Likewise.
+	* arch/unix/x11/gnome/gnomevideo.c (all): Likewise.
+	* arch/unix/x11/gnome/videoarch.h (all): Likewise.
+	* arch/unix/x11/gnome/x11ui.c (all): Likewise. 
+	* arch/unix/x11/xaw/uimenu.c (all): Likewise.
+	* arch/unix/x11/xaw/videoarch.h (all): Likewise.
+	* arch/unix/x11/xaw/x11ui.c (all): Likewise.
+	* arch/unix/x11/xaw/x11video.c (all): Likewise.
+
+	* arch/unix/gui/Makefile.am (libarchgui_a_SOURCES): Added
+	`uifullscreen-menu.h' 
+
+	* arch/unix/gui/cbm2ui.c (cbm2_menu): fixed menu VIC-II. 
+
+2008-01-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added game basic support.
+
+2008-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* mouse.c: Fixed a neos and amiga mouse button issue.
+
+2008-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/mui/mui.c, arch/beos/ui.cc,
+	arch/msdos/menudefs.c arch/os2/dialogs/dialogs.rc,
+	arch/unix/macosx/Info.plist, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/res.rc: Updated '2007'
+	to '2008'.
+
+	* gfxoutputdrv/iffdrv.c, gfxoutputdrv/jpegdrv.c,
+	gfxoutputdrv/pcxdrv.c, gfxoutputdrv/ppmdrv.c: Fixed some
+	filename related issues.
+
 2007-12-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.7.

@@ -337,14 +337,14 @@ static String fallback_resources[] = {
 
 void ui_check_mouse_cursor()
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled)
         return;
 #endif
 
     if(_mouse_enabled) 
     {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         if(fullscreen_is_enabled) {
 	    int window_doublesize;
 
@@ -355,9 +355,13 @@ void ui_check_mouse_cursor()
 #endif
 	if (ui_cached_video_canvas->videoconfig->doublesizex)
 	    mouse_accelx = 2;   
-	
+	else
+	    mouse_accelx = 4;
+
 	if (ui_cached_video_canvas->videoconfig->doublesizey)
 	    mouse_accely = 2;   
+      else
+          mouse_accely = 4;
 
 	/*	XDefineCursor(display,XtWindow(canvas), blankCursor);*/
 	cursor_is_blank = 1;
@@ -382,7 +386,7 @@ void ui_check_mouse_cursor()
 }
 
 void ui_restore_mouse() {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled)
         return;
 #endif
@@ -663,7 +667,7 @@ int ui_init_finish(void)
 	
 /*     printf ("to String: %s\nto FN: %s\n", pango_font_description_to_string(fixed_font_desc),   pango_font_description_to_filename(fixed_font_desc)); */
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     if (fullscreen_init() < 0)
         return -1;
 #endif
@@ -1228,54 +1232,37 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title,
     return 0;
 }
 
-#ifndef GNOME_MENUS
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
+    static GtkAccelGroup *accel;
+    if (accel)
+	gtk_widget_destroy(GTK_WIDGET(accel));
+    
+    accel = gtk_accel_group_new();
+    gtk_window_add_accel_group (GTK_WINDOW (app_shells[0].shell), accel);
+
     if (left_menu != NULL)
         gtk_widget_destroy(left_menu);
     left_menu = gtk_menu_new();
-    ui_menu_create(left_menu, NULL, "LeftMenu", menu);
+    ui_menu_create(left_menu, accel, "LeftMenu", menu);
 }
 
 /* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
+    static GtkAccelGroup *accel;
+    if (accel)
+	gtk_widget_destroy(GTK_WIDGET(accel));
+    
+    accel = gtk_accel_group_new();
+    gtk_window_add_accel_group (GTK_WINDOW (app_shells[0].shell), accel);
+
     if (right_menu != NULL)
         gtk_widget_destroy(right_menu);
     right_menu = gtk_menu_new();
-    ui_menu_create(right_menu, NULL, "RightMenu", menu);
+    ui_menu_create(right_menu, accel, "RightMenu", menu);
 }
-
-#ifdef OLD_TOPMENU
-void ui_set_topmenu(void)
-{
-    int i;
-    GtkWidget *commands, *settings, *help, *help_menu;
-    
-    for (i = 0; i < num_app_shells; i++)
-    {
-	commands = gtk_menu_item_new_with_label(_("Commands"));
-	gtk_widget_show(commands);
-	settings = gtk_menu_item_new_with_label(_("Settings"));
-	gtk_widget_show(settings);
-    
-	help_menu = ui_menu_create("Help", ui_help_commands_menu, NULL);
-	help = gtk_menu_item_new_with_label(_("Help"));
-	gtk_widget_show(help);
-
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(commands), left_menu);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings), right_menu);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(help), help_menu);
-	gtk_menu_item_right_justify(GTK_MENU_ITEM(help));
-
-	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), commands);
-	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), settings);
-	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), help);
-	gtk_widget_show(app_shells[i].topmenu);
-    }
-}
-#endif
 
 void ui_set_topmenu(ui_menu_entry_t *menu)
 {
@@ -1289,11 +1276,11 @@ void ui_set_topmenu(ui_menu_entry_t *menu)
 	    NULL);
     }
 
-
-        for (i = 0; i < num_app_shells; i++)
-        {
-            ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
-        }
+    for (i = 0; i < num_app_shells; i++)
+    {
+	ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, 
+		       "TopLevelMenu", menu);
+    }
 }
 
 void ui_set_speedmenu(ui_menu_entry_t *menu)
@@ -1303,37 +1290,6 @@ void ui_set_speedmenu(ui_menu_entry_t *menu)
     speed_menu = gtk_menu_new();
     ui_menu_create(speed_menu, NULL, "SpeedMenu", menu);
 }
-
-#else  /* GNOME_MENUS */
-
-/* Attach `w' as the left menu of all the current open windows.  */
-void ui_set_left_menu(GnomeUIInfo *w)
-{
-    left_menu = gtk_menu_new();
-    main_menu[0].type = GNOME_APP_UI_SUBTREE;
-    main_menu[0].label = _("Commands");
-    main_menu[0].moreinfo = w;
-    
-    gnome_app_fill_menu(GTK_MENU_SHELL(left_menu), w, NULL, FALSE, 0);
-}
-
-/* Attach `w' as the right menu of all the current open windows.  */
-void ui_set_right_menu(GnomeUIInfo *w)
-{
-    right_menu = gtk_menu_new();
-    main_menu[1].type = GNOME_APP_UI_SUBTREE;
-    main_menu[1].label = _("Settings");
-    main_menu[1].moreinfo = w;
-    
-    gnome_app_fill_menu(GTK_MENU_SHELL(right_menu), w, NULL, FALSE, 0);
-}
-
-void ui_set_topmenu(void)
-{
-    main_menu[2].type = GNOME_APP_UI_ENDOFINFO;
-    gnome_app_create_menus(GNOME_APP(XXXX), main_menu);
-}
-#endif /* !GNOME_MENUS */
 
 void ui_set_application_icon(const char *icon_data[])
 {
@@ -1356,7 +1312,7 @@ void ui_exit(void)
     int value;
     char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
     resources_get_int("ConfirmOnExit", &value);
@@ -1380,7 +1336,7 @@ void ui_exit(void)
 	}
 	ui_autorepeat_on();
 	ui_restore_mouse();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         fullscreen_suspend(0);
 #endif
 	ui_dispatch_events();
@@ -1792,6 +1748,30 @@ x11ui_fullscreen(int i)
 	gtk_window_unfullscreen(GTK_WINDOW(_ui_top_level));
 }
 
+int
+ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
+{
+    int j;
+    
+    if (enable)
+    {
+	gtk_widget_show(status_bar);
+        for (j = 0; j < num_app_shells; j++)
+        {
+	    gtk_widget_show(app_shells[j].topmenu);
+        }
+    }
+    else
+    {
+	gtk_widget_hide(status_bar);
+        for (j = 0; j < num_app_shells; j++)
+        {
+	    gtk_widget_hide(app_shells[j].topmenu);
+        }
+    }
+    return 0;
+}
+
 /* Resize one window. */
 void 
 ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
@@ -1994,7 +1974,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (res) {
     case 2:
 	ui_restore_mouse();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
         fullscreen_suspend(0);
 #endif
 	return UI_JAM_MONITOR;
@@ -2492,7 +2472,7 @@ void ui_unblock_shells(void)
 /* Pop up a popup shell and center it to the last visited AppShell */
 void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
     
@@ -2572,7 +2552,7 @@ void ui_popdown(GtkWidget *w)
     if (--popped_up_count < 0)
 	popped_up_count = 0;
     ui_unblock_shells();
-#ifdef USE_XF86_EXTENSIONS
+#ifdef HAVE_FULLSCREEN
     fullscreen_resume();
 #endif
 }
@@ -2836,7 +2816,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e,
             GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
             GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
 
-            gboolean xxx = gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
+            (void) gdk_gl_drawable_gl_begin (gl_drawable, gl_context);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

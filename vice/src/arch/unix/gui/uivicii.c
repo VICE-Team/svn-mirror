@@ -41,6 +41,8 @@
 
 extern struct ui_menu_entry_s set_video_standard_submenu[];
 
+#include "uifullscreen-menu.h"
+UI_FULLSCREEN(VICII)
 
 UI_MENU_DEFINE_STRING_RADIO(VICIIPaletteFile)
 
@@ -89,36 +91,10 @@ UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 #endif
-#ifdef USE_XF86_EXTENSIONS
-UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
-UI_MENU_DEFINE_STRING_RADIO(VICIIFullscreenDevice)
-UI_MENU_DEFINE_TOGGLE(VICIIFullscreenDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VICIIFullscreenDoubleScan)
-#ifdef USE_XF86_VIDMODE_EXT
-UI_MENU_DEFINE_RADIO(VICIIVidmodeFullscreenMode);
-#endif
-#ifdef HAVE_XRANDR
-UI_MENU_DEFINE_RADIO(VICIIXRANDRFullscreenMode)
-#endif
-#endif
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 UI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
 #ifndef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(UseXSync)
-#endif
-
-#ifdef USE_XF86_EXTENSIONS
-static ui_menu_entry_t set_fullscreen_device_submenu[] = {
-#ifdef USE_XF86_VIDMODE_EXT
-    { "*Vidmode", (ui_callback_t)radio_VICIIFullscreenDevice,
-      (ui_callback_data_t)"Vidmode", NULL },
-#endif
-#ifdef HAVE_XRANDR
-    { "*XRandR", (ui_callback_t)radio_VICIIFullscreenDevice,
-      (ui_callback_data_t)"XRANDR", NULL },
-#endif
-    { NULL }
-};
 #endif
 
 static UI_CALLBACK(color_set)
@@ -152,44 +128,11 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Color set"),
       (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
-#ifdef HAVE_HWSCALE
-    { N_("*Hardware scaling"),
-      (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
-#endif
     { N_("PAL Emulation"),
       NULL, NULL, PALMode_submenu },
-    { "--" },
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
     { "--" },
-#ifdef HAVE_OPENGL_SYNC
-    { N_("*OpenGL Rastersynchronization"),
-      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { "--" },
-#endif
-#ifdef USE_XF86_EXTENSIONS
-    { N_("*Enable fullscreen"),
-      (ui_callback_t)toggle_VICIIFullscreen, NULL, NULL, KEYSYM_d, UI_HOTMOD_META },
-    { N_("*Double size"),
-      (ui_callback_t)toggle_VICIIFullscreenDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_VICIIFullscreenDoubleScan, NULL, NULL },
-    { N_("Fullscreen device"),
-      NULL, NULL, set_fullscreen_device_submenu },
-    /* Translators: 'VidMode' must remain in the beginning
-       of the translation e.g. German: "VidMode Aufloesungen" */
-#ifdef USE_XF86_VIDMODE_EXT
-    { N_("VidMode Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
-#endif
-#ifdef HAVE_XRANDR
-    /* Translators: `XRandR' must remain in the beginning of the translation:
-       e.g. German: "XRandR Aufloesungen" */
-    { N_("XRandR Resolutions"),
-      (ui_callback_t)NULL, NULL, NULL },
-#endif
-    { "--" },
-#endif
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--" },
@@ -200,8 +143,19 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
     { N_("*Sprite-background collisions"),
       (ui_callback_t)toggle_VICIICheckSbColl, NULL, NULL },
-#ifndef USE_GNOMEUI
     { "--" },
+#ifdef HAVE_HWSCALE
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
+#endif
+#ifdef HAVE_OPENGL_SYNC
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+#endif
+#ifdef HAVE_FULLSCREEN
+    { N_("*Fullscreen settings"), NULL, NULL, fullscreen_menuVICII },
+#endif
+#ifndef USE_GNOMEUI
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
 #endif
@@ -210,23 +164,10 @@ ui_menu_entry_t vicii_submenu[] = {
 
 void uivicii_menu_create(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-#ifdef USE_XF86_VIDMODE_EXT
-    fullscreen_mode_callback("Vidmode",
-                             (void *)radio_VICIIVidmodeFullscreenMode);
-#endif
-#ifdef HAVE_XRANDR
-    fullscreen_mode_callback("XRANDR",
-                             (void *)radio_VICIIXRANDRFullscreenMode);
-#endif
-    fullscreen_menu_create(vicii_submenu);
-#endif
+    UI_FULLSCREEN_MENU_CREATE(VICII)
 }
 
 void uivicii_menu_shutdown(void)
 {
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_menu_shutdown(vicii_submenu);
-#endif
+    UI_FULLSCREEN_MENU_SHUTDOWN(VICII)
 }
-

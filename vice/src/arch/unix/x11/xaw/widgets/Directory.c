@@ -57,7 +57,7 @@ void seekdir(DIR *dirp,long loc)
   base=loc-offset;
 
   (void)lseek(dirp->dd_fd,base,0);
-  dirp->dd_loc=dirp->dd_size=0
+  dirp->dd_loc=dirp->dd_size=0;
 
   while(dirp->dd_loc<offset)
   if (readdir(dirp)==NULL)

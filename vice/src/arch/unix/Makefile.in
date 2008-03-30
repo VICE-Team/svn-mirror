@@ -226,6 +226,8 @@ UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
 UNIX_GP2X_COMPILE_TRUE = @UNIX_GP2X_COMPILE_TRUE@
+UNIX_HPUX_COMPILE_FALSE = @UNIX_HPUX_COMPILE_FALSE@
+UNIX_HPUX_COMPILE_TRUE = @UNIX_HPUX_COMPILE_TRUE@
 UNIX_MACOSX_COMPILE_FALSE = @UNIX_MACOSX_COMPILE_FALSE@
 UNIX_MACOSX_COMPILE_TRUE = @UNIX_MACOSX_COMPILE_TRUE@
 UNIX_MACOSX_UITYPE = @UNIX_MACOSX_UITYPE@
@@ -233,8 +235,10 @@ UNIX_OPENSERVER5_COMPILE_FALSE = @UNIX_OPENSERVER5_COMPILE_FALSE@
 UNIX_OPENSERVER5_COMPILE_TRUE = @UNIX_OPENSERVER5_COMPILE_TRUE@
 UNIX_OPENSERVER6_COMPILE_FALSE = @UNIX_OPENSERVER6_COMPILE_FALSE@
 UNIX_OPENSERVER6_COMPILE_TRUE = @UNIX_OPENSERVER6_COMPILE_TRUE@
-UNIX_QNX_COMPILE_FALSE = @UNIX_QNX_COMPILE_FALSE@
-UNIX_QNX_COMPILE_TRUE = @UNIX_QNX_COMPILE_TRUE@
+UNIX_QNX4_COMPILE_FALSE = @UNIX_QNX4_COMPILE_FALSE@
+UNIX_QNX4_COMPILE_TRUE = @UNIX_QNX4_COMPILE_TRUE@
+UNIX_QNX6_COMPILE_FALSE = @UNIX_QNX6_COMPILE_FALSE@
+UNIX_QNX6_COMPILE_TRUE = @UNIX_QNX6_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
 UNIX_SOLARIS_COMPILE_TRUE = @UNIX_SOLARIS_COMPILE_TRUE@
 UNIX_UNIXWARE_COMPILE_FALSE = @UNIX_UNIXWARE_COMPILE_FALSE@
@@ -384,11 +388,16 @@ libarch_a_SOURCES = \
 
 bin_SCRIPTS = vsid
 EXTRA_DIST = \
+	hpux/getdate.pl \
+	hpux/getnow.pl \
+	hpux/make-bindist.sh \
 	minix/minix-ar.sh \
 	minix/descr \
-	qnx/getlibs.c \
-	qnx/getsize.c \
-	qnx/make-bindist.sh \
+	qnx4/install_msg \
+	qnx4/make-bindist.sh \
+	qnx6/getlibs.c \
+	qnx6/getsize.c \
+	qnx6/make-bindist.sh \
 	sco_sol/convertprototype.c \
 	sco_sol/make-bindist.sh \
 	vsid
@@ -625,7 +634,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/minix $(distdir)/qnx $(distdir)/sco_sol
+	$(mkdir_p) $(distdir)/hpux $(distdir)/minix $(distdir)/qnx4 $(distdir)/qnx6 $(distdir)/sco_sol
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

@@ -218,6 +218,8 @@ UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
 UNIX_GP2X_COMPILE_TRUE = @UNIX_GP2X_COMPILE_TRUE@
+UNIX_HPUX_COMPILE_FALSE = @UNIX_HPUX_COMPILE_FALSE@
+UNIX_HPUX_COMPILE_TRUE = @UNIX_HPUX_COMPILE_TRUE@
 UNIX_MACOSX_COMPILE_FALSE = @UNIX_MACOSX_COMPILE_FALSE@
 UNIX_MACOSX_COMPILE_TRUE = @UNIX_MACOSX_COMPILE_TRUE@
 UNIX_MACOSX_UITYPE = @UNIX_MACOSX_UITYPE@
@@ -225,8 +227,10 @@ UNIX_OPENSERVER5_COMPILE_FALSE = @UNIX_OPENSERVER5_COMPILE_FALSE@
 UNIX_OPENSERVER5_COMPILE_TRUE = @UNIX_OPENSERVER5_COMPILE_TRUE@
 UNIX_OPENSERVER6_COMPILE_FALSE = @UNIX_OPENSERVER6_COMPILE_FALSE@
 UNIX_OPENSERVER6_COMPILE_TRUE = @UNIX_OPENSERVER6_COMPILE_TRUE@
-UNIX_QNX_COMPILE_FALSE = @UNIX_QNX_COMPILE_FALSE@
-UNIX_QNX_COMPILE_TRUE = @UNIX_QNX_COMPILE_TRUE@
+UNIX_QNX4_COMPILE_FALSE = @UNIX_QNX4_COMPILE_FALSE@
+UNIX_QNX4_COMPILE_TRUE = @UNIX_QNX4_COMPILE_TRUE@
+UNIX_QNX6_COMPILE_FALSE = @UNIX_QNX6_COMPILE_FALSE@
+UNIX_QNX6_COMPILE_TRUE = @UNIX_QNX6_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
 UNIX_SOLARIS_COMPILE_TRUE = @UNIX_SOLARIS_COMPILE_TRUE@
 UNIX_UNIXWARE_COMPILE_FALSE = @UNIX_UNIXWARE_COMPILE_FALSE@
@@ -781,35 +785,47 @@ install: installvice
 @UNIX_MACOSX_COMPILE_TRUE@bindistzip:
 @UNIX_MACOSX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip @UNIX_MACOSX_UITYPE@
 
-@UNIX_QNX_COMPILE_TRUE@bindist:
-@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
+@UNIX_QNX6_COMPILE_TRUE@bindist:
+@UNIX_QNX6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip $(top_srcdir)
 
-@UNIX_QNX_COMPILE_TRUE@bindistzip:
-@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
+@UNIX_QNX6_COMPILE_TRUE@bindistzip:
+@UNIX_QNX6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx6/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip $(top_srcdir)
+
+@UNIX_QNX4_COMPILE_TRUE@bindist:
+@UNIX_QNX4_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) nozip $(top_srcdir)
+
+@UNIX_QNX4_COMPILE_TRUE@bindistzip:
+@UNIX_QNX4_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/qnx4/make-bindist.sh $(VICE_VERSION) $(prefix) zip $(top_srcdir)
+
+@UNIX_HPUX_COMPILE_TRUE@bindist:
+@UNIX_HPUX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/hpux/make-bindist.sh $(STRIP) $(PERL) $(VICE_VERSION) $(prefix) $(host_cpu) $(host_os) nozip $(top_srcdir)
+
+@UNIX_HPUX_COMPILE_TRUE@bindistzip:
+@UNIX_HPUX_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/hpux/make-bindist.sh $(STRIP) $(PERL) $(VICE_VERSION) $(prefix) $(host_cpu) $(host_os) zip $(top_srcdir)
 
 @UNIX_SOLARIS_COMPILE_TRUE@bindist:
-@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(top_srcdir)
+@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sol $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_SOLARIS_COMPILE_TRUE@bindistzip:
-@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(top_srcdir)
+@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sol $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_OPENSERVER5_COMPILE_TRUE@bindist:
-@UNIX_OPENSERVER5_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(top_srcdir)
+@UNIX_OPENSERVER5_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco5 $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_OPENSERVER5_COMPILE_TRUE@bindistzip:
-@UNIX_OPENSERVER5_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(top_srcdir)
+@UNIX_OPENSERVER5_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco5 $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_OPENSERVER6_COMPILE_TRUE@bindist:
-@UNIX_OPENSERVER6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(top_srcdir)
+@UNIX_OPENSERVER6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco6 $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_OPENSERVER6_COMPILE_TRUE@bindistzip:
-@UNIX_OPENSERVER6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(top_srcdir)
+@UNIX_OPENSERVER6_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco6 $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_UNIXWARE_COMPILE_TRUE@bindist:
-@UNIX_UNIXWARE_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(top_srcdir)
+@UNIX_UNIXWARE_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) nozip sco7 $(infodir) $(mandir) $(top_srcdir)
 
 @UNIX_UNIXWARE_COMPILE_TRUE@bindistzip:
-@UNIX_UNIXWARE_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(top_srcdir)
+@UNIX_UNIXWARE_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/sco_sol/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS) zip sco7 $(infodir) $(mandir) $(top_srcdir)
 
 @WIN32_COMPILE_TRUE@bindist:
 @WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
