@@ -1,3 +1,41 @@
+2004-11-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.10.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc: Fixed mingw32
+	compile.
+
+	* arch/win32/resc128.rc: Resized function ROM dialog.
+
+2004-11-07  Dag Lem  <resid@nimrod.no>
+
+	* arch/beos/archdep.h, arch/msdos/archdep.h,
+	arch/os2/archdep.h, arch/riscos/archdep.h,
+	arch/unix/archdep.h, arch/win32/archdep.h:
+	Define ARCHDEP_<videochip>_HWSCALE.
+
+	* arch/unix/uited.c, arch/unix/uivic.c, arch/unix/uivicii.c:
+	Toggle "<videochip>HwScale".
+
+	* arch/unix/x11/gnome/gnomevideo.c,
+	arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11video.c,
+	arch/unix/x11/xaw/x11ui.c:
+	Replaced use_xvideo with canvas->videoconfig->hwscale.
+
+	* arch/unix/x11/video.c: Removed XVIDEO resource and -xvideo
+	option. Added support for interactive selection of hardware
+	scaling.
+
+	* crtc/crtc-resources.c, plus4/ted-resources.c,
+	vdc/vdc-resources.c, vic20/vic-resources.c,
+	vicii/vicii-resources.c: Initialization of
+	video_chip_cap.hwscale_allowed.
+
+	* video/video-cmdline-options.c: Added <videochip>HwScale
+	resource and -<videochip>hwscale option.
+
 2004-11-06  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.15.9.
