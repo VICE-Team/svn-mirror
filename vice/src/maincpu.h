@@ -67,4 +67,7 @@ inline static CLOCK maincpu_num_write_cycles(void)
 
 extern void mainloop(ADDRESS start_address);
 
+extern int maincpu_read_snapshot_module(FILE *f);
+extern int maincpu_write_snapshot_module(FILE *f);
+
 #endif /* !defined(_MAINCPU_H) */
