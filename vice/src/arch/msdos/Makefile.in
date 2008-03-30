@@ -300,6 +300,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiramcart.c \
+	uiramcart.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
@@ -337,9 +339,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uidrive.$(OBJEXT) uijoystick.$(OBJEXT) uimon.$(OBJEXT) \
 	uiperipherial.$(OBJEXT) uiprinter.$(OBJEXT) uireu.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsync.$(OBJEXT)
+	uigeoram.$(OBJEXT) uiramcart.$(OBJEXT) uisid.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -362,11 +364,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uigeoram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uimon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipherial.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uireu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uiramcart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uisid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/uisound.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -431,6 +433,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipherial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiramcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@

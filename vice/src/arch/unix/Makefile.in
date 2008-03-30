@@ -331,6 +331,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiramcart.c \
+	uiramcart.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \
@@ -396,12 +398,13 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
 	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uigeoram.$(OBJEXT) \
-	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
-	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
-	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
-	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
-	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) vsidui.$(OBJEXT)
+	uiramcart.$(OBJEXT) uiromset.$(OBJEXT) uirs232.$(OBJEXT) \
+	uirs232c64c128.$(OBJEXT) uirs232petplus4cbm2.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisettings.$(OBJEXT) uisid.$(OBJEXT) \
+	uisound.$(OBJEXT) uited.$(OBJEXT) uitfe.$(OBJEXT) \
+	uivdc.$(OBJEXT) uivic.$(OBJEXT) uivicii.$(OBJEXT) \
+	unixmain.$(OBJEXT) vic20ui.$(OBJEXT) vsyncarch.$(OBJEXT) \
+	vsidui.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 SCRIPTS = $(bin_SCRIPTS)
 
@@ -437,7 +440,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheralieee.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po ./$(DEPDIR)/uireu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiromset.Po ./$(DEPDIR)/uirs232.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uirs232c64c128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uirs232petplus4cbm2.Po \
@@ -553,6 +557,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinterieee.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiramcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
