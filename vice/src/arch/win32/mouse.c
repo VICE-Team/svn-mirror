@@ -47,11 +47,35 @@ static int          mouse_acquired=0;
 LPDIRECTINPUTDEVICE di_mouse=NULL;
 
 #ifndef HAVE_GUIDLIB
-const GUID GUID_XAxis   =(0xA36D02E0,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
-const GUID GUID_YAxis   =(0xA36D02E1,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
-const GUID GUID_ZAxis   =(0xA36D02E2,0xC9F3,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
-const GUID GUID_SysMouse=(0x6F1D2B60,0xD5A0,0x11CF,(0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00));
+const GUID GUID_XAxis   ={0xA36D02E0,0xC9F3,0x11CF,{0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00}};
+const GUID GUID_YAxis   ={0xA36D02E1,0xC9F3,0x11CF,{0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00}};
+const GUID GUID_Button  ={0xA36D02F0,0xC9F3,0x11CF,{0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00}};
+const GUID GUID_SysMouse={0x6F1D2B60,0xD5A0,0x11CF,{0xBF,0xC7,0x44,0x45,0x53,0x54,0x00,0x00}};
 #endif
+
+typedef struct mouse_data_t {
+    DWORD   X;
+    DWORD   Y;
+    BYTE    LeftButton;
+    BYTE    RightButton;
+    BYTE    padding[2];
+} mouse_data;
+
+DIOBJECTDATAFORMAT mouse_objects[]={
+    {&GUID_XAxis,0,DIDFT_AXIS|DIDFT_ANYINSTANCE,0},
+    {&GUID_YAxis,4,DIDFT_AXIS|DIDFT_ANYINSTANCE,0},
+    {&GUID_Button,8,DIDFT_BUTTON|DIDFT_ANYINSTANCE,0},
+    {&GUID_Button,9,DIDFT_BUTTON|DIDFT_ANYINSTANCE,0}
+};
+
+DIDATAFORMAT mouse_data_format={
+    sizeof(DIDATAFORMAT),
+    sizeof(DIOBJECTDATAFORMAT),
+    DIDF_RELAXIS,
+    sizeof(mouse_data),
+    4,
+    mouse_objects
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -90,17 +114,27 @@ int mouse_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+void mouse_set_format(void)
+{
+HRESULT result;
+
+    result=IDirectInputDevice_SetDataFormat(di_mouse,&mouse_data_format);
+    if (result!=DI_OK) {
+        log_debug("Can't set Mouse DataFormat");
+        di_mouse=NULL;
+    }
+}
 
 void mouse_update_mouse(void)
 {
-DIMOUSESTATE    state;
+mouse_data      state;
 HRESULT         result;
 
     if (di_mouse==NULL) return;
 
     result=DIERR_INPUTLOST;
     while (result==DIERR_INPUTLOST) {
-        result=IDirectInputDevice_GetDeviceState(di_mouse,sizeof(DIMOUSESTATE),&state);
+        result=IDirectInputDevice_GetDeviceState(di_mouse,sizeof(mouse_data),&state);
         if (result==DIERR_INPUTLOST) {
             result=IDirectInputDevice_Acquire(di_mouse);
             if (result!=DI_OK) {
@@ -110,14 +144,14 @@ HRESULT         result;
     }
     if (result!=DI_OK) return;
 
-    _mouse_x+=state.lX;
-    _mouse_y+=state.lY;
-    if (state.rgbButtons[0] & 0x80) {
+    _mouse_x+=state.X;
+    _mouse_y+=state.Y;
+    if (state.LeftButton & 0x80) {
         joystick_value[1] |= 16;
     } else {
         joystick_value[1] &=~16;
     }
-    if (state.rgbButtons[1] & 0x80) {
+    if (state.RightButton & 0x80) {
         joystick_value[1] |= 1;
     } else {
         joystick_value[1] &= ~1;

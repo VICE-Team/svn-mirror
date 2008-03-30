@@ -59,6 +59,12 @@ extern void ui_display_drive_led(int drive_number, int status);
 extern void ui_display_drive_current_image(int drive_number, const char *image);
 extern int ui_extend_image_dialog(void);
 
+/* Tape related UI */
+extern void ui_set_tape_status(int tape_status);
+extern void ui_display_tape_motor_status(int motor);
+extern void ui_display_tape_control_status(int control);
+extern void ui_display_tape_counter(int counter);
+
 /* Show a CPU JAM dialog.  */
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
 

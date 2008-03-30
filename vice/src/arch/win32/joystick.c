@@ -164,6 +164,7 @@ int joystick_init_cmdline_options(void)
 LPDIRECTINPUT               di;
 int                         directinput_inited;
 extern LPDIRECTINPUTDEVICE  di_mouse;
+void mouse_set_format(void);
 
 #if 0
 static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
@@ -193,11 +194,7 @@ HRESULT result;
         di_mouse=NULL;
         return 0;
     }
-    result=IDirectInputDevice_SetDataFormat(di_mouse,&c_dfDIMouse);
-    if (result!=DI_OK) {
-        di_mouse=NULL;
-        return 0;
-    }
+    mouse_set_format();
 
 //    IDirectInput_EnumDevices(di,0,EnumCallBack,0,0);
     return 0;

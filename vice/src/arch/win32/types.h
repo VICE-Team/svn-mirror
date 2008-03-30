@@ -36,7 +36,7 @@
 
 #define WORD unsigned short
 
-#if _MSC_VER || __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=95)
+#ifdef DWORD_IS_LONG
 #define DWORD unsigned long
 #else
 #define DWORD unsigned int
@@ -81,4 +81,3 @@ typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #endif
 
 #endif  /* _TYPES_H */
-

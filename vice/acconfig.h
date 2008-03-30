@@ -73,3 +73,6 @@
 
 /* Is the GUID lib of DX SDK present? */
 #undef HAVE_GUIDLIB
+
+/* Is DWORD defined as long or int in the Windows header files? */
+#undef DWORD_IS_LONG

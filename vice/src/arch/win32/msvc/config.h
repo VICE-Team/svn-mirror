@@ -24,6 +24,7 @@
 #define HAVE_COMMCTRL_H         1
 #define HAVE_SHLOBJ_H           1
 #define HAVE_GUIDLIB            1
+#define DWORD_IS_LONG           1
 
 #define __i386__                1
 
@@ -33,6 +34,6 @@
 
 #define S_ISDIR(m)              ((m) & _S_IFDIR)
 
-#define MSVC_RC			1
+#define MSVC_RC                 1
 
 #endif

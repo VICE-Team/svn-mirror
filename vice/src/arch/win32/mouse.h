@@ -31,6 +31,7 @@
 
 int mouse_init_resources(void);
 int mouse_init_cmdline_options(void);
+void mouse_set_format(void);
 void mouse_update_mouse(void);
 void mouse_init(void);
 void mouse_update_mouse_acquire(void);

@@ -209,6 +209,8 @@ static ACCEL pet_accel[] = {
 static HBRUSH   led_red;
 static HBRUSH   led_green;
 static HBRUSH   led_black;
+static HBRUSH   tape_motor_on_brush;
+static HBRUSH   tape_motor_off_brush;
 
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
@@ -293,6 +295,9 @@ RECT        rect;
     led_green=CreateSolidBrush(0xff00);
     led_red=CreateSolidBrush(0xff);
     led_black=CreateSolidBrush(0x00);
+    tape_motor_on_brush=CreateSolidBrush(0xffff);
+    tape_motor_off_brush=CreateSolidBrush(0x808080);
+
     return 0;
 }
 
@@ -534,21 +539,31 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 }
 
 static ui_drive_enable_t    status_enabled;
-static int                  status_led[2];
-static int                  status_map[2];
-static double               status_track[2];
-static int                  status_unit[2];
+static int                  status_led[3];
+static int                  status_map[3];
+static double               status_track[3];
+static int                  status_unit[3];
 static int                 *drive_active_led;
+
+static int                  tape_enabled = 0;
+static int                  tape_motor;
+static int                  tape_counter;
+static int                  tape_control;
+
 
 static void SetStatusWindowParts(void)
 {
 int     number_of_parts;
 RECT    rect;
-int     posx[3];
+int     posx[4];
 int     width;
 int     i;
 
     number_of_parts=0;
+
+    if (tape_enabled)
+        number_of_parts++;
+
     if (status_enabled&UI_DRIVE_ENABLE_0) {
         status_map[0]=number_of_parts;
         status_unit[number_of_parts]=8;
@@ -566,6 +581,9 @@ int     i;
         width-=110;
     }
     SendMessage(status_hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
+    if (number_of_parts==3) {
+        SendMessage(status_hwnd,SB_SETTEXT,3|SBT_OWNERDRAW,0);
+    }
     if (number_of_parts==2) {
         SendMessage(status_hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
     }
@@ -576,7 +594,7 @@ int     i;
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    status_enabled=enable;
+    status_enabled = enable;
     drive_active_led = drive_led_color;
     SetStatusWindowParts();
 }
@@ -601,6 +619,33 @@ void ui_display_drive_led(int drivenum, int status)
 void ui_display_drive_current_image(int drivenum, const char *image)
 {
     /* just a dummy so far */
+}
+
+/* tape-status on*/
+void ui_set_tape_status(int tape_status)
+{
+    tape_enabled = tape_status;
+    SetStatusWindowParts();
+}
+
+void ui_display_tape_motor_status(int motor)
+{   
+    tape_motor = motor;
+    SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+}
+
+void ui_display_tape_control_status(int control)
+{
+    tape_control = control;
+    SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+}
+
+extern void ui_display_tape_counter(int counter)
+{
+    if (counter!=tape_counter) {
+        tape_counter = counter;
+        SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    }
 }
 
 /* Toggle displaying of paused state.  */
@@ -1167,20 +1212,92 @@ int     window_index;
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
-                led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
-                led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
-                led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
-                sprintf(text,"%d: Track: %.1f",status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1],status_track[((DRAWITEMSTRUCT*)lparam)->itemID-1]);
-                SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
-                SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
-                DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
+                if ((((DRAWITEMSTRUCT*)lparam)->itemID==1) && tape_enabled) {
+                    /* it's the tape status */
+                    POINT tape_control_sign[3];
 
-                led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
-                led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
-                led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
-                led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? led_green : led_red ) : led_black);
+                    /* the leading "Tape:" */
+                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
+                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
+                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+34;
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,"Tape:",-1,&led,0);
+
+                    /* the tape-motor */
+                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+1;
+                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+15;
+                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+36;
+                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+50;
+                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,tape_motor?tape_motor_on_brush:tape_motor_off_brush);
+
+                    /* the tape-control */
+                    led.top+=3;
+                    led.bottom-=3;
+                    led.left+=3;
+                    led.right-=3;
+                    tape_control_sign[0].x = led.left;
+                    tape_control_sign[1].x = led.left+4;
+                    tape_control_sign[2].x = led.left;
+                    tape_control_sign[0].y = led.top;
+                    tape_control_sign[1].y = led.top+4;
+                    tape_control_sign[2].y = led.top+8;
+                    switch (tape_control) {
+                        case DATASETTE_CONTROL_STOP:
+                            FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,led_black);
+                            break;
+                        case DATASETTE_CONTROL_START:
+                        case DATASETTE_CONTROL_RECORD:
+                            SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,led_black);
+                            Polygon(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                            if (tape_control==DATASETTE_CONTROL_RECORD) {
+                                SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,led_red);
+                                Ellipse(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                    led.left+17,
+                                    led.top+1,
+                                    led.left+24,
+                                    led.top+8);
+                            }
+                            break;
+                        case DATASETTE_CONTROL_REWIND:
+                            tape_control_sign[0].x += 4;
+                            tape_control_sign[1].x -= 4;
+                            tape_control_sign[2].x += 4;
+                        case DATASETTE_CONTROL_FORWARD:
+                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                            tape_control_sign[0].x += 4;
+                            tape_control_sign[1].x += 4;
+                            tape_control_sign[2].x += 4;
+                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                    }
+
+                    /* the tape-counter */
+                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
+                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+75;
+                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+110;
+                    sprintf(text,"%03d",tape_counter);
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
+
+                }
+                if (((DRAWITEMSTRUCT*)lparam)->itemID>tape_enabled?1:0) {
+                    /* it's a disk */
+                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
+                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
+                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
+                    sprintf(text,"%d: Track: %.1f",status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1],status_track[((DRAWITEMSTRUCT*)lparam)->itemID-1]);
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
+
+                    led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
+                    led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
+                    led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
+                    led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
+                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? led_green : led_red ) : led_black);
+                }
             }
             return 0;
         case WM_COMMAND:
@@ -1194,7 +1311,6 @@ int     window_index;
             mouse_update_mouse_acquire();
             break;
         case WM_EXITMENULOOP:
-//            if ((BOOL)wparam==FALSE) break;
         case WM_EXITSIZEMOVE:
             if (GetActiveWindow()==window || !IsIconic(window)) {
                 ui_active=TRUE;
@@ -1221,13 +1337,6 @@ int     window_index;
         case WM_KEYUP:
             kbd_handle_keyup(wparam, lparam);
             return 0;
-/*        case WM_RBUTTONDOWN:
-        case WM_RBUTTONUP:
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONUP:
-        case WM_MOUSEMOVE:
-            mouse_update_mouse(LOWORD(lparam),HIWORD(lparam),wparam);
-            break;*/
         case WM_SYSCOLORCHANGE:
             syscolorchanged = 1;
             break;

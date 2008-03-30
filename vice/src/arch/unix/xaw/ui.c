@@ -1976,6 +1976,24 @@ static void ui_display_drive_current_image2 (void)
 }
 
 
+/* tape-related ui, dummies so far */
+void ui_set_tape_status(int tape_status)
+{
+}
+
+void ui_display_tape_motor_status(int motor)
+{
+}
+
+void ui_display_tape_control_status(int control)
+{
+}
+
+void ui_display_tape_counter(int counter)
+{
+}
+
+
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
 void ui_display_paused(int flag)

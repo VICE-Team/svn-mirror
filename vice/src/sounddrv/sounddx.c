@@ -29,8 +29,10 @@
 
 #include <stdio.h>
 
+#if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=95)
 #include <windows.h>
 #include <mmsystem.h>
+#endif
 #include <dsound.h>
 
 #include "sound.h"
@@ -417,7 +419,7 @@ int     i;
 
     memset(&desc, 0, sizeof(DSBUFFERDESC));
     desc.dwSize = sizeof(DSBUFFERDESC);
-    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2  | DSBCAPS_CTRLDEFAULT;
+    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2  | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME ;
 
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;

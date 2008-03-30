@@ -184,6 +184,10 @@ static void REGPARM2 store_one(ADDRESS addr, BYTE value)
     page_one[addr - 0x100] = value;
 }
 
+#ifdef _MSC_VER
+#pragma optimize("",off);
+#endif
+
 void z80mem_initialize(void)
 {
     int i, j;
@@ -351,6 +355,10 @@ void z80mem_initialize(void)
     io_read_tab[0xdd] = read_cia2;
     io_write_tab[0xdd] = store_cia2;
 }
+
+#ifdef _MSC_VER
+#pragma optimize("",on);
+#endif
 
 void z80mem_set_bank_pointer(BYTE **base, int *limit)
 {

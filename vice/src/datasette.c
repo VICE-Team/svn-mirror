@@ -32,6 +32,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "maincpu.h"
+#include "ui.h"
 
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
@@ -46,6 +47,13 @@ static alarm_t datasette_alarm;
 
 static int datasette_alarm_pending = 0;
 
+static void datasette_update_ui_counter()
+{
+    /* 3-digit-counter of seconds is guessed with an average tap-value of 50 */
+    current_image->counter = (current_image->current_file_seek_position*400/985248)%1000;
+    ui_display_tape_counter(current_image->counter);
+}
+
 static int datasette_read_bit(long offset)
 {
     alarm_unset(&datasette_alarm);
@@ -53,7 +61,7 @@ static int datasette_read_bit(long offset)
 
     if (current_image == NULL)
         return 0;
-
+    datasette_update_ui_counter();
     switch (current_image->mode) {
       case DATASETTE_CONTROL_START:
         if (datasette_motor)
@@ -64,7 +72,7 @@ static int datasette_read_bit(long offset)
             datasette_trigger_flux_change();
 
             if (fread(&comp_gap, 1, 1, current_image->fd) < 1) {
-                current_image->mode = DATASETTE_CONTROL_STOP;
+                datasette_control(DATASETTE_CONTROL_STOP);
                 return 0;
             }
 
@@ -75,7 +83,7 @@ static int datasette_read_bit(long offset)
                 int i;
                 for (i = 0; i < 3; i++) {
                     if (fread(&long_gap[i], 1, 1, current_image->fd) < 1) {
-                        current_image->mode = DATASETTE_CONTROL_STOP;
+                        datasette_control(DATASETTE_CONTROL_STOP);
                         return 0;
                     }
                     current_image->current_file_seek_position++;
@@ -99,21 +107,21 @@ static int datasette_read_bit(long offset)
         break;
       case DATASETTE_CONTROL_FORWARD:
         if (current_image->current_file_seek_position
-            >= (current_image->size - 20)) {
+            >= (current_image->size - 200)) {
             current_image->current_file_seek_position = current_image->size;
-            current_image->mode = DATASETTE_CONTROL_STOP;
+            datasette_control(DATASETTE_CONTROL_STOP);
         } else {
-            current_image->current_file_seek_position += 20;
+            current_image->current_file_seek_position += 200;
             alarm_set(&datasette_alarm, clk + 10000);
             datasette_alarm_pending = 1;
         }
         break;
       case DATASETTE_CONTROL_REWIND:
-        if (current_image->current_file_seek_position <= 20) {
+        if (current_image->current_file_seek_position <= 200) {
             current_image->current_file_seek_position = 0;
-            current_image->mode = DATASETTE_CONTROL_STOP;
+            datasette_control(DATASETTE_CONTROL_STOP);
         } else {
-            current_image->current_file_seek_position -= 20;
+            current_image->current_file_seek_position -= 200;
             alarm_set(&datasette_alarm, clk + 10000);
             datasette_alarm_pending = 1;
         }
@@ -139,6 +147,8 @@ void datasette_init(void)
 void datasette_set_tape_image(tap_t *image)
 {
     current_image = image;
+    ui_set_tape_status(current_image?1:0);
+
 }
 
 static void datasette_forward(void)
@@ -177,6 +187,8 @@ void datasette_reset(void)
         datasette_control(DATASETTE_CONTROL_STOP);
         current_image->current_file_seek_position = 0;
         fseek(current_image->fd, current_image->offset, SEEK_SET);
+        datasette_update_ui_counter();
+
     }
 }
 
@@ -216,7 +228,9 @@ void datasette_control(int command)
           case DATASETTE_CONTROL_RESET:
             break;
         }
+        ui_display_tape_control_status(command);
     }
+
 }
 
 void datasette_set_motor(int flag)
@@ -241,12 +255,14 @@ void datasette_set_motor(int flag)
         }
     }
     datasette_motor = flag;
+    ui_display_tape_motor_status(flag);
 }
 
 void datasette_toggle_write_bit(int write_bit)
 {
     if (current_image != NULL && datasette_motor && write_bit
         && current_image->mode == DATASETTE_CONTROL_RECORD) {
+        datasette_update_ui_counter();
         if (last_write_clk == (CLOCK)0) {
             last_write_clk = clk;
         } else {
