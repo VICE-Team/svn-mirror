@@ -334,7 +334,7 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-timing.o: vicii-timing.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64.h ../../src/machine.h ../../src/resources.h \
-	viciitypes.h ../../src/raster/raster.h \
+	vicii-sprites.h viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
 	../../src/viewport.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \

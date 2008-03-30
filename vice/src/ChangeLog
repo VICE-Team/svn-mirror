@@ -1,3 +1,47 @@
+2003-03-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.17.
+
+	* snapshot.c, snapshot.h (snapshot_write_word_array,
+	snapshot_dword_byte_array, snapshot_read_word_array,
+	snapshot_read_dword_array, snapshot_module_write_word_array,
+	snapshot_module_write_dword_array,
+	snapshot_module_read_word_array,
+	snapshot_module_read_dword_array): New functions.
+
+	* sid/sid-snapshot.c (sid_snapshot_write_module_extended,
+	sid_snapshot_read_module_extended): New functions.
+
+	* keyboard.c (keyboard_key_pressed_matrix,
+	keyboard_key_released_matrix, keyboard_key_deshift): New
+	functions.
+
+	* keyboard.h: Added two new keyflags.
+
+	* vdc/vdc-mem.c (vdc_store): Fixed patch by Paul B Murdaugh.
+
+	* vdc/vdc.c (vdc_raster_draw_alarm_handler): Perform mode
+	change after geometry change.  (vdc_update_geometry): Fixed
+	calculation of last displayed line as suggested by AndreasM.
+
+	* video/video-viewport.c (video_viewport_resize): Fixed last
+	line calculation as suggested by AndreasM.
+
+	* vicii/vicii-timing.c: #include "vicii-sprites.h".
+
+	* vdrive/vdrive-command.c, fsdevice/fsdevice-flush.c,
+	serial/serial-trap.c, serial/serial-trap.h, serial/serial.c,
+	tape/t64.c, tape/t64.h, tape/tap.c, tape/tape.c,
+	vicii/vicii-mem.c, vicii/vicii-mem.h, vicii/vicii.c,
+	vicii/vicii.h, vicii/viciitypes.h, monitor/mon.c,
+	monitor/mon.h, monitor/mon_assemble6502.c,
+	monitor/mon_assemblez80.c, monitor/mon_breakpoint.c,
+	monitor/mon_disassemble.c, monitor/mon_disassemble.h,
+	monitor/mon_drive.c, monitor/mon_file.c, monitor/mon_memory.c,
+	monitor/mon_ui.c, monitor/mon_ui.h, monitor/mon_util.c,
+	monitor/mon_util.h, monitor/montypes.h, crtc/crtc-mem.c,
+	crtc/crtc-mem.h: Use `WORD' instead of `ADDRESS'.
+
 2003-03-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.16.

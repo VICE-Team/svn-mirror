@@ -113,7 +113,7 @@ void video_viewport_resize(video_canvas_t *canvas)
         || (viewport->first_line > geometry->first_displayed_line
         && viewport->last_line > geometry->last_displayed_line)) {
         viewport->first_line = geometry->first_displayed_line;
-        viewport->last_line = (geometry->first_displayed_line + height);
+        viewport->last_line = (geometry->first_displayed_line + height - 1);
     }
     video_canvas_refresh_all(canvas);
 }
