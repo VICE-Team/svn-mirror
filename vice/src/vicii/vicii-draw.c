@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include "raster-cache.h"
+#include "raster-modes.h"
 #include "types.h"
 #include "vicii-draw.h"
 #include "vicii.h"
@@ -1487,63 +1489,63 @@ draw_idle_foreground_2x (unsigned int start_char,
 static void
 setup_double_size_modes (void)
 {
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
                     get_std_text,
                     draw_std_text_cached_2x,
                     draw_std_text_2x,
                     draw_std_background_2x,
                     draw_std_text_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_MULTICOLOR_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_MULTICOLOR_TEXT_MODE,
                     get_mc_text,
                     draw_mc_text_cached_2x,
                     draw_mc_text_2x,
                     draw_std_background_2x,
                     draw_mc_text_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_HIRES_BITMAP_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_HIRES_BITMAP_MODE,
                     get_hires_bitmap,
                     draw_hires_bitmap_cached_2x,
                     draw_hires_bitmap_2x,
                     draw_std_background_2x,
                     draw_hires_bitmap_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_MULTICOLOR_BITMAP_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_MULTICOLOR_BITMAP_MODE,
                     get_mc_bitmap,
                     draw_mc_bitmap_cached_2x,
                     draw_mc_bitmap_2x,
                     draw_std_background_2x,
                     draw_mc_bitmap_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_EXTENDED_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_EXTENDED_TEXT_MODE,
                     get_ext_text,
                     draw_ext_text_cached_2x,
                     draw_ext_text_2x,
                     draw_std_background_2x,
                     draw_ext_text_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_IDLE_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_IDLE_MODE,
                     get_idle,
                     draw_idle_cached_2x,
                     draw_idle_2x,
                     draw_std_background_2x,
                     draw_idle_foreground_2x);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
                     get_black,
                     draw_black_cached,
                     draw_black,
                     draw_std_background_2x,
                     draw_black_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_1,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_1,
                     get_black,
                     draw_black_cached,
                     draw_black,
                     draw_std_background_2x,
                     draw_black_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_2,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_2,
                     get_black,
                     draw_black_cached,
                     draw_black,
@@ -1556,63 +1558,63 @@ setup_double_size_modes (void)
 static void
 setup_single_size_modes (void)
 {
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
                     get_std_text,
                     draw_std_text_cached,
                     draw_std_text,
                     draw_std_background,
                     draw_std_text_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_MULTICOLOR_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_MULTICOLOR_TEXT_MODE,
                     get_mc_text,
                     draw_mc_text_cached,
                     draw_mc_text,
                     draw_std_background,
                     draw_mc_text_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_HIRES_BITMAP_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_HIRES_BITMAP_MODE,
                     get_hires_bitmap,
                     draw_hires_bitmap_cached,
                     draw_hires_bitmap,
                     draw_std_background,
                     draw_hires_bitmap_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_MULTICOLOR_BITMAP_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_MULTICOLOR_BITMAP_MODE,
                     get_mc_bitmap,
                     draw_mc_bitmap_cached,
                     draw_mc_bitmap,
                     draw_std_background,
                     draw_mc_bitmap_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_EXTENDED_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_EXTENDED_TEXT_MODE,
                     get_ext_text,
                     draw_ext_text_cached,
                     draw_ext_text,
                     draw_std_background,
                     draw_ext_text_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_IDLE_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_IDLE_MODE,
                     get_idle,
                     draw_idle_cached,
                     draw_idle,
                     draw_std_background,
                     draw_idle_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
                     get_black,
                     draw_black_cached,
                     draw_black,
                     draw_std_background,
                     draw_black_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_1,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_1,
                     get_black,
                     draw_black_cached,
                     draw_black,
                     draw_std_background,
                     draw_black_foreground);
 
-  raster_modes_set (&vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_2,
+  raster_modes_set (vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_2,
                     get_black,
                     draw_black_cached,
                     draw_black,

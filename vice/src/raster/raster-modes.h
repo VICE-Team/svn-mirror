@@ -27,18 +27,19 @@
 #ifndef _RASTER_MODES_H
 #define _RASTER_MODES_H
 
-#include "raster-cache.h"
+struct raster_cache_s;
 
 /* Fill the cache with the screen data and check for differences.  If nothing
    has changed, return 0.  Otherwise, return the smallest interval that
    contains the changed parts and return 1.  If no_check != 0, fill the cache
    without checking for differences and return 1.  */
 typedef int (*raster_modes_fill_cache_function_t)
-  (raster_cache_t *c, int *changed_start, int *changed_end, int no_check);
+  (struct raster_cache_s *c, int *changed_start, int *changed_end,
+  int no_check);
 
 /* Draw part of one line to the buffer.  */
 typedef void (*raster_modes_draw_line_cached_function_t)
-  (raster_cache_t *c, unsigned int start, unsigned int end);
+  (struct raster_cache_s *c, unsigned int start, unsigned int end);
 
 /* Draw the whole line to the buffer.  */
 typedef void (*raster_modes_draw_line_function_t)
@@ -52,7 +53,7 @@ typedef void (*raster_modes_draw_background_function_t)
 typedef void (*raster_modes_draw_foreground_function_t)
   (unsigned int start_char, unsigned int end_char);
 
-struct _raster_modes_def
+struct raster_modes_def_s
   {
     raster_modes_fill_cache_function_t fill_cache;
     raster_modes_draw_line_cached_function_t draw_line_cached;
@@ -60,9 +61,9 @@ struct _raster_modes_def
     raster_modes_draw_background_function_t draw_background;
     raster_modes_draw_foreground_function_t draw_foreground;
   };
-typedef struct _raster_modes_def raster_modes_def_t;
+typedef struct raster_modes_def_s raster_modes_def_t;
 
-struct _raster_modes
+struct raster_modes_s
   {
     /* Number of defined modes.  */
     unsigned int num_modes;
@@ -73,7 +74,7 @@ struct _raster_modes
     /* Mode used for idle mode.  */
     unsigned int idle_mode;
   };
-typedef struct _raster_modes raster_modes_t;
+typedef struct raster_modes_s raster_modes_t;
 
 
 
@@ -94,7 +95,7 @@ extern void raster_modes_set (raster_modes_t *modes,
 inline static int
 raster_modes_fill_cache (raster_modes_t *modes,
 			 unsigned int mode_num,
-			 raster_cache_t *c,
+			 struct raster_cache_s *c,
 			 int *changed_start,
 			 int *changed_end,
 			 int no_check)
@@ -109,7 +110,7 @@ raster_modes_fill_cache (raster_modes_t *modes,
 inline static void
 raster_modes_draw_line_cached (raster_modes_t *modes,
 			       unsigned int mode_num,
-			       raster_cache_t *c,
+			       struct raster_cache_s *c,
 			       unsigned int start,
 			       unsigned int end)
 {

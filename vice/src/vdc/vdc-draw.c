@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include "raster-cache.h"
+#include "raster-modes.h"
 #include "types.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
@@ -355,21 +357,21 @@ draw_std_bitmap(void)
 
 static void setup_single_size_modes(void)
 {
-    raster_modes_set(&vdc.raster.modes, VDC_TEXT_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_TEXT_MODE,
                      get_std_text,
                      draw_std_text_cached,
                      draw_std_text,
                      NULL, /* draw_std_background */
                      NULL); /* draw_std_text_foreground */
 
-    raster_modes_set(&vdc.raster.modes, VDC_BITMAP_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_BITMAP_MODE,
                      get_std_bitmap,
                      draw_std_bitmap_cached,
                      draw_std_bitmap,
                      NULL, /* draw_std_background */
                      NULL); /* draw_std_text_foreground */
 
-    raster_modes_set(&vdc.raster.modes, VDC_IDLE_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_IDLE_MODE,
                      NULL,
                      NULL,
                      NULL,
@@ -379,7 +381,7 @@ static void setup_single_size_modes(void)
 
 static void setup_double_size_modes(void)
 {
-    raster_modes_set(&vdc.raster.modes, VDC_TEXT_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_TEXT_MODE,
 /*
                      cache_std_text,
 */
@@ -389,14 +391,14 @@ static void setup_double_size_modes(void)
                      NULL, /* draw_std_background */
                      NULL); /* draw_std_text_foreground */
 
-    raster_modes_set(&vdc.raster.modes, VDC_BITMAP_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_BITMAP_MODE,
                      NULL,
                      NULL,
                      NULL,
                      NULL, /* draw_std_background */
                      NULL); /* draw_std_text_foreground */
 
-    raster_modes_set(&vdc.raster.modes, VDC_IDLE_MODE,
+    raster_modes_set(vdc.raster.modes, VDC_IDLE_MODE,
                      NULL,
                      NULL,
                      NULL,

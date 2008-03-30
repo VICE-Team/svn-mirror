@@ -28,6 +28,7 @@
 
 #include "raster.h"
 #include "raster-cache.h"
+#include "raster-modes.h"
 #include "types.h"
 #include "vic.h"
 #include "vic-draw.h"
@@ -297,13 +298,13 @@ vic_draw_set_double_size (int enabled)
 {
   if (enabled)
     {
-      raster_modes_set(&vic.raster.modes, VIC_STANDARD_MODE,
+      raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
                        fill_cache,
                        draw_line_cached_2x,
                        draw_line_2x,
                        NULL,
                        NULL);
-      raster_modes_set(&vic.raster.modes, VIC_REVERSE_MODE,
+      raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
                        fill_cache,
                        draw_reverse_line_cached_2x,
                        draw_reverse_line_2x,
@@ -312,13 +313,13 @@ vic_draw_set_double_size (int enabled)
     }
   else
     {
-      raster_modes_set(&vic.raster.modes, VIC_STANDARD_MODE,
+      raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
                        fill_cache,
                        draw_line_cached,
                        draw_line,
                        NULL,
                        NULL);
-      raster_modes_set(&vic.raster.modes, VIC_REVERSE_MODE,
+      raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
                        fill_cache,
                        draw_reverse_line_cached,
                        draw_reverse_line,
@@ -326,3 +327,4 @@ vic_draw_set_double_size (int enabled)
                        NULL);
     }
 }
+

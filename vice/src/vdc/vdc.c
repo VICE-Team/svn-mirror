@@ -36,6 +36,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "palette.h"
+#include "raster-modes.h"
 #include "snapshot.h"
 #include "utils.h"
 #include "vdc-cmdline-options.h"
@@ -88,7 +89,7 @@ static int init_raster(void)
     raster = &vdc.raster;
 
     raster_init(raster, VDC_NUM_VMODES, VDC_NUM_SPRITES);
-    raster_modes_set_idle_mode(&raster->modes, VDC_IDLE_MODE);
+    raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
     raster_set_exposure_handler(raster, vdc_exposure_handler);
     raster_enable_cache(raster, vdc_resources.video_cache_enabled);
     raster_enable_double_scan(raster, 0);

@@ -34,6 +34,7 @@
 #include "crtc-draw.h"
 #include "crtc.h"
 #include "crtctypes.h"
+#include "raster-modes.h"
 #include "types.h"
 
 
@@ -454,14 +455,14 @@ static void draw_reverse_line_cached_2x(raster_cache_t *l, int xs, int xe)
 #ifdef CRTC_NEED_2X
 static void setup_double_size_modes (void)
 {
-    raster_modes_set (&crtc.raster.modes, CRTC_STANDARD_MODE,
+    raster_modes_set (crtc.raster.modes, CRTC_STANDARD_MODE,
                     NULL /* get_std_text */,
                     NULL /* draw_std_text_cached */,
                     draw_standard_line_2x,
                     draw_standard_background_2x,
                     NULL /* draw_std_text_foreground */ );
 
-    raster_modes_set (&crtc.raster.modes, CRTC_REVERSE_MODE,
+    raster_modes_set (crtc.raster.modes, CRTC_REVERSE_MODE,
                     NULL /* get_rev_text */,
                     NULL /* draw_rev_text_cached*/,
                     draw_reverse_line_2x,
@@ -472,14 +473,14 @@ static void setup_double_size_modes (void)
 
 static void setup_single_size_modes (void)
 {
-    raster_modes_set (&crtc.raster.modes, CRTC_STANDARD_MODE,
+    raster_modes_set (crtc.raster.modes, CRTC_STANDARD_MODE,
                     NULL /* get_std_text */,
                     NULL /* draw_std_text_cached */,
                     draw_standard_line,
                     draw_standard_background,
                     NULL /* draw_std_text_foreground */ );
 
-    raster_modes_set (&crtc.raster.modes, CRTC_REVERSE_MODE,
+    raster_modes_set (crtc.raster.modes, CRTC_REVERSE_MODE,
                     NULL /* get_rev_text */,
                     NULL /* draw_rev_text_cached*/,
                     draw_reverse_line,
