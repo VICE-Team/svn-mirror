@@ -51,8 +51,10 @@
 
 static int cartridge_type;
 static char *cartridge_file;
+static int cartridge_mode;
 
 int carttype = CARTRIDGE_NONE;
+int cartmode = CARTRIDGE_MODE_OFF;
 static int crttype = 0;
 static char *cartfile;
 
@@ -79,11 +81,24 @@ static int set_cartridge_file(resource_value_t v)
     return cartridge_attach_image(carttype, cartfile);
 }
 
+static int set_cartridge_mode(resource_value_t v)
+	{
+	/*
+	 *      * Set cartridge mode.
+	 *           */
+	cartridge_mode = (int) v;
+	cartmode = cartridge_mode;
+
+	return 0;
+	}
+
 static resource_t resources[] = {
     { "CartridgeType", RES_INTEGER, (resource_value_t) CARTRIDGE_NONE,
       (resource_value_t *) &cartridge_type, set_cartridge_type },
     { "CartridgeFile", RES_STRING, (resource_value_t) "",
       (resource_value_t *) &cartridge_file, set_cartridge_file },
+	{ "CartridgeMode", RES_INTEGER, (resource_value_t) CARTRIDGE_MODE_OFF,
+	      (resource_value_t *) &cartridge_mode, set_cartridge_mode },
     { NULL }
 };
 
@@ -129,6 +144,9 @@ static cmdline_option_t cmdline_options[] =
     {"-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
      "<name>", "Attach raw 16KB Westermann learning cartridge image"},
+	{"-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
+	 (void *)CARTRIDGE_EXPERT, NULL, NULL,
+	 NULL, "Enable expert cartridge"},
     {NULL}
 };
 
@@ -146,10 +164,16 @@ int cartridge_attach_image(int type, const char *filename)
     BYTE header[0x40], chipheader[0x10];
     int i;
 
-    /* Attaching no cartridge always works.  */
-    if (type == CARTRIDGE_NONE || *filename == '\0')
-        return 0;
-
+	/* The expert cartridge does not have a filename.
+	 * It should only be enabled without loading an image.
+	 */
+	if (type != CARTRIDGE_EXPERT)
+		{
+		/* Attaching no cartridge always works. */
+		if (type == CARTRIDGE_NONE || *filename == '\0')
+			return 0;
+		}
+	
     /* allocate temporary array */
     rawcart = xmalloc(0x44000);
 
@@ -215,6 +239,10 @@ int cartridge_attach_image(int type, const char *filename)
         }
         fclose(fd);
         break;
+	  case CARTRIDGE_EXPERT:
+		/* Clear initial RAM */
+		memset(rawcart, 0xff, 0x2000);
+		break; 
       case CARTRIDGE_IEEE488:
 	/* FIXME: ROM removed? */
         fd = fopen(filename, MODE_READ);
@@ -393,7 +421,7 @@ int cartridge_attach_image(int type, const char *filename)
         goto done;
     }
 
-    carttype = type;
+    cartridge_type = carttype = type;       /* Resource value updated! */
     string_set(&cartfile, filename);
     cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     free(rawcart);
@@ -410,6 +438,7 @@ void cartridge_detach_image(void)
 	cartridge_detach((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 	carttype = CARTRIDGE_NONE;
 	crttype = CARTRIDGE_NONE;
+	cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
         if (cartfile != NULL)
             free(cartfile), cartfile = NULL;
     }
@@ -434,7 +463,7 @@ static int cartridge_change_mapping(CLOCK offset)
 void cartridge_init(void)
 {
     alarm_init(&cartridge_alarm, &maincpu_alarm_context,
-               "Cartrigde", cartridge_change_mapping);
+               "Cartridge", cartridge_change_mapping);
 }
 
 void cartridge_trigger_freeze(void)
@@ -446,7 +475,8 @@ void cartridge_trigger_freeze(void)
         && carttype != CARTRIDGE_SUPER_SNAPSHOT
         && carttype != CARTRIDGE_SUPER_SNAPSHOT_V5
         && carttype != CARTRIDGE_ATOMIC_POWER
-        && crttype != CARTRIDGE_FINAL_I)
+        && crttype != CARTRIDGE_FINAL_I
+		&& carttype != CARTRIDGE_EXPERT)
         return;
 
     maincpu_set_nmi(I_FREEZE, IK_NMI);

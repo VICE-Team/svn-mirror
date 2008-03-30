@@ -55,22 +55,38 @@ static UI_CALLBACK(attach_cartridge)
     static char *last_dir;
 
     suspend_speed_eval();
-    filename = ui_select_file("Attach cartridge image",
-                              NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]", 
-			      &button, False);
 
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (cartridge_attach_image(type, filename) < 0)
-            ui_error("Invalid cartridge image");
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
+    switch (type)
+		{
+		case CARTRIDGE_EXPERT:
+			/*
+			 * Expert cartridge has *no* image file.
+			 * It's only emulation that should be enabled!
+			 */
+			if (cartridge_attach_image(type, NULL) < 0)
+				ui_error("Invalid cartridge");
+			break;
+
+		default:
+			{
+			filename = ui_select_file("Attach cartridge image",
+				NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]",
+				&button, False);
+
+			switch (button) {
+				case UI_BUTTON_OK:
+					if (cartridge_attach_image(type, filename) < 0)
+						ui_error("Invalid cartridge image");
+					if (last_dir)
+						free(last_dir);
+					fname_split(filename, &last_dir, NULL);
+					break;
+				default:
+					/* Do nothing special. */
+					break;
+				}
+			}
+		}
     ui_update_menus();
 }
 
@@ -111,6 +127,42 @@ static ui_menu_entry_t datasette_control_submenu[] = {
     { NULL }
 };
 
+static UI_CALLBACK(control_cartridge)
+	{
+	int cardtype = CARTRIDGE_NONE;
+
+	if (!CHECK_MENUS)
+		{
+		ui_update_menus();
+		}
+	else
+		{
+		resources_get_value("CartridgeType", (resource_value_t *) &cardtype);
+		switch (cardtype)
+			{
+			case CARTRIDGE_EXPERT:
+				ui_menu_set_sensitive(w, True);
+				break;
+
+			default:
+				ui_menu_set_sensitive(w, False);
+				break;
+			}
+		}
+	}
+
+UI_MENU_DEFINE_RADIO(CartridgeMode)
+
+static ui_menu_entry_t cartridge_control_submenu[] = {
+	{ "*Prg", (ui_callback_t) radio_CartridgeMode,
+		(ui_callback_data_t) CARTRIDGE_MODE_PRG, NULL },
+	{ "*Off", (ui_callback_t) radio_CartridgeMode,
+		(ui_callback_data_t) CARTRIDGE_MODE_OFF, NULL },
+	{ "*On", (ui_callback_t) radio_CartridgeMode,
+		(ui_callback_data_t) CARTRIDGE_MODE_ON, NULL },
+	{ NULL }
+	};
+
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Smart attach CRT image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
@@ -140,7 +192,13 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Super Snapshot 5 image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
-    { "--" },
+	{ "--" },
+	{ "Enable Expert Cartridge...",
+	  (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+	  CARTRIDGE_EXPERT, NULL },
+	{ "*Cartridge control",
+	  (ui_callback_t) control_cartridge, (ui_callback_data_t) 0, cartridge_control_submenu },
+	{ "--" },
     { "Set cartridge as default", (ui_callback_t)
       default_cartridge, NULL, NULL },
     { NULL }

@@ -143,6 +143,8 @@ struct cpu_int_status_s {
     enum cpu_int global_pending_int;
 
     void (*nmi_trap_func)(void);
+
+    void (*reset_trap_func)(void);
 };
 typedef struct cpu_int_status_s cpu_int_status_t;
 
@@ -354,6 +356,8 @@ struct snapshot_module_s;
 
 extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(cpu_int_status_t *cs);
+extern void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
+                                        void (*reset_trap_func)(void));
 extern void interrupt_trigger_trap(cpu_int_status_t *cs,
                                    void (*trap_func)(ADDRESS, void *data),
                                    void *data, CLOCK cpu_clk);

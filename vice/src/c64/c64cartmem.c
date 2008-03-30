@@ -74,6 +74,15 @@ static int export_ram_at_a000 = 0;
 /* Type of the cartridge attached.  */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
+/* Cartridge mode. Expert cartridge only (at the moment..) */
+extern int cartmode; 
+
+/*
+ * Remember whether or not the cartridge should be activated or not.
+ */
+static int enable_trigger = 0;          /* Needed by Expert cartridge... */
+
+
 static void cartridge_config_changed(BYTE mode)
 {
     export.game = mode & 1;
@@ -85,6 +94,64 @@ static void cartridge_config_changed(BYTE mode)
         cartridge_release_freeze();
     ultimax = export.game & (export.exrom ^ 1);
     vic_ii_update_memory_ptrs_external();
+}
+
+void REGPARM1 cartridge_decode_address(ADDRESS addr)
+{
+	BYTE config;
+
+	switch (mem_cartridge_type)
+		{
+		case CARTRIDGE_EXPERT:
+			/*
+			 * Mask A15-A13.
+			 */
+			addr = addr & 0xe000;
+
+			/*
+			 * Default disable ~GAME, ~EXROM & export_ram
+			 * and do not mirror $8000-$9fff at $e000-$ffff in ultimax mode.
+			 */
+			config = (1 << 1);
+			export_ram_at_a000 = 0;
+
+			switch (cartmode)
+				{
+				case CARTRIDGE_MODE_ON:
+					if (enable_trigger &&
+						((addr == 0x8000) || (addr = 0xe000)))
+						{
+						config = (1 << 0);		/* Enable ~GAME */
+						config |= (1 << 1);		/* Disable ~EXROM */
+						config |= (1 << 5);		/* Enable export_ram */
+						/*
+						 * In ultimax mode: Mirror $8000-$9fff at $e000-$ffff
+						 */
+						export_ram_at_a000 = 1;
+						}
+					break;
+
+				case CARTRIDGE_MODE_PRG:
+					if (addr == 0x8000)
+						{
+						config = (1 << 0);		/* Enable ~GAME */
+						config |= (1 << 1);		/* Disable ~EXROM */
+						config |= (1 << 5);		/* Enable export_ram */
+						/*
+						 * In ultimax mode: Mirror $8000-$9fff at $e000-$ffff
+						 */
+						export_ram_at_a000 = 1;
+						}
+					break;
+				}
+
+			if (ramconfig != config)
+				{
+				cartridge_config_changed(config);
+				ramconfig = config;
+				}
+			break;
+		}
 }
 
 BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
@@ -120,7 +187,20 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
           case 3:
             return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
         }
-    }
+	  case CARTRIDGE_EXPERT:
+		switch (cartmode)
+			{
+			case CARTRIDGE_MODE_PRG:
+			case CARTRIDGE_MODE_OFF:
+				return 0;
+			case CARTRIDGE_MODE_ON:
+				/*
+				 * Reset the nmi/reset trigger.
+				 */
+				enable_trigger = 0;
+				return 0;
+			}
+	}
     return rand();
 }
 
@@ -204,6 +284,19 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         pla_config_changed();
         ultimax = 0;
         break;
+	  case CARTRIDGE_EXPERT:
+		switch (cartmode)
+			{
+			case CARTRIDGE_MODE_PRG:
+			case CARTRIDGE_MODE_OFF:
+				break;
+			case CARTRIDGE_MODE_ON:
+				/*
+				 * Reset the nmi/reset trigger (= cartridge disabled).
+				 */
+				enable_trigger = 0;
+				break;
+			}   
     }
     return;
 }
@@ -420,6 +513,16 @@ void cartridge_init_config(void)
         cartridge_config_changed(0);
         /* FIXME: Insert interface init here.  */
         break;
+	  case CARTRIDGE_EXPERT:
+		/*
+		 * Initialize nmi/reset trap functions.
+		 */
+		interrupt_set_nmi_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
+		interrupt_set_reset_trap_func(&maincpu_int_status, cartridge_ack_nmi_reset);
+
+		ramconfig = (1 << 1);       /* Disable ~EXROM */
+		cartridge_config_changed(ramconfig);
+		break;
     }
 }
 
@@ -504,6 +607,13 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
         cartridge_config_changed(0);
         break;
+	  case CARTRIDGE_EXPERT:
+		memcpy(export_ram0, rawcart, 0x2000);
+
+		ramconfig = (1 << 1);       /* Disable ~EXROM */
+		enable_trigger = 0;
+		cartridge_config_changed(ramconfig);
+		break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -533,3 +643,19 @@ void cartridge_freeze(int type)
         cartridge_config_changed(3);
 }
 
+void cartridge_ack_nmi_reset(void)
+{
+	if (mem_cartridge_type == CARTRIDGE_EXPERT)
+		{
+		switch (cartmode)
+			{
+			case CARTRIDGE_MODE_PRG:
+			case CARTRIDGE_MODE_OFF:
+				break;
+
+			case CARTRIDGE_MODE_ON:
+				enable_trigger = 1;
+				break;
+			}
+		}
+}

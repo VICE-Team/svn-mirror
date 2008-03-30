@@ -50,12 +50,19 @@ void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
     cs->last_stolen_cycles_clk = (CLOCK)0;
     cs->global_pending_int = IK_NONE;
     cs->nmi_trap_func = NULL;
+    cs->reset_trap_func = NULL;
 }
 
 void interrupt_set_nmi_trap_func(cpu_int_status_t *cs,
                                  void (*nmi_trap_func)(void))
 {
     cs->nmi_trap_func = nmi_trap_func;
+}
+
+void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
+                                 void (*reset_trap_func)(void))
+{
+    cs->reset_trap_func = reset_trap_func;
 }
 
 /* Move all the CLOCK time references forward/backward.  */
@@ -174,6 +181,9 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_RESET;
+
+	if (cs->reset_trap_func)
+		cs->reset_trap_func();
 }
 
 /* Acknowledge a RESET condition, by removing it.  */

@@ -59,6 +59,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_FINAL_III          3
 #define CARTRIDGE_SIMONS_BASIC       4
 #define CARTRIDGE_OCEAN              5
+#define CARTRIDGE_EXPERT             6
 #define CARTRIDGE_FUNPLAY            7
 #define CARTRIDGE_SUPER_GAMES        8
 #define CARTRIDGE_ATOMIC_POWER       9
@@ -66,6 +67,11 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_WESTERMANN         11
 #define CARTRIDGE_REX                12
 #define CARTRIDGE_FINAL_I            13
+
+/* Expert cartridge has three modes: */
+#define CARTRIDGE_MODE_OFF			0
+#define CARTRIDGE_MODE_PRG			1
+#define CARTRIDGE_MODE_ON			2
 
 /* VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000 */
 #define	CARTRIDGE_VIC20_DETECT		0

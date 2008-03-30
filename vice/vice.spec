@@ -12,7 +12,7 @@ Source: ftp://ftp.funet.fi/pub/cbm/crossplatform/emulators/VICE/vice-%{version}.
 URL: http://www.cs.cmu.edu/%7Edsladic/vice/vice.html
 Packager: Andreas Boose <boose@linux.rz.fh-hannover.de>
 Prefix: %{prefix}
-BuildRoot: /opt/rpm-build-root
+BuildRoot: /var/tmp/vice-build-root
 
 %description
 VICE is a set of accurate emulators for the Commodore 64, 128, VIC20,
@@ -29,8 +29,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{prefix}
-make prefix=$RPM_BUILD_ROOT%{prefix} install
-strip $RPM_BUILD_ROOT%{prefix}/bin/*
+make prefix=$RPM_BUILD_ROOT%{prefix} install-stripped
 gzip -9 $RPM_BUILD_ROOT%{prefix}/man/man1/*
 gzip -9 $RPM_BUILD_ROOT%{prefix}/info/*
 
@@ -48,7 +47,8 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/xcbm2
 %{prefix}/bin/c1541
 %{prefix}/bin/petcat
-%{prefix}/lib/vice
+%{prefix}/bin/vsid
+%{prefix}/lib/vice/
 %{prefix}/man/man1/c1541.1.gz
 %{prefix}/man/man1/petcat.1.gz
 %{prefix}/man/man1/vice.1.gz

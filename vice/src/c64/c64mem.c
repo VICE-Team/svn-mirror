@@ -306,6 +306,9 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t *mem_write_tab_watch;
 static read_func_ptr_t *mem_read_tab_watch;
+
+static store_func_ptr_t (*mem_write_tab_orig)[NUM_CONFIGS][0x101];
+static read_func_ptr_t (*mem_read_tab_orig)[0x101];
 #else
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
@@ -314,6 +317,9 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
+
+static store_func_ptr_t mem_write_tab_orig[NUM_VBANKS][NUM_CONFIGS][0x101];
+static read_func_ptr_t mem_read_tab_orig[NUM_CONFIGS][0x101];
 #endif
 
 /* Processor port.  */
@@ -551,6 +557,34 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
         kernal_rom[addr & 0x1fff] = value;
         break;
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void REGPARM2 cartridge_decode_store(ADDRESS addr, BYTE value)
+{
+	/*
+	 * Change mapping according to the address decoding.
+	 */
+	cartridge_decode_address(addr);
+
+	/*
+	 * Store data at the decoded address.
+	 */
+	mem_write_tab_orig[vbank][mem_config][addr >> 8](addr, value);
+}
+
+static BYTE REGPARM1 cartridge_decode_read(ADDRESS addr)
+{
+	/*
+	 * Change mapping according to the address decoding.
+	 */
+	cartridge_decode_address(addr);
+
+	/*
+	 * Read data from decoded address.
+	 */
+    return mem_read_tab_orig[mem_config][addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -834,6 +868,53 @@ void initialize_memory(void)
     export.exrom = 0;
     export.game = 0;
 
+	/*
+	 * Copy mapping to a separate table.
+	 * This table will contain the original (unmodified) mapping.
+	 */
+	memcpy(mem_write_tab_orig, mem_write_tab, NUM_VBANKS*sizeof(*mem_write_tab));
+	memcpy(mem_read_tab_orig, mem_read_tab, NUM_CONFIGS*sizeof(*mem_read_tab));
+
+	/*
+	 * Change current mapping for Expert cartridge usage.
+	 */
+    if (mem_cartridge_type == CARTRIDGE_EXPERT)
+		{
+		/*
+		 * Mapping for ~GAME disabled
+		 */
+		for (j = 0; j < 16; j++)
+			{
+			for (i = 0x80; i <= 0x9f; i++)
+				{
+				/* $8000 - $9FFF */
+				mem_read_tab[j][i] = cartridge_decode_read;
+
+				/* Setup writing at $8000-$9FFF */
+				set_write_hook(j, i, cartridge_decode_store);
+
+				/* $E000 - $FFFF */
+				mem_read_tab[j][i+0x60] = cartridge_decode_read;
+				}
+			}
+
+		/*
+		 * Mapping for ~GAME enabled.
+		 */
+		for (j = 16; j < NUM_CONFIGS; j++)
+			{
+			/* $0000 - $FFFF */
+			for (i = 0x00; i <= 0xff; i++)
+				{
+				/* Setup reading */
+				mem_read_tab[j][i] = cartridge_decode_read;
+
+				/* Setup writing */
+				set_write_hook(j, i, cartridge_decode_store);
+				}
+			}
+		}
+
     /* Setup initial memory configuration.  */
     pla_config_changed();
     cartridge_init_config();
@@ -860,6 +941,9 @@ void mem_powerup(void)
 
 	mem_write_tab_watch = xmalloc(0x101*sizeof(*mem_write_tab_watch));
 	mem_read_tab_watch = xmalloc(0x101*sizeof(*mem_read_tab_watch));
+
+	mem_write_tab_orig = xmalloc(NUM_VBANKS*sizeof(*mem_write_tab));
+	mem_read_tab_orig = xmalloc(NUM_CONFIGS*sizeof(*mem_read_tab));
 
 	roml_banks = xmalloc(0x20000);
 	romh_banks = xmalloc(0x20000);

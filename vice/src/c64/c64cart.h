@@ -33,9 +33,13 @@ extern BYTE REGPARM1 cartridge_read_io1(ADDRESS addr);
 extern BYTE REGPARM1 cartridge_read_io2(ADDRESS addr);
 extern void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value);
 extern void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value);
+extern void REGPARM1 cartridge_decode_address(ADDRESS addr);
 extern void cartridge_init_config(void);
 
 extern void cartridge_init(void);
+
+/* Handle nmi/reset acknowledge for cartridge emulation. (CARTRIDGE_EXPERT) */
+extern void cartridge_ack_nmi_reset(void);
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 extern int ultimax;
