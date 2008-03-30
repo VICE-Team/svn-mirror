@@ -143,10 +143,14 @@ struct cap_render_s {
 };
 typedef struct cap_render_s cap_render_t;
 
+#define FULLSCREEN_MAXDEV 3
+
 struct cap_fullscreen_s {
     unsigned int device_num;
-    char **device_name;
-    int (*mode)(struct video_canvas_s *canvas, int mode);
+    const char *device_name[FULLSCREEN_MAXDEV];
+    int (*enable)(struct video_canvas_s *canvas, int enable);
+    int (*device)(struct video_canvas_s *canvas, const char *device);
+    int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
 };
 typedef struct cap_fullscreen_s cap_fullscreen_t;
 
@@ -167,8 +171,6 @@ extern int video_resources_chip_init(const char *chipname,
                                      video_chip_cap_t *video_chip_cap);
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
-
-extern void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen);
 
 /* Video render interface */
 
