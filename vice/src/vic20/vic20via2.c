@@ -30,13 +30,10 @@
 
 #include <stdio.h>
 
-#include "alarm.h"
-#include "clkguard.h"
 #include "datasette.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "keyboard.h"
-#include "log.h"
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
@@ -244,23 +241,16 @@ static void int_via2t2(CLOCK c)
     viacore_intt2(&(machine_context.via2), c);
 }
 
+static const via_initdesc_t via_initdesc[1] = {
+    { &(machine_context.via2), clk_overflow_callback_via2,
+      int_via2t1, int_via2t2 },
+};
+
 void via2_init(via_context_t *via_context)
 {
-    char buffer[16];
-
-    via_context->log = log_open(via_context->my_module_name);
-
-    sprintf(buffer, "%sT1", via_context->myname);
-    via_context->t1_alarm = alarm_new(maincpu_alarm_context, buffer,
-                            int_via2t1);
-    sprintf(buffer, "%sT2", via_context->myname);
-    via_context->t2_alarm = alarm_new(maincpu_alarm_context, buffer,
-                            int_via2t2);
-
-    via_context->int_num = interrupt_cpu_status_int_new(maincpu_int_status,
-                                                        via_context->myname);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_via2, NULL);}
+    viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
+                 maincpu_clk_guard);
+}
 
 void vic20via2_setup_context(machine_context_t *machine_context)
 {
@@ -275,11 +265,10 @@ void vic20via2_setup_context(machine_context_t *machine_context)
 
     sprintf(via->myname, "Via2");
     sprintf(via->my_module_name, "VIA2");
-    via->read_clk = 0;
-    via->read_offset = 0;
-    via->last_read = 0;
+
+    viacore_setup_context(via);
+
     via->irq_line = IK_NMI;
-    via->log = LOG_ERR;
 
     via->undump_pra = undump_pra;
     via->undump_prb = undump_prb;

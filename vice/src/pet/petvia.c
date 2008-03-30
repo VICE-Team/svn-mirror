@@ -27,8 +27,8 @@
 
 #include "vice.h"
 
-#include "alarm.h"
-#include "clkguard.h"
+#include <stdio.h>
+
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
@@ -93,7 +93,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
 inline static void store_pra(via_context_t *via_context, BYTE byte,
                              BYTE myoldpa, WORD addr)
 {
-        printer_interface_userport_write_data(byte);
+    printer_interface_userport_write_data(byte);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)
@@ -253,23 +253,15 @@ static void int_viat2(CLOCK c)
     viacore_intt2(&(machine_context.via), c);
 }
 
+static const via_initdesc_t via_initdesc[1] = {
+    { &(machine_context.via), clk_overflow_callback_via,
+      int_viat1, int_viat2 },
+};
+
 void via_init(via_context_t *via_context)
 {
-    char buffer[16];
-
-    via_context->log = log_open(via_context->my_module_name);
-
-    sprintf(buffer, "%sT1", via_context->myname);
-    via_context->t1_alarm = alarm_new(maincpu_alarm_context, buffer,
-                            int_viat1);
-    sprintf(buffer, "%sT2", via_context->myname);
-    via_context->t2_alarm = alarm_new(maincpu_alarm_context, buffer,
-                            int_viat2);
-
-    via_context->int_num = interrupt_cpu_status_int_new(maincpu_int_status,
-                                                        via_context->myname);
-
-    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_via, NULL);
+    viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
+                 maincpu_clk_guard);
 }
 
 void petvia_setup_context(machine_context_t *machine_context)
@@ -285,11 +277,10 @@ void petvia_setup_context(machine_context_t *machine_context)
 
     sprintf(via->myname, "Via");
     sprintf(via->my_module_name, "VIA");
-    via->read_clk = 0;
-    via->read_offset = 0;
-    via->last_read = 0;
+
+    viacore_setup_context(via);
+
     via->irq_line = IK_IRQ;
-    via->log = LOG_ERR;
 
     via->undump_pra = undump_pra;
     via->undump_prb = undump_prb;
