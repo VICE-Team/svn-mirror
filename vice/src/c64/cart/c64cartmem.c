@@ -89,7 +89,8 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
 
     export.game = mode_phi2 & 1;
     export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
-    romh_bank = roml_bank = (mode_phi2 >> 3) & 3;
+    cartridge_romhbank_set((mode_phi2 >> 3) & 3);
+    cartridge_romlbank_set((mode_phi2 >> 3) & 3);
     export_ram = (mode_phi2 >> 5) & 1;
     mem_pla_config_changed();
     if (mode_phi2 & 0x40)
@@ -126,7 +127,7 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_DINAMIC:
-        roml_bank = (addr & 0x0f);
+        cartridge_romlbank_set(addr & 0x0f);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         return supersnapshot_v4_io1_read(addr);
@@ -182,10 +183,12 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
       case CARTRIDGE_FUNPLAY:
         switch (mem_cartridge_type) {
           case CARTRIDGE_OCEAN:
-            romh_bank = roml_bank = value & 0x3f;
+            cartridge_romhbank_set(value & 0x3f);
+            cartridge_romlbank_set(value & 0x3f);
             break;
           case CARTRIDGE_FUNPLAY:
-            romh_bank = roml_bank = ((value >> 2) | (value & 1)) & 15;
+            cartridge_romhbank_set(((value >> 2) | (value & 1)) & 15);
+            cartridge_romlbank_set(((value >> 2) | (value & 1)) & 15);
             break;
         }
         export.game = export.exrom = 1;
@@ -194,7 +197,7 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         cart_ultimax_phi2 = 0;
         break;
       case CARTRIDGE_GS:
-        roml_bank = addr & 0x3f;
+        cartridge_romlbank_set(addr & 0x3f);
         export.game = 0;
         export.exrom = 1;
         break;
@@ -202,7 +205,7 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         expert_io1_store(addr, value);
         break;
       case CARTRIDGE_MAGIC_DESK:
-        roml_bank = value & 0x3f;
+        cartridge_romlbank_set(addr & 0x3f);
         export.game = 0;
         if (value & 0x80)
             export.exrom = 0;
@@ -533,7 +536,8 @@ void cartridge_attach(int type, BYTE *rawcart)
     int cartridge_reset;
 
     mem_cartridge_type = type;
-    roml_bank = romh_bank = 0;
+    cartridge_romhbank_set(0);
+    cartridge_romlbank_set(0);
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_IEEE488:
@@ -677,4 +681,15 @@ int cartridge_save_image(const char *filename)
 
     return -1;
 }
+
+void cartridge_romhbank_set(unsigned int bank)
+{
+    romh_bank = (int)bank;
+}
+
+void cartridge_romlbank_set(unsigned int bank)
+{
+    roml_bank = (int)bank;
+}
+
 
