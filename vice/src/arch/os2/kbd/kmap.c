@@ -51,12 +51,12 @@ static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 
 static int set_keymap_file(int myindex, const char *name)
 {
-    long kindex;
+    int kindex;
 
     if (myindex >= NUM_KEYBOARD_MAPPINGS)
 	return -1;
 
-    if (resources_get_value("KeymapIndex", (void *)&kindex) < 0)
+    if (resources_get_int("KeymapIndex", &kindex) < 0)
 	return -1;
 
     if (util_string_set(&keymap_file_list[myindex], name))
@@ -64,7 +64,7 @@ static int set_keymap_file(int myindex, const char *name)
 
     /* reset kindex -> reload keymap file if this keymap is active */
     if(kindex == myindex)
-      resources_set_value("KeymapIndex", (resource_value_t) kindex);
+      resources_set_int("KeymapIndex", kindex);
 
     return 0;
 }

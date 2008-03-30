@@ -138,8 +138,8 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
             machine_set_restore_key(release);
             return;
         case VK_SCRLLOCK: // toggle warp mode if ScrlLock is pressed
-            resources_set_value("WarpMode",
-                                (resource_value_t)(fsFlags&KC_TOGGLE));
+            resources_set_int("WarpMode",
+                              (int)(fsFlags&KC_TOGGLE));
             return;
         case VK_CAPSLOCK:  // turn capslock led off if capslock is pressed
             {
