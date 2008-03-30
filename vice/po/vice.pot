@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-11-10 18:01+0100\n"
+"POT-Creation-Date: 2002-11-11 19:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1476,69 +1476,74 @@ msgid ""
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:86
+#: src/arch/unix/uiperipheral.c:91
 msgid "Path:"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:116
-#: src/arch/unix/uiperipheral.c:134 src/arch/unix/uiperipheral.c:152
+#: src/arch/unix/uiperipheral.c:103 src/arch/unix/uiperipheral.c:124
+#: src/arch/unix/uiperipheral.c:145 src/arch/unix/uiperipheral.c:166
 msgid "*File system access"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:119
-#: src/arch/unix/uiperipheral.c:137 src/arch/unix/uiperipheral.c:155
+#: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:127
+#: src/arch/unix/uiperipheral.c:148 src/arch/unix/uiperipheral.c:169
+msgid "*Raw device access"
+msgstr ""
+
+#: src/arch/unix/uiperipheral.c:109 src/arch/unix/uiperipheral.c:130
+#: src/arch/unix/uiperipheral.c:151 src/arch/unix/uiperipheral.c:172
 msgid "*Read only access"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:122
-#: src/arch/unix/uiperipheral.c:140 src/arch/unix/uiperipheral.c:158
+#: src/arch/unix/uiperipheral.c:112 src/arch/unix/uiperipheral.c:133
+#: src/arch/unix/uiperipheral.c:154 src/arch/unix/uiperipheral.c:175
 msgid "File system directory..."
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:124
-#: src/arch/unix/uiperipheral.c:142 src/arch/unix/uiperipheral.c:160
+#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:135
+#: src/arch/unix/uiperipheral.c:156 src/arch/unix/uiperipheral.c:177
 msgid "*Convert P00 file names"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:108 src/arch/unix/uiperipheral.c:126
-#: src/arch/unix/uiperipheral.c:144 src/arch/unix/uiperipheral.c:162
+#: src/arch/unix/uiperipheral.c:116 src/arch/unix/uiperipheral.c:137
+#: src/arch/unix/uiperipheral.c:158 src/arch/unix/uiperipheral.c:179
 msgid "*Create P00 files on save"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:110 src/arch/unix/uiperipheral.c:128
-#: src/arch/unix/uiperipheral.c:146 src/arch/unix/uiperipheral.c:164
+#: src/arch/unix/uiperipheral.c:118 src/arch/unix/uiperipheral.c:139
+#: src/arch/unix/uiperipheral.c:160 src/arch/unix/uiperipheral.c:181
 msgid "*Hide raw CBM files"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:170
+#: src/arch/unix/uiperipheral.c:187
 msgid "Device #8"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:171
+#: src/arch/unix/uiperipheral.c:188
 msgid "Device #9"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:172
+#: src/arch/unix/uiperipheral.c:189
 msgid "Device #10"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:173
+#: src/arch/unix/uiperipheral.c:190
 msgid "Device #11"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:175
+#: src/arch/unix/uiperipheral.c:192
 msgid "Printer settings"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:177
+#: src/arch/unix/uiperipheral.c:194
 msgid "*Enable Virtual Devices"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:180
+#: src/arch/unix/uiperipheral.c:197
 msgid "*Enable CBM4Linux drive access"
 msgstr ""
 
-#: src/arch/unix/uiperipheral.c:187
+#: src/arch/unix/uiperipheral.c:204
 msgid "Peripheral settings"
 msgstr ""
 

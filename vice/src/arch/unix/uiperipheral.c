@@ -36,6 +36,7 @@
 #include "utils.h"
 #include "vsync.h"
 
+
 #if HAVE_CBM4LINUX || HAVE_OPENCBM
 UI_MENU_DEFINE_TOGGLE(DriveRealdrive)
 #endif
@@ -61,6 +62,10 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice8Raw)
+UI_MENU_DEFINE_TOGGLE(AttachDevice9Raw)
+UI_MENU_DEFINE_TOGGLE(AttachDevice10Raw)
+UI_MENU_DEFINE_TOGGLE(AttachDevice11Raw)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {
@@ -98,6 +103,9 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { N_("*File system access"), (ui_callback_t)toggle_FileSystemDevice8,
       NULL, NULL },
     { "--" },
+    { N_("*Raw device access"), (ui_callback_t)toggle_AttachDevice8Raw,
+      NULL, NULL },
+    { "--" },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
     { "--" },
@@ -115,6 +123,9 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
     { N_("*File system access"),
       (ui_callback_t)toggle_FileSystemDevice9, NULL, NULL },
+    { "--" },
+    { N_("*Raw device access"), (ui_callback_t)toggle_AttachDevice9Raw,
+      NULL, NULL },
     { "--" },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice9Readonly, NULL, NULL },
@@ -134,6 +145,9 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
     { N_("*File system access"),
       (ui_callback_t)toggle_FileSystemDevice10, NULL, NULL },
     { "--" },
+    { N_("*Raw device access"), (ui_callback_t)toggle_AttachDevice10Raw,
+      NULL, NULL },
+    { "--" },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
     { "--" },
@@ -151,6 +165,9 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { N_("*File system access"),
       (ui_callback_t)toggle_FileSystemDevice11, NULL, NULL },
+    { "--" },
+    { N_("*Raw device access"), (ui_callback_t)toggle_AttachDevice11Raw,
+      NULL, NULL },
     { "--" },
     { N_("*Read only access"),
       (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
