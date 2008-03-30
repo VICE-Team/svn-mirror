@@ -227,22 +227,22 @@
             if (ik & IK_MONITOR) {                                       \
                 caller_space = CALLER;                                   \
                 if (mon_force_import(CALLER))                            \
-                   IMPORT_REGISTERS();                                   \
+                    IMPORT_REGISTERS();                                  \
                 if (mon_mask[CALLER])                                    \
-                   EXPORT_REGISTERS();                                   \
+                    EXPORT_REGISTERS();                                  \
                 if (mon_mask[CALLER] & (MI_BREAK)) {                     \
-                   if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {    \
-                      mon((ADDRESS) reg_pc);                             \
-                      IMPORT_REGISTERS();                                \
-                   }                                                     \
+                    if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {   \
+                        mon((ADDRESS) reg_pc);                           \
+                        IMPORT_REGISTERS();                              \
+                    }                                                    \
                 }                                                        \
                 if (mon_mask[CALLER] & (MI_STEP)) {                      \
-                   mon_check_icount((ADDRESS) reg_pc);                   \
-                   IMPORT_REGISTERS();                                   \
+                    mon_check_icount((ADDRESS) reg_pc);                  \
+                    IMPORT_REGISTERS();                                  \
                 }                                                        \
                 if (mon_mask[CALLER] & (MI_WATCH)) {                     \
-                   mon_check_watchpoints((ADDRESS) reg_pc);              \
-                   IMPORT_REGISTERS();                                   \
+                    mon_check_watchpoints((ADDRESS) reg_pc);             \
+                    IMPORT_REGISTERS();                                  \
                 }                                                        \
             }                                                            \
             if (ik & IK_DMA) {                                           \
