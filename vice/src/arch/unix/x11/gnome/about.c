@@ -79,31 +79,45 @@ void ui_about(gpointer data)
 #endif
 	"http://www.viceteam.org/",
 	NULL};
+    const gchar *docs[] = {
+	"Ettore Perazzoli et al.", 
+	NULL};
+    const gchar *transl = _(
+	"Martin Pottendorfer - German\n"
+	"Peter Karlsson - Swedish\n"
+	"Andrea Musuruane - Italian\n"
+	"Paul Dube - French\n"
+	"Marco van den Heuvel - Dutch\n"
+	"Flooder - Polish\n");
     if (!about)
     {
-	about = gnome_about_new("V I C E", VERSION, "", authors, "", NULL);
-	gtk_signal_connect(GTK_OBJECT(about),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &about);
-	button = gnome_stock_or_ordinary_button (_("License"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			    button, TRUE, TRUE, 0);
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+	/* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
+	about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
+			     "name", "V I C E", 
+			     "version", VERSION, 
+			     "copyright", _("(c) 1998 - 2006 The Vice Team"), 
+			     "comments", "Versatile Commodore Emulator",
+			     "authors", authors, 
+			     "documenters", docs, 
+			     "translator-credits", transl, 
+/* 			     "logo", logo, */
+			     NULL);
+	g_signal_connect(G_OBJECT(about),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &about);
+	button = gtk_dialog_add_button(GTK_DIALOG(about), _("License"), 
+				       GTK_RESPONSE_OK);
+	g_signal_connect(GTK_OBJECT(button), "clicked",
 			   GTK_SIGNAL_FUNC(license_cb), NULL);
-	gtk_widget_show(button);
-	button = gnome_stock_or_ordinary_button (_("Warranty"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			    button, TRUE, TRUE, 0);
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(warranty_cb), NULL);
-	gtk_widget_show(button);
-	button = gnome_stock_or_ordinary_button (_("Contributors"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			    button, TRUE, TRUE, 0);
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(contrib_cb), NULL);
-	gtk_widget_show(button);
+	button = gtk_dialog_add_button(GTK_DIALOG(about), _("Warranty"),
+				       GTK_RESPONSE_OK);
+	g_signal_connect(GTK_OBJECT(button), "clicked",
+			 GTK_SIGNAL_FUNC(warranty_cb), NULL);
+	button = gtk_dialog_add_button(GTK_DIALOG(about),_("Contributors"),
+				       GTK_RESPONSE_OK);
+	g_signal_connect(GTK_OBJECT(button), "clicked",
+			 GTK_SIGNAL_FUNC(contrib_cb), NULL);
     }
     else
     {

@@ -40,9 +40,13 @@
 #include <errno.h>
 #include <signal.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include <gnome.h>
 #include <gdk/gdkx.h>
+#include <pango/pango.h>
 #ifdef ENABLE_NLS
 #include <locale.h>
 #endif
@@ -69,6 +73,7 @@
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
+#include "kbd.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
@@ -131,14 +136,24 @@ static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
 static char *(*current_image_contents_func)(const char *, unsigned int unit);
-static GdkFont *fixedfont, *textfont;
+/* static GdkFont *fixedfont, *textfont; */
 /* FIXME, ask Xresources here */
-static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
-static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
+/*
+  static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
+  static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
+*/
+static char *textfontname="Lucida Typewriter 8";
+static char *fixedfontname="fxd 8";
+/* static char *fixedfontname="Adolescence 12"; */
+
+
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
+
+static PangoFontDescription *text_font_desc;
+static PangoFontDescription *fixed_font_desc;
 
 /* ------------------------------------------------------------------------- */
 
@@ -150,11 +165,11 @@ static GtkWidget *left_menu, *right_menu;
 
 /* Translations for the left and right menus.  */
 /*
-static XtTranslations left_menu_translations, right_menu_translations;
+  static XtTranslations left_menu_translations, right_menu_translations;
 */
 /* Application context. */
 /*
-static XtAppContext app_context;
+  static XtAppContext app_context;
 */
 
 /* Toplevel widget. */
@@ -216,7 +231,7 @@ static int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
 GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel, 
-    *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
+*drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
 
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
@@ -225,10 +240,12 @@ GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
 
 static int alloc_colormap(void);
 /*static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);*/
-static GtkWidget* build_file_selector(ui_button_t *button_return,
-				      GtkWidget **image_contents_widget,
-				      GtkWidget **autostart_button_widget,
-				      GtkWidget **attach_write_protect);
+static GtkWidget* build_file_selector(const char *title,
+				      GtkWidget **attach_write_protect,
+				      int allow_autostart,
+				      int show_preview,
+				      const char *pat,
+				      const char *default_dir);
 static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
@@ -239,7 +256,6 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event,
 				  gpointer data);
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
 static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data);
-static void filesel_autostart_cb(GtkWidget *w, gpointer data);
 static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
 
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
@@ -322,8 +338,6 @@ static String fallback_resources[] = {
 
 void ui_check_mouse_cursor()
 {
-    int window_doublesize;
-
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         return;
@@ -333,8 +347,10 @@ void ui_check_mouse_cursor()
     {
 #ifdef USE_XF86_EXTENSIONS
         if(fullscreen_is_enabled) {
+	    int window_doublesize;
+
             if (resources_get_value("FullscreenDoubleSize",
-                (void *)&window_doublesize) < 0)
+				    (void *)&window_doublesize) < 0)
                 return;
         }
 #endif
@@ -360,7 +376,7 @@ void ui_check_mouse_cursor()
 			 CurrentTime);
     }
     else if (cursor_is_blank) {
-      /*        XUndefineCursor(display,XtWindow(canvas));*/
+	/*        XUndefineCursor(display,XtWindow(canvas));*/
         gdk_keyboard_ungrab(CurrentTime);
         gdk_pointer_ungrab(CurrentTime);
     }
@@ -400,7 +416,8 @@ void archdep_ui_init(int argc, char *argv[])
 
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
-    gnome_init(PACKAGE, VERSION, 1, fake_argv);
+    gnome_program_init(PACKAGE, VERSION, LIBGNOMEUI_MODULE, 1, fake_argv,
+		       GNOME_PARAM_POPT_TABLE, NULL, NULL);
 
     /* set X11 fontpath */
     if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
@@ -579,11 +596,6 @@ static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
     return 0;
 }
 
-static void filesel_autostart_cb(GtkWidget *w, gpointer data)
-{
-    *((ui_button_t *)data) = UI_BUTTON_AUTOSTART;
-}
-
 static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if(event->type == GDK_BUTTON_PRESS) {
@@ -619,7 +631,7 @@ int ui_init_finish(void)
 	for (i = 0; classes[i].name != NULL ; i++) {
 	    if ((visual = gdk_visual_get_best_with_both(depth,
 							classes[i].class)))
-		 break;
+		break;
 	}
 	if (!classes[i].name) {
 	    log_error(ui_log,
@@ -648,9 +660,9 @@ int ui_init_finish(void)
 
 	done = 0;
 	for (j = 0; classes[j].name != NULL; j++) {
-	  if ( (visual = gdk_visual_get_best_with_both(sdepth,
-						       classes[j].class)) ||
-	       (visual = gdk_visual_get_best_with_type(classes[j].class)) )
+	    if ( (visual = gdk_visual_get_best_with_both(sdepth,
+							 classes[j].class)) ||
+		 (visual = gdk_visual_get_best_with_type(classes[j].class)) )
 	    {
 	        depth = visual->depth;
 		log_message(ui_log, _("Found %dbit/%s visual."),
@@ -667,19 +679,22 @@ int ui_init_finish(void)
 #endif
     }
 
-    textfont = gdk_font_load(textfontname);
-    if (!textfont)
-	log_error(ui_log, _("Cannot load text font %s."), fixedfontname);
+    text_font_desc = pango_font_description_from_string(textfontname);
+    if (!text_font_desc)
+	log_error(ui_log, _("Cannot load text font %s."), textfontname);
 
-    fixedfont = gdk_font_load(fixedfontname);
-    if (fixedfont)
+    fixed_font_desc = pango_font_description_from_string(fixedfontname);
+    if (fixed_font_desc)
 	have_cbm_font = TRUE;
     else
     {
 	log_warning(ui_log, _("Cannot load CBM font %s."), fixedfontname);
-	fixedfont = textfont;
+	fixed_font_desc = text_font_desc;
 	have_cbm_font = FALSE;
     }
+    have_cbm_font = FALSE;	/* XXX Fixme once CBM font is working */
+	
+/*     printf ("to String: %s\nto FN: %s\n", pango_font_description_to_string(fixed_font_desc),   pango_font_description_to_filename(fixed_font_desc)); */
 
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_init() < 0)
@@ -714,7 +729,13 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
 {
+    GtkRequisition req;
+
     gtk_widget_hide(video_ctrl_checkbox);
+    gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
+    gdk_window_resize(gdk_window_get_toplevel(w->window), 
+		      req.width, req.height);
+    gdk_flush();
     screenshot_stop_recording();
 }
 
@@ -750,9 +771,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     event_box = gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(status_bar), event_box, TRUE, TRUE,0);
     gtk_widget_show(event_box);
-    gtk_signal_connect(GTK_OBJECT(event_box),
-		       "button-press-event",
-		       GTK_SIGNAL_FUNC(speed_popup_cb), (gpointer) NULL);
+    g_signal_connect(G_OBJECT(event_box),
+		     "button-press-event",
+		     G_CALLBACK(speed_popup_cb), (gpointer) NULL);
     
     frame = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(frame), GTK_SHADOW_IN);
@@ -783,9 +804,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_frame_set_shadow_type (GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
     pcb = pal_tb = gtk_check_button_new_with_label(_("PAL Controls"));
     GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
-    gtk_signal_connect(GTK_OBJECT(pcb), "toggled", 
-		       GTK_SIGNAL_FUNC(ui_update_pal_checkbox),
-		       pcb);
+    g_signal_connect(G_OBJECT(pcb), "toggled", 
+		     G_CALLBACK(ui_update_pal_checkbox),
+		     pcb);
     gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
     gtk_widget_show(pcb);
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
@@ -805,9 +826,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
     gtk_widget_show(video_ctrl_checkbox_label);
     GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
-    gtk_signal_connect(GTK_OBJECT(vcb), "clicked", 
-		       GTK_SIGNAL_FUNC(ui_update_video_checkbox),
-		       vcb);
+    g_signal_connect(G_OBJECT(vcb), "clicked", 
+		     G_CALLBACK(ui_update_video_checkbox),
+		     vcb);
     gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, 
@@ -824,9 +845,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_container_add(GTK_CONTAINER(vcb), event_rec_checkbox_label);
     gtk_widget_show(event_rec_checkbox_label);
     GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
-    gtk_signal_connect(GTK_OBJECT(vcb), "clicked", 
-		       GTK_SIGNAL_FUNC(ui_update_event_checkbox),
-		       (gpointer) 0);
+    g_signal_connect(G_OBJECT(vcb), "clicked", 
+		     G_CALLBACK(ui_update_event_checkbox),
+		     (gpointer) 0);
     gtk_container_add(GTK_CONTAINER(event_rec_checkbox), vcb);
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), event_rec_checkbox, 
@@ -844,9 +865,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_container_add(GTK_CONTAINER(vcb), event_playback_checkbox_label);
     gtk_widget_show(event_playback_checkbox_label);
     GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
-    gtk_signal_connect(GTK_OBJECT(vcb), "clicked", 
-		       GTK_SIGNAL_FUNC(ui_update_event_checkbox),
-		       (gpointer) 1);
+    g_signal_connect(G_OBJECT(vcb), "clicked", 
+		     G_CALLBACK(ui_update_event_checkbox),
+		     (gpointer) 1);
     gtk_container_add(GTK_CONTAINER(event_playback_checkbox), vcb);
     gtk_widget_show(vcb);
     gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, 
@@ -907,8 +928,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, 
 			   depth);
 	as->drive_status[i].led = 
-	    gtk_pixmap_new(as->drive_status[i].led_pixmap, NULL);
-	gtk_widget_set_usize(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
+	    gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
+	gtk_widget_set_size_request(as->drive_status[i].led, 
+				    LED_WIDTH, LED_HEIGHT);
 	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
 			   (GtkWidget *)as->drive_status[i].led,
 			   FALSE,FALSE, 4);
@@ -919,9 +941,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
 			   depth);
 	as->drive_status[i].led1 = 
-	    gtk_pixmap_new(as->drive_status[i].led1_pixmap, NULL);
-	gtk_widget_set_usize(as->drive_status[i].led1, LED_WIDTH/2, 
-			     LED_HEIGHT);
+	    gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
+	gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH/2, 
+				    LED_HEIGHT);
 	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
 			   (GtkWidget *)as->drive_status[i].led1,
 			   FALSE, FALSE, 1);
@@ -932,9 +954,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
 			   depth);
 	as->drive_status[i].led2 = 
-	    gtk_pixmap_new(as->drive_status[i].led2_pixmap, NULL);
-	gtk_widget_set_usize(as->drive_status[i].led2, LED_WIDTH/2, 
-			     LED_HEIGHT);
+	    gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
+	gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH/2, 
+				    LED_HEIGHT);
 	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
 			   (GtkWidget *)as->drive_status[i].led2,
 			   FALSE,FALSE, 1);
@@ -948,9 +970,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			      GDK_BUTTON_PRESS_MASK |
 			      GDK_BUTTON_RELEASE_MASK |
 	                      GDK_ENTER_NOTIFY_MASK);
-	gtk_signal_connect(GTK_OBJECT(as->drive_status[i].event_box),
-			   "button-press-event",
-			   GTK_SIGNAL_FUNC(fliplist_popup_cb), (gpointer) i);
+	g_signal_connect(G_OBJECT(as->drive_status[i].event_box),
+			 "button-press-event",
+			 G_CALLBACK(fliplist_popup_cb), (gpointer) i);
 	gtk_widget_show(as->drive_status[i].event_box);
     }
     gtk_widget_show(drive_box);
@@ -984,9 +1006,10 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     /* Tape control */
     as->tape_status.control_pixmap = 
 	gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, depth);
-    as->tape_status.control = gtk_pixmap_new(as->tape_status.control_pixmap, 
-					      NULL);
-    gtk_widget_set_usize(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
+    as->tape_status.control = 
+	gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
+    gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, 
+				CTRL_HEIGHT);
     gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control,
 		       FALSE, FALSE, 4);
     gtk_widget_show(as->tape_status.control);
@@ -995,9 +1018,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			  GDK_BUTTON_PRESS_MASK |
 			  GDK_BUTTON_RELEASE_MASK | 
 			  GDK_ENTER_NOTIFY_MASK);
-    gtk_signal_connect(GTK_OBJECT(as->tape_status.event_box),
-		       "button-press-event",
-		       GTK_SIGNAL_FUNC(tape_popup_cb), (gpointer) NULL);
+    g_signal_connect(G_OBJECT(as->tape_status.event_box),
+		     "button-press-event",
+		     G_CALLBACK(tape_popup_cb), (gpointer) NULL);
 
     gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, 
 		       FALSE, FALSE, 0);
@@ -1007,9 +1030,9 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     for (i = 0; i < NUM_DRIVES; i++) {
 #if 0
 	int ih, iw;
-	gdk_window_get_size(((GtkWidget *)as->drive_status[i].image)->window, 
+	gdk_window_get_size_request(((GtkWidget *)as->drive_status[i].image)->window, 
 			    &iw, &ih);
-	gtk_widget_set_usize(as->drive_status[i].image, width / 3, ih);
+	gtk_widget_set_size_request(as->drive_status[i].image, width / 3, ih);
 #endif
 	gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Drive widget */
 	gdk_window_set_cursor (as->drive_status[i].event_box->window, 
@@ -1068,8 +1091,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     
     topmenu = gtk_menu_bar_new();
     gtk_widget_show(topmenu);
-    gtk_signal_connect(GTK_OBJECT(topmenu),"button-press-event",
-		       GTK_SIGNAL_FUNC(update_menu_cb),NULL);
+    g_signal_connect(G_OBJECT(topmenu),"button-press-event",
+		     G_CALLBACK(update_menu_cb),NULL);
     gnome_app_set_menus(GNOME_APP(new_window), GTK_MENU_BAR(topmenu));
 
     gtk_widget_show(new_window);
@@ -1081,10 +1104,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	GdkColor color;
 
 	alloc_colormap();
-	gtk_widget_push_visual (visual);
         gtk_widget_push_colormap (colormap);
 	new_canvas = gtk_drawing_area_new();
-        gtk_widget_pop_visual ();
         gtk_widget_pop_colormap ();
 
 	/* Go through the motions to change the background to black.
@@ -1095,7 +1116,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 	rc_style->color_flags[GTK_STATE_NORMAL] = GTK_RC_BG;
 	gtk_widget_modify_style(new_canvas, rc_style);
         /* FIXME: Old gtk libraries do stupid things if this is
-                  unreferenced.  */
+	   unreferenced.  */
 	/* gtk_rc_style_unref(rc_style); */
     }
     
@@ -1113,17 +1134,17 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_widget_show(new_canvas);
 
     /* XVideo must be refreshed when the application window is moved. */
-    gtk_signal_connect(GTK_OBJECT(new_window), "configure-event",
-		       GTK_SIGNAL_FUNC(exposure_callback_app),
-		       (void*) c);
-    gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
-		       GTK_SIGNAL_FUNC(exposure_callback_canvas),
-		       (void*) c);
-    gtk_signal_connect(GTK_OBJECT(new_canvas),"enter-notify-event",
-		       GTK_SIGNAL_FUNC(enter_window_callback),
-		       NULL);
+    g_signal_connect(G_OBJECT(new_window), "configure-event",
+		     G_CALLBACK(exposure_callback_app),
+		     (void*) c);
+    g_signal_connect(G_OBJECT(new_canvas),"expose-event",
+		     G_CALLBACK(exposure_callback_canvas),
+		     (void*) c);
+    g_signal_connect(G_OBJECT(new_canvas),"enter-notify-event",
+		     G_CALLBACK(enter_window_callback),
+		     NULL);
     if (!vsid_mode)
-	gtk_widget_set_usize(new_canvas, width, height);
+	gtk_widget_set_size_request(new_canvas, width, height);
     gtk_widget_show(new_canvas);
     gtk_widget_queue_resize(new_canvas);
 
@@ -1133,29 +1154,29 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_widget_hide(pal_ctrl_widget);
     
     if (no_autorepeat) {
-        gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
-                           GTK_SIGNAL_FUNC(ui_autorepeat_off),NULL);
-        gtk_signal_connect(GTK_OBJECT(new_window),"leave-notify-event",
-                           GTK_SIGNAL_FUNC(ui_autorepeat_on),NULL);
+        g_signal_connect(G_OBJECT(new_window),"enter-notify-event",
+			 G_CALLBACK(ui_autorepeat_off),NULL);
+        g_signal_connect(G_OBJECT(new_window),"leave-notify-event",
+			 G_CALLBACK(ui_autorepeat_on),NULL);
     }
-    gtk_signal_connect(GTK_OBJECT(new_window),"key-press-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"key-release-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"enter-notify-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"leave-notify-event",
-		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_canvas),"button-press-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_canvas),"button-release-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"motion-notify-event",
-		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"delete_event",
-		       GTK_SIGNAL_FUNC(delete_event),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"destroy_event",
-		       GTK_SIGNAL_FUNC(delete_event),NULL);
+    g_signal_connect(G_OBJECT(new_window),"key-press-event",
+		     G_CALLBACK(kbd_event_handler),NULL);
+    g_signal_connect(G_OBJECT(new_window),"key-release-event",
+		     G_CALLBACK(kbd_event_handler),NULL);
+    g_signal_connect(G_OBJECT(new_window),"enter-notify-event",
+		     G_CALLBACK(kbd_event_handler),NULL);
+    g_signal_connect(G_OBJECT(new_window),"leave-notify-event",
+		     G_CALLBACK(kbd_event_handler),NULL);
+    g_signal_connect(G_OBJECT(new_canvas),"button-press-event",
+		     G_CALLBACK(mouse_handler),NULL);
+    g_signal_connect(G_OBJECT(new_canvas),"button-release-event",
+		     G_CALLBACK(mouse_handler),NULL);
+    g_signal_connect(G_OBJECT(new_window),"motion-notify-event",
+		     G_CALLBACK(mouse_handler),NULL);
+    g_signal_connect(G_OBJECT(new_window),"delete_event",
+		     G_CALLBACK(delete_event),NULL);
+    g_signal_connect(G_OBJECT(new_window),"destroy_event",
+		     G_CALLBACK(delete_event),NULL);
 
     app_shells[num_app_shells - 1].shell = new_window;
     app_shells[num_app_shells - 1].canvas = new_canvas;
@@ -1286,9 +1307,9 @@ void ui_set_topmenu(const char *menu_name, ...)
 	    gtk_widget_show(mitem);
 	    gtk_menu_item_set_submenu(GTK_MENU_ITEM(mitem), sub_menu);
 	    if (do_right_justify)
-		gtk_menu_item_right_justify(GTK_MENU_ITEM(mitem));
+		gtk_menu_item_set_right_justified(GTK_MENU_ITEM(mitem), TRUE);
 	    
-	    gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), mitem);
+	    gtk_menu_shell_append(GTK_MENU_SHELL(app_shells[i].topmenu), mitem);
 	    gtk_widget_show(app_shells[i].topmenu);
 	}
     }
@@ -1358,9 +1379,9 @@ void ui_exit(void)
 #endif
     resources_get_value("ConfirmOnExit", (void *)&value);
     if( value )
-      b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+	b = ui_ask_confirmation(s, _("Do you really want to exit?"));
     else
-      b = UI_BUTTON_YES;
+	b = UI_BUTTON_YES;
 
     if (b == UI_BUTTON_YES) {
         resources_get_value("SaveResourcesOnExit", (void *)&value);
@@ -1414,7 +1435,7 @@ static int alloc_colormap(void)
 	colormap = gdk_colormap_new(visual, AllocNone);
     }
 
-    gdk_window_set_colormap(_ui_top_level->window,colormap);
+    gdk_drawable_set_colormap(_ui_top_level->window, colormap);
 
     return 0;
 }
@@ -1429,13 +1450,13 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
     for (i = 0; i < num_app_shells; i++) {
-      if (!percent) {
-	gtk_label_set_text(app_shells[i].speed_label, warp_flag ? _("(warp)") : "");
-      } else {
-	sprintf(str, "%d%%, %d fps %s",
-		percent_int, framerate_int, warp_flag ? _("(warp)") : "");
-	gtk_label_set_text(app_shells[i].speed_label, str);
-      }
+	if (!percent) {
+	    gtk_label_set_text(app_shells[i].speed_label, warp_flag ? _("(warp)") : "");
+	} else {
+	    sprintf(str, "%d%%, %d fps %s",
+		    percent_int, framerate_int, warp_flag ? _("(warp)") : "");
+	    gtk_label_set_text(app_shells[i].speed_label, str);
+	}
     }
     if (statustext_display_time > 0) {
         statustext_display_time--;
@@ -1443,7 +1464,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
             statusbar_setstatustext("");
     }
     if (!screenshot_is_recording())
-	gtk_widget_hide(video_ctrl_checkbox);
+	ui_update_video_checkbox(video_ctrl_checkbox, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1472,7 +1493,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 		}
 	    } 
 	    else if (!enabled_drives &&
-		       (strcmp(last_attached_images[j], "") != 0)) {
+		     (strcmp(last_attached_images[j], "") != 0)) {
 		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_hide(app_shells[i].drive_status[j].track_label);
 		gtk_widget_hide(app_shells[i].drive_status[j].led);
@@ -1488,10 +1509,10 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 	   the uninitialized canvas window(-size) during startup */
 	/* resize according to new needs */
 	{
-	int width, height;
+	    int width, height;
 
-	gdk_window_get_size(app_shells[i].canvas->window, &width, &height);
-	ui_resize_canvas_window(app_shells[i].canvas, width, height);
+	    gdk_window_get_size(app_shells[i].canvas->window, &width, &height);
+	    ui_resize_canvas_window(app_shells[i].canvas, width, height);
 	}
 #endif
     }
@@ -1621,7 +1642,7 @@ void ui_set_tape_status(int tape_status)
 		gtk_widget_hide(app_shells[i].tape_status.event_box);
 	}
 
-	gdk_window_get_size(app_shells[i].canvas->window, &w, &h);
+	gdk_drawable_get_size(app_shells[i].canvas->window, &w, &h);
 	x11ui_resize_canvas_window(app_shells[i].canvas, w, h);
     }
 }
@@ -1753,18 +1774,32 @@ void ui_display_tape_current_image(const char *image)
 /* ------------------------------------------------------------------------- */
 void ui_display_recording(int recording_status)
 {
+    GtkRequisition req;
     if (recording_status)
 	gtk_widget_show(event_rec_checkbox);
     else
 	gtk_widget_hide(event_rec_checkbox);
+
+    gtk_widget_size_request(gtk_widget_get_toplevel(event_rec_checkbox), &req);
+    gdk_window_resize(gdk_window_get_toplevel(event_rec_checkbox->window), 
+		      req.width, req.height);
+    gdk_flush();
+
 }
 
 void ui_display_playback(int playback_status, char *version)
 {
+    GtkRequisition req;
     if (playback_status)
 	gtk_widget_show(event_playback_checkbox);
     else
 	gtk_widget_hide(event_playback_checkbox);
+ 
+    gtk_widget_size_request(gtk_widget_get_toplevel(event_playback_checkbox), 
+			    &req);
+    gdk_window_resize(gdk_window_get_toplevel(event_playback_checkbox->window),
+		      req.width, req.height);
+    gdk_flush();
 }
 
 /* Display a message in the title bar indicating that the emulation is
@@ -1808,7 +1843,7 @@ void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
     GtkRequisition req;
 
-    gtk_widget_set_usize(w, width, height);
+    gtk_widget_set_size_request(w, width, height);
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
     gdk_window_resize(gdk_window_get_toplevel(w->window), 
 		      req.width, req.height);
@@ -1832,8 +1867,8 @@ void x11ui_canvas_position(ui_window_t w, int *x, int *y)
     *x = (pos_x + tl_x);
     *y = (pos_y + tl_y);
 /*
-    printf("pos_x=%d, pos_y=%d, tl_x=%d, tl_y=%d, x=%d, y=%d\n",
-	   pos_x, pos_y, tl_x, tl_y, *x, *y);
+  printf("pos_x=%d, pos_y=%d, tl_x=%d, tl_y=%d, x=%d, y=%d\n",
+  pos_x, pos_y, tl_x, tl_y, *x, *y);
 */
     gdk_window_raise(gdk_window_get_toplevel(w->window));
 }
@@ -1855,13 +1890,11 @@ void x11ui_destroy_widget(ui_window_t w)
 /* Enable autorepeat. */
 void ui_autorepeat_on(void)
 {
-    gdk_key_repeat_restore();
 }
 
 /* Disable autorepeat. */
 void ui_autorepeat_off(void)
 {
-    gdk_key_repeat_disable();
 }
 
 void ui_update_pal_ctrls(int v)
@@ -1886,43 +1919,48 @@ void ui_update_pal_ctrls(int v)
 
 /* Button callbacks.  */
 
-#define DEFINE_BUTTON_CALLBACK(button)          \
-    void  cb_##button(GtkWidget *w, ui_callback_data_t client_data) \
-    {                                           \
-        *((ui_button_t *)client_data) = button; \
+#define DEFINE_BUTTON_CALLBACK(button)					\
+    void  cb_##button(GtkWidget *w, ui_callback_data_t client_data)	\
+    {									\
+        *((ui_button_t *)client_data) = button;				\
     }
 
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_OK)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_CANCEL)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_YES)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_NO)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_CLOSE)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_MON)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_DEBUG)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_RESET)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_HARDRESET)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_CONTENTS)
-DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_CANCEL)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_YES)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_NO)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_CLOSE)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_MON)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_DEBUG)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_RESET)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_HARDRESET)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_CONTENTS)
+    DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 
 /* ------------------------------------------------------------------------- */
 
 /* Message Helper */
-static void ui_message2(const char *type, const char *msg, const char *title)
+    static void 
+    ui_message2(const GtkMessageType type, const char *msg, const char *title)
 {
     static GtkWidget* msgdlg;
 
-    msgdlg = gnome_message_box_new(msg, type,
-				   GNOME_STOCK_BUTTON_CLOSE, 
-				   NULL);
+    vsync_suspend_speed_eval();
+    msgdlg = gtk_message_dialog_new(GTK_WINDOW(_ui_top_level), 
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    type,
+				    GTK_BUTTONS_OK,
+				    msg,
+				    NULL);
     
     ui_popup(msgdlg, title, False);
-    gnome_dialog_run(GNOME_DIALOG(msgdlg));
+    gtk_dialog_run(GTK_DIALOG(msgdlg));
     ui_unblock_shells();	/* ui_popdown can't be used in message_boxes */
+    gtk_widget_destroy(msgdlg);
 
     /* still needed ? */
     ui_check_mouse_cursor();
     ui_dispatch_events();
-    vsync_suspend_speed_eval();
 }
 
 /* Report a message to the user.  */
@@ -1933,7 +1971,7 @@ void ui_message(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ui_message2(GNOME_MESSAGE_BOX_INFO, str, _("VICE Message"));
+    ui_message2(GTK_MESSAGE_INFO, str, _("VICE Message"));
 }
 
 /* Report an error to the user.  */
@@ -1944,7 +1982,7 @@ void ui_error(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ui_message2(GNOME_MESSAGE_BOX_ERROR, str, _("VICE Error"));
+    ui_message2(GTK_MESSAGE_ERROR, str, _("VICE Error"));
 }
 
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)
@@ -1970,40 +2008,45 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	exit(0);
     }
 
-    jam_dialog = gnome_dialog_new("", _("Reset"), _("Hard Reset"),
-                                  _("Monitor"), NULL);
-    gtk_signal_connect(GTK_OBJECT(jam_dialog),
-		       "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-		       &jam_dialog);
+    vsync_suspend_speed_eval();
+    jam_dialog = gtk_dialog_new_with_buttons("", 
+					     NULL,
+					     GTK_DIALOG_DESTROY_WITH_PARENT,
+					     _("Reset"), 0, 
+					     _("Hard Reset"), 1,
+					     _("Monitor"), 2,
+					     NULL);
+    g_signal_connect(G_OBJECT(jam_dialog),
+		     "destroy",
+		     G_CALLBACK(gtk_widget_destroyed),
+		     &jam_dialog);
 
     vsprintf(str, format, ap);
     message = gtk_label_new(str);
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(jam_dialog)->vbox),
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->vbox),
 		       message, TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(message);
-    gnome_dialog_set_default(GNOME_DIALOG(jam_dialog), 0);
+    gtk_dialog_set_default_response(GTK_DIALOG(jam_dialog), 0);
 
     ui_popup(jam_dialog, "VICE", False);
-    res = gnome_dialog_run(GNOME_DIALOG(jam_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(jam_dialog));
     ui_popdown(jam_dialog);
     if (jam_dialog)
 	gtk_widget_destroy(jam_dialog);
 
-    vsync_suspend_speed_eval();
     ui_dispatch_events();
 
     switch (res) {
-      case 2:
+    case 2:
 	ui_restore_mouse();
 #ifdef USE_XF86_EXTENSIONS
         fullscreen_suspend(0);
 #endif
 	return UI_JAM_MONITOR;
-      case 1:
+    case 1:
         return UI_JAM_HARD_RESET;
-      case 0:
-      default:
+    case 0:
+    default:
         return UI_JAM_RESET;
     }
 
@@ -2017,7 +2060,7 @@ int ui_extend_image_dialog(void)
     vsync_suspend_speed_eval();
     b = ui_ask_confirmation(_("Extend disk image"),
                             (_("Do you want to extend the disk image"
-                             " to 40 tracks?")));
+			       " to 40 tracks?")));
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
@@ -2045,7 +2088,7 @@ UI_CALLBACK(ui_popup_selected_file)
     {
 	tmp = lib_stralloc(last_attached_tape);
 	if (autostart_tape(last_attached_tape, NULL, selected,
-            AUTOSTART_MODE_RUN) < 0)
+			   AUTOSTART_MODE_RUN) < 0)
 	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	lib_free(tmp);
@@ -2139,15 +2182,13 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 
     menu_widget = ui_menu_create(title, menu, NULL);
-    if (fixedfont)
+    if (fixed_font_desc)
     {
 	menu_entry_style = gtk_style_new();
-	gdk_font_unref(menu_entry_style->font);
-	menu_entry_style->font = fixedfont;
-	gdk_font_ref(menu_entry_style->font);
+	pango_font_description_free(menu_entry_style->font_desc);
+	menu_entry_style->font_desc = fixed_font_desc;
 	gtk_container_foreach(GTK_CONTAINER(menu_widget), 
 			      menu_set_style, menu_entry_style);
-	gtk_style_unref(menu_entry_style);
 	menu_entry_style = NULL;
     }
 
@@ -2159,60 +2200,63 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     return menu_widget;
 }
 
-static void ui_fill_preview(GtkWidget *w, int row, int col, 
-			    GdkEventButton *bevent, gpointer data)
+static void ui_fill_preview(GtkFileChooser *fs, gpointer data)
 {
-    char *tmp1, *tmp2, *fname, *contents;
+    char *tmp1, *tmp2, *contents = NULL;
+    gchar *fname;
     GtkStyle *style;
     char *text[2];
-    gint cwidth, tmpw;
+    GtkListStore *store;
+    GtkTreeIter iter;
+    int row;
+        
+    g_return_if_fail(fs != NULL);
+    g_return_if_fail(GTK_IS_FILE_CHOOSER(fs));
 
-    g_return_if_fail(data != NULL);
-    g_return_if_fail(GTK_IS_FILE_SELECTION(data));
-    
-    fname = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
-
+    fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fs));
     if (!fname || !current_image_contents_func)
 	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
     else
-	contents = current_image_contents_func(fname, 0);
-
+    {
+	struct stat st;
+	if (stat(fname, &st) == 0)
+	    if (S_ISREG(st.st_mode))
+		contents = current_image_contents_func(fname, 0);
+	lib_free(fname);
+    }
     if (!contents)
 	contents = lib_stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
 
-    if (fixedfont)
+    if (fixed_font_desc)
     {
 	style = gtk_style_new();
-	gdk_font_unref(style->font);
-	style->font = fixedfont;
-	gdk_font_ref(style->font);
+	pango_font_description_free(style->font_desc);
+	style->font_desc = fixed_font_desc;
 	gtk_widget_set_style(image_preview_list, style);
-	gtk_style_unref(style);
+/*	g_object_unref(style);*/
     }
 
     tmp1 = tmp2 = contents;
     text[1] = NULL;
-    cwidth = 1;
-    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 0, cwidth);
-    gtk_clist_freeze(GTK_CLIST(image_preview_list));
-    gtk_clist_clear(GTK_CLIST(image_preview_list));
-    
+
+    store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(image_preview_list)));
+    gtk_list_store_clear(store);
+
+    row = 0;
     tmp1 = util_find_next_line(tmp2);
     while (tmp1 > tmp2)
     {
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = (char *) charset_petconvstring((BYTE *)tmp2, 1);
+	    tmp2 = (char *) charset_petconvstring((BYTE *) tmp2, 1);
 	text[0] = tmp2;
-	gtk_clist_append(GTK_CLIST(image_preview_list), text);
-	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
-	if (tmpw > cwidth)
-	{
-	    cwidth = tmpw;
-	    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 
-				       0, cwidth);
-	}
 
+	text[0]= g_strescape(text[0], NULL);
+
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
+
+	row++;
 	tmp2 = tmp1;
 	tmp1 = util_find_next_line(tmp2);
     }
@@ -2221,57 +2265,47 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     if (strcmp(tmp2, "") != 0)
     {
 	text[0] = tmp2;
-	gtk_clist_append(GTK_CLIST(image_preview_list), text);
-	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
-	if (tmpw > cwidth)
-	{
-	    cwidth = tmpw;
-	    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 
-				       0, cwidth);
-	}
+
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter, 0, text[0], 1, row, -1);
     }
-    
-    gtk_widget_grab_default(
-	GTK_FILE_SELECTION(last_file_selection)->ok_button);
-    
-    gtk_clist_thaw(GTK_CLIST(image_preview_list));
+
     lib_free(contents);
 }
 
-static void ui_select_contents_cb(GtkWidget *w, int row, int col, 
-				  GdkEventButton *bevent, gpointer data)
+static gboolean 
+ui_select_contents_cb(GtkTreeSelection *selection,
+		      GtkTreeModel *model,
+		      GtkTreePath *path,
+		      gboolean path_currently_selected,
+		      gpointer userdata)
 {
-    if (data && bevent)
-    {
-	ui_set_selected_file(row);
-	gtk_widget_grab_default(auto_start_button);
-	if (bevent->type == GDK_2BUTTON_PRESS)
-	    gtk_button_clicked(GTK_BUTTON(auto_start_button));
-    }
-    else
-    {
-	ui_set_selected_file(0);
-	gtk_widget_grab_default(
-	    GTK_FILE_SELECTION(last_file_selection)->ok_button);
-    }
+    GtkTreeIter iter;
+    int row = 0;
+	
+    if (gtk_tree_model_get_iter(model, &iter, path))
+	gtk_tree_model_get(model, &iter, 1, &row, -1);
+    ui_set_selected_file(row);
+    if (row)
+	gtk_button_clicked(GTK_BUTTON(auto_start_button));
+    return TRUE;
 }
 
 /* File browser. */
 char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *,
-                     unsigned int unit), unsigned int unit,
+						 unsigned int unit), unsigned int unit,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
 		     unsigned int show_preview, int *attach_wp)
 {  
-    static ui_button_t button;
     static GtkWidget* file_selector = NULL;
     static char *filesel_dir = NULL;
     char *ret;
     char *current_dir = NULL;
     char *filename = NULL;
-    char *path;
-    GtkWidget *icw, *asb, *wp;
+    GtkWidget *wp;
+    gint res;
 
     /* reset old selection */
     ui_set_selected_file(0);
@@ -2283,87 +2317,57 @@ char *ui_select_file(const char *title,
     }
 
     if (attach_wp)
-	file_selector = build_file_selector(&button, &icw, &asb, &wp);
+	file_selector = build_file_selector(title, &wp, allow_autostart, 
+					    show_preview, default_pattern, 
+					    default_dir);
     else
-	file_selector = build_file_selector(&button, &icw, &asb, NULL);
+	file_selector = build_file_selector(title, NULL, allow_autostart, 
+					    show_preview, default_pattern, 
+					    default_dir);
 
-    gtk_signal_connect(GTK_OBJECT(file_selector),
-		       "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-		       &file_selector);
+    g_signal_connect(G_OBJECT(file_selector),
+		     "destroy",
+		     G_CALLBACK(gtk_widget_destroyed),
+		     &file_selector);
 
     current_image_contents_func = read_contents_func;
-    
-    if (default_dir != NULL) {
-        if(default_pattern) {
-	    path = util_concat(default_dir,"/",default_pattern,NULL);
-	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
-					    path);
-	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
-					path);
-	    lib_free(path);
-	} else {
-	    path = util_concat(default_dir, "/*", NULL);
-	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector), 
-					    default_dir);
-	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
-					path);
-	    lib_free(path);
-	}
-    }  else {
-        char *newdir = ioutil_current_dir();
-        if(default_pattern) {
-	    path = util_concat(newdir,"/",default_pattern,NULL);
-	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
-					    path);
-	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
-					path);
-	    lib_free(path);
-	} else {
-	    gtk_file_selection_complete(GTK_FILE_SELECTION(file_selector),
-					newdir);
-	}
-	lib_free(newdir);
+    res = gtk_dialog_run(GTK_DIALOG(file_selector));
+    x11kbd_enter_leave();	/* reset meta_count if called via hotkey */
+    switch (res)
+    {
+    case GTK_RESPONSE_ACCEPT:
+    case GTK_RESPONSE_OK:
+	filename = gtk_file_chooser_get_filename(
+	    GTK_FILE_CHOOSER(file_selector));
+	*button_return = UI_BUTTON_OK;
+	break;
+    case GTK_RESPONSE_APPLY:
+	filename = gtk_file_chooser_get_filename(
+	    GTK_FILE_CHOOSER(file_selector));
+	*button_return = UI_BUTTON_AUTOSTART;
+	break;
+    default:
+	*button_return = UI_BUTTON_CANCEL;
+	auto_start_button = NULL;
+	gtk_widget_destroy(file_selector);
+	return NULL;
+	break;
     }
-    if (!allow_autostart)
-	gtk_widget_hide(asb);
-
-    if (!show_preview)
-	gtk_widget_hide(icw);
     
-    ui_popup(file_selector, title, False);
-    do {
-        button = UI_BUTTON_NONE;
-	while (file_selector && /* we might have a killed dlg due to
-				   WM actions */
-	       (button == UI_BUTTON_NONE))
-	    ui_dispatch_next_event();
-
-	if (!file_selector)
-	    break;
-	
-	filename = gtk_file_selection_get_filename(
-	    GTK_FILE_SELECTION(file_selector));
-
-    } while ((!filename && button != UI_BUTTON_CANCEL)
-	     || button == UI_BUTTON_CONTENTS);
-
-    /* `ret' gets always malloc'ed.  */
-    if (filename)
-        ret = lib_stralloc(filename);
-    else
-	ret = lib_stralloc("");
-
-    ui_popdown(file_selector);
-
     if (attach_wp)
 	*attach_wp = GTK_TOGGLE_BUTTON(wp)->active;
+    
+    auto_start_button = NULL;
+    gtk_widget_destroy(file_selector);
 
-    if (file_selector)
+    /* `ret' gets always malloc'ed. caller has to free  */
+    if (filename)
     {
-	gtk_widget_destroy(file_selector);
-	auto_start_button = NULL;
+        ret = lib_stralloc(filename);
+	lib_free(filename);
     }
+    else
+	ret = lib_stralloc("");
 
     if (filesel_dir != NULL) {
         lib_free(filesel_dir);
@@ -2373,22 +2377,7 @@ char *ui_select_file(const char *title,
         ioutil_chdir(current_dir);
 	lib_free(current_dir);
     }
-#if 0
-    printf("filename %s\n",ret);
-    printf("%s %s\n",
-	   GTK_LABEL(GTK_FILE_SELECTION(file_selector)->selection_text)->label,
-	   gtk_entry_get_text (GTK_ENTRY (GTK_FILE_SELECTION(file_selector)->selection_entry))
-	   );
-#endif
-
-    *button_return = button;
-    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
-        /* Caller has to free the filename.  */
-        return ret;
-    } else {
-        lib_free(ret);
-        return NULL;
-    }
+    return ret;
 }
 
 /* Ask for a string.  The user can confirm or cancel. */
@@ -2397,49 +2386,42 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
 {
     GtkWidget *input_dialog, *entry, *label;
     gint res;
-    char *history_id;
     ui_button_t ret;
 
-    input_dialog = gnome_dialog_new(title,
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
-				    NULL);
-    gtk_signal_connect(GTK_OBJECT(input_dialog),
-		       "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-		       &input_dialog);
+    vsync_suspend_speed_eval();
+    input_dialog = gtk_dialog_new_with_buttons(title,
+					       NULL,
+					       GTK_DIALOG_DESTROY_WITH_PARENT,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_OK, GTK_RESPONSE_OK,
+					       NULL);
+    g_signal_connect(G_OBJECT(input_dialog),
+		     "destroy",
+		     G_CALLBACK(gtk_widget_destroyed),
+		     &input_dialog);
 
-    history_id = util_concat("vice: ", prompt, NULL);
-    entry = gnome_entry_new(history_id);
-    lib_free(history_id);
+    entry = gtk_entry_new();
     
     label = gtk_label_new(prompt);
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(input_dialog)->vbox),
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
 		       label, FALSE, FALSE, GNOME_PAD);
     gtk_widget_show(label);
 
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(input_dialog)->vbox),
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
 		       entry, FALSE, FALSE, GNOME_PAD);
     gtk_entry_set_text(
-	GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(entry))), buf);
+	GTK_ENTRY(GTK_ENTRY(entry)), buf);
     gtk_widget_show(entry);
 
-    gnome_dialog_editable_enters(
-	GNOME_DIALOG(input_dialog), 
-	GTK_EDITABLE(gnome_entry_gtk_entry(GNOME_ENTRY(entry))));
-    
-    gnome_dialog_set_default(GNOME_DIALOG(input_dialog), GNOME_OK);
-
+    gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
     /*    XtSetKeyboardFocus(input_dialog, input_dialog_field);*/
     ui_popup(input_dialog, title, False);
-    res = gnome_dialog_run(GNOME_DIALOG(input_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(input_dialog));
     ui_popdown(input_dialog);
 
     if (res == 0 && input_dialog)
     {
-	strncpy(buf, gtk_entry_get_text(
-	    GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(entry)))),
-		buflen);
+	strncpy(buf, gtk_entry_get_text(GTK_ENTRY(entry)), buflen);
 	ret = UI_BUTTON_OK;
     }
     else
@@ -2456,13 +2438,14 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 {
     GtkWidget *show_text;
 
+    vsync_suspend_speed_eval();
     show_text = build_show_text((String)text, width, height);
-    gtk_signal_connect(GTK_OBJECT(show_text),
-		       "destroy",
-		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-		       &show_text);
+    g_signal_connect(G_OBJECT(show_text),
+		     "destroy",
+		     G_CALLBACK(gtk_widget_destroyed),
+		     &show_text);
     ui_popup(show_text, title, False);
-    gnome_dialog_run(GNOME_DIALOG(show_text));
+    gtk_dialog_run(GTK_DIALOG(show_text));
     ui_popdown(show_text);
     
     if (show_text)
@@ -2475,24 +2458,59 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     static GtkWidget *confirm_dialog, *confirm_dialog_message;
     gint res;
     
+    vsync_suspend_speed_eval();
     if (!confirm_dialog)
     {
 	confirm_dialog = build_confirm_dialog(&confirm_dialog_message);
-	gtk_signal_connect(GTK_OBJECT(confirm_dialog),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &confirm_dialog);
+	g_signal_connect(G_OBJECT(confirm_dialog),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &confirm_dialog);
     }
     
     gtk_label_set_text(GTK_LABEL(confirm_dialog_message),text);
 
     ui_popup(confirm_dialog, title, False);
-    res = gnome_dialog_run(GNOME_DIALOG(confirm_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(confirm_dialog));
     ui_popdown(confirm_dialog);
     
-    return (res == 0) ? UI_BUTTON_YES 
-	: (res == 1) ? UI_BUTTON_NO 
+    return (res == GTK_RESPONSE_YES) ? UI_BUTTON_YES 
+	: (res == GTK_RESPONSE_NO) ? UI_BUTTON_NO 
 	: UI_BUTTON_CANCEL;
+}
+
+ui_button_t 
+ui_change_dir(const char *title, const char *prompt, char *buf, 
+	      unsigned int buflen)
+{
+    GtkWidget *fc;
+    gint res;
+    gchar *fname = NULL;
+    ui_button_t r;
+    
+    fc = gtk_file_chooser_dialog_new(title, GTK_WINDOW(_ui_top_level),
+				     GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+				     GTK_STOCK_CANCEL, 
+				     GTK_RESPONSE_CANCEL,
+				     GTK_STOCK_OPEN, 
+				     GTK_RESPONSE_ACCEPT,
+				     NULL);
+    ui_popup(fc, title, False);
+    res = gtk_dialog_run(GTK_DIALOG(fc));
+    ui_popdown(fc);
+
+    if (res == GTK_RESPONSE_YES && 
+	(fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fc))))
+    {
+	strncpy(buf, fname, buflen);
+	r = UI_BUTTON_OK;
+    }
+    else
+	r = UI_BUTTON_CANCEL;
+    
+    if (fname)
+	lib_free(fname);
+    return r;
 }
 
 /* Update the menu items with a checkmark according to the current resource
@@ -2608,134 +2626,106 @@ void ui_popdown(GtkWidget *w)
 
 /* These functions build all the widgets. */
 
-static GtkWidget *build_file_selector(ui_button_t *button_return, 
-				      GtkWidget **image_contents_widget,
-				      GtkWidget **autostart_button_widget,
-				      GtkWidget **attach_write_protect)
+static GtkWidget *build_file_selector(const char *title,
+				      GtkWidget **attach_write_protect,
+				      int allow_autostart,
+				      int show_preview,
+				      const char *pat,
+				      const char *default_dir)
 {  
-    GtkWidget *fileselect, *button, *scrollw, *buttonbox, *wp_checkbox;
-    GtkWidget *hbox = NULL;
-    GList *tmp;
-    char *contents_title[2];
-
-    fileselect = gtk_file_selection_new("");
-    gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(fileselect)->ok_button),
-		       "clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_OK),
-		       (gpointer) button_return);
-    gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(fileselect)->cancel_button),
-		       "clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CANCEL),
-		       (gpointer) button_return);
-
-    gtk_file_selection_hide_fileop_buttons(GTK_FILE_SELECTION(fileselect));
+    GtkWidget *fileselect, *scrollw, *wp_checkbox;
+    GtkFileFilter *ff = NULL, *allf;
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    GtkListStore *store;
     
-    /* try to find hbox in fileselector, in order to append the preview window
-       there, instead of adding it to the action area.
-       This should save space in Y-direction */
-    if (GTK_IS_VBOX(GTK_FILE_SELECTION(fileselect)->main_vbox))
+    if (pat)
     {
-	tmp = gtk_container_children(
-	    GTK_CONTAINER(GTK_FILE_SELECTION(fileselect)->main_vbox));
-	while (tmp && !GTK_IS_HBOX(tmp->data))
-	{
-	    tmp = g_list_next(tmp);
-	    if (GTK_IS_HBOX(tmp->data)) /* Yick, but there is another */
-		tmp = g_list_next(tmp); /* hbox before the real one */
-	}
-	if (tmp)
-	    hbox = tmp->data;
+	ff = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(ff, pat);
+	gtk_file_filter_set_name(ff, pat);
+    }
+    allf = gtk_file_filter_new();
+    gtk_file_filter_add_pattern(allf, "*");
+    gtk_file_filter_set_name(allf, _("all files"));
+
+    fileselect = gtk_file_chooser_dialog_new(title, GTK_WINDOW(_ui_top_level), 
+					     GTK_FILE_CHOOSER_ACTION_OPEN, 
+					     GTK_STOCK_CANCEL, 
+					     GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OPEN, 
+					     GTK_RESPONSE_ACCEPT,
+					     NULL);
+    if (ff)
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(fileselect), ff);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(fileselect), allf);
+
+    if (default_dir)
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(fileselect), 
+					    default_dir);
+    /* Contents preview */
+    if (show_preview)
+    {
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+	image_preview_list = gtk_tree_view_new_with_model(
+	    GTK_TREE_MODEL (store));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Contents"),
+							   renderer,
+							   "text", 0,
+							   NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW(image_preview_list), column);
+	
+	gtk_widget_set_size_request(image_preview_list, 180, 180);
+	gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW(image_preview_list),
+					     FALSE);
+    
+	gtk_container_set_border_width(GTK_CONTAINER(image_preview_list), 1);
+	
+	gtk_tree_selection_set_mode(
+	    gtk_tree_view_get_selection(GTK_TREE_VIEW(image_preview_list)),
+	    GTK_SELECTION_SINGLE);
+	
+	scrollw = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_container_set_border_width(GTK_CONTAINER(scrollw), 1);
+	gtk_container_add(GTK_CONTAINER(scrollw), image_preview_list);
+	gtk_container_set_focus_vadjustment
+	    (GTK_CONTAINER (image_preview_list),
+	     gtk_scrolled_window_get_vadjustment
+	     (GTK_SCROLLED_WINDOW (scrollw)));
+	gtk_container_set_focus_hadjustment
+	    (GTK_CONTAINER (image_preview_list),
+	     gtk_scrolled_window_get_hadjustment
+	     (GTK_SCROLLED_WINDOW (scrollw)));
+	gtk_widget_show(image_preview_list);
+	gtk_widget_show(scrollw);
+	gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(fileselect), scrollw);
+	g_signal_connect (fileselect, "update-preview",
+			  G_CALLBACK (ui_fill_preview), image_preview_list);
+	if (allow_autostart)
+	    gtk_tree_selection_set_select_function(
+		gtk_tree_view_get_selection(GTK_TREE_VIEW(image_preview_list)), 
+		ui_select_contents_cb, NULL, NULL);
     }
     
-    contents_title[0] = _("Contents");
-    contents_title[1] = NULL;
-    image_preview_list = 
-	gtk_clist_new_with_titles(1, (gchar **) contents_title);
-    gtk_widget_set_usize(image_preview_list, 180, 180);
-
-    gtk_clist_column_titles_passive (GTK_CLIST (image_preview_list));
-    
-    /* Contents preview */
-    scrollw = gtk_scrolled_window_new(NULL, NULL);
-    
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
-				    GTK_POLICY_AUTOMATIC,
-				    GTK_POLICY_AUTOMATIC);
-
-    gtk_container_set_border_width(GTK_CONTAINER(scrollw), 5);
-    
-    gtk_clist_set_selection_mode (GTK_CLIST (image_preview_list), 
-				 GTK_SELECTION_SINGLE);
-#if 0 
-    gtk_scrolled_window_add_with_viewport
-        (GTK_SCROLLED_WINDOW (scrollw), image_preview_list);
-#endif
-    gtk_container_add(GTK_CONTAINER(scrollw), image_preview_list);
-
-    gtk_container_set_focus_vadjustment
-        (GTK_CONTAINER (image_preview_list),
-         gtk_scrolled_window_get_vadjustment
-         (GTK_SCROLLED_WINDOW (scrollw)));
-    gtk_container_set_focus_hadjustment
-        (GTK_CONTAINER (image_preview_list),
-         gtk_scrolled_window_get_hadjustment
-         (GTK_SCROLLED_WINDOW (scrollw)));
-
-    gtk_widget_show(image_preview_list);
-
-    if (hbox)
-	gtk_box_pack_start(GTK_BOX(hbox), scrollw, TRUE, TRUE, 0);
-    else
-	gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(
-	    fileselect)->action_area), scrollw, TRUE, TRUE, 0);
-    gtk_widget_show(scrollw);
-
+    /* Write protect checkbox */
     if (attach_write_protect)
     {
 	/* write-protect checkbox */
 	wp_checkbox = gtk_check_button_new_with_label(
 	    _("Attach write protected"));
-	gtk_box_pack_start(GTK_BOX(GTK_FILE_SELECTION(
-	    fileselect)->action_area), wp_checkbox, TRUE, TRUE, 0);
+	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(fileselect), 
+					   wp_checkbox);
 	gtk_widget_show(wp_checkbox);
 	*attach_write_protect = wp_checkbox;
     }
-	
-    gtk_signal_connect_after(
-	GTK_OBJECT(GTK_FILE_SELECTION(fileselect)->file_list),
-	"select-row",
-	(GtkSignalFunc) ui_fill_preview,
-	(gpointer) fileselect);
-
-    gtk_signal_connect_after(
-	GTK_OBJECT(image_preview_list),
-	"select-row",
-	(GtkSignalFunc) ui_select_contents_cb,
-	(gpointer) 1);
-
-    gtk_signal_connect_after(
-	GTK_OBJECT(image_preview_list),
-	"unselect-row",
-	(GtkSignalFunc) ui_select_contents_cb,
-	(gpointer) 0);
-
-    buttonbox = GTK_FILE_SELECTION(fileselect)->ok_button->parent;
-    auto_start_button = button = gnome_stock_or_ordinary_button(_("Autostart"));
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-                       GTK_SIGNAL_FUNC(filesel_autostart_cb),
-                       (gpointer) button_return);
-
-    if (buttonbox)
-	gtk_box_pack_start(GTK_BOX(buttonbox), button, FALSE, FALSE, 0);
-    else
-	gtk_box_pack_start(
-	    GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
-	    button, FALSE, FALSE, 0);
-    GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
-    gtk_widget_show(button);
-    *image_contents_widget = scrollw;
-    *autostart_button_widget = button;
-
+    if (allow_autostart)
+	auto_start_button = gtk_dialog_add_button(
+	    GTK_DIALOG(fileselect), _("Autostart"), GTK_RESPONSE_APPLY);
+    
     last_file_selection = fileselect;
     return fileselect;
 }
@@ -2743,43 +2733,57 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 static GtkWidget* build_show_text(const String text, int width, int height)
 {
     GtkWidget *show_text, *textw, *scrollw;
-
-    show_text = gnome_dialog_new("",
-				 GNOME_STOCK_BUTTON_CLOSE,
-				 NULL);
-
-    gtk_widget_set_usize(show_text, width, height);
+    GtkTextBuffer *tb;
+    gchar *utf8_text;
+    GError *error = NULL;
+    
+    utf8_text = g_convert(text, strlen(text), "UTF-8", "ISO-8859-1",
+			  NULL, NULL, &error);
+    if (error)
+    {
+	util_string_set(&utf8_text, _("Text cannot be displayed.\n"));
+	g_error_free(error);
+    }
+    
+    show_text = gtk_dialog_new_with_buttons("",
+					    NULL,
+					    GTK_DIALOG_DESTROY_WITH_PARENT,
+					    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					    NULL);
+    gtk_widget_set_size_request(show_text, width, height);
 
     scrollw = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
 				    GTK_POLICY_AUTOMATIC,
 				    GTK_POLICY_AUTOMATIC);
     
-    textw = gtk_text_new(NULL,NULL);
-    gtk_text_set_line_wrap(GTK_TEXT(textw),FALSE);
-    gtk_text_insert(GTK_TEXT(textw), textfont, NULL, NULL, text, -1);
+    textw = gtk_text_view_new();
+    tb = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textw));
+    gtk_text_buffer_set_text(tb, utf8_text, -1);
     gtk_container_add(GTK_CONTAINER(scrollw), textw);
     gtk_widget_show(textw);
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(show_text)->vbox),
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(show_text)->vbox),
 		       scrollw, TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(scrollw);
-
+    g_free(utf8_text);
     return show_text;
 }
 
-static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message)
+static GtkWidget* 
+build_confirm_dialog(GtkWidget **confirm_dialog_message)
 {
     GtkWidget *confirm_dialog;
 
-    confirm_dialog = gnome_dialog_new("",
-				      GNOME_STOCK_BUTTON_YES,
-				      GNOME_STOCK_BUTTON_NO,
-				      GNOME_STOCK_BUTTON_CANCEL,
-				      NULL);
-
-
+    confirm_dialog = 
+	gtk_dialog_new_with_buttons("",
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				    GTK_STOCK_NO, GTK_RESPONSE_NO,
+				    GTK_STOCK_YES, GTK_RESPONSE_YES,
+				    NULL);
     *confirm_dialog_message = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(confirm_dialog)->vbox),
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->vbox),
 		       *confirm_dialog_message,TRUE,TRUE,0);
     gtk_widget_show(*confirm_dialog_message);
 

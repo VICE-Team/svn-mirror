@@ -1,8 +1,8 @@
 /*
- * c64acia.h - Definitions for a 6551 ACIA interface
+ * uifileentry.h - file entry widget.
  *
  * Written by
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Martin Pottendorfer (Martin.Pottendorfer@alcatel.at)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +24,10 @@
  *
  */
 
-#ifndef _C64ACIA_H
-#define _C64ACIA_H
+#ifndef __uifileentry_h__
+#define __uifileentry_h__
 
-#include "types.h"
-
-struct snapshot_s;
-
-extern void acia1_init(void);
-extern void acia1_reset(void);
-extern BYTE REGPARM1 acia1_read(WORD a);
-extern BYTE REGPARM1 acia1_peek(WORD a);
-extern void REGPARM2 acia1_store(WORD a, BYTE b);
-
-extern int acia1_cmdline_options_init(void);
-extern int acia1_resources_init(void);
-extern int acia1_mode_resources_init(void);
-
-extern int acia1_snapshot_write_module(struct snapshot_s *p);
-extern int acia1_snapshot_read_module(struct snapshot_s *p);
-
-#endif
+extern GtkWidget *
+vice_file_entry(const char *title, const char *default_dir,
+		const char *pat, GtkFileChooserAction action);
+#endif /* __uifileentry_h__ */

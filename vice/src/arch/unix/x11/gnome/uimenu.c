@@ -141,12 +141,12 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		    cmt->obj.value = (void*) list[i].callback_data;
 		    cmt->obj.status = CB_NORMAL;
 		    cmt->handlerid = 
-			gtk_signal_connect(GTK_OBJECT(new_item),"activate",
-					   GTK_SIGNAL_FUNC(list[i].callback),
-					   (gpointer) &(cmt->obj)); 
-		    gtk_signal_connect(GTK_OBJECT(new_item), "destroy",
-				       GTK_SIGNAL_FUNC(delete_checkmark_cb),
-				       (gpointer) cmt);
+			g_signal_connect(G_OBJECT(new_item),"activate",
+					 G_CALLBACK(list[i].callback),
+					 (gpointer) &(cmt->obj)); 
+		    g_signal_connect(G_OBJECT(new_item), "destroy",
+				     G_CALLBACK(delete_checkmark_cb),
+				     (gpointer) cmt);
 		    checkmark_list = g_list_prepend(checkmark_list, cmt);
 		    obj = &cmt->obj;
 		} 
@@ -165,16 +165,16 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		    obj = (ui_menu_cb_obj*)lib_malloc(sizeof(ui_menu_cb_obj));
 		    obj->value = (void*) list[i].callback_data;
 		    
-		    gtk_signal_connect(GTK_OBJECT(new_item),"activate",
-				       GTK_SIGNAL_FUNC(list[i].callback),
-				       (gpointer) obj); 
+		    g_signal_connect(G_OBJECT(new_item),"activate",
+				     G_CALLBACK(list[i].callback),
+				     (gpointer) obj); 
 		}
 		lib_free(label);
 		j++;
 	    }
             }
 
-	    gtk_menu_append(GTK_MENU(w),new_item);
+	    gtk_menu_shell_append(GTK_MENU_SHELL(w),new_item);
 	    gtk_widget_show(new_item);
 #ifdef DEBUG_MENUS
 	    printf("allocate new: %s\t(%p)\t%s\n",
@@ -217,9 +217,9 @@ static void menu_handle_block(gpointer data, gpointer user_data)
     checkmark_t *cm = (checkmark_t *)data;
 
     if (user_data)
-	gtk_signal_handler_block(GTK_OBJECT(cm->w), cm->handlerid);
+	g_signal_handler_block(GTK_OBJECT(cm->w), cm->handlerid);
     else
-	gtk_signal_handler_unblock(GTK_OBJECT(cm->w), cm->handlerid);
+	g_signal_handler_unblock(GTK_OBJECT(cm->w), cm->handlerid);
 }
 
 static void menu_update_checkmarks(gpointer data, gpointer user_data)

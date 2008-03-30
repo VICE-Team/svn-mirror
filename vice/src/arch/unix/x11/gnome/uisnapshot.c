@@ -32,7 +32,8 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "machine.h"
-
+#include "uifileentry.h"
+#include "lib.h"
 
 static GtkWidget *snapshot_dialog, *attach_disk, *attach_rom, *fileentry;
 
@@ -40,29 +41,24 @@ static GtkWidget *build_snapshot_dialog(void)
 {
     GtkWidget *d, *box, *tmp;
     
-    d = gnome_dialog_new(_("Save Snapshot"), 
-			 GNOME_STOCK_BUTTON_OK, 
-			 GNOME_STOCK_BUTTON_CANCEL,
+    d = gtk_dialog_new_with_buttons(_("Save Snapshot"), 
+			 NULL,
+			 GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 			 NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new(_("Filename: "));
-    gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
-    gtk_widget_show(tmp);
-
-    fileentry = gnome_file_entry_new("vice: save snapshot", _("Save Snapshot"));
-    gnome_dialog_editable_enters(GNOME_DIALOG(d), 
-				 GTK_EDITABLE(gnome_file_entry_gtk_entry
-					      (GNOME_FILE_ENTRY(fileentry))));
-    gnome_dialog_set_default(GNOME_DIALOG(d), GNOME_OK);
-
-    gtk_box_pack_start(GTK_BOX(box), fileentry,
-		       TRUE, TRUE, GNOME_PAD);
+    fileentry = vice_file_entry(_("Save Snapshot"), NULL, "*.vsf", 
+				GTK_FILE_CHOOSER_ACTION_SAVE);
+    gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
+    
+    gtk_box_pack_start(GTK_BOX(box), fileentry, TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(fileentry);
-
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
+    
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
-
+    
     tmp = gtk_frame_new(_("Snapshot options"));
     box = gtk_vbox_new(0, FALSE);
     
@@ -79,7 +75,7 @@ static GtkWidget *build_snapshot_dialog(void)
     gtk_container_add(GTK_CONTAINER(tmp), box);
     gtk_widget_show(box);
     
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), tmp, TRUE, TRUE, 
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), tmp, TRUE, TRUE, 
 		       GNOME_PAD);
     gtk_widget_show(tmp);
     
@@ -100,31 +96,32 @@ void ui_snapshot_dialog(void)
     else
     {
 	snapshot_dialog = build_snapshot_dialog();
-	gtk_signal_connect(GTK_OBJECT(snapshot_dialog),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &snapshot_dialog);
+	g_signal_connect(G_OBJECT(snapshot_dialog),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &snapshot_dialog);
     }
 
     ui_popup(snapshot_dialog, "Save Snapshot", FALSE);
-    res = gnome_dialog_run(GNOME_DIALOG(snapshot_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(snapshot_dialog));
     ui_popdown(snapshot_dialog);
     
-    if (res != 0)
+    if (res != GTK_RESPONSE_ACCEPT)
 	return;
     
-    name = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
+    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
     if (!name)
     {
 	ui_error(_("Invalid filename"));
 	return;
     }
-	    
+    
     /* ok button pressed */
     if (machine_write_snapshot(name, GTK_TOGGLE_BUTTON(attach_rom)->active, 
 			       GTK_TOGGLE_BUTTON(attach_disk)->active, 0) < 0)
         ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
     else
 	ui_message(_("Successfully wrote `%s'\n"), name);
+    lib_free(name);
 }
 

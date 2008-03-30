@@ -1,8 +1,8 @@
 /*
- * c64acia.h - Definitions for a 6551 ACIA interface
+ * uipetreu.c
  *
  * Written by
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +24,37 @@
  *
  */
 
-#ifndef _C64ACIA_H
-#define _C64ACIA_H
+#include "vice.h"
 
-#include "types.h"
+#include <stdio.h>
 
-struct snapshot_s;
+#include "uilib.h"
+#include "uimenu.h"
+#include "uipetreu.h"
 
-extern void acia1_init(void);
-extern void acia1_reset(void);
-extern BYTE REGPARM1 acia1_read(WORD a);
-extern BYTE REGPARM1 acia1_peek(WORD a);
-extern void REGPARM2 acia1_store(WORD a, BYTE b);
 
-extern int acia1_cmdline_options_init(void);
-extern int acia1_resources_init(void);
-extern int acia1_mode_resources_init(void);
+UI_MENU_DEFINE_TOGGLE(PETREU)
+UI_MENU_DEFINE_RADIO(PETREUsize)
 
-extern int acia1_snapshot_write_module(struct snapshot_s *p);
-extern int acia1_snapshot_read_module(struct snapshot_s *p);
+UI_CALLBACK(set_petreu_image_name)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PETREU image name"),
+                        _("Name:"));
+}
 
-#endif
+static ui_menu_entry_t petreu_size_submenu[] = {
+    { "*128KB", (ui_callback_t)radio_PETREUsize,
+      (ui_callback_data_t)128, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t petreu_submenu[] = {
+    { N_("*Enable PET REU"),
+      (ui_callback_t)toggle_PETREU, NULL, NULL },
+    { N_("PET REU size"),
+      NULL, NULL, petreu_size_submenu },
+    { N_("PET REU image name..."),
+      (ui_callback_t)set_petreu_image_name,
+      (ui_callback_data_t)"PETREUfilename", NULL },
+    { NULL }
+};

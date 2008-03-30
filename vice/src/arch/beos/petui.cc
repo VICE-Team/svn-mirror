@@ -40,7 +40,13 @@ ui_menu_toggle  pet_ui_menu_toggles[]={
     { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "PETREU", MENU_TOGGLE_PETREU },
     { NULL, 0 }
+};
+
+ui_res_possible_values PETREUSize[] = {
+        {128, MENU_PETREU_SIZE_128},
+        {-1, 0}
 };
 
 void pet_ui_specific(void *msg, void *window)
@@ -53,11 +59,16 @@ void pet_ui_specific(void *msg, void *window)
     }
 }
 
+ui_res_value_list pet_ui_res_values[] = {
+    {"PETREUsize", PETREUSize},
+    {NULL,NULL}
+};
 
 int petui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
     ui_register_menu_toggles(pet_ui_menu_toggles);
+    ui_register_res_values(pet_ui_res_values);
     ui_update_menus();
     return 0;
 }

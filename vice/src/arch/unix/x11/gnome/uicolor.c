@@ -156,7 +156,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     color->green =  green << 8;
     color->blue = blue << 8;
 
-    if (!gdk_color_alloc(colormap, color)) {
+    if (!gdk_colormap_alloc_color(colormap, color, TRUE, TRUE)) {
         log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
                   color->red, color->green, color->blue);
         XDestroyImage(im);
@@ -179,7 +179,7 @@ void uicolor_free_color(unsigned int red, unsigned int green,
 
     color = (GdkColor *)color_pixel;
 
-    gdk_colors_free(colormap, &(color->pixel), 1, 0);
+    gdk_colormap_free_colors(colormap, color, 1);
 /*
     if (color_pixel != 0)
         lib_free((unsigned char *)color_pixel);
@@ -216,17 +216,17 @@ void uicolor_init_video_colors()
 	colorb.green =  0;
 	colorb.blue = i << 8;
 	
-	if (!gdk_color_alloc(colormap, &colorr)) 
+	if (!gdk_colormap_alloc_color(colormap, &colorr, TRUE, TRUE)) 
 	{
 	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
 		      colorr.red, colorr.green, colorr.blue);
 	}
-	if (!gdk_color_alloc(colormap, &colorg)) 
+	if (!gdk_colormap_alloc_color(colormap, &colorg, TRUE, TRUE)) 
 	{
 	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
 		      colorg.red, colorg.green, colorg.blue);
 	}
-	if (!gdk_color_alloc(colormap, &colorb)) 
+	if (!gdk_colormap_alloc_color(colormap, &colorb, TRUE, TRUE)) 
 	{
 	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
 		      colorb.red, colorb.green, colorb.blue);

@@ -63,6 +63,7 @@
 #include "pet.h"
 #include "petiec.h"
 #include "petmem.h"
+#include "petreu.h"
 #include "pets.h"
 #include "petsound.h"
 #include "petui.h"
@@ -163,6 +164,7 @@ int machine_resources_init(void)
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0
         || pet_resources_init() < 0
+        || petreu_resources_init() < 0
         || pia1_init_resources() < 0
         || crtc_resources_init() < 0
         || sound_resources_init() < 0
@@ -184,6 +186,7 @@ void machine_resources_shutdown(void)
 {
     video_resources_shutdown();
     pet_resources_shutdown();
+    petreu_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -202,6 +205,7 @@ int machine_cmdline_options_init(void)
         || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
         || pet_cmdline_options_init() < 0
+        || petreu_cmdline_options_init() < 0
         || crtc_cmdline_options_init() < 0
         || pia1_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
@@ -337,6 +341,9 @@ int machine_specific_init(void)
     /* Initialize the PET-specific part of the UI.  */
     petui_init();
 
+    /* Initialize the PET Ram and Expansion Unit. */
+    petreu_init();
+
     petiec_init();
 
     machine_drive_stub();
@@ -358,6 +365,7 @@ void machine_specific_reset(void)
     printer_reset();
     drive_reset();
     datasette_reset();
+    petreu_reset();
 }
 
 void machine_specific_powerup(void)
@@ -376,6 +384,8 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     crtc_shutdown();
+
+    petreu_shutdown();
 
     petui_shutdown();
 }

@@ -31,37 +31,34 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "cartridge.h"
-
+#include "uifileentry.h"
+#include "lib.h"
 
 static GtkWidget *cartridge_dialog, *fileentry;
 
 static GtkWidget *build_cartridge_dialog(void)
 {
-    GtkWidget *d, *box, *tmp;
+    GtkWidget *d, *box;
     
-    d = gnome_dialog_new(_("Save Cartridge"), 
-			 GNOME_STOCK_BUTTON_OK, 
-			 GNOME_STOCK_BUTTON_CANCEL,
-			 NULL);
+    d = gtk_dialog_new_with_buttons(_("Save Cartridge"), 
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				    NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new(_("Filename: "));
-    gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
-    gtk_widget_show(tmp);
-
-    fileentry = gnome_file_entry_new("vice: Cartridge", _("Save Cartridge"));
-    gnome_dialog_editable_enters(GNOME_DIALOG(d), 
-				 GTK_EDITABLE(gnome_file_entry_gtk_entry
-					      (GNOME_FILE_ENTRY(fileentry))));
-    gnome_dialog_set_default(GNOME_DIALOG(d), GNOME_OK);
+    fileentry = vice_file_entry(_("Save Cartridge"), NULL, NULL, 
+				GTK_FILE_CHOOSER_ACTION_SAVE);
+    gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     gtk_box_pack_start(GTK_BOX(box), fileentry,
 		       TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(fileentry);
-
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
+    
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
-
+    
     return d;
 }
 
@@ -79,20 +76,20 @@ void ui_cartridge_dialog(void)
     else
     {
 	cartridge_dialog = build_cartridge_dialog();
-	gtk_signal_connect(GTK_OBJECT(cartridge_dialog),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &cartridge_dialog);
+	g_signal_connect(G_OBJECT(cartridge_dialog),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &cartridge_dialog);
     }
 
     ui_popup(cartridge_dialog, _("Save Cartridge"), FALSE);
-    res = gnome_dialog_run(GNOME_DIALOG(cartridge_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(cartridge_dialog));
     ui_popdown(cartridge_dialog);
     
-    if (res != 0)
+    if (res != GTK_RESPONSE_ACCEPT)
 	return;
     
-    name = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
+    name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
     if (!name)
     {
 	ui_error(_("Invalid filename"));
@@ -103,5 +100,6 @@ void ui_cartridge_dialog(void)
         ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
     else
 	ui_message(_("Successfully wrote `%s'\n"), name);
+    lib_free(name);
 }
 

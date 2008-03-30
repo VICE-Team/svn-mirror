@@ -40,6 +40,26 @@
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
+ui_menu_entry_t ser1_c64c128_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
+  { "*1200",
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
+  { "*2400",
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
+  { "*9600",
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
+  { "*19200",
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
+  { N_("*38400 (Swiftlink/Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)38400, NULL },
+  { N_("*57600 (Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)57600, NULL },
+  { N_("*115200 (Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)115200, NULL },
+  { NULL }
+};
+
 ui_menu_entry_t ser1_baud_submenu[] = {
   { "*300",
       (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
@@ -55,6 +75,26 @@ ui_menu_entry_t ser1_baud_submenu[] = {
 };
 
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
+
+ui_menu_entry_t ser2_c64128_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
+  { "*1200",
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
+  { "*2400",
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
+  { "*9600",
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
+  { "*19200",
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
+  { N_("*38400 (Swiftlink/Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)38400, NULL },
+  { N_("*57600 (Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)57600, NULL },
+  { N_("*115200 (Turbo232 only)"),
+      (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)115200, NULL },
+  { NULL }
+};
 
 ui_menu_entry_t ser2_baud_submenu[] = {
   { "*300",

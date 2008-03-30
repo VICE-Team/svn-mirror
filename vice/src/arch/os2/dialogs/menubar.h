@@ -148,6 +148,10 @@
 #define IDM_C64_256K_BASEDF00	0x18e
 #define IDM_C64_256K_BASEDF80	0x18f
 
+#define IDM_PETREU       0x19b
+#define IDM_PETREUSIZE   0x19c
+#define IDM_PETREU128    0x19d
+
 #define IDM_TFE          0x158
 
 #define IDM_MOUSE        0x151

@@ -47,12 +47,12 @@ typedef struct pal_res_s {
 
 static pal_res_t ctrls[] =
 {
-  { N_("Blurredness"), "PALBlur", 2, NULL, NULL },
-  { N_("Scanline Shade"), "PALScanLineShade", 2, NULL, NULL  },
-  { N_("Saturation"), "ColorSaturation", 1, NULL, NULL  },
-  { N_("Contrast"), "ColorContrast", 1, NULL, NULL  },
-  { N_("Brightness"), "ColorBrightness", 1, NULL, NULL  },
-  { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
+    { N_("Blurredness"), "PALBlur", 2, NULL, NULL },
+    { N_("Scanline Shade"), "PALScanLineShade", 2, NULL, NULL  },
+    { N_("Saturation"), "ColorSaturation", 1, NULL, NULL  },
+    { N_("Contrast"), "ColorContrast", 1, NULL, NULL  },
+    { N_("Brightness"), "ColorBrightness", 1, NULL, NULL  },
+    { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
 };
 
 static void upd_sb (GtkAdjustment *adj, gpointer data)
@@ -120,7 +120,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	hb = gtk_hbox_new(FALSE, 0);
 
 	c = gtk_hbox_new(FALSE, 0);
-	gtk_widget_set_usize(GTK_WIDGET(c), 100, 10);
+	gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
 	
 	l = gtk_label_new(_(ctrls[i].label));
 	gtk_container_add(GTK_CONTAINER(c), l);
@@ -139,9 +139,9 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 				    GTK_UPDATE_CONTINUOUS);
 	gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
 	
-	gtk_signal_connect (GTK_OBJECT(adj), "value_changed",
-			    GTK_SIGNAL_FUNC (upd_sb), 
-			    &ctrls[i]);
+	g_signal_connect(G_OBJECT(adj), "value_changed",
+			 G_CALLBACK (upd_sb), 
+			 &ctrls[i]);
 	
 	gtk_widget_show(sb);
 	gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
@@ -153,9 +153,9 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 
     rb = gtk_button_new_with_label(_("Reset"));
     gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-    gtk_signal_connect(GTK_OBJECT(rb), "clicked",
-		       GTK_SIGNAL_FUNC(pal_ctrl_reset),
-		       rb);
+    g_signal_connect(G_OBJECT(rb), "clicked",
+		     G_CALLBACK(pal_ctrl_reset),
+		     rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
@@ -166,7 +166,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_widget_show(fake_palemu);
 
     true_palemu = gtk_radio_button_new_with_label(
-	gtk_radio_button_group(GTK_RADIO_BUTTON(fake_palemu)),
+	gtk_radio_button_get_group(GTK_RADIO_BUTTON(fake_palemu)),
 	_("Exact Emulation"));
     gtk_box_pack_start(GTK_BOX(box), true_palemu, FALSE, FALSE, 5);
     gtk_widget_show(true_palemu);
@@ -187,11 +187,11 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     
     /* connect signals later to avoid callback to `upd_palmode' when setting 
        the default */
-    gtk_signal_connect(GTK_OBJECT(fake_palemu), "clicked",
-		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 0);
+    g_signal_connect(G_OBJECT(fake_palemu), "clicked",
+		     G_CALLBACK(upd_palmode), (gpointer) 0);
     
-    gtk_signal_connect(GTK_OBJECT(true_palemu), "clicked",
-		       GTK_SIGNAL_FUNC(upd_palmode), (gpointer) 1);
+    g_signal_connect(G_OBJECT(true_palemu), "clicked",
+		     G_CALLBACK(upd_palmode), (gpointer) 1);
     
     gtk_widget_show(box);
 

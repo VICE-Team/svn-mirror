@@ -35,6 +35,8 @@
 #include "diskimage.h"
 #include "vdrive/vdrive-internal.h"
 #include "util.h"
+#include "uifileentry.h"
+#include "lib.h"
 
 static struct {
     char *label;
@@ -56,27 +58,23 @@ static GtkWidget *build_empty_disk_dialog(void)
     GtkWidget *d, *box, *hbox, *tmp, *frame;
     int i;
     
-    d = gnome_dialog_new(_("Create empty disk"),
-			 GNOME_STOCK_BUTTON_OK, 
-			 GNOME_STOCK_BUTTON_CANCEL,
-			 NULL);
+    d = gtk_dialog_new_with_buttons(_("Create empty disk"),
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				    NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new(_("Filename: "));
-    gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
-    gtk_widget_show(tmp);
-
-    fileentry = gnome_file_entry_new("vice: save snapshot", _("Save Snapshot"));
-    gnome_dialog_editable_enters(GNOME_DIALOG(d), 
-				 GTK_EDITABLE(gnome_file_entry_gtk_entry
-					      (GNOME_FILE_ENTRY(fileentry))));
-    gnome_dialog_set_default(GNOME_DIALOG(d), GNOME_OK);
+    fileentry = vice_file_entry(_("Create disk"), NULL, "*.[gdxGDX]*",
+				GTK_FILE_CHOOSER_ACTION_SAVE);
+    gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     gtk_box_pack_start(GTK_BOX(box), fileentry,
 		       TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(fileentry);
 
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
     
     frame = gtk_frame_new(_("Disk options"));
@@ -88,18 +86,20 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
     
-    diskname = gtk_entry_new_with_max_length(16);
-    gtk_entry_set_editable(GTK_ENTRY(diskname), TRUE);
+    diskname = gtk_entry_new();
+    gtk_entry_set_max_length(GTK_ENTRY(diskname), 16);
+    gtk_editable_set_editable(GTK_EDITABLE(diskname), TRUE);
     gtk_box_pack_start(GTK_BOX(hbox), diskname, FALSE, FALSE, 0);
     gtk_widget_show(diskname);
     
     tmp = gtk_label_new("ID: ");
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
-    diskid = gtk_entry_new_with_max_length(2);
-    gtk_entry_set_editable(GTK_ENTRY(diskid), TRUE);
+    diskid = gtk_entry_new();
+    gtk_entry_set_max_length(GTK_ENTRY(diskid), 2);
+    gtk_editable_set_editable(GTK_EDITABLE(diskid), TRUE);
     gtk_box_pack_start(GTK_BOX(hbox), diskid, FALSE, FALSE, 0);
-    gtk_widget_set_usize(diskid, 25, 22);
+    gtk_widget_set_size_request(diskid, 25, 22);
     gtk_widget_show(diskid);
 
     gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
@@ -118,7 +118,7 @@ static GtkWidget *build_empty_disk_dialog(void)
 	}
 	else
 	    type_radio[i].w = gtk_radio_button_new_with_label(
-		gtk_radio_button_group(
+		gtk_radio_button_get_group(
 		    GTK_RADIO_BUTTON(type_radio[i - 1].w)), 
 		type_radio[i].label);
 	
@@ -132,7 +132,7 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_container_add(GTK_CONTAINER(frame), box);
     gtk_widget_show(box);
 
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), frame, 
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, 
 		       FALSE, FALSE, GNOME_PAD);
     gtk_widget_show(frame);
     gtk_widget_show(d);
@@ -143,7 +143,9 @@ static GtkWidget *build_empty_disk_dialog(void)
 int ui_empty_disk_dialog(char *name)
 {
     gint res;
-    char *fname, *id, *format_text;
+    char *format_text;
+    char *fname;
+    const char *dname, *id;
     int i, type = 0, ret = 0;
 
     if (edisk_dialog)
@@ -155,30 +157,31 @@ int ui_empty_disk_dialog(char *name)
     else
     {
 	edisk_dialog = build_empty_disk_dialog();
-	gtk_signal_connect(GTK_OBJECT(edisk_dialog),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &edisk_dialog);
+	g_signal_connect(G_OBJECT(edisk_dialog),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &edisk_dialog);
     }
 
     ui_popup(edisk_dialog, _("Create empty Diskimage"), FALSE);
-    res = gnome_dialog_run(GNOME_DIALOG(edisk_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(edisk_dialog));
     ui_popdown(edisk_dialog);
 
-    if (res != 0)
+    if (res != GTK_RESPONSE_ACCEPT)
 	return -1;
 
     /* filename */
-    fname = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
+    fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
     if (!fname)
 	return -1;
     
     strcpy(name, fname);
-
+    lib_free(fname);
+    
     /* format label */
-    fname = gtk_entry_get_text(GTK_ENTRY(diskname));
-    if (!fname)
-	fname = "";
+    dname = gtk_entry_get_text(GTK_ENTRY(diskname));
+    if (!dname)
+	dname = "";
 
     /* disk ID */
     id = gtk_entry_get_text(GTK_ENTRY(diskid));
@@ -193,7 +196,7 @@ int ui_empty_disk_dialog(char *name)
 	    break;
 	}
 
-    format_text = util_concat(fname, ",", id, NULL);
+    format_text = util_concat(dname, ",", id, NULL);
     if (vdrive_internal_create_format_disk_image(name, format_text, type)
         < 0) {
 	ui_error(_("Can't create image `%s'."));

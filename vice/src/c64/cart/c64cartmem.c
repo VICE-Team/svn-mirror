@@ -39,6 +39,7 @@
 #include "cartridge.h"
 #include "comal80.h"
 #include "crt.h"
+#include "delaep64.h"
 #include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
@@ -145,6 +146,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return ross_io1_read(addr);
       case CARTRIDGE_STRUCTURED_BASIC:
         return stb_io1_read(addr);
+      case CARTRIDGE_DELA_EP64:
+        return delaep64_io1_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -231,6 +234,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         break;
       case CARTRIDGE_STRUCTURED_BASIC:
         stb_io1_store(addr, value);
+        break;
+      case CARTRIDGE_DELA_EP64:
+        delaep64_io1_store(addr, value);
         break;
     }
     return;
@@ -608,6 +614,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_STRUCTURED_BASIC:
         stb_config_init();
         break;
+      case CARTRIDGE_DELA_EP64:
+        delaep64_config_init();
+        break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -711,6 +720,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_STRUCTURED_BASIC:
         stb_config_setup(rawcart);
         break;
+      case CARTRIDGE_DELA_EP64:
+        delaep64_config_setup(rawcart);
+        break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -804,6 +816,8 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_ZAXXON:
         zaxxon_detach();
+      case CARTRIDGE_DELA_EP64:
+        delaep64_detach();
         break;
     }
     cartridge_config_changed(6, 6, CMODE_READ);
@@ -812,7 +826,7 @@ void cartridge_detach(int type)
     resources_get_value("CartridgeReset", (void *)&cartridge_reset);
 
     if (cartridge_reset != 0) {
-        /* "Turn off machine before removeing cartridge" */
+        /* "Turn off machine before removing cartridge" */
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
 

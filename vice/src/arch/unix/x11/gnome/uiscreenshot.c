@@ -38,6 +38,7 @@
 #include "uiarch.h"
 #include "uiscreenshot.h"
 #include "util.h"
+#include "uifileentry.h"
 #ifdef HAVE_FFMPEG
 #include "gfxoutputdrv/ffmpegdrv.h"
 #endif
@@ -45,10 +46,12 @@
 
 extern GtkWidget *video_ctrl_checkbox;
 static GtkWidget *screenshot_dialog, *fileentry;
+static GtkWidget *drv_menu;
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
-static GtkWidget *ffmpeg_omenu, *acomenu, *vcomenu;
+static GtkWidget *ffmpeg_omenu, *acmenu, *vcmenu;
 static char *selected_driver;
+static int selected_driver_allocated;
 static int selected_ac, selected_vc;
 static void ffmpeg_details (GtkWidget *w, gpointer data);
 #endif
@@ -64,41 +67,49 @@ static img_type_buttons *buttons = NULL;
 
 #ifdef HAVE_FFMPEG
 
+enum { DRV_NAME, DRV_INDEX, DRV_ACMENU, DRV_VCMENU, DRV_N };
+
 static void 
-ffmpg_widget (GtkWidget *w, gpointer data)
+ffmpeg_widget (GtkWidget *w, gpointer data)
 {
-    int num_buttons, i;
-    GSList *l;
-    GtkWidget *mi;
+    int i;
     char *current_driver;
 
+    g_return_if_fail(GTK_IS_COMBO_BOX(w));
+    
     resources_get_value("FFMPEGFormat", 
 			(void *)&current_driver);
-
-    num_buttons = gfxoutput_num_drivers();
-    for (i = 0; i < num_buttons; i++)
-	if (((GtkRadioMenuItem *)(buttons[i].w))->check_menu_item.active)
-	    if (strcmp(buttons[i].driver, "FFMPEG") == 0) 
+    
+    i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    if (strcmp(buttons[i].driver, "FFMPEG") == 0) 
+    {
+	GtkListStore *store;
+	GtkTreeIter iter;
+	int index, found;
+	char *drv_name = NULL;
+	
+	store = GTK_LIST_STORE(
+	    gtk_combo_box_get_model(GTK_COMBO_BOX(ffmpeg_omenu)));
+	if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter))
+	{
+	    do 
 	    {
-		gtk_widget_set_sensitive(ffmpg_opts, TRUE);
-		l = gtk_radio_menu_item_group(((GtkRadioMenuItem *)(GTK_OPTION_MENU(ffmpeg_omenu)->menu_item)));
-		while (l && (mi = GTK_WIDGET(l->data)))
-		{
-		    char *driver = (char *) gtk_object_get_data(GTK_OBJECT(mi),
-								"driver");
-		    if (strcmp(driver, current_driver) == 0)
-		    {
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), TRUE);
-			gtk_option_menu_set_history(GTK_OPTION_MENU(ffmpeg_omenu),
-						    (int) gtk_object_get_data(GTK_OBJECT(mi), "ffmpeg_index"));
-			ffmpeg_details(mi, 0);
-		    }
-		    else
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), FALSE);
-		    l = l->next;
-		}
-		return;
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, 
+				   0, &drv_name, 
+				   1, &index, -1);
+		found = !strcmp(drv_name, current_driver);
+		lib_free(drv_name);
+	    } while (!found && 
+		     gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
+	    if (found)
+	    {
+		selected_driver = current_driver;
+		gtk_combo_box_set_active(GTK_COMBO_BOX(ffmpeg_omenu), index);
 	    }
+	    gtk_widget_set_sensitive(ffmpg_opts, TRUE);
+	    return;
+	}
+    }
     gtk_widget_set_sensitive(ffmpg_opts, FALSE);
 }
 
@@ -106,94 +117,120 @@ static void
 ffmpeg_details (GtkWidget *w, gpointer data)
 {
     int current_ac_id, current_vc_id;
-    GSList *l; 
-    GtkWidget *mi, *acmenu, *vcmenu;
+    char *current_driver;
+    GtkTreeIter iter;
+    GtkListStore *ac_store, *vc_store;
+
+    g_return_if_fail(GTK_IS_COMBO_BOX(w));
 
     resources_get_value("FFMPEGAudioCodec", 
 			(void *)&current_ac_id);
     resources_get_value("FFMPEGVideoCodec", 
 			(void *)&current_vc_id);
+    resources_get_value("FFMPEGFormat", 
+			(void *)&current_driver);
 
-    selected_driver = (char *)gtk_object_get_data(GTK_OBJECT(w), "driver");
+    if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter) == FALSE)
+    {
+	log_error(LOG_DEFAULT, "internal error. iter in combo box not found.");
+	return;
+    }
 
-    acmenu = (GtkWidget *) gtk_object_get_data(GTK_OBJECT(w), "acmenu");
-    vcmenu = (GtkWidget *) gtk_object_get_data(GTK_OBJECT(w), "vcmenu");
+    if (selected_driver && selected_driver_allocated)
+	lib_free(selected_driver); 
     
-    if (acmenu)
+    gtk_tree_model_get(
+	GTK_TREE_MODEL(gtk_combo_box_get_model(GTK_COMBO_BOX(w))), &iter, 
+	DRV_NAME, &selected_driver, 
+	DRV_ACMENU, &ac_store, 
+	DRV_VCMENU, &vc_store, -1);
+    selected_driver_allocated = 1;
+    
+    if (ac_store)
     {
-	gtk_option_menu_set_menu(GTK_OPTION_MENU (acomenu), acmenu);
-	l = gtk_radio_menu_item_group(((GtkRadioMenuItem *)(GTK_OPTION_MENU(acomenu)->menu_item)));
-	while (l && (mi = GTK_WIDGET(l->data)))
-	{
-	    int id = * ((int *) gtk_object_get_data(GTK_OBJECT(mi), "ac_id"));
-		
-	    if (id == current_ac_id)
-	    {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), TRUE);
-		gtk_option_menu_set_history(GTK_OPTION_MENU(acomenu),
-					    (int) gtk_object_get_data(GTK_OBJECT(mi), "ac_index"));
-	    }
-	    else
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), FALSE);
-	    gtk_widget_set_sensitive(GTK_WIDGET(mi), TRUE);
-	    l = l->next;
-	}
-	gtk_widget_set_sensitive(GTK_WIDGET(acomenu), TRUE);
-    }
-    else
-	gtk_widget_set_sensitive(GTK_WIDGET(acomenu), FALSE);
-	
-    if (vcmenu)
-    {
-	gtk_option_menu_set_menu(GTK_OPTION_MENU (vcomenu), vcmenu);
-	l = gtk_radio_menu_item_group(((GtkRadioMenuItem *)(GTK_OPTION_MENU(vcomenu)->menu_item)));
-	while (l && (mi = GTK_WIDGET(l->data)))
-	{
-	    int id = * ((int *) gtk_object_get_data(GTK_OBJECT(mi), "vc_id"));
-		
-	    if (id == current_vc_id)
-	    {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), TRUE);
-		gtk_option_menu_set_history(GTK_OPTION_MENU(vcomenu),
-					    (int) gtk_object_get_data(GTK_OBJECT(mi), "vc_index"));
-	    }
-	    else
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), FALSE);
-	    gtk_widget_set_sensitive(GTK_WIDGET(mi), TRUE);
-	    l = l->next;
-	}
-	gtk_widget_set_sensitive(GTK_WIDGET(vcomenu), TRUE);
-    }
-    else
-	gtk_widget_set_sensitive(GTK_WIDGET(vcomenu), FALSE);
-}
+	GtkListStore *store;
+	GtkTreeIter iter;
+	int index, id, found;
 
-static void 
-ffmpeg_codecs (GtkWidget *w, gpointer data)
-{
-    if (data)
-	selected_vc = *((int *) gtk_object_get_data(GTK_OBJECT(w), "vc_id"));
+	store = ac_store;
+	if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter))
+	{
+	    do 
+	    {
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, 
+				   1, &id, 
+				   2, &index, -1);
+		found = (id == current_ac_id);
+	    } while (!found && 
+		     gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
+	    gtk_combo_box_set_model(GTK_COMBO_BOX(acmenu), 
+				GTK_TREE_MODEL(ac_store));
+	    if (found)
+	    {
+		gtk_widget_set_sensitive(GTK_WIDGET(acmenu), TRUE);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(acmenu), index);
+		selected_ac = id;
+	    }
+	    else
+		gtk_widget_set_sensitive(GTK_WIDGET(acmenu), FALSE);
+	}
+	else
+	    gtk_widget_set_sensitive(GTK_WIDGET(acmenu), FALSE);
+    }
     else
-	selected_ac = *((int *) gtk_object_get_data(GTK_OBJECT(w), "ac_id"));
+	gtk_widget_set_sensitive(GTK_WIDGET(acmenu), FALSE);
+    
+    if (vc_store)
+    {
+	GtkListStore *store;
+	GtkTreeIter iter;
+	int index, id, found;
+
+	store = vc_store;
+	if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter))
+	{
+	    do 
+	    {
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, 
+				   1, &id, 
+				   2, &index, -1);
+		found = (id == current_vc_id);
+	    } while (!found && 
+		     gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter));
+	    gtk_combo_box_set_model(GTK_COMBO_BOX(vcmenu), 
+				    GTK_TREE_MODEL(vc_store));
+	    if (found)
+	    {
+		gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), TRUE);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(vcmenu), index);
+		selected_vc = id;
+	    }
+	    else
+		gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
+	}
+	else
+	    gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
+    }
+    else
+	gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
 }
 
 #endif
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *box, *tmp, *frame, *vbox, *omenu, *menu, *menu_item;
+    GtkWidget *d, *box, *frame, *vbox, *omenu;
     int i, num_buttons;
     gfxoutputdrv_t *driver;
-    GSList *group;
 #ifdef HAVE_FFMPEG
-    GtkWidget *l, *hbox;
+    GtkWidget *l, *hbox, *tmp;
     GtkObject *adj;
     unsigned long v;
     ffmpegdrv_format_t *f;
-    GSList *acgroup, *vcgroup;
-    GtkWidget *acmenu, *vcmenu;
-    int current_ac_id, current_vc_id;
-    char *current_driver;
+    GtkListStore *drv_store;
+    GtkTreeIter iter;
+    GtkCellRenderer *renderer;
+    GtkListStore *ac_store = NULL, *vc_store = NULL;
 #endif
 
     num_buttons = gfxoutput_num_drivers();
@@ -202,29 +239,30 @@ static GtkWidget *build_screenshot_dialog(void)
 	log_message(LOG_DEFAULT, _("No gfxoutputdrivers available"));
 	return 0;
     }
-    
-    d = gnome_dialog_new(_("Save Screenshot"), 
-			 GNOME_STOCK_BUTTON_OK, 
-			 GNOME_STOCK_BUTTON_CANCEL,
+
+    d = gtk_dialog_new_with_buttons(_("Save Screenshot"), 
+			 NULL,
+			 GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 			 NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new(_("Filename: "));
-    gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
-    gtk_widget_show(tmp);
-
-    fileentry = gnome_file_entry_new("vice: save screenshot", 
-				     _("Save Screenshot"));
-    gnome_dialog_editable_enters(GNOME_DIALOG(d), 
-				 GTK_EDITABLE(gnome_file_entry_gtk_entry
-					      (GNOME_FILE_ENTRY(fileentry))));
-    gnome_dialog_set_default(GNOME_DIALOG(d), GNOME_OK);
+    fileentry = vice_file_entry(_("Save Media File..."),  
+				NULL, NULL, 
+				GTK_FILE_CHOOSER_ACTION_SAVE);
+    if (!fileentry)
+    {
+	gtk_widget_destroy(d);
+	return 0;
+    }
+    gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     gtk_box_pack_start(GTK_BOX(box), fileentry,
 		       TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(fileentry);
 
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
 
     frame = gtk_frame_new(_("Image Format"));
@@ -233,29 +271,16 @@ static GtkWidget *build_screenshot_dialog(void)
     if (! buttons)
 	buttons = lib_malloc(sizeof(img_type_buttons) * num_buttons);
 
-    group = NULL;
-    omenu = gtk_option_menu_new ();
-    menu = gtk_menu_new ();
+    drv_menu = omenu = gtk_combo_box_new_text ();
 
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < num_buttons; i++) {
-	menu_item =  gtk_radio_menu_item_new_with_label (group, driver->displayname);
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
-	gtk_menu_append(GTK_MENU (menu), menu_item);
-	gtk_widget_show(menu_item);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(omenu), driver->displayname);
  	buttons[i].driver = driver->name;
-	buttons[i].w = menu_item;
 	buttons[i].ext = driver->default_extension;
-#ifdef HAVE_FFMPEG
-	gtk_signal_connect(GTK_OBJECT(menu_item), "activate",
-			   GTK_SIGNAL_FUNC(ffmpg_widget),
-			   0);
-#endif
 	driver = gfxoutput_drivers_iter_next();
     }
-    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
-
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
     gtk_box_pack_start(GTK_BOX(vbox), omenu, FALSE, FALSE, 0);
     gtk_widget_show(omenu);
 
@@ -263,97 +288,65 @@ static GtkWidget *build_screenshot_dialog(void)
     if (!ffmpegdrv_formatlist[0].name)
 	goto no_ffmpeg;
     
+    g_signal_connect(G_OBJECT(omenu), "changed",
+		     G_CALLBACK(ffmpeg_widget), (gpointer) omenu);
+
     /* ffmpg options */
     ffmpg_opts = gtk_vbox_new(FALSE, 5);
 
-    group = acgroup = vcgroup = NULL;
-    ffmpeg_omenu = omenu = gtk_option_menu_new ();
-    menu = gtk_menu_new ();
-
+    drv_store = gtk_list_store_new(DRV_N, G_TYPE_STRING, G_TYPE_INT, 
+				   G_TYPE_OBJECT, G_TYPE_OBJECT);
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL; i++)
     {
 	int j;
-	GtkWidget *menu_item_drv;
-	
-	resources_get_value("FFMPEGAudioCodec", 
-			    (void *)&current_ac_id);
-	selected_ac = current_ac_id;
-	resources_get_value("FFMPEGVideoCodec", 
-			    (void *)&current_vc_id);
-	selected_vc = current_vc_id;
-	resources_get_value("FFMPEGFormat", 
-			    (void *)&current_driver);
-	selected_driver = current_driver;
+	GtkTreeIter ac_iter, vc_iter;
 	
 	f = &ffmpegdrv_formatlist[i];
-	
-	menu_item_drv =  gtk_radio_menu_item_new_with_label (group, f->name);
-	gtk_object_set_data(GTK_OBJECT(menu_item_drv), "driver", 
-			    (gpointer) f->name);
-	gtk_object_set_data(GTK_OBJECT(menu_item_drv), "ffmpeg_index", 
-			    (gpointer) i); /* URGH, sizeof(int) <= pointer */
-	gtk_signal_connect (GTK_OBJECT (menu_item_drv), "activate",
-			    (GtkSignalFunc) ffmpeg_details, 0);
-	
-	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item_drv));
-	gtk_menu_append(GTK_MENU (menu), menu_item_drv);
-	gtk_widget_show(menu_item_drv);
+
+	gtk_list_store_append(drv_store, &iter);
+	gtk_list_store_set(drv_store, &iter, DRV_NAME, f->name, 
+			   DRV_INDEX, i, -1);
+
 	log_message(LOG_DEFAULT, _("FFMPEG Driver: %s"), f->name);
-	acmenu = NULL;
+
+	ac_store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
 	for (j = 0; f->audio_codecs && f->audio_codecs[j].name; j++)
 	{
-	    if (!acgroup)
-	    {
-		acomenu = gtk_option_menu_new();
-		acmenu = gtk_menu_new();
-	    }
-	    menu_item = 
-		gtk_radio_menu_item_new_with_label(acgroup, 
-						   f->audio_codecs[j].name);
-	    gtk_object_set_data(GTK_OBJECT(menu_item), "ac_id", 
-				(gpointer) &f->audio_codecs[j].id);
-	    gtk_object_set_data(GTK_OBJECT(menu_item), "ac_index", 
-				(gpointer) j); /* URGH, sizeof(int) <= pointer */
-	    
-	    gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-				(GtkSignalFunc) ffmpeg_codecs, (gpointer) 0);
-	    acgroup = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
-	    gtk_menu_append(GTK_MENU (acmenu), menu_item);
-	    gtk_widget_show(menu_item);
+	    gtk_list_store_append(ac_store, &ac_iter);
+	    gtk_list_store_set(ac_store, &ac_iter, 
+			       0, f->audio_codecs[j].name,
+			       1, f->audio_codecs[j].id, 
+			       2, j, -1);
 	    log_message(LOG_DEFAULT, _("\tAC: %s(%d)"), 
 			f->audio_codecs[j].name,
 			f->audio_codecs[j].id);
 	}
-	
-	vcmenu = NULL;
+
+	vc_store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
 	for (j = 0; f->video_codecs && f->video_codecs[j].name; j++)
 	{
-	    if (!vcgroup)
-	    {
-		vcomenu = gtk_option_menu_new();
-		vcmenu = gtk_menu_new();
-	    }
-	    menu_item = 
-		gtk_radio_menu_item_new_with_label(vcgroup, 
-						   f->video_codecs[j].name);
-	    gtk_object_set_data(GTK_OBJECT(menu_item), "vc_id", 
-				(gpointer) &f->video_codecs[j].id);
-	    gtk_object_set_data(GTK_OBJECT(menu_item), "vc_index", 
-				(gpointer) j); /* URGH, sizeof(int) <= pointer */
-	    gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-				(GtkSignalFunc) ffmpeg_codecs, (gpointer) 1);
-	    vcgroup = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
-	    gtk_menu_append(GTK_MENU (vcmenu), menu_item);
-	    gtk_widget_show(menu_item);
+	    gtk_list_store_append(vc_store, &vc_iter);
+	    gtk_list_store_set(vc_store, &vc_iter, 
+			       0, f->video_codecs[j].name,
+			       1, f->video_codecs[j].id, 
+			       2, j, -1);
 	    log_message(LOG_DEFAULT, _("\tVC: %s(%d)"), 
 			f->video_codecs[j].name,
 			f->video_codecs[j].id);
 	}
-	gtk_object_set_data(GTK_OBJECT(menu_item_drv), "acmenu", (gpointer) acmenu);
-	gtk_object_set_data(GTK_OBJECT(menu_item_drv), "vcmenu", (gpointer) vcmenu);
+
+	gtk_list_store_set(drv_store, &iter, 
+			   DRV_ACMENU, ac_store, 
+			   DRV_VCMENU, vc_store, -1);
     }
-    gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-    gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+
+    ffmpeg_omenu = omenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(drv_store));    
+    g_signal_connect(G_OBJECT(omenu), "changed",
+		     G_CALLBACK(ffmpeg_details), (gpointer) omenu);
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (omenu), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (omenu), renderer,
+				    "text", DRV_NAME, NULL);
 
     hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Format"));
@@ -363,22 +356,32 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(omenu);
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
-
+    
+    acmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(ac_store));    
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (acmenu), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (acmenu), renderer,
+				    "text", 0, NULL);
     hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Audio Codec"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), acomenu, FALSE, FALSE, 0);
-    gtk_widget_show(acomenu);
+    gtk_box_pack_start(GTK_BOX(hbox), acmenu, FALSE, FALSE, 0);
+    gtk_widget_show(acmenu);
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
+    vcmenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(vc_store));    
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (vcmenu), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (vcmenu), renderer,
+				    "text", 0, NULL);
     hbox = gtk_hbox_new(0, FALSE);
     tmp = gtk_label_new(_("Video Codec"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
-    gtk_box_pack_start(GTK_BOX(hbox), vcomenu, FALSE, FALSE, 0);
-    gtk_widget_show(vcomenu);
+    gtk_box_pack_start(GTK_BOX(hbox), vcmenu, FALSE, FALSE, 0);
+    gtk_widget_show(vcmenu);
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
 
@@ -390,7 +393,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			      (gfloat) 10000,
 			      (gfloat) 10000);
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 1000, 0);
-    gtk_widget_set_usize(ffmpg_audio, 100, 16);
+    gtk_widget_set_size_request(ffmpg_audio, 100, 16);
     l = gtk_label_new(_("Audio Bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
@@ -405,7 +408,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			      (gfloat) 100000,
 			      (gfloat) 100000);
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 10000, 0);
-    gtk_widget_set_usize(ffmpg_video, 100, 16);
+    gtk_widget_set_size_request(ffmpg_video, 100, 16);
     l = gtk_label_new(_("Video Bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
@@ -421,7 +424,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_container_add(GTK_CONTAINER(frame), vbox);
     gtk_widget_show(vbox);
 
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), frame, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, TRUE, TRUE, 0);
     gtk_widget_show(frame);
     gtk_widget_show(d);
 
@@ -430,10 +433,10 @@ static GtkWidget *build_screenshot_dialog(void)
 
 int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 {
-    int res, num_buttons, i;
+    int res, i;
     char *fn, *tmp;
     const char *driver, *ext;
-    
+
     if (screenshot_dialog) {
     	gdk_window_show(screenshot_dialog->window);
 	gdk_window_raise(screenshot_dialog->window);
@@ -441,39 +444,34 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     } else {
 	screenshot_dialog = build_screenshot_dialog();
 	if (screenshot_dialog)
-	    gtk_signal_connect(GTK_OBJECT(screenshot_dialog),
-			       "destroy",
-			       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			       &screenshot_dialog);
+	    g_signal_connect(G_OBJECT(screenshot_dialog),
+			     "destroy",
+			     G_CALLBACK(gtk_widget_destroyed),
+			     &screenshot_dialog);
 	else
 	    return -1;
     }
 
     ui_popup(screenshot_dialog, _("Save Screenshot"), FALSE);
-    res = gnome_dialog_run(GNOME_DIALOG(screenshot_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(screenshot_dialog));
     ui_popdown(screenshot_dialog);
     
-    if (res != 0)
+    if (res != GTK_RESPONSE_ACCEPT)
 	return -1;
     
-    fn = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
+    fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileentry));
     if (!fn) {
 	ui_error(_("Invalid filename"));
 	return -1;
     }
 
-    driver = NULL;
-    num_buttons = gfxoutput_num_drivers();
-    for (i = 0; i < num_buttons; i++)
-	if (GTK_RADIO_MENU_ITEM(buttons[i].w)->check_menu_item.active)
-	{
-	    driver = buttons[i].driver;
-	    ext = buttons[i].ext;
-	    break;
-	}
-    
-    if (!driver)
+    i = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
+    if (i < 0)
 	return -1;
+
+    driver = buttons[i].driver;
+    ext = buttons[i].ext;
+    
 #ifdef HAVE_FFMPEG
     if (strcmp(driver, "FFMPEG") == 0)
     {
@@ -493,8 +491,8 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 		    selected_driver, selected_ac, selected_vc);
     }
 #endif    
-    tmp = NULL;
-    util_string_set(&tmp, fn);
+    tmp = lib_stralloc(fn);
+    lib_free(fn);
     if (!util_get_extension(tmp))
 	util_add_extension(&tmp, ext);
     if (screenshot_save(driver, tmp, wid) < 0) {
@@ -514,7 +512,12 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 
 void uiscreenshot_shutdown(void)
 {
-    lib_free(buttons);
+    if (buttons)
+	lib_free(buttons);
+#ifdef HAVE_FFMPEG
+    if (selected_driver_allocated)
+	lib_free(selected_driver);
+#endif
     if (screenshot_dialog && GTK_IS_WIDGET(screenshot_dialog))
 	gtk_widget_destroy(screenshot_dialog);
     screenshot_dialog = NULL;

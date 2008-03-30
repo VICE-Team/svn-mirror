@@ -473,6 +473,13 @@ BMenuBar *menu_create(int machine_class) {
 		if (machine_class == VICE_MACHINE_PET) {
 			menu->AddItem(new BMenuItem("PET ...", 
 				new BMessage(MENU_PET_SETTINGS)));
+
+			menu->AddItem(new BMenuItem("PET REU emulation",
+				new BMessage(MENU_TOGGLE_PETREU)));
+			menu->AddItem(submenu = new BMenu("PET REU size"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("128 kB",
+				new BMessage(MENU_PETREU_SIZE_128)));
 		}
 		if (machine_class == VICE_MACHINE_VIC20) {
 			menu->AddItem(new BMenuItem("VIC20 ...", 

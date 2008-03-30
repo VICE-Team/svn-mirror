@@ -39,7 +39,7 @@
 #include "ui.h"
 
 typedef GtkWidget *ui_window_t;
-typedef GtkSignalFunc ui_callback_t;
+typedef GCallback ui_callback_t;
 typedef gpointer ui_callback_data_t;
 typedef KeySym ui_keysym_t;
 

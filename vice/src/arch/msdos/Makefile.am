@@ -85,6 +85,8 @@ libarch_a_SOURCES = \
 	uinetplay.h \
 	uiperipherial.c \
 	uiperipherial.h \
+	uipetreu.c \
+	uipetreu.h \
 	uiplus60k.c \
 	uiplus60k.h \
 	uiprinter.c \

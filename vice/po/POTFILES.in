@@ -42,6 +42,7 @@ src/log.c
 src/mouse.c
 src/pet/pet-cmdline-options.c
 src/pet/petpia1.c
+src/pet/petreu.c
 src/plus4/plus4-cmdline-options.c
 src/plus4/ted-cmdline-options.c
 src/printerdrv/driver-select.c
@@ -104,6 +105,7 @@ src/arch/unix/uipalette.c
 src/arch/unix/uiperipheral.c
 src/arch/unix/uiperipheraliec.c
 src/arch/unix/uiperipheralieee.c
+src/arch/unix/uipetreu.c
 src/arch/unix/uiplus60k.c
 src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
@@ -130,7 +132,6 @@ src/arch/unix/vsidui.c
 
 # Gnome port
 src/arch/unix/x11/gnome/about.c
-src/arch/unix/x11/gnome/dummies.c
 src/arch/unix/x11/gnome/gnomekbd.c
 src/arch/unix/x11/gnome/gnomevideo.c
 src/arch/unix/x11/gnome/uicartridge.c
@@ -142,6 +143,7 @@ src/arch/unix/x11/gnome/uinetplay.c
 src/arch/unix/x11/gnome/uiscreenshot.c
 src/arch/unix/x11/gnome/uisnapshot.c
 src/arch/unix/x11/gnome/uivsidcontrol.c
+src/arch/unix/x11/gnome/uifileentry.c
 src/arch/unix/x11/gnome/x11ui.c
 
 # x11 Video
@@ -186,6 +188,7 @@ src/arch/unix/x11/xaw/x11video.c
 #src/arch/win32/resgeoram.rc
 #src/arch/win32/reside64.rc
 #src/arch/win32/respet.rc
+#src/arch/win32/respetreu.rc
 #src/arch/win32/resplus4.rc
 #src/arch/win32/resplus60k.rc
 #src/arch/win32/resramcart.rc

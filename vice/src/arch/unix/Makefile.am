@@ -106,6 +106,8 @@ libarch_a_SOURCES = \
 	uiperipheraliec.h \
 	uiperipheralieee.c \
 	uiperipheralieee.h \
+	uipetreu.c \
+	uipetreu.h \
 	uiplus60k.c \
 	uiplus60k.h \
 	uiprinter.c \

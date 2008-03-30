@@ -37,6 +37,7 @@
 #include "uiacia.h"
 #include "uidrivepetcbm2.h"
 #include "uikeyboard.h"
+#include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
 #include "uivideo.h"
@@ -124,6 +125,9 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_PET_SETTINGS:
         ui_pet_settings_dialog(hwnd);
         break;
+      case IDM_PETREU_SETTINGS:
+        ui_petreu_settings_dialog(hwnd);
+        break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, translate_res(IDD_PETROM_SETTINGS_DIALOG),
                               translate_res(IDD_PETDRIVEROM_SETTINGS_DIALOG),
@@ -136,7 +140,7 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         uidrivepetcbm2_settings_dialog(hwnd);
         break;
       case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 0, NULL, 0);
+        ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
         break;
       case IDM_KEYBOARD_SETTINGS:
         uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

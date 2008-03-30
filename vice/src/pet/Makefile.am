@@ -32,6 +32,8 @@ libpet_a_SOURCES = \
 	petpia1.c \
 	petpia2.c \
 	petprinter.c \
+	petreu.c \
+	petreu.h \
 	petrom.c \
 	petrom.h \
 	petromset.c \

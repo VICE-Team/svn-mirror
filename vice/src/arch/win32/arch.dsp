@@ -319,6 +319,10 @@ SOURCE=.\uiperipheral.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uipetreu.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File

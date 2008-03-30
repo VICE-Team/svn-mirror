@@ -593,6 +593,16 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif
 
 #endif // __X64__ || __X128__
+#ifdef __XPET__
+    case IDM_PETREU:
+        toggle("PETREU");
+        return;
+
+    case IDM_PETREU128:
+        resources_set_value("PETREUSize",
+                            (resource_value_t*)128);
+        return;
+#endif
 #ifdef HAVE_MOUSE
     case IDM_MOUSE:
         toggle("Mouse");
@@ -655,6 +665,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("IEEE488");
         return;
 #endif // __X128__ || __XVIC__
+#ifdef __XPET__
+        resources_get_value("PETREU", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_PETREU,     val);
+        WinEnableMenuItem(hwnd, IDM_PETREUSIZE, val);
+#endif // __XPET__
     case IDM_VCACHE:
 #ifdef __XCBM__
         {
@@ -1294,6 +1309,13 @@ void menu_select(HWND hwnd, USHORT item)
             get_printer_res("Printer%sDriver", num, (resource_value_t*)&txt);
             WinEnableMenuItem(hwnd, IDM_PRT4GFX | (num<<4), strcasecmp(txt, "ascii"));
         }
+
+#ifdef __XPET__
+    case IDM_PETREUSIZE:
+        resources_get_value("PETREUSize", (void *)&val);
+        WinCheckMenuItem(hwnd, IDM_PETREU128,   val==128);
+        return;
+#endif
 
 #if defined __X64__ || defined __X128__
     case IDM_REUSIZE:

@@ -28,7 +28,8 @@
 #define _UIACIA_H
 
 extern void ui_acia_settings_dialog(HWND hwnd, unsigned int enable,
-                                    int *location, unsigned int interrupt);
+                                    int *location, unsigned int interrupt,
+                                    unsigned int mode);
 
 #endif
 

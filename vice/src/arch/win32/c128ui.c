@@ -217,7 +217,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         uidrivec128_settings_dialog(hwnd);
         break;
       case IDM_ACIA_SETTINGS:
-        ui_acia_settings_dialog(hwnd, 1, NULL, 1);
+        ui_acia_settings_dialog(hwnd, 1, NULL, 1, 1);
         break;
       case IDM_RS232USER_SETTINGS:
         ui_rs232user_settings_dialog(hwnd);

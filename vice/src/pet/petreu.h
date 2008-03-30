@@ -1,8 +1,8 @@
 /*
- * c64acia.h - Definitions for a 6551 ACIA interface
+ * petreu.h - PET Ram and Expansion Unit emulation.
  *
  * Written by
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +24,22 @@
  *
  */
 
-#ifndef _C64ACIA_H
-#define _C64ACIA_H
+#ifndef _PET_REU_H
+#define _PET_REU_H
 
 #include "types.h"
 
-struct snapshot_s;
+extern int petreu_enabled;
 
-extern void acia1_init(void);
-extern void acia1_reset(void);
-extern BYTE REGPARM1 acia1_read(WORD a);
-extern BYTE REGPARM1 acia1_peek(WORD a);
-extern void REGPARM2 acia1_store(WORD a, BYTE b);
-
-extern int acia1_cmdline_options_init(void);
-extern int acia1_resources_init(void);
-extern int acia1_mode_resources_init(void);
-
-extern int acia1_snapshot_write_module(struct snapshot_s *p);
-extern int acia1_snapshot_read_module(struct snapshot_s *p);
+extern int petreu_resources_init(void);
+extern void petreu_resources_shutdown(void);
+extern int petreu_cmdline_options_init(void);
+extern void petreu_init(void);
+extern void petreu_reset(void);
+extern void petreu_shutdown(void);
+extern BYTE REGPARM1 read_petreu_reg(WORD addr);
+extern BYTE REGPARM1 read_petreu_ram(WORD addr);
+extern void REGPARM2 store_petreu_reg(WORD addr, BYTE byte);
+extern void REGPARM2 store_petreu_ram(WORD addr, BYTE byte);
 
 #endif

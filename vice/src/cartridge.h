@@ -81,6 +81,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_COMAL80            21
 #define CARTRIDGE_STRUCTURED_BASIC   22
 #define CARTRIDGE_ROSS               23
+#define CARTRIDGE_DELA_EP64          24
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0

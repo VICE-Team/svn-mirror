@@ -102,24 +102,24 @@ SOURCE=.\respet.rc
 !IF  "$(CFG)" == "xpet - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc respetcat.rc /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc respetcat.rc  /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"
 # Begin Custom Build
 InputPath=.\respet.rc
 
 "respetcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc respetcat.rc /b
+	copy /b respet.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + respetreu.rc respetcat.rc  /b
 
 # End Custom Build
 

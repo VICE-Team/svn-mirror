@@ -340,7 +340,7 @@ extern int translate_res(int en_resource);
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c */
+   c64/c64_256k.c, pet/petreu.c */
 #define IDCLS_P_NAME                            0x1100e
 #define IDCLS_P_NAME_DE                         0x1100f
 #define IDCLS_P_NAME_FR                         0x11010
@@ -3765,5 +3765,41 @@ extern int translate_res(int en_resource);
 #define IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL 0x11a28
 #define IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV 0x11a29
 #endif
+
+/* pet/petreu.c */
+#define IDCLS_ENABLE_PETREU                     0x11a2a
+#define IDCLS_ENABLE_PETREU_DE                  0x11a2b
+#define IDCLS_ENABLE_PETREU_FR                  0x11a2c
+#define IDCLS_ENABLE_PETREU_IT                  0x11a2d
+#define IDCLS_ENABLE_PETREU_NL                  0x11a2e
+#define IDCLS_ENABLE_PETREU_PL                  0x11a2f
+#define IDCLS_ENABLE_PETREU_SV                  0x11a30
+
+/* pet/petreu.c */
+#define IDCLS_DISABLE_PETREU                    0x11a31
+#define IDCLS_DISABLE_PETREU_DE                 0x11a32
+#define IDCLS_DISABLE_PETREU_FR                 0x11a33
+#define IDCLS_DISABLE_PETREU_IT                 0x11a34
+#define IDCLS_DISABLE_PETREU_NL                 0x11a35
+#define IDCLS_DISABLE_PETREU_PL                 0x11a36
+#define IDCLS_DISABLE_PETREU_SV                 0x11a37
+
+/* pet/petreu.c */
+#define IDCLS_SPECIFY_PETREU_NAME               0x11a38
+#define IDCLS_SPECIFY_PETREU_NAME_DE            0x11a39
+#define IDCLS_SPECIFY_PETREU_NAME_FR            0x11a3a
+#define IDCLS_SPECIFY_PETREU_NAME_IT            0x11a3b
+#define IDCLS_SPECIFY_PETREU_NAME_NL            0x11a3c
+#define IDCLS_SPECIFY_PETREU_NAME_PL            0x11a3d
+#define IDCLS_SPECIFY_PETREU_NAME_SV            0x11a3e
+
+/* pet/petreu.c */
+#define IDCLS_PETREU_SIZE                       0x11a3f
+#define IDCLS_PETREU_SIZE_DE                    0x11a40
+#define IDCLS_PETREU_SIZE_FR                    0x11a41
+#define IDCLS_PETREU_SIZE_IT                    0x11a42
+#define IDCLS_PETREU_SIZE_NL                    0x11a43
+#define IDCLS_PETREU_SIZE_PL                    0x11a44
+#define IDCLS_PETREU_SIZE_SV                    0x11a45
 
 #endif

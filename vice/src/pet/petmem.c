@@ -41,6 +41,7 @@
 #include "petacia.h"
 #include "petmem.h"
 #include "petpia.h"
+#include "petreu.h"
 #include "pets.h"
 #include "petvia.h"
 #include "ram.h"
@@ -180,6 +181,10 @@ void REGPARM2 rom_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 read_unused(WORD addr)
 {
+    if (petreu_enabled && addr>=0x8800 && addr<0x8900)
+      return read_petreu_reg(addr);
+    if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
+      return read_petreu_ram(addr);
     return (addr >> 8) & 0xff;
 }
 
@@ -393,6 +398,10 @@ static BYTE REGPARM1 read_io(WORD addr)
 
 static void REGPARM2 store_dummy(WORD addr, BYTE value)
 {
+    if (petreu_enabled && addr>=0x8800 && addr<0x8900)
+      store_petreu_reg(addr,value);
+    if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
+      store_petreu_ram(addr,value);
     return;
 }
 

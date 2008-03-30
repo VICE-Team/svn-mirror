@@ -46,6 +46,7 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheralieee.h"
+#include "uipetreu.h"
 #include "uiromset.h"
 #include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
@@ -178,6 +179,16 @@ static ui_menu_entry_t petui_main_romset_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(EmuID)
+
+static ui_menu_entry_t io_extensions_submenu[] = {
+    { N_("PET RAM and Expansion Unit"),
+      NULL, NULL, petreu_submenu },
+    { N_("*Emulator identification"),
+      (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t pet_romset_submenu[] = {
     { "Basic 1",
       (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom1g.vrs", NULL },
@@ -243,7 +254,6 @@ static ui_menu_entry_t pet_romset_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SuperPET)
 
 static ui_menu_entry_t model_settings_submenu[] = {
@@ -274,9 +284,6 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "--" },
     { N_("Keyboard type"),
       NULL, NULL, pet_keybd_submenu },
-    { "--" },
-    { N_("*Emulator identification"),
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
 };
 
@@ -285,6 +292,9 @@ static ui_menu_entry_t pet_menu[] = {
       NULL, NULL, model_settings_submenu },
     { N_("*PET userport diagnostic pin"),
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
+    { "--" },
+    { N_("I/O extensions"),
+      NULL, NULL, io_extensions_submenu },
     { "--" },
     { N_("Crtc settings"),
       NULL, NULL, crtc_submenu },
@@ -406,6 +416,8 @@ int petui_init(void)
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   ui_drive_options_submenu,
+                                  ui_menu_separator,
+                                  io_extensions_submenu,
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",

@@ -31,6 +31,8 @@
 
 extern struct ui_menu_entry_s ser1_baud_submenu[];
 extern struct ui_menu_entry_s ser2_baud_submenu[];
+extern struct ui_menu_entry_s ser1_c64c128_baud_submenu[];
+extern struct ui_menu_entry_s ser2_c64c128_baud_submenu[];
 
 extern UI_CALLBACK(set_rs232_device_file);
 extern UI_CALLBACK(set_rs232_exec_file);

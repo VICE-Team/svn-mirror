@@ -448,6 +448,9 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
+/* Define if this version is unstable. */
+#undef UNSTABLE
+
 /* Enable aRts support. */
 #undef USE_ARTS
 

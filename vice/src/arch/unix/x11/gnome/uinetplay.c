@@ -43,22 +43,17 @@ static log_t np_log = LOG_ERR;
 static void
 netplay_update_resources (void)
 {
-    gchar *server_name;
+    const gchar *server_name;
     char p[256];
     long port;
-
-    strncpy(p, gtk_entry_get_text(
-		GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(np_port)))), 
-	    256);
-    server_name = gtk_entry_get_text(
-	GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(np_server))));
     
+    strncpy(p, gtk_entry_get_text(GTK_ENTRY(np_port)), 256);
+    server_name = gtk_entry_get_text(GTK_ENTRY(np_server));
     util_string_to_long(p, NULL, 10, &port);
     if (port < 1 || port > 0xFFFF) {
         ui_error(_("Invalid Port number"));
 	return;
     }
-    
     resources_set_value("NetworkServerPort", (resource_value_t) port);
     resources_set_value("NetworkServerName", (resource_value_t) server_name);
 }
@@ -101,9 +96,8 @@ netplay_update_status(void)
     resources_get_value("NetworkServerPort", (void *) &port);
     resources_get_value("NetworkServerName", (void *) &server_name);
     snprintf(st, 256, "%d", port);
-    gtk_entry_set_text(GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(np_port))), st);
-    gtk_entry_set_text(GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(np_server))), 
-		       server_name);
+    gtk_entry_set_text(GTK_ENTRY(np_port), st);
+    gtk_entry_set_text(GTK_ENTRY(np_server), server_name);
     log_message(np_log, _("Status: %s, Server: %s, Port: %d"),
 		text, server_name, port);
 }
@@ -115,7 +109,7 @@ netplay_start_server (GtkWidget *w, gpointer data)
     if (network_start_server() < 0)
 	ui_error(_("Couldn't start netplay server."));
     netplay_update_status();
-    gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
+    gtk_dialog_response(GTK_DIALOG(netplay_dialog), GTK_RESPONSE_CANCEL);
 }
 
 static void
@@ -125,7 +119,7 @@ netplay_connect (GtkWidget *w, gpointer data)
     if (network_connect_client() < 0)
 	ui_error(_("Couldn't connect client."));
     netplay_update_status();
-    gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
+    gtk_dialog_response(GTK_DIALOG(netplay_dialog), GTK_RESPONSE_CANCEL);
 }
 
 static void
@@ -134,7 +128,7 @@ netplay_disconnect (GtkWidget *w, gpointer data)
     netplay_update_resources();
     network_disconnect();
     netplay_update_status();
-    gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
+    gtk_dialog_response(GTK_DIALOG(netplay_dialog), GTK_RESPONSE_CANCEL);
 }
 
 static GtkWidget *
@@ -142,9 +136,11 @@ build_netplay_dialog(void)
 {
     GtkWidget *d, *f, *b, *hb, *rb, *l, *entry;
 
-    d = gnome_dialog_new(_("Netplay Settings"),
-			 GNOME_STOCK_BUTTON_CANCEL,
-			 NULL);
+    d = gtk_dialog_new_with_buttons(_("Netplay Settings"),
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				    NULL);
     
     ctrls = f = gtk_frame_new(_("Netplay Settings"));
 
@@ -163,9 +159,9 @@ build_netplay_dialog(void)
     hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(_("Start Server"));
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
-    gtk_signal_connect(GTK_OBJECT(rb), "clicked",
-		       GTK_SIGNAL_FUNC(netplay_start_server),
-		       rb);
+    g_signal_connect(G_OBJECT(rb), "clicked",
+		     G_CALLBACK(netplay_start_server),
+		     rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
@@ -174,7 +170,7 @@ build_netplay_dialog(void)
     gtk_widget_show(l);
     
     /* entry port */
-    np_port = entry = gnome_entry_new("vice: netplay_port");
+    np_port = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
     gtk_widget_show(entry);
     
@@ -184,14 +180,14 @@ build_netplay_dialog(void)
     hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(_("Connect to "));
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
-    gtk_signal_connect(GTK_OBJECT(rb), "clicked",
-		       GTK_SIGNAL_FUNC(netplay_connect),
-		       rb);
+    g_signal_connect(G_OBJECT(rb), "clicked",
+		     G_CALLBACK(netplay_connect),
+		     rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
     
     /* entry IP */
-    np_server = entry = gnome_entry_new("vice: netplay_IP");
+    np_server = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
     gtk_widget_show(entry);
     
@@ -200,20 +196,20 @@ build_netplay_dialog(void)
 
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(b);
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), f, TRUE, TRUE,
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), f, TRUE, TRUE,
 		       GNOME_PAD);
     gtk_widget_show(f);
 
     dcb = rb = gtk_button_new_with_label(_("Disconnect"));
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), rb, FALSE, FALSE, 5);
-    gtk_signal_connect(GTK_OBJECT(rb), "clicked",
-		       GTK_SIGNAL_FUNC(netplay_disconnect),
-		       rb);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), rb, FALSE, FALSE, 5);
+    g_signal_connect(G_OBJECT(rb), "clicked",
+		     G_CALLBACK(netplay_disconnect),
+		     rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
     netplay_update_status();
 
-    gnome_dialog_close_hides(GNOME_DIALOG(d), TRUE);
+    /* gtk_dialog_close_hides(GTK_DIALOG(d), TRUE); */
     return d;
 }
 
@@ -233,13 +229,13 @@ ui_netplay_dialog(void)
     {
 	np_log = log_open("Netplay");
 	netplay_dialog = build_netplay_dialog();
-	gtk_signal_connect(GTK_OBJECT(netplay_dialog),
-			   "destroy",
-			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
-			   &netplay_dialog);
+	g_signal_connect(G_OBJECT(netplay_dialog),
+			 "destroy",
+			 G_CALLBACK(gtk_widget_destroyed),
+			 &netplay_dialog);
     }
     ui_popup(netplay_dialog, "Netplay Dialog", FALSE);
-    res = gnome_dialog_run(GNOME_DIALOG(netplay_dialog));
+    res = gtk_dialog_run(GTK_DIALOG(netplay_dialog));
     ui_popdown(netplay_dialog);
 }
 

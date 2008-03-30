@@ -216,9 +216,11 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = _("*Write Protect");
         if (drive == 0)
-            flipmenu[drive][i].callback = toggle_AttachDevice8Readonly;
+            flipmenu[drive][i].callback = 
+		G_CALLBACK(toggle_AttachDevice8Readonly);
         else
-            flipmenu[drive][i].callback = toggle_AttachDevice9Readonly;
+            flipmenu[drive][i].callback = 
+		G_CALLBACK(toggle_AttachDevice9Readonly);
         i++;
 #endif
 

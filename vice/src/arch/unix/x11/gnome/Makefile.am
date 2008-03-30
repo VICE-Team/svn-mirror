@@ -8,7 +8,6 @@ noinst_LIBRARIES = libgnomeui.a
 
 libgnomeui_a_SOURCES = \
 	about.c \
-	dummies.c \
 	gnomekbd.c \
 	gnomevideo.c \
 	uiarch.h \
@@ -22,5 +21,7 @@ libgnomeui_a_SOURCES = \
 	uiscreenshot.c \
 	uisnapshot.c \
 	uivsidcontrol.c \
+	uifileentry.c \
+	uifileentry.h \
 	videoarch.h \
 	x11ui.c

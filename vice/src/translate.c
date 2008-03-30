@@ -595,7 +595,7 @@ translate_t string_table[] = {
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c */
+   c64/c64_256k.c, pet/petreu.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
 /* de */ {IDCLS_P_NAME_DE, "<Name>"},
 /* fr */ {IDCLS_P_NAME_FR, "<nom>"},
@@ -1021,7 +1021,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_GEORAM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_GEORAM_NAME_SV, "Ange namn på GEORAM-avbildning"},
 
-/* c64/georam.c, c64/ramcart.c, c64/reu.c */
+/* c64/georam.c, c64/ramcart.c, c64/reu.c, pet/petreu.c */
 /* en */ {IDCLS_P_SIZE_IN_KB,    "<size in KB>"},
 /* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Grösse in KB>"},
 /* fr */ {IDCLS_P_SIZE_IN_KB_FR, "<taille en KO>"},
@@ -1038,6 +1038,42 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_GEORAM_SIZE_NL, "Grootte van de GEORAM uitbreidings eenheid"},
 /* pl */ {IDCLS_GEORAM_SIZE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_GEORAM_SIZE_SV, "Storlek på GEORAM-expansionsenhet"},
+
+/* pet/petreu.c */
+/* en */ {IDCLS_ENABLE_PETREU,    "Enable the PET Ram and Expansion Unit"},
+/* de */ {IDCLS_ENABLE_PETREU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_PETREU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PETREU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PETREU_NL, "Aktiveer de PET RAM en uitbreidings eenheid"},
+/* pl */ {IDCLS_ENABLE_PETREU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PETREU_SV, ""},  /* fuzzy */
+
+/* pet/petreu.c */
+/* en */ {IDCLS_DISABLE_PETREU,    "Disable the PET Ram and Expansion Unit"},
+/* de */ {IDCLS_DISABLE_PETREU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_PETREU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PETREU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PETREU_NL, "De PET RAM en uitbreidings eenheid afsluiten"},
+/* pl */ {IDCLS_DISABLE_PETREU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PETREU_SV, ""},  /* fuzzy */
+
+/* pet/petreu.c */
+/* en */ {IDCLS_SPECIFY_PETREU_NAME,    "Specify name of PET Ram and Expansion Unit image"},
+/* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PETREU_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PETREU_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PETREU_NAME_NL, "Geef de naam van het PET RAM en uitbreidings eenheid bestand"},
+/* pl */ {IDCLS_SPECIFY_PETREU_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PETREU_NAME_SV, ""},  /* fuzzy */
+
+/* pet/petreu.c */
+/* en */ {IDCLS_PETREU_SIZE,    "Size of the PET Ram and Expansion Unit"},
+/* de */ {IDCLS_PETREU_SIZE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PETREU_SIZE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_PETREU_SIZE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PETREU_SIZE_NL, "Grootte van de PET RAM en uitbreidings eenheid"},
+/* pl */ {IDCLS_PETREU_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PETREU_SIZE_SV, ""},  /* fuzzy */
 
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    "SID player mode"},
@@ -4839,6 +4875,42 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDCLS_GEORAM_SIZE_NL,
 /* pl */  IDCLS_GEORAM_SIZE_PL,
 /* sv */  IDCLS_GEORAM_SIZE_SV},
+
+/* pet/petreu.c */
+/* en */ {IDCLS_ENABLE_PETREU,
+/* de */  IDCLS_ENABLE_PETREU_DE,
+/* fr */  IDCLS_ENABLE_PETREU_FR,
+/* it */  IDCLS_ENABLE_PETREU_IT,
+/* nl */  IDCLS_ENABLE_PETREU_NL,
+/* pl */  IDCLS_ENABLE_PETREU_PL,
+/* sv */  IDCLS_ENABLE_PETREU_SV},
+
+/* pet/petreu.c */
+/* en */ {IDCLS_DISABLE_PETREU,
+/* de */  IDCLS_DISABLE_PETREU_DE,
+/* fr */  IDCLS_DISABLE_PETREU_FR,
+/* it */  IDCLS_DISABLE_PETREU_IT,
+/* nl */  IDCLS_DISABLE_PETREU_NL,
+/* pl */  IDCLS_DISABLE_PETREU_PL,
+/* sv */  IDCLS_DISABLE_PETREU_SV},
+
+/* pet/petreu.c */
+/* en */ {IDCLS_SPECIFY_PETREU_NAME,
+/* de */  IDCLS_SPECIFY_PETREU_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PETREU_NAME_FR,
+/* it */  IDCLS_SPECIFY_PETREU_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PETREU_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PETREU_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PETREU_NAME_SV},
+
+/* pet/petreu.c */
+/* en */ {IDCLS_PETREU_SIZE,
+/* de */  IDCLS_PETREU_SIZE_DE,
+/* fr */  IDCLS_PETREU_SIZE_FR,
+/* it */  IDCLS_PETREU_SIZE_IT,
+/* nl */  IDCLS_PETREU_SIZE_NL,
+/* pl */  IDCLS_PETREU_SIZE_PL,
+/* sv */  IDCLS_PETREU_SIZE_SV},
 
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,

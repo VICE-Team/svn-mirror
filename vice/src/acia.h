@@ -27,10 +27,18 @@
 #ifndef _ACIA_H
 #define _ACIA_H
 
-#define   ACIA_DR   0           /* Data register */
-#define   ACIA_SR   1           /* R: status register W: programmed Reset */
-#define   ACIA_CMD  2           /* Command register */
-#define   ACIA_CTRL 3           /* Control register */
+#define   ACIA_DR    0           /* Data register */
+#define   ACIA_SR    1           /* R: status register W: programmed Reset */
+#define   ACIA_CMD   2           /* Command register */
+#define   ACIA_CTRL  3           /* Control register */
+#define   T232_NDEF1 4           /* Undefined register 1, turbo232 only */
+#define   T232_NDEF2 5           /* Undefined register 2, turbo232 only */
+#define   T232_NDEF3 6           /* Undefined register 3, turbo232 only */
+#define   T232_ECTRL 7           /* Enhanced control register, turbo232 only */
+
+#define   ACIA_MODE_NORMAL    0  /* Normal ACIA emulation */
+#define   ACIA_MODE_SWIFTLINK 1  /* Swiftlink ACIA emulation, baud rates are doubled */
+#define   ACIA_MODE_TURBO232  2  /* Turbo232 ACIA emulation, baud rates are doubled,
+                                    and enhanced baud rate register */
 
 #endif
-

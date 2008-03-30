@@ -68,6 +68,7 @@ libarch_a_SOURCES = \
 	resgeoram.rc \
 	reside64.rc \
 	respet.rc \
+	respetreu.rc \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
@@ -137,6 +138,8 @@ libarch_a_SOURCES = \
 	uinetwork.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uipetreu.c \
+	uipetreu.h \
 	uipetset.c \
 	uipetset.h \
 	uiplus4cart.c \
@@ -314,9 +317,9 @@ rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	rm -f rescbm2.res rescbm2cat.rc
 
 respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/resdrivepetcbm2.rc
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
 	cat >respetcat.rc $(srcdir)/respet.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc
+	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc
 	$(WRC) -i respetcat.rc -o respet.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \

@@ -377,6 +377,13 @@ BEGIN
 #ifndef __XPLUS4__
       MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
 #endif
+#ifdef __XPET__
+      MENUITEM "PET R~EU - Memory and Extension Unit", IDM_PETREU,       MIS_TEXT
+      SUBMENU  "PET REU Memory ~Size",        IDM_PETREUSIZE,   MIS_TEXT
+      BEGIN
+        MENUITEM "~128kB",                IDM_PETREU128,    MIS_TEXT
+      END
+#endif
 #if defined __X64__ || defined __X128__
 #ifdef HAVE_TFE
       MENUITEM "TFE - Cartridge",         IDM_TFE,       MIS_TEXT

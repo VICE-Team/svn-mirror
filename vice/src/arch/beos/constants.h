@@ -121,6 +121,7 @@ const uint32 MENU_TOGGLE_GEORAM					= 'M143';
 const uint32 MENU_TOGGLE_RAMCART					= 'M145';
 const uint32 MENU_TOGGLE_PLUS60K					= 'M146';
 const uint32 MENU_TOGGLE_C64_256K					= 'M144';
+const uint32 MENU_TOGGLE_PETREU					= 'M147';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
 const uint32 MENU_TOGGLE_DIRECTWINDOW			= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';
@@ -202,6 +203,8 @@ const uint32 MENU_C64_256K_BASE_DE00				= 'M459';
 const uint32 MENU_C64_256K_BASE_DE80				= 'M460';
 const uint32 MENU_C64_256K_BASE_DF00				= 'M461';
 const uint32 MENU_C64_256K_BASE_DF80				= 'M462';
+
+const uint32 MENU_PETREU_SIZE_128					= 'M463';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';
