@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# Makefile.am for the OS2 version of `libpm.a'.
+
 
 SHELL = @SHELL@
 
@@ -38,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -108,32 +110,27 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet
+INCLUDES =  	@ARCH_INCLUDES@ 
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libpm.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64c128ui.c 	c64c128ui.h 	c64ui.c 	c64ui.h 	config.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.h 	petdummy.c 	petui.c 	petui.h 	print.c 	rs232.c 	types.h 	ui.c 	ui.h         uicmdline.c         uicmdline.h 	uidummy.c 	uiimage.c 	uiimage.h 	uimsgwin.c 	uimsgwin.h 	vic20ui.c 	vic20ui.h 	video.c 	video.h 	vsidui.c 	vsidui.h 	vsync.c 	vsyncarch.h
-
-
-EXTRA_DIST =  	ReadMeRO
+libpm_a_SOURCES =  	dirport.c 	dirport.h 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64c128ui.o c64ui.o \
-joystick.o kbd.o petdummy.o petui.o print.o rs232.o ui.o uicmdline.o \
-uidummy.o uiimage.o uimsgwin.o vic20ui.o video.o vsidui.o vsync.o
+libpm_a_LIBADD = 
+libpm_a_OBJECTS =  dirport.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -145,14 +142,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
+SOURCES = $(libpm_a_SOURCES)
+OBJECTS = $(libpm_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/riscos/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/snippets/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -187,10 +184,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+libpm.a: $(libpm_a_OBJECTS) $(libpm_a_DEPENDENCIES)
+	-rm -f libpm.a
+	$(AR) cru libpm.a $(libpm_a_OBJECTS) $(libpm_a_LIBADD)
+	$(RANLIB) libpm.a
 
 tags: TAGS
 
@@ -223,7 +220,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/riscos
+subdir = src/arch/os2/snippets
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \

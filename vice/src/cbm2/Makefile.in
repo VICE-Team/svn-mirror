@@ -273,12 +273,12 @@ c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/arch/unix/kbd.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	c610cia.h c610tpi.h ../../src/ciacore.c ../../src/ciatimer.h
-c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/snapshot.h ../maincpu.c ../vice.h ../6510core.h \
-	../alarm.h ../log.h ../clkguard.h ../datasette.h ../tap.h \
-	../interrupt.h ../snapshot.h ../machine.h ../maincpu.h ../mon.h \
-	../mos6510.h ../mem.h ../traps.h ../../src/arch/unix/ui.h \
+c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/arch/unix/types.h ../maincpu.c \
+	../vice.h ../6510core.h ../alarm.h ../log.h ../clkguard.h \
+	../datasette.h ../tap.h ../interrupt.h ../snapshot.h \
+	../machine.h ../maincpu.h ../mon.h ../mos6510.h ../mem.h \
+	../traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
 	../../src/uiapi.h ../resources.h ../6510core.c
 c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
@@ -332,8 +332,8 @@ c610tpi2.o: c610tpi2.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/mos6510.h ../../src/tpicore.c
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h c610tpi.h
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h c610tpi.h \
+	../../src/snapshot.h ../../src/arch/unix/types.h
 
 info-am:
 info: info-am

@@ -594,9 +594,9 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	cmdline.h resources.h diskimage.h gcr.h drive/drivecpu.h \
 	alarm.h log.h clkguard.h mon.h interrupt.h 6510core.h mos6510.h \
 	fsdevice.h arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h \
-	keyboard.h machine.h maincpu.h serial.h traps.h sound.h warn.h \
-	sysfile.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
-	uiapi.h utils.h arch/unix/video.h vsync.h arch/unix/mouse.h
+	keyboard.h machine.h maincpu.h arch/unix/main_exit.h sysfile.h \
+	tape.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
+	uiapi.h utils.h arch/unix/video.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h log.h clkguard.h datasette.h tap.h interrupt.h \
 	snapshot.h machine.h maincpu.h mon.h mos6510.h mem.h traps.h \
@@ -633,7 +633,7 @@ romset.o: romset.c vice.h config.h log.h mem.h snapshot.h \
 	arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h log.h arch/unix/types.h \
 	clkguard.h cmdline.h resources.h interrupt.h 6510core.h \
-	snapshot.h maincpu.h mem.h mon.h mos6510.h rs232.h rsuser.h
+	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h drive/drive.h diskimage.h gcr.h \
 	arch/unix/types.h log.h snapshot.h maincpu.h 6510core.h alarm.h \
 	clkguard.h mon.h interrupt.h mos6510.h mem.h parallel.h \
@@ -646,7 +646,7 @@ sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	interrupt.h snapshot.h mos6510.h sound.h warn.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
-	cmdline.h resources.h findpath.h log.h sysfile.h \
+	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
 	arch/unix/types.h utils.h
 t64.o: t64.c vice.h config.h t64.h arch/unix/types.h utils.h zfile.h
 tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
@@ -661,7 +661,7 @@ traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 	diskimage.h gcr.h traps.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
-warn.o: warn.c vice.h config.h log.h warn.h utils.h arch/unix/types.h
+warn.o: warn.c vice.h config.h log.h utils.h arch/unix/types.h warn.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

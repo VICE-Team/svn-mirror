@@ -259,8 +259,8 @@ vic-cmdline-options.o: vic-cmdline-options.c ../../src/vice.h \
 	../../src/uiapi.h ../../src/snapshot.h vic-mem.h vic20.h \
 	vic-cmdline-options.h
 vic-draw.o: vic-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster.h ../../src/palette.h \
+	../../src/arch/unix/types.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
