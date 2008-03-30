@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "utils.h"
 
+
 static FILE *log_file = NULL;
 
 static char **logs = NULL;
@@ -128,16 +129,29 @@ log_t log_open(const char *id)
     }
 
     logs[new_log] = stralloc(id);
+
     return new_log;
 }
 
 int log_close(log_t log)
 {
-    if (logs[(unsigned int) log] == NULL)
+    if (logs[(unsigned int)log] == NULL)
         return -1;
+
     free(logs[(unsigned int)log]);
     logs[(unsigned int)log] = NULL;
+
     return 0;
+}
+
+void log_close_all(void)
+{
+    log_t i;
+
+    for (i = 0; i < num_logs; i++)
+        log_close(i);
+
+    free(logs);
 }
 
 static int log_archdep(const char *logtxt, const char *fmt, va_list ap)

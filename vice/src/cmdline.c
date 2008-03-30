@@ -76,6 +76,11 @@ int cmdline_register_options(const cmdline_option_t *c)
     return 0;
 }
 
+void cmdline_shutdown(void)
+{
+    free(options);
+}
+
 static cmdline_option_t *lookup(const char *name, int *is_ambiguous)
 {
     cmdline_option_t *match;
