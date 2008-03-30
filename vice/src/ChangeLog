@@ -1,3 +1,34 @@
+2002-04-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.5.
+
+	* raster/raster.h: New member xsmooth_shift_right in raster_s.
+
+	* raster/raster.c (raster_reset): Init xsmooth_shift_right.
+
+	* vicii/vicii-mem.c (store_d016): Trigger a background change
+	if scrolling to the right.
+
+	* vicii/vicii-draw.c (draw_std_background): Set the background
+	color source to the currently active vbuf value if hires
+	bitmap mode is enabled.
+
+2002-04-27 Andreas Matthies <andreas.matthies@gmx.net>
+
+	* raster/raster.h: New member xsmooth_shift_left in raster_s.
+
+	* raster/raster.c (raster_reset): Init xsmooth_shift_left.
+
+	* raster/raster-line.c (handle_visible_line_with_changes):
+	Reset xsmooth_shift_left after each
+	raster_mode_draw_foreground.
+
+	* vicii/vicii-draw.c (draw_std_text_foreground): Cut
+	xsmooth_shift_left pixels of the last char.
+
+	* vicii/vicii-mem.c (store_d016): Set xsmooth_shift_left via
+	raster_add_int_change_foreground.
+
 2002-04-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.4.

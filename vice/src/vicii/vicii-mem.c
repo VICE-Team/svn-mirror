@@ -593,26 +593,42 @@ inline static void store_d016(ADDRESS addr, BYTE value)
 {
     raster_t *raster;
     int cycle;
+    BYTE xsmooth;
 
     VIC_II_DEBUG_REGISTER(("\tControl register: $%02X\n", value));
 
     raster = &vic_ii.raster;
     cycle = VIC_II_RASTER_CYCLE(clk);
+    xsmooth = value & 7;
 
-    /* FIXME: Line-based emulation!  */
-    if ((value & 7) != (vic_ii.regs[addr] & 7)) {
+    if (xsmooth != (vic_ii.regs[addr] & 7)) {
 #if 0
         if (raster->skip_frame || VIC_II_RASTER_CHAR(cycle) <= 1)
-            raster->xsmooth = value & 0x7;
+            raster->xsmooth = xsmooth;
         else
             raster_add_int_change_next_line(raster,
                                             &raster->xsmooth,
-                                            value & 0x7);
+                                            xsmooth);
 #else
+        if (xsmooth < (vic_ii.regs[addr] & 7)) {
+            /* shift left: we need to care for std_text_mode */
+            /* the number of pixels to leave out has
+               to be set _before_ the change of xsmooth      */
+            raster_add_int_change_foreground(raster,
+                             VIC_II_RASTER_CHAR(cycle) - 2,
+                             &raster->xsmooth_shift_left,
+                             (vic_ii.regs[addr] & 7) - xsmooth);
+
+        } else {
+            raster_add_int_change_background(raster,
+                                             VIC_II_RASTER_X(cycle),
+                                             &raster->xsmooth_shift_right,
+                                             xsmooth - (vic_ii.regs[addr] & 7));
+        }
         raster_add_int_change_foreground(raster,
                                          VIC_II_RASTER_CHAR(cycle) - 1,
                                          &raster->xsmooth,
-                                         value & 7);
+                                         xsmooth);
 #endif
     }
 
