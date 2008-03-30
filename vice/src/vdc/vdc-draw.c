@@ -134,7 +134,8 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 / vdc.raster_ycounter_divide),
                                 xs, xe,
                                 rr,
-                                vdc.text_blink_visible);
+                                vdc.text_blink_visible,
+                                (vdc.regs[24] & 0x40) ? 0x0 : 0xff);
         r |= raster_cache_data_fill(cache->color_data_1,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
                                 vdc.screen_text_cols,
@@ -152,7 +153,8 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 / vdc.raster_ycounter_divide),
                                 xs, xe,
                                 rr,
-                                vdc.text_blink_visible);
+                                vdc.text_blink_visible,
+                                (vdc.regs[24] & 0x40) ? 0x0 : 0xff);
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                 vdc.regs[26] >> 4,
                                 vdc.screen_text_cols,
