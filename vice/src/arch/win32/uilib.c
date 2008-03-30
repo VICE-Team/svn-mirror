@@ -36,14 +36,15 @@
 #include <commctrl.h>
 
 #include "diskimage.h"
+#include "fullscreen.h"
 #include "imagecontents.h"
+#include "res.h"
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "winmain.h"
-#include "res.h"
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
 #ifndef OFN_ENABLESIZING
@@ -279,7 +280,7 @@ char    *extension;
                         }
                         if (file_exists_p(filename)) {
                             int ret;
-                            ret = MessageBox(hwnd, "Overwrite existing image?",
+                            ret = ui_messagebox(hwnd, "Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
                             if (ret != IDYES)
                                 return -1;
@@ -417,7 +418,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                         }
                         if (file_exists_p(filename)) {
                             int ret;
-                            ret = MessageBox(hwnd, "Overwrite existing image?",
+                            ret = ui_messagebox(hwnd, "Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
                             if (ret != IDYES)
                                 return -1;
@@ -537,14 +538,6 @@ char *ui_select_file(HWND hwnd, const char *title, const char *filter, int style
     } else {
         return NULL;
     }
-}
-
-void ui_set_res_num(char *res, int value, int num)
-{
-    char tmp[256];
-
-    sprintf(tmp, res, num);
-    resources_set_value(tmp, (resource_value_t *) value);
 }
 
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
@@ -688,3 +681,11 @@ BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
     return FALSE;
 }
 
+int ui_messagebox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
+{
+    int ret;
+    SuspendFullscreenMode(hWnd);
+    ret = MessageBox( hWnd, lpText, lpCaption, uType );
+    ResumeFullscreenMode(hWnd);
+    return ret;
+}

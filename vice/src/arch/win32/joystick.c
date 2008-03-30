@@ -67,33 +67,17 @@ static int set_joystick_device_2(resource_value_t v, void *param)
     return 0;
 }
 
-#define DEFINE_SET_KEYSET(num, dir)                             \
-    static int set_keyset##num##_##dir##(resource_value_t v, void *param)    \
-    {                                                           \
-        keyset##num##[KEYSET_##dir##] = (int) v;                \
-                                                                \
-        return 0;                                               \
+#define DEFINE_SET_KEYSET(num)                                     \
+    static int set_keyset##num##(resource_value_t v, void *param)  \
+    {                                                              \
+        keyset##num##[(int)param] = (int) v;                       \
+                                                                   \
+        return 0;                                                  \
     }
 
-DEFINE_SET_KEYSET(1, NW)
-DEFINE_SET_KEYSET(1, N)
-DEFINE_SET_KEYSET(1, NE)
-DEFINE_SET_KEYSET(1, E)
-DEFINE_SET_KEYSET(1, SE)
-DEFINE_SET_KEYSET(1, S)
-DEFINE_SET_KEYSET(1, SW)
-DEFINE_SET_KEYSET(1, W)
-DEFINE_SET_KEYSET(1, FIRE)
+DEFINE_SET_KEYSET(1)
+DEFINE_SET_KEYSET(2)
 
-DEFINE_SET_KEYSET(2, NW)
-DEFINE_SET_KEYSET(2, N)
-DEFINE_SET_KEYSET(2, NE)
-DEFINE_SET_KEYSET(2, E)
-DEFINE_SET_KEYSET(2, SE)
-DEFINE_SET_KEYSET(2, S)
-DEFINE_SET_KEYSET(2, SW)
-DEFINE_SET_KEYSET(2, W)
-DEFINE_SET_KEYSET(2, FIRE)
 
 static resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
@@ -104,58 +88,58 @@ static resource_t resources[] = {
       set_joystick_device_2, NULL },
     { "KeySet1NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_NW],
-       set_keyset1_NW, NULL },
+       set_keyset1, (void *)KEYSET_NW },
     { "KeySet1North", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_N],
-      set_keyset1_N, NULL },
+      set_keyset1, (void *)KEYSET_N },
     { "KeySet1NorthEast", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_NE],
-      set_keyset1_NE, NULL },
+      set_keyset1, (void *)KEYSET_NE },
     { "KeySet1East", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_E],
-      set_keyset1_E, NULL },
+      set_keyset1, (void *)KEYSET_E },
     { "KeySet1SouthEast", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_SE],
-      set_keyset1_SE, NULL },
+      set_keyset1, (void *)KEYSET_SE },
     { "KeySet1South", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_S],
-      set_keyset1_S, NULL },
+      set_keyset1, (void *)KEYSET_S },
     { "KeySet1SouthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_SW],
-      set_keyset1_SW, NULL },
+      set_keyset1, (void *)KEYSET_SW },
     { "KeySet1West", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_W],
-      set_keyset1_W, NULL },
+      set_keyset1, (void *)KEYSET_W },
     { "KeySet1Fire", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_FIRE],
-      set_keyset1_FIRE, NULL },
+      set_keyset1, (void *)KEYSET_FIRE },
     { "KeySet2NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_NW],
-      set_keyset2_NW, NULL },
+      set_keyset2, (void *)KEYSET_NW },
     { "KeySet2North", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_N],
-      set_keyset2_N, NULL },
+      set_keyset2, (void *)KEYSET_N },
     { "KeySet2NorthEast", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_NE],
-      set_keyset2_NE, NULL },
+      set_keyset2, (void *)KEYSET_NE },
     { "KeySet2East", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_E],
-      set_keyset2_E, NULL },
+      set_keyset2, (void *)KEYSET_E },
     { "KeySet2SouthEast", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_SE],
-      set_keyset2_SE, NULL },
+      set_keyset2, (void *)KEYSET_SE },
     { "KeySet2South", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_S],
-      set_keyset2_S, NULL },
+      set_keyset2, (void *)KEYSET_S },
     { "KeySet2SouthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_SW],
-      set_keyset2_SW, NULL },
+      set_keyset2, (void *)KEYSET_SW },
     { "KeySet2West", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_W],
-      set_keyset2_W, NULL },
+      set_keyset2, (void *)KEYSET_W },
     { "KeySet2Fire", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset2[KEYSET_FIRE],
-      set_keyset2_FIRE, NULL },
+      set_keyset2, (void *)KEYSET_FIRE },
     { NULL }
 };
 
