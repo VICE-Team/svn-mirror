@@ -41,11 +41,9 @@
 #include "tuifs.h"
 #include "tuimenu.h"
 #include "ui.h"
+#include "uic64cart.h"
 #include "uireu.h"
 #include "uisid.h"
-
-
-static tui_menu_t ui_ioextensions_submenu;
 
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
@@ -334,6 +332,8 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 int c128ui_init(void)
 {
+    tui_menu_t ui_ioextensions_submenu;
+
     ui_create_main_menu(1, 1, 1, 2, 1);
 
     tui_menu_add_separator(ui_special_submenu);
@@ -345,6 +345,7 @@ int c128ui_init(void)
                          ui_ioextensions_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
+    uic64cart_init(NULL);
     tui_menu_add_separator(ui_video_submenu);
 
     add_palette_submenu(ui_video_submenu);
