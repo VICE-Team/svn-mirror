@@ -32,6 +32,8 @@ libxawui_a_SOURCES = \
 	ui.h \
 	uicommands.c \
 	uicommands.h \
+	uiedisk.c \
+	uiedisk.h \
 	uihotkey.c \
 	uihotkey.h \
 	uimenu.c \

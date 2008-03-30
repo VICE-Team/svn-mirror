@@ -863,6 +863,8 @@ static ui_menu_entry_t set_drive0_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
     { "*2031", (ui_callback_t) radio_Drive8Type,
       (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
+    { "*1001", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 
@@ -879,6 +881,8 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
     { "*2031", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
+    { "*1001", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_1001, NULL },
     { NULL }
 };
 

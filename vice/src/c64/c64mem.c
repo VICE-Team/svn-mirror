@@ -119,7 +119,8 @@ unsigned int old_reg_pc;
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
     "CartridgeType", "CartridgeFile",
-    "DosName2031", "DosName1541", "DosName1571", "DosName1581",
+    "DosName2031", "DosName1001", 
+    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
 

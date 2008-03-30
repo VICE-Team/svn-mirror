@@ -1,0 +1,374 @@
+Microsoft Developer Studio Workspace File, Format Version 5.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "arch"=".\SRC\ARCH\WIN32\arch.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "c128"=".\SRC\C128\c128.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "c1541"=".\SRC\c1541.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "c64"=".\SRC\C64\c64.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "c64c128"=".\SRC\C64\c64c128.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cbm2"=".\SRC\CBM2\cbm2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "drive"=".\SRC\DRIVE\drive.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pet"=".\SRC\PET\pet.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "petcat"=".\SRC\petcat.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "resid"=".\src\resid\resid.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "sid"=".\SRC\SID\sid.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "sounddrv"=".\SRC\SOUNDDRV\sounddrv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "vic20"=".\SRC\VIC20\vic20.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "vice"=".\vice.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name x64
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name x128
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xvic
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xpet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xcbm2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c1541
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name petcat
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "vicii"=".\SRC\VICII\vicii.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "x128"=".\SRC\x128.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vicii
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c128
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64c128
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "x64"=".\SRC\x64.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vicii
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xcbm2"=".\SRC\xcbm2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cbm2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xpet"=".\SRC\xpet.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name pet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xvic"=".\src\xvic.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vic20
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

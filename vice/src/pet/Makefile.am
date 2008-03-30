@@ -26,5 +26,5 @@ libpet_a_SOURCES = \
 	petvia.c \
 	petvia.h
 
-EXTRA_DIST = pet.dsp
+EXTRA_DIST =
 

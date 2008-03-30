@@ -769,7 +769,7 @@ and @key{space} for the fire button instead.
 
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1571, 1581 and 2031 drives in one of two ways:
+Commodore 1541, 1571, 1581, 2031 and 1001 drives in one of two ways:
 
 @itemize @bullet
 @item
@@ -790,7 +790,11 @@ does @emph{not} really emulate the serial line, but patches the kernal
 ROM (with the so-called @dfn{kernal traps}) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
-all of them).
+all of them). The IEEE488 drives (2031 and 1001) do not use
+kernal traps. Instead the IEEE488 interface lines are monitored
+the data is passed to the drive emulation. To use them on the C64,
+you need to enable the IEEE488 interface emulation and load an
+appropriate kernal.
 
 The other alternative is a @dfn{hardware level} drive emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
@@ -806,7 +810,7 @@ As of 0.14.0 the @dfn{hardware level} emulation is available on all
 emulators.  It can only be used to emulate drive unit #8 or #9.  Other
 units are disabled if @dfn{hardware level} drive emulation is enabled.
 
-However, the PETs do not use a serial IEC bus to communicate with the
+The PETs do not use a serial IEC bus to communicate with the
 floppy drive but instead use the parallel IEEE488 bus.  This does
 @emph{byte by byte} transfers, as opposed to the @emph{bit by bit}
 transfers of the C64 and VIC20, so making it feasible to emulate the
@@ -814,7 +818,10 @@ parallel line completely while emulating the drive at DOS level only.
 The IEEE488 line interpreter maps the drives 8-11 (as described above)
 to the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation of the Commodore IEEE488 bus interface is available for the
-C64.
+C64. With IEEE488 drives you can have true 2031 emulation at unit
+#8, and still have filesystem access at units #10 or #11, because
+monitoring the IEEE488 lines does not interfere with the true drive
+emulation.
 
 @node Supported file formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
@@ -2630,18 +2637,28 @@ Specifies the drive types for units 8 and 9, respectively.  Possible
 values for @code{TYPE} are @code{1541}, @code{1571}, @code{1581} and
 @code{2031}.
 
-@cindex -parallel8, +parallel8
-@item -parallel
-@itemx +parallel
-Turns emulation of the SpeedDOS-compatible parallel cable on
-(@code{DriveXParallelCable=1}) and off (@code{DriveXParallelCable=0}),
-respectively.
+@cindex -parallel8, +parallel8, -parallel9, +parallel9
+@item -parallel8
+@itemx +parallel8
+@itemx -parallel9
+@itemx +parallel9
+Turns emulation of the SpeedDOS-compatible parallel cable for 
+disk unit 8 or 9 on
+(@code{DriveXParallelCable=1}, X=8 or 9) and off 
+(@code{DriveXParallelCable=0}), respectively.
 
 @cindex -drive8idle, -drive9idle
 @item -drive8idle NUM
 @itemx -drive9idle NUM
 Specifies @code{NUM} as the idling method in drives 8 and 9, respectively
 (@code{Drive8IdleMethod}, @code{Drive9IdleMethod}).
+
+@cindex -drive8extend, -drive9extend
+@item -drive8extend NUM
+@itemx -drive9extend NUM
+Specifies @code{NUM} as the track 40 extend policy in drives 8 and 9, 
+respectively
+(@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy}).
 
 @cindex -paldrive
 @item -paldrive
@@ -2662,11 +2679,13 @@ Specifies a generic sync factor for the drive emulation
 @cindex -dos1571
 @cindex -dos1581
 @cindex -dos2031
+@cindex -dos1001
 @item -dos1541
 @itemx -dos1571
 @itemx -dos1581
 @itemx -dos2031
-Specify the ROM names for the 1541, 1571, 1581 and 2031 emulation
+@itemx -dos1001
+Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001 emulation
 respectively.
 
 @end table
@@ -3237,6 +3256,17 @@ first, in case the settings have changed.
 Boolean specifying whether the emulator should dump core when it gets a
 signal.
 
+@vindex JoyDevice1, JoyDevice2
+@item JoyDevice1
+@itemx JoyDevice2
+Integer specifying which joystick device the emulator should use for
+joystick emulation for ports 1 and 2, respectively
+(0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
+5=Digital joystick 1, 6=Digital joystick 2 on Unix)
+The available joysticks might differ depending on operating system and
+joystick support in the OS (Linux joystick module must be 
+available for example).
+
 @end table
 
 
@@ -3256,11 +3286,18 @@ Specify the command to run the HTML browser for the on-line help
 @itemx +saveres
 Enable/disable automatic saving of settings on exit
 (@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
 @cindex -core, +core
 @item -core
 @itemx +core
 Enable/disable generation of core dumps (@code{DoCoreDump=1},
 @code{DoCoreDump=0}).
+
+@cindex -joydev1, -joydev2
+@item -joydev1
+@itemx -joydev2
+Set the device for joystick emulation of port 1 and 2, respectively
+(@code{JoyDevice1}, @code{JoyDevice2}).
 @end table
 
 
@@ -6061,6 +6098,8 @@ will copy @code{some file} into the file system with name
 
 This is a list of the @code{c1541} commands.  They are shown in their
 interactive form, without the leading @code{-}.
+Square brackets [] indicate an optional part, and "<COMMAND>" translates
+to a disk command according to CBM DOS, like "i0" for example.
 
 @table @code
 

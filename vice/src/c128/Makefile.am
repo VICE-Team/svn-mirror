@@ -22,7 +22,7 @@ libc128_a_SOURCES = \
 	vdc.c \
 	vdc.h
 
-EXTRA_DIST = c128.dsp
+EXTRA_DIST =
 
 BUILT_SOURCES = 
 

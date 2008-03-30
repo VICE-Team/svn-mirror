@@ -62,6 +62,7 @@ const char *mem_romset_resources_list[] = {
     "CartridgeFile2000", "CartridgeFile6000", 
     "CartridgeFileA000", "CartridgeFileB000",
     "DosName1541", "DosName1571", "DosName1581",
+    "DosName1541ii",
     NULL
 };
 

@@ -135,6 +135,7 @@
 #define DRIVE_ROM1571_SIZE   0x8000
 #define DRIVE_ROM1581_SIZE   0x8000
 #define DRIVE_ROM2031_SIZE   0x4000
+#define DRIVE_ROM1001_SIZE   0x4000	/* same as ROM8050 and ROM8250 !*/
 #define DRIVE_ROM_SIZE       0x8000
 #define DRIVE_RAM_SIZE       0x2000
 #define DRIVE_ROM1541_CHECKSUM	1976666
@@ -160,6 +161,7 @@
 #define DRIVE_TYPE_1571   1571
 #define DRIVE_TYPE_1581   1581
 #define DRIVE_TYPE_2031   2031
+#define DRIVE_TYPE_1001   1001	/* DOS 2.7 single floppy drive, 1M/disk */
 
 /* Possible colors of the drive active LED.  */
 #define DRIVE_ACTIVE_RED     0

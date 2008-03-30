@@ -72,6 +72,8 @@ noinst_HEADERS = \
 	print.h \
 	raster.h \
 	resources.h \
+	riot.h \
+	riotcore.h \
 	romset.h \
 	rs232.h \
 	serial.h \
@@ -169,15 +171,9 @@ EXTRA_DIST = \
 	fixpoint.c \
 	piacore.c \
 	raster.c \
+	riotcore.c \
 	tpicore.c \
 	viacore.c \
-	c1541.dsp \
-	petcat.dsp \
-	x128.dsp \
-	x64.dsp \
-	xcbm2.dsp \
-	xpet.dsp \
-	xvic.dsp \
 	$(printer_sources) \
 	$(rs232_sources)
 

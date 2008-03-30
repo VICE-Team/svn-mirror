@@ -137,7 +137,8 @@ void set_screen(void);
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName", 
     "Cart1Name", "Cart2Name", "Cart4Name", "Cart6Name",
-    "DosName2031", "DosName1541", "DosName1571", "DosName1581",
+    "DosName2031", "DosName1001", 
+    "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
 

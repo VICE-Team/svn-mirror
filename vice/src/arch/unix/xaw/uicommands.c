@@ -106,6 +106,21 @@ static UI_CALLBACK(attach_disk)
     }
 }
 
+static UI_CALLBACK(attach_empty_disk)
+{
+    int unit = (int)client_data;
+    char filename[1024];
+    ui_button_t button;
+
+    suspend_speed_eval();
+
+    if (ui_empty_disk_dialog(filename)) 
+	return;
+
+    if (file_system_attach_disk(unit, filename) < 0)
+        ui_error("Invalid Disk Image");
+}
+
 static UI_CALLBACK(detach_disk)
 {
     int unit = (int)client_data;
@@ -534,6 +549,18 @@ static UI_CALLBACK(attach_from_fliplist)
 
 /* ------------------------------------------------------------------------- */
 
+static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
+    { "Unit #8...",
+      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 8, NULL, },
+    { "Unit #9...",
+      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 9, NULL, },
+    { "Unit #10...",
+      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 10, NULL, },
+    { "Unit #11...",
+      (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 11, NULL, },
+    { NULL }
+};
+
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #8...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
@@ -593,6 +620,8 @@ static ui_menu_entry_t flip_submenu[] = {
 ui_menu_entry_t ui_disk_commands_menu[] = {
     { "Attach a disk image",
       NULL, NULL, attach_disk_image_submenu },
+    { "Create and attach an empty disk",
+      NULL, NULL, attach_empty_disk_image_submenu },
     { "Detach disk image",
       NULL, NULL, detach_disk_image_submenu },
     { "Fliplist for drive #8",

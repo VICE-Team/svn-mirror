@@ -13,7 +13,7 @@ libvicii_a_SOURCES = \
 	vicii.c \
 	vicii.h
 
-EXTRA_DIST = vicii.dsp
+EXTRA_DIST =
 
 viciidir = $(top_srcdir)/src/vicii
 

@@ -71,7 +71,7 @@ static Widget cancel_button;
 #define OPTION_LABELS_WIDTH     50
 #define OPTION_LABELS_JUSTIFY   XtJustifyLeft
 
-UI_CALLBACK(browse_callback)
+static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
@@ -82,12 +82,12 @@ UI_CALLBACK(browse_callback)
         XtVaSetValues(file_name_field, XtNstring, f, NULL);
 }
 
-UI_CALLBACK(cancel_callback)
+static UI_CALLBACK(cancel_callback)
 {
     ui_popdown(snapshot_dialog);
 }
 
-UI_CALLBACK(save_callback)
+static UI_CALLBACK(save_callback)
 {
     String name;
     Boolean save_roms;

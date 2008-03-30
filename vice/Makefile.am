@@ -2,7 +2,7 @@
 
 SUBDIRS = src data man doc
 
-EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec vice.dsp vice.dsw
+EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec
 
 .PHONY: x64 x128 xvic xpet xcbm2
 x64:

@@ -33,7 +33,7 @@ libvic20_a_SOURCES = \
 	vic20via1.c \
 	vic20via2.c
 
-EXTRA_DIST = vic20.dsp
+EXTRA_DIST =
 
 libvic20_a_LIBADD = $(rs232_libadd)
 

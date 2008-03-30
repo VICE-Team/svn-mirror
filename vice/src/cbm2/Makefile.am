@@ -25,5 +25,5 @@ libcbm2_a_SOURCES = \
 	c610tpi1.c \
 	c610tpi2.c 
 
-EXTRA_DIST = cbm2.dsp
+EXTRA_DIST =
 
