@@ -372,16 +372,16 @@ uicommands.o: uicommands.c ../../../../../src/vice.h \
 	../../../../../src/autostart.h ../../../../../src/fliplist.h \
 	../../../../../src/imagecontents.h ../../../../../src/info.h \
 	../../../../../src/interrupt.h ../../../../../src/6510core.h \
-	../../../../../src/machine.h ../../../../../src/maincpu.h \
-	../../../../../src/alarm.h ../../../../../src/clkguard.h \
-	../../../../../src/mon.h ../../../../../src/mos6510.h \
-	../../../../../src/mem.h ../../../../../src/resources.h \
-	../../../../../src/sound.h ../../../../../src/warn.h \
-	../../../../../src/tape.h ../../../../../src/traps.h \
-	uicommands.h ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h uimenu.h uihotkey.h uiedisk.h \
-	uisnapshot.h ../../../../../src/utils.h \
-	../../../../../src/vsync.h
+	../../../../../src/log.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h ../../../../../src/alarm.h \
+	../../../../../src/clkguard.h ../../../../../src/mon.h \
+	../../../../../src/mos6510.h ../../../../../src/mem.h \
+	../../../../../src/resources.h ../../../../../src/sound.h \
+	../../../../../src/warn.h ../../../../../src/tape.h \
+	../../../../../src/traps.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uiedisk.h uisnapshot.h \
+	../../../../../src/utils.h ../../../../../src/vsync.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h uiedisk.h \
 	../../../../../src/machine.h ui.h \

@@ -606,8 +606,8 @@ maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	resources.h 6510core.c
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h asm.h charsets.h diskimage.h gcr.h \
-	drive/drivecpu.h alarm.h clkguard.h mon.h interrupt.h \
-	6510core.h mos6510.h log.h mem.h mon_parse.h resources.h \
+	drive/drive.h log.h drive/drivecpu.h alarm.h clkguard.h mon.h \
+	interrupt.h 6510core.h mos6510.h mem.h mon_parse.h resources.h \
 	utils.h vdrive/vdrive-command.h vdrive/vdrive.h vsync.h
 mon_lex.o: mon_lex.c vice.h config.h mon.h interrupt.h 6510core.h \
 	arch/unix/types.h snapshot.h mos6510.h mon_parse.h utils.h
