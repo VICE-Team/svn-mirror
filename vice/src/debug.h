@@ -27,6 +27,8 @@
 #ifndef _DEBUG_H
 #define _DEBUG_H
 
+#include "types.h"
+
 /* This enables debugging.  Attention: It makes things a bit slower.  */
 /*#define DEBUG*/
 
@@ -42,6 +44,11 @@ extern debug_t debug;
 
 extern int debug_resources_init(void);
 extern int debug_cmdline_options_init(void);
+
+extern void debug_set_machine_parameter(unsigned int cycles,
+                                        unsigned int lines);
+extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
+                          BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
 
 #endif
 

@@ -594,7 +594,8 @@ color.o: color.c vice.h config.h log.h palette.h arch/unix/types.h \
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	autostart.h clkguard.h cmdline.h datasette.h log.h machine.h \
 	maincpu.h resources.h tap.h arch/unix/ui.h uiapi.h
-debug.o: debug.c vice.h config.h cmdline.h debug.h resources.h
+debug.o: debug.c vice.h config.h cmdline.h debug.h arch/unix/types.h \
+	log.h resources.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
 	findpath.h utils.h arch/unix/types.h
@@ -603,7 +604,7 @@ fliplist.o: fliplist.c vice.h config.h arch/unix/archdep.h archapi.h \
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
 info.o: info.c
 init.o: init.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
-	cmdline.h console.h debug.h diskimage.h arch/unix/types.h \
+	cmdline.h console.h debug.h arch/unix/types.h diskimage.h \
 	drive/drive.h log.h drive/drivecpu.h fsdevice.h gfxoutput.h \
 	initcmdline.h arch/unix/joy.h joystick.h kbdbuf.h keyboard.h \
 	machine.h maincpu.h palette.h resources.h screenshot.h \
@@ -627,7 +628,7 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 machine.o: machine.c autostart.h arch/unix/types.h vice.h config.h \
 	machine.h mem.h arch/unix/ui.h uiapi.h utils.h vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
-	console.h debug.h drive/drive.h log.h arch/unix/types.h \
+	console.h debug.h arch/unix/types.h drive/drive.h log.h \
 	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
 	maincpu.h arch/unix/main_exit.h resources.h sysfile.h \
 	arch/unix/ui.h uiapi.h utils.h version.h video.h viewport.h \

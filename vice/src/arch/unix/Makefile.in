@@ -363,17 +363,17 @@ archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
 	../../../src/findpath.h ../../../src/log.h ../../../src/utils.h \
 	../../../src/machine.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h icon.h ../../../src/machine.h \
+	../../../src/debug.h types.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
-	uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
+	uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h \
 	uiscreenshot.h uireu.h uirs232.h uisettings.h uisid.h uisound.h \
 	uivdc.h uivicii.h ../../../src/utils.h ../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h icon.h ../../../src/machine.h \
+	../../../src/debug.h types.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
-	uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
+	uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h uireu.h \
 	uirs232.h uiscreenshot.h uisettings.h uisid.h uisound.h \
@@ -402,20 +402,19 @@ mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/log.h ../../../src/resources.h ui.h \
 	../../../src/uiapi.h
 petui.o: petui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h icon.h ../../../src/pet/pets.h types.h \
+	../../../src/debug.h types.h icon.h ../../../src/pet/pets.h \
 	petui.h ../../../src/resources.h uicommands.h uicrtc.h \
 	uidatasette.h uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h \
 	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h \
 	uiscreenshot.h uisettings.h uisound.h ../../../src/vsync.h
 plus4ui.o: plus4ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h icon.h ../../../src/resources.h \
+	../../../src/debug.h types.h icon.h ../../../src/resources.h \
 	uicommands.h uidatasette.h uidrive.h uijoystick2.h uimenu.h \
-	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h uiscreenshot.h \
-	uisettings.h uisound.h uited.h ../../../src/utils.h \
-	../../../src/vsync.h
+	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
+	uiperipheral.h uirs232.h uiscreenshot.h uisettings.h uisound.h \
+	uited.h ../../../src/utils.h ../../../src/vsync.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h coproc.h ../../../src/log.h \
 	../../../src/resources.h ../../../src/rs232.h types.h \
@@ -495,8 +494,8 @@ uirs232.o: uirs232.c ../../../src/vice.h ../../../src/config.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h ../../../src/utils.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/archapi.h ../../../src/debug.h \
-	../../../src/fliplist.h ../../../src/keyboard.h types.h \
+	../../../src/archapi.h ../../../src/debug.h types.h \
+	../../../src/fliplist.h ../../../src/keyboard.h \
 	../../../src/machine.h ../../../src/mem.h \
 	../../../src/resources.h ../../../src/romset.h uimenu.h \
 	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \

@@ -1,3 +1,23 @@
+2002-07-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.60.
+
+	* raster/raster-line.c (raster_line_emulate): Line emulation
+	does not depend on the actual canvas geometry.
+	(fill_background): Use xsmooth color for xsmooth region.
+	(fill_xsmooth_region): New function.
+	(handle_visible_line): Set xsmooth color on idle line.
+	Removed tripple buffering conditions.
+
+	* vicii/vicii-draw.c (_draw_idle): Fixed typo.
+
+	* debug.c, debug.h (debug_maincpu_set_parameter,
+	debug_maincpu): New functions.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_change_timing): Set debug
+	machine timing.
+
 2002-07-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.59.
