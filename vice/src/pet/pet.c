@@ -31,7 +31,6 @@
 
 #include "pet.h"
 
-#include "machine.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cmdline.h"
@@ -40,6 +39,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "petmem.h"
 #include "pets.h"
@@ -48,8 +48,8 @@
 #include "petvia.h"
 #include "pia.h"
 #include "resources.h"
-#include "traps.h"
 #include "sound.h"
+#include "traps.h"
 #include "utils.h"
 #include "via.h"
 #include "vmachine.h"
@@ -200,7 +200,7 @@ int machine_init(void)
     /* Initialize the CRTC emulation.  */
     crtc_init();
 
-    /* Initialize the keyboard.  FIXME!  */
+    /* Initialize the keyboard.  */
 #ifdef __MSDOS__
     if (pet_kbd_init() < 0)
         return -1;
@@ -275,5 +275,3 @@ int machine_set_restore_key(int v)
 {
     return 0;	/* key not used -> lookup in keymap */
 }
-
-
