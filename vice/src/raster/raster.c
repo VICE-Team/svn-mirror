@@ -188,9 +188,6 @@ static int realize_canvas(raster_t *raster)
 {
     raster_viewport_t *viewport;
 
-    if (console_mode)
-        return 0;
-
     viewport = &raster->viewport;
 
     if (viewport->canvas == NULL) {
@@ -237,11 +234,18 @@ static int realize_frame_buffer(raster_t *raster)
     }
 #endif
 
+#ifndef VIDEO_REMOVE_2X
     fb_width = ((raster->geometry.screen_size.width
                + raster->geometry.extra_offscreen_border)
                * raster->viewport.pixel_size.width);
     fb_height = (raster->geometry.screen_size.height
                 * raster->viewport.pixel_size.height);
+#else /* VIDEO_REMOVE_2X */
+    fb_width = ((raster->geometry.screen_size.width
+               + raster->geometry.extra_offscreen_border));
+    fb_height = (raster->geometry.screen_size.height);
+#endif /* VIDEO_REMOVE_2X */
+
     if (fb_width == 0)
         fb_width = 1;
     if (fb_height == 0)
@@ -259,7 +263,15 @@ static int realize_frame_buffer(raster_t *raster)
         free(raster->fake_frame_buffer_line);
 
     raster->fake_frame_buffer_line = xmalloc(fb_width * sizeof(PIXEL));
-
+#if 0
+{
+  extern BYTE *fbstart;
+  extern BYTE *fbend;
+  fbstart = raster->fake_frame_buffer_line;
+  fbend  = raster->fake_frame_buffer_line + fb_width;
+  printf("FBS: %p FBE: %p\n", fbstart, fbend);
+}
+#endif
     return 0;
 }
 
@@ -517,9 +529,9 @@ inline static void draw_blank(raster_t *raster,
                RASTER_PIXEL(raster, raster->border_color),
                (end - start + 1) * pixel_width);
 #else /* VIDEO_REMOVE_2X */
-    vid_memset((PIXEL *)(raster->frame_buffer_ptr + start),
+    vid_memset((PIXEL *)(raster->frame_buffer_ptr + start /* *2 */),
                RASTER_PIXEL(raster, raster->border_color),
-               (end - start + 1));
+               (end - start + 1) /* *2 */);
 #endif /* VIDEO_REMOVE_2X */
 }
 
@@ -1510,8 +1522,9 @@ int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;
 
-    if (realize_canvas(raster) < 0)
-        return -1;
+    if (!console_mode && !vsid_mode)
+        if (realize_canvas(raster) < 0)
+            return -1;
 
     update_canvas_all(raster);
 
@@ -1831,7 +1844,8 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 
 void raster_free(raster_t *raster)
 {
-    video_canvas_destroy(raster->viewport.canvas);
+    if (!vsid_mode)
+        video_canvas_destroy(raster->viewport.canvas);
     video_frame_buffer_free(raster->frame_buffer);
     free(raster->viewport.title);
     free(raster->modes);

@@ -285,8 +285,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:396 src/arch/unix/c610ui.c:460
 #: src/arch/unix/c64ui.c:315 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1118
-#: src/arch/unix/x11/gnome/ui.c:1210
+#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1120
+#: src/arch/unix/x11/gnome/ui.c:1212
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1025,8 +1025,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
-#: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
-#: src/arch/unix/x11/gnome/ui.c:1462
+#: src/arch/unix/x11/gnome/ui.c:787 src/arch/unix/x11/gnome/ui.c:797
+#: src/arch/unix/x11/gnome/ui.c:1464
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1171,7 +1171,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1678,7 +1678,7 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1257
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1259
 #: src/arch/unix/x11/xaw/ui.c:1061
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -2203,111 +2203,111 @@ msgstr "Kan inte ladda texttypsnitt %s."
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/ui.c:751
+#: src/arch/unix/x11/gnome/ui.c:752
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:771
+#: src/arch/unix/x11/gnome/ui.c:773
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:881
+#: src/arch/unix/x11/gnome/ui.c:883
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:589
+#: src/arch/unix/x11/gnome/ui.c:956 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/ui.c:1116 src/arch/unix/x11/gnome/ui.c:1199
+#: src/arch/unix/x11/gnome/ui.c:1118 src/arch/unix/x11/gnome/ui.c:1201
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/ui.c:1122
+#: src/arch/unix/x11/gnome/ui.c:1124
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1241 src/arch/unix/x11/xaw/ui.c:1045
+#: src/arch/unix/x11/gnome/ui.c:1243 src/arch/unix/x11/xaw/ui.c:1045
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1243 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1245 src/arch/unix/x11/xaw/ui.c:1051
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1253 src/arch/unix/x11/xaw/ui.c:1058
+#: src/arch/unix/x11/gnome/ui.c:1255 src/arch/unix/x11/xaw/ui.c:1058
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1300 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1302 src/arch/unix/x11/xaw/ui.c:1095
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/ui.c:1320 src/arch/unix/x11/gnome/ui.c:1323
+#: src/arch/unix/x11/gnome/ui.c:1322 src/arch/unix/x11/gnome/ui.c:1325
 #: src/arch/unix/x11/xaw/ui.c:1116 src/arch/unix/x11/xaw/ui.c:1122
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1614
+#: src/arch/unix/x11/gnome/ui.c:1616
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1651 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1653 src/arch/unix/x11/xaw/ui.c:1332
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/ui.c:1783
+#: src/arch/unix/x11/gnome/ui.c:1791
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/ui.c:1798
+#: src/arch/unix/x11/gnome/ui.c:1806
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1868 src/arch/unix/x11/xaw/ui.c:1572
+#: src/arch/unix/x11/gnome/ui.c:1876 src/arch/unix/x11/xaw/ui.c:1572
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/ui.c:1869
+#: src/arch/unix/x11/gnome/ui.c:1877
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/ui.c:1882
+#: src/arch/unix/x11/gnome/ui.c:1890
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1890 src/arch/unix/x11/gnome/ui.c:1899
+#: src/arch/unix/x11/gnome/ui.c:1898 src/arch/unix/x11/gnome/ui.c:1907
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/ui.c:2027 src/arch/unix/x11/gnome/ui.c:2032
+#: src/arch/unix/x11/gnome/ui.c:2035 src/arch/unix/x11/gnome/ui.c:2040
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/ui.c:2490
+#: src/arch/unix/x11/gnome/ui.c:2498
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/ui.c:2537
+#: src/arch/unix/x11/gnome/ui.c:2545
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/ui.c:2563
+#: src/arch/unix/x11/gnome/ui.c:2571
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -2414,9 +2414,31 @@ msgstr "Spara anslutna disketter"
 msgid "Save currently attached ROMs"
 msgstr "Spara anslutna ROMar"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:60
+#: src/arch/unix/x11/gnome/uipalcontrol.c:41
+msgid "Saturation"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:42
+#, fuzzy
+msgid "Contrast"
+msgstr "Innehåll"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:43
+msgid "Brightness"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:44
+msgid "Gamma"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:79
 #, fuzzy
 msgid "PAL Settings"
+msgstr "Inställningar"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:116
+#, fuzzy
+msgid "Reset PAL Settings"
 msgstr "Inställningar"
 
 #: src/arch/unix/x11/fullscreen.c:135

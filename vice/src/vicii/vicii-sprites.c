@@ -350,6 +350,57 @@ static void init_drawing_tables(void)
     }
 }
 
+#if 0 /* Frame buffer debug */
+BYTE *fbstart;
+BYTE *fbend;
+
+/* Sprite drawing macros.  */
+
+#define SPRITE_PIXEL(raster, do_draw, sprite_bit, imgptr, collmskptr, \
+                     pos, color, collmsk_return)                      \
+    do {                                                              \
+{ \
+BYTE *xxx = &((imgptr)[(pos)]); \
+if (xxx < (BYTE *)0x40000000 && (xxx < fbstart || xxx >= fbend)) \
+printf("%p\n",xxx); \
+} \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                    \
+            (imgptr)[(pos)] = RASTER_PIXEL((raster), (color));        \
+        (collmsk_return) |= (collmskptr)[(pos)];                      \
+        (collmskptr)[(pos)] |= (sprite_bit);                          \
+    } while (0) 
+
+#ifdef ALLOW_UNALIGNED_ACCESS
+
+#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr,                  \
+                        collmskptr, pos, color, collmsk_return)               \
+    do {                                                                      \
+{ \
+BYTE *xxx = ((PIXEL2 *)(imgptr) + (pos)); \
+if (xxx < (BYTE *)0x40000000 && (xxx < fbstart || xxx >= fbend)) \
+printf("%p\n",xxx); \
+} \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                            \
+            *((PIXEL2 *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
+        (collmsk_return) |= (collmskptr)[(pos)];                              \
+        (collmskptr)[(pos)] |= (sprite_bit);                                  \
+    } while (0)
+
+#else
+
+#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr, collmskptr, \
+                        pos, color, collmsk_return)                      \
+    do {                                                                 \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                       \
+            (imgptr)[(pos) * 2] = (imgptr)[(pos) * 2 + 1]                \
+                = RASTER_PIXEL((raster), (color));                       \
+        (collmsk_return) |= (collmskptr)[pos];                           \
+        (collmskptr)[pos] |= (sprite_bit);                               \
+    } while (0)
+
+#endif
+#else
+
 /* Sprite drawing macros.  */
 
 #define SPRITE_PIXEL(raster, do_draw, sprite_bit, imgptr, collmskptr, \
@@ -359,7 +410,7 @@ static void init_drawing_tables(void)
             (imgptr)[(pos)] = RASTER_PIXEL((raster), (color));        \
         (collmsk_return) |= (collmskptr)[(pos)];                      \
         (collmskptr)[(pos)] |= (sprite_bit);                          \
-    } while (0) 
+    } while (0)
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 
@@ -385,7 +436,7 @@ static void init_drawing_tables(void)
     } while (0)
 
 #endif
-
+#endif
 
 /* Hires sprites */
 
@@ -542,7 +593,7 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                       | (msk_ptr[5] >> (8 - lshift)));
             sprmsk = sprite_doubling_table[(data_ptr[0] << 8)
                                          | data_ptr[1]];
-            
+
             if (vic_ii.raster.sprite_status->sprites[n].x > 0x13a + n*0x10
                 && vic_ii.raster.sprite_status->sprites[n].x < 0x177 + n*0x10)
             {
@@ -551,7 +602,7 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                 size = 0x16b + n*0x10 - vic_ii.raster.sprite_status->sprites[n].x;
                 must_repeat_pixels = (size>0);
                 if (size1 > size) size1 = size;
-            
+
                 if (must_repeat_pixels && size < 33)
                 {
                     size1 = size;
@@ -562,7 +613,7 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                     rest_of_repeat = 7 - i;
                 }
             }
-            
+
             cmsk = 0;
             if (!vic_ii.idle_state && (sprmsk & collmsk) != 0)
                 vic_ii.raster.sprite_status->sprite_background_collisions

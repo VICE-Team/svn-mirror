@@ -31,17 +31,17 @@ msgstr "Disattiva la modalità turbo"
 
 #: src/vsync.c:394
 msgid "Your machine is too slow for current settings!"
-msgstr "La tua macchina è troppo lenta per questa configurazione!"
+msgstr "La tua macchina è troppo lenta per queste impostazioni!"
 
 #: src/arch/unix/archdep.c:233
 #, c-format
 msgid "Received signal %d (%s)."
-msgstr "E' stato ricevuto il segnale %d (%s)."
+msgstr "Ricevuto il segnale %d (%s)."
 
 #: src/arch/unix/archdep.c:236
 #, c-format
 msgid "Received signal %d."
-msgstr "E' stato ricevuto il segnale %d."
+msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:60 src/arch/unix/c610ui.c:59
 #: src/arch/unix/c64ui.c:61 src/arch/unix/plus4ui.c:53
@@ -87,7 +87,7 @@ msgstr "Palette"
 #: src/arch/unix/c128ui.c:109 src/arch/unix/c128ui.c:133
 #: src/arch/unix/c64ui.c:81 src/arch/unix/c64ui.c:105
 msgid "*Second SID at $DE00"
-msgstr ""
+msgstr "*Secondo SID a $DE00"
 
 #: src/arch/unix/c128ui.c:112 src/arch/unix/c128ui.c:139
 #: src/arch/unix/c610ui.c:262 src/arch/unix/c610ui.c:287
@@ -237,17 +237,17 @@ msgstr "Cattura schermo..."
 #: src/arch/unix/c128ui.c:280 src/arch/unix/c128ui.c:296
 #: src/arch/unix/c64ui.c:205 src/arch/unix/c64ui.c:219
 msgid "VIC-II settings"
-msgstr "Configurazione del VIC-II"
+msgstr "Impostazioni del VIC-II"
 
 #: src/arch/unix/c128ui.c:282 src/arch/unix/c128ui.c:298
 msgid "VDC settings"
-msgstr "Configurazione del VDC"
+msgstr "Impostazioni del VDC"
 
 #: src/arch/unix/c128ui.c:284 src/arch/unix/c128ui.c:300
 #: src/arch/unix/c610ui.c:345 src/arch/unix/c64ui.c:207
 #: src/arch/unix/c64ui.c:221 src/arch/unix/vsidui.c:164
 msgid "SID settings"
-msgstr "Configurazione del SID"
+msgstr "Impostazioni del SID"
 
 #: src/arch/unix/c128ui.c:286
 msgid "Memory and I/O extensions"
@@ -257,11 +257,11 @@ msgstr "Memoria ed estensioni di I/O"
 #: src/arch/unix/c610ui.c:338 src/arch/unix/c64ui.c:211
 #: src/arch/unix/c64ui.c:223 src/arch/unix/vic20ui.c:350
 msgid "RS232 settings"
-msgstr "Configurazione della RS232"
+msgstr "Impostazioni della RS232"
 
 #: src/arch/unix/c128ui.c:290 src/arch/unix/c128ui.c:304
 msgid "Memory settings"
-msgstr "Configurazione della memoria"
+msgstr "Impostazioni della memoria"
 
 #: src/arch/unix/c128ui.c:355 src/arch/unix/c610ui.c:423
 #: src/arch/unix/c64ui.c:274 src/arch/unix/petui.c:381
@@ -285,10 +285,10 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:396 src/arch/unix/c610ui.c:460
 #: src/arch/unix/c64ui.c:315 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1118
-#: src/arch/unix/x11/gnome/ui.c:1210
+#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1120
+#: src/arch/unix/x11/gnome/ui.c:1212
 msgid "Settings"
-msgstr "Configurazione"
+msgstr "Impostazioni"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
@@ -417,27 +417,27 @@ msgstr "Tipo di tastiera"
 
 #: src/arch/unix/c610ui.c:297 src/arch/unix/petui.c:241
 msgid "ACIA device"
-msgstr "Periferica ACIA"
+msgstr "Dispositivo ACIA"
 
 #: src/arch/unix/c610ui.c:300 src/arch/unix/petui.c:244
 #: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:331
 msgid "Serial 1 device..."
-msgstr "Periferica seriale 1..."
+msgstr "Dispositivo seriale 1..."
 
 #: src/arch/unix/c610ui.c:302 src/arch/unix/petui.c:246
 #: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:333
 msgid "Serial 1 baudrate"
-msgstr "Velocità di trasmissione della seriale 1 (in baud)"
+msgstr "Velocità della seriale 1 (in baud)"
 
 #: src/arch/unix/c610ui.c:305 src/arch/unix/petui.c:249
 #: src/arch/unix/vic20ui.c:336
 msgid "Serial 2 device..."
-msgstr "Periferica seriale 2..."
+msgstr "Dispositivo seriale 2..."
 
 #: src/arch/unix/c610ui.c:307 src/arch/unix/petui.c:251
 #: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:338
 msgid "Serial 2 baudrate"
-msgstr "Velocità di trasmissione della seriale 2 (in baud)"
+msgstr "Velocità della seriale 2 (in baud)"
 
 #: src/arch/unix/c610ui.c:310 src/arch/unix/petui.c:254
 #: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:341
@@ -451,7 +451,7 @@ msgstr "Nome del programma da eseguire..."
 
 #: src/arch/unix/c610ui.c:336
 msgid "CBM-II model settings"
-msgstr "Configurazione modello di CBM-II"
+msgstr "Impostazioni del modello di CBM-II"
 
 #: src/arch/unix/c610ui.c:341 src/arch/unix/petui.c:302
 msgid "*CRTC Screen color"
@@ -459,7 +459,7 @@ msgstr "*Tinta dello schermo CRTC"
 
 #: src/arch/unix/c610ui.c:343
 msgid "*VIC-II settings"
-msgstr "*Configurazione del VIC-II"
+msgstr "*Impostazioni del VIC-II"
 
 #: src/arch/unix/c610ui.c:368 src/arch/unix/c64ui.c:195
 #: src/arch/unix/petui.c:325 src/arch/unix/plus4ui.c:78
@@ -485,35 +485,35 @@ msgstr "Carica una nuova ROM del Chargen"
 
 #: src/arch/unix/c64ui.c:203 src/arch/unix/c64ui.c:217
 msgid "ROM settings"
-msgstr "Configurazione delle ROM"
+msgstr "Impostazioni delle ROM"
 
 #: src/arch/unix/c64ui.c:209
 msgid "I/O extensions at $DFxx"
-msgstr "Estensioni di I/O a $FDxx"
+msgstr "Estensioni di I/O a $DFxx"
 
 #: src/arch/unix/joystick.c:81
 msgid "Set device for joystick port 1"
-msgstr "Imposta la periferica per la porta joystick 1"
+msgstr "Imposta il dispositivo per la porta joystick 1"
 
 #: src/arch/unix/joystick.c:83
 msgid "Set device for joystick port 2"
-msgstr "Imposta la periferica per la porta joystick 2"
+msgstr "Imposta il dispositivo per la porta joystick 2"
 
 #: src/arch/unix/joystick.c:197 src/arch/unix/joystick.c:246
 #: src/arch/unix/joystick.c:393
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr "Non è possibile aprire il joystick `%s'."
+msgstr "Non è possibile aprire il dipositivo `%s'."
 
 #: src/arch/unix/joystick.c:208
 #, c-format
 msgid "Error reading joystick device `%s'."
-msgstr "Errore durante la lettura del joystick `%s'."
+msgstr "Errore durante la lettura del dispositivo `%s'."
 
 #: src/arch/unix/joystick.c:227
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
-msgstr "Calibrazione joystick per la periferica `%s':"
+msgstr "Calibrazione joystick per il dispositivo `%s':"
 
 #: src/arch/unix/joystick.c:280
 msgid "Error reading digital joystick device."
@@ -535,15 +535,15 @@ msgstr "%s tipo sconosciuto"
 #: src/arch/unix/joystick.c:370 src/arch/unix/joystick.c:385
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
-msgstr "Versione del driver: %d.%d.%d"
+msgstr "Versione del driver interno: %d.%d.%d"
 
 #: src/arch/unix/joystick.c:373
 msgid "Kernel driver version  : 0.8 ??"
-msgstr "Versione del driver del kernel  : 0.8 ??"
+msgstr "Versione del driver del kernel: 0.8 ??"
 
 #: src/arch/unix/joystick.c:374
 msgid "Please update your Joystick driver !"
-msgstr "Per favore aggiorna i driver del joystick!"
+msgstr "Per favore aggiorna il tuo driver del joystick!"
 
 #: src/arch/unix/joystick.c:375
 msgid "Fall back to old api routine"
@@ -552,7 +552,7 @@ msgstr "Ripiego sulle vecchie api"
 #: src/arch/unix/joystick.c:388
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
-msgstr "Versione del driver del kernel  : %d.%d.%d"
+msgstr "Versione del driver del kernel: %d.%d.%d"
 
 #: src/arch/unix/kmap.c:116
 msgid "Specify name of symbolic keymap file"
@@ -591,14 +591,12 @@ msgstr ""
 #: src/arch/unix/petkmap.c:151
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
-"Specifica il nome del file della mappa simbolica della tastiera business "
-"inglese"
+"Specifica il nome del file della mappa simbolica della tastiera UK business"
 
 #: src/arch/unix/petkmap.c:154
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
-"Specifica il nome del file della mappa posizionale della tastiera business "
-"inglese"
+"Specifica il nome del file della mappa posizionale della tastiera UK business"
 
 #: src/arch/unix/petkmap.c:157
 msgid "Specify name of German business keyboard symbolic keymap file"
@@ -726,7 +724,7 @@ msgstr "*$A*** come RAM (solo 8296)"
 
 #: src/arch/unix/petui.c:297
 msgid "PET model settings"
-msgstr "Configurazione modello PET"
+msgstr "Impostazioni del modello di PET"
 
 #: src/arch/unix/petui.c:299
 msgid "*PET userport diagnostic pin"
@@ -734,27 +732,27 @@ msgstr "*Pin diagnostico della userport"
 
 #: src/arch/unix/rs232.c:120
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
-msgstr "Specifica il nome della prima RS232 (/dev/ttyS0)"
+msgstr "Specifica il dispositivo della prima RS232 (/dev/ttyS0)"
 
 #: src/arch/unix/rs232.c:122
 msgid "Specify baudrate of first RS232 device"
-msgstr "Specifica la velocità di trasmissione della prima RS232"
+msgstr "Specifica la velocità della prima RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:124
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
-msgstr "Specifica il nome della seconda RS232 (/dev/ttyS1)"
+msgstr "Specifica il dispositivo della seconda RS232 (/dev/ttyS1)"
 
 #: src/arch/unix/rs232.c:126
 msgid "Specify baudrate of second RS232 device"
-msgstr "Specifica la velocità di trasmissione della seconda RS232"
+msgstr "Specifica la velocità della seconda RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:128
 msgid "Specify name of third RS232 device (rs232.dump)"
-msgstr "Specifica il nome della terza RS232 (rs232.dump)"
+msgstr "Specifica il dispositivo della terza RS232 (rs232.dump)"
 
 #: src/arch/unix/rs232.c:130
 msgid "Specify baudrate of third RS232 device"
-msgstr "Specifica la velocità di trasmissione della terza RS232"
+msgstr "Specifica la velocità della terza RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:132
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
@@ -763,11 +761,11 @@ msgstr ""
 
 #: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Specifica la velocità di trasmissione della quarta RS232"
+msgstr "Specifica la velocità della quarta RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:263
 msgid "No more devices available."
-msgstr "Non ci sono più periferiche disponibili."
+msgstr "Non ci sono più dispositivi disponibili."
 
 #: src/arch/unix/rs232.c:268
 #, c-format
@@ -859,9 +857,8 @@ msgid "Attach IEEE488 interface image..."
 msgstr "Seleziona una immagine dell'interfaccia IEEE488..."
 
 #: src/arch/unix/uic64cart.c:162
-#, fuzzy
 msgid "Attach Retro Replay image..."
-msgstr "Seleziona una immagine Action Replay..."
+msgstr "Seleziona una immagine Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:165
 msgid "Attach Super Snapshot 4 image..."
@@ -936,7 +933,7 @@ msgstr "Tipo di immagine sconosciuto"
 
 #: src/arch/unix/uicommands.c:289 src/arch/unix/uisettings.c:329
 msgid "VICE setting"
-msgstr "Configurazione di VICE"
+msgstr "Impostazioni di VICE"
 
 #: src/arch/unix/uicommands.c:290
 msgid "Change current working directory"
@@ -960,7 +957,7 @@ msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
 #: src/arch/unix/uicommands.c:359
 msgid "No HTML browser is defined."
-msgstr "Non è stato definito nessun browser HTML."
+msgstr "Non è specificato nessun browser HTML."
 
 #: src/arch/unix/uicommands.c:378 src/arch/unix/uicommands.c:392
 #: src/arch/unix/uicommands.c:405
@@ -1025,8 +1022,8 @@ msgid "Next: "
 msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
-#: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
-#: src/arch/unix/x11/gnome/ui.c:1462
+#: src/arch/unix/x11/gnome/ui.c:787 src/arch/unix/x11/gnome/ui.c:797
+#: src/arch/unix/x11/gnome/ui.c:1464
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1171,7 +1168,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Reset"
 msgstr "Reset"
 
@@ -1205,7 +1202,7 @@ msgstr "*Usa XSync()"
 
 #: src/arch/unix/uicrtc.c:68
 msgid "Crtc Video settings"
-msgstr "Configurazine del video CRTC"
+msgstr "Impostazioni video del CRTC"
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
 msgid "Datasette speed tuning"
@@ -1276,16 +1273,15 @@ msgstr "*Espansione RAM a $A000-$BFFF"
 
 #: src/arch/unix/uidrive.c:174 src/arch/unix/uidrive.c:184
 msgid "*Never extend"
-msgstr ""
+msgstr "*Mai"
 
 #: src/arch/unix/uidrive.c:176 src/arch/unix/uidrive.c:186
 msgid "*Ask on extend"
-msgstr ""
+msgstr "*Chiedi all'accesso"
 
 #: src/arch/unix/uidrive.c:178 src/arch/unix/uidrive.c:188
-#, fuzzy
 msgid "*Extend on access"
-msgstr "*Accesso solamente in lettura"
+msgstr "*Attiva al 1° accesso"
 
 #: src/arch/unix/uidrive.c:194 src/arch/unix/uidrive.c:204
 msgid "*No traps"
@@ -1306,57 +1302,55 @@ msgstr "*Attiva l'emulazione hardware"
 
 #: src/arch/unix/uidrive.c:221
 msgid "Drive #8 model"
-msgstr "Modello del drive #8"
+msgstr "Drive #8: Modello"
 
 #: src/arch/unix/uidrive.c:223
 msgid "Drive #8 RAM expansion"
-msgstr "Espasione RAM del drive #8"
+msgstr "Drive #8: Espasione RAM"
 
 #: src/arch/unix/uidrive.c:225
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Attiva il cavo parallelo per il drive #8"
+msgstr "*Drive #8: Attiva il cavo parallelo"
 
 #: src/arch/unix/uidrive.c:227 src/arch/unix/uidrive.c:252
 msgid "Drive #8 40-track image support"
-msgstr "Supporto immagini di 40 tracce per il drive #8"
+msgstr "Drive #8: Supporto immagini di 40 tracce"
 
 #: src/arch/unix/uidrive.c:229 src/arch/unix/uidrive.c:255
-#, fuzzy
 msgid "Drive #8 idle method"
-msgstr "Modello del drive #8"
+msgstr "Drive #8: Rileva inattività"
 
 #: src/arch/unix/uidrive.c:232
 msgid "Drive #9 model"
-msgstr "Modello del drive #9"
+msgstr "Drive #9: Modello"
 
 #: src/arch/unix/uidrive.c:234
 msgid "Drive #9 RAM expansion"
-msgstr "Espansione RAM del drive #9"
+msgstr "Drive #9: Espansione RAM"
 
 #: src/arch/unix/uidrive.c:236
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Attiva il cavo parallelo per il drive #9"
+msgstr "*Drive #9: Attiva il cavo parallelo"
 
 #: src/arch/unix/uidrive.c:238 src/arch/unix/uidrive.c:261
 msgid "Drive #9 40-track image support"
-msgstr "Supporto immagini di 40 tracce per il drive #9"
+msgstr "Drive #9: Supporto immagini di 40 tracce"
 
 #: src/arch/unix/uidrive.c:240 src/arch/unix/uidrive.c:264
-#, fuzzy
 msgid "Drive #9 idle method"
-msgstr "Modello del drive #9"
+msgstr "Drive #9: Rileva inattività"
 
 #: src/arch/unix/uidrive.c:250
 msgid "Drive #8 floppy disk type"
-msgstr "Tipo di floppy disk per il drive #8"
+msgstr "Drive #8: Tipo di floppy disk"
 
 #: src/arch/unix/uidrive.c:259
 msgid "Drive #9 floppy disk type"
-msgstr "Tipo di floppy disk per il drive #9"
+msgstr "Drive #9: Tipo di floppy disk"
 
 #: src/arch/unix/uidrive.c:279 src/arch/unix/uidrive.c:286
 msgid "Drive settings"
-msgstr "Configurazione dei drive"
+msgstr "Impostazioni dei drive"
 
 #: src/arch/unix/uijoystick2.c:83 src/arch/unix/uijoystick2.c:112
 #: src/arch/unix/vic20ui.c:286
@@ -1402,7 +1396,7 @@ msgstr "Scambia le porte dei joystick"
 
 #: src/arch/unix/uijoystick2.c:156 src/arch/unix/vic20ui.c:312
 msgid "Joystick settings"
-msgstr "Configurazione dei joystick"
+msgstr "Impostazioni dei joystick"
 
 #: src/arch/unix/uipalette.c:46
 msgid "Load custom palette"
@@ -1429,7 +1423,7 @@ msgstr "*Accesso tramite file system"
 #: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:116
 #: src/arch/unix/uiperipheral.c:134 src/arch/unix/uiperipheral.c:152
 msgid "*Read only access"
-msgstr "*Accesso solamente in lettura"
+msgstr "*Accesso in sola lettura"
 
 #: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:119
 #: src/arch/unix/uiperipheral.c:137 src/arch/unix/uiperipheral.c:155
@@ -1469,7 +1463,7 @@ msgstr "Periferica #11"
 
 #: src/arch/unix/uiperipheral.c:172
 msgid "Printer settings"
-msgstr "Configurazione della stampante"
+msgstr "Impostazioni delle stampanti"
 
 #: src/arch/unix/uiperipheral.c:174
 msgid "*Enable Virtual Devices"
@@ -1477,7 +1471,7 @@ msgstr "*Attiva le periferiche virtuali"
 
 #: src/arch/unix/uiperipheral.c:180
 msgid "Peripheral settings"
-msgstr "Configurazione delle periferiche"
+msgstr "Impostazioni delle periferiche"
 
 #: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:87
 #: src/arch/unix/uiprinter.c:99
@@ -1509,65 +1503,59 @@ msgstr "Comando:"
 
 #: src/arch/unix/uiprinter.c:178
 msgid "*IEC printer #4 emulation"
-msgstr "*Emulazione stampante IEC #4"
+msgstr "*Emulazione della stampante IEC #4"
 
 #: src/arch/unix/uiprinter.c:180
 msgid "IEC printer #4 driver"
 msgstr "Driver della stampante IEC #4"
 
 #: src/arch/unix/uiprinter.c:182
-#, fuzzy
 msgid "IEC printer #4 text output device"
-msgstr "Periferica di output della stampante IEC #4"
+msgstr "Dispositivo di output per la stampante IEC #4"
 
 #: src/arch/unix/uiprinter.c:184
 msgid "Flush IEC printer #4 device"
-msgstr "Svuota la periferica della stampante IEC #4"
+msgstr "Svuota il dispositivo della stampante IEC #4"
 
 #: src/arch/unix/uiprinter.c:187
 msgid "*IEC printer #5 emulation"
-msgstr "*Emulazione stampante IEC #5"
+msgstr "*Emulazione della stampante IEC #5"
 
 #: src/arch/unix/uiprinter.c:189
 msgid "IEC printer #5 driver"
 msgstr "Driver della stampante IEC #5"
 
 #: src/arch/unix/uiprinter.c:191
-#, fuzzy
 msgid "IEC printer #5 text output device"
-msgstr "Periferica di output della stampante IEC #5"
+msgstr "Dispositivo di output per la stampante IEC #5"
 
 #: src/arch/unix/uiprinter.c:193
 msgid "Flush IEC printer #5 device"
-msgstr "Svuota la periferica della stampante IEC #5"
+msgstr "Svuota il dispositivo della stampante IEC #5"
 
 #: src/arch/unix/uiprinter.c:196
 msgid "*Userport printer emulation"
-msgstr "*Emulazione della stampante tramite Userport"
+msgstr "*Emulazione della stampante su Userport"
 
 #: src/arch/unix/uiprinter.c:198
 msgid "Userport printer driver"
-msgstr "Driver della stampante tramite Userport"
+msgstr "Driver della stampante su Userport"
 
 #: src/arch/unix/uiprinter.c:200
-#, fuzzy
 msgid "Userport printer text output device"
-msgstr "Periferica di output della stampante tramite Userport"
+msgstr "Dispositivo di output della stampante su Userport"
 
 #: src/arch/unix/uiprinter.c:203
-#, fuzzy
 msgid "Printer text device 1..."
-msgstr "Stampante 1..."
+msgstr "Dispositivo di stampa 1..."
 
 #: src/arch/unix/uiprinter.c:205
-#, fuzzy
 msgid "Printer text device 2..."
-msgstr "Stampante 2..."
+msgstr "Dispositivo di stampa 2..."
 
 #: src/arch/unix/uiprinter.c:207
-#, fuzzy
 msgid "Printer text device 3..."
-msgstr "Stampante 3..."
+msgstr "Dispositivo di stampa 3..."
 
 #: src/arch/unix/uireu.c:51
 msgid "REU image name"
@@ -1631,35 +1619,35 @@ msgstr "File su cui scrivere l'output dell'RS232"
 
 #: src/arch/unix/uirs232.c:198
 msgid "*ACIA $DExx RS232 interface emulation"
-msgstr "*Emulazione della RS232 tramite ACIA a $DExx"
+msgstr "*Emulazione della RS232 su ACIA a $DExx"
 
 #: src/arch/unix/uirs232.c:200
 msgid "ACIA $DExx device"
-msgstr "Periferica ACIA a $DExx"
+msgstr "Dispositivo ACIA a $DExx"
 
 #: src/arch/unix/uirs232.c:202
 msgid "ACIA $DExx Interrupt"
-msgstr "Tipo di interrupt dell'ACIA a $DExx"
+msgstr "Interrupt dell'ACIA a $DExx"
 
 #: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:322
 msgid "*No Userport RS232 emulation"
-msgstr "*Nessuna emulazione della RS232 tramite Userport"
+msgstr "*Nessuna emulazione della RS232 su Userport"
 
 #: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:324
 msgid "*Userport 300 baud RS232 emulation"
-msgstr "*Emulazione della RS232 tramite Userport a 300 baud"
+msgstr "*Emulazione della RS232 su Userport a 300 baud"
 
 #: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:326
 msgid "*Userport 1200 baud RS232 emulation"
-msgstr "*Emulazione della RS232 tramite Userport a 1200 baud"
+msgstr "*Emulazione della RS232 su Userport a 1200 baud"
 
 #: src/arch/unix/uirs232.c:211
 msgid "*CIA 9600 baud RS232 emulation"
-msgstr "*Emulazione della RS232 tramite CIA a 9600 baud"
+msgstr "*Emulazione della RS232 su CIA a 9600 baud"
 
 #: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:328
 msgid "Userport RS232 device"
-msgstr "Periferica RS232"
+msgstr "Dispositivo RS232 su Userport"
 
 #: src/arch/unix/uisettings.c:119
 msgid "Enter refresh rate"
@@ -1681,34 +1669,34 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1257
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1259
 #: src/arch/unix/x11/xaw/ui.c:1061
 msgid "Cannot save settings."
-msgstr "Non è possibile salvare la configurazione."
+msgstr "Non è possibile salvare le impostazioni."
 
 #: src/arch/unix/uisettings.c:222
 msgid "Settings saved successfully."
-msgstr "La configurazione è stata salvata con successo"
+msgstr "Impostazioni salvate con successo."
 
 #: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
-"Non è possibile caricare la configurazione:\n"
-"il file delle risorse non è valido."
+"Non è possibile caricare le impostazioni:\n"
+"il file non è valido."
 
 #: src/arch/unix/uisettings.c:238
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
-"Non è possibile caricare la configurazione:\n"
-"il file delle risorse non è stato trovato."
+"Non è possibile caricare le impostazioni:\n"
+"il file non è stato trovato."
 
 #: src/arch/unix/uisettings.c:242
 msgid "Settings loaded."
-msgstr "Configurazione caricata."
+msgstr "Impostazioni caricate."
 
 #: src/arch/unix/uisettings.c:284
 msgid "*Symbolic mapping"
@@ -1796,16 +1784,15 @@ msgstr "Risoluzioni"
 
 #: src/arch/unix/uisettings.c:538
 msgid "VIC-II Video settings"
-msgstr "Configurazione video del VIC-II"
+msgstr "Impostazioni video del VIC-II"
 
 #: src/arch/unix/uisettings.c:544
 msgid "VIC Video settings"
-msgstr "Configurazione video del VIC"
+msgstr "Impostazioni video del VIC"
 
 #: src/arch/unix/uisettings.c:550
-#, fuzzy
 msgid "TED Video settings"
-msgstr "Configurazione video del VIC"
+msgstr "Impostazioni video del TED"
 
 #: src/arch/unix/uisettings.c:560
 msgid "Maximum speed"
@@ -1817,27 +1804,27 @@ msgstr "*Attiva la modalità turbo"
 
 #: src/arch/unix/uisettings.c:577
 msgid "*Fullscreen settings"
-msgstr "*Configurazione a schermo intero"
+msgstr "*Impostazioni a schermo intero"
 
 #: src/arch/unix/uisettings.c:585
 msgid "Keyboard settings"
-msgstr "Configurazione della tastiera"
+msgstr "Impostazioni della tastiera"
 
 #: src/arch/unix/uisettings.c:591
 msgid "Save settings"
-msgstr "Salva la configurazione"
+msgstr "Salva le impostazioni"
 
 #: src/arch/unix/uisettings.c:593
 msgid "Load settings"
-msgstr "Carica la configurazione"
+msgstr "Carica le impostazioni"
 
 #: src/arch/unix/uisettings.c:595
 msgid "Restore default settings"
-msgstr "Ripristina la configurazione originaria"
+msgstr "Ripristina le impostazioni originarie"
 
 #: src/arch/unix/uisettings.c:597
 msgid "*Save settings on exit"
-msgstr "*Salva la configurazione in uscita"
+msgstr "*Salva le impostazioni in uscita"
 
 #: src/arch/unix/uisid.c:42
 msgid "*6581 (old)"
@@ -1961,7 +1948,7 @@ msgstr "Sovracampionamento"
 
 #: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:158
 msgid "Sound settings"
-msgstr "Configurazione del suono"
+msgstr "Impostazioni del suono"
 
 #: src/arch/unix/uivicii.c:47
 msgid "*CCS64"
@@ -1990,17 +1977,15 @@ msgstr "*Collisioni sprite-sfondo"
 
 #: src/arch/unix/uivicii.c:105
 msgid "*External color set"
-msgstr ""
+msgstr "*Palette Esterna"
 
 #: src/arch/unix/uivicii.c:111
-#, fuzzy
 msgid "*Fast PAL emulation"
-msgstr "*Usa l'emulazione reSID"
+msgstr "*Emulazione PAL veloce"
 
 #: src/arch/unix/uivicii.c:114
-#, fuzzy
 msgid "*PAL emulation"
-msgstr " emulatore"
+msgstr "*Emulazione PAL"
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:96
@@ -2084,9 +2069,8 @@ msgid "Attach 4/8KB image at $A000..."
 msgstr "Seleziona un'immagine di 4/8KB a $A000..."
 
 #: src/arch/unix/vic20ui.c:248
-#, fuzzy
 msgid "Attach 4KB image at $B000..."
-msgstr "Seleziona un'immagine di 4/8KB a $A000..."
+msgstr "Seleziona un'immagine di 4KB a $B000..."
 
 #: src/arch/unix/vic20ui.c:260
 msgid "Detach cartridge image(s)"
@@ -2094,7 +2078,7 @@ msgstr "Rimuovi le immagini delle cartucce"
 
 #: src/arch/unix/vic20ui.c:429
 msgid "VIC settings"
-msgstr "Configurazione del VIC"
+msgstr "Impostazioni del VIC"
 
 #: src/arch/unix/vsidui.c:63
 msgid "Tunes"
@@ -2205,112 +2189,112 @@ msgstr "Non è possibile caricare il font %s."
 msgid "Cannot load CBM font %s."
 msgstr "Non è possibile caricare il font CBM %s."
 
-#: src/arch/unix/x11/gnome/ui.c:751
+#: src/arch/unix/x11/gnome/ui.c:752
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:771
+#: src/arch/unix/x11/gnome/ui.c:773
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:881
+#: src/arch/unix/x11/gnome/ui.c:883
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:589
+#: src/arch/unix/x11/gnome/ui.c:956 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/ui.c:1116 src/arch/unix/x11/gnome/ui.c:1199
+#: src/arch/unix/x11/gnome/ui.c:1118 src/arch/unix/x11/gnome/ui.c:1201
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/ui.c:1122
+#: src/arch/unix/x11/gnome/ui.c:1124
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/ui.c:1241 src/arch/unix/x11/xaw/ui.c:1045
+#: src/arch/unix/x11/gnome/ui.c:1243 src/arch/unix/x11/xaw/ui.c:1045
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/ui.c:1243 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1245 src/arch/unix/x11/xaw/ui.c:1051
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/ui.c:1253 src/arch/unix/x11/xaw/ui.c:1058
+#: src/arch/unix/x11/gnome/ui.c:1255 src/arch/unix/x11/xaw/ui.c:1058
 msgid "Save the current settings?"
-msgstr "Salva la configurazione attuali?"
+msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/ui.c:1300 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1302 src/arch/unix/x11/xaw/ui.c:1095
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/ui.c:1320 src/arch/unix/x11/gnome/ui.c:1323
+#: src/arch/unix/x11/gnome/ui.c:1322 src/arch/unix/x11/gnome/ui.c:1325
 #: src/arch/unix/x11/xaw/ui.c:1116 src/arch/unix/x11/xaw/ui.c:1122
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1614
+#: src/arch/unix/x11/gnome/ui.c:1616
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1651 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1653 src/arch/unix/x11/xaw/ui.c:1332
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/ui.c:1783
+#: src/arch/unix/x11/gnome/ui.c:1791
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1798
+#: src/arch/unix/x11/gnome/ui.c:1806
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1824
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1868 src/arch/unix/x11/xaw/ui.c:1572
+#: src/arch/unix/x11/gnome/ui.c:1876 src/arch/unix/x11/xaw/ui.c:1572
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/ui.c:1869
+#: src/arch/unix/x11/gnome/ui.c:1877
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/ui.c:1882
+#: src/arch/unix/x11/gnome/ui.c:1890
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1890 src/arch/unix/x11/gnome/ui.c:1899
+#: src/arch/unix/x11/gnome/ui.c:1898 src/arch/unix/x11/gnome/ui.c:1907
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/ui.c:2027 src/arch/unix/x11/gnome/ui.c:2032
+#: src/arch/unix/x11/gnome/ui.c:2035 src/arch/unix/x11/gnome/ui.c:2040
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/ui.c:2490
+#: src/arch/unix/x11/gnome/ui.c:2498
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/ui.c:2537
+#: src/arch/unix/x11/gnome/ui.c:2545
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/ui.c:2563
+#: src/arch/unix/x11/gnome/ui.c:2571
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2418,10 +2402,32 @@ msgstr "Salva i dischi attualmente selezionati"
 msgid "Save currently attached ROMs"
 msgstr "Salva le ROM attualmente selezionate"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:60
+#: src/arch/unix/x11/gnome/uipalcontrol.c:41
+msgid "Saturation"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:42
+#, fuzzy
+msgid "Contrast"
+msgstr "Contenuti"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:43
+msgid "Brightness"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:44
+msgid "Gamma"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:79
 #, fuzzy
 msgid "PAL Settings"
-msgstr "Configurazione"
+msgstr "Impostazioni"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:116
+#, fuzzy
+msgid "Reset PAL Settings"
+msgstr "Impostazioni"
 
 #: src/arch/unix/x11/fullscreen.c:135
 #, c-format
@@ -2544,11 +2550,11 @@ msgstr "Usa la tavolozza dei colori predefinita"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:44
 msgid "Save settings (resources) on exit"
-msgstr "Salva la configurazione (delle risorse) in uscita"
+msgstr "Salva le impostazioni (delle risorse) in uscita"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Never save settings (resources) on exit"
-msgstr "Non salvare mai la configurazione (delle risorse) in uscita"
+msgstr "Non salvare mai le impostazioni (delle risorse) in uscita"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Enable fullscreen"
@@ -2696,7 +2702,7 @@ msgstr "Opzioni snapshot:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:207
 msgid "Save currently attached disks:"
-msgstr "Salva i dischi:"
+msgstr "Salva i dischi attualmente selezionati:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:219
 #: src/arch/unix/x11/xaw/uisnapshot.c:258
@@ -2710,7 +2716,7 @@ msgstr "Sì"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:246
 msgid "Save currently loaded ROMs:"
-msgstr "Salva le ROM:"
+msgstr "Salva le ROM attualmente caricate:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:302
 msgid "Save snapshot"
