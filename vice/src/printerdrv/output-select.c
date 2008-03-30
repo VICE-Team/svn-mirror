@@ -136,9 +136,10 @@ void output_select_register(output_select_t *output_select)
 
 /* ------------------------------------------------------------------------- */
 
-int output_select_open(unsigned int prnr)
+int output_select_open(unsigned int prnr,
+                       struct output_parameter_s *output_parameter)
 {
-    return output_select[prnr].output_open(prnr);
+    return output_select[prnr].output_open(prnr, output_parameter);
 }
 
 void output_select_close(unsigned int prnr)
@@ -159,10 +160,5 @@ int output_select_getc(unsigned int prnr, BYTE *b)
 int output_select_flush(unsigned int prnr)
 {
     return output_select[prnr].output_flush(prnr);
-}
-
-void output_select_writeline(unsigned int prnr)
-{
-    output_select[prnr].output_writeline(prnr);
 }
 

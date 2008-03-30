@@ -29,11 +29,17 @@
 #include "driver-select.h"
 #include "drv-ascii.h"
 #include "output-select.h"
+#include "output.h"
 #include "types.h"
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
-    return output_select_open(prnr);
+    output_parameter_t output_parameter;
+
+    output_parameter.maxcol = 480;
+    output_parameter.maxrow = 66 * 9;
+
+    return output_select_open(prnr, &output_parameter);
 }
 
 static void drv_ascii_close(unsigned int prnr, unsigned int secondary)

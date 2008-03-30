@@ -34,6 +34,7 @@
 #include "cmdline.h"
 #include "output-select.h"
 #include "output-text.h"
+#include "output.h"
 #include "resources.h"
 #include "utils.h"
 #include "types.h"
@@ -93,7 +94,7 @@ static cmdline_option_t cmdline_options[] =
       (resource_value_t)0,
       "<0-2>", "Specify printer text output device for IEC printer #5" },
     { "-prusertxtdev", SET_RESOURCE, 1, NULL, NULL, "PrinterUserportTextDevice",
-      (resource_value_t) 0,
+      (resource_value_t)0,
       "<0-2>", "Specify printer text output device for userport printer" },
     { NULL }
 };
@@ -105,7 +106,8 @@ int output_text_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int output_text_open(unsigned int prnr)
+static int output_text_open(unsigned int prnr,
+                            output_parameter_t *output_parameter)
 {
     switch (printer_device[prnr]) {
       case 0:
