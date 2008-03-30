@@ -283,10 +283,9 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/serial.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h ../../src/traps.h vdrive-bam.h \
-	vdrive.h ../../src/attach.h ../../src/snapshot.h \
-	../../src/log.h
+	../../src/attach.h ../../src/arch/unix/types.h \
+	../../src/snapshot.h vdrive-bam.h vdrive.h \
+	../../src/diskimage.h ../../src/log.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h vdrive-bam.h \
 	vdrive.h ../../src/attach.h ../../src/snapshot.h \

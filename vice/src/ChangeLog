@@ -1,3 +1,45 @@
+1999-06-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.34.
+
+	* vdrive/vdrive.c (set_disk_geometry): Log usage unknown disk
+	types.
+	(vdrive_setup_device): Initialize disk geometry and file system
+	where it belongs and not here.
+
+	* attach.c (file_system_set_serial_hooks): New function.
+	(file_system_get_vdrive): New function.
+
+	* fsdevice.c (attach_fsdevice): Renamed.
+	(read_fs, write_fs, open_fs, close_fs, flush_fs): Made static.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_attach): New function.
+	(vdrive_open): Check if disk image is present.
+
+	* maincpu.c (reset): Do not reset serial devices.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c
+	(machine_reset): Reset serial devices.
+
+	* serial.c, serial.h: Removed `info' from struct `serial_t'.
+
+	* attach.c, mon.c, vdrive/vdrive-bam.c: Do not use `serial_t'.
+
+1999-06-10  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* raster/raster.c (handle_end_of_frame): Removed `#if 0'ed parts.
+	(raster_emulate_line): Likewise.
+	(raster_set_geometry): Initialize the cache.
+	(update_for_minor_changes_with_sprites): Fill space between border
+	and start of graphics *before* drawing sprites.  Draw sprites only
+	if necessary.  Draw borders again if sprites have been drawn.
+
+	* main.c: #include <ctype.h>
+	(replace_hexcodes): Make it work.  Really.
+	(hexstring_to_byte): New Helper function for `replace_hexcodes()'.
+	(main): Use the string with hexcodes replaced, not the original
+	one.
+
 1999-06-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.33.

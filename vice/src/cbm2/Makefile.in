@@ -343,9 +343,9 @@ c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../config.h ../6510core.h ../mem.h ../alarm.h ../log.h \
 	../clkguard.h ../mon.h ../mos6510.h ../interrupt.h \
 	../snapshot.h ../datasette.h ../tap.h ../machine.h \
-	../resources.h ../serial.h ../diskimage.h ../traps.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../6510core.c
+	../resources.h ../traps.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../6510core.c
 c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
 	c610cia.h ../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/snapshot.h ../../src/maincpu.h ../../src/6510core.h \
