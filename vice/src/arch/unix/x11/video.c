@@ -93,6 +93,13 @@ int _video_use_xsync;
 /* Flag: Do we try to use the MIT shared memory extensions?  */
 static int try_mitshm;
 
+static unsigned int fourcc = 0;
+static char *fourcc_s = NULL;
+
+static double aspect_ratio;
+static char *aspect_ratio_s = NULL;
+
+
 static int set_use_xsync(resource_value_t v, void *param)
 {
     _video_use_xsync = (int)v;
@@ -105,21 +112,19 @@ static int set_try_mitshm(resource_value_t v, void *param)
     return 0;
 }
 
-static unsigned int fourcc;
 static int set_fourcc(resource_value_t v, void *param)
 {
-    if (v && strlen((char *)v) == 4) {
-        memcpy(&fourcc, (char *)v, 4);
-    }
-    else {
+    if (util_string_set(&fourcc_s, (const char *)v))
+        return 0;
+
+    if (fourcc_s != NULL && strlen(fourcc_s) == 4) {
+        memcpy(&fourcc, fourcc_s, 4);
+    } else {
         fourcc = 0;
     }
     
     return 0;
 }
-
-static double aspect_ratio;
-static char *aspect_ratio_s = NULL;
 
 static int set_aspect_ratio(resource_value_t v, void *param)
 {
@@ -155,7 +160,7 @@ static const resource_t resources[] = {
       (void *)&try_mitshm, set_try_mitshm, NULL },
 #ifdef HAVE_XVIDEO
     { "FOURCC", RES_STRING, (resource_value_t)"",
-      (void *)&fourcc, set_fourcc, NULL },
+      (void *)&fourcc_s, set_fourcc, NULL },
     { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
       (void *)&aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
@@ -170,6 +175,7 @@ int video_arch_resources_init(void)
 void video_arch_resources_shutdown(void)
 {
     lib_free(aspect_ratio_s);
+    lib_free(fourcc_s);
 }
 
 /* ------------------------------------------------------------------------- */

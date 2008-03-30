@@ -1,6 +1,34 @@
+2006-01-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.11.
+
+	* arch/unix/x11/video.c [fourcc_s]: A string resource needs to
+	reference a string and not an integer.
+
+	* arch/beos/ui.cc, arch/msdos/menudefs.c,
+	arch/os2/dialogs/dialogs.rc, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/res.rc: Updated.
+
+2006-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/menudefs.c: Got rid of a seperation element to
+	make the main menu fit better.
+
+	* arch/msdos/tui_backend.c: Added an ascii conversion table.
+
+	* info.c: Shortened some lines that were too wide and updated
+	my own info.
+
+2006-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/ui.cc, arch/msdos/menudefs.c,
+	arch/os2/dialogs/dialogs.rc, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/res.rc: Updated 2005
+	to 2006.
+
 2005-12-31  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.18.9.
+	* Version 1.18.10.
 
 2005-12-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
@@ -48,7 +76,7 @@
 
 2005-12-29  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.18.8.
+	* Version 1.18.9.
 
 	* event.c (event_playback_start_trap): Fixed some warnings.
 
