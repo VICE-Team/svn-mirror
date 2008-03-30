@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "fsimage-gcr.h"
 #include "fsimage-probe.h"
@@ -73,6 +74,21 @@ void *fsimage_fd_get(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
+void fsimage_error_info_create(fsimage_t *fsimage)
+{
+    fsimage->error_info = (BYTE *)lib_calloc(1, MAX_BLOCKS_1541);
+}
+
+void fsimage_error_info_destroy(fsimage_t *fsimage)
+{
+    if (fsimage->error_info != NULL) {
+        lib_free(fsimage->error_info);
+        fsimage->error_info = NULL;
+    }
+}
+
+/*-----------------------------------------------------------------------*/
+
 void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;
@@ -89,6 +105,7 @@ void fsimage_media_destroy(disk_image_t *image)
     fsimage = (fsimage_t *)(image->media);
 
     lib_free(fsimage->name);
+    fsimage_error_info_destroy(fsimage);
 
     lib_free(fsimage);
 }
@@ -112,8 +129,6 @@ int fsimage_open(disk_image_t *image)
             image->read_only = 1;
         }
     }
-
-    image->error_info = NULL;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Cannot open file `%s'.", fsimage->name);
@@ -141,10 +156,7 @@ int fsimage_close(disk_image_t *image)
 
     zfclose(fsimage->fd);
 
-    if (image->error_info != NULL) {
-        lib_free(image->error_info);
-        image->error_info = NULL;
-    }
+    fsimage_error_info_destroy(fsimage);
 
     return 0;
 }
@@ -195,8 +207,8 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
             return -1;
         }
 
-        if (image->error_info != NULL) {
-            switch (image->error_info[sectors]) {
+        if (fsimage->error_info != NULL) {
+            switch (fsimage->error_info[sectors]) {
               case 0x0:
               case 0x1:
                 return 0;

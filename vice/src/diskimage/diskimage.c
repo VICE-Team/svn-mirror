@@ -36,6 +36,7 @@
 #include "fsimage-create.h"
 #include "fsimage-gcr.h"
 #include "fsimage.h"
+#include "lib.h"
 #include "log.h"
 #include "rawimage.h"
 #include "realimage.h"
@@ -260,6 +261,18 @@ char *disk_image_name_get(disk_image_t *image)
     }
 
     return NULL;
+}
+
+/*-----------------------------------------------------------------------*/
+
+disk_image_t *disk_image_create(void)
+{
+    return (disk_image_t *)lib_malloc(sizeof(disk_image_t));
+}
+
+void disk_image_destroy(disk_image_t *image)
+{
+    lib_free(image);
 }
 
 /*-----------------------------------------------------------------------*/

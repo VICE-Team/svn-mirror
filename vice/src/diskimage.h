@@ -61,7 +61,6 @@ struct disk_image_s {
     unsigned int type;
     unsigned int tracks;
     struct gcr_s *gcr;
-    BYTE *error_info;
 };
 typedef struct disk_image_s disk_image_t;
 
@@ -80,6 +79,9 @@ extern void disk_image_rawimage_driver_name_set(disk_image_t *image);
 
 extern void disk_image_name_set(disk_image_t *image, char *name);
 extern char *disk_image_name_get(disk_image_t *image);
+
+extern disk_image_t *disk_image_create(void);
+extern void disk_image_destroy(disk_image_t *image);
 
 extern void disk_image_media_create(disk_image_t *image);
 extern void disk_image_media_destroy(disk_image_t *image);

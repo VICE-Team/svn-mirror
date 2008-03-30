@@ -453,7 +453,7 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
     detach_disk_image(image, floppy, unit);
     
     if ((image != NULL) && (image == oldimg))
-        lib_free(image);
+        disk_image_destroy(image);
 }
 
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
@@ -501,7 +501,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     detach_disk_image_and_free(*imgptr, floppy, unit);
 
-    *imgptr = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
+    *imgptr = disk_image_create();
     image = *imgptr;
 
     memcpy(image, &new_image, sizeof(disk_image_t));
@@ -531,7 +531,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     if (err) {
         disk_image_close(image);
         disk_image_media_destroy(image);
-        lib_free(image);
+        disk_image_destroy(image);
         *imgptr = NULL;
     }
     return err;
