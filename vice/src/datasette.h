@@ -43,7 +43,9 @@
 
 /* Counter is c=g*(sqrt(v*t/d*pi+r^2/d^2)-r/d)
    Some constants for the Datasette-Counter, maybe resourses in future */
+#ifndef PI
 #define PI          3.1415926535
+#endif
 #define DS_D        1.27e-5
 #define DS_R        1.07e-2
 #define DS_V_PLAY   4.76e-2

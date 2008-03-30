@@ -309,6 +309,7 @@ static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel,
 }
 
 
+#ifdef CRTC_NEED_2X
 static void draw_standard_line_2x(void)
 {
     int rl_pos = 2 * (crtc.xoffset + crtc.hjitter);
@@ -363,6 +364,7 @@ static void draw_reverse_line_2x(void)
 	(crtc.rl_len + 1) * crtc.hw_cols 
 	);
 }
+#endif
 
 /***************************************************************************/
 

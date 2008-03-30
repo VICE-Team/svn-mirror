@@ -330,7 +330,7 @@ void vdc_resize(void)
     vdc_set_geometry();
 }
 
-void vdc_set_set_canvas_refresh(int enable)
+void vdc_set_canvas_refresh(int enable)
 {
     raster_t *raster;
 

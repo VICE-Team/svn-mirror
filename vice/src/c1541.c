@@ -2203,7 +2203,7 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         }
         p++;
         line[len++] = '\n';
-        bufcat(outbuf, &outbuf_size, (unsigned int*)&max_outbuf_size, line, len);
+        bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, line, len);
     }
     vdrive_close(vdrive, 0);
 

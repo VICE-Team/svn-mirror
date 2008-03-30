@@ -27,9 +27,12 @@
 #include "vice.h"
 
 #include <conio.h>
+#include <fcntl.h>
+#include <io.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "console.h"
 #include "utils.h"

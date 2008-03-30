@@ -67,7 +67,7 @@ static int set_column4080_key(resource_value_t v)
     mmu_column4080_key = (int)v;
 
 #ifdef HAS_SINGLE_CANVAS
-    vdc_set_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
+    vdc_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
     vic_ii_set_set_canvas_refresh(mmu_column4080_key ? 1 : 0);
 #endif
     return 0;

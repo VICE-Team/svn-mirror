@@ -46,6 +46,8 @@ extern void vdc_resize (void);
 extern int vdc_write_snapshot_module (snapshot_t *s);
 extern int vdc_read_snapshot_module (snapshot_t *s);
 
+extern void vdc_set_canvas_refresh(int enable);
+
 extern void video_free (void);
 #if 0				/*  def USE_VIDMODE_EXTENSION */
 extern void video_setfullscreen (int v, int width, int height);
