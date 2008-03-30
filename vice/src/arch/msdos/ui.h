@@ -27,9 +27,9 @@
 #ifndef _UI_DOS_H
 #define _UI_DOS_H
 
+#include "types.h"
 #include "uiapi.h"
 
-/* ------------------------------------------------------------------------- */
 
 extern void ui_show_text(const char *title, const char *text);
 extern void ui_main(char hotkey);
