@@ -31,8 +31,10 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "intl.h"
 #include "lib.h"
 #include "tape.h"
+#include "translate.h"
 #include "ui.h"
 #include "uiattach.h"
 #include "uilib.h"
@@ -72,10 +74,10 @@ static void uiattach_disk_dialog(video_canvas_t *canvas, int idm)
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
-                ui_error("Cannot autostart specified file.");
+                ui_error(translate_text(IDMES_CANNOT_AUTOSTART_FILE));
         } else {
             if (file_system_attach_disk(unit, name) < 0)
-                ui_error("Cannot attach specified file");
+                ui_error(translate_text(IDMES_CANNOT_ATTACH_FILE));
         }
         lib_free(name);
     }
@@ -97,10 +99,10 @@ static void uiattach_tape_dialog(video_canvas_t *canvas)
         if (autostart_index >= 0) {
             if (autostart_autodetect(name, NULL, autostart_index,
                 AUTOSTART_MODE_RUN) < 0)
-                ui_error("Cannot autostart specified file.");
+                ui_error(translate_text(IDMES_CANNOT_AUTOSTART_FILE));
         } else {
             if (tape_image_attach(1, name) < 0)
-                ui_error("Cannot attach specified file");
+                ui_error(translate_text(IDMES_CANNOT_ATTACH_FILE));
         }
         lib_free(name);
     }
@@ -120,7 +122,7 @@ static void uiattach_autostart_dialog(video_canvas_t *canvas)
 
         if (autostart_autodetect(name, NULL, autostart_index,
             AUTOSTART_MODE_RUN) < 0)
-            ui_error("Cannot autostart specified file.");
+            ui_error(translate_text(IDMES_CANNOT_AUTOSTART_FILE));
         lib_free(name);
     }
     ResumeFullscreenModeKeep(hwnd);

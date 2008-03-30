@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "translate.h"
 #include "uicmdline.h"
 
 void ui_cmdline_show_help(unsigned int num_options,
@@ -36,12 +37,12 @@ void ui_cmdline_show_help(unsigned int num_options,
 {
     unsigned int i;
 
-    printf(_("\nAvailable command-line options:\n\n"));
+    printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
         fputs(options[i].name, stdout);
         if (options[i].need_arg && options[i].param_name != NULL)
-            printf(" %s", options[i].param_name);
-        printf("\n\t%s\n", options[i].description);
+            printf(" %s", translate_text(options[i].param_name));
+        printf("\n\t%s\n", translate_text(options[i].description));
     }
     putchar('\n');
 }

@@ -25,7 +25,8 @@
  */
 
 #define UI_PET
-#define UI_MENU_NAME pet_ui_menu
+#define UI_MENU_NAME pet_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME pet_ui_menu
 
 #include "private.h"
 #include "petui.h"
@@ -39,6 +40,7 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "EmuID", IDM_TOGGLE_EMUID },   
     { NULL, 0 }
 };
 
@@ -75,6 +77,7 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
 
 int petui_init(void)
 {
+  ui_register_menu_translation_layout(pet_ui_translation_menu);
   ui_register_menu_layout(pet_ui_menu);
   ui_register_machine_specific(pet_ui_specific);
   ui_register_menu_toggles(pet_ui_menu_toggles);

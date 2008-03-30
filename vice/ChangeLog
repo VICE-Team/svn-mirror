@@ -1,3 +1,21 @@
+2006-05-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.13.
+
+2006-05-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added MorphOS netplay support, patch provided
+	by Harry Sintonen <sintonen@iki.fi>.
+
+2006-05-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added $(SHELL) to the 'make bindist' to ensure
+	that the scripts get executed.
+
+2006-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a swab() function check.
+
 2006-05-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.12.

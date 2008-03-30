@@ -1,3 +1,217 @@
+2006-05-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.13.
+
+	* drive/rotation.c (head_next2_offset, head_next_offset,
+	head_current_offset, head_previous_offset,
+	head_previous2_offset, peek_next2, peek_next, peek_current,
+	peek_previous, peek_previous2, data_write, data_read): New
+	functions.
+
+2006-05-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/screenshot.c,
+	arch/amigaos/screenshot.h: Added screenshot support for the
+	AmigaOS ports.
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h,
+	arch/amigaos/joyai.c, arch/amigaos/joyll.c,
+	arch/amigaos/ui.c, src/arch/amigaos/uiapi.c,
+	arch/amigaos/uiattach.c, arch/amigaos/uic64cart.c,
+	arch/amigaos/uicart.c: Continued the intl support for the
+	AmigaOS ports.
+
+	* arch/amigaos/statusbar.c, arch/amigaos/statusbar.h,
+	arch/amigaos/vsyncapi.c: Added statusbar text support for the
+	AmigaOS ports.
+
+2006-05-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/cbm2ui.c,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.h, arch/amigaos/petui.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4ui.c,
+	arch/amigaos/plus4uires.h, src/arch/amigaos/ui.c,
+	arch/amigaos/uiapi.c, arch/amigaos/uicmdline.c,
+	arch/amigaos/uires.h, arch/amigaos/vic20ui.c,
+	arch/amigaos/vic20uires.h, translate.c: Added intl support for
+	all AmigaOS flavors.
+
+	* network.c: Added netplay support for MorphOS, patch provided
+	by Harry Sintonen <sintonen@iki.fi>.
+
+2006-05-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/ahi.c: Fixed to not use AmigaOS4 specific
+	function calls.
+
+	* arch/amigaos/amigamain.c: Fixed to use the dos/dos.h include
+	for all AmigaOS flavors.
+
+	* arch/amigaos/archdep.c, arch/amigaos/console.c,
+	arch/amigaos/uimon.c: Fixed for MorphOS, patch provided by
+	Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/joyll.c: Fixed the accidental mixup of left and
+	right direction.
+
+2006-05-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/ahi.c: Fixed ahi audio to resync if
+	doublebuffering drops out of sync, and fixed race condition at
+	subtask create and exit, patch provided by Harry Sintonen
+	<sintonen@iki.fi>.
+
+	* arch/amigaos/amigamain.c: Default minimum stack of 512KB for
+	MorphOS, patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/console.c, arch/amigaos/mui/mui.h,
+	arch/amigaos/ui.c, arch/amigaos/ui.h: Added missing includes,
+	patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/joyll.c: Fixed lowlevel joystick code, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/mui/filereq.c, arch/amigaos/mui/mui.c: Fixed
+	$VER, patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/private.h, arch/amigaos/vsyncapi.c: Added
+	proper timer code for MorphOS, no more sync problems, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/timer.c, arch/amigaos/timer.h: Added proper
+	timer code for MorphOS, and simplified by using similar api
+	for all AmigaOS platforms, patch provided by Harry Sintonen
+	<sintonen@iki.fi>.
+
+	* arch/amigaos/uilib.c: Commented out not yet used functions.
+
+	* arch/amigaos/video.c: Fixed a read access to address
+	0xffffffff when opening screen (SA_Pens tag was used wrong),
+	patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+2006-05-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/mui/filereq.c: Fix for the hook functions for
+	MorphOS, patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/statusbar.c: Fix for the font functions for
+	MorphOS, patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* cartconv.c: Signed char fix for cartconv, patch provided by
+	Harry Sintonen <sintonen@iki.fi>.
+
+2006-05-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/info-files/VICE.info,
+	arch/amigaos/info-files/x128.exe.info,
+	arch/amigaos/info-files/x64.exe.info,
+	arch/amigaos/info-files/xcbm2.exe.info,
+	arch/amigaos/info-files/xpet.exe.info,
+	arch/amigaos/info-files/xplus4.exe.info,
+	arch/amigaos/info-files/xvic.exe.info: Added classic icon and
+	newicon support.
+
+2006-05-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh: Fixed the AROS strip commands.
+
+2006-05-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/c128ui.c, arch/amigaos/c64ui.c,
+	arch/amigaos/cbm2ui.c, arch/amigaos/petui.c,
+	arch/amigaos/vic20ui.c: Moved the EmuID toggles to the machine
+	specific ui files.
+
+	* arch/amigaos/console.c: Fixed some issues.
+
+	* arch/amigaos/fullscreenarch.h, arch/amigaos/statusbar.c,
+	arch/amigaos/ui.c, arch/amigaos/ui.h, arch/amigaos/uiapi.c,
+	arch/amigaos/video.c: Added changes and fixes as provided by
+	Mathias Roslund.
+
+2006-05-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/ahi.c: Fixed the task creation to indicate that
+	a ppc task needs to be created, thereby fixing ahi for
+	morphos.
+
+	* arch/amigaos/console.c, arch/amigaos/ui.h,
+	arch/amigaos/uiapi.c: Fixed the console/monitor code and added
+	the cpu-jam dialog.
+
+	* arch/amigaos/make-bindist.sh: Changed to be clearer about
+	the flavor that the binary was built for.
+
+2006-05-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sounddrv/soundsdl.c: Added a swab() function for big endian
+	platforms that don't have the swab() function.
+
+2006-05-15  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c1541.c: Ugly patch to print out if a disk image contains an
+	error block or not. This should be replaced with a cleaner
+	solution in the future.
+
+2006-05-15  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* cartconv.c: Changed prototype of write_chip_package() and
+	type of insert_size (in save_delaep64_crt()) to avoid warnings
+	with MSVC.
+
+	* network.c: Changed type of server_port, to avoid warnings
+	with MSVC.
+
+	* arch/win32/intl.c: Cast the output of MAKELANGID() to WORD
+	to avoid warning with MSVC. Although MS states otherwise,
+	MAKELANGID() does NOT return a WORD, but an int.
+
+	* arch/win32/parsid.c: Changed type of parsid_ctrport, and
+	prototypes of parsid_outb() and parsid_inb() to avoid warnings
+	with MSVC.
+
+	* arch/win32/ui.c: Changed prototype of ui_set_language() to
+	avoid warnings with MSVC.
+
+	* c64/cart/actionreplay.c, c64/cart/atomicpower.c,
+	c64/cart/supersnapshot.c: Cast first parameter to avoid
+	warning with MSVC.
+
+	* gfxoutputdrv/iffdrv.c, gfxoutputdrv/pcxdrv.c: Cast second
+	parameter to util_word_to_le_buf() to avoid warnings with
+	MSVC.
+
+	* monitor/mon_parse.y: Cast in "reg_asgn: register EQUALS
+	number" to avoid warning with MSVC.
+
+	* serial/realdevice.c: Cast drive address and secondary
+	address to calls for cbm_close(), cbm_listen(), and
+	cbm_talk(), to avoid warnings with MSVC.
+
+2006-05-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128uires.h,
+	arch/amigaos/c64uires.h, arch/amigaos/cbm2uires.h,
+	arch/amigaos/joy.c, arch/amigaos/joyll.c,
+	arch/amigaos/joyll.h, arch/amigaos/mui/uijoystick.c,
+	arch/amigaos/mui/uijoystickll.c,
+	arch/amigaos/mui/uijoystickll.h, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/ui.c,
+	arch/amigaos/uires.h, arch/amigaos/vic20uires.h: Added
+	joystick support using the lowlevel library system.
+
+	* arch/amigaos/README.AMIGA,
+	arch/amigaos/README.OS4: Renamed README.OS4 to README.AMIGA
+	and added information to the file.
+
+	* arch/amigaos/make-bindist.sh: Fixed some typos.
+
+	* arch/amigaos/uiapi.c: Implemented the ui_error and
+	ui_message functions for the AmigaOS port.
+
 2006-05-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.12.

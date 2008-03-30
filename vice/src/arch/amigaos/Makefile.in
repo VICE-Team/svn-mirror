@@ -278,10 +278,14 @@ libarch_a_SOURCES = \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid.c \
+	intl.c \
+	intl.h \
 	joy.c \
 	joy.h \
 	joyai.c \
 	joyai.h \
+	joyll.c \
+	joyll.h \
 	kbd.c \
 	kbd.h \
 	memory.h \
@@ -295,6 +299,8 @@ libarch_a_SOURCES = \
 	pointer.h \
 	private.h \
 	rs232.c \
+	screenshot.c \
+	screenshot.h \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
@@ -347,6 +353,8 @@ libarch_a_SOURCES = \
 	mui/uigeoram.h \
 	mui/uijoystick.c \
 	mui/uijoystick.h \
+	mui/uijoystickll.c \
+	mui/uijoystickll.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
@@ -381,7 +389,7 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
-	README.OS4 \
+	README.AMIGA \
 	make-bindist.sh
 
 subdir = src/arch/amigaos
@@ -396,9 +404,10 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	archdep.$(OBJEXT) blockdev.$(OBJEXT) c128ui.$(OBJEXT) \
 	c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) cbm2ui.$(OBJEXT) \
 	console.$(OBJEXT) fullscreen.$(OBJEXT) hardsid.$(OBJEXT) \
-	joy.$(OBJEXT) joyai.$(OBJEXT) kbd.$(OBJEXT) mousedrv.$(OBJEXT) \
-	petui.$(OBJEXT) plus4ui.$(OBJEXT) pointer.$(OBJEXT) \
-	rs232.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
+	intl.$(OBJEXT) joy.$(OBJEXT) joyai.$(OBJEXT) joyll.$(OBJEXT) \
+	kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
+	plus4ui.$(OBJEXT) pointer.$(OBJEXT) rs232.$(OBJEXT) \
+	screenshot.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
 	tfearch.$(OBJEXT) timer.$(OBJEXT) ui.$(OBJEXT) uiapi.$(OBJEXT) \
 	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicart.$(OBJEXT) \
 	uicmdline.$(OBJEXT) uicolor.$(OBJEXT) uilib.$(OBJEXT) \
@@ -408,11 +417,11 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	uidatasette.$(OBJEXT) uicbm2settings.$(OBJEXT) \
 	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uijoystick.$(OBJEXT) uinetwork.$(OBJEXT) \
-	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiram.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
-	uivic20mem.$(OBJEXT) uivicii.$(OBJEXT)
+	uigeoram.$(OBJEXT) uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) \
+	uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) \
+	uiplus60k.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
+	uireu.$(OBJEXT) uirs232user.$(OBJEXT) uisid.$(OBJEXT) \
+	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -424,24 +433,26 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/catweaselmkiii.Po ./$(DEPDIR)/cbm2ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/console.Po ./$(DEPDIR)/filereq.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fullscreen.Po ./$(DEPDIR)/hardsid.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/joy.Po ./$(DEPDIR)/joyai.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/intl.Po ./$(DEPDIR)/joy.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/joyai.Po ./$(DEPDIR)/joyll.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/mousedrv.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mui.Po ./$(DEPDIR)/petui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/pointer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/signals.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/tfearch.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/timer.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiacia.Po ./$(DEPDIR)/uiapi.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiattach.Po ./$(DEPDIR)/uic64_256k.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicbm2settings.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/rs232.Po ./$(DEPDIR)/screenshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/timer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiacia.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiapi.Po ./$(DEPDIR)/uiattach.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64_256k.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicart.Po ./$(DEPDIR)/uicbm2settings.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uicolor.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po ./$(DEPDIR)/uigeoram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uilib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uijoystickll.Po ./$(DEPDIR)/uilib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uinetwork.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipetreu.Po ./$(DEPDIR)/uiplus256k.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus60k.Po ./$(DEPDIR)/uiram.Po \
@@ -494,8 +505,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filereq.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fullscreen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hardsid.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/intl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joyai.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/joyll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mui.Po@am__quote@
@@ -503,6 +516,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screenshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@
@@ -524,6 +538,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystickll.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetwork.Po@am__quote@
@@ -831,6 +846,28 @@ uijoystick.obj: mui/uijoystick.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/uijoystick.Po' tmpdepfile='$(DEPDIR)/uijoystick.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uijoystick.obj `if test -f 'mui/uijoystick.c'; then $(CYGPATH_W) 'mui/uijoystick.c'; else $(CYGPATH_W) '$(srcdir)/mui/uijoystick.c'; fi`
+
+uijoystickll.o: mui/uijoystickll.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uijoystickll.o -MD -MP -MF "$(DEPDIR)/uijoystickll.Tpo" \
+@am__fastdepCC_TRUE@	  -c -o uijoystickll.o `test -f 'mui/uijoystickll.c' || echo '$(srcdir)/'`mui/uijoystickll.c; \
+@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/uijoystickll.Tpo" "$(DEPDIR)/uijoystickll.Po"; \
+@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/uijoystickll.Tpo"; exit 1; \
+@am__fastdepCC_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uijoystickll.c' object='uijoystickll.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/uijoystickll.Po' tmpdepfile='$(DEPDIR)/uijoystickll.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uijoystickll.o `test -f 'mui/uijoystickll.c' || echo '$(srcdir)/'`mui/uijoystickll.c
+
+uijoystickll.obj: mui/uijoystickll.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uijoystickll.obj -MD -MP -MF "$(DEPDIR)/uijoystickll.Tpo" \
+@am__fastdepCC_TRUE@	  -c -o uijoystickll.obj `if test -f 'mui/uijoystickll.c'; then $(CYGPATH_W) 'mui/uijoystickll.c'; else $(CYGPATH_W) '$(srcdir)/mui/uijoystickll.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/uijoystickll.Tpo" "$(DEPDIR)/uijoystickll.Po"; \
+@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/uijoystickll.Tpo"; exit 1; \
+@am__fastdepCC_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uijoystickll.c' object='uijoystickll.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/uijoystickll.Po' tmpdepfile='$(DEPDIR)/uijoystickll.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uijoystickll.obj `if test -f 'mui/uijoystickll.c'; then $(CYGPATH_W) 'mui/uijoystickll.c'; else $(CYGPATH_W) '$(srcdir)/mui/uijoystickll.c'; fi`
 
 uinetwork.o: mui/uinetwork.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uinetwork.o -MD -MP -MF "$(DEPDIR)/uinetwork.Tpo" \

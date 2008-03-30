@@ -27,7 +27,9 @@
 #include "private.h"
 #include "vice.h"
 #include "cartridge.h"
+#include "intl.h"
 #include "lib.h"
+#include "translate.h"
 #include "ui.h"
 #include "uicart.h"
 #include "uilib.h"
@@ -44,7 +46,7 @@ void uicart_attach(video_canvas_t *canvas, int idm,
         i++;
 
     if (cartridges[i].idm == 0) {
-        ui_error("Bad cartridge config in UI!");
+        ui_error(translate_text(IDMES_BAD_CART_CONFIG_IN_UI));
         return;
     }
 
@@ -53,7 +55,7 @@ void uicart_attach(video_canvas_t *canvas, int idm,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
 
         if (cartridge_attach_image(cartridges[i].type, name) < 0)
-            ui_error("Invalid cartridge image");
+            ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
         lib_free(name);
     }
 }

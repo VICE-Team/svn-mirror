@@ -102,6 +102,10 @@ struct Library *P96Base = NULL;
 #endif
 #endif
 
+#ifdef AMIGA_AROS
+struct Library *LowLevelBase;
+#endif
+
 int video_init(void)
 {
 #ifndef AMIGA_OS4
@@ -115,9 +119,15 @@ int video_init(void)
 #else
     if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
 #endif
-      if (mui_init() == 0) {
-        return 0;
+#ifdef AMIGA_AROS
+      if ((LowLevelBase = OpenLibrary("lowlevel.library",37))) {
+#endif
+        if (mui_init() == 0) {
+          return 0;
+        }
+#ifdef AMIGA_AROS
       }
+#endif
     }
   }
 #else
@@ -158,6 +168,11 @@ void video_shutdown(void)
   if (MUIMasterBase) {
     CloseLibrary(MUIMasterBase);
   }
+#ifdef AMIGA_AROS
+  if (LowLevelBase) {
+    CloseLibrary(LowLevelBase);
+  }
+#endif
 #else
   if (IMUIMaster) {
     DropInterface((struct Interface *)IMUIMaster);
@@ -181,6 +196,13 @@ void video_shutdown(void)
 #endif
 }
 
+static int IsFullscreenEnabled(void)
+{
+  int b;
+  resources_get_value("FullscreenEnabled", (void *)&b);
+  return b;
+}
+
 static ULONG lock;
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
 static ULONG cgx_base_addy;
@@ -188,20 +210,17 @@ static ULONG cgx_base_addy;
 static struct RenderInfo ri;
 #endif
 
-static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, int height, int fullscreen)
+static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, int height)
 {
   static int current_fullscreen = 0; /* remember previous state */
-  int amiga_width, amiga_height;
+  int amiga_width, amiga_height, fullscreen;
   unsigned long dispid;
-
-  /* -1 means "no change" */
-  if (fullscreen == -1) {
-    fullscreen = current_fullscreen;
-  }
 
   if (canvas == NULL) {
     return NULL;
   }
+
+  fullscreen = IsFullscreenEnabled();
 
   /* if changing to/from fullscreen, close screen and window */
   if ((current_fullscreen != fullscreen) || (fullscreen == 1)) {
@@ -248,6 +267,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
 
   /* if fullscreen, open the screen */
   if (fullscreen) {
+    static const UWORD penarray[1] = { ~0 };
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
     amiga_width = GetCyberIDAttr(CYBRIDATTR_WIDTH, dispid);
     amiga_height = GetCyberIDAttr(CYBRIDATTR_HEIGHT, dispid);
@@ -265,7 +285,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
              SA_ShowTitle, FALSE,
              SA_Type, CUSTOMSCREEN,
              SA_DisplayID, dispid,
-             SA_Pens, -1,
+             SA_Pens, (ULONG) penarray,
              SA_FullPalette, TRUE,
              TAG_DONE);
 
@@ -386,7 +406,7 @@ struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
 
   canvas->os->window_name = lib_stralloc(canvas->viewport->title);
 
-  reopen(canvas, *width, *height, -1);
+  reopen(canvas, *width, *height);
 
   if (canvaslist == NULL) {
     canvaslist = canvas;
@@ -423,9 +443,9 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
   }
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
-  if ((lock = LockBitMapTags(canvas->os->window_bitmap,
-                             LBMI_BASEADDRESS, (ULONG)&cgx_base_addy,
-                             TAG_DONE))) {
+  if ((lock = (ULONG)LockBitMapTags(canvas->os->window_bitmap,
+                                    LBMI_BASEADDRESS, (ULONG)&cgx_base_addy,
+                                    TAG_DONE))) {
 #else
   if ((lock = p96LockBitMap(canvas->os->window_bitmap, (UBYTE *)&ri, sizeof(ri)))) {
 #endif
@@ -441,7 +461,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                         canvas->bytes_per_line,
                         canvas->depth);
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
-    UnLockBitMap(lock);
+    UnLockBitMap((APTR)lock);
 #else
     p96UnlockBitMap(canvas->os->window_bitmap, lock);
 #endif
@@ -686,7 +706,7 @@ void video_canvas_resize(struct video_canvas_s *canvas,
   if (canvas->videoconfig->doublesizey)
     height *= 2;
 
-  reopen(canvas, width, height, -1);
+  reopen(canvas, width, height);
 }
 
 int video_arch_resources_init(void)
@@ -698,9 +718,19 @@ void video_arch_resources_shutdown(void)
 {
 }
 
-void video_arch_fullscreen_toggle(int fullscreen)
+static int fullscreen_update_needed = 0;
+
+void video_arch_fullscreen_toggle(void)
 {
-  if (canvaslist != NULL) {
-    reopen(canvaslist, canvaslist->width, canvaslist->height, fullscreen);
+  fullscreen_update_needed = 1; /* just remember the toggle */
+}
+
+void video_arch_fullscreen_update(void)
+{
+  if (fullscreen_update_needed == 1) {
+    if (canvaslist != NULL) {
+      reopen(canvaslist, canvaslist->width, canvaslist->height);
+    }
+    fullscreen_update_needed = 0;
   }
 }

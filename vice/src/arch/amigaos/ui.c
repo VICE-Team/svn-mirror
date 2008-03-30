@@ -46,13 +46,22 @@
 #include "uires.h"
 #include "log.h"
 #include "pointer.h"
+#include "fullscreenarch.h"
+#include "intl.h"
+#include "translate.h"
 
 #include "mui/filereq.h"
 #include "mui/uidatasette.h"
+#ifdef AMIGA_OS4
 #include "mui/uijoystick.h"
+#else
+#include "mui/uijoystickll.h"
+#endif
 #include "mui/uinetwork.h"
 #include "mui/uiram.h"
 #include "mui/uisound.h"
+
+static int do_quit_vice = 0;
 
 struct MenuItem *step_item(struct MenuItem *first_item, int idm)
 {
@@ -109,7 +118,6 @@ void toggle_menu_item(struct Menu *menu, int idm, int checked)
 static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
@@ -166,10 +174,16 @@ static const ui_res_value_list_t value_list[] = {
     { NULL, NULL, 0 }
 };
 
-static const struct NewMenu *machine_specific_menu = NULL;
+static struct TranslateNewMenu *machine_specific_translation_menu = NULL;
+static struct NewMenu *machine_specific_menu = NULL;
 static ui_machine_specific_t machine_specific_function = NULL;
 static const ui_menu_toggle_t *machine_specific_toggles = NULL;
 static const ui_res_value_list_t *machine_specific_values = NULL;
+
+void ui_register_menu_translation_layout(struct TranslateNewMenu *menu)
+{
+  machine_specific_translation_menu = menu;
+}
 
 void ui_register_menu_layout(const struct NewMenu *menu)
 {
@@ -194,6 +208,7 @@ void ui_register_res_values(const ui_res_value_list_t *valuelist)
 int ui_menu_create(video_canvas_t *canvas)
 {
   struct Screen* pubscreen = NULL;
+  int i;
 
   if (machine_specific_menu == NULL) {
     return -1;
@@ -208,6 +223,25 @@ int ui_menu_create(video_canvas_t *canvas)
   if (!(canvas->os->VisualInfo = GetVisualInfo(pubscreen, TAG_DONE))) {
     return -1;
   }
+
+  for (i=0; machine_specific_translation_menu[i].nm_Type != NM_END; i++)
+  {
+    machine_specific_menu[i].nm_Type=machine_specific_translation_menu[i].nm_Type;
+    machine_specific_menu[i].nm_CommKey=machine_specific_translation_menu[i].nm_CommKey;
+    machine_specific_menu[i].nm_Flags=machine_specific_translation_menu[i].nm_Flags;
+    machine_specific_menu[i].nm_MutualExclude=machine_specific_translation_menu[i].nm_MutualExclude;
+    machine_specific_menu[i].nm_UserData=machine_specific_translation_menu[i].nm_UserData;
+    if (machine_specific_translation_menu[i].nm_Label==0)
+      machine_specific_menu[i].nm_Label=(STRPTR)NM_BARLABEL;
+    else
+      machine_specific_menu[i].nm_Label=translate_text(machine_specific_translation_menu[i].nm_Label);
+  }
+  machine_specific_menu[i].nm_Type=NM_END;
+  machine_specific_menu[i].nm_CommKey=NULL;
+  machine_specific_menu[i].nm_Flags=0;
+  machine_specific_menu[i].nm_MutualExclude=0L;
+  machine_specific_menu[i].nm_UserData=NULL;
+  machine_specific_menu[i].nm_Label=NULL;
 
   if (!(canvas->os->menu = CreateMenus(machine_specific_menu, GTMN_FrontPen, 0L, TAG_DONE))) {
     return -1;
@@ -243,11 +277,7 @@ static void pause_trap(WORD addr, void *data)
     ui_display_paused(1);
     vsync_suspend_speed_eval();
     while (is_paused) {
-#ifndef AMIGA_OS4
-        timer_usleep(1000000 / 100);
-#else
         timer_usleep(timer, 1000000 / 100);
-#endif
         ui_event_handle();
     }
 }
@@ -341,11 +371,10 @@ int ui_menu_update(video_canvas_t *canvas)
     return 0;
 }
 
-#define ui_message(a...) log_message(LOG_DEFAULT, a) /* FIXME */
-
 int ui_menu_handle(video_canvas_t *canvas, int idm)
 {
   char *fname = NULL;
+  char *curlang;
 
   if (machine_specific_function != NULL) {
     machine_specific_function(canvas, idm);
@@ -384,9 +413,18 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
     case IDM_RESET_DRIVE11:
       drivecpu_trigger_reset(3);
       break;
+#ifdef AMIGA_OS4
     case IDM_JOY_SETTINGS:
       ui_joystick_settings_dialog();
       break;
+#else
+    case IDM_JOY_DEVICE_SELECTION:
+      ui_joystick_device_dialog();
+      break;
+    case IDM_JOY_FIRE_SELECTION:
+      ui_joystick_fire_dialog();
+      break;
+#endif
     case IDM_SWAP_JOYSTICK:
       ui_joystick_swap_joystick();
       break;
@@ -394,7 +432,7 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       ui_pause_emulation();
       break;
     case IDM_EXIT:
-      exit(-1); /* FIXME: Is this safe ? */
+      do_quit_vice = 1;
       break;
 #if 0
     case IDM_FLIP_ADD:
@@ -440,21 +478,21 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
 
     case IDM_SETTINGS_SAVE:
       if (resources_save(NULL) < 0) {
-        ui_error("Cannot save settings.");
+        ui_error(translate_text(IDMES_CANNOT_SAVE_SETTINGS));
       } else {
-        ui_message("Settings saved successfully.");
+        ui_message(translate_text(IDMES_SETTINGS_SAVED_SUCCESS));
       }
       break;
     case IDM_SETTINGS_LOAD:
       if (resources_load(NULL) < 0) {
-        ui_error("Cannot load settings.");
+        ui_error(translate_text(IDMES_CANNOT_LOAD_SETTINGS));
       } else {
-        ui_message("Settings loaded successfully.");
+        ui_message(translate_text(IDMES_SETTINGS_LOAD_SUCCESS));
       }
       break;
     case IDM_SETTINGS_DEFAULT:
       resources_set_defaults();
-      ui_message("Default settings restored.");
+      ui_message(translate_text(IDMES_DFLT_SETTINGS_RESTORED));
       break;
 
     case IDM_MONITOR:
@@ -471,24 +509,24 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       ui_about();
       } break;
     case IDM_CONTRIBUTORS:
-      ui_show_text("VICE contributors", "Who made what?",
+      ui_show_text(translate_text(IDMES_VICE_CONTRIBUTORS), translate_text(IDMES_WHO_MADE_WHAT),
                    info_contrib_text);
       break;
     case IDM_LICENSE:
-      ui_show_text("License",
+      ui_show_text(translate_text(IDMS_LICENSE),
                    "VICE license (GNU General Public License)",
                    info_license_text);
       break;
     case IDM_WARRANTY:
-      ui_show_text("No warranty!",
-                   "VICE is distributed WITHOUT ANY WARRANTY!",
+      ui_show_text(translate_text(IDMS_NO_WARRANTY),
+                   translate_text(IDMES_VICE_DIST_NO_WARRANTY),
                    info_warranty_text);
       break;
     case IDM_CMDLINE: {
       char *options;
       options = cmdline_options_string();
-      ui_show_text("Command line options",
-                   "Which command line options are available?", options);
+      ui_show_text(translate_text(IDMS_COMMAND_LINE_OPTIONS),
+                   translate_text(IDMES_WHICH_COMMANDS_AVAILABLE), options);
       lib_free(options);
       } break;
 
@@ -544,6 +582,9 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
 #endif
   IDM_ACIA_SETTINGS, IDM_RS232USER_SETTINGS,
 */
+      case IDM_MEDIAFILE:
+        ui_screenshot_dialog(canvas);
+        break;
       case IDM_DATASETTE_SETTINGS:
         ui_datasette_settings_dialog();
         break;
@@ -556,7 +597,62 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
       case IDM_NETWORK_SETTINGS:
         ui_network_dialog();
         break;
-
+      case IDM_LANGUAGE_ENGLISH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"en"))
+        {
+          resources_set_value("Language", (resource_value_t *)"en");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_GERMAN:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"de"))
+        {
+          resources_set_value("Language", (resource_value_t *)"de");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_FRENCH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"fr"))
+        {
+          resources_set_value("Language", (resource_value_t *)"fr");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_ITALIAN:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"it"))
+        {
+          resources_set_value("Language", (resource_value_t *)"it");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_DUTCH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"nl"))
+        {
+          resources_set_value("Language", (resource_value_t *)"nl");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_POLISH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"pl"))
+        {
+          resources_set_value("Language", (resource_value_t *)"pl");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_SWEDISH:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"sv"))
+        {
+          resources_set_value("Language", (resource_value_t *)"sv");
+          ui_menu_destroy(canvas);
+        }
+        break;
     default:
         {
             int i, j, command_found = 0;
@@ -648,11 +744,27 @@ void ui_event_handle(void)
         mousex = imsg->MouseX;
         mousey = imsg->MouseY;
 
+        switch (imClass) {
+          case IDCMP_MENUPICK:
+            pointer_to_default();
+            while(imCode != MENUNULL) {
+              struct MenuItem *n = ItemAddress(canvas->os->menu, imCode);
+              ui_menu_handle(canvas, (int)GTMENUITEM_USERDATA(n));
+              imCode = n->NextSelect;
+            }
+            ui_menu_update(canvas);
+            done = 1;
+            break;
+
+          default:
+            break;
+        }
+
         ReplyMsg((struct Message *)imsg);
 
         switch (imClass) {
           case IDCMP_CLOSEWINDOW:
-            exit(-1);
+            do_quit_vice = 1;
             break;
 
           case IDCMP_RAWKEY:
@@ -672,17 +784,6 @@ void ui_event_handle(void)
               }
             }
             break;
-
-            case IDCMP_MENUPICK:
-              pointer_to_default();
-              while(imCode != MENUNULL) {
-                struct MenuItem *n = ItemAddress(canvas->os->menu, imCode);
-                ui_menu_handle(canvas, (int)GTMENUITEM_USERDATA(n));
-                imCode = n->NextSelect;
-              }
-              ui_menu_update(canvas);
-              done = 1;
-              break;
 
           case IDCMP_CHANGEWINDOW:
             if (canvas->os->waiting_for_resize) {
@@ -712,6 +813,31 @@ void ui_event_handle(void)
       }
     }
   } while (!done);
+
+  video_arch_fullscreen_update();
+
+  if (do_quit_vice) {
+    int confirm_on_exit, save_on_exit;
+
+    resources_get_value("ConfirmOnExit", &confirm_on_exit);
+    resources_get_value("SaveResourcesOnExit", &save_on_exit);
+
+    if (confirm_on_exit) {
+      do_quit_vice=ui_requester("VICE Quit", "Do you really want to exit?\n\nAll the data present in the emulated RAM will be lost.", "Yes|No", 1);
+    }
+
+    if (do_quit_vice) {
+      if (save_on_exit) {
+        if (resources_save(NULL) < 0) {
+          ui_error(translate_text(IDMES_CANNOT_SAVE_SETTINGS));
+        } else {
+          ui_message(translate_text(IDMES_SETTINGS_SAVED_SUCCESS));
+        }
+      }
+
+      exit(0); // I think it's safe to quit here
+    }
+  }
 }
 
 int ui_menu_destroy(video_canvas_t *canvas)
@@ -729,4 +855,3 @@ int ui_menu_destroy(video_canvas_t *canvas)
 
   return 0;
 }
-

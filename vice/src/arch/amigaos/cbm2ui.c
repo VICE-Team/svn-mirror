@@ -25,7 +25,8 @@
  */
 
 #define UI_CBM2
-#define UI_MENU_NAME cbm2_ui_menu
+#define UI_MENU_NAME cbm2_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME cbm2_ui_menu
 
 #include "private.h"
 #include "cbm2ui.h"
@@ -40,6 +41,7 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "EmuID", IDM_TOGGLE_EMUID },   
     { NULL, 0 }
 };
 
@@ -76,6 +78,7 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
 
 int cbm2ui_init(void)
 {
+  ui_register_menu_translation_layout(cbm2_ui_translation_menu);
   ui_register_menu_layout(cbm2_ui_menu);
   ui_register_machine_specific(cbm2_ui_specific);
   ui_register_menu_toggles(cbm2_ui_menu_toggles);

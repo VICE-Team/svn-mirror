@@ -68,6 +68,7 @@ int uimon_out(const char *format, ...)
   if (console_log != NULL) {
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
     rc = console_out(console_log, buffer);
     lib_free(buffer);
   }

@@ -25,7 +25,8 @@
  */
 
 #define UI_C64
-#define UI_MENU_NAME c64_ui_menu
+#define UI_MENU_NAME c64_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME c64_ui_menu
 
 #include "private.h"
 #include "c64ui.h"
@@ -52,6 +53,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
+    { "EmuID", IDM_TOGGLE_EMUID },
     { NULL, 0 }
 };
 
@@ -121,6 +123,7 @@ int c64ui_init(void)
 {
   uic64cart_init();
 
+  ui_register_menu_translation_layout(c64_ui_translation_menu);
   ui_register_menu_layout(c64_ui_menu);
   ui_register_machine_specific(c64_ui_specific);
   ui_register_menu_toggles(c64_ui_menu_toggles);

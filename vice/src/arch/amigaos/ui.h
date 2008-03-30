@@ -29,6 +29,21 @@
 
 #include "types.h"
 #include "uiapi.h"
+#include "uilib.h"
+
+typedef struct ui_resources_s {
+    int fullscreenbitdepth;
+    int fullscreenwidth;
+    int fullscreenheight;
+    int fullscreenenabled;
+    int save_resources_on_exit;
+    int confirm_on_exit;
+    char *monitor_dimensions;
+    char *initialdir[UILIB_SELECTOR_STYLES_NUM];
+} ui_resources_t;
+
+extern ui_resources_t ui_resources;
+extern int ui_requester(char *title, char *msg, char *buttons, int defval);
+extern void ui_message(const char *format,...);
 
 #endif
-

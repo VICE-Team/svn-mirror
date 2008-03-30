@@ -8124,5 +8124,4 @@ void translate_arch_language_init(void)
   lang=intl_arch_language_init();
   set_current_language(lang, "");
 }
-
 #endif

@@ -42,6 +42,9 @@
 #include <proto/intuition.h>
 #include <proto/dos.h>
 #include <proto/asl.h>
+#ifdef AMIGA_MORPHOS
+#include <proto/alib.h> /* for DoMethod */
+#endif
 #ifdef AMIGA_AROS
 #define MUI_OBSOLETE
 #endif

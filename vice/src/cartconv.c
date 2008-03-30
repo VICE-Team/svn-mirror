@@ -31,6 +31,7 @@
 #define __AROS_PID_T_DECLARED
 #endif
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -89,7 +90,11 @@ unsigned int loadfile_size=0;
 char *output_filename=NULL;
 char *input_filename[33];
 char *cart_name=NULL;
+#if defined(AMIGA_OS4) || defined(AMIGA_MORPHOS)
+signed char cart_type=-1;
+#else
 char cart_type=-1;
+#endif
 char convert_to_bin=0;
 char convert_to_prg=0;
 char convert_to_ultimax=0;
@@ -568,9 +573,13 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
   return 0;
 }
 
-static int write_chip_package(unsigned int length, unsigned char bank, unsigned int address, unsigned char type)
+static int write_chip_package(unsigned int length, unsigned int bankint, unsigned int address, unsigned char type)
 {
   unsigned char chip_header[0x10]="CHIP";
+  unsigned char bank = (unsigned char) bankint;
+
+  /* make sure the above conversion did not remove significant bits */
+  assert(bankint == bank);
 
   chip_header[4]=0;
   chip_header[5]=0;
@@ -924,7 +933,7 @@ static void save_delaep64_crt(void)
 static void save_delaep256_crt(void)
 {
   int i,j;
-  int insert_size=0;
+  unsigned int insert_size=0;
 
   if (loadfile_size!=SIZE_8KB)
   {

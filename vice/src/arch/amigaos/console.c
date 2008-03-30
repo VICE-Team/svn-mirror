@@ -26,21 +26,50 @@
 
 #include "vice.h"
 
+#define __USE_INLINE__
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <proto/dos.h>
+#ifdef AMIGA_MORPHOS
+#include <proto/exec.h>
+#endif
+
 #include "console.h"
 #include "lib.h"
+#include "resources.h"
 #include "ui.h"
+#include "fullscreenarch.h"
+
+#ifdef AMIGA_OS4
+#define Flush(x) FFlush(x)
+#endif
+
+static BPTR console_handle;
+static int fullscreenwasenabled=0;
+
+#ifdef AMIGA_MORPHOS
+static APTR fh_putchproc(APTR putchdata, UBYTE ch)
+{
+  FPutC((BPTR) putchdata, ch);
+  return putchdata;
+}
+#endif
 
 int console_out(console_t *log, const char *format, ...)
 {
   va_list ap;
 
   va_start(ap, format);
-  vfprintf(stdout, format, ap);
+#ifndef AMIGA_MORPHOS
+  VFPrintf(console_handle, format, ap);
+#else
+  VNewRawDoFmt(format, fh_putchproc, (STRPTR)console_handle, ap);
+#endif
+  va_end(ap);
 
   return 0;
 }
@@ -51,8 +80,8 @@ char *readline(const char *prompt)
 
   console_out(NULL, "%s", prompt);
 
-  fflush(stdout);
-  fgets(p, 1024, stdin);
+  Flush(console_handle);
+  FGets(console_handle, p, 1024);
 
   /* Remove trailing newlines.  */
   {
@@ -87,11 +116,27 @@ console_t *console_open(const char *id)
   console->console_yres = 25;
   console->console_can_stay_open = 0;
 
+  if (ui_resources.fullscreenenabled)
+  {
+    fullscreenwasenabled=1;
+    resources_set_value("FullscreenEnabled", (resource_value_t)0);
+    video_arch_fullscreen_update();
+  }
+
+  console_handle=Open("CON:0/0/700/480/VICE Monitor/Auto",MODE_READWRITE);
+
   return console;
 }
 
 int console_close(console_t *log)
 {
+  Close(console_handle);
+  if (fullscreenwasenabled==1)
+  {
+    resources_set_value("FullscreenEnabled", (resource_value_t)1);
+    video_arch_fullscreen_update();
+  }
+
   lib_free(log);
 
   return 0;
@@ -106,4 +151,3 @@ int console_close_all( void )
 {
   return 0;
 }
-

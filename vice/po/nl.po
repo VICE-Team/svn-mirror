@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-05-14 19:02+0200\n"
+"POT-Creation-Date: 2006-05-28 23:46+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -381,76 +381,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:210
+#: src/network.c:235
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
-#: src/network.c:435
+#: src/network.c:460
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:483
+#: src/network.c:508
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:507
+#: src/network.c:532
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:520
+#: src/network.c:545
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:529
+#: src/network.c:554
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:555
+#: src/network.c:580
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:593
+#: src/network.c:618
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:752
+#: src/network.c:777
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:789
+#: src/network.c:814
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:809
+#: src/network.c:834
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:854
+#: src/network.c:879
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:868
+#: src/network.c:893
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:999
+#: src/network.c:1024
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:1010
+#: src/network.c:1035
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:1052
+#: src/network.c:1077
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 

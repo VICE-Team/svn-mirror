@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-05-14 19:02+0200\n"
+"POT-Creation-Date: 2006-05-28 23:46+0200\n"
 "PO-Revision-Date: 2006-01-02 16:58+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -386,76 +386,76 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:210
+#: src/network.c:235
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:435
+#: src/network.c:460
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:483
+#: src/network.c:508
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:507
+#: src/network.c:532
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:520
+#: src/network.c:545
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:529
+#: src/network.c:554
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:555
+#: src/network.c:580
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:593
+#: src/network.c:618
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:752
+#: src/network.c:777
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:789
+#: src/network.c:814
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot %s. Seleziona una directory "
 "diversa per la cronologia."
 
-#: src/network.c:809
+#: src/network.c:834
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:854
+#: src/network.c:879
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:868
+#: src/network.c:893
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:999
+#: src/network.c:1024
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:1010
+#: src/network.c:1035
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:1052
+#: src/network.c:1077
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 

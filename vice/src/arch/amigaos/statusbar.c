@@ -29,6 +29,7 @@
 #include "private.h"
 #include "statusbar.h"
 #include "lib.h"
+#include "ui.h"
 #include "util.h"
 #include "datasette.h"
 
@@ -45,6 +46,8 @@ static int status_led[DRIVE_NUM];
 static int status_map[DRIVE_NUM];
 static double status_track[DRIVE_NUM];
 static int *drive_active_led;
+
+static int statusbar_statustext_time=0;
 
 #define TAPE_NUM (DRIVE_NUM)
 
@@ -71,15 +74,22 @@ struct {
 };
 
 const struct TextAttr led_font_attr = {
+#ifdef AMIGA_MORPHOS
+  "XHelvetica.font", 11, FS_NORMAL, 0
+#else
   "Helvetica.font", 11, FS_NORMAL, 0
+#endif
 };
 
 int statusbar_create(video_canvas_t *canvas)
 {
   int i;
 
-  canvas->os->has_statusbar = 1;
   canvas->os->font = OpenDiskFont((struct TextAttr *)&led_font_attr);
+  if (canvas->os->font) {
+    SetFont(canvas->os->window->RPort, canvas->os->font);
+  }
+  /* else we use system default font */
 
   for (i=0; i<b_num; i++) {
 #ifndef AMIGAOS4
@@ -90,14 +100,14 @@ int statusbar_create(video_canvas_t *canvas)
   }
 
   #define MAXSTR "00: 00.0"
-  SetFont(canvas->os->window->RPort, canvas->os->font);
   canvas->os->disk_width = TextLength(canvas->os->window->RPort, MAXSTR, strlen(MAXSTR)) + 14 + 7;
   #undef MAXSTR
 
   #define MAXSTR "000"
-  SetFont(canvas->os->window->RPort, canvas->os->font);
   canvas->os->tape_width = TextLength(canvas->os->window->RPort, MAXSTR, strlen(MAXSTR)) + 28 + 7 ;
   #undef MAXSTR
+
+  canvas->os->has_statusbar = 1;
 
   statusbar_refresh(REFRESH_ALL);
 
@@ -113,7 +123,9 @@ void statusbar_destroy(video_canvas_t *canvas)
       canvas->os->pens[i] = -1;
     }
   }
-  CloseFont(canvas->os->font);
+  if (canvas->os->font != NULL) {
+    CloseFont(canvas->os->font);
+  }
   canvas->os->has_statusbar = 0;
 }
 
@@ -122,7 +134,7 @@ int statusbar_get_status_height(void)
   return 11 + (2 * 4);
 }
 
-void statusbar_set_statustext(const char *text)
+void statusbar_set_statustext(const char *text, int text_time)
 {
   video_canvas_t *canvas;
 
@@ -136,7 +148,10 @@ void statusbar_set_statustext(const char *text)
     width = canvas->os->visible_width;
     height = canvas->os->visible_height;
 
-    SetFont(window->RPort, canvas->os->font);
+    if (canvas->os->font) {
+      SetFont(window->RPort, canvas->os->font);
+    }
+    /* else we use system default font */
 
     x = width - (canvas->os->disk_width * enabled_drives) - (tape_enabled ? canvas->os->tape_width : 0);
 
@@ -150,8 +165,20 @@ void statusbar_set_statustext(const char *text)
     Move(window->RPort, 7, height + 13);
     Text(window->RPort, text, max_chars /* strlen(text) */);
   }
+  statusbar_statustext_time=text_time;
 }
 
+void statusbar_statustext_update(void)
+{
+  if (statusbar_statustext_time>0)
+  {
+    statusbar_statustext_time--;
+    if (statusbar_statustext_time==0)
+    {
+      statusbar_set_statustext("",0);
+    }
+  }
+}
 void statusbar_refresh(int drive_number)
 {
   video_canvas_t *canvas;
@@ -176,7 +203,10 @@ void statusbar_refresh(int drive_number)
     width = canvas->os->visible_width;
     height = canvas->os->visible_height;
 
-    SetFont(window->RPort, canvas->os->font);
+    if (canvas->os->font) {
+      SetFont(window->RPort, canvas->os->font);
+    }
+    /* else we use system default font */
 
     if (drive_number == REFRESH_ALL) {
       x = width - (canvas->os->disk_width * enabled_drives) - (tape_enabled ? canvas->os->tape_width : 0);
@@ -325,13 +355,13 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
         lib_free(directory_name);
     }
 
-    statusbar_set_statustext(text);
+    statusbar_set_statustext(text, 5);
     lib_free(text);
 }
 
 int ui_extend_image_dialog(void)
 {
-  return 0;
+  return ui_requester("VICE Question", "Extend image to 40-track format?", "YES|NO", 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -379,7 +409,6 @@ void ui_display_tape_current_image(const char *image)
         lib_free(directory_name);
     }
 
-    statusbar_set_statustext(text);
+    statusbar_set_statustext(text, 5);
     lib_free(text);
 }
-

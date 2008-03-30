@@ -45,6 +45,8 @@
 #define MAX_PATH (1024)
 #endif
 
+#if 0 /* doesn't seem to be used anywhere (yet?) */
+
 struct uilib_filefilter_s {
     const char *name;
     const char *pattern;
@@ -69,6 +71,8 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { "VICE keymap files (*.vkm)", "*.vkm" },
     { NULL, NULL }
 };
+
+#endif
 
 struct uilib_fs_style_type_s {
     char *(*content_read_function)(const char *);

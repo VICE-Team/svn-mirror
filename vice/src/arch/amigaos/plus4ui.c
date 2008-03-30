@@ -25,7 +25,8 @@
  */
 
 #define UI_PLUS4
-#define UI_MENU_NAME plus4_ui_menu
+#define UI_MENU_NAME plus4_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME plus4_ui_menu
 
 #include "private.h"
 #include "plus4ui.h"
@@ -75,6 +76,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 
 int plus4ui_init(void)
 {
+  ui_register_menu_translation_layout(plus4_ui_translation_menu);
   ui_register_menu_layout(plus4_ui_menu);
   ui_register_machine_specific(plus4_ui_specific);
   ui_register_menu_toggles(plus4_ui_menu_toggles);

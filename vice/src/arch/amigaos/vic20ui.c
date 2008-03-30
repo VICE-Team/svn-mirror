@@ -25,7 +25,8 @@
  */
 
 #define UI_VIC20
-#define UI_MENU_NAME vic20_ui_menu
+#define UI_MENU_NAME vic20_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME vic20_ui_menu
 
 #include "cartridge.h"
 #include "private.h"
@@ -45,6 +46,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
+    { "EmuID", IDM_TOGGLE_EMUID },   
     { NULL, 0 }
 };
 
@@ -128,6 +130,7 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
 
 int vic20ui_init(void)
 {
+  ui_register_menu_translation_layout(vic20_ui_translation_menu);
   ui_register_menu_layout(vic20_ui_menu);
   ui_register_machine_specific(vic20_ui_specific);
   ui_register_menu_toggles(vic20_ui_menu_toggles);

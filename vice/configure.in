@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=12
+VICE_VERSION_BUILD=13
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -155,6 +155,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$host_os" = "xmorphos"; then
     AC_DEFINE(AMIGA_MORPHOS,,[Should we enable Amiga Morphos support.])
     CFLAGS="$CFLAGS -noixemul"
+    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
+    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     is_amigaos4=no
   fi
 
@@ -1114,7 +1117,7 @@ AC_CHECK_TYPES(u_short)
 dnl some platforms have some of the functions in libbsd,
 dnl so we check it out first.
 AC_CHECK_LIB(bsd,gettimeofday,,,$LIBS)
-AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp)
+AC_CHECK_FUNCS(gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp swab)
 
 AC_SUBST(LIBS)
 
@@ -1396,11 +1399,15 @@ elif [[ x"$is_amiga" != "xno" ]]; then
 
   dnl On Amiga, we already know what we want.
   if test x"$is_amiga_aros" != "xyes"; then
-    LIBS="$LIBS -lauto"
+    if test x"$host_os" != "xmorphos"; then
+      LIBS="$LIBS -lauto"
+    fi
   else
     LIBS="$LIBS -lmui"
   fi
   AC_SUBST(LDFLAGS)
+
+  AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
 
 elif [[ x"$is_beos" != "xno" ]]; then
 

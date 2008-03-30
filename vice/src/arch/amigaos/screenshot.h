@@ -1,8 +1,8 @@
 /*
- * version.h
+ * screenshot.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,9 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _SCREENSHOT_H_
+#define _SCREENSHOT_H_
 
-#ifndef VERSION
-#define VERSION "1.19.13"
-#endif
-
-#ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 1,19,13,0
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern void ui_screenshot_dialog(video_canvas_t *canvas)
 
 #endif

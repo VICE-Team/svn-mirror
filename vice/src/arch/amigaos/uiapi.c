@@ -28,6 +28,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <proto/intuition.h>
+#include <proto/exec.h>
+
+#define _UIAPI
+#include "private.h"
 #include "ui.h"
 #include "cmdline.h"
 #include "lib.h"
@@ -37,19 +42,22 @@
 #include "uilib.h"
 #include "util.h"
 #include "fullscreenarch.h"
+#include "videoarch.h"
+#include "statusbar.h"
+#include "intl.h"
+#include "translate.h"
+
+typedef enum {
+    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
+} ui_jam_action_t;
+
+enum {REQ_JAM_MONITOR, REQ_JAM_RESET, REQ_JAM_HARD_RESET};
+
+extern video_canvas_t *canvaslist;
 
 /* UI-related resources.  */
 
-struct {
-    int fullscreenbitdepth;
-    int fullscreenwidth;
-    int fullscreenheight;
-    int fullscreenenabled;
-    int save_resources_on_exit;
-    int confirm_on_exit;
-    char *monitor_dimensions;
-    char *initialdir[UILIB_SELECTOR_STYLES_NUM];
-} ui_resources;
+ui_resources_t ui_resources;
 
 static int set_fullscreen_bitdepth(resource_value_t v, void *param)
 {
@@ -73,7 +81,7 @@ static int set_fullscreen_enabled(resource_value_t v, void *param)
 {
     ui_resources.fullscreenenabled = (int)v;
 
-    video_arch_fullscreen_toggle(ui_resources.fullscreenenabled);
+    video_arch_fullscreen_toggle();
 
     return 0;
 }
@@ -157,12 +165,15 @@ static const resource_t resources[] = {
 
 int ui_resources_init(void)
 {
+    translate_resources_init();
     return resources_register(resources);
 }
 
 void ui_resources_shutdown(void)
 {
     int i;
+
+    translate_resources_shutdown();
 
     if (ui_resources.monitor_dimensions != NULL)
         lib_free(ui_resources.monitor_dimensions);
@@ -194,6 +205,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ui_cmdline_options_init(void)
 {
+    translate_cmdline_options_init();
     return cmdline_register_options(cmdline_options);
 }
 
@@ -216,23 +228,89 @@ void ui_shutdown(void)
 {
 }
 
+int ui_requester(char *title, char *msg, char *buttons, int defval)
+{
+  struct EasyStruct *uiRequester = NULL;
+  int retval;
+
+  uiRequester = (struct EasyStruct *)AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
+  if (uiRequester)
+  {
+    uiRequester->es_StructSize = sizeof(struct EasyStruct);
+    uiRequester->es_Flags = 0;
+    uiRequester->es_Title = title;
+    uiRequester->es_TextFormat = msg;
+    uiRequester->es_GadgetFormat = buttons;
+
+    retval=EasyRequest(canvaslist->os->window, uiRequester, NULL, NULL);
+  }
+  else
+  {
+    fprintf(stderr,"%s : %s\n",title, msg);
+    return defval;
+  }
+  FreeMem(uiRequester, sizeof(struct EasyStruct));
+  return retval;
+}
+
+/* Print a message.  */
+void ui_message(const char *format,...)
+{
+  va_list ap;
+  char *tmp;
+
+  va_start(ap, format);
+  tmp = lib_mvsprintf(format,ap);
+  va_end(ap);
+
+  ui_requester(translate_text(IDMES_VICE_MESSAGE), tmp, translate_text(IDMES_OK), 0);
+
+  lib_free(tmp);
+}
+
+
 /* Print an error message.  */
 void ui_error(const char *format,...)
 {
   va_list ap;
+  char *tmp;
 
   va_start(ap, format);
-  vfprintf(stderr, format, ap);
+  tmp = lib_mvsprintf(format,ap);
+  va_end(ap);
+
+  ui_requester(translate_text(IDMES_VICE_ERROR), tmp, translate_text(IDMES_OK), 0);
+
+  lib_free(tmp);
 }
 
 /* Show a CPU JAM dialog.  */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
   va_list ap;
-  va_start(ap, format);
-  vfprintf(stderr, format, ap);
+  char *tmp;
+  int action;
+  ui_jam_action_t jamaction=UI_JAM_RESET;
 
-  return UI_JAM_RESET;
+  va_start(ap, format);
+  tmp = lib_mvsprintf(format,ap);
+  va_end(ap);
+
+  action=ui_requester("VICE CPU Jam", tmp, "RESET|HARD RESET|MONITOR", REQ_JAM_RESET);
+
+  switch(action)
+  {
+    case REQ_JAM_RESET:
+      jamaction=UI_JAM_RESET;
+      break;
+    case REQ_JAM_HARD_RESET:
+      jamaction=UI_JAM_HARD_RESET;
+      break;
+    case REQ_JAM_MONITOR:
+      jamaction=UI_JAM_MONITOR;
+      break;
+  }
+  return jamaction;
 }
 
 /* Update all menu entries.  */
@@ -260,5 +338,5 @@ void ui_display_joyport(BYTE *joyport)
 
 void ui_display_statustext(const char *text, int fade_out)
 {
-  printf("%s\n", text);
+  statusbar_set_statustext(text, fade_out);
 }

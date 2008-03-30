@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=12
+VICE_VERSION_BUILD=13
 
 
 
@@ -3135,6 +3135,21 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
     CFLAGS="$CFLAGS -noixemul"
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_HTONL
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_HTONS
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_NETWORK
+_ACEOF
+
     is_amigaos4=no
   fi
 
@@ -17368,7 +17383,8 @@ fi
 
 
 
-for ac_func in gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp
+
+for ac_func in gettimeofday memmove atexit strerror strcasecmp strncasecmp telldir seekdir mkstemp swab
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for $ac_func" >&5
@@ -21557,10 +21573,18 @@ elif [ x"$is_dos" != "xno" ]; then
 elif [ x"$is_amiga" != "xno" ]; then
 
     if test x"$is_amiga_aros" != "xyes"; then
-    LIBS="$LIBS -lauto"
+    if test x"$host_os" != "xmorphos"; then
+      LIBS="$LIBS -lauto"
+    fi
   else
     LIBS="$LIBS -lmui"
   fi
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_TRANSLATION
+_ACEOF
 
 
 elif [ x"$is_beos" != "xno" ]; then

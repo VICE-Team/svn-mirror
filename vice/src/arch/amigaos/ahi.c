@@ -27,6 +27,9 @@
 #include "vice.h"
 
 #ifdef HAVE_DEVICES_AHI_H
+
+#define __USE_INLINE__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,6 +82,8 @@ typedef struct audio_s {
   struct Process *audio_process;
 #ifdef AMIGA_OS4
   timer_t *timer;
+#else
+  void *timer;
 #endif
 } audio_t;
 
@@ -97,7 +102,7 @@ static audio_t audio;
  * SIGBREAKF_CTRL_F -
  */
 
-static char ahi_task_name[] = "AudioServerTask0000";
+static char ahi_task_name[] = "AudioServerTask0000000000";
 
 static void make_task_name(void)
 {
@@ -106,11 +111,7 @@ static void make_task_name(void)
   for (;;) {
     sprintf(ahi_task_name, "AudioServerTask%04d", task_number);
 
-#ifndef AMIGA_OS4
     if (FindTask(ahi_task_name) == NULL) {
-#else
-    if (IExec->FindTask(ahi_task_name) == NULL) {
-#endif
       break;
     } else {
       task_number++;
@@ -129,6 +130,8 @@ static void ahi_task(void)
   struct AHIRequest *link = NULL;
 #ifdef AMIGA_OS4
   timer_t *timer = NULL;
+#else
+  void *timer = NULL;
 #endif
   s32 previous_read_buffer = -1;
 
@@ -138,21 +141,12 @@ DEBUG("task started\n");
   signals = 0;
   device = 1;
 
-#ifndef AMIGA_OS4
-  if ((timer_init())) {
+  if ((timer = timer_init())) {
     if ((AHIMP1 = CreateMsgPort())) {
       if ((AHIMP2 = CreateMsgPort())) {
         if ((AHIIO1 = (struct AHIRequest *)CreateIORequest(AHIMP1, sizeof(struct AHIRequest)))) {
           if ((AHIIO2 = (struct AHIRequest *)CreateIORequest(AHIMP2, sizeof(struct AHIRequest)))) {
             device = OpenDevice(AHINAME, 0, (struct IORequest *)AHIIO1, 0);
-#else
-  if ((timer = timer_init())) {
-    if ((AHIMP1 = IExec->CreateMsgPort())) {
-      if ((AHIMP2 = IExec->CreateMsgPort())) {
-        if ((AHIIO1 = (struct AHIRequest *)IExec->CreateIORequest(AHIMP1, sizeof(struct AHIRequest)))) {
-          if ((AHIIO2 = (struct AHIRequest *)IExec->CreateIORequest(AHIMP2, sizeof(struct AHIRequest)))) {
-            device = IExec->OpenDevice(AHINAME, 0, (struct IORequest *)AHIIO1, 0);
-#endif
           }
         }
       }
@@ -170,32 +164,20 @@ DEBUG("AHI open\n");
 
 PRINTF("open done\n");
 
-#ifndef AMIGA_OS4
     Signal(audio.main_task, SIGBREAKF_CTRL_D);
-#else
-    IExec->Signal(audio.main_task, SIGBREAKF_CTRL_D);
-#endif
 
     for (;;) {
       if (flags & FLAG_EXIT) {
         break;
       }
 
-#ifndef AMIGA_OS4
       ObtainSemaphore(audio.semaphore);
-#else
-      IExec->ObtainSemaphore(audio.semaphore);
-#endif
       used = audio.audio_buffers[audio.read_buffer].used;
-#ifndef AMIGA_OS4
       ReleaseSemaphore(audio.semaphore);
-#else
-      IExec->ReleaseSemaphore(audio.semaphore);
-#endif
 
       if (audio.play & used) {
 
-PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, length);
+PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, audio.audio_buffers[audio.read_buffer].size);
 
         AHIIO->ahir_Std.io_Command = CMD_WRITE;
         AHIIO->ahir_Std.io_Data    = audio.audio_buffers[audio.read_buffer].buffer;
@@ -207,11 +189,7 @@ PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, length);
         AHIIO->ahir_Position       = 0x08000; // Panning: center
         AHIIO->ahir_Link           = link;
 
-#ifndef AMIGA_OS4
         SendIO((struct IORequest *)AHIIO);
-#else
-        IExec->SendIO((struct IORequest *)AHIIO);
-#endif
 
         if (link != NULL) {
           u32 sigbit = 1L << link->ahir_Std.io_Message.mn_ReplyPort->mp_SigBit;
@@ -219,11 +197,7 @@ PRINTF("playing buffer: %d (%d)\n", audio.read_buffer, length);
 PRINTF("want: %08lx\n", sigbit);
 
           for (;;) {
-#ifndef AMIGA_OS4
             signals = Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D | sigbit);
-#else
-            signals = IExec->Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D | sigbit);
-#endif
 
 PRINTF("got %08lx\n", signals);
 
@@ -239,27 +213,27 @@ PRINTF("got %08lx\n", signals);
 
 #ifndef AMIGA_OS4
           WaitIO((struct IORequest *)link);
+
+          if (CheckIO((struct IORequest *)AHIIO)) {
+            /* The first iorequest has finished aswell. This means we're
+             * out of sync, so force restart (make link NULL).
+             */
+PRINTF("lost sync, force restart\n");
+            AHIIO = NULL;
+          }
 #else
-          IExec->WaitIO((struct IORequest *)link);
+          WaitIO((struct IORequest *)link);
 #endif
         }
 
-#ifndef AMIGA_OS4
         ObtainSemaphore(audio.semaphore);
-#else
-        IExec->ObtainSemaphore(audio.semaphore);
-#endif
 
         if (previous_read_buffer >= 0) {
           audio.audio_buffers[previous_read_buffer].used = 0;
         }
 
         audio.read_position = (audio.read_buffer * audio.fragsize);
-#ifndef AMIGA_OS4
-        timer_gettime(&audio.tv);
-#else
         timer_gettime(timer, &audio.tv);
-#endif
 
         link = AHIIO;
 
@@ -275,28 +249,16 @@ PRINTF("got %08lx\n", signals);
           audio.read_buffer = 0;
         }
 
-#ifndef AMIGA_OS4
         ReleaseSemaphore(audio.semaphore);
-#else
-        IExec->ReleaseSemaphore(audio.semaphore);
-#endif
 
         if (audio.audio_sync != NULL) {
           audio.audio_sync(audio.audio_buffers[previous_read_buffer].time);
         }
 
-#ifndef AMIGA_OS4
         Signal(audio.main_task, SIGBREAKF_CTRL_D);
-#else
-        IExec->Signal(audio.main_task, SIGBREAKF_CTRL_D);
-#endif
       } else {
 PRINTF("nothing to play... waiting...\n");
-#ifndef AMIGA_OS4
         signals = Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D);
-#else
-        signals = IExec->Wait(SIGBREAKF_CTRL_E | SIGBREAKF_CTRL_D);
-#endif
 PRINTF("got %08lx\n", signals);
         if (signals & SIGBREAKF_CTRL_E) {
           flags |= FLAG_EXIT;
@@ -314,97 +276,75 @@ DEBUG("wait for last buffer\n");
 
 PRINTF("want: %08lx\n", sigbit);
 
-#ifndef AMIGA_OS4
     signals = Wait(sigbit);
-#else
-    signals = IExec->Wait(sigbit);
-#endif
 
 PRINTF("got %08lx\n", signals);
 
-#ifndef AMIGA_OS4
     WaitIO((struct IORequest *)link);
-#else
-    IExec->WaitIO((struct IORequest *)link);
-#endif
   }
 
 DEBUG("close ahi\n");
 
   if (device == 0) {
-#ifndef AMIGA_OS4
     CloseDevice((struct IORequest *)AHIIO1);
-#else
-    IExec->CloseDevice((struct IORequest *)AHIIO1);
-#endif
   }
   if (AHIIO2 != NULL) {
-#ifndef AMIGA_OS4
     DeleteIORequest((struct IORequest *)&AHIIO2->ahir_Std);
-#else
-    IExec->DeleteIORequest((struct IORequest *)&AHIIO2->ahir_Std);
-#endif
   }
   if (AHIIO1 != NULL) {
-#ifndef AMIGA_OS4
     DeleteIORequest((struct IORequest *)&AHIIO1->ahir_Std);
-#else
-    IExec->DeleteIORequest((struct IORequest *)&AHIIO1->ahir_Std);
-#endif
   }
   if (AHIMP2 != NULL) {
-#ifndef AMIGA_OS4
     DeleteMsgPort(AHIMP2);
-#else
-    IExec->DeleteMsgPort(AHIMP2);
-#endif
   }
   if (AHIMP1 != NULL) {
-#ifndef AMIGA_OS4
     DeleteMsgPort(AHIMP1);
-#else
-    IExec->DeleteMsgPort(AHIMP1);
-#endif
   }
-#ifndef AMIGA_OS4
-  timer_exit();
-#else
   if (timer != NULL) {
     timer_exit(timer);
   }
-#endif
 
 DEBUG("AHI closed\n");
 
+  /* make sure we don't race */
+  Forbid();
+
   /* send error signal in case we failed */
-#ifndef AMIGA_OS4
   Signal(audio.main_task, SIGBREAKF_CTRL_E);
-#else
-  IExec->Signal(audio.main_task, SIGBREAKF_CTRL_E);
-#endif
 }
 
 s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time))
 {
+#ifdef AMIGA_MORPHOS
+  struct TagItem ti[]={{NP_CodeType, CODETYPE_PPC},
+                       {NP_Entry, (ULONG)ahi_task},
+                       {NP_Name, (ULONG)ahi_task_name},
+                       {NP_PPCStackSize, 32768},
+                       {NP_Priority, 10},
+                       {NP_Input, 0},
+                       {NP_Output, 0},
+                       {NP_CurrentDir, 0},
+                       {NP_CopyVars, FALSE},
+                       {NP_WindowPtr, -1},
+                       {NP_HomeDir, 0},
+                       {TAG_DONE, 0}};
+#else
   struct TagItem ti[]={{NP_Entry, (ULONG)ahi_task},
                        {NP_Name, (ULONG)ahi_task_name},
                        {NP_StackSize, 4 * 65536}, /* 64KB should be enough */
                        {NP_Priority, 10},
                        {TAG_DONE, 0}};
+#endif
   s32 i;
   u32 signals;
 
   /* reset structure */
   memset(&audio, 0, sizeof(audio_t));
 
-#ifndef AMIGA_OS4
-  timer_init();
-#else
   audio.timer = timer_init();
   if (audio.timer == NULL) {
     goto fail;
   }
-#endif
 
   /* samples to bytes */
   audio.samples_to_bytes = 1;
@@ -429,20 +369,12 @@ s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(
 DEBUG("alloc buffers\n");
 
   /* allocate buffers */
-#ifndef AMIGA_OS4
   audio.audio_buffers = AllocVec(audio.frags * sizeof(audio_buffer_t), MEMF_PUBLIC | MEMF_CLEAR);
-#else
-  audio.audio_buffers = IExec->AllocVec(audio.frags * sizeof(audio_buffer_t), MEMF_PUBLIC | MEMF_CLEAR);
-#endif
   if (audio.audio_buffers == NULL) {
     goto fail;
   }
   for (i=0; i<audio.frags; i++) {
-#ifndef AMIGA_OS4
     audio.audio_buffers[i].buffer = AllocVec(fragsize, MEMF_PUBLIC | MEMF_CLEAR);
-#else
-    audio.audio_buffers[i].buffer = IExec->AllocVec(fragsize, MEMF_PUBLIC | MEMF_CLEAR);
-#endif
     if (audio.audio_buffers[i].buffer == NULL) {
       goto fail;
     }
@@ -452,47 +384,33 @@ DEBUG("alloc buffers\n");
 DEBUG("get self\n");
 
   /* get task pointer */
-#ifndef AMIGA_OS4
   audio.main_task = FindTask(NULL);
-#else
-  audio.main_task = IExec->FindTask(NULL);
-#endif
 
 DEBUG("remove signals\n");
 
   /* remove signals */
-#ifndef AMIGA_OS4
   SetSignal(0, SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#else
-  IExec->SetSignal(0, SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#endif
 
 DEBUG("allocate semaphore\n");
 
   /* allocate semaphore */
-#ifndef AMIGA_OS4
   audio.semaphore = (struct SignalSemaphore *)AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
-#else
-  audio.semaphore = (struct SignalSemaphore *)IExec->AllocVec(sizeof(struct SignalSemaphore), MEMF_PUBLIC | MEMF_CLEAR);
-#endif
   if (audio.semaphore == NULL) {
     goto fail;
   }
   memset(audio.semaphore, 0, sizeof(struct SignalSemaphore));
-#ifndef AMIGA_OS4
   InitSemaphore(audio.semaphore);
-#else
-  IExec->InitSemaphore(audio.semaphore);
-#endif
 
 DEBUG("create task\n");
 
+  /* make sure we don't race */
+  Forbid();
+
   make_task_name();
-#ifndef AMIGA_OS4
   audio.audio_process = CreateNewProc(ti);
-#else
-  audio.audio_process = IDOS->CreateNewProc(ti);
-#endif
+
+  Permit();
+
   audio.audio_task = (struct Task *)audio.audio_process;
   if (audio.audio_task == NULL) {
     goto fail;
@@ -500,21 +418,9 @@ DEBUG("create task\n");
 
 DEBUG("success, waiting...\n");
 
-#ifndef AMIGA_OS4
   signals = Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#else
-  signals = IExec->Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#endif
   if (signals & SIGBREAKF_CTRL_E) {
     DEBUG("failed to start audio task...\n");
-
-    /* wait for task to exit */
-#ifndef AMIGA_OS4
-    while (FindTask(ahi_task_name) != NULL) {
-#else
-    while (IExec->FindTask(ahi_task_name) != NULL) {
-#endif
-    }
 
     audio.audio_task = NULL;
     goto fail;
@@ -542,17 +448,9 @@ static s32 ahi_in_buffer(void)
     return 0; /* not open */
   }
 
-#ifndef AMIGA_OS4
   ObtainSemaphore(audio.semaphore);
-#else
-  IExec->ObtainSemaphore(audio.semaphore);
-#endif
 
-#ifndef AMIGA_OS4
-  timer_gettime(&ct);
-#else
   timer_gettime(audio.timer, &ct);
-#endif
 
   write_position = audio.write_position;
 
@@ -561,11 +459,7 @@ static s32 ahi_in_buffer(void)
     st = audio.tv;
     dt = ct;
 
-#ifndef AMIGA_OS4
-    timer_subtime(&dt, &st);
-#else
     timer_subtime(audio.timer, &dt, &st);
-#endif
 
     diff = (dt.tv_secs * 1000000) + dt.tv_micro; /* us */
     diff = (diff * audio.frequency) / 1000000;
@@ -582,11 +476,7 @@ static s32 ahi_in_buffer(void)
     read_position = 0; /* we haven't started playing anything yet */
   }
 
-#ifndef AMIGA_OS4
   ReleaseSemaphore(audio.semaphore);
-#else
-  IExec->ReleaseSemaphore(audio.semaphore);
-#endif
 
   /* in buffer */
   in_buffer = (write_position - read_position);
@@ -615,11 +505,7 @@ void ahi_play_samples(void *data, s32 size, s64 time, s32 wait)
     if (diff > 0) {
       diff >>= audio.samples_to_bytes;
       diff = (diff * 1000000) / audio.frequency; /* us to wait */
-#ifndef AMIGA_OS4
-      timer_usleep(diff);
-#else
       timer_usleep(audio.timer, diff);
-#endif
     }
   }
 
@@ -637,25 +523,13 @@ void ahi_play_samples(void *data, s32 size, s64 time, s32 wait)
 
 PRINTF("audio_play: %d\n", size);
     for (;;) {
-#ifndef AMIGA_OS4
       ObtainSemaphore(audio.semaphore);
-#else
-      IExec->ObtainSemaphore(audio.semaphore);
-#endif
       used = audio.audio_buffers[audio.write_buffer].used;
-#ifndef AMIGA_OS4
       ReleaseSemaphore(audio.semaphore);
-#else
-      IExec->ReleaseSemaphore(audio.semaphore);
-#endif
 
       if (used) {
         PRINTF("used: %d\n", audio.write_buffer);
-#ifndef AMIGA_OS4
         Wait(SIGBREAKF_CTRL_D);
-#else
-        IExec->Wait(SIGBREAKF_CTRL_D);
-#endif
       } else {
         break;
       }
@@ -663,11 +537,7 @@ PRINTF("audio_play: %d\n", size);
 
 PRINTF("buffer free: %d\n", audio.write_buffer);
 
-#ifndef AMIGA_OS4
     ObtainSemaphore(audio.semaphore);
-#else
-    IExec->ObtainSemaphore(audio.semaphore);
-#endif
 
     if (audio.audio_buffers[audio.write_buffer].size == audio.fragsize) {
       audio.audio_buffers[audio.write_buffer].size = 0;
@@ -702,18 +572,10 @@ PRINTF("buffer free: %d\n", audio.write_buffer);
     }
 
 PRINTF("release\n");
-#ifndef AMIGA_OS4
     ReleaseSemaphore(audio.semaphore);
-#else
-    IExec->ReleaseSemaphore(audio.semaphore);
-#endif
 
 PRINTF("signal\n");
-#ifndef AMIGA_OS4
     Signal(audio.audio_task, SIGBREAKF_CTRL_D);
-#else
-    IExec->Signal(audio.audio_task, SIGBREAKF_CTRL_D); /* FIXME: only signal when successfull write */
-#endif
   }
 
   audio.current_time = time;
@@ -762,30 +624,13 @@ void ahi_close(void)
   if (audio.audio_task != NULL) {
 DEBUG("stop server\n");
     /* stop server */
-#ifndef AMIGA_OS4
     Signal(audio.audio_task, SIGBREAKF_CTRL_E);
-#else
-    IExec->Signal(audio.audio_task, SIGBREAKF_CTRL_E);
-#endif
 
 DEBUG("wait for signal\n");
     /* wait for signal */
     do {
-#ifndef AMIGA_OS4
       signals = Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#else
-      signals = IExec->Wait(SIGBREAKF_CTRL_D | SIGBREAKF_CTRL_E);
-#endif
     } while (!(signals & SIGBREAKF_CTRL_E));
-
-DEBUG("wait for exit\n");
-    /* wait for task to exit */
-#ifndef AMIGA_OS4
-    while (FindTask(ahi_task_name) != NULL) {
-#else
-    while (IExec->FindTask(ahi_task_name) != NULL) {
-#endif
-    }
 
     audio.audio_task = NULL;
   }
@@ -793,40 +638,23 @@ DEBUG("wait for exit\n");
 DEBUG("free semaphore\n");
   /* free semaphore */
   if (audio.semaphore != NULL) {
-#ifndef AMIGA_OS4
     FreeVec(audio.semaphore);
-#else
-    IExec->FreeVec(audio.semaphore);
-#endif
   }
 
 DEBUG("free buffers\n");
   if (audio.audio_buffers != NULL) {
     for (i=0; i<audio.frags; i++) {
-#ifndef AMIGA_OS4
       FreeVec(audio.audio_buffers[i].buffer);
-#else
-      IExec->FreeVec(audio.audio_buffers[i].buffer);
-#endif
     }
-#ifndef AMIGA_OS4
     FreeVec(audio.audio_buffers);
-#else
-    IExec->FreeVec(audio.audio_buffers);
-#endif
   }
 
 DEBUG("free timer\n");
-#ifndef AMIGA_OS4
-  timer_exit();
-#else
   if (audio.timer != NULL) {
     timer_exit(audio.timer);
   }
-#endif
 
   /* reset structure */
   memset(&audio, 0, sizeof(audio_t));
 }
 #endif
-

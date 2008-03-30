@@ -50,6 +50,9 @@
 #include "joystick.h"
 #include "private.h"
 
+#include "intl.h"
+#include "translate.h"
+
 #ifndef MAKE_ID
 #define MAKE_ID(a,b,c,d) ((ULONG) (a)<<24 | (ULONG) (b)<<16 | (ULONG) (c)<<8 | (ULONG) (d))
 #endif
@@ -424,11 +427,12 @@ int joyai_open(void)
 
 static int get_key(AIN_DeviceID ID, int *keycode, int *offset)
 {
-  static const char *window_text = "Press desired key/button, move stick or press ESC for no key.";
+  static char *window_text;
   struct Window *window;
   AIN_InputEvent *event;
   int done = 0;
 
+  window_text = translate_text(IDS_PRESS_KEY_BUTTON);
   *keycode = *offset = -1; /* no key */
 
   if (ID != -1) {

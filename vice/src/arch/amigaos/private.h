@@ -84,6 +84,8 @@ extern video_canvas_t *canvaslist;
 
 #ifdef AMIGA_OS4
 extern timer_t *timer;
+#else
+extern void *timer;
 #endif
 
 typedef struct ui_menu_toggle_s {

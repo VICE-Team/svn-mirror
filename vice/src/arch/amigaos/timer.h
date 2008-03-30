@@ -36,11 +36,13 @@
 #endif
 
 #ifndef AMIGA_OS4
-void timer_gettime(struct timeval *tv);
-int timer_init(void);
-void timer_exit(void);
-void timer_subtime(struct timeval *dt, struct timeval *st);
-void timer_usleep(int us);
+
+void *timer_init(void);
+void timer_exit(void *timer);
+void timer_gettime(void *timer, struct timeval *tv);
+void timer_subtime(void *timer, struct timeval *dt, struct timeval *st);
+void timer_usleep(void *timer, int us);
+
 #else
 
 typedef struct timer_s timer_t;

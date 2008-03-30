@@ -33,10 +33,14 @@ libarch_a_SOURCES = \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid.c \
+	intl.c \
+	intl.h \
 	joy.c \
 	joy.h \
 	joyai.c \
 	joyai.h \
+	joyll.c \
+	joyll.h \
 	kbd.c \
 	kbd.h \
 	memory.h \
@@ -50,6 +54,8 @@ libarch_a_SOURCES = \
 	pointer.h \
 	private.h \
 	rs232.c \
+	screenshot.c \
+	screenshot.h \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
@@ -102,6 +108,8 @@ libarch_a_SOURCES = \
 	mui/uigeoram.h \
 	mui/uijoystick.c \
 	mui/uijoystick.h \
+	mui/uijoystickll.c \
+	mui/uijoystickll.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
@@ -135,5 +143,5 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
-	README.OS4 \
+	README.AMIGA \
 	make-bindist.sh

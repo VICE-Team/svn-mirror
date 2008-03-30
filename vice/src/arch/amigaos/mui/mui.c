@@ -292,7 +292,7 @@ int mui_init(void)
     MUIA_Application_Author, "The VICE Team",
     MUIA_Application_Base, "VICE",
     MUIA_Application_Title, "VICE",
-    MUIA_Application_Version, "$VER: VICE v" VERSION,
+    MUIA_Application_Version, "$VER: VICE " VERSION,
     MUIA_Application_Copyright, "The VICE Team",
     MUIA_Application_Description, "VICE",
   End;

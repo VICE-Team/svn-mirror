@@ -42,17 +42,24 @@
 #undef WORD
 #include "timer.h"
 
+#include <dos/dos.h>
+
 #ifdef AMIGA_OS4
 timer_t *timer = NULL;
+#else
+void *timer = NULL;
+#endif
+
+#ifdef AMIGA_MORPHOS
+const unsigned long __stack = 512 * 1024;
 #endif
 
 int main(int argc, char **argv)
 {
-#ifndef AMIGA_OS4
-  timer_init();
-#else
   timer = timer_init();
-#endif
+  if (timer == NULL) {
+    return RETURN_FAIL;
+  }
   return main_program(argc, argv);
 }
 
@@ -61,15 +68,11 @@ void main_exit(void)
   /* Disable SIGINT.  This is done to prevent the user from keeping C-c
      pressed and thus breaking the cleanup process, which might be
      dangerous.  */
-  signal(SIGINT, SIG_IGN);
+  signal(SIGINT, (void (*)(int))SIG_IGN);
 
   log_message(LOG_DEFAULT, _("\nExiting..."));
 
   machine_shutdown();
-#ifndef AMIGA_OS4
-  timer_exit();
-#else
   timer_exit(timer);
-#endif
 }
 

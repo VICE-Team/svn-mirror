@@ -33,14 +33,20 @@
 #define PF_INET AF_INET
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #ifdef HAVE_NETWORK
 
 #ifdef AMIGA_SUPPORT
+#ifdef AMIGA_MORPHOS
+#include <proto/socket.h>
+struct Library *SocketBase;
+#else
 #define __USE_INLINE__
 #include <proto/bsdsocket.h>
+#endif
 #define select(nfds, read_fds, write_fds, except_fds, timeout) \
         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
 #endif
@@ -82,7 +88,11 @@ typedef struct timeval TIMEVAL;
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
+#ifndef AMIGA_MORPHOS
 #define closesocket close
+#else
+#define closesocket CloseSocket
+#endif
 
 #ifndef INVALID_SOCKET
 #define INVALID_SOCKET (SOCKET)(~0)
@@ -125,7 +135,7 @@ static int network_init_done = 0;
 static int suspended;
 
 static char *server_name = NULL;
-static unsigned int server_port;
+static unsigned short server_port;
 static int frame_delta;
 static unsigned int network_control;
 
@@ -174,7 +184,13 @@ static int set_server_name(resource_value_t v, void *param)
 
 static int set_server_port(resource_value_t v, void *param)
 {
-    server_port = (CLOCK)v;
+    CLOCK tmp = (CLOCK)v;
+
+    server_port = (unsigned short) tmp;
+
+    /* make sure no significant bits were lost */
+    assert(server_port == tmp);
+
     return 0;
 }
 
@@ -191,6 +207,15 @@ static int network_init(void)
 {
     if (network_init_done)
         return 0;
+
+#if defined(HAVE_NETWORK) && defined(AMIGA_MORPHOS)
+    if (SocketBase == NULL) {
+        SocketBase = OpenLibrary("bsdsocket.library", 3);
+        if (SocketBase == NULL) {
+            return -1;
+        }
+    }
+#endif
 
     network_mode = NETWORK_IDLE;
     network_init_done = 1;
@@ -1082,5 +1107,12 @@ void network_shutdown(void)
 
     network_free_frame_event_list();
     lib_free(server_name);
+
+#ifdef AMIGA_MORPHOS
+    if (SocketBase != NULL) {
+        CloseLibrary(SocketBase);
+        SocketBase = NULL;
+    }
+#endif
 #endif
 }

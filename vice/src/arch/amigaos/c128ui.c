@@ -25,7 +25,8 @@
  */
 
 #define UI_C128
-#define UI_MENU_NAME c128_ui_menu
+#define UI_MENU_NAME c128_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME c128_ui_menu
 
 #include "private.h"
 #include "c128ui.h"
@@ -53,6 +54,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
+    { "EmuID", IDM_TOGGLE_EMUID },   
 //    { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
 //    { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { NULL, 0 }
@@ -116,6 +118,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
 
 int c128ui_init(void)
 {
+  ui_register_menu_translation_layout(c128_ui_translation_menu);
   ui_register_menu_layout(c128_ui_menu);
   ui_register_machine_specific(c128_ui_specific);
   ui_register_menu_toggles(c128_ui_menu_toggles);

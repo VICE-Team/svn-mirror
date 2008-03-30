@@ -2292,7 +2292,7 @@ yyreduce:
 
   case 116:
 #line 445 "mon_parse.y"
-    { (monitor_cpu_type.mon_register_set_val)(reg_memspace(yyvsp[-2].i), reg_regid(yyvsp[-2].i), yyvsp[0].i); }
+    { (monitor_cpu_type.mon_register_set_val)(reg_memspace(yyvsp[-2].i), reg_regid(yyvsp[-2].i), (WORD) yyvsp[0].i); }
     break;
 
   case 117:

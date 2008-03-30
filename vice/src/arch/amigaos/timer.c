@@ -32,6 +32,110 @@
 #endif
 
 #ifndef AMIGA_OS4
+
+#ifdef AMIGA_MORPHOS
+
+#include <exec/memory.h>
+#include <exec/devices.h>
+#include <devices/timer.h>
+#include <proto/exec.h>
+#include <proto/timer.h>
+
+#include "timer.h"
+
+struct timer_s {
+  struct MsgPort     TimerMP;
+  struct timerequest TimerIO;
+  struct Library    *TimerBase;
+};
+
+void *timer_init(void)
+{
+  struct timer_s *timer;
+
+  timer = AllocMem(sizeof(*timer), MEMF_PUBLIC);
+  if (timer) {
+    timer->TimerBase         = NULL;
+    timer->TimerMP.mp_SigBit = AllocSignal(-1);
+    if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+      timer->TimerMP.mp_Node.ln_Type = NT_MSGPORT;
+      timer->TimerMP.mp_Flags        = PA_SIGNAL;
+      timer->TimerMP.mp_SigTask      = FindTask(NULL);
+      NEWLIST(&timer->TimerMP.mp_MsgList);
+      timer->TimerIO.tr_node.io_Message.mn_Node.ln_Type = NT_REPLYMSG;
+      timer->TimerIO.tr_node.io_Message.mn_ReplyPort    = &timer->TimerMP;
+      timer->TimerIO.tr_node.io_Message.mn_Length       = sizeof(timer->TimerIO);
+      if (OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)&timer->TimerIO, 0) == 0) {
+        timer->TimerBase = &timer->TimerIO.tr_node.io_Device->dd_Library;
+        return timer;
+      }
+    }
+
+    timer_exit(timer);
+  }
+
+  return NULL;
+}
+
+void timer_exit(void *t)
+{
+  struct timer_s *timer = t;
+
+  if (timer != NULL) {
+    if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+      if (timer->TimerBase != NULL) {
+        CloseDevice((struct IORequest *)&timer->TimerIO);
+      }
+      FreeSignal(timer->TimerMP.mp_SigBit);
+    }
+    FreeMem(timer, sizeof(*timer));
+  }
+}
+
+void timer_gettime(void *t, struct timeval *tv)
+{
+  struct timer_s *timer = t;
+
+  if (timer != NULL) {
+    UQUAD ticks;
+    ULONG base;
+
+#define TimerBase timer->TimerBase
+    base = ReadCPUClock(&ticks);
+#undef TimerBase
+    tv->tv_secs  = ticks / base;
+    tv->tv_micro = 1000000 * (ticks % base) / base;
+  }
+}
+
+void timer_subtime(void *t, struct timeval *dt, struct timeval *st)
+{
+  struct timer_s *timer = t;
+
+  if (timer != NULL) {
+#define TimerBase timer->TimerBase
+    SubTime(dt, st);
+#undef TimerBase
+  }
+}
+
+void timer_usleep(void *t, int us)
+{
+  struct timer_s *timer = t;
+
+  if (timer != NULL) {
+    /* setup */
+    timer->TimerIO.tr_node.io_Command = TR_ADDREQUEST;
+    timer->TimerIO.tr_time.tv_secs    = us / 1000000;
+    timer->TimerIO.tr_time.tv_micro   = us % 1000000;
+
+    /* send & wait request */
+    DoIO((struct IORequest *)&timer->TimerIO);
+  }
+}
+
+#else
+
 #include <devices/timer.h>
 #include <sys/time.h>
 #include <dos/dos.h>
@@ -39,16 +143,21 @@
 #include <exec/memory.h>
 #include <proto/exec.h>
 
-int timer_init(void)
+#ifndef NEWLIST
+#define NEWLIST(l) ((l)->lh_Head = (struct Node *)&(l)->lh_Tail, \
+                    (l)->lh_TailPred = (struct Node *)&(l)->lh_Head)
+#endif
+
+void *timer_init(void)
 {
-  return 1;
+  return (void *)1;
 }
 
-void timer_exit(void)
+void timer_exit(void *t)
 {
 }
 
-void timer_gettime(struct timeval *tv)
+void timer_gettime(void *t, struct timeval *tv)
 {
   if (tv) {
     struct DateStamp t;
@@ -59,7 +168,7 @@ void timer_gettime(struct timeval *tv)
   }
 }
 
-void timer_subtime(struct timeval *dt, struct timeval *st)
+void timer_subtime(void *t, struct timeval *dt, struct timeval *st)
 {
   int extrasub=0;
 
@@ -69,9 +178,6 @@ void timer_subtime(struct timeval *dt, struct timeval *st)
   dt->tv_usec=(dt->tv_usec*(extrasub==1) ? 10 : 1)-st->tv_usec;
   dt->tv_sec=dt->tv_sec-(st->tv_sec+extrasub);
 }
-
-#define NEWLIST(l) ((l)->lh_Head = (struct Node *)&(l)->lh_Tail, \
-                    (l)->lh_TailPred = (struct Node *)&(l)->lh_Head)
 
 void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
 {
@@ -103,7 +209,7 @@ void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
   }
 }
 
-void timer_usleep(int us)
+void timer_usleep(void *t, int us)
 {
   struct timeval tv;
 
@@ -112,6 +218,7 @@ void timer_usleep(int us)
 
   dotimer(UNIT_VBLANK,TR_ADDREQUEST,&tv);
 }
+#endif
 #else
 
 #include <proto/exec.h>

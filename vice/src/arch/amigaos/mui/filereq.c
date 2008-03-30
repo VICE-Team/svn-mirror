@@ -43,6 +43,10 @@
 #include <sys/cdefs.h>
 #endif
 
+#ifdef AMIGA_MORPHOS
+#include <clib/alib_protos.h>
+#endif
+
 struct ObjApp
 {
 	APTR	App;
@@ -267,7 +271,7 @@ static struct ObjApp * CreateApp(const char *title, int template, char *resource
 		MUIA_Application_Author, "NONE",
 		MUIA_Application_Base, "NONE",
 		MUIA_Application_Title, "NONE",
-		MUIA_Application_Version, "$VER: NONE XX.XX (XX.XX.XX)",
+		MUIA_Application_Version, "_VER: NONE XX.XX (XX.XX.XX)",
 		MUIA_Application_Copyright, "NOBODY",
 		MUIA_Application_Description, "NONE",
 		SubWindow, Object_ok->FILEREQ,
@@ -588,6 +592,15 @@ char *ui_filereq(const char *title, int template,
 {
   static char filename[1024];
 
+#ifdef AMIGA_MORPHOS
+  static const struct Hook NewVolumeHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewVolume,NULL };
+  static const struct Hook NewFileHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewFile,NULL };
+  static const struct Hook NewDirHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewDir,NULL };
+  static const struct Hook NewParentDirHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewParentDir,NULL };
+  static const struct Hook NewPopFileHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewPopFile,NULL };
+  static const struct Hook NewCreateImageHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewCreateImage,NULL };
+  static const struct Hook NewCreateTAPImageHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)NewCreateTAPImage,NULL };
+#else
   static const struct Hook NewVolumeHook = { { NULL,NULL },(VOID *)NewVolume,NULL,NULL };
   static const struct Hook NewFileHook = { { NULL,NULL },(VOID *)NewFile,NULL,NULL };
   static const struct Hook NewDirHook = { { NULL,NULL },(VOID *)NewDir,NULL,NULL };
@@ -595,6 +608,7 @@ char *ui_filereq(const char *title, int template,
   static const struct Hook NewPopFileHook = { { NULL,NULL },(VOID *)NewPopFile,NULL,NULL };
   static const struct Hook NewCreateImageHook = { { NULL,NULL },(VOID *)NewCreateImage,NULL,NULL };
   static const struct Hook NewCreateTAPImageHook = { { NULL,NULL },(VOID *)NewCreateTAPImage,NULL,NULL };
+#endif
 
   BOOL running = TRUE;
   ULONG signals;

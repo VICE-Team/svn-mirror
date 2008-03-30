@@ -1,0 +1,147 @@
+/*
+ * screenshot.c
+ *
+ * Written by
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#define __USE_INLINE__
+
+#include "private.h"
+#include "lib.h"
+#include "ui.h"
+
+#ifdef AMIGA_OS4
+#define ASL_PRE_V38_NAMES
+#endif
+
+#include <proto/asl.h>
+
+enum { SS_BMP=1,
+#ifdef HAVE_GIF
+       SS_GIF,
+#endif
+       SS_IFF,
+#ifdef HAVE_JPEG
+       SS_JPG,
+#endif
+       SS_PCX,
+#ifdef HAVE_PNG
+       SS_PNG,
+#endif
+       SS_PPM };
+
+#ifndef HAVE_GIF
+#define SS_GIF 1000
+#endif
+
+#ifndef HAVE_JPEG
+#define SS_JPG 1001
+#endif
+
+#ifndef HAVE_PNG
+#define SS_PNG 1002
+#endif
+
+static void save_screenshot_file(char *title, char *pattern, char *screenshot_type, video_canvas_t *canvas)
+{
+  struct FileRequester *request;
+  UBYTE fname[1024];
+
+  request = (struct FileRequester *)AllocAslRequestTags(ASL_FileRequest,
+  ASL_Hail, title,
+  (struct TagItem *)TAG_DONE);
+
+  if (AslRequestTags(request, ASLFR_Window, canvas->os->window,
+                              ASLFR_InitialDrawer, "PROGDIR:",
+                              ASLFR_InitialPattern, pattern,
+                              ASLFR_PositiveText, "Save",
+                              (struct TagItem *)TAG_DONE))
+  {
+    strcat(fname,request->rf_Dir);
+    if (fname[strlen(fname)-1]!=(UBYTE)58)
+      strcat(fname, "/");
+    strcat(fname, request->rf_File);
+    if (fname[strlen(fname)-1]!=(UBYTE)58 && fname[strlen(fname)-1]!='/')
+    {
+      if (strcasecmp(fname+(strlen(fname)-4),pattern+2))
+      {
+        strcat(fname, pattern+2);
+      }
+      if (screenshot_save(screenshot_type, fname, canvas)<0)
+        ui_error("Screenshot save of %s failed", fname);
+      else
+        ui_message("Screenshot %s saved.", fname);
+    }
+  }
+  if (request)
+    FreeAslRequest(request);
+}
+
+void ui_screenshot_dialog(video_canvas_t *canvas)
+{
+  int format;
+  char *name;
+
+  format=ui_requester("Save Screenshot", "Choose screenshot format", "BMP|"
+#ifdef HAVE_GIF
+  "GIF|"
+#endif
+  "IFF|"
+#ifdef HAVE_JPEG
+  "JPG|"
+#endif
+  "PCX|"
+#ifdef HAVE_PNG
+  "PNG|"
+#endif
+  "PPM|CANCEL", 0);
+
+  switch (format)
+  {
+    case SS_BMP:
+      save_screenshot_file("Save BMP screenshot","#?.bmp","BMP",canvas);
+      break;
+    case SS_GIF:
+      save_screenshot_file("Save GIF screenshot","#?.gif","GIF",canvas);
+      break;
+    case SS_IFF:
+      save_screenshot_file("Save IFF screenshot","#?.iff","IFF",canvas);
+      break;
+    case SS_JPG:
+      save_screenshot_file("Save JPG screenshot","#?.jpg","JPEG",canvas);
+      break;
+    case SS_PCX:
+      save_screenshot_file("Save PCX screenshot","#?.pcx","PCX",canvas);
+      break;
+    case SS_PNG:
+      save_screenshot_file("Save PNG screenshot","#?.png","PNG",canvas);
+      break;
+    case SS_PPM:
+      save_screenshot_file("Save PPM screenshot","#?.ppm","PPM",canvas);
+      break;
+    default:
+      break;
+  }
+}

@@ -27,7 +27,9 @@
 #include "private.h"
 #include "vice.h"
 #include "cartridge.h"
+#include "intl.h"
 #include "keyboard.h"
+#include "translate.h"
 #include "ui.h"
 #include "uic64cart.h"
 #include "uicart.h"
@@ -129,7 +131,7 @@ static void uic64cart_attach(video_canvas_t *canvas, int idm,
 {
     if (idm == IDM_CART_ENABLE_EXPERT) {
         if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
-            ui_error("Invalid cartridge");
+            ui_error(translate_text(IDMES_INVALID_CART));
         return;
     }
 

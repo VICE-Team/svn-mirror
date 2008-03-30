@@ -29,6 +29,8 @@
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
+#include "private.h"
+#include "statusbar.h"
 #undef BYTE
 #undef WORD
 #include "timer.h"
@@ -61,11 +63,7 @@ signed long vsyncarch_frequency(void)
 unsigned long vsyncarch_gettime(void)
 {
   struct timeval tv;
-#ifndef AMIGA_OS4
-  timer_gettime(&tv);
-#else
   timer_gettime(timer, &tv);
-#endif
   return (tv.tv_secs * 1000000) + tv.tv_micro;
 }
 
@@ -85,16 +83,13 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
 
     SetWindowTitles(window, canvas->os->window_title, (void *)-1);
   }
+  statusbar_statustext_update();
 }
 
 /* sleep the given amount of timer units */
 void vsyncarch_sleep(signed long delay)
 {
-#ifndef AMIGA_OS4
-  timer_usleep(delay);
-#else
   timer_usleep(timer, delay);
-#endif
 }
 
 /* synchronize with vertical blanks */
