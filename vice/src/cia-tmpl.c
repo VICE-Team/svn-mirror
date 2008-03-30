@@ -233,7 +233,7 @@ inline static void check_myciatodalarm(CLOCK rclk)
     if (!memcmp(myciatodalarm, mycia + CIA_TOD_TEN, sizeof(myciatodalarm))) {
 	myciaint |= CIA_IM_TOD;
 	if (mycia[CIA_ICR] & CIA_IM_TOD) {
-	    my_set_int(I_MYCIATOD, MYCIA_INT, rclk);
+            my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
 	}
     }
 }
@@ -416,6 +416,7 @@ void reset_mycia(void)
     mycpu_set_alarm(A_MYCIATOD, myciatodticks);
 
     myciaint = 0;
+    my_set_int(I_MYCIAFL, 0, myclk);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -1290,6 +1291,7 @@ void mycia_prevent_clk_overflow(CLOCK sub)
  * UBYTE	TODL_HR
  * DWORD	TOD_TICKS	clk ticks till next tenth of second
  *
+ * UBYTE	IRQ		0=IRQ line inactive, 1=IRQ line active
  */
 
 /* FIXME!!!  Error check.  */
@@ -1363,8 +1365,6 @@ printf("MYCIA: write myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
 
     snapshot_module_write_byte(m, (get_int(&mycpu_int_status, I_MYCIAFL)
                                    ? 0xff : 0x00));
-    snapshot_module_write_byte(m, (get_int(&mycpu_int_status, I_MYCIATOD)
-                                   ? 0xff : 0x00));
 
     snapshot_module_close(m);
 
@@ -1380,12 +1380,6 @@ int mycia_read_snapshot_module(snapshot_t *p)
     ADDRESS addr;
     CLOCK rclk = myclk;
     snapshot_module_t *m;
-
-#if 0	/* might set IRQ flag! */
-    update_tai(myclk); /* schedule alarm in case latch value is changed */
-    update_tbi(myclk); /* schedule alarm in case latch value is changed */
-    update_mycia(myclk);
-#endif
 
     /* stop timers, just in case */
     mycia_tas = CIAT_STOPPED;
@@ -1404,7 +1398,6 @@ int mycia_read_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    /* Argh.  This is ugly.  */
     {
         snapshot_module_read_byte(m, &mycia[CIA_PRA]);
         snapshot_module_read_byte(m, &mycia[CIA_PRB]);
@@ -1496,8 +1489,6 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, m
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
 #endif
 
-#if 1
-
     if ((mycia[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
         mycia_tas = CIAT_RUNNING;
         mycia_tau = rclk + (mycia_tac /*+ 1) + ((byte & 0x10) >> 4*/ );
@@ -1518,20 +1509,6 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, m
         }
     }
 
-#else
-
-    mycia_tau = myclk + mycia_tac;
-    my_set_tai_clk(mycia_tau + 1);
-    mycia_tbu = myclk + mycia_tbc;
-    my_set_tbi_clk(mycia_tbu + 1);
-
-    mycia_tas = (mycia[CIA_CRA] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    mycia_tbs = (mycia[CIA_CRB] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    if ((mycia[CIA_CRB] & 0x41) == 0x41)
-        mycia_tbs = CIAT_COUNTTA;
-
-#endif
-
 #ifdef MYCIA_DUMP_DEBUG
 printf("MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CRA], mycia[CIA_CRB],mycia_tas, mycia_tbs);
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
@@ -1539,11 +1516,11 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, m
 #endif
 
     snapshot_module_read_byte(m, &byte);
-    if (byte)
+    if (byte) {
         set_int_noclk(&mycpu_int_status, I_MYCIAFL, MYCIA_INT);
-    snapshot_module_read_byte(m, &byte);
-    if (byte)
-        set_int_noclk(&mycpu_int_status, I_MYCIATOD, MYCIA_INT);
+    } else {
+        set_int_noclk(&mycpu_int_status, I_MYCIAFL, 0);
+    }
 
     if (snapshot_module_close(m) < 0)
         return -1;

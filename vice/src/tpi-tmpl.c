@@ -351,8 +351,9 @@ void mytpi_set_int(int bit, int state)
  * UBYTE	CR
  * UBYTE	AIR
  *
- * UBYTE	IPREV	previously set interrupt sources
  * UBYTE	STACK	irq sources saved on stack
+ * UBYTE	CABSTATE state of CA and CB pins
+ * UBYTE	IPREV	previously set interrupt sources
  */
 
 /* FIXME!!!  Error check.  */
@@ -375,11 +376,12 @@ int mytpi_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, tpi[TPI_CREG]);
     snapshot_module_write_byte(m, tpi[TPI_AIR]);
 
-    snapshot_module_write_byte(m, irq_previous);
     snapshot_module_write_byte(m, irq_stack);
 
     snapshot_module_write_byte(m, 
 			(ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0) );
+
+    snapshot_module_write_byte(m, irq_previous);
 
     snapshot_module_close(m);
 
@@ -411,7 +413,6 @@ int mytpi_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &tpi[TPI_CREG]);
     snapshot_module_read_byte(m, &tpi[TPI_AIR]);
 
-    snapshot_module_read_byte(m, &irq_previous);
     snapshot_module_read_byte(m, &irq_stack);
 
     snapshot_module_read_byte(m, &byte);
@@ -420,7 +421,9 @@ int mytpi_read_snapshot_module(snapshot_t *p)
     TPI_SET_CA( ca_state );
     TPI_SET_CA( cb_state );
 
-/*    mycpu_set_int(I_MYTPI, irq_active ? MYIRQ : 0); */
+    snapshot_module_read_byte(m, &irq_previous);
+
+    mycpu_restore_int(I_MYTPI, irq_active ? MYIRQ : 0); 
 
     if (snapshot_module_close(m) < 0)
         return -1;

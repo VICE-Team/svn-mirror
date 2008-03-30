@@ -815,7 +815,7 @@ free to contact us (@pxref{Contacts}).
 @section PET emulator features
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and SuperPET
-(MicroMainFram 9000) models, which almost covers all models of this kind of 
+(MicroMainFram 9000) models, which almost covers all models of this kind of
 machines.  The
 hardware is pretty much the same and that is why one single program is
 enough to emulate all of them.  For more detailed information about PET
@@ -844,7 +844,7 @@ text and 32k for variables.  See @file{PETdoc} for more information.
 @c FIXME link!
 
 The SuperPET also is a PET 8032 with an expansion board. It can map
-4k at a time out of 64k into the @code{$9***} area. Also it has an 
+4k at a time out of 64k into the @code{$9***} area. Also it has an
 ACIA 6551 for RS232 communication.
 
 The PET computers came with three major ROM revisions, so-called BASIC
@@ -897,33 +897,32 @@ described in @pxref{PET model}
 @node CBM-II emulator features, Keyboard emulation, PET emulator features, Preface
 @section CBM-II emulator features
 
-The CBM-II emulator emulates several types of CBM-II models. Those models
-are known under different names in the USA and Europe.
-In the States they have been sold as @code{B128} and @code{B256}, in 
-Europe as @code{CBM 610}, @code{CBM 620} (low-profile case) or
-@code{CBM 710} and @code{CBM 720} (high-profile case with monitor).
+The CBM-II emulator emulates several types of CBM-II models.  Those
+models are known under different names in the USA and Europe.  In the
+States they have been sold as @code{B128} and @code{B256}, in Europe as
+@code{CBM 610}, @code{CBM 620} (low-profile case) or @code{CBM 710} and
+@code{CBM 720} (high-profile case with monitor).
 
-These computers are prepared to take a coprocessor board with an 8088
-or Z80 CPU. Indeed there are models @code{CBM 630} and @code{CBM 730}
-that supposedly had those processors. However these models are not
-emulated.
+These computers are prepared to take a coprocessor board with an 8088 or
+Z80 CPU.  Indeed there are models @code{CBM 630} and @code{CBM 730} that
+supposedly had those processors.  However these models are not emulated.
 
-The basic difference is the amount of RAM these machines have been supplied
-with. The @code{B128} and the @code{CBM *10} models had 128k RAM, the 
-others 256k. This implies some banking scheme, as the 6502 can only
-address 64k. And indeed those machines use a 6509, that can address
-1 MByte of RAM. It has 2 registers at addresses 0 and 1. The indirekt bank
-register at address 1 determines the bank (0-15) where the opcodes
-@code{LDA (zp),Y} and @code{STA (zp),Y} take the data from. The exec bank
-register at address 0 determines the bank where all other read and
-write addresses take place.
+The basic difference is the amount of RAM these machines have been
+supplied with. The @code{B128} and the @code{CBM *10} models had 128k
+RAM, the others 256k. This implies some banking scheme, as the 6502 can
+only address 64k.  And indeed those machines use a 6509, that can
+address 1 MByte of RAM. It has 2 registers at addresses 0 and 1.  The
+indirect bank register at address 1 determines the bank (0-15) where the
+opcodes @code{LDA (zp),Y} and @code{STA (zp),Y} take the data from.  The
+exec bank register at address 0 determines the bank where all other read
+and write addresses take place.
 
-Many models have been expanded to more than the built-in memory. In fact
-some machines have been expanded to the full 1M. 
-Bank 15 is used as system bank, with only little RAM, and lots of
-expansion cartridge ROM area, the I/O and the kernal/basic ROMs.
-Some models have been modified to map RAM into the expansion ROM area.
-Those modifications can be emulated as well.
+Many models have been expanded to more than the built-in memory.  In fact
+some machines have been expanded to the full 1M.  Bank 15 is used as
+system bank, with only little RAM, and lots of expansion cartridge ROM
+area, the I/O and the kernal/basic ROMs.  Some models have been modified
+to map RAM into the expansion ROM area.  Those modifications can be
+emulated as well.
 
 The different settings are described in @pxref{CBM-II model}.
 
@@ -967,7 +966,8 @@ For instance, @kbd{F6} (which on the real C64 is obtained with
 the shift key manually (i.e. type @kbd{Shift + F5} in the example).
 Yes, we know this is a bug.
 
-The @kbd{RESTORE} key is mapped to @kbd{Page Up} (or @kbd{Prev}).
+The @kbd{RESTORE} key is mapped to @kbd{Page Up} (or @kbd{Prev}) by
+default.
 
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
@@ -1343,9 +1343,6 @@ ROM set consists in the following files:
 @item
 @file{chargen}, the character generator ROM (4 Kbytes)
 
-@item
-@file{dos1541}, the 1541 drive ROM (16 Kbytes)
-
 @end itemize
 
 The C128 needs the following files instead:
@@ -1361,8 +1358,18 @@ The C128 needs the following files instead:
 @item
 @file{chargen}, the character generator ROM (4 Kbytes)
 
+@end itemize
+
+The C128, VIC20 and C64 emulators also need the following DOS ROMs for
+the hardware-level emulation of the 1541 and 1571 disk drives:
+
+@itemize @bullet
+
 @item
 @file{dos1541}, the 1541 drive ROM (16 Kbytes)
+
+@item
+@file{dos15751}, the 1541 drive ROM (32 Kbytes)
 
 @end itemize
 
@@ -3770,7 +3777,7 @@ Enables CRTC 6545 emulation (all models from 40xx and above)
 
 @cindex VideoSize
 @item VideoSize
-The number of columns on the screen (40 or 80). A 0 auto-detects this 
+The number of columns on the screen (40 or 80). A 0 auto-detects this
 from the ROM.
 
 @cindex Ram9
@@ -3925,7 +3932,7 @@ at $1***, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF respectively.
 @cindex Cart4Name
 @cindex Cart6Name
 @item Cart2Name, Cart4Name, Cart6Name
-Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF 
+Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file. This file contains an 8k ROM dump.
 
 @end table
@@ -3985,22 +3992,24 @@ can then be used to restore the emulator state by loading it.
 @node Snapshot usage, Snapshot format, Snapshots, Snapshots
 @section Snapshot usage
 
-A snapshot is one file. It contains the complete emulator state.
-A snapshot file can be generated by selecting the @code{save snapshot}
+A snapshot is one file.  It contains the complete emulator state.  A
+snapshot file can be generated by selecting the @code{save snapshot}
 menu entry at any time.
 
 A snapshot file can be used to restore the emulator state by selecting
 the @code{load snapshot} menu entry at any time.
 
-@b{Warning}: The complete state is saved, but not restored are: 
+@b{Warning}: The complete state is saved, but the following things are
+@emph{not} restored:
+
 @itemize @bullet
 @item The ROMs. This can pose problems when restoring the state of a
-PET 3032 into a PET 4032 for example. Also attached cartridges are
-not saved. I.e. you have to attach them before restoring a snapshot
-of run of such a cartridge.
+PET 3032 into a PET 4032 for example. Also attached cartridges are not
+saved.  I.e. you have to attach them before restoring a snapshot of run
+of such a cartridge.
 
-@item The memory configuration. The VIC20, PET and CBM-II emulators
-do have some memory expansion info. This is saved but not (yet??)
+@item The memory configuration.  The VIC20, PET and CBM-II emulators do
+have some memory expansion info.  This is saved but not (yet??)
 restored.
 
 @end itemize
@@ -4008,12 +4017,12 @@ restored.
 @node Snapshot format, ,Snapshot usage, Snapshots
 @section Snapshot format
 
-A snapshot file consists of several modules. 
-Each module has a name. 
+A snapshot file consists of several modules.
+Each module has a name.
 A module saves the state of an entity like a CIA, the CPU,
-or the memory. 
+or the memory.
 
-@menu 
+@menu
 * Emulator modules::
 * Module formats::
 @end menu
@@ -4051,17 +4060,25 @@ emulators snapshot files.
 @node Module formats, , Emulator modules, Snapshot format
 @subsection Module formats
 
-This section shows the basic module framework and 
+This section shows the basic module framework and
 the contents of the different types of modules.
 
+The single chip modules contain the @b{chip} state, not the
+state of the emulator. We tried to make the format as implementation-independent
+as possible, to allow reuse of snapshots in later versions of this
+emulator, or even in other emulators.
+
 @menu
+* Module Terminology::
 * Module framework::
+
 * CPU module::
 * CIA module::
 * VIA module::
 * TPI module::
 * SID module::
 * ACIA module::
+
 * C64 memory module::
 * C128 memory module::
 * VIC20 memory module::
@@ -4069,7 +4086,29 @@ the contents of the different types of modules.
 * C610 memory module::
 @end menu
 
-@node Module framework, CPU module, Module formats, Module formats
+@node Module Terminology, Module framework, Module formats, Module formats
+@subsubsection Terminology
+
+In this section we use certain abbreviations to define the types of the
+data saved in the snapshot.
+
+@table @code
+@item BYTE
+8 bit integer.
+@item WORD
+16 bit integer. Saved with low-byte first, high-byte last.
+@item DWORD
+32 bit integer. Saved with low-word first, then high-word. Each word saved with its low-byte first.
+@item ARRAY
+Array of BYTE values. Length depends on the description.
+@end table
+
+The tables for the single modules state the type, name and
+description of the data saved
+in the modules. The data is saved in the order it is in the
+tables, so no offset is given.
+
+@node Module framework, CPU module, Module Terminology, Module formats
 @subsubsection Module framework
 
 @node CPU module, CIA module, Module framework, Module formats
@@ -4081,156 +4120,160 @@ the contents of the different types of modules.
 The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift register,
 two timers, a Time of Day clock and interrupts.
 
-@multitable @columnfractions .1 .1 .8
-@item Type 
-@tab Name 
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .2 .7
+@item Type
+@tab Name
 @tab Description
-@item UBYTE 
-@tab ORA 
+@item BYTE
+@tab ORA
 @tab Output register A
-@item UBYTE 
-@tab ORB 
+@item BYTE
+@tab ORB
 @tab Output register B
-@item UBYTE 
-@tab DDRA 
+@item BYTE
+@tab DDRA
 @tab Data direction register A
-@item UBYTE 
-@tab DDRB 
+@item BYTE
+@tab DDRB
 @tab Data direction register B
-@item UWORD 
-@tab TAC 
+@item WORD
+@tab TAC
 @tab Timer A counter value
-@item UWORD 
-@tab TBC 
+@item WORD
+@tab TBC
 @tab Timer B counter value
-@item UBYTE 
-@tab TOD_TEN 
+@item BYTE
+@tab TOD_TEN
 @tab Time of Day - current tenth of second
-@item UBYTE 
-@tab TOD_SEC 
+@item BYTE
+@tab TOD_SEC
 @tab Time of Day - current seconds
-@item UBYTE 
-@tab TOD_MIN 
+@item BYTE
+@tab TOD_MIN
 @tab Time of Day - current minutes
-@item UBYTE 
-@tab TOD_HR 
+@item BYTE
+@tab TOD_HR
 @tab Time of Day - current hours
-@item UBYTE 
-@tab SDR 
+@item BYTE
+@tab SDR
 @tab contents of shift register
-@item UBYTE 
-@tab IER 
+@item BYTE
+@tab IER
 @tab mask of enabled interrupt masks
-@item UBYTE 
-@tab CRA 
+@item BYTE
+@tab CRA
 @tab Control register A
-@item UBYTE 
-@tab CRB 
+@item BYTE
+@tab CRB
 @tab Control register B
-@item UWORD 
-@tab TAL 
+@item WORD
+@tab TAL
 @tab Timer A latch value
-@item UWORD 
-@tab TBL 
+@item WORD
+@tab TBL
 @tab Timer B latch value
-@item UBYTE 
-@tab IFR 
+@item BYTE
+@tab IFR
 @tab mask of currently active interrupts
-@item UBYTE 
-@tab PBSTATE 
+@item BYTE
+@tab PBSTATE
 @tab Bit 6/7 reflect the PB6/7 toggle bit state. Bit 2/3 reflect the corresponding port bit state.
-@item UBYTE 
-@tab SRHBITS 
+@item BYTE
+@tab SRHBITS
 @tab number of half-bits to still shift in/out SDR
-@item UBYTE 
-@tab ALARM_TEN 
+@item BYTE
+@tab ALARM_TEN
 @tab Time of Day - alarm tenth of second
-@item UBYTE 
-@tab ALARM_SEC 
+@item BYTE
+@tab ALARM_SEC
 @tab Time of Day - alarm seconds
-@item UBYTE 
-@tab ALARM_MIN 
+@item BYTE
+@tab ALARM_MIN
 @tab Time of Day - alarm minutes
-@item UBYTE 
-@tab ALARM_HR 
+@item BYTE
+@tab ALARM_HR
 @tab Time of Day - alarm hours
-@item UBYTE 
-@tab READICR 
+@item BYTE
+@tab READICR
 @tab current clock minus the clock when ICR was read last plus 128.
-@item UBYTE 
-@tab TODLATCHED 
+@item BYTE
+@tab TODLATCHED
 @tab Bit 0: 1= latched for reading, Bit 1: 2=stopped for writing
-@item UBYTE 
-@tab TODL_TEN 
+@item BYTE
+@tab TODL_TEN
 @tab Time of Day - latched tenth of second
-@item UBYTE 
-@tab TODL_SEC 
+@item BYTE
+@tab TODL_SEC
 @tab Time of Day - latched seconds
-@item UBYTE 
-@tab TODL_MIN 
+@item BYTE
+@tab TODL_MIN
 @tab Time of Day - latched minutes
-@item UBYTE 
-@tab TODL_HR 
+@item BYTE
+@tab TODL_HR
 @tab Time of Day - latched hours
-@item DWORD 
-@tab TOD_TICKS 
+@item DWORD
+@tab TOD_TICKS
 @tab clk ticks till next tenth of second
 @end multitable
 
 @node VIA module, TPI module, CIA module, Module formats
 @subsubsection VIA module
 
-The VIA 6522 is the predecessor of the CIA and also an I/O port chip 
+The VIA 6522 is the predecessor of the CIA and also an I/O port chip
 with 2 8-bit I/O ports, a shift register,
 two timers and interrupts.
 
-@multitable @columnfractions .1 .1 .8
-@item Type 
-@tab Name 
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .2 .7
+@item Type
+@tab Name
 @tab Description
-@item UBYTE 
+@item BYTE
 @tab ORA
 @tab Output register A
-@item UBYTE
+@item BYTE
 @tab DDRA
 @tab Data direction register A
-@item UBYTE 
+@item BYTE
 @tab ORB
 @tab Output register B
-@item UBYTE
+@item BYTE
 @tab DDRB
 @tab Data direction register B
-@item UWORD
+@item WORD
 @tab T1L
 @tab Timer 1 Latch value
-@item UWORD
+@item WORD
 @tab T1C
 @tab Timer 1 counter value
-@item UBYTE
+@item BYTE
 @tab T2L
 @tab Timer 2 latch (8 bit as only lower byte is used)
-@item UWORD
+@item WORD
 @tab T2C
 @tab Timer 2 counter value
-@item UBYTE
+@item BYTE
 @tab SR
 @tab Shift register value
-@item UBYTE
+@item BYTE
 @tab ACR
 @tab Auxiliary control register
-@item UBYTE
+@item BYTE
 @tab PCR
 @tab Peripheral control register
-@item UBYTE
+@item BYTE
 @tab IFR
 @tab active interrupts
-@item UBYTE
+@item BYTE
 @tab IER
 @tab interrupt mask
-@item UBYTE
+@item BYTE
 @tab PB7
 @tab bit 7 = pb7 state
-@item UBYTE
+@item BYTE
 @tab SRHBITS
 @tab number of half-bits to shift out on SR
 @end multitable
@@ -4238,11 +4281,92 @@ two timers and interrupts.
 @node TPI module, SID module, VIA module, Module formats
 @subsubsection TPI module
 
+The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface). One of
+the ports can double as an interrupt prioritizer. Therefore we also have
+to save the states of the interrupt stack etc.
+
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .1 .8
+@item Type
+@tab Name
+@tab Description
+@item BYTE
+@tab PRA
+@tab Port A output register
+@item BYTE
+@tab PRB
+@tab Port B output register
+@item BYTE
+@tab PRC
+@tab Port C output register (doubles as IRQ latch register)
+@item BYTE
+@tab DDRA
+@tab Port A data direction register
+@item BYTE
+@tab DDRB
+@tab Port B data direction register
+@item BYTE
+@tab DDRC
+@tab Port C data direction register (doubles as IRQ mask register)
+@item BYTE
+@tab CR
+@tab Control Register
+@item BYTE
+@tab AIR
+@tab Active interrupt register
+@item BYTE
+@tab STACK
+@tab Interrupt stack - the interrupt bits that are not (yet) served.
+@item BYTE
+@tab CABSTATE
+@tab State of CA/CB pins. Bit 7 = state of CA, Bit 6 = state of CB
+@item BYTE
+@tab IPREV
+@tab saved state of interrupt input pins - to detect transitions (FIXME: is this specific for emulator implementation?)
+@end multitable
+
 @node SID module, ACIA module, TPI module, Module formats
 @subsubsection SID module
 
 @node ACIA module, C64 memory module, SID module, Module formats
 @subsubsection ACIA module
+
+The ACIA 6551 is an RS232 interface chip. VICE emulates RS232 connections
+via @code{/dev/ttyS*} (Unix) or @code{COM:} (DOS/WIN - not yet?).
+When saving a snapshot, those connections are of course lost.
+The state of the ACIA however is restored if possible. I.e. if a connection
+is already open when restoring the snapshot, this connection is used
+instead. If no connection is open, a carrier/DTR drop is emulated.
+
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .1 .8
+@item Type
+@tab Name
+@tab Description
+@item BYTE
+@tab TDR
+@tab Transmit Data Register
+@item BYTE
+@tab RDR
+@tab Receiver Data Register
+@item BYTE
+@tab SR
+@tab Status Register
+@item BYTE
+@tab CMD
+@tab Command Register
+@item BYTE
+@tab CTRL
+@tab Ctrl Register
+@item BYTE
+@tab INTX
+@tab 0 = no data to tx; 1 = Data is being transmitted; 2 = Data is being transmitted while data in TDR waiting to be put to internal transmit register
+@item DWORD
+@tab TICKS
+@tab Clock ticks till the next TDR empty interrupt
+@end multitable
 
 @node C64 memory module, C128 memory module, ACIA module, Module formats
 @subsubsection C64 memory module
@@ -4252,6 +4376,42 @@ two timers and interrupts.
 
 @node VIC20 memory module, PET memory module, C128 memory module, Module formats
 @subsubsection VIC20 memory module
+
+The size of the VIC20 memory module differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded.
+
+Version numbers: Major 1, Minor 0
+
+@multitable @columnfractions .1 .1 .8
+@item Type
+@tab Name
+@tab Description
+@item BYTE
+@tab CONFIG
+@tab Configuration register. Bits 0,1,2,3,5 reflect if the corresponding memory block is RAM (bit=1) or not (bit=0).
+@item ARRAY
+@tab RAM0
+@tab 1k RAM dump $0000-$03ff
+@item ARRAY
+@tab RAM1
+@tab 4k RAM dump $1000-$1fff
+@item ARRAY
+@tab BLK0
+@tab if CONFIG & 1 then: 3k RAM dump $0400-$0fff
+@item ARRAY
+@tab BLK1
+@tab if CONFIG & 2 then: 8k RAM dump $2000-$3fff
+@item ARRAY
+@tab BLK2
+@tab if CONFIG & 4 then: 8k RAM dump $4000-$5fff
+@item ARRAY
+@tab BLK3
+@tab if CONFIG & 8 then: 8k RAM dump $6000-$7fff
+@item ARRAY
+@tab BLK5
+@tab if CONFIG & 32 then: 8k RAM dump $a000-$bfff
+@end multitable
 
 @node PET memory module, C610 memory module, VIC20 memory module, Module formats
 @subsubsection PET memory module

@@ -34,6 +34,7 @@ INCLUDES()
 #include "tpi.h"
 
 #define	mycpu_set_int(a,b)
+#define	mycpu_restore_int(a,b)
 
 #define	TPI_SET_CA(a)
 #define	TPI_SET_CB(a)

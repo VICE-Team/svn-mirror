@@ -168,6 +168,7 @@ void reset_myacia(void) {
  */
 
 /* FIXME!!!  Error check.  */
+/* FIXME!!!  If no connection, emulate carrier lost or so */
 int myacia_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
@@ -217,7 +218,9 @@ int myacia_read_snapshot_module(snapshot_t * p)
     if(status & 0x80) {
 	status &= 0x7f;
 	irq = 1;
-	/* mycpu_set_int(I_MYACIA, myacia_irq); */
+	set_int_noclk(&mycpu_int_status, I_MYACIA, myacia_irq);
+    } else {
+	set_int_noclk(&mycpu_int_status, I_MYACIA, 0);
     }
 
     snapshot_module_read_byte(m, &cmd);

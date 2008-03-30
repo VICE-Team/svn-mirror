@@ -37,6 +37,7 @@ INCLUDES()
 #include "crtc.h"
 
 #define	mycpu_set_int(a,b)	maincpu_set_irq((a),(b))
+#define	mycpu_restore_int(a,b)	set_int_noclk(&maincpu_int_status,(a),(b))
 
 #define	TPI_SET_CA(a)		crtc_set_char((a))
 #define	TPI_SET_CB(a)
