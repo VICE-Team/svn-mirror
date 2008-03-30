@@ -20,6 +20,10 @@ libc128_a_SOURCES = \
 	c128mem.c \
 	c128mem.h \
 	c128mmu.c \
-	c128mmu.h
+	c128mmu.h \
+	z80.c \
+	z80.h \
+	z80mem.c \
+	z80mem.h
 
 SUBDIRS = .

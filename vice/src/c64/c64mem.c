@@ -82,13 +82,13 @@ static int mem_load_chargen(void);
 /* C64 memory-related resources.  */
 
 /* Name of the character ROM.  */
-static char *chargen_rom_name = 0;
+static char *chargen_rom_name = NULL;
 
 /* Name of the BASIC ROM.  */
-static char *basic_rom_name = 0;
+static char *basic_rom_name = NULL;
 
 /* Name of the Kernal ROM.  */
-static char *kernal_rom_name = 0;
+static char *kernal_rom_name = NULL;
 
 /* Kernal revision for ROM patcher.  */
 static char *kernal_revision;
