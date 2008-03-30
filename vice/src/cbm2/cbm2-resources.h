@@ -28,6 +28,7 @@
 #define _CBM2_RESOURCES_H
 
 extern int cbm2_resources_init(void);
+extern void cbm2_resources_shutdown(void);
 
 extern int cart08_ram;
 extern int cart1_ram;

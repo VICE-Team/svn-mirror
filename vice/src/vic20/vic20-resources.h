@@ -28,6 +28,7 @@
 #define _VIC20_RESOURCES_H
 
 extern int vic20_resources_init(void);
+extern void vic20_resources_shutdown(void);
 
 extern int emu_id_enabled;
 extern int ieee488_enabled;
