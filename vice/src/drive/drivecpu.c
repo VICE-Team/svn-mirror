@@ -42,6 +42,7 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
@@ -67,12 +68,12 @@ interrupt_cpu_status_t *drive1_int_status_ptr;
 
 monitor_interface_t *drive0_monitor_interface_get(void)
 {
-    return drive0_context.cpu.monitor_interface;
+    return drive0_context.cpu->monitor_interface;
 }
 
 monitor_interface_t *drive1_monitor_interface_get(void)
 {
-    return drive1_context.cpu.monitor_interface;
+    return drive1_context.cpu->monitor_interface;
 }
 
 /* non-time critical monitor functions; should be OK */
@@ -129,20 +130,24 @@ static void drive1_set_bank_base(void)
 void drive_cpu_setup_context(drive_context_t *drv)
 {
     monitor_interface_t *mi;
+    drivecpu_context_t *cpu;
 
-    drv->cpu.int_status = interrupt_cpu_status_new();
-    interrupt_cpu_status_init(drv->cpu.int_status,
-                              &(drv->cpu.last_opcode_info));
-    drv->cpu.rmw_flag = 0;
-    drv->cpu.d_bank_limit = -1;
-    drv->cpu.pageone = NULL;
-    sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
-    sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber + 8);
-    drv->cpu.monitor_interface = monitor_interface_new();
-    mi = drv->cpu.monitor_interface;
-    mi->cpu_regs = &(drv->cpu.cpu_regs);
+    drv->cpu = lib_malloc(sizeof(drivecpu_context_t));
+    cpu = drv->cpu;
+
+    cpu->int_status = interrupt_cpu_status_new();
+    interrupt_cpu_status_init(cpu->int_status,
+                              &(cpu->last_opcode_info));
+    cpu->rmw_flag = 0;
+    cpu->d_bank_limit = -1;
+    cpu->pageone = NULL;
+    sprintf(cpu->snap_module_name, "DRIVECPU%d", drv->mynumber);
+    sprintf(cpu->identification_string, "DRIVE#%d", drv->mynumber + 8);
+    cpu->monitor_interface = monitor_interface_new();
+    mi = cpu->monitor_interface;
+    mi->cpu_regs = &(cpu->cpu_regs);
     mi->z80_cpu_regs = NULL;
-    mi->int_status = drv->cpu.int_status;
+    mi->int_status = cpu->int_status;
     mi->clk = &(drive_clk[drv->mynumber]);
     mi->current_bank = 0;
     mi->mem_bank_list = NULL;
@@ -157,8 +162,8 @@ void drive_cpu_setup_context(drive_context_t *drv)
         mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
         mi->set_bank_base = drive0_set_bank_base;
 
-        drv->cpu.monspace = e_disk8_space;
-        drive0_int_status_ptr = drv->cpu.int_status;
+        cpu->monspace = e_disk8_space;
+        drive0_int_status_ptr = cpu->int_status;
     } else {
         mi->mem_bank_read = drive1_bank_read;
         mi->mem_bank_peek = drive1_bank_peek;
@@ -167,8 +172,8 @@ void drive_cpu_setup_context(drive_context_t *drv)
         mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
         mi->set_bank_base = drive1_set_bank_base;
 
-        drv->cpu.monspace = e_disk9_space;
-        drive1_int_status_ptr = drv->cpu.int_status;
+        cpu->monspace = e_disk9_space;
+        drive1_int_status_ptr = cpu->int_status;
     }
 }
 
@@ -186,22 +191,22 @@ void drive_cpu_setup_context(drive_context_t *drv)
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
 /* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
    We should use tables like in maincpu instead (AF) */
-#define JUMP(addr)                                      \
-    do {                                                \
-        reg_pc = (addr);                                \
-        if (drv->drive_ptr->type == 1001) {             \
-            drv->cpu.d_bank_base = NULL;                \
-            drv->cpu.d_bank_limit = -1;                 \
-        } else if (reg_pc < 0x2000) {                   \
-            drv->cpu.d_bank_base = drv->cpud.drive_ram; \
-            drv->cpu.d_bank_limit = 0x07fd;             \
-        } else if (reg_pc >= drv->drive_ptr->rom_start) {        \
-            drv->cpu.d_bank_base = drv->drive_ptr->rom - 0x8000; \
-            drv->cpu.d_bank_limit = 0xfffd;             \
-        } else {                                        \
-            drv->cpu.d_bank_base = NULL;                \
-            drv->cpu.d_bank_limit = -1;                 \
-        }                                               \
+#define JUMP(addr)                                           \
+    do {                                                     \
+        reg_pc = (addr);                                     \
+        if (drv->drive_ptr->type == 1001) {                  \
+            cpu->d_bank_base = NULL;                         \
+            cpu->d_bank_limit = -1;                          \
+        } else if (reg_pc < 0x2000) {                        \
+            cpu->d_bank_base = drv->cpud.drive_ram;          \
+            cpu->d_bank_limit = 0x07fd;                      \
+        } else if (reg_pc >= drv->drive_ptr->rom_start) {    \
+            cpu->d_bank_base = drv->drive_ptr->rom - 0x8000; \
+            cpu->d_bank_limit = 0xfffd;                      \
+        } else {                                             \
+            cpu->d_bank_base = NULL;                         \
+            cpu->d_bank_limit = -1;                          \
+        }                                                    \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -243,18 +248,18 @@ static void cpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;
 
-    preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
+    preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->drive_ptr->log, "RESET.");
 
-    interrupt_cpu_status_reset(drv->cpu.int_status);
+    interrupt_cpu_status_reset(drv->cpu->int_status);
 
     *(drv->clk_ptr) = 6;
     rotation_reset(drv->mynumber);
     machine_drive_reset(drv);
 
     if (preserve_monitor)
-        interrupt_monitor_trap_on(drv->cpu.int_status);
+        interrupt_monitor_trap_on(drv->cpu->int_status);
 }
 
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
@@ -274,8 +279,8 @@ void drive_toggle_watchpoints(drive_context_t *drv, int flag)
 
 void drive_cpu_reset_clk(drive_context_t *drv)
 {
-    drv->cpu.last_clk = maincpu_clk;
-    drv->cpu.last_exc_cycles = 0;
+    drv->cpu->last_clk = maincpu_clk;
+    drv->cpu->last_exc_cycles = 0;
 }
 
 void drive_cpu_reset(drive_context_t *drv)
@@ -285,38 +290,41 @@ void drive_cpu_reset(drive_context_t *drv)
     *(drv->clk_ptr) = 0;
     drive_cpu_reset_clk(drv);
 
-    preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
+    preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_reset(drv->cpu.int_status);
+    interrupt_cpu_status_reset(drv->cpu->int_status);
 
     if (preserve_monitor)
-        interrupt_monitor_trap_on(drv->cpu.int_status);
+        interrupt_monitor_trap_on(drv->cpu->int_status);
 
     /* FIXME -- ugly, should be changed in interrupt.h */
-    interrupt_trigger_reset(drv->cpu.int_status, *(drv->clk_ptr));
+    interrupt_trigger_reset(drv->cpu->int_status, *(drv->clk_ptr));
 }
 
 void drive_cpu_early_init(drive_context_t *drv)
 {
-    drv->cpu.clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX
-                                       - CLKGUARD_SUB_MIN);
+    drv->cpu->clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX
+                                        - CLKGUARD_SUB_MIN);
 
-    drv->cpu.alarm_context = alarm_context_new(drv->cpu.identification_string);
+    drv->cpu->alarm_context = alarm_context_new(
+                                  drv->cpu->identification_string);
 
     machine_drive_init(drv);
 }
 
 void drive_cpu_shutdown(drive_context_t *drv)
 {
-    if (drv->cpu.alarm_context != NULL)
-        alarm_context_destroy(drv->cpu.alarm_context);
-    if (drv->cpu.clk_guard != NULL)
-        clk_guard_destroy(drv->cpu.clk_guard);
+    if (drv->cpu->alarm_context != NULL)
+        alarm_context_destroy(drv->cpu->alarm_context);
+    if (drv->cpu->clk_guard != NULL)
+        clk_guard_destroy(drv->cpu->clk_guard);
 
-    monitor_interface_destroy(drv->cpu.monitor_interface);
-    interrupt_cpu_status_destroy(drv->cpu.int_status);
+    monitor_interface_destroy(drv->cpu->monitor_interface);
+    interrupt_cpu_status_destroy(drv->cpu->int_status);
 
     machine_drive_shutdown(drv);
+
+    lib_free(drv->cpu);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -329,10 +337,10 @@ inline void drive_cpu_wake_up(drive_context_t *drv)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
-    if (maincpu_clk - drv->cpu.last_clk > 0xffffff
+    if (maincpu_clk - drv->cpu->last_clk > 0xffffff
         && *(drv->clk_ptr) > 934639) {
         log_message(drv->drive_ptr->log, "Skipping cycles.");
-        drv->cpu.last_clk = maincpu_clk;
+        drv->cpu->last_clk = maincpu_clk;
     }
 }
 
@@ -349,50 +357,50 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
         if (drv->drive_ptr->enable) {
-            if (drv->cpu.last_clk < sub) {
+            if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 if (drive[0].enable)
                     drive0_cpu_execute(maincpu_clk + sub);
                 if (drive[1].enable)
                     drive1_cpu_execute(maincpu_clk + sub);
             }
-            drv->cpu.last_clk -= sub;
+            drv->cpu->last_clk -= sub;
         } else {
-            drv->cpu.last_clk = maincpu_clk;
+            drv->cpu->last_clk = maincpu_clk;
         }
     }
 
     /* Then, check our own clock counters.  */
-    return clk_guard_prevent_overflow(drv->cpu.clk_guard);
+    return clk_guard_prevent_overflow(drv->cpu->clk_guard);
 }
 
 /* Handle a ROM trap. */
 inline static DWORD drive_trap_handler(drive_context_t *drv)
 {
-    if (MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs)) == 0xec9b) {
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xec9b) {
         /* Idle loop */
-        MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), 0xebff);
+        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xebff);
         if (drv->drive_ptr->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
-            next_clk = alarm_context_next_pending_clk(drv->cpu.alarm_context);
+            next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
 
-            if (next_clk > drv->cpu.stop_clk)
-                next_clk = drv->cpu.stop_clk;
+            if (next_clk > drv->cpu->stop_clk)
+                next_clk = drv->cpu->stop_clk;
 
             *(drv->clk_ptr) = next_clk;
         }
         return 0;
     }
-    if (MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs)) == 0xc0be) {
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xc0be) {
         /* 1581 job code */
-        MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), 0xc197);
+        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xc197);
         machine_drive_handle_job_code(drv->mynumber);
         return 0;
     }
-    if (MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs)) == 0xdaee) {
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xdaee) {
         /* 1581 job code */
-        MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), 0xdaf6);
+        MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xdaf6);
         return 0;
     }
     return -1;
@@ -452,60 +460,59 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 {
     CLOCK cycles;
+    drivecpu_context_t *cpu;
 
-/* #Define the variables for the CPU registers.  In the drive, there is no
-   exporting/importing and we just use global variables.  This also makes it
-   possible to let the monitor access the CPU status without too much
-   headache.   */
-#define reg_a   (drv->cpu.cpu_regs.a)
-#define reg_x   (drv->cpu.cpu_regs.x)
-#define reg_y   (drv->cpu.cpu_regs.y)
-#define reg_pc  (drv->cpu.cpu_regs.pc)
-#define reg_sp  (drv->cpu.cpu_regs.sp)
-#define reg_p   (drv->cpu.cpu_regs.p)
-#define flag_z  (drv->cpu.cpu_regs.z)
-#define flag_n  (drv->cpu.cpu_regs.n)
+#define reg_a   (cpu->cpu_regs.a)
+#define reg_x   (cpu->cpu_regs.x)
+#define reg_y   (cpu->cpu_regs.y)
+#define reg_pc  (cpu->cpu_regs.pc)
+#define reg_sp  (cpu->cpu_regs.sp)
+#define reg_p   (cpu->cpu_regs.p)
+#define flag_z  (cpu->cpu_regs.z)
+#define flag_n  (cpu->cpu_regs.n)
+
+    cpu = drv->cpu;
 
     drive_cpu_wake_up(drv);
 
-    if (clk_value > drv->cpu.last_clk)
-        cycles = clk_value - drv->cpu.last_clk;
+    if (clk_value > cpu->last_clk)
+        cycles = clk_value - cpu->last_clk;
     else
         cycles = 0;
 
     while (cycles > 0) {
         if (cycles > MAX_TICKS) {
-            drv->cpu.stop_clk = (*(drv->clk_ptr)
-                                + drv->cpud.clk_conv_table[MAX_TICKS]
-                                - drv->cpu.last_exc_cycles);
-            drv->cpu.cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
+            cpu->stop_clk = (*(drv->clk_ptr)
+                            + drv->cpud.clk_conv_table[MAX_TICKS]
+                            - cpu->last_exc_cycles);
+            cpu->cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
             cycles -= MAX_TICKS;
         } else {
-            drv->cpu.stop_clk = (*(drv->clk_ptr)
-                                + drv->cpud.clk_conv_table[cycles]
-                                - drv->cpu.last_exc_cycles);
-            drv->cpu.cycle_accum += drv->cpud.clk_mod_table[cycles];
+            cpu->stop_clk = (*(drv->clk_ptr)
+                            + drv->cpud.clk_conv_table[cycles]
+                            - cpu->last_exc_cycles);
+            cpu->cycle_accum += drv->cpud.clk_mod_table[cycles];
             cycles = 0;
         }
 
-        if (drv->cpu.cycle_accum >= 0x10000) {
-            drv->cpu.cycle_accum -= 0x10000;
-            (drv->cpu.stop_clk)++;
+        if (cpu->cycle_accum >= 0x10000) {
+            cpu->cycle_accum -= 0x10000;
+            (cpu->stop_clk)++;
         }
 
-        while (*(drv->clk_ptr) < drv->cpu.stop_clk) {
+        while (*(drv->clk_ptr) < cpu->stop_clk) {
 
 /* Include the 6502/6510 CPU emulation core.  */
 
 #define CLK (*(drv->clk_ptr))
-#define RMW_FLAG (drv->cpu.rmw_flag)
-#define PAGE_ONE (drv->cpu.pageone)
-#define LAST_OPCODE_INFO (drv->cpu.last_opcode_info)
+#define RMW_FLAG (cpu->rmw_flag)
+#define PAGE_ONE (cpu->pageone)
+#define LAST_OPCODE_INFO (cpu->last_opcode_info)
 #define TRACEFLG (debug.drivecpu_traceflg[drv->mynumber])
 
-#define CPU_INT_STATUS (drv->cpu.int_status)
+#define CPU_INT_STATUS (cpu->int_status)
 
-#define ALARM_CONTEXT (drv->cpu.alarm_context)
+#define ALARM_CONTEXT (cpu->alarm_context)
 
 #define JAM() drive_jam(drv)
 
@@ -513,7 +520,7 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define ROM_TRAP_HANDLER() drive_trap_handler(drv)
 
-#define CALLER (drv->cpu.monspace)
+#define CALLER (cpu->monspace)
 
 #define DMA_FUNC drive_generic_dma()
 
@@ -531,17 +538,17 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
                                 drv->drive_ptr->byte_ready_edge : 0)    \
 
 #define cpu_reset() (cpu_reset)(drv)
-#define bank_limit (drv->cpu.d_bank_limit)
-#define bank_base (drv->cpu.d_bank_base)
+#define bank_limit (cpu->d_bank_limit)
+#define bank_base (cpu->d_bank_base)
 
 #include "6510core.c"
 
         }
 
-        drv->cpu.last_exc_cycles = *(drv->clk_ptr) - drv->cpu.stop_clk;
+        cpu->last_exc_cycles = *(drv->clk_ptr) - cpu->stop_clk;
     }
 
-    drv->cpu.last_clk = clk_value;
+    cpu->last_clk = clk_value;
     drive_cpu_sleep(drv);
 }
 
@@ -549,6 +556,10 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 void drive_set_bank_base(drive_context_t *drv)
 {
+    drivecpu_context_t *cpu;
+
+    cpu = drv->cpu;
+
     JUMP(reg_pc);
 }
 
@@ -557,6 +568,9 @@ static void drive_jam(drive_context_t *drv)
 {
     unsigned int tmp;
     char *dname = "  Drive";
+    drivecpu_context_t *cpu;
+
+    cpu = drv->cpu;
 
     switch(drv->drive_ptr->type) {
       case DRIVE_TYPE_1541:
@@ -616,7 +630,7 @@ static void drive_jam(drive_context_t *drv)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         break;
       case JAM_MONITOR:
-        caller_space = drv->cpu.monspace;
+        caller_space = drv->cpu->monspace;
         monitor_startup();
         break;
       default:
@@ -632,28 +646,31 @@ static void drive_jam(drive_context_t *drv)
 int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
+    drivecpu_context_t *cpu;
 
-    m = snapshot_module_create(s, drv->cpu.snap_module_name,
+    cpu = drv->cpu;
+
+    m = snapshot_module_create(s, drv->cpu->snap_module_name,
                                ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)));
     if (m == NULL)
         return -1;
 
     if (0
         || SMW_DW(m, (DWORD) *(drv->clk_ptr)) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_A(&(drv->cpu.cpu_regs))) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_X(&(drv->cpu.cpu_regs))) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_Y(&(drv->cpu.cpu_regs))) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_SP(&(drv->cpu.cpu_regs))) < 0
-        || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs))) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&(drv->cpu.cpu_regs))) < 0
-        || SMW_DW(m, (DWORD)(drv->cpu.last_opcode_info)) < 0
-        || SMW_DW(m, (DWORD)(drv->cpu.last_clk)) < 0
-        || SMW_DW(m, (DWORD)(drv->cpu.cycle_accum)) < 0
-        || SMW_DW(m, (DWORD)(drv->cpu.last_exc_cycles)) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_A(&(cpu->cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_X(&(cpu->cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_Y(&(cpu->cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_SP(&(cpu->cpu_regs))) < 0
+        || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&(cpu->cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&(cpu->cpu_regs))) < 0
+        || SMW_DW(m, (DWORD)(cpu->last_opcode_info)) < 0
+        || SMW_DW(m, (DWORD)(cpu->last_clk)) < 0
+        || SMW_DW(m, (DWORD)(cpu->cycle_accum)) < 0
+        || SMW_DW(m, (DWORD)(cpu->last_exc_cycles)) < 0
         )
         goto fail;
 
-    if (interrupt_write_snapshot(drv->cpu.int_status, m) < 0)
+    if (interrupt_write_snapshot(cpu->int_status, m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
@@ -676,7 +693,7 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
-    if (interrupt_write_new_snapshot(drv->cpu.int_status, m) < 0)
+    if (interrupt_write_new_snapshot(cpu->int_status, m) < 0)
         goto fail;
 
     return snapshot_module_close(m);
@@ -693,8 +710,11 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     snapshot_module_t *m;
     BYTE a, x, y, sp, status;
     WORD pc;
+    drivecpu_context_t *cpu;
 
-    m = snapshot_module_open(s, drv->cpu.snap_module_name, &major, &minor);
+    cpu = drv->cpu;
+
+    m = snapshot_module_open(s, drv->cpu->snap_module_name, &major, &minor);
     if (m == NULL)
         return -1;
 
@@ -710,27 +730,27 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW_INT(m, (int*)&(drv->cpu.last_opcode_info)) < 0
-        || SMR_DW(m, &(drv->cpu.last_clk)) < 0
-        || SMR_DW(m, &(drv->cpu.cycle_accum)) < 0
-        || SMR_DW(m, &(drv->cpu.last_exc_cycles)) < 0
+        || SMR_DW_INT(m, (int*)&(cpu->last_opcode_info)) < 0
+        || SMR_DW(m, &(cpu->last_clk)) < 0
+        || SMR_DW(m, &(cpu->cycle_accum)) < 0
+        || SMR_DW(m, &(cpu->last_exc_cycles)) < 0
         )
         goto fail;
 
-    MOS6510_REGS_SET_A(&(drv->cpu.cpu_regs), a);
-    MOS6510_REGS_SET_X(&(drv->cpu.cpu_regs), x);
-    MOS6510_REGS_SET_Y(&(drv->cpu.cpu_regs), y);
-    MOS6510_REGS_SET_SP(&(drv->cpu.cpu_regs), sp);
-    MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), pc);
-    MOS6510_REGS_SET_STATUS(&(drv->cpu.cpu_regs), status);
+    MOS6510_REGS_SET_A(&(cpu->cpu_regs), a);
+    MOS6510_REGS_SET_X(&(cpu->cpu_regs), x);
+    MOS6510_REGS_SET_Y(&(cpu->cpu_regs), y);
+    MOS6510_REGS_SET_SP(&(cpu->cpu_regs), sp);
+    MOS6510_REGS_SET_PC(&(cpu->cpu_regs), pc);
+    MOS6510_REGS_SET_STATUS(&(cpu->cpu_regs), status);
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
-    interrupt_cpu_status_reset(drv->cpu.int_status);
+    interrupt_cpu_status_reset(cpu->int_status);
 
     machine_drive_reset(drv);
 
-    if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)
+    if (interrupt_read_snapshot(cpu->int_status, m) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541
@@ -757,7 +777,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     /* Update `*bank_base'.  */
     JUMP(reg_pc);
 
-    interrupt_read_new_snapshot(drv->cpu.int_status, m);
+    interrupt_read_new_snapshot(drv->cpu->int_status, m);
 
     return snapshot_module_close(m);
 
