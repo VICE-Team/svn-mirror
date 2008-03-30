@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-#define DRIVE_NUM 2
+#define DRIVE_NUM 4
 
 #define DRIVE_ROM_SIZE 0x8000
 #define DRIVE_RAM_SIZE 0x2000
@@ -271,7 +271,7 @@ typedef struct drive_s {
 } drive_t;
 
 
-extern CLOCK drive_clk[2];
+extern CLOCK drive_clk[];
 
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */

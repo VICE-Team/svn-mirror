@@ -31,6 +31,7 @@
 #include "drivetypes.h"
 #include "glue1551.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "rotation.h"
 #include "types.h"
 
@@ -40,14 +41,14 @@
 #define GLUE1551_ALARM_TICKS_ON   50
 #define GLUE1551_ALARM_TICKS_OFF  19950
 
-static alarm_t *glue1551d0_timer_alarm;
-static alarm_t *glue1551d1_timer_alarm;
+struct glue1551_s {
+    alarm_t *timer_alarm;
+    int irq_line;
+    unsigned int int_num;
+};
+typedef struct glue1551_s glue1551_t;
 
-static int glue1551d0_irq_line;
-static int glue1551d1_irq_line;
-
-static unsigned int glue1551d0_int_num;
-static unsigned int glue1551d1_int_num;
+static glue1551_t glue1551[DRIVE_NUM];
 
 /*-----------------------------------------------------------------------*/
 
@@ -114,72 +115,46 @@ void glue1551_port1_store(drive_context_t *drv, BYTE value)
 
 /*-----------------------------------------------------------------------*/
 
-static void glue1551d0_timer(CLOCK offset, void *data)
+static void glue1551_timer(CLOCK offset, void *data)
 {
-    if (glue1551d0_irq_line == 0) {
-        alarm_set(glue1551d0_timer_alarm,
-                  *(drive_context[0]->clk_ptr) + GLUE1551_ALARM_TICKS_ON
-                  - offset);
-        interrupt_set_irq(drive_context[0]->cpu->int_status, glue1551d0_int_num,
-                          IK_IRQ, *(drive_context[0]->clk_ptr));
-    } else {
-        alarm_set(glue1551d0_timer_alarm,
-                  *(drive_context[0]->clk_ptr) + GLUE1551_ALARM_TICKS_OFF
-                  - offset);
-        interrupt_set_irq(drive_context[0]->cpu->int_status, glue1551d0_int_num,
-                          0, *(drive_context[0]->clk_ptr));
-    }
-    glue1551d0_irq_line ^= 1;
-}
+    drive_context_t *drv = (drive_context_t *)data;
 
-static void glue1551d1_timer(CLOCK offset, void *data)
-{
-    if (glue1551d1_irq_line == 0) {
-        alarm_set(glue1551d1_timer_alarm,
-                  *(drive_context[1]->clk_ptr) + GLUE1551_ALARM_TICKS_ON
-                  - offset);
-        interrupt_set_irq(drive_context[1]->cpu->int_status, glue1551d1_int_num,
-                          IK_IRQ, *(drive_context[1]->clk_ptr));
+    if (glue1551[drv->mynumber].irq_line == 0) {
+        alarm_set(glue1551[drv->mynumber].timer_alarm, *(drv->clk_ptr)
+                  + GLUE1551_ALARM_TICKS_ON - offset);
+        interrupt_set_irq(drv->cpu->int_status,
+                          glue1551[drv->mynumber].int_num,
+                          IK_IRQ, *(drv->clk_ptr));
     } else {
-        alarm_set(glue1551d1_timer_alarm,
-                  *(drive_context[1]->clk_ptr) + GLUE1551_ALARM_TICKS_OFF
-                  - offset);
-        interrupt_set_irq(drive_context[1]->cpu->int_status, glue1551d1_int_num,
-                          0, *(drive_context[1]->clk_ptr));
+        alarm_set(glue1551[drv->mynumber].timer_alarm, *(drv->clk_ptr)
+                  + GLUE1551_ALARM_TICKS_OFF - offset);
+        interrupt_set_irq(drv->cpu->int_status,
+                          glue1551[drv->mynumber].int_num,
+                          0, *(drv->clk_ptr));
     }
-    glue1551d1_irq_line ^= 1;
+    glue1551[drv->mynumber].irq_line ^= 1;
 }
 
 void glue1551_init(drive_context_t *drv)
 {
-    if (drv->mynumber == 0) {
-        glue1551d0_timer_alarm = alarm_new(drv->cpu->alarm_context,
-                                           "GLUE1551D0", glue1551d0_timer,
-                                           NULL);
-        glue1551d0_int_num = interrupt_cpu_status_int_new(drv->cpu->int_status,
-                                                          "GLUE1551D0");
-    } else {
-        glue1551d1_timer_alarm = alarm_new(drv->cpu->alarm_context,
-                                           "GLUE1551D1", glue1551d1_timer,
-                                           NULL);
-        glue1551d1_int_num = interrupt_cpu_status_int_new(drv->cpu->int_status,
-                                                          "GLUE1551D1");
-    }
+    char *buffer;
+
+    buffer = lib_msprintf("GLUE1551D%i", drv->mynumber);
+
+    glue1551[drv->mynumber].timer_alarm = alarm_new(drv->cpu->alarm_context,
+                                                    buffer, glue1551_timer,
+                                                    drv);
+    glue1551[drv->mynumber].int_num = interrupt_cpu_status_int_new(
+                                          drv->cpu->int_status, buffer);
+    lib_free(buffer);
 }
 
 void glue1551_reset(drive_context_t *drv)
 {
-    if (drv->mynumber == 0) {
-        alarm_unset(glue1551d0_timer_alarm);
-        alarm_set(glue1551d0_timer_alarm,
-                  *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
-        glue1551d0_irq_line = 0;
-    } else {
-        alarm_unset(glue1551d1_timer_alarm);
-        alarm_set(glue1551d1_timer_alarm,
-                  *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
-        glue1551d1_irq_line = 0;
-    }
+    alarm_unset(glue1551[drv->mynumber].timer_alarm);
+    alarm_set(glue1551[drv->mynumber].timer_alarm,
+              *(drv->clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
+    glue1551[drv->mynumber].irq_line = 0;
 
     drv->drive->led_status = 1;
     drive_update_ui_status();

@@ -163,9 +163,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    if (drive_context[0]->drive->parallel_cable_enabled
-        || drive_context[1]->drive->parallel_cable_enabled)
-        parallel_cable_cpu_write((BYTE)byte);
+    parallel_cable_cpu_write((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -173,9 +171,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    if (drive_context[0]->drive->parallel_cable_enabled
-        || drive_context[1]->drive->parallel_cable_enabled)
-        parallel_cable_cpu_pulse();
+    parallel_cable_cpu_pulse();
     printer_interface_userport_write_data((BYTE)(cia_context->old_pb));
 }
 
@@ -211,18 +207,12 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
 #ifdef HAVE_RS232
-    byte = ((drive_context[0]->drive->parallel_cable_enabled
-           || drive_context[1]->drive->parallel_cable_enabled)
-            ? parallel_cable_cpu_read()
-            : (rsuser_enabled
-                ? rsuser_read_ctrl()
-                : 0xff ));
-#else
-    byte = ((drive_context[0]->drive->parallel_cable_enabled
-           || drive_context[1]->drive->parallel_cable_enabled)
-            ? parallel_cable_cpu_read()
-            : 0xff );
+    if (rsuser_enabled)
+        byte = rsuser_read_ctrl();
+    else
 #endif
+    byte = parallel_cable_cpu_read();
+
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
     return byte;
@@ -230,10 +220,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    if (drive_context[0]->drive->parallel_cable_enabled)
-        drivecpu_execute(drive_context[0], maincpu_clk);
-    if (drive_context[1]->drive->parallel_cable_enabled)
-        drivecpu_execute(drive_context[1], maincpu_clk);
+    parallel_cable_cpu_execute();
 }
 
 static void read_sdr(cia_context_t *cia_context)

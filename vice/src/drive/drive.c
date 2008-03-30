@@ -81,7 +81,7 @@ int rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static int drive_led_color[2];
+static int drive_led_color[DRIVE_NUM];
 
 static void drive_extend_disk_image(drive_t *drive);
 
@@ -131,7 +131,7 @@ void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
 /* ------------------------------------------------------------------------- */
 
 /* Global clock counters.  */
-CLOCK drive_clk[2];
+CLOCK drive_clk[DRIVE_NUM];
 
 /* Initialize the hardware-level drive emulation (should be called at least
    once before anything else).  Return 0 on success, -1 on error.  */

@@ -81,7 +81,7 @@ static void wd1770_command_writetrack(BYTE command, unsigned int dnr);
 static void wd1770_write_buffer(unsigned int dnr);
 
 /* wd1770 disk controller structure.  */
-wd1770_t wd1770[2];
+wd1770_t wd1770[DRIVE_NUM];
 
 static log_t wd1770_log = LOG_ERR;
 

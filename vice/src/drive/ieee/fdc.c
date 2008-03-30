@@ -37,6 +37,7 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "fdc.h"
+#include "lib.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
@@ -51,22 +52,9 @@
 #define DOS_IS_30(type)  (type == DRIVE_TYPE_3040)
 #define DOS_IS_20(type)  (type == DRIVE_TYPE_2040)
 
-
-static void int_fdc(unsigned int fnum, CLOCK offset);
-
-static void int_fdc0(CLOCK offset, void *data)
-{
-    int_fdc(0, offset);
-}
-
-static void int_fdc1(CLOCK offset, void *data)
-{
-    int_fdc(1, offset);
-}
-
 /************************************************************************/
 
-#define NUM_FDC 2
+#define NUM_FDC DRIVE_NUM
 
 static log_t fdc_log = LOG_ERR;
 
@@ -553,11 +541,16 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 }
 
 
-static void int_fdc(unsigned int fnum, CLOCK offset)
+static void int_fdc(CLOCK offset, void *data)
 {
-    CLOCK rclk = drive_clk[fnum] - offset;
+    CLOCK rclk;
     int i, j;
     drive_t *drive;
+    unsigned int fnum;
+    drive_context_t *drv = (drive_context_t *)data;
+
+    fnum = drv->mynumber;
+    rclk = drive_clk[fnum] - offset;
 
 #ifdef FDC_DEBUG
     if (fdc[fnum].fdc_state < FDC_RUN) {
@@ -723,6 +716,7 @@ void fdc_init(drive_context_t *drv)
     unsigned int fnum = drv->mynumber;
     BYTE *buffermem = drv->cpud->drive_ram + 0x100;
     BYTE *ipromp = &(drv->drive->rom[0x4000]);
+    char *buffer;
 
     fdc[fnum].buffer = buffermem;
     fdc[fnum].iprom = ipromp;
@@ -734,14 +728,10 @@ void fdc_init(drive_context_t *drv)
     log_message(fdc_log, "fdc_init(drive %d)", fnum);
 #endif
 
-    if (fnum == 0) {
-        fdc[fnum].fdc_alarm = alarm_new(drive_context[0]->cpu->alarm_context,
-                                        "fdc0", int_fdc0, NULL);
-    } else
-    if (fnum == 1) {
-        fdc[fnum].fdc_alarm = alarm_new(drive_context[1]->cpu->alarm_context,
-                                        "fdc1", int_fdc1, NULL);
-    }
+    buffer = lib_msprintf("fdc%i", drv->mynumber);
+    fdc[fnum].fdc_alarm = alarm_new(drv->cpu->alarm_context, buffer, int_fdc,
+                                    drv);
+    lib_free(buffer);
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
                            (void *)(drv->mynumber));

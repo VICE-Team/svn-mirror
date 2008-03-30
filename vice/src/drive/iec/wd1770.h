@@ -89,7 +89,7 @@ typedef struct wd1770_s {
     BYTE data_buffer[WD1770_BUFFER_SIZE];
 } wd1770_t;
 
-extern wd1770_t wd1770[2];
+extern wd1770_t wd1770[];
 
 extern void REGPARM2 wd1770d0_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 wd1770d0_read(WORD addr);
