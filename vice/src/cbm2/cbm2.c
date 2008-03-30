@@ -80,13 +80,8 @@
 #include "vicii.h"
 #include "video.h"
 #include "vsync.h"
-#include "../c64/c64export.h"
 
-int c64export_query(const c64export_resource_t *export_res)
-{
-    return 0;
-}
-
+int io_source;
 
 machine_context_t machine_context;
 

@@ -57,10 +57,8 @@
    use them.
  */
 
-static BYTE delaep7x8_reg;
-
 static const c64export_resource_t export_res = {
-    "Dela EP7x8", 1, 0, 1, 0
+    "Dela EP7x8", 1, 0
 };
 
 void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
@@ -69,8 +67,6 @@ void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
 
   /* Each bit of the register set to low activates a
      respective EPROM, $FF switches off EXROM */
-  delaep7x8_reg=value;
-
   config = (value==0xff) ? 2 : 0;
 
   cartridge_config_changed(config, config, CMODE_WRITE);
@@ -86,23 +82,14 @@ void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
     cartridge_romlbank_set(bank-1);
 }
 
-/* I'm unsure whether the register is write-only
-   or what. */
-BYTE REGPARM1 delaep7x8_io1_read(WORD addr)
-{
-  return delaep7x8_reg;
-}
-
 void delaep7x8_config_init(void)
 {
-  delaep7x8_reg=0xfe;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }
 
 void delaep7x8_config_setup(BYTE *rawcart)
 {
-  delaep7x8_reg=0xfe;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }

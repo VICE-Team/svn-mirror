@@ -113,6 +113,7 @@ static int suspended;
 static char *server_name = NULL;
 static unsigned int server_port;
 static int frame_delta;
+static unsigned int network_control;
 
 static int frame_buffer_full;
 static int current_frame, frame_to_play;
@@ -132,6 +133,15 @@ static int set_server_name(resource_value_t v, void *param)
 static int set_server_port(resource_value_t v, void *param)
 {
     server_port = (CLOCK)v;
+    return 0;
+}
+
+static int set_network_control(resource_value_t v, void *param)
+{
+    network_control = (unsigned int)v;
+    /* don't let the server loose control */
+    network_control |= NETWORK_CONTROL_RSRC;
+
     return 0;
 }
 
@@ -175,6 +185,10 @@ static const resource_t resources[] = {
       RES_EVENT_NO, NULL,
       (void *)&server_port,
       set_server_port, NULL },
+    { "NetworkControl", RES_INTEGER, (resource_value_t)NETWORK_CONTROL_DEFAULT,
+      RES_EVENT_SAME, NULL,
+      (void *)&network_control,
+      set_network_control, NULL },
 #ifdef HAVE_IPV6
     { "NetworkIPV6", RES_INTEGER, (resource_value_t)0,
       RES_EVENT_NO, NULL,
@@ -554,6 +568,42 @@ static void network_client_connect_trap(WORD addr, void *data)
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
 #ifdef HAVE_NETWORK
+    unsigned int control = 0;
+    BYTE joyport;
+
+    switch (type) {
+      case EVENT_KEYBOARD_MATRIX:
+      case EVENT_KEYBOARD_RESTORE:
+      case EVENT_KEYBOARD_DELAY:
+      case EVENT_KEYBOARD_CLEAR:
+          control = NETWORK_CONTROL_KEYB;
+          break;
+      case EVENT_ATTACHDISK:
+      case EVENT_ATTACHTAPE:
+      case EVENT_DATASETTE:
+          control = NETWORK_CONTROL_DEVC;
+          break;
+      case EVENT_RESOURCE:
+      case EVENT_RESETCPU:
+          control = NETWORK_CONTROL_RSRC;
+          break;
+      case EVENT_JOYSTICK_VALUE:
+          joyport = ((BYTE*)data)[0];
+          if (joyport == 1) 
+              control = NETWORK_CONTROL_JOY1;
+          if (joyport == 2) 
+              control = NETWORK_CONTROL_JOY2;
+          break;
+      default:
+          control = 0;
+    }
+
+    if (network_get_mode() == NETWORK_CLIENT)
+        control <<= NETWORK_CONTROL_CLIENTOFFSET;
+
+    if (control != 0 && (control & network_control) == 0)
+        return;
+
     event_record_in_list(&(frame_event_list[current_frame]), type, data, size);
 #endif
 }
@@ -561,6 +611,14 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
 void network_attach_image(unsigned int unit, const char *filename)
 {
 #ifdef HAVE_NETWORK
+    unsigned int control = NETWORK_CONTROL_DEVC;
+
+    if (network_get_mode() == NETWORK_CLIENT)
+        control <<= NETWORK_CONTROL_CLIENTOFFSET;
+
+    if ((control & network_control) == 0)
+        return;
+
     event_record_attach_in_list(&(frame_event_list[current_frame]), unit, filename, 1);
 #endif
 }

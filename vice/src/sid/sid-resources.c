@@ -40,7 +40,6 @@
 #include "sid.h"
 #include "sound.h"
 #include "types.h"
-#include "../c64/c64export.h"
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
 
@@ -117,35 +116,8 @@ static int set_sid_filters_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int check_sid_stereo_conflict(int address)
-{
-  static const c64export_resource_t export_res1 = {
-      "STEREO_SID", 1, 0, 0, 0
-  };
-
-  static const c64export_resource_t export_res2 = {
-      "STEREO_SID", 0, 1, 0, 0
-  };
-
-  checking_sid_stereo=1;
-  if ((address&0xff00)==0xde00 && c64export_query(&export_res1) < 0)
-  {
-    checking_sid_stereo=0;
-    return -1;
-  }
-  if ((address&0xff00)==0xdf00 && c64export_query(&export_res2) < 0)
-  {
-    checking_sid_stereo=0;
-    return -1;
-  }
-  checking_sid_stereo=0;
-  return 0;
-}
-
 static int set_sid_stereo(resource_value_t v, void *param)
 {
-    if ((int)v==1 && check_sid_stereo_conflict(sid_stereo_address_start)<0)
-      return -1;
     sid_stereo = (int)v;
     sound_state_changed = 1;
     return 0;
@@ -156,9 +128,6 @@ int sid_set_sid_stereo_address(resource_value_t v, void *param)
     unsigned int sid2_adr;
 
     sid2_adr = (unsigned int)v;
-
-    if (sid_stereo==1 && check_sid_stereo_conflict(sid2_adr)<0)
-        return -1;
 
     if (machine_sid2_check_range(sid2_adr) < 0)
         return -1;

@@ -50,10 +50,8 @@
    to place other 8kb carts in the eproms and use them.
  */
 
-static BYTE delaep256_reg;
-
 static const c64export_resource_t export_res = {
-    "Dela EP256", 1, 0, 1, 0
+    "Dela EP256", 1, 0
 };
 
 void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
@@ -73,23 +71,14 @@ void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
   cartridge_romlbank_set(bank);
 }
 
-/* I'm unsure whether the register is write-only
-   or what. */
-BYTE REGPARM1 delaep256_io1_read(WORD addr)
-{
-  return delaep256_reg;
-}
-
 void delaep256_config_init(void)
 {
-  delaep256_reg=0;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }
 
 void delaep256_config_setup(BYTE *rawcart)
 {
-  delaep256_reg=0;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }

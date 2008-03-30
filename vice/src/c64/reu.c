@@ -36,7 +36,7 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64export.h"
+#include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -80,11 +80,6 @@
 #define REU_REG_RW_BLOCKLEN_HIGH 0x08
 #define REU_REG_RW_INTERRUPT     0x09
 #define REU_REG_RW_ADDRCONTROL   0x0A
-
-
-static const c64export_resource_t export_res = {
-    "REU", 0, 1, 0, 0
-};
 
 /* REU registers */
 static BYTE reu[16];
@@ -130,25 +125,17 @@ static int set_reu_enabled(resource_value_t v, void *param)
                 return -1;
             }
         }
-        c64export_remove(&export_res);
         reu_enabled = 0;
         return 0;
     } else { 
-        if (c64export_query(&export_res) >= 0) {
-            if (!reu_enabled) {
-                if (reu_activate() < 0) {
-                    return -1;
-                }
-            }
-
-            if (c64export_add(&export_res) < 0)
+        if (!reu_enabled) {
+            if (reu_activate() < 0) {
                 return -1;
-
-            reu_enabled = 1;
-            return 0;
-        } else {
-            return -1;
+            }
         }
+
+        reu_enabled = 1;
+        return 0;
     }
 }
 
@@ -363,6 +350,7 @@ BYTE REGPARM1 reu_read(WORD addr)
 
     switch (addr) {
       case REU_REG_R_STATUS:
+        io_source=IO_SOURCE_REU;
         retval = reu[REU_REG_R_STATUS];
 
         /* Bits 7-5 are cleared when register is read, and pending IRQs are
@@ -372,14 +360,17 @@ BYTE REGPARM1 reu_read(WORD addr)
         break;
 
       case REU_REG_RW_BANK:
+        io_source=IO_SOURCE_REU;
         retval = reu[REU_REG_RW_BANK] | 0xf8;
         break;
 
       case REU_REG_RW_INTERRUPT:
+        io_source=IO_SOURCE_REU;
         retval = reu[REU_REG_RW_INTERRUPT] | 0x1f;
         break;
 
       case REU_REG_RW_ADDRCONTROL:
+        io_source=IO_SOURCE_REU;
         retval = reu[REU_REG_RW_ADDRCONTROL] | 0x3f;
         break;
 
@@ -392,6 +383,7 @@ BYTE REGPARM1 reu_read(WORD addr)
         break;
 
       default:
+        io_source=IO_SOURCE_REU;
         retval = reu[addr];
     }
 

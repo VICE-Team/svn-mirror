@@ -33,7 +33,7 @@
 #include "c64_256k.h"
 #include "c64cart.h"
 #include "c64cia.h"
-#include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -55,15 +55,6 @@
 #include "uiapi.h"
 #include "util.h"
 #include "vicii.h"
-
-
-static const c64export_resource_t export_res1 = {
-    "256K", 0, 1, 0, 0
-};
-
-static const c64export_resource_t export_res2 = {
-    "256K", 1, 0, 0, 0
-};
 
 /* 256K registers */
 BYTE c64_256k_DDA;
@@ -106,44 +97,31 @@ static int set_c64_256k_enabled(resource_value_t v, void *param)
     {
       return -1;
     }
-    if (c64_256k_start==0xdf00 || c64_256k_start==0xdf80)
-      c64export_remove(&export_res1);
-    else
-      c64export_remove(&export_res2);
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     c64_256k_enabled = 0;
     return 0;
   }
   else
   { 
-    if (c64export_query((c64_256k_start==0xdf00 || c64_256k_start==0xdf80) ? &export_res1 : &export_res2) >= 0)
+    if (plus60k_enabled || plus256k_enabled)
     {
-      if (plus60k_enabled || plus256k_enabled)
-      {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
+      ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #else
-        ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
+      ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (plus60k_enabled) ? "PLUS60K" : "PLUS256K");
 #endif
-        return -1;
-      }
-      else
-      {
-        if (c64_256k_activate() < 0)
-        {
-          return -1;
-        }
-      }
-      if (c64export_add((c64_256k_start==0xdf00 || c64_256k_start==0xdf80) ? &export_res1 : &export_res2) < 0)
-        return -1;
-      machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-      c64_256k_enabled = 1;
-      return 0;
+      return -1;
     }
     else
     {
-      return -1;
+      if (c64_256k_activate() < 0)
+      {
+        return -1;
+      }
     }
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    c64_256k_enabled = 1;
+    return 0;
   }
 }
 
@@ -183,24 +161,8 @@ static int set_c64_256k_base(resource_value_t v, void *param)
       log_message(c64_256k_log, "Unknown 256K base %lX.", (unsigned long)v);
       return -1;
   }
+  c64_256k_start = (DWORD)v;
 
-  if (c64_256k_enabled)
-  {
-    if (((DWORD)v & 0xff00)!=(c64_256k_start & 0xff00))
-    {
-      if (c64export_query(((DWORD)v==0xdf00 || (DWORD)v==0xdf80) ? &export_res1 : &export_res1) < 0)
-        return -1;
-      if (c64_256k_start==0xdf00 || c64_256k_start==0xdf80)
-        c64export_remove(&export_res1);
-      else
-        c64export_remove(&export_res2);
-      if (c64export_add((c64_256k_start==0xdf00 || c64_256k_start==0xdf80) ? &export_res1 : &export_res2) < 0)
-        return -1;
-    }
-    c64_256k_start = (DWORD)v;
-  }
-  else
-    c64_256k_start = (DWORD)v;
   return 0;
 }
 
@@ -359,6 +321,7 @@ BYTE REGPARM1 c64_256k_read(WORD addr)
 {
   BYTE retval=0;
 
+  io_source=IO_SOURCE_C64_256K;
   if (addr==1)
     retval=c64_256k_CRA;
   if (addr==3)

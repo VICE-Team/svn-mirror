@@ -59,7 +59,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "Expert", 1, 1, 1, 1
+    "Expert", 1, 1
 };
 
 /* Cartridge mode.  */

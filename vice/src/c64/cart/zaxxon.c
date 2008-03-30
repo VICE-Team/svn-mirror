@@ -39,7 +39,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "Zaxxon", 0, 0, 1, 1
+    "Zaxxon", 1, 1
 };
 
 

@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "supersnapshot.h"
 #include "types.h"
 #include "util.h"
@@ -40,11 +41,11 @@
 
 
 static const c64export_resource_t export_res_v4 = {
-    "Super Snapshot V4", 1, 1, 1, 1
+    "Super Snapshot V4", 1, 1
 };
 
 static const c64export_resource_t export_res_v5 = {
-    "Super Snapshot V5", 1, 0, 1, 1
+    "Super Snapshot V5", 1, 1
 };
 
 /* Super Snapshot configuration flags.  */
@@ -53,6 +54,7 @@ static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 
 BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr)
 {
+    io_source=IO_SOURCE_SS4;
     return export_ram0[0x1e00 + (addr & 0xff)];
 }
 
@@ -63,6 +65,7 @@ void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_SS4;
     if ((addr & 0xff) == 1)
         return ramconfig;
 
@@ -76,6 +79,7 @@ BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
       case 3:
         return roml_banks[(addr & 0x1fff) + 0x6000];
     }
+    io_source=IO_SOURCE_NONE;
     return 0;
 }
 
@@ -111,6 +115,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
 {
+    io_source=IO_SOURCE_SS5;
     switch (roml_bank) {
       case 0:
         return roml_banks[0x1e00 + (addr & 0xff)];
@@ -121,6 +126,7 @@ BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
       case 3:
         return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
     }
+    io_source=IO_SOURCE_NONE;
     return 0;
 }
 
@@ -280,4 +286,3 @@ void supersnapshot_v5_detach(void)
 {
     c64export_remove(&export_res_v5);
 }
-

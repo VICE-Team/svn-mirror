@@ -33,6 +33,7 @@
 #include "c64_256k.h"
 #include "c64cart.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -55,7 +56,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "RAMCART", 1, 1, 1, 0
+    "RAMCART", 1, 0
 };
 
 /* RAMCART registers */
@@ -323,6 +324,7 @@ BYTE REGPARM1 ramcart_reg_read(WORD addr)
 {
     BYTE retval;
 
+    io_source=IO_SOURCE_RAMCART;
     retval=ramcart[addr];
 
     return retval;
@@ -373,6 +375,7 @@ BYTE REGPARM1 ramcart_window_read(WORD addr)
 {
     BYTE retval;
 
+    io_source=IO_SOURCE_RAMCART;
     retval=ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)];
 
     return retval;

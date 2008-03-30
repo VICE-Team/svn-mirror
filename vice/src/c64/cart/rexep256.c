@@ -55,13 +55,11 @@
    to place other 8kb carts in the eproms and use them.
  */
 
-static BYTE rexep256_reg;
-
 static WORD rexep256_eprom[8];
 static BYTE rexep256_eprom_roml_bank_offset[8];
 
 static const c64export_resource_t export_res = {
-    "REX EP256", 1, 0, 1, 0
+    "REX EP256", 1, 0
 };
 
 void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
@@ -70,7 +68,6 @@ void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 
   if (addr==0xdfa0)
   {
-    rexep256_reg=value;
     eprom_bank=(value&0xf);
     if (eprom_bank>7)
       return;
@@ -90,38 +87,31 @@ void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
   }
 }
 
-/* I'm unsure whether the register is write-only
-   or what. */
+/* I'm unsure whether the register is write-only,
+   but in this case it is assumed to be. */
 BYTE REGPARM1 rexep256_io2_read(WORD addr)
 {
-  if (addr==0xdfa0)
-    return rexep256_reg;
   if (addr==0xdfc0)
   {
     export.exrom = 0;
     mem_pla_config_changed();
-    return 0;
   }
   if (addr==0xdfe0)
   {
     export.exrom = 1;
     mem_pla_config_changed();
-    return 0;
   }
-
   return 0;
 }
 
 void rexep256_config_init(void)
 {
-  rexep256_reg=0xff;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }
 
 void rexep256_config_setup(BYTE *rawcart)
 {
-  rexep256_reg=0xff;
   cartridge_config_changed(0, 0, CMODE_READ);
   cartridge_romlbank_set(0);
 }

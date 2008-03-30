@@ -29,6 +29,32 @@
  
 #include "types.h"
 
+#define IO_SOURCE_NONE                0
+#define IO_SOURCE_ACIA                1
+#define IO_SOURCE_C64_256K            2
+#define IO_SOURCE_GEORAM              3
+#define IO_SOURCE_RAMCART             4
+#define IO_SOURCE_REU                 5
+#define IO_SOURCE_TFE_RR_NET          6
+#define IO_SOURCE_STEREO_SID          7
+#define IO_SOURCE_ACTION_REPLAY       8
+#define IO_SOURCE_ATOMIC_POWER        9
+#define IO_SOURCE_EPYX_FASTLOAD      10
+#define IO_SOURCE_FINAL1             11
+#define IO_SOURCE_FINAL3             12
+#define IO_SOURCE_IDE64              13
+#define IO_SOURCE_IEEE488            14
+#define IO_SOURCE_KCS                15
+#define IO_SOURCE_MAGIC_FORMEL       16
+#define IO_SOURCE_RR                 17
+#define IO_SOURCE_SS4                18
+#define IO_SOURCE_SS5                19
+#define IO_SOURCE_WARPSPEED          20
+#define IO_SOURCE_EMUID              21
+
+#define IO_DETACH_CART       0
+#define IO_DETACH_RESOURCE   1
+
 extern BYTE REGPARM1 io1_read(WORD addr);
 extern void REGPARM2 io1_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 io2_read(WORD addr);
@@ -37,5 +63,6 @@ extern void REGPARM2 io2_store(WORD addr, BYTE value);
 struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
 
-#endif
+extern int io_source;
 
+#endif

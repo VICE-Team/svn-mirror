@@ -32,6 +32,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "magicformel.h"
 #include "types.h"
@@ -39,7 +40,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "Magic Formel", 1, 1, 1, 1
+    "Magic Formel", 1, 1
 };
 
 static unsigned int ram_page = 0;
@@ -47,6 +48,7 @@ static unsigned int ram_page = 0;
 
 BYTE REGPARM1 magicformel_io1_read(WORD addr)
 {
+    io_source=IO_SOURCE_MAGIC_FORMEL;
     return export_ram0[(ram_page << 8) + (addr & 0xff)];
 }
 

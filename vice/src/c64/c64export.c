@@ -34,50 +34,13 @@
 #include "translate.h"
 #endif
 #include "ui.h"
-#include "sid-resources.h"
 
 
-static const char *usage_io1, *usage_io2, *usage_roml, *usage_romh;
+static const char *usage_roml, *usage_romh;
 
 
 int c64export_query(const c64export_resource_t *export_res)
 {
-    if (export_res->use_io1 > 0) {
-        if (usage_io1 != NULL && strcmp(usage_io1, export_res->name)!=0) {
-#ifdef HAS_TRANSLATION
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO1", usage_io1);
-#else
-            ui_error(_("Resource %s blocked by %s."),"IO1", usage_io1);
-#endif
-            return -1;
-        }
-        if (sid_stereo && sid_stereo_address_start >= 0xde00 && sid_stereo_address_start <=0xdeff && checking_sid_stereo==0) {
-#ifdef HAS_TRANSLATION
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO1","STEREO_SID");
-#else
-            ui_error(_("Resource %s blocked by %s."),"IO1","STEREO_SID");
-#endif
-            return -1;
-        }
-    }
-    if (export_res->use_io2 > 0) {
-        if (usage_io2 != NULL && strcmp(usage_io2, export_res->name)!=0) {
-#ifdef HAS_TRANSLATION
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO2", usage_io2);
-#else
-            ui_error(_("Resource %s blocked by %s."),"IO2", usage_io2);
-#endif
-            return -1;
-        }
-        if (sid_stereo && sid_stereo_address_start >= 0xdf00 && sid_stereo_address_start <=0xdfff&& checking_sid_stereo==0) {
-#ifdef HAS_TRANSLATION
-            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"IO2","STEREO_SID.");
-#else
-            ui_error(_("Resource %s blocked by %s."),"IO2","STEREO_SID.");
-#endif
-            return -1;
-        }
-    }
     if (export_res->use_roml > 0) {
         if (usage_roml != NULL && strcmp(usage_roml, export_res->name)!=0) {
 #ifdef HAS_TRANSLATION
@@ -107,10 +70,6 @@ int c64export_add(const c64export_resource_t *export_res)
     if (c64export_query(export_res) < 0)
         return -1;
 
-    if (export_res->use_io1 > 0)
-        usage_io1 = export_res->name;
-    if (export_res->use_io2 > 0)
-        usage_io2 = export_res->name;
     if (export_res->use_roml > 0)
         usage_roml = export_res->name;
     if (export_res->use_romh > 0)
@@ -121,14 +80,6 @@ int c64export_add(const c64export_resource_t *export_res)
 
 int c64export_remove(const c64export_resource_t *export_res)
 {
-    if (export_res->use_io1 > 0) {
-        if (usage_io1 == NULL)
-            return -1;
-    }
-    if (export_res->use_io2 > 0) {
-        if (usage_io2 == NULL)
-            return -1;
-    }
     if (export_res->use_roml > 0) {
         if (usage_roml == NULL)
             return -1;
@@ -138,10 +89,6 @@ int c64export_remove(const c64export_resource_t *export_res)
             return -1;
     }
 
-    if (export_res->use_io1 > 0)
-        usage_io1 = NULL;
-    if (export_res->use_io2 > 0)
-        usage_io2 = NULL;
     if (export_res->use_roml > 0)
         usage_roml = NULL;
     if (export_res->use_romh > 0)
@@ -152,11 +99,8 @@ int c64export_remove(const c64export_resource_t *export_res)
 
 int c64export_resources_init(void)
 {
-    usage_io1 = NULL;
-    usage_io2 = NULL;
     usage_roml = NULL;
     usage_romh = NULL;
 
     return 0;
 }
-

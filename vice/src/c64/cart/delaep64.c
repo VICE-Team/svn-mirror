@@ -42,7 +42,7 @@
  */
 
 static const c64export_resource_t export_res = {
-    "Dela EP64", 1, 0, 1, 0
+    "Dela EP64", 1, 0
 };
 
 static void delaep64_io1(BYTE value, unsigned int mode)

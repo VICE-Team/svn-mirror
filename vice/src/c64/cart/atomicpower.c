@@ -33,13 +33,14 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
 
 static const c64export_resource_t export_res = {
-    "Action Power", 1, 1, 1, 1
+    "Action Power", 1, 1
 };
 
 /* Atomic Power RAM hack.  */
@@ -63,6 +64,7 @@ void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 atomicpower_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_ATOMIC_POWER;
     if (export_ram)
         return export_ram0[0x1f00 + (addr & 0xff)];
 
@@ -76,6 +78,7 @@ BYTE REGPARM1 atomicpower_io2_read(WORD addr)
       case 3:
         return roml_banks[(addr & 0x1fff) + 0x6000];
     }
+    io_source=IO_SOURCE_NONE;
     return 0;
 }
 

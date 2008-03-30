@@ -39,7 +39,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "Super Games", 0, 1, 1, 1
+    "Super Games", 1, 1
 };
 
 
@@ -103,4 +103,3 @@ void supergames_detach(void)
 {
     c64export_remove(&export_res);
 }
-

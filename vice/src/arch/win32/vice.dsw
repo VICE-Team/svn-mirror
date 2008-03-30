@@ -114,6 +114,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "cartconv"=".\cartconv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "cbm2"=".\cbm2.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -550,6 +562,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name c1541
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cartconv
     End Project Dependency
 }}}
 

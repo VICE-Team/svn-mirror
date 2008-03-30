@@ -45,16 +45,24 @@
 #define myacia_snapshot_read_module acia1_snapshot_read_module
 #define myacia_snapshot_write_module acia1_snapshot_write_module
 #define myacia_peek acia1_peek
-#define myacia_read acia1_read
 #define myacia_reset acia1_reset
 #define myacia_store acia1_store
 
 #include "maincpu.h"
+#include "c64io.h"
 
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_set_irq maincpu_set_irq
 #define mycpu_set_nmi maincpu_set_nmi
 #define mycpu_set_int_noclk maincpu_set_int
 
+
 #include "aciacore.c"
 
+BYTE REGPARM1 acia1_read(WORD addr)
+{
+  if (acia_mode==2 && (addr&7)>3 && (addr&7)!=7)
+      return 0;
+  io_source=IO_SOURCE_ACIA;
+  return myacia_read(addr);
+}

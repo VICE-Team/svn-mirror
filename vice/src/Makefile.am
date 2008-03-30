@@ -308,7 +308,7 @@ else
 realdevice_lib =
 endif
 
-bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat cartconv
 
 EXTRA_PROGRAMS =
 
@@ -671,6 +671,9 @@ petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	$(fileio_lib) \
 	@VICE_ZLIB@
+
+# cartconv
+cartconv_SOURCES = cartconv.c
 
 # Special targets to build libraries in subdirectories.
 

@@ -29,8 +29,6 @@
 
 struct c64export_resource_s {
     const char *name;
-    unsigned int use_io1;
-    unsigned int use_io2;
     unsigned int use_roml;
     unsigned int use_romh;
 };

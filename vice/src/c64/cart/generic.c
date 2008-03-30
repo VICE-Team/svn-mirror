@@ -39,15 +39,15 @@
 
 
 static const c64export_resource_t export_res_8kb = {
-    "Generic 8KB", 0, 0, 1, 0
+    "Generic 8KB", 1, 0
 };
 
 static const c64export_resource_t export_res_16kb = {
-    "Generic 16KB", 0, 0, 1, 1
+    "Generic 16KB", 1, 1
 };
 
 static c64export_resource_t export_res_ultimax = {
-    "Generic Ultimax", 0, 0, 0, 1
+    "Generic Ultimax", 0, 1
 };
 
 

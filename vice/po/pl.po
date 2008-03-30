@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-03-12 12:51+0100\n"
+"POT-Creation-Date: 2006-04-02 23:56+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Mariusz Młynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -24,7 +24,7 @@ msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prędkość emulacji do podanej wartości"
 
 #: src/vsync.c:145 src/sound.c:257 src/sound.c:259 src/debug.c:213
-#: src/c64/cart/ide64.c:276 src/c64/cart/ide64.c:278 src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:277 src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281
 #: src/datasette.c:184 src/datasette.c:187 src/gfxoutputdrv/ffmpegdrv.c:203
 #: src/gfxoutputdrv/ffmpegdrv.c:206 src/mouse.c:99 src/ram.c:104
 msgid "<value>"
@@ -94,9 +94,9 @@ msgstr ""
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:274 src/c64/c64_256k.c:253
-#: src/c64/georam.c:218 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:234 src/c64/reu.c:253 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
+#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
+#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -325,9 +325,8 @@ msgstr "Błąd czytania urządzenia cyfrowego joysticka."
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
-#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/c64_256k.c:126 src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
+#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr ""
@@ -381,88 +380,88 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:158
+#: src/network.c:168
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:379
+#: src/network.c:393
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:427
+#: src/network.c:441
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:451
+#: src/network.c:465
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:464
+#: src/network.c:478
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:473
+#: src/network.c:487
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:499
+#: src/network.c:513
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:537
+#: src/network.c:551
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:650
+#: src/network.c:708
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:687
+#: src/network.c:745
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:707
+#: src/network.c:765
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie można zapisać pliku obrazu kartridża\n"
 "`%s'\n"
 
-#: src/network.c:752
+#: src/network.c:810
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:766
+#: src/network.c:824
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:897
+#: src/network.c:955
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:908
+#: src/network.c:966
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:950
+#: src/network.c:1008
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -826,78 +825,78 @@ msgstr "Włóż obraz kartridża"
 msgid "Enable expert cartridge"
 msgstr "Włącz Expert Cartridge..."
 
-#: src/c64/cart/ide64.c:274
+#: src/c64/cart/ide64.c:275
 #, fuzzy
 msgid "Specify name of IDE64 image file"
 msgstr "Określ nazwę pliku symbolicznej mapy klawiatury"
 
-#: src/c64/cart/ide64.c:276
+#: src/c64/cart/ide64.c:277
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:278
+#: src/c64/cart/ide64.c:279
 msgid "Set number of heads for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:281
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:284
 msgid "Autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/cart/ide64.c:286
+#: src/c64/cart/ide64.c:287
 msgid "Do not autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/c64_256k.c:249
+#: src/c64/c64_256k.c:211
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/c64_256k.c:251
+#: src/c64/c64_256k.c:213
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Rozszerzenie RAM napędu #8 "
 
-#: src/c64/c64_256k.c:253
+#: src/c64/c64_256k.c:215
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Określ nazwę pliku symbolicznej mapy klawiatury"
 
-#: src/c64/c64_256k.c:255 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
 #: src/sid/sid-cmdline-options.c:141
 #, fuzzy
 msgid "<base address>"
 msgstr "*Adres bazowy drugiego SID"
 
-#: src/c64/c64_256k.c:255
+#: src/c64/c64_256k.c:217
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Rozszerzenie RAM napędu #8 "
 
-#: src/c64/georam.c:214
+#: src/c64/georam.c:200
 #, fuzzy
 msgid "Enable the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/georam.c:216
+#: src/c64/georam.c:202
 #, fuzzy
 msgid "Disable the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/georam.c:218
+#: src/c64/georam.c:204
 #, fuzzy
 msgid "Specify name of GEORAM image"
 msgstr "Określ nazwę pliku symbolicznej mapy klawiatury"
 
-#: src/c64/georam.c:220 src/c64/ramcart.c:236 src/c64/reu.c:255
+#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr ""
 
-#: src/c64/georam.c:220
+#: src/c64/georam.c:206
 #, fuzzy
 msgid "Size of the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
@@ -949,51 +948,51 @@ msgstr ""
 msgid "Specify PSID tune <number>"
 msgstr ""
 
-#: src/c64/ramcart.c:230
+#: src/c64/ramcart.c:231
 #, fuzzy
 msgid "Enable the RAMCART expansion"
 msgstr "*Włącz RAMCART"
 
-#: src/c64/ramcart.c:232
+#: src/c64/ramcart.c:233
 #, fuzzy
 msgid "Disable the RAMCART expansion"
 msgstr "Rozszerzenie RAM napędu #8 "
 
-#: src/c64/ramcart.c:234
+#: src/c64/ramcart.c:235
 #, fuzzy
 msgid "Specify name of RAMCART image"
 msgstr "Określ nazwę pliku symbolicznej mapy klawiatury"
 
-#: src/c64/ramcart.c:236
+#: src/c64/ramcart.c:237
 #, fuzzy
 msgid "Size of the RAMCART expansion"
 msgstr "Rozszerzenie RAM napędu #9"
 
-#: src/c64/reu.c:249
+#: src/c64/reu.c:236
 #, fuzzy
 msgid "Enable the RAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/reu.c:251
+#: src/c64/reu.c:238
 #, fuzzy
 msgid "Disable the RAM expansion unit"
 msgstr "Rozszerzenie RAM napędu #9"
 
-#: src/c64/reu.c:253
+#: src/c64/reu.c:240
 #, fuzzy
 msgid "Specify name of REU image"
 msgstr "Określ nazwę pliku symbolicznej mapy klawiatury"
 
-#: src/c64/reu.c:255
+#: src/c64/reu.c:242
 #, fuzzy
 msgid "Size of the RAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/tfe.c:1518
+#: src/c64/tfe.c:1507
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr ""
 
-#: src/c64/tfe.c:1520
+#: src/c64/tfe.c:1509
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr ""
 

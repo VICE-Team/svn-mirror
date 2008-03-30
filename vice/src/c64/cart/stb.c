@@ -40,7 +40,7 @@
 
 /* Stb cartridge uses io1 and roml */
 static const c64export_resource_t export_res = {
-    "Structured Basic", 1, 0, 1, 0
+    "Structured Basic", 1, 0
 };
 
 /* Structured Basic IO1 logic for the roml range $8000-$9fff

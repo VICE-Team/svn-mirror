@@ -34,6 +34,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "cmdline.h"
 #include "ide64.h"
 #include "log.h"
@@ -65,7 +66,7 @@
 
 
 static const c64export_resource_t export_res = {
-    "IDE64", 1, 0, 1, 1
+    "IDE64", 1, 1
 };
 
 /* Current IDE64 bank */
@@ -409,13 +410,17 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
         in_d030 = (WORD)vicii_read_phi1();
         break;
       case 0x30:
+        io_source=IO_SOURCE_IDE64;
         return (unsigned char)in_d030;
       case 0x31:
+        io_source=IO_SOURCE_IDE64;
         return in_d030 >> 8;
       case 0x32:
+        io_source=IO_SOURCE_IDE64;
         return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1)
                | (current_cfg >> 1);
       case 0x5f:
+        io_source=IO_SOURCE_IDE64;
         if ((kill_port ^ 0x02) & 0x02)
             return 1;
 

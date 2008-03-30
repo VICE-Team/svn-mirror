@@ -33,22 +33,25 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "kcs.h"
 #include "types.h"
 
 
 static const c64export_resource_t export_res_kcs = {
-    "KCS Power", 1, 1, 1, 1
+    "KCS Power", 1, 1
 };
 
 static const c64export_resource_t export_res_simon = {
-    "Simon's Basic", 1, 1, 1, 1
+    "Simon's Basic", 1, 1
 };
 
 
 BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
     BYTE config;
+
+    io_source=IO_SOURCE_KCS;
 
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? 2 : 0;
@@ -64,6 +67,8 @@ void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_KCS;
+
     if (addr & 0x80)
         cartridge_config_changed(0x43, 0x43, CMODE_READ);
     return export_ram0[0x1f00 + (addr & 0xff)];

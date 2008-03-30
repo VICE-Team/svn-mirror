@@ -37,7 +37,7 @@
 #endif
 
 #include "archdep.h"
-#include "c64export.h"
+#include "c64io.h"
 #include "cmdline.h"
 #include "crc32.h"
 #include "lib.h"
@@ -105,7 +105,7 @@ static int tfe_cannot_use = 0;
 int tfe_enabled = 0;
 
 /* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
-static int tfe_as_rr_net = 0;
+int tfe_as_rr_net = 0;
 
 static char *tfe_interface = NULL;
 
@@ -1216,6 +1216,7 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
 #ifdef TFE_DEBUG_LOAD
     log_message(tfe_log, "read [$%02X] => $%02X.", ioaddress, retval);
 #endif
+    io_source=IO_SOURCE_TFE_RR_NET;
     return retval;
 }
 
@@ -1368,10 +1369,6 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 /*    resources support functions                                            */
-static const c64export_resource_t export_res = {
-    "TFE", 1, 0, 0, 0
-};
-
 static
 int set_tfe_disabled(resource_value_t v, void *param)
 {
@@ -1416,7 +1413,6 @@ int set_tfe_enabled(resource_value_t v, void *param)
             /* TFE should be deactived */
             if (tfe_enabled) {
                 tfe_enabled = 0;
-                c64export_remove(&export_res);
                 if (tfe_deactivate() < 0) {
                     return -1;
                 }
@@ -1424,17 +1420,10 @@ int set_tfe_enabled(resource_value_t v, void *param)
             return 0;
         } else { 
             if (!tfe_enabled) {
-                if (c64export_query(&export_res) < 0)
-                    return -1;
-
                 tfe_enabled = 1;
                 if (tfe_activate() < 0) {
                     return -1;
                 }
-
-                if (c64export_add(&export_res) < 0)
-                    return -1;
-
             }
 
             return 0;

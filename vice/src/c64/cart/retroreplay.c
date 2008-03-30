@@ -32,15 +32,19 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "retroreplay.h"
 #include "reu.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
+#endif
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
 
 static const c64export_resource_t export_res = {
-    "Retro Replay", 1, 0, 1, 1
+    "Retro Replay", 1, 1
 };
 
 /* Cart is activated.  */
@@ -58,19 +62,24 @@ static int no_freeze;
 /* REU compatibility mapping.  */
 static unsigned int reu_mapping;
 
-
 BYTE REGPARM1 retroreplay_io1_read(WORD addr)
 {
     if (rr_active) {
         switch (addr & 0xff) {
           case 0:
           case 1:
+            io_source=IO_SOURCE_RR;
             return ((roml_bank & 3) << 3) | ((roml_bank & 4) << 5) | allow_bank
                    | reu_mapping;
           default:
+#ifdef HAVE_TFE
+            if (tfe_enabled && tfe_as_rr_net && (addr&0xff)<0x10)
+              return 0;
+#endif
             if (reu_mapping) {
                 if (export_ram) {
                     if (allow_bank) {
+                        io_source=IO_SOURCE_RR;
                         switch (roml_bank & 3) {
                           case 0:
                             return export_ram0[0x1e00 + (addr & 0xff)];
@@ -82,9 +91,11 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
                             return export_ram0[0x7e00 + (addr & 0xff)];
                         }
                     } else {
+                        io_source=IO_SOURCE_RR;
                         return export_ram0[0x1e00 + (addr & 0xff)];
                     }
                 }
+                io_source=IO_SOURCE_RR;
                 return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
             }
             return 0;
@@ -145,12 +156,10 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
 BYTE REGPARM1 retroreplay_io2_read(WORD addr)
 {
     if (rr_active) {
-        if (reu_mapping) {
-            if (reu_enabled)
-                return reu_read((WORD)(addr & 0x0f));
-        } else {
+        if (!reu_mapping) {
             if (export_ram) {
                 if (allow_bank) {
+                    io_source=IO_SOURCE_RR;
                     switch (roml_bank & 3) {
                       case 0:
                         return export_ram0[0x1f00 + (addr & 0xff)];
@@ -162,9 +171,11 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
                         return export_ram0[0x7f00 + (addr & 0xff)];
                     }
                 } else {
+                    io_source=IO_SOURCE_RR;
                     return export_ram0[0x1f00 + (addr & 0xff)];
                 }
             }
+            io_source=IO_SOURCE_RR;
             return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
         }
         return 0;
@@ -176,10 +187,7 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
 void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
 {
     if (rr_active) {
-        if (reu_mapping) {
-            if (reu_enabled)
-                reu_store((WORD)(addr & 0x0f), value);
-        } else {
+        if (!reu_mapping) {
             if (export_ram) {
                 if (allow_bank) {
                     switch (roml_bank & 3) {
@@ -293,4 +301,3 @@ void retroreplay_detach(void)
 {
     c64export_remove(&export_res);
 }
-

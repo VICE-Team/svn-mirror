@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-03-12 12:51+0100\n"
+"POT-Creation-Date: 2006-04-02 23:56+0200\n"
 "PO-Revision-Date: 2006-01-02 16:58+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -25,7 +25,7 @@ msgid "Limit emulation speed to specified value"
 msgstr "Limita la velocità di emulazione al valore specificato"
 
 #: src/vsync.c:145 src/sound.c:257 src/sound.c:259 src/debug.c:213
-#: src/c64/cart/ide64.c:276 src/c64/cart/ide64.c:278 src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:277 src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281
 #: src/datasette.c:184 src/datasette.c:187 src/gfxoutputdrv/ffmpegdrv.c:203
 #: src/gfxoutputdrv/ffmpegdrv.c:206 src/mouse.c:99 src/ram.c:104
 msgid "<value>"
@@ -90,9 +90,9 @@ msgstr "Imposta la dimensione del buffer del suono a <valore> msec"
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:274 src/c64/c64_256k.c:253
-#: src/c64/georam.c:218 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:234 src/c64/reu.c:253 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
+#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
+#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -314,9 +314,8 @@ msgstr "Errore durante la lettura del file di inizio snapshot."
 msgid "Playback recorded events"
 msgstr "Riproduzione degli eventi registrati"
 
-#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
-#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/c64_256k.c:126 src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
+#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Risorsa %s bloccata da %s."
@@ -371,76 +370,76 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:158
+#: src/network.c:168
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:379
+#: src/network.c:393
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:427
+#: src/network.c:441
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:451
+#: src/network.c:465
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:464
+#: src/network.c:478
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:473
+#: src/network.c:487
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:499
+#: src/network.c:513
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:537
+#: src/network.c:551
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:650
+#: src/network.c:708
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:687
+#: src/network.c:745
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot %s. Seleziona una directory "
 "diversa per la cronologia."
 
-#: src/network.c:707
+#: src/network.c:765
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:752
+#: src/network.c:810
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:766
+#: src/network.c:824
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:897
+#: src/network.c:955
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:908
+#: src/network.c:966
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:950
+#: src/network.c:1008
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
@@ -778,69 +777,69 @@ msgstr "Seleziona l'immagine di una cartuccia Structured Basic"
 msgid "Enable expert cartridge"
 msgstr "Attiva l'Expert Cartridge"
 
-#: src/c64/cart/ide64.c:274
+#: src/c64/cart/ide64.c:275
 msgid "Specify name of IDE64 image file"
 msgstr "Specifica il nome del file immagine dell'IDE64"
 
-#: src/c64/cart/ide64.c:276
+#: src/c64/cart/ide64.c:277
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Imposta il numero di cilindri dell'emulazione IDE64"
 
-#: src/c64/cart/ide64.c:278
+#: src/c64/cart/ide64.c:279
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Imposta il numero di testine dell'emulazione IDE64"
 
-#: src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:281
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Imposta il numero di settori dell'emulazione IDE64"
 
-#: src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:284
 msgid "Autodetect geometry of formatted images"
 msgstr "Rileva automaticamente la geometria delle immagini formattate"
 
-#: src/c64/cart/ide64.c:286
+#: src/c64/cart/ide64.c:287
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Non rilevare automaticamente la geometrica delle immagini formattate"
 
-#: src/c64/c64_256k.c:249
+#: src/c64/c64_256k.c:211
 msgid "Enable the 256K RAM expansion"
 msgstr "Attiva l'espansione 256K RAM"
 
-#: src/c64/c64_256k.c:251
+#: src/c64/c64_256k.c:213
 msgid "Disable the 256K RAM expansion"
 msgstr "Disattiva l'espansione 256K RAM"
 
-#: src/c64/c64_256k.c:253
+#: src/c64/c64_256k.c:215
 msgid "Specify name of 256K image"
 msgstr "Specifica il nome dell'immagine 256K"
 
-#: src/c64/c64_256k.c:255 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<indirizzo base>"
 
-#: src/c64/c64_256k.c:255
+#: src/c64/c64_256k.c:217
 msgid "Base address of the 256K expansion"
 msgstr "Indirizzo base dell'espansione 256K"
 
-#: src/c64/georam.c:214
+#: src/c64/georam.c:200
 msgid "Enable the GEORAM expansion unit"
 msgstr "Attiva l'espansione GEORAM"
 
-#: src/c64/georam.c:216
+#: src/c64/georam.c:202
 msgid "Disable the GEORAM expansion unit"
 msgstr "Disattiva l'espansione GEORAM"
 
-#: src/c64/georam.c:218
+#: src/c64/georam.c:204
 msgid "Specify name of GEORAM image"
 msgstr "Specifica il nome dell'immagine GEORAM"
 
-#: src/c64/georam.c:220 src/c64/ramcart.c:236 src/c64/reu.c:255
+#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr "<dimensione in KB>"
 
-#: src/c64/georam.c:220
+#: src/c64/georam.c:206
 msgid "Size of the GEORAM expansion unit"
 msgstr "Dimensione dell'espansione GEORAM"
 
@@ -893,43 +892,43 @@ msgstr ""
 msgid "Specify PSID tune <number>"
 msgstr "Specifica la melodia <numero> del PSID"
 
-#: src/c64/ramcart.c:230
+#: src/c64/ramcart.c:231
 msgid "Enable the RAMCART expansion"
 msgstr "Attiva l'espansione RAMCART"
 
-#: src/c64/ramcart.c:232
+#: src/c64/ramcart.c:233
 msgid "Disable the RAMCART expansion"
 msgstr "Disattiva l'espansione RAMCART"
 
-#: src/c64/ramcart.c:234
+#: src/c64/ramcart.c:235
 msgid "Specify name of RAMCART image"
 msgstr "Specifica il nome dell'immagine RAMCART"
 
-#: src/c64/ramcart.c:236
+#: src/c64/ramcart.c:237
 msgid "Size of the RAMCART expansion"
 msgstr "Dimensione dell'espansione RAMCART"
 
-#: src/c64/reu.c:249
+#: src/c64/reu.c:236
 msgid "Enable the RAM expansion unit"
 msgstr "Attiva l'espansione di RAM"
 
-#: src/c64/reu.c:251
+#: src/c64/reu.c:238
 msgid "Disable the RAM expansion unit"
 msgstr "Disattiva l'espansione di RAM"
 
-#: src/c64/reu.c:253
+#: src/c64/reu.c:240
 msgid "Specify name of REU image"
 msgstr "Specifica il nome dell'immagine REU"
 
-#: src/c64/reu.c:255
+#: src/c64/reu.c:242
 msgid "Size of the RAM expansion unit"
 msgstr "Dimensione dell'espansione di RAM"
 
-#: src/c64/tfe.c:1518
+#: src/c64/tfe.c:1507
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr "Attiva l'unità TFE (\"the final ethernet\")"
 
-#: src/c64/tfe.c:1520
+#: src/c64/tfe.c:1509
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr "Disattiva l'unità TFE (\"the final ethernet\")"
 

@@ -1,3 +1,78 @@
+2006-04-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.8.
+
+	* network.c (network_event_record): Fixed warning.
+
+2006-04-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64-resources.c, c64/c64io.c, c64/c64io.h: Simpliefied
+	and generalized some of the io-source routine and added the
+	EmuID as an io-source.
+
+2006-03-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128-resources.c, c64/c64-resources.c, : Got rid of the
+	c64export stuff.
+
+	* c64/c64_256k.c, c64/georam.c, c64/reu.c,
+	sid/sid-resources.c, sid/sid.c: Got rid of the c64export stuff
+	and added io source collision detection support.
+
+	* c64/c64acia1.c, c64/c64io.c, c64/c64io.h, c64/c64tpi.c,
+	c64/cart/actionreplay.c, c64/cart/atomicpower.c,
+	c64/cart/c64cartmem.c, c64/cart/comal80.c,
+	c64/cart/delaep256.c, c64/cart/delaep64.c,
+	c64/cart/delaep7x8.c, c64/cart/epyxfastload.c,
+	c64/cart/expert.c, c64/cart/final.c, c64/cart/generic.c,
+	c64/cart/ide64.c, c64/cart/kcs.c, c64/cart/magicformel.c,
+	c64/cart/rexep256.c, c64/cart/ross.c, c64/cart/stb.c,
+	c64/cart/supergames.c, c64/cart/supersnapshot.c,
+	c64/cart/zaxxon.c, c64/ramcart.c: Added io source collision
+	detection support.
+
+	* c64/c64export.c, c64/c64export.h: Got rid of the i/o(-1/2)
+	elements.
+
+	* c64/cart/retroreplay.c: Added io source collision detection
+	support, fixed REU compatibility and fixed RR-net expansion
+	address decoding.
+
+	* c64/tfe.c, c64/tfe.c: Got rid of the c64export stuff, added
+	io source collision detection support and fixed rr-net
+	intergration.
+
+	* cbm2/cbm2.c: Got rid of the c64export stuff and added a
+	dummy io_source.
+
+2006-03-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c1541.c: Make pager only for pressing CR only if it is
+	running in interactive mode.
+
+2006-03-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc: Added network control checkboxes
+	to network dialog.
+
+	* arch/win32/resdialogs.txt: Added dialog control IDs.
+
+	* arch/win32/uinetwork.c (init_network_dialog): Initialize
+	checkboxes for the network control.
+	(set_resources): Update NetworkControl resource.
+
+	* network.c: Added new resource NetworkControl.
+	(network_event_record, network_attach_image): Deny network
+	event if the corresponding bit in the NetworkControl is clear.
+
+	* network.h: Added some NETWORK_CONTROL names.
+
+2006-03-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/win32/Makefile.am,
+	arch/win32/cartconv.dsp, arch/win32/vice.dsw,
+	cartconv.c: Added a c64 cartridge conversion program.
+
 2006-03-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.7.

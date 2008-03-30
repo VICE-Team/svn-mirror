@@ -33,21 +33,24 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "epyxfastload.h"
 #include "types.h"
 
 
 static const c64export_resource_t export_res_epyx = {
-    "Epyx Fastload", 0, 1, 0, 0
+    "Epyx Fastload", 0, 0
 };
 
 static const c64export_resource_t export_res_rex = {
-    "REX", 0, 1, 0, 0
+    "REX", 0, 0
 };
 
 
 BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_EPYX_FASTLOAD;
+
     if (addr == 0xdf18)
         cartridge_config_changed(0, 0, CMODE_READ);
     if (addr == 0xdf38)

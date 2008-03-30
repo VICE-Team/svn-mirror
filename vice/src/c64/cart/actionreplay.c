@@ -33,13 +33,14 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
 
 static const c64export_resource_t export_res = {
-    "Action Replay", 1, 1, 1, 1
+    "Action Replay", 1, 1
 };
 
 static unsigned int ar_active;
@@ -65,6 +66,7 @@ BYTE REGPARM1 actionreplay_io2_read(WORD addr)
     if (!ar_active)
         return vicii_read_phi1();
 
+    io_source=IO_SOURCE_ACTION_REPLAY;
     if (export_ram)
         return export_ram0[0x1f00 + (addr & 0xff)];
 
@@ -78,6 +80,7 @@ BYTE REGPARM1 actionreplay_io2_read(WORD addr)
       case 3:
         return roml_banks[(addr & 0x1fff) + 0x6000];
     }
+    io_source=IO_SOURCE_NONE;
     return 0;
 }
 
@@ -164,4 +167,3 @@ void actionreplay_detach(void)
 {
     c64export_remove(&export_res);
 }
-

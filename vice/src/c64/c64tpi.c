@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "c64.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "c64tpi.h"
 #include "drive.h"
@@ -53,6 +54,7 @@ void REGPARM2 tpi_store(WORD addr, BYTE data)
 
 BYTE REGPARM1 tpi_read(WORD addr)
 {
+    io_source=IO_SOURCE_IEEE488;
     return tpicore_read(machine_context.tpi1, addr);
 }
 

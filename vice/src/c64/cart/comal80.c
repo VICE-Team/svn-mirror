@@ -37,11 +37,9 @@
 #include "comal80.h"
 #include "types.h"
 
-
 static const c64export_resource_t export_res = {
-    "Comal-80", 1, 0, 1, 1
+    "Comal-80", 1, 1
 };
-
 
 void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
 {

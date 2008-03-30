@@ -31,7 +31,6 @@
 
 #include "c64-resources.h"
 #include "c64cart.h"
-#include "c64export.h"
 #include "c64rom.h"
 #include "cartridge.h"
 #include "drive.h"
@@ -108,13 +107,9 @@ static int set_emu_id_enabled(resource_value_t v, void *param)
     if (!(int)v) {
         emu_id_enabled = 0;
         return 0;
-    } else if (mem_cartridge_type == CARTRIDGE_NONE) {
+    } else {
         emu_id_enabled = 1;
         return 0;
-    } else {
-        /* Other extensions share the same address space, so they cannot be
-           enabled at the same time.  */
-        return -1;
     }
 }
 
@@ -129,18 +124,6 @@ static int set_kernal_revision(resource_value_t v, void *param)
 
 static int set_acia_de_enabled(resource_value_t v, void *param)
 {
-    static const c64export_resource_t export_res = {
-        "ACIA", 1, 0, 0, 0
-    };
-
-    if ((int)v == 1) {
-        if (c64export_query(&export_res) < 0)
-            return -1;
-        if (c64export_add(&export_res) < 0)
-            return -1;
-    } else
-        c64export_remove(&export_res);
-
     acia_de_enabled = (int)v;
     return 0;
 }

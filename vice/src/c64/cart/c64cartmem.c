@@ -36,6 +36,7 @@
 #include "c64mem.h"
 #include "c64tpi.h"
 #include "c64cartmem.h"
+#include "c64io.h"
 #include "cartridge.h"
 #include "comal80.h"
 #include "crt.h"
@@ -115,9 +116,9 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
 #endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
-        return atomicpower_io1_read(addr);
-      case CARTRIDGE_ATOMIC_POWER:
         return actionreplay_io1_read(addr);
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_io1_read(addr);
       case CARTRIDGE_RETRO_REPLAY:
         return retroreplay_io1_read(addr);
       case CARTRIDGE_IDE64:
@@ -133,6 +134,7 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         cartridge_config_changed(0, 0, CMODE_READ);
         return vicii_read_phi1();
       case CARTRIDGE_WARPSPEED:
+        io_source=IO_SOURCE_WARPSPEED;
         return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_DINAMIC:
         cartridge_romlbank_set(addr & 0x0f);
@@ -151,10 +153,6 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return stb_io1_read(addr);
       case CARTRIDGE_DELA_EP64:
         return delaep64_io1_read(addr);
-      case CARTRIDGE_DELA_EP7x8:
-        return delaep7x8_io1_read(addr);
-      case CARTRIDGE_DELA_EP256:
-        return delaep256_io1_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -289,6 +287,7 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
             cartridge_config_changed(0, 0, CMODE_READ);
         return 0;
       case CARTRIDGE_WARPSPEED:
+        io_source=IO_SOURCE_WARPSPEED;
         return roml_banks[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_io2_read(addr);

@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
+#include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final.h"
@@ -41,24 +42,25 @@
 
 
 static const c64export_resource_t export_res_v1 = {
-    "Final V1", 1, 1, 1, 0
+    "Final V1", 1, 0
 };
 
 static const c64export_resource_t export_res_westermann = {
-    "Westermann", 1, 1, 1, 0
+    "Westermann", 1, 0
 };
 
 static const c64export_resource_t export_res_warpspeed = {
-    "Warpspeed", 1, 1, 1, 0
+    "Warpspeed", 1, 0
 };
 
 static const c64export_resource_t export_res_v3 = {
-    "Final V3", 1, 1, 1, 0
+    "Final V3", 1, 0
 };
 
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
+    io_source=IO_SOURCE_FINAL1;
     cartridge_config_changed(0x42, 0x42, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
@@ -70,6 +72,7 @@ void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_FINAL1;
     cartridge_config_changed(1, 1, CMODE_READ);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
@@ -81,6 +84,7 @@ void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_io1_read(WORD addr)
 {
+    io_source=IO_SOURCE_FINAL3;
     return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
@@ -90,6 +94,7 @@ void REGPARM2 final_v3_io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 final_v3_io2_read(WORD addr)
 {
+    io_source=IO_SOURCE_FINAL3;
     switch (roml_bank) {
       case 0:
         return roml_banks[addr & 0x1fff];
@@ -100,6 +105,7 @@ BYTE REGPARM1 final_v3_io2_read(WORD addr)
       case 3:
         return roml_banks[(addr & 0x1fff) + 0x6000];
     }
+    io_source=IO_SOURCE_NONE;
     return 0;
 }
 

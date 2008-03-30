@@ -31,7 +31,7 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64export.h"
+#include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -55,11 +55,6 @@
 */
 #define GEORAM_REG_PAGE_LOW      0xfe
 #define GEORAM_REG_PAGE_HIGH     0xff
-
-
-static const c64export_resource_t export_res = {
-    "GEORAM", 1, 1, 0, 0
-};
 
 /* GEORAM registers */
 static BYTE georam[2];
@@ -87,7 +82,6 @@ static DWORD georam_size_kb = 0;
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
 
-
 static int set_georam_enabled(resource_value_t v, void *param)
 {
     if (!(int)v) {
@@ -96,25 +90,17 @@ static int set_georam_enabled(resource_value_t v, void *param)
                 return -1;
             }
         }
-        c64export_remove(&export_res);
         georam_enabled = 0;
         return 0;
     } else { 
-        if (c64export_query(&export_res) >= 0) {
-            if (!georam_enabled) {
-                if (georam_activate() < 0) {
-                    return -1;
-                }
-            }
-
-            if (c64export_add(&export_res) < 0)
+        if (!georam_enabled) {
+            if (georam_activate() < 0) {
                 return -1;
-
-            georam_enabled = 1;
-            return 0;
-        } else {
-            return -1;
+            }
         }
+
+        georam_enabled = 1;
+        return 0;
     }
 }
 
@@ -307,6 +293,7 @@ BYTE REGPARM1 georam_reg_read(WORD addr)
 {
     BYTE retval;
 
+    io_source=IO_SOURCE_GEORAM;
     retval=georam[addr&1];
 
     return retval;
@@ -316,6 +303,7 @@ BYTE REGPARM1 georam_window_read(WORD addr)
 {
     BYTE retval;
 
+    io_source=IO_SOURCE_GEORAM;
     retval=georam_ram[(georam[1]*16384)+(georam[0]*256)+addr];
 
     return retval;
@@ -413,4 +401,3 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
-

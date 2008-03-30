@@ -43,6 +43,7 @@
 struct snapshot_s;
 
 extern int tfe_enabled;
+extern int tfe_as_rr_net;
 
 extern void tfe_init(void);
 extern int tfe_resources_init(void);

@@ -212,6 +212,7 @@ EXTRA_DIST = \
 	c64.dsp \
 	c64c128.dsp \
 	c64cart.dsp \
+	cartconv.dsp \
 	cbm2.dsp \
 	core.dsp \
 	crtc.dsp \

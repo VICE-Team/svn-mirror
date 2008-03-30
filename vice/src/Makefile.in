@@ -547,7 +547,7 @@ driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_l
 @HAVE_REALDEVICE_TRUE@realdevice_lib = @ARCH_DIR@/opencbmlib.o
 @HAVE_REALDEVICE_FALSE@realdevice_lib = 
 
-bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat cartconv
 
 EXTRA_PROGRAMS = 
 
@@ -741,13 +741,17 @@ petcat_LDADD = \
 	$(fileio_lib) \
 	@VICE_ZLIB@
 
+
+# cartconv
+cartconv_SOURCES = cartconv.c
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = version.h
 EXTRA_PROGRAMS =
 bin_PROGRAMS = x64$(EXEEXT) x128$(EXEEXT) xvic$(EXEEXT) xpet$(EXEEXT) \
-	xplus4$(EXEEXT) xcbm2$(EXEEXT) c1541$(EXEEXT) petcat$(EXEEXT)
+	xplus4$(EXEEXT) xcbm2$(EXEEXT) c1541$(EXEEXT) petcat$(EXEEXT) \
+	cartconv$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_c1541_OBJECTS = c1541.$(OBJEXT) cbmdos.$(OBJEXT) charset.$(OBJEXT) \
@@ -793,6 +797,11 @@ c1541_OBJECTS = $(am_c1541_OBJECTS)
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/tape/libtape.a \
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@	$(top_builddir)/src/serial/libserial.a
 c1541_LDFLAGS =
+am_cartconv_OBJECTS = cartconv.$(OBJEXT)
+cartconv_OBJECTS = $(am_cartconv_OBJECTS)
+cartconv_LDADD = $(LDADD)
+cartconv_DEPENDENCIES =
+cartconv_LDFLAGS =
 am_petcat_OBJECTS = charset.$(OBJEXT) findpath.$(OBJEXT) \
 	ioutil.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) petcat.$(OBJEXT) \
 	rawfile.$(OBJEXT) resources.$(OBJEXT) util.$(OBJEXT) \
@@ -837,35 +846,35 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/memcmp.Po $(DEPDIR)/usleep.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/alarm.Po ./$(DEPDIR)/attach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/autostart.Po ./$(DEPDIR)/c1541.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbmdos.Po ./$(DEPDIR)/cbmimage.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/charset.Po ./$(DEPDIR)/clkguard.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cmdline.Po ./$(DEPDIR)/color.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/crc32.Po ./$(DEPDIR)/datasette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/debug.Po ./$(DEPDIR)/dma.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/emuid.Po ./$(DEPDIR)/event.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/findpath.Po ./$(DEPDIR)/fliplist.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/gcr.Po ./$(DEPDIR)/info.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/init.Po ./$(DEPDIR)/initcmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/interrupt.Po ./$(DEPDIR)/ioutil.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/joystick.Po ./$(DEPDIR)/kbdbuf.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/keyboard.Po ./$(DEPDIR)/lib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/machine-bus.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/machine.Po ./$(DEPDIR)/main.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/maincpu.Po ./$(DEPDIR)/mouse.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/network.Po ./$(DEPDIR)/palette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petcat.Po ./$(DEPDIR)/ram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/rawfile.Po ./$(DEPDIR)/resources.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/translate.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/util.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/cartconv.Po ./$(DEPDIR)/cbmdos.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbmimage.Po ./$(DEPDIR)/charset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/clkguard.Po ./$(DEPDIR)/cmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/color.Po ./$(DEPDIR)/crc32.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/datasette.Po ./$(DEPDIR)/debug.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dma.Po ./$(DEPDIR)/emuid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/event.Po ./$(DEPDIR)/findpath.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fliplist.Po ./$(DEPDIR)/gcr.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/info.Po ./$(DEPDIR)/init.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/initcmdline.Po ./$(DEPDIR)/interrupt.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ioutil.Po ./$(DEPDIR)/joystick.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/kbdbuf.Po ./$(DEPDIR)/keyboard.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/lib.Po ./$(DEPDIR)/log.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/machine-bus.Po ./$(DEPDIR)/machine.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/maincpu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/network.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/palette.Po ./$(DEPDIR)/petcat.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ram.Po ./$(DEPDIR)/rawfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/translate.Po ./$(DEPDIR)/traps.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/vsync.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-DIST_SOURCES = $(c1541_SOURCES) $(petcat_SOURCES) $(x128_SOURCES) \
-	$(x64_SOURCES) $(xcbm2_SOURCES) $(xpet_SOURCES) \
+DIST_SOURCES = $(c1541_SOURCES) $(cartconv_SOURCES) $(petcat_SOURCES) \
+	$(x128_SOURCES) $(x64_SOURCES) $(xcbm2_SOURCES) $(xpet_SOURCES) \
 	$(xplus4_SOURCES) $(xvic_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
@@ -877,7 +886,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = $(noinst_HEADERS) ChangeLog Makefile.am Makefile.in \
 	config.h.in memcmp.c usleep.c version.h.in
-SOURCES = $(c1541_SOURCES) $(petcat_SOURCES) $(x128_SOURCES) $(x64_SOURCES) $(xcbm2_SOURCES) $(xpet_SOURCES) $(xplus4_SOURCES) $(xvic_SOURCES)
+SOURCES = $(c1541_SOURCES) $(cartconv_SOURCES) $(petcat_SOURCES) $(x128_SOURCES) $(x64_SOURCES) $(xcbm2_SOURCES) $(xpet_SOURCES) $(xplus4_SOURCES) $(xvic_SOURCES)
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -935,6 +944,9 @@ clean-binPROGRAMS:
 c1541$(EXEEXT): $(c1541_OBJECTS) $(c1541_DEPENDENCIES) 
 	@rm -f c1541$(EXEEXT)
 	$(LINK) $(c1541_LDFLAGS) $(c1541_OBJECTS) $(c1541_LDADD) $(LIBS)
+cartconv$(EXEEXT): $(cartconv_OBJECTS) $(cartconv_DEPENDENCIES) 
+	@rm -f cartconv$(EXEEXT)
+	$(LINK) $(cartconv_LDFLAGS) $(cartconv_OBJECTS) $(cartconv_LDADD) $(LIBS)
 petcat$(EXEEXT): $(petcat_OBJECTS) $(petcat_DEPENDENCIES) 
 	@rm -f petcat$(EXEEXT)
 	$(LINK) $(petcat_LDFLAGS) $(petcat_OBJECTS) $(petcat_LDADD) $(LIBS)
@@ -969,6 +981,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/attach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/autostart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c1541.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cartconv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbmdos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbmimage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/charset.Po@am__quote@

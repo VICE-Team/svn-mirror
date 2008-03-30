@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-03-12 12:51+0100\n"
+"POT-Creation-Date: 2006-04-02 23:56+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -25,7 +25,7 @@ msgid "Limit emulation speed to specified value"
 msgstr "Limiteer emulatie snelheid tot de opgegeven waarde"
 
 #: src/vsync.c:145 src/sound.c:257 src/sound.c:259 src/debug.c:213
-#: src/c64/cart/ide64.c:276 src/c64/cart/ide64.c:278 src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:277 src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281
 #: src/datasette.c:184 src/datasette.c:187 src/gfxoutputdrv/ffmpegdrv.c:203
 #: src/gfxoutputdrv/ffmpegdrv.c:206 src/mouse.c:99 src/ram.c:104
 msgid "<value>"
@@ -90,9 +90,9 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:274 src/c64/c64_256k.c:253
-#: src/c64/georam.c:218 src/c64/plus256k.c:179 src/c64/plus60k.c:254
-#: src/c64/ramcart.c:234 src/c64/reu.c:253 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:215
+#: src/c64/georam.c:204 src/c64/plus256k.c:179 src/c64/plus60k.c:254
+#: src/c64/ramcart.c:235 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -309,9 +309,8 @@ msgstr "Fout bij het lezen van het start momentopname bestand."
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
-#: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
-#: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/c64_256k.c:126 src/c64/plus256k.c:101 src/c64/plus60k.c:146
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:111
+#: src/c64/plus256k.c:101 src/c64/plus60k.c:146
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
@@ -365,76 +364,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:158
+#: src/network.c:168
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
-#: src/network.c:379
+#: src/network.c:393
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:427
+#: src/network.c:441
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:451
+#: src/network.c:465
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:464
+#: src/network.c:478
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:473
+#: src/network.c:487
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:499
+#: src/network.c:513
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:537
+#: src/network.c:551
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:650
+#: src/network.c:708
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:687
+#: src/network.c:745
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:707
+#: src/network.c:765
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:752
+#: src/network.c:810
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:766
+#: src/network.c:824
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:897
+#: src/network.c:955
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:908
+#: src/network.c:966
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:950
+#: src/network.c:1008
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
@@ -755,69 +754,69 @@ msgstr "Koppel Structured Basic bestand"
 msgid "Enable expert cartridge"
 msgstr "Aktiveer expert cartridge"
 
-#: src/c64/cart/ide64.c:274
+#: src/c64/cart/ide64.c:275
 msgid "Specify name of IDE64 image file"
 msgstr "Geef de naam van het IDE64 bestand"
 
-#: src/c64/cart/ide64.c:276
+#: src/c64/cart/ide64.c:277
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Zet het aantal cylinders voor de IDE64 emulatie"
 
-#: src/c64/cart/ide64.c:278
+#: src/c64/cart/ide64.c:279
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Zet het aantal koppen voor de IDE64 emulatie"
 
-#: src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:281
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Zet het aantal sectors voor de IDE64 emulatie"
 
-#: src/c64/cart/ide64.c:283
+#: src/c64/cart/ide64.c:284
 msgid "Autodetect geometry of formatted images"
 msgstr "Automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/cart/ide64.c:286
+#: src/c64/cart/ide64.c:287
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/c64_256k.c:249
+#: src/c64/c64_256k.c:211
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktiveer de 256K geheugen uitbreiding"
 
-#: src/c64/c64_256k.c:251
+#: src/c64/c64_256k.c:213
 msgid "Disable the 256K RAM expansion"
 msgstr "De 256K geheugen uitbreiding afsluiten"
 
-#: src/c64/c64_256k.c:253
+#: src/c64/c64_256k.c:215
 msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K bestand"
 
-#: src/c64/c64_256k.c:255 src/c64/plus60k.c:256
+#: src/c64/c64_256k.c:217 src/c64/plus60k.c:256
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<basis adres>"
 
-#: src/c64/c64_256k.c:255
+#: src/c64/c64_256k.c:217
 msgid "Base address of the 256K expansion"
 msgstr "Basis adres van de 256K geheugen uitbreiding"
 
-#: src/c64/georam.c:214
+#: src/c64/georam.c:200
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktiveer de GEORAM Uitbreidings Eenheid"
 
-#: src/c64/georam.c:216
+#: src/c64/georam.c:202
 msgid "Disable the GEORAM expansion unit"
 msgstr "De GEORAM Uitbreidings Eenheid afsluiten"
 
-#: src/c64/georam.c:218
+#: src/c64/georam.c:204
 msgid "Specify name of GEORAM image"
 msgstr "Geef de naam van het GEORAM bestand"
 
-#: src/c64/georam.c:220 src/c64/ramcart.c:236 src/c64/reu.c:255
+#: src/c64/georam.c:206 src/c64/ramcart.c:237 src/c64/reu.c:242
 #: src/pet/petreu.c:220
 msgid "<size in KB>"
 msgstr "<grootte in KB>"
 
-#: src/c64/georam.c:220
+#: src/c64/georam.c:206
 msgid "Size of the GEORAM expansion unit"
 msgstr "Grootte van de GEORAM Uitbreidings Eenheid"
 
@@ -861,43 +860,43 @@ msgstr "Overschrijf PSID instellingen voor Video standaard en SID model"
 msgid "Specify PSID tune <number>"
 msgstr "Geef PSID muziek <nummer>"
 
-#: src/c64/ramcart.c:230
+#: src/c64/ramcart.c:231
 msgid "Enable the RAMCART expansion"
 msgstr "Aktiveer de RAMCART uitbreiding"
 
-#: src/c64/ramcart.c:232
+#: src/c64/ramcart.c:233
 msgid "Disable the RAMCART expansion"
 msgstr "De RAMCART uitbreiding afsluiten"
 
-#: src/c64/ramcart.c:234
+#: src/c64/ramcart.c:235
 msgid "Specify name of RAMCART image"
 msgstr "Geef de naam van het RAMCART bestand"
 
-#: src/c64/ramcart.c:236
+#: src/c64/ramcart.c:237
 msgid "Size of the RAMCART expansion"
 msgstr "Grootte van de RAMCART uitbreiding"
 
-#: src/c64/reu.c:249
+#: src/c64/reu.c:236
 msgid "Enable the RAM expansion unit"
 msgstr "Aktiveer de RAM Uitbreidings Eenheid (REU)"
 
-#: src/c64/reu.c:251
+#: src/c64/reu.c:238
 msgid "Disable the RAM expansion unit"
 msgstr "De RAM Uitbreidings Eenheid (REU) afsluiten"
 
-#: src/c64/reu.c:253
+#: src/c64/reu.c:240
 msgid "Specify name of REU image"
 msgstr "Geef de naam van het REU bestand"
 
-#: src/c64/reu.c:255
+#: src/c64/reu.c:242
 msgid "Size of the RAM expansion unit"
 msgstr "Grootte van de RAM Uitbreidings Eenheid (REU)"
 
-#: src/c64/tfe.c:1518
+#: src/c64/tfe.c:1507
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr "Aktiveer de TFE (\"The Final Ethernet\") eenheid"
 
-#: src/c64/tfe.c:1520
+#: src/c64/tfe.c:1509
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr "De TFE (\"The Final Ethernet\") eenheid afsluiten"
 
@@ -1618,13 +1617,12 @@ msgid "<engine>"
 msgstr "<kern>"
 
 #: src/sid/sid-cmdline-options.c:77
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel, 3: HardSID)"
+"Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:79
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
@@ -1633,11 +1631,10 @@ msgstr ""
 "Catweasel, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:83
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
-"Catweasel, 3: HardSID)"
+"Catweasel, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:85
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
@@ -1646,11 +1643,10 @@ msgstr ""
 "Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:91
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
-"HardSID)"
+"HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:93
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
@@ -1659,22 +1655,19 @@ msgstr ""
 "HardSID)"
 
 #: src/sid/sid-cmdline-options.c:97
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
-"HardSID)"
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:99
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"
 
 #: src/sid/sid-cmdline-options.c:107
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-"HardSID)"
+"HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
@@ -1683,29 +1676,28 @@ msgstr ""
 "HardSID)"
 
 #: src/sid/sid-cmdline-options.c:113
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-"HardSID)"
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: "
+"ParSID)"
 
 #: src/sid/sid-cmdline-options.c:115
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:121
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: "
+"ParSID)"
 
 #: src/sid/sid-cmdline-options.c:123
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
 msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:127
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 4: ParSID)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:129
 msgid "Specify SID engine (0: FastSID)"
@@ -4475,15 +4467,15 @@ msgstr "*HardSID"
 
 #: src/arch/unix/uisid.c:58
 msgid "*ParSID Port 1"
-msgstr ""
+msgstr "*ParSID Poort 1"
 
 #: src/arch/unix/uisid.c:60
 msgid "*ParSID Port 2"
-msgstr ""
+msgstr "*ParSID Poort 2"
 
 #: src/arch/unix/uisid.c:62
 msgid "*ParSID Port 3"
-msgstr ""
+msgstr "*ParSID Poort 3"
 
 #: src/arch/unix/uisid.c:71
 msgid "*6581 (old)"
