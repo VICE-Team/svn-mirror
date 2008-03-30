@@ -63,9 +63,6 @@ struct raster_sprite_status_s {
 
     unsigned int mc_sprite_color_1, mc_sprite_color_2;
 
-    /* Place where the sprite memory pointers are. */
-    BYTE *ptr_base;
-
     /* Sprite-sprite and sprite-background collisions detected on the current
        line. */
     BYTE sprite_sprite_collisions;
