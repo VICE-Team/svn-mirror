@@ -30,7 +30,8 @@
 struct image_contents_s;
 
 char *tui_image_browser(const char *filename,
-                      struct image_contents_s *(*contents_func)(const char *));
+                      struct image_contents_s *(*contents_func)(const char *),
+                        unsigned int *file_number);
 
 #endif
 

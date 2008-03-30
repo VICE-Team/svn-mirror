@@ -116,7 +116,8 @@ static void display_title(int x, int y, BYTE *name, BYTE *id)
 }
 
 char *tui_image_browser(const char *filename,
-                        image_contents_t *(*contents_func)(const char *))
+                        image_contents_t *(*contents_func)(const char *),
+                        unsigned int *file_number)
 {
     image_contents_t *contents;
     tui_area_t backing_store = NULL;
@@ -222,6 +223,8 @@ char *tui_image_browser(const char *filename,
                     tui_area_free(backing_store);
                     retval = stralloc(current->name);
                     image_contents_destroy(contents);
+                    if (file_number != NULL)
+                        *file_number = current_number + 1;
                     return retval;
                 }
 
