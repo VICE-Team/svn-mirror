@@ -27,6 +27,7 @@ SUBDIRS = \
 	vicii \
         vdc \
 	crtc \
+	screendrv \
 	sid \
 	monitor \
 	c64 \
@@ -196,6 +197,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+screendrv_lib = $(top_builddir)/src/screendrv/libscreendrv.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
@@ -217,6 +219,7 @@ x64_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
+        $(screendrv_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
@@ -236,6 +239,7 @@ x64-all: \
 	libraster \
 	libsid \
 	libsounddrv \
+        libscreendrv \
 	libvicii \
 	libarch \
 	libmonitor \
@@ -250,6 +254,7 @@ x128_libs =  \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
+        $(screendrv_lib) \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
@@ -266,6 +271,7 @@ x128-all: \
 	libc128 \
 	libc64c128 \
 	libsounddrv \
+        libscreendrv \
 	libdrive \
 	libvdrive \
 	libarch \
@@ -284,6 +290,7 @@ xvic_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
+        $(screendrv_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
 	$(common_libs)
@@ -299,6 +306,7 @@ xvic-all: \
 	libvdrive \
 	libraster \
 	libsounddrv \
+        libscreendrv \
 	libvic20 \
 	libarch \
 	libmonitor \
@@ -311,6 +319,7 @@ xpet_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
+        $(screendrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
@@ -328,6 +337,7 @@ xpet-all: \
 	libraster \
 	libcrtc \
 	libsounddrv \
+        libscreendrv \
 	libpet \
 	libarch \
 	libmonitor \
@@ -340,6 +350,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sounddrv_lib) \
+        $(screendrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
@@ -355,6 +366,7 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xcbm2-all: \
 	libcbm2 \
 	libsounddrv \
+        libscreendrv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
@@ -435,6 +447,8 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
+libscreendrv:
+	(cd screendrv && $(MAKE))
 libvdrive:
 	(cd vdrive && $(MAKE))
 libvic20:
