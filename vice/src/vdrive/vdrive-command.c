@@ -217,7 +217,8 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
 
       case 'N':
         /* Skip ":" at the start of the name.  */
-	status = vdrive_command_format(vdrive, name + 1);
+	status = vdrive_command_format(vdrive,
+                                       (name == NULL) ? NULL : name + 1);
 	break;
 
       case 'V':
