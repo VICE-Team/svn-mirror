@@ -56,25 +56,14 @@ static int set_palette_file_name(resource_value_t v, void *param)
     return video_color_update_palette();
 }
 
-static const resource_t resources[] =
-{
-    { "ExternalPalette", RES_INTEGER, (resource_value_t)0,
-      (void *)&video_resources.ext_palette, set_ext_palette, NULL },
-    { "PaletteFile", RES_STRING, (resource_value_t)"default",
-      (void *)&video_resources.palette_file_name,
-      set_palette_file_name, NULL },
-    { NULL }
-};
-
 int video_resources_init(void)
 {
-    return resources_register(resources) | video_arch_resources_init();
+    return video_arch_resources_init();
 }
 
 void video_resources_shutdown(void)
 {
     video_arch_resources_shutdown();
-    lib_free(video_resources.palette_file_name);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -337,6 +326,19 @@ static resource_t resources_chip_fullscreen_mode[] =
     { NULL }
 };
 
+static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette",
+                                            NULL };
+
+static resource_t resources_chip_palette[] =
+{
+    { NULL, RES_STRING, (resource_value_t)"default",
+      (void *)&video_resources.palette_file_name,
+      set_palette_file_name, NULL },
+    { NULL, RES_INTEGER, (resource_value_t)0,
+      (void *)&video_resources.ext_palette, set_ext_palette, NULL },
+    { NULL }
+};
+
 int video_resources_chip_init(const char *chipname,
                               struct video_canvas_s **canvas,
                               video_chip_cap_t *video_chip_cap)
@@ -443,6 +445,21 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
         }
     }
+
+    resources_chip_palette[0].name
+        = util_concat(chipname, vname_chip_palette[0], NULL);
+    resources_chip_scan[0].param = (void *)resource_chip;
+
+    if (video_chip_cap->internal_palette_allowed != 0) {
+        resources_chip_palette[1].name
+            = util_concat(chipname, vname_chip_palette[1], NULL);
+        resources_chip_scan[1].param = (void *)resource_chip;
+    } else {
+        resources_chip_palette[1].name = NULL;
+    }
+
+    if (resources_register(resources_chip_palette) < 0)
+        return -1;
 
     return 0;
 }

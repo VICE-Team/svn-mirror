@@ -296,8 +296,7 @@ static palette_t *video_calc_palette(const video_cbm_palette_t *p)
         }
     } else {
         /* create RGB palette with the mixed base colors of the video chip */
-        /* this is for the fake pal emu only, maximum 16 colors allowed
-*/
+        /* this is for the fake pal emu only, maximum 16 colors allowed */
 
         prgb = palette_create(p->num_entries * p->num_entries, NULL);
         if (prgb == NULL)
