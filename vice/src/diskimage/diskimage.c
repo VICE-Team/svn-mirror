@@ -453,6 +453,13 @@ int disk_image_resources_init(void)
     return 0;
 }
 
+void disk_image_resources_shutdown(void)
+{
+#ifdef HAVE_RAWDRIVE
+    rawimage_resources_shutdown();
+#endif
+}
+
 int disk_image_cmdline_options_init(void)
 {
 #ifdef HAVE_RAWDRIVE

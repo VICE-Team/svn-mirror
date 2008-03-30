@@ -40,6 +40,7 @@ typedef struct rawimage_s {
 extern void rawimage_init(void);
 extern int rawimage_resources_init(void);
 extern int rawimage_cmdline_options_init(void);
+extern void rawimage_resources_shutdown(void);
 
 extern void rawimage_name_set(struct disk_image_s *image, char *name);
 extern char *rawimage_name_get(struct disk_image_s *image);

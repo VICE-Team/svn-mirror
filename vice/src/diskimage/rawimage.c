@@ -152,9 +152,14 @@ static const resource_t resources[] = {
     { NULL }
 };
 
-int rawimage_resources_init()
+int rawimage_resources_init(void)
 {
     return resources_register(resources) | blockdev_resources_init();
+}
+
+void rawimage_resources_shutdown(void)
+{
+    lib_free(raw_drive_driver);
 }
 
 /*-----------------------------------------------------------------------*/

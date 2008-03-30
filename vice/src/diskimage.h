@@ -68,6 +68,7 @@ typedef struct disk_image_s disk_image_t;
 extern void disk_image_init(void);
 extern int disk_image_resources_init(void);
 extern int disk_image_cmdline_options_init(void);
+extern void disk_image_resources_shutdown(void);
 
 extern void disk_image_fsimage_name_set(disk_image_t *image, char *name);
 extern char *disk_image_fsimage_name_get(disk_image_t *image);
