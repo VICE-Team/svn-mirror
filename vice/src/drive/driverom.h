@@ -27,17 +27,18 @@
 #ifndef _DRIVEROM_H
 #define _DRIVEROM_H
 
-#define DRIVE_ROM1541_SIZE          0x4000
-#define DRIVE_ROM1541_SIZE_EXPANDED 0x8000
-#define DRIVE_ROM1541II_SIZE        0x4000
-#define DRIVE_ROM1551_SIZE          0x4000
-#define DRIVE_ROM1571_SIZE          0x8000
-#define DRIVE_ROM1581_SIZE          0x8000
-#define DRIVE_ROM2031_SIZE          0x4000
-#define DRIVE_ROM1001_SIZE          0x4000 /* same as ROM8050 and ROM8250 !*/
-#define DRIVE_ROM2040_SIZE          0x2000
-#define DRIVE_ROM3040_SIZE          0x3000
-#define DRIVE_ROM4040_SIZE          0x3000
+#define DRIVE_ROM1541_SIZE            0x4000
+#define DRIVE_ROM1541_SIZE_EXPANDED   0x8000
+#define DRIVE_ROM1541II_SIZE          0x4000
+#define DRIVE_ROM1541II_SIZE_EXPANDED 0x8000
+#define DRIVE_ROM1551_SIZE            0x4000
+#define DRIVE_ROM1571_SIZE            0x8000
+#define DRIVE_ROM1581_SIZE            0x8000
+#define DRIVE_ROM2031_SIZE            0x4000
+#define DRIVE_ROM1001_SIZE            0x4000 /* same as ROM8050 and ROM8250 !*/
+#define DRIVE_ROM2040_SIZE            0x2000
+#define DRIVE_ROM3040_SIZE            0x3000
+#define DRIVE_ROM4040_SIZE            0x3000
 
 #define DRIVE_ROM1541_CHECKSUM      1988651
 
