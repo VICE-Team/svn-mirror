@@ -118,6 +118,8 @@ void machine_reset(void)
 
     mem_initialize_memory();
 
+    event_playback_reset_ack();
+
     vsync_suspend_speed_eval();
 }
 
