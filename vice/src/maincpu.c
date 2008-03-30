@@ -93,7 +93,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+#define TRACE
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
@@ -271,7 +271,7 @@ mos6510_regs_t maincpu_regs;
 /* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
    instructions being executed.  */
 #ifdef TRACE
-int traceflg = 1;
+int traceflg;
 #endif
 
 /* ------------------------------------------------------------------------- */
