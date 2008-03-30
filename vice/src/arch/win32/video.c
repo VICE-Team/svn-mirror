@@ -427,7 +427,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 /* Canvas functions.  */
 
 /* Set the palettes for canvas `c'.  */
-/* static FIXME */ int set_palette(canvas_t c)
+/* static FIXME */ int set_palette(canvas_t *c)
 {
     if (c->depth == 8) {
         HRESULT result;
@@ -479,7 +479,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
     return 0;
 }
 
-static int set_physical_colors(canvas_t c)
+static int set_physical_colors(canvas_t *c)
 {
     HDC hdc;
     DDSURFACEDESC ddsd;
@@ -559,25 +559,25 @@ static int set_physical_colors(canvas_t c)
 }
 
 int         video_number_of_canvases;
-canvas_t    video_canvases[2];
+canvas_t    *video_canvases[2];
 
 /* Create a `canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
-canvas_t canvas_create(const char *title, unsigned int *width,
-                       unsigned int *height, int mapped,
-                       canvas_redraw_t exposure_handler,
-                       const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *title, unsigned int *width,
+                        unsigned int *height, int mapped,
+                        canvas_redraw_t exposure_handler,
+                        const palette_t *palette, PIXEL *pixel_return)
 {
     HRESULT result;
     DDSURFACEDESC desc;
-    canvas_t c;
+    canvas_t *c;
     int i;
 
-    c = xmalloc(sizeof(struct _canvas));
-    memset(c, 0, sizeof(struct _canvas));
+    c = xmalloc(sizeof(struct canvas_s));
+    memset(c, 0, sizeof(struct canvas_s));
 
     /* "Normal" window stuff.  */
     c->title = stralloc(title);
@@ -711,7 +711,7 @@ error:
 }
 
 /* Destroy `s'.  */
-void canvas_destroy(canvas_t c)
+void canvas_destroy(canvas_t *c)
 {
     DestroyWindow(c->hwnd);
     free(c->title);
@@ -719,24 +719,24 @@ void canvas_destroy(canvas_t c)
 }
 
 /* Make `s' visible.  */
-void canvas_map(canvas_t c)
+void canvas_map(canvas_t *c)
 {
 }
 
 /* Make `s' unvisible.  */
-void canvas_unmap(canvas_t c)
+void canvas_unmap(canvas_t *c)
 {
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
+void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 {
     ui_resize_canvas_window(c->hwnd, width, height);
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
+int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
     /* Always OK.  */
     c->palette = p;
@@ -799,7 +799,7 @@ int i;
     raster_cache[number_of_rasters++]=raster;
 }
 
-raster_t *video_find_raster_for_canvas(canvas_t canvas)
+raster_t *video_find_raster_for_canvas(canvas_t *canvas)
 {
 int i;
 
@@ -811,7 +811,7 @@ int i;
     return 0;
 }
 
-canvas_t canvas_find_canvas_for_hwnd(HWND hwnd)
+canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd)
 {
 int i;
 
@@ -836,7 +836,7 @@ RECT            clear_rect;
     FillRect(hdc,&clear_rect,back_color);
 }
 
-static void real_refresh(canvas_t c, video_frame_buffer_t *f,
+static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h);
@@ -849,7 +849,7 @@ extern  int             status_height;
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
-canvas_t    c;
+canvas_t    *c;
 raster_t    *r;
 int         xs;     //  upperleft x in framebuffer
 int         ys;     //  upperleft y in framebuffer
@@ -918,7 +918,7 @@ RECT        rect;
 }
 
 #if 0
-void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
+void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
     RECT    rect;
@@ -936,14 +936,14 @@ void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
     InvalidateRect(c->hwnd,&rect,FALSE);
 }
 
-void canvas_render(canvas_t c, video_frame_buffer_t *f,
+void canvas_render(canvas_t *c, video_frame_buffer_t *f,
                    unsigned int xs, unsigned int ys,
                    unsigned int xi, unsigned int yi,
                    unsigned int w, unsigned int h)
 #else
 
 
-void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
+void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
@@ -974,7 +974,7 @@ RECT            rect;
     real_refresh(c, f, frame_buffer_x, frame_buffer_y, client_x, client_y, w, h);
 }
 
-static void real_refresh(canvas_t c, video_frame_buffer_t *f,
+static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)

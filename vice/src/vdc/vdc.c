@@ -46,6 +46,7 @@
 #include "vdc-snapshot.h"
 #include "vdc.h"
 #include "vdctypes.h"
+#include "video.h"
 
 
 

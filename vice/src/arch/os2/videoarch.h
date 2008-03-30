@@ -34,7 +34,7 @@ extern const int FBMULT;
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
-typedef struct _canvas {
+typedef struct canvas_s {
     //    HPS   hps;
     //    BOOL  init_ready;       // dont't use exposure_handler to early
     HWND  hwndFrame;        // Handle to Frame of Window
@@ -45,7 +45,7 @@ typedef struct _canvas {
     RGB2 *palette;          // pointer to structure which stores colorinfo
     BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
     canvas_redraw_t exposure_handler;
-} *canvas_t;
+} canvas_t;
 
 #endif
 

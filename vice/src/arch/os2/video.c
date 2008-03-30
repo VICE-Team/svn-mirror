@@ -363,7 +363,7 @@ void wmVrn(HWND hwnd)
 
 void wmVrnEnabled(HWND hwnd)
 {
-    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     wmVrn(hwnd);
     c->vrenabled=TRUE;
@@ -373,7 +373,7 @@ void wmVrnEnabled(HWND hwnd)
 
 void wmVrnDisabled(HWND hwnd)
 {
-    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     DiveSetupBlitter(hDiveInst, NULL);
     c->vrenabled=FALSE;
@@ -448,7 +448,7 @@ void PM_mainloop(VOID *arg)
     HAB   hab;  // Anchor Block to PM
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
-    canvas_t *c=(canvas_t*)arg;
+    canvas_t **c=(canvas_t **)arg;
     int px = posx;
     int py = posy;
 
@@ -520,20 +520,20 @@ void PM_mainloop(VOID *arg)
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
-canvas_t canvas_create(const char *title, UINT *width,
-                       UINT *height, int mapped,
-                       canvas_redraw_t exposure_handler,
-                       const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *title, UINT *width,
+                        UINT *height, int mapped,
+                        canvas_redraw_t exposure_handler,
+                        const palette_t *palette, PIXEL *pixel_return)
 {
-    canvas_t canvas_new;
+    canvas_t *canvas_new;
 
     if (palette->num_entries > 255) {
         log_error(LOG_DEFAULT, "video.c: Too many colors requested.");
-       return (canvas_t) NULL;
+       return (canvas_t *) NULL;
     }
 
-    canvas_new = (canvas_t)xcalloc(1,sizeof(struct _canvas));
-    if (!canvas_new) return (canvas_t) NULL;
+    canvas_new = (canvas_t *)xcalloc(1,sizeof(struct canvas_s));
+    if (!canvas_new) return (canvas_t *) NULL;
 
     canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;
@@ -563,17 +563,17 @@ canvas_t canvas_create(const char *title, UINT *width,
     return canvas_new;
 }
 
-void canvas_map(canvas_t c)
+void canvas_map(canvas_t *c)
 {   /* Make `s' visible.  */
     // WinShowWindow(c->hwndFrame, 1);
 }
 
-void canvas_unmap(canvas_t c)
+void canvas_unmap(canvas_t *c)
 {   /* Make `s' unvisible.  */
     // WinShowWindow(c->hwndFrame, 0);
 }
 
-void canvas_resize(canvas_t c, UINT width, UINT height)
+void canvas_resize(canvas_t *c, UINT width, UINT height)
 {
     if (c->width==width && c->height==height) return;
     if (!WinSetWindowPos(c->hwndFrame, 0, 0, 0,
@@ -591,7 +591,7 @@ void canvas_resize(canvas_t c, UINT width, UINT height)
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
+int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
     int i;
     ULONG rc;
@@ -608,7 +608,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t c, video_frame_buffer_t f,
+void canvas_refresh(canvas_t *c, video_frame_buffer_t f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w,  unsigned int h)

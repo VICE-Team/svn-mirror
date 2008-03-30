@@ -49,7 +49,7 @@
 /* Colour translation table, only used in 16/32bpp modes */
 canvas_list_t *CanvasList = NULL;
 /* Active canvas */
-canvas_t ActiveCanvas = NULL;
+canvas_t *ActiveCanvas = NULL;
 
 /* Full screen variables */
 int FullScreenMode = 0;
@@ -237,7 +237,7 @@ void video_frame_buffer_clear(video_frame_buffer_t *i, PIXEL value)
 }
 
 
-int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_return)
+int canvas_set_palette(canvas_t *canvas, const palette_t *palette, PIXEL *pixel_return)
 {
   int i;
   palette_entry_t *p;
@@ -297,13 +297,13 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
 }
 
 
-canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, canvas_redraw_t exposure_handler, const palette_t *palette, PIXEL *pixel_return)
+canvas_t *canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, canvas_redraw_t exposure_handler, const palette_t *palette, PIXEL *pixel_return)
 {
-  canvas_t canvas;
+  canvas_t *canvas;
   canvas_list_t *newCanvas;
 
-  if ((canvas = (canvas_t)malloc(sizeof(struct _canvas))) == NULL)
-    return (canvas_t)0;
+  if ((canvas = (canvas_t *)malloc(sizeof(struct canvas_s))) == NULL)
+    return (canvas_t *)0;
 
   canvas->width = *width; canvas->height = *height;
 
@@ -353,7 +353,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
 }
 
 
-void canvas_destroy(canvas_t s)
+void canvas_destroy(canvas_t *s)
 {
   canvas_list_t *clist, *last;
 
@@ -380,17 +380,17 @@ void canvas_destroy(canvas_t s)
 }
 
 
-void canvas_map(canvas_t s)
+void canvas_map(canvas_t *s)
 {
 }
 
 
-void canvas_unmap(canvas_t s)
+void canvas_unmap(canvas_t *s)
 {
 }
 
 
-void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
+void canvas_resize(canvas_t *s, unsigned int width, unsigned int height)
 {
   /* Make a note of the resize, too */
   s->width = width; s->height = height;
@@ -410,7 +410,7 @@ void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 }
 
 
-void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
+void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
 			unsigned int xs, unsigned int ys,
 			unsigned int xi, unsigned int yi,
 			unsigned int w, unsigned int h)
@@ -494,7 +494,7 @@ void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
 }
 
 
-canvas_t canvas_for_handle(int handle)
+canvas_t *canvas_for_handle(int handle)
 {
   canvas_list_t *clist = CanvasList;
 
@@ -556,7 +556,7 @@ void video_full_screen_colours(void)
   /* Set the palette first thing */
   if (ScreenSetPalette != 0)
   {
-    canvas_t canvas = ActiveCanvas;
+    canvas_t *canvas = ActiveCanvas;
     unsigned int num_colours = ActiveCanvas->num_colours;
 
     if ((canvas != NULL) && ((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
@@ -652,7 +652,7 @@ int video_full_screen_off(void)
 
 int video_full_screen_refresh(void)
 {
-  canvas_t canvas = ActiveCanvas;
+  canvas_t *canvas = ActiveCanvas;
 
   if ((FullScreenMode == 0) || (canvas == NULL)) return -1;
 

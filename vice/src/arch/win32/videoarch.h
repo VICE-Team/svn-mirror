@@ -69,7 +69,7 @@ typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
 struct palette_s;
 
-typedef struct _canvas {
+typedef struct canvas_s {
     char *title;
     int width, height;
     int mapped;
@@ -85,16 +85,16 @@ typedef struct _canvas {
     LPDIRECTDRAWSURFACE temporary_surface;
     LPDIRECTDRAWCLIPPER clipper;
     LPDIRECTDRAWPALETTE dd_palette;
-} *canvas_t;
+} canvas_t;
 
 /* ------------------------------------------------------------------------ */
 
-extern void canvas_set_border_color(canvas_t canvas, BYTE color);
+extern void canvas_set_border_color(canvas_t *canvas, BYTE color);
 
 //extern  video_frame_buffer_t  main_fbuff;
-//extern  canvas_t        main_canvas;
+//extern  canvas_t        *main_canvas;
 
-extern void canvas_render(canvas_t c, video_frame_buffer_t *f,
+extern void canvas_render(canvas_t *c, video_frame_buffer_t *f,
                            int xs, int ys, int xi, int yi, int w, int h);
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h);

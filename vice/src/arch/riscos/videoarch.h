@@ -46,7 +46,7 @@ typedef struct video_frame_buffer_s video_frame_buffer_t;
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
-struct _canvas {
+struct canvas_s {
   unsigned int width, height;
   unsigned int scale;
   int shiftx, shifty;
@@ -57,10 +57,10 @@ struct _canvas {
   unsigned int colour_table[256];
 };
 
-typedef struct _canvas *canvas_t;
+typedef struct canvas_s canvas_t;
 
 typedef struct canvas_list_t {
-  canvas_t canvas;
+  canvas_t *canvas;
   struct canvas_list_t *next;
 } canvas_list_t;
 
@@ -75,7 +75,7 @@ typedef struct canvas_list_t {
 
 
 extern void canvas_mode_change(void);
-extern canvas_t canvas_for_handle(int handle);
+extern canvas_t *canvas_for_handle(int handle);
 extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
 
@@ -89,7 +89,7 @@ extern void video_full_screen_plot_status(void);
 extern void video_full_screen_display_image(unsigned int num, const char *img);
 
 extern canvas_list_t *CanvasList;
-extern canvas_t ActiveCanvas;
+extern canvas_t *ActiveCanvas;
 
 extern int FullScreenMode;
 extern int FullScreenStatLine;
