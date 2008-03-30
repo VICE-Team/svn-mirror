@@ -20,12 +20,14 @@ team.
    - the comp.emulators.cbm and comp.sys.cbm FAQs (available from many
      places; one famous repository is at ftp://rtfm.mit.edu/).
 
+- When you report a bug, please try to be as accurate as possible and
+  describe how it can be reproduced to the very detail.  You should
+  also tell us what machine you are running on, what operating system
+  you are using as well as the version of it.
+
 - Please don't ask us how to transfer original C64 disk or tapes to
   your PC.  To transfer disks, you can use the Star Commander
-  (http://ludens.elte.hu/~sta/sc.html); to transfer tapes, you'll have
-  to write your own tool (and of course make it available as /free/
-  software with open sources, so that other people can enjoy it as
-  much as you do).
+  (http://ludens.elte.hu/~sta/sc.html).
 
 - Please don't ask us where to find games for the emulator on the
   Internet.
@@ -36,5 +38,8 @@ team.
 - Please write in English, or in the native language of the person you
   are writing to (Ettore is Italian, André and Andreas are German,
   Teemu is Finnish, Daniel is from Canada).
+
+In any case, we would be really glad to receive your comments about
+VICE.
 
 Thanks!

@@ -732,10 +732,10 @@ this kind of information is not available here.  @xref{Contacts} for
 information about how to retrieve the the FAQs.
 
 All the emulators provide an accurate 6502/6510 emulator, with emulation
-of all the opcodes and accurate timing.  Moreover, all of the
-undocumented opcodes are implemented.  Unlike other emulators, the
-emulation of all the chips is cycle accurate, and tries to emulate
-timings as precisely as possible.
+of all the opcodes (both documented and undocumented ones) and accurate
+timing.  Unlike other emulators, the emulation of all the chips is cycle
+accurate, and tries to emulate timings as precisely as possible while
+trying to use as little processor power as possible.
 
 Please do @emph{not} expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
@@ -763,8 +763,7 @@ cycle-accurate.
 
 Moreover, a rather complete emulation of the SID sound chip is provided.
 All the basic features are implemented as well as most of the complex
-ones including sync and ring modulation.  Filters are the only major
-feature missing at the moment.
+ones including sync, ring modulation and filters.
 
 Of course, also both CIAs are cycle-accurate and fully emulated.
 
@@ -1168,9 +1167,9 @@ Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
 @node Command-line autostart,  , Command-line initialization, Usage
 @section Autostarting programs from the command-line
 
-It is possible to let the emulator @dfn{autostart} a disk or
-tape image file, by simply specifying its name as the last argument on
-the command line; for example
+It is possible to let the emulator @dfn{autostart} a disk or tape image
+file, by simply specifying its name as the @emph{last} argument on the
+command line; for example
 
 @example
 x64 lovelygame.x64.gz
@@ -1795,8 +1794,8 @@ command from the command menu.  There are two types of reset:
 @end itemize
 
 A @dfn{soft reset} is the same as a hardware reset achieved by pulling
-the RESET line down; a @dfn{hard reset} is more like a power on/power
-off sequence, which makes sure the whole RAM is cleared.
+the @sc{reset} line down; a @dfn{hard reset} is more like a power
+on/power off sequence, which makes sure the whole RAM is cleared.
 
 It is possible that a soft reset is not enough to bring the machine back
 to the OS initialization sequence: in such cases, you have to do a hard
@@ -1851,11 +1850,11 @@ using command-line options.
 @node Resource files, Resources and command-line, Settings and resources, Settings and resources
 @section Format of resource files
 
-A resource file is made up of several section; sections have the purpose
-of separating the resources of a certain emulator from the ones of the
-other emulators.  A section is started with the name of an emulator in
-brackets (eg. @samp{[C64]}) and ends when another section starts, or the
-file ends.
+A resource file is made up of several sections; sections have the
+purpose of separating the resources of a certain emulator from the ones
+of the other emulators.  A section is started with the name of an
+emulator in brackets (eg. @samp{[C64]}) and ends when another section
+starts, or the file ends.
 
 Every line in a section has the following format:
 
@@ -1946,10 +1945,10 @@ limit'' as the maximum speed at the same time.
 
 @cindex Warp speed mode
 Moreover, a special @dfn{warp speed} mode is provided and can be toggled
-with the ``Enable Warp Mode'' menu item.  If this mode is enabled, warp
-speed mode will be enabled and will cause the emulator to disable any
-speed limit, turn sound emulation off and use a 1/10 refresh rate, so
-that it will run at the maximum possible speed.
+with the ``Enable Warp Mode'' menu item.  If this mode is enabled, it
+will cause the emulator to disable any speed limit, turn sound emulation
+off and use a 1/10 refresh rate, so that it will run at the maximum
+possible speed.
 
 @menu
 * Performance resources::
@@ -2013,16 +2012,19 @@ The following right-button menu items control the video output:
 @cindex Video cache
 @item
 ``Video Cache'' enables a video cache that can speed up the emulation
-when little graphics activity is going on.  This can actually make the
-emulator slower when there is little graphics activity, and the cache is
-useless.
+when little graphics activity is going on; it is especially useful when
+you run the emulator on a networked X terminal, as it can reduce the
+amount of bandwidth required.  But this can actually make the emulator
+slower when there is little graphics activity and the amount of work
+needed to maintain the cache is bigger than the amount of work that
+would be wasted by not using it (if any).
 
 @cindex Double-size mode
 @item
 ``Double Size'' toggles @dfn{double-size mode}, which makes the
-emulation window twice as big (when emulating a 80-column PET, only the
+emulation window twice as big.  When emulating a 80-column PET, only the
 height is doubled, so that the aspect ratio is more similiar to the one
-of the real thing).
+of the real thing.
 
 @cindex Double-scan mode.
 @item
@@ -2238,8 +2240,9 @@ in speed.  For example, if the emulation speed drops down from from 100%
 to 50%, audio slows down by the same amount too.
 @item
 ``Exact'', instead, makes the audio renderer output always the same
-samples you would hear from the real thing, without trying to adapt the
-ratio.
+sounds you would hear from the real thing, without trying to adapt the
+ratio; to compensate the tolerances in speed, some extra frames will be
+skipped or added.
 @end itemize
 
 @cindex Sample rate
@@ -2409,25 +2412,25 @@ These settings are used to control the emulation of the 1541 drive.
 @itemize @bullet
 
 @item
-``Enable true 1541 emulation'') enables the slow hardware-level
+``Enable true 1541 emulation'' enables the slow hardware-level
 emulation of the 1541 drive number 8 for maximum compatibility.
 
 @item
 ``Enable parallel cable'' enables emulation of a SpeedDOS parallel
 cable; if you switch this option on and replace the original Commodore
-ROMs with SpeedDOS-compatible ones, you can speed up the loading speed.
+ROMs with SpeedDOS-compatible ones, you can speed up loading/saving times.
 
 @item
 ``True 1541 sync factor'' specifies the speed of the 1541 CPU.  This can
 be used to help loading certain programs that have trouble with the
-default setting (for example, programs designed for NTSC machines).  The
-ratio is calculated as follows:
+default PAL setting (for example, programs designed for NTSC machines).
+The ratio is calculated as follows:
 
 @example
 sync_factor = 65536 * clk_1541 / clk_machine
 @end example
 
-where @code{clk_1541} and @code{clk_machine} are clock speeds, in MHz.
+where @code{clk_1541} and @code{clk_machine} are clock speeds in MHz.
 The menu lets you choose between the PAL and NTSC values, and also lets
 you specify whatever value you want.  Be careful when changing it,
 though, because a wrong value can break things and even corrupt disk
@@ -2451,7 +2454,7 @@ only pending interrupts are emulated to save time.
 @item
 @dfn{No traps}: Like ``Trap idle'', but without traps at all.  So
 basically the 1541 works exactly as with the real thing, and nothing is
-done to reduce memory consumption.
+done to reduce the power needs of the 1541 emulation.
 @end itemize
 
 The first option (``Skip cycles'') is usually better for performance, as
@@ -2826,7 +2829,7 @@ Specify device for the IEC printer (@code{PrUserDev}).
 @subsection Disabling kernal traps
 
 If you have compatibility problems, you can completely disable Kernal
-traps with the ``Disable serial traps'' option.  This will of course
+traps with the ``Disable kernal traps'' option.  This will of course
 disable all the features that depend on it, such as the fast 1541
 emulation (so you will have to turn true 1541 emulation on if you want
 to be able to read or write disk images) and tape support.
@@ -2864,7 +2867,7 @@ Enable (@code{NoTraps=0}) or disable (@code{NoTraps=1}) kernal traps.
 @node Misc settings,  , Peripheral settings, Settings and resources
 @section Miscellaneous settings
 
-This section lists generic resources that did not fit in the other
+This section lists generic resources that do not fit in the other
 categories.
 
 @menu
@@ -2879,10 +2882,10 @@ categories.
 @vindex Directory
 @item Directory
 String specifying the search path for system files.  It is defined as a
-sequence of paths, separated by colons (@samp{:}), just like the
-@code{PATH} variable in the shell.  The special path @samp{$$} stands
-for the default search path, which is initialized at startup to the
-following value:
+sequence of directory names, separated by colons (@samp{:}), just like
+the @code{PATH} variable in the shell.  The special string @samp{$$}
+stands for the default search path, which is initialized at startup to
+the following value:
 
 @example
 LIBDIR/EMUID:BOOTPATH/EMUID
@@ -2917,7 +2920,7 @@ example, the default value @samp{netscape %s} runs Netscape Navigator.
 @item SaveResourcesOnExit
 Boolean specifying whether the emulator should save changed settings
 before exiting.  If this is enabled, the user will be always prompted
-first.
+first, in case the settings have changed.
 
 @end table
 
@@ -2978,7 +2981,7 @@ X64 allows you to attach the following kinds of cartridges:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per Hâkan Sundell;
+@file{.crt} images, as used by the CCS64 emulator by Per H@^akan Sundell;
 @item
 generic raw dumps of 8K and 16K images;
 @item
@@ -3507,9 +3510,9 @@ block 5 (8 Kbytes at $A000-$BFFF).
 @end itemize
 
 These blocks are called @dfn{expansion blocks} because they are not
-present in the stock machine.  Each of them is associated to a boolean
-@code{RamBlockX} resource (where @code{X} is the block number) that
-specifies whether the block is enabled or not.
+present a stock (``unexpanded'') machine.  Each of them is associated to
+a boolean @code{RamBlockX} resource (where @code{X} is the block number)
+that specifies whether the block is enabled or not.
 
 There are also some common memory configurations you can pick from the
 right-button menu:
@@ -3595,7 +3598,7 @@ blocks);
 respective address.
 @end itemize
 
-Examples:
+For example,
 
 @example
 xvic -memory none
@@ -3692,10 +3695,10 @@ thus are not present in the other emulators.
 @node PET model, PET diagnostic pin, PET-specific, PET-specific
 @subsection Changing PET model settings
 
-With XPET, it is possible to change at runtime the characteristics of
-the emulated PET so that it matches (or not) the ones of a certain PET
-model, and it is also possible to select from a common set of PET models
-so that all the features are selected accordingly.
+With @code{xpet}, it is possible to change at runtime the
+characteristics of the emulated PET so that it matches (or not) the ones
+of a certain PET model, and it is also possible to select from a common
+set of PET models so that all the features are selected accordingly.
 
 The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
@@ -4708,7 +4711,7 @@ Teemu is Finnish, Daniel is from Canada).
 
 @end itemize
 
-In any case, we would @emph{really} be glad to receive your comments
+In any case, we would be @emph{really} glad to receive your comments
 about VICE.
 
 Thanks!
