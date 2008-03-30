@@ -30,8 +30,10 @@
 #include <unistd.h>
 #endif
 
+#include "alarm.h"
 #include "interrupt.h"
 #include "log.h"
+#include "mon.h"
 #include "z80.h"
 #include "z80mem.h"
 
@@ -265,9 +267,34 @@ static BYTE SZP[256] = {
 
 /* Interrupt handling.  */
 
-#define DO_INTERRUPT()                              \
-  do {                                              \
-     /* Handle IRQs here.  */                       \
+#define DO_INTERRUPT(int_kind)                                           \
+  do {                                                                   \
+        BYTE ik = (int_kind);                                            \
+                                                                         \
+        if (ik & (IK_TRAP | IK_RESET)) {                                 \
+            if (ik & IK_TRAP) {                                          \
+                do_trap(cpu_int_status, (ADDRESS) reg_pc);               \
+                if (check_pending_interrupt(cpu_int_status) & IK_RESET)  \
+                    ik |= IK_RESET;                                      \
+            }                                                            \
+            if (ik & IK_RESET) {                                         \
+            }                                                            \
+        }                                                                \
+        if (ik & (IK_MONITOR)) {                                         \
+            caller_space = e_comp_space;                                 \
+            if (mon_mask[e_comp_space] & (MI_BREAK)) {                   \
+               if (check_breakpoints(e_comp_space, (ADDRESS) reg_pc)) {  \
+                  mon((ADDRESS) reg_pc);                                 \
+               }                                                         \
+            }                                                            \
+            if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
+               mon_check_icount((ADDRESS) reg_pc);                       \
+            }                                                            \
+            if (mon_mask[e_comp_space] & (MI_WATCH)) {                   \
+               mon_check_watchpoints((ADDRESS) reg_pc);                  \
+            }                                                            \
+        }                                                                \
+                                                                         \
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -344,9 +371,9 @@ static BYTE SZP[256] = {
       }                                                               \
   } while (0)
 
-#define CALL(reg_val, clk_inc)                          \
+#define CALL(reg_val, clk_inc, pc_inc)                  \
   do {                                                  \
-      INC_PC(3);                                        \
+      INC_PC(pc_inc);                                   \
       --reg_sp;                                         \
       STORE((reg_sp), ((BYTE)(reg_pc >> 8)));           \
       --reg_sp;                                         \
@@ -355,14 +382,14 @@ static BYTE SZP[256] = {
       CLK += clk_inc;                                   \
   } while (0)
 
-#define CALL_COND(reg_value, cond, clk_inc1, clk_inc2)  \
-  do {                                                  \
-      if (cond) {                                       \
-          CALL(reg_value, clk_inc1);                    \
-      } else {                                          \
-          CLK += clk_inc2;                              \
-          INC_PC(3);                                    \
-      }                                                 \
+#define CALL_COND(reg_value, cond, clk_inc1, clk_inc2, pc_inc)    \
+  do {                                                            \
+      if (cond) {                                                 \
+          CALL(reg_value, clk_inc1, pc_inc);                      \
+      } else {                                                    \
+          CLK += clk_inc2;                                        \
+          INC_PC(3);                                              \
+      }                                                           \
   } while (0)
 
 #define CPBYTE(reg_val)                                           \
@@ -378,7 +405,7 @@ static BYTE SZP[256] = {
       INC_PC(2);                                                  \
   } while (0)
 
-#define CPREG(reg_val)                                            \
+#define CPREG(reg_val, clk_inc)                                   \
   do {                                                            \
       BYTE tmp;                                                   \
                                                                   \
@@ -387,7 +414,7 @@ static BYTE SZP[256] = {
       LOCAL_SET_CARRY(reg_val > reg_a);                           \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
       LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
-      CLK += 4;                                                   \
+      CLK += (clk_inc);                                           \
       INC_PC(1);                                                  \
   } while (0)
 
@@ -533,11 +560,20 @@ static BYTE SZP[256] = {
       INC_PC(1);                                                    \
   } while (0)
 
-#define JMP(addr, clk_inc1, clk_inc2)           \
+#define JMP(addr, clk_inc)                      \
   do {                                          \
-      CLK += (clk_inc1);                        \
+      CLK += (clk_inc);                         \
       JUMP(addr);                               \
-      CLK += (clk_inc2);                        \
+  } while (0)
+
+#define JMP_COND(addr, cond, clk_inc1, clk_inc2) \
+  do {                                           \
+      if (cond) {                                \
+          JMP(addr, clk_inc1);                   \
+      } else {                                   \
+          CLK += (clk_inc2);                     \
+          INC_PC(3);                             \
+      }                                          \
   } while (0)
 
 #define LDBC(value, clk_inc1, clk_inc2, pc_inc) \
@@ -721,8 +757,41 @@ static BYTE SZP[256] = {
   do {                                                          \
       BYTE rot;                                                 \
                                                                 \
-      rot = reg_a & 0x80 ? C_FLAG : 0;                          \
+      rot = (reg_a & 0x80) ? C_FLAG : 0;                        \
       reg_a = (reg_a << 1) | (reg_f & C_FLAG);                  \
+      reg_f = (reg_f & ~(N_FLAG | H_FLAG | C_FLAG)) | rot;      \
+      CLK += 4;                                                 \
+      INC_PC(1);                                                \
+  } while (0)
+
+#define RLCA()                                                  \
+  do {                                                          \
+      BYTE rot;                                                 \
+                                                                \
+      rot = (reg_a & 0x80) ? C_FLAG : 0;                        \
+      reg_a = (reg_a << 1) | rot;                               \
+      reg_f = (reg_f & ~(N_FLAG | H_FLAG | C_FLAG)) | rot;      \
+      CLK += 4;                                                 \
+      INC_PC(1);                                                \
+  } while (0)
+
+#define RRA()                                                   \
+  do {                                                          \
+      BYTE rot;                                                 \
+                                                                \
+      rot = reg_a & C_FLAG;                                     \
+      reg_a = (reg_a >> 1) | (reg_f & C_FLAG);                  \
+      reg_f = (reg_f & ~(N_FLAG | H_FLAG | C_FLAG)) | rot;      \
+      CLK += 4;                                                 \
+      INC_PC(1);                                                \
+  } while (0)
+
+#define RRCA()                                                  \
+  do {                                                          \
+      BYTE rot;                                                 \
+                                                                \
+      rot = reg_a & C_FLAG;                                     \
+      reg_a = (reg_a >> 1) | ((reg_f & C_FLAG) ? 0x80 : 0);     \
       reg_f = (reg_f & ~(N_FLAG | H_FLAG | C_FLAG)) | rot;      \
       CLK += 4;                                                 \
       INC_PC(1);                                                \
@@ -836,6 +905,7 @@ static BYTE SZP[256] = {
       reg_f = N_FLAG | (SZP[tmp] & P_FLAG);                       \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);      \
       LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80); \
+      LOCAL_SET_CARRY(reg_val > reg_a);                           \
       reg_a = tmp;                                                \
       CLK += clk_inc;                                             \
       INC_PC(pc_inc);                                             \
@@ -1320,7 +1390,8 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12)
 
 /* Z80 mainloop.  */
 
-void z80_mainloop(void)
+void z80_mainloop(cpu_int_status_t *cpu_int_status,
+                  alarm_context_t *cpu_alarm_context)
 {
     opcode_t opcode;
 
@@ -1333,7 +1404,19 @@ void z80_mainloop(void)
 
     do {
 
-    DO_INTERRUPT();
+    while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
+        alarm_context_dispatch(cpu_alarm_context, CLK);
+
+    {
+        enum cpu_int pending_interrupt;
+
+        pending_interrupt = check_pending_interrupt(cpu_int_status);
+        if (pending_interrupt != IK_NONE) {
+            DO_INTERRUPT(pending_interrupt);
+            while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
+                alarm_context_dispatch(cpu_alarm_context, CLK);
+        }
+    }
 
     FETCH_OPCODE(opcode);
 
@@ -1364,9 +1447,8 @@ void z80_mainloop(void)
     case 0x06: /* LD B # */
     LDREG(reg_b, p1, 4, 3, 2);
     break;
-    case 0x07: /*  */
-    //RLCA,
-    exit (-1);
+    case 0x07: /* RLCA */
+    RLCA();
     break;
     case 0x08: /*  */
     //EX_AF_AF,
@@ -1390,9 +1472,8 @@ void z80_mainloop(void)
     case 0x0e: /* LD C # */
     LDREG(reg_c, p1, 4, 3, 2);
     break;
-    case 0x0f: /*  */
-    //RRCA,
-    exit (-1);
+    case 0x0f: /* RRCA */
+    RRCA();
     break;
     case 0x10: /* DJNZ */
     DJNZ(p1);
@@ -1440,9 +1521,8 @@ void z80_mainloop(void)
     case 0x1e: /* LD E # */
     LDREG(reg_e, p1, 4, 3, 2);
     break;
-    case 0x1f: /*  */
-    //RRA,
-    exit (-1);
+    case 0x1f: /* RRA */
+    RRA();
     break;
     case 0x20: /* JR NZ */
     BRANCH(!LOCAL_ZERO(), p1);
@@ -1744,38 +1824,24 @@ void z80_mainloop(void)
     break;
     case 0x81: /* ADD C */
     ADDREG(reg_c, 4, 1);
-    //ADD_C,
-    exit (-1);
     break;
     case 0x82: /* ADD D */
     ADDREG(reg_d, 4, 1);
-    //ADD_D,
-    exit (-1);
     break;
     case 0x83: /* ADD E */
     ADDREG(reg_e, 4, 1);
-    //ADD_E,
-    exit (-1);
     break;
     case 0x84: /* ADD H */
     ADDREG(reg_h, 4, 1);
-    //ADD_H,
-    exit (-1);
     break;
     case 0x85: /* ADD L */
     ADDREG(reg_l, 4, 1);
-    //ADD_L,
-    exit (-1);
     break;
     case 0x86: /* ADD (HL) */
     ADDREG(LOAD(HL_WORD()), 7, 1);
-    //ADD_xHL,
-    exit (-1);
     break;
     case 0x87: /* ADD A */
     ADDREG(reg_a, 4, 1);
-    //ADD_A,
-    exit (-1);
     break;
     case 0x88: /*  */
     //ADC_B,
@@ -1932,29 +1998,28 @@ void z80_mainloop(void)
     ORREG(reg_a, 4, 0, 1);
     break;
     case 0xb8: /* CP B */
-    CPREG(reg_b);
+    CPREG(reg_b, 4);
     break;
     case 0xb9: /* CP C */
-    CPREG(reg_c);
+    CPREG(reg_c, 4);
     break;
     case 0xba: /* CP D */
-    CPREG(reg_d);
+    CPREG(reg_d, 4);
     break;
     case 0xbb: /* CP E */
-    CPREG(reg_e);
+    CPREG(reg_e, 4);
     break;
     case 0xbc: /* CP H */
-    CPREG(reg_h);
+    CPREG(reg_h, 4);
     break;
     case 0xbd: /* CP L */
-    CPREG(reg_l);
+    CPREG(reg_l, 4);
     break;
-    case 0xbe: /*  */
-    //CP_xHL,
-    exit (-1);
+    case 0xbe: /* CP (HL) */
+    CPREG(LOAD(HL_WORD()), 7);
     break;
     case 0xbf: /* CP A */
-    CPREG(reg_a);
+    CPREG(reg_a, 4);
     break;
     case 0xc0: /* RET NZ */
     RET_COND(!LOCAL_ZERO());
@@ -1962,15 +2027,14 @@ void z80_mainloop(void)
     case 0xc1: /* POP BC */
     POP(reg_b, reg_c);
     break;
-    case 0xc2: /*  */
-    //JP_NZ,
-    exit (-1);
+    case 0xc2: /* JP NZ */
+    JMP_COND(p12, !LOCAL_ZERO(), 10, 10);
     break;
     case 0xc3: /* JP */
-    JMP(p12, 10, 0);
+    JMP(p12, 10);
     break;
     case 0xc4: /* CALL NZ */
-    CALL_COND(p12, !LOCAL_ZERO(), 10, 10);
+    CALL_COND(p12, !LOCAL_ZERO(), 10, 10, 3);
     break;
     case 0xc5: /* PUSH BC */
     PUSH(reg_b, reg_c);
@@ -1979,7 +2043,7 @@ void z80_mainloop(void)
     ADDREG(p1, 7, 2);
     break;
     case 0xc7: /* RST 00 */
-    CALL(0x00, 11);
+    CALL(0x00, 11, 1);
     break;
     case 0xc8: /* RET Z */
     RET_COND(LOCAL_ZERO());
@@ -1987,25 +2051,24 @@ void z80_mainloop(void)
     case 0xc9: /* RET */
     RET();
     break;
-    case 0xca: /*  */
-    //JP_Z,
-    exit (-1);
+    case 0xca: /* JP Z */
+    JMP_COND(p12, LOCAL_ZERO(), 10, 10);
     break;
     case 0xcb: /* OPCODE CB */
     opcode_cb(p1, p2, p3, p12);
     break;
     case 0xcc: /* CALL Z */
-    CALL_COND(p12, LOCAL_ZERO(), 10, 10);
+    CALL_COND(p12, LOCAL_ZERO(), 10, 10, 3);
     break;
     case 0xcd: /* CALL */
-    CALL(p12, 7);
+    CALL(p12, 7, 3);
     break;
     case 0xce: /*  */
     //ADC_BYTE,
     exit (-1);
     break;
     case 0xcf: /* RST 08 */
-    CALL(0x08, 11);
+    CALL(0x08, 11, 1);
     break;
     case 0xd0: /* RET NC */
     RET_COND(!LOCAL_CARRY());
@@ -2013,16 +2076,15 @@ void z80_mainloop(void)
     case 0xd1: /* POP DE */
     POP(reg_d, reg_e);
     break;
-    case 0xd2: /*  */
-    //JP_NC,
-    exit (-1);
+    case 0xd2: /* JP NC */
+    JMP_COND(p12, !LOCAL_CARRY(), 10, 10);
     break;
     case 0xd3: /*  */
     //OUTA,
     exit (-1);
     break;
     case 0xd4: /* CALL NC */
-    CALL_COND(p12, !LOCAL_CARRY(), 10, 10);
+    CALL_COND(p12, !LOCAL_CARRY(), 10, 10, 3);
     break;
     case 0xd5: /* PUSH DE */
     PUSH(reg_d, reg_e);
@@ -2031,7 +2093,7 @@ void z80_mainloop(void)
     SUBREG(p1, 7, 2);
     break;
     case 0xd7: /* RST 10 */
-    CALL(0x10, 11);
+    CALL(0x10, 11, 1);
     break;
     case 0xd8: /* RET C */
     RET_COND(LOCAL_CARRY());
@@ -2040,16 +2102,15 @@ void z80_mainloop(void)
     //EXX,
     exit (-1);
     break;
-    case 0xda: /*  */
-    //JP_C,
-    exit (-1);
+    case 0xda: /* JP C */
+    JMP_COND(p12, LOCAL_CARRY(), 10, 10);
     break;
     case 0xdb: /*  */
     //INA,
     exit (-1);
     break;
     case 0xdc: /* CALL C */
-    CALL_COND(p12, LOCAL_CARRY(), 10, 10);
+    CALL_COND(p12, LOCAL_CARRY(), 10, 10, 3);
     break;
     case 0xdd: /*  */
     //PFX_DD,
@@ -2059,7 +2120,7 @@ void z80_mainloop(void)
     SBCREG(p1, 7, 2);
     break;
     case 0xdf: /* RST 18 */
-    CALL(0x18, 11);
+    CALL(0x18, 11, 1);
     break;
     case 0xe0: /* RET PO */
     RET_COND(!LOCAL_PARITY());
@@ -2067,15 +2128,14 @@ void z80_mainloop(void)
     case 0xe1: /* POP HL */
     POP(reg_h, reg_l);
     break;
-    case 0xe2: /*  */
-    //JP_PO,
-    exit (-1);
+    case 0xe2: /* JP PO */
+    JMP_COND(p12, !LOCAL_PARITY(), 10, 10);
     break;
     case 0xe3: /* EX HL (SP) */
     EXHLSP();
     break;
     case 0xe4: /* CALL PO */
-    CALL_COND(p12, !LOCAL_PARITY(), 10, 10);
+    CALL_COND(p12, !LOCAL_PARITY(), 10, 10, 3);
     break;
     case 0xe5: /* PUSH HL */
     PUSH(reg_h, reg_l);
@@ -2084,23 +2144,22 @@ void z80_mainloop(void)
     AND(p1, 7, 0, 2);
     break;
     case 0xe7: /* RST 20 */
-    CALL(0x20, 11);
+    CALL(0x20, 11, 1);
     break;
     case 0xe8: /* RET PE */
     RET_COND(LOCAL_PARITY());
     break;
     case 0xe9: /* LD PC HL */
-    JMP((HL_WORD()), 4, 0);
+    JMP((HL_WORD()), 4);
     break;
-    case 0xea: /*  */
-    //JP_PE,
-    exit (-1);
+    case 0xea: /* JP PE */
+    JMP_COND(p12, LOCAL_PARITY(), 10, 10);
     break;
     case 0xeb: /* EX DE HL */
     EXDEHL();
     break;
     case 0xec: /* CALL PE */
-    CALL_COND(p12, LOCAL_PARITY(), 10, 10);
+    CALL_COND(p12, LOCAL_PARITY(), 10, 10, 3);
     break;
     case 0xed: /* OPCODE ED */
     opcode_ed(p1, p2, p3, p12);
@@ -2110,7 +2169,7 @@ void z80_mainloop(void)
     exit (-1);
     break;
     case 0xef: /* RST 28 */
-    CALL(0x28, 11);
+    CALL(0x28, 11, 1);
     break;
     case 0xf0: /* RET P */
     RET_COND(!LOCAL_SIGN());
@@ -2118,15 +2177,14 @@ void z80_mainloop(void)
     case 0xf1: /* POP AF */
     POP(reg_a, reg_f);
     break;
-    case 0xf2: /*  */
-    //JP_P,
-    exit (-1);
+    case 0xf2: /* JP P */
+    JMP_COND(p12, !LOCAL_SIGN(), 10, 10);
     break;
     case 0xf3: /* DI */
     DI();
     break;
     case 0xf4: /* CALL P */
-    CALL_COND(p12, !LOCAL_SIGN(), 10, 10);
+    CALL_COND(p12, !LOCAL_SIGN(), 10, 10, 3);
     break;
     case 0xf5: /* PUSH AF */
     PUSH(reg_a, reg_f);
@@ -2135,7 +2193,7 @@ void z80_mainloop(void)
     ORREG(p1, 4, 3, 2);
     break;
     case 0xf7: /* RST 30 */
-    CALL(0x30, 11);
+    CALL(0x30, 11, 1);
     break;
     case 0xf8: /* RET M */
     RET_COND(LOCAL_SIGN());
@@ -2144,15 +2202,14 @@ void z80_mainloop(void)
     //LD_SP_HL,
     exit (-1);
     break;
-    case 0xfa: /*  */
-    //JP_M,
-    exit (-1);
+    case 0xfa: /* JP M */
+    JMP_COND(p12, LOCAL_SIGN(), 10, 10);
     break;
     case 0xfb: /* EI */
     EI();
     break;
     case 0xfc: /* CALL M */
-    CALL_COND(p12, LOCAL_SIGN(), 10, 10);
+    CALL_COND(p12, LOCAL_SIGN(), 10, 10, 3);
     break;
     case 0xfd: /*  */
     //PFX_FD,
@@ -2162,7 +2219,7 @@ void z80_mainloop(void)
     CPBYTE(p1);
     break;
     case 0xff: /* RST 38 */
-    CALL(0x38, 11);
+    CALL(0x38, 11, 1);
     break;
     }
     } while (!dma_request);
