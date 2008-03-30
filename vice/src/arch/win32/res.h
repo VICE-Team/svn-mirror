@@ -165,6 +165,7 @@
 #define IDM_ATTACH_11                   40010
 #define IDM_ATTACH_TAPE                 40011
 #define IDM_DETACH_TAPE                 40012
+#define IDM_DATASETTE_CONTROL           40013
 #define IDM_DETACH_8                    40014
 #define IDM_DETACH_9                    40015
 #define IDM_DETACH_10                   40016
@@ -231,6 +232,12 @@
 #define IDM_SAVEQUICK                   40149
 #define IDM_LOADQUICK                   40150
 #define IDM_HELP                        40151
+#define IDM_DATASETTE_CONTROL_START     40160
+#define IDM_DATASETTE_CONTROL_STOP      40161
+#define IDM_DATASETTE_CONTROL_FORWARD   40162
+#define IDM_DATASETTE_CONTROL_REWIND    40163
+#define IDM_DATASETTE_CONTROL_RECORD    40164
+#define IDM_DATASETTE_CONTROL_RESET     40165
 
 // Next default values for new objects
 //

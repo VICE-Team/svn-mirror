@@ -34,8 +34,9 @@
 
 #include "menudefs.h"
 
-#include "imagecontents.h"
+#include "datasette.h"
 #include "grabkey.h"
+#include "imagecontents.h"
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
@@ -66,6 +67,7 @@
 
 tui_menu_t ui_attach_submenu;
 tui_menu_t ui_detach_submenu;
+tui_menu_t ui_datasette_submenu;
 tui_menu_t ui_drive_submenu;
 tui_menu_t ui_info_submenu;
 tui_menu_t ui_joystick_settings_submenu;
@@ -88,14 +90,14 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 
     if (been_activated) {
         char *default_item, *directory;
-	char *name, *file;
+        char *name, *file;
 
-	s = (char *)serial_get_file_name((int)param);
-	fname_split(s, &directory, &default_item);
+        s = (char *)serial_get_file_name((int)param);
+        fname_split(s, &directory, &default_item);
 
-	name = tui_file_selector("Attach a disk image", directory,
-				 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
-				 default_item, image_contents_read_disk, &file);
+        name = tui_file_selector("Attach a disk image", directory,
+                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
+                                 default_item, image_contents_read_disk, &file);
 
         if (file != NULL) {
             if (autostart_disk(name, file) < 0)
@@ -106,21 +108,21 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         } else	if (name != NULL
                     && (s == NULL || strcasecmp(name, s) != 0)
                     && file_system_attach_disk((int)param, name) < 0) {
-	    tui_error("Invalid disk image.");
-	}
+            tui_error("Invalid disk image.");
+        }
 
         ui_update_menus();
 
-	free(directory), free(default_item);
+        free(directory), free(default_item);
         if (name != NULL)
             free(name);
     }
 
     s = (char *)serial_get_file_name((int)param);
     if (s == NULL || *s == '\0')
-	return "(none)";
+        return "(none)";
     else
-	return s;
+        return s;
 }
 
 static TUI_MENU_CALLBACK(attach_tape_callback)
@@ -135,7 +137,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
-				 "*.t6[4z]", default_item,
+				 "*.t64;*.tap", default_item,
 				 image_contents_read_tape, &file);
 
         if (file != NULL) {
@@ -160,6 +162,13 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	return "(none)";
     else
 	return s;
+}
+
+static TUI_MENU_CALLBACK(datasette_callback)
+{
+    if (been_activated)
+        datasette_control((int)param);
+    return NULL;
 }
 
 static TUI_MENU_CALLBACK(autostart_callback)
@@ -1519,6 +1528,34 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          "Remove virtual disks, tapes or cartridges from the emulated machine",
                          ui_detach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+    ui_datasette_submenu = tui_menu_create("Datasette control", 1);
+    tui_menu_add_item(ui_datasette_submenu, "Stop",
+              "Press the STOP key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_STOP, 0,
+              TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_datasette_submenu, "Start",
+              "Press the START key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_START, 0,
+              TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_datasette_submenu, "Forward",
+              "Press the FORWARD key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_FORWARD, 0,
+              TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_datasette_submenu, "Rewind",
+              "Press the REWIND key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
+              TUI_MENU_BEH_CONTINUE);
+#if 0
+    tui_menu_add_item(ui_datasette_submenu, "Record",
+              "Press the REWIND key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
+              TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_datasette_submenu, "Reset",
+              "Press the REWIND key of the datasette",
+              datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,
+              TUI_MENU_BEH_CONTINUE);
+#endif
 
     tui_menu_add_item(ui_main_menu, "Change _Working Directory...",
 		      "Change the current working directory",
