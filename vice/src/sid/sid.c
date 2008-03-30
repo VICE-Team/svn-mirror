@@ -985,7 +985,7 @@ void sound_machine_close(sound_t *psid)
 /* read register value from sid */
 static BYTE lastsidread;
 
-BYTE REGPARM1 read_sid(ADDRESS addr)
+BYTE REGPARM1 sid_read(ADDRESS addr)
 {
     int				val;
     machine_handle_pending_alarms(0);
@@ -1075,7 +1075,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 }
 
 /* write register value to sid */
-void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
+void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
     siddata[addr] = byte;
