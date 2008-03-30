@@ -37,6 +37,9 @@
 extern BYTE basic_rom[];
 extern BYTE kernal_rom[];
 
+extern BYTE REGPARM1 kernal_read(ADDRESS addr);
+extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
+
 extern int plus4_mem_init_resources(void);
 extern int plus4_mem_init_cmdline_options(void);
 

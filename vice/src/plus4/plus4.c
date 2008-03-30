@@ -84,8 +84,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x20, 0xA9, 0xED },
         serialattention,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
     {
         "SerialSaListen",
@@ -93,8 +93,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x24, 0xF9, 0x30 },
         serialattention,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
     {
         "SerialSendByte",
@@ -102,8 +102,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x24, 0xF9, 0x30 },
         serialsendbyte,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
 /*
     {
@@ -112,8 +112,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x48, 0x24, 0x94 },
         serialsendbyte,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
 */
     {
@@ -122,8 +122,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0x86, 0xBA, 0x24 },
         serialreceivebyte,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
     {
         "SerialReady",
@@ -131,8 +131,8 @@ static trap_t plus4_serial_traps[] = {
         0xE1E7,
         { 0xA5, 0x01, 0xC5 },
         trap_serial_ready,
-        rom_read,
-        rom_store
+        kernal_read,
+        kernal_store
     },
     {
         NULL,
