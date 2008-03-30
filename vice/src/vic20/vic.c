@@ -70,7 +70,7 @@ vic_t vic;
 
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
-  raster_resize_viewport(&vic.raster, width, height);
+    raster_resize_viewport(&vic.raster, width, height);
 }
 
 void vic_change_timing(void)
@@ -135,8 +135,7 @@ static void vic_set_geometry(void)
         width *= 2;
         height *= 2;
         raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-    } else 
-    {
+    } else {
 #ifdef USE_XF86_EXTENSIONS
 	if (!fullscreen_is_enabled)
 #endif
@@ -147,14 +146,13 @@ static void vic_set_geometry(void)
 #ifdef USE_XF86_EXTENSIONS
   if (!fullscreen_is_enabled)
 #endif
-    raster_resize_viewport(&vic.raster, width, height);
+      raster_resize_viewport(&vic.raster, width, height);
 
 #ifdef __MSDOS__
   video_ack_vga_mode();
 #endif
 
 }
-
 
 
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
@@ -355,14 +353,7 @@ raster_t *vic_init(void)
 
     vic_reset();
 
-    vic_draw_init ();
-#ifdef USE_XF86_EXTENSIONS
-    vic_draw_set_double_size(fullscreen_is_enabled
-                             ? vic_resources.fullscreen_double_size_enabled
-                             : vic_resources.double_size_enabled);
-#else
-    vic_draw_set_double_size(vic_resources.double_size_enabled);
-#endif
+    vic_draw_init();
 
     vic_update_memory_ptrs();
 
@@ -408,13 +399,6 @@ void vic_resize(void)
         return;
 
 #ifdef USE_XF86_EXTENSIONS
-    if (!fullscreen_is_enabled)
-#endif
-        raster_enable_double_size(&vic.raster,
-                                  vic_resources.double_size_enabled,
-                                  vic_resources.double_size_enabled);
-
-#ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled
         : vic_resources.double_size_enabled)
 #else
@@ -422,31 +406,25 @@ void vic_resize(void)
 #endif
 
     {
-      if (vic.raster.viewport.pixel_size.width == 1
-          && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-          raster_resize_viewport(&vic.raster,
-                                 vic.raster.viewport.width * 2,
-                                 vic.raster.viewport.height * 2);
-      } else {
-          raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-      }
-
-      vic_draw_set_double_size(1);
-    }
-  else
-    {
-      if (vic.raster.viewport.pixel_size.width == 2
-          && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-          raster_resize_viewport(&vic.raster,
-                                 vic.raster.viewport.width / 2,
-                                 vic.raster.viewport.height / 2);
-      } else {
-          raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
-      }
-
-      vic_draw_set_double_size(0);
+        if (vic.raster.viewport.pixel_size.width == 1
+            && vic.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+            raster_resize_viewport(&vic.raster,
+                                   vic.raster.viewport.width * 2,
+                                   vic.raster.viewport.height * 2);
+        } else {
+            raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+        }
+    } else {
+        if (vic.raster.viewport.pixel_size.width == 2
+            && vic.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
+            raster_resize_viewport(&vic.raster,
+                                   vic.raster.viewport.width / 2,
+                                   vic.raster.viewport.height / 2);
+        } else {
+            raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
+        }
     }
 
 #ifdef USE_XF86_EXTENSIONS
@@ -545,7 +523,7 @@ void vic_async_refresh(struct canvas_refresh_s *refresh)
 void vic_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-    vic_resize ();
+    vic_resize();
     raster_enable_double_scan(&vic.raster,
                               fullscreen_is_enabled ?
                               vic_resources.fullscreen_double_scan_enabled :
@@ -562,3 +540,4 @@ void vic_trigger_light_pen(CLOCK mclk)
         vic.light_pen.y = VIC_RASTER_Y(mclk) / 2;
     }
 }
+
