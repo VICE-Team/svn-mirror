@@ -12,7 +12,8 @@ release:
 
 - complete the MS-DOS port;
 
-- check the SID drivers (the Sun one does not work anymore!);
+- check the SID drivers (Sun/Linux are known to work, the other ones
+  should be tested);
 
 
 What are we going to do next
@@ -21,20 +22,12 @@ What are we going to do next
 * General improvements
 ----------------------
 
-  - Reorganize the sound emulation.
-
   - More ports!  (E.g. MacOS, Win32, BeOS...)  Any volunteers?
 
   - Snapshot format to freeze the emulators' state.  The main issue is
     to make it as implementation-independent as possible, so that
     snapshots made with the current versions will still run on the
     future ones.
-
-  - Support for cartridges.
-
-  - Ability to emulate key presses e.g. via cut & paste, command-line
-    options, or menus.  This can be done by writing to the keyboard
-    buffer or by changing the values in the keyboard port.
 
   - Convert all the documentation to texinfo, so that it can be
     translated to different formats more easily.
@@ -43,9 +36,6 @@ What are we going to do next
 
   - Allow tape loading without the virtually pressed "Play" button,
     which can break some programs that do not like this.
-
-  - Better mapping from OS/language specific keyboard drivers to the
-    emulator keyboard.  Possibly configurable at runtime.
 
   - Emulate shifted keys more accurately by delaying the shifted key
     after the shift.
@@ -72,8 +62,6 @@ What are we going to do next
 
 * VIC20 improvements
 --------------------
-
-  - Ability to change the memory configuration at Run-time.
 
   - Better, possibly cycle-based, emulation of the VIC-I chip.
 
