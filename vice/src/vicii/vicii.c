@@ -1480,14 +1480,16 @@ static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 void vic_ii_resize(void)
 {
     if (!vic_ii.initialized)
-      return;
+        return;
 
+#ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
         raster_enable_double_size(&vic_ii.raster,
                                   vic_ii_resources.double_size_enabled,
                                   vic_ii_resources.double_size_enabled);
+#endif
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
