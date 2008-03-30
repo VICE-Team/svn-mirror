@@ -823,6 +823,17 @@ RECT            clear_rect;
     FillRect(hdc,&clear_rect,back_color);
 }
 
+static void real_refresh(canvas_t c, frame_buffer_t f,
+                    unsigned int xs, unsigned int ys,
+                    unsigned int xi, unsigned int yi,
+                    unsigned int w, unsigned int h);
+
+extern  HWND            window_handles[2];
+extern  int             number_of_windows;
+extern  int             window_canvas_xsize[2];
+extern  int             window_canvas_ysize[2];
+extern  int             status_height;
+
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
 canvas_t    c;
@@ -831,14 +842,21 @@ int         xs;     //  upperleft x in framebuffer
 int         ys;     //  upperleft y in framebuffer
 int         xi;     //  upperleft x in client space
 int         yi;     //  upperleft y in client space
+int         window_index;
+RECT        rect;
 
     c=canvas_find_canvas_for_hwnd(hwnd);
     if (c) {
         r=video_find_raster_for_canvas(c);
         if (r) {
+        for (window_index=0; window_index<number_of_windows; window_index++) {
+            if (window_handles[window_index]==hwnd) break;
+        }
+
+        GetClientRect(hwnd, &rect);
         //  Calculate upperleft point's framebuffer coords
-        xs=xclient-r->viewport.x_offset+r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border;
-        ys=yclient-r->viewport.y_offset+r->viewport.first_line*r->viewport.pixel_size.height;
+        xs=xclient-((rect.right-window_canvas_xsize[window_index])/2)-r->viewport.x_offset+r->viewport.first_x*r->viewport.pixel_size.width+r->geometry.extra_offscreen_border;
+        ys=yclient-((rect.bottom-status_height-window_canvas_ysize[window_index])/2)-r->viewport.y_offset+r->viewport.first_line*r->viewport.pixel_size.height;
         //  Cut off areas outside of framebuffer and clear them
         xi=xclient;
         yi=yclient;
@@ -879,7 +897,7 @@ int         yi;     //  upperleft y in client space
             //  Update remaining area from framebuffer....
 
             if ((w>0) && (h>0)) {
-                canvas_refresh(c, r->frame_buffer, xs, ys, xi, yi, w, h);
+                real_refresh(c, r->frame_buffer, xs, ys, xi, yi, w, h);
             }
         }
         }
@@ -910,7 +928,40 @@ void canvas_render(canvas_t c, frame_buffer_t f,
                    unsigned int xi, unsigned int yi,
                    unsigned int w, unsigned int h)
 #else
+
+
 void canvas_refresh(canvas_t c, frame_buffer_t f,
+                    unsigned int xs, unsigned int ys,
+                    unsigned int xi, unsigned int yi,
+                    unsigned int w, unsigned int h)
+{
+int             window_index;
+unsigned int    frame_buffer_x;
+unsigned int    frame_buffer_y;
+unsigned int    client_x;
+unsigned int    client_y;
+RECT            rect;
+
+    for (window_index=0; window_index<number_of_windows; window_index++) {
+        if (window_handles[window_index]==c->hwnd) break;
+    }
+    if (window_index==number_of_windows) {
+        DEBUG("PANIC: can't find window");
+        return;
+    }
+    frame_buffer_x=xs;
+    frame_buffer_y=ys;
+    client_x=xi;
+    client_y=yi;
+
+    GetClientRect(c->hwnd, &rect);
+    client_x+=(rect.right-window_canvas_xsize[window_index])/2;
+    client_y+=(rect.bottom-status_height-window_canvas_ysize[window_index])/2;
+
+    real_refresh(c, f, frame_buffer_x, frame_buffer_y, client_x, client_y, w, h);
+}
+
+static void real_refresh(canvas_t c, frame_buffer_t f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)

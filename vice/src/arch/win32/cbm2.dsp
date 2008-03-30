@@ -116,9 +116,5 @@ SOURCE=..\..\cbm2\c610tpi1.c
 
 SOURCE=..\..\cbm2\c610tpi2.c
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\cbm2\crtc.c
-# End Source File
 # End Target
 # End Project

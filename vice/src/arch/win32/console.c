@@ -41,8 +41,7 @@
 #include "utils.h"
 #include "winmain.h"
 
-
-/** #undef DEBUG **/
+/** #define DEBUG /**/
 
 
 #ifdef DEBUG
@@ -95,13 +94,13 @@
 			_exit(1); \
 		}
 
-#else // #ifdef DEBUG
+#else /* #ifdef DEBUG */
 
 	#define DBGONLY( xxx )
 	#define DBGOUT( xxx )
 	#define ASSERT( xxx )
 
-#endif // #ifdef DEBUG
+#endif /* #ifdef DEBUG */
 
 
 /*
@@ -217,7 +216,13 @@ static console_private_t *first_window;
 		ASSERT( pcpTestValidLog->pConsole == log );
 	}
 
-#endif // #ifdef DEBUG
+#endif /* #ifdef DEBUG */
+
+
+static void process_break( void )
+{
+    DBGOUT(( "BREAK" ));
+}
 
 
 
@@ -635,6 +640,11 @@ int console_out(console_t *log, const char *format, ...)
 		console_out_character( pcp, ch );
 	}
 
+    /* dispatch events if there is one, so the keyboard will be handled */
+    /* @SRT: should we move this into scroll_up(), so the performance
+       will be better when using many console_out() w/o doing a CR */
+    ui_dispatch_events();
+
 	return 0;
 }
 
@@ -823,6 +833,11 @@ static long CALLBACK console_window_proc(HWND hwnd,
 
 			switch (nVirtKey)
 			{
+            case VK_ESCAPE:
+                /* treat ESCAPE key as CTRL+BREAK */
+                process_break();
+                return 0;
+
 			case VK_UP:
 				if (pcp->nCurrentSelectHistory < MAX_HISTORY)
 				{
@@ -1029,6 +1044,13 @@ static long CALLBACK console_window_proc(HWND hwnd,
 				console_out_character( pcp, chCharCode );
 				return 0;
 			}
+
+            if (chCharCode == 3) /* 3 is ASCII for CTRL+C */
+            {
+                /* it's a CTRL+C or CTRL+BREAK */
+                process_break();
+                return 0;
+            }
 
 			/* any other key will be ignored */
 		}

@@ -70,21 +70,18 @@
 #include "vsync.h"
 #include "winmain.h"
 
-/* Main window.  */
-/* static HWND main_hwnd; */
+static HWND status_hwnd[2];
 
-static HWND status_hwnd;
+int status_height;
 
-static int status_height;
-
-/* Main canvas.  */
-/* static char *main_hwnd_title; */
 static char *hwnd_titles[2];
 
 /* Exposure handler.  */
 HWND            window_handles[2];
 canvas_redraw_t exposure_handler[2];
 int             number_of_windows;
+int             window_canvas_xsize[2];
+int             window_canvas_ysize[2];
 
 static HACCEL   ui_accelerator;
 
@@ -352,8 +349,8 @@ RECT    rect;
                         winmain_instance,
                         NULL);
 
-    status_hwnd=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
-    GetClientRect(status_hwnd,&rect);
+    status_hwnd[number_of_windows]=CreateStatusWindow(WS_CHILD|WS_VISIBLE,"",hwnd,IDM_STATUS_WINDOW);
+    GetClientRect(status_hwnd[number_of_windows],&rect);
     status_height=rect.bottom-rect.top;
 
     ui_resize_canvas_window(hwnd, width, height);
@@ -362,6 +359,8 @@ RECT    rect;
 
     window_handles[number_of_windows]=hwnd;
     exposure_handler[number_of_windows] = exp_handler;
+    window_canvas_xsize[number_of_windows]=width;
+    window_canvas_ysize[number_of_windows]=height;
     number_of_windows++;
 
     return hwnd;
@@ -389,7 +388,18 @@ RECT    rect;
 /* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 {
-    RECT wrect;
+RECT            wrect;
+int             window_index;
+WINDOWPLACEMENT place;
+
+    for (window_index=0; window_index<number_of_windows; window_index++) {
+        if (window_handles[window_index]==w) break;
+    }
+    place.length=sizeof(WINDOWPLACEMENT);
+    GetWindowPlacement(w,&place);
+
+    window_canvas_xsize[window_index]=width;
+    window_canvas_ysize[window_index]=height;
 
     GetClientRect(w, &wrect);
     ClientToScreen(w, (LPPOINT) &wrect);
@@ -397,12 +407,19 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height + status_height;
     AdjustWindowRect(&wrect, WS_OVERLAPPED|WS_BORDER|WS_DLGFRAME, TRUE);
-    MoveWindow(w,
-               wrect.left,
-               wrect.top,
-               wrect.right - wrect.left,
-               wrect.bottom - wrect.top,
-               TRUE);
+    if (place.showCmd==SW_SHOWNORMAL) {
+        MoveWindow(w,
+                   wrect.left,
+                   wrect.top,
+                   wrect.right - wrect.left,
+                   wrect.bottom - wrect.top,
+                   TRUE);
+    } else {
+        place.rcNormalPosition.right=place.rcNormalPosition.left+wrect.right-wrect.left;
+        place.rcNormalPosition.bottom=place.rcNormalPosition.top+wrect.bottom-wrect.top;
+        SetWindowPlacement(w,&place);
+        InvalidateRect(w,NULL,FALSE);
+    }
 }
 
 /* Update all the menus according to the current settings.  */
@@ -569,7 +586,7 @@ static int                  tape_counter;
 static int                  tape_control;
 
 
-static void SetStatusWindowParts(void)
+static void SetStatusWindowParts(HWND hwnd)
 {
 int     number_of_parts;
 int     enabled_drives;
@@ -592,29 +609,33 @@ int     i;
         status_map[enabled_drives++]=1;
         status_partindex[1]=number_of_parts++;
     }
-    GetWindowRect(status_hwnd,&rect);
+    GetWindowRect(hwnd,&rect);
     width=rect.right-rect.left;
     for (i=number_of_parts; i>=0; i--) {
         posx[i]=width;
         width-=110;
     }
-    SendMessage(status_hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
+    SendMessage(hwnd,SB_SETPARTS,number_of_parts+1,(LPARAM)posx);
     if (number_of_parts==3) {
-        SendMessage(status_hwnd,SB_SETTEXT,3|SBT_OWNERDRAW,0);
+        SendMessage(hwnd,SB_SETTEXT,3|SBT_OWNERDRAW,0);
     }
     if (number_of_parts==2) {
-        SendMessage(status_hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
+        SendMessage(hwnd,SB_SETTEXT,2|SBT_OWNERDRAW,0);
     }
     if (number_of_parts==1) {
-        SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+        SendMessage(hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
     }
 }
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
+int i;
+
     status_enabled = enable;
     drive_active_led = drive_led_color;
-    SetStatusWindowParts();
+    for (i=0; i<number_of_windows; i++) {
+        SetStatusWindowParts(status_hwnd[i]);
+    }
 }
 
 /* Toggle displaying of the drive track.  */
@@ -622,15 +643,23 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
    Dual drives display drive 0: and 1: instead of unit 8: and 9: */
 void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 {
+int i;
+
     status_track[drivenum]=track_number;
-    SendMessage(status_hwnd,SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+    for (i=0; i<number_of_windows; i++) {
+        SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+    }
 }
 
 /* Toggle displaying of the drive LED.  */
 void ui_display_drive_led(int drivenum, int status)
 {
+int i;
+
     status_led[drivenum]=status;
-    SendMessage(status_hwnd,SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+    for (i=0; i<number_of_windows; i++) {
+        SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+    }
 }
 
 /* display current image */
@@ -642,27 +671,43 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 /* tape-status on*/
 void ui_set_tape_status(int tape_status)
 {
+int i;
+
     tape_enabled = tape_status;
-    SetStatusWindowParts();
+    for (i=0; i<number_of_windows; i++) {
+        SetStatusWindowParts(status_hwnd[i]);
+    }
 }
 
 void ui_display_tape_motor_status(int motor)
 {   
+int i;
+
     tape_motor = motor;
-    SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    for (i=0; i<number_of_windows; i++) {
+        SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    }
 }
 
 void ui_display_tape_control_status(int control)
 {
+int i;
+
     tape_control = control;
-    SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    for (i=0; i<number_of_windows; i++) {
+        SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
+    }
 }
 
 extern void ui_display_tape_counter(int counter)
 {
+int i;
+
     if (counter!=tape_counter) {
         tape_counter = counter;
-        SendMessage(status_hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
+        for (i=0; i<number_of_windows; i++) {
+            SendMessage(status_hwnd[i],SB_SETTEXT,1|SBT_OWNERDRAW,0);
+        }
     }
 }
 
@@ -1250,7 +1295,6 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 RECT    led;
 char    text[256];
 RECT    client_rect;
-/* POINT   *point; */
 int     window_index;
 
     for (window_index=0; window_index<number_of_windows; window_index++) {
@@ -1268,14 +1312,9 @@ int     window_index;
             mouse_update_mouse_acquire();
             break;
         case WM_SIZE:
-            SendMessage(status_hwnd,msg,wparam,lparam);
-            SetStatusWindowParts();
+            SendMessage(status_hwnd[window_index],msg,wparam,lparam);
+            SetStatusWindowParts(status_hwnd[window_index]);
             GetClientRect(window, &client_rect);
-
-            if ((window_index<number_of_windows) && (exposure_handler[window_index])) {
-                exposure_handler[window_index](client_rect.right - client_rect.left,
-                                client_rect.bottom - client_rect.top - status_height);
-            }
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
@@ -1491,7 +1530,7 @@ int     window_index;
                     frame_coord[2]=frame_coord[4];
                 }
 #endif
-                canvas_update(window, hdc, update_rect.left, update_rect.top, update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
+                canvas_update(window, hdc,update_rect.left,update_rect.top,update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
 
                 EndPaint(window, &ps);
 #endif
