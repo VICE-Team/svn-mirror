@@ -418,8 +418,6 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM WORD addr, BYTE byte)
             cia_sdr_valid = 1;
             cia_update_ta(CIA_CONTEXT_CALL rclk);
             ciat_set_alarm(&ciata, rclk);
-
-/*printf("%s: rclk=%d, store_cia[sdr](%02x, '%c'\n",MYCIA_NAME, byte);*/
 #if 0
             if (ciasr_bits <= 8) {
 /*
@@ -488,7 +486,8 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM WORD addr, BYTE byte)
         break;
 
       case CIA_CRA:             /* control register A */
-        if ((byte & 1) && !(cia[CIA_CRA] & 1)) cia_tat = 1;
+        if ((byte & 1) && !(cia[CIA_CRA] & 1))
+            cia_tat = 1;
 
         cia_update_ta(CIA_CONTEXT_CALL rclk);
 
@@ -974,10 +973,12 @@ void mycia_set_flag(CIA_CONTEXT_PARVOID)
 
 void mycia_set_sdr(CIA_CONTEXT_PARAM BYTE data)
 {
-    cia[CIA_SDR] = data;
-    ciaint |= CIA_IM_SDR;
-    if (ciaier & CIA_IM_SDR) {
-        my_set_int(CIA_CONTEXT_CALL MYCIA_INT, myclk);
+    if (!(cia[CIA_CRA] & 0x40)) {
+        cia[CIA_SDR] = data;
+        ciaint |= CIA_IM_SDR;
+        if (ciaier & CIA_IM_SDR) {
+            my_set_int(CIA_CONTEXT_CALL MYCIA_INT, myclk);
+        }
     }
 }
 
