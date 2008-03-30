@@ -91,9 +91,12 @@ static void update_timer(riot_context_t *riot_context)
                                  - riot_context->r_write_clk) & 0xff00;
 }
 
-void riotcore_clk_overflow_callback(riot_context_t *riot_context, CLOCK sub,
-                                    void *data)
+static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
 {
+    riot_context_t *riot_context;
+
+    riot_context = (riot_context_t *)data;
+
     update_timer(riot_context);
 
     riot_context->r_write_clk -= sub;
@@ -311,13 +314,13 @@ void riotcore_init(const riot_initdesc_t *riot_desc,
     char buffer[16];
     const riot_initdesc_t *rd = &riot_desc[number];
 
-    if (rd->riot_ptr->log == LOG_ERR)
-        rd->riot_ptr->log = log_open(rd->riot_ptr->myname);
+    rd->riot_ptr->log = log_open(rd->riot_ptr->myname);
 
     sprintf(buffer, "%sT1", rd->riot_ptr->myname);
     rd->riot_ptr->alarm = alarm_new(alarm_context, buffer, rd->int_t1);
 
-    clk_guard_add_callback(clk_guard, rd->clk, NULL);
+    clk_guard_add_callback(clk_guard, riotcore_clk_overflow_callback,
+                           rd->riot_ptr);
 }
 
 void riotcore_setup_context(riot_context_t *riot_context)

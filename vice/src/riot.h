@@ -81,7 +81,6 @@ typedef struct riot_context_s {
 
 typedef struct riot_initdesc_s {
     struct riot_context_s *riot_ptr;
-    void (*clk)(CLOCK, void*);
     void (*int_t1)(CLOCK);
 } riot_initdesc_t;
 
@@ -99,8 +98,7 @@ extern void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr,
                                     BYTE data);
 extern BYTE REGPARM2 riotcore_read(riot_context_t *riot_context, WORD addr);
 extern void riotcore_int_riot(riot_context_t *riot_context, CLOCK offset);
-extern void riotcore_clk_overflow_callback(riot_context_t *riot_context,
-                                           CLOCK sub, void *data);
+
 extern int riotcore_snapshot_write_module(struct riot_context_s *riot_context,
                                           struct snapshot_s *p);
 extern int riotcore_snapshot_read_module(struct riot_context_s *riot_context,

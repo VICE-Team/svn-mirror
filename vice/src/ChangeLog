@@ -1,3 +1,45 @@
+2003-08-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.23.
+
+	* vicii/vicii-fetch.c: Fixed sprite data fetch.
+
+	* core/viacore.c, via.h, drive/iec/via1d1541.c
+	drive/ieee/via1d2031.c, drive/iecieee/via2d.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c: Simplified overflow
+	callback.
+
+	* core/viacore.c, cia.h, drive/ciad.h, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, c64/c64cia1.c, c64/c64cia2.c,
+	c128/c128cia1.c, cbm2/cbm2cia1.c: Changed likewise.
+
+	* core/riotcore.c, riot.h, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c: Changed likewise.
+
+	* c64/c64iec.c, c128/c128iec.c, vic20/vic20iec.c,
+	plus4/plus4iec.c: Removed some includes.
+
+	* arch/os2/vac++/Makefile.am: Added new files.
+
+2003-08-10  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h:
+	do not define OPENCBM
+
+	* arch/os2/makedist.cmd, arch/os2/vac++/*/*.icc,
+	arch/os2/vac++/*.icc:
+	- adpted to 1.12
+
+	* ioutil.c:
+	- include typed.h
+
+	* lib.c:
+	- include types.h
+
+	* plus4/plus4tcbm.c:
+	- do not declare tpid_output* static
+
 2003-08-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.22.

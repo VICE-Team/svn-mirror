@@ -238,16 +238,6 @@ static BYTE read_prb(riot_context_t *riot_context)
         | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
 }
 
-static void clk0_overflow_callback(CLOCK sub, void *data)
-{
-    riotcore_clk_overflow_callback(&(drive0_context.riot2), sub, data);
-}
-
-static void clk1_overflow_callback(CLOCK sub, void *data)
-{
-    riotcore_clk_overflow_callback(&(drive1_context.riot2), sub, data);
-}
-
 static void int_riot2d0(CLOCK c)
 {
     riotcore_int_riot(&(drive0_context.riot2), c);
@@ -259,8 +249,8 @@ static void int_riot2d1(CLOCK c)
 }
 
 static const riot_initdesc_t riot2_initdesc[] = {
-    { &drive0_context.riot2, clk0_overflow_callback, int_riot2d0 },
-    { &drive1_context.riot2, clk1_overflow_callback, int_riot2d1 }
+    { &drive0_context.riot2, int_riot2d0 },
+    { &drive1_context.riot2, int_riot2d1 }
 };
 
 void riot2_init(drive_context_t *ctxptr)
