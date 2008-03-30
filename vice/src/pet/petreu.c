@@ -169,22 +169,26 @@ static int set_petreu_filename(resource_value_t v, void *param)
   return 0;
 }
 
-static const resource_t resources[] = {
-    { "PETREU", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&petreu_enabled, set_petreu_enabled, NULL },
-    { "PETREUsize", RES_INTEGER, (resource_value_t)128,
-      RES_EVENT_SAME, NULL,
-      (void *)&petreu_size_kb, set_petreu_size, NULL },
-    { "PETREUfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&petreu_filename, set_petreu_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "PETREUfilename", "", RES_EVENT_NO, NULL,
+      &petreu_filename, set_petreu_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "PETREU", 0, RES_EVENT_SAME, NULL,
+      &petreu_enabled, set_petreu_enabled, NULL },
+    { "PETREUsize", 128, RES_EVENT_SAME, NULL,
+      (int *)&petreu_size_kb, set_petreu_size, NULL },
     { NULL }
 };
 
 int petreu_resources_init(void)
 {
-  return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void petreu_resources_shutdown(void)
