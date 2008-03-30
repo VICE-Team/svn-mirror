@@ -920,7 +920,7 @@ static void replace_current_input( console_private_t *pcp, const char *p )
     cursor(pcp, CS_RESUME);
 }
 
-static void remember_current_input_and_delete(console_private_t *pcp, const char **pOldInput)
+static void remember_current_input_and_delete(console_private_t *pcp, char **pOldInput)
 {
     /* finish the current input buffer with a zero */
     pcp->achInputBuffer[pcp->cntInputBuffer] = 0;

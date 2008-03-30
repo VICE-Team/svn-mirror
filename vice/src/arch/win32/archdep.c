@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <windows.h>
+#include <winsock.h>
 #include <tlhelp32.h>
 #include <tchar.h>
 
@@ -82,6 +83,18 @@
 static char *orig_workdir;
 static char *argv0;
 
+static void archdep_network_init(void)
+{
+    WORD wVersionRequested = MAKEWORD(1, 1);
+    WSADATA wsaData;
+
+    WSAStartup(wVersionRequested, &wsaData);
+}
+
+static void archdep_network_shutdown(void)
+{
+    WSACleanup();
+}
 
 int archdep_init(int *argc, char **argv)
 {
@@ -93,6 +106,8 @@ int archdep_init(int *argc, char **argv)
     argv0 = lib_stralloc(argv[0]);
 
     orig_workdir = getcwd(NULL, MAX_PATH);
+
+    archdep_network_init();
 
     return 0;
 }
@@ -584,6 +599,8 @@ int archdep_file_is_chardev(const char *name)
 
 void archdep_shutdown(void)
 {
+    archdep_network_shutdown();
+
     lib_free(boot_path);
     lib_free(argv0);
     lib_free(orig_workdir);
