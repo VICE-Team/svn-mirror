@@ -1385,18 +1385,18 @@ static asm_opcode_info_t *asm_opcode_info_get(BYTE p0, BYTE p1, BYTE p2)
     return opcode_list + (unsigned int)p0;
 }
 
-static unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode, BYTE p0,
+static unsigned int asm_addr_mode_get_size(unsigned int mode, BYTE p0,
                                            BYTE p1)
 {
     if (p0 == 0xcb)
-        return addr_mode_size[(unsigned int)mode] + 1;
+        return addr_mode_size[mode] + 1;
     if (p0 == 0xdd)
-        return addr_mode_size[(unsigned int)mode] + 1;
+        return addr_mode_size[mode] + 1;
     if (p0 == 0xed)
-        return addr_mode_size[(unsigned int)mode] + 1;
+        return addr_mode_size[mode] + 1;
     if (p0 == 0xfd)
-        return addr_mode_size[(unsigned int)mode] + 1;
-    return addr_mode_size[(unsigned int)mode];
+        return addr_mode_size[mode] + 1;
+    return addr_mode_size[mode];
 }
 
 void asmz80_init(monitor_cpu_type_t *monitor_cpu_type)

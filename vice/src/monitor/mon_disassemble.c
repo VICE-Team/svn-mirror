@@ -64,7 +64,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
     opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
-    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode, x, p1);
+    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)
+               ((unsigned int)(addr_mode), x, p1);
 
     if (opc_size_p)
         *opc_size_p = opc_size;

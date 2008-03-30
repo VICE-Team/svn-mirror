@@ -136,7 +136,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
         return -1;
     }
 
-    len = (monitor_cpu_type.asm_addr_mode_get_size)(operand_mode, prefix[j], 0);
+    len = (monitor_cpu_type.asm_addr_mode_get_size)
+          ((unsigned int)(operand_mode), prefix[j], 0);
 
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);

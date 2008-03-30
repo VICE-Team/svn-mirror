@@ -80,7 +80,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
 #ifdef DEBUG_DRIVE
         log_error(LOG_ERR, "Allocate first free sector on track %d.", t);
 #endif
-        if (t <= vdrive->num_tracks) {
+        if (t <= (int)(vdrive->num_tracks)) {
             max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
             for (s = 0; s < (unsigned int)max_sector; s++) {
                 if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t,
@@ -203,7 +203,7 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
         disk_type = DISK_IMAGE_TYPE_D82;
         break;
       case VDRIVE_IMAGE_FORMAT_2040:
-	disk_type = DISK_IMAGE_TYPE_D67;
+        disk_type = DISK_IMAGE_TYPE_D67;
     }
 
     while (t) {
@@ -222,7 +222,7 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
         rc = disk_image_read_sector(vdrive->image, tmp, t, s);
         if (rc > 0)
             return rc;
-        if (rc < 0) 
+        if (rc < 0)
             return IPE_NOT_READY;
 
         t = (int)tmp[0];
@@ -343,7 +343,7 @@ void vdrive_bam_clear_all(unsigned int type, BYTE *bam)
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
         memset(bam + BAM_EXT_BIT_MAP_1541, 0, 4 * 5);
-	/* fallthrough */
+        /* fallthrough */
       case VDRIVE_IMAGE_FORMAT_2040:
         memset(bam + BAM_BIT_MAP, 0, 4 * NUM_TRACKS_1541);
         break;
@@ -389,7 +389,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
         && vdrive->image_format != VDRIVE_IMAGE_FORMAT_8250) {
         vdrive->bam[0] = vdrive->Dir_Track;
         vdrive->bam[1] = vdrive->Dir_Sector;
-	/* position 2 will be overwritten later for 2040 */
+        /* position 2 will be overwritten later for 2040 */
         vdrive->bam[2] = (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581)
                          ? 68 : 65;
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571)
@@ -406,7 +406,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
         vdrive->bam[0x02] = 0x01;
         vdrive->bam[0xa4] = 0x20;
         vdrive->bam[0xa5] = 0x20;
-	break;
+        break;
       case VDRIVE_IMAGE_FORMAT_1541:
       case VDRIVE_IMAGE_FORMAT_1571:
         vdrive->bam[BAM_VERSION_1541] = 50;
@@ -605,7 +605,7 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
       case VDRIVE_IMAGE_FORMAT_1581:
         err = disk_image_write_sector(vdrive->image, vdrive->bam,
                                  BAM_TRACK_1581, BAM_SECTOR_1581);
-        err |= disk_image_write_sector(vdrive->image, vdrive->bam + 256, 
+        err |= disk_image_write_sector(vdrive->image, vdrive->bam + 256,
                                   BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
         err |= disk_image_write_sector(vdrive->image, vdrive->bam + 512,
                                   BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
