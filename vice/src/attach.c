@@ -305,7 +305,6 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     if (disk_image_open(&new_image) < 0) {
         free(new_image.name);
-        log_error(attach_log, "Cannot open file `%s'.", filename);
         return -1;
     }
 
