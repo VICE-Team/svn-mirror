@@ -97,7 +97,8 @@ static inline void my_set_int(CIA_CONTEXT_PARAM int value, CLOCK rclk)
 
 inline static void check_ciatodalarm(CIA_CONTEXT_PARAM CLOCK rclk)
 {
-    if (!memcmp(ciatodalarm, cia + CIA_TOD_TEN, sizeof(ciatodalarm))) {
+    if (!ciatodstopped
+        && !memcmp(ciatodalarm, cia + CIA_TOD_TEN, sizeof(ciatodalarm))) {
         ciaint |= CIA_IM_TOD;
         if (ciaier & CIA_IM_TOD) {
             ciaint |= 0x80;
@@ -393,14 +394,14 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
           (Andreas Boose <boose@rzgw.rz.fh-hannover.de> 1997/10/11). */
         /* Flip AM/PM only when writing time, not when writing alarm
           (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
-            if (addr == CIA_TOD_HR) {
-                byte &= 0x9f;
+        if (addr == CIA_TOD_HR) {
+            byte &= 0x9f;
             if ((byte & 0x1f) == 0x12 && !(cia[CIA_CRB] & 0x80))
                 byte ^= 0x80;
         }
-        if (cia[CIA_CRB] & 0x80)
+        if (cia[CIA_CRB] & 0x80) {
             ciatodalarm[addr - CIA_TOD_TEN] = byte;
-        else {
+        } else {
             if (addr == CIA_TOD_TEN)
                 ciatodstopped = 0;
             if (addr == CIA_TOD_HR)
