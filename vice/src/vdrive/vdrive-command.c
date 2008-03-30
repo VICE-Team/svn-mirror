@@ -47,24 +47,6 @@
 #include "vdrive.h"
 
 
-/* RAM/ROM.  */
-extern BYTE drive_rom1541[];
-extern BYTE drive_rom1541ii[];
-extern BYTE drive_rom1571[];
-extern BYTE drive_rom1581[];
-extern BYTE drive_rom2031[];
-extern BYTE drive_rom1001[];
-extern BYTE drive_rom2040[];
-
-/* If nonzero, the ROM image has been loaded.  */
-extern int rom1541_loaded;
-extern int rom1541ii_loaded;
-extern int rom1571_loaded;
-extern int rom1581_loaded;
-extern int rom2031_loaded;
-extern int rom1001_loaded;
-extern int rom2040_loaded;
-
 #define IP_MAX_COMMAND_LEN 128 /* real 58 */
 
 
@@ -279,7 +261,8 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
     return -ip;                 /* negative of # arguments found */
 }
 
-static int vdrive_command_block(vdrive_t *vdrive, unsigned char command, char *buffer)
+static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
+                                char *buffer)
 {
     int channel = 0, drive = 0, track = 0, sector = 0, position = 0;
     int l, rc;
