@@ -1,5 +1,45 @@
 1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.7.
+
+	* cpu-tmpl, c128/c128cpu.def: Do not include include the function
+	`mem_read_base' when `_mem_read_base_tab_ptr' is not used.
+	Otherwise the native IRIX 6.2 compiler barfs.
+
+	* arch/unix/xaw/c64ui.c: #include "utils.h"
+
+	* arch/Makefile.am: Added RISC OS directory.
+
+	* arch/riscos/Makefile.am: New file.
+
+1998-01-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi (RS232 usage): new section to explain step by step
+	how to use the RS232 emulatio
+
+	* crtc-tmpl.c (crsr_set_dirty): add checks whether crsr address
+	is out of screen and whether crsr is enabled at all
+
+	* pet/petmem.c (set_vidmem): new function to set the video
+	memory ($8***) only.
+	(initialize_memory): call set_vidmem to set video memory area.
+	(set_screen): when setting crtc to 40 columns, always set
+	vmask to 1k - otherwise switching in 8296 moves the screen
+	to $9000 :-(
+	Now call set_vidmem to set the $8*** memory are.
+
+	* pet/pets.c (pet_check_info): when using SuperPet, do not set
+	RAMsize to 128k but to 32k.
+	(set_video): call pet_check_info and set_screen only when the
+	value has been set. Do not call initialize_memory, as setting the
+	screen memory is done in set_screen.
+
+1999-01-18  Andreas Dehmel  (dehmel@forwiss.tu-muenchen.de)
+
+	* arch/riscos/*: RISC OS specific files for 0.16.1.
+
+1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.6.
 
 	* arch/win32/res.h, arch/win32/resc128.r, arch/win32/resc64.r,
