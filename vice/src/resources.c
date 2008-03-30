@@ -1,5 +1,5 @@
 /*
- * resources.c - Resource handling for VICE.
+ * resources.c - Resource (setting) handling for VICE.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -160,7 +160,19 @@ int resources_get_value(const char *name, resource_value_t *value_return)
         return -1;
     }
 
-    *value_return = *r->value_ptr;
+    switch (r->type) {
+      case RES_INTEGER:
+        *(int *)value_return = *(int *)r->value_ptr;
+        break;
+      case RES_STRING:
+        *(char **)value_return = *(char **)r->value_ptr;
+        break;
+      default:
+        fprintf(stderr, "%s: Warning: unknown resource type for `%s'\n",
+                __FUNCTION__, name);
+        return -1;
+    }
+
     return 0;
 }
 
@@ -185,8 +197,8 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
         return -1;
     }
 
-    value = !((int) *r->value_ptr);
-    *new_value_return = (resource_value_t) value;
+    value = !(*(int *)r->value_ptr);
+    *(int *)new_value_return = value;
 
     return r->set_func((resource_value_t) value);
 }
@@ -254,7 +266,7 @@ static const char *default_resource_file(void)
     if (fname == NULL) {
 #ifdef __MSDOS__
 	/* On MS-DOS, always boot from the directory in which the binary is
-	   stored. */
+	   stored.  */
 	fname = concat(boot_path, "/", RESOURCE_FILE_NAME, NULL);
 #else
 	fname = concat(getenv("HOME"), "/", RESOURCE_FILE_NAME, NULL);
@@ -338,7 +350,7 @@ static int read_resource_item(FILE *f)
 }
 
 /* Load the resources from file `fname'.  If `fname' is NULL, load them from
-   the default resource file. */
+   the default resource file.  */
 int resources_load(const char *fname)
 {
     FILE *f;
@@ -362,7 +374,7 @@ int resources_load(const char *fname)
 
     printf("Reading configuration file `%s'.\n", fname);
 
-    /* Find the start of the configuration section for this emulator. */
+    /* Find the start of the configuration section for this emulator.  */
     for (line_num = 1; ; line_num++) {
 	char buf[1024];
 
@@ -401,12 +413,13 @@ static void write_resource_item(FILE *f, int num)
     resource_value_t v;
 
     fprintf(f, "%s=", resources[num].name);
-    v = *resources[num].value_ptr;
     switch (resources[num].type) {
       case RES_INTEGER:
+	v = (resource_value_t)*(int *)resources[num].value_ptr;
         fprintf(f, "%d", (int)v);
         break;
       case RES_STRING:
+	v = *resources[num].value_ptr;
         if ((char *)v != NULL)
             fprintf(f, "\"%s\"", (char *)v);
         break;

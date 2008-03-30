@@ -66,6 +66,7 @@ typedef struct _mos6510_regs {
      | (r.p.b ? S_BREAK : 0)                    \
      | (r.p.d ? S_DECIMAL : 0)                  \
      | (r.p.i ? S_INTERRUPT : 0)                \
-     | (r.p.c ? S_CARRY : 0))
+     | (r.p.c ? S_CARRY : 0)                    \
+     | S_UNUSED)
 
 #endif
