@@ -81,7 +81,8 @@ static UINT APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, 
 }
 
 
-static char *ui_save_as_console(const char *title, const char *filter, HWND hwnd)
+static char *ui_save_as_console(const TCHAR *title, const char *filter,
+                                HWND hwnd)
 {
     TCHAR name[MAXPATHLEN + 1] = TEXT("");
     OPENFILENAME ofn;
@@ -132,7 +133,7 @@ FILE *ui_console_save_dialog(HWND hwnd)
     FILE *pfile = NULL;
     char *s;
 
-    s = ui_save_as_console("Logging console output image",
+    s = ui_save_as_console(TEXT("Logging console output image"),
         "VICE console logging files (*.dbg)\0*.dbg\0",hwnd);
 
     if (s != NULL) {

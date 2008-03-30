@@ -300,7 +300,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 bi.hwndOwner = hwnd;
                 bi.pidlRoot = NULL;
                 bi.pszDisplayName = st;
-                bi.lpszTitle = "Select file system directory";
+                bi.lpszTitle = TEXT("Select file system directory");
                 bi.ulFlags = 0;
                 bi.lpfn = NULL;
                 bi.lParam = 0;

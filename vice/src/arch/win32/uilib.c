@@ -209,14 +209,14 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 if (!(GetFileAttributes(filename)
                     & FILE_ATTRIBUTE_DIRECTORY)) {
                     if (read_content_func != NULL) {
-                        contents=read_content_func(filename);
+                        contents = read_content_func(filename);
                         create_content_list(contents, preview);
                     }
                 }
             }
         } else if (((OFNOTIFY*)lparam)->hdr.code == CDN_FOLDERCHANGE) {
             SendMessage(preview, LB_RESETCONTENT, 0, 0);
-            SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), "");
+            SetWindowText(GetDlgItem(GetParent(hwnd), 0x0480), TEXT(""));
         }
         break;
       case WM_COMMAND:
@@ -239,8 +239,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                 }
             }
             if (SendMessage(GetParent(hwnd),
-                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0)
-            {
+                CDM_GETFILEPATH, 256, (LPARAM)filename) >= 0) {
                 if (append_extension) {
                     strcat(filename, ".");
                     strcat(filename, "tap");

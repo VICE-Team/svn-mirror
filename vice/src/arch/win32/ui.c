@@ -875,7 +875,7 @@ void ui_message(const char *format, ...)
     va_end(args);
 
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(tmp, TEXT("VICE Information"), MB_OK | MB_ICONASTERISK);
+    ui_messagebox(st, TEXT("VICE Information"), MB_OK | MB_ICONASTERISK);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -1085,7 +1085,7 @@ void ui_display_paused(int flag)
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
-        system_wcstombs_free(st_buf);
+        system_mbstowcs_free(st_buf);
         lib_free(buf);
     }
 }
@@ -1392,10 +1392,10 @@ static void scan_files(void)
     }
     if (search_handle != INVALID_HANDLE_VALUE) {
         do {
-            char c;
-            c = file_info.cFileName[strlen(file_info.cFileName) - 5];
+            TCHAR c;
+            c = file_info.cFileName[_tcslen(file_info.cFileName) - 5];
             if ((c >= '0') && (c <= '9')) {
-                strcpy(files[c - '0'].name,file_info.cFileName);
+                strcpy(files[c - '0'].name, file_info.cFileName);
                 files[c - '0'].valid = 1;
                 if ((c - '0') > lastindex) {
                     lastindex = c - '0';
@@ -1801,8 +1801,6 @@ static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
     int window_index;
-    HDROP hDrop;
-    char szFile[256];
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
         if (window_handles[window_index] == window)
@@ -1931,9 +1929,9 @@ static long CALLBACK window_proc(HWND window, UINT msg,
             {
 //              log_debug("Asking exit confirmation");
                 if (MessageBox(window,
-                    "Do you really want to exit?\n\n"
-                    "All the data present in the emulated RAM will be lost.",
-                    "VICE", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
+                    TEXT("Do you really want to exit?\n\n"
+                    "All the data present in the emulated RAM will be lost."),
+                    TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
                     | MB_TASKMODAL) == IDYES) {
                     quit = 1;
                 } else {
@@ -1960,17 +1958,23 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_ERASEBKGND:
         return 1;
       case WM_DROPFILES:
-        hDrop = (HDROP)wparam;
-        DragQueryFile(hDrop, 0, (char *)&szFile, 256);
-        if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
-            if (file_system_attach_disk(8, szFile) < 0)
-                ui_error("Cannot attach specified file");
-        } else {
-            if (autostart_autodetect(szFile, NULL, 0, AUTOSTART_MODE_RUN) < 0)
-                ui_error("Cannot autostart specified file.");
+        {
+            char szFile[256];
+            HDROP hDrop;
+
+            hDrop = (HDROP)wparam;
+            DragQueryFile(hDrop, 0, (char *)&szFile, 256);
+            if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
+                if (file_system_attach_disk(8, szFile) < 0)
+                    ui_error("Cannot attach specified file");
+            } else {
+                if (autostart_autodetect(szFile, NULL, 0,
+                    AUTOSTART_MODE_RUN) < 0)
+                    ui_error("Cannot autostart specified file.");
+            }
+            DragFinish (hDrop);
+            return 0;
         }
-        DragFinish (hDrop);
-        return 0;
       case WM_PAINT:
         {
             RECT update_rect;
