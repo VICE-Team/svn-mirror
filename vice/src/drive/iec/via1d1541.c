@@ -113,7 +113,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     if (via1p->drive->type == DRIVE_TYPE_1570
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
-        drive_sync_set_1571(byte & 0x20, drive_context);
+        drivesync_set_1571(byte & 0x20, drive_context);
         glue1571_side_set((byte >> 2) & 1, via1p->drive);
     } else
 
@@ -136,7 +136,7 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
         if ((oldpa_value ^ byte) & 0x20)
-            drive_sync_set_1571(byte & 0x20, drive_context);
+            drivesync_set_1571(byte & 0x20, drive_context);
         if ((oldpa_value ^ byte) & 0x04)
             glue1571_side_set((byte >> 2) & 1, via1p->drive);
         if ((oldpa_value ^ byte) & 0x02)

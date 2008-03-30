@@ -51,7 +51,7 @@ static void drive_sync_cpu_set_factor(drive_context_t *drv,
     }
 }
 
-void drive_sync_factor(struct drive_context_s *drv)
+void drivesync_factor(struct drive_context_s *drv)
 {
     drive_sync_cpu_set_factor(drv, drv->drive->clock_frequency
                               * sync_factor);
@@ -65,10 +65,10 @@ void drive_set_machine_parameter(long cycles_per_sec)
                   / ((double)cycles_per_sec)));
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
-        drive_sync_factor(drive_context[dnr]);
+        drivesync_factor(drive_context[dnr]);
 }
 
-void drive_sync_set_1571(int new_sync, struct drive_context_s *drv)
+void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
 {
     unsigned int dnr;
 
@@ -79,11 +79,11 @@ void drive_sync_set_1571(int new_sync, struct drive_context_s *drv)
             rotation_rotate_disk(drv->drive);
         rotation_init(new_sync ? 1 : 0, dnr);
         drv->drive->clock_frequency = (new_sync) ? 2 : 1;
-        drive_sync_factor(drv);
+        drivesync_factor(drv);
     }
 }
 
-void drive_sync_clock_frequency(unsigned int type, drive_t *drive)
+void drivesync_clock_frequency(unsigned int type, drive_t *drive)
 {
     switch (type) {
       case DRIVE_TYPE_1541:

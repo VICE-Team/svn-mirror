@@ -140,7 +140,7 @@ int drive_init(void)
     if (rom_loaded)
         return 0;
 
-    drive_rom_init();
+    driverom_init();
     drive_image_init();
 
     drive_log = log_open("Drive");
@@ -158,7 +158,7 @@ int drive_init(void)
         drive->mynumber = dnr;
     }
 
-    if (drive_rom_load_images() < 0) {
+    if (driverom_load_images() < 0) {
         resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
         resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
         return -1;
@@ -219,16 +219,16 @@ int drive_init(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
-        drive_rom_initialize_traps(drive);
+        driverom_initialize_traps(drive);
 
-        drive_sync_clock_frequency(drive->type, drive);
+        drivesync_clock_frequency(drive->type, drive);
 
         rotation_init((drive->clock_frequency == 2) ? 1 : 0, dnr);
 
-        drive_cpu_init(drive_context[dnr], drive->type);
+        drivecpu_init(drive_context[dnr], drive->type);
 
         /* Make sure the sync factor is acknowledged correctly.  */
-        drive_sync_factor(drive_context[dnr]);
+        drivesync_factor(drive_context[dnr]);
 
         /* Make sure the traps are moved as needed.  */
         if (drive->enable)
@@ -243,7 +243,7 @@ void drive_shutdown(void)
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive_cpu_shutdown(drive_context[dnr]);
+        drivecpu_shutdown(drive_context[dnr]);
         gcr_destroy_image(drive_context[dnr]->drive->gcr);
     }
 
@@ -293,16 +293,16 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
     if (drv->drive->byte_ready_active == 0x06)
         rotation_rotate_disk(drv->drive);
 
-    drive_sync_clock_frequency(type, drv->drive);
+    drivesync_clock_frequency(type, drv->drive);
 
     rotation_init(0, dnr);
     drv->drive->type = type;
     drv->drive->side = 0;
     machine_drive_rom_setup_image(dnr);
-    drive_sync_factor(drv);
+    drivesync_factor(drv);
     drive_set_active_led_color(type, dnr);
 
-    drive_cpu_init(drv, type);
+    drivecpu_init(drv, type);
 
     return 0;
 }
@@ -337,7 +337,7 @@ int drive_enable(drive_context_t *drv)
     if (drive->image != NULL)
         drive_image_attach(drive->image, dnr + 8);
 
-    drive_cpu_wake_up(drv);
+    drivecpu_wake_up(drv);
 
     /* Make sure the UI is updated.  */
     for (i = 0; i < DRIVE_NUM; i++) {
@@ -387,7 +387,7 @@ void drive_disable(drive_context_t *drv)
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     if (rom_loaded) {
-        drive_cpu_sleep(drv);
+        drivecpu_sleep(drv);
         machine_drive_port_default(drv);
 
         drive_gcr_data_writeback(drive);
@@ -430,7 +430,7 @@ void drive_reset(void)
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++)
-        drive_cpu_reset(drive_context[dnr]);
+        drivecpu_reset(drive_context[dnr]);
 }
 
 void drive_current_track_size_set(drive_t *dptr)
@@ -721,7 +721,7 @@ static void drive_setup_context_for_drive(drive_context_t *drv,
     drv->drive = lib_calloc(1, sizeof(drive_t));
     drv->clk_ptr = &drive_clk[dnr];
 
-    drive_cpu_setup_context(drv);
+    drivecpu_setup_context(drv);
     machine_drive_setup_context(drv);
 }
 

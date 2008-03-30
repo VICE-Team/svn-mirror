@@ -35,16 +35,16 @@ struct interrupt_cpu_status_s;
 struct monitor_interface_s;
 struct snapshot_s;
 
-extern void drive_cpu_setup_context(struct drive_context_s *drv);
+extern void drivecpu_setup_context(struct drive_context_s *drv);
 
-extern void drive_cpu_init(struct drive_context_s *drv, int type);
-extern void drive_cpu_reset(struct drive_context_s *drv);
-extern void drive_cpu_sleep(struct drive_context_s *drv);
-extern void drive_cpu_wake_up(struct drive_context_s *drv);
+extern void drivecpu_init(struct drive_context_s *drv, int type);
+extern void drivecpu_reset(struct drive_context_s *drv);
+extern void drivecpu_sleep(struct drive_context_s *drv);
+extern void drivecpu_wake_up(struct drive_context_s *drv);
 extern void drivecpu_prevent_clk_overflow_all(CLOCK sub);
 extern void drivecpu_early_init_all(void);
-extern void drive_cpu_shutdown(struct drive_context_s *drv);
-extern void drive_cpu_reset_clk(struct drive_context_s *drv);
+extern void drivecpu_shutdown(struct drive_context_s *drv);
+extern void drivecpu_reset_clk(struct drive_context_s *drv);
 extern void drivecpu_trigger_reset(unsigned int dnr);
 
 extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
@@ -52,10 +52,10 @@ extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
 extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, WORD addr);
 extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drivecpu_execute_all(CLOCK clk_value);
-extern int drive_cpu_snapshot_write_module(struct drive_context_s *drv,
-                                           struct snapshot_s *s);
-extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
+extern int drivecpu_snapshot_write_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
+extern int drivecpu_snapshot_read_module(struct drive_context_s *drv,
+                                         struct snapshot_s *s);
 
 /* Don't use these pointers before the context is set up!  */
 extern struct monitor_interface_s *drivecpu_monitor_interface_get(

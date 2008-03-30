@@ -73,7 +73,7 @@ monitor_interface_t *drivecpu_monitor_interface_get(unsigned int dnr)
     return drive_context[dnr]->cpu->monitor_interface;
 }
 
-void drive_cpu_setup_context(struct drive_context_s *drv)
+void drivecpu_setup_context(struct drive_context_s *drv)
 {
     monitor_interface_t *mi;
     drivecpu_context_t *cpu;
@@ -220,18 +220,18 @@ static void drivecpu_toggle_watchpoints(int flag, void *context)
     }
 }
 
-void drive_cpu_reset_clk(drive_context_t *drv)
+void drivecpu_reset_clk(drive_context_t *drv)
 {
     drv->cpu->last_clk = maincpu_clk;
     drv->cpu->last_exc_cycles = 0;
 }
 
-void drive_cpu_reset(drive_context_t *drv)
+void drivecpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;
 
     *(drv->clk_ptr) = 0;
-    drive_cpu_reset_clk(drv);
+    drivecpu_reset_clk(drv);
 
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
@@ -268,7 +268,7 @@ void drivecpu_early_init_all(void)
         drive_cpu_early_init(drive_context[dnr]);
 }
 
-void drive_cpu_shutdown(drive_context_t *drv)
+void drivecpu_shutdown(drive_context_t *drv)
 {
     drivecpu_context_t *cpu;
 
@@ -292,13 +292,13 @@ void drive_cpu_shutdown(drive_context_t *drv)
     lib_free(cpu);
 }
 
-void drive_cpu_init(drive_context_t *drv, int type)
+void drivecpu_init(drive_context_t *drv, int type)
 {
-    drive_mem_init(drv, type);
-    drive_cpu_reset(drv);
+    drivemem_init(drv, type);
+    drivecpu_reset(drv);
 }
 
-inline void drive_cpu_wake_up(drive_context_t *drv)
+inline void drivecpu_wake_up(drive_context_t *drv)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
@@ -309,7 +309,7 @@ inline void drive_cpu_wake_up(drive_context_t *drv)
     }
 }
 
-inline void drive_cpu_sleep(drive_context_t *drv)
+inline void drivecpu_sleep(drive_context_t *drv)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
 }
@@ -452,7 +452,7 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
     cpu = drv->cpu;
 
-    drive_cpu_wake_up(drv);
+    drivecpu_wake_up(drv);
 
     if (clk_value > cpu->last_clk)
         cycles = clk_value - cpu->last_clk;
@@ -528,7 +528,7 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
     }
 
     cpu->last_clk = clk_value;
-    drive_cpu_sleep(drv);
+    drivecpu_sleep(drv);
 }
 
 void drivecpu_execute_all(CLOCK clk_value)
@@ -634,7 +634,7 @@ static void drive_jam(drive_context_t *drv)
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 
-int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
+int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
     drivecpu_context_t *cpu;
@@ -695,7 +695,7 @@ fail:
     return -1;
 }
 
-int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
+int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 {
     BYTE major, minor;
     snapshot_module_t *m;
@@ -710,7 +710,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         return -1;
 
     /* Before we start make sure all devices are reset.  */
-    drive_cpu_reset(drv);
+    drivecpu_reset(drv);
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0

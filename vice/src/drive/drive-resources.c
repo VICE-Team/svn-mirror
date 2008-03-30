@@ -64,7 +64,7 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
             drive = drive_context[dnr]->drive;
             if (drive->type != DRIVE_TYPE_NONE) {
                 drive->enable = 1;
-                drive_cpu_reset_clk(drive_context[dnr]);
+                drivecpu_reset_clk(drive_context[dnr]);
             }
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -156,7 +156,7 @@ static int drive0_resources_type(resource_value_t v, void *param)
                                              IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[0]);
-        drive_rom_initialize_traps(drive);
+        driverom_initialize_traps(drive);
         machine_drive_idling_method(0);
         return 0;
       case DRIVE_TYPE_NONE:
@@ -233,7 +233,7 @@ static int drive1_resources_type(resource_value_t v, void *param)
                                              dnr, IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
-        drive_rom_initialize_traps(drive);
+        driverom_initialize_traps(drive);
         machine_drive_idling_method(dnr);
         return 0;
       case DRIVE_TYPE_NONE:

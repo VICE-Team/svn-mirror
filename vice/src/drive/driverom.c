@@ -45,7 +45,7 @@ static log_t driverom_log;
 int drive_rom_load_ok = 0;
 
 
-int drive_rom_load_images(void)
+int driverom_load_images(void)
 {
     drive_rom_load_ok = 1;
 
@@ -61,7 +61,7 @@ int drive_rom_load_images(void)
     return 0;
 }
 
-void drive_rom_initialize_traps(drive_t *drive)
+void driverom_initialize_traps(drive_t *drive)
 {
     if ((drive->type == DRIVE_TYPE_1541) ||
         (drive->type == DRIVE_TYPE_1541II)) {
@@ -110,7 +110,7 @@ void drive_rom_initialize_traps(drive_t *drive)
     }
 }
 
-void drive_rom_init(void)
+void driverom_init(void)
 {
     driverom_log = log_open("DriveROM"); 
 }

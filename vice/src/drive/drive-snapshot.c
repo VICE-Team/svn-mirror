@@ -194,7 +194,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
-            if (drive_cpu_snapshot_write_module(drive_context[i], s) < 0)
+            if (drivecpu_snapshot_write_module(drive_context[i], s) < 0)
                 return -1;
             if (machine_drive_snapshot_write(drive_context[i], s) < 0)
                 return -1;
@@ -347,10 +347,10 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_8250:
         drive->enable = 1;
         machine_drive_rom_setup_image(0);
-        drive_mem_init(drive_context[0], drive->type);
+        drivemem_init(drive_context[0], drive->type);
         resources_set_value("Drive8IdleMethod",
                             (resource_value_t)(drive->idling_method));
-        drive_rom_initialize_traps(drive);
+        driverom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 0);
         machine_bus_status_drivetype_set(8, 1);
         break;
@@ -375,10 +375,10 @@ int drive_snapshot_read_module(snapshot_t *s)
         /* drive 1 does not allow dual disk drive */
         drive->enable = 1;
         machine_drive_rom_setup_image(1);
-        drive_mem_init(drive_context[1], drive->type);
+        drivemem_init(drive_context[1], drive->type);
         resources_set_value("Drive9IdleMethod",
                             (resource_value_t)(drive->idling_method));
-        drive_rom_initialize_traps(drive);
+        driverom_initialize_traps(drive);
         drive_set_active_led_color(drive->type, 1);
         machine_bus_status_drivetype_set(9, 1);
         break;
@@ -399,7 +399,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
-            if (drive_cpu_snapshot_read_module(drive_context[i], s) < 0)
+            if (drivecpu_snapshot_read_module(drive_context[i], s) < 0)
                 return -1;
             if (machine_drive_snapshot_read(drive_context[i], s) < 0)
                 return -1;
