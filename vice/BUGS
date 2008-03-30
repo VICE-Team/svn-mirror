@@ -1,4 +1,4 @@
-These are the most important known problems with VICE 0.16.0:
+These are the most important known problems with VICE 0.16.1:
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get

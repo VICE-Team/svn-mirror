@@ -1,3 +1,17 @@
+1999-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.3.
+
+	* configure.in: Commented out `AC_DEFINE(UNSTABLE)'.
+	Use `$host_os' to check for HP-UX.
+
+	* BUGS, INSTALL, README, vice.spec, dos/Readme.dos, NEWS: Updated.
+
+1999-01-11  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi (snapshots): add x128 modules list, C64 and C128
+	memory modules description, fixed some minor quirks.
+
 1999-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.2.

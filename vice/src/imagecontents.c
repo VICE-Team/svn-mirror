@@ -230,9 +230,8 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     if (floppy == NULL)
         return NULL;
 
-    retval = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                               floppy->bam, BAM_TRACK_1541, BAM_SECTOR_1541,
-                               floppy->D64_Header);
+    retval = vdrive_bam_read_bam(floppy);
+
     if (retval < 0) {
         zclose(floppy->ActiveFd);
         free(floppy);
@@ -241,10 +240,10 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 
     new = image_contents_new();
 
-    memcpy(new->name, floppy->bam + BAM_NAME_1541, IMAGE_CONTENTS_NAME_LEN);
+    memcpy(new->name, floppy->bam + floppy->bam_name, IMAGE_CONTENTS_NAME_LEN);
     new->name[IMAGE_CONTENTS_NAME_LEN] = 0;
 
-    memcpy(new->id, floppy->bam + BAM_ID_1541, IMAGE_CONTENTS_ID_LEN);
+    memcpy(new->id, floppy->bam + floppy->bam_id, IMAGE_CONTENTS_ID_LEN);
     new->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
     new->blocks_free = floppy_free_block_count(floppy);

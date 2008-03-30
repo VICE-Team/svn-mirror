@@ -146,7 +146,6 @@ static int  vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
 static int  vdrive_command_copy(DRIVE *floppy, char *dest, int length);
 static int  vdrive_command_rename(DRIVE *floppy, char *dest, int length);
 static int  floppy_name_match ( BYTE *slot, char *name, int length, int type );
-static int  vdrive_bam_read_bam(DRIVE *floppy);
 
 static int  mystrncpy ( BYTE *d, BYTE *s, int n );
 
@@ -1905,7 +1904,7 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
  */
 
 
-static int vdrive_bam_read_bam(DRIVE *floppy)
+int vdrive_bam_read_bam(DRIVE *floppy)
 {
     int err = 0;
 
@@ -1933,6 +1932,7 @@ static int vdrive_bam_read_bam(DRIVE *floppy)
         err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam+512, BAM_TRACK_1581,
                                  BAM_SECTOR_1581+2, floppy->D64_Header);
+        break;
       default:
         err = -1;
     }
@@ -1968,6 +1968,7 @@ int vdrive_bam_write_bam(DRIVE *floppy)
         err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                   floppy->bam+512, BAM_TRACK_1581,
                                   BAM_SECTOR_1581+2, floppy->D64_Header);
+        break;
       default:
         err = -1;
     }
