@@ -20,6 +20,8 @@ c64_DATA = \
 	kernal \
 	os2.vkm \
 	os2_sym.vkm \
+	osx_pos.vkm \
+	osx_sym.vkm \
 	pc64.vpl \
 	ROdflt.vkm \
 	vice.vpl \

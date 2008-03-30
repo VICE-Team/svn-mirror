@@ -28,7 +28,7 @@ fi
 if [ "x$1" = "x" ]; then
   echo "Usage: $0 <arch> <ui-type> <dist-type> <extlib-dir> <build-dir>"
   echo "   arch        Build architecture       ub,i386,ppc"
-  echo "   ui-type     User Interface Type      x11,gtk"
+  echo "   ui-type     User Interface Type      x11,gtk,cocoa"
   echo "   dist-type   Type of Distribution     dmg,dir"
   echo "   extlib-dir  External Libraries"
   echo "   build-dir   Where VICE is built"
@@ -40,8 +40,8 @@ if [ "$ARCH" != "ub" -a "$ARCH" != "i386" -a "$ARCH" != "ppc" ]; then
   exit 1
 fi
 UI_TYPE="$2"
-if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" ]; then
-  echo "Wrong UI Type given: use 'x11' or 'gtk'!"
+if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" -a "$UI_TYPE" != "cocoa" ]; then
+  echo "Wrong UI Type given: use 'x11' or 'gtk', or 'cocoa'!"
   exit 1
 fi
 DIST_TYPE="$3"
@@ -106,6 +106,9 @@ if [ "$UI_TYPE" = "gtk" ]; then
   fi
   CONFIGURE_FLAGS="--enable-gnomeui $CONFIGURE_FLAGS"
   CONFIGURE_OPTS="Gtk+"
+elif [ "$UI_TYPE" = "cocoa" ]; then
+  CONFIGURE_FLAGS="--with-cocoa $CONFIGURE_FLAGS"
+  CONFIGURE_OPTS="Cocoa"
 fi
 
 # check for hidutil
@@ -264,6 +267,27 @@ copy_dylib () {
   done
 }
 
+fix_ref () {
+  local exe="$1"
+  local base="`basename \"$exe\"`"
+  local LIBS=`otool -L "$exe" | grep .dylib | grep -v /usr/lib | awk '{ print $1 }'`
+  echo -n "  fixing lib references in '$base'"
+  for lib in $LIBS ; do
+    baselib="`basename \"$lib\"`"
+    newlib="@executable_path/$baselib"
+    install_name_tool -change "$lib" "$newlib" "$exe"
+    echo -n "."
+  done
+  cutbase="`basename \"$base\" .dylib`"
+  if [ "$cutbase" != "$base" ]; then
+    # adapt install name in lib
+    libname="@executable_path/$base"
+    install_name_tool -id "$libname" "$exe"
+    echo -n "I"
+  fi
+  echo
+}
+
 # setup SDK paths
 PPC_SDK=/Developer/SDKs/MacOSX10.3.9.sdk
 I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
@@ -293,6 +317,11 @@ if [ "$ARCH" = "ub" ]; then
       echo "  combining '$app'"
       lipo -create -output "$BUILD_DIR/ub/src/$app" \
         "$BUILD_DIR/ppc/src/$app" "$BUILD_DIR/i386/src/$app"
+        
+      # adjust lib references
+      if [ "$UI_TYPE" = "cocoa" ]; then
+        fix_ref "$BUILD_DIR/ub/src/$app"
+      fi
     done
     if [ ! -f "$BUILD_DIR/ub/src/x64" ]; then
       echo "FATAL: no universal x64 found!"
@@ -308,6 +337,11 @@ if [ "$ARCH" = "ub" ]; then
       echo "  combining dylib '$LIBNAME'"
       lipo -create -output "$BUILD_DIR/ub/lib/$LIBNAME" \
         "$BUILD_DIR/ppc/lib/$LIBNAME" "$BUILD_DIR/i386/lib/$LIBNAME"
+        
+      # adjust lib references
+      if [ "$UI_TYPE" = "cocoa" ]; then
+        fix_ref "$BUILD_DIR/ub/lib/$LIBNAME"
+      fi
     else
       echo "  already combined dylib '$LIBNAME'"
     fi

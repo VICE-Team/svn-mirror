@@ -28,12 +28,13 @@ if [ ! -d "$BUNDLE" ]; then
     exit 1
   fi
 fi
+BASENAME="`basename \"$BUNDLE\" .app`"
 
 # find launcher
 if [ -e "$BUNDLE/Contents/Resources/script" ]; then
   LAUNCHER="$BUNDLE/Contents/Resources/script"
-elif [ -e "$BUNDLE/Contents/MacOS/VICE" ]; then
-  LAUNCHER="$BUNDLE/Contents/MacOS/VICE"
+elif [ -e "$BUNDLE/Contents/MacOS/$BASENAME" ]; then
+  LAUNCHER="$BUNDLE/Contents/MacOS/$BASENAME"
 else
   echo "Error: no launcher script found in '$BUNDLE'!"
   exit 1

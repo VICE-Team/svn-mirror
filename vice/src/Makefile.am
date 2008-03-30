@@ -315,7 +315,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @VICE_LIBPNG@ @VICE_ZLIB@
 
 # external libraries required for all emulators
-emu_extlibs = @X_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
+emu_extlibs = @X_LIBS@ @UI_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 

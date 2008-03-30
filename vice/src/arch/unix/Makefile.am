@@ -1,5 +1,8 @@
 # Makefile.am for the Unix version of `libarch.a'.
 
+if MACOSX_COCOA
+SUBDIRS = macosx
+else
 if UNIX_MACOSX_COMPILE
 if NEED_READLINE
 SUBDIRS = gui x11 readline macosx
@@ -14,6 +17,7 @@ if NEED_READLINE
 SUBDIRS = gui x11 readline
 else
 SUBDIRS = gui x11
+endif
 endif
 endif
 endif

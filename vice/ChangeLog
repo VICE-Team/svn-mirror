@@ -1,3 +1,28 @@
+2007-04-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.6.
+
+2007-04-25  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* Makefile.am: pass the UI type for the mac port to the
+	bindist script
+
+	* configure.in: added --with-cocoa switch and more Cocoa
+	specific code
+
+	* data/C128/Makefile.am, data/C128/osx_pos.vkm,
+	data/C128/osx_sym.vkm, data/C64/Makefile.am,
+	data/C64/osx_pos.vkm, data/C64/osx_sym.vkm:
+	added Max OS X native keymaps
+
+	* doc/Makefile.am: changed info line since old version breaks
+	my local make dist
+
+2007-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed a problem with SYNC and netbsd joystick
+	support.
+
 2007-04-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.5.

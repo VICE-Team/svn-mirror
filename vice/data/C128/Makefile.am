@@ -31,6 +31,8 @@ c128_DATA = \
 	kernalse \
 	pc64.vpl \
 	os2.vkm \
+	osx_pos.vkm \
+	osx_sym.vkm \
 	ROdflt.vkm \
 	vdc_deft.vpl \
 	vice.vpl \

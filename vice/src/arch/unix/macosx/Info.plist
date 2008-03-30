@@ -19,10 +19,21 @@
   <key>CFBundleShortVersionString</key>
      <string>1.0</string>
   <key>CFBundleSignature</key>
-     <string>?????</string>
+     <string>VICE</string>
   <key>CFBundleVersion</key>
      <string>1.0</string>
-  <key>NSPrincipalClass</key>
-     <string>NSApplication</string>
+  <key>CFBundleDocumentTypes</key>
+  <array>
+          <dict>
+                  <key>CFBundleTypeExtensions</key>
+                  <array>
+                          <string>d64</string>
+                  </array>
+                  <key>CFBundleTypeIconFile</key>
+                  <string>D64</string>
+                  <key>CFBundleTypeName</key>
+                  <string>D64 Disk Image</string>
+          </dict>
+  </array>
 </dict>
 </plist>

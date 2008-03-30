@@ -18,8 +18,7 @@ doc_DATA = \
 	mon.txt \
 	openGLsync-howto.txt
 
-info_TEXINFOS = \
-	vice.texi
+info_TEXINFOS = vice.texi
 
 EXTRA_DIST = $(doc_DATA)
 

@@ -204,7 +204,7 @@ static void sun_close(void)
     sun_fd = -1;
     sun_8bit = 0;
     sun_bufsize = 0;
-#if !defined(__NETBSD__)
+#if !defined(__NetBSD__)
     sun_written = 0;
 #endif
     sun_channels = 1;

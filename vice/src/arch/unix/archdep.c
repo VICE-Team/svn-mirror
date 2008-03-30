@@ -165,7 +165,11 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 #else 
 #if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
+#if defined(MACOSX_COCOA)
+        #define MACOSX_ROMDIR "/../Resources/ROM/"
+#else
         #define MACOSX_ROMDIR "/../ROM/"
+#endif
         default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id,
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/", emu_id,
@@ -255,10 +259,18 @@ char *archdep_default_save_resource_file_name(void)
     return fname;
 }
 
+#if defined(MACOSX_COCOA)
+FILE *default_log_file = stdout;
+FILE *archdep_open_default_log_file(void)
+{
+    return default_log_file;
+}
+#else
 FILE *archdep_open_default_log_file(void)
 {
     return stdout;
 }
+#endif
 
 int archdep_num_text_lines(void)
 {

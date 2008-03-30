@@ -310,7 +310,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_LIBS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES ZLIB_LIBS NETPLAY_LIBS FFMPEG_INCLUDES FFMPEG_LIBS DOS_TFE_PCAP_LIB TFE_LIBS WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE READLINE_LIBS VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS GFXOUTPUT_LIBS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS SYNC FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE HAVE_TRANSLATION_TRUE HAVE_TRANSLATION_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE MAKE_BINDIST_TRUE MAKE_BINDIST_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR ARCH_EXTRA_SUBDIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ ALTERNATE_DOCDIR_TRUE ALTERNATE_DOCDIR_FALSE VICEDIR BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE MACOSX_COCOA_TRUE MACOSX_COCOA_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE OBJC OBJCFLAGS OBJCDEPMODE am__fastdepOBJC_TRUE am__fastdepOBJC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS JOY_LIBS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES ZLIB_LIBS NETPLAY_LIBS FFMPEG_INCLUDES FFMPEG_LIBS DOS_TFE_PCAP_LIB TFE_LIBS WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE READLINE_LIBS VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS GFXOUTPUT_LIBS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS SYNC FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_MACOSX_UITYPE UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE HAVE_TRANSLATION_TRUE HAVE_TRANSLATION_FALSE UNIX_QNX_COMPILE_TRUE UNIX_QNX_COMPILE_FALSE UNIX_SOLARIS_COMPILE_TRUE UNIX_SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE MAKE_BINDIST_TRUE MAKE_BINDIST_FALSE UNIX_MACOSX_COMPILE_TRUE UNIX_MACOSX_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR ARCH_SRC_DIR ARCH_EXTRA_SUBDIR UI_LIBS SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ ALTERNATE_DOCDIR_TRUE ALTERNATE_DOCDIR_FALSE VICEDIR BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -895,6 +895,7 @@ Optional Packages:
   --without-png         do not use the PNG screenshot system
   --without-zlib         do not use the ZLIB support
   --with-picasso96        use Amiga P96 grafix system instead of cgx
+ --with-cocoa             enables native Cocoa UI on Macs
   --with-x                use the X Window System
 
 Some influential environment variables:
@@ -1350,7 +1351,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=5
+VICE_VERSION_BUILD=6
 
 
 
@@ -2019,6 +2020,12 @@ if test "${enable_bundle+set}" = set; then
 
 fi;
 
+# Check whether --with-cocoa or --without-cocoa was given.
+if test "${with_cocoa+set}" = set; then
+  withval="$with_cocoa"
+
+fi;
+
 if test x"$enable_gnomeui" = "xyes" ; then
 
 cat >>confdefs.h <<\_ACEOF
@@ -2035,6 +2042,25 @@ if test x"$enable_gnomeui" = "xyes"; then
 else
   GNOMEUI_TRUE='#'
   GNOMEUI_FALSE=
+fi
+
+
+if test x"$with_cocoa" = "xyes" ; then
+
+cat >>confdefs.h <<\_ACEOF
+#define MACOSX_COCOA
+_ACEOF
+
+fi
+
+
+
+if test x"$with_cocoa" = "xyes"; then
+  MACOSX_COCOA_TRUE=
+  MACOSX_COCOA_FALSE='#'
+else
+  MACOSX_COCOA_TRUE='#'
+  MACOSX_COCOA_FALSE=
 fi
 
 
@@ -3155,6 +3181,122 @@ fi
 
 
 
+OBJC="${CC}"
+OBJCFLAGS="${CFLAGS}"
+OBJCDEPMODE="depmode=${CC}"
+
+
+
+depcc="$OBJC" am_compiler_list='gcc3 gcc'
+
+echo "$as_me:$LINENO: checking dependency style of $depcc" >&5
+echo $ECHO_N "checking dependency style of $depcc... $ECHO_C" >&6
+if test "${am_cv_OBJC_dependencies_compiler_type+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -z "$AMDEP_TRUE" && test -f "$am_depcomp"; then
+  # We make a subdir and do the tests there.  Otherwise we can end up
+  # making bogus files that we don't know about and never remove.  For
+  # instance it was reported that on HP-UX the gcc test will end up
+  # making a dummy file named `D' -- because `-MD' means `put the output
+  # in D'.
+  mkdir conftest.dir
+  # Copy depcomp to subdir because otherwise we won't find it if we're
+  # using a relative directory.
+  cp "$am_depcomp" conftest.dir
+  cd conftest.dir
+  # We will build objects and dependencies in a subdirectory because
+  # it helps to detect inapplicable dependency modes.  For instance
+  # both Tru64's cc and ICC support -MD to output dependencies as a
+  # side effect of compilation, but ICC will put the dependencies in
+  # the current directory while Tru64 will put them in the object
+  # directory.
+  mkdir sub
+
+  am_cv_OBJC_dependencies_compiler_type=none
+  if test "$am_compiler_list" = ""; then
+     am_compiler_list=`sed -n 's/^#*\([a-zA-Z0-9]*\))$/\1/p' < ./depcomp`
+  fi
+  for depmode in $am_compiler_list; do
+    # Setup a source with many dependencies, because some compilers
+    # like to wrap large dependency lists on column 80 (with \), and
+    # we should not choose a depcomp mode which is confused by this.
+    #
+    # We need to recreate these files for each test, as the compiler may
+    # overwrite some of them when testing with obscure command lines.
+    # This happens at least with the AIX C compiler.
+    : > sub/conftest.c
+    for i in 1 2 3 4 5 6; do
+      echo '#include "conftst'$i'.h"' >> sub/conftest.c
+      # Using `: > sub/conftst$i.h' creates only sub/conftst1.h with
+      # Solaris 8's {/usr,}/bin/sh.
+      touch sub/conftst$i.h
+    done
+    echo "${am__include} ${am__quote}sub/conftest.Po${am__quote}" > confmf
+
+    case $depmode in
+    nosideeffect)
+      # after this tag, mechanisms are not by side-effect, so they'll
+      # only be used when explicitly requested
+      if test "x$enable_dependency_tracking" = xyes; then
+	continue
+      else
+	break
+      fi
+      ;;
+    none) break ;;
+    esac
+    # We check with `-c' and `-o' for the sake of the "dashmstdout"
+    # mode.  It turns out that the SunPro C++ compiler does not properly
+    # handle `-M -o', and we need to detect this.
+    if depmode=$depmode \
+       source=sub/conftest.c object=sub/conftest.${OBJEXT-o} \
+       depfile=sub/conftest.Po tmpdepfile=sub/conftest.TPo \
+       $SHELL ./depcomp $depcc -c -o sub/conftest.${OBJEXT-o} sub/conftest.c \
+         >/dev/null 2>conftest.err &&
+       grep sub/conftst6.h sub/conftest.Po > /dev/null 2>&1 &&
+       grep sub/conftest.${OBJEXT-o} sub/conftest.Po > /dev/null 2>&1 &&
+       ${MAKE-make} -s -f confmf > /dev/null 2>&1; then
+      # icc doesn't choke on unknown options, it will just issue warnings
+      # or remarks (even with -Werror).  So we grep stderr for any message
+      # that says an option was ignored or not supported.
+      # When given -MP, icc 7.0 and 7.1 complain thusly:
+      #   icc: Command line warning: ignoring option '-M'; no argument required
+      # The diagnosis changed in icc 8.0:
+      #   icc: Command line remark: option '-MP' not supported
+      if (grep 'ignoring option' conftest.err ||
+          grep 'not supported' conftest.err) >/dev/null 2>&1; then :; else
+        am_cv_OBJC_dependencies_compiler_type=$depmode
+        break
+      fi
+    fi
+  done
+
+  cd ..
+  rm -rf conftest.dir
+else
+  am_cv_OBJC_dependencies_compiler_type=none
+fi
+
+fi
+echo "$as_me:$LINENO: result: $am_cv_OBJC_dependencies_compiler_type" >&5
+echo "${ECHO_T}$am_cv_OBJC_dependencies_compiler_type" >&6
+OBJCDEPMODE=depmode=$am_cv_OBJC_dependencies_compiler_type
+
+
+
+if
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_OBJC_dependencies_compiler_type" = gcc3; then
+  am__fastdepOBJC_TRUE=
+  am__fastdepOBJC_FALSE='#'
+else
+  am__fastdepOBJC_TRUE='#'
+  am__fastdepOBJC_FALSE=
+fi
+
+
+
 if test x"$host_os" = "xminixvmd"; then
   AR="\$(top_srcdir)/src/arch/unix/minix/minix-ar.sh"
 
@@ -3692,8 +3834,13 @@ case "$host_os" in
 darwin*)
 
   is_unix=yes
-  is_unix_x11=yes
   is_unix_macosx=yes
+
+  if test x"$with_cocoa" = "xyes" ; then
+    is_unix_x11=no
+  else
+    is_unix_x11=yes
+  fi
 
   if test -z "$user_cflags" ; then
     if test x"$GCC" = "xyes" ; then
@@ -11041,6 +11188,11 @@ _ACEOF
 
 
 cat >>confdefs.h <<\_ACEOF
+#define HAVE_MACHINE_JOYSTICK_H
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
 #define BSD_JOYSTICK
 _ACEOF
 
@@ -11190,6 +11342,11 @@ if test $ac_cv_header_sys_joystick_h = yes; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAS_JOYSTICK
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SYS_JOYSTICK_H
 _ACEOF
 
 
@@ -12487,7 +12644,7 @@ fi
 
 NETPLAY_LIBS=
 old_LIBS="$LIBS"
-if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
+if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
 
     UNIX_NETWORK_HEADERS_PRESENT=yes
 
@@ -13846,7 +14003,7 @@ done
   fi
 fi
 
-if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
+if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = "xyes" ; then
   if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
     echo "$as_me:$LINENO: checking if IPV6 should be enabled" >&5
 echo $ECHO_N "checking if IPV6 should be enabled... $ECHO_C" >&6
@@ -25438,7 +25595,6 @@ if test $ac_cv_lib_GL_glXWaitVideoSyncSGI = yes; then
                    LINK_X_LIBS="-lGL $LINK_X_LIBS";
 		   SYNC="openGL_sync.o $SYNC";
 
-
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_OPENGL_SYNC
 _ACEOF
@@ -25446,6 +25602,7 @@ _ACEOF
 fi
 
   fi
+
 
     FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
@@ -26503,10 +26660,24 @@ _ACEOF
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
-    ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx $ARCH_INCLUDES"
-    ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR macosx"
+    if test x"$with_cocoa" = "xyes" ; then
+      ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
+      ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu"
+      UI_LIBS="-framework Cocoa -framework OpenGL"
+      UNIX_MACOSX_UITYPE=cocoa
+    else
+      ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx $ARCH_INCLUDES"
+      ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR macosx"
+      if test x"$enable_gnomeui" != "xyes" ; then
+        UNIX_MACOSX_UITYPE=x11
+      else
+        UNIX_MACOSX_UITYPE=gtk
+      fi
+    fi
   fi
+
 
 
 
@@ -27586,6 +27757,7 @@ fi
 
 
 
+
 if test "$prefix" = NONE && test "$exec_prefix" = NONE; then
   PREFIX="$ac_default_prefix"
 elif test "$prefix" = NONE; then
@@ -27820,6 +27992,13 @@ echo "$as_me: error: conditional \"GNOMEUI\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${MACOSX_COCOA_TRUE}" && test -z "${MACOSX_COCOA_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"MACOSX_COCOA\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"MACOSX_COCOA\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -27831,6 +28010,13 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${am__fastdepOBJC_TRUE}" && test -z "${am__fastdepOBJC_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"am__fastdepOBJC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"am__fastdepOBJC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -29378,6 +29564,8 @@ s,@host_vendor@,$host_vendor,;t t
 s,@host_os@,$host_os,;t t
 s,@GNOMEUI_TRUE@,$GNOMEUI_TRUE,;t t
 s,@GNOMEUI_FALSE@,$GNOMEUI_FALSE,;t t
+s,@MACOSX_COCOA_TRUE@,$MACOSX_COCOA_TRUE,;t t
+s,@MACOSX_COCOA_FALSE@,$MACOSX_COCOA_FALSE,;t t
 s,@CC@,$CC,;t t
 s,@CFLAGS@,$CFLAGS,;t t
 s,@LDFLAGS@,$LDFLAGS,;t t
@@ -29394,6 +29582,11 @@ s,@AMDEPBACKSLASH@,$AMDEPBACKSLASH,;t t
 s,@CCDEPMODE@,$CCDEPMODE,;t t
 s,@am__fastdepCC_TRUE@,$am__fastdepCC_TRUE,;t t
 s,@am__fastdepCC_FALSE@,$am__fastdepCC_FALSE,;t t
+s,@OBJC@,$OBJC,;t t
+s,@OBJCFLAGS@,$OBJCFLAGS,;t t
+s,@OBJCDEPMODE@,$OBJCDEPMODE,;t t
+s,@am__fastdepOBJC_TRUE@,$am__fastdepOBJC_TRUE,;t t
+s,@am__fastdepOBJC_FALSE@,$am__fastdepOBJC_FALSE,;t t
 s,@HAVE_RS232_TRUE@,$HAVE_RS232_TRUE,;t t
 s,@HAVE_RS232_FALSE@,$HAVE_RS232_FALSE,;t t
 s,@HAVE_RAWDRIVE_TRUE@,$HAVE_RAWDRIVE_TRUE,;t t
@@ -29496,6 +29689,7 @@ s,@XVIC_WINRES@,$XVIC_WINRES,;t t
 s,@XPET_WINRES@,$XPET_WINRES,;t t
 s,@XPLUS4_WINRES@,$XPLUS4_WINRES,;t t
 s,@XCBM2_WINRES@,$XCBM2_WINRES,;t t
+s,@UNIX_MACOSX_UITYPE@,$UNIX_MACOSX_UITYPE,;t t
 s,@UNIX_COMPILE_TRUE@,$UNIX_COMPILE_TRUE,;t t
 s,@UNIX_COMPILE_FALSE@,$UNIX_COMPILE_FALSE,;t t
 s,@WIN32_COMPILE_TRUE@,$WIN32_COMPILE_TRUE,;t t
@@ -29528,6 +29722,7 @@ s,@ARCH_LIBS@,$ARCH_LIBS,;t t
 s,@ARCH_DIR@,$ARCH_DIR,;t t
 s,@ARCH_SRC_DIR@,$ARCH_SRC_DIR,;t t
 s,@ARCH_EXTRA_SUBDIR@,$ARCH_EXTRA_SUBDIR,;t t
+s,@UI_LIBS@,$UI_LIBS,;t t
 s,@SOUND_USS_OBJ@,$SOUND_USS_OBJ,;t t
 s,@SOUND_SGI_OBJ@,$SOUND_SGI_OBJ,;t t
 s,@SOUND_HPUX_OBJ@,$SOUND_HPUX_OBJ,;t t

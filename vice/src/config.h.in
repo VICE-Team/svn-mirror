@@ -257,6 +257,9 @@
 /* Define to 1 if you have the <machine/cpufunc.h> header file. */
 #undef HAVE_MACHINE_CPUFUNC_H
 
+/* Define to 1 if you have the <machine/joystick.h> header file. */
+#undef HAVE_MACHINE_JOYSTICK_H
+
 /* Define to 1 if you have the <machine/pio.h> header file. */
 #undef HAVE_MACHINE_PIO_H
 
@@ -414,6 +417,9 @@
 /* Define to 1 if you have the <sys/io.h> header file. */
 #undef HAVE_SYS_IO_H
 
+/* Define to 1 if you have the <sys/joystick.h> header file. */
+#undef HAVE_SYS_JOYSTICK_H
+
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #undef HAVE_SYS_MMAN_H
 
@@ -501,6 +507,9 @@
 
 /* Enable Mac OS X application bundles. */
 #undef MACOSX_BUNDLE
+
+/* Use Cocoa on Macs. */
+#undef MACOSX_COCOA
 
 /* Enable Mac OS X specific code. */
 #undef MACOSX_SUPPORT
