@@ -212,7 +212,7 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)flush_printer, (ui_callback_data_t)4, NULL },
     { "--" },
     { N_("*IEC printer #5 emulation"),
-      NULL, NULL, set_printer4_type_submenu },
+      NULL, NULL, set_printer5_type_submenu },
     { N_("IEC printer #5 driver"),
       NULL, NULL, pr5_driver_submenu },
     { N_("IEC printer #5 text output device"),
