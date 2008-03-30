@@ -242,7 +242,21 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
            happens.  This is only true if the value changes in some
            cycle > 0, though; otherwise, the line never becomes bad.  */
         if (cycle > 0) {
+#if 0
             vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
+#else             
+              raster_add_int_change_foreground
+                   (&vic_ii.raster,
+                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
+                    &vic_ii.raster.draw_idle_state,
+                    0);
+              vic_ii.idle_state = 0;
+              raster_add_int_change_foreground
+                   (&vic_ii.raster,
+                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
+                    &vic_ii.idle_state,
+                    0);
+#endif
             vic_ii.idle_data_location = IDLE_NONE;
             if (cycle > VIC_II_FETCH_CYCLE + 2
                 && !vic_ii.ycounter_reset_checked) {
@@ -345,7 +359,22 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             /* We are not in idle state anymore.  */
             /* This is not 100% correct, but should be OK for most cases.
                (FIXME?)  */
+#if 0
             vic_ii.raster.draw_idle_state = vic_ii.idle_state = 0;
+#else
+              raster_add_int_change_foreground
+                   (&vic_ii.raster,
+                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
+                    &vic_ii.raster.draw_idle_state,
+                    0);
+              vic_ii.idle_state = 0;
+              raster_add_int_change_foreground
+                   (&vic_ii.raster,
+                    VIC_II_RASTER_CHAR(VIC_II_RASTER_CYCLE(clk)),
+                    &vic_ii.idle_state,
+                    0);
+#endif
+
             vic_ii.idle_data_location = IDLE_NONE;
 
         } else {

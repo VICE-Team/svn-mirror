@@ -40,7 +40,7 @@ void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src += pitchs*ys + xs;
 	trg += pitcht*yt + xt;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -90,7 +90,7 @@ void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -219,7 +219,7 @@ void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -275,7 +275,7 @@ void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + xt;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -329,7 +329,7 @@ void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -464,7 +464,7 @@ void render_32_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;

@@ -45,7 +45,7 @@ void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -145,7 +145,7 @@ void render_16_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -449,7 +449,7 @@ void render_32_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -584,7 +584,7 @@ void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
@@ -693,7 +693,7 @@ void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	width -= wfirst;
 	wlast = width & 1;
 	width >>= 1;
-	if (width < 4)
+	if (width < 8)
 	{
 		wstart=width;
 		wfast=0;
