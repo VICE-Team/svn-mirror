@@ -1,3 +1,11 @@
+2000-07-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.26.
+
+2000-07-13  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Fixed `NLS_LOCALEDIR'.
+
 2000-07-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.25.

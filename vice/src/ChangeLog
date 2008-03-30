@@ -1,3 +1,29 @@
+2000-07-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.4.26.
+
+	* arch/unix/x11/fullscreen.c (fullscreen_mode_init): Fixed
+	typo.
+
+2000-07-13  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uimenu.c (make_menu_label): call gettext to
+	translate static strings in menu.
+
+	* arch/unix/c128ui.c: Instrumented for Internationalization.
+	* arch/unix/c610ui.c: ditto.
+	* arch/unix/c64ui.c: ditto.
+	* arch/unix/uisettings.c: ditto.
+	* arch/unix/uicommands.c: ditto.
+	* arch/unix/uicmdline.c: ditto.
+	* arch/unix/rs232.c: ditto.
+	* arch/unix/print.c: ditto.
+	* arch/unix/petui.c: ditto.
+	* arch/unix/petkmap.c: ditto.
+	* arch/unix/mouse.c: ditto.
+	* arch/unix/kmap.c: ditto.
+	* arch/unix/joystick.c: ditto.
+
 2000-07-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.25.

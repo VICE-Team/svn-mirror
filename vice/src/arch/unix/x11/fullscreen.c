@@ -481,7 +481,7 @@ void fullscreen_mode_init(void)
                       XtNx,          0,
                       XtNy,          0,
                       None);
-        XWarpPointer(ui_get_display_ptr, None,
+        XWarpPointer(ui_get_display_ptr(), None,
                      XtWindow(canvas),
                      0, 0, 0, 0, 0, 0);
     }
