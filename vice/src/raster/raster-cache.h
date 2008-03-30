@@ -57,6 +57,7 @@ struct raster_cache_s {
     /* This is needed in the VIC-II for the area between the end of the left
        border and the start of the graphics, when the X smooth scroll
        register is > 0.  */
+    BYTE xsmooth_color;
     BYTE overscan_background_color;
 
     /* The following are generic and are used differently by the video
