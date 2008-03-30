@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=22
+VICE_VERSION_BUILD=23
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -676,12 +676,6 @@ if test x"$ac_cv_c_inline" = "xno" ; then
   CFLAGS="$CFLAGS -DNO_INLINE"
 fi
 
-if test x"$is_beos" = "xyes"; then
-  if test x"$host_cpu" = "xpowerpc" -o x"$host_cpu" = "xppc"; then
-    AC_DEFINE(inline)
-  fi
-fi
-
 dnl Define the type sizes.
 if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
   AC_C_BIGENDIAN
@@ -1001,8 +995,9 @@ AC_SUBST(DOS_TFE_PCAP_LIB)
 
 if test x"$is_unix" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
+    AC_CHECK_LIB(avutil, av_free,,,$LIBS)
     AC_CHECK_LIB(avcodec, avcodec_init,,,$LIBS)
-    AC_CHECK_LIB(mp3lame, MP3lame_encode_frame,,,$LIBS)
+    AC_CHECK_LIB(mp3lame, lame_encode_frame,,,$LIBS)
     AC_CHECK_LIB(avformat, av_register_all,,,$LIBS)
   fi
 
@@ -1087,6 +1082,14 @@ AC_CHECK_HEADERS(lame/lame.h,[AC_CHECK_LIB(mp3lame, lame_encode_buffer,
                  SOUND_LIBS="$SOUND_LIBS -lmp3lame";
                  AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])],,$SOUND_LIBS)])
 
+if test "$ac_cv_lib_mp3lame_lame_encode_buffer" = "no"; then
+  unset ac_cv_lib_mp3lame_lame_encode_buffer
+  AC_CHECK_LIB(mp3lame, lame_encode_buffer,
+               [SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o";
+               SOUND_LIBS="$SOUND_LIBS -lmp3lame -lmpgdecoder";
+               AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])],,$SOUND_LIBS -lmpgdecoder)
+fi
+
 if test x"$is_amigaos4" = "xyes"; then
   AC_MSG_CHECKING(whether devices/timer.h defines TimeVal)
   AC_TRY_COMPILE([ #include <devices/timer.h> ],
@@ -1151,6 +1154,15 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
   fi
 fi
 fi
+
+case "$host_os" in
+  solaris* | beos*)
+    LIBS="$LIBS $SOUND_LIBS"
+    SOUND_LIBS=""
+    ;;
+  *)
+    ;;
+esac
 
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)

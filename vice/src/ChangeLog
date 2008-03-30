@@ -1,3 +1,112 @@
+2007-02-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.23.
+
+	* c64/tfe.c: Fixed some comment.
+
+2007-02-23  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* c64/tfe.c: rewrote core to better emulate the real CS8900a
+	chip (revised packet page handling, aded tx/rx states)
+
+2007-02-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/ui.c,
+	arch/amigaos/uiattach.c, arch/amigaos/uiattach.h,
+	arch/amigaos/vic20uires.h: Added disk/tape attach dialog
+	work-around for aros.
+
+	* arch/os2/vac++/Makefile.am: Added iecplus4exp.icc.
+
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdigimax.rc, arch/win32/resdrivec128.rc,
+	arch/win32/resdrivec64vic20.rc, arch/win32/resdrivepetcbm2.rc,
+	arch/win32/resdriveplus4.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/resmmc64.rc,
+	arch/win32/respet.rc, arch/win32/respetreu.rc,
+	arch/win32/resplus256k.rc, arch/win32/resplus4.rc,
+	arch/win32/resramcart.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/ressidcart.rc,
+	arch/win32/resvic20.rc, arch/win32/resvicii.rc,
+	translate.c: Updated the german, italian and hungarian
+	translations.
+
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/make-bindist.sh, arch/beos/petui.cc: Fixed the beos
+	ports.
+
+	* arch/os2/dialogs/dlg-color.c, arch/os2/joy.c,
+	arch/os2/vac++/Makefile.am, arch/os2/vac++/incl/c64.icc,
+	arch/os2/vac++/incl/c64cart.icc, arch/os2/vac++/incl/cbm2.icc,
+	arch/os2/vac++/incl/iec.icc,
+	arch/os2/vac++/incl/iecc64exp.icc,
+	arch/os2/vac++/incl/iecplus4exp.icc,
+	arch/os2/vac++/incl/sounddrv.icc,
+	arch/os2/vac++/x128/X128.ICC,
+	arch/os2/vac++/x64/X64.ICC, arch/os2/vac++/xpet/Xpet.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC,
+	arch/os2/vac++/xvic/Xvic.ICC: Fixed the os2 port.
+
+	* arch/unix/qnx/make-bindist.sh: Fixed the qnx6 port.
+
+	* arch/unix/solaris/make-bindist.sh: Fixed the solaris ports.
+
+	* drive/iec/c64exp/Makefile.am,
+	drive/iec/plus4exp/Makefile.am: Fixed a typo.
+
+	* resid/Makefile.am: Fixed for cross compile.
+
+	* sounddrv/soundmp3.c: Changed the mp3 buffer from signed to
+	unsigned.
+
+	* vdc/vdc-draw.c: Changed the C++ style comments to C style.
+
+	* vice.h: Added inline fix for ppc-beos.
+
+2007-02-15  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/x11/gnome/x11ui.c: fixed input string and change
+	dir dialog. fixed focus handling.
+
+2007-02-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/archdep.c: Fixed missing variable.
+
+	* arch/unix/gp2x/input_gp2x.c: Added dummy
+	kbd_initialize_numpad_joykeys() function.
+
+2007-02-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added an extra check for libmp3lame in case it
+	needs libmpgdecoder to link correctly (msdos port).
+
+2007-02-12  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/openGL_sync.c (init_openGL): Added message
+	string instrumentation for translation again.
+
+2007-02-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/constants.h, arch/beos/petui.cc,
+	arch/beos/plus4ui.cc, arch/beos/ui.cc, arch/beos/ui_file.cc,
+	arch/beos/ui_file.h, arch/beos/vic20ui.cc,
+	arch/beos/vicemenu.cc, arch/beos/video.cc: Added previously
+	missing gui elements.
+
+	* arch/win32/uisound.c, util.c: Fixed the usage of the
+	util_add_extension_maxpath() call.
+
+	* sounddrv/soundaiff.c: Fixed a typo.
+
 2007-02-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.22.

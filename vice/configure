@@ -1349,7 +1349,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=22
+VICE_VERSION_BUILD=23
 
 
 
@@ -8474,15 +8474,6 @@ if test x"$ac_cv_c_inline" = "xno" ; then
   CFLAGS="$CFLAGS -DNO_INLINE"
 fi
 
-if test x"$is_beos" = "xyes"; then
-  if test x"$host_cpu" = "xpowerpc" -o x"$host_cpu" = "xppc"; then
-    cat >>confdefs.h <<\_ACEOF
-#define inline 1
-_ACEOF
-
-  fi
-fi
-
 if [ x"$ac_cv_prog_cc_cross" != "xyes" ]; then
   echo "$as_me:$LINENO: checking whether byte ordering is bigendian" >&5
 echo $ECHO_N "checking whether byte ordering is bigendian... $ECHO_C" >&6
@@ -14115,6 +14106,80 @@ fi
 if test x"$is_unix" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
 
+echo "$as_me:$LINENO: checking for av_free in -lavutil" >&5
+echo $ECHO_N "checking for av_free in -lavutil... $ECHO_C" >&6
+if test "${ac_cv_lib_avutil_av_free+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lavutil $LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char av_free ();
+int
+main ()
+{
+av_free ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_avutil_av_free=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_avutil_av_free=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_avutil_av_free" >&5
+echo "${ECHO_T}$ac_cv_lib_avutil_av_free" >&6
+if test $ac_cv_lib_avutil_av_free = yes; then
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBAVUTIL 1
+_ACEOF
+
+  LIBS="-lavutil $LIBS"
+
+fi
+
+
 echo "$as_me:$LINENO: checking for avcodec_init in -lavcodec" >&5
 echo $ECHO_N "checking for avcodec_init in -lavcodec... $ECHO_C" >&6
 if test "${ac_cv_lib_avcodec_avcodec_init+set}" = set; then
@@ -14189,9 +14254,9 @@ _ACEOF
 fi
 
 
-echo "$as_me:$LINENO: checking for MP3lame_encode_frame in -lmp3lame" >&5
-echo $ECHO_N "checking for MP3lame_encode_frame in -lmp3lame... $ECHO_C" >&6
-if test "${ac_cv_lib_mp3lame_MP3lame_encode_frame+set}" = set; then
+echo "$as_me:$LINENO: checking for lame_encode_frame in -lmp3lame" >&5
+echo $ECHO_N "checking for lame_encode_frame in -lmp3lame... $ECHO_C" >&6
+if test "${ac_cv_lib_mp3lame_lame_encode_frame+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -14209,11 +14274,11 @@ extern "C"
 #endif
 /* We use char because int might match the return type of a gcc2
    builtin and then its argument prototype would still apply.  */
-char MP3lame_encode_frame ();
+char lame_encode_frame ();
 int
 main ()
 {
-MP3lame_encode_frame ();
+lame_encode_frame ();
   ;
   return 0;
 }
@@ -14240,20 +14305,20 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  ac_cv_lib_mp3lame_MP3lame_encode_frame=yes
+  ac_cv_lib_mp3lame_lame_encode_frame=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_cv_lib_mp3lame_MP3lame_encode_frame=no
+ac_cv_lib_mp3lame_lame_encode_frame=no
 fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_mp3lame_MP3lame_encode_frame" >&5
-echo "${ECHO_T}$ac_cv_lib_mp3lame_MP3lame_encode_frame" >&6
-if test $ac_cv_lib_mp3lame_MP3lame_encode_frame = yes; then
+echo "$as_me:$LINENO: result: $ac_cv_lib_mp3lame_lame_encode_frame" >&5
+echo "${ECHO_T}$ac_cv_lib_mp3lame_lame_encode_frame" >&6
+if test $ac_cv_lib_mp3lame_lame_encode_frame = yes; then
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBMP3LAME 1
 _ACEOF
@@ -16928,6 +16993,84 @@ fi
 done
 
 
+if test "$ac_cv_lib_mp3lame_lame_encode_buffer" = "no"; then
+  unset ac_cv_lib_mp3lame_lame_encode_buffer
+  echo "$as_me:$LINENO: checking for lame_encode_buffer in -lmp3lame" >&5
+echo $ECHO_N "checking for lame_encode_buffer in -lmp3lame... $ECHO_C" >&6
+if test "${ac_cv_lib_mp3lame_lame_encode_buffer+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmp3lame $SOUND_LIBS -lmpgdecoder $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char lame_encode_buffer ();
+int
+main ()
+{
+lame_encode_buffer ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_mp3lame_lame_encode_buffer=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_mp3lame_lame_encode_buffer=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_mp3lame_lame_encode_buffer" >&5
+echo "${ECHO_T}$ac_cv_lib_mp3lame_lame_encode_buffer" >&6
+if test $ac_cv_lib_mp3lame_lame_encode_buffer = yes; then
+  SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o";
+               SOUND_LIBS="$SOUND_LIBS -lmp3lame -lmpgdecoder";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_LAMEMP3
+_ACEOF
+
+fi
+
+fi
+
 if test x"$is_amigaos4" = "xyes"; then
   echo "$as_me:$LINENO: checking whether devices/timer.h defines TimeVal" >&5
 echo $ECHO_N "checking whether devices/timer.h defines TimeVal... $ECHO_C" >&6
@@ -17749,6 +17892,15 @@ rm -f conftest.err conftest.$ac_objext \
   fi
 fi
 fi
+
+case "$host_os" in
+  solaris* | beos*)
+    LIBS="$LIBS $SOUND_LIBS"
+    SOUND_LIBS=""
+    ;;
+  *)
+    ;;
+esac
 
 
 

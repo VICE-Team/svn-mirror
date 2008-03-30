@@ -765,6 +765,9 @@ xcbm2:
 
 @WIN32_COMPILE_TRUE@bindistzip:
 @WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+
+cleantrans:
+	rm `find $(top_srcdir) -name "*.po.c"`
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

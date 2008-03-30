@@ -1,3 +1,39 @@
+2007-02-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.23.
+
+2007-02-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added the 'make cleantrans' rule.
+
+2007-02-24  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: fixed checks for unix ffmpeg detection
+
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed a typo.
+
+2007-02-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/beos/ppc-build.sh: Added '-inclpaths nosys' to get
+	#include <config.h> function properly.
+
+	* build/minix3/build-package.sh: Updated to build from the
+	root or build directory.
+
+	* configure.in: Changed the behaviour of SOUND_LIBS for beos
+	and solaris to avoid build problems.
+
+	* doc/html/Makefile.am, doc/html/beos.html: Added new BeOS
+	ports page.
+
+	* doc/html/amigaos.html, doc/html/solaris.html: Updated for
+	the 1.21 release.
+
+	* doc/html/plain/NEWS: Updated with the things I was involved
+	in.
+
 2007-02-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.22.

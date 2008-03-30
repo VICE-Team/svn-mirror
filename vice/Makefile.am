@@ -87,3 +87,6 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 endif
+
+cleantrans:
+	rm `find $(top_srcdir) -name "*.po.c"`
