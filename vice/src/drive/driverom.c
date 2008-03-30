@@ -39,7 +39,7 @@
 
 /* RAM/ROM.  */
 BYTE drive_rom1541[DRIVE_ROM1541_SIZE_EXPANDED];
-BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
+BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE_EXPANDED];
 BYTE drive_rom1551[DRIVE_ROM1551_SIZE];
 BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
@@ -61,7 +61,8 @@ unsigned int rom3040_loaded = 0;
 unsigned int rom4040_loaded = 0;
 unsigned int rom1001_loaded = 0;
 
-unsigned int drive_rom1541_size;
+static unsigned int drive_rom1541_size;
+static unsigned int drive_rom1541ii_size;
 
 /* Logging goes here.  */
 static log_t driverom_log;
@@ -103,7 +104,6 @@ int drive_rom_load_1541(void)
 
     resources_get_value("DosName1541", (resource_value_t *)&rom_name);
 
-    /* Load the ROMs. */
     filesize = sysfile_load(rom_name, drive_rom1541, DRIVE_ROM1541_SIZE,
                             DRIVE_ROM1541_SIZE_EXPANDED);
     if (filesize < 0) {
@@ -124,19 +124,23 @@ int drive_rom_load_1541(void)
 int drive_rom_load_1541ii(void)
 {
     char *rom_name = NULL;
+    int filesize;
 
     if (!drive_rom_load_ok)
         return 0;
 
     resources_get_value("DosName1541ii", (resource_value_t *)&rom_name);
 
-    if (sysfile_load(rom_name, drive_rom1541ii, DRIVE_ROM1541II_SIZE,
-                     DRIVE_ROM1541II_SIZE) < 0) {
+    filesize = sysfile_load(rom_name, drive_rom1541ii, DRIVE_ROM1541II_SIZE,
+                            DRIVE_ROM1541II_SIZE_EXPANDED);
+    if (filesize < 0) {
         log_error(driverom_log,
                   "1541-II ROM image not found.  "
                   "Hardware-level 1541-II emulation is not available.");
+        drive_rom1541ii_size = 0;
     } else {
         rom1541ii_loaded = 1;
+        drive_rom1541ii_size = (unsigned int)filesize;
         drive_rom_new_image_loaded(DRIVE_TYPE_1541II);
         return 0;
     }
@@ -369,8 +373,16 @@ void drive_rom_setup_image(unsigned int dnr)
             }
             break;
           case DRIVE_TYPE_1541II:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541ii,
-                   DRIVE_ROM1541II_SIZE);
+            if (drive_rom1541ii_size <= DRIVE_ROM1541II_SIZE) {
+                memcpy(drive[dnr].rom, &drive_rom1541ii[DRIVE_ROM1541II_SIZE],
+                       DRIVE_ROM1541II_SIZE);
+                memcpy(&(drive[dnr].rom[DRIVE_ROM1541II_SIZE]),
+                       &drive_rom1541ii[DRIVE_ROM1541II_SIZE],
+                       DRIVE_ROM1541II_SIZE);
+            } else {
+                memcpy(drive[dnr].rom, drive_rom1541ii,
+                       DRIVE_ROM1541II_SIZE_EXPANDED);
+            }
             break;
           case DRIVE_TYPE_1551:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom1551,
