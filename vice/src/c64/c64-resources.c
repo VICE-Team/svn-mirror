@@ -168,65 +168,65 @@ static int set_romset_firmware(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
-      RES_EVENT_SAME, NULL,
-      (void *)&sync_factor, set_sync_factor, NULL },
-    { "ChargenName", RES_STRING, (resource_value_t)"chargen",
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&chargen_rom_name, set_chargen_rom_name, NULL },
-    { "RomsetChargenName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "KernalName", RES_STRING, (resource_value_t)"kernal",
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
-    { "RomsetKernalName", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "BasicName", RES_STRING, (resource_value_t)"basic",
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&basic_rom_name, set_basic_rom_name, NULL },
-    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL, /* FIXME: should be same but names may differ */
-      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "EmuID", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&emu_id_enabled, set_emu_id_enabled, NULL },
-    { "KernalRev", RES_STRING, (resource_value_t)"",
-      RES_EVENT_SAME, NULL,
-      (void *)&kernal_revision, set_kernal_revision, NULL },
-#ifdef HAVE_RS232
-    { "Acia1Enable", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&acia_de_enabled, set_acia_de_enabled, NULL },
-#endif
+static const resource_string_t resources_string[] = {
+    { "ChargenName", "chargen", RES_EVENT_NO, NULL,
+       /* FIXME: should be same but names may differ */
+      &chargen_rom_name, set_chargen_rom_name, NULL },
+    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &kernal_rom_name, set_kernal_rom_name, NULL },
+    { "BasicName", "basic", RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &basic_rom_name, set_basic_rom_name, NULL },
+    { "KernalRev", "", RES_EVENT_SAME, NULL,
+      &kernal_revision, set_kernal_revision, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_C64_DEFAULT,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
-    { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_C64_SYM_US,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[0],
+    { "KeymapSymFile", KBD_C64_SYM_US, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
-    { "KeymapSymDeFile", RES_STRING, (resource_value_t)KBD_C64_SYM_DE,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[1],
+    { "KeymapSymDeFile", KBD_C64_SYM_DE, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
-    { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_C64_POS,
-      RES_EVENT_NO, NULL,
-      (void *)&machine_keymap_file_list[2],
+    { "KeymapPosFile", KBD_C64_POS, RES_EVENT_NO, NULL,
+      &machine_keymap_file_list[2],
       keyboard_set_keymap_file, (void *)2 },
 #endif
-    { "SidStereoAddressStart", RES_INTEGER, (resource_value_t)0xde00,
-      RES_EVENT_SAME, NULL,
-      (void *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
+      &sync_factor, set_sync_factor, NULL },
+    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &romset_firmware[0], set_romset_firmware, (void *)0 },
+    { "RomsetKernalName", 1, RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &romset_firmware[1], set_romset_firmware, (void *)1 },
+    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
+      /* FIXME: should be same but names may differ */
+      &romset_firmware[2], set_romset_firmware, (void *)2 },
+    { "EmuID", 0, RES_EVENT_SAME, NULL,
+      &emu_id_enabled, set_emu_id_enabled, NULL },
+#ifdef HAVE_RS232
+    { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &acia_de_enabled, set_acia_de_enabled, NULL },
+#endif
+#ifdef COMMON_KBD
+    { "KeymapIndex", KBD_INDEX_C64_DEFAULT, RES_EVENT_NO, NULL,
+      (int *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
+#endif
+    { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
+      (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { NULL }
 };
 
 int c64_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void c64_resources_shutdown(void)

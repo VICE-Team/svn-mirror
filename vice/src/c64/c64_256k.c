@@ -163,22 +163,26 @@ static int set_c64_256k_base(resource_value_t v, void *param)
   return 0;
 }
 
-static const resource_t resources[] = {
-    { "C64_256K", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&c64_256k_enabled, set_c64_256k_enabled, NULL },
-    { "C64_256Kbase", RES_INTEGER, (resource_value_t)0xdf80,
-      RES_EVENT_NO, NULL,
-      (void *)&c64_256k_start, set_c64_256k_base, NULL },
-    { "C64_256Kfilename", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&c64_256k_filename, set_c64_256k_filename, NULL },
+static const resource_string_t resources_string[] = {
+    { "C64_256Kfilename", "", RES_EVENT_NO, NULL,
+      &c64_256k_filename, set_c64_256k_filename, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "C64_256K", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &c64_256k_enabled, set_c64_256k_enabled, NULL },
+    { "C64_256Kbase", 0xdf80, RES_EVENT_NO, NULL,
+      (int *)&c64_256k_start, set_c64_256k_base, NULL },
     { NULL }
 };
 
 int c64_256k_resources_init(void)
 {
-  return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void c64_256k_resources_shutdown(void)
