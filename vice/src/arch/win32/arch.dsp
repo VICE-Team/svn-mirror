@@ -138,6 +138,10 @@ SOURCE=.\mousedrv.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\opencbmlib.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\petui.c
 # End Source File
 # Begin Source File

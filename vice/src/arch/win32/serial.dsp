@@ -82,7 +82,11 @@ LIB32=link.exe -lib
 # Name "serial - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\serial\fsdrive.c
+SOURCE="..\..\serial\fsdrive.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\serial\realdevice.c"
 # End Source File
 # Begin Source File
 
