@@ -32,22 +32,13 @@
 #include "iecieee.h"
 #include "ieee.h"
 #include "machine-drive.h"
-#include "resources.h"
 #include "types.h"
-
-
-static const resource_t resources[] = {
-    { "Drive8Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_2031,
-      (void *)&(drive[0].type), drive0_resources_type, NULL },
-    { "Drive9Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_NONE,
-      (void *)&(drive[1].type), drive1_resources_type, NULL },
-    { NULL }
-};
 
 
 int machine_drive_resources_init(void)
 {
-    return resources_register(resources) | ieee_drive_resources_init();
+    return drive_resources_type_init(DRIVE_TYPE_2031)
+        | ieee_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)
