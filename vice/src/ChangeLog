@@ -1,3 +1,129 @@
+2001-11-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.26.
+
+	* arch/unix/x11/video.c: Use common video render if no display
+	depth is defined.
+
+	* arch/unix/uisettings.c: Added PAL filter menu entries.
+
+	* raster/raster.c, raster/raster.h, arch/unix/types.h,
+	arch/unix/uisettings.c, arch/unix/x11/video.c,
+	arch/unix/x11/videoarch.h, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/gnome/gnomevideo.c, arch/unix/x11/xaw/ui.c,
+	arch/unix/x11/gnome/uicolor.c, arch/unix/x11/xaw/uicolor.c,
+	arch/unix/x11/xaw/x11video.c, arch/win32/msvc/config.h,
+	arch/win32/types.h, arch/msdos/types.h, arch/riscos/config.h,
+	arch/riscos/types.h, arch/os2/config.h, arch/beos/types.h:
+	Changed `X_DISPLAY_DEPTH' to `VIDEO_DISPLAY_DEPTH'.
+
+	* arch/unix/c128ui.c, arch/unix/c610ui.c, arch/unix/c64ui.c,
+	arch/unix/petui.c, arch/unix/plus4ui.c, arch/unix/vic20ui.c,
+	arch/unix/vsidui.c, arch/unix/uisettings.c,
+	arch/unix/uisettings.h: Moved peripherial, rs232, sound, drive
+	and joystick settings to separate files.
+
+	* arch/unix/uiperipheral.c, arch/unix/uiperipheral.h,
+	arch/unix/uirs232.c, arch/unix/uirs232.h, arch/unix/uisound.c,
+	arch/unix/uisound.h, arch/unix/uidrive.c, arch/unix/uidrive.h,
+	arch/unix/uijoystick2.c, arch/unix/uijoystick2.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/os2/vac++/Makefile.am: Added `incl/c64cart.icc'.
+
+	* arch/unix/x11/xaw/widgets/Canvas.c,
+	arch/unix/x11/xaw/widgets/Directory.h: Fixed prototypes.
+
+2001-11-15  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h: dont set HAVE_MOUSE for pet and vic
+
+	* arch/os2/dialogs/dialogs.[h,rc],
+	arch/os2/dialogs/dlg-fileio.rc,
+	arch/os2/dialogs/dlg-monitor.rc:
+	- changed paths to support new subdirs for *.icc
+	- don't use POINTER for vice icon anymore
+
+	* arch/os2/dialogs/menubar.[c,rc]:
+	- corrected usage of VideoStandard for pet
+	- correcte usage of Sprite collision for pet
+	- corrected usage of Mouse resources for pet
+	- added dummy driver for sound
+
+	* arch/os2/kbd/kmap-pet.c: changed order in resources
+
+	* arch/os2/makeclean.cmd:
+	changed to support new locations of obj files
+
+	* arch/os2/ui.c: added log_message to ui_error
+
+	* arch/os2/vac++/incl/archdep.icc: removed mouse.c
+
+	* arch/os2/vac++/incl/c128.icc: changed order
+
+	* arch/os2/vac++/incl/c64.icc: moved cart\\* to c6cart.icc
+
+	* arch/os2/vac++/incl/c64cart.icc: added
+
+	* arch/os2/vac++/incl/mainsrc.icc:
+	- added video-color.c
+	- added video-resources.c
+
+	* arch/os2/vac++/incl/plus4.icc: added ted-timer.c
+
+	* arch/os2/vac++/incl/resid.icc: changed path to lib
+
+	* arch/os2/vac++/incl/vic20.icc: added vic-color.c
+
+	* arch/os2/vac++/X128.ICC: moved to x128
+
+	* arch/os2/vac++/X64.ICC: moved to x64
+
+	* arch/os2/vac++/Xpet.ICC: moved to xpet
+
+	* arch/os2/vac++/Xvic.ICC: moved to xvic
+
+	* arch/os2/vac++/Xplus4.ICC: moved to xplus4
+
+	* arch/os2/vac++/Xcbm2.ICC: moved to xcbm2
+
+	* plus4/plus4mem.c: changed rom_loaded to plus4_rom_loaded
+
+	* sound.c:
+	- get rid of usage of SidUseResid by #define HAVE_RESID
+	- small changes to output
+
+	* vicii/vicii-resources.c: added include for video-color.h
+
+	* video-color.h: changed layout
+
+2001-11-15  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/dga2.c (fullscreen_refresh_func): Added
+	XDGASync() again to ensure proper acccess to the videomemory.
+
+	* crtc/crtc.c (crtc_update_window): In case of fullscreen
+	don't resize the viewport otherwhise the screen moved to the
+	upper left corner as the dimensions of the active video mode
+	is not taken into account here.
+
+	* vicii/vicii.c (vic_ii_set_geometry): Changed screen size
+	parameter to calculated with of `VIC_II_SCREEN_XPIX +
+	vic_ii.screen_borderwidth * 2' which is the same for NTCS and
+	PAL VICIIs. In case of fullscreen don't resize the viewport.
+
+	* vic20/vic.c: (vic_set_geometry): In case of fullscreen don't
+	mess with pixel sizes and don't resize the viewport.
+
+	* arch/unix/x11/video.c (canvas_resize): Cache new dimension
+	in fullscreen module.
+	(video_frame_buffer_free): Don't free frame buffer when
+	fullscreen is active.
+
+	* arch/unix/x11/dga2.c (fullscreen_resize): New function.
+	Store current dimensions of GUI mode.
+
 2001-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.25.

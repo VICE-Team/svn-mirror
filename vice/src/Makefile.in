@@ -675,17 +675,6 @@ traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 	parallel.h traps.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
-video-color.o: video-color.c video-color.h palette.h arch/unix/types.h \
-	vice.h config.h raster/raster.h raster/raster-changes.h \
-	video-resources.h machine.h
-video-render.o: video-render.c vice.h config.h arch/unix/types.h \
-	video-render.h video-resources.h
-video-resources.o: video-resources.c video-resources.h video-color.h \
-	palette.h arch/unix/types.h vice.h config.h raster/raster.h \
-	raster/raster-changes.h video.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
-	fullscreen.h resources.h utils.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	resources.h log.h maincpu.h 6510core.h machine.h sound.h \
 	vsync.h vsyncapi.h

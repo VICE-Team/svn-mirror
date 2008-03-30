@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.7.25
+VERSION=1.7.26
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -934,28 +934,28 @@ fi
 
 if test x"$enable_autobpp" = "xyes"; then
   cat >> confdefs.h <<\EOF
-#define X_DISPLAY_DEPTH 0
+#define VIDEO_DISPLAY_DEPTH 0
 EOF
 
 elif test x"$enable_8bpp" = "xyes" ; then
   cat >> confdefs.h <<\EOF
-#define X_DISPLAY_DEPTH 8
+#define VIDEO_DISPLAY_DEPTH 8
 EOF
 
 elif test x"$enable_16bpp" = "xyes" ; then
   cat >> confdefs.h <<\EOF
-#define X_DISPLAY_DEPTH 16
+#define VIDEO_DISPLAY_DEPTH 16
 EOF
 
 elif test x"$enable_32bpp" = "xyes" ; then
   cat >> confdefs.h <<\EOF
-#define X_DISPLAY_DEPTH 24
+#define VIDEO_DISPLAY_DEPTH 24
 EOF
 
 else
   echo "no display depth specified; assuming dynamic support."
   cat >> confdefs.h <<\EOF
-#define X_DISPLAY_DEPTH 0
+#define VIDEO_DISPLAY_DEPTH 0
 EOF
 
 fi

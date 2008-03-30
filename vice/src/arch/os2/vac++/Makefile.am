@@ -1,11 +1,11 @@
 EXTRA_DIST = \
-	X64.ICC \
-        X128.ICC \
+	x64/X64.ICC \
+        x128/X128.ICC \
         X1541.ICC \
-        Xcbm2.ICC \
-        Xpet.ICC \
-        Xplus4.ICC \
-        Xvic.ICC \
+        xcbm2/Xcbm2.ICC \
+        xpet/Xpet.ICC \
+        xplus4/Xplus4.ICC \
+        xvic/Xvic.ICC \
         Fonts.icc \
         PETcat.ICC \
         RESID.ICC \
@@ -16,6 +16,7 @@ EXTRA_DIST = \
         lpng.icc \
         incl/archdep.icc \
         incl/c64.icc \
+        incl/c64cart.icc \
         incl/c128.icc \
         incl/crtc.icc \
         incl/cbm2.icc \

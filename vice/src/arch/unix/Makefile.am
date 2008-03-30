@@ -60,22 +60,32 @@ libarch_a_SOURCES = \
 	uicrtc.h \
 	uidatasette.c \
 	uidatasette.h \
+	uidrive.c \
+	uidrive.h \
 	uiedisk.h \
 	uihotkey.h \
+	uijoystick2.c \
+	uijoystick2.h \
 	uimenu.h \
 	uimon.c \
 	uipalette.c \
 	uipalette.h \
+	uiperipheral.c \
+	uiperipheral.h \
 	uiprinter.c \
 	uiprinter.h \
 	uireu.c \
 	uireu.h \
+	uirs232.c \
+	uirs232.h \
 	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
 	uisid.c \
 	uisid.h \
 	uisnapshot.h \
+	uisound.c \
+	uisound.h \
 	uivicii.c \
 	uivicii.h \
 	vic20ui.c \
