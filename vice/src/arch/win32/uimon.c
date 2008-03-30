@@ -855,6 +855,8 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
 	BOOL bComputer = FALSE;
 	BOOL bDrive8   = FALSE;
 	BOOL bDrive9   = FALSE;
+        BOOL bDrive10  = FALSE;
+        BOOL bDrive11  = FALSE;
 	HMENU hmnu     = GetMenu(hwnd);
     int drive_true_emulation;
 
@@ -865,6 +867,8 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
 	case e_comp_space:  bComputer = TRUE; pText = "Computer"; break;
 	case e_disk8_space: bDrive8   = TRUE; pText = "Drive 8";  break;
 	case e_disk9_space: bDrive9   = TRUE; pText = "Drive 9";  break;
+        case e_disk10_space: bDrive10 = TRUE; pText = "Drive 10";  break;
+        case e_disk11_space: bDrive11 = TRUE; pText = "Drive 11";  break;
 
     /* 
         these two cases should not occur; 

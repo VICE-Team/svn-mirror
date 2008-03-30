@@ -121,8 +121,8 @@ static void init_dialog(HWND hwnd, unsigned int num)
             n = IDC_SELECTDISK;
 
             /* don't allow to check DIR or NONE */
-            EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),  FALSE );
-            EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE), FALSE );
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),  FALSE);
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE), FALSE);
         }
 
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
@@ -292,12 +292,9 @@ void ui_attach_dialog(HWND hwnd)
     PROPSHEETHEADER psh;
     int i;
 
-    int drive_true_emulation;
     int no_of_drives;
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-
-    no_of_drives = drive_true_emulation ? 2 : 4;
+    no_of_drives = 4;
 
     for (i = 0; i < no_of_drives; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
