@@ -42,6 +42,8 @@ libvic20_a_SOURCES = \
 	vic20ieeevia2.c \
 	vic20mem.c \
 	vic20mem.h \
+	vic20memrom.h \
+	vic20memrom.c \
 	vic20memsnapshot.c \
 	vic20memsnapshot.h \
 	vic20printer.c \
