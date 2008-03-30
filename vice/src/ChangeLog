@@ -1,10 +1,127 @@
+Mon May 18 17:52:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.27.
+
+	* c64/sid.c (doosc): Removed temporary fix.
+
+	* Makefile.am: Set `YFLAGS' to `-t'.
+
+	* c128/c128mem.c (initialize_memory): Initialize `mem_read_tab[1]'
+	and `mem_write_tab[1]' properly.
+
+	* sound.c (set_device_name, set_device_arg): Reallocate the
+ 	resource value instead of just assigning the pointer.
+
+Min May 18 17:34:22 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c: New UI callback
+ 	`UiSetFSDeviceDirectory' to select a directory.  Splitted UI
+ 	callback `FSDeviceConvertP00' into one callback per fsdevice.  New
+ 	menus `set_file_system_device_directory_submenu' and
+ 	`set_file_system_device_p00_support_submenu'.
+
+	* c64/c64iec.c: #include "cia.h".
+
+	* drive.h (_DRIVE): New member `unit'.
+
+	* drive.c (initialize_1541): Initialize drive number.
+
+	* fsdevice.c: #include "utils.h".
+	(fsdevice_set_directory): New function.
+	(fsdevice_get_path): New function.
+	(read_fs): Changed to handle separate directories.
+	(fs_find_pc64_name): Changed likewise.
+	(open_fs): Changed likewise.  Removed old P00 support.
+	(resources): Added new resources to handle separate fsdevice
+ 	directory and P00 support.
+
+Mon May 18 00:55:51 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* joystick.h: Updated function prototypes according to the changes
+ 	in `joystick.c'.  Added `JOYDEV_*' #defines.
+
+	* joystick.c: Renamed `hjoyport' to `joystick_port_map'.  Added
+ 	resource and commandline handling: new arrays `resources[]' and
+ 	`cmdline_options[]'.
+	(joystick_init_resources, joystick_init_cmdline_options): New
+	functions.
+	(joyset): Removed.
+	(joyini): Renamed to `joystick_init'.
+	(joyclose): Renamed to `joystick_close'.
+        [!HAS_JOYSTICK] (joystick_init, joystick_close): Dummy.
+	(joystick): Changed device constants to `JOYDEV_*' #defines.
+
+	* kbd.c (kbd_event_handler): Only allow numpad emulation if
+	selected.
+
+	* arch/unix/xaw/c64ui.c, arch/unix/xaw/petui.c: New menus
+ 	`set_joystick_device_1_submenu', `set_joystick_device_2_submenu',
+ 	`joystick_settings_submenu'.  Added joystick entry to machine
+ 	menu.
+	(UiSetJoystickDevice1, UiSetJoystickDevice2): New callbacks.
+	(UiSwapJoystickPorts): New callback.
+
+	* arch/unix/xaw/vic20ui.c: New menus
+ 	`set_joystick_device_1_submenu', `ui_joystick_settings_submenu'.
+  	Added joystick entry to menu.
+ 	(UiSetJoystickDevice): New callback.
+
+	* c64/c64.c (vsync_hook): Add ';' after `joystick()'.
+
+	* c64/c64cia1.def (READ_CIAPA, READ_CIAPB): Fixed joystick
+	handling.
+
+	* main.c (main): Added joystick resource/cmdline handling.
+
+	* mon.c, mon.h: Changed `malloc' calls to `xmalloc'.
+
+	* mon_lex.l: Changed `strdup' calls to `stralloc'.
+
+	* mon_parse.y: Some rule rearrangement for readability.  Added
+ 	some error reporting.  Removed `yydebug', `yyin' definitions.
+
+Sun May 17 21:06:32 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/sid.c (hassid): New variable to know when we have sound code
+	running.
+
+	* c64/sid.c (read_sid): Reimplemented sid osc3 finetuning on reads.
+
+	* c64/sid.c (reset_sid): Fixed reset -problems with stored clks.
+
+	* vic20/soundvic20.c (sound_reset): Fixed reset -problems with stored
+	clks.
+
+	* pet/soundpet.c (petsnd_reset): Fixed reset -problems with stored
+	clks.
+
+	* maincpu.c (reset): Reset clk after machine_reset(), not before.
+	This may cause some problems, so reset functions around the code must
+	be rechecked.
+
+Fri May 15 13:13:41 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* warn.c: Added missing vice.h -include.
+
+	* include/sound.h: Removed PETSND_* -macros (where did they came
+	from?)
+
+	* include/sound.h (sound_sample_position): New prototype.
+
+	* sound.c (sound_sample_position): New functions. Returns the
+	relative position of last calculated sample and the next one based
+	on clk.
+
+	* sound.c (sound_flush): Removed extra check for unexpected clk
+	changes.
+
 Sun May 17 09:33:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.26.
 
 	* machspec.h: Renamed to `machine.h'.
 
-	* c128/c128.c, c128/c128.h, c128/c128mem.c, c128/c128mem.h: New 
+	* c128/c128.c, c128/c128.h, c128/c128mem.c, c128/c128mem.h: New
 	files.
 
 	* c64/sid.c (doosc) [WAVETABLE]: Temporary fix for SID segfaults:
