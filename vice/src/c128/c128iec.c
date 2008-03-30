@@ -36,7 +36,6 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "maincpu.h"
-#include "resources.h"
 #include "types.h"
 #include "viad.h"
 #include "via.h"
@@ -107,7 +106,7 @@ BYTE iec_drive1_read(void)
 /* No drive is enabled.  */
 void iec_cpu_write_conf0(BYTE data)
 {
-	iec_info.iec_fast_1541 = data;
+        iec_info.iec_fast_1541 = data;
 }
 
 /* Only the first drive is enabled.  */
@@ -244,12 +243,12 @@ void iec_cpu_undump(BYTE data)
 BYTE iec_cpu_read(void)
 {
     if (!drive[0].enable && !drive[1].enable)
-	return (iec_info.iec_fast_1541 & 0x30) << 2;
+        return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+        drive1_cpu_execute(clk);
     return iec_info.cpu_port;
 }
 
@@ -275,7 +274,7 @@ void parallel_cable_drive1_write(BYTE data, int handshake)
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-	cia2_set_flag();
+        cia2_set_flag();
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -286,9 +285,9 @@ void parallel_cable_cpu_write(BYTE data)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+        drive1_cpu_execute(clk);
 
     parallel_cable_cpu_value = data;
 }

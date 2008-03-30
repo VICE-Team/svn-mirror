@@ -189,9 +189,11 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             kernal_in = chargen_in = editor_in = !(value & 0x30);
             mmu_set_ram_bank(value);
 #ifdef MMU_DEBUG
-            log_message(mmu_log, "IO: %s BASLO: %s BASHI: %s KERNAL %s.",
+            log_message(mmu_log,
+                        "IO: %s BASLO: %s BASHI: %s KERNAL %s FUNCLO %s.",
                         io_in ? "on" : "off", basic_lo_in ? "on" : "off",
-                        basic_hi_in ? "on" : "off", kernal_in ? "on" : "off");
+                        basic_hi_in ? "on" : "off", kernal_in ? "on" : "off",
+                        ((value & 0xc) == 0x4) ? "on" : "off");
 #endif
             break;
           case 5:
