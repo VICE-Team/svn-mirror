@@ -608,9 +608,9 @@ goto find_rule; \
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "../../src/mon_lex.l"
+#line 1 "mon_lex.l"
 #define INITIAL 0
-#line 2 "../../src/mon_lex.l"
+#line 2 "mon_lex.l"
 
 /* Lexer for x64 monitor */
 #include <assert.h>
@@ -619,6 +619,7 @@ char *yytext;
 #include "types.h"
 #include "mon.h"
 #include "mon_parse.h"
+#include "utils.h"
 
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
@@ -638,7 +639,7 @@ YY_BUFFER_STATE my_state;
 #define COND_MODE 6
 #define REG_ASGN 7
 
-#line 642 "lex.yy.c"
+#line 643 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -789,7 +790,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 25 "../../src/mon_lex.l"
+#line 26 "mon_lex.l"
 
 
 
@@ -804,7 +805,7 @@ YY_DECL
    }
 
 
-#line 808 "lex.yy.c"
+#line 809 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -910,7 +911,7 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 39 "../../src/mon_lex.l"
+#line 40 "mon_lex.l"
 { if ( (temp = cmd_lookup_index(yytext)) < 0)
                              return BAD_CMD;
                           else {
@@ -929,42 +930,42 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 55 "../../src/mon_lex.l"
+#line 56 "mon_lex.l"
 { new_cmd = 1; return CMD_SEP; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 57 "../../src/mon_lex.l"
+#line 58 "mon_lex.l"
 { yylval.i = e_ON; return TOGGLE; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 58 "../../src/mon_lex.l"
+#line 59 "mon_lex.l"
 { yylval.i = e_OFF; return TOGGLE; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 59 "../../src/mon_lex.l"
+#line 60 "mon_lex.l"
 { yylval.i = e_TOGGLE; return TOGGLE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 61 "../../src/mon_lex.l"
+#line 62 "mon_lex.l"
 { yylval.i = e_load; return MEM_OP; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 62 "../../src/mon_lex.l"
+#line 63 "mon_lex.l"
 { yylval.i = e_store; return MEM_OP; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 64 "../../src/mon_lex.l"
+#line 65 "mon_lex.l"
 { BEGIN COND_MODE; return IF; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 66 "../../src/mon_lex.l"
+#line 67 "mon_lex.l"
 { if (!quote) {
                      quote = 1;
                      BEGIN STR;
@@ -973,7 +974,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 71 "../../src/mon_lex.l"
+#line 72 "mon_lex.l"
 { if (quote) {
                      quote = 0;
                      BEGIN INITIAL;
@@ -982,349 +983,349 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 76 "../../src/mon_lex.l"
-{ yylval.str = strdup(yytext); return STRING; }
+#line 77 "mon_lex.l"
+{ yylval.str = stralloc(yytext); return STRING; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 77 "../../src/mon_lex.l"
+#line 78 "mon_lex.l"
 { puts("ERROR:"); exit(-1); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 80 "../../src/mon_lex.l"
+#line 81 "mon_lex.l"
 { yylval.i = e_sprite; return INPUT_SPEC; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 81 "../../src/mon_lex.l"
+#line 82 "mon_lex.l"
 { yylval.i = e_character; return INPUT_SPEC; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 82 "../../src/mon_lex.l"
+#line 83 "mon_lex.l"
 { yylval.i = e_hexadecimal; return INPUT_SPEC; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 83 "../../src/mon_lex.l"
+#line 84 "mon_lex.l"
 { yylval.i = e_decimal; return INPUT_SPEC; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 84 "../../src/mon_lex.l"
+#line 85 "mon_lex.l"
 { yylval.i = e_binary; return INPUT_SPEC; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 85 "../../src/mon_lex.l"
+#line 86 "mon_lex.l"
 { yylval.i = e_octal; return INPUT_SPEC; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 86 "../../src/mon_lex.l"
+#line 87 "mon_lex.l"
 { yylval.i = e_text_ascii; return INPUT_SPEC; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 87 "../../src/mon_lex.l"
+#line 88 "mon_lex.l"
 { yylval.i = e_text_petscii; return INPUT_SPEC; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 88 "../../src/mon_lex.l"
+#line 89 "mon_lex.l"
 { yylval.i = e_6502_asm; return INPUT_SPEC; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 90 "../../src/mon_lex.l"
+#line 91 "mon_lex.l"
 { yylval.i = e_decimal; return DATA_TYPE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 91 "../../src/mon_lex.l"
+#line 92 "mon_lex.l"
 { yylval.i = e_hexadecimal; return DATA_TYPE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 92 "../../src/mon_lex.l"
+#line 93 "mon_lex.l"
 { yylval.i = e_binary; return DATA_TYPE; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 93 "../../src/mon_lex.l"
+#line 94 "mon_lex.l"
 { yylval.i = e_octal; return DATA_TYPE; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 94 "../../src/mon_lex.l"
+#line 95 "mon_lex.l"
 { yylval.i = e_character; return DATA_TYPE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 95 "../../src/mon_lex.l"
+#line 96 "mon_lex.l"
 { yylval.i = e_sprite; return DATA_TYPE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 96 "../../src/mon_lex.l"
+#line 97 "mon_lex.l"
 { yylval.i = e_text_ascii; return DATA_TYPE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 97 "../../src/mon_lex.l"
+#line 98 "mon_lex.l"
 { yylval.i = e_text_petscii; return DATA_TYPE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 99 "../../src/mon_lex.l"
+#line 100 "mon_lex.l"
 { return MEM_COMP; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 100 "../../src/mon_lex.l"
+#line 101 "mon_lex.l"
 { return MEM_DISK; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 103 "../../src/mon_lex.l"
+#line 104 "mon_lex.l"
 
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 104 "../../src/mon_lex.l"
+#line 105 "mon_lex.l"
 { dont_match_reg_a = 0; new_cmd = 1; opt_asm = 0; return TRAIL; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 107 "../../src/mon_lex.l"
+#line 108 "mon_lex.l"
 { yytext[yyleng-1] = '\0';
-                   yylval.str = strdup(yytext+1);
+                   yylval.str = stralloc(yytext+1);
                    BEGIN INITIAL; return FILENAME; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 111 "../../src/mon_lex.l"
-{ yylval.str = strdup(yytext); return R_O_L; }
+#line 112 "mon_lex.l"
+{ yylval.str = stralloc(yytext); return R_O_L; }
 	YY_BREAK
 
 case 36:
 YY_RULE_SETUP
-#line 114 "../../src/mon_lex.l"
+#line 115 "mon_lex.l"
 { yylval.i = e_A; return REGISTER; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 115 "../../src/mon_lex.l"
+#line 116 "mon_lex.l"
 { yylval.i = e_X; return REGISTER; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 116 "../../src/mon_lex.l"
+#line 117 "mon_lex.l"
 { yylval.i = e_Y; return REGISTER; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 117 "../../src/mon_lex.l"
+#line 118 "mon_lex.l"
 { yylval.i = e_PC; return REGISTER; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 118 "../../src/mon_lex.l"
+#line 119 "mon_lex.l"
 { yylval.i = e_SP; return REGISTER; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 119 "../../src/mon_lex.l"
+#line 120 "mon_lex.l"
 { BEGIN COND_MODE; return EQUALS; }
 	YY_BREAK
 
 
 case 42:
 YY_RULE_SETUP
-#line 123 "../../src/mon_lex.l"
+#line 124 "mon_lex.l"
 { yylval.i = e_EQU; return COMPARE_OP; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 124 "../../src/mon_lex.l"
+#line 125 "mon_lex.l"
 { yylval.i = e_NEQ; return COMPARE_OP; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 125 "../../src/mon_lex.l"
+#line 126 "mon_lex.l"
 { yylval.i = e_LTE; return COMPARE_OP; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 126 "../../src/mon_lex.l"
+#line 127 "mon_lex.l"
 { yylval.i = e_LT;  return COMPARE_OP; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 127 "../../src/mon_lex.l"
+#line 128 "mon_lex.l"
 { yylval.i = e_GT;  return COMPARE_OP; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 128 "../../src/mon_lex.l"
+#line 129 "mon_lex.l"
 { yylval.i = e_GTE; return COMPARE_OP; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 129 "../../src/mon_lex.l"
+#line 130 "mon_lex.l"
 { yylval.i = e_AND; return COMPARE_OP; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 130 "../../src/mon_lex.l"
+#line 131 "mon_lex.l"
 { yylval.i = e_OR;  return COMPARE_OP; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 132 "../../src/mon_lex.l"
+#line 133 "mon_lex.l"
 { yylval.i = e_A; return REGISTER; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 133 "../../src/mon_lex.l"
+#line 134 "mon_lex.l"
 { yylval.i = e_X; return REGISTER; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 134 "../../src/mon_lex.l"
+#line 135 "mon_lex.l"
 { yylval.i = e_Y; return REGISTER; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 135 "../../src/mon_lex.l"
+#line 136 "mon_lex.l"
 { yylval.i = e_PC; return REGISTER; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 136 "../../src/mon_lex.l"
+#line 137 "mon_lex.l"
 { yylval.i = e_SP; return REGISTER; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 138 "../../src/mon_lex.l"
+#line 139 "mon_lex.l"
 { BEGIN REG_ASGN; return REG_ASGN_SEP; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 139 "../../src/mon_lex.l"
+#line 140 "mon_lex.l"
 { return L_PAREN; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 140 "../../src/mon_lex.l"
+#line 141 "mon_lex.l"
 { return R_PAREN; }
 	YY_BREAK
 
 case 58:
 YY_RULE_SETUP
-#line 143 "../../src/mon_lex.l"
-{ yylval.str = strdup(yytext); return OPCODE; }
+#line 144 "mon_lex.l"
+{ yylval.str = stralloc(yytext); return OPCODE; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 144 "../../src/mon_lex.l"
-{ yylval.str = strdup(yytext); return LABEL; }
+#line 145 "mon_lex.l"
+{ yylval.str = stralloc(yytext); return LABEL; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 146 "../../src/mon_lex.l"
+#line 147 "mon_lex.l"
 { if (!dont_match_reg_a) return REG_A; 
                                         yylval.i = 0x0a; return H_NUMBER; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 148 "../../src/mon_lex.l"
+#line 149 "mon_lex.l"
 { return REG_X; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 149 "../../src/mon_lex.l"
+#line 150 "mon_lex.l"
 { return REG_Y; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 151 "../../src/mon_lex.l"
+#line 152 "mon_lex.l"
 { return COMMA; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 152 "../../src/mon_lex.l"
+#line 153 "mon_lex.l"
 { dont_match_reg_a = 1; return L_PAREN; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 153 "../../src/mon_lex.l"
+#line 154 "mon_lex.l"
 { return R_PAREN; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 154 "../../src/mon_lex.l"
+#line 155 "mon_lex.l"
 { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 155 "../../src/mon_lex.l"
+#line 156 "mon_lex.l"
 { dont_match_reg_a = 0; return INST_SEP; }
 	YY_BREAK
 
 case 68:
 YY_RULE_SETUP
-#line 158 "../../src/mon_lex.l"
+#line 159 "mon_lex.l"
 { return resolve_datatype(B_NUMBER, yytext, &(yylval.i)); }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 159 "../../src/mon_lex.l"
+#line 160 "mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 2); return B_NUMBER; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 160 "../../src/mon_lex.l"
+#line 161 "mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 8); return O_NUMBER; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 161 "../../src/mon_lex.l"
+#line 162 "mon_lex.l"
 { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 162 "../../src/mon_lex.l"
+#line 163 "mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 10); return D_NUMBER; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 163 "../../src/mon_lex.l"
+#line 164 "mon_lex.l"
 { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 164 "../../src/mon_lex.l"
+#line 165 "mon_lex.l"
 { yylval.i = strtol(yytext+1, NULL, 16); return H_NUMBER; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 165 "../../src/mon_lex.l"
+#line 166 "mon_lex.l"
 { yylval.i = strtol(yytext, NULL, 16); return H_NUMBER; }
 	YY_BREAK
 
 case 76:
 YY_RULE_SETUP
-#line 168 "../../src/mon_lex.l"
+#line 169 "mon_lex.l"
 { return yytext[0]; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 170 "../../src/mon_lex.l"
+#line 171 "mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 1328 "lex.yy.c"
+#line 1329 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):
@@ -2211,7 +2212,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 170 "../../src/mon_lex.l"
+#line 171 "mon_lex.l"
 
 
 int resolve_datatype(unsigned guess_type, char *num, int *val)

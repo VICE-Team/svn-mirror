@@ -33,6 +33,7 @@
 #include "resources.h"
 #include "uicommands.h"
 #include "uisettings.h"
+#include "joystick.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -43,9 +44,107 @@
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 
+static UI_CALLBACK(UiSetJoystickDevice1)
+{
+    int tmp;
+
+    suspend_speed_eval();
+    if (!call_data) {
+        resources_set_value("JoyDevice1", (resource_value_t) client_data);
+	ui_update_menus();
+    } else {
+        resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
+	ui_menu_set_tick(w, tmp == (int) client_data);
+    }
+}
+
+static UI_CALLBACK(UiSetJoystickDevice2)
+{
+    int tmp;
+
+    suspend_speed_eval();
+    if (!call_data) {
+        resources_set_value("JoyDevice2", (resource_value_t) client_data);
+	ui_update_menus();
+    } else {
+        resources_get_value("JoyDevice2", (resource_value_t *) &tmp);
+	ui_menu_set_tick(w, tmp == (int) client_data);
+    }
+}
+
+static UI_CALLBACK(UiSwapJoystickPorts)
+{
+    int tmp1, tmp2;
+
+    if (w != NULL)
+	suspend_speed_eval();
+    resources_get_value("JoyDevice1", (resource_value_t *) &tmp1);
+    resources_get_value("JoyDevice2", (resource_value_t *) &tmp2);
+    resources_set_value("JoyDevice1", (resource_value_t) tmp2);
+    resources_set_value("JoyDevice2", (resource_value_t) tmp1);
+    ui_update_menus();
+}
+
+static ui_menu_entry_t set_joystick_device_1_submenu[] = {
+    { "*None",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_NONE, NULL },
+    { "*Numpad",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+    { "*Custom Keys",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+#ifdef HAS_JOYSTICK
+    { "*Analog Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+    { "*Analog Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+#ifdef HAS_DIGITAL_JOYSTICK
+    { "*Digital Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+    { "*Digital Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+#endif
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t set_joystick_device_2_submenu[] = {
+    { "*None",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_NONE, NULL },
+    { "*Numpad",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+    { "*Custom Keys",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+#ifdef HAS_JOYSTICK
+    { "*Analog Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+    { "*Analog Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+#ifdef HAS_DIGITAL_JOYSTICK
+    { "*Digital Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+    { "*Digital Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+#endif
+#endif /* HAS_JOYSTICK */
+    { NULL }
+};
+
+static ui_menu_entry_t joystick_settings_submenu[] = {
+    { "Joystick device in port 1",
+      NULL, NULL, set_joystick_device_1_submenu },
+    { "Joystick device in port 2",
+      NULL, NULL, set_joystick_device_2_submenu },
+    { "--" },
+    { "Swap joystick ports",
+      (ui_callback_t) UiSwapJoystickPorts, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t pet_menu[] = {
     { "*PET Userport Diagnostic Pin",
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
+    { "Joystick settings",
+      NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
 

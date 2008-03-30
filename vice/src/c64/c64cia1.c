@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64cia1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c64/c64cia1.def,
+ * ../../src/c64/c64cia1.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/c64/c64cia1.def,
  * Do not edit!
  */
 /*
@@ -84,7 +84,6 @@
 
 
 #include "kbd.h"
-#include "c64cia.h"
 
 #include "interrupt.h"
 
@@ -396,7 +395,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
     {
         static int old_lp = 0x10;
         int new_lp;
-
+      
         cia1[addr] = byte;
 
 	/* Handle software-triggered light pen. */
@@ -704,14 +703,13 @@ BYTE read_cia1_(ADDRESS addr)
 	{
 	    BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
 	    BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]);
-	    BYTE joy1 = joy[1];
 	    int m, i;
 
-	    msk &= ~joy1;
+	    msk &= ~joy[1];
 	    for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~rev_keyarr[i];
-	    byte= val & ~joy[2];
+	    byte= val & ~joy[1];
 	}
 	return byte;
 	break;
@@ -721,14 +719,13 @@ BYTE read_cia1_(ADDRESS addr)
 	{
 	    BYTE val = ~cia1[CIA_DDRB];
 	    BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
-	    BYTE joy1 = joy[1];
 	    BYTE m;
 	    int i;
-
+	    
 	    for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~keyarr[i];
-	    byte= (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy1;
+	    byte= (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
 	}
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);

@@ -304,6 +304,6 @@ static void vsync_hook(void)
     true1541_prevent_clk_overflow(sub);
 
 #ifdef HAS_JOYSTICK
-    joystick()
+    joystick();
 #endif
 }

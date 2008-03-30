@@ -45,6 +45,7 @@
 #include "vsync.h"
 #include "drive.h"
 #include "mon_parse.h"
+#include "utils.h"
 
 #define TEST(x) ((x)!=0)
 #define make_prompt(str) { sprintf(str, "[%c,R:%s,W:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-',            \
@@ -292,7 +293,7 @@ void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a) { ar->end_addr = a; }
 M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2)
 {
    M_ADDR_RANGE ar;
-   ar = (M_ADDR_RANGE)(malloc(sizeof(struct t_address_range)));
+   ar = (M_ADDR_RANGE)(xmalloc(sizeof(struct t_address_range)));
    set_addr_range_start(ar, a1);;
    set_addr_range_end(ar, a2);;
 
@@ -966,7 +967,7 @@ void move_memory(M_ADDR_RANGE src, M_ADDR dest)
   evaluate_default_addr(&dest,FALSE);
   dst = addr_location(dest);
   len = end - start + 1;
-  buf = (BYTE *) malloc(sizeof(BYTE) * len);
+  buf = (BYTE *) xmalloc(sizeof(BYTE) * len);
 
   src_mem = addr_range_start_memspace(src);
   dest_mem = addr_memspace(dest);
@@ -1067,7 +1068,7 @@ void hunt_memory(M_ADDR_RANGE dest, unsigned char *data)
   if (len < 0) len += 0x10000;
 
   data_len = strlen(data_buf);
-  buf = (BYTE *) malloc(sizeof(BYTE) * data_len);
+  buf = (BYTE *) xmalloc(sizeof(BYTE) * data_len);
 
   /* Fill buffer */
   for (i=0; i<data_len; i++)
@@ -1196,7 +1197,7 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
 
     while (!feof(fp)) {
        fscanf(fp, "%x %s\n", (int *) &adr, name);
-       name_ptr = (char *) malloc((strlen(name)+1) * sizeof(char));
+       name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
        strcpy(name_ptr, name);
        fprintf(mon_output, "Read (0x%x:%s)\n",adr, name_ptr);
        add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
@@ -1344,7 +1345,7 @@ void add_name_to_symbol_table(M_ADDR addr, char *name)
    }
 
    /* Add name to name list */
-   sym_ptr = (symbol_entry_t *) malloc(sizeof(symbol_entry_t));
+   sym_ptr = (symbol_entry_t *) xmalloc(sizeof(symbol_entry_t));
    sym_ptr->name = name;
    sym_ptr->addr = loc;
 
@@ -1352,7 +1353,7 @@ void add_name_to_symbol_table(M_ADDR addr, char *name)
    monitor_labels[mem].name_list = sym_ptr;
 
    /* Add address to hash table */
-   sym_ptr = (symbol_entry_t *) malloc(sizeof(symbol_entry_t));
+   sym_ptr = (symbol_entry_t *) xmalloc(sizeof(symbol_entry_t));
    sym_ptr->name = name;
    sym_ptr->addr = addr;
 
@@ -1950,7 +1951,7 @@ void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
 {
    BREAK_LIST *new_entry, *cur_entry, *prev_entry;
 
-   new_entry = (BREAK_LIST *) malloc(sizeof(BREAK_LIST));
+   new_entry = (BREAK_LIST *) xmalloc(sizeof(BREAK_LIST));
    new_entry->brkpt = bp;
 
    cur_entry = *head;
@@ -1985,7 +1986,7 @@ int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_stor
    assert(is_valid_range(range));
    evaluate_default_addr_range(&range,TRUE);
 
-   new_bp = (breakpoint *) malloc(sizeof(breakpoint));
+   new_bp = (breakpoint *) xmalloc(sizeof(breakpoint));
 
    new_bp->brknum = breakpoint_count++;
    new_bp->range = range;
@@ -2152,7 +2153,7 @@ void mon(ADDRESS a)
                free(myinput);
 
                if (last_cmd)
-                  myinput = strdup(last_cmd);
+                  myinput = stralloc(last_cmd);
                else
                   myinput = NULL;
             } else {

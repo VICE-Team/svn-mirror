@@ -126,7 +126,7 @@ enum t_conditional {
    e_OR
 };
 typedef enum t_conditional CONDITIONAL;
-#define new_cond ((CONDITIONAL_NODE *)(malloc(sizeof(CONDITIONAL_NODE))))
+#define new_cond ((CONDITIONAL_NODE *)(xmalloc(sizeof(CONDITIONAL_NODE))))
 
 enum t_datatype {
    e_default_datatype,

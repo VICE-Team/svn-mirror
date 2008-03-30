@@ -7,6 +7,7 @@
 #include "types.h"
 #include "mon.h"
 #include "mon_parse.h"
+#include "utils.h"
 
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
@@ -73,7 +74,7 @@ if		{ BEGIN COND_MODE; return IF; }
                      BEGIN INITIAL;
                   }
                 }
-<STR>[0-9a-zA-Z ]+ { yylval.str = strdup(yytext); return STRING; }
+<STR>[0-9a-zA-Z ]+ { yylval.str = stralloc(yytext); return STRING; }
 <STR>\n 	{ puts("ERROR:"); exit(-1); }
 
 
@@ -105,10 +106,10 @@ d:              { return MEM_DISK; }
 
 
 <FNAME>\"[0-9a-zA-Z\.]+\" { yytext[yyleng-1] = '\0';
-                   yylval.str = strdup(yytext+1);
+                   yylval.str = stralloc(yytext+1);
                    BEGIN INITIAL; return FILENAME; }
 
-<ROL>[^ \t\n][^\n]*          { yylval.str = strdup(yytext); return R_O_L; }
+<ROL>[^ \t\n][^\n]*          { yylval.str = stralloc(yytext); return R_O_L; }
 
 <REG_ASGN>{
 	A 		{ yylval.i = e_A; return REGISTER; }
@@ -140,8 +141,8 @@ d:              { return MEM_DISK; }
         \)		{ return R_PAREN; }
 }
 
-<ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = strdup(yytext); return OPCODE; }
-<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*            { yylval.str = strdup(yytext); return LABEL; }
+<ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*            { yylval.str = stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A; 
                                         yylval.i = 0x0a; return H_NUMBER; }

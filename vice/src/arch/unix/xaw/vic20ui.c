@@ -29,8 +29,10 @@
 #include <stdio.h>
 
 #include "uimenu.h"
+#include "resources.h"
 #include "uicommands.h"
 #include "uisettings.h"
+#include "joystick.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -38,6 +40,48 @@
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(UiSetJoystickDevice1)
+{
+    int tmp;
+
+    suspend_speed_eval();
+    if (!call_data) {
+        resources_set_value("JoyDevice1", (resource_value_t) client_data);
+	ui_update_menus();
+    } else {
+        resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
+	ui_menu_set_tick(w, tmp == (int) client_data);
+    }
+}
+
+static ui_menu_entry_t set_joystick_device_1_submenu[] = {
+    { "*None",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_NONE, NULL },
+    { "*Numpad",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+    { "*Custom Keys",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+#ifdef HAS_JOYSTICK
+    { "*Analog Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+    { "*Analog Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+#ifdef HAS_DIGITAL_JOYSTICK
+    { "*Digital Joystick 0",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+    { "*Digital Joystick 1",
+      (ui_callback_t) UiSetJoystickDevice1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+#endif
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t ui_joystick_settings_menu[] = {
+    { "Joystick settings",
+      NULL, NULL, set_joystick_device_1_submenu },
+    { NULL }
+};
 
 int vic20_ui_init(void)
 {
@@ -69,7 +113,7 @@ int vic20_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     /* ui_joystick_settings_menu, */
+                                     ui_joystick_settings_menu,
                                      ui_video_settings_menu,
                                      /* ui_keyboard_settings_menu, */
                                      ui_sound_settings_menu,

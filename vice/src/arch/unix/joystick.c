@@ -31,7 +31,62 @@
  *
  */
 
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #include "vice.h"
+#include "types.h"
+#include "kbd.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "joystick.h"
+
+int joystick_port_map[2];
+
+/* Resources */
+
+static int joyport1select(resource_value_t v) {
+  joystick_port_map[0] = (int) v;
+  return 0;
+};
+
+static int joyport2select(resource_value_t v) {
+  joystick_port_map[1] = (int) v;
+  return 0;
+};
+
+
+static resource_t resources[] = {
+    { "JoyDevice1", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &joystick_port_map[0], joyport1select },
+    { "JoyDevice2", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &joystick_port_map[1], joyport2select },
+    { NULL },
+};
+
+/* Command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+      "<0-5>", "Set device for joystick port 1" },
+    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+      "<0-5>", "Set device for joystick port 2" },
+    { NULL },
+};
+
+int joystick_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+int joystick_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 
 #ifdef HAS_JOYSTICK
 
@@ -45,21 +100,8 @@
 #error Unknown Joystick
 #endif
 
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-#include "types.h"
-#include "kbd.h"
-#include "resources.h"
-#include "joystick.h"
-
 int ajoyfd[2] = { -1, -1 };
 int djoyfd[2] = { -1, -1 };
-
-int hjoyport[2];
 
 #define JOYCALLOOPS 100
 #define JOYSENSITIVITY 5
@@ -70,25 +112,10 @@ int joyxmax[2];
 int joyymin[2];
 int joyymax[2];
 
-void joyport1select(int port) {
-  hjoyport[0]=port;
-};
-
-void joyport2select(int port) {
-  hjoyport[1]=port;
-};
-
-void joyset(void) {
-  joyport1select(app_resources.joyDevice1);
-  joyport2select(app_resources.joyDevice2);
-}
-
-void joyini(void)
+void joystick_init(void)
 {
   int i;
 
-  joyset();
-  
   /* close all device files */
   for(i=0;i<2;i++) {
     if(ajoyfd[i] != -1)
@@ -162,7 +189,7 @@ void joyini(void)
 #endif
 }
 
-void joyclose(void)
+void joystick_close(void)
 {
   if(ajoyfd[0]>0) close (ajoyfd[0]);
   if(ajoyfd[1]>0) close (ajoyfd[1]);
@@ -174,13 +201,13 @@ void joystick(void)
 {
   int i;
   for(i=1;i<=2;i++) {
-    int joyport=hjoyport[i-1];
+    int joyport=joystick_port_map[i-1];
 
 #ifdef HAS_DIGITAL_JOYSTICK
-    if(joyport==3 || joyport==4) {
+    if(joyport==JOYDEV_DIGITAL_0 || joyport==JOYDEV_DIGITAL_1) {
       int status;
       struct DJS_DATA_TYPE djs;
-      int djoyport=joyport-3;
+      int djoyport=joyport-JOYDEV_DIGITAL_0;
       
       if(djoyfd[djoyport]>0) {
 	status=read(djoyfd[djoyport],&djs,DJS_RETURN);
@@ -194,10 +221,10 @@ void joystick(void)
       }
     } else
 #endif
-    if (joyport==1 || joyport==2) {
+    if (joyport==JOYDEV_ANALOG_0 || joyport==JOYDEV_ANALOG_1) {
       int status;
       struct JS_DATA_TYPE js;
-      int ajoyport=joyport-1;
+      int ajoyport=joyport-JOYDEV_ANALOG_0;
       
       if(ajoyfd[ajoyport]>0) {
 	status=read(ajoyfd[ajoyport],&js,JS_RETURN);
@@ -219,11 +246,17 @@ void joystick(void)
 	  if(js.b1 || js.b2) joy[i] |= 16;
 #endif
 	  else joy[i] &= ~16;
+
 	}
       }
     }
   }      
 }                      
+
+#else
+
+void joystick_init(void) {}
+void joystick_close(void) {}
 
 #endif /* HAS_JOYSTICK */
 

@@ -286,6 +286,10 @@ int main(int argc, char **argv)
         fprintf(stderr, "Cannot initialize file system-specific resources.\n");
         exit(-1);
     }
+    if (joystick_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
+        exit(-1);
+    }
 
     /* Initialize file system device-specific resources.  */
     if (fsdevice_init_resources() < 0) {
@@ -319,6 +323,10 @@ int main(int argc, char **argv)
     }
     if (sysfile_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
+        exit(-1);
+    }
+    if (joystick_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
         exit(-1);
     }
     if (ui_init_cmdline_options() < 0) {
@@ -371,10 +379,8 @@ int main(int argc, char **argv)
     signal(SIGTERM,  break64);
     signal(SIGPIPE,  break64);
 
-#ifdef HAS_JOYSTICK
     /* Initialize real joystick.  */
-    joyini();
-#endif
+    joystick_init();
 
     if (video_init() < 0)
 	exit (-1);
@@ -474,9 +480,7 @@ static void exit64(void)
     video_free();
     sound_close();
 
-#ifdef HAS_JOYSTICK
-    joyclose();
-#endif
+    joystick_close();
 
     putchar ('\n');
 }

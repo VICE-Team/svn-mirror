@@ -49,10 +49,7 @@
 #include "interrupt.h"
 #include "sysfile.h"
 #include "utils.h"
-
-#ifdef HAS_JOYSTICK
 #include "joystick.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -153,7 +150,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		int column = keyconvmap[i].column;
 
 		if (row < 0) {
-                    if (row == -1) {
+                    if ((row == -1) && (joystick_port_map[0] == JOYDEV_NUMPAD)) {
                         if (joypad_bits[column]) {
                             joy[1] |= joypad_bits[column];
                             joy1pad_status[column]=1;
@@ -161,7 +158,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                             joy[1] = 0;
                             memset(joy1pad_status, 0, sizeof(joy1pad_status));
                         }
-                    } else if (row == -2) {
+                    } else if ((row == -1) && (joystick_port_map[1] == JOYDEV_NUMPAD)) {
                         if (joypad_bits[column]) {
                             joy[2] |= joypad_bits[column];
                             joy2pad_status[column]=1;
@@ -222,10 +219,10 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		int column = keyconvmap[i].column;
 
 		if (row < 0) {
-                    if (row == -1) {
+                    if ((row == -1) && (joystick_port_map[0] == JOYDEV_NUMPAD)) {
                         joy[1] &= joyreleaseval(column, joy1pad_status);
                         joy1pad_status[column] = 0;
-                    } else if (row == -2) {
+                    } else if ((row == -1) && (joystick_port_map[1] == JOYDEV_NUMPAD)) {
                         joy[2] &= joyreleaseval(column, joy2pad_status);
                         joy2pad_status[column] = 0;
                     }

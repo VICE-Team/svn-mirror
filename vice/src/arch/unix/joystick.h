@@ -31,17 +31,23 @@
 #ifndef _JOYSTICK_H
 #define _JOYSTICK_H
 
-extern void joyini(void);
-extern void joyclose(void);
+extern void joystick_init(void);
+extern void joystick_close(void);
 extern void joystick(void);
-extern void joyset(void);
-extern void joyport1select(int port);
-extern void joyport2select(int port);
-extern void joyset(void);
+extern int  joystick_init_resources(void);
+extern int  joystick_init_cmdline_options(void);
 
 extern int ajoyfd[2];
 extern int djoyfd[2];
 
-int hjoyport[2];
+extern int joystick_port_map[2];
+
+#define JOYDEV_NONE         0
+#define JOYDEV_NUMPAD       1
+#define JOYDEV_CUSTOM_KEYS  2
+#define JOYDEV_ANALOG_0     3
+#define JOYDEV_ANALOG_1     4
+#define JOYDEV_DIGITAL_0    5
+#define JOYDEV_DIGITAL_1    6
 
 #endif
