@@ -272,11 +272,11 @@ video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
 	../../src/video.h
 video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster-canvas.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	render1x1.h render1x1pal.h render1x2.h render2x2.h \
-	render2x2pal.h video-render.h video-resources.h \
-	../../src/video.h
+	../../src/log.h ../../src/raster/raster-canvas.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h render1x1.h render1x1pal.h \
+	render1x2.h render2x2.h render2x2pal.h video-render.h \
+	video-resources.h ../../src/video.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/arch/unix/types.h ../../src/resources.h \

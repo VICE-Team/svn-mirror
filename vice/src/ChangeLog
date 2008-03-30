@@ -1,5 +1,67 @@
 2002-06-25  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.43.
+
+	* raster/raster.c, raster/raster-canvas.c, vicii/vicii.c,
+	vdc/vdc.c, vic20/vic.c, crtc/crtc.c, arch/win32/video.c,
+	plus4/ted.c: Viewport width and height are not scaled anymore.
+
+	* video/video-resources.c, raster/raster.c,
+	arch/unix/x11/video.c, arch/unix/x11/videoarch.h,
+	arch/unix/x11/dga2.c, arch/win32/video.c,
+	arch/win32/videoarch.h, arch/msdos/video.c,
+	arch/msdos/videoarch.h, arch/riscos/video.c,
+	arch/riscos/videoarch.h, arch/os2/video.c,
+	arch/os2/videoarch.h, arch/beos/video.cc,
+	arch/beos/videoarch.h: The `canvas_s' struct now contains a
+	pointer to the `videoconfig_s' struct.
+
+	* video.h, raster/raster.c, arch/unix/x11/video.c,
+	arch/win32/video.c, arch/msdos/video.c, arch/riscos/video.c,
+	arch/os2/video.c, arch/beos/video.cc (video_canvas_init):
+	Changed allocation of `videoconfig_s' struct.
+
+	* vicii/vicii-resources.c, vicii/vicii-resources.h,
+	vdc/vdc-resources.c, vdc/vdc-resources.h,
+	vic20/vic-resources.c, vic20/vic-resources.h,
+	crtc/crtc-resources.c, crtc/crtc-resources.h,
+	plus4/ted-resources.c, plus4/ted-resources.h: Removed double
+	size resource.
+
+	* arch/unix/uisettings.c, arch/unix/uivicii.c,
+	arch/unix/vic20ui.c, arch/unix/c128ui.c, arch/unix/plus4ui.c:
+	Separated double size resource.
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/plus4ui.c, arch/win32/vic20ui.c,
+	arch/msdos/c128ui.c, arch/riscos/uiconfig.c,
+	arch/riscos/video.c, arch/os2/dialogs/menubar.c,
+	arch/beos/c128ui.cc, arch/beos/c64ui.cc, arch/beos/plus4ui.cc,
+	arch/beos/vic20ui.cc: Fixed double size resource name.
+
+	* video/video-resources.c: Added doulbe size resource.
+
+	* vicii/vicii-cmdline-options.c, vdc/vdc-cmdline-options.c,
+	vic20/vic-cmdline-options.c, plus4/ted-cmdline-options.c:
+	Fixed double size resource name.
+
+	* raster/raster.c, raster/raster.h (raster_set_pixel_size):
+	Removed render specific code.
+	(realize_canvas): Removed allocation of 1x1 draw buffer.
+
+2002-06-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/raster.dps, monitor.dsp, video.dsp: Added missing
+	files.
+
+2002-06-24  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/video.c: fixed errors introduced in 1.9.41
+
+	* arch/riscos/uiconfig.c: rearranged and updated cartridges
+
+2002-06-25  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.42.
 
 	* 6510core.c, maincpu.c, drive/drivecpu.c
