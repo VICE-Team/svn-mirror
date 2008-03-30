@@ -159,6 +159,8 @@ static UI_CALLBACK(ui_set_model)
 }
 
 static ui_menu_entry_t model_defaults_submenu[] = {
+    { "CBM 510",
+      (ui_callback_t)ui_set_model, (ui_callback_data_t)"510", NULL },
     { "CBM 610",
       (ui_callback_t)ui_set_model, (ui_callback_data_t)"610", NULL },
     { "CBM 620",
