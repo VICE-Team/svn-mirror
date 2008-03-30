@@ -1,3 +1,103 @@
+2007-01-07  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.20.
+
+	* lib/Makefile.am: Added missing ffmpeg header files.
+
+	* arch/unix/x11/openGL_sync.c, arch/unix/gui/ui.c,
+	arch/unix/gui/uivicii.c, arch/unix/x11/video.c: Only use
+	openGL support if also xrandx support is present as compiling
+	`openGL_sync.c' requires both anyway.
+
+	* arch/unix/x11/xaw/uiedisk.c: Added fix for "create empty
+	disk" dialog written by Ingo D. Rullhusen.
+
+	* info.c: Updated.
+
+2007-01-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/ahi.c,
+	arch/amigaos/console.c, arch/amigaos/noinlineargs.c: Fixed the
+	inline stdarg problem.
+
+2007-01-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/mui/mui.c, arch/beos/ui.cc,
+	arch/msdos/menudefs.c, arch/os2/dialogs/dialogs.rc,
+	arch/unix/macosx/Info.plist, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/res.rc: Changed the
+	'2006' year references to '2007'.
+
+2006-12-31  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xrandr.[ch]: New file. Implement XRandR base
+	fullscreen mode.
+
+	* arch/unix/x11/x11ui.h (x11ui_fullscreen): New prototype.
+
+	* arch/unix/x11/openGL_sync.c: Removed XRandR specifics. Handle
+	context allocation properly.
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	`xrandr.[ch]'.
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window):
+	Introduced separate callback for resizing events. Make topmenu
+	fixed size. 
+	all: removed expizit resize requests.
+	(x11ui_fullscreen): New function.
+	(size_allocate): New function.
+
+	* arch/unix/x11/fullscreen.c: Introduced XRandR fullscreen mode.
+
+	* arch/unix/openGL_sync.h (init_openGL): Fixed prototypes.
+
+	* arch/unix/gui/uivicii.c: Separate openGL sync from XRandR
+	fullscreen mode; introduce XRandR fullscreen mode.
+	
+	* arch/unix/x11/xaw/x11ui.c (x11ui_fullscreen): New function
+	(unfortunately it doesn't work. :()
+
+	* arch/unix/x11/vidmode.c (vidmode_mode): initialize mode even
+	when vm_vidmode isn't initialized yet. Fixes resources set by
+	vicerc. 
+
+2006-12-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c: Updated.
+
+2006-12-25  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_get_X11_window): New function.
+
+2006-12-25  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/x11ui.h (x11ui_get_screen): New prototypes.
+
+	* arch/unix/x11/video.c (video_canvas_create): Initialize openGL
+	and XRandR.
+	(video_canvas_refresh): Synchronize with raster. This is an
+	intermediate solution until openGL sync is properly merged into
+	vsync code (if ever).
+
+	* arch/unix/x11/openGL_sync.c: New file.
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	`openGL_sync.c'. 
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_get_visual): New function.
+	(x11ui_get_X11_window): Ditto.
+	(x11ui_get_screen): Ditto.
+
+	* arch/unix/openGL_sync.h: New file.
+
+	* arch/unix/Makefile.am: (libarch_a_SOURCES): added
+	`openGL_sync.h'.
+
+	* arch/unix/gui/uivicii.c: Added menu entries for openGL sync.
+
+	* arch/unix/gui/ui.c (ui_common_shutdown): added shutdown openGL.
+
 2006-12-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.19.

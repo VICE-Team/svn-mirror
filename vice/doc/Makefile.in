@@ -198,6 +198,7 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 STRIP = @STRIP@
+SYNC = @SYNC@
 UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
@@ -296,6 +297,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 docdir = $(VICEDIR)/doc
 doc_DATA = \
+	Minix-Howto.txt \
 	MSDOS-Ethernet-Howto.txt \
 	MSDOS-Howto.txt \
 	NLS-Howto.txt \
@@ -303,10 +305,10 @@ doc_DATA = \
 	Readme.dos \
 	ReadmeMacOSX.txt \
 	Win32-Howto.txt \
+	cartconv.txt \
 	iec-bus.txt \
 	mon.txt \
-	Minix-Howto.txt \
-	cartconv.txt
+	openGLsync-howto.txt
 
 info_TEXINFOS = \
 	vice.texi

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 15:57+0100\n"
+"POT-Creation-Date: 2007-01-07 21:54+0100\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2429,7 +2429,7 @@ msgstr "Opties"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:319 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
-#: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/gnome/x11ui.c:1329
+#: src/arch/unix/x11/gnome/x11ui.c:1289 src/arch/unix/x11/gnome/x11ui.c:1354
 #: src/arch/win32/res.rc.po.c:4417 src/arch/amigaos/intl.c.po.c:1228
 msgid "Settings"
 msgstr "Instellingen"
@@ -2900,7 +2900,7 @@ msgid "Smart-attach a file"
 msgstr "Slim-koppel een bestand"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1748
+#: src/arch/unix/x11/xaw/x11ui.c:1779
 msgid "Unknown image type"
 msgstr "Onbekent bestand type"
 
@@ -3218,7 +3218,7 @@ msgstr "Over VICE..."
 
 #: src/arch/unix/gui/uicommands.c:531 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:2015 src/arch/amigaos/intl.c.po.c:310
+#: src/arch/unix/x11/gnome/x11ui.c:2073 src/arch/amigaos/intl.c.po.c:310
 msgid "Reset"
 msgstr "Reset"
 
@@ -3252,7 +3252,7 @@ msgstr "Laad eigen"
 #: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uited.c:149
 #: src/arch/unix/gui/uivdc.c:98 src/arch/unix/gui/uivdc.c:111
 #: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivic.c:144
-#: src/arch/unix/gui/uivicii.c:130 src/arch/unix/gui/uivicii.c:157
+#: src/arch/unix/gui/uivicii.c:140 src/arch/unix/gui/uivicii.c:172
 msgid "*Double size"
 msgstr "*Dubbele grootte"
 
@@ -3260,48 +3260,48 @@ msgstr "*Dubbele grootte"
 #: src/arch/unix/gui/uited.c:122 src/arch/unix/gui/uited.c:151
 #: src/arch/unix/gui/uivdc.c:100 src/arch/unix/gui/uivdc.c:113
 #: src/arch/unix/gui/uivic.c:121 src/arch/unix/gui/uivic.c:146
-#: src/arch/unix/gui/uivicii.c:132 src/arch/unix/gui/uivicii.c:159
+#: src/arch/unix/gui/uivicii.c:142 src/arch/unix/gui/uivicii.c:174
 msgid "*Double scan"
 msgstr "*Dubbele scan"
 
 #: src/arch/unix/gui/uicrtc.c:97 src/arch/unix/gui/uited.c:124
 #: src/arch/unix/gui/uivdc.c:102 src/arch/unix/gui/uivic.c:123
-#: src/arch/unix/gui/uivicii.c:134
+#: src/arch/unix/gui/uivicii.c:144
 msgid "*Video cache"
 msgstr "*Video cache"
 
 #: src/arch/unix/gui/uicrtc.c:100 src/arch/unix/gui/uited.c:143
-#: src/arch/unix/gui/uivic.c:138 src/arch/unix/gui/uivicii.c:151
+#: src/arch/unix/gui/uivic.c:138 src/arch/unix/gui/uivicii.c:161
 msgid "*Scale 2x render"
 msgstr "*Schaal 2x render"
 
 #: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uited.c:147
 #: src/arch/unix/gui/uivdc.c:109 src/arch/unix/gui/uivic.c:142
-#: src/arch/unix/gui/uivicii.c:155
+#: src/arch/unix/gui/uivicii.c:170
 msgid "*Enable fullscreen"
 msgstr "*Aktiveer volscherm"
 
 #: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:153
 #: src/arch/unix/gui/uivdc.c:115 src/arch/unix/gui/uivic.c:148
-#: src/arch/unix/gui/uivicii.c:161
+#: src/arch/unix/gui/uivicii.c:176
 msgid "Fullscreen device"
 msgstr "Volscherm apparaat"
 
 #: src/arch/unix/gui/uicrtc.c:115 src/arch/unix/gui/uited.c:158
 #: src/arch/unix/gui/uivdc.c:120 src/arch/unix/gui/uivic.c:153
-#: src/arch/unix/gui/uivicii.c:166
+#: src/arch/unix/gui/uivicii.c:181
 msgid "VidMode Resolutions"
 msgstr "VidMode Resoluties"
 
 #: src/arch/unix/gui/uicrtc.c:119 src/arch/unix/gui/uited.c:162
 #: src/arch/unix/gui/uivdc.c:124 src/arch/unix/gui/uivic.c:157
-#: src/arch/unix/gui/uivicii.c:170
+#: src/arch/unix/gui/uivicii.c:185
 msgid "DGA1 Resolutions"
 msgstr "DGA1 Resoluties"
 
 #: src/arch/unix/gui/uicrtc.c:123 src/arch/unix/gui/uited.c:166
 #: src/arch/unix/gui/uivdc.c:128 src/arch/unix/gui/uivic.c:161
-#: src/arch/unix/gui/uivicii.c:174
+#: src/arch/unix/gui/uivicii.c:189
 msgid "DGA2 Resolutions"
 msgstr "DGA2 Resoluties"
 
@@ -3311,7 +3311,7 @@ msgstr "*CRTC Scherm Kleur"
 
 #: src/arch/unix/gui/uicrtc.c:131 src/arch/unix/gui/uited.c:171
 #: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivic.c:169
-#: src/arch/unix/gui/uivicii.c:187
+#: src/arch/unix/gui/uivicii.c:208
 msgid "*Use XSync()"
 msgstr "*Gebruik XSync()"
 
@@ -3639,7 +3639,7 @@ msgid "Load "
 msgstr "Laad "
 
 #: src/arch/unix/gui/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
-#: src/arch/unix/x11/xaw/uiedisk.c:404
+#: src/arch/unix/x11/xaw/uiedisk.c:413
 #: src/arch/unix/x11/xaw/uiscreenshot.c:262
 #: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/amigaos/intl.c.po.c:2069
 msgid "Save"
@@ -3712,8 +3712,8 @@ msgid "Next: "
 msgstr "Volgende: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:907 src/arch/unix/x11/gnome/x11ui.c:917
-#: src/arch/unix/x11/gnome/x11ui.c:1596
+#: src/arch/unix/x11/gnome/x11ui.c:912 src/arch/unix/x11/gnome/x11ui.c:922
+#: src/arch/unix/x11/gnome/x11ui.c:1621
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -4668,8 +4668,8 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1378
-#: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:4752
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1403
+#: src/arch/unix/x11/xaw/x11ui.c:1094 src/arch/win32/res.rc.po.c:4752
 #: src/arch/amigaos/intl.c.po.c:1878
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -4917,12 +4917,12 @@ msgid "Sound settings"
 msgstr "Geluid instellingen"
 
 #: src/arch/unix/gui/uited.c:127 src/arch/unix/gui/uivic.c:126
-#: src/arch/unix/gui/uivicii.c:139
+#: src/arch/unix/gui/uivicii.c:149
 msgid "*External color set"
 msgstr "*Externe kleuren set"
 
 #: src/arch/unix/gui/uited.c:129 src/arch/unix/gui/uivic.c:128
-#: src/arch/unix/gui/uivicii.c:141
+#: src/arch/unix/gui/uivicii.c:151
 msgid "*Color set"
 msgstr "*Kleuren set"
 
@@ -4931,11 +4931,11 @@ msgid "*Fast PAL emulation"
 msgstr "*Snelle PAL emulatie"
 
 #: src/arch/unix/gui/uited.c:137 src/arch/unix/gui/uivic.c:132
-#: src/arch/unix/gui/uivicii.c:145
+#: src/arch/unix/gui/uivicii.c:155
 msgid "*Hardware scaling"
 msgstr "*Hardware schaal"
 
-#: src/arch/unix/gui/uited.c:140 src/arch/unix/gui/uivicii.c:148
+#: src/arch/unix/gui/uited.c:140 src/arch/unix/gui/uivicii.c:158
 #: src/arch/win32/resc128.rc.po.c:179 src/arch/win32/resc64.rc.po.c:184
 #: src/arch/win32/resplus4.rc.po.c:167 src/arch/win32/resvic20.rc.po.c:165
 #: src/arch/amigaos/intl.c.po.c:1057 src/arch/amigaos/intl.c.po.c:4121
@@ -4991,7 +4991,7 @@ msgstr "Kleuren set"
 msgid "PAL Emulation Settings"
 msgstr "PAL Emulatie Instellingen"
 
-#: src/arch/unix/gui/uivic.c:166 src/arch/unix/gui/uivicii.c:179
+#: src/arch/unix/gui/uivic.c:166 src/arch/unix/gui/uivicii.c:200
 #: src/arch/unix/gui/vsidui.c:177 src/arch/amigaos/intl.c.po.c:1156
 msgid "Video standard"
 msgstr "Video standaard"
@@ -5008,15 +5008,27 @@ msgstr "*Frodo"
 msgid "*GoDot"
 msgstr "*GoDot"
 
-#: src/arch/unix/gui/uivicii.c:137
+#: src/arch/unix/gui/uivicii.c:147
 msgid "*New Luminances"
 msgstr "*New Luminances"
 
-#: src/arch/unix/gui/uivicii.c:182
+#: src/arch/unix/gui/uivicii.c:165
+#, fuzzy
+msgid "*OpenGL Rastersynchronization"
+msgstr "Geluid Synchronisatie"
+
+#. Translators: `OpenGL' must remain in the beginning of the translation:
+#. e.g. German: "OpenGL Aufloesungen"
+#: src/arch/unix/gui/uivicii.c:195
+#, fuzzy
+msgid "XRandR Resolutions"
+msgstr "DGA1 Resoluties"
+
+#: src/arch/unix/gui/uivicii.c:203
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-sprite botsingen"
 
-#: src/arch/unix/gui/uivicii.c:184
+#: src/arch/unix/gui/uivicii.c:205
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-achtergrond botsingen"
 
@@ -5201,7 +5213,8 @@ msgstr ""
 "Karai Csaba - Hongaars\n"
 
 #: src/arch/unix/x11/gnome/about.c:98
-msgid "(c) 1998 - 2006 The Vice Team"
+#, fuzzy
+msgid "(c) 1998 - 2007 The Vice Team"
 msgstr "(c) 1998 - 2006 The Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:4857
@@ -5267,7 +5280,7 @@ msgstr "XCreateImage faalt."
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Kan de kleur \"#%04X%04X%04X\" niet toewijzen."
 
-#: src/arch/unix/x11/gnome/uiedisk.c:60 src/arch/unix/x11/xaw/uiedisk.c:428
+#: src/arch/unix/x11/gnome/uiedisk.c:60 src/arch/unix/x11/xaw/uiedisk.c:450
 msgid "Create empty disk"
 msgstr "Maak lege disk"
 
@@ -5520,189 +5533,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2660
+#: src/arch/unix/x11/gnome/x11ui.c:2718
 msgid "all files"
 msgstr "alle bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:432
+#: src/arch/unix/x11/gnome/x11ui.c:433
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan fontpad `%s' niet toevoegen.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:434
+#: src/arch/unix/x11/gnome/x11ui.c:435
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Zet fontpad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:642 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Deze monitor ondersteunt geen %dbit afbeeldingen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:645 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer aub een bit diepte die ondersteunt wordt door uw monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/gnome/x11ui.c:672
+#: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/gnome/x11ui.c:673
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Gevonden %dbit/%s beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:657
+#: src/arch/unix/x11/gnome/x11ui.c:658
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Gevonden %dbit beeld."
 
-#: src/arch/unix/x11/gnome/x11ui.c:680 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan het beeld niet automatisch detecteren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:688
+#: src/arch/unix/x11/gnome/x11ui.c:689
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan de tekst font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:695
+#: src/arch/unix/x11/gnome/x11ui.c:696
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan de CBM font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:809
+#: src/arch/unix/x11/gnome/x11ui.c:814
 msgid "PAL Controls"
 msgstr "PAL Bediening"
 
-#: src/arch/unix/x11/gnome/x11ui.c:828
+#: src/arch/unix/x11/gnome/x11ui.c:833
 msgid "audio/video recording"
 msgstr "geluid/beeld opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:842 src/arch/unix/x11/gnome/x11ui.c:861
+#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:866
 msgid "click to stop recording"
 msgstr "klik om de opname te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:847
+#: src/arch/unix/x11/gnome/x11ui.c:852
 msgid "event recording"
 msgstr "gebeurtenis opname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:867
+#: src/arch/unix/x11/gnome/x11ui.c:872
 msgid "event playback"
 msgstr "gebeurtenis terugspelen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:881
+#: src/arch/unix/x11/gnome/x11ui.c:886
 msgid "click to stop playback"
 msgstr "klik om het terugspelen te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:893
+#: src/arch/unix/x11/gnome/x11ui.c:898
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1004
+#: src/arch/unix/x11/gnome/x11ui.c:1009
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1074 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:623
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1262 src/arch/unix/x11/gnome/x11ui.c:1318
+#: src/arch/unix/x11/gnome/x11ui.c:1287 src/arch/unix/x11/gnome/x11ui.c:1343
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1615
+#: src/arch/unix/x11/gnome/x11ui.c:1293 src/arch/amigaos/intl.c.po.c:1615
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1075
+#: src/arch/unix/x11/gnome/x11ui.c:1386 src/arch/unix/x11/xaw/x11ui.c:1080
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1079
+#: src/arch/unix/x11/gnome/x11ui.c:1393 src/arch/unix/x11/xaw/x11ui.c:1084
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1086
+#: src/arch/unix/x11/gnome/x11ui.c:1400 src/arch/unix/x11/xaw/x11ui.c:1091
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1420 src/arch/unix/x11/xaw/x11ui.c:1127
+#: src/arch/unix/x11/gnome/x11ui.c:1445 src/arch/unix/x11/xaw/x11ui.c:1132
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1440 src/arch/unix/x11/gnome/x11ui.c:1443
-#: src/arch/unix/x11/xaw/x11ui.c:1155 src/arch/unix/x11/xaw/x11ui.c:1160
+#: src/arch/unix/x11/gnome/x11ui.c:1465 src/arch/unix/x11/gnome/x11ui.c:1468
+#: src/arch/unix/x11/xaw/x11ui.c:1160 src/arch/unix/x11/xaw/x11ui.c:1165
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1748
+#: src/arch/unix/x11/gnome/x11ui.c:1773
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1814 src/arch/unix/x11/xaw/x11ui.c:1402
+#: src/arch/unix/x11/gnome/x11ui.c:1845 src/arch/unix/x11/xaw/x11ui.c:1407
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1824
+#: src/arch/unix/x11/gnome/x11ui.c:2032 src/arch/amigaos/intl.c.po.c:1824
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1896
+#: src/arch/unix/x11/gnome/x11ui.c:2043 src/arch/amigaos/intl.c.po.c:1896
 msgid "VICE Error"
 msgstr "Vice Fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2016
+#: src/arch/unix/x11/gnome/x11ui.c:2074
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2017 src/arch/amigaos/intl.c.po.c:634
+#: src/arch/unix/x11/gnome/x11ui.c:2075 src/arch/amigaos/intl.c.po.c:634
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/xaw/x11ui.c:1680
+#: src/arch/unix/x11/gnome/x11ui.c:2119 src/arch/unix/x11/xaw/x11ui.c:1711
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2062
+#: src/arch/unix/x11/gnome/x11ui.c:2120
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2075
+#: src/arch/unix/x11/gnome/x11ui.c:2133
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor drive %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2083 src/arch/unix/x11/gnome/x11ui.c:2092
+#: src/arch/unix/x11/gnome/x11ui.c:2141 src/arch/unix/x11/gnome/x11ui.c:2150
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2219 src/arch/unix/x11/gnome/x11ui.c:2229
+#: src/arch/unix/x11/gnome/x11ui.c:2277 src/arch/unix/x11/gnome/x11ui.c:2287
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2683
+#: src/arch/unix/x11/gnome/x11ui.c:2741
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2731
+#: src/arch/unix/x11/gnome/x11ui.c:2789
 msgid "Attach write protected"
 msgstr "Koppel schrijf beveiligd"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2737
+#: src/arch/unix/x11/gnome/x11ui.c:2795
 msgid "Show hidden files"
 msgstr "Toon verborgen bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2749
+#: src/arch/unix/x11/gnome/x11ui.c:2807
 msgid "Autostart"
 msgstr "Autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2766
+#: src/arch/unix/x11/gnome/x11ui.c:2824
 msgid "Text cannot be displayed.\n"
 msgstr "Tekst kan niet worden weergegeben.\n"
 
@@ -5746,7 +5759,7 @@ msgstr ""
 msgid "Switch to windowmode"
 msgstr "Schakel naar venstermodus"
 
-#: src/arch/unix/x11/dga2.c:193
+#: src/arch/unix/x11/dga2.c:193 src/arch/unix/x11/xrandr.c:94
 #, c-format
 msgid "Selected mode: %s"
 msgstr "Geselecteerde modus: %s"
@@ -5863,40 +5876,40 @@ msgstr "Volscherm afsluiten"
 msgid "Specify X display depth (1..32)"
 msgstr "Geef een X display diepte (1..32)"
 
-#: src/arch/unix/x11/video.c:193
+#: src/arch/unix/x11/video.c:195
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Roep `XSync()' aan na het vernieuwen van het emulatie venster"
 
-#: src/arch/unix/x11/video.c:196
+#: src/arch/unix/x11/video.c:198
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Roep niet `XSync()' aan na het vernieuwen van het emulatie venster"
 
-#: src/arch/unix/x11/video.c:199
+#: src/arch/unix/x11/video.c:201
 msgid "Use shared memory"
 msgstr "Gebruik gedeeld geheugen"
 
-#: src/arch/unix/x11/video.c:202
+#: src/arch/unix/x11/video.c:204
 msgid "Never use shared memory (slower)"
 msgstr "Nooit gedeeld geheugen gebuiken (trager)"
 
-#: src/arch/unix/x11/video.c:205
+#: src/arch/unix/x11/video.c:207
 msgid "Request YUV FOURCC format"
 msgstr "Vraag YUW FOURCC formaat aan"
 
-#: src/arch/unix/x11/video.c:207
+#: src/arch/unix/x11/video.c:209
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Zet aspect ratio (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:288
+#: src/arch/unix/x11/video.c:290
 msgid "The MITSHM extension is not supported on this display."
 msgstr "De MITSHM extensie wordt niet ondersteunt door Uw monitor"
 
-#: src/arch/unix/x11/video.c:292
+#: src/arch/unix/x11/video.c:294
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM extensies versie %d.%d gevonden."
 
-#: src/arch/unix/x11/video.c:362
+#: src/arch/unix/x11/video.c:364
 msgid "Cannot release shared memory!"
 msgstr "Kan het gedeelde geheugen niet vrij geven!"
 
@@ -5906,6 +5919,70 @@ msgstr ""
 "Fout bij het verkrijgen van de video modus informatie - vidmode extension "
 "wordt afgesloten"
 
+#: src/arch/unix/x11/openGL_sync.c:110
+#, c-format
+msgid "glXWaitVideoSyncSGI() returnd %d"
+msgstr ""
+
+#: src/arch/unix/x11/openGL_sync.c:137
+msgid "glXChooseVisual() failed\n"
+msgstr ""
+
+#: src/arch/unix/x11/openGL_sync.c:148
+#, fuzzy
+msgid "glXCreateContext() failed\n"
+msgstr "XCreateImage faalt."
+
+#: src/arch/unix/x11/openGL_sync.c:174
+msgid "GLX_SGI_video_sync extension is supported"
+msgstr ""
+
+#: src/arch/unix/x11/openGL_sync.c:183
+msgid "GLX_SGI_video_sync extension not supported"
+msgstr ""
+
+#: src/arch/unix/x11/openGL_sync.c:198
+#, c-format
+msgid "%s openGL_sync"
+msgstr ""
+
+#: src/arch/unix/x11/openGL_sync.c:199 src/arch/unix/x11/xrandr.c:274
+#, fuzzy
+msgid "enabling"
+msgstr "resampling"
+
+#: src/arch/unix/x11/openGL_sync.c:199 src/arch/unix/x11/xrandr.c:274
+#, fuzzy
+msgid "disabling"
+msgstr "resampling"
+
+#: src/arch/unix/x11/xrandr.c:109
+msgid "double size not implemented - use standard double size from menu."
+msgstr ""
+
+#: src/arch/unix/x11/xrandr.c:129
+msgid "X11 XRandR extension not available, using default display mode."
+msgstr ""
+
+#: src/arch/unix/x11/xrandr.c:207
+#, c-format
+msgid "XRandR reports current display: %dx%d@%d"
+msgstr ""
+
+#: src/arch/unix/x11/xrandr.c:236
+msgid "*Desktop"
+msgstr ""
+
+#: src/arch/unix/x11/xrandr.c:273
+#, c-format
+msgid "%s XRandR"
+msgstr ""
+
+#: src/arch/unix/x11/xrandr.c:287 src/arch/unix/x11/xrandr.c:313
+#, c-format
+msgid "XRandR setting failed: %d"
+msgstr ""
+
 #: src/arch/unix/x11/xaw/about.c:153 src/arch/win32/res.rc.po.c:4748
 msgid "VICE Information"
 msgstr "VICE Informatie"
@@ -5914,13 +5991,13 @@ msgstr "VICE Informatie"
 msgid "Save cartridge image file"
 msgstr "Opslaan cartridge bestand"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
+#: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:218
 #: src/arch/unix/x11/xaw/uiscreenshot.c:170
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Bestand naam:"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
+#: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:199
 #: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/resc128.rc.po.c:2048
 #: src/arch/win32/resc128.rc.po.c:2052 src/arch/win32/resc128.rc.po.c:2056
@@ -5975,7 +6052,7 @@ msgstr "Bestand naam:"
 msgid "Browse..."
 msgstr "Bladeren..."
 
-#: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
+#: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:420
 #: src/arch/unix/x11/xaw/uiscreenshot.c:269
 #: src/arch/unix/x11/xaw/uisnapshot.c:292 src/arch/win32/res.rc.po.c:864
 #: src/arch/win32/res.rc.po.c:1056 src/arch/win32/res.rc.po.c:1387
@@ -6006,19 +6083,19 @@ msgstr "Automatisch wordt een prive kleurenmap gebruikt."
 msgid "XFreeColors failed."
 msgstr "XfreeColors faalt."
 
-#: src/arch/unix/x11/xaw/uiedisk.c:94
+#: src/arch/unix/x11/xaw/uiedisk.c:97
 msgid "Save emptydisk file"
 msgstr "Opslaan leeg disk bestand"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:174
+#: src/arch/unix/x11/xaw/uiedisk.c:177
 msgid "Couldn't create disk image"
 msgstr "Kon disk bestand niet maken"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:256
+#: src/arch/unix/x11/xaw/uiedisk.c:265
 msgid "Disk name:"
 msgstr "Disk naam:"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:303
+#: src/arch/unix/x11/xaw/uiedisk.c:312
 msgid "Disk format:"
 msgstr "Disk formaat:"
 
@@ -6066,20 +6143,20 @@ msgstr "Opslaan huidig geladen ROMs:"
 msgid "Save snapshot"
 msgstr "Opslaan momentopname"
 
-#: src/arch/unix/x11/xaw/x11ui.c:811
+#: src/arch/unix/x11/xaw/x11ui.c:816
 msgid "recording..."
 msgstr "opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:820
+#: src/arch/unix/x11/xaw/x11ui.c:825
 msgid "event recording..."
 msgstr "gebeurtenis opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/xaw/x11ui.c:1259
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spoor %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1565 src/arch/win32/res.rc.po.c:4747
+#: src/arch/unix/x11/xaw/x11ui.c:1596 src/arch/win32/res.rc.po.c:4747
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 
@@ -6292,35 +6369,43 @@ msgid "Version 0.0"
 msgstr "Versie 0.0"
 
 #: src/arch/win32/res.rc.po.c:560
-msgid "Copyright (c) 1998-2006 Andreas Boose"
+#, fuzzy
+msgid "Copyright (c) 1998-2007 Andreas Boose"
 msgstr "Copyright (c) 1998-2006 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:561
-msgid "Copyright (c) 1998-2006 Dag Lem"
+#, fuzzy
+msgid "Copyright (c) 1998-2007 Dag Lem"
 msgstr "Copyright (c) 1998-2006 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:562
-msgid "Copyright (c) 1998-2006 Tibor Biczo"
+#, fuzzy
+msgid "Copyright (c) 1998-2007 Tibor Biczo"
 msgstr "Copyright (c) 1998-2006 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:563
-msgid "Copyright (c) 1999-2006 Andreas Dehmel"
+#, fuzzy
+msgid "Copyright (c) 1999-2007 Andreas Dehmel"
 msgstr "Copyright (c) 1999-2006 Andreas Dehmel"
 
 #: src/arch/win32/res.rc.po.c:564
-msgid "Copyright (c) 1999-2006 Andreas Matthies"
+#, fuzzy
+msgid "Copyright (c) 1999-2007 Andreas Matthies"
 msgstr "Copyright (c) 1999-2006 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:565
-msgid "Copyright (c) 1999-2006 Martin Pottendorfer"
+#, fuzzy
+msgid "Copyright (c) 1999-2007 Martin Pottendorfer"
 msgstr "Copyright (c) 1999-2006 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:566
-msgid "Copyright (c) 2000-2006 Spiro Trikaliotis"
+#, fuzzy
+msgid "Copyright (c) 2000-2007 Spiro Trikaliotis"
 msgstr "Copyright (c) 2000-2006 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:567
-msgid "Copyright (c) 2005-2006 Marco van den Heuvel"
+#, fuzzy
+msgid "Copyright (c) 2005-2007 Marco van den Heuvel"
 msgstr "Copyright (c) 2005-2006 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:568
@@ -10203,9 +10288,8 @@ msgid "CBM2 settings..."
 msgstr "CBM2 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1264
-#, fuzzy
 msgid "Change PET model"
-msgstr "Chip model"
+msgstr "Verander PET model"
 
 #: src/arch/amigaos/intl.c.po.c:1273
 msgid "PET settings..."
@@ -10252,14 +10336,12 @@ msgid "SID settings..."
 msgstr "SID instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1381
-#, fuzzy
 msgid "Computer ROM settings..."
-msgstr "ROM instellingen..."
+msgstr "Computer ROM instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1390
-#, fuzzy
 msgid "Drive ROM settings..."
-msgstr "Drive instellingen..."
+msgstr "Drive ROM instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1399
 msgid "RAM settings..."
@@ -10358,9 +10440,8 @@ msgid "No warranty"
 msgstr "Geen garantie!"
 
 #: src/arch/amigaos/intl.c.po.c:1669
-#, fuzzy
 msgid "International"
-msgstr "Internationale Kernal"
+msgstr "Internationaal"
 
 #: src/arch/amigaos/intl.c.po.c:1678
 msgid "English"
@@ -10371,9 +10452,8 @@ msgid "German"
 msgstr "Duits"
 
 #: src/arch/amigaos/intl.c.po.c:1696
-#, fuzzy
 msgid "Finnish"
-msgstr "Finse Kernal"
+msgstr "Fins"
 
 #: src/arch/amigaos/intl.c.po.c:1705
 msgid "French"
@@ -10392,9 +10472,8 @@ msgid "Dutch"
 msgstr "Nederlands"
 
 #: src/arch/amigaos/intl.c.po.c:1741
-#, fuzzy
 msgid "Norwegian"
-msgstr "Noorse Kernal"
+msgstr "Noors"
 
 #: src/arch/amigaos/intl.c.po.c:1750
 msgid "Polish"
@@ -10869,194 +10948,156 @@ msgid "SID cart settings"
 msgstr "SID cart instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:4058
-#, fuzzy
 msgid "Save currently attached disk images"
-msgstr "Opslaan huidig gekoppelde &disks"
+msgstr "Opslaan huidig gekoppelde disks"
 
 #: src/arch/amigaos/intl.c.po.c:4067
-#, fuzzy
 msgid "Save currently loaded ROM images"
-msgstr "Opslaan huidig gekoppelde &ROMs"
+msgstr "Opslaan huidig gekoppelde ROMs"
 
 #: src/arch/amigaos/intl.c.po.c:4094
-#, fuzzy
 msgid "snapshot file"
-msgstr "Opslaan momentopname bestand"
+msgstr "momentopname bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4103
-#, fuzzy
 msgid "Select snapshot file"
-msgstr "Opslaan momentopname bestand"
+msgstr "Selecteer momentopname bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4112
-#, fuzzy
 msgid "Fast PAL"
-msgstr "*Snel"
+msgstr "Snelle PAL"
 
 #: src/arch/amigaos/intl.c.po.c:4130
-#, fuzzy
 msgid "Select External Palette file"
-msgstr "Gebruik een extern kleuren palette (bestand)"
+msgstr "Selecteer extern palette bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4139
-#, fuzzy
 msgid "Gamma (0..2)"
-msgstr "(0..2)"
+msgstr "Gamma (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4148
-#, fuzzy
 msgid "PAL Shade (0..1)"
-msgstr "PAL Schaduw"
+msgstr "PAL Schaduw (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4157
-#, fuzzy
 msgid "PAL Blur (0..1)"
-msgstr "PAL Wazigheid"
+msgstr "PAL Wazigheid (0..1)"
 
 #: src/arch/amigaos/intl.c.po.c:4175
-#, fuzzy
 msgid "External Palette"
-msgstr "Extern Palette:"
+msgstr "Extern Palette"
 
 #: src/arch/amigaos/intl.c.po.c:4184
-#, fuzzy
 msgid "Palette file"
-msgstr "alle bestanden"
+msgstr "Palette bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4193
-#, fuzzy
 msgid "Saturation (0..2)"
-msgstr "Verzadiging"
+msgstr "Verzadiging (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4202
-#, fuzzy
 msgid "Contrast (0..2)"
-msgstr "Contrast"
+msgstr "Contrast (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4211
-#, fuzzy
 msgid "Brightness (0..2)"
-msgstr "Helderheid"
+msgstr "Helderheid (0..2)"
 
 #: src/arch/amigaos/intl.c.po.c:4229
-#, fuzzy
 msgid "VICII Palette file"
-msgstr "Laad VICE palette bestand"
+msgstr "VICII Palette bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4238
-#, fuzzy
 msgid "VDC Palette file"
-msgstr "Laad VICE palette bestand"
+msgstr "VDC Palette bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4247
-#, fuzzy
 msgid "Auto (from ROM)"
-msgstr "*Automatisch (van ROM)"
+msgstr "Automatisch (van ROM)"
 
 #: src/arch/amigaos/intl.c.po.c:4256
-#, fuzzy
 msgid "40 Columns"
-msgstr "&40 Kolommen"
+msgstr "40 Kolommen"
 
 #: src/arch/amigaos/intl.c.po.c:4265
-#, fuzzy
 msgid "80 Columns"
-msgstr "&80 Kolommen"
+msgstr "80 Kolommen"
 
 #: src/arch/amigaos/intl.c.po.c:4274
-#, fuzzy
 msgid "256 Byte"
-msgstr "2&56 Byte"
+msgstr "256 Byte"
 
 #: src/arch/amigaos/intl.c.po.c:4283
-#, fuzzy
 msgid "2 kByte"
-msgstr "*2 kByte"
+msgstr "2 kByte"
 
 #: src/arch/amigaos/intl.c.po.c:4292
-#, fuzzy
 msgid "Graphics"
-msgstr "&Grafiek"
+msgstr "Grafiek"
 
 #: src/arch/amigaos/intl.c.po.c:4301
-#, fuzzy
 msgid "Business (UK)"
-msgstr "&Business (UK)"
+msgstr "Business (UK)"
 
 #: src/arch/amigaos/intl.c.po.c:4310
-#, fuzzy
 msgid "Set PET Model"
-msgstr "SID Model"
+msgstr "Zet PET Model"
 
 #: src/arch/amigaos/intl.c.po.c:4355
-#, fuzzy
 msgid "CRTC chip"
-msgstr "CRTC chip &aktiveren"
+msgstr "CRTC chip"
 
 #: src/arch/amigaos/intl.c.po.c:4364
-#, fuzzy
 msgid "SuperPET I/O enable (disables 8x96)"
-msgstr "*SuperPET I/O aan (zet 8x96 uit)"
+msgstr "SuperPET I/O aan (zet 8x96 uit)"
 
 #: src/arch/amigaos/intl.c.po.c:4373
-#, fuzzy
 msgid "$9*** as RAM"
-msgstr "$&9*** als RAM"
+msgstr "$9*** als RAM"
 
 #: src/arch/amigaos/intl.c.po.c:4382
-#, fuzzy
 msgid "$A*** as RAM"
-msgstr "$&A*** als RAM"
+msgstr "$A*** als RAM"
 
 #: src/arch/amigaos/intl.c.po.c:4400
-#, fuzzy
 msgid "Current Model"
-msgstr "Huidige modus"
+msgstr "Huidig Model"
 
 #: src/arch/amigaos/intl.c.po.c:4409
-#, fuzzy
 msgid "PET Model"
-msgstr "Model"
+msgstr "PET Model"
 
 #: src/arch/amigaos/intl.c.po.c:4418
-#, fuzzy
 msgid "PLUS4 settings"
-msgstr "PLUS60K Instellingen"
+msgstr "PLUS4 instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:4427
-#, fuzzy
 msgid "Select Internal Function ROM file"
 msgstr "Selecteer intern Functie ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4436
-#, fuzzy
 msgid "Select External Function ROM file"
 msgstr "Selecteer extern Functie ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4463
-#, fuzzy
 msgid "Internal Function ROM file"
-msgstr "Interne Functie ROM"
+msgstr "Interne Functie ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4481
-#, fuzzy
 msgid "External Function ROM file"
-msgstr "Externe Functie ROM"
+msgstr "Externe Functie ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4499
-#, fuzzy
 msgid "Select ROM file"
-msgstr "Selecteer BIOS bestand"
+msgstr "Selecteer ROM bestand"
 
 #: src/arch/amigaos/intl.c.po.c:4508
-#, fuzzy
 msgid "Computer ROM settings"
-msgstr "ROM instellingen"
+msgstr "Computer ROM instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:4517
-#, fuzzy
 msgid "Drive ROM settings"
-msgstr "Drive instellingen"
+msgstr "Drive ROM instellingen"
 
 #, fuzzy
 #~ msgid "Ebable SID Cartridge"

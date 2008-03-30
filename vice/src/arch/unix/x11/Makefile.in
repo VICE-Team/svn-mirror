@@ -196,6 +196,7 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 STRIP = @STRIP@
+SYNC = @SYNC@
 UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
@@ -306,6 +307,9 @@ EXTRA_libx11ui_a_SOURCES = \
 	dga1.h \
 	dga2.c \
 	dga2.h \
+	openGL_sync.c \
+	xrandr.c \
+	xrandr.h \
 	vidmode.c \
 	vidmode.h
 
@@ -332,8 +336,8 @@ libx11ui_a_SOURCES = \
 	x11menu.h \
 	x11ui.h
 
-libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
-libx11ui_a_LIBADD = @FULLSCREEN_DRIVERS@
+libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@ @SYNC@
+libx11ui_a_LIBADD = @FULLSCREEN_DRIVERS@ @SYNC@
 all: all-recursive
 
 .SUFFIXES:
@@ -388,6 +392,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dga2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fullscreen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/openGL_sync.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/peticon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4icon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qnxshm.Po@am__quote@
@@ -399,6 +404,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vidmode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/x11menu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xrandr.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

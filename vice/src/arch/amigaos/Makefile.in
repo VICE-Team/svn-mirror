@@ -60,31 +60,31 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	c64ui.$(OBJEXT) catweaselmkiii.$(OBJEXT) cbm2ui.$(OBJEXT) \
 	console.$(OBJEXT) fullscreen.$(OBJEXT) hardsid.$(OBJEXT) \
 	intl.$(OBJEXT) joy.$(OBJEXT) joyai.$(OBJEXT) joyll.$(OBJEXT) \
-	kbd.$(OBJEXT) mousedrv.$(OBJEXT) petui.$(OBJEXT) \
-	plus4ui.$(OBJEXT) pointer.$(OBJEXT) rs232.$(OBJEXT) \
-	screen-shot.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
-	tfearch.$(OBJEXT) timer.$(OBJEXT) ui.$(OBJEXT) uiapi.$(OBJEXT) \
-	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicart.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uicolor.$(OBJEXT) uilib.$(OBJEXT) \
-	uimon.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncapi.$(OBJEXT) filereq.$(OBJEXT) \
-	mui.$(OBJEXT) uiacia.$(OBJEXT) uic64_256k.$(OBJEXT) \
-	uic128settings.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uicbm2settings.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
-	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
-	uiide64.$(OBJEXT) uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) \
-	uimmc64.$(OBJEXT) uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) \
-	uipetsettings.$(OBJEXT) uiplus256k.$(OBJEXT) \
-	uiplus4settings.$(OBJEXT) uiplus60k.$(OBJEXT) uiram.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromc128settings.$(OBJEXT) uiromc64vic20settings.$(OBJEXT) \
-	uiromcbm2settings.$(OBJEXT) uirompetsettings.$(OBJEXT) \
-	uiromplus4settings.$(OBJEXT) uirs232user.$(OBJEXT) \
-	uisid.$(OBJEXT) uisidcart.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT) \
-	uivideoc128.$(OBJEXT) uivideoc64plus4vic20.$(OBJEXT) \
-	uivideocbm2pet.$(OBJEXT)
+	kbd.$(OBJEXT) mousedrv.$(OBJEXT) noinlineargs.$(OBJEXT) \
+	petui.$(OBJEXT) plus4ui.$(OBJEXT) pointer.$(OBJEXT) \
+	rs232.$(OBJEXT) screen-shot.$(OBJEXT) signals.$(OBJEXT) \
+	statusbar.$(OBJEXT) tfearch.$(OBJEXT) timer.$(OBJEXT) \
+	ui.$(OBJEXT) uiapi.$(OBJEXT) uiattach.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicart.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uicolor.$(OBJEXT) uilib.$(OBJEXT) uimon.$(OBJEXT) \
+	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
+	vsyncapi.$(OBJEXT) filereq.$(OBJEXT) mui.$(OBJEXT) \
+	uiacia.$(OBJEXT) uic64_256k.$(OBJEXT) uic128settings.$(OBJEXT) \
+	uidatasette.$(OBJEXT) uicbm2settings.$(OBJEXT) \
+	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
+	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) uimmc64.$(OBJEXT) \
+	uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) uipetsettings.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus4settings.$(OBJEXT) \
+	uiplus60k.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
+	uireu.$(OBJEXT) uiromc128settings.$(OBJEXT) \
+	uiromc64vic20settings.$(OBJEXT) uiromcbm2settings.$(OBJEXT) \
+	uirompetsettings.$(OBJEXT) uiromplus4settings.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisidcart.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uivic20mem.$(OBJEXT) \
+	uivicii.$(OBJEXT) uivideoc128.$(OBJEXT) \
+	uivideoc64plus4vic20.$(OBJEXT) uivideocbm2pet.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -242,6 +242,7 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 STRIP = @STRIP@
+SYNC = @SYNC@
 UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
 UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
@@ -389,6 +390,7 @@ libarch_a_SOURCES = \
 	memory.h \
 	mousedrv.c \
 	mousedrv.h \
+	noinlineargs.c \
 	petui.c \
 	petuires.h \
 	plus4ui.c \
@@ -640,6 +642,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/noinlineargs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Po@am__quote@
