@@ -36,6 +36,9 @@ BEGIN
             MENUITEM "&Remove current image\tAlt-K",  IDM_FLIP_REMOVE
             MENUITEM "Attach &next image\tAlt-N",     IDM_FLIP_NEXT
             MENUITEM "Attach &previous image\tAlt-B", IDM_FLIP_PREVIOUS
+            MENUITEM SEPARATOR
+            MENUITEM "&Load flip list", IDM_FLIP_LOAD
+            MENUITEM "&Save flip list", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T", IDM_ATTACH_TAPE
@@ -61,6 +64,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
             MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
+            MENUITEM "Drive #1&0",        IDM_RESET_DRIVE10
+            MENUITEM "Drive #&11",        IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
 		POPUP "&Debug"
@@ -158,11 +163,12 @@ BEGIN
     BEGIN
         MENUITEM "&Video settings...",     IDM_VIDEO_SETTINGS
         MENUITEM "&Peripheral settings...",IDM_DEVICEMANAGER
-        MENUITEM "D&rive settings...",     IDM_DRIVE_SETTINGS
+        MENUITEM "&Drive settings...",     IDM_DRIVE_SETTINGS
         MENUITEM "D&atasette settings...", IDM_DATASETTE_SETTINGS
         MENUITEM "P&lus4 settings...",     IDM_PLUS4_SETTINGS
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
+        MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
