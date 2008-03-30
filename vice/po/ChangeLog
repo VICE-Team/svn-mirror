@@ -1,4 +1,14 @@
-2005-05-12  pottendo  <pottendo@utanet.at>
+2005-04-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added the georam and ramcart ui's to the
+	gettext aware list.
+
+	* de.po: Fixed a typo.
+
+	* nl.po: Reformulated some sentences to look better or make
+	better sence.
+
+2005-04-12  pottendo  <pottendo@utanet.at>
 
 	* nl.po: Added `%s' C-format to
 	msgid "Error reading end snapshot file	%s." 

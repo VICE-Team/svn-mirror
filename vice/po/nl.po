@@ -24,11 +24,11 @@ msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
 #: src/vsync.c:127
 msgid "Enable warp mode"
-msgstr "Warp mode aan"
+msgstr "Aktiveer warp modus"
 
 #: src/vsync.c:129
 msgid "Disable warp mode"
-msgstr "Warp mode uit"
+msgstr "Warp modus afsluiten"
 
 #: src/vsync.c:438
 msgid "Your machine is too slow for current settings!"
@@ -1211,7 +1211,7 @@ msgstr "Ga terug naar mijlpaal"
 
 #: src/arch/unix/uicommands.c:464
 msgid "Recording start mode"
-msgstr "Opname start mode"
+msgstr "Opname start modus"
 
 #: src/arch/unix/uicommands.c:470
 msgid "Snapshot commands"
@@ -1223,7 +1223,7 @@ msgstr "Geluid opname..."
 
 #: src/arch/unix/uicommands.c:483
 msgid "Activate monitor"
-msgstr "Activeer monitor"
+msgstr "Aktiveer monitor"
 
 #: src/arch/unix/uicommands.c:486
 msgid "Run C1541"
@@ -1245,11 +1245,11 @@ msgstr "Reset"
 
 #: src/arch/unix/uicommands.c:504
 msgid "*Pause"
-msgstr "*Pause"
+msgstr "*Pauze"
 
 #: src/arch/unix/uicommands.c:511
 msgid "Exit emulator"
-msgstr "Einde emulator"
+msgstr "Emulator afsluiten"
 
 #: src/arch/unix/uicrtc.c:41
 msgid "*Default (Green)"
@@ -1299,7 +1299,7 @@ msgstr "*Schaal 2x render"
 #: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:142
 #: src/arch/unix/uivicii.c:155
 msgid "*Enable fullscreen"
-msgstr "*Activeer volscherm"
+msgstr "*Aktiveer volscherm"
 
 #: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:153
 #: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:148
@@ -1380,7 +1380,7 @@ msgstr "Datasette regeling"
 #: src/arch/unix/uidrivec64vic20.c:139 src/arch/unix/uidrivepetcbm2.c:93
 #: src/arch/unix/uidriveplus4.c:121
 msgid "*Enable true drive emulation"
-msgstr "*Activeer ware drive emulatie"
+msgstr "*Aktiveer hardware drive emulatie"
 
 #: src/arch/unix/uidrivec128.c:47 src/arch/unix/uidrivec128.c:79
 #: src/arch/unix/uidrivec128.c:101 src/arch/unix/uidrivec128.c:123
@@ -1411,7 +1411,7 @@ msgstr "Station #8 RAM uitbreiding"
 #: src/arch/unix/uidrivec128.c:154 src/arch/unix/uidrivec64vic20.c:146
 #: src/arch/unix/uidriveplus4.c:128
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Station #8 activeer parallel kabel"
+msgstr "*Station #8 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:156 src/arch/unix/uidrivec64vic20.c:148
 #: src/arch/unix/uidrivepetcbm2.c:99 src/arch/unix/uidriveplus4.c:130
@@ -1436,7 +1436,7 @@ msgstr "Station #9 RAM uitbreiding"
 #: src/arch/unix/uidrivec128.c:165 src/arch/unix/uidrivec64vic20.c:157
 #: src/arch/unix/uidriveplus4.c:139
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Station #9 activeer parallel kabel"
+msgstr "*Station #9 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:167 src/arch/unix/uidrivec64vic20.c:159
 #: src/arch/unix/uidrivepetcbm2.c:108 src/arch/unix/uidriveplus4.c:141
@@ -1461,7 +1461,7 @@ msgstr "Station #10 RAM uitbreiding"
 #: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
 #: src/arch/unix/uidriveplus4.c:150
 msgid "*Drive #10 enable parallel cable"
-msgstr "*Station #10 activeer parallel kabel"
+msgstr "*Station #10 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
 #: src/arch/unix/uidrivepetcbm2.c:117 src/arch/unix/uidriveplus4.c:152
@@ -1486,7 +1486,7 @@ msgstr "Station #11 RAM uitbreiding"
 #: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
 #: src/arch/unix/uidriveplus4.c:161
 msgid "*Drive #11 enable parallel cable"
-msgstr "*Station #11 activeer parallel kabel"
+msgstr "*Station #11 aktiveer parallel kabel"
 
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:126 src/arch/unix/uidriveplus4.c:163
@@ -1886,7 +1886,7 @@ msgstr "Wazigheid in procent"
 
 #: src/arch/unix/uipalemu.c:116
 msgid "*Activate PAL emulation"
-msgstr "*Activeer PAL emulatie"
+msgstr "*Aktiveer PAL emulatie"
 
 #: src/arch/unix/uipalemu.c:119
 msgid "*Fast PAL Emulation"
@@ -1944,7 +1944,7 @@ msgstr "Apparaat type"
 #: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
 #: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
 msgid "*Enable IEC device"
-msgstr "*Activeer IEC apparaat"
+msgstr "*Aktiveer IEC apparaat"
 
 #: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
 #: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
@@ -2003,7 +2003,7 @@ msgstr "Printer instellingen"
 
 #: src/arch/unix/uiperipheraliec.c:147 src/arch/unix/uiperipheralieee.c:137
 msgid "*Enable Virtual Devices"
-msgstr "*Activeer Virtuele Apparaten"
+msgstr "*Aktiveer Virtuele Apparaten"
 
 #: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
@@ -2042,7 +2042,7 @@ msgstr "*IEC printer #4 emulatie"
 
 #: src/arch/unix/uiprinteriec.c:44
 msgid "*IEC printer #4 enable IEC device"
-msgstr "*IEC printer #4 activeer IEC apparaat"
+msgstr "*IEC printer #4 aktiveer IEC apparaat"
 
 #: src/arch/unix/uiprinteriec.c:46 src/arch/unix/uiprinterieee.c:42
 msgid "IEC printer #4 driver"
@@ -2062,7 +2062,7 @@ msgstr "*IEC printer #5 emulatie"
 
 #: src/arch/unix/uiprinteriec.c:56
 msgid "*IEC printer #5 enable IEC device"
-msgstr "*IEC printer #5 activeer IEC apparaat"
+msgstr "*IEC printer #5 aktiveer IEC apparaat"
 
 #: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:52
 msgid "IEC printer #5 driver"
@@ -2110,7 +2110,7 @@ msgstr "REU bestand naam"
 
 #: src/arch/unix/uireu.c:66
 msgid "*Enable REU"
-msgstr "*Activeer REU"
+msgstr "*Aktiveer REU"
 
 #: src/arch/unix/uireu.c:68
 msgid "REU size"
@@ -2176,7 +2176,7 @@ msgstr "Geef naam"
 
 #: src/arch/unix/uiromset.c:205
 msgid "Active configuration"
-msgstr "Activeer configuratie"
+msgstr "Aktiveer configuratie"
 
 #: src/arch/unix/uiromset.c:216
 msgid "Load ROM set archive"
@@ -2415,7 +2415,7 @@ msgstr "Maximale snelheid"
 
 #: src/arch/unix/uisettings.c:316
 msgid "*Enable warp mode"
-msgstr "*Activeer warp mode"
+msgstr "*Aktiveer warp modus"
 
 #: src/arch/unix/uisettings.c:322
 msgid "Save settings"
@@ -2431,11 +2431,11 @@ msgstr "Herstel standaard instellingen"
 
 #: src/arch/unix/uisettings.c:328
 msgid "*Save settings on exit"
-msgstr "*Opslaan instellingen bij stoppen"
+msgstr "*Sla instellingen op bij afsluiten"
 
 #: src/arch/unix/uisettings.c:330
 msgid "*Confirm on exit"
-msgstr "*Bevestigen bij stoppen"
+msgstr "*Bevestigen bij afsluiten"
 
 #: src/arch/unix/uisid.c:43
 msgid "*Fast SID"
@@ -2610,11 +2610,11 @@ msgstr "Ethernet interface"
 
 #: src/arch/unix/uitfe.c:48
 msgid "*Enable Ethernet"
-msgstr "*Activeer Ethernet"
+msgstr "*Aktiveer Ethernet"
 
 #: src/arch/unix/uitfe.c:50
 msgid "*RR-NET compatibity mode"
-msgstr "*RR-NET compatibiliteit mode"
+msgstr "*RR-NET compatibiliteit modus"
 
 #: src/arch/unix/uitfe.c:52
 msgid "Interface..."
@@ -2688,7 +2688,7 @@ msgid ""
 "Exiting..."
 msgstr ""
 "\n"
-"Eindigen..."
+"Afsluiten..."
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:102
@@ -2843,15 +2843,15 @@ msgstr "Medewerkers aan het VICE project"
 
 #: src/arch/unix/x11/gnome/about.c:59
 msgid "The VICE Team"
-msgstr "De VICE Team"
+msgstr "Het VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
 msgid "Official VICE homepage:"
-msgstr "Officiele VICE homepage:"
+msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:88
 msgid "License"
-msgstr "Vergunning"
+msgstr "Licensie"
 
 #: src/arch/unix/x11/gnome/about.c:94
 msgid "Warranty"
@@ -2985,7 +2985,7 @@ msgstr "Exacte Emulatie"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
 #: src/arch/unix/x11/gnome/uiscreenshot.c:207
 msgid "Save Screenshot"
-msgstr "Opslaan scherm afdruk"
+msgstr "Scherm afdruk opslaan"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:106
 msgid "Image Format"
@@ -3137,7 +3137,7 @@ msgstr " emulator"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1340 src/arch/unix/x11/xaw/x11ui.c:1030
 msgid "Do you really want to exit?"
-msgstr "Wilt U echt stoppen?"
+msgstr "Wilt U echt afsluiten?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1347 src/arch/unix/x11/xaw/x11ui.c:1038
 msgid "Save the current settings?"
@@ -3252,7 +3252,7 @@ msgstr ""
 
 #: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:780
 msgid "Switch to windowmode"
-msgstr "Schakel naar venstermode"
+msgstr "Schakel naar venstermodus"
 
 #: src/arch/unix/x11/dga2.c:193
 #, c-format
@@ -3341,23 +3341,23 @@ msgstr "Gebruik de standaard kleurenmap"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:48
 msgid "Save settings (resources) on exit"
-msgstr "Opslaan instellingen (bronnen) bij stoppen"
+msgstr "Opslaan instellingen (bronnen) bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr "Nooit bevestigen stoppen VICE"
+msgstr "Nooit afsluiten van VICE bevestigen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
-msgstr "Bevestigen stoppen VICE"
+msgstr "Aflsuiten van VICE bevestigen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Never save settings (resources) on exit"
-msgstr "Nooit instellingen (bronnen) opslaan bij stoppen"
+msgstr "Nooit instellingen (bronnen) opslaan bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Enable fullscreen"
-msgstr "Activeer volscherm"
+msgstr "Aktiveer volscherm"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:64
 msgid "Disable fullscreen"

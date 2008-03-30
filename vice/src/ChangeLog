@@ -1,10 +1,49 @@
+2005-04-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.6.
+
+2005-04-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/intl.h, arch/win32/res.h,
+	arch/win32/res.rc, arch/win32/resc128.rc, arch/win32/ui.c,
+	arch/win32/uimon.c : Start of the menu part of the windows
+	localization.
+
+2005-04-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.h, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/resvic20.rc,
+	arch/win32/uiconsole.c, arch/win32/uigeoram.c,
+	arch/win32/uijoystick.c, arch/win32/uilib.c,
+	arch/win32/uimediafile.c, arch/win32/uiperipheral.c,
+	arch/win32/uiram.c, arch/win32/uirom.c,
+	arch/win32/uirs232.c, arch/win32/uisnapshot.c,
+	arch/win32/uisound.c, arch/win32/uispeed.c,
+	arch/win32/uivideo.c : Finished up the dialog step of the
+	win32 localization
+
+2005-04-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64mem.c, c64/ramcart.c, c64/ramcart.h: Ramcart fixes.
+
+2005-04-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/Makefile.am: Ethernet support libpcap fix.
+
 2005-04-12  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.5
+	* Version 1.16.5.
 
 	* arch/win32/intl.c: Fixed includes.
 
-2005-05-12  pottendo  <pottendo@utanet.at>
+2005-04-12  pottendo  <pottendo@utanet.at>
 
 	* info.c: Added Marco to contributors.
 
@@ -53,7 +92,7 @@
 
 2005-04-09  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.4
+	* Version 1.16.4.
 
 	* arch/unix/x11/xaw/uiscreenshot.c: #include "util.h".
 
@@ -68,7 +107,7 @@
 
 2005-03-28  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.3
+	* Version 1.16.3.
 
 	* arch/unix/rs232.c, arch/win32/rs232.c, rs232drv/rs232drv.c,
 	arch/unix/archdep.h, arch/win32/archdep.h: Moved resource and
@@ -116,7 +155,7 @@
 
 2005-03-12  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.16.2
+	* Version 1.16.2.
 
 	* arch/unix/x11/videoarch.h: Added patch suggested by Andreas
 	Jochens
