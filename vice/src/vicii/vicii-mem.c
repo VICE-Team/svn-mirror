@@ -57,6 +57,8 @@ extern void (*vic_ii_irq_handler)(int irq, int state, CLOCK clk);
 
 #define vic_ii_set_irq(irq, state) maincpu_set_irq(irq, state)
 
+static BYTE last_read_d019;
+
 /* ---------------------------------------------------------------------*/
 
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
@@ -381,6 +383,49 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
     }
 }
 
+void check_irq_line_state(unsigned int irq_line)
+{
+    unsigned int line;
+    unsigned int old_raster_irq_line;
+
+    if (irq_line == vic_ii.raster_irq_line)
+        return;
+
+    line = VIC_II_RASTER_Y(clk);
+
+    old_raster_irq_line = vic_ii.raster_irq_line;
+    vic_ii_set_raster_irq(irq_line);
+
+    if (vic_ii.regs[0x1a] & 0x1) {
+        int trigger_irq;
+
+        trigger_irq = 0;
+
+        if (rmw_flag) {
+            if (VIC_II_RASTER_CYCLE(clk) == 0) {
+                unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
+
+                if (previous_line != old_raster_irq_line
+                    && ((old_raster_irq_line & 0x100)
+                    == (previous_line & 0x100)))
+                    trigger_irq = 1;
+            } else {
+                if (line != old_raster_irq_line
+                    && (old_raster_irq_line & 0x100) == (line & 0x100))
+                    trigger_irq = 1;
+            }
+        }
+
+        if (vic_ii.raster_irq_line == line && line != old_raster_irq_line)
+            trigger_irq = 1;
+
+        if (trigger_irq) {
+            vic_ii.irq_status |= 0x81;
+            vic_ii_set_irq(I_RASTER, 1);
+        }
+    }
+}
+
 /* Here we try to emulate $D011...  */
 inline static void store_d011(ADDRESS addr, BYTE value)
 {
@@ -395,7 +440,12 @@ inline static void store_d011(ADDRESS addr, BYTE value)
                           cycle, line, value));
 
     new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
+
+#if 1
+    check_irq_line_state(new_irq_line);
+#else
     vic_ii_set_raster_irq(new_irq_line);
+#endif
 
     /* This is the funniest part... handle bad line tricks.  */
 
@@ -466,9 +516,6 @@ inline static void store_d011(ADDRESS addr, BYTE value)
 
 inline static void store_d012(ADDRESS addr, BYTE value)
 {
-    unsigned int line;
-    unsigned int old_raster_irq_line;
-
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - vic_ii.offset) & 255;
 
@@ -477,44 +524,12 @@ inline static void store_d012(ADDRESS addr, BYTE value)
     if (value == vic_ii.regs[addr])
         return;
 
-    line = VIC_II_RASTER_Y(clk);
     vic_ii.regs[addr] = value;
 
     VIC_II_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
                           vic_ii.raster_irq_line));
 
-    old_raster_irq_line = vic_ii.raster_irq_line;
-    vic_ii_set_raster_irq((vic_ii.raster_irq_line & 0x100) | value);
-
-    /* Check whether we should activate the IRQ line now.  */
-    if (vic_ii.regs[0x1a] & 0x1) {
-        int trigger_irq;
-
-        trigger_irq = 0;
-
-        if (rmw_flag) {
-            if (VIC_II_RASTER_CYCLE(clk) == 0) {
-                unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
-
-                if (previous_line != old_raster_irq_line
-                    && ((old_raster_irq_line & 0x100)
-                    == (previous_line & 0x100)))
-                    trigger_irq = 1;
-            } else {
-                if (line != old_raster_irq_line
-                    && (old_raster_irq_line & 0x100) == (line & 0x100))
-                    trigger_irq = 1; 
-            }
-        }
-
-        if (vic_ii.raster_irq_line == line && line != old_raster_irq_line)
-            trigger_irq = 1;
-
-        if (trigger_irq) {
-            vic_ii.irq_status |= 0x81;
-            vic_ii_set_irq(I_RASTER, 1);
-        }
-    }
+    check_irq_line_state((vic_ii.raster_irq_line & 0x100) | value);
 }
 
 inline static void store_d015(ADDRESS addr, BYTE value)
@@ -694,22 +709,23 @@ inline static void store_d018(ADDRESS addr, BYTE value)
 
 inline static void store_d019(ADDRESS addr, BYTE value)
 {
-    if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
-        vic_ii.irq_status = 0;
-        if (clk > vic_ii.raster_irq_clk) {
+    /* Emulates Read-Modify-Write behaviour. */
+    if (rmw_flag) {
+        vic_ii.irq_status &= ~((last_read_d019 & 0xf) | 0x80);
+        if (clk - 1 > vic_ii.raster_irq_clk) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
             alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
         }
-    } else {
-        vic_ii.irq_status &= ~((value & 0xf) | 0x80);
-        if (vic_ii.irq_status & vic_ii.regs[0x1a])
-            vic_ii.irq_status |= 0x80;
-        if ((value & 1) && clk >= vic_ii.raster_irq_clk) {
-            vic_ii.raster_irq_clk += vic_ii.screen_height
-                                     * vic_ii.cycles_per_line;
-            alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
-        }
+    }
+
+    vic_ii.irq_status &= ~((value & 0xf) | 0x80);
+    if (vic_ii.irq_status & vic_ii.regs[0x1a])
+        vic_ii.irq_status |= 0x80;
+    if ((value & 1) && clk > vic_ii.raster_irq_clk) {
+        vic_ii.raster_irq_clk += vic_ii.screen_height
+                                 * vic_ii.cycles_per_line;
+        alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
 
     /* Update the IRQ line accordingly...
@@ -1190,9 +1206,11 @@ inline static BYTE read_d019(void)
         /* As int_raster() is called 2 cycles later than it should be to
            emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
            have bit 0 set as it should.  */
-        return vic_ii.irq_status | 0x71;
+        last_read_d019 = vic_ii.irq_status | 0x71;
     else
-        return vic_ii.irq_status | 0x70;
+        last_read_d019 = vic_ii.irq_status | 0x70;
+
+    return last_read_d019;
 }
 
 /* Read a value from a VIC-II register.  */
