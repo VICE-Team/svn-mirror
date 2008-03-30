@@ -1,3 +1,39 @@
+2004-05-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.25.
+
+	* keyboard.h, joystick.h: Fixed declaration of `snapshot_s'.
+
+	* cbm2/cbm2mem.c: Added SID patch contributed by Marco van den
+	Heuvel.
+
+2004-05-20  Roberto Muscedere  <cococommie@cogeco.ca>
+
+	* serial/fsdrive.c: Removed EOF buffering in fsdrive_read();
+	all *(p->getf) functions must return SERIAL_EOF on last byte
+	now
+
+	* parallel/parallel-trap.c: Removed EOF in
+	parallelreceivebyte();
+	all *(p->getf) functions must return SERIAL_EOF on last byte
+	now
+
+	* fsdevice/fsdevicetypes.h: Added 1-byte read ahead buffering
+	variables to struct fs_buffer_info_s
+
+	* fsdevice/fsdevice-read.c: Added 1-byte read ahead buffering
+	in command_read() to present CBM EOF on last byte (for
+	serial/fsdrive.c)
+
+	* fsdevice/fsdevice-open.c: Added 1-byte read ahead buffering
+	initialisation to fsdevice_open_file()
+
+	* vdrive/vdrive-iec.c: Modified iec_read_sequential() to send
+	CBM EOF with last byte
+
+	* vdrive/vdrive-iec.c: Modified vdrive_iec_read() to send CBM
+	EOF with last byte
+
 2004-05-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.24.
