@@ -417,11 +417,11 @@ inline static int do_matrix_fetch(CLOCK sub)
         vic_ii.memory_fetch_done = 1;
         vic_ii.mem_counter = vic_ii.memptr;
 
-        if ((raster->current_line & 7) == (unsigned int) raster->ysmooth
+        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
             && vic_ii.allow_bad_lines
             && raster->current_line >= vic_ii.first_dma_line
             && raster->current_line <= vic_ii.last_dma_line) {
-            vic_ii_fetch_matrix (0, VIC_II_SCREEN_TEXTCOLS);
+            vic_ii_fetch_matrix(0, VIC_II_SCREEN_TEXTCOLS);
 
             raster->draw_idle_state = 0;
             raster->ycounter = 0;
@@ -1224,7 +1224,7 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
     } else {
         int fetch_done;
 
-        fetch_done = do_matrix_fetch (sub);
+        fetch_done = do_matrix_fetch(sub);
 
         /* Sprites might be turned on, check for sprite DMA next
            time.  */
@@ -1261,9 +1261,9 @@ inline static void swap_sprite_data_buffers(void)
 
 inline static int handle_check_sprite_dma(long offset, CLOCK sub)
 {
-    swap_sprite_data_buffers ();
+    swap_sprite_data_buffers();
 
-    check_sprite_dma ();
+    check_sprite_dma();
 
     /* FIXME?  Slow!  */
     vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK (clk)
@@ -1413,9 +1413,9 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
           default:
             /* In all the other opcodes, all the write accesses are the last
                ones.  */
-            if (maincpu_num_write_cycles () != 0) {
+            if (maincpu_num_write_cycles() != 0) {
                 last_opcode_last_write_clk = clk - 1;
-                last_opcode_first_write_clk = clk - maincpu_num_write_cycles ();
+                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
             } else {
                 last_opcode_first_write_clk = (CLOCK) 0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
@@ -1447,7 +1447,7 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
             break;
 
           case VIC_II_CHECK_SPRITE_DMA:
-            leave = handle_check_sprite_dma (offset, sub);
+            leave = handle_check_sprite_dma(offset, sub);
             break;
 
           case VIC_II_FETCH_SPRITE:
