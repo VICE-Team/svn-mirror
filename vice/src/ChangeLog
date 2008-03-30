@@ -1,3 +1,51 @@
+2004-02-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.1.
+
+	* screenshot.c: Fixed warning.
+
+	* fileio/p00.c (p00_compare_wildcards): Removed.
+
+	* vdrive/vdrive-iec.c, vdrive/vdrive-iec.h, machine-bus.c,
+	machine-bus.h, serial.h, cbmdos.h, fsdevice/fsdevice-open.c,
+	fsdevice/fsdevice-open.h, printerdrv/interface-serial.c:
+	Changed some prototypes.
+
+	* vdrive/vdrive-dir.c, vdrive/vdrive.h (vdrive_dir_name_match,
+	vdrive_dir_find_first_slot): Use CBMDOS API.
+
+	* cbmdos.c (cbmdos_parse_wildcard_compare): Also return match
+	if both slots reach 0xa0.
+
+	* diskimage/fsimage-create.c (fsimage_create_gcr): Minor
+	cleanups.
+
+	* arch/unix/x11/xaw/uiedisk.c (save_callback): Fixed number of
+	formats.
+
+	* vdrive/vdrive-command.c (vdrive_command_validate): Fixed old
+	BAM define.
+
+	* diskimage/fsimage-check.c, diskimage/fsimage-check.h
+	(fsimage_check_sector): Take image struct.
+
+	* diskimage/diskimage.c (disk_image_check_sector): Pass image
+	struct to `fsimage_check_sector()'.
+
+	* diskimage/fsimage-check.c (fsimage_check_sector): Added G64
+	case.
+
+2004-01-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* screenshot.h, screenshot.c: New functions
+	screenshot_prepare_reopen, screenshot_try_reopen.
+	(screenshot_save): Remeber filename, drivername and canvas
+	for the *_reopen function.
+
+	* sid/sid-snapshot.c: Include screeshot.h.
+	(sid_snapshot_read_module_simple): Try to reopen the
+	screenshot.
+
 2004-01-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.

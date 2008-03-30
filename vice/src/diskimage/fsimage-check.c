@@ -31,7 +31,7 @@
 #include "fsimage-check.h"
 
 
-int fsimage_check_sector(unsigned int format, unsigned int track,
+int fsimage_check_sector(disk_image_t *image, unsigned int track,
                          unsigned int sector)
 {
     unsigned int sectors = 0, i;
@@ -39,7 +39,7 @@ int fsimage_check_sector(unsigned int format, unsigned int track,
     if (track < 1)
         return -1;
 
-    switch (format) {
+    switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_X64:
         if (track > MAX_TRACKS_1541 || sector
@@ -94,6 +94,14 @@ int fsimage_check_sector(unsigned int format, unsigned int track,
             return -1;
         for (i = 1; i < track; i++)
             sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
+        sectors += sector;
+        break;
+      case DISK_IMAGE_TYPE_G64:
+        if (track > image->tracks || track > MAX_TRACKS_1541 || sector
+            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
+            return -1;
+        for (i = 1; i < track; i++)
+            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
         sectors += sector;
         break;
       default:

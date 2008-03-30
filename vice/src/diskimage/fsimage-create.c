@@ -46,7 +46,7 @@
 static log_t createdisk_log = LOG_DEFAULT;
 
 
-static int disk_image_create_gcr(disk_image_t *image)
+static int fsimage_create_gcr(disk_image_t *image)
 {
     BYTE gcr_header[12], gcr_track[7930], *gcrptr;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
@@ -127,6 +127,7 @@ int fsimage_create(const char *name, unsigned int type)
     unsigned int size, i;
     BYTE block[256];
     fsimage_t *fsimage;
+    int rc = 0;
 
     size = 0;
 
@@ -214,22 +215,13 @@ int fsimage_create(const char *name, unsigned int type)
                 log_error(createdisk_log,
                           "Cannot seek to end of disk image `%s'.",
                           fsimage->name);
-                fclose(fsimage->fd);
-                lib_free(fsimage->name);
-                lib_free(fsimage);
-                lib_free(image);
-                return -1;
+                rc = -1;
+                break;
             }
         }
         break;
       case DISK_IMAGE_TYPE_G64:
-        if (disk_image_create_gcr(image) < 0) {
-            fclose(fsimage->fd);
-            lib_free(fsimage->name);
-            lib_free(fsimage);
-            lib_free(image);
-            return -1;
-        }
+        rc = fsimage_create_gcr(image);
         break;
     }
 
@@ -237,7 +229,7 @@ int fsimage_create(const char *name, unsigned int type)
     lib_free(fsimage->name);
     lib_free(fsimage);
     lib_free(image);
-    return 0;
+    return rc;
 }
 
 void fsimage_create_init(void)
