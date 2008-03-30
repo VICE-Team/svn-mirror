@@ -264,6 +264,7 @@ extern int mon_assemble_instr(char *opcode_name, unsigned operand);
 
 extern void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr);
 extern void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y);
+extern void mon_display_screen(void);
 extern void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest);
 extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest);
 extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);

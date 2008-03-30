@@ -113,10 +113,14 @@ static void mmu_toggle_column4080_key(void)
 static void mmu_switch_cpu(int value)
 {
     if (value) {
+#ifdef MMU_DEBUG
         log_message(mmu_log, "Switching to 8502 CPU.");
+#endif
         z80_trigger_dma();
     } else {
+#ifdef MMU_DEBUG
         log_message(mmu_log, "Switching to Z80 CPU.");
+#endif
         maincpu_trigger_dma();
     }
 }

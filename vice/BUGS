@@ -17,9 +17,6 @@ These are the most important known problems with VICE 1.2:
 - The VIC-I chip in xvic still lacks important features and is still
   under construction.
 
-- The CRTC chip in xpet and x610 lacks some advanced features and
-  is still under construction.
-
 - Changing the REU image name via resource files has no effect until
   exiting.
 
@@ -40,4 +37,7 @@ These are the most important known problems with VICE 1.2:
 
 - The MS-DOS port of the C610 emulator lacks C610 specific UI controls.
   Use the command line to change C610 specific settings.
+
+- When running the burn-in and diagnostics test of the 8296 system disk
+  on "xpet -model 8296" a lot of stuff fails.
 

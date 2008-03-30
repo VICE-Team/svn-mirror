@@ -544,9 +544,9 @@ int parallelreceivebyte(BYTE * data, int fake)
 
     if (parallel_debug)
 	log_message(serial_log,
-                    "receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
+                    "receive: sa=%02x lastb = %02x (data=%02x),  ok=%s, st=%04x, nextb = %02x, "
                     "ok=%s, st=%04x.", secadr,
-                    p->lastbyte[secadr], p->lastok[secadr] ? "ok" : "no",
+                    p->lastbyte[secadr], (int)*data, p->lastok[secadr] ? "ok" : "no",
                     p->lastst[secadr],
                     p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
                     p->nextst[secadr]);

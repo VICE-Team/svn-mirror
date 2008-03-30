@@ -24,6 +24,18 @@ list of all the changes in the code.
 - The machine can boot up in Z80 mode now.  However CP/M does not work
   currently.
 
+** PET changes
+---------------
+
+- The CRTC emulation has been made pretty cycle-exact. You can now
+  use timed raster effects.
+
+** CBM-II changes
+---------------
+
+- The CRTC emulation has been made pretty cycle-exact. You can now
+  use timed raster effects.
+
 ** Drive changes
 ----------------
 

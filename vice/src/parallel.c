@@ -181,6 +181,12 @@ static void ResetBus(void) {
  * transition functions for the state engine
  */
 
+/* ignoreown should ignore the transition only when it is initiated
+ * by the virtual IEEE488 device itself. This is not yet implemented,
+ * so we just ignore all of em */
+
+#define	ignoreown	ignore	
+
 static void ignore(int i) {}
 
 static void unexpected(int trans) {
@@ -248,7 +254,7 @@ static void In1_ndaclo(int tr) {
 }
 
 static void In1_nrfdlo(int tr) {
-	if(!parallel_atn) unexpected(tr);
+	if(!parallel_atn) ignoreown(tr);
 }
 
 
@@ -296,6 +302,7 @@ static void Out1_nrfdhi(int tr) {
 	static BYTE b;
 
 	par_status = parallelreceivebyte(&b, 1);
+	parallel_emu_set_bus(b ^ 0xff);
 
 	if(par_status & 0x40) {
 	  parallel_emu_set_eoi(1);
@@ -330,6 +337,7 @@ static void Out2_ndachi(int tr) {
 	parallel_emu_set_bus(0xff);
 
 	par_status = parallelreceivebyte(&b, 0);
+
 	if(par_status & 0xff) {
 	  ResetBus();
 	  Go(WaitATN);
@@ -345,12 +353,12 @@ static void Out2_ndachi(int tr) {
 
 static State_t State[NSTATE] = {
 	{ "WaitATN", 	{ WATN_atnlo,  ignore, 	   ignore,     ignore,     ignore,      ignore,       ignore,       ignore } },
-	{ "In1", 	{ In1_atnlo,   In1_atnhi,  In1_davlo,  unexpected, In1_ndaclo,  unexpected,   In1_nrfdlo,   In1_nrfdhi } },
-	{ "In2", 	{ In2_atnlo,   In2_atnhi,  unexpected, In2_davhi,  unexpected,  unexpected,   unexpected,   unexpected } },
+	{ "In1", 	{ In1_atnlo,   In1_atnhi,  In1_davlo,  unexpected, In1_ndaclo,  ignoreown,    In1_nrfdlo,   In1_nrfdhi } },
+	{ "In2", 	{ In2_atnlo,   In2_atnhi,  unexpected, In2_davhi,  ignoreown,   unexpected,   unexpected,   ignoreown } },
 	{ "OldPet", 	{ OPet_atnlo,  unexpected, unexpected, unexpected, OPet_ndaclo, unexpected,   OPet_nrfdlo,   unexpected } },
-	{ "Out1", 	{ Out1_atnlo,  unexpected, unexpected, unexpected, ignore,      unexpected,   unexpected,   Out1_nrfdhi } },
+	{ "Out1", 	{ Out1_atnlo,  unexpected, ignoreown,  unexpected, ignore,      unexpected,   unexpected,   Out1_nrfdhi } },
 	{ "Out1a", 	{ Out1a_atnlo, unexpected, unexpected, unexpected, unexpected,  Out1a_ndachi, Out1a_nrfdlo, unexpected } },
-	{ "Out2", 	{ Out2_atnlo,  unexpected, unexpected, unexpected, unexpected,  Out2_ndachi,  unexpected,   unexpected } }
+	{ "Out2", 	{ Out2_atnlo,  unexpected, unexpected, ignoreown,  unexpected,  Out2_ndachi,  unexpected,   unexpected } }
 };
 
 /**************************************************************************
