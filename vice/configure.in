@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.2)
+AM_INIT_AUTOMAKE(vice, 1.13.3)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -36,13 +36,13 @@ AC_ARG_ENABLE(realdevice,[  --disable-realdevice      disables access to real pe
 
 
 if test x"$enable_gnomeui" = "xyes" ; then
-  AC_DEFINE(USE_GNOMEUI)
+  AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
 fi
 
 AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 
 if test x"$enable_textfield" != "xno"; then
-  AC_DEFINE(ENABLE_TEXTFIELD)
+  AC_DEFINE(ENABLE_TEXTFIELD,,[Enable support for the TextField widget.])
   echo "using TextField widget."
 else
   echo "using ugly Athena text widget."
@@ -71,7 +71,8 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   is_dos=yes
 
   if test x"$with_midas" = "xyes" ; then
-      AC_DEFINE(USE_MIDAS_SOUND)
+      AC_DEFINE(USE_MIDAS_SOUND,,
+                [Use MIDAS Sound System instead of the Allegro library.])
       LIBMIDAS="-lmidas"
       echo "configuring support for MIDAS Sound System"
   else
@@ -83,9 +84,9 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
   dnl We always have a joystick and mouse on MSDOS.
-  AC_DEFINE(HAS_JOYSTICK)
-  AC_DEFINE(HAVE_MOUSE)
-  AC_DEFINE(HAS_SINGLE_CANVAS)
+  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
 
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
 
@@ -95,20 +96,21 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   is_win32=yes
 
-  AC_DEFINE(HAS_JOYSTICK)
-  AC_DEFINE(HAVE_MOUSE)
+  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
-  AC_DEFINE(HAVE_CATWEASELMKIII)
-  AC_DEFINE(HAVE_HARDSID)
-  AC_DEFINE(HAVE_TFE)
+  AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+  AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+  AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
 
   AC_TRY_LINK([#include <windows.h>],
               [LARGE_INTEGER li; return (int) li.QuadPart],
-              AC_DEFINE(HAS_LONGLONG_INTEGER),)
+              AC_DEFINE(HAS_LONGLONG_INTEGER,,
+                [Support 64bit integer for Win32 performance counter]),)
   AC_TRY_LINK([#include <windows.h>],
               [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
-              AC_DEFINE(HAS_UNLOCKRESOURCE),)
+              AC_DEFINE(HAS_UNLOCKRESOURCE,,[Do we have UnlockResource()?]),)
 
 elif test x"$host_os" = "xbeos"; then
 
@@ -118,8 +120,8 @@ elif test x"$host_os" = "xbeos"; then
 
   is_beos=yes
 
-  AC_DEFINE(HAS_JOYSTICK)
-  AC_DEFINE(HAVE_MOUSE)
+  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
@@ -180,12 +182,12 @@ else
   is_beos=no
 
   dnl This is only possible on Unix (for now).
-  AC_DEFINE(HAVE_RS232)
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
   AM_CONDITIONAL(HAVE_RS232, true)
-  AC_DEFINE(HAVE_RAWDRIVE)
+  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
-  AC_DEFINE(USE_COLOR_MANAGEMENT)
+  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
@@ -405,7 +407,7 @@ else
     LINKCC='$(CXX)'
   fi
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
-    AC_DEFINE(HAVE_RESID)
+    AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
     AC_CONFIG_SUBDIRS(src/resid)
     RESID_DIR=resid
     RESID_LIBS="\$(top_builddir)/src/resid/libresid.a"
@@ -426,7 +428,7 @@ else
                     [],
                     AC_MSG_ERROR([reSID header file not found]))
 
-    AC_DEFINE(HAVE_RESID)
+    AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
     RESID_DIR=
     RESID_LIBS="$with_resid/lib/libresid.a"
     RESID_INCLUDES="-I$with_resid/include"
@@ -490,19 +492,22 @@ dnl Check for system-specific header files.
 
 if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
   AC_CHECK_HEADER(linux/joystick.h,
-                  [ AC_DEFINE(HAS_JOYSTICK)
-                    AC_DEFINE(LINUX_JOYSTICK)
+                  [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                    AC_DEFINE(LINUX_JOYSTICK,,
+                              [Enable support for Linux style joysticks.])
                     JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
     AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
     AC_TRY_COMPILE([ #include <linux/joystick.h> ],
                    [ struct DJS_DATA_TYPE djs; ],
-                   [ AC_DEFINE(HAS_DIGITAL_JOYSTICK)
+                   [ AC_DEFINE(HAS_DIGITAL_JOYSTICK,,
+                               [Enable emulation for digital joysticks.])
                      AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
   fi
   AC_CHECK_HEADER(machine/joystick.h,
-                  [ AC_DEFINE(HAS_JOYSTICK)
-                    AC_DEFINE(BSD_JOYSTICK)
+                  [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                    AC_DEFINE(BSD_JOYSTICK,,
+                              [Enable support for BSD style joysticks.])
                     JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   AC_SUBST(JOY_OBJS)
 
@@ -514,11 +519,11 @@ SOUND_DRIVERS=""
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes"; then
 
-AC_CHECK_HEADERS(cwsid.h,
-                 AC_DEFINE(HAVE_CATWEASELMKIII), )
+AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,
+                 [Support for Catweasel MKIII.]), )
 
 if test x"$with_arts" = "xyes"; then
-	AC_DEFINE(USE_ARTS)
+	AC_DEFINE(USE_ARTS,,[Enable aRts support.])
 	CFLAGS="$CFLAGS `artsc-config --cflags`"
 	LIBS="$LIBS `artsc-config --libs`"
 	SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"
@@ -630,11 +635,13 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes";
                 "-lcurses",)
       else
         AC_CHECK_LIB(readline, rl_readline_name,
-                     [ AC_DEFINE(HAVE_RLNAME) ],,)
+          [ AC_DEFINE(HAVE_RLNAME,,
+            [Does the `readline' library support `rl_readline_name'?]) ],,)
       fi
     else
       AC_CHECK_LIB(readline, rl_readline_name,
-                   [ AC_DEFINE(HAVE_RLNAME) ],,)
+        [ AC_DEFINE(HAVE_RLNAME,,
+          [Does the `readline' library support `rl_readline_name'?]) ],,)
     fi
   else
     READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
@@ -652,7 +659,8 @@ AC_CHECK_HEADER(zlib.h,,)
 if test x"$ac_cv_header_zlib_h" = "xyes" ; then
   AC_CHECK_LIB(z, zlibVersion,
                [ LIBS="-lz $LIBS";
-                 AC_DEFINE(HAVE_ZLIB) ],,)
+                 AC_DEFINE(HAVE_ZLIB,,
+                           [Can we use the ZLIB compression library?]) ],,)
 fi
 
 dnl Configure graphics output drivers
@@ -667,13 +675,14 @@ if test x"$is_dos" != "xyes" -a x"$is_beos" != "xyes"; then
     AC_CHECK_LIB(png, png_check_sig,
                  [ LIBS="-lpng $LIBS";
                    GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                   AC_DEFINE(HAVE_PNG) ],,)
+                   AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
     if test "$ac_cv_lib_png_png_check_sig" = "no"; then
       unset ac_cv_lib_png_png_check_sig
       AC_CHECK_LIB(png, png_check_sig,
                    [ LIBS="-lpng -lz $LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                     AC_DEFINE(HAVE_PNG) ],,"-lz")
+                     AC_DEFINE(HAVE_PNG,,
+                               [Can we use the PNG library?]) ],,"-lz")
     fi
   fi
 fi
@@ -717,7 +726,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   AC_CHECK_LIB(Xv, XvQueryExtension,
                [ X_LIBS="-lXv $X_LIBS";
                  LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_XVIDEO) ],,$X_LIBS)
+                 AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
 
   AC_CHECK_LIB(Xt, XtToolkitInitialize,
                [ X_LIBS="-lXt $X_LIBS";
@@ -747,14 +756,15 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   AC_CHECK_HEADER(X11/extensions/XShm.h,,)
   if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
     AC_CHECK_LIB(Xext, XShmPutImage,
-                 [ AC_DEFINE(USE_MITSHM) ],,$X_LIBS)
+                 [ AC_DEFINE(USE_MITSHM,,
+                             [Enable MITSHM extensions.]) ],,$X_LIBS)
   fi
 
 
   AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,
                [ X_LIBS="-lXpm $X_LIBS";
                  LINK_X_LIBS="-lXpm $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_LIBXPM) ],,$X_LIBS)
+                 AC_DEFINE(HAVE_LIBXPM,,[Is libXpm available?]) ],,$X_LIBS)
 
   if test x"$MISSING_X_LIBS" != "x"; then
     echo
@@ -774,8 +784,10 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                    [ X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-                     AC_DEFINE(USE_XF86_VIDMODE_EXT)
-		     AC_DEFINE(USE_XF86_EXTENSIONS)],,$X_LIBS)
+                     AC_DEFINE(USE_XF86_VIDMODE_EXT,,
+                               [Enable XF86 VidMode extensions.])
+		     AC_DEFINE(USE_XF86_EXTENSIONS,,
+                               [Enable XF86 extensions.])],,$X_LIBS)
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
         AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
@@ -783,8 +795,10 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                        [ X_LIBS="-lXxf86dga $X_LIBS";
                          LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                          FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         AC_DEFINE(USE_XF86_EXTENSIONS)
-                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS)],,$X_LIBS)
+                         AC_DEFINE(USE_XF86_EXTENSIONS,,
+                                   [Enable XF86 extensions.])
+                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS,,
+                                   [Enable XF86 DGA1 extensions.])],,$X_LIBS)
         fi
       fi
     fi
@@ -794,8 +808,9 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                    [ X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
 		     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-		     AC_DEFINE(USE_XF86_EXTENSIONS)
-		     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS)],,$X_LIBS)
+		     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+		     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
+                               [Enable XF86 DGA2 extensions.])],,$X_LIBS)
     fi
   fi
   AC_SUBST(FULLSCREEN_DRIVERS)
@@ -805,7 +820,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   LIBS="$LIBS -lm"
 
   dnl We always have a mouse on UNIX.
-  AC_DEFINE(HAVE_MOUSE)
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
 
 elif [[ x"$is_dos" != "xno" ]]; then
 
@@ -827,14 +842,17 @@ elif [[ x"$is_win32" != "xno" ]]; then
 
   LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32"
 
-  AC_CHECK_LIB(dxguid, GUID_SysMouse,[LIBS="$LIBS -ldxguid"; AC_DEFINE(HAVE_GUIDLIB)],,$LIBS)
+  AC_CHECK_LIB(dxguid, GUID_SysMouse,[LIBS="$LIBS -ldxguid";
+               AC_DEFINE(HAVE_GUIDLIB,,
+                         [Is the GUID lib of DX SDK present?])],,$LIBS)
 
   AC_MSG_CHECKING([whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers])
   AC_TRY_COMPILE([#include <windows.h>
 extern DWORD test;
 unsigned long test; ],
                  ,
-                 [ AC_DEFINE(DWORD_IS_LONG)
+                 [ AC_DEFINE(DWORD_IS_LONG,,
+                   [Is DWORD defined as long or int in the Windows header files?])
                    AC_MSG_RESULT(unsigned long) ], AC_MSG_RESULT(unsigned int))
 
   x64_LDFLAGS="-mwindows"
@@ -864,17 +882,17 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
   LIBS="${LIBS} `gnome-config --libs gnomeui`"
 
   dnl We always have a mouse on UNIX/Gnome.
-  AC_DEFINE(HAVE_MOUSE)
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
 
   dnl Check for XFree86 header and library extensions.
 
   AC_CHECK_LIB(Xv, XvQueryExtension,
                [ X_LIBS="-lXv $X_LIBS";
                  LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_XVIDEO) ],,$X_LIBS)
+                 AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
 
   AC_CHECK_LIB(Xext, XShmQueryExtension,
-               [ AC_DEFINE(USE_MITSHM) ],,$X_LIBS)
+               [ AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
 
   dnl Check for XFree86 header and library extensions.
   FULLSCREEN_DRIVERS=""
@@ -885,8 +903,10 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
                    [ X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-                     AC_DEFINE(USE_XF86_VIDMODE_EXT)
-                     AC_DEFINE(USE_XF86_EXTENSIONS)],,$X_LIBS)
+                     AC_DEFINE(USE_XF86_VIDMODE_EXT,,
+                               [Enable XF86 VidMode extensions.])
+                     AC_DEFINE(USE_XF86_EXTENSIONS,,
+                               [Enable XF86 extensions.])],,$X_LIBS)
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
         AC_CHECK_HEADER(X11/extensions/xf86dga.h,,)
         if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
@@ -894,8 +914,10 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
                        [ X_LIBS="-lXxf86dga $X_LIBS";
                          LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                          FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         AC_DEFINE(USE_XF86_EXTENSIONS)
-                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS)],,$X_LIBS)
+                         AC_DEFINE(USE_XF86_EXTENSIONS,,
+                                   [Enable XF86 extensions.])
+                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS,,
+                                   [Enable XF86 DGA1 extensions.])],,$X_LIBS)
         fi
       fi
     fi
@@ -905,8 +927,9 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
                    [ X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-                     AC_DEFINE(USE_XF86_EXTENSIONS)
-                     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS)],,$X_LIBS)
+                     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+                     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
+                               [Enable XF86 DGA2 extensions.])],,$X_LIBS)
     fi
   fi
   AC_SUBST(FULLSCREEN_DRIVERS)
@@ -919,7 +942,8 @@ if test x"$enable_realdevice" != x"no"; then
   if test x"$ac_cv_header_opencbm_h" = "xyes" ; then
     AC_CHECK_LIB(opencbm, cbm_get_eoi,
                  [ LIBS="$LIBS -lopencbm";
-                   AC_DEFINE(HAVE_OPENCBM) ],,)
+                   AC_DEFINE(HAVE_OPENCBM,,
+                             [Support for OpenCBM (former CBM4Linux).]) ],,)
   fi
 fi
 
@@ -956,7 +980,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
-  AC_DEFINE(HAVE_READLINE)
+  AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
 elif [[ x"$is_win32" != "xno" ]]; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"

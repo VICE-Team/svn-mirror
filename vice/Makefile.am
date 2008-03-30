@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = po src data man doc
+SUBDIRS = $(POSUB) src data man doc
 
 EXTRA_DIST = AUTHORS FEEDBACK COPYING INSTALL NEWS acconfig.h vice.spec
 

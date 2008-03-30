@@ -70,10 +70,10 @@ int catweaselmkiii_open(void)
 
     /* if no device is currently opened */
     if (sidfh < 0) {
-        sidfh = open("/dev/sid", O_WRONLY);
+        sidfh = open("/dev/sid", O_RDWR);
 
         if (sidfh < 0)
-            sidfh = open("/dev/misc/sid", O_WRONLY);
+            sidfh = open("/dev/misc/sid", O_RDWR);
 
 	/* could not open at standard locations: error */
         if (sidfh < 0) {
@@ -168,4 +168,3 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 }
 
 #endif
-

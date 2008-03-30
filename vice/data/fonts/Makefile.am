@@ -6,7 +6,7 @@ fonts_DATA = \
 
 EXTRA_DIST = $(fonts_DATA)
 
-install: 
+install: install-data-am
 	@echo "Preparing fontdir..." ; \
 	cd $(prefix)/lib/vice/fonts ; \
 	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \

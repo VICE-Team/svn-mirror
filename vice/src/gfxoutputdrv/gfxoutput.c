@@ -84,7 +84,7 @@ int gfxoutput_init(void)
 #if 1
     gfxoutput_init_bmp();
 #endif
-#if HAVE_PNG
+#ifdef HAVE_PNG
     gfxoutput_init_png();
 #endif
     return 0;

@@ -492,9 +492,8 @@ void raster_shutdown(raster_t *raster)
 
     lib_free(raster->fake_draw_buffer_line);
 
-    video_canvas_destroy(raster->canvas);
-
     video_color_palette_free(raster->canvas->palette);
+    video_canvas_destroy(raster->canvas);
     raster_destroy_raster(raster);
 }
 

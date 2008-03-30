@@ -1,3 +1,20 @@
+2003-10-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.3
+
+	* configure.in, acconfig.h: Moved many definitions to
+	`configure.in'.
+
+2003-09-28  pottendo  <pottendo@utanet.at>
+
+	* data/fonts/Makefile.am (install): Added missing dependency
+	for installing the font data files. Fixes build-bug report by
+	A. Saari.
+
+	* Makefile.am (SUBDIRS): Replaces unconditional `po' by
+	$(POSUB). This is filled with `po' in case NLS is activated.
+	Fixes build-bug report by A. Saari.
+
 2003-09-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.2

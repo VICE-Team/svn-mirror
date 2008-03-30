@@ -1,10 +1,4 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
-/* Define if we want to use aRts */
-#undef USE_ARTS
-
-/* Define if you want to use Rober W. McMullen's TextField widget.  */
-#undef ENABLE_TEXTFIELD
-
 /* The number of bytes in an unsigned long.  */
 #undef SIZEOF_UNSIGNED_LONG
 
@@ -14,81 +8,8 @@
 /* The number of bytes in an unsigned short.  */
 #undef SIZEOF_UNSIGNED_SHORT
 
-/* Do we use MITSHM extensions?  */
-#undef USE_MITSHM
-
-/* Is libXv available?  */
-#undef HAVE_XVIDEO
-
-/* Is libXpm available?  */
-#undef HAVE_LIBXPM
-
-/* Do we want to use XFree86 fullscreen extensions?  */
-#undef USE_XF86_EXTENSIONS
-
-/* Do we want to use XFree86 VIDMODE ?  */
-#undef USE_XF86_VIDMODE_EXT
-
-/* Do we want to use XFree86 DGA1 extensions?  */
-#undef USE_XF86_DGA1_EXTENSIONS
-
-/* Do we want to use XFree86 DGA2 extensions?  */
-#undef USE_XF86_DGA2_EXTENSIONS
-
-/* Are we using the `readline' library or one replacement?  */
-#undef HAVE_READLINE
-
-/* Does the `readline' library support `rl_readline_name'?  */
-#undef HAVE_RLNAME
-
-/* Are we using the gnomeui  */
-#undef USE_GNOMEUI
-
-/* Do we want to enable RS232 support via ACIA emulation?  */
-#undef HAVE_RS232
-
-/* Do we want to enable the ReSID code support?  */
-#undef HAVE_RESID
-
-/* Do we support a 1351 mouse?  */
-#undef HAVE_MOUSE
-
-/* Do you want to use MIDAS Sound System instead of Allegro for sound
-   playback?  */
-#undef USE_MIDAS_SOUND
-
-/* Do we have to emulate a joystick?  */
-#undef HAS_JOYSTICK
-
-/* Is digital joystick support avaiable?  */
-#undef HAS_DIGITAL_JOYSTICK
-
-/* Is a Linux compatible joystick support avaiable?  */
-#undef LINUX_JOYSTICK
-
-/* Is a BSD compatible joystick support avaiable?  */
-#undef BSD_JOYSTICK
-
 /* Where do we want to install the executable?  */
 #undef PREFIX
-
-/* Is only one canvas supported?  */
-#undef HAS_SINGLE_CANVAS
-
-/* Is the GUID lib of DX SDK present? */
-#undef HAVE_GUIDLIB
-
-/* Is DWORD defined as long or int in the Windows header files? */
-#undef DWORD_IS_LONG
-
-/* Can we use the PNG library? */
-#undef HAVE_PNG
-
-/* Can we use the ZLIB compression library? */
-#undef HAVE_ZLIB
-
-/* Do we want to use the new color management code? */
-#undef USE_COLOR_MANAGEMENT
 
 /* gettext stuff */
 #undef ENABLE_NLS
@@ -100,34 +21,39 @@
 #undef DATADIRNAME
 #undef NLS_LOCALEDIR
 
-/* 64bit integer for Win32 performance counter */
+
+/* Enable support for BSD style joysticks. */
+#undef BSD_JOYSTICK
+
+/* Is DWORD defined as long or int in the Windows header files? */
+#undef DWORD_IS_LONG
+
+/* Enable support for the TextField widget. */
+#undef ENABLE_TEXTFIELD
+
+/* Enable emulation for digital joysticks. */
+#undef HAS_DIGITAL_JOYSTICK
+
+/* Enable joystick emulation. */
+#undef HAS_JOYSTICK
+
+/* Support 64bit integer for Win32 performance counter */
 #undef HAS_LONGLONG_INTEGER
 
-/* Do we have UnlockResource()? Some mingw32 header do not provide this
-   function. */
+/* Is only one canvas supported? */
+#undef HAS_SINGLE_CANVAS
+
+/* Do we have UnlockResource()? */
 #undef HAS_UNLOCKRESOURCE
-
-/* Support for OpenCBM (former CBM4Linux) */
-#undef HAVE_OPENCBM
-
-/* Support for block device disk image access */
-#undef HAVE_RAWDRIVE
-
-/* Support for Catweasel MKIII */
-#undef HAVE_CATWEASELMKIII
-
-/* Support for HardSID */
-#undef HAVE_HARDSID
-
-/* Support for The final Ethernet */
-#undef HAVE_TFE
-
 
 /* Define to 1 if you have the <allegro.h> header file. */
 #undef HAVE_ALLEGRO_H
 
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
+
+/* Support for Catweasel MKIII. */
+#undef HAVE_CATWEASELMKIII
 
 /* Define to 1 if you have the <commctrl.h> header file. */
 #undef HAVE_COMMCTRL_H
@@ -167,6 +93,12 @@
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
+/* Is the GUID lib of DX SDK present? */
+#undef HAVE_GUIDLIB
+
+/* Support for HardSID. */
+#undef HAVE_HARDSID
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -191,6 +123,9 @@
 /* Define to 1 if you have the `UMSobj' library (-lUMSobj). */
 #undef HAVE_LIBUMSOBJ
 
+/* Is libXpm available? */
+#undef HAVE_LIBXPM
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
@@ -209,14 +144,38 @@
 /* Define to 1 if you have the <midasdll.h> header file. */
 #undef HAVE_MIDASDLL_H
 
+/* Enable 1351 mouse support */
+#undef HAVE_MOUSE
+
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
+
+/* Support for OpenCBM (former CBM4Linux). */
+#undef HAVE_OPENCBM
+
+/* Can we use the PNG library? */
+#undef HAVE_PNG
+
+/* Support for block device disk image access. */
+#undef HAVE_RAWDRIVE
+
+/* Are we using the readline library replacement? */
+#undef HAVE_READLINE
 
 /* Define to 1 if you have the <regexp.h> header file. */
 #undef HAVE_REGEXP_H
 
 /* Define to 1 if you have the <regex.h> header file. */
 #undef HAVE_REGEX_H
+
+/* This version provides ReSID support. */
+#undef HAVE_RESID
+
+/* Does the `readline' library support `rl_readline_name'? */
+#undef HAVE_RLNAME
+
+/* Enable RS232 emulation. */
+#undef HAVE_RS232
 
 /* Define to 1 if you have the <SDL/SDL_audio.h> header file. */
 #undef HAVE_SDL_SDL_AUDIO_H
@@ -283,6 +242,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Support for The final Ethernet. */
+#undef HAVE_TFE
+
 /* Define to 1 if you have the <UMS/UMSAudioDevice.h> header file. */
 #undef HAVE_UMS_UMSAUDIODEVICE_H
 
@@ -312,6 +274,15 @@
 
 /* Define to 1 if you have the <X11/xpm.h> header file. */
 #undef HAVE_X11_XPM_H
+
+/* Enable XVideo support. */
+#undef HAVE_XVIDEO
+
+/* Can we use the ZLIB compression library? */
+#undef HAVE_ZLIB
+
+/* Enable support for Linux style joysticks. */
+#undef LINUX_JOYSTICK
 
 /* Name of package */
 #undef PACKAGE
@@ -354,6 +325,33 @@
 
 /* Define if this version is unstable. */
 #undef UNSTABLE
+
+/* Enable aRts support. */
+#undef USE_ARTS
+
+/* Enable new color management code. */
+#undef USE_COLOR_MANAGEMENT
+
+/* Use GNOME UI. */
+#undef USE_GNOMEUI
+
+/* Use MIDAS Sound System instead of the Allegro library. */
+#undef USE_MIDAS_SOUND
+
+/* Enable MITSHM extensions. */
+#undef USE_MITSHM
+
+/* Enable XF86 DGA1 extensions. */
+#undef USE_XF86_DGA1_EXTENSIONS
+
+/* Enable XF86 DGA2 extensions. */
+#undef USE_XF86_DGA2_EXTENSIONS
+
+/* Enable XF86 extensions. */
+#undef USE_XF86_EXTENSIONS
+
+/* Enable XF86 VidMode extensions. */
+#undef USE_XF86_VIDMODE_EXT
 
 /* Version number of package */
 #undef VERSION
