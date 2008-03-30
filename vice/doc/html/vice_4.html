@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 17 September 1998 -->
+     from ../vice.texi on 20 September 1998 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -121,10 +121,6 @@ ROM set consists in the following files:
 
 <TT>`chargen'</TT>, the character generator ROM (4 Kbytes)
 
-<P> <LI>
-
-<TT>`dos1541'</TT>, the 1541 drive ROM (16 Kbytes)
-
 </UL> </P>
 
 <P>
@@ -146,9 +142,23 @@ The C128 needs the following files instead:
 
 <TT>`chargen'</TT>, the character generator ROM (4 Kbytes)
 
+</UL> </P>
+
+<P>
+The C128, VIC20 and C64 emulators also need the following DOS ROMs for
+the hardware-level emulation of the 1541 and 1571 disk drives:
+
+</P>
+
+<P> <UL>
+
 <P> <LI>
 
 <TT>`dos1541'</TT>, the 1541 drive ROM (16 Kbytes)
+
+<P> <LI>
+
+<TT>`dos15751'</TT>, the 1541 drive ROM (32 Kbytes)
 
 </UL> </P>
 

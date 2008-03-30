@@ -781,27 +781,27 @@ File: vice.info,  Node: CBM-II emulator features,  Next: Keyboard emulation,  Pr
 CBM-II emulator features
 ========================
 
-   The CBM-II emulator emulates several types of CBM-II models. Those
+   The CBM-II emulator emulates several types of CBM-II models.  Those
 models are known under different names in the USA and Europe.  In the
 States they have been sold as `B128' and `B256', in Europe as `CBM
 610', `CBM 620' (low-profile case) or `CBM 710' and `CBM 720'
 (high-profile case with monitor).
 
-   These computers are prepared to take a coprocessor board with an 8088
-or Z80 CPU. Indeed there are models `CBM 630' and `CBM 730' that
-supposedly had those processors. However these models are not emulated.
+   These computers are prepared to take a coprocessor board with an
+8088 or Z80 CPU.  Indeed there are models `CBM 630' and `CBM 730' that
+supposedly had those processors.  However these models are not emulated.
 
    The basic difference is the amount of RAM these machines have been
 supplied with. The `B128' and the `CBM *10' models had 128k RAM, the
 others 256k. This implies some banking scheme, as the 6502 can only
-address 64k. And indeed those machines use a 6509, that can address 1
-MByte of RAM. It has 2 registers at addresses 0 and 1. The indirekt bank
-register at address 1 determines the bank (0-15) where the opcodes `LDA
-(zp),Y' and `STA (zp),Y' take the data from. The exec bank register at
-address 0 determines the bank where all other read and write addresses
-take place.
+address 64k.  And indeed those machines use a 6509, that can address 1
+MByte of RAM. It has 2 registers at addresses 0 and 1.  The indirect
+bank register at address 1 determines the bank (0-15) where the opcodes
+`LDA (zp),Y' and `STA (zp),Y' take the data from.  The exec bank
+register at address 0 determines the bank where all other read and
+write addresses take place.
 
-   Many models have been expanded to more than the built-in memory. In
+   Many models have been expanded to more than the built-in memory.  In
 fact some machines have been expanded to the full 1M.  Bank 15 is used
 as system bank, with only little RAM, and lots of expansion cartridge
 ROM area, the I/O and the kernal/basic ROMs.  Some models have been
@@ -849,7 +849,7 @@ instance, `F6' (which on the real C64 is obtained with `Shift + F5')
 could be recognized as `F5'.  In that case, use the shift key manually
 (i.e. type `Shift + F5' in the example).  Yes, we know this is a bug.
 
-   The `RESTORE' key is mapped to `Page Up' (or `Prev').
+   The `RESTORE' key is mapped to `Page Up' (or `Prev') by default.
 
 
 File: vice.info,  Node: Joystick emulation,  Next: Disk drive emulation,  Prev: Keyboard emulation,  Up: Preface
@@ -1180,8 +1180,6 @@ the ROM set consists in the following files:
 
    * `chargen', the character generator ROM (4 Kbytes)
 
-   * `dos1541', the 1541 drive ROM (16 Kbytes)
-
    The C128 needs the following files instead:
 
    * `kernal', the Kernal ROM (8 Kbytes)
@@ -1190,7 +1188,12 @@ the ROM set consists in the following files:
 
    * `chargen', the character generator ROM (4 Kbytes)
 
+   The C128, VIC20 and C64 emulators also need the following DOS ROMs
+for the hardware-level emulation of the 1541 and 1571 disk drives:
+
    * `dos1541', the 1541 drive ROM (16 Kbytes)
+
+   * `dos15751', the 1541 drive ROM (32 Kbytes)
 
    The PET emulator uses a quite different setup instead: the Basic and
 Kernal ROMS are packed into a single file and only three kernal files

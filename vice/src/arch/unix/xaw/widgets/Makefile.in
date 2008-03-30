@@ -289,6 +289,23 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+Canvas.o: Canvas.c CanvasP.h Canvas.h
+DirMgr.o: DirMgr.c ../../../../../src/config.h DirMgr.h Directory.h \
+	RegExp.h
+Directory.o: Directory.c Directory.h RegExp.h
+DrawImageString.o: DrawImageString.c TabString.h
+DrawString.o: DrawString.c TabString.h
+FileSel.o: FileSel.c ../../../../../src/config.h \
+	../../../../../src/utils.h ../../../../../src/types.h \
+	ScrListP.h ScrList.h FileSelP.h DirMgr.h Directory.h RegExp.h \
+	FileSel.h TextField.h
+MultiList.o: MultiList.c MultiListP.h MultiList.h TabString.h
+RegExp.o: RegExp.c ../../../../../src/config.h RegExp.h
+ScrList.o: ScrList.c MultiListP.h MultiList.h ScrListP.h ScrList.h
+Tablist2Tabs.o: Tablist2Tabs.c TabString.h
+TextField.o: TextField.c TextFieldP.h TextField.h
+TextWidth.o: TextWidth.c TabString.h
+strnchr.o: strnchr.c TabString.h
 
 info: info-recursive
 dvi: dvi-recursive

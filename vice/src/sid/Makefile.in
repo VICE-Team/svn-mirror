@@ -284,6 +284,12 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
+	../../src/resid/voice.h ../../src/resid/wave.h \
+	../../src/resid/envelope.h ../../src/resid/filter.h \
+	../../src/resid/pot.h ../../src/vice.h ../../src/config.h sid.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h \
+	../../src/snapshot.h ../../src/utils.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
 	../../src/types.h ../../src/warn.h ../../src/snapshot.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \

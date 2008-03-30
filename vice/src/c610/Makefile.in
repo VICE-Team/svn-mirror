@@ -334,7 +334,7 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h c610mem.h c610tpi.h c610acia.h c610cia.h \
 	../../src/cia.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/traps.h
+	../../src/traps.h ../../src/arch/unix/vsync.h
 c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/tpi.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
@@ -346,6 +346,14 @@ c610tpi2.o: c610tpi2.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/tpi.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/arch/unix/kbd.h
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
+	../../src/types.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/raster.h ../../src/vmachine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/cmdline.h ../../src/utils.h c610tpi.h \
+	../../src/raster.c ../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive

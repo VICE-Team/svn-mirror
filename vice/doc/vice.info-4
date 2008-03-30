@@ -17,6 +17,170 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
+
+Label commands
+==============
+
+`add_label <address> <label>'
+     Map a given address to a label.  This label can be used when
+     entering assembly code and is shown during disassembly.
+
+`delete_label [<memspace>] <label>'
+     Remove the specified label from the label tables.  If no memory
+     space is checked, all tables are checked.
+
+`load_labels [<memspace>] "<filename>"'
+     Load a file containing a mapping of labels to addresses.  If no
+     memory space is specified, the default readspace is used.
+
+`save_labels [<memspace>] "<filename>"'
+     Save labels to a file.  If no memory space is specified, all of the
+     labels are saved.
+
+`show_labels [<memspace>]'
+     Display current label mappings.  If no memory space is specified,
+     show all labels.
+
+
+File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Monitor
+
+Miscellaneous commands
+======================
+
+`exit'
+     Leave the monitor and return to execution.
+
+`print <expression>'
+     Evaluate the specified expression and output the result.
+
+`quit'
+     Exit the emulator immediately.
+
+`~ <number>'
+     Display the specified number in decimal, hex, octal and binary.
+
+
+File: vice.info,  Node: c1541,  Next: Acknowledgments,  Prev: Monitor,  Up: Top
+
+c1541
+*****
+
+   VICE is provided with a complete stand-alone disk image maintenance
+utility, called `c1541'.  You can either invoke it from the command
+line or from within one of the VICE emulators, using the "Run c1541"
+command which will open a new `xterm' window with a running `c1541' in
+it.
+
+   The syntax is:
+
+     c1541 OPTIONS IMAGE
+
+   If some `OPTIONS' but no `IMAGE' are specified, `c1541' runs in
+batch mode; otherwise, it attaches the `IMAGE' if present and enters
+interactive mode, where you can type commands that are executed when
+you press Enter (abbreviations are allowed).  As with the monitor, file
+name completion and command line editing with history are provided via
+GNU `readline'.  Use the command `quit' to exit.
+
+   Notice that `c1541' always creates `X64' files, but can read and
+write `D64' and `T64' files automatically, without the need for any
+special options.
+
+* Menu:
+
+* c1541 commands and options::
+
+
+File: vice.info,  Node: c1541 commands and options,  Prev: c1541,  Up: c1541
+
+c1541 commands and options
+==========================
+
+   Each command-line option has an interactive-mode counterpart, that is
+shown after it.  `-' as a file name stands for standard input or
+standard output, depending on the context.
+
+`-attach  IMAGE'
+`attach  IMAGE'
+     Attach the disk image `IMAGE' for use.  All the following commands
+     will refer to this image.
+
+`-detach'
+`detach'
+     Detach the currently attached disk image.
+
+`-format  IMAGE 'NAME,ID''
+`format  IMAGE 'NAME,ID''
+     Format the D64 disk image `IMAGE', giving the specified label.  If
+     `IMAGE' does not exist, create it.
+
+`-gcr  IMAGENAME ['NAME,ID']'
+`gcrformat  IMAGE 'NAME,ID''
+     Create a GCR disk image; if `NAME,ID' is specified, format it.
+
+`-delete  IMAGE FILES...'
+`delete  FILES...'
+     Delete  FILES  from `IMAGE'.
+
+`-list  IMAGE'
+`list'
+     List files in `IMAGE'.
+
+`-validate  IMAGE'
+`validate'
+     Validate the disk.
+
+`-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME'
+`copy  OLDNAME1 [OLDNAME2...] NEWNAME'
+     Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
+     (can be used to copy files).
+
+`-create  IMAGE DUMP ['DESCR']'
+`create  IMAGE DUMP ['DESCR']'
+     Build `IMAGE' from raw dump file `DUMP' (i.e. convert from `D64'
+     to `X64' file).
+
+`-tape  IMAGE TAPEIMAGE [FILES...]'
+`tape  IMAGE TAPEIMAGE [FILES...]'
+     Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
+     files).
+
+`-read  IMAGE 1541NAME [FSNAME]'
+`read  1541NAME [FSNAME]'
+     Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
+     default) from `IMAGE'.
+
+`-extract  IMAGE'
+`extract'
+     Extract all files from `IMAGE'.
+
+`-write  IMAGE FSNAME [1541NAME]'
+`write  FSNAME [1541NAME]'
+     Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
+     (works with `P00' files as well)
+
+`-block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
+`block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
+     Show disk blocks in hex format.
+
+`-info  IMAGE ['DESCRIPTION']'
+`info  ['DESCRIPTION']'
+     Show version information about `IMAGE'.
+
+`-unlynx IMAGE LYNXFILE'
+`unlynx LYNXFILE'
+     Unlynx `LYNXFILE' into the image.
+
+`-zcreate  IMAGE DUMP ['DESCR']'
+`zcreate IMAGE DUMP ['DESCR']'
+     Build `IMAGE' from a Zipcoded image made up of files called
+     `1!DUMP', `2!DUMP', `3!DUMP', `4!DUMP'.
+
+   When more than one command is specified in batch mode, all of them
+are executed in the same order they have on the command line.
+
+
 File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: c1541,  Up: Top
 
 Acknowledgments

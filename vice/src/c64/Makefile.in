@@ -382,6 +382,14 @@ c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h ../../src/cia.h \
 	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
 	c64mem.h c64iec.h ../../src/iecdrive.h c64cia.h \
 	../../src/pruser.h ../../src/rsuser.h
+c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/drive/ciad.h ../../src/types.h \
+	../../src/cia.h ../../src/drive/viad.h ../../src/via.h \
+	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h c64cia.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/types.h ../../src/cia.h ../../src/snapshot.h c64mem.h \
 	../../src/mem.h c64tpi.h ../../src/cartridge.h \
@@ -396,10 +404,21 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/utils.h vicii.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h c64acia.h
+c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
+	c64cia.h ../../src/types.h ../../src/cia.h ../../src/snapshot.h \
+	../../src/rsuser.h
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tpi.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/parallel.h
+cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/file.h ../../src/mem.h \
+	../../src/types.h ../../src/snapshot.h ../../src/vmachine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/utils.h \
+	../../src/cartridge.h
+patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
+	../../src/mem.h ../../src/types.h ../../src/snapshot.h \
+	patchrom.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
 	../../src/snapshot.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/mem.h ../../src/mon.h ../../src/mos6510.h \
