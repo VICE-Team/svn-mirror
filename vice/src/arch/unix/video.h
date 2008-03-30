@@ -90,6 +90,8 @@ extern int _video_use_xsync;
 
 /* ------------------------------------------------------------------------- */
 
+extern void video_free(void);
+
 extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);
 extern int video_init(void);
