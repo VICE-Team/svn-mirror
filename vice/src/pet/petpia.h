@@ -28,6 +28,9 @@
 #ifndef _PIA_H
 #define _PIA_H
 
+#include "types.h"
+#include "snapshot.h"
+
 /* Signal values (for signaling edges on the control lines) */
 
 #define PIA_SIG_CA1     0
@@ -49,6 +52,7 @@ extern void signal_pia1(int line, int edge);
 extern void REGPARM2 store_pia1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_pia1(ADDRESS addr);
 extern BYTE REGPARM1 peek_pia1(ADDRESS addr);
+extern void pia1_set_tape_sense(int v);
 
 extern int pia1_read_snapshot_module(snapshot_t *);
 extern int pia1_write_snapshot_module(snapshot_t *);

@@ -58,13 +58,12 @@
 #include "vice.h"
 #include "viacore.h"
 
-#include "maincpu.h"
-
+#include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
+#include "maincpu.h"
 #include "vic20iec.h"
 #include "vic20via.h"
-#include "mem.h"
 
 #ifdef HAVE_PRINTER
 #include "pruser.h"
@@ -85,7 +84,7 @@ static int tape_sense = 0;
 
 static char snap_module_name[] = "VIA2";
 
-void mem_set_tape_sense(int v)
+void via2_set_tape_sense(int v)
 {
     tape_sense = v;
 }
@@ -145,8 +144,11 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 	    tmp |= 0x02;
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
-	/* switching userport strobe with CB2 */
+
+    datasette_set_motor(!(byte & 0x02));
+
 #ifdef HAVE_RS232
+    /* switching userport strobe with CB2 */
 	if(rsuser_enabled) {
 	    rsuser_set_tx_bit(byte & 0x20);
 	}
