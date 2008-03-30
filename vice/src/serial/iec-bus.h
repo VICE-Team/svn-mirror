@@ -29,22 +29,22 @@
 
 #include "types.h"
 
-extern void iecbus_init(void);
-extern void iecbus_reset(void);
-extern void iecbus_open(unsigned int device, BYTE secondary,
-                        void(*st_func)(BYTE));
-extern void iecbus_close(unsigned int device, BYTE secondary,
+extern void iec_bus_init(void);
+extern void iec_bus_reset(void);
+extern void iec_bus_open(unsigned int device, BYTE secondary,
                          void(*st_func)(BYTE));
-extern void iecbus_listentalk(unsigned int device, BYTE secondary,
-                              void(*st_func)(BYTE));
-extern void iecbus_unlisten(unsigned int device, BYTE secondary,
-                            void(*st_func)(BYTE));
-extern void iecbus_untalk(unsigned int device, BYTE secondary,
+extern void iec_bus_close(unsigned int device, BYTE secondary,
                           void(*st_func)(BYTE));
-extern void iecbus_write(unsigned int device, BYTE secondary, BYTE data,
+extern void iec_bus_listentalk(unsigned int device, BYTE secondary,
+                               void(*st_func)(BYTE));
+extern void iec_bus_unlisten(unsigned int device, BYTE secondary,
+                             void(*st_func)(BYTE));
+extern void iec_bus_untalk(unsigned int device, BYTE secondary,
+                           void(*st_func)(BYTE));
+extern void iec_bus_write(unsigned int device, BYTE secondary, BYTE data,
+                          void(*st_func)(BYTE));
+extern BYTE iec_bus_read(unsigned int device, BYTE secondary,
                          void(*st_func)(BYTE));
-extern BYTE iecbus_read(unsigned int device, BYTE secondary,
-                        void(*st_func)(BYTE));
   
 #endif
 

@@ -38,7 +38,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "iecdrive.h"
+#include "iecbus.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -52,7 +52,6 @@
 #include "plus4-snapshot.h"
 #include "plus4.h"
 #include "plus4acia.h"
-#include "plus4iec.h"
 #include "plus4mem.h"
 #include "plus4tcbm.h"
 #include "plus4ui.h"
@@ -368,7 +367,7 @@ int machine_init(void)
 
     plus4ui_init();
 
-    plus4iec_init();
+    iecbus_init();
 
     machine_drive_stub();
 

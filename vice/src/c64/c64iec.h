@@ -33,13 +33,7 @@
 
 #include "types.h"
 
-extern void c64iec_init(void);
-
 extern void iec_cpu_undump(BYTE data);
-
-struct iec_info_s;
-
-extern struct iec_info_s *iec_get_drive_port(void);
 
 #endif
 

@@ -45,7 +45,6 @@
 #include "c128ui.h"
 #include "c64acia.h"
 #include "c64cia.h"
-#include "c64iec.h"
 #include "c64keyboard.h"
 #include "c64memrom.h"
 #include "c64rsuser.h"
@@ -60,7 +59,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "functionrom.h"
-#include "iecdrive.h"
+#include "iecbus.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -513,7 +512,7 @@ int machine_init(void)
     mouse_init();
 #endif
 
-    c64iec_init();
+    iecbus_init();
     c128fastiec_init();
 
     cartridge_init();
