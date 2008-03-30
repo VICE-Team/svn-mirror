@@ -2,14 +2,12 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/raster
+	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/c64
 
 noinst_LIBRARIES = libvicii.a
 
 libvicii_a_SOURCES = \
-	vicii.c \
-	vicii.h \
 	vicii-cmdline-options.c \
 	vicii-cmdline-options.h \
 	vicii-draw.c \
@@ -21,8 +19,8 @@ libvicii_a_SOURCES = \
 	vicii-snapshot.c \
 	vicii-snapshot.h \
 	vicii-sprites.c \
-	vicii-sprites.h
+	vicii-sprites.h \
+	vicii.c \
+	vicii.h \
+	viciitypes.h
 
-EXTRA_DIST =
-
-viciidir = $(top_srcdir)/src/vicii
