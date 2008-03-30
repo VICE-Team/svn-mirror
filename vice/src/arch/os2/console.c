@@ -24,8 +24,10 @@
  *
  */
 
-#define INCL_DOS_PROCESS
 #include "vice.h"
+
+#define INCL_DOSPROCESS // DosSleep
+#include <os2.h>
 
 #include <stdarg.h>
 #include <string.h>

@@ -1,3 +1,5 @@
+source type(h)
+    "config.h"
 source type(c)
     "ui.c",
     "kbd.c",

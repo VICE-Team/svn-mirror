@@ -24,12 +24,15 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_WINSTATICS
 #define INCL_WINSTDFILE
 #define INCL_WINLISTBOXES
+#define INCL_WINWINDOWMGR   // QWL_USER
 #define INCL_WINENTRYFIELDS
 
-#include "vice.h"
+#include <os2.h>
 
 #include <direct.h>
 #include <string.h>
@@ -197,7 +200,9 @@ void create_dialog(HWND hwnd)
                                                      a2p((char*)filedlg.ulUser+sizeof(int)),
                                                      imgRes[type]))
         {
-            WinError(hwnd, "Unable to create new diskimage.");
+            WinMessageBox(HWND_DESKTOP, hwnd,
+                          "Unable to create new diskimage.", "VICE/2 Error",
+                          0, MB_OK);
             return;
         }
     }

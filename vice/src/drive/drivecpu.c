@@ -1,10 +1,14 @@
 /*
  * drivecpu.c - 6502 processor emulation of the Commodore 1541, 1541-II,
- *              1571, 1581, 2031 and 1001 floppy disk drive.
+ *              1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and 
+ * 		8250 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *
+ * Patches by
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -317,6 +321,9 @@ void drive_cpu_early_init(drive_context_t *drv)
     wd1770d_init(drv);
     riot1_init(drv);
     riot2_init(drv);
+    /* FIXME: hack, because 0x4000 is only ok for 1001/8050/8250.
+       fdc.c:fdc_do_job() adds an offset for 2040/3040/4040 by itself :-(
+       Why donlly get a table for that...! */
     fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100,
              &(drv->drive_ptr->rom[0x4000]));
 }
@@ -532,6 +539,15 @@ static void drive_jam(drive_context_t *drv)
       case DRIVE_TYPE_1001:
         dname = "  1001";
 	break;
+      case DRIVE_TYPE_2040:
+        dname = "  2040";
+	break;
+      case DRIVE_TYPE_3040:
+        dname = "  3040";
+	break;
+      case DRIVE_TYPE_4040:
+        dname = "  4040";
+	break;
       case DRIVE_TYPE_8050:
         dname = "  8050";
 	break;
@@ -606,10 +622,7 @@ int drive_cpu_write_snapshot_module(drive_context_t *drv, snapshot_t *s)
         if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x2000) < 0)
             goto fail;
     }
-    if ((drv->drive_ptr->type == DRIVE_TYPE_1001)
-	|| (drv->drive_ptr->type == DRIVE_TYPE_8050)
-	|| (drv->drive_ptr->type == DRIVE_TYPE_8250)
-	) {
+    if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
         if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x1100) < 0)
             goto fail;
     }
@@ -690,10 +703,7 @@ int drive_cpu_read_snapshot_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
-    if ((drv->drive_ptr->type == DRIVE_TYPE_1001)
-	|| (drv->drive_ptr->type == DRIVE_TYPE_8050)
-	|| (drv->drive_ptr->type == DRIVE_TYPE_8250)
-	) {
+    if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
         if (snapshot_module_read_byte_array(m, drv->cpud.drive_ram, 0x1100) < 0)
             goto fail;
     }

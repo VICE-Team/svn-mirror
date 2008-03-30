@@ -57,6 +57,9 @@ static char *dos_rom_name_1571 = 0;
 static char *dos_rom_name_1581 = 0;
 static char *dos_rom_name_2031 = 0;
 static char *dos_rom_name_1001 = 0;
+static char *dos_rom_name_2040 = 0;
+static char *dos_rom_name_3040 = 0;
+static char *dos_rom_name_4040 = 0;
 
 static int set_drive0_idling_method(resource_value_t v);
 static int set_drive1_idling_method(resource_value_t v);
@@ -126,6 +129,9 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         if (drive[0].type != type) {
@@ -187,6 +193,9 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         if (drive[1].type != type) {
@@ -344,6 +353,45 @@ static int set_sync_factor(resource_value_t v)
         }
     }
     return 0;
+}
+
+static int set_dos_rom_name_2040(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_2040 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_2040) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_2040, name);
+
+    return drive_load_2040();
+}
+
+static int set_dos_rom_name_3040(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_3040 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_3040) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_3040, name);
+
+    return drive_load_3040();
+}
+
+static int set_dos_rom_name_4040(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_4040 != NULL && name != NULL
+        && strcmp(name, dos_rom_name_4040) == 0)
+        return 0;
+
+    string_set(&dos_rom_name_4040, name);
+
+    return drive_load_4040();
 }
 
 static int set_dos_rom_name_1001(resource_value_t v)
@@ -549,6 +597,12 @@ static resource_t resources[] = {
       (resource_value_t *) &dos_rom_name_1581, set_dos_rom_name_1581 },
     { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
       (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
+    { "DosName2040", RES_STRING, (resource_value_t) "dos2040",
+      (resource_value_t *) &dos_rom_name_2040, set_dos_rom_name_2040 },
+    { "DosName3040", RES_STRING, (resource_value_t) "dos3040",
+      (resource_value_t *) &dos_rom_name_3040, set_dos_rom_name_3040 },
+    { "DosName4040", RES_STRING, (resource_value_t) "dos4040",
+      (resource_value_t *) &dos_rom_name_4040, set_dos_rom_name_4040 },
     { "DosName1001", RES_STRING, (resource_value_t) "dos1001",
       (resource_value_t *) &dos_rom_name_1001, set_dos_rom_name_1001 },
     { "Drive8RAM2000", RES_INTEGER, (resource_value_t) 0,

@@ -23,10 +23,17 @@
  *  02111-1307  USA.
  *
  */
+#include "vice.h"
 
 #define INCL_GPI
+#define INCL_WINSYS         // SV_CYTITLEBAR
+#define INCL_WININPUT       // WM_CHAR
+#define INCL_DOSPROCESS     // DosSleep
+#define INCL_WINWINDOWMGR   // QWL_USER
 #define INCL_DOSSEMAPHORES
-#include "vice.h"
+#include <os2.h>
+#define INCL_MMIO
+#include <os2me.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -38,14 +45,14 @@
 
 #include "video.h"
 
-#include "cmdline.h"
 #include "log.h"
 #include "kbd.h"
-#include "resources.h"
-#include "types.h"
 #include "ui.h"
 #include "ui_status.h"
 #include "utils.h"
+#include "machine.h"
+#include "cmdline.h"
+#include "resources.h"
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -60,7 +67,14 @@ static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
 
-//#undef __XVIC__
+/* ------------------------------------------------------------------------ */
+/* Xvic workaround  */
+
+#ifdef __XVIC__
+const int FBMULT = 3;
+#else
+const int FBMULT = 0;
+#endif
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
@@ -109,7 +123,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
-      "<number>", "Specify the PM border type of the emulator window (1=small border, 2=dialog border, else=no border)" },
+      "<number>", "Specify the PM border type of the emulator window (1=small, 2=dialog, else=no border)" },
     { NULL },
 };
 
@@ -175,7 +189,6 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     if (rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
                                 width, height, 0, (*f)->bitmap))
         log_message(LOG_DEFAULT,"video.c: Could not allocate Dive image buffer (rc=%li).",rc);
-    //    log_message(LOG_DEFAULT,"video.c: Dive image buffer allocated.");
 
     return 0;
 }
@@ -183,7 +196,6 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 {   // raster_force_repaint, we needn't this
     //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
-    //    log_message(LOG_DEFAULT,"video.c: Frame buffer cleared");
 }
 
 void video_frame_buffer_free(frame_buffer_t *f)
@@ -203,7 +215,7 @@ void video_frame_buffer_free(frame_buffer_t *f)
 
 typedef struct _kstate
 {
-    BYTE numlock;
+    //    BYTE numlock;
     BYTE scrllock;
     BYTE capslock;
 } kstate;
@@ -211,36 +223,31 @@ typedef struct _kstate
 static kstate vk_vice;
 static kstate vk_desktop;
 
-//int PM_winActive;
+extern int use_leds;
 
-void wmCreate()
+void wmCreate(void)
 {
     BYTE keyState[256];
     DosCreateMutexSem("\\SEM32\\ViceKey", &hmtxKey, 0, TRUE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-    //    vidlog("#numlock", keyState[VK_NUMLOCK]);
-    //    vidlog("#capslock", keyState[VK_CAPSLOCK]);
-    //    vidlog("#scrllock", keyState[VK_SCRLLOCK]);
-    //    vk_desktop.numlock    = keyState[VK_NUMLOCK];
     vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
     vk_desktop.capslock   = keyState[VK_CAPSLOCK];
-    //    keyState[VK_NUMLOCK]  &= ~1;
-    keyState[VK_SCRLLOCK] &= ~1;
-    keyState[VK_CAPSLOCK] &= ~1;
+    if (use_leds)
+    {
+        keyState[VK_SCRLLOCK] = 0;   // switch off
+        keyState[VK_CAPSLOCK] = 0;   // switch off
+    }
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
-    PM_winActive=TRUE;
+    PM_winActive = TRUE;
     DosReleaseMutexSem(hmtxKey);
 }
 
-//extern int warp_mode_enabled;
-
 void wmDestroy(void)
-{  // it seems, that restoring key-state doesn't work here.
+{  
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
-    PM_winActive=0;
+    PM_winActive = FALSE;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-    //    keyState[VK_NUMLOCK]  = vk_desktop.numlock;
     keyState[VK_SCRLLOCK] = vk_desktop.scrllock;
     keyState[VK_CAPSLOCK] = vk_desktop.capslock;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
@@ -248,36 +255,35 @@ void wmDestroy(void)
 }
 
 void wmSetSelection(MPARAM mp1)
-{  // I also need to change the state, not only the leds.
+{  
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
-    if (mp1) {  // Window is selected
-        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-        //        vk_desktop.numlock    = keyState[VK_NUMLOCK];
-        vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
-        vk_desktop.capslock   = keyState[VK_CAPSLOCK];
-        //    vidlog("+numlock", keyState[VK_NUMLOCK]);
-        //    vidlog("+capslock", keyState[VK_CAPSLOCK]);
-        //    vidlog("+scrllock", keyState[VK_SCRLLOCK]);
-        //        keyState[VK_NUMLOCK]  = vk_vice.numlock;
-        keyState[VK_SCRLLOCK] = vk_vice.scrllock;
-        keyState[VK_CAPSLOCK] &= ~1; //vk_vice.capslock;
-        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
-        PM_winActive=1;
+    WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
+    if (mp1)
+    {
+        if (!PM_winActive)
+        {
+            vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
+            vk_desktop.capslock   = keyState[VK_CAPSLOCK];
+            if (use_leds)
+            {
+                keyState[VK_SCRLLOCK] = vk_vice.scrllock;  // warp led
+                keyState[VK_CAPSLOCK] = 0;                 // drive led off
+            }
+            WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+            PM_winActive=TRUE;
+        }
     }
-    else {     // Window is deselected
-        PM_winActive=0;
-        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-        //        vk_vice.numlock       = keyState[VK_NUMLOCK];
-        vk_vice.scrllock      = keyState[VK_SCRLLOCK];
-        //        vk_vice.capslock      = keyState[VK_CAPSLOCK];
-        //    vidlog("-numlock", keyState[VK_NUMLOCK]);
-        //    vidlog("-capslock", keyState[VK_CAPSLOCK]);
-        //    vidlog("-scrllock", keyState[VK_SCRLLOCK]);
-        //        keyState[VK_NUMLOCK]  = vk_desktop.numlock;
-        keyState[VK_SCRLLOCK] = vk_desktop.scrllock;
-        keyState[VK_CAPSLOCK] = vk_desktop.capslock;
-        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+    else
+    {
+        if (PM_winActive)
+        {
+            vk_vice.scrllock      = keyState[VK_SCRLLOCK];
+            keyState[VK_SCRLLOCK] = vk_desktop.scrllock;
+            keyState[VK_CAPSLOCK] = vk_desktop.capslock;
+            WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+            PM_winActive=FALSE;
+        }
     }
     DosReleaseMutexSem(hmtxKey);
 }
@@ -330,22 +336,21 @@ void wmVrnDisabled(HWND hwnd)
     DosReleaseMutexSem(hmtx);
 }
 
+extern void kbd_proc(HWND hwnd, MPARAM mp1);
+
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    //            canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     switch (msg)
     {
-        //    case WM_CREATE:       wmCreate      ();          break;
-
-        // After 'make visible': VRNDISABLED, PAINT, VRNENABLED
-        //    case WM_PAINT:        wmPaint       (hwnd);      break;
-    case WM_CHAR:         wmChar        (hwnd, mp1); break;
-    case WM_DESTROY:      wmDestroy     ();          break;
-    case WM_SETSELECTION: wmSetSelection(mp1);       break;
-    // Simulate VRNDISABLED by writing in no region
-    case WM_VRNDISABLED:  wmVrnDisabled (hwnd);      break; //(hwnd, 0); c->vrenabled=0; break;
-    //    case WM_VRNDISABLED: wmVrnDisabled  (hwnd);      break;
-    case WM_VRNENABLED:   wmVrnEnabled  (hwnd);      break;
+    case WM_CREATE:       wmCreate();           break;
+    // After 'make visible': VRNDISABLED, PAINT, VRNENABLED
+    //    case WM_PAINT: wmPaint(hwnd); break;
+    case WM_CHAR:         kbd_proc(hwnd, mp1);  break;
+    case WM_CLOSE:
+    case WM_DESTROY:      wmDestroy();          break;
+    case WM_SETSELECTION: wmSetSelection(mp1);  break;
+    case WM_VRNDISABLED:  wmVrnDisabled(hwnd);  break; 
+    case WM_VRNENABLED:   wmVrnEnabled(hwnd);   break;
     //    case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
     //    case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
     //    case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
@@ -362,6 +367,7 @@ void PM_mainloop(VOID *arg)
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
     canvas_t *ptr=(canvas_t*)arg;
+    char *title = concat(szTitleBarText, " - ", machine_name, NULL);
 
     //    archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -373,8 +379,10 @@ void PM_mainloop(VOID *arg)
 
     (*ptr)->hwndFrame = WinCreateStdWindow(HWND_DESKTOP,
                                    WS_VISIBLE, &flFrameFlags,
-                                   szClientClass, szTitleBarText, 0L, 0, 0,
-                                   &((*ptr)->hwndClient));
+                                   szClientClass, title, 0L, 0, 0,
+                                           &((*ptr)->hwndClient));
+
+    free(title);
 
     WinSetWindowPos((*ptr)->hwndFrame, HWND_TOP, 0, 0,
                     (*ptr)->width *stretch
@@ -424,7 +432,7 @@ void PM_mainloop(VOID *arg)
     //    exit(0); // Kill VICE, All went OK
     DosSleep(1000); // wait 10 seconds
     exit(0);           // end VICE in all cases
-    
+
 }
 
 
@@ -495,7 +503,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
         pixel_return[i]=i;
     }
     rc=DiveSetSourcePalette(hDiveInst, 0, 256, (BYTE*)c->palette);
-    if (rc) log_message(LOG_DEFAULT,"video.c: Palette set (rc=%i).",rc);
+    if (rc) log_message(LOG_DEFAULT,"video.c: Error setting palette (rc=%i).",rc);
     return 0;
 }
 
@@ -524,7 +532,8 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 #endif
             ;
         divesetup.lDstPosY    = (c->height-(yi+h))*stretch;
-        wmVrn(c->hwndClient);                               // setup draw areas
+        wmVrn(c->hwndClient);                                      // setup draw areas
+
         DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN); // draw the image
     }
     DosReleaseMutexSem(hmtx);

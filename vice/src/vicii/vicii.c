@@ -81,8 +81,6 @@
 #include "vicii-snapshot.h"
 #include "vsync.h"
 
-
-
 vic_ii_t vic_ii;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
@@ -94,10 +92,7 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
-
-
-static void 
-clk_overflow_callback (CLOCK sub, void *unused_data)
+static void clk_overflow_callback (CLOCK sub, void *unused_data)
 {
   vic_ii.raster_irq_clk -= sub;
   vic_ii.last_emulate_line_clk -= sub;
@@ -201,8 +196,7 @@ static void vic_ii_set_geometry(void)
 
 }
 
-static int
-init_raster (void)
+static int init_raster (void)
 {
   raster_t *raster;
   char *title;
@@ -240,12 +234,9 @@ init_raster (void)
   return 0;
 }
 
-
-
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void 
-vic_ii_fetch_matrix (int offs, int num)
+inline void vic_ii_fetch_matrix (int offs, int num)
 {
   BYTE *p;
   int start_char;
@@ -271,8 +262,7 @@ vic_ii_fetch_matrix (int offs, int num)
 
 /* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
    stolen.  */
-inline static int 
-do_matrix_fetch (CLOCK sub)
+inline static int do_matrix_fetch (CLOCK sub)
 {
   if (!vic_ii.memory_fetch_done)
     {
@@ -310,8 +300,7 @@ do_matrix_fetch (CLOCK sub)
 }
 
 /* Enable DMA for sprite `num'.  */
-inline static void 
-turn_sprite_dma_on (unsigned int num)
+inline static void turn_sprite_dma_on (unsigned int num)
 {
   raster_sprite_status_t *sprite_status;
   raster_sprite_t *sprite;
@@ -327,8 +316,7 @@ turn_sprite_dma_on (unsigned int num)
 }
 
 /* Check for sprite DMA.  */
-inline static void 
-check_sprite_dma (void)
+inline static void check_sprite_dma (void)
 {
   raster_sprite_status_t *sprite_status;
   int i, b;
@@ -372,25 +360,18 @@ check_sprite_dma (void)
     }
 }
 
-
-
-int
-vic_ii_init_resources (void)
+int vic_ii_init_resources (void)
 {
   return vic_ii_resources_init ();
 }
 
-int
-vic_ii_init_cmdline_options (void)
+int vic_ii_init_cmdline_options (void)
 {
   return vic_ii_cmdline_options_init ();
 }
 
-
-
 /* Initialize the VIC-II emulation.  */
-void 
-*vic_ii_init (void)
+void *vic_ii_init (void)
 {
   vic_ii.log = log_open ("VIC-II");
 
@@ -439,8 +420,7 @@ void
 }
 
 /* Reset the VIC-II chip.  */
-void 
-vic_ii_reset (void)
+void vic_ii_reset (void)
 {
   vic_ii_change_timing();
 
@@ -491,8 +471,7 @@ void vic_ii_reset_registers(void)
 /* This /should/ put the VIC-II in the same state as after a powerup, if
    `reset_vic_ii()' is called afterwards.  But FIXME, as we are not really
    emulating everything correctly here; just $D011.  */
-void 
-vic_ii_powerup (void)
+void vic_ii_powerup (void)
 {
   memset (vic_ii.regs, 0, sizeof (vic_ii.regs));
 
@@ -534,8 +513,7 @@ vic_ii_powerup (void)
 }
 
 /* This hook is called whenever video bank must be changed.  */
-void 
-vic_ii_set_vbank (int num_vbank)
+void vic_ii_set_vbank (int num_vbank)
 {
   /* Warning: assumes it's called within a memory write access.
      FIXME: Change name?  */
@@ -550,8 +528,7 @@ vic_ii_set_vbank (int num_vbank)
 }
 
 /* Trigger the light pen.  */
-void 
-vic_ii_trigger_light_pen (CLOCK mclk)
+void vic_ii_trigger_light_pen (CLOCK mclk)
 {
   if (!vic_ii.light_pen.triggered)
     {
@@ -574,8 +551,7 @@ vic_ii_trigger_light_pen (CLOCK mclk)
 }
 
 /* Handle the exposure event.  */
-void 
-vic_ii_exposure_handler (unsigned int width, unsigned int height)
+void vic_ii_exposure_handler (unsigned int width, unsigned int height)
 {
   raster_resize_viewport (&vic_ii.raster, width, height);
 
@@ -585,8 +561,7 @@ vic_ii_exposure_handler (unsigned int width, unsigned int height)
 }
 
 /* Toggle support for C128 extended keyboard rows.  */
-void 
-vic_ii_enable_extended_keyboard_rows (int flag)
+void vic_ii_enable_extended_keyboard_rows (int flag)
 {
   vic_ii.extended_keyboard_rows_enabled = flag;
 }
@@ -595,8 +570,7 @@ vic_ii_enable_extended_keyboard_rows (int flag)
    write functions for loading snapshot modules in other video chips without
    caring that the VIC-II alarms are dispatched when they really shouldn't
    be.  */
-void 
-vic_ii_prepare_for_snapshot (void)
+void vic_ii_prepare_for_snapshot (void)
 {
   vic_ii.fetch_clk = CLOCK_MAX;
   alarm_unset (&vic_ii.raster_fetch_alarm);
@@ -606,10 +580,7 @@ vic_ii_prepare_for_snapshot (void)
   alarm_unset (&vic_ii.raster_irq_alarm);
 }
 
-
-
-void
-vic_ii_set_raster_irq (unsigned int line)
+void vic_ii_set_raster_irq (unsigned int line)
 {
   if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
     return;
@@ -651,11 +622,8 @@ vic_ii_set_raster_irq (unsigned int line)
   vic_ii.raster_irq_line = line;
 }
 
-
-
 /* Change the base of RAM seen by the VIC-II.  */
-void 
-vic_ii_set_ram_base (BYTE * base)
+void vic_ii_set_ram_base (BYTE * base)
 {
   /* WARNING: assumes `rmw_flag' is 0 or 1.  */
   vic_ii_handle_pending_alarms (rmw_flag + 1);
@@ -664,7 +632,6 @@ vic_ii_set_ram_base (BYTE * base)
   vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 }
 
-
 void vic_ii_update_memory_ptrs_external(void)
 {
     if (vic_ii.initialized > 0)
@@ -672,8 +639,7 @@ void vic_ii_update_memory_ptrs_external(void)
 }
 
 /* Set the memory pointers according to the values in the registers.  */
-void
-vic_ii_update_memory_ptrs (unsigned int cycle)
+void vic_ii_update_memory_ptrs (unsigned int cycle)
 {
   /* FIXME: This is *horrible*!  */
   static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
@@ -831,12 +797,9 @@ vic_ii_update_memory_ptrs (unsigned int cycle)
     }
 }
 
-
-
 /* Set the video mode according to the values in registers $D011 and $D016 of
    the VIC-II chip.  */
-void
-vic_ii_update_video_mode (unsigned int cycle)
+void vic_ii_update_video_mode (unsigned int cycle)
 {
   static int old_video_mode = -1;
   int new_video_mode;
@@ -929,12 +892,9 @@ vic_ii_update_video_mode (unsigned int cycle)
 #endif
 }
 
-
-
 /* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
    of each line.  */
-int 
-vic_ii_raster_draw_alarm_handler (CLOCK offset)
+int vic_ii_raster_draw_alarm_handler (CLOCK offset)
 {
   BYTE prev_sprite_sprite_collisions;
   BYTE prev_sprite_background_collisions;
@@ -1048,10 +1008,7 @@ vic_ii_raster_draw_alarm_handler (CLOCK offset)
   return 0;
 }
 
-
-
-inline static int
-handle_fetch_matrix(long offset,
+inline static int handle_fetch_matrix(long offset,
                     CLOCK sub,
                     CLOCK *write_offset)
 {
@@ -1117,8 +1074,7 @@ handle_fetch_matrix(long offset,
   return 0;
 }
 
-inline static void
-swap_sprite_data_buffers (void)
+inline static void swap_sprite_data_buffers (void)
 {
   DWORD *tmp;
   raster_sprite_status_t *sprite_status;
@@ -1130,8 +1086,7 @@ swap_sprite_data_buffers (void)
   sprite_status->new_sprite_data = tmp;
 }
 
-inline static int
-handle_check_sprite_dma (long offset,
+inline static int handle_check_sprite_dma (long offset,
                          CLOCK sub)
 {
   swap_sprite_data_buffers ();
@@ -1179,8 +1134,7 @@ handle_check_sprite_dma (long offset,
   return 0;
 }
 
-inline static int
-handle_fetch_sprite (long offset,
+inline static int handle_fetch_sprite (long offset,
                      CLOCK sub,
                      CLOCK *write_offset)
 {
@@ -1225,10 +1179,7 @@ handle_fetch_sprite (long offset,
 
   maincpu_steal_cycles (vic_ii.fetch_clk, sf->num - sub);
 
-  if (sub == 0)
-    *write_offset = sf->num;
-  else
-    *write_offset = 0;
+  *write_offset = sub==0 ? sf->num : 0;
 
   next_cycle = (sf + 1)->cycle;
   vic_ii.sprite_fetch_idx++;
@@ -1272,8 +1223,7 @@ handle_fetch_sprite (long offset,
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
    faster.  */
-int 
-vic_ii_raster_fetch_alarm_handler (CLOCK offset)
+int vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 {
   CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -1361,12 +1311,9 @@ vic_ii_raster_fetch_alarm_handler (CLOCK offset)
   return 0;
 }
 
-
-
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
-int 
-vic_ii_raster_irq_alarm_handler (CLOCK offset)
+int vic_ii_raster_irq_alarm_handler (CLOCK offset)
 {
   vic_ii.irq_status |= 0x1;
   if (vic_ii.regs[0x1a] & 0x1)
@@ -1385,13 +1332,10 @@ vic_ii_raster_irq_alarm_handler (CLOCK offset)
   return 0;
 }
 
-
-
 /* WARNING: This does not change the resource value.  External modules are
    expected to set the resource value to change the VIC-II palette instead of
    calling this function directly.  */
-int
-vic_ii_load_palette (const char *name)
+int vic_ii_load_palette (const char *name)
 {
   static const char *color_names[VIC_II_NUM_COLORS] =
     {
@@ -1415,11 +1359,8 @@ vic_ii_load_palette (const char *name)
   return 0;
 }
 
-
-
 /* Set proper functions and constants for the current video settings.  */
-void 
-vic_ii_resize (void)
+void vic_ii_resize (void)
 {
   if (!vic_ii.initialized)
     return;
@@ -1469,22 +1410,15 @@ void vic_ii_set_set_canvas_refresh(int enable)
     raster_set_canvas_refresh(raster, enable);
 }
 
-
-
-
-int
-vic_ii_write_snapshot_module (snapshot_t *s)
+int vic_ii_write_snapshot_module (snapshot_t *s)
 {
   return vic_ii_snapshot_write_module (s);
 }
 
-int
-vic_ii_read_snapshot_module (snapshot_t *s)
+int vic_ii_read_snapshot_module (snapshot_t *s)
 {
   return vic_ii_snapshot_read_module (s);
 }
-
-
 
 void vic_ii_handle_pending_alarms_external(int num_write_cycles)
 {
@@ -1492,14 +1426,12 @@ void vic_ii_handle_pending_alarms_external(int num_write_cycles)
 }
 
 /* FIXME: Just a dummy.  */
-void 
-video_setfullscreen (int v, int width, int height)
+void video_setfullscreen (int v, int width, int height)
 {
 }
 
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
-void 
-video_free (void)
+void video_free (void)
 {
   video_frame_buffer_free (&vic_ii.raster.frame_buffer);
 }

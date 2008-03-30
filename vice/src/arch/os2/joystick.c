@@ -28,7 +28,7 @@
 #define INCL_DOSDEVICES         // include needed for DosDevIOCtl call
 #define INCL_DOSDEVIOCTL        // include needed for DosDevIOCtl call
 #define INCL_DOSSEMAPHORES
-#include "vice.h"
+#include <os2.h>
 
 #include "cmdline.h"
 #include "joystick.h"
@@ -263,7 +263,7 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
 /* ------------------------------------------------------------------------- */
 
-static HFILE SWhGame = NULL;
+static HFILE SWhGame = 0;
 static HMTX  hmtxJoystick;
 
 /* Initialize joystick support.  */

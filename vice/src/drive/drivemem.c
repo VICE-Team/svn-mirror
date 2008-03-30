@@ -217,6 +217,14 @@ void drive_mem_init(drive_context_t *drv, int type)
         for (i = 0xC0; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
+    if (type == DRIVE_TYPE_2040)
+        for (i = 0x100 - (DRIVE_ROM2040_SIZE >> 8); i < 0x100; i++)
+            drv->cpud.read_func_nowatch[i] = drive_read_rom;
+
+    if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040)
+        for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++)
+            drv->cpud.read_func_nowatch[i] = drive_read_rom;
+
     if (type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
         for (i = 0x80; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
@@ -238,10 +246,9 @@ void drive_mem_init(drive_context_t *drv, int type)
                 drv->cpud.store_func_nowatch[i] = drive_store_ram;
             }
     }
-    if (type == DRIVE_TYPE_1001 || type == DRIVE_TYPE_8050
-        || type == DRIVE_TYPE_8050) {
-        /* The 1001/8050/8250 have 256 byte at $00xx, mirrored at
-           $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
+    if (DRIVE_IS_OLDTYPE(type)) {
+        /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx, 
+	   mirrored at $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
            (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
            the gaps, x00-7f the first and x80-ff the second, at
            $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
@@ -367,6 +374,13 @@ void drive_mem_init(drive_context_t *drv, int type)
            sizeof(drive_store_func_t *) * 0x101);
 
     switch (type) {
+      case DRIVE_TYPE_2040:
+        drv->drive_ptr->rom_start = 0xe000;
+	break;
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
+        drv->drive_ptr->rom_start = 0xd000;
+	break;
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_2031:

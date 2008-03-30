@@ -24,27 +24,22 @@
  *
  */
 
+/* ADDRESS is already defined in os2def.h */
+/* #define ADDRESS 0                      */
+#ifdef ADDRESS
+#undef ADDRESS
+#endif
+#define ADDRESS WORD
+
 #ifndef _VICE_TYPES_H
 #define _VICE_TYPES_H
 
 #include <limits.h>
 
-#undef VERSION
-
-#define INCL_TYPES
-#define INCL_WINSYS
-#define INCL_WININPUT
-#define INCL_GPIBITMAPS
-#define INCL_WINPALETTE
-#define INCL_DOSPROCESS
-#define INCL_WINFRAMEMGR
-#define INCL_WINWINDOWMGR
-#define INCL_WINRECTANGLES
-#include <os2.h>
-#define INCL_OS2MM
-#include <os2me.h>
-
-#undef VERSION
+//#undef VERSION
+//#include <os2.h>
+//#include <os2me.h>
+//#undef VERSION
 
 #ifdef __IBMC__
  #define inline _Inline  // This means only a possible inline. See doku.
@@ -55,8 +50,8 @@
  #ifndef __EXTENDED__
  typedef long off_t;
  #endif
- #define STDOUT_FILENO (0xFFFF & fileno(stdout))
- #define STDERR_FILENO (0xFFFF & fileno(stderr))
+ #define STDOUT_FILENO (fileno(stdout) & 0xffff)
+ #define STDERR_FILENO (fileno(stderr) & 0xffff)
  #define _O_BINARY O_BINARY
  #define _O_TRUNC  O_TRUNC
  #define _O_WRONLY O_WRONLY
@@ -68,40 +63,36 @@
   #define vfork fork
 #endif
 
+/* sizeof(char)  = 1 */
+/* sizeof(short) = 2 */
+/* sizeof(int)   = 4 */
+/* sizeof(long)  = 4 */
+
 typedef signed char SIGNED_CHAR;
 
+/* Definitions see os2mdef.h */
+#ifndef BYTE
+typedef char    BYTE;
+#endif
 typedef unsigned short   WORD;
 typedef   signed short  SWORD;
-typedef   signed int   SDWORD;
+typedef   signed long  SDWORD;
 typedef unsigned long   DWORD;
+//#define BYTE  unsigned char
+//#define WORD  unsigned short
+//#define DWORD unsigned long
 
-#undef ADDRESS
-typedef WORD ADDRESS;
 
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-#if X_DISPLAY_DEPTH == 16
-typedef WORD		  		PIXEL;
-#elif X_DISPLAY_DEPTH == 24
-typedef DWORD				PIXEL;
-#elif X_DISPLAY_DEPTH == 8 || X_DISPLAY_DEPTH == 0
-//#ifndef OS2
-#undef PIXEL
-typedef BYTE		PIXEL;
-//#endif
-#else
-#error Unsupported display depth!
-#endif
 
-#if X_DISPLAY_DEPTH == 8 || X_DISPLAY_DEPTH == 0
-typedef WORD		PIXEL2;
-typedef DWORD		PIXEL4;
-#else
-typedef struct { PIXEL a, b; }		PIXEL2;
-typedef struct { PIXEL a, b, c, d; }	PIXEL4;
-#endif
+/* PIXEL in OS/2 are declared as BYTE (os2.h) */
+//#undef PIXEL
+typedef BYTE   PIXEL;
+typedef WORD   PIXEL2;
+typedef DWORD  PIXEL4;
 
 /*#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM) && !defined(OS2)
 #define REGPARM1 __attribute__((regparm(1)))
@@ -112,9 +103,5 @@ typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #define REGPARM2
 #define REGPARM3
 //#endif
-
-/* Use ANSI IO on RISC OS */
-typedef int file_desc_t;
-#define ILLEGAL_FILE_DESC      -1
 
 #endif  /* _VICE_TYPES_H */

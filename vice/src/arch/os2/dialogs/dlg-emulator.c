@@ -39,12 +39,11 @@
 #include "vsync.h"
 #include "resources.h"
 
-
 #if defined __X64__ || defined __X128__ || defined __XVIC__
-#define VIDEO_CACHE "VideoCache"
+const char *VIDEO_CACHE="VideoCache";
 #else
 //#if defined __XPET__ || defined __XCBM__
-#define VIDEO_CACHE "CrtcVideoCache"
+const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
 
 /* Needed prototype funtions                                        */

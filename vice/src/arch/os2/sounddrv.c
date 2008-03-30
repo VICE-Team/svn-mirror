@@ -24,9 +24,11 @@
  *
  */
 
-#include "ctype.h"
+#include <os2.h>
+#include <os2me.h>
 
-#include "types.h"
+#include <ctype.h>
+
 #include "log.h"
 
 int sound_err(ULONG rc, char *s)

@@ -41,3 +41,5 @@ These are the most important known problems with VICE 1.2:
 - When running the burn-in and diagnostics test of the 8296 system disk
   on "xpet -model 8296" a lot of stuff fails.
 
+- The write protect detection for the 3040/4040 disk drives is lacking
+

@@ -38,7 +38,6 @@
 #define CB_SOUND       0x1011
 #define CS_VOLUME      0x1012
 #define SPB_BUFFER     0x1013
-#define CB_SIDFILTER   0x1014
 #ifdef HAVE_RESID
   #define CB_RESID     0x1015
 #endif
@@ -50,8 +49,11 @@
 #define RB_2X          0x1031
 #define RB_4X          0x1032
 #define RB_8X          0x1033
-#define RB_6581        0x1040
-#define RB_8580        0x1041
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+  #define CB_SIDFILTER   0x1014
+  #define RB_6581        0x1040
+  #define RB_8580        0x1041
+#endif
 
 // Drive Dialog
 #define DLG_DRIVE      0x1019
@@ -91,12 +93,20 @@
 
 // Datasette Dialog
 #define DLG_DATASETTE  0x1060
-#define PB_STOP        0x1070
-#define PB_START       0x1071
-#define PB_FORWARD     0x1072
-#define PB_REWIND      0x1073
-#define PB_RECORD      0x1074
-#define PB_RESET       0x1075
+#define PB_STOP        0x1070  /* DATASETTE_CONTROL_STOP           0 */
+#define PB_START       0x1071  /* DATASETTE_CONTROL_START          1 */
+#define PB_FORWARD     0x1072  /* DATASETTE_CONTROL_FORWARD        2 */
+#define PB_REWIND      0x1073  /* DATASETTE_CONTROL_REWIND         3 */
+#define PB_RECORD      0x1074  /* DATASETTE_CONTROL_RECORD         4 */
+#define PB_RESET       0x1075  /* DATASETTE_CONTROL_RESET          5 */
+#define PB_RESETCNT    0x1076  /* DATASETTE_CONTROL_RESET_COUNTER  6 */
+#define SPB_COUNT      0x1077
+#define SS_SPIN        0x1078
+#define WM_COUNTER     WM_USER+0x1
+#define WM_TAPESTAT    WM_USER+0x2
+#define WM_SPINNING    WM_USER+0x3
+//#define PB_ATTACH   see Drive Dialog
+//#define PB_DETACH   see Drive Dialog
 
 #ifdef HAS_JOYSTICK
 
@@ -162,7 +172,7 @@
 #define WinGetSpinVal(hwnd, id, val) \
     WinSendDlgItemMsg(hwnd, id, SPBM_QUERYVALUE, (MPARAM)val, (MPARAM)0)
 #define WinLboxSelectItem(hwnd, id, index) \
-    WinSendDlgMsg(hwnd, id, LM_SELECTITEM, index, TRUE);
+    WinSendDlgMsg(hwnd, id, LM_SELECTITEM, (void*)(index), TRUE);
 #define WinLboxDeselectItem(hwnd, id, index) \
     WinSendDlgMsg(hwnd, id, LM_SELECTITEM, index, FALSE);
 #define WinLboxInsertItem(hwnd, id, psz) \
@@ -185,6 +195,8 @@
     WinQueryWindowText(WinWindowFromID(hwnd, id), max, psz)
 #define WinSetDlgText(hwnd, id, psz) \
     WinSetWindowText(WinWindowFromID(hwnd, id), psz)
+#define WinShowDlg(hwnd, id, bool) \
+    WinShowWindow(WinWindowFromID(hwnd, id), bool)
 
 /* Is-this-dialog-open handling                                     */
 /*----------------------------------------------------------------- */
@@ -206,10 +218,12 @@ extern void delDlgOpen(int dlg);
 /* Resource funtions                                                */
 /*----------------------------------------------------------------- */
 
-extern int toggle(char *resource_name);
+extern int toggle(const char *resource_name);
 
 /* Dialog-Function Prototypes                                       */
 /*----------------------------------------------------------------- */
+extern HWND hwndDrive;
+extern HWND hwndDatasette;
 
 extern void drive_dialog     (HWND hwnd);
 extern void sound_dialog     (HWND hwnd);
@@ -220,6 +234,9 @@ extern HWND monitor_dialog   (HWND hwnd);
 extern void contents_dialog  (HWND hwnd, char *szFullFile);
 extern void attach_dialog    (HWND hwnd, int drive);
 extern void create_dialog    (HWND hwnd);
+
+extern void hardreset_dialog (HWND hwnd);
+extern void softreset_dialog (HWND hwnd);
 
 #ifdef HAS_JOYSTICK
 extern void joystick_dialog  (HWND hwnd);

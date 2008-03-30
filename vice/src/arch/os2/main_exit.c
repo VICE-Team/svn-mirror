@@ -21,18 +21,12 @@
  *
  */
 
-#include "vice.h"
-
 #include <stdio.h>
 #include <signal.h>
 
-#include "joystick.h"
-#include "log.h"
-#include "machine.h"
 #include "main_exit.h"
-#include "sound.h"
-#include "video.h"
-#include "resources.h"
+
+#include "log.h"
 
 void main_exit(void)
 {

@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 23 November 1999 -->
+     from ../vice.texi on 30 January 2000 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -183,8 +183,7 @@ the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 In addition to those all emulators can handle 
 a parallel IEEE488 interface (the C64 and C128 via <CODE>$df**</CODE> extension,
 the VIC20 via VIC1112 emulation)
-so they also need the DOS ROM for the 2031 disk drive, basically a
-VC1541 with a parallel IEEE488 interface:
+so they also need the DOS ROM for the IEEE disk drives:
 
 </P>
 
@@ -193,9 +192,34 @@ VC1541 with a parallel IEEE488 interface:
 <P> <LI>
 
 <TT>`dos2031'</TT>, the 2031 drive ROM (16 Kbytes)
+(DOS 2.6, Commodore ROM images 901484-03 and 901484-05)
+
+<P> <LI>
+
+<TT>`dos3040'</TT>, the 3040 drive ROM (12 Kbytes)
+(DOS 2, Commodore ROM images 901468-11, 901468-12 and 901468-13)
+
+<P> <LI>
+
+<TT>`dos4040'</TT>, the 4040 drive ROM (12 Kbytes)
+(DOS 2, Commodore ROM images 901468-14, 901468-15 and 901468-16)
+
+<P> <LI>
+
+<TT>`dos1001'</TT>, the 1001/8050/8250 drive ROM (16 Kbytes)
+(DOS 2.7, Commodore ROM images 901887-01 and 901888-01)
 
 </UL> </P>
 
+<P>
+Note that there are other DOS images on the internet. The DOS 2.5 images
+might be used with the 8050, but it cannot handle the double sided drives
+of the 1001 and 8250 and it is not supported by VICE. Also the DOS 1
+disk images for the 3040/4040 are not supported as the available
+copies seem to be broken. It would be interesting though to see
+them handle 670 free blocks on a D64 image...
+
+</P>
 <P>
 The PET emulator uses an expanded setup, because there are three major 
 versions of the Basic and the Kernal, and many versions of the 
@@ -217,41 +241,55 @@ The PET ROMs have the following names:
 <P> <LI>
 
 <TT>`kernal1'</TT>, the PET2001 Kernal ROM (4 KBytes)
+(Commodore ROM images 901447-06 and 901447-07)
 <P> <LI>
 
 <TT>`kernal2'</TT>, the PET3032 Kernal ROM (4 KBytes)
+(Commodore ROM image 901465-03)
 <P> <LI>
 
 <TT>`kernal4'</TT>, the PET4032/8032 Kernal ROM (4 KBytes)
+(Commodore ROM image 901465-22)
 
 <P> <LI>
 
 <TT>`basic1'</TT>, the PET2001 Basic 1 ROM (8 KBytes)
+(Commodore ROM images 901447-09, 901447-02, 901447-03, 901447-04.bin.
+The -09 ROM is the revised -01 ROM)
 <P> <LI>
 
 <TT>`basic2'</TT>, the PET3032 Basic 2 ROM (8 KBytes)
+(Commodore ROM images 901465-01 and 901465-01)
 <P> <LI>
 
 <TT>`basic4'</TT>, the PET4032/8032 Basic 4 ROM (12 KBytes)
+(Commodore ROM images 901465-23, 901465-20 and 901465-21. 
+The -23 ROM is a revised -19 ROM)
 
 <P> <LI>
 
 <TT>`edit1g'</TT>, the PET2001 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901447-05)
 <P> <LI>
 
 <TT>`edit2b'</TT>, the PET3032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-01)
 <P> <LI>
 
 <TT>`edit2g'</TT>, the PET3032 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901447-24)
 <P> <LI>
 
 <TT>`edit4g40'</TT>, the PET4032 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901498-01)
 <P> <LI>
 
 <TT>`edit4b40'</TT>, the PET4032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-02)
 <P> <LI>
 
 <TT>`edit4b80'</TT>, the PET8032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-04-?)
 <P> <LI>
 
 <P> <LI>
@@ -259,6 +297,7 @@ The PET ROMs have the following names:
 <TT>`chargen'</TT>, the character generator ROM (2k).  It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
+(Commodore ROM image 901447-10)
 <P> <LI>
 
 <TT>`chargen.de'</TT>, the character generator ROM (2k). This version is a 

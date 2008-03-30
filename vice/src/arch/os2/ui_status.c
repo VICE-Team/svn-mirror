@@ -24,6 +24,12 @@
  *
  */
 
+#define INCL_WINSYS         // SYSCLR_*
+#define INCL_DOSPROCESS     // DosSleep
+#define INCL_DOSSEMAPHORES  // hmtx
+#define INCL_WINRECTANGLES  // WinInflateRect
+#include <os2.h>
+
 #include "ui_status.h"
 
 #include <stdlib.h>

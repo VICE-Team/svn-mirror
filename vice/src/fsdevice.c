@@ -43,10 +43,11 @@
 #ifdef __riscos
 #include "ui.h"
 #else
-#ifndef __IBMC__
-#include <dirent.h>
-#else
+#ifdef __IBMC__
 #include <direct.h>
+#include "snippets/dirport.h"
+#else
+#include <dirent.h>
 #endif
 #include <memory.h>
 #endif
@@ -79,11 +80,6 @@
 #include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
-
-#ifdef __IBMC__
-#include "snippets/dirport.h"
-#endif
-
 
 enum fsmode {
     Write, Read, Append, Directory

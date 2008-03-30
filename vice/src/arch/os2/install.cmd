@@ -60,6 +60,7 @@ CALL createProgram "C=64",        'x64.exe'
 CALL createProgram "C=128",       'x128.exe'
 CALL createProgram "PET",         'xpet.exe'
 CALL createProgram "VIC 20",      'xvic.exe'
+CALL createProgram "CBM/2",       'xcbm2.exe'
 CALL createProgram "C=1541",      'c1541.exe'
 
 setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice.log'
@@ -87,6 +88,10 @@ do
     say '!!! Can''t create a program object for the Vice Manual'
     say ''
 end
+
+curdir = directory(origdir'\doc')
+
+CALL createShadow "<VICE2>", 'Vice_for_OS2.txt'
 
 if SysCreateObject("WPFolder","Documentation","<VICE2>","OBJECTID=<VICE2_DOC>","update")<>1 then
 do
@@ -169,7 +174,8 @@ say ''
 exit
 
 createProgram:
-    setupstring='EXENAME='curdir'\'ARG(2)';STARTUPDIR='curdir
+    /* setupstring='EXENAME='curdir'\'ARG(2)';STARTUPDIR='curdir*/
+    setupstring='EXENAME='curdir'\'ARG(2)
     /*    say 'Creating an object for 'ARG(2)'...'*/
     if SysCreateObject("WPProgram",ARG(1),"<VICE2>",setupstring,"update")<>1 then
     do

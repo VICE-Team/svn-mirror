@@ -63,6 +63,9 @@
 #define DRIVE_ROM1581_SIZE   0x8000
 #define DRIVE_ROM2031_SIZE   0x4000
 #define DRIVE_ROM1001_SIZE   0x4000	/* same as ROM8050 and ROM8250 !*/
+#define	DRIVE_ROM2040_SIZE   0x2000
+#define	DRIVE_ROM3040_SIZE   0x3000
+#define	DRIVE_ROM4040_SIZE   0x3000
 #define DRIVE_ROM_SIZE       0x8000
 #define DRIVE_RAM_SIZE       0x2000
 #define DRIVE_ROM1541_CHECKSUM	1976666
@@ -89,26 +92,42 @@
 #define DRIVE_TYPE_1571   1571
 #define DRIVE_TYPE_1581   1581
 #define DRIVE_TYPE_2031   2031
+#define DRIVE_TYPE_2040   2040  /* DOS 1 dual floppy drive, 170k/disk */
+#define DRIVE_TYPE_3040   3040  /* DOS 2.0 dual floppy drive, 170k/disk */
+#define DRIVE_TYPE_4040   4040  /* DOS 2.5 dual floppy drive, 170k/disk */
 #define DRIVE_TYPE_1001   1001	/* DOS 2.7 single floppy drive, 1M/disk */
 #define DRIVE_TYPE_8050   8050	/* DOS 2.7 dual floppy drive, 0.5M/disk */
 #define DRIVE_TYPE_8250   8250	/* DOS 2.7 dual floppy drive, 1M/disk */
 
 /* some defines */
+
+/* the drive uses an IEEE488 interface */
 #define DRIVE_IS_IEEE(type)     (           \
         ((type) == DRIVE_TYPE_2031)         \
+        || ((type) == DRIVE_TYPE_2040)      \
+        || ((type) == DRIVE_TYPE_3040)      \
+        || ((type) == DRIVE_TYPE_4040)      \
         || ((type) == DRIVE_TYPE_1001)      \
         || ((type) == DRIVE_TYPE_8050)      \
         || ((type) == DRIVE_TYPE_8250)      \
         )
 
+/* the drive is an old type, with RIOTs, FDC, and two CPUs */
 #define DRIVE_IS_OLDTYPE(type)  (           \
-        ((type) == DRIVE_TYPE_1001)         \
+        ((type) == DRIVE_TYPE_2040)         \
+        || ((type) == DRIVE_TYPE_3040)      \
+        || ((type) == DRIVE_TYPE_4040)      \
+        || ((type) == DRIVE_TYPE_1001)      \
         || ((type) == DRIVE_TYPE_8050)      \
         || ((type) == DRIVE_TYPE_8250)      \
         )
 
+/* the drive is a dual disk drive */
 #define DRIVE_IS_DUAL(type)     (           \
-        ((type) == DRIVE_TYPE_8050)         \
+        ((type) == DRIVE_TYPE_2040)         \
+        || ((type) == DRIVE_TYPE_3040)      \
+        || ((type) == DRIVE_TYPE_4040)      \
+        || ((type) == DRIVE_TYPE_8050)      \
         || ((type) == DRIVE_TYPE_8250)      \
         )
 
@@ -316,6 +335,9 @@ extern BYTE drive_rom1571[];
 extern BYTE drive_rom1581[];
 extern BYTE drive_rom2031[];
 extern BYTE drive_rom1001[];
+extern BYTE drive_rom2040[];
+extern BYTE drive_rom3040[];
+extern BYTE drive_rom4040[];
 
 /* If nonzero, the ROM image has been loaded.  */
 extern int rom1541_loaded;
@@ -324,6 +346,9 @@ extern int rom1571_loaded;
 extern int rom1581_loaded;
 extern int rom2031_loaded;
 extern int rom1001_loaded;
+extern int rom2040_loaded;
+extern int rom3040_loaded;
+extern int rom4040_loaded;
 
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern int drive_enable(int dnr);
@@ -360,6 +385,9 @@ extern int drive_load_1571(void);
 extern int drive_load_1581(void);
 extern int drive_load_2031(void);
 extern int drive_load_1001(void);
+extern int drive_load_2040(void);
+extern int drive_load_3040(void);
+extern int drive_load_4040(void);
 extern void drive_set_sync_factor(unsigned int factor);
 extern void drive_set_ntsc_sync_factor(void);
 extern void drive_set_pal_sync_factor(void);

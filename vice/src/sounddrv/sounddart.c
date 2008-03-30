@@ -24,11 +24,14 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_DOSPROFILE
 #define INCL_DOSPROCESS
 #define INCL_DOSSEMAPHORES
-
-#include "vice.h"
+#include <os2.h>
+#define INCL_MCIOS2
+#include <os2me.h>
 
 #include <stdio.h>
 #include <string.h>

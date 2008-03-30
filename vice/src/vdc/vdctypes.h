@@ -90,8 +90,6 @@ typedef enum _vdc_video_mode vdc_video_mode_t;
 					 && (x) != VDC_IDLE_MODE)
 #define VDC_IS_BITMAP_MODE(x)	((x) & 0x02)
 
-
-
 /* VDC structures.  This is meant to be used by VDC modules
    *exclusively*!  */
 

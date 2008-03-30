@@ -31,7 +31,7 @@
 
 #include "resources.h"
 
-int toggle(char *resource_name)
+int toggle(const char *resource_name)
 {
     int val;
     if (resources_get_value(resource_name, (resource_value_t *) &val) <0)

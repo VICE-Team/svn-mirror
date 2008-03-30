@@ -26,37 +26,24 @@
  *
  */
 
-/* This does what has to be done at the end of each screen frame (50 times per
-   second on PAL machines). */
+#include "vice.h"
+
 #define INCL_DOSPROFILE
 #define INCL_DOSPROCESS
 #define INCL_DOSSEMAPHORES
+#include <os2.h>
 
-#include "vice.h"
+#include <stdlib.h>    // exit
 
-#include <sys/time.h>
-#include <signal.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-
-#include "vsync.h"
-#include "ui.h"
-#include "ui_status.h"
-#include "interrupt.h"
-#include "machine.h" //machine_shutdown
+#include "sound.h"     // sound_set_warp_mode
+#include "kbdbuf.h"    // kbd_buf_flush
+#include "machine.h"   // machine_shutdown
 #include "maincpu.h"
-#include "log.h"
-#include "kbdbuf.h"
-#include "sound.h"
-#include "resources.h"
-#include "cmdline.h"
-#include "kbd.h"
-#include "archdep.h"
-#include "clkguard.h"
+#include "clkguard.h"  // clk_guard_add_callback
+#include "ui_status.h" // ui_display_speed
 
-#include "usleep.h"
+#include "cmdline.h"
+#include "resources.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -431,6 +418,8 @@ int do_vsync(int been_skipped)
 #ifdef HAS_JOYSTICK
     joystick_update();
 #endif
+
+    kbd_buf_flush();
 
     return skip_next_frame;
 }

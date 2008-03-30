@@ -108,7 +108,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     static int drive = 0;
     static int first = TRUE;
 
-    static char image_hist[10][CCHMAXPATH];
+    //    static char image_hist[10][CCHMAXPATH];
 
     switch (msg)
     {
@@ -122,10 +122,9 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_PAINT:
         {
             if (first) {
-                int val, i;
-                for (i=0; i<10; i++)
-                    if (image_hist[i][0])
-                        WinLboxInsertItem(hwnd, CBS_IMAGE, image_hist[i]);
+                int val, i=0;
+                while (i<10 && ui_status.imageHist[i][0])
+                    WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[i++]);
                 WinLboxInsertItem(hwnd, CBS_IMAGE, "");
                 for (i=0; i<nDRIVES; i++)
                     WinLboxInsertItem(hwnd, CBS_TYPE, driveName[i]);
@@ -218,7 +217,9 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                         if (strlen(psz))
                         {
                             if (file_system_attach_disk(drive+8, psz))
-                                WinError(hwnd, "Cannot attach specified file.");
+                                WinMessageBox(HWND_DESKTOP, hwnd,
+                                              "Cannot attach specified file.",
+                                              "VICE/2 Error", 0, MB_OK);
                         }
                         else
                             file_system_detach_disk(drive+8);
@@ -242,31 +243,13 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_DRIVEIMAGE:
         {
             int pos;
-            if (!strlen(mp1))
-                pos=WinLboxQueryCount(hwnd, CBS_IMAGE)-1;
-            else
-            {
-                char tmp[CCHMAXPATH];
-                int max=WinLboxQueryCount(hwnd, CBS_IMAGE);
-                int i;
-                pos=-1;
-                for (i=0; i<max; i++)
-                {
-                    int j=WinLboxQueryItem(hwnd, CBS_IMAGE, i, tmp, CCHMAXPATH);
-                    if (!strcmp(tmp, mp1)) pos=i;
-                }
-                if (pos<0)
-                {
-                    for (i=10; i>0; i--)
-                        strcpy(image_hist[i], image_hist[i-1]);
-                    strcpy(image_hist[0], mp1);
-                    if (max==11) WinLboxDeleteItem(hwnd, CBS_IMAGE, 9);
-                    WinLboxInsertItemAt(hwnd, CBS_IMAGE, mp1, 0);
-                    pos=0;
-                }
-            }
+            for (pos=0; pos<9; pos++) WinLboxDeleteItem(hwnd, CBS_IMAGE, 0);
+            pos=0;
+            while (pos<10 && ui_status.imageHist[pos][0])
+                WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[pos++]);
+            WinLboxInsertItem(hwnd, CBS_IMAGE, "");
             if (drive==(int)mp2)
-                WinLboxSelectItem(hwnd, CBS_IMAGE, pos);
+                WinLboxSelectItem(hwnd, CBS_IMAGE, *((char*)mp1)?0:pos);
         }
         return FALSE;
     case WM_SWITCH:
@@ -293,10 +276,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             }
             WinCheckButton(hwnd, CB_PARALLEL, drive89 ?
                            (get_drive_res("Drive%dParallelCable", drive)!=0):0);
-            WinLboxSelectItem(hwnd, CBS_TYPE,
-                              (void*)(drive89 ?
-                              driveTypeNo(get_drive_res("Drive%dType", drive)):
-                              0));
+            WinLboxSelectItem(hwnd, CBS_TYPE, drive89 ?
+                              driveTypeNo(get_drive_res("Drive%dType", drive)):0);
             WinEnableControl(hwnd, CB_PARALLEL, drive89);
             WinEnableControl(hwnd, RB_NEVER,    drive89);
             WinEnableControl(hwnd, RB_ASK,      drive89);
@@ -320,12 +301,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 char tmp[CCHMAXPATH];
                 int max=WinLboxQueryCount(hwnd, CBS_IMAGE);
                 int pos=-1;
-                int i;
-                for (i=0; i<max; i++)
-                {
-                    WinLboxQueryItem(hwnd, CBS_IMAGE, i, tmp, CCHMAXPATH);
-                    if (!strcmp(ui_status.lastImage[drive], tmp)) pos=i;
-                }
+                do WinLboxQueryItem(hwnd, CBS_IMAGE, ++pos, tmp, CCHMAXPATH);
+                while (pos<max && strcmp(ui_status.lastImage[drive], tmp));
                 WinLboxSelectItem(hwnd, CBS_IMAGE, pos);
             }
         }

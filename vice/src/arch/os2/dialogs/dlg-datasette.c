@@ -24,30 +24,72 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_WINBUTTONS
 #define INCL_WINDIALOGS
+#define INCL_WINSTDSPIN
+#define INCL_DOSSEMAPHORES // needed for ui_status
 
-#include "vice.h"
 #include "dialogs.h"
 
-#include "resources.h"
+#include "ui_status.h"
+
+#include "tape.h"
 #include "datasette.h"
+
 
 static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
+    static int first=TRUE;
     switch (msg)
     {
     case WM_INITDLG:
         setDlgOpen(DLGO_DATASETTE);
+        first = TRUE;
         break;
     case WM_CLOSE:
         delDlgOpen(DLGO_DATASETTE);
+        first = TRUE;
         break;
+    case WM_PAINT:
+        {
+            if (first)
+            {
+                WinSendMsg(hwnd, WM_COUNTER,  (void*)ui_status.lastTapeCounter, 0);
+                WinSendMsg(hwnd, WM_TAPESTAT,
+                           (void*)ui_status.lastTapeCtrlStat,
+                           (void*)ui_status.lastTapeStatus);
+                WinShowDlg(hwnd, SS_SPIN,
+                           (ui_status.lastTapeMotor && ui_status.lastTapeStatus)
+                           ?1:0);
+                first=FALSE;
+            }
+        }
+        break;
+    case WM_COUNTER:
+        WinSetSpinVal(hwnd, SPB_COUNT, mp1);
+        return FALSE;
+    case WM_TAPESTAT:
+        WinEnableControl(hwnd, PB_RECORD,   (int)mp2?((int)mp1!=DATASETTE_CONTROL_RECORD):0);
+        WinEnableControl(hwnd, PB_REWIND,   (int)mp2?((int)mp1!=DATASETTE_CONTROL_REWIND):0);
+        WinEnableControl(hwnd, PB_STOP,     (int)mp2?((int)mp1!=DATASETTE_CONTROL_STOP):0);
+        WinEnableControl(hwnd, PB_START,    (int)mp2?((int)mp1!=DATASETTE_CONTROL_START):0);
+        WinEnableControl(hwnd, PB_FORWARD,  (int)mp2?((int)mp1!=DATASETTE_CONTROL_FORWARD):0);
+        WinEnableControl(hwnd, PB_RESET,    (int)mp2?1:0);
+        WinEnableControl(hwnd, PB_RESETCNT, (int)mp2?1:0);
+        WinEnableControl(hwnd, SPB_COUNT,   (int)mp2?1:0);
+        if (!mp2) WinShowDlg(hwnd, SS_SPIN, 0);
+        return FALSE;
+    case WM_SPINNING:
+        WinShowDlg(hwnd, SS_SPIN, (int)(mp2 && mp1)?1:0);
+        return FALSE;
     case WM_COMMAND:
         switch (LONGFROMMP(mp1))
         {
         case DID_CLOSE:
             delDlgOpen(DLGO_DATASETTE);
+            first = TRUE;
             break;
         case PB_STOP:
         case PB_START:
@@ -55,7 +97,14 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         case PB_REWIND:
         case PB_RECORD:
         case PB_RESET:
+        case PB_RESETCNT:
             datasette_control(LONGFROMMP(mp1)&0xf);
+            return FALSE;
+        case PB_ATTACH:
+            attach_dialog(hwnd, 0);
+            return FALSE;
+        case PB_DETACH:
+            tape_detach_image();
             return FALSE;
         }
     }
@@ -64,11 +113,12 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
 
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
+HWND hwndDatasette;
 
 void datasette_dialog(HWND hwnd)
 {
     if (dlgOpen(DLGO_DATASETTE)) return;
-    WinLoadDlg(HWND_DESKTOP, hwnd, pm_datasette, NULLHANDLE,
-               DLG_DATASETTE, NULL);
+    hwndDatasette=WinLoadDlg(HWND_DESKTOP, hwnd, pm_datasette, NULLHANDLE,
+                             DLG_DATASETTE, NULL);
 }
 

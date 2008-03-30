@@ -775,8 +775,8 @@ and @key{space} for the fire button instead.
 
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1541-II, 1571, 1581, 2031, 1001, 8050 and 8250 drives in one 
-of two ways:
+Commodore 1541, 1541-II, 1571, 1581, 2031, 3040, 4040, 1001, 8050 and 
+8250 drives in one of two ways:
 
 @itemize @bullet
 @item
@@ -797,8 +797,9 @@ does @emph{not} really emulate the serial line, but patches the kernal
 ROM (with the so-called @dfn{kernal traps}) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
-all of them). The IEEE488 drives (2031, 1001, 8050 and 8250) do not use
-kernal traps. Instead the IEEE488 interface lines are monitored
+all of them). The IEEE488 drives (2031, 3040, 4040, 1001, 8050 and 8250) 
+do not use
+kernal traps. Instead the IEEE488 interface lines are monitored and
 the data is passed to the drive emulation. To use them on the C64,
 you need to enable the IEEE488 interface emulation. Only if the 
 IEEE488 emulation is enabled, those drives can be selected.
@@ -830,7 +831,7 @@ at unit #8, and still have filesystem access at units #10 or #11, because
 monitoring the IEEE488 lines does not interfere with the true drive
 emulation.
 
-The IEEE488 disk drives 8050 and 8250 are Dual Drive Floppy Disks. 
+The IEEE488 disk drives 3040, 4040, 8050 and 8250 are Dual Drive Floppy Disks. 
 This means that these drives handle two disks. To Accomplish the 
 emulation, only one disk can be emulated, namely unit #8. The 
 attached image, track display and LED display of unit #9 are used
@@ -838,19 +839,28 @@ for the second drive of the dual disk drives. On unix the unit number
 display (8 or 9) in the emulation window changes to the drive number
 display (0 or 1). 
 
-The Commodore 1001, 8050 and 8250 disk drives are so-called "old-style"
+The Commodore 3040, 4040, 1001, 8050 and 8250 disk drives are 
+so-called "old-style"
 disk drives. Their architecture includes not one, but two processors
 of the 6502 type, namely a 6502 for the file handling and communication
-with the PET (IP), and a 6504 (which has a reduced address space) for 
+with the PET (IP), and a 6504 (which is a 6502 with reduced address space) for 
 the drive handling (FDC). Both processors communicate over a shared memory
 area. The IP writes commands to read/write blocks to this area and
 the FDC executes them. To make the emulation feasible, the FDC processor
-is not emulated cycle-exactly as a 6504, but simply be checking 
+is not emulated cycle-exactly as a 6504, but simply by checking 
 the commands and executing them on the host. This provides a fast
 FDC emulation, but disallows the sending the FDC processor commands
 to execute code. Applications where this is necessary are believed
 to be rather seldom. Only the format command uses this feature, but
 this is checked for.
+
+The dual disk drives 3040 and 4040 use the same logical disk format as 
+the VC1541 and the 2031. In fact, the 4040 was the first disk with 
+DOS version 2. It is, however, not yet clear whether those disks
+are write compatible, as rumors exist that the write gap between 
+sectors is different. But read compatible they are. As VICE emulates
+the FDC processor in C and not as 6504 emulation, this does not matter
+in VICE.
 
 The drives 1001, 8050 and 8250 do actually have the very same DOS ROM.
 Only the code in the FDC is different, which is taken care of by VICE.
@@ -864,7 +874,7 @@ VICE supports the most popular Commodore file formats:
 @itemize @bullet
 
 @item
-@code{X64} (preferred) or @code{D64} disk image files;
+@code{X64} (preferred) or @code{D64} disk image files; Used by the 1541, 2031, 3040, 4040 drives.
 
 @item
 @code{G64} GCR-encoded 1541 disk image files;
@@ -1263,15 +1273,34 @@ the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 In addition to those all emulators can handle 
 a parallel IEEE488 interface (the C64 and C128 via @code{$df**} extension,
 the VIC20 via VIC1112 emulation)
-so they also need the DOS ROM for the 2031 disk drive, basically a
-VC1541 with a parallel IEEE488 interface:
+so they also need the DOS ROM for the IEEE disk drives:
 
 @itemize @bullet
 
 @item
 @file{dos2031}, the 2031 drive ROM (16 Kbytes)
+(DOS 2.6, Commodore ROM images 901484-03 and 901484-05)
+
+@item
+@file{dos3040}, the 3040 drive ROM (12 Kbytes)
+(DOS 2, Commodore ROM images 901468-11, 901468-12 and 901468-13)
+
+@item
+@file{dos4040}, the 4040 drive ROM (12 Kbytes)
+(DOS 2, Commodore ROM images 901468-14, 901468-15 and 901468-16)
+
+@item
+@file{dos1001}, the 1001/8050/8250 drive ROM (16 Kbytes)
+(DOS 2.7, Commodore ROM images 901887-01 and 901888-01)
 
 @end itemize
+
+Note that there are other DOS images on the internet. The DOS 2.5 images
+might be used with the 8050, but it cannot handle the double sided drives
+of the 1001 and 8250 and it is not supported by VICE. Also the DOS 1
+disk images for the 3040/4040 are not supported as the available
+copies seem to be broken. It would be interesting though to see
+them handle 670 free blocks on a D64 image...
 
 The PET emulator uses an expanded setup, because there are three major 
 versions of the Basic and the Kernal, and many versions of the 
@@ -1288,36 +1317,51 @@ The PET ROMs have the following names:
 
 @item
 @file{kernal1}, the PET2001 Kernal ROM (4 KBytes)
+(Commodore ROM images 901447-06 and 901447-07)
 @item
 @file{kernal2}, the PET3032 Kernal ROM (4 KBytes)
+(Commodore ROM image 901465-03)
 @item
 @file{kernal4}, the PET4032/8032 Kernal ROM (4 KBytes)
+(Commodore ROM image 901465-22)
 
 @item
 @file{basic1}, the PET2001 Basic 1 ROM (8 KBytes)
+(Commodore ROM images 901447-09, 901447-02, 901447-03, 901447-04.bin.
+The -09 ROM is the revised -01 ROM)
 @item
 @file{basic2}, the PET3032 Basic 2 ROM (8 KBytes)
+(Commodore ROM images 901465-01 and 901465-01)
 @item
 @file{basic4}, the PET4032/8032 Basic 4 ROM (12 KBytes)
+(Commodore ROM images 901465-23, 901465-20 and 901465-21. 
+The -23 ROM is a revised -19 ROM)
 
 @item
 @file{edit1g}, the PET2001 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901447-05)
 @item
 @file{edit2b}, the PET3032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-01)
 @item
 @file{edit2g}, the PET3032 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901447-24)
 @item
 @file{edit4g40}, the PET4032 editor for graphics keyboards (2 KBytes)
+(Commodore ROM image 901498-01)
 @item
 @file{edit4b40}, the PET4032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-02)
 @item
 @file{edit4b80}, the PET8032 editor for business keyboards (2 KBytes)
+(Commodore ROM image 901474-04-?)
 @item
 
 @item
 @file{chargen}, the character generator ROM (2k).  It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
+(Commodore ROM image 901447-10)
 @item
 @file{chargen.de}, the character generator ROM (2k). This version is a 
 patched German charset, with the characters [, \ and ] replaced by umlauts.
@@ -2749,9 +2793,11 @@ Specifies a generic sync factor for the drive emulation
 @itemx -dos1571
 @itemx -dos1581
 @itemx -dos2031
+@itemx -dos3040
+@itemx -dos4040
 @itemx -dos1001
-Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001 emulation
-respectively.
+Specify the ROM names for the 1541, 1571, 1581, 2031, 3040, 4040 
+and 1001 emulation respectively.
 
 @end table
 
@@ -6083,7 +6129,7 @@ Assign respective registers.  With no parameters, display register values.
 
 @item return
 Continues execution  and returns to the monitor just
-before(after?) the next RTS or RTI is executed.
+after the next RTS or RTI is executed.
 
 @item step [<count>]
 Single step through instructions.  An optional count allows stepping more

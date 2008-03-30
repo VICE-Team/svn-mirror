@@ -25,14 +25,19 @@
  *
  */
 
-#define INCL_DOSQUEUES  /* For Queue commands */
-#define INCL_DOSSESMGR  /* For DosStartSession */
-#define INCL_DOSMEMMGR  /* For DosFreeMem */
+#include "vice.h"
+
+#define INCL_DOSQUEUES     /* Queue commands     */
+#define INCL_DOSSESMGR     /* DosStartSession    */
+#define INCL_DOSMEMMGR     /* DosFreeMem         */
+#define INCL_DOSPROCESS    /* DosGetInfoBlock    */
+#define INCL_DOSMODULEMGR  /* DosQueryModuleName */
+#define INCL_DOSSEMAPHORES /* Dos-*-MutexSem     */
 
 #define INCL_DOSMISC
 #define INCL_DOSFILEMGR
 
-#include "vice.h"
+#include <os2.h>
 
 #include <stdarg.h>
 #include <signal.h>
@@ -58,7 +63,7 @@
 #include "signals.h"
 
 static char *orig_workdir;
-static char *argv0;
+static char argv0[CCHMAXPATH];
 
 static void restore_workdir(void)
 {
@@ -87,63 +92,58 @@ void PM_open(void)
 
 /* ------------------------------------------------------------------------ */
 
+HMTX hmtxSpawn;
+
 int archdep_startup(int *argc, char **argv)
 {
-    argv0 = (char*)strdup(argv[0]);
+    /* This should be a more valid way... */
+    // argv0 = (char*)strdup(argv[0]);
+    TIB *pTib;
+    PIB *pPib;
+    DosGetInfoBlocks(&pTib, &pPib);
+    DosQueryModuleName(pPib->pib_hmte, CCHMAXPATH, argv0);
+
     orig_workdir = (char*) getcwd(NULL, GET_PATH_MAX);
     atexit(restore_workdir);
 
     PM_open();     // Open PM for usage
 
+    DosCreateMutexSem("\\SEM32\\ViceSpawn", &hmtxSpawn, 0, FALSE);
+
     return 0;
 }
 
 const char *archdep_program_name(void)
-{   // free ???
-    //#ifdef __IBMC__
+{
     static char *name;
-    char drive[_MAX_DRIVE];
-    char dir  [_MAX_DIR];
-    char fname[_MAX_FNAME+_MAX_EXT];
-    char ext  [_MAX_EXT];
     if (!name) {
+        char drive[_MAX_DRIVE];
+        char dir  [_MAX_DIR];
+        char fname[_MAX_FNAME+_MAX_EXT];
+        char ext  [_MAX_EXT];
         _splitpath(argv0, drive, dir, fname, ext);
         name = concat(fname, ext, NULL);
     }
     return name;
-    //#else
-    //    program_name = strdup(_getname(argv0));
-    //#endif
 }
 
 const char *archdep_boot_path(void)
-{   // free ???
-    //#ifdef __IBMC__
+{
     static char *boot_path;
-    char drive[_MAX_DRIVE+_MAX_DIR];
-    char dir  [_MAX_DIR];
-    char fname[_MAX_FNAME+_MAX_EXT];
-    char ext  [_MAX_EXT];
-
     if (!boot_path) {
+        char drive[_MAX_DRIVE+_MAX_DIR];
+        char dir  [_MAX_DIR];
+        char fname[_MAX_FNAME+_MAX_EXT];
+        char ext  [_MAX_EXT];
         _splitpath(argv0, drive, dir, fname, ext);
         if (strlen(dir)) *(dir+strlen(dir)-1) = '\0'; // cut last backslash
         boot_path = concat(drive, dir, NULL);
-    }
+     }
     return boot_path;
-
-    /*#else
-     char *start = (char*)  strdup(argv0);
-     char *end   = (char*)_getname(start);
-     if (end!=start) *(end-1) = 0; // cut last backslash
-     else *end=0;
-     boot_path = (char*)strdup(start);
-     free(start);
-     #endif*/
 }
 
 const char *archdep_default_sysfile_pathlist(const char *emu_id)
-{   // free ???
+{
     static char *pathlist;
     if (!pathlist)
         pathlist=concat(emu_id, FINDPATH_SEPARATOR_STRING, "DRIVES", NULL);
@@ -156,9 +156,9 @@ const char *archdep_default_save_resource_file_name(void)
 }
 
 const char *archdep_default_resource_file_name(void)
-{   // free ???
+{
     static char *filename;
-    if (!filename) filename = concat(archdep_boot_path(), "\\vice.cfg", NULL);
+    if (!filename) filename = concat(archdep_boot_path(), "\\vice2.cfg", NULL);
     return filename;
 }
 
@@ -170,7 +170,7 @@ int archdep_default_logger(const char *level_string,
 
 FILE *archdep_open_default_log_file(void)
 {
-    char *fname = concat (archdep_boot_path(), "\\vice.log", NULL);
+    char *fname = concat (archdep_boot_path(), "\\vice2.log", NULL);
     FILE *f = fopen(fname, "w");
     free(fname);
 
@@ -207,7 +207,8 @@ static RETSIGTYPE break64(int sig)
             sig, sys_siglist[sig]);
     log_message(LOG_DEFAULT, sigtxt);
 #if !defined __C1541__ && !defined __PETCAT__
-    ui_OK_dialog("Vice/2 Exception", sigtxt);
+    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+                  sigtxt, "VICE/2 Exception", 0, MB_OK);
 #endif
     exit (-1);
 }
@@ -245,10 +246,8 @@ int archdep_path_is_relative(const char *path)
 
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
-{   // free ???
-    static char *name;
-    if (!name) name=concat(fname, "~", NULL);
-    return name;
+{   
+    return concat(fname, "~", NULL);
 }
 
 /* return malloced version of full pathname of filename */
@@ -262,7 +261,8 @@ int archdep_expand_path(char **return_path, const char *filename)
         *return_path = concat(cwd, "\\", filename, NULL);
         free(cwd);
     }
-    log_message(LOG_DEFAULT,"archdep.c: %s --> %s", filename, *return_path);
+    if (strcmp(filename, *return_path))
+        log_message(LOG_DEFAULT,"archdep.c: %s --> %s", filename, *return_path);
     return 0;
 }
 
@@ -291,14 +291,14 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
     int i      = 0;
     while (argv[++i]) length += strlen(argv[i]);
     length += i+strlen(name)+3+
-        (sout?strlen(sout)+3:0)+
-        (serr?strlen(serr)+4:0); // need space for the spaces
+        (sout?strlen(sout)+5:0)+
+        (serr?strlen(serr)+6:0); // need space for the spaces
     res = xcalloc(1,length);
     i = 0;
     strcat(strcpy(res,"/c "),name);
     while (argv[++i]) strcat(strcat(res," "), argv[i]);
-    if (sout) strcat(strcat(res,  " > "), sout);
-    if (serr) strcat(strcat(res, " 2> "), serr);
+    if (sout) strcat(strcat(strcat(strcat(res,  " > "),"\""), sout), "\"");
+    if (serr) strcat(strcat(strcat(strcat(res, " 2> "),"\""), serr), "\"");
     return res;
 }
 
@@ -334,10 +334,11 @@ int archdep_spawn(const char *name, char **argv,
 
     memset(&sd,0,sizeof(STARTDATA));
     sd.Length     = sizeof(STARTDATA);
-    sd.Related    = SSF_RELATED_CHILD;            /* Start a child session */
+    sd.FgBg       = SSF_FGBG_BACK;      /* Start session in background */
+    sd.Related    = SSF_RELATED_CHILD;  /* Start a child session       */
     sd.PgmName    = "cmd.exe";
     sd.PgmInputs  = cmdline;
-    sd.PgmControl = SSF_CONTROL_INVISIBLE;        // | SSF_CONTROL_NOAUTOCLOSE
+    sd.PgmControl = SSF_CONTROL_INVISIBLE;  // | SSF_CONTROL_NOAUTOCLOSE;
     sd.TermQ      = "\\QUEUES\\VICE2\\CHILD.QUE";
     sd.InheritOpt = SSF_INHERTOPT_SHELL;
 
@@ -345,6 +346,7 @@ int archdep_spawn(const char *name, char **argv,
      Wait for the session to end and get it's session ID
      from the termination queue */
 
+    if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT)) return 0;
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
         log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
     else
@@ -353,8 +355,8 @@ int archdep_spawn(const char *name, char **argv,
             log_message(LOG_DEFAULT,"archdep.c: Error in DosStartSession (rc=%li).",rc);
         else
         {
-            if(rc=DosReadQueue(hqQueue, &rdRequest, &ulSzData,        /* Wait for the child session to end (you'll have to end it*/
-                               &pvData, 0, DCWW_WAIT, &bPriority, 0)) /* in some other way */
+            if(rc=DosReadQueue(hqQueue, &rdRequest, &ulSzData,        /* Wait for the child session to end (you'll have to end it */
+                               &pvData, 0, DCWW_WAIT, &bPriority, 0)) /* in some other way) */
                 log_message(LOG_DEFAULT,"archdep.c: Error in DosReadQueue (rc=%li).",rc);
             else
             {
@@ -364,44 +366,11 @@ int archdep_spawn(const char *name, char **argv,
         }
         DosCloseQueue(hqQueue);
     }
+    DosReleaseMutexSem(hmtxSpawn);
     free(cmdline);
     //    DosSleep(1000);
     if (rc) log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
     return rc;
-}
-
-/* FIXME: WHY DO I NEED THIS ????????????????? */
-#include "vdrive.h"
-int os2_p00_check_name(const char *name)
-{
-    int t = -1;
-    char *p;
-
-    if (!name || !(p = strrchr(name, '.')) || strlen(++p) != 3)
-	return -1;
-
-    if (!isdigit((int) p[1]) || !isdigit((int) p[2]))
-	return -1;
-
-    switch (toupper(*p)) {
-      case 'D':
-	  t = FT_DEL;
-	  break;
-      case 'S':
-	  t = FT_SEQ;
-	  break;
-      case 'P':
-	  t = FT_PRG;
-	  break;
-      case 'U':
-	  t = FT_USR;
-	  break;
-      case 'R':
-	  t = FT_REL;
-	  break;
-    }
-
-    return t;
 }
 
 void archdep_startup_log_error(const char *format, ...)
@@ -411,7 +380,8 @@ void archdep_startup_log_error(const char *format, ...)
     va_start(ap, format);
     vsprintf(txt, format, ap);
 #if !defined __C1541__ && !defined __PETCAT__
-    ui_OK_dialog("VICE/2 Startup Error", txt);
+    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+                  txt, "VICE/2 Startup Error", 0, MB_OK);
 #else
     printf(txt);
 #endif

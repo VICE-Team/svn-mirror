@@ -111,6 +111,8 @@ copy ..\..\..\data\DRIVES\dos2031       Vice2\DRIVES
 md Vice2\doc
 copy "vac++\vice2.inf"         Vice2\doc
 
+copy doc\Vice_for_OS2.txt      Vice2\doc
+
 md Vice2\doc\readme
 copy  ..\..\..\AUTHORS         Vice2\doc\readme
 copy  ..\..\..\BUGS            Vice2\doc\readme

@@ -1,7 +1,15 @@
 #ifndef _VIDEOARCH_H
 #define _VIDEOARCH_H
 
-#include "vice.h"
+/* BYTE is already defined in os2def.h    */
+/* ADDRESS is already defined in os2def.h */
+/* #define ADDRESS 0                      */
+#undef BYTE
+#undef ADDRESS
+#define INCL_GPIBITMAPS
+#include <os2.h>
+#undef ADDRESS
+#define ADDRESS WORD
 
 #include "palette.h"
 
@@ -14,16 +22,13 @@ typedef struct _frame_buffer {
     ULONG ulBuffer; // DIVE buffer number
 } *frame_buffer_t;
 
+/* This is necessary because DIVE calculates the optimum line size itself
+   it seems to be x*sizeof(ULONG), see DiveAllocImageBuffer */
+extern const int FBMULT;
+
+#define FRAME_BUFFER_LINE_START(f,n) ((f->bitmap)+((f->width)*sizeof(BYTE)+FBMULT)*n)
 #define FRAME_BUFFER_SIZE(f)         (f->width)
 #define FRAME_BUFFER_START(f)        (f->bitmap)
-
-
-/* FIXME: Tell me why this stupid workaround is needed!! */
-#ifdef __XVIC__
-#define FRAME_BUFFER_LINE_START(f,n) (((f->bitmap)+(f->width)*n*sizeof(BYTE))+3*n)
-#else
-#define FRAME_BUFFER_LINE_START(f,n) (((f->bitmap)+(f->width)*n*sizeof(BYTE)))
-#endif
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 

@@ -69,8 +69,6 @@ void reu_init(void)
         reu_log = log_open("REU");
 }
 
-/* FIXME: This does not really handle different sizes.  */
-/* FIXED? I hope. [SRT], 01-18-2000. */
 int reu_reset(int size)
 {
     int i;
@@ -138,13 +136,7 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
 
     switch (addr) {
       case 0x0:
-        /* fixed by [EP], 04-16-97. */
-        /* fixed again by [SRT], 01-18-2000:
-           The checking for ReuSize is already done in reu_reset() */
-        /* FIXME: are we SURE that bit 7, int pending, cannot be read as 1
-           on a real machine? I believe it can be read as 1, but I leave
-           it as is until I can check it. */
-        retval = reu[0] & 0x70;
+        retval = reu[0];
 
         /* Bits 7-5 are cleared when register is read, and pending IRQs are
            removed. */
@@ -234,7 +226,7 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 void reu_dma(int immed)
 {
     static int delay = 0;
-    unsigned int len;
+    int len;
     int reu_step, host_step;
     ADDRESS host_addr;
     unsigned int reu_addr;
@@ -284,6 +276,8 @@ void reu_dma(int immed)
 #endif
             reuram[reu_addr % ReuSize] = value;
         }
+        len = 0x1;
+        reu[0] |= 0x40;
         break;
 
       case 1: /* REU -> C64 */
@@ -301,6 +295,8 @@ void reu_dma(int immed)
 #endif
             mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
         }
+        len = 1;
+        reu[0] |= 0x40;
         break;
 
       case 2: /* swap */
@@ -315,6 +311,8 @@ void reu_dma(int immed)
             reuram[reu_addr % ReuSize] = mem_read(host_addr & 0xffff);
             mem_store((host_addr & 0xffff), c);
         }
+        len = 1;
+        reu[0] |= 0x40;
         break;
 
       case 3: /* compare */
@@ -324,9 +322,15 @@ void reu_dma(int immed)
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
+
+        reu[0] &= ~0x60;
+
         while (len--) {
             if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
-                reu[0] |= 0x20; /* FAULT */
+
+                host_addr += host_step; reu_addr += reu_step;
+
+                reu[0] |=  0x20; /* FAULT */
 
                 /* Bit 7: interrupt enable
                    Bit 5: interrupt on verify error */
@@ -339,8 +343,21 @@ void reu_dma(int immed)
             host_addr += host_step; reu_addr += reu_step;
         }
 
-        if ((reu[9] & 0xa0) == 0xa0)
-            reu[0] |= 0x80;
+        if (len<0)
+        {
+            /* all bytes are equal, mark End Of Block */
+            reu[0] |= 0x40;
+            len = 1;
+        }
+
+        /*
+        FIXME: [SRT] this should be done for all 4 operations,
+        but 17xxTester gets an error when the length is set
+        with low byte != 0 after copying HOST -> REU.
+        */
+        reu[7] = len & 0xff;
+        reu[8] = (len >> 8) & 0xff;
+
         break;
     }
 
@@ -362,14 +379,19 @@ void reu_dma(int immed)
             reu[6] = (reu_addr >> 16);
         }
 
-/*
-        reu[7] = 1;
-        reu[8] = 0;
-*/
+/* FIXME: [SRT] 17xxTester doesn't like a value of 1 here 
+   after transferring to REU, it expects that at least the
+   low byte is zero.
+   According to the manual of the 1750, after a transfer,
+   the length is ALWAYS 1 (except for comparison, where it contains
+   the count to retest when there was a difference).
+   What's going on here? Is 17xxTester wrong (I don't believe it)? *
+
+        reu[7] = len & 0xff;
+        reu[8] = (len >> 8) & 0xff;
+/**/
     }
 
-    /* [EP] 04-16-97. */
-    reu[0] |= 0x40;
     reu[1] &= 0x7f;
 
     /* Bit 7: interrupt enable.  */

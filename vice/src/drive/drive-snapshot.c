@@ -197,10 +197,7 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
                 if (cia1581_write_snapshot_module(ctxptr, s) < 0)
                     return -1;
             }
-	    if ((drive[i].type == DRIVE_TYPE_1001)
-	        || (drive[i].type == DRIVE_TYPE_8050)
-	        || (drive[i].type == DRIVE_TYPE_8250)
-	        ) {
+	    if (DRIVE_IS_OLDTYPE(drive[i].type)) {
 	        if (riot1_write_snapshot_module(ctxptr, s) < 0
 		    || riot2_write_snapshot_module(ctxptr, s) < 0
 		    || fdc_write_snapshot_module(s, i) < 0)
@@ -370,6 +367,9 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         drive[0].enable = 1;
@@ -439,10 +439,7 @@ int drive_read_snapshot_module(snapshot_t *s)
                 if (cia1581_read_snapshot_module(ctxptr, s) < 0)
                     return -1;
             }
-	    if ((drive[i].type == DRIVE_TYPE_1001)
-	        || (drive[i].type == DRIVE_TYPE_8050)
-	        || (drive[i].type == DRIVE_TYPE_8250)
-	        ) {
+	    if (DRIVE_IS_OLDTYPE(drive[i].type)) {
 	        if (riot1_read_snapshot_module(ctxptr, s) < 0
 		    || riot2_read_snapshot_module(ctxptr, s) < 0
 		    || fdc_read_snapshot_module(s, i) < 0)
@@ -788,6 +785,18 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM2031_SIZE;
         break;
+      case DRIVE_TYPE_2040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]);
+	len = DRIVE_ROM2040_SIZE;
+	break;
+      case DRIVE_TYPE_3040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]);
+	len = DRIVE_ROM3040_SIZE;
+	break;
+      case DRIVE_TYPE_4040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]);
+	len = DRIVE_ROM4040_SIZE;
+	break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -851,6 +860,18 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM2031_SIZE;
         break;
+      case DRIVE_TYPE_2040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]);
+	len = DRIVE_ROM2040_SIZE;
+	break;
+      case DRIVE_TYPE_3040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]);
+	len = DRIVE_ROM3040_SIZE;
+	break;
+      case DRIVE_TYPE_4040:
+        base = &(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]);
+	len = DRIVE_ROM4040_SIZE;
+	break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:

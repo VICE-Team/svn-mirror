@@ -24,12 +24,14 @@
  *
  */
 
-#define INCL_GPILCIDS // vac++
+#include "vice.h"
+
+#define INCL_WINSYS        // PP_FONTNAMESIZE
+#define INCL_GPILCIDS      // vac++
 #define INCL_WINFRAMEMGR
 #define INCL_WINWINDOWMGR
 #define INCL_WINSCROLLBARS
-
-#include "vice.h"
+#include <os2.h>
 
 #include <fcntl.h>
 #include <io.h>

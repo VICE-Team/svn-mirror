@@ -27,15 +27,14 @@
 #ifndef _UI_STATUS_H
 #define _UI_STATUS_H
 
-#define INCL_WINSYS
-#define INCL_GPILCIDS // vac++
-#define INCL_WINSTDFILE
-#define INCL_WINFRAMEMGR
-#define INCL_WINWINDOWMGR
-#define INCL_WINSCROLLBARS
-#define INCL_DOSSEMAPHORES
 
-#include "vice.h"
+#undef BYTE
+#undef ADDRESS
+#define INCL_DOSSEMAPHORES
+#include <os2.h>
+#undef ADDRESS
+#define ADDRESS WORD
+
 #include "ui.h"
 
 typedef struct _ui_status
@@ -50,9 +49,11 @@ typedef struct _ui_status
     float lastFps;
     float lastTrack[4];
     CHAR  lastImage[4][CCHMAXPATH];
-    CHAR  lastPath [4][CCHMAXPATH];
+    CHAR  imageHist[10][CCHMAXPATH];
     int   lastTapeMotor;
+    int   lastTapeStatus;
     int   lastTapeCounter;
+    int   lastTapeCtrlStat;
     ui_drive_enable_t lastDriveState;
 
 } ui_status_t;

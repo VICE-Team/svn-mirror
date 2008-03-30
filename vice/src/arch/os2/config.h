@@ -6,9 +6,6 @@
 
 #define OS2 /* Operating System is OS/2 */
 
-//#define _POSIX_SOURCE // vac++
-// INCLUDE <os2.h> ???????  with all INCLS befor?
-
 /* Define if using alloca.c.  */
 /* #undef C_ALLOCA */
 

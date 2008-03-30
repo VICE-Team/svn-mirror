@@ -6,6 +6,9 @@ drv_DATA = \
 	dos1571 \
 	dos1581 \
 	dos2031 \
-	dos1001
+	dos1001 \
+	dos2040 \
+	dos3040 \
+	dos4040
 
 EXTRA_DIST = $(drv_DATA)

@@ -94,14 +94,17 @@ int log_init(void)
     if (logs != NULL)
         return -1;
 
-    if (log_file_name == NULL || *log_file_name == 0) {
+    if (log_file_name == NULL || *log_file_name == 0)
+    {
         log_file = archdep_open_default_log_file();
-    } else {
+    }
+    else
+    {
         if (strcmp(log_file_name, "-") == 0)
             log_file = stdout;
-        log_file = fopen(log_file_name, MODE_WRITE_TEXT);
+        else
+            log_file = fopen(log_file_name, MODE_WRITE_TEXT);
     }
-
     /* flush all data direct to the output stream. */
     if (log_file) setbuf(log_file, NULL);
 

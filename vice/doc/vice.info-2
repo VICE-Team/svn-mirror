@@ -52,10 +52,27 @@ for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
    In addition to those all emulators can handle a parallel IEEE488
 interface (the C64 and C128 via `$df**' extension, the VIC20 via
-VIC1112 emulation) so they also need the DOS ROM for the 2031 disk
-drive, basically a VC1541 with a parallel IEEE488 interface:
+VIC1112 emulation) so they also need the DOS ROM for the IEEE disk
+drives:
 
-   * `dos2031', the 2031 drive ROM (16 Kbytes)
+   * `dos2031', the 2031 drive ROM (16 Kbytes) (DOS 2.6, Commodore ROM
+     images 901484-03 and 901484-05)
+
+   * `dos3040', the 3040 drive ROM (12 Kbytes) (DOS 2, Commodore ROM
+     images 901468-11, 901468-12 and 901468-13)
+
+   * `dos4040', the 4040 drive ROM (12 Kbytes) (DOS 2, Commodore ROM
+     images 901468-14, 901468-15 and 901468-16)
+
+   * `dos1001', the 1001/8050/8250 drive ROM (16 Kbytes) (DOS 2.7,
+     Commodore ROM images 901887-01 and 901888-01)
+
+   Note that there are other DOS images on the internet. The DOS 2.5
+images might be used with the 8050, but it cannot handle the double
+sided drives of the 1001 and 8250 and it is not supported by VICE. Also
+the DOS 1 disk images for the 3040/4040 are not supported as the
+available copies seem to be broken. It would be interesting though to
+see them handle 670 free blocks on a D64 image...
 
    The PET emulator uses an expanded setup, because there are three
 major versions of the Basic and the Kernal, and many versions of the
@@ -67,34 +84,48 @@ different screen sizes and keyboards, different so-called "editor-ROMs"
 for the memory range $E000-$E800 are provided.  The PET ROMs have the
 following names:
 
-   * `kernal1', the PET2001 Kernal ROM (4 KBytes)
+   * `kernal1', the PET2001 Kernal ROM (4 KBytes) (Commodore ROM images
+     901447-06 and 901447-07)
 
-   * `kernal2', the PET3032 Kernal ROM (4 KBytes)
+   * `kernal2', the PET3032 Kernal ROM (4 KBytes) (Commodore ROM image
+     901465-03)
 
-   * `kernal4', the PET4032/8032 Kernal ROM (4 KBytes)
+   * `kernal4', the PET4032/8032 Kernal ROM (4 KBytes) (Commodore ROM
+     image 901465-22)
 
-   * `basic1', the PET2001 Basic 1 ROM (8 KBytes)
+   * `basic1', the PET2001 Basic 1 ROM (8 KBytes) (Commodore ROM images
+     901447-09, 901447-02, 901447-03, 901447-04.bin.  The -09 ROM is
+     the revised -01 ROM)
 
-   * `basic2', the PET3032 Basic 2 ROM (8 KBytes)
+   * `basic2', the PET3032 Basic 2 ROM (8 KBytes) (Commodore ROM images
+     901465-01 and 901465-01)
 
-   * `basic4', the PET4032/8032 Basic 4 ROM (12 KBytes)
+   * `basic4', the PET4032/8032 Basic 4 ROM (12 KBytes) (Commodore ROM
+     images 901465-23, 901465-20 and 901465-21.  The -23 ROM is a
+     revised -19 ROM)
 
    * `edit1g', the PET2001 editor for graphics keyboards (2 KBytes)
+     (Commodore ROM image 901447-05)
 
    * `edit2b', the PET3032 editor for business keyboards (2 KBytes)
+     (Commodore ROM image 901474-01)
 
    * `edit2g', the PET3032 editor for graphics keyboards (2 KBytes)
+     (Commodore ROM image 901447-24)
 
    * `edit4g40', the PET4032 editor for graphics keyboards (2 KBytes)
+     (Commodore ROM image 901498-01)
 
    * `edit4b40', the PET4032 editor for business keyboards (2 KBytes)
+     (Commodore ROM image 901474-02)
 
    * `edit4b80', the PET8032 editor for business keyboards (2 KBytes)
+     (Commodore ROM image 901474-04-?)
 
    *   * `chargen', the character generator ROM (2k).  It has two sets with
      128 chars each.  The second (inverted) half of each set is
      computed from the first half by inverting it.  This is a PET
-     hardware feature.
+     hardware feature.  (Commodore ROM image 901447-10)
 
    * `chargen.de', the character generator ROM (2k). This version is a
      patched German charset, with the characters [, \ and ] replaced by
@@ -1265,48 +1296,4 @@ and 9 are being emulated.
 
 * Drive resources::
 * Drive options::
-
-
-File: vice.info,  Node: Drive resources,  Next: Drive options,  Prev: Drive settings,  Up: Drive settings
-
-Drive resources
----------------
-
-`DriveTrueEmulation'
-     Boolean controlling whether the "true" drive emulation is turned
-     on.
-
-`Drive8Type'
-`Drive9Type'
-     Integers specifying the model number for drives 8 and 9.  Possible
-     values are `1541', `1571', `1581' and `2031'.
-
-`Drive8ParallelCable'
-`Drive9ParallelCable'
-     Booleans controlling whether the SpeedDOS-compatible cable is
-     emulated or not for drives 8 and 9.
-
-`Drive8ExtendImagePolicy'
-`Drive9ExtendImagePolicy'
-     Integer specifying the policy for 40-track support for drives 8
-     and 9.  Possible values are `0' (never extend), `1' (ask on
-     extend), `2' (extend on access).
-
-`Drive8IdleMethod'
-`Drive9IdleMethod'
-     Integers specifying the idling method for the drive CPU.  Possible
-     values are `0' (none), `1' (skip cycles), `2' (trap idle).  *Note
-     Drive settings::.
-
-`DriveSyncFactor'
-     Integer specifying the drive's clock sync factor (*note Drive
-     settings::.).  Special values `-1' and `-2' mean PAL and NTSC,
-     respectively.
-
-`DosName1541'
-`DosName1571'
-`DosName1581'
-`DosName2031'
-     Strings specifying the names of the ROM images for the drive
-     emulation.
 

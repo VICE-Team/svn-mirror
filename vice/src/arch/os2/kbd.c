@@ -28,25 +28,25 @@
 
 #include "vice.h"
 
+#define INCL_WININPUT  // VK_CAPSLOCK, KC_*
+#include <os2.h>
+
 #include <string.h>
-#include <stdlib.h>
 #include <stdarg.h>
 
-#include "ui.h"
 #include "kbd.h"
 #include "log.h"
 #include "mon.h"
-#include "vsync.h"         //suspend_speed_eval
 #include "utils.h"
-#include "machine.h"       // machine_powerup
 #include "cmdline.h"
 #include "resources.h"
-#include "interrupt.h"     // maincpu_trigger_reset
+#include "interrupt.h"
 #include "joystick.h"
 #include "keyboard.h"
-#include "kbdbuf.h"
 #include "dialogs.h"
 #include "maincpu.h"
+#include "machine.h"
+#include "console.h"
 
 BYTE joystick_value[3];
 
@@ -72,7 +72,7 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 int kbd_init(int num, ...)
 {
-    keyconvmaps=(convmap*)malloc(num*sizeof(convmap));
+    keyconvmaps=(convmap*)xmalloc(num*sizeof(convmap));
     {
         va_list p;
         int i;
@@ -132,54 +132,16 @@ int kbd_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-/* This is not a beautiful way, but the one I know :-) */
-void switch_capslock_led_off(void)
-{
-    BYTE keyState[256];
-    WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-    keyState[VK_CAPSLOCK] &= ~1;
-    WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
-}
+// --------------------- OS/2 keyboard processing ------------------
 
-static void ui_hard_reset(HWND hwnd)
-{
-    if (ui_yesno_dialog(hwnd, "Hard Reset",
-                        "Do you really want to hard reset the emulated machine?"))
-    {
-        suspend_speed_eval();
-        machine_powerup();  // Hard_reset;
-    }
-}
+extern HWND hwndMonitor;
 
-static void ui_soft_reset(HWND hwnd)
-{
-    if (ui_yesno_dialog(hwnd, "Soft Reset",
-                        "Do you really want to soft reset the emulated machine?"))
-    {
-        suspend_speed_eval();
-        maincpu_trigger_reset();  // Soft Reset
-    }
-}
-
-extern int toggle(char *resource_name);
-
-void toggle_dialog(char *resource_name, const char *text)
-{
-    char *str = xcalloc(1,strlen(text)+15);
-    sprintf(str, "%s%s%s", text, " switched ", toggle(resource_name)?"ON.":"OFF.");
-    ui_OK_dialog(resource_name, str);
-    free(str);
-}
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
 }
 
-#include "console.h"
-
-extern HWND hwndMonitor;
-
-void wmChar(HWND hwnd, MPARAM mp1)
+void kbd_proc(HWND hwnd, MPARAM mp1)
 {   // super warp mode? ohne status window?
     USHORT fsFlags    = SHORT1FROMMP(mp1);
     CHAR   usScancode = CHAR4FROMMP (mp1);
@@ -187,7 +149,13 @@ void wmChar(HWND hwnd, MPARAM mp1)
 
     // turn capslock led off if capslock is pressed
     if (usScancode==K_CAPSLOCK)
-        switch_capslock_led_off();
+    {
+        /* This is not a beautiful way, but the one I know :-) */
+        BYTE keyState[256];
+        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
+        keyState[VK_CAPSLOCK] &= ~1;
+        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+    }
     // toggle warp mode if ScrlLock is pressed
     if (usScancode==K_SCROLLOCK)
         resources_set_value("WarpMode",
@@ -198,18 +166,18 @@ void wmChar(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
-        case K_8: attach_dialog   (hwnd, 8); break;
-        case K_9: attach_dialog   (hwnd, 9); break;
-        case K_0: attach_dialog   (hwnd, 0); break;
-        case K_A: about_dialog    (hwnd);    break;
-        case K_C: datasette_dialog(hwnd);    break;
-        case K_D: drive_dialog    (hwnd);    break;
-        case K_E: emulator_dialog (hwnd);    break;
-        case K_Q: ui_hard_reset   (hwnd);    break;
-        case K_R: ui_soft_reset   (hwnd);    break;
-        case K_S: sound_dialog    (hwnd);    break;
+        case K_8: attach_dialog    (hwnd, 8); break;
+        case K_9: attach_dialog    (hwnd, 9); break;
+        case K_0: attach_dialog    (hwnd, 0); break;
+        case K_A: about_dialog     (hwnd);    break;
+        case K_C: datasette_dialog (hwnd);    break;
+        case K_D: drive_dialog     (hwnd);    break;
+        case K_E: emulator_dialog  (hwnd);    break;
+        case K_Q: hardreset_dialog (hwnd);    break;
+        case K_R: softreset_dialog (hwnd);    break;
+        case K_S: sound_dialog     (hwnd);    break;
 #ifdef HAS_JOYSTICK
-        case K_J: joystick_dialog (hwnd);    break;
+        case K_J: joystick_dialog  (hwnd);    break;
 #endif
         case K_M:
             //            monitor_dialog(hwnd);
@@ -218,37 +186,36 @@ void wmChar(HWND hwnd, MPARAM mp1)
             maincpu_trigger_trap(mon_trap, (void *) 0);
             //mon(MOS6510_REGS_GET_PC(&maincpu_regs));
             break;
-        case K_N:
-            console_out(NULL, "test: %s", "hallo");
-            break;
-
         case K_T:
-            toggle_dialog("DriveTrueEmulation", "True drive emulation");
+            {
+                char str[35];
+                sprintf(str, "True drive emulation switched %s",
+                        toggle("DriveTrueEmulation")?"ON.":"OFF.");
+                WinMessageBox(HWND_DESKTOP, hwnd,
+                              str, "Drive Emulation", 0, MB_OK);
+            }
             break;
 #ifdef __X128__
-        case K_V: // VDC
+        case K_V:
             if (key_ctrl_column4080_func)
                 key_ctrl_column4080_func();
             break;
 #endif
         case K_W/*W*/:
-            if (resources_save(NULL) < 0)
-                ui_OK_dialog("Resources","Cannot save settings.");
-            else
-                ui_OK_dialog("Resources","Settings written successfully.");
+            WinMessageBox(HWND_DESKTOP, hwnd,
+                          resources_save(NULL)<0?"Cannot save settings.":
+                          "Settings written successfully.",
+                          "Resources", 0, MB_OK);
             break;
         }
     }
     else {
         if (!joystick_handle_key((kbd_code_t)usScancode, release)) {
             keyboard_set_keyarr(keyconv_base->map[usScancode].row,
-                       keyconv_base->map[usScancode].column,
-                       release);
+                       keyconv_base->map[usScancode].column, release);
             if (keyconv_base->map[usScancode].vshift)
                 keyboard_set_keyarr(keyconv_base->vshift_row,
-                           keyconv_base->vshift_col,
-                           release);
-            kbd_buf_flush();
+                           keyconv_base->vshift_col, release);
         }
     }
 }

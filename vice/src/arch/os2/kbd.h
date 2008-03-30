@@ -28,15 +28,13 @@
 #ifndef _KBD_H
 #define _KBD_H
 
-#include "vice.h"
-
 #include "types.h"
 
 #define KBD_COLS        8
 #define KBD_ROWS        16
 
-extern int  keyarr    [KBD_ROWS];
-extern int  rev_keyarr[KBD_COLS];
+extern int keyarr    [KBD_ROWS];
+extern int rev_keyarr[KBD_COLS];
 
 /* Keymap definition structure.  */
 typedef struct {
@@ -63,12 +61,7 @@ typedef enum {
 
 extern BYTE _kbd_extended_key_tab[];
 
-int kbd_init(int num, ...);
-
-/* ----------------------- OS/2 specific stuff ----------------------- */
-void wmChar(HWND hwnd, MPARAM mp1);
-void switch_capslock_led_off();
-void ui_reset();
+extern int kbd_init(int num, ...);
 
 #endif
 

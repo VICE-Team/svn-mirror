@@ -77,10 +77,12 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     WinCheckButton(hwnd, sound|RB_OFF, 1);
                 resources_get_value("SoundBufferSize", (resource_value_t *) &sound);
                 WinSetSpinVal(hwnd, SPB_BUFFER, sound);
+#if defined __X64__ || defined __X128__ || defined __XCBM__
                 resources_get_value("SidModel", (resource_value_t *) &sound);
                 WinCheckButton(hwnd, sound?RB_8580:RB_6581 ,1);
                 resources_get_value("SidFilters", (resource_value_t *) &sound);
                 WinCheckButton(hwnd, CB_SIDFILTER, sound!=0);
+#endif
 #ifdef HAVE_RESID
                 resources_get_value("SidUseResid", (resource_value_t *) &sound);
                 WinCheckButton(hwnd, CB_RESID, sound!=0);
@@ -124,6 +126,7 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                         resources_set_value("SoundOversample", (resource_value_t)(SHORT1FROMMP(mp1)&0x3));
                 }
                 break;
+#if defined __X64__ || defined __X128__ || defined __XCBM__
             case RB_6581:
             case RB_8580:
                 resources_set_value("SidModel", (resource_value_t)(SHORT1FROMMP(mp1)&0x1));
@@ -131,6 +134,7 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case CB_SIDFILTER:
                 toggle("SidFilters");
                 break;
+#endif
 #ifdef HAVE_RESID
             case CB_RESID:
                 toggle("SidUseResid");

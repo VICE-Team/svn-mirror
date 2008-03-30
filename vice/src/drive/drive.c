@@ -104,6 +104,9 @@ BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
 BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
+BYTE drive_rom2040[DRIVE_ROM2040_SIZE];
+BYTE drive_rom3040[DRIVE_ROM3040_SIZE];
+BYTE drive_rom4040[DRIVE_ROM4040_SIZE];
 
 /* If nonzero, the ROM image has been loaded.  */
 int rom1541_loaded = 0;
@@ -111,6 +114,9 @@ int rom1541ii_loaded = 0;
 int rom1571_loaded = 0;
 int rom1581_loaded = 0;
 int rom2031_loaded = 0;
+int rom2040_loaded = 0;
+int rom3040_loaded = 0;
+int rom4040_loaded = 0;
 int rom1001_loaded = 0;
 
 /* Speed zone of each track of the 1541 disk drive.  */
@@ -389,6 +395,11 @@ void drive_set_active_led_color(int type, int dnr)
       case DRIVE_TYPE_2031:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+	break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -417,6 +428,9 @@ static void drive_set_clock_frequency(int type, int dnr)
       case DRIVE_TYPE_2031:
         drive[dnr].clock_frequency = 1;
         break;
+      case DRIVE_TYPE_2040:
+      case DRIVE_TYPE_3040:
+      case DRIVE_TYPE_4040:
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
@@ -458,6 +472,24 @@ int drive_set_disk_drive_type(int type, int dnr)
         break;
       case DRIVE_TYPE_2031:
         if (rom2031_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[dnr]);
+        break;
+      case DRIVE_TYPE_2040:
+        if (rom2040_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[dnr]);
+        break;
+      case DRIVE_TYPE_3040:
+        if (rom3040_loaded < 1 && rom_loaded)
+            return -1;
+        if (drive[dnr].byte_ready_active == 0x06)
+            drive_rotate_disk(&drive[dnr]);
+        break;
+      case DRIVE_TYPE_4040:
+        if (rom4040_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
@@ -613,6 +645,69 @@ int drive_load_2031(void)
     return -1;
 }
 
+int drive_load_2040(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName2040", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom2040, DRIVE_ROM2040_SIZE,
+                     DRIVE_ROM2040_SIZE) < 0) {
+        log_error(drive_log,
+                  "2040 ROM image not found.  "
+                  "Hardware-level 2040 emulation is not available.");
+    } else {
+        rom2040_loaded = 1;
+        return 0;
+    }
+    return -1;
+}
+
+int drive_load_3040(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName3040", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom3040, DRIVE_ROM3040_SIZE,
+                     DRIVE_ROM3040_SIZE) < 0) {
+        log_error(drive_log,
+                  "3040 ROM image not found.  "
+                  "Hardware-level 3040 emulation is not available.");
+    } else {
+        rom3040_loaded = 1;
+        return 0;
+    }
+    return -1;
+}
+
+int drive_load_4040(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName4040", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom4040, DRIVE_ROM4040_SIZE,
+                     DRIVE_ROM4040_SIZE) < 0) {
+        log_error(drive_log,
+                  "4040 ROM image not found.  "
+                  "Hardware-level 4040 emulation is not available.");
+    } else {
+        rom4040_loaded = 1;
+        return 0;
+    }
+    return -1;
+}
+
 int drive_load_1001(void)
 {
     char *rom_name = NULL;
@@ -648,6 +743,12 @@ static int drive_load_rom_images(void)
 
     drive_load_2031();
 
+    drive_load_2040();
+
+    drive_load_3040();
+
+    drive_load_4040();
+
     drive_load_1001();
 
     if (!rom1541_loaded
@@ -655,6 +756,9 @@ static int drive_load_rom_images(void)
         && !rom1571_loaded
         && !rom1581_loaded
         && !rom2031_loaded
+        && !rom2040_loaded
+        && !rom3040_loaded
+        && !rom4040_loaded
         && !rom1001_loaded) {
         log_error(drive_log,
                   "No ROM image found at all!  "
@@ -686,6 +790,18 @@ void drive_setup_rom_image(int dnr)
           case DRIVE_TYPE_2031:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031,
                    DRIVE_ROM2031_SIZE);
+	    break;
+          case DRIVE_TYPE_2040:
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]), 
+		   drive_rom2040, DRIVE_ROM2040_SIZE);
+	    break;
+          case DRIVE_TYPE_3040:
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]), 
+	 	   drive_rom3040, DRIVE_ROM3040_SIZE);
+	    break;
+          case DRIVE_TYPE_4040:
+            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]), 
+		   drive_rom4040, DRIVE_ROM4040_SIZE);
 	    break;
           case DRIVE_TYPE_1001:
           case DRIVE_TYPE_8050:
@@ -856,7 +972,10 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
         if (drive[dnr].type != DRIVE_TYPE_1541
             && drive[dnr].type != DRIVE_TYPE_1541II
             && drive[dnr].type != DRIVE_TYPE_1571
-            && drive[dnr].type != DRIVE_TYPE_2031)
+            && drive[dnr].type != DRIVE_TYPE_2031
+            && drive[dnr].type != DRIVE_TYPE_2040 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_3040 /* FIXME: only read compat */
+            && drive[dnr].type != DRIVE_TYPE_4040)
             return -1;
         break;
       case DISK_IMAGE_TYPE_D71:
@@ -1432,18 +1551,8 @@ static void drive_extend_disk_image(int dnr)
 int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-      || (((drive_type == DRIVE_TYPE_2031)
-        || (drive_type == DRIVE_TYPE_1001)
-        || (drive_type == DRIVE_TYPE_8050)
-        || (drive_type == DRIVE_TYPE_8250)
-        )
-        && (bus_map & IEC_BUS_IEEE))
-      || (((drive_type != DRIVE_TYPE_2031)
-        && (drive_type != DRIVE_TYPE_1001)
-        && (drive_type != DRIVE_TYPE_8050)
-        && (drive_type != DRIVE_TYPE_8250)
-        )
-        && (bus_map & IEC_BUS_IEC))
+      || (DRIVE_IS_IEEE(drive_type) && (bus_map & IEC_BUS_IEEE))
+      || ((!DRIVE_IS_IEEE(drive_type)) && (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
     }
@@ -1468,6 +1577,12 @@ int drive_check_type(int drive_type, int dnr)
         return rom1581_loaded;
       case DRIVE_TYPE_2031:
         return rom2031_loaded;
+      case DRIVE_TYPE_2040:
+	return rom2040_loaded;
+      case DRIVE_TYPE_3040:
+	return rom3040_loaded;
+      case DRIVE_TYPE_4040:
+	return rom4040_loaded;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:

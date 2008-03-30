@@ -29,13 +29,4 @@
 
 #include "uiapi.h"
 
-#include "types.h"
-#include "cmdline.h"
-
-// ------------------------- OS/2 only -------------------------
-extern void WinOkDlg       (HWND hwnd, char *title, char *msg);
-extern void WinError       (HWND hwnd, const char *format,...);
-extern void ui_OK_dialog   (char *title, char *msg);
-extern int  ui_yesno_dialog(HWND hwnd, char *title, char *msg);
-
 #endif

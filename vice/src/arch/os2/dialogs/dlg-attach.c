@@ -29,8 +29,9 @@
 
 #include "vice.h"
 
-#include <direct.h>
+#include <stdio.h>
 #include <string.h>
+#include <direct.h>
 
 #include "ui.h"
 #include "tape.h"
@@ -133,7 +134,9 @@ void attach_dialog(HWND hwnd, int number)
 
     if ((number?file_system_attach_disk(number, filedlg.szFullFile):tape_attach_image(filedlg.szFullFile)) < 0)
     {
-        WinError(hwnd, "Cannot attach specified file.");
+        WinMessageBox(HWND_DESKTOP, hwnd,
+                      "Cannot attach specified file.", "VICE/2 Error",
+                      0, MB_OK);
         return;
     }
 

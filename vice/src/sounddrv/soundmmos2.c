@@ -24,17 +24,18 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_DOSPROFILE
 #define INCL_DOSPROCESS
 #define INCL_DOSSEMAPHORES
+#include <os2.h>
+#define INCL_MCIOS2
+#include <os2me.h>
 
-#include "vice.h"
-
-//#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//#endif
 
 #include "sound.h"
 #include "log.h"

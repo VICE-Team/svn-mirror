@@ -152,11 +152,13 @@ BEGIN
         CONTROL "2x",           RB_2X,      77, 105, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "4x",           RB_4X,      77,  95, 25, 10, STY_AUTORADIOBUTTON
         CONTROL "8x",           RB_8X,      77,  85, 25, 10, STY_AUTORADIOBUTTON
+#if defined __X64__ || defined __X128__ || defined __XCBM__
         TEXT("SID:", 17, 70, 20, 8)
         CONTROL "6581",         RB_6581,    37,  69, 30, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
         CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
         CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
+#endif
 #ifdef HAVE_RESID
         CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 60,  9, STY_AUTOCHECKBOX
 #endif
@@ -226,21 +228,28 @@ END
 
 DLGTEMPLATE DLG_DATASETTE 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 135, 88, STY_DIALOG
+    DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 140, 68, STY_DIALOG
     BEGIN
-        CONTROL "Close",        DID_CLOSE, 5, 5, 38, 12, WC_BUTTON,
-                                BS_PUSHBUTTON | BS_DEFAULT |
-                                WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        CONTROL "Datasette",    ID_NONE, 7, 22, 118, 62, WC_STATIC,
-                                SS_GROUPBOX | WS_GROUP | WS_VISIBLE
-        CONTROL "Rec",          PB_RECORD,  15, 45, 18, 12,  STY_PUSHBUTTON |
-                                WS_GROUP
-        CONTROL "<<",           PB_REWIND,  35,  45, 18, 12, STY_PUSHBUTTON
-        CONTROL "Stop",         PB_START,   55, 45, 18, 12,  STY_PUSHBUTTON
-        CONTROL ">",            PB_START,   75, 45, 18, 12,  STY_PUSHBUTTON
-        CONTROL ">>",           PB_FORWARD, 95, 45, 18, 12,  STY_PUSHBUTTON
-        CONTROL "Reset",        PB_RESET,   15,  30, 38, 12, STY_PUSHBUTTON
-    END
+        CONTROL "Close",         DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
+                                                                WS_GROUP
+        CONTROL "Attach",        PB_ATTACH,    59,  5,  35, 12, STY_PUSHBUTTON
+        CONTROL "Detach",        PB_DETACH,    98,  5,  35, 12, STY_PUSHBUTTON
+        CONTROL "Datasette",     ID_NONE,       7, 22, 124, 42, STY_GROUPBOX
+        CONTROL "Rec",           PB_RECORD,    15, 40,  21, 12, STY_PUSHBUTTON |
+                                 WS_GROUP
+        CONTROL "<<",            PB_REWIND,    37, 40,  21, 12, STY_PUSHBUTTON
+        CONTROL "#",             PB_STOP,      59, 40,  21, 12, STY_PUSHBUTTON
+        CONTROL ">",             PB_START,     81, 40,  21, 12, STY_PUSHBUTTON
+        CONTROL ">>",            PB_FORWARD,  103, 40,  21, 12, STY_PUSHBUTTON
+        CONTROL "Reset",         PB_RESET,     15, 27,  38, 12, STY_PUSHBUTTON
+        CONTROL "",              PB_RESETCNT, 118, 28,   6, 10, STY_PUSHBUTTON
+        CONTROL ""               SPB_COUNT    101, 29,  17, 12, WC_SPINBUTTON,
+                                 SPBS_JUSTCENTER  | SPBS_NOBORDER | 
+                                 SPBS_NUMERICONLY | SPBS_READONLY | 
+                                 SPBS_PADWITHZEROS  | WS_VISIBLE
+                CTLDATA 24, 0, 3, 0, 0, 0, 999, 0, 0, 0, 0, 0
+	CONTROL "Motor on",      SS_SPIN,      60, 27,  35, 12, WC_STATIC, 
+                                 SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE    END
 END
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
@@ -253,7 +262,7 @@ BEGIN
             TEXT("the Versatile Commodore Emulator",                17, 230, 210, 8)
             TEXT("Version " VERSION,                                17, 210, 210, 8)
             TEXT("Copyright © 1996-1999 Ettore Perazzoli",          17, 190, 210, 8)
-            TEXT("Copyright © 1996-1999 André Fachat",              17, 180, 210, 8)
+            TEXT("Copyright © 1996-1999 Andr‚ Fachat",              17, 180, 210, 8)
             TEXT("Copyright © 1993-1994, 1997-1999 Teemu Rantanen", 17, 170, 210, 8)
             TEXT("Copyright © 1997-1999 Daniel Sladic",             17, 160, 210, 8)
             TEXT("Copyright © 1998-1999 Andreas Boose",             17, 150, 210, 8)

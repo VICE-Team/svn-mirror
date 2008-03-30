@@ -28,9 +28,9 @@
 #ifndef _VICE_JOYSTICK_H
 #define _VICE_JOYSTICK_H
 
-#include "kbd.h"
-
 #include <stddef.h>
+
+#include "kbd.h"
 
 typedef enum {
     JOYDEV_NONE   =0x00,
@@ -112,8 +112,8 @@ int get_joyB_autoCal();
 // simple 2-D position for each joystick
 typedef struct
 {
-    SHORT x;
-    SHORT y;
+    signed short x;
+    signed short y;
 } GAME_2DPOS_STRUCT;
 
 // struct defining the instantaneous state of both sticks and all buttons
@@ -121,7 +121,7 @@ typedef struct
 {
   GAME_2DPOS_STRUCT A;       // Joystick A
   GAME_2DPOS_STRUCT B;       // Joystick B
-  USHORT            butMask; // Buttons
+  unsigned short    butMask; // Buttons
 } GAME_DATA_STRUCT;
 
 // status struct returned to OS/2 applications:
@@ -129,10 +129,10 @@ typedef struct
 typedef struct
 {
   GAME_DATA_STRUCT curdata;
-  USHORT b1cnt;
-  USHORT b2cnt;
-  USHORT b3cnt;
-  USHORT b4cnt;
+  unsigned short b1cnt;
+  unsigned short b2cnt;
+  unsigned short b3cnt;
+  unsigned short b4cnt;
 } GAME_STATUS_STRUCT;
 // ---------- OS/2 specific stuff ---------
 
