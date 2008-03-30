@@ -202,8 +202,8 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     return new_canvas;
 }
 
-void canvas_set_palette(canvas_t c, const palette_t *palette,
-			PIXEL *pixel_return)
+int canvas_set_palette(canvas_t c, const palette_t *palette,
+                       PIXEL *pixel_return)
 {
     int i;
 
@@ -214,6 +214,8 @@ void canvas_set_palette(canvas_t c, const palette_t *palette,
 	c->colors[i].b = palette->entries[i].blue >> 2;
 	pixel_return[i] = i;
     }
+
+    return 0;
 }
 
 void canvas_map(canvas_t c)
@@ -261,7 +263,7 @@ void disable_text(void)
     kbd_install();
     if (last_canvas->width > 0 && last_canvas->height > 0) {
         int i;
-      
+
 	video_ack_vga_mode();
 	canvas_set_vga_mode(last_canvas);
 
