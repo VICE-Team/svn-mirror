@@ -50,6 +50,7 @@
 #include "kbd.h"
 #include "log.h"
 #include "machine.h"
+#include "mem.h"
 #include "petui.h"
 #include "resources.h"
 #include "romset.h"

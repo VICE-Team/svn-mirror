@@ -150,13 +150,13 @@ static resource_t resources[] = {
 };
 
 
-int vsync_init_resources(void)
+int vsync_resources_init(void)
 {
   return resources_register(resources);
 }
 
 
-int vsync_init_cmdline_options(void)
+int vsync_cmdline_options_init(void)
 {
   return 0;
 }

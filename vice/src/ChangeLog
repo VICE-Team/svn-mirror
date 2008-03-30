@@ -1,3 +1,124 @@
+2001-11-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.30.
+
+        * arch/os2/vac++/Makefile.am: Added `incl/c64cart.icc'.
+
+2001-11-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic20iec.c: Initialize cpu_clock and cpu_atn with 1
+	(PEEK(37151)=126 after resetting a VIC20).
+	(iec_pa_read): Don't return immediately if no drive is
+	enabled. Bit7 of should be reversed (determined by POKEing
+	to $9113 and PEEKing from $9111 compared to a real VIC20.
+	(iec_pa_write): Don't return immediately if no drive is
+	enabled.
+
+2001-11-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/plus4ui.{c|h}, plus4kbd.c: New files.
+
+	* arch/msdos/Makefile.am: Added new files.
+
+	* arch/msdos/videoarch.h: Changed definition of canvas_s
+	to match even with newer allegro library.
+
+	* arch/msdos/vsync.c: Changed names of functions
+	vsync_init_* to vsync_*_init.
+
+	* plus4/ted.c: Under MSDOS include vsyncarch.h and test
+	for viewport < TED_SCREEN_*.
+
+2001-11-20  John Selck  <graham@cruise.de>
+
+	* video/video-color.c: Fixed more pow() calls in
+	video_convert_ycbcr_to_rgb(). Now there is no pow() call left
+	where it is possible that it's called with negative numbers.
+
+	* video/render1x1.c: Replaced increment operator on casted
+	pointer memory accesses by different code to avoid compiler
+	errors on some compilers.
+
+	* video/render2x2.c: Same as render1x1.c.
+
+2001-11-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: added missing include
+
+	* arch/riscos/vsync.c: renamed init functions
+
+2001-11-18  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h: enabled *_NEED_2X
+     
+	* arch/os2/dialogs/dlg-fileio.c: removed a redundant i=0
+   
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- added entry for 'Fake palette emu'
+	- corrected a bug which was caused by the direct calls
+	to the file open dialog for the cartridges
+	- made vide mode toggle asynchronous.
+	- removed wrong kbd shortcuts for 'Detach disks'
+     
+	* arch/os2/vac++/incl/c128.icc: added c128-snapshot.c
+     
+	* arch/os2/vac++/incl/c64.icc:
+	- added c64-snapshot.c
+	- added c64pla.c
+     
+	* arch/os2/vac++/incl/mainsrc.icc: removed video-* stuff
+     
+	* arch/os2/vac++/incl/vic20.icc: added vic20-snapshot.c
+     
+	* arch/os2/vac++/incl/video.icc: added
+     
+	* arch/os2/vac++/Makefile.am:
+	- added c64cart.icc
+	- added video.icc
+     
+	* arch/os2/vac++/x128/X128.ICC:
+	- added video-suff
+	- added c64pla.c
+     
+	* arch/os2/vac++/x64/X64.ICC, arch/os2/vac++/xvic/Xvic.ICC:
+	- added video stuff
+     
+	* arch/os2/video.c, arch/os2/videoarch.h:
+	- cleaned up includes
+	- made all dive descriptors (SETUP_BLITTER, HDIVE, etc) local
+	to the canvases
+	- changed the creation of canvases to support the local
+	dive stuff
+	- introduced video_render_main, and use of
+	VideoBegin/EndImageBufferAcc.
+	- renamed many of the functions
+	- made also the mutex local
+	- changed mutex handling
+	- changed code for canvas_refresh and WM_PAINT calls
+	- tried to skip WinDefWindowProc
+	- introduced GetCanvas
+	- introduced usage of DIVECAPS
+	- removed initialization flags. Replaced by more intelligent
+	solutions using the canvas and HDIVE pointer directly
+	- added code for palette conversion
+     
+	* utils.c:
+	- excluded the chacks in xmalloc, xcalloc, xrealloc.
+	The exit-call will fail in some circumstances and look up
+	the system.
+       
+	* video/video-resources.c:
+	- made set_delayloop and set_pal work correctly...
+
+2001-11-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/base.dsp: New project file
+
+	* arch/win32/x{64/128/cbm2/plus4/vic}.dsp: Some small
+	corrections, and projects now use project base.
+
+	* arch/win32/video.dsp: Included again.
+     
 2001-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.29.
