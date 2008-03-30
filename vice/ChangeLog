@@ -1,3 +1,14 @@
+2006-07-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.22.
+
+	* configure.in: Fixed some typos.
+
+2006-07-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixes, test for ahi only for amiga, test
+	parsid only for unix but not gp2x.
+
 2006-07-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.21.

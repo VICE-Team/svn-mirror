@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=21
+VICE_VERSION_BUILD=22
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -930,7 +930,7 @@ else
 fi
 AC_SUBST(DOS_TFE_PCAP_LIB)
 
-if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
+if test x"$is_unix" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
     AC_CHECK_LIB(avcodec, avcodec_init,,,$LIBS)
     AC_CHECK_LIB(mp3lame, MP3lame_encode_frame,,,$LIBS)
@@ -1006,10 +1006,11 @@ if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
                     [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
                      SOUND_LIBS="$SOUND_LIBS -lUMSobj";
                      AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
+fi
 
+if test x"$is_amiga" = "xyes"; then
   AC_CHECK_HEADERS(devices/ahi.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
-
 fi
 
 if test x"$is_dos" = "xyes"; then
@@ -1066,7 +1067,7 @@ AC_SUBST(SOUND_LIBS)
 
 
 dnl Check for ParSID support
-if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
+if test x"$is_unix" = "xyes" -a x"is_unix_gp2x" != "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
     dnl Check for needed parallel port io headers
@@ -1125,7 +1126,7 @@ if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
 fi
 
 dnl Check for library functions
-if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a -x"$is_riscos" = "xno"; then
+if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a x"$is_riscos" = "xno"; then
   AC_FUNC_MEMCMP
 fi
 AC_TYPE_SIGNAL
