@@ -1,6 +1,12 @@
+1999-11-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.32.
+
+	* NEWS: Updated.
+
 1999-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.1.31.
+	* Version 1.1.31.
 
 	* NEWS, BUGS: Updated.
 
@@ -12,7 +18,7 @@
 
 1999-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-        * Version 1.1.30.
+	* Version 1.1.30.
 
 1999-11-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
