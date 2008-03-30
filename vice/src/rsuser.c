@@ -166,8 +166,7 @@ void rsuser_init(long cycles, void (*startfunc)(void),
     int i, j;
     unsigned char c,d;
 
-    alarm_init(&rsuser_alarm, &maincpu_alarm_context,
-    "RSUser", int_rsuser);
+    alarm_init(&rsuser_alarm, maincpu_alarm_context, "RSUser", int_rsuser);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 

@@ -43,6 +43,7 @@
 #include "clkguard.h"
 #include "ciatimer.h"
 #include "types.h"
+#include "utils.h"
 
 #ifndef CIA_SHARED_CODE
 
@@ -233,22 +234,30 @@ static void clk_overflow_callback(CIA_CONTEXT_PARAM CLOCK sub, void *data)
 
 /* -------------------------------------------------------------------------- */
 #ifndef CIA_SHARED_CODE
+static alarm_t *cia_ta_alarm;
+static alarm_t *cia_tb_alarm;
+static alarm_t *cia_tod_alarm;
+
 void mycia_init(void)
 {
     if (cia_log == LOG_ERR)
         cia_log = log_open(MYCIA_NAME);
 
-    alarm_init(&cia_ta_alarm, &mycpu_alarm_context, MYCIA_NAME "_TA",
+    cia_ta_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    cia_tb_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    cia_tod_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(cia_ta_alarm, mycpu_alarm_context, MYCIA_NAME "_TA",
                int_ciata);
-    alarm_init(&cia_tb_alarm, &mycpu_alarm_context, MYCIA_NAME "_TB",
+    alarm_init(cia_tb_alarm, mycpu_alarm_context, MYCIA_NAME "_TB",
                int_ciatb);
-    alarm_init(&cia_tod_alarm, &mycpu_alarm_context, MYCIA_NAME "_TOD",
+    alarm_init(cia_tod_alarm, mycpu_alarm_context, MYCIA_NAME "_TOD",
                int_ciatod);
 
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 
-    ciat_init(&ciata, MYCIA_NAME "_TA", myclk, &cia_ta_alarm);
-    ciat_init(&ciatb, MYCIA_NAME "_TB", myclk, &cia_tb_alarm);
+    ciat_init(&ciata, MYCIA_NAME "_TA", myclk, cia_ta_alarm);
+    ciat_init(&ciatb, MYCIA_NAME "_TB", myclk, cia_tb_alarm);
 }
 #endif
 
@@ -276,7 +285,7 @@ void mycia_reset(CIA_CONTEXT_PARVOID)
     ciatodstopped = 1;
     cia[0x0b] = 1;          /* the most common value */
     cia_todclk = myclk + ciatodticks;
-    alarm_set(&cia_tod_alarm, cia_todclk);
+    alarm_set(cia_tod_alarm, cia_todclk);
 
     ciaint = 0;
     my_set_int(CIA_CONTEXT_CALL 0, myclk);
@@ -978,7 +987,7 @@ static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
 
     /* set up new int */
     cia_todclk = myclk + ciatodticks;
-    alarm_set(&cia_tod_alarm, cia_todclk);
+    alarm_set(cia_tod_alarm, cia_todclk);
 
     if (!ciatodstopped) {
         /* inc timer */
@@ -1192,7 +1201,7 @@ int mycia_read_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
     /* stop timers, just in case */
     ciat_set_ctrl(&ciata, myclk, 0);
     ciat_set_ctrl(&ciatb, myclk, 0);
-    alarm_unset(&cia_tod_alarm);
+    alarm_unset(cia_tod_alarm);
 
     {
         snapshot_module_read_byte(m, &cia[CIA_PRA]);
@@ -1268,7 +1277,7 @@ log_message(cia_log, "read ciaint=%02x, ciaier=%02x.", ciaint, ciaier);
 
     snapshot_module_read_dword(m, &dword);
     cia_todclk = myclk + dword;
-    alarm_set(&cia_tod_alarm, cia_todclk);
+    alarm_set(cia_tod_alarm, cia_todclk);
 
     /* timer switch-on code from store_cia[CIA_CRA/CRB] */
 

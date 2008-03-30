@@ -399,7 +399,7 @@ void datasette_init(void)
 {
     datasette_log = log_open("Datasette");
 
-    alarm_init(&datasette_alarm, &maincpu_alarm_context,
+    alarm_init(&datasette_alarm, maincpu_alarm_context,
                "Datasette", datasette_read_bit);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);

@@ -524,7 +524,7 @@ static void cartridge_change_mapping(CLOCK offset)
 
 void cartridge_init(void)
 {
-    alarm_init(&cartridge_alarm, &maincpu_alarm_context,
+    alarm_init(&cartridge_alarm, maincpu_alarm_context,
                "Cartridge", cartridge_change_mapping);
 }
 

@@ -168,7 +168,7 @@ static void clk_overflow_callback(CLOCK sub, void *var)
 }
 
 void myacia_init(void) {
-    alarm_init(&acia_alarm, &mycpu_alarm_context, MYACIA, int_acia);
+    alarm_init(&acia_alarm, mycpu_alarm_context, MYACIA, int_acia);
 
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 

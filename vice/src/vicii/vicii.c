@@ -511,11 +511,11 @@ raster_t *vic_ii_init(void)
 {
   vic_ii.log = log_open ("VIC-II");
 
-  alarm_init(&vic_ii.raster_fetch_alarm, &maincpu_alarm_context,
+  alarm_init(&vic_ii.raster_fetch_alarm, maincpu_alarm_context,
              "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
-  alarm_init(&vic_ii.raster_draw_alarm, &maincpu_alarm_context,
+  alarm_init(&vic_ii.raster_draw_alarm, maincpu_alarm_context,
              "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
-  alarm_init(&vic_ii.raster_irq_alarm, &maincpu_alarm_context,
+  alarm_init(&vic_ii.raster_irq_alarm, maincpu_alarm_context,
              "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
 
   vic_ii_change_timing();

@@ -27,9 +27,11 @@
  *
  */
 
+#include "alarm.h"
 #include "clkguard.h"
 #include "interrupt.h"
 #include "snapshot.h"
+#include "utils.h"
 
 /*
  * 24jan97 a.fachat
@@ -227,15 +229,20 @@ inline static void update_myviatbl(VIA_CONTEXT_PARVOID)
 /* MYVIA */
 
 #ifndef VIA_SHARED_CODE
+static alarm_t *myvia_t1_alarm;
+static alarm_t *myvia_t2_alarm;
 
 void myvia_init(VIA_CONTEXT_PARVOID)
 {
     if (myvia_log == LOG_ERR)
         myvia_log = log_open(snap_module_name);
 
-    alarm_init(&myvia_t1_alarm, &mycpu_alarm_context,
+    myvia_t1_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    myvia_t2_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(myvia_t1_alarm, mycpu_alarm_context,
                MYVIA_NAME "T1", int_myviat1);
-    alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
+    alarm_init(myvia_t2_alarm, mycpu_alarm_context,
                MYVIA_NAME "T2", int_myviat2);
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 }
@@ -271,8 +278,8 @@ void myvia_reset(VIA_CONTEXT_PARVOID)
     /* disable vice interrupts */
     myviatai = 0;
     myviatbi = 0;
-    alarm_unset(&myvia_t1_alarm);
-    alarm_unset(&myvia_t2_alarm);
+    alarm_unset(myvia_t1_alarm);
+    alarm_unset(myvia_t2_alarm);
     update_myviairq(VIA_CONTEXT_CALLVOID);
 
     oldpa = 0xff;
@@ -422,7 +429,7 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         /* load counter with latch value */
         myviatau = rclk + myviatal + 3 + TAUOFFSET;
         myviatai = rclk + myviatal + 2;
-        alarm_set(&myvia_t1_alarm, myviatai);
+        alarm_set(myvia_t1_alarm, myviatai);
 
         /* set pb7 state */
         myviapb7 = 0;
@@ -453,7 +460,7 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         update_myviatbl(VIA_CONTEXT_CALLVOID);
         myviatbu = rclk + myviatbl + 3;
         myviatbi = rclk + myviatbl + 2;
-        alarm_set(&myvia_t2_alarm, myviatbi);
+        alarm_set(myvia_t2_alarm, myviatbi);
 
         /* Clear T2 interrupt */
         myviaifr &= ~VIA_IM_T2;
@@ -786,12 +793,12 @@ static void int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
 #ifdef MYVIA_TIMER_DEBUG
         log_message(myvia_log, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
 #endif
-        alarm_unset(&myvia_t1_alarm);
+        alarm_unset(myvia_t1_alarm);
         myviatai = 0;
     } else {                    /* continuous mode */
         /* load counter with latch value */
         myviatai += myviatal + 2;
-        alarm_set(&myvia_t1_alarm, myviatai);
+        alarm_set(myvia_t1_alarm, myviatai);
     }
     myviaifr |= VIA_IM_T1;
     update_myviairq(VIA_CONTEXT_CALLVOID);
@@ -811,7 +818,7 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
         log_message(myvia_log, "MYVIA timer B interrupt.");
 #endif
 
-    alarm_unset(&myvia_t2_alarm);       /*int_clk[I_MYVIAT2] = 0; */
+    alarm_unset(myvia_t2_alarm);       /*int_clk[I_MYVIAT2] = 0; */
     myviatbi = 0;
 
     myviaifr |= VIA_IM_T2;
@@ -941,8 +948,8 @@ int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
         return -1;
     }
 
-    alarm_unset(&myvia_t1_alarm);
-    alarm_unset(&myvia_t2_alarm);
+    alarm_unset(myvia_t1_alarm);
+    alarm_unset(myvia_t2_alarm);
 
     myviatai = 0;
     myviatbi = 0;
@@ -978,12 +985,12 @@ int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
 
     snapshot_module_read_byte(m, &byte);
     if (byte & 0x80) {
-        alarm_set(&myvia_t1_alarm, myviatai);
+        alarm_set(myvia_t1_alarm, myviatai);
     } else {
         myviatai = 0;
     }
     if (byte & 0x40) {
-        alarm_set(&myvia_t2_alarm, myviatbi);
+        alarm_set(myvia_t2_alarm, myviatbi);
     } else {
         myviatbi = 0;
     }

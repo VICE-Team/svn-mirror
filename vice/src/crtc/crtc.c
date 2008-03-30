@@ -358,8 +358,8 @@ raster_t *crtc_init(void)
 
     crtc.log = log_open ("CRTC");
 
-    alarm_init (&crtc.raster_draw_alarm, &maincpu_alarm_context,
-                "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
+    alarm_init(&crtc.raster_draw_alarm, maincpu_alarm_context,
+               "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 

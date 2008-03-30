@@ -307,10 +307,10 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 /* Initialization. */
 raster_t *vic_init(void)
 {
-  vic.log = log_open ("VIC");
+  vic.log = log_open("VIC");
 
-  alarm_init (&vic.raster_draw_alarm, &maincpu_alarm_context,
-              "VicIRasterDraw", vic_raster_draw_alarm_handler);
+  alarm_init(&vic.raster_draw_alarm, maincpu_alarm_context,
+             "VicIRasterDraw", vic_raster_draw_alarm_handler);
 
   clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 

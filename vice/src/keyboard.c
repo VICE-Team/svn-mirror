@@ -66,9 +66,9 @@ static void joystick_latch_matrix(CLOCK offset)
 
 void keyboard_init(void)
 {
-    alarm_init(&keyboard_alarm, &maincpu_alarm_context,
+    alarm_init(&keyboard_alarm, maincpu_alarm_context,
                "Keyboard", keyboard_latch_matrix);
-    alarm_init(&joystick_alarm, &maincpu_alarm_context,
+    alarm_init(&joystick_alarm, maincpu_alarm_context,
                "Joystick", joystick_latch_matrix);
 }
 

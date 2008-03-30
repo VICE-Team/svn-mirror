@@ -141,7 +141,7 @@ raster_t *vdc_init(void)
 
     vdc.log = log_open("VDC");
 
-    alarm_init(&vdc.raster_draw_alarm, &maincpu_alarm_context,
+    alarm_init(&vdc.raster_draw_alarm, maincpu_alarm_context,
                "VdcRasterDraw", vdc_raster_draw_alarm_handler);
 
     vdc_resize();
