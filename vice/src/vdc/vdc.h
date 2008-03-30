@@ -38,13 +38,16 @@
 #include "vdc-mem.h"
 
 /* Screen constants.  */
-/* Not exact, but for now allow 16 pixels of border each */
+/* Double pixelsize in y-resolution, to allow for scanlines */
+/*  and interlace effects                                   */
+
+/* Not exact, but for now allow 16 pixels of border each    */
 
 #define VDC_SCREEN_WIDTH		672
-#define VDC_SCREEN_HEIGHT	        232
+#define VDC_SCREEN_HEIGHT	        432
 
 #define VDC_SCREEN_XPIX			640
-#define VDC_SCREEN_YPIX			200
+#define VDC_SCREEN_YPIX			400
 #define VDC_SCREEN_TEXTCOLS		80
 #define VDC_SCREEN_TEXTLINES        	25
 #define VDC_SCREEN_BORDERWIDTH		16
@@ -52,9 +55,9 @@
 #define VDC_SCREEN_CHARHEIGHT		8
 
 #define VDC_FIRST_DISPLAYED_LINE	16
-#define VDC_LAST_DISPLAYED_LINE		215
+#define VDC_LAST_DISPLAYED_LINE		415
 #define VDC_25ROW_START_LINE		16
-#define VDC_25ROW_STOP_LINE		216
+#define VDC_25ROW_STOP_LINE		416
 #define VDC_80COL_START_PIXEL		16
 #define VDC_80COL_STOP_PIXEL		656
 

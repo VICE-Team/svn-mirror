@@ -726,6 +726,7 @@ void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
 int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 {
     /* Always OK.  */
+    c->palette = p;
     return 0;
 }
 
@@ -954,15 +955,15 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             ui_error("Display changed!\n(not implemented yet)");
             displaychanged = 0;
         }
-#if 0
+//#if 0
         if (querynewpalette) {
-            MessageBox(c->hwnd, "querynewpalette", c->title, MB_OK);
+//            MessageBox(c->hwnd, "querynewpalette", c->title, MB_OK);
             querynewpalette = 0;
             set_palette(c);
             set_physical_colors(c);
-            video_resize();
+//            video_resize();
         }
-#endif
+//#endif
         if (palettechanged) {
             ui_error("Palette changed!\n(not implemented yet)");
             palettechanged = 0;

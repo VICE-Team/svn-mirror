@@ -96,5 +96,9 @@ SOURCE="..\..\vdrive\vdrive-iec.c"
 
 SOURCE=..\..\vdrive\vdrive.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\vdrive\vdrive-command.c
+# End Source File
 # End Target
 # End Project

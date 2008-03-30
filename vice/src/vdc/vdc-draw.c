@@ -210,7 +210,7 @@ get_std_text(raster_cache_t *cache,
                                     vdc.ram+vdc.chargen_adr,
                                     16,
                                     VDC_SCREEN_TEXTCOLS,
-                                    vdc.raster.ycounter,
+                                    (vdc.raster.ycounter/2),
                                     xs, xe,
                                     rr);
 
@@ -225,8 +225,8 @@ get_std_text(raster_cache_t *cache,
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
         if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
-            && vdc.raster.ycounter >= (vdc.regs[10] & 0x1f)
-            && vdc.raster.ycounter < (vdc.regs[11] & 0x1f))
+            && (vdc.raster.ycounter/2) >= (vdc.regs[10] & 0x1f)
+            && (vdc.raster.ycounter/2) < (vdc.regs[11] & 0x1f))
             cache->foreground_data[crsrpos] ^= 0xff;
     }
     return r;
@@ -241,6 +241,9 @@ draw_std_text_cached(raster_cache_t *cache,
     PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
     unsigned int i;
+
+    /* only draw even rasterlines */
+    if (vdc.raster.ycounter % 2) return;
 
     for (i = xs; i <= xe; i++, p += 8)
     {
@@ -260,9 +263,12 @@ draw_std_text(void)
 
     BYTE* attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
     BYTE* screen_ptr = vdc.ram+vdc.screen_adr+vdc.mem_counter;
-    BYTE* char_ptr = vdc.ram+vdc.chargen_adr + vdc.raster.ycounter;
+    BYTE* char_ptr = vdc.ram+vdc.chargen_adr + (vdc.raster.ycounter/2);
 
     unsigned int i;
+
+    /* only draw even rasterlines */
+    if (vdc.raster.ycounter % 2) return;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
@@ -330,6 +336,9 @@ draw_std_bitmap_cached(raster_cache_t *cache,
 
     unsigned int i;
 
+    /* only draw even rasterlines */
+    if (vdc.raster.ycounter % 2) return;
+
     for (i = xs; i <= xe; i++, p += 8)
     {
         PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
@@ -350,6 +359,9 @@ draw_std_bitmap(void)
     BYTE* bitmap_ptr = vdc.ram+vdc.screen_adr+vdc.bitmap_counter;
 
     unsigned int i;
+
+    /* only draw even rasterlines */
+    if (vdc.raster.ycounter % 2) return;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {

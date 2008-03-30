@@ -111,6 +111,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                                          WPARAM wparam, LPARAM lparam)
 {
     int type;
+    extern int querynewpalette;
 
     switch (msg) {
         case WM_NOTIFY:
@@ -121,6 +122,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                     return TRUE;
                 }
                 free(palette_file);
+                querynewpalette = 1;
                 SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
                 return TRUE;
             }

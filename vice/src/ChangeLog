@@ -1,3 +1,60 @@
+1999-11-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.28.
+
+	* arch/unix/Makefile.am: Removed PHONY readline target.
+
+	* ciatimer.c: #include <stdio.h>.
+
+	* arch/unix/x11/xaw/uimenu.c (_ui_menu_radio_helper): Added
+	missing cast.
+
+	* arch/unix/x11/xaw/uicommands.c: #include "log.h".
+
+1999-11-15  Markus Brenner  <markus@brenner.de>
+
+	* vdc/vdc.h: Changed several screen constants
+
+	* vdc/vdc.c: Adjusted vdc_raster_draw_alarm_handler()
+
+	* vdc/vdc-draw.c: Adjusted drawing functions
+
+1999-11-15  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* ciacore.c, ciacore.h, riotcore.c, riotcore.h: support
+	compilation with shared code using the same approach employed
+	in viacore.c .
+
+	* drive/cia1571drive0.c, drive/cia1571drive1.c: unified into
+	drive/cia1571d.c. The same for cia1581drive*, riot1drive*
+	and riot2drive*.
+
+	* drive/drivetypes.h: new file defining the exact layout of
+	the drive context structure. Keep local to the drive module.
+
+	* drivecpu.h: export the drive's monitor interface and int
+	status through pointers (drive#_monitor_interface_ptr,
+	drive#_int_status_ptr) to avoid external modules having to
+	know the drive context layout (I don't think these are
+	extremely time critical).
+
+	* drive/{remaining files}: adapted for shared code changes.
+
+	* emulated machines' main files (c64/c64.c, c128/c128.c,
+	cbm2/cbm2.c, pet/pet.c, vic20/vic20.c): Use the pointers
+	exported in drivecpu.h.
+
+	* interrupt.h: Use pointers exported in drivecpu.h
+
+1999-11-14  Andreas Matthies <andreas.matthies@arcormail.de>
+
+	* win32/drive.dsp: updated filelist with last changes
+
+	* win32/arch.dsp: added vsidui.c to filelist
+ 
+	* datasette.c: (datasette_update_ui_counter) and 
+	(datasette_reset_counter) now check for attached image
+
 1999-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.27.
