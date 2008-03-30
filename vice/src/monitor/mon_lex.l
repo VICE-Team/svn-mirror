@@ -4,6 +4,7 @@
  *
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,6 +37,7 @@
 #include <stdlib.h>
 
 #include "mon.h"
+#include "mon_command.h"
 #include "mon_parse.h"
 #include "utils.h"
 #include "types.h"
@@ -71,13 +73,13 @@ YY_BUFFER_STATE my_state;
 %}
 
 <CMD>([^ \t\n]+) { push_back = 0;
-                   if ( (temp = mon_cmd_lookup_index(yytext, &push_back)) < 0) {
+                   if ( (temp = mon_command_lookup_index(yytext, &push_back)) < 0) {
                       return BAD_CMD;
                    } else {
                       if (push_back)
                          yyless(push_back);
 
-                      switch(mon_cmd_get_next_state(temp)) {
+                      switch(mon_command_get_next_state(temp)) {
                          case STATE_INITIAL:
                             BEGIN (INITIAL);
                             break;
@@ -99,7 +101,7 @@ YY_BUFFER_STATE my_state;
                          default:
                             assert(0);
                       }
-                      yylval.i = mon_cmd_get_token(temp);
+                      yylval.i = mon_command_get_token(temp);
                       if (yylval.i == CMD_ASSEMBLE)
                          opt_asm = 1;
                       return yylval.i;
@@ -215,7 +217,11 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <ASM_MODE>de|DE         { return REG_DE; }
 <ASM_MODE>hl|HL         { return REG_HL; }
 <ASM_MODE>ix|IX         { return REG_IX; }
+<ASM_MODE>ixh|IXH       { return REG_IXH; }
+<ASM_MODE>ixl|IXL       { return REG_IXL; }
 <ASM_MODE>iy|IY         { return REG_IY; }
+<ASM_MODE>iyh|IYH       { return REG_IYH; }
+<ASM_MODE>iyl|IYL       { return REG_IYL; }
 <ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 <ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
