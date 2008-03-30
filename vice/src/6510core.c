@@ -40,6 +40,17 @@
 #define NMI_CYCLES      7
 #define RESET_CYCLES    6
 
+ /* ------------------------------------------------------------------------- */
+
+/* backup for non-6509 CPUs */
+
+#ifndef LOAD_IND
+#define        LOAD_IND(a)     LOAD(a)
+#endif
+#ifndef STORE_IND
+#define        STORE_IND(a,b)  STORE(a,b)
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
@@ -161,16 +172,18 @@
 #define PUSH(val) ((PAGE_ONE)[(reg_sp--)] = (val))
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
-/* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
-   execute NMI.  */
 #ifdef TRACE
 #define TRACE_NMI() do { if (TRACEFLG) puts("*** NMI"); } while (0)
 #define TRACE_IRQ() do { if (TRACEFLG) puts("*** IRQ"); } while (0)
+#define TRACE_BRK() do { if (TRACEFLG) puts("*** BRK"); } while (0)
 #else
 #define TRACE_NMI()
 #define TRACE_IRQ()
+#define TRACE_BRK()
 #endif
 
+/* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
+   execute NMI.  */
 #define DO_INTERRUPT(int_kind)                                          \
     do {                                                                \
         BYTE ik = (int_kind);                                           \
@@ -287,6 +300,13 @@
 #define LOAD_ZERO_Y(addr)                       \
    (LOAD_ZERO((addr) + reg_y))
 
+#define LOAD_IND_Y_BANK(addr)                                   \
+   (((LOAD_ZERO_ADDR((addr)) & 0xff) + reg_y) > 0xff            \
+    ? (LOAD_IND((LOAD_ZERO_ADDR((addr)) & 0xff00)               \
+            | ((LOAD_ZERO_ADDR((addr)) + reg_y) & 0xff)),       \
+       CLK++,                                                   \
+       LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y))                \
+    : LOAD_IND(LOAD_ZERO_ADDR((addr)) + reg_y))
 
 #define STORE_ABS(addr, value, inc)             \
   do {                                          \
@@ -517,6 +537,7 @@
       CLK += 7;                                                 \
       EXPORT_REGISTERS();                                       \
       if (!ROM_TRAP_ALLOWED() || ROM_TRAP_HANDLER()) {          \
+	  TRACE_BRK();						\
           INC_PC(2);                                            \
           LOCAL_SET_BREAK(1);                                   \
           PUSH(reg_pc >> 8);                                    \
@@ -1320,10 +1341,10 @@
                                                         \
       CLK += 5;                                         \
       tmp = LOAD_ZERO_ADDR(addr);                       \
-      LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));    \
+      LOAD_IND((tmp & 0xff00) | ((tmp + reg_y) & 0xff));\
       CLK++;                                            \
       INC_PC(2);                                        \
-      STORE(tmp + reg_y, reg_a);                        \
+      STORE_IND(tmp + reg_y, reg_a);                    \
   } while (0)
 
 #define STX(addr, clk_inc1, clk_inc2, pc_inc)   \
@@ -1501,9 +1522,15 @@
         }
 #else
         if (TRACEFLG)
-            printf(".%04X\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
-                   reg_pc, (long)clk, sprint_opcode(reg_pc, 1),
-                   reg_a, reg_x, reg_y);
+            BYTE op = p0;
+            BYTE lo = p1;
+            BYTE hi = p2 >> 8;
+
+            printf(".%04X %02x %02x %02x\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
+                  reg_pc, op, lo, hi,
+                  (long)clk, sprint_opcode(reg_pc, 1),
+                  reg_a, reg_x, reg_y);
+       }
 #endif
 #endif
 
@@ -2242,7 +2269,7 @@
             break;
 
         case 0xb1:                      /* LDA ($nn),Y */
-            LDA(LOAD_IND_Y(p1), 2, 3, 2);
+            LDA(LOAD_IND_Y_BANK(p1), 2, 3, 2);
             break;
 
         case 0xb2:                      /* JAM */
