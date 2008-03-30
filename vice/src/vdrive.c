@@ -1491,7 +1491,6 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
         }
     } else {
         off_t offset;
-printf("S: %i T: %i I: %i\n",sector,track,format);
         offset = offset_from_track_and_sector(format, track, sector, d64);
 
         if (offset < 0)

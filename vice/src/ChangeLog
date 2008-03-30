@@ -1,3 +1,36 @@
+1999-05-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.20.
+
+	* drive/drive.c (set_drive_true_emulation): Always enable IEC bus
+	if true drive emulation is enabled.
+
+	* raster/raster.h: Always define `RASTER_PIXEL'.  Also define
+	`RASTER_PIXEL2' and `RASTER_PIXEL4' on MSDOS until all video chip
+	emulations are fixed.
+
+	* raster/raster.c (handle_blank_line): Use
+	`raster->viewport.canvas' instead of `canvas'.
+
+	* vicii/vicii-draw.c (setup_double_size_modes): Do not compile
+	this function if double size mode is not required.
+	(vic_ii_draw_init): Do not setup double size mode if not
+	required.
+	(setup_double_size_modes): Changed likewise.
+
+	* vicii/vicii-sprites.c (vic_ii_sprites_set_double_size): Do not
+	use double size modes if `VIC_II_NEED_2X' is not defined.
+
+	* vic20/vic-resources.c: #include "resources.h".
+
+	* arch/msdos/archdep.c: #include <sys/stat.h>.
+	(archdep_expand_path): Do not use `zlog'.
+
+	* serial.c (serial_init): Call `prdevice_late_init' only if
+	printer support is enabled.
+
+	* vdrive.c (floppy_read_block): Removed debugging cruft.
+
 1999-05-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.19.
