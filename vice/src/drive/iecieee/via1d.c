@@ -51,8 +51,8 @@
 
 
 /* see interrupt.h; ugly, but more efficient... */
-#define via_set_int(a,b) \
-        interrupt_set_irq(ctxptr->cpu.int_status, a, b, *(ctxptr->clk_ptr))
+#define via_set_int(a, b) \
+    interrupt_set_irq(ctxptr->cpu.int_status, a, b, *(ctxptr->clk_ptr))
 
 #define myclk           (*(ctxptr->clk_ptr))
 #define myvia           (ctxptr->via1.via)
@@ -86,7 +86,7 @@
 #define iec_info        (ctxptr->via1p.v_iec_info)
 
 #define myvia_init      via1d_init
-#define I_MYVIAFL       (ctxptr->via1.irq_type)
+#define myvia_int_num   (ctxptr->via1.int_num)
 #define MYVIA_NAME      (ctxptr->via1.myname)
 /*#define MYVIA_INT     (ctxptr->via1.irq_line)*/
 #define MYVIA_INT       IK_IRQ
@@ -128,11 +128,12 @@ void via1d_setup_context(drive_context_t *ctxptr)
     ctxptr->via1.irq_line = IK_IRQ;
     ctxptr->via1.log = LOG_ERR;
     ctxptr->via1p.v_parieee_is_out = 1;
+    ctxptr->via1.int_num
+        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
+
     if (ctxptr->mynumber == 0) {
-      ctxptr->via1.irq_type = I_VIA1D0FL;
       ctxptr->via1p.parallel_id = PARALLEL_DRV0;
     } else {
-      ctxptr->via1.irq_type = I_VIA1D1FL;
       ctxptr->via1p.parallel_id = PARALLEL_DRV1;
    }
 }

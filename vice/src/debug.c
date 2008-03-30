@@ -31,6 +31,7 @@
 #include "cmdline.h"
 #include "debug.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -147,31 +148,37 @@ void debug_text(const char *text)
 void debug_irq(interrupt_cpu_status_t *cs)
 {
     unsigned int i;
-    char textout[NUMOFINT * 4 + 20];
+    char *textout;
+
+    textout = lib_malloc(cs->num_ints * 4 + 20);
 
     sprintf(textout, "*** IRQ");
 
-    for (i = 0; i < NUMOFINT; i++) {
+    for (i = 0; i < cs->num_ints; i++) {
         if (cs->pending_int[i] & IK_IRQ)
             sprintf(&textout[strlen(textout)], " %i", i);
     }
 
     log_debug(textout);
+    lib_free(textout);
 }
 
 void debug_nmi(interrupt_cpu_status_t *cs)
 {
     unsigned int i;
-    char textout[NUMOFINT * 4 + 20];
+    char *textout;
+
+    textout = lib_malloc(cs->num_ints * 4 + 20);
 
     sprintf(textout, "*** NMI");
 
-    for (i = 0; i < NUMOFINT; i++) {
+    for (i = 0; i < cs->num_ints; i++) {
         if (cs->pending_int[i] & IK_NMI)
             sprintf(&textout[strlen(textout)], " %i", i);
     }
 
     log_debug(textout);
+    lib_free(textout);
 }
 #endif
 
