@@ -150,7 +150,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     FILE *fd;
     char fsname2[MAXPATHLEN];
     tape_image_t *tape;
-#if 0
+
     unsigned int format = 0;
     fileio_info_t *finfo;
 
@@ -158,7 +158,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         format |= FILEIO_FORMAT_P00;
     if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
         format |= FILEIO_FORMAT_RAW;
-#endif
+
     /* Override access mode if secondary address is 0 or 1.  */
     if (secondary == 0)
         fs_info[secondary].mode = Read;
@@ -192,76 +192,37 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for write mode access.  */
     if (fs_info[secondary].mode == Write) {
-        fd = fopen(cmd_parse->parsecmd, MODE_READ);
-        if (fd != NULL) {
-            fclose(fd);
-            fsdevice_error(vdrive, IPE_FILE_EXISTS);
-            return FLOPPY_ERROR;
-        }
-        if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
-            fd = fsdevice_find_pc64_name(vdrive, rname,
-                                         cmd_parse->parselength, fsname2);
-            if (fd != NULL) {
-                fclose(fd);
-                fsdevice_error(vdrive, IPE_FILE_EXISTS);
-                return FLOPPY_ERROR;
-            }
-        }
-        if (fsdevice_save_p00_enabled[(vdrive->unit) - 8]) {
-            if (fsdevice_create_file_p00(vdrive, rname,
-                                         cmd_parse->parselength,
-                                         cmd_parse->parsecmd,
-                                         secondary) > 0) {
-                fsdevice_error(vdrive, IPE_FILE_EXISTS);
-                return FLOPPY_ERROR;
-            } else {
-                fd = fopen(cmd_parse->parsecmd, MODE_APPEND_READ_WRITE);
-                fs_info[secondary].fd = fd;
-                fsdevice_error(vdrive, IPE_OK);
-                return FLOPPY_COMMAND_OK;
-            }
-        } else {
-            fd = fopen(cmd_parse->parsecmd, MODE_WRITE);
-            fs_info[secondary].fd = fd;
+        if (fsdevice_save_p00_enabled[vdrive->unit - 8])
+            format = FILEIO_FORMAT_P00;
+        else
+            format = FILEIO_FORMAT_RAW;
+
+        finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
+                            FILEIO_COMMAND_WRITE, fs_info[secondary].type);
+
+        if (finfo != NULL) {
+            fs_info[secondary].fd = (FILE *)(finfo->rawfile->fd);
+            fs_info[secondary].info = finfo;
             fsdevice_error(vdrive, IPE_OK);
             return FLOPPY_COMMAND_OK;
+        } else {
+            fsdevice_error(vdrive, IPE_FILE_EXISTS);
+            return FLOPPY_ERROR;
         }
     }
 
     /* Open file for append mode access.  */
-    if (fs_info[secondary].mode == Append) {
-        fd = fopen(cmd_parse->parsecmd, MODE_READ);
-        if (!fd) {
-            if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
-                fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
-            }
-            fd = fsdevice_find_pc64_name(vdrive, rname,
-                                         cmd_parse->parselength, fsname2);
-            if (!fd) {
-                fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
-            }
-            fclose(fd);
-            fd = fopen(fsname2, MODE_APPEND_READ_WRITE);
-            if (!fd) {
-                fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
-            }
-            fs_info[secondary].fd = fd;
-            fsdevice_error(vdrive, IPE_OK);
-            return FLOPPY_COMMAND_OK;
-        } else {
-            fclose(fd);
-            fd = fopen(cmd_parse->parsecmd, MODE_APPEND_READ_WRITE);
-            if (!fd) {
-                fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
-            }
-            fs_info[secondary].fd = fd;
-            fsdevice_error(vdrive, IPE_OK);
-            return FLOPPY_COMMAND_OK;
-        }
+    finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
+                        FILEIO_COMMAND_APPEND_READ, fs_info[secondary].type);
+
+    if (finfo != NULL) {
+        fs_info[secondary].fd = (FILE *)(finfo->rawfile->fd);
+        fs_info[secondary].info = finfo;
+        fsdevice_error(vdrive, IPE_OK);
+        return FLOPPY_COMMAND_OK;
+    } else {
+        fsdevice_error(vdrive, IPE_NOT_FOUND);
+        return FLOPPY_ERROR;
     }
 
     /* Open file for read mode access.  */
@@ -282,45 +243,20 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         fs_info[secondary].buflen = 2;
         return FLOPPY_COMMAND_OK;
     }
-#if 0
-    finfo = fileio_open(cmd_parse->parsecmd, NULL, format,
-                        FILEIO_COMMAND_READ);
+
+    finfo = fileio_open(rname, fsdevice_get_path(vdrive->unit), format,
+                        FILEIO_COMMAND_READ, fs_info[secondary].type);
 
     if (finfo != NULL) {
         fs_info[secondary].fd = (FILE *)(finfo->rawfile->fd);
+        fs_info[secondary].info = finfo;
         fsdevice_error(vdrive, IPE_OK);
         return FLOPPY_COMMAND_OK;
     } else {
         fsdevice_error(vdrive, IPE_NOT_FOUND);
         return FLOPPY_ERROR;
     }
-#else
-    fd = fopen(cmd_parse->parsecmd, MODE_READ);
-    if (!fd) {
-        if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
-            fsdevice_error(vdrive, IPE_NOT_FOUND);
-            return FLOPPY_ERROR;
-        }
-        fd = fsdevice_find_pc64_name(vdrive, rname, cmd_parse->parselength,
-                                     fsname2);
-        if (!fd) {
-            fsdevice_error(vdrive, IPE_NOT_FOUND);
-            return FLOPPY_ERROR;
-        }
-        fs_info[secondary].fd = fd;
-        fsdevice_error(vdrive, IPE_OK);
-        return FLOPPY_COMMAND_OK;
-    } else {
-        if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
-            fclose(fd);
-            fsdevice_error(vdrive, IPE_NOT_FOUND);
-            return FLOPPY_ERROR;
-        }
-        fs_info[secondary].fd = fd;
-        fsdevice_error(vdrive, IPE_OK);
-        return FLOPPY_COMMAND_OK;
-    }
-#endif
+
     return FLOPPY_COMMAND_OK;
 }
 
@@ -363,7 +299,7 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
         cmd_parse.readmode = FAM_WRITE;
 
     cmd_parse.parsecmd[cmd_parse.parselength] = 0;
-    strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength);
+    strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength + 1);
 
     /* CBM name to FSname */
     charset_petconvstring((BYTE *)(cmd_parse.parsecmd), 1);

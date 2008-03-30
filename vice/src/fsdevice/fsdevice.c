@@ -290,7 +290,8 @@ void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
                                     fsdevice_get_path(vdrive->unit),
                                     FILEIO_FORMAT_P00 | FILEIO_FORMAT_RAW,
                                     FILEIO_COMMAND_READ
-                                    | FILEIO_COMMAND_FSNAME);
+                                    | FILEIO_COMMAND_FSNAME,
+                                    FILEIO_TYPE_PRG);
                 if (finfo == NULL)
                     continue;
 
@@ -304,78 +305,10 @@ void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
             }
         }
         if (finfo != NULL)
-            fileio_destroy(finfo);
+            fileio_close(finfo);
     } while (dirp != NULL);
     closedir(dp);
     return;
-}
-
-int fsdevice_create_file_p00(vdrive_t *vdrive, char *name, int length,
-                             char *fsname, int secondary)
-{
-    char filename[17], realname[16];
-    int i;
-    size_t len;
-    FILE *fd;
-
-    if (length > 16)
-        length = 16;
-    memset(realname, 0, 16);
-    strncpy(realname, name, length);
-
-    len = fsdevice_evaluate_name_p00(name, length, filename);
-
-    strcpy(fsname, fsdevice_get_path(vdrive->unit));
-    strcat(fsname, FSDEV_DIR_SEP_STR);
-    strncat(fsname, filename, len);
-    switch (fs_info[secondary].type) {
-      case FT_DEL:
-        strcat(fsname, FSDEV_EXT_SEP_STR "D");
-        break;
-      case FT_SEQ:
-        strcat(fsname, FSDEV_EXT_SEP_STR "S");
-        break;
-      case FT_PRG:
-        strcat(fsname, FSDEV_EXT_SEP_STR "P");
-        break;
-      case FT_USR:
-        strcat(fsname, FSDEV_EXT_SEP_STR "U");
-        break;
-      case FT_REL:
-        strcat(fsname, FSDEV_EXT_SEP_STR "R");
-        break;
-    }
-    strcat(fsname, "00");
-
-    for (i = 1; i < 100; i++) {
-        fd = fopen(fsname, MODE_READ);
-        if (!fd)
-            break;
-        fclose(fd);
-        sprintf(&fsname[strlen(fsname) - 2], "%02i", i);
-    }
-
-    if (i >= 100)
-        return 1;
-
-    fd = fopen(fsname, MODE_WRITE);
-    if (!fd)
-        return 1;
-
-    if (fwrite("C64File", 8, 1, fd) < 1) {
-        fclose(fd);
-        return 1;
-    }
-    if (fwrite(realname, 16, 1, fd) < 1) {
-        fclose(fd);
-        return 1;
-    }
-    if (fwrite("\0\0", 2, 1, fd) < 1) {
-        fclose(fd);
-        return 1;
-    }
-    fclose(fd);
-    return 0;
 }
 
 static int fsdevice_reduce_filename_p00(char *filename, int len)
