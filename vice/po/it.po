@@ -2081,11 +2081,11 @@ msgstr "*Collisioni sprite-sfondo"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "PAL Scanline shade"
-msgstr ""
+msgstr "Ombra delle scanline PAL"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "Scanline Shade in percent"
-msgstr ""
+msgstr "Ombra della scanline in percentuale"
 
 #: src/arch/unix/uipalemu.c:92
 msgid "*Activate PAL emulation"
@@ -2093,19 +2093,19 @@ msgstr "*Attiva l'emulazione PAL"
 
 #: src/arch/unix/uipalemu.c:95
 msgid "*Fake PAL Emulation"
-msgstr ""
+msgstr "*Emulazione PAL veloce"
 
 #: src/arch/unix/uipalemu.c:97
 msgid "*Sharp PAL Emulation (Y/C Input)"
-msgstr ""
+msgstr "*Emulazione PAL nitida (Y/C Input)"
 
 #: src/arch/unix/uipalemu.c:99
 msgid "*Blurry PAL Emulation (Composite Input)"
-msgstr ""
+msgstr "*Emulazione PAL sbavata (Composite Input)"
 
 #: src/arch/unix/uipalemu.c:102
 msgid "PAL Scanline Shade"
-msgstr ""
+msgstr "Ombra della scanline PAL"
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:98

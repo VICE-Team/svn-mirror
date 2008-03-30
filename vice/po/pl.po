@@ -97,7 +97,6 @@ msgid "*64KB display memory"
 msgstr "*Wy¶wietl pamiêæ 64KB"
 
 #: src/arch/unix/c128ui.c:110
-#, fuzzy
 msgid "Revision"
 msgstr "Revision"
 
@@ -762,17 +761,14 @@ msgid "*External color set"
 msgstr "*Zewnêtrzne ustawienia kolorów"
 
 #: src/arch/unix/plus4ui.c:94 src/arch/unix/uivicii.c:81
-#, fuzzy
 msgid "PAL Emulation"
-msgstr "PAL emulator"
+msgstr "Emulacja PAL"
 
 #: src/arch/unix/plus4ui.c:100
-#, fuzzy
 msgid "*Fast PAL emulation"
 msgstr "*Szybka emulacja PAL"
 
 #: src/arch/unix/plus4ui.c:103
-#, fuzzy
 msgid "*PAL emulation"
 msgstr "*Emulacja PAL"
 
@@ -794,9 +790,8 @@ msgid "RAM settings"
 msgstr "Ustawienia ROM"
 
 #: src/arch/unix/plus4ui.c:129
-#, fuzzy
 msgid "TED settings"
-msgstr "Ustawienia VDC"
+msgstr "Ustawienia TED"
 
 #: src/arch/unix/rs232.c:120
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
@@ -1076,7 +1071,6 @@ msgstr ""
 "`%s'\n"
 
 #: src/arch/unix/uicommands.c:608
-#, fuzzy
 msgid "Load "
 msgstr "Za³aduj "
 
@@ -1093,22 +1087,22 @@ msgid "Fliplist File"
 msgstr "Zmieñ plik listy"
 
 #: src/arch/unix/uicommands.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully read `%s'."
 msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
 #: src/arch/unix/uicommands.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading `%s'."
 msgstr "B³±d czytania: %s."
 
 #: src/arch/unix/uicommands.c:625
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully wrote `%s'."
 msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
 #: src/arch/unix/uicommands.c:627
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing `%s'."
 msgstr "B³±d czytania: %s."
 
@@ -1189,22 +1183,18 @@ msgid "Hard"
 msgstr "Twardy"
 
 #: src/arch/unix/uicommands.c:912
-#, fuzzy
 msgid "Add current image (Unit 8)"
 msgstr "Dodaj aktualny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:915
-#, fuzzy
 msgid "Remove current image (Unit 8)"
 msgstr "Usuñ aktualny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:918
-#, fuzzy
 msgid "Attach next image (Unit 8)"
 msgstr "W³ó¿ nastêpny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:921
-#, fuzzy
 msgid "Attach previous image (Unit 8)"
 msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
 
@@ -1625,7 +1615,6 @@ msgid "IEC printer #4 driver"
 msgstr "Sterownik drukarki #4 - IEC"
 
 #: src/arch/unix/uiprinter.c:182
-#, fuzzy
 msgid "IEC printer #4 text output device"
 msgstr "Wyj¶cie urz±dzenie #4 drukarki - IEC"
 
@@ -1642,7 +1631,6 @@ msgid "IEC printer #5 driver"
 msgstr "Sterownik drukarki #5 - IEC"
 
 #: src/arch/unix/uiprinter.c:191
-#, fuzzy
 msgid "IEC printer #5 text output device"
 msgstr "Wyj¶cie urz±dzenia #5 drukarki - IEC"
 
@@ -1659,22 +1647,18 @@ msgid "Userport printer driver"
 msgstr "Port sterownika drukarki"
 
 #: src/arch/unix/uiprinter.c:200
-#, fuzzy
 msgid "Userport printer text output device"
-msgstr "Port wyj¶cia drukarki"
+msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 
 #: src/arch/unix/uiprinter.c:203
-#, fuzzy
 msgid "Printer text device 1..."
 msgstr "Urz±dzenie drukarki 1..."
 
 #: src/arch/unix/uiprinter.c:205
-#, fuzzy
 msgid "Printer text device 2..."
 msgstr "Urz±dzenie drukarki 2..."
 
 #: src/arch/unix/uiprinter.c:207
-#, fuzzy
 msgid "Printer text device 3..."
 msgstr "Urz±dzenie drukarki 4..."
 
@@ -1937,7 +1921,6 @@ msgid "VIC Video settings"
 msgstr "Ustawienia video VIC"
 
 #: src/arch/unix/uisettings.c:554
-#, fuzzy
 msgid "TED Video settings"
 msgstr "Ustawienia video TED"
 
@@ -2135,16 +2118,16 @@ msgstr "Cieniowane scanline w procentach"
 #: src/arch/unix/uipalemu.c:92
 #, fuzzy
 msgid "*Activate PAL emulation"
-msgstr "*Emulacja drukarki #4 - IEC"
+msgstr "*Uruchom emulacjê PAL"
 
 #: src/arch/unix/uipalemu.c:95
 #, fuzzy
 msgid "*Fake PAL Emulation"
-msgstr "*U¿yj emulacji reSID"
+msgstr "*Udawana emulacja PAL"
 
 #: src/arch/unix/uipalemu.c:97
 msgid "*Sharp PAL Emulation (Y/C Input)"
-msgstr ""
+msgstr "*Ostra emulacja PAL (wej¶cie Y/C)"
 
 #: src/arch/unix/uipalemu.c:99
 msgid "*Blurry PAL Emulation (Composite Input)"
@@ -2244,9 +2227,8 @@ msgid "Detach cartridge image(s)"
 msgstr "Wysuñ obraz(y) kartrid¿a"
 
 #: src/arch/unix/vic20ui.c:428
-#, fuzzy
 msgid "PAL Emulation Settings"
-msgstr "Ustawienia modelu PET"
+msgstr "Ustawienia emualcji PET"
 
 #: src/arch/unix/vic20ui.c:434
 msgid "VIC settings"
@@ -2274,9 +2256,8 @@ msgid "*3.00 sec"
 msgstr "*3.00 sek"
 
 #: src/arch/unix/vsidui.c:168
-#, fuzzy
 msgid "*Override PSID settings"
-msgstr "Ustawienia uk³adu SID"
+msgstr "*Resetuj ustawienia PSID"
 
 #: src/arch/unix/vsidui.c:191
 msgid "*Default Tune"
@@ -2324,7 +2305,7 @@ msgid "Contributors"
 msgstr "Wspó³pracownicy"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:87 src/arch/unix/x11/xaw/x11video.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Inicjalizacji przy u¿yciu XVideo zakoñczona pomy¶lnie (%dx%d %.4s)."
 
@@ -2592,7 +2573,7 @@ msgstr "Nasycenie"
 #: src/arch/unix/x11/gnome/uipalcontrol.c:42
 #, fuzzy
 msgid "Contrast"
-msgstr "Zawarto¶æ"
+msgstr "Kontrast"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:43
 msgid "Brightness"
@@ -2603,14 +2584,12 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:85
-#, fuzzy
 msgid "PAL Settings"
-msgstr "Ustawienia"
+msgstr "Ustawienia PAL"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:122
-#, fuzzy
 msgid "Reset PAL Settings"
-msgstr "Przywróæ domy¶lne ustawienia"
+msgstr "Przywróæ ustawienia PAL"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:43
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:43
@@ -2713,23 +2692,21 @@ msgid "Switch to windowmode"
 msgstr "Prze³±cz do trybu okna"
 
 #: src/arch/unix/x11/dga2.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Attach debugger to pid %d..."
-msgstr "Zainstaluj debbuger na pid %d...\n"
+msgstr "Zainstaluj debbuger na pid %d..."
 
 #: src/arch/unix/x11/dga2.c:189
 msgid "refresh, not ready, skipping frame"
 msgstr "od¶wie¿, nie czytaj , opu¶æ klatkê"
 
 #: src/arch/unix/x11/dga2.c:254
-#, fuzzy
 msgid "Successfully forked DGA"
-msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie\n"
+msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie"
 
 #: src/arch/unix/x11/dga2.c:306
-#, fuzzy
 msgid "Found suitable mode for fullscreen."
-msgstr "W³±cz pe³ny ekran"
+msgstr "Znajd¼ odpowiedni tryb dla pe³nego ekranu."
 
 #: src/arch/unix/x11/dga2.c:382
 msgid "Couldn't allocate pixel value cache."
@@ -2740,31 +2717,29 @@ msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
 #: src/arch/unix/x11/dga2.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
-msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu (SetMode) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
-msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu (pixmap) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:512
-#, fuzzy, c-format
+#, c-format
 msgid "Not enough video memeory pages in mode %s, disabling fullscreen."
 msgstr ""
-"B³±d podczas pobierania informacji o trybie video - wy³±czanie pe³nego "
-"ekranu."
+"Zbyt ma³o stron pamiêci graficznej w trybie %s, wy³±czanie pe³nego ekranu."
 
 #: src/arch/unix/x11/dga2.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
-msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu (CreateGC) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:568
-#, fuzzy
 msgid "Couldn't allocate color cache"
-msgstr "Nie mo¿na stworzyæ dysku"
+msgstr "Nie mo¿na alokowaæ cache'u koloru"
 
 #: src/arch/unix/x11/kbd.c:118
 #, c-format
@@ -2835,9 +2810,8 @@ msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Nie wywo³uj `XSync()' po aktualizacji okna emulatora"
 
 #: src/arch/unix/x11/video.c:162
-#, fuzzy
 msgid "Use shared memory"
-msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
+msgstr "U¿yj pamiêci dzielonej"
 
 #: src/arch/unix/x11/video.c:165
 msgid "Never use shared memory (slower)"
@@ -3001,9 +2975,8 @@ msgstr ""
 "Nie mo¿na w³o¿yæ pamiêci dzielonej; cofniêcie bez trybu rozszerzonego MITSHM"
 
 #: src/arch/unix/x11/xaw/x11video.c:174
-#, fuzzy
 msgid "MITSHM initialization succeed.\n"
-msgstr "Inicjalizacja zakonczona.\n"
+msgstr "Inicjalizacja MITSHM zakonczona pomy¶lnie.\n"
 
 #: src/arch/unix/x11/xaw/x11video.c:195
 #, c-format

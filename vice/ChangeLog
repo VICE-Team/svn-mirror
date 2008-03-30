@@ -1,3 +1,21 @@
+2002-04-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.35.
+
+	* INSTALL, README, vice.spec, doc/Readme.dos,
+	doc/html/plain/NEWS, doc/html/plain/vice.texi: New version
+	number.
+
+2002-04-07  pottendo  <pottendo@utanet.at>
+
+	* doc/html/plain/NEWS: Added unix news for 1.9. 
+
+	* configure.in: Changed `--disable-fullscreen' to
+	`--enable-fullscreen' and reversed the default. As XFree86
+	fullscreen based on DGA1 is not adapted to the new video
+	interfaces, and DGA2 is known to be unstable the default is
+	set to not check for fullscreen.
+
 2002-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.34.

@@ -768,20 +768,19 @@ msgstr "*PAL Emulation"
 
 #: src/arch/unix/plus4ui.c:115
 msgid "*16KB"
-msgstr ""
+msgstr "*16KB"
 
 #: src/arch/unix/plus4ui.c:117
 msgid "*32KB"
-msgstr ""
+msgstr "*32KB"
 
 #: src/arch/unix/plus4ui.c:119
 msgid "*64KB"
-msgstr ""
+msgstr "*64KB"
 
 #: src/arch/unix/plus4ui.c:127
-#, fuzzy
 msgid "RAM settings"
-msgstr "ROM Einstellungen"
+msgstr "RAM Einstellungen"
 
 #: src/arch/unix/plus4ui.c:129
 msgid "TED settings"

@@ -1024,19 +1024,16 @@ void vic_ii_update_video_mode(unsigned int cycle)
             } else {
                 /* The overscan background color is given by the background
                    color register.  */
-                if (vic_ii.raster.overscan_background_color
-                    != vic_ii.regs[0x21]
-                    || vic_ii.raster.xsmooth_color != vic_ii.regs[0x21]) {
-                    raster_add_int_change_background
-                        (&vic_ii.raster, VIC_II_RASTER_X(cycle),
-                        &vic_ii.raster.overscan_background_color,
-                        vic_ii.regs[0x21]);
-                    raster_add_int_change_background
-                        (&vic_ii.raster,
-                        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
-                        &vic_ii.raster.xsmooth_color,
-                        vic_ii.regs[0x21]);
-                }
+                raster_add_int_change_background
+                    (&vic_ii.raster, VIC_II_RASTER_X(cycle),
+                    &vic_ii.raster.overscan_background_color,
+                    vic_ii.regs[0x21]);
+                raster_add_int_change_background
+                    (&vic_ii.raster,
+                    VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(clk)),
+                    &vic_ii.raster.xsmooth_color,
+                    vic_ii.regs[0x21]);
+
                 vic_ii.get_background_from_vbuf = 0;
                 vic_ii.force_black_overscan_background_color = 0;
             }
