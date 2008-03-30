@@ -64,6 +64,9 @@ static alarm_t keyboard_alarm;
 
 static log_t keyboard_log = LOG_ERR;
 
+static keyboard_machine_func_t keyboard_machine_func = NULL;
+
+
 static void keyboard_latch_matrix(CLOCK offset)
 {
     alarm_unset(&keyboard_alarm);
@@ -71,6 +74,9 @@ static void keyboard_latch_matrix(CLOCK offset)
 
     memcpy(keyarr, latch_keyarr, sizeof(keyarr));
     memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
+
+    if (keyboard_machine_func != NULL)
+        keyboard_machine_func(keyarr);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -113,6 +119,11 @@ void keyboard_clear_keymatrix(void)
     memset(latch_rev_keyarr, 0, sizeof(latch_rev_keyarr));
 }
 
+void keyboard_register_machine(keyboard_machine_func_t func)
+{
+    keyboard_machine_func = func;
+}
+
 /*-----------------------------------------------------------------------*/
 
 #ifdef COMMON_KBD
@@ -131,12 +142,12 @@ static signed long key_ctrl_restore1 = -1;
 static signed long key_ctrl_restore2 = -1;
 
 /* 40/80 column key.  */
-signed long key_ctrl_column4080 = -1;
-key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+static signed long key_ctrl_column4080 = -1;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* CAPS (ASCII/DIN) key.  */
-signed long key_ctrl_caps = -1;
-key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+static signed long key_ctrl_caps = -1;
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 
 static keyboard_conv_t *keyconvmap = NULL;
 

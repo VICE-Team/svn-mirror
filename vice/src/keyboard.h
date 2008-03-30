@@ -76,6 +76,8 @@ extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
 typedef void (*key_ctrl_caps_func_t)(void);
 extern void keyboard_register_caps_key(key_ctrl_caps_func_t func);
 
+typedef void (*keyboard_machine_func_t)(int *);
+extern void keyboard_register_machine(keyboard_machine_func_t func);
 
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
