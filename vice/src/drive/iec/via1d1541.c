@@ -316,38 +316,9 @@ inline static BYTE read_prb(via_context_t *via_context)
     return byte;
 }
 
-
-/* These callbacks and the data initializations have to be done here */
-static void int_via1d0t1(CLOCK c)
-{
-    viacore_intt1(drive_context[0]->via1d1541, c);
-}
-
-static void int_via1d0t2(CLOCK c)
-{
-    viacore_intt2(drive_context[0]->via1d1541, c);
-}
-
-static void int_via1d1t1(CLOCK c)
-{
-    viacore_intt1(drive_context[1]->via1d1541, c);
-}
-
-static void int_via1d1t2(CLOCK c)
-{
-    viacore_intt2(drive_context[1]->via1d1541, c);
-}
-
-static via_initdesc_t via_desc[DRIVE_NUM] = {
-    { NULL, int_via1d0t1, int_via1d0t2 },
-    { NULL, int_via1d1t1, int_via1d1t2 }
-};
-
 void via1d1541_init(drive_context_t *ctxptr)
 {
-    via_desc[ctxptr->mynumber].via_ptr = ctxptr->via1d1541;
-
-    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu->alarm_context,
+    viacore_init(ctxptr->via1d1541, ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 

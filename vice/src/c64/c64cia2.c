@@ -255,31 +255,10 @@ void cia2_set_sdrx(BYTE received_byte)
     ciacore_set_sdr(machine_context.cia2, received_byte);
 }
 
-static void int_cia2ta(CLOCK offset)
-{
-    ciacore_intta(machine_context.cia2, offset);
-}
-
-static void int_cia2tb(CLOCK offset)
-{
-    ciacore_inttb(machine_context.cia2, offset);
-}
-
-static void int_cia2tod(CLOCK offset)
-{
-    ciacore_inttod(machine_context.cia2, offset);
-}
-
-static cia_initdesc_t cia_initdesc[2] = {
-    { NULL, int_cia2ta, int_cia2tb, int_cia2tod },
-};
-
 void cia2_init(cia_context_t *cia_context)
 {
-    cia_initdesc[0].cia_ptr = machine_context.cia2;
-
-    ciacore_init(&cia_initdesc[0], maincpu_alarm_context, maincpu_int_status,
-                 maincpu_clk_guard);
+    ciacore_init(machine_context.cia2, maincpu_alarm_context,
+                 maincpu_int_status, maincpu_clk_guard);
 }
 
 void cia2_setup_context(machine_context_t *machine_context)

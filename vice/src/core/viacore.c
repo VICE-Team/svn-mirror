@@ -138,6 +138,10 @@
 #define TAUOFFSET       (-1)
 
 
+static void viacore_intt1(CLOCK offset, void *data);
+static void viacore_intt2(CLOCK offset, void *data);
+
+
 static void via_restore_int(via_context_t *via_context, int value)
 {
     (via_context->restore_int)(via_context, via_context->int_num, value);
@@ -575,11 +579,11 @@ BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
 
     if (addr >= VIA_T1CL && addr <= VIA_IER) {
         if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr)))
-            viacore_intt1(via_context, *(via_context->clk_ptr)
-                          - via_context->tai);
+            viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
+                          (void *)via_context);
         if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr)))
-            viacore_intt2(via_context, *(via_context->clk_ptr)
-                          - via_context->tbi);
+            viacore_intt2(*(via_context->clk_ptr) - via_context->tbi,
+                          (void *)via_context);
     }
 
     switch (addr) {
@@ -703,9 +707,11 @@ BYTE REGPARM2 viacore_peek(via_context_t *via_context, WORD addr)
     addr &= 0xf;
 
     if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr)))
-        viacore_intt1(via_context, *(via_context->clk_ptr) - via_context->tai);
+        viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
+                      (void *)via_context);
     if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr)))
-        viacore_intt2(via_context, *(via_context->clk_ptr) - via_context->tbi);
+        viacore_intt2(*(via_context->clk_ptr) - via_context->tbi,
+                      (void *)via_context);
 
     switch (addr) {
       case VIA_PRA:
@@ -751,8 +757,10 @@ BYTE REGPARM2 viacore_peek(via_context_t *via_context, WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-void viacore_intt1(via_context_t *via_context, CLOCK offset)
+static void viacore_intt1(CLOCK offset, void *data)
 {
+    via_context_t *via_context = (via_context_t *)data;
+
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
         log_message(via_context->log, "myvia timer A interrupt");
@@ -781,8 +789,10 @@ void viacore_intt1(via_context_t *via_context, CLOCK offset)
  * Timer B is always in one-shot mode
  */
 
-void viacore_intt2(via_context_t *via_context, CLOCK offset)
+static void viacore_intt2(CLOCK offset, void *data)
 {
+    via_context_t *via_context = (via_context_t *)data;
+
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
         log_message(via_context->log, "MYVIA timer B interrupt.");
@@ -826,26 +836,28 @@ void viacore_setup_context(via_context_t *via_context)
     via_context->my_module_name_alt2 = NULL;
  }
 
-void viacore_init(const via_initdesc_t *vd, alarm_context_t *alarm_context,
+void viacore_init(via_context_t *via_context, alarm_context_t *alarm_context,
                   interrupt_cpu_status_t *int_status, clk_guard_t *clk_guard)
 {
     char *buffer;
 
-    if (vd->via_ptr->log == LOG_ERR)
-        vd->via_ptr->log = log_open(vd->via_ptr->my_module_name);
+    if (via_context->log == LOG_ERR)
+        via_context->log = log_open(via_context->my_module_name);
 
-    buffer = lib_msprintf("%sT1", vd->via_ptr->myname);
-    vd->via_ptr->t1_alarm = alarm_new(alarm_context, buffer, vd->int_t1);
+    buffer = lib_msprintf("%sT1", via_context->myname);
+    via_context->t1_alarm = alarm_new(alarm_context, buffer, viacore_intt1,
+                                      via_context);
     lib_free(buffer);
 
-    buffer = lib_msprintf("%sT2", vd->via_ptr->myname);
-    vd->via_ptr->t2_alarm = alarm_new(alarm_context, buffer, vd->int_t2);
+    buffer = lib_msprintf("%sT2", via_context->myname);
+    via_context->t2_alarm = alarm_new(alarm_context, buffer, viacore_intt2,
+                                      via_context);
     lib_free(buffer);
 
-    vd->via_ptr->int_num = interrupt_cpu_status_int_new(int_status,
-                                                        vd->via_ptr->myname);
+    via_context->int_num = interrupt_cpu_status_int_new(int_status,
+                                                        via_context->myname);
     clk_guard_add_callback(clk_guard, viacore_clk_overflow_callback,
-                           vd->via_ptr);
+                           via_context);
 }
 
 void viacore_shutdown(via_context_t *via_context)
@@ -900,9 +912,11 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
     snapshot_module_t *m;
 
     if (via_context->tai && (via_context->tai <= *(via_context->clk_ptr)))
-        viacore_intt1(via_context, *(via_context->clk_ptr) - via_context->tai);
+        viacore_intt1(*(via_context->clk_ptr) - via_context->tai,
+                      (void *)via_context);
     if (via_context->tbi && (via_context->tbi <= *(via_context->clk_ptr)))
-        viacore_intt2(via_context, *(via_context->clk_ptr) - via_context->tbi);
+        viacore_intt2(*(via_context->clk_ptr) - via_context->tbi,
+                      (void *)via_context);
 
     m = snapshot_module_create(s, via_context->my_module_name,
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);

@@ -180,31 +180,10 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 #endif
 }
 
-static void int_cia1ta(CLOCK offset)
-{
-    ciacore_intta(machine_context.cia1, offset);
-}
-
-static void int_cia1tb(CLOCK offset)
-{
-    ciacore_inttb(machine_context.cia1, offset);
-}
-
-static void int_cia1tod(CLOCK offset)
-{
-    ciacore_inttod(machine_context.cia1, offset);
-}
-
-static cia_initdesc_t cia_initdesc[2] = {
-    { NULL, int_cia1ta, int_cia1tb, int_cia1tod },
-};
-
 void cia1_init(cia_context_t *cia_context)
 {
-    cia_initdesc[0].cia_ptr = machine_context.cia1;
-
-    ciacore_init(&cia_initdesc[0], maincpu_alarm_context, maincpu_int_status,
-                 maincpu_clk_guard);
+    ciacore_init(machine_context.cia1, maincpu_alarm_context,
+                 maincpu_int_status, maincpu_clk_guard);
 }
 
 void cia1_setup_context(machine_context_t *machine_context)

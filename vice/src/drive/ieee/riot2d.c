@@ -248,26 +248,9 @@ static BYTE read_prb(riot_context_t *riot_context)
         | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
 }
 
-static void int_riot2d0(CLOCK c)
-{
-    riotcore_int_riot(drive_context[0]->riot2, c);
-}
-
-static void int_riot2d1(CLOCK c)
-{
-    riotcore_int_riot(drive_context[1]->riot2, c);
-}
-
-static riot_initdesc_t riot2_initdesc[DRIVE_NUM] = {
-    { NULL, int_riot2d0 },
-    { NULL, int_riot2d1 }
-};
-
 void riot2_init(drive_context_t *ctxptr)
 {
-    riot2_initdesc[ctxptr->mynumber].riot_ptr = ctxptr->riot2;
-
-    riotcore_init(riot2_initdesc, ctxptr->cpu->alarm_context,
+    riotcore_init(ctxptr->riot2, ctxptr->cpu->alarm_context,
                   ctxptr->cpu->clk_guard, ctxptr->mynumber);
 }
 

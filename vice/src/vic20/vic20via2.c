@@ -228,26 +228,10 @@ void printer_interface_userport_set_busy(int b)
                    VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
-static void int_via2t1(CLOCK c)
-{
-    viacore_intt1(machine_context.via2, c);
-}
-
-static void int_via2t2(CLOCK c)
-{
-    viacore_intt2(machine_context.via2, c);
-}
-
-static via_initdesc_t via_initdesc[1] = {
-    { NULL, int_via2t1, int_via2t2 },
-};
-
 void via2_init(via_context_t *via_context)
 {
-    via_initdesc[0].via_ptr = machine_context.via2;
-
-    viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
-                 maincpu_clk_guard);
+    viacore_init(machine_context.via2, maincpu_alarm_context,
+                 maincpu_int_status, maincpu_clk_guard);
 }
 
 void vic20via2_setup_context(machine_context_t *machine_context)

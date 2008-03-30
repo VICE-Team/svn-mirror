@@ -53,6 +53,9 @@
 #define CYCLES_PER_SEC  1000000
 #endif
 
+static void ciacore_intta(CLOCK offset, void *data);
+static void ciacore_inttb(CLOCK offset, void *data);
+
 
 /* The following is an attempt in rewriting the interrupt defines into
    static inline functions. This should not hurt, but I still kept the
@@ -149,7 +152,7 @@ static void cia_update_ta(cia_context_t *cia_context, CLOCK rclk)
     last_tmp = 0;
     tmp = ciat_alarm_clk(cia_context->ta);
     while (tmp <= rclk) {
-        ciacore_intta(cia_context, *(cia_context->clk_ptr) - tmp);
+        ciacore_intta(*(cia_context->clk_ptr) - tmp, (void *)cia_context);
         last_tmp = tmp;
         tmp = ciat_alarm_clk(cia_context->ta);
     }
@@ -170,7 +173,7 @@ static void cia_update_tb(cia_context_t *cia_context, CLOCK rclk)
     last_tmp = 0;
     tmp = ciat_alarm_clk(cia_context->tb);
     while (tmp <= rclk) {
-        ciacore_inttb(cia_context, *(cia_context->clk_ptr) - tmp);
+        ciacore_inttb(*(cia_context->clk_ptr) - tmp, (void *)cia_context);
         last_tmp = tmp;
         tmp = ciat_alarm_clk(cia_context->tb);
     }
@@ -845,10 +848,12 @@ BYTE REGPARM2 ciacore_peek(cia_context_t *cia_context, WORD addr)
 /* ------------------------------------------------------------------------- */
 
 
-void ciacore_intta(cia_context_t *cia_context, CLOCK offset)
+static void ciacore_intta(CLOCK offset, void *data)
 {
-    CLOCK rclk = *(cia_context->clk_ptr) - offset;
-/*    int n; */
+    CLOCK rclk;
+    cia_context_t *cia_context = (cia_context_t *)data;
+
+    rclk = *(cia_context->clk_ptr) - offset;
 
     CIAT_LOGIN(("ciaTimerA ciacore_intta: myclk=%d rclk=%d",
                 *(cia_context->clk_ptr), rclk));
@@ -921,10 +926,13 @@ void ciacore_intta(cia_context_t *cia_context, CLOCK offset)
  */
 
 
-void ciacore_inttb(cia_context_t *cia_context, CLOCK offset)
+static void ciacore_inttb(CLOCK offset, void *data)
 {
-    CLOCK rclk = *(cia_context->clk_ptr) - offset;
+    CLOCK rclk;
     int n;
+    cia_context_t *cia_context = (cia_context_t *)data;
+
+    rclk = *(cia_context->clk_ptr) - offset;
 
     CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d",
                *(cia_context->clk_ptr), rclk));
@@ -986,10 +994,13 @@ void ciacore_set_sdr(cia_context_t *cia_context, BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-void ciacore_inttod(cia_context_t *cia_context, CLOCK offset)
+static void ciacore_inttod(CLOCK offset, void *data)
 {
     int t, pm;
-    CLOCK rclk = *(cia_context->clk_ptr) - offset;
+    CLOCK rclk;
+    cia_context_t *cia_context = (cia_context_t *)data;
+
+    rclk = *(cia_context->clk_ptr) - offset;
 
     /* set up new int */
     cia_context->todclk = *(cia_context->clk_ptr) + cia_context->todticks;
@@ -1038,44 +1049,47 @@ void ciacore_setup_context(cia_context_t *cia_context)
     cia_context->last_read = 0;
 }
 
-void ciacore_init(const cia_initdesc_t *cd, alarm_context_t *alarm_context,
+void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
                   interrupt_cpu_status_t *int_status, clk_guard_t *clk_guard)
 {
     char *buffer;
 
-    cd->cia_ptr->ta = (ciat_t *)lib_malloc(sizeof(ciat_t));
-    cd->cia_ptr->tb = (ciat_t *)lib_malloc(sizeof(ciat_t));
+    cia_context->ta = (ciat_t *)lib_malloc(sizeof(ciat_t));
+    cia_context->tb = (ciat_t *)lib_malloc(sizeof(ciat_t));
 
     ciat_init_table();
 
-    cd->cia_ptr->log = log_open(cd->cia_ptr->myname);
+    cia_context->log = log_open(cia_context->myname);
 
-    buffer = lib_msprintf("%s_TA", cd->cia_ptr->myname);
-    cd->cia_ptr->ta_alarm = alarm_new(alarm_context, buffer, cd->int_ta);
+    buffer = lib_msprintf("%s_TA", cia_context->myname);
+    cia_context->ta_alarm = alarm_new(alarm_context, buffer, ciacore_intta,
+                                      (void *)cia_context);
     lib_free(buffer);
 
-    buffer = lib_msprintf("%s_TB", cd->cia_ptr->myname);
-    cd->cia_ptr->tb_alarm = alarm_new(alarm_context, buffer, cd->int_tb);
+    buffer = lib_msprintf("%s_TB", cia_context->myname);
+    cia_context->tb_alarm = alarm_new(alarm_context, buffer, ciacore_inttb,
+                                      (void *)cia_context);
     lib_free(buffer);
 
-    buffer = lib_msprintf("%s_TOD", cd->cia_ptr->myname);
-    cd->cia_ptr->tod_alarm = alarm_new(alarm_context, buffer, cd->int_tod);
+    buffer = lib_msprintf("%s_TOD", cia_context->myname);
+    cia_context->tod_alarm = alarm_new(alarm_context, buffer, ciacore_inttod,
+                                       (void *)cia_context);
     lib_free(buffer);
 
-    cd->cia_ptr->int_num
-        = interrupt_cpu_status_int_new(int_status, cd->cia_ptr->myname);
+    cia_context->int_num
+        = interrupt_cpu_status_int_new(int_status, cia_context->myname);
 
     clk_guard_add_callback(clk_guard, ciacore_clk_overflow_callback,
-                           cd->cia_ptr);
+                           cia_context);
 
-    buffer = lib_msprintf("%s_TA", cd->cia_ptr->myname);
-    ciat_init(cd->cia_ptr->ta, buffer, *(cd->cia_ptr->clk_ptr),
-              cd->cia_ptr->ta_alarm);
+    buffer = lib_msprintf("%s_TA", cia_context->myname);
+    ciat_init(cia_context->ta, buffer, *(cia_context->clk_ptr),
+              cia_context->ta_alarm);
     lib_free(buffer);
 
-    buffer = lib_msprintf("%s_TB", cd->cia_ptr->myname);
-    ciat_init(cd->cia_ptr->tb, buffer, *(cd->cia_ptr->clk_ptr),
-              cd->cia_ptr->tb_alarm);
+    buffer = lib_msprintf("%s_TB", cia_context->myname);
+    ciat_init(cia_context->tb, buffer, *(cia_context->clk_ptr),
+              cia_context->tb_alarm);
     lib_free(buffer);
 }
 

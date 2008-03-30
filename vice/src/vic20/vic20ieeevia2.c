@@ -155,26 +155,10 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return 0xff;
 }
 
-static void int_ieeevia2t1(CLOCK c)
-{
-    viacore_intt1(machine_context.ieeevia2, c);
-}
-
-static void int_ieeevia2t2(CLOCK c)
-{
-    viacore_intt2(machine_context.ieeevia2, c);
-}
-
-static via_initdesc_t via_initdesc[1] = {
-    { NULL, int_ieeevia2t1, int_ieeevia2t2 },
-};
-
 void ieeevia2_init(via_context_t *via_context)
 {
-    via_initdesc[0].via_ptr = machine_context.ieeevia2;
-
-    viacore_init(&via_initdesc[0], maincpu_alarm_context, maincpu_int_status,
-                 maincpu_clk_guard);
+    viacore_init(machine_context.ieeevia2, maincpu_alarm_context,
+                 maincpu_int_status, maincpu_clk_guard);
 }
 
 void vic20ieeevia2_setup_context(machine_context_t *machine_context)

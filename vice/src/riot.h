@@ -79,17 +79,12 @@ typedef struct riot_context_s {
     void (*restore_irq)(struct riot_context_s *, int);
 } riot_context_t;
 
-typedef struct riot_initdesc_s {
-    struct riot_context_s *riot_ptr;
-    void (*int_t1)(CLOCK);
-} riot_initdesc_t;
-
 struct alarm_context_s;
 struct clk_guard_s;
 struct snapshot_s;
 
 extern void riotcore_setup_context(riot_context_t *riot_context);
-extern void riotcore_init(const riot_initdesc_t *riot_desc,
+extern void riotcore_init(riot_context_t *riot_context,
                           struct alarm_context_s *alarm_context,
                           struct clk_guard_s *clk_guard, unsigned int number);
 extern void riotcore_shutdown(struct riot_context_s *riot_context);
@@ -98,7 +93,6 @@ extern void riotcore_signal(riot_context_t *riot_context, int sig, int type);
 extern void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr,
                                     BYTE data);
 extern BYTE REGPARM2 riotcore_read(riot_context_t *riot_context, WORD addr);
-extern void riotcore_int_riot(riot_context_t *riot_context, CLOCK offset);
 
 extern int riotcore_snapshot_write_module(struct riot_context_s *riot_context,
                                           struct snapshot_s *p);

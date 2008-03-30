@@ -142,15 +142,9 @@ typedef struct via_context_s {
     void (*reset)(struct via_context_s *);
 } via_context_t;
 
-typedef struct via_initdesc_s {
-    struct via_context_s *via_ptr;
-    void (*int_t1)(CLOCK);
-    void (*int_t2)(CLOCK);
-} via_initdesc_t;
-
 
 extern void viacore_setup_context(struct via_context_s *via_context);
-extern void viacore_init(const via_initdesc_t *vd,
+extern void viacore_init(struct via_context_s *via_context,
                          struct alarm_context_s *alarm_context,
                          struct interrupt_cpu_status_s *int_status,
                          struct clk_guard_s *clk_guard);
@@ -165,9 +159,6 @@ extern BYTE REGPARM1 viacore_read(struct via_context_s *via_context,
                                   WORD addr);
 extern BYTE REGPARM1 viacore_peek(struct via_context_s *via_context,
                                   WORD addr);
-
-extern void viacore_intt1(struct via_context_s *via_context, CLOCK offset);
-extern void viacore_intt2(struct via_context_s *via_context, CLOCK offset);
 
 extern int viacore_snapshot_write_module(struct via_context_s *via_context,
                                          struct snapshot_s *s);

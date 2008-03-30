@@ -131,15 +131,8 @@ typedef struct cia_context_s {
     void (*pre_peek)(void);
 } cia_context_t;
 
-typedef struct cia_initdesc_s {
-    struct cia_context_s *cia_ptr;
-    void (*int_ta)(CLOCK);
-    void (*int_tb)(CLOCK);
-    void (*int_tod)(CLOCK);
-} cia_initdesc_t;
-
 extern void ciacore_setup_context(struct cia_context_s *cia_context);
-extern void ciacore_init(const cia_initdesc_t *cd,
+extern void ciacore_init(struct cia_context_s *cia_context,
                          struct alarm_context_s *alarm_context,
                          struct interrupt_cpu_status_s *int_status,
                          struct clk_guard_s *clk_guard);
@@ -151,10 +144,6 @@ extern BYTE REGPARM1 ciacore_read(struct cia_context_s *cia_context,
                                   WORD addr);
 extern BYTE REGPARM1 ciacore_peek(struct cia_context_s *cia_context,
                                   WORD addr);
-
-extern void ciacore_intta(struct cia_context_s *cia_context, CLOCK offset);
-extern void ciacore_inttb(struct cia_context_s *cia_context, CLOCK offset);
-extern void ciacore_inttod(struct cia_context_s *cia_context, CLOCK offset);
 
 extern void ciacore_set_flag(struct cia_context_s *cia_context);
 extern void ciacore_set_sdr(struct cia_context_s *cia_context, BYTE data);

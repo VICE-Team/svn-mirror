@@ -299,9 +299,11 @@ BYTE REGPARM2 myriot_read_(riot_context_t *riot_context, WORD addr)
     return 0xff;
 }
 
-void riotcore_int_riot(riot_context_t *riot_context, CLOCK offset)
+static void riotcore_int_riot(CLOCK offset, void *data)
 {
-/*    CLOCK rclk = *(riot_context->clk_ptr) - offset; */
+    riot_context_t *riot_context = (riot_context_t *)data;
+
+/*  CLOCK rclk = *(riot_context->clk_ptr) - offset; */
 
     alarm_unset(riot_context->alarm);
 
@@ -319,20 +321,21 @@ void riotcore_setup_context(riot_context_t *riot_context)
     riot_context->r_irqline = 0;
 }
 
-void riotcore_init(const riot_initdesc_t *riot_desc,
+void riotcore_init(riot_context_t *riot_context,
                    alarm_context_t *alarm_context, clk_guard_t *clk_guard,
                    unsigned int number)
 {
-    char buffer[16];
-    const riot_initdesc_t *rd = &riot_desc[number];
+    char *buffer;
 
-    rd->riot_ptr->log = log_open(rd->riot_ptr->myname);
+    riot_context->log = log_open(riot_context->myname);
 
-    sprintf(buffer, "%sT1", rd->riot_ptr->myname);
-    rd->riot_ptr->alarm = alarm_new(alarm_context, buffer, rd->int_t1);
+    buffer = lib_msprintf("%sT1", riot_context->myname);
+    riot_context->alarm = alarm_new(alarm_context, buffer, riotcore_int_riot,
+                                    riot_context);
+    lib_free(buffer);
 
     clk_guard_add_callback(clk_guard, riotcore_clk_overflow_callback,
-                           rd->riot_ptr);
+                           riot_context);
 }
 
 void riotcore_shutdown(riot_context_t *riot_context)
