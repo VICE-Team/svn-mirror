@@ -2,7 +2,7 @@
  * c64cart.h -- C64 cartridge memory interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -53,7 +53,8 @@ extern void cartridge_release_freeze(void);
 extern void cartridge_ack_nmi_reset(void);
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-extern int ultimax;
+extern unsigned int cart_ultimax_phi1;
+extern unsigned int cart_ultimax_phi2;
 
 /* Exansion port ROML/ROMH images.  */
 extern BYTE roml_banks[], romh_banks[];

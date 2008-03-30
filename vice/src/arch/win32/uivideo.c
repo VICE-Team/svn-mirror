@@ -2,7 +2,7 @@
  * uivideo.c - Implementation of video settings dialog box.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@mail.matav.hu>
  *

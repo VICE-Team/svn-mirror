@@ -2,7 +2,7 @@
  * mon.h - The VICE built-in monitor, external interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *

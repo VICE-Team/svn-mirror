@@ -4,7 +4,7 @@
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Patches by
  *  Ettore Perazzoli <ettore@comm2000.it>

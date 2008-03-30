@@ -2,8 +2,8 @@
  * c64mem.c -- C64 memory handling.
  *
  * Written by
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -533,6 +533,7 @@ void mem_initialize_memory(void)
         }
         for (i = 0x80; i <= 0x9f; i++)
             set_write_hook(j, i, roml_store);
+
         for (i = 0xa0; i <= 0xbf; i++) {
             mem_read_tab[j][i] = ultimax_a000_bfff_read;
             set_write_hook(j, i, ultimax_a000_bfff_store);

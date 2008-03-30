@@ -3,7 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -351,7 +351,7 @@ const char contrib_text[] =
 "  hardware-level 1541 emulation and wrote the new monitor\n"
 "  introduced with VICE 0.15.\n"
 "\n"
-"  Andreas Boose <boose@linux.rz.fh-hannover.de> gave lots of\n"
+"  Andreas Boose <viceteam@t-online.de> gave lots of\n"
 "  information and bug reports about the VIC-II, the 6510 and the\n"
 "  CIAs; moreover, he wrote several test-routines that were used\n"
 "  to improve the emulation.  He also added cartridge support and\n"

@@ -2,7 +2,7 @@
  * c64cartmem.h -- C64 cartridge emulation, memory handling.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,7 +32,8 @@
 #define CMODE_READ  0
 #define CMODE_WRITE 1
 
-extern void cartridge_config_changed(BYTE mode, unsigned int wflag);
+extern void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
+                                     unsigned int wflag);
 
 extern BYTE export_ram0[];
 

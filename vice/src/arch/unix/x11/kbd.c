@@ -2,7 +2,7 @@
  * kbd.c - X11 keyboard driver.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *

@@ -2,7 +2,7 @@
  * mon_register6502.c - The VICE built-in monitor 6502 register functions.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *

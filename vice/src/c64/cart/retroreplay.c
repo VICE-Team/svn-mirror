@@ -2,7 +2,7 @@
  * retroreplay.c - Cartridge handling, Retro Replay cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -104,7 +104,7 @@ void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xff) {
       case 0:
-        cartridge_config_changed(value, CMODE_WRITE);
+        cartridge_config_changed(value, value, CMODE_WRITE);
         romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
         break;
       case 1:
@@ -264,7 +264,7 @@ void REGPARM2 retroreplay_roml_store(ADDRESS addr, BYTE value)
 
 void retroreplay_freeze(void)
 {
-    cartridge_config_changed(35, CMODE_READ);
+    cartridge_config_changed(35, 35, CMODE_READ);
 }
 
 int retroreplay_freeze_allowed(void)
@@ -276,7 +276,7 @@ int retroreplay_freeze_allowed(void)
 
 void retroreplay_config_init(void)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
     write_once = 0;
     no_freeze = 0;
     reu_mapping = 0;
@@ -287,7 +287,7 @@ void retroreplay_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x10000);
     memcpy(romh_banks, rawcart, 0x10000);
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 int retroreplay_bin_attach(const char *filename, BYTE *rawcart)

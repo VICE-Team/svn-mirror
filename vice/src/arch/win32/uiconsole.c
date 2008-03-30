@@ -5,7 +5,7 @@
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *
  * based on uisnapshot.c, written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

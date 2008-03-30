@@ -2,7 +2,7 @@
  * joystick.c - Common joystick emulation.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Based on old code by
  *  Ettore Perazzoli <ettore@comm2000.it>

@@ -2,7 +2,7 @@
  * c64cartmem.c -- C64 cartridge emulation, memory handling.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -71,27 +71,30 @@ BYTE export_ram0[C64CART_RAM_LIMIT];
 int roml_bank = 0, romh_bank = 0, export_ram = 0;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-int ultimax = 0;
+unsigned int cart_ultimax_phi1 = 0;
+unsigned int cart_ultimax_phi2 = 0;
 
 /* Type of the cartridge attached.  */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
 
-void cartridge_config_changed(BYTE mode, unsigned int wflag)
+void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
+                              unsigned int wflag)
 {
     if (wflag == CMODE_WRITE)
         machine_handle_pending_alarms(maincpu_rmw_flag + 1);
     else
         machine_handle_pending_alarms(0);
 
-    export.game = mode & 1;
-    export.exrom = ((mode >> 1) & 1) ^ 1;
-    romh_bank = roml_bank = (mode >> 3) & 3;
-    export_ram = (mode >> 5) & 1;
+    export.game = mode_phi2 & 1;
+    export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
+    romh_bank = roml_bank = (mode_phi2 >> 3) & 3;
+    export_ram = (mode_phi2 >> 5) & 1;
     pla_config_changed();
-    if (mode & 0x40)
+    if (mode_phi2 & 0x40)
         cartridge_release_freeze();
-    ultimax = export.game & (export.exrom ^ 1);
+    cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
+    cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
     machine_update_memory_ptrs();
 }
 
@@ -117,7 +120,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return final_v1_io1_read(addr);
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GS:
-        cartridge_config_changed(0, CMODE_READ);
+        cartridge_config_changed(0, 0, CMODE_READ);
         return vicii_read_phi1();
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1e00 + (addr & 0xff)];
@@ -163,10 +166,10 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         final_v3_io1_store(addr, value);
         break;
       case CARTRIDGE_SIMONS_BASIC:
-        cartridge_config_changed(1, CMODE_WRITE);
+        cartridge_config_changed(1, 1, CMODE_WRITE);
         break;
       case CARTRIDGE_WARPSPEED:
-        cartridge_config_changed(1, CMODE_WRITE);
+        cartridge_config_changed(1, 1, CMODE_WRITE);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_io1_store(addr, value);
@@ -186,7 +189,8 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         }
         export.game = export.exrom = 1;
         pla_config_changed();
-        ultimax = 0;
+        cart_ultimax_phi1 = 0;
+        cart_ultimax_phi2 = 0;
         break;
       case CARTRIDGE_GS:
         roml_bank = addr & 0x3f;
@@ -227,13 +231,13 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_EPYX_FASTLOAD:
         return epyxfastload_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
-        cartridge_config_changed(0, CMODE_READ);
+        cartridge_config_changed(0, 0, CMODE_READ);
         return vicii_read_phi1();
       case CARTRIDGE_REX:
         if ((addr & 0xff) < 0xc0)
-            cartridge_config_changed(2, CMODE_READ);
+            cartridge_config_changed(2, 2, CMODE_READ);
         else
-            cartridge_config_changed(0, CMODE_READ);
+            cartridge_config_changed(0, 0, CMODE_READ);
         return 0;
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1f00 + (addr & 0xff)];
@@ -265,7 +269,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         kcs_io2_store(addr, value);
         break;
       case CARTRIDGE_WARPSPEED:
-        cartridge_config_changed(2, CMODE_WRITE);
+        cartridge_config_changed(2, 2, CMODE_WRITE);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_io2_store(addr, value);
@@ -471,26 +475,26 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
-        cartridge_config_changed(1, CMODE_READ);
+        cartridge_config_changed(1, 1, CMODE_READ);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_GS:
-        cartridge_config_changed(0, CMODE_READ);
+        cartridge_config_changed(0, 0, CMODE_READ);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_DINAMIC:
-        cartridge_config_changed(0, CMODE_READ);
+        cartridge_config_changed(0, 0, CMODE_READ);
         cartridge_read_io1((ADDRESS)0xde00);
         break;
       case CARTRIDGE_IEEE488:
-        cartridge_config_changed(0, CMODE_READ);
+        cartridge_config_changed(0, 0, CMODE_READ);
         /* FIXME: Insert interface init here.  */
         break;
       case CARTRIDGE_EXPERT:
         expert_config_init();
         break;
       default:
-        cartridge_config_changed(2, CMODE_READ);
+        cartridge_config_changed(2, 2, CMODE_READ);
     }
 }
 
@@ -547,7 +551,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(roml_banks, rawcart, 0x2000 * 64);
         memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
         /* Hack: using 16kB configuration, but some carts are 8kB only */
-        cartridge_config_changed(1, CMODE_READ);
+        cartridge_config_changed(1, 1, CMODE_READ);
         break;
       case CARTRIDGE_ULTIMAX:
         generic_ultimax_config_setup(rawcart);
@@ -577,7 +581,7 @@ void cartridge_detach(int type)
         ide64_detach();
       break;
     }
-    cartridge_config_changed(6, CMODE_READ);
+    cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
     return;
 }

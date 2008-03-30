@@ -2,7 +2,7 @@
  * grc.h - GCR handling.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

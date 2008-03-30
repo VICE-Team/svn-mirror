@@ -2,7 +2,7 @@
  * vdrive-iec.c - Virtual disk-drive IEC implementation.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Based on old code by
  *  Teemu Rantanen <tvr@cs.hut.fi>

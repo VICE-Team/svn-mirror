@@ -2,7 +2,7 @@
  * uic64cart.c - Implementation of the C64/C128 cart-specific part of the UI.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

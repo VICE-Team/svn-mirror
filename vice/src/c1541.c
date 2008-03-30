@@ -8,7 +8,7 @@
  *  Gerhard Wesp <gwesp@cosy.sbg.ac.at>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  Ricardo Ferreira <storm@esoterica.pt>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Patches by
  *  Olaf Seibert <rhialto@mbfys.kun.nl>

@@ -2,7 +2,7 @@
  * printer.c - Common printer interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,6 +34,7 @@
 #include "output-graphics.h"
 #include "output-select.h"
 #include "output-text.h"
+
 
 int printer_resources_init(void)
 {

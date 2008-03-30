@@ -4,6 +4,7 @@
  *
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -2,7 +2,7 @@
  * expert.c - Cartridge handling, Expert cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -147,7 +147,7 @@ void REGPARM1 expert_decode_address(ADDRESS addr)
     }
 
     if (ramconfig != config) {
-        cartridge_config_changed(config, CMODE_READ);
+        cartridge_config_changed(config, config, CMODE_READ);
         ramconfig = config;
     }
 }
@@ -183,7 +183,7 @@ void expert_config_init(void)
      */
     enable_trigger = 1;
     ramconfig = (1 << 1);       /* Disable ~EXROM */
-    cartridge_config_changed(ramconfig, CMODE_READ);
+    cartridge_config_changed(ramconfig, ramconfig, CMODE_READ);
 }
 
 void expert_config_setup(BYTE *rawcart)
@@ -191,7 +191,7 @@ void expert_config_setup(BYTE *rawcart)
     memcpy(export_ram0, rawcart, 0x2000);
     ramconfig = (1 << 1);       /* Disable ~EXROM */
     enable_trigger = 0;
-    cartridge_config_changed(ramconfig, CMODE_READ);
+    cartridge_config_changed(ramconfig, ramconfig, CMODE_READ);
 }
 
 int expert_bin_attach(const char *filename, BYTE *rawcart)

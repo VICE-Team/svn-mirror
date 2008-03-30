@@ -6,7 +6,7 @@
  *
  * Patches and improvements by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -391,7 +391,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
       case CIA_TOD_SEC: /* Time Of Day clock sec */
       case CIA_TOD_MIN: /* Time Of Day clock min */
         /* Flip AM/PM on hour 12
-          (Andreas Boose <boose@rzgw.rz.fh-hannover.de> 1997/10/11). */
+          (Andreas Boose <viceteam@t-online.de> 1997/10/11). */
         /* Flip AM/PM only when writing time, not when writing alarm
           (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
         if (addr == CIA_TOD_HR) {

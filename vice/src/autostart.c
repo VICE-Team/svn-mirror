@@ -5,7 +5,7 @@
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Thomas Bretz <tbretz@ph.tum.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

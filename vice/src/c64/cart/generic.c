@@ -2,7 +2,7 @@
  * generic.c - Cartridge handling, generic carts.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,37 +38,37 @@
 
 void generic_8kb_config_init(void)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 void generic_16kb_config_init(void)
 {
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void generic_ultimax_config_init(void)
 {
-    cartridge_config_changed(3, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 void generic_8kb_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 void generic_16kb_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void generic_ultimax_config_setup(BYTE *rawcart)
 {
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
     memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(3, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)

@@ -2,7 +2,7 @@
  * vic20.c - IEC bus handling for the VIC20.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *

@@ -3,11 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *
- * 16/24bpp support added by
- *  Steven Tieu <stieu@physics.ubc.ca>
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,9 +25,6 @@
  *
  */
 
-/* A *big* thank goes to Andreas Boose <boose@linux.rz.fh-hannover.de> for
-   helping me to find bugs and improve the emulation.  */
-
 /* TODO: - speed optimizations;
    - faster sprites and registers.  */
 
@@ -44,8 +37,6 @@
 
    - sprite colors (and other attributes) cannot change in the middle of the
    raster line;
-
-   - changes of $D016 within one line are not always correctly handled;
 
    Probably something else which I have not figured out yet...
 
@@ -888,8 +879,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
-    if (mem_cartridge_type!=CARTRIDGE_IDE64) /* IDE64 Hack */
-    if (ultimax != 0)
+    if (cart_ultimax_phi1 != 0)
         char_base = ((tmp & 0x3fff) >= 0x3000
                     ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
                     : vic_ii.ram_base_phi1 + tmp);
@@ -1398,7 +1388,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         my_memptr = sprite_status->sprites[i].memptr;
         dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
-        if (ultimax && mem_cartridge_type != CARTRIDGE_IDE64) { /* IDE64 Hack */
+        if (cart_ultimax_phi1) {
             if (*spr_base >= 0xc0)
                 src = (romh_banks + 0x1000 + (romh_bank << 13)
                       + ((*spr_base - 0xc0) << 6));

@@ -2,7 +2,7 @@
  * supergames.c - Cartridge handling, Super Games cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -53,7 +53,7 @@ void REGPARM2 supergames_io2_store(ADDRESS addr, BYTE value)
 
 void supergames_config_init(void)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 void supergames_config_setup(BYTE *rawcart)
@@ -66,7 +66,7 @@ void supergames_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 int supergames_crt_attach(FILE *fd, BYTE *rawcart)

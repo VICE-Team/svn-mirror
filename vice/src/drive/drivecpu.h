@@ -3,8 +3,8 @@
  *              1571, 1581, 2031 and 1001 floppy disk drive.
  *
  * Written by
- *   Ettore Perazzoli <ettore@comm2000.it>
- *   Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -3,10 +3,10 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Teemu Rantanen   <tvr@cs.hut.fi>
- *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
- *  Dag Lem          <resid@nimrod.no>
- *  Thomas Bretz     <tbretz@gsi.de>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <viceteam@t-online.de>
+ *  Dag Lem <resid@nimrod.no>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

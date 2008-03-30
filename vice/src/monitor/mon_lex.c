@@ -10,9 +10,6 @@
 
 #include <stdio.h>
 
-#ifdef __IBMC__
-#include <io.h>
-#endif
 
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
 #ifdef c_plusplus
@@ -35,7 +32,7 @@
 
 #else	/* ! __cplusplus */
 
-#if defined __STDC__ || defined __IBMC__
+#if __STDC__
 
 #define YY_USE_PROTOS
 #define YY_USE_CONST
@@ -698,7 +695,7 @@ char *yytext;
  *
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1065,7 +1062,7 @@ YY_RULE_SETUP
                          opt_asm = 1;
                       return yylval.i;
                    }
-                 }
+                 } 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP

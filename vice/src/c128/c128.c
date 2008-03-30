@@ -2,8 +2,8 @@
  * c128.c
  *
  * Written by
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on the original work in VICE 0.11.0 by
  *  Jouko Valta <jopi@stekt.oulu.fi>

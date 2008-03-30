@@ -2,7 +2,7 @@
  * zaxxon.c - Cartridge handling, Zaxxon cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -46,14 +46,14 @@ BYTE REGPARM1 zaxxon_roml_read(ADDRESS addr)
 
 void zaxxon_config_init(void)
 {
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void zaxxon_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x4000);
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)

@@ -2,7 +2,7 @@
  * c64ui.c - C64-specific user interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@axelero.hu>
  *

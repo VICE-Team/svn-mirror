@@ -2,7 +2,7 @@
  * supersnapshot.c - Cartridge handling, Super Snapshot cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -86,7 +86,7 @@ void REGPARM2 supersnapshot_v4_io2_store(ADDRESS addr, BYTE value)
         }
         if ((value & 0x7f) == 9)
             romconfig = 6;
-        cartridge_config_changed(romconfig, CMODE_WRITE);
+        cartridge_config_changed(romconfig, romconfig, CMODE_WRITE);
     }
     if ((addr & 0xff) == 1) {
         if(((ramconfig - 1) & 0xff) == value) {
@@ -97,7 +97,7 @@ void REGPARM2 supersnapshot_v4_io2_store(ADDRESS addr, BYTE value)
             ramconfig = value;
             romconfig &= 0xdd;
         }
-        cartridge_config_changed(romconfig, CMODE_WRITE);
+        cartridge_config_changed(romconfig, romconfig, CMODE_WRITE);
     }
 }
 
@@ -143,7 +143,7 @@ void REGPARM2 supersnapshot_v5_io1_store(ADDRESS addr, BYTE value)
             romconfig |= (1 << 5);      /* export_ram */
             romconfig |= (1 << 1);      /* exrom */
         }
-        cartridge_config_changed(romconfig, CMODE_WRITE);
+        cartridge_config_changed(romconfig, romconfig, CMODE_WRITE);
     }
 }
 
@@ -190,17 +190,17 @@ void REGPARM2 supersnapshot_v5_roml_store(ADDRESS addr, BYTE value)
 
 void supersnapshot_v4_freeze(void)
 {
-    cartridge_config_changed(35, CMODE_READ);
+    cartridge_config_changed(35, 35, CMODE_READ);
 }
 
 void supersnapshot_v5_freeze(void)
 {
-    cartridge_config_changed(35, CMODE_READ);
+    cartridge_config_changed(35, 35, CMODE_READ);
 }
 
 void supersnapshot_v4_config_init(void)
 {
-    cartridge_config_changed(9, CMODE_READ);
+    cartridge_config_changed(9, 9, CMODE_READ);
 }
 
 void supersnapshot_v5_config_init(void)
@@ -214,7 +214,7 @@ void supersnapshot_v4_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
     memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
     memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-    cartridge_config_changed(9, CMODE_READ);
+    cartridge_config_changed(9, 9, CMODE_READ);
 }
 
 void supersnapshot_v5_config_setup(BYTE *rawcart)

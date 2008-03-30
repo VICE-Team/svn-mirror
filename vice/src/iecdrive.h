@@ -2,8 +2,8 @@
  * iecdrive.c - IEC bus handling for the true 1541 emulator.
  *
  * Written by
+ *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Teemu Rantanen <tvr@cs.hut.fi>

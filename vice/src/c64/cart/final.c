@@ -2,7 +2,7 @@
  * final.c - Cartridge handling, Final cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,24 +41,24 @@
 
 BYTE REGPARM1 final_v1_io1_read(ADDRESS addr)
 {
-    cartridge_config_changed(0x42, CMODE_READ);
+    cartridge_config_changed(0x42, 0x42, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io1_store(ADDRESS addr, BYTE value)
 {
-    cartridge_config_changed(0x42, CMODE_WRITE);
+    cartridge_config_changed(0x42, 0x42, CMODE_WRITE);
 }
 
 BYTE REGPARM1 final_v1_io2_read(ADDRESS addr)
 {
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
 void REGPARM2 final_v1_io2_store(ADDRESS addr, BYTE value)
 {
-    cartridge_config_changed(1, CMODE_WRITE);
+    cartridge_config_changed(1, 1, CMODE_WRITE);
 }
 
 BYTE REGPARM1 final_v3_io1_read(ADDRESS addr)
@@ -93,7 +93,8 @@ void REGPARM2 final_v3_io2_store(ADDRESS addr, BYTE value)
         export.game = ((value >> 5) & 1) ^ 1;
         export.exrom = ((value >> 4) & 1) ^ 1;
         pla_config_changed();
-        ultimax = export.game & (export.exrom ^ 1);
+        cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
+        cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
         if ((value & 0x30) == 0x10)
             maincpu_set_nmi(I_FREEZE, IK_NMI);
         if (value & 0x40)
@@ -131,29 +132,29 @@ void REGPARM2 final_v3_roml_store(ADDRESS addr, BYTE value)
 
 void final_v1_freeze(void)
 {
-    cartridge_config_changed(3, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 void final_v3_freeze(void)
 {
-    cartridge_config_changed(3, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 void final_v1_config_init(void)
 {
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void final_v3_config_init(void)
 {
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void final_v1_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 void final_v3_config_setup(BYTE *rawcart)
@@ -166,7 +167,7 @@ void final_v3_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_config_changed(1, CMODE_READ);
+    cartridge_config_changed(1, 1, CMODE_READ);
 }
 
 int final_v1_crt_attach(FILE *fd, BYTE *rawcart)

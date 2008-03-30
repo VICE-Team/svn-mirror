@@ -2,7 +2,7 @@
  * kcs.c - Cartridge handling, KCS cart.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,44 +39,44 @@
 
 BYTE REGPARM1 kcs_io1_read(ADDRESS addr)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
 void REGPARM2 kcs_io1_store(ADDRESS addr, BYTE value)
 {
-    cartridge_config_changed(1, CMODE_WRITE);
+    cartridge_config_changed(1, 1, CMODE_WRITE);
 }
 
 BYTE REGPARM1 kcs_io2_read(ADDRESS addr)
 {
     if (addr & 0x80)
-        cartridge_config_changed(0x43, CMODE_READ);
+        cartridge_config_changed(0x43, 0x43, CMODE_READ);
     return export_ram0[0x1f00 + (addr & 0xff)];
 }
 
 void REGPARM2 kcs_io2_store(ADDRESS addr, BYTE value)
 {
-    if (!ultimax)
-        cartridge_config_changed(1, CMODE_WRITE);
+    if (!cart_ultimax_phi2)
+        cartridge_config_changed(1, 1, CMODE_WRITE);
     export_ram0[0x1f00 + (addr & 0xff)] = value;
 }
 
 void kcs_freeze(void)
 {
-    cartridge_config_changed(3, CMODE_READ);
+    cartridge_config_changed(3, 3, CMODE_READ);
 }
 
 void kcs_config_init(void)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 void kcs_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(0, 0, CMODE_READ);
 }
 
 int kcs_crt_attach(FILE *fd, BYTE *rawcart)

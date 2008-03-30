@@ -2,7 +2,7 @@
  * c128io.c -- C128 io handling.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Based on the original work in VICE 0.11.0 by
  *  Jouko Valta <jopi@stekt.oulu.fi>

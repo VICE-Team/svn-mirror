@@ -2,7 +2,7 @@
  * daa.h
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,8 +24,13 @@
  *
  */
 
+#ifndef _DAA_H
+#define _DAA_H
+
 #include "types.h"
 
 extern BYTE daa_reg_a[];
 extern BYTE daa_reg_f[];
+
+#endif
 
