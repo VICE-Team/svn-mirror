@@ -42,6 +42,8 @@ libarchgui_a_SOURCES = \
 	uidrive.h \
 	uidrivec128.c \
 	uidrivec128.h \
+	uidrivec64.c \
+	uidrivec64.h \
 	uidrivec64vic20.c \
 	uidrivec64vic20.h \
 	uidriveiec.c \
@@ -50,6 +52,8 @@ libarchgui_a_SOURCES = \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uidrivevic20.c \
+	uidrivevic20.h \
 	uiedisk.h \
 	uifliplist.c \
 	uifliplist.h \
