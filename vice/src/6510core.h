@@ -34,14 +34,9 @@
 typedef DWORD opcode_info_t;
 
 /* Masks to extract information. */
-#define OPINFO_NUMBER_MSK               0xff
 #define OPINFO_DELAYS_INTERRUPT_MSK     (1 << 8)
 #define OPINFO_DISABLES_IRQ_MSK         (1 << 9)
 #define OPINFO_ENABLES_IRQ_MSK          (1 << 10)
-
-/* Return the opcode number for `opinfo'.  */
-#define OPINFO_NUMBER(opinfo)                   \
-    ((opinfo) & OPINFO_NUMBER_MSK)
 
 /* Return nonzero if `opinfo' causes a 1-cycle interrupt delay.  */
 #define OPINFO_DELAYS_INTERRUPT(opinfo)         \
