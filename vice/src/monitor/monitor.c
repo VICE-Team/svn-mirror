@@ -1,5 +1,5 @@
 /*
- * mon.c - The VICE built-in monitor.
+ * monitor.c - The VICE built-in monitor.
  *
  * Written by
  *  Daniel Sladic <sladic@eecg.toronto.edu>
@@ -85,10 +85,10 @@ int mon_stop_output;
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
-#define GET_OPCODE(mem)                                                  \
-    (mon_get_mem_val(mem,                                                \
-                     (WORD)((monitor_cpu_type.mon_register_get_val)(mem, \
-                     e_PC))))
+#define MONITOR_GET_PC(mem) \
+    ((WORD)((monitor_cpu_type.mon_register_get_val)(mem, e_PC)))
+
+#define MONITOR_GET_OPCODE(mem) (mon_get_mem_val(mem, MONITOR_GET_PC(mem)))
 
 console_t *console_log = NULL;
 
@@ -1098,7 +1098,8 @@ void mon_instructions_next(int count)
         mon_out("Nexting through the next %d instruction(s).\n",
                    count);
     instruction_count = (count >= 0) ? count : 1;
-    wait_for_return_level = (int)((GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0);
+    wait_for_return_level = (int)((MONITOR_GET_OPCODE(caller_space) == OP_JSR)
+                            ? 1 : 0);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
@@ -1112,9 +1113,10 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
     instruction_count = 1;
-    wait_for_return_level = (int)((GET_OPCODE(caller_space) == OP_RTS)
+    wait_for_return_level = (int)((MONITOR_GET_OPCODE(caller_space) == OP_RTS)
                             ? 0
-                            : (GET_OPCODE(caller_space) == OP_JSR) ? 2 : 1);
+                            : (MONITOR_GET_OPCODE(caller_space) == OP_JSR)
+                            ? 2 : 1);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
@@ -1318,13 +1320,13 @@ void mon_check_icount(WORD a)
         instruction_count--;
 
     if (skip_jsrs == TRUE) {
-        if (GET_OPCODE(caller_space) == OP_JSR)
+        if (MONITOR_GET_OPCODE(caller_space) == OP_JSR)
             wait_for_return_level++;
 
-        if (GET_OPCODE(caller_space) == OP_RTS)
+        if (MONITOR_GET_OPCODE(caller_space) == OP_RTS)
             wait_for_return_level--;
 
-        if (GET_OPCODE(caller_space) == OP_RTI)
+        if (MONITOR_GET_OPCODE(caller_space) == OP_RTI)
             wait_for_return_level--;
 
         if (wait_for_return_level < 0) {
@@ -1354,7 +1356,7 @@ void mon_check_icount(WORD a)
     if (!mon_mask[caller_space])
         interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
 
-    mon(a);
+    monitor_startup();
 }
 
 void mon_check_icount_interrupt(void)
@@ -1374,15 +1376,15 @@ void mon_check_watchpoints(WORD a)
     if (watch_load_occurred) {
         if (watchpoints_check_loads(e_comp_space)) {
             caller_space = e_comp_space;
-            mon(a);
+            monitor_startup();
         }
         if (watchpoints_check_loads(e_disk8_space)) {
             caller_space = e_disk8_space;
-            mon(a);
+            monitor_startup();
         }
         if (watchpoints_check_loads(e_disk9_space)) {
             caller_space = e_disk9_space;
-            mon(a);
+            monitor_startup();
         }
         watch_load_occurred = FALSE;
     }
@@ -1390,15 +1392,15 @@ void mon_check_watchpoints(WORD a)
     if (watch_store_occurred) {
         if (watchpoints_check_stores(e_comp_space)) {
             caller_space = e_comp_space;
-            mon(a);
+            monitor_startup();
         }
         if (watchpoints_check_stores(e_disk8_space)) {
             caller_space = e_disk8_space;
-            mon(a);
+            monitor_startup();
         }
         if (watchpoints_check_stores(e_disk9_space)) {
             caller_space = e_disk9_space;
-            mon(a);
+            monitor_startup();
         }
         watch_store_occurred = FALSE;
     }
@@ -1427,7 +1429,7 @@ static void handle_abort(int signo)
     signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
-void mon_open(WORD a)
+static void monitor_open(void)
 {
     if (mon_console_close_on_leaving) {
         console_log = uimon_window_open();
@@ -1437,7 +1439,6 @@ void mon_open(WORD a)
         mon_console_close_on_leaving = 1;
     }
 
-
     old_handler = signal(SIGINT, handle_abort);
 
     inside_monitor = TRUE;
@@ -1445,17 +1446,21 @@ void mon_open(WORD a)
 
     uimon_notify_change();
 
-    dot_addr[caller_space] = new_addr(caller_space, a);
-
+    dot_addr[e_comp_space] = new_addr(e_comp_space,
+                                      MONITOR_GET_PC(e_comp_space));
+    dot_addr[e_disk8_space] = new_addr(e_disk8_space,
+                                      MONITOR_GET_PC(e_disk8_space));
+    dot_addr[e_disk9_space] = new_addr(e_disk9_space,
+                                      MONITOR_GET_PC(e_disk9_space));
     mon_out("\n** Monitor\n");
 
     if (disassemble_on_entry) {
-        mon_disassemble_instr(new_addr(caller_space, a));
+        mon_disassemble_instr(dot_addr[caller_space]);
         disassemble_on_entry = 0;
     }
 }
 
-int mon_process(char *cmd)
+static int monitor_process(char *cmd)
 {
     mon_stop_output = 0;
     if (cmd == NULL) {
@@ -1506,7 +1511,7 @@ int mon_process(char *cmd)
     return exit_mon;
 }
 
-void mon_close(int check)
+static void monitor_close(int check)
 {
     inside_monitor = FALSE;
     vsync_suspend_speed_eval();
@@ -1531,15 +1536,15 @@ void mon_close(int check)
 }
 
 
-void mon(WORD address)
+void monitor_startup(void)
 {
     char prompt[40];
 
-    mon_open(address);
+    monitor_open();
     while (!exit_mon) {
         make_prompt(prompt);
-        mon_process(uimon_in(prompt));
+        monitor_process(uimon_in(prompt));
     }
-    mon_close(1);
+    monitor_close(1);
 }
 

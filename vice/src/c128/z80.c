@@ -467,7 +467,7 @@ static void export_registers(void)
                 export_registers();                                          \
             if (mon_mask[e_comp_space] & (MI_BREAK)) {                       \
                 if (check_breakpoints(e_comp_space, (WORD)z80_reg_pc)) {     \
-                   mon((WORD)z80_reg_pc);                                    \
+                   monitor_startup();                                        \
                 }                                                            \
             }                                                                \
             if (mon_mask[e_comp_space] & (MI_STEP)) {                        \

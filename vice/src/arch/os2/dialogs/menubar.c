@@ -121,7 +121,7 @@ extern int  get_volume(void);
 
 static void mon_trap(WORD addr, void *unused_data)
 {
-    mon(addr);
+    monitor_startup();
 }
 
 static void toggle_async(WORD addr, void *name)

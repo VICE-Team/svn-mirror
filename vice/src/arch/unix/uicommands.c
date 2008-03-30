@@ -282,7 +282,7 @@ static UI_CALLBACK(change_working_directory)
 
 static void mon_trap(WORD addr, void *unused_data)
 {
-    mon(addr);
+    monitor_startup();
 }
 
 static UI_CALLBACK(activate_monitor)

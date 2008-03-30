@@ -5320,7 +5320,7 @@ static void mon_trap_full(WORD addr, void *unused_data)
 {
   ui_temp_suspend_sound();
   OS_FlushBuffer(0);
-  mon(addr);
+  monitor_startup();
   video_full_screen_refresh();
   ui_temp_resume_sound();
 }
@@ -5333,7 +5333,7 @@ static void mon_trap_wimp(WORD addr, void *unused_data)
   {
     EmuPaused = 1;
     ui_display_paused(EmuPaused);
-    mon(addr);
+    monitor_startup();
     EmuPaused = 0;
     ui_display_paused(EmuPaused);
   }

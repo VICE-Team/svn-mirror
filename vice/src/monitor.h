@@ -123,7 +123,7 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive9_interface_init,
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
-extern void mon(WORD address);
+extern void monitor_startup(void);
 
 extern void mon_abort(void);
 
@@ -160,5 +160,10 @@ extern const char *mon_disassemble_to_string(MEMSPACE, WORD addr, BYTE x,
 extern struct mon_reg_list_s *mon_register_list_get(int mem);
 extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
                                WORD start, WORD end);
+
+/* Assembler initialization.  */
+extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
+extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
+
 #endif
 

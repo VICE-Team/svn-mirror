@@ -242,7 +242,7 @@
                     EXPORT_REGISTERS();                               \
                 if (mon_mask[CALLER] & (MI_BREAK)) {                  \
                     if (check_breakpoints(CALLER, (WORD)reg_pc)) {    \
-                        mon((WORD)reg_pc);                            \
+                        monitor_startup();                            \
                         IMPORT_REGISTERS();                           \
                     }                                                 \
                 }                                                     \

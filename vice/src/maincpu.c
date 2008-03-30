@@ -153,6 +153,7 @@ void maincpu_generic_dma(void)
 struct interrupt_cpu_status_s maincpu_int_status;
 alarm_context_t *maincpu_alarm_context = NULL;
 clk_guard_t *maincpu_clk_guard = NULL;
+monitor_interface_t *maincpu_monitor_interface = NULL;
 
 /* Global clock counter.  */
 CLOCK maincpu_clk = 0L;
@@ -198,38 +199,35 @@ mos6510_regs_t maincpu_regs;
 
 /* ------------------------------------------------------------------------- */
 
-/* Interface to the monitor.  */
-monitor_interface_t maincpu_monitor_interface = {
-
-    /* Pointer to the registers of the CPU.  */
-    &maincpu_regs,
+monitor_interface_t *maincpu_monitor_interface_get(void)
+{
+    maincpu_monitor_interface->cpu_regs = &maincpu_regs;
 
 #ifdef HAVE_Z80_REGS
-    &z80_regs,
+    maincpu_monitor_interface->z80_cpu_regs = &z80_regs;
 #else
-    NULL,
+    maincpu_monitor_interface->z80_cpu_regs = NULL;
 #endif
 
-    /* Pointer to the alarm/interrupt status.  */
-    &maincpu_int_status,
+    maincpu_monitor_interface->int_status = &maincpu_int_status;
 
-    /* Pointer to the machine's clock counter.  */
-    &maincpu_clk,
+    maincpu_monitor_interface->clk = &maincpu_clk;
 
-    0,
-    mem_bank_list,
-    mem_bank_from_name,
-    mem_bank_read,
-    mem_bank_peek,
-    mem_bank_write,
+    maincpu_monitor_interface->current_bank = 0;
+    maincpu_monitor_interface->mem_bank_list = mem_bank_list;
+    maincpu_monitor_interface->mem_bank_from_name = mem_bank_from_name;
+    maincpu_monitor_interface->mem_bank_read = mem_bank_read;
+    maincpu_monitor_interface->mem_bank_peek = mem_bank_peek;
+    maincpu_monitor_interface->mem_bank_write = mem_bank_write;
 
-    mem_ioreg_list_get,
+    maincpu_monitor_interface->mem_ioreg_list_get = mem_ioreg_list_get;
 
-    /* Pointer to a function to disable/enable watchpoint checking.  */
-    mem_toggle_watchpoints,
+    maincpu_monitor_interface->toggle_watchpoints_func = mem_toggle_watchpoints;
 
-    NULL
-};
+    maincpu_monitor_interface->set_bank_base = NULL;
+
+    return maincpu_monitor_interface;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -239,7 +237,8 @@ static void cpu_reset(void)
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
+    interrupt_cpu_status_reset(&maincpu_int_status, NUMOFINT,
+                               &last_opcode_info);
     if (preserve_monitor)
         interrupt_monitor_trap_on(&maincpu_int_status);
 
@@ -363,7 +362,7 @@ void maincpu_mainloop(void)
           break;                                                    \
         case JAM_MONITOR:                                           \
           caller_space = e_comp_space;                              \
-          mon((WORD)reg_pc);                                        \
+          monitor_startup();                                        \
           IMPORT_REGISTERS();                                       \
           break;                                                    \
         default:                                                    \
