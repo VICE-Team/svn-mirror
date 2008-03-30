@@ -284,8 +284,6 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
        c) the attribute RAM
      */
     int r, cursor_pos = -1;
-    *xs = 0;
-    *xe = vdc.screen_text_cols;
 
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
@@ -435,8 +433,6 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
        c) the attribute RAM
      */
     int r;      /* return value */
-    *xs = 0;
-    *xe = vdc.screen_text_cols;
 
     r = cache_data_fill(cache->foreground_data,
                         vdc.ram + vdc.screen_adr + vdc.bitmap_counter,
