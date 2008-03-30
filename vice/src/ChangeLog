@@ -1,4 +1,139 @@
+Mon Apr 20 15:45:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.8.
+
+	* include/findpath.h: #include <unistd.h> to make sure `X_OK',
+	`R_OK' and `W_OK' are defined.
+
+	* main.c (set_boot_path) [!__MSDOS__]: Remove trailing '/' from
+	`boot_path' if present.
+
+	* resources.c (resources_set_defaults) [!__MSDOS__]: Set
+ 	`Directory' to a list of two colon-separated paths, so that system
+ 	files are first searched into the `LIBDIR' and then into the
+ 	`boot_path'.
+
+	* main.c [__MSDOS__]: `boot_path' is now dynamically allocated.
+
+	* main.c (set_boot_path) [!__MSDOS__]: New function.
+	(main) [!__MSDOS__]: Call `set_boot_path()'.
+
+	* arch/unix/kbd.c (kbd_parse_keymap): Locate the keymap file using
+ 	`findpath'.
+
+	* memutils.c (create_name): Removed.
+
+	* include/memutils.h (open_sys_file): Removed prototype.
+
+	* memutils.c (open_sys_file): Removed.
+	(mem_load_sys_file): Use `findpath' to locate the file.
+
+	* include/findpath.c (findpath): Updated prototype.
+
+	* findpath.c (findpath): `cmd' and `syspath' parameters made
+	const.  New parameter `mode'.
+
+	* mon.c: #include "vice.h" before anything else.
+
+	* mon.c (debugger): Add the command line to the history if
+	nonempty.
+	(hunt_memory): Removed unused variable `i'.
+
+	* configure.in: Allow the user to inhibit usage of the system's
+ 	readline (`--without-readline').  Fixed the `--with-xaw3d' option
+	so that it does work as expected.
+
+	* Makefile.in ($(READLINE)): Replaced with
+ 	`$(READLINEODIR)/readline.a'.  `$(READLINE)' is now defined from
+ 	`@READLINE@' and is empty if we want to use the system's readline.
+
+	* configure.in: Check for `-lreadline'; if present, set
+ 	`@READLINE@' to empty, otherwise set it to
+ 	`$(READLINEODIR)/readline.a'.
+
+	* configure.in: Check for `-lICE' and explicitly add it to `LIBS'
+ 	if present.
+
+Mon Apr 20 01:11:38 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* true1541.c: (write_track_gcr): New function that writes back a
+ 	track to the GCR disk image.
+	(read_image_d64): Set speed zones to standard speeds as the D64
+ 	disk image format does not provide speed zone information.
+	(read_image_gcr): Changed to also import speed zones.  New array
+ 	`GCR_speed_zone'.
+	(GCR_data_writeback): Call `write_track_gcr' if a GCR disk image
+ 	is attached.
+
+Sun Apr 19 21:52:46 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* include/resources.h: New resource 'soundOversample'.
+
+	* arch/unix/menu.h: New menuitem 'ChangeSoundOversampleSubmenu'.
+
+	* arch/unix/ui_xaw.c: New UI callback 'UiSetSoundOversample' to set
+	sound oversample values.
+
+	* sid.c (sound_t): new items for sound oversample calculations
+ 	'oversampleval', 'oversamplecnt', 'oversamplenr' and
+ 	'oversampleshift'.
+
+	* sid.c (update_sid): Oversample calculation.
+
+	* sid.c (init_sid, initsid): Oversample calculation initialization.
+
+	* resources.c (resources). New resourcefile -entry 'SoundOversample'.
+
+	* resources.c (resources_set_defaults, resources_fix): Handle
+	sound oversample value setting.
+
+Sun Apr 19 17:28:05 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c1541.c (disk_gcrformat): Set the track length field and the
+ 	zone speed to the correct values.
+
+	* true1541.c: `speed_map' is now in `drive.c'.  Renamed
+ 	`GCR_track_size' to `GCR_current_track_size'.  `GCR_track_size'
+ 	now holds the track size for each track.
+	(read_image_d64): Use standard track lengths.  Call
+ 	`true1541_set_half_track' to update `GCR_current_track_size'.
+	(read_image_gcr): Use track lengths provided by the GCR disk
+ 	image.
+	(initialize_true1541): Initialise track lengths.
+	(GCR_data_writeback): Clear `GCR_dirty_track' when a GCR disk
+ 	image is attached.
+
+	* drive.c: Moved `speed_map' to this file.
+
+Sun Apr 19 15:22:55 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* 1541cpu.c, 1541cpu.h: Moved memory function typedefs to header.
+
+	* 6510core.c: Set variable before mon is called to signal which
+ 	cpu is the caller.  IMPORT registers after returning from the
+ 	monitor to recognize changes by the monitor.
+
+	* c64mem.c, include/c64mem.h: Watchpoint support.
+
+	* mon.c, include/mon.h: Watchpoint support.  Stepping support.
+  	Better handling of 1541 registers.  Allow assembly after address
+ 	for 'a' command.  Bit better datatype handling.  Other minor
+ 	fixes.
+
+	* main.c (main): Move monitor init before possible mon() call.
+
+	* maincpu.c (JAM): Setting caller variable before mon() call.
+
+        * mon_cli.l: Changed some syntax for better usability.  Allow
+ 	assembly to start on same line as 'a' command.  Better guessing of
+ 	datatype based on default type.
+
+	* mon_cli.y: New commands.  Removed compiler warnings.  Allow
+ 	assembly to start on same line as 'a' command.
+
 Sun Apr 19 21:19:50 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.7.
 
 	* zfile.c (read_zipped_sector): Removed.
 	(try_uncompress_zipcode): Use `zipcode_read_sector()' instead.
