@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "c128.h"
+#include "c128mem.h"
 #include "c128rom.h"
 #include "drive.h"
 #include "kbd.h"
@@ -118,7 +119,7 @@ int acia_d7_enabled;
 
 static int set_machine_type(resource_value_t v, void *param)
 {
-    int type = (int)v;
+    unsigned int type = (unsigned int)v;
 
     if (type != C128_MACHINE_INT && type != C128_MACHINE_FINNISH
         && type != C128_MACHINE_FRENCH && type != C128_MACHINE_GERMAN
@@ -127,6 +128,8 @@ static int set_machine_type(resource_value_t v, void *param)
         return -1;
 
     machine_type = type;
+
+    mem_set_machine_type(type);
 
     if (c128rom_kernal_setup() < 0)
         return -1;
