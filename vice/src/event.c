@@ -32,6 +32,7 @@
 
 #include "alarm.h"
 #include "archdep.h"
+#include "clkguard.h"
 #include "cmdline.h"
 #include "event.h"
 #include "interrupt.h"
@@ -43,6 +44,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
+#include "ui.h"
 #include "utils.h"
 
 
@@ -77,7 +79,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
 
     if (record_active == 0)
         return;
-printf("EVENT RECORD %i\n",type);
+    /*printf("EVENT RECORD %i\n",type);*/
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_JOYSTICK_VALUE:
@@ -98,6 +100,19 @@ printf("EVENT RECORD %i\n",type);
     event_list_current = event_list_current->next;
 }
 
+static void set_next_alarm(void)
+{
+    CLOCK new_value;
+
+    new_value = event_list_current->clk;
+
+    if (maincpu_clk > CLKGUARD_SUB_MIN
+        && new_value < maincpu_clk - CLKGUARD_SUB_MIN)
+        new_value += clk_guard_clock_sub(&maincpu_clk_guard);
+
+    alarm_set(&event_alarm, new_value);
+}
+
 static void event_alarm_handler(CLOCK offset)
 {
     alarm_unset(&event_alarm);
@@ -115,10 +130,11 @@ static void event_alarm_handler(CLOCK offset)
 
     event_list_current = event_list_current->next;
 
-    if (event_list_current->next != NULL)
-        alarm_set(&event_alarm, event_list_current->clk);
-    else
+    if (event_list_current->next != NULL) {
+        set_next_alarm();
+    } else {
         event_playback_stop();
+    }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -150,7 +166,10 @@ static void destroy_list(void)
 
 static void event_record_start_trap(ADDRESS addr, void *data)
 {
-    machine_write_snapshot(event_start_snapshot, 1, 1, 0);
+    if (machine_write_snapshot(event_start_snapshot, 1, 1, 0) < 0) {
+        ui_error("Could not create start snapshot file.");
+        return;
+    }
 
     destroy_list();
     create_list();
@@ -173,7 +192,10 @@ int event_record_start(void)
 
 static void event_record_stop_trap(ADDRESS addr, void *data)
 {
-    machine_write_snapshot(event_end_snapshot, 1, 1, 1);
+    if (machine_write_snapshot(event_end_snapshot, 1, 1, 1) < 0) {
+        ui_error("Could not create end snapshot file.");
+        return;
+    }
 
     record_active = 0;
 }
@@ -193,19 +215,24 @@ static void event_playback_start_trap(ADDRESS addr, void *data)
     snapshot_t *s;
     BYTE minor, major;
 
-    if (machine_read_snapshot(event_start_snapshot, 0) < 0)
+    if (machine_read_snapshot(event_start_snapshot, 0) < 0) {
+        ui_error("Error reading start snapshot file.");
         return;
+    }
 
     s = snapshot_open(event_end_snapshot, &major, &minor, machine_name);
 
-    if (s == NULL)
+    if (s == NULL) {
+        ui_error("Could not open end snapshot file.");
         return;
+    }
 
     destroy_list();
     create_list();
 
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
+        ui_error("Could not find event section in end snapshot file.");
         return;
     }
 
