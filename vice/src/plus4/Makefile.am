@@ -1,3 +1,9 @@
+if HAVE_RS232
+acia_libadd = plus4acia.o
+else
+acia_libadd =
+endif
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -25,8 +31,10 @@ libplus4_a_SOURCES = \
 	plus4mem.h \
 	plus4memlimit.c \
 	plus4memlimit.h \
-	plus4tia1.c \
-	plus4tia1.h \
+	plus4pio1.c \
+	plus4pio1.h \
+	plus4pio2.c \
+	plus4pio2.h \
 	ted-cmdline-options.c \
 	ted-cmdline-options.h \
 	ted-color.c \
@@ -46,3 +54,9 @@ libplus4_a_SOURCES = \
 	ted.c \
 	ted.h \
 	tedtypes.h
+
+EXTRA_libplus4_a_SOURCES = \
+        plus4acia.h \
+        plus4acia.c
+
+libplus4_a_LIBADD = $(acia_libadd)

@@ -36,10 +36,12 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mon.h"
+#include "plus4acia.h"
 #include "plus4iec.h"
 #include "plus4mem.h"
 #include "plus4memlimit.h"
-#include "plus4tia1.h"
+#include "plus4pio1.h"
+#include "plus4pio2.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "ted-mem.h"
@@ -430,48 +432,33 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 }
 
 /* ------------------------------------------------------------------------- */
-/* FIXME: Move this pio code out of here after 1.8.  */
-
-static BYTE pio1_data = 0xff;
-
-BYTE REGPARM1 pio1_read(ADDRESS addr)
-{
-    return pio1_data;
-}
-
-void REGPARM2 pio1_store(ADDRESS addr, BYTE value)
-{
-    pio1_data = value;
-}
-
-void pio1_set_tape_sense(int sense)
-{
-    pio1_data = (BYTE)(pio1_data & ~4) | (BYTE)(sense ? 0 : 4);
-}
-
-/* ------------------------------------------------------------------------- */
 
 static BYTE REGPARM1 fdxx_read(ADDRESS addr)
 {
+    if (addr >= 0xfd00 && addr <= 0xfd0f)
+        return acia_read(addr);
+
     if (addr >= 0xfd10 && addr <= 0xfd1f)
         return pio1_read(addr);
 
     if (addr >= 0xfd30 && addr <= 0xfd3f)
-        /* Should be pio2_read().  */
-        return tia1_read(addr);
+        return pio2_read(addr);
 
     return 0;
 }
 
 static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
 {
+    if (addr >= 0xfd00 && addr <= 0xfd0f) {
+        acia_store(addr, value);
+        return;
+    }
     if (addr >= 0xfd10 && addr <= 0xfd1f) {
         pio1_store(addr, value);
         return;
     }
     if (addr >= 0xfd30 && addr <= 0xfd3f) {
-        /* Should be pio2_store().  */
-        tia1_store(addr, value);
+        pio2_store(addr, value);
         return;
     }
     if (addr >= 0xfdd0 && addr <= 0xfddf) {
@@ -688,7 +675,6 @@ void mem_powerup(void)
     hard_reset_flag = 1;
 }
 
-
 int mem_load_kernal(const char *rom_name)
 {
     int trapfl;
@@ -733,6 +719,38 @@ int mem_load_basic(const char *rom_name)
     return 0;
 }
 
+int mem_load_3plus1lo(const char *rom_name)
+{
+    if (!plus4_rom_loaded)
+        return 0;
+
+    /* Load 3plus1 low ROM.  */
+    if (sysfile_load(rom_name,
+        extromlo1, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
+        log_error(plus4_mem_log,
+                  "Couldn't load 3plus1 low ROM `%s'.",
+                  rom_name);
+        return -1;
+    }
+    return 0;
+}
+
+int mem_load_3plus1hi(const char *rom_name)
+{
+    if (!plus4_rom_loaded)
+        return 0;
+
+    /* Load 3plus1 high ROM.  */
+    if (sysfile_load(rom_name,
+        extromhi1, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
+        log_error(plus4_mem_log,
+                  "Couldn't load 3plus1 high ROM `%s'.",
+                  rom_name);
+        return -1;
+    }
+    return 0;
+}
+
 int mem_load(void)
 {
 
@@ -753,6 +771,16 @@ int mem_load(void)
     if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
         return -1;
     if (mem_load_basic(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("3plus1loName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_3plus1lo(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("3plus1hiName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_3plus1hi(rom_name) < 0)
         return -1;
 
     return 0;

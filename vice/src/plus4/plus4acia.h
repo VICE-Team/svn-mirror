@@ -1,8 +1,9 @@
 /*
- * petacia.h - Definitions for a 6551 ACIA interface
+ * plus4acia.h - Definitions for a 6551 ACIA interface
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +25,24 @@
  *
  */
 
-#ifndef _PETACIA_H
-#define _PETACIA_H
+#ifndef _PLUS4ACIA_H
+#define _PLUS4ACIA_H
 
 #include "types.h"
 
 struct snapshot_s;
 
-extern void acia1_init(void);
-extern BYTE REGPARM1 acia1_read(ADDRESS a);
-extern BYTE REGPARM1 acia1_peek(ADDRESS a);
-extern void REGPARM2 acia1_store(ADDRESS a, BYTE b);
-extern void acia1_reset(void);
+extern void acia_init(void);
+extern BYTE REGPARM1 acia_read(ADDRESS a);
+extern BYTE REGPARM1 acia_peek(ADDRESS a);
+extern void REGPARM2 acia_store(ADDRESS a, BYTE b);
+extern void acia_reset(void);
 
-extern int acia1_cmdline_options_init(void);
-extern int acia1_resources_init(void);
+extern int acia_cmdline_options_init(void);
+extern int acia_resources_init(void);
 
-extern int acia1_snapshot_read_module(struct snapshot_s *);
-extern int acia1_snapshot_write_module(struct snapshot_s *);
+extern int acia_snapshot_read_module(struct snapshot_s *);
+extern int acia_snapshot_write_module(struct snapshot_s *);
 
 #endif
 

@@ -52,6 +52,7 @@
 #include "plus4-resources.h"
 #include "plus4-snapshot.h"
 #include "plus4.h"
+#include "plus4acia.h"
 #include "plus4mem.h"
 #include "plus4ui.h"
 #include "printer.h"
@@ -201,6 +202,9 @@ int machine_init_resources(void)
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
         || sound_resources_init() < 0
+#ifdef HAVE_RS232
+        || acia_resources_init() < 0
+#endif
         || printer_resources_init() < 0
         || kbd_resources_init() < 0
         || drive_resources_init() < 0
@@ -220,6 +224,9 @@ int machine_init_cmdline_options(void)
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
+#ifdef HAVE_RS232
+        || acia_cmdline_options_init() < 0
+#endif
         || printer_cmdline_options_init() < 0
         || kbd_cmdline_options_init() < 0
         || drive_cmdline_options_init() < 0
@@ -285,6 +292,10 @@ int machine_init(void)
     if (!ted_init())
         return -1;
 
+#ifdef HAVE_RS232
+    acia_init();
+#endif
+
     if (plus4_kbd_init() < 0)
         return -1;
 
@@ -313,6 +324,10 @@ int machine_init(void)
 void machine_specific_reset(void)
 {
     serial_reset();
+
+#ifdef HAVE_RS232
+    acia_reset();
+#endif
 
     printer_reset();
 

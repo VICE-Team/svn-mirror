@@ -1,9 +1,8 @@
 /*
- *
  * petacia1.c - Definitions for a 6551 ACIA interface
  *
  * Written by
- *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
