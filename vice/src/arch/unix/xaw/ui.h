@@ -85,6 +85,17 @@ extern int depth;
 
 /* ------------------------------------------------------------------------- */
 
+/* This is used by `ui_enable_drive_status()'.  */
+typedef enum {
+    UI_DRIVE_ENABLE_NONE = 0,
+    UI_DRIVE_ENABLE_0 = 1 << 0,
+    UI_DRIVE_ENABLE_1 = 1 << 1,
+    UI_DRIVE_ENABLE_2 = 1 << 2,
+    UI_DRIVE_ENABLE_3 = 1 << 3
+} ui_drive_enable_t;
+
+/* ------------------------------------------------------------------------- */
+
 extern int ui_init_resources(void);
 extern int ui_init_cmdline_options(void);
 
@@ -101,9 +112,9 @@ extern Window ui_canvas_get_drawable(ui_window_t w);
 extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                                  PIXEL *pixel_return);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
-extern void ui_toggle_drive_status(int state);
-extern void ui_display_drive_track(double track_number);
-extern void ui_display_drive_led(int status);
+extern void ui_enable_drive_status(ui_drive_enable_t enable);
+extern void ui_display_drive_track(int drive_number, double track_number);
+extern void ui_display_drive_led(int drive_number, int status);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
 extern void ui_dispatch_events(void);
