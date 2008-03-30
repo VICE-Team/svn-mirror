@@ -180,6 +180,19 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (0
+            || SMW_B(m, (BYTE)(drive->byte_ready_edge)) < 0
+            || SMW_B(m, (BYTE)(drive->byte_ready_active)) < 0
+        ) {
+            if (m != NULL)
+                snapshot_module_close(m);
+            return -1;
+          }
+    }
+
+    /* more new snapshot members */
+    for (i = 0; i < 2; i++) {
+        drive = drive_context[i]->drive;
+        if (0
             || SMW_DW(m, (DWORD)(drive->attach_detach_clk)) < 0
         ) {
             if (m != NULL)
@@ -301,6 +314,13 @@ int drive_snapshot_read_module(snapshot_t *s)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         SMR_DW(m, &(drive->attach_detach_clk));
+    }
+    
+    /* these are even newer */
+    for (i = 0; i < 2; i++) {
+        drive = drive_context[i]->drive;
+        SMR_B_INT(m, (int *)&(drive->byte_ready_edge));
+        SMR_B_INT(m, (int *)&(drive->byte_ready_active));
     }
     
     snapshot_module_close(m);
