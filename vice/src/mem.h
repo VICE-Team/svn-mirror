@@ -43,7 +43,6 @@ extern int *mem_read_limit_tab_ptr;
 
 extern BYTE ram[];
 extern int ram_size;
-extern BYTE chargen_rom[];
 extern BYTE *page_zero;
 extern BYTE *page_one;
 

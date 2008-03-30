@@ -41,10 +41,9 @@
 #include "c128mmu.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64pla.h"
 #include "c64tpi.h"
 #include "cmdline.h"
-#include "datasette.h"
-#include "emuid.h"
 #include "functionrom.h"
 #include "keyboard.h"
 #include "log.h"
@@ -141,11 +140,6 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
-/* Processor port.  */
-static struct {
-    BYTE dir, data, data_out;
-} pport;
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -154,12 +148,6 @@ static int tape_sense = 0;
 
 /* Current memory configuration.  */
 static int mem_config;
-
-/* Tape motor status.  */
-static BYTE old_port_data_out = 0xff;
-
-/* Tape write line status.  */
-static BYTE old_port_write_bit = 0xff;
 
 /* Logging goes here.  */
 static log_t c128_mem_log = LOG_ERR;
@@ -252,31 +240,10 @@ void mem_set_ram_config(BYTE value)
 
 void pla_config_changed(void)
 {
-    pport.data_out = (pport.data_out & ~pport.dir)
-                     | (pport.data & pport.dir);
+    c64pla_config_changed(tape_sense, caps_sense);
 
-    ram[1] = (((pport.data | ~pport.dir) & (pport.data_out | 0x17))
-             & 0xbf) | (caps_sense << 6);
-
-    if (!(pport.dir & 0x20))
-      ram[1] &= 0xdf;
-
-    if (tape_sense && !(pport.dir & 0x10))
-      ram[1] &= 0xef;
-
-    if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
-        old_port_data_out = (pport.dir & pport.data) & 0x20;
-        datasette_set_motor(!old_port_data_out);
-    }
-
-    if (((~pport.dir | pport.data) & 0x8) != old_port_write_bit) {
-        old_port_write_bit = (~pport.dir | pport.data) & 0x8;
-        datasette_toggle_write_bit((~pport.dir | pport.data) & 0x8);
-    }
-
-    ram[0] = pport.dir;
-
-    mmu_set_config64((~pport.dir | pport.data) & 0x7);
+    mmu_set_config64(((~pport.dir | pport.data) & 0x7)
+                     | (export.exrom << 3) | (export.game << 4));
 }
 
 static void mem_toggle_caps_key(void)
@@ -1965,6 +1932,99 @@ void mem_initialize_memory(void)
         mem_read_base_tab[128+31][i] = kernal64_rom + ((i & 0x1f) << 8);
     }
 
+    /* Setup ROML at $8000-$9FFF.  */
+    for (i = 0x80; i <= 0x9f; i++) {
+        mem_read_tab[128+11][i] = roml_read;
+        mem_read_base_tab[128+11][i] = NULL;
+        mem_read_tab[128+15][i] = roml_read;
+        mem_read_base_tab[128+15][i] = NULL;
+
+        mem_read_tab[128+16][i] = roml_read;
+        mem_write_tab[128+16][i] = roml_store;
+        mem_read_base_tab[128+16][i] = NULL;
+        mem_read_tab[128+17][i] = roml_read;
+        mem_write_tab[128+17][i] = roml_store;
+        mem_read_base_tab[128+17][i] = NULL;
+        mem_read_tab[128+18][i] = roml_read;
+        mem_write_tab[128+18][i] = roml_store;
+        mem_read_base_tab[128+18][i] = NULL;
+        mem_read_tab[128+19][i] = roml_read;
+        mem_write_tab[128+19][i] = roml_store;
+        mem_read_base_tab[128+19][i] = NULL;
+        mem_read_tab[128+20][i] = roml_read;
+        mem_write_tab[128+20][i] = roml_store;
+        mem_read_base_tab[128+20][i] = NULL;
+        mem_read_tab[128+21][i] = roml_read;
+        mem_write_tab[128+21][i] = roml_store;
+        mem_read_base_tab[128+21][i] = NULL;
+        mem_read_tab[128+22][i] = roml_read;
+        mem_write_tab[128+22][i] = roml_store;
+        mem_read_base_tab[128+22][i] = NULL;
+        mem_read_tab[128+23][i] = roml_read;
+        mem_write_tab[128+23][i] = roml_store;
+        mem_read_base_tab[128+23][i] = NULL;
+
+        mem_read_tab[128+27][i] = roml_read;
+        mem_read_base_tab[128+27][i] = NULL;
+        mem_read_tab[128+31][i] = roml_read;
+        mem_read_base_tab[128+31][i] = NULL;
+    }
+
+    /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
+    for (i = 0xa0; i <= 0xbf; i++) {
+        mem_read_tab[128+16][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+16][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+16][i] = NULL;
+        mem_read_tab[128+17][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+17][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+17][i] = NULL;
+        mem_read_tab[128+18][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+18][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+18][i] = NULL;
+        mem_read_tab[128+19][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+19][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+19][i] = NULL;
+        mem_read_tab[128+20][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+20][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+20][i] = NULL;
+        mem_read_tab[128+21][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+21][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+21][i] = NULL;
+        mem_read_tab[128+22][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+22][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+22][i] = NULL;
+        mem_read_tab[128+23][i] = ultimax_a000_bfff_read;
+        mem_write_tab[128+23][i] = ultimax_a000_bfff_store;
+        mem_read_base_tab[128+23][i] = NULL;
+
+        mem_read_tab[128+26][i] = romh_read;
+        mem_read_base_tab[128+26][i] = NULL;
+        mem_read_tab[128+27][i] = romh_read;
+        mem_read_base_tab[128+27][i] = NULL;
+        mem_read_tab[128+30][i] = romh_read;
+        mem_read_base_tab[128+30][i] = NULL;
+        mem_read_tab[128+31][i] = romh_read;
+        mem_read_base_tab[128+31][i] = NULL;
+    }
+    for (i = 0xe0; i <= 0xff; i++) {
+        mem_read_tab[128+16][i] = romh_read;
+        mem_read_base_tab[128+16][i] = NULL;
+        mem_read_tab[128+17][i] = romh_read;
+        mem_read_base_tab[128+17][i] = NULL;
+        mem_read_tab[128+18][i] = romh_read;
+        mem_read_base_tab[128+18][i] = NULL;
+        mem_read_tab[128+19][i] = romh_read;
+        mem_read_base_tab[128+19][i] = NULL;
+        mem_read_tab[128+20][i] = romh_read;
+        mem_read_base_tab[128+20][i] = NULL;
+        mem_read_tab[128+21][i] = romh_read;
+        mem_read_base_tab[128+21][i] = NULL;
+        mem_read_tab[128+22][i] = romh_read;
+        mem_read_base_tab[128+22][i] = NULL;
+        mem_read_tab[128+23][i] = romh_read;
+        mem_read_base_tab[128+23][i] = NULL;
+    }
+
     for (i = 128; i < 256; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
         mem_write_tab[i][0x100] = mem_write_tab[i][0];
@@ -2008,7 +2068,7 @@ void mem_powerup(void)
     }
 }
 
-static int mem_kernal_checksum(void) 
+int mem_kernal_checksum(void) 
 {
     int i, id;
     WORD sum;
@@ -2059,7 +2119,7 @@ int mem_load_kernal(const char *rom_name)
     return 0;
 }
 
-static int mem_basic_checksum(void)
+int mem_basic_checksum(void)
 {
     int i, id;
     WORD sum;
@@ -2613,250 +2673,6 @@ void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
             | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Snapshot.  */
-
-static char snap_rom_module_name[] = "C128ROM";
-#define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
-
-int mem_write_rom_snapshot_module(snapshot_t *s)
-{
-    snapshot_module_t *m;
-    int trapfl;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_create(s, snap_rom_module_name, 
-                               SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-    if (m == NULL)
-        return -1;
-
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (0
-        || snapshot_module_write_byte_array(m, kernal_rom, 
-                                            C128_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom, 
-                                            C128_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
-                                            C128_EDITOR_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, chargen_rom, 
-                                            C128_CHARGEN_ROM_SIZE) < 0
-        )
-        goto fail;
-
-    /* FIXME: save cartridge ROM (& RAM?) areas:
-       first write out the configuration, i.e.
-       - type of cartridge (banking scheme type)
-       - state of cartridge (active/which bank, ...)
-       then the ROM/RAM arrays:
-       - cartridge ROM areas
-       - cartridge RAM areas
-    */
-
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-
-    return 0;
-
- fail:
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
-}
-
-int mem_read_rom_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    int trapfl;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_open(s, snap_rom_module_name,
-                             &major_version, &minor_version);
-    /* This module is optional.  */
-    if (m == NULL)
-        return 0;
-
-    /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        log_error(c128_mem_log,
-                  "MEM: Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-        goto fail;
-    }
-
-    if (0
-        || snapshot_module_read_byte_array(m, kernal_rom, 
-                                           C128_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom, 
-                                           C128_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
-                                           C128_EDITOR_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, chargen_rom, 
-                                           C128_CHARGEN_ROM_SIZE) < 0
-        )
-        goto fail;
-
-    log_warning(c128_mem_log,"Dumped Romset files and saved settings will "
-                "represent\nthe state before loading the snapshot!");
-
-    mem_basic_checksum();
-    mem_kernal_checksum();
-
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    /* to get all the checkmarks right */
-    ui_update_menus();
-
-    return 0;
-
- fail:
-
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
-}
-static char snap_module_name[] = "C128MEM";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-
-int mem_write_snapshot_module(snapshot_t *s, int save_roms)
-{
-    snapshot_module_t *m;
-    ADDRESS i;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
-        return -1;
-
-    /* Assuming no side-effects.  */
-    for (i = 0; i < 11; i++) {
-        if (snapshot_module_write_byte(m, mmu_read(i)) < 0)
-            goto fail;
-    }
-
-    if (0
-        || snapshot_module_write_byte_array(m, ram, C128_RAM_SIZE) < 0)
-        goto fail;
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-    m = NULL;
-
-    if (save_roms && mem_write_rom_snapshot_module(s) <0)
-        goto fail;
-
-    /* REU module: FIXME.  */
-
-    /* IEEE 488 module.  */
-    if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
-        goto fail;
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
-        goto fail;
-#endif
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
-}
-
-int mem_read_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    ADDRESS i;
-    BYTE byte;
-
-    /* Main memory module.  */
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return -1;
-
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(c128_mem_log,
-                  "MEM: Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    for (i = 0; i < 11; i++) {
-        if (snapshot_module_read_byte(m, &byte) < 0)
-            goto fail;
-        mmu_store(i, byte);	/* Assuming no side-effects */
-    }
-
-    if (0
-        || snapshot_module_read_byte_array(m, ram, C128_RAM_SIZE) < 0)
-        goto fail;
-
-    /* pla_config_changed(); */
-
-    if (snapshot_module_close(m) < 0)
-        goto fail;
-    m = NULL;
-
-    if (mem_read_rom_snapshot_module(s) < 0)
-	goto fail;
-
-    /* REU module: FIXME.  */
-
-    /* IEEE488 module.  */
-    if (tpi_read_snapshot_module(s) < 0) {
-        ieee488_enabled = 0;
-    } else {
-        ieee488_enabled = 1;
-    }
-
-#ifdef HAVE_RS232
-    /* ACIA module.  */
-    if (acia1_read_snapshot_module(s) < 0) {
-        acia_de_enabled = 0;
-    } else {
-        acia_de_enabled = 1;
-    }
-#endif
-
-    ui_update_menus();
-
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
