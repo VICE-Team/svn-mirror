@@ -134,7 +134,7 @@ SOURCE=.\kbd.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\mouse.c
+SOURCE=.\mousedrv.c
 # End Source File
 # Begin Source File
 

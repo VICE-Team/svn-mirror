@@ -41,8 +41,8 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
 	lose32.h \
-	mouse.c \
-	mouse.h \
+	mousedrv.c \
+	mousedrv.h \
 	petui.c \
 	plus4ui.c \
 	res.h \

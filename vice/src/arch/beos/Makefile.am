@@ -31,8 +31,8 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	mouse.cc \
-	mouse.h \
+	mousedrv.cc \
+	mousedrv.h \
 	petui.cc \
 	plus4ui.cc \
 	statusbar.cc \

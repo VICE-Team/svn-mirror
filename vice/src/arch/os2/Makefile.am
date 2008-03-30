@@ -25,8 +25,8 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
         makedist.cmd \
-        mouse.c \
-        mouse.h \
+        mousedrv.c \
+        mousedrv.h \
 	os2main.c \
 	rs232.c \
 	signals.h \

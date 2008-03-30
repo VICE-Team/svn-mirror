@@ -38,8 +38,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	menudefs.c \
 	menudefs.h \
-	mouse.c \
-	mouse.h \
+	mousedrv.c \
+	mousedrv.h \
 	msdosmain.c \
 	petui.c \
 	plus4ui.c \
