@@ -45,6 +45,7 @@
 #include "drive.h"
 #include "vsync.h"
 #include "utils.h"
+#include "iecdrive.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -379,9 +380,9 @@ ui_menu_entry_t acia1_irq_submenu[] = {
     { "*No IRQ/NMI",
       (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 0, NULL },
     { "*IRQ",
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) IK_IRQ, NULL },
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 1, NULL },
     { "*NMI",
-      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) IK_NMI, NULL },
+      (ui_callback_t) radio_Acia1Irq, (ui_callback_data_t) 2, NULL },
     { NULL }
 };
 
@@ -574,8 +575,6 @@ static UI_CALLBACK(set_custom_drive_sync_factor)
     }
 }
 
-UI_MENU_DEFINE_RADIO(Drive8Type)
-UI_MENU_DEFINE_RADIO(Drive9Type)
 UI_MENU_DEFINE_RADIO(DriveExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(DriveSyncFactor)
 UI_MENU_DEFINE_RADIO(Drive8IdleMethod)
@@ -697,7 +696,50 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { NULL }
 };
 
-/* those menues are for C64 */
+/* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(radio_Drive8Type)
+{
+    int current_value;
+
+    resources_get_value("Drive8Type", (resource_value_t *) &current_value);
+    if (!call_data) {
+        if (current_value != (int) client_data) {
+            resources_set_value("Drive8Type",
+                                (resource_value_t) client_data);
+            ui_update_menus();
+        } 
+    } else {
+        ui_menu_set_tick(w, current_value == (int) client_data);
+	if (drive_match_bus((int) client_data, iec_available_busses())) {
+            ui_menu_set_sensitive(w, True);
+	} else {
+            ui_menu_set_sensitive(w, False);
+	}
+    } 
+}
+
+static UI_CALLBACK(radio_Drive9Type)
+{
+    int current_value;
+
+    resources_get_value("Drive9Type", (resource_value_t *) &current_value);
+    if (!call_data) {
+        if (current_value != (int) client_data) {
+            resources_set_value("Drive9Type",
+                                (resource_value_t) client_data);
+            ui_update_menus();
+        } 
+    } else {
+        ui_menu_set_tick(w, current_value == (int) client_data);
+	if (drive_match_bus((int) client_data, iec_available_busses())) {
+            ui_menu_set_sensitive(w, True);
+	} else {
+            ui_menu_set_sensitive(w, False);
+	}
+    } 
+}
+
 static ui_menu_entry_t set_drive8_type_submenu[] = {
     { "*None", (ui_callback_t) radio_Drive8Type,
       (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
@@ -726,23 +768,6 @@ static ui_menu_entry_t set_drive9_type_submenu[] = {
     { NULL }
 };
 
-/* those menues are for PET/C610 - it lacks the serial IEC bus drives */
-static ui_menu_entry_t set_par_drive8_type_submenu[] = {
-    { "*None", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t) radio_Drive8Type,
-      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t set_par_drive9_type_submenu[] = {
-    { "*None", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
-    { "*2031", (ui_callback_t) radio_Drive9Type,
-      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t set_drive_extend_image_policy_submenu[] = {
     { "*Never extend", (ui_callback_t) radio_DriveExtendImagePolicy,
       (ui_callback_data_t) DRIVE_EXTEND_NEVER, NULL },
@@ -763,7 +788,7 @@ static ui_menu_entry_t set_drive_sync_factor_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive0_idle_method_submenu[] = {
+static ui_menu_entry_t set_drive8_idle_method_submenu[] = {
     { "*No traps", (ui_callback_t) radio_Drive8IdleMethod,
       (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_Drive8IdleMethod,
@@ -773,7 +798,7 @@ static ui_menu_entry_t set_drive0_idle_method_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive1_idle_method_submenu[] = {
+static ui_menu_entry_t set_drive9_idle_method_submenu[] = {
     { "*No traps", (ui_callback_t) radio_Drive9IdleMethod,
       (ui_callback_data_t) DRIVE_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_Drive9IdleMethod,
@@ -1054,24 +1079,20 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { "--" },
     { "Drive #8 floppy disk type",
       NULL, NULL, set_drive8_type_submenu },
-    { "*Drive #8 enable parallel cable",
-      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
-    { "Drive #8 40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive #8 idle method",
-      NULL, NULL, set_drive0_idle_method_submenu },
+      NULL, NULL, set_drive8_idle_method_submenu },
     { "--" },
     { "Drive #9 floppy disk type",
       NULL, NULL, set_drive9_type_submenu },
-    { "*Drive #9 enable parallel cable",
-      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
-    { "Drive #9 40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive #9 idle method",
-      NULL, NULL, set_drive1_idle_method_submenu },
+      NULL, NULL, set_drive9_idle_method_submenu },
     { "--" },
+    { "40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive sync factor",
       NULL, NULL, set_drive_sync_factor_submenu },
+    { "*Enable parallel cable",
+      (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
     { NULL }
 };
 
@@ -1081,19 +1102,23 @@ static ui_menu_entry_t par_drive_settings_submenu[] = {
       (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { "Drive #8 floppy disk type",
-      NULL, NULL, set_par_drive8_type_submenu },
-    { "Drive #8 40-track image support",
-      NULL, NULL, set_drive_extend_image_policy_submenu },
+      NULL, NULL, set_drive8_type_submenu },
+#if 0
     { "Drive #8 idle method",
-      NULL, NULL, set_drive0_idle_method_submenu },
+      NULL, NULL, set_drive8_idle_method_submenu },
+#endif
     { "--" },
     { "Drive #9 floppy disk type",
-      NULL, NULL, set_par_drive9_type_submenu },
+      NULL, NULL, set_drive9_type_submenu },
     { "Drive #9 40-track image support",
       NULL, NULL, set_drive_extend_image_policy_submenu },
+#if 0
     { "Drive #9 idle method",
-      NULL, NULL, set_drive1_idle_method_submenu },
+      NULL, NULL, set_drive9_idle_method_submenu },
+#endif
     { "--" },
+    { "40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive sync factor",
       NULL, NULL, set_drive_sync_factor_submenu },
     { NULL }
