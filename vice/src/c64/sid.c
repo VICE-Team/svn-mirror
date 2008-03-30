@@ -243,7 +243,7 @@ struct sound_s
     /* number of voices */
     voice_t		 v[3];
     /* SID registers */
-    BYTE		 d[64];
+    BYTE		 d[32];
     /* is voice 3 enabled? */
     BYTE		 has3;
     /* 4-bit volume value */
@@ -867,6 +867,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 					sid_filters_enabled, siddata, clk);
 #endif
     psid = xmalloc(sizeof(*psid));
+    memset(psid, 0, sizeof(*psid));
+    memset(psid->d, siddata, 32);
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
@@ -922,8 +924,6 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     }
     for (i = 0; i < 9; i++)
 	sidreadclocks[i] = 13;
-    for (i = 0; i < 32; i++)
-	sound_machine_store(psid, i, siddata[i]);
     return psid;
 }
 

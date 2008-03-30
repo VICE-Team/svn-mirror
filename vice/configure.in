@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.43)
+AM_INIT_AUTOMAKE(vice, 0.14.2.44)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -120,18 +120,18 @@ dnl Setup reSID compilation.  We need a C++ compiler for this.
 
 if test x"$with_resid" != "xno" -a x"$with_resid" != "x"; then
    echo "Attempting to configure reSID support at \`$with_resid'"
-   if test ! -f "$with_resid/resid.h"; then
-     echo "Cannot find \`$with_resid/resid.h', giving up."
+   if test ! -f "$with_resid/include/resid/sid.h"; then
+     echo "Cannot find \`$with_resid/include/resid/sid.h', giving up."
      exit 1
    fi
-   if test ! -f "$with_resid/libmos6581.h"; then
-     echo "Cannot find \`$with_resid/libmos6581.h', giving up."
+   if test ! -f "$with_resid/lib/libmos6581.a"; then
+     echo "Cannot find \`$with_resid/lib/libmos6581.a', giving up."
      exit 1
    fi
    AC_PROG_CXX
    AC_DEFINE(HAVE_RESID)
-   RESID_LIBS="$with_resid/libmos6581.a"
-   RESID_INCLUDES="-I$with_resid"
+   RESID_LIBS="$with_resid/lib/libmos6581.a"
+   RESID_INCLUDES="-I$with_resid/include"
    AM_CONDITIONAL(HAVE_RESID, true)
 else
    RESID_LIBS=""

@@ -101,7 +101,7 @@ extern void ui_exit(void);
 extern ui_jam_action_t ui_jam_dialog(const char *format,...);
 extern void ui_message(const char *format,...);
 extern void ui_show_text(const char *title, const char *text, int width, int height);
-extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, ui_button_t *button_return);
+extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, const char *default_dir, const char *default_pattern, ui_button_t *button_return);
 extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 extern void ui_autorepeat_on(void);

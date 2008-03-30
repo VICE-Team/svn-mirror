@@ -223,6 +223,9 @@ DirectoryMgr *dm;
 		}
 		++ DirectoryMgrTotalCount(dm);
 		if ((f_func == NULL) ||
+		    /* the next line make directories always
+			appear, even if pattern is applied, AF 23jun98 */
+		    (DirEntryType(&cons->dir_entry) == F_TYPE_DIR) ||
 		    (f_func && f_func(&(cons->dir_entry),f_data)))
 		{
 			cons->next = NULL;

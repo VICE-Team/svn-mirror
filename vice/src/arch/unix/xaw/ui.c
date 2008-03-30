@@ -1160,14 +1160,14 @@ int ui_extend_image_dialog(void)
 /* File browser. */
 char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
-                     int allow_autostart,
-                     ui_button_t *button_return)
+                     int allow_autostart, const char *default_dir,
+                     const char *default_pattern, ui_button_t *button_return)
 {
     static ui_button_t button;
     static char *ret = NULL;
     static Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
-    char *curdir;
+    char *curdir, *newdir;
 
 #ifndef __alpha
     /* We always rebuild the file selector from scratch (which is slow),
@@ -1185,10 +1185,20 @@ char *ui_select_file(const char *title,
 #endif
 
     XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
+    XtVaSetValues(file_selector, XtNshowContentsButton,  
+					read_contents_func ? 1 : 0,  NULL);
+
+/* we cannot change the pattern interactively, so we don't use it here now 
+    XtVaSetValues(file_selector, XtNpattern, 
+		default_pattern ? default_pattern : "*", NULL);
+*/
 
     curdir = get_current_dir();
+    newdir = stralloc(default_dir ? default_dir : curdir);
     XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
-				    curdir);
+		    		newdir);
+    free(newdir);
+    chdir(curdir);
     free(curdir);
 
     ui_popup(XtParent(file_selector), title, False);

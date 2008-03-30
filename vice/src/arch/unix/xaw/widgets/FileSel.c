@@ -493,7 +493,11 @@ Widget gcurrent,grequest,gnew;
 
 	if (FSPattern(current) != FSPattern(new))
 	{
-		FSPattern(new) = StrCopy(FSPattern(current));
+/*printf("new pattern: %s, (old=%s)\n",FSPattern(new), FSPattern(current));*/
+/* interestingly the old value is here copied to the _new_ one! why?
+		FSPattern(new) = StrCopy(FSPattern(current)); 
+ * replaced this with the following line, using the new value AF 23jun98 */
+		FSPattern(new) = StrCopy(FSPattern(new));
 		Chdir(new);
 		/* XtFree() call moved -- EP 06/12/97. */
 		XtFree(FSPattern(current));

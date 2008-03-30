@@ -95,9 +95,9 @@ extern Widget ui_menu_create(const char *name, ...);
 #define UI_MENU_DEFINE_STRING_RADIO(resource)                                \
     static UI_CALLBACK(radio_##resource)                                     \
     {                                                                        \
-        int current_value;                                                   \
+        resource_value_t current_value;                                      \
                                                                              \
-        resources_get_value(#resource, (resource_value_t *) &current_value); \
+        resources_get_value(#resource, &current_value);                      \
         if (!call_data) {                                                    \
             if (strcmp((const char *) current_value,                         \
                        (const char *) client_data) != 0) {                   \
