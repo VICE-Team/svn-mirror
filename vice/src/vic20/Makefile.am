@@ -15,8 +15,6 @@ noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
 	cartridge.c \
-	vic.c \
-	vic.h \
 	vic-cmdline-options.c \
 	vic-cmdline-options.h \
 	vic-draw.c \
@@ -27,6 +25,8 @@ libvic20_a_SOURCES = \
 	vic-resources.h \
 	vic-snapshot.c \
 	vic-snapshot.h \
+	vic.c \
+	vic.h \
 	vic20.c \
 	vic20.h \
 	vic20datasette.c \
@@ -46,3 +46,4 @@ libvic20_a_SOURCES = \
 	vic20ieeevia2.c 
 
 libvic20_a_LIBADD = $(rs232_libadd)
+
