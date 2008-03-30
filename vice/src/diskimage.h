@@ -69,6 +69,7 @@ extern int disk_image_write_sector(disk_image_t *image, BYTE *buf, int track,
 extern int disk_image_check_sector(int format, int track, int sector);
 extern int disk_image_sector_per_track(int format, int track);
 
+extern int disk_image_read_gcr_image(disk_image_t *image);
 extern void disk_image_write_track(disk_image_t *image, int track,
                                    int *gcr_track_size,
                                    BYTE *gcr_speed_zone);
