@@ -36,6 +36,7 @@
 #include "tpicore.h"
 #include "types.h"
 
+
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */
 
@@ -54,14 +55,14 @@
 /*----------------------------------------------------------------------*/
 /* CPU binding */
 
-#define mycpu_set_int(a,b) maincpu_set_irq((a),(b))
-#define mycpu_restore_int(a,b) \
-        interrupt_set_irq_noclk(&maincpu_int_status,(a),(b))
+#define mycpu_set_int(a, b) maincpu_set_irq((a), (b))
+#define mycpu_restore_int(a, b) \
+    interrupt_set_irq_noclk(maincpu_int_status, (a), (b))
 
 #define mycpu_rmw_flag  maincpu_rmw_flag
-#define myclk           maincpu_clk
+#define myclk maincpu_clk
 
-#define MYIRQ   IK_IRQ
+#define MYIRQ IK_IRQ
 
 #define I_MYTPI I_TPI1
 

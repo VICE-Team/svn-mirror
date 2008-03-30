@@ -125,10 +125,8 @@ void expert_config_init(void)
     /*
      * Initialize nmi/reset trap functions.
      */
-    interrupt_set_nmi_trap_func(&maincpu_int_status,
-                                expert_ack_nmi);
-    interrupt_set_reset_trap_func(&maincpu_int_status,
-                                  expert_ack_reset);
+    interrupt_set_nmi_trap_func(maincpu_int_status, expert_ack_nmi);
+    interrupt_set_reset_trap_func(maincpu_int_status, expert_ack_reset);
     /*
      * Initialize cartridge mode/configuration.
      */

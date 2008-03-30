@@ -73,7 +73,7 @@ enum cpu_int {
    arrays since static allocation can be handled more easily...  */
 struct interrupt_cpu_status_s {
     /* Number of interrupt lines.  */
-    int num_ints;
+    unsigned int num_ints;
 
     /* Define, for each interrupt source, whether it has a pending interrupt
        (IK_IRQ, IK_NMI, IK_RESET and IK_TRAP) or not (IK_NONE).  */
@@ -241,8 +241,10 @@ struct snapshot_module_s;
 
 extern interrupt_cpu_status_t *interrupt_cpu_status_new(void);
 extern void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs);
-extern void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs, int num_ints,
-                                       unsigned int *last_opcode_info_ptr);
+extern void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
+                                      unsigned int num_ints,
+                                      unsigned int *last_opcode_info_ptr);
+extern void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs);
 
 extern void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(interrupt_cpu_status_t *cs);
@@ -279,7 +281,7 @@ extern enum cpu_int interrupt_get_int(interrupt_cpu_status_t *cs, int int_num);
 
 /* ------------------------------------------------------------------------- */
 
-extern interrupt_cpu_status_t maincpu_int_status;
+extern interrupt_cpu_status_t *maincpu_int_status;
 extern CLOCK maincpu_clk;
 
 extern interrupt_cpu_status_t *drive0_int_status_ptr;
@@ -289,23 +291,23 @@ extern CLOCK drive_clk[2];
 /* For convenience...  */
 
 #define maincpu_set_irq(int_num, value) \
-    interrupt_set_irq(&maincpu_int_status, (int_num), (value), maincpu_clk)
+    interrupt_set_irq(maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_irq_clk(int_num, value, clk) \
-    interrupt_set_irq(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_irq(maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_nmi(int_num, value) \
-    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), maincpu_clk)
+    interrupt_set_nmi(maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_nmi_clk(int_num, value, clk) \
-    interrupt_set_nmi(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_nmi(maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int(int_num, value) \
-    interrupt_set_int(&maincpu_int_status, (int_num), (value), maincpu_clk)
+    interrupt_set_int(maincpu_int_status, (int_num), (value), maincpu_clk)
 #define maincpu_set_int_clk(int_num, value, clk) \
-    interrupt_set_int(&maincpu_int_status, (int_num), (value), (clk))
+    interrupt_set_int(maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_set_int_noclk(int_num, value) \
-    interrupt_set_int_noclk(&maincpu_int_status, (int_num), (value))
+    interrupt_set_int_noclk(maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
-    interrupt_trigger_reset(&maincpu_int_status, maincpu_clk)
+    interrupt_trigger_reset(maincpu_int_status, maincpu_clk)
 #define maincpu_trigger_dma() \
-    interrupt_trigger_dma(&maincpu_int_status, maincpu_clk)
+    interrupt_trigger_dma(maincpu_int_status, maincpu_clk)
 
 #define drive0_set_irq(int_num, value) \
     interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])

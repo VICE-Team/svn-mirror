@@ -35,7 +35,7 @@
 #define MYVIA_NAME "IeeeVia2"
 
 #define mycpu_rmw_flag maincpu_rmw_flag
-#define mycpu_int_status &maincpu_int_status
+#define mycpu_int_status maincpu_int_status
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard
 

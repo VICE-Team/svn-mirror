@@ -445,7 +445,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     if (vic_ii.irq_status & 0x80)
-        interrupt_set_irq_noclk(&maincpu_int_status, I_RASTER, 1);
+        interrupt_set_irq_noclk(maincpu_int_status, I_RASTER, 1);
 
     /* added in version 1.1 of snapshot format */
     if (minor_version > 0) {

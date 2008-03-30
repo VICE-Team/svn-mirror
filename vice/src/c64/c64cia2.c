@@ -81,10 +81,10 @@
 #define mycpu_rmw_flag  maincpu_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
-                interrupt_set_nmi(&maincpu_int_status,(I_CIA2FL),(value),(clk))
+    interrupt_set_nmi(maincpu_int_status, (I_CIA2FL), (value), (clk))
 
 #define cia_restore_int(value) \
-                interrupt_set_nmi_noclk(&maincpu_int_status,(I_CIA2FL),(value))
+    interrupt_set_nmi_noclk(maincpu_int_status, (I_CIA2FL), (value))
 
 #define mycpu_alarm_context maincpu_alarm_context
 
