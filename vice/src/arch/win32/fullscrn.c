@@ -77,10 +77,13 @@ static DirectDrawModeList *modes = NULL;
 static LPDIRECTDRAW DirectDrawObject;
 static LPDIRECTDRAW2 DirectDrawObject2;
 
-#define CHECK_DDRESULT(ddresult)    {\
-if (ddresult!=DD_OK) {\
-ui_error("DirectDraw error: Code:%8x Error:%s",ddresult,dd_error(ddresult));\
-}}\
+#define CHECK_DDRESULT(ddresult) \
+{                                \
+    if (ddresult != DD_OK) {     \
+        ui_error("DirectDraw error: Code:%8x Error:%s", ddresult, \
+        dd_error(ddresult));     \
+    }                            \
+}
 
 BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription,
                                    LPSTR lpDriverName, LPVOID lpContext)
