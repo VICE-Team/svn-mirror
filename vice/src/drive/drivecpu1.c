@@ -28,24 +28,6 @@
 
 #define DRIVE_CPU
 
-#include "vice.h"
-
-#include "6510core.h"
-#include "alarm.h"
-#include "ciad.h"
-#include "drive.h"
-#include "drivecpu.h"
-#include "fdc.h"
-#include "interrupt.h"
-#include "mon.h"
-#include "resources.h"
-#include "riotd.h"
-#include "snapshot.h"
-#include "types.h"
-#include "ui.h"
-#include "viad.h"
-#include "wd1770.h"
-
 #define mynumber 1
 
 /* Define this to enable tracing of drive CPU instructions.

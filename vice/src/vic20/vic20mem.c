@@ -6,7 +6,7 @@
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * Multiple memory configuration support originally by
- *  Alexander Lehmann (alex@mathematik.th-darmstadt.de)
+ *  Alexander Lehmann <alex@mathematik.th-darmstadt.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "cartridge.h"
@@ -41,8 +42,9 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "resources.h"
-#include "stdlib.h"
+#include "snapshot.h"
 #include "sysfile.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vic.h"
