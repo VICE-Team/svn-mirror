@@ -74,7 +74,7 @@
 
  */
 
-/* Are these exact? */
+/* Are these exact?  */
 
 #if defined(CBM64) || defined(C128)
 #define TRUE1541_PAL_SYNC_FACTOR	66516   /* Maybe 66517? */
@@ -90,16 +90,19 @@
 
 #define TRUE1541_ROM_CHECKSUM		1976666
 
-/* 1541 idling methods. */
+/* 1541 idling methods.  */
 #define TRUE1541_IDLE_SKIP_CYCLES	0
 #define TRUE1541_IDLE_TRAP_IDLE		1
 
-/* Define this to enable full emulation of disk rotation. */
+/* Define this to enable full emulation of disk rotation.  */
 #define TRUE1541_ROTATE
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define TRUE1541_ATTACH_DELAY           500000
+
+/* Number of cycles the write protection is activated on detach.  */
+#define TRUE1541_DETACH_DELAY           300000
 
 /* -------------------------------------------------------------------------- */
 
