@@ -1,7 +1,8 @@
 /*
- * ui_cmdline.c - Command-line output.
+ * uicmdline.h - Command-line output.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -27,9 +28,15 @@
 #ifndef _UICMDLINE_H
 #define _UICMDLINE_H
 
+#undef BYTE
+#undef WORD
+#undef DWORD
+#include <windows.h>
+
 #include "cmdline.h"
 
 extern void ui_cmdline_show_help(int num_options, cmdline_option_t *options);
+extern void ui_cmdline_show_options(HWND hwnd);
 
 #endif
 
