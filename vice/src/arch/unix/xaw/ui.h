@@ -96,42 +96,44 @@ typedef enum {
 
 /* ------------------------------------------------------------------------- */
 
-extern int ui_init_resources(void);
-extern int ui_init_cmdline_options(void);
+int ui_init_resources(void);
+int ui_init_cmdline_options(void);
 
-extern int ui_init(int *argc, char **argv);
-extern int ui_init_finish(void);
-extern void ui_set_left_menu(Widget w);
-extern void ui_set_right_menu(Widget w);
-extern void ui_set_application_icon(Pixmap icon_pixmap);
-extern ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
-extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
-extern void ui_map_canvas_window(ui_window_t w);
-extern void ui_unmap_canvas_window(ui_window_t w);
-extern Window ui_canvas_get_drawable(ui_window_t w);
-extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
-                                 PIXEL *pixel_return);
-extern void ui_display_speed(float percent, float framerate, int warp_flag);
-extern void ui_enable_drive_status(ui_drive_enable_t enable);
-extern void ui_display_drive_track(int drive_number, double track_number);
-extern void ui_display_drive_led(int drive_number, int status);
-extern void ui_display_paused(int flag);
-extern void ui_dispatch_next_event(void);
-extern void ui_dispatch_events(void);
-extern void ui_error(const char *format,...);
-extern void ui_exit(void);
-extern ui_jam_action_t ui_jam_dialog(const char *format,...);
-extern void ui_message(const char *format,...);
-extern void ui_show_text(const char *title, const char *text, int width, int height);
-extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, const char *default_dir, const char *default_pattern, ui_button_t *button_return);
-extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
-extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
-extern void ui_autorepeat_on(void);
-extern void ui_autorepeat_off(void);
-extern void ui_update_menus(void);
-extern int ui_extend_image_dialog(void);
-extern Widget ui_create_transient_shell(Widget parent, const char *name);
-extern void ui_popdown(Widget w);
-extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
+int ui_init(int *argc, char **argv);
+int ui_init_finish(void);
+void ui_set_left_menu(Widget w);
+void ui_set_right_menu(Widget w);
+void ui_set_application_icon(Pixmap icon_pixmap);
+ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
+void ui_resize_canvas_window(ui_window_t w, int height, int width);
+void ui_map_canvas_window(ui_window_t w);
+void ui_unmap_canvas_window(ui_window_t w);
+Window ui_canvas_get_drawable(ui_window_t w);
+int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+                          PIXEL *pixel_return);
+void ui_display_speed(float percent, float framerate, int warp_flag);
+void ui_enable_drive_status(ui_drive_enable_t enable);
+void ui_display_drive_track(int drive_number, double track_number);
+void ui_display_drive_led(int drive_number, int status);
+void ui_display_paused(int flag);
+void ui_dispatch_next_event(void);
+void ui_dispatch_events(void);
+void ui_error(const char *format,...);
+void ui_exit(void);
+ui_jam_action_t ui_jam_dialog(const char *format,...);
+void ui_message(const char *format,...);
+void ui_show_text(const char *title, const char *text, int width, int height);
+char *ui_select_file(const char *title, char *(*read_contents_func)(const char *), int allow_autostart, const char *default_dir, const char *default_pattern, ui_button_t *button_return);
+ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
+ui_button_t ui_ask_confirmation(const char *title, const char *text);
+void ui_autorepeat_on(void);
+void ui_autorepeat_off(void);
+void ui_update_menus(void);
+int ui_extend_image_dialog(void);
+Widget ui_create_transient_shell(Widget parent, const char *name);
+void ui_popdown(Widget w);
+void ui_popup(Widget w, const char *title, Boolean wait_popdown);
+void ui_pause_emulation(int flag);
+int ui_emulation_is_paused(void);
 
 #endif /* !defined (_UI_XAW_H) */
