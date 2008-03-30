@@ -350,97 +350,32 @@ static void init_drawing_tables(void)
     }
 }
 
-#if 0 /* Frame buffer debug */
-BYTE *fbstart;
-BYTE *fbend;
-
 /* Sprite drawing macros.  */
 
-#define SPRITE_PIXEL(raster, do_draw, sprite_bit, imgptr, collmskptr, \
-                     pos, color, collmsk_return)                      \
-    do {                                                              \
-{ \
-BYTE *xxx = &((imgptr)[(pos)]); \
-if (xxx < (BYTE *)0x40000000 && (xxx < fbstart || xxx >= fbend)) \
-printf("%p\n",xxx); \
-} \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                    \
-            (imgptr)[(pos)] = RASTER_PIXEL((raster), (color));        \
-        (collmsk_return) |= (collmskptr)[(pos)];                      \
-        (collmskptr)[(pos)] |= (sprite_bit);                          \
-    } while (0) 
-
-#ifdef ALLOW_UNALIGNED_ACCESS
-
-#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr,                  \
-                        collmskptr, pos, color, collmsk_return)               \
-    do {                                                                      \
-{ \
-BYTE *xxx = ((WORD *)(imgptr) + (pos)); \
-if (xxx < (BYTE *)0x40000000 && (xxx < fbstart || xxx >= fbend)) \
-printf("%p\n",xxx); \
-} \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                          \
-            *((WORD *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
-        (collmsk_return) |= (collmskptr)[(pos)];                            \
-        (collmskptr)[(pos)] |= (sprite_bit);                                \
-    } while (0)
-
-#else
-
-#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr, collmskptr, \
-                        pos, color, collmsk_return)                      \
-    do {                                                                 \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                       \
-            (imgptr)[(pos) * 2] = (imgptr)[(pos) * 2 + 1]                \
-                = RASTER_PIXEL((raster), (color));                       \
-        (collmsk_return) |= (collmskptr)[pos];                           \
-        (collmskptr)[pos] |= (sprite_bit);                               \
-    } while (0)
-
-#endif
-#else
-
-/* Sprite drawing macros.  */
-
-#define SPRITE_PIXEL(raster, do_draw, sprite_bit, imgptr, collmskptr, \
+#define SPRITE_PIXEL(do_draw, sprite_bit, imgptr, collmskptr,         \
                      pos, color, collmsk_return)                      \
     do {                                                              \
         if ((do_draw) && (collmskptr)[(pos)] == 0)                    \
-            (imgptr)[(pos)] = RASTER_PIXEL((raster), (color));        \
-        (collmsk_return) |= (collmskptr)[(pos)];                      \
+            (imgptr)[(pos)]  = (color);                               \
+        (collmsk_return)    |= (collmskptr)[(pos)];                   \
         (collmskptr)[(pos)] |= (sprite_bit);                          \
     } while (0)
 
-#ifdef ALLOW_UNALIGNED_ACCESS
-
-#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr,                \
-                        collmskptr, pos, color, collmsk_return)             \
-    do {                                                                    \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                          \
-            *((WORD *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
-        (collmsk_return) |= (collmskptr)[(pos)];                            \
-        (collmskptr)[(pos)] |= (sprite_bit);                                \
+#define SPRITE_PIXEL_2x(do_draw, sprite_bit, imgptr,                  \
+                        collmskptr, pos, color, collmsk_return)       \
+    do {                                                              \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                    \
+		{                                                             \
+            (imgptr)[(pos) * 2    ]  = (color);                       \
+            (imgptr)[(pos) * 2 + 1]  = (color);                       \
+		}                                                             \
+        (collmsk_return) |= (collmskptr)[(pos)];                      \
+        (collmskptr)[(pos)] |= (sprite_bit);                          \
     } while (0)
-
-#else
-
-#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr, collmskptr, \
-                        pos, color, collmsk_return)                      \
-    do {                                                                 \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                       \
-            (imgptr)[(pos) * 2] = (imgptr)[(pos) * 2 + 1]                \
-                = RASTER_PIXEL((raster), (color));                       \
-        (collmsk_return) |= (collmskptr)[pos];                           \
-        (collmskptr)[pos] |= (sprite_bit);                               \
-    } while (0)
-
-#endif
-#endif
 
 /* Hires sprites */
 
-#define _SPRITE_MASK(raster, msk, gfxmsk, size, sprite_bit, imgptr,      \
+#define _SPRITE_MASK(msk, gfxmsk, size, sprite_bit, imgptr,              \
                      collmskptr, color, collmsk_return, DRAW)            \
     do {                                                                 \
         DWORD __m;                                                       \
@@ -451,27 +386,27 @@ printf("%p\n",xxx); \
              __p++, __m >>= 1)                                           \
             if ((msk) & __m) {                                           \
                 if ((gfxmsk) & __m)                                      \
-                    DRAW(raster, 0, sprite_bit, imgptr, collmskptr, __p, \
+                    DRAW(0, sprite_bit, imgptr, collmskptr, __p,         \
                          color, collmsk_return);                         \
                  else                                                    \
-                    DRAW(raster, 1, sprite_bit, imgptr, collmskptr, __p, \
+                    DRAW(1, sprite_bit, imgptr, collmskptr, __p,         \
                          color, collmsk_return);                         \
             }                                                            \
     } while (0)
 
-#define SPRITE_MASK(raster, msk, gfxmsk, size, sprite_bit, imgptr,          \
+#define SPRITE_MASK(msk, gfxmsk, size, sprite_bit, imgptr,                  \
                     collmskptr, color, collmsk_return)                      \
-    _SPRITE_MASK(raster, msk, gfxmsk, size, sprite_bit, imgptr, collmskptr, \
+    _SPRITE_MASK(msk, gfxmsk, size, sprite_bit, imgptr, collmskptr,         \
                  color, collmsk_return, SPRITE_PIXEL)
 
-#define SPRITE_MASK_2x(raster, msk, gfxmsk, size, sprite_bit, imgptr,       \
+#define SPRITE_MASK_2x(msk, gfxmsk, size, sprite_bit, imgptr,               \
                        collmskptr, color, collmsk_return)                   \
-    _SPRITE_MASK(raster, msk, gfxmsk, size, sprite_bit, imgptr, collmskptr, \
+    _SPRITE_MASK(msk, gfxmsk, size, sprite_bit, imgptr, collmskptr,         \
                  color, collmsk_return, SPRITE_PIXEL_2x)
 
 /* Multicolor sprites */
 
-#define _MCSPRITE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr,      \
+#define _MCSPRITE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,              \
                        collmskptr, pixel_table, collmsk_return, DRAW)        \
     do {                                                                     \
         DWORD __m;                                                           \
@@ -486,37 +421,37 @@ printf("%p\n",xxx); \
                                                                              \
             if (__c) {                                                       \
                 if ((gfxmsk) & __m)                                          \
-                    DRAW(raster, 0, sprite_bit, imgptr, collmskptr, __p,     \
+                    DRAW(0, sprite_bit, imgptr, collmskptr, __p,             \
                          pixel_table[__c], collmsk_return);                  \
                 else                                                         \
-                    DRAW(raster, 1, sprite_bit, imgptr, collmskptr, __p,     \
+                    DRAW(1, sprite_bit, imgptr, collmskptr, __p,             \
                          pixel_table[__c], collmsk_return);                  \
                                                                              \
                 if ((gfxmsk) & (__m >> 1))                                   \
-                    DRAW(raster, 0, sprite_bit, imgptr, collmskptr, __p + 1, \
+                    DRAW(0, sprite_bit, imgptr, collmskptr, __p + 1,         \
                          pixel_table[__c], collmsk_return);                  \
                 else                                                         \
-                    DRAW(raster, 1, sprite_bit, imgptr, collmskptr, __p + 1, \
+                    DRAW(1, sprite_bit, imgptr, collmskptr, __p + 1,         \
                          pixel_table[__c], collmsk_return);                  \
             }                                                                \
         }                                                                    \
     } while (0)
 
 
-#define MCSPRITE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr, \
+#define MCSPRITE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,         \
                       collmskptr, pixel_table, collmsk_return)         \
-    _MCSPRITE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr,    \
+    _MCSPRITE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,            \
                    collmskptr, pixel_table, collmsk_return,            \
                    SPRITE_PIXEL)
 
-#define MCSPRITE_MASK_2x(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr, \
+#define MCSPRITE_MASK_2x(mcmsk, gfxmsk, size, sprite_bit, imgptr,         \
                          collmskptr, pixel_table, collmsk_return)         \
-    _MCSPRITE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr,       \
+    _MCSPRITE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,               \
                    collmskptr, pixel_table, collmsk_return,               \
                    SPRITE_PIXEL_2x)
 
 
-#define _MCSPRITE_DOUBLE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit,  \
+#define _MCSPRITE_DOUBLE_MASK(mcmsk, gfxmsk, size, sprite_bit,          \
                               imgptr, collmskptr, pixel_table,          \
                               collmsk_return, DRAW)                     \
     do {                                                                \
@@ -532,29 +467,29 @@ printf("%p\n",xxx); \
             for (__i = 0; __i < 4; __i++, __m >>= 1)                    \
                 if (__c) {                                              \
                     if ((gfxmsk) & __m)                                 \
-                        DRAW(raster, 0, sprite_bit, imgptr, collmskptr, \
+                        DRAW(0, sprite_bit, imgptr, collmskptr,         \
                              __p + __i, pixel_table[__c],               \
                              collmsk_return);                           \
                     else                                                \
-                        DRAW(raster, 1, sprite_bit, imgptr, collmskptr, \
+                        DRAW(1, sprite_bit, imgptr, collmskptr,         \
                              __p + __i, pixel_table[__c],               \
                              collmsk_return);                           \
                 }                                                       \
         }                                                               \
     } while (0)
 
-#define MCSPRITE_DOUBLE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit,      \
-                             imgptr, collmskptr, pixel_table,              \
-                             collmsk_return)                               \
-    _MCSPRITE_DOUBLE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr, \
-                          collmskptr, pixel_table, collmsk_return,         \
+#define MCSPRITE_DOUBLE_MASK(mcmsk, gfxmsk, size, sprite_bit,           \
+                             imgptr, collmskptr, pixel_table,           \
+                             collmsk_return)                            \
+    _MCSPRITE_DOUBLE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,      \
+                          collmskptr, pixel_table, collmsk_return,      \
                           SPRITE_PIXEL)
 
-#define MCSPRITE_DOUBLE_MASK_2x(raster, mcmsk, gfxmsk, size, sprite_bit,   \
-                                imgptr, collmskptr, pixel_table,           \
-                                collmsk_return)                            \
-    _MCSPRITE_DOUBLE_MASK(raster, mcmsk, gfxmsk, size, sprite_bit, imgptr, \
-                          collmskptr, pixel_table, collmsk_return,         \
+#define MCSPRITE_DOUBLE_MASK_2x(mcmsk, gfxmsk, size, sprite_bit,        \
+                                imgptr, collmskptr, pixel_table,        \
+                                collmsk_return)                         \
+    _MCSPRITE_DOUBLE_MASK(mcmsk, gfxmsk, size, sprite_bit, imgptr,      \
+                          collmskptr, pixel_table, collmsk_return,      \
                           SPRITE_PIXEL_2x)
 
 
@@ -620,23 +555,23 @@ inline static void draw_hires_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, collmsk, size1, sbit,
+                    SPRITE_MASK_2x(sprmsk, collmsk, size1, sbit,
                                    ptr, sptr,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, collmsk, size1, sbit,
+                    SPRITE_MASK(sprmsk, collmsk, size1, sbit,
                                 ptr, sptr,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
             } else {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, 0, size1, sbit, ptr,
+                    SPRITE_MASK_2x(sprmsk, 0, size1, sbit, ptr,
                                    sptr,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, 0, size1, sbit, ptr, sptr,
+                    SPRITE_MASK(sprmsk, 0, size1, sbit, ptr, sptr,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
             }
@@ -667,23 +602,23 @@ inline static void draw_hires_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, collmsk, size1,
+                    SPRITE_MASK_2x(sprmsk, collmsk, size1,
                                    sbit, ptr + 64, sptr + 32,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, collmsk, size1, sbit,
+                    SPRITE_MASK(sprmsk, collmsk, size1, sbit,
                                 ptr + 32, sptr + 32,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
             } else {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, 0, size1, sbit,
+                    SPRITE_MASK_2x(sprmsk, 0, size1, sbit,
                                    ptr + 64, sptr + 32,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, 0, size1, sbit, ptr + 32,
+                    SPRITE_MASK(sprmsk, 0, size1, sbit, ptr + 32,
                                 sptr + 32,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
@@ -727,23 +662,23 @@ inline static void draw_hires_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, collmsk, size, sbit,
+                    SPRITE_MASK_2x(sprmsk, collmsk, size, sbit,
                                    ptr, sptr,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, collmsk, size, sbit,
+                    SPRITE_MASK(sprmsk, collmsk, size, sbit,
                                 ptr, sptr,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
             } else {
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, sprmsk, 0, size, sbit, ptr,
+                    SPRITE_MASK_2x(sprmsk, 0, size, sbit, ptr,
                                    sptr,
                                    vic_ii.raster.sprite_status->sprites[n].color,
                                    cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, sprmsk, 0, size, sbit, ptr, sptr,
+                    SPRITE_MASK(sprmsk, 0, size, sbit, ptr, sptr,
                                 vic_ii.raster.sprite_status->sprites[n].color,
                                 cmsk);
             }
@@ -815,17 +750,17 @@ inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    MCSPRITE_DOUBLE_MASK_2x(&vic_ii.raster, mcsprmsk, collmsk,
+                    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, collmsk,
                                             32, sbit, ptr, sptr, c, cmsk);
                 else
-                    MCSPRITE_DOUBLE_MASK(&vic_ii.raster, mcsprmsk, collmsk, 32,
+                    MCSPRITE_DOUBLE_MASK(mcsprmsk, collmsk, 32,
                                          sbit, ptr, sptr, c, cmsk);
             } else {
                 if (double_size)
-                    MCSPRITE_DOUBLE_MASK_2x(&vic_ii.raster, mcsprmsk, 0, 32,
+                    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, 0, 32,
                                             sbit, ptr, sptr, c, cmsk);
                 else
-                    MCSPRITE_DOUBLE_MASK(&vic_ii.raster, mcsprmsk, 0, 32,
+                    MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, 32,
                                          sbit, ptr, sptr, c, cmsk);
             }
             sprmsk = sprite_doubling_table[mcsprtable[data_ptr[2]]];
@@ -836,18 +771,18 @@ inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    MCSPRITE_DOUBLE_MASK_2x(&vic_ii.raster, mcsprmsk, collmsk,
+                    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, collmsk,
                                             16, sbit, ptr + 64, sptr + 32, c,
                                             cmsk);
                 else
-                    MCSPRITE_DOUBLE_MASK(&vic_ii.raster, mcsprmsk, collmsk, 16,
+                    MCSPRITE_DOUBLE_MASK(mcsprmsk, collmsk, 16,
                                          sbit, ptr + 32, sptr + 32, c, cmsk);
             } else {
                 if (double_size)
-                    MCSPRITE_DOUBLE_MASK_2x(&vic_ii.raster, mcsprmsk, 0, 16,
+                    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, 0, 16,
                                             sbit, ptr + 64, sptr + 32, c, cmsk);
                 else
-                    MCSPRITE_DOUBLE_MASK(&vic_ii.raster, mcsprmsk, 0, 16, sbit,
+                    MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, 16, sbit,
                                          ptr + 32, sptr + 32, c, cmsk);
             }
 
@@ -870,13 +805,13 @@ inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                 repeat_color = c[repeat_pixel];
 
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, special_sprmsk, 0, 
+                    SPRITE_MASK_2x(special_sprmsk, 0, 
                                     7 - repeat_offset, sbit,
                                     ptr + 2*(size + repeat_offset),
                                     sptr + size + repeat_offset,
                                     repeat_color, cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, special_sprmsk, 0,
+                    SPRITE_MASK(special_sprmsk, 0,
                                     7 - repeat_offset, sbit, 
                                     ptr + size + repeat_offset,
                                     sptr + size + repeat_offset,
@@ -916,17 +851,17 @@ inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     |= sbit;
             if (in_background) {
                 if (double_size)
-                    MCSPRITE_MASK_2x(&vic_ii.raster, mcsprmsk, collmsk, 24,
+                    MCSPRITE_MASK_2x(mcsprmsk, collmsk, 24,
                                     sbit, ptr, sptr, c, cmsk);
                 else
-                    MCSPRITE_MASK(&vic_ii.raster, mcsprmsk, collmsk, 24,
+                    MCSPRITE_MASK(mcsprmsk, collmsk, 24,
                                     sbit, ptr, sptr, c, cmsk);
             } else {
                 if (double_size)
-                    MCSPRITE_MASK_2x(&vic_ii.raster, mcsprmsk, 0, 24, sbit,
+                    MCSPRITE_MASK_2x(mcsprmsk, 0, 24, sbit,
                                     ptr, sptr, c, cmsk);
                 else
-                    MCSPRITE_MASK(&vic_ii.raster, mcsprmsk, 0, 24, sbit,
+                    MCSPRITE_MASK(mcsprmsk, 0, 24, sbit,
                                     ptr, sptr, c, cmsk);
             }
 
@@ -949,13 +884,13 @@ inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                 repeat_color = c[repeat_pixel];
 
                 if (double_size)
-                    SPRITE_MASK_2x(&vic_ii.raster, special_sprmsk, 0, 
+                    SPRITE_MASK_2x(special_sprmsk, 0, 
                                     7 - size_is_odd, sbit,
                                     ptr + 2*(size + size_is_odd),
                                     sptr + size + size_is_odd,
                                     repeat_color, cmsk);
                 else
-                    SPRITE_MASK(&vic_ii.raster, special_sprmsk, 0,
+                    SPRITE_MASK(special_sprmsk, 0,
                                     7 - size_is_odd, sbit, 
                                     ptr + size + size_is_odd,
                                     sptr + size + size_is_odd,

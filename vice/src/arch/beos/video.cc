@@ -194,6 +194,16 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_return)
 {
 	int i;
+    int rshift = 0;
+    int rbits = 0;
+    int gshift = 0;
+    int gbits = 0;
+    int bshift = 0;
+    int bbits = 0;
+    DWORD rmask = 0;
+    DWORD gmask = 0;
+    DWORD bmask = 0;
+
 	c->palette = p;
 	DEBUG(("Allocating colors"));
 	for (i = 0; i < p->num_entries; i++)
@@ -209,18 +219,36 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_
 							p->entries[i].blue);
 				break;
 			case 16:	/* RGB 5:6:5 */
+				rbits = 3; rshift = 11; rmask = 0x1f;
+				gbits = 2; gshift = 5; gmask = 0x3f;
+				bbits = 3; bshift = 0; bmask = 0x1f;
 				col = (p->entries[i].red >> 3) << 11
 							|	(p->entries[i].green >> 2) << 5
 							|	(p->entries[i].blue >> 3);
 				break;
 			case 32:	/* RGB 8:8:8 */
 			default:
+				rbits = 0; rshift = 16; rmask = 0xff;
+				gbits = 0; gshift = 8; gmask = 0xff;
+				bbits = 0; bshift = 0; bmask = 0xff;
 				col = p->entries[i].red << 16
 							|	p->entries[i].green << 8
 							|	p->entries[i].blue;
 		}
 		video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
 	}
+	if (c->depth > 8)
+	{
+		for (i=0;i<256;i++)
+		{
+			video_render_setrawrgb(i,
+				((i & (rmask << rbits)) >> rbits) << rshift,
+				((i & (gmask << gbits)) >> gbits) << gshift,
+				((i & (bmask << bbits)) >> bbits) << bshift);
+		}
+		video_render_initraw();
+	}
+
     return 0;
 }
 

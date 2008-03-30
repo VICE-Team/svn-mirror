@@ -51,6 +51,7 @@ struct video_canvas_s {
     void *vicewindow;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 #endif
+    struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 typedef struct video_canvas_s video_canvas_t;
 

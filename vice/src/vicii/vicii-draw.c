@@ -54,8 +54,7 @@ static WORD mcmsktable[512];
 static void draw_std_background(int start_pixel, int end_pixel)
 {
     vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-               RASTER_PIXEL(&vic_ii.raster,
-               vic_ii.raster.overscan_background_color),
+               vic_ii.raster.overscan_background_color,
                end_pixel - start_pixel + 1);
 }
 
@@ -189,7 +188,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
         BYTE f;
 
         b = char_ptr[vic_ii.vbuf[i] * 8];
-        f = RASTER_PIXEL(&vic_ii.raster, vic_ii.cbuf[i]);
+        f = vic_ii.cbuf[i];
 
         *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         DRAW_STD_TEXT_BYTE(p, b, f);
@@ -309,37 +308,32 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 
 inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 {
-    WORD c[7];
+    BYTE c[12];
     BYTE *char_ptr;
+	WORD *ptmp;
     unsigned int i;
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
 
-    c[0] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.raster.background_color);
-    c[1] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.ext_background_color[0]);
-    c[2] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.ext_background_color[1]);
-    *((BYTE *)c + 8) = *((BYTE *)c + 11)
-        = RASTER_PIXEL(&vic_ii.raster, vic_ii.raster.background_color);
+    c[1] = c[0] = vic_ii.raster.background_color;
+    c[3] = c[2] = vic_ii.ext_background_color[0];
+    c[5] = c[4] = vic_ii.ext_background_color[1];
+    c[11] = c[8] = vic_ii.raster.background_color;
 
+	ptmp = (WORD *)(p + xs*8);
     for (i = xs; i <= xe; i++) {
-        unsigned int d = *(char_ptr + vic_ii.vbuf[i] * 8);
-        unsigned int k = (vic_ii.cbuf[i] & 0x8) << 5;
+        unsigned int d = (*(char_ptr + vic_ii.vbuf[i] * 8))
+			| ((vic_ii.cbuf[i] & 0x8) << 5);
 
-        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[k | d];
+        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d];
 
-#ifdef ALLOW_UNALIGNED_ACCESS
-        c[3] = *((WORD *)((BYTE *)c + 9))
-            = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
-#else
-        c[3] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7);
-        *(((BYTE *)c) + 9) = *(((BYTE *)c) + 10)
-            = (BYTE)(RASTER_PIXEL2(&vic_ii.raster, vic_ii.cbuf[i] & 0x7));
-#endif
+        c[10] = c[9] = c[7] = c[6] = vic_ii.cbuf[i] & 0x7;
 
-        *((WORD *)p + 4 * i) = c[mc_table[k | d]];
-        *((WORD *)p + 4 * i + 1) = c[mc_table[0x200 + (k | d)]];
-        *((WORD *)p + 4 * i + 2) = c[mc_table[0x400 + (k | d)]];
-        *((WORD *)p + 4 * i + 3) = c[mc_table[0x600 + (k | d)]];
+        ptmp[0] = ((WORD *)c)[mc_table[        d]];
+        ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
+        ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
+        ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
+		ptmp += 4;
     }
 }
 
@@ -399,8 +393,8 @@ static void draw_mc_text_foreground(int start_char, int end_char)
     unsigned int i;
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
-    c1 = RASTER_PIXEL(&vic_ii.raster, vic_ii.ext_background_color[0]);
-    c2 = RASTER_PIXEL(&vic_ii.raster, vic_ii.ext_background_color[1]);
+    c1 = vic_ii.ext_background_color[0];
+    c2 = vic_ii.ext_background_color[1];
     p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
         + vic_ii.raster.xsmooth + 8 * start_char);
 
@@ -413,14 +407,14 @@ static void draw_mc_text_foreground(int start_char, int end_char)
         if (c & 0x8) {
             BYTE c3;
 
-            c3 = RASTER_PIXEL(&vic_ii.raster, c & 0x7);
+            c3 = c & 0x7;
             DRAW_MC_BYTE (p, b, c1, c2, c3);
             *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
                 = mcmsktable[0x100 + b];
         } else {
             BYTE c3;
 
-            c3 = RASTER_PIXEL(&vic_ii.raster, c);
+            c3 = c;
             DRAW_STD_TEXT_BYTE(p, b, c3);
             *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
         }
@@ -470,15 +464,16 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 
 inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 {
-    BYTE *colptr, *bmptr;
-    WORD c[4];
+    BYTE *colptr, *bmptr, *ptmp;
+	BYTE c[4];
     unsigned int i, j;
 
     colptr = vic_ii.cbuf;
     bmptr = vic_ii.bitmap_ptr;
 
-    c[0] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.raster.background_color);
+    c[0] = vic_ii.raster.background_color;
 
+	ptmp = p + xs * 8;
     for (j = ((vic_ii.memptr << 3) + vic_ii.raster.ycounter + xs * 8) & 0x1fff,
         i = xs; i <= xe; i++, j = (j + 8) & 0x1fff) {
 
@@ -488,14 +483,15 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 
         *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
 
-        c[1] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.vbuf[i] >> 4);
-        c[2] = RASTER_PIXEL2(&vic_ii.raster, vic_ii.vbuf[i] & 0xf);
-        c[3] = RASTER_PIXEL2(&vic_ii.raster, colptr[i]);
+        c[1] = vic_ii.vbuf[i] >> 4;
+        c[2] = vic_ii.vbuf[i] & 0xf;
+        c[3] = colptr[i];
 
-        *((WORD *)p + 4 * i) = c[mc_table[0x100 + d]];
-        *((WORD *)p + 4 * i + 1) = c[mc_table[0x300 + d]];
-        *((WORD *)p + 4 * i + 2) = c[mc_table[0x500 + d]];
-        *((WORD *)p + 4 * i + 3) = c[mc_table[0x700 + d]];
+		ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
+		ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
+		ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+		ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+		ptmp += 8;
     }
 }
 
@@ -528,9 +524,9 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
         BYTE c1, c2, c3;
         BYTE b;
 
-        c1 = RASTER_PIXEL(&vic_ii.raster, vic_ii.vbuf[i] >> 4);
-        c2 = RASTER_PIXEL(&vic_ii.raster, vic_ii.vbuf[i] & 0xf);
-        c3 = RASTER_PIXEL(&vic_ii.raster, vic_ii.cbuf[i]);
+        c1 = vic_ii.vbuf[i] >> 4;
+        c2 = vic_ii.vbuf[i] & 0xf;
+        c3 = vic_ii.cbuf[i];
         b = bmptr[j];
 
         *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
@@ -641,19 +637,12 @@ static void draw_ext_text_foreground(int start_char, int end_char)
         int bg_idx;
 
         b = char_ptr[(vic_ii.vbuf[i] & 0x3f) * 8];
-        f = RASTER_PIXEL(&vic_ii.raster, vic_ii.cbuf[i]);
+        f = vic_ii.cbuf[i];
         bg_idx = vic_ii.vbuf[i] >> 6;
 
         if (bg_idx > 0) {
-#ifdef ALLOW_UNALIGNED_ACCESS
-            *((DWORD *)p) = *((DWORD *) p + 1) =
-                RASTER_PIXEL4(&vic_ii.raster,
-                              vic_ii.ext_background_color[bg_idx - 1]);
-#else
-            p[0] = p[1] = p[2] = p[3] = p[4] = p[5] = p[6] = p[7] =
-                RASTER_PIXEL(&vic_ii.raster,
-                             vic_ii.ext_background_color[bg_idx - 1]);
-#endif
+            p[7] = p[6] = p[5] = p[4] = p[3] = p[2] = p[1] = p[0] =
+                             vic_ii.ext_background_color[bg_idx - 1];
         }
 
         *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i) = b;
@@ -688,7 +677,7 @@ static void draw_black(void)
     p = (vic_ii.raster.draw_buffer_ptr
         + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
 
-    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+    vid_memset(p, 0,
                VIC_II_SCREEN_TEXTCOLS * 8);
 
     /* FIXME: this is not exact! */
@@ -703,7 +692,7 @@ static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
     p = (vic_ii.raster.draw_buffer_ptr
         + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
 
-    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+    vid_memset(p, 0,
                VIC_II_SCREEN_TEXTCOLS * 8);
 
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
@@ -718,7 +707,7 @@ static void draw_black_foreground(int start_char, int end_char)
         + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
         8 * start_char));
 
-    vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+    vid_memset(p, 0,
                (end_char - start_char + 1) * 8);
 
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
@@ -758,7 +747,7 @@ inline static void _draw_idle(int xs, int xe, BYTE *gfx_msk_ptr)
 #endif
 
     if (VIC_II_IS_ILLEGAL_MODE(vic_ii.raster.video_mode))
-        vid_memset(p, RASTER_PIXEL(&vic_ii.raster, 0),
+        vid_memset(p, 0,
                    VIC_II_SCREEN_XPIX);
 	else {
         /* The foreground color is always black (0).  */
@@ -804,7 +793,7 @@ static void draw_idle_foreground(int start_char, int end_char)
 
     p = (vic_ii.raster.draw_buffer_ptr +vic_ii.screen_borderwidth
         + vic_ii.raster.xsmooth);
-    c = RASTER_PIXEL(&vic_ii.raster, 0);
+    c = 0;
     d = (BYTE) vic_ii.idle_data;
 
     for (i = start_char; i <= end_char; i++) {
@@ -893,8 +882,8 @@ static void init_drawing_tables(void)
                 BYTE *p;
                 int offset;
 
-                fp = RASTER_PIXEL(&vic_ii.raster, f);
-                bp = RASTER_PIXEL(&vic_ii.raster, b);
+                fp = f;
+                bp = b;
                 offset = (f << 8) | (b << 4);
                 p = (BYTE *)(hr_table + offset + i);
 

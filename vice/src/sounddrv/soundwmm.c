@@ -477,17 +477,19 @@ static int wmm_write(SWORD *pbuf, size_t nr)
 static int wmm_suspend(void)
 {
     int c, i;
-    SWORD *p = (SWORD *)xmalloc(fragment_size * num_fragments * num_of_channels * sizeof(SWORD));
+    SWORD *p = (SWORD *)xmalloc(fragment_size * num_of_channels * sizeof(SWORD));
 
     if (!p)
         return 0;
 
     for (c = 0; c < num_of_channels; c++) {
-        for (i = 0; i < fragment_size * num_fragments; i++) 
+        for (i = 0; i < fragment_size; i++) 
             p[i * num_of_channels + c] = last_buffered_sample[c];
     }
+    
+    for (i = 0; i < num_fragments; i++)
+        wmm_write(p, fragment_size * num_of_channels);
 
-    i = wmm_write(p, fragment_size * num_fragments * num_of_channels);
     free(p);
 
     return 0;
