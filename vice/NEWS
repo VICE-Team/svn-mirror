@@ -7,6 +7,23 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 0.16.1a
+=========================
+
+** MS-DOS changes
+-----------------
+
+- The joystick support has been fixed.
+
+** MS-Windows changes
+---------------------
+
+- Full joystick support has been added.
+
+- There are some more UI elements for sound and drive coupling (PAL/NTSC)
+  now.
+
+
 * Changes in VICE 0.16.1
 ========================
 
