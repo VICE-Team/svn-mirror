@@ -29,6 +29,7 @@
 
 #include "config.h"		/* [EP] 04/07/97 */
 #include "utils.h"		/* [AF] 26jun98 */
+#include "archdep.h"		/* [AF] 19may99 */
 
 #include <stdio.h>
 #include <stdlib.h>		/* [EP] 10/15/96 */
@@ -1443,9 +1444,9 @@ XfwfFileSelectorWidget fsw;
 	        char *p = strchr(FSCurrentDirectory(fsw), '/');
 
 		if (p == NULL)
-			strcpy(dir, getenv("HOME"));
+			strcpy(dir, archdep_home_path());
 		else
-		        sprintf (dir, "%s/%s", getenv("HOME"), p + 1);
+		        sprintf (dir, "%s/%s", archdep_home_path(), p + 1);
 	}
 	else
 	{
@@ -1594,10 +1595,10 @@ static void UpdateTextLines(fsw)
 XfwfFileSelectorWidget fsw;
 {
         /* [EP] 10/31/96: display '~' for $HOME */
-        char tmpstr[2*MAXPATHLEN + 1], *home;
+        char tmpstr[2*MAXPATHLEN + 1];
+	const char *home = archdep_home_path();
 	int l;
 
-	home = getenv ("HOME");
         l = strlen (home);
         if (!strncmp (FSCurrentDirectory(fsw), home, l)
 	    && strlen (FSCurrentDirectory(fsw) - l + 1) < MAXPATHLEN) /* safety... */

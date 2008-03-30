@@ -1,3 +1,123 @@
+1999-05-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.18.
+
+	* arch/unix/xaw/ui.c (vidmode_available): Fixed typo.
+
+	* (_draw_idle): Use `vic_ii.raster.frame_buffer_ptr' instead of
+	`frame_buffer_ptr'.
+
+	* * archapi.h: (archdep_home_path): Move prototype to
+	`arch/unix/archdep.h' as this is no *common* system-specific
+	function.
+
+	* arch/unix/xaw/widgets/FileSel.c: #include "archdep.h".
+
+1998-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/archdep.c (archdep_home_path): check return values
+	of getpwuid(). Make function non-static.
+
+	* arch/unix/xaw/widgets/FileSel.c: include archapi.h
+	(GotoDeepestLegalDirectory, UpdateTextLines): call 
+	archdep_home_path() instead of getenv().
+
+	* archapi.h: protect with #ifdef _ARCHAPI_H, include <stdarg.h>
+	(archdep_home_path): new prototype
+
+1998-05-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drive.h (A_*): remove bogus alarm definitions
+	(I_*): remove bogus interrupt definitions
+
+	* configure.in: add src/crtc/Makefile to list of Makefiles
+
+	* Makefile.am: add crtc to subdirectories, remove crtc.h, crtccore.c
+	add crtc_lib and clean up xpet and xcbm2 build rules
+
+	* crtc/Makefile.am: new file
+
+	* crtc/crtc-cmdline-options.c, crtc/crtc-cmdline-options.h,
+	crtc/crtc-draw.c, crtc/crtc-draw.h, crtc/crtc-mem.c, crtc/crtc-mem.h,
+	crtc/crtc-resources.c, crtc/crtc-resources.h, 
+	crtc/crtc-snapshot.c, crtc/crtc-snapshot.h,
+	crtc/crtc.c, crtc/crtc.h: new files, crudely broken out of 
+	the old crtccore.c
+
+	* crtc.h, crtccore.c: removed
+
+1998-05-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/msdos/archdep.c (archdep_expand_path): new function to 
+	return a malloc´d string containing the full absolute path of 
+	the given file name (taken from zfile.c)
+	* arch/riscos/archdep.c: likewise
+	* arch/unix/archdep.c: likewise
+	* arch/win32/archdep.c: likewise
+
+	* archapi.h (archdep_expand_path): mew prototype
+
+	* drive/drive.c (drive_sync_found): moved from behind 
+	drive_rotate_disk() to before drive_rotate_disk(), allow the 
+	compiler to inline it.
+	(drive_read_image_snapshot_module): call zfile_close_action() to
+	mark the image file read from a snapshot for request/deletion
+
+	* zfile.c (struct zfile): add action-on-close and request string
+	(zfile_list_add): call archdep_expand_path() to get full path.
+	Allow a tmp_name of NULL (for uncompressed files)
+	(zopen, zfopen): keep also track of uncompressed files by also calling
+	zfile_list_add() for them.
+	(handle_close_action): check the action-on-close the file is set to.
+	If ZFILE_REQUEST, it should at some point in time open a requester
+	to ask whether to save the file or remove it.
+	If ZFILE_DEL, simply remove the original file as well. 
+	The default, ZFILE_KEEP, does not do anything to the original file.
+	(handle_close): handle the cases where tmp_name is NULL, and free
+	the request_string
+	(zclose_all): likewise
+	(zfile_close_action): set the action to do when the file is being
+	closed. Save the request_string that might be given to a requester
+	as description of the file.
+
+	* zfile.h (zfile_action_t): new enum to number the file actions
+	to do on zfile close
+	(zfile_close_action): new prototype
+
+1999-05-19  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/xaw/ui.c 
+	(ui_enable_drive_status): Added support to map drives to widgets
+	in `norma' disk emulation mode.
+	(ui_display_drive_current_image): Moved widget filling to seperate
+	function.
+	(ui_display_drive_current_image2): New Function. Fills the widgets
+	according to drive-widget mapping.
+	(last_attached_images): image name cache of last attached images.
+
+1999-05-18  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/xaw/ui.c: (drive_widgets): Added widget for displaying
+	the currently attached image.
+	(ui_open_canvas_window): 
+	Changed hardcoded array values of `2' to `NUM_DRIVES' in variable
+	definitions. 
+	Added creation of new `current_image_widgets'.
+	(ui_enable_drive_status): 
+	Changed drive-to-widget-mapping to fill the widgets starting from
+	widget 0 (top-to-bottom), and adopted the `Realize' and
+	`UnRealize' order accordingly.
+	(ui_display_drive_current_image): New function, which fills the
+	widget for a drive with the image name currently attached.
+
+	* arch/riscos/ui.h: added prototype for
+	`ui_display_drive_current_image()'
+	arch/win32/ui.h: ditto.
+	arch/msdos/ui.h: ditto.
+	* arch/riscos/ui.c: added dummy for ui_display_drive_current_image()'
+	arch/win32/ui.c: ditto.
+	arch/msdos/ui.c: ditto.
+
 1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.17.
