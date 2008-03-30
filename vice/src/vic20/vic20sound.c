@@ -337,6 +337,7 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     sound_t		*psid;
 
     psid = xmalloc(sizeof(*psid));
+    memset(psid, 0, sizeof(psid));
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {

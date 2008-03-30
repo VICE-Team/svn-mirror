@@ -104,6 +104,7 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     int				 i;
 
     psid = xmalloc(sizeof(*psid));
+    memset(psid, 0, sizeof(psid));
     psid->speed = speed;
     psid->cycles_per_sec = cycles_per_sec;
     if (!psid->t)
