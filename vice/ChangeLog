@@ -1,3 +1,11 @@
+2003-06-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.1.
+
+	* configure.in: Define `UNSTABLE'.
+
+	* acconfig.h: Removed definition for `UNSTABLE'.
+
 2003-06-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.

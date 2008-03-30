@@ -240,6 +240,8 @@ libraster_a_SOURCES = \
 	raster-changes.h \
 	raster-cmdline-options.c \
 	raster-cmdline-options.h \
+	raster-line-changes-sprite.c \
+	raster-line-changes.c \
 	raster-line.c \
 	raster-line.h \
 	raster-modes.c \
@@ -265,10 +267,11 @@ libraster_a_AR = $(AR) cru
 libraster_a_LIBADD =
 am_libraster_a_OBJECTS = raster-cache.$(OBJEXT) raster-canvas.$(OBJEXT) \
 	raster-changes.$(OBJEXT) raster-cmdline-options.$(OBJEXT) \
-	raster-line.$(OBJEXT) raster-modes.$(OBJEXT) \
-	raster-resources.$(OBJEXT) raster-sprite.$(OBJEXT) \
-	raster-sprite-status.$(OBJEXT) raster-sprite-cache.$(OBJEXT) \
-	raster.$(OBJEXT)
+	raster-line-changes-sprite.$(OBJEXT) \
+	raster-line-changes.$(OBJEXT) raster-line.$(OBJEXT) \
+	raster-modes.$(OBJEXT) raster-resources.$(OBJEXT) \
+	raster-sprite.$(OBJEXT) raster-sprite-status.$(OBJEXT) \
+	raster-sprite-cache.$(OBJEXT) raster.$(OBJEXT)
 libraster_a_OBJECTS = $(am_libraster_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -278,6 +281,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/raster-canvas.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/raster-changes.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/raster-cmdline-options.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/raster-line-changes-sprite.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/raster-line-changes.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/raster-line.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/raster-modes.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/raster-resources.Po \
@@ -319,6 +324,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-canvas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-cmdline-options.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-line-changes-sprite.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-line-changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-line.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-modes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raster-resources.Po@am__quote@

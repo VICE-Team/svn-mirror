@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.12
+ VERSION=1.12.1
 
 
 cat >>confdefs.h <<_ACEOF
@@ -1696,6 +1696,11 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 
 
 
+cat >>confdefs.h <<\_ACEOF
+#define UNSTABLE
+_ACEOF
+
+
 is_dos=no
 is_win32=no
 is_riscos=no
@@ -1820,6 +1825,7 @@ if test "${enable_realdevice+set}" = set; then
   enableval="$enable_realdevice"
 
 fi;
+
 
 if test x"$enable_gnomeui" = "xyes" ; then
   cat >>confdefs.h <<\_ACEOF

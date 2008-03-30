@@ -1,3 +1,60 @@
+2003-06-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.1.
+
+	* vicii/vicii-mem.c (vicii_local_store_vbank): Made static.
+
+	* plus4/ted-mem.c (ted_local_store_vbank,
+	ted_local_store_vbank_32k, ted_local_store_vbank_16k): Made
+	static.
+
+	* vicii/vicii.c, vdc/vdc.c, vic20/vic.c, crtc/crtc.c,
+	plus4/ted.c: Init raster line changes.
+
+	* raster/raster-line-changes.c,
+	raster/raster-line-changes-sprite.c: New files.
+
+	* raster/Makefile.am, arch/win32/raster.dsp: Added new files.
+
+	* raster/raster-line.c, raster/raster-line.h, raster/raster.h:
+	Moved line changes code to separate files.
+
+	* drive/tcbm/tpid.h, drive/tcbm/tpid.c: Fixed warnings.
+
+	* fsdevice/fsdevice.c, vdrive/vdrive-command.c,
+	vdrive/vdrive-command.h, vdrive/vdrive.h
+	(vdrive_command_errortext): New function.
+
+2003-06-09  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/joy.c: Include lib.h.
+	(EnumJoyAxes, EnumJoyButtons, joystick_release_axes,
+	joystick_release_buttons, joystick_release_joysticks,
+	joystick_di_open, joystick_di_close) New functions.
+	(set_joystick_device_1, set_joystick_device_2): Handle DX5
+	paths.
+	(EnumCallBack): New function.
+	(joy_arch_init): Try DX5 interface, if fails fall back to DX3.
+	(joystick_close): Clean up DX5 objects.
+	(joystick_di5_update): New function.
+	(joystick_update): Handle DX5 path.
+	(handle_keyset_mapping, josytick_handle_key): Updated resource
+	variable name.
+	(joystick_ui_get_device_list, joystick_ui_get_autofire_axes):
+	New functions.
+
+	* arch/win32/joy.h (joystick_device_t): Updated to int,
+	defined enum values.
+
+	* arch/win32/uijoystick.c (init_joystick_dialog): Dinamically
+	build joystick names, and joystick axis names, if DX5 is
+	 available.
+	(rebuild_axis_list_1, rebuild_axis_list_2): New functions,
+	rebuild autofire axis select listbox contents if joystick
+	selection changes.
+	(dialog_proc): Update resource, if joystick selection changes.
+	Restore original device resources, if Cancel selected.
+
 2003-06-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.

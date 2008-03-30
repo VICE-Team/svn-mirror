@@ -30,9 +30,13 @@
 #include "joy.h"
 #include "winmain.h"
 
-/*  This is in joystick.c . */
-void joystick_calibrate(HWND hwnd);
+/*  These are in joystick.c . */
+extern void joystick_calibrate(HWND hwnd);
+extern void joystick_ui_get_device_list(HWND joy_hwnd);
+extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
 
+static int joy1;
+static int joy2;
 static int current_keyset_index;
 static int current_key_index;
 
@@ -277,56 +281,72 @@ static void init_joystick_dialog(HWND hwnd)
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Numpad + RCtrl");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset A");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
+    joystick_ui_get_device_list(joy_hwnd);
     resources_get_value("JoyDevice1", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
-    device = res_value;
+    joy1 = device = res_value;
 
     resources_get_value("JoyAutofire1Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire1Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
-                            ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
-                            && (res_value == 0));
+                            (device >= JOYDEV_HW1) && (res_value == 0));
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
-                            (device == JOYDEV_HW1) || (device == JOYDEV_HW2));
+                            (device >= JOYDEV_HW1));
 
     joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"None");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Numpad + RCtrl");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset A");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
+    joystick_ui_get_device_list(joy_hwnd);
     resources_get_value("JoyDevice2", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
-    device = res_value;
+    joy2 = device = res_value;
 
     resources_get_value("JoyAutofire2Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire2Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
-                            ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
-                            && (res_value == 0));
+                            (device >= JOYDEV_HW1) && (res_value == 0));
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
-                            (device == JOYDEV_HW1) || (device == JOYDEV_HW2));
+                            (device >= JOYDEV_HW1));
 
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_inited);
+}
+
+static void rebuild_axis_list_1(HWND hwnd, int device)
+{
+HWND    joy_hwnd;
+int     res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_value("JoyAutofire1Axis", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_axis_list_2(HWND hwnd, int device)
+{
+HWND    joy_hwnd;
+int     res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
+    joystick_ui_get_autofire_axes(joy_hwnd, device);
+    resources_get_value("JoyAutofire2Axis", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -358,29 +378,32 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_DEV1:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
+                resources_set_value("JoyDevice1",
+                                    (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                    IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
                                                CB_GETCURSEL, 0, 0);
+                if (res_value >= JOYDEV_HW1) rebuild_axis_list_1(hwnd, res_value);
                 axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
-                             ((res_value == JOYDEV_HW1)
-                             || (res_value == JOYDEV_HW2)) && (axis == 0));
+                             (res_value >= JOYDEV_HW1) && (axis == 0));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
-                             (res_value == JOYDEV_HW1)
-                             || (res_value == JOYDEV_HW2));
+                             (res_value >= JOYDEV_HW1));
             }
             return TRUE;
           case IDC_JOY_DEV2:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
+                resources_set_value("JoyDevice2",
+                                    (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                    IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
                                                CB_GETCURSEL, 0, 0);
-                axis = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS,
-                                          CB_GETCURSEL, 0, 0);
+                if (res_value >= JOYDEV_HW1) rebuild_axis_list_2(hwnd, res_value);
+                axis = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_GETCURSEL, 0, 0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
-                             ((res_value == JOYDEV_HW1)
-                             || (res_value == JOYDEV_HW2)) && (axis == 0));
+                             (res_value >= JOYDEV_HW1) && (axis == 0));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
-                             (res_value == JOYDEV_HW1)
-                             || (res_value == JOYDEV_HW2));
+                             (res_value >= JOYDEV_HW1));
             }
             return TRUE;
           case IDC_JOY_FIRE1_AXIS:
@@ -438,7 +461,13 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             resources_set_value("JoyAutofire2Axis",
                                 (resource_value_t)SendMessage(GetDlgItem(hwnd,
                                 IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
+            EndDialog(hwnd,0);
+            return TRUE;
           case IDCANCEL:
+            resources_set_value("JoyDevice1",
+                                (resource_value_t)joy1);
+            resources_set_value("JoyDevice2",
+                                (resource_value_t)joy2);
             EndDialog(hwnd,0);
             return TRUE;
         }

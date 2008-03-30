@@ -29,14 +29,14 @@
 
 #include "kbd.h"
 
-typedef enum {
-    JOYDEV_NONE,
-    JOYDEV_NUMPAD,
-    JOYDEV_KEYSET1,
-    JOYDEV_KEYSET2,
-    JOYDEV_HW1,
-    JOYDEV_HW2
-} joystick_device_t;
+typedef int joystick_device_t;
+
+#define JOYDEV_NONE     0
+#define JOYDEV_NUMPAD   1
+#define JOYDEV_KEYSET1  2
+#define JOYDEV_KEYSET2  3
+#define JOYDEV_HW1      4
+#define JOYDEV_HW2      5
 
 typedef enum {
     KEYSET_NW,
