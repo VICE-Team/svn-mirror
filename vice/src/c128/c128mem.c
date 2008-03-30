@@ -57,6 +57,14 @@
 #include "vdc.h"
 #include "../c64/vicii.h"
 
+/* #define DEBUG_MMU */
+
+#ifdef DEBUG_MMU
+#define DEBUG(x) printf x
+#else
+#define DEBUG(x)
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* C128 memory-related resources.  */
@@ -319,10 +327,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 basic_hi_in = !(value & 0xc);
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
                 ram_bank = ram + (((long) value & 0x40) << 10); /* (only 128K) */
-#if 0
-                printf("MMU: Store CR = $%02x\n", value);
-                printf("MMU: RAM bank at $%05X\n", ram_bank - ram);
-#endif
+                DEBUG(("MMU: Store CR = $%02x\n", value));
+                DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
             }
             break;
 
@@ -331,9 +337,11 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
             {
                 int shared_size;
 
-                /* FIXME: Video bank handling missing.  */
+                vic_ii_set_ram_base(ram + ((value & 0xc0) << 2));
 
-                printf("MMU: Store RCR = $%02x\n", value);
+                DEBUG(("MMU: Store RCR = $%02x\n", value));
+                DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
+
                 if (value & 0x3)
                     shared_size = 0x1000 << (value & 0x3);
                 else
@@ -342,21 +350,21 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 /* Share high memory?  */
                 if (value & 0x8) {
                     top_shared_limit = 0xffff - shared_size;
-                    printf("MMU: Sharing high RAM from $%04X\n",
-                           top_shared_limit + 1);
+                    DEBUG(("MMU: Sharing high RAM from $%04X\n",
+                           top_shared_limit + 1));
                 } else {
                     top_shared_limit = 0xffff;
-                    printf("MMU: No high shared RAM\n");
+                    DEBUG(("MMU: No high shared RAM\n"));
                 }
 
                 /* Share low memory?  */
                 if (value & 0x4) {
                     bottom_shared_limit = shared_size;
-                    printf("MMU: Sharing low RAM up to $%04X\n",
-                           bottom_shared_limit - 1);
+                    DEBUG(("MMU: Sharing low RAM up to $%04X\n",
+                           bottom_shared_limit - 1));
                 } else {
                     bottom_shared_limit = 0;
-                    printf("MMU: No low shared RAM\n");
+                    DEBUG(("MMU: No low shared RAM\n"));
                 }
             }
             break;
@@ -377,8 +385,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                          + (mmu[0x7] << 8));
             page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
                         + (mmu[0x9] << 8));
-            printf("MMU: Page Zero at $%05X, Page One at $%05X\n",
-                   page_zero - ram, page_one - ram);
+            DEBUG(("MMU: Page Zero at $%05X, Page One at $%05X\n",
+                   page_zero - ram, page_one - ram));
             break;
         }
     }
@@ -439,6 +447,7 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
       case 0xe000:
       case 0xf000:
 	store_kernal(addr, value);
+        break;
       case 0x4000:
       case 0x5000:
       case 0x6000:
@@ -448,6 +457,7 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
       case 0xa000:
       case 0xb000:
 	store_basic(addr, value);
+        break;
     }
 }
 
@@ -466,6 +476,35 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 /* CPU Memory interface.  */
+
+/* The MMU can basically do the following:
+
+   - select one of the two (four) memory banks as the standard
+     (non-shared) memory;
+
+   - turn ROM and I/O on and off;
+
+   - enable/disable top/bottom shared RAM (from 1K to 16K, so bottom
+     shared RAM cannot go beyond $3FFF and top shared RAM cannot go
+     under $C000);
+
+   - move pages 0 and 1 to any physical address.  */
+
+#define READ_TOP_SHARED(addr)                           \
+    ((addr) > top_shared_limit ? ram[(addr)]            \
+                                : ram_bank[(addr)])
+
+#define STORE_TOP_SHARED(addr, value)                           \
+    ((addr) > top_shared_limit ? (ram[(addr)] = (value))        \
+                               : (ram_bank[(addr)] = (value)))
+
+#define READ_BOTTOM_SHARED(addr)                        \
+    ((addr) < bottom_shared_limit ? ram[(addr)]         \
+                                  : ram_bank[(addr)])
+
+#define STORE_BOTTOM_SHARED(addr, value)                                \
+    ((addr) < bottom_shared_limit ? (ram[(addr)] = (value))             \
+                                  : (ram_bank[(addr)] = (value)))
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
@@ -488,23 +527,18 @@ static void REGPARM2 store_one(ADDRESS addr, BYTE value)
 }
 
 
-/* $0200 - $3FFF: RAM (normal or shared) */
+/* $0200 - $3FFF: RAM (normal or shared).  */
 
 static BYTE REGPARM1 read_lo(ADDRESS addr)
 {
-    if (addr < bottom_shared_limit)
-        return ram[addr];
-    else
-        return ram_bank[addr];
+    return READ_BOTTOM_SHARED(addr);
 }
 
 static void REGPARM2 store_lo(ADDRESS addr, BYTE value)
 {
-    if (addr < bottom_shared_limit)
-        ram[addr] = value;
-    else
-        ram_bank[addr] = value;
+    STORE_BOTTOM_SHARED(addr, value);
 }
+
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
 
@@ -512,18 +546,13 @@ static BYTE REGPARM1 read_basic_lo(ADDRESS addr)
 {
     if (basic_lo_in)
         return basic_rom[addr - 0x4000];
-    else if (addr < bottom_shared_limit)
-        return ram[addr];
     else
         return ram_bank[addr];
 }
 
 static void REGPARM2 store_basic_lo(ADDRESS addr, BYTE value)
 {
-    if (addr < bottom_shared_limit)
-        ram[addr] = value;
-    else
-        ram_bank[addr] = value;
+    ram_bank[addr] = value;
 }
 
 
@@ -533,18 +562,13 @@ static BYTE REGPARM1 read_basic_hi(ADDRESS addr)
 {
     if (basic_hi_in) {
         return basic_rom[addr - 0x4000];
-    } else if (addr < bottom_shared_limit)
-        return ram[addr];
-    else
+    } else
         return ram_bank[addr];
 }
 
 static void REGPARM2 store_basic_hi(ADDRESS addr, BYTE value)
 {
-    if (addr < bottom_shared_limit)
-        ram[addr] = value;
-    else
-        ram_bank[addr] = value;
+    ram_bank[addr] = value;
 }
 
 
@@ -554,20 +578,13 @@ static BYTE REGPARM1 read_editor(ADDRESS addr)
 {
     if (editor_in)
         return basic_rom[addr - 0x4000];
-    else if (addr > top_shared_limit)
-        return ram[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
 {
-    if (!kernal_in) {
-        if (addr > top_shared_limit)
-            ram[addr] = value;
-        else
-            ram_bank[addr] = value;
-    }
+    STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_d0xx(ADDRESS addr)
@@ -577,7 +594,7 @@ static BYTE REGPARM1 read_d0xx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_d0xx(ADDRESS addr, BYTE value)
@@ -585,7 +602,7 @@ static void REGPARM2 store_d0xx(ADDRESS addr, BYTE value)
     if (io_in)
         store_vic(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_d4xx(ADDRESS addr)
@@ -595,7 +612,7 @@ static BYTE REGPARM1 read_d4xx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_d4xx(ADDRESS addr, BYTE value)
@@ -603,7 +620,7 @@ static void REGPARM2 store_d4xx(ADDRESS addr, BYTE value)
     if (io_in)
         store_sid(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_d5xx(ADDRESS addr)
@@ -613,7 +630,7 @@ static BYTE REGPARM1 read_d5xx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_d5xx(ADDRESS addr, BYTE value)
@@ -621,7 +638,7 @@ static void REGPARM2 store_d5xx(ADDRESS addr, BYTE value)
     if (io_in)
         store_mmu(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_d6xx(ADDRESS addr)
@@ -631,7 +648,7 @@ static BYTE REGPARM1 read_d6xx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
@@ -639,7 +656,7 @@ static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
     if (io_in)
         store_vdc(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_d8xx(ADDRESS addr)
@@ -649,7 +666,7 @@ static BYTE REGPARM1 read_d8xx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_d8xx(ADDRESS addr, BYTE value)
@@ -657,7 +674,7 @@ static void REGPARM2 store_d8xx(ADDRESS addr, BYTE value)
     if (io_in)
         store_colorram(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_dcxx(ADDRESS addr)
@@ -667,7 +684,7 @@ static BYTE REGPARM1 read_dcxx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_dcxx(ADDRESS addr, BYTE value)
@@ -675,7 +692,7 @@ static void REGPARM2 store_dcxx(ADDRESS addr, BYTE value)
     if (io_in)
         store_cia1(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_ddxx(ADDRESS addr)
@@ -685,7 +702,7 @@ static BYTE REGPARM1 read_ddxx(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_ddxx(ADDRESS addr, BYTE value)
@@ -693,7 +710,7 @@ static void REGPARM2 store_ddxx(ADDRESS addr, BYTE value)
     if (io_in)
         store_cia2(addr, value);
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
@@ -701,19 +718,14 @@ static BYTE REGPARM1 read_hi(ADDRESS addr)
 {
     if (kernal_in)
         return kernal_rom[addr & 0x1fff];
-    else if (addr > top_shared_limit)
-        return ram[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 /* $E000 - $FEFF: RAM or Kernal.  */
 static void REGPARM2 store_hi(ADDRESS addr, BYTE value)
 {
-    if (addr > top_shared_limit)
-        ram[addr] = value;
-    else
-        ram_bank[addr] = value;
+    STORE_TOP_SHARED(addr, value);
 }
 
 
@@ -725,10 +737,8 @@ static BYTE REGPARM1 read_ffxx(ADDRESS addr)
         return mmu[0];
     else if (kernal_in)
         return kernal_rom[addr & 0x1fff];
-    else if (addr > top_shared_limit)
-        return ram[addr];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
@@ -737,10 +747,8 @@ static void REGPARM2 store_ffxx(ADDRESS addr, BYTE value)
         store_mmu(0, value);
     else if (addr <= 0xff04)
         store_mmu(0, mmu[addr & 0xf]);
-    else if (addr > top_shared_limit)
-        ram[addr] = value;
     else
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 static BYTE REGPARM1 read_empty_io(ADDRESS addr)
@@ -750,13 +758,13 @@ static BYTE REGPARM1 read_empty_io(ADDRESS addr)
     else if (chargen_in)
         return chargen_rom[addr - 0xd000];
     else
-        return ram_bank[addr];
+        return READ_TOP_SHARED(addr);
 }
 
 static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
 {
     if (!io_in)
-        ram_bank[addr] = value;
+        STORE_TOP_SHARED(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
