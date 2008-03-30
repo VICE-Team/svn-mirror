@@ -35,6 +35,7 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
+#include "datasette.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -395,6 +396,7 @@ static void reset(void)
     /* Do machine-specific initialization.  */
     machine_reset();
 
+    datasette_reset();
 
     initialize_memory();
 }

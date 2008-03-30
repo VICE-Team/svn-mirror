@@ -1,5 +1,73 @@
 1999-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.7.
+
+	* datasette.c, datasette.h (datasette_reset): New function.
+
+	* maincpu.c (reset): Reset datasette.
+
+1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/fdc.c (int_fdc): handle job codes (return "no SYNC")
+	and head step.
+
+	* drive/riot1drive0.c (store_pb): disable bus when ATN is active.
+
+1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drive.h: remove bogus I_* and alarm definitions
+
+	* drive/drivecpucore.c (mydrive_read_watch, mydrive_store_watch):
+	fix address table access
+	(PAGE_ONE): define as pageone variable
+
+	* drive/riot1drive0.c (my_set_irq,  my_restore_irq): new (empty
+	definitions
+	(store_prb): invert byte sent, but only if ATN is set...
+	(riot1_set_pardata): re-set IEEE data bus, to be called when
+	ATN changes
+	(read_pra): invert IEEE data bus on read
+
+	* drive/riot2drive0.c (my_set_irq, my_restore_irq): 
+	new definitions
+	(set_handshake): fix handshake logic equations
+	(drive0_riot_set_atn): call riot1_set_pardata on ATN change
+	(read_pra): fix input bits
+	(read_prb): invert disk unit number bits
+
+	* drive/riotd.h (riot1_set_pardata): new prototype
+
+	* parallel.c (parallel_emu): new variable. Defaults to 1, if set
+	to 0, emulator does not respond to IEEE
+	(parallel_set_atn, parallel_clr_atn, parallel_set_dav,
+	parallel_clr_dav, parallel_set_nrfd, parallel_clr_nrfd,
+	parallel_set_ndac, parallel_clr_ndac): check parallel_emu
+
+	* riotcore.c (irqfl, edgectrl): new variables for PA7 irq handling
+	(myriot_signal): implement PA7 irq handling
+	(myriot_reset): clear irqfl, edgectrl.
+	(store_myriot): fix ioport handling; add PA7 interrupt edge control
+	(read_myriot): add PA7 interrupt edge control
+
+	* riotcore.h: include riot.h
+
+1998-05-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/Makefile.am: remove fdc0.c, fdc1.c, fdccore.c, add fdc.c
+
+	* drive/drivecpucore.c (reset): call fdc_reset instead of myfdc_reset
+	(mydrive_cpu_early_init): call fdc_init instead of myfdc_init
+
+	* drive/fdc.c: new file, copied from fdccore.c
+
+	* drive/fdc.h (fdc0_init, fdc0_reset, fdc1_init, fdc1_reset).
+	remove prototypes
+	(fdc_init, fdc_reset): new prototypes
+
+	* drive/fdc0.c, drive/fdc1.c, drive/fdccore.c. drive/fdccore.h; removed
+
+1999-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.6.
 
 1999-05-02  Dag Lem  <resid@nimrod.no>

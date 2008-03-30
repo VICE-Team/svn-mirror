@@ -738,9 +738,9 @@ main.o: main.c vice.h config.h arch/unix/archdep.h attach.h \
 	arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
 	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
-	mos6510.h interrupt.h machine.h resources.h traps.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h vdrive.h fs_cbm.h \
-	serial.h 6510core.c
+	mos6510.h interrupt.h datasette.h tap.h machine.h resources.h \
+	traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h vdrive.h \
+	fs_cbm.h serial.h 6510core.c
 memutils.o: memutils.c vice.h config.h memutils.h arch/unix/types.h \
 	log.h resources.h sysfile.h utils.h
 mon.o: mon.c vice.h config.h arch/unix/archdep.h asm.h arch/unix/types.h \

@@ -41,7 +41,7 @@ static int datasette_motor = 0;
 
 static alarm_t datasette_alarm;
 
-int datasette_read_bit(long offset)
+static int datasette_read_bit(long offset)
 {
     alarm_unset(&datasette_alarm);
     alarm_context_update_next_pending(datasette_alarm.context);
@@ -120,7 +120,7 @@ void datasette_set_tape_image(tap_t *image)
     current_image = image;
 }
 
-void datasette_forward(void)
+static void datasette_forward(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START
        || current_image->mode == DATASETTE_CONTROL_REWIND)
@@ -131,7 +131,7 @@ void datasette_forward(void)
     alarm_set(&datasette_alarm, clk + 1000);
 }
 
-void datasette_rewind(void)
+static void datasette_rewind(void)
 {
     if (current_image->mode == DATASETTE_CONTROL_START 
        || current_image->mode == DATASETTE_CONTROL_FORWARD)
@@ -140,6 +140,19 @@ void datasette_rewind(void)
         alarm_context_update_next_pending(datasette_alarm.context);
     }
     alarm_set(&datasette_alarm, clk + 1000);
+}
+
+void datasette_reset(void)
+{
+    if (current_image != NULL) {
+        if (current_image->mode == DATASETTE_CONTROL_START
+            || current_image->mode == DATASETTE_CONTROL_FORWARD
+            || current_image->mode == DATASETTE_CONTROL_REWIND)
+            alarm_unset(&datasette_alarm);
+        datasette_control(DATASETTE_CONTROL_STOP);
+        current_image->current_file_seek_position = 0;
+        fseek(current_image->fd, 0, SEEK_SET);
+    }
 }
 
 void datasette_control(int command)
