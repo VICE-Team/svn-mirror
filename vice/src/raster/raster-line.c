@@ -669,10 +669,15 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
 inline static void handle_visible_line_with_changes(raster_t *raster)
 {
     unsigned int i;
-    int xs, xstop;
+    int xs, xstop, old_draw_idle_state;
     geometry_t *geometry;
 
     geometry = raster->geometry;
+
+    /* Idle state is changed in both background and foreground. As background
+       changes may change the value, save the original value and restore it
+       later before processing the foreground changes.  */
+    old_draw_idle_state = raster->draw_idle_state;
 
     /* Draw the background.  */
     for (xs = i = 0; i < raster->changes.background.count; i++) {
@@ -692,6 +697,8 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
                                      get_real_mode(raster),
                                      xs,
                                      geometry->screen_size.width - 1);
+
+    raster->draw_idle_state = old_draw_idle_state;
 
     /* Draw the foreground graphics.  */
     for (xs = i = 0; i < raster->changes.foreground.count; i++) {

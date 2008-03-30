@@ -42,7 +42,6 @@ inline static void switch_to_display_state(int cycle)
                                      &vic_ii.raster.draw_idle_state, 0);
     raster_add_int_change_background(&vic_ii.raster, VIC_II_RASTER_X(cycle),
                                      &vic_ii.raster.draw_idle_state, 0);
-
     vic_ii.idle_state = 0;
     vic_ii.idle_data_location = IDLE_NONE;
 }
