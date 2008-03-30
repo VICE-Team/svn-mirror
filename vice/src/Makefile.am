@@ -153,7 +153,7 @@ x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
         @X_LIBS@ $(READLINE) -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
 x64-all: libc64 libsounddrv libtrue1541 libarch x64
 
@@ -163,7 +163,8 @@ x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
 	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
 	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(printer_ldadd) $(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
+	@ARCH_LIBS@
 .PHONY: x128-all
 x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
 
@@ -172,7 +173,7 @@ xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xvic-all
 xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
 
@@ -180,7 +181,7 @@ xvic-all: libvic20 libsounddrv libtrue1541 libarch xvic
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
 xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
-xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
+xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch xpet

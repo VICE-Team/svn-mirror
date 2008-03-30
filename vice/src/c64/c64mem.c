@@ -505,8 +505,10 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xde00) {
-        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-            cartridge_config_changed(value);
+	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
+	    cartridge_config_changed(value);
+    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+        cartridge_config_changed(1);
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -521,8 +523,10 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
         if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
             return rand();
     }
-    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-        return roml_banks[0x1e00 + (addr & 0xff)];
+    if (mem_cartridge_type == CARTRIDGE_KCS_POWER) {
+	cartridge_config_changed(0);
+	return roml_banks[0x1e00 + (addr & 0xff)];
+    }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         return read_acia1(addr & 0x03);
@@ -988,7 +992,9 @@ void mem_detach_cartridge(int type)
 void mem_freeze_cartridge(int type)
 {
     if (type == CARTRIDGE_ACTION_REPLAY)
-        cartridge_config_changed(35);
+	cartridge_config_changed(35);
+    if (type == CARTRIDGE_KCS_POWER)
+	cartridge_config_changed(3);
 }
 
 /* ------------------------------------------------------------------------- */

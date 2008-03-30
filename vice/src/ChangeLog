@@ -1,3 +1,17 @@
+Sun Jul 12 18:49:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Makefile.am: Added `printer_ldadd' to `x64_DEPENDENCIES',
+ 	`x128_DEPENDENCIES', `xvic_DEPENDENCIES' and `xpet_DEPENDENCIES'
+
+Fri Jul 10 23:37:04 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c64/c64mem.c (store_io1, read_io1): Added banking for KCS
+	power cartridge.
+	(mem_freeze_cartridge): Added KCS freeze configuration.
+
+	* cartridge.c (cartridge_trigger_freeze): Handle freeze function
+	for KCS power cartridge too.
+
 Fri Jul 10 21:55:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/joystick.c (joystick_init): Display joystick

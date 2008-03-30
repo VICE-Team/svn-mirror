@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c64/c64tpi.c
- * This file is generated from ../../../src/tpi-tmpl.c and ../../../src/c64/c64tpi.def,
+ * ../../src/c64/c64tpi.c
+ * This file is generated from ../../src/tpi-tmpl.c and ../../src/c64/c64tpi.def,
  * Do not edit!
  */
 /*

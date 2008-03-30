@@ -230,9 +230,10 @@ void cartridge_set_default(void)
 void cartridge_trigger_freeze(void)
 {
     if (crttype != CARTRIDGE_ACTION_REPLAY 
-        && carttype != CARTRIDGE_ACTION_REPLAY)
+        && carttype != CARTRIDGE_ACTION_REPLAY
+        && crttype != CARTRIDGE_KCS_POWER)
 	return;
-    mem_freeze_cartridge(CARTRIDGE_ACTION_REPLAY);
+    mem_freeze_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
     maincpu_set_nmi(I_FREEZE, IK_NMI);
 }
 
