@@ -30,21 +30,16 @@
 #include <string.h>
 #include <tchar.h>
 #include <windows.h>
-#include <commdlg.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
 #include "ui.h"
 #include "uic128.h"
+#include "uilib.h"
 #include "winmain.h"
-
-
-/* Mingw & pre VC 6 headers doesn't have this definition */
-#ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
-#endif
 
 
 static const TCHAR *ui_machine[] = 
@@ -174,46 +169,23 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
             {
-                TCHAR name[MAX_PATH];
+                TCHAR *st_name;
 
-                OPENFILENAME ofn;
-                memset(name, 0, sizeof(name));
-
-                memset(&ofn, 0, sizeof(ofn));
-                ofn.lStructSize = sizeof(ofn);
-                ofn.hwndOwner = hwnd;
-                ofn.hInstance = winmain_instance;
-                ofn.lpstrFilter = TEXT("All files (*.*)\0*.*\0");
-                ofn.lpstrCustomFilter = NULL;
-                ofn.nMaxCustFilter = 0;
-                ofn.nFilterIndex = 1;
-                ofn.lpstrFile = name;
-                ofn.nMaxFile = sizeof(name);
-                ofn.lpstrFileTitle = NULL;
-                ofn.nMaxFileTitle = 0;
-                ofn.lpstrInitialDir = NULL;
-                ofn.lpstrTitle = TEXT("Select ROM image");
-                ofn.Flags = (OFN_EXPLORER
-                    | OFN_HIDEREADONLY
-                    | OFN_NOTESTFILECREATE
-                    | OFN_FILEMUSTEXIST
-                    | OFN_SHAREAWARE
-                    | OFN_ENABLESIZING);
-                ofn.nFileOffset = 0;
-                ofn.nFileExtension = 0;
-                ofn.lpstrDefExt = NULL;
-
-                if (command == IDC_C128_FUNCTIONROM_INTERNAL_BROWSE) {
-                    if (GetSaveFileName(&ofn))
+                st_name = uilib_select_file(hwnd, TEXT("Select ROM image"),
+                                            UILIB_FILTER_ALL,
+                                            UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                            UILIB_SELECTOR_STYLE_DEFAULT);
+                if (st_name != NULL) {
+                    if (command == IDC_C128_FUNCTIONROM_INTERNAL_BROWSE)
                         SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                        name);
-                } else {
-                    if (GetSaveFileName(&ofn))
+                                       st_name);
+                    else
                         SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                        name);
+                                       st_name);
+                    lib_free(st_name);
                 }
-                break;
             }
+            break;
         }
         return FALSE;
       case WM_NOTIFY:

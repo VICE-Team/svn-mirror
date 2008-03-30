@@ -142,9 +142,10 @@ FILE *ui_console_save_dialog(HWND hwnd)
         pfile = fopen(s, append_log ? "at+" : "wt");
 
         if (!pfile)
-            ui_error("Cannot write log filei `%s'.", s);
+            ui_error("Cannot write log file `%s'.", s);
 
         lib_free(s);
     }
     return pfile;
 }
+

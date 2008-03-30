@@ -38,10 +38,6 @@
 #include "uitfe.h"
 #include "winmain.h"
 
-/* Mingw & pre VC 6 headers doesn't have this definition */
-#ifndef OFN_ENABLESIZING
-#define OFN_ENABLESIZING    0x00800000
-#endif
 
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 {
@@ -72,7 +68,7 @@ static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 
 static int gray_ungray_items(HWND hwnd)
 {
-	int enable;
+    int enable;
     int number;
 
     int disabled = 0;
@@ -121,8 +117,8 @@ static void init_tfe_dialog(HWND hwnd)
     HWND temp_hwnd;
     int active_value;
 
-	int tfe_enabled;
-	int tfe_as_rr_net;
+    int tfe_enabled;
+    int tfe_as_rr_net;
 
     const char *interface_name;
 
@@ -188,9 +184,9 @@ static void init_tfe_dialog(HWND hwnd)
 static void save_tfe_dialog(HWND hwnd)
 {
     int active_value;
-	int tfe_enabled;
-	int tfe_as_rr_net;
-	char buffer[256];
+    int tfe_enabled;
+    int tfe_as_rr_net;
+    char buffer[256];
 
 	active_value = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), 
 		CB_GETCURSEL, 0, 0);
@@ -209,36 +205,35 @@ static void save_tfe_dialog(HWND hwnd)
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
+    switch (msg) {
+      case WM_COMMAND:
+        switch (LOWORD(wparam)) {
+          case IDOK:
+            save_tfe_dialog(hwnd);
+            /* FALL THROUGH */
 
-	switch (msg) {
-		case WM_COMMAND:
-			switch (LOWORD(wparam)) {
-				case IDOK:
-					save_tfe_dialog(hwnd);
-					/* FALL THROUGH */
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            return TRUE;
 
-				case IDCANCEL:
-					EndDialog(hwnd,0);
-					return TRUE;
+          case IDC_TFE_SETTINGS_INTERFACE:
+            /* FALL THROUGH */
 
-                case IDC_TFE_SETTINGS_INTERFACE:
-                    /* FALL THROUGH */
+          case IDC_TFE_SETTINGS_ENABLE:
+            gray_ungray_items(hwnd);
+            break;
+        }
+        return FALSE;
 
-                case IDC_TFE_SETTINGS_ENABLE:
-                    gray_ungray_items(hwnd);
-                    break;
-			}
-			return FALSE;
+      case WM_CLOSE:
+        EndDialog(hwnd,0);
+        return TRUE;
 
-		case WM_CLOSE:
-			EndDialog(hwnd,0);
-			return TRUE;
-
-		case WM_INITDIALOG:
-			init_tfe_dialog(hwnd);
-			return TRUE;
-	}
-	return FALSE;
+      case WM_INITDIALOG:
+        init_tfe_dialog(hwnd);
+        return TRUE;
+    }
+    return FALSE;
 }
 
 
@@ -249,3 +244,4 @@ void ui_tfe_settings_dialog(HWND hwnd)
 }
 
 #endif // #ifdef HAVE_TFE
+
