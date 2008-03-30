@@ -189,14 +189,16 @@ static void inline crtc_reset_screen_ptr(void)
         && (CRTC_SCREEN_ADDR() & crtc.vaddr_revswitch))) {
         /* standard mode */
         if (crtc.raster.video_mode != CRTC_STANDARD_MODE) {
-            raster_add_int_change_foreground (&crtc.raster, 0,
-                &crtc.raster.video_mode, CRTC_STANDARD_MODE);
+            raster_changes_foreground_add_int(&crtc.raster, 0,
+                                              &crtc.raster.video_mode,
+                                              CRTC_STANDARD_MODE);
         }
     } else {
         /* reverse mode */
         if (crtc.raster.video_mode != CRTC_REVERSE_MODE) {
-            raster_add_int_change_foreground (&crtc.raster, 0,
-                &crtc.raster.video_mode, CRTC_REVERSE_MODE);
+            raster_changes_foreground_add_int(&crtc.raster, 0,
+                                              &crtc.raster.video_mode,
+                                              CRTC_REVERSE_MODE);
         }
     }
 }

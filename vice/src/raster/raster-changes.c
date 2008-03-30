@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,14 +29,38 @@
 
 #include "lib.h"
 #include "raster-changes.h"
+#include "raster.h"
 
 
-void raster_changes_init(raster_changes_t *changes)
+void raster_changes_init(raster_t *raster)
 {
-    /* FIXME: More?  */
-    changes->count = 0;
+    raster->changes = (raster_changes_all_t *)lib_calloc(1,
+                      sizeof(raster_changes_all_t));    
+
+    raster->changes->background = (raster_changes_t *)lib_calloc(1,
+                                  sizeof(raster_changes_t)); 
+    raster->changes->foreground = (raster_changes_t *)lib_calloc(1,
+                                  sizeof(raster_changes_t));
+    raster->changes->border = (raster_changes_t *)lib_calloc(1,
+                              sizeof(raster_changes_t));
+    raster->changes->sprites = (raster_changes_t *)lib_calloc(1,
+                               sizeof(raster_changes_t));
+    raster->changes->next_line = (raster_changes_t *)lib_calloc(1,
+                                 sizeof(raster_changes_t));
 }
 
+void raster_changes_shutdown(raster_t *raster)
+{
+    lib_free(raster->changes->background);
+    lib_free(raster->changes->foreground);
+    lib_free(raster->changes->border);
+    lib_free(raster->changes->sprites);
+    lib_free(raster->changes->next_line);
+
+    lib_free(raster->changes);
+}
+
+#if 0
 raster_changes_t *raster_changes_new(void)
 {
     raster_changes_t *new_changes;
@@ -45,4 +70,5 @@ raster_changes_t *raster_changes_new(void)
 
     return new_changes;
 }
+#endif
 

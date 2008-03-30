@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +29,8 @@
 #define _RASTER_CHANGES_H
 
 #include "types.h"
+
+struct raster_s;
 
 /* This should be a lot more than what is actually needed.  */
 #define RASTER_CHANGES_MAX 512
@@ -86,8 +89,19 @@ struct raster_changes_s
 };
 typedef struct raster_changes_s raster_changes_t;
 
-extern void raster_changes_init(raster_changes_t *changes);
-extern raster_changes_t *raster_changes_new(void);
+struct raster_changes_all_s {
+    raster_changes_t *background;
+    raster_changes_t *foreground;
+    raster_changes_t *border;
+    raster_changes_t *sprites;
+    raster_changes_t *next_line;
+    int have_on_this_line;
+};
+typedef struct raster_changes_all_s raster_changes_all_t;
+
+extern void raster_changes_init(struct raster_s *raster);
+extern void raster_changes_shutdown(struct raster_s *raster);
+
 
 /* Inline functions.  These need to be *fast*.  */
 

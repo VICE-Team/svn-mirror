@@ -207,6 +207,8 @@ int raster_init(raster_t *raster,
 
     raster->modes = (raster_modes_t *)lib_malloc(sizeof(raster_modes_t));
     raster_modes_init(raster->modes, num_modes);
+    raster_canvas_init(raster);
+    raster_changes_init(raster);
 
     raster_reset(raster);
 
@@ -217,8 +219,6 @@ int raster_init(raster_t *raster,
     raster->cache_enabled = 0;
     raster->dont_cache = 1;
     raster->num_cached_lines = 0;
-
-    raster->update_area.is_null = 1;
 
     raster->fake_draw_buffer_line = NULL;
 
@@ -240,12 +240,12 @@ int raster_init(raster_t *raster,
 
 void raster_reset(raster_t *raster)
 {
-    raster_changes_remove_all(&raster->changes.background);
-    raster_changes_remove_all(&raster->changes.foreground);
-    raster_changes_remove_all(&raster->changes.border);
-    raster_changes_remove_all(&raster->changes.sprites);
-    raster_changes_remove_all(&raster->changes.next_line);
-    raster->changes.have_on_this_line = 0;
+    raster_changes_remove_all(raster->changes->background);
+    raster_changes_remove_all(raster->changes->foreground);
+    raster_changes_remove_all(raster->changes->border);
+    raster_changes_remove_all(raster->changes->sprites);
+    raster_changes_remove_all(raster->changes->next_line);
+    raster->changes->have_on_this_line = 0;
 
     raster->current_line = 0;
 
@@ -492,7 +492,10 @@ void raster_shutdown(raster_t *raster)
         lib_free(raster->modes);
     }
 
+    raster_changes_shutdown(raster);
+
     lib_free(raster->fake_draw_buffer_line);
+    raster_canvas_shutdown(raster);
 
     raster_resources_chip_shutdown(raster);
 
