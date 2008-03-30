@@ -1,3 +1,23 @@
+2002-11-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.17.
+
+2002-11-09  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/kbd.c (my_kbd_interrupt_handler): Test for
+	joystick_handle_key before calling the keyboard routines.
+
+2002-11-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64.dsp, c64c128.dsp, drive.dsp: Added missing
+	files.
+
+	* raster/raster-line.c (handle_visible_line_with_changes):
+	Replaced hard coded values with geometry variables.
+
+	* vicii/vicii-sprites.c (draw_all_sprites_partial): Test if
+	the sprite is inside the interval before drawing it.
+
 2002-11-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.16.

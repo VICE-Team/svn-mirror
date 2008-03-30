@@ -738,7 +738,8 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 #if 0
     draw_sprites(raster);
 #else
-    for (xs = -104,i = 0; i < raster->changes.sprites.count; i++) {
+    for (xs = -geometry->extra_offscreen_border_left, i = 0;
+         i < raster->changes.sprites.count; i++) {
         int xe = raster->changes.sprites.actions[i].where;
 
         if (xs < xe) {
@@ -747,8 +748,10 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
         }
         raster_changes_apply(&raster->changes.sprites, i);
     }
-    if (xs <= (int)400 - 1)
-        draw_sprites_partial(raster, xs, 400 - 1);
+    if (xs <= (int)(geometry->screen_size.width 
+                    + geometry->extra_offscreen_border_right) - 1)
+        draw_sprites_partial(raster, xs, geometry->screen_size.width 
+                                + geometry->extra_offscreen_border_right - 1);
 #endif
 
     /* Draw left border.  */

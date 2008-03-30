@@ -923,7 +923,7 @@ static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
 }
 
 
-static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
+static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                                 int sprite_xs, int sprite_xe, 
                                 raster_sprite_status_t *sprite_status,
                                 int n, int sprite_offset)
@@ -996,16 +996,23 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
             sprite_xs = xs - sprite_offset;
             sprite_xe = xe - sprite_offset;
 
-            draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
-                sprite_status, n, sprite_offset);
+            /* Test if the sprite is inside the area.                  */
+            /* Sprite can be seven pixels wider with repeating pixels. */
+            if (sprite_xe >= 0
+                && sprite_xs <  (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
+                    sprite_status, n, sprite_offset);
 
+            /* Now shift the interval one screen left */
+            /* to draw the wrapped part of the sprite */
             sprite_xs += vic_ii.sprite_wrap_x;
             sprite_xe += vic_ii.sprite_wrap_x;
             sprite_offset -= vic_ii.sprite_wrap_x;
-            /* FIXME: It may be faster to check if sprite is wrapped into */
-            /* the next line. Otherwise the second draw isn't necessary.  */
-            draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
-                sprite_status, n, sprite_offset);
+
+            if (sprite_xe >= 0
+                && sprite_xs <  (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                draw_sprite_partial(line_ptr, gfx_msk_ptr, sprite_xs, sprite_xe,
+                    sprite_status, n, sprite_offset);
 
         }
 

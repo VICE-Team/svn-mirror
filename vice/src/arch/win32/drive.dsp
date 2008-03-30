@@ -110,11 +110,19 @@ SOURCE=..\..\drive\drivecpu.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\driveimage.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\drivemem.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\drive\driverom.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\drivesync.c
 # End Source File
 # Begin Source File
 

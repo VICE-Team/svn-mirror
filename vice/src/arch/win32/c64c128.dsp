@@ -94,6 +94,10 @@ SOURCE=..\..\c64\c64datasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64keyboard.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
