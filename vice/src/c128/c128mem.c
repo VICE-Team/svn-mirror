@@ -81,9 +81,6 @@ static char *basic_rom_name;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name;
 
-/* Kernal revision for ROM patcher.  */
-static char *kernal_revision;
-
 /* Flag: Do we enable the Emulator ID?  */
 static int emu_id_enabled;
 
@@ -100,12 +97,6 @@ static int acia_de_enabled;
 /* Flag: Do we enable the $D7** ACIA RS232 interface emulation?  */
 static int acia_d7_enabled;
 #endif
-
-/* Flag: Do we enable Action Replay Cartridge support?  */
-static int action_replay_enabled;
-
-static void action_config_changed(BYTE mode);
-static int setup_action_replay(void);
 
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
@@ -151,13 +142,9 @@ static int set_emu_id_enabled(resource_value_t v)
     if (!(int) v) {
         emu_id_enabled = 0;
         return 0;
-    } else if (!action_replay_enabled) {
+    } else {
         emu_id_enabled = 1;
         return 0;
-    } else {
-        /* Other extensions share the same address space, so they cannot be
-           enabled at the same time.  */
-        return -1;
     }
 }
 
@@ -166,7 +153,7 @@ static int set_ieee488_enabled(resource_value_t v)
     if (!(int) v) {
         ieee488_enabled = 0;
         return 0;
-    } else if (!reu_enabled && !action_replay_enabled) {
+    } else if (!reu_enabled) {
         ieee488_enabled = 1;
         return 0;
     } else {
@@ -182,7 +169,7 @@ static int set_reu_enabled(resource_value_t v)
     if (!(int) v) {
         reu_enabled = 0;
         return 0;
-    } else if (!ieee488_enabled && !action_replay_enabled) {
+    } else if (!ieee488_enabled) {
         reu_enabled = 1;
         return 0;
     } else {
