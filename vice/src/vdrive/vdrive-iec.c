@@ -476,11 +476,6 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-#ifdef DEBUG_DRIVE
-    if (p->mode == BUFFER_COMMAND_CHANNEL)
-        log_debug("Disk read  %d [%02d %02d].", p->mode, 0, 0);
-#endif
-
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
 	vdrive_command_set_error(vdrive, IPE_NOT_OPEN, 0, 0);
@@ -489,6 +484,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
       case BUFFER_DIRECTORY_READ:
 	if (p->bufptr >= p->length) {
             *data = 0xc7;
+#ifdef DEBUG_DRIVE
+            if (p->mode == BUFFER_COMMAND_CHANNEL)
+                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                          p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+#endif
 	    return SERIAL_EOF;
         }
 	*data = p->buffer[p->bufptr];
@@ -524,6 +524,12 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         } else {
             if (p->bufptr > p->buffer[1]) {
                 *data = 0xc7;
+#ifdef DEBUG_DRIVE
+                if (p->mode == BUFFER_COMMAND_CHANNEL)
+                    log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                              p->mode, 0, 0, *data, (isprint(*data)
+                              ? *data : '.'));
+#endif
                 return SERIAL_EOF;
             }
         }
@@ -538,6 +544,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 	    log_debug("End of buffer in command channel.");
 #endif
             *data = 0xc7;
+#ifdef DEBUG_DRIVE
+            if (p->mode == BUFFER_COMMAND_CHANNEL)
+                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                          p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+#endif
 	    return SERIAL_EOF;
 	}
 	*data = p->buffer[p->bufptr];
@@ -547,6 +558,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         if (p->bufptr > p->length) {
             vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
             *data = 0xc7;
+#ifdef DEBUG_DRIVE
+            if (p->mode == BUFFER_COMMAND_CHANNEL)
+                log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                          p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+#endif
             return SERIAL_EOF;
         }
         *data = p->buffer[p->bufptr];
@@ -558,6 +574,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 	exit(-1);
     }
 
+#ifdef DEBUG_DRIVE
+    if (p->mode == BUFFER_COMMAND_CHANNEL)
+        log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
+                  p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
+#endif
     return SERIAL_OK;
 }
 
