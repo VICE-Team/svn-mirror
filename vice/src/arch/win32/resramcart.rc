@@ -1,6 +1,12 @@
 // RAMCART specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_RAMCART_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
@@ -128,6 +134,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_RAMCART_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia RAMCART"
@@ -149,6 +156,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -173,4 +181,63 @@ BEGIN
 
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90,90,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART   "Select file for RAMCART"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_DE   "Select file for RAMCART"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_FR   "Select file for RAMCART"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_IT   "Select file for RAMCART"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_NL   "Selecteer bestand voor RAMCART"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_PL   "Select file for RAMCART"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_SELECT_FILE_RAMCART_SV   "Select file for RAMCART"
 END

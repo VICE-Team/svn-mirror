@@ -103,7 +103,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_plus4_memory_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate_dialog(IDD_PLUS4_MEMORY_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_PLUS4_MEMORY_DIALOG)),
               hwnd, dialog_proc);
 }
 

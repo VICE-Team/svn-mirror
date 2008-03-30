@@ -1,6 +1,12 @@
 // VICII specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 90
@@ -103,6 +109,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VICII_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia VIC-II"
@@ -119,6 +126,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 15,70,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 70,70,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog

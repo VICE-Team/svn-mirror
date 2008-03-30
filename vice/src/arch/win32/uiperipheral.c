@@ -196,7 +196,7 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
         GetDlgItemText(hwnd, IDC_DISKIMAGE, st, MAX_PATH);
         system_wcstombs(s, st, MAX_PATH);
         if (file_system_attach_disk(num, s) < 0 ) {
-            ui_error(_("Cannot attach specified file"));
+            ui_error(intl_translate_text(IDS_CANNOT_ATTACH_FILE));
             return 0;
         }
     } else {
@@ -244,7 +244,7 @@ static void browse_diskimage(HWND hwnd)
 {
     TCHAR *st_name;
 
-    st_name = uilib_select_file(hwnd, TEXT(_("Attach disk image")),
+    st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_ATTACH_DISK_IMAGE)),
                                 UILIB_FILTER_ALL | UILIB_FILTER_DISK
                                 | UILIB_FILTER_ZIP,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
@@ -260,7 +260,7 @@ static void autostart_diskimage(HWND hwnd)
 {
     TCHAR *st_name;
 
-    st_name = uilib_select_file(hwnd, TEXT(_("Autostart disk image")),
+    st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_AUTOSTART_DISK_IMAGE)),
                                 UILIB_FILTER_ALL | UILIB_FILTER_DISK
                                 | UILIB_FILTER_ZIP,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
@@ -272,7 +272,7 @@ static void autostart_diskimage(HWND hwnd)
         SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
         name = system_wcstombs_alloc(st_name);
         if (autostart_autodetect(name, "*", 0, AUTOSTART_MODE_RUN) < 0)
-            ui_error(_("Cannot autostart specified file."));
+            ui_error(intl_translate_text(IDS_CANNOT_AUTOSTART_FILE));
         system_wcstombs_free(name);
         lib_free(st_name);
     }
@@ -287,7 +287,7 @@ static void browse_dir(HWND hwnd)
     bi.hwndOwner = hwnd;
     bi.pidlRoot = NULL;
     bi.pszDisplayName = st;
-    bi.lpszTitle = TEXT(_("Select file system directory"));
+    bi.lpszTitle = TEXT(intl_translate_text(IDS_SELECT_FS_DIRECTORY));
     bi.ulFlags = 0;
     bi.lpfn = NULL;
     bi.lParam = 0;
@@ -373,14 +373,14 @@ static int have_printer_userport = -1;
 
 static char *printertextdevice[3] = { NULL, NULL, NULL };
 
-static const TCHAR *ui_printer[] =
+static const int ui_printer[] =
 {
-    TEXT("None"),
-    TEXT("File system"),
+    IDS_NONE,
+    IDS_FILE_SYSTEM,
 #ifdef HAVE_OPENCBM
-    TEXT("Real IEC device"),
+    IDS_REAL_IEC_DEVICE,
 #endif
-    NULL
+    0
 };
 
 static const TCHAR *ui_printer_driver[] =
@@ -472,7 +472,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     for (res_value_loop = 0; ui_printer[res_value_loop];
         res_value_loop++) {
         SendMessage(printer_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)_((TCHAR *)ui_printer[res_value_loop]));
+                    (LPARAM)intl_translate_text(ui_printer[res_value_loop]));
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -693,11 +693,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PRINTER_SETTINGS_DIALOG));
+        psp[i].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_PRINTER_SETTINGS_DIALOG));
         psp[i].pszIcon = NULL;
 #else
         psp[i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate_dialog(IDD_PRINTER_SETTINGS_DIALOG));
+            = MAKEINTRESOURCE(intl_translate(IDD_PRINTER_SETTINGS_DIALOG));
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
@@ -710,11 +710,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
         psp[no_of_printers + i].pszTemplate
-            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DISKDEVICE_DIALOG));
+            = MAKEINTRESOURCE(intl_translate(IDD_DISKDEVICE_DIALOG));
         psp[no_of_printers + i].pszIcon = NULL;
 #else
         psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DISKDEVICE_DIALOG));
+            = MAKEINTRESOURCE(intl_translate(IDD_DISKDEVICE_DIALOG));
         psp[no_of_printers + i].u2.pszIcon = NULL;
 #endif
         psp[no_of_printers + i].lParam = 0;
@@ -723,29 +723,29 @@ static void uiperipheral_dialog(HWND hwnd)
 
     if (have_printer_userport) {
         psp[0].pfnDlgProc = callback_0;
-        psp[0].pszTitle = TEXT(_("Printer Userport"));
+        psp[0].pszTitle = TEXT(intl_translate_text(IDS_PRINTER_USERPORT));
         i = 1;
     } else
         i = 0;
 
     psp[i + 0].pfnDlgProc = callback_4;
-    psp[i + 0].pszTitle = TEXT(_("Printer 4"));
+    psp[i + 0].pszTitle = TEXT(intl_translate_text(IDS_PRINTER_4));
     psp[i + 1].pfnDlgProc = callback_5;
-    psp[i + 1].pszTitle = TEXT(_("Printer 5"));
+    psp[i + 1].pszTitle = TEXT(intl_translate_text(IDS_PRINTER_5));
     psp[i + 2].pfnDlgProc = callback_8;
-    psp[i + 2].pszTitle = TEXT(_("Drive 8"));
+    psp[i + 2].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_8));
     psp[i + 3].pfnDlgProc = callback_9;
-    psp[i + 3].pszTitle = TEXT(_("Drive 9"));
+    psp[i + 3].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_9));
     psp[i + 4].pfnDlgProc = callback_10;
-    psp[i + 4].pszTitle = TEXT(_("Drive 10"));
+    psp[i + 4].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_10));
     psp[i + 5].pfnDlgProc = callback_11;
-    psp[i + 5].pszTitle = TEXT(_("Drive 11"));
+    psp[i + 5].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_11));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(_("Peripheral Settings"));
+    psh.pszCaption = TEXT(intl_translate_text(IDS_PERIPHERAL_SETTINGS));
     psh.nPages = no_of_drives + no_of_printers;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

@@ -93,6 +93,26 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\res.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resacia.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resdrivepetcbm2.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\ressid.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resvicii.rc
+# End Source File
+# Begin Source File
+
 SOURCE=.\rescbm2.rc
 # End Source File
 # End Target

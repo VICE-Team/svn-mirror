@@ -93,6 +93,45 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\res.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resacia.rc
+# Begin Source File
+
+SOURCE=.\reside64.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resreu.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resgeoram.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resramcart.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resrs232user.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\ressid.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resvicii.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\restfe.rc
+# End Source File
+# Begin Source File
+
 SOURCE=.\resc128.rc
 # End Source File
 # End Target

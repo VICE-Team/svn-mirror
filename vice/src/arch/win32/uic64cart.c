@@ -58,71 +58,71 @@ static const uicart_params_t c64_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_CRT,
         CARTRIDGE_CRT,
-        TEXT("Attach CRT cartridge image"),
+        IDS_ATTACH_CRT_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
         IDM_CART_ATTACH_8KB,
         CARTRIDGE_GENERIC_8KB,
-        TEXT("Attach raw 8KB cartridge image"),
+        IDS_ATTACH_RAW_8KB_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_16KB,
         CARTRIDGE_GENERIC_16KB,
-        TEXT("Attach raw 16KB cartridge image"),
+        IDS_ATTACH_RAW_16KB_CART_IMG,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AR,
         CARTRIDGE_ACTION_REPLAY,
-        TEXT("Attach Action Replay cartridge image"),
+        IDS_ATTACH_AR_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_AT,
         CARTRIDGE_ATOMIC_POWER,
-        TEXT("Attach Atomic Power cartridge image"),
+        IDS_ATTACH_ATOMIC_P_CART_IMG,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_EPYX,
         CARTRIDGE_EPYX_FASTLOAD,
-        TEXT("Attach Epyx fastload cartridge image"),
+        IDS_ATTACH_EPYX_FL_CART_IMG,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IEEE488,
         CARTRIDGE_IEEE488,
-        TEXT("Attach IEEE interface cartridge image"),
+        IDS_ATTACH_IEEE488_CART_IMG,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_RR,
         CARTRIDGE_RETRO_REPLAY,
-        TEXT("Attach Retro Replay cartridge image"),
+        IDS_ATTACH_RETRO_R_CART_IMG,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_IDE64,
         CARTRIDGE_IDE64,
-        TEXT("Attach IDE64 interface cartridge image"),
+        IDS_ATTACH_IDE64_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS4,
         CARTRIDGE_SUPER_SNAPSHOT,
-        TEXT("Attach Super Snapshot 4 cartridge image"),
+        IDS_ATTACH_SS4_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_SS5,
         CARTRIDGE_SUPER_SNAPSHOT_V5,
-        TEXT("Attach Super Snapshot 5 cartridge image"),
+        IDS_ATTACH_SS5_CART_IMAGE,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
-        0, 0, NULL, 0
+        0, 0, 0, 0
     }
 };
 
@@ -131,7 +131,7 @@ static void uic64cart_attach(WPARAM wparam, HWND hwnd,
 {
     if (wparam == IDM_CART_ENABLE_EXPERT) {
         if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
-            ui_error(_("Invalid cartridge"));
+            ui_error(intl_translate_text(IDS_INVALID_CARTRIDGE));
         return;
     }
 

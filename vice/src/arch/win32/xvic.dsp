@@ -97,6 +97,18 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\res.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resdrivec64vic20.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resrs232user.rc
+# End Source File
+# Begin Source File
+
 SOURCE=.\resvic20.rc
 # End Source File
 # End Target

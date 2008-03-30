@@ -124,35 +124,35 @@ static const uicart_params_t vic20_ui_cartridges[] = {
     {
         IDM_CART_VIC20_8KB_2000,
         CARTRIDGE_VIC20_16KB_2000,
-        TEXT("Attach 4/8/16KB cartridge image at $2000"),
+        IDS_ATTACH_4_8_16_CART_2000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_16KB_4000,
         CARTRIDGE_VIC20_16KB_4000,
-        TEXT("Attach 4/8/16KB cartridge image at $4000"),
+        IDS_ATTACH_4_8_16_CART_4000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_6000,
         CARTRIDGE_VIC20_16KB_6000,
-        TEXT("Attach 4/8/16KB cartridge image at $6000"),
+        IDS_ATTACH_4_8_16_CART_6000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_8KB_A000,
         CARTRIDGE_VIC20_8KB_A000,
-        TEXT("Attach 8KB cartridge image at $A000"),
+        IDS_ATTACH_4_8_CART_A000,
         UILIB_FILTER_ALL
     },
     {
         IDM_CART_VIC20_4KB_B000,
         CARTRIDGE_VIC20_4KB_B000,
-        TEXT("Attach 4KB cartridge image at $B000"),
+        IDS_ATTACH_4_CART_B000,
         UILIB_FILTER_ALL
     },
     {
-        0, 0, NULL, 0
+        0, 0, 0, 0
     }
 };
 
@@ -177,8 +177,8 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         ui_vic_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate_dialog(IDD_VIC20ROM_SETTINGS_DIALOG),
-                              intl_translate_dialog(IDD_VIC20DRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, intl_translate(IDD_VIC20ROM_SETTINGS_DIALOG),
+                              intl_translate(IDD_VIC20DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings); 
         break;
       case IDM_VIDEO_SETTINGS:

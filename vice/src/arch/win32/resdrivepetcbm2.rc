@@ -1,6 +1,12 @@
 // PET and CBM2 drive specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_DRIVE_SETTINGS_DIALOG_PETCBM2 DIALOG DISCARDABLE  0, 0, 180, 160
@@ -168,6 +174,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_DRIVE_SETTINGS_DIALOG_PETCBM2_PL DIALOG DISCARDABLE  0, 0, 180, 160
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -197,6 +204,7 @@ BEGIN
     AUTORADIOBUTTON "Rozszerz, kiedy nast±pi u¿ycie",IDC_SELECT_DRIVE_EXTEND_ACCESS,
                             85,60,65,10, BS_AUTORADIOBUTTON
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog

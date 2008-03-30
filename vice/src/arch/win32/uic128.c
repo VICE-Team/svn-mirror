@@ -200,14 +200,14 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
             uilib_select_browse(hwnd,
-                                TEXT(_("Select internal function ROM image")),
+                                TEXT(intl_translate_text(IDS_SELECT_INT_FUNCTION_ROM)),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_INTERNAL_NAME);
             break;
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
             uilib_select_browse(hwnd,
-                                TEXT(_("Select external function ROM image")),
+                                TEXT(intl_translate_text(IDS_SELECT_EXT_FUNCTION_ROM)),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
@@ -242,11 +242,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_MACHINE_SETTINGS_DIALOG));
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_C128_MACHINE_SETTINGS_DIALOG));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_MACHINE_SETTINGS_DIALOG));
+        = MAKEINTRESOURCE(intl_translate(IDD_C128_MACHINE_SETTINGS_DIALOG));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -256,26 +256,26 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[1].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
     psp[1].pszIcon = NULL;
 #else
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
+        = MAKEINTRESOURCE(intl_translate(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
     psp[1].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = machine_dialog_proc;
-    psp[0].pszTitle = TEXT(_("Machine type"));
+    psp[0].pszTitle = TEXT(intl_translate_text(IDS_MACHINE_TYPE));
     psp[1].pfnDlgProc = functionrom_dialog_proc;
-    psp[1].pszTitle = TEXT(_("Function ROM"));
+    psp[1].pszTitle = TEXT(intl_translate_text(IDS_FUNCTION_ROM));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(_("C128 settings"));
+    psh.pszCaption = TEXT(intl_translate_text(IDS_C128_SETTINGS));
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

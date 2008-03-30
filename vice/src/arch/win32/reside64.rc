@@ -1,6 +1,12 @@
 // IDE64 specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_IDE64_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 170
@@ -153,6 +159,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_IDE64_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 170
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia IDE64"
@@ -179,6 +186,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 60,150,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 120,150,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -209,3 +217,70 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 60,150,50,14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 120,150,50,14, WS_TABSTOP
 END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE   "Select HD image file"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_DE   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE_DE   "Select HD image file"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_FR   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE_FR   "Select HD image file"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_IT   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE_IT   "Select HD image file"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_NL   "Totale grootte: %iKB"
+  IDS_SELECT_HD_IMAGE_NL   "Selecteer HD bestand"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_PL   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE_PL   "Select HD image file"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_TOTAL_SIZE_I_KB_SV   "Total size: %iKB"
+  IDS_SELECT_HD_IMAGE_SV   "Select HD image file"
+END
+

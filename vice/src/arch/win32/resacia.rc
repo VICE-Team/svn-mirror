@@ -1,6 +1,12 @@
 // ACIA specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_ACIA_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
@@ -133,6 +139,7 @@ END
 
 // POLISH version of dialog.
 
+#pragma code_page(28592)
 IDD_ACIA_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia ACIA"
@@ -155,6 +162,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 85,90,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog.
@@ -180,4 +188,70 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ              "IRQ"
+  IDS_NMI              "NMI"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ_DE              "IRQ"
+  IDS_NMI_DE              "NMI"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ_FR              "IRQ"
+  IDS_NMI_FR              "NMI"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ_IT              "IRQ"
+  IDS_NMI_IT              "NMI"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ_NL              "IRQ"
+  IDS_NMI_NL              "NMI"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_IRQ_PL              "IRQ"
+  IDS_NMI_PL              "NMI"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_IRQ_SV              "IRQ"
+  IDS_NMI_SV              "NMI"
 END

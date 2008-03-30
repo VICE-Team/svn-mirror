@@ -466,7 +466,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
     ui_resize_canvas_window(hwnd, width, height);
 
-    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate_menu(emu_menu)));
+    menu=LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate(emu_menu)));
     SetMenu(hwnd,menu);
     ShowWindow(hwnd, winmain_cmd_show);
     return hwnd;
@@ -478,7 +478,7 @@ void ui_update_menu()
 HMENU menu;
 int   i;
 
-    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate_menu(emu_menu)));
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate(emu_menu)));
     for (i = 0; i < number_of_windows; i++) {
         SetMenu(window_handles[i], menu);
     }
@@ -673,7 +673,7 @@ void ui_error(const char *format, ...)
 
     log_debug(tmp);
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT(_("VICE Error!")), MB_OK | MB_ICONSTOP);
+    ui_messagebox(st, TEXT(intl_translate_text(IDS_VICE_ERROR)), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -686,7 +686,7 @@ void ui_error_string(const char *text)
 
     log_debug(text);
     st = system_mbstowcs_alloc(text);
-    ui_messagebox(st, TEXT(_("VICE Error!")), MB_OK | MB_ICONSTOP);
+    ui_messagebox(st, TEXT(intl_translate_text(IDS_VICE_ERROR)), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
 }
 
@@ -702,7 +702,7 @@ void ui_message(const char *format, ...)
     va_end(args);
 
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT(_("VICE Information")), MB_OK | MB_ICONASTERISK);
+    ui_messagebox(st, TEXT(intl_translate_text(IDS_VICE_INFORMATION)), MB_OK | MB_ICONASTERISK);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -718,10 +718,9 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_list ap;
     va_start(ap, format);
     txt = lib_mvsprintf(format, ap);
-    txt2 = lib_msprintf(_("%s\n\nStart monitor?"), txt);
+    txt2 = lib_msprintf(intl_translate_text(IDS_START_MONITOR), txt);
     st = system_mbstowcs_alloc(txt2);
-    ret = ui_messagebox(st, TEXT(_("VICE CPU JAM")), 
-MB_YESNO);
+    ret = ui_messagebox(st, TEXT(intl_translate_text(IDS_VICE_CPU_JAM)), MB_YESNO);
     system_mbstowcs_free(st);
     lib_free(txt2);
     lib_free(txt);
@@ -735,8 +734,8 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = ui_messagebox(TEXT(_("Extend image to 40-track format?")),
-                        TEXT(_("VICE question")), MB_YESNO | MB_ICONQUESTION);
+    ret = ui_messagebox(TEXT(intl_translate_text(IDS_EXTEND_TO_40_TRACKS)),
+                        TEXT(intl_translate_text(IDS_VICE_QUESTION)), MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
 
@@ -782,10 +781,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
 
-        buf = lib_msprintf(_("%s at %d%% speed, %d fps%s"),
+        /* FIXME: speed text untranslated for now because of great speed reduction */
+        buf = lib_msprintf("%s at %d%% speed, %d fps%s",
                            title, (int)(percent + .5),
                            (int)(framerate + .5),
-                           warp_flag ? _(" (warp)") : "");
+                           warp_flag ? " (warp)" : "");
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -840,11 +840,11 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     char device_str[4];
 
     if (image == NULL || image[0] == 0) {
-        text = lib_msprintf(_("Detached device %s"), 
+        text = lib_msprintf(intl_translate_text(IDS_DETACHED_DEVICE_S), 
                            itoa(drivenum + 8, device_str, 10));
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = lib_msprintf(_("Attached %s to device#%s"), image_name,
+        text = lib_msprintf(intl_translate_text(IDS_ATTACHED_S_TO_DEVICE_S), image_name,
             itoa(drivenum+8, device_str, 10));
         lib_free(image_name);
         lib_free(directory_name);
@@ -883,10 +883,10 @@ void ui_display_tape_current_image(const char *image)
     char *directory_name, *image_name, *text;
 
     if (image == NULL || image[0] == 0) {
-        text = lib_stralloc(_("Detached tape"));
+        text = lib_stralloc(intl_translate_text(IDS_DETACHED_TAPE));
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = lib_msprintf(_("Attached tape %s"), image_name);
+        text = lib_msprintf(intl_translate_text(IDS_ATTACHED_TAPE_S), image_name);
         lib_free(image_name);
         lib_free(directory_name);
     }
@@ -912,9 +912,9 @@ void ui_display_playback(int playback_status, char *version)
     if (playback_status) {
         statusbar_event_status(EVENT_PLAYBACK);
         if (version == NULL || version[0] == 0)
-            sprintf(st, _("History recorded with unknown release"));
+            sprintf(st, intl_translate_text(IDS_HISTORY_RECORDED_UNKNOWN));
         else 
-            sprintf(st, _("History recorded with VICE-%s"), version);
+            sprintf(st, intl_translate_text(IDS_HISTORY_RECORDED_VICE_S), version);
         ui_display_statustext(st);
     } else {
         statusbar_event_status(EVENT_OFF);
@@ -950,7 +950,7 @@ void ui_display_paused(int flag)
 
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
-        buf = lib_msprintf("%s (%s)", title, flag ? _("paused") : _("resumed"));
+        buf = lib_msprintf("%s (%s)", title, flag ? intl_translate_text(IDS_PAUSED) : intl_translate_text(IDS_RESUMED));
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -1221,21 +1221,21 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
-            ui_error(_("Cannot save settings."));
+            ui_error(intl_translate_text(IDS_CANNOT_SAVE_SETTINGS));
         else
-            ui_message(_("Settings saved successfully."));
+            ui_message(intl_translate_text(IDS_SETTINGS_SAVED_SUCCESS));
         uifliplist_save_settings();
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {
-            ui_error(_("Cannot load settings."));
+            ui_error(intl_translate_text(IDS_CANNOT_LOAD_SETTINGS));
         } else {
-            ui_message(_("Settings loaded successfully."));
+            ui_message(intl_translate_text(IDS_SETTINGS_LOADED_SUCCESS));
         }
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
-        ui_message(_("Default settings restored."));
+        ui_message(intl_translate_text(IDS_DEFAULT_SETTINGS_RESTORED));
         break;
       case IDM_EVENT_DIRECTORY:
       case IDM_EVENT_TOGGLE_RECORD:
@@ -1329,8 +1329,7 @@ static void ui_wm_close(HWND window)
     if (confirm_on_exit) {
 //      log_debug("Asking exit confirmation");
         if (MessageBox(window,
-            TEXT(_("Do you really want to exit?\n\n"
-            "All the data present in the emulated RAM will be lost.")),
+            TEXT(intl_translate_text(IDS_REALLY_EXIT)),
             TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
             | MB_TASKMODAL) == IDYES) {
             quit = 1;
@@ -1343,7 +1342,7 @@ static void ui_wm_close(HWND window)
         SuspendFullscreenMode(window);
         if (save_on_exit) {
             if (resources_save(NULL)<0) {
-                ui_error(_("Cannot save settings."));
+                ui_error(intl_translate_text(IDS_CANNOT_SAVE_SETTINGS));
             }
         }
         DestroyWindow(window);
@@ -1361,11 +1360,11 @@ static void ui_wm_dropfiles(HWND window, WPARAM wparam)
     DragQueryFile(hDrop, 0, (char *)&szFile, 256);
     if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
         if (file_system_attach_disk(8, szFile) < 0)
-            ui_error(_("Cannot attach specified file"));
+            ui_error(intl_translate_text(IDS_CANNOT_ATTACH_FILE));
     } else {
         if (autostart_autodetect(szFile, NULL, 0,
             AUTOSTART_MODE_RUN) < 0)
-            ui_error(_("Cannot autostart specified file."));
+            ui_error(intl_translate_text(IDS_CANNOT_AUTOSTART_FILE));
     }
     DragFinish(hDrop);
 }

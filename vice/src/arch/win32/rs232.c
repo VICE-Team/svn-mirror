@@ -155,12 +155,12 @@ int rs232_open(int device)
             break;
     }
     if (i >= MAXRS232) {
-        log_error(rs232_log, _("No more devices available."));
+        log_error(rs232_log, "No more devices available.");
         return -1;
     }
 
 #ifdef DEBUG
-    log_message(rs232_log, _("rs232_open(device=%d)."), device);
+    log_message(rs232_log, "rs232_open(device=%d).", device);
 #endif
 
     // connect socket
@@ -184,11 +184,11 @@ void rs232_close(int fd)
 #endif
 
     if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, _("Attempt to close invalid fd %d."), fd);
+        log_error(rs232_log, "Attempt to close invalid fd %d.", fd);
         return;
     }
     if (!fds[fd].inuse) {
-        log_error(rs232_log, _("Attempt to close non-open fd %d."), fd);
+        log_error(rs232_log, "Attempt to close non-open fd %d.", fd);
         return;
     }
 
@@ -202,11 +202,11 @@ int rs232_putc(int fd, BYTE b)
     size_t n;
 
     if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, _("Attempt to write to invalid fd %d."), fd);
+        log_error(rs232_log, "Attempt to write to invalid fd %d.", fd);
         return -1;
     }
     if (!fds[fd].inuse) {
-        log_error(rs232_log, _("Attempt to write to non-open fd %d."), fd);
+        log_error(rs232_log, "Attempt to write to non-open fd %d.", fd);
         return -1;
     }
 
@@ -221,7 +221,7 @@ int rs232_putc(int fd, BYTE b)
 
     n = send(fds[fd].fd, &b, 1, 0);
     if (n != 1) {
-        log_error(rs232_log, _("Error writing: %s."), strerror(errno));
+        log_error(rs232_log, "Error writing: %s.", strerror(errno));
         close(fds[fd].fd);
         fds[fd].fd = -1;
         return -1;
@@ -239,11 +239,11 @@ int rs232_getc(int fd, BYTE * b)
     struct timeval ti;
 
     if (fd < 0 || fd >= MAXRS232) {
-        log_error(rs232_log, _("Attempt to read from invalid fd %d."), fd);
+        log_error(rs232_log, "Attempt to read from invalid fd %d.", fd);
         return -1;
     }
     if (!fds[fd].inuse) {
-        log_error(rs232_log, _("Attempt to read from non-open fd %d."), fd);
+        log_error(rs232_log, "Attempt to read from non-open fd %d.", fd);
         return -1;
     }
 
@@ -260,7 +260,7 @@ int rs232_getc(int fd, BYTE * b)
         n = recv(fds[fd].fd, b, 1, 0);
         if (n != 1) {
             if(n < 0)
-                log_error(rs232_log, _("Error reading: %s."), strerror(errno));
+                log_error(rs232_log, "Error reading: %s.", strerror(errno));
             else
                 log_error(rs232_log, _("EOF"));
             close(fds[fd].fd);

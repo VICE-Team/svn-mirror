@@ -2,9 +2,11 @@
 //
 
 #include "debug.h"
-#include "res.rc"
-#include "resdrivec64vic20.rc"
-#include "resrs232user.rc"
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -683,7 +685,7 @@ BEGIN
 END
 
 
-// ITALIAN version of dialog
+// ITALIAN version of menu
 
 IDR_MENUVIC_IT MENU DISCARDABLE
 BEGIN
@@ -907,7 +909,7 @@ BEGIN
 END
 
 
-// DUTCH version of dialog
+// DUTCH version of menu
 
 IDR_MENUVIC_NL MENU DISCARDABLE
 BEGIN
@@ -1106,15 +1108,15 @@ BEGIN
 	MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
 	MENUITEM "Bevestigen bij afsl&uiten",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Taal"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Engels", IDM_LANG_EN
+        MENUITEM "&Duits", IDM_LANG_DE
+        MENUITEM "&Frans", IDM_LANG_FR
+        MENUITEM "&Italiaans", IDM_LANG_IT
+        MENUITEM "&Nederlands", IDM_LANG_NL
+        MENUITEM "&Pools", IDM_LANG_PL
+        MENUITEM "&Zweeds", IDM_LANG_SV
     END
     POPUP "&Help"
     BEGIN
@@ -1131,8 +1133,9 @@ BEGIN
 END
 
 
-// POLISH version of dialog
+// POLISH version of menu
 
+#pragma code_page(28592)
 IDR_MENUVIC_PL MENU DISCARDABLE
 BEGIN
     POPUP "&Plik"
@@ -1353,9 +1356,10 @@ BEGIN
         MENUITEM "Bez g&warancji",          IDM_WARRANTY
     END
 END
+#pragma code_page(28591)
 
 
-// SWEDISH version of dialog
+// SWEDISH version of menu
 
 IDR_MENUVIC_SV MENU DISCARDABLE
 BEGIN
@@ -1692,6 +1696,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC20ROM_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 240, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia ROM"
@@ -1709,6 +1714,7 @@ BEGIN
     EDITTEXT    IDC_VIC20ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "&Przegl±daj...", IDC_VIC20ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1980,6 +1986,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC20DRIVEROM_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 240, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia ROM"
@@ -2025,6 +2032,7 @@ BEGIN
     EDITTEXT    IDC_DRIVEROM_1001_FILE, 55,187,125,12,WS_TABSTOP
     PUSHBUTTON  "Przegl±daj...", IDC_DRIVEROM_1001_BROWSE, 185,187,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2263,6 +2271,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 215, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia VIC"
@@ -2296,6 +2305,7 @@ BEGIN
     AUTOCHECKBOX    "Blok &5",IDC_VIC_MEMORY_BLOCK5,
                     132,83,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2443,6 +2453,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC20ROM_RESOURCE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 160, 85
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer zasoby"
@@ -2460,6 +2471,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 80,65,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2658,8 +2670,10 @@ BEGIN
     PUSHBUTTON      "Annuleren", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
 
+
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 160, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "napêdu zasoby"
@@ -2691,6 +2705,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2831,6 +2846,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 240, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2847,6 +2863,7 @@ BEGIN
 
     PUSHBUTTON  "Zapisz mapowanie klawiszy", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2866,4 +2883,91 @@ BEGIN
     PUSHBUTTON  "Bläddra...", IDC_VIC20KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
     PUSHBUTTON  "Spara tangentbordsemulering", IDC_VIC20KBD_MAPPING_DUMP, 10,54,50,14, 0
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000   "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000   "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000   "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000      "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000        "Attach 4KB cartridge image at $B000"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_DE   "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000_DE   "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000_DE   "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000_DE      "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000_DE        "Attach 4KB cartridge image at $B000"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_FR   "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000_FR   "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000_FR   "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000_FR      "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000_FR        "Attach 4KB cartridge image at $B000"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_IT   "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000_IT   "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000_IT   "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000_IT      "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000_IT        "Attach 4KB cartridge image at $B000"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_NL   "Koppel 4/8/16KB cartridge bestand op $2000"
+  IDS_ATTACH_4_8_16_CART_4000_NL   "Koppel 4/8/16KB cartridge bestand op $4000"
+  IDS_ATTACH_4_8_16_CART_6000_NL   "Koppel 4/8/16KB cartridge bestand op $6000"
+  IDS_ATTACH_4_8_CART_A000_NL      "Koppel 4/8KB cartridge bestand op $A000"
+  IDS_ATTACH_4_CART_B000_NL        "Koppel 4KB cartridge bestand op $B000"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_PL   "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000_PL   "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000_PL   "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000_PL      "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000_PL        "Attach 4KB cartridge image at $B000"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_ATTACH_4_8_16_CART_2000_SV  "Attach 4/8/16KB cartridge image at $2000"
+  IDS_ATTACH_4_8_16_CART_4000_SV  "Attach 4/8/16KB cartridge image at $4000"
+  IDS_ATTACH_4_8_16_CART_6000_SV  "Attach 4/8/16KB cartridge image at $6000"
+  IDS_ATTACH_4_8_CART_A000_SV     "Attach 4/8KB cartridge image at $A000"
+  IDS_ATTACH_4_CART_B000_SV       "Attach 4KB cartridge image at $B000"
 END

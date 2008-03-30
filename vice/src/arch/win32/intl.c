@@ -36,11 +36,11 @@
 #include "cmdline.h"
 #include "intl.h"
 #include "lib.h"
-#include "res.h" /* 50456 */
+#include "res.h" /* 10456 */
 #include "resources.h"
 #include "util.h"
 #include "ui.h"
-
+#include "winmain.h"
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
@@ -94,7 +94,9 @@ static char *intl_language_table[] = {
   "sv"
 };
 
-static int intl_idd_table[][countof(intl_language_table)] = {
+static int intl_table[][countof(intl_language_table)] = {
+
+/* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
 /* resacia.rc */
 /* en */ {IDD_ACIA_SETTINGS_DIALOG,
@@ -780,11 +782,8 @@ static int intl_idd_table[][countof(intl_language_table)] = {
 /* pl */  IDD_RS232_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_RS232_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
-};
 
-/* --------------------------------------------------------------------- */
-
-static int intl_idr_table[][countof(intl_language_table)] = {
+/* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
 /* res.rc */
 /* en */ {IDR_MENUMONITOR,
@@ -853,2174 +852,1670 @@ static int intl_idr_table[][countof(intl_language_table)] = {
 
 /* --------------------------------------------------------------------- */
 
-typedef struct intl_text_s {
-    /* pointer to english text */
-    char *en_text;
+static int intl_translate_text_table[][countof(intl_language_table)] = {
 
-    /* index of text in text table */
-    int index;
+/* res.rc */
+/* en */ {IDS_RS232_DEVICE_I,
+/* de */  IDS_RS232_DEVICE_I_DE,    /* fuzzy */
+/* fr */  IDS_RS232_DEVICE_I_FR,    /* fuzzy */
+/* it */  IDS_RS232_DEVICE_I_IT,    /* fuzzy */
+/* nl */  IDS_RS232_DEVICE_I_NL,
+/* pl */  IDS_RS232_DEVICE_I_PL,    /* fuzzy */
+/* sv */  IDS_RS232_DEVICE_I_SV},   /* fuzzy */
 
-    /* number of next hash entry */
-    int hash_next;
-} intl_text_t;
+/* res.rc */
+/* en */ {IDS_NONE,
+/* de */  IDS_NONE_DE,
+/* fr */  IDS_NONE_FR,
+/* it */  IDS_NONE_IT,
+/* nl */  IDS_NONE_NL,
+/* pl */  IDS_NONE_PL,
+/* sv */  IDS_NONE_SV},
 
-static unsigned int num_intl_text, num_allocated_intl_text;
-static intl_text_t *intl_text;
+/* resacia.rc */
+/* en */ {IDS_IRQ,
+/* de */  IDS_IRQ_DE,    /* fuzzy */
+/* fr */  IDS_IRQ_FR,    /* fuzzy */
+/* it */  IDS_IRQ_IT,    /* fuzzy */
+/* nl */  IDS_IRQ_NL,
+/* pl */  IDS_IRQ_PL,    /* fuzzy */
+/* sv */  IDS_IRQ_SV},   /* fuzzy */
 
-/* use a hash table with 1024 entries */
-static const unsigned int logHashSize = 10;
+/* resacia.rc */
+/* en */ {IDS_NMI,
+/* de */  IDS_NMI_DE,    /* fuzzy */
+/* fr */  IDS_NMI_FR,    /* fuzzy */
+/* it */  IDS_NMI_IT,    /* fuzzy */
+/* nl */  IDS_NMI_NL,
+/* pl */  IDS_NMI_PL,    /* fuzzy */
+/* sv */  IDS_NMI_SV},   /* fuzzy */
 
-static int *hashTable = NULL;
+/* res.rc */
+/* en */ {IDS_VICE_ERROR,
+/* de */  IDS_VICE_ERROR_DE,    /* fuzzy */
+/* fr */  IDS_VICE_ERROR_FR,    /* fuzzy */
+/* it */  IDS_VICE_ERROR_IT,    /* fuzzy */
+/* nl */  IDS_VICE_ERROR_NL,
+/* pl */  IDS_VICE_ERROR_PL,    /* fuzzy */
+/* sv */  IDS_VICE_ERROR_SV},   /* fuzzy */
 
-/* calculate the hash key */
-static unsigned int intl_text_calc_hash_key(const char *text)
+/* res.rc */
+/* en */ {IDS_VICE_INFORMATION,
+/* de */  IDS_VICE_INFORMATION_DE,    /* fuzzy */
+/* fr */  IDS_VICE_INFORMATION_FR,    /* fuzzy */
+/* it */  IDS_VICE_INFORMATION_IT,    /* fuzzy */
+/* nl */  IDS_VICE_INFORMATION_NL,
+/* pl */  IDS_VICE_INFORMATION_PL,    /* fuzzy */
+/* sv */  IDS_VICE_INFORMATION_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_VICE_QUESTION,
+/* de */  IDS_VICE_QUESTION_DE,    /* fuzzy */
+/* fr */  IDS_VICE_QUESTION_FR,    /* fuzzy */
+/* it */  IDS_VICE_QUESTION_IT,    /* fuzzy */
+/* nl */  IDS_VICE_QUESTION_NL,
+/* pl */  IDS_VICE_QUESTION_PL,    /* fuzzy */
+/* sv */  IDS_VICE_QUESTION_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_FFMPEG_DLL_MISMATCH,
+/* de */  IDS_FFMPEG_DLL_MISMATCH_DE,    /* fuzzy */
+/* fr */  IDS_FFMPEG_DLL_MISMATCH_FR,    /* fuzzy */
+/* it */  IDS_FFMPEG_DLL_MISMATCH_IT,    /* fuzzy */
+/* nl */  IDS_FFMPEG_DLL_MISMATCH_NL,
+/* pl */  IDS_FFMPEG_DLL_MISMATCH_PL,    /* fuzzy */
+/* sv */  IDS_FFMPEG_DLL_MISMATCH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DIRECTDRAW_ERROR,
+/* de */  IDS_DIRECTDRAW_ERROR_DE,    /* fuzzy */
+/* fr */  IDS_DIRECTDRAW_ERROR_FR,    /* fuzzy */
+/* it */  IDS_DIRECTDRAW_ERROR_IT,    /* fuzzy */
+/* nl */  IDS_DIRECTDRAW_ERROR_NL,
+/* pl */  IDS_DIRECTDRAW_ERROR_PL,    /* fuzzy */
+/* sv */  IDS_DIRECTDRAW_ERROR_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_SAVE_SETTINGS,
+/* de */  IDS_CANNOT_SAVE_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_SAVE_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_SAVE_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_SAVE_SETTINGS_NL,
+/* pl */  IDS_CANNOT_SAVE_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_SAVE_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_LOAD_SETTINGS,
+/* de */  IDS_CANNOT_LOAD_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_LOAD_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_LOAD_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_LOAD_SETTINGS_NL,
+/* pl */  IDS_CANNOT_LOAD_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_LOAD_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DEFAULT_SETTINGS_RESTORED,
+/* de */  IDS_DEFAULT_SETTINGS_RESTORED_DE,    /* fuzzy */
+/* fr */  IDS_DEFAULT_SETTINGS_RESTORED_FR,    /* fuzzy */
+/* it */  IDS_DEFAULT_SETTINGS_RESTORED_IT,    /* fuzzy */
+/* nl */  IDS_DEFAULT_SETTINGS_RESTORED_NL,
+/* pl */  IDS_DEFAULT_SETTINGS_RESTORED_PL,    /* fuzzy */
+/* sv */  IDS_DEFAULT_SETTINGS_RESTORED_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_ATTACH_FILE,
+/* de */  IDS_CANNOT_ATTACH_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_ATTACH_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_ATTACH_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_ATTACH_FILE_NL,
+/* pl */  IDS_CANNOT_ATTACH_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_ATTACH_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_START_MONITOR,
+/* de */  IDS_START_MONITOR_DE,    /* fuzzy */
+/* fr */  IDS_START_MONITOR_FR,    /* fuzzy */
+/* it */  IDS_START_MONITOR_IT,    /* fuzzy */
+/* nl */  IDS_START_MONITOR_NL,
+/* pl */  IDS_START_MONITOR_PL,    /* fuzzy */
+/* sv */  IDS_START_MONITOR_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_VICE_CPU_JAM,
+/* de */  IDS_VICE_CPU_JAM_DE,    /* fuzzy */
+/* fr */  IDS_VICE_CPU_JAM_FR,    /* fuzzy */
+/* it */  IDS_VICE_CPU_JAM_IT,    /* fuzzy */
+/* nl */  IDS_VICE_CPU_JAM_NL,
+/* pl */  IDS_VICE_CPU_JAM_PL,    /* fuzzy */
+/* sv */  IDS_VICE_CPU_JAM_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_EXTEND_TO_40_TRACKS,
+/* de */  IDS_EXTEND_TO_40_TRACKS_DE,    /* fuzzy */
+/* fr */  IDS_EXTEND_TO_40_TRACKS_FR,    /* fuzzy */
+/* it */  IDS_EXTEND_TO_40_TRACKS_IT,    /* fuzzy */
+/* nl */  IDS_EXTEND_TO_40_TRACKS_NL,
+/* pl */  IDS_EXTEND_TO_40_TRACKS_PL,    /* fuzzy */
+/* sv */  IDS_EXTEND_TO_40_TRACKS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DETACHED_DEVICE_S,
+/* de */  IDS_DETACHED_DEVICE_S_DE,    /* fuzzy */
+/* fr */  IDS_DETACHED_DEVICE_S_FR,    /* fuzzy */
+/* it */  IDS_DETACHED_DEVICE_S_IT,    /* fuzzy */
+/* nl */  IDS_DETACHED_DEVICE_S_NL,
+/* pl */  IDS_DETACHED_DEVICE_S_PL,    /* fuzzy */
+/* sv */  IDS_DETACHED_DEVICE_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACHED_S_TO_DEVICE_S,
+/* de */  IDS_ATTACHED_S_TO_DEVICE_S_DE,    /* fuzzy */
+/* fr */  IDS_ATTACHED_S_TO_DEVICE_S_FR,    /* fuzzy */
+/* it */  IDS_ATTACHED_S_TO_DEVICE_S_IT,    /* fuzzy */
+/* nl */  IDS_ATTACHED_S_TO_DEVICE_S_NL,
+/* pl */  IDS_ATTACHED_S_TO_DEVICE_S_PL,    /* fuzzy */
+/* sv */  IDS_ATTACHED_S_TO_DEVICE_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DETACHED_TAPE,
+/* de */  IDS_DETACHED_TAPE_DE,    /* fuzzy */
+/* fr */  IDS_DETACHED_TAPE_FR,    /* fuzzy */
+/* it */  IDS_DETACHED_TAPE_IT,    /* fuzzy */
+/* nl */  IDS_DETACHED_TAPE_NL,
+/* pl */  IDS_DETACHED_TAPE_PL,    /* fuzzy */
+/* sv */  IDS_DETACHED_TAPE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_HISTORY_RECORDED_UNKNOWN,
+/* de */  IDS_HISTORY_RECORDED_UNKNOWN_DE,    /* fuzzy */
+/* fr */  IDS_HISTORY_RECORDED_UNKNOWN_FR,    /* fuzzy */
+/* it */  IDS_HISTORY_RECORDED_UNKNOWN_IT,    /* fuzzy */
+/* nl */  IDS_HISTORY_RECORDED_UNKNOWN_NL,
+/* pl */  IDS_HISTORY_RECORDED_UNKNOWN_PL,    /* fuzzy */
+/* sv */  IDS_HISTORY_RECORDED_UNKNOWN_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_HISTORY_RECORDED_VICE_S,
+/* de */  IDS_HISTORY_RECORDED_VICE_S_DE,    /* fuzzy */
+/* fr */  IDS_HISTORY_RECORDED_VICE_S_FR,    /* fuzzy */
+/* it */  IDS_HISTORY_RECORDED_VICE_S_IT,    /* fuzzy */
+/* nl */  IDS_HISTORY_RECORDED_VICE_S_NL,
+/* pl */  IDS_HISTORY_RECORDED_VICE_S_PL,    /* fuzzy */
+/* sv */  IDS_HISTORY_RECORDED_VICE_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PAUSED,
+/* de */  IDS_PAUSED_DE,    /* fuzzy */
+/* fr */  IDS_PAUSED_FR,    /* fuzzy */
+/* it */  IDS_PAUSED_IT,    /* fuzzy */
+/* nl */  IDS_PAUSED_NL,
+/* pl */  IDS_PAUSED_PL,    /* fuzzy */
+/* sv */  IDS_PAUSED_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_RESUMED,
+/* de */  IDS_RESUMED_DE,    /* fuzzy */
+/* fr */  IDS_RESUMED_FR,    /* fuzzy */
+/* it */  IDS_RESUMED_IT,    /* fuzzy */
+/* nl */  IDS_RESUMED_NL,
+/* pl */  IDS_RESUMED_PL,    /* fuzzy */
+/* sv */  IDS_RESUMED_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_REALLY_EXIT,
+/* de */  IDS_REALLY_EXIT_DE,    /* fuzzy */
+/* fr */  IDS_REALLY_EXIT_FR,    /* fuzzy */
+/* it */  IDS_REALLY_EXIT_IT,    /* fuzzy */
+/* nl */  IDS_REALLY_EXIT_NL,
+/* pl */  IDS_REALLY_EXIT_PL,    /* fuzzy */
+/* sv */  IDS_REALLY_EXIT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_AUTOSTART_FILE,
+/* de */  IDS_CANNOT_AUTOSTART_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_AUTOSTART_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_AUTOSTART_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_AUTOSTART_FILE_NL,
+/* pl */  IDS_CANNOT_AUTOSTART_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_AUTOSTART_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACHED_TAPE_S,
+/* de */  IDS_ATTACHED_TAPE_S_DE,    /* fuzzy */
+/* fr */  IDS_ATTACHED_TAPE_S_FR,    /* fuzzy */
+/* it */  IDS_ATTACHED_TAPE_S_IT,    /* fuzzy */
+/* nl */  IDS_ATTACHED_TAPE_S_NL,
+/* pl */  IDS_ATTACHED_TAPE_S_PL,    /* fuzzy */
+/* sv */  IDS_ATTACHED_TAPE_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SETTINGS_SAVED_SUCCESS,
+/* de */  IDS_SETTINGS_SAVED_SUCCESS_DE,    /* fuzzy */
+/* fr */  IDS_SETTINGS_SAVED_SUCCESS_FR,    /* fuzzy */
+/* it */  IDS_SETTINGS_SAVED_SUCCESS_IT,    /* fuzzy */
+/* nl */  IDS_SETTINGS_SAVED_SUCCESS_NL,
+/* pl */  IDS_SETTINGS_SAVED_SUCCESS_PL,    /* fuzzy */
+/* sv */  IDS_SETTINGS_SAVED_SUCCESS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SETTINGS_LOADED_SUCCESS,
+/* de */  IDS_SETTINGS_LOADED_SUCCESS_DE,    /* fuzzy */
+/* fr */  IDS_SETTINGS_LOADED_SUCCESS_FR,    /* fuzzy */
+/* it */  IDS_SETTINGS_LOADED_SUCCESS_IT,    /* fuzzy */
+/* nl */  IDS_SETTINGS_LOADED_SUCCESS_NL,
+/* pl */  IDS_SETTINGS_LOADED_SUCCESS_PL,    /* fuzzy */
+/* sv */  IDS_SETTINGS_LOADED_SUCCESS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_DISK_IMAGE,
+/* de */  IDS_ATTACH_DISK_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_DISK_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_DISK_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_DISK_IMAGE_NL,
+/* pl */  IDS_ATTACH_DISK_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_DISK_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_TAPE_IMAGE,
+/* de */  IDS_ATTACH_TAPE_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_TAPE_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_TAPE_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_TAPE_IMAGE_NL,
+/* pl */  IDS_ATTACH_TAPE_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_TAPE_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_AUTOSTART_IMAGE,
+/* de */  IDS_AUTOSTART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_AUTOSTART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_AUTOSTART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_AUTOSTART_IMAGE_NL,
+/* pl */  IDS_AUTOSTART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_AUTOSTART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_INVALID_CARTRIDGE,
+/* de */  IDS_INVALID_CARTRIDGE_DE,    /* fuzzy */
+/* fr */  IDS_INVALID_CARTRIDGE_FR,    /* fuzzy */
+/* it */  IDS_INVALID_CARTRIDGE_IT,    /* fuzzy */
+/* nl */  IDS_INVALID_CARTRIDGE_NL,
+/* pl */  IDS_INVALID_CARTRIDGE_PL,    /* fuzzy */
+/* sv */  IDS_INVALID_CARTRIDGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_BAD_CARTRIDGE_CONFIG,
+/* de */  IDS_BAD_CARTRIDGE_CONFIG_DE,    /* fuzzy */
+/* fr */  IDS_BAD_CARTRIDGE_CONFIG_FR,    /* fuzzy */
+/* it */  IDS_BAD_CARTRIDGE_CONFIG_IT,    /* fuzzy */
+/* nl */  IDS_BAD_CARTRIDGE_CONFIG_NL,
+/* pl */  IDS_BAD_CARTRIDGE_CONFIG_PL,    /* fuzzy */
+/* sv */  IDS_BAD_CARTRIDGE_CONFIG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_INVALID_CARTRIDGE_IMAGE,
+/* de */  IDS_INVALID_CARTRIDGE_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_INVALID_CARTRIDGE_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_INVALID_CARTRIDGE_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_INVALID_CARTRIDGE_IMAGE_NL,
+/* pl */  IDS_INVALID_CARTRIDGE_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_INVALID_CARTRIDGE_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOG_CONSOLE_OUTPUT_IMAGE,
+/* de */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_NL,
+/* pl */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_LOG_CONSOLE_OUTPUT_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOG_FILES_TYPE,
+/* de */  IDS_LOG_FILES_TYPE_DE,    /* fuzzy */
+/* fr */  IDS_LOG_FILES_TYPE_FR,    /* fuzzy */
+/* it */  IDS_LOG_FILES_TYPE_IT,    /* fuzzy */
+/* nl */  IDS_LOG_FILES_TYPE_NL,
+/* pl */  IDS_LOG_FILES_TYPE_PL,    /* fuzzy */
+/* sv */  IDS_LOG_FILES_TYPE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_WRITE_LOGFILE_S,
+/* de */  IDS_CANNOT_WRITE_LOGFILE_S_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_WRITE_LOGFILE_S_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_WRITE_LOGFILE_S_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_WRITE_LOGFILE_S_NL,
+/* pl */  IDS_CANNOT_WRITE_LOGFILE_S_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_WRITE_LOGFILE_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOAD_FLIP_LIST_FILE,
+/* de */  IDS_LOAD_FLIP_LIST_FILE_DE,    /* fuzzy */
+/* fr */  IDS_LOAD_FLIP_LIST_FILE_FR,    /* fuzzy */
+/* it */  IDS_LOAD_FLIP_LIST_FILE_IT,    /* fuzzy */
+/* nl */  IDS_LOAD_FLIP_LIST_FILE_NL,
+/* pl */  IDS_LOAD_FLIP_LIST_FILE_PL,    /* fuzzy */
+/* sv */  IDS_LOAD_FLIP_LIST_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_READ_FLIP_LIST,
+/* de */  IDS_CANNOT_READ_FLIP_LIST_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_READ_FLIP_LIST_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_READ_FLIP_LIST_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_READ_FLIP_LIST_NL,
+/* pl */  IDS_CANNOT_READ_FLIP_LIST_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_READ_FLIP_LIST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SAVE_FLIP_LIST_FILE,
+/* de */  IDS_SAVE_FLIP_LIST_FILE_DE,    /* fuzzy */
+/* fr */  IDS_SAVE_FLIP_LIST_FILE_FR,    /* fuzzy */
+/* it */  IDS_SAVE_FLIP_LIST_FILE_IT,    /* fuzzy */
+/* nl */  IDS_SAVE_FLIP_LIST_FILE_NL,
+/* pl */  IDS_SAVE_FLIP_LIST_FILE_PL,    /* fuzzy */
+/* sv */  IDS_SAVE_FLIP_LIST_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_WRITE_FLIP_LIST,
+/* de */  IDS_CANNOT_WRITE_FLIP_LIST_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_WRITE_FLIP_LIST_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_WRITE_FLIP_LIST_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_WRITE_FLIP_LIST_NL,
+/* pl */  IDS_CANNOT_WRITE_FLIP_LIST_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_WRITE_FLIP_LIST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_KEYMAP_FILE,
+/* de */  IDS_SELECT_KEYMAP_FILE_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_KEYMAP_FILE_FR,    /* fuzzy */
+/* it */  IDS_SELECT_KEYMAP_FILE_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_KEYMAP_FILE_NL,
+/* pl */  IDS_SELECT_KEYMAP_FILE_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_KEYMAP_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SAVE_KEYMAP_FILE,
+/* de */  IDS_SAVE_KEYMAP_FILE_DE,    /* fuzzy */
+/* fr */  IDS_SAVE_KEYMAP_FILE_FR,    /* fuzzy */
+/* it */  IDS_SAVE_KEYMAP_FILE_IT,    /* fuzzy */
+/* nl */  IDS_SAVE_KEYMAP_FILE_NL,
+/* pl */  IDS_SAVE_KEYMAP_FILE_PL,    /* fuzzy */
+/* sv */  IDS_SAVE_KEYMAP_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_WRITE_KEYMAP_FILE,
+/* de */  IDS_CANNOT_WRITE_KEYMAP_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_WRITE_KEYMAP_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_WRITE_KEYMAP_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_WRITE_KEYMAP_FILE_NL,
+/* pl */  IDS_CANNOT_WRITE_KEYMAP_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_WRITE_KEYMAP_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_MAPPING,
+/* de */  IDS_MAPPING_DE,    /* fuzzy */
+/* fr */  IDS_MAPPING_FR,    /* fuzzy */
+/* it */  IDS_MAPPING_IT,    /* fuzzy */
+/* nl */  IDS_MAPPING_NL,
+/* pl */  IDS_MAPPING_PL,    /* fuzzy */
+/* sv */  IDS_MAPPING_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_KEYBOARD_SETTINGS,
+/* de */  IDS_KEYBOARD_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_KEYBOARD_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_KEYBOARD_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_KEYBOARD_SETTINGS_NL,
+/* pl */  IDS_KEYBOARD_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_KEYBOARD_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH,
+/* de */  IDS_ATTACH_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_NL,
+/* pl */  IDS_ATTACH_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PLEASE_ENTER_A_FILENAME,
+/* de */  IDS_PLEASE_ENTER_A_FILENAME_DE,    /* fuzzy */
+/* fr */  IDS_PLEASE_ENTER_A_FILENAME_FR,    /* fuzzy */
+/* it */  IDS_PLEASE_ENTER_A_FILENAME_IT,    /* fuzzy */
+/* nl */  IDS_PLEASE_ENTER_A_FILENAME_NL,
+/* pl */  IDS_PLEASE_ENTER_A_FILENAME_PL,    /* fuzzy */
+/* sv */  IDS_PLEASE_ENTER_A_FILENAME_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_OVERWRITE_EXISTING_IMAGE,
+/* de */  IDS_OVERWRITE_EXISTING_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_OVERWRITE_EXISTING_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_OVERWRITE_EXISTING_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_OVERWRITE_EXISTING_IMAGE_NL,
+/* pl */  IDS_OVERWRITE_EXISTING_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_OVERWRITE_EXISTING_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_CREATE_IMAGE,
+/* de */  IDS_CANNOT_CREATE_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_CREATE_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_CREATE_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_CREATE_IMAGE_NL,
+/* pl */  IDS_CANNOT_CREATE_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_CREATE_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_COMMAND_LINE_OPTIONS,
+/* de */  IDS_COMMAND_LINE_OPTIONS_DE,    /* fuzzy */
+/* fr */  IDS_COMMAND_LINE_OPTIONS_FR,    /* fuzzy */
+/* it */  IDS_COMMAND_LINE_OPTIONS_IT,    /* fuzzy */
+/* nl */  IDS_COMMAND_LINE_OPTIONS_NL,
+/* pl */  IDS_COMMAND_LINE_OPTIONS_PL,    /* fuzzy */
+/* sv */  IDS_COMMAND_LINE_OPTIONS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_COMMAND_OPTIONS_AVAIL,
+/* de */  IDS_COMMAND_OPTIONS_AVAIL_DE,    /* fuzzy */
+/* fr */  IDS_COMMAND_OPTIONS_AVAIL_FR,    /* fuzzy */
+/* it */  IDS_COMMAND_OPTIONS_AVAIL_IT,    /* fuzzy */
+/* nl */  IDS_COMMAND_OPTIONS_AVAIL_NL,
+/* pl */  IDS_COMMAND_OPTIONS_AVAIL_PL,    /* fuzzy */
+/* sv */  IDS_COMMAND_OPTIONS_AVAIL_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NO_DRIVER_SELECT_SUPPORT,
+/* de */  IDS_NO_DRIVER_SELECT_SUPPORT_DE,    /* fuzzy */
+/* fr */  IDS_NO_DRIVER_SELECT_SUPPORT_FR,    /* fuzzy */
+/* it */  IDS_NO_DRIVER_SELECT_SUPPORT_IT,    /* fuzzy */
+/* nl */  IDS_NO_DRIVER_SELECT_SUPPORT_NL,
+/* pl */  IDS_NO_DRIVER_SELECT_SUPPORT_PL,    /* fuzzy */
+/* sv */  IDS_NO_DRIVER_SELECT_SUPPORT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANT_WRITE_SCREENSHOT_S,
+/* de */  IDS_CANT_WRITE_SCREENSHOT_S_DE,    /* fuzzy */
+/* fr */  IDS_CANT_WRITE_SCREENSHOT_S_FR,    /* fuzzy */
+/* it */  IDS_CANT_WRITE_SCREENSHOT_S_IT,    /* fuzzy */
+/* nl */  IDS_CANT_WRITE_SCREENSHOT_S_NL,
+/* pl */  IDS_CANT_WRITE_SCREENSHOT_S_PL,    /* fuzzy */
+/* sv */  IDS_CANT_WRITE_SCREENSHOT_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_AUTOSTART_DISK_IMAGE,
+/* de */  IDS_AUTOSTART_DISK_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_AUTOSTART_DISK_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_AUTOSTART_DISK_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_AUTOSTART_DISK_IMAGE_NL,
+/* pl */  IDS_AUTOSTART_DISK_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_AUTOSTART_DISK_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_FS_DIRECTORY,
+/* de */  IDS_SELECT_FS_DIRECTORY_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_FS_DIRECTORY_FR,    /* fuzzy */
+/* it */  IDS_SELECT_FS_DIRECTORY_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_FS_DIRECTORY_NL,
+/* pl */  IDS_SELECT_FS_DIRECTORY_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_FS_DIRECTORY_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRINTER_USERPORT,
+/* de */  IDS_PRINTER_USERPORT_DE,    /* fuzzy */
+/* fr */  IDS_PRINTER_USERPORT_FR,    /* fuzzy */
+/* it */  IDS_PRINTER_USERPORT_IT,    /* fuzzy */
+/* nl */  IDS_PRINTER_USERPORT_NL,
+/* pl */  IDS_PRINTER_USERPORT_PL,    /* fuzzy */
+/* sv */  IDS_PRINTER_USERPORT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRINTER_4,
+/* de */  IDS_PRINTER_4_DE,    /* fuzzy */
+/* fr */  IDS_PRINTER_4_FR,    /* fuzzy */
+/* it */  IDS_PRINTER_4_IT,    /* fuzzy */
+/* nl */  IDS_PRINTER_4_NL,
+/* pl */  IDS_PRINTER_4_PL,    /* fuzzy */
+/* sv */  IDS_PRINTER_4_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRINTER_5,
+/* de */  IDS_PRINTER_5_DE,    /* fuzzy */
+/* fr */  IDS_PRINTER_5_FR,    /* fuzzy */
+/* it */  IDS_PRINTER_5_IT,    /* fuzzy */
+/* nl */  IDS_PRINTER_5_NL,
+/* pl */  IDS_PRINTER_5_PL,    /* fuzzy */
+/* sv */  IDS_PRINTER_5_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE_8,
+/* de */  IDS_DRIVE_8_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_8_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_8_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_8_NL,
+/* pl */  IDS_DRIVE_8_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_8_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE_9,
+/* de */  IDS_DRIVE_9_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_9_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_9_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_9_NL,
+/* pl */  IDS_DRIVE_9_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_9_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE_10,
+/* de */  IDS_DRIVE_10_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_10_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_10_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_10_NL,
+/* pl */  IDS_DRIVE_10_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_10_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE_11,
+/* de */  IDS_DRIVE_11_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_11_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_11_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_11_NL,
+/* pl */  IDS_DRIVE_11_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_11_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PERIPHERAL_SETTINGS,
+/* de */  IDS_PERIPHERAL_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_PERIPHERAL_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_PERIPHERAL_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_PERIPHERAL_SETTINGS_NL,
+/* pl */  IDS_PERIPHERAL_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_PERIPHERAL_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANT_WRITE_SNAPSHOT_FILE,
+/* de */  IDS_CANT_WRITE_SNAPSHOT_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANT_WRITE_SNAPSHOT_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANT_WRITE_SNAPSHOT_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANT_WRITE_SNAPSHOT_FILE_NL,
+/* pl */  IDS_CANT_WRITE_SNAPSHOT_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANT_WRITE_SNAPSHOT_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_READ_SNAPSHOT_IMG,
+/* de */  IDS_CANNOT_READ_SNAPSHOT_IMG_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_READ_SNAPSHOT_IMG_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_READ_SNAPSHOT_IMG_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_READ_SNAPSHOT_IMG_NL,
+/* pl */  IDS_CANNOT_READ_SNAPSHOT_IMG_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_READ_SNAPSHOT_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOAD_S_ROM_IMAGE,
+/* de */  IDS_LOAD_S_ROM_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_LOAD_S_ROM_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_LOAD_S_ROM_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_LOAD_S_ROM_IMAGE_NL,
+/* pl */  IDS_LOAD_S_ROM_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_LOAD_S_ROM_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_ROMSET_ARCHIVE,
+/* de */  IDS_SELECT_ROMSET_ARCHIVE_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_ROMSET_ARCHIVE_FR,    /* fuzzy */
+/* it */  IDS_SELECT_ROMSET_ARCHIVE_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_ROMSET_ARCHIVE_NL,
+/* pl */  IDS_SELECT_ROMSET_ARCHIVE_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_ROMSET_ARCHIVE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_LOAD_ROMSET_ARCH,
+/* de */  IDS_CANNOT_LOAD_ROMSET_ARCH_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_LOAD_ROMSET_ARCH_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_LOAD_ROMSET_ARCH_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_LOAD_ROMSET_ARCH_NL,
+/* pl */  IDS_CANNOT_LOAD_ROMSET_ARCH_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_LOAD_ROMSET_ARCH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_SAVE_ROMSET_ARCH,
+/* de */  IDS_CANNOT_SAVE_ROMSET_ARCH_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_SAVE_ROMSET_ARCH_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_SAVE_ROMSET_ARCH_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_SAVE_ROMSET_ARCH_NL,
+/* pl */  IDS_CANNOT_SAVE_ROMSET_ARCH_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_SAVE_ROMSET_ARCH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_LOAD_ROMSET_FILE,
+/* de */  IDS_CANNOT_LOAD_ROMSET_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_LOAD_ROMSET_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_LOAD_ROMSET_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_LOAD_ROMSET_FILE_NL,
+/* pl */  IDS_CANNOT_LOAD_ROMSET_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_LOAD_ROMSET_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_SAVE_ROMSET_FILE,
+/* de */  IDS_CANNOT_SAVE_ROMSET_FILE_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_SAVE_ROMSET_FILE_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_SAVE_ROMSET_FILE_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_SAVE_ROMSET_FILE_NL,
+/* pl */  IDS_CANNOT_SAVE_ROMSET_FILE_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_SAVE_ROMSET_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_ROMSET_FILE,
+/* de */  IDS_SELECT_ROMSET_FILE_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_ROMSET_FILE_FR,    /* fuzzy */
+/* it */  IDS_SELECT_ROMSET_FILE_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_ROMSET_FILE_NL,
+/* pl */  IDS_SELECT_ROMSET_FILE_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_ROMSET_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ROMSET,
+/* de */  IDS_ROMSET_DE,    /* fuzzy */
+/* fr */  IDS_ROMSET_FR,    /* fuzzy */
+/* it */  IDS_ROMSET_IT,    /* fuzzy */
+/* nl */  IDS_ROMSET_NL,
+/* pl */  IDS_ROMSET_PL,    /* fuzzy */
+/* sv */  IDS_ROMSET_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_COMPUTER,
+/* de */  IDS_COMPUTER_DE,    /* fuzzy */
+/* fr */  IDS_COMPUTER_FR,    /* fuzzy */
+/* it */  IDS_COMPUTER_IT,    /* fuzzy */
+/* nl */  IDS_COMPUTER_NL,
+/* pl */  IDS_COMPUTER_PL,    /* fuzzy */
+/* sv */  IDS_COMPUTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE,
+/* de */  IDS_DRIVE_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_NL,
+/* pl */  IDS_DRIVE_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ROM_SETTINGS,
+/* de */  IDS_ROM_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_ROM_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_ROM_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_ROM_SETTINGS_NL,
+/* pl */  IDS_ROM_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_ROM_SETTINGS_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_THIS_MACHINE_NO_SID,
+/* de */  IDS_THIS_MACHINE_NO_SID_DE,    /* fuzzy */
+/* fr */  IDS_THIS_MACHINE_NO_SID_FR,    /* fuzzy */
+/* it */  IDS_THIS_MACHINE_NO_SID_IT,    /* fuzzy */
+/* nl */  IDS_THIS_MACHINE_NO_SID_NL,
+/* pl */  IDS_THIS_MACHINE_NO_SID_PL,    /* fuzzy */
+/* sv */  IDS_THIS_MACHINE_NO_SID_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_GENERAL,
+/* de */  IDS_GENERAL_DE,    /* fuzzy */
+/* fr */  IDS_GENERAL_FR,    /* fuzzy */
+/* it */  IDS_GENERAL_IT,    /* fuzzy */
+/* nl */  IDS_GENERAL_NL,
+/* pl */  IDS_GENERAL_PL,    /* fuzzy */
+/* sv */  IDS_GENERAL_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_SID_SETTINGS,
+/* de */  IDS_SID_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_SID_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_SID_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_SID_SETTINGS_NL,
+/* pl */  IDS_SID_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_SID_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SAVE_SNAPSHOT_IMAGE,
+/* de */  IDS_SAVE_SNAPSHOT_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_SAVE_SNAPSHOT_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_SAVE_SNAPSHOT_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_SAVE_SNAPSHOT_IMAGE_NL,
+/* pl */  IDS_SAVE_SNAPSHOT_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_SAVE_SNAPSHOT_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CANNOT_WRITE_SNAPSHOT_S,
+/* de */  IDS_CANNOT_WRITE_SNAPSHOT_S_DE,    /* fuzzy */
+/* fr */  IDS_CANNOT_WRITE_SNAPSHOT_S_FR,    /* fuzzy */
+/* it */  IDS_CANNOT_WRITE_SNAPSHOT_S_IT,    /* fuzzy */
+/* nl */  IDS_CANNOT_WRITE_SNAPSHOT_S_NL,
+/* pl */  IDS_CANNOT_WRITE_SNAPSHOT_S_PL,    /* fuzzy */
+/* sv */  IDS_CANNOT_WRITE_SNAPSHOT_S_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOAD_SNAPSHOT_IMAGE,
+/* de */  IDS_LOAD_SNAPSHOT_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_LOAD_SNAPSHOT_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_LOAD_SNAPSHOT_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_LOAD_SNAPSHOT_IMAGE_NL,
+/* pl */  IDS_LOAD_SNAPSHOT_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_LOAD_SNAPSHOT_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_COULD_NOT_LOAD_PALETTE,
+/* de */  IDS_COULD_NOT_LOAD_PALETTE_DE,    /* fuzzy */
+/* fr */  IDS_COULD_NOT_LOAD_PALETTE_FR,    /* fuzzy */
+/* it */  IDS_COULD_NOT_LOAD_PALETTE_IT,    /* fuzzy */
+/* nl */  IDS_COULD_NOT_LOAD_PALETTE_NL,
+/* pl */  IDS_COULD_NOT_LOAD_PALETTE_PL,    /* fuzzy */
+/* sv */  IDS_COULD_NOT_LOAD_PALETTE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LOAD_VICE_PALETTE_FILE,
+/* de */  IDS_LOAD_VICE_PALETTE_FILE_DE,    /* fuzzy */
+/* fr */  IDS_LOAD_VICE_PALETTE_FILE_FR,    /* fuzzy */
+/* it */  IDS_LOAD_VICE_PALETTE_FILE_IT,    /* fuzzy */
+/* nl */  IDS_LOAD_VICE_PALETTE_FILE_NL,
+/* pl */  IDS_LOAD_VICE_PALETTE_FILE_PL,    /* fuzzy */
+/* sv */  IDS_LOAD_VICE_PALETTE_FILE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_FULLSCREEN,
+/* de */  IDS_FULLSCREEN_DE,    /* fuzzy */
+/* fr */  IDS_FULLSCREEN_FR,    /* fuzzy */
+/* it */  IDS_FULLSCREEN_IT,    /* fuzzy */
+/* nl */  IDS_FULLSCREEN_NL,
+/* pl */  IDS_FULLSCREEN_PL,    /* fuzzy */
+/* sv */  IDS_FULLSCREEN_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_COLORS,
+/* de */  IDS_COLORS_DE,    /* fuzzy */
+/* fr */  IDS_COLORS_FR,    /* fuzzy */
+/* it */  IDS_COLORS_IT,    /* fuzzy */
+/* nl */  IDS_COLORS_NL,
+/* pl */  IDS_COLORS_PL,    /* fuzzy */
+/* sv */  IDS_COLORS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_VIDEO_SETTINGS,
+/* de */  IDS_VIDEO_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_VIDEO_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_VIDEO_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_VIDEO_SETTINGS_NL,
+/* pl */  IDS_VIDEO_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_VIDEO_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_FILE_SYSTEM,
+/* de */  IDS_FILE_SYSTEM_DE,    /* fuzzy */
+/* fr */  IDS_FILE_SYSTEM_FR,    /* fuzzy */
+/* it */  IDS_FILE_SYSTEM_IT,    /* fuzzy */
+/* nl */  IDS_FILE_SYSTEM_NL,
+/* pl */  IDS_FILE_SYSTEM_PL,    /* fuzzy */
+/* sv */  IDS_FILE_SYSTEM_SV},   /* fuzzy */
+
+#ifdef HAVE_OPENCBM
+/* res.rc */
+/* en */ {IDS_REAL_IEC_DEVICE,
+/* de */  IDS_REAL_IEC_DEVICE_DE,    /* fuzzy */
+/* fr */  IDS_REAL_IEC_DEVICE_FR,    /* fuzzy */
+/* it */  IDS_REAL_IEC_DEVICE_IT,    /* fuzzy */
+/* nl */  IDS_REAL_IEC_DEVICE_NL,
+/* pl */  IDS_REAL_IEC_DEVICE_PL,    /* fuzzy */
+/* sv */  IDS_REAL_IEC_DEVICE_SV},   /* fuzzy */
+#endif
+
+/* resc128.rc */
+/* en */ {IDS_SELECT_INT_FUNCTION_ROM,
+/* de */  IDS_SELECT_INT_FUNCTION_ROM_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_INT_FUNCTION_ROM_FR,    /* fuzzy */
+/* it */  IDS_SELECT_INT_FUNCTION_ROM_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_INT_FUNCTION_ROM_NL,
+/* pl */  IDS_SELECT_INT_FUNCTION_ROM_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_INT_FUNCTION_ROM_SV},   /* fuzzy */
+
+/* resc128.rc */
+/* en */ {IDS_SELECT_EXT_FUNCTION_ROM,
+/* de */  IDS_SELECT_EXT_FUNCTION_ROM_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_EXT_FUNCTION_ROM_FR,    /* fuzzy */
+/* it */  IDS_SELECT_EXT_FUNCTION_ROM_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_EXT_FUNCTION_ROM_NL,
+/* pl */  IDS_SELECT_EXT_FUNCTION_ROM_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_EXT_FUNCTION_ROM_SV},   /* fuzzy */
+
+/* resc128.rc */
+/* en */ {IDS_MACHINE_TYPE,
+/* de */  IDS_MACHINE_TYPE_DE,    /* fuzzy */
+/* fr */  IDS_MACHINE_TYPE_FR,    /* fuzzy */
+/* it */  IDS_MACHINE_TYPE_IT,    /* fuzzy */
+/* nl */  IDS_MACHINE_TYPE_NL,
+/* pl */  IDS_MACHINE_TYPE_PL,    /* fuzzy */
+/* sv */  IDS_MACHINE_TYPE_SV},   /* fuzzy */
+
+/* resc128.rc */
+/* en */ {IDS_FUNCTION_ROM,
+/* de */  IDS_FUNCTION_ROM_DE,    /* fuzzy */
+/* fr */  IDS_FUNCTION_ROM_FR,    /* fuzzy */
+/* it */  IDS_FUNCTION_ROM_IT,    /* fuzzy */
+/* nl */  IDS_FUNCTION_ROM_NL,
+/* pl */  IDS_FUNCTION_ROM_PL,    /* fuzzy */
+/* sv */  IDS_FUNCTION_ROM_SV},   /* fuzzy */
+
+/* resc128.rc */
+/* en */ {IDS_C128_SETTINGS,
+/* de */  IDS_C128_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_C128_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_C128_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_C128_SETTINGS_NL,
+/* pl */  IDS_C128_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_C128_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_CRT_CART_IMAGE,
+/* de */  IDS_ATTACH_CRT_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_CRT_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_CRT_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_CRT_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_CRT_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_CRT_CART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_RAW_8KB_CART_IMAGE,
+/* de */  IDS_ATTACH_RAW_8KB_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_RAW_8KB_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_RAW_8KB_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_RAW_8KB_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_RAW_8KB_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_RAW_8KB_CART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_RAW_16KB_CART_IMG,
+/* de */  IDS_ATTACH_RAW_16KB_CART_IMG_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_RAW_16KB_CART_IMG_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_RAW_16KB_CART_IMG_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_RAW_16KB_CART_IMG_NL,
+/* pl */  IDS_ATTACH_RAW_16KB_CART_IMG_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_RAW_16KB_CART_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_AR_CART_IMAGE,
+/* de */  IDS_ATTACH_AR_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_AR_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_AR_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_AR_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_AR_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_AR_CART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_ATOMIC_P_CART_IMG,
+/* de */  IDS_ATTACH_ATOMIC_P_CART_IMG_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_ATOMIC_P_CART_IMG_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_ATOMIC_P_CART_IMG_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_ATOMIC_P_CART_IMG_NL,
+/* pl */  IDS_ATTACH_ATOMIC_P_CART_IMG_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_ATOMIC_P_CART_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_EPYX_FL_CART_IMG,
+/* de */  IDS_ATTACH_EPYX_FL_CART_IMG_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_EPYX_FL_CART_IMG_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_EPYX_FL_CART_IMG_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_EPYX_FL_CART_IMG_NL,
+/* pl */  IDS_ATTACH_EPYX_FL_CART_IMG_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_EPYX_FL_CART_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_IEEE488_CART_IMG,
+/* de */  IDS_ATTACH_IEEE488_CART_IMG_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_IEEE488_CART_IMG_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_IEEE488_CART_IMG_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_IEEE488_CART_IMG_NL,
+/* pl */  IDS_ATTACH_IEEE488_CART_IMG_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_IEEE488_CART_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_RETRO_R_CART_IMG,
+/* de */  IDS_ATTACH_RETRO_R_CART_IMG_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_RETRO_R_CART_IMG_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_RETRO_R_CART_IMG_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_RETRO_R_CART_IMG_NL,
+/* pl */  IDS_ATTACH_RETRO_R_CART_IMG_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_RETRO_R_CART_IMG_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_IDE64_CART_IMAGE,
+/* de */  IDS_ATTACH_IDE64_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_IDE64_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_IDE64_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_IDE64_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_IDE64_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_IDE64_CART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_SS4_CART_IMAGE,
+/* de */  IDS_ATTACH_SS4_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_SS4_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_SS4_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_SS4_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_SS4_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_SS4_CART_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ATTACH_SS5_CART_IMAGE,
+/* de */  IDS_ATTACH_SS5_CART_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_SS5_CART_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_SS5_CART_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_SS5_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_SS5_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_SS5_CART_IMAGE_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_FUNCTION_LOW_CART,
+/* de */  IDS_ATTACH_FUNCTION_LOW_CART_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_FUNCTION_LOW_CART_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_FUNCTION_LOW_CART_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_FUNCTION_LOW_CART_NL,
+/* pl */  IDS_ATTACH_FUNCTION_LOW_CART_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_FUNCTION_LOW_CART_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_FUNCTION_HIGH_CART,
+/* de */  IDS_ATTACH_FUNCTION_HIGH_CART_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_FUNCTION_HIGH_CART_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_FUNCTION_HIGH_CART_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_FUNCTION_HIGH_CART_NL,
+/* pl */  IDS_ATTACH_FUNCTION_HIGH_CART_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_FUNCTION_HIGH_CART_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_CART1_LOW,
+/* de */  IDS_ATTACH_CART1_LOW_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_CART1_LOW_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_CART1_LOW_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_CART1_LOW_NL,
+/* pl */  IDS_ATTACH_CART1_LOW_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_CART1_LOW_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_CART1_HIGH,
+/* de */  IDS_ATTACH_CART1_HIGH_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_CART1_HIGH_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_CART1_HIGH_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_CART1_HIGH_NL,
+/* pl */  IDS_ATTACH_CART1_HIGH_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_CART1_HIGH_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_CART2_LOW,
+/* de */  IDS_ATTACH_CART2_LOW_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_CART2_LOW_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_CART2_LOW_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_CART2_LOW_NL,
+/* pl */  IDS_ATTACH_CART2_LOW_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_CART2_LOW_SV},   /* fuzzy */
+
+/* resplus4.rc */
+/* en */ {IDS_ATTACH_CART2_HIGH,
+/* de */  IDS_ATTACH_CART2_HIGH_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_CART2_HIGH_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_CART2_HIGH_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_CART2_HIGH_NL,
+/* pl */  IDS_ATTACH_CART2_HIGH_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_CART2_HIGH_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDS_ATTACH_4_8_16_CART_2000,
+/* de */  IDS_ATTACH_4_8_16_CART_2000_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_4_8_16_CART_2000_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_4_8_16_CART_2000_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_4_8_16_CART_2000_NL,
+/* pl */  IDS_ATTACH_4_8_16_CART_2000_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_4_8_16_CART_2000_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDS_ATTACH_4_8_16_CART_4000,
+/* de */  IDS_ATTACH_4_8_16_CART_4000_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_4_8_16_CART_4000_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_4_8_16_CART_4000_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_4_8_16_CART_4000_NL,
+/* pl */  IDS_ATTACH_4_8_16_CART_4000_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_4_8_16_CART_4000_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDS_ATTACH_4_8_16_CART_6000,
+/* de */  IDS_ATTACH_4_8_16_CART_6000_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_4_8_16_CART_6000_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_4_8_16_CART_6000_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_4_8_16_CART_6000_NL,
+/* pl */  IDS_ATTACH_4_8_16_CART_6000_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_4_8_16_CART_6000_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDS_ATTACH_4_8_CART_A000,
+/* de */  IDS_ATTACH_4_8_CART_A000_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_4_8_CART_A000_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_4_8_CART_A000_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_4_8_CART_A000_NL,
+/* pl */  IDS_ATTACH_4_8_CART_A000_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_4_8_CART_A000_SV},   /* fuzzy */
+
+/* resvic20.rc */
+/* en */ {IDS_ATTACH_4_CART_B000,
+/* de */  IDS_ATTACH_4_CART_B000_DE,    /* fuzzy */
+/* fr */  IDS_ATTACH_4_CART_B000_FR,    /* fuzzy */
+/* it */  IDS_ATTACH_4_CART_B000_IT,    /* fuzzy */
+/* nl */  IDS_ATTACH_4_CART_B000_NL,
+/* pl */  IDS_ATTACH_4_CART_B000_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_4_CART_B000_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_MODEL,
+/* de */  IDS_MODEL_DE,    /* fuzzy */
+/* fr */  IDS_MODEL_FR,    /* fuzzy */
+/* it */  IDS_MODEL_IT,    /* fuzzy */
+/* nl */  IDS_MODEL_NL,
+/* pl */  IDS_MODEL_PL,    /* fuzzy */
+/* sv */  IDS_MODEL_SV},   /* fuzzy */
+
+/* rescbm2.rc */
+/* en */ {IDS_MEMORY,
+/* de */  IDS_MEMORY_DE,    /* fuzzy */
+/* fr */  IDS_MEMORY_FR,    /* fuzzy */
+/* it */  IDS_MEMORY_IT,    /* fuzzy */
+/* nl */  IDS_MEMORY_NL,
+/* pl */  IDS_MEMORY_PL,    /* fuzzy */
+/* sv */  IDS_MEMORY_SV},   /* fuzzy */
+
+/* rescbm2.rc */
+/* en */ {IDS_CBM2_SETTINGS,
+/* de */  IDS_CBM2_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_CBM2_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_CBM2_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_CBM2_SETTINGS_NL,
+/* pl */  IDS_CBM2_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_CBM2_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DRIVE_SETTINGS,
+/* de */  IDS_DRIVE_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_DRIVE_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_DRIVE_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_DRIVE_SETTINGS_NL,
+/* pl */  IDS_DRIVE_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_DRIVE_SETTINGS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_START_SNAP_EVENT,
+/* de */  IDS_SELECT_START_SNAP_EVENT_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_START_SNAP_EVENT_FR,    /* fuzzy */
+/* it */  IDS_SELECT_START_SNAP_EVENT_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_START_SNAP_EVENT_NL,
+/* pl */  IDS_SELECT_START_SNAP_EVENT_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_START_SNAP_EVENT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SELECT_END_SNAP_EVENT,
+/* de */  IDS_SELECT_END_SNAP_EVENT_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_END_SNAP_EVENT_FR,    /* fuzzy */
+/* it */  IDS_SELECT_END_SNAP_EVENT_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_END_SNAP_EVENT_NL,
+/* pl */  IDS_SELECT_END_SNAP_EVENT_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_END_SNAP_EVENT_SV},   /* fuzzy */
+
+#ifdef UNSTABLE
+/* res.rc */
+/* en */ {IDS_VERSION_S_UNSTABLE,
+/* de */  IDS_VERSION_S_UNSTABLE_DE,    /* fuzzy */
+/* fr */  IDS_VERSION_S_UNSTABLE_FR,    /* fuzzy */
+/* it */  IDS_VERSION_S_UNSTABLE_IT,    /* fuzzy */
+/* nl */  IDS_VERSION_S_UNSTABLE_NL,
+/* pl */  IDS_VERSION_S_UNSTABLE_PL,    /* fuzzy */
+/* sv */  IDS_VERSION_S_UNSTABLE_SV},   /* fuzzy */
+#else
+/* res.rc */
+/* en */ {IDS_VERSION_S,
+/* de */  IDS_VERSION_S_DE,    /* fuzzy */
+/* fr */  IDS_VERSION_S_FR,    /* fuzzy */
+/* it */  IDS_VERSION_S_IT,    /* fuzzy */
+/* nl */  IDS_VERSION_S_NL,
+/* pl */  IDS_VERSION_S_PL,    /* fuzzy */
+/* sv */  IDS_VERSION_S_SV},   /* fuzzy */
+#endif
+
+/* res.rc */
+/* en */ {IDS_VICE_CONTRIBUTORS,
+/* de */  IDS_VICE_CONTRIBUTORS_DE,    /* fuzzy */
+/* fr */  IDS_VICE_CONTRIBUTORS_FR,    /* fuzzy */
+/* it */  IDS_VICE_CONTRIBUTORS_IT,    /* fuzzy */
+/* nl */  IDS_VICE_CONTRIBUTORS_NL,
+/* pl */  IDS_VICE_CONTRIBUTORS_PL,    /* fuzzy */
+/* sv */  IDS_VICE_CONTRIBUTORS_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_WHO_MADE_WHAT,
+/* de */  IDS_WHO_MADE_WHAT_DE,    /* fuzzy */
+/* fr */  IDS_WHO_MADE_WHAT_FR,    /* fuzzy */
+/* it */  IDS_WHO_MADE_WHAT_IT,    /* fuzzy */
+/* nl */  IDS_WHO_MADE_WHAT_NL,
+/* pl */  IDS_WHO_MADE_WHAT_PL,    /* fuzzy */
+/* sv */  IDS_WHO_MADE_WHAT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_LICENSE,
+/* de */  IDS_LICENSE_DE,    /* fuzzy */
+/* fr */  IDS_LICENSE_FR,    /* fuzzy */
+/* it */  IDS_LICENSE_IT,    /* fuzzy */
+/* nl */  IDS_LICENSE_NL,
+/* pl */  IDS_LICENSE_PL,    /* fuzzy */
+/* sv */  IDS_LICENSE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NO_WARRANTY,
+/* de */  IDS_NO_WARRANTY_DE,    /* fuzzy */
+/* fr */  IDS_NO_WARRANTY_FR,    /* fuzzy */
+/* it */  IDS_NO_WARRANTY_IT,    /* fuzzy */
+/* nl */  IDS_NO_WARRANTY_NL,
+/* pl */  IDS_NO_WARRANTY_PL,    /* fuzzy */
+/* sv */  IDS_NO_WARRANTY_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_VICE_WITHOUT_WARRANTY,
+/* de */  IDS_VICE_WITHOUT_WARRANTY_DE,    /* fuzzy */
+/* fr */  IDS_VICE_WITHOUT_WARRANTY_FR,    /* fuzzy */
+/* it */  IDS_VICE_WITHOUT_WARRANTY_IT,    /* fuzzy */
+/* nl */  IDS_VICE_WITHOUT_WARRANTY_NL,
+/* pl */  IDS_VICE_WITHOUT_WARRANTY_PL,    /* fuzzy */
+/* sv */  IDS_VICE_WITHOUT_WARRANTY_SV},   /* fuzzy */
+
+/* reside64.rc */
+/* en */ {IDS_TOTAL_SIZE_I_KB,
+/* de */  IDS_TOTAL_SIZE_I_KB_DE,    /* fuzzy */
+/* fr */  IDS_TOTAL_SIZE_I_KB_FR,    /* fuzzy */
+/* it */  IDS_TOTAL_SIZE_I_KB_IT,    /* fuzzy */
+/* nl */  IDS_TOTAL_SIZE_I_KB_NL,
+/* pl */  IDS_TOTAL_SIZE_I_KB_PL,    /* fuzzy */
+/* sv */  IDS_TOTAL_SIZE_I_KB_SV},   /* fuzzy */
+
+/* reside64.rc */
+/* en */ {IDS_SELECT_HD_IMAGE,
+/* de */  IDS_SELECT_HD_IMAGE_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_HD_IMAGE_FR,    /* fuzzy */
+/* it */  IDS_SELECT_HD_IMAGE_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_HD_IMAGE_NL,
+/* pl */  IDS_SELECT_HD_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_HD_IMAGE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_NORTHWEST,
+/* de */  IDS_PRESS_KEY_NORTHWEST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_NORTHWEST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_NORTHWEST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_NORTHWEST_NL,
+/* pl */  IDS_PRESS_KEY_NORTHWEST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_NORTHWEST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_NORTH,
+/* de */  IDS_PRESS_KEY_NORTH_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_NORTH_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_NORTH_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_NORTH_NL,
+/* pl */  IDS_PRESS_KEY_NORTH_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_NORTH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_NORTHEAST,
+/* de */  IDS_PRESS_KEY_NORTHEAST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_NORTHEAST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_NORTHEAST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_NORTHEAST_NL,
+/* pl */  IDS_PRESS_KEY_NORTHEAST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_NORTHEAST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_EAST,
+/* de */  IDS_PRESS_KEY_EAST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_EAST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_EAST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_EAST_NL,
+/* pl */  IDS_PRESS_KEY_EAST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_EAST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_SOUTHEAST,
+/* de */  IDS_PRESS_KEY_SOUTHEAST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_SOUTHEAST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_SOUTHEAST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_SOUTHEAST_NL,
+/* pl */  IDS_PRESS_KEY_SOUTHEAST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_SOUTHEAST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_SOUTH,
+/* de */  IDS_PRESS_KEY_SOUTH_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_SOUTH_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_SOUTH_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_SOUTH_NL,
+/* pl */  IDS_PRESS_KEY_SOUTH_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_SOUTH_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_SOUTHWEST,
+/* de */  IDS_PRESS_KEY_SOUTHWEST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_SOUTHWEST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_SOUTHWEST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_SOUTHWEST_NL,
+/* pl */  IDS_PRESS_KEY_SOUTHWEST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_SOUTHWEST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_WEST,
+/* de */  IDS_PRESS_KEY_WEST_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_WEST_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_WEST_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_WEST_NL,
+/* pl */  IDS_PRESS_KEY_WEST_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_WEST_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PRESS_KEY_FIRE,
+/* de */  IDS_PRESS_KEY_FIRE_DE,    /* fuzzy */
+/* fr */  IDS_PRESS_KEY_FIRE_FR,    /* fuzzy */
+/* it */  IDS_PRESS_KEY_FIRE_IT,    /* fuzzy */
+/* nl */  IDS_PRESS_KEY_FIRE_NL,
+/* pl */  IDS_PRESS_KEY_FIRE_PL,    /* fuzzy */
+/* sv */  IDS_PRESS_KEY_FIRE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NUMPAD_AND_RCTRL,
+/* de */  IDS_NUMPAD_AND_RCTRL_DE,    /* fuzzy */
+/* fr */  IDS_NUMPAD_AND_RCTRL_FR,    /* fuzzy */
+/* it */  IDS_NUMPAD_AND_RCTRL_IT,    /* fuzzy */
+/* nl */  IDS_NUMPAD_AND_RCTRL_NL,
+/* pl */  IDS_NUMPAD_AND_RCTRL_PL,    /* fuzzy */
+/* sv */  IDS_NUMPAD_AND_RCTRL_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_KEYSET_A,
+/* de */  IDS_KEYSET_A_DE,    /* fuzzy */
+/* fr */  IDS_KEYSET_A_FR,    /* fuzzy */
+/* it */  IDS_KEYSET_A_IT,    /* fuzzy */
+/* nl */  IDS_KEYSET_A_NL,
+/* pl */  IDS_KEYSET_A_PL,    /* fuzzy */
+/* sv */  IDS_KEYSET_A_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_KEYSET_B,
+/* de */  IDS_KEYSET_B_DE,    /* fuzzy */
+/* fr */  IDS_KEYSET_B_FR,    /* fuzzy */
+/* it */  IDS_KEYSET_B_IT,    /* fuzzy */
+/* nl */  IDS_KEYSET_B_NL,
+/* pl */  IDS_KEYSET_B_PL,    /* fuzzy */
+/* sv */  IDS_KEYSET_B_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ALL_BUTTONS_AS_FIRE,
+/* de */  IDS_ALL_BUTTONS_AS_FIRE_DE,    /* fuzzy */
+/* fr */  IDS_ALL_BUTTONS_AS_FIRE_FR,    /* fuzzy */
+/* it */  IDS_ALL_BUTTONS_AS_FIRE_IT,    /* fuzzy */
+/* nl */  IDS_ALL_BUTTONS_AS_FIRE_NL,
+/* pl */  IDS_ALL_BUTTONS_AS_FIRE_PL,    /* fuzzy */
+/* sv */  IDS_ALL_BUTTONS_AS_FIRE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NUMERIC_SEE_ABOVE,
+/* de */  IDS_NUMERIC_SEE_ABOVE_DE,    /* fuzzy */
+/* fr */  IDS_NUMERIC_SEE_ABOVE_FR,    /* fuzzy */
+/* it */  IDS_NUMERIC_SEE_ABOVE_IT,    /* fuzzy */
+/* nl */  IDS_NUMERIC_SEE_ABOVE_NL,
+/* pl */  IDS_NUMERIC_SEE_ABOVE_PL,    /* fuzzy */
+/* sv */  IDS_NUMERIC_SEE_ABOVE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_NO_BUTTON_NO_AUTOFIRE,
+/* de */  IDS_NO_BUTTON_NO_AUTOFIRE_DE,    /* fuzzy */
+/* fr */  IDS_NO_BUTTON_NO_AUTOFIRE_FR,    /* fuzzy */
+/* it */  IDS_NO_BUTTON_NO_AUTOFIRE_IT,    /* fuzzy */
+/* nl */  IDS_NO_BUTTON_NO_AUTOFIRE_NL,
+/* pl */  IDS_NO_BUTTON_NO_AUTOFIRE_PL,    /* fuzzy */
+/* sv */  IDS_NO_BUTTON_NO_AUTOFIRE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ALL_FILES_FILTER,
+/* de */  IDS_ALL_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_ALL_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_ALL_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_ALL_FILES_FILTER_NL,
+/* pl */  IDS_ALL_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_ALL_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_PALETTE_FILES_FILTER,
+/* de */  IDS_PALETTE_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_PALETTE_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_PALETTE_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_PALETTE_FILES_FILTER_NL,
+/* pl */  IDS_PALETTE_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_PALETTE_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SNAPSHOT_FILES_FILTER,
+/* de */  IDS_SNAPSHOT_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_SNAPSHOT_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_SNAPSHOT_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_SNAPSHOT_FILES_FILTER_NL,
+/* pl */  IDS_SNAPSHOT_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_SNAPSHOT_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_DISK_IMAGE_FILES_FILTER,
+/* de */  IDS_DISK_IMAGE_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_DISK_IMAGE_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_DISK_IMAGE_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_DISK_IMAGE_FILES_FILTER_NL,
+/* pl */  IDS_DISK_IMAGE_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_DISK_IMAGE_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_TAPE_IMAGE_FILES_FILTER,
+/* de */  IDS_TAPE_IMAGE_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_TAPE_IMAGE_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_TAPE_IMAGE_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_TAPE_IMAGE_FILES_FILTER_NL,
+/* pl */  IDS_TAPE_IMAGE_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_TAPE_IMAGE_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ZIPPED_FILES_FILTER,
+/* de */  IDS_ZIPPED_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_ZIPPED_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_ZIPPED_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_ZIPPED_FILES_FILTER_NL,
+/* pl */  IDS_ZIPPED_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_ZIPPED_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CRT_FILES_FILTER,
+/* de */  IDS_CRT_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_CRT_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_CRT_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_CRT_FILES_FILTER_NL,
+/* pl */  IDS_CRT_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_CRT_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_RAW_CART_FILES_FILTER,
+/* de */  IDS_RAW_CART_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_RAW_CART_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_RAW_CART_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_RAW_CART_FILES_FILTER_NL,
+/* pl */  IDS_RAW_CART_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_RAW_CART_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_FLIP_LIST_FILES_FILTER,
+/* de */  IDS_FLIP_LIST_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_FLIP_LIST_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_FLIP_LIST_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_FLIP_LIST_FILES_FILTER_NL,
+/* pl */  IDS_FLIP_LIST_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_FLIP_LIST_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ROMSET_FILES_FILTER,
+/* de */  IDS_ROMSET_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_ROMSET_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_ROMSET_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_ROMSET_FILES_FILTER_NL,
+/* pl */  IDS_ROMSET_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_ROMSET_FILES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ROMSET_ARCHIVES_FILTER,
+/* de */  IDS_ROMSET_ARCHIVES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_ROMSET_ARCHIVES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_ROMSET_ARCHIVES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_ROMSET_ARCHIVES_FILTER_NL,
+/* pl */  IDS_ROMSET_ARCHIVES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_ROMSET_ARCHIVES_FILTER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_KEYMAP_FILES_FILTER,
+/* de */  IDS_KEYMAP_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_KEYMAP_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_KEYMAP_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_KEYMAP_FILES_FILTER_NL,
+/* pl */  IDS_KEYMAP_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_KEYMAP_FILES_FILTER_SV},   /* fuzzy */
+
+/* respet.rc */
+/* en */ {IDS_INPUT_OUTPUT,
+/* de */  IDS_INPUT_OUTPUT_DE,    /* fuzzy */
+/* fr */  IDS_INPUT_OUTPUT_FR,    /* fuzzy */
+/* it */  IDS_INPUT_OUTPUT_IT,    /* fuzzy */
+/* nl */  IDS_INPUT_OUTPUT_NL,
+/* pl */  IDS_INPUT_OUTPUT_PL,    /* fuzzy */
+/* sv */  IDS_INPUT_OUTPUT_SV},   /* fuzzy */
+
+/* respet.rc */
+/* en */ {IDS_PET_SETTINGS,
+/* de */  IDS_PET_SETTINGS_DE,    /* fuzzy */
+/* fr */  IDS_PET_SETTINGS_FR,    /* fuzzy */
+/* it */  IDS_PET_SETTINGS_IT,    /* fuzzy */
+/* nl */  IDS_PET_SETTINGS_NL,
+/* pl */  IDS_PET_SETTINGS_PL,    /* fuzzy */
+/* sv */  IDS_PET_SETTINGS_SV},   /* fuzzy */
+
+/* resgeoram.rc */
+/* en */ {IDS_SELECT_FILE_GEORAM,
+/* de */  IDS_SELECT_FILE_GEORAM_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_FILE_GEORAM_FR,    /* fuzzy */
+/* it */  IDS_SELECT_FILE_GEORAM_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_FILE_GEORAM_NL,
+/* pl */  IDS_SELECT_FILE_GEORAM_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_FILE_GEORAM_SV},   /* fuzzy */
+
+/* resramcart.rc */
+/* en */ {IDS_SELECT_FILE_RAMCART,
+/* de */  IDS_SELECT_FILE_RAMCART_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_FILE_RAMCART_FR,    /* fuzzy */
+/* it */  IDS_SELECT_FILE_RAMCART_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_FILE_RAMCART_NL,
+/* pl */  IDS_SELECT_FILE_RAMCART_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_FILE_RAMCART_SV},   /* fuzzy */
+
+/* resreu.rc */
+/* en */ {IDS_SELECT_FILE_REU,
+/* de */  IDS_SELECT_FILE_REU_DE,    /* fuzzy */
+/* fr */  IDS_SELECT_FILE_REU_FR,    /* fuzzy */
+/* it */  IDS_SELECT_FILE_REU_IT,    /* fuzzy */
+/* nl */  IDS_SELECT_FILE_REU_NL,
+/* pl */  IDS_SELECT_FILE_REU_PL,    /* fuzzy */
+/* sv */  IDS_SELECT_FILE_REU_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_FAST,
+/* de */  IDS_FAST_DE,    /* fuzzy */
+/* fr */  IDS_FAST_FR,    /* fuzzy */
+/* it */  IDS_FAST_IT,    /* fuzzy */
+/* nl */  IDS_FAST_NL,
+/* pl */  IDS_FAST_PL,    /* fuzzy */
+/* sv */  IDS_FAST_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_INTERPOLATING,
+/* de */  IDS_INTERPOLATING_DE,    /* fuzzy */
+/* fr */  IDS_INTERPOLATING_FR,    /* fuzzy */
+/* it */  IDS_INTERPOLATING_IT,    /* fuzzy */
+/* nl */  IDS_INTERPOLATING_NL,
+/* pl */  IDS_INTERPOLATING_PL,    /* fuzzy */
+/* sv */  IDS_INTERPOLATING_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_RESAMPLING,
+/* de */  IDS_RESAMPLING_DE,    /* fuzzy */
+/* fr */  IDS_RESAMPLING_FR,    /* fuzzy */
+/* it */  IDS_RESAMPLING_IT,    /* fuzzy */
+/* nl */  IDS_RESAMPLING_NL,
+/* pl */  IDS_RESAMPLING_PL,    /* fuzzy */
+/* sv */  IDS_RESAMPLING_SV},   /* fuzzy */
+
+/* ressid.rc */
+/* en */ {IDS_FAST_RESAMPLING,
+/* de */  IDS_FAST_RESAMPLING_DE,    /* fuzzy */
+/* fr */  IDS_FAST_RESAMPLING_FR,    /* fuzzy */
+/* it */  IDS_FAST_RESAMPLING_IT,    /* fuzzy */
+/* nl */  IDS_FAST_RESAMPLING_NL,
+/* pl */  IDS_FAST_RESAMPLING_PL,    /* fuzzy */
+/* sv */  IDS_FAST_RESAMPLING_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_FLEXIBLE,
+/* de */  IDS_FLEXIBLE_DE,    /* fuzzy */
+/* fr */  IDS_FLEXIBLE_FR,    /* fuzzy */
+/* it */  IDS_FLEXIBLE_IT,    /* fuzzy */
+/* nl */  IDS_FLEXIBLE_NL,
+/* pl */  IDS_FLEXIBLE_PL,    /* fuzzy */
+/* sv */  IDS_FLEXIBLE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ADJUSTING,
+/* de */  IDS_ADJUSTING_DE,    /* fuzzy */
+/* fr */  IDS_ADJUSTING_FR,    /* fuzzy */
+/* it */  IDS_ADJUSTING_IT,    /* fuzzy */
+/* nl */  IDS_ADJUSTING_NL,
+/* pl */  IDS_ADJUSTING_PL,    /* fuzzy */
+/* sv */  IDS_ADJUSTING_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_EXACT,
+/* de */  IDS_EXACT_DE,    /* fuzzy */
+/* fr */  IDS_EXACT_FR,    /* fuzzy */
+/* it */  IDS_EXACT_IT,    /* fuzzy */
+/* nl */  IDS_EXACT_NL,
+/* pl */  IDS_EXACT_PL,    /* fuzzy */
+/* sv */  IDS_EXACT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SOUND_DRIVER_DIRECTX,
+/* de */  IDS_SOUND_DRIVER_DIRECTX_DE,    /* fuzzy */
+/* fr */  IDS_SOUND_DRIVER_DIRECTX_FR,    /* fuzzy */
+/* it */  IDS_SOUND_DRIVER_DIRECTX_IT,    /* fuzzy */
+/* nl */  IDS_SOUND_DRIVER_DIRECTX_NL,
+/* pl */  IDS_SOUND_DRIVER_DIRECTX_PL,    /* fuzzy */
+/* sv */  IDS_SOUND_DRIVER_DIRECTX_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SOUND_DRIVER_WMM,
+/* de */  IDS_SOUND_DRIVER_WMM_DE,    /* fuzzy */
+/* fr */  IDS_SOUND_DRIVER_WMM_FR,    /* fuzzy */
+/* it */  IDS_SOUND_DRIVER_WMM_IT,    /* fuzzy */
+/* nl */  IDS_SOUND_DRIVER_WMM_NL,
+/* pl */  IDS_SOUND_DRIVER_WMM_PL,    /* fuzzy */
+/* sv */  IDS_SOUND_DRIVER_WMM_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_MEDIA_FILES_FILTER,
+/* de */  IDS_MEDIA_FILES_FILTER_DE,    /* fuzzy */
+/* fr */  IDS_MEDIA_FILES_FILTER_FR,    /* fuzzy */
+/* it */  IDS_MEDIA_FILES_FILTER_IT,    /* fuzzy */
+/* nl */  IDS_MEDIA_FILES_FILTER_NL,
+/* pl */  IDS_MEDIA_FILES_FILTER_PL,    /* fuzzy */
+/* sv */  IDS_MEDIA_FILES_FILTER_SV}    /* fuzzy */
+
+};
+
+static char *intl_text_table[countof(intl_translate_text_table)][countof(intl_language_table)];
+
+/* this routine fills in the table of resources and pointers to the
+   text that belongs to them with the right data, this is because of
+   the way that the text resources have to be copied into a buffer
+   before they can be used, so it might be best to do that at init. */
+
+static int intl_text_init(void)
 {
-  unsigned int key, i, shift;
+  int i,j;
+  char temp_buffer[4098*sizeof(TCHAR)];
 
-  key = 0; shift = 0;
-  for (i = 0; text[i] != '\0'; i++)
+  for (i = 0; i < countof(intl_language_table); i++)
   {
-    unsigned int sym = (unsigned int)text[i];
-
-    if (shift >= logHashSize)
-      shift = 0;
-
-    key ^= (sym << shift);
-    if (shift + 8 > logHashSize)
+    for (j = 0; j < countof(intl_translate_text_table); j++)
     {
-      key ^= (((unsigned int)sym) >> (logHashSize - shift));
+      if (LoadString(winmain_instance, intl_translate_text_table[j][i], temp_buffer, 4097)==0)
+      {
+        intl_text_table[j][i]=NULL;
+      }
+      else
+      {
+        intl_text_table[j][i]=strdup(temp_buffer);
+      }
     }
-    shift++;
   }
-  return (key & ((1 << logHashSize) - 1));
-}
-
-static int intl_text_register(const char *text, const int index)
-{
-  intl_text_t *dp;
-  unsigned int hashkey;
-
-  dp = intl_text + num_intl_text;
-
-  if (num_allocated_intl_text <= num_intl_text)
-  {
-    num_allocated_intl_text *= 2;
-    intl_text = lib_realloc(intl_text, num_allocated_intl_text * sizeof(intl_text_t));
-    dp = intl_text + num_intl_text;
-  }
-
-  dp->en_text = lib_stralloc(text);
-  dp->index = index;
-
-  hashkey = intl_text_calc_hash_key(text);
-  dp->hash_next = hashTable[hashkey];
-  hashTable[hashkey] = (dp - intl_text);
-
-  num_intl_text++;
-
   return 0;
 }
 
 static void intl_text_free(void)
 {
-  unsigned int i;
+  int i,j;
 
-  for (i = 0; i < num_intl_text; i++)
-    lib_free((intl_text + i)->en_text);
-}
-
-static void intl_text_shutdown(void)
-{
-  intl_text_free();
-
-  lib_free(intl_text);
-  lib_free(hashTable);
-}
-
-static intl_text_t *intl_text_lookup(const char *text)
-{
-  intl_text_t *res;
-  unsigned int hashkey;
-
-  hashkey = intl_text_calc_hash_key(text);
-  res = (hashTable[hashkey] >= 0) ? intl_text + hashTable[hashkey] : NULL;
-  while (res != NULL)
+  for (i = 0; i < countof(intl_language_table); i++)
   {
-    if (strcmp(res->en_text, text) == 0)
-      return res;
-    res = (res->hash_next >= 0) ? intl_text + res->hash_next : NULL;
+    for (j = 0; j < countof(intl_translate_text_table); j++)
+    {
+      if (intl_text_table[j][i]!=NULL)
+        lib_free(intl_text_table[j][i]);
+    }
   }
-  return NULL;
 }
 
-static int intl_text_init(void)
+char *intl_translate_text(int en_resource)
 {
-  unsigned int i;
+  int i;
 
-  num_allocated_intl_text = 100;
-  num_intl_text = 0;
-  intl_text = (intl_text_t *)lib_malloc(num_allocated_intl_text * sizeof(intl_text_t));
-
-  hashTable = (int *)lib_malloc((1 << logHashSize) * sizeof(int));
-
-  for (i = 0; i < (unsigned int)(1 << logHashSize); i++)
-    hashTable[i] = -1;
-
-  return 0;
+  for (i = 0; i < countof(intl_translate_text_table); i++)
+  {
+    if (intl_translate_text_table[i][0]==en_resource)
+    {
+      if (intl_translate_text_table[i][current_language_index]!=0 &&
+          intl_text_table[i][current_language_index]!=NULL &&
+          strlen(intl_text_table[i][current_language_index])!=0)
+        return intl_text_table[i][current_language_index];
+      else
+        return intl_text_table[i][0];
+    }
+  }
+  return "";
 }
-
-static int intl_text_get_value(const char *text)
-{
-  intl_text_t *r = intl_text_lookup(text);
-  if (r==NULL)
-    return -1;
-  else
-    return r->index;
-}
-
-/* --------------------------------------------------------------------- */
-
-static char *intl_text_table[][countof(intl_language_table)] = {
-
-/* the following entries are also present in the unix po files */
-
-/* vsync.c */
-/* en */ {"Your machine is too slow for current settings!",
-/* de */  "Deine Maschine ist zu langsam für aktuelle Einstellungen!",
-/* fr */  "Désolé mais votre ordinateur est trop lent pour les paramètres choisis!",
-/* it */  "Il computer è troppo lento per queste impostazioni!",
-/* nl */  "Uw machine is te traag voor de huidige instellingen!",
-/* pl */  "Twój komputer jest zbyt wolny na obecne ustawienia!",
-/* sv */  "Din maskin är för långsam för nuvarande inställningar!"},
-
-/* screenshot.c */
-/* en */ {"Sorry. Multiple recording is not supported.",
-/* de */  "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich.",
-/* fr */  "Désolé. Vous ne pouvez enregistrer plus d'une chose à la fois.",
-/* it */  "Le registrazioni multiple non sono supportate.",
-/* nl */  "Sorry. Meerdere opnames wordt niet ondersteunt.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Endast en inspelning kan göras åt gången."},
-
-/* autostart.c */
-/* en */ {"Cannot load snapshot file.",
-/* de */  "Kann Snapshot Datei nicht laden.",
-/* fr */  "Impossible de charger le fichier de sauvegarde.",
-/* it */  "Non è possibile caricare il file di snapshot.",
-/* nl */  "Kan momentopname bestand niet laden.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Kan inte ladda ögonblicksbildfil."},
-
-/* sound.c */
-/* en */ {"write to sound device failed.",
-/* de */  "Schreiben auf Sound Gerät ist fehlgeschlagen.",
-/* fr */  "Impossible d'écriture sur le périphérique de son.",
-/* it */  "scrittura sulla scheda audio fallita.",
-/* nl */  "Schrijf-actie naar geluidsapparaat faalt.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "misslyckades att skriva till ljudenhet."},
-
-/* sound.c */
-/* en */ {"Cannot open SID engine",
-/* de */  "Kann SID Engine nicht öffnen",
-/* fr */  "Erreur de chargement de l'engin de son SID",
-/* it */  "Non è possibile aprire il motore SID",
-/* nl */  "Kan de SID kern niet openen",
-/* pl */  "Ustawienia uk³adu SID",     /* fuzzy */
-/* sv */  "Kan inte öppna SID-motor"},
-
-/* sound.c */
-/* en */ {"Cannot initialize SID engine",
-/* de */  "Kann SID Engine nicht initialisieren",
-/* fr */  "Erreur d'initialisation de l'engin de son SID",
-/* it */  "Non è possibile inizializzare il motore SID",
-/* nl */  "Kan de SID kern niet initialiseren",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Kan inte initiera SID-motor"},
-
-/* sound.c */
-/* en */ {"initialization failed for device `%s'.",
-/* de */  "Initialisierung von Gerät `%s' fehlgeschlagen.",
-/* fr */  "erreur d'initialisation du périphérique `%s':",
-/* it */  "inizializzazione fallita per il device `%s'.",
-/* nl */  "Initialisatie faalt voor apparaar `%s'.",
-/* pl */  "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':",     /* fuzzy */
-/* sv */  "initiering misslyckades för enhet \"%s\"."},
-
-/* sound.c */
-/* en */ {"sound device lacks stereo capability",
-/* de */  "Sound Gerät unterstützt keine Stereo Ausgabe",
-/* fr */  "le périphérique de son n'est pas stéréo",
-/* it */  "la scheda audio non dispone di una modalità stereofonica",
-/* nl */  "Geluid apparaat heeft geen stereo mogelijkheid.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "ljudenhet saknar stereofunktion"},
-
-/* sound.c */
-/* en */ {"device '%s' not found or not supported.",
-/* de */  "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt.",
-/* fr */  "périphérique '%s' non trouvé ou non supporté.",
-/* it */  "il device '%s' non è stato trovato oppure non è supportato.",
-/* nl */  "apparaat '%s' niet gevonden of niet ondersteunt.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "enheten \"%s\" hittades eller stöds ej."},
-
-/* sound.c */
-/* en */ {"Recording device %s doesn't exist!",
-/* de */  "Aufnahme Gerät %s existiert nicht!",
-/* fr */  "Le périphérique d'enregistrement %s n'existe pas!",
-/* it */  "Il device di registrazione %s non esiste!",
-/* nl */  "Opname apparaat %s bestaat niet!",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Inspelningsenhet %s finns inte!"},
-
-/* sound.c */
-/* en */ {"Recording device must be different from playback device",
-/* de */  "Aufnahme Gerät muß unteschiedlich vom Abspielgerät sein",
-/* fr */  "Le périphérique d'enregistrement doit être différent du périphérique de lecture",
-/* it */  "Il device di registrazione deve essere differente da quello di riproduzione",
-/* nl */  "Opname apparaat moet anders zijn dan afspeel apparaat",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Inspelningsenhet och återspelningsenhet kan inte vara samma"},
-
-/* sound.c */
-/* en */ {"Warning! Recording device %s seems to be a realtime device!",
-/* de */  "Warnung! Aufnahme Gerät %s scheint ein Echtzeitgerät zu sein!",
-/* fr */  "Attention! Le périphérique d'enregistrement %s semble être un périphérique en temps réel",
-/* it */  "Attenzione! Il device di registrazione %s sembra essere un dispositivo realtime!",
-/* nl */  "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"},
-
-/* sound.c */
-/* en */ {"Initialization failed for device `%s'.",
-/* de */  "Initialisierung von Gerät `%s' fehlgeschlagen.",
-/* fr */  "Échec de l'initialisation du périphérique `%s'.",
-/* it */  "Inizializzazione fallita per il device `%s'.",
-/* nl */  "Initialisatie faalt voor apparaat `%s'.",
-/* pl */  "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':",     /* fuzzy */
-/* sv */  "Initiering misslyckades för enhet \"%s\"."},
-
-/* sound.c */
-/* en */ {"The recording device doesn't support current sound parameters",
-/* de */  "Aufnahmegerät unterstütz derzeitige Soundeinstellungen nicht",
-/* fr */  "Le périphérique d'enregistrement ne supporte pas les paramètres de son actuellement configurés",
-/* it */  "Il device di registrazione non supporta i parametri attuali",
-/* nl */  "Opname apparaat ondersteunt de huidige geluid parameters niet",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Inspelningsenheten stöder inte aktuella ljudinställningar"},
-
-/* sound.c */
-/* en */ {"Sound buffer overflow (cycle based)",
-/* de */  "Sound Puffer Überlauf (Zyklus basiert)",
-/* fr */  "Erreur de dépassement de limite du tampon son (basé sur les cycles)",
-/* it */  "Overflow del buffer sonoro (cycle based)",
-/* nl */  "Geluidsbuffer overstroming (cycli gebaseerd)",
-/* pl */  "",     /* fuzzy */
-/* sv */  "För mycket data i ljudbufferten (cykelbaserad)"},
-
-/* sound.c */
-/* en */ {"Sound buffer overflow.",
-/* de */  "Sound Puffer Überlauf",
-/* fr */  "Erreur de dépassement de limite du tampon son.",
-/* it */  "Overflow del buffer sonoro.",
-/* nl */  "Geluidsbuffer overstroming",
-/* pl */  "",     /* fuzzy */
-/* sv */  "För mycket data i ljudbufferten."},
-
-/* sound.c */
-/* en */ {"cannot flush.",
-/* de */  "Entleerung nicht möglich.",
-/* fr */  "impossible de vider.",
-/* it */  "non è possibile svuotare.",
-/* nl */  "kan niet spoelen.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "kan inte tömma."},
-
-/* sound.c */
-/* en */ {"fragment problems.",
-/* de */  "Fragmentierungsproblem.",
-/* fr */  "problèmes de fragments.",
-/* it */  "problemi di frammentazione.",
-/* nl */  "fragment problemen.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "fragmentprogram."},
-
-/* sound.c */
-/* en */ {"Buffer drained",
-/* de */  "Puffer geleert",
-/* fr */  "Tampon vide",
-/* it */  "Buffer vuoto",
-/* nl */  "Buffer leeg",
-/* pl */  "Rozmiar buffora",     /* fuzzy */
-/* sv */  "Buffert tömd"},
-
-/* sound.c */
-/* en */ {"running too slow.",
-/* de */  "Ablauf zu langsam.",
-/* fr */  "l'exécution est trop lente.",
-/* it */  "esecuzione troppo lenta.",
-/* nl */  "draait te langzaam.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "går för långsamt."},
-
-/* sound.c */
-/* en */ {"write to sounddevice failed.",
-/* de */  "Schreiben auf Sound Gerät ist fehlgeschlagen.",
-/* fr */  "erreur d'écriture sur le périphérique de son.",
-/* it */  "scrittura sulla scheda audio fallita.",
-/* nl */  "schrijf actie naar geluidsapparaat lukt niet.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "misslyckades skriva till ljudenheten."},
-
-/* sound.c */
-/* en */ {"store to sounddevice failed.",
-/* de */  "Speichern auf Sound Gerät ist fehlgeschlagen.",
-/* fr */  "erreur d'enregistrement sur le périphérique de son.",
-/* it */  "memorizzazione sulla scheda audio fallita.",
-/* nl */  "opslag naar geluidsapparaat lukt niet.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "misslyckades spara i ljudenheten."},
-
-/* event.c */
-/* en */ {"Could not create start snapshot file %s.",
-/* de */  "Kann Start Snapshot Datei nicht erzeugen: %s",
-/* fr */  "Impossible de créer le fichier de sauvegarde de départ %s.",
-/* it */  "Non è possibile creare il file di inizio snapshot %s.",
-/* nl */  "Kon het start momentopname bestand %s niet maken.",
-/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
-/* sv */  "Kunde inte skapa startögonblicksbildfilen %s."},
-
-/* event.c */
-/* en */ {"Error reading end snapshot file %s.",
-/* de */  "Kann Ende Snapshot Datei nicht lesen: %s",
-/* fr */  "Erreur de lecture dans le fichier de sauvegarde de fin %s.",
-/* it */  "Errore durante la lettura del file di fine snapshot %s.",
-/* nl */  "Fout bij het lezen van het eind van het momentopname bestand %s.",
-/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
-/* sv */  "Fel vid läsning av slutögonblicksbildfilen %s."},
-
-/* event.c */
-/* en */ {"Could not create end snapshot file %s.",
-/* de */  "Kann Ende Snapshot Datei nicht erzeugen: %s",
-/* fr */  "Impossible de créer le fichier de sauvegarde de fin %s.",
-/* it */  "Non è possibile creare il file di fine snapshot %s.",
-/* nl */  "Kon het eind momentopname bestand %s niet maken.",
-/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
-/* sv */  "Kunde inte skapa slutögonblicksbildfilen %s."},
-
-/* event.c */
-/* en */ {"Could not open end snapshot file %s.",
-/* de */  "Kann Ende Snapshot Datei nicht öffnen: %s",
-/* fr */  "Impossible d'ouvrir le fichier de sauvegarde de fin %s.",
-/* it */  "Non è possibile aprire il file di fine snapshot %s.",
-/* nl */  "Kon het eind momentopname bestand %s niet openen.",
-/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
-/* sv */  "Kunde inte öppna slutögonblicksbildfilen %s."},
-
-/* event.c */
-/* en */ {"Could not find event section in end snapshot file.",
-/* de */  "Kann Sektion in Ende Snapshotdatei nicht finden.",
-/* fr */  "Impossible de trouver la section des événements dans le fichier de sauvegarde de fin.",
-/* it */  "Non è possibile trovare la sezione eventi nel file di fine snapshot.",
-/* nl */  "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden.",
-/* pl */  "",     /* fuzzy */
-/* sv */  "Kunde inte hinna händelsedelen i slutögonblicksbilden."},
-
-/* event.c */
-/* en */ {"Error reading start snapshot file. Tried %s and %s",
-/* de */  "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %s.",
-/* fr */  "Erreur de lecture  du fichier de sauvegarde de départ. %s et %s ont été testés",
-/* it */  "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s",
-/* nl */  "Fout bij het lezen van het start momentopname bestand. Heb %s en %s geprobeerd",
-/* pl */  "B³±d czytania urz±dzenia cyfrowego joysticka.",     /* fuzzy */
-/* sv */  "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"},
-
-/* event.c */
-/* en */ {"Error reading start snapshot file.",
-/* de */  "Fehler beim Lesen der Start Snapshot Datei.",
-/* fr */  "Erreur de lecture du fichier de sauvegarde de départ.",
-/* it */  "Errore durante la lettura del file di inizio snapshot.",
-/* nl */  "Fout bij het lezen van het start momentopname bestand.",
-/* pl */  "B³±d czytania urz±dzenia cyfrowego joysticka.",     /* fuzzy */
-/* sv */  "Fel vid läsning av startögonblicksbildfil."},
-
-
-/* the following things I marked with _() because they also apply to unix gettext,
-   but they are not in the po files yet. */
-
-/* event.c */
-/* en */ {"Cannot create image file %s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan bestand %s niet maken",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* event.c */
-/* en */ {"Cannot write image file %s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan niet schrijven naar bestand %s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* event.c */
-/* en */ {"Cannot find mapped name for %s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan vertaalde naam voor %s niet vinden",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* c64export.c */
-/* en */ {"Resource IO1 blocked by %s.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Bron IO1 geblokeerd door %s.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* c64export.c */
-/* en */ {"Resource IO2 blocked by %s.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Bron IO2 geblokeerd door %s.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* c64export.c */
-/* en */ {"Resource ROML blocked by %s.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Bron ROML geblokeerd door %s.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* c64export.c */
-/* en */ {"Resource ROMH blocked by %s.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Bron ROMH geblokeerd door %s.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-
-/* the following are windows arch files */
-
-/* arch/win32/ffmpeglib.c */
-/* en */ {"Your ffmpeg dll version doesn't match.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Uw ffmpeg dll versie is niet juist.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/fullscrn.c */
-/* en */ {"DirectDraw error: Code:%8x Error:%s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "DirectDraw fout: Code:%8x Fout:%s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"VICE Error!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE Fout!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"VICE Information",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE Informatie",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Cannot save settings.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan de instellingen niet schrijven",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Cannot load settings.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan de instellingen niet laden",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Default settings restored.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Standaard instellingen hersteld",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c, arch/win32/uiattach.c, arch/win32/uiperipheral.c */
-/* en */ {"Cannot attach specified file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan het opgegeven bestand niet gebruiken",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"%s\n\nStart monitor?",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"VICE CPU JAM",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Extend image to 40-track format?",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "bestand uitbreiden naar 40-sporen?",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c, arch/win32/uilib.c */
-/* en */ {"VICE question",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE vraag",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"%s at %d%% speed, %d fps%s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "%s met %d%% snelheid, %d fps%s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {" (warp)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Detached device %s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Apparaat %s ontkoppelt",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Attached %s to device#%s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "%s gekoppelt aan apparaat#%s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Detached tape",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Tape ontkoppelt",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"History recorded with unknown release",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geschiedenis opgenomen met onbekende VICE versie",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"History recorded with VICE-%s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geschiedenis opgenomen met VICE-%s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"paused",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "gepauzeerd",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"resumed",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "hervat",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c */
-/* en */ {"Do you really want to exit?\n\n"
-          "All the data present in the emulated RAM will be lost.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Wilt u echt afsluiten?\n\n"
-          "Alle data in geëmuleerd geheugen zal verloren gaan.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/ui.c, arch/win32/uiattach.c, arch/win32/uiperipheral.c */
-/* en */ {"Cannot autostart specified file.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan opgegeven bestand niet autostarten.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiattach.c, arch/win32/uiperipheral.c */
-/* en */ {"Attach disk image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Disk bestand koppelen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiattach.c */
-/* en */ {"Attach tape image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Tape bestand koppelen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiattach.c */
-/* en */ {"Autostart disk/tape image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Autostart disk/tape bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Invalid cartridge",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Ongeldige cartridge",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uicart.c, arch/win32/uiplus4cart.c */
-/* en */ {"Bad cartridge config in UI!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Slechte cartridge configuratie in UI!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uicart.c, arch/win32/uiplus4cart.c */
-/* en */ {"Invalid cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Ongeldig cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiconsole.c */
-/* en */ {"Logging console output image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Logboek console uitvoer bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiconsole.c */
-/* en */ {"VICE console logging files (*.dbg)\0*.dbg\0",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE console logboek bestanden (*.dbg)\0*.dbg\0",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiconsole.c */
-/* en */ {"Cannot write log file `%s'.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan logboek bestand `%s' niet schrijven.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uifliplist.c */
-/* en */ {"Load flip list file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Laad flip lijst bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uifliplist.c */
-/* en */ {"Cannot read flip list file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan flip lijst bestand niet lezen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uifliplist.c */
-/* en */ {"Save flip list file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Flip lijst bestand opslaan",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uifliplist.c */
-/* en */ {"Cannot write flip list file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan flip lijst bestand niet schrijven",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uikeyboard.c */
-/* en */ {"Select keymap file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer keymap bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uikeyboard.c */
-/* en */ {"Save keymap file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Keymap bestand opslaan",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uikeyboard.c */
-/* en */ {"Cannot write keymap file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan keymap bestand niet schrijven",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uikeyboard.c */
-/* en */ {"Mapping",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uikeyboard.c */
-/* en */ {"Keyboard settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Toetsenbord instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"&Attach",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "&Koppelen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Please enter a filename.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geef aub een bestandsnaam op.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Overwrite existing image?",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Overschrijven bestaand bestand?",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Cannot create image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan bestand niet maken",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Command line options",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Commando opties",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Which command line options are available?",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Welke commando opties zijn beschikbaar?",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uimediafile.c */
-/* en */ {"Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Media bestanden (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uimediafile.c */
-/* en */ {"No driver selected or selected driver not supported",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen stuurprogramma geselecteerd, of geselecteerd stuurprogramma wordt niet ondersteunt",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uimediafile.c */
-/* en */ {"Cannot write screenshot file `%s'.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan scherm afdruk bestand `%s' niet schrijven.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Autostart disk image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Autostart disk bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Select file system directory",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer bestand systeem directory",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Printer Userport",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Printer 4",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Printer 5",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
-   arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
-   arch/win32/uidriveplus4.c */
-/* en */ {"Drive 8",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Station 8",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
-   arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
-   arch/win32/uidriveplus4.c */
-/* en */ {"Drive 9",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Station 9",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
-   arch/win32/uidrivec64vic20.c, arch/win32/uidriveplus4.c */
-/* en */ {"Drive 10",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Station 10",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
-   arch/win32/uidrivec64vic20.c, arch/win32/uidriveplus4.c */
-/* en */ {"Drive 11",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Station 11",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Peripheral Settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Rand apparaat instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiquicksnapshot.c */
-/* en */ {"Can't write snapshot file.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan momentopname bestand niet schrijven.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uiquicksnapshot.c, arch/win32/uisnapshot.c */
-/* en */ {"Cannot read snapshot image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan momentopname bestand niet lezen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Load %s ROM image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Laad %s ROM bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Select romset archive",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer romset archief",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Cannot load romset archive!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan romset archief niet laden!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Cannot save romset archive!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan romset archief niet opslaan!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Cannot load romset file!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan romset bestand niet laden!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Cannot save romset file!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan romset bestand niet opslaan!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Select romset file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer romset bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Romset",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Computer",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"Drive",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Station",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uirom.c */
-/* en */ {"ROM settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "ROM instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"This machine may not have a SID",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Deze machine heeft geen SID",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"General",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Algemeen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"SID settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "SID instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisnapshot.c */
-/* en */ {"Save snapshot image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Momentopname bestand opslaan",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisnapshot.c */
-/* en */ {"VICE snapshot files (*.vsf)\0*.vsf\0",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE momentopname bestanden (*.vsf)\0*.vsf\0",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisnapshot.c */
-/* en */ {"Cannot write snapshot file `%s'.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kan momentopname bestand `%s' niet schrijven.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uisnapshot.c */
-/* en */ {"Load snapshot image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Laad momentopname bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uivideo.c */
-/* en */ {"Could not load palette file.",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kon palette bestand niet laden.",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uivideo.c */
-/* en */ {"Load VICE palette file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Laad VICE palette bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uivideo.c */
-/* en */ {"Fullscreen",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Volscherm",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uivideo.c */
-/* en */ {"Colors",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Kleuren",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},    /* fuzzy */
-
-/* arch/win32/uivideo.c */
-/* en */ {"Video settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Video instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/statusbar.c */
-/* en */ {"Tape:",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/statusbar.c */
-/* en */ {"Joystick:",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/statusbar.c */
-/* en */ {"Recording\n%02d:%02d",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Opnemen\n%02d:%02d",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/statusbar.c */
-/* en */ {"Playback\n%02d:%02d (%02d:%02d)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Afspelen\n%02d:%02d (%02d:%02d)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/statusbar.c */
-/* en */ {"Unknown",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Onbekend",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiacia.c, arch/win32/uijoystick.c,
-   arch/win32/uiperipheral.c, arcj/win32/uisound.c */
-/* en */ {"None",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiacia.c */
-/* en */ {"IRQ",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiacia.c */
-/* en */ {"NMI",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiacia.c, arch/win32/uirs232user.c */
-/* en */ {"RS232 device %i",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "RS232 apparaat %i",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic128.c */
-/* en */ {"Select internal function ROM image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer intern functie ROM bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic128.c */
-/* en */ {"Select external function ROM image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer extern functie ROM bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic128.c */
-/* en */ {"Machine type",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Machine soort",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic128.c */
-/* en */ {"Function ROM",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Functie ROM",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic128.c */
-/* en */ {"C128 settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "C128 instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach CRT cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel CRT cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach raw 8KB cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel binair 8KB cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach raw 16KB cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel binair 16KB cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Action Replay cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Action Replay cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Atomic Power cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Atomic Power cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Epyx fastload cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Epyx fastload cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach IEEE interface cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel IEEE interface cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Retro Replay cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Retro Replay cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach IDE64 interface cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel IDE64 interface cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Super Snapshot 4 cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Super Snapshot 4 cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uic64cart.c */
-/* en */ {"Attach Super Snapshot 5 cartridge image",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel Super Snapshot 5 cartridge bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uicbm2set.c, arch/win32/uipetset.c */
-/* en */ {"Model",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uicbm2set.c */
-/* en */ {"Memory",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geheugen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uicbm2set.c */
-/* en */ {"CBM2 settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "CBM2 instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uidrivec128.c, arch/win32/uidrivec64vic20.c,
-   arch/win32/uidrivepetcbm2.c, arch/win32/uidriveplus4.c */
-/* en */ {"Drive Settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Drive instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uievent.c */
-/* en */ {"Select start snapshot for event history",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer start momentopname voor gebeurtenis geschiedenis",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uievent.c */
-/* en */ {"Select end snapshot for event history",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer eind momentopname voor gebeurtenis geschiedenis",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"Version %s *UNSTABLE*",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Versie %s *ONSTABIEL*",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"Version %s",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Versie %s",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"VICE contributors",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Vice medewerkers",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"Who made what?",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Wie heeft wat gemaakt?",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"License",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Licensie",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"No warranty!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen garantie!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"No warranty!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen garantie!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"No warranty!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen garantie!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uihelp.c */
-/* en */ {"VICE is distributed WITHOUT ANY WARRANTY!",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE heeft ABSOLUUT GEEN GARANTIE!",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiide64.c */
-/* en */ {"Total size: %iKB",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Totale grootte: %iKB",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiide64.c */
-/* en */ {"Total size: %iKB",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Totale grootte: %iKB",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiide64.c */
-/* en */ {"Select HD image file",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer HD bestand",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for NorthWest",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor NoordWest",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for North",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor Noord",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for NorthEast",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor NoordOost",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for East",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor Oost",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for SouthEast",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor ZuidOost",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for South",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor Zuid",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for SouthWest",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor ZuidWest",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for West",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor West",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Press key for Fire",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Druk toets voor Vuur",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Numpad + RCtrl",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Keyset A",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"Keyset B",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"All buttons used as fire",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Alle knoppen gebruiken als vuur",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"numeric (see above)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "numeriek (zie boven)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uijoystick.c */
-/* en */ {"No button - Autofire disabled",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geen knop - Autovuren is uit",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"All files (*.*)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Alle bestanden (*.*)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE palette files (*.vpl)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE palette bestanden (*.vpl)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE snapshot files (*.vsf)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE momentopname bestanden (*.vsf)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Disk bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Tape image files (*.t64;*.p00;*.tap;*.prg)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Tape bestanden (*.t64;*.p00;*.tap;*.prg)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"CRT cartridge image files (*.crt)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "CRT cartridge bestanden (*.crt)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"Raw cartridge image files (*.bin)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Binaire cartridge bestanden (*.bin)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE flip list files (*.vfl)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE flip lijst bestanden (*.vfl)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE romset files (*.vrs)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE romset bestanden (*.vrs)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE romset archives (*.vra)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE romset archieven (*.vra)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uilib.c */
-/* en */ {"VICE keymap files (*.vkm)",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "VICE keymap bestanden (*.vkm)",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"File system",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Bestand systeem",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Real IEC device",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Echt IEC apparaat",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"Input/Output",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Invoer/Uitvoer",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiperipheral.c */
-/* en */ {"PET settings",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "PET instellingen",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Function Low",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Function Low'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Function High",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Function High'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Cartridge1 Low",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Cartridge1 Low'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Cartridge1 High",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Cartridge1 High'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Cartridge2 Low",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Cartridge2 Low'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiplus4cart.c */
-/* en */ {"Attach cartridge image for Cartridge2 High",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel cartridge bestand voor 'Cartridge2 High'",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uigeoram.c */
-/* en */ {"Select file for GEORAM",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer bestand voor GEORAM",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiramcart.c */
-/* en */ {"Select file for RAMCART",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer bestand voor RAMCART",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uiramcart.c */
-/* en */ {"Select file for REU",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Selecteer bestand voor REU",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"fast",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "snel",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"interpolating",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"resampling",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisid.c */
-/* en */ {"fast resampling",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "snelle resampling",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisound.c */
-/* en */ {"Flexible",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Flexibel",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisound.c */
-/* en */ {"Adjusting",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Aanpassend",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisound.c */
-/* en */ {"Exact",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisound.c */
-/* en */ {"Sound driver: DirectX",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geluid stuurprogramma: DirectX",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/uisound.c */
-/* en */ {"Sound driver: WMM",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Geluid stuurprogramma: WMM",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/vic20ui.c */
-/* en */ {"Attach 4/8/16KB cartridge image at $2000",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel 4/8/16KB cartridge bestand op $2000",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/vic20ui.c */
-/* en */ {"Attach 4/8/16KB cartridge image at $4000",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel 4/8/16KB cartridge bestand op $4000",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/vic20ui.c */
-/* en */ {"Attach 4/8/16KB cartridge image at $6000",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel 4/8/16KB cartridge bestand op $6000",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/vic20ui.c */
-/* en */ {"Attach 8KB cartridge image at $A000",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel 8KB cartridge bestand op $A000",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""},     /* fuzzy */
-
-/* arch/win32/vic20ui.c */
-/* en */ {"Attach 4KB cartridge image at $B000",
-/* de */  "",     /* fuzzy */
-/* fr */  "",     /* fuzzy */
-/* it */  "",     /* fuzzy */
-/* nl */  "Koppel 4KB cartridge bestand op $B000",
-/* pl */  "",     /* fuzzy */
-/* sv */  ""}     /* fuzzy */
-
-};
 
 /* --------------------------------------------------------------------- */
 
 static void intl_init(void)
 {
-  int i;
-
   intl_text_init();
-  for (i = 0; i < countof(intl_text_table); i++)
-  {
-    intl_text_register(intl_text_table[i][0], i);
-  }
 }
 
-int intl_translate_dialog(int en_dialog)
+int intl_translate(int en_resource)
 {
   int i;
 
   if (!strcmp(current_language,"en"))
-    return en_dialog;
+    return en_resource;
 
-  for (i = 0; i < countof(intl_idd_table); i++)
+  for (i = 0; i < countof(intl_table); i++)
   {
-    if (intl_idd_table[i][0]==en_dialog)
-      return intl_idd_table[i][current_language_index];
+    if (intl_table[i][0]==en_resource)
+      return intl_table[i][current_language_index];
   }
-  return en_dialog;
+  return en_resource;
 }
 
-int intl_translate_menu(int en_menu)
+static void intl_text_shutdown(void)
 {
-  int i;
-
-  if (!strcmp(current_language,"en"))
-    return en_menu;
-
-  for (i = 0; i < countof(intl_idr_table); i++)
-  {
-    if (intl_idr_table[i][0]==en_menu)
-      return intl_idr_table[i][current_language_index];
-  }
-  return en_menu;
+  intl_text_free();
 }
 
-char *intl_translate_text(char *text)
-{
-  int i;
-
-  if (text==NULL)
-    return text;
-  i=intl_text_get_value(text);
-  if (i<0)
-    return text;
-  if (strlen(intl_text_table[i][current_language_index])==0)
-    return text;
-  return intl_text_table[i][current_language_index];
-}
+/* --------------------------------------------------------------------- */
 
 static char *get_current_windows_language(void)
 {

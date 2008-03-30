@@ -1,6 +1,12 @@
 // SID specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_SID_GENERAL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
@@ -128,6 +134,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_SID_GENERAL_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia SID"
@@ -149,6 +156,7 @@ BEGIN
     AUTOCHECKBOX    "SID filtry", IDC_SID_FILTERS,
                     15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -259,6 +267,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_SID_RESID_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia SID"
@@ -271,6 +280,7 @@ BEGIN
     LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
     EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -377,6 +387,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_SID_HARDSID_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Configure SID Settings"
@@ -390,6 +401,7 @@ BEGIN
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -406,4 +418,105 @@ BEGIN
     LTEXT           "Right device",IDC_STATIC,15,37,70,8
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_DE   "This machine may not have a SID"
+  IDS_GENERAL_DE               "General"
+  IDS_SID_SETTINGS_DE          "SID settings"
+  IDS_FAST_DE                  "fast"
+  IDS_INTERPOLATING_DE         "interpolating"
+  IDS_RESAMPLING_DE            "resampling"
+  IDS_FAST_RESAMPLING_DE       "fast resampling"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_FR   "This machine may not have a SID"
+  IDS_GENERAL_FR               "General"
+  IDS_SID_SETTINGS_FR          "SID settings"
+  IDS_FAST_FR                  "fast"
+  IDS_INTERPOLATING_FR         "interpolating"
+  IDS_RESAMPLING_FR            "resampling"
+  IDS_FAST_RESAMPLING_FR       "fast resampling"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_IT   "This machine may not have a SID"
+  IDS_GENERAL_IT               "General"
+  IDS_SID_SETTINGS_IT          "SID settings"
+  IDS_FAST_IT                  "fast"
+  IDS_INTERPOLATING_IT         "interpolating"
+  IDS_RESAMPLING_IT            "resampling"
+  IDS_FAST_RESAMPLING_IT       "fast resampling"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_NL   "Deze machine heeft mogelijk geen SID"
+  IDS_GENERAL_NL               "Algemeen"
+  IDS_SID_SETTINGS_NL          "SID instellingen"
+  IDS_FAST_NL                  "snel"
+  IDS_INTERPOLATING_NL         "interpolating"
+  IDS_RESAMPLING_NL            "resampling"
+  IDS_FAST_RESAMPLING_NL       "snelle resampling"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_PL   "This machine may not have a SID"
+  IDS_GENERAL_PL               "General"
+  IDS_SID_SETTINGS_PL          "SID settings"
+  IDS_FAST_PL                  "fast"
+  IDS_INTERPOLATING_PL         "interpolating"
+  IDS_RESAMPLING_PL            "resampling"
+  IDS_FAST_RESAMPLING_PL       "fast resampling"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_THIS_MACHINE_NO_SID_SV   "This machine may not have a SID"
+  IDS_GENERAL_SV               "General"
+  IDS_SID_SETTINGS_SV          "SID settings"
+  IDS_FAST_SV                  "fast"
+  IDS_INTERPOLATING_SV         "interpolating"
+  IDS_RESAMPLING_SV            "resampling"
+  IDS_FAST_RESAMPLING_SV       "fast resampling"
 END

@@ -130,7 +130,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void uidatasette_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate_dialog(IDD_DATASETTE_SETTINGS_DIALOG)),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate(IDD_DATASETTE_SETTINGS_DIALOG)),
               hwnd, dialog_proc);
 }
 

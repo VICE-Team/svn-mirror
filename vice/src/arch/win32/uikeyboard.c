@@ -122,7 +122,7 @@ static void end_mapping_dialog(HWND hwnd)
 
 static void browse_mapping(HWND hwnd, unsigned int index)
 {
-    uilib_select_browse(hwnd, TEXT(_("Select keymap file")),
+    uilib_select_browse(hwnd, TEXT(intl_translate_text(IDS_SELECT_KEYMAP_FILE)),
                         UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         mapping_entry[index].idc_filename);
 }
@@ -131,7 +131,7 @@ static void dump_mapping(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT(_("Save keymap file")),
+    if ((st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_SAVE_KEYMAP_FILE)),
         UILIB_FILTER_KEYMAP, UILIB_SELECTOR_TYPE_FILE_SAVE,
         UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
@@ -141,7 +141,7 @@ static void dump_mapping(HWND hwnd)
         util_add_extension(&name, "vkm");
 
         if (keyboard_keymap_dump(name) != 0)
-            ui_error(_("Cannot write keymap file"));
+            ui_error(intl_translate_text(IDS_CANNOT_WRITE_KEYMAP_FILE));
         system_wcstombs_free(name);
         lib_free(st_name);
     }
@@ -207,24 +207,24 @@ void uikeyboard_settings_dialog(HWND hwnd,
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(uikeyboard_config->idd_mapping));
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate(uikeyboard_config->idd_mapping));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(intl_translate_dialog(uikeyboard_config->idd_mapping));
+        = MAKEINTRESOURCE(intl_translate(uikeyboard_config->idd_mapping));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
     psp[0].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = mapping_dialog_proc;
-    psp[0].pszTitle = TEXT(_("Mapping"));
+    psp[0].pszTitle = TEXT(intl_translate_text(IDS_MAPPING));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(_("Keyboard settings"));
+    psh.pszCaption = TEXT(intl_translate_text(IDS_KEYBOARD_SETTINGS));
     psh.nPages = 1;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

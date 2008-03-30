@@ -117,7 +117,7 @@ static void end_georam_dialog(HWND hwnd)
 
 static void browse_georam_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT(_("Select file for GEORAM")),
+    uilib_select_browse(hwnd, TEXT(intl_translate_text(IDS_SELECT_FILE_GEORAM)),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_GEORAM_FILE);
 }
@@ -157,7 +157,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_georam_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_GEORAM_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_GEORAM_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

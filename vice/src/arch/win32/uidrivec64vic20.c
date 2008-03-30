@@ -431,11 +431,11 @@ void uidrivec64vic20_settings_dialog(HWND hwnd)
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
         psp[i].pszTemplate
-            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20));
+            = MAKEINTRESOURCE(intl_translate(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20));
         psp[i].pszIcon = NULL;
 #else
         psp[i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20));
+            = MAKEINTRESOURCE(intl_translate(IDD_DRIVE_SETTINGS_DIALOG_C64VIC20));
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
@@ -443,19 +443,19 @@ void uidrivec64vic20_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = TEXT(_("Drive 8"));
+    psp[0].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_8));
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = TEXT(_("Drive 9"));
+    psp[1].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_9));
     psp[2].pfnDlgProc = callback_10;
-    psp[2].pszTitle = TEXT(_("Drive 10"));
+    psp[2].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_10));
     psp[3].pfnDlgProc = callback_11;
-    psp[3].pszTitle = TEXT(_("Drive 11"));
+    psp[3].pszTitle = TEXT(intl_translate_text(IDS_DRIVE_11));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT(_("Drive Settings"));
+    psh.pszCaption = TEXT(intl_translate_text(IDS_DRIVE_SETTINGS));
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

@@ -25,10 +25,12 @@
  *
  */
 
-#include "res.h"
 #include "config.h"
 #include "version.h"
+#include "res.h"
+#include "rescommon.h"
 
+#pragma code_page(28591)
 
 1 VERSIONINFO
  FILEVERSION VERSION_RC_NUMBER
@@ -308,6 +310,7 @@ END
 
 // POLISH version of menu
 
+#pragma code_page(28592)
 IDR_MENUMONITOR_PL MENU DISCARDABLE
 BEGIN
     POPUP "&Plik"
@@ -352,7 +355,7 @@ BEGIN
         MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
     END
 END
-
+#pragma code_page(28591)
 
 // SWEDISH version of menu
 
@@ -511,44 +514,12 @@ IDI_ICON1               ICON    DISCARDABLE     "c64.ico"
 /////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
-#define DS_3DLOOK		0x0004L
-#define DS_CONTROL		0x0400L
-#define DS_MODALFRAME		0x80L
-#define LANG_ENGLISH		0x09
-#define SUBLANG_ENGLISH_US	0x01
-#define WS_POPUP		0x80000000L
-#define WS_CHILD		0x40000000L
-#define WS_VISIBLE		0x10000000L
-#define WS_CLIPSIBLINGS		0x04000000L
-#define WS_CAPTION		0x00c00000L
-#define WS_BORDER		0x00800000L
-#define WS_VSCROLL		0x00200000L
-#define WS_HSCROLL              0x00100000L
-#define WS_SYSMENU		0x00080000L
-#define WS_GROUP		0x00020000L
-#define WS_TABSTOP		0x00010000L
-#define IDOK			1
-#define IDCANCEL		2
-#define IDC_STATIC		(-1)
-#define BS_AUTOCHECKBOX		0x00000003L
-#define BS_AUTORADIOBUTTON	0x00000009L
-#define CBS_DROPDOWN		0x0002L
-#define CBS_DROPDOWNLIST	0x0003L
-#define CBS_SORT		0x0100L
-#define LBS_NOTIFY		0x0001L
-#define LBS_NOSEL		0x4000L
-#define LBS_NOINTEGRALHEIGHT 0x0100L
-#define TBS_AUTOTICKS           0x0001
-#define TBS_BOTH                0x0008
-#define TBS_NOTICKS             0x0010
-#define ES_READONLY         0x0800L
-
 
 
 //#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 //#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
+//LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+//#pragma code_page(1252)
 //#endif //_WIN32
 
 //#ifdef APSTUDIO_INVOKED
@@ -796,6 +767,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_DISKDEVICE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -827,6 +799,7 @@ BEGIN
     AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -977,6 +950,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_DATASETTE_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia Datasette"
@@ -995,6 +969,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1242,6 +1217,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_JOY_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia Joystick"
@@ -1282,6 +1258,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1476,6 +1453,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_CONFIG_KEYSET_DIALOG_PL DIALOG DISCARDABLE 0, 0, 130, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1501,6 +1479,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1683,6 +1662,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_SOUND_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia d¼wiêku"
@@ -1707,6 +1687,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1855,6 +1836,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1874,6 +1856,7 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "Stwórz dyskietkê", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -1972,6 +1955,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_OPENTAPE_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1982,6 +1966,7 @@ BEGIN
     GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
     PUSHBUTTON      "Stwórz obraz", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2076,6 +2061,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_SNAPSHOT_SAVE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2087,6 +2073,7 @@ BEGIN
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2167,6 +2154,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_MEDIAFILE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2175,6 +2163,7 @@ BEGIN
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2252,6 +2241,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_CONSOLE_SAVE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 22
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2260,6 +2250,7 @@ BEGIN
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2347,6 +2338,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_TEXTDLG_PL DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dialog"
@@ -2357,6 +2349,7 @@ BEGIN
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 //                  ES_MULTILINE
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2509,6 +2502,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_FULLSCREEN_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180,87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2530,6 +2524,7 @@ BEGIN
     AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2650,6 +2645,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIDEO_COLORS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2664,6 +2660,7 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2842,6 +2839,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIDEO_ADVANCED_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2869,6 +2867,7 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Przegl±daj...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -2965,6 +2964,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_VIDEO_PALETTE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2973,6 +2973,7 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Przegl±daj...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3115,6 +3116,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_RAM_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia RAM"
@@ -3136,6 +3138,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3241,6 +3244,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_CUSTOM_SPEED_DIALOG_PL DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Custom speed"
@@ -3252,6 +3256,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3432,6 +3437,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_PRINTER_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 285, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia drukarki"
@@ -3460,6 +3466,7 @@ BEGIN
     LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3672,6 +3679,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_ROMSET_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 265, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia ROM"
@@ -3703,6 +3711,7 @@ BEGIN
     PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3818,6 +3827,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_ROMSET_ENTER_NAME_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New configuration"
@@ -3829,6 +3839,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3949,6 +3960,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_RS232_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia RS232"
@@ -3965,6 +3977,7 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Anuluj", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog
@@ -3984,6 +3997,1073 @@ BEGIN
     EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Avbryt", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE                        "None"
+  IDS_VICE_ERROR                  "VICE Error!"
+  IDS_VICE_INFORMATION            "VICE Information"
+  IDS_VICE_QUESTION               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE          "Cannot attach specified file"
+  IDS_START_MONITOR               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S     "History recorded with VICE-%s"
+  IDS_PAUSED                      "paused"
+  IDS_RESUMED                     "resumed"
+  IDS_REALLY_EXIT                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE           "Attach tape image"
+  IDS_AUTOSTART_IMAGE             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE    "Logging console output image"
+  IDS_LOG_FILES_TYPE              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE    "Cannot write keymap file"
+  IDS_MAPPING                     "Mapping"
+  IDS_KEYBOARD_SETTINGS           "Keyboard settings"
+  IDS_ATTACH                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY         "Select file system directory"
+  IDS_PRINTER_USERPORT            "Printer Userport"
+  IDS_PRINTER_4                   "Printer 4"
+  IDS_PRINTER_5                   "Printer 5"
+  IDS_DRIVE_8                     "Drive 8"
+  IDS_DRIVE_9                     "Drive 9"
+  IDS_DRIVE_10                    "Drive 10"
+  IDS_DRIVE_11                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE          "Select romset file"
+  IDS_ROMSET                      "Romset"
+  IDS_COMPUTER                    "Computer"
+  IDS_DRIVE                       "Drive"
+  IDS_ROM_SETTINGS                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE      "Load VICE palette file"
+  IDS_FULLSCREEN                  "Fullscreen"
+  IDS_COLORS                      "Colors"
+  IDS_VIDEO_SETTINGS              "Video settings"
+  IDS_FILE_SYSTEM                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL                       "Model"
+  IDS_DRIVE_SETTINGS              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS           "VICE contributors"
+  IDS_WHO_MADE_WHAT               "Who made what?"
+  IDS_LICENSE                     "License"
+  IDS_NO_WARRANTY                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST              "Press key for West"
+  IDS_PRESS_KEY_FIRE              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL            "Numpad + RCtrl"
+  IDS_KEYSET_A                    "Keyset A"
+  IDS_KEYSET_B                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE                    "Flexible"
+  IDS_ADJUSTING                   "Adjusting"
+  IDS_EXACT                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE_DE                        "Kein"
+  IDS_VICE_ERROR_DE                  "VICE Error!"
+  IDS_VICE_INFORMATION_DE            "VICE Information"
+  IDS_VICE_QUESTION_DE               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_DE         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_DE            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_DE        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_DE        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_DE   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_DE          "Cannot attach specified file"
+  IDS_START_MONITOR_DE               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_DE                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_DE         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_DE           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_DE      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_DE               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_DE    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_DE     "History recorded with VICE-%s"
+  IDS_PAUSED_DE                      "paused"
+  IDS_RESUMED_DE                     "resumed"
+  IDS_REALLY_EXIT_DE                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_DE       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_DE             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_DE      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_DE     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_DE           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_DE           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_DE             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_DE           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_DE        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_DE     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_DE    "Logging console output image"
+  IDS_LOG_FILES_TYPE_DE              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_DE      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_DE         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_DE       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_DE         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_DE      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_DE          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_DE            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_DE    "Cannot write keymap file"
+  IDS_MAPPING_DE                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_DE           "Keyboard settings"
+  IDS_ATTACH_DE                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_DE     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_DE    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_DE         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_DE        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_DE       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_DE    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_DE     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_DE        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_DE         "Select file system directory"
+  IDS_PRINTER_USERPORT_DE            "Printer Userport"
+  IDS_PRINTER_4_DE                   "Printer 4"
+  IDS_PRINTER_5_DE                   "Printer 5"
+  IDS_DRIVE_8_DE                     "Drive 8"
+  IDS_DRIVE_9_DE                     "Drive 9"
+  IDS_DRIVE_10_DE                    "Drive 10"
+  IDS_DRIVE_11_DE                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_DE         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_DE    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_DE    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_DE            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_DE       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_DE     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_DE     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_DE     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_DE     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_DE          "Select romset file"
+  IDS_ROMSET_DE                      "Romset"
+  IDS_COMPUTER_DE                    "Computer"
+  IDS_DRIVE_DE                       "Drive"
+  IDS_ROM_SETTINGS_DE                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_DE         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_DE     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_DE         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_DE      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_DE      "Load VICE palette file"
+  IDS_FULLSCREEN_DE                  "Fullscreen"
+  IDS_COLORS_DE                      "Colors"
+  IDS_VIDEO_SETTINGS_DE              "Video settings"
+  IDS_FILE_SYSTEM_DE                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_DE             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_DE              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_DE       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_DE   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_DE    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_DE        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_DE    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_DE     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_DE     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_DE     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_DE     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_DE       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_DE       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL_DE                       "Model"
+  IDS_DRIVE_SETTINGS_DE              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_DE     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_DE       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_DE          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_DE                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_DE           "VICE contributors"
+  IDS_WHO_MADE_WHAT_DE               "Who made what?"
+  IDS_LICENSE_DE                     "License"
+  IDS_NO_WARRANTY_DE                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_DE       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_DE         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_DE             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_DE         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_DE              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_DE         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_DE             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_DE         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_DE              "Press key for West"
+  IDS_PRESS_KEY_FIRE_DE              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_DE            "Numpad + RCtrl"
+  IDS_KEYSET_A_DE                    "Keyset A"
+  IDS_KEYSET_B_DE                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_DE         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_DE           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_DE       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_DE            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_DE        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_DE       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_DE     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_DE     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_DE         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_DE            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_DE       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_DE      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_DE         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_DE      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_DE         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_DE                    "Flexible"
+  IDS_ADJUSTING_DE                   "Adjusting"
+  IDS_EXACT_DE                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_DE        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_DE            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_DE          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE_FR                        "Aucun"
+  IDS_VICE_ERROR_FR                  "VICE Error!"
+  IDS_VICE_INFORMATION_FR            "VICE Information"
+  IDS_VICE_QUESTION_FR               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_FR         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_FR            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_FR        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_FR        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_FR   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_FR          "Cannot attach specified file"
+  IDS_START_MONITOR_FR               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_FR                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_FR         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_FR           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_FR      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_FR               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_FR    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_FR     "History recorded with VICE-%s"
+  IDS_PAUSED_FR                      "paused"
+  IDS_RESUMED_FR                     "resumed"
+  IDS_REALLY_EXIT_FR                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_FR       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_FR             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_FR      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_FR     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_FR           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_FR           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_FR             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_FR           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_FR        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_FR     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_FR    "Logging console output image"
+  IDS_LOG_FILES_TYPE_FR              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_FR      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_FR         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_FR       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_FR         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_FR      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_FR          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_FR            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_FR    "Cannot write keymap file"
+  IDS_MAPPING_FR                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_FR           "Keyboard settings"
+  IDS_ATTACH_FR                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_FR     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_FR    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_FR         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_FR        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_FR       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_FR    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_FR     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_FR        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_FR         "Select file system directory"
+  IDS_PRINTER_USERPORT_FR            "Printer Userport"
+  IDS_PRINTER_4_FR                   "Printer 4"
+  IDS_PRINTER_5_FR                   "Printer 5"
+  IDS_DRIVE_8_FR                     "Drive 8"
+  IDS_DRIVE_9_FR                     "Drive 9"
+  IDS_DRIVE_10_FR                    "Drive 10"
+  IDS_DRIVE_11_FR                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_FR         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_FR    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_FR    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_FR            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_FR       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_FR     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_FR     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_FR     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_FR     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_FR          "Select romset file"
+  IDS_ROMSET_FR                      "Romset"
+  IDS_COMPUTER_FR                    "Computer"
+  IDS_DRIVE_FR                       "Drive"
+  IDS_ROM_SETTINGS_FR                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_FR         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_FR     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_FR         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_FR      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_FR      "Load VICE palette file"
+  IDS_FULLSCREEN_FR                  "Fullscreen"
+  IDS_COLORS_FR                      "Colors"
+  IDS_VIDEO_SETTINGS_FR              "Video settings"
+  IDS_FILE_SYSTEM_FR                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_FR             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_FR              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_FR       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_FR   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_FR    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_FR        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_FR    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_FR     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_FR     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_FR     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_FR     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_FR       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_FR       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL_FR                       "Model"
+  IDS_DRIVE_SETTINGS_FR              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_FR     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_FR       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_FR          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_FR                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_FR           "VICE contributors"
+  IDS_WHO_MADE_WHAT_FR               "Who made what?"
+  IDS_LICENSE_FR                     "License"
+  IDS_NO_WARRANTY_FR                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_FR       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_FR         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_FR             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_FR         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_FR              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_FR         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_FR             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_FR         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_FR              "Press key for West"
+  IDS_PRESS_KEY_FIRE_FR              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_FR            "Numpad + RCtrl"
+  IDS_KEYSET_A_FR                    "Keyset A"
+  IDS_KEYSET_B_FR                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_FR         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_FR           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_FR       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_FR            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_FR        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_FR       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_FR     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_FR     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_FR         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_FR            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_FR       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_FR      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_FR         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_FR      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_FR         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_FR                    "Flexible"
+  IDS_ADJUSTING_FR                   "Adjusting"
+  IDS_EXACT_FR                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_FR        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_FR            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_FR          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+
+
+// ITALIAN text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE_IT                        "Nessuno"
+  IDS_VICE_ERROR_IT                  "VICE Error!"
+  IDS_VICE_INFORMATION_IT            "VICE Information"
+  IDS_VICE_QUESTION_IT               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_IT         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_IT            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_IT        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_IT        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_IT   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_IT          "Cannot attach specified file"
+  IDS_START_MONITOR_IT               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_IT                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_IT         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_IT           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_IT      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_IT               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_IT    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_IT     "History recorded with VICE-%s"
+  IDS_PAUSED_IT                      "paused"
+  IDS_RESUMED_IT                     "resumed"
+  IDS_REALLY_EXIT_IT                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_IT       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_IT             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_IT      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_IT     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_IT           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_IT           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_IT             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_IT           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_IT        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_IT     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT    "Logging console output image"
+  IDS_LOG_FILES_TYPE_IT              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_IT      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_IT         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_IT       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_IT         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_IT      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_IT          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_IT            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Cannot write keymap file"
+  IDS_MAPPING_IT                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_IT           "Keyboard settings"
+  IDS_ATTACH_IT                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_IT     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_IT    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_IT         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_IT        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_IT       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_IT    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_IT        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_IT         "Select file system directory"
+  IDS_PRINTER_USERPORT_IT            "Printer Userport"
+  IDS_PRINTER_4_IT                   "Printer 4"
+  IDS_PRINTER_5_IT                   "Printer 5"
+  IDS_DRIVE_8_IT                     "Drive 8"
+  IDS_DRIVE_9_IT                     "Drive 9"
+  IDS_DRIVE_10_IT                    "Drive 10"
+  IDS_DRIVE_11_IT                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_IT         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_IT            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_IT       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_IT          "Select romset file"
+  IDS_ROMSET_IT                      "Romset"
+  IDS_COMPUTER_IT                    "Computer"
+  IDS_DRIVE_IT                       "Drive"
+  IDS_ROM_SETTINGS_IT                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_IT         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_IT         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_IT      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_IT      "Load VICE palette file"
+  IDS_FULLSCREEN_IT                  "Fullscreen"
+  IDS_COLORS_IT                      "Colors"
+  IDS_VIDEO_SETTINGS_IT              "Video settings"
+  IDS_FILE_SYSTEM_IT                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_IT             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_IT              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_IT       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_IT   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_IT    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_IT        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_IT    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_IT     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_IT     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_IT     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_IT     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_IT       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_IT       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL_IT                       "Model"
+  IDS_DRIVE_SETTINGS_IT              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_IT     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_IT       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_IT          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_IT                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_IT           "VICE contributors"
+  IDS_WHO_MADE_WHAT_IT               "Who made what?"
+  IDS_LICENSE_IT                     "License"
+  IDS_NO_WARRANTY_IT                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_IT       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_IT         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_IT             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_IT         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_IT              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_IT         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_IT             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_IT         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_IT              "Press key for West"
+  IDS_PRESS_KEY_FIRE_IT              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_IT            "Numpad + RCtrl"
+  IDS_KEYSET_A_IT                    "Keyset A"
+  IDS_KEYSET_B_IT                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_IT         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_IT           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_IT       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_IT            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_IT        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_IT       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_IT     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_IT     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_IT         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_IT            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_IT       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_IT      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_IT         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_IT      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_IT         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_IT                    "Flexible"
+  IDS_ADJUSTING_IT                   "Adjusting"
+  IDS_EXACT_IT                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_IT        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_IT            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_IT          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+
+
+// DUTCH text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE_NL                        "Geen"
+  IDS_VICE_ERROR_NL                  "VICE Fout!"
+  IDS_VICE_INFORMATION_NL            "VICE Informatie"
+  IDS_VICE_QUESTION_NL               "VICE vraag"
+  IDS_FFMPEG_DLL_MISMATCH_NL         "Uw ffmpeg dll versie is niet juist."
+  IDS_DIRECTDRAW_ERROR_NL            "DirectDraw fout: Code:%8x Fout:%s"
+  IDS_CANNOT_SAVE_SETTINGS_NL        "Kan de instellingen niet opslaan."
+  IDS_CANNOT_LOAD_SETTINGS_NL        "Kan de instellingen niet laden."
+  IDS_DEFAULT_SETTINGS_RESTORED_NL   "Standaard instellingen hersteld."
+  IDS_CANNOT_ATTACH_FILE_NL          "Kan het opgegeven bestand niet koppelen"
+  IDS_START_MONITOR_NL               "%s\012\012Monitor starten?"
+  IDS_VICE_CPU_JAM_NL                "VICE CPU HANGT"
+  IDS_EXTEND_TO_40_TRACKS_NL         "Bestand uitbreiden naar 40-sporen formaat?"
+  IDS_DETACHED_DEVICE_S_NL           "Apparaat %s ontkoppelt"
+  IDS_ATTACHED_S_TO_DEVICE_S_NL      "%s aan apparaat#%s gekoppelt"
+  IDS_DETACHED_TAPE_NL               "Tape ontkoppelt"
+  IDS_HISTORY_RECORDED_UNKNOWN_NL    "Geschiedenis opgenomen met onbekende VICE versie"
+  IDS_HISTORY_RECORDED_VICE_S_NL     "Geschiedenis opgenomen met VICE-%s"
+  IDS_PAUSED_NL                      "gepauzeerd"
+  IDS_RESUMED_NL                     "hervat"
+  IDS_REALLY_EXIT_NL                 "Wilt U echt afsluiten?\012\012Alle data in geëmuleerd geheugen zal verloren gaan."
+  IDS_CANNOT_AUTOSTART_FILE_NL       "Kan opgegeven bestand niet autostarten."
+  IDS_ATTACHED_TAPE_S_NL             "Tape %s gekoppeld"
+  IDS_SETTINGS_SAVED_SUCCESS_NL      "Instellingen met succes opgeslagen."
+  IDS_SETTINGS_LOADED_SUCCESS_NL     "Instellingen met succes geladen."
+  IDS_ATTACH_DISK_IMAGE_NL           "Koppel disk bestand"
+  IDS_ATTACH_TAPE_IMAGE_NL           "Koppel tape bestand"
+  IDS_AUTOSTART_IMAGE_NL             "Autostart disk/tape bestand"
+  IDS_INVALID_CARTRIDGE_NL           "Ongeldige cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_NL        "Slechte cartridge configuratie in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_NL     "Ongeldig cartridge bestand"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_NL    "Logboek console uitvoer bestand"
+  IDS_LOG_FILES_TYPE_NL              "VICE console logboek bestanden (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_NL      "Kan logboek bestand `%s' niet schrijven."
+  IDS_LOAD_FLIP_LIST_FILE_NL         "Laad flip lijst bestand"
+  IDS_CANNOT_READ_FLIP_LIST_NL       "Kan het flip lijst bestand niet lezen"
+  IDS_SAVE_FLIP_LIST_FILE_NL         "Flip lijst bestand opslaan"
+  IDS_CANNOT_WRITE_FLIP_LIST_NL      "Kan flip lijst bestand niet schrijven"
+  IDS_SELECT_KEYMAP_FILE_NL          "Selecteer keymap bestand"
+  IDS_SAVE_KEYMAP_FILE_NL            "Keymap file opslaan"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_NL    "Kan het keymap bestand niet schrijven"
+  IDS_MAPPING_NL                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_NL           "Toetsenbord instellingen"
+  IDS_ATTACH_NL                      "&Koppel"
+  IDS_PLEASE_ENTER_A_FILENAME_NL     "Geef aub een bestandsnaam op."
+  IDS_OVERWRITE_EXISTING_IMAGE_NL    "Bestaand bestand overschrijven?"
+  IDS_CANNOT_CREATE_IMAGE_NL         "Kan bestand niet maken"
+  IDS_COMMAND_LINE_OPTIONS_NL        "Commando opties"
+  IDS_COMMAND_OPTIONS_AVAIL_NL       "Welke commando opties zijn beschikbaar?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_NL    "Geen stuurprogramma geselecteerd, of geselecteerd stuurprogramma wordt niet ondersteund"
+  IDS_CANT_WRITE_SCREENSHOT_S_NL     "Kan schermafdruk bestand `%s' niet schrijven."
+  IDS_AUTOSTART_DISK_IMAGE_NL        "Autostart disk bestand"
+  IDS_SELECT_FS_DIRECTORY_NL         "Selecteer bestand systeem directory"
+  IDS_PRINTER_USERPORT_NL            "Printer Userport"
+  IDS_PRINTER_4_NL                   "Printer 4"
+  IDS_PRINTER_5_NL                   "Printer 5"
+  IDS_DRIVE_8_NL                     "Station 8"
+  IDS_DRIVE_9_NL                     "Station 9"
+  IDS_DRIVE_10_NL                    "Station 10"
+  IDS_DRIVE_11_NL                    "Station 11"
+  IDS_PERIPHERAL_SETTINGS_NL         "Rand apparaat instellingen"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_NL    "Kan momentopname bestand niet schrijven."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_NL    "Kan momentopname bestand niet lezen"
+  IDS_LOAD_S_ROM_IMAGE_NL            "Laad %s ROM bestand"
+  IDS_SELECT_ROMSET_ARCHIVE_NL       "Selecteer romset archief"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_NL     "Kan romset archief niet laden!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_NL     "Kan romset archief niet opslaan!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_NL     "Kan romset bestand niet laden!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_NL     "Kan romset bestand niet opslaan!"
+  IDS_SELECT_ROMSET_FILE_NL          "Selecteer romset bestand"
+  IDS_ROMSET_NL                      "Romset"
+  IDS_COMPUTER_NL                    "Computer"
+  IDS_DRIVE_NL                       "Drive"
+  IDS_ROM_SETTINGS_NL                "ROM instellingen"
+  IDS_SAVE_SNAPSHOT_IMAGE_NL         "Momentopname bestand opslaan"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_NL     "Kan momentopname bestand `%s' niet schrijven."
+  IDS_LOAD_SNAPSHOT_IMAGE_NL         "Laad momentopname bestand"
+  IDS_COULD_NOT_LOAD_PALETTE_NL      "Kon palette bestand niet laden."
+  IDS_LOAD_VICE_PALETTE_FILE_NL      "Laad VICE palette bestand"
+  IDS_FULLSCREEN_NL                  "Volscherm"
+  IDS_COLORS_NL                      "Kleuren"
+  IDS_VIDEO_SETTINGS_NL              "Video instellingen"
+  IDS_FILE_SYSTEM_NL                 "Bestand systeem"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_NL             "Echt IEC apparaat"
+#endif
+  IDS_RS232_DEVICE_I_NL              "RS232 apparaat %i"
+  IDS_ATTACH_CRT_CART_IMAGE_NL       "Koppel CRT cartridge bestand"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_NL   "Koppel binair 8KB cartridge bestand"
+  IDS_ATTACH_RAW_16KB_CART_IMG_NL    "Koppel binair 16KB cartridge bestand"
+  IDS_ATTACH_AR_CART_IMAGE_NL        "Koppel Action Replay cartridge bestand"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_NL    "Koppel Atomic Power cartridge bestand"
+  IDS_ATTACH_EPYX_FL_CART_IMG_NL     "Koppel Epyx snellaad cartridge bestand"
+  IDS_ATTACH_IEEE488_CART_IMG_NL     "Koppel IEEE interface cartridge bestand"
+  IDS_ATTACH_RETRO_R_CART_IMG_NL     "Koppel Retro Replay cartridge bestand"
+  IDS_ATTACH_IDE64_CART_IMAGE_NL     "Koppel IDE64 interface cartridge bestand"
+  IDS_ATTACH_SS4_CART_IMAGE_NL       "Koppel Super Snapshot 4 cartridge bestand"
+  IDS_ATTACH_SS5_CART_IMAGE_NL       "Koppel Super Snapshot 5 cartridge bestand"
+  IDS_MODEL_NL                       "Model"
+  IDS_DRIVE_SETTINGS_NL              "Drive Instellingen"
+  IDS_SELECT_START_SNAP_EVENT_NL     "Selecteer start momentopname voor gebeurtenis geschiedenis"
+  IDS_SELECT_END_SNAP_EVENT_NL       "Selecteer eind momentopname voor gebeurtenis geschiedenis"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_NL          "Versie %s *ONSTABIEL*"
+#else
+  IDS_VERSION_S_NL                   "Versie %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_NL           "VICE medewerkers"
+  IDS_WHO_MADE_WHAT_NL               "Wie heeft wat gemaakt?"
+  IDS_LICENSE_NL                     "Licensie"
+  IDS_NO_WARRANTY_NL                 "Geen garantie!"
+  IDS_VICE_WITHOUT_WARRANTY_NL       "VICE heeft ABSOLUUT GEEN GARANTIE!"
+  IDS_PRESS_KEY_NORTHWEST_NL         "Druk toets voor NoordWest"
+  IDS_PRESS_KEY_NORTH_NL             "Druk toets voor Noord"
+  IDS_PRESS_KEY_NORTHEAST_NL         "Druk toets voor NoordOost"
+  IDS_PRESS_KEY_EAST_NL              "Druk toets voor Oost"
+  IDS_PRESS_KEY_SOUTHEAST_NL         "Druk toets voor ZuidOost"
+  IDS_PRESS_KEY_SOUTH_NL             "Druk toets voor Zuid"
+  IDS_PRESS_KEY_SOUTHWEST_NL         "Druk toets voor ZuidWest"
+  IDS_PRESS_KEY_WEST_NL              "Druk toets voor West"
+  IDS_PRESS_KEY_FIRE_NL              "Druk toets voor Vuur"
+  IDS_NUMPAD_AND_RCTRL_NL            "Numpad + RCtrl"
+  IDS_KEYSET_A_NL                    "Keyset A"
+  IDS_KEYSET_B_NL                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_NL         "Alle knoppen gebruiken als vuur"
+  IDS_NUMERIC_SEE_ABOVE_NL           "numeriek (zie boven)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_NL       "Geen knop - Autovuren is uit"
+  IDS_ALL_FILES_FILTER_NL            "Alle bestanden (*.*)"
+  IDS_PALETTE_FILES_FILTER_NL        "VICE palette bestanden (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_NL       "VICE momentopname bestanden (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_NL     "Disk bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_NL     "Tape bestanden (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_NL         "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_NL            "CRT cartridge beatanden (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_NL       "Binaire cartridge bestanden (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_NL      "VICE flip lijst bestanden (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_NL         "VICE romset bestanden (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_NL      "VICE romset archieven (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_NL         "VICE keymap bestanden (*.vkm)"
+  IDS_FLEXIBLE_NL                    "Flexibel"
+  IDS_ADJUSTING_NL                   "Aanpassend"
+  IDS_EXACT_NL                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_NL        "Geluid stuurprogramma: DirectX"
+  IDS_SOUND_DRIVER_WMM_NL            "Geluid stuurprogramma: WMM"
+  IDS_MEDIA_FILES_FILTER_NL          "Media bestanden (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+BEGIN
+  IDS_NONE_PL                        "Brak"
+  IDS_VICE_ERROR_PL                  "VICE Error!"
+  IDS_VICE_INFORMATION_PL            "VICE Information"
+  IDS_VICE_QUESTION_PL               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_PL         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_PL            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_PL        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_PL        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_PL   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_PL          "Cannot attach specified file"
+  IDS_START_MONITOR_PL               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_PL                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_PL         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_PL           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_PL      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_PL               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_PL    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_PL     "History recorded with VICE-%s"
+  IDS_PAUSED_PL                      "paused"
+  IDS_RESUMED_PL                     "resumed"
+  IDS_REALLY_EXIT_PL                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_PL       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_PL             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_PL      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_PL     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_PL           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_PL           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_PL             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_PL           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_PL        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_PL     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_PL    "Logging console output image"
+  IDS_LOG_FILES_TYPE_PL              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_PL      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_PL         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_PL       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_PL         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_PL      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_PL          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_PL            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_PL    "Cannot write keymap file"
+  IDS_MAPPING_PL                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_PL           "Keyboard settings"
+  IDS_ATTACH_PL                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_PL     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_PL    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_PL         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_PL        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_PL       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_PL    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_PL     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_PL        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_PL         "Select file system directory"
+  IDS_PRINTER_USERPORT_PL            "Printer Userport"
+  IDS_PRINTER_4_PL                   "Printer 4"
+  IDS_PRINTER_5_PL                   "Printer 5"
+  IDS_DRIVE_8_PL                     "Drive 8"
+  IDS_DRIVE_9_PL                     "Drive 9"
+  IDS_DRIVE_10_PL                    "Drive 10"
+  IDS_DRIVE_11_PL                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_PL         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_PL    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_PL    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_PL            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_PL       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_PL     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_PL     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_PL     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_PL     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_PL          "Select romset file"
+  IDS_ROMSET_PL                      "Romset"
+  IDS_COMPUTER_PL                    "Computer"
+  IDS_DRIVE_PL                       "Drive"
+  IDS_ROM_SETTINGS_PL                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_PL         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_PL     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_PL         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_PL      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_PL      "Load VICE palette file"
+  IDS_FULLSCREEN_PL                  "Fullscreen"
+  IDS_COLORS_PL                      "Colors"
+  IDS_VIDEO_SETTINGS_PL              "Video settings"
+  IDS_FILE_SYSTEM_PL                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_PL             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_PL              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_PL       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_PL   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_PL    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_PL        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_PL    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_PL     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_PL     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_PL     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_PL     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_PL       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_PL       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL_PL                       "Model"
+  IDS_DRIVE_SETTINGS_PL              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_PL     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_PL       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_PL          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_PL                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_PL           "VICE contributors"
+  IDS_WHO_MADE_WHAT_PL               "Who made what?"
+  IDS_LICENSE_PL                     "License"
+  IDS_NO_WARRANTY_PL                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_PL       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_PL         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_PL             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_PL         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_PL              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_PL         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_PL             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_PL         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_PL              "Press key for West"
+  IDS_PRESS_KEY_FIRE_PL              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_PL            "Numpad + RCtrl"
+  IDS_KEYSET_A_PL                    "Keyset A"
+  IDS_KEYSET_B_PL                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_PL         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_PL           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_PL       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_PL            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_PL        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_PL       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_PL     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_PL     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_PL         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_PL            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_PL       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_PL      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_PL         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_PL      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_PL         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_PL                    "Flexible"
+  IDS_ADJUSTING_PL                   "Adjusting"
+  IDS_EXACT_PL                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_PL        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_PL            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_PL          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+END
+#pragma code_page(28591)
+
+
+// SWEDISH text
+
+STRINGTABLE
+BEGIN
+  IDS_NONE_SV                        "Ingen"
+  IDS_VICE_ERROR_SV                  "VICE Error!"
+  IDS_VICE_INFORMATION_SV            "VICE Information"
+  IDS_VICE_QUESTION_SV               "VICE question"
+  IDS_FFMPEG_DLL_MISMATCH_SV         "Your ffmpeg dll version doesn't match."
+  IDS_DIRECTDRAW_ERROR_SV            "DirectDraw error: Code:%8x Error:%s"
+  IDS_CANNOT_SAVE_SETTINGS_SV        "Cannot save settings."
+  IDS_CANNOT_LOAD_SETTINGS_SV        "Cannot load settings."
+  IDS_DEFAULT_SETTINGS_RESTORED_SV   "Default settings restored."
+  IDS_CANNOT_ATTACH_FILE_SV          "Cannot attach specified file"
+  IDS_START_MONITOR_SV               "%s\012\012Start monitor?"
+  IDS_VICE_CPU_JAM_SV                "VICE CPU JAM"
+  IDS_EXTEND_TO_40_TRACKS_SV         "Extend image to 40-track format?"
+  IDS_DETACHED_DEVICE_S_SV           "Detached device %s"
+  IDS_ATTACHED_S_TO_DEVICE_S_SV      "Attached %s to device#%s"
+  IDS_DETACHED_TAPE_SV               "Detached tape"
+  IDS_HISTORY_RECORDED_UNKNOWN_SV    "History recorded with unknown release"
+  IDS_HISTORY_RECORDED_VICE_S_SV     "History recorded with VICE-%s"
+  IDS_PAUSED_SV                      "paused"
+  IDS_RESUMED_SV                     "resumed"
+  IDS_REALLY_EXIT_SV                 "Do you really want to exit?\012\012All the data present in the emulated RAM will be lost."
+  IDS_CANNOT_AUTOSTART_FILE_SV       "Cannot autostart specified file."
+  IDS_ATTACHED_TAPE_S_SV             "Attached tape %s"
+  IDS_SETTINGS_SAVED_SUCCESS_SV      "Settings saved successfully."
+  IDS_SETTINGS_LOADED_SUCCESS_SV     "Settings loaded successfully."
+  IDS_ATTACH_DISK_IMAGE_SV           "Attach disk image"
+  IDS_ATTACH_TAPE_IMAGE_SV           "Attach tape image"
+  IDS_AUTOSTART_IMAGE_SV             "Autostart disk/tape image"
+  IDS_INVALID_CARTRIDGE_SV           "Invalid cartridge"
+  IDS_BAD_CARTRIDGE_CONFIG_SV        "Bad cartridge config in UI!"
+  IDS_INVALID_CARTRIDGE_IMAGE_SV     "Invalid cartridge image"
+  IDS_LOG_CONSOLE_OUTPUT_IMAGE_SV    "Logging console output image"
+  IDS_LOG_FILES_TYPE_SV              "VICE console logging files (*.dbg)"
+  IDS_CANNOT_WRITE_LOGFILE_S_SV      "Cannot write log file `%s'."
+  IDS_LOAD_FLIP_LIST_FILE_SV         "Load flip list file"
+  IDS_CANNOT_READ_FLIP_LIST_SV       "Cannot read flip list file"
+  IDS_SAVE_FLIP_LIST_FILE_SV         "Save flip list file"
+  IDS_CANNOT_WRITE_FLIP_LIST_SV      "Cannot write flip list file"
+  IDS_SELECT_KEYMAP_FILE_SV          "Select keymap file"
+  IDS_SAVE_KEYMAP_FILE_SV            "Save keymap file"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_SV    "Cannot write keymap file"
+  IDS_MAPPING_SV                     "Mapping"
+  IDS_KEYBOARD_SETTINGS_SV           "Keyboard settings"
+  IDS_ATTACH_SV                      "&Attach"
+  IDS_PLEASE_ENTER_A_FILENAME_SV     "Please enter a filename."
+  IDS_OVERWRITE_EXISTING_IMAGE_SV    "Overwrite existing image?"
+  IDS_CANNOT_CREATE_IMAGE_SV         "Cannot create image"
+  IDS_COMMAND_LINE_OPTIONS_SV        "Command line options"
+  IDS_COMMAND_OPTIONS_AVAIL_SV       "Which command line options are available?"
+  IDS_NO_DRIVER_SELECT_SUPPORT_SV    "No driver selected or selected driver not supported"
+  IDS_CANT_WRITE_SCREENSHOT_S_SV     "Cannot write screenshot file `%s'."
+  IDS_AUTOSTART_DISK_IMAGE_SV        "Autostart disk image"
+  IDS_SELECT_FS_DIRECTORY_SV         "Select file system directory"
+  IDS_PRINTER_USERPORT_SV            "Printer Userport"
+  IDS_PRINTER_4_SV                   "Printer 4"
+  IDS_PRINTER_5_SV                   "Printer 5"
+  IDS_DRIVE_8_SV                     "Drive 8"
+  IDS_DRIVE_9_SV                     "Drive 9"
+  IDS_DRIVE_10_SV                    "Drive 10"
+  IDS_DRIVE_11_SV                    "Drive 11"
+  IDS_PERIPHERAL_SETTINGS_SV         "Peripheral Settings"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_SV    "Can't write snapshot file."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_SV    "Cannot read snapshot image"
+  IDS_LOAD_S_ROM_IMAGE_SV            "Load %s ROM image"
+  IDS_SELECT_ROMSET_ARCHIVE_SV       "Select romset archive"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_SV     "Cannot load romset archive!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_SV     "Cannot save romset archive!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_SV     "Cannot load romset file!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_SV     "Cannot save romset file!"
+  IDS_SELECT_ROMSET_FILE_SV          "Select romset file"
+  IDS_ROMSET_SV                      "Romset"
+  IDS_COMPUTER_SV                    "Computer"
+  IDS_DRIVE_SV                       "Drive"
+  IDS_ROM_SETTINGS_SV                "ROM settings"
+  IDS_SAVE_SNAPSHOT_IMAGE_SV         "Save snapshot image"
+  IDS_CANNOT_WRITE_SNAPSHOT_S_SV     "Cannot write snapshot file `%s'."
+  IDS_LOAD_SNAPSHOT_IMAGE_SV         "Load snapshot image"
+  IDS_COULD_NOT_LOAD_PALETTE_SV      "Could not load palette file."
+  IDS_LOAD_VICE_PALETTE_FILE_SV      "Load VICE palette file"
+  IDS_FULLSCREEN_SV                  "Fullscreen"
+  IDS_COLORS_SV                      "Colors"
+  IDS_VIDEO_SETTINGS_SV              "Video settings"
+  IDS_FILE_SYSTEM_SV                 "File system"
+#ifdef HAVE_OPENCBM
+  IDS_REAL_IEC_DEVICE_SV             "Real IEC device"
+#endif
+  IDS_RS232_DEVICE_I_SV              "RS232 device %i"
+  IDS_ATTACH_CRT_CART_IMAGE_SV       "Attach CRT cartridge image"
+  IDS_ATTACH_RAW_8KB_CART_IMAGE_SV   "Attach raw 8KB cartridge image"
+  IDS_ATTACH_RAW_16KB_CART_IMG_SV    "Attach raw 16KB cartridge image"
+  IDS_ATTACH_AR_CART_IMAGE_SV        "Attach Action Replay cartridge image"
+  IDS_ATTACH_ATOMIC_P_CART_IMG_SV    "Attach Atomic Power cartridge image"
+  IDS_ATTACH_EPYX_FL_CART_IMG_SV     "Attach Epyx fastload cartridge image"
+  IDS_ATTACH_IEEE488_CART_IMG_SV     "Attach IEEE interface cartridge image"
+  IDS_ATTACH_RETRO_R_CART_IMG_SV     "Attach Retro Replay cartridge image"
+  IDS_ATTACH_IDE64_CART_IMAGE_SV     "Attach IDE64 interface cartridge image"
+  IDS_ATTACH_SS4_CART_IMAGE_SV       "Attach Super Snapshot 4 cartridge image"
+  IDS_ATTACH_SS5_CART_IMAGE_SV       "Attach Super Snapshot 5 cartridge image"
+  IDS_MODEL_SV                       "Model"
+  IDS_DRIVE_SETTINGS_SV              "Drive Settings"
+  IDS_SELECT_START_SNAP_EVENT_SV     "Select start snapshot for event history"
+  IDS_SELECT_END_SNAP_EVENT_SV       "Select end snapshot for event history"
+#ifdef UNSTABLE
+  IDS_VERSION_S_UNSTABLE_SV          "Version %s *UNSTABLE*"
+#else
+  IDS_VERSION_S_SV                   "Version %s"
+#endif
+  IDS_VICE_CONTRIBUTORS_SV           "VICE contributors"
+  IDS_WHO_MADE_WHAT_SV               "Who made what?"
+  IDS_LICENSE_SV                     "License"
+  IDS_NO_WARRANTY_SV                 "No warranty!"
+  IDS_VICE_WITHOUT_WARRANTY_SV       "VICE is distributed WITHOUT ANY WARRANTY!"
+  IDS_PRESS_KEY_NORTHWEST_SV         "Press key for NorthWest"
+  IDS_PRESS_KEY_NORTH_SV             "Press key for North"
+  IDS_PRESS_KEY_NORTHEAST_SV         "Press key for NorthEast"
+  IDS_PRESS_KEY_EAST_SV              "Press key for East"
+  IDS_PRESS_KEY_SOUTHEAST_SV         "Press key for SouthEast"
+  IDS_PRESS_KEY_SOUTH_SV             "Press key for South"
+  IDS_PRESS_KEY_SOUTHWEST_SV         "Press key for SouthWest"
+  IDS_PRESS_KEY_WEST_SV              "Press key for West"
+  IDS_PRESS_KEY_FIRE_SV              "Press key for Fire"
+  IDS_NUMPAD_AND_RCTRL_SV            "Numpad + RCtrl"
+  IDS_KEYSET_A_SV                    "Keyset A"
+  IDS_KEYSET_B_SV                    "Keyset B"
+  IDS_ALL_BUTTONS_AS_FIRE_SV         "All buttons used as fire"
+  IDS_NUMERIC_SEE_ABOVE_SV           "numeric (see above)"
+  IDS_NO_BUTTON_NO_AUTOFIRE_SV       "No button - Autofire disabled"
+  IDS_ALL_FILES_FILTER_SV            "All files (*.*)"
+  IDS_PALETTE_FILES_FILTER_SV        "VICE palette files (*.vpl)"
+  IDS_SNAPSHOT_FILES_FILTER_SV       "VICE snapshot files (*.vsf)"
+  IDS_DISK_IMAGE_FILES_FILTER_SV     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_TAPE_IMAGE_FILES_FILTER_SV     "Tape image files (*.t64;*.p00;*.tap;*.prg)"
+  IDS_ZIPPED_FILES_FILTER_SV         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_CRT_FILES_FILTER_SV            "CRT cartridge image files (*.crt)"
+  IDS_RAW_CART_FILES_FILTER_SV       "Raw cartridge image files (*.bin)"
+  IDS_FLIP_LIST_FILES_FILTER_SV      "VICE flip list files (*.vfl)"
+  IDS_ROMSET_FILES_FILTER_SV         "VICE romset files (*.vrs)"
+  IDS_ROMSET_ARCHIVES_FILTER_SV      "VICE romset archives (*.vra)"
+  IDS_KEYMAP_FILES_FILTER_SV         "VICE keymap files (*.vkm)"
+  IDS_FLEXIBLE_SV                    "Flexible"
+  IDS_ADJUSTING_SV                   "Adjusting"
+  IDS_EXACT_SV                       "Exact"
+  IDS_SOUND_DRIVER_DIRECTX_SV        "Sound driver: DirectX"
+  IDS_SOUND_DRIVER_WMM_SV            "Sound driver: WMM"
+  IDS_MEDIA_FILES_FILTER_SV          "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
 END
 
 // -----------------------------------------------------------------------------

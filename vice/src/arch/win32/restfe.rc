@@ -1,6 +1,12 @@
 // TFE specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_TFE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 270, 100
@@ -123,6 +129,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_TFE_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 270, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustawienia Ethernet"
@@ -143,6 +150,7 @@ BEGIN
     DEFPUSHBUTTON   "&OK", IDOK, 20,75,50,14, WS_TABSTOP
     PUSHBUTTON      "&Anuluj", IDCANCEL, 80,75,50,14, WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog

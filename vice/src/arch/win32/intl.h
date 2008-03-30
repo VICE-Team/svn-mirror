@@ -27,9 +27,8 @@
 #ifndef _INTL_H
 #define _INTL_H
 
-extern int intl_translate_dialog(int en_resource);
-extern int intl_translate_menu(int en_resource);
-extern char *intl_translate_text(char *text);
+extern int intl_translate(int en_resource);
+extern char *intl_translate_text(int en_resource);
 extern int intl_resources_init(void);
 extern void intl_resources_shutdown(void);
 extern int intl_cmdline_options_init(void);

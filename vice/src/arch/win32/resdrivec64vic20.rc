@@ -1,6 +1,12 @@
 // C64 and VIC20 drive specific resources.
 //
 
+#include "config.h"
+#include "res.h"
+#include "rescommon.h"
+
+#pragma code_page(28591)
+
 // original and default ENGLISH version of dialog
 
 IDD_DRIVE_SETTINGS_DIALOG_C64VIC20 DIALOG DISCARDABLE  0, 0, 250, 235
@@ -318,6 +324,7 @@ END
 
 // POLISH version of dialog
 
+#pragma code_page(28592)
 IDD_DRIVE_SETTINGS_DIALOG_C64VIC20_PL DIALOG DISCARDABLE  0, 0, 250, 235
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -377,6 +384,7 @@ BEGIN
     AUTOCHECKBOX    "$&A000-$BFFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_A000,
                     85,150,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+#pragma code_page(28591)
 
 
 // SWEDISH version of dialog

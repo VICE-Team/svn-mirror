@@ -241,7 +241,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_tfe_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_TFE_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_TFE_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

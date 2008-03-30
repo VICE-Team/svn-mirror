@@ -34,6 +34,7 @@
 
 #include "archdep.h"
 #include "info.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "system.h"
@@ -52,9 +53,9 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     switch (msg) {
       case WM_INITDIALOG:
 #ifdef UNSTABLE
-        version = lib_msprintf(_("Version %s *UNSTABLE*"), VERSION);
+        version = lib_msprintf(intl_translate_text(IDS_VERSION_S_UNSTABLE), VERSION);
 #else /* #ifdef UNSTABLE */
-        version = lib_msprintf(_("Version %s"), VERSION);
+        version = lib_msprintf(intl_translate_text(IDS_VERSION_S), VERSION);
 #endif /* #ifdef UNSTABLE */
         st_version = system_mbstowcs_alloc(version);
         SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
@@ -92,17 +93,17 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
         lib_free(dname);
         break;
       case IDM_CONTRIBUTORS:
-        ui_show_text(hwnd, _("VICE contributors"), _("Who made what?"),
+        ui_show_text(hwnd, intl_translate_text(IDS_VICE_CONTRIBUTORS), intl_translate_text(IDS_WHO_MADE_WHAT),
                      info_contrib_text);
         break;
       case IDM_LICENSE:
-        ui_show_text(hwnd, _("License"),
+        ui_show_text(hwnd, intl_translate_text(IDS_LICENSE),
                      "VICE license (GNU General Public License)",
                      info_license_text);
         break;
       case IDM_WARRANTY:
-        ui_show_text(hwnd, _("No warranty!"),
-                     _("VICE is distributed WITHOUT ANY WARRANTY!"),
+        ui_show_text(hwnd, intl_translate_text(IDS_NO_WARRANTY),
+                     intl_translate_text(IDS_VICE_WITHOUT_WARRANTY),
                      info_warranty_text);
         break;
       case IDM_CMDLINE:

@@ -45,14 +45,14 @@ static void uifliplist_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT(_("Load flip list file")),
+    if ((st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_LOAD_FLIP_LIST_FILE)),
         UILIB_FILTER_FLIPLIST, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
         if (fliplist_load_list((unsigned int)-1, name, 0) != 0)
-            ui_error(_("Cannot read flip list file"));
+            ui_error(intl_translate_text(IDS_CANNOT_READ_FLIP_LIST));
         system_wcstombs_free(name);
         lib_free(st_name);
     }
@@ -62,7 +62,7 @@ static void uifliplist_save_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT(_("Save flip list file")),
+    if ((st_name = uilib_select_file(hwnd, TEXT(intl_translate_text(IDS_SAVE_FLIP_LIST_FILE)),
         UILIB_FILTER_FLIPLIST, UILIB_SELECTOR_TYPE_FILE_SAVE,
         UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
@@ -72,7 +72,7 @@ static void uifliplist_save_dialog(HWND hwnd)
         util_add_extension(&name, "vfl");
 
         if (fliplist_save_list((unsigned int)-1, name) != 0)
-            ui_error(_("Cannot write flip list file"));
+            ui_error(intl_translate_text(IDS_CANNOT_WRITE_FLIP_LIST));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

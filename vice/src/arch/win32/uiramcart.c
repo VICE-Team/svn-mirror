@@ -126,7 +126,7 @@ static void end_ramcart_dialog(HWND hwnd)
 
 static void browse_ramcart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT(_("Select file for RAMCART")),
+    uilib_select_browse(hwnd, TEXT(intl_translate_text(IDS_SELECT_FILE_RAMCART)),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_RAMCART_FILE);
 }
@@ -166,7 +166,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_ramcart_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_RAMCART_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_RAMCART_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

@@ -93,6 +93,14 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\res.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\resacia.rc
+# End Source File
+# Begin Source File
+
 SOURCE=.\resplus4.rc
 # End Source File
 # End Target

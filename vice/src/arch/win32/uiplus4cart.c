@@ -49,41 +49,41 @@ static const uicart_params_t plus4_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_FUNCLO,
         0,
-        TEXT("Attach cartridge image for Function Low"),
+        IDS_ATTACH_FUNCTION_LOW_CART,
         UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
         IDM_CART_ATTACH_FUNCHI,
         0,
-        TEXT("Attach cartridge image for Function High"),
+        IDS_ATTACH_FUNCTION_HIGH_CART,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C1LO,
         0,
-        TEXT("Attach cartridge image for Cartridge1 Low"),
+        IDS_ATTACH_CART1_LOW,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C1HI,
         0,
-        TEXT("Attach cartridge image for Cartridge1 High"),
+        IDS_ATTACH_CART1_HIGH,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C2LO,
         0,
-        TEXT("Attach cartridge image for Cartridge2 Low"),
+        IDS_ATTACH_CART2_LOW,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C2HI,
         0,
-        TEXT("Attach cartridge image for Cartridge2 High"),
+        IDS_ATTACH_CART2_HIGH,
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
-        0, 0, NULL, 0
+        0, 0, 0, 0
     }
 };
 
@@ -124,18 +124,18 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
         i++;
 
     if (cartridges[i].wparam == 0) {
-        ui_error(_("Bad cartridge config in UI!"));
+        ui_error(intl_translate_text(IDS_BAD_CARTRIDGE_CONFIG));
         return;
     }
 
-    if ((st_name = uilib_select_file(hwnd, cartridges[i].title,
+    if ((st_name = uilib_select_file(hwnd, intl_translate_text(cartridges[i].title),
         cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
         if (uiplus4cart_attach_image(cartridges[i].wparam, name) < 0)
-            ui_error(_("Invalid cartridge image"));
+            ui_error(intl_translate_text(IDS_INVALID_CARTRIDGE_IMAGE));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

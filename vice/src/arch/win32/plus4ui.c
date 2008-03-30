@@ -122,8 +122,8 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
         ui_plus4_memory_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, intl_translate_dialog(IDD_PLUS4ROM_SETTINGS_DIALOG),
-                              intl_translate_dialog(IDD_PLUS4DRIVEROM_SETTINGS_DIALOG),
+        uirom_settings_dialog(hwnd, intl_translate(IDD_PLUS4ROM_SETTINGS_DIALOG),
+                              intl_translate(IDD_PLUS4DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:

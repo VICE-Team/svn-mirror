@@ -40,8 +40,8 @@
 #define MAXRS232 4
 
 
-static const TCHAR *interrupt_names[] = {
-    TEXT("None"), TEXT("IRQ"), TEXT("NMI"), NULL
+static const int interrupt_names[] = {
+    IDS_NONE, IDS_IRQ, IDS_NMI, 0
 };
 
 static unsigned int support_enable;
@@ -99,7 +99,7 @@ static void init_acia_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < MAXRS232; i++) {
         TCHAR st[20];
-        _stprintf(st, TEXT(_("RS232 device %i")), i + 1);
+        _stprintf(st, TEXT(intl_translate_text(IDS_RS232_DEVICE_I)), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -112,7 +112,7 @@ static void init_acia_dialog(HWND hwnd)
         for (res_value_loop = 0; interrupt_names[res_value_loop];
             res_value_loop++) {
             SendMessage(temp_hwnd, CB_ADDSTRING, 0,
-                        (LPARAM)_((TCHAR *)interrupt_names[res_value_loop]));
+                        (LPARAM)(TCHAR *)intl_translate_text(interrupt_names[res_value_loop]));
         }
         SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
@@ -175,7 +175,7 @@ void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location,
     support_location = location;
     support_interrupt = interrupt;
 
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_ACIA_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_ACIA_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

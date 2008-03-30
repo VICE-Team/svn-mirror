@@ -48,16 +48,16 @@ static int current_key_index;
 
 static int keyset[9];
 
-static TCHAR *keydefine_texts[] = {
-    TEXT("Press key for NorthWest"),
-    TEXT("Press key for North"),
-    TEXT("Press key for NorthEast"),
-    TEXT("Press key for East"),
-    TEXT("Press key for SouthEast"),
-    TEXT("Press key for South"),
-    TEXT("Press key for SouthWest"),
-    TEXT("Press key for West"),
-    TEXT("Press key for Fire")
+static int keydefine_texts[] = {
+    IDS_PRESS_KEY_NORTHWEST,
+    IDS_PRESS_KEY_NORTH,
+    IDS_PRESS_KEY_NORTHEAST,
+    IDS_PRESS_KEY_EAST,
+    IDS_PRESS_KEY_SOUTHEAST,
+    IDS_PRESS_KEY_SOUTH,
+    IDS_PRESS_KEY_SOUTHWEST,
+    IDS_PRESS_KEY_WEST,
+    IDS_PRESS_KEY_FIRE
 };
 
 static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
@@ -94,7 +94,7 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
 {
     switch (msg) {
       case WM_INITDIALOG:
-        SetWindowText(hwnd, _(keydefine_texts[current_key_index]));
+        SetWindowText(hwnd, intl_translate_text(keydefine_texts[current_key_index]));
         SetWindowLong(hwnd, GWL_WNDPROC, (LONG)real_callback);
         return FALSE;
     }
@@ -283,17 +283,17 @@ static void init_joystick_dialog(HWND hwnd)
     int device;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("None"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Numpad + RCtrl"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Keyset A"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Keyset B"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_KEYSET_B));
     joystick_ui_get_device_list(joy_hwnd);
     resources_get_value("JoyDevice1", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     joy1 = device = res_value;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("All buttons used as fire"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyFire1Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -301,12 +301,12 @@ static void init_joystick_dialog(HWND hwnd)
     resources_get_value("JoyAutofire1Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("numeric (see above)"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire1Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("No button - Autofire disabled"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyAutofire1Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -320,17 +320,17 @@ static void init_joystick_dialog(HWND hwnd)
                             (device >= JOYDEV_HW1));
 
     joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("None"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Numpad + RCtrl"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Keyset A"));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("Keyset B"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_KEYSET_B));
     joystick_ui_get_device_list(joy_hwnd);
     resources_get_value("JoyDevice2", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     joy2 = device = res_value;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("All buttons used as fire"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyFire2Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -338,12 +338,12 @@ static void init_joystick_dialog(HWND hwnd)
     resources_get_value("JoyAutofire2Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("numeric (see above)"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire2Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("No button - Autofire disabled"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyAutofire2Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -366,7 +366,7 @@ int     res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("numeric (see above)"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire1Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -379,7 +379,7 @@ int     res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("numeric (see above)"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire2Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -392,14 +392,14 @@ int     res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("All buttons used as fire"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyFire1Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("No button - Autofire disabled"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyAutofire1Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -412,14 +412,14 @@ int     res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("All buttons used as fire"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyFire2Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)_("No button - Autofire disabled"));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
     resources_get_value("JoyAutofire2Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
@@ -444,12 +444,12 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
-            DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_CONFIG_B:
             current_keyset_index = 1;
-            DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_CONFIG_KEYSET_DIALOG),
+            DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_DEV1:
@@ -580,7 +580,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_joystick_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_JOY_SETTINGS_DIALOG),
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate(IDD_JOY_SETTINGS_DIALOG),
               hwnd,dialog_proc);
 }
 

@@ -1943,7 +1943,7 @@ void uimon_init( void )
         wc.hIcon         = LoadIcon(winmain_instance, MAKEINTRESOURCE(IDI_ICON1));
         wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0xc0, 0xc0, 0xc0));
-        wc.lpszMenuName  = MAKEINTRESOURCE(intl_translate_menu(IDR_MENUMONITOR));
+        wc.lpszMenuName  = MAKEINTRESOURCE(intl_translate(IDR_MENUMONITOR));
         wc.lpszClassName = MONITOR_CLASS;
         wc.hIconSm       = NULL;
 
