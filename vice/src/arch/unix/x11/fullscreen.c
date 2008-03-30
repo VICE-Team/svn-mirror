@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "fullscreen.h"
 #include "video.h"
 
@@ -54,10 +56,22 @@ int fullscreen_available(void)
     return 0;
 }
 
-void fullscreen_create_menus(void)
+void fullscreen_mode_callback(const char *device, void *callback)
 {
 #ifdef USE_XF86_VIDMODE_EXT
-    vidmode_create_menus();
+    if (strcmp("Vidmode", device) == 0)
+        vidmode_mode_callback(callback);
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (strcmp("DGA2", device) == 0)
+        dga2_mode_callback(callback);
+#endif
+}
+
+void fullscreen_create_menus(struct ui_menu_entry_s menu[])
+{
+#ifdef USE_XF86_VIDMODE_EXT
+    vidmode_create_menus(menu);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_create_menus();
@@ -80,6 +94,28 @@ int fullscreen_init(void)
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
     /*printf("FS EN%i\n",enable);*/
+#ifdef USE_XF86_VIDMODE_EXT
+    if (vidmode_enable(canvas, enable) < 0)
+        return -1;
+#endif
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (dga2_enable(canvas, enable) < 0)
+        return -1;
+#endif
+    return 0;
+}
+
+static int fullscreen_double_size(struct video_canvas_s *canvas,
+                                  int double_size)
+{
+    /*printf("FS DSZ%i\n",double_size);*/
+    return 0;
+}
+
+static int fullscreen_double_scan(struct video_canvas_s *canvas,
+                                  int double_scan)
+{
+    /*printf("FS DSC%i\n",double_scan);*/
     return 0;
 }
 
@@ -93,6 +129,7 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 static int fullscreen_mode_vidmode(struct video_canvas_s *canvas, int mode)
 {
     /*printf("FS VM%i\n",mode);*/
+    vidmode_mode(canvas, mode);
     return 0;
 }
 #endif
@@ -101,6 +138,7 @@ static int fullscreen_mode_vidmode(struct video_canvas_s *canvas, int mode)
 static int fullscreen_mode_dga2(struct video_canvas_s *canvas, int mode)
 {
     /*printf("FS DM%i\n",mode);*/
+    dga2_mode();
     return 0;
 }
 #endif
@@ -114,6 +152,8 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 #ifdef USE_XF86_VIDMODE_EXT
     cap_fullscreen->device_name[cap_fullscreen->device_num] = "Vidmode";
     cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->double_size = fullscreen_double_size;
+    cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->device = fullscreen_device;
     cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_vidmode;
     cap_fullscreen->device_num += 1;
@@ -121,6 +161,8 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     cap_fullscreen->device_name[cap_fullscreen->device_num] = "DGA2";
     cap_fullscreen->enable = fullscreen_enable;
+    cap_fullscreen->double_size = fullscreen_double_size;
+    cap_fullscreen->double_scan = fullscreen_double_scan;
     cap_fullscreen->device = fullscreen_device;
     cap_fullscreen->mode[cap_fullscreen->device_num] = fullscreen_mode_dga2;
     cap_fullscreen->device_num += 1;
