@@ -1,4 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
 input file vice.texi.
 
 START-INFO-DIR-ENTRY
@@ -131,20 +131,20 @@ ARRAY   BLK3    if CONFIG & 8 then: 8k RAM dump $6000-$7fff
 ARRAY   BLK5    if CONFIG & 32 then: 8k RAM dump $a000-$bfff               
 
 
-File: vice.info,  Node: PET memory module,  Next: C610 memory module,  Prev: VIC20 memory module,  Up: Module formats
+File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
 
 PET memory module
 .................
 
 
-File: vice.info,  Node: C610 memory module,  Prev: PET memory module,  Up: Module formats
+File: vice.info,  Node: CBM-II memory module,  Prev: PET memory module,  Up: Module formats
 
-C610 memory module
-..................
+CBM-II memory module
+....................
 
-   The size of the C610 memory module differs with each different memory
-configuration. The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
+   The size of the CBM-II memory module differs with each different
+memory configuration. The RAM configuration is saved in the snapshot,
+and restored when the snapshot is loaded.
 
    Version numbers: Major 1, Minor 0
 
@@ -370,7 +370,6 @@ Checkpoint commands
      For more information on conditions, see the CONDITION command.
 
 `enable <checknum>'
-
 `disable <checknum>'
      Each checkpoint can be enabled or disabled.  This command allows
      changing between these states.
@@ -565,94 +564,77 @@ shown after it.  `-' as a file name stands for standard input or
 standard output, depending on the context.
 
 `-attach  IMAGE'
-
 `attach  IMAGE'
      Attach the disk image `IMAGE' for use.  All the following commands
      will refer to this image.
 
 `-detach'
-
 `detach'
      Detach the currently attached disk image.
 
 `-format  IMAGE 'NAME,ID''
-
 `format  IMAGE 'NAME,ID''
      Format the D64 disk image `IMAGE', giving the specified label.  If
      `IMAGE' does not exist, create it.
 
 `-gcr  IMAGENAME ['NAME,ID']'
-
 `gcrformat  IMAGE 'NAME,ID''
      Create a GCR disk image; if `NAME,ID' is specified, format it.
 
 `-delete  IMAGE FILES...'
-
 `delete  FILES...'
      Delete  FILES  from `IMAGE'.
 
 `-list  IMAGE'
-
 `list'
      List files in `IMAGE'.
 
 `-validate  IMAGE'
-
 `validate'
      Validate the disk.
 
 `-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME'
-
 `copy  OLDNAME1 [OLDNAME2...] NEWNAME'
      Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
      (can be used to copy files).
 
 `-create  IMAGE DUMP ['DESCR']'
-
 `create  IMAGE DUMP ['DESCR']'
      Build `IMAGE' from raw dump file `DUMP' (i.e., convert from `D64'
      to `X64' file).
 
 `-tape  IMAGE TAPEIMAGE [FILES...]'
-
 `tape  IMAGE TAPEIMAGE [FILES...]'
      Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
      files).
 
 `-read  IMAGE 1541NAME [FSNAME]'
-
 `read  1541NAME [FSNAME]'
      Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
      default) from `IMAGE'.
 
 `-extract  IMAGE'
-
 `extract'
      Extract all files from `IMAGE'.
 
 `-write  IMAGE FSNAME [1541NAME]'
-
 `write  FSNAME [1541NAME]'
      Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
      (works with `P00' files as well)
 
 `-block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
-
 `block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
      Show disk blocks in hex format.
 
 `-info  IMAGE ['DESCRIPTION']'
-
 `info  ['DESCRIPTION']'
      Show version information about `IMAGE'.
 
 `-unlynx IMAGE LYNXFILE'
-
 `unlynx LYNXFILE'
      Unlynx `LYNXFILE' into the image.
 
 `-zcreate  IMAGE DUMP ['DESCR']'
-
 `zcreate IMAGE DUMP ['DESCR']'
      Build `IMAGE' from a Zipcoded image made up of files called
      `1!DUMP', `2!DUMP', `3!DUMP', `4!DUMP'.

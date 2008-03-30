@@ -1,4 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
 input file vice.texi.
 
 START-INFO-DIR-ENTRY
@@ -892,17 +892,17 @@ Keyboard resources
 
 `KeymapSymFile'
      String specifying the name of the keymap file for the symbolic
-     mapping (*note Keyboard emulation::., all but PET and C610).
+     mapping (*note Keyboard emulation::., all but PET and CBM-II).
 
 `KeymapPosFile'
      String specifying the name of the keymap file for the positional
-     mapping (*note Keyboard emulation::., all but PET and C610).
+     mapping (*note Keyboard emulation::., all but PET and CBM-II).
 
 `KeymapBusinessUKSymFile'
 `KeymapBusinessUKPosFile'
      String specifying the name of the keymap file for the symbolic and
      positional mapping for the UK business keyboard (*note Keyboard
-     emulation::., PET and C610).
+     emulation::., PET and CBM-II).
 
 `KeymapGraphicsSymFile'
 `KeymapGraphicsPosFile'
@@ -931,7 +931,7 @@ Keyboard command-line options
 `-bukposkeymap NAME'
      Specify `NAME' as the symbolic/positional keymap file for the UK
      business keyboard (`KeymapBusinessUKSymFile',
-     `KeymapBusinessUKPosFile', PET and C610).
+     `KeymapBusinessUKPosFile', PET and CBM-II).
 
 `-grsymkeymap NAME'
 `-grposkeymap NAME'

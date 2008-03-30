@@ -1,4 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
 input file vice.texi.
 
 START-INFO-DIR-ENTRY
@@ -677,7 +677,6 @@ C64/128 system ROM resources
           Commodore SX-64 ROM
 
     `100'
-
     `4064'
           Commodore 4064 (also known as "PET64" or "Educator 64") ROM
 
@@ -1097,10 +1096,10 @@ File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: 
 Changing CBM-II model
 ---------------------
 
-   With `x610', it is possible to change at runtime the characteristics
-of the emulated CBM so that it matches (or not) the ones of a certain
-CBM model, and it is also possible to select from a common set of CBM
-models so that all the features are selected accordingly.
+   With `xcbm2', it is possible to change at runtime the
+characteristics of the emulated CBM so that it matches (or not) the ones
+of a certain CBM model, and it is also possible to select from a common
+set of CBM models so that all the features are selected accordingly.
 
    The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
@@ -1143,8 +1142,8 @@ Available models are:
    Notice that this will *reset the emulated machine*.
 
    It is also possible to select the CBM model at startup, with the
-`-model' command-line option: for example, `x610 -model C610' will
-emulate a CBM 610 while `x610 -model C620' will emulate a CBM 620.
+`-model' command-line option: for example, `xcbm2 -model C610' will
+emulate a CBM 610 while `xcbm2 -model C620' will emulate a CBM 620.
 
 
 File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
@@ -1263,7 +1262,7 @@ emulators snapshot files.
 * x128 modules::
 * xvic modules::
 * xpet modules::
-* x610 modules::
+* xcbm2 modules::
 
 
 File: vice.info,  Node: x64 modules,  Next: x128 modules,  Prev: Emulator modules,  Up: Emulator modules
@@ -1304,18 +1303,18 @@ xvic modules
 ............
 
 
-File: vice.info,  Node: xpet modules,  Next: x610 modules,  Prev: xvic modules,  Up: Emulator modules
+File: vice.info,  Node: xpet modules,  Next: xcbm2 modules,  Prev: xvic modules,  Up: Emulator modules
 
 xpet modules
 ............
 
 
-File: vice.info,  Node: x610 modules,  Prev: xpet modules,  Up: Emulator modules
+File: vice.info,  Node: xcbm2 modules,  Prev: xpet modules,  Up: Emulator modules
 
-x610 modules
-............
+xcbm2 modules
+.............
 
-   The modules in the x610 emulator are:
+   The modules in the xcbm2 emulator are:
 
 Name    Type           Description                                        
 MAINCPU 6502           The Main CPU - although it is a 6509, only the     
@@ -1370,7 +1369,7 @@ emulator, or even in other emulators.
 * C128 memory module::
 * VIC20 memory module::
 * PET memory module::
-* C610 memory module::
+* CBM-II memory module::
 
 
 File: vice.info,  Node: Module Terminology,  Next: Module framework,  Prev: Module formats,  Up: Module formats

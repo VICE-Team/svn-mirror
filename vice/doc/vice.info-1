@@ -1,4 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
+This is Info file vice.info, produced by Makeinfo version 1.67 from the
 input file vice.texi.
 
 START-INFO-DIR-ENTRY
@@ -1032,7 +1032,7 @@ Invoking the emulators
 
    * `xvic', the VIC20 emulator
 
-   * `x610', the CBM-II emulator
+   * `xcbm2', the CBM-II emulator
 
    You can run each of them by simply typing the name from a shell.  If
 you want to run them from another application (e.g., a window manager or
@@ -1135,10 +1135,10 @@ list, like the UNIX `PATH' environment variable.  The default value is
      PREFIX/lib/vice/EMU:BOOTPATH/EMU
 
    Where `PREFIX' is the installation prefix (usually `/usr/local'),
-`EMU' is the name of the emulated machine (`C64', `C128', `PET', `C610'
-or `VIC20') and `BOOTPATH' is the directory where the executable
-resides.  The disk drive ROMs are looked for in a directory with `EMU'
-set to `DRIVES'.
+`EMU' is the name of the emulated machine (`C64', `C128', `PET',
+`CBM-II' or `VIC20') and `BOOTPATH' is the directory where the
+executable resides.  The disk drive ROMs are looked for in a directory
+with `EMU' set to `DRIVES'.
 
    For example, if you have the C64 emulator installed in
 
