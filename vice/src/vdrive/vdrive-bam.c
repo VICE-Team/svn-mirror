@@ -237,7 +237,7 @@ BYTE *vdrive_bam_calculate_track(int type, BYTE *bam, unsigned int track)
       case VDRIVE_IMAGE_FORMAT_1571:
         bamp = (track <= NUM_TRACKS_1571 / 2) ?
                &bam[BAM_BIT_MAP + 4 * (track - 1)] :
-               &bam[0x100 + 3 * (track - 1)];
+               &bam[0x100 + 3 * (track - NUM_TRACKS_1571 / 2 - 1) - 1];
         break;
       case VDRIVE_IMAGE_FORMAT_1581:
         bamp = (track <= BAM_TRACK_1581) ?
