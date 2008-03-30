@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-02 20:21+0100\n"
+"POT-Creation-Date: 2001-12-06 22:08+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -285,8 +285,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:396 src/arch/unix/c610ui.c:460
 #: src/arch/unix/c64ui.c:315 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1088
-#: src/arch/unix/x11/gnome/ui.c:1180
+#: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1118
+#: src/arch/unix/x11/gnome/ui.c:1210
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1025,8 +1025,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
-#: src/arch/unix/x11/gnome/ui.c:758 src/arch/unix/x11/gnome/ui.c:768
-#: src/arch/unix/x11/gnome/ui.c:1432
+#: src/arch/unix/x11/gnome/ui.c:785 src/arch/unix/x11/gnome/ui.c:795
+#: src/arch/unix/x11/gnome/ui.c:1462
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1171,7 +1171,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1782
+#: src/arch/unix/x11/gnome/ui.c:1824
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1678,7 +1678,7 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1227
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1257
 #: src/arch/unix/x11/xaw/ui.c:1061
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -2156,154 +2156,158 @@ msgstr "Garanti"
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:123
+#: src/arch/unix/x11/gnome/gnomevideo.c:126
 msgid "Successfully initialized video."
 msgstr "Grafiken har initierats."
 
-#: src/arch/unix/x11/gnome/ui.c:399
+#: src/arch/unix/x11/gnome/ui.c:401
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/ui.c:401
+#: src/arch/unix/x11/gnome/ui.c:403
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:472
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
 
-#: src/arch/unix/x11/gnome/ui.c:639 src/arch/unix/x11/xaw/ui.c:476
+#: src/arch/unix/x11/gnome/ui.c:641 src/arch/unix/x11/xaw/ui.c:476
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/ui.c:642 src/arch/unix/x11/xaw/ui.c:479
+#: src/arch/unix/x11/gnome/ui.c:644 src/arch/unix/x11/xaw/ui.c:479
 msgid "Please recompile the program for a supported bit depth."
 msgstr "Kompilera om programmet för ett understött färgdjup."
 
-#: src/arch/unix/x11/gnome/ui.c:646 src/arch/unix/x11/gnome/ui.c:664
+#: src/arch/unix/x11/gnome/ui.c:648 src/arch/unix/x11/gnome/ui.c:666
 #: src/arch/unix/x11/xaw/ui.c:483 src/arch/unix/x11/xaw/ui.c:500
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-läge."
 
-#: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:508
+#: src/arch/unix/x11/gnome/ui.c:674 src/arch/unix/x11/xaw/ui.c:508
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/ui.c:679
+#: src/arch/unix/x11/gnome/ui.c:681
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/ui.c:686
+#: src/arch/unix/x11/gnome/ui.c:688
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/ui.c:744
+#: src/arch/unix/x11/gnome/ui.c:751
+msgid "PAL Controls"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/ui.c:771
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:854
+#: src/arch/unix/x11/gnome/ui.c:881
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:927 src/arch/unix/x11/xaw/ui.c:589
+#: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/ui.c:1086 src/arch/unix/x11/gnome/ui.c:1169
+#: src/arch/unix/x11/gnome/ui.c:1116 src/arch/unix/x11/gnome/ui.c:1199
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/ui.c:1092
+#: src/arch/unix/x11/gnome/ui.c:1122
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1211 src/arch/unix/x11/xaw/ui.c:1045
+#: src/arch/unix/x11/gnome/ui.c:1241 src/arch/unix/x11/xaw/ui.c:1045
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1213 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1243 src/arch/unix/x11/xaw/ui.c:1051
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1223 src/arch/unix/x11/xaw/ui.c:1058
+#: src/arch/unix/x11/gnome/ui.c:1253 src/arch/unix/x11/xaw/ui.c:1058
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1270 src/arch/unix/x11/xaw/ui.c:1095
+#: src/arch/unix/x11/gnome/ui.c:1300 src/arch/unix/x11/xaw/ui.c:1095
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/ui.c:1290 src/arch/unix/x11/gnome/ui.c:1293
+#: src/arch/unix/x11/gnome/ui.c:1320 src/arch/unix/x11/gnome/ui.c:1323
 #: src/arch/unix/x11/xaw/ui.c:1116 src/arch/unix/x11/xaw/ui.c:1122
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1584
+#: src/arch/unix/x11/gnome/ui.c:1614
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1621 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1651 src/arch/unix/x11/xaw/ui.c:1332
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/ui.c:1741
+#: src/arch/unix/x11/gnome/ui.c:1783
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/ui.c:1756
+#: src/arch/unix/x11/gnome/ui.c:1798
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/ui.c:1782
+#: src/arch/unix/x11/gnome/ui.c:1824
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/ui.c:1782
+#: src/arch/unix/x11/gnome/ui.c:1824
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1826 src/arch/unix/x11/xaw/ui.c:1572
+#: src/arch/unix/x11/gnome/ui.c:1868 src/arch/unix/x11/xaw/ui.c:1572
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/ui.c:1827
+#: src/arch/unix/x11/gnome/ui.c:1869
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/ui.c:1840
+#: src/arch/unix/x11/gnome/ui.c:1882
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1848 src/arch/unix/x11/gnome/ui.c:1857
+#: src/arch/unix/x11/gnome/ui.c:1890 src/arch/unix/x11/gnome/ui.c:1899
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/ui.c:1985 src/arch/unix/x11/gnome/ui.c:1990
+#: src/arch/unix/x11/gnome/ui.c:2027 src/arch/unix/x11/gnome/ui.c:2032
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/ui.c:2448
+#: src/arch/unix/x11/gnome/ui.c:2490
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/ui.c:2495
+#: src/arch/unix/x11/gnome/ui.c:2537
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/ui.c:2521
+#: src/arch/unix/x11/gnome/ui.c:2563
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -2409,6 +2413,11 @@ msgstr "Spara anslutna disketter"
 #: src/arch/unix/x11/gnome/uisnapshot.c:74
 msgid "Save currently attached ROMs"
 msgstr "Spara anslutna ROMar"
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:60
+#, fuzzy
+msgid "PAL Settings"
+msgstr "Inställningar"
 
 #: src/arch/unix/x11/fullscreen.c:135
 #, c-format
