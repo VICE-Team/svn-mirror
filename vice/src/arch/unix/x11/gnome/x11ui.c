@@ -1209,6 +1209,9 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(1);
+#endif
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) {
@@ -1229,11 +1232,8 @@ void ui_exit(void)
 	}
 	ui_autorepeat_on();
 	ui_restore_mouse();
-#ifdef USE_XF86_DGA2_EXTENSIONS
-	fullscreen_mode_off();
-#endif
-#ifdef USE_XF86_VIDMODE_EXT
-	resources_set_value("UseFullscreenVidMode", (resource_value_t) 0);
+#ifdef USE_XF86_EXTENSIONS
+        fullscreen_suspend(0);
 #endif
 	ui_dispatch_events();
 
@@ -1305,36 +1305,28 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 
     for (i = 0; i < num_app_shells; i++) {
         for (j = 0; j < NUM_DRIVES; j++) {
-	    if (enabled_drives && 
-		(enabled_drives & (1 << j))) 
-	    {
+	    if (enabled_drives && (enabled_drives & (1 << j))) {
 		/* enabled + active drive */
 		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_show(app_shells[i].drive_status[j].track_label);
-		if (drive_num_leds(j) == 1)
-		{
+		if (drive_num_leds(j) == 1) {
 		    gtk_widget_show(app_shells[i].drive_status[j].led);
 		    gtk_widget_hide(app_shells[i].drive_status[j].led1);
 		    gtk_widget_hide(app_shells[i].drive_status[j].led2);
-		}
-		else
-		{
+		} else {
 		    gtk_widget_hide(app_shells[i].drive_status[j].led);
 		    gtk_widget_show(app_shells[i].drive_status[j].led1);
 		    gtk_widget_show(app_shells[i].drive_status[j].led2);
 		}
 	    } 
 	    else if (!enabled_drives &&
-		       (strcmp(last_attached_images[j], "") != 0)) 
-	    {
+		       (strcmp(last_attached_images[j], "") != 0)) {
 		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_hide(app_shells[i].drive_status[j].track_label);
 		gtk_widget_hide(app_shells[i].drive_status[j].led);
 		gtk_widget_hide(app_shells[i].drive_status[j].led1);
 		gtk_widget_hide(app_shells[i].drive_status[j].led2);
-	    }
-	    else 
-	    {
+	    } else {
 		gtk_widget_hide(app_shells[i].drive_status[j].event_box);
 	    }
 	}
@@ -1635,7 +1627,7 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
-    fullscreen_update();
+    /*fullscreen_update();*/
 }
 
 /* Resize one window. */
@@ -1746,9 +1738,6 @@ static void ui_message2(const char *type, const char *msg, const char *title)
 {
     static GtkWidget* msgdlg;
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off();
-#endif
     msgdlg = gnome_message_box_new(msg, type,
 				   GNOME_STOCK_BUTTON_CLOSE, 
 				   NULL);
@@ -1780,10 +1769,6 @@ void ui_error(const char *format, ...)
     va_list ap;
     char str[1024];
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off_restore();
-#endif
-
     va_start(ap, format);
     vsprintf(str, format, ap);
     ui_message2(GNOME_MESSAGE_BOX_ERROR, str, _("VICE Error"));
@@ -1812,7 +1797,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	exit(0);
     }
 
-    jam_dialog = gnome_dialog_new("", _("Reset"), _("Hard Reset"), _("Monitor"), NULL);
+    jam_dialog = gnome_dialog_new("", _("Reset"), _("Hard Reset"),
+                                  _("Monitor"), NULL);
     gtk_signal_connect(GTK_OBJECT(jam_dialog),
 		       "destroy",
 		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
@@ -1837,8 +1823,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (res) {
       case 2:
 	ui_restore_mouse();
-#ifdef USE_XF86_DGA2_EXTENSIONS
-	fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+        fullscreen_suspend(0);
 #endif
 	return UI_JAM_MONITOR;
       case 1:
@@ -2356,7 +2342,9 @@ void ui_unblock_shells(void)
 /* Pop up a popup shell and center it to the last visited AppShell */
 void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 {
-    fullscreen_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(1);
+#endif
     
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
@@ -2432,7 +2420,9 @@ void ui_popdown(GtkWidget *w)
     if (--popped_up_count < 0)
 	popped_up_count = 0;
     ui_unblock_shells();
-    fullscreen_on();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_resume();
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

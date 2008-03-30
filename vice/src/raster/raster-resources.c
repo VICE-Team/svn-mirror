@@ -92,6 +92,6 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
     raster->canvas = video_canvas_init();
 
     return resources_register(resources_chip)
-        | video_resources_chip_init(chipname, raster->canvas, video_chip_cap);
+        | video_resources_chip_init(chipname, &raster->canvas, video_chip_cap);
 }
 

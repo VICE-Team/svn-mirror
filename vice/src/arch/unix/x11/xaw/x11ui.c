@@ -152,7 +152,7 @@ static void ui_restore_mouse(void)
     if (fullscreen_is_enabled)
         return;
 #endif
-    if ( _mouse_enabled && cursor_is_blank) {
+    if (_mouse_enabled && cursor_is_blank) {
         XUndefineCursor(display,XtWindow(canvas));
         XUngrabPointer(display, CurrentTime);
         XUngrabKeyboard(display, CurrentTime);
@@ -989,9 +989,6 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_suspend(1);
-#endif
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) {
@@ -1434,9 +1431,6 @@ void ui_error(const char *format,...)
     static Widget error_dialog;
     static ui_button_t button;
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off_restore();
-#endif
     va_start(ap, format);
     str = xmvsprintf(format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
@@ -1538,6 +1532,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     switch (button) {
       case UI_BUTTON_MON:
         ui_restore_mouse();
+#ifdef USE_XF86_EXTENSIONS
+        fullscreen_suspend(0);
+#endif
         return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
@@ -1751,8 +1748,9 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
 void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off_restore();
+
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(1);
 #endif
 
     ui_restore_mouse();
@@ -1834,10 +1832,10 @@ void ui_popdown(Widget w)
     ui_check_mouse_cursor();
     if (--popped_up_count < 0)
         popped_up_count = 0;
-#ifdef USE_XF86_DGA2_EXTENSIONS
-      fullscreen_mode_on_restore();
-#endif
 
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_resume();
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

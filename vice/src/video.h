@@ -168,7 +168,7 @@ struct raster_s;
 
 extern int video_resources_init(int mode);
 extern int video_resources_chip_init(const char *chipname,
-                                     struct video_canvas_s *canvas,
+                                     struct video_canvas_s **canvas,
                                      video_chip_cap_t *video_chip_cap);
 extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
