@@ -1,3 +1,41 @@
+2004-05-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.27.
+
+	* vicii/vicii-fetch.c (handle_fetch_sprite): Fixed DMA length
+	calculation.  Disabled for now.
+
+	* debug.c, interrupt.c, keyboard.c: Fixed warnings.
+
+	* arch/win32/rs232.c: Added file contributed by Tim Newsham.
+	Fixed several warnings.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new file.
+
+	* arch/win32/msvc/config.h: Define `HAVE_RS232'.
+
+	* arch/win32/uivideo.c (ui_video_settings_dialog): Reordered
+	property sheet.
+
+2004-05-26  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Restored full accuracy in resampling filter table
+	lookup.
+
+2004-05-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii.c (clk_overflow_callback): Handle overflow for
+	sprite_fetch_clk.
+
+	* vicii/vicii-snapshot.c (vicii_snapshot_read_module): Set
+	sprite_fetch_clk one line earlier and recalculate
+	vicii.sprite_fetch_idx.
+
+2004-05-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c1541.c (write_cmd): Allocate memory for dest_name as
+	finfo->name ist freed in fileio_close.
+
 2004-05-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.26.

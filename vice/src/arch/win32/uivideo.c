@@ -500,26 +500,26 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     chip_param = &chip_param_table[chip_type1];
 
     if (chip_param->palette_mode == UI_VIDEO_PAL) {
-        psp[0].pfnDlgProc = dialog_color_proc;
-        psp[0].pszTitle = TEXT("Colors");
-        psp[1].pfnDlgProc = dialog_fullscreen_proc;
-        psp[1].pszTitle = TEXT("Fullscreen");
-        psp[2].pfnDlgProc = dialog_advanced_proc;
-        psp[2].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
-        psp[2].lParam = (LPARAM)chip_param;
+        psp[0].pfnDlgProc = dialog_fullscreen_proc;
+        psp[0].pszTitle = TEXT("Fullscreen");
+        psp[1].pfnDlgProc = dialog_advanced_proc;
+        psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
+        psp[1].lParam = (LPARAM)chip_param;
+        psp[2].pfnDlgProc = dialog_color_proc;
+        psp[2].pszTitle = TEXT("Colors");
 
 #ifdef _ANONYMOUS_UNION
-        psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-        psp[1].pszTemplate
+        psp[0].pszTemplate
             = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
-        psp[1].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[2].DUMMYUNIONNAME.pszTemplate
+        psp[1].DUMMYUNIONNAME.pszTemplate
             = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+        psp[2].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #endif
         psh.nPages = 3;
     } else {
