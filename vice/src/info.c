@@ -379,6 +379,7 @@ const char contrib_text[] =
 "\n"
 "  Andreas Matthies <andreas.matthies@arcormail.de> improved the\n"
 "  datasette support and some ui stuff in the Win32 and MSDOS port.\n"
+"  He also wrote the BeOS port.\n"
 "\n"
 "  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>\n"
 "  Implemented Gnome Port based on Oliver Schaertels GTK+ port\n"

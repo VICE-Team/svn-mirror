@@ -33,8 +33,10 @@
 #include <PushGameSound.h>
 #include <SoundPlayer.h>
 #include <stdio.h>
+#include <string.h>
 
 extern "C" {
+#include "log.h"
 #include "sound.h"
 #include "utils.h"
 }
@@ -68,11 +70,6 @@ static int written_samples;
 
 /* ------------------------------------------------------------------------- */
 
-extern "C" {
- #include "log.h"
-}
-
-
 static int beos_init(const char *param, int *speed,
                               int *fragsize, int *fragnr, double bufsize)
 {
@@ -98,6 +95,7 @@ static int beos_init(const char *param, int *speed,
 			log_error(LOG_DEFAULT, "sound (beos_init): LockForCyclic failed");
 			return -1;
 	}
+	memset(soundbuffer, 0, bufferlength);
 	game_sound->StartPlaying();
 	
 	write_position = game_sound->CurrentPosition();
@@ -168,6 +166,7 @@ static int beos_resume(void)
 			log_error(LOG_DEFAULT, "sound (beos_resume): LockForCyclic failed");
 			return -1;
 	}
+	memset(soundbuffer, 0, bufferlength);
 	game_sound->StartPlaying();
     written_samples = 0;
     return 0;

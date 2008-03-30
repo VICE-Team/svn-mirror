@@ -579,6 +579,16 @@ void ui_dispatch_events(void)
 	            	for (m = 0; toggle_list[m].name != NULL; m++) {
     	            	if (toggle_list[m].item_id == message_queue[i].what) {
     	            		resources_toggle(toggle_list[m].name, NULL);
+    	            		/* FIXME: workaround for sound stumble in warp mode */
+    	            		if (message_queue[i].what == MENU_TOGGLE_WARP_MODE) {
+    	            			int warp_enabled;
+    	            			resources_get_value(toggle_list[m].name, 
+    	            				(resource_value_t*) &warp_enabled);
+    	            			if (warp_enabled)
+    	            				sound_suspend();
+    	            			else
+    	            				sound_resume();
+    	            		}
             	        	break;
                 		}
 					}

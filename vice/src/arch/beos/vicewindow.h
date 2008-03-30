@@ -32,6 +32,7 @@
 #include <View.h>
 #include <Window.h>
 
+#include "statusbar.h"
 #include "ui.h"
 
 class ViceWindow : public BWindow {
