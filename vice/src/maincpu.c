@@ -465,7 +465,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW(m, (DWORD *)&last_opcode_info) < 0)
+        || SMR_DW_UINT(m, &last_opcode_info) < 0)
         goto fail;
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);

@@ -448,6 +448,17 @@ int snapshot_module_read_dword_into_int(snapshot_module_t *m, int *value_return)
     return 0;
 }
 
+int snapshot_module_read_dword_into_uint(snapshot_module_t *m,
+                                         unsigned int *value_return)
+{
+    DWORD b;
+
+    if (snapshot_module_read_dword(m, &b) < 0)
+        return -1;
+    *value_return = (unsigned int)b;
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 snapshot_module_t *snapshot_module_create(snapshot_t *s,
