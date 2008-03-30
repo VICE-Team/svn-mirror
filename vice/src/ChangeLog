@@ -1,3 +1,85 @@
+2006-09-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.4.
+
+	* autostart.c, datasette.c, debug.c, keyboard.c, main.c,
+	romset.c, arch/unix/gp2x/c128ui.c, arch/unix/gp2x/c64ui.c,
+	arch/unix/gp2x/cbm2ui.c, arch/unix/gp2x/input_gp2x.c,
+	arch/unix/gp2x/petui.c, arch/unix/gp2x/plus4ui.c,
+	arch/unix/gp2x/prefs_gp2x.c, arch/unix/gp2x/vic20ui.c,
+	arch/unix/gui/c128ui.c, arch/unix/gui/cbm2ui.c,
+	arch/unix/gui/petui.c, arch/unix/gui/uicommands.c,
+	arch/unix/gui/uidatasette.c, arch/unix/gui/uidrive.c,
+	arch/unix/gui/uifliplist.c, arch/unix/gui/uiide64.c,
+	arch/unix/gui/uijoystick2.c, arch/unix/gui/uikeyboard.c,
+	arch/unix/gui/uilib.c, arch/unix/gui/uinetplay.c:,
+	arch/unix/gui/uipalemu.c, arch/unix/gui/uiprinter.c,
+	arch/unix/gui/uiromset.c, arch/unix/gui/uirs232.c,
+	arch/unix/gui/uisettings.c, arch/unix/gui/uited.c,
+	arch/unix/gui/uivic.c, arch/unix/gui/uivicii.c,
+	arch/unix/gui/vic20ui.c, arch/unix/x11/gnome/uimenu.c,
+	arch/unix/x11/gnome/uinetplay.c,
+	arch/unix/x11/gnome/uipalcontrol.c,
+	arch/unix/x11/gnome/uiscreenshot.c,
+	arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/xaw/x11ui.c, arch/win32/fullscrn.c,
+	arch/win32/uiacia.c, arch/win32/uic128.c,
+	arch/win32/uic64_256k.c, arch/win32/uicbm2set.c,
+	arch/win32/ui.c, arch/win32/uidatasette.c,
+	arch/win32/uidrivec128.c, arch/win32/uidrivec64vic20.c,
+	arch/win32/uidriveplus4.c, arch/win32/uigeoram.c,
+	arch/win32/uiide64.c, arch/win32/uijoystick.c,
+	arch/win32/uikeyboard.c, arch/win32/uilib.c,
+	arch/win32/uimediafile.c, arch/win32/uimon.c,
+	arch/win32/uiram.c, arch/win32/uireu.c, arch/win32/uirom.c,
+	arch/win32/uisid.c, arch/win32/uitfe.c, arch/win32/uirs232.c,
+	arch/win32/uirs232user.c, arch/win32/uiperipheral.c,
+	arch/win32/uivicset.c, arch/win32/uispeed.c,
+	arch/win32/uisound.c, arch/win32/uinetwork.c,
+	arch/win32/uipetreu.c, arch/win32/uipetset.c,
+	arch/win32/uiplus256k.c, arch/win32/uiplus4cart.c,
+	arch/win32/uiplus4mem.c, arch/win32/uiplus60k.c,
+	arch/win32/uiramcart.c, arch/win32/uivicii.c,
+	arch/win32/uivideo.c, resources.h, resources.c
+	(resources_get_int, resources_get_string, resources_set_int,
+	resources_set_string): New functions, changed API.
+
+	* resources.c, resources.h, arch/os2/dialogs/dlg-drive.c,
+	arch/win32/ui.c, arch/win32/uidriveplus4.c, romset.c,
+	arch/win32/uidrivec128.c, arch/win32/uirom.c,
+	arch/win32/uidrivepetcbm2.c, arch/win32/uiperipheral.c,
+	arch/win32/uidrivec64vic20.c, printerdrv/output-graphics.c
+	(resources_get_int_sprintf, resources_get_string_sprintf):
+	New functions, changed API.
+
+	* resources.c, resources.h, arch/os2/dialogs/dlg-drive.c,
+	arch/unix/gui/uiattach.c, arch/win32/ui.c, event.c,
+	arch/win32/uidriveplus4.c, arch/win32/uidrivec128.c,
+	arch/win32/uirom.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uiperipheral.c, arch/win32/uidrivec64vic20.c
+	(resources_set_int_sprintf, resources_set_string_sprintf):
+	New functions, changed API.
+
+	* resources.h, resources.c, arch/os2/dialogs/dialogs.c,
+	arch/os2/dialogs/dlg-drive.c, arch/msdos/tuimenu.c,
+	arch/win32/uisid.c, arch/riscos/ui.c (resources_toggle):
+	Changed return parameter to `int *'.
+
+	* debug.c (debug_create_new_file, debug_open_new_file): Use
+	`lib_msprintf()'.
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_num_keyboard_mappings):
+	Changed return value to `int'.
+
+	* translate.c: Fixed typo.
+
+	* arch/win32/uimon.c (decode, getString3): Made parameter
+	const.
+
+	* arch/win32/uirom.c (browse_archive_romset_dialog): Commented
+	out unused dialog.
+
 2006-09-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.3.

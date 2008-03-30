@@ -253,8 +253,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
     if (unit == 1) {
         tape_image_event_playback(unit, filename);
     } else {
-        resources_set_sprintf("AttachDevice%dReadonly", 
-                                (resource_value_t) read_only, unit);
+        resources_set_int_sprintf("AttachDevice%dReadonly", read_only, unit);
         file_system_event_playback(unit, filename);
     }
     

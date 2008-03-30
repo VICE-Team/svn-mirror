@@ -89,8 +89,8 @@ static void enable_controls(HWND hwnd)
     int drive_true_emulation, virtual_device_traps;
     BOOL haveIECDevice;
 
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-    resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
+    resources_get_int("VirtualDevices", &virtual_device_traps);
     haveIECDevice = IsDlgButtonChecked(hwnd, IDC_TOGGLE_USEIECDEVICE)
                     == BST_CHECKED;
   
@@ -127,29 +127,28 @@ static void init_dialog(HWND hwnd, unsigned int num)
                        st_disk_image != NULL ? st_disk_image : TEXT(""));
         system_mbstowcs_free(st_disk_image);
 
-        resources_get_sprintf("FSDevice%dDir", (void *)&dir, num);
+        resources_get_string_sprintf("FSDevice%dDir", &dir, num);
         st_dir = system_mbstowcs_alloc(dir);
         SetDlgItemText(hwnd, IDC_DIR, st_dir != NULL ? st_dir : TEXT(""));
         system_mbstowcs_free(st_dir);
 
-        resources_get_sprintf("FSDevice%dConvertP00", (void *)&n, num);
+        resources_get_int_sprintf("FSDevice%dConvertP00", &n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_READP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("FSDevice%dSaveP00", (void *)&n, num);
+        resources_get_int_sprintf("FSDevice%dSaveP00", &n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_WRITEP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("FSDevice%dHideCBMFiles", (void *)&n, num);
+        resources_get_int_sprintf("FSDevice%dHideCBMFiles", &n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("AttachDevice%dReadonly",
-                              (void *)&n, num);
+        resources_get_int_sprintf("AttachDevice%dReadonly", &n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        resources_get_sprintf("FileSystemDevice%d", (void *)&devtype, num);
+        resources_get_int_sprintf("FileSystemDevice%d", &devtype, num);
         switch (devtype) {
           case ATTACH_DEVICE_FS:
             if (disk_image != NULL)
@@ -174,7 +173,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
         enable_controls_for_disk_device_type(hwnd, n);
 
         if (iec_available_busses() & IEC_BUS_IEC) {
-            resources_get_sprintf("IECDevice%d", (void *)&n, num);
+            resources_get_int_sprintf("IECDevice%d", &n, num);
             CheckDlgButton(hwnd, IDC_TOGGLE_USEIECDEVICE,
                            n ? BST_CHECKED : BST_UNCHECKED);
         } else {
@@ -206,9 +205,8 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     }
 
     if (iec_available_busses() & IEC_BUS_IEC)
-        resources_set_sprintf("IECDevice%d", 
-                              (resource_value_t)(IsDlgButtonChecked(hwnd,
-                              IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), num);
+        resources_set_int_sprintf("IECDevice%d", (IsDlgButtonChecked(hwnd,
+                                  IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), num);
 
     if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED
         || IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED)
@@ -217,25 +215,22 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     if (IsDlgButtonChecked(hwnd, IDC_SELECTREAL) == BST_CHECKED)
         devtype = ATTACH_DEVICE_REAL;
 #endif
-    resources_set_sprintf("FileSystemDevice%d", (resource_value_t)devtype,
-                          num);
+    resources_set_int_sprintf("FileSystemDevice%d", devtype, num);
 
-    resources_set_sprintf("FSDevice%dConvertP00", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_READP00) == BST_CHECKED), num);
-    resources_set_sprintf("FSDevice%dSaveP00", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_WRITEP00) == BST_CHECKED), num);
-    resources_set_sprintf("FSDevice%dHideCBMFiles", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_HIDENONP00) == BST_CHECKED), num);
-    resources_set_sprintf("AttachDevice%dReadonly", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED), num);
+    resources_set_int_sprintf("FSDevice%dConvertP00", (IsDlgButtonChecked(hwnd,
+                              IDC_TOGGLE_READP00) == BST_CHECKED), num);
+    resources_set_int_sprintf("FSDevice%dSaveP00", (IsDlgButtonChecked(hwnd,
+                              IDC_TOGGLE_WRITEP00) == BST_CHECKED), num);
+    resources_set_int_sprintf("FSDevice%dHideCBMFiles",
+                              (IsDlgButtonChecked(hwnd,
+                              IDC_TOGGLE_HIDENONP00) == BST_CHECKED), num);
+    resources_set_int_sprintf("AttachDevice%dReadonly", 
+                              (IsDlgButtonChecked(hwnd,
+                              IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED), num);
 
     GetDlgItemText(hwnd, IDC_DIR, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_sprintf("FSDevice%dDir", (resource_value_t)s, num);
+    resources_set_string_sprintf("FSDevice%dDir", s, num);
 
     return 1;
 }
@@ -427,8 +422,8 @@ static void enable_printer_controls(unsigned int num, HWND hwnd)
     int drive_true_emulation, virtual_device_traps;
     BOOL haveIECDevice;
   
-    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-    resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
+    resources_get_int("DriveTrueEmulation", &drive_true_emulation);
+    resources_get_int("VirtualDevices", &virtual_device_traps);
     haveIECDevice = IsDlgButtonChecked(hwnd,
                                        IDC_PRINTER_USEIECDEVICE) == BST_CHECKED;
   
@@ -467,7 +462,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     else
         sprintf(printer_name, "Printer%d", num);
 
-    resources_get_value(printer_name, (void *)&res_value);
+    resources_get_int(printer_name, &res_value);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_TYPE);
     for (res_value_loop = 0; ui_printer[res_value_loop];
         res_value_loop++) {
@@ -476,7 +471,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_sprintf("%sDriver", (void *)&res_string, printer_name);
+    resources_get_string_sprintf("%sDriver", &res_string, printer_name);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_DRIVER);
     for (res_value_loop = 0; ui_printer_driver[res_value_loop];
         res_value_loop++) {
@@ -487,7 +482,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)current, 0);
 
-    resources_get_sprintf("%sOutput", (void *)&res_string, printer_name);
+    resources_get_string_sprintf("%sOutput", &res_string, printer_name);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_OUTPUT);
     for (res_value_loop = 0; ui_printer_output[res_value_loop];
         res_value_loop++) {
@@ -498,7 +493,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)current, 0);
 
-    resources_get_sprintf("%sTextDevice", (void *)&res_value, printer_name);
+    resources_get_int_sprintf("%sTextDevice", &res_value, printer_name);
     printer_hwnd = GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT);
     for (res_value_loop = 0; ui_printer_text_device[res_value_loop];
         res_value_loop++) {
@@ -508,7 +503,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     if (num > 0 && (iec_available_busses() & IEC_BUS_IEC)) {
-        resources_get_sprintf("IECDevice%d", (void *)&res_value, num);
+        resources_get_int_sprintf("IECDevice%d", &res_value, num);
         CheckDlgButton(hwnd, IDC_PRINTER_USEIECDEVICE,
                        res_value ? BST_CHECKED : BST_UNCHECKED);
     } else {
@@ -517,7 +512,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     }
     
     for (i = 0; i < 3; i++) {
-        resources_get_sprintf("PrinterTextDevice%d", (void *)&res_string, i+1);
+        resources_get_string_sprintf("PrinterTextDevice%d", &res_string, i + 1);
         if (res_string)
             strncpy(printertextdevice[i], res_string, MAX_PATH);
     }
@@ -534,32 +529,32 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
     else
         sprintf(printer_name, "Printer%d", num);
 
-    resources_set_value(printer_name, 
-                        (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                        IDC_PRINTER_TYPE), CB_GETCURSEL, 0, 0));
+    resources_set_int(printer_name, SendMessage(GetDlgItem(hwnd,
+                      IDC_PRINTER_TYPE), CB_GETCURSEL, 0, 0));
 
-    resources_set_sprintf("%sDriver", (resource_value_t)
-                        ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd,
-                        IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)],
-                        printer_name);
+    resources_set_string_sprintf("%sDriver",
+                                 ui_printer_driver_ascii[SendMessage(
+                                 GetDlgItem(hwnd,
+                                 IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)],
+                                 printer_name);
 
-    resources_set_sprintf("%sOutput", (resource_value_t)
-                          ui_printer_output_ascii[SendMessage(GetDlgItem(hwnd,
-                          IDC_PRINTER_OUTPUT), CB_GETCURSEL, 0, 0)],
-                          printer_name);
+    resources_set_string_sprintf("%sOutput",
+                                 ui_printer_output_ascii[SendMessage(
+                                 GetDlgItem(hwnd,
+                                 IDC_PRINTER_OUTPUT), CB_GETCURSEL, 0, 0)],
+                                 printer_name);
 
-    resources_set_sprintf("%sTextDevice", (resource_value_t)
-                          SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT),
-                          CB_GETCURSEL, 0, 0), printer_name);
+    resources_set_int_sprintf("%sTextDevice",
+                              SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT),
+                              CB_GETCURSEL, 0, 0), printer_name);
   
-    resources_set_value("PrinterTextDevice1", (void *)printertextdevice[0]);
-    resources_set_value("PrinterTextDevice2", (void *)printertextdevice[1]);
-    resources_set_value("PrinterTextDevice3", (void *)printertextdevice[2]);
+    resources_set_string("PrinterTextDevice1", printertextdevice[0]);
+    resources_set_string("PrinterTextDevice2", printertextdevice[1]);
+    resources_set_string("PrinterTextDevice3", printertextdevice[2]);
 
     if (num > 0 && (iec_available_busses() & IEC_BUS_IEC))
-        resources_set_sprintf("IECDevice%d", (resource_value_t)
-                          (IsDlgButtonChecked(hwnd,
-                          IDC_PRINTER_USEIECDEVICE)==BST_CHECKED), num);
+        resources_set_int_sprintf("IECDevice%d", (IsDlgButtonChecked(hwnd,
+                                  IDC_PRINTER_USEIECDEVICE)==BST_CHECKED), num);
 
     return 1;
 }

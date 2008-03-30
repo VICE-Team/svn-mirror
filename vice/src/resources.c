@@ -424,21 +424,22 @@ int resources_init(const char *machine)
     return 0;
 }
 
-static int resources_set_value_internal(resource_ram_t *r, 
+static int resources_set_value_internal(resource_ram_t *r,
                                         resource_value_t value)
 {
     int status = 0;
 
     switch (r->type) {
       case RES_INTEGER:
-        if ((status = (*r->set_func_int)((int)value, r->param)) == 0)
-            resources_issue_callback(r, 1);
+        status = (*r->set_func_int)((int)value, r->param);
         break;
       case RES_STRING:
-        if ((status = (*r->set_func_string)((const char *)value, r->param)) == 0)
-            resources_issue_callback(r, 1);
+        status = (*r->set_func_string)((const char *)value, r->param);
         break;
     }
+
+    if (status != 0)
+        resources_issue_callback(r, 1);
 
     return status;
 }
@@ -467,6 +468,91 @@ int resources_set_value(const char *name, resource_value_t value)
     return resources_set_value_internal(r, value);
 }
 
+static int resources_set_internal_int(resource_ram_t *r, int value)
+{
+    int status = 0;
+
+    switch (r->type) {
+      case RES_INTEGER:
+        status = (*r->set_func_int)(value, r->param);
+        break;
+      default:
+        return -1;
+    }
+
+    if (status != 0)
+        resources_issue_callback(r, 1);
+
+    return status;
+}
+
+static int resources_set_internal_string(resource_ram_t *r,
+                                         const char *value)
+{
+    int status = 0;
+
+    switch (r->type) {
+      case RES_STRING:
+        status = (*r->set_func_string)(value, r->param);
+        break;
+      default:
+        return -1;
+    }
+
+    if (status != 0)
+        resources_issue_callback(r, 1);
+
+    return status;
+}
+
+int resources_set_int(const char *name, int value)
+{
+    resource_ram_t *r = lookup(name);
+
+    if (r == NULL) {
+        log_warning(LOG_DEFAULT,
+                    "Trying to assign value to unknown "
+                    "resource `%s'.", name);
+        return -1;
+    }
+
+    if (r->event_relevant == RES_EVENT_STRICT
+        && network_get_mode() != NETWORK_IDLE)
+        return -2;
+
+    if (r->event_relevant == RES_EVENT_SAME && network_connected())
+    {
+        resource_record_event(r, (resource_value_t)value);
+        return 0;
+    }
+
+    return resources_set_internal_int(r, value);
+}
+
+int resources_set_string(const char *name, const char *value)
+{
+    resource_ram_t *r = lookup(name);
+
+    if (r == NULL) {
+        log_warning(LOG_DEFAULT,
+                    "Trying to assign value to unknown "
+                    "resource `%s'.", name);
+        return -1;
+    }
+
+    if (r->event_relevant == RES_EVENT_STRICT
+        && network_get_mode() != NETWORK_IDLE)
+        return -2;
+
+    if (r->event_relevant == RES_EVENT_SAME && network_connected())
+    {
+        resource_record_event(r, (resource_value_t)value);
+        return 0;
+    }
+
+    return resources_set_internal_string(r, value);
+}
+
 void resources_set_value_event(void *data, int size)
 {
     const char *name;
@@ -482,7 +568,7 @@ void resources_set_value_event(void *data, int size)
         resources_set_value_internal(r, (resource_value_t)valueptr);
 }
 
-int resources_set_sprintf(const char *name, resource_value_t value, ...)
+int resources_set_int_sprintf(const char *name, int value, ...)
 {
     va_list args;
     char *resname;
@@ -491,7 +577,22 @@ int resources_set_sprintf(const char *name, resource_value_t value, ...)
     va_start(args, value);
     resname = lib_mvsprintf(name, args);
 
-    result = resources_set_value(resname, value);
+    result = resources_set_int(resname, value);
+    lib_free(resname);
+
+    return result;
+}
+
+int resources_set_string_sprintf(const char *name, const char *value, ...)
+{
+    va_list args;
+    char *resname;
+    int result;
+
+    va_start(args, value);
+    resname = lib_mvsprintf(name, args);
+
+    result = resources_set_string(resname, value);
     lib_free(resname);
 
     return result;
@@ -554,7 +655,53 @@ int resources_get_value(const char *name, void *value_return)
     return 0;
 }
 
-int resources_get_sprintf(const char *name,void *value_return, ...)
+int resources_get_int(const char *name, int *value_return)
+{
+    resource_ram_t *r = lookup(name);
+
+    if (r == NULL) {
+        log_warning(LOG_DEFAULT,
+                    "Trying to read value from unknown "
+                    "resource `%s'.", name);
+        return -1;
+    }
+
+    switch (r->type) {
+      case RES_INTEGER:
+        *value_return = *(int *)r->value_ptr;
+        break;
+      default:
+        log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
+        return -1;
+    }
+
+    return 0;
+}
+
+int resources_get_string(const char *name, const char **value_return)
+{
+    resource_ram_t *r = lookup(name);
+
+    if (r == NULL) {
+        log_warning(LOG_DEFAULT,
+                    "Trying to read value from unknown "
+                    "resource `%s'.", name);
+        return -1;
+    }
+
+    switch (r->type) {
+      case RES_STRING:
+        *value_return = *(const char **)r->value_ptr;
+        break;
+      default:
+        log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
+        return -1;
+    }
+
+    return 0;
+}
+
+int resources_get_int_sprintf(const char *name, int *value_return, ...)
 {
     va_list args;
     char *resname;
@@ -563,7 +710,23 @@ int resources_get_sprintf(const char *name,void *value_return, ...)
     va_start(args, value_return);
     resname = lib_mvsprintf(name, args);
 
-    result = resources_get_value(resname, value_return);
+    result = resources_get_int(resname, value_return);
+    lib_free(resname);
+
+    return result;
+}
+
+int resources_get_string_sprintf(const char *name, const char **value_return,
+                                 ...)
+{
+    va_list args;
+    char *resname;
+    int result;
+
+    va_start(args, value_return);
+    resname = lib_mvsprintf(name, args);
+
+    result = resources_get_string(resname, value_return);
     lib_free(resname);
 
     return result;
@@ -676,7 +839,7 @@ void resources_get_event_safe_list(event_list_state_t *list)
     event_record_in_list(list, EVENT_LIST_END, NULL, 0);
 }
 
-int resources_toggle(const char *name, resource_value_t *new_value_return)
+int resources_toggle(const char *name, int *new_value_return)
 {
     resource_ram_t *r = lookup(name);
     int value;
@@ -695,15 +858,14 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
         return -2;
 
     if (new_value_return != NULL)
-        *(int *)new_value_return = value;
+        *new_value_return = value;
 
-    if (r->event_relevant == RES_EVENT_SAME && network_connected())
-    {
+    if (r->event_relevant == RES_EVENT_SAME && network_connected()) {
         resource_record_event(r, (resource_value_t)value);
         return 0;
     }
 
-    return resources_set_value_internal(r, (resource_value_t)value);
+    return resources_set_internal_int(r, value);
 }
 
 int resources_touch(const char *name)
