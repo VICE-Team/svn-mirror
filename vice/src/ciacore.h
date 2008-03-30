@@ -31,7 +31,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "alarm.h"
 #include "cia.h"
 #include "log.h"
 #include "types.h"
@@ -87,11 +86,7 @@ static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset);
 
 #ifndef CIA_SHARED_CODE
 
-#define ciaier  cia[CIA_ICR]
-
-static alarm_t cia_ta_alarm;
-static alarm_t cia_tb_alarm;
-static alarm_t cia_tod_alarm;
+#define ciaier cia[CIA_ICR]
 
 static int ciaint;              /* Interrupt Flag register for cia 1 */
 static CLOCK ciardi;            /* real clock = clk-offset */
