@@ -61,6 +61,7 @@ static char *cartfile;
 
 static alarm_t *cartridge_alarm = NULL;
 
+
 static int set_cartridge_type(resource_value_t v, void *param)
 {
     cartridge_type = (int)v;
@@ -84,7 +85,7 @@ static int set_cartridge_file(resource_value_t v, void *param)
 
 static int set_cartridge_mode(resource_value_t v, void *param)
 {
-    int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+    const int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 
     /*
      * Set cartridge mode.
@@ -92,12 +93,11 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     cartridge_mode = (int)v;
     cartmode = cartridge_mode;
 
-	switch (type)
-		{
-		case (CARTRIDGE_EXPERT):
-			expert_mode_changed(cartridge_mode);
-			break;
-		}
+    switch (type) {
+      case (CARTRIDGE_EXPERT):
+        expert_mode_changed(cartridge_mode);
+        break;
+    }
     return 0;
 }
 
@@ -106,11 +106,13 @@ int set_ide64_config(resource_value_t v, void *param)
     const char *cfg = (const char *)v;
     int i;
 
-    ide64_DS1302[64]=0;
-    memset(ide64_DS1302,0x40,64);
-    ide64_configuration_string=ide64_DS1302;
+    ide64_DS1302[64] = 0;
+    memset(ide64_DS1302, 0x40, 64);
+    ide64_configuration_string = ide64_DS1302;
 
-    if (cfg) for (i=0;cfg[i] && i<64;i++) ide64_DS1302[i]=cfg[i];
+    if (cfg)
+        for (i = 0; cfg[i] && i < 64; i++)
+            ide64_DS1302[i] = cfg[i];
 
     return 0;
 }
@@ -118,10 +120,6 @@ int set_ide64_config(resource_value_t v, void *param)
 static int set_ide64_image_file(resource_value_t v, void *param)
 {
     const char *name = (const char *)v;
-
-    if (ide64_image_file != NULL && name != NULL
-        && strcmp(name, ide64_image_file) == 0)
-        return 0;
 
     util_string_set(&ide64_image_file, name);
 
@@ -150,6 +148,11 @@ static const resource_t resources[] = {
 int cartridge_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void cartridge_resources_shutdown(void)
+{
+    lib_free(cartridge_file);
 }
 
 static int attach_cartridge_cmdline(const char *param, void *extra_param)
