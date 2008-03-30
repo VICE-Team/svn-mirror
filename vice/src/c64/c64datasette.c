@@ -34,7 +34,7 @@
 
 void datasette_trigger_flux_change(unsigned int on)
 {
-    cia1_set_flag(&(machine_context.cia1));
+    ciacore_set_flag(&(machine_context.cia1));
 }
 
 void datasette_set_tape_sense(int sense)

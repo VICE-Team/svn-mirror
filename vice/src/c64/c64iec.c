@@ -138,7 +138,7 @@ void iec_cpu_write_conf1(BYTE data)
                 via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d0_set_flag();
+                    ciacore_set_flag(&(drive0_context.cia1581));
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -171,7 +171,7 @@ void iec_cpu_write_conf2(BYTE data)
                 via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d1_set_flag();
+                    ciacore_set_flag(&(drive1_context.cia1581));
         }
     }
     if (drive[1].type != DRIVE_TYPE_2031) {
@@ -204,14 +204,14 @@ void iec_cpu_write_conf3(BYTE data)
                 via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d0_set_flag();
+                    ciacore_set_flag(&(drive0_context.cia1581));
         }
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
                 via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    cia1581d1_set_flag();
+                    ciacore_set_flag(&(drive1_context.cia1581));
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -269,21 +269,21 @@ iec_info_t *iec_get_drive_port(void)
 void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     parallel_cable_drive0_value = data;
 }
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     parallel_cable_drive1_value = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
