@@ -67,7 +67,7 @@ int sysfile_init(const char *boot_path, const char *emu_id)
     /* On Unix, first search in the `LIBDIR' and then in the
            `boot_path'.  */
     default_path = concat(LIBDIR, "/", emu_id, ":",
-                          boot_path, "/", EMULATOR, NULL);
+                          boot_path, "/", emu_id, NULL);
 #endif
 
     printf("Default path set to `%s'\n", default_path);
