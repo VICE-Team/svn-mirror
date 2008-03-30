@@ -64,9 +64,6 @@ extern store_func_ptr_t _mem_write_tab[];
 
 #  define	PAGE_ONE	page_one
 
-#define STORE_ZERO(addr, value) \
-    page_zero[(addr) & 0xff] = (value);
-
 #define LOAD_ZERO(addr) \
     page_zero[(addr) & 0xff]
 
