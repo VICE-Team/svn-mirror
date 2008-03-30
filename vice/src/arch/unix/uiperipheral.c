@@ -36,6 +36,9 @@
 #include "utils.h"
 #include "vsync.h"
 
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+UI_MENU_DEFINE_TOGGLE(DriveRealdrive)
+#endif
 
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
@@ -173,6 +176,10 @@ ui_menu_entry_t peripheral_settings_submenu[] = {
     { "--" },
     { N_("*Enable Virtual Devices"), (ui_callback_t)toggle_VirtualDevices,
       NULL, NULL },
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+    { N_("*Enable CBM4Linux drive access"),
+      (ui_callback_t)toggle_DriveRealdrive, NULL, NULL },
+#endif
     { NULL }
 };
 

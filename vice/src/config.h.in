@@ -145,6 +145,9 @@
    function. */
 #undef HAS_UNLOCKRESOURCE
 
+#undef HAVE_CBM4LINUX
+#undef HAVE_OPENCBM
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 

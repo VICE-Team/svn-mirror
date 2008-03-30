@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.10.17)
+AM_INIT_AUTOMAKE(vice, 1.10.18)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -32,6 +32,7 @@ AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
 AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables gnome ui support])
 AC_ARG_ENABLE(nls,[  --disable-nls        disables national language support])
+AC_ARG_ENABLE(realdrive,[  --enable-realdrive      enables access to real peripheral devices (CBM4Linux)])
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI)
@@ -891,6 +892,16 @@ elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
   fi
   AC_SUBST(FULLSCREEN_DRIVERS)
 
+fi
+
+dnl CBM4Linux
+if test x"$enable_realdrive" = x"yes"; then
+  AC_CHECK_HEADER(opencbm.h,[C4LLIB="opencbm"; AC_DEFINE(HAVE_OPENCBM)],
+    AC_CHECK_HEADER(cbm4linux.h,[C4LLIB=cbm4linux; AC_DEFINE(HAVE_CBM4LINUX)],
+      AC_MSG_ERROR([cbm4linux header file not found])))
+  AC_CHECK_LIB($C4LLIB, cbm_get_eoi,[LIBS="$LIBS -l$C4LLIB"],
+	AC_MSG_ERROR([cbm4linux >=0.2.3 library not found]))
+  AM_CONDITIONAL(HAVE_REALDRIVE, true)
 fi
 
 AC_SUBST(x64_LDFLAGS)

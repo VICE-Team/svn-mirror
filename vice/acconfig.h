@@ -109,3 +109,6 @@
    function. */
 #undef HAS_UNLOCKRESOURCE
 
+#undef HAVE_CBM4LINUX
+#undef HAVE_OPENCBM
+

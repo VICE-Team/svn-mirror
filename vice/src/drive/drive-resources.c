@@ -42,9 +42,17 @@
 #include "utils.h"
 #include "vdrive-bam.h"
 
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+#include "realdrive.h"
+#include "serial.h"
+#endif
 
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
+
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+static int drive_realdrive;
+#endif
 
 /* Name of the DOS ROMs.  */
 static char *dos_rom_name_1541 = 0;
@@ -93,6 +101,21 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     }
     return 0;
 }
+
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+static int set_realdrive(resource_value_t v, void *param)
+{
+    drive_realdrive = (int) v;
+    if((int) v) {
+        serial_remove_traps();
+        realdrive_install_traps();
+    } else {
+        realdrive_remove_traps();
+        serial_install_traps();
+    }
+    return 0;
+}
+#endif
 
 static int set_drive0_type(resource_value_t v, void *param)
 {
@@ -411,6 +434,11 @@ static resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
       set_drive_true_emulation, NULL },
+#if HAVE_CBM4LINUX || HAVE_OPENCBM
+    { "DriveRealdrive", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &drive_realdrive,
+      set_realdrive, NULL },
+#endif
     { "Drive8Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_1541,
       (resource_value_t *)&(drive[0].type),
       set_drive0_type, NULL },
