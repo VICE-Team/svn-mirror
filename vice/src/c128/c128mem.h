@@ -2,6 +2,7 @@
  * c128mem.h
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * Based on the original work in VICE 0.11.0 by
@@ -50,6 +51,13 @@
 extern int c128_mem_init_resources(void);
 extern int c128_mem_init_cmdline_options(void);
 
+extern void mem_update_config(int config);
+extern void mem_set_ram_config(BYTE value);
+extern void mem_set_ram_bank(BYTE value);
+
+extern BYTE REGPARM1 read_top_shared(ADDRESS addr);
+extern void REGPARM2 store_top_shared(ADDRESS addr, BYTE value);
+
 extern BYTE *page_zero, *page_one;
 
 /* ------------------------------------------------------------------------- */
@@ -91,3 +99,4 @@ extern store_func_ptr_t _mem_write_tab[];
 #endif
 
 #endif
+
