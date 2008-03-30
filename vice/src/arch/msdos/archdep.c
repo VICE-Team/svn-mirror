@@ -29,9 +29,13 @@
 #include <conio.h>
 #include <ctype.h>
 #include <dir.h>
+#include <errno.h>
+#include <io.h>
+#include <process.h>
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #include "fcntl.h"
 #include "findpath.h"
@@ -201,5 +205,68 @@ int archdep_path_is_relative(const char *path)
 
     return !((isalpha(path[0]) && path[1] == ':')
             || path[0] == '/' || path[0] == '\\');
+}
+
+int archdep_spawn(const char *name, char **argv,
+                  const char *stdout_redir, const char *stderr_redir)
+{
+    int new_stdout, new_stderr;
+    int old_stdout_mode, old_stderr_mode;
+    int old_stdout, old_stderr;
+    int retval;
+
+    new_stdout = new_stderr = old_stdout = old_stderr = -1;
+
+    /* Make sure we are in binary mode.  */
+    old_stdout_mode = setmode(STDOUT_FILENO, O_BINARY);
+    old_stderr_mode = setmode(STDERR_FILENO, O_BINARY);
+
+    /* Redirect stdout and stderr as requested, saving the old
+       descriptors.  */
+    if (stdout_redir != NULL) {
+        old_stdout = dup(STDOUT_FILENO);
+        new_stdout = open(stdout_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+        if (new_stdout == -1) {
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
+                      stdout_redir, strerror(errno));
+            retval = -1;
+            goto cleanup;
+        }
+        dup2(new_stdout, STDOUT_FILENO);
+    }
+    if (stderr_redir != NULL) {
+        old_stderr = dup(STDERR_FILENO);
+        new_stderr = open(stderr_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+        if (new_stderr == -1) {
+            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
+                      stderr_redir, strerror(errno));
+            retval = -1;
+            goto cleanup;
+        }
+        dup2(new_stderr, STDERR_FILENO);
+    }
+
+    /* Spawn the child process.  */
+    retval = spawnvp(P_WAIT, name, argv);
+
+cleanup:
+    if (old_stdout >= 0) {
+        dup2(old_stdout, STDOUT_FILENO);
+        close(old_stdout);
+    }
+    if (old_stderr >= 0) {
+        dup2(old_stderr, STDERR_FILENO);
+        close(old_stderr);
+    }
+    if (old_stdout_mode >= 0)
+        setmode(STDOUT_FILENO, old_stdout_mode);
+    if (old_stderr_mode >= 0)
+        setmode(STDERR_FILENO, old_stderr_mode);
+    if (new_stdout >= 0)
+        close(new_stdout);
+    if (new_stderr >= 0)
+        close(new_stderr);
+
+    return retval;
 }
 
