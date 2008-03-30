@@ -286,7 +286,8 @@ the emulator screen.
 Many menu items open other submenus; you can leave the submenu by
 pressing the `Esc' key.  To leave the menu system and return to the
 emulation screen, you can either press `Esc' at the toplevel menu or
-press `Tab' from the main menu or any submenu.
+press `Tab' from the main menu or any submenu.  You can also navigate
+through menu levels using `Left' and `Right' cursor keys.
 
 Here is a short list of what the various items do.  (For more
 information, refer to the Unix documentation.)

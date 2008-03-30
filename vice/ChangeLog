@@ -1,3 +1,10 @@
+1999-02-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.22.
+
+	* doc/Readme.dos: Mention `Left' and `Right' cursor keys to
+	navigate through menus.
+
 1999-02-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.21.
