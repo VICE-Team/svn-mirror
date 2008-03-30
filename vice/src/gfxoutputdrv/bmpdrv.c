@@ -225,7 +225,7 @@ static int bmpdrv_write(screenshot_t *screenshot)
           memset(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
                  * screenshot->width/8, 0, screenshot->width/8);
 
-          for (i = 0; i < screenshot->width/8; i++)
+          for (i = 0; i < (int)screenshot->width/8; i++)
             {
               BYTE b=0;
               for (j = 0; j < 8; j++) b |= sdata->data[i*8+j] ? (1<<(7-j)) : 0;

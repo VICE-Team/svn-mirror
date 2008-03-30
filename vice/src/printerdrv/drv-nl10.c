@@ -909,7 +909,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
 	if( is_mode(nl10, NL10_ASCII) )
           {
             /* ASCII: step back */
-            nl10->pos_x -= get_char_width(nl10, ' ', 1);
+            nl10->pos_x -= (int)get_char_width(nl10, ' ', 1);
           }
 	else
 	  {
@@ -926,7 +926,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
 	  {
             /* ASCII: horizontal tab */
 	    int i;
-	    double w = get_char_width(nl10, ' ', 1);
+	    int w = (int)get_char_width(nl10, ' ', 1);
 	    for(i=0; nl10->htabs[i]>0; i++) 
 	      {
 		int p = nl10->marg_l + w * nl10->htabs[i];
@@ -1359,7 +1359,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
                   nl10->esc_ctr++;
                 else
                   {
-                    nl10->marg_r  = BORDERX + get_char_width(nl10, ' ', 1) * nl10->esc[2];
+                    nl10->marg_r  = BORDERX + (int)get_char_width(nl10, ' ', 1) * nl10->esc[2];
                     if( nl10->marg_r > MAX_COL-BORDERX ) nl10->marg_r = MAX_COL-BORDERX;
                     nl10->esc_ctr = 0;
                   }
@@ -1475,7 +1475,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
                   nl10->esc_ctr++;
                 else
                   {
-                    nl10->marg_l  = BORDERX + get_char_width(nl10, ' ', 1) * nl10->esc[2];
+                    nl10->marg_l  = BORDERX + (int)get_char_width(nl10, ' ', 1) * nl10->esc[2];
                     nl10->esc_ctr = 0;
                   }
                 break;

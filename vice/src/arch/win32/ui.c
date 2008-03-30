@@ -161,9 +161,9 @@ static ui_res_possible_values SpeedValues[] = {
 };
 
 static ui_res_possible_values RecordingOptions[] = {
-    { EVENT_START_MODE_FILE_SAVE, IDM_RECORD_SAVE },
-    { EVENT_START_MODE_FILE_LOAD, IDM_RECORD_LOAD },
-    { EVENT_START_MODE_RESET, IDM_RECORD_RESET },
+    { EVENT_START_MODE_FILE_SAVE, IDM_EVENT_RECORDMODE_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, IDM_EVENT_RECORDMODE_LOAD },
+    { EVENT_START_MODE_RESET, IDM_EVENT_RECORDMODE_RESET },
     { -1, 0 }
 };
 
@@ -417,7 +417,7 @@ int ui_cmdline_options_init(void)
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define NUM_OF_COMMON_HOTKEYS 22
+#define NUM_OF_COMMON_HOTKEYS 24
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
@@ -438,6 +438,8 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },            \
     { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
     { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'E', IDM_EVENT_SETMILESTONE },       \
+    { FVIRTKEY | FALT | FNOINVERT, 'U', IDM_EVENT_RESETMILESTONE },     \
     { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
     { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },  \
     { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
@@ -1597,7 +1599,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         resources_set_defaults();
         ui_message("Default settings restored.");
         break;
-      case IDM_TOGGLE_RECORD:
+      case IDM_EVENT_TOGGLE_RECORD:
         {
             int recording_new = (event_record_active() ? 0 : 1);
 
@@ -1607,7 +1609,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 event_record_stop();
         }
         break;
-      case IDM_TOGGLE_PLAYBACK:
+      case IDM_EVENT_TOGGLE_PLAYBACK:
         {
             int playback_new = (event_playback_active() ? 0 : 1);
 
@@ -1616,6 +1618,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             else
                 event_playback_stop();
         }
+        break;
+      case IDM_EVENT_SETMILESTONE:
+      case IDM_EVENT_SETMILESTONE | 0x00010000:
+        event_record_set_milestone();
+        break;
+      case IDM_EVENT_RESETMILESTONE:
+      case IDM_EVENT_RESETMILESTONE | 0x00010000:
+        event_record_reset_milestone();
         break;
       default:
         {

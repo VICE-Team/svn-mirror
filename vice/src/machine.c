@@ -107,6 +107,13 @@ void machine_trigger_reset(const unsigned int mode)
         maincpu_trigger_reset();
         break;
     }
+
+    event_record(EVENT_RESET, (void *)&mode, sizeof(mode));
+}
+
+void machine_reset_event_playback(CLOCK offset, void *data)
+{
+    machine_trigger_reset(((unsigned int*)data)[0]);
 }
 
 void machine_reset(void)

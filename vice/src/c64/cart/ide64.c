@@ -197,7 +197,7 @@ BYTE REGPARM1 ide64_io1_read(WORD addr)
     case 0x2c:
     case 0x2d:
     case 0x2f:in_d030=(WORD)rand();break;
-    case 0x30:return in_d030;
+    case 0x30:return (unsigned char)in_d030;
     case 0x31:return in_d030 >> 8;
     case 0x32:return 0x10 | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
     case 0x5f:

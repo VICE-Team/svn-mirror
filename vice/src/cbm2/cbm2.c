@@ -76,7 +76,6 @@
 #include "tpi.h"
 #include "traps.h"
 #include "types.h"
-#include "via.h"
 #include "vicii.h"
 #include "video.h"
 #include "vsync.h"

@@ -32,7 +32,6 @@
 
 struct drive_context_s;
 struct drive_s;
-struct via_context_s;
 
 extern void via2d_setup_context(struct drive_context_s *ctxptr);
 

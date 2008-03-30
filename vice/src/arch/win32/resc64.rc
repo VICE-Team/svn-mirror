@@ -116,13 +116,15 @@ BEGIN
         MENUITEM "&Load quicksnapshot image\tAlt+L", IDM_LOADQUICK
         MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Start/Stop &Recording", IDM_TOGGLE_RECORD
-        MENUITEM "Start/Stop Pl&ayback", IDM_TOGGLE_PLAYBACK
+        MENUITEM "Start/Stop &Recording",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Start/Stop Pl&ayback",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Set Recording Milestone\tAlt-E",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Return to Milestone\tALt-U",      IDM_EVENT_RESETMILESTONE
         POPUP "Recording start mode"
         BEGIN
-            MENUITEM "&Save new snapshot",      IDM_RECORD_SAVE
-            MENUITEM "&Load existing snapshot", IDM_RECORD_LOAD
-            MENUITEM "Start with &reset",       IDM_RECORD_RESET
+            MENUITEM "&Save new snapshot",      IDM_EVENT_RECORDMODE_SAVE
+            MENUITEM "&Load existing snapshot", IDM_EVENT_RECORDMODE_LOAD
+            MENUITEM "Start with &reset",       IDM_EVENT_RECORDMODE_RESET
         END
         MENUITEM SEPARATOR
         MENUITEM "Save media file...\tAlt+C", IDM_MEDIAFILE

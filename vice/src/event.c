@@ -32,6 +32,7 @@
 
 #include "alarm.h"
 #include "archdep.h"
+#include "attach.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -45,6 +46,7 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "tape.h"
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -52,6 +54,7 @@
 
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"
 #define EVENT_END_SNAPSHOT "end" FSDEV_EXT_SEP_STR "vsf"
+#define EVENT_MILESTONE_SNAPSHOT "milestone" FSDEV_EXT_SEP_STR "vsf"
 
 
 struct event_list_s {
@@ -74,6 +77,7 @@ static unsigned int playback_active = 0, record_active = 0;
 
 static char *event_start_snapshot = NULL;
 static char *event_end_snapshot = NULL;
+static char *event_milestone_snapshot = NULL;
 static unsigned int event_start_mode;
 
 
@@ -91,6 +95,9 @@ void event_record(unsigned int type, void *data, unsigned int size)
       case EVENT_KEYBOARD_RESTORE:
       case EVENT_JOYSTICK_VALUE:
       case EVENT_DATASETTE:
+      case EVENT_ATTACHDISK:
+      case EVENT_ATTACHTAPE:
+      case EVENT_RESET:
       case EVENT_INITIAL:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
@@ -111,7 +118,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
     event_list_current = event_list_current->next;
 }
 
-static void next_alarm_set(void)
+static void next_alarm_set()
 {
     CLOCK new_value;
 
@@ -149,6 +156,15 @@ static void event_alarm_handler(CLOCK offset, void *data)
       case EVENT_DATASETTE:
         datasette_event_playback(offset, event_list_current->data);
         break;
+      case EVENT_ATTACHDISK:
+        file_system_event_playback(offset, event_list_current->data);
+        break;
+      case EVENT_ATTACHTAPE:
+        tape_image_event_playback(offset, event_list_current->data);
+        break;
+      case EVENT_RESET:
+        machine_reset_event_playback(offset, event_list_current->data);
+        break;
       case EVENT_LIST_END:
         event_playback_stop();
         break;
@@ -156,7 +172,8 @@ static void event_alarm_handler(CLOCK offset, void *data)
         log_error(event_log, "Unknow event type %i.", event_list_current->type);
     }
 
-    if (event_list_current->type != EVENT_LIST_END) {
+    if (event_list_current->type != EVENT_LIST_END
+        && event_list_current->type != EVENT_RESET) {
         next_current_list();
         next_alarm_set();
     }
@@ -311,6 +328,13 @@ void event_playback_reset_ack(void)
         playback_reset_ack = 0;
         next_alarm_set();
     }
+
+    if (event_list_current 
+        && event_list_current->type == EVENT_RESET)
+    {
+        next_current_list();
+        next_alarm_set();
+    }
 }
 
 static void event_playback_start_trap(WORD addr, void *data)
@@ -395,6 +419,48 @@ int event_playback_stop(void)
     alarm_unset(event_alarm);
 
     ui_display_playback(0);
+
+    return 0;
+}
+
+static void event_record_set_milestone_trap(WORD addr, void *data)
+{
+    if (machine_write_snapshot(event_milestone_snapshot, 1, 1, 1) < 0) {
+        ui_error("Could not create milestone snapshot file.");
+        return;
+    }
+}
+
+int event_record_set_milestone(void)
+{
+    if (record_active == 0)
+        return -1;
+
+    event_record(EVENT_LIST_END, NULL, 0);
+
+    interrupt_maincpu_trigger_trap(event_record_set_milestone_trap, (void *)0);
+
+    return 0;
+}
+
+static void event_record_reset_milestone_trap(WORD addr, void *data)
+{
+    if (machine_read_snapshot(event_milestone_snapshot, 1) < 0) {
+            ui_error("Error reading milestone snapshot file.");
+            return;
+    }
+    warp_end_list();
+}
+
+int event_record_reset_milestone(void)
+{
+    if (playback_active != 0)
+        return -1;
+
+    if (record_active == 0)
+        return -1;
+
+    interrupt_maincpu_trigger_trap(event_record_reset_milestone_trap, (void *)0);
 
     return 0;
 }
@@ -520,6 +586,14 @@ static int set_event_end_snapshot(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_event_milestone_snapshot(resource_value_t v, void *param)
+{
+    if (util_string_set(&event_milestone_snapshot, (const char *)v))
+        return 0;
+
+    return 0;
+}
+
 static int set_event_start_mode(resource_value_t v, void *param)
 {
     unsigned int mode;
@@ -541,6 +615,9 @@ static const resource_t resources[] = {
       (void *)&event_start_snapshot, set_event_start_snapshot, NULL },
     { "EventEndSnapshot", RES_STRING, (resource_value_t)EVENT_END_SNAPSHOT,
       (void *)&event_end_snapshot, set_event_end_snapshot, NULL },
+    { "EventMilestoneSnapshot", RES_STRING,
+      (resource_value_t)EVENT_MILESTONE_SNAPSHOT,
+      (void *)&event_milestone_snapshot, set_event_milestone_snapshot, NULL },
     { "EventStartMode", RES_INTEGER,
       (resource_value_t)EVENT_START_MODE_FILE_SAVE,
       (void *)&event_start_mode, set_event_start_mode, NULL },
