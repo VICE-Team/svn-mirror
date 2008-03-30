@@ -1,3 +1,36 @@
+2004-05-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.26.
+
+	* fsdevice/fsdevice-open.c (fsdevice_open_directory): Fixed
+	memory corruption.
+
+	* dma.c (dma_maincpu_steal_cycles): Call DMA debug.
+	Remember all DMA events within one opcode.
+
+	* debug.c, debug.h (debug_dma): New function.
+	(debug_int, debug_irq, debug_nmi): Print clock.
+
+	* 6510core.c [TRACE_NMI, TRACE_IRQ]: Added clock parameter.
+
+	* interrupt.h: Added `num_cycles_left' to
+	`interrupt_cpu_status_s'.
+	(interrupt_set_irq, interrupt_set_nmi): Fixed calculation of
+	`irq_clk' if DMA has happened.  This is not enabled yet.
+
+	* interrupt.c (interrupt_cpu_status_reset): Reset
+	`num_cycles_left'.
+	(interrupt_fixup_int_clk): New function.
+
+	* maincpu.c (maincpu_mainloop): Clear DMA per opcode counter
+	after any opcode.
+
+2004-05-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* drive/drive-snapshot (drive_snapshot_write_module,
+	drive_snapshot_read_module): Moved attach_detach_clk value
+	to the very end of the module.
+
 2004-05-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.25.

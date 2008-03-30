@@ -230,12 +230,12 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
 }
 
 void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
-                 BYTE reg_a,BYTE reg_x, BYTE reg_y, BYTE reg_sp)
+                 BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp)
 {
     char st[DEBUG_MAXLINELEN];
 
-    sprintf(st, "Drive: .%04X %10ld %-20s %02x%02x%02x%02x", (unsigned int)reg_pc,
-              (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
+    sprintf(st, "Drive: .%04X %10ld %-20s %02x%02x%02x%02x",
+            (unsigned int)reg_pc, (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(st);
     else
@@ -243,14 +243,15 @@ void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
 }
 
 void debug_text(const char *text)
-{    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
+{
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(text);
     else
         log_debug(text);
 }
 
 static void debug_int(interrupt_cpu_status_t *cs, const char *name,
-                      unsigned int type)
+                      unsigned int type, CLOCK iclk)
 {
     unsigned int i;
     char *textout, *texttmp;
@@ -265,6 +266,10 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
         }
     }
 
+    texttmp = lib_msprintf("%s %ld", textout, iclk);
+    lib_free(textout);
+    textout = texttmp;
+
     if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(textout);
     else
@@ -273,14 +278,19 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
     lib_free(textout);
 }
 
-void debug_irq(interrupt_cpu_status_t *cs)
+void debug_irq(interrupt_cpu_status_t *cs, CLOCK iclk)
 {
-    debug_int(cs, "*** IRQ", IK_IRQ);
+    debug_int(cs, "*** IRQ", IK_IRQ, iclk);
 }
 
-void debug_nmi(interrupt_cpu_status_t *cs)
+void debug_nmi(interrupt_cpu_status_t *cs, CLOCK iclk)
 {
-    debug_int(cs, "*** NMI", IK_NMI);
+    debug_int(cs, "*** NMI", IK_NMI, iclk);
+}
+
+void debug_dma(const char *txt, CLOCK dclk, int num)
+{
+    log_debug("*** DMA %s %10i  %02i", txt, dclk, num);
 }
 
 /*------------------------------------------------------------------------*/

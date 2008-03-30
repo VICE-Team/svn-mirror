@@ -362,29 +362,29 @@ void maincpu_mainloop(void)
 #define ROM_TRAP_HANDLER() \
    traps_handler()
 
-#define JAM()                                                       \
-   do {                                                             \
-      unsigned int tmp;                                             \
-                                                                    \
-      EXPORT_REGISTERS();                                           \
-      tmp = machine_jam("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
-      switch (tmp) {                                                \
-        case JAM_RESET:                                             \
-          DO_INTERRUPT(IK_RESET);                                   \
-          break;                                                    \
-        case JAM_HARD_RESET:                                        \
-          mem_powerup();                                            \
-          DO_INTERRUPT(IK_RESET);                                   \
-          break;                                                    \
-        case JAM_MONITOR:                                           \
-          caller_space = e_comp_space;                              \
-          monitor_startup();                                        \
-          IMPORT_REGISTERS();                                       \
-          break;                                                    \
-        default:                                                    \
-          CLK++;                                                    \
-      }                                                             \
-   } while (0)
+#define JAM()                                                         \
+    do {                                                              \
+        unsigned int tmp;                                             \
+                                                                      \
+        EXPORT_REGISTERS();                                           \
+        tmp = machine_jam("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
+        switch (tmp) {                                                \
+          case JAM_RESET:                                             \
+            DO_INTERRUPT(IK_RESET);                                   \
+            break;                                                    \
+          case JAM_HARD_RESET:                                        \
+            mem_powerup();                                            \
+            DO_INTERRUPT(IK_RESET);                                   \
+            break;                                                    \
+          case JAM_MONITOR:                                           \
+            caller_space = e_comp_space;                              \
+            monitor_startup();                                        \
+            IMPORT_REGISTERS();                                       \
+            break;                                                    \
+          default:                                                    \
+            CLK++;                                                    \
+        }                                                             \
+    } while (0)
 
 #define CALLER e_comp_space
 
@@ -394,6 +394,11 @@ void maincpu_mainloop(void)
 
 #include "6510core.c"
 
+        maincpu_int_status->num_dma_per_opcode = 0;
+#if 0
+        if (CLK > 278310000)
+            debug.maincpu_traceflg = 1;
+#endif
     }
 }
 
