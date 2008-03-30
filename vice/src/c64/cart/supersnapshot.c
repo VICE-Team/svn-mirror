@@ -28,7 +28,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "c64cart.h"
@@ -37,6 +36,7 @@
 #include "supersnapshot.h"
 #include "types.h"
 #include "utils.h"
+#include "vicii-phi1.h"
 
 
 /* Super Snapshot configuration flags.  */
@@ -151,7 +151,7 @@ BYTE REGPARM1 supersnapshot_v5_io2_read(ADDRESS addr)
 {
     if (reu_enabled)
         return reu_read((ADDRESS)(addr & 0x0f));
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 supersnapshot_v5_io2_store(ADDRESS addr, BYTE value)

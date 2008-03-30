@@ -52,7 +52,9 @@
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
+#include "vicii-phi1.h"
 #include "zaxxon.h"
+
 
 /* #define DEBUG */
 
@@ -116,7 +118,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GS:
         cartridge_config_changed(0, CMODE_READ);
-        return rand();
+        return vicii_read_phi1();
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_DINAMIC:
@@ -129,7 +131,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
       case CARTRIDGE_EXPERT:
         return expert_io1_read(addr);
     }
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
@@ -226,7 +228,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         return epyxfastload_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
         cartridge_config_changed(0, CMODE_READ);
-        return rand();
+        return vicii_read_phi1();
       case CARTRIDGE_REX:
         if ((addr & 0xff) < 0xc0)
             cartridge_config_changed(2, CMODE_READ);
@@ -238,7 +240,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_EXPERT:
         return expert_io2_read(addr);
     }
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
@@ -377,7 +379,7 @@ BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
       case CARTRIDGE_IDE64:
         return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
     }
-    return rand();
+    return vicii_read_phi1();
 }
 
 BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
@@ -386,7 +388,7 @@ BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
       case CARTRIDGE_IDE64:
         return export_ram0[addr & 0x7fff];
     }
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)

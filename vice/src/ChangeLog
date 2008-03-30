@@ -1,3 +1,33 @@
+2002-06-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.25.
+
+	* vicii/viciitypes.h, c64/c64mem.c, c128/c128mem.c,
+	cbm2/c610mem.c, vicii/vicii.c, vicii/vicii-mem.c,
+	vicii/vicii-snapshot.c: Added support for 2 color RAM pages.
+
+	* mem.h, tape/tape.c, vicii/vicii-snapshot.c, vicii/vicii.c,
+	c64/c64-snapshot.c, c64/c64mem.c, c64/c64pla.c,
+	c128/c128-snapshot.c, c128/c128cpu.c, c128/c128mem.c,
+	c128/c128mmu.c, vic20/vic20mem.h, vic20/vic-snapshot.c,
+	vic20/vic20-snapshot.c, vic20/vic.c, pet/pet-snapshot.c,
+	pet/pet.c, pet/petmem.c, maincpu.c, plus4/plus4mem.c,
+	plus4/ted-mem.c, plus4/ted.c, cbm2/c610-snapshot.c,
+	cbm2/c610mem.c, c128/c128mem.h, c128/z80mem.c, cbm2/c610cpu.c:
+	Use `mem_' for memory variables.
+
+	* vicii/vicii-phi1.c, vicii/vicii-phi1.h: New files.
+
+	* vicii/Makefile.am: Added new files.
+
+	* c64/c64io.c, c64/c64mem.c, c64/cart/actionreplay.c,
+	c64/cart/atomicpower.c, c64/cart/c64cartmem.c,
+	c64/cart/expert.c, c64/cart/ide64.c, c64/cart/supersnapshot.c,
+	c128/c128io.c, c128/c128mem.c, cbm2/c610mem.c: Read vicii phi1
+	value instead of random value.
+
+	* c64/cart/Makefile.am: Added `vicii' include directory.
+
 2002-05-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.24.

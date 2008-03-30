@@ -27,7 +27,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "atomicpower.h"
@@ -35,6 +34,7 @@
 #include "c64cartmem.h"
 #include "types.h"
 #include "utils.h"
+#include "vicii-phi1.h"
 
 
 /* Atomic Power RAM hack.  */
@@ -42,7 +42,7 @@ static int export_ram_at_a000 = 0;
 
 BYTE REGPARM1 atomicpower_io1_read(ADDRESS addr)
 {
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 atomicpower_io1_store(ADDRESS addr, BYTE value)

@@ -26,9 +26,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "c64-resources.h"
 #include "c64acia.h"
 #include "c64cart.h"
@@ -39,6 +36,7 @@
 #include "sid-resources.h"
 #include "sid.h"
 #include "types.h"
+#include "vicii-phi1.h"
 
 
 BYTE REGPARM1 io1_read(ADDRESS addr)
@@ -53,7 +51,8 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
     if (acia_de_enabled)
         return acia1_read(addr & 0x03);
 #endif
-    return rand();
+
+    return vicii_read_phi1();
 }
 
 void REGPARM2 io1_store(ADDRESS addr, BYTE value)
@@ -87,7 +86,8 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
     }
     if (reu_enabled)
         return reu_read((ADDRESS)(addr & 0x0f));
-    return rand();
+
+    return vicii_read_phi1();
 }
 
 void REGPARM2 io2_store(ADDRESS addr, BYTE value)

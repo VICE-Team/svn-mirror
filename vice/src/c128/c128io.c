@@ -29,9 +29,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "c128-resources.h"
 #include "c128io.h"
 #include "c64acia.h"
@@ -43,6 +40,7 @@
 #include "sid-resources.h"
 #include "sid.h"
 #include "types.h"
+#include "vicii-phi1.h"
 
 
 BYTE REGPARM1 io1_read(ADDRESS addr)
@@ -57,7 +55,7 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
     if (acia_de_enabled)
         return acia1_read(addr & 0x03);
 #endif
-    return 0xff;  /* rand(); - C64 has rand(), which is correct? */
+    return vicii_read_phi1();
 }
 
 void REGPARM2 io1_store(ADDRESS addr, BYTE value)
@@ -94,7 +92,7 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
     if (ieee488_enabled)
         return tpi_read((ADDRESS)(addr & 0x07));
 
-    return 0xff;  /* rand(); - C64 has rand(), which is correct? */
+    return vicii_read_phi1();
 }
 
 void REGPARM2 io2_store(ADDRESS addr, BYTE value)

@@ -43,6 +43,7 @@
 #include "c64mem.h"
 #include "c64memlimit.h"
 #include "c64pla.h"
+#include "cart/c64cartmem.h"
 #include "cartridge.h"
 #include "interrupt.h"
 #include "log.h"
@@ -57,8 +58,8 @@
 #include "sysfile.h"
 #include "utils.h"
 #include "vicii-mem.h"
+#include "vicii-phi1.h"
 #include "vicii.h"
-#include "cart/c64cartmem.h"
 
 
 /* ------------------------------------------------------------------------- */
@@ -68,7 +69,7 @@
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int old_reg_pc;
+unsigned int mem_old_reg_pc;
 
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
@@ -86,10 +87,14 @@ const char *mem_romset_resources_list[] = {
 #define NUM_VBANKS      4
 
 /* The C64 memory.  */
-BYTE ram[C64_RAM_SIZE];
+BYTE mem_ram[C64_RAM_SIZE];
 BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+
+/* Internal color memory.  */
+static BYTE mem_color_ram[0x400];
+BYTE *mem_color_ram_ptr;
 
 /* Pointer to the chargen ROM.  */
 BYTE *chargen_rom_ptr;
@@ -166,11 +171,11 @@ inline void pla_config_changed(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
     if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+        *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
         if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
-                         - (old_reg_pc & 0xff00);
-        *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
+                         - (mem_old_reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
     }
 }
 
@@ -187,7 +192,7 @@ void mem_toggle_watchpoints(int flag)
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
-    return ram[addr & 0xff];
+    return mem_ram[addr & 0xff];
 }
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
@@ -208,7 +213,7 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
         }
         break;
       default:
-        ram[addr] = value;
+        mem_ram[addr] = value;
     }
 }
 
@@ -229,12 +234,12 @@ BYTE REGPARM1 chargen_read(ADDRESS addr)
 
 BYTE REGPARM1 ram_read(ADDRESS addr)
 {
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
-    ram[addr] = value;
+    mem_ram[addr] = value;
 }
 
 void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
@@ -242,7 +247,7 @@ void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
     if (vbank == 3)
         vicii_mem_vbank_3fxx_store(addr, value);
     else
-        ram[addr] = value;
+        mem_ram[addr] = value;
 
     if (addr == 0xff00)
         reu_dma(-1);
@@ -325,6 +330,18 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
+void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
+{
+    mem_color_ram[addr & 0x3ff] = value & 0xf;
+}
+
+BYTE REGPARM1 colorram_read(ADDRESS addr)
+{
+    return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
@@ -355,6 +372,7 @@ void mem_initialize_memory(void)
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
     chargen_rom_ptr = chargen_rom;
+    mem_color_ram_ptr = mem_color_ram;
 
     mem_limit_init(mem_read_limit_tab);
 
@@ -371,10 +389,10 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         set_write_hook(i, 0, store_zero);
         mem_read_tab[i][0] = read_zero;
-        mem_read_base_tab[i][0] = ram;
+        mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
-            mem_read_base_tab[i][j] = ram + (j << 8);
+            mem_read_base_tab[i][j] = mem_ram + (j << 8);
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -393,7 +411,7 @@ void mem_initialize_memory(void)
             }
         }
         mem_read_tab[i][0xff] = ram_read;
-        mem_read_base_tab[i][0xff] = ram + 0xff00;
+        mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
 
         /* vbank access is handled within `ram_hi_store()'.  */
         set_write_hook(i, 0xff, ram_hi_store);
@@ -618,10 +636,10 @@ void mem_powerup(void)
     int i;
 
     for (i = 0; i < 0x10000; i += 0x80) {
-        memset(ram + i, 0, 0x40);
-        memset(ram + i + 0x40, 0xff, 0x40);
+        memset(mem_ram + i, 0, 0x40);
+        memset(mem_ram + i + 0x40, 0xff, 0x40);
     }
-    memset(export_ram0,0xff,C64CART_RAM_LIMIT); /* Clean cartridge ram too */
+    memset(export_ram0, 0xff, C64CART_RAM_LIMIT); /* Clean cartridge ram too */
 }
 
 int c64mem_get_kernal_checksum(void)
@@ -820,17 +838,17 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
-        *start = ram[0x2b] | (ram[0x2c] << 8);
+        *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
     if (end != NULL)
-        *end = ram[0x2d] | (ram[0x2e] << 8);
+        *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
 }
 
 void mem_set_basic_text(ADDRESS start, ADDRESS end)
 {
-    ram[0x2b] = ram[0xac] = start & 0xff;
-    ram[0x2c] = ram[0xad] = start >> 8;
-    ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
-    ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+    mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
+    mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
+    mem_ram[0x2d] = mem_ram[0x2f] = mem_ram[0x31] = mem_ram[0xae] = end & 0xff;
+    mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1027,7 +1045,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
       case 1:                   /* ram */
         break;
     }
-    return ram[addr];
+    return mem_ram[addr];
 }
 
 BYTE mem_bank_peek(int bank, ADDRESS addr)
@@ -1068,7 +1086,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
       case 1:                   /* ram */
         break;
     }
-    ram[addr] = byte;
+    mem_ram[addr] = byte;
 }
 
 mem_ioreg_list_t *mem_ioreg_list_get(void)
@@ -1115,5 +1133,15 @@ void mem_set_exrom(int active)
     export.exrom = active ? 0 : 1;
 
     pla_config_changed();
+}
+
+void mem_color_ram_to_snapshot(BYTE *color_ram)
+{
+    memcpy(color_ram, mem_color_ram, 0x400);
+}
+
+void mem_color_ram_from_snapshot(BYTE *color_ram)
+{
+    memcpy(mem_color_ram, color_ram, 0x400);
 }
 

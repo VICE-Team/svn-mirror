@@ -27,7 +27,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "actionreplay.h"
@@ -35,11 +34,12 @@
 #include "c64cartmem.h"
 #include "types.h"
 #include "utils.h"
+#include "vicii-phi1.h"
 
 
 BYTE REGPARM1 actionreplay_io1_read(ADDRESS addr)
 {
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 actionreplay_io1_store(ADDRESS addr, BYTE value)

@@ -47,12 +47,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "ide64.h"
 #include "types.h"
 #include "utils.h"
-#include "archdep.h"
+#include "vicii-phi1.h"
+
 
 /* Current IDE64 bank */
 static unsigned int current_bank;
@@ -117,7 +119,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
 {
     int i;
 
-    if (kill_port & 1) return rand();
+    if (kill_port & 1) return vicii_read_phi1();
     if (addr>=0xde60) return roml_banks[(addr & 0x3fff) | (current_bank << 14)];
 /*    log_debug("IDE64 read %02x", addr); */
     switch (addr & 0xff) {
@@ -132,7 +134,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
     case 0x26:outd030=(ide_head | 0xa0);break;
     case 0x27:outd030=ide_status_cmd;break;
     case 0x2e:outd030=ide_status_cmd;break;
-    case 0x2f:outd030=rand();break;
+    case 0x2f:outd030=vicii_read_phi1();break;
     case 0x30:return outd030;
     case 0x31:return outd030 >> 8;
     case 0x5f:
@@ -157,7 +159,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
             return i;
 
     }
-    return rand();
+    return vicii_read_phi1();
 }
 
 void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value)
