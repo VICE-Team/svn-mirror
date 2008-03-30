@@ -153,7 +153,7 @@ void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk, snapshot_module_t *m,
     if (ver >= 0x100) {
         /* major 1, minor >= 1 */
         /* cnt & latch are saved from cia module already */
-        snapshot_module_write_word(m, ((WORD)(cia_state->state)));
+        SMW_W(m, ((WORD)(cia_state->state)));
     }
 }
 
@@ -167,7 +167,7 @@ void ciat_load_snapshot(ciat_t *state, CLOCK cclk, WORD cnt, WORD latch,
 
     if (ver >= 0x101) {
         /* major 1, minor >= 1 */
-        snapshot_module_read_word(m, &state->state);
+        SMR_W(m, &state->state);
     } else {
         state->state = cr;
         if (cr & CIAT_CR_START)

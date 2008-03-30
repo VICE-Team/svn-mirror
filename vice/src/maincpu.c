@@ -396,15 +396,14 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         return -1;
 
     if (0
-        || snapshot_module_write_dword(m, maincpu_clk) < 0
-        || snapshot_module_write_byte(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
-        || snapshot_module_write_byte(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
-        || snapshot_module_write_byte(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
-        || snapshot_module_write_byte(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || snapshot_module_write_word(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || snapshot_module_write_byte(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || snapshot_module_write_dword(m, (DWORD)(last_opcode_info)) < 0
-        )
+        || SMW_DW(m, maincpu_clk) < 0
+        || SMW_B(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
+        || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
+        || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
+        || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
+        || SMW_W(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || SMW_B(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || SMW_DW(m, (DWORD)(last_opcode_info)) < 0)
         goto fail;
 
     if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
@@ -435,15 +434,14 @@ int maincpu_snapshot_read_module(snapshot_t *s)
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || snapshot_module_read_dword(m, &maincpu_clk) < 0
-        || snapshot_module_read_byte(m, &a) < 0
-        || snapshot_module_read_byte(m, &x) < 0
-        || snapshot_module_read_byte(m, &y) < 0
-        || snapshot_module_read_byte(m, &sp) < 0
-        || snapshot_module_read_word(m, &pc) < 0
-        || snapshot_module_read_byte(m, &status) < 0
-        || snapshot_module_read_dword(m, &last_opcode_info) < 0
-        )
+        || SMR_DW(m, &maincpu_clk) < 0
+        || SMR_B(m, &a) < 0
+        || SMR_B(m, &x) < 0
+        || SMR_B(m, &y) < 0
+        || SMR_B(m, &sp) < 0
+        || SMR_W(m, &pc) < 0
+        || SMR_B(m, &status) < 0
+        || SMR_DW(m, &last_opcode_info) < 0)
         goto fail;
 
     MOS6510_REGS_SET_A(&maincpu_regs, a);

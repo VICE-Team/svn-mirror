@@ -241,10 +241,10 @@ void interrupt_monitor_trap_off(cpu_int_status_t *cs)
 int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     /* FIXME: could we avoid some of this info?  */
-    if (snapshot_module_write_dword(m, cs->irq_clk) < 0
-        || snapshot_module_write_dword(m, cs->nmi_clk) < 0
-        || snapshot_module_write_dword(m, (DWORD)cs->num_last_stolen_cycles) < 0
-        || snapshot_module_write_dword(m, cs->last_stolen_cycles_clk) < 0)
+    if (SMW_DW(m, cs->irq_clk) < 0
+        || SMW_DW(m, cs->nmi_clk) < 0
+        || SMW_DW(m, (DWORD)cs->num_last_stolen_cycles) < 0
+        || SMW_DW(m, cs->last_stolen_cycles_clk) < 0)
         return -1;
 
     return 0;
@@ -260,15 +260,15 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     cs->global_pending_int = IK_NONE;
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
 
-    if (snapshot_module_read_dword(m, &cs->irq_clk) < 0
-        || snapshot_module_read_dword(m, &cs->nmi_clk) < 0)
+    if (SMR_DW(m, &cs->irq_clk) < 0
+        || SMR_DW(m, &cs->nmi_clk) < 0)
         return -1;
 
-    if (snapshot_module_read_dword(m, &dw) < 0)
+    if (SMR_DW(m, &dw) < 0)
         return -1;
     cs->num_last_stolen_cycles = dw;
 
-    if (snapshot_module_read_dword(m, &dw) < 0)
+    if (SMR_DW(m, &dw) < 0)
         return -1;
     cs->last_stolen_cycles_clk = dw;
 
