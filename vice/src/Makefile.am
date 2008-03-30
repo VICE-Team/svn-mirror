@@ -61,6 +61,7 @@ noinst_HEADERS = \
 	console.h \
 	datasette.h \
 	debug.h \
+	diskconstants.h \
 	diskimage.h \
 	emuid.h \
 	fixpoint.h \
