@@ -52,11 +52,13 @@
 
 #include "tape.h"
 
+#include "datasette.h"
 #include "log.h"
 #include "mem.h"
 #include "maincpu.h"
 #include "serial.h"
 #include "t64.h"
+#include "tap.h"
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
@@ -92,8 +94,11 @@ static int tape_is_initialized = 0;
 /* Tape traps to be installed.  */
 static const trap_t *tape_traps;
 
-/* Tape currently attached.  */
-static t64_t *attached_tape = NULL;
+/* T64 tape currently attached.  */
+static t64_t *attached_t64_tape = NULL;
+
+/* TAP tape currently attached.  */
+static tap_t *attached_tap_tape = NULL;
 
 /* Logging goes here.  */
 static log_t tape_log = LOG_ERR;
@@ -106,6 +111,26 @@ static inline void set_st(BYTE b)
 }
 
 /* ------------------------------------------------------------------------- */
+
+static void tape_traps_install(void)
+{
+    const trap_t *p;
+
+    if (tape_traps != NULL) {
+    for (p = tape_traps; p->func != NULL; p++)
+        traps_add(p);
+    }
+}
+
+static void tape_traps_deinstall(void)
+{
+    const trap_t *p;
+
+    if (tape_traps != NULL) {
+    for (p = tape_traps; p->func != NULL; p++)
+        traps_remove(p);
+    }
+}
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
 /* FIXME: This should be passed through a struct.  */
@@ -120,8 +145,6 @@ int tape_init(int _buffer_pointer_addr,
               int _kbd_buf_pending_addr,
               const trap_t *trap_list)
 {
-    const trap_t *p;
-
     if (tape_log == LOG_ERR)
         tape_log = log_open("Tape");
 
@@ -138,13 +161,10 @@ int tape_init(int _buffer_pointer_addr,
     kbd_buf_pending_addr = _kbd_buf_pending_addr;
 
     tape_traps = trap_list;
-    if (tape_traps != NULL) {
-	for (p = tape_traps; p->func != NULL; p++)
-	    traps_add(p);
-    }
+    tape_traps_install();
 
     if (tape_is_initialized)
-	return 0;
+        return 0;
     tape_is_initialized = 1;
 
     return 0;
@@ -152,19 +172,14 @@ int tape_init(int _buffer_pointer_addr,
 
 int tape_deinstall(void)
 {
-    const trap_t *p;
-
     if (!tape_is_initialized)
 	return -1;   
 
-    if (attached_tape != NULL) {
+    if (attached_t64_tape != NULL) {
 	tape_detach_image();
     }
 
-    if (tape_traps != NULL) {
-	for (p = tape_traps; p->func != NULL; p++)
-	    traps_remove(p);
-    }
+    tape_traps_deinstall();
 
     tape_traps = NULL;
 
@@ -182,43 +197,78 @@ int tape_detach_image(void)
 {
     int retval;
 
-    if (attached_tape != NULL) {
+    if (attached_t64_tape != NULL) {
         log_message(tape_log,
-                    "Detaching tape image `%s'.", attached_tape->file_name);
+                    "Detaching T64 image `%s'.", attached_t64_tape->file_name);
         
         /* Gone.  */
-        retval = t64_close(attached_tape);
-        attached_tape = NULL;
+        retval = t64_close(attached_t64_tape);
+        attached_t64_tape = NULL;
 
         /* Tape detached: release play button.  */
         mem_set_tape_sense(0);
-    } else
-        retval = 0;
 
-    return retval;
+        return retval;
+    }
+
+    if (attached_tap_tape != NULL) {
+        log_message(tape_log,
+                    "Detaching TAP image `%s'.", attached_tap_tape->file_name);
+
+        /* Gone.  */
+        retval = tap_close(attached_tap_tape);
+        attached_tap_tape = NULL;
+        datasette_set_tape_image(NULL);
+
+        /* Tape detached: release play button.  */
+        mem_set_tape_sense(0);
+
+        return retval;
+    }
+
+    return 0;
 }
 
 /* Attach.  */
 int tape_attach_image(const char *name)
 {
-    t64_t *new_tape;
+    t64_t *new_t64_tape;
+    tap_t *new_tap_tape;
 
     if (!name || !*name)
 	return -1;
 
-    new_tape = t64_open(name);
-    if (new_tape == NULL)
-        return -1;
+    new_t64_tape = t64_open(name);
+    if (new_t64_tape != NULL)
+    {
+        tape_detach_image();
+        attached_t64_tape = new_t64_tape;
 
-    tape_detach_image();
-    attached_tape = new_tape;
+        log_message(tape_log, "T64 image '%s' attached.", name);
 
-    log_message(tape_log, "T64 image '%s' attached.", name);
+        /* Tape attached: press play button.  */
+        mem_set_tape_sense(1);
 
-    /* Tape attached: press play button.  */
-    mem_set_tape_sense(1);
+        return 0;
+    }
 
-    return 0;
+    new_tap_tape = tap_open(name);
+    if (new_tap_tape != NULL)
+    {
+        tape_detach_image();
+        attached_tap_tape = new_tap_tape;
+
+        datasette_set_tape_image(new_tap_tape);
+
+        log_message(tape_log, "TAP image '%s' attached.", name);
+
+        /* Tape attached: press play button.  */
+        /*mem_set_tape_sense(1);*/
+
+        return 0;
+    }
+
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -237,19 +287,19 @@ void tape_find_header_trap(void)
     cassette_buffer = ram + (mem_read(buffer_pointer_addr)
                              | (mem_read(buffer_pointer_addr + 1) << 8));
 
-    if (attached_tape == NULL) {
+    if (attached_t64_tape == NULL) {
         err = 1;
     } else {
         t64_file_record_t *rec = NULL;
 
         err = 0;
         do {
-            if (t64_seek_to_next_file(attached_tape, 1) < 0) {
+            if (t64_seek_to_next_file(attached_t64_tape, 1) < 0) {
                 err = 1;
                 break;
             }
 
-            rec = t64_get_current_file_record(attached_tape);
+            rec = t64_get_current_file_record(attached_t64_tape);
         } while (rec->entry_type != T64_FILE_RECORD_NORMAL);
 
         if (!err) {
@@ -314,7 +364,7 @@ void tape_receive_trap(void)
             /* Read block.  */
             len = end - start;
 
-            if (t64_read(attached_tape,
+            if (t64_read(attached_t64_tape,
                          ram + (int) start, (int) len) == (int) len) {
                 st = 0x40;	/* EOF */
             } else {
@@ -347,8 +397,8 @@ void tape_receive_trap(void)
 
 char *tape_get_file_name(void)
 {
-    if (attached_tape)
-        return attached_tape->file_name;
+    if (attached_t64_tape)
+        return attached_t64_tape->file_name;
     return NULL;
 }
 
