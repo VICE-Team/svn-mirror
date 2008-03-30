@@ -297,6 +297,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
       case CIA_ICR:		/* Interrupt Control Register */
 
+        CIAT_LOGIN(("store_icr: rclk=%d, byte=%02x", rclk, byte));
+
 	cia_update_ta(rclk);
 	cia_update_tb(rclk);
 
@@ -318,30 +320,16 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 #endif
 	if (ciaier & ciaint & 0x7f) {
 	    my_set_int(MYCIA_INT, rclk);
-/*
-	} else {
-	    my_set_int(0, rclk);
-*/
 	}
 
-/*	if (ciaier & (CIA_IM_TA + CIA_IM_TB)) {*/
-	    if (ciaier & CIA_IM_TA) {
-		ciat_set_alarm(&ciata);
-/*
-	    } else {
-		ciat_ack_alarm(&ciata, ciat_alarm_clk(&ciata));
-*/
-	    }
-	    if (ciaier & CIA_IM_TB) {
-		ciat_set_alarm(&ciatb);
-/*
-	    } else {
-		ciat_ack_alarm(&ciatb, ciat_alarm_clk(&ciatb));
-*/
-	    }
-/*	}*/
-	/* Control */
-/* if(ciaint == 0x80) ciaint = *((BYTE*)0); */
+	if (ciaier & CIA_IM_TA) {
+	    ciat_set_alarm(&ciata);
+	}
+	if (ciaier & CIA_IM_TB) {
+	    ciat_set_alarm(&ciatb);
+	}
+
+	CIAT_LOGOUT((""));
 	break;
 
       case CIA_CRA:		/* control register A */
@@ -507,18 +495,17 @@ BYTE read_cia_(ADDRESS addr)
 	    BYTE t = 0;
 	    CLOCK tmp;
 
-#ifdef CIAT_TIMER_DEBUG
-            log_message(cia_log, "read_icr(rclk=%d, rdi=%d)", rclk, ciardi);
-#endif
+	    CIAT_LOGIN(("read_icr: rclk=%d, rdi=%d", rclk, ciardi));
+
 	    cia_update_ta(rclk);
 	    tmp = ciat_alarm_clk(&ciata);
 	    if (tmp <= rclk) 
-		int_ciata(rclk - tmp);
+		int_ciata(/* rclk */ myclk - tmp);
 
 	    cia_update_tb(rclk);
 	    tmp = ciat_alarm_clk(&ciatb);
 	    if (tmp <= rclk) 
-		int_ciatb(rclk - tmp);
+		int_ciatb(/* rclk */ myclk - tmp);
 
 	    read_ciaicr();
 
@@ -533,23 +520,19 @@ BYTE read_cia_(ADDRESS addr)
 	    ciat_set_alarm(&ciata);
 	    ciat_set_alarm(&ciatb);
 
-#ifdef CIAT_TIMER_DEBUG
-            log_message(cia_log, "read_icr -> ta alarm at %d, tb at %d", 
-		ciat_alarm_clk(&ciata), ciat_alarm_clk(&ciatb));
-#endif
+            CIAT_LOG(("read_icr -> ta alarm at %d, tb at %d", 
+		ciat_alarm_clk(&ciata), ciat_alarm_clk(&ciatb)));
+
 	    t = ciaint;
 
-#ifdef CIAT_TIMER_DEBUG  /*def CIA_TIMER_DEBUG
-	    if (mycia_debugFlag)
-*/
-		log_message(cia_log,
-                            "read intfl gives ciaint=%02x -> %02x "
+	    CIAT_LOG(( "read intfl gives ciaint=%02x -> %02x "
                             "sr_bits=%d, clk=%d",
-                            ciaint, t, ciasr_bits, clk);
-#endif
+                            ciaint, t, ciasr_bits, clk));
 
 	    ciaint = 0;
 	    my_set_int(0, rclk + 1);
+
+	    CIAT_LOGOUT((""));
 
 	    return (t);
 	}
@@ -669,6 +652,8 @@ static int int_ciata(long offset)
 {
     CLOCK rclk = myclk - offset;
 
+    CIAT_LOGIN(("ciaTimerA int_ciata: myclk=%d rclk=%d", myclk, rclk));
+
     cia_update_ta(rclk);
 
     ciat_ack_alarm(&ciata, rclk);
@@ -676,13 +661,9 @@ static int int_ciata(long offset)
     alarm_unset(ciata.alarm);	/* why that? */
 #endif
 
-#ifdef CIAT_TIMER_DEBUG  /*def CIAT_TIMER_DEBUG */  /* defined(CIA_TIMER_DEBUG) 
-    if (mycia_debugFlag)
-*/
-	log_message(cia_log,
+    CIAT_LOG((
           "int_ciata(rclk = %u, tal = %u, cra=%02x, int=%02x, ier=%02x.",
-          rclk, ciat_read_latch(&ciata, rclk), cia[CIA_CRA], ciaint, ciaier);
-#endif
+          rclk, ciat_read_latch(&ciata, rclk), cia[CIA_CRA], ciaint, ciaier));
 
     cia_tat = (cia_tat + 1) & 1;
 
@@ -699,11 +680,9 @@ static int int_ciata(long offset)
 
     if (cia[CIA_CRA] & 0x40) {
 	if (ciasr_bits) {
-#if defined(CIA_TIMER_DEBUG)
-	    if (mycia_debugFlag)
-		log_message(cia_log, "rclk=%d SDR: timer A underflow, bits=%d",
-		       rclk, ciasr_bits);
-#endif
+	    CIAT_LOG(("rclk=%d SDR: timer A underflow, bits=%d",
+		       rclk, ciasr_bits));
+
 	    if (!(--ciasr_bits)) {
 		ciaint |= CIA_IM_SDR;
 	    }
@@ -731,6 +710,8 @@ static int int_ciata(long offset)
         }
     }
 
+    CIAT_LOGOUT((""));
+
 /* if(ciaint == 0x80) ciaint = *((BYTE*)0); */
 
     return 0;
@@ -749,6 +730,8 @@ static int int_ciatb(long offset)
 {
     CLOCK rclk = myclk - offset;
 
+    CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d", myclk,rclk));
+
     if(ciat_update(&ciatb, rclk) && (ciardi != rclk-1)) {
 	ciaint |= CIA_IM_TB;
 	if((cia[CIA_CRB] & 0x09) == 0x09) {
@@ -762,24 +745,19 @@ static int int_ciatb(long offset)
     alarm_unset(ciatb.alarm);	/* why that? */
 #endif
 
-#ifdef CIAT_TIMER_DEBUG /* defined(CIA_TIMER_DEBUG)
-    if (mycia_debugFlag) */
-	log_message(cia_log,
+    CIAT_LOG((
             "timer B int_ciatb(rclk=%d, tbs=%d, int=%02x, ier=%02x).", 
-		rclk, cia_tbs, ciaint, ciaier);
-#endif
+		rclk, cia_tbs, ciaint, ciaier));
 
     cia_tbt = (cia_tbt + 1) & 1;
 
     /* running and continous, then next alarm */
     if (cia_tbs == CIAT_RUNNING) {
 	if (!(cia[CIA_CRB] & 8)) {
-#if defined(CIA_TIMER_DEBUG)
-	    if (mycia_debugFlag)
-		log_message(cia_log,
-                            "rclk=%d ciatb: set tbu alarm to %d.",
-                            rclk, rclk + cia_tbl + 1);
-#endif
+/*
+	    CIAT_LOG(( "rclk=%d ciatb: set tbu alarm to %d.",
+                            rclk, rclk + cia_tbl + 1));
+*/
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (ciaier & CIA_IM_TB) {
 		ciat_set_alarm(&ciatb);
@@ -817,6 +795,8 @@ static int int_ciatb(long offset)
         }
     }
 /* if(ciaint == 0x80) ciaint = *((BYTE*)0); */
+
+    CIAT_LOGOUT((""));
 
     return 0;
 }

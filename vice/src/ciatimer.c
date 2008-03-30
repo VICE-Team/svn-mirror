@@ -37,9 +37,72 @@
  *
  */
 
-#undef	CIAT_TIMER_DEBUG
+#undef CIAT_DEBUG 	/* is set in c64cia[12].c for debugging :-) */
 
-#define	INLINE inline 
+#ifdef CIAT_DEBUG
+
+#  define	CIAT_TIMER_DEBUG
+#  define	INLINE
+
+#include <stdarg.h>
+
+#ifdef myciat_logfl
+int myciat_logfl = 0;
+#else
+static int myciat_logfl = 0:
+#endif
+
+static int logtab=0;
+static const char spaces[]="                                                  ";
+
+#define	CIAT_LOGIN(a)	while(0) { ciat_login##a##; }
+#define	CIAT_LOG(a)	while(0) { ciat_log##a##; }
+#define	CIAT_LOGOUT(a)	while(0) { ciat_logout##a##; }
+
+static void ciat_login(const char *format,...) {
+    va_list ap;
+    va_start(ap,format);
+    if(myciat_logfl) {
+        printf("%s",spaces+strlen(spaces)-logtab);
+        vprintf(format, ap);
+        printf(" {\n");
+    }
+    logtab+=2;
+}
+
+static void ciat_logout(const char *format,...) {
+    va_list ap;
+    va_start(ap,format);
+    if(myciat_logfl && strlen(format)) {
+        printf("%s",spaces+strlen(spaces)-logtab);
+        vprintf(format, ap);
+        printf("\n");
+    }
+    if(logtab>1) logtab-=2;
+    if(myciat_logfl) {
+        printf("%s}\n",spaces+strlen(spaces)-logtab);
+    }
+}
+
+static void ciat_log(const char *format,...) {
+    va_list ap;
+    va_start(ap,format);
+    if(myciat_logfl) {
+        printf("%s",spaces+strlen(spaces)-logtab);
+        vprintf(format, ap);
+        printf("\n");
+    }
+}
+
+#else /* CIAT_DEBUG */
+
+#  define	INLINE			inline
+
+#define	CIAT_LOGIN(a)
+#define	CIAT_LOG(a)
+#define	CIAT_LOGOUT(a)
+
+#endif  /* CIAT_DEBUG */
 
 
 typedef struct ciat_state_t {
@@ -68,6 +131,8 @@ typedef struct ciat_t {
 static void INLINE ciat_init(ciat_t *state, const char *name, 
 						CLOCK cclk, alarm_t *alarm)
 {
+    CIAT_LOGIN(("%s init: cclk=%d",name,cclk));
+
     state->nst = 1;
     state->name = name;
     state->st[0].clk = cclk;
@@ -79,6 +144,8 @@ static void INLINE ciat_init(ciat_t *state, const char *name,
     state->alarm = alarm;
     state->alarmclk = CLOCK_MAX;
     state->last_update = cclk;
+
+    CIAT_LOGOUT((""));
 }
 
 /* check when the next underflow will occur and set the alarm */
@@ -87,9 +154,9 @@ static void INLINE ciat_set_alarm(ciat_t *state)
 {
     CLOCK tmp = CLOCK_MAX;
     int i;
-#ifdef CIAT_TIMER_DEBUG
-    printf("%s: set_alarm, nst=%d\n", state->name, state->nst);
-#endif
+
+    CIAT_LOGIN(("%s set_alarm: nst=%d", state->name, state->nst));
+
     for (i=0;i<state->nst;i++) {
 /*
 	if (state->st[i].running 
@@ -104,16 +171,23 @@ static void INLINE ciat_set_alarm(ciat_t *state)
 	}
 */
     }
-#ifdef CIAT_TIMER_DEBUG
-    printf(" -> alarm=%d\n", tmp);
-#endif
+
+    CIAT_LOG((" -> alarmclk=%d", tmp));
+
     if (tmp != CLOCK_MAX) {
+	/* FIXME in alarm.h: if state->alarm is set to a clk < current clk
+	 * then the alarm is not reset, causing int_ciata to be called 
+	 * even after alarm has been reset in read_icr */
+	/* alarm_unset(state->alarm); */
+
         state->alarmclk = tmp;
 	alarm_set(state->alarm, tmp);
     } else {
         state->alarmclk = tmp;
 	alarm_unset(state->alarm);
     }
+
+    CIAT_LOGOUT((""));
 }
 
 static CLOCK INLINE ciat_alarm_clk(ciat_t *state)
@@ -134,14 +208,12 @@ static void INLINE ciat_tostack(ciat_t *state, ciat_state_t *timer)
 
     timer->nextz = timer->running ? timer->clk + timer->cnt : CLOCK_MAX;
 
-#ifdef CIAT_TIMER_DEBUG
-    printf("ciat_tostack(%s, t->clk=%d, st0->clk=%d, nst=%d\n", 
-			state->name, timer->clk, state->st[0].clk, state->nst); 
-    printf("             running=%d, t->cnt=%d, -> t->nextz=%d\n", 
-			timer->running, timer->cnt, timer->nextz); 
-    printf("             alarmclk=%d, t->latch=%d\n", 
-			state->alarmclk, timer->latch); 
-#endif
+    CIAT_LOGIN(("%s tostack(t->clk=%d, st0->clk=%d, nst=%d", 
+		state->name, timer->clk, state->st[0].clk, state->nst)); 
+    CIAT_LOG(("             running=%d, t->cnt=%d, -> t->nextz=%d", 
+		timer->running, timer->cnt, timer->nextz)); 
+    CIAT_LOG(("             alarmclk=%d, t->latch=%d", 
+		state->alarmclk, timer->latch)); 
 
     for (i=0;i<state->nst;i++) {
 	if (state->st[i].clk >= timer->clk) {
@@ -151,6 +223,8 @@ static void INLINE ciat_tostack(ciat_t *state, ciat_state_t *timer)
     }
     state->st[i] = *timer;
     state->nst ++;
+
+    CIAT_LOGOUT(("-> nst=%d", state->nst));
 }
 
 /* update timer description by checking timer stack for more up-to-date
@@ -162,9 +236,9 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
     int i,j, n;
 
     n = 0;
-#ifdef CIAT_TIMER_DEBUG
-    printf("%s: update: cclk=%d, nst=%d\n", state->name, cclk, state->nst);
-#endif
+
+    CIAT_LOGIN(("%s update: cclk=%d, nst=%d", state->name, cclk, state->nst));
+
     if (state->nst > 1) {
         for (j=0,i=1;i<state->nst;i++) {
 	    if (state->st[i].clk >= state->st[i-1].nextz) {
@@ -181,9 +255,10 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
 	}
 	state->nst = i;
     }
-#ifdef CIAT_TIMER_DEBUG
-    printf("%s: cclk=%d, nextz=%d, latch=%d, clk=%d\n", state->name, cclk, state->st[0].nextz, state->st[0].latch, state->st[0].clk);
-#endif
+
+    CIAT_LOG(("cclk=%d, nextz=%d, latch=%d, clk=%d", 
+	cclk, state->st[0].nextz, state->st[0].latch, state->st[0].clk));
+
     if (state->st[0].running) {
         if (state->st[0].nextz == cclk) {
 	    if(state->last_update < cclk) {
@@ -197,15 +272,18 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
 	    state->st[0].clk += tmp;
             state->st[0].nextz = state->st[0].running ? 
 			state->st[0].clk + state->st[0].cnt : CLOCK_MAX;
-#ifdef CIAT_TIMER_DEBUG
-        printf("tmp=%d, ->clk=%d, nextz=%d\n",tmp, state->st[0].clk, state->st[0].nextz);
-#endif
+
+            CIAT_LOG(("tmp=%d, ->clk=%d, nextz=%d",
+				tmp, state->st[0].clk, state->st[0].nextz));
 	}
     } else {
 	state->st[0].clk = cclk;
     }
 
     state->last_update = cclk;
+
+    CIAT_LOGOUT(("-> n=%d",n));
+
     return n;
 }
 
@@ -213,6 +291,9 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
 static void INLINE ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
 {
     int i;
+
+    CIAT_LOGIN(("%s prevent_clock_overflow", state->name));
+
     for (i=0; i<state->nst; i++) {
 	state->st[i].clk -= sub;
 	if (state->st[i].nextz != CLOCK_MAX) 
@@ -224,6 +305,8 @@ static void INLINE ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
 	state->last_update -= sub;
     else
 	state->last_update = 0;
+
+    CIAT_LOGOUT((""));
 }
 
 /*
@@ -233,6 +316,8 @@ static void INLINE ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
 /* timer reset */
 static void INLINE ciat_reset(ciat_t *state, CLOCK cclk)
 {
+    CIAT_LOGIN(("%s reset: cclk=%d",state->name, cclk));
+    
     state->nst = 1;
     state->st[0].clk = cclk;
     state->st[0].cnt = 0xffff;
@@ -244,6 +329,8 @@ static void INLINE ciat_reset(ciat_t *state, CLOCK cclk)
 
     state->alarmclk = CLOCK_MAX;
     alarm_unset(state->alarm);
+
+    CIAT_LOGOUT((""));
 }
 /* read timer value - ciat_update _must_ have been called before! */
 static WORD INLINE ciat_read_latch(ciat_t *state, CLOCK cclk)
@@ -270,7 +357,7 @@ static WORD INLINE ciat_read_timer(ciat_t *state, CLOCK cclk)
     } else {
 	current = state->st[0].cnt;
     }
-#ifdef CIAT_TIMER_DEBUG
+#if 0 /* def CIAT_TIMER_DEBUG */
     printf("ciat_read_timer(cclk=%d) -> %s=%d\n",cclk, state->name, 
            (current == 0) ? state->st[0].latch : current);
 #endif
@@ -291,6 +378,9 @@ static void INLINE ciat_single_step(ciat_t *state)
 static void INLINE ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 {
     int i;
+
+    CIAT_LOGIN(("%s set_latchhi: cclk=%d, byte=%02x", state->name, cclk, byte));
+
     for (i=0; i<state->nst; i++) {
 	if (state->st[i].clk <= cclk) {
 	    state->st[i].latch = (state->st[i].latch & 0xff) | (byte << 8);
@@ -299,16 +389,23 @@ static void INLINE ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 	    }
 	}
     }
+
+    CIAT_LOGOUT((""));
 }
 
 static void INLINE ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte)
 {
     int i;
+
+    CIAT_LOGIN(("%s set_latchlo: cclk=%d, byte=%02x", state->name, cclk, byte));
+
     for (i=0; i<state->nst; i++) {
 	if (state->st[i].clk <= cclk) {
 	    state->st[i].latch = (state->st[i].latch & 0xff00) | byte;
 	}
     }
+
+    CIAT_LOGOUT((""));
 }
 
 
@@ -318,10 +415,8 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
     ciat_state_t timer;
     WORD current = ciat_read_timer(state, cclk+1);
 
-#ifdef CIAT_TIMER_DEBUG
-    printf("set_ctrl %s: cclk=%d, byte=%02x, CRA=%02x, CRB=%02x, int=%02x\n",
-	state->name, cclk, byte, cia[CIA_CRA], cia[CIA_CRB], ciaint);
-#endif
+    CIAT_LOGIN((" %s set_ctrl: cclk=%d, byte=%02x, CRA=%02x, CRB=%02x, int=%02x",
+	state->name, cclk, byte, cia[CIA_CRA], cia[CIA_CRB], ciaint));
  
     /* FIXME: */
     if ( (byte ^ state->st[0].oneshot) & 8) {
@@ -393,22 +488,35 @@ static void INLINE ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
 	break;
     }
 
-
     ciat_set_alarm(state);
+
+    CIAT_LOGOUT((""));
 }
 
 static void INLINE ciat_ack_alarm(ciat_t *state, CLOCK cclk)
 {
-#ifdef CIAT_TIMER_DEBUG
-printf("ack_alarm: cclk=%d, alarmclk=%d\n", cclk, state->alarmclk);
-#endif
+    CIAT_LOGIN(("%s ack_alarm: cclk=%d, alarmclk=%d", 
+					state->name, cclk, state->alarmclk));
+    
     if(cclk >= state->alarmclk) {
 	state->alarmclk = CLOCK_MAX;
 	alarm_unset(state->alarm);
 
 	if(cclk == state->st[0].nextz) {
-	    state->st[0].nextz += state->st[0].latch + 1;
+/*
+            ciat_state_t timer;
+            WORD current = ciat_read_timer(state, cclk+1);
+
+printf("%s: ack_alarm hit @ cclk=%d!\n", state->name, cclk);
+	    timer = state->st[0];
+	    timer.clk = cclk;
+	    timer.cnt = current;
+	    ciat_tostack(state, &timer);
+*/
+            state->st[0].nextz += state->st[0].latch + 1;
 	}
+	/* FIXME: what happens when the else clause here happens...????? */
+
 
 	if (state->st[0].oneshot) {
             ciat_state_t timer;
@@ -422,6 +530,13 @@ printf("ack_alarm: cclk=%d, alarmclk=%d\n", cclk, state->alarmclk);
 
 	    ciat_set_alarm(state);
 	}
+    } else {
+#ifdef CIAT_TIMER_DEBUG
+	/* this should not happen! */
+        cclk=*((CLOCK*)0);
+#endif
     }
+
+    CIAT_LOGOUT((""));
 }
 

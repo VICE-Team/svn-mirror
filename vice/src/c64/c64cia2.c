@@ -32,6 +32,9 @@
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
 
+/* set myciat_logfl to 1 to get output */
+#define	CIAT_DEBUG
+
 /*************************************************************************
  * Renaming exported functions
  */
@@ -46,7 +49,9 @@
 #define mycia_set_sdr cia2_set_sdr
 #define mycia_write_snapshot_module cia2_write_snapshot_module
 #define mycia_read_snapshot_module cia2_read_snapshot_module
+
 #define mycia_debugFlag cia2_debugFlag
+#define myciat_logfl cia2t_logfl
 
 #define MYCIA_NAME "CIA2"
 
