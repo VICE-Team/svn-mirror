@@ -392,9 +392,6 @@ coproc.o: coproc.c coproc.h ../../../src/log.h
 joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h joy.h ../../../src/keyboard.h types.h \
 	../../../src/log.h ../../../src/resources.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h joystick.h ../../../src/keyboard.h \
-	types.h ../../../src/log.h ../../../src/resources.h
 main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h joy.h \
 	../../../src/log.h ../../../src/machine.h main_exit.h \
 	../../../src/sound.h types.h ../../../src/video.h

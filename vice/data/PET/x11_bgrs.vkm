@@ -12,6 +12,7 @@
 # '!INCLUDE filename'    read file as mapping file
 # '!LSHIFT row col'      left shift keyboard row/column
 # '!RSHIFT row col'      right shift keyboard row/column
+# '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 #
 # shiftflag can have the values:
 # 0      key is not shifted for this keysym
@@ -23,6 +24,8 @@
 !CLEAR
 !LSHIFT 8 0
 !RSHIFT 8 5
+!VSHIFT RSHIFT
+
 Return 6 5 0
 Down 1 6 8
 Right 0 7 8

@@ -5,13 +5,14 @@
 # File format:
 # - comment lines start with '#'
 # - keyword lines start with '!keyword'
-# - normal line has 'keysym row column shiftflag'
+# - normal line has 'keysym/scancode row column shiftflag'
 #
 # keywords and their lines are:
 # '!CLEAR'               clear whole table
 # '!INCLUDE filename'    read file as mapping file
 # '!LSHIFT row col'      left shift keyboard row/column
 # '!RSHIFT row col'      right shift keyboard row/column
+# '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
 #
 # shiftflag can have the values:
 # 0      key is not shifted for this keysym
@@ -23,6 +24,8 @@
 !CLEAR
 !LSHIFT 8 4
 !RSHIFT 8 3
+!VSHIFT RSHIFT
+
 Return 2 4 0
 Down 2 0 8
 Right 3 2 8

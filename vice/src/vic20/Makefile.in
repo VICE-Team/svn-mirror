@@ -395,10 +395,8 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/keyboard.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/viacore.h \
-	../../src/via.h vic.h ../../src/alarm.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	vic-mem.h vic20.h ../../src/video.h vic20iec.h vic20via.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/interrupt.h \
+	../../src/via.h vic20iec.h vic20via.h ../../src/viacore.c \
+	../../src/alarm.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/utils.h
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
