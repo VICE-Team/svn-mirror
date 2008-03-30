@@ -90,8 +90,6 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
 {
     int f;
 
-    /* Argh... this is a dirty kludge!  We should probably find a cleaner
-       solution.  */
     do {
         CLOCK mclk;
 
