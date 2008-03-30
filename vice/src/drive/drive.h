@@ -338,6 +338,10 @@ extern void drive_set_1571_sync_factor(int new_sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_cpu_execute(void);
+extern void drive_GCR_data_writeback(int dnr);
+extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
+extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
+
 extern int reload_rom_1541(char *name);
 
 extern int drive_write_snapshot_module(snapshot_t *s, int save_disks, 

@@ -258,7 +258,7 @@ extern void detach_floppy_image(DRIVE *floppy);
 extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int floppy_free_block_count(DRIVE *floppy);
 extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
-			     int sector, int d64);
+			     int sector, int d64, int g64, int unit);
 extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
 			      int sector, int d64);
 extern int check_header(file_desc_t fd, hdrinfo *hdr);
