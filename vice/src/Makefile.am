@@ -108,6 +108,7 @@ noinst_HEADERS = \
 	viacore.h \
 	vice.h \
 	video.h \
+	video-render.h \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
@@ -154,6 +155,7 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
+	video-render.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c

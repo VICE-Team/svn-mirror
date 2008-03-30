@@ -43,6 +43,7 @@
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
+#include "video-render.h"
 #include "video.h"
 #include "videoarch.h"
 #include "statusbar.h"
@@ -1098,8 +1099,6 @@ static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
 {
     HRESULT result;
     DDSURFACEDESC desc;
-    int y;
-    BYTE *dp;
     LPDIRECTDRAWSURFACE surface = NULL;
     RECT rect;
     RECT    trect;
@@ -1236,179 +1235,17 @@ static void real_refresh(canvas_t *c, video_frame_buffer_t *f,
         py=ys+trect.top-rect.top;
         pw=trect.right-trect.left;
         ph=trect.bottom-trect.top;
-        switch (depth) {
-            case 8:
-                dp = (BYTE *) desc.lpSurface + pitch * trect.top + trect.left;
-                for (y = 0; y < ph; y++, dp += pitch) {
-                    BYTE *p = dp;
-                    BYTE *sp=(BYTE*)(VIDEO_FRAME_BUFFER_LINE_START(f,y+py)+px);
 
-                    {
-                        int j=0;
-
-                        /*  Start fragment */
-                        if ((int)p&3) {
-                            int n=4-((int)p&3);
-                            for (j=0; j<n; j++) {
-                                *p++=*sp++;
-                            }
-                        }
-                        /*  8 pixel fragments */
-                        while (pw-j>7) {
-                            DWORD   interm;
-                            interm=*sp++;
-                            interm+=*sp++<<8;
-                            interm+=*sp++<<16;
-                            interm+=*sp++<<24;
-                            *((DWORD*)p)++=interm;
-                            interm=*sp++;
-                            interm+=*sp++<<8;
-                            interm+=*sp++<<16;
-                            interm+=*sp++<<24;
-                            *((DWORD*)p)++=interm;
-                            j+=8;
-                        }
-                        /*  End fragment */
-                        for (; j<pw; j++) {
-                            *p++=*sp++;
-                        }
-
-                        bytesmoved+=pw;
-                    }
-                }
-                break;
-            case 16:
-                ct=c->physical_colors;
-                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
-                    + 2 * trect.left);
-                for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
-                    int i;
-                    WORD    *p;
-
-                    i=0;
-                    p=(WORD*)dp;
-                    /*  Start fragment */
-                    if ((int)dp&2) {
-                        *p++=(WORD)ct[*sp++];
-                        i++;
-                    }
-                    /*  Lets do 8 pixel fragments in one loop */
-                    while (pw-i>7) {
-                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
-                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
-                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
-                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
-                        i+=8;
-                    }
-                    /*  Finish fragments */
-                    for (;i<pw; i++) {
-                        *p++=(WORD)ct[*sp++];
-                    }
-
-                    bytesmoved+=pw*2;
-                }
-                break;
-            case 24:
-                ct=c->physical_colors;
-                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
-                    + 3 * trect.left);
-                for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
-                    BYTE *p = dp;
-                    BYTE *s;
-                    int i;
-                    DWORD   dw;
-                    DWORD   dw2;
-
-                    int b=pw;
-
-                    i=((int)dp)&3;
-                    if (pw<i) {
-                        /*  This is the case when the starting and ending fragment is in the same 4 pixel
-                            fragment */
-                        for (i=0; i<pw; i++) {
-                            s=(BYTE*)&c->physical_colors[sp[i]];
-                            p[0]=s[0];
-                            p[1]=s[1];
-                            p[2]=s[2];
-                            p+=3;
-                        }
-                    } else {
-                        /*  Lets handle the starting fragment first */
-                        switch (i) {
-                            case 1:
-                                p=p-1;
-                                dw=(*(DWORD*)p)&0x000000ff;
-                                b+=3;
-                                goto offs1;
-                            case 2:
-                                p=p-2;
-                                dw=(*(DWORD*)p)&0x0000ffff;
-                                b+=2;
-                                goto offs2;
-                            case 3:
-                                p=p-3;
-                                dw=(*(DWORD*)p)&0x00ffffff;
-                                b+=1;
-                                goto offs3;
-                        }
-                        /*  Lets handle full 4 pixel fragments */
-                        while (b>3) {
-                            dw=ct[*sp++];
-offs3:
-                            dw2=ct[*sp++];
-                            *((DWORD*)p)++=dw+(dw2<<24);
-                            dw=dw2>>8;
-offs2:
-                            dw2=ct[*sp++];
-                            *((DWORD*)p)++=dw+(dw2<<16);
-                            dw=dw2>>16;
-offs1:
-                            dw+=ct[*sp++]<<8;
-                            *((DWORD*)p)++=dw;
-                            b-=4;
-                        }
-                        /*  Handle finishing fragment */
-                        switch (b) {
-                            case 1:
-                                dw=(*(DWORD*)p)&0xff000000;
-                                dw+=ct[*sp];
-                                (*(DWORD*)p)=dw;
-                                break;
-                            case 2:
-                                dw=ct[*sp++];
-                                dw2=ct[*sp++];
-                                *((DWORD*)p)++=dw+(dw2<<24);
-                                *(WORD*)p=(WORD)(dw2>>8);
-                                break;
-                            case 3:
-                                dw=ct[*sp++];
-                                dw2=ct[*sp++];
-                                *((DWORD*)p)++=dw+(dw2<<24);
-                                dw=ct[*sp];
-                                *((DWORD*)p)++=(dw2>>8)+(dw<<16);
-                                *p=(BYTE)(dw>>16);
-                                break;
-                        }
-                    }
-                    bytesmoved+=pw*3;
-                }
-                break;
-            case 32:
-                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
-                    + 4 * trect.left);
-                for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
-                    int i;
-
-                    for (i = 0; i < pw; i++)
-                        *((DWORD *)dp + i) = (DWORD) c->physical_colors[sp[i]];
-                    bytesmoved+=w*4;
-                }
-                break;
-        }
-    }
+		video_render_main(
+			ct=c->physical_colors,
+			(BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+			(BYTE *)(desc.lpSurface),
+			pw,ph,
+			px,py,
+			trect.left,trect.top,
+			VIDEO_FRAME_BUFFER_LINE_SIZE(f),pitch,
+			depth);
+	}
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
         IDirectDrawSurface_Restore(surface);
