@@ -393,18 +393,20 @@ inline void vic_ii_fetch_matrix(int offs, int num)
 
     vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
 
-    /* Set correct background color in in the xsmooth area in HIRES mode */
+    /* Set correct background color in in the xsmooth area.
+       Because we are at the end of DMA the changes to xsmooth color
+       cannot take effect on this line (the border is closed)!  */
     if (offs + num >= VIC_II_SCREEN_TEXTCOLS) {
         switch (vic_ii.get_background_from_vbuf) {
           case VIC_II_HIRES_BITMAP_MODE:
-            raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_40COL_STOP_PIXEL,
+            raster_add_int_change_next_line(
+                &vic_ii.raster,
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.background_color_source & 0x0f);
             break;
           case VIC_II_EXTENDED_TEXT_MODE:
-            raster_add_int_change_background
-                (&vic_ii.raster, VIC_II_40COL_STOP_PIXEL,
+            raster_add_int_change_next_line(
+                &vic_ii.raster,
                 &vic_ii.raster.xsmooth_color,
                 vic_ii.regs[0x21 + (vic_ii.background_color_source >> 6)]);
             break;
