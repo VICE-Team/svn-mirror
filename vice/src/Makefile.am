@@ -16,6 +16,7 @@ SUBDIRS = \
 	parallel \
 	tape \
 	imagecontents \
+	fileio \
 	video \
 	raster \
 	vicii \
@@ -70,6 +71,7 @@ noinst_HEADERS = \
 	dma.h \
 	emuid.h \
 	event.h \
+	fileio.h \
 	findpath.h \
 	fixpoint.h \
 	fsdevice.h \
@@ -110,6 +112,7 @@ noinst_HEADERS = \
 	plus4ui.h \
 	printer.h \
 	ram.h \
+	rawfile.h \
 	resources.h \
 	riot.h \
 	romset.h \
@@ -175,9 +178,9 @@ base_sources = \
 	machine.c \
 	main.c \
 	mouse.c \
-	p00.c \
 	palette.c \
 	ram.c \
+	rawfile.c \
 	resources.c \
 	romset.c \
 	screenshot.c \
@@ -220,6 +223,7 @@ driveiecieee_lib = $(top_builddir)/src/drive/iecieee/libdriveiecieee.a
 driveieee_lib = $(top_builddir)/src/drive/ieee/libdriveieee.a
 drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
+fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
@@ -243,7 +247,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(serial_lib) $(core_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -306,6 +310,7 @@ x64-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	x64$(EXEEXT)
 
@@ -363,6 +368,7 @@ x128-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	@RESID_DEP@ \
 	x128$(EXEEXT)
@@ -411,6 +417,7 @@ xvic-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	xvic$(EXEEXT)
 
@@ -456,6 +463,7 @@ xpet-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	xpet$(EXEEXT)
 
@@ -501,6 +509,7 @@ xplus4-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	xplus4$(EXEEXT)
 
@@ -551,6 +560,7 @@ xcbm2-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
+	libfileio \
 	libcore \
 	xcbm2$(EXEEXT)
 
@@ -566,7 +576,7 @@ c1541_SOURCES = \
 	ioutil.c \
 	lib.c \
 	log.c \
-	p00.c \
+	rawfile.c \
 	resources.c \
 	util.c \
 	zfile.c \
@@ -581,6 +591,7 @@ c1541_LDADD = \
 	$(blockdev_lib) \
 	$(vdrive_lib) \
 	$(imagecontents_lib) \
+	$(fileio_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
@@ -594,8 +605,8 @@ petcat_SOURCES = \
 	ioutil.c \
 	lib.c \
 	log.c \
-	p00.c \
 	petcat.c \
+	rawfile.c \
 	resources.c \
 	util.c \
 	zfile.c \
@@ -603,14 +614,15 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	@ARCH_DIR@/uicmdline.o
+	@ARCH_DIR@/uicmdline.o \
+	$(fileio_lib) 
 
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo libserial libparallel libcore libiecbus @RESID_DEP@
+	libfsdevice libtape libarch libvicii libvdc libsid libcrtc libvideo
+	libserial libparallel libcore libiecbus libfileio @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -642,6 +654,8 @@ libdrivetcbm:
 	(cd drive && $(MAKE) libdrivetcbm)
 libgfxoutputdrv:
 	(cd gfxoutputdrv && $(MAKE))
+libfileio:
+	(cd fileio && $(MAKE))
 libfsdevice:
 	(cd fsdevice && $(MAKE))
 libiecbus:
