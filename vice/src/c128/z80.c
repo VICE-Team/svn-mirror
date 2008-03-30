@@ -34,9 +34,11 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mon.h"
+#include "mon_breakpoint.h"
 #include "types.h"
 #include "z80.h"
 #include "z80mem.h"
+#include "z80regs.h"
 
 /*#define TRACE*/
 
@@ -55,6 +57,7 @@ static WORD reg_iyl = 0;
 static WORD reg_sp = 0;
 static DWORD z80_reg_pc = 0;
 static BYTE reg_i = 0;
+static BYTE reg_r = 0;
 
 static BYTE iff1 = 0;
 static BYTE iff2 = 0;
@@ -82,6 +85,7 @@ void z80_trigger_dma(void)
 void z80_reset(void)
 {
     z80_reg_pc = 0;
+    z80_regs.reg_pc = 0;
     iff1 = 0;
     iff2 = 0;
     im_mode = 0;
@@ -350,10 +354,60 @@ static BYTE SZP[256] = {
 
 /* ------------------------------------------------------------------------- */
 
+z80_regs_t z80_regs;
+
+static void import_registers(void)
+{
+    reg_a = z80_regs.reg_af >> 8;
+    reg_f = z80_regs.reg_af & 0xff;
+    reg_b = z80_regs.reg_bc >> 8;
+    reg_c = z80_regs.reg_bc & 0xff;
+    reg_d = z80_regs.reg_de >> 8;
+    reg_e = z80_regs.reg_de & 0xff;
+    reg_h = z80_regs.reg_hl >> 8;
+    reg_l = z80_regs.reg_hl & 0xff;
+    reg_ixh = z80_regs.reg_ix >> 8;
+    reg_ixl = z80_regs.reg_ix & 0xff;
+    reg_iyh = z80_regs.reg_iy >> 8;
+    reg_iyl = z80_regs.reg_iy & 0xff;
+    reg_sp = z80_regs.reg_sp;
+    z80_reg_pc = (DWORD)z80_regs.reg_pc;
+    reg_i = z80_regs.reg_i;
+    reg_r = z80_regs.reg_r;
+    reg_a2 = z80_regs.reg_af2 >> 8;
+    reg_f2 = z80_regs.reg_af2 & 0xff;
+    reg_b2 = z80_regs.reg_bc2 >> 8;
+    reg_c2 = z80_regs.reg_bc2 & 0xff;
+    reg_d2 = z80_regs.reg_de2 >> 8;
+    reg_e2 = z80_regs.reg_de2 & 0xff;
+    reg_h2 = z80_regs.reg_hl2 >> 8;
+    reg_l2 = z80_regs.reg_hl2 & 0xff;
+}
+
+static void export_registers(void)
+{
+    z80_regs.reg_af = (reg_a << 8) | reg_f;
+    z80_regs.reg_bc = (reg_b << 8) | reg_c;
+    z80_regs.reg_de = (reg_d << 8) | reg_e;
+    z80_regs.reg_hl = (reg_h << 8) | reg_l;
+    z80_regs.reg_ix = (reg_ixh << 8) | reg_ixl;
+    z80_regs.reg_iy = (reg_iyh << 8) | reg_iyl;
+    z80_regs.reg_sp = reg_sp;
+    z80_regs.reg_pc = (WORD)z80_reg_pc;
+    z80_regs.reg_i = reg_i;
+    z80_regs.reg_r = reg_r;
+    z80_regs.reg_af2 = (reg_a2 << 8) | reg_f2;
+    z80_regs.reg_bc2 = (reg_b2 << 8) | reg_c2;
+    z80_regs.reg_de2 = (reg_d2 << 8) | reg_e2;
+    z80_regs.reg_hl2 = (reg_h2 << 8) | reg_l2;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Interrupt handling.  */
 
 #define DO_INTERRUPT(int_kind)                                               \
-  do {                                                                       \
+    do {                                                                     \
         BYTE ik = (int_kind);                                                \
                                                                              \
         if (ik & (IK_IRQ | IK_NMI)) {                                        \
@@ -389,9 +443,11 @@ static BYTE SZP[256] = {
         }                                                                    \
         if (ik & (IK_TRAP | IK_RESET)) {                                     \
             if (ik & IK_TRAP) {                                              \
-                interrupt_do_trap(cpu_int_status, (ADDRESS) z80_reg_pc);     \
+                export_registers();                                          \
+                interrupt_do_trap(cpu_int_status, (ADDRESS)z80_reg_pc);      \
+                import_registers();                                          \
                 if (interrupt_check_pending_interrupt(cpu_int_status)        \
-                                                      & IK_RESET)            \
+                    & IK_RESET)                                              \
                     ik |= IK_RESET;                                          \
             }                                                                \
             if (ik & IK_RESET) {                                             \
@@ -401,20 +457,23 @@ static BYTE SZP[256] = {
         }                                                                    \
         if (ik & (IK_MONITOR)) {                                             \
             caller_space = e_comp_space;                                     \
+            if (mon_force_import(e_comp_space))                              \
+                import_registers();                                          \
+            if (mon_mask[e_comp_space])                                      \
+                export_registers();                                          \
             if (mon_mask[e_comp_space] & (MI_BREAK)) {                       \
-               if (check_breakpoints(e_comp_space, (ADDRESS) z80_reg_pc)) {  \
-                  mon((ADDRESS) z80_reg_pc);                                 \
-               }                                                             \
+                if (check_breakpoints(e_comp_space, (ADDRESS)z80_reg_pc)) {  \
+                   mon((ADDRESS)z80_reg_pc);                                 \
+                }                                                            \
             }                                                                \
             if (mon_mask[e_comp_space] & (MI_STEP)) {                        \
-               mon_check_icount((ADDRESS) z80_reg_pc);                       \
+                mon_check_icount((ADDRESS)z80_reg_pc);                       \
             }                                                                \
             if (mon_mask[e_comp_space] & (MI_WATCH)) {                       \
-               mon_check_watchpoints((ADDRESS) z80_reg_pc);                  \
+                mon_check_watchpoints((ADDRESS)z80_reg_pc);                  \
             }                                                                \
         }                                                                    \
-                                                                             \
-  } while (0)
+    } while (0)
 
 /* ------------------------------------------------------------------------- */
 
@@ -5298,6 +5357,8 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
 {
     opcode_t opcode;
 
+    import_registers();
+
     z80mem_set_bank_pointer(&z80_bank_base, &z80_bank_limit);
 
     dma_request = 0;
@@ -5310,7 +5371,8 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
         {
             enum cpu_int pending_interrupt;
 
-            pending_interrupt = interrupt_check_pending_interrupt(cpu_int_status);
+            pending_interrupt
+                = interrupt_check_pending_interrupt(cpu_int_status);
             if (pending_interrupt != IK_NONE) {
                 DO_INTERRUPT(pending_interrupt);
                 while (CLK >= alarm_context_next_pending_clk(cpu_alarm_context))
@@ -6101,5 +6163,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             break;
         }
     } while (!dma_request);
+
+    export_registers();
 }
 
