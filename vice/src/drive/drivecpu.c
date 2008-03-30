@@ -525,11 +525,16 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define DMA_ON_RESET
 
-#define _drive_set_byte_ready(value) drv->drive_ptr->byte_ready = value
+#define _drive_byte_ready_egde_clear()                \
+    do {                                              \
+        if (drv->drive_ptr->byte_ready_active == 0x6) \
+            drive_rotate_disk(drv->drive_ptr);        \
+        drv->drive_ptr->byte_ready_edge = 0;          \
+    } while (0)
 
 #define _drive_byte_ready() ((drv->drive_ptr->byte_ready_active == 0x6) \
                                 ? drive_rotate_disk(drv->drive_ptr),    \
-                                drv->drive_ptr->byte_ready : 0)         \
+                                drv->drive_ptr->byte_ready_edge : 0)    \
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (drv->cpu.d_bank_limit)
