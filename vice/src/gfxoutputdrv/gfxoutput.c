@@ -160,3 +160,22 @@ gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
     return current->drv;
 }
 
+int  gfxoutput_resources_init()
+{
+#ifdef HAVE_FFMPEG
+    if (ffmpegdrv_resources_init() < 0)
+        return -1;
+#endif
+
+    return 0;
+}
+
+int gfxoutput_cmdline_options_init()
+{
+#ifdef HAVE_FFMPEG
+    if (ffmpegdrv_cmdline_options_init() < 0)
+        return -1;
+#endif
+
+    return 0;
+}

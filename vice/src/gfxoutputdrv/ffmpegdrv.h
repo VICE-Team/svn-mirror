@@ -39,5 +39,7 @@ extern void gfxoutput_init_ffmpeg(void);
 extern void ffmpegdrv_init_audio(int speed, int channels, 
                                ffmpegdrv_audio_in_t** audio_in);
 extern void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in);
+extern int  ffmpegdrv_resources_init();
+extern int ffmpegdrv_cmdline_options_init();
 
 #endif

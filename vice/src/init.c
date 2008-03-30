@@ -112,6 +112,10 @@ int init_resources(void)
         init_resource_fail("RAM");
         return -1;
     }
+    if (gfxoutput_resources_init() < 0) {
+        init_resource_fail("GFXOUTPUT");
+        return -1;
+    }
     return 0;
 }
 
@@ -186,7 +190,10 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("RAM");
         return -1;
     }
-
+    if (gfxoutput_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("GFXOUTPUT");
+        return -1;
+    }
     return 0;
 }
 
