@@ -69,7 +69,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int vicii_cmdline_options_init(void)
 {
-    if (raster_cmdline_options_chip_init("VICII", vic_ii.video_chip_cap) < 0)
+    if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0)
         return -1;
 
     return cmdline_register_options(cmdline_options);

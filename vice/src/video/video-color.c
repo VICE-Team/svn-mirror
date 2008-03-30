@@ -337,7 +337,7 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
         return NULL;
 
     if (!console_mode && !vsid_mode && palette_load(name, palette) < 0) {
-        /* log_message(vic_ii.log, "Cannot load palette file `%s'.", name); */
+        /* log_message(vicii.log, "Cannot load palette file `%s'.", name); */
         return NULL;
     }
 
