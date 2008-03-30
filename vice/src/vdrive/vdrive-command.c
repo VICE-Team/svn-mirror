@@ -583,9 +583,11 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
         slot[SLOT_TYPE_OFFSET] = dest_filetype; /* FIXME: is this right? */
 
     /* Update the directory.  */
-    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-                       vdrive->Curr_track, vdrive->Curr_sector);
-    return(IPE_OK);
+    if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+        vdrive->Curr_track, vdrive->Curr_sector) < 0)
+        return IPE_WRITE_ERROR;
+
+    return IPE_OK;
 }
 
 static int vdrive_command_initialize(vdrive_t *vdrive)
@@ -660,8 +662,9 @@ int vdrive_command_validate(vdrive_t *vdrive)
             }
         } else {
             *filetype = FT_DEL;
-            disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
-                                    vdrive->Curr_track, vdrive->Curr_sector);
+            if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                vdrive->Curr_track, vdrive->Curr_sector) < 0)
+                return IPE_WRITE_ERROR;
         }
     }
 
@@ -715,8 +718,12 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     /* Make the first dir-entry.  */
     memset(tmp, 0, 256);
     tmp[1] = 255;
-    disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
-                            vdrive->Dir_Sector);
+
+    if (disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
+        vdrive->Dir_Sector) < 0) {
+        free(name);
+        return IPE_WRITE_ERROR;
+    }
 
     vdrive_bam_create_empty_bam(vdrive, name, id);
     vdrive_bam_write_bam(vdrive);

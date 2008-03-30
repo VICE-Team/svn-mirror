@@ -323,7 +323,7 @@ void vdrive_detach_image(disk_image_t *image, unsigned int unit,
         log_message(vdrive_log, "Unit %d: D82 disk image detached: %s.",
                     unit, image->name);
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         log_message(vdrive_log, "Unit %d: GCR disk image detached: %s.",
                     unit, image->name);
         break;
@@ -374,7 +374,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8250;
         vdrive->num_tracks = image->tracks;
         break;
-      case DISK_IMAGE_TYPE_GCR:
+      case DISK_IMAGE_TYPE_G64:
         log_message(vdrive_log, "Unit %d: GCR disk image attached: %s.",
                     vdrive->unit, image->name);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
@@ -522,17 +522,20 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name)
     return vdrive;
 }
 
-void vdrive_internal_close_disk_image(vdrive_t *vdrive)
+int vdrive_internal_close_disk_image(vdrive_t *vdrive)
 {
     disk_image_t *image;
 
     image = vdrive->image;
 
     vdrive_detach_image(image, 100, vdrive);
-    disk_image_close(image);
+    if (disk_image_close(image) < 0)
+        return -1;
 
     free(image);
     free(vdrive);
+
+    return 0;
 }
 
 int vdrive_internal_format_disk_image(const char *filename,
@@ -540,6 +543,7 @@ int vdrive_internal_format_disk_image(const char *filename,
 {
     vdrive_t *vdrive;
     const char *format_name;
+    int status = 0;
 
     format_name = (disk_name == NULL) ? " " : disk_name;
 
@@ -548,17 +552,24 @@ int vdrive_internal_format_disk_image(const char *filename,
     if (vdrive == NULL)
         return -1;
 
-    vdrive_command_format(vdrive, format_name);
-    vdrive_internal_close_disk_image(vdrive);
+    if (vdrive_command_format(vdrive, format_name) != IPE_OK)
+        status = -1;
 
-    return 0;
+    if (vdrive_internal_close_disk_image(vdrive) < 0)
+        return -1;
+
+    return status;
 }
 
 int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
                                              int type)
 {
-    disk_image_create(filename, type);
-    return vdrive_internal_format_disk_image(filename, diskname);
+    if (disk_image_create(filename, type) < 0)
+        return -1;
+    if (vdrive_internal_format_disk_image(filename, diskname) < 0)
+        return -1;
+
+    return 0;
 }
 
