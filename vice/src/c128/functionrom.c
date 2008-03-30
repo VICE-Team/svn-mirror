@@ -165,22 +165,22 @@ static int functionrom_load_external(void)
     return 0;
 }
 
-BYTE REGPARM1 internal_function_rom_read(ADDRESS addr)
+BYTE REGPARM1 internal_function_rom_read(WORD addr)
 {
     return int_function_rom[addr & 0x7fff];
 }
 
-void REGPARM2 internal_function_rom_store(ADDRESS addr, BYTE value)
+void REGPARM2 internal_function_rom_store(WORD addr, BYTE value)
 {
     int_function_rom[addr & 0x7fff] = value;
 }
 
-BYTE REGPARM1 external_function_rom_read(ADDRESS addr)
+BYTE REGPARM1 external_function_rom_read(WORD addr)
 {
     return ext_function_rom[addr & 0x3fff];
 }
 
-void REGPARM2 external_function_rom_store(ADDRESS addr, BYTE value)
+void REGPARM2 external_function_rom_store(WORD addr, BYTE value)
 {
     ext_function_rom[addr & 0x3fff] = value;
 }

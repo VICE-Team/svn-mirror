@@ -64,24 +64,24 @@ extern void mem_update_config(int config);
 extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
 
-extern BYTE REGPARM1 top_shared_read(ADDRESS addr);
-extern void REGPARM2 top_shared_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 top_shared_read(WORD addr);
+extern void REGPARM2 top_shared_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 d7xx_read(ADDRESS addr);
-extern void REGPARM2 d7xx_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 d7xx_read(WORD addr);
+extern void REGPARM2 d7xx_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 lo_read(ADDRESS addr);
-extern void REGPARM2 lo_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 lo_read(WORD addr);
+extern void REGPARM2 lo_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 rom64_read(ADDRESS addr);
-extern void REGPARM2 rom64_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 rom64_read(WORD addr);
+extern void REGPARM2 rom64_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 basic_read(ADDRESS addr);
-extern void REGPARM2 basic_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 kernal_read(ADDRESS addr);
-extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 chargen_read(ADDRESS addr);
-extern void REGPARM2 chargen_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 basic_read(WORD addr);
+extern void REGPARM2 basic_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 kernal_read(WORD addr);
+extern void REGPARM2 kernal_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 chargen_read(WORD addr);
+extern void REGPARM2 chargen_store(WORD addr, BYTE value);
 
 extern BYTE *ram_bank;
 

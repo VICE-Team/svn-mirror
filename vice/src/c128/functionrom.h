@@ -32,10 +32,10 @@
 extern BYTE int_function_rom[];
 extern BYTE ext_function_rom[];
 
-extern BYTE REGPARM1 internal_function_rom_read(ADDRESS addr);
-extern void REGPARM2 internal_function_rom_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 external_function_rom_read(ADDRESS addr);
-extern void REGPARM2 external_function_rom_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 internal_function_rom_read(WORD addr);
+extern void REGPARM2 internal_function_rom_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 external_function_rom_read(WORD addr);
+extern void REGPARM2 external_function_rom_store(WORD addr, BYTE value);
 
 extern int functionrom_resources_init(void);
 extern int functionrom_cmdline_options_init(void);

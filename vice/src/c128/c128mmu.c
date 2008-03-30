@@ -165,7 +165,7 @@ void mmu_set_config64(int config)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 mmu_read(ADDRESS addr)
+BYTE REGPARM1 mmu_read(WORD addr)
 {
     vicii_handle_pending_alarms_external(0);
 
@@ -189,7 +189,7 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 }
 
 
-void REGPARM2 mmu_store(ADDRESS address, BYTE value)
+void REGPARM2 mmu_store(WORD address, BYTE value)
 {
     vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
@@ -249,7 +249,7 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 
 /* $FF00 - $FFFF: RAM, Kernal or internal function ROM, with MMU at
    $FF00 - $FF04.  */
-BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
+BYTE REGPARM1 mmu_ffxx_read(WORD addr)
 {
     if (addr >= 0xff00 && addr <= 0xff04)
         return mmu[addr & 0xf];
@@ -262,7 +262,7 @@ BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
     return top_shared_read(addr);
 }
 
-BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
+BYTE REGPARM1 mmu_ffxx_read_z80(WORD addr)
 {
     if (addr >= 0xff00 && addr <= 0xff04)
         return mmu[addr & 0xf];
@@ -270,7 +270,7 @@ BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
     return top_shared_read(addr);
 }
 
-void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
+void REGPARM2 mmu_ffxx_store(WORD addr, BYTE value)
 {
     if (addr == 0xff00) {
         mmu_store(0, value);
@@ -299,7 +299,7 @@ void mmu_init(void)
 
 void mmu_reset(void)
 {
-    ADDRESS i;
+    WORD i;
 
     for (i = 0; i < 0xb; i++)
         mmu[i] = 0;
