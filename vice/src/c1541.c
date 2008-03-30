@@ -1517,7 +1517,7 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
 
 	/* get geos file structure and geos file type */
 	BYTE geosFileStruc = drives[unit]->buffers[0].slot[SLOT_GEOS_FILE_STRUC];
-	BYTE geosFileType  = drives[unit]->buffers[0].slot[SLOT_GEOS_FILE_TYPE];
+	/*BYTE geosFileType  = drives[unit]->buffers[0].slot[SLOT_GEOS_FILE_TYPE];*/
 
 	BYTE infoBlock[256];
 	BYTE vlirBlock[256];
