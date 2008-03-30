@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uidrivec64vic20.h"
 #include "uilib.h"
+#include "uirom.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
@@ -51,6 +52,16 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { NULL, 0 }
+};
+
+static const uirom_settings_t uirom_settings[] = {
+    { "Kernal", "KernalName",
+      IDC_VIC20ROM_KERNAL_FILE, IDC_VIC20ROM_KERNAL_BROWSE },
+    { "Basic", "BasicName",
+      IDC_VIC20ROM_BASIC_FILE, IDC_VIC20ROM_BASIC_BROWSE },
+    { "Character", "ChargenName",
+      IDC_VIC20ROM_CHARGEN_FILE, IDC_VIC20ROM_CHARGEN_BROWSE },
+    { NULL, NULL, 0, 0 }
 };
 
 static const ui_cartridge_params vic20_ui_cartridges[] = {
@@ -129,6 +140,10 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIC_SETTINGS:
         ui_vic_settings_dialog(hwnd);
+        break;
+      case IDM_ROM_SETTINGS:
+        uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG,
+                              uirom_settings); 
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);
