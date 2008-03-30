@@ -55,7 +55,7 @@
 
 
 int parallel_debug = 0;
-int parallel_emu = 1;
+static int parallel_emu = 1;
 
 void parallel_bus_enable(int enable)
 {
@@ -154,7 +154,7 @@ static const char *Trans[NTRANS] = {
 };
 
 static State_t State[NSTATE];
-int state = WaitATN;
+static int state = WaitATN;
 
 #define Go(a)           state=(a);return
 #define isListening()   ((par_status&0xf000)==0x2000)

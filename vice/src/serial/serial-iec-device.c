@@ -169,7 +169,7 @@ static int serial_iec_device_inited = 0;
 static serial_iec_device_state_t serial_iec_device_state[IECBUS_NUM];
 
 
-void serial_iec_device_clk_overflow_callback(CLOCK sub, void *data)
+static void serial_iec_device_clk_overflow_callback(CLOCK sub, void *data)
 {
   int i;
 
