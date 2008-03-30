@@ -1,8 +1,9 @@
 /*
- * tapeunit.c - (Guess what?) Tape unit emulation.
+ * emuid.h -- Emulator ID for use in the different emulators.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,22 +25,5 @@
  *
  */
 
-#ifndef _TAPEUNIT_H
-#define _TAPEUNIT_H
+extern BYTE emulator_id[];
 
-#include "tape.h"
-#include "traps.h"
-
-/* Global functions */
-extern void tape_detach_image(TAPE *tape);
-extern int tape_attach_image(TAPE *tape, const char *name, int mode);
-extern int check_tape(void);
-extern int tape_init(int bufpaddr, int status, int verfl, int irqtmp, 
-		ADDRESS irqval, int stal, int eal, const trap_t *tape,
-		int kbdbuf, int nkeys);
-extern void findheader (void);
-extern void writeheader (void);
-/* extern void checkplay (void); */
-extern void tapereceive (void);
-
-#endif /* ndef _TAPEUNIT_H */

@@ -40,6 +40,7 @@
 #include "types.h"
 
 #include "cmdline.h"
+#include "mem.h"
 #include "crtc.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -112,9 +113,15 @@ typedef struct {
  */
 
 static piareg  pia1, pia2;
+static int tape1_sense = 0;
+static int is_peek_access = 0;
 
 /* ------------------------------------------------------------------------- */
 
+void mem_set_tape_sense(int v)
+{
+    tape1_sense = v;
+}
 
 void    reset_pia1(void)
 {
@@ -129,6 +136,8 @@ void    reset_pia1(void)
 
    par_set_eoi(0);	/* CA2 input mode -> pin goes high -> EOI not set */
    crtc_screen_enable(1);
+
+   is_peek_access = 0;
 
    maincpu_set_irq(I_PIA1, IK_NONE);
 }
@@ -304,10 +313,14 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 
       case P_PORT_A: /* port A */
 	if (pia1.ctrl_a & 4) {
-	    pia1.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
-	    pia1_update_irq();
+
+	    if(!is_peek_access) {
+	        pia1.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
+	        pia1_update_irq();
+	    }
 
 	    inbyte = 0xff
+			- (tape1_sense ? 16 : 0)
 			- (par_eoi ? 64 : 0)
 			- (diagnostic_pin_enabled ? 128 : 0);
 	    return ((inbyte & ~pia1.ddr_a) | (pia1.port_a & pia1.ddr_a));
@@ -329,8 +342,10 @@ E812	PORT B	7-0 Contents of keyboard row
 	    int     row;
 	    BYTE    j = 0xFF;
 
-	    pia1.ctrl_b &= 0x3f;		/* Clear CB1,CB2 IRQ */
-	    pia1_update_irq();
+	    if(!is_peek_access) {
+	        pia1.ctrl_b &= 0x3f;		/* Clear CB1,CB2 IRQ */
+	        pia1_update_irq();
+	    }
 
 	    row = pia1.port_a & 15;
 
@@ -452,8 +467,11 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
       case P_PORT_A: /* port A */
 	if (pia2.ctrl_a & 4) {
-	    pia2.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
-	    pia2_update_irq();
+
+	    if(!is_peek_access) {
+	        pia2.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
+	        pia2_update_irq();
+	    }
 
 	    if (pardebug)
 		printf("read pia2 port A %x, par_bus=%x, gives %x\n",
@@ -466,8 +484,11 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
       case P_PORT_B: /* port B */
 	if (pia2.ctrl_b & 4) {
-	    pia2.ctrl_b &= 0x3f;		/* Clear CB1,CB2 IRQ */
-	    pia2_update_irq();
+
+	    if(!is_peek_access) {
+	        pia2.ctrl_b &= 0x3f;		/* Clear CB1,CB2 IRQ */
+	        pia2_update_irq();
+	    }
 
 	    if (pardebug)
 		printf("read pia2 port B %x, par_bus=%x, gives %x\n",
@@ -493,3 +514,25 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
     return (0xFF);
 }
+
+
+BYTE REGPARM1 peek_pia1(ADDRESS addr)
+{
+    BYTE t;
+    is_peek_access = 1;
+    t = read_pia1(addr);
+    is_peek_access = 0;
+    return t;
+}
+
+BYTE REGPARM1 peek_pia2(ADDRESS addr)
+{
+    BYTE t;
+    is_peek_access = 1;
+    t = read_pia2(addr);
+    is_peek_access = 0;
+    return t;
+}
+
+
+

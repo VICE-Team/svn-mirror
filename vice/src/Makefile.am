@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	cia.h \
 	cmdline.h \
 	config.h.in \
+	emuid.h \
 	drive.h \
 	file.h \
 	findpath.h \
@@ -56,6 +57,7 @@ noinst_HEADERS = \
 	sysfile.h \
 	tape.h \
 	tapeunit.h \
+	tpi.h \
 	traps.h \
 	types.h \
 	utils.h \
@@ -74,6 +76,7 @@ base_sources = \
 	charsets.c \
 	cmdline.c \
 	drive.c \
+	emuid.c \
 	findpath.c \
 	fsdevice.c \
 	gcr.c \
@@ -113,6 +116,7 @@ EXTRA_DIST = \
 	cia-tmpl.c \
 	convio \
 	raster.c \
+	tpi-tmpl.c \
 	via-tmpl.c
 
 BUILT_SOURCES = mon_parse.h mon_parse.c

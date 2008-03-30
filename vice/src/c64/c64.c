@@ -241,13 +241,15 @@ int machine_init(void)
 #endif
 
     /* Initialize the tape emulation.  */
-    tape_init(c64_tape_traps);
+    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, c64_tape_traps,
+	0x277, 0xc6);
 
     /* Fire up the hardware-level 1541 emulation.  */
     true1541_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1);
+    autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1,
+	0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)

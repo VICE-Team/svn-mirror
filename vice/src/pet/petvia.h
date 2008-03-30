@@ -29,6 +29,7 @@
 
 void reset_via(void);
 BYTE REGPARM1 read_via(ADDRESS addr);
+BYTE REGPARM1 peek_via(ADDRESS addr);
 void REGPARM2 store_via(ADDRESS addr, BYTE value);
 int int_viat1(long offset);
 int int_viat2(long offset);

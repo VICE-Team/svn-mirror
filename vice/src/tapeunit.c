@@ -67,13 +67,21 @@
 
 /* #define  DEBUG_TAPE */
 
-/* Warning: this only works for C64!  (FIXME!)  */
-#define SET_ST(b)	   mem_store(0x90, (mem_read(0x90) | b))
-#define BSOUR		   0x95	/* Buffered Character for Serial Bus */
-#define TMP_IN		   0xA4	/* Temp Data Area */
-#define CAS_BUFFER_OFFSET  (ram[0xB2] | (ram[0xB3] << 8))  /* C64,128 TAPE1 */
-#define VERCK		   0x93
-#define IRQTMP             0x02A0
+#define SET_ST(b)	   mem_store(status, (mem_read(status) | b))
+#define CAS_BUFFER_OFFSET  (mem_read(bufpaddr) | (mem_read(bufpaddr+1) << 8))
+
+/* CPU addresses for tape routine variables */
+static int bufpaddr;
+static int status;
+static int verfl;
+static int irqtmp;
+static int stal;
+static int eal;
+static int kbdbuf;
+static int nkeys;
+static ADDRESS irqval;
+
+static int tape_is_initialized = 0;
 
 static int  fn (void);
 static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf);
@@ -88,15 +96,31 @@ static char *typenames[] = {
 /* ------------------------------------------------------------------------- */
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
-int tape_init(const trap_t *trap_list)
+int tape_init(int _bufpaddr, int _status, int _verfl, int _irqtmp, 
+		ADDRESS _irqval, int _stal, int _eal, const trap_t *trap_list,
+		int _kbdbuf, int _nkeys)
 {
     const trap_t *p;
+
+    /* set addresses of tape routine variables */
+    status 	= _status;
+    bufpaddr 	= _bufpaddr;
+    verfl 	= _verfl;
+    irqtmp	= _irqtmp;
+    irqval	= _irqval;
+    stal 	= _stal;
+    eal 	= _eal;
+    kbdbuf 	= _kbdbuf;
+    nkeys 	= _nkeys;
 
     tape_traps = trap_list;
     if (tape_traps != 0) {
         for (p = tape_traps; p->func != NULL; p++)
             traps_add(p);
     }
+
+    if(tape_is_initialized) return 0;
+    tape_is_initialized = 1;
 
     /*
      * Create instance of the tape
@@ -162,6 +186,8 @@ static int is_valid_prgfile(FILE *fd)
     /* check load address */
     if (fread(tmp, 1, 2, fd) != 2)
 	return 1;
+
+    /* FIXME: VIC20 and C128 - works for PET and C64 */
     if (tmp[0] == 1 && (tmp[1] == 8 || tmp[1] == 4))
 	ret = 1;
 
@@ -264,7 +290,7 @@ int   tape_attach_image(TAPE *tape, const char *name, int mode)
 	    format = TFF_CBM;
 	} else {
 #ifdef DEBUG_TAPE
-	    printf ("Tape: realtype %d  entries %d.\n", realtype, entries);
+	    printf ("Tape: realtype %d  entries %d.\n", format, entries);
 #endif
 	    fprintf (stderr, "Tape: Invalid fileformat.\n");
 	    return -1;
@@ -277,7 +303,7 @@ int   tape_attach_image(TAPE *tape, const char *name, int mode)
     strcpy(tape->ActiveName, name);
 
 #ifdef DEBUG_TAPE
-    printf ("Tape: realtype %d  entries %d.\n", realtype, entries);
+    printf ("Tape: realtype %d  entries %d.\n", format, entries);
 #endif
 
     printf ("Tape file '%s' [%s] attached.\n", name, typenames[format]);
@@ -337,6 +363,10 @@ void findheader (void)
 	err++;
     }
 
+#ifdef DEBUG_TAPE
+    fprintf(stderr,"findheader\n");
+#endif
+
     /*
      * Load next filename record
      */
@@ -349,7 +379,7 @@ void findheader (void)
 	switch (tape->ImageFormat) {
 	case TFF_P00:
 	  DirP00 (tape->FileDs, (char *)(s + CAS_NAME_OFFSET), &start, &end);
-	  s[CAS_TYPE_OFFSET]  = CAS_TYPE_BAS;
+	  s[CAS_TYPE_OFFSET]  = CAS_TYPE_PRG;
 	  s[CAS_STAD_OFFSET]   = start & 0xFF;
 	  s[CAS_STAD_OFFSET+1] = (start >> 8) & 0xFF;
 	  s[CAS_ENAD_OFFSET]   = end & 0xFF;
@@ -369,7 +399,7 @@ void findheader (void)
 	  {
 	      start = s[CAS_STAD_OFFSET] + s[CAS_STAD_OFFSET+1]*256;
 	      end = start + file_length(fileno(tape->FileDs)) - 2;
-	      s[CAS_TYPE_OFFSET] = CAS_TYPE_BAS;
+	      s[CAS_TYPE_OFFSET] = CAS_TYPE_PRG;
 	      s[CAS_ENAD_OFFSET] = end & 0xff;
 	      s[CAS_ENAD_OFFSET+1] = (end >> 8) & 0xff;
 	      s[CAS_NAME_OFFSET] = 0;
@@ -400,9 +430,9 @@ void findheader (void)
     }
 
 
-    if (err)
+    if (err) {
 	s[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
-
+    }
 
 #ifdef DEBUG_TAPE
     fprintf (stderr, "Tape: find next header (type %d).\n",
@@ -411,24 +441,25 @@ void findheader (void)
     printf (" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac],  ram[0xaf], ram[0xae],
-	   ram[0xc2], ram[0xc1],  ram[0xc4], ram[0xc3]);
+	   ram[0xad], ram[0xac],  ram[eal+1], ram[eal],
+	   ram[stal+1], ram[stal],  ram[0xc4], ram[0xc3]);
 #endif
 
+    mem_store(status, 0);			/* Clear the STATUS word */
 
-    /* FIXME: Only works for C64 */
-    mem_store(0x90, 0);			/* Clear the STATUS word */
-
-    ram[VERCK] = 0;
-    ram[IRQTMP] = 0;
+    mem_store(verfl, 0);
+    if(irqtmp) {
+	mem_store(irqtmp, irqval & 0xff);
+	mem_store(irqtmp+1, (irqval >> 8) & 0xff);
+    }
 
     /* Check if STOP has been pressed.  FIXME: only works with C64.  */
     {
-	int i, n = mem_read(0xC6);
+	int i, n = mem_read(nkeys);
 
 	maincpu_regs.p.c = 0;
 	for (i = 0; i < n; i++)
-	    if (mem_read(0x277 + i) == 0x3) {
+	    if (mem_read(kbdbuf + i) == 0x3) {
 		maincpu_regs.p.c = 1;	/* Carry set flags BREAK error. */
 		break;
 	    }
@@ -449,9 +480,13 @@ void writeheader (void)
 {
     BYTE  *s;
     int    sense = 0;
+#ifdef DEBUG_TAPE
+    fprintf(stderr,"writeheader\n");
+#endif
 
-    if (tape->FileDs == NULL)
+    if (tape->FileDs == NULL) {
 	fprintf(stderr, "No Tape.\n");
+    }
 
     /* Write the filename record on tape */
 
@@ -503,12 +538,15 @@ void writeheader (void)
     printf (" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac],  ram[0xaf], ram[0xae],
-	   ram[0xc2], ram[0xc1],  ram[0xc4], ram[0xc3]);
+	   ram[0xad], ram[0xac],  ram[eal+1], ram[eal],
+	   ram[stal+1], ram[stal],  ram[0xc4], ram[0xc3]);
 #endif
 
 
-    ram[IRQTMP] = 0;
+    if(irqtmp) {
+        mem_store(irqtmp, irqval & 0xff);
+        mem_store(irqtmp+1, (irqval >> 8) & 0xff);
+    }
 
     maincpu_regs.p.c = 0;     /* Carry flag sets BREAK error */
     maincpu_regs.p.z = 1;
@@ -552,18 +590,18 @@ void tapereceive (void)
     int   st = 0;
 
 
-    start = (ram[0xc1] | (ram[0xc2] << 8)); /* C64: STAL */
-    end   = (ram[0xae] | (ram[0xaf] << 8)); /* C64: EAL */
+    start = (mem_read(stal) | (mem_read(stal+1) << 8)); /* C64: STAL */
+    end   = (mem_read(eal) | (mem_read(eal+1) << 8)); /* C64: EAL */
 
 #ifdef DEBUG_TAPE
-    fprintf (stderr, "Tape: start %04X  end %04X  vector %02X\n",
-	   start, end, XR);
+    fprintf (stderr, "TapeReceive: start %04X  end %04X\n",
+	   start, end);
 
     printf (" BUF (b2/b3) %04X   SAL  ac/ad %02X%02X     EAL ae/af %02X%02X\n\
 \t\t    STAL c1/c2 %02X%02X  MEMUSS c3/c4 %02X%02X\n",
 	   CAS_BUFFER_OFFSET,
-	   ram[0xad], ram[0xac],  ram[0xaf], ram[0xae],
-	   ram[0xc2], ram[0xc1],  ram[0xc4], ram[0xc3]);
+	   ram[0xad], ram[0xac],  ram[eal+1], ram[eal],
+	   ram[stal+1], ram[stal],  ram[0xc4], ram[0xc3]);
 #endif
 
 
@@ -622,10 +660,14 @@ void tapereceive (void)
      * Set up serial success / data
      */
 
-    ram[IRQTMP] = 0;
+    if(irqtmp) {
+        mem_store(irqtmp, irqval & 0xff);
+        mem_store(irqtmp+1, (irqval >> 8) & 0xff);
+    }
 
     SET_ST(st);			/* EOF and possible errors */
     maincpu_regs.p.c = 0;
+    maincpu_regs.p.i = 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -681,7 +723,7 @@ static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf)
 		}
 	    }  /* pattern */
 
-	    cbuf[CAS_TYPE_OFFSET] = CAS_TYPE_BAS;
+	    cbuf[CAS_TYPE_OFFSET] = CAS_TYPE_PRG;
 	    memcpy (cbuf + CAS_STAD_OFFSET, dirp + 2, 4);
 	    memcpy (cbuf + CAS_NAME_OFFSET, dirp + 16, 16);
 

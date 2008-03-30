@@ -1,8 +1,8 @@
 /*
- * tapeunit.c - (Guess what?) Tape unit emulation.
+ * tpi.h - chip register definitions
  *
- * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ * Written by 
+ *   Andre' Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,22 +24,18 @@
  *
  */
 
-#ifndef _TAPEUNIT_H
-#define _TAPEUNIT_H
+#ifndef _TPI_H
+#define _TPI_H
 
-#include "tape.h"
-#include "traps.h"
+#define	TPI_PA		0
+#define	TPI_PB		1
+#define	TPI_PC		2
+#define	TPI_ILR		2
+#define	TPI_DDPA	3
+#define	TPI_DDPB	4
+#define	TPI_DDPC	5
+#define	TPI_MIR		5
+#define	TPI_CREG	6
+#define	TPI_AIR		7
 
-/* Global functions */
-extern void tape_detach_image(TAPE *tape);
-extern int tape_attach_image(TAPE *tape, const char *name, int mode);
-extern int check_tape(void);
-extern int tape_init(int bufpaddr, int status, int verfl, int irqtmp, 
-		ADDRESS irqval, int stal, int eal, const trap_t *tape,
-		int kbdbuf, int nkeys);
-extern void findheader (void);
-extern void writeheader (void);
-/* extern void checkplay (void); */
-extern void tapereceive (void);
-
-#endif /* ndef _TAPEUNIT_H */
+#endif /* _TPI_H */

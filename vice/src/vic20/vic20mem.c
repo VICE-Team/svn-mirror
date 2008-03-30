@@ -43,6 +43,7 @@
 #include "resources.h"
 #include "stdlib.h"
 #include "utils.h"
+#include "emuid.h"
 #include "vic.h"
 #include "vic20via.h"
 #include "vmachine.h"
@@ -59,6 +60,9 @@ static char *basic_rom_name;
 
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name;
+
+/* Flag: Do we enable the Emulator ID?  */
+static int emu_id_enabled;
 
 /* Flag: Do we have RAM block `n'?  */
 static int ram_block_0_enabled;
@@ -125,6 +129,17 @@ DEFINE_SET_BLOCK_FUNC(2)
 DEFINE_SET_BLOCK_FUNC(3)
 DEFINE_SET_BLOCK_FUNC(5)
 
+static int set_emu_id_enabled(resource_value_t v)
+{
+    emu_id_enabled = (int)v;
+}
+
+/* Enable/disable the Emulator ID.  */
+void mem_toggle_emu_id(int flag)
+{
+    emu_id_enabled = flag;
+}
+
 static resource_t resources[] = {
     { "ChargenName", RES_STRING, (resource_value_t) "chargen",
       (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
@@ -142,6 +157,8 @@ static resource_t resources[] = {
       (resource_value_t *) &ram_block_3_enabled, set_ram_block_3_enabled },
     { "RAMBlock5", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &ram_block_5_enabled, set_ram_block_5_enabled },
+    { "EmuID", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
     { NULL }
 };
 
@@ -281,6 +298,10 @@ static int cmdline_memory(const char *param, void *extra_param)
 static cmdline_option_t cmdline_options[] = {
     { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
       "<spec>", "Specify memory configuration" },
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
+      NULL, "Enable emulator identification" },
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
+      NULL, "Disable emulator identification" },
     { NULL }
 };
 
@@ -405,6 +426,17 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 	ret &= read_via1(addr);
 
     return ret;
+}
+
+static BYTE REGPARM1 read_emuid(ADDRESS addr)
+{
+    if(emu_id_enabled && addr >= 0x9fa0) {
+        addr &= 0xff;
+        if (addr == 0xff)
+            emulator_id[addr - 0xa0] ^= 0xff;
+        return emulator_id[addr - 0xa0];
+    }
+    return 0xff;
 }
 
 static BYTE REGPARM1 read_dummy(ADDRESS addr)
@@ -569,8 +601,13 @@ void initialize_memory(void)
     set_mem(0x94, 0x9b,
 	    read_ram, store_ram,
 	    ram, 0xffff);
-    set_mem(0x9c, 0x9f,
+    set_mem(0x9c, 0x9e,
 	    read_dummy, store_dummy,
+	    NULL, 0);
+
+    /* Setup emulator ID at $9F** */
+    set_mem(0x9f, 0x9f,
+	    read_emuid, store_dummy,
 	    NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */

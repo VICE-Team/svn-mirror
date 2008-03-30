@@ -150,7 +150,7 @@ int traps_add(const trap_t *t)
     int i;
     traplist_t *p;
 
-    DEBUG(("TRAPS: Adding trap `%s' at $%04X.\n", t->name, t->address));
+    DEBUG(("TRAPS: Adding trap `%s' at $%04X (enabled=%d).\n", t->name, t->address, !no_traps_enabled));
 
     p = (traplist_t *) xmalloc (sizeof (traplist_t));
     p->next = traplist;
@@ -208,9 +208,12 @@ int traps_remove(const trap_t *t)
 int traps_handler(void)
 {
     traplist_t *p = traplist;
+    DEBUG(("TRAPS: Checking for trap at PC=$%04X, p=%p.\n", maincpu_regs.pc,p));
 
     while (p) {
+        DEBUG(("TRAPS: check Address %04X\n", p->trap->address));
 	if (p->trap->address == maincpu_regs.pc) {
+            DEBUG(("TRAPS: Found %s\n", p->trap->name));
 	    (*p->trap->func)();
             maincpu_regs.pc = p->trap->resume_address;
             return 0;

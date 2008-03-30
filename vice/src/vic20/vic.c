@@ -73,7 +73,7 @@ static int video_cache_enabled;
 static int double_scan_enabled;
 
 /* Name of palette file.  */
-static char *palette_file;
+static char *palette_file_name;
 
 static int set_video_cache_enabled(resource_value_t v)
 {
@@ -81,14 +81,18 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
+/* prototype for resources - new function from raster.c */
+static int set_palette_file_name(resource_value_t v);
+#if 0
 static int set_palette_file(resource_value_t v)
 {
-    if (palette_file != NULL)
-        free(palette_file);
+    if (palette_file_name != NULL)
+        free(palette_file_name);
 
-    palette_file = stralloc((char *)v);
+    palette_file_name = stralloc((char *)v);
     return 0;
 }
+#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -112,7 +116,7 @@ static resource_t resources[] = {
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
-      (resource_value_t *) &palette_file, set_palette_file },
+      (resource_value_t *) &palette_file_name, set_palette_file_name },
     { NULL }
 };
 
@@ -160,7 +164,7 @@ int vic_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 static void set_memory_ptrs(void);
-static void init_drawing_table(void);
+static void init_drawing_tables(void);
 static int fill_cache(struct line_cache *l, int *xs, int *xe, int r);
 static void draw_line(void);
 static void draw_line_2x(void);
@@ -231,7 +235,7 @@ canvas_t vic_init(void)
     if (palette == NULL)
         return NULL;
 
-    if (palette_load(palette_file, palette) < 0) {
+    if (palette_load(palette_file_name, palette) < 0) {
         printf("Cannot load default palette.\n");
         return NULL;
     }
@@ -247,7 +251,7 @@ canvas_t vic_init(void)
     video_mode = VIC_STANDARD_MODE;
     set_memory_ptrs();
     refresh_all();
-    init_drawing_table();
+    init_drawing_tables();
 
     return canvas;
 }
@@ -477,7 +481,7 @@ static void set_memory_ptrs(void)
    used to speed up the drawing. */
 static WORD dwg_table[256][256][8];	/* [byte][color][position] */
 
-static void init_drawing_table(void)
+static void init_drawing_tables(void)
 {
     int byte, color, pos;
 

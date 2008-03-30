@@ -516,6 +516,47 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
     return (myvia[addr]);
 }
 
+BYTE REGPARM1 peek_myvia(ADDRESS addr)
+{
+    CLOCK rclk = myclk;
+
+    addr &= 0xf;
+
+    if(myviatai && (myviatai <= myclk)) int_myviat1(myclk - myviatai);
+    if(myviatbi && (myviatbi <= myclk)) int_myviat2(myclk - myviatbi);
+
+    switch (addr) {
+      case VIA_PRA:
+	return read_myvia(VIA_PRA_NHS);
+
+      case VIA_PRB: /* port B */
+	{
+	  BYTE byte;
+	  READ_PRB
+	  if(myvia[VIA_ACR] & 0x80) {
+	    update_myviatal();
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, myviapb7, myviapb7o, myviapb7ox, myviapb7x, myviapb7xx);*/
+	    byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
+
+	/* Timers */
+
+      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+	return myviata() & 0xff;
+
+      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+	return myviatb() & 0xff;
+
+      default:
+	break;
+    }  /* switch */
+
+    return read_myvia(addr);
+}
+
 
 /* ------------------------------------------------------------------------- */
 

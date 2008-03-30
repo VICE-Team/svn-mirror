@@ -78,6 +78,9 @@ Visual *visual;
 int depth = X_DISPLAY_DEPTH;
 int have_truecolor;
 
+static int n_allocated_pixels = 0;
+static unsigned long allocated_pixels[0x100];
+
 /* ------------------------------------------------------------------------- */
 
 _ui_resources_t _ui_resources;
@@ -731,13 +734,10 @@ static int alloc_colormap(void)
 static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
                            int releasefl)
 {
-    static int allocated_colors;
     int i, failed;
     XColor color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
-    unsigned long *xpixels = (unsigned long *) xmalloc(sizeof(unsigned long)
-                                                       * palette->num_entries);
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -746,8 +746,10 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
     if (!im)
         return -1;
 
+    n_allocated_pixels = 0;
+
     color.flags = DoRed | DoGreen | DoBlue;
-    for (i = 0, failed = 0; i < palette->num_entries; allocated_colors++, i++)
+    for (i = 0, failed = 0; i < palette->num_entries; i++)
     {
         color.red = palette->entries[i].red << 8;
         color.green = palette->entries[i].green << 8;
@@ -757,9 +759,10 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
             fprintf(stderr,
                     "Warning: cannot allocate color \"#%04X%04X%04X\"\n",
                     color.red, color.green, color.blue);
-        }
+        } else {
+            allocated_pixels[n_allocated_pixels++] = color.pixel;
+	}
         XPutPixel(im, 0, 0, color.pixel);
-        xpixels[i] = color.pixel;
 #if X_DISPLAY_DEPTH == 0
         {
             /* XXX: prototypes where? */
@@ -787,13 +790,12 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
 #endif
     }
 
-    if (releasefl && failed && (--i)) {
-        if (colormap != DefaultColormap(display, screen))
-            XFreeColors(display, colormap, xpixels, i, 0);
-        allocated_colors -= i + 1;
+    if (releasefl && failed && n_allocated_pixels) {
+/*        if (colormap != DefaultColormap(display, screen)) */
+        XFreeColors(display, colormap, allocated_pixels, n_allocated_pixels, 0);
+	n_allocated_pixels = 0;
     }
 
-    free(xpixels);
     XDestroyImage(im);
 
     if (!failed) {
@@ -801,14 +803,18 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
 
         if (!XAllocNamedColor(display, colormap, "black", &screen, &exact))
             failed = 1;
-        else
+        else {
             drive_led_off_pixel = screen.pixel;
+	    allocated_pixels[n_allocated_pixels++] = screen.pixel;
+	}
 
         if (!failed) {
             if (!XAllocNamedColor(display, colormap, "red", &screen, &exact))
                 failed = 1;
-            else
+            else {
                 drive_led_on_pixel = screen.pixel;
+	        allocated_pixels[n_allocated_pixels++] = screen.pixel;
+	    }
         }
     }
 
@@ -853,8 +859,60 @@ Window ui_canvas_get_drawable(ui_window_t w)
 int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
-    if (!have_truecolor)
-        return -1;
+    if (!have_truecolor) {
+	int nallocp;
+	PIXEL  *xpixel=malloc(sizeof(PIXEL)*palette->num_entries);
+	unsigned long *ypixel=malloc(sizeof(unsigned long)*n_allocated_pixels);
+#if X_DISPLAY_DEPTH == 0
+        extern PIXEL  real_pixel1[];
+        extern PIXEL2 real_pixel2[];
+        extern PIXEL4 real_pixel4[];
+        extern long   real_pixel[];
+        extern BYTE   shade_table[];
+	PIXEL  my_real_pixel1[256];
+	PIXEL2 my_real_pixel2[256];
+	PIXEL4 my_real_pixel4[256];
+	long   my_real_pixel[256];
+	BYTE   my_shade_table[256];
+
+	/* save pixels */
+	memcpy(my_real_pixel, real_pixel, sizeof(my_real_pixel));
+	memcpy(my_real_pixel1, real_pixel1, sizeof(my_real_pixel1));
+	memcpy(my_real_pixel2, real_pixel2, sizeof(my_real_pixel2));
+	memcpy(my_real_pixel4, real_pixel4, sizeof(my_real_pixel4));
+	memcpy(my_shade_table, shade_table, sizeof(my_shade_table));
+#endif
+	/* save the list of already allocated X pixel values */
+	nallocp = n_allocated_pixels;
+	memcpy(ypixel, allocated_pixels, sizeof(unsigned long)*nallocp);
+	n_allocated_pixels = 0;
+
+	if( do_alloc_colors(palette, xpixel, 1) ) {	/* failed */
+
+	    /* restore list of previously allocated X pixel values */
+	    n_allocated_pixels = nallocp;
+	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long)*nallocp);
+	     
+#if X_DISPLAY_DEPTH == 0
+	    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
+	    memcpy(real_pixel1, my_real_pixel1, sizeof(my_real_pixel1));
+	    memcpy(real_pixel2, my_real_pixel2, sizeof(my_real_pixel2));
+	    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
+	    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
+#endif
+	    fprintf(stderr,"Could not alloc enough colors.\n"
+			"Color change will take effect after restart!\n"); 
+	} else {					/* successful */
+	    /* copy the new return values to the real return values */
+	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
+
+	    /* free the previously allocated pixel values */
+            XFreeColors(display, colormap, ypixel, nallocp, 0);
+	}
+	free(xpixel);
+
+        return 0;
+    }
 
     return alloc_colors(palette, pixel_return);
 }

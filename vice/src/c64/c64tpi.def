@@ -1,8 +1,8 @@
 /*
- * tapeunit.c - (Guess what?) Tape unit emulation.
+ * c64tpi.def - IEEE488 interface for the C64.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *   André Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,22 +24,52 @@
  *
  */
 
-#ifndef _TAPEUNIT_H
-#define _TAPEUNIT_H
+INCLUDES()
+{
+#include "parallel.h"
+#include "tpi.h"
+}
 
-#include "tape.h"
-#include "traps.h"
+RESET()
+{
+	/* assuming input after reset */
+	par_set_atn(0);
+	par_set_ndac(0);
+	par_set_nrfd(0);
+	par_set_dav(0);
+	par_set_eoi(0);
+	par_set_bus(0);
+}
 
-/* Global functions */
-extern void tape_detach_image(TAPE *tape);
-extern int tape_attach_image(TAPE *tape, const char *name, int mode);
-extern int check_tape(void);
-extern int tape_init(int bufpaddr, int status, int verfl, int irqtmp, 
-		ADDRESS irqval, int stal, int eal, const trap_t *tape,
-		int kbdbuf, int nkeys);
-extern void findheader (void);
-extern void writeheader (void);
-/* extern void checkplay (void); */
-extern void tapereceive (void);
+STORE_PA()
+{
+		par_set_atn( b & 0x08 );
+		par_set_dav( b & 0x10 );
+		par_set_eoi( b & 0x20 );
+		par_set_ndac( b & 0x40 );
+		par_set_nrfd( b & 0x80 );
+}
 
-#endif /* ndef _TAPEUNIT_H */
+STORE_PB()
+{
+		par_set_bus( b );
+}
+
+#define	STORE_PC
+
+READ_PA()
+{
+		b = par_atn ? 0 : 8;
+		b += par_dav ? 0 : 16;
+		b += par_eoi ? 0 : 32;
+		b += par_ndac ? 0 : 64;
+		b += par_nrfd ? 0 : 128;
+}
+
+READ_PB()
+{
+		b = par_bus;
+}
+
+#define	READ_PC
+

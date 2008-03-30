@@ -59,6 +59,9 @@ static int head_idx;
 /* Number of pending characters.  */
 static int num_pending;
 
+/* flag if we are initialized already... */
+static int kbd_buf_enabled = 0;
+
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
@@ -70,6 +73,8 @@ int kbd_buf_init(int location, int plocation, int size,
     buffer_size = size;
     kernal_init_cycles = mincycles;
 
+    kbd_buf_enabled = 1;
+
     return 0;
 }
 
@@ -79,7 +84,7 @@ int kbd_buf_feed(const char *s)
     int num = strlen(s);
     int i, p;
 
-    if (num_pending + num > QUEUE_SIZE)
+    if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)
 	return -1;
 
     num_pending += num;
@@ -102,7 +107,10 @@ void kbd_buf_flush(void)
     BYTE *p;
     int i, n;
 
-    if (num_pending == 0 || clk < kernal_init_cycles || !kbd_buf_is_empty())
+    if ( (!kbd_buf_enabled) 
+	  || num_pending == 0 
+	  || clk < kernal_init_cycles 
+	  || !kbd_buf_is_empty())
 	return;
 
     n = num_pending > buffer_size ? buffer_size : num_pending;

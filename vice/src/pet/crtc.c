@@ -104,6 +104,9 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
+/* prototype for resources - moved to raster.c */
+static int set_palette_file_name(resource_value_t v);
+#if 0
 static int set_palette_file_name(resource_value_t v)
 {
     /* If called before initialization, just set the resource value.  The
@@ -123,6 +126,7 @@ static int set_palette_file_name(resource_value_t v)
     string_set(&palette_file_name, (char *) v);
     return 0;
 }
+#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -191,6 +195,10 @@ static cmdline_option_t cmdline_options[] = {
 int crtc_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+void init_drawing_tables(void) {
+    crtc_init_dwg_tables();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -456,6 +464,11 @@ BYTE REGPARM1 read_crtc(ADDRESS addr)
       default:
 	return 0;		/* All the rest are write-only registers */
     }
+}
+
+BYTE REGPARM1 peek_crtc(ADDRESS addr)
+{
+    return read_crtc(addr);
 }
 
 void store_colorram(ADDRESS addr, BYTE value)

@@ -621,7 +621,6 @@ int serial_select_file(int type, int number, const char *file)
 {
     serial_t *p;
 
-
     if (number < 0 && ( (number = find_devno(-1, file)) < 0) && type ) {
 	if (type & DT_TAPE)
 	    number = 1;
@@ -643,8 +642,10 @@ int serial_select_file(int type, int number, const char *file)
        which had not been initialized yet, but this is not done anymore.  All
        the devices must have been explicitly initialized before we get here.
        EP 98-04-24.  */
-    if (!p || !(p->inuse))
+    if (!p || !(p->inuse)) {
+	fprintf(stderr, "No device for #%d\n",number);
         return -1;
+    }
 
     /* should be based on p -> info.type */
 

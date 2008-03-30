@@ -188,6 +188,24 @@ BYTE read_myacia_(ADDRESS a) {
 	return 0;
 }
 
+BYTE peek_myacia_(ADDRESS a) {
+
+	switch(a & 3) {
+	case ACIA_DR:
+		return rxdata;
+	case ACIA_SR:
+		{
+		  BYTE c = status | (irq?0x80:0);
+		  return c;
+		}
+	case ACIA_CTRL:
+		return ctrl;
+	case ACIA_CMD:
+		return cmd;
+	}
+	return 0;
+}
+
 int int_myacia(long offset) {
 #if 0 /*def DEBUG*/
 	printf("int_myacia(clk=%ld)\n",myclk-offset);

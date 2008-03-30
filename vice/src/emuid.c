@@ -1,0 +1,46 @@
+/*
+ * emuid.c -- Emulator ID for use in the different emulators.
+ *
+ * Written by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+#include "types.h"
+
+/* Emulation identification string.  */
+BYTE emulator_id[] = {
+    0x56, 0x49, 0x43, 0x45, 0x20, 0x30, 0x2e, 0x31,
+    0x34, 0x0d, 0x28, 0x43, 0x29, 0x20, 0x31, 0x39, 	/* VICE 0.14.(C) 19 */
+    0x39, 0x33, 0x2d, 0x31, 0x39, 0x39, 0x38, 0x20,
+    0x45, 0x2e, 0x50, 0x45, 0x52, 0x41, 0x5a, 0x5a, 	/* 93-1998 E.PERAZZ */
+    0x4f, 0x4c, 0x49, 0x2f, 0x54, 0x2e, 0x52, 0x41,
+    0x4e, 0x54, 0x41, 0x4e, 0x45, 0x4e, 0x2f, 0x41, 	/* OLI/T.RANTANEN/A */
+    0x2e, 0x46, 0x41, 0x43, 0x48, 0x41, 0x54, 0x2f,
+    0x4a, 0x2e, 0x56, 0x41, 0x4c, 0x54, 0x41, 0x2f, 	/* .FACHAT/J.VALTA/ */
+    0x4a, 0x2e, 0x53, 0x4f, 0x4e, 0x4e, 0x49, 0x4e,
+    0x45, 0x4e, 0x2f, 0x44, 0x2e, 0x53, 0x4c, 0x41, 	/* J.SONNINEN/D.SLA */
+    0x44, 0x49, 0x43, 0x0d, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x02, 0x14, 0x56, 0x55	/* DIC...........VU */
+};
+

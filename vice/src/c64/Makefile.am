@@ -43,8 +43,9 @@ libc64_a_SOURCES = \
 	sprcrunch.h \
 	sprcycles.h \
 	sprites.h \
-	tpi.c \
-	tpi.h \
+	c64tpi.c \
+	c64tpi.def \
+	c64tpi.h \
 	vicii.c \
 	vicii.h \
 	wave6581.h \
@@ -70,8 +71,9 @@ libc64c128_a_SOURCES = \
 	sprcrunch.h \
 	sprcycles.h \
 	sprites.h \
-	tpi.c \
-	tpi.h \
+	c64tpi.c \
+	c64tpi.def \
+	c64tpi.h \
 	vicii.c \
 	vicii.h \
 	wave6581.h \
@@ -105,6 +107,14 @@ c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/acia-tmpl.c \
 	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
+           fi )
+
+c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c64tpi.c'..."; \
+           if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	       	   $(top_srcdir)/src/tpi-tmpl.c \
+	       	   $(c64dir)/c64tpi.def $(c64dir)/c64tpi.c; \
            fi )
 
 

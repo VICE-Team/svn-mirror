@@ -45,12 +45,12 @@
 #include "utils.h"
 #include "kbdbuf.h"
 
-/* Kernal constants.  FIXME: This is OK for VIC20 and C64.  We must verify
-   that they are correct for the PETs as well.  */
-#define BLNSW   0xCC    /* Cursor Blink enable: 0 = Flash Cursor */
-#define PNT     0xD1    /* Pointer: Current Screen Line Address */
-#define PNTR    0xD3    /* Cursor Column on Current Line */
-#define LNMX    0xD5    /* Physical Screen Line Length */
+/* Kernal addresses. set by autostart_init */
+
+static int 	blnsw;    /* Cursor Blink enable: 0 = Flash Cursor */
+static int 	pnt;    /* Pointer: Current Screen Line Address */
+static int 	pntr;   /* Cursor Column on Current Line */
+static int 	lnmx;   /* Physical Screen Line Length */
 
 /* Current state of the autostart routine.  */
 static enum {
@@ -79,6 +79,9 @@ static CLOCK min_cycles;
 /* Flag: Do we want to switch true 1541 emulation on/off during autostart?  */
 static int handle_true1541;
 
+/* Flag: autostart is initialized */
+static int autostart_enabled = 0;
+
 /* ------------------------------------------------------------------------- */
 
 /* Deallocate program name if we have one */
@@ -92,12 +95,12 @@ static void deallocate_program_name(void)
 
 static enum {YES, NO, NOT_YET} check(const char *s)
 {
-    int screen_addr = mem_read(PNT) | (mem_read(PNT + 1) << 8);
-    int line_length = mem_read(LNMX) + 1;
-    int cursor_column = mem_read(PNTR);
+    int screen_addr = mem_read(pnt) | (mem_read(pnt + 1) << 8);
+    int line_length = lnmx < 0 ? -lnmx : mem_read(lnmx) + 1;
+    int cursor_column = mem_read(pntr);
     int addr, i;
 
-    if (!kbd_buf_is_empty() || cursor_column != 0 || mem_read(BLNSW) != 0)
+    if (!kbd_buf_is_empty() || cursor_column != 0 || mem_read(blnsw) != 0)
         return NOT_YET;
 
     printf("Check: screen_addr = $%04X, line_length = %d, cursor_column = %d\n",
@@ -134,8 +137,14 @@ static int get_true1541_state(void)
 }
 
 /* Initialize autostart.  */
-int autostart_init(CLOCK _min_cycles, int _handle_true1541)
+int autostart_init(CLOCK _min_cycles, int _handle_true1541,
+	int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
+    blnsw = _blnsw;
+    pnt = _pnt;
+    pntr = _pntr;
+    lnmx = _lnmx;
+
     if (!pwarn)
     {
 	pwarn = warn_init("AUTOSTART", 32);
@@ -146,11 +155,15 @@ int autostart_init(CLOCK _min_cycles, int _handle_true1541)
     min_cycles = _min_cycles;
     handle_true1541 = _handle_true1541;
 
+    autostart_enabled = 1;
+
     return 0;
 }
 
 void autostart_disable(void)
 {
+    if(!autostart_enabled) return;
+
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
     warn(pwarn, -1, "disabling autostart");
@@ -162,7 +175,7 @@ void autostart_advance(void)
 {
     char		*tmp;
 
-    if (clk < min_cycles)
+    if (clk < min_cycles || !autostart_enabled)
         return;
 
     switch (autostartmode)
@@ -191,7 +204,7 @@ void autostart_advance(void)
         }
         break;
       case AUTOSTART_LOADINGTAPE:
-	switch (check("LOADING"))
+	switch (check("READY."))
 	{
           case YES:
 	    warn(pwarn, -1, "starting program");
@@ -292,6 +305,10 @@ static int autostart_ignore_reset = 0;
 /* Clean memory and reboot for autostart.  */
 static void reboot_for_autostart(const char *program_name)
 {
+    if(!autostart_enabled) {
+	return;
+    }
+
     warn(pwarn, -1, "rebooting...");
     mem_powerup();
     autostart_ignore_reset = 1;
@@ -306,12 +323,12 @@ static void reboot_for_autostart(const char *program_name)
 /* Autostart tape image `file_name'.  */
 int autostart_tape(const char *file_name, const char *program_name)
 {
-    if (file_name == NULL)
+    if (file_name == NULL || !autostart_enabled)
 	return -1;
 
     if (serial_select_file(DT_TAPE, 1, file_name) < 0)
     {
-	warn(pwarn, -1, "cannot attach file '%s'", file_name);
+	warn(pwarn, -1, "cannot attach file '%s' (as a tape)", file_name);
 	autostartmode = AUTOSTART_ERROR;
 	deallocate_program_name();
 	return -1;
@@ -327,7 +344,7 @@ int autostart_tape(const char *file_name, const char *program_name)
 /* Autostart disk image `file_name'.  */
 int autostart_disk(const char *file_name, const char *program_name)
 {
-    if (file_name == NULL)
+    if (file_name == NULL || !autostart_enabled)
 	return -1;
 
     if (file_system_attach_disk(8, file_name) < 0)
@@ -352,6 +369,11 @@ int autostart_autodetect(const char *file_name, const char *program_name)
     if (file_name == NULL)
 	return -1;
 
+    if(!autostart_enabled) {
+	fprintf(stderr,"Couldn't autostart - unknown kernal!");
+	return;
+    }
+
     if (autostart_disk(file_name, program_name) == 0)
 	warn(pwarn, -1, "`%s' detected as a disk image", file_name);
     else if (autostart_tape(file_name, program_name) == 0)
@@ -368,6 +390,8 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 /* Autostart the image attached to device `num'.  */
 int autostart_device(int num)
 {
+    if(!autostart_enabled) return -1;
+
     switch (num) {
       case 8:
 	autostartmode = AUTOSTART_HASDISK;
@@ -386,6 +410,8 @@ int autostart_device(int num)
 /* Disable autostart on reset.  */
 void autostart_reset(void)
 {
+    if(!autostart_enabled) return;
+
     if (!autostart_ignore_reset && autostartmode != AUTOSTART_NONE &&
 	autostartmode != AUTOSTART_ERROR)
     {

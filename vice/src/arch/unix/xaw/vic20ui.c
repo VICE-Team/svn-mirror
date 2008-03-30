@@ -127,6 +127,8 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock4)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
+UI_MENU_DEFINE_TOGGLE(EmuID)
+
 static ui_menu_entry_t memory_settings_submenu[] = {
     { "Common configurations",
       NULL, NULL, common_memory_configurations_submenu },
@@ -141,6 +143,9 @@ static ui_menu_entry_t memory_settings_submenu[] = {
       (ui_callback_t) toggle_RAMBlock3, NULL, NULL },
     { "*Block 5 (8K at $A000-$BFFF)",
       (ui_callback_t) toggle_RAMBlock5, NULL, NULL },
+    { "--" },
+    { "*Emulation identification",
+      (ui_callback_t) toggle_EmuID, NULL, NULL },
     { NULL }
 };
 
@@ -215,6 +220,8 @@ int vic20_ui_init(void)
 
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
+                                    ui_menu_separator,
+                                    ui_tape_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,

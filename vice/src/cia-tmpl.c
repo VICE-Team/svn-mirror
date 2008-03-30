@@ -64,6 +64,15 @@
  *
  */
 
+/*
+ * 29jun1998 a.fachat
+ *
+ * Implementing the peek function assumes that the READ_PA etc macros
+ * do not have side-effects, i.e. they can be called more than once
+ * at one clock cycle.
+ *
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -263,7 +272,6 @@ static int update_mycia(CLOCK rclk)
 		if (myciasr_bits) {
 		    myciasr_bits--;
 		    if(myciasr_bits==16) {
-		        BYTE byte = mycia[CIA_SDR];
 			STORE_SDR
 		    }
 		    if (!myciasr_bits) {
@@ -880,6 +888,87 @@ BYTE read_mycia_(ADDRESS addr)
     return (mycia[addr]);
 }
 
+BYTE REGPARM1 peek_mycia(ADDRESS addr)
+{
+    /* This code assumes that update_mycia is a projector - called at
+     * the same cycle again it doesn't change anything. This way
+     * it does not matter if we call it from peek first in the monitor
+     * and probably the same cycle again when the CPU runs on...
+     */
+    CLOCK rclk;
+
+    addr &= 0xf;
+
+    vic_ii_handle_pending_alarms(0);
+
+    rclk = clk - READ_OFFSET;
+
+    switch (addr) {
+
+	/*
+	 * TOD clock is latched by reading Hours, and released
+	 * upon reading Tenths of Seconds. The counter itself
+	 * keeps ticking all the time.
+	 * Also note that this latching is different from the input one.
+	 */
+      case CIA_TOD_TEN:	/* Time Of Day clock 1/10 s */
+      case CIA_TOD_SEC:	/* Time Of Day clock sec */
+      case CIA_TOD_MIN:	/* Time Of Day clock min */
+      case CIA_TOD_HR:		/* Time Of Day clock hour */
+	if (!myciatodlatched)
+	    memcpy(myciatodlatch, mycia + CIA_TOD_TEN, sizeof(myciatodlatch));
+	return mycia[addr];
+
+	/* Interrupts */
+
+      case CIA_ICR:		/* Interrupt Flag Register */
+	{
+	    BYTE t = 0;
+
+	    READ_CIAICR
+#ifdef MYCIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
+		printf("MYCIA read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+			rclk, mycpu_int_status.alarm_clk[A_MYCIATA],
+			mycpu_int_status.alarm_clk[A_MYCIATB]);
+#endif
+	
+	    myciardi = rclk;
+            t = myciaint;	/* we clean myciaint anyway, so make int_* */
+	    myciaint = 0;	/* believe it is already */
+
+            if (rclk >= mycia_tai)
+                int_myciata(rclk - mycia_tai);
+            if (rclk >= mycia_tbi)
+                int_myciatb(rclk - mycia_tbi);
+
+	    myciaint |= t;	/* some bits can be set -> or with old value */
+
+	    update_mycia(rclk);
+	    t = myciaint | myciaflag;
+
+#ifdef MYCIA_TIMER_DEBUG
+	    if (mycia_debugFlag)
+		printf("MYCIA read intfl gives myciaint=%02x -> %02x @"
+		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
+		       myciaint, t, myciasr_bits, clk, 
+			(mycia_tac ? mycia_tac : mycia_tal),
+			mycia_tbc);
+#endif
+
+/*
+	    myciaflag = 0;
+	    myciaint = 0;
+	    my_set_int(I_MYCIAFL, 0, rclk);
+*/
+	    return (t);
+	}
+      default:
+	break;
+    }				/* switch */
+
+    return read_mycia(addr);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -934,7 +1023,6 @@ int int_myciata(long offset)
 		myciaint |= CIA_IM_SDR;
 	    }
 	    if(myciasr_bits == 16) {
-	        BYTE byte = mycia[CIA_SDR];
 		STORE_SDR
 	    }
 	}

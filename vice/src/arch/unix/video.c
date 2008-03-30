@@ -37,11 +37,13 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/utsname.h>
 
 #include "video.h"
 #include "kbd.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "utils.h"
 
 /* Define this for additional shared memory verbosity. */
 #undef MITSHM_DEBUG
@@ -76,7 +78,7 @@ static int set_try_mitshm(resource_value_t v)
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &_video_use_xsync, set_use_xsync },
-    { "MITSHM", RES_INTEGER, (resource_value_t) 1,
+    { "MITSHM", RES_INTEGER, (resource_value_t) -1,
       (resource_value_t *) &try_mitshm, set_try_mitshm },
     { NULL }
 };
@@ -102,6 +104,9 @@ static cmdline_option_t cmdline_options[] = {
     { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
       NULL, "Never use shared memory (slower)" },
+    { "-mitshmauto", SET_RESOURCE, 0, NULL, NULL,
+      "MITSHM", (resource_value_t) -1,
+      NULL, "Autodetect shared memory. If it fails use +/-mitshm." },
     { NULL }
 };
 
@@ -243,6 +248,23 @@ int video_init(void)
 			   &gc_values);
 
 #ifdef MITSHM
+
+    if(try_mitshm < 0) {
+	/* check wether we are on the same machine or not */
+	char *p,*dname = stralloc(XDisplayName(NULL));
+        struct utsname uts;
+
+	try_mitshm = 0; /* no MIT shm */
+        uname(&uts);
+        if((p=strchr(dname,':'))) p[0]=0;
+        if(!strlen(dname)
+                || !strcmp(dname,"localhost")
+                || !strcmp(dname,uts.nodename)
+          ) {
+	  try_mitshm = 1; /* use MIT shm */
+        }
+	free(dname);
+    }
 
     if (!try_mitshm)
 	use_mitshm = 0;

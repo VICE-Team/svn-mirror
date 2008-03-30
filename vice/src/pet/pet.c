@@ -48,6 +48,7 @@
 #include "petvia.h"
 #include "pia.h"
 #include "resources.h"
+#include "traps.h"
 #include "sound.h"
 #include "utils.h"
 #include "via.h"
@@ -113,7 +114,8 @@ int machine_init_resources(void)
         return -1;
 #endif
 
-    if (vsync_init_resources() < 0
+    if (traps_init_resources() < 0
+	|| vsync_init_resources() < 0
         || video_init_resources() < 0
         || pet_mem_init_resources() < 0
         || crtc_init_resources() < 0
@@ -142,7 +144,8 @@ int machine_init_cmdline_options(void)
         return -1;
 #endif
 
-    if (vsync_init_cmdline_options() < 0
+    if (traps_init_cmdline_options() < 0
+	|| vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || pet_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
@@ -168,6 +171,9 @@ int machine_init_cmdline_options(void)
 /* PET-specific initialization.  */
 int machine_init(void)
 {
+    /* Setup trap handling - must be before mem_load() */
+    traps_init();
+
     if (mem_load() < 0)
         return -1;
 
@@ -185,7 +191,9 @@ int machine_init(void)
 #endif
 
     /* Initialize autostart.  FIXME: We could probably use smaller values.  */
-    autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0);
+    /* moved to mem_load() as it is kernal-dependant AF 30jun1998
+    autostart_init(1 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0);
+    */
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
@@ -210,7 +218,9 @@ int machine_init(void)
     sound_init(PET_PAL_CYCLES_PER_SEC, PET_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
+    /* moved to mem_load() because it's model specific... AF 30jun1998
     kbd_buf_init(631, 198, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+    */
 
     /* Initialize the PET-specific part of the UI.  */
     pet_ui_init();

@@ -315,6 +315,8 @@ int pet_ui_init(void)
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
+                                    ui_tape_commands_menu,
+                                    ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
                                     ui_tool_commands_menu,

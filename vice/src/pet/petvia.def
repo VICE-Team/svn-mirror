@@ -47,6 +47,7 @@ INCLUDES()
 #include "kbd.h"
 #include "crtc.h"
 #include "pruser.h"
+#include "petvia.h"
 }
 
 #define GLOBALS()
@@ -63,6 +64,9 @@ STORE_PRA()
 STORE_PRB()
 {
 	via[addr] = byte;
+	if((addr==VIA_DDRB) && (byte & 0x20)) {
+	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
+	}
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));

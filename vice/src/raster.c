@@ -365,6 +365,43 @@ static int open_output_window(char *win_name, unsigned int width,
 
 /* ------------------------------------------------------------------------- */
 
+/* set a new palette */
+
+static int set_palette_file_name(resource_value_t v)
+{
+    int i;
+    /* If called before initialization, just set the resource value.  The
+       palette file will be loaded afterwards.  */
+    if (palette == NULL) {
+        string_set(&palette_file_name, (char *) v);
+        return 0;
+    }
+
+    if (palette_load((char *) v, palette) < 0) {
+        fprintf(stderr, "Couldn't load palette `%s'\n", (char *) v);
+        return -1;
+    }
+    canvas_set_palette(canvas, palette, pixel_table);
+
+    /* Prepare the double and quad pixel tables.  */
+    for (i = 0; i < 0x100; i++)
+	*((PIXEL *)(double_pixel_table + i))
+	    = *((PIXEL *)(double_pixel_table + i) + 1) = pixel_table[i];
+    for (i = 0; i < 0x100; i++)
+	*((PIXEL2 *)(quad_pixel_table + i))
+	    = *((PIXEL2 *)(quad_pixel_table + i) + 1) = double_pixel_table[i];
+
+    init_drawing_tables();
+
+    /* Make sure the pixel tables are recalculated properly.  */
+    video_resize();
+
+    string_set(&palette_file_name, (char *) v);
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Read length bytes from src and store them in dest, checking for differences
    between the two arrays.  The smallest interval that contains different bytes
    is returned as [*xs; *xe].  */

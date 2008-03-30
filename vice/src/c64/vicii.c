@@ -214,6 +214,9 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
+/* prototype for resources - moved to raster.c */
+static int set_palette_file_name(resource_value_t v);
+#if 0
 static int set_palette_file_name(resource_value_t v)
 {
     /* If called before initialization, just set the resource value.  The
@@ -235,6 +238,7 @@ static int set_palette_file_name(resource_value_t v)
     string_set(&palette_file_name, (char *) v);
     return 0;
 }
+#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -399,9 +403,10 @@ int vic_ii_init_cmdline_options(void)
 #define FIRST_DMA_LINE	0x30
 #define LAST_DMA_LINE   0xf7
 
+static void init_drawing_tables(void);
+
 #include "raster.c"
 
-static void init_drawing_tables(void);
 
 /* ------------------------------------------------------------------------- */
 

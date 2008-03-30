@@ -66,7 +66,7 @@ static UI_CALLBACK(attach_disk)
     suspend_speed_eval();
     sprintf(title, "Attach Disk Image as unit #%d", unit);
     filename = ui_select_file(title, read_disk_image_contents,
-		      unit == 8 ? True : False, NULL, "*.d64*", &button);
+		      unit == 8 ? True : False, NULL, "*.[xgd]64*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:

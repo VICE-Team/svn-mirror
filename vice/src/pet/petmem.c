@@ -36,11 +36,15 @@
 #include "types.h"
 #include "memutils.h"
 #include "pia.h"
+#include "pet.h"
 #include "petvia.h"
 #include "crtc.h"
 #include "kbd.h"
+#include "kbdbuf.h"
+#include "autostart.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "tapeunit.h"
 #include "pets.h"
 #include "interrupt.h"
 #include "vmachine.h"
@@ -86,6 +90,10 @@ static int bankCoffset = 0;
 
 /* prototype */
 void set_screen(void);
+
+static trap_t pet4_tape_traps[];
+static trap_t pet3_tape_traps[];
+static trap_t pet2_tape_traps[];
 
 /* ------------------------------------------------------------------------- */
 
@@ -725,20 +733,42 @@ int mem_load(void)
     }
 
     pet.screen_width = 0;
-    /* BIG FIXME: I had to remove `video_width' because it should not stay
-       here imo.  We should find a cleaner way to implement this. -- Ettore */
+    /* the length of the keyboard buffer might actually differ from 10 - 
+     * in the 4032 and 8032 50Hz editor ROMs it is checked against different
+     * memory locations (0xe3 and 0x3eb) but by default (power-up) it's
+     * 10 anyway AF 30jun1998 */
     if (sum == PET8032_CHECKSUM_A || sum == PET8032_CHECKSUM_B) {
         printf("Identified PET 8032 ROM by checksum.\n");
         pet.screen_width = 80;
-    } else if (sum == PET3032_CHECKSUM) {
+        kbd_buf_init(0x26f, 0x9e, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+		0xa7, 0xc4, 0xc6, -80);
+	tape_init(214, 150, 157, 144, 0xe455, 251, 201, pet4_tape_traps,
+		0x26f, 0x9e);
+    } else if (sum == PET3032_CHECKSUM_A || sum == PET3032_CHECKSUM_B) {
         printf("Identified PET 3032 ROM by checksum.\n");
         pet.screen_width = 40;
-    } else if (sum == PET4032_CHECKSUM) {
+        kbd_buf_init(0x26f, 0x9e, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+		0xa7, 0xc4, 0xc6, -40);
+	tape_init(214, 150, 157, 144, 0xe62e, 251, 201, pet3_tape_traps,
+		0x26f, 0x9e);
+    } else if (sum == PET4032_CHECKSUM_A || sum == PET4032_CHECKSUM_B) {
         printf("Identified PET 4032 ROM by checksum.\n");
         pet.screen_width = 40;
+        kbd_buf_init(0x26f, 0x9e, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+		0xa7, 0xc4, 0xc6, -40);
+	tape_init(214, 150, 157, 144, 0xe455, 251, 201, pet4_tape_traps,
+		0x26f, 0x9e);
     } else if (sum == PET2001_CHECKSUM) {
         printf("Identified PET 2001 ROM by checksum.\n");
         pet.screen_width = 40;
+        kbd_buf_init(0x20f, 0x20d, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+		0x224, 0xe0, 0xe2, -40);
+	tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, pet2_tape_traps,
+		0x20f, 0x20d);
     } else {
         printf("Unknown PET ROM.\n");
     }
@@ -813,12 +843,103 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 
 /* ------------------------------------------------------------------------- */
 
-/* Dummy... */
-void mem_set_tape_sense(int v)
-{
-}
-
 int mem_rom_trap_allowed(ADDRESS addr)
 {
-    return 0;
+    return (addr >= 0xf000) && !(map_reg & 0x80);
 }
+
+/* Tape traps.  */
+static trap_t pet4_tape_traps[] = {
+    {
+        "FindHeader",
+        0xF5E8,
+        0xF5EB,
+        {0x20, 0x9A, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF66B,
+        0xF66E,
+        {0x20, 0xD5, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF8E0,
+        0xFCC0,
+        {0x20, 0xE0, 0xFC},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+static trap_t pet3_tape_traps[] = {
+    {
+        "FindHeader",
+        0xF5A9,
+        0xF5AC,
+        {0x20, 0x55, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF62C,
+        0xF62F,
+        {0x20, 0x90, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF89B,
+        0xFC7B,
+        {0x20, 0x9B, 0xFC},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+static trap_t pet2_tape_traps[] = {
+    {
+        "FindHeader",
+        0xF5B2,
+        0xF5B5,
+        {0x20, 0x7F, 0xF8},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xF63D,
+        0xF640,
+        {0x20, 0xC4, 0xF8},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xF8A5,
+        0xFCFB,
+        {0x20, 0x1B, 0xFD},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+

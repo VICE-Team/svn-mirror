@@ -48,7 +48,9 @@ extern void signal_pia1(int line, int edge);
 extern void signal_pia2(int line, int edge);
 extern void REGPARM2 store_pia1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_pia1(ADDRESS addr);
+extern BYTE REGPARM1 peek_pia1(ADDRESS addr);
 extern void REGPARM2 store_pia2(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_pia2(ADDRESS addr);
+extern BYTE REGPARM1 peek_pia2(ADDRESS addr);
 
 #endif
