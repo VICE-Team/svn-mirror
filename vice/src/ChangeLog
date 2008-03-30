@@ -1,3 +1,39 @@
+2005-02-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.1.
+
+	* c128/c128mem.c (mem_initialize_memory): In C64 mode writes
+	to the last page should call `ram_hi_store()'.
+	(ram_hi_store): New function.
+
+2005-01-30  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* keyboard.c: Use `keyc_num' to count keysyms.
+
+2005-01-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/constants.h, arch/beos/vicemenu.cc,
+	arch/msdos/Makefile.am, arch/msdos/c128ui.c,
+	arch/msdos/c64ui.c, arch/msdos/uigeoram.c,
+	arch/msdos/uigeoram.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/os2/vac++/x128/X128.ICC,
+	arch/riscos/uiconfig.c, arch/riscos/uiconfig.h,
+	arch/riscos/uihelp.c, arch/riscos/uisharedef.h,
+	arch/unix/Makefile.am, arch/unix/c128ui.c, arch/unix/c64ui.c,
+	arch/unix/uigeoram.c, arch/unix/uigeoram.h,
+	arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/c128ui.c, arch/win32/c64.dsp,
+	arch/win32/c64c128.dsp, arch/win32/c64ui.c, arch/win32/res.h,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resgeoram.rc, arch/win32/uigeoram.c,
+	arch/win32/uigeoram.h, c128/c128-resources.c, c128/c128.c,
+	c128/c128mem.c, c128/c128memsnapshot.c, c64/Makefile.am,
+	c64/c64-resources.c, c64/c64.c, c64/c64io.c,
+	c64/c64memsnapshot.c, c64/georam.c, c64/georam.h: Added GEORAM
+	support.
+
 2005-01-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.
@@ -25,8 +61,8 @@
 
 	* arch/unix/x11/gnome/x11ui.c (ui_select_contents_cb):
 	fixed core dump
-	fixed ascending the path by one level each time a file dialog was
-	called
+	fixed ascending the path by one level each time a file dialog
+	was called
 
 2005-01-16  Dag Lem  <resid@nimrod.no>
 

@@ -56,6 +56,7 @@
 #include "monitor.h"
 #include "ram.h"
 #include "reu.h"
+#include "georam.h"
 #include "sid.h"
 #include "types.h"
 #include "vdc-mem.h"
@@ -451,6 +452,13 @@ void REGPARM2 ram_store(WORD addr, BYTE value)
     ram_bank[addr] = value;
 }
 
+void REGPARM2 ram_hi_store(WORD addr, BYTE value)
+{
+    ram_bank[addr] = value;
+
+    if (addr == 0xff00)
+        reu_dma(-1);
+}
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
 BYTE REGPARM1 basic_lo_read(WORD addr)
@@ -584,6 +592,7 @@ void mem_initialize_memory(void)
             mem_write_tab[i][j] = ram_store;
             mem_read_base_tab[i][j] = mem_ram + (j << 8);
         }
+        mem_write_tab[i][0xff] = ram_hi_store;
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
