@@ -138,7 +138,7 @@ static trap_t pet4_tape_traps[] =
         "TapeFindHeader",
         0xF5E8,
         0xF5EB,
-        {0x20, 0x9A, 0xF8},
+        { 0x20, 0x9A, 0xF8 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -147,7 +147,7 @@ static trap_t pet4_tape_traps[] =
         "TapeReceive",
         0xF8E0,
         0xFCC0,
-        {0x20, 0xE0, 0xFC},
+        { 0x20, 0xE0, 0xFC },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -156,7 +156,7 @@ static trap_t pet4_tape_traps[] =
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
@@ -169,7 +169,7 @@ static trap_t pet3_tape_traps[] =
         "TapeFindHeader",
         0xF5A9,
         0xF5AC,
-        {0x20, 0x55, 0xF8},
+        { 0x20, 0x55, 0xF8 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -178,7 +178,7 @@ static trap_t pet3_tape_traps[] =
         "TapeReceive",
         0xF89B,
         0xFC7B,
-        {0x20, 0x9B, 0xFC},
+        { 0x20, 0x9B, 0xFC },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -187,7 +187,7 @@ static trap_t pet3_tape_traps[] =
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
@@ -200,7 +200,7 @@ static trap_t pet2_tape_traps[] =
         "TapeFindHeader",
         0xF5B2,
         0xF5B5,
-        {0x20, 0x7F, 0xF8},
+        { 0x20, 0x7F, 0xF8 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -209,7 +209,7 @@ static trap_t pet2_tape_traps[] =
         "TapeReceive",
         0xF8A5,
         0xFCFB,
-        {0x20, 0x1B, 0xFD},
+        { 0x20, 0x1B, 0xFD },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -218,11 +218,68 @@ static trap_t pet2_tape_traps[] =
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
     }
+};
+
+static tape_init_t tapeinit1 = {
+    243,
+    0x20c,
+    0x20b,
+    0x219,
+    0xe685,
+    247,
+    229,
+    0x20f,
+    0x20d,
+    pet2_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
+};
+
+static tape_init_t tapeinit2 = {
+    214,
+    150,
+    157,
+    144,
+    0xe62e,
+    251,
+    201,
+    0x26f,
+    0x9e,
+    pet3_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
+};
+
+static tape_init_t tapeinit4 = {
+    214,
+    150,
+    157,
+    144,
+    0xe455,
+    251,
+    201,
+    0x26f,
+    0x9e,
+    pet4_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
 };
 
 /* ------------------------------------------------------------------------- */
@@ -1018,8 +1075,7 @@ void petmem_checksum(void)
             log_message(pet_mem_log, "Identified Kernal 4 ROM by checksum.");
         kbd_buf_init(0x26f, 0x9e, 10,
                      (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
-        tape_init(214, 150, 157, 144, 0xe455, 251, 201, 0x26f, 0x9e,
-                  pet4_tape_traps);
+        tape_init(&tapeinit4);
         if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
             if (petres.editor_checksum != last_editor)
                 log_message(pet_mem_log,
@@ -1048,8 +1104,7 @@ void petmem_checksum(void)
         autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0xa7, 0xc4, 0xc6, -40);
-        tape_init(214, 150, 157, 144, 0xe62e, 251, 201, 0x26f, 0x9e,
-                  pet3_tape_traps);
+        tape_init(&tapeinit2);
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 1 ROM by checksum.");
@@ -1059,8 +1114,7 @@ void petmem_checksum(void)
         autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0x224, 0xe0, 0xe2, -40);
-        tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, 0x20f, 0x20d,
-                  pet2_tape_traps);
+        tape_init(&tapeinit1);
     } else {
         log_warning(pet_mem_log, "Unknown PET ROM.");
     }

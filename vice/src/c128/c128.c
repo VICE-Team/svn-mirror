@@ -110,7 +110,7 @@ static trap_t c128_serial_traps[] = {
         "SerialListen",
         0xE355,
         0xE5BA,
-        {0x20, 0x73, 0xE5},
+        { 0x20, 0x73, 0xE5 },
         serialattention,
         rom_read,
         rom_store
@@ -119,7 +119,7 @@ static trap_t c128_serial_traps[] = {
         "SerialSaListen",
         0xE37C,
         0xE5BA,
-        {0x20, 0x73, 0xE5},
+        { 0x20, 0x73, 0xE5 },
         serialattention,
         rom_read,
         rom_store
@@ -128,7 +128,7 @@ static trap_t c128_serial_traps[] = {
         "SerialSendByte",
         0xE38C,
         0xE5BA,
-        {0x20, 0x73, 0xE5},
+        { 0x20, 0x73, 0xE5 },
         serialsendbyte,
         rom_read,
         rom_store
@@ -137,7 +137,7 @@ static trap_t c128_serial_traps[] = {
         "SerialReceiveByte",
         0xE43E,
         0xE5BA,
-        {0x20, 0x73, 0xE5},
+        { 0x20, 0x73, 0xE5 },
         serialreceivebyte,
         rom_read,
         rom_store
@@ -146,7 +146,7 @@ static trap_t c128_serial_traps[] = {
         "Serial ready",
         0xE569,
         0xE572,
-        {0xAD, 0x00, 0xDD},
+        { 0xAD, 0x00, 0xDD },
         trap_serial_ready,
         rom_read,
         rom_store
@@ -155,7 +155,7 @@ static trap_t c128_serial_traps[] = {
         "Serial ready",
         0xE4F5,
         0xE572,
-        {0xAD, 0x00, 0xDD},
+        { 0xAD, 0x00, 0xDD },
         trap_serial_ready,
         rom_read,
         rom_store
@@ -164,7 +164,7 @@ static trap_t c128_serial_traps[] = {
         "SerialListen",
         0xED24,
         0xEDAB,
-        {0x20, 0x97, 0xEE},
+        { 0x20, 0x97, 0xEE },
         serialattention,
         rom64_read,
         rom64_store
@@ -173,7 +173,7 @@ static trap_t c128_serial_traps[] = {
         "SerialSaListen",
         0xED36,
         0xEDAB,
-        {0x78, 0x20, 0x8E},
+        { 0x78, 0x20, 0x8E },
         serialattention,
         rom64_read,
         rom64_store
@@ -182,7 +182,7 @@ static trap_t c128_serial_traps[] = {
         "SerialSendByte",
         0xED40,
         0xEDAB,
-        {0x78, 0x20, 0x97},
+        { 0x78, 0x20, 0x97 },
         serialsendbyte,
         rom64_read,
         rom64_store
@@ -191,7 +191,7 @@ static trap_t c128_serial_traps[] = {
         "SerialReceiveByte",
         0xEE13,
         0xEDAB,
-        {0x78, 0xA9, 0x00},
+        { 0x78, 0xA9, 0x00 },
         serialreceivebyte,
         rom64_read,
         rom64_store
@@ -200,7 +200,7 @@ static trap_t c128_serial_traps[] = {
         "SerialReady",
         0xEEA9,
         0xEDAB,
-        {0xAD, 0x00, 0xDD},
+        { 0xAD, 0x00, 0xDD },
         trap_serial_ready,
         rom64_read,
         rom64_store
@@ -209,7 +209,7 @@ static trap_t c128_serial_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
@@ -222,7 +222,7 @@ static trap_t c128_tape_traps[] = {
         "TapeFindHeader",
         0xE8D3,
         0xE8D6,
-        {0x20, 0xF2, 0xE9},
+        { 0x20, 0xF2, 0xE9 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -231,7 +231,7 @@ static trap_t c128_tape_traps[] = {
         "TapeReceive",
         0xEA60,
         0xEE57,
-        {0x20, 0x9B, 0xEE},
+        { 0x20, 0x9B, 0xEE },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -240,7 +240,7 @@ static trap_t c128_tape_traps[] = {
         "TapeFindHeader",
         0xF72F,
         0xF732,
-        {0x20, 0x41, 0xF8},
+        { 0x20, 0x41, 0xF8 },
         tape_find_header_trap,
         rom64_read,
         rom64_store
@@ -249,7 +249,7 @@ static trap_t c128_tape_traps[] = {
         "TapeReceive",
         0xF8A1,
         0xFC93,
-        {0x20, 0xBD, 0xFC},
+        { 0x20, 0xBD, 0xFC },
         tape_receive_trap,
         rom64_read,
         rom64_store
@@ -258,11 +258,30 @@ static trap_t c128_tape_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
     }
+};
+
+static tape_init_t tapeinit = {
+    0xb2,
+    0x90,
+    0x93,
+    0xa09,
+    0,
+    0xc1,
+    0xae,
+    0x34a,
+    0xd0,
+    c128_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
 };
 
 static log_t c128_log = LOG_ERR;
@@ -362,8 +381,6 @@ int machine_init(void)
 {
     c128_log = log_open("C128");
 
-    maincpu_init();
-
     if (mem_load() < 0)
         return -1;
 
@@ -390,8 +407,7 @@ int machine_init(void)
     printer_init();
 
     /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0xa09, 0, 0xc1, 0xae, 0x34a, 0xd0,
-              c128_tape_traps);
+    tape_init(&tapeinit);
 
     /* Initialize the datasette emulation.  */
     datasette_init();

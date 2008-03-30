@@ -47,14 +47,22 @@
 #define TAP_PULSE_LONG_MAX 92
 
 #define TAP_PULSE_SHORT(x) \
-    ((x) >= TAP_PULSE_SHORT_MIN && (x) <= TAP_PULSE_SHORT_MAX)
+    ((x) >= tap_pulse_short_min && (x) <= tap_pulse_short_max)
 #define TAP_PULSE_MIDDLE(x) \
-    ((x) >= TAP_PULSE_MIDDLE_MIN && (x) <= TAP_PULSE_MIDDLE_MAX)
+    ((x) >= tap_pulse_middle_min && (x) <= tap_pulse_middle_max)
 #define TAP_PULSE_LONG(x) \
-    ((x) >= TAP_PULSE_LONG_MIN && (x) <= TAP_PULSE_LONG_MAX)
-
+    ((x) >= tap_pulse_long_min && (x) <= tap_pulse_long_max)
 
 #define TAP_PILOT_HEADER_MIN 10000
+
+
+static int tap_pulse_short_min;
+static int tap_pulse_short_max;
+static int tap_pulse_middle_min;
+static int tap_pulse_middle_max;
+static int tap_pulse_long_min;
+static int tap_pulse_long_max;
+
 
 static int tap_header_read(tap_t *tap, FILE *fd)
 {
@@ -181,21 +189,28 @@ inline static int tap_get_bit(tap_t *tap)
 
 static int tap_search_header_pilot(tap_t *tap)
 {
-    int data, count;
+    unsigned int i;
+    BYTE data[256];
+    int count;
+    size_t res;
 
     while (1) {
         count = 0;
 
         while (1) {
-            data = tap_get_bit(tap);
+            res = fread(&data, 256, 1, tap->fd);
 
-            if (data < 0)
-               return -1;
+            if (res < 1)
+                return -1;
 
-            if (!TAP_PULSE_SHORT(data))
+            for (i = 0; i < 256; i++) {
+                if (!TAP_PULSE_SHORT(data[i]))
+                    break;
+            }
+            if (i != 256)
                 break;
 
-            count++;
+            count += 256;
 
             if (count >= TAP_PILOT_HEADER_MIN)
                 return 0;
@@ -386,5 +401,15 @@ int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind)
 void tap_get_header(tap_t *tap, BYTE *name)
 {
     memcpy(name, tap->name, 12);
+}
+
+void tap_init(tape_init_t *init)
+{
+    tap_pulse_short_min = init->pulse_short_min / 8;
+    tap_pulse_short_max = init->pulse_short_max / 8;
+    tap_pulse_middle_min = init->pulse_middle_min / 8;
+    tap_pulse_middle_max = init->pulse_middle_max / 8;
+    tap_pulse_long_min = init->pulse_long_min / 8;
+    tap_pulse_long_max = init->pulse_long_max / 8;
 }
 

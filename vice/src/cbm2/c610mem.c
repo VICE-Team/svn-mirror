@@ -116,6 +116,25 @@ static int rom_loaded = 0;
 
 static log_t c610_mem_log = LOG_ERR;
 
+static tape_init_t tapeinit = {
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    NULL,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
+};
+
 /* ------------------------------------------------------------------------- */
 
 /* state of tpi pc6/7 */
@@ -225,14 +244,14 @@ void mem_toggle_emu_id(int flag)
 /* ------------------------------------------------------------------------- */
 
 static struct {
-        const char *model;
-        const int usevicii;
-        const int ramsize;
-        const char *basic;
-        const char *charrom;
-        const char *kernal;
-        const int line; /* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
-    } modtab[] = {
+    const char *model;
+    const int usevicii;
+    const int ramsize;
+    const char *basic;
+    const char *charrom;
+    const char *kernal;
+    const int line; /* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
+} modtab[] = {
     { "510",  1, 64,   CBM2_BASIC500, CBM2_CHARGEN500, CBM2_KERNAL500, 2  },
     { "610",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
     { "620",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
@@ -251,7 +270,7 @@ int cbm2_set_model(const char *model, void *extra)
 
     vsync_suspend_speed_eval();
 
-    for(i=0; modtab[i].model; i++)
+    for(i = 0; modtab[i].model; i++)
     {
         if (strcmp(modtab[i].model, model))
             continue;
@@ -1022,7 +1041,7 @@ int mem_load_kernal(const char *rom_name)
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
-    tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
+    tape_init(&tapeinit);
 
     /* Load Kernal ROM.  */
     if (!IS_NULL(rom_name)) {

@@ -148,7 +148,7 @@ static trap_t plus4_serial_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
@@ -161,7 +161,7 @@ static trap_t plus4_tape_traps[] = {
         "TapeFindHeader",
         0xE9CC,
         0xE9CF,
-        {0x20, 0xD3, 0xE8},
+        { 0x20, 0xD3, 0xE8 },
         tape_find_header_trap_plus4,
         rom_read,
         rom_store
@@ -170,7 +170,7 @@ static trap_t plus4_tape_traps[] = {
         "TapeReceive",
         0xE74B,
         0xE8C7,
-        {0xBA, 0x8E, 0xBE},
+        { 0xBA, 0x8E, 0xBE },
         tape_receive_trap_plus4,
         rom_read,
         rom_store
@@ -179,11 +179,30 @@ static trap_t plus4_tape_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
     }
+};
+
+static tape_init_t tapeinit = {
+    0x0333,
+    0x90,
+    0x93,
+    0x0000,
+    0,
+    0xb4,
+    0x9d,
+    0x527,
+    0xef,
+    plus4_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
 };
 
 static log_t plus4_log = LOG_ERR;
@@ -257,8 +276,6 @@ int machine_init(void)
 {
     plus4_log = log_open("Plus4");
 
-    maincpu_init();
-
     if (mem_load() < 0)
         return -1;
 
@@ -276,8 +293,7 @@ int machine_init(void)
     printer_init();
 
     /* Initialize the tape emulation.  */
-    tape_init(0x0333, 0x90, 0x93, 0x0000, 0, 0xb4, 0x9d, 0x527, 0xef,
-              plus4_tape_traps);
+    tape_init(&tapeinit);
 
     /* Initialize the datasette emulation.  */
     datasette_init();

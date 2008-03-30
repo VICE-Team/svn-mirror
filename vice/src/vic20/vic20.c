@@ -93,7 +93,7 @@ static trap_t vic20_serial_traps[] = {
         "SerialListen",
         0xEE2E,
         0xEEB2,
-        {0x20, 0xA0, 0xE4},
+        { 0x20, 0xA0, 0xE4 },
         serialattention,
         rom_read,
         rom_store
@@ -102,7 +102,7 @@ static trap_t vic20_serial_traps[] = {
         "SerialSaListen",
         0xEE40,
         0xEEB2,
-        {0x20, 0x8D, 0xEF},
+        { 0x20, 0x8D, 0xEF },
         serialattention,
         rom_read,
         rom_store
@@ -111,7 +111,7 @@ static trap_t vic20_serial_traps[] = {
         "SerialSendByte",
         0xEE49,
         0xEEB2,
-        {0x78, 0x20, 0xA0},
+        { 0x78, 0x20, 0xA0 },
         serialsendbyte,
         rom_read,
         rom_store
@@ -120,7 +120,7 @@ static trap_t vic20_serial_traps[] = {
         "SerialReceiveByte",
         0xEF19,
         0xEEB2,
-        {0x78, 0xA9, 0x00},
+        { 0x78, 0xA9, 0x00 },
         serialreceivebyte,
         rom_read,
         rom_store
@@ -129,7 +129,7 @@ static trap_t vic20_serial_traps[] = {
         "SerialReady",
         0xE4B2,
         0xEEB2,
-        {0xAD, 0x1F, 0x91},
+        { 0xAD, 0x1F, 0x91 },
         trap_serial_ready,
         rom_read,
         rom_store
@@ -151,7 +151,7 @@ static trap_t vic20_tape_traps[] = {
         "TapeFindHeader",
         0xF7B2,
         0xF7B5,
-        {0x20, 0xC0, 0xF8},
+        { 0x20, 0xC0, 0xF8 },
         tape_find_header_trap,
         rom_read,
         rom_store
@@ -160,7 +160,7 @@ static trap_t vic20_tape_traps[] = {
         "TapeReceive",
         0xF90B,
         0xFCCF,
-        {0x20, 0xFB, 0xFC},
+        { 0x20, 0xFB, 0xFC },
         tape_receive_trap,
         rom_read,
         rom_store
@@ -169,11 +169,30 @@ static trap_t vic20_tape_traps[] = {
         NULL,
         0,
         0,
-        {0, 0, 0},
+        { 0, 0, 0 },
         NULL,
         NULL,
         NULL
     }
+};
+
+static tape_init_t tapeinit = {
+    0xb2,
+    0x90,
+    0x93,
+    0x29f,
+    0,
+    0xc1,
+    0xae,
+    0x277,
+    0xc6,
+    vic20_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    92 * 8
 };
 
 static log_t vic20_log = LOG_ERR;
@@ -251,8 +270,6 @@ int machine_init(void)
 {
     vic20_log = log_open("VIC20");
 
-    maincpu_init();
-
     if (mem_load() < 0)
         return -1;
 
@@ -277,8 +294,7 @@ int machine_init(void)
     printer_init();
 
     /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
-              vic20_tape_traps);
+    tape_init(&tapeinit);
 
     /* Initialize the datasette emulation.  */
     datasette_init();
