@@ -31,15 +31,18 @@
 #define myclk drive_clk[0]
 #define myrmwf drive0_rmw_flag
 #define myvia via1d0
+#define myvia_init via1d0_init
 
 #define I_MYVIAFL I_VIA1D0FL
 #define MYVIA_INT VIA1D0_INT
 #define A_MYVIAT1 A_VIA1D0T1
 #define A_MYVIAT2 A_VIA1D0T2
+#define MYVIA_NAME "Drive0Via1"
 
 #define mycpu_int_status drive0_int_status
 #define mycpu_unset_alarm drive0_unset_alarm
 #define mycpu_set_alarm_clk drive0_set_alarm_clk
+#define mycpu_alarm_context drive0_alarm_context
 
 #define reset_myvia reset_via1d0
 #define store_myvia store_via1d0

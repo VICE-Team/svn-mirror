@@ -109,8 +109,6 @@
 #include "rsuser.h"
 #endif
 
-#define	CIA2_USE_INLINE 1
-
 #undef CIA2_TIMER_DEBUG
 #undef CIA2_IO_DEBUG
 #undef CIA2_DUMP_DEBUG
@@ -133,6 +131,10 @@ static void my_set_tai_clk(CLOCK tai_clk);
 static void my_unset_tai(void);
 
 #define	cia2ier	cia2[CIA_ICR]
+
+static alarm_t cia2_ta_alarm;
+static alarm_t cia2_tb_alarm;
+static alarm_t cia2_tod_alarm;
 
 static int cia2int;		/* Interrupt Flag register for cia 1 */
 static CLOCK cia2rdi;		/* real clock = clk-offset */
@@ -202,8 +204,6 @@ static log_t cia2_log = LOG_ERR;
    not needed anymore (because it's known to my_set_int(). Actually
    one could also remove IK_NMI as it is also know... */
 
-#if CIA2_USE_INLINE
-
 /* new semantics and as inline function, value can be replaced by 0/1 */
 static inline void my_set_int(int value, CLOCK rclk)
 {
@@ -221,59 +221,33 @@ static inline void my_set_int(int value, CLOCK rclk)
     }
 }
 
-#else /* CIA2_USE_INLINE */
-
-/* new semantics but as define, but value can be _not_ replaced by 0/1 */
-#ifdef CIA2_TIMER_DEBUG
-#define	my_set_int(value, rclk)						\
-    do {								\
-        if (cia2_debugFlag)						\
-	    log_message(cia2_log, "set_int(rclk=%d, int=%d, d=%d pc=).",		\
-		   rclk,(int_num),(value));				\
-	maincpu_set_nmi_clk((I_CIA2FL), (value), (rclk));		\
-	if ((value))							\
-	    cia2int |= 0x80;						\
-    } while(0)
-#else /* CIA2_TIMER_DEBUG */
-#define	my_set_int(value, rclk)						 \
-    do {								 \
-        maincpu_set_nmi_clk((I_CIA2FL), (value), (rclk));		 \
-	if ((value))							 \
-	    cia2int |= 0x80;						 \
-    } while(0)
-#endif /* CIA2_TIMER_DEBUG */
-
-#endif /* CIA2_USE_INLINE */
-
 /*
  * scheduling int_cia2t[ab] calls -
  * warning: int_cia2ta uses maincpu_* stuff!
  */
 
-#if CIA2_USE_INLINE
-
 static inline void my_set_tai_clk(CLOCK tai_clk) 
 {
     cia2_tai = tai_clk;
-    maincpu_set_alarm_clk(A_CIA2TA, tai_clk);
+    alarm_set(&cia2_ta_alarm, tai_clk);
 }
 
 static inline void my_unset_tai(void) 
 {
     cia2_tai = -1;							\
-    maincpu_unset_alarm(A_CIA2TA);					\
+    alarm_unset(&cia2_ta_alarm);
 }
 
 static inline void my_set_tbi_clk(CLOCK tbi_clk) 
 {
     cia2_tbi = tbi_clk;
-    maincpu_set_alarm_clk(A_CIA2TB, tbi_clk);
+    alarm_set(&cia2_tb_alarm, tbi_clk);
 }
 
 static inline void my_unset_tbi(void)
 {
     cia2_tbi = -1;
-    maincpu_unset_alarm(A_CIA2TB);
+    alarm_unset(&cia2_tb_alarm);
 }
 
 /*
@@ -299,58 +273,6 @@ static inline void update_tbi(CLOCK rclk)
         cia2int |= t;
     }
 }
-
-#else /* CIA2_USE_INLINE */
-
-#define	my_set_tai_clk(tai_clk) 					\
-    do {								\
-	cia2_tai = tai_clk;						\
-	maincpu_set_alarm_clk(A_CIA2TA, tai_clk);			\
-    } while(0)
-
-#define	my_unset_tai() 							\
-    do {								\
-	cia2_tai = -1;							\
-	maincpu_unset_alarm(A_CIA2TA);					\
-    } while(0)
-
-#define	my_set_tbi_clk(tbi_clk) 					\
-    do {								\
-	cia2_tbi = tbi_clk;						\
-	maincpu_set_alarm_clk(A_CIA2TB, tbi_clk);			\
-    } while(0)
-
-#define	my_unset_tbi() 							\
-    do {								\
-	cia2_tbi = -1;							\
-	maincpu_unset_alarm(A_CIA2TB);					\
-    } while(0)
-
-/*
- * Those routines setup the cia2t[ab]i clocks to a value above
- * rclk and schedule the next int_cia2t[ab] alarm
- */
-#define	update_tai(rclk)						\
-    do {								\
-	if(cia2_tai < rclk) {						\
-	    int t = cia2int;						\
-	    cia2int = 0;						\
-	    int_cia2ta(rclk - cia2_tai);				\
-	    cia2int |= t;						\
-	}								\
-    } while(0)
-
-#define	update_tbi(rclk)						\
-    do {								\
-	if(cia2_tbi < rclk) {						\
-	    int t = cia2int;						\
-	    cia2int = 0;						\
-	    int_cia2tb(rclk - cia2_tbi);				\
-	    cia2int |= t;						\
-	}								\
-    } while(0)
-
-#endif /* CIA2_USE_INLINE */
 
 /* global */
 
@@ -543,6 +465,16 @@ static int update_cia2(CLOCK rclk)
 
 /* ------------------------------------------------------------------------- */
 
+void cia2_init(void)
+{
+    alarm_init(&cia2_ta_alarm, &maincpu_alarm_context, "CIA2TimerA",
+               int_cia2ta);
+    alarm_init(&cia2_tb_alarm, &maincpu_alarm_context, "CIA2TimerB",
+               int_cia2tb);
+    alarm_init(&cia2_tod_alarm, &maincpu_alarm_context, "CIA2TimeOfDay",
+               int_cia2tod);
+}
+
 void reset_cia2(void)
 {
     int i;
@@ -572,7 +504,7 @@ void reset_cia2(void)
     memset(cia2todalarm, 0, sizeof(cia2todalarm));
     cia2todlatched = 0;
     cia2todstopped = 0;
-    maincpu_set_alarm(A_CIA2TOD, cia2todticks);
+    alarm_set(&cia2_tod_alarm, clk + cia2todticks);
 
     cia2int = 0;
     my_set_int(0, clk);
@@ -1072,6 +1004,7 @@ BYTE read_cia2_(ADDRESS addr)
         drive0_cpu_execute();
     if (drive[1].parallel_cable_enabled)
         drive1_cpu_execute();
+
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
 		log_message(cia2_log, "CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d",
@@ -1236,7 +1169,7 @@ int int_cia2ta(long offset)
 	        my_set_tai_clk(rclk + cia2_tal + 1 );
 	    }
 	} else {
-	    maincpu_unset_alarm(A_CIA2TA);	/* do _not_ clear cia2_tai */
+            alarm_unset(&cia2_ta_alarm); /* do _not_ clear cia2_tai */
 	}
     } else {
 	my_unset_tai();
@@ -1326,7 +1259,7 @@ int int_cia2tb(long offset)
 		}
 	    } else {
 		/* cia2_tbi = rclk + cia2_tbl + 1; */
-		maincpu_unset_alarm(A_CIA2TB);
+		alarm_unset(&cia2_tb_alarm);
 	    }
 	} else {
 #if 0
@@ -1403,7 +1336,7 @@ int int_cia2tod(long offset)
 #endif
 
     /* set up new int */
-    maincpu_set_alarm(A_CIA2TOD, cia2todticks);
+    alarm_set(&cia2_tod_alarm, clk + cia2todticks);
 
     if (!cia2todstopped) {
 	/* inc timer */
@@ -1585,8 +1518,11 @@ int cia2_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, cia2todlatch[2]);
     snapshot_module_write_byte(m, cia2todlatch[3]);
 
+    /* FIXME */
+#if 0
     snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_CIA2TOD]
                                     - clk));
+#endif
 
     snapshot_module_close(m);
 
@@ -1619,7 +1555,7 @@ int cia2_read_snapshot_module(snapshot_t *p)
     cia2_tbs = CIAT_STOPPED;
     cia2_tbu = 0;
     my_unset_tbi();
-    maincpu_unset_alarm(A_CIA2TOD);
+    alarm_unset(&cia2_tod_alarm);
 
     {
         snapshot_module_read_byte(m, &cia2[CIA_PRA]);
@@ -1717,7 +1653,7 @@ log_message(cia2_log, "snap setting rdi to %d (rclk=%d)", cia2rdi, clk);
     snapshot_module_read_byte(m, &cia2todlatch[3]);
 
     snapshot_module_read_dword(m, &dword);
-    maincpu_set_alarm(A_CIA2TOD, dword);
+    alarm_set(&cia2_tod_alarm, clk + dword);
 
     /* timer switch-on code from store_cia2[CIA_CRA/CRB] */
 
