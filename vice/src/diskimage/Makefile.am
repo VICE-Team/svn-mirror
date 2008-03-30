@@ -12,9 +12,9 @@ EXTRA_libdiskimage_a_SOURCES = \
         realimage.h
 
 libdiskimage_a_SOURCES = \
-	createdisk.c \
-	createdisk.h \
 	diskimage.c \
+	fsimage-create.c \
+	fsimage-create.h \
 	fsimage-gcr.c \
 	fsimage-gcr.h \
 	fsimage-probe.c \

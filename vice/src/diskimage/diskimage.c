@@ -30,9 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "createdisk.h"
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "fsimage-create.h"
 #include "fsimage-gcr.h"
 #include "fsimage.h"
 #include "log.h"
@@ -263,6 +263,27 @@ void disk_image_detach_log(disk_image_t *image, signed int lognum,
         break;
     }
 }
+/*-----------------------------------------------------------------------*/
+
+void disk_image_fsimage_name_set(disk_image_t *image, char *name)
+{
+    fsimage_name_set(image, name);
+}
+
+char *disk_image_fsimage_name_get(disk_image_t *image)
+{
+    return fsimage_name_get(image);
+}
+
+void *disk_image_fsimage_fd_get(disk_image_t *image)
+{
+    return fsimage_fd_get(image);
+}
+
+int disk_image_create(const char *name, unsigned int type)
+{
+    return fsimage_create(name, type);
+}
 
 /*-----------------------------------------------------------------------*/
 
@@ -446,7 +467,7 @@ int disk_image_read_gcr_image(disk_image_t *image)
 void disk_image_init(void)
 {
     disk_image_log = log_open("Disk Access");
-    disk_image_createdisk_init();
+    fsimage_create_init();
     fsimage_init();
 #ifdef HAVE_OPENCBM
     realimage_init();
