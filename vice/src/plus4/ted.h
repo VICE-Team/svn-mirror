@@ -42,7 +42,6 @@ extern void ted_reset(void);
 extern void ted_prepare_for_snapshot(void);
 extern void ted_powerup(void);
 extern void ted_reset_registers(void);
-extern void vic_ii_update_memory_ptrs_external(void);
 extern void ted_handle_pending_alarms(int num_write_cycles);
 extern int ted_screenshot(struct screenshot_s *screenshot);
 extern void ted_free(void);
