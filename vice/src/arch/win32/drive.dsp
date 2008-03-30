@@ -86,6 +86,10 @@ SOURCE="..\..\drive\drive-cmdline-options.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\drive\drive-overflow.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\drive\drive-resources.c"
 # End Source File
 # Begin Source File
