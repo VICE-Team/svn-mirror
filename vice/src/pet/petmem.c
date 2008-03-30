@@ -1301,7 +1301,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  */
 
 static const char module_ram_name[] = "PETMEM";
-#define	PETMEM_DUMP_VER_MAJOR	0
+#define	PETMEM_DUMP_VER_MAJOR	1
 #define	PETMEM_DUMP_VER_MINOR	0
 
 /*
@@ -1416,9 +1416,6 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &config);
 
     snapshot_module_read_byte(m, &byte);
-/*printf("read snapshot: kbdindex=%d, byte=%d\n",kbdindex, byte);*/
-/*    kbdindex = (byte << 1) | (kbdindex & 1);*/
-/*    resources_set_value("KeymapIndex", (resource_value_t) kbdindex); */
     pet.kbd_type = byte;
 
     snapshot_module_read_byte(m, &memsize);
@@ -1493,27 +1490,15 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 }
 
 static const char module_rom_name[] = "PETROM";
-#define	PETROM_DUMP_VER_MAJOR	0
+#define	PETROM_DUMP_VER_MAJOR	1
 #define	PETROM_DUMP_VER_MINOR	0
 
 /*
- * UBYTE	FLAG		Bit 0: 1= include filenames
- *				    1: 1= include images
- *
  * UBYTE 	CONFIG		Bit 0: 1= $9*** ROM included
  *				    1: 1= $a*** ROM included
  *				    2: 1= $b*** ROM included
  *				    3: 1= $e900-$efff ROM included
  *
- *				If FLAG & 1:	(not supported at this time)
- * STRING	KERNALNAME	filename of KERNAL ROM
- * STRING	EDITORNAME	filename of EDITOR ROM
- * STRING	CHARGENNAME	filename of CHARGEN ROM
- * STRING	ROM9NAME	filename of $9*** ROM
- * STRING	ROMANAME	filename of $A*** ROM
- * STRING	ROMBNAME	filename of $B*** ROM
- *
- * 				If FLAG & 2:
  * ARRAY	KERNAL		4k KERNAL ROM image $f000-$ffff
  * ARRAY	EDITOR		2k EDITOR ROM image $e000-$e800
  * ARRAY	CHARGEN		2k CHARGEN ROM image
@@ -1534,7 +1519,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     if (!save_roms) return 0;
 
-    save_roms = 2;
+ /*   save_roms = 2; */
 
     m = snapshot_module_create(p, module_rom_name,
                                PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
@@ -1546,10 +1531,10 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 		| (rom_B_loaded ? 4 : 0)
 		| ((pet.pet2k || pet.ramSize == 128) ? 8 : 0);
 
-    snapshot_module_write_byte(m, save_roms);
+/*    snapshot_module_write_byte(m, save_roms); */
     snapshot_module_write_byte(m, config);
 
-    if (save_roms & 2) {
+    /* if (save_roms & 2) */ {
         snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
         snapshot_module_write_byte_array(m, rom + 0x6000, 0x0800);
 
@@ -1598,7 +1583,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 		| (rom_B_loaded ? 4 : 0)
 		| ((pet.pet2k || pet.ramSize == 128) ? 8 : 0);
 
-    snapshot_module_read_byte(m, &flag);
+/*    snapshot_module_read_byte(m, &flag); */
     snapshot_module_read_byte(m, &config);
 
     rom_9_loaded = config & 1;
@@ -1609,7 +1594,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 	initialize_memory();
     }
 
-    if (flag & 2) {
+    /* if (flag & 2) */ {
         snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
         snapshot_module_read_byte_array(m, rom + 0x6000, 0x0800);
 

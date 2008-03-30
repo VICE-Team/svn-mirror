@@ -690,11 +690,11 @@ int vic_write_snapshot_module(snapshot_t *s)
         || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0)
         goto fail;
 
-    /* Color RAM.  */
-    if (snapshot_module_write_byte_array(m, ram + 0x9400, 0x800) < 0)
+    if (snapshot_module_write_word(m, (WORD) memptr) < 0)
         goto fail;
 
-    if (snapshot_module_write_word(m, (WORD) memptr) < 0)
+    /* Color RAM.  */
+    if (snapshot_module_write_byte_array(m, ram + 0x9400, 0x800) < 0)
         goto fail;
 
     for (i = 0; i < 0x10; i++)
@@ -716,6 +716,8 @@ int vic_read_snapshot_module(snapshot_t *s)
     BYTE major_version, minor_version;
     WORD w;
     BYTE b;
+
+    sound_close();
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);

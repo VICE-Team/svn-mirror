@@ -1250,7 +1250,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  * CBM2 memory dump should be 128, 256, 512 or 1024k, depending on the
  * config, as RAM.
  */
-#define CBM2MEM_DUMP_VER_MAJOR   0
+#define CBM2MEM_DUMP_VER_MAJOR   1
 #define CBM2MEM_DUMP_VER_MINOR   0
 
 /*
@@ -1415,24 +1415,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 /*********************************************************************/
 
 /*
- * UBYTE	FLAG		Bit 0: 1= include filenames
- *                                  1: 1= include images
- *
  * UBYTE	CONFIG		Bit 1: cart1 ROM included
  *				    2: cart2 ROM included
  *				    3: cart4 ROM included
  *				    4: cart6 ROM included
  *
- *                              if FLAG & 1:
- * STRING	KERNALNAME	filename of kernal ROM 
- * STRING	BASICNAME	filename of basic ROM 
- * STRING	CHARGENNAME	filename of chargen ROM 
- * STRING	CART1NAME	filename of cart1 (if config & 2)
- * STRING	CART2NAME	filename of cart2 (if config & 4)
- * STRING	CART4NAME	filename of cart4 (if config & 8)
- * STRING	CART6NAME	filename of cart6 (if config & 16)
- *
- *                              if FLAG & 2:
  * ARRAY        KERNAL		8k Kernal ROM ($e000-$ffff)
  * ARRAY        BASIC		16k Basic ROM ($8000-$bfff)
  * ARRAY	CHARGEN		4k chargen ROM image ($c*** for VIC-II)
@@ -1443,7 +1430,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  */
 
 static const char module_rom_name[] = "CBM2ROM";
-#define CBM2ROM_DUMP_VER_MAJOR   0
+#define CBM2ROM_DUMP_VER_MAJOR   1
 #define CBM2ROM_DUMP_VER_MINOR   0
 
 static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
@@ -1453,7 +1440,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     if (!save_roms) return 0;
 
-    save_roms = 2;	/* for test write images */
+    /* save_roms = 2;*/	/* for test write images */
 
     m = snapshot_module_create(p, module_rom_name,
                                CBM2ROM_DUMP_VER_MAJOR, CBM2ROM_DUMP_VER_MINOR);
@@ -1466,9 +1453,10 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 		| (cart_4_name ? 8 : 0)
 		| (cart_6_name ? 16 : 0) );
 
-    snapshot_module_write_byte(m, save_roms & 3 );
+    /* snapshot_module_write_byte(m, save_roms & 3 ); */
     snapshot_module_write_byte(m, config);
 
+#if 0
     if (save_roms & 1) {	/* Save ROM filenames */
 	snapshot_module_write_string(m, kernal_rom_name);
 	snapshot_module_write_string(m, basic_rom_name);
@@ -1478,8 +1466,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	snapshot_module_write_string(m, cart_4_name);
 	snapshot_module_write_string(m, cart_6_name);
     }
+#endif
 
-    if (save_roms & 2) {	/* Save as image */
+    /* if (save_roms & 2) */ {	/* Save as image */
 	/* kernal */
         snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
 	/* basic */
@@ -1520,14 +1509,15 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     if (vmajor != CBM2ROM_DUMP_VER_MAJOR)
         return -1;
-
+/*
     snapshot_module_read_byte(m, &byte);
     flag = ((int)byte) & 0xff;
-
+*/
     snapshot_module_read_byte(m, &config);
 
-    printf("CBM-II: flag=%d, config=%x\n",flag, config);
+    /* printf("CBM-II: config=%x\n",config); */
 
+#if 0
     if (flag & 1) {	/* Save ROM filenames */
 
 	printf("CBM-II: read ROM names\n");
@@ -1542,8 +1532,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
  	mem_load();
     }
+#endif
 
-    if (flag & 2) {	/* read images */
+    /* if (flag & 2) */ {	/* read images */
 	/* kernal */
         snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
 	/* basic */

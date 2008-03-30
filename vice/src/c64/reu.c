@@ -133,8 +133,11 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 	break;
 
       case 0x9:
-	retval = reu[6] | 0x3f;
+	retval = reu[9] | 0x1f;
 	break;
+
+      case 0xa:
+        retval = reu[0xa] | 0x3f;
 
       case 0xb:
       case 0xc:

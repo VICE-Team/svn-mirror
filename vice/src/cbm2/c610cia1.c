@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c610/c610cia1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/c610/c610cia1.def,
+ * ../../../src/cbm2/c610cia1.c
+ * This file is generated from ../../../src/cia-tmpl.c and ../../../src/cbm2/c610cia1.def,
  * Do not edit!
  */
 /*
@@ -1439,7 +1439,7 @@ void cia1_prevent_clk_overflow(CLOCK sub)
  * The version of this dump description is 0/0
  */
 
-#define	CIA_DUMP_VER_MAJOR	0
+#define	CIA_DUMP_VER_MAJOR	1
 #define	CIA_DUMP_VER_MINOR	0
 
 /*

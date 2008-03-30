@@ -958,7 +958,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 /*
  * VIC20 memory dump contains the available memory at the moment
  */
-#define VIC20MEM_DUMP_VER_MAJOR   0
+#define VIC20MEM_DUMP_VER_MAJOR   1
 #define VIC20MEM_DUMP_VER_MINOR   0
 #define SNAP_MEM_MODULE_NAME      "VIC20MEM"
 
@@ -1076,14 +1076,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 /*
  * VIC20 ROM dump
  */
-#define VIC20ROM_DUMP_VER_MAJOR   0
+#define VIC20ROM_DUMP_VER_MAJOR   1
 #define VIC20ROM_DUMP_VER_MINOR   0
 #define SNAP_ROM_MODULE_NAME      "VIC20ROM"
 
 /*
- * UBYTE	FLAG		Bit 0: 1= include filenames
- *				    1: 1= include images
- * 
  * UBYTE        CONFIG          Bit 0: 1 = ROM block $2*** enabled
  *				    1: 1 = ROM block $3*** enabled
  *				    4: 1 = ROM block $6*** enabled
@@ -1091,25 +1088,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  *				    6: 1 = ROM block $A*** enabled
  *				    7: 1 = ROM block $B*** enabled
  *
- * UBYTE	-		reserved
- *
- *				if FLAG & 1:
- * STRING	KERNALNAME	filename of kernal ROM
- * STRING	BASICNAME	filename of basic ROM
- * STRING	CHARGENNAME	filename of chargen ROM
- * STRING	BLK1ANAME	filename of cart to attach at $2000
- * STRING	BLK1BNAME	filename of cart to attach at $3000
- * STRING	-		reserved, 0-byte string
- * STRING	-		reserved, 0-byte string
- * STRING	BLK3ANAME	filename of cart to attach at $6000
- * STRING	BLK3BNAME	filename of cart to attach at $7000
- * STRING	BLK5ANAME	filename of cart to attach at $A000
- * STRING	BLK5BNAME	filename of cart to attach at $B000
- *
- * 				if FLAG & 2:
  * ARRAY	KERNAL		8k KERNAL ROM $e000-$ffff
  * ARRAY	BASIC		16k KERNAL ROM $c000-$dfff
- * ARRAY	CHARGEN		8k CHARGEN ROM 
+ * ARRAY	CHARGEN		4k CHARGEN ROM 
  * ARRAY	BLK1A		4k ROM $2*** (if CONFIG & 1)
  * ARRAY	BLK1B		4k ROM $3*** (if CONFIG & 2)
  * ARRAY	BLK3A		4k ROM $6*** (if CONFIG & 16)
@@ -1125,67 +1106,39 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     BYTE config;
     char *sp;
     
-    if (!save_roms) return 0;
-    save_roms=2;		/* for test write images only */
+    if (!save_roms)
+        return 0;
 
     m = snapshot_module_create(p, SNAP_ROM_MODULE_NAME,
-                          VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
+                               VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
     config = mem_rom_blocks;
 
-    snapshot_module_write_byte(m, save_roms);	/* flag */
     snapshot_module_write_byte(m, config);
-    snapshot_module_write_byte(m, 0);
 
-    if (save_roms & 1) {
-	snapshot_module_write_string(m, kernal_rom_name);
-	snapshot_module_write_string(m, basic_rom_name);
-	snapshot_module_write_string(m, chargen_rom_name);
+    snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
+    snapshot_module_write_byte_array(m, rom + 0xc000, 0x4000);
+    snapshot_module_write_byte_array(m, chargen_rom + 0x400, 0x1000);
 
-	resources_get_value("CartridgeFile2000", (resource_value_t*)(&sp));
-	snapshot_module_write_string(m, sp);
-
-	snapshot_module_write_string(m, NULL);
-	snapshot_module_write_string(m, NULL);
-	snapshot_module_write_string(m, NULL);
-
-	resources_get_value("CartridgeFile6000", (resource_value_t*)(&sp));
-	snapshot_module_write_string(m, sp);
-
-	snapshot_module_write_string(m, NULL);
-
-	resources_get_value("CartridgeFileA000", (resource_value_t*)(&sp));
-	snapshot_module_write_string(m, sp);
-	resources_get_value("CartridgeFileB000", (resource_value_t*)(&sp));
-	snapshot_module_write_string(m, sp);
+    if (config & 1) {
+        snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
     }
-
-    if (save_roms & 2) {
-
-        snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
-        snapshot_module_write_byte_array(m, rom + 0xc000, 0x4000);
-        snapshot_module_write_byte_array(m, chargen_rom + 0x400, 0x1000);
-
-        if (config & 1) {
-            snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
-        }
-        if (config & 2) {
-            snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
-        }
-        if (config & 16) {
-            snapshot_module_write_byte_array(m, rom + 0x6000, 0x1000);
-        }
-        if (config & 32) {
-            snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
-        }
-        if (config & 64) {
-            snapshot_module_write_byte_array(m, rom + 0xA000, 0x1000);
-        }
-        if (config & 128) {
-            snapshot_module_write_byte_array(m, rom + 0xB000, 0x1000);
-        }
+    if (config & 2) {
+        snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
+    }
+    if (config & 16) {
+        snapshot_module_write_byte_array(m, rom + 0x6000, 0x1000);
+    }
+    if (config & 32) {
+        snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
+    }
+    if (config & 64) {
+        snapshot_module_write_byte_array(m, rom + 0xA000, 0x1000);
+    }
+    if (config & 128) {
+        snapshot_module_write_byte_array(m, rom + 0xB000, 0x1000);
     }
 
     snapshot_module_close(m);
@@ -1207,59 +1160,37 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     if (vmajor != VIC20ROM_DUMP_VER_MAJOR)
         return -1;
 
-    snapshot_module_read_byte(m, &flag);
     snapshot_module_read_byte(m, &config);
-    snapshot_module_read_byte(m, &byte);	/* reserved */
 
-    if (flag & 1) {
-	snapshot_module_read_string(m, &kernal_rom_name);
-	snapshot_module_read_string(m, &basic_rom_name);
-	snapshot_module_read_string(m, &chargen_rom_name);
+    snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
+    snapshot_module_read_byte_array(m, rom + 0xc000, 0x4000);
+    snapshot_module_read_byte_array(m, chargen_rom + 0x400, 0x1000);
 
-	snapshot_module_read_string(m, &dummyp);
-	resources_set_value("CartridgeFile2000", (resource_value_t)(dummyp));
+    mem_rom_blocks = 0;
 
-	snapshot_module_read_string(m, &dummyp);
-	snapshot_module_read_string(m, &dummyp);
-	snapshot_module_read_string(m, &dummyp);
-
-	snapshot_module_read_string(m, &dummyp);
-	resources_set_value("CartridgeFile6000", (resource_value_t)(dummyp));
-
-	snapshot_module_read_string(m, &dummyp);
-
-	snapshot_module_read_string(m, &dummyp);
-	resources_get_value("CartridgeFileA000", (resource_value_t)(dummyp));
-	snapshot_module_read_string(m, &dummyp);
-	resources_get_value("CartridgeFileB000", (resource_value_t)(dummyp));
-
- 	mem_load();
+    if (config & 1) {
+        snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK1A;
     }
-
-    if (flag & 2) {
-
-        snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
-        snapshot_module_read_byte_array(m, rom + 0xc000, 0x4000);
-        snapshot_module_read_byte_array(m, chargen_rom + 0x400, 0x1000);
-
-        if (config & 1) {
-            snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
-        }
-        if (config & 2) {
-            snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
-        }
-        if (config & 16) {
-            snapshot_module_read_byte_array(m, rom + 0x6000, 0x1000);
-        }
-        if (config & 32) {
-            snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
-        }
-        if (config & 64) {
-            snapshot_module_read_byte_array(m, rom + 0xA000, 0x1000);
-        }
-        if (config & 128) {
-            snapshot_module_read_byte_array(m, rom + 0xB000, 0x1000);
-        }
+    if (config & 2) {
+        snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK1B;
+    }
+    if (config & 16) {
+        snapshot_module_read_byte_array(m, rom + 0x6000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK3A;
+    }
+    if (config & 32) {
+        snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK3B;
+    }
+    if (config & 64) {
+        snapshot_module_read_byte_array(m, rom + 0xA000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK5A;
+    }
+    if (config & 128) {
+        snapshot_module_read_byte_array(m, rom + 0xB000, 0x1000);
+        mem_rom_blocks |= VIC_ROM_BLK5B;
     }
 
     snapshot_module_close(m);
@@ -1269,14 +1200,16 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-int mem_write_snapshot_module(snapshot_t *m, int save_roms) {
+int mem_write_snapshot_module(snapshot_t *m, int save_roms)
+{
     if (mem_write_ram_snapshot_module(m) < 0
 	|| mem_write_rom_snapshot_module(m, save_roms) < 0 )
 	return -1;
     return 0;
 }
 
-int mem_read_snapshot_module(snapshot_t *m) {
+int mem_read_snapshot_module(snapshot_t *m)
+{
     if (mem_read_ram_snapshot_module(m) < 0
 	|| mem_read_rom_snapshot_module(m) < 0 )
 	return -1;

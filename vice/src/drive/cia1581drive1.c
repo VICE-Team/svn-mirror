@@ -1418,7 +1418,7 @@ void cia1581d1_prevent_clk_overflow(CLOCK sub)
  * The version of this dump description is 0/0
  */
 
-#define	CIA_DUMP_VER_MAJOR	0
+#define	CIA_DUMP_VER_MAJOR	1
 #define	CIA_DUMP_VER_MINOR	0
 
 /*

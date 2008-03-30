@@ -28,11 +28,17 @@ fi
 dnl Checks for programs.
 AC_PROG_CXX
 
-dnl Set CXXFLAGS for G++.
+dnl Set CXXFLAGS for G++. Use -fno-exceptions if supported.
 if test "$GXX" = yes; then
   if test "$ac_test_CXXFLAGS" != set; then
-    CXXFLAGS="-g -Wall -O2 -funroll-loops -fomit-frame-pointer"
-    AC_PROG_CXX
+    CXXFLAGS="-g -Wall -O2 -funroll-loops -fomit-frame-pointer -fno-exceptions"
+    AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
+    AC_TRY_COMPILER([main(){return(0);}], ac_cv_prog_cxx_works, ac_cv_prog_cxx_cross)
+    AC_MSG_RESULT($ac_cv_prog_cxx_works)
+    if test $ac_cv_prog_cxx_works = no; then
+      CXXFLAGS="-g -Wall -O2 -funroll-loops -fomit-frame-pointer"
+      AC_PROG_CXX
+    fi
   fi
 fi
 

@@ -1,7 +1,7 @@
 
 /*
- * ../../src/pet/petpia1.c
- * This file is generated from ../../src/pia-tmpl.c and ../../src/pet/petpia1.def,
+ * ../../../src/pet/petpia1.c
+ * This file is generated from ../../../src/pia-tmpl.c and ../../../src/pet/petpia1.def,
  * Do not edit!
  */
 /*
@@ -432,7 +432,7 @@ BYTE REGPARM1 peek_pia1(ADDRESS addr)
  * The version of this dump description is 0/0
  */
 
-#define PIA_DUMP_VER_MAJOR      0
+#define PIA_DUMP_VER_MAJOR      1
 #define PIA_DUMP_VER_MINOR      0
 
 static char snap_module_name[] = "PIA1";

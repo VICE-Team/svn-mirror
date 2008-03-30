@@ -1125,7 +1125,7 @@ void via_prevent_clk_overflow(CLOCK sub)
  */
 
 static char snap_module_name[] = "VIA";
-#define VIA_DUMP_VER_MAJOR      0
+#define VIA_DUMP_VER_MAJOR      1
 #define VIA_DUMP_VER_MINOR      0
 
 /*

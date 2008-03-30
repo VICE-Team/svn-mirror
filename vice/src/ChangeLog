@@ -1,3 +1,43 @@
+1998-10-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.21.
+
+	* c64/reu.c (read_reu): Register $9: fixed silly 6 -> 9 typo
+ 	(damn!) and no longer force bit 5 to be returned as 1.
+	Register $A: force returned bits 5-0 to be 1.
+
+	* vic20/vic.c (vic_read_snapshot_module): Call `sound_close()'
+	before restoring the snapshot.
+
+1998-10-14  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* vic20/vic.c (vic_write_snapshot_module): exchange writing
+	of color RAM and memptr.
+
+	* vic20/vic20mem (mem_read_rom_snapshot_module): set ROM mapping
+	flags in mem_rom_blocks such that initialize_memory actually 
+	maps the ROM.
+
+	* acia-tmpl.c, cia-tmpl.c, pia-tmpl.c, tpi-tmpl.c, via-tmpl.c
+	(*_DUMP_VER_MAJOR): set to 1, like described in the docs.
+
+	* cbm2/c610mem.c (mem_read_rom_snapshot_module, 
+	mem_write_rom_snapshot_module): Set major version number to 1, 
+	remove flag handling and always save images and no filenames.
+	(mem_read_ram_snapshot_module, mem_write_ram_snapshot_module):
+	set major version number to 1.
+	* pet/petmem.c: changed likewise
+	* vic20/vic20mem.c: changed likewise
+
+1998-10-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/c64ui.c: Added menu items for PC64 and C64S palettes.
+	* arch/msdos/c128ui.c: Likewise.
+
+	* arch/unix/xaw/c64ui.c: Added menu items for PC64 and C64S
+ 	palettes.
+	* arch/unix/xaw/c128ui.c: Likewise.
+
 1998-10-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.15.0.20.

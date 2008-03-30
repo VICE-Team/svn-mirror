@@ -506,6 +506,10 @@ goes to the following people:
   Arthur Hagen (art@broomstick.com)
   Douglas Carmichael (dcarmich@mcs.com)
   Ferenc Veres (lion@c64.rulez.org)
+  Andrea Musuruane (musuruan@biella.alpcom.it)
+  Frank Reichel (Frank.Reichel@forchheim.baynet.de)
+  Ullrich von Bassewitz
+  Holger Busse
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha

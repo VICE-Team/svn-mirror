@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c610/c610acia1.c
- * This file is generated from ../../../src/acia-tmpl.c and ../../../src/c610/c610acia1.def,
+ * ../../../src/cbm2/c610acia1.c
+ * This file is generated from ../../../src/acia-tmpl.c and ../../../src/cbm2/c610acia1.def,
  * Do not edit!
  */
 /*
@@ -184,7 +184,7 @@ void reset_acia1(void) {
  * The version of this dump description is 0/0
  */
 
-#define ACIA_DUMP_VER_MAJOR      0
+#define ACIA_DUMP_VER_MAJOR      1
 #define ACIA_DUMP_VER_MINOR      0
 
 /*

@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/c610/c610tpi1.c
- * This file is generated from ../../../src/tpi-tmpl.c and ../../../src/c610/c610tpi1.def,
+ * ../../../src/cbm2/c610tpi1.c
+ * This file is generated from ../../../src/tpi-tmpl.c and ../../../src/cbm2/c610tpi1.def,
  * Do not edit!
  */
 /*
@@ -407,7 +407,7 @@ void tpi1_restore_int(int bit, int state)
  * The version of this dump description is 0/0
  */
 
-#define TPI_DUMP_VER_MAJOR      0
+#define TPI_DUMP_VER_MAJOR      1
 #define TPI_DUMP_VER_MINOR      0
 
 /*

@@ -323,7 +323,7 @@ BYTE REGPARM1 peek_mypia(ADDRESS addr)
  * The version of this dump description is 0/0
  */
 
-#define PIA_DUMP_VER_MAJOR      0
+#define PIA_DUMP_VER_MAJOR      1
 #define PIA_DUMP_VER_MINOR      0
 
 static char snap_module_name[] = "MYPIA";
