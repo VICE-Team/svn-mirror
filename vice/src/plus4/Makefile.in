@@ -333,9 +333,11 @@ tcbm.o: tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/maincpu.h tcbm.h ../../src/drive/tia1551.h
 ted-cmdline-options.o: ted-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/cmdline.h \
-	../../src/raster/raster-cmdline-options.h ted-cmdline-options.h
+	../../src/config.h ../../src/cmdline.h \
+	../../src/raster/raster-cmdline-options.h ted-cmdline-options.h \
+	tedtypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h
 ted-color.o: ted-color.c ../../src/vice.h ../../src/config.h tedtypes.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \

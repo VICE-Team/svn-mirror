@@ -256,7 +256,10 @@ distdir: $(DISTFILES)
 	done
 vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h \
-	../../src/raster/raster-cmdline-options.h vdc-cmdline-options.h
+	../../src/raster/raster-cmdline-options.h vdc-cmdline-options.h \
+	vdctypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h
 vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \

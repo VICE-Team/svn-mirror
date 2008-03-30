@@ -263,9 +263,11 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vic-cmdline-options.o: vic-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/cmdline.h \
-	../../src/raster/raster-cmdline-options.h vic-cmdline-options.h
+	../../src/config.h ../../src/cmdline.h \
+	../../src/raster/raster-cmdline-options.h vic-cmdline-options.h \
+	vic.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h vic-mem.h vic20.h ../../src/video.h
 vic-color.o: vic-color.c ../../src/vice.h ../../src/config.h vic.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \

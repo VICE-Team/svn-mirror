@@ -43,6 +43,7 @@
 #include "fullscreenarch.h"
 #include "kbd.h"
 #include "log.h"
+#include "mouse.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
@@ -52,22 +53,18 @@
 #include "vidmode.h"
 #include "x11ui.h"
 
-#include "mouse.h"
-#include "ui.h"
-
 
 int dga1_is_enabled = 0;
 int dga1_is_suspended = 0;
 
 static log_t dga1_log = LOG_ERR;
 static int dga1_is_available = 0;
+static int dga1_is_initialized = 0;
 
 static XF86VidModeModeLine restoremodeline;
 
 static int timeout;
 static int EventBase, ErrorBase;
-
-int fullscreen_width, fullscreen_height;
 
 static int fb_bank, fb_mem;
 static BYTE *fb_addr;
@@ -110,11 +107,17 @@ static void dga2_refresh_func(video_canvas_t *canvas,
 
 int dga1_init(void)
 {
-    int MajorVersion, MinorVersion;
-
     dga1_log = log_open("DGA1");
 
     fb_depth = x11ui_get_display_depth() / 8;
+
+    dga1_is_available = 1;
+    return 0;
+}
+
+static int dga1_init_enable(void)
+{
+    int MajorVersion, MinorVersion;
 
     display = x11ui_get_display_ptr();
 
@@ -137,23 +140,24 @@ int dga1_init(void)
 
     if (geteuid() != 0) {
         log_error(dga1_log, _("Root permissions required to use DGA1."));
-        return 0;
+        return -1;
     }
 
     if (!XF86DGAGetVideo(display, screen, (char **)&fb_addr, &fb_width,
         &fb_bank, &fb_mem) || fb_bank < fb_mem) {
         log_error(dga1_log, _("Problems with DGA - disabling fullscreen."));
-        return 0;
+        return -1;
     }
 
-    dga1_is_available = 1;
+    dga1_is_initialized = 1;
+
     return 0;
 }
 
 extern XF86VidModeModeInfo **vm_modes;
 
 /* FIXME: Limiting vidmode to one active fullscreen window.  */
-static video_canvas_t *active_canvas;
+static video_canvas_t *active_canvas = NULL;
 
 int dga1_enable(struct video_canvas_s *canvas, int enable)
 {
@@ -162,6 +166,14 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
 
     if (enable) {
         XF86VidModeModeInfo *vm;
+
+        if (dga1_is_initialized == 0) {
+            if (dga1_init_enable() < 0)
+                return -1;
+        }
+
+        if (active_canvas != NULL)
+            return 0;
 
         XGrabKeyboard(display, XRootWindow(display, screen),
                       1, GrabModeAsync, GrabModeAsync, CurrentTime);
@@ -189,12 +201,9 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
             log_error(dga1_log, _("Error switching to fullscreen%s"),
                       vm_bestmodes[canvas->fullscreenconfig->mode].name);
             return -1;
-        } else {
-            fullscreen_width = vm->hdisplay;
-            fullscreen_height = vm->vdisplay;
         }
 
-        video_set_refresh_func(dga2_refresh_func);
+        canvas->video_fullscreen_refresh_func = dga2_refresh_func;
 
         XF86DGAGetVideo(display, screen, (char **)&fb_addr, &fb_width,
                         &fb_bank, &fb_mem);
@@ -233,11 +242,14 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
         if (!dga1_is_enabled)
             return 0;
 
+        if (active_canvas != canvas)
+            return 0;
+
         dga1_is_enabled = 0;
 
         log_message(dga1_log, _("Switch to windowmode"));
 
-        video_set_refresh_func(NULL);
+        canvas->video_fullscreen_refresh_func = NULL;
 
         XF86DGADirectVideo(display, screen, 0);
 
@@ -260,6 +272,8 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
         canvas->draw_buffer->canvas_width = saved_w;
         canvas->draw_buffer->canvas_height = saved_h;
         video_viewport_resize(canvas);
+
+        active_canvas = NULL;
     }
 
     x11kbd_focus_change();

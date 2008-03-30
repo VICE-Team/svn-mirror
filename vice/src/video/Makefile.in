@@ -275,7 +275,9 @@ video-canvas.o: video-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-cmdline-options.o: video-cmdline-options.c ../../src/vice.h \
-	../../src/config.h
+	../../src/config.h ../../src/cmdline.h ../../src/utils.h \
+	../../src/arch/unix/types.h ../../src/video.h \
+	../../src/viewport.h
 video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/palette.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \

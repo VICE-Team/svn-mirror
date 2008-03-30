@@ -256,10 +256,11 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/cmdline.h \
+	../../src/config.h ../../src/cmdline.h \
 	../../src/raster/raster-cmdline-options.h \
-	vicii-cmdline-options.h
+	vicii-cmdline-options.h viciitypes.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h ../../src/viewport.h
 vicii-color.o: vicii-color.c ../../src/vice.h ../../src/config.h \
 	viciitypes.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
@@ -315,11 +316,10 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/c64/c64.h ../../src/cartridge.h \
-	../../src/c64/c64cart.h ../../src/clkguard.h \
-	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/mem.h \
+	../../src/arch/unix/types.h ../../src/c64/c64.h \
+	../../src/cartridge.h ../../src/c64/c64cart.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
