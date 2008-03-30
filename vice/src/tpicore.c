@@ -137,7 +137,7 @@ void mytpi_reset( void ) {
 	_tpi_reset();
 }
 
-void mytpi_store( ADDRESS addr, BYTE byte ) {
+void REGPARM2 mytpi_store( ADDRESS addr, BYTE byte ) {
 
         if (mycpu_rmw_flag) {
             myclk --;
@@ -221,7 +221,7 @@ void mytpi_store( ADDRESS addr, BYTE byte ) {
 	tpi[addr] = byte;
 }
 
-BYTE mytpi_read( ADDRESS addr ) {
+BYTE REGPARM1 mytpi_read( ADDRESS addr ) {
 	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
