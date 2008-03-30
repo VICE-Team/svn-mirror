@@ -1188,6 +1188,8 @@ int mycia_read_snapshot_module(snapshot_t *p)
         return -1;
     }
 
+    mycia_reset ();
+
     /* stop timers, just in case */
     ciat_set_ctrl(&ciata, myclk, 0);
     ciat_set_ctrl(&ciatb, myclk, 0);

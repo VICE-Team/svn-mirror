@@ -487,6 +487,8 @@ vic_ii_prepare_for_snapshot (void)
   alarm_unset (&vic_ii.raster_fetch_alarm);
   vic_ii.draw_clk = CLOCK_MAX;
   alarm_unset (&vic_ii.raster_draw_alarm);
+  vic_ii.raster_irq_clk = CLOCK_MAX;
+  alarm_unset (&vic_ii.raster_irq_alarm);
 }
 
 
@@ -494,7 +496,7 @@ vic_ii_prepare_for_snapshot (void)
 void
 vic_ii_set_raster_irq (unsigned int line)
 {
-  if (line == vic_ii.raster_irq_line)
+  if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
     return;
 
   if (line < VIC_II_SCREEN_HEIGHT)
