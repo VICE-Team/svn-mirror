@@ -1,5 +1,35 @@
 2002-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.8.19.
+
+	* vicii/vicii-draw.c (draw_std_background): The background
+	color in the xsmooth region is set by xsmooth color.
+
+	* raster/raster-line.c, raster/raster-line.h, raster/raster.h,
+	crtc/crtc.c (raster_handle_end_of_frame): Renamed.
+
+2002-02-17  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/renderxv.c: Added scanline shading. Completed
+	implementation of double size rendering.
+	(find_yuv_port): Allow request for specific video format.
+
+	* arch/unix/x11/renderxv.h: Added scanline shading.
+
+	* arch/unix/x11/video.c: Added FOURCC resource and -fourcc
+	parameter.
+	(video_canvas_refresh): Added scanline shading for XVideo.
+
+	* c64/psiddrv.a65: Changed BRK interrupt vector to IRQ exit.
+
+	* raster/raster.c (raster_init): Removed special handling of
+	HAVE_XVIDEO.
+
+	* video/render1x1.c, video/render2x2.c, video/render2x2pal.c:
+	Removed ^M.
+
+2002-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.8.18.
 
 	* vicii/vicii-draw.c, vicii/vicii-mem.c, vicii/vicii.c,

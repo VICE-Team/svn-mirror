@@ -30,6 +30,7 @@
 struct raster_s;
 
 extern void raster_line_emulate(struct raster_s *raster);
+extern void raster_line_handle_end_of_frame(struct raster_s *raster);
 
 #endif
 

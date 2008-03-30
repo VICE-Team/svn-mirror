@@ -319,7 +319,6 @@ extern void raster_enable_double_scan(raster_t *raster, int enable);
 extern void raster_enable_double_size(raster_t *raster, int enablex, int enabley);
 extern void raster_mode_change(void);
 extern void raster_rebuild_tables(raster_t *raster);
-extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 extern void raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
 extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref);
