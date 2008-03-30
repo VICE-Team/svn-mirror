@@ -195,7 +195,7 @@ static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address, BY
 /* ------------------------------------------------------------------------- */
 
 #ifdef _MSC_VER
-#pragma optimize("",off);
+#pragma optimize("",off)
 #endif
 
 void drive_mem_init(drive_context_t *drv, unsigned int type)
@@ -402,6 +402,6 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
 }
 
 #ifdef _MSC_VER
-#pragma optimize("",on);
+#pragma optimize("",on)
 #endif
 

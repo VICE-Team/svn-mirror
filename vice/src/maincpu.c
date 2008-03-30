@@ -46,12 +46,14 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* If this is #defined, you can set the `traceflg' variable to non-zero to
+   trace all the opcodes being executed.  This is mainly useful for
+   debugging, and also makes things a bit slower.  */
 /* #define TRACE */
 
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
- - NO_OPCODES
  - TRACE
 
  The following are optional:
@@ -90,17 +92,9 @@
 
 /* The following #defines are useful for debugging and speed tuning.  */
 
-/* If this is #defined, you can set the `traceflg' variable to non-zero to
-   trace all the opcodes being executed.  This is mainly useful for
-   debugging, and also makes things a bit slower.  */
-/* #define TRACE */
-
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
 #undef IO_AREA_WARNING
-
-/* Run without interpreting opcodes (just fetch them from memory).  */
-#undef NO_OPCODES
 
 /* Do not handle CPU alarms, but measure speed instead.  */
 #undef EVALUATE_SPEED
@@ -271,7 +265,7 @@ mos6510_regs_t maincpu_regs;
 /* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
    instructions being executed.  */
 #ifdef TRACE
-int traceflg = 1;
+int traceflg = 0;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -460,66 +454,58 @@ void mainloop(ADDRESS start_address)
                    reg_pc, p0, p1, p2, clk);
 #endif
 
-#ifdef NO_OPCODES
+#define CLK clk
+#define RMW_FLAG rmw_flag
+#define LAST_OPCODE_INFO last_opcode_info
+#define TRACEFLG traceflg
 
-	clk += 4;
+#define CPU_INT_STATUS	maincpu_int_status
 
-#else  /* !NO_OPCODES */
+#define ALARM_CONTEXT maincpu_alarm_context
 
-#  define CLK clk
-#  define RMW_FLAG rmw_flag
-#  define LAST_OPCODE_INFO last_opcode_info
-#  define TRACEFLG traceflg
+#define CHECK_PENDING_ALARM() \
+   (clk >= next_alarm_clk(&maincpu_int_status))
 
-#  define CPU_INT_STATUS	maincpu_int_status
+#define CHECK_PENDING_INTERRUPT() \
+   check_pending_interrupt(&maincpu_int_status)
 
-#  define ALARM_CONTEXT maincpu_alarm_context
+#define TRAP(addr) \
+   maincpu_int_status.trap_func(addr);
 
-#  define CHECK_PENDING_ALARM() \
-     (clk >= next_alarm_clk(&maincpu_int_status))
+#define ROM_TRAP_HANDLER() \
+   traps_handler()
 
-#  define CHECK_PENDING_INTERRUPT() \
-     check_pending_interrupt(&maincpu_int_status)
+#define JAM()                                                         \
+   do {                                                               \
+      int tmp;                                                        \
+                                                                      \
+      EXPORT_REGISTERS();                                             \
+      tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
+      switch (tmp) {                                                  \
+        case UI_JAM_RESET:                                            \
+          DO_INTERRUPT(IK_RESET);                                     \
+          break;                                                      \
+        case UI_JAM_HARD_RESET:                                       \
+          mem_powerup();                                              \
+          DO_INTERRUPT(IK_RESET);                                     \
+          break;                                                      \
+        case UI_JAM_MONITOR:                                          \
+          caller_space = e_comp_space;                                \
+          mon(reg_pc);                                                \
+          IMPORT_REGISTERS();                                         \
+          break;                                                      \
+        default:                                                      \
+          CLK++;                                                      \
+      }                                                               \
+   } while (0)
 
-#  define TRAP(addr) \
-     maincpu_int_status.trap_func(addr);
+#define CALLER		e_comp_space
 
-#  define ROM_TRAP_HANDLER() \
-     traps_handler()
+#define ROM_TRAP_ALLOWED()    mem_rom_trap_allowed(reg_pc)
 
-#  define JAM()                                                         \
-     do {                                                               \
-        int tmp;                                                        \
-                                                                        \
-        EXPORT_REGISTERS();                                             \
-        tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
-        switch (tmp) {                                                  \
-          case UI_JAM_RESET:                                            \
-            DO_INTERRUPT(IK_RESET);                                     \
-            break;                                                      \
-          case UI_JAM_HARD_RESET:                                       \
-            mem_powerup();                                              \
-            DO_INTERRUPT(IK_RESET);                                     \
-            break;                                                      \
-          case UI_JAM_MONITOR:                                          \
-            caller_space = e_comp_space;                                \
-            mon(reg_pc);                                                \
-            IMPORT_REGISTERS();                                         \
-            break;                                                      \
-          default:                                                      \
-            CLK++;                                                      \
-        }                                                               \
-     } while (0)
+#define GLOBAL_REGS           maincpu_regs
 
-#  define CALLER		e_comp_space
-
-#  define ROM_TRAP_ALLOWED()    mem_rom_trap_allowed(reg_pc)
-
-#  define GLOBAL_REGS           maincpu_regs
-
-#  include "6510core.c"
-
-#endif /* !NO_OPCODES */
+#include "6510core.c"
 
     }
 }

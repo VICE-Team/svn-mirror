@@ -38,6 +38,7 @@
 
 #include "joystick.h"
 #include "keyboard.h"
+#include "maincpu.h"
 #include "types.h"
 #include "ui.h"
 #include "winmain.h"
@@ -46,6 +47,9 @@ int joystick_inited;
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
+
+static int joystick_fire_speed[2];
+static int joystick_fire_axis[2];
 
 /* ------------------------------------------------------------------------ */
 
@@ -68,6 +72,46 @@ static int set_joystick_device_2(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_joystick_fire1_speed(resource_value_t v, void *param)
+{
+int speed = (int)v;
+
+    if(speed < 1) speed = 1;
+    if(speed > 32) speed = 32;
+    joystick_fire_speed[0] = speed;
+    return 0;
+}
+
+static int set_joystick_fire2_speed(resource_value_t v, void *param)
+{
+int speed = (int)v;
+
+    if(speed < 1) speed = 1;
+    if(speed > 32) speed = 32;
+    joystick_fire_speed[1] = speed;
+    return 0;
+}
+
+static int set_joystick_fire1_axis(resource_value_t v, void *param)
+{
+int axis =  (int)v;
+
+    if (axis<0) axis=0;
+    if (axis>4) axis=4;
+    joystick_fire_axis[0] = axis;
+    return 0;
+}
+
+static int set_joystick_fire2_axis(resource_value_t v, void *param)
+{
+int axis =  (int)v;
+
+    if (axis<0) axis=0;
+    if (axis>4) axis=4;
+    joystick_fire_axis[1] = axis;
+    return 0;
+}
+
 #define DEFINE_SET_KEYSET(num)                                     \
     static int set_keyset##num##(resource_value_t v, void *param)  \
     {                                                              \
@@ -87,6 +131,14 @@ static resource_t resources[] = {
     { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
       (resource_value_t *) &joystick_device_2,
       set_joystick_device_2, NULL },
+    { "JoyAutofire1Speed", RES_INTEGER, (resource_value_t) 16,
+      (resource_value_t *) &joystick_fire_speed[0], set_joystick_fire1_speed, NULL },
+    { "JoyAutofire1Axis", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &joystick_fire_axis[0], set_joystick_fire1_axis, NULL },
+    { "JoyAutofire2Speed", RES_INTEGER, (resource_value_t) 16,
+      (resource_value_t *) &joystick_fire_speed[1], set_joystick_fire2_speed, NULL },
+    { "JoyAutofire2Axis", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &joystick_fire_axis[1], set_joystick_fire2_axis, NULL },
     { "KeySet1NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_NW],
        set_keyset1, (void *)KEYSET_NW },
@@ -226,11 +278,23 @@ void joystick_update(void)
 {
 BYTE        value;
 MMRESULT    result;
+int         idx;
+DWORD       addflag;
+UINT        amin;
+UINT        amax;
+DWORD       apos;
 
-    if ((joystick_device_1==JOYDEV_HW1) || (joystick_device_2==JOYDEV_HW1)) {
+    if((idx = (joystick_device_1==JOYDEV_HW1) ? 0 : ((joystick_device_2==JOYDEV_HW1) ? 1 : -1)) != -1) {
+        switch(joystick_fire_axis[idx]) {
+            case 1: addflag = JOY_RETURNZ; break;
+            case 2: addflag = JOY_RETURNV; break;
+            case 3: addflag = JOY_RETURNU; break;
+            case 4: addflag = JOY_RETURNR; break;
+            default: addflag = 0;
+        }
+        joy_info.dwFlags=JOY_RETURNBUTTONS | JOY_RETURNCENTERED | JOY_RETURNX | JOY_RETURNY | addflag;
         value=0;
         joy_info.dwSize=sizeof(JOYINFOEX);
-        joy_info.dwFlags=JOY_RETURNBUTTONS | JOY_RETURNCENTERED | JOY_RETURNX | JOY_RETURNY;
         result=joyGetPosEx(JOYSTICKID1,&joy_info);
         if (result==JOYERR_NOERROR) {
             result=joyGetDevCaps(JOYSTICKID1,&joy_caps,sizeof(JOYCAPS));
@@ -247,23 +311,52 @@ MMRESULT    result;
                 if (joy_info.dwYpos>=joy_caps.wYmin+(joy_caps.wYmax-joy_caps.wYmin)/4*3) {
                     value|=2;
                 }
-                if (joy_info.dwButtons) {
-                    value|=16;
+                if(joy_info.dwButtons & 0x0001) {
+                    value |= 16;
+                } else if(joy_info.dwButtons & 0x0002) {
+                    if((joystick_fire_axis[idx])&&(joy_info.dwFlags&addflag)) {
+                        switch(joystick_fire_axis[idx]) {
+                            case 1:
+                                amin = joy_caps.wZmin;
+                                amax = joy_caps.wZmax;
+                                apos = joy_info.dwZpos;
+                                break;
+                            case 2:
+                                amin = joy_caps.wVmin;
+                                amax = joy_caps.wVmax;
+                                apos = joy_info.dwVpos;       
+                                break;
+                            case 3:
+                                amin = joy_caps.wUmin;
+                                amax = joy_caps.wUmax;
+                                apos = joy_info.dwUpos;
+                                break;
+                            case 4:
+                                amin = joy_caps.wRmin;
+                                amax = joy_caps.wRmax;
+                                apos = joy_info.dwRpos;
+                                break;
+                        }
+                        value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
+                    } else {
+                        value |= (clk/(joystick_fire_speed[idx]*0x100)) & 16;
+                    }     
                 }
-                if (joystick_device_1==JOYDEV_HW1) {
-                    joystick_set_value_absolute(1,value);
-                }
-                if (joystick_device_2==JOYDEV_HW1) {
-                    joystick_set_value_absolute(2,value);
-                }
+                joystick_set_value_absolute(idx+1, value);
             }
         }
     }
-
-    if ((joystick_device_1==JOYDEV_HW2) || (joystick_device_2==JOYDEV_HW2)) {
+    if((idx = (joystick_device_1==JOYDEV_HW2) ? 0 : ((joystick_device_2==JOYDEV_HW2) ? 1 : -1)) != -1) {
+        switch(joystick_fire_axis[idx]) {
+            case 1: addflag = JOY_RETURNZ; break;
+            case 2: addflag = JOY_RETURNV; break;
+            case 3: addflag = JOY_RETURNU; break;
+            case 4: addflag = JOY_RETURNR; break;
+            default: addflag = 0;
+        }
+        joy_info.dwFlags=JOY_RETURNBUTTONS | JOY_RETURNCENTERED | JOY_RETURNX | JOY_RETURNY | addflag;
         value=0;
         joy_info.dwSize=sizeof(JOYINFOEX);
-        joy_info.dwFlags=JOY_RETURNBUTTONS | JOY_RETURNCENTERED | JOY_RETURNX | JOY_RETURNY;
         result=joyGetPosEx(JOYSTICKID2,&joy_info);
         if (result==JOYERR_NOERROR) {
             result=joyGetDevCaps(JOYSTICKID2,&joy_caps,sizeof(JOYCAPS));
@@ -280,15 +373,38 @@ MMRESULT    result;
                 if (joy_info.dwYpos>=joy_caps.wYmin+(joy_caps.wYmax-joy_caps.wYmin)/4*3) {
                     value|=2;
                 }
-                if (joy_info.dwButtons) {
-                    value|=16;
+                if(joy_info.dwButtons & 0x0001) {
+                    value |= 16;
+                } else if(joy_info.dwButtons & 0x0002) {
+                    if((joystick_fire_axis[idx])&&(joy_info.dwFlags&addflag)) {
+                        switch(joystick_fire_axis[idx]) {
+                            case 1:
+                                amin = joy_caps.wZmin;
+                                amax = joy_caps.wZmax;
+                                apos = joy_info.dwZpos;
+                                break;
+                            case 2:
+                                amin = joy_caps.wVmin;
+                                amax = joy_caps.wVmax;
+                                apos = joy_info.dwVpos;       
+                                break;
+                            case 3:
+                                amin = joy_caps.wUmin;
+                                amax = joy_caps.wUmax;
+                                apos = joy_info.dwUpos;
+                                break;
+                            case 4:
+                                amin = joy_caps.wRmin;
+                                amax = joy_caps.wRmax;
+                                apos = joy_info.dwRpos;
+                                break;
+                        }
+                        value |= clk/(((amin+apos)*0x2000)/(amax-amin)+1) & 16;
+                    } else {
+                        value |= (clk/(joystick_fire_speed[idx]*0x100)) & 16;
+                    }     
                 }
-                if (joystick_device_1==JOYDEV_HW2) {
-                    joystick_set_value_absolute(1,value);
-                }
-                if (joystick_device_2==JOYDEV_HW2) {
-                    joystick_set_value_absolute(2,value);
-                }
+                joystick_set_value_absolute(idx+1, value);
             }
         }
     }

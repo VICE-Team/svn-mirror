@@ -161,6 +161,10 @@
 #define IDC_JOY_CALIBRATE               1203
 #define IDC_JOY_CONFIG_A                1204
 #define IDC_JOY_CONFIG_B                1205
+#define IDC_JOY_FIRE1_SPEED             1206
+#define IDC_JOY_FIRE2_SPEED             1207
+#define IDC_JOY_FIRE1_AXIS              1208
+#define IDC_JOY_FIRE2_AXIS              1209
 
 #define IDD_CONFIG_KEYSET_DIALOG        1210
 #define IDC_KEYSET_SW                   1211

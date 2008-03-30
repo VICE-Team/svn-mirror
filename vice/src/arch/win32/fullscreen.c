@@ -201,6 +201,9 @@ int                     i;
         search_device=search_device->next;
         i++;
     }
+
+    /*  This is here because some Matrox G200 drivers don't leave the window in its previous state */
+    ShowWindow(ui_get_main_hwnd(),SW_HIDE);
 }
 
 GUID *GetGUIDForActualDevice()

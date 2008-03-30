@@ -178,7 +178,7 @@ int machine_init_cmdline_options(void)
 static alarm_t c500_powerline_clk_alarm;
 static CLOCK c500_powerline_clk = 0;
 
-int c500_powerline_clk_alarm_handler (CLOCK offset) {
+void c500_powerline_clk_alarm_handler (CLOCK offset) {
 
     c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
 
@@ -188,7 +188,6 @@ int c500_powerline_clk_alarm_handler (CLOCK offset) {
 
     SIGNAL_VERT_BLANK_ON
 
-    return 0;
 }
 
 static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)

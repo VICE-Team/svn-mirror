@@ -57,7 +57,7 @@ inline static int raster_fill_sprite_cache (raster_t *raster,
   raster_sprite_status_t *sprite_status;
   int xs_return;
   int xe_return;
-  int rr, r, sxe, sxs, sxe1, sxs1, n, msk;
+  int rr, r, sxe, sxs, sxe1, sxs1, msk;
   unsigned int i;
   unsigned int num_sprites;
 
@@ -95,7 +95,6 @@ inline static int raster_fill_sprite_cache (raster_t *raster,
                   sxe1 = (sprite_cache->x
                           + (sprite_cache->x_expanded ? 48 : 24));
                   sxs1 = sprite_cache->x;
-                  n++;
                   if (sxs1 < sxs)
                     sxs = sxs1;
                   if (sxe1 > sxe)

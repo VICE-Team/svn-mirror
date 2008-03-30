@@ -31,7 +31,7 @@
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
 
-typedef int (*alarm_callback_t) (CLOCK offset);
+typedef void (*alarm_callback_t) (CLOCK offset);
 
 /* An alarm.  */
 struct alarm_s {

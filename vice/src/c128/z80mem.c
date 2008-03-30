@@ -209,7 +209,7 @@ static void REGPARM2 store_unconnected_io(ADDRESS addr, BYTE value)
 }
 
 #ifdef _MSC_VER
-#pragma optimize("",off);
+#pragma optimize("",off)
 #endif
 
 void z80mem_initialize(void)
@@ -451,7 +451,7 @@ void z80mem_initialize(void)
 }
 
 #ifdef _MSC_VER
-#pragma optimize("",on);
+#pragma optimize("",on)
 #endif
 
 void z80mem_set_bank_pointer(BYTE **base, int *limit)

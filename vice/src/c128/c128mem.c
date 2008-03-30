@@ -801,7 +801,7 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 #ifdef _MSC_VER
-#pragma optimize("",off);
+#pragma optimize("",off)
 #endif
 
 void initialize_memory(void)
@@ -1277,7 +1277,7 @@ void initialize_memory(void)
 }
 
 #ifdef _MSC_VER
-#pragma optimize("",on);
+#pragma optimize("",on)
 #endif
 
 /* ------------------------------------------------------------------------- */

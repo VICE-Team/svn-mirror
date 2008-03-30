@@ -127,15 +127,12 @@ static int beos_write(SWORD *pbuf, size_t nr)
 	return 0;
 }
 
-static int beos_bufferstatus(int first)
+static int beos_bufferspace(void)
 {	
 	int ret;
 	int current = game_sound->CurrentPosition();
 
-	if (first)
-		return 0;
-
-	ret = write_position - current;
+	ret = current - write_position;
 	if (ret < 0)
 		ret += bufferlength;
 
@@ -179,7 +176,7 @@ static sound_device_t beos_device =
     beos_write,
     NULL,
     NULL,
-    beos_bufferstatus,
+    beos_bufferspace,
     beos_close,
     beos_suspend,
     beos_resume

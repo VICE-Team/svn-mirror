@@ -30,6 +30,7 @@
 #include "sound.h"
 #include "ui.h"
 #include "winmain.h"
+#include "ui.h"
 
 static int ui_sound_freq[]={
     8000,

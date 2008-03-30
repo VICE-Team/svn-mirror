@@ -3,6 +3,8 @@
 
 #define UNSTABLE
 
+#pragma warning(disable : 4018 4244 4305 4761)
+
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define X_DISPLAY_DEPTH         0

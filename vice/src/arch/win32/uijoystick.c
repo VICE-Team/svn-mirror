@@ -222,6 +222,7 @@ static void init_joystick_dialog(HWND hwnd)
 {
 HWND    joy_hwnd;
 int     res_value;
+int     device;
 
     joy_hwnd=GetDlgItem(hwnd,IDC_JOY_DEV1);
     SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"None");
@@ -232,6 +233,20 @@ int     res_value;
     SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #2");
     resources_get_value("JoyDevice1",(resource_value_t *)&res_value);
     SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    device=res_value;
+
+    resources_get_value("JoyAutofire1Speed",(resource_value_t*)&res_value);
+    SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,res_value,FALSE);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
+    resources_get_value("JoyAutofire1Axis",(resource_value_t*)&res_value);
+    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),((device==JOYDEV_HW1)||(device==JOYDEV_HW2))&&(res_value==0));
+    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),(device==JOYDEV_HW1)||(device==JOYDEV_HW2));
 
     joy_hwnd=GetDlgItem(hwnd,IDC_JOY_DEV2);
     SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"None");
@@ -242,6 +257,20 @@ int     res_value;
     SendMessage(joy_hwnd,CB_ADDSTRING,0,(LPARAM)"PC joystick #2");
     resources_get_value("JoyDevice2",(resource_value_t *)&res_value);
     SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    device=res_value;
+
+    resources_get_value("JoyAutofire2Speed",(resource_value_t*)&res_value);
+    SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,res_value,FALSE);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Z-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
+    resources_get_value("JoyAutofire2Axis",(resource_value_t*)&res_value);
+    SendMessage(joy_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),((device==JOYDEV_HW1)||(device==JOYDEV_HW2))&&(res_value==0));
+    EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),(device==JOYDEV_HW1)||(device==JOYDEV_HW2));
 
     EnableWindow(GetDlgItem(hwnd,IDC_JOY_CALIBRATE),joystick_inited);
 }
@@ -249,6 +278,8 @@ int     res_value;
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 int     command;
+int     res_value;
+int     axis;
 
     switch (msg) {
         case WM_INITDIALOG:
@@ -268,9 +299,55 @@ int     command;
                     current_keyset_index=1;
                     DialogBox(winmain_instance,(LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,hwnd,keyset_dialog);
                     return TRUE;
+                case IDC_JOY_DEV1:
+                    if(HIWORD(wparam)==CBN_SELCHANGE) {
+                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_DEV1,CB_GETCURSEL,0,0);
+                        axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),((res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2))&&(axis==0));
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),(res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2));
+                    }
+                    return TRUE;
+                case IDC_JOY_DEV2:
+                    if(HIWORD(wparam)==CBN_SELCHANGE) {
+                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_DEV2,CB_GETCURSEL,0,0);
+                        axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE2_AXIS,CB_GETCURSEL,0,0);
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),((res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2))&&(axis==0));
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),(res_value==JOYDEV_HW1)||(res_value==JOYDEV_HW2));
+                    }
+                    return TRUE;
+                case IDC_JOY_FIRE1_AXIS:
+                    if(HIWORD(wparam)==CBN_SELCHANGE) {
+                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE1_SPEED),(res_value==0));
+                    }
+                    return TRUE;
+                case IDC_JOY_FIRE1_SPEED:
+                    if(HIWORD(wparam)==EN_KILLFOCUS) {
+                        res_value = GetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,NULL,FALSE);
+                        if(res_value > 32) SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,32,FALSE);
+                        if(res_value < 1) SetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,1,FALSE);
+                    }
+                    return TRUE;
+                case IDC_JOY_FIRE2_AXIS:
+                    if(HIWORD(wparam)==CBN_SELCHANGE) {
+                        res_value = SendDlgItemMessage(hwnd,IDC_JOY_FIRE2_AXIS,CB_GETCURSEL,0,0);
+                        EnableWindow(GetDlgItem(hwnd,IDC_JOY_FIRE2_SPEED),(res_value==0));
+                    }
+                    return TRUE;
+                case IDC_JOY_FIRE2_SPEED:
+                    if(HIWORD(wparam)==EN_KILLFOCUS) {
+                        res_value = GetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,NULL,FALSE);
+                        if(res_value > 32) SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,32,FALSE);
+                        if(res_value < 1) SetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,1,FALSE);
+                    }
+                    return TRUE;
                 case IDOK:
                     resources_set_value("JoyDevice1",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV1),CB_GETCURSEL,0,0));
                     resources_set_value("JoyDevice2",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_DEV2),CB_GETCURSEL,0,0));
+                    resources_set_value("JoyAutofire1Speed",(resource_value_t)GetDlgItemInt(hwnd,IDC_JOY_FIRE1_SPEED,NULL,FALSE));
+                    resources_set_value("JoyAutofire1Axis",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_FIRE1_AXIS),CB_GETCURSEL,0,0));
+                    resources_set_value("JoyAutofire2Speed",(resource_value_t)GetDlgItemInt(hwnd,IDC_JOY_FIRE2_SPEED,NULL,FALSE));
+                    resources_set_value("JoyAutofire2Axis",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_JOY_FIRE2_AXIS),CB_GETCURSEL,0,0));
                 case IDCANCEL:
                     EndDialog(hwnd,0);
                     return TRUE;
@@ -294,4 +371,49 @@ int device2;
     resources_get_value("JoyDevice2",(resource_value_t *)&device2);
     resources_set_value("JoyDevice1",(resource_value_t)device2);
     resources_set_value("JoyDevice2",(resource_value_t)device1);
+    resources_get_value("JoyAutofire1Speed",(resource_value_t *)&device1);
+    resources_get_value("JoyAutofire2Speed",(resource_value_t *)&device2);
+    resources_set_value("JoyAutofire1Speed",(resource_value_t)device2);
+    resources_set_value("JoyAutofire2Speed",(resource_value_t)device1);
+    resources_get_value("JoyAutofire1Axis",(resource_value_t *)&device1);
+    resources_get_value("JoyAutofire2Axis",(resource_value_t *)&device2);
+    resources_set_value("JoyAutofire1Axis",(resource_value_t)device2);
+    resources_set_value("JoyAutofire2Axis",(resource_value_t)device1);
+
+    resources_get_value("KeySet1NorthWest",(resource_value_t *)&device1);
+    resources_get_value("KeySet2NorthWest",(resource_value_t *)&device2);
+    resources_set_value("KeySet1NorthWest",(resource_value_t)device2);
+    resources_set_value("KeySet2NorthWest",(resource_value_t)device1);
+    resources_get_value("KeySet1North",(resource_value_t *)&device1);
+    resources_get_value("KeySet2North",(resource_value_t *)&device2);
+    resources_set_value("KeySet1North",(resource_value_t)device2);
+    resources_set_value("KeySet2North",(resource_value_t)device1);
+    resources_get_value("KeySet1NorthEast",(resource_value_t *)&device1);
+    resources_get_value("KeySet2NorthEast",(resource_value_t *)&device2);
+    resources_set_value("KeySet1NorthEast",(resource_value_t)device2);
+    resources_set_value("KeySet2NorthEast",(resource_value_t)device1);
+    resources_get_value("KeySet1East",(resource_value_t *)&device1);
+    resources_get_value("KeySet2East",(resource_value_t *)&device2);
+    resources_set_value("KeySet1East",(resource_value_t)device2);
+    resources_set_value("KeySet2East",(resource_value_t)device1);
+    resources_get_value("KeySet1SouthEast",(resource_value_t *)&device1);
+    resources_get_value("KeySet2SouthEast",(resource_value_t *)&device2);
+    resources_set_value("KeySet1SouthEast",(resource_value_t)device2);
+    resources_set_value("KeySet2SouthEast",(resource_value_t)device1);
+    resources_get_value("KeySet1South",(resource_value_t *)&device1);
+    resources_get_value("KeySet2South",(resource_value_t *)&device2);
+    resources_set_value("KeySet1South",(resource_value_t)device2);
+    resources_set_value("KeySet2South",(resource_value_t)device1);
+    resources_get_value("KeySet1SouthWest",(resource_value_t *)&device1);
+    resources_get_value("KeySet2SouthWest",(resource_value_t *)&device2);
+    resources_set_value("KeySet1SouthWest",(resource_value_t)device2);
+    resources_set_value("KeySet2SouthWest",(resource_value_t)device1);
+    resources_get_value("KeySet1West",(resource_value_t *)&device1);
+    resources_get_value("KeySet2West",(resource_value_t *)&device2);
+    resources_set_value("KeySet1West",(resource_value_t)device2);
+    resources_set_value("KeySet2West",(resource_value_t)device1);
+    resources_get_value("KeySet1Fire",(resource_value_t *)&device1);
+    resources_get_value("KeySet2Fire",(resource_value_t *)&device2);
+    resources_set_value("KeySet1Fire",(resource_value_t)device2);
+    resources_set_value("KeySet2Fire",(resource_value_t)device1);
 }
