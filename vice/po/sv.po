@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-21 00:42+0200\n"
+"POT-Creation-Date: 2002-05-25 19:26+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -520,70 +520,69 @@ msgstr "ROM-inställningar"
 msgid "I/O extensions at $DFxx"
 msgstr "I/O-utökningar på $DFxx"
 
-#: src/arch/unix/joystick.c:81
+#: src/arch/unix/joy.c:81
 msgid "Set device for joystick port 1"
 msgstr "Välj enhet för spelport 1"
 
-#: src/arch/unix/joystick.c:83
+#: src/arch/unix/joy.c:83
 msgid "Set device for joystick port 2"
 msgstr "Välj enhet för spelport 2"
 
-#: src/arch/unix/joystick.c:197 src/arch/unix/joystick.c:246
-#: src/arch/unix/joystick.c:393
+#: src/arch/unix/joy.c:198 src/arch/unix/joy.c:247 src/arch/unix/joy.c:393
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kan inte öppna styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joystick.c:208
+#: src/arch/unix/joy.c:209
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Kan inte läsa styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joystick.c:227
+#: src/arch/unix/joy.c:228
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
 
-#: src/arch/unix/joystick.c:280
+#: src/arch/unix/joy.c:281
 msgid "Error reading digital joystick device."
 msgstr "Fel vid läsning av digital styrspak."
 
-#: src/arch/unix/joystick.c:296
+#: src/arch/unix/joy.c:297
 msgid "Error reading joystick device."
 msgstr "Fel vid läsning av styrspak."
 
-#: src/arch/unix/joystick.c:342
+#: src/arch/unix/joy.c:343
 msgid "Linux joystick interface initialization..."
 msgstr "Initiering av Linuxstyrspaksgränssnitt..."
 
-#: src/arch/unix/joystick.c:369
+#: src/arch/unix/joy.c:369
 #, c-format
 msgid "%s unknown type"
 msgstr "%s okänd typ"
 
-#: src/arch/unix/joystick.c:370 src/arch/unix/joystick.c:385
+#: src/arch/unix/joy.c:370 src/arch/unix/joy.c:385
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Inbyggd drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/joystick.c:373
+#: src/arch/unix/joy.c:373
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kärnans drivrutinsversion: 0.8 ??"
 
-#: src/arch/unix/joystick.c:374
+#: src/arch/unix/joy.c:374
 msgid "Please update your Joystick driver !"
 msgstr "Uppdatera din styrspaksdrivrutin (joystick driver)!"
 
-#: src/arch/unix/joystick.c:375
+#: src/arch/unix/joy.c:375
 msgid "Fall back to old api routine"
 msgstr "Faller tillbaka till gammal API-rutin"
 
-#: src/arch/unix/joystick.c:388
+#: src/arch/unix/joy.c:388
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kärnans drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/main_exit.c:45
+#: src/arch/unix/main_exit.c:47
 msgid ""
 "\n"
 "Exiting..."
@@ -1249,7 +1248,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:1007 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1827
+#: src/arch/unix/x11/gnome/ui.c:1858
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1753,7 +1752,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1254
-#: src/arch/unix/x11/xaw/ui.c:1032
+#: src/arch/unix/x11/xaw/ui.c:1034
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
@@ -2295,22 +2294,22 @@ msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/ui.c:632 src/arch/unix/x11/xaw/ui.c:469
+#: src/arch/unix/x11/gnome/ui.c:632 src/arch/unix/x11/xaw/ui.c:470
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
 
-#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:473
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
 #: src/arch/unix/x11/gnome/ui.c:638 src/arch/unix/x11/gnome/ui.c:656
-#: src/arch/unix/x11/xaw/ui.c:475 src/arch/unix/x11/xaw/ui.c:492
+#: src/arch/unix/x11/xaw/ui.c:476 src/arch/unix/x11/xaw/ui.c:493
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-läge."
 
-#: src/arch/unix/x11/gnome/ui.c:664 src/arch/unix/x11/xaw/ui.c:500
+#: src/arch/unix/x11/gnome/ui.c:664 src/arch/unix/x11/xaw/ui.c:501
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
@@ -2338,7 +2337,7 @@ msgstr "Enhet %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:949 src/arch/unix/x11/xaw/ui.c:587
+#: src/arch/unix/x11/gnome/ui.c:949 src/arch/unix/x11/xaw/ui.c:588
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
@@ -2350,24 +2349,24 @@ msgstr "Kommandon"
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1238 src/arch/unix/x11/xaw/ui.c:1016
+#: src/arch/unix/x11/gnome/ui.c:1238 src/arch/unix/x11/xaw/ui.c:1018
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1022
+#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1024
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1029
+#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1031
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1297 src/arch/unix/x11/xaw/ui.c:1066
+#: src/arch/unix/x11/gnome/ui.c:1297 src/arch/unix/x11/xaw/ui.c:1068
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
 #: src/arch/unix/x11/gnome/ui.c:1317 src/arch/unix/x11/gnome/ui.c:1320
-#: src/arch/unix/x11/xaw/ui.c:1087 src/arch/unix/x11/xaw/ui.c:1093
+#: src/arch/unix/x11/xaw/ui.c:1089 src/arch/unix/x11/xaw/ui.c:1095
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -2378,57 +2377,57 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1648 src/arch/unix/x11/xaw/ui.c:1303
+#: src/arch/unix/x11/gnome/ui.c:1648 src/arch/unix/x11/xaw/ui.c:1305
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/ui.c:1786
+#: src/arch/unix/x11/gnome/ui.c:1817
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/ui.c:1801
+#: src/arch/unix/x11/gnome/ui.c:1832
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/ui.c:1827
+#: src/arch/unix/x11/gnome/ui.c:1858
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/ui.c:1827
+#: src/arch/unix/x11/gnome/ui.c:1858
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1871 src/arch/unix/x11/xaw/ui.c:1543
+#: src/arch/unix/x11/gnome/ui.c:1902 src/arch/unix/x11/xaw/ui.c:1592
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/ui.c:1872
+#: src/arch/unix/x11/gnome/ui.c:1903
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/ui.c:1885
+#: src/arch/unix/x11/gnome/ui.c:1916
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1893 src/arch/unix/x11/gnome/ui.c:1902
+#: src/arch/unix/x11/gnome/ui.c:1924 src/arch/unix/x11/gnome/ui.c:1933
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/ui.c:2030 src/arch/unix/x11/gnome/ui.c:2035
+#: src/arch/unix/x11/gnome/ui.c:2061 src/arch/unix/x11/gnome/ui.c:2066
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/ui.c:2493
+#: src/arch/unix/x11/gnome/ui.c:2524
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/ui.c:2540
+#: src/arch/unix/x11/gnome/ui.c:2571
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/ui.c:2566
+#: src/arch/unix/x11/gnome/ui.c:2597
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -2634,7 +2633,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problem med DGA - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:452 src/arch/unix/x11/fullscreen.c:382
+#: src/arch/unix/x11/dga2.c:456 src/arch/unix/x11/fullscreen.c:382
 #: src/arch/unix/x11/fullscreen.c:411
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2651,7 +2650,7 @@ msgstr "Fel vid växling till fullskärm %ix%i\n"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
-#: src/arch/unix/x11/dga2.c:636 src/arch/unix/x11/fullscreen.c:479
+#: src/arch/unix/x11/dga2.c:640 src/arch/unix/x11/fullscreen.c:479
 msgid "Switch to windowmode"
 msgstr "Växla till fönsterläge"
 
@@ -2674,37 +2673,37 @@ msgstr "Lyckades grena DGA\n"
 msgid "Found suitable mode for fullscreen."
 msgstr "Aktivera fullskärm"
 
-#: src/arch/unix/x11/dga2.c:383
+#: src/arch/unix/x11/dga2.c:392
 #, fuzzy
 msgid "Couldn't allocate pixel value cache."
 msgstr "Kunde inte skapa diskettavbildningsfil"
 
-#: src/arch/unix/x11/dga2.c:459
+#: src/arch/unix/x11/dga2.c:463
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:469
+#: src/arch/unix/x11/dga2.c:473
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:479
+#: src/arch/unix/x11/dga2.c:483
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:513
+#: src/arch/unix/x11/dga2.c:517
 #, fuzzy, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/dga2.c:525
+#: src/arch/unix/x11/dga2.c:529
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/dga2.c:569
+#: src/arch/unix/x11/dga2.c:573
 #, fuzzy
 msgid "Couldn't allocate color cache"
 msgstr "Kunde inte skapa diskettavbildningsfil"
@@ -2787,16 +2786,16 @@ msgstr "Kan inte släppa delat minne!"
 msgid "VICE Information"
 msgstr "VICE-information"
 
-#: src/arch/unix/x11/xaw/ui.c:1176
+#: src/arch/unix/x11/xaw/ui.c:1178
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1431
+#: src/arch/unix/x11/xaw/ui.c:1480
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/ui.c:1611
+#: src/arch/unix/x11/xaw/ui.c:1660
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 

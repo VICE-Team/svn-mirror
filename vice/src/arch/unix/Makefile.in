@@ -139,7 +139,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joystick.c 	joystick.h 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	rs232.c 	types.h 	ui.h 	uic64cart.c 	uic64cart.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uiedisk.h 	uihotkey.h 	uijoystick2.c 	uijoystick2.h 	uimenu.h 	uimon.c 	uipalemu.c 	uipalemu.h 	uipalette.c 	uipalette.h 	uiperipheral.c 	uiperipheral.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uirs232.c 	uirs232.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisid.c 	uisid.h 	uisnapshot.h 	uisound.c 	uisound.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c 	vsiduiunix.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joy.c 	joy.h 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	rs232.c 	types.h 	ui.h 	uic64cart.c 	uic64cart.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uiedisk.h 	uihotkey.h 	uijoystick2.c 	uijoystick2.h 	uimenu.h 	uimon.c 	uipalemu.c 	uipalemu.h 	uipalette.c 	uipalette.h 	uiperipheral.c 	uiperipheral.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uirs232.c 	uirs232.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisid.c 	uisid.h 	uisnapshot.h 	uisound.c 	uisound.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c 	vsiduiunix.h
 
 
 bin_SCRIPTS = vsid
@@ -159,7 +159,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o console.o \
-coproc.o joystick.o main_exit.o mouse.o petui.o plus4ui.o rs232.o \
+coproc.o joy.o main_exit.o mouse.o petui.o plus4ui.o rs232.o \
 uic64cart.o uicmdline.o uicommands.o uicrtc.o uidatasette.o uidrive.o \
 uijoystick2.o uimon.o uipalemu.o uipalette.o uiperipheral.o uiprinter.o \
 uireu.o uirs232.o uisettings.o uisid.o uisound.o uivicii.o vic20ui.o \
@@ -389,12 +389,15 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
+joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h joy.h ../../../src/keyboard.h types.h \
+	../../../src/log.h ../../../src/resources.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h joystick.h ../../../src/keyboard.h \
 	types.h ../../../src/log.h ../../../src/resources.h
-main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
-	joystick.h ../../../src/log.h ../../../src/machine.h \
-	main_exit.h ../../../src/sound.h types.h ../../../src/video.h
+main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h joy.h \
+	../../../src/log.h ../../../src/machine.h main_exit.h \
+	../../../src/sound.h types.h ../../../src/video.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/keyboard.h types.h mouse.h \
 	../../../src/log.h ../../../src/resources.h ui.h \
@@ -452,8 +455,8 @@ uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
 	x11/xaw/../x11menu.h
 uijoystick2.o: uijoystick2.c ../../../src/vice.h ../../../src/config.h \
-	joystick.h ../../../src/resources.h uimenu.h x11/xaw/uimenu.h \
-	ui.h types.h ../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
+	joy.h ../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h \
+	types.h ../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
 	x11/xaw/../x11menu.h ../../../src/vsync.h
 uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/monitor/mon.h types.h \
@@ -509,7 +512,7 @@ uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h c64ui.h \
 	uipalemu.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/debug.h icon.h \
-	joystick.h ../../../src/machine.h ../../../src/resources.h \
+	joy.h ../../../src/machine.h ../../../src/resources.h \
 	uicommands.h uidatasette.h uidrive.h uipalemu.h uipalette.h \
 	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h uiperipheral.h \
 	uimenu.h x11/xaw/uimenu.h uihotkey.h x11/xaw/../x11menu.h \
@@ -528,7 +531,7 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	vsiduiunix.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/kbdbuf.h types.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h ../../../src/vsyncapi.h joystick.h
+	x11/xaw/uiarch.h ../../../src/vsyncapi.h joy.h
 
 info-am:
 info: info-recursive

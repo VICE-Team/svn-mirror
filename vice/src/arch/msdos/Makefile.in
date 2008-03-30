@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c610kbd.c 	c64kbd.c 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	console.c 	grabkey.c 	grabkey.h 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petkbd.c 	petui.c 	petui.h 	plus4kbd.c 	plus4ui.c 	plus4ui.h 	sidui.c 	sidui.h 	statusbar.c 	statusbar.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h 	uiattach.h 	uiattach.c 	uicmdline.c 	uicmdline.h 	uimon.c 	uisnapshot.c 	uisnapshot.h 	vic20kbd.c 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	console.c 	grabkey.c 	grabkey.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	sidui.c 	sidui.h 	statusbar.c 	statusbar.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h 	uiattach.h 	uiattach.c 	uicmdline.c 	uicmdline.h 	uimon.c 	uisnapshot.c 	uisnapshot.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c
 
 
 EXTRA_DIST =  	vicesb.c 	vicesb.h 	vmidas.c 	vmidas.h
@@ -156,12 +156,11 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
-libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610ui.o c610kbd.o \
-c64kbd.o c64ui.o cbmcharsets.o console.o grabkey.o joystick.o kbd.o \
-main_exit.o mouse.o menudefs.o petkbd.o petui.o plus4kbd.o plus4ui.o \
-sidui.o statusbar.o tui.o tui_backend.o tuicharset.o tuiimagebrowser.o \
-tuifs.o tuimenu.o tuiview.o ui.o uiattach.o uicmdline.o uimon.o \
-uisnapshot.o vic20kbd.o vic20ui.o video.o vsidui.o vsync.o
+libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o cbmcharsets.o \
+console.o grabkey.o joy.o kbd.o main_exit.o mouse.o menudefs.o petui.o \
+plus4ui.o sidui.o statusbar.o tui.o tui_backend.o tuicharset.o \
+tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uiattach.o \
+uicmdline.o uimon.o uisnapshot.o vic20ui.o video.o vsidui.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -290,27 +289,26 @@ console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	statusbar.h
 grabkey.o: grabkey.c ../../../src/vice.h ../../../src/config.h kbd.h \
 	types.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/keyboard.h types.h \
-	joystick.h kbd.h ../../../src/resources.h
+joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/keyboard.h types.h joy.h \
+	kbd.h ../../../src/resources.h
 kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/datasette.h \
 	../../../src/fliplist.h ../../../src/interrupt.h \
-	../../../src/6510core.h types.h joystick.h kbd.h \
+	../../../src/6510core.h types.h joy.h kbd.h \
 	../../../src/keyboard.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/mem.h \
 	../../../src/resources.h statusbar.h ui.h ../../../src/uiapi.h \
 	../../../src/vsync.h
-main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
-	joystick.h kbd.h types.h ../../../src/log.h \
-	../../../src/machine.h main_exit.h ../../../src/sound.h \
-	../../../src/video.h
+main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h joy.h \
+	kbd.h types.h ../../../src/log.h ../../../src/machine.h \
+	main_exit.h ../../../src/sound.h ../../../src/video.h
 menudefs.o: menudefs.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/attach.h ../../../src/autostart.h types.h \
 	../../../src/datasette.h ../../../src/drive/drive.h \
 	../../../src/log.h grabkey.h kbd.h ../../../src/fsdevice.h \
 	../../../src/imagecontents.h ../../../src/info.h \
-	../../../src/interrupt.h ../../../src/6510core.h joystick.h \
+	../../../src/interrupt.h ../../../src/6510core.h joy.h \
 	../../../src/machine.h ../../../src/maincpu.h \
 	../../../src/mem.h menudefs.h tuimenu.h \
 	../../../src/monitor/mon.h ../../../src/mos6510.h \
@@ -395,8 +393,8 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/interrupt.h ../../../src/6510core.h joystick.h \
-	kbd.h ../../../src/kbdbuf.h ../../../src/machine.h \
+	../../../src/interrupt.h ../../../src/6510core.h joy.h kbd.h \
+	../../../src/kbdbuf.h ../../../src/machine.h \
 	../../../src/maincpu.h ../../../src/resources.h \
 	../../../src/sound.h ui.h ../../../src/uiapi.h \
 	../../../src/vsync.h

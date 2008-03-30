@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joystick.cc 	joystick.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	plus4kbd.c 	plus4ui.cc 	plus4ui.h 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_cbm2.cc 	ui_cbm2.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_pet.cc 	ui_pet.h 	ui_sid.cc 	ui_sid.h 	ui_sound.cc 	ui_sound.h 	ui_vic20.cc 	ui_vic20.h 	ui_vicii.cc 	ui_vicii.h 	ui_video.cc 	ui_video.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.cc 	vsyncarch.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joy.cc 	joy.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	plus4kbd.c 	plus4ui.cc 	plus4ui.h 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_cbm2.cc 	ui_cbm2.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_pet.cc 	ui_pet.h 	ui_sid.cc 	ui_sid.h 	ui_sound.cc 	ui_sound.h 	ui_vic20.cc 	ui_vic20.h 	ui_vicii.cc 	ui_vicii.h 	ui_video.cc 	ui_video.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.cc 	vsyncarch.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -153,7 +153,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
-c64kbd.o c64ui.o console.o joystick.o kbd.o main.o main_exit.o mouse.o \
+c64kbd.o c64ui.o console.o joy.o kbd.o main.o main_exit.o mouse.o \
 petkbd.o petui.o plus4kbd.o plus4ui.o statusbar.o ui.o ui_cbm2.o \
 ui_datasette.o ui_drive.o ui_device.o ui_file.o ui_joystick.o ui_pet.o \
 ui_sid.o ui_sound.o ui_vic20.o ui_vicii.o ui_video.o uicmdline.o \
