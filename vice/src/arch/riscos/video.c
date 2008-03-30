@@ -83,6 +83,8 @@ static const int StatusLEDSpace = 16;
 static char *ScreenModeString = NULL;
 static int ScreenSetPalette;
 
+static void video_full_screen_colours(void);
+
 
 static int set_screen_mode(resource_value_t v)
 {
@@ -219,6 +221,8 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
   palette_entry_t *p;
   unsigned int *ct;
 
+  if (palette == NULL) return 0;
+
   p = palette->entries;
   ct = canvas->colour_table;
 
@@ -281,7 +285,8 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
 
   canvas->width = *width; canvas->height = *height;
 
-  canvas->num_colours = palette->num_entries; canvas->pixel_translation = NULL;
+  canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
+  canvas->pixel_translation = NULL;
   memset(canvas->colour_table, 0, 256*sizeof(int));
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
   canvas->fb.tmpframebuffer = NULL;
@@ -480,9 +485,11 @@ canvas_t canvas_for_handle(int handle)
 }
 
 
-void canvas_next_active(void)
+void canvas_next_active(int moveCaret)
 {
   canvas_list_t *clist = CanvasList;
+
+  if (NumberOfCanvases <= 1) return;
 
   while (clist != NULL)
   {
@@ -504,7 +511,10 @@ void canvas_next_active(void)
 
     ui_show_emu_scale();
 
+    video_full_screen_colours();
     video_full_screen_refresh();
+
+    if (moveCaret != 0) Wimp_SetCaretPosition(ActiveCanvas->window->Handle, -1, -100, 100, -1, -1);
   }
 }
 
@@ -543,21 +553,11 @@ void disable_text(void)
 
 
 
-int video_full_screen_on(int *sprites)
+void video_full_screen_colours(void)
 {
   char *sdata, *limit;
 
-  if (newScreenValid == 0) return -1;
-
-  if (SwitchToMode(&newScreenMode, &oldScreenMode) != NULL)
-    return -1;
-
-  oldSingleTask = SingleTasking;
-  SingleTasking = 1;
-  FullScreenMode = 1;
-  wimp_read_screen_mode(&FullScrDesc);
-  FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
-  SpriteArea = sprites;
+  if (FullScreenMode == 0) return;
 
   /* Set the palette first thing */
   if (ScreenSetPalette != 0)
@@ -596,8 +596,8 @@ int video_full_screen_on(int *sprites)
     }
   }
 
-  sdata = ((char*)sprites) + sprites[2];
-  limit = ((char*)sprites) + sprites[0];
+  sdata = ((char*)SpriteArea) + SpriteArea[2];
+  limit = ((char*)SpriteArea) + SpriteArea[0];
   while (sdata < limit)
   {
     if (strncmp(sdata+4, "led_off", 12) == 0) SpriteLED0 = (unsigned int *)sdata;
@@ -612,11 +612,29 @@ int video_full_screen_on(int *sprites)
     SpriteLEDWidth <<= OS_ReadModeVariable(SpriteLEDMode, 4);
     SpriteLEDHeight <<= OS_ReadModeVariable(SpriteLEDMode, 5);
   }
+}
+
+
+int video_full_screen_on(int *sprites)
+{
+  if (newScreenValid == 0) return -1;
+
+  if (SwitchToMode(&newScreenMode, &oldScreenMode) != NULL)
+    return -1;
+
+  oldSingleTask = SingleTasking;
+  SingleTasking = 1;
+  FullScreenMode = 1;
+  wimp_read_screen_mode(&FullScrDesc);
+  FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
+  SpriteArea = sprites;
 
   /* Set text size */
   OS_WriteC(23); OS_WriteC(17); OS_WriteC(7); OS_WriteC(2);
   OS_WriteC(StatusCharSize); OS_WriteC(0); OS_WriteC(StatusCharSize); OS_WriteC(0);
   OS_WriteC(0); OS_WriteC(0);
+
+  video_full_screen_colours();
 
   raster_mode_change();
 

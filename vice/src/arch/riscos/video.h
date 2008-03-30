@@ -95,7 +95,7 @@ extern void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 				  unsigned int w, unsigned int h);
 extern void canvas_mode_change(void);
 extern canvas_t canvas_for_handle(int handle);
-extern void canvas_next_active(void);
+extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
 
 extern void text_enable(void);

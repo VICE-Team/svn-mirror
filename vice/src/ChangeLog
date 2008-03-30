@@ -1,3 +1,44 @@
+1999-06-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.40.
+
+	* arch/unix/xaw/ui.c: Define `_MIT_POSIX_THREADS'.
+
+1999-06-28  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: fixed remaining problems with multiple canvases.
+
+	* raster/raster.c: workaround for the case where colour number 0
+	is not black.
+
+1999-06-28  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/xaw/Makefile.am: Added vsidui.c.
+
+	* arch/unix/xaw/ui.c (ui_exit_thread, ui_thread_start,
+	ui_create_thread, ui_join_thread, ui_init_finish,
+	ui_dispatch_events): Separate thread for PSID UI.
+
+	* arch/unix/xaw/ui.h: Flag for PSID UI thread operation.
+
+	* arch/unix/xaw/uimenu.c (menu_popup_callback): Keep sound running
+	in psid mode.
+
+	* arch/unix/xaw/vsidui.c: New file.
+
+	* c64/c64.c: psid and console mode corrections.
+
+	* c64/psid.c: New command line switch -psid to start up in psid
+	mode without a selected PSID file.
+
+	* main.c: Allow startup in psid mode without a selected PSID file.
+
+	* raster/raster.c (update_canvas, update_canvas_all): Skip canvas
+	updates in psid and console mode.
+
+	* sound.c (sound_flush): Only do clkfactor magic for adjusting
+	sound.
+	
 1999-06-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.39.

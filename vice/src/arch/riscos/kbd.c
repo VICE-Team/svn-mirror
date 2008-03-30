@@ -398,7 +398,7 @@ void kbd_poll(void)
           case IntKey_F10:
             if (FullScreenMode != 0)
             {
-              canvas_next_active();
+              canvas_next_active(0);
             }
             break;
           case IntKey_F12:

@@ -3917,10 +3917,11 @@ static void ui_mouse_click(int *b)
     }
     else if (b[MouseB_Buttons] == 4)
     {
-      RO_Window *win = EmuWindow;
+      RO_Window *win;
       int block[WindowB_WFlags+1];
       int gainCaret;
 
+      win = (ActiveCanvas == NULL) ? EmuWindow : ActiveCanvas->window;
       block[0] = win->Handle; gainCaret = 0;
       Wimp_GetWindowState(block);
       /* Window was closed? Then open centered... */
@@ -4464,8 +4465,7 @@ static void ui_key_press(int *b)
         ui_set_pane_state(ShowEmuPane);
         break;
       case 0x1ca:
-        canvas_next_active();
-        Wimp_SetCaretPosition(ActiveCanvas->window->Handle, -1, -100, 100, -1, -1);
+        canvas_next_active(1);
         break;
       case 0x18b:
         EmuPaused ^= 1;
@@ -4736,7 +4736,7 @@ static void ui_menu_selection(int *b)
           ui_set_pane_state(ShowEmuPane);
           break;
         case Menu_EmuWin_Active:
-          canvas_next_active();
+          canvas_next_active(0);
           break;
         case Menu_EmuWin_TrueDrvEmu:
           ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));

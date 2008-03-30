@@ -78,6 +78,9 @@ realize_canvas (raster_t *raster)
         return -1;
 
       update_pixel_tables (raster);
+
+      if (raster->pixel_table.sing[0] != 0)
+        raster_force_repaint(raster);
     }
   else
     canvas_resize (viewport->canvas, viewport->width, viewport->height);
@@ -226,6 +229,10 @@ update_canvas (raster_t *raster)
   int x, y, xx, yy;
   int w, h;
 
+  if (console_mode || psid_mode) {
+    return;
+  }
+
   update_area = &raster->update_area;
   viewport = &raster->viewport;
 
@@ -275,6 +282,10 @@ static void
 update_canvas_all (raster_t *raster)
 {
   raster_viewport_t *viewport;
+
+  if (console_mode || psid_mode) {
+    return;
+  }
 
   viewport = &raster->viewport;
 
