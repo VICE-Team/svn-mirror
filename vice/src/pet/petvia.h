@@ -30,21 +30,13 @@
 #include "types.h"
 
 struct machine_context_s;
-struct snapshot_s;
 struct via_context_s;
 
 extern void petvia_setup_context(struct machine_context_s *machine_context);
-extern void via_reset(struct via_context_s *via_context);
 extern void via_init(struct via_context_s *via_context);
-extern void via_signal(struct via_context_s *via_context, int line, int edge);
 extern BYTE REGPARM1 via_read(WORD addr);
 extern BYTE REGPARM1 via_peek(WORD addr);
 extern void REGPARM2 via_store(WORD addr, BYTE value);
-
-extern int via_snapshot_read_module(struct via_context_s *via_context,
-                                    struct snapshot_s *s);
-extern int via_snapshot_write_module(struct via_context_s *via_context,
-                                     struct snapshot_s *s);
 
 #endif
 

@@ -43,28 +43,16 @@ extern void drive_via_set_atn(struct via_context_s *via_context, int state);
 extern void via1_set_atn(struct drive_context_s *ctxptr, BYTE state);
 
 extern void via1d_init(struct drive_context_s *ctxptr);
-extern void via1d_reset(struct via_context_s *via_context);
-extern void via1d_signal(struct via_context_s *via_context, int line, int edge);
 extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, WORD addr,
                                  BYTE byte);
 extern BYTE REGPARM2 via1d_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE REGPARM2 via1d_peek(struct drive_context_s *ctxptr, WORD addr);
-extern int via1d_snapshot_write_module(struct via_context_s *via_context,
-                                       struct snapshot_s *p);
-extern int via1d_snapshot_read_module(struct via_context_s *via_context,
-                                      struct snapshot_s *p);
 
 extern void via2d_init(struct drive_context_s *ctxptr);
-extern void via2d_reset(struct via_context_s *via_context);
-extern void via2d_signal(struct via_context_s *via_context, int line, int edge);
 extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, WORD addr,
                                  BYTE byte);
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE REGPARM2 via2d_peek(struct drive_context_s *ctxptr, WORD addr);
-extern int via2d_snapshot_write_module(struct via_context_s *via_context,
-                                       struct snapshot_s *p);
-extern int via2d_snapshot_read_module(struct via_context_s *via_context,
-                                      struct snapshot_s *p);
 
 typedef struct via_initdesc_s {
     struct via_context_s *via_ptr;
@@ -81,8 +69,8 @@ extern void via_drive_init(struct drive_context_s *ctxptr,
                                   state)
 #define drive1_via_set_atn(state) drive_via_set_atn(&(drive1_context.via1), \
                                   state)
-#define via1d0_signal(l, e)       via1d_signal(&(drive0_context.via1), l, e)
-#define via1d1_signal(l, e)       via1d_signal(&(drive1_context.via1), l, e)
+#define via1d0_signal(l, e)       viacore_signal(&(drive0_context.via1), l, e)
+#define via1d1_signal(l, e)       viacore_signal(&(drive1_context.via1), l, e)
 
 extern void viad2_update_pcr(int pcrval, struct drive_s *dptr);
 
