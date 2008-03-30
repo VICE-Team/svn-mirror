@@ -66,8 +66,11 @@ BEGIN
         MENUITEM "&Monitor\tAlt+M",         IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hard\tCtrl+Alt+R",   IDM_HARD_RESET
-            MENUITEM "&Soft\tAlt+R",        IDM_SOFT_RESET
+            MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM SEPARATOR
+            MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
+            MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
         END
 #ifdef DEBUG
 		POPUP "&Debug"
