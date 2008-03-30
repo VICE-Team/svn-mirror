@@ -168,7 +168,7 @@ reg8 SID::read(reg8 offset)
 void SID::write(reg8 offset, reg8 value)
 {
   bus_value = value;
-  bus_value_ttl = 0x2000;
+  bus_value_ttl = 0x4000;
 
   switch (offset) {
   case 0x00:

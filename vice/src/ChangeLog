@@ -1,3 +1,54 @@
+2006-07-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.20.
+
+	* resid/sid.cc (SID::write): Increased bus ttl value.
+
+	* attach.c (detach_disk_image_and_free): Fixed crash if there
+	is a shurdown during initialization.
+
+2006-07-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gp2x/ui_gp2x.c, arch/unix/gp2x/vsidui.c: Did some
+	more clean-up to the gp2x port.
+
+2006-07-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gp2x/Makefile.am, arch/unix/gp2x/c128ui.c,
+	arch/unix/gp2x/c64ui.c, arch/unix/gp2x/cbm2ui.c,
+	arch/unix/gp2x/petui.c, arch/unix/gp2x/petui.c,
+	arch/unix/gp2x/plus4ui.c, arch/unix/gp2x/rs232.c,
+	arch/unix/gp2x/ui.c, arch/unix/gp2x/ui_gp2x.c,
+	arch/unix/gp2x/uiacia1.c, arch/unix/gp2x/uiattach.c,
+	arch/unix/gp2x/uic64_256k.c, arch/unix/gp2x/uic64cart.c,
+	arch/unix/gp2x/uicommands.c, arch/unix/gp2x/uicrtc.c,
+	arch/unix/gp2x/uidatasette.c, arch/unix/gp2x/uidrive.c,
+	arch/unix/gp2x/uidrivec128.c, arch/unix/gp2x/uidrivec128.c,
+	arch/unix/gp2x/uidrivec64vic20.c, arch/unix/gp2x/uidriveiec.c,
+	arch/unix/gp2x/uidrivepetcbm2.c,
+	arch/unix/gp2x/uidriveplus4.c,
+	arch/unix/gp2x/uifliplist.c, arch/unix/gp2x/uigeoram.c,
+	arch/unix/gp2x/uiide64.c, arch/unix/gp2x/uijoystick2.c,
+	arch/unix/gp2x/uikeyboard.c, arch/unix/gp2x/uilib.c,
+	arch/unix/gp2x/uilib.h, arch/unix/gp2x/uipalemu.c,
+	arch/unix/gp2x/uipalette.c, arch/unix/gp2x/uiperipheral.c,
+	arch/unix/gp2x/uiperipheraliec.c,
+	arch/unix/gp2x/uiperipheralieee.c, arch/unix/gp2x/uipetreu.c,
+	arch/unix/gp2x/uiplus256k.c, arch/unix/gp2x/uiplus60k.c,
+	arch/unix/gp2x/uiprinter.c, arch/unix/gp2x/uiprinteriec.c,
+	arch/unix/gp2x/uiprinteriecplus4.c,
+	arch/unix/gp2x/uiprinterieee.c, arch/unix/gp2x/uiramcart.c,
+	arch/unix/gp2x/uiramcart.c, arch/unix/gp2x/uireu.c,
+	arch/unix/gp2x/uiromset.c, arch/unix/gp2x/uirs232.c,
+	arch/unix/gp2x/uirs232c64c128.c,
+	arch/unix/gp2x/uirs232petplus4cbm2.c,
+	arch/unix/gp2x/uirs232user.c, arch/unix/gp2x/uisettings.c,
+	arch/unix/gp2x/uisid.c, arch/unix/gp2x/uisound.c,
+	arch/unix/gp2x/uited.c, arch/unix/gp2x/uivdc.c,
+	arch/unix/gp2x/uivic.c, arch/unix/gp2x/uivicii.c,
+	arch/unix/gp2x/vic20ui.c, arch/unix/gp2x/vsidui.c: Got rid of
+	the not needed unix ui of the gp2x port.
+
 2006-06-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.19.

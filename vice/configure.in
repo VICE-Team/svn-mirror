@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=19
+VICE_VERSION_BUILD=20
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -100,8 +100,7 @@ if test x"$host_os" = "xminix"; then
   AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
 fi
 
-dnl Setup DJGPP crosscompiling.
-
+dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
   dnl Some GCC cross-compilers are installed with a different name
@@ -324,23 +323,21 @@ else
 
   fi
 
-  dnl This is only possible on Unix (for now).
-  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
   AM_CONDITIONAL(HAVE_RS232, true)
-  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
+
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 
   AC_CHECK_HEADER(linux/hardsid.h,
       [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
-
-  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
-AM_CONDITIONAL(DOS_OR_WIN, test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes")
 
 dnl Check for needed external programs.
-
 AC_PROG_CPP
 AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_TOOL(RANLIB, ranlib, :)
@@ -511,7 +508,6 @@ else
 fi
 
 dnl Setup reSID compilation.  We need a C++ compiler for this.
-
 if test x"$with_resid" != "xno" -a -z "$CXX"; then
   AC_CHECK_PROGS(cxx, $CCC c++ g++ gcc CC cxx cc++, no)
   if test x"$cxx" = "xno"; then
@@ -607,7 +603,6 @@ AC_SUBST(RESID_DEP)
 
 
 dnl Check for typedefs, structures, and compiler characteristics.
-
 AC_CHECK_HEADERS(sys/types.h)
 
 AC_TYPE_OFF_T
@@ -615,14 +610,12 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 
 dnl Check whether inline functions are available.
-
 AC_C_INLINE
 if test x"$ac_cv_c_inline" = "xno" ; then
   CFLAGS="$CFLAGS -DNO_INLINE"
 fi
 
 dnl Define the type sizes.
-
 if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
   AC_C_BIGENDIAN
 else
@@ -647,12 +640,10 @@ AC_CHECK_SIZEOF(unsigned long, 4)
 
 
 dnl Check whether gcc needs -traditional.
-
 AC_PROG_GCC_TRADITIONAL
 
 
 dnl Check for header files.
-
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
 sys/dirent.h sys/ioctl.h sys/stat.h \
@@ -669,7 +660,6 @@ AC_DECL_SYS_SIGLIST
 
 
 dnl Check for system-specific header files.
-
 if test x"$is_unix_x11" = "xyes" ; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
@@ -707,12 +697,10 @@ fi
 
 
 dnl Check for math library
-
 AC_CHECK_LIB(m, sqrt,,,$LIBS)
 
 
 dnl Check for zlib
-
 VICE_ZLIB=
 VICE_ZLIB_DIR=
 VICE_ZLIB_DEP=
@@ -744,12 +732,10 @@ AC_SUBST(VICE_ZLIB_DEP)
 AC_SUBST(VICE_ZLIB_INCLUDES)
 
 
-dnl Configure unix and msdos netplay support
-
+dnl Configure netplay support
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
 
   dnl Check for needed network headers
-
   UNIX_NETWORK_HEADERS_PRESENT=yes
   AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
                    [UNIX_NETWORK_HEADERS_PRESENT=no],)
@@ -757,7 +743,6 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
-
     AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS"],,)
     AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS"],,)
     AC_CHECK_LIB(bsd, gethostbyname,[ LIBS="-lbsd $LIBS"],,)
@@ -766,7 +751,6 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
     AC_CHECK_LIB(watt, gethostbyname,[ LIBS="-lwatt $LIBS"],,)
 
     dnl Check for needed functions
-
     UNIX_NETWORK_FUNCS_PRESENT=yes
 
     AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
@@ -778,12 +762,9 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
       AC_CHECK_FUNCS(getdtablesize getrlimit)
     fi
   fi
-fi
-
-if test x"$is_beos" = "xyes"; then
+elif test x"$is_beos" = "xyes"; then
 
   dnl Check for needed network headers
-
   BEOS_NETWORK_HEADERS_PRESENT=yes
   AC_CHECK_HEADERS(socket.h netdb.h byteorder.h,,
                    [BEOS_NETWORK_HEADERS_PRESENT=no],)
@@ -885,8 +866,8 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
   fi
 fi
 
-dnl Configure sound drivers
 
+dnl Configure sound drivers
 SOUND_DRIVERS=""
 GFXOUTPUT_DRIVERS=""
 
@@ -900,9 +881,10 @@ if test x"$enable_ffmpeg" = "xyes" -o x"$is_win32" = "xyes"; then
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
   fi
 fi
-
 AC_SUBST(FFMPEG_INCLUDES)
 
+
+dnl Configure ethernet drivers
 if test x"$is_dos" = "xyes" ; then
   if test x"$enable_ethernet" = "xyes"; then
     AC_CHECK_LIB(watt, gethostbyname,
@@ -930,11 +912,9 @@ else
     ],,$LIBS)],,$LIBS)
   fi
 fi
-
 AC_SUBST(DOS_TFE_PCAP_LIB)
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
-
+if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
     AC_CHECK_LIB(avcodec, avcodec_init,,,$LIBS)
     AC_CHECK_LIB(mp3lame, MP3lame_encode_frame,,,$LIBS)
@@ -1016,7 +996,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
 
 fi
 
-if [[ x"$is_dos" = "xyes" ]] ; then
+if test x"$is_dos" = "xyes"; then
     if test x"$with_midas" = "xyes"; then
         AC_CHECK_HEADERS(midasdll.h,
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundmidas.o"; break])
@@ -1026,7 +1006,7 @@ if [[ x"$is_dos" = "xyes" ]] ; then
     fi
 fi
 
-if [[ x"$is_win32" = "xyes" ]] ; then
+if test x"$is_win32" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
     AC_PATH_PROGS(WINDRES, windres, windres)
     AC_PATH_PROGS(WRC, wrc , windres)
@@ -1066,13 +1046,11 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
 fi
 
 AC_SUBST(SOUND_DRIVERS)
-
 AC_SUBST(SOUND_LIBS)
 
 
 dnl Check for ParSID support
-
-if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
     dnl Check for needed parallel port io headers
@@ -1131,7 +1109,6 @@ if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes
 fi
 
 dnl Check for library functions
-
 if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a -x"$is_riscos" = "xno"; then
   AC_FUNC_MEMCMP
 fi
@@ -1157,7 +1134,6 @@ dnl AC_STRUCT_TM
 
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
-
 if test x"$is_unix_x11" = "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
@@ -1196,7 +1172,6 @@ AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" != "x")
 AC_SUBST(READLINE)
 
 dnl check Amiga graphics support
-
 if test x"$is_amiga" = "xyes"; then
   cgx_present=no
   if test x"$with_picasso96" != "xyes"; then
@@ -1210,7 +1185,6 @@ fi
 
 
 dnl Configure graphics output drivers
-
 VICE_LIBPNG=
 VICE_LIBPNG_DIR=
 VICE_LIBPNG_DEP=
@@ -1276,96 +1250,109 @@ AC_SUBST(GFXOUTPUT_DRIVERS)
 AC_SUBST(VICE_LIBPNG_INCLUDES)
 
 
-dnl Check for X11 libraries and header files
+dnl Check for libraries and header files
 if test x"$is_unix_x11" = "xyes"; then
-
   X_LIBS=""
   AC_PATH_XTRA
 
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
-  dnl instead of assuming that libsocket needs libnsl, we
-  dnl will check the existance of libnsl first.
+  if [[ x"${enable_gnomeui}" = x"yes" ]] ; then
 
-  AC_CHECK_LIB(nsl, gethostbyname,[ X_LIBS="-lnsl $X_LIBS";
-                                    LINK_X_LIBS="-lnsl $LINK_X_LIBS"],,$X_LIBS)
-  AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS";
-                                    LINK_X_LIBS="-lsocket $LINK_X_LIBS"],,$X_LIBS)
-  AC_CHECK_LIB(bsd, gethostbyname,[ X_LIBS="-lbsd $X_LIBS";
-                                    LINK_X_LIBS="-lbsd $LINK_X_LIBS"],,$X_LIBS)
-  AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS";
-                                    LINK_X_LIBS="-lICE $LINK_X_LIBS"],,$X_LIBS)
-  AC_CHECK_LIB(SM, SmFreeProperty,[ X_LIBS="-lSM $X_LIBS";
-                                    LINK_X_LIBS="-lSM $LINK_X_LIBS"],,$X_LIBS)
+    LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
 
-  dnl This is necessary because CPP tests use `CPPFLAGS' instead.
-  dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11
-  dnl include paths in?  Let's hope so.
-  CPPFLAGS="$CPPFLAGS $X_CFLAGS"
+    dnl Check for XFree86 header and library extensions.
+    AC_CHECK_LIB(Xv, XvQueryExtension,
+                 [ X_LIBS="-lXv $X_LIBS";
+                   LINK_X_LIBS="-lXv $LINK_X_LIBS";
+                   AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
 
-  MISSING_X_LIBS=""
-
-  AC_CHECK_LIB(X11, XCreateWindow,
-               [ X_LIBS="-lX11 $X_LIBS";
-                 LINK_X_LIBS="-lX11 $LINK_X_LIBS"],
-               [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
-
-  AC_CHECK_LIB(Xext, XQueryExtension,
-               [ X_LIBS="-lXext $X_LIBS";
-                 LINK_X_LIBS="-lXext $LINK_X_LIBS"],,$X_LIBS)
-
-  AC_CHECK_LIB(Xv, XvQueryExtension,
-               [ X_LIBS="-lXv $X_LIBS";
-                 LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
-
-  AC_CHECK_LIB(Xt, XtToolkitInitialize,
-               [ X_LIBS="-lXt $X_LIBS";
-                 LINK_X_LIBS="-lXt $LINK_X_LIBS"],
-               [ MISSING_X_LIBS="$MISSING_X_LIBS Xt" ],$X_LIBS)
-
-  AC_CHECK_LIB(Xmu, XInternAtom,
-               [ X_LIBS="-lXmu $X_LIBS";
-                 LINK_X_LIBS="-lXmu $LINK_X_LIBS"],
-               [ MISSING_X_LIBS="$MISSING_X_LIBS Xmu" ],$X_LIBS)
-
-  dnl check for Xpm, on some systems Xpm is required for correct Xaw usage.
-  AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,
-               [ X_LIBS="-lXpm $X_LIBS";
-                 LINK_X_LIBS="-lXpm $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_LIBXPM,,[Is libXpm available?]) ],,$X_LIBS)
-
-  dnl Check for Xaw.  Use Xaw3d if requested.
-  if test x"$with_xaw3d" != "xyes" ; then
-    AC_CHECK_LIB(Xaw, XawFormDoLayout,
-                 [ X_LIBS="-lXaw $X_LIBS";
-                   LINK_X_LIBS="-lXaw $LINK_X_LIBS"],
-                 [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw" ],
-                 $X_LIBS $X_PRE_LIBS)
+    AC_CHECK_LIB(Xext, XShmQueryExtension,
+                 [ AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
   else
-    AC_CHECK_LIB(Xaw3d, XawFormDoLayout,
-                 [ X_LIBS="-lXaw3d $X_LIBS";
-                   LINK_X_LIBS="-lXaw3d $LINK_X_LIBS"],
-                 [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d" ],
-                 $X_LIBS $X_PRE_LIBS)
-  fi
+    dnl instead of assuming that libsocket needs libnsl, we
+    dnl will check the existance of libnsl first.
 
-  AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
-  if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
-    AC_CHECK_LIB(Xext, XShmAttach,
-                 [ AC_DEFINE(USE_MITSHM,,
-                             [Enable MITSHM extensions.]) ],,$X_LIBS)
-  fi
+    AC_CHECK_LIB(nsl, gethostbyname,[ X_LIBS="-lnsl $X_LIBS";
+                 LINK_X_LIBS="-lnsl $LINK_X_LIBS"],,$X_LIBS)
+    AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS";
+                 LINK_X_LIBS="-lsocket $LINK_X_LIBS"],,$X_LIBS)
+    AC_CHECK_LIB(bsd, gethostbyname,[ X_LIBS="-lbsd $X_LIBS";
+                 LINK_X_LIBS="-lbsd $LINK_X_LIBS"],,$X_LIBS)
+    AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS";
+                 LINK_X_LIBS="-lICE $LINK_X_LIBS"],,$X_LIBS)
+    AC_CHECK_LIB(SM, SmFreeProperty,[ X_LIBS="-lSM $X_LIBS";
+                 LINK_X_LIBS="-lSM $LINK_X_LIBS"],,$X_LIBS)
 
-  if test x"$MISSING_X_LIBS" != "x"; then
-    echo
-    echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
-    echo "+++ You might have to edit the Makefile by hand to compile properly"
-    echo
-  fi
+    dnl This is necessary because CPP tests use `CPPFLAGS' instead.
+    dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11
+    dnl include paths in?  Let's hope so.
+    CPPFLAGS="$CPPFLAGS $X_CFLAGS"
 
-  AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h)
+    MISSING_X_LIBS=""
+
+    AC_CHECK_LIB(X11, XCreateWindow,
+                 [ X_LIBS="-lX11 $X_LIBS";
+                   LINK_X_LIBS="-lX11 $LINK_X_LIBS"],
+                 [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
+
+    AC_CHECK_LIB(Xext, XQueryExtension,
+                 [ X_LIBS="-lXext $X_LIBS";
+                   LINK_X_LIBS="-lXext $LINK_X_LIBS"],,$X_LIBS)
+
+    AC_CHECK_LIB(Xv, XvQueryExtension,
+                 [ X_LIBS="-lXv $X_LIBS";
+                   LINK_X_LIBS="-lXv $LINK_X_LIBS";
+                   AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
+
+    AC_CHECK_LIB(Xt, XtToolkitInitialize,
+                 [ X_LIBS="-lXt $X_LIBS";
+                   LINK_X_LIBS="-lXt $LINK_X_LIBS"],
+                 [ MISSING_X_LIBS="$MISSING_X_LIBS Xt" ],$X_LIBS)
+
+    AC_CHECK_LIB(Xmu, XInternAtom,
+                 [ X_LIBS="-lXmu $X_LIBS";
+                   LINK_X_LIBS="-lXmu $LINK_X_LIBS"],
+                 [ MISSING_X_LIBS="$MISSING_X_LIBS Xmu" ],$X_LIBS)
+
+    dnl check for Xpm, on some systems Xpm is required for correct Xaw usage.
+    AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,
+                 [ X_LIBS="-lXpm $X_LIBS";
+                   LINK_X_LIBS="-lXpm $LINK_X_LIBS";
+                   AC_DEFINE(HAVE_LIBXPM,,[Is libXpm available?]) ],,$X_LIBS)
+
+    dnl Check for Xaw.  Use Xaw3d if requested.
+    if test x"$with_xaw3d" != "xyes" ; then
+      AC_CHECK_LIB(Xaw, XawFormDoLayout,
+                   [ X_LIBS="-lXaw $X_LIBS";
+                     LINK_X_LIBS="-lXaw $LINK_X_LIBS"],
+                   [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw" ],
+                   $X_LIBS $X_PRE_LIBS)
+    else
+      AC_CHECK_LIB(Xaw3d, XawFormDoLayout,
+                   [ X_LIBS="-lXaw3d $X_LIBS";
+                     LINK_X_LIBS="-lXaw3d $LINK_X_LIBS"],
+                   [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d" ],
+                   $X_LIBS $X_PRE_LIBS)
+    fi
+
+    AC_CHECK_HEADER(X11/extensions/XShm.h,,,[#include <X11/Xlib.h>])
+    if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
+      AC_CHECK_LIB(Xext, XShmAttach,
+                   [ AC_DEFINE(USE_MITSHM,,
+                   [Enable MITSHM extensions.]) ],,$X_LIBS)
+    fi
+
+    if test x"$MISSING_X_LIBS" != "x"; then
+      echo
+      echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
+      echo "+++ You might have to edit the Makefile by hand to compile properly"
+      echo
+    fi
+
+    AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h)
+  fi
 
   dnl Check for XFree86 header and library extensions.
   FULLSCREEN_DRIVERS=""
@@ -1378,7 +1365,7 @@ if test x"$is_unix_x11" = "xyes"; then
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
                      AC_DEFINE(USE_XF86_VIDMODE_EXT,,
                                [Enable XF86 VidMode extensions.])
-		     AC_DEFINE(USE_XF86_EXTENSIONS,,
+                     AC_DEFINE(USE_XF86_EXTENSIONS,,
                                [Enable XF86 extensions.])],,$X_LIBS)
       if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
         AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
@@ -1399,27 +1386,24 @@ if test x"$is_unix_x11" = "xyes"; then
       AC_CHECK_LIB(Xxf86dga, XDGAQueryExtension,
                    [ X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-		     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-		     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
-		     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
-                               [Enable XF86 DGA2 extensions.])],,$X_LIBS)
+                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
+                     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
+                     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
+                     [Enable XF86 DGA2 extensions.])],,$X_LIBS)
     fi
   fi
-  AC_SUBST(FULLSCREEN_DRIVERS)
 
   X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
+  AC_SUBST(FULLSCREEN_DRIVERS)
 
-  dnl We always have a mouse on UNIX.
-  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-
-elif [[ x"$is_dos" != "xno" ]]; then
+elif test x"$is_dos" = "xyes"; then
 
   dnl On MS-DOS, we already know what we want.
 
   LIBS="$LIBS -lalleg $LIBMIDAS"
   AC_SUBST(LDFLAGS)
 
-elif [[ x"$is_amiga" != "xno" ]]; then
+elif test x"$is_amiga" = "xyes"; then
 
   dnl On Amiga, we already know what we want.
   if test x"$is_amiga_aros" != "xyes"; then
@@ -1433,21 +1417,21 @@ elif [[ x"$is_amiga" != "xno" ]]; then
 
   AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
 
-elif [[ x"$is_beos" != "xno" ]]; then
+elif test x"$is_beos" = "xyes"; then
 
   dnl On BEOS, we already know what we want.
 
   LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
   AC_SUBST(LDFLAGS)
 
-elif [[ x"$is_unix_gp2x" != "xno" ]]; then
+elif test x"$is_unix_gp2x" = "xyes"; then
 
   dnl on GP2X we need static libs.
 
   LDFLAGS="$LDFLAGS -static"
   AC_SUBST(LDFLAGS)
 
-elif [[ x"$is_win32" != "xno" ]]; then
+elif test x"$is_win32" = "xyes"; then
 
   dnl On Windows, we already know what we want.
 
@@ -1489,64 +1473,6 @@ unsigned long test; ],
   AC_SUBST(WINDRES)
 
   AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
-
-elif [[ x"${enable_gnomeui}" = x"yes" ]] ; then
-
-  LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
-
-  dnl We always have a mouse on UNIX/Gnome.
-  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-
-  dnl Check for XFree86 header and library extensions.
-
-  AC_CHECK_LIB(Xv, XvQueryExtension,
-               [ X_LIBS="-lXv $X_LIBS";
-                 LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo support.]) ],,$X_LIBS)
-
-  AC_CHECK_LIB(Xext, XShmQueryExtension,
-               [ AC_DEFINE(USE_MITSHM,,[Enable MITSHM extensions.]) ],,$X_LIBS)
-
-  dnl Check for XFree86 header and library extensions.
-  FULLSCREEN_DRIVERS=""
-  if test x"$enable_fullscreen" != "xno"; then
-    AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,,[#include <X11/Xlib.h>])
-    if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
-      AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryVersion,
-                   [ X_LIBS="-lXxf86vm $X_LIBS";
-                     LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-                     AC_DEFINE(USE_XF86_VIDMODE_EXT,,
-                               [Enable XF86 VidMode extensions.])
-                     AC_DEFINE(USE_XF86_EXTENSIONS,,
-                               [Enable XF86 extensions.])],,$X_LIBS)
-      if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
-        if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-          AC_CHECK_LIB(Xxf86dga, XF86DGAQueryExtension,
-                       [ X_LIBS="-lXxf86dga $X_LIBS";
-                         LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-                         FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         AC_DEFINE(USE_XF86_EXTENSIONS,,
-                                   [Enable XF86 extensions.])
-                         AC_DEFINE(USE_XF86_DGA1_EXTENSIONS,,
-                                   [Enable XF86 DGA1 extensions.])],,$X_LIBS)
-        fi
-      fi
-    fi
-    AC_CHECK_HEADER(X11/extensions/xf86dga.h,,,[#include <X11/Xlib.h>])
-    if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-      AC_CHECK_LIB(Xxf86dga, XDGAQueryExtension,
-                   [ X_LIBS="-lXxf86dga $X_LIBS";
-                     LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-                     AC_DEFINE(USE_XF86_EXTENSIONS,,[Enable XF86 extensions.])
-                     AC_DEFINE(USE_XF86_DGA2_EXTENSIONS,,
-                               [Enable XF86 DGA2 extensions.])],,$X_LIBS)
-    fi
-  fi
-  AC_SUBST(FULLSCREEN_DRIVERS)
-
 fi
 
 dnl CBM4Linux/OpenCBM
@@ -1586,8 +1512,8 @@ AC_SUBST(XPET_WINRES)
 AC_SUBST(XPLUS4_WINRES)
 AC_SUBST(XCBM2_WINRES)
 
-dnl Setup the system-specific object files.
 
+dnl Setup the system-specific object files.
 if test x"$is_unix" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
 

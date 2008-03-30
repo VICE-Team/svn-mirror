@@ -456,8 +456,13 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
 static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
                                        unsigned int unit)
 {
-    disk_image_t *oldimg = floppy->image;
-    
+    disk_image_t *oldimg;
+
+    if (floppy == NULL || floppy->image == NULL)
+        return;
+
+    oldimg = floppy->image;
+
     detach_disk_image(image, floppy, unit);
     
     if ((image != NULL) && (image == oldimg))

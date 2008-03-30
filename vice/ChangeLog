@@ -1,3 +1,12 @@
+2006-07-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.20.
+
+	* configure.in: Unified XAW and GNOME library search section.
+	Removed conditional `DOS_OR_WIN'.
+
+	* data/Makefile.am: Changed not to use `DOS_OR_WIN'.
+
 2006-06-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.19.
@@ -11,9 +20,9 @@
 
 2006-06-25  Andreas Boose  <viceteam@t-online.de>
 
-        * Version 1.19.18.
+	* Version 1.19.18.
 
-        * configure.in: Added `arch/unix/gui' directory.
+	* configure.in: Added `arch/unix/gui' directory.
 
 2006-06-24  Andreas Boose  <viceteam@t-online.de>
 
