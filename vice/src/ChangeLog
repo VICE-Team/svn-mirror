@@ -1,3 +1,47 @@
+2004-09-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.1.
+
+	* interrupt.h [INTRRUPT_MAX_DMA_PER_OPCODE]: Increased.
+
+2004-08-28  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/unix/x11/vidmode.c: vidmode_init() calculates the video
+	frequency depending on dotclock, htotal and vtotal. On some
+	machines, these are reported as null, resulting in a floating
+	point exception on startup. Now, there is a workaround: If
+	this occurs, we just report 0 Hz (which is better than an
+	exception).
+
+2004-08-27  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/archdep.c (verify_exe): New function, simple
+	check of Vice executable validity.
+	(archdep_boot_path): Verify that first module is the Vice
+	executable, keep searching for it, but report first module as
+	a possible trojan to the user.
+
+	* arch/win32/res.rc: Added VersionInfo resource, it is used
+	for checking Vice executable validity.
+
+	* arch/win32/ui.c (window_proc): Fixed WM_PAINT message
+	processing. Wrong rect was used for updating the screen, on
+	dual CPU systems this resulted in some painting artifacts.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, arch/win32/xpet.dsp,
+	arch/win32/xplus4.dsp, arch/win32/xvic.dsp:
+	Link with version.lib.
+
+	* plus4/ted-mem.c (ted3e_store, ted3f_store): Update ted
+	pointers on memory configuration switch.
+
+	* plus4/ted.c (ted_update_memory_ptrs): Fixed $ff14
+	calculation.
+
+	* version.h: Added VERSION_RC_NUMBER definition, it is used in
+	win32 Version resource.
+
 2004-08-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.

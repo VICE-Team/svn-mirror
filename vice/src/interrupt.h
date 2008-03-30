@@ -36,7 +36,7 @@
 /* Define the number of cycles needed by the CPU to detect the NMI or IRQ.  */
 #define INTERRUPT_DELAY 2
 
-#define INTRRUPT_MAX_DMA_PER_OPCODE 7
+#define INTRRUPT_MAX_DMA_PER_OPCODE (7+10000)
 
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
