@@ -1,8 +1,8 @@
 /*
- * c64memlimit.h -- Builds the C64 memory limit table.
+ * uic64_256k.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,9 @@
  *
  */
 
-#ifndef _C64MEMLIMIT_H
-#define _C64MEMLIMIT_H
+#ifndef _UI_C64_256K_H
+#define _UI_C64_256K_H
 
-extern void mem_limit_init(int mem_read_limit_tab[32][0x101]);
-extern void mem_limit_plus60k_init(int mem_read_limit_tab[32][0x101]);
-extern void mem_limit_c64_256k_init(int mem_read_limit_tab[32][0x101]);
+extern struct ui_menu_entry_s c64_256k_submenu[];
 
 #endif

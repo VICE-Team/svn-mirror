@@ -388,6 +388,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -612,6 +613,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Périphérique plein écran\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -836,6 +838,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "A tutto schermo\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -1060,6 +1063,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Volscherm\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Altijd Boven", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -1285,6 +1289,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Pe³ny ekran\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -1510,6 +1515,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullskärm\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE
         , CHECKED

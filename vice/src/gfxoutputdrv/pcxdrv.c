@@ -47,7 +47,7 @@ typedef struct gfxoutputdrv_data_s
   char *ext_filename;
   BYTE *data;
   BYTE *pcx_data;
-  int line;
+  unsigned int line;
 } gfxoutputdrv_data_t;
 
 static gfxoutputdrv_t pcx_drv;
@@ -120,7 +120,7 @@ static int pcxdrv_write(screenshot_t *screenshot)
 {
   gfxoutputdrv_data_t *sdata;
   BYTE color,amount;
-  int i,j=0;
+  unsigned int i,j=0;
 
   sdata = screenshot->gfxoutputdrv_data;
   (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_PALETTE);
@@ -209,7 +209,7 @@ static int pcxdrv_write(screenshot_t *screenshot)
 static int pcxdrv_close(screenshot_t *screenshot)
 {
   gfxoutputdrv_data_t *sdata;
-  int i;
+  unsigned int i;
   BYTE pcx_color_prefix[2]="\x0c";
   BYTE pcx_colors[256*3];
 

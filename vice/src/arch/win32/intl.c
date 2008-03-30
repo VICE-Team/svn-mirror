@@ -668,6 +668,15 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_RS232_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_RS232_SETTINGS_DIALOG_SV},   /* size */
 
+/* res.rc */
+/* en */ {IDD_NETWORK_SETTINGS_DIALOG,
+/* de */  IDD_NETWORK_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_NETWORK_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* it */  IDD_NETWORK_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_NETWORK_SETTINGS_DIALOG_NL,    /* size */
+/* pl */  IDD_NETWORK_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_NETWORK_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
 /* res.rc */
@@ -2371,6 +2380,91 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* nl */  IDS_START_VICE_FULLSCREEN_MODE_NL,
 /* pl */  IDS_START_VICE_FULLSCREEN_MODE_PL,    /* fuzzy */
 /* sv */  IDS_START_VICE_FULLSCREEN_MODE_SV},
+
+#ifdef SYS_SIGLIST_DECLARED
+/* res.rc */
+/* en */ {IDS_RECEIVED_SIGNAL_D_S,
+/* de */  IDS_RECEIVED_SIGNAL_D_S_DE,    /* fuzzy */
+/* fr */  IDS_RECEIVED_SIGNAL_D_S_FR,    /* fuzzy */
+/* it */  IDS_RECEIVED_SIGNAL_D_S_IT,    /* fuzzy */
+/* nl */  IDS_RECEIVED_SIGNAL_D_S_NL,
+/* pl */  IDS_RECEIVED_SIGNAL_D_S_PL,    /* fuzzy */
+/* sv */  IDS_RECEIVED_SIGNAL_D_S_SV},   /* fuzzy */
+#else
+/* res.rc */
+/* en */ {IDS_RECEIVED_SIGNAL_D,
+/* de */  IDS_RECEIVED_SIGNAL_D_DE,    /* fuzzy */
+/* fr */  IDS_RECEIVED_SIGNAL_D_FR,    /* fuzzy */
+/* it */  IDS_RECEIVED_SIGNAL_D_IT,    /* fuzzy */
+/* nl */  IDS_RECEIVED_SIGNAL_D_NL,
+/* pl */  IDS_RECEIVED_SIGNAL_D_PL,    /* fuzzy */
+/* sv */  IDS_RECEIVED_SIGNAL_D_SV},   /* fuzzy */
+#endif
+
+#ifdef HAVE_NETWORK
+/* res.rc */
+/* en */ {IDS_IDLE,
+/* de */  IDS_IDLE_DE,    /* fuzzy */
+/* fr */  IDS_IDLE_FR,    /* fuzzy */
+/* it */  IDS_IDLE_IT,    /* fuzzy */
+/* nl */  IDS_IDLE_NL,
+/* pl */  IDS_IDLE_PL,    /* fuzzy */
+/* sv */  IDS_IDLE_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SERVER_LISTENING,
+/* de */  IDS_SERVER_LISTENING_DE,    /* fuzzy */
+/* fr */  IDS_SERVER_LISTENING_FR,    /* fuzzy */
+/* it */  IDS_SERVER_LISTENING_IT,    /* fuzzy */
+/* nl */  IDS_SERVER_LISTENING_NL,
+/* pl */  IDS_SERVER_LISTENING_PL,    /* fuzzy */
+/* sv */  IDS_SERVER_LISTENING_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CONNECTED_SERVER,
+/* de */  IDS_CONNECTED_SERVER_DE,    /* fuzzy */
+/* fr */  IDS_CONNECTED_SERVER_FR,    /* fuzzy */
+/* it */  IDS_CONNECTED_SERVER_IT,    /* fuzzy */
+/* nl */  IDS_CONNECTED_SERVER_NL,
+/* pl */  IDS_CONNECTED_SERVER_PL,    /* fuzzy */
+/* sv */  IDS_CONNECTED_SERVER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_CONNECTED_CLIENT,
+/* de */  IDS_CONNECTED_CLIENT_DE,    /* fuzzy */
+/* fr */  IDS_CONNECTED_CLIENT_FR,    /* fuzzy */
+/* it */  IDS_CONNECTED_CLIENT_IT,    /* fuzzy */
+/* nl */  IDS_CONNECTED_CLIENT_NL,
+/* pl */  IDS_CONNECTED_CLIENT_PL,    /* fuzzy */
+/* sv */  IDS_CONNECTED_CLIENT_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_INVALID_PORT_NUMBER,
+/* de */  IDS_INVALID_PORT_NUMBER_DE,    /* fuzzy */
+/* fr */  IDS_INVALID_PORT_NUMBER_FR,    /* fuzzy */
+/* it */  IDS_INVALID_PORT_NUMBER_IT,    /* fuzzy */
+/* nl */  IDS_INVALID_PORT_NUMBER_NL,
+/* pl */  IDS_INVALID_PORT_NUMBER_PL,    /* fuzzy */
+/* sv */  IDS_INVALID_PORT_NUMBER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ERROR_STARTING_SERVER,
+/* de */  IDS_ERROR_STARTING_SERVER_DE,    /* fuzzy */
+/* fr */  IDS_ERROR_STARTING_SERVER_FR,    /* fuzzy */
+/* it */  IDS_ERROR_STARTING_SERVER_IT,    /* fuzzy */
+/* nl */  IDS_ERROR_STARTING_SERVER_NL,
+/* pl */  IDS_ERROR_STARTING_SERVER_PL,    /* fuzzy */
+/* sv */  IDS_ERROR_STARTING_SERVER_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_ERROR_CONNECTING_CLIENT,
+/* de */  IDS_ERROR_CONNECTING_CLIENT_DE,    /* fuzzy */
+/* fr */  IDS_ERROR_CONNECTING_CLIENT_FR,    /* fuzzy */
+/* it */  IDS_ERROR_CONNECTING_CLIENT_IT,    /* fuzzy */
+/* nl */  IDS_ERROR_CONNECTING_CLIENT_NL,
+/* pl */  IDS_ERROR_CONNECTING_CLIENT_PL,    /* fuzzy */
+/* sv */  IDS_ERROR_CONNECTING_CLIENT_SV},   /* fuzzy */
+#endif
 
 };
 

@@ -94,6 +94,10 @@ SOURCE="..\..\c64\c64-snapshot.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64_256k.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64.c
 # End Source File
 # Begin Source File

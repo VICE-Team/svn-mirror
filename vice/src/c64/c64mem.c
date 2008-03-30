@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "c64-resources.h"
+#include "c64_256k.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64io.h"
@@ -174,7 +175,10 @@ BYTE REGPARM1 zero_read(WORD addr)
         return pport.data_read;
     }
 
-    return mem_ram[addr & 0xff];
+    if (c64_256k_enabled)
+        return c64_256k_ram_segment0_read(addr);
+    else
+        return mem_ram[addr & 0xff];
 }
 
 void REGPARM2 zero_store(WORD addr, BYTE value)
@@ -184,7 +188,10 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     switch ((BYTE)addr) {
       case 0:
         if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+            if (c64_256k_enabled==1)
+               c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1_lowlevel());
+            else
+                vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
         } else {
             mem_ram[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -196,7 +203,10 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         break;
       case 1:
         if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            if (c64_256k_enabled==1)
+                c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1_lowlevel());
+            else
+                vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
         } else {
             mem_ram[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -208,7 +218,10 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         break;
       default:
         if (vbank == 0) {
-            vicii_mem_vbank_store(addr, value);
+            if (c64_256k_enabled==1)
+                c64_256k_ram_segment0_store(addr, value);
+            else
+                vicii_mem_vbank_store(addr, value);
         } else {
             mem_ram[addr] = value;
         }
@@ -290,6 +303,63 @@ void REGPARM2 colorram_store(WORD addr, BYTE value)
 BYTE REGPARM1 colorram_read(WORD addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* init 256k memory table changes */
+
+static int check_256k_ram_write(int k, int i, int j)
+{
+  if (mem_write_tab[k][i][j]==vicii_mem_vbank_39xx_store ||
+      mem_write_tab[k][i][j]==vicii_mem_vbank_3fxx_store ||
+      mem_write_tab[k][i][j]==vicii_mem_vbank_store ||
+      mem_write_tab[k][i][j]==ram_hi_store ||
+      mem_write_tab[k][i][j]==ram_store)
+   return 1;
+  else
+    return 0;
+}
+
+void c64_256k_init_config(void)
+{
+  int i,j,k;
+
+  if (c64_256k_enabled)
+  {
+    mem_limit_c64_256k_init(mem_read_limit_tab);
+    for (i = 0; i < NUM_CONFIGS; i++)
+    {
+      for (j = 1; j <= 0xff; j++)
+      {
+        for (k = 0; k < NUM_VBANKS; k++)
+        {
+          if (check_256k_ram_write(k,i,j)==1)
+          {
+            if (j<0x40)
+              mem_write_tab[k][i][j]=c64_256k_ram_segment0_store;
+            if (j>0x3f && j<0x80)
+              mem_write_tab[k][i][j]=c64_256k_ram_segment1_store;
+            if (j>0x7f && j<0xc0)
+              mem_write_tab[k][i][j]=c64_256k_ram_segment2_store;
+            if (j>0xbf)
+              mem_write_tab[k][i][j]=c64_256k_ram_segment3_store;
+          }
+        }
+        if (mem_read_tab[i][j]==ram_read)
+        {
+          if (j<0x40)
+            mem_read_tab[i][j]=c64_256k_ram_segment0_read;
+          if (j>0x3f && j<0x80)
+            mem_read_tab[i][j]=c64_256k_ram_segment1_read;
+          if (j>0x7f && j<0xc0)
+            mem_read_tab[i][j]=c64_256k_ram_segment2_read;
+          if (j>0xbf)
+            mem_read_tab[i][j]=c64_256k_ram_segment3_read;
+        }
+      }
+    }
+  }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -512,6 +582,7 @@ void mem_initialize_memory(void)
     cartridge_init_config();
     ramcart_init_config();
     plus60k_init_config();
+    c64_256k_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

@@ -79,6 +79,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c64_256k.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64export.h"
@@ -98,6 +99,7 @@
 #include "translate.h"
 #endif
 #include "types.h"
+#include "uiapi.h"
 #include "util.h"
 #include "vicii-mem.h"
 
@@ -137,9 +139,21 @@ static int set_plus60k_enabled(resource_value_t v, void *param)
   { 
     if (!plus60k_enabled)
     {
-      if (plus60k_activate() < 0)
+      if (c64_256k_enabled)
       {
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", "256K");
+#else
+        ui_error(_("Resource %s blocked by %s."),"CPU-LINES", "256K");
+#endif
         return -1;
+      }
+      else
+      {
+        if (plus60k_activate() < 0)
+        {
+          return -1;
+        }
       }
     }
     plus60k_enabled = 1;

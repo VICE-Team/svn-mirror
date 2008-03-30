@@ -102,24 +102,24 @@ SOURCE=.\resc64.rc
 !IF  "$(CFG)" == "x64 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus60k.rc"	"resrc232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resrc232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc64.rc
 
 "resc64cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus60k.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
+	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus60k.rc + resc64_256k.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "x64 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus60k.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
+USERDEP__RESC6="resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64vic20.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc64.rc
 
 "resc64cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus60k.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
+	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64vic20.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus60k.rc + resc64_256k.rc + resrs232user.rc + ressid.rc + resvicii.rc + restfe.rc resc64cat.rc /b
 
 # End Custom Build
 

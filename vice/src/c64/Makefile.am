@@ -20,6 +20,8 @@ libc64_a_SOURCES = \
 	c64-snapshot.h \
 	c64.c \
 	c64.h \
+	c64_256k.c \
+	c64_256k.h \
 	c64acia.h \
 	c64acia1.c \
 	c64bus.c \

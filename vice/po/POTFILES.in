@@ -8,6 +8,7 @@ src/sound.c
 src/event.c
 src/c64/c64export.c
 src/debug.c
+src/network.c
 
 # command-line options
 src/aciacore.c
@@ -77,6 +78,7 @@ src/arch/unix/signals.c
 src/arch/unix/ui.c
 src/arch/unix/uiacia1.c
 src/arch/unix/uiattach.c
+src/arch/unix/uic64_256k.c
 src/arch/unix/uic64cart.c
 src/arch/unix/uicmdline.c
 src/arch/unix/uicommands.c
@@ -100,6 +102,7 @@ src/arch/unix/uipalette.c
 src/arch/unix/uiperipheral.c
 src/arch/unix/uiperipheraliec.c
 src/arch/unix/uiperipheralieee.c
+src/arch/unix/uiplus60k.c
 src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
 src/arch/unix/uiprinterieee.c

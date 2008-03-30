@@ -1,3 +1,92 @@
+2005-12-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.3.
+
+	* c1541.c (info_cmd): Fixed some bugs.
+
+	* diskimage/fsimage.h, diskimage.h, diskimage/fsimage-probe.c,
+	diskimage/fsimage.c: Moved error info into fsimage struct.
+
+	* diskimage/diskimage.c, diskimage.h (disk_image_create,
+	disk_image_destroy): New function.
+
+	* attach.c, c1541.c: Use new functions.
+
+	* vdrive/vdrive-command.c: Removed cruft.
+
+	* event.c (event_image_append): Fixed some cosmetic warning.
+
+2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdialogs.txt,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resstrings.txt, arch/win32/resvic20.rc,
+	arch/win32/signals.c, arch/win32/uinetwork.c,
+	c64/cart/c64cart.c, network.c, translate.c,
+	translate.h: Added previously untranslated items.
+
+2005-12-17  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/patchrom.c: the attached patch fixes a one-byte problem
+	with the SX64 kernal on the C64. That is, if you start "x64
+	-kernalrev sx", one byte was wrong. This issue was reported
+	(with a patch) on Mon, 13 Sep 2004 23:08:25 +0200 by iAN CooG
+	<ian7102@libero.it>.
+
+2005-12-16  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* fliplist.c, fliplist.h: Add opaque typedef fliplist_t
+	* and try to be const correct.
+
+	* console.h: fix typo
+
+2005-12-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c64/c64_256k.c, c64/georam.c, c64/plus60k.c: Fixed warnings.
+
+	* screenshot.c (screenshot_stop_recording): Don't free the
+	reopen* pointers, they are needed in screenshot_try_reopen.
+
+2005-12-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc, arch/msdos/Makefile.am,
+	arch/msdos/c64ui.c, arch/msdos/uic64_256k.c,
+	arch/msdos/uic64_256k.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/riscos/uiconfig.c,
+	arch/riscos/uiconfig.c, arch/riscos/uiconfig.h,
+	arch/riscos/uihelp.c, arch/riscos/uisharedef.h,
+	arch/unix/Makefile.am, arch/unix/c64ui.c,
+	arch/unix/uic64_256k.c, arch/unix/uic64_256k.h,
+	arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/c64.dsp, arch/win32/c64ui.c,
+	arch/win32/resc64.rc, arch/win32/resc64_256k.rc,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/resstrings.txt, arch/win32/uic64_256k.c,
+	arch/win32/uic64_256k.h, arch/win32/x64.dsp,
+	c64/Makefile.am, c64/c64.c, c64/c64_256k.c,
+	c64/c64_256k.h, c64/c64cia2.c, c64/c64io.c,
+	c64/c64mem.c, c64/c64memlimit.c, c64/c64memlimit.h,
+	c64/plus60k.c, translate.c, translate.h: Added c64 256k
+	expansion support.
+
+	* c128/c128.c: Added some dummy functions to cope with the c64
+	256k expansion.
+
+2005-12-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* gfxoutputdrv/gifdrv.c, gfxoutputdrv/iffdrv.c,
+	gfxoutputdrv/jpegdrv.c, gfxoutputdrv/pcxdrv.c,
+	gfxoutputdrv/ppmdrv.c: Fixed the warnings.
+
+2005-12-11  Andreas Dehmel  <zarquon@t-online.de>
+
+	* network.c: fixed compilation error when HAVE_NETWORK not
+	defined
+
 2005-12-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.2.

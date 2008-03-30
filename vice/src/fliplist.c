@@ -46,21 +46,20 @@
 
 #define NUM_DRIVES 4
 
-
-struct fliplist_t {
-    struct fliplist_t *next, *prev;
+struct fliplist_s {
+    fliplist_t next, prev;
     char *image;
     unsigned int unit;
 };
 
-static struct fliplist_t *fliplist[NUM_DRIVES] = {
-    (struct fliplist_t *)NULL,
-    (struct fliplist_t *)NULL
+static fliplist_t fliplist[NUM_DRIVES] = {
+    (fliplist_t)NULL,
+    (fliplist_t)NULL
 };
 
 static char *current_image = (char *)NULL;
 static unsigned int current_drive;
-static struct fliplist_t *iterator;
+static fliplist_t iterator;
 
 static const char flip_file_header[] = "# Vice fliplist file";
 
@@ -155,40 +154,40 @@ char *fliplist_get_head(unsigned int unit)
 }
 #endif
 
-char *fliplist_get_next(unsigned int unit)
+const char *fliplist_get_next(unsigned int unit)
 {
     if (fliplist[unit - 8])
         return fliplist[unit - 8]->next->image;
-    return (char *) NULL;
+    return (const char *) NULL;
 }
 
-char *fliplist_get_prev(unsigned int unit)
+const char *fliplist_get_prev(unsigned int unit)
 {
     if (fliplist[unit - 8])
         return fliplist[unit - 8]->prev->image;
-    return (char *) NULL;
+    return (const char *) NULL;
 }
 
-char *fliplist_get_image(void *fl)
+const char *fliplist_get_image(fliplist_t fl)
 {
-    return ((struct fliplist_t *) fl)->image;
+    return fl->image;
 }
 
-unsigned int fliplist_get_unit(void *fl)
+unsigned int fliplist_get_unit(fliplist_t fl)
 {
-    return ((struct fliplist_t *) fl)->unit;
+    return fl->unit;
 }
 
 void fliplist_add_image(unsigned int unit)
 {
-    struct fliplist_t *n;
+    fliplist_t n;
 
     if (current_image == NULL)
         return;
     if (strcmp(current_image, "") == 0)
         return;
 
-    n = (struct fliplist_t *)lib_malloc(sizeof(struct fliplist_t));
+    n = (fliplist_t)lib_malloc(sizeof(struct fliplist_s));
     n->image = lib_stralloc(current_image);
     unit = n->unit = current_drive;
 
@@ -207,11 +206,11 @@ void fliplist_add_image(unsigned int unit)
     show_fliplist(unit);
 }
 
-void fliplist_remove(unsigned int unit, char *image)
+void fliplist_remove(unsigned int unit, const char *image)
 {
-    struct fliplist_t *tmp;
+    fliplist_t tmp;
 
-    if (fliplist[unit - 8] == (struct fliplist_t *) NULL)
+    if (fliplist[unit - 8] ==  NULL)
         return;
     if (image == (char *) NULL) {
         /* no image given, so remove the head */
@@ -219,7 +218,7 @@ void fliplist_remove(unsigned int unit, char *image)
             (fliplist[unit - 8] == fliplist[unit - 8]->prev)) {
             /* this is the last entry */
             tmp = fliplist[unit - 8];
-            fliplist[unit - 8] = (struct fliplist_t *) NULL;
+            fliplist[unit - 8] = (fliplist_t) NULL;
         } else {
             fliplist[unit - 8]->next->prev = fliplist[unit - 8]->prev;
             fliplist[unit - 8]->prev->next = fliplist[unit - 8]->next;
@@ -234,7 +233,7 @@ void fliplist_remove(unsigned int unit, char *image)
         return;
     } else {
         /* do a lookup and remove it */
-        struct fliplist_t *it = fliplist[unit - 8];
+        fliplist_t it = fliplist[unit - 8];
 
         if (strcmp(it->image, image) == 0) {
             /* it's the head */
@@ -263,7 +262,7 @@ void fliplist_remove(unsigned int unit, char *image)
 
 void fliplist_attach_head (unsigned int unit, int direction)
 {
-    if (fliplist[unit - 8] == (struct fliplist_t *)NULL)
+    if (fliplist[unit - 8] == NULL)
         return;
 
     if (direction)
@@ -278,25 +277,25 @@ void fliplist_attach_head (unsigned int unit, int direction)
     }
 }
 
-void *fliplist_init_iterate(unsigned int unit)
+fliplist_t fliplist_init_iterate(unsigned int unit)
 {
-    void *ret = NULL;
+    fliplist_t ret = NULL;
 
     iterator = fliplist[unit - 8];
     if (iterator) {
-        ret = (void *)iterator;
+        ret = iterator;
         iterator = iterator->next;
     }
     return ret;
 }
 
-void *fliplist_next_iterate(unsigned int unit)
+fliplist_t fliplist_next_iterate(unsigned int unit)
 {
-    void *ret = NULL;
+    fliplist_t ret = NULL;
 
     if (iterator) {
         if (iterator != fliplist[unit - 8]) {
-            ret = (void *)iterator;
+            ret = iterator;
             iterator=iterator->next;
         }
     }
@@ -305,11 +304,11 @@ void *fliplist_next_iterate(unsigned int unit)
 
 void fliplist_clear_list(unsigned int unit)
 {
-    struct fliplist_t *flip = fliplist[unit - 8];
+    fliplist_t flip = fliplist[unit - 8];
 
     if (flip != NULL) {
         do {
-            struct fliplist_t *tmp = flip->next;
+            fliplist_t tmp = flip->next;
 
             lib_free(flip->image);
             lib_free(flip);
@@ -324,7 +323,7 @@ void fliplist_clear_list(unsigned int unit)
 int fliplist_save_list(unsigned int unit, const char *filename)
 {
     int all_units = 0;
-    struct fliplist_t *flip;
+    fliplist_t flip;
     FILE *fp = NULL;
 
     if (unit == (unsigned int)-1) {
@@ -335,7 +334,7 @@ int fliplist_save_list(unsigned int unit, const char *filename)
     do {
         flip = fliplist[unit - 8];
 
-        if (flip != (struct fliplist_t *)NULL) {
+        if (flip != NULL) {
             if (!fp) {
                 if ((fp = fopen(filename, MODE_WRITE)) == NULL)
                     return -1;
@@ -406,7 +405,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
             b--;
 
         if (b > buffer) {
-            struct fliplist_t *tmp;
+            fliplist_t tmp;
 
             *b = '\0';
 
@@ -415,7 +414,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
                 unit = 8;
             }
 
-            tmp = (struct fliplist_t*)lib_malloc(sizeof(struct fliplist_t));
+            tmp = (fliplist_t)lib_malloc(sizeof(struct fliplist_s));
             tmp->image = lib_stralloc(buffer);
             tmp->unit = unit;
 
@@ -454,7 +453,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
 static void show_fliplist(unsigned int unit)
 {
-    struct fliplist_t *it = fliplist[unit - 8];
+    fliplist_t it = fliplist[unit - 8];
 
     log_message(LOG_DEFAULT, "Fliplist[%d] contains:", unit);
 

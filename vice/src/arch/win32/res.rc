@@ -4024,7 +4024,123 @@ END
 
 IDD_NETWORK_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Network Settings"
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Huidige modus",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Poort",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Maak verbinding naar", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Verbreek verbinding", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_NETWORK_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
+    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
+    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
+    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_NETWORK_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Netplay Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
@@ -4210,6 +4326,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in fullscreen mode"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE                        "Idle"
+  IDS_SERVER_LISTENING            "Server listening"
+  IDS_CONNECTED_SERVER            "Connected server"
+  IDS_CONNECTED_CLIENT            "Connected client"
+  IDS_INVALID_PORT_NUMBER         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE
@@ -4391,6 +4521,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_DE             "Alle SMP CPUs benutzen"
   IDS_USE_FIRST_CPU_SMP_DE           "Nur erste SMP SPU nutzen"
   IDS_START_VICE_FULLSCREEN_MODE_DE  "Aktiviere VICE Vollbild Modus"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_DE         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_DE           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_DE                        "Idle"
+  IDS_SERVER_LISTENING_DE            "Server listening"
+  IDS_CONNECTED_SERVER_DE            "Connected server"
+  IDS_CONNECTED_CLIENT_DE            "Connected client"
+  IDS_INVALID_PORT_NUMBER_DE         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_DE       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_DE     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE
@@ -4572,6 +4716,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_FR             "Utiliser tous les processeurs (systèmes SMP)"
   IDS_USE_FIRST_CPU_SMP_FR           "N'utiliser que le premier processeur (systèmes SMP)"
   IDS_START_VICE_FULLSCREEN_MODE_FR  "Activer le mode plein écran au démarrage de VICE"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_FR         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_FR           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_FR                        "Idle"
+  IDS_SERVER_LISTENING_FR            "Server listening"
+  IDS_CONNECTED_SERVER_FR            "Connected server"
+  IDS_CONNECTED_CLIENT_FR            "Connected client"
+  IDS_INVALID_PORT_NUMBER_FR         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_FR       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_FR     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE
@@ -4753,6 +4911,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_IT             "Usa tutte le CPU sui sistemi SMP"
   IDS_USE_FIRST_CPU_SMP_IT           "Usa solo la prima CPU sui sistemi SMP"
   IDS_START_VICE_FULLSCREEN_MODE_IT  "Avvia VICE a tutto schermo"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_IT         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_IT           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_IT                        "Idle"
+  IDS_SERVER_LISTENING_IT            "Server listening"
+  IDS_CONNECTED_SERVER_IT            "Connected server"
+  IDS_CONNECTED_CLIENT_IT            "Connected client"
+  IDS_INVALID_PORT_NUMBER_IT         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_IT       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_IT     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE
@@ -4934,6 +5106,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_NL             "Gebruik alle CPU's op SMP systemen"
   IDS_USE_FIRST_CPU_SMP_NL           "Gebruik alleen de eerste CPU op SMP systemen"
   IDS_START_VICE_FULLSCREEN_MODE_NL  "Start VICE in volscherm modus"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_NL         "Onverwachte fout. Kreeg signaal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_NL           "Onverwachte fout. Kreeg signaal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_NL                        "Idle"
+  IDS_SERVER_LISTENING_NL            "Server wacht op verbinding"
+  IDS_CONNECTED_SERVER_NL            "Verbonden server"
+  IDS_CONNECTED_CLIENT_NL            "Verbonden client"
+  IDS_INVALID_PORT_NUMBER_NL         "Ongeldig poort nummer"
+  IDS_ERROR_STARTING_SERVER_NL       "Een fout is opgetreden bij het starten van de server."
+  IDS_ERROR_CONNECTING_CLIENT_NL     "Een fout is opgetreden bij het verbinden."
+#endif
 END
 
 
@@ -5117,6 +5303,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_PL             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP_PL           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE_PL  "Start VICE in fullscreen mode"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_PL         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_PL           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_PL                        "Idle"
+  IDS_SERVER_LISTENING_PL            "Server listening"
+  IDS_CONNECTED_SERVER_PL            "Connected server"
+  IDS_CONNECTED_CLIENT_PL            "Connected client"
+  IDS_INVALID_PORT_NUMBER_PL         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_PL       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_PL     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE
@@ -5301,6 +5501,20 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_SV             "Använd Alla CPU:er på SMP-system"
   IDS_USE_FIRST_CPU_SMP_SV           "Använd bara första CPU:n på SMP-system"
   IDS_START_VICE_FULLSCREEN_MODE_SV  "Starta VICE i fullskärmsläge"
+#ifdef SYS_SIGLIST_DECLARED
+  IDS_RECEIVED_SIGNAL_D_S_SV         "An unexpected error occured. Received signal %d (%s)."
+#else
+  IDS_RECEIVED_SIGNAL_D_SV           "An unexpected error occured. Received signal %d."
+#endif
+#ifdef HAVE_NETWORK
+  IDS_IDLE_SV                        "Idle"
+  IDS_SERVER_LISTENING_SV            "Server listening"
+  IDS_CONNECTED_SERVER_SV            "Connected server"
+  IDS_CONNECTED_CLIENT_SV            "Connected client"
+  IDS_INVALID_PORT_NUMBER_SV         "Invalid port number"
+  IDS_ERROR_STARTING_SERVER_SV       "An error occured starting the server."
+  IDS_ERROR_CONNECTING_CLIENT_SV     "An error occured connecting the client."
+#endif
 END
 
 STRINGTABLE

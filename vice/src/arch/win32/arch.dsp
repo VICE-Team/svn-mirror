@@ -227,6 +227,10 @@ SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic64_256k.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic64cart.c
 # End Source File
 # Begin Source File

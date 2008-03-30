@@ -41,6 +41,7 @@
 #include "tuimenu.h"
 #include "types.h"
 #include "ui.h"
+#include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uireu.h"
 #ifdef HAVE_TFE
@@ -348,6 +349,8 @@ int c64ui_init(void)
     uiramcart_init(ui_ioextensions_submenu);
 
     uiplus60k_init(ui_ioextensions_submenu);
+
+    uic64_256k_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);

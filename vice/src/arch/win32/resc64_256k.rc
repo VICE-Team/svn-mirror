@@ -1,0 +1,111 @@
+// +60K specific resources.
+//
+
+// original and default ENGLISH version of dialog
+
+IDD_C64_256K_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_C64_256K_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "",
+                    IDC_C64_256K_BASE_LABEL, 9, 24, 30, 8
+    COMBOBOX        IDC_C64_256K_BASE, 45, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",
+                    IDC_C64_256K_FILE_LABEL, 9, 44, 30, 8
+    PUSHBUTTON      "", IDC_C64_256K_BROWSE, 45, 42, 50, 14, 0
+    EDITTEXT        IDC_C64_256K_FILE, 9, 58, 160, 12, WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K Settings"
+    IDS_C64_256K_ENABLE              "&Enable 256K"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "256K file"
+    IDS_C64_256K_SELECT_FILE         "Select file for 256K"
+END
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K Einstellungen"
+    IDS_C64_256K_ENABLE              "256K aktivi&eren"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "256K Datei"
+    IDS_C64_256K_SELECT_FILE         "Datei für 256K selektieren"
+END
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "Paramètres 256K"
+    IDS_C64_256K_ENABLE              "&Activer 256K"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "Fichier 256K"
+    IDS_C64_256K_SELECT_FILE         "Sélectionner fichier pour 256K"
+END
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "Impostazioni 256K"
+    IDS_C64_256K_ENABLE              "&Attiva 256K"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "File 256K"
+    IDS_C64_256K_SELECT_FILE         "Seleziona file per 256K"
+END
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K Instellingen"
+    IDS_C64_256K_ENABLE              "&Aktiveer 256K"
+    IDS_C64_256K_BASE                "256K basis adres"
+    IDS_C64_256K_FILE                "256K bestand"
+    IDS_C64_256K_SELECT_FILE         "Selecteer bestand voor 256K"
+END
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "Ustawienia 256K"
+    IDS_C64_256K_ENABLE              "&W³±cz 256K"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "256K pliku"
+    IDS_C64_256K_SELECT_FILE         "Select file for 256K"
+END
+#pragma code_page(28591)
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_C64_256K_CAPTION             "256K-inställningar"
+    IDS_C64_256K_ENABLE              "&Aktivera 256K"
+    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_FILE                "256K-fil"
+    IDS_C64_256K_SELECT_FILE         "Ange fil för 256K"
+END

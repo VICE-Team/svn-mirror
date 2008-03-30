@@ -396,6 +396,19 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->AddItem(new BMenuItem("$D100",
 				new BMessage(MENU_PLUS60K_BASE_D100)));
 
+			menu->AddItem(new BMenuItem("256K emulation",
+				new BMessage(MENU_TOGGLE_C64_256K)));
+			menu->AddItem(submenu = new BMenu("C64_256K base"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("$DE00-$DE7F",
+				new BMessage(MENU_C64_256K_BASE_DE00)));
+			submenu->AddItem(new BMenuItem("$DE80-$DEFF",
+				new BMessage(MENU_C64_256K_BASE_DE80)));
+			submenu->AddItem(new BMenuItem("$DF00-$DF7F",
+				new BMessage(MENU_C64_256K_BASE_DF00)));
+			submenu->AddItem(new BMenuItem("$DF80-$DFFF",
+				new BMessage(MENU_C64_256K_BASE_DF80)));
+
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",

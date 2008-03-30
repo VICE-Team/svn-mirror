@@ -325,7 +325,7 @@ void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
     {
       while (byte>((georam_size_kb/16)-1))
       {
-        byte=byte-(georam_size_kb/16);
+        byte=byte-(unsigned char)(georam_size_kb/16);
       }
       georam[1]=byte;
     }

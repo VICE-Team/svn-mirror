@@ -227,6 +227,7 @@ BEGIN
             MENUITEM "&GEORAM settings...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART settings...",      IDM_RAMCART_SETTINGS
             MENUITEM "+&60K settings...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "&256K settings...",      IDM_C64_256K_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
@@ -398,6 +399,8 @@ BEGIN
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Optionen"
     BEGIN
@@ -433,6 +436,7 @@ BEGIN
         MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Doppelte Größe", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -477,6 +481,7 @@ BEGIN
             MENUITEM "&GEORAM Einstellungen...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART Einstellungen...",      IDM_RAMCART_SETTINGS
             MENUITEM "+&60K Einstellungen...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "&256K Einstellungen...",      IDM_C64_256K_SETTINGS
             MENUITEM "&IDE64 Einstellungen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet Einstellungen...", IDM_TFE_SETTINGS
@@ -646,6 +651,8 @@ BEGIN
         MENUITEM "Sélectionnez le répertoire des captures",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Options"
     BEGIN
@@ -681,6 +688,7 @@ BEGIN
         MENUITEM "&Mode turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Périphérique plein écran\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Taille double", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -725,6 +733,7 @@ BEGIN
             MENUITEM "Paramètres &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Paramètres &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "Paramètres +&60K...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "Paramètres &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "Paramètres &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Émulation &Ethernet...", IDM_TFE_SETTINGS
@@ -894,6 +903,8 @@ BEGIN
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opzioni"
     BEGIN
@@ -929,6 +940,7 @@ BEGIN
         MENUITEM "ModalitÃ  &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "A tutto schermo\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Dimensione doppia", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -973,6 +985,7 @@ BEGIN
             MENUITEM "Impostazioni della &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Impostazioni del &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "Impostazioni del +&60K...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "Impostazioni del &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "Impostazioni dell'&IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Impostazioni dell'&Ethernet...", IDM_TFE_SETTINGS
@@ -1142,6 +1155,8 @@ BEGIN
         MENUITEM "Selecteer Geschiedenis directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimenteel)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opties"
     BEGIN
@@ -1177,6 +1192,7 @@ BEGIN
         MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Volscherm\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Altijd Boven", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Dubbele grootte", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -1221,6 +1237,7 @@ BEGIN
             MENUITEM "&GEORAM instellingen...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART instellingen...",      IDM_RAMCART_SETTINGS
             MENUITEM "+&60K instellingen...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "&256K instellingen...",      IDM_C64_256K_SETTINGS
             MENUITEM "&IDE64 instellingen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet instellingen...", IDM_TFE_SETTINGS
@@ -1391,6 +1408,8 @@ BEGIN
         MENUITEM "Katalog systemu plików",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opcje"
     BEGIN
@@ -1426,6 +1445,7 @@ BEGIN
         MENUITEM "tr&yb przy¶pieszony (Turbo)\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Pe³ny ekran\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "Po&dwójny rozmiar", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -1470,6 +1490,7 @@ BEGIN
             MENUITEM "Ustawienia &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Ustawienia &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "Ustawienia +&60K...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "Ustawienia &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "Ustawienia &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Ustawienia &Ethernet...", IDM_TFE_SETTINGS
@@ -1640,6 +1661,8 @@ BEGIN
         MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Alternativ"
     BEGIN
@@ -1675,6 +1698,7 @@ BEGIN
         MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullskärm\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "&Dubbel storlek", IDM_TOGGLE_DOUBLESIZE, CHECKED
@@ -1719,6 +1743,7 @@ BEGIN
             MENUITEM "&GEORAM-inställningar...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART-inställningar...",      IDM_RAMCART_SETTINGS
             MENUITEM "+&60K-inställningar...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "&256K-inställningar...",      IDM_C64_256K_SETTINGS
             MENUITEM "&IDE64-inställningar...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernetinställningar...", IDM_TFE_SETTINGS

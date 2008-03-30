@@ -54,6 +54,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
+    { "256K", MENU_TOGGLE_C64_256K },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
@@ -95,11 +96,20 @@ ui_res_possible_values Plus60kBase[] = {
         {-1, 0}
 };
 
+ui_res_possible_values C64_256KBase[] = {
+        {0xde00, MENU_C64_256K_BASE_DE00},
+        {0xde80, MENU_C64_256K_BASE_DE80},
+        {0xdf00, MENU_C64_256K_BASE_DF00},
+        {0xdf80, MENU_C64_256K_BASE_DF80},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
     {"RAMCARTsize", RamCartSize},
     {"PLUS60Kbase", Plus60kBase},
+    {"C64_256Kbase", C64_256KBase},
     {NULL,NULL}
 };
 

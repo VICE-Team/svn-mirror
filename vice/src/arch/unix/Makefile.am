@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	uiacia1.h \
 	uiattach.c \
 	uiattach.h \
+	uic64_256k.c \
+	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uicartridge.h \

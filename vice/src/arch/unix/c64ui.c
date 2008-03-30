@@ -37,6 +37,7 @@
 #include "machine-video.h"
 #include "resources.h"
 #include "uiattach.h"
+#include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
@@ -272,6 +273,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, ramcart_submenu },
     { N_("+60K RAM Expansion Hack"),
       NULL, NULL, plus60k_submenu },
+    { N_("256K RAM Expansion Hack"),
+      NULL, NULL, c64_256k_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
 #ifdef HAVE_TFE

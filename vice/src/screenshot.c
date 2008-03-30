@@ -218,11 +218,6 @@ void screenshot_stop_recording()
     if (recording_driver != NULL && recording_driver->close != NULL)
         recording_driver->close(NULL);
 
-    lib_free(reopen_recording_drivername);
-    lib_free(reopen_filename);
-
-    reopen_recording_drivername = NULL;
-    reopen_filename = NULL;
     recording_driver = NULL;
     recording_canvas = NULL;
 }

@@ -339,7 +339,8 @@ extern int translate_res(int en_resource);
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
+   c64/c64_256k.c */
 #define IDCLS_P_NAME                            0x1100e
 #define IDCLS_P_NAME_DE                         0x1100f
 #define IDCLS_P_NAME_FR                         0x11010
@@ -2377,7 +2378,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_SECOND_SID_PL              0x115ff
 #define IDCLS_ENABLE_SECOND_SID_SV              0x11600
 
-/* sid/sid-cmdline-options.c, c64/plus60k.c */
+/* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c */
 #define IDCLS_P_BASE_ADDRESS                    0x11601
 #define IDCLS_P_BASE_ADDRESS_DE                 0x11602
 #define IDCLS_P_BASE_ADDRESS_FR                 0x11603
@@ -3551,5 +3552,169 @@ extern int translate_res(int en_resource);
 #define IDCLS_PLUS60K_BASE_NL                   0x11986
 #define IDCLS_PLUS60K_BASE_PL                   0x11987
 #define IDCLS_PLUS60K_BASE_SV                   0x11988
+
+/* c64/c64_256k.c */
+#define IDCLS_ENABLE_C64_256K_EXPANSION         0x11989
+#define IDCLS_ENABLE_C64_256K_EXPANSION_DE      0x1198a
+#define IDCLS_ENABLE_C64_256K_EXPANSION_FR      0x1198b
+#define IDCLS_ENABLE_C64_256K_EXPANSION_IT      0x1198c
+#define IDCLS_ENABLE_C64_256K_EXPANSION_NL      0x1198d
+#define IDCLS_ENABLE_C64_256K_EXPANSION_PL      0x1198e
+#define IDCLS_ENABLE_C64_256K_EXPANSION_SV      0x1198f
+
+/* c64/c64_256k.c */
+#define IDCLS_DISABLE_C64_256K_EXPANSION        0x11990
+#define IDCLS_DISABLE_C64_256K_EXPANSION_DE     0x11991
+#define IDCLS_DISABLE_C64_256K_EXPANSION_FR     0x11992
+#define IDCLS_DISABLE_C64_256K_EXPANSION_IT     0x11993
+#define IDCLS_DISABLE_C64_256K_EXPANSION_NL     0x11994
+#define IDCLS_DISABLE_C64_256K_EXPANSION_PL     0x11995
+#define IDCLS_DISABLE_C64_256K_EXPANSION_SV     0x11996
+
+/* c64/c64_256k.c */
+#define IDCLS_SPECIFY_C64_256K_NAME             0x11997
+#define IDCLS_SPECIFY_C64_256K_NAME_DE          0x11998
+#define IDCLS_SPECIFY_C64_256K_NAME_FR          0x11999
+#define IDCLS_SPECIFY_C64_256K_NAME_IT          0x1199a
+#define IDCLS_SPECIFY_C64_256K_NAME_NL          0x1199b
+#define IDCLS_SPECIFY_C64_256K_NAME_PL          0x1199c
+#define IDCLS_SPECIFY_C64_256K_NAME_SV          0x1199d
+
+/* c64/c64_256k.c */
+#define IDCLS_C64_256K_BASE                     0x1199e
+#define IDCLS_C64_256K_BASE_DE                  0x1199f
+#define IDCLS_C64_256K_BASE_FR                  0x119a0
+#define IDCLS_C64_256K_BASE_IT                  0x119a1
+#define IDCLS_C64_256K_BASE_NL                  0x119a2
+#define IDCLS_C64_256K_BASE_PL                  0x119a3
+#define IDCLS_C64_256K_BASE_SV                  0x119a4
+
+#ifdef HAVE_NETWORK
+/* network.c */
+#define IDGS_TESTING_BEST_FRAME_DELAY           0x119a5
+#define IDGS_TESTING_BEST_FRAME_DELAY_DE        0x119a6
+#define IDGS_TESTING_BEST_FRAME_DELAY_FR        0x119a7
+#define IDGS_TESTING_BEST_FRAME_DELAY_IT        0x119a8
+#define IDGS_TESTING_BEST_FRAME_DELAY_NL        0x119a9
+#define IDGS_TESTING_BEST_FRAME_DELAY_PL        0x119aa
+#define IDGS_TESTING_BEST_FRAME_DELAY_SV        0x119ab
+
+/* network.c */
+#define IDGS_USING_D_FRAMES_DELAY               0x119ac
+#define IDGS_USING_D_FRAMES_DELAY_DE            0x119ad
+#define IDGS_USING_D_FRAMES_DELAY_FR            0x119ae
+#define IDGS_USING_D_FRAMES_DELAY_IT            0x119af
+#define IDGS_USING_D_FRAMES_DELAY_NL            0x119b0
+#define IDGS_USING_D_FRAMES_DELAY_PL            0x119b1
+#define IDGS_USING_D_FRAMES_DELAY_SV            0x119b2
+
+/* network.c */
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER      0x119b3
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE   0x119b4
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR   0x119b5
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT   0x119b6
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL   0x119b7
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL   0x119b8
+#define IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV   0x119b9
+
+/* network.c */
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT         0x119ba
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE      0x119bb
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR      0x119bc
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT      0x119bd
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL      0x119be
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_PL      0x119bf
+#define IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV      0x119c0
+
+/* network.c */
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT     0x119c1
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE  0x119c2
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR  0x119c3
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT  0x119c4
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL  0x119c5
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL  0x119c6
+#define IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV  0x119c7
+
+/* network.c */
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S      0x119c8
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE   0x119c9
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR   0x119ca
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT   0x119cb
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL   0x119cc
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL   0x119cd
+#define IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV   0x119ce
+
+/* network.c */
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S        0x119cf
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE     0x119d0
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR     0x119d1
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT     0x119d2
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL     0x119d3
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL     0x119d4
+#define IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV     0x119d5
+
+/* network.c */
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT       0x119d6
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE    0x119d7
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR    0x119d8
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT    0x119d9
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL    0x119da
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL    0x119db
+#define IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV    0x119dc
+
+/* network.c */
+#define IDGS_CANNOT_RESOLVE_S                   0x119dd
+#define IDGS_CANNOT_RESOLVE_S_DE                0x119de
+#define IDGS_CANNOT_RESOLVE_S_FR                0x119df
+#define IDGS_CANNOT_RESOLVE_S_IT                0x119e0
+#define IDGS_CANNOT_RESOLVE_S_NL                0x119e1
+#define IDGS_CANNOT_RESOLVE_S_PL                0x119e2
+#define IDGS_CANNOT_RESOLVE_S_SV                0x119e3
+
+/* network.c */
+#define IDGS_CANNOT_CONNECT_TO_S                0x119e4
+#define IDGS_CANNOT_CONNECT_TO_S_DE             0x119e5
+#define IDGS_CANNOT_CONNECT_TO_S_FR             0x119e6
+#define IDGS_CANNOT_CONNECT_TO_S_IT             0x119e7
+#define IDGS_CANNOT_CONNECT_TO_S_NL             0x119e8
+#define IDGS_CANNOT_CONNECT_TO_S_PL             0x119e9
+#define IDGS_CANNOT_CONNECT_TO_S_SV             0x119ea
+
+/* network.c */
+#define IDGS_RECEIVING_SNAPSHOT_SERVER          0x119eb
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_DE       0x119ec
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_FR       0x119ed
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_IT       0x119ee
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_NL       0x119ef
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_PL       0x119f0
+#define IDGS_RECEIVING_SNAPSHOT_SERVER_SV       0x119f1
+
+/* network.c */
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT      0x119f2
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE   0x119f3
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR   0x119f4
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT   0x119f5
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL   0x119f6
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL   0x119f7
+#define IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV   0x119f8
+
+/* network.c */
+#define IDGS_FRAGMENTED                         0x119f9
+#define IDGS_FRAGMENTED_DE                      0x119fa
+#define IDGS_FRAGMENTED_FR                      0x119fb
+#define IDGS_FRAGMENTED_IT                      0x119fc
+#define IDGS_FRAGMENTED_NL                      0x119fd
+#define IDGS_FRAGMENTED_PL                      0x119fe
+#define IDGS_FRAGMENTED_SV                      0x119ff
+
+/* network.c */
+#define IDGS_NETWORK_OUT_OF_SYNC                0x11a00
+#define IDGS_NETWORK_OUT_OF_SYNC_DE             0x11a01
+#define IDGS_NETWORK_OUT_OF_SYNC_FR             0x11a02
+#define IDGS_NETWORK_OUT_OF_SYNC_IT             0x11a03
+#define IDGS_NETWORK_OUT_OF_SYNC_NL             0x11a04
+#define IDGS_NETWORK_OUT_OF_SYNC_PL             0x11a05
+#define IDGS_NETWORK_OUT_OF_SYNC_SV             0x11a06
+#endif
 
 #endif

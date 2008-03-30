@@ -47,7 +47,7 @@ typedef struct gfxoutputdrv_data_s
   GifFileType *fd;
   char *ext_filename;
   BYTE *data;
-  int line;
+  unsigned int line;
 } gfxoutputdrv_data_t;
 
 static gfxoutputdrv_t gif_drv;
@@ -56,7 +56,7 @@ static ColorMapObject *gif_colors=NULL;
 
 static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 {
-  int i;
+  unsigned int i;
   gfxoutputdrv_data_t *sdata;
   GifColorType ColorMap256[256];
 

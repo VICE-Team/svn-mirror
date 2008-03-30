@@ -121,3 +121,20 @@ void mem_limit_plus60k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
     mem_read_limit_tab[i][0x100] = -1;
   }
 }
+
+void mem_limit_c64_256k_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
+{
+  int i, j, k;
+
+  for (i = 0; i < NUM_CONFIGS; i++)
+  {
+    for (j = 0; j < NUM_SEGMENTS; j++)
+    {
+      for (k = mstart[j]; k <= mend[j]; k++)
+      {
+        mem_read_limit_tab[i][k] = -1;
+      }
+    }
+    mem_read_limit_tab[i][0x100] = -1;
+  }
+}

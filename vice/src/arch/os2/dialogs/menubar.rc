@@ -418,6 +418,14 @@ BEGIN
         MENUITEM "$~D040",                IDM_PLUS60KD040,    MIS_TEXT
         MENUITEM "$D~100",                IDM_PLUS60KD100,    MIS_TEXT
       END
+      MENUITEM "~256K - 256K Memory Expansion hack", IDM_C64_256K,       MIS_TEXT
+      SUBMENU  "256K ~Base",        IDM_C64_256K_BASE,   MIS_TEXT
+      BEGIN
+        MENUITEM "$~DE00-$DE7F",                IDM_C64_256K_BASEDE00,    MIS_TEXT
+        MENUITEM "$D~E80-$DEFF",                IDM_C64_256K_BASEDE80,    MIS_TEXT
+        MENUITEM "$DF~00-$DF7F",                IDM_C64_256K_BASEDF00,    MIS_TEXT
+        MENUITEM "$D~F80-$DFFF",                IDM_C64_256K_BASEDF80,   MIS_TEXT
+      END
 #endif
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT

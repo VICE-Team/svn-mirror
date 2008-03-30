@@ -106,6 +106,25 @@
 #include "tfe.h"
 #endif
 
+/* dummy functions until the C128 version of the
+   256K expansion can be made */
+
+int c64_256k_enabled=0;
+int c64_256k_start=0xdf80;
+
+void REGPARM2 c64_256k_store(WORD addr, BYTE byte)
+{
+}
+
+BYTE REGPARM1 c64_256k_read(WORD addr)
+{
+  return 0xff;
+}
+
+void c64_256k_cia_set_vbank(int ciabank)
+{
+}
+
 /* dummy functions until the C128 version of the 
    +60K expansion can be made */
 

@@ -46,7 +46,7 @@ typedef struct gfxoutputdrv_data_s
   FILE *fd;
   char *ext_filename;
   BYTE *data;
-  int line;
+  unsigned int line;
 } gfxoutputdrv_data_t;
 
 static gfxoutputdrv_t ppm_drv;
@@ -103,7 +103,7 @@ static int ppmdrv_open(screenshot_t *screenshot, const char *filename)
 static int ppmdrv_write(screenshot_t *screenshot)
 {
   gfxoutputdrv_data_t *sdata;
-  int i,j=0;
+  unsigned int i;
 
   sdata = screenshot->gfxoutputdrv_data;
   (screenshot->convert_line)(screenshot, sdata->data, sdata->line, SCREENSHOT_MODE_RGB24);

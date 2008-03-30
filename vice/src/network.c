@@ -274,7 +274,11 @@ static void network_test_delay(void)
 
     vsyncarch_init();
 
-    ui_display_statustext("Testing best frame delay...", 0);
+#ifdef HAS_TRANSLATION
+    ui_display_statustext(translate_text(IDGS_TESTING_BEST_FRAME_DELAY), 0);
+#else
+    ui_display_statustext(_("Testing best frame delay..."), 0);
+#endif
 
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
@@ -322,7 +326,11 @@ static void network_test_delay(void)
     network_free_frame_event_list();
     frame_delta = new_frame_delta;
     network_init_frame_event_list();
-    sprintf(st, "Using %d frames delay.", frame_delta);
+#ifdef HAS_TRANSLATION
+    sprintf(st, translate_text(IDGS_USING_D_FRAMES_DELAY), frame_delta);
+#else
+    sprintf(st, _("Using %d frames delay."), frame_delta);
+#endif
     log_debug("netplay connected with %d frames delta.", frame_delta);
     ui_display_statustext(st, 1);
 }
@@ -341,7 +349,11 @@ static void network_server_connect_trap(WORD addr, void *data)
     if (machine_write_snapshot(filename, 1, 1, 0) == 0) {
         f = fopen(filename, MODE_READ);
         if (f == NULL) {
-            ui_error("Cannot load snapshot file for transfer");
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER));
+#else
+            ui_error(_("Cannot load snapshot file for transfer"));
+#endif
             lib_free(filename);
             return;
         }
@@ -350,12 +362,20 @@ static void network_server_connect_trap(WORD addr, void *data)
         fread(buf, 1, buf_size, f);
         fclose(f);
 
-        ui_display_statustext("Sending snapshot to client...", 0);
+#ifdef HAS_TRANSLATION
+        ui_display_statustext(translate_text(IDGS_SENDING_SNAPSHOT_TO_CLIENT), 0);
+#else
+        ui_display_statustext(_("Sending snapshot to client..."), 0);
+#endif
         send(network_socket, (char*)&buf_size, sizeof(long), 0);
         i = send(network_socket, buf, buf_size, 0);
         lib_free(buf);
         if (i != buf_size) {
-            ui_error("Cannot send snapshot to client");
+#ifdef HAS_TRANSLATION
+            ui_error(translate_text(IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT));
+#else
+            ui_error(_("Cannot send snapshot to client"));
+#endif
             ui_display_statustext("", 0);
             lib_free(filename);
             return;
@@ -367,7 +387,11 @@ static void network_server_connect_trap(WORD addr, void *data)
         network_mode = NETWORK_SERVER_CONNECTED;
         network_test_delay();
     } else {
-        ui_error("Cannot create snapshot file %s", filename);
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
+#else
+        ui_error(_("Cannot create snapshot file %s"), filename);
+#endif
     }
     lib_free(filename);
 }
@@ -380,7 +404,11 @@ static void network_client_connect_trap(WORD addr, void *data)
     filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
 
     if (machine_read_snapshot(filename, 0) != 0) {
-        ui_error("Cannot open snapshot file %s", filename);
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), filename);
+#else
+        ui_error(_("Cannot open snapshot file %s"), filename);
+#endif
         lib_free(filename);
         return;
     }
@@ -460,7 +488,11 @@ int network_start_server(void)
     network_mode = NETWORK_SERVER;
 
     vsync_suspend_speed_eval();
-    ui_display_statustext("Server is waiting for a client...", 1);
+#ifdef HAS_TRANSLATION
+    ui_display_statustext(translate_text(IDGS_SERVER_IS_WAITING_FOR_CLIENT), 1);
+#else
+    ui_display_statustext(_("Server is waiting for a client..."), 1);
+#endif
 #endif
     return 0;
 } 
@@ -487,7 +519,11 @@ int network_connect_client(void)
 
     server_hostent = gethostbyname(server_name);
     if (server_hostent == NULL) {
-        ui_error("Cannot resolve %s", server_name);
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_RESOLVE_S), server_name);
+#else
+        ui_error(_("Cannot resolve %s"), server_name);
+#endif
         return -1;
     }
     server_addr.sin_port = htons(server_port);
@@ -503,13 +539,22 @@ int network_connect_client(void)
     if (connect(network_socket, (struct sockaddr *)&server_addr, 
         sizeof(server_addr)) == SOCKET_ERROR) {
         closesocket(network_socket);
-        ui_error("Cannot connect to %s (no server running on port %d).",
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
                     server_name, server_port);
+#else
+        ui_error(_("Cannot connect to %s (no server running on port %d)."),
+                    server_name, server_port);
+#endif
         lib_free(filename);
         return -1;
     }
 
-    ui_display_statustext("Receiving snapshot from server...", 0);
+#ifdef HAS_TRANSLATION
+    ui_display_statustext(translate_text(IDGS_RECEIVING_SNAPSHOT_SERVER), 0);
+#else
+    ui_display_statustext(_("Receiving snapshot from server..."), 0);
+#endif
     if (recv(network_socket, (char*)&buf_size, sizeof(long), 0)
         != sizeof(long)) {
         lib_free(filename);
@@ -523,7 +568,11 @@ int network_connect_client(void)
 
     f = fopen(filename, MODE_WRITE);
     if (f == NULL) {
-        ui_error("Cannot read received snapshot file");
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_READ_RECEIVED_SNAPSHOT));
+#else
+        ui_error(_("Cannot read received snapshot file"));
+#endif
         lib_free(filename);
         return -1;
     }
@@ -550,12 +599,14 @@ void network_disconnect(void)
 
 void network_suspend(void)
 {
+#ifdef HAVE_NETWORK
     int dummy_buf_len = 0;
 
     if (!network_connected() || suspended == 1)
         return;
 
     send(network_socket, (char*)&dummy_buf_len, sizeof(unsigned int), 0);
+#endif
 }
 
 void network_hook(void)
@@ -647,7 +698,11 @@ void network_hook(void)
 
                 temp += t;
                 if (temp < remote_buf_len)
-                    ui_error("fragmented");
+#ifdef HAS_TRANSLATION
+                    ui_error(translate_text(IDGS_FRAGMENTED));
+#else
+                    ui_error(_("fragmented"));
+#endif
             }
 #ifdef NETWORK_DEBUG
             log_debug("network hook after recv : %d",vsyncarch_gettime());
@@ -673,7 +728,11 @@ void network_hook(void)
                     if (((unsigned int*)client_event_list->base->data)[i]
                         != ((unsigned int*)server_event_list->base->data)[i])
                     {
-                        ui_error("Network out of sync - disconnecting.");
+#ifdef HAS_TRANSLATION
+                        ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
+#else
+                        ui_error(_("Network out of sync - disconnecting."));
+#endif
                         network_disconnect();
                         /* shouldn't happen but resyncing would be nicer */
                         break;
@@ -702,4 +761,3 @@ void network_shutdown(void)
     lib_free(server_name);
 #endif
 }
-

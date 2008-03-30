@@ -37,17 +37,19 @@
 
 #include "log.h"
 #include "monitor.h"
+#include "res.h"
 #include "signals.h"
+#include "translate.h"
 #include "ui.h"
 
 
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    ui_error("An unexpected error occured. Received signal %d (%s).",
+    ui_error(translate_text(IDS_RECEIVED_SIGNAL_D_S),
                 sig, sys_siglist[sig]);
 #else
-    ui_error("An unexpected error occured. Received signal %d.", sig);
+    ui_error(translate_text(IDS_RECEIVED_SIGNAL_D_S), sig);
 #endif
 
     exit(-1);

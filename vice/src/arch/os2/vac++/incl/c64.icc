@@ -2,6 +2,7 @@ source type(c)
     "c64-cmdline-options.c",
     "c64-resources.c",
     "c64-snapshot.c",
+    "c64_256k.c",
     "c64.c",
     "c64acia1.c",
     "c64bus.c",

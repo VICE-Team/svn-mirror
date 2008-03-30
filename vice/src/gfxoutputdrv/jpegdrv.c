@@ -47,7 +47,7 @@ typedef struct gfxoutputdrv_data_s
   FILE *fd;
   char *ext_filename;
   BYTE *data;
-  int line;
+  unsigned int line;
 } gfxoutputdrv_data_t;
 
 static gfxoutputdrv_t jpeg_drv;

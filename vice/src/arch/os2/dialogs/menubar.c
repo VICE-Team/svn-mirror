@@ -535,6 +535,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PLUS60K:
         toggle("PLUS60K");
         return;
+    case IDM_C64_256K:
+        toggle("C64_256K");
+        return;
 #endif
 #ifdef HAVE_TFE
     case IDM_TFE:
@@ -579,6 +582,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PLUS60KD100:
         resources_set_value("PLUS60Kbase",
                             (resource_value_t*)0xd100);
+        return;
+    case IDM_C64_256K_BASEDE00:
+    case IDM_C64_256K_BASEDE80:
+    case IDM_C64_256K_BASEDF00:
+    case IDM_C64_256K_BASEDF80:
+        resources_set_value("C64_256Kbase",
+                            (resource_value_t*)(((idm&3)*80)+0xde00));
         return;
 #endif
 
@@ -1227,6 +1237,9 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("PLUS60K", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_PLUS60K,     val);
         WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
+        resources_get_value("C64_256K", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_C64_256K,     val);
+        WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
 #endif
 #ifdef __XPET__
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
@@ -1317,6 +1330,14 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("PLUS60Kbase", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_PLUS60KD040,   val==0xd040);
         WinCheckMenuItem(hwnd, IDM_PLUS60KD100,   val==0xd100);
+        return;
+
+    case IDM_C64_256K_BASE:
+        resources_get_value("C64_256K_Base", (void *)&val);
+        WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDE00,   val==0xde00);
+        WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDE80,   val==0xde80);
+        WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF00,   val==0xdf00);
+        WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF80,   val==0xdf80);
         return;
 #endif
 #endif

@@ -32,6 +32,7 @@
 #include <stdio.h>
 
 #include "c64.h"
+#include "c64_256k.h"
 #include "c64mem.h"
 #include "c64iec.h"
 #include "c64cia.h"
@@ -99,7 +100,10 @@ static void do_reset_cia(cia_context_t *cia_context)
 #endif
 
     vbank = 0;
-    mem_set_vbank(vbank);
+    if (c64_256k_enabled)
+        c64_256k_cia_set_vbank(vbank);
+    else
+        mem_set_vbank(vbank);
 }
 
 
@@ -133,7 +137,10 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
         new_vbank = tmp & 3;
         if (new_vbank != vbank) {
             vbank = new_vbank;
-            mem_set_vbank(new_vbank);
+            if (c64_256k_enabled)
+                c64_256k_cia_set_vbank(new_vbank);
+            else
+                mem_set_vbank(new_vbank);
         }
         (*iecbus_callback_write)((BYTE)tmp, maincpu_clk);
         printer_userport_write_strobe(tmp & 0x04);
@@ -148,7 +155,10 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     }
 #endif
     vbank = (byte ^ 3) & 3;
-    mem_set_vbank(vbank);
+    if (c64_256k_enabled)
+        c64_256k_cia_set_vbank(vbank);
+    else
+        mem_set_vbank(vbank);
     iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }
 

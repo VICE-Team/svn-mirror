@@ -47,7 +47,7 @@ typedef struct gfxoutputdrv_data_s
   char *ext_filename;
   BYTE *data;
   BYTE *iff_data;
-  int line;
+  unsigned int line;
   int iff_rowbytes;
 } gfxoutputdrv_data_t;
 
@@ -186,12 +186,12 @@ static int iffdrv_write(screenshot_t *screenshot)
     if (fwrite(sdata->iff_data, sdata->iff_rowbytes, 1, sdata->fd)<1)
       return -1;
   }
+  return 0;
 }
 
 static int iffdrv_close(screenshot_t *screenshot)
 {
   gfxoutputdrv_data_t *sdata;
-  int i;
 
   sdata = screenshot->gfxoutputdrv_data;
 

@@ -384,6 +384,133 @@ translate_t string_table[] = {
 /* pl */ {IDGS_RESOURCE_S_BLOCKED_BY_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RESOURCE_S_BLOCKED_BY_S_SV, "Resursen %s blockeras av %s."},
 
+#ifdef HAVE_NETWORK
+/* network.c */
+/* en */ {IDGS_TESTING_BEST_FRAME_DELAY,    "Testing best frame delay..."},
+/* de */ {IDGS_TESTING_BEST_FRAME_DELAY_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_TESTING_BEST_FRAME_DELAY_FR, ""},  /* fuzzy */
+/* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_TESTING_BEST_FRAME_DELAY_NL, "Beste frame vertraging aan het testen..."},
+/* pl */ {IDGS_TESTING_BEST_FRAME_DELAY_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_TESTING_BEST_FRAME_DELAY_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_USING_D_FRAMES_DELAY,    "Using %d frames delay."},
+/* de */ {IDGS_USING_D_FRAMES_DELAY_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_USING_D_FRAMES_DELAY_FR, ""},  /* fuzzy */
+/* it */ {IDGS_USING_D_FRAMES_DELAY_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_USING_D_FRAMES_DELAY_NL, "%d frames vertraging in gebruik."},
+/* pl */ {IDGS_USING_D_FRAMES_DELAY_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_USING_D_FRAMES_DELAY_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER,    "Cannot load snapshot file for transfer"},
+/* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopname bestand voor versturen laden"},
+/* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT,    "Sending snapshot to client..."},
+/* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
+/* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL, "Momentopname wordt naar de andere computer verstuurd..."},
+/* pl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT,    "Cannot send snapshot to client"},
+/* de */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL, "Kan de momentopname niet naar de andere computer versturen"},
+/* pl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s"},
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken"},
+/* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S,    "Cannot open snapshot file %s"},
+/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet openen"},
+/* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT,    "Server is waiting for a client..."},
+/* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, ""},  /* fuzzy */
+/* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL, "De server wacht op de andere computer..."},
+/* pl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_RESOLVE_S,    "Cannot resolve %s"},
+/* de */ {IDGS_CANNOT_RESOLVE_S_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_RESOLVE_S_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_RESOLVE_S_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_RESOLVE_S_NL, "Onbekende host %s"},
+/* pl */ {IDGS_CANNOT_RESOLVE_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_RESOLVE_S_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_CONNECT_TO_S,    "Cannot connect to %s (no server running on port %d)."},
+/* de */ {IDGS_CANNOT_CONNECT_TO_S_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_CONNECT_TO_S_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CONNECT_TO_S_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_CONNECT_TO_S_NL, "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."},
+/* pl */ {IDGS_CANNOT_CONNECT_TO_S_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CONNECT_TO_S_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_RECEIVING_SNAPSHOT_SERVER,    "Receiving snapshot from server..."},
+/* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, ""},  /* fuzzy */
+/* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_NL, "Momentopname van de server wordt ontvangen..."},
+/* pl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_RECEIVING_SNAPSHOT_SERVER_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT,    "Cannot read received snapshot file"},
+/* de */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL, "Kan het ontvangen momentopname bestand niet lezen"},
+/* pl */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_FRAGMENTED,    "fragmented"},
+/* de */ {IDGS_FRAGMENTED_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_FRAGMENTED_FR, ""},  /* fuzzy */
+/* it */ {IDGS_FRAGMENTED_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_FRAGMENTED_NL, "gefragmenteerd"},
+/* pl */ {IDGS_FRAGMENTED_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_FRAGMENTED_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_NETWORK_OUT_OF_SYNC,    "Network out of sync - disconnecting."},
+/* de */ {IDGS_NETWORK_OUT_OF_SYNC_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_NETWORK_OUT_OF_SYNC_FR, ""},  /* fuzzy */
+/* it */ {IDGS_NETWORK_OUT_OF_SYNC_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_NETWORK_OUT_OF_SYNC_NL, "Netwerk niet synchroon - connectie wordt verbroken."},
+/* pl */ {IDGS_NETWORK_OUT_OF_SYNC_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, ""},  /* fuzzy */
+#endif
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
@@ -420,7 +547,8 @@ translate_t string_table[] = {
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
+   c64/c64_256k.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
 /* de */ {IDCLS_P_NAME_DE, "<Name>"},
 /* fr */ {IDCLS_P_NAME_FR, "<nom>"},
@@ -2538,7 +2666,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_SECOND_SID_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SECOND_SID_SV, "Aktivera andra SID"},
 
-/* sid/sid-cmdline-options.c, c64/plus60k */
+/* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
 /* en */ {IDCLS_P_BASE_ADDRESS,    "<base address>"},
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, "<adresse de base>"},
@@ -3700,6 +3828,42 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
 
+/* c64/c64_256k.c */
+/* en */ {IDCLS_ENABLE_C64_256K_EXPANSION,    "Enable the 256K RAM expansion"},
+/* de */ {IDCLS_ENABLE_C64_256K_EXPANSION_DE, "256K RAM Erweiterung aktivieren"},
+/* fr */ {IDCLS_ENABLE_C64_256K_EXPANSION_FR, "Activer l'expansion RAM 256K"},
+/* it */ {IDCLS_ENABLE_C64_256K_EXPANSION_IT, "Attiva l'espansione 256K RAM"},
+/* nl */ {IDCLS_ENABLE_C64_256K_EXPANSION_NL, "Aktiveer de 256K geheugen uitbreiding"},
+/* pl */ {IDCLS_ENABLE_C64_256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_C64_256K_EXPANSION_SV, "Aktivera 256K RAM-expansion"},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_DISABLE_C64_256K_EXPANSION,    "Disable the 256K RAM expansion"},
+/* de */ {IDCLS_DISABLE_C64_256K_EXPANSION_DE, "256K RAM Erweiterung deaktivieren"},
+/* fr */ {IDCLS_DISABLE_C64_256K_EXPANSION_FR, "Désactiver l'expansion RAM 256K"},
+/* it */ {IDCLS_DISABLE_C64_256K_EXPANSION_IT, "Disattiva l'espansione 256K RAM"},
+/* nl */ {IDCLS_DISABLE_C64_256K_EXPANSION_NL, "De 256K geheugen uitbreiding afsluiten"},
+/* pl */ {IDCLS_DISABLE_C64_256K_EXPANSION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_C64_256K_EXPANSION_SV, "Inaktivera 256K RAM-expansion"},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_SPECIFY_C64_256K_NAME,    "Specify name of 256K image"},
+/* de */ {IDCLS_SPECIFY_C64_256K_NAME_DE, "Name der 256K Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_C64_256K_NAME_FR, "Spécifier le nom de l'image 256K"},
+/* it */ {IDCLS_SPECIFY_C64_256K_NAME_IT, "Specifica il nome dell'immagine 256K"},
+/* nl */ {IDCLS_SPECIFY_C64_256K_NAME_NL, "Geef de naam van het 256K bestand"},
+/* pl */ {IDCLS_SPECIFY_C64_256K_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_C64_256K_NAME_SV, "Ange namn på 256K-avbildning"},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_C64_256K_BASE,    "Base address of the 256K expansion"},
+/* de */ {IDCLS_C64_256K_BASE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_C64_256K_BASE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_C64_256K_BASE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_C64_256K_BASE_NL, "Basis adres van de 256K geheugen uitbreiding"},
+/* pl */ {IDCLS_C64_256K_BASE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */
+
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
@@ -3976,6 +4140,134 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDGS_RESOURCE_S_BLOCKED_BY_S_PL,
 /* sv */  IDGS_RESOURCE_S_BLOCKED_BY_S_SV},
 
+#ifdef HAVE_NETWORK
+/* network.c */
+/* en */ {IDGS_TESTING_BEST_FRAME_DELAY,
+/* de */  IDGS_TESTING_BEST_FRAME_DELAY_DE,
+/* fr */  IDGS_TESTING_BEST_FRAME_DELAY_FR,
+/* it */  IDGS_TESTING_BEST_FRAME_DELAY_IT,
+/* nl */  IDGS_TESTING_BEST_FRAME_DELAY_NL,
+/* pl */  IDGS_TESTING_BEST_FRAME_DELAY_PL,
+/* sv */  IDGS_TESTING_BEST_FRAME_DELAY_SV},
+
+/* network.c */
+/* en */ {IDGS_USING_D_FRAMES_DELAY,
+/* de */  IDGS_USING_D_FRAMES_DELAY_DE,
+/* fr */  IDGS_USING_D_FRAMES_DELAY_FR,
+/* it */  IDGS_USING_D_FRAMES_DELAY_IT,
+/* nl */  IDGS_USING_D_FRAMES_DELAY_NL,
+/* pl */  IDGS_USING_D_FRAMES_DELAY_PL,
+/* sv */  IDGS_USING_D_FRAMES_DELAY_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER,
+/* de */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE,
+/* fr */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR,
+/* it */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT,
+/* nl */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL,
+/* pl */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL,
+/* sv */  IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV},
+
+/* network.c */
+/* en */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT,
+/* de */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE,
+/* fr */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR,
+/* it */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT,
+/* nl */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL,
+/* pl */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_PL,
+/* sv */  IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT,
+/* de */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE,
+/* fr */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR,
+/* it */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT,
+/* nl */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL,
+/* pl */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL,
+/* sv */  IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,
+/* de */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE,
+/* fr */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR,
+/* it */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT,
+/* nl */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL,
+/* pl */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL,
+/* sv */  IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S,
+/* de */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE,
+/* fr */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR,
+/* it */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT,
+/* nl */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL,
+/* pl */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL,
+/* sv */  IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV},
+
+/* network.c */
+/* en */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT,
+/* de */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE,
+/* fr */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR,
+/* it */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT,
+/* nl */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL,
+/* pl */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL,
+/* sv */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_RESOLVE_S,
+/* de */  IDGS_CANNOT_RESOLVE_S_DE,
+/* fr */  IDGS_CANNOT_RESOLVE_S_FR,
+/* it */  IDGS_CANNOT_RESOLVE_S_IT,
+/* nl */  IDGS_CANNOT_RESOLVE_S_NL,
+/* pl */  IDGS_CANNOT_RESOLVE_S_PL,
+/* sv */  IDGS_CANNOT_RESOLVE_S_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_CONNECT_TO_S,
+/* de */  IDGS_CANNOT_CONNECT_TO_S_DE,
+/* fr */  IDGS_CANNOT_CONNECT_TO_S_FR,
+/* it */  IDGS_CANNOT_CONNECT_TO_S_IT,
+/* nl */  IDGS_CANNOT_CONNECT_TO_S_NL,
+/* pl */  IDGS_CANNOT_CONNECT_TO_S_PL,
+/* sv */  IDGS_CANNOT_CONNECT_TO_S_SV},
+
+/* network.c */
+/* en */ {IDGS_RECEIVING_SNAPSHOT_SERVER,
+/* de */  IDGS_RECEIVING_SNAPSHOT_SERVER_DE,
+/* fr */  IDGS_RECEIVING_SNAPSHOT_SERVER_FR,
+/* it */  IDGS_RECEIVING_SNAPSHOT_SERVER_IT,
+/* nl */  IDGS_RECEIVING_SNAPSHOT_SERVER_NL,
+/* pl */  IDGS_RECEIVING_SNAPSHOT_SERVER_PL,
+/* sv */  IDGS_RECEIVING_SNAPSHOT_SERVER_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_READ_RECEIVED_SNAPSHOT,
+/* de */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_DE,
+/* fr */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_FR,
+/* it */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_IT,
+/* nl */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_NL,
+/* pl */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_PL,
+/* sv */  IDGS_CANNOT_READ_RECEIVED_SNAPSHOT_SV},
+
+/* network.c */
+/* en */ {IDGS_FRAGMENTED,
+/* de */  IDGS_FRAGMENTED_DE,
+/* fr */  IDGS_FRAGMENTED_FR,
+/* it */  IDGS_FRAGMENTED_IT,
+/* nl */  IDGS_FRAGMENTED_NL,
+/* pl */  IDGS_FRAGMENTED_PL,
+/* sv */  IDGS_FRAGMENTED_SV},
+
+/* network.c */
+/* en */ {IDGS_NETWORK_OUT_OF_SYNC,
+/* de */  IDGS_NETWORK_OUT_OF_SYNC_DE,
+/* fr */  IDGS_NETWORK_OUT_OF_SYNC_FR,
+/* it */  IDGS_NETWORK_OUT_OF_SYNC_IT,
+/* nl */  IDGS_NETWORK_OUT_OF_SYNC_NL,
+/* pl */  IDGS_NETWORK_OUT_OF_SYNC_PL,
+/* sv */  IDGS_NETWORK_OUT_OF_SYNC_SV},
+#endif
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
@@ -4009,7 +4301,8 @@ static int translate_text_table[][countof(language_table)] = {
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
+   c64/c64_256k.c */
 /* en */ {IDCLS_P_NAME,
 /* de */  IDCLS_P_NAME_DE,
 /* fr */  IDCLS_P_NAME_FR,
@@ -7209,6 +7502,42 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_PLUS60K_BASE_PL,
 /* sv */  IDCLS_PLUS60K_BASE_SV},
 
+/* c64/c64_256k.c */
+/* en */ {IDCLS_ENABLE_C64_256K_EXPANSION,
+/* de */  IDCLS_ENABLE_C64_256K_EXPANSION_DE,
+/* fr */  IDCLS_ENABLE_C64_256K_EXPANSION_FR,
+/* it */  IDCLS_ENABLE_C64_256K_EXPANSION_IT,
+/* nl */  IDCLS_ENABLE_C64_256K_EXPANSION_NL,
+/* pl */  IDCLS_ENABLE_C64_256K_EXPANSION_PL,
+/* sv */  IDCLS_ENABLE_C64_256K_EXPANSION_SV},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_DISABLE_C64_256K_EXPANSION,
+/* de */  IDCLS_DISABLE_C64_256K_EXPANSION_DE,
+/* fr */  IDCLS_DISABLE_C64_256K_EXPANSION_FR,
+/* it */  IDCLS_DISABLE_C64_256K_EXPANSION_IT,
+/* nl */  IDCLS_DISABLE_C64_256K_EXPANSION_NL,
+/* pl */  IDCLS_DISABLE_C64_256K_EXPANSION_PL,
+/* sv */  IDCLS_DISABLE_C64_256K_EXPANSION_SV},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_SPECIFY_C64_256K_NAME,
+/* de */  IDCLS_SPECIFY_C64_256K_NAME_DE,
+/* fr */  IDCLS_SPECIFY_C64_256K_NAME_FR,
+/* it */  IDCLS_SPECIFY_C64_256K_NAME_IT,
+/* nl */  IDCLS_SPECIFY_C64_256K_NAME_NL,
+/* pl */  IDCLS_SPECIFY_C64_256K_NAME_PL,
+/* sv */  IDCLS_SPECIFY_C64_256K_NAME_SV},
+
+/* c64/c64_256k.c */
+/* en */ {IDCLS_C64_256K_BASE,
+/* de */  IDCLS_C64_256K_BASE_DE,
+/* fr */  IDCLS_C64_256K_BASE_FR,
+/* it */  IDCLS_C64_256K_BASE_IT,
+/* nl */  IDCLS_C64_256K_BASE_NL,
+/* pl */  IDCLS_C64_256K_BASE_PL,
+/* sv */  IDCLS_C64_256K_BASE_SV},
+
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,
 /* de */  IDCLS_ATTACH_RAW_STB_CART_DE,
@@ -7216,7 +7545,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDCLS_ATTACH_RAW_STB_CART_IT,
 /* nl */  IDCLS_ATTACH_RAW_STB_CART_NL,
 /* pl */  IDCLS_ATTACH_RAW_STB_CART_PL,
-/* sv */  IDCLS_ATTACH_RAW_STB_CART_SV},
+/* sv */  IDCLS_ATTACH_RAW_STB_CART_SV}
 
 };
 

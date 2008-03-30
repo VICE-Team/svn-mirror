@@ -69,6 +69,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.h \
 	uiattach.c \
+	uic64_256k.c \
+	uic64_256k.h \
 	uic64cart.c \
 	uic64cart.h \
 	uicmdline.c \

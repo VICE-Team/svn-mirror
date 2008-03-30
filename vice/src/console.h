@@ -35,7 +35,7 @@ typedef struct console_s {
     unsigned int console_xres;
     unsigned int console_yres;
 
-    /* It is allowed to leave the console open atfer control is given back
+    /* It is allowed to leave the console open after control is given back
        to the emulation.  */
     int console_can_stay_open;
 

@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "c64-resources.h"
+#include "c64_256k.h"
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64io.h"
@@ -52,6 +53,8 @@ BYTE REGPARM1 io1_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f)
+        return c64_256k_read((WORD)(addr & 0x03));
     if (georam_enabled)
         return georam_window_read((WORD)(addr & 0xff));
     if (ramcart_enabled)
@@ -75,6 +78,10 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         sid2_store(addr, value);
+    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f) {
+        c64_256k_store((WORD)(addr & 0x03), value);
+        return;
+    }
     if (georam_enabled) {
         georam_window_store((WORD)(addr & 0xff), value);
         return;
@@ -102,6 +109,8 @@ BYTE REGPARM1 io2_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f)
+        return c64_256k_read((WORD)(addr & 0x03));
     if (ramcart_enabled)
         return ramcart_window_read(addr);
     if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY)
@@ -126,6 +135,10 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         sid2_store(addr, value);
     if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY) {
         cartridge_store_io2(addr, value);
+        return;
+    }
+    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f) {
+        c64_256k_store((WORD)(addr & 0x03), value);
         return;
     }
     if (reu_enabled) {
@@ -161,10 +174,17 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
         mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xde00, 0xde01);
         mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xdf00, 0xdfff);
     }
+    if (c64_256k_enabled && c64_256k_start==0xde00)
+        mon_ioreg_add_list(mem_ioreg_list, "C64_256K", 0xde00, 0xde7f);
+    if (c64_256k_enabled && c64_256k_start==0xde80)
+        mon_ioreg_add_list(mem_ioreg_list, "C64_256K", 0xde80, 0xdeff);
+    if (c64_256k_enabled && c64_256k_start==0xdf00)
+        mon_ioreg_add_list(mem_ioreg_list, "C64_256K", 0xdf00, 0xdf7f);
+    if (c64_256k_enabled && c64_256k_start==0xdf80)
+        mon_ioreg_add_list(mem_ioreg_list, "C64_256K", 0xdf80, 0xdfff);
 
 #ifdef HAVE_TFE
     if (tfe_enabled)
         mon_ioreg_add_list(mem_ioreg_list, "TFE", 0xde00, 0xde0f);
 #endif
 }
-
