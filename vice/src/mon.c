@@ -40,14 +40,13 @@
 #include <signal.h>
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #endif
 #include <ctype.h>
 #include <assert.h>
 #include <errno.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"

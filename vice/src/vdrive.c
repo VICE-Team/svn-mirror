@@ -52,13 +52,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include <dirent.h>
 #include <memory.h>
 #endif
 #include <errno.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -71,10 +71,6 @@
 #include "vdrive.h"
 #include "vdrive-iec.h"
 #include "zfile.h"
-
-#ifdef STANDALONE_1541
-#include "c1541.h"
-#endif
 
 /* ------------------------------------------------------------------------- */
 

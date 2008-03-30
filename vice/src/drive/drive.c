@@ -42,11 +42,6 @@
 #include "ROlib.h"
 #else
 #include <fcntl.h>
-#ifndef _MSC_VER
-#include <unistd.h>
-#else
-#include <sys/types.h>
-#endif
 #endif
 #include <stdio.h>
 #include <ctype.h>
@@ -55,8 +50,11 @@
 #include <math.h>
 #include <errno.h>
 #endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
-#ifdef OS2
+#if defined OS2 || defined _MSC_VER
 #include <sys/types.h>
 #endif
 
@@ -640,6 +638,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr);
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
 static void drive_clk_overflow_callback(CLOCK sub, void *data);
+static void drive_set_clock_frequency(int type, int dnr);
 
 /* ------------------------------------------------------------------------- */
 
@@ -1051,10 +1050,10 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     iec_info = iec_get_drive_port();
     /* Set IEC lines of disabled drives to `1'.  */
     if (iec_info != NULL) {
-	iec_info->drive_bus = 0xff;
-	iec_info->drive_data = 0xff;
-	iec_info->drive2_bus = 0xff;
-	iec_info->drive2_data = 0xff;
+        iec_info->drive_bus = 0xff;
+        iec_info->drive_data = 0xff;
+        iec_info->drive2_bus = 0xff;
+        iec_info->drive2_data = 0xff;
     }
 
     log_message(drive_log, "Finished loading ROM images.");
@@ -1098,6 +1097,9 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
     drive_initialize_rom_traps(0);
     drive_initialize_rom_traps(1);
+
+    drive_set_clock_frequency(drive[0].type, 0);
+    drive_set_clock_frequency(drive[1].type, 1);
 
     initialize_rotation(0, 0);
     initialize_rotation(0, 1);
@@ -1143,6 +1145,31 @@ static void drive_set_active_led_color(int type, int dnr)
     }
 }
 
+static void drive_set_clock_frequency(int type, int dnr)
+{
+    switch (type) {
+      case DRIVE_TYPE_1541:
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1541II:
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1571:
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1581:
+        drive[dnr].clock_frequency = 2;
+        break;
+      case DRIVE_TYPE_2031:
+        drive[dnr].clock_frequency = 1;
+        break;
+      case DRIVE_TYPE_1001:
+        drive[dnr].clock_frequency = 1;
+        break;
+      default:
+        drive[dnr].clock_frequency = 1;
+    }
+}
 static int drive_set_disk_drive_type(int type, int dnr)
 {
     switch (type) {
@@ -1151,46 +1178,42 @@ static int drive_set_disk_drive_type(int type, int dnr)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1541II:
         if (rom1541ii_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1571:
         if (rom1571_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1581:
         if (rom1581_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 2;
         break;
       case DRIVE_TYPE_2031:
         if (rom2031_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1001:
         if (rom1001_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
-        drive[dnr].clock_frequency = 1;
         break;
       default:
         return -1;
     }
+
+    drive_set_clock_frequency(type, dnr);
 
     initialize_rotation(0, dnr);
     drive[dnr].type = type;
@@ -2173,7 +2196,7 @@ static void drive_set_sync_factor(unsigned int factor)
 
 static void drive_set_pal_sync_factor(void)
 {
-    if (pal_cycles_per_sec != 0.0) {
+    if (pal_cycles_per_sec != 0) {
         int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
                                          ((double)pal_cycles_per_sec)));
         drive_set_sync_factor(new_sync_factor);
@@ -2182,7 +2205,7 @@ static void drive_set_pal_sync_factor(void)
 
 static void drive_set_ntsc_sync_factor(void)
 {
-    if (ntsc_cycles_per_sec != 0.0) {
+    if (ntsc_cycles_per_sec != 0) {
         int new_sync_factor = (int) floor(65536.0 * (1000000.0 /
                                          ((double)ntsc_cycles_per_sec)));
 

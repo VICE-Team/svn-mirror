@@ -31,12 +31,12 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"

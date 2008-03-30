@@ -45,9 +45,6 @@
 #include <limits.h>
 #include <ctype.h>
 #include <string.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
 #include <errno.h>
 #ifdef __riscos
 #include "ROlib.h"
@@ -55,12 +52,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #endif
 #include <memory.h>
 #include <assert.h>
+#endif
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"

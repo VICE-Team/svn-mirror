@@ -30,14 +30,16 @@
 #include <stdio.h>
 #include <string.h>
 #endif
-
-#include "sysfile.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #include "archdep.h"
 #include "cmdline.h"
 #include "findpath.h"
 #include "log.h"
 #include "resources.h"
+#include "sysfile.h"
 #include "utils.h"
 
 #ifdef __riscos
