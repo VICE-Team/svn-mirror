@@ -1,3 +1,9 @@
+2003-03-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.12.
+
+	* configure.in: Check for `winioctl.h'.
+
 2003-03-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.11.
