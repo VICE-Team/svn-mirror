@@ -47,9 +47,9 @@
 
 UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
 
-static ui_menu_entry_t palette_submenu[] = {
+static ui_menu_entry_t crtc_palette_submenu[] = {
     { N_("*Default (Green)"),
-      (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "default", 
+      (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "green", 
 	NULL },
     { N_("*Amber"),
       (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "amber", 
@@ -380,8 +380,12 @@ static ui_menu_entry_t c610_menu[] = {
     { N_("RS232 settings"),
       NULL, NULL, c610_rs232_submenu },
     { "--" },
-    { N_("Screen color"),
-      NULL, NULL, palette_submenu },
+    { N_("CRTC Screen color"),
+      NULL, NULL, crtc_palette_submenu },
+/*
+    { N_("VIC-II palette"),
+      NULL, NULL, vicii_palette_submenu },
+*/
     { NULL }
 };
 
@@ -467,6 +471,7 @@ int c610_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_crtc_video_settings_menu,
+                                     ui_video_settings_menu,
 #ifdef USE_XF86_EXTENSIONS
 				     ui_fullscreen_settings_menu,
 #endif
@@ -525,6 +530,7 @@ int c610_ui_init(void)
 		   _("Settings"),
 		   ui_menu_create("Settings",
 				  ui_crtc_video_settings_menu,
+				  ui_video_settings_menu,
 				  ui_peripheral_settings_menu,
 				  ui_drive_settings_menu,
 				  ui_keyboard_settings_menu,

@@ -41,6 +41,23 @@
 
 
 
+/* ---------------------------------------------------------------------*/
+/*
+extern void (*vic_ii_irq_handler)(int irq, int state, CLOCK clk);
+
+#define vic_ii_set_irq(irq, state) \
+        if (vic_ii_irq_handler != NULL) { \
+            vic_ii_irq_handler(irq, state, 0); \
+        } else { \
+            maincpu_set_irq(irq, state); \
+        }
+*/
+
+#define vic_ii_set_irq(irq, state) \
+        maincpu_set_irq(irq, state)
+
+/* ---------------------------------------------------------------------*/
+
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
 static int unused_bits_in_registers[64] =
 {
@@ -88,8 +105,9 @@ vic_ii_local_store_vbank (ADDRESS addr, BYTE value)
 	    {
 	      /* If the fetch starts here, the sprite fetch routine should
 	         get the new value, not the old one.  */
-	      if (mclk == vic_ii.fetch_clk)
-		vic_ii.ram_base[addr] = value;
+	      if (mclk == vic_ii.fetch_clk) {
+		vic_ii.ram_base_phi2[addr] = value;
+	      }
 	      vic_ii_raster_fetch_alarm_handler (clk - vic_ii.fetch_clk);
 	      f = 1;
 	      /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
@@ -105,7 +123,7 @@ vic_ii_local_store_vbank (ADDRESS addr, BYTE value)
       while (f);
     }
 
-  vic_ii.ram_base[addr] = value;
+  vic_ii.ram_base_phi2[addr] = value;
 }
 
 /* Encapsulate inlined function for other modules */
@@ -311,13 +329,13 @@ check_bad_line_state_change_for_d011 (BYTE value, int cycle, int line)
 	  if (num_chars <= num_0xff_fetches)
 	    {
 	      memset (vic_ii.vbuf + pos, 0xff, num_chars);
-	      memset (vic_ii.cbuf + pos, vic_ii.ram_base[reg_pc] & 0xf,
+	      memset (vic_ii.cbuf + pos, vic_ii.ram_base_phi2[reg_pc] & 0xf,
 		      num_chars);
 	    }
 	  else
 	    {
 	      memset (vic_ii.vbuf + pos, 0xff, num_0xff_fetches);
-	      memset (vic_ii.cbuf + pos, vic_ii.ram_base[reg_pc] & 0xf,
+	      memset (vic_ii.cbuf + pos, vic_ii.ram_base_phi2[reg_pc] & 0xf,
 		      num_0xff_fetches);
 	      vic_ii_fetch_matrix (pos + num_0xff_fetches,
 				   num_chars - num_0xff_fetches);
@@ -517,7 +535,7 @@ store_d012 (ADDRESS addr, BYTE value)
       if (trigger_irq)
 	{
 	  vic_ii.irq_status |= 0x81;
-	  maincpu_set_irq (I_RASTER, 1);
+	  vic_ii_set_irq (I_RASTER, 1);
 	}
     }
 }
@@ -726,10 +744,11 @@ store_d019 (ADDRESS addr, BYTE value)
   /* Update the IRQ line accordingly...
      The external VIC IRQ line is an AND of the internal collision and
      vic_ii.raster IRQ lines.  */
-  if (vic_ii.irq_status & 0x80)
-    maincpu_set_irq (I_RASTER, 1);
-  else
-    maincpu_set_irq (I_RASTER, 0);
+  if (vic_ii.irq_status & 0x80) {
+    vic_ii_set_irq (I_RASTER, 1);
+  } else {
+    vic_ii_set_irq (I_RASTER, 0);
+  }
 
   VIC_II_DEBUG_REGISTER (("\tIRQ flag register: $%02X\n", vic_ii.irq_status));
 }
@@ -742,12 +761,12 @@ store_d01a (ADDRESS addr, BYTE value)
   if (vic_ii.regs[addr] & vic_ii.irq_status)
     {
       vic_ii.irq_status |= 0x80;
-      maincpu_set_irq (I_RASTER, 1);
+      vic_ii_set_irq (I_RASTER, 1);
     }
   else
     {
       vic_ii.irq_status &= 0x7f;
-      maincpu_set_irq (I_RASTER, 0);
+      vic_ii_set_irq (I_RASTER, 0);
     }
 
   VIC_II_DEBUG_REGISTER (("\tIRQ mask register: $%02X\n", vic_ii.regs[addr]));
@@ -1336,7 +1355,7 @@ vic_read (ADDRESS addr)
       if (!(vic_ii.irq_status & 0x3))
 	{
 	  vic_ii.irq_status &= ~0x84;
-	  maincpu_set_irq (I_RASTER, 0);
+	  vic_ii_set_irq (I_RASTER, 0);
 	}
       else
 	  vic_ii.irq_status &= ~0x04;
@@ -1363,7 +1382,7 @@ vic_read (ADDRESS addr)
       if (!(vic_ii.irq_status & 0x5))
 	{
 	  vic_ii.irq_status &= ~0x82;
-	  maincpu_set_irq (I_RASTER, 0);
+	  vic_ii_set_irq (I_RASTER, 0);
 	}
       else
         vic_ii.irq_status &= ~0x2;

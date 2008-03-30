@@ -881,7 +881,7 @@ int crtc_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&crtc.raster, screenshot);
 }
 
-void video_refresh(void)
+void crtc_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
   crtc_resize ();

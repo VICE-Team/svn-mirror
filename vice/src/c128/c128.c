@@ -565,3 +565,10 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
       return vdc_screenshot(screenshot);
   return -1;
 }
+
+void video_refresh(void) {
+     vic_ii_video_refresh();
+
+     /* vdc_video_refresh(); */
+}
+

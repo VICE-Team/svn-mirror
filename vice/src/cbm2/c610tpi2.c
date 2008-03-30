@@ -29,6 +29,7 @@
 #include "maincpu.h"
 #include "tpicore.h"
 #include "types.h"
+#include "c610mem.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */
@@ -86,6 +87,7 @@ _TPI_FUNC void store_pb(BYTE byte)
 
 _TPI_FUNC void store_pc(BYTE byte)
 {
+    cbm2_set_tpi2pc(byte);
 }
 
 _TPI_FUNC void undump_pa(BYTE byte)
@@ -98,6 +100,7 @@ _TPI_FUNC void undump_pb(BYTE byte)
 
 _TPI_FUNC void undump_pc(BYTE byte)
 {
+    cbm2_set_tpi2pc(byte);
 }
 
 _TPI_FUNC BYTE read_pa(void)

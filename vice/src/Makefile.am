@@ -349,6 +349,7 @@ xcbm2_libs = \
         $(screendrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
+	$(vicii_lib) \
 	$(raster_lib) \
 	$(monitor_lib) \
 	$(common_libs)
@@ -370,6 +371,7 @@ xcbm2-all: \
 	libvdrive \
 	libraster \
 	libcrtc \
+	libvicii \
 	libmonitor \
 	xcbm2
 

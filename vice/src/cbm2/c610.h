@@ -27,6 +27,9 @@
 #ifndef _C610_H
 #define _C610_H
 
+#include "types.h"
+#include "snapshot.h"
+
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
@@ -45,6 +48,18 @@
 #define C610_NTSC_CYCLES_PER_RFSH 	C610_PAL_CYCLES_PER_RFSH
 #define C610_NTSC_RFSH_PER_SEC		C610_PAL_RFSH_PER_SEC
 */
+
+#define C500_PAL_CYCLES_PER_SEC		985248
+#define C500_PAL_CYCLES_PER_LINE 	63
+#define C500_PAL_SCREEN_LINES    	312
+#define C500_PAL_CYCLES_PER_RFSH (C500_PAL_SCREEN_LINES \
+                                 * C500_PAL_CYCLES_PER_LINE)
+#define C500_PAL_RFSH_PER_SEC    (1.0 / ((double)C500_PAL_CYCLES_PER_RFSH    \
+                                        / (double)C500_PAL_CYCLES_PER_SEC))
+
+
+static int c500_write_snapshot_module(snapshot_t *p);
+static int c500_read_snapshot_module(snapshot_t *p);
 
 #endif
 

@@ -241,7 +241,24 @@ struct vic_ii_s
     BYTE color_ram[0x400];
 
     /* Pointer to the base of RAM seen by the VIC-II.  */
-    BYTE *ram_base;		/* = ram; */
+    /* address is base of 64k bank. vbank adds 0/16k/32k/48k to get actual
+       video address */
+    BYTE *ram_base_phi1;		/* = VIC-II address during Phi1; */
+    BYTE *ram_base_phi2;		/* = VIC-II address during Phi2; */
+
+    /* valid VIC-II address bits for Phi1 and Phi2. After masking 
+       the address, it is or'd with the offset value to set always-1 bits */
+    ADDRESS vaddr_mask_phi1;		/* mask of valid address bits */
+    ADDRESS vaddr_mask_phi2;		/* mask of valid address bits */
+    ADDRESS vaddr_offset_phi1;		/* mask of address bits always set */
+    ADDRESS vaddr_offset_phi2;		/* mask of address bits always set */
+
+    /* Those two values determine where in the address space the chargen
+       ROM is mapped. Use mask=0x7000, value=0x1000 for the C64. */
+    ADDRESS vaddr_chargen_mask_phi1;	/* address bits to comp. for chargen */
+    ADDRESS vaddr_chargen_mask_phi2;	/* address bits to comp. for chargen */
+    ADDRESS vaddr_chargen_value_phi1;	/* compare value for chargen */
+    ADDRESS vaddr_chargen_value_phi2;	/* compare value for chargen */
 
     /* Video memory pointers.  */
     BYTE *screen_ptr;
@@ -298,10 +315,11 @@ struct vic_ii_s
     vic_ii_light_pen_t light_pen;
 
     /* Start of the memory bank seen by the VIC-II.  */
-    int vbank;			/* = 0; */
+    int vbank_phi1;			/* = 0; */
+    int vbank_phi2;			/* = 0; */
 
     /* Pointer to the start of the video bank.  */
-    BYTE *vbank_ptr;
+    /* BYTE *vbank_ptr; - never used, only set */
 
     /* Data to display in idle state.  */
     int idle_data;

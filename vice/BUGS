@@ -54,12 +54,10 @@ These are the most important known problems with VICE 1.6:
 - When running the burn-in and diagnostics test of the 8296 system disk
   on "xpet -model 8296" a lot of stuff fails.
 
-Some less important outstanding issues
---------------------------------------
+- Although both are emulated in the xcbm2 emulator, switching between
+  C510 and C6x0/7x0 is not possible at runtime. Use command line option
+  "xcbm -model 510".
 
-- It is of yet unknown whether the FDC in the 3040/4040 disk drives report
-  the state of the write-protect switch to the IP processor. If not this
-  would fit to the fact that on the old DOS there always a "I" command was
-  needed.
+- Dual disk drive 2040/3040 support (DOS1, 670 blocks free) is not working 
 
 

@@ -106,7 +106,7 @@ static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
-  { "CrtcPaletteFile", RES_STRING, (resource_value_t) "default",
+  { "CrtcPaletteFile", RES_STRING, (resource_value_t) "green",
     (resource_value_t *) &crtc_resources.palette_file_name,
     set_palette_file_name, NULL },
 #ifdef CRTC_NEED_2X

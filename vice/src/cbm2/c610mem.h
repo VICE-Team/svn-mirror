@@ -40,5 +40,14 @@ extern int cbm2_set_model(const char *model, void *extra);
 
 extern int cbm2_init_ok;
 
+extern void mem_reset(void);
+
+extern void cbm2_set_tpi1ca(int);
+extern void cbm2_set_tpi1cb(int);
+extern void cbm2_set_tpi2pc(BYTE);
+
+extern void c500_set_phi1_bank(int b);
+extern void c500_set_phi2_bank(int b);
+
 #endif
 

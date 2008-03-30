@@ -86,7 +86,7 @@
 
 static char snap_module_name[] = "VIC-II";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 
 
@@ -114,7 +114,7 @@ vic_ii_snapshot_write_module (snapshot_t *s)
       || snapshot_module_write_byte (m, (BYTE) vic_ii.light_pen.y) < 0  /* LPY */
       || snapshot_module_write_byte_array (m, vic_ii.vbuf, 40) < 0      /* MatrixBuf */
       || snapshot_module_write_byte (m, vic_ii.raster.sprite_status->new_dma_msk) < 0    /* NewSpriteDmaMask */
-      || snapshot_module_write_dword (m, (DWORD) (vic_ii.ram_base - ram)) < 0   /* RamBase */
+      || snapshot_module_write_dword (m, (DWORD) (vic_ii.ram_base_phi1 - ram)) < 0   /* RamBase */
       || snapshot_module_write_byte (m, (BYTE) VIC_II_RASTER_CYCLE (clk)) < 0   /* RasterCycle */
       || snapshot_module_write_word (m, (WORD) VIC_II_RASTER_Y (clk)) < 0       /* RasterLine */
     )
@@ -128,7 +128,7 @@ vic_ii_snapshot_write_module (snapshot_t *s)
       || snapshot_module_write_byte (m, (BYTE) vic_ii.sprite_background_collisions) < 0         /* SbCollMask */
       || snapshot_module_write_byte (m, (BYTE) vic_ii.raster.sprite_status->dma_msk) < 0         /* SpriteDmaMask */
       || snapshot_module_write_byte (m, (BYTE) vic_ii.sprite_sprite_collisions) < 0     /* SsCollMask */
-      || snapshot_module_write_word (m, (WORD) vic_ii.vbank) < 0        /* VBank */
+      || snapshot_module_write_word (m, (WORD) vic_ii.vbank_phi1) < 0        /* VBank */
       || snapshot_module_write_word (m, (WORD) vic_ii.mem_counter) < 0  /* Vc */
       || snapshot_module_write_byte (m, (BYTE) vic_ii.mem_counter_inc) < 0      /* VcInc */
       || snapshot_module_write_word (m, (WORD) vic_ii.memptr) < 0       /* VcBase */
@@ -149,6 +149,17 @@ vic_ii_snapshot_write_module (snapshot_t *s)
   if (0
       || snapshot_module_write_dword (m, vic_ii.fetch_clk - clk) < 0    /* FetchEventTick */
       || snapshot_module_write_byte (m, (BYTE)vic_ii.fetch_idx) < 0   /* FetchEventType */
+    )
+    goto fail;
+
+  /* Added in version 1.1 of the snapshot module */
+  /* using "ram_base-ram" is F***ing bullshit - what when external memory
+     is not mapped anywhere in ram[]? We should rather use some more generic
+     configuration info. But as we use it above in V1.0... :-(
+     AF 16jan2001 */
+  if (0
+      || snapshot_module_write_dword (m, (DWORD) (vic_ii.ram_base_phi2 - ram)) < 0   /* RamBase */
+      || snapshot_module_write_word (m, (WORD) vic_ii.vbank_phi2) < 0        /* VBank */
     )
     goto fail;
 
@@ -229,7 +240,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
     if (snapshot_module_read_dword (m, &RamBase) < 0)
       goto fail;
-    vic_ii.ram_base = ram + RamBase;
+    vic_ii.ram_base_phi1 = ram + RamBase;
   }
 
   /* Read the current raster line and the current raster cycle.  As they
@@ -267,7 +278,7 @@ vic_ii_snapshot_read_module (snapshot_t *s)
       || snapshot_module_read_byte (m, &vic_ii.sprite_background_collisions) < 0 /* SbCollMask */
       || snapshot_module_read_byte (m, &vic_ii.raster.sprite_status->dma_msk) < 0 /* SpriteDmaMask */
       || snapshot_module_read_byte (m, &vic_ii.sprite_sprite_collisions) < 0 /* SsCollMask */
-      || read_word_into_int (m, &vic_ii.vbank) < 0 /* VBank */
+      || read_word_into_int (m, &vic_ii.vbank_phi1) < 0 /* VBank */
       || read_word_into_int (m, &vic_ii.mem_counter) < 0 /* Vc */
       || read_byte_into_int (m, &vic_ii.mem_counter_inc) < 0 /* VcInc */
       || read_word_into_int (m, &vic_ii.memptr) < 0 /* VcBase */
@@ -289,6 +300,11 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
   vic_ii_set_raster_irq (vic_ii.regs[0x12]
                          | ((vic_ii.regs[0x11] & 0x80) << 1));
+
+  /* compatibility with older versions */
+  vic_ii.ram_base_phi2 = vic_ii.ram_base_phi1;
+  vic_ii.vbank_phi2 = vic_ii.vbank_phi1;
+
   vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 
   /* Update sprite parameters.  We had better do this manually, or the
@@ -407,6 +423,21 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
   if (vic_ii.irq_status & 0x80)
     interrupt_set_int_noclk (&maincpu_int_status, I_RASTER, 1);
+
+  /* added in version 1.1 of snapshot format */
+  if (minor_version > 0) 
+  {
+    DWORD RamBase;
+
+    if (0
+      || snapshot_module_read_dword (m, &RamBase) < 0
+      || read_word_into_int (m, &vic_ii.vbank_phi2) < 0 /* VBank */
+      ) goto fail;
+    vic_ii.ram_base_phi2 = ram + RamBase;
+
+    vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
+  }
+
 
   raster_force_repaint (&vic_ii.raster);
   return 0;

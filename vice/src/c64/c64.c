@@ -632,3 +632,8 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
       return vic_ii_screenshot(screenshot);
   return -1;
 }
+
+void video_refresh(void) {
+     vic_ii_video_refresh();
+}
+

@@ -365,7 +365,7 @@ int vic_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&vic.raster, screenshot);
 }
 
-void video_refresh(void)
+void vic_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
   vic_resize ();

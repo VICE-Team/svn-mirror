@@ -158,7 +158,7 @@ extern void vic_update_memory_ptrs(void);
 extern int vic_load_palette(const char *name);
 extern void vic_resize(void);
 
-extern void video_refresh(void);
+extern void vic_video_refresh(void);
 /* Debugging options.  */
 
 /* #define VIC_RASTER_DEBUG */

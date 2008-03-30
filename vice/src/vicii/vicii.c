@@ -92,6 +92,47 @@
 #define DRIVE_SYNC_NTSC    -2
 #define DRIVE_SYNC_NTSCOLD -3
 
+/* ---------------------------------------------------------------------*/
+
+/* set phi1 address options */
+void vic_ii_set_phi1_addr_options (ADDRESS mask, ADDRESS offset)
+{
+    vic_ii.vaddr_mask_phi1 = mask;
+    vic_ii.vaddr_offset_phi1 = offset;
+
+    VIC_II_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x\n", mask, offset)); 
+    vic_ii_update_memory_ptrs_external();
+}
+
+void vic_ii_set_phi2_addr_options (ADDRESS mask, ADDRESS offset)
+{
+    vic_ii.vaddr_mask_phi2 = mask;
+    vic_ii.vaddr_offset_phi2 = offset;
+
+    VIC_II_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x\n", mask, offset)); 
+    vic_ii_update_memory_ptrs_external();
+}
+
+void vic_ii_set_phi1_chargen_addr_options (ADDRESS mask, ADDRESS value)
+{
+    vic_ii.vaddr_chargen_mask_phi1 = mask;
+    vic_ii.vaddr_chargen_value_phi1 = value;
+
+    VIC_II_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x\n", mask, value)); 
+    vic_ii_update_memory_ptrs_external();
+}
+
+void vic_ii_set_phi2_chargen_addr_options (ADDRESS mask, ADDRESS value)
+{
+    vic_ii.vaddr_chargen_mask_phi2 = mask;
+    vic_ii.vaddr_chargen_value_phi2 = value;
+
+    VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x\n", mask, value)); 
+    vic_ii_update_memory_ptrs_external();
+}
+
+/* ---------------------------------------------------------------------*/
+
 vic_ii_t vic_ii;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
@@ -267,7 +308,9 @@ inline void vic_ii_fetch_matrix (int offs, int num)
   int start_char;
   int c;
 
-  p = vic_ii.ram_base + vic_ii.vbank + ((vic_ii.regs[0x18] & 0xf0) << 6);
+  /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
+  p = vic_ii.ram_base_phi2 + vic_ii.vbank_phi2 
+				+ ((vic_ii.regs[0x18] & 0xf0) << 6);
   start_char = (vic_ii.mem_counter + offs) & 0x3ff;
   c = 0x3ff - start_char + 1;
 
@@ -510,7 +553,18 @@ void vic_ii_powerup (void)
   vic_ii.irq_status = 0;
   vic_ii.raster_irq_line = 0;
   vic_ii.raster_irq_clk = 1;
-  vic_ii.ram_base = ram;
+  vic_ii.ram_base_phi1 = ram;
+  vic_ii.ram_base_phi2 = ram;
+
+  vic_ii.vaddr_mask_phi1 = 0xffff;
+  vic_ii.vaddr_mask_phi2 = 0xffff;
+  vic_ii.vaddr_offset_phi1 = 0;
+  vic_ii.vaddr_offset_phi2 = 0;
+  vic_ii.vaddr_chargen_mask_phi1 = 0x7000;
+  vic_ii.vaddr_chargen_mask_phi2 = 0x7000;
+  vic_ii.vaddr_chargen_value_phi1 = 0x1000;
+  vic_ii.vaddr_chargen_value_phi2 = 0x1000;
+
   vic_ii.allow_bad_lines = 0;
   vic_ii.sprite_sprite_collisions = vic_ii.sprite_background_collisions = 0;
   vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
@@ -524,8 +578,9 @@ void vic_ii_powerup (void)
   vic_ii.ycounter_reset_checked = 0;
   vic_ii.force_black_overscan_background_color = 0;
   vic_ii.light_pen.x = vic_ii.light_pen.y = vic_ii.light_pen.triggered = 0;
-  vic_ii.vbank = 0;
-  vic_ii.vbank_ptr = ram;
+  vic_ii.vbank_phi1 = 0;
+  vic_ii.vbank_phi2 = 0;
+  /* vic_ii.vbank_ptr = ram; */
   vic_ii.idle_data = 0;
   vic_ii.idle_data_location = IDLE_NONE;
   vic_ii.extended_keyboard_rows_enabled = 0;
@@ -544,8 +599,10 @@ void vic_ii_powerup (void)
   vic_ii.raster.ysmooth = 0;
 }
 
+/* ---------------------------------------------------------------------*/
+
 /* This hook is called whenever video bank must be changed.  */
-void vic_ii_set_vbank (int num_vbank)
+static inline void vic_ii_set_vbanks (int vbank_p1, int vbank_p2)
 {
   /* Warning: assumes it's called within a memory write access.
      FIXME: Change name?  */
@@ -555,9 +612,28 @@ void vic_ii_set_vbank (int num_vbank)
   if (clk >= vic_ii.draw_clk)
     vic_ii_raster_draw_alarm_handler (clk - vic_ii.draw_clk);
 
-  vic_ii.vbank = num_vbank << 14;
+  vic_ii.vbank_phi1 = vbank_p1;
+  vic_ii.vbank_phi2 = vbank_p2;
   vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 }
+
+/* Phi1 and Phi2 accesses */
+void vic_ii_set_vbank (int num_vbank) {
+  int tmp = num_vbank << 14;
+  vic_ii_set_vbanks(tmp, tmp);
+}
+
+/* Phi1 accesses */
+void vic_ii_set_phi1_vbank (int num_vbank) {
+  vic_ii_set_vbanks(num_vbank << 14, vic_ii.vbank_phi2);
+}
+
+/* Phi2 accesses */
+void vic_ii_set_phi2_vbank (int num_vbank) {
+  vic_ii_set_vbanks(vic_ii.vbank_phi1, num_vbank << 14);
+}
+
+/* ---------------------------------------------------------------------*/
 
 /* Trigger the light pen.  */
 void vic_ii_trigger_light_pen (CLOCK mclk)
@@ -655,14 +731,31 @@ void vic_ii_set_raster_irq (unsigned int line)
 }
 
 /* Change the base of RAM seen by the VIC-II.  */
-void vic_ii_set_ram_base (BYTE * base)
+static inline void vic_ii_set_ram_bases (BYTE * base_p1, BYTE * base_p2)
 {
   /* WARNING: assumes `rmw_flag' is 0 or 1.  */
   vic_ii_handle_pending_alarms (rmw_flag + 1);
 
-  vic_ii.ram_base = base;
+  vic_ii.ram_base_phi1 = base_p1;
+  vic_ii.ram_base_phi2 = base_p2;
   vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 }
+
+void vic_ii_set_ram_base (BYTE * base) 
+{
+  vic_ii_set_ram_bases(base, base);
+}
+
+void vic_ii_set_phi1_ram_base (BYTE * base) 
+{
+  vic_ii_set_ram_bases(base, vic_ii.ram_base_phi2);
+}
+
+void vic_ii_set_phi2_ram_base (BYTE * base) 
+{
+  vic_ii_set_ram_bases(vic_ii.ram_base_phi1, base);
+}
+
 
 void vic_ii_update_memory_ptrs_external(void)
 {
@@ -675,18 +768,22 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
 {
   /* FIXME: This is *horrible*!  */
   static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
-  static int old_vbank = -1;
+  static int old_vbank_p1 = -1;
+  static int old_vbank_p2 = -1;
   ADDRESS screen_addr;          /* Screen start address.  */
   BYTE *screen_base;            /* Pointer to screen memory.  */
   BYTE *char_base;              /* Pointer to character memory.  */
   BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
   int tmp;
 
-  screen_addr = vic_ii.vbank + ((vic_ii.regs[0x18] & 0xf0) << 6);
+  screen_addr = vic_ii.vbank_phi2 + ((vic_ii.regs[0x18] & 0xf0) << 6);
 
-  if ((screen_addr & 0x7000) != 0x1000)
+  screen_addr = (screen_addr & vic_ii.vaddr_mask_phi2) 
+					| vic_ii.vaddr_offset_phi2;
+
+  if ((screen_addr & vic_ii.vaddr_chargen_mask_phi2) != vic_ii.vaddr_chargen_value_phi2)
     {
-      screen_base = vic_ii.ram_base + screen_addr;
+      screen_base = vic_ii.ram_base_phi2 + screen_addr;
       VIC_II_DEBUG_REGISTER (("\tVideo memory at $%04X\n", screen_addr));
     }
   else
@@ -697,15 +794,16 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
     }
 
   tmp = (vic_ii.regs[0x18] & 0xe) << 10;
-  bitmap_base = vic_ii.ram_base + (tmp & 0xe000);
-  tmp += vic_ii.vbank;
+  tmp = (tmp + vic_ii.vbank_phi1);
+  tmp &= vic_ii.vaddr_mask_phi1;
+  tmp |= vic_ii.vaddr_offset_phi1;
+  bitmap_base = vic_ii.ram_base_phi1 + (tmp & 0xe000);
 
-  VIC_II_DEBUG_REGISTER (("\tBitmap memory at $%04X\n",
-                          bitmap_base - vic_ii.ram_base + vic_ii.vbank));
+  VIC_II_DEBUG_REGISTER (("\tBitmap memory at $%04X\n", tmp & 0xe000));
 
-  if ((tmp & 0x7000) != 0x1000)
+  if ((tmp & vic_ii.vaddr_chargen_mask_phi1) != vic_ii.vaddr_chargen_value_phi1)
     {
-      char_base = vic_ii.ram_base + tmp;
+      char_base = vic_ii.ram_base_phi1 + tmp;
       VIC_II_DEBUG_REGISTER (("\tUser-defined character set at $%04X\n", tmp));
     }
   else
@@ -718,33 +816,36 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
   if (ultimax != 0)
     char_base = ((tmp & 0x3fff) >= 0x3000
                  ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
-                 : vic_ii.ram_base + tmp);
+                 : vic_ii.ram_base_phi1 + tmp);
 
   tmp = VIC_II_RASTER_CHAR (cycle);
 
-  if (vic_ii.idle_data_location != IDLE_NONE && old_vbank != vic_ii.vbank)
+  if (vic_ii.idle_data_location != IDLE_NONE && 
+				old_vbank_p2 != vic_ii.vbank_phi2
+			)
     {
       if (vic_ii.idle_data_location == IDLE_39FF)
         raster_add_int_change_foreground (&vic_ii.raster,
                                           VIC_II_RASTER_CHAR (cycle),
                                           &vic_ii.idle_data,
-                                          vic_ii.ram_base[vic_ii.vbank
+                                          vic_ii.ram_base_phi2[vic_ii.vbank_phi2
                                                           + 0x39ff]);
       else
         raster_add_int_change_foreground (&vic_ii.raster,
                                           VIC_II_RASTER_CHAR (cycle),
                                           &vic_ii.idle_data,
-                                          vic_ii.ram_base[vic_ii.vbank
+                                          vic_ii.ram_base_phi2[vic_ii.vbank_phi2
                                                           + 0x3fff]);
     }
 
   if (vic_ii.raster.skip_frame || (tmp <= 0 && clk < vic_ii.draw_clk))
     {
       old_screen_ptr = vic_ii.screen_ptr = screen_base;
-      old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base + vic_ii.vbank;
+      old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base;
       old_chargen_ptr = vic_ii.chargen_ptr = char_base;
-      old_vbank = vic_ii.vbank;
-      vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank;
+      old_vbank_p1 = vic_ii.vbank_phi1;
+      old_vbank_p2 = vic_ii.vbank_phi2;
+      /* vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank; */
       vic_ii.raster.sprite_status->ptr_base = screen_base + 0x3f8;
     }
   else if (tmp < VIC_II_SCREEN_TEXTCOLS)
@@ -760,14 +861,13 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
           old_screen_ptr = screen_base;
         }
 
-      if (bitmap_base + vic_ii.vbank != old_bitmap_ptr)
+      if (bitmap_base != old_bitmap_ptr)
         {
           raster_add_ptr_change_foreground (&vic_ii.raster,
                                             tmp,
                                             (void **) &vic_ii.bitmap_ptr,
-                                            (void *) (bitmap_base
-                                                      + vic_ii.vbank));
-          old_bitmap_ptr = bitmap_base + vic_ii.vbank;
+                                            (void *) (bitmap_base));
+          old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
@@ -779,15 +879,22 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
           old_chargen_ptr = char_base;
         }
 
-      if (vic_ii.vbank != old_vbank)
+      if (vic_ii.vbank_phi1 != old_vbank_p1)
         {
+/*
           raster_add_ptr_change_foreground (&vic_ii.raster,
                                             tmp,
                                             (void **) &vic_ii.vbank_ptr,
                                             (void *) (vic_ii.ram_base
                                                       + vic_ii.vbank));
-          old_vbank = vic_ii.vbank;
+*/
+          old_vbank_p1 = vic_ii.vbank_phi1;
         }
+
+      if (vic_ii.vbank_phi2 != old_vbank_p2)
+	{
+          old_vbank_p2 = vic_ii.vbank_phi2;
+	}
     }
   else
     {
@@ -801,13 +908,12 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
                                            (void *) (screen_base + 0x3f8));
           old_screen_ptr = screen_base;
         }
-      if (bitmap_base + vic_ii.vbank != old_bitmap_ptr)
+      if (bitmap_base != old_bitmap_ptr)
         {
           raster_add_ptr_change_next_line (&vic_ii.raster,
                                            (void **) &vic_ii.bitmap_ptr,
-                                           (void *) (bitmap_base
-                                                     + vic_ii.vbank));
-          old_bitmap_ptr = bitmap_base + vic_ii.vbank;
+                                           (void *) (bitmap_base));
+          old_bitmap_ptr = bitmap_base;
         }
 
       if (char_base != old_chargen_ptr)
@@ -818,14 +924,21 @@ void vic_ii_update_memory_ptrs (unsigned int cycle)
           old_chargen_ptr = char_base;
         }
 
-      if (vic_ii.vbank != old_vbank)
+      if (vic_ii.vbank_phi1 != old_vbank_p1)
         {
+/*
           raster_add_ptr_change_next_line (&vic_ii.raster,
                                            (void **) &vic_ii.vbank_ptr,
                                            (void *) (vic_ii.ram_base
                                                      + vic_ii.vbank));
-          old_vbank = vic_ii.vbank;
+*/
+          old_vbank_p1 = vic_ii.vbank_phi1;
         }
+
+      if (vic_ii.vbank_phi2 != old_vbank_p2)
+	{
+          old_vbank_p2 = vic_ii.vbank_phi2;
+	}
     }
 }
 
@@ -877,11 +990,11 @@ void vic_ii_update_video_mode (unsigned int cycle)
             if (vic_ii.regs[0x11] & 0x40)
               raster_add_int_change_foreground
                 (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
-                 vic_ii.ram_base[vic_ii.vbank + 0x39ff]);
+                 vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x39ff]);
             else
               raster_add_int_change_foreground
                 (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
-                 vic_ii.ram_base[vic_ii.vbank + 0x3fff]);
+                 vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x3fff]);
           }
       }
 
@@ -1021,12 +1134,12 @@ int vic_ii_raster_draw_alarm_handler (CLOCK offset)
       if (vic_ii.regs[0x11] & 0x40)
         {
           vic_ii.idle_data_location = IDLE_39FF;
-          vic_ii.idle_data = vic_ii.ram_base[vic_ii.vbank + 0x39ff];
+          vic_ii.idle_data = vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x39ff];
         }
       else
         {
           vic_ii.idle_data_location = IDLE_3FFF;
-          vic_ii.idle_data = vic_ii.ram_base[vic_ii.vbank + 0x3fff];
+          vic_ii.idle_data = vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x3fff];
         }
     }
   else
@@ -1184,7 +1297,9 @@ inline static int handle_fetch_sprite (long offset,
       BYTE *bank, *spr_base;
 
       sprite_status = vic_ii.raster.sprite_status;
-      bank = vic_ii.ram_base + vic_ii.vbank;
+      /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
+	 sequence. This is of minor interest, though, only for CBM-II... */
+      bank = vic_ii.ram_base_phi1 + vic_ii.vbank_phi1;
       spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6)
                   + sf->first);
 
@@ -1470,7 +1585,7 @@ int vic_ii_screenshot(screenshot_t *screenshot)
     return raster_screenshot(&vic_ii.raster, screenshot);
 }
 
-void video_refresh(void)
+void vic_ii_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 

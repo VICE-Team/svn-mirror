@@ -63,5 +63,6 @@
 #define HAVE_STRINGS_H 1
 #define HAVE_STDLIB_H 1
 #define HAVE_LIMITS_H 1
+#define HAVE_ZLIB 1
 
 #endif

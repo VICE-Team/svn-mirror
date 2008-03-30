@@ -1363,7 +1363,13 @@ ui_menu_entry_t video_settings_submenu[] = {
 };
 
 ui_menu_entry_t ui_video_settings_menu[] = {
-    { N_("Video settings"),
+    { N_("VIC-II Video settings"),
+      NULL, NULL, video_settings_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t ui_vic_video_settings_menu[] = {
+    { N_("VIC Video settings"),
       NULL, NULL, video_settings_submenu },
     { NULL }
 };

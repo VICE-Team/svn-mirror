@@ -26,6 +26,7 @@
 
 #include "c610cia.h"
 #include "crtc.h"
+#include "c610mem.h"
 #include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -79,11 +80,12 @@ void tpi1_set_tape_sense(int v)
 
 _TPI_FUNC void tpi_set_ca(int a)
 {
-    crtc_set_chargen_offset((a) ? 256 : 0);
+    cbm2_set_tpi1ca(a);
 }
 
 _TPI_FUNC void tpi_set_cb(int a)
 {
+    cbm2_set_tpi1cb(a);
 }
 
 _TPI_FUNC void _tpi_reset(void)

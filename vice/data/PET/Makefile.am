@@ -1,7 +1,7 @@
 
 palettes = \
 	amber.vpl \
-	default.vpl \
+	green.vpl \
 	white.vpl
 
 roms = \

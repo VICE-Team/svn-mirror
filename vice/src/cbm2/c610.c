@@ -70,6 +70,7 @@
 #include "types.h"
 #include "utils.h"
 #include "via.h"
+#include "vicii.h"
 #include "video.h"
 #include "vsync.h"
 
@@ -77,8 +78,11 @@
 #include "rs232.h"
 #endif
 
+#define C500_POWERLINE_CYCLES_PER_IRQ	(C500_PAL_CYCLES_PER_RFSH)
+
 static void vsync_hook(void);
 
+static long cbm2_cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
 static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
 static long cbm2_cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
 
@@ -88,31 +92,11 @@ int machine_class = VICE_MACHINE_CBM2;
 
 static log_t c610_log = LOG_ERR;
 
+extern BYTE rom[];
+
+int isC500 = 0;
+
 /* ------------------------------------------------------------------------- */
-
-/* CBM-II resources.  */
-
-#if 0
-
-/* CBM-II model name.  */
-static char *model_name;
-
-static int set_model_name(resource_value_t v)
-{
-    char *name = (char *)v;
-
-    if (c610_set_model(name, NULL) < 0) {
-        fprintf(stderr, "Invalid CBM-II model `%s'.", name);
-        return -1;
-    }
-
-    string_set(&model_name, name);
-    return 0;
-}
-
-#endif
-
-/* ------------------------------------------------------------------------ */
 
 /* CBM-II-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
@@ -123,6 +107,7 @@ int machine_init_resources(void)
         || video_init_resources() < 0
         || c610_mem_init_resources() < 0
         || crtc_init_resources() < 0
+        || vic_ii_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0
         || drive_init_resources() < 0
@@ -148,6 +133,7 @@ int machine_init_cmdline_options(void)
         || video_init_cmdline_options() < 0
         || c610_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
+        || vic_ii_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
@@ -167,10 +153,36 @@ int machine_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------- */
+/* provide the 50(?)Hz IRQ signal for the standard IRQ */
 
 #define SIGNAL_VERT_BLANK_OFF   tpi1_set_int(0, 1);
 
 #define SIGNAL_VERT_BLANK_ON    tpi1_set_int(0, 0);
+
+/* ------------------------------------------------------------------------- */
+/* for the C500 there is a powerline IRQ... */
+
+static alarm_t c500_powerline_clk_alarm;
+static CLOCK c500_powerline_clk = 0;
+
+int c500_powerline_clk_alarm_handler (CLOCK offset) {
+
+    c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
+    
+    SIGNAL_VERT_BLANK_OFF
+
+    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+
+    SIGNAL_VERT_BLANK_ON
+}
+
+static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
+{
+    c500_powerline_clk -= sub;
+}
+
+/* ------------------------------------------------------------------------- */
+/* ... while the other CBM-II use the CRTC retrace signal. */
 
 static void cbm2_crtc_signal(unsigned int signal) {
     if (signal) {
@@ -211,18 +223,32 @@ int machine_init(void)
     /* initialize print devices */
     print_init();
 
-    /* Initialize the CRTC emulation.  */
-    if (crtc_init() == NULL)
-        return -1;
-    crtc_set_retrace_callback(cbm2_crtc_signal);
-    crtc_set_retrace_type(0);
+    if (! isC500) {
+        /* Initialize the CRTC emulation.  */
+        if (crtc_init() == NULL)
+            return -1;
+        crtc_set_retrace_callback(cbm2_crtc_signal);
+        crtc_set_retrace_type(0);
+        crtc_set_hw_options( 1, 0x7ff, 0x1000, 512, -0x2000);
+    } else {
+        /* Initialize the VIC-II emulation.  */
+        if (vic_ii_init() == NULL) 
+	    return -1;
 
-/*
-    resources_get_value("ModelLine", (resource_value_t*)&model);
-    crtc_set_screen_options(80, 25 * (model ? 10 : 14));
-*/
-/*    crtc_set_screen_addr(rom + 0xd000); */
-    crtc_set_hw_options( 1, 0x7ff, 0x1000, 512, -0x2000);
+	/*
+	c500_set_phi1_bank(15);
+	c500_set_phi2_bank(15);
+	*/
+
+        alarm_init (&c500_powerline_clk_alarm, &maincpu_alarm_context,
+                "C500PowerlineClk", c500_powerline_clk_alarm_handler);
+        clk_guard_add_callback(&maincpu_clk_guard, 
+				c500_powerline_clk_overflow_callback, NULL);
+
+ 	cbm2_cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+	cbm2_rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+	cbm2_cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+    }
 
     ciat_init_table();
     cia1_init();
@@ -238,24 +264,25 @@ int machine_init(void)
     datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
-    drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);
+    drive_init(cbm2_cycles_per_sec, C610_NTSC_CYCLES_PER_SEC);
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
                  drive1_monitor_interface_ptr);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC);
+    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
     vsync_init(vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(C610_PAL_CYCLES_PER_SEC, cbm2_cycles_per_rfsh);
+    sound_init(cbm2_cycles_per_sec, cbm2_cycles_per_rfsh);
 
     /* Initialize the CBM-II-specific part of the UI.  */
     c610_ui_init();
 
     iec_init();
+
 
     return 0;
 }
@@ -270,9 +297,16 @@ void machine_reset(void)
     tpi1_reset();
     tpi2_reset();
 
-    crtc_reset();
     sid_reset();
 
+    if (!isC500) {
+        crtc_reset();
+    } else {
+        c500_powerline_clk = clk + C500_POWERLINE_CYCLES_PER_IRQ;
+	alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+
+        vic_ii_reset();
+    }
     print_reset();
 
 #ifdef HAVE_RS232
@@ -283,8 +317,7 @@ void machine_reset(void)
     drive_reset();
     datasette_reset();
 
-    set_bank_exec(15);
-    set_bank_ind(15);
+    mem_reset();
 }
 
 void machine_powerup(void)
@@ -304,7 +337,11 @@ void machine_shutdown(void)
     console_close_all();
     
     /* close the video chip(s) */
-    crtc_free();
+    if (isC500) {
+        vic_ii_free();
+    } else {
+        crtc_free();
+    }
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
@@ -342,7 +379,7 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return C610_PAL_CYCLES_PER_SEC;
+    return cbm2_cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
@@ -354,9 +391,9 @@ void machine_change_timing(int timeval)
 void machine_set_cycles_per_frame(long cpf) {
 
     cbm2_cycles_per_rfsh = cpf;
-    cbm2_rfsh_per_sec = ((double) C610_PAL_CYCLES_PER_SEC) / ((double) cpf);
+    cbm2_rfsh_per_sec = ((double) cbm2_cycles_per_sec) / ((double) cpf);
 
-    vsync_set_machine_parameter(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC);
+    vsync_set_machine_parameter(cbm2_rfsh_per_sec, cbm2_cycles_per_sec);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -376,13 +413,15 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     }
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s, save_roms) < 0
-        || crtc_write_snapshot_module(s) < 0
+        || ((!isC500) && crtc_write_snapshot_module(s) < 0)
         || cia1_write_snapshot_module(s) < 0
         || tpi1_write_snapshot_module(s) < 0
         || tpi2_write_snapshot_module(s) < 0
         || acia1_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
         || drive_write_snapshot_module(s, save_disks, save_roms) < 0
+        || (isC500 && vic_ii_write_snapshot_module(s) < 0)
+        || (isC500 && c500_write_snapshot_module(s) < 0)
 	) {
         snapshot_close(s);
         remove_file(name);
@@ -410,9 +449,15 @@ int machine_read_snapshot(const char *name)
         goto fail;
     }
 
+    if (isC500) {
+        vic_ii_prepare_for_snapshot();
+    }
+
     if (maincpu_read_snapshot_module(s) < 0
+        || ((!isC500) && crtc_read_snapshot_module(s) < 0)
+        || (isC500 && vic_ii_read_snapshot_module(s) < 0)
+        || (isC500 && c500_read_snapshot_module(s) < 0)
         || mem_read_snapshot_module(s) < 0
-        || crtc_read_snapshot_module(s) < 0
         || cia1_read_snapshot_module(s) < 0
         || tpi1_read_snapshot_module(s) < 0
         || tpi2_read_snapshot_module(s) < 0
@@ -446,12 +491,80 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
   if (wn == 0)
       return crtc_screenshot(screenshot);
+  if (wn == 1)
+      return vic_ii_screenshot(screenshot);
   return -1;
 }
 
 int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
 {
+  if (canvas == vic_ii_get_canvas())
+      return vic_ii_screenshot(screenshot);
   if (canvas == crtc_get_canvas())
       return crtc_screenshot(screenshot);
   return -1;
 }
+
+/*-----------------------------------------------------------------------*/
+
+/*
+ * C500 extra data (state of 50Hz clk)
+ */
+#define C500DATA_DUMP_VER_MAJOR   0
+#define C500DATA_DUMP_VER_MINOR   0
+
+/*
+ * DWORD        IRQCLK          CPU clock ticks until next 50 Hz IRQ
+ *
+ */
+
+static const char module_name[] = "C500DATA";
+
+static int c500_write_snapshot_module(snapshot_t *p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(p, module_name,
+                          C500DATA_DUMP_VER_MAJOR, C500DATA_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    snapshot_module_write_dword(m, c500_powerline_clk - clk);
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+static int c500_read_snapshot_module(snapshot_t *p)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    DWORD dword;
+
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
+
+    if (vmajor != C500DATA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_read_dword(m, &dword);
+    c500_powerline_clk = clk + dword;
+    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk); 
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+void video_refresh(void) {
+    if (isC500) {
+        vic_ii_video_refresh();
+    } else {
+	crtc_video_refresh();
+    }
+}
+

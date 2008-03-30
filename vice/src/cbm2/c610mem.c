@@ -53,19 +53,28 @@
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
+#include "vicii-mem.h"
+#include "vicii.h"
 
 /* ------------------------------------------------------------------------- */
 
+/* ultimax = 0 then the others are not needed */
+int ultimax = 0;
+int romh_bank;
+BYTE romh_banks[1];
+
+void cia1_set_extended_keyboard_rows_mask(BYTE foo) {}
+
+/* ------------------------------------------------------------------------- */
 /* The CBM-II memory. */
 
-BYTE ram[C610_RAM_SIZE];  		/* 256k, banks 0-3 */
-BYTE rom[C610_ROM_SIZE];		/* complete bank 15 */
+BYTE ram[C610_RAM_SIZE];  		/* 1M, banks 0-14 plus extension RAM 
+					   in bank 15 */
+BYTE rom[C610_ROM_SIZE];		/* complete bank 15 ROM + video RAM */
 BYTE chargen_rom[C610_CHARGEN_ROM_SIZE];
 
 BYTE *page_zero;
 BYTE *page_one;
-
-int ram_size = C610_RAM_SIZE;		/* FIXME: referenced in mon.c */
 
 /* selected banks for normal access and indirect accesses */
 static int bank_exec = -1;
@@ -84,7 +93,7 @@ static int mem_load_cart_6(void);
 static read_func_ptr_t _mem_read_tab[16][0x101];
 static store_func_ptr_t _mem_write_tab[16][0x101];
 static BYTE *_mem_read_base_tab[16][0x101];
-static int mem_read_limit_tab[2][0x101];
+static int mem_read_limit_tab[3][0x101];
 
 /* watch tables are fixed */
 read_func_ptr_t _mem_read_tab_watch[0x101];
@@ -115,7 +124,7 @@ static int rom_loaded = 0;
 static log_t c610_mem_log = LOG_ERR;
 
 /* prototype */
-void set_screen(void);
+static void initialize_memory_bank(int i);
 
 #ifdef __riscos
 #define CBM2_CHARGEN600 "chargen/600"
@@ -123,11 +132,104 @@ void set_screen(void);
 #define CBM2_BASIC128   "basic/128"
 #define CBM2_BASIC256   "basic/256"
 #else
+#define CBM2_CHARGEN500 "chargen.500"
 #define CBM2_CHARGEN600 "chargen.600"
 #define CBM2_CHARGEN700 "chargen.700"
 #define CBM2_BASIC128   "basic.128"
 #define CBM2_BASIC256   "basic.256"
+#define CBM2_BASIC500   "basic.500"
+#define CBM2_KERNAL     "kernal"
+#define CBM2_KERNAL500  "kernal.500"
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+extern int isC500;
+
+/* state of tpi pc6/7 */
+static int c500_vbank = 0;
+
+/* 1= static video matrix RAM (phi2); 0= bank 0 */
+static int c500_statvid = 1;
+
+/* 1= character ROM in bank 15 (phi1); 0= bank 0 */
+static int c500_vicdotsel = 1;
+
+void c500_set_phi2_bank(int b) {
+    if (b == c500_statvid) return;
+
+    if (b) {	/* bank 15 */
+	/* video memory at $c000/d000 depending on d818 */
+	vic_ii_set_phi2_addr_options(0x13ff, 0xc000);
+	/* no chargen mapping */
+	vic_ii_set_phi2_chargen_addr_options(0, 1);
+	/* memory mapping */
+	vic_ii_set_phi2_vbank(3);	/* necessary? */
+	vic_ii_set_phi2_ram_base(rom);
+    } else {
+	/* video memory in bank 0 */
+	vic_ii_set_phi2_addr_options(0xffff, 0x0000);
+	/* no chargen mapping */
+	vic_ii_set_phi2_chargen_addr_options(0, 1);
+	/* memory mapping */
+	vic_ii_set_phi2_vbank(c500_vbank);
+	vic_ii_set_phi2_ram_base(ram);
+    }
+
+    c500_statvid = b;
+}
+
+void c500_set_phi1_bank(int b) {
+    if (b == c500_vicdotsel) return;
+
+    if (b) {	/* bank 15 */
+	/* video memory at $c000/c800 depending on d818 */
+	vic_ii_set_phi1_addr_options(0x0fff, 0xc000);
+	/* no chargen mapping */
+	vic_ii_set_phi1_chargen_addr_options(0xc000, 0xc000);
+	/* memory mapping */
+	vic_ii_set_phi1_vbank(3);	/* necessary? */
+	vic_ii_set_phi1_ram_base(rom);
+    } else {
+	/* video memory in bank 0 */
+	vic_ii_set_phi1_addr_options(0xffff, 0x0000);
+	/* no chargen mapping */
+	vic_ii_set_phi1_chargen_addr_options(0, 1);
+	/* memory mapping */
+	vic_ii_set_phi1_vbank(c500_vbank);
+	vic_ii_set_phi1_ram_base(ram);
+    }
+
+    c500_vicdotsel = b;
+}
+
+void cbm2_set_tpi2pc(BYTE b) {
+    int vbank = (b & 0xc0) >> 6;
+    c500_vbank = vbank;
+
+    if (isC500) {
+	if (!c500_vicdotsel) {
+            vic_ii_set_phi1_vbank(vbank);
+	}
+	if (!c500_statvid) {
+            vic_ii_set_phi2_vbank(vbank);
+	}
+    }
+}
+
+void cbm2_set_tpi1ca(int a) {
+    if (isC500) {
+	c500_set_phi2_bank(a);
+    } else {
+        crtc_set_chargen_offset((a) ? 256 : 0);
+    }
+}
+
+void cbm2_set_tpi1cb(int a) {
+    if (isC500) {
+	c500_set_phi1_bank(a);
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -140,13 +242,20 @@ const char *mem_romset_resources_list[] = {
 };
 
 /* ------------------------------------------------------------------------- */
+/* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
+   it starts counting at 0x00000.
+   CBM2MEM module requires(!) that ramsize never gets 512-64 = 448
+   (Just don't ask...)
+   In a C500, that has RAM in bank 0, the actual size of RAM is 64k larger
+   than ramsize when ramsize is less than 512, otherwise the same as ramsize.
+*/
 
 static int ramsize;
 
 static int set_ramsize(resource_value_t v, void *param)
 {
     int rs = (int) v;
-    if(rs==128 || rs==256 || rs==512 || rs==1024) {
+    if(rs==64 || rs==128 || rs==256 || rs==512 || rs==1024) {
 	ramsize = rs;
 	suspend_speed_eval();
 	initialize_memory();
@@ -192,6 +301,7 @@ static int cart6_ram = 0;
 static int cartC_ram = 0;
 
 static int cbm2_model_line = 0;
+static int use_vicii = 0;
 
 static BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
@@ -205,9 +315,27 @@ static int set_cbm2_model_line(resource_value_t v, void *param)
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
-    crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
+    if (isC500) {
+	/* VIC-II config */
+    } else {
+        crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
+    }
 
     return 0;
+}
+
+static int set_use_vicii(resource_value_t v, void *param)
+{
+    int tmp = (int) v;
+
+    if (tmp >= 0 && tmp <= 1) {
+	use_vicii = tmp;
+
+	/* on boot, select video chip. FIXME: change on runtime */
+	if (isC500 < 1) {
+	    isC500 = use_vicii;
+	}
+    }
 }
 
 static int set_chargen_rom_name(resource_value_t v, void *param)
@@ -309,42 +437,42 @@ static int set_cart6_rom_name(resource_value_t v, void *param)
 static int set_cart08_ram(resource_value_t v, void *param)
 {
     cart08_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart1_ram(resource_value_t v, void *param)
 {
     cart1_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart2_ram(resource_value_t v, void *param)
 {
     cart2_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart4_ram(resource_value_t v, void *param)
 {
     cart4_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cart6_ram(resource_value_t v, void *param)
 {
     cart6_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
 static int set_cartC_ram(resource_value_t v, void *param)
 {
     cartC_ram = (int) v;
-    initialize_memory();
+    initialize_memory_bank(15);
     return 0;
 }
 
@@ -393,6 +521,9 @@ static resource_t resources[] = {
     { "RamC", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &cartC_ram,
       set_cartC_ram, NULL },
+    { "UseVicII", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &use_vicii,
+      set_use_vicii, NULL },
     { "ModelLine", RES_INTEGER, (resource_value_t) 2,
       (resource_value_t *) &cbm2_model_line,
       set_cbm2_model_line, NULL },
@@ -410,10 +541,14 @@ int c610_mem_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-model", CALL_FUNCTION, 1, cbm2_set_model, NULL, NULL, NULL,
      "<modelnumber>", "Specify CBM-II model to emulate" },
+    { "-usevicii", SET_RESOURCE, 0, NULL, NULL, "UseVicII", (resource_value_t)1,
+     NULL, "Specify to use VIC-II" },
+    { "+usevicii", SET_RESOURCE, 0, NULL, NULL, "UseVicII", (resource_value_t)0,
+     NULL, "Specify use CRTC" },
     { "-modelline", SET_RESOURCE, 1, NULL, NULL, "ModelLine", NULL,
      "<linenumber>", "Specify CBM-II model hardware (0=6x0, 1=7x0)" },
     { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
-     "<ramsize>", "Specify size of RAM (128/256/512/1024 kByte)" },
+     "<ramsize>", "Specify size of RAM (64/128/256/512/1024 kByte)" },
 
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
@@ -472,17 +607,20 @@ int c610_mem_init_cmdline_options(void)
 
 static struct {
 	const char *model;
-	int ramsize;
+	const int usevicii;
+	const int ramsize;
 	const char *basic;
 	const char *charrom;
-	int line;	/* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
+	const char *kernal;
+	const int line;	/* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
     } modtab[] = {
-    { "610",  128,  CBM2_BASIC128, CBM2_CHARGEN600, 2  },
-    { "620",  256,  CBM2_BASIC256, CBM2_CHARGEN600, 2  },
-    { "620+", 1024, CBM2_BASIC256, CBM2_CHARGEN600, 2  },
-    { "710",  128,  CBM2_BASIC128, CBM2_CHARGEN700, 0  },
-    { "720",  256,  CBM2_BASIC256, CBM2_CHARGEN700, 0  },
-    { "720+", 1024, CBM2_BASIC256, CBM2_CHARGEN700, 0  },
+    { "510",  1, 64,   CBM2_BASIC500, CBM2_CHARGEN500, CBM2_KERNAL500, 2  },
+    { "610",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
+    { "620",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
+    { "620+", 0, 1024, CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
+    { "710",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
+    { "720",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
+    { "720+", 0, 1024, CBM2_BASIC256, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
     { NULL }
 };
 
@@ -492,9 +630,12 @@ int cbm2_set_model(const char *model, void *extra)
     for(i=0; modtab[i].model; i++) {
 	if(!strcmp(modtab[i].model, model)) {
             suspend_speed_eval();
+
+	    set_use_vicii((resource_value_t)modtab[i].usevicii, NULL);
 	    set_ramsize((resource_value_t)modtab[i].ramsize, NULL);
 	    set_basic_rom_name((resource_value_t)modtab[i].basic, NULL);
 	    set_chargen_rom_name((resource_value_t)modtab[i].charrom, NULL);
+	    set_kernal_rom_name((resource_value_t)modtab[i].kernal, NULL);
 	    set_cbm2_model_line((resource_value_t)modtab[i].line, NULL);
 
 	    /* we have to wait until we did enough initialization */
@@ -526,9 +667,16 @@ void set_bank_exec(int val) {
 
         if (bank_limit != NULL) {
             *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
-            if (*bank_base != 0)
+            if (*bank_base != 0) {
                 *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
                          - (old_reg_pc & 0xff00);
+	    } else {
+	    	/* disable fast opcode fetch when bank_base is null, i.e.
+		   set all limits to 0 when no RAM available.
+		   This might also happen when jumping to open mem in 
+		   bank 15, though. */
+    	        mem_read_limit_tab_ptr = mem_read_limit_tab[2];
+	    }
             *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
         }
 
@@ -675,28 +823,28 @@ READ_RAM(D)
 READ_RAM(E)
 READ_RAM(F)
 
-static void (*store_zero_tab[16])(ADDRESS addr, BYTE value) = {
+static store_func_ptr_t store_zero_tab[16] = {
 	store_zero_0, store_zero_1, store_zero_2, store_zero_3,
 	store_zero_4, store_zero_5, store_zero_6, store_zero_7,
 	store_zero_8, store_zero_9, store_zero_A, store_zero_B,
 	store_zero_C, store_zero_D, store_zero_E, store_zero_F
 };
 
-static void (*store_ram_tab[16])(ADDRESS addr, BYTE value) = {
+static store_func_ptr_t store_ram_tab[16] = {
 	store_ram_0, store_ram_1, store_ram_2, store_ram_3,
 	store_ram_4, store_ram_5, store_ram_6, store_ram_7,
 	store_ram_8, store_ram_9, store_ram_A, store_ram_B,
 	store_ram_C, store_ram_D, store_ram_E, store_ram_F
 };
 
-static BYTE (*read_ram_tab[16])(ADDRESS addr) = {
+static read_func_ptr_t read_ram_tab[16] = {
 	read_ram_0, read_ram_1, read_ram_2, read_ram_3,
 	read_ram_4, read_ram_5, read_ram_6, read_ram_7,
 	read_ram_8, read_ram_9, read_ram_A, read_ram_B,
 	read_ram_C, read_ram_D, read_ram_E, read_ram_F
 };
 
-static BYTE (*read_zero_tab[16])(ADDRESS addr) = {
+static read_func_ptr_t read_zero_tab[16] = {
 	read_zero_0, read_zero_1, read_zero_2, read_zero_3,
 	read_zero_4, read_zero_5, read_zero_6, read_zero_7,
 	read_zero_8, read_zero_9, read_zero_A, read_zero_B,
@@ -713,6 +861,11 @@ void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
 BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     return rom[addr];
+}
+
+BYTE REGPARM1 read_chargen(ADDRESS addr)
+{
+    return chargen_rom[addr & 0xfff];
 }
 
 void REGPARM2 rom_store(ADDRESS addr, BYTE value)
@@ -779,11 +932,18 @@ void REGPARM2 store_io(ADDRESS addr, BYTE value)
     switch(addr & 0xf800) {
     case 0xd000:
 	rom_store(addr, value);		/* video RAM mapped here... */
+	if (isC500 && (addr >= 0xd400)) {
+	    colorram_store(addr, value);
+	}
 	return;
     case 0xd800:
  	switch(addr & 0xff00) {
 	case 0xd800:
-            crtc_store(addr, value);
+	    if (isC500) {
+		vic_store(addr, value);
+	    } else {
+                crtc_store(addr, value);
+	    }
 	    return;
 	case 0xd900:
 	    return;			/* disk units */
@@ -826,11 +986,19 @@ BYTE REGPARM1 read_io(ADDRESS addr)
     case 0xd800:
 	switch (addr & 0xff00) {
 	case 0xd800:
-            return crtc_read(addr);
+	    if (isC500) {
+                return vic_read(addr);
+	    } else {
+                return crtc_read(addr);
+	    }
 	case 0xd900:
 	    return read_unused(addr);
 	case 0xda00:
-	    return sid_read(addr);
+	    if (isC500) {
+	        return sid_read(addr);
+	    } else {
+		return 0xff;		/* 2 MHz too fast for SID */
+	    }
 	case 0xdb00:
 	    return read_unused(addr);
 	case 0xdc00:
@@ -838,6 +1006,8 @@ BYTE REGPARM1 read_io(ADDRESS addr)
 	case 0xdd00:
 	    return acia1_read(addr);
 	case 0xde00:
+	    /* FIXME: VIC-II irq? */
+	    /* if (isC500 && ((addr & 7) == 2)) { return tpi1_read(addr&7)|1; }   */
 	    return tpi1_read(addr & 0x07);
 	case 0xdf00:
 	    return tpi2_read(addr & 0x07);
@@ -862,17 +1032,104 @@ void mem_toggle_watchpoints(int flag)
 }
 
 /* ------------------------------------------------------------------------- */
+/* handle CPU reset */
+
+void mem_reset(void) {
+    set_bank_exec(15);
+    set_bank_ind(15);
+
+    if (isC500) {
+	c500_set_phi1_bank(15);
+	c500_set_phi2_bank(15);
+    }
+}
+
+/* ------------------------------------------------------------------------- */
 
 void initialize_memory(void)
 {
     int i, j;
 
     /* first the tables that hold the predefined bank mappings */
-
     for (i=0;i<16;i++) {		/* 16 banks possible */
+        initialize_memory_bank(i);
+    }
+
+    /* set bank limit tables for optimized opcode fetch */
+    for (i=256;i>=0;i--) {
+	mem_read_limit_tab[0][i] = 0xfffd;	/* all RAM banks go here */
+	mem_read_limit_tab[2][i] = 0;		/* all empty banks go here */
+
+	if (!_mem_read_base_tab[15][i]) {
+	    mem_read_limit_tab[1][i] = -1;
+	} else
+	if(i<0x08) {	/* system RAM */
+	    mem_read_limit_tab[1][i] = 0x07fd;
+	} else 
+	if(i<0x10) {	/* ROM/RAM 0800-0FFF */
+	    mem_read_limit_tab[1][i] = 0x0ffd;	
+	} else 
+	if(i<0x20) {	/* ROM/RAM 1000-1FFF */
+	    mem_read_limit_tab[1][i] = 0x1ffd;	
+	} else 
+	if(i<0x40) {	/* ROM/RAM 2000-3FFF */
+	    mem_read_limit_tab[1][i] = 0x3ffd;	
+	} else 
+	if(i<0x60) {	/* ROM/RAM 4000-5FFF */
+	    mem_read_limit_tab[1][i] = 0x5ffd;	
+	} else 
+	if(i<0x80) {	/* ROM/RAM 6000-7FFF */
+	    mem_read_limit_tab[1][i] = 0x7ffd;	
+	} else 
+	if(i<0xc0) {	/* ROM 8000-BFFF */
+	    mem_read_limit_tab[1][i] = 0xbffd;	
+	} else 
+	if(i<0xd0) {	/* C000-CFFF */
+	    if (isC500) { /* charrom */
+	        mem_read_limit_tab[1][i] = 0xcffd;	
+	    } else {	/* open(?) */
+	        mem_read_limit_tab[1][i] = 0;
+	    }
+	} else 
+	if(i<0xe0) {	/* I/O D000-DFFF */
+	    mem_read_limit_tab[1][i] = 0;	
+	} else {	/* ROM E000-FFFF */
+	    mem_read_limit_tab[1][i] = 0xfffd;	
+	}
+    }
+
+    /* set watchpoint tables */
+    for (i=256;i>=0;i--) {
+	_mem_read_tab_watch[i] = read_watch;
+	_mem_read_ind_tab_watch[i] = read_ind_watch;
+	_mem_write_tab_watch[i] = store_watch;
+	_mem_write_ind_tab_watch[i] = store_ind_watch;
+    }
+}
+
+static void initialize_memory_bank(int i) {
+	int j;
+
 	switch (i) {
+	case 0:
+	    if(isC500 || ramsize >= 512) {
+	        for (j=255;j>=0;j--) {
+	    	    _mem_read_tab[i][j] = read_ram_tab[i];
+		    _mem_write_tab[i][j] = store_ram_tab[i];
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	        _mem_write_tab[i][0] = store_zero_tab[i];
+	        _mem_read_tab[i][0] = read_zero_tab[i];
+	    } else {
+	        for (j=255;j>=0;j--) {
+		    _mem_read_tab[i][j] = read_unused;
+		    _mem_write_tab[i][j] = store_dummy;
+		    _mem_read_base_tab[i][j] = NULL;
+	        }
+	        _mem_write_tab[i][0] = store_zeroX;
+	    }
+	    break;
 	case 1:
-	case 2:
 	    for (j=255;j>=0;j--) {
 		_mem_read_tab[i][j] = read_ram_tab[i];
 		_mem_write_tab[i][j] = store_ram_tab[i];
@@ -881,6 +1138,17 @@ void initialize_memory(void)
 	    _mem_write_tab[i][0] = store_zero_tab[i];
 	    _mem_read_tab[i][0] = read_zero_tab[i];
 	    break;
+	case 2:
+	    if (ramsize >= 128) {
+	        for (j=255;j>=0;j--) {
+		    _mem_read_tab[i][j] = read_ram_tab[i];
+		    _mem_write_tab[i][j] = store_ram_tab[i];
+		    _mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
+	        }
+	        _mem_write_tab[i][0] = store_zero_tab[i];
+	        _mem_read_tab[i][0] = read_zero_tab[i];
+	        break;
+	    }
 	case 3:
 	case 4:
 	    if(ramsize >= 256) {
@@ -893,7 +1161,6 @@ void initialize_memory(void)
 	        _mem_read_tab[i][0] = read_zero_tab[i];
 	        break;
 	    }
-	case 0:
 	case 5:
 	case 6:
 	case 7:
@@ -938,17 +1205,23 @@ void initialize_memory(void)
 		_mem_write_tab[i][j] = store_ram_F;
 		_mem_read_base_tab[i][j] = ram + (i << 16) + (j << 8);
 	    }
-	    for (;j<0xc0;j++) {
+	    for (;j<0xc0;j++) {	/* 0800-BFFF */
 		_mem_read_tab[i][j] = rom_read;
 		_mem_write_tab[i][j] = store_dummy;
 		_mem_read_base_tab[i][j] = rom + (j << 8);
 	    }
-	    for (;j<0xd0;j++) {
-		_mem_read_tab[i][j] = read_unused;
-		_mem_write_tab[i][j] = store_dummy;
-		_mem_read_base_tab[i][j] = NULL;
+	    for (;j<0xd0;j++) {	/* C000-CFFF */
+		if (!isC500) {
+		    _mem_read_tab[i][j] = read_unused;
+		    _mem_write_tab[i][j] = store_dummy;
+		    _mem_read_base_tab[i][j] = NULL;
+		} else {
+		    _mem_read_tab[i][j] = read_chargen;
+		    _mem_write_tab[i][j] = store_dummy;
+		    _mem_read_base_tab[i][j] = chargen_rom + ((j << 8) & 0x0f);
+		}
 	    }
-	    for (;j<0xe0;j++) {
+	    for (;j<0xe0;j++) {	/* D000-DFFF */
 		_mem_read_tab[i][j] = read_io;
 		_mem_write_tab[i][j] = store_io;
 		_mem_read_base_tab[i][j] = NULL;
@@ -1010,56 +1283,6 @@ void initialize_memory(void)
 	_mem_read_tab[i][0x100] = _mem_read_tab[i][0];
 	_mem_write_tab[i][0x100] = _mem_write_tab[i][0];
 	_mem_read_base_tab[i][0x100] = _mem_read_base_tab[i][0];
-    }
-
-    /* set bank limit tables */
-    for (i=256;i>=0;i--) {
-	mem_read_limit_tab[0][i] = 0xfffd;	/* all RAM banks go here */
-
-	if (!_mem_read_base_tab[15][i]) {
-	    mem_read_limit_tab[1][i] = -1;
-	} else
-	if(i<0x08) {
-	    mem_read_limit_tab[1][i] = 0x07fd;
-	} else 
-	if(i<0x10) {
-	    mem_read_limit_tab[1][i] = 0x0ffd;	
-	} else 
-	if(i<0x20) {
-	    mem_read_limit_tab[1][i] = 0x1ffd;	
-	} else 
-	if(i<0x20) {
-	    mem_read_limit_tab[1][i] = 0x1ffd;	
-	} else 
-	if(i<0x40) {
-	    mem_read_limit_tab[1][i] = 0x3ffd;	
-	} else 
-	if(i<0x60) {
-	    mem_read_limit_tab[1][i] = 0x5ffd;	
-	} else 
-	if(i<0x80) {
-	    mem_read_limit_tab[1][i] = 0x7ffd;	
-	} else 
-	if(i<0xc0) {
-	    mem_read_limit_tab[1][i] = 0xbffd;	
-	} else 
-	if(i<0xd0) {
-	    mem_read_limit_tab[1][i] = 0xcffd;	
-	} else 
-	if(i<0xe0) {
-	    mem_read_limit_tab[1][i] = 0xdffd;	
-	} else {
-	    mem_read_limit_tab[1][i] = 0xfffd;	
-	}
-     }
-
-    /* set watchpoint tables */
-    for (i=256;i>=0;i--) {
-	_mem_read_tab_watch[i] = read_watch;
-	_mem_read_ind_tab_watch[i] = read_ind_watch;
-	_mem_write_tab_watch[i] = store_watch;
-	_mem_write_ind_tab_watch[i] = store_ind_watch;
-    }
 }
 
 
@@ -1110,16 +1333,22 @@ static int mem_load_chargen(void)
             return -1;
         }
 
-        memmove(chargen_rom+2048, chargen_rom+4096, 2048);
+	if (!isC500) {
+            memmove(chargen_rom+4096, chargen_rom+2048, 2048);
 
-        /* Inverted chargen into second half. This is a hardware feature.  */
-        for (i = 0; i < 2048; i++) {
-            chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-            chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
-        }
+            /* Inverted chargen into second half. This is a hardware feature.*/
+            for (i = 0; i < 2048; i++) {
+                chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
+                chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+            }
+	}
     }
 
-    crtc_set_chargen_addr(chargen_rom, C610_CHARGEN_ROM_SIZE >> 4);
+    if (isC500) {
+	/* VIC-II config */
+    } else {
+        crtc_set_chargen_addr(chargen_rom, C610_CHARGEN_ROM_SIZE >> 4);
+    }
 
     return 0;
 }
@@ -1274,15 +1503,13 @@ int mem_load(void)
 
     if( mem_load_cart_6() < 0)
 	return -1;
-/*
-    crtc_set_screen_mode(rom + 0xd000, 0x7ff, 80, 1);
-*/
-    /* FIXME: 6x0 have 25*8, 7x0 have 25*14 */
-    crtc_set_screen_addr(rom + 0xd000);
-/*
-    crtc_set_screen_options(80, 25 * 10);
-    crtc_set_hw_options( 1, 0x7ff, 0x800, 512, 0x1000);
-*/
+
+    if (isC500) {
+	/* VIC-II config */
+    } else {
+        crtc_set_screen_addr(rom + 0xd000);
+    }
+
     return 0;
 }
 
@@ -1330,7 +1557,11 @@ static BYTE peek_bank_io(ADDRESS addr)
     case 0xd800:
         switch (addr & 0xff00) {
         case 0xd800:
-            return crtc_read(addr);
+	    if (isC500) {
+                return vic_peek(addr);
+	    } else {
+                return crtc_read(addr);
+	    }
         case 0xd900:
             return read_unused(addr);
         case 0xda00:
@@ -1458,6 +1689,10 @@ void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
  *				    3: cart4_ram
  *				    4: cart6_ram
  *				    5: cartC_ram
+ *				    6: 1= RAM starts at 0 (C500), videoram is
+ *					  1k VIC-II video, 1k colorram
+ *				       0= RAM starts at 0x10000 (others),
+ *					  videoram is 2k crtc videoram
  *
  * UBYTE        HCONFIG         Bit 0-1: ModelLine
  *
@@ -1481,20 +1716,33 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
     BYTE config, memsize;
+    int effective_ramsize, effective_start;
 
     m = snapshot_module_create(p, module_name,
                                CBM2MEM_DUMP_VER_MAJOR, CBM2MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
-    memsize = ramsize >> 7;	/* rescale from 1k to 128k */
+    /* calculate start and size of RAM to save */
+    /* ramsize starts counting at 0x10000 if less than 512k */
+    effective_ramsize = ramsize;
+    effective_start = 0x10000;
+    if (isC500 && ramsize < 512) {
+	effective_ramsize += 64;
+    } 
+    if (isC500 || ramsize >= 512) {
+	effective_start = 0;
+    }
+    memsize = effective_ramsize >> 7;	/* rescale from 1k to 128k */
 
     config = (cart08_ram ? 1 : 0)
 		| (cart1_ram ? 2 : 0)
 		| (cart2_ram ? 4 : 0)
 		| (cart4_ram ? 8 : 0)
 		| (cart6_ram ? 16 : 0)
-		| (cartC_ram ? 32 : 0) ;
+		| (cartC_ram ? 32 : 0) 
+		| (isC500 ? 64 : 0)
+	;
 
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, config);
@@ -1506,11 +1754,9 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte_array(m, ram + 0xf0000, 0x0800);
     snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
 
-    if(memsize < 4) {
-        snapshot_module_write_byte_array(m, ram + 0x10000, ((int)memsize) << 17);
-    } else {
-        snapshot_module_write_byte_array(m, ram, memsize << 17);
-    }
+    /* main memory array */
+    snapshot_module_write_byte_array(m, ram + effective_start, 
+						((int)memsize) << 17);
 
     if(memsize < 4) {	/* if 1M memory, bank 15 is included */
 	if(config & 1) {
@@ -1544,6 +1790,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     BYTE config, hwconfig;
     int memsize;
+    int effective_ramsize, effective_start;
+    int bank0;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -1570,7 +1818,21 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte_array(m, ram + 0xf0000, 0x0800);
     snapshot_module_read_byte_array(m, rom + 0xd000, 0x0800);
 
-    ramsize = memsize << 7;
+    /* calculate start and size of RAM to load */
+    /* ramsize starts counting at 0x10000 if less than 512k */
+    bank0 = config & 64;
+    effective_ramsize = memsize << 7;
+    effective_start = 0x10000;
+    if (bank0 || effective_ramsize >= 512) {
+	effective_start = 0;
+    }
+    if (bank0 && effective_ramsize < 512) {
+	effective_ramsize -= 64;
+    } 
+
+    snapshot_module_read_byte_array(m, ram + effective_start, memsize << 17);
+
+    ramsize = effective_ramsize;
 
     cart08_ram = config & 1;
     cart1_ram = config & 2;
@@ -1620,6 +1882,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  *				    2: cart2 ROM included
  *				    3: cart4 ROM included
  *				    4: cart6 ROM included
+ *				    5: chargen is of C510 type (VIC-II)
  *
  * ARRAY        KERNAL		8k Kernal ROM ($e000-$ffff)
  * ARRAY        BASIC		16k Basic ROM ($8000-$bfff)
@@ -1654,7 +1917,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
 		| (cart_4_name ? 8 : 0)
-		| (cart_6_name ? 16 : 0) );
+		| (cart_6_name ? 16 : 0) 
+		| (isC500 ? 32 : 0)
+	);
 
 
     /* snapshot_module_write_byte(m, save_roms & 3 ); */
@@ -1665,9 +1930,13 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
 	/* basic */
         snapshot_module_write_byte_array(m, rom + 0x8000, 0x4000);
-	/* chargen FIXME: $c*** for C500 */
-        snapshot_module_write_byte_array(m, chargen_rom, 0x0800);
-        snapshot_module_write_byte_array(m, chargen_rom + 0x1000, 0x0800);
+	/* chargen */
+	if (isC500) {
+            snapshot_module_write_byte_array(m, chargen_rom, 0x1000);
+	} else {
+            snapshot_module_write_byte_array(m, chargen_rom, 0x0800);
+            snapshot_module_write_byte_array(m, chargen_rom + 0x1000, 0x0800);
+	}
 
 	if(config & 2) {
     	    snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
@@ -1718,13 +1987,17 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     /* basic */
     snapshot_module_read_byte_array(m, rom + 0x8000, 0x4000);
 
-    /* chargen FIXME: $c*** for C500 */
-    snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
-    snapshot_module_read_byte_array(m, chargen_rom + 0x1000, 0x0800);
-    /* Inverted chargen into second half. This is a hardware feature.  */
-    for (i = 0; i < 2048; i++) {
-        chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-        chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+    /* chargen */
+    if (config & 32) {
+        snapshot_module_read_byte_array(m, chargen_rom, 0x1000);
+    } else {
+        snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
+        snapshot_module_read_byte_array(m, chargen_rom + 0x1000, 0x0800);
+        /* Inverted chargen into second half. This is a hardware feature.  */
+        for (i = 0; i < 2048; i++) {
+            chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
+            chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+        }
     }
 
     if(config & 2) {

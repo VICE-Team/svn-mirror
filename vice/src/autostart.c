@@ -398,8 +398,8 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
 
-    //autostart_program_name = (BYTE *)stralloc(file_name);
-    //maincpu_trigger_trap(load_snapshot_trap,(void*)0);
+    /*autostart_program_name = (BYTE *)stralloc(file_name);
+    maincpu_trigger_trap(load_snapshot_trap,(void*)0);*/
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT);	/* use for snapshot */
 
     return 0;

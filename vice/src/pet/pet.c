@@ -548,3 +548,8 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
       return crtc_screenshot(screenshot);
   return -1;
 }
+
+void video_refresh(void) {
+     crtc_video_refresh();
+}
+

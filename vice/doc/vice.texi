@@ -679,7 +679,11 @@ The CBM-II emulator emulates several types of CBM-II models.  Those
 models are known under different names in the USA and Europe.  In the
 States they have been sold as @code{B128} and @code{B256}, in Europe as
 @code{CBM 610}, @code{CBM 620} (low-profile case) or @code{CBM 710} and
-@code{CBM 720} (high-profile case with monitor).
+@code{CBM 720} (high-profile case with monitor). In addition to that
+now an experimental C510 emulation is included. The C510 (also known as
+P500) is the little brother of the C600/700 machines. It runs at roughly
+1 MHz and, surprise, it has a VIC-II instead of the CRTC. Otherwise
+the different line of computers are very similar.
 
 These computers are prepared to take a coprocessor board with an 8088 or
 Z80 CPU.  Indeed there are models @code{CBM 630} and @code{CBM 730} that
@@ -687,13 +691,20 @@ supposedly had those processors.  However these models are not emulated.
 
 The basic difference is the amount of RAM these machines have been
 supplied with.  The @code{B128} and the @code{CBM *10} models had 128k
-RAM, the others 256k.  This implies some banking scheme, as the 6502 can
+RAM, the others 256k. This implies some banking scheme, as the 6502 can
 only address 64k.  And indeed those machines use a 6509, that can
 address 1 MByte of RAM.  It has 2 registers at addresses 0 and 1.  The
 indirect bank register at address 1 determines the bank (0-15) where the
 opcodes @code{LDA (zp),Y} and @code{STA (zp),Y} take the data from.  The
 exec bank register at address 0 determines the bank where all other read
 and write addresses take place.
+
+The business line machines (C6xx/7xx) have the RAM in banks 1-2, resp.
+1-4. All available banks are used for BASIC, where program code is separated
+from all variables, resp. from normal variables, strings and arrays that
+are distributed over other banks. The C510 instead has RAM in banks 0 and 1,
+and uses bank 1 for program and all variables. Bank 0, though, can be 
+accessed by the VIC-II to display graphics.
 
 Many models have been expanded to more than the built-in memory.  In fact
 some machines have been expanded to the full 1M.  Bank 15 is used as
@@ -1401,13 +1412,22 @@ full (256 char) character set is computed by inverting.
 @itemize @bullet
 
 @item
-@file{kernal}, the KERNAL (8k)
+@file{kernal}, the KERNAL (8k) for the business machines (6xx/7xx)
+
+@item
+@file{kernal.500}, the KERNAL (8k) for the personal machine (510) (901234-02)
 
 @item
 @file{basic.128}, the CBM-II 128k BASIC (16k)
 
 @item
 @file{basic.256}, CBM-II 256k BASIC (16k)
+
+@item
+@file{basic.500}, C510 BASIC (16k) (901236-02 + 901235-02)
+
+@item
+@file{chargen.500}, character generator ROM for the C5x0 (4k) (901225-01)
 
 @item
 @file{chargen.600}, character generator ROM for the C6x0 (4k)
@@ -4488,7 +4508,7 @@ following values:
 
 @itemize @bullet
 @item
-@code{default.vpl} (``default (green)''), the good old green-on-black
+@code{green.vpl} (default, ``green)''), the good old green-on-black
 feeling;
 @item
 @code{amber.vpl} (``amber''), an amber phosphor lookalike;
@@ -4523,6 +4543,11 @@ file, command line options or right-menu items):
 
 @table @code
 
+@cindex UseVicII
+@item UseVicII
+Whether to use VIC-II for video output (value 1) or the CRTC for the
+other machines (value 0)
+
 @cindex RamSize
 @item RamSize
 Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
@@ -4547,7 +4572,7 @@ Expansion ROM file.  This file contains an 8k ROM dump.
 
 @cindex ModelLine
 @item ModelLine
-The CBM-II models have two hardcoded lines at one of the I/O ports.
+The CBM-II business models have two hardcoded lines at one of the I/O ports.
 From those lines the kernal determines how it should init the 
 CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
 and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
@@ -4560,6 +4585,8 @@ by choosing an item from the ``Model defaults'' submenu.  Available
 models are:
 
 @itemize @bullet
+@item
+C510 (128k RAM)
 @item
 C610 (128k RAM)
 @item
@@ -4576,10 +4603,14 @@ C720+ (1024k RAM, expanded)
 
 Notice that this will @strong{reset the emulated machine}.
 
+@b{Warning:} At this time switching between 510 and other machines during
+runtime is not supported and will not work.
+
 It is also possible to select the CBM model at startup, with the
-@code{-model} command-line option: for example, @samp{xcbm2 -model C610}
-will emulate a CBM 610 while @samp{xcbm2 -model C620} will emulate a CBM
-620.
+@code{-model} command-line option: for example, @samp{xcbm2 -model 610}
+will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
+620. Notably this is the only way to start a C510 emulation, with
+@code{-model 510}.
 
 @node CBM-II commandline options, CBM-II colors, CBM-II model, CBM-II-specific
 @subsection CBM-II command line options
@@ -4587,6 +4618,12 @@ will emulate a CBM 610 while @samp{xcbm2 -model C620} will emulate a CBM
 These are the commandline options specific for the CBM-II models.
 
 @table @code
+
+@cindex -usevicii +usevicii
+@item -usevicii
+@itemx +usevicii
+Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II 
+emulation.
 
 @cindex -kernal
 @item -kernal NAME
@@ -4636,7 +4673,7 @@ following values:
 
 @itemize @bullet
 @item
-@code{default.vpl} (``default (green)''), the good old green-on-black
+@code{green.vpl} (default, ``green''), the good old green-on-black
 feeling;
 @item
 @code{amber.vpl} (``amber''), an amber phosphor lookalike;
@@ -4887,6 +4924,9 @@ The modules in the xcbm2 emulator are:
 @item CBM2MEM
 @tab Memory
 @tab Holds the RAM contents of the CBM-II models.  Also holds the exec-bank and indirection bank registers
+@item C500DATA
+@tab 
+@tab Holds additional state information necessary for the C500 (e.g. cycles till the next IRQ)
 @item CBM2ROM
 @tab Memory
 @tab optional.  Holds the ROM images.
@@ -4917,8 +4957,9 @@ The modules in the xcbm2 emulator are:
 @end multitable
 
 The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
-emulated.
+not both. Currently switching between the two video emulations is not
+possible at runtime, so only snapshots that fit the current UseVicII 
+resource are accepted.
 
 @node Drive modules,  , xcbm2 modules, Emulator modules
 @subsubsection Drive modules
@@ -4968,6 +5009,7 @@ emulator, or even in other emulators.
 * VIC20 memory module::         
 * PET memory module::           
 * CBM-II memory module::        
+* C500 data module::        
 @end menu
 
 @node Module Terminology, Module framework, Module formats, Module formats
@@ -5486,7 +5528,7 @@ older versions (1.0 and below) cannot read the new snapshots.
 @b{Warning:} This module is still under construction.  Especially the
 RASTERY and RASTERLINE values might be bogus.
 
-Version numbers: Major 1, Minor 0.
+Version numbers: Major 1, Minor 1.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -5506,7 +5548,7 @@ Version numbers: Major 1, Minor 0.
 @tab The offset in characters in the character generator that CHARSWITCH switches.
 @item WORD
 @tab VADDR_REVSWITCH
-@tab If one bit in the video address inverts the screen, it is masked here. If > 0 then must be set for standard; if < 0 then inverted bit must not be set.
+@tab If one bit in the video address inverts the screen, it is masked here. 
 @item WORD
 @tab CHARGEN_MASK
 @tab size of character generator in byte - 1
@@ -5588,10 +5630,16 @@ Version numbers: Major 1, Minor 0.
 @item WORD
 @tab CURRENT_LINE
 @tab current rasterline as seen from the CRTC
+@item
+@tab
+@tab This value has been added in module version V1.1
+@item BYTE
+@tab FLAG
+@tab Bit 0: If 1 then bit in VADDR_REVSWITCH must be set for reverse; if 0 then bit must be cleared for reverse.
 @end multitable
 
 Here is the reference for the previous CRTC snapshot module. It is outdated
-and should not be used anymore.
+and will not be read by this and later versions of VICE.
 
 Version numbers: Major 0, Minor 0.
 
@@ -5924,7 +5972,7 @@ Version numbers: Major 1, Minor 0
 @tab 7 blocks $e900-$efff ROM image (if CONFIG & 8)
 @end multitable
 
-@node CBM-II memory module,  , PET memory module, Module formats
+@node CBM-II memory module, C500 data module, PET memory module, Module formats
 @subsubsection CBM-II memory module
 
 The CBM-II memory module actually consists of two modules.  The
@@ -5948,10 +5996,10 @@ Version numbers: Major 1, Minor 0
 @tab Memory size in 128k blocks (1=128k, 2=256k, 4=512k, 8=1024k)
 @item UBYTE
 @tab CONFIG
-@tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM
+@tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM, Bit 6 = is a C500
 @item UBYTE
 @tab HWCONFIG
-@tab Bit 0: 0 = CRTC, 1 = VIC-II video chip (Basically the destinction between C500 and C600/700)
+@tab Bit 0/1: model line configuration
 @item UBYTE
 @tab EXECBANK
 @tab CPUs execution bank register
@@ -5991,6 +6039,10 @@ The RAM* arrays are only saved if the RAM itself is less than 1M.
 If the memory size is 1M then those areas are taken from the
 bank 15 area of the normal RAM.
 
+The memory array starts at $10000 if the memory size is less than 512k,
+or at $00000 if 512k or more. In case of a C510, then the memory array
+also always starts at $00000.
+
 @b{The CBM2ROM module}
 
 @multitable @columnfractions .1 .4 .5
@@ -5999,7 +6051,7 @@ bank 15 area of the normal RAM.
 @tab Description
 @item UBYTE
 @tab CONFIG
-@tab Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included.
+@tab Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included. Bit 5: 1= chargen ROM is VIC-II chargen, 0= CRTC chargen.
 @item ARRAY
 @tab KERNAL
 @tab 8 KERNAL ROM image ($e000-$efff)
@@ -6021,6 +6073,25 @@ bank 15 area of the normal RAM.
 @item ARRAY
 @tab ROM6
 @tab 8k cartridge ROM image for $6000-$7fff (if CONFIG & 16)
+@end multitable
+
+@node C500 data module,  ,CBM-II memory module, Module formats
+@subsubsection C500 data module
+
+The C500 data module contains simple state information not already saved
+in the other modules.
+
+Version numbers: Major 0, Minor 0
+
+@b{The C500DATA module}
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item DWORD
+@tab IRQCLK
+@tab CPU clock ticks till next 50Hz IRQ
 @end multitable
 
 

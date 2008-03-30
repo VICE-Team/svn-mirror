@@ -438,7 +438,7 @@ int vic20_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_video_settings_menu,
+                                     ui_vic_video_settings_menu,
 #ifdef USE_XF86_EXTENSIONS
 				     ui_fullscreen_settings_menu,
 #endif
@@ -500,6 +500,7 @@ int vic20_ui_init(void)
 				  NULL),
 		   _("Settings"),
 		   ui_menu_create("Settings",
+				  ui_vic_video_settings_menu,
 				  ui_peripheral_settings_menu,
 				  ui_drive_settings_menu,
 				  ui_keyboard_settings_menu,

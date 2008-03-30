@@ -43,7 +43,7 @@
 
 static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 int crtc_write_snapshot_module (snapshot_t * s)
 {
@@ -74,6 +74,10 @@ int crtc_write_snapshot_module (snapshot_t * s)
 	/* ...with offset in charset .. */
         || snapshot_module_write_word (m, (WORD) crtc.vaddr_charoffset) < 0
 	/* which bit reverses the screen */
+	/* XXX: this implementation "forgets" the sign of vaddr_revswitch,
+	   that indicate whether the bit has to be set (<0) or cleared (>0)
+	   for reverse mode. V1.0 modules are broken here. V1.1 adds the
+	   sign at the end of the module */
         || snapshot_module_write_word (m, (WORD) crtc.vaddr_revswitch) < 0
 
 	/* size of character generator in byte - 1 */
@@ -146,6 +150,15 @@ int crtc_write_snapshot_module (snapshot_t * s)
         ef = -1;
     }
 
+    /* This value has been added in V1.1. V1.0 module readers ignore the
+       additional value. This is only relevant for CBM-II as the PET only
+       use positive values in rev_switch. Only bit 0 is defined as of today. */
+    if (!ef) { 
+	BYTE rev_fl = (crtc.vaddr_revswitch < 0) ? 1 : 0;
+	if (snapshot_module_write_byte (m, (BYTE) rev_fl) < 0) {
+	    ef = -1;
+	}
+    }
     
     if (ef) {
         snapshot_module_close (m);
@@ -255,6 +268,17 @@ int crtc_read_snapshot_module (snapshot_t * s)
 	crtc.framelines = w;
     if ((!ef) && !(ef = snapshot_module_read_word (m, &w)))
 	crtc.current_line = w;
+
+    /* this has been added in V1.1 module version. Values are not available
+       when reading V1.0 modules */
+    if (minor >= 1) {
+        if ((!ef) && !(ef = snapshot_module_read_byte (m, &b))) {
+	    /* invert vaddr_revswitch, i.e. bit must be set for reverse mode */
+	    if (b & 1) {
+		crtc.vaddr_revswitch = -crtc.vaddr_revswitch;
+	    }
+	}
+    }
 
     crtc.raster.current_line = crtc.current_line + crtc.screen_yoffset;
 
