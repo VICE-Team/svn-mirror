@@ -339,7 +339,7 @@ typedef struct errortext_s {
 
 extern log_t vdrive_log;
 
-extern int vdrive_setup_device(vdrive_t *vdrive, int unit, int type);
+extern int vdrive_setup_device(vdrive_t *vdrive, int unit);
 
 extern int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *floppy);
 extern void vdrive_detach_image(disk_image_t *image, int unit,
@@ -353,8 +353,8 @@ extern int floppy_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl );
 extern void floppy_close_all_channels(vdrive_t *floppy);
-extern void set_disk_geometry(vdrive_t *floppy, int type);
 
+extern void vdrive_set_disk_geometry(vdrive_t *floppy, int type);
 extern int vdrive_calculate_disk_half(int type);
 extern int vdrive_get_max_sectors(int type, int track);
 
