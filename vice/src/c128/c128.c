@@ -54,7 +54,7 @@
 #include "patchrom.h"
 #include "serial.h"
 #include "sid.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "c64tpi.h"
 #include "traps.h"
 #include "utils.h"
@@ -140,18 +140,18 @@ static trap_t c128_serial_traps[] = {
 /* Tape traps.  */
 static trap_t c128_tape_traps[] = {
     {
-        "FindHeader",
+        "TapeFindHeader",
         0xE8D3,
         0xE8D6,
         {0x20, 0xF2, 0xE9},
-        findheader
+        tape_find_header_trap
     },
     {
         "TapeReceive",
         0xEA60,
         0xEE57,
         {0x20, 0x9B, 0xEE},
-        tapereceive
+        tape_receive_trap
     },
     {
         NULL,
@@ -261,8 +261,8 @@ int machine_init(void)
 #endif
 
     /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0xA09, 0, 0xc1, 0xae, c128_tape_traps,
-        842, 208);
+    tape_init(0xb2, 0x90, 0x93, 0xa09, 0, 0xc1, 0xae, 0x34a, 0xd0,
+              c128_tape_traps);
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);

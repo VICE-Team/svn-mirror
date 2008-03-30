@@ -57,7 +57,7 @@
 #include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "traps.h"
 #include "utils.h"
 #include "vicii.h"
@@ -141,18 +141,18 @@ static trap_t c64_serial_traps[] = {
 /* Tape traps.  */
 static trap_t c64_tape_traps[] = {
     {
-        "FindHeader",
+        "TapeFindHeader",
         0xF72F,
         0xF732,
         {0x20, 0x41, 0xF8},
-        findheader
+        tape_find_header_trap
     },
     {
         "TapeReceive",
         0xF8A1,
         0xFC93,
         {0x20, 0xBD, 0xFC},
-        tapereceive
+        tape_receive_trap
     },
     {
         NULL,
@@ -262,8 +262,8 @@ int machine_init(void)
 #endif
 
     /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, c64_tape_traps,
-              0x277, 0xc6);
+    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
+              c64_tape_traps);
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
