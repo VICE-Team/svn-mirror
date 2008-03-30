@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <unistd.h>		/* [EP] 10/15/96 */
+#include "ioutil.h"
 
 #include "Directory.h"
 #include "RegExp.h"
@@ -191,14 +192,14 @@ char *old_path,*new_path;
 
 #if 0
 	if (getwd(path) == NULL) return(NULL);
-	if (chdir(old_path) != 0) return(NULL);
+	if (ioutil_chdir(old_path) != 0) return(NULL);
 	if (getwd(new_path) == NULL) strcpy(new_path,old_path);
 #else
-	if (chdir(old_path) != 0) return(NULL);
+	if (ioutil_chdir(old_path) != 0) return(NULL);
 	if (getcwd(path, MAXPATHLEN) == NULL) return(NULL);
 	if (getcwd(new_path, MAXPATHLEN) == NULL) strcpy(new_path,old_path);
 #endif
-	if (chdir(path) != 0) return(NULL);
+	if (ioutil_chdir(path) != 0) return(NULL);
 	for (p = new_path; *p != '\0'; p++);
 	if ((p != new_path) && *(p - 1) != '/')
 	{

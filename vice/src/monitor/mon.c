@@ -53,6 +53,7 @@
 #include "charset.h"
 #include "console.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "log.h"
 #include "mem.h"
 #include "mon.h"
@@ -678,7 +679,7 @@ void mon_display_io_regs(void)
 
 void mon_change_dir(const char *path)
 {
-    if (chdir((char*)path) < 0)
+    if (ioutil_chdir((char*)path) < 0)
         mon_out("Cannot change to directory `%s':\n", path);
 
     mon_out("Changing to directory: `%s'\n", path);

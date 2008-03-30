@@ -45,6 +45,7 @@
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "joy.h"
 #include "kbd.h"
 #include "log.h"
@@ -201,7 +202,7 @@ static TUI_MENU_CALLBACK(change_workdir_callback)
     if (*s == '\0')
         return NULL;
 
-    if (chdir(s) == -1)
+    if (ioutil_chdir(s) == -1)
         tui_error("Invalid directory.");
 
     return NULL;

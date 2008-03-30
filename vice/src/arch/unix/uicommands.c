@@ -40,6 +40,7 @@
 #include "fullscreenarch.h"
 #include "imagecontents.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -52,7 +53,6 @@
 #include "uicommands.h"
 #include "uiedisk.h"
 #include "uimenu.h"
-/*#include "uisettings.h"*/
 #include "uisnapshot.h"
 #include "uidrive.h"
 #include "utils.h"
@@ -286,7 +286,7 @@ static UI_CALLBACK(change_working_directory)
     if (ui_input_string(_("VICE setting"),
                         _("Change current working directory"),
                         wd, MAXPATHLEN) == UI_BUTTON_OK) {
-        if (chdir(wd) < 0)
+        if (ioutil_chdir(wd) < 0)
             ui_error(_("Directory not found"));
     }
     free(wd);
