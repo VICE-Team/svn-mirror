@@ -44,7 +44,7 @@ UI_MENU_DEFINE_RADIO(Drive10ParallelCable)
 UI_MENU_DEFINE_RADIO(Drive11ParallelCable)
 
 
-UI_CALLBACK(uidriveplus4_parallel_cable_control)
+static UI_CALLBACK(parallel_cable_control)
 {
     if (!CHECK_MENUS) {
         ui_update_menus();
@@ -90,6 +90,46 @@ ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
       (ui_callback_data_t)DRIVE_PC_NONE, NULL },
     { N_("*Standard Userport"), (ui_callback_t)radio_Drive11ParallelCable,
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t uidriveplus4_drive0_expansion_submenu[] = {
+    { N_("*Parallel cable"),
+      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)0,
+      set_drive0_parallel_cable_submenu },
+    { "--" },
+    { "",
+      NULL, NULL, uidriveiec_drive0_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidriveplus4_drive1_expansion_submenu[] = {
+    { N_("*Parallel cable"),
+      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)1,
+      set_drive1_parallel_cable_submenu },
+    { "--" },
+    { "",
+      NULL, NULL, uidriveiec_drive1_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidriveplus4_drive2_expansion_submenu[] = {
+    { N_("*Parallel cable"),
+      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)2,
+      set_drive2_parallel_cable_submenu },
+    { "--" },
+    { "",
+      NULL, NULL, uidriveiec_drive2_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidriveplus4_drive3_expansion_submenu[] = {
+    { N_("*Parallel cable"),
+      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)3,
+      set_drive3_parallel_cable_submenu },
+    { "--" },
+    { "",
+      NULL, NULL, uidriveiec_drive3_ram_expansion_submenu },
     { NULL }
 };
 
@@ -173,12 +213,9 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, set_drive0_type_submenu },
-    { N_("*Drive #8 RAM expansion"),
+    { N_("*Drive #8 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
-      set_drive0_expansion_submenu },
-    { N_("*Drive #8 parallel cable"),
-      (ui_callback_t)uidriveplus4_parallel_cable_control, (ui_callback_data_t)0,
-      set_drive0_parallel_cable_submenu },
+      uidriveplus4_drive0_expansion_submenu },
     { N_("*Drive #8 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
@@ -188,12 +225,9 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #9 model"),
       NULL, NULL, set_drive1_type_submenu },
-    { N_("*Drive #9 RAM expansion"),
+    { N_("*Drive #9 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
-      set_drive1_expansion_submenu },
-    { N_("*Drive #9 parallel cable"),
-      (ui_callback_t)uidriveplus4_parallel_cable_control, (ui_callback_data_t)1,
-      set_drive1_parallel_cable_submenu },
+      uidriveplus4_drive1_expansion_submenu },
     { N_("*Drive #9 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
@@ -203,12 +237,9 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #10 model"),
       NULL, NULL, set_drive2_type_submenu },
-    { N_("*Drive #10 RAM expansion"),
+    { N_("*Drive #10 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
-      set_drive2_expansion_submenu },
-    { N_("*Drive #10 parallel cable"),
-      (ui_callback_t)uidriveplus4_parallel_cable_control, (ui_callback_data_t)2,
-      set_drive2_parallel_cable_submenu },
+      uidriveplus4_drive2_expansion_submenu },
     { N_("*Drive #10 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
@@ -218,12 +249,9 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
     { "--" },
     { N_("Drive #11 model"),
       NULL, NULL, set_drive3_type_submenu },
-    { N_("*Drive #11 RAM expansion"),
+    { N_("*Drive #11 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
-      set_drive3_expansion_submenu },
-    { N_("*Drive #11 parallel cable"),
-      (ui_callback_t)uidriveplus4_parallel_cable_control, (ui_callback_data_t)3,
-      set_drive3_parallel_cable_submenu },
+      uidriveplus4_drive3_expansion_submenu },
     { N_("*Drive #11 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
