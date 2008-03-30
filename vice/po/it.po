@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-01 18:01+0200\n"
+"POT-Creation-Date: 2007-04-09 21:50+0200\n"
 "PO-Revision-Date: 2007-02-24 14:42+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -7632,7 +7632,7 @@ msgstr "IRQ"
 msgid "NMI"
 msgstr "NMI"
 
-#: src/arch/win32/resacia.rc.po.c:39
+#: src/arch/win32/resacia.rc.po.c:39 src/arch/amigaos/intl.c.po.c:4646
 msgid "Normal"
 msgstr "Normale"
 
@@ -11279,6 +11279,21 @@ msgstr "File per la registrazione dell'audio"
 #: src/arch/amigaos/intl.c.po.c:4628
 msgid "Sound Record Settings"
 msgstr "Impostazioni di registrazione audio"
+
+#: src/arch/amigaos/intl.c.po.c:4637
+#, fuzzy
+msgid "Border mode"
+msgstr "Modalità attuale"
+
+#: src/arch/amigaos/intl.c.po.c:4655
+#, fuzzy
+msgid "Full"
+msgstr "&File"
+
+#: src/arch/amigaos/intl.c.po.c:4664
+#, fuzzy
+msgid "Debug"
+msgstr "&Debug"
 
 #~ msgid "glXWaitVideoSyncSGI() returned %d"
 #~ msgstr "glXWaitVideoSyncSGI() ha restituito %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-01 18:01+0200\n"
+"POT-Creation-Date: 2007-04-09 21:50+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1943,7 +1943,7 @@ msgstr "<modus>"
 
 #: src/vicii/vicii-cmdline-options.c:98 src/translate.c.po.c:3588
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
-msgstr ""
+msgstr "Zet VIC-II border weergave modus (0: normaal, 1: volledig, 2: debug)"
 
 #: src/vicii/vicii-cmdline-options.c:100 src/translate.c.po.c:3598
 msgid "Enable sprite-background collision registers"
@@ -5083,12 +5083,11 @@ msgstr "*GoDot"
 
 #: src/arch/unix/gui/uivicii.c:73
 msgid "*Full"
-msgstr ""
+msgstr "*Volledig"
 
 #: src/arch/unix/gui/uivicii.c:75
-#, fuzzy
 msgid "*Debug"
-msgstr "&Debug"
+msgstr "*Debug"
 
 #: src/arch/unix/gui/uivicii.c:160
 msgid "*New Luminances"
@@ -5106,7 +5105,7 @@ msgstr "XRandR Resoluties"
 
 #: src/arch/unix/gui/uivicii.c:216
 msgid "*Border mode"
-msgstr ""
+msgstr "*Border modus"
 
 #: src/arch/unix/gui/uivicii.c:219
 msgid "*Sprite-sprite collisions"
@@ -7004,7 +7003,7 @@ msgstr "gepauzeerd"
 
 #: src/arch/win32/res.rc.po.c:4913
 msgid "frame #"
-msgstr ""
+msgstr "frame #"
 
 #: src/arch/win32/res.rc.po.c:4914
 msgid "resumed"
@@ -7595,7 +7594,7 @@ msgstr "IRQ"
 msgid "NMI"
 msgstr "NMI"
 
-#: src/arch/win32/resacia.rc.po.c:39
+#: src/arch/win32/resacia.rc.po.c:39 src/arch/amigaos/intl.c.po.c:4646
 msgid "Normal"
 msgstr "Normaal"
 
@@ -9962,12 +9961,11 @@ msgstr "VIC-II Instellingen"
 
 #: src/arch/win32/resvicii.rc.po.c:35
 msgid "Borders"
-msgstr ""
+msgstr "Borders"
 
 #: src/arch/win32/resvicii.rc.po.c:37
-#, fuzzy
 msgid "&Full"
-msgstr "&Bestand"
+msgstr "&Volledig"
 
 #: src/arch/win32/resvicii.rc.po.c:39
 msgid "Sprite Collisions"
@@ -9982,9 +9980,8 @@ msgid "Sprite-background &collisions"
 msgstr "Sprite-achtergrond &botsingen"
 
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "New &Luminances"
-msgstr "Nieuwe kleuren"
+msgstr "Nieuwe k&leuren"
 
 #: src/translate.c.po.c:620
 msgid ""
@@ -11241,3 +11238,18 @@ msgstr "Geluid Opname Bestand"
 #: src/arch/amigaos/intl.c.po.c:4628
 msgid "Sound Record Settings"
 msgstr "Geluid Opname Instellingen"
+
+#: src/arch/amigaos/intl.c.po.c:4637
+#, fuzzy
+msgid "Border mode"
+msgstr "*Border modus"
+
+#: src/arch/amigaos/intl.c.po.c:4655
+#, fuzzy
+msgid "Full"
+msgstr "&Volledig"
+
+#: src/arch/amigaos/intl.c.po.c:4664
+#, fuzzy
+msgid "Debug"
+msgstr "&Debug"

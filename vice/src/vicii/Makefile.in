@@ -51,11 +51,12 @@ ARFLAGS = cru
 libvicii_a_AR = $(AR) $(ARFLAGS)
 libvicii_a_LIBADD =
 am_libvicii_a_OBJECTS = vicii-badline.$(OBJEXT) \
-	vicii-cmdline-options.$(OBJEXT) vicii-color.$(OBJEXT) \
-	vicii-draw.$(OBJEXT) vicii-fetch.$(OBJEXT) vicii-irq.$(OBJEXT) \
-	vicii-mem.$(OBJEXT) vicii-phi1.$(OBJEXT) \
-	vicii-resources.$(OBJEXT) vicii-snapshot.$(OBJEXT) \
-	vicii-sprites.$(OBJEXT) vicii-timing.$(OBJEXT) vicii.$(OBJEXT)
+	vicii-clock-stretch.$(OBJEXT) vicii-cmdline-options.$(OBJEXT) \
+	vicii-color.$(OBJEXT) vicii-draw.$(OBJEXT) \
+	vicii-fetch.$(OBJEXT) vicii-irq.$(OBJEXT) vicii-mem.$(OBJEXT) \
+	vicii-phi1.$(OBJEXT) vicii-resources.$(OBJEXT) \
+	vicii-snapshot.$(OBJEXT) vicii-sprites.$(OBJEXT) \
+	vicii-timing.$(OBJEXT) vicii.$(OBJEXT)
 libvicii_a_OBJECTS = $(am_libvicii_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -307,6 +308,7 @@ noinst_LIBRARIES = libvicii.a
 libvicii_a_SOURCES = \
 	vicii-badline.c \
 	vicii-badline.h \
+	vicii-clock-stretch.c \
 	vicii-cmdline-options.c \
 	vicii-cmdline-options.h \
 	vicii-color.c \
@@ -380,6 +382,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vicii-badline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vicii-clock-stretch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vicii-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vicii-color.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vicii-draw.Po@am__quote@
