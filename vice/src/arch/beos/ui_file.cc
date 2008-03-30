@@ -272,8 +272,8 @@ void ui_select_file(ViceFilePanel *filepanel,
 			msg.MakeEmpty();
 			msg.AddInt32("device", *(int*)fileparam);
 			cb_readonly->SetMessage(&msg);
-	    	resources_get_sprintf("AttachDevice%dReadonly",
-				(resource_value_t *)&n, *(int*)fileparam);
+	    	resources_get_int_sprintf("AttachDevice%dReadonly",
+				&n, *(int*)fileparam);
 			cb_readonly->SetValue(n);
 			filepanel->Window()->Unlock();
 		}

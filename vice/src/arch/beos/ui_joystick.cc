@@ -123,8 +123,8 @@ JoyView::JoyView(BRect r, int joyport)
 		AddChild(radio_joystick_device[device]);
 	}
 	
-   	resources_get_sprintf("JoyDevice%d",
-   		(resource_value_t *)&device, joyport);
+   	resources_get_int_sprintf("JoyDevice%d",
+   		&device, joyport);
 
     if (device < NUM_OF_SOFTDEVICES+hardware_joystick_count)
 		radio_joystick_device[device]->SetValue(1);
@@ -290,8 +290,8 @@ KeysetWindow::KeysetWindow(int set_nr)
 	AddChild(background);
 
 	for (key_nr = 0; key_nr <9; key_nr++) {
-        resources_get_sprintf(keydefine_resource[key_nr],
-        	(resource_value_t *)&keyset[key_nr], set_nr);
+        resources_get_int_sprintf(keydefine_resource[key_nr],
+        	&keyset[key_nr], set_nr);
 		if (keyset[key_nr]>255)
 			/* invalid code */
 			keyset[key_nr] = 0;
@@ -350,8 +350,8 @@ void KeysetWindow::MessageReceived(BMessage *msg) {
 				keyset_instruction->SetText(str);
 			} else {
 				/* select a button twice clears the key */
-				resources_set_sprintf(keydefine_resource[last_key],
-					(resource_value_t) 0, keyset_setnr);
+				resources_set_int_sprintf(keydefine_resource[last_key],
+					0, keyset_setnr);
 				keyset_button[last_key]->SetLabel(
 					kbd_code_to_string(0));
 				keyset_instruction->SetText(keyset_instruction_first);
@@ -362,8 +362,8 @@ void KeysetWindow::MessageReceived(BMessage *msg) {
 		case B_UNMAPPED_KEY_DOWN:
 			msg->FindInt32("key",(int32*)&key);
 			if (last_key >= 0) {
-				resources_set_sprintf(keydefine_resource[last_key],
-					(resource_value_t) key, keyset_setnr);
+				resources_set_int_sprintf(keydefine_resource[last_key],
+					key, keyset_setnr);
 				keyset_button[last_key]->SetLabel(
 					kbd_code_to_string(key));
 			}

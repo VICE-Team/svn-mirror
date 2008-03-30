@@ -84,8 +84,7 @@ DeviceView::DeviceView(BRect r, int device_num)
 	BView::SetViewColor(220,220,220,0);
 	
     disk_image = file_system_get_disk_name(device_num);
-    resources_get_sprintf("FSDevice%dDir",
-		(resource_value_t *)&dir, device_num);
+    resources_get_string_sprintf("FSDevice%dDir", &dir, device_num);
 	r.InsetBy(10,10);
 	box = new BBox(r);
 	AddChild(box);
@@ -137,8 +136,8 @@ void DeviceView::UpdateP00(int device_num)
 	int i;
 	
 	for (i=0; i<3; i++) {
-		resources_get_sprintf(resource_p00_name[i],
-			(resource_value_t *) &res_value, device_num);
+		resources_get_int_sprintf(resource_p00_name[i],
+			&res_value, device_num);
 		checkboxp00[i]->SetValue(res_value);
 	}
 }
@@ -235,8 +234,8 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 	int32 device_num;
 	int32 resource_index;
 	char str[256];
-	char *s;
-	resource_value_t res_val;
+	const char *s;
+	int res_val;
 	BFilePanel *filepanel;
 	BMessage *newmsg;
 		
@@ -252,16 +251,16 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 		  	break;
 		case MESSAGE_DEVICE_P00:
 			msg->FindInt32("type", &resource_index);
-			resources_get_sprintf(resource_p00_name[resource_index],
+			resources_get_int_sprintf(resource_p00_name[resource_index],
 				&res_val, device_num);
-			resources_set_sprintf(resource_p00_name[resource_index],
-				(resource_value_t)!res_val, device_num);
+			resources_set_int_sprintf(resource_p00_name[resource_index],
+				!res_val, device_num);
 			/* the p00-resources have side effects on each other */
 			dv[device_num-8]->UpdateP00(device_num);
 			break;
 		case MESSAGE_DEVICE_BROWSE:
-			resources_get_sprintf("FSDevice%dDir",
-				(resource_value_t *)&s, device_num);
+			resources_get_string_sprintf("FSDevice%dDir",
+				&s, device_num);
 			filepanel = new BFilePanel(
 				B_OPEN_PANEL,
 				new BMessenger(this),
@@ -286,14 +285,14 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 			msg->FindRef("refs", 0, &ref);
 			path = new BPath(&ref);
 	
-			resources_set_sprintf("FSDevice%dDir",
-				(resource_value_t) path->Path(), device_num);
+			resources_set_string_sprintf("FSDevice%dDir",
+				path->Path(), device_num);
 			dv[device_num-8]->dirtextcontrol->SetText(path->Path());
 			break;
 		}
 		case MESSAGE_DEVICE_DIRECTORY:
-			resources_set_sprintf("FSDevice%dDir",
-				(resource_value_t) dv[device_num-8]->dirtextcontrol->Text(),
+			resources_set_string_sprintf("FSDevice%dDir",
+				dv[device_num-8]->dirtextcontrol->Text(),
 				device_num);
 			break;
 		default:

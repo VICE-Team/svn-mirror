@@ -1,3 +1,81 @@
+2006-09-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.6.
+
+	* sid/resid.cc, printerdrv/output-graphics.c, c64/c64rom.c,
+	c64/cart/c64cartmem.c, c64/psid.c, c64/c64memsnapshot.c,
+	c64/cart/expert.c, c64/c64io.c, c128/c128-resources.c,
+	c128/c128rom.c, c128/c128memsnapshot.c, c128/c128mmu.c,
+	vic20/vic.c, vic20/vic20-snapshot.c, vic20/vic20iec.c,
+	vic20/vic20mem.c, vic20/vic20rom.c, vic20/vic20memsnapshot.c,
+	vic20/vic20-cmdline-options.c, pet/petmemsnapshot.c,
+	pet/petmem.c, pet/petrom.c, plus4/plus4mem.c,
+	plus4/plus4rom.c, plus4/ted-timing.c, plus4/plus4cart.c,
+	plus4/plus4memhannes256k.c, plus4/plus4-resources.c,
+	plus4/plus4memcsory256k.c, cbm2/cbm2memsnapshot.c,
+	cbm2/cbm2rom.c, cbm2/cbm2mem.c, vicii/vicii-timing.c,
+	drive/iec/iecrom.c, drive/ieee/ieeerom.c,
+	drive/tcbm/tcbmrom.c, drive/iec128dcr/iec128dcrrom.c,
+	drive/drive.c, drive/drive-snapshot.c, sounddrv/soundacorn.c,
+	video/video-resources.c, gfxoutputdrv/ffmpegdrv.c,
+	monitor/mon_ui.c, fsdevice/fsdevice.c, sid/sid-snapshot.c,
+	sid/sid.c, sid/fastsid.c, arch/riscos/ui.c, arch/riscos/kbd.c,
+	arch/riscos/vsidui.c, arch/riscos/c128ui.c,
+	arch/riscos/video.c, arch/riscos/cbm2ui.c,
+	arch/riscos/petui.c, arch/riscos/vsync.c, arch/beos/ui.cc,
+	arch/beos/ui_device.cc, arch/beos/ui_file.cc,
+	arch/beos/ui_joystick.cc, arch/beos/ui_drive.cc: Changed to
+	new resource API.
+
+	* sid/fastsid.c [sound_s]: Changed `emulatefilter' to integer
+	as this variable is passed to resource code!
+
+	* petcat.c (p_tokenize): Fixed a warning.
+
+	* util.c (util_be_buf_to_dword, util_int_to_be_buf4,
+	util_int_to_le_buf4, util_le_buf4_to_int,
+	util_be_buf4_to_int): New functions.
+
+	* network.c (network_server_connect_trap,
+	network_client_connect_trap, network_connect_client): Exchange
+	length of the event and snapshot file in a portable way.
+
+	* fsdevice/fsdevice-flush.c: Do not directly use `PATH_MAX'.
+
+	* arch/win32/msvc/config.h: Removed `PATH_MAX' define.
+
+	* monitor/monitor.c (playback_commands): Make it readable.
+
+	* romset.c (romset_file_load): `fp' is a pointer.
+
+	* keyboard.c (keyboard_parse_keymap): It is not necessary to
+	free the return path on error.
+
+	* arch/os2/kbd/parse.c (load_keymap_file): Changed likewise.
+
+	* arch/amigaos/uilib.c [MAX_PATH]: Removed obsolete define.
+
+	* vicii/vicii.c (vicii_handle_pending_alarms):
+	`vicii_raster_draw_alarm_handler()' takes `CLOCK'.
+
+	* plus4/ted.c (ted_handle_pending_alarms): Changed likewise.
+
+	* alarm.h (alarm_context_dispatch): Use `CLOCK' instead of
+	`long'.
+
+	* c64/georam.c (georam_read_snapshot_module): Use `int'
+	instead of `long'.
+
+	* c64/reu.c (reu_read_snapshot_module): Changed likewise.
+
+	* maincpu.c (maincpu_generic_dma): Only define this function
+	if `DMA_FUNC' is not defined.
+
+2006-09-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/*: get rid of deprecated libgnome et
+	al. dependencies. Credits to Fabrizio Gennari.
+
 2006-09-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.5.

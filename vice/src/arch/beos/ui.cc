@@ -712,10 +712,10 @@ void ui_dispatch_events(void)
 			{
 				int res_val;
 				message_queue[i].FindInt32("device",(int32*)&attachdrive);
-				resources_get_sprintf("AttachDevice%dReadonly",
-				(resource_value_t*)&res_val, attachdrive);
-				resources_set_sprintf("AttachDevice%dReadonly",
-				(resource_value_t)!res_val, attachdrive);
+				resources_get_int_sprintf("AttachDevice%dReadonly",
+				&res_val, attachdrive);
+				resources_set_int_sprintf("AttachDevice%dReadonly",
+				!res_val, attachdrive);
 				break;
 			}
 			case MESSAGE_SET_RESOURCE:
