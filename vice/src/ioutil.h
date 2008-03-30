@@ -27,7 +27,15 @@
 #ifndef _IOUTIL_H
 #define _IOUTIL_H
 
+#define IOUTIL_ACCESS_R_OK 4
+#define IOUTIL_ACCESS_W_OK 2
+#define IOUTIL_ACCESS_X_OK 1
+#define IOUTIL_ACCESS_F_OK 0
+
+extern int ioutil_access(const char *pathname, int mode);
 extern int ioutil_chdir(const char *path);
+extern char *ioutil_getcwd(char *buf, int size);
+extern int ioutil_isatty(int desc);
 extern int ioutil_mkdir(const char *pathname, int mode);
 extern int ioutil_remove(const char *name);
 extern int ioutil_rename(const char *oldpath, const char *newpath);
