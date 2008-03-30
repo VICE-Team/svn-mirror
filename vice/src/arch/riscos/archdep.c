@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -205,5 +206,13 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = (char*)xmalloc(strlen(orig_name) + 1);
     strcpy(*return_path, orig_name);
     return 0;
+}
+
+void archdep_startup_log_error(const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
 }
 

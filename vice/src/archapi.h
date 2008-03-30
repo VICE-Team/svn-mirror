@@ -29,11 +29,12 @@
 #ifndef _ARCHAPI
 #define _ARCHAPI
 
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 /* Program start and signals.  */
 extern int archdep_startup(int *argc, char **argv);
+extern void archdep_startup_log_error(const char *format, ...);
 extern void archdep_setup_signals(int do_core_dumps);
 
 /* Filesystem related functions.  */

@@ -34,6 +34,7 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -369,15 +370,6 @@ int archdep_spawn(const char *name, char **argv,
     return rc;
 }
 
-/* Monitor console functions.  */
-void archdep_open_monitor_console(FILE **mon_input, FILE **mon_output)
-{
-}
-
-void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
-{
-}
-
 /* FIXME: WHY DO I NEED THIS ????????????????? */
 #include "vdrive.h"
 int os2_p00_check_name(const char *name)
@@ -411,3 +403,12 @@ int os2_p00_check_name(const char *name)
 
     return t;
 }
+
+void archdep_startup_log_error(const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
+}
+

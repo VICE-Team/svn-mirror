@@ -27,16 +27,18 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pwd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <pwd.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
@@ -300,5 +302,13 @@ int archdep_expand_path(char **return_path, const char *orig_name)
         free(cwd);
     }
     return 0;
+}
+
+void archdep_startup_log_error(const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
 }
 
