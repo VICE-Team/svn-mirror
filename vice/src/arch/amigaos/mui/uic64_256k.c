@@ -36,7 +36,7 @@
 
 
 static int ui_c64_256k_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

@@ -189,6 +189,9 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                          vdrive_t *vdrive)
 {
+	if (image == NULL)
+		return;
+
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
         disk_image_detach_log(image, vdrive_log, unit, "D64");

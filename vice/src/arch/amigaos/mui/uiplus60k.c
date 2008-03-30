@@ -35,7 +35,7 @@
 #include "translate.h"
 
 static int ui_plus60k_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

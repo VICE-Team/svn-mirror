@@ -88,6 +88,13 @@
 #include "video/video-resources.h"
 #endif
 
+
+#ifdef AMIGA_AROS
+#include <proto/oop.h>
+#include <hidd/graphics.h>
+#define HIDD_BM_OBJ(bitmap) (*(OOP_Object **)&((bitmap)->Planes[0]))
+#endif
+
 #ifdef AMIGA_OS4
 struct Library *GadToolsBase = NULL;
 struct GadToolsIFace *IGadTools = NULL;
@@ -115,8 +122,40 @@ struct Library *P96Base = NULL;
 #endif
 #endif
 
+#ifndef AMIGA_AROS
+struct RastPort *CreateRastPort(void)
+{
+  return AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
+}
+
+struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
+{
+  struct RastPort *tmpRPort = CreateRastPort();
+  if (tmpRPort != NULL)
+  {
+    CopyMem(friend_rastport, tmpRPort, sizeof(struct RastPort));
+    return tmpRPort;
+  }
+  return NULL;
+}
+#endif
+
 #ifdef AMIGA_AROS
 struct Library *LowLevelBase;
+struct Library *OOPBase;
+static OOP_AttrBase __IHidd_BitMap;
+static OOP_AttrBase __IHidd_Gfx;
+static OOP_Object *rastport_bmobj;
+static OOP_Object *gfxhidd;
+static OOP_Class *rastport_gfxhiddclass;
+static hidd_textname=NULL;
+static int hidd_is_nvidia=0;
+
+/* Use these on ALL amiga platforms not just AROS */
+UBYTE *unlockable_buffer = NULL;            /* Used to render the vice-buffer so we can WPA it into our backbuffer if we cant lock a bitmap! */
+
+static struct RastPort *renderRPort = NULL; /* Clone of the windows rastport used to visibly output  */
+static struct RastPort *backRPort = NULL;   /* RastPort for our backbuffer (canvas->os->window_bitmap) */
 #endif
 
 struct Process *self;
@@ -142,11 +181,13 @@ int video_init(void)
 #endif
 #ifdef AMIGA_AROS
       if ((LowLevelBase = OpenLibrary("lowlevel.library",37))) {
+        if ((OOPBase = OpenLibrary("oop.library",0))) {
 #endif
-        if (mui_init() == 0) {
-          return 0;
-        }
+          if (mui_init() == 0) {
+            return 0;
+          }
 #ifdef AMIGA_AROS
+        }
       }
 #endif
     }
@@ -212,6 +253,9 @@ void video_shutdown(void)
 #ifdef AMIGA_AROS
   if (LowLevelBase) {
     CloseLibrary(LowLevelBase);
+  }
+  if (OOPBase) {
+    CloseLibrary(OOPBase);
   }
 #endif
 #else
@@ -341,6 +385,25 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     canvas->os->window_bitmap = NULL;
   }
 
+#ifdef AMIGA_AROS
+  if (unlockable_buffer!=NULL)
+  {
+    free(unlockable_buffer);
+    unlockable_buffer=NULL;
+  }
+
+  if (renderRPort!=NULL)
+  {
+    FreeRastPort(renderRPort);
+    renderRPort=NULL;
+  }
+  if (backRPort!=NULL)
+  {
+    FreeRastPort(backRPort);
+    backRPort=NULL;
+  }
+#endif
+
   /* try to get screenmode to use */
   if (fullscreen) {
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
@@ -450,7 +513,7 @@ static struct video_canvas_s *reopen(struct video_canvas_s *canvas, int width, i
     if (fullscreenstatusbar) {
       canvas->os->visible_height -= statusbar_get_status_height();
     }
-  } 
+  }
 else {
 reopenwindow:
     /* if window already is open, just resize it, otherwise, open it */
@@ -581,7 +644,7 @@ reopenwindow:
   if (canvas->os->vlayer_handle == NULL) {
 #endif
   canvas->os->window_bitmap = AllocBitMap(width, height, GetBitMapAttr(canvas->os->window->RPort->BitMap, BMA_DEPTH),
-                                          BMF_CLEAR|BMF_DISPLAYABLE|BMF_INTERLEAVED|BMF_MINPLANES,
+                                          BMF_CLEAR|BMF_INTERLEAVED|BMF_MINPLANES,
                                           canvas->os->window->RPort->BitMap);
   if (canvas->os->window_bitmap == NULL) {
     closecanvaswindow(canvas);
@@ -604,6 +667,24 @@ reopenwindow:
     }
     return NULL;
   }
+
+#ifdef AMIGA_AROS
+  unlockable_buffer = lib_malloc(width*2*height*2*4);
+
+  renderRPort = CloneRastPort(canvas->os->window->RPort);
+
+  backRPort = CreateRastPort();
+  backRPort->BitMap = canvas->os->window_bitmap;
+
+  __IHidd_BitMap = OOP_ObtainAttrBase(IID_Hidd_BitMap);
+  __IHidd_Gfx = OOP_ObtainAttrBase(IID_Hidd_Gfx);
+  OOP_Object *rastport_bmobj = HIDD_BM_OBJ(canvas->os->window->RPort->BitMap);
+  OOP_GetAttr(rastport_bmobj, aHidd_BitMap_GfxHidd, &gfxhidd);
+  rastport_gfxhiddclass = OOP_OCLASS(gfxhidd);
+  hidd_textname = rastport_gfxhiddclass->ClassNode.ln_Name;
+  if (!strcasecmp("hidd.gfx.nv",hidd_textname))
+    hidd_is_nvidia=1;
+#endif
 
   canvas->os->pixfmt = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_PIXFMT);
   canvas->os->bpr = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_XMOD);
@@ -707,6 +788,11 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 #else
   struct RenderInfo ri;
 #endif
+#ifdef AMIGA_AROS
+  int fullscreen;
+
+  fullscreen = IsFullscreenEnabled();
+#endif
 
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
 
@@ -787,6 +873,28 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     p96UnlockBitMap(canvas->os->window_bitmap, lock);
 #endif
   }
+#ifdef AMIGA_AROS
+  else
+  {
+    /* We failed to lock the bitmap - so render into our flatbuffer then WPA that to the backbuffer .. */
+    struct Window *window = canvas->os->window;
+
+    video_canvas_render(canvas,
+                        (UBYTE *)unlockable_buffer,
+                        w, h,
+                        xs, ys,
+                        xi, yi,
+                        canvas->bytes_per_line,
+                        canvas->depth);
+
+    WritePixelArray((UBYTE *)unlockable_buffer, 0, 0,
+                    canvas->bytes_per_line, backRPort,
+                    0, 0,
+                    window->Width - window->BorderLeft - window->BorderRight,
+                    window->Height - window->BorderTop - window->BorderBottom - statusbar_get_status_height(),
+                    RECTFMT_RAW);
+  }
+#endif
 
   sx = xi;
   sy = yi;
@@ -811,7 +919,29 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
   if (canvas->waiting_for_resize == 0 && w > 0 && h > 0) {
     struct Window *window = canvas->os->window;
-    BltBitMapRastPort(canvas->os->window_bitmap, sx, sy, window->RPort, window->BorderLeft + dx, window->BorderTop + dy, w, h, 0xc0);
+#ifdef AMIGA_AROS
+    if (fullscreen==0)
+    {
+      int blit_width = canvas->width;
+      int blit_height = canvas->height;
+   
+      if (blit_width > (window->RPort->Layer->bounds.MaxX - window->RPort->Layer->bounds.MinX))
+        blit_width = (window->RPort->Layer->bounds.MaxX - window->RPort->Layer->bounds.MinX);
+      if (blit_height > (window->RPort->Layer->bounds.MaxY - window->RPort->Layer->bounds.MinY))
+        blit_height = (window->RPort->Layer->bounds.MaxY - window->RPort->Layer->bounds.MinY);
+
+      ClipBlit(backRPort,
+               0, 0,
+               renderRPort,
+               window->BorderLeft,
+               window->BorderTop,
+               blit_width,
+               blit_height,
+               0xc0);
+    }
+    else
+#endif
+      BltBitMapRastPort(canvas->os->window_bitmap, sx, sy, window->RPort, window->BorderLeft + dx, window->BorderTop + dy, w, h, 0xc0);
   }
 }
 
@@ -921,6 +1051,28 @@ static int makecol_BGRA32(int r, int g, int b)
 }
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
+#if defined(AMIGA_AROS) && !defined(WORDS_BIGENDIAN)
+static const struct {
+  unsigned long color_format;
+  int (*makecol)(int r, int g, int b);
+} color_formats[] = {
+  { PIXFMT_RGB15, makecol_RGB555LE },
+  { PIXFMT_BGR15, makecol_BGR555LE },
+  { PIXFMT_RGB15PC, makecol_RGB555BE },
+  { PIXFMT_BGR15PC, makecol_BGR555BE },
+  { PIXFMT_RGB16, makecol_RGB565LE },
+  { PIXFMT_BGR16, makecol_BGR565LE },
+  { PIXFMT_RGB16PC, makecol_RGB565BE },
+  { PIXFMT_BGR16PC, makecol_BGR565BE },
+  { PIXFMT_RGB24, makecol_BGR24 },
+  { PIXFMT_BGR24, makecol_RGB24 },
+  { PIXFMT_ARGB32, makecol_BGRA32 },
+  { PIXFMT_BGRA32, makecol_ARGB32 },
+  { PIXFMT_RGBA32, makecol_ABGR32 },
+  { PIXFMT_ABGR32, makecol_RGBA32 },
+  { 0, NULL }
+};
+#else
 static const struct {
   unsigned long color_format;
   int (*makecol)(int r, int g, int b);
@@ -940,6 +1092,7 @@ static const struct {
   { PIXFMT_RGBA32, makecol_RGBA32 },
   { 0, NULL }
 };
+#endif
 #else
 static const struct {
   unsigned long color_format;
@@ -973,6 +1126,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
 
   i = 0;
   makecol = makecol_dummy;
+
   while (color_formats[i].makecol != NULL) {
     if (color_formats[i].color_format == canvas->os->pixfmt) {
       makecol = color_formats[i].makecol;
@@ -1027,6 +1181,26 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
       FreeBitMap(canvas->os->window_bitmap);
       canvas->os->window_bitmap = NULL;
     }
+
+#ifdef AMIGA_AROS
+    if (unlockable_buffer!=NULL)
+    {
+      free(unlockable_buffer);
+      unlockable_buffer=NULL;
+    }
+
+    if (renderRPort!=NULL)
+    {
+      FreeRastPort(renderRPort);
+      renderRPort=NULL;
+    }
+
+    if (backRPort!=NULL)
+    {
+      FreeRastPort(backRPort);
+      backRPort=NULL;
+    }
+#endif
 
     if (canvaslist == canvas) {
       canvaslist = canvas->next;

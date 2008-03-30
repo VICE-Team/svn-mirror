@@ -300,6 +300,9 @@ void disk_image_media_create(disk_image_t *image)
 
 void disk_image_media_destroy(disk_image_t *image)
 {
+	if (image == NULL)
+		return;
+
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         fsimage_media_destroy(image);
@@ -351,6 +354,9 @@ int disk_image_open(disk_image_t *image)
 int disk_image_close(disk_image_t *image)
 {
     int rc = 0;
+
+	if (image == NULL)
+		return 0;
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:

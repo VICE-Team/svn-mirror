@@ -65,7 +65,7 @@ static const int ui_cbm2_memsize_values[] = {
 };
 
 static int ui_cbm2mem_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

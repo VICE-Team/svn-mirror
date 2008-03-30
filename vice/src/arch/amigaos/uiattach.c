@@ -66,7 +66,7 @@ static void uiattach_disk_dialog(video_canvas_t *canvas, int idm)
         break;
     }
     resource = lib_msprintf("AttachDevice%dReadonly", unit);
-    if ((name = uilib_select_file_autostart("Attach disk image",
+    if ((name = uilib_select_file_autostart(translate_text(IDMS_ATTACH_DISK_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK,
         &autostart_index, resource)) != NULL) {
@@ -91,7 +91,7 @@ static void uiattach_tape_dialog(video_canvas_t *canvas)
     int autostart_index = -1;
 
     SuspendFullscreenModeKeep(hwnd);
-    if ((name = uilib_select_file_autostart("Attach tape image",
+    if ((name = uilib_select_file_autostart(translate_text(IDS_ATTACH_TAPE_IMAGE),
         UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
         &autostart_index, NULL)) != NULL) {
@@ -115,7 +115,7 @@ static void uiattach_autostart_dialog(video_canvas_t *canvas)
     int autostart_index = 0;
 
     SuspendFullscreenModeKeep(hwnd);
-    if ((name = uilib_select_file_autostart("Autostart disk/tape image",
+    if ((name = uilib_select_file_autostart(translate_text(IDS_AUTOSTART_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
         | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_DISK_AND_TAPE, &autostart_index, NULL)) != NULL) {

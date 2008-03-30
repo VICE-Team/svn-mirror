@@ -35,7 +35,7 @@
 #include "translate.h"
 
 static int ui_vicii_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };
@@ -66,5 +66,6 @@ static APTR build_gui(void)
 
 void ui_vicii_settings_dialog(void)
 {
+  intl_convert_mui_table(ui_vicii_enable_translate, ui_vicii_enable);
   mui_show_dialog(build_gui(), translate_text(IDS_VICII_SETTINGS), ui_to_from);
 }

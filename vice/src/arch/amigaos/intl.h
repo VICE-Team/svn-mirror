@@ -2086,13 +2086,13 @@ extern void intl_convert_mui_table(int x[], char *y[]);
 #define IDS_ABOUT_PL                      0x6f1
 #define IDS_ABOUT_SV                      0x6f2
 
-#define IDS_DISABLED                      0x6f3
-#define IDS_DISABLED_DE                   0x6f4
-#define IDS_DISABLED_FR                   0x6f5
-#define IDS_DISABLED_IT                   0x6f6
-#define IDS_DISABLED_NL                   0x6f7
-#define IDS_DISABLED_PL                   0x6f8
-#define IDS_DISABLED_SV                   0x6f9
+#define IDMS_DISABLED                     0x6f3
+#define IDMS_DISABLED_DE                  0x6f4
+#define IDMS_DISABLED_FR                  0x6f5
+#define IDMS_DISABLED_IT                  0x6f6
+#define IDMS_DISABLED_NL                  0x6f7
+#define IDMS_DISABLED_PL                  0x6f8
+#define IDMS_DISABLED_SV                  0x6f9
 
 #define IDS_ENABLED                       0x6fa
 #define IDS_ENABLED_DE                    0x6fb
@@ -3037,5 +3037,21 @@ extern void intl_convert_mui_table(int x[], char *y[]);
 #define IDS_VICII_SETTINGS_NL             0xa3f
 #define IDS_VICII_SETTINGS_PL             0xa40
 #define IDS_VICII_SETTINGS_SV             0xa41
+
+#define IDS_ATTACH_TAPE_IMAGE             0xa42
+#define IDS_ATTACH_TAPE_IMAGE_DE          0xa43
+#define IDS_ATTACH_TAPE_IMAGE_FR          0xa44
+#define IDS_ATTACH_TAPE_IMAGE_IT          0xa45
+#define IDS_ATTACH_TAPE_IMAGE_NL          0xa46
+#define IDS_ATTACH_TAPE_IMAGE_PL          0xa47
+#define IDS_ATTACH_TAPE_IMAGE_SV          0xa48
+
+#define IDS_AUTOSTART_IMAGE               0xa49
+#define IDS_AUTOSTART_IMAGE_DE            0xa4a
+#define IDS_AUTOSTART_IMAGE_FR            0xa4b
+#define IDS_AUTOSTART_IMAGE_IT            0xa4c
+#define IDS_AUTOSTART_IMAGE_NL            0xa4d
+#define IDS_AUTOSTART_IMAGE_PL            0xa4e
+#define IDS_AUTOSTART_IMAGE_SV            0xa4f
 
 #endif

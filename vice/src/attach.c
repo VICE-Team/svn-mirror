@@ -425,7 +425,7 @@ static int set_file_system_device(resource_value_t v, void *param)
 static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
                               unsigned int unit)
 {
-    if (image != NULL) {
+/*    if (image != NULL) {; test moved to sub functions */
         switch (unit) {
           case 8:
             machine_drive_image_detach(image, 8);
@@ -450,7 +450,7 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
         }
         disk_image_close(image);
         disk_image_media_destroy(image);
-    }
+/*    } */
 }
 
 static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,

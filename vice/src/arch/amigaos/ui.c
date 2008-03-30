@@ -746,7 +746,7 @@ void ui_event_handle(void)
       }
 
       /* Check for IDCMP messages */
-      while ((imsg = (struct IntuiMessage *)GetMsg(window->UserPort))) {
+      while ((imsg = (struct IntuiMessage *)GetMsg(canvas->os->window->UserPort))) {
         imClass = imsg->Class;
         imCode = imsg->Code;
         mousex = imsg->MouseX;

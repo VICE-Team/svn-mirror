@@ -77,6 +77,8 @@ static int mon_file_open(const char *filename, unsigned int secondary,
         /* initialize EOF buffer. */
         mon_file_read_eof[device-8][secondary] = 0;
         break;
+      default:
+        return -1;
     }
     return 0;
 }

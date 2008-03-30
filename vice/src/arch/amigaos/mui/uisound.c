@@ -129,5 +129,6 @@ static APTR build_gui(void)
 void ui_sound_settings_dialog(void)
 {
   intl_convert_mui_table(ui_sound_oversample_translate, ui_sound_oversample);
+  intl_convert_mui_table(ui_sound_adjusting_translate, ui_sound_adjusting);
   mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
 }

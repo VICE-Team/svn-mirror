@@ -35,7 +35,7 @@
 #include "translate.h"
 
 static int ui_datasette_reset_with_cpu_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

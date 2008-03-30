@@ -2,7 +2,7 @@
 echo Generating AMIGA port binary distribution.
 
 if test x"$4" = "xaros"; then
-  AMIGAFLAVOR=AROS-$2
+  AMIGAFLAVOR=$3-AROS-$2
 else
   if test x"$4" = "xmorphos"; then
     AMIGAFLAVOR=MorphOS-$2

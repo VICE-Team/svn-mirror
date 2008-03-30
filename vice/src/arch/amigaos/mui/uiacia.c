@@ -35,7 +35,7 @@
 #include "translate.h"
 
 static int ui_acia_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

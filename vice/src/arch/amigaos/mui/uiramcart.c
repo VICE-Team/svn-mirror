@@ -35,7 +35,7 @@
 #include "translate.h"
 
 static const char *ui_ramcart_enable_translate[] = {
-  IDS_DISABLED,
+  IDMS_DISABLED,
   IDS_ENABLED,
   0
 };

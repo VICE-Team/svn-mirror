@@ -2143,13 +2143,13 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_IMAGE_CONTENTS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_IMAGE_CONTENTS_SV, "Innehall i avbildning"},
 
-/* en */ {IDS_DISABLED,    "Disabled"},
-/* de */ {IDS_DISABLED_DE, "Deaktiviert"},
-/* fr */ {IDS_DISABLED_FR, "Désactivé"},
-/* it */ {IDS_DISABLED_IT, "Disabilitato"},
-/* nl */ {IDS_DISABLED_NL, "Uit"},
-/* pl */ {IDS_DISABLED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DISABLED_SV, "Av"},
+/* en */ {IDMS_DISABLED,    "Disabled"},
+/* de */ {IDMS_DISABLED_DE, "Deaktiviert"},
+/* fr */ {IDMS_DISABLED_FR, "Désactivé"},
+/* it */ {IDMS_DISABLED_IT, "Disabilitato"},
+/* nl */ {IDMS_DISABLED_NL, "Uit"},
+/* pl */ {IDMS_DISABLED_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_DISABLED_SV, "Av"},
 
 /* en */ {IDS_ENABLED,    "Enabled"},
 /* de */ {IDS_ENABLED_DE, ""},  /* fuzzy */
@@ -2677,8 +2677,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SET_INPUT_JOYLL_1_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SET_INPUT_JOYLL_1_NL, "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"},
 /* pl */ {IDS_SET_INPUT_JOYLL_1_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen,
- 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3"},
+/* sv */ {IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3"},
 
 /* en */ {IDS_SET_INPUT_JOYLL_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"},
 /* de */ {IDS_SET_INPUT_JOYLL_2_DE, ""},  /* fuzzy */
@@ -3095,6 +3094,22 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_VICII_SETTINGS_NL, "VIC-II Settings"},
 /* pl */ {IDS_VICII_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_VICII_SETTINGS_SV, "VIC-II-inställningar"},
+
+/* en */ {IDS_ATTACH_TAPE_IMAGE,    "Attach tape image"},
+/* de */ {IDS_ATTACH_TAPE_IMAGE_DE, "Band Image einlegen"},
+/* fr */ {IDS_ATTACH_TAPE_IMAGE_FR, "Insérer une image datassette"},
+/* it */ {IDS_ATTACH_TAPE_IMAGE_IT, "Seleziona l'immagine di una cassetta"},
+/* nl */ {IDS_ATTACH_TAPE_IMAGE_NL, "Koppel tape bestand"},
+/* pl */ {IDS_ATTACH_TAPE_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_TAPE_IMAGE_SV, "Anslut en bandavbildningsfil"},
+
+/* en */ {IDS_AUTOSTART_IMAGE,    "Autostart disk/tape image"},
+/* de */ {IDS_AUTOSTART_IMAGE_DE, "Autostart Disk/Band Image"},
+/* fr */ {IDS_AUTOSTART_IMAGE_FR, "Démarrage automatique d'une image datassette"},
+/* it */ {IDS_AUTOSTART_IMAGE_IT, "Avvia automaticamente l'immagine di un disco/cassetta"},
+/* nl */ {IDS_AUTOSTART_IMAGE_NL, "Autostart disk/tape bestand"},
+/* pl */ {IDS_AUTOSTART_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_AUTOSTART_IMAGE_SV, "Autostarta disk-/bandavbildningsfil"},
 
 };
 
@@ -5131,13 +5146,13 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_ABOUT_PL,
 /* sv */  IDS_ABOUT_SV},
 
-/* en */ {IDS_DISABLED,
-/* de */  IDS_DISABLED_DE,
-/* fr */  IDS_DISABLED_FR,
-/* it */  IDS_DISABLED_IT,
-/* nl */  IDS_DISABLED_NL,
-/* pl */  IDS_DISABLED_PL,
-/* sv */  IDS_DISABLED_SV},
+/* en */ {IDMS_DISABLED,
+/* de */  IDMS_DISABLED_DE,
+/* fr */  IDMS_DISABLED_FR,
+/* it */  IDMS_DISABLED_IT,
+/* nl */  IDMS_DISABLED_NL,
+/* pl */  IDMS_DISABLED_PL,
+/* sv */  IDMS_DISABLED_SV},
 
 /* en */ {IDS_ENABLED,
 /* de */  IDS_ENABLED_DE,
@@ -6082,6 +6097,22 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* nl */  IDS_VICII_SETTINGS_NL,
 /* pl */  IDS_VICII_SETTINGS_PL,
 /* sv */  IDS_VICII_SETTINGS_SV},
+
+/* en */ {IDS_ATTACH_TAPE_IMAGE,
+/* de */  IDS_ATTACH_TAPE_IMAGE_DE,
+/* fr */  IDS_ATTACH_TAPE_IMAGE_FR,
+/* it */  IDS_ATTACH_TAPE_IMAGE_IT,
+/* nl */  IDS_ATTACH_TAPE_IMAGE_NL,
+/* pl */  IDS_ATTACH_TAPE_IMAGE_PL,
+/* sv */  IDS_ATTACH_TAPE_IMAGE_SV},
+
+/* en */ {IDS_AUTOSTART_IMAGE,
+/* de */  IDS_AUTOSTART_IMAGE_DE,
+/* fr */  IDS_AUTOSTART_IMAGE_FR,
+/* it */  IDS_AUTOSTART_IMAGE_IT,
+/* nl */  IDS_AUTOSTART_IMAGE_NL,
+/* pl */  IDS_AUTOSTART_IMAGE_PL,
+/* sv */  IDS_AUTOSTART_IMAGE_SV},
 
 };
 

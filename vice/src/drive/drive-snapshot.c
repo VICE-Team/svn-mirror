@@ -247,6 +247,9 @@ int drive_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     char snap_module_name[] = "DRIVE";
     DWORD rotation_table_ptr[DRIVE_NUM];
+    CLOCK attach_clk[DRIVE_NUM];
+    CLOCK detach_clk[DRIVE_NUM];
+    CLOCK attach_detach_clk[DRIVE_NUM];
     unsigned int drive_true_emulation;
     int sync_factor;
     drive_t *drive;
@@ -282,12 +285,12 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive = drive_context[i]->drive;
         if (0
             || SMR_DW_UL(m, &(drive->snap_accum)) < 0
-            || SMR_DW(m, &(drive->attach_clk)) < 0
+            || SMR_DW(m, &(attach_clk[i])) < 0
             || SMR_DW_UL(m, &(drive->snap_bits_moved)) < 0
             || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
             || SMR_B_INT(m, &(drive->clock_frequency)) < 0
             || SMR_W_INT(m, &(drive->current_half_track)) < 0
-            || SMR_DW(m, &(drive->detach_clk)) < 0
+            || SMR_DW(m, &(detach_clk[i])) < 0
             || SMR_B(m, &(drive->diskID1)) < 0
             || SMR_B(m, &(drive->diskID2)) < 0
             || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
@@ -312,7 +315,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     /* this one is new, so don't test so stay compatible with old snapshots */
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
-        SMR_DW(m, &(drive->attach_detach_clk));
+        SMR_DW(m, &(attach_detach_clk[i]));
     }
     
     /* these are even newer */
@@ -440,9 +443,13 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive_current_track_size_set(drive_context[i]->drive);
 
     for (i = 0; i < 2; i++) {
-         drive = drive_context[i]->drive;
-         if (drive->type != DRIVE_TYPE_NONE)
-             drive_enable(drive_context[i]);
+        drive = drive_context[i]->drive;
+        if (drive->type != DRIVE_TYPE_NONE) {
+            drive_enable(drive_context[i]);
+            drive->attach_clk = attach_clk[i];
+            drive->detach_clk = detach_clk[i];
+            drive->attach_detach_clk = attach_detach_clk[i];
+        }
     }
 
     iec_update_ports_embedded();
@@ -484,14 +491,21 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
     drive = drive_context[dnr]->drive;
 
     if (drive->image == NULL)
-        return 0;
-
-    sprintf(snap_module_name, "IMAGE%i", dnr);
-
+	    sprintf(snap_module_name, "NOIMAGE%i", dnr);
+    else
+	    sprintf(snap_module_name, "IMAGE%i", dnr);
+    
     m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
                                IMAGE_SNAP_MINOR);
     if (m == NULL)
        return -1;
+
+    if (drive->image == NULL) {
+        if (snapshot_module_close(m) < 0)
+            return -1;
+
+        return 0;
+    }
 
     word = drive->image->type;
     SMW_W(m, word);
@@ -535,6 +549,17 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     drive_t *drive;
 
     drive = drive_context[dnr]->drive;
+
+    sprintf(snap_module_name, "NOIMAGE%i", dnr);
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m != NULL) {
+        file_system_detach_disk(dnr + 8);
+        snapshot_module_close(m);
+        return 0;
+    }
+
     sprintf(snap_module_name, "IMAGE%i", dnr);
 
     m = snapshot_module_open(s, snap_module_name,

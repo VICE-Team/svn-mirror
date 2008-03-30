@@ -67,7 +67,7 @@ enum { SS_BMP=1,
 static void save_screenshot_file(char *pattern, char *screenshot_type, video_canvas_t *canvas)
 {
   struct FileRequester *request;
-  UBYTE fname[1024];
+  UBYTE fname[1024]="";
   char *save_text;
   char title[100];
 
