@@ -42,6 +42,8 @@ libc64_a_SOURCES = \
 	c64memlimit.h \
 	c64memrom.c \
 	c64memrom.h \
+	c64memsnapshot.c \
+	c64memsnapshot.h \
 	c64pla.c \
 	c64pla.h \
 	c64rom.c \
