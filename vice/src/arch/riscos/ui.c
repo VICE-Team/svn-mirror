@@ -36,6 +36,7 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "autostart.h"
 #include "c610ui.h"
 #include "cartridge.h"
 #include "console.h"
@@ -4709,27 +4710,53 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
 static int ui_load_prg_file(const char *name)
 {
-  if (machine_class == VICE_MACHINE_C64)
+  /* if shift is held down, then load only, otherwise autostart */
+  if (ScanKeys(IntKey_Shift) == 0xff)
   {
-    FILE *fp;
-
-    vsync_suspend_speed_eval();
-
-    if ((fp = fopen(name, "rb")) != NULL)
+    if (autostart_prg(name, AUTOSTART_MODE_RUN) == 0)
     {
-      BYTE lo, hi;
-      int length;
+      const char *b, *pend;
+      char buffer[256];
 
-      lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
-      length += fread(ram + length, 1, ram_size - length, fp);
-      fclose(fp);
-      ram[0xc3] = lo; ram[0xc4] = hi;
-      lo = length & 0xff; hi = (length >> 8) & 0xff;
-      ram[0xae] = lo; ram[0x2d] = lo; ram[0x2f] = lo; ram[0x31] = lo; ram[0x33] = lo;
-      ram[0xaf] = hi; ram[0x2e] = hi; ram[0x30] = hi; ram[0x32] = hi; ram[0x34] = hi;
+      b = name; pend = b;
+      while (*b != '\0')
+      {
+        if (*b == FSDEV_DIR_SEP_CHR) pend = b;
+        b++;
+      }
+      memcpy(buffer, name, (pend-name));
+      buffer[pend-name] = '\0';
+      ui_display_drive_dir(0, buffer);
+
       return 0;
     }
+    return -1;
   }
+  else
+  {
+    if (machine_class == VICE_MACHINE_C64)
+    {
+      FILE *fp;
+
+      vsync_suspend_speed_eval();
+
+      if ((fp = fopen(name, "rb")) != NULL)
+      {
+        BYTE lo, hi;
+        int length;
+
+        lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
+        length += fread(ram + length, 1, ram_size - length, fp);
+        fclose(fp);
+        ram[0xc3] = lo; ram[0xc4] = hi;
+        lo = length & 0xff; hi = (length >> 8) & 0xff;
+        ram[0xae] = lo; ram[0x2d] = lo; ram[0x2f] = lo; ram[0x31] = lo; ram[0x33] = lo;
+        ram[0xaf] = hi; ram[0x2e] = hi; ram[0x30] = hi; ram[0x32] = hi; ram[0x34] = hi;
+        return 0;
+      }
+    }
+  }
+
   return -1;
 }
 
