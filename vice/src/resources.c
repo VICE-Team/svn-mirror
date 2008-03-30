@@ -219,6 +219,7 @@ static struct resource resources[] = {
 #if defined(CBM64) || defined(C128)
     { "SIDFilters", &app_resources.sidFilters, RES_INTEGER, close_sound },
     { "SIDModel", &app_resources.sidModel, RES_INTEGER, close_sound },
+    { "SoundOversample", &app_resources.soundOversample, RES_INTEGER, close_sound },
 #endif /* CBM64 || C128 */
 #endif /* SOUND */
 #if defined(__MSDOS__) && !defined(PET)
@@ -503,19 +504,20 @@ void resources_set_defaults(void)
 {
     int i;
 
-#ifdef __MSDOS__
-    /* On MS-DOS, always boot from the directory in which the binary is
-       stored. */
     {
-	char *dir = concat(boot_path, EMULATOR, NULL);
-
+#ifdef __MSDOS__
+        /* On MS-DOS, always boot from the directory in which the binary is
+           stored. */
+	char *dir = concat(boot_path, "/" EMULATOR, NULL);
+#else
+        /* On Unix, first search in the `LIBDIR' and then in the
+           `boot_path'.  */
+        char *dir = concat(LIBDIR "/" EMULATOR ":",
+                           boot_path, "/" EMULATOR, NULL);
+#endif
 	resources_set_string(&app_resources.directory, dir);
 	free(dir);
     }
-#else
-    /* Force autodetection of boot directory. */
-    resources_set_string(&app_resources.directory, NULL);
-#endif
 
     resources_set_string(&app_resources.projectDir, PROJECTDIR);
     resources_set_string(&app_resources.basicName, BASICNAME);
@@ -537,6 +539,7 @@ void resources_set_defaults(void)
     app_resources.petdiag = 0;
     app_resources.numpadJoystick = 0;
 #endif
+
 #ifdef __MSDOS__
     /* On MS-DOS, always save the REU contents in the directory in which the
        executable is. */
@@ -623,6 +626,7 @@ void resources_set_defaults(void)
 #if defined(CBM64) || defined(C128)
     app_resources.sidModel = 0;	/* Old SID */
     app_resources.sidFilters = 0;
+    app_resources.soundOversample = 0;
 #endif
 #ifdef __MSDOS__
     app_resources.soundSuspendTime = 0;
@@ -739,6 +743,10 @@ int resources_fix(void)
 #ifdef SOUND
     if (app_resources.soundSuspendTime < 0)
         app_resources.soundSuspendTime = 0;
+#if defined(CBM64) || defined(C128)
+    if (app_resources.soundOversample < 0 || app_resources.soundOversample > 3)
+	app_resources.soundOversample = 3;
+#endif
 #endif
 
     return err;
