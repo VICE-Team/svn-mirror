@@ -33,7 +33,8 @@ struct sound_s;
 struct sid_snapshot_state_s;
 
 #define SID_ENGINE_FASTSID        0
-#define SID_ENGINE_CATWEASELMKIII 1
+#define SID_ENGINE_RESID          1
+#define SID_ENGINE_CATWEASELMKIII 2
 
 extern BYTE REGPARM1 sid_read(ADDRESS address);
 extern BYTE REGPARM1 sid2_read(ADDRESS address);
