@@ -324,7 +324,7 @@ static int split_args(const char *line, int *nargs, char **args)
 		      fprintf(stderr, "Too many arguments.\n");
 		      return -1;
 		  } else {
-		      int len;
+		      size_t len;
 
 		      len = d - tmp;
 		      if (args[*nargs] != NULL)
@@ -424,7 +424,7 @@ static void print_error_message(int errval)
 #define LOOKUP_SUCCESSFUL(n)    ((n) >= 0)
 static int lookup_command(const char *cmd)
 {
-    int cmd_len;
+    size_t cmd_len;
     int match;
     int i;
 
@@ -559,7 +559,8 @@ static void pager_print(const char *text)
 
 /* ------------------------------------------------------------------------- */
 
-static int open_disk_image(vdrive_t *vdrive, const char *name, int unit)
+static int open_disk_image(vdrive_t *vdrive, const char *name,
+                           unsigned int unit)
 {
     disk_image_t *image;
 
@@ -665,7 +666,8 @@ static int attach_cmd(int nargs, char **args)
 
 static int block_cmd(int nargs, char **args)
 {
-    int drive, track, sector, disp;
+    int drive, disp;
+    unsigned int track, sector;
     vdrive_t *vdrive;
     BYTE *buf, str[20], sector_data[256];
     int cnt;
@@ -887,8 +889,8 @@ static int copy_cmd(int nargs, char **args)
         src_name_petscii = stralloc(src_name_ascii);
 	petconvstring(src_name_petscii, 0);
 
-	if (vdrive_open(drives[src_unit],
-                        src_name_petscii, strlen(src_name_petscii), 0)) {
+	if (vdrive_open(drives[src_unit], src_name_petscii,
+                        (int)strlen(src_name_petscii), 0)) {
 	    fprintf(stderr, "Cannot read `%s'.\n", src_name_ascii);
             if (dest_name_ascii != NULL)
                 free(dest_name_ascii), free(dest_name_petscii);
@@ -897,8 +899,8 @@ static int copy_cmd(int nargs, char **args)
 	}
 
         if (dest_name_ascii != NULL) {
-            if (vdrive_open(drives[dest_unit],
-                            dest_name_petscii, strlen(dest_name_petscii), 1)) {
+            if (vdrive_open(drives[dest_unit], dest_name_petscii,
+                            (int)strlen(dest_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", dest_name_petscii);
                 vdrive_close(drives[src_unit], 0);
                 free(dest_name_ascii), free(dest_name_petscii);
@@ -906,8 +908,8 @@ static int copy_cmd(int nargs, char **args)
                 return FD_OK;
             }
         } else {
-            if (vdrive_open(drives[dest_unit],
-                            src_name_petscii, strlen(src_name_petscii), 1)) {
+            if (vdrive_open(drives[dest_unit], src_name_petscii,
+                            (int)strlen(src_name_petscii), 1)) {
                 fprintf(stderr, "Cannot write `%s'.\n", src_name_petscii);
                 vdrive_close(drives[src_unit], 0);
                 free(src_name_ascii), free(src_name_petscii);
@@ -920,8 +922,8 @@ static int copy_cmd(int nargs, char **args)
         {
             BYTE c;
 
-            while (!vdrive_read(drives[src_unit], (BYTE *) &c, 0)) {
-                if (vdrive_write(drives[dest_unit], c, 1)) {
+            while (!vdrive_read(drives[src_unit], ((BYTE *)&c), 0)) {
+                if (vdrive_write(drives[dest_unit], ((BYTE)(c)), 1)) {
                     fprintf(stderr, "No space on image ?\n");
                     break;
                 }
@@ -1351,7 +1353,7 @@ static int read_cmd(int nargs, char **args)
     petconvstring(src_name_petscii, 0);
 
     if (vdrive_open(drives[unit],
-                    src_name_petscii, strlen(src_name_petscii), 0)) {
+                    src_name_petscii, (int)strlen(src_name_petscii), 0)) {
 	fprintf(stderr, "Cannot read `%s' on unit %d.\n", src_name_ascii, unit + 8);
         free(src_name_ascii), free(src_name_petscii);
 	return FD_BADNAME;
@@ -1397,7 +1399,8 @@ static int read_cmd(int nargs, char **args)
 	    return FD_NOTWRT;
 	}
         if (is_p00) {
-	    if (p00_write_header(outf, (BYTE *)dest_name_ascii, 0) < 0)
+	    if (p00_write_header(outf, (BYTE *)dest_name_ascii,
+                ((BYTE)(0))) < 0)
                 fprintf(stderr, "Cannot write P00 header.\n");
             else
                 printf("Written P00 header.\n");
@@ -1527,7 +1530,7 @@ static int tape_cmd(int nargs, char **args)
             char *dest_name_ascii;
             char *dest_name_petscii;
             BYTE *buf;
-            int name_len;
+            size_t name_len;
             WORD file_size;
             int retval;
 
@@ -1561,7 +1564,7 @@ static int tape_cmd(int nargs, char **args)
             }
 
             /* FIXME: This does not write the actual file type.  */
-	    if (vdrive_open(drive, dest_name_petscii, name_len, 1)) {
+	    if (vdrive_open(drive, dest_name_petscii, (int)name_len, 1)) {
 		fprintf(stderr, "Cannot open `%s' for writing on drive %d.\n",
                        dest_name_ascii, drive_number + 8);
                 free(dest_name_petscii), free(dest_name_ascii);
@@ -1572,8 +1575,8 @@ static int tape_cmd(int nargs, char **args)
                    dest_name_ascii, rec->start_addr, rec->end_addr,
                    drive_number + 8);
 
-	    vdrive_write(drive, rec->start_addr & 0xff, 1);
-	    vdrive_write(drive, rec->start_addr >> 8, 1);
+	    vdrive_write(drive, ((BYTE)(rec->start_addr & 0xff)), 1);
+	    vdrive_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
 
             file_size = rec->end_addr - rec->start_addr;
             buf = alloca((unsigned int) file_size);
@@ -1586,7 +1589,8 @@ static int tape_cmd(int nargs, char **args)
                 int i;
 
                 for (i = 0; i < file_size; i++)
-                    if (vdrive_write(drives[drive_number], buf[i], 1)) {
+                    if (vdrive_write(drives[drive_number], ((BYTE)(buf[i])),
+                        1)) {
                         t64_close(t64);
                         free(dest_name_petscii), free(dest_name_ascii);
                         return FD_WRTERR;
@@ -1888,7 +1892,7 @@ static int write_cmd(int nargs, char **args)
     }
 
     if (vdrive_open(drives[unit],
-                    dest_name_petscii, strlen(dest_name_petscii), 1)) {
+                    dest_name_petscii, (int)strlen(dest_name_petscii), 1)) {
         fprintf(stderr, "Cannot open `%s' for writing on image.\n",
                 dest_name_ascii);
 	return FD_WRTERR;
@@ -1918,7 +1922,8 @@ static int zcreate_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive = drives[drive_number];
     FILE *fsfd = NULL;
-    int track, sector, count;
+    unsigned int track, sector;
+    int count;
     char fname[MAXPATHLEN], dirname[MAXPATHLEN], oname[MAXPATHLEN];
     char *p;
     int singlefilemode = 0;

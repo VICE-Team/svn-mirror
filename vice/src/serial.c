@@ -59,6 +59,7 @@
 #include "serial.h"
 #include "tape.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive.h"
 
@@ -78,8 +79,8 @@ static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 static int SerialPtr;
 
 /* On which channel did listen happen to?  */
-static int TrapDevice;
-static int TrapSecondary;
+static BYTE TrapDevice;
+static BYTE TrapSecondary;
 
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
@@ -109,12 +110,13 @@ static int fn(void)
 }
 
 /* Handle Serial Bus Commands under Attention.  */
-static int serialcommand(void)
+static BYTE serialcommand(void)
 {
     serial_t *p;
     void *vdrive;
     int channel;
-    int i, st = 0;
+    int i;
+    BYTE st = 0;
 
     /*
      * which device ?
@@ -135,9 +137,9 @@ static int serialcommand(void)
       case 0x60:
         if (p->isopen[channel] == 1) {
             p->isopen[channel] = 2;
-            st = (*(p->openf)) (vdrive, NULL, 0, channel);
+            st = (BYTE)((*(p->openf)) (vdrive, NULL, 0, channel));
             for (i = 0; i < SerialPtr; i++)
-                (*(p->putf)) (vdrive, SerialBuffer[i], channel);
+                (*(p->putf)) (vdrive, ((BYTE)(SerialBuffer[i])), channel);
             SerialPtr = 0;
         }
         if (p->flushf)
@@ -149,7 +151,7 @@ static int serialcommand(void)
          */
       case 0xE0:
         p->isopen[channel] = 0;
-        st = (*(p->closef)) (vdrive, channel);
+        st = (BYTE)((*(p->closef)) (vdrive, channel));
         break;
 
         /*
@@ -163,8 +165,8 @@ static int serialcommand(void)
 	    }
             p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
-            st = (*(p->openf)) (vdrive, (char *) SerialBuffer, SerialPtr,
-                                channel);
+            st = (BYTE)((*(p->openf)) (vdrive, (char *) SerialBuffer,
+                 SerialPtr, channel));
             SerialPtr = 0;
 
             if (st) {
@@ -192,15 +194,15 @@ static int serialcommand(void)
    Secondary Address to Serial Bus under Attention.  */
 void serialattention(void)
 {
-    int b;
-    int st;
+    BYTE b;
+    BYTE st;
     serial_t *p;
     void *vdrive;
 
     /*
      * Which Secondary Address ?
      */
-    b = mem_read(BSOUR);	/* BSOUR - character for serial bus */
+    b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f && (((TrapSecondary & 0xf0) == 0xf0)
@@ -249,7 +251,7 @@ void serialattention(void)
 /* Send one byte on the serial bus.  */
 void serialsendbyte(void)
 {
-    int data, st;
+    BYTE data, st;
     serial_t *p;
     void *vdrive;
 
@@ -268,7 +270,7 @@ void serialsendbyte(void)
 		SerialBuffer[SerialPtr++] = data;
 	} else {
 	    /* Send to device */
-	    st = (*(p->putf)) (vdrive, data, TrapSecondary & 0x0f);
+	    st = (*(p->putf)) (vdrive, data, (int)(TrapSecondary & 0x0f));
 	    SET_ST(st);
 	}
     } else {			/* Not present */
@@ -467,7 +469,7 @@ int parallelattention(int b)
     return st;
 }
 
-int parallelsendbyte(int data)
+int parallelsendbyte(BYTE data)
 {
     int st = 0;
     serial_t *p;
