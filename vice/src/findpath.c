@@ -138,7 +138,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	    memcpy(p, cmd, cl);
 
 	    for(c= buf + 1; *c !='\0'; c++)
-#ifdef __MSDOS__
+#if defined (__MSDOS__) || defined (WIN32)
 	        if(*c=='/') *c='\\';
 #else
 	        if(*c=='\\') *c='/';
@@ -206,4 +206,3 @@ void main(int argc, char ** argv)
 }
 #endif
 #endif /* __riscos */
-

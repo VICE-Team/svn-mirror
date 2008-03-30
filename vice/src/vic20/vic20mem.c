@@ -802,7 +802,13 @@ static int mem_kernal_checksum(void)
 
 static int mem_load_kernal(void) 
 {
+    int trapfl;
+
     if(!rom_loaded) return 0;
+
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     if(!IS_NULL(kernal_rom_name)) {
         /* Load Kernal ROM. */
@@ -810,10 +816,16 @@ static int mem_load_kernal(void)
 			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
 			  VIC20_KERNAL_ROM_SIZE) < 0) {
 	    log_error(vic20_mem_log, "Couldn't load kernal ROM.");
+    	    resources_set_value("NoTraps", (resource_value_t) trapfl);
 	    return -1;
 	}
     }
-    return mem_kernal_checksum();
+
+    mem_kernal_checksum();
+
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
+    return 0;
 }
 
 static int mem_basic_checksum(void)

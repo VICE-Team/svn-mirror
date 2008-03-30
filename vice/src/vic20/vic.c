@@ -57,8 +57,15 @@
 #include "resources.h"
 #include "cmdline.h"
 #include "utils.h"
+#include "alarm.h"
+#include "maincpu.h"
 
 /* #define VIC_REGISTERS_DEBUG */
+
+/* ------------------------------------------------------------------------ */
+
+/* VIC-I alarms.  */
+static alarm_t raster_draw_alarm;
 
 /* ------------------------------------------------------------------------ */
 
@@ -285,6 +292,16 @@ typedef PIXEL2 VIC_PIXEL2;
 
 /* ------------------------------------------------------------------------- */
 
+/* Reset the VIC-I chip. */
+void reset_vic(void)
+{
+    reset_raster();
+
+    alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Cycle # within the current line.  */
 #define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
 
@@ -313,6 +330,9 @@ canvas_t vic_init(void)
        cleaner way.  */
     if (init_raster(1, 6, 2) < 0)
         return NULL;
+
+    alarm_init(&raster_draw_alarm, &maincpu_alarm_context,
+               "VicIRasterDraw", int_rasterdraw);
 
     width = VIC_SCREEN_WIDTH;
     height = (VIC_SCREEN_LAST_DISPLAYED_LINE
@@ -597,7 +617,7 @@ static void init_drawing_tables(void)
 
 int int_rasterdraw(long offset)
 {
-    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - offset);
+    alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE - offset);
     emulate_line();
 
     if (rasterline == 0) {
@@ -848,7 +868,7 @@ int vic_read_snapshot_module(snapshot_t *s)
         store_vic(i, b);
     }
 
-    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - RASTER_CYCLE);
+    alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE - RASTER_CYCLE);
 
     force_repaint();
     return snapshot_module_close(m);

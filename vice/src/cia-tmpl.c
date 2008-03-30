@@ -106,6 +106,10 @@ INCLUDES
  * the inline functions 
  */
 
+static int int_myciata(long offset);
+static int int_myciatb(long offset);
+static int int_myciatod(long offset);
+
 static void my_set_tbi_clk(CLOCK tbi_clk);
 static void my_unset_tbi(void);
 static void my_set_tai_clk(CLOCK tai_clk);
@@ -1046,7 +1050,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-int int_myciata(long offset)
+static int int_myciata(long offset)
 {
     CLOCK rclk = myclk - offset;
 
@@ -1132,7 +1136,7 @@ int int_myciata(long offset)
  */
 
 
-int int_myciatb(long offset)
+static int int_myciatb(long offset)
 {
     CLOCK rclk = myclk - offset;
 
@@ -1226,7 +1230,7 @@ void mycia_set_sdr(BYTE data)
 
 /* ------------------------------------------------------------------------- */
 
-int int_myciatod(long offset)
+static int int_myciatod(long offset)
 {
     int t, pm;
     CLOCK rclk = myclk - offset;

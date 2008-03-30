@@ -44,6 +44,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
+        MENUITEM "Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
+        MENUITEM "Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
         MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
         POPUP "&Reset"

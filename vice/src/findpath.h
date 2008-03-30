@@ -34,7 +34,7 @@
 #endif
 #endif
 
-#ifdef __MSDOS__
+#if defined (__MSDOS__) || defined(WIN32)
 #define FINDPATH_SEPARATOR_CHAR         ';'
 #define FINDPATH_SEPARATOR_STRING       ";"
 #else

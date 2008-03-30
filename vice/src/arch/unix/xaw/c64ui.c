@@ -308,35 +308,29 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-
-static UI_CALLBACK(RomSetMenu)
-{
-    if (call_data) {
-        ui_menu_set_sensitive(w,mem_get_numromsets());
-    }
-}
-
-static UI_CALLBACK(radio_RomSet)
-{
-    if (!call_data) {
-        mem_set_romset((char*) client_data);
-	ui_update_menus();
-	mem_romset_loader();
-    } else {
-        ui_menu_set_tick(w, strcmp((const char *) mem_get_romset_name(),
-                                   (const char *) client_data) == 0);
-    }
-}
-
-
-static ui_menu_entry_t* romset_submenu;
-
+static ui_menu_entry_t c64_romset_submenu[] = {
+    { "default ROMs",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+    { "--" },
+    { "Load new kernal ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+    { "Load new BASIC ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+    { "Load new character ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+    { "--" },
+    { "Load custom ROM set from file",
+      (ui_callback_t) ui_load_romset, NULL, NULL },
+    { "Dump ROM set definition to file",
+      (ui_callback_t) ui_dump_romset, NULL, NULL },
+    { NULL }
+};
 
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_menu[] = {
-    { "*ROM settings",
-      (ui_callback_t) RomSetMenu, NULL, NULL },
+    { "ROM settings",
+      NULL, NULL, c64_romset_submenu },
     { "VIC-II settings",
       NULL, NULL, vic_submenu },
     { "SID settings",
@@ -362,39 +356,6 @@ int c64_ui_init(void)
         ui_set_application_icon(icon_pixmap);
     }
 #endif
-    if(mem_get_numromsets() > 0) {
-        int num_romsets;
-        char** romsets;
-        volatile int offset;
-        char buf[50];
-
-        buf[0] = '*';
-        buf[50] = '\0';
-
-        romsets = mem_get_romsets();
-        romset_submenu = (ui_menu_entry_t*) xcalloc(mem_get_numromsets() + 2,
-                                                    sizeof(ui_menu_entry_t));
-        for(num_romsets = 0, offset = 0;
-            num_romsets < mem_get_numromsets() + offset; num_romsets++) {
-            buf[1] = '\0';
-            strncat(buf+1,romsets[num_romsets-offset],48);
-            romset_submenu[num_romsets].string = stralloc(buf);
-            romset_submenu[num_romsets].callback = (ui_callback_t) radio_RomSet;
-            romset_submenu[num_romsets].callback_data = (ui_callback_data_t) 
-              romsets[num_romsets-offset];
-            romset_submenu[num_romsets].sub_menu = NULL;
-            romset_submenu[num_romsets].hotkey_keysym = 0;
-            romset_submenu[num_romsets].hotkey_modifier = (ui_hotkey_modifier_t) 0;
-            if(num_romsets == 0) {
-                romset_submenu[++num_romsets].string = "--";
-                offset = 1;
-            }
-        }
-        romset_submenu[num_romsets].string = NULL;
-        c64_menu[0].sub_menu = romset_submenu;
-    } else {
-        ui_update_menus();
-    }
 
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,

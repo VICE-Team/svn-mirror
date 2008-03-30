@@ -230,6 +230,10 @@ int machine_init(void)
     file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
+#ifdef HAVE_RS232
+    rs232_init();
+#endif
+
 #ifdef HAVE_PRINTER
     /* initialize print devices */
     print_init();
@@ -242,6 +246,9 @@ int machine_init(void)
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
+
+    via_init();
+    acia1_init();
 
     /* Initialize the keyboard.  */
 #if defined __MSDOS__ || defined WIN32
@@ -280,15 +287,16 @@ int machine_init(void)
 /* PET-specific initialization.  */
 void machine_reset(void)
 {
-    maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
-    maincpu_int_status.alarm_handler[A_VIAT1] = int_viat1;
-    maincpu_int_status.alarm_handler[A_VIAT2] = int_viat2;
     reset_pia1();
     reset_pia2();
     reset_via();
+    reset_acia1();
     reset_crtc();
     petsnd_reset();
     petmem_reset();
+#ifdef HAVE_RS232
+    rs232_reset();
+#endif
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
@@ -325,6 +333,7 @@ static void vsync_hook(void)
 	via_prevent_clk_overflow(sub);
         sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
+        acia1_prevent_clk_overflow(sub);
     }
 
     /* The 1541 has to deal both with our overflowing and its own one, so it
@@ -431,9 +440,7 @@ int machine_read_snapshot(const char *name)
     }
 
     if (!ef) {
-	if (acia1_read_snapshot_module(s) < 0) {
-	    reset_acia1();	/* clear interrupts */
-	}
+	acia1_read_snapshot_module(s);	/* optional, so no error check */
     }
 
     snapshot_close(s);

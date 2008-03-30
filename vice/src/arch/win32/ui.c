@@ -34,6 +34,7 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "archdep.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -186,6 +187,8 @@ static ACCEL    c64_accel[]={
     {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
     {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
     {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
     {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
     {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
     {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
@@ -201,6 +204,8 @@ static ACCEL    c128_accel[]={
     {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
     {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
     {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
     {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
     {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
     {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
@@ -216,6 +221,8 @@ static ACCEL    cbm2_accel[]={
     {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
     {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
     {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
     {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
     {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
     {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
@@ -231,6 +238,8 @@ static ACCEL    vic_accel[]={
     {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
     {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
     {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
     {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
     {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
     {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
@@ -246,6 +255,8 @@ static ACCEL    pet_accel[]={
     {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
     {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
     {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_L,IDM_LOADQUICK},
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_S,IDM_SAVEQUICK},
     {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
     {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
     {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
@@ -264,29 +275,29 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,13);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,15);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,12);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,14);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,12);
+            ui_accelerator=CreateAcceleratorTable(vic_accel,14);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,12);
+            ui_accelerator=CreateAcceleratorTable(pet_accel,14);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,12);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,14);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,13);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,15);
     }
 
     /* Register the window class.  */
@@ -573,6 +584,82 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
     ui_snapshot_load_dialog(main_hwnd);
 }
 
+typedef struct {
+    char    name[MAX_PATH];
+    int     valid;
+} snapfiles;
+
+static snapfiles    files[10];
+static int          lastindex;
+static int          snapcounter;
+
+static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+int     i,j;
+char    *fullname;
+char    *fullname2;
+
+    if (lastindex==-1) {
+        lastindex=0;
+        strcpy(files[lastindex].name,"quicksnap0.vsf");
+    } else {
+        if (lastindex==9) {
+            if (snapcounter==10) {
+                fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[0].name,NULL);
+                DeleteFile(fullname);
+                free(fullname);
+                for (i=1; i<10; i++) {
+                    fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i].name,NULL);
+                    fullname2=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i-1].name,NULL);
+                    MoveFile(fullname,fullname2);
+                    free(fullname);
+                    free(fullname2);
+                }
+            } else {
+                for (i=0; i<10; i++) {
+                    if (files[i].valid==0) break;
+                }
+                for (j=i+1; j<10; j++) {
+                    if (files[j].valid) {
+                        strcpy(files[i].name,files[j].name);
+                        files[i].name[strlen(files[i].name)-5]='0'+i;
+                        fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[j].name,NULL);
+                        fullname2=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i].name,NULL);
+                        MoveFile(fullname,fullname2);
+                        free(fullname);
+                        free(fullname2);
+                        i++;
+                    }
+                }
+                strcpy(files[i].name,files[0].name);
+                files[i].name[strlen(files[i].name)-5]='0'+i;
+                lastindex=i;
+            }
+        } else {
+            strcpy(files[lastindex+1].name,files[lastindex].name);
+            lastindex++;
+            files[lastindex].name[strlen(files[lastindex].name)-5]='0'+lastindex;
+        }
+    }
+
+    fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[lastindex].name,NULL);
+    if (machine_write_snapshot(fullname,0,0)<0) {
+        ui_error("Can't write snapshot file.");
+    }
+    free(fullname);
+}
+
+static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+char    *fullname;
+
+    fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[lastindex].name,NULL);
+    if (machine_read_snapshot(fullname)<0) {
+        ui_error("Cannot read snapshot image");
+    }
+    free(fullname);
+}
+
 /* ------------------------------------------------------------------------ */
 
 /* Return the main window handler.  */
@@ -632,6 +719,38 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
             break;
     }
     return FALSE;
+}
+
+static void scan_files()
+{
+WIN32_FIND_DATA     file_info;
+HANDLE              search_handle;
+int                 i;
+char                *dirname;
+
+    dirname=concat(archdep_boot_path(),"\\",machine_name,"\\quicksnap?.vsf",NULL);
+    search_handle=FindFirstFile(dirname,&file_info);
+    snapcounter=0;
+    lastindex=-1;
+    for (i=0; i<10; i++) {
+        files[i].valid=0;
+    }
+    if (search_handle!=INVALID_HANDLE_VALUE) {
+        do {
+            char c;
+            c=file_info.cFileName[strlen(file_info.cFileName)-5];
+            if ((c>='0') && (c<='9')) {
+                strcpy(files[c-'0'].name,file_info.cFileName);
+                files[c-'0'].valid=1;
+                if ((c-'0')>lastindex) {
+                    lastindex=c-'0';
+                }
+                snapcounter++;
+            }
+        } while (FindNextFile(search_handle,&file_info));
+        FindClose(search_handle);
+    }
+    free(dirname);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -753,6 +872,18 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
       case IDM_SNAPSHOT_SAVE:
         maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
         break;
+        case IDM_SAVEQUICK|0x00010000:
+        case IDM_SAVEQUICK:
+            scan_files();
+            maincpu_trigger_trap(save_quicksnapshot_trap, (void*) 0);
+            break;
+        case IDM_LOADQUICK|0x00010000:
+        case IDM_LOADQUICK:
+            scan_files();
+            if (snapcounter>0) {
+                maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
+            }
+            break;
       case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
           if (1 /* !ui_emulation_is_paused()*/ )

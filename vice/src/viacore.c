@@ -64,6 +64,13 @@
 /*#define MYVIA_NEED_LATCHING */
 
 /*
+ * local prototypes
+ */
+
+static int int_myviat1(long offset);
+static int int_myviat2(long offset);
+
+/*
  * local functions
  */
 
@@ -698,7 +705,7 @@ BYTE REGPARM1 peek_myvia(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-int int_myviat1(long offset)
+static int int_myviat1(long offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -727,7 +734,7 @@ int int_myviat1(long offset)
  * Timer B is always in one-shot mode
  */
 
-int int_myviat2(long offset)
+static int int_myviat2(long offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)

@@ -122,7 +122,7 @@ int machine_init_resources(void)
         || sound_init_resources() < 0
         || sid_init_resources() < 0
         || drive_init_resources() < 0
-        || acia1_init_resources() < 0	/* ACIA is always there */
+        || acia1_init_resources() < 0	
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
 #endif
@@ -199,6 +199,10 @@ int machine_init(void)
     file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
+#ifdef HAVE_RS232
+    rs232_init();
+#endif
+
 #ifdef HAVE_PRINTER
     /* initialize print devices */
     print_init();
@@ -206,6 +210,9 @@ int machine_init(void)
 
     /* Initialize the CRTC emulation.  */
     crtc_init();
+
+    cia1_init();
+    acia1_init();
 
     /* Initialize the keyboard.  */
 #if defined __MSDOS__ || defined WIN32
@@ -239,11 +246,6 @@ int machine_init(void)
 /* CBM-II-specific initialization.  */
 void machine_reset(void)
 {
-    maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
-    maincpu_int_status.alarm_handler[A_ACIA1] = int_acia1;
-    maincpu_int_status.alarm_handler[A_CIA1TA] = int_cia1ta;
-    maincpu_int_status.alarm_handler[A_CIA1TB] = int_cia1tb;
-    maincpu_int_status.alarm_handler[A_CIA1TOD] = int_cia1tod;
     reset_acia1();
     reset_cia1();
     reset_tpi1();
@@ -301,6 +303,7 @@ static void vsync_hook(void)
 	cia1_prevent_clk_overflow(sub);
         sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
+        acia1_prevent_clk_overflow(sub);
     }
 
     /* The 1541 has to deal both with our overflowing and its own one, so it

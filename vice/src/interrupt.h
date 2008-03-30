@@ -408,6 +408,8 @@ extern CLOCK drive_clk[2];
     set_int(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_int_clk(int_num, value, clk) \
     set_int(&maincpu_int_status, (int_num), (value), (clk))
+#define maincpu_set_int_noclk(int_num, value) \
+    set_int_noclk(&maincpu_int_status, (int_num), (value))
 #define maincpu_trigger_reset() \
     trigger_reset(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \

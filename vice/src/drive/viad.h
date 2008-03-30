@@ -35,42 +35,38 @@
 extern void via1d0_set_atn(BYTE state);
 extern void via1d1_set_atn(BYTE state);
 
+extern void via1d0_init(void);
 extern void reset_via1d0(void);
 extern void via1d0_signal(int line, int edge);
 extern void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via1d0(ADDRESS addr);
-extern int int_via1d0t1(long offset);
-extern int int_via1d0t2(long offset);
 extern void via1d0_prevent_clk_overflow(CLOCK sub);
 extern int via1d0_write_snapshot_module(snapshot_t * p);
 extern int via1d0_read_snapshot_module(snapshot_t * p);
 
+extern void via2d0_init(void);
 extern void reset_via2d0(void);
 extern void via2d0_signal(int line, int edge);
 extern void REGPARM2 store_via2d0(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via2d0(ADDRESS addr);
-extern int int_via2d0t1(long offset);
-extern int int_via2d0t2(long offset);
 extern void via2d0_prevent_clk_overflow(CLOCK sub);
 extern int via2d0_write_snapshot_module(snapshot_t * p);
 extern int via2d0_read_snapshot_module(snapshot_t * p);
 
+extern void via1d1_init(void);
 extern void reset_via1d1(void);
 extern void via1d1_signal(int line, int edge);
 extern void REGPARM2 store_via1d1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via1d1(ADDRESS addr);
-extern int int_via1d1t1(long offset);
-extern int int_via1d1t2(long offset);
 extern void via1d1_prevent_clk_overflow(CLOCK sub);
 extern int via1d1_write_snapshot_module(snapshot_t * p);
 extern int via1d1_read_snapshot_module(snapshot_t * p);
 
+extern void via2d1_init(void);
 extern void reset_via2d1(void);
 extern void via2d1_signal(int line, int edge);
 extern void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via2d1(ADDRESS addr);
-extern int int_via2d1t1(long offset);
-extern int int_via2d1t2(long offset);
 extern void via2d1_prevent_clk_overflow(CLOCK sub);
 extern int via2d1_write_snapshot_module(snapshot_t * p);
 extern int via2d1_read_snapshot_module(snapshot_t * p);

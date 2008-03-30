@@ -260,6 +260,9 @@ int machine_init(void)
     /* Initialize the VIC-I emulation.  */
     vic_init();
 
+    via1_init();
+    via2_init();
+ 
     /* Load the default keymap file.  */
 #if !defined __MSDOS__ && !defined WIN32
     if (kbd_init() < 0)
@@ -293,18 +296,10 @@ int machine_init(void)
 /* Reset.  */
 void machine_reset(void)
 {
-    maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
-    maincpu_int_status.alarm_handler[A_VIA1T1] = int_via1t1;
-    maincpu_int_status.alarm_handler[A_VIA1T2] = int_via1t2;
-    maincpu_int_status.alarm_handler[A_VIA2T1] = int_via2t1;
-    maincpu_int_status.alarm_handler[A_VIA2T2] = int_via2t2;
-#ifdef HAVE_RS232
-    maincpu_int_status.alarm_handler[A_RSUSER] = int_rsuser;
-#endif
-    maincpu_set_alarm_clk(A_RASTERDRAW, VIC20_PAL_CYCLES_PER_LINE);
-
     reset_via1();
     reset_via2();
+
+    reset_vic();
 
     drive_reset();
 

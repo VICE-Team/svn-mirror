@@ -82,21 +82,19 @@
 #include "c64acia.h"
 #endif
 
-#if !defined __MSDOS && ! defined WIN32
-#include "c64romset.h"
-#endif
-
 #ifdef __riscos
 #include "ROlib.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-/* C64 memory-related resources.  */
+static int mem_load_kernal(void);
+static int mem_load_basic(void);
+static int mem_load_chargen(void);
 
-static char default_chargen_rom_name[] = "chargen";
-static char default_basic_rom_name[] = "basic";
-static char default_kernal_rom_name[] = "kernal";
+/* ------------------------------------------------------------------------- */
+
+/* C64 memory-related resources.  */
 
 /* Name of the character ROM.  */
 static char *chargen_rom_name = 0;
@@ -129,12 +127,6 @@ static int acia_de_enabled;
 
 static void cartridge_config_changed(BYTE mode);
 
-static char **romsets;
-
-static int number_romsets;
-
-static char *romset_name = 0;
-
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
@@ -148,7 +140,6 @@ const char *mem_romset_resources_list[] = {
 };
 
 
-/* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -158,10 +149,10 @@ static int set_chargen_rom_name(resource_value_t v)
         return 0;
 
     string_set(&chargen_rom_name, name);
-    return 0;
+
+    return mem_load_chargen();
 }
 
-/* FIXME: Should load the new Kernal ROM.  */
 static int set_kernal_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -171,10 +162,10 @@ static int set_kernal_rom_name(resource_value_t v)
         return 0;
 
     string_set(&kernal_rom_name, name);
-    return 0;
+
+    return mem_load_kernal();
 }
 
-/* FIXME: Should load the new BASIC ROM.  */
 static int set_basic_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
@@ -185,7 +176,8 @@ static int set_basic_rom_name(resource_value_t v)
         return 0;
 
     string_set(&basic_rom_name, name);
-    return 0;
+
+    return mem_load_basic();
 }
 
 static int set_emu_id_enabled(resource_value_t v)
@@ -1111,70 +1103,12 @@ void mem_powerup(void)
     }
 }
 
-/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'.  */
-
-char* mem_get_romset_name(void) {
-    return(romset_name);
-}
-
-char** mem_get_romsets(void)
-{
-    return romsets;
-}
-
-int mem_get_numromsets(void)
-{
-    return number_romsets;
-}
-
-int mem_add_romset(char *name)
+static int c64mem_get_kernal_checksum(void)
 {
     int i;
-    if(number_romsets > 20) return 0;
-    for(i = 1 ; i < number_romsets ; i ++) {
-      if(!strcmp(name,romsets[i])) {
-	  return 0;
-      }
-    }
-    romsets[number_romsets++] = stralloc(name);
-    log_message(LOG_DEFAULT, "Adding RomSet `%s'.", name);
-    return 1;
-}
-
-int mem_load_romset_file(const char *name)
-{
-    /* Fixme: Only 20 different RomSets at the moment */
-    romsets = xcalloc(sizeof(char*), 20);
-
-    romsets[0] = stralloc("Default");
-    log_message(LOG_DEFAULT, "Adding Default RomSet");
-
-    number_romsets = 1;
-
-#if !defined __MSDOS && ! defined WIN32
-    c64romset_load();
-#endif
-    return number_romsets;  /* return ok */
-}
-
-int mem_romset_loader(void)
-{
     WORD sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
-    int i;
 
-    /* Make sure serial code assumes there are no traps installed.  */
-    serial_remove_traps();
-
-    /* Load Kernal ROM.  */
-    if (mem_load_sys_file(kernal_rom_name,
-                          kernal_rom, C64_KERNAL_ROM_SIZE,
-                          C64_KERNAL_ROM_SIZE) < 0) {
-        log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
-                  kernal_rom_name);
-        return -1;
-    }
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
         sum += kernal_rom[i];
@@ -1199,7 +1133,7 @@ int mem_romset_loader(void)
         if (patch_rom(kernal_revision) < 0)
             return -1;
     }
-
+/*
     {
         int drive_true_emulation;
         resources_get_value("DriveTrueEmulation",
@@ -1207,16 +1141,44 @@ int mem_romset_loader(void)
         if (!drive_true_emulation)
             serial_install_traps();
     }
+*/
+    return 0;
+}
 
-    /* Load Basic ROM.  */
-    if (mem_load_sys_file(basic_rom_name,
-                          basic_rom, C64_BASIC_ROM_SIZE,
-                          C64_BASIC_ROM_SIZE) < 0) {
-        log_error(c64_mem_log,
-                  "Couldn't load basic ROM `%s'.",
-                  basic_rom_name);
+static int mem_load_kernal(void)
+{
+    int trapfl;
+
+    if(!rom_loaded) return 0;
+
+    /* Make sure serial code assumes there are no traps installed.  */
+    /* serial_remove_traps(); */
+    /* we also need the TAPE traps!!! therefore -> */
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
+
+    /* Load Kernal ROM.  */
+    if (mem_load_sys_file(kernal_rom_name,
+                          kernal_rom, C64_KERNAL_ROM_SIZE,
+                          C64_KERNAL_ROM_SIZE) < 0) {
+        log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
+                  kernal_rom_name);
+        resources_set_value("NoTraps", (resource_value_t) trapfl);
         return -1;
     }
+    c64mem_get_kernal_checksum();
+
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
+    return 0;
+}
+
+static int c64mem_get_basic_checksum(void)
+{
+    int i;
+    WORD sum;
+
     /* Check Basic ROM.  */
 
     for (i = 0, sum = 0; i < C64_BASIC_ROM_SIZE; i++)
@@ -1227,6 +1189,30 @@ int mem_romset_loader(void)
                     "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X).",
                     basic_rom_name, sum, sum);
 
+    return 0;
+}
+
+static int mem_load_basic(void) 
+{
+    if(!rom_loaded) return 0;
+
+    /* Load Basic ROM.  */
+    if (mem_load_sys_file(basic_rom_name,
+                          basic_rom, C64_BASIC_ROM_SIZE,
+                          C64_BASIC_ROM_SIZE) < 0) {
+        log_error(c64_mem_log,
+                  "Couldn't load basic ROM `%s'.",
+                  basic_rom_name);
+        return -1;
+    }
+    return c64mem_get_basic_checksum();
+}
+
+
+static int mem_load_chargen(void) 
+{
+    if(!rom_loaded) return 0;
+    
     /* Load chargen ROM.  */
 
     if (mem_load_sys_file(chargen_rom_name,
@@ -1236,94 +1222,30 @@ int mem_romset_loader(void)
                   chargen_rom_name);
         return -1;
     }
-    rom_loaded = 1;
 
     return 0;
 }
 
-int mem_set_romset(char *name) {
-  int num_romsets;
-  char romsetnamebuffer[MAXPATHLEN];
-  char *tmppath;
-
-  if(chargen_rom_name) free(chargen_rom_name);
-  if(basic_rom_name) free(basic_rom_name);
-  if(kernal_rom_name) free(kernal_rom_name);
-
-  if(strcmp(name,"Default")) {
-    for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
-      if (!strcmp(romsets[num_romsets],name)) {
-	romset_name = romsets[num_romsets];
-	strcpy(romsetnamebuffer,"chargen-");
-	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
-	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  chargen_rom_name = default_chargen_rom_name;
-	} else {
-	  chargen_rom_name = stralloc(romsetnamebuffer);
-	}
-
-	strcpy(romsetnamebuffer,"kernal-");
-	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
-	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  kernal_rom_name = default_kernal_rom_name;
-	} else {
-	  kernal_rom_name =  stralloc(romsetnamebuffer);
-	}
-
-	strcpy(romsetnamebuffer,"basic-");
-	strncat(romsetnamebuffer,romset_name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
-	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-	  basic_rom_name = default_basic_rom_name;
-	} else {
-	  basic_rom_name = stralloc(romsetnamebuffer);
-	}
-
-	reload_rom_1541(romset_name);
-
-	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
-      }
-    }
-  } else {
-    romset_name = romsets[0];
-    chargen_rom_name = default_chargen_rom_name;
-    kernal_rom_name = default_kernal_rom_name;
-    basic_rom_name = default_basic_rom_name;
-    reload_rom_1541(NULL);
-    log_message(LOG_DEFAULT, "Changing to Default RomSet");
-  }
-  return(0);
-}
-
-int isRomInRomSet(char *rom, char *romset)
-{
-    if(!romset || !rom || strlen(romset) > strlen(rom)) return 0;
-    return !strcmp(rom + strlen(rom) - strlen(romset), romset)?1:0;
-}
 
 int mem_load(void)
 {
-    int back,num_romsets;
-    char *temp;
     mem_powerup();
 
     if (c64_mem_log == LOG_ERR)
         c64_mem_log = log_open("C64MEM");
 
-    mem_load_romset_file("rom"FSDEV_EXT_SEP_STR"cfg");
-    back = mem_romset_loader();
-    for(num_romsets = 1; num_romsets < number_romsets ; num_romsets++) {
-        temp = romsets[num_romsets];
-	if( isRomInRomSet(chargen_rom_name,temp) ||
-	    isRomInRomSet(basic_rom_name,temp) ||
-	    isRomInRomSet(kernal_rom_name,temp) ) {
-            romset_name = romsets[num_romsets];
-	    break;
-      }
-    }
-    if(num_romsets == number_romsets) {
-      romset_name = romsets[0];
-    }
-    return back;
+    rom_loaded = 1;
+
+    if (mem_load_kernal()<0) 
+	return -1;
+
+    if (mem_load_basic()<0) 
+	return -1;
+
+    if (mem_load_chargen()<0) 
+	return -1;
+
+    return 0;
 }
 
 void mem_attach_cartridge(int type, BYTE * rawcart)
@@ -1714,6 +1636,7 @@ static const char snap_rom_module_name[] = "C64ROM";
 static int mem_write_rom_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
+    int trapfl;
 
     /* Main memory module.  */
 
@@ -1721,6 +1644,10 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
 					SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
     if (m == NULL)
         return -1;
+
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     if (snapshot_module_write_byte_array(m, kernal_rom, 
 						C64_KERNAL_ROM_SIZE) < 0
@@ -1744,11 +1671,16 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     return 0;
 
 fail:
     if (m != NULL)
         snapshot_module_close(m);
+
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     return -1;
 }
  
@@ -1756,6 +1688,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
+    int trapfl;
 
     /* Main memory module.  */
 
@@ -1772,8 +1705,13 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,
                   SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-        goto fail;
+        snapshot_module_close(m);
+	return -1;
     }
+
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     if (snapshot_module_read_byte_array(m, kernal_rom, 
 						C64_KERNAL_ROM_SIZE) < 0
@@ -1796,11 +1734,18 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
+    c64mem_get_kernal_checksum();
+    c64mem_get_basic_checksum();
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
+
     return 0;
 
 fail:
     if (m != NULL)
         snapshot_module_close(m);
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
     return -1;
 }
 

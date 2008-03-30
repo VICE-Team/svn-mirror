@@ -7,6 +7,7 @@ c64_DATA = \
 	chargen \
 	default.vkm \
 	default.vpl \
+	default.vrs \
 	frodo.vpl \
 	godot.vpl \
 	kernal \

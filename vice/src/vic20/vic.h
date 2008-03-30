@@ -118,6 +118,7 @@ static int text_lines = 23;
 
 /* ------------------------------------------------------------------------- */
 
+extern void reset_vic(void);
 extern int vic_init_resources(void);
 extern int vic_init_cmdline_options(void);
 extern void video_resize(void);

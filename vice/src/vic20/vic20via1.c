@@ -31,15 +31,14 @@
 #define myclk clk
 #define myrmwf rmw_flag
 #define myvia via1
+#define myvia_init via1_init
 
 #define I_MYVIAFL I_VIA1FL
 #define MYVIA_INT VIA1_INT
-#define A_MYVIAT1 A_VIA1T1
-#define A_MYVIAT2 A_VIA1T2
+#define	MYVIA_NAME "Via1"
 
 #define mycpu_int_status maincpu_int_status
-#define mycpu_unset_alarm maincpu_unset_alarm
-#define mycpu_set_alarm_clk maincpu_set_alarm_clk
+#define mycpu_alarm_context maincpu_alarm_context
 
 #define reset_myvia reset_via1
 #define store_myvia store_via1
@@ -57,6 +56,8 @@
 
 #include "vice.h"
 #include "viacore.h"
+
+#include "maincpu.h"
 
 #include "drive.h"
 #include "kbd.h"

@@ -151,9 +151,9 @@ EXTRA_DIST = \
 	ChangeLog \
 	ChangeLog.1 \
 	ChangeLog.2 \
-	acia-tmpl.c \
+	aciacore.c \
 	cia-tmpl.c \
-	crtc-tmpl.c \
+	crtccore.c \
 	convio \
 	fixpoint.c \
 	pia-tmpl.c \

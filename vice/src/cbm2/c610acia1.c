@@ -1,14 +1,9 @@
-
-/*
- * ../../src/cbm2/c610acia1.c
- * This file is generated from ../../src/acia-tmpl.c and ../../src/cbm2/c610acia1.def,
- * Do not edit!
- */
-/*
- * acia-tmpl.c - Template file for ACIA 6551 emulation.
+/* -*- C -*-
+ *
+ * c610acia.def - Definitions for a 6551 ACIA interface
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,431 +25,44 @@
  *
  */
 
-#include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
+#define mycpu maincpu
 
-#include "alarm.h"
-#include "cmdline.h"
-#include "interrupt.h"
-#include "log.h"
-#include "machine.h"
+#define myclk clk
+
+#define myacia acia1
+
+#define I_MYACIA I_ACIA1
+
+
+/* resource defaults */
+#define        MyAcia          Acia1
+#define        MyDevice        0
+#define        MyIrq           IK_IRQ
+
+#define myaciadev       acia1dev
+#define MYACIADEV       "Acia1Dev"
+#define MYACIAIRQ       "Acia1Irq"
+
+#define myacia_init acia1_init
+#define myacia_init_cmdline_options acia1_init_cmdline_options
+#define myacia_init_resources acia1_init_resources
+#define myacia_prevent_clk_overflow acia1_prevent_clk_overflow
+#define myacia_read_snapshot_module acia1_read_snapshot_module
+#define myacia_write_snapshot_module acia1_write_snapshot_module
+#define peek_myacia peek_acia1
+#define read_myacia read_acia1
+#define reset_myacia reset_acia1
+#define store_myacia store_acia1
+
 #include "maincpu.h"
-#include "resources.h"
-#include "rs232.h"
-#include "snapshot.h"
-#include "types.h"
-#include "vmachine.h"
 
-#include "acia.h"
-
+#define mycpu_alarm_context maincpu_alarm_context
 
 #include "c610tpi.h"
 
-#undef maincpu_set_int
-#define maincpu_set_int(b,a)         tpi1_set_int(4,(a))
+#define mycpu_set_int(b,a)         	tpi1_set_int(4,(a))
+#define mycpu_set_int_noclk(b,c)	tpi1_restore_int(4,(c))
 
-#undef set_int_noclk
-#define set_int_noclk(a,b,c)         tpi1_restore_int(4,(c))
-
-
-#undef	DEBUG
-
-static alarm_t acia1_alarm;
-
-static int acia_ticks = 21111;	/* number of clock ticks per char */
-static file_desc_t fd = ILLEGAL_FILE_DESC;
-static int intx = 0;	/* indicates that a transmit is currently ongoing */
-static int irq = 0;
-static BYTE cmd;
-static BYTE ctrl;
-static BYTE rxdata;	/* data that has been received last */
-static BYTE txdata;	/* data prepared to send */
-static BYTE status;
-static int alarm_active = 0;	/* if alarm is set or not */
-
-static log_t acia1_log = LOG_ERR;
-
-/* Bah, this sucks.  */
-int int_acia1(long offset);
-    
-/******************************************************************/
-
-/* rs232.h replacement functions if no rs232 device available */
-
-#ifndef HAVE_RS232
-
-int rs232_open(int device)
-{
-    return -1;
-}
-
-void rs232_close(int fd)
-{
-}
-
-int rs232_putc(int fd, BYTE b)
-{
-    return -1;
-}
-
-int rs232_getc(int fd, BYTE *b)
-{
-    return -1;
-}
-
-#endif
-
-/******************************************************************/
-
-static int acia1_device;
-static int acia1_irq;
-static int acia1_irq_res;
-
-static int acia1_set_device(resource_value_t v) {
-
-    if(fd!=ILLEGAL_FILE_DESC) {
-	log_error(acia1_log,
-                  "Device open, change effective only after close!");
-    }
-    acia1_device = (int) v;
-    return 0;
-}
-
-static int acia1_set_irq(resource_value_t v) {
-    int new_irq_res = (int)v;
-    int new_irq;
-    static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
-
-    if (new_irq_res < 0 || new_irq_res > 2) return -1;
-
-    new_irq = irq_tab[new_irq_res];
-
-    if(acia1_irq != new_irq) {
-	maincpu_set_int(I_ACIA1, 0);
-	if(irq) {
-	    maincpu_set_int(I_ACIA1, new_irq);
-	}
-    }
-    acia1_irq = new_irq;
-    acia1_irq_res = new_irq_res;
-
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "Acia1Dev", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & acia1_device, acia1_set_device },
-    { "Acia1Irq", RES_INTEGER, (resource_value_t) IK_IRQ,
-      (resource_value_t *) & acia1_irq_res, acia1_set_irq },
-    { NULL }
-};
-
-int acia1_init_resources(void) {
-    return resources_register(resources);
-}
-
-static cmdline_option_t cmdline_options[] = {
-    { "-acia1dev", SET_RESOURCE, 1, NULL, NULL, "Acia1Dev", NULL,
-	"<0-3>", "Specify RS232 device this ACIA should work on" },
-    { NULL }
-};
-
-int acia1_init_cmdline_options(void) {
-    return cmdline_register_options(cmdline_options);
-}
-
-/******************************************************************/
-
-/* note: the first value is bogus. It should be 16*external clock. */
-static double acia_baud_table[16] = {
-	10, 50, 75, 109.92, 134.58, 150, 300, 600, 1200, 1800,
-	2400, 3600, 4800, 7200, 9600, 19200
-};
-
-/******************************************************************/
-
-void acia1_init(void) {
-    alarm_init(&acia1_alarm, &maincpu_alarm_context, "ACIA1", int_acia1);
-}
-
-void reset_acia1(void) {
-
-#ifdef DEBUG
-	log_message(acia1_log, "reset_acia1");
-#endif
-
-	cmd = 0;
-	ctrl = 0;
-
-        acia_ticks = machine_get_cycles_per_second() 
-				/ acia_baud_table[ctrl & 0xf];
-
-	status = 0x10;
-	intx = 0;
-
-	if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
-	fd = ILLEGAL_FILE_DESC;
-
-	alarm_unset(&acia1_alarm);
-	alarm_active = 0;
-
-	maincpu_set_int(I_ACIA1, 0);
-	irq = 0;
-}
-
-/* -------------------------------------------------------------------------- */
-
-/* The dump format has a module header and the data generated by the
- * chip...
- *
- * The version of this dump description is 0/0
- */
-
-#define ACIA_DUMP_VER_MAJOR      1
-#define ACIA_DUMP_VER_MINOR      0
-
-/*
- * The dump data:
- *
- * UBYTE	TDR	Transmit Data Register
- * UBYTE	RDR	Receiver Data Register
- * UBYTE	SR	Status Register (includes state of IRQ line)
- * UBYTE	CMD	Command Register
- * UBYTE	CTRL	Control Register
- *
- * UBYTE	INTX	0 = no data to tx; 2 = TDR valid; 1 = in transmit
- *
- * DWORD	TICKS	ticks till the next TDR empty interrupt
- */
-
-static const char module_name[] = "ACIA1";
-
-/* FIXME!!!  Error check.  */
-/* FIXME!!!  If no connection, emulate carrier lost or so */
-int acia1_write_snapshot_module(snapshot_t * p)
-{
-    snapshot_module_t *m;
-
-    m = snapshot_module_create(p, module_name,
-                               ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
-    if (m == NULL)
-        return -1;
-
-    snapshot_module_write_byte(m, txdata);
-    snapshot_module_write_byte(m, rxdata);
-    snapshot_module_write_byte(m, status | (irq?0x80:0));
-    snapshot_module_write_byte(m, cmd);
-    snapshot_module_write_byte(m, ctrl);
-    snapshot_module_write_byte(m, intx);
-
-#if 0
-    if(alarm_active) {
-        snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_ACIA1]
-                                    - clk));
-    } else {
-        snapshot_module_write_dword(m, 0);
-    }
-#endif
-
-    snapshot_module_close(m);
-
-    return 0;
-}
-
-int acia1_read_snapshot_module(snapshot_t * p)
-{
-    BYTE vmajor, vminor;
-    BYTE byte;
-    DWORD dword;
-    snapshot_module_t *m;
-
-    alarm_unset(&acia1_alarm);   /* just in case we don't find module */
-    alarm_active = 0;
-
-    set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
-
-    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
-    if (m == NULL)
-        return -1;
-
-    if (vmajor != ACIA_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_read_byte(m, &txdata);
-    snapshot_module_read_byte(m, &rxdata);
-
-    irq = 0;
-    snapshot_module_read_byte(m, &status);
-    if(status & 0x80) {
-	status &= 0x7f;
-	irq = 1;
-	set_int_noclk(&maincpu_int_status, I_ACIA1, acia1_irq);
-    } else {
-	set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
-    }
-
-    snapshot_module_read_byte(m, &cmd);
-    if((cmd & 1) && (fd == ILLEGAL_FILE_DESC)) {
-        fd = rs232_open(acia1_device);
-    } else
-        if(fd != ILLEGAL_FILE_DESC && !(cmd&1)) {
-        rs232_close(fd);
-        fd = ILLEGAL_FILE_DESC;
-    }
-
-    snapshot_module_read_byte(m, &ctrl);
-    acia_ticks = machine_get_cycles_per_second() 
-                                / acia_baud_table[ctrl & 0xf];
-
-    snapshot_module_read_byte(m, &byte);
-    intx = byte;
-
-    snapshot_module_read_dword(m, &dword);
-    if (dword) {
-        alarm_set(&acia1_alarm, clk + dword);
-        alarm_active = 1;
-    } else {
-        alarm_unset(&acia1_alarm);
-        alarm_active = 0;
-    }
-
-    if (snapshot_module_close(m) < 0)
-        return -1;
-
-    return 0;
-}
-
-
-void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
-
-#ifdef DEBUG
-	log_message(acia1_log, "store_acia1(%04x,%02x)",a,b);
-#endif
-
-	switch(a & 3) {
-	case ACIA_DR:
-		txdata = b;
-		if(cmd&1) {
-		  if(!intx) {
-		    alarm_set(&acia1_alarm, clk + 1);
-                    alarm_active = 1;
-		    intx = 2;
-		  } else
-		  if(intx==1) {
-		    intx++;
-		  }
-		  status &= 0xef;		/* clr TDRE */
-		}
-		break;
-	case ACIA_SR:
-		if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
-		fd = ILLEGAL_FILE_DESC;
-		status &= ~4;
-		cmd &= 0xe0;
-		intx = 0;
-		maincpu_set_int(I_ACIA1, 0);
-		irq = 0;
-		alarm_unset(&acia1_alarm);
-                alarm_active = 0;
-		break;
-	case ACIA_CTRL:
-		ctrl = b;
-                acia_ticks = machine_get_cycles_per_second() 
-                                / acia_baud_table[ctrl & 0xf];
-		break;
-	case ACIA_CMD:
-		cmd = b;
-		if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
-		  fd = rs232_open(acia1_device);
-		  alarm_set(&acia1_alarm, clk + acia_ticks);
-                  alarm_active = 1;
-		} else
-		if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
-		  rs232_close(fd);
-		  alarm_unset(&acia1_alarm);
-                  alarm_active = 0;
-		  fd = ILLEGAL_FILE_DESC;
-		}
-		break;
-	}
-}
-
-BYTE REGPARM1 read_acia1(ADDRESS a) {
-#if 0 /* def DEBUG */
-	BYTE read_acia1_(ADDRESS);
-	BYTE b = read_acia1_(a);
-	static ADDRESS lasta = 0;
-	static BYTE lastb = 0;
-
-	if((a!=lasta) || (b!=lastb)) {
-	  log_message(acia1_log, "read_acia1(%04x) -> %02x",a,b);
-	}
-	lasta = a; lastb = b;
-	return b;
-}
-BYTE read_acia1_(ADDRESS a) {
-#endif
-
-	switch(a & 3) {
-	case ACIA_DR:
-		status &= ~8;
-		return rxdata;
-	case ACIA_SR:
-		{
-		  BYTE c = status | (irq?0x80:0);
-		  maincpu_set_int(I_ACIA1, 0);
-		  irq = 0;
-		  return c;
-		}
-	case ACIA_CTRL:
-		return ctrl;
-	case ACIA_CMD:
-		return cmd;
-	}
-	return 0;
-}
-
-BYTE peek_acia1(ADDRESS a) {
-
-	switch(a & 3) {
-	case ACIA_DR:
-		return rxdata;
-	case ACIA_SR:
-		{
-		  BYTE c = status | (irq?0x80:0);
-		  return c;
-		}
-	case ACIA_CTRL:
-		return ctrl;
-	case ACIA_CMD:
-		return cmd;
-	}
-	return 0;
-}
-
-int int_acia1(long offset) {
-	if(intx==2 && fd!=ILLEGAL_FILE_DESC) rs232_putc(fd,txdata);
-	if(intx) intx--;
-
-	if(!(status&0x10)) {
-	  status |= 0x10;
-	}
-
-        if( fd!=ILLEGAL_FILE_DESC && (!(status&8)) && rs232_getc(fd, &rxdata)) {
-          status |= 8;
-        }
-
-	maincpu_set_int(I_ACIA1, acia1_irq);
-	irq = 1;
-
-	alarm_set(&acia1_alarm, clk + acia_ticks);
-        alarm_active = 1;
-
-	return 0;
-}
+#include "aciacore.c"
 

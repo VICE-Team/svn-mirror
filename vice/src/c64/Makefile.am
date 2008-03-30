@@ -59,7 +59,6 @@ libc64c128_a_SOURCES = \
 	vicii.h
 
 BUILT_SOURCES = \
-	c64acia1.c \
 	c64cia1.c \
 	c64cia2.c \
 	c64tpi.c
@@ -67,15 +66,14 @@ BUILT_SOURCES = \
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
-	c64acia1.def \
 	c64rsuser.c \
 	c64rsuser.h
 
 EXTRA_libc64c128_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
-	c64acia1.def \
-	c64rsuser.c
+	c64rsuser.c \
+	c64rsuser.h
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
@@ -96,14 +94,6 @@ c64cia2.c: c64cia2.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	       	   $(top_srcdir)/src/cia-tmpl.c \
 	       	   $(c64dir)/c64cia2.def $(c64dir)/c64cia2.c; \
-           fi )
-
-c64acia1.c: c64acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c64acia1.c'..."; \
-           if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	       	   $(top_srcdir)/src/acia-tmpl.c \
-	       	   $(c64dir)/c64acia1.def $(c64dir)/c64acia1.c; \
            fi )
 
 c64tpi.c: c64tpi.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio

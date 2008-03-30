@@ -30,11 +30,10 @@
 #include "types.h"
 
 void reset_via(void);
+void via_init(void);
 BYTE REGPARM1 read_via(ADDRESS addr);
 BYTE REGPARM1 peek_via(ADDRESS addr);
 void REGPARM2 store_via(ADDRESS addr, BYTE value);
-int int_viat1(long offset);
-int int_viat2(long offset);
 void via_prevent_clk_overflow(CLOCK sub);
 
 extern int via_read_snapshot_module(snapshot_t *);

@@ -32,14 +32,13 @@
 #include "types.h"
 #include "cia.h"
 #include "snapshot.h"
+#include "maincpu.h"
 
+extern void cia1_init(void);
 extern void reset_cia1(void);
 extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1(ADDRESS addr);
-extern int int_cia1ta(long offset);
-extern int int_cia1tb(long offset);
-extern int int_cia1tod(long offset);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);

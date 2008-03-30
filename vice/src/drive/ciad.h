@@ -33,12 +33,10 @@
 #include "cia.h"
 #include "snapshot.h"
 
+extern void cia1571d0_init(void);
 extern void REGPARM2 store_cia1571d0(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1571d0(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1571d0(ADDRESS addr);
-extern int int_cia1571d0ta(long offset);
-extern int int_cia1571d0tb(long offset);
-extern int int_cia1571d0tod(long offset);
 extern void cia1571d0_prevent_clk_overflow(CLOCK sub);
 extern void cia1571d0_set_flag(void);
 extern void cia1571d0_set_sdr(BYTE received_byte);
@@ -46,12 +44,10 @@ extern void reset_cia1571d0(void);
 extern int cia1571d0_write_snapshot_module(snapshot_t *p);
 extern int cia1571d0_read_snapshot_module(snapshot_t *p);
 
+extern void cia1571d1_init(void);
 extern void REGPARM2 store_cia1571d1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1571d1(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1571d1(ADDRESS addr);
-extern int int_cia1571d1ta(long offset);
-extern int int_cia1571d1tb(long offset);
-extern int int_cia1571d1tod(long offset);
 extern void cia1571d1_prevent_clk_overflow(CLOCK sub);
 extern void cia1571d1_set_flag(void);
 extern void cia1571d1_set_sdr(BYTE received_byte);
@@ -59,12 +55,10 @@ extern void reset_cia1571d1(void);
 extern int cia1571d1_write_snapshot_module(snapshot_t *p);
 extern int cia1571d1_read_snapshot_module(snapshot_t *p);
 
+extern void cia1581d0_init(void);
 extern void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1581d0(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1581d0(ADDRESS addr);
-extern int int_cia1581d0ta(long offset);
-extern int int_cia1581d0tb(long offset);
-extern int int_cia1581d0tod(long offset);
 extern void cia1581d0_prevent_clk_overflow(CLOCK sub);
 extern void cia1581d0_set_flag(void);
 extern void cia1581d0_set_sdr(BYTE received_byte);
@@ -72,12 +66,10 @@ extern void reset_cia1581d0(void);
 extern int cia1581d0_write_snapshot_module(snapshot_t *p);
 extern int cia1581d0_read_snapshot_module(snapshot_t *p);
 
+extern void cia1581d1_init(void);
 extern void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1581d1(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1581d1(ADDRESS addr);
-extern int int_cia1581d1ta(long offset);
-extern int int_cia1581d1tb(long offset);
-extern int int_cia1581d1tod(long offset);
 extern void cia1581d1_prevent_clk_overflow(CLOCK sub);
 extern void cia1581d1_set_flag(void);
 extern void cia1581d1_set_sdr(BYTE received_byte);
