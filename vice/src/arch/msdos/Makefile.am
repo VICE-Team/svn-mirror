@@ -1,5 +1,11 @@
 ## Makefile.am for the MS-DOS version of `libarch.a'.
 
+if USE_MIDAS_SOUND
+libarch_a_LIBADD = vmidas.o
+else
+libarch_a_LIBADD = vicesb.o
+endif
+
 INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
@@ -54,11 +60,13 @@ libarch_a_SOURCES = \
 	vic20kbd.h \
 	vic20ui.c \
 	vic20ui.h \
-        vicesb.c \
-        vicesb.h \
 	video.c \
 	video.h \
-	vmidas.c \
-	vmidas.h \
 	vsync.c \
         vsync.h
+
+EXTRA_DIST = \
+        vicesb.c \
+        vicesb.h \
+	vmidas.c \
+	vmidas.h
