@@ -37,14 +37,25 @@
 static FILE *wav_fd = NULL;
 static int samples = 0;
 
+/* Store number as little endian. */
+static int le_store(BYTE* buf, DWORD val, int len)
+{
+    int i;
+    for (i = 0; i < len; i++) {
+      buf[i] = (BYTE)(val & 0xff);
+      val >>= 8;
+    }
+}
+
 static int wav_init(const char *param, int *speed,
-		   int *fragsize, int *fragnr, double bufsize)
+		   int *fragsize, int *fragnr, int *stereo)
 {
     /* RIFF/WAV header. */
     BYTE header[45] =
-        "RIFFxxxxWAVEfmt \020\0\0\0\001\0\001\0xxxxxxxx\002\0\020\0dataxxxx";
-    DWORD samples_per_sec = *speed;
-    DWORD bytes_per_sec = *speed*2;
+      "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
+    WORD channels = *stereo ? 2 : 1;
+    DWORD sample_rate = *speed;
+    DWORD bytes_per_sec = *speed*channels*2;
     int i;
 
     wav_fd = fopen(param?param:"vicesnd.wav", MODE_WRITE);
@@ -54,13 +65,11 @@ static int wav_init(const char *param, int *speed,
     /* Reset number of samples. */
     samples = 0;
 
-    /* Sampling rate and bytes per second stored as little endian numbers. */
-    for (i = 0; i < 4; i++) {
-        header[24 + i] = (BYTE)(samples_per_sec & 0xff);
-        header[28 + i] = (BYTE)(bytes_per_sec & 0xff);
-        samples_per_sec >>= 8;
-        bytes_per_sec >>= 8;
-    }
+    /* Initialize header. */
+    le_store(header + 22, channels, 2);
+    le_store(header + 24, sample_rate, 4);
+    le_store(header + 28, bytes_per_sec, 4);
+    le_store(header + 32, channels*2, 2);
 
     return (fwrite(header, 1, 44, wav_fd) != 44);
 }
@@ -100,13 +109,8 @@ static void wav_close(void)
     DWORD datalen = samples*2;
     int i;
 
-    /* RIFF length and WAVE data length stored as little endian numbers. */
-    for (i = 0; i < 4; i++) {
-        rlen[i] = (BYTE)(rifflen & 0xff);
-        dlen[i] = (BYTE)(datalen & 0xff);
-        rifflen >>= 8;
-        datalen >>= 8;
-    }
+    le_store(rlen, rifflen, 4);
+    le_store(dlen, datalen, 4);
 
     fseek(wav_fd, 4, SEEK_SET);
     fwrite(rlen, 1, 4, wav_fd);

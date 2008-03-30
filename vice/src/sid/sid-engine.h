@@ -30,8 +30,10 @@
 #include "types.h"
 #include "sound.h"
 
-void REGPARM2 sid_store(ADDRESS address, BYTE byte);
 BYTE REGPARM1 sid_read(ADDRESS address);
+BYTE REGPARM1 sid2_read(ADDRESS address);
+void REGPARM2 sid_store(ADDRESS address, BYTE byte);
+void REGPARM2 sid2_store(ADDRESS address, BYTE byte);
 void sid_reset(void);
 
 extern BYTE siddata[];

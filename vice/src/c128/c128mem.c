@@ -53,6 +53,7 @@
 #include "reu.h"
 #include "rs232.h"
 #include "sid.h"
+#include "sid-resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
 #include "types.h"
@@ -608,6 +609,8 @@ void REGPARM2 top_shared_store(ADDRESS addr, BYTE value)
 
 void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
+    if (sid_stereo)
+        return sid2_store(addr, value);
 #ifdef HAVE_RS232
         if (acia_de_enabled)
             acia1_store(addr & 0x03, value);
@@ -617,6 +620,8 @@ void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 io1_read(ADDRESS addr)
 {
+    if (sid_stereo)
+        return sid2_read(addr);
 #ifdef HAVE_RS232
         if (acia_de_enabled)
             return acia1_read(addr & 0x03);

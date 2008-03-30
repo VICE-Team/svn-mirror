@@ -1,3 +1,132 @@
+2001-10-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.12.
+
+	* vdc/vdc.c (vdc_set_geometry): Calculate screen geometry
+	instead of using hardcoded constants.
+	(vdc_powerup): Initialize screen geometry constants.
+	(vdc_raster_draw_alarm_handler, vdc_resize): Fixed for
+	double height mode.
+	(vdc_invalidate_cache, vdc_increment_memory_pointer): New
+	functions.
+
+	* vdc/vdc-draw.c (draw_std_text_cached, draw_std_text,
+	draw_std_bitmap_cached, draw_std_bitmap): Removed special
+	double heigth handlng.
+
+	* vdc/vdc-resources.c (set_vdc_revision): New function.
+
+	* vdc/vdc-cmdline-options.c: VDC revision command line switch.
+
+	* vdc/vdc-mem.c (vdc_read): Return selected revision.
+
+	* vdc/vdctypes.h: Added screen geometry and VDC revision
+	variables to struct `vdc_t'.
+
+2001-10-06  Dag Lem  <resid@nimrod.no> 
+
+	* arch/unix/c128ui.c: Menu options for second SID. 
+
+	* c128/c128mem.c (io1_store, io1_read): Check for second SID. 
+
+	* sid/sid-engine.h: Mark sid_store/sid2_store as REGPARM2, not 
+	REGPARM3. 
+
+	* sounddrv/soundwav.c (le_store): New function to store 
+	numbers on little endian format. 
+	(wav_init): Handle stereo. 
+	(wav_close): Use le_store. 
+
+2001-10-05   Dag Lem  <resid@nimrod.no> 
+
+	* arch/unix/c64ui.c: Menu options for second SID.
+
+	* arch/unix/x1/xaw/ui.c (DEFINE_UI_CALLBACK): Macro compilation
+	fix. 
+
+	* c64/c64mem.c (io1_store, io1_read): Check for second SID.
+
+	* pet/petsound.c (sound_machine_open, store_petsnd_onoff,
+	store_petsnd_sample): Use chip #0 in calls to sound_store.
+
+	* sid/resid.cc (resid_reset): Reset SID chip.
+
+	* sid/sid-cmdline-options.c: Command line option "-sidstereo"
+	for second SID.
+
+	* sid/sid-engine.c, sid/sid-engine.h: Handle second SID.
+	(sid2_read, sid2_store): New stub functions.
+
+	* sid/sid-resources.c, sid/sid-resources.h: Resource
+	"SidStereo" for second SID. External flag sid_stereo.
+
+	* sid/sid.c (fastsid_open): Plug memory leaks on error
+	conditions. 
+	(fastsid_reset): Reset SID chip. 
+
+	* sound.c: Handle second SID and stereo sound. Fix error
+	causing open of sound device to disable warp mode.
+
+	* sound.h (sound_device_t.init): Replaced bufsize parameter
+	with stereo parameter.
+	(sound_read, sound_store, sound_machine_open): Extra parameter
+	chipno.
+
+	* sounddrv/soundacorn.c (init_vidc_device,
+	init_vidc_sync_device): Replaced bufsize parameter with stereo
+	parameter.
+
+	* sounddrv/soundaix.c (aix_init): Likewise. 
+
+	* sounddrv/soundallegro.c (allegro_init_sound): Likewise. 
+
+	* sounddrv/soundarts.c (artsdrv_init): Likewise. 
+
+	* sounddrv/soundbeos.cc (beos_init): Likewise. 
+
+	* sounddrv/sounddart.c (dart_init): Likewise. 
+
+	* sounddrv/sounddump.c (dump_init): Likewise. 
+
+	* sounddrv/sounddx.c (dx_init): Likewise. 
+
+	* sounddrv/soundesd.c (esd_init): Likewise. 
+
+	* sounddrv/soundfs.c (fs_init): Likewise. 
+
+	* sounddrv/soundhpux.c (hpux_init): Likewise. 
+
+	* sounddrv/soundmidas.c (midas_init): Likewise. 
+
+	* sounddrv/soundmmos2.c (mmos2_init): Likewise. 
+
+	* sounddrv/soundsb.c (sb_init): Likewise. 
+
+	* sounddrv/soundsdl.c (sdl_init): Likewise. 
+
+	* sounddrv/soundsgi.c (sgi_init): Likewise. 
+
+	* sounddrv/soundsun.c (sun_init): Likewise. 
+
+	* sounddrv/soundwav.c (wav_init): Likewise. 
+
+	* sounddrv/soundwmm.c (wmm_init): Likewise. 
+
+	* sounddrv/sounduss.c (uss_init): Likewise. 
+	(uss_bufferspace): Return correct space for stereo. 
+
+	* vic20/vic20sound.c (sound_machine_open): Use chip #0 in call
+	to sound_store.
+
+2001-10-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-draw.c (draw_hires_bitmap_cached),
+	(draw_hires_bitmap): Set overscan background color to
+	last character in current row.
+
+	* vicii/vicii-snapshot.c, vicii/vicii.c: Don't force overscan
+	background color to black in HIRES mode.
+
 2001-10-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.11.
@@ -17,7 +146,7 @@
 
 	* vdc/vdc-resources.c: Disabled double size for now.
 
-2001-10-04 Andreas Matthies <andreas.matthies@gmx.net> 
+2001-10-04  Andreas Matthies  <andreas.matthies@gmx.net> 
 
 	* arch/win32/uilib.h: new array uilib_filefilter[] of all 
 	known file filters; corresponding IDs UI_LIB_FILTER_* 
@@ -91,7 +220,7 @@
 	* raster/raster-cache.c (raster_cache_init): Clear entire
 	cache.
 
-2001-10-02 Andreas Matthies <andreas.matthies@gmx.net> 
+2001-10-02  Andreas Matthies  <andreas.matthies@gmx.net> 
 
 	* arch/win32/sid.dsp: added sid-engine.c to MSVC project file
 
@@ -108,7 +237,7 @@
 	* monitor/mon.h: Added prototype for
 	`mon_disassemble_to_string'.
 
-2001-10-01 Dag Lem <resid@nimrod.no> 
+2001-10-01  Dag Lem  <resid@nimrod.no> 
 
 	* sid/Makefile.am: Added sid-engine.c and sid-engine.h 
 
@@ -124,7 +253,7 @@
 	functions from sound_machine_xxx to fastsid_xxx and added 
 	hook struct. Removed sound_machine_init. 
 
-2001-09-22 Andreas Matthies <andreas.matthies@gmx.net> 
+2001-09-22  Andreas  Matthies <andreas.matthies@gmx.net> 
 
 	* arch/win32/sid.dsp: added new files to MSVC project file 
 
