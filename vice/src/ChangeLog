@@ -1,3 +1,153 @@
+2001-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.13.
+
+2001-03-31  Dag Lem  <resid@nimrod.no>
+
+	* arch/beos/vsyncarch.c: Timer units exposed via
+	vsyncarch_frequency().
+
+	* arch/os2/vsyncarch.c: Likewise.
+
+	* arch/unix/vsyncarch.c: Likewise.
+
+	* arch/win32/vsyncarch.c: Likewise.
+
+	* vsyncapi.h: Likewise.
+
+	* vsync.c: Use vsyncarch_frequency() to calculate values in
+	seconds.
+
+	* arch/unix/coproc.c: Added missing include.
+
+	* arch/unix/kmap.c: Likewise.
+
+	* cbm2/c610mem.c: Removed unused variable j.
+
+	* sound.c: Changed bufferstatus() to bufferspace().
+
+	* sound.h: Likewise.
+
+	* sounddrv/soundacorn.c: Converted bufferstatus() to
+	bufferspace().
+
+	* sounddrv/soundaix.c: Likewise.
+
+	* sounddrv/soundallegro.c: Likewise.
+
+	* sounddrv/soundarts.c: Likewise.
+
+	* sounddrv/sounddx.c: Likewise.
+
+	* sounddrv/sounddx.c: Likewise.
+
+	* sounddrv/soundhpux.c: Likewise.
+
+	* sounddrv/soundmidas.c: Likewise.
+
+	* sounddrv/soundmmos2.c: Likewise.
+
+	* sounddrv/soundsb.c: Likewise.
+
+	* sounddrv/soundsdl.c: Likewise.
+
+	* sounddrv/soundsgi.c: Likewise.
+
+	* sounddrv/soundsun.c: Likewise.
+
+	* sounddrv/sounduss.c: Likewise.
+
+	* sounddrv/soundwmm.c: Likewise.
+
+2001-03-31  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/beos/archdep.c, arch/msdos/archdep.c,
+	arch/riscos/archdep.c, arch/unix/archdep.c,
+	arch/win32/archdep.c, archapi.h:
+	changed calling style of archdep_default_logger
+   
+	* arch/beos/uicmdline.c, arch/beos/uicmdline.h,
+	arch/msdos/uicmdline.c, arch/msdos/uicmdline.h,
+	arch/os2/uicmdline.c, arch/os2/uicmdline.h,
+	arch/unix/uicmdline.c,  arch/riscos/uicmdline.c,
+	arch/riscos/uicmdline.h, arch/unix/uicmdline.h,
+	arch/win32/uicmdline.c, arch/win32/uicmdline.h,
+	added an user parameter to ui_cmdline_show_help
+   
+	* arch/os2/archdep.c: added new stylish logging system
+    
+	* arch/os2/console.c, arch/os2/dialogs/dlg-monitor.c,
+	arch/os2/uimon.c introduced new stylish monitor
+   
+	* arch/os2/dialogs/dlg-drive.c, arch/os2/dialogs/dlg-drive.h
+	disable drive-type dialog
+   
+	* arch/os2/dialogs/dlg-monitor.h,
+	arch/os2/dialogs/dlg-monitor.rc: added
+   
+	* arch/os2/dialogs/Makefile.am: new dlg-monitor.[c,h,rc]
+   
+	* arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.h,
+	arch/os2/dialogs/menubar.rc:
+	added new resid resources, logwin, new stylish monitor
+   
+	* arch/os2/dialogs/dialogs.c, arch/os2/dialogs/dialogs.h,
+	arch/os2/dialogs/dialogs.rc, arch/os2/dialogs/dlg-cmdopt.c,
+	arch/os2/dialogs/dlg-create.c,
+	arch/os2/dialogs/dlg-datasette.c,
+	arch/os2/dialogs/dlg-datasette.rc,
+	arch/os2/dialogs/dlg-drive.rc,
+	arch/os2/dialogs/dlg-emulator.c,
+	arch/os2/dialogs/dlg-emulator.rc,
+	arch/os2/dialogs/dlg-fileio.c, arch/os2/dialogs/dlg-fileio.rc,
+	arch/os2/dialogs/dlg-joystick.c,
+	arch/os2/dialogs/dlg-joystick.rc, arch/os2/dialogs/dlg-vsid.c,
+	arch/os2/dialogs/dlg-vsid.rc, arch/os2/joystick.c,
+	arch/os2/kbd/proc.c:
+	some small changes (pmwin2.h, minbutton, comments, ...)
+   
+	* arch/os2/makedist.cmd: added c128\ccs64s.vpl
+   
+	* arch/os2/snippets/pmwin2.[c,h]: some new functions
+   
+	* arch/os2/ui.c diff/src/arch/os2/ui.c:
+	small changes, enhanced jam dialog
+   
+	* arch/os2/unused/contentsdlg.c,
+	arch/os2/unused/contentsdlg.h, arch/os2/unused/dlg-contents.c:
+	removed
+   
+	* arch/os2/vac++/incl/resources.icc: added dlg-monitor.rc
+   
+	* arch/os2/vac++/RESID.ICC: changed version number to 0.11
+   
+	* arch/os2/video.c diff/src/arch/os2/video.c:
+	added logging resource
+   
+	* cmdline.c: changed the quotes. With the OS/2 default startup
+	logger the old one looked really awful.
+   
+	* cmdline.h: added userparameter to cmdline_show_help
+   
+	* arch/os2/config.h, crtc/crtctypes.h, findpath.c, machine.h,
+	sound.c, usleep.c, vic20/vic.h, vice.h, vicii/viciitypes.h
+	changed OS2 to __OS2__
+
+	* drive/drivemem.c: added DRIVE_TYPE_NONE to check function
+ 
+	* emuid.c: added T.BRETZ
+   
+	* log.c: make archdep_default logger really work,
+	added a mapping function which splits archdep_default logging
+	into single lines
+   
+	* monitor/mon_util.h:
+	monitor_interface_t cannot be extern AND static
+   
+	* sound.h: added vice.h
+ 
+	* zfile.c: removed my own bugs
+   
 2001-03-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.12.
