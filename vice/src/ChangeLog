@@ -1,3 +1,20 @@
+1999-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.35.
+
+	* prdevice.c (prdevice_attach): Do not pass info pointer.
+
+	* attach.c (attach_disk_image): Detach old disk image.
+
+	* diskimage.c (disk_image_read_sector, disk_image_write_sector):
+	Better error logging.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h, vdrive/vdrive-bam.c,
+	vdrive/vdrive-dir.c, vdrive/vdrive-bam.c: Removed `D64_Header',
+	`GCR_Header' and `ActiveName'.  Renamed `ImageFormat' to
+	`image_format'.  Separated disk image type from the type of drive
+	emulated.
+
 1999-06-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.34.
