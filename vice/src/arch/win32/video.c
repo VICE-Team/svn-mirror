@@ -83,10 +83,11 @@ int video_init_resources(void)
 /* ------------------------------------------------------------------------ */
 
 /* Video-related command-line options.  */
-
+/*
 static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
+*/
 
 int video_init_cmdline_options(void)
 {
@@ -422,9 +423,11 @@ static int set_physical_colors(canvas_t c)
     HRESULT result;
 
     for (i = 0; i < c->palette->num_entries; i++) {
+/*
         COLORREF rgb = RGB(c->palette->entries[i].red,
                            c->palette->entries[i].green,
                            c->palette->entries[i].blue);
+*/
         DWORD p;
 
         DEBUG(("Allocating color \"%s\"",

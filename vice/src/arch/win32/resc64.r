@@ -109,6 +109,11 @@ BEGIN
         , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        POPUP "Drive s&ync factor"
+        BEGIN
+            MENUITEM "&PAL",                        IDM_SYNC_FACTOR_PAL
+            MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
+        END
     END
     POPUP "&Settings"
     BEGIN
