@@ -152,6 +152,8 @@ extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
+extern int sound_machine_cycle_based(void);
+extern int sound_machine_channels(void);
 
 #ifdef __riscos
 extern int SoundPollEvery;

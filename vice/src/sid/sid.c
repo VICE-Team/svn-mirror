@@ -128,11 +128,12 @@ void sid_reset(void)
 }
 
 
+static int useresid;
 
 sound_t *sound_machine_open(int chipno)
 {
 #ifdef HAVE_RESID
-    int useresid;
+    useresid = 0;
     if (resources_get_value("SidUseResid", (resource_value_t *)&useresid) < 0)
         return NULL;
 
@@ -183,4 +184,16 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 char *sound_machine_dump_state(sound_t *psid)
 {
     return sid_engine.dump_state(psid);
+}
+
+int sound_machine_cycle_based(void)
+{
+    return useresid;
+}
+
+int sound_machine_channels(void)
+{
+    int stereo = 0;
+    resources_get_value("SidStereo", (resource_value_t*)&stereo);
+    return stereo ? 2 : 1;
 }

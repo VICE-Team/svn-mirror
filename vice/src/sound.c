@@ -365,7 +365,7 @@ static int sid_init(void)
 
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
-    resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
+    cycle_based = sound_machine_cycle_based();
 
     /* Cycle based sound engines must do their own filtering,
        and handle sample rate conversion. */
@@ -430,7 +430,6 @@ static int sound_open(void)
     int fragsize;
     int fragnr;
     double bufsize;
-    int stereo;
 
     if (suspend_time > 0 && disabletime)
         return 1;
@@ -440,8 +439,7 @@ static int sound_open(void)
     vsync_suspend_speed_eval();
 
     /* Second SID. */
-    resources_get_value("SidStereo", (resource_value_t*)&stereo);
-    snddata.channels = stereo ? 2 : 1;
+    snddata.channels = sound_machine_channels();
 
     name = device_name;
 

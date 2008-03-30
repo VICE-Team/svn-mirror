@@ -217,3 +217,12 @@ char *sound_machine_dump_state(sound_t *psid)
     return stralloc(buf);
 }
 
+int sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+int sound_machine_channels(void)
+{
+    return 1;
+}
