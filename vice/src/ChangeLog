@@ -1,3 +1,63 @@
+2006-09-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.5.
+
+	* Makefile.am: Added forgotten `ChangeLog.5' file.
+
+	* mos6510.h, 6510core.c, c128/z80.c: Changed status bit set
+	macros to avoid warnings.
+
+	* arch/beos/types.h, arch/unix/types.h, arch/msdos/types.h,
+	arch/riscos/config.h, arch/amigaos/types.h: Removed test for
+	`SIZEOF_UNSIGNED_INT = 2' as VICE won't work on those archs
+	anyway.
+
+	* tap.h [tap_t]: Variables `cycle_counter' and
+	`cycle_counter_total' must be int otherwise snapshot breaks on
+	64bit archs.
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): Do not inline
+	this big function.
+
+	* cartconv.c (load_input_file): Fixed a warning.
+
+	* c64/reu.c, c64/georam.c, c64/ramcart.c, pet/petreu.c: Do not
+	use `DWORD' for expansion size.
+
+	* network.c [network_control]: Changed to `int'.
+
+	* c64/plus60k.c, c64/plus60k.h [plus60k_base]: Changed to
+	`int'.
+
+	* c64/c64_256k.c, c64/c64_256k.h [c64_256k_start]: Changed to
+	`int'.
+
+	* arch/msdos/c128ui.c, arch/msdos/c64ui.c, arch/msdos/kbd.c,
+	arch/msdos/cbm2ui.c, arch/msdos/menudefs.c,
+	arch/msdos/petui.c, arch/msdos/plus4ui.c,
+	arch/msdos/statusbar.c, arch/msdos/tuimenu.c,
+	arch/msdos/uic64_256k.c, arch/msdos/uidrive.c,
+	arch/msdos/uigeoram.c, arch/msdos/uijoystick.c,
+	arch/msdos/uinetplay.c, arch/msdos/uiperipherial.c,
+	arch/msdos/uipetreu.c, arch/msdos/uiplus256k.c,
+	arch/msdos/uiplus60k.c, arch/msdos/uiprinter.c,
+	arch/msdos/uiramcart.c, arch/msdos/uireu.c,
+	arch/msdos/uisid.c, arch/msdos/uisound.c, arch/msdos/uitfe.c,
+	arch/msdos/vic20ui.c, arch/msdos/video.c,
+	arch/beos/ui_netplay.cc, arch/beos/ui_device.cc,
+	arch/beos/vicewindow.cc, arch/beos/ui_cbm2.cc,
+	arch/beos/ui.cc, arch/beos/ui_datasette.cc,
+	arch/beos/ui_file.cc, arch/beos/ui_joystick.cc,
+	arch/beos/ui_pet.cc, arch/beos/ui_sid.cc,
+	arch/beos/ui_sound.cc, arch/beos/ui_vic20.cc,
+	arch/beos/ui_vicii.cc, arch/beos/ui_video.cc: Changed to new
+	resource API.
+
+2006-09-16  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/kbd.c, arch/riscos/vsync.c: fixed minor
+	oversights of resource-restructuring.
+
 2006-09-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.4.

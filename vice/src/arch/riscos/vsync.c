@@ -153,9 +153,6 @@ static const resource_int_t resources_int[] = {
 
 int vsync_resources_init(void)
 {
-  if (resources_register_string(resources_string) < 0)
-    return -1;
-
   return resources_register_int(resources_int);
 }
 

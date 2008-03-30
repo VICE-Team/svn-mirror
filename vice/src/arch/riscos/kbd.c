@@ -298,7 +298,7 @@ static int set_joystick_keys2(const char *name, void *param)
   if ((JoyKeyString2 != NULL) && (name != NULL) && (strcmp(name, JoyKeyString2) == 0))
     return 0;
 
-  if (kbd_parse_joykeys((char*)v, JoystickKeys+1) != 0) return 1;
+  if (kbd_parse_joykeys(name, JoystickKeys+1) != 0) return 1;
 
   util_string_set(&JoyKeyString2, name);
 
