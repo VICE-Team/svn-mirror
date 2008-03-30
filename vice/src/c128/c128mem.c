@@ -190,6 +190,7 @@ static int set_reu_enabled(resource_value_t v)
 {
     if (!(int) v) {
         reu_enabled = 0;
+        reu_deactivate();
         return 0;
     } else if (!ieee488_enabled) {
         reu_enabled = 1;

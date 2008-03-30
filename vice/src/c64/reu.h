@@ -37,6 +37,7 @@ struct snapshot_s;
 extern void reu_init(void);
 extern int reu_reset(int size);
 extern void reu_activate(void);
+extern void reu_deactivate(void);
 extern void close_reu(void);
 extern BYTE REGPARM1 reu_read(ADDRESS addr);
 extern void REGPARM2 reu_store(ADDRESS addr, BYTE byte);

@@ -52,11 +52,12 @@
  * 01	Exec	0	Load	Delayed	0	0	   Mode
  */
 
-/* global */
 static int ReuSize = REUSIZE << 10;
 static BYTE reu[16];        /* REC registers */
 static BYTE *reuram = NULL;
 static char *reu_file_name = NULL;
+
+static int reu_active = 0;
 
 static log_t reu_log = LOG_ERR;
 
@@ -104,8 +105,15 @@ int reu_reset(int size)
 
 void reu_activate(void)
 {
+    reu_active = 1;
+
     if (reuram == NULL)
         reu_reset(0);
+}
+
+void reu_deactivate(void)
+{
+    reu_active = 0;
 }
 
 void close_reu(void)
@@ -231,6 +239,9 @@ void reu_dma(int immed)
     ADDRESS host_addr;
     unsigned int reu_addr;
     BYTE c;
+
+    if (!reu_active)
+        return;
 
     if (!immed) {
         delay = 1;
