@@ -80,49 +80,55 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_buk_sym_file(resource_value_t v)
+static int set_keymap_buk_sym_file(resource_value_t v, void *param)
 {
     return set_keymap_file(0, (const char *) v);
 }
 
-static int set_keymap_buk_pos_file(resource_value_t v)
+static int set_keymap_buk_pos_file(resource_value_t v, void *param)
 {
     return set_keymap_file(1, (const char *) v);
 }
 
-static int set_keymap_gr_sym_file(resource_value_t v)
+static int set_keymap_gr_sym_file(resource_value_t v, void *param)
 {
     return set_keymap_file(2, (const char *) v);
 }
 
-static int set_keymap_gr_pos_file(resource_value_t v)
+static int set_keymap_gr_pos_file(resource_value_t v, void *param)
 {
     return set_keymap_file(3, (const char *) v);
 }
 
-static int set_keymap_bde_sym_file(resource_value_t v)
+static int set_keymap_bde_sym_file(resource_value_t v, void *param)
 {
     return set_keymap_file(4, (const char *) v);
 }
 
-static int set_keymap_bde_pos_file(resource_value_t v)
+static int set_keymap_bde_pos_file(resource_value_t v, void *param)
 {
     return set_keymap_file(5, (const char *) v);
 }
 
 static resource_t resources[] = {
     { "KeymapGraphicsSymFile", RES_STRING, (resource_value_t) "graphics.vkm",
-      (resource_value_t *) &keymap_file_list[2], set_keymap_gr_sym_file },
+      (resource_value_t *) &keymap_file_list[2],
+      set_keymap_gr_sym_file, NULL },
     { "KeymapGraphicsPosFile", RES_STRING, (resource_value_t) "posg_de.vkm",
-      (resource_value_t *) &keymap_file_list[3], set_keymap_gr_pos_file },
+      (resource_value_t *) &keymap_file_list[3],
+      set_keymap_gr_pos_file, NULL },
     { "KeymapBusinessUKSymFile", RES_STRING, (resource_value_t) "busi_uk.vkm",
-      (resource_value_t *) &keymap_file_list[0], set_keymap_buk_sym_file },
+      (resource_value_t *) &keymap_file_list[0],
+      set_keymap_buk_sym_file, NULL },
     { "KeymapBusinessDESymFile", RES_STRING, (resource_value_t) "busi_de.vkm",
-      (resource_value_t *) &keymap_file_list[4], set_keymap_bde_sym_file },
+      (resource_value_t *) &keymap_file_list[4],
+      set_keymap_bde_sym_file, NULL },
     { "KeymapBusinessUKPosFile", RES_STRING, (resource_value_t) "buk_pos.vkm",
-      (resource_value_t *) &keymap_file_list[1], set_keymap_buk_pos_file },
+      (resource_value_t *) &keymap_file_list[1],
+      set_keymap_buk_pos_file, NULL },
     { "KeymapBusinessDEPosFile", RES_STRING, (resource_value_t) "bde_pos.vkm",
-      (resource_value_t *) &keymap_file_list[5], set_keymap_bde_pos_file },
+      (resource_value_t *) &keymap_file_list[5],
+      set_keymap_bde_pos_file, NULL },
     { NULL }
 };
 

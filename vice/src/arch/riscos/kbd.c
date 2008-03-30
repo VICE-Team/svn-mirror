@@ -262,14 +262,14 @@ int kbd_update_joykeys(int port)
   return resources_set_value(rsrc, b);
 }
 
-static int set_keymap_index(resource_value_t v)
+static int set_keymap_index(resource_value_t v, void *param)
 {
   keymap_index = (int)v;
   memset(last_keys, 0, 32);
   return 0;
 }
 
-static int set_joystick_keys1(resource_value_t v)
+static int set_joystick_keys1(resource_value_t v, void *param)
 {
   const char *name = (const char *)v;
 
@@ -283,7 +283,7 @@ static int set_joystick_keys1(resource_value_t v)
   return 0;
 }
 
-static int set_joystick_keys2(resource_value_t v)
+static int set_joystick_keys2(resource_value_t v, void *param)
 {
   const char *name = (const char *)v;
 
@@ -299,11 +299,11 @@ static int set_joystick_keys2(resource_value_t v)
 
 static resource_t resources[] = {
   {"KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *)&keymap_index, set_keymap_index},
+    (resource_value_t *)&keymap_index, set_keymap_index, NULL },
   {Rsrc_JoyKeys1, RES_STRING, (resource_value_t) DefaultJoyKeys1,
-    (resource_value_t *)&JoyKeyString1, set_joystick_keys1},
+    (resource_value_t *)&JoyKeyString1, set_joystick_keys1, NULL},
   {Rsrc_JoyKeys2, RES_STRING, (resource_value_t) DefaultJoyKeys2,
-    (resource_value_t *)&JoyKeyString2, set_joystick_keys2},
+    (resource_value_t *)&JoyKeyString2, set_joystick_keys2, NULL},
   {NULL}
 };
 

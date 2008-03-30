@@ -159,43 +159,43 @@ struct {
     int save_resources_on_exit;
 } ui_resources;
 
-static int set_fullscreen_device(resource_value_t v)
+static int set_fullscreen_device(resource_value_t v, void *param)
 {
     ui_resources.fullscreendevice=(int) v;
     return 0;
 }
 
-static int set_fullscreen_bitdepth(resource_value_t v)
+static int set_fullscreen_bitdepth(resource_value_t v, void *param)
 {
     ui_resources.fullscreenbitdepth=(int) v;
     return 0;
 }
 
-static int set_fullscreen_width(resource_value_t v)
+static int set_fullscreen_width(resource_value_t v, void *param)
 {
     ui_resources.fullscreenwidth=(int) v;
     return 0;
 }
 
-static int set_fullscreen_height(resource_value_t v)
+static int set_fullscreen_height(resource_value_t v, void *param)
 {
     ui_resources.fullscreenheight=(int) v;
     return 0;
 }
 
-static int set_fullscreen_refreshrate(resource_value_t v)
+static int set_fullscreen_refreshrate(resource_value_t v, void *param)
 {
     ui_resources.fullscreenrefreshrate=(int) v;
     return 0;
 }
 
-static int set_fullscreen_enabled(resource_value_t v)
+static int set_fullscreen_enabled(resource_value_t v, void *param)
 {
     ui_resources.fullscreenenabled=(int) v;
     return 0;
 }
 
-static int set_save_resources_on_exit(resource_value_t v)
+static int set_save_resources_on_exit(resource_value_t v, void *param)
 {
     ui_resources.save_resources_on_exit=(int) v;
     return 0;
@@ -205,25 +205,25 @@ static int set_save_resources_on_exit(resource_value_t v)
 static resource_t resources[] = {
     {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
      (resource_value_t *)&ui_resources.fullscreendevice,
-     set_fullscreen_device},
+     set_fullscreen_device, NULL },
     {"FullscreenBitdepth",RES_INTEGER, (resource_value_t)8,
      (resource_value_t *)&ui_resources.fullscreenbitdepth,
-     set_fullscreen_bitdepth},
+     set_fullscreen_bitdepth, NULL },
     {"FullscreenWidth",RES_INTEGER, (resource_value_t)640,
      (resource_value_t *)&ui_resources.fullscreenwidth,
-     set_fullscreen_width},
+     set_fullscreen_width, NULL },
     {"FullscreenHeight",RES_INTEGER, (resource_value_t)480,
      (resource_value_t *)&ui_resources.fullscreenheight,
-     set_fullscreen_height},
+     set_fullscreen_height, NULL },
     {"FullscreenRefreshRate",RES_INTEGER, (resource_value_t)0,
      (resource_value_t *)&ui_resources.fullscreenrefreshrate,
-     set_fullscreen_refreshrate},
+     set_fullscreen_refreshrate, NULL },
     {"FullscreenEnabled",RES_INTEGER, (resource_value_t)0,
      (resource_value_t *)&ui_resources.fullscreenenabled,
-     set_fullscreen_enabled},
+     set_fullscreen_enabled, NULL },
     {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
      (resource_value_t *)&ui_resources.save_resources_on_exit,
-     set_save_resources_on_exit},
+     set_save_resources_on_exit, NULL },
     { NULL }
 };
 

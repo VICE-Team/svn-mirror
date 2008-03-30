@@ -74,13 +74,13 @@ static int refresh_rate;
 static int warp_mode_enabled;
 
 /* FIXME: This should call `set_timers'.  */
-static int set_relative_speed(resource_value_t v)
+static int set_relative_speed(resource_value_t v, void *param)
 {
     relative_speed = (int) v;
     return 0;
 }
 
-static int set_refresh_rate(resource_value_t v)
+static int set_refresh_rate(resource_value_t v, void *param)
 {
     if ((int) v < 0)
         return -1;
@@ -88,7 +88,7 @@ static int set_refresh_rate(resource_value_t v)
     return 0;
 }
 
-static int set_warp_mode(resource_value_t v)
+static int set_warp_mode(resource_value_t v, void *param)
 {
     warp_mode_enabled = (int) v;
     sound_set_warp_mode(warp_mode_enabled);
@@ -98,11 +98,14 @@ static int set_warp_mode(resource_value_t v)
 /* Vsync-related resources.  */
 static resource_t resources[] = {
     { "Speed", RES_INTEGER, (resource_value_t) 100,
-      (resource_value_t *) &relative_speed, set_relative_speed },
+      (resource_value_t *) &relative_speed,
+      set_relative_speed, NULL },
     { "RefreshRate", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &refresh_rate, set_refresh_rate },
+      (resource_value_t *) &refresh_rate,
+      set_refresh_rate, NULL },
     { "WarpMode", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &warp_mode_enabled, set_warp_mode },
+      (resource_value_t *) &warp_mode_enabled,
+      set_warp_mode, NULL },
     { NULL }
 };
 

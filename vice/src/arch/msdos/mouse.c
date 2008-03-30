@@ -45,7 +45,7 @@ static void my_mouse_callback(int flags);
 
 /* ------------------------------------------------------------------------- */
 
-static int set_mouse_enabled(resource_value_t v)
+static int set_mouse_enabled(resource_value_t v, void *param)
 {
     _mouse_enabled = (int) v;
     if (_mouse_enabled && _mouse_available)
@@ -57,7 +57,7 @@ static int set_mouse_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "Mouse", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_mouse_enabled, set_mouse_enabled },
+      (resource_value_t *) &_mouse_enabled, set_mouse_enabled, NULL },
     { NULL }
 };
 

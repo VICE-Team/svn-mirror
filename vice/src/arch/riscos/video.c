@@ -91,7 +91,7 @@ static int ScreenSetPalette;
 static void video_full_screen_colours(void);
 
 
-static int set_screen_mode(resource_value_t v)
+static int set_screen_mode(resource_value_t v, void *param)
 {
   char *str, *rest;
   int modenum, resx, resy, depth;
@@ -151,7 +151,7 @@ static int set_screen_mode(resource_value_t v)
   return 0;
 }
 
-static int set_screen_palette(resource_value_t v)
+static int set_screen_palette(resource_value_t v, void *param)
 {
   ScreenSetPalette = (int)v;
   return 0;
@@ -160,9 +160,9 @@ static int set_screen_palette(resource_value_t v)
 
 static resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
-    (resource_value_t *)&ScreenModeString, set_screen_mode},
+    (resource_value_t *)&ScreenModeString, set_screen_mode, NULL },
   {"ScreenSetPalette", RES_INTEGER, (resource_value_t) 1,
-    (resource_value_t *)&ScreenSetPalette, set_screen_palette},
+    (resource_value_t *)&ScreenSetPalette, set_screen_palette, NULL },
   {NULL}
 };
 

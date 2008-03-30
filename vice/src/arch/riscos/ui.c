@@ -898,49 +898,49 @@ static struct MenuDisplayROMSetTmpl {
 
 
 
-static int set_poll_every(resource_value_t v)
+static int set_poll_every(resource_value_t v, void *param)
 {
   PollEvery = (int)v;
   return 0;
 }
 
-static int set_speed_every(resource_value_t v)
+static int set_speed_every(resource_value_t v, void *param)
 {
   SpeedEvery = (int)v;
   return 0;
 }
 
-static int set_sound_every(resource_value_t v)
+static int set_sound_every(resource_value_t v, void *param)
 {
   SoundPollEvery = (int)v;	/* actually defined in soundacorn */
   return 0;
 }
 
-static int set_drive_type8(resource_value_t v)
+static int set_drive_type8(resource_value_t v, void *param)
 {
   DriveType8 = (int)v;
   return 0;
 }
 
-static int set_drive_type9(resource_value_t v)
+static int set_drive_type9(resource_value_t v, void *param)
 {
   DriveType9 = (int)v;
   return 0;
 }
 
-static int set_drive_type10(resource_value_t v)
+static int set_drive_type10(resource_value_t v, void *param)
 {
   DriveType10 = (int)v;
   return 0;
 }
 
-static int set_drive_type11(resource_value_t v)
+static int set_drive_type11(resource_value_t v, void *param)
 {
   DriveType11 = (int)v;
   return 0;
 }
 
-static int set_drive_file8(resource_value_t v)
+static int set_drive_file8(resource_value_t v, void *param)
 {
   const char *name = (const char *)v;
 
@@ -951,7 +951,7 @@ static int set_drive_file8(resource_value_t v)
   return 0;
 }
 
-static int set_drive_file9(resource_value_t v)
+static int set_drive_file9(resource_value_t v, void *param)
 {
   const char *name = (const char*)v;
 
@@ -962,7 +962,7 @@ static int set_drive_file9(resource_value_t v)
   return 0;
 }
 
-static int set_drive_file10(resource_value_t v)
+static int set_drive_file10(resource_value_t v, void *param)
 {
   const char *name = (const char*)v;
 
@@ -973,7 +973,7 @@ static int set_drive_file10(resource_value_t v)
   return 0;
 }
 
-static int set_drive_file11(resource_value_t v)
+static int set_drive_file11(resource_value_t v, void *param)
 {
   const char *name = (const char*)v;
 
@@ -984,7 +984,7 @@ static int set_drive_file11(resource_value_t v)
   return 0;
 }
 
-static int set_tape_file(resource_value_t v)
+static int set_tape_file(resource_value_t v, void *param)
 {
   const char *name = (const char*)v;
 
@@ -995,7 +995,7 @@ static int set_tape_file(resource_value_t v)
   return 0;
 }
 
-static int set_speed_limit(resource_value_t v)
+static int set_speed_limit(resource_value_t v, void *param)
 {
   SpeedLimit = (int)v;
   FrameCS = (SpeedLimit == 0) ? 0 : 200/SpeedLimit;
@@ -1003,7 +1003,7 @@ static int set_speed_limit(resource_value_t v)
   return 0;
 }
 
-static int set_auto_pause(resource_value_t v)
+static int set_auto_pause(resource_value_t v, void *param)
 {
   AutoPauseEmu = (int)v;
   return 0;
@@ -1013,33 +1013,33 @@ static int set_auto_pause(resource_value_t v)
 
 static resource_t resources[] = {
   {Rsrc_Poll, RES_INTEGER, (resource_value_t)20,
-    (resource_value_t*)&PollEvery, set_poll_every},
+    (resource_value_t*)&PollEvery, set_poll_every, NULL },
   {Rsrc_Speed, RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&SpeedEvery, set_speed_every},
+    (resource_value_t*)&SpeedEvery, set_speed_every, NULL },
   {Rsrc_SndEvery, RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&SoundPollEvery, set_sound_every},
+    (resource_value_t*)&SoundPollEvery, set_sound_every, NULL },
   {Rsrc_AutoPause, RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&AutoPauseEmu, set_auto_pause},
+    (resource_value_t*)&AutoPauseEmu, set_auto_pause, NULL },
   {Rsrc_DriveT8, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType8, set_drive_type8},
+    (resource_value_t*)&DriveType8, set_drive_type8, NULL },
   {Rsrc_DriveT9, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType9, set_drive_type9},
+    (resource_value_t*)&DriveType9, set_drive_type9, NULL },
   {Rsrc_DriveT10, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType10, set_drive_type10},
+    (resource_value_t*)&DriveType10, set_drive_type10, NULL },
   {Rsrc_DriveT11, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType11, set_drive_type11},
+    (resource_value_t*)&DriveType11, set_drive_type11, NULL },
   {Rsrc_DriveF8, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile8, set_drive_file8},
+    (resource_value_t*)&DriveFile8, set_drive_file8, NULL },
   {Rsrc_DriveF9, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile9, set_drive_file9},
+    (resource_value_t*)&DriveFile9, set_drive_file9, NULL },
   {Rsrc_DriveF10, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile10, set_drive_file10},
+    (resource_value_t*)&DriveFile10, set_drive_file10, NULL },
   {Rsrc_DriveF11, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile11, set_drive_file11},
+    (resource_value_t*)&DriveFile11, set_drive_file11, NULL },
   {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
-    (resource_value_t*)&TapeFile, set_tape_file},
+    (resource_value_t*)&TapeFile, set_tape_file, NULL },
   {Rsrc_SpeedLimit, RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&SpeedLimit, set_speed_limit},
+    (resource_value_t*)&SpeedLimit, set_speed_limit, NULL },
   {NULL}
 };
 

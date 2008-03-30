@@ -77,13 +77,13 @@ static int use_leds;
 
 static int statusbar_is_enabled;
 
-static int set_use_leds(resource_value_t v)
+static int set_use_leds(resource_value_t v, void *param)
 {
     use_leds = (int) v;
     return 0;
 }
 
-static int set_statusbar_enabled(resource_value_t v) 
+static int set_statusbar_enabled(resource_value_t v, void *param) 
 {
     statusbar_is_enabled = (int) v;
     if (statusbar_enabled())
@@ -98,9 +98,11 @@ static int set_statusbar_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &use_leds, set_use_leds },
+      (resource_value_t *) &use_leds,
+      set_use_leds, NULL },
     { "ShowStatusbar", RES_INTEGER, (resource_value_t) STATUSBAR_MODE_AUTO,
-      (resource_value_t *) &statusbar_is_enabled, set_statusbar_enabled },
+      (resource_value_t *) &statusbar_is_enabled,
+      set_statusbar_enabled, NULL },
     { NULL }
 };
 

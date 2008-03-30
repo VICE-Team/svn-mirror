@@ -134,7 +134,7 @@ int kbd_init(int num, ...)
     return 0;
 }
 
-static int set_keymap_index(resource_value_t v)
+static int set_keymap_index(resource_value_t v, void *param)
 {
 int real_index;
 
@@ -147,7 +147,7 @@ int real_index;
 
 static resource_t resources[] = {
     { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &keymap_index, set_keymap_index },
+      (resource_value_t *) &keymap_index, set_keymap_index, NULL },
     { NULL }
 };
 

@@ -43,20 +43,21 @@ static char *PrinterFile=NULL;
    and a simple int. We save the real file descriptor here */
 static FILE *fd[3]={NULL, NULL, NULL};
 
-static int set_printer_file(resource_value_t v)
+static int set_printer_file(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
+    const char *name = (const char*)v;
 
-  if ((PrinterFile != NULL) && (name != NULL) && (strcmp(name, PrinterFile) == 0))
+    if ((PrinterFile != NULL) && (name != NULL)
+       && (strcmp(name, PrinterFile) == 0))
+       return 0;
+
+    string_set(&PrinterFile, name);
     return 0;
-
-  string_set(&PrinterFile, name);
-  return 0;
 }
 
 resource_t resources[] = {
   {"PrinterFile", RES_STRING, (resource_value_t)"viceprnt.out",
-    (resource_value_t*)&PrinterFile, set_printer_file},
+    (resource_value_t*)&PrinterFile, set_printer_file, NULL },
   {NULL}
 };
 

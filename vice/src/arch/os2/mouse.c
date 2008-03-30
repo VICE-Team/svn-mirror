@@ -38,7 +38,7 @@ static SHORT _mouse_x, _mouse_y; // -32768-32768
 
 /* ----------------------------------------------------------- */
 
-static int set_mouse_enabled(resource_value_t v)
+static int set_mouse_enabled(resource_value_t v, void *param)
 {
     _mouse_enabled = (int) v;
     if (!_mouse_enabled)
@@ -46,7 +46,7 @@ static int set_mouse_enabled(resource_value_t v)
     return 0;
 }
 
-static int set_hide_mouseptr(resource_value_t v)
+static int set_hide_mouseptr(resource_value_t v, void *param)
 {
     hide_mouseptr = (int) v;
     if (!hide_mouseptr && !visible)
@@ -60,9 +60,9 @@ static int set_hide_mouseptr(resource_value_t v)
 
 static resource_t resources[] = {
     { "Mouse", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &_mouse_enabled, set_mouse_enabled },
+      (resource_value_t *) &_mouse_enabled, set_mouse_enabled, NULL },
     { "HideMousePtr", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &hide_mouseptr, set_hide_mouseptr},
+      (resource_value_t *) &hide_mouseptr, set_hide_mouseptr, NULL },
     { NULL }
 };
 

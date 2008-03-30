@@ -94,27 +94,27 @@ static int border;      // PM Border Type
 static int posx, posy;  // Position of window at startup
 static int autopos;     //
 
-static int set_stretch_factor(resource_value_t v)
+static int set_stretch_factor(resource_value_t v, void *param)
 {
     stretch=(int)v;
     return 0;
 }
 
-static int set_posx(resource_value_t v)
+static int set_posx(resource_value_t v, void *param)
 {
     if (!autopos)
         posx=(int)v;
     return 0;
 }
 
-static int set_posy(resource_value_t v)
+static int set_posy(resource_value_t v, void *param)
 {
     if (!autopos)
         posy=(int)v;
     return 0;
 }
 
-static int set_autopos(resource_value_t v)
+static int set_autopos(resource_value_t v, void *param)
 {
     autopos=(int)v;
     if (autopos)
@@ -122,7 +122,7 @@ static int set_autopos(resource_value_t v)
     return 0;
 }
 
-static int set_border_type(resource_value_t v)
+static int set_border_type(resource_value_t v, void *param)
 {
     switch ((int)v)
     {
@@ -142,15 +142,15 @@ static int set_border_type(resource_value_t v)
 
 static resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &stretch, set_stretch_factor},
+      (resource_value_t *) &stretch, set_stretch_factor, NULL },
     { "PMBorderType", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &border, set_border_type},
+      (resource_value_t *) &border, set_border_type, NULL },
     { "WindowPosX", RES_INTEGER, (resource_value_t) ~0,
-      (resource_value_t *) &posx, set_posx},
+      (resource_value_t *) &posx, set_posx, NULL },
     { "WindowPosY", RES_INTEGER, (resource_value_t) ~0,
-      (resource_value_t *) &posy, set_posy},
+      (resource_value_t *) &posy, set_posy, NULL },
     { "AutoWindowPos", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &autopos, set_autopos},
+      (resource_value_t *) &autopos, set_autopos, NULL },
     { NULL }
 };
 

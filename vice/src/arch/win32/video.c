@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <windows.h>
@@ -47,6 +48,9 @@
 void video_resize(void);
 raster_t *video_find_raster_for_canvas(canvas_t *canvas);
 
+#ifndef HAVE_GUIDLIB
+extern const GUID IID_IDirectDraw2;
+#endif
 
 #define EXIT_REASON(reason) {log_debug("Error %08x",reason);return -1;}
 

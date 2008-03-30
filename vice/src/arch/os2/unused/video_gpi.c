@@ -91,7 +91,7 @@ void vidlog(char *s, int i) {
 /* Video-related resources.  */
 static int stretch;  // Strech factor for window (1,2,3,...)
 
-static int set_stretch_factor(resource_value_t v)
+static int set_stretch_factor(resource_value_t v, void *param)
 {
     stretch=(int)v;
     return 0;
@@ -99,7 +99,7 @@ static int set_stretch_factor(resource_value_t v)
 
 static resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &stretch, set_stretch_factor},
+      (resource_value_t *) &stretch, set_stretch_factor, NULL },
     { NULL }
 };
 

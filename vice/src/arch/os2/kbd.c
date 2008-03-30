@@ -61,7 +61,7 @@ static int set_keymap_index(resource_value_t v)
     return 0;
 }
 
-static int set_keymap_file(resource_value_t v)
+static int set_keymap_file(resource_value_t vi, void *param)
 {
     string_set(&keymapfile, (const char*) v);
 
@@ -71,7 +71,7 @@ static int set_keymap_file(resource_value_t v)
 
 static resource_t resources[] = {
     { "KeymapFile", RES_STRING, (resource_value_t) "os2.vkm",
-      (resource_value_t *) &keymapfile, set_keymap_file },
+      (resource_value_t *) &keymapfile, set_keymap_file, NULL },
     { NULL }
 };
 
