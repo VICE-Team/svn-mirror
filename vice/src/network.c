@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_NETWORK
+
 #ifdef MINIX_SUPPORT
 #define _POSIX_SOURCE
 #include <limits.h>
@@ -37,7 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_NETWORK
+
 
 #ifdef AMIGA_SUPPORT
 #ifdef AMIGA_MORPHOS
@@ -101,7 +103,6 @@ typedef struct timeval TIMEVAL;
 #endif
 
 #endif /* UNIX */
-#endif /* HAVE_NETWORK */
 
 #include "archdep.h"
 #include "event.h"
@@ -127,7 +128,6 @@ typedef struct timeval TIMEVAL;
 
 static network_mode_t network_mode = NETWORK_IDLE;
 
-#ifdef HAVE_NETWORK
 static int current_send_frame;
 static int last_received_frame;
 static SOCKET listen_socket;
@@ -263,22 +263,15 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-#endif
-
 int network_resources_init(void)
 {
-#ifdef HAVE_NETWORK
     if (resources_register_string(resources_string) < 0)
         return -1;
 
     return resources_register_int(resources_int);
-#else
-    return 0;
-#endif
 }
-/*---------------------------------------------------------------------*/
 
-#ifdef HAVE_NETWORK
+/*---------------------------------------------------------------------*/
 
 static int get_select_fd_size(void)
 {
@@ -314,13 +307,13 @@ static void network_free_frame_event_list(void)
 
 static void network_event_record_sync_test(WORD addr, void *data)
 {
-    unsigned int regbuf[5];
+    BYTE regbuf[5 * 4];
         
-    regbuf[0] = maincpu_regs.pc;
-    regbuf[1] = maincpu_regs.a;
-    regbuf[2] = maincpu_regs.x;
-    regbuf[3] = maincpu_regs.y;
-    regbuf[4] = maincpu_regs.sp;
+    util_dword_to_le_buf(&regbuf[0 * 4], (DWORD)(maincpu_regs.pc));
+    util_dword_to_le_buf(&regbuf[1 * 4], (DWORD)(maincpu_regs.a));
+    util_dword_to_le_buf(&regbuf[2 * 4], (DWORD)(maincpu_regs.x));
+    util_dword_to_le_buf(&regbuf[3 * 4], (DWORD)(maincpu_regs.y));
+    util_dword_to_le_buf(&regbuf[4 * 4], (DWORD)(maincpu_regs.sp));
 
     network_event_record(EVENT_SYNC_TEST, (void *)regbuf, sizeof(regbuf));
 }
@@ -427,13 +420,19 @@ static int network_recv_buffer(SOCKET s, BYTE *buf, int len)
     return 0;
 }
 
+#ifdef MSG_NOSIGNAL
+#define SEND_FLAGS MSG_NOSIGNAL
+#else
+#define SEND_FLAGS 0
+#endif
+
 static int network_send_buffer(SOCKET s, const BYTE *buf, int len)
 {
     int t;
     int sent_total = 0;
 
     while (sent_total < len) {
-        t = send(s, buf, len - sent_total, 0);
+        t = send(s, buf, len - sent_total, SEND_FLAGS);
         
         if (t < 0)
             return t;
@@ -465,8 +464,8 @@ static void network_test_delay(void)
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
             *((unsigned long*)buf) = vsyncarch_gettime();
-            if (network_send_buffer(network_socket, buf, sizeof(buf)) <  0
-                || network_recv_buffer(network_socket, buf, sizeof(buf)) <  0)
+            if (network_send_buffer(network_socket, buf, sizeof(buf)) < 0
+                || network_recv_buffer(network_socket, buf, sizeof(buf)) < 0)
                 return;
             packet_delay[i] = vsyncarch_gettime() - *((unsigned long*)buf);
         }
@@ -480,18 +479,19 @@ static void network_test_delay(void)
                 }
             }
 #ifdef NETWORK_DEBUG
-            log_debug("packet_delay[%d]=%d",i,packet_delay[i]);
+            log_debug("packet_delay[%d]=%ld",i,packet_delay[i]);
 #endif
         }
 #ifdef NETWORK_DEBUG
-        log_debug("vsyncarch_frequency = %d", vsyncarch_frequency());
+        log_debug("vsyncarch_frequency = %ld", vsyncarch_frequency());
 #endif
         /* calculate delay with 90% of packets beeing fast enough */
         /* FIXME: This needs some further investigation */
         new_frame_delta = 5 + (BYTE)(vsync_get_refresh_frequency()
                             * packet_delay[(int)(0.1 * NUM_OF_TESTPACKETS)]
                             / (float)vsyncarch_frequency());
-        network_send_buffer(network_socket, &new_frame_delta, sizeof(new_frame_delta));
+        network_send_buffer(network_socket, &new_frame_delta,
+                            sizeof(new_frame_delta));
     } else {
         /* network_mode == NETWORK_CLIENT */
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
@@ -499,7 +499,8 @@ static void network_test_delay(void)
                 || network_send_buffer(network_socket, buf, sizeof(buf)) < 0)
                 return;
         }
-        network_recv_buffer(network_socket, &new_frame_delta, sizeof(new_frame_delta));
+        network_recv_buffer(network_socket, &new_frame_delta,
+                            sizeof(new_frame_delta));
     }
     network_free_frame_event_list();
     frame_delta = new_frame_delta;
@@ -639,12 +640,11 @@ static void network_client_connect_trap(WORD addr, void *data)
     network_test_delay();
     lib_free(snapshotfilename);
 }
-#endif
+
 /*-------------------------------------------------------------------------*/
 
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
-#ifdef HAVE_NETWORK
     unsigned int control = 0;
     BYTE joyport;
 
@@ -682,12 +682,10 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
         return;
 
     event_record_in_list(&(frame_event_list[current_frame]), type, data, size);
-#endif
 }
 
 void network_attach_image(unsigned int unit, const char *filename)
 {
-#ifdef HAVE_NETWORK
     unsigned int control = NETWORK_CONTROL_DEVC;
 
     if (network_get_mode() == NETWORK_CLIENT)
@@ -697,7 +695,6 @@ void network_attach_image(unsigned int unit, const char *filename)
         return;
 
     event_record_attach_in_list(&(frame_event_list[current_frame]), unit, filename, 1);
-#endif
 }
 
 int network_get_mode(void)
@@ -707,20 +704,15 @@ int network_get_mode(void)
 
 int network_connected(void)
 {
-#ifdef HAVE_NETWORK
     if (network_mode == NETWORK_SERVER_CONNECTED 
         || network_mode ==  NETWORK_CLIENT)
         return 1;
     else
         return 0;
-#else
-    return 0;
-#endif
 }
 
 int network_start_server(void)
 {
-#ifdef HAVE_NETWORK
 #ifdef HAVE_IPV6
     struct sockaddr_in6 server_addr6;
 #endif
@@ -786,14 +778,12 @@ int network_start_server(void)
 #else
     ui_display_statustext(_("Server is waiting for a client..."), 1);
 #endif
-#endif
     return 0;
 } 
 
 
 int network_connect_client(void)
 {
-#ifdef HAVE_NETWORK
     struct sockaddr_in server_addr;
 #ifdef HAVE_IPV6
     struct sockaddr_in6 server_addr6;
@@ -936,13 +926,12 @@ int network_connect_client(void)
 
     interrupt_maincpu_trigger_trap(network_client_connect_trap, (void *)0);
     vsync_suspend_speed_eval();
-#endif
+
     return 0;
 }
 
 void network_disconnect(void)
 {
-#ifdef HAVE_NETWORK
     closesocket(network_socket);
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         network_mode = NETWORK_SERVER;
@@ -950,12 +939,10 @@ void network_disconnect(void)
         closesocket(listen_socket);
         network_mode = NETWORK_IDLE;
     }
-#endif
 }
 
 void network_suspend(void)
 {
-#ifdef HAVE_NETWORK
     int dummy_buf_len = 0;
 
     if (!network_connected() || suspended == 1)
@@ -965,17 +952,143 @@ void network_suspend(void)
                         sizeof(unsigned int));
     
     suspended = 1;
+}
+
+#ifdef NETWORK_DEBUG
+    long t1, t2, t3, t4;
+#endif
+
+static void network_hook_connected_send(void)
+{
+    BYTE *local_event_buf = NULL;
+    unsigned int send_len;
+    BYTE send_len4[4];
+
+    /* create and send current event buffer */
+    network_event_record(EVENT_LIST_END, NULL, 0);
+    send_len = network_create_event_buffer(&local_event_buf, &(frame_event_list[current_frame]));
+
+#ifdef NETWORK_DEBUG
+    t1 = vsyncarch_gettime();
+#endif
+
+    util_int_to_le_buf4(send_len4, (int)send_len);
+    if (network_send_buffer(network_socket, send_len4, 4) < 0
+        || network_send_buffer(network_socket, local_event_buf, send_len) < 0) {
+#ifdef HAS_TRANSLATION
+        ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
+#else
+        ui_display_statustext(_("Remote host disconnected."), 1);
+#endif
+        network_disconnect();
+    }
+#ifdef NETWORK_DEBUG
+    t2 = vsyncarch_gettime();
+#endif
+
+    lib_free(local_event_buf);
+}
+
+static void network_hook_connected_receive(void)
+{
+    BYTE *remote_event_buf = NULL;
+    unsigned int recv_len;
+    BYTE recv_len4[4];
+    event_list_state_t *remote_event_list;
+    event_list_state_t *client_event_list, *server_event_list;
+
+    suspended = 0;
+
+    if (current_frame == frame_delta - 1)
+        frame_buffer_full = 1;
+
+    if (frame_buffer_full) {
+        do {
+            if (network_recv_buffer(network_socket, recv_len4, 4) < 0) {
+#ifdef HAS_TRANSLATION
+                ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
+#else
+                ui_display_statustext(_("Remote host disconnected."), 1);
+#endif
+                network_disconnect();
+                return;
+            }
+
+            recv_len = util_le_buf4_to_int(recv_len4);
+            if (recv_len == 0 && suspended == 0) {
+                /* remote host suspended emulation */
+#ifdef HAS_TRANSLATION
+                ui_display_statustext(translate_text(IDGS_REMOTE_HOST_SUSPENDING), 0);
+#else
+                ui_display_statustext(_("Remote host suspending..."), 0);
+#endif
+                suspended = 1;
+                vsync_suspend_speed_eval();
+            }
+        } while (recv_len == 0);
+
+        if (suspended == 1)
+            ui_display_statustext("", 0);
+
+        remote_event_buf = lib_malloc(recv_len);
+
+        if (network_recv_buffer(network_socket, remote_event_buf,
+                                recv_len) < 0) {
+            lib_free(remote_event_buf);
+            return;
+        }
+
+#ifdef NETWORK_DEBUG
+        t3 = vsyncarch_gettime();
+#endif
+
+        remote_event_list = network_create_event_list(remote_event_buf);
+        lib_free(remote_event_buf);
+
+        if (network_mode == NETWORK_SERVER_CONNECTED) {
+            client_event_list = remote_event_list;
+            server_event_list = &(frame_event_list[frame_to_play]);
+        } else {
+            server_event_list = remote_event_list;
+            client_event_list = &(frame_event_list[frame_to_play]);
+        }
+
+        /* test for sync */
+        if (client_event_list->base->type == EVENT_SYNC_TEST
+            && server_event_list->base->type == EVENT_SYNC_TEST) {
+            int i;
+                
+            for (i = 0; i < 5; i++) {
+                if (((DWORD *)client_event_list->base->data)[i]
+                    != ((DWORD *)server_event_list->base->data)[i]) {
+#ifdef HAS_TRANSLATION
+                    ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
+#else
+                    ui_error(_("Network out of sync - disconnecting."));
+#endif
+                    network_disconnect();
+                    /* shouldn't happen but resyncing would be nicer */
+                    break;
+                }
+            }
+        }
+
+        /* replay the event_lists; server first, then client */
+        event_playback_event_list(server_event_list);
+        event_playback_event_list(client_event_list);
+
+        event_clear_list(remote_event_list);
+        lib_free(remote_event_list);
+    }
+    network_prepare_next_frame();
+#ifdef NETWORK_DEBUG
+    t4 = vsyncarch_gettime();
 #endif
 }
 
 void network_hook(void)
 {
-#ifdef HAVE_NETWORK
-#ifdef NETWORK_DEBUG
-    long t1, t2, t3, t4;
-#endif
-
-    TIMEVAL time_out = {0, 0};
+    TIMEVAL time_out = { 0, 0 };
     int fd_size;
 
     if (network_mode == NETWORK_IDLE)
@@ -985,13 +1098,13 @@ void network_hook(void)
         FD_ZERO(&fdsockset);
         FD_SET(listen_socket, &fdsockset);
 
-        fd_size=get_select_fd_size();
+        fd_size = get_select_fd_size();
         if (fd_size > FD_SETSIZE)
-            fd_size=FD_SETSIZE;
+            fd_size = FD_SETSIZE;
 
         if (select(fd_size, &fdsockset, NULL, NULL, &time_out) != 0) {
             network_socket = accept(listen_socket, NULL, NULL);
-        
+
             if (network_socket != INVALID_SOCKET)
                 interrupt_maincpu_trigger_trap(network_server_connect_trap,
                                                (void *)0);
@@ -999,121 +1112,19 @@ void network_hook(void)
     }
 
     if (network_connected()) {
-        BYTE *local_event_buf = NULL, *remote_event_buf = NULL;
-        unsigned int local_buf_len, remote_buf_len;
-        event_list_state_t *remote_event_list;
-        event_list_state_t *client_event_list, *server_event_list;
-
-        suspended = 0;
-
-        /* create and send current event buffer */
-        network_event_record(EVENT_LIST_END, NULL, 0);
-        local_buf_len = network_create_event_buffer(&local_event_buf, &(frame_event_list[current_frame]));
+        network_hook_connected_send();
+        network_hook_connected_receive();
 #ifdef NETWORK_DEBUG
-        t1 = vsyncarch_gettime();
-#endif
-        network_send_buffer(network_socket, (BYTE*)&local_buf_len, sizeof(unsigned int));
-        network_send_buffer(network_socket, local_event_buf, local_buf_len);
-#ifdef NETWORK_DEBUG
-        t2 = vsyncarch_gettime();
-#endif
-        lib_free(local_event_buf);
-
-        /* receive event buffer */
-        if (current_frame == frame_delta - 1)
-            frame_buffer_full = 1;
-
-        if (frame_buffer_full) {
-            do {
-                if (network_recv_buffer(network_socket, (BYTE*)&remote_buf_len,
-                                        sizeof(unsigned int)) < 0)
-                {
-#ifdef HAS_TRANSLATION
-                    ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
-#else
-                    ui_display_statustext(_("Remote host disconnected."), 1);
-#endif
-                    network_disconnect();
-                    return;
-                }
-
-                if (remote_buf_len == 0 && suspended == 0) {
-                    /* remote host suspended emulation */
-#ifdef HAS_TRANSLATION
-                    ui_display_statustext(translate_text(IDGS_REMOTE_HOST_SUSPENDING), 0);
-#else
-                    ui_display_statustext(_("Remote host suspending..."), 0);
-#endif
-                    suspended = 1;
-                    vsync_suspend_speed_eval();
-                }
-            } while(remote_buf_len == 0);
-
-            if (suspended == 1)
-                ui_display_statustext("", 0);
-
-            remote_event_buf = lib_malloc(remote_buf_len);
-
-            if (network_recv_buffer(network_socket, remote_event_buf,
-                                    remote_buf_len) < 0)
-                return;
-#ifdef NETWORK_DEBUG
-            t3 = vsyncarch_gettime();
-#endif
-            remote_event_list = network_create_event_list(remote_event_buf);
-            lib_free(remote_event_buf);
-
-            if (network_mode == NETWORK_SERVER_CONNECTED) {
-                client_event_list = remote_event_list;
-                server_event_list = &(frame_event_list[frame_to_play]);
-            } else {
-                server_event_list = remote_event_list;
-                client_event_list = &(frame_event_list[frame_to_play]);
-            }
-
-            /* test for sync */
-            if (client_event_list->base->type == EVENT_SYNC_TEST
-                && server_event_list->base->type == EVENT_SYNC_TEST)
-            {
-                int i;
-                
-                for (i = 0; i < 5; i++)
-                    if (((unsigned int*)client_event_list->base->data)[i]
-                        != ((unsigned int*)server_event_list->base->data)[i])
-                    {
-#ifdef HAS_TRANSLATION
-                        ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
-#else
-                        ui_error(_("Network out of sync - disconnecting."));
-#endif
-                        network_disconnect();
-                        /* shouldn't happen but resyncing would be nicer */
-                        break;
-                    }
-            }
-
-            /* replay the event_lists; server first, then client */
-            event_playback_event_list(server_event_list);
-            event_playback_event_list(client_event_list);
-
-            event_clear_list(remote_event_list);
-            lib_free(remote_event_list);
-        }
-        network_prepare_next_frame();
-#ifdef NETWORK_DEBUG
-        t4 = vsyncarch_gettime();
-        log_debug("network_hook timing: %5d %5d %5d; total: %5d",
+        log_debug("network_hook timing: %5ld %5ld %5ld; total: %5ld",
                   t2-t1, t3-t2, t4-t3, t4-t1);
 #endif
     }
-#endif
 }
 
 void network_shutdown(void)
 {
-#ifdef HAVE_NETWORK
-	if (network_connected())
-		network_disconnect();
+    if (network_connected())
+        network_disconnect();
 
     network_free_frame_event_list();
     lib_free(server_name);
@@ -1124,5 +1135,53 @@ void network_shutdown(void)
         SocketBase = NULL;
     }
 #endif
-#endif
 }
+
+#else
+
+int network_resources_init(void)
+{
+    return 0;
+}
+
+void network_attach_image(unsigned int unit, const char *filename)
+{
+}
+
+void network_event_record(unsigned int type, void *data, unsigned int size)
+{
+}
+
+int network_connected(void)
+{
+    return 0;
+}
+
+int network_start_server(void)
+{
+    return 0;
+}
+
+int network_connect_client(void)
+{
+    return 0;
+}
+
+void network_disconnect(void)
+{
+}
+
+void network_suspend(void)
+{
+}
+
+void network_hook(void)
+{
+}
+
+void network_shutdown(void)
+{
+}
+
+#endif
+
