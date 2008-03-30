@@ -183,6 +183,9 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         if (addr == 0xdf38)
             cartridge_config_changed(2);
         return roml_banks[0x1f00 + (addr & 0xff)];
+      case CARTRIDGE_WESTERMANN:
+        cartridge_config_changed(0);
+        return rand();
     }
     return rand();
 }
@@ -309,6 +312,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_FINAL_III:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
+      case CARTRIDGE_WESTERMANN:
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_ULTIMAX:
@@ -340,8 +344,9 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(roml_banks, rawcart, 0x2000);
         cartridge_config_changed(0);
         break;
-      case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
+      case CARTRIDGE_SIMONS_BASIC:
+      case CARTRIDGE_WESTERMANN:
         memcpy(roml_banks, rawcart, 0x2000);
         memcpy(romh_banks, &rawcart[0x2000], 0x2000);
         cartridge_config_changed(1);
