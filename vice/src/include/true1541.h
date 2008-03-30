@@ -79,8 +79,7 @@
 #if defined(CBM64) || defined(C128)
 #define TRUE1541_PAL_SYNC_FACTOR	66516   /* Maybe 66517? */
 #define TRUE1541_NTSC_SYNC_FACTOR	64094
-#endif
-#if defined(VIC20)
+#else /* if defined(VIC20) FIXME: Temporary hack */
 #define TRUE1541_PAL_SYNC_FACTOR	59126
 #define TRUE1541_NTSC_SYNC_FACTOR	64079
 #endif
@@ -99,9 +98,6 @@
 #define TRUE1541_IDLE_SKIP_CYCLES	0
 #define TRUE1541_IDLE_TRAP_IDLE		1
 
-/* Define this to enable full emulation of disk rotation.  */
-#define TRUE1541_ROTATE
-
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
 #define TRUE1541_ATTACH_DELAY           500000
@@ -109,23 +105,10 @@
 /* Number of cycles the write protection is activated on detach.  */
 #define TRUE1541_DETACH_DELAY           300000
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 extern int initialize_true1541(void);
 
-#if defined(CBM64) || defined(C128)
-extern void serial_bus_cpu_write(BYTE data);
-extern BYTE serial_bus_cpu_read(void);
-extern void parallel_cable_cpu_write(BYTE data, int handshake);
-extern BYTE parallel_cable_cpu_read(void);
-extern void parallel_cable_drive_write(BYTE data, int handshake);
-extern BYTE parallel_cable_drive_read(int handshake);
-#endif
-#if defined(VIC20)
-extern void serial_bus_pa_write(BYTE data);
-extern void serial_bus_pcr_write(BYTE data);
-extern BYTE serial_bus_pa_read(void);
-#endif
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
 extern int true1541_trap_handler(void);

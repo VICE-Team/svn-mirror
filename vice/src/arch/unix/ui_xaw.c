@@ -86,6 +86,7 @@
 #include "mon.h"
 #include "utils.h"
 #include "kbd.h"
+#include "true1541.h"
 
 #ifdef AUTOSTART
 #include "autostart.h"
@@ -93,10 +94,6 @@
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
-#endif
-
-#ifdef HAVE_TRUE1541
-#include "true1541.h"
 #endif
 
 #ifdef REU
@@ -147,17 +144,13 @@ static struct {
     Widget shell;
     Widget canvas;
     Widget speed_label;
-#ifdef HAVE_TRUE1541
     Widget drive_track_label;
     Widget drive_led;
-#endif
 } AppShells[MAX_APP_SHELLS];
 static int NumAppShells = 0;
 
-#ifdef HAVE_TRUE1541
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_pixel, drive_led_off_pixel;
-#endif
 
 /* This is for our home-made menu implementation.  Not very clever, but it
    works. */
@@ -277,14 +270,12 @@ CallbackFunc(UiSetNumpadJoystickPort);
 #endif
 #endif
 
-#ifdef HAVE_TRUE1541
 CallbackFunc(UiToggleTrue1541);
 CallbackFunc(UiToggleParallelCable);
 CallbackFunc(UiSet1541ExtendImage);
 CallbackFunc(UiSet1541SyncFactor);
 CallbackFunc(UiSet1541IdleMethod);
 CallbackFunc(UiSetCustom1541SyncFactor);
-#endif
 
 #ifdef SOUND
 CallbackFunc(UiToggleSound);
@@ -576,9 +567,7 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     static int menus_created = 0;
     XtTranslations translations;
     Widget shell, canvas, pane, speed_label;
-#ifdef HAVE_TRUE1541
     Widget drive_track_label, drive_led;
-#endif
     XSetWindowAttributes attr;
 
     if (UiAllocColors(num_colors, colors, pixel_return) == -1)
@@ -650,7 +639,6 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
                                               NULL);
 
 
-#ifdef HAVE_TRUE1541
         drive_track_label = XtVaCreateManagedWidget("driveTrack",
                                                     labelWidgetClass, pane,
                                                     XtNlabel, "",
@@ -684,7 +672,6 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
                                             XtNjustify, XtJustifyRight,
                                             XtNborderWidth, 1,
                                             NULL);
-#endif
     }
 
     /* Assign proper translations to open the menus. */
@@ -727,10 +714,8 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     AppShells[NumAppShells - 1].title = stralloc(title);
     AppShells[NumAppShells - 1].speed_label = speed_label;
 
-#ifdef HAVE_TRUE1541
     AppShells[NumAppShells - 1].drive_track_label = drive_track_label;
     AppShells[NumAppShells - 1].drive_led = drive_led;
-#endif
 
     return canvas;
 }
@@ -821,7 +806,6 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
     free(xpixels);
     XDestroyImage(im);
 
-#ifdef HAVE_TRUE1541
     if (!failed) {
         XColor screen, exact;
 
@@ -837,7 +821,6 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
                 drive_led_on_pixel = screen.pixel;
         }
     }
-#endif
 
     return failed;
 }
@@ -901,7 +884,6 @@ void UiDisplaySpeed(float percent, float framerate)
     }
 }
 
-#ifdef HAVE_TRUE1541
 void UiToggleDriveStatus(int state)
 {
     int i;
@@ -951,7 +933,6 @@ void UiDisplayDriveLed(int status)
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }
-#endif
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
@@ -2619,8 +2600,6 @@ CallbackFunc(UiToggleREU)
 
 /* True 1541 support items. */
 
-#ifdef HAVE_TRUE1541
-
 DEFINE_TOGGLE(UiToggleTrue1541, true1541, true1541_ack_switch)
 
 DEFINE_TOGGLE(UiToggleParallelCable, true1541ParallelCable, NULL)
@@ -2704,8 +2683,6 @@ CallbackFunc(UiSet1541IdleMethod)
 		       ? CheckmarkBitmap : 0), NULL);
     }
 }
-
-#endif /* HAVE_TRUE1541 */
 
 /* ------------------------------------------------------------------------- */
 
