@@ -483,12 +483,15 @@ void raster_free(raster_t *raster)
 {
     if (raster->canvas)
         raster_draw_buffer_free(raster->canvas);
+
     video_canvas_destroy(raster->canvas);
+
+    palette_free(raster->palette);
 
     free(raster->modes);
     free(raster->sprite_status);
     free(raster->cache);
-    free(raster->palette);
+
     free(raster->fake_draw_buffer_line);
     /* FIXME: there may be more stuff to be freed */
 }
