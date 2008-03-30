@@ -698,7 +698,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
         int visible_height = crtc.current_line;
                         /* crtc.regs[6] * (crtc.regs[9] + 1); */
 
-        crtc.screen_yoffset = (crtc.screen_height - visible_height) / 2;
+        crtc.screen_yoffset = ((int)crtc.screen_height - visible_height) / 2;
         if (crtc.screen_yoffset < CRTC_SCREEN_BORDERHEIGHT)
             crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
 
