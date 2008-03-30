@@ -79,7 +79,11 @@ static char *read_disk_image_contents(const char *name)
     if (contents == NULL)
         return NULL;
 
-    s = image_contents_to_string(contents);
+#ifdef USE_GNOMEUI
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
+#else
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+#endif
 
     image_contents_destroy(contents);
 
@@ -168,7 +172,11 @@ static char *read_tape_image_contents(const char *name)
     if (contents == NULL)
         return NULL;
 
-    s = image_contents_to_string(contents);
+#ifdef USE_GNOMEUI
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
+#else
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+#endif
 
     image_contents_destroy(contents);
 

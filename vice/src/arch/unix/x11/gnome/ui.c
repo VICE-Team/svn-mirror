@@ -1886,7 +1886,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     if (contents == NULL)
 	return (GtkWidget *) NULL;
 
-    s = image_contents_to_string(contents);
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
     
     menu = g_new(ui_menu_entry_t, limit + 1); /* +1 because we have to store
 					         NULL as end delimiter */
