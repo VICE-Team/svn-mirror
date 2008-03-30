@@ -37,6 +37,9 @@
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
+/* Does the `readline' library support `rl_readline_name'?  */
+#undef HAVE_RLNAME
+
 /* Are we using the gnomeui  */
 #undef USE_GNOMEUI
 

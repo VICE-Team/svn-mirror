@@ -1748,7 +1748,7 @@ static void export_registers(void)
 
 /* Extented opcodes.  */
 
-void opcode_cb(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
+static void opcode_cb(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
       case 0x00: /* RLC B */
@@ -2529,7 +2529,7 @@ void opcode_cb(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
    }
 }
 
-void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
+static void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
 {
     switch (iip3) {
       case 0x00: /* RLC (IX+d),B */
@@ -3198,7 +3198,7 @@ void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
    }
 }
 
-void opcode_dd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
+static void opcode_dd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
       case 0x00: /* NOP */
@@ -3847,7 +3847,7 @@ void opcode_dd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
    }
 }
 
-inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
+static void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
       case 0x40: /* IN B BC */
@@ -4028,7 +4028,7 @@ inline void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
    }
 }
 
-void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
+static void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
 {
     switch (iip3) {
       case 0x00: /* RLC (IY+d),B */
@@ -4698,7 +4698,7 @@ void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
 }
 
 
-void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
+static void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
       case 0x00: /* NOP */

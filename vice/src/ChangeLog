@@ -1,6 +1,69 @@
+2002-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.36.
+
+	* arch/unix/console.c: Only use `rl_readline_name' if
+	`HAVE_RLNAME' is defined.
+
+	* c128/z80.c (opcode_ed): No need to inline this function.
+
+2002-04-08  John Selck  <graham@cruise.de>
+
+	* arch/win32/res.h: Added defines for new GUI elements.
+	(IDC_VIDEO_ADVANCED_SHADE and
+	IDC_VIDEO_ADVANCED_MODE)
+
+	* arch/win32/res.rc: Added new GUI elements into the
+	video/advanced dialog to configure PALMode and
+	PALScanLineShade.
+
+	* arch/win32/uivideo.c: init_advanced_dialog() now
+	initializes the new GUI elements. dialog_advanced_proc()
+	now handles them.
+
+	* video/video-resources.c: set_pal_scanlineshade() now
+	checks for value boundaries.
+	Renamed "DelayLoopEmulation" into "PALEmulation".
+
+	* arch/unix/uipalemu.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/riscos/ui.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/riscos/video.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/os2/dialogs/menubar.c: Renamed "DelayLoopEmulation"
+	into "PALEmulation".
+
+	* arch/win32/c64ui.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/win32/plus4ui.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/win32/vic20ui.c: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/beos/c128ui.cc: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/beos/c64ui.cc: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* arch/beos/vic20ui.cc: Renamed "DelayLoopEmulation" into
+	"PALEmulation".
+
+	* vsync.c: vsync_do_vsync() now only allows sync to vertical
+	blank on 100% speed.
+
 2002-04-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.35.
+
+	* vicii/vicii.c (vic_ii_update_video_mode): Removed
+	optimization because it can cause the usage of wrong colors.
 
 2002-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 

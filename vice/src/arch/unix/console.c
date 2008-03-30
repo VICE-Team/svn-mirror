@@ -33,13 +33,13 @@
 #include "console.h"
 #include "utils.h"
 
-#ifdef HAVE_READLINE
+#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
 extern char *rl_readline_name;
 #endif
 
 int console_init(void)
 {
-#ifdef HAVE_READLINE
+#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
     rl_readline_name = "VICE";
 #endif
 
