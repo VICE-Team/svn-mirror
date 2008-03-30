@@ -1,3 +1,22 @@
+2004-08-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.
+
+	* c64/cart/final.c (final_v3_io2_store): Call
+	`cartridge_trigger_freeze_nmi_only'.
+
+	* c64/cart/c64cart.c, cartridge.h
+	(cartridge_trigger_freeze_nmi_only): New function.
+
+	* arch/win32/res.rc: Commented out `Other' button.
+
+	* petcat.c (p_tokenize): Fixed a warning.
+
+2004-08-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_snapshot_read_module): Fixed initialization
+	of data and  next_timestamp_clk.
+
 2004-08-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.40.
