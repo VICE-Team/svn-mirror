@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "utils.h"
@@ -35,29 +35,26 @@
 
 char *make_menu_label(ui_menu_entry_t *e)
 {
-    const char *key_string;
-    char *tmp, *retstr, *trans;
+    const char *key_string, *tmp = "";
+    char *retstr, *trans;
 
     /* Check wether NO_TRANS prefix is there, if yes don't translate it */
     if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
-	trans = stralloc(e->string + strlen(NO_TRANS));
+        trans = stralloc(e->string + strlen(NO_TRANS));
     else
-	trans = stralloc(_(e->string));
-    
-    if (e->hotkey_keysym == (ui_keysym_t) 0)
+        trans = stralloc(_(e->string));
+
+    if (e->hotkey_keysym == (ui_keysym_t)0)
         return trans;
 
-    tmp = xmalloc(1024);
-
-    *tmp = '\0';
     if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
-        strcat(tmp, "C-");
+        tmp = "C-";
     if (e->hotkey_modifier & UI_HOTMOD_META)
-        strcat(tmp, "M-");
+        tmp = "M-";
     if (e->hotkey_modifier & UI_HOTMOD_ALT)
-        strcat(tmp, "A-");
+        tmp = "A-";
     if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
-        strcat(tmp, "S-");
+        tmp = "S-";
 
     key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
     if (key_string == NULL)
@@ -67,7 +64,6 @@ char *make_menu_label(ui_menu_entry_t *e)
 
     retstr = concat(trans, "    (", tmp, key_string, ")", NULL);
 
-    free(tmp);
     return retstr;
 }
 
