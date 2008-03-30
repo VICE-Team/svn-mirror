@@ -20,6 +20,11 @@ What are we going to do next (or not)
 - Some more Kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
+- Include datasette in snapshot.
+
+- Improve sound snapshot.
+
+- Add some wishlist.
 
 * C64 improvements
 ------------------
@@ -37,6 +42,8 @@ What are we going to do next (or not)
 --------------------
 
 - Improve the accuracy of the audio emulation.
+
+- Cycle exact memory fetch of the VIC.
 
 * PET improvements
 ------------------

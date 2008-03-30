@@ -145,6 +145,7 @@ const uint32 MENU_VICII_SETTINGS				= 'M207';
 const uint32 MENU_VIC20_SETTINGS				= 'M208';
 const uint32 MENU_VIDEO_SETTINGS				= 'M209';
 const uint32 MENU_SID_SETTINGS					= 'M210';
+const uint32 MENU_RAM_SETTINGS					= 'M211';
 
 const uint32 MENU_SETTINGS_LOAD					= 'M220';
 const uint32 MENU_SETTINGS_SAVE					= 'M221';

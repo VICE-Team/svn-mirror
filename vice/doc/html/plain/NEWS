@@ -5,6 +5,62 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.11
+======================
+
+** General
+----------
+
+- The memory reset pattern can be configured now.
+
+** C128 changes
+---------------
+
+- Fixed some MMU issues.
+
+- Fixed color RAM support.
+
+** VIC-II
+---------
+
+- Improved sprite support.
+
+- Fixed some video cache bugs.
+
+- Fixed some IRQ emulation bugs.
+
+** Drive changes
+-----------------
+
+- Improved byte-ready line emulation.
+
+- The track offset is calculated properly on track change now.
+
+** Unix changes
+---------------
+
+- Real device access through OpenCBM library via XA1541/XM1541 cable.
+
+- Added support to access 1581 formatted disks with the 3.5" host
+  drive (Linux only).
+
+- Added event recording & playback (experimental).
+
+** MS-Windows changes
+---------------------
+
+- Added UI for Expert cartridge.
+
+- Fixed a monitor cut & paste bug.
+
+- Fixed synchronization timing on very fast machines.
+
+** Miscellaneous changes
+------------------------
+
+- The monitor can access disks attached to #8..11 now.
+
+
 * Changes in VICE 1.10
 ======================
 

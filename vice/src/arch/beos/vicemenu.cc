@@ -407,6 +407,8 @@ BMenuBar *menu_create(int machine_class) {
 		menu->AddItem(new BMenuItem("SID ...", 
 			new BMessage(MENU_SID_SETTINGS)));
 	}
+	menu->AddItem(new BMenuItem("RAM ...", 
+		new BMessage(MENU_RAM_SETTINGS)));
 		
 	if (!vsid_mode) {
 		menu->AddSeparatorItem();

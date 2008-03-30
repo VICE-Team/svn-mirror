@@ -58,15 +58,15 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2002 Andreas Boose
-Copyright @copyright{} 1998-2002 Dag Lem
-Copyright @copyright{} 1998-2002 Tibor Biczo
-Copyright @copyright{} 1999-2002 Andreas Dehmel
-Copyright @copyright{} 1999-2002 Thomas Bretz
-Copyright @copyright{} 1999-2002 Andreas Matthies
-Copyright @copyright{} 1999-2002 Martin Pottendorfer
-Copyright @copyright{} 2000-2002 Markus Brenner
-Copyright @copyright{} 2000-2002 Spiro Trikaliotis
+Copyright @copyright{} 1998-2003 Andreas Boose
+Copyright @copyright{} 1998-2003 Dag Lem
+Copyright @copyright{} 1998-2003 Tibor Biczo
+Copyright @copyright{} 1999-2003 Andreas Dehmel
+Copyright @copyright{} 1999-2003 Thomas Bretz
+Copyright @copyright{} 1999-2003 Andreas Matthies
+Copyright @copyright{} 1999-2003 Martin Pottendorfer
+Copyright @copyright{} 2000-2003 Markus Brenner
+Copyright @copyright{} 2000-2003 Spiro Trikaliotis
 
 Copyright @copyright{} 1997-2001 Daniel Sladic
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
@@ -95,7 +95,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.10 of VICE, the Versatile
+This is the documentation for version 1.11 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7635,23 +7635,23 @@ Håkan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2002 Andreas Boose
+Copyright @copyright{} 1998-2003 Andreas Boose
 @item
-Copyright @copyright{} 1998-2002 Dag Lem
+Copyright @copyright{} 1998-2003 Dag Lem
 @item
-Copyright @copyright{} 1998-2002 Tibor Biczo
+Copyright @copyright{} 1998-2003 Tibor Biczo
 @item
-Copyright @copyright{} 1999-2002 Andreas Dehmel
+Copyright @copyright{} 1999-2003 Andreas Dehmel
 @item
-Copyright @copyright{} 1999-2002 Thomas Bretz
+Copyright @copyright{} 1999-2003 Thomas Bretz
 @item
-Copyright @copyright{} 1999-2002 Andreas Matthies
+Copyright @copyright{} 1999-2003 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2002 Martin Pottendorfer
+Copyright @copyright{} 1999-2003 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2002 Markus Brenner
+Copyright @copyright{} 2000-2003 Markus Brenner
 @item
-Copyright @copyright{} 2000-2002 Spiro Trikaliotis
+Copyright @copyright{} 2000-2003 Spiro Trikaliotis
 
 @item
 Copyright @copyright{} 1997-2001 Daniel Sladic

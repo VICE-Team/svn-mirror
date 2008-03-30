@@ -59,6 +59,8 @@ libarch_a_SOURCES = \
 	ui_joystick.h \
 	ui_pet.cc \
 	ui_pet.h \
+	ui_ram.cc \
+	ui_ram.h \
 	ui_sid.cc \
 	ui_sid.h \
 	ui_sound.cc \

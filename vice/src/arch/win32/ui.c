@@ -332,23 +332,21 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
     { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                \
     { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },              \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'L',IDM_LOADQUICK },      \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'S',IDM_SAVEQUICK },      \
-    { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_SNAPSHOT_LOAD },            \
-    { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SNAPSHOT_SAVE },            \
+    { FVIRTKEY | FALT | FNOINVERT, 'L',IDM_LOADQUICK },      \
+    { FVIRTKEY | FALT | FNOINVERT, 'S',IDM_SAVEQUICK },      \
     { FVIRTKEY | FALT | FNOINVERT, 'M', IDM_MONITOR },                  \
     { FVIRTKEY | FALT | FNOINVERT, 'X', IDM_EXIT },                     \
     { FVIRTKEY | FALT | FNOINVERT, 'W', IDM_TOGGLE_WARP_MODE },         \
     { FVIRTKEY | FALT | FNOINVERT, 'I', IDM_FLIP_ADD },                 \
     { FVIRTKEY | FALT | FNOINVERT, 'K', IDM_FLIP_REMOVE },              \
     { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'N', IDM_FLIP_PREVIOUS }, \
+    { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS }, \
     { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
     { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_SCREENSHOT },               \
     { FVIRTKEY | FALT | FNOINVERT, 'U', IDM_SOUNDSHOT },                \
     { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
-    { FVIRTKEY | FALT | FNOINVERT, 0x0d, IDM_TOGGLE_FULLSCREEN },       \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'P' ,IDM_PAUSE }
+    { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },       \
+    { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
 
 static ACCEL c64_accel[] = {
     { FVIRTKEY | FALT | FNOINVERT, 'Z', IDM_CART_FREEZE },
@@ -394,33 +392,33 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
       case VICE_MACHINE_C64:
         menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel, 26);
+        ui_accelerator = CreateAcceleratorTable(c64_accel, 24);
         break;
       case VICE_MACHINE_C128:
         menu = IDR_MENUC128;
-        ui_accelerator = CreateAcceleratorTable(c128_accel, 25);
+        ui_accelerator = CreateAcceleratorTable(c128_accel, 23);
         break;
       case VICE_MACHINE_VIC20:
         menu = IDR_MENUVIC;
-        ui_accelerator = CreateAcceleratorTable(vic_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(vic_accel, 22);
         break;
       case VICE_MACHINE_PET:
         menu = IDR_MENUPET;
-        ui_accelerator = CreateAcceleratorTable(pet_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(pet_accel, 22);
         break;
       case VICE_MACHINE_PLUS4:
         menu = IDR_MENUPLUS4;
-        ui_accelerator = CreateAcceleratorTable(plus4_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(plus4_accel, 22);
         break;
       case VICE_MACHINE_CBM2:
         menu = IDR_MENUCBM2;
-        ui_accelerator = CreateAcceleratorTable(cbm2_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(cbm2_accel, 22);
         break;
       default:
         log_debug("UI: No menu entries for this machine defined!");
         log_debug("UI: Using C64 type UI menues.");
         menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(c64_accel, 22);
     }
 
     /* Register the window class.  */

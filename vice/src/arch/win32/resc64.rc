@@ -31,10 +31,10 @@ BEGIN
         END
         POPUP "&Flip list"
         BEGIN
-            MENUITEM "&Add current image\tAlt-i",          IDM_FLIP_ADD
-            MENUITEM "&Remove current image\tAlt-k",       IDM_FLIP_REMOVE
-            MENUITEM "Attach &next image\tAlt-n",          IDM_FLIP_NEXT
-            MENUITEM "Attach &previous image\tCtrl+Alt-n", IDM_FLIP_PREVIOUS
+            MENUITEM "&Add current image\tAlt-I",          IDM_FLIP_ADD
+            MENUITEM "&Remove current image\tAlt-K",       IDM_FLIP_REMOVE
+            MENUITEM "Attach &next image\tAlt-N",          IDM_FLIP_NEXT
+            MENUITEM "Attach &previous image\tAlt-B", IDM_FLIP_PREVIOUS
         END
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
@@ -78,7 +78,7 @@ BEGIN
         MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z",        IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tCtrl+Alt+P",              IDM_PAUSE
+        MENUITEM "&Pause\tAlt+Pause",               IDM_PAUSE
         , CHECKED
         MENUITEM "&Monitor\tAlt+M",                 IDM_MONITOR
         POPUP "&Reset"
@@ -91,13 +91,15 @@ BEGIN
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Load snapshot &image...\tAlt+L",  IDM_SNAPSHOT_LOAD
-        MENUITEM "Save sna&pshot image...\tAlt+S",  IDM_SNAPSHOT_SAVE
-        MENUITEM "&Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
-        MENUITEM "&Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
+        MENUITEM "Load snapshot &image...",         IDM_SNAPSHOT_LOAD
+        MENUITEM "Save sna&pshot image...",         IDM_SNAPSHOT_SAVE
+        MENUITEM "&Load quicksnapshot image\tAlt+L", IDM_LOADQUICK
+        MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
+#if 0
         MENUITEM SEPARATOR
         MENUITEM "&Record", IDM_TOGGLE_RECORD
         MENUITEM "Pl&ayback", IDM_TOGGLE_PLAYBACK
+#endif
         MENUITEM SEPARATOR
         MENUITEM "Save Screenshot\tAlt+C",          IDM_SCREENSHOT
         MENUITEM "Start/Stop Soundshot\tAlt+U",     IDM_SOUNDSHOT
