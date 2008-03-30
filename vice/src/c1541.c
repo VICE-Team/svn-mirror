@@ -1263,7 +1263,7 @@ static int gcrformat_cmd(int nargs, char **args)
     id[0] = id[1] = 0xa0;
 
     if (nargs > 2) {
-	strcpy(newname, args[2]);
+	strcpy(newname, args[1]);
 	petconvstring(newname, 0);
 	idptr = memchr(newname, ',', strlen(newname));
 	if (idptr == NULL) {
@@ -1283,8 +1283,9 @@ static int gcrformat_cmd(int nargs, char **args)
 	    }
 	}
     }
-    if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
-	fprintf(stderr, "Cannot create image `%s': %s.\n", args[1], strerror(errno));
+
+    if ((fd = open(args[2], O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
+	fprintf(stderr, "Cannot create image `%s': %s.\n", args[2], strerror(errno));
 	return FD_BADIMAGE;
     }
     strcpy((char *) gcr_header, "GCR-1541");
@@ -1787,7 +1788,7 @@ static int unlynx_cmd(int nargs, char **args)
 {
     DRIVE *floppy;
     FILE *f, *f2;
-    int err, dev, cnt = 0;
+    int dev, cnt = 0;
     long dentries, lbsize, bsize, dirsize;
     BYTE val;
     char buff[256] = {0}, cname[20] = {0}, ftype;
@@ -1860,6 +1861,8 @@ static int unlynx_cmd(int nargs, char **args)
 
     /* Loop */
     while (dentries != 0) {
+        int filetype = FT_PRG;
+
 	/* Read CBM filename */
 	cnt = 0;
 	while (1) {
@@ -1890,22 +1893,23 @@ static int unlynx_cmd(int nargs, char **args)
 	ftype = fgetc(f);
 	fgetc(f);
 
-	/* FIXME: REL type files unsupported */
-	if (ftype == 'R') {
-	    fprintf(stderr, "REL not supported.\n");
-	    return FD_RDERR;
-	}
-	/* FIXME: This is a temporary hack!  How can we persuade `vdrive_open()'
-	   to write `DEL' files without breaking compatibility with CBM
-	   DOS?  -- [EP] 98.04.17  */
-	if (ftype == 'D')
-	    ftype = 'P';
-
-	/* Add the file type to the name */
-	cnt = strlen(cname);
-	cname[cnt++] = ',';
-	cname[cnt++] = ftype;
-	cname[cnt] = 0;
+        switch (ftype) {
+          case 'D':
+            filetype = FT_DEL;
+            break;
+          case 'P':
+            filetype = FT_PRG;
+            break;
+          case 'S':
+            filetype = FT_SEQ;
+            break;
+          case 'U':
+            filetype = FT_USR;
+            break;
+          case 'R':
+            fprintf(stderr, "REL not supported.\n");
+            return FD_RDERR;
+        }
 
 	/* Get the byte size of the last block +1 */
 	cnt = 0;
@@ -1922,8 +1926,8 @@ static int unlynx_cmd(int nargs, char **args)
 	    fprintf(stderr, "Invalid Lynx file.\n");
 	    return FD_RDERR;
 	}
-	/* Calculate byte size of file */
-	cnt = bsize * 254;
+        /* Calculate byte size of file */
+        cnt = (bsize - 1) * 254 + lbsize - 1;
 
 	printf("Writing file '%s' to image.\n", cname);
 
@@ -1933,8 +1937,7 @@ static int unlynx_cmd(int nargs, char **args)
 	   create invalid file names.  */
 	floppy->buffers[1].readmode = FAM_WRITE;
 	vdrive_open_create_dir_slot(&(floppy->buffers[1]), cname,
-				    strlen(cname), FT_PRG);
-	printf("Writing file '%s' to image.\n", cname);
+				    strlen(cname), filetype);
 
 	while (cnt != 0) {
 	    fread(&val, 1, 1, f2);
@@ -1947,7 +1950,8 @@ static int unlynx_cmd(int nargs, char **args)
 	vdrive_close(floppy, 1);
 
 	/* Adjust for the last block */
-	fread(buff, 1, 254 - lbsize, f2);
+        if (lbsize < 255)
+            fread(buff, 1, 254 + 1 - lbsize, f2);
 	dentries--;
     }
     fclose(f);

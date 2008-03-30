@@ -522,12 +522,12 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
    to figure this out by reading the contsnts of the file */
 static char *try_uncompress_lynx(const char *name, int write_mode)
 {
-    static char			 tmp_name[L_tmpnam];
-    int                                 i, count;
-    file_desc_t                         fd;
-    char			 tmp[256];
-    char			*argv[5];
-    int				 exit_status;
+    static char tmp_name[L_tmpnam];
+    int i, count;
+    file_desc_t fd;
+    char tmp[256];
+    char *argv[20];
+    int exit_status;
 
     /* can we read this file? */
     fd = open(name, O_RDONLY);
@@ -581,32 +581,17 @@ static char *try_uncompress_lynx(const char *name, int write_mode)
     if (write_mode)
 	return "";
 
-    /* format image first */
     tmpnam(tmp_name);
-    argv[0] = stralloc(C1541_NAME);
-    argv[1] = stralloc("-format");
-    argv[2] = stralloc(tmp_name);
-    argv[3] = stralloc("a,bc");
-    argv[4] = NULL;
 
-    exit_status = spawn(C1541_NAME, argv, NULL, NULL);
-
-    free(argv[0]);
-    free(argv[1]);
-    free(argv[2]);
-    free(argv[3]);
-
-    if (exit_status) {
-	unlink(tmp_name);
-	return NULL;
-    }
-
-    /* ok, now create the image */
+    /* now create the image */
     argv[0] = stralloc("c1541");
-    argv[1] = stralloc("-unlynx");
-    argv[2] = stralloc(tmp_name);
-    argv[3] = stralloc(name);
-    argv[4] = NULL;
+    argv[1] = stralloc("-format");
+    argv[2] = stralloc("lynx image,00");
+    argv[3] = stralloc("x64");
+    argv[4] = stralloc(tmp_name);
+    argv[5] = stralloc("-unlynx");
+    argv[6] = stralloc(name);
+    argv[7] = NULL;
 
     exit_status = spawn("c1541", argv, NULL, NULL);
 

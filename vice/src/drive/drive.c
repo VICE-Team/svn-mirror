@@ -164,10 +164,6 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
         drive[0].type = type;
-        if (drive[0].drive_floppy != NULL
-            && drive_check_image_format(drive[0].drive_floppy->ImageFormat,
-            0) < 0)
-            detach_floppy_image(drive[0].drive_floppy);
         if (drive_true_emulation) {
             drive[0].enable = 1;
             drive_enable(0);
@@ -208,10 +204,6 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
         drive[1].type = type;
-        if (drive[1].drive_floppy != NULL
-            && drive_check_image_format(drive[1].drive_floppy->ImageFormat,
-            1) < 0)
-            detach_floppy_image(drive[1].drive_floppy);
         if (drive_true_emulation) {
             drive[1].enable = 1;
             drive_enable(1);
@@ -1322,10 +1314,11 @@ int drive_attach_floppy(DRIVE *floppy)
 
     dnr = floppy->unit - 8;
 
-    if (drive_check_image_format(floppy->ImageFormat, dnr) < 0)
-        return -1;
-
     drive[dnr].drive_floppy = floppy;
+
+    if (drive_check_image_format(floppy->ImageFormat, dnr) < 0)
+        return 0;
+
     drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
     drive[dnr].have_new_disk = 1;
     drive[dnr].attach_clk = drive_clk[dnr];
@@ -1648,7 +1641,7 @@ static void GCR_data_writeback2(BYTE *buffer, BYTE *offset, int dnr, int track, 
 
 static void GCR_data_writeback(int dnr)
 {
-    int rc, extend, track, sector, max_sector = 0;
+    int extend, track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
     if (drive[dnr].drive_floppy == NULL)

@@ -1011,7 +1011,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 {
     BYTE		ret;
     WORD		ffix;
-    register WORD	rvstore;
+    register DWORD	rvstore;
     register CLOCK	tmp;
 
 #ifdef HAVE_RESID

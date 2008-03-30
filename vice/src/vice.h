@@ -92,20 +92,12 @@
 #define MITSHM
 #endif
 
-#if defined __MSDOS__ || (defined HAVE_JOYSTICK_H && defined __linux__)
-#define JOYSTICK
-#endif
-
 #if defined __MSDOS__
 #define HAVE_MOUSE
 #endif
 
 #if defined HAVE_LIBXPM && defined HAVE_X11_XPM_H
 #define XPM
-#endif
-
-#if defined HAVE_SYSTEMINFO_H
-#define SYSINFO
 #endif
 
 /* FIXME: We currently allow unaligned memory accesses on i386 only, as they
