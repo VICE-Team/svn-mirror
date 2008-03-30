@@ -88,16 +88,16 @@ static video_cbm_color_t ted_colors[16]=
     { 0.0f, ANGLE_ORN, -1, "Orange"      },
     { 0.0f, ANGLE_BRN,  1, "Brown"       },
     { 0.0f, ANGLE_YLG,  1, "Yellow-Green"},
-    { 0.0f, ANGLE_PNK, -1, "Pink"        },
-    { 0.0f, ANGLE_BLG, -1, "Blue-Green"  },
+    { 0.0f, ANGLE_PNK,  1, "Pink"        },
+    { 0.0f, ANGLE_BLG,  1, "Blue-Green"  },
     { 0.0f, ANGLE_LBL,  1, "Light Blue"  },
     { 0.0f, ANGLE_DBL,  1, "Dark Blue"   },
-    { 0.0f, ANGLE_LGN, -1, "Light Green" }
+    { 0.0f, ANGLE_LGN,  1, "Light Green" }
 };
 
 static video_cbm_color_t ted_colors_with_lum[TED_NUM_COLORS];
 
-static video_cbm_palette_t ted_palette=
+static video_cbm_palette_t ted_palette =
 {
     TED_NUM_COLORS,
     ted_colors_with_lum,
