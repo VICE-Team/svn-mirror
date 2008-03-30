@@ -1,5 +1,5 @@
 /*
- * iecdrive.c - IEC bus handling for the true 1541 emulator.
+ * iecdrive.c - IEC bus handling for true drive emulaton.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -47,6 +47,9 @@ extern void parallel_cable_drive0_write(BYTE data, int handshake);
 extern void parallel_cable_drive1_write(BYTE data, int handshake);
 extern BYTE parallel_cable_drive_read(int handshake);
 
+extern void iec_update_cpu_bus(BYTE data);
+extern void iec_update_ports(void);
+
 typedef struct iec_info_s {
     BYTE drive_bus;
     BYTE drive_port;
@@ -66,7 +69,6 @@ extern iec_info_t *iec_get_drive_port(void);
 #define IEC_BUS_IEEE    0x02    /* parallel IEEE bus */
 
 extern int iec_available_busses(void);
-extern void iec_calculate_callback_index(void);
 
 extern void plus4tcbm_update_pa(BYTE byte, unsigned int dnr);
 extern void plus4tcbm_update_pb(BYTE byte, unsigned int dnr);

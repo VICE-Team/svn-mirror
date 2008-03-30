@@ -33,6 +33,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -102,12 +103,6 @@ static unsigned int mem_config;
 
 /* Pointer to the IEC structure.  */
 static iec_info_t *plus4_iec_info;
-
-static const iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
-    iec_cpu_write_conf0, iec_cpu_write_conf1,
-    iec_cpu_write_conf2, iec_cpu_write_conf3
-};
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -183,7 +178,7 @@ inline static void mem_proc_port_store(void)
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
 
-    iec_cpu_write_callback[iec_callback_index]((BYTE)~pport.data_out);
+    (*iecbus_callback_write)((BYTE)~pport.data_out, last_write_cycle);
 
     if (((pport.dir & pport.data) & 0x08) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x08;

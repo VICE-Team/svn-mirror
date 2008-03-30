@@ -40,6 +40,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -91,11 +92,6 @@ static iec_info_t *cia2_iec_info;
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
-static const iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
-    iec_cpu_write_conf0, iec_cpu_write_conf1,
-    iec_cpu_write_conf2, iec_cpu_write_conf3
-};
-
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
@@ -144,7 +140,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             vbank = new_vbank;
             mem_set_vbank(new_vbank);
         }
-        iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
+        (*iecbus_callback_write)((BYTE)tmp, maincpu_clk);
         printer_interface_userport_write_strobe(tmp & 0x04);
     }
 }
