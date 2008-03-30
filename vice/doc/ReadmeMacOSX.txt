@@ -1,35 +1,34 @@
-  __  __          __     _____ ____ _____
- |  \/  | __ _  __\ \   / /_ _/ ___| ____|
- | |\/| |/ _` |/ __\ \ / / | | |   |  _|
- | |  | | (_| | (__ \ V /  | | |___| |___
- |_|  |_|\__,_|\___| \_/  |___\____|_____|
+MacOS X Port of VICE
+====================
 
+Official Port maintained by 
+  Christian Vogelgsang <chris@vogelgsang.org>
 
-IMPORTANT INFORMATION
-_____________________
+Readme based on initial info provided by
+  Daniel Aarno
 
-There are some special considerations when using VICE on MacOS X I therefor 
-urge you to read through this file before using any of the software installed 
-with this package!
+ABOUT MAC PORT
+--------------
 
-ABOUT MACVICE
-______________
+The Mac OS X port is distributed as a disk image *.dmg. Just click on the
+image to mount it and launch an emulator by clicking on its icon. Some
+tools (c1541, petcat, cartconv) are provided as command line applications
+and thus you will need Terminal to launch them.
 
-The MacVICE application is not a part of the normal VICE package and its only 
-purpose is to make life a bit easier for the average Mac user for further 
-details on MacVICE see the end of this file.
+To install VICE, you can copy the application bundles of the emulators to 
+your Applications folder or any other directory you like.
 
 MAC SPECIFIC ISSUES
-___________________
-You will need X11 installed to use this software.
+-------------------
+
+Make sure to have X11 installed on your Mac. It is provided on your Mac OSX
+install CD/DVD (at least on Mac OS X 10.4 or later) and often not installed
+by default. Click on the corresponding X11.pkg to install it.
 
 The VICE emulators heavily rely on the use of a two-button mouse. Most Mac 
 users do not have this type of mouse, however it is possible for X11 to 
 emulate a two (or three) button mouse. If you are using Apples X11.app go to 
 Preferences... under the X11 menu and select the appropriate option.
-
-It is not possible to move the files (or the VICE directory itself) to 
-another location.
 
 The VICE emulators do not have a "normal" menu, instead the (two) menus are
 activated by the left and right mouse-buttons. Important menu options 
@@ -44,39 +43,44 @@ activated by the left and right mouse-buttons. Important menu options
 * RB->Drive settings->Enable true drive emulation
      Disable this option to speed up load time (less compatible)
 
-MACVICE
-_______
+COMPILATION
+-----------
 
-MacVICE is NOT an emulator and is NOT (yet) connected to the VICE project. 
-MacVICE is simply a launcher for the wonderful emulators produced by the VICE 
-team that allows Mac users to start there emulator sessions in a way more 
-natural for them.
+If you wan to compile VICE yourself then you first need to install
+Apple's XCode Development kit. The following libraries are also required
+for full feature support:
 
-THE VICE TEAM SHOULD NOT BE BLAMED OR DISCREDITED IN ANY WAY FOR THIS 
-SOFTWARE. NOR SHALL I (Daniel Aarno) RECEIVE ANY CREDIT FOR THE WORK DONE ON 
-THE EMULATORS WHICH IS THE PRODUCT OF THE HARD WORKING VICE TEAM.
+- readline library (only for Mac OS X < 10.4)
+    http://tiswww.tis.case.edu/~chet/readline/rltop.html
 
-MacVICE is licensed under the Attribution assurance license, see the file 
-LICENSE.txt for more information. The set of VICE emulators are licensed under 
-the GPL see the file GPL.txt for further information.
+- HID Utilities (Apple Dev Public Source)
+    http://developer.apple.com/samplecode/HID_Utilities_Source/index.html
+ 
+Compile and install the libraries as static libs and
+make sure to include the header and lib paths of both libraries in your
+CPPFLAGS, CFLAGS, CXXFLAGS and LDFLAGS before calling "configure" of VICE.
 
-Hopefully you will find this piece of software useful, any comments, 
-questions or bug-reports may be sent to: macbishop@users.sf.net.
+Build VICE now with:
 
-Note: Since MacVICE is a quick 'hack' it silently ignores all errors.
+ > configure
+ > make
+ 
+You can bundle the compiled emulators into a distribution directory with:
 
-ABOUT THIS BINARY DISTRIBUTION
-______________________________
+ > make bindist
+ 
+A *.dmg is created with:
 
-This binary distribution of VICE for MacOS X was put together by 
-Daniel Aarno - macbishop@users.sf.net. If you have any questions or comments 
-regarding this binary distribution please send an e-mail to 
-macbishop@users.sf.net with VICE in the subject, if you have questions about 
-VICE in general see the FEEDBACK and README files.
+ > make bindistzip
+ 
+FEEDBACK
+--------
 
-The binaries are optimized for the MPPC750 (G3) microprocessor.
+If you discover problems not listed above or just want to tell us your
+experiences, please write a mail to the VICE team 
 
-INSTALLATION
-------------
+  mailto:vice-devel@firenze.linux.it
 
-Simply double-click the MacVICE.pkg icon and follow the instructions.
+or directly to Mac OS X porter
+
+  mailto:chris@vogelgsang.org

@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=23
+VICE_VERSION_BUILD=24
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -39,6 +39,7 @@ AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
 is_unix=no
 is_unix_gp2x=no
 is_unix_x11=no
+is_unix_macosx=no
 is_dos=no
 is_win32=no
 is_riscos=no
@@ -271,6 +272,42 @@ elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor
 
 else
 
+dnl Check for host os with version attached. Typically on UN*X like systems.
+case "$host_os" in
+
+dnl Mac OS X Host
+darwin*)
+
+  is_unix=yes
+  is_unix_x11=yes
+  is_unix_macosx=yes
+
+  if test -z "$user_cflags" ; then
+    if test x"$GCC" = "xyes" ; then
+      warnings="-Wall -Wstrict-prototypes -Winline"
+      if test x"$ac_cv_prog_cc_g" = "xyes" ; then
+        CFLAGS="-g -O2 -finline-functions $warnings"
+      else
+        CFLAGS="-O2 -finline-functions $warnings"
+      fi 
+    fi
+  fi
+
+  AM_CONDITIONAL(HAVE_RS232, true)
+  AM_CONDITIONAL(HAVE_RAWDRIVE, true)
+
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
+
+  AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])	
+
+  ;;
+
+dnl All other UN*X systems
+*)
+
   is_unix=yes
   is_unix_x11=yes
 
@@ -333,6 +370,9 @@ else
 
   AC_CHECK_HEADER(linux/hardsid.h,
       [ AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.]) ],)
+
+  ;;
+esac
 fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
@@ -693,7 +733,9 @@ if test x"$is_unix_x11" = "xyes" ; then
             AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
             LIBS="$LIBS -lusbhid"
         fi])
+fi
 
+if test x"$is_unix_macosx" = "xyes" ; then
   dnl --- Mac joystick support ---
   dnl check for HID utility library
   AC_CHECK_HEADER(HID_Utilities_External.h,,)
@@ -1045,6 +1087,7 @@ if [[ x"$is_riscos" = "xyes" ]]; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundacorn.o"
 fi
 
+if [[ x"$is_unix_macosx" = "xyes" ]]; then
 AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
 if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
   AC_CHECK_HEADER(AudioToolbox/AudioToolbox.h,,)
@@ -1060,6 +1103,7 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
                 [AC_MSG_RESULT(no);
                  LIBS=${old_LIBS}])
   fi
+fi
 fi
 
 AC_SUBST(SOUND_DRIVERS)
@@ -1586,6 +1630,12 @@ if test x"$is_unix" = "xyes"; then
     AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   fi
 
+  if test x"$is_unix_macosx" = "xyes" ; then
+    AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
+  else
+    AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  fi
+
 elif test x"$is_win32" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -1600,6 +1650,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -1614,6 +1665,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
@@ -1632,6 +1684,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
@@ -1646,6 +1699,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
@@ -1660,6 +1714,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
@@ -1674,6 +1729,7 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 else
   AC_MSG_WARN([No architecture defined!])
 fi

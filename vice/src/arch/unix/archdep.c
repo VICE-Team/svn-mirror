@@ -162,6 +162,30 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                                    NULL);
         lib_free(default_path_temp);
 
+#else 
+#if defined(MACOSX_SUPPORT)
+				/* Mac OS X Bundles keep their ROMS in ../Resources/ROM */
+				#define MACOSX_ROMDIR "/../Resources/ROM/"
+        default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id,
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/", emu_id,
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/", emu_id,
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+
+                                   boot_path, MACOSX_ROMDIR, "DRIVES",
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/DRIVES",
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/DRIVES",
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+
+                                   boot_path, MACOSX_ROMDIR, "PRINTER",
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   boot_path, "/PRINTER",
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                   home_path, "/", VICEUSERDIR, "/PRINTER",
+                                   NULL);
 #else
         default_path = util_concat(LIBDIR, "/", emu_id,
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -181,6 +205,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/PRINTER",
                                    NULL);
+#endif
 #endif
     }
 
