@@ -27,18 +27,20 @@
 #ifndef _FULLSCRN_H
 #define _FULLSCRN_H
 
-void GetCurrentModeParameters(int *width, int *height, int *bitdepth, int *refreshrate);
-GUID *GetGUIDForActualDevice();
-void ui_fullscreen_init(void);
-int IsFullscreenEnabled(void);
-void SuspendFullscreenMode(HWND hwnd);
-void ResumeFullscreenMode(HWND hwnd);
-void SuspendFullscreenModeKeep(HWND hwnd);
-void ResumeFullscreenModeKeep(HWND hwnd);
-void SwitchFullscreenMode(HWND hwnd);
-void SwitchToFullscreenMode(HWND hwnd);
+extern void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
+                                     int *refreshrate);
+extern GUID *GetGUIDForActualDevice();
+extern void ui_fullscreen_init(void);
+extern int IsFullscreenEnabled(void);
+extern void SuspendFullscreenMode(HWND hwnd);
+extern void ResumeFullscreenMode(HWND hwnd);
+extern void SuspendFullscreenModeKeep(HWND hwnd);
+extern void ResumeFullscreenModeKeep(HWND hwnd);
+extern void SwitchFullscreenMode(HWND hwnd);
+extern void SwitchToFullscreenMode(HWND hwnd);
 extern void init_fullscreen_dialog(HWND hwnd);
-extern BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+extern BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                            LPARAM lparam);
 
 #endif
 
