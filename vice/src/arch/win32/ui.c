@@ -100,6 +100,7 @@ ui_menu_toggle  toggle_list[] = {
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
+    { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
     { NULL, 0 }
 };
@@ -157,6 +158,7 @@ struct {
     int fullscreenrefreshrate;
     int fullscreenenabled;
     int save_resources_on_exit;
+    int confirm_on_exit;
 } ui_resources;
 
 static int set_fullscreen_device(resource_value_t v, void *param)
@@ -201,6 +203,12 @@ static int set_save_resources_on_exit(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_confirm_on_exit(resource_value_t v, void *param)
+{
+    ui_resources.confirm_on_exit=(int) v;
+    return 0;
+}
+
 
 static resource_t resources[] = {
     {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
@@ -224,6 +232,9 @@ static resource_t resources[] = {
     {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
      (resource_value_t *)&ui_resources.save_resources_on_exit,
      set_save_resources_on_exit, NULL },
+    {"ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
+     (resource_value_t *)&ui_resources.confirm_on_exit,
+     set_confirm_on_exit, NULL },
     { NULL }
 };
 
@@ -243,6 +254,12 @@ static cmdline_option_t cmdline_options[] = {
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t) 0,
       NULL, "Never save settings (resources) on exit" },
+    { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
+      "ConfirmOnExit", (resource_value_t) 0,
+      NULL, "Confirm quiting VICE" },
+    { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
+      "ConfirmOnExit", (resource_value_t) 1,
+      NULL, "Never confirm quiting VICE" },
     { NULL }
 };
 
@@ -600,14 +617,14 @@ void ui_error(const char *format, ...)
     vsprintf(tmp, format, args);
     va_end(args);
     log_debug(tmp);
-    MessageBox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+    ui_messagebox(window_handles[0], tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
     log_debug(text);
-    MessageBox(window_handles[0], text, "VICE Error!", MB_OK | MB_ICONSTOP);
+    ui_messagebox(window_handles[0], text, "VICE Error!", MB_OK | MB_ICONSTOP);
 }
 
 /* Report a message to the user (`printf()' style).  */
@@ -619,14 +636,26 @@ void ui_message(const char *format,...)
     va_start(args, format);
     vsprintf(tmp, format, args);
     va_end(args);
-    MessageBox(window_handles[0], tmp, "VICE Information",
+    ui_messagebox(window_handles[0], tmp, "VICE Information",
                MB_OK | MB_ICONASTERISK);
 }
 
 /* Handle the "CPU JAM" case.  */
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    return UI_JAM_HARD_RESET;
+    char *txt,*txt2;
+    int ret;
+
+    va_list ap;
+    va_start(ap, format);
+    txt = xmvsprintf(format, ap);
+    txt2 = xmsprintf("%s\n\nStart monitor?", txt );
+    ret = ui_messagebox(window_handles[0], txt2,
+                  "VICE CPU JAM", MB_YESNO);
+    free(txt2);
+    free(txt);
+    return (ret==IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
+//    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
 }
 
 /* Handle the "Do you want to extend the disk image to 40-track format"?
@@ -635,7 +664,7 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = MessageBox(window_handles[0], "Extend image to 40-track format?",
+    ret = ui_messagebox(window_handles[0], "Extend image to 40-track format?",
                      "VICE question", MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
@@ -1257,8 +1286,8 @@ char *dname;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         keyboard_clear_keymatrix();
-        SuspendFullscreenMode(hwnd);
-        if (MessageBox(hwnd,
+// @@@        SuspendFullscreenMode(hwnd);
+        if (ui_messagebox(hwnd,
                        "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
@@ -1269,7 +1298,7 @@ char *dname;
                 maincpu_trigger_reset();
             }
         }
-        ResumeFullscreenMode(hwnd);
+// @@@        ResumeFullscreenMode(hwnd);
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t) 0);
@@ -1609,21 +1638,39 @@ int     window_index;
                 palettechanged = 1;
             break;
         case WM_CLOSE:
+            {
+            int quit = 1;
+
             SuspendFullscreenMode(window);
-            if (MessageBox(NULL,
+            if (ui_resources.confirm_on_exit)
+            {
+                if (MessageBox(window,
                        "Do you really want to exit?\n\n"
                        "All the data present in the emulated RAM will be lost.",
                        "VICE",
                        MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL)
-                       == IDYES) {
-                if (ui_resources.save_resources_on_exit) {
-                    if (resources_save(NULL)<0) {
-                        ui_error("Cannot save settings.");
-                    }
+                       == IDYES)
+                {
+                    quit = 1;
                 }
-                DestroyWindow(window);
+                else
+                {
+                    quit = 0;
+                }
+            }
+
+            if (quit)
+            {
+               if (ui_resources.save_resources_on_exit)
+               {
+                   if (resources_save(NULL)<0) {
+                       ui_error("Cannot save settings.");
+                   }
+               }
+               DestroyWindow(window);
             } else {
                 ResumeFullscreenMode(window);
+            }
             }
             return 0;
         case WM_DESTROY:
@@ -1659,25 +1706,3 @@ int     window_index;
     return DefWindowProc(window, msg, wparam, lparam);
 }
 
-/*
- The following functions makes sure a given filename has an extension.
- If necessary, an extension is appended to it.
-*/
-char *ui_ensure_extension( char *pFilename, const char *pExt )
-{
-    char buffer[1024];
-    char *p;
-
-    strcpy( buffer, pFilename );
-
-    p = strrchr( buffer, '\\' );
-
-    if (p++ == NULL)
-        p = buffer;
-
-    /* test if there is an extension; if not, add one */
-    if (strchr(p, '.') == NULL)
-        strcat(p, pExt );
-
-    return stralloc( buffer );
-}

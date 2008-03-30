@@ -65,7 +65,8 @@ static void init_dialog(HWND hwnd)
 }
 
 
-static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
+static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
+                                        LPARAM lparam)
 {
     /* this is also the hook for screenshot dialog */
     switch (uimsg) {
@@ -150,12 +151,12 @@ void ui_snapshot_save_dialog(HWND hwnd)
 {
     char *s;
     s = ui_save_snapshot("Save snapshot image",
-        "VICE snapshot files (*.vsf)\0*.vsf\0",hwnd,IDD_SNAPSHOT_SAVE_DIALOG);
+        "VICE snapshot files (*.vsf)\0*.vsf\0", hwnd, IDD_SNAPSHOT_SAVE_DIALOG);
     if (s != NULL) {
-        char *sExt = ui_ensure_extension( s, ".vsf" );
-        if (machine_write_snapshot(sExt, save_roms, save_disks) < 0)
-            ui_error("Cannot write snapshot file.");
-        free(sExt);
+        xadd_extension(&s, "vsf");
+
+        if (machine_write_snapshot(s, save_roms, save_disks) < 0)
+            ui_error("Cannot write snapshot file `%s'.", s);
         free(s);
     }
 }
@@ -185,19 +186,19 @@ void ui_screenshot_save_dialog(HWND hwnd)
             break;
     }
     s = ui_save_snapshot("Save screenshot image",
-        "Picture files (*.bmp;*.png)\0*.bmp;*.png\0",hwnd,IDD_SCREENSHOT_SAVE_DIALOG);
+        "Picture files (*.bmp;*.png)\0*.bmp;*.png\0", hwnd,
+        IDD_SCREENSHOT_SAVE_DIALOG);
     if (s != NULL) {
-        char *sExt;
         screendrv_t *selected_driver;
         selected_driver = screenshot_get_driver(screendrivername);
         if (!selected_driver) {
             ui_error("No driver selected or selected driver not supported");
             return;
         }
-        sExt = ui_ensure_extension( s, selected_driver->default_extension );
-        if (screenshot_save(selected_driver->name,sExt, window_id) < 0)
-            ui_error("Cannot write screenshot file.");
-        free(sExt);
+        xadd_extension(&s, selected_driver->default_extension);
+
+        if (screenshot_save(selected_driver->name, s, window_id) < 0)
+            ui_error("Cannot write screenshot file `%s'.", s);
         free(s);
     }
 }
@@ -217,11 +218,10 @@ void ui_soundshot_save_dialog(HWND hwnd)
         s = ui_save_snapshot("Save sound file",
             "Sound files (*.wav)\0*.wav\0",hwnd,0);
         if (s != NULL) {
-            char *sExt = ui_ensure_extension( s, ".wav" );
-            resources_set_value("SoundDeviceArg",sExt);
-            resources_set_value("SoundDeviceName","wav");
-            resources_set_value("Sound",(resource_value_t) 1);
-            free(sExt);
+            xadd_extension(&s, "wav");
+            resources_set_value("SoundDeviceArg", s);
+            resources_set_value("SoundDeviceName", "wav");
+            resources_set_value("Sound", (resource_value_t)1);
             free(s);
             ui_display_statustext("Recording wav...");
         }
