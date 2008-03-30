@@ -277,8 +277,8 @@ static void reset(void)
 
     serial_reset();
 
-    cpu_int_status_init(&maincpu_int_status,
-			NUMOFALRM, NUMOFINT, &last_opcode_info);
+    cpu_int_status_init(&maincpu_int_status, NUMOFINT, NUMOFALRM,
+                        &last_opcode_info);
 
     if (preserve_monitor)
         monitor_trap_on(&maincpu_int_status);

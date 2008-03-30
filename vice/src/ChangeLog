@@ -1,3 +1,104 @@
+1998-09-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.13.
+
+	* cpu-tmpl.c (reset): Invert `NUMOFINT' and `NUMOFALRM'.
+
+	* drive/drivecpu-tmpl.c (reset): Invert `DRIVE_NUMOFINT' and
+ 	`DRIVE_NUMOFALRM'.
+
+1998-09-25  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* c64/c64.c: Added `resources.h'.
+
+	* c64/c64mem.c (mem_write_snapshot_module): Added `HAVE_RS232'
+	preprocessor directive around ACIA module, in order to make
+	dos-compilation work again.
+
+1998-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64cia2.def (UNDUMP_CIAPA): Call `iec_cpu_undump'.
+
+	* c64/c64iec.c, c64/c64iec.h (iec_cpu_undump): New function.
+
+	* drive/drive.c: Removed #include "interrupt.h" and "vmachine.h".
+	(drive_write_snapshot_module, drive_read_snapshot_module):
+	Do not save `detach_clk' twice.  Also include `GCR_head_offset'
+	and `GCR_read' to snapshot image.
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_write_snapshot_module,
+	mydrive_cpu_read_snapshot_module): Also save `last_exc_cycles'.
+
+	* arch/msdos/vsync.c (vsync_init): Changed parameter to `hertz'.
+	* arch/msdos/vsync.h: Likewise.
+	* arch/unix/vsync.c: Likewise.
+	* arch/unix/vsync.h: Likewise.
+	* arch/win32/vsync.c: Likewise.
+	* arch/win32/vsync.h: Likewise.
+
+	* arch/unix/xaw/ui.c (fallback_resources): Changed back to 12
+	pixel font.
+
+	* arch/unix/xaw/uisettings.c (toggle_DriveEnable): Removed.
+	(set_drive8_type_submenu, set_drive9_type_submenu): Added menu
+	type entry "None".
+	(drive_settings_submenu): Removed drive enable menu entries.
+
+	* drive/drive.c (set_drive_true_emulation): Enable drives when
+	true emulation is switched on.
+	(set_drive0_enabled, set_drive1_enabled): Removed.
+	(set_drive0_type, set_drive1_type): Enable drive when a drive
+	type other than "None" is enabled.
+	(resources): Default for drive #9 is "None".
+	(drive_sync_found, drive_write_protect_sense): Made inline.
+	(drive_enable): Changed to new true emulation switch handling.
+	(drive_set_byte_ready): Removed.
+	(drive_rotate_disk): Removed `mode_changed' parameter.  Moved
+	`byte_ready_active' check out of this routine.
+	(drive_sync_found): Changed return value to correspond with VIA2
+	PRB bit#7.
+	(drive_write_protect_sense): Changed likewise.
+	(drive_write_snapshot_module, drive_read_snapshot_module):
+	Removed `OldHalfTrack', `OldLedStatus' and `Side' entries.  Added
+	`RotationTablePtr'.  Save GCR data of the current tack back to
+	image before doing a snapshot.
+
+	* drive/drive.h: Define `DRIVE_TYPE_NONE'.
+
+	* drive/drivecpu-tmpl.c: Changed `_drive_set_byte_ready()' and
+	`_drive_byte_ready()' to use the `drive' structure.
+	(mydrive_cpu_write_snapshot_module,
+	mydrive_cpu_read_snapshot_module): Added `cycle_accum' and
+	`last_clk' to snapshot.  Set `bank_base' after loading snapshot.
+
+	* drive/via1drive0.def (UNDUMP_PRA): Set sync factor and side.
+	* drive/via1drive1.def (UNDUMP_PRA): Likewise.
+
+	* drive/via2drive0.def (UNDUMP_PRB): Set LED status, zone bits and
+	motor status.
+	* drive/via2drive1.def (UNDUMP_PRB): Likewise.
+
+1998-09-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/vicii.c (set_sprite_x): Added +8 offset to raster X values
+ 	used for sprite X <-> raster X comparisons (it should now be
+ 	correct, according to Andreas' `sprx1.prg' test routine).
+
+	* vdrive.h: Removed `struct dirslot'.
+	* c1541.c: Moved here.
+
+1998-09-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* crtc-tmpl.c (crtc_init): If `init_raster()' fails, return NULL.
+
+	* vic20/vic.c (vic_init): If `init_raster()' fails, return NULL.
+
+	* c64/vicii.c (vic_ii_init): If `init_raster()' fails, return
+ 	NULL.
+
+	* c1541.c: Version 2.05.
+	(main) [__MSDOS__ || WIN32]: Set default file mode to binary.
+
 1998-09-23  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.12.
