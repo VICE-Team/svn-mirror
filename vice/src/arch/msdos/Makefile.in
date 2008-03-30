@@ -322,8 +322,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h c128kbd.h \
-	../../../src/cartridge.h ../../../src/types.h kbd.h
 
 info: info-recursive
 dvi: dvi-recursive

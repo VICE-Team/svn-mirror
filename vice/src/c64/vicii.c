@@ -719,7 +719,11 @@ void vic_ii_set_vbank(int num_vbank)
 /* Change the base of RAM seen by the VIC-II.  */
 void vic_ii_set_ram_base(BYTE *base)
 {
+    /* WARNING: assumes `rmw_flag' is 0 or 1. */
+    vic_ii_handle_pending_alarms(rmw_flag + 1);
+
     ram_base = base;
+    set_memory_ptrs(RASTER_CYCLE);
 }
 
 /* Trigger the light pen. */
@@ -3758,82 +3762,88 @@ static char snap_module_name[] = "VIC-II";
 int vic_ii_write_snapshot_module(FILE *f)
 {
     int i;
+    snapshot_module_t *m;
 
     /* FIXME: Dispatch all events?  */
 
-    if (snapshot_write_module_header(f, snap_module_name,
-                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
         return -1;
 
     if (0
-        || snapshot_write_byte(f, (BYTE) allow_bad_lines) < 0 /* AllowBadLines */
-        || snapshot_write_byte(f, (BYTE) bad_line) < 0 /* BadLine */
-        || snapshot_write_byte(f, (BYTE) blank_enabled) < 0 /* Blank */
-        || snapshot_write_byte_array(f, cbuf, 40) < 0 /* ColorBuf */
-        || snapshot_write_byte_array(f, color_ram, 1024) < 0 /* ColorRam */
-        || snapshot_write_byte(f, idle_state) < 0 /* IdleState */
-        || snapshot_write_byte(f, (BYTE) light_pen.triggered) < 0 /* LPTrigger */
-        || snapshot_write_byte(f, (BYTE) light_pen.x) < 0 /* LPX */
-        || snapshot_write_byte(f, (BYTE) light_pen.y) < 0 /* LPY */
-        || snapshot_write_byte_array(f, vbuf, 40) < 0 /* MatrixBuf */
-        || snapshot_write_byte(f, new_dma_msk) < 0 /* NewSpriteDmaMask */
-        || snapshot_write_dword(f, (DWORD) (ram_base - ram)) < 0 /* RamBase */
-        || snapshot_write_byte(f, (BYTE) RASTER_CYCLE) < 0 /* RasterCycle */
-        || snapshot_write_word(f, (WORD) RASTER_Y) < 0 /* RasterLine */
+        || snapshot_module_write_byte(m, (BYTE) allow_bad_lines) < 0 /* AllowBadLines */
+        || snapshot_module_write_byte(m, (BYTE) bad_line) < 0 /* BadLine */
+        || snapshot_module_write_byte(m, (BYTE) blank_enabled) < 0 /* Blank */
+        || snapshot_module_write_byte_array(m, cbuf, 40) < 0 /* ColorBuf */
+        || snapshot_module_write_byte_array(m, color_ram, 1024) < 0 /* ColorRam */
+        || snapshot_module_write_byte(m, idle_state) < 0 /* IdleState */
+        || snapshot_module_write_byte(m, (BYTE) light_pen.triggered) < 0 /* LPTrigger */
+        || snapshot_module_write_byte(m, (BYTE) light_pen.x) < 0 /* LPX */
+        || snapshot_module_write_byte(m, (BYTE) light_pen.y) < 0 /* LPY */
+        || snapshot_module_write_byte_array(m, vbuf, 40) < 0 /* MatrixBuf */
+        || snapshot_module_write_byte(m, new_dma_msk) < 0 /* NewSpriteDmaMask */
+        || snapshot_module_write_dword(m, (DWORD) (ram_base - ram)) < 0 /* RamBase */
+        || snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0 /* RasterCycle */
+        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0 /* RasterLine */
         )
-        return -1;
+        goto fail;
 
     for (i = 0; i < 0x40; i++)
-        if (snapshot_write_byte(f, (BYTE) vic[i]) < 0 /* Registers */)
-            return -1;
+        if (snapshot_module_write_byte(m, (BYTE) vic[i]) < 0 /* Registers */)
+            goto fail;
 
     if (0
-        || snapshot_write_byte(f, (BYTE) sb_collmask) < 0 /* SbCollMask */
-        || snapshot_write_byte(f, (BYTE) dma_msk) < 0 /* SpriteDmaMask */
-        || snapshot_write_byte(f, (BYTE) ss_collmask) < 0 /* SsCollMask */
-        || snapshot_write_word(f, (WORD) vbank) < 0 /* VBank */
-        || snapshot_write_word(f, (WORD) mem_counter) < 0 /* Vc */
-        || snapshot_write_byte(f, (BYTE) mem_counter_inc) < 0 /* VcInc */
-        || snapshot_write_word(f, (WORD) memptr) < 0 /* VcBase */
-        || snapshot_write_byte(f, (BYTE) videoint) < 0 /* VideoInt */
+        || snapshot_module_write_byte(m, (BYTE) sb_collmask) < 0 /* SbCollMask */
+        || snapshot_module_write_byte(m, (BYTE) dma_msk) < 0 /* SpriteDmaMask */
+        || snapshot_module_write_byte(m, (BYTE) ss_collmask) < 0 /* SsCollMask */
+        || snapshot_module_write_word(m, (WORD) vbank) < 0 /* VBank */
+        || snapshot_module_write_word(m, (WORD) mem_counter) < 0 /* Vc */
+        || snapshot_module_write_byte(m, (BYTE) mem_counter_inc) < 0 /* VcInc */
+        || snapshot_module_write_word(m, (WORD) memptr) < 0 /* VcBase */
+        || snapshot_module_write_byte(m, (BYTE) videoint) < 0 /* VideoInt */
         )
-        return -1;
+        goto fail;
 
     for (i = 0; i < 8; i++) {
         if (0
-            || snapshot_write_byte(f, (BYTE) sprites[i].memptr) < 0 /* SpriteXMemPtr */
-            || snapshot_write_byte(f, (BYTE) sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
-            || snapshot_write_byte(f, (BYTE) sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
+            || snapshot_module_write_byte(m, (BYTE) sprites[i].memptr) < 0 /* SpriteXMemPtr */
+            || snapshot_module_write_byte(m, (BYTE) sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
+            || snapshot_module_write_byte(m, (BYTE) sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
             )
-            return -1;
+            goto fail;
     }
 
    if (0
-       || snapshot_write_dword(f, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
-       || snapshot_write_byte(f, fetch_idx) < 0 /* FetchEventType */
+       || snapshot_module_write_dword(m, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
+       || snapshot_module_write_byte(m, fetch_idx) < 0 /* FetchEventType */
        )
-        return -1;
+        goto fail;
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }
 
 /* Helper functions.  */
 
-static int read_byte_into_int(FILE *f, int *value_return)
+static int read_byte_into_int(snapshot_module_t *m, int *value_return)
 {
     BYTE b;
 
-    if (snapshot_read_byte(f, &b) < 0)
+    if (snapshot_module_read_byte(m, &b) < 0)
         return -1;
     *value_return = (int) b;
     return 0;
 }
 
-static int read_word_into_int(FILE *f, int *value_return)
+static int read_word_into_int(snapshot_module_t *m, int *value_return)
 {
     WORD b;
 
-    if (snapshot_read_word(f, &b) < 0)
+    if (snapshot_module_read_word(m, &b) < 0)
         return -1;
     *value_return = (int) b;
     return 0;
@@ -3844,16 +3854,17 @@ int vic_ii_read_snapshot_module(FILE *f)
     BYTE major_version, minor_version;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
     int i;
+    snapshot_module_t *m;
 
-    if (snapshot_read_module_header(f, module_name,
-                                    &major_version, &minor_version) < 0)
+    m = snapshot_module_open(f, module_name, &major_version, &minor_version);
+    if (m == NULL)
         return -1;
 
     if (strcmp(module_name, snap_module_name) != 0) {
         fprintf(stderr,
                 "VIC-II: Snapshot module name (`%s') incorrect; should be `%s'.\n",
                 module_name, snap_module_name);
-        return -1;
+        goto fail;
     }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
@@ -3866,25 +3877,25 @@ int vic_ii_read_snapshot_module(FILE *f)
     /* FIXME: initialize changes.  */
 
     if (0
-        || read_byte_into_int(f, &allow_bad_lines) < 0 /* AllowBadLines */
-        || read_byte_into_int(f, &bad_line) < 0 /* BadLine */
-        || read_byte_into_int(f, &blank_enabled) < 0 /* Blank */
-        || snapshot_read_byte_array(f, cbuf, 40) < 0 /* ColorBuf */
-        || snapshot_read_byte_array(f, color_ram, 1024) < 0 /* ColorRam */
-        || read_byte_into_int(f, &idle_state) < 0 /* IdleState */
-        || read_byte_into_int(f, &light_pen.triggered) < 0 /* LPTrigger */
-        || read_byte_into_int(f, &light_pen.x) < 0 /* LPX */
-        || read_byte_into_int(f, &light_pen.y) < 0 /* LPY */
-        || snapshot_read_byte_array(f, vbuf, 40) < 0 /* MatrixBuf */
-        || snapshot_read_byte(f, &new_dma_msk) < 0 /* NewSpriteDmaMask */
+        || read_byte_into_int(m, &allow_bad_lines) < 0 /* AllowBadLines */
+        || read_byte_into_int(m, &bad_line) < 0 /* BadLine */
+        || read_byte_into_int(m, &blank_enabled) < 0 /* Blank */
+        || snapshot_module_read_byte_array(m, cbuf, 40) < 0 /* ColorBuf */
+        || snapshot_module_read_byte_array(m, color_ram, 1024) < 0 /* ColorRam */
+        || read_byte_into_int(m, &idle_state) < 0 /* IdleState */
+        || read_byte_into_int(m, &light_pen.triggered) < 0 /* LPTrigger */
+        || read_byte_into_int(m, &light_pen.x) < 0 /* LPX */
+        || read_byte_into_int(m, &light_pen.y) < 0 /* LPY */
+        || snapshot_module_read_byte_array(m, vbuf, 40) < 0 /* MatrixBuf */
+        || snapshot_module_read_byte(m, &new_dma_msk) < 0 /* NewSpriteDmaMask */
         )
-        return -1;
+        goto fail;
 
     {
         DWORD RamBase;
 
-        if (snapshot_read_dword(f, &RamBase) < 0)
-            return -1;
+        if (snapshot_module_read_dword(m, &RamBase) < 0)
+            goto fail;
         ram_base = ram + RamBase;
     }
 
@@ -3894,46 +3905,46 @@ int vic_ii_read_snapshot_module(FILE *f)
         WORD RasterLine;
         BYTE RasterCycle;
 
-        if (snapshot_read_byte(f, &RasterCycle) < 0
-            || snapshot_read_word(f, &RasterLine) < 0)
-            return -1;
+        if (snapshot_module_read_byte(m, &RasterCycle) < 0
+            || snapshot_module_read_word(m, &RasterLine) < 0)
+            goto fail;
 
         if (RasterCycle != (BYTE) RASTER_CYCLE) {
             fprintf(stderr, "VIC-II: Not matching raster cycle (%d) in snapshot; should be %d.\n",
                     RasterCycle, RASTER_CYCLE);
-            return -1;
+            goto fail;
         }
 
         if (RasterLine != (WORD) RASTER_Y) {
             fprintf(stderr, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.\n",
                     RasterLine, RASTER_Y);
-            return -1;
+            goto fail;
         }
     }
 
     for (i = 0; i < 0x40; i++)
-        if (read_byte_into_int(f, &vic[i]) < 0 /* Registers */)
-            return -1;
+        if (read_byte_into_int(m, &vic[i]) < 0 /* Registers */)
+            goto fail;
 
     if (0
-        || snapshot_read_byte(f, &sb_collmask) < 0 /* SbCollMask */
-        || snapshot_read_byte(f, &dma_msk) < 0 /* SpriteDmaMask */
-        || snapshot_read_byte(f, &ss_collmask) < 0 /* SsCollMask */
-        || read_word_into_int(f, &vbank) < 0 /* VBank */
-        || read_word_into_int(f, &mem_counter) < 0 /* Vc */
-        || read_byte_into_int(f, &mem_counter_inc) < 0 /* VcInc */
-        || read_word_into_int(f, &memptr) < 0 /* VcBase */
-        || read_byte_into_int(f, &videoint) < 0 /* VideoInt */
+        || snapshot_module_read_byte(m, &sb_collmask) < 0 /* SbCollMask */
+        || snapshot_module_read_byte(m, &dma_msk) < 0 /* SpriteDmaMask */
+        || snapshot_module_read_byte(m, &ss_collmask) < 0 /* SsCollMask */
+        || read_word_into_int(m, &vbank) < 0 /* VBank */
+        || read_word_into_int(m, &mem_counter) < 0 /* Vc */
+        || read_byte_into_int(m, &mem_counter_inc) < 0 /* VcInc */
+        || read_word_into_int(m, &memptr) < 0 /* VcBase */
+        || read_byte_into_int(m, &videoint) < 0 /* VideoInt */
         )
-        return -1;
+        goto fail;
 
     for (i = 0; i < 8; i++) {
         if (0
-            || read_byte_into_int(f, &sprites[i].memptr) < 0 /* SpriteXMemPtr */
-            || read_byte_into_int(f, &sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
-            || read_byte_into_int(f, &sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
+            || read_byte_into_int(m, &sprites[i].memptr) < 0 /* SpriteXMemPtr */
+            || read_byte_into_int(m, &sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
+            || read_byte_into_int(m, &sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
             )
-            return -1;
+            goto fail;
     }
 
     /* FIXME: Recalculate alarms and derived values.  */
@@ -4026,10 +4037,10 @@ int vic_ii_read_snapshot_module(FILE *f)
         BYTE b;
 
         if (0
-            || snapshot_read_dword(f, &dw) < 0 /* FetchEventTick */
-            || snapshot_read_byte(f, &b) < 0 /* FetchEventType */
+            || snapshot_module_read_dword(m, &dw) < 0 /* FetchEventTick */
+            || snapshot_module_read_byte(m, &b) < 0 /* FetchEventType */
             )
-            return -1;
+            goto fail;
 
         vic_ii_fetch_clk = clk + dw;
         fetch_idx = b;
@@ -4038,4 +4049,9 @@ int vic_ii_read_snapshot_module(FILE *f)
 
     force_repaint();
     return 0;
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }

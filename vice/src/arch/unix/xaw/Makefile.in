@@ -323,14 +323,15 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \
 	uihotkey.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/mem.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/vdrive.h ../../../../src/fs_cbm.h \
-	../../../../src/serial.h ../../../../src/traps.h \
-	../../../../src/tapeunit.h ../../../../src/tape.h \
-	../../../../src/attach.h ../../../../src/autostart.h \
-	../../../../src/mon.h ../../../../src/mos6510.h \
-	../../../../src/info.h ../../../../src/resources.h \
-	../../../../src/machine.h ../../../../src/utils.h
+	../../../../src/mem.h ../../../../src/snapshot.h \
+	../../../../src/arch/unix/vsync.h ../../../../src/vdrive.h \
+	../../../../src/fs_cbm.h ../../../../src/serial.h \
+	../../../../src/traps.h ../../../../src/tapeunit.h \
+	../../../../src/tape.h ../../../../src/attach.h \
+	../../../../src/autostart.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/info.h \
+	../../../../src/resources.h ../../../../src/machine.h \
+	../../../../src/utils.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
@@ -350,7 +351,7 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/mos6510.h ../../../../src/mon.h \
 	../../../../src/mem.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/arch/unix/vsync.h
+	../../../../src/snapshot.h ../../../../src/arch/unix/vsync.h
 vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/types.h \
 	../../../../src/arch/unix/joystick.h \
