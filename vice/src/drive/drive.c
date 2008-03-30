@@ -481,6 +481,8 @@ void drive_set_half_track(int num, drive_t *dptr)
     else
         dptr->GCR_head_offset = 0;
 
+    dptr->GCR_head_bitoff = 0;
+
     drive_current_track_size_set(dptr);
 }
 
