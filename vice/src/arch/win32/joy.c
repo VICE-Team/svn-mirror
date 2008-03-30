@@ -52,6 +52,7 @@ static int keyset1[9], keyset2[9];
 
 static int joystick_fire_speed[2];
 static int joystick_fire_axis[2];
+static int joystick_fire_button[2];
 
 #ifdef COMMON_KBD
 int joystick_port_map[2];
@@ -294,25 +295,37 @@ static int set_joystick_fire2_speed(resource_value_t v, void *param)
 
 static int set_joystick_fire1_axis(resource_value_t v, void *param)
 {
-    int axis = (int)v;
+int axis = (int)v;
 
-    if (axis < 0)
-        axis = 0;
-    if (axis > 4)
-        axis = 4;
+    if (axis < 0) axis = 0;
     joystick_fire_axis[0] = axis;
     return 0;
 }
 
 static int set_joystick_fire2_axis(resource_value_t v, void *param)
 {
-    int axis = (int)v;
+int axis = (int)v;
 
-    if (axis < 0)
-        axis=0;
-    if (axis > 4)
-        axis=4;
+    if (axis < 0) axis = 0;
     joystick_fire_axis[1] = axis;
+    return 0;
+}
+
+static int set_joystick_fire1_button(resource_value_t v, void *param)
+{
+int button = (int)v;
+
+    if (button < 0) button = 0;
+    joystick_fire_button[0] = button;
+    return 0;
+}
+
+static int set_joystick_fire2_button(resource_value_t v, void *param)
+{
+int button = (int)v;
+
+    if (button < 0) button = 0;
+    joystick_fire_button[1] = button;
     return 0;
 }
 
@@ -337,10 +350,14 @@ static const resource_t resources[] = {
       (void *)&joystick_fire_speed[0], set_joystick_fire1_speed, NULL },
     { "JoyAutofire1Axis", RES_INTEGER, (resource_value_t)0,
       (void *)&joystick_fire_axis[0], set_joystick_fire1_axis, NULL },
+    { "JoyAutofire1Button", RES_INTEGER, (resource_value_t)0,
+      (void *)&joystick_fire_button[0], set_joystick_fire1_button, NULL },
     { "JoyAutofire2Speed", RES_INTEGER, (resource_value_t)16,
       (void *)&joystick_fire_speed[1], set_joystick_fire2_speed, NULL },
     { "JoyAutofire2Axis", RES_INTEGER, (resource_value_t)0,
       (void *)&joystick_fire_axis[1], set_joystick_fire2_axis, NULL },
+    { "JoyAutofire2Button", RES_INTEGER, (resource_value_t)0,
+      (void *)&joystick_fire_button[1], set_joystick_fire2_button, NULL },
     { "KeySet1NorthWest", RES_INTEGER, (resource_value_t)K_NONE,
       (void *)&keyset1[KEYSET_NW], set_keyset1, (void *)KEYSET_NW },
     { "KeySet1North", RES_INTEGER, (resource_value_t)K_NONE,
@@ -507,6 +524,9 @@ UINT amin;
 UINT amax;
 DWORD apos;
 DIJOYSTATE  js;
+JoyInfo *joy;
+JoyButton *button;
+int     afire_button;
 
     value =0;
 
@@ -539,19 +559,36 @@ DIJOYSTATE  js;
         value |= 2;
     }
 
-    if (js.rgbButtons[0] & 0x80) value |= 16;
-    if (js.rgbButtons[1] & 0x80) {
+    //  Find the joystick object
+
+    afire_button = -1;
+    joy = joystick_list;
+    i = 0;
+    while (joy && i < joystick_device[joy_no] - JOYDEV_HW1) {
+        joy = joy->next;
+        i++;
+    }
+    if (joy && (joystick_fire_button[joy_no] > 0)) {
+        button = joy->buttons;
+        i = 0;
+        while (button && i < joystick_fire_button[joy_no] - 1) {
+            button = button->next;
+            i++;
+        }
+        if (button) {
+            afire_button = button->dwOffs - 48;
+        }
+    }
+    if ((afire_button >= 32) || (afire_button < -1)) afire_button = -1;
+
+    for (i = 0; i < 32; i++) {
+        if ((i != afire_button) && (js.rgbButtons[i] & 0x80)) value |= 16;
+    }
+    if ((afire_button != -1) && (js.rgbButtons[afire_button] & 0x80)) {
         if (joystick_fire_axis[joy_no]) {
-            //  Find the joystick object
-            JoyInfo *joy;
-
-            joy = joystick_list;
-            i = 0;
-            while (joy && i < joystick_device[joy_no] - JOYDEV_HW1) {
-                joy = joy->next;
-                i++;
-            }
-
+            amin = 0;
+            amax = 32;
+            apos = 16;
             if (joy) {
                 //  Find axis
                 JoyAxis *axis;
@@ -572,10 +609,6 @@ DIJOYSTATE  js;
                     amin = prop.lMin;
                     amax = prop.lMax;
                     apos = *(DWORD*)(((BYTE*)&js) + axis->dwOffs);
-                } else {
-                    amin = 0;
-                    amax = 32;
-                    apos = 16;
                 }
             }
             value |= maincpu_clk / (((amin + apos) * 0x2000)
@@ -597,6 +630,8 @@ void joystick_update(void)
     UINT amin;
     UINT amax;
     DWORD apos;
+    int afire_button;
+    int j;
 
     if (di_version == 5) {
         int i;
@@ -648,9 +683,11 @@ void joystick_update(void)
                         + (joy_caps.wYmax - joy_caps.wYmin) / 4 * 3) {
                         value |= 2;
                     }
-                    if (joy_info.dwButtons & 0x0001) {
-                        value |= 16;
-                    } else if (joy_info.dwButtons & 0x0002) {
+                    afire_button = joystick_fire_button[idx] - 1;
+                    for (j = 0; j < 32; j++) {
+                        if ((j != afire_button) && (joy_info.dwButtons & (1 << j))) value |= 16;
+                    }
+                    if ((afire_button != -1) && (joy_info.dwButtons & (1 << afire_button))) {
                         if ((joystick_fire_axis[idx])
                             && (joy_info.dwFlags & addflag)) {
                             switch(joystick_fire_axis[idx]) {
@@ -732,9 +769,11 @@ void joystick_update(void)
                         + (joy_caps.wYmax - joy_caps.wYmin) / 4 * 3) {
                         value |= 2;
                     }
-                    if(joy_info.dwButtons & 0x0001) {
-                        value |= 16;
-                    } else if(joy_info.dwButtons & 0x0002) {
+                    afire_button = joystick_fire_button[idx] - 1;
+                    for (j = 0; j < 32; j++) {
+                        if ((j != afire_button) && (joy_info.dwButtons & (1 << j))) value |= 16;
+                    }
+                    if ((afire_button != -1) && (joy_info.dwButtons & (1 << afire_button))) {
                         if ((joystick_fire_axis[idx])
                             && (joy_info.dwFlags & addflag)) {
                             switch (joystick_fire_axis[idx]) {
@@ -937,5 +976,34 @@ int     i;
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
+    }
+}
+
+void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device)
+{
+JoyInfo *joy;
+JoyButton *button;
+int     i;
+
+    if (di_version == 5) {
+        device = device - JOYDEV_HW1;
+        joy = joystick_list;
+        i = 0;
+        while (joy && i < device) {
+            joy = joy->next;
+            i++;
+        }
+        if (joy) {
+            button = joy->buttons;
+            while (button) {
+                SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)button->name);
+                button = button->next;
+            }
+        }
+    } else {
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Button 1");
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Button 2");
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Button 3");
+        SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Button 4");
     }
 }

@@ -34,6 +34,7 @@
 extern void joystick_calibrate(HWND hwnd);
 extern void joystick_ui_get_device_list(HWND joy_hwnd);
 extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
+extern void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
 
 static int joy1;
 static int joy2;
@@ -293,9 +294,16 @@ static void init_joystick_dialog(HWND hwnd)
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire1Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"No button - Autofire disabled");
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_value("JoyAutofire1Button", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
                             (device >= JOYDEV_HW1) && (res_value == 0));
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                            (device >= JOYDEV_HW1));
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
                             (device >= JOYDEV_HW1));
 
     joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
@@ -315,9 +323,16 @@ static void init_joystick_dialog(HWND hwnd)
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire2Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"No button - Autofire disabled");
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_value("JoyAutofire2Button", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
                             (device >= JOYDEV_HW1) && (res_value == 0));
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                            (device >= JOYDEV_HW1));
+    EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
                             (device >= JOYDEV_HW1));
 
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_CALIBRATE), joystick_inited);
@@ -346,6 +361,32 @@ int     res_value;
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
     joystick_ui_get_autofire_axes(joy_hwnd, device);
     resources_get_value("JoyAutofire2Axis", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_button_list_1(HWND hwnd, int device)
+{
+HWND    joy_hwnd;
+int     res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"No button - Autofire disabled");
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_value("JoyAutofire1Button", (void *)&res_value);
+    SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static void rebuild_button_list_2(HWND hwnd, int device)
+{
+HWND    joy_hwnd;
+int     res_value;
+
+    SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
+    joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"No button - Autofire disabled");
+    joystick_ui_get_autofire_buttons(joy_hwnd, device);
+    resources_get_value("JoyAutofire2Button", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
@@ -383,11 +424,16 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
                                                CB_GETCURSEL, 0, 0);
-                if (res_value >= JOYDEV_HW1) rebuild_axis_list_1(hwnd, res_value);
+                if (res_value >= JOYDEV_HW1) {
+                    rebuild_axis_list_1(hwnd, res_value);
+                    rebuild_button_list_1(hwnd, res_value);
+                }
                 axis = SendDlgItemMessage(hwnd,IDC_JOY_FIRE1_AXIS,CB_GETCURSEL,0,0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
                              (res_value >= JOYDEV_HW1) && (axis == 0));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
                              (res_value >= JOYDEV_HW1));
             }
             return TRUE;
@@ -398,11 +444,16 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                     IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
                                                CB_GETCURSEL, 0, 0);
-                if (res_value >= JOYDEV_HW1) rebuild_axis_list_2(hwnd, res_value);
+                if (res_value >= JOYDEV_HW1) {
+                    rebuild_axis_list_2(hwnd, res_value);
+                    rebuild_button_list_2(hwnd, res_value);
+                }
                 axis = SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_GETCURSEL, 0, 0);
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
                              (res_value >= JOYDEV_HW1) && (axis == 0));
                 EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS),
+                             (res_value >= JOYDEV_HW1));
+                EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
                              (res_value >= JOYDEV_HW1));
             }
             return TRUE;
@@ -455,12 +506,18 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             resources_set_value("JoyAutofire1Axis",
                                 (resource_value_t)SendMessage(GetDlgItem(hwnd,
                                 IDC_JOY_FIRE1_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_value("JoyAutofire1Button",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_FIRE1_BUTTON), CB_GETCURSEL, 0, 0));
             resources_set_value("JoyAutofire2Speed",
                                 (resource_value_t)GetDlgItemInt(hwnd,
                                 IDC_JOY_FIRE2_SPEED, NULL, FALSE));
             resources_set_value("JoyAutofire2Axis",
                                 (resource_value_t)SendMessage(GetDlgItem(hwnd,
                                 IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_value("JoyAutofire2Button",
+                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                                IDC_JOY_FIRE2_BUTTON), CB_GETCURSEL, 0, 0));
             EndDialog(hwnd,0);
             return TRUE;
           case IDCANCEL:
@@ -499,6 +556,10 @@ void ui_joystick_swap_joystick(void)
     resources_get_value("JoyAutofire2Axis",(void *)&device2);
     resources_set_value("JoyAutofire1Axis",(resource_value_t)device2);
     resources_set_value("JoyAutofire2Axis",(resource_value_t)device1);
+    resources_get_value("JoyAutofire1Button",(void *)&device1);
+    resources_get_value("JoyAutofire2Button",(void *)&device2);
+    resources_set_value("JoyAutofire1Button",(resource_value_t)device2);
+    resources_set_value("JoyAutofire2Button",(resource_value_t)device1);
 
     resources_get_value("KeySet1NorthWest",(void *)&device1);
     resources_get_value("KeySet2NorthWest",(void *)&device2);
