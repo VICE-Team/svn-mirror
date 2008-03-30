@@ -44,7 +44,7 @@
 
 struct _canvas {
     unsigned int width, height;
-    UiWindow emuwindow;
+    ui_window_t emuwindow;
     Window drawable;
 };
 typedef struct _canvas *canvas_t;
@@ -63,7 +63,7 @@ struct _frame_buffer {
 typedef struct _frame_buffer frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
-typedef UiExposureHandler canvas_redraw_t;
+typedef ui_exposure_handler_t canvas_redraw_t;
 
 extern Display *display;
 extern void (*_refresh_func) ();
