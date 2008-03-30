@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "interrupt.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
@@ -157,8 +159,6 @@ int ted_snapshot_write_module(snapshot_t *s)
     if (0
         /* FetchEventTick */
         || snapshot_module_write_dword (m, ted.fetch_clk - clk) < 0
-        /* FetchEventType */
-        || snapshot_module_write_byte (m, (BYTE)ted.fetch_idx) < 0
         )
         goto fail;
 
@@ -359,16 +359,13 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     {
         DWORD dw;
-        BYTE b;
 
         if (0
             || snapshot_module_read_dword(m, &dw) < 0  /* FetchEventTick */
-            || snapshot_module_read_byte(m, &b) < 0    /* FetchEventType */
             )
             goto fail;
 
         ted.fetch_clk = clk + dw;
-        ted.fetch_idx = b;
 
         alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
     }
