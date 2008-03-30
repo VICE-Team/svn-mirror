@@ -126,6 +126,12 @@ static ui_cartridge_params c64_ui_cartridges[]={
     UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
+    IDM_CART_ATTACH_RR,
+    CARTRIDGE_RETRO_REPLAY,
+    "Attach Retro Replay cartridge image",
+    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
     IDM_CART_ATTACH_SS4,
     CARTRIDGE_SUPER_SNAPSHOT,
     "Attach Super Snapshot 4 cartridge image",
