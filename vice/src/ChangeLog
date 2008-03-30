@@ -1,3 +1,52 @@
+2000-02-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.31.
+
+	* attach.c (attach_disk_image): Fixed memory leak.
+
+	* interrupt.h: New struct member `nmi_trap_func'.
+
+	* interrupt.c (interrupt_cpu_status_init) Initialize
+	`nmi_trap_func'.
+	(interrupt_set_nmi_trap_func): New function.
+
+2000-02-17  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/ui.c:
+	(build_file_selector): Moved autostart button to buttonbox of
+	fileselector. Fixed `orphan' scrollbars. Store fileselection and
+	autostart button on static globals.
+	(ui_fill_preview): Set OK button for default on new fileselection.
+	(ui_select_contents_cb): Set Autostart button as default when
+	selection in preview is done. Handle Doubleclicks on selection.
+
+2000-02-13  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* vicii/vicii.c(vic_ii_set_geometry): uses
+	vic_ii.row_25_start_line instead of vic_ii.screen_borderheight
+	as y-coordinate for gfx_position of the raster_geometry
+
+2000-02-13  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/ui.c:
+	(ui_jam_dialog): Change to Gnome Dialog.
+	(filesel_autostart_cb): Rewritten, contents preview uses GtkClist
+	now.
+	(ui_fill_preview): ditto.
+	(ui_select_contents_cb): New function. Set index of selected file
+	for autostart.
+	(ui_select_file): Add `destroy' handler for WM destroy event. 
+	Fixed event-handler code accordingly.
+	(ui_popup): Disable popup center code. Use WM to place the window
+	properly.
+	(build_file_selector): Reworked to place contents preview widget
+	next to file widget. This makes the fileselector expand in
+	X-direction where we normally have more resolution. The code is
+	messing a bit with the stock GTK fileselector widget, which might
+	fail in future versions of GTK+.
+	(UI_CALLBACK enter_window_callback): Set `_ui_top_level' to
+	toplevel window. This was a bug.
+
 2000-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.30.

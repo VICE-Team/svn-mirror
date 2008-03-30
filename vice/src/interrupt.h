@@ -141,6 +141,8 @@ struct cpu_int_status_s {
     CLOCK last_stolen_cycles_clk;
 
     enum cpu_int global_pending_int;
+
+    void (*nmi_trap_func)(void);
 };
 typedef struct cpu_int_status_s cpu_int_status_t;
 
@@ -194,35 +196,37 @@ _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
 
 /* Set the NMI line state.  */
 _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
-		                 CLOCK clk)
+                                 CLOCK clk)
 {
-    if (value) {		/* Trigger the NMI.  */
-	if (!(cs->pending_int[int_num] & IK_NMI)) {
-	    if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
-		cs->global_pending_int |= IK_NMI;
+    if (value) {                /* Trigger the NMI.  */
+        if (!(cs->pending_int[int_num] & IK_NMI)) {
+            if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
+                cs->global_pending_int |= IK_NMI;
 #ifdef HANDLE_INTERRUPT_DELAY
-		/* This makes sure that NMI delay is correctly emulated when
-		   cycles are stolen from the CPU.  */
-		if (cs->last_stolen_cycles_clk <= clk) {
-		    cs->nmi_clk = clk;
-		} else {
-		    cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
-		}
+                /* This makes sure that NMI delay is correctly emulated when
+                   cycles are stolen from the CPU.  */
+                if (cs->last_stolen_cycles_clk <= clk) {
+                    cs->nmi_clk = clk;
+                } else {
+                    cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
+                }
 #endif
-	    }
-	    cs->nnmi++;
-	    cs->pending_int[int_num] |= IK_NMI;
-	}
-    } else {			/* Remove the NMI condition.  */
-	if (cs->pending_int[int_num] & IK_NMI) {
-	    if (cs->nnmi > 0) {
-		cs->nnmi--;
-		cs->pending_int[int_num] &= ~IK_NMI;
-		if (clk == cs->nmi_clk)
-		    cs->global_pending_int &= ~IK_NMI;
-	    } else
-		interrupt_log_wrong_nnmi();
-	}
+            }
+            if (cs->nmi_trap_func)
+                cs->nmi_trap_func();
+            cs->nnmi++;
+            cs->pending_int[int_num] |= IK_NMI;
+        }
+    } else {                    /* Remove the NMI condition.  */
+        if (cs->pending_int[int_num] & IK_NMI) {
+            if (cs->nnmi > 0) {
+                cs->nnmi--;
+                cs->pending_int[int_num] &= ~IK_NMI;
+                if (clk == cs->nmi_clk)
+                    cs->global_pending_int &= ~IK_NMI;
+            } else
+                interrupt_log_wrong_nnmi();
+        }
     }
 }
 
@@ -377,6 +381,9 @@ extern void interrupt_set_int_noclk(cpu_int_status_t *cs, int int_num,
                           enum cpu_int value);
 extern int interrupt_get_irq(cpu_int_status_t *cs, int int_num);
 extern int interrupt_get_nmi(cpu_int_status_t *cs, int int_num);
+extern void interrupt_set_nmi_trap_func(cpu_int_status_t *cs,
+                                        void (*nmi_trap_func)(void));
+
 extern enum cpu_int interrupt_get_int(cpu_int_status_t *cs, int int_num);
 
 /* ------------------------------------------------------------------------- */

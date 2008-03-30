@@ -49,6 +49,13 @@ void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
     cs->num_last_stolen_cycles = 0;
     cs->last_stolen_cycles_clk = (CLOCK)0;
     cs->global_pending_int = IK_NONE;
+    cs->nmi_trap_func = NULL;
+}
+
+void interrupt_set_nmi_trap_func(cpu_int_status_t *cs,
+                                 void (*nmi_trap_func)(void))
+{
+    cs->nmi_trap_func = nmi_trap_func;
 }
 
 /* Move all the CLOCK time references forward/backward.  */
