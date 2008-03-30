@@ -46,11 +46,11 @@ extern int parallel_debug;
 extern void parallel_bus_enable(int enable);
 
 /* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
-extern char parallel_eoi;
-extern char parallel_ndac;
-extern char parallel_nrfd;
-extern char parallel_dav;
-extern char parallel_atn;
+extern BYTE parallel_eoi;
+extern BYTE parallel_ndac;
+extern BYTE parallel_nrfd;
+extern BYTE parallel_dav;
+extern BYTE parallel_atn;
 
 extern BYTE parallel_bus;	/* data lines */
 
@@ -63,20 +63,20 @@ extern void parallel_drive_cpu_execute(CLOCK cpu_clk);
 #define	PARALLEL_DRV1	0x08
   
 /* methods to set handshake lines active for the devices */
-extern void parallel_set_eoi(char mask);
-extern void parallel_set_ndac(char mask);
-extern void parallel_set_nrfd(char mask);
-extern void parallel_set_dav(char mask);
-extern void parallel_set_atn(char mask);
-extern void parallel_restore_set_atn(char mask);
+extern void parallel_set_eoi(BYTE mask);
+extern void parallel_set_ndac(BYTE mask);
+extern void parallel_set_nrfd(BYTE mask);
+extern void parallel_set_dav(BYTE mask);
+extern void parallel_set_atn(BYTE mask);
+extern void parallel_restore_set_atn(BYTE mask);
 
 /* methods to set handshake lines inactive for the devices */
-extern void parallel_clr_eoi(char mask);
-extern void parallel_clr_ndac(char mask);
-extern void parallel_clr_nrfd(char mask);
-extern void parallel_clr_dav(char mask);
-extern void parallel_clr_atn(char mask);
-extern void parallel_restore_clr_atn(char mask);
+extern void parallel_clr_eoi(BYTE mask);
+extern void parallel_clr_ndac(BYTE mask);
+extern void parallel_clr_nrfd(BYTE mask);
+extern void parallel_clr_dav(BYTE mask);
+extern void parallel_clr_atn(BYTE mask);
+extern void parallel_restore_clr_atn(BYTE mask);
 
 
 /* methods to set output lines for the computer */

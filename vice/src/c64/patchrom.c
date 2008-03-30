@@ -234,9 +234,9 @@ static unsigned short patch_bytes[] = {
 };
 
 
-int  patch_rom(const char *str)
+int patch_rom(const char *str)
 {
-    int   rev, curr, num, lcount, isnum;
+    int rev, curr, num, lcount, isnum;
     short bytes, n, i = 0;
     ADDRESS a;
 

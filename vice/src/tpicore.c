@@ -378,8 +378,8 @@ int mytpi_write_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_byte(m, irq_stack);
 
-    snapshot_module_write_byte(m, 
-			(ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0) );
+    snapshot_module_write_byte(m, (BYTE)((ca_state ? 0x80 : 0)
+                               | (cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 

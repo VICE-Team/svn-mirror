@@ -255,17 +255,17 @@ void psid_init_tune(void)
 	      start_song, (int)psid->songs, psid->speed == 0 ? "PAL" : "NTSC");
 
   /* Store parameters for psid player. */
-  ram_store(0x0306, psid->init_addr & 0xff);
-  ram_store(0x0307, psid->init_addr >> 8);
-  ram_store(0x0308, psid->play_addr & 0xff);
-  ram_store(0x0309, psid->play_addr >> 8);
-  ram_store(0x030a, start_song - 1);
+  ram_store(0x0306, (BYTE)(psid->init_addr & 0xff));
+  ram_store(0x0307, (BYTE)(psid->init_addr >> 8));
+  ram_store(0x0308, (BYTE)(psid->play_addr & 0xff));
+  ram_store(0x0309, (BYTE)(psid->play_addr >> 8));
+  ram_store(0x030a, (BYTE)(start_song - 1));
   ram_store(0x030b, volume);
   ram_store(0x030c, portval);
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
-    ram_store(psid->load_addr + i, psid->data[i]);
+    ram_store(psid->load_addr + i, (BYTE)(psid->data[i]));
   }
 }
 
@@ -312,6 +312,6 @@ void psid_init_driver(void) {
 
   /* Driver code. */
   for (addr = 0x0300, i = 0x14; i < sizeof(psid_driver); i++) {
-    ram_store(addr + i, psid_driver[i]);
+    ram_store(addr + i, (BYTE)(psid_driver[i]));
   }
 }
