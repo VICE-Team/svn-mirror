@@ -58,6 +58,7 @@ typedef struct PetInfo {
 	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
 	int		pet2k;		/* 1 = do PET 2001 kernal patches */
 	int		pet2kchar;	/* 1 = do PET 2001 chargen patches */
+	int		eoiblank;	/* 1 = EOI blanks screen */
         int		superpet;	/* 1 = enable SuperPET I/O */
 
 	/* ROM image resources */
@@ -82,6 +83,7 @@ typedef struct PetRes {
 	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
 	int		pet2k;		/* 1 = do PET 2001 kernal patches */
 	int		pet2kchar;	/* 1 = do PET 2001 chargen patches */
+	int		eoiblank;	/* 1 = EOI blanks screen */
         int		superpet;	/* 1 = enable SuperPET I/O */
 
 	/* ROM image resources */

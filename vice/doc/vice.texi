@@ -4153,6 +4153,29 @@ The 8296 can map RAM into the address range $A***
 This resource enables the SuperPET (MicroMainFrame 9000) I/O
 and disables the 8x96 mappings.
 
+@cindex Basic1
+@item Basic1
+If (by checksum) a version 1 kernal is detected, then the 
+kernal ROM is patched to make the IEEE488 interface work.
+
+@cindex Basic1Chars
+@item Basic1Chars
+Exchanges some character in the character ROM that have changed
+between the first PET 2001 and all newer versions.
+
+@cindex EoiBlank
+@item EoiBlank
+This resource enables the "blank screen on EOI" feature of the 
+oldest PET 2001.
+
+@cindex EmuID
+@item EmuID
+Enable emulator ID (at @code{$e8a0-$e8ff}, for use see C64).
+
+@cindex DiagPin
+@item DiagPin
+Set the diagnositc pin on the PET userport (see below).
+
 @cindex ChargenName
 @item ChargenName
 Specify @file{NAME} as the character generator ROM file
@@ -4232,6 +4255,9 @@ It is possible to enable or disable emulation of the PET diagnostic pin
 via the @code{DiagPin} resource, or the ``PET userport diagnostic pin''
 item in the right-button menu.
 
+When the diagnostic pin is set, the Kernal does not try to initialize
+the BASIC, but directly jumps into the builtin machine monitor.
+
 @node PET commandline options, PET colors, PET diagnostic pin, PET-specific
 @subsection PET command line options
 
@@ -4275,6 +4301,36 @@ $9000-$9fff, $a000-$afff
 @cindex +superpet
 @item -superpet, +superpet
 Enable/Disable SuperPET I/O emulation.
+
+@cindex -basic1
+@cindex +basic1
+@item -basic1, +basic1
+Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
+@code{Basic1}.
+
+@cindex -basic1char
+@cindex +basic1char
+@item -basic1char, +basic1char
+Enable/Disable PET 2001 character generator
+@code{Basic1Chars}.
+
+@cindex -eoiblank
+@cindex +eoiblank
+@item -eoiblank, +eoiblank
+Enable/Disable EOI blanking the screen
+@code{EoiBlank}.
+
+@cindex -emuid, +emuid
+@item -emuid
+@itemx +emuid
+Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
+identification extension (at @code{$e8a0-$e8ff}).
+
+@cindex -diagpin, +diagpin
+@item -diagpin
+@itemx +diagpin
+Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the 
+diagnostic pin at the PET userport.
 
 @end table
 
@@ -4476,6 +4532,9 @@ the PET and the CBM-II emulators at this time.
 The memory configuration of the emulator is saved in the snapshot file as
 well. This configuration is restored when the snapshot is loaded.
 
+A quick snapshot can now be made by pressing the @code{M-F11} key and
+reloaded by pressing the @code{M-F10} key. 
+
 @node Snapshot format,  , Snapshot usage, Snapshots
 @section Snapshot format
 
@@ -4651,7 +4710,7 @@ The modules in the xpet emulator are:
 @tab Holds the ROM images of the PET, including possibly attached cartridges
 @item CRTC
 @tab 6545
-@tab The CRTC of the PET.  This can even be included if it is a dump of a PET without CRTC.
+@tab The CRTC of the PET. This is also included if it is a dump of a PET without CRTC, because the video state is saved here anyway.
 @item PIA1
 @tab 6520
 @tab The PIA for the interrupts, tape and the keyboard
@@ -4714,7 +4773,7 @@ The modules in the xcbm2 emulator are:
 @end multitable
 
 The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0 is
+not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
 emulated.
 
 @node Drive modules,  , xcbm2 modules, Emulator modules
@@ -5226,8 +5285,123 @@ TODO
 @node CRTC module, C64 memory module, VIC-II module, Module formats
 @subsubsection CRTC module
 
+@b{Warning:} After VICE version 1.0 the CRTC emulation has improved
+considerably. Especially it is now cycle exact. Therefore a lot more
+variables must be saved. The snapshot module version jumped from
+0.0 to 1.0. Newer versions of VICE can read the old snapshots, but
+older versions (1.0 and below) cannot read the new snapshots.
+
 @b{Warning:} This module is still under construction.  Especially the
 RASTERY and RASTERLINE values might be bogus.
+
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item
+@tab
+@tab Hardware options
+@item WORD
+@tab VADDR_MASK
+@tab Mask of the address bits valid when accessing the video memory
+@item WORD
+@tab VADDR_CHARSWITCH
+@tab If one bit in the video address is used to switch the character generator, it is masked here.
+@item WORD
+@tab VADDR_CHAROFFSET
+@tab The offset in characters in the character generator that CHARSWITCH switches.
+@item WORD
+@tab VADDR_REVSWITCH
+@tab If one bit in the video address inverts the screen, it is masked here. If > 0 then must be set for standard; if < 0 then inverted bit must not be set.
+@item WORD
+@tab CHARGEN_MASK
+@tab size of character generator in byte - 1
+@item WORD
+@tab CHARGEN_OFFSET
+@tab offset given by external circuitry
+@item BYTE
+@tab HW_CURSOR
+@tab external hardware cursor circuitry enabled
+@item BYTE
+@tab HW_COLS
+@tab number of displayed columns during one character clock cycle
+@item BYTE
+@tab HW_BLANK
+@tab set if the hardware blank feature is available
+@item 
+@tab
+@tab CRTC register
+@item 20 BYTE
+@tab REGISTERS
+@tab register DUMP of the CRTC registers 0-19.
+@item
+@tab
+@tab CRTC internal registers
+@item BYTE
+@tab REGNO
+@tab The current index in the CRTC register file
+@item BYTE
+@tab CHAR
+@tab The current cycle within the current rasterline
+@item BYTE
+@tab CHARLINE
+@tab The current character line
+@item BYTE
+@tab YCOUNTER
+@tab The current rasterline in the character
+@item BYTE
+@tab CRSRCNT
+@tab Framecounter for the blinking cursor
+@item BYTE
+@tab CRSRSTATE
+@tab if set the hardware cursor is visible
+@item BYTE
+@tab CRSRLINES
+@tab set if ycounter is within the active cursor rasterlines for a char
+@item WORD
+@tab CHARGEN_REL
+@tab relative base of currently used character generator in ROM (in byte)
+@item WORD
+@tab SCREEN_REL
+@tab screen address to load the counter at the beginning of the next rasterline
+@item WORD
+@tab VSYNC
+@tab number of rasterlines left within vsync; 0 = not in vsync
+@item BYTE
+@tab VENABLE
+@tab vertical enable flipflop; 1= display, 0= blank.
+@item
+@tab
+@tab (VICE-dependent?) variables
+@item WORD
+@tab SCREEN_WIDTH
+@tab width of the current display window
+@item WORD
+@tab SCREEN_HEIGHT
+@tab height of the current display window
+@item WORD
+@tab SCREEN_XOFFSET
+@tab x position where the first character in a line starts in the window...
+@item WORD
+@tab HJITTER
+@tab ...but only after adding this jitter
+@item WORD
+@tab SCREEN_YOFFSET
+@tab x position where the first character in a line starts in the window...
+@item WORD
+@tab FRAMELINES
+@tab expected number of rasterlines for the current frame
+@item WORD
+@tab CURRENT_LINE
+@tab current rasterline as seen from the CRTC
+@end multitable
+
+Here is the reference for the previous CRTC snapshot module. It is outdated
+and should not be used anymore.
+
+Version numbers: Major 0, Minor 0.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -5463,7 +5637,7 @@ restored when the snapshot is loaded.
 
 @b{The PETMEM module}
 
-Version numbers: Major 1, Minor 1
+Version numbers: Major 1, Minor 2
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -5502,11 +5676,21 @@ Version numbers: Major 1, Minor 1
 @item BYTE
 @tab POSITIONAL
 @tab bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.
+@item --
+@tab --
+@tab The following item has been added in V1.1
+@item BYTE
+@tab EOIBLANK
+@tab bit 0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.
 @end multitable
 
 The last item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
+
+In V1.2 the new EOIBLANK variable has been added. This implements
+the "blank screen on EOI" feature that was previously linked to a wrong 
+resource.
 
 @b{The PETROM module}
 
@@ -6722,7 +6906,8 @@ implementation; added support for multiple display depths under X11.
 @b{Andr@'e Fachat} (@email{fachat@@physik.tu-chemnitz.de})
 wrote the PET and CBM-II emulators, the CIA and VIA emulation, the IEEE488
 interface, implemented the IEC serial bus in @code{xvic} and made tons
-of bug fixes.
+of bug fixes. Has now implemented the cycle-exact CRTC emulation on top
+of Ettores new Raster code.
 
 @item
 @b{Daniel Sladic} (@email{sladic@@eecg.toronto.edu})

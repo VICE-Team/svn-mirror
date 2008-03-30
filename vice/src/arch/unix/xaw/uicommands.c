@@ -498,19 +498,26 @@ static UI_CALLBACK(about)
 
 /* Snapshot commands.  */
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 {
     ui_button_t button;
     char *filename;
 
-    filename = ui_select_file("Load snapshot", NULL, False, NULL,
+    if (data) {
+	log_debug("Quickloading file %s\n",data);
+	filename = data;
+    } else {
+        filename = ui_select_file("Load snapshot", NULL, False, NULL,
                               "*", &button);
-    if (button != UI_BUTTON_OK)
-        return;
+        if (button != UI_BUTTON_OK)
+            return;
+    }
 
     if (machine_read_snapshot(filename) < 0)
         ui_error("Cannot load snapshot file\n`%s'", filename);
     ui_update_menus();
+
+    if (data) free(data);
 }
 
 static UI_CALLBACK(load_snapshot)
@@ -521,14 +528,42 @@ static UI_CALLBACK(load_snapshot)
         load_snapshot_trap(0, 0);
 }
 
-static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static UI_CALLBACK(load_quicksnap)
 {
-    ui_snapshot_dialog();
+    char *fname = concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+	machine_name, ".vsf", NULL);
+
+    if (!ui_emulation_is_paused())
+        maincpu_trigger_trap(load_snapshot_trap, (void *) fname);
+    else
+        load_snapshot_trap(0, fname);
+}
+
+static void save_snapshot_trap(ADDRESS unused_addr, void *data)
+{
+    if (data) {
+	/* quick snapshot, save ROMs & disks (??) */
+	log_debug("Quicksaving file %s\n",data);
+	if (machine_write_snapshot(data, 1, 1) < 0) {
+            ui_error("Cannot write snapshot file\n`%s'\n", data);
+	}
+	free(data);
+    } else {
+        ui_snapshot_dialog();
+    }
 }
 
 static UI_CALLBACK(save_snapshot)
 {
     maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+}
+
+static UI_CALLBACK(save_quicksnap)
+{
+    char *fname = concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+	machine_name, ".vsf", NULL);
+
+    maincpu_trigger_trap(save_snapshot_trap, (void *) fname);
 }
 
 /*  fliplist commands */
@@ -826,6 +861,13 @@ static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { "Save snapshot...",
       (ui_callback_t) save_snapshot, NULL, NULL,
       XK_s, UI_HOTMOD_META },
+    { "--" },
+    { "Quickload snapshot",
+      (ui_callback_t) load_quicksnap, NULL, NULL,
+      XK_F10, UI_HOTMOD_META },
+    { "Quicksave snapshot",
+      (ui_callback_t) save_quicksnap, NULL, NULL,
+      XK_F11, UI_HOTMOD_META },
     { NULL }
 };
 

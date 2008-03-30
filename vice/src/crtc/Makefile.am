@@ -17,8 +17,7 @@ libcrtc_a_SOURCES = \
 	crtc-mem.h \
 	crtc-resources.c \
 	crtc-resources.h \
-	crtc-snapshot.c \
-	crtc-snapshot.h 
+	crtc-snapshot.c 
 
 EXTRA_DIST =
 

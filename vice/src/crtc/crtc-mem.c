@@ -56,7 +56,7 @@ store_crtc (ADDRESS addr, BYTE value)
 	return;
     }
 
-#if 1
+#if 0
     /* debug display, just not the cursor (for CBM-II) */
     if (crtc.regno < 14 && crtc.regno != 10)
 	printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%d\n",

@@ -303,7 +303,7 @@ static void reset(void)
     mywd1770_reset();
     myriot1_reset();
     myriot2_reset();
-    fdc_reset(mynumber, drive[mynumber].type == DRIVE_TYPE_1001);
+    fdc_reset(mynumber, drive[mynumber].type);
 
     if (preserve_monitor)
 	monitor_trap_on(&mydrive_int_status);
@@ -327,7 +327,9 @@ void mydrive_mem_init(int type)
     /* FIXME: ROM mirrors! */
     /* Setup firmware ROM.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II ||
-        type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001)
+        type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001 ||
+        type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250
+	)
         for (i = 0xC0; i < 0x100; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
@@ -335,7 +337,10 @@ void mydrive_mem_init(int type)
         for (i = 0x80; i < 0x100; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
-    if (type != DRIVE_TYPE_1001) {
+    if ((type != DRIVE_TYPE_1001) 
+	&& (type != DRIVE_TYPE_8050)
+	&& (type != DRIVE_TYPE_8250)) {
+
 	pageone = drive_ram + 0x100;
 
         /* Setup drive RAM.  */
@@ -677,7 +682,13 @@ static void drive_jam(void)
         break;
       case DRIVE_TYPE_1001:
         dname = "  1001";
-        break;
+	break;
+      case DRIVE_TYPE_8050:
+        dname = "  8050";
+	break;
+      case DRIVE_TYPE_8250:
+        dname = "  8250";
+      break;
     }
 
     tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, reg_pc);
@@ -746,7 +757,10 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
         if (snapshot_module_write_byte_array(m, drive_ram, 0x2000) < 0)
             goto fail;
     }
-    if (drive[mynumber].type == DRIVE_TYPE_1001) {
+    if ((drive[mynumber].type == DRIVE_TYPE_1001)
+	|| (drive[mynumber].type == DRIVE_TYPE_8050)
+	|| (drive[mynumber].type == DRIVE_TYPE_8250)
+	) {
         if (snapshot_module_write_byte_array(m, drive_ram, 0x1100) < 0)
             goto fail;
     }
@@ -827,7 +841,10 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
             goto fail;
     }
 
-    if (drive[mynumber].type == DRIVE_TYPE_1001) {
+    if ((drive[mynumber].type == DRIVE_TYPE_1001)
+	|| (drive[mynumber].type == DRIVE_TYPE_8050)
+	|| (drive[mynumber].type == DRIVE_TYPE_8250)
+	) {
         if (snapshot_module_read_byte_array(m, drive_ram, 0x1100) < 0)
             goto fail;
     }

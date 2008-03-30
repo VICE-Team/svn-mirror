@@ -185,9 +185,15 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         if (drive[0].type != type) {
-	    drive[0].current_half_track = 2 * ((type == DRIVE_TYPE_1001)
-								? 38 : 18);
+	    drive[0].current_half_track = 2 * 18;
+	    if ((type == DRIVE_TYPE_1001) 
+		|| (type == DRIVE_TYPE_8050)
+		|| (type == DRIVE_TYPE_8250)) {
+	        drive[0].current_half_track = 2 * 38;
+	    }
         }
         drive[0].type = type;
         if (drive_true_emulation) {
@@ -231,9 +237,15 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         if (drive[1].type != type) {
-	    drive[1].current_half_track = 2 * ((type == DRIVE_TYPE_1001)
-								? 38 : 18);
+	    drive[1].current_half_track = 2 * 18;
+	    if ((type == DRIVE_TYPE_1001) 
+		|| (type == DRIVE_TYPE_8050)
+		|| (type == DRIVE_TYPE_8250)) {
+	        drive[1].current_half_track = 2 * 38;
+	    }
         }
         drive[1].type = type;
         if (drive_true_emulation) {
@@ -853,6 +865,8 @@ static void drive_set_active_led_color(int type, int dnr)
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
         break;
       default:
@@ -879,12 +893,15 @@ static void drive_set_clock_frequency(int type, int dnr)
         drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         drive[dnr].clock_frequency = 1;
         break;
       default:
         drive[dnr].clock_frequency = 1;
     }
 }
+
 static int drive_set_disk_drive_type(int type, int dnr)
 {
     switch (type) {
@@ -919,6 +936,8 @@ static int drive_set_disk_drive_type(int type, int dnr)
             drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         if (rom1001_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
@@ -1055,7 +1074,7 @@ static int drive_load_1001(void)
         DRIVE_ROM1001_SIZE) < 0) {
         log_error(drive_log,
                   "1001 ROM image not found.  "
-                  "Hardware-level 1001 emulation is not available.");
+                  "Hardware-level 1001/8050/8250 emulation is not available.");
     } else {
         rom1001_loaded = 1;
         return 0;
@@ -1086,7 +1105,8 @@ static int drive_load_rom_images(void)
         && !rom1541ii_loaded
         && !rom1571_loaded
         && !rom1581_loaded
-        && !rom2031_loaded) {
+        && !rom2031_loaded
+	&& !rom1001_loaded) {
         log_error(drive_log,
                   "No ROM image found at all!  "
                   "Hardware-level emulation is not available.");
@@ -1119,6 +1139,8 @@ static void drive_setup_rom_image(int dnr)
                    DRIVE_ROM2031_SIZE);
 	    break;
           case DRIVE_TYPE_1001:
+          case DRIVE_TYPE_8050:
+          case DRIVE_TYPE_8250:
             memcpy(&(drive[dnr].rom[0x4000]), drive_rom1001,
                    DRIVE_ROM1001_SIZE);
             break;
@@ -1280,7 +1302,9 @@ static int drive_check_image_format(int format, int dnr)
         break;
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
-        if (drive[dnr].type != DRIVE_TYPE_1001)
+        if ((drive[dnr].type != DRIVE_TYPE_1001)
+	    && (drive[dnr].type != DRIVE_TYPE_8050)
+	    && (drive[dnr].type != DRIVE_TYPE_8250))
             return -1;
 	break;
       default:
@@ -1830,9 +1854,17 @@ void drive_cpu_execute(CLOCK clk_value)
 int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-      || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001)
+      || (((drive_type == DRIVE_TYPE_2031) 
+	|| (drive_type == DRIVE_TYPE_1001)
+	|| (drive_type == DRIVE_TYPE_8050)
+	|| (drive_type == DRIVE_TYPE_8250)
+	)	
 	&& (bus_map & IEC_BUS_IEEE))
-      || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001)
+      || (((drive_type != DRIVE_TYPE_2031) 
+	&& (drive_type != DRIVE_TYPE_1001)
+	&& (drive_type != DRIVE_TYPE_8050)
+	&& (drive_type != DRIVE_TYPE_8250)
+	)
 	&& (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
@@ -2056,7 +2088,10 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
             if (cia1581d0_write_snapshot_module(s) < 0)
                 return -1;
         }
-	if (drive[0].type == DRIVE_TYPE_1001) {
+	if ((drive[0].type == DRIVE_TYPE_1001)
+	    || (drive[0].type == DRIVE_TYPE_8050)
+	    || (drive[0].type == DRIVE_TYPE_8250)
+	    ) {
 	    if (riot1d0_write_snapshot_module(s) < 0
 		|| riot2d0_write_snapshot_module(s) < 0
 		|| fdc_write_snapshot_module(s, 0) < 0)
@@ -2083,7 +2118,10 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
             if (cia1581d1_write_snapshot_module(s) < 0)
                 return -1;
         }
-	if (drive[1].type == DRIVE_TYPE_1001) {
+	if ((drive[1].type == DRIVE_TYPE_1001)
+	    || (drive[1].type == DRIVE_TYPE_8050)
+	    || (drive[1].type == DRIVE_TYPE_8250)
+	    ) {
 	    if (riot1d1_write_snapshot_module(s) < 0
 		|| riot2d1_write_snapshot_module(s) < 0
 		|| fdc_write_snapshot_module(s, 1) < 0)
@@ -2247,6 +2285,8 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         drive[0].enable = 1;
         drive_setup_rom_image(0);
         drive0_mem_init(drive[0].type);
@@ -2268,6 +2308,7 @@ int drive_read_snapshot_module(snapshot_t *s)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+	/* drive 1 does not allow dual disk drive */
         drive[1].enable = 1;
         drive_setup_rom_image(1);
         drive1_mem_init(drive[1].type);
@@ -2276,6 +2317,8 @@ int drive_read_snapshot_module(snapshot_t *s)
         drive_set_active_led_color(drive[1].type, 1);
         break;
       case DRIVE_TYPE_NONE:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         drive_disable(1);
         break;
       default:
@@ -2306,7 +2349,10 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d0_read_snapshot_module(s) < 0)
                 return -1;
         }
-	if (drive[0].type == DRIVE_TYPE_1001) {
+	if ((drive[0].type == DRIVE_TYPE_1001)
+	    || (drive[0].type == DRIVE_TYPE_8050)
+	    || (drive[0].type == DRIVE_TYPE_8250)
+	    ) {
 	    if (riot1d0_read_snapshot_module(s) < 0
 		|| riot2d0_read_snapshot_module(s) < 0
 		|| fdc_read_snapshot_module(s, 0) < 0)
@@ -2334,7 +2380,10 @@ int drive_read_snapshot_module(snapshot_t *s)
             if (cia1581d1_read_snapshot_module(s) < 0)
                 return -1;
         }
-	if (drive[1].type == DRIVE_TYPE_1001) {
+	if ((drive[1].type == DRIVE_TYPE_1001)
+	    || (drive[1].type == DRIVE_TYPE_8050)
+	    || (drive[1].type == DRIVE_TYPE_8250)
+	    ) {
 	    if (riot1d1_read_snapshot_module(s) < 0
 		|| riot2d1_read_snapshot_module(s) < 0
 		|| fdc_read_snapshot_module(s, 1) < 0)
@@ -2675,6 +2724,8 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
         len = DRIVE_ROM2031_SIZE;
         break;
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1001_SIZE;
         break;
@@ -2736,6 +2787,8 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
         len = DRIVE_ROM2031_SIZE;
         break;
       case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
         base = &(drive[dnr].rom[0x4000]);
         len = DRIVE_ROM1001_SIZE;
         break;
@@ -2795,7 +2848,10 @@ void drive1_parallel_set_atn(int state)
 
 int drive_num_leds(int dnr)
 {
-    if (drive[dnr].type == DRIVE_TYPE_1001) {
+    if ((drive[dnr].type == DRIVE_TYPE_1001) 
+	|| (drive[dnr].type == DRIVE_TYPE_8050)
+	|| (drive[dnr].type == DRIVE_TYPE_8250)
+	) {
 	return 2;
     }
     return 1;

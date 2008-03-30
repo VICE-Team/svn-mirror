@@ -81,6 +81,7 @@ struct _crtc
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
     int hw_cols;	/* 1 or 2, number of chars per cycle */
+    int hw_blank;
     int vaddr_mask;
     int vaddr_charswitch;
     int vaddr_charoffset;
@@ -133,6 +134,8 @@ struct _crtc
     int vsync;		/* number of rasterlines till end of vsync */
 
     int current_charline; /* state of the current character line counter */
+
+    int blank;		/* external blank (only honored if hw_blank set) */
 
     /*---------------------------------------------------------------*/
 
@@ -201,6 +204,8 @@ void crtc_set_retrace_type(int type);
 void crtc_screen_enable(int);
 
 int crtc_offscreen(void);
+
+void crtc_update_window(void);
 
 
 

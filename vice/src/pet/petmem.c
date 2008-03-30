@@ -81,7 +81,7 @@ unsigned int old_reg_pc;
 
 /* we keep the current system config in here. */
 
-PetRes petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+PetRes petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         NULL, NULL, NULL,
         NULL, NULL, NULL,
 	0, 0, 0, 0, 0, 0, 0, 0
@@ -425,6 +425,15 @@ static int set_pet2kchar_enabled(resource_value_t v)
     return 0;
 }
 
+static int set_eoiblank_enabled(resource_value_t v)
+{
+    int i = (((int)v) ? 1 : 0);
+
+    petres.eoiblank = i;
+
+    crtc_enable_hw_screen_blank(petres.eoiblank);
+}
+
 /* Enable/disable the Emulator ID.  */
 
 static int set_emu_id_enabled(resource_value_t v)
@@ -453,10 +462,12 @@ static resource_t resources[] = {
      (resource_value_t *) & petres.memA, set_ram_a_enabled},
     {"SuperPET", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & petres.superpet, set_superpet_enabled},
-    {"Basic1", RES_INTEGER, (resource_value_t) 0,
+    {"Basic1", RES_INTEGER, (resource_value_t) 1,
      (resource_value_t *) & petres.pet2k, set_pet2k_enabled},
     {"Basic1Chars", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & petres.pet2kchar, set_pet2kchar_enabled},
+    {"EoiBlank", RES_INTEGER, (resource_value_t) 0,
+     (resource_value_t *) & petres.eoiblank, set_eoiblank_enabled},
 
     {"ChargenName", RES_STRING, (resource_value_t) "chargen",
      (resource_value_t *) & petres.chargenName, set_chargen_rom_name},
@@ -523,6 +534,11 @@ static cmdline_option_t cmdline_options[] = {
      NULL, "Switch upper/lower case charset"},    
     {"+basic1char", SET_RESOURCE, 0, NULL, NULL, "Basic1Chars", (resource_value_t) 0,
      NULL, "Do not switch upper/lower case charset"},    
+
+    {"-eoiblank", SET_RESOURCE, 0, NULL, NULL, "EoiBlank", (resource_value_t) 1,
+     NULL, "EOI blanks screen"},    
+    {"+eoiblank", SET_RESOURCE, 0, NULL, NULL, "EoiBlank", (resource_value_t) 0,
+     NULL, "EOI does not blank screen"},    
 
     { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
       NULL, "Enable emulator identification" },
@@ -1682,57 +1698,6 @@ int mem_load(void)
     return 0;
 }
 
-#if 0		/* replaced by pet_crtc_set_screen() in pet.c */
-void set_screen(void)
-{
-    int cols, vmask;
-
-    cols = petres.video;
-    vmask = petres.vmask;
-
-    /* initialize_memory(); */
-
-    if (!cols) {
-        cols = petres.rom_video;
-        vmask = (cols == 40) ? 0x3ff : 0x7ff;
-    }
-    if (!cols) {
-        cols = PET_COLS;
-        vmask = (cols == 40) ? 0x3ff : 0x7ff;
-    }
-
-    /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
-    if(cols == 40) vmask = 0x3ff; 
-/*
-    log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)", 
-		vmask, cols, petres.crtc);
-*/
-/*
-    crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
-*/
-    crtc_set_screen_options(cols, 25 * 10);
-    crtc_set_screen_addr(ram + 0x8000);
-    crtc_set_hw_options( (cols==80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
-    crtc_set_retrace_type(petres.crtc ? 1 : 0);
-
-    /* No CRTC -> assume 40 columns */
-    if(!petres.crtc) {
-	store_crtc(0,13); store_crtc(1,0);
-	store_crtc(0,12); store_crtc(1,0x10);
-	store_crtc(0,9); store_crtc(1,7);
-	store_crtc(0,8); store_crtc(1,0);
-	store_crtc(0,7); store_crtc(1,29);
-	store_crtc(0,6); store_crtc(1,25);
-	store_crtc(0,5); store_crtc(1,16);
-	store_crtc(0,4); store_crtc(1,32);
-	store_crtc(0,3); store_crtc(1,8);
-	store_crtc(0,2); store_crtc(1,50);
-	store_crtc(0,1); store_crtc(1,40);
-	store_crtc(0,0); store_crtc(1,63);
-    }
-}
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: this does not work for PET 2001.  */
@@ -1910,7 +1875,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 static const char module_ram_name[] = "PETMEM";
 #define	PETMEM_DUMP_VER_MAJOR	1
-#define	PETMEM_DUMP_VER_MINOR	1
+#define	PETMEM_DUMP_VER_MINOR	2
 
 /*
  * UBYTE 	CONFIG		Bits 0-3: 0 = 40 col PET without CRTC
@@ -1946,6 +1911,9 @@ static const char module_ram_name[] = "PETMEM";
  * BYTE		POSITIONAL	bit 0=0 = symbolic keyboard mapping
  *				     =1 = positional keyboard mapping
  *
+ *				Added in format V1.2
+ * BYTE		EOIBLANK	bit 0=0: EOI does not blank screen
+ *				     =1: EOI does blank screen
  */
 
 static int mem_write_ram_snapshot_module(snapshot_t *p)
@@ -2010,6 +1978,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     }
 
     snapshot_module_write_byte(m, kbdindex & 1);
+    snapshot_module_write_byte(m, petres.eoiblank ? 1 : 0);
 
     snapshot_module_close(m);
 
@@ -2021,7 +1990,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
-    PetInfo peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+    PetInfo peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         		NULL, NULL, NULL, NULL, NULL, NULL };
 
     m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
@@ -2111,6 +2080,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         resources_set_value("KeymapIndex",
                        (resource_value_t) ((kindex & ~1) | (byte & 1)));
 
+    }
+    if(vminor > 1) {
+        snapshot_module_read_byte(m, &byte);
+        resources_set_value("EoiBlank",
+                       (resource_value_t) (byte & 1));
     }
 
     snapshot_module_close(m);
@@ -2336,51 +2310,51 @@ static struct {
     PetInfo info;
 } pet_table[] = {
     {"2001",
-      {8, 0x0800, 0, 40, 0, 0, 1, 1, 1, 0,
+      {8, 0x0800, 0, 40, 0, 0, 1, 1, 1, 1, 0,
         PET_CHARGEN_NAME, PET_KERNAL1NAME, PET_EDITOR1G40NAME, PET_BASIC1NAME,
 	NULL, NULL, NULL}},
     {"3008",
-      {8, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0,
+      {8, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME, 
 	NULL, NULL, NULL}},
     {"3016",
-      {16, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0,
+      {16, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
 	NULL, NULL, NULL}},
     {"3032",
-      {32, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0,
+      {32, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
 	NULL, NULL, NULL}},
     {"3032B",
-      {32, 0x0800, 0, 40, 0, 0, 0, 0, 0, 0,
+      {32, 0x0800, 0, 40, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2B40NAME, PET_BASIC2NAME,
         NULL, NULL, NULL}},
     {"4016",
-      {16, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0,
+      {16, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
 	NULL, NULL, NULL}},
     {"4032",
-      {32, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0,
+      {32, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
 	NULL, NULL, NULL}},
     {"4032B",
-      {32, 0x0800, 1, 40, 0, 0, 0, 0, 0, 0,
+      {32, 0x0800, 1, 40, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B40NAME, PET_BASIC4NAME,
         NULL, NULL, NULL}},
     {"8032",
-      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL}},
     {"8096",
-      {96, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
+      {96, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL}},
     {"8296",
-      {128, 0x0100, 1, 80, 0, 0, 0, 0, 0, 0,
+      {128, 0x0100, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL}},
     {"SuperPET",
-      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 1,
+      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL}},
     {NULL}
@@ -2402,6 +2376,8 @@ int pet_set_conf_info(PetInfo *pi)
                        (resource_value_t) pi->mem9);
     resources_set_value("RamA",
                        (resource_value_t) pi->memA);
+    resources_set_value("EoiBlank",
+                       (resource_value_t) pi->eoiblank);
     resources_set_value("SuperPET",
                        (resource_value_t) pi->superpet);
 

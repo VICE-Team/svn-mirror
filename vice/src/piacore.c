@@ -237,7 +237,7 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
 			| (mypia.port_b & mypia.ddr_b);
 	    return pia_last_read;
 	}
-	pia_last_read = (mypia.ddr_a);
+	pia_last_read = (mypia.ddr_b);
 	return pia_last_read;
 	break;
 

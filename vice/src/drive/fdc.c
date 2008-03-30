@@ -74,6 +74,7 @@ typedef struct fdc_t {
     CLOCK	alarm_clk;
     BYTE 	*buffer;
     BYTE 	*iprom;
+    int		drive_type;
     int	last_track;
     int	last_sector;
     disk_image_t *image;
@@ -81,18 +82,25 @@ typedef struct fdc_t {
 	
 static fdc_t fdc[NUM_FDC];
 
-void fdc_reset(int fnum, int enabled)
+void fdc_reset(int fnum, int drive_type)
 {
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_reset: enabled=%d\n",enabled);
 #endif
 
-    if (enabled) {
+    switch (drive_type) {
+    case DRIVE_TYPE_1001:
+    case DRIVE_TYPE_8050:
+    case DRIVE_TYPE_8250:
+	fdc[fnum].drive_type = drive_type;
 	fdc[fnum].fdc_state = FDC_RESET0;
 	alarm_set(&fdc[fnum].fdc_alarm, drive_clk[fnum] + 20);
-    } else {
+	break;
+    default:
+	fdc[fnum].drive_type = DRIVE_TYPE_NONE;
 	alarm_unset(&fdc[fnum].fdc_alarm);
 	fdc[fnum].fdc_state = FDC_UNUSED;
+	break;
     }
 }
 
@@ -336,9 +344,12 @@ static int int_fdc(int fnum, long offset)
 	if (fdc[fnum].buffer[0] == 0) {
 	    /* emulate routine written to buffer RAM */
 	    fdc[fnum].buffer[1] = 0x0e;
-	    fdc[fnum].buffer[2] = 0x2d;
-	    fdc[fnum].buffer[0xac] = 2;	/* number of sides on disk drive */
-	    fdc[fnum].buffer[0xea] = 1;	/* 0 = 4040 (2A), 1 = 8x80 (2C) drive type */
+	    fdc[fnum].buffer[2] = 0x2d;	
+	    /* number of sides on disk drive */
+	    fdc[fnum].buffer[0xac] = 
+		(fdc[fnum].drive_type == DRIVE_TYPE_8050) ? 1 : 2;
+	    /* 0 = 4040 (2A), 1 = 8x80 (2C) drive type */
+	    fdc[fnum].buffer[0xea] = 1;	
 	    fdc[fnum].buffer[0xee] = 5;	/* 3 for 4040, 5 for 8x50 */
 	    fdc[fnum].buffer[0] = 3;	/* 5 for 4040, 3 for 8x50 */
 	    fdc[fnum].fdc_state = FDC_RUN;
