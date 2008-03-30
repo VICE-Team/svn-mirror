@@ -3,8 +3,6 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
- *
- * Patch by
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -69,33 +67,13 @@
                                    port register. Side-effects beware! */
 /*#define MYVIA_NEED_LATCHING */
 
-#ifdef VIA_SHARED_CODE
 #define VIA_CONTEXT_PARAM       via_context_t *via_context,
 #define VIA_CONTEXT_PARVOID     via_context_t *via_context
 #define VIA_CONTEXT_CALL        via_context,
 #define VIA_CONTEXT_CALLVOID    via_context
 #define VIARPARM1               REGPARM2
 #define VIARPARM2               REGPARM3
-#else
-#define VIA_CONTEXT_PARAM
-#define VIA_CONTEXT_PARVOID     void
-#define VIA_CONTEXT_CALL
-#define VIA_CONTEXT_CALLVOID
-#define VIARPARM1               REGPARM1
-#define VIARPARM2               REGPARM2
-/*
- * local variables
- */
-static CLOCK via_read_clk = 0;
-static int via_read_offset = 0;
-static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
-#endif
 
-#ifndef VIA_SHARED_CODE
-static alarm_t *myvia_t1_alarm;
-static alarm_t *myvia_t2_alarm;
-static unsigned int myvia_int_num;
-#endif
 
 /*
  * local prototypes
