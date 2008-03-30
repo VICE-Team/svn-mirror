@@ -184,9 +184,9 @@ int machine_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* provide the 50(?)Hz IRQ signal for the standard IRQ */
 
-#define SIGNAL_VERT_BLANK_OFF   tpi1_set_int(0, 1);
+#define SIGNAL_VERT_BLANK_OFF   tpi1_set_int(&(machine_context.tpi1), 0, 1);
 
-#define SIGNAL_VERT_BLANK_ON    tpi1_set_int(0, 0);
+#define SIGNAL_VERT_BLANK_ON    tpi1_set_int(&(machine_context.tpi1), 0, 0);
 
 /* ------------------------------------------------------------------------- */
 /* for the C500 there is a powerline IRQ... */
@@ -240,6 +240,8 @@ static void cbm2_monitor_init(void)
 void machine_setup_context(void)
 {
     cia1_setup_context(&machine_context);
+    tpi1_setup_context(&machine_context);
+    tpi2_setup_context(&machine_context);
 }
 
 /* CBM-II-specific initialization.  */
@@ -297,8 +299,8 @@ int machine_init(void)
     ciat_init_table();
     cia1_init(&(machine_context.cia1));
     acia1_init();
-    tpi1_init();
-    tpi2_init();
+    tpi1_init(&(machine_context.tpi1));
+    tpi2_init(&(machine_context.tpi2));
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
@@ -340,8 +342,8 @@ void machine_specific_reset(void)
 
     acia1_reset();
     ciacore_reset(&(machine_context.cia1));
-    tpi1_reset();
-    tpi2_reset();
+    tpi1_reset(&(machine_context.tpi1));
+    tpi2_reset(&(machine_context.tpi2));
 
     sid_reset();
 
