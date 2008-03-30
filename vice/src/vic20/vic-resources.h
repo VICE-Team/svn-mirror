@@ -2,7 +2,6 @@
  * vic-resources.h - Resource handling for the VIC-I emulation.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -28,22 +27,14 @@
 #ifndef _VIC_RESOURCES_H
 #define _VIC_RESOURCES_H
 
-#include "vice.h"
-
+#if 0
 struct vic_resources_s
 {
-#ifdef USE_XF86_EXTENSIONS
-    /* Flag: Do we use double size?  */
-    int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    int fullscreen_double_scan_enabled;
-#endif
 };
 typedef struct vic_resources_s vic_resources_t;
 
 extern vic_resources_t vic_resources;
-
+#endif
 
 extern int vic_resources_init(void);
 

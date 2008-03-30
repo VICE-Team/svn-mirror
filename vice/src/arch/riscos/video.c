@@ -86,6 +86,7 @@ static char LastStatusLine[STATUS_LINE_SIZE];
 static char CurrentDriveImage[64] = "";
 static int ActualPALDepth = 0;
 
+static const int FullBackColour   = 0x00000010;
 static const int StatusBackColour = 0xcccccc10;
 static const int StatusForeColour = 0x22222210;
 /* Sizes in pixels */
@@ -873,8 +874,8 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   video_canvas_render(canvas, fb->paldata, w, h,
                     vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitcht, ActualPALDepth);
 
-  px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
-  py = vrd->ge.y - ((canvas->shifty + ph) << FullScrDesc.eigy);
+  px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx) * scalex;
+  py = vrd->ge.y - ((canvas->shifty * scaley + ph) << FullScrDesc.eigy);
 
   wlsprite_plot_plot(&(fb->palplot), px, py, NULL);
 }
@@ -1306,18 +1307,18 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
     video_canvas_get_full_scale(canvas, &scalex, &scaley);
 
-    dx = (canvas->width << FullUseEigen) * scalex;
-    dy = (canvas->height << FullUseEigen) * scaley;
-    shiftx = (canvas->shiftx << FullUseEigen);
-    shifty = (canvas->shifty << FullUseEigen);
+    dx = (canvas->width << FullScrDesc.eigx) * scalex;
+    dy = (canvas->height << FullScrDesc.eigy) * scaley;
+    shiftx = (canvas->shiftx << FullScrDesc.eigx) * scalex;
+    shifty = (canvas->shifty << FullScrDesc.eigy) * scaley;
     orgx = (FullScrDesc.resx - dx)/2;
-    orgy = (FullScrDesc.resy - dy)/2 + dy;
+    orgy = (FullScrDesc.resy + dy)/2;
     vrd.ge.x = orgx + shiftx;
     vrd.ge.y = orgy + shifty;
-    clip[0] = orgx + (xi << FullUseEigen) * scalex;
-    clip[2] = clip[0] + (w << FullUseEigen) * scalex;
-    clip[1] = orgy - ((yi + h) << FullUseEigen) * scaley;
-    clip[3] = clip[1] + (h << FullUseEigen) * scaley;
+    clip[0] = orgx + (xi << FullScrDesc.eigx) * scalex;
+    clip[2] = clip[0] + (w << FullScrDesc.eigx) * scalex;
+    clip[1] = orgy - ((yi + h) << FullScrDesc.eigy) * scaley;
+    clip[3] = clip[1] + (h << FullScrDesc.eigy) * scaley;
     /*log_message(LOG_DEFAULT, "CLIP %d,%d,%d,%d", clip[0], clip[1], clip[2], clip[3]);*/
 
     if ((clip[0] >= FullScrDesc.resx) || (clip[2] < 0)) return;
@@ -1593,6 +1594,11 @@ int video_full_screen_on(int *sprites)
   FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
   SpriteArea = (sprite_area_t*)sprites;
 
+  /* clear the background */
+  ColourTrans_SetGCOL(FullBackColour, 0x100, 0);
+  OS_Plot(0x04, 0, 0);
+  OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
+
   /* Set text size */
   OS_WriteC(23); OS_WriteC(17); OS_WriteC(7); OS_WriteC(2);
   OS_WriteC(StatusCharSize); OS_WriteC(0); OS_WriteC(StatusCharSize); OS_WriteC(0);
@@ -1799,3 +1805,9 @@ void video_register_callbacks(void)
   resources_register_callback("VDCDoubleScan", callback_canvas_modified, NULL);
   resources_register_callback("ScreenSetPalette", callback_canvas_modified, NULL);
 }
+
+void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+{
+    cap_fullscreen->device_num = 0;
+}
+

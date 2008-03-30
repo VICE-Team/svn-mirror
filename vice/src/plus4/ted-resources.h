@@ -3,7 +3,6 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,22 +27,15 @@
 #ifndef _TED_RESOURCES_H
 #define _TED_RESOURCES_H
 
-#include "vice.h"
-
-/* VIC-II resources.  */
+#if 0
+/* TED resources.  */
 struct ted_resources_s
 {
-#ifdef USE_XF86_EXTENSIONS
-    /* Flag: Do we use double size?  */
-    int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    int fullscreen_double_scan_enabled;
-#endif
 };
 typedef struct ted_resources_s ted_resources_t;
 
 extern ted_resources_t ted_resources;
+#endif
 
 extern int ted_resources_init(void);
 

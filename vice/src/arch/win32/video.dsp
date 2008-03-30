@@ -102,6 +102,10 @@ SOURCE="..\..\video\render2x2pal.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\video-canvas.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\video-cmdline-options.c"
 # End Source File
 # Begin Source File

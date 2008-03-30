@@ -202,10 +202,10 @@ void video_canvas_destroy(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
-    if (canvas->videoconfig->doublesizex)
+    if (c->videoconfig->doublesizex)
         width *= 2;
 
-    if (canvas->videoconfig->doublesizey)
+    if (c->videoconfig->doublesizey)
         height *= 2;
 
 	if (c->width == width && c->height == height)
@@ -283,8 +283,7 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
 }
 
 /* ------------------------------------------------------------------------ */
-void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
-				unsigned int draw_buffer_line_size,
+void video_canvas_refresh(video_canvas_t *c,
                           	unsigned int xs, unsigned int ys,
                           	unsigned int xi, unsigned int yi,
                           	unsigned int w, unsigned int h)
@@ -295,13 +294,11 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 	ViceWindow *vw = c->vicewindow;
 
     if (c->videoconfig->doublesizex) {
-        xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
     if (c->videoconfig->doublesizey) {
-        ys *= 2;
         yi *= 2;
         h *= 2;
     }
@@ -320,8 +317,9 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           c->depth);
 
 		c->vicewindow->DrawBitmap(c->vicewindow->bitmap,xi,yi,xi,yi,w,h);
+
 	} else {
-	
+
 		vw->locker->Lock();
 		if (vw->fconnected)
 		{
@@ -334,17 +332,26 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 
 			for (i = 0; i < vw->fcliplist_count; i++)
 			{
+				int clip_left;
+				int clip_top;
+				
 				clip = &(vw->fclip_list[i]);
 
 				hh = h;	ww = w;
 				xxi = xi; yyi = yi;	xxs = xs; yys = ys;
+				
+				clip_left = clip->left - xxi - x_offset;
+				clip_top = clip->top - yyi - y_offset;
 
 				/* cut left */
-				if (clip->left > xxi + x_offset)
+				if (clip_left > 0)
 				{
-					xxs = xxs + clip->left - xxi - x_offset;
-					ww = ww - clip->left + xxi + x_offset;
-					xxi = clip->left - x_offset;
+					xxs = xxs + clip_left 
+						/ (c->videoconfig->doublesizex ? 2 : 1);
+					ww = ww - clip_left 
+						+ clip_left % (c->videoconfig->doublesizex ? 2 : 1);
+					xxi = xxi + clip_left
+						- clip_left % (c->videoconfig->doublesizex ? 2 : 1);
 				}
 
 				/* cut right */
@@ -354,11 +361,14 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 				}
 			
 				/* cut top */
-				if (clip->top > yyi + y_offset)
+				if (clip_top > 0)
 				{
-					yys = yys + clip->top - yyi - y_offset;
-					hh = hh - clip->top + yyi + y_offset;
-					yyi = clip->top - y_offset;
+					yys = yys + clip_top
+						/ (c->videoconfig->doublesizey ? 2 : 1);
+					hh = hh - clip_top
+						+ clip_top % (c->videoconfig->doublesizey ? 2 : 1);
+					yyi = yyi + clip_top
+						- clip_top % (c->videoconfig->doublesizey ? 2 : 1);
 				}
 
 				/* cut bottom */
@@ -366,7 +376,7 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 				{
 					hh = clip->bottom + 1 - yyi - y_offset;
 				}
-		
+
 				if (ww > 0 && hh > 0)
 					video_canvas_render(c,
                           p,
@@ -381,3 +391,9 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 		vw->locker->Unlock();			
 	}
 }
+
+void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
+{
+    cap_fullscreen->device_num = 0;
+}
+
