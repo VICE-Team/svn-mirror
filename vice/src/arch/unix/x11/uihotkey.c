@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "uihotkey.h"
+#include "uimenu.h"
 #include "utils.h"
 
 typedef struct {
@@ -57,9 +58,8 @@ int ui_hotkey_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-void ui_hotkey_register(ui_hotkey_modifier_t modifier,
-                        ui_keysym_t keysym, ui_callback_t callback,
-                        ui_callback_data_t client_data)
+void ui_hotkey_register(ui_hotkey_modifier_t modifier, signed long keysym,
+                        void *callback, void *client_data)
 {
     registered_hotkey_t *p;
 
@@ -72,15 +72,15 @@ void ui_hotkey_register(ui_hotkey_modifier_t modifier,
         num_allocated_hotkeys *= 2;
         registered_hotkeys = xrealloc(registered_hotkeys,
                                       (num_allocated_hotkeys
-                                       * sizeof(registered_hotkey_t)));
+                                      * sizeof(registered_hotkey_t)));
     }
 
     p = registered_hotkeys + num_registered_hotkeys;
 
     p->modifier = modifier;
-    p->keysym = keysym;
-    p->callback = callback;
-    p->client_data = client_data;
+    p->keysym = (ui_keysym_t)keysym;
+    p->callback = (ui_callback_t)callback;
+    p->client_data = (ui_callback_data_t)client_data;
 
     num_registered_hotkeys++;
 }

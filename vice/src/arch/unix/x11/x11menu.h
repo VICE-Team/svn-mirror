@@ -28,8 +28,15 @@
 #ifndef _X11MENU_H
 #define _X11MENU_H
 
-#include "ui.h"
+#include "vice.h"
+
 #include "uihotkey.h"
+
+#ifdef USE_GNOMEUI
+#include "gnome/uiarch.h"
+#else
+#include "xaw/uiarch.h"
+#endif
 
 typedef struct ui_menu_entry_s {
     char *string;

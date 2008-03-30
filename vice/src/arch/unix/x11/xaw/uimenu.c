@@ -44,10 +44,12 @@
 #include "fullscreen.h"
 #include "machine.h"
 #include "resources.h"
+#include "uiarch.h"
 #include "uimenu.h"
 #include "utils.h"
 #include "vsync.h"
 #include "x11menu.h"
+
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -359,9 +361,9 @@ Widget ui_menu_create(const char *menu_name, ...)
                 if (list[i].hotkey_keysym != (KeySym) 0
                     && list[i].callback != NULL)
                     ui_hotkey_register(list[i].hotkey_modifier,
-                                       list[i].hotkey_keysym,
-                                       list[i].callback,
-                                       list[i].callback_data);
+                                       (signed long)list[i].hotkey_keysym,
+                                       (ui_callback_t)list[i].callback,
+                                       (ui_callback_data_t)list[i].callback_data);
             }
         }
     }

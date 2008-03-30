@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ui.h"
 #include "utils.h"
 #include "x11menu.h"
 

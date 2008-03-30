@@ -28,14 +28,14 @@
 #ifndef _UIARCH_XAW_H
 #define _UIARCH_XAW_H
 
+#include "vice.h"
+
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 #include <X11/keysym.h>
 
-#include "vice.h"
-
 #include "types.h"
-#include "uiapi.h"
+
 
 /* If this is #defined, `Mode_switch' is handled the same as `Meta'.  */
 /* #define MODE_SWITCH_AS_META */
@@ -70,5 +70,5 @@ extern void ui_popdown(Widget w);
 extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 extern void ui_about (Widget w, ui_callback_data_t cd, ui_callback_data_t cl);
 
-#endif /* !defined (_UIARCH_XAW_H) */
+#endif
 
