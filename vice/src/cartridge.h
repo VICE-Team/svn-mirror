@@ -46,7 +46,7 @@ extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
 
 /* Known cartridge types.  */
-
+#define CARTRIDGE_ATOMIC_POWER      -9
 #define CARTRIDGE_ULTIMAX           -6
 #define CARTRIDGE_SUPER_SNAPSHOT    -4
 #define CARTRIDGE_GENERIC_8KB       -3
