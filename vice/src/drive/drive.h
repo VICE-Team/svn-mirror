@@ -257,6 +257,14 @@ typedef struct drive_s {
 
     /* Pointer to the gcr image.  */
     gcr_t *gcr;
+
+    /* Pointer to 8KB RAM expansion.  */
+    BYTE *drive_ram_expand2, *drive_ram_expand4, *drive_ram_expand6,
+         *drive_ram_expand8, *drive_ram_expanda;
+
+    /* Which RAM expansion is enabled?  */
+    int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
+        drive_ram8_enabled, drive_rama_enabled;
 } drive_t;
 
 extern drive_t drive[2];
@@ -285,7 +293,6 @@ extern int rom1581_loaded;
 extern int rom2031_loaded;
 extern int rom1001_loaded;
 
-extern int drive_init_cmdline_options(void);
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern int drive_enable(int dnr);
 extern void drive_disable(int dnr);
@@ -325,8 +332,6 @@ extern int drive_load_1001(void);
 extern void drive_set_sync_factor(unsigned int factor);
 extern void drive_set_ntsc_sync_factor(void);
 extern void drive_set_pal_sync_factor(void);
-
-extern BYTE drive_rom[DRIVE_ROM_SIZE];
 
 extern void drive0_parallel_set_atn(int);
 extern void drive1_parallel_set_atn(int);

@@ -36,6 +36,7 @@
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
+#include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-snapshot.h"
 #include "drive.h"

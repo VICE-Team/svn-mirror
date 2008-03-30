@@ -50,7 +50,6 @@
 #include "attach.h"
 #include "ciad.h"
 #include "clkguard.h"
-#include "cmdline.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -94,74 +93,6 @@ int rom_loaded = 0;
 
 /* If nonzero, we are far enough in init that we can load ROMs */
 static int drive_rom_load_ok = 0;
-
-/* ------------------------------------------------------------------------- */
-
-static cmdline_option_t cmdline_options[] = {
-    { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
-      (resource_value_t) 1,
-      NULL, "Enable hardware-level emulation of disk drives" },
-    { "+truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
-      (resource_value_t) 0,
-      NULL, "Disable hardware-level emulation of disk drives" },
-    { "-drive8type", SET_RESOURCE, 1, NULL, NULL, "Drive8Type",
-      (resource_value_t) DRIVE_TYPE_1541, "<type>",
-      "Set drive type (0: no drive)" },
-    { "-drive9type", SET_RESOURCE, 1, NULL, NULL, "Drive9Type",
-      (resource_value_t) DRIVE_TYPE_NONE, "<type>",
-      "Set drive type (0: no drive)" },
-    { "-parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
-      (resource_value_t) 1,
-      NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
-      (resource_value_t) 0,
-      NULL, "Disable SpeedDOS-compatible parallel cable" },
-    { "-parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
-      (resource_value_t) 1,
-      NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
-      (resource_value_t) 0,
-      NULL, "Disable SpeedDOS-compatible parallel cable" },
-    { "-drive8idle", SET_RESOURCE, 1, NULL, NULL, "Drive8IdleMethod",
-      (resource_value_t) DRIVE_IDLE_TRAP_IDLE, "<method>",
-      "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
-    { "-drive9idle", SET_RESOURCE, 1, NULL, NULL, "Drive9IdleMethod",
-      (resource_value_t) DRIVE_IDLE_TRAP_IDLE, "<method>",
-      "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
-    { "-drive8extend", SET_RESOURCE, 1, NULL, NULL, "Drive8ExtendImagePolicy",
-      (resource_value_t) DRIVE_EXTEND_NEVER, "<method>",
-      "Set drive 8 40 track extension policy (0: never, 1: ask, 2: on access)"},
-    { "-drive9extend", SET_RESOURCE, 1, NULL, NULL, "Drive9ExtendImagePolicy",
-      (resource_value_t) DRIVE_EXTEND_NEVER, "<method>",
-      "Set drive 9 40 track extension policy (0: never, 1: ask, 2: on access)"},
-    { "-pal", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t) DRIVE_SYNC_PAL,
-      NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t) DRIVE_SYNC_NTSC,
-      NULL, "Use NTSC sync factor" },
-    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
-      (resource_value_t) DRIVE_SYNC_NTSCOLD,
-      NULL, "Use sync factor" },
-    { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
-      "<name>", "Specify name of 1541 DOS ROM image name" },
-    { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
-      "<name>", "Specify name of 1541-II DOS ROM image name" },
-    { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
-      "<name>", "Specify name of 1571 DOS ROM image name" },
-    { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",
-      "<name>", "Specify name of 1581 DOS ROM image name" },
-    { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
-      "<name>", "Specify name of 2031 DOS ROM image name" },
-    { "-dos1001", SET_RESOURCE, 1, NULL, NULL, "DosName1001", "dos1001",
-      "<name>", "Specify name of 1001/8050/8250 DOS ROM image name" },
-    { NULL }
-};
-
-int drive_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
 
 /* ------------------------------------------------------------------------- */
 

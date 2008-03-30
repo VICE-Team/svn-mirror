@@ -44,6 +44,7 @@
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "datasette.h"
+#include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive-snapshot.h"
 #include "drive.h"

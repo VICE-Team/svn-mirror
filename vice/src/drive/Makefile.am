@@ -10,6 +10,8 @@ libdrive_a_SOURCES = \
 	ciad.h \
 	cia1571d.c \
 	cia1581d.c \
+	drive-cmdline-options.c \
+	drive-cmdline-options.h \
 	drive-resources.c \
 	drive-resources.h \
 	drive-snapshot.c \
