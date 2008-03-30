@@ -33,7 +33,7 @@ struct drive_s;
 
 extern void rotation_init(int freq, unsigned int dnr);
 extern void rotation_init_table(int freq, unsigned int dnr);
-extern void rotation_reset(unsigned int dnr);
+extern void rotation_reset(struct drive_s *drive);
 extern void rotation_speed_zone_set(unsigned int zone, unsigned int dnr);
 extern void rotation_table_get(DWORD *rotation_table_ptr);
 extern void rotation_table_set(DWORD *rotation_table_ptr);

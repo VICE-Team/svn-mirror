@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+struct drive_s;
+
 #define DRIVE_ROM1541_SIZE            0x4000
 #define DRIVE_ROM1541_SIZE_EXPANDED   0x8000
 #define DRIVE_ROM1541II_SIZE          0x4000
@@ -43,7 +45,7 @@
 #define DRIVE_ROM4040_SIZE            0x3000
 
 extern void drive_rom_init(void);
-extern void drive_rom_initialize_traps(unsigned int dnr);
+extern void drive_rom_initialize_traps(struct drive_s *drive);
 extern int drive_rom_load_images(void);
 
 extern int drive_rom_load_ok;

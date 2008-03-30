@@ -53,17 +53,19 @@ static void drive_sync_cpu_set_factor(drive_context_t *drv,
 
 void drive_sync_factor(struct drive_context_s *drv)
 {
-    drive_sync_cpu_set_factor(drv, drive[drv->mynumber].clock_frequency
+    drive_sync_cpu_set_factor(drv, drv->drive->clock_frequency
                               * sync_factor);
 }
 
 void drive_set_machine_parameter(long cycles_per_sec)
 {
+    unsigned int dnr;
+
     sync_factor = (unsigned int)floor(65536.0 * (1000000.0
                   / ((double)cycles_per_sec)));
 
-    drive_sync_factor(&drive0_context);
-    drive_sync_factor(&drive1_context);
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        drive_sync_factor(drive_context[dnr]);
 }
 
 void drive_sync_set_1571(int new_sync, struct drive_context_s *drv)
@@ -73,15 +75,15 @@ void drive_sync_set_1571(int new_sync, struct drive_context_s *drv)
     dnr = drv->mynumber;
 
     if (rom_loaded) {
-        if (drive[dnr].byte_ready_active == 0x06)
-            rotation_rotate_disk(&drive[dnr]);
+        if (drv->drive->byte_ready_active == 0x06)
+            rotation_rotate_disk(drv->drive);
         rotation_init(new_sync ? 1 : 0, dnr);
-        drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
+        drv->drive->clock_frequency = (new_sync) ? 2 : 1;
         drive_sync_factor(drv);
     }
 }
 
-void drive_sync_clock_frequency(unsigned int type, unsigned int dnr)
+void drive_sync_clock_frequency(unsigned int type, drive_t *drive)
 {
     switch (type) {
       case DRIVE_TYPE_1541:
@@ -89,11 +91,11 @@ void drive_sync_clock_frequency(unsigned int type, unsigned int dnr)
       case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
-        drive[dnr].clock_frequency = 1;
+        drive->clock_frequency = 1;
         break;
       case DRIVE_TYPE_1551:
       case DRIVE_TYPE_1581:
-        drive[dnr].clock_frequency = 2;
+        drive->clock_frequency = 2;
         break;
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_2040:
@@ -102,10 +104,10 @@ void drive_sync_clock_frequency(unsigned int type, unsigned int dnr)
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
-        drive[dnr].clock_frequency = 1;
+        drive->clock_frequency = 1;
         break;
       default:
-        drive[dnr].clock_frequency = 1;
+        drive->clock_frequency = 1;
     }
 }
 

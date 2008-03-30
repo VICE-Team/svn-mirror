@@ -194,22 +194,22 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
 /* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
    We should use tables like in maincpu instead (AF) */
-#define JUMP(addr)                                           \
-    do {                                                     \
-        reg_pc = (addr);                                     \
-        if (drv->drive_ptr->type == 1001) {                  \
-            cpu->d_bank_base = NULL;                         \
-            cpu->d_bank_limit = -1;                          \
-        } else if (reg_pc < 0x2000) {                        \
-            cpu->d_bank_base = drv->cpud->drive_ram;         \
-            cpu->d_bank_limit = 0x07fd;                      \
-        } else if (reg_pc >= drv->drive_ptr->rom_start) {    \
-            cpu->d_bank_base = drv->drive_ptr->rom - 0x8000; \
-            cpu->d_bank_limit = 0xfffd;                      \
-        } else {                                             \
-            cpu->d_bank_base = NULL;                         \
-            cpu->d_bank_limit = -1;                          \
-        }                                                    \
+#define JUMP(addr)                                       \
+    do {                                                 \
+        reg_pc = (addr);                                 \
+        if (drv->drive->type == 1001) {                  \
+            cpu->d_bank_base = NULL;                     \
+            cpu->d_bank_limit = -1;                      \
+        } else if (reg_pc < 0x2000) {                    \
+            cpu->d_bank_base = drv->cpud->drive_ram;     \
+            cpu->d_bank_limit = 0x07fd;                  \
+        } else if (reg_pc >= drv->drive->rom_start) {    \
+            cpu->d_bank_base = drv->drive->rom - 0x8000; \
+            cpu->d_bank_limit = 0xfffd;                  \
+        } else {                                         \
+            cpu->d_bank_base = NULL;                     \
+            cpu->d_bank_limit = -1;                      \
+        }                                                \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -253,12 +253,12 @@ static void cpu_reset(drive_context_t *drv)
 
     preserve_monitor = drv->cpu->int_status->global_pending_int & IK_MONITOR;
 
-    log_message(drv->drive_ptr->log, "RESET.");
+    log_message(drv->drive->log, "RESET.");
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 
     *(drv->clk_ptr) = 6;
-    rotation_reset(drv->mynumber);
+    rotation_reset(drv->drive);
     machine_drive_reset(drv);
 
     if (preserve_monitor)
@@ -351,7 +351,7 @@ inline void drive_cpu_wake_up(drive_context_t *drv)
        others.  Maybe we should put it into a user-definable resource.  */
     if (maincpu_clk - drv->cpu->last_clk > 0xffffff
         && *(drv->clk_ptr) > 934639) {
-        log_message(drv->drive_ptr->log, "Skipping cycles.");
+        log_message(drv->drive->log, "Skipping cycles.");
         drv->cpu->last_clk = maincpu_clk;
     }
 }
@@ -368,7 +368,7 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
            `clk' has already been decremented at this point.  */
-        if (drv->drive_ptr->enable) {
+        if (drv->drive->enable) {
             if (drv->cpu->last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 drivecpu_execute_all(maincpu_clk + sub);
@@ -389,7 +389,7 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
     if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == 0xec9b) {
         /* Idle loop */
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), 0xebff);
-        if (drv->drive_ptr->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+        if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
@@ -535,16 +535,16 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define DMA_ON_RESET
 
-#define _drive_byte_ready_egde_clear()                \
-    do {                                              \
-        if (drv->drive_ptr->byte_ready_active == 0x6) \
-            rotation_rotate_disk(drv->drive_ptr);     \
-        drv->drive_ptr->byte_ready_edge = 0;          \
+#define _drive_byte_ready_egde_clear()            \
+    do {                                          \
+        if (drv->drive->byte_ready_active == 0x6) \
+            rotation_rotate_disk(drv->drive);     \
+        drv->drive->byte_ready_edge = 0;          \
     } while (0)
 
-#define _drive_byte_ready() ((drv->drive_ptr->byte_ready_active == 0x6) \
-                                ? rotation_rotate_disk(drv->drive_ptr), \
-                                drv->drive_ptr->byte_ready_edge : 0)    \
+#define _drive_byte_ready() ((drv->drive->byte_ready_active == 0x6) \
+                                ? rotation_rotate_disk(drv->drive), \
+                                drv->drive->byte_ready_edge : 0)    \
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (cpu->d_bank_limit)
@@ -563,10 +563,12 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 void drivecpu_execute_all(CLOCK clk_value)
 {
-    if (drive[0].enable)
-        drivecpu_execute(&drive0_context, clk_value);
-    if (drive[1].enable)
-        drivecpu_execute(&drive1_context, clk_value);
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if (drive_context[dnr]->drive->enable)
+            drivecpu_execute(drive_context[dnr], clk_value);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -589,7 +591,7 @@ static void drive_jam(drive_context_t *drv)
 
     cpu = drv->cpu;
 
-    switch(drv->drive_ptr->type) {
+    switch(drv->drive->type) {
       case DRIVE_TYPE_1541:
         dname = "  1541";
         break;
@@ -690,22 +692,22 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
     if (interrupt_write_snapshot(cpu->int_status, m) < 0)
         goto fail;
 
-    if (drv->drive_ptr->type == DRIVE_TYPE_1541
-        || drv->drive_ptr->type == DRIVE_TYPE_1541II
-        || drv->drive_ptr->type == DRIVE_TYPE_1551
-        || drv->drive_ptr->type == DRIVE_TYPE_1570
-        || drv->drive_ptr->type == DRIVE_TYPE_1571
-        || drv->drive_ptr->type == DRIVE_TYPE_1571CR
-        || drv->drive_ptr->type == DRIVE_TYPE_2031) {
+    if (drv->drive->type == DRIVE_TYPE_1541
+        || drv->drive->type == DRIVE_TYPE_1541II
+        || drv->drive->type == DRIVE_TYPE_1551
+        || drv->drive->type == DRIVE_TYPE_1570
+        || drv->drive->type == DRIVE_TYPE_1571
+        || drv->drive->type == DRIVE_TYPE_1571CR
+        || drv->drive->type == DRIVE_TYPE_2031) {
         if (SMW_BA(m, drv->cpud->drive_ram, 0x800) < 0)
             goto fail;
     }
 
-    if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
+    if (drv->drive->type == DRIVE_TYPE_1581) {
         if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
-    if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
+    if (DRIVE_IS_OLDTYPE(drv->drive->type)) {
         if (SMW_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }
@@ -761,7 +763,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     MOS6510_REGS_SET_PC(&(cpu->cpu_regs), pc);
     MOS6510_REGS_SET_STATUS(&(cpu->cpu_regs), status);
 
-    log_message(drv->drive_ptr->log, "RESET (For undump).");
+    log_message(drv->drive->log, "RESET (For undump).");
 
     interrupt_cpu_status_reset(cpu->int_status);
 
@@ -770,23 +772,23 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     if (interrupt_read_snapshot(cpu->int_status, m) < 0)
         goto fail;
 
-    if (drv->drive_ptr->type == DRIVE_TYPE_1541
-        || drv->drive_ptr->type == DRIVE_TYPE_1541II
-        || drv->drive_ptr->type == DRIVE_TYPE_1551
-        || drv->drive_ptr->type == DRIVE_TYPE_1570
-        || drv->drive_ptr->type == DRIVE_TYPE_1571
-        || drv->drive_ptr->type == DRIVE_TYPE_1571CR
-        || drv->drive_ptr->type == DRIVE_TYPE_2031) {
+    if (drv->drive->type == DRIVE_TYPE_1541
+        || drv->drive->type == DRIVE_TYPE_1541II
+        || drv->drive->type == DRIVE_TYPE_1551
+        || drv->drive->type == DRIVE_TYPE_1570
+        || drv->drive->type == DRIVE_TYPE_1571
+        || drv->drive->type == DRIVE_TYPE_1571CR
+        || drv->drive->type == DRIVE_TYPE_2031) {
         if (SMR_BA(m, drv->cpud->drive_ram, 0x800) < 0)
             goto fail;
     }
 
-    if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
+    if (drv->drive->type == DRIVE_TYPE_1581) {
         if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
 
-    if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
+    if (DRIVE_IS_OLDTYPE(drv->drive->type)) {
         if (SMR_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }

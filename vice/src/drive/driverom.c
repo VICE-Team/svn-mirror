@@ -61,39 +61,39 @@ int drive_rom_load_images(void)
     return 0;
 }
 
-void drive_rom_initialize_traps(unsigned int dnr)
+void drive_rom_initialize_traps(drive_t *drive)
 {
-    if (drive[dnr].type == DRIVE_TYPE_1541) {
+    if (drive->type == DRIVE_TYPE_1541) {
         /* Save the ROM check.  */
-        drive[dnr].rom_checksum[0] = drive[dnr].rom[0xeae4 - 0x8000];
-        drive[dnr].rom_checksum[1] = drive[dnr].rom[0xeae5 - 0x8000];
-        drive[dnr].rom_checksum[2] = drive[dnr].rom[0xeae8 - 0x8000];
-        drive[dnr].rom_checksum[3] = drive[dnr].rom[0xeae9 - 0x8000];
+        drive->rom_checksum[0] = drive->rom[0xeae4 - 0x8000];
+        drive->rom_checksum[1] = drive->rom[0xeae5 - 0x8000];
+        drive->rom_checksum[2] = drive->rom[0xeae8 - 0x8000];
+        drive->rom_checksum[3] = drive->rom[0xeae9 - 0x8000];
         /* Save the idle trap.  */
-        drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
+        drive->rom_idle_trap = drive->rom[0xec9b - 0x8000];
 
-        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
-            drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
-            drive[dnr].rom[0xec9b - 0x8000] = 0x00;
+        if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            drive->rom[0xeae4 - 0x8000] = 0xea;
+            drive->rom[0xeae5 - 0x8000] = 0xea;
+            drive->rom[0xeae8 - 0x8000] = 0xea;
+            drive->rom[0xeae9 - 0x8000] = 0xea;
+            drive->rom[0xec9b - 0x8000] = 0x00;
         }
     }
 
-    if (drive[dnr].type == DRIVE_TYPE_1581) {
+    if (drive->type == DRIVE_TYPE_1581) {
         /* Save the ROM check.  */
-        /*drive[dnr].rom_checksum[0] = drive[dnr].rom[0xeae4 - 0x8000];
-        drive[dnr].rom_checksum[1] = drive[dnr].rom[0xeae5 - 0x8000];
-        drive[dnr].rom_checksum[2] = drive[dnr].rom[0xeae8 - 0x8000];
-        drive[dnr].rom_checksum[3] = drive[dnr].rom[0xeae9 - 0x8000];*/
+        /*drive->rom_checksum[0] = drive->rom[0xeae4 - 0x8000];
+        drive->rom_checksum[1] = drive->rom[0xeae5 - 0x8000];
+        drive->rom_checksum[2] = drive->rom[0xeae8 - 0x8000];
+        drive->rom_checksum[3] = drive->rom[0xeae9 - 0x8000];*/
         /* Save the idle trap.  */
-        /*drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];*/
-        drive[dnr].rom[0xaf6f - 0x8000] = 0x4c;
-        drive[dnr].rom[0xaf70 - 0x8000] = 0xca;
-        drive[dnr].rom[0xaf71 - 0x8000] = 0xaf;
-        /*drive[dnr].rom[0xc0be - 0x8000] = 0x00;*/
-        drive[dnr].rom[0xdaee - 0x8000] = 0x00;
+        /*drive->rom_idle_trap = drive->rom[0xec9b - 0x8000];*/
+        drive->rom[0xaf6f - 0x8000] = 0x4c;
+        drive->rom[0xaf70 - 0x8000] = 0xca;
+        drive->rom[0xaf71 - 0x8000] = 0xaf;
+        /*drive->rom[0xc0be - 0x8000] = 0x00;*/
+        drive->rom[0xdaee - 0x8000] = 0x00;
     }
 }
 
