@@ -128,7 +128,7 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
     line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
 
-    if (!kbd_buf_is_empty())
+    if (!kbdbuf_is_empty())
         return NOT_YET;
 
     if (blink_mode == AUTOSTART_WAIT_BLINK && cursor_column != 0)
@@ -258,7 +258,7 @@ static void disk_eof_callback(void)
 static void disk_attention_callback(void)
 {
     if (autostart_run_mode == AUTOSTART_MODE_RUN)
-        kbd_buf_feed("RUN:\r");
+        kbdbuf_feed("RUN:\r");
 
     machine_bus_attention_callback_set(NULL);
 
@@ -278,10 +278,10 @@ static void advance_hastape(void)
         log_message(autostart_log, "Loading file.");
         if (autostart_program_name) {
             tmp = util_concat("LOAD\"", autostart_program_name, "\"\r", NULL);
-            kbd_buf_feed(tmp);
+            kbdbuf_feed(tmp);
             lib_free(tmp);
         } else {
-            kbd_buf_feed("LOAD\r");
+            kbdbuf_feed("LOAD\r");
         }
         if (tape_tap_attched()) {
             autostartmode = AUTOSTART_PRESSPLAYONTAPE;
@@ -318,7 +318,7 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Starting program.");
-        kbd_buf_feed("RUN\r");
+        kbdbuf_feed("RUN\r");
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
@@ -362,12 +362,12 @@ static void advance_hasdisk(void)
             tmp = lib_msprintf("LOAD\"%s\",8,1\r", autostart_program_name);
         else
             tmp = lib_stralloc("LOAD\"*\",8,1\r");
-        kbd_buf_feed(tmp);
+        kbdbuf_feed(tmp);
         lib_free(tmp);
 
         if (!traps) {
             if (autostart_run_mode == AUTOSTART_MODE_RUN)
-                kbd_buf_feed("RUN\r");
+                kbdbuf_feed("RUN\r");
             autostartmode = AUTOSTART_DONE;
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;

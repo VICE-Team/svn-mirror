@@ -102,14 +102,14 @@
 
 machine_context_t machine_context;
 
-#define NUM_KEYBOARD_MAPPINGS 2
+#define NUM_KEYBOARD_MAPPINGS 3
 
 const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
-    "KeymapSymFile", "KeymapPosFile"
+    "KeymapSymFile", "KeymapSymDeFile", "KeymapPosFile"
 };
 
 char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
-    NULL, NULL
+    NULL, NULL, NULL
 };
 
 const char machine_name[] = "C64";
@@ -432,8 +432,8 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
-                 * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
+                * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {

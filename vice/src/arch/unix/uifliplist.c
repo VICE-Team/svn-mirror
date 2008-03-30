@@ -60,18 +60,18 @@ extern UI_CALLBACK(detach_disk);
 
 static UI_CALLBACK(attach_from_fliplist3)
 {
-    flip_attach_head(8, (int)UI_MENU_CB_PARAM);
+    fliplist_attach_head(8, (int)UI_MENU_CB_PARAM);
 }
 
 static UI_CALLBACK(add2fliplist)
 {
-    flip_add_image(8);
+    fliplist_add_image(8);
     uifliplist_update_menus(8, 8);
 }
 
 static UI_CALLBACK(remove_from_fliplist)
 {
-    flip_remove(8, NULL);
+    fliplist_remove(8, NULL);
     uifliplist_update_menus(8, 8);
 }
 
@@ -93,12 +93,12 @@ static UI_CALLBACK(load_save_fliplist)
     switch (button) {
       case UI_BUTTON_OK:
         if (what) {
-            if (flip_load_list((unsigned int)-1, filename, 0) == 0)
+            if (fliplist_load_list((unsigned int)-1, filename, 0) == 0)
                 ui_message(_("Successfully read `%s'."), filename);
             else
                 ui_error(_("Error reading `%s'."), filename);
         } else {
-            if (flip_save_list((unsigned int)-1, filename) == 0)
+            if (fliplist_save_list((unsigned int)-1, filename) == 0)
                 ui_message(_("Successfully wrote `%s'."), filename);
             else
                 ui_error(_("Error writing `%s'."), filename);
@@ -135,31 +135,31 @@ ui_menu_entry_t fliplist_submenu[] = {
 
 static UI_CALLBACK(attach_from_fliplist2)
 {
-    file_system_attach_disk(flip_get_unit((void *)UI_MENU_CB_PARAM),
-                            flip_get_image((void *)UI_MENU_CB_PARAM));
+    file_system_attach_disk(fliplist_get_unit((void *)UI_MENU_CB_PARAM),
+                            fliplist_get_image((void *)UI_MENU_CB_PARAM));
 }
 
 static UI_CALLBACK(remove_from_fliplist2)
 {
-    flip_remove(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    fliplist_remove(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
+                    (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
     uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
                             ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
 }
 
 static UI_CALLBACK(add2fliplist2)
 {
-    flip_set_current(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                     (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
-    flip_add_image(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
+    fliplist_set_current(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
+                         (char *) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    fliplist_add_image(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
     uifliplist_update_menus(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
                             ((struct cb_data_t *)UI_MENU_CB_PARAM)->unit);
 }
 
 static UI_CALLBACK(attach_from_fliplist)
 {
-    flip_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
-                     (int) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
+    fliplist_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
+                         (int) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
 }
 
 #ifdef USE_GNOMEUI
@@ -239,7 +239,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        util_fname_split(flip_get_next(drive + 8), &dir, &image);
+        util_fname_split(fliplist_get_next(drive + 8), &dir, &image);
         t1 = util_concat(_("Next: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t1;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
@@ -254,7 +254,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        util_fname_split(flip_get_prev(drive + 8), &dir, &image);
+        util_fname_split(fliplist_get_prev(drive + 8), &dir, &image);
         t2 = util_concat(_("Previous: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t2;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
@@ -303,18 +303,18 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         i++;
 
         /* Now collect current fliplist */
-        fl_iterator=flip_init_iterate(drive + 8);
+        fl_iterator = fliplist_init_iterate(drive + 8);
         fliplist_start = i;
         while (fl_iterator) {
             memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-            util_fname_split(flip_get_image(fl_iterator), &dir, &image);
+            util_fname_split(fliplist_get_image(fl_iterator), &dir, &image);
             flipmenu[drive][i].string = util_concat(NO_TRANS, image, NULL);
             flipmenu[drive][i].callback =
                 (ui_callback_t)attach_from_fliplist2;
             flipmenu[drive][i].callback_data =
                 (ui_callback_data_t)fl_iterator;
 
-            fl_iterator = flip_next_iterate(drive + 8);
+            fl_iterator = fliplist_next_iterate(drive + 8);
             if (dir)
                 lib_free(dir);
             if (image)

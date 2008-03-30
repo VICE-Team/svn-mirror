@@ -324,7 +324,7 @@ int machine_specific_init(void)
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
     /* moved to mem_load() because it's model specific... AF 30jun1998
-    kbd_buf_init(631, 198, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+    kbdbuf_init(631, 198, 10, PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
     */
 
     /* Initialize the PET-specific part of the UI.  */

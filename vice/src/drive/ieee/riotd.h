@@ -36,7 +36,7 @@ struct riot_context_s;
 extern void riot1_setup_context(struct drive_context_s *ctxptr);
 extern void riot2_setup_context(struct drive_context_s *ctxptr);
 
-extern void drive_riot_set_atn(struct riot_context_s *riot_context, int state);
+extern void riot2_set_atn(struct riot_context_s *riot_context, int state);
 extern void riot1_set_atn(struct riot_context_s *riot_context, BYTE state);
 
 extern void riot1_set_pardata(struct riot_context_s *riot_context);

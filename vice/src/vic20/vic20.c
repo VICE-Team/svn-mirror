@@ -368,8 +368,8 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh
-                 * machine_timing.rfsh_per_sec));
+    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh
+                * machine_timing.rfsh_per_sec));
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20ui_init();

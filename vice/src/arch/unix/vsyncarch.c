@@ -80,7 +80,7 @@ void vsyncarch_sleep(signed long delay)
 void vsyncarch_presync(void)
 {
     (*ui_dispatch_hook)();
-    kbd_buf_flush();
+    kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();
 #endif

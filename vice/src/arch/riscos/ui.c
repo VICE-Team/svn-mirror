@@ -1497,13 +1497,13 @@ static int ui_flip_attach_image_no(int number)
   void *iter;
   int i;
 
-  iter = flip_init_iterate(FlipListDrive + 8);
-  for (i=0; i<number; i++) iter = flip_next_iterate(FlipListDrive + 8);
+  iter = fliplist_init_iterate(FlipListDrive + 8);
+  for (i=0; i<number; i++) iter = fliplist_next_iterate(FlipListDrive + 8);
   if (iter != NULL)
   {
     const char *img;
 
-    img = flip_get_image(iter);
+    img = fliplist_get_image(iter);
     if (img != NULL)
       ui_new_drive_image(FlipListDrive, img, 0);
 
@@ -1873,13 +1873,13 @@ static int ui_build_fliplist_menu(int doread)
     if (MenuFlipImages != NULL) lib_free(MenuFlipImages);
     if (MenuFlipImgNames != NULL) lib_free(MenuFlipImgNames);
     MenuFlipImages = NULL; MenuFlipImgNames = NULL;
-    iter = flip_init_iterate(FlipListDrive + 8);
+    iter = fliplist_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
     {
-      img = flip_get_image(iter);
+      img = fliplist_get_image(iter);
       textsize += (strlen(archdep_extract_dir_and_leaf(img)) + 4) & ~3;
       FlipListNumber++;
-      iter = flip_next_iterate(FlipListDrive + 8);
+      iter = fliplist_next_iterate(FlipListDrive + 8);
     }
   }
   if (FlipListNumber <= 0)
@@ -1898,13 +1898,13 @@ static int ui_build_fliplist_menu(int doread)
     firstitem = (RO_MenuItem*)(MenuFlipImages + 1); item = firstitem;
     item->mflags |= MFlg_Dotted; item->mflags &= ~MFlg_LastItem;
     item++;
-    iter = flip_init_iterate(FlipListDrive + 8);
+    iter = fliplist_init_iterate(FlipListDrive + 8);
     while (iter != NULL)
     {
       const char *use;
       int len;
 
-      img = flip_get_image(iter);
+      img = fliplist_get_image(iter);
       use = archdep_extract_dir_and_leaf(img);
       len = (strlen(use) + 4) & ~3;
       strcpy(b, use);
@@ -1912,7 +1912,7 @@ static int ui_build_fliplist_menu(int doread)
       item->iflags = Menu_Flags | IFlg_Indir;
       item->dat.ind.tit = (int*)b; item->dat.ind.val = NULL; item->dat.ind.len = len;
       b += len;
-      iter = flip_next_iterate(FlipListDrive + 8);
+      iter = fliplist_next_iterate(FlipListDrive + 8);
       item++;
     }
     item[-1].mflags = MFlg_LastItem;
@@ -3815,13 +3815,13 @@ static int ui_menu_select_emuwin(int *b, int **menu)
       switch (b[1])
       {
         case Menu_Fliplist_Attach:
-          flip_add_image(FlipListDrive + 8);
+          fliplist_add_image(FlipListDrive + 8);
           ui_build_fliplist_menu(1);
           break;
         case Menu_Fliplist_Detach:
           if (DriveFile8 != NULL)
           {
-            flip_remove(FlipListDrive + 8, DriveFile8);
+            fliplist_remove(FlipListDrive + 8, DriveFile8);
             ui_build_fliplist_menu(1);
             /* don't tick an image (without attaching it) */
             wimp_menu_tick_all(MenuFlipImages, 0);
@@ -3835,7 +3835,7 @@ static int ui_menu_select_emuwin(int *b, int **menu)
           ui_flip_iterate_and_attach(-1);
           break;
         case Menu_Fliplist_Clear:
-          flip_clear_list(FlipListDrive + 8);
+          fliplist_clear_list(FlipListDrive + 8);
           ui_build_fliplist_menu(1);
           break;
         case Menu_Fliplist_Images:
@@ -4348,7 +4348,7 @@ static void ui_user_msg_data_load(int *b)
     if (b[10] == FileType_Text)
     {
       /* Fliplist file? */
-      if (flip_load_list(FlipListDrive + 8, name, 0) == 0)
+      if (fliplist_load_list(FlipListDrive + 8, name, 0) == 0)
       {
         ui_build_fliplist_menu(1);
         ui_flip_attach_image_no(0);
@@ -4583,7 +4583,7 @@ static void ui_user_msg_data_save_ack(int *b)
           }
           break;
         case SBOX_TYPE_FLIPLIST:
-          if (flip_save_list(FlipListDrive + 8, name) == 0)
+          if (fliplist_save_list(FlipListDrive + 8, name) == 0)
           {
             wimp_strcpy(ViceFliplistFile, name);
             status = 0;

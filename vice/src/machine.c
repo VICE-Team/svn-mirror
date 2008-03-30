@@ -199,14 +199,14 @@ void machine_shutdown(void)
     printer_shutdown();
     gfxoutput_shutdown();
 
-    flip_shutdown();
+    fliplist_shutdown();
     file_system_shutdown();
 
     tape_shutdown();
 
     traps_shutdown();
 
-    kbd_buf_shutdown();
+    kbdbuf_shutdown();
     keyboard_shutdown();
 
     monitor_shutdown();

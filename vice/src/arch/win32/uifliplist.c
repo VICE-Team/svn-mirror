@@ -50,7 +50,7 @@ static void uifliplist_load_dialog(HWND hwnd)
         char *name;
 
         name = system_wcstombs_alloc(st_name);
-        if (flip_load_list((unsigned int)-1, name, 0) != 0)
+        if (fliplist_load_list((unsigned int)-1, name, 0) != 0)
             ui_error("Cannot read flip list file");
         system_wcstombs_free(name);
         lib_free(st_name);
@@ -70,7 +70,7 @@ static void uifliplist_save_dialog(HWND hwnd)
 
         util_add_extension(&name, "vfl");
 
-        if (flip_save_list((unsigned int)-1, name) != 0)
+        if (fliplist_save_list((unsigned int)-1, name) != 0)
             ui_error("Cannot write flip list file");
         system_wcstombs_free(name);
         lib_free(st_name);
@@ -81,7 +81,7 @@ void uifliplist_save_settings(void)
 {
     char *fname = archdep_default_fliplist_file_name();
 
-    flip_save_list((unsigned int) -1, fname);
+    fliplist_save_list((unsigned int) -1, fname);
     lib_free(fname);
 }
 
@@ -90,19 +90,19 @@ void uifliplist_command(HWND hwnd, WPARAM wparam)
     switch (wparam) {
       case IDM_FLIP_ADD | 0x00010000:
       case IDM_FLIP_ADD:
-        flip_add_image(8);
+        fliplist_add_image(8);
         break;
       case IDM_FLIP_REMOVE | 0x00010000:
       case IDM_FLIP_REMOVE:
-        flip_remove(8, NULL);
+        fliplist_remove(8, NULL);
         break;
       case IDM_FLIP_NEXT | 0x00010000:
       case IDM_FLIP_NEXT:
-        flip_attach_head(8, 1);
+        fliplist_attach_head(8, 1);
         break;
       case IDM_FLIP_PREVIOUS | 0x00010000:
       case IDM_FLIP_PREVIOUS:
-        flip_attach_head(8, 0);
+        fliplist_attach_head(8, 0);
         break;
       case IDM_FLIP_LOAD:
         uifliplist_load_dialog(hwnd);

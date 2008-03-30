@@ -205,7 +205,7 @@ void vsyncarch_presync(void)
     mouse_update_mouse();
 
     /* Flush keypresses emulated through the keyboard buffer.  */
-    kbd_buf_flush();
+    kbdbuf_flush();
     joystick_update();
 }
 

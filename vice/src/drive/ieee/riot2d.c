@@ -109,7 +109,7 @@ static void set_handshake(riot_context_t *riot_context, BYTE pa)
         ));
 }
 
-void drive_riot_set_atn(riot_context_t *riot_context, int state)
+void riot2_set_atn(riot_context_t *riot_context, int state)
 {
     drive_context_t *drive_context;
     driveriot2_context_t *riot2p;

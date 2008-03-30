@@ -73,7 +73,7 @@ static int set_fliplist_file_name(resource_value_t v, void *param)
     if (util_string_set(&fliplist_file_name, (const char *)v))
         return 0;
 
-    flip_load_list((unsigned int)-1, fliplist_file_name, 0);
+    fliplist_load_list((unsigned int)-1, fliplist_file_name, 0);
 
     return 0;
 }
@@ -100,7 +100,7 @@ void fliplist_resources_shutdown(void)
     int i;
 
     for (i = 0; i < NUM_DRIVES; i++)
-        flip_clear_list(8 + i);
+        fliplist_clear_list(8 + i);
     lib_free(fliplist_file_name);
     lib_free(resources[0].factory_value);
 }
@@ -120,13 +120,13 @@ int fliplist_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* interface functions */
 
-void flip_shutdown(void)
+void fliplist_shutdown(void)
 {
     if (current_image != NULL)
         lib_free(current_image);
 }
 
-void flip_set_current(unsigned int unit, const char *filename)
+void fliplist_set_current(unsigned int unit, const char *filename)
 {
     if (current_image != NULL)
         lib_free(current_image);
@@ -134,38 +134,40 @@ void flip_set_current(unsigned int unit, const char *filename)
     current_drive = unit;
 }
 
-char *flip_get_head(unsigned int unit)
+#if 0
+char *fliplist_get_head(unsigned int unit)
 {
     if (fliplist[unit - 8])
         return fliplist[unit - 8]->image;
     return (char *) NULL;
 }
+#endif
 
-char *flip_get_next(unsigned int unit)
+char *fliplist_get_next(unsigned int unit)
 {
     if (fliplist[unit - 8])
         return fliplist[unit - 8]->next->image;
     return (char *) NULL;
 }
 
-char *flip_get_prev(unsigned int unit)
+char *fliplist_get_prev(unsigned int unit)
 {
     if (fliplist[unit - 8])
         return fliplist[unit - 8]->prev->image;
     return (char *) NULL;
 }
 
-char *flip_get_image(void *fl)
+char *fliplist_get_image(void *fl)
 {
     return ((struct fliplist_t *) fl)->image;
 }
 
-unsigned int flip_get_unit(void *fl)
+unsigned int fliplist_get_unit(void *fl)
 {
     return ((struct fliplist_t *) fl)->unit;
 }
 
-void flip_add_image(unsigned int unit)
+void fliplist_add_image(unsigned int unit)
 {
     struct fliplist_t *n;
 
@@ -193,7 +195,7 @@ void flip_add_image(unsigned int unit)
     show_fliplist(unit);
 }
 
-void flip_remove(unsigned int unit, char *image)
+void fliplist_remove(unsigned int unit, char *image)
 {
     struct fliplist_t *tmp;
 
@@ -224,7 +226,7 @@ void flip_remove(unsigned int unit, char *image)
 
         if (strcmp(it->image, image) == 0) {
             /* it's the head */
-            flip_remove(unit, NULL);
+            fliplist_remove(unit, NULL);
             return;
         }
         it = it->next;
@@ -247,7 +249,7 @@ void flip_remove(unsigned int unit, char *image)
     }
 }
 
-void flip_attach_head (unsigned int unit, int direction)
+void fliplist_attach_head (unsigned int unit, int direction)
 {
     if (fliplist[unit - 8] == (struct fliplist_t *)NULL)
         return;
@@ -264,7 +266,7 @@ void flip_attach_head (unsigned int unit, int direction)
     }
 }
 
-void *flip_init_iterate(unsigned int unit)
+void *fliplist_init_iterate(unsigned int unit)
 {
     void *ret = NULL;
 
@@ -276,7 +278,7 @@ void *flip_init_iterate(unsigned int unit)
     return ret;
 }
 
-void *flip_next_iterate(unsigned int unit)
+void *fliplist_next_iterate(unsigned int unit)
 {
     void *ret = NULL;
 
@@ -289,7 +291,7 @@ void *flip_next_iterate(unsigned int unit)
     return ret;
 }
 
-void flip_clear_list(unsigned int unit)
+void fliplist_clear_list(unsigned int unit)
 {
     struct fliplist_t *flip = fliplist[unit - 8];
 
@@ -307,7 +309,7 @@ void flip_clear_list(unsigned int unit)
     }
 }
 
-int flip_save_list(unsigned int unit, const char *filename)
+int fliplist_save_list(unsigned int unit, const char *filename)
 {
     int all_units = 0;
     struct fliplist_t *flip;
@@ -344,7 +346,7 @@ int flip_save_list(unsigned int unit, const char *filename)
     return 0;
 }
 
-int flip_load_list(unsigned int unit, const char *filename, int autoattach)
+int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 {
     FILE *fp;
     char buffer[buffer_size];
@@ -364,10 +366,10 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
     if (unit == (unsigned int)-1) {
         all_units = 1;
         for (i = 0; i < NUM_DRIVES; i++)
-            flip_clear_list(i+8);
+            fliplist_clear_list(i+8);
     }
     else
-        flip_clear_list(unit);
+        fliplist_clear_list(unit);
 
     while (!feof(fp)) {
         char *b;
@@ -431,7 +433,7 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 
 
     if (autoattach)
-        flip_attach_head(unit, 1);
+        fliplist_attach_head(unit, 1);
 
     return 0;
 }

@@ -392,7 +392,7 @@ int vsync_do_vsync(int been_skipped)
         frame_counter++;
 
 
-    kbd_buf_flush();
+    kbdbuf_flush();
 
 #ifdef HAS_JOYSTICK
     joystick_update();

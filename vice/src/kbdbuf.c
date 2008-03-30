@@ -105,11 +105,11 @@ static void kbd_buf_parse_string(const char *string)
     }
 }
 
-int kbd_buf_feed_string(const char *string)
+int kbdbuf_feed_string(const char *string)
 {
     kbd_buf_parse_string(string);
 
-    return kbd_buf_feed(kbd_buf_string);
+    return kbdbuf_feed(kbd_buf_string);
 }
 
 static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
@@ -126,7 +126,7 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-int kbd_buf_cmdline_options_init(void)
+int kbdbuf_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
@@ -134,7 +134,7 @@ int kbd_buf_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
+int kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
 {
     buffer_location = location;
     num_pending_location = plocation;
@@ -148,24 +148,24 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
     }
 
     if (kbd_buf_string != NULL)
-        kbd_buf_feed(kbd_buf_string);
+        kbdbuf_feed(kbd_buf_string);
 
     return 0;
 }
 
-void kbd_buf_shutdown(void)
+void kbdbuf_shutdown(void)
 {
     lib_free(kbd_buf_string);
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */
-int kbd_buf_is_empty(void)
+int kbdbuf_is_empty(void)
 {
     return (int)(mem_read((WORD)(num_pending_location)) == 0);
 }
 
 /* Feed `s' into the queue.  */
-int kbd_buf_feed(const char *string)
+int kbdbuf_feed(const char *string)
 {
     const int num = strlen(string);
     int i, p;
@@ -182,20 +182,20 @@ int kbd_buf_feed(const char *string)
 
     /* XXX: We waste time this way, as we copy into the queue and then into
        memory.  */
-    kbd_buf_flush();
+    kbdbuf_flush();
 
     return 0;
 }
 
 /* Flush pending characters into the kernal's queue if possible.  */
-void kbd_buf_flush(void)
+void kbdbuf_flush(void)
 {
     unsigned int i, n;
 
     if ((!kbd_buf_enabled)
           || num_pending == 0
           || maincpu_clk < kernal_init_cycles
-          || !kbd_buf_is_empty())
+          || !kbdbuf_is_empty())
         return;
 
     n = num_pending > buffer_size ? buffer_size : num_pending;

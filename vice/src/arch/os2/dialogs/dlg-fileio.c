@@ -387,9 +387,9 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
     case 1:
         return tape_image_attach(1, szpath);
     case 2:
-        return flip_load_list(sact+8, szpath, FALSE);
+        return fliplist_load_list(sact+8, szpath, FALSE);
     case 3:
-        return flip_load_list(sact+8, szpath, TRUE);
+        return fliplist_load_list(sact+8, szpath, TRUE);
     case 4:
         return trap(hwnd, load_snapshot, szpath);
     case 5:
@@ -585,7 +585,7 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
         return trap(hwnd, save_screenshot, szpath);
     case 3:
         check_extension(szpath, ".vfl");
-        return flip_save_list(sact+8, szpath);
+        return fliplist_save_list(sact+8, szpath);
     case 4:
         return machine_romset_file_save(szpath);
 #if defined __X64__ || defined __X128__

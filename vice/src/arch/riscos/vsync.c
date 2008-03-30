@@ -309,7 +309,7 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
 
   video_full_screen_plot_status();
 
-  kbd_buf_flush();
+  kbdbuf_flush();
 
   return skip_next_frame;
 }

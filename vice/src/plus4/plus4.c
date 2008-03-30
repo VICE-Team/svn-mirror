@@ -370,8 +370,8 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
-                 * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
+                * machine_timing.cycles_per_rfsh));
 
     plus4ui_init();
 

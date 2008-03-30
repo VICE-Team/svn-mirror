@@ -29,14 +29,14 @@
 
 #include "types.h"
 
-extern int kbd_buf_is_empty(void);
-extern int kbd_buf_init(int location, int plocation, int buffer_size,
-                        CLOCK mincycles);
-extern void kbd_buf_shutdown(void);
-extern int kbd_buf_feed(const char *s);
-extern int kbd_buf_feed_string(const char *string);
-extern void kbd_buf_flush(void);
-extern int kbd_buf_cmdline_options_init(void);
+extern int kbdbuf_is_empty(void);
+extern int kbdbuf_init(int location, int plocation, int buffer_size,
+                       CLOCK mincycles);
+extern void kbdbuf_shutdown(void);
+extern int kbdbuf_feed(const char *s);
+extern int kbdbuf_feed_string(const char *string);
+extern void kbdbuf_flush(void);
+extern int kbdbuf_cmdline_options_init(void);
 
 #endif
 

@@ -198,7 +198,7 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("joystick");
         return -1;
     }
-    if (kbd_buf_cmdline_options_init() < 0) {
+    if (kbdbuf_cmdline_options_init() < 0) {
         init_cmdline_options_fail("keyboard");
         return -1;
     }

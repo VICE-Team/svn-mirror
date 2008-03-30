@@ -499,16 +499,16 @@ void ui_dispatch_events(void)
 				tape_image_detach(1);
 				break;
 			case MENU_FLIP_ADD:
-				flip_add_image(8);
+				fliplist_add_image(8);
 				break;
 			case MENU_FLIP_REMOVE:
-				flip_remove(8, NULL);
+				fliplist_remove(8, NULL);
 				break;
 			case MENU_FLIP_NEXT:
-				flip_attach_head(8, 1);
+				fliplist_attach_head(8, 1);
 				break;
 			case MENU_FLIP_PREVIOUS:
-				flip_attach_head(8, 0);
+				fliplist_attach_head(8, 0);
 				break;
 			case MENU_DATASETTE_START:
 		        datasette_control(DATASETTE_CONTROL_START);
@@ -590,7 +590,7 @@ void ui_dispatch_events(void)
 		        if (resources_save(NULL) < 0) {
 	    	        ui_error("Cannot save settings.");
     	    	}
-                flip_save_list((unsigned int) -1, 
+                fliplist_save_list((unsigned int) -1, 
                     archdep_default_fliplist_file_name());
 				break;
 			case MENU_SETTINGS_DEFAULT:

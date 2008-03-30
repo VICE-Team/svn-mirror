@@ -499,8 +499,8 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(842, 208, 10, (CLOCK)(machine_timing.rfsh_per_sec
-                 * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(842, 208, 10, (CLOCK)(machine_timing.rfsh_per_sec
+                * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C128-specific part of the UI.  */
     c128ui_init();

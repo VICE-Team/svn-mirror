@@ -130,7 +130,7 @@ int cbm2rom_load_kernal(const char *rom_name)
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
-    kbd_buf_init(0, 0, 0, 0);
+    kbdbuf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_init(&tapeinit);
 

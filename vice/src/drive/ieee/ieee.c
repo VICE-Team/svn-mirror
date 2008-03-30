@@ -185,6 +185,6 @@ int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 void ieee_drive_parallel_set_atn(int state, drive_context_t *drv)
 {
     via1d2031_set_atn(drv->via1d2031, state);
-    drive_riot_set_atn(drv->riot2, state);
+    riot2_set_atn(drv->riot2, state);
 }
 

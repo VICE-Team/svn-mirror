@@ -42,7 +42,7 @@
 #include "lib.h"
 #include "log.h"
 #include "vsync.h"     // vsync_suspend_speed_eval
-#include "kbdbuf.h"    // kbd_buf_flush
+#include "kbdbuf.h"    // kbdbuf_flush
 #include "machine.h"   // machine_shutdown
 //#include "ui_status.h" // ui_display_speed
 
@@ -218,7 +218,7 @@ void vsyncarch_postsync()
     joystick_update();
 #endif
 
-    kbd_buf_flush();
+    kbdbuf_flush();
 
     while (emulator_paused && !trigger_shutdown)
         DosSleep(1);

@@ -358,8 +358,8 @@ void petrom_checksum(void)
     if (petres.kernal_checksum == PET_KERNAL4_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal)
             log_message(petrom_log, "Identified Kernal 4 ROM by checksum.");
-        kbd_buf_init(0x26f, 0x9e, 10,
-                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+        kbdbuf_init(0x26f, 0x9e, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         tape_init(&tapeinit4);
         if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
             if (petres.editor_checksum != last_editor)
@@ -384,8 +384,8 @@ void petrom_checksum(void)
         if (petres.kernal_checksum != last_kernal)
             log_message(petrom_log, "Identified Kernal 2 ROM by checksum.");
         petres.rom_video = 40;
-        kbd_buf_init(0x26f, 0x9e, 10,
-                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+        kbdbuf_init(0x26f, 0x9e, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0xa7, 0xc4, 0xc6, -40);
@@ -394,8 +394,8 @@ void petrom_checksum(void)
         if (petres.kernal_checksum != last_kernal)
             log_message(petrom_log, "Identified Kernal 1 ROM by checksum.");
         petres.rom_video = 40;
-        kbd_buf_init(0x20f, 0x20d, 10,
-                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+        kbdbuf_init(0x20f, 0x20d, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0x224, 0xe0, 0xe2, -40);
@@ -539,7 +539,7 @@ int petrom_load_kernal(void)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
-    kbd_buf_init(0, 0, 0, 0);
+    kbdbuf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
@@ -572,7 +572,7 @@ int petrom_load_editor(void)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
-    kbd_buf_init(0, 0, 0, 0);
+    kbdbuf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 

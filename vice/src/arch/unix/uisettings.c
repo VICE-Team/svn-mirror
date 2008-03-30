@@ -217,7 +217,7 @@ static UI_CALLBACK(save_resources)
             ui_message(_("Settings saved successfully."));
     }
     fname = archdep_default_fliplist_file_name();
-    flip_save_list((unsigned int) -1, fname);
+    fliplist_save_list((unsigned int) -1, fname);
     lib_free(fname);
     ui_update_menus();
 }

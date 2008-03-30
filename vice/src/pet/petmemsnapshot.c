@@ -393,7 +393,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        loading the new ROMs. These depend on addresses defined in the
        rom - they might be different in the loaded ROM. */
-    kbd_buf_init(0, 0, 0, 0);
+    kbdbuf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
