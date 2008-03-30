@@ -38,6 +38,7 @@
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "initcmdline.h"
+#include "joy.h"
 #include "joystick.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -158,11 +159,6 @@ int init_main(void)
     archdep_setup_signals(debug.do_core_dumps);
 
     if (!vsid_mode) {
-        /* Initialize real joystick.  */
-#ifdef HAS_JOYSTICK
-        joystick_init();
-#endif
-
         palette_init();
         gfxoutput_init();
         screenshot_init();
@@ -188,6 +184,9 @@ int init_main(void)
     keyboard_init();
 
     if (!vsid_mode) {
+#ifdef HAS_JOYSTICK
+        joystick_init();
+#endif
         disk_image_init();
         vdrive_init();
     }
