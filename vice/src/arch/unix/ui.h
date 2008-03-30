@@ -85,6 +85,7 @@ extern void ui_autorepeat_off(void);
 extern void ui_pause_emulation(int flag);
 extern int ui_emulation_is_paused(void);
 extern void ui_check_mouse_cursor(void);
+extern void ui_restore_mouse(void);
 
 extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);

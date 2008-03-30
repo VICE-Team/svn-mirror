@@ -46,6 +46,7 @@ extern void util_remove_spaces(char *s);
 extern void util_add_extension(char **name, const char *extension);
 extern char *util_add_extension_const(const char *filename,
                                       const char *extension);
+extern char *util_get_extension(char *filename);
 
 extern size_t util_file_length(FILE *fd);
 extern int util_file_exists(const char *name);
@@ -70,6 +71,9 @@ extern void util_dword_to_le_buf(BYTE *buf, DWORD data);
 
 extern char *util_find_prev_line(const char *text, const char *pos);
 extern char *util_find_next_line(const char *pos);
+
+extern unsigned long util_crc32(const char *buffer, unsigned int len);
+extern unsigned long util_crc32_file(const char *filename);
 
 #if !defined HAVE_MEMMOVE
 void *memmove(void *target, const void *source, unsigned int length);

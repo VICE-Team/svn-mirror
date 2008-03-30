@@ -250,7 +250,7 @@ static void save_file_romset_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    machine_romset_save(s);
+    machine_romset_file_save(s);
 }
 
 static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,

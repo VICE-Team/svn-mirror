@@ -496,8 +496,6 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 static int file_system_attach_disk_internal(unsigned int unit, const char *filename)
 {
     vdrive_t *vdrive;
-    char *event_data;
-    int len;
 
     vdrive = file_system_get_vdrive(unit);
     /* FIXME: Is this clever?  */
@@ -513,14 +511,7 @@ static int file_system_attach_disk_internal(unsigned int unit, const char *filen
         ui_display_drive_current_image(unit - 8, filename);
     }
     
-    len = 1 + strlen(filename) + 1;
-    event_data = lib_malloc(len);
-    event_data[0] = (char)unit;
-    strcpy((char *)&event_data[1], filename);
-    
-    event_record(EVENT_ATTACHDISK, (void *)event_data, len);
-
-    lib_free(event_data);
+    event_record_attach_image(unit, filename, vdrive->image->read_only);
 
     return 0;
 }
@@ -592,15 +583,9 @@ void file_system_detach_disk_shutdown(void)
     }
 }
 
-void file_system_event_playback(CLOCK offset, void *data)
+void file_system_event_playback(unsigned int unit, const char *filename)
 {
-    int unit;
-    char *filename;
-
-    unit = (int)((char*)data)[0];
-    filename = &((char*)data)[1];
-
-    if (filename[0] == 0)
+    if (filename == NULL || filename[0] == 0)
         file_system_detach_disk_internal(unit);
     else
         file_system_attach_disk_internal(unit, filename);

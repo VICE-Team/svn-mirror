@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "monitor.h"
 #include "uimon.h"
+#include "ui.h"
 
 
 static console_t *console_log = NULL;
@@ -43,6 +44,9 @@ void uimon_window_close( void )
 {
     console_close(console_log);
     console_log = NULL;
+#ifdef HAVE_MOUSE
+    ui_check_mouse_cursor();
+#endif
 }
 
 

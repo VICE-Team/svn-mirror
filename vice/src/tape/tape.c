@@ -473,8 +473,6 @@ int tape_image_detach(unsigned int unit)
 static int tape_image_attach_internal(unsigned int unit, const char *name)
 {
     tape_image_t tape_image;
-    char *event_data;
-    int len;
 
     if (unit != 1)
         return -1;
@@ -517,14 +515,7 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
         return -1;
     }
 
-    len = 1 + strlen(name) + 1;
-    event_data = lib_malloc(len);
-    event_data[0] = (char)unit;
-    strcpy((char *)&event_data[1], name);
-    
-    event_record(EVENT_ATTACHTAPE, (void *)event_data, len);
-
-    lib_free(event_data);
+    event_record_attach_image(unit, name, tape_image.read_only);
 
     return 0;
 }
@@ -537,17 +528,10 @@ int tape_image_attach(unsigned int unit, const char *name)
    return tape_image_attach_internal(unit, name);
 }
 
-void tape_image_event_playback(CLOCK offset, void *data)
+void tape_image_event_playback(unsigned int unit, const char *filename)
 {
-    int unit;
-    char *filename;
-
-    unit = (int)((char*)data)[0];
-    filename = &((char*)data)[1];
-
-    if (filename[0] == 0)
+    if (filename == NULL || filename[0] == 0)
         tape_image_detach_internal(unit);
     else
         tape_image_attach_internal(unit, filename);
 }
-

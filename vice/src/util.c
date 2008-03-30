@@ -676,3 +676,72 @@ char *util_add_extension_const(const char *filename, const char *extension)
     return ext_filename;
 }
 
+char *util_get_extension(char *filename)
+{
+    char *s;
+
+    if (filename == NULL)
+        return NULL;
+
+    s = strrchr(filename, FSDEV_EXT_SEP_CHR);
+    if (s)
+        return s + 1;
+    else
+        return NULL;
+}
+
+
+#define CRC32_POLY  0xedb88320
+static unsigned long crc32_table[256];
+static int crc32_is_initialized = 0;
+
+unsigned long util_crc32(const char *buffer, unsigned int len)
+{
+    int i, j;
+    unsigned long crc, c;
+    const char *p;
+
+    if (!crc32_is_initialized) {
+        for (i = 0; i < 256; i++) {
+            c = (unsigned long) i;
+            for (j = 0; j < 8; j++)
+                c = c & 1 ? CRC32_POLY ^ (c >> 1) : c >> 1;
+            crc32_table[i] = c;
+        }
+        crc32_is_initialized = 1;
+    }
+
+    crc = 0xffffffff;
+    for (p = buffer; len > 0; ++p, --len)
+        crc = (crc >> 8) ^ crc32_table[(crc ^ *p) & 0xff];
+    
+    return ~crc;
+}
+
+unsigned long util_crc32_file(const char *filename)
+{
+    FILE *fd;
+    char *buffer;
+    unsigned int len;
+    unsigned long crc = 0;
+
+    if (filename == NULL || filename[0] == 0)
+        return 0;
+
+    fd = fopen(filename, MODE_READ);
+
+    if (fd == NULL)
+        return 0;
+
+    len = util_file_length(fd);
+
+    buffer = lib_malloc(len);
+
+    if (fread(buffer, len, 1, fd) == 1)
+        crc = util_crc32(buffer, len);
+
+    fclose(fd);
+    lib_free(buffer);
+
+    return crc;
+}

@@ -78,6 +78,9 @@ static UI_CALLBACK(activate_monitor)
     ui_dispatch_events();               /* popdown the menu */
     ui_autorepeat_on();
 
+#ifdef HAVE_MOUSE
+    ui_restore_mouse();
+#endif
     if (!ui_emulation_is_paused())
         monitor_startup_trap();
     else

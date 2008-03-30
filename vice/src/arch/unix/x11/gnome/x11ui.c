@@ -360,7 +360,6 @@ void ui_restore_mouse() {
     if (fullscreen_is_enabled)
         return;
 #endif
-
     if(_mouse_enabled && cursor_is_blank) {
 	/*        XUndefineCursor(display,XtWindow(canvas));*/
         gdk_keyboard_ungrab(CurrentTime);

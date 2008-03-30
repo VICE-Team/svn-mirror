@@ -37,6 +37,7 @@
 #define EVENT_ATTACHTAPE        7
 #define EVENT_RESETCPU          8
 #define EVENT_TIMESTAMP         9
+#define EVENT_ATTACHIMAGE       10
 
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1
@@ -61,6 +62,8 @@ extern int event_record_reset_milestone(void);
 extern void event_reset_ack(void);
 
 extern void event_record(unsigned int type, void *data, unsigned int size);
+extern void event_record_attach_image(unsigned int unit, const char *filename,
+                                      unsigned int read_only);
 
 extern int event_snapshot_read_module(struct snapshot_s *s, int event_mode);
 extern int event_snapshot_write_module(struct snapshot_s *s, int event_mode);

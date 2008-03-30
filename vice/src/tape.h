@@ -114,7 +114,7 @@ extern int tape_image_attach(unsigned int unit, const char *name);
 extern int tape_image_open(tape_image_t *tape_image);
 extern int tape_image_close(tape_image_t *tape_image);
 extern int tape_image_create(const char *name, unsigned int type);
-extern void tape_image_event_playback(CLOCK offset, void *data);
+extern void tape_image_event_playback(unsigned int unit, const char *filename);
 
 #endif
 

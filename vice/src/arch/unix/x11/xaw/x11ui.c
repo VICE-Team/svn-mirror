@@ -152,7 +152,7 @@ void ui_check_mouse_cursor()
     }
 }
 
-static void ui_restore_mouse(void)
+void ui_restore_mouse(void)
 {
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
