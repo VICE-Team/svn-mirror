@@ -652,15 +652,17 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 /* Report an error to the user (`printf()' style).  */
 void ui_error(const char *format, ...)
 {
-    char tmp[1024];
+    char *tmp;
     va_list args;
 
     va_start(args, format);
-    vsprintf(tmp, format, args);
+    tmp = xmvsprintf(format, args);
     va_end(args);
+
     log_debug(tmp);
     ui_messagebox(tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
+    free(tmp);
 }
 
 /* Report an error to the user (one string).  */
@@ -671,22 +673,24 @@ void ui_error_string(const char *text)
 }
 
 /* Report a message to the user (`printf()' style).  */
-void ui_message(const char *format,...)
+void ui_message(const char *format, ...)
 {
-    char tmp[1024];
+    char *tmp;
     va_list args;
 
     va_start(args, format);
-    vsprintf(tmp, format, args);
+    tmp = xmvsprintf(format, args);
     va_end(args);
+
     ui_messagebox(tmp, "VICE Information", MB_OK | MB_ICONASTERISK);
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
+    free(tmp);
 }
 
 /* Handle the "CPU JAM" case.  */
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    char *txt,*txt2;
+    char *txt, *txt2;
     int ret;
 
     va_list ap;
@@ -707,7 +711,7 @@ int ui_extend_image_dialog(void)
     int ret;
 
     ret = ui_messagebox("Extend image to 40-track format?",
-                     "VICE question", MB_YESNO | MB_ICONQUESTION);
+                        "VICE question", MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
 
@@ -716,14 +720,16 @@ int ui_extend_image_dialog(void)
 /* Dispay the current emulation speed.  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
-    char buf[256];
-    int     index;
+    char *buf;
+    int index;
 
-    for (index=0; index<number_of_windows; index++) {
-        sprintf(buf, "%s at %d%% speed, %d fps%s",
-                hwnd_titles[index], (int)(percent + .5), (int)(framerate + .5),
-                warp_flag ? " (warp)" : "");
+    for (index = 0; index < number_of_windows; index++) {
+        buf = xmsprintf("%s at %d%% speed, %d fps%s",
+                        hwnd_titles[index], (int)(percent + .5),
+                        (int)(framerate + .5),
+                        warp_flag ? " (warp)" : "");
         SetWindowText(window_handles[index], buf);
+        free(buf);
     }
 
 }
@@ -1044,22 +1050,23 @@ void ui_dispatch_events(void)
 int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
                                UINT wparam, LONG lparam)
 {
-    char version[256];
+    char *version;
 
     switch (msg) {
-        case WM_INITDIALOG:
-            sprintf(version, "Version %s", VERSION);
-            SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
+      case WM_INITDIALOG:
+        version = xmsprintf("Version %s", VERSION);
+        SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
+        free(version);
+        return TRUE;
+      case WM_CLOSE:
+        EndDialog(dialog,0);
+        return TRUE;
+      case WM_COMMAND:
+        if ((wparam == IDOK) || (wparam == IDCANCEL)) {
+            EndDialog(dialog, 0);
             return TRUE;
-        case WM_CLOSE:
-            EndDialog(dialog,0);
-            return TRUE;
-        case WM_COMMAND:
-            if ((wparam == IDOK) || (wparam == IDCANCEL)) {
-                EndDialog(dialog, 0);
-                return TRUE;
-            }
-            break;
+        }
+        break;
     }
     return FALSE;
 }
@@ -1354,7 +1361,7 @@ char *dname;
                 maincpu_trigger_reset();
             }
         }
-        suspend_speed_eval();
+        vsync_suspend_speed_eval();
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t) 0);
@@ -1696,7 +1703,7 @@ int     window_index;
         case WM_ENTERMENULOOP:
             update_menus(window);
         case WM_ENTERSIZEMOVE:
-            suspend_speed_eval();
+            vsync_suspend_speed_eval();
             ui_active=FALSE;
             mouse_update_mouse_acquire();
             break;
@@ -1747,7 +1754,7 @@ int     window_index;
             int quit = 1;
 
             SuspendFullscreenMode(window);
-            suspend_speed_eval();
+            vsync_suspend_speed_eval();
             if (ui_resources.confirm_on_exit)
             {
 //                log_debug("Asking exit confirmation");

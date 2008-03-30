@@ -5,7 +5,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Manfred Spraul <manfreds@colorfullife.com>
- *  Andreas Matthies <andreas.matthies@arcormail.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -409,7 +409,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
             {
                 char disk_name[32];
                 char disk_id[3];
-                char format_name[40];
+                char *format_name;
 
                 counter = SendMessage(GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE),
                                                  CB_GETCURSEL,0,0);
@@ -426,12 +426,14 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                 }
                 GetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME, disk_name, 17);
                 GetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID, disk_id, 3);
-                sprintf(format_name,"%s,%s",disk_name, disk_id);
+                format_name = xmsprintf("%s,%s", disk_name, disk_id);
                 if (vdrive_internal_create_format_disk_image(filename,
                     format_name, image_type[counter]) < 0) {
                     ui_error("Cannot create image");
+                    free(format_name);
                     return -1;
                 }
+                free(format_name);
                 /*  Select filter:
                     If we have a standard extension, select the disk filters,
                     but leave at 'All files' if it was already there, otherwise
@@ -546,7 +548,7 @@ char *ui_select_file(HWND hwnd, const char *title, const char *filter,
     read_content_func=styles[style].content_read_function;
     get_filename_from_content=styles[style].get_filename_from_content;
     autostart_result=autostart;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (GetOpenFileName(&ofn)) {
         return stralloc(name);
     } else {

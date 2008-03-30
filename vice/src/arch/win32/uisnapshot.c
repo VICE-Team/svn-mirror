@@ -72,33 +72,30 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
 {
     /* this is also the hook for screenshot dialog */
     switch (uimsg) {
-        case WM_INITDIALOG:
-            {
-                HWND scrndrv_combo;
-                int i;
-                scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
-                if (scrndrv_combo) {
-                        screendrv_t *driver = screenshot_drivers_iter_init();
-                        for (i=0; i<screenshot_num_drivers();i++) {
-                            SendMessage(scrndrv_combo,CB_ADDSTRING,0,
+      case WM_INITDIALOG:
+        {
+            HWND scrndrv_combo;
+            int i;
+            scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
+            if (scrndrv_combo) {
+                screendrv_t *driver = screenshot_drivers_iter_init();
+                for (i = 0; i < screenshot_num_drivers(); i++) {
+                    SendMessage(scrndrv_combo,CB_ADDSTRING,0,
                                 (LPARAM)driver->name);
                            	driver = screenshot_drivers_iter_next();
-                        }
-                        SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)0,0);
-
                 }
+                SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)0,0);
             }
-            break;
-        case WM_NOTIFY:
-            GetDlgItemText(hwnd,IDC_SCREENSHOT_DRIVER,
-                screendrivername,MAXSCRNDRVLEN);
-          save_disks = 
-              IsDlgButtonChecked
-              (hwnd,IDC_TOGGLE_SNAPSHOT_SAVE_DISKS)==BST_CHECKED ? 1 : 0;
-          save_roms = 
-              IsDlgButtonChecked
-              (hwnd,IDC_TOGGLE_SNAPSHOT_SAVE_ROMS)==BST_CHECKED ? 1 : 0;
-            break;
+        }
+        break;
+      case WM_NOTIFY:
+        GetDlgItemText(hwnd,IDC_SCREENSHOT_DRIVER,
+                       screendrivername,MAXSCRNDRVLEN);
+        save_disks = IsDlgButtonChecked(hwnd,
+                         IDC_TOGGLE_SNAPSHOT_SAVE_DISKS) == BST_CHECKED ? 1 : 0;
+        save_roms = IsDlgButtonChecked(hwnd,
+                        IDC_TOGGLE_SNAPSHOT_SAVE_ROMS) == BST_CHECKED ? 1 : 0;
+        break;
     }
     return 0;
 }
@@ -140,7 +137,7 @@ char *ui_save_snapshot(const char *title, const char *filter,
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     if (GetSaveFileName(&ofn)) {
         return stralloc(name);
@@ -236,3 +233,4 @@ void ui_soundshot_save_dialog(HWND hwnd)
         }
     }
 }
+
