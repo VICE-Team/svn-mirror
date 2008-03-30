@@ -295,7 +295,7 @@ void machine_reset(void)
 
     drive_reset();
 
-    sound_reset();
+    vic_sound_reset();
 
 #ifdef HAVE_RS232
     rs232_reset();

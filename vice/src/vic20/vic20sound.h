@@ -29,7 +29,7 @@
 
 #include "sound.h"
 
-void store_sound(ADDRESS address, BYTE byte);
-void sound_reset(void);
+void store_vic_sound(ADDRESS address, BYTE byte);
+void vic_sound_reset(void);
 
 #endif

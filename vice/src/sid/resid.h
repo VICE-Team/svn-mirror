@@ -36,6 +36,7 @@ void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
 			       CLOCK clk);
 int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
 void resid_sound_machine_init(void);
+void resid_sound_machine_reset(sound_t *psid, CLOCK clk);
 void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 char *resid_sound_machine_dump_state(sound_t *psid);
 

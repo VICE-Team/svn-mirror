@@ -154,6 +154,10 @@ void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
+void resid_sound_machine_reset(sound_t *psid, CLOCK clk)
+{
+}
+
 char *resid_sound_machine_dump_state(sound_t *psid)
 {
     return stralloc("");

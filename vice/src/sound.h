@@ -68,6 +68,7 @@ typedef struct
 
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
+extern void sound_reset(void);
 extern int  sound_flush(int relative_speed);
 extern void sound_suspend(void);
 extern void sound_resume(void);
@@ -116,6 +117,7 @@ extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
 extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
 extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+extern void sound_machine_reset(sound_t *psid, CLOCK clk);
 
 #ifdef __riscos
 extern int SoundPollEvery;

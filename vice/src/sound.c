@@ -434,6 +434,16 @@ static int sound_run_sound(void)
     return 0;
 }
 
+/* reset sid */
+void sound_reset(void)
+{
+    snddata.fclk = clk;
+    snddata.wclk = clk;
+    snddata.bufptr = 0;		/* ugly hack! */
+    if (snddata.psid)
+	sound_machine_reset(snddata.psid, clk);
+}
+
 static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 {
     snddata.fclk -= sub;
@@ -671,6 +681,7 @@ void sound_resume(void)
 	    snddata.issuspended = 0;
     }
 }
+
 
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)

@@ -507,7 +507,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
       case 11:			/* $900B  Alto Enable and Frequency. */
       case 12:			/* $900C  Soprano Enable and Frequency. */
       case 13:			/* $900D  Noise Enable and Frequency. */
-	store_sound(addr, value);
+	store_vic_sound(addr, value);
 	return;
 
       case 14:			/* $900E  Auxiliary Colour, Master Volume. */
@@ -515,7 +515,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 #ifdef VIC_REGISTERS_DEBUG
 	log_message(vic_log, "Auxiliary color set to $%02X.", auxiliary_color);
 #endif
-	store_sound(addr, value);
+	store_vic_sound(addr, value);
 	return;
 
       case 15:			/* $900F  Screen and Border Colors,

@@ -1131,8 +1131,18 @@ void sid_reset(void)
     for (i = 0; i < 32; i++)
 	sound_store(i, 0);
     warn_reset(pwarn);
-    /* ARGH!  FIXME!  Commenting this is looking for troubles!  */
-    /*  sound_prevent_clk_overflow(clk); */
+
+    sound_reset();
+}
+
+void sound_machine_reset(sound_t *psid, CLOCK clk)
+{
+#ifdef HAVE_RESID
+    if (useresid)
+	resid_sound_machine_reset(psid, clk);
+    else
+#endif
+    psid->laststoreclk = clk;
 }
 
 void sound_machine_init(void)

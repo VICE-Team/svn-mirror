@@ -130,15 +130,14 @@ void sound_machine_close(sound_t *psid)
     free(psid);
 }
 
-void sound_reset(void)
+void vic_sound_reset(void)
 {
     int				i;
     for (i = 10; i < 15; i++)
-	store_sound(i, 0);
+	store_vic_sound(i, 0);
     warn_reset(pwarn);
 
-    /* FIXME: This is looking for troubles.  */
-    /*  sound_prevent_clk_overflow(clk); */
+    sound_reset();
 }
 
 void sound_machine_init(void)
@@ -152,7 +151,7 @@ void sound_machine_init(void)
  */
 #define VIC20FREQBASE    65535
 
-void store_sound(ADDRESS addr, BYTE value)
+void store_vic_sound(ADDRESS addr, BYTE value)
 {
     addr &= 0x0f;
     siddata[addr] = value;
@@ -203,6 +202,10 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+}
+
+void sound_machine_reset(sound_t *psid, CLOCK clk)
 {
 }
 
