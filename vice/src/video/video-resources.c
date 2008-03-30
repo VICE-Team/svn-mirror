@@ -30,7 +30,7 @@
 #include <stdio.h>
 
 #include "resources.h"
-#include "utils.h"
+#include "lib.h"
 #include "video-resources.h"
 #include "video-color.h"
 #include "video.h"
@@ -306,7 +306,7 @@ int video_resources_chip_init(const char *chipname,
     video_resource_chip_t *resource_chip;
 
     resource_chip
-        = (video_resource_chip_t *)xcalloc(1, sizeof(video_resource_chip_t));
+        = (video_resource_chip_t *)lib_calloc(1, sizeof(video_resource_chip_t));
 
     video_render_initconfig((*canvas)->videoconfig);
 
