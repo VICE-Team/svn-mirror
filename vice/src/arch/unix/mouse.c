@@ -33,11 +33,12 @@
 
 #include "mouse.h"
 
+#include "cmdline.h"
 #include "kbd.h"  /* for joystick_value[]...
                      (this is ugly and should be fixed) */
 #include "log.h"
 #include "resources.h"
-#include "cmdline.h"
+#include "ui.h"
 
 volatile int _mouse_enabled = 0;
 int mouse_x, mouse_y;
@@ -76,6 +77,14 @@ static cmdline_option_t cmdline_options[] = {
 int mouse_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+int mouse_init(void)
+{
+    /* FIXME: Always successful?  */
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
