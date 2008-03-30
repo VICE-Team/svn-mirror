@@ -27,6 +27,8 @@
 #ifndef _FULLSCREENARCH_H
 #define _FULLSCREENARCH_H
 
+struct video_canvas_s;
+
 struct fullscreenconfig_s {
     int enable;
     const char *device;

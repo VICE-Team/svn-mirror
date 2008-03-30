@@ -146,5 +146,10 @@ extern void video_convert_color_table(unsigned int i, BYTE *data,
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
+
+typedef void (*video_refresh_func_t)(struct video_canvas_s *,
+              int, int, int, int, unsigned int, unsigned int);
+extern void video_set_refresh_func(video_refresh_func_t func);
+
 #endif
 
