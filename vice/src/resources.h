@@ -50,7 +50,7 @@ typedef struct resource_s {
     const char *name;
 
     /* Type of resource.  */
-    const resource_type_t type;
+    resource_type_t type;
 
     /* Factory default value.  */
     resource_value_t factory_value;
@@ -64,13 +64,8 @@ typedef struct resource_s {
 
     /* Extra parameter to pass to `set_func'.  */
     void *param;
-
-    /* callback function vector chain */
-    struct resource_callback_desc_s *callback;
-
-    /* number of next entry in hash collision list */
-    int hash_next;
 } resource_t;
+
 
 #define RESERR_FILE_NOT_FOUND       -1
 #define RESERR_FILE_INVALID         -2
