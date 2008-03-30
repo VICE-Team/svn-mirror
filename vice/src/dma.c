@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "debug.h"
 #include "dma.h"
 #include "interrupt.h"
 #include "types.h"
@@ -36,7 +37,6 @@
 void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 {
     interrupt_cpu_status_t *cs = maincpu_int_status;
-    CLOCK *clk_ptr = &maincpu_clk;
 
     if (num == 0)
         return;
@@ -46,7 +46,17 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
     else
         cs->num_last_stolen_cycles = num;
 
-    *clk_ptr += num;
+
+    cs->num_cycles_left[cs->num_dma_per_opcode] = maincpu_clk - start_clk;
+    cs->dma_start_clk[cs->num_dma_per_opcode] = start_clk;
+    (cs->num_dma_per_opcode)++;
+
+#ifdef DEBUG
+    if (debug.maincpu_traceflg)
+        debug_dma("VICII", start_clk, num);
+#endif
+
+    maincpu_clk += num;
     cs->last_stolen_cycles_clk = start_clk + num + sub;
 
     cs->irq_clk += num;
