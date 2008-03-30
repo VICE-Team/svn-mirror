@@ -36,13 +36,13 @@
 
 #include "c128-resources.h"
 #include "c128.h"
-#include "c128io.h"
 #include "c128mem.h"
 #include "c128meminit.h"
 #include "c128memlimit.h"
 #include "c128mmu.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64io.h"
 #include "c64meminit.h"
 #include "c64pla.h"
 #include "c64tpi.h"
@@ -63,8 +63,8 @@
 #include "vicii.h"
 #include "z80mem.h"
 
-#ifdef HAVE_RS232
-#include "c64acia.h"
+#ifdef HAVE_TFE
+#include "tfe.h"
 #endif
 
 /* #define DEBUG_MMU */
@@ -721,7 +721,7 @@ void mem_initialize_memory(void)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    ram_init(mem_ram, 0x20000);
+    ram_init(mem_ram, C128_RAM_SIZE);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -796,7 +796,30 @@ void mem_set_basic_text(WORD start, WORD end)
 
 int mem_rom_trap_allowed(WORD addr)
 {
-    return 1;
+    if (addr >= 0xe000) {
+        if (mem_config >= 128) {
+            switch (mem_config - 128) {
+              case 2:
+              case 3:
+              case 6:
+              case 7:
+              case 10:
+              case 11:
+              case 14:
+              case 15:
+              case 26:
+              case 27:
+              case 30:
+              case 31:
+                return 1;
+              default:
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1085,8 +1108,8 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
-    if (reu_enabled)
-        mon_ioreg_add_list(&mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
+
+    c64io_ioreg_add_list(&mem_ioreg_list);
 
     return mem_ioreg_list;
 }

@@ -1,5 +1,5 @@
 /*
- * c64io.c -- C64 io handling.
+ * c64io.c - C64 io handling ($DE00-$DFFF).
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -32,6 +32,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "emuid.h"
+#include "monitor.h"
 #include "reu.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -40,7 +41,7 @@
 
 #ifdef HAVE_TFE
 #include "tfe.h"
-#endif /* #ifdef HAVE_TFE */
+#endif
 
 
 BYTE REGPARM1 io1_read(WORD addr)
@@ -59,7 +60,7 @@ BYTE REGPARM1 io1_read(WORD addr)
 #ifdef HAVE_TFE
     if (tfe_enabled)
         return tfe_read((WORD)(addr & 0x0f));
-#endif /* #ifdef HAVE_TFE */
+#endif
 
     return vicii_read_phi1();
 }
@@ -80,7 +81,7 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
 #ifdef HAVE_TFE
     if (tfe_enabled)
         tfe_store((WORD)(addr & 0x0f), value);
-#endif /* #ifdef HAVE_TFE */
+#endif
 
     return;
 }
@@ -116,5 +117,16 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         return;
     }
     return;
+}
+
+void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+{
+    if (reu_enabled)
+        mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
+
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        mon_ioreg_add_list(mem_ioreg_list, "TFE", 0xde00, 0xde0f);
+#endif
 }
 

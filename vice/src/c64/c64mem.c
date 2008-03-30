@@ -54,7 +54,7 @@
 
 #ifdef HAVE_TFE
 #include "tfe.h"
-#endif /* #ifdef HAVE_TFE */
+#endif
 
 
 /* C64 memory-related resources.  */
@@ -542,7 +542,7 @@ int mem_rom_trap_allowed(WORD addr)
             return 1;
           default: 
             return 0;
-       }
+        }
     }
 
     return 0;
@@ -764,13 +764,8 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f);
-    if (reu_enabled)
-        mon_ioreg_add_list(&mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
 
-#ifdef HAVE_TFE
-    if (tfe_enabled)
-        mon_ioreg_add_list(&mem_ioreg_list, "TFE", 0xde00, 0xde0f);
-#endif /* #ifdef HAVE_TFE */
+    c64io_ioreg_add_list(&mem_ioreg_list);
 
     return mem_ioreg_list;
 }

@@ -250,6 +250,7 @@ libvic20_a_SOURCES = \
 	vic20-snapshot.h \
 	vic20.c \
 	vic20.h \
+	vic20bus.c \
 	vic20cartridge.c \
 	vic20datasette.c \
 	vic20drive.c \
@@ -285,7 +286,7 @@ am_libvic20_a_OBJECTS = vic-cmdline-options.$(OBJEXT) \
 	vic-color.$(OBJEXT) vic-draw.$(OBJEXT) vic-mem.$(OBJEXT) \
 	vic-resources.$(OBJEXT) vic-snapshot.$(OBJEXT) vic.$(OBJEXT) \
 	vic20-cmdline-options.$(OBJEXT) vic20-resources.$(OBJEXT) \
-	vic20-snapshot.$(OBJEXT) vic20.$(OBJEXT) \
+	vic20-snapshot.$(OBJEXT) vic20.$(OBJEXT) vic20bus.$(OBJEXT) \
 	vic20cartridge.$(OBJEXT) vic20datasette.$(OBJEXT) \
 	vic20drive.$(OBJEXT) vic20iec.$(OBJEXT) vic20mem.$(OBJEXT) \
 	vic20memsnapshot.$(OBJEXT) vic20printer.$(OBJEXT) \
@@ -304,6 +305,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/vic20-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20-resources.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20-snapshot.Po ./$(DEPDIR)/vic20.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20bus.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20cartridge.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20datasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20drive.Po ./$(DEPDIR)/vic20iec.Po \
@@ -357,6 +359,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20-snapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20bus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20cartridge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20datasette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20drive.Po@am__quote@

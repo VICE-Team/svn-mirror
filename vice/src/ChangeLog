@@ -1,3 +1,70 @@
+2003-11-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.32.
+
+	* printerdrv/printer-serial.c, printer.h, serial/serial.c,
+	printerdrv/interface-serial.c, printerdrv/interface-serial.h,
+	arch/unix/uiprinter.c, c64/c64printer.c, vic20/vic20printer.c,
+	pet/petprinter.c, plus4/plus4printer.c, cbm2/cbm2printer.c,
+	printerdrv/printer-userport.c, c64/c64cia2.c, pet/petvia.c,
+	cbm2/cbm2cia1.c, plus4/plus4.c, vic20/vic20via2.c,
+	printerdrv/printer-userport.h: Fixed function names.
+
+	* printerdrv/printer-userport.c, printer.h, c64/c64printer.c,
+	printerdrv/interface-userport.c, pet/petprinter.c
+	printerdrv/interface-userport.h, cbm2/cbm2printer.c
+	c64/c64cia2.c, pet/petvia.c, cbm2/cbm2cia1.c, plus4/plus4.c,
+	vic20/vic20printer.c, vic20/vic20via2.c: Added callback for
+	busy flag.
+
+	* machine.c, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c: Moved IEC/IEEE bus functions to
+	separate files.
+
+	* machine-bus.h, c64/c64bus.c, vic20/vic20bus.c, pet/petbus.c,
+	plus4/plus4bus.c, cbm2/cbm2bus.c: New files.
+
+	* Makefile.am, c64/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, plus4/Makefile.am, cbm2/Makefile.am,
+	arch/win32/c64.dsp, arch/win32/c64c128.dsp,
+	arch/win32/vic20.dsp, arch/win32/pet.dsp,
+	arch/win32/plus4.dsp, arch/win32/cbm2.dsp: Added new files.
+
+	* init.c (init_main): Initialize machine IO bus.
+
+	* diskimage/realimage.c, traps.c, drive/drive-resources.c,
+	drive/drive-snapshot.c, autostart.c, drive/drive.c, machine.c,
+	vdrive/vdrive.c, vdrive/vdrive-command.c, vdrive/vdrive.h,
+	tape/tape.c, vdrive/vdrive-rel.c, fsdevice/fsdevice-flush.c,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c, c1541.c,
+	monitor/mon_file.c, imagecontents/diskcontents.c, serial.h,
+	arch/unix/uicommands.c, serial/fsdrive.c, serial/serial.c,
+	parallel/parallel-trap.c, arch/win32/uidriveplus4.c,
+	arch/win32/uidrivec128.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uiconsole.c,
+	arch/win32/uisnapshot.c, arch/win32/uiattach.c: Adopted to new
+	serial API.
+
+	* serial/serial-trap.c, serial/serial.c, serial.h, parallel.h,
+	parallel/parallel-trap.c: Moved serial trap specific code to
+	`serial-trap.c'.
+
+	* c128/c128mem.c (mem_rom_trap_allowed): Improved.
+
+	* c128/c128io.c, c128/c128io.h: Removed.
+
+	* c64/Makefile.am, c128/Makefile.am, arch/win32/c128.dsp,
+	arch/win32/c64c128.dsp: Updated.
+
+	* c128/c128meminit.c, c128/z80mem.c, c128/c128mem.c: Changed
+	to use common IO functions.
+
+	* c64/c64io.c, c64/c64io.h (c64io_ioreg_add_list): New
+	function.
+
+	* c64/c64mem.c, c128/c128mem.c (mem_ioreg_list_get): Use
+	`c64io_ioreg_add_list()'.
+
 2003-11-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.31.

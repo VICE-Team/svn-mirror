@@ -90,6 +90,10 @@ SOURCE=..\..\c64\c64acia1.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64bus.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64cia2.c
 # End Source File
 # Begin Source File
@@ -103,6 +107,10 @@ SOURCE=..\..\c64\c64drive.c
 # Begin Source File
 
 SOURCE=..\..\c64\c64iec.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\c64io.c
 # End Source File
 # Begin Source File
 

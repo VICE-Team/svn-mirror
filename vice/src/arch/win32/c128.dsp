@@ -110,10 +110,6 @@ SOURCE=..\..\c128\c128fastiec.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c128\c128io.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\c128\c128mem.c
 # End Source File
 # Begin Source File

@@ -240,6 +240,7 @@ libcbm2_a_SOURCES = \
 	cbm2.h \
 	cbm2acia.h \
 	cbm2acia1.c \
+	cbm2bus.c \
 	cbm2cia.h \
 	cbm2cia1.c \
 	cbm2cpu.c \
@@ -268,9 +269,9 @@ libcbm2_a_AR = $(AR) cru
 libcbm2_a_LIBADD =
 am_libcbm2_a_OBJECTS = cbm2-cmdline-options.$(OBJEXT) \
 	cbm2-resources.$(OBJEXT) cbm2-snapshot.$(OBJEXT) cbm2.$(OBJEXT) \
-	cbm2acia1.$(OBJEXT) cbm2cia1.$(OBJEXT) cbm2cpu.$(OBJEXT) \
-	cbm2datasette.$(OBJEXT) cbm2drive.$(OBJEXT) cbm2iec.$(OBJEXT) \
-	cbm2mem.$(OBJEXT) cbm2memsnapshot.$(OBJEXT) \
+	cbm2acia1.$(OBJEXT) cbm2bus.$(OBJEXT) cbm2cia1.$(OBJEXT) \
+	cbm2cpu.$(OBJEXT) cbm2datasette.$(OBJEXT) cbm2drive.$(OBJEXT) \
+	cbm2iec.$(OBJEXT) cbm2mem.$(OBJEXT) cbm2memsnapshot.$(OBJEXT) \
 	cbm2printer.$(OBJEXT) cbm2rom.$(OBJEXT) cbm2tpi1.$(OBJEXT) \
 	cbm2tpi2.$(OBJEXT)
 libcbm2_a_OBJECTS = $(am_libcbm2_a_OBJECTS)
@@ -281,8 +282,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/cbm2-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2-resources.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2-snapshot.Po ./$(DEPDIR)/cbm2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbm2acia1.Po ./$(DEPDIR)/cbm2cia1.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbm2cpu.Po ./$(DEPDIR)/cbm2datasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbm2acia1.Po ./$(DEPDIR)/cbm2bus.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbm2cia1.Po ./$(DEPDIR)/cbm2cpu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbm2datasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2drive.Po ./$(DEPDIR)/cbm2iec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2memsnapshot.Po \
@@ -324,6 +326,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2-snapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2acia1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2bus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2cia1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2cpu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2datasette.Po@am__quote@
