@@ -419,14 +419,14 @@ void frame_buffer_clear(frame_buffer_t * f, PIXEL value)
    window. */
 canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       unsigned int *height, int mapped,
-		       canvas_redraw_t exposure_handler, int num_colors,
-		       const color_def_t color_defs[], PIXEL * pixel_return)
+		       canvas_redraw_t exposure_handler,
+		       const palette_t *palette, PIXEL * pixel_return)
 {
     canvas_t c;
     Widget w;
 
     w = UiOpenCanvasWindow(win_name, *width, *height, 1, exposure_handler,
-			   num_colors, color_defs, pixel_return);
+			   palette, pixel_return);
     if (!w)
 	return (canvas_t) NULL;
 

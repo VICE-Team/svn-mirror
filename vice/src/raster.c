@@ -340,7 +340,7 @@ static void resize(unsigned int width, unsigned int height)
 
 /* Open the emulation window. */
 static int open_output_window(char *win_name, unsigned int width,
-			      unsigned int height, color_def_t color_defs[],
+			      unsigned int height, palette_t *palette,
 			      canvas_redraw_t exposure_handler)
 {
     int i;
@@ -349,8 +349,7 @@ static int open_output_window(char *win_name, unsigned int width,
     window_height = height * pixel_height;
 
     canvas = canvas_create(win_name, &window_width, &window_height, !asleep,
-			   exposure_handler, SCREEN_NUM_COLORS, color_defs,
-			   pixel_table);
+			   exposure_handler, palette, pixel_table);
 
     /* Prepare the double and quad pixel tables. */
     for (i = 0; i < 0x100; i++)

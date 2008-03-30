@@ -33,6 +33,7 @@
 
 #include "types.h"
 #include "xdebug.h"
+#include "palette.h"
 
 typedef Widget UiWindow;
 typedef XtCallbackProc UiMenuCallback;
@@ -41,7 +42,6 @@ typedef enum { Button_None, Button_Close, Button_Ok, Button_Cancel,
 	       Button_Yes, Button_No, Button_Reset, Button_HardReset,
                Button_Mon,Button_Debug, Button_Contents, Button_Autostart,
              } UiButton;
-typedef struct { unsigned short red, green, blue; BYTE dither; } UiColorDef;
 typedef XtPointer UiCallbackDataPtr;
 
 typedef enum { UI_JAM_RESET, UI_JAM_HARD_RESET,
@@ -52,7 +52,7 @@ extern int ui_init_cmdline_options(void);
 
 extern int UiInit(int *argc, char **argv);
 extern int UiInitFinish(void);
-extern UiWindow UiOpenCanvasWindow(const char *title, int width, int height, int no_autorepeat, UiExposureHandler exposure_proc, int num_colors, const UiColorDef color_defs[], PIXEL pixel_return[]);
+extern UiWindow UiOpenCanvasWindow(const char *title, int width, int height, int no_autorepeat, UiExposureHandler exposure_proc, const palette_t *p, PIXEL pixel_return[]);
 extern void UiResizeCanvasWindow(UiWindow w, int height, int width);
 extern void UiMapCanvasWindow(UiWindow w);
 extern void UiUnmapCanvasWindow(UiWindow w);

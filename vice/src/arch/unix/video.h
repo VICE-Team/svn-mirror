@@ -29,6 +29,7 @@
 #define _VIDEO_X_H
 
 #include "vice.h"
+#include "palette.h"
 
 #include <X11/Xlib.h>
 #if defined( MITSHM )
@@ -63,7 +64,6 @@ typedef struct _frame_buffer frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
 typedef UiExposureHandler canvas_redraw_t;
-typedef UiColorDef color_def_t;
 
 extern Display *display;
 extern void (*_refresh_func) ();
@@ -113,8 +113,7 @@ extern void frame_buffer_clear(frame_buffer_t * i, PIXEL value);
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
 			      unsigned int *height, int mapped,
 			      canvas_redraw_t exposure_handler,
-			      int num_colors, const color_def_t color_defs[],
-			      PIXEL *pixel_return);
+			      const palette_t *palette, PIXEL *pixel_return);
 extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);
 extern void canvas_unmap(canvas_t s);
