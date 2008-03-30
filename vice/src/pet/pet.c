@@ -284,9 +284,6 @@ int machine_specific_init(void)
 
     log_message(pet_log, "Initializing IEEE488 bus...");
 
-    /* Initialize drives. */
-    file_system_init();
-
     rs232drv_init();
 
     /* initialize print devices */
@@ -374,9 +371,6 @@ void machine_specific_powerup(void)
 
 void machine_specific_shutdown(void)
 {
-    /* Detach all disks.  */
-    file_system_detach_disk_shutdown();
-
     /* and the tape */
     tape_image_detach_internal(1);
 

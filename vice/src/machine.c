@@ -174,6 +174,9 @@ int machine_init(void)
 {
     machine_video_init();
 
+    fsdevice_init();
+    file_system_init();
+
     return machine_specific_init();
 }
 
@@ -190,6 +193,8 @@ static void machine_maincpu_shutdown(void)
 
 void machine_shutdown(void)
 {
+    file_system_detach_disk_shutdown();
+
     machine_specific_shutdown();
 
     autostart_shutdown();
@@ -205,6 +210,7 @@ void machine_shutdown(void)
 
     fliplist_shutdown();
     file_system_shutdown();
+    fsdevice_shutdown();
 
     tape_shutdown();
 
@@ -230,8 +236,6 @@ void machine_shutdown(void)
     ui_shutdown();
 
     sysfile_shutdown();
-
-    fsdevice_shutdown();
 
     log_close_all();
 

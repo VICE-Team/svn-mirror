@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 
-#include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
 #include "clkguard.h"
@@ -324,9 +323,6 @@ int machine_specific_init(void)
     serial_trap_init(0xa4);
     serial_iec_bus_init();
 
-    /* Initialize drives. */
-    file_system_init();
-
     /* Initialize RS232 handler.  */
     rs232drv_init();
     vic20_rsuser_init();
@@ -416,9 +412,6 @@ void machine_specific_powerup(void)
 
 void machine_specific_shutdown(void)
 {
-    /* Detach all disks.  */
-    file_system_detach_disk_shutdown();
-
     /* and the tape */
     tape_image_detach_internal(1);
 

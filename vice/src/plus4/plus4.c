@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
 #include "datasette.h"
@@ -337,9 +336,6 @@ int machine_specific_init(void)
     serial_trap_init(0xa8);
     serial_iec_bus_init();
 
-    /* Initialize drives. */
-    file_system_init();
-
     rs232drv_init();
 
     /* Initialize print devices.  */
@@ -425,8 +421,6 @@ void machine_specific_powerup(void)
 
 void machine_specific_shutdown(void)
 {
-    file_system_detach_disk_shutdown();
-
     tape_image_detach_internal(1);
 
     ted_shutdown();

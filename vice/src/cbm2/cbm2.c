@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "alarm.h"
-#include "attach.h"
 #include "autostart.h"
 #include "cbm2-cmdline-options.h"
 #include "cbm2-resources.h"
@@ -272,9 +271,6 @@ int machine_specific_init(void)
     if (mem_load() < 0)
         return -1;
 
-    /* Initialize drives. */
-    file_system_init();
-
     rs232drv_init();
 
     /* initialize print devices */
@@ -376,9 +372,6 @@ void machine_specific_powerup(void)
 
 void machine_specific_shutdown(void)
 {
-    /* Detach all disks.  */
-    file_system_detach_disk_shutdown();
-
     /* and the tape */
     tape_image_detach_internal(1);
 
