@@ -33,6 +33,7 @@
 #include "c128.h"
 #include "c128mem.h"
 #include "c128rom.h"
+#include "c64export.h"
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -368,11 +369,24 @@ static int set_acia_d7_enabled(resource_value_t v, void *param)
 {
     acia_d7_enabled = (int)v;
     return 0;
-
+}
 #endif
 
 static int set_acia_de_enabled(resource_value_t v, void *param)
 {
+  static const c64export_resource_t export_res = {
+      "ACIA", 1, 0, 0, 0
+  };
+
+  if ((int)v==1)
+  {
+    if (c64export_query(&export_res) < 0)
+      return -1;
+    if (c64export_add(&export_res) < 0)
+      return -1;
+  }
+  else
+    c64export_remove(&export_res);
     acia_de_enabled = (int)v;
     return 0;
 }

@@ -31,6 +31,7 @@ extern int sid_resources_init(void);
 extern int sid_set_sid_stereo_address(void *v, void *param);
 
 extern int sid_stereo;
+extern int checking_sid_stereo;
 extern unsigned int sid_stereo_address_start;
 extern unsigned int sid_stereo_address_end;
 

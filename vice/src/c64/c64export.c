@@ -31,6 +31,7 @@
 
 #include "c64export.h"
 #include "ui.h"
+#include "sid-resources.h"
 
 
 static const char *usage_io1, *usage_io2, *usage_roml, *usage_romh;
@@ -43,10 +44,18 @@ int c64export_query(const c64export_resource_t *export_res)
             ui_error("Resource IO1 blocked by %s.", usage_io1);
             return -1;
         }
+        if (sid_stereo && sid_stereo_address_start >= 0xde00 && sid_stereo_address_start <=0xdeff && checking_sid_stereo==0) {
+            ui_error("Resource IO1 blocked by STEREO_SID.");
+            return -1;
+        }
     }
     if (export_res->use_io2 > 0) {
         if (usage_io2 != NULL && strcmp(usage_io2, export_res->name)!=0) {
             ui_error("Resource IO2 blocked by %s.", usage_io2);
+            return -1;
+        }
+        if (sid_stereo && sid_stereo_address_start >= 0xdf00 && sid_stereo_address_start <=0xdfff&& checking_sid_stereo==0) {
+            ui_error("Resource IO2 blocked by STEREO_SID.");
             return -1;
         }
     }

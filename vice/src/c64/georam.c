@@ -286,11 +286,7 @@ BYTE REGPARM1 georam_reg_read(WORD addr)
 {
     BYTE retval;
 
-    retval=0xff;
-    if (addr==0xfe)
-      retval=georam[0];
-    if (addr==0xff)
-      retval=georam[1];
+    retval=georam[addr&1];
 
     return retval;
 }
@@ -307,7 +303,7 @@ BYTE REGPARM1 georam_window_read(WORD addr)
 
 void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
 {
-    if (addr==0xff)
+    if ((addr&1)==1)
     {
       while (byte>((georam_size_kb/16)-1))
       {
@@ -315,7 +311,7 @@ void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
       }
       georam[1]=byte;
     }
-    if (addr==0xfe)
+    if ((addr&1)==0)
     {
       while (byte>63)
       {

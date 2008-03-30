@@ -99,8 +99,8 @@ BYTE REGPARM1 io2_read(WORD addr)
         return cartridge_read_io2(addr);
     if (reu_enabled)
         return reu_read((WORD)(addr & 0x0f));
-    if (georam_enabled)
-        return georam_reg_read((WORD)(addr & 0xff));
+    if (georam_enabled && addr>=0xdf80)
+        return georam_reg_read((WORD)(addr & 1));
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0)
@@ -123,8 +123,8 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         reu_store((WORD)(addr & 0x0f), value);
         return;
     }
-    if (georam_enabled) {
-        georam_reg_store((WORD)(addr & 0xff), value);
+    if (georam_enabled && addr>=0xdf80) {
+        georam_reg_store((WORD)(addr & 1), value);
         return;
     }
     if (mem_cartridge_type != CARTRIDGE_NONE) {

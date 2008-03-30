@@ -31,6 +31,7 @@
 
 #include "c64-resources.h"
 #include "c64cart.h"
+#include "c64export.h"
 #include "c64rom.h"
 #include "cartridge.h"
 #include "drive.h"
@@ -128,6 +129,18 @@ static int set_kernal_revision(resource_value_t v, void *param)
 
 static int set_acia_de_enabled(resource_value_t v, void *param)
 {
+    static const c64export_resource_t export_res = {
+        "ACIA", 1, 0, 0, 0
+    };
+
+    if ((int)v == 1) {
+        if (c64export_query(&export_res) < 0)
+            return -1;
+        if (c64export_add(&export_res) < 0)
+            return -1;
+    } else
+        c64export_remove(&export_res);
+
     acia_de_enabled = (int)v;
     return 0;
 }

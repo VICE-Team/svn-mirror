@@ -320,10 +320,10 @@ int c64ui_init(void)
 
     tui_menu_add_separator(ui_special_submenu);
 
-    ui_ioextensions_submenu = tui_menu_create("I/O extensions at $DFxx", 1);
+    ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
     tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);
-    tui_menu_add_submenu(ui_special_submenu, "_I/O extensions at $DFxx...",
-                         "Configure I/O extensions at $DFxx",
+    tui_menu_add_submenu(ui_special_submenu, "_I/O extensions...",
+                         "Configure I/O extensions",
                          ui_ioextensions_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
