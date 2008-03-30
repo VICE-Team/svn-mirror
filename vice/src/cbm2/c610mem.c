@@ -1133,13 +1133,13 @@ static int mem_load_kernal(void)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    autostart_init(0, 0, 0, 0, 0, 0);
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
  
     /* Load Kernal ROM.  */
     if (!IS_NULL(kernal_rom_name)) {
         if (mem_load_sys_file(kernal_rom_name,
-                                        rom + 0xe000, 0x2000, 0x2000) < 0) {
+                              rom + 0xe000, 0x2000, 0x2000) < 0) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
             return -1;
 	}
@@ -1156,7 +1156,7 @@ static int mem_load_basic(void)
     /* Load BASIC ROM.  */
     if (!IS_NULL(basic_rom_name)) {
         if ((mem_load_sys_file(basic_rom_name,
-                                       rom + 0x8000, 0x4000, 0x4000) < 0)) {
+                               rom + 0x8000, 0x4000, 0x4000) < 0)) {
             log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
                   basic_rom_name);
             return -1;
@@ -1174,7 +1174,7 @@ static int mem_load_cart_1(void)
 
     if (!IS_NULL(cart_1_name)) {
         if ((mem_load_sys_file(cart_1_name,
-                                       rom + 0x1000, 0x1000, 0x1000) < 0)) {
+                               rom + 0x1000, 0x1000, 0x1000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                   cart_1_name);
 	}
@@ -1190,9 +1190,9 @@ static int mem_load_cart_2(void)
 
     if (!IS_NULL(cart_2_name)) {
         if ((mem_load_sys_file(cart_2_name,
-                                       rom + 0x2000, 0x2000, 0x2000) < 0)) {
+                               rom + 0x2000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_2_name);
+                      cart_2_name);
 	}
     } else {
 	memset(rom + 0x2000, 0xff, 0x2000);
@@ -1206,9 +1206,9 @@ static int mem_load_cart_4(void)
 
     if (!IS_NULL(cart_4_name)) {
         if ((mem_load_sys_file(cart_4_name,
-                                       rom + 0x4000, 0x2000, 0x2000) < 0)) {
+                               rom + 0x4000, 0x2000, 0x2000) < 0)) {
             log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                  cart_4_name);
+                      cart_4_name);
 	}
     } else {
 	memset(rom + 0x4000, 0xff, 0x2000);

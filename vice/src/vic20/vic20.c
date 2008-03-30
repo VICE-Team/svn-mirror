@@ -74,11 +74,6 @@ int machine_class = VICE_MACHINE_VIC20;
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: Can we make the start address determine the config on autoload? */
-static const int rawaddrs[] = { 0x1001, 0x1201, 0x0401, -1 };
-
-/* ------------------------------------------------------------------------- */
-
 /* VIC20 Traps */
 static trap_t vic20_serial_traps[] = {
     {
@@ -251,7 +246,7 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5, rawaddrs);
+                   0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
     vic_init();

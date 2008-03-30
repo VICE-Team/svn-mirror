@@ -33,26 +33,29 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #endif
 
 #include "autostart.h"
 
 #include "attach.h"
+#include "charsets.h"
+#include "fsdevice.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
+#include "machine.h"
 #include "mem.h"
+#include "p00.h"
 #include "resources.h"
 #include "serial.h"
+#include "snapshot.h"
+#include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "vmachine.h"
-#include "machine.h"
-#include "snapshot.h"
-#include "tape.h"
-#include "warn.h"
 #include "zfile.h"
-#include "charsets.h"
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -60,7 +63,6 @@ static int blnsw;		/* Cursor Blink enable: 0 = Flash Cursor */
 static int pnt;			/* Pointer: Current Screen Line Address */
 static int pntr;		/* Cursor Column on Current Line */
 static int lnmx;		/* Physical Screen Line Length */
-static const int *rawaddr;	/* list of valid raw CBM file start addresses */
 
 /* Current state of the autostart routine.  */
 static enum {
@@ -71,12 +73,11 @@ static enum {
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
-    AUTOSTART_HASFILE,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
-/* Warnings.  */
-static warn_t *pwarn = NULL;
+/* Log descriptor.  */
+static log_t autostart_log = LOG_ERR;
 
 /* Flag: was true 1541 emulation turned on when we started booting the disk
    image?  */
@@ -158,19 +159,19 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 
 /* Initialize autostart.  */
 int autostart_init(CLOCK _min_cycles, int _handle_true1541,
-	   int _blnsw, int _pnt, int _pntr, int _lnmx, const int *_rawaddr)
+                   int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
     blnsw = _blnsw;
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;
-    rawaddr = _rawaddr;
 
-    if (!pwarn) {
-	pwarn = warn_init("Autostart", 32);
-	if (!pwarn)
-	    return -1;
+    if (autostart_log == LOG_ERR) {
+        autostart_log = log_open("AUTOSTART");
+        if (autostart_log == LOG_ERR)
+            return -1;
     }
+
     min_cycles = _min_cycles;
     handle_true1541 = _handle_true1541;
 
@@ -189,7 +190,7 @@ void autostart_disable(void)
 
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
-    warn(pwarn, -1, "disabling autostart");
+    log_error(autostart_log, "Turned off.");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -200,11 +201,11 @@ static void disk_eof_callback(void)
 {
     if (handle_true1541) {
         if (orig_true1541_state)
-            warn(pwarn, -1, "switching true 1541 on");
+            log_message(autostart_log, "Turning true drive emulation on.");
         set_true1541_mode(orig_true1541_state);
     }
 
-    warn(pwarn, -1, "starting program");
+    log_message(autostart_log, "Starting program.");
 
     autostartmode = AUTOSTART_DONE;
 
@@ -238,7 +239,7 @@ void autostart_advance(void)
       case AUTOSTART_HASTAPE:
         switch (check("READY.")) {
           case YES:
-            warn(pwarn, -1, "loading tape");
+            log_message(autostart_log, "Loading file.");
             if (autostart_program_name) {
                 tmp = concat("LOAD\"", autostart_program_name,
                              "\"\r", NULL);
@@ -259,7 +260,7 @@ void autostart_advance(void)
       case AUTOSTART_LOADINGTAPE:
         switch (check("READY.")) {
           case YES:
-            warn(pwarn, -1, "starting program");
+            log_message(autostart_log, "Starting program.");
             kbd_buf_feed("RUN\r");
             autostartmode = AUTOSTART_DONE;
             break;
@@ -276,20 +277,20 @@ void autostart_advance(void)
             {
                 int no_traps;
 
-                warn(pwarn, -1, "loading disk");
+                log_message(autostart_log, "Loading program.");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
                     resources_get_value("NoTraps",
-					(resource_value_t *) & no_traps);
+					(resource_value_t *) &no_traps);
                     if (!no_traps) {
                         if (orig_true1541_state)
-                            warn(pwarn, -1,
-                                 "switching true 1541 emulation off");
+                            log_message(autostart_log,
+                                        "Switching true drive emulation off.");
                         set_true1541_mode(0);
                     } else {
                         if (!orig_true1541_state)
-                            warn(pwarn, -1,
-                                 "switching true 1541 emulation on");
+                            log_message(autostart_log,
+                                        "Switching true drive emulation on.");
                         set_true1541_mode(1);
                     }
                 } else
@@ -321,36 +322,8 @@ void autostart_advance(void)
             break;
         }
         break;
-      case AUTOSTART_HASFILE:
-        switch (check("READY.")) {
-          case YES:
-            {
-                warn(pwarn, -1, "loading file");
-
-		/* TODO: handle no_traps/true1541 case */
-
-                if (autostart_program_name) {
-                    tmp = malloc(strlen((char *)(autostart_program_name)) + 20);
-                    sprintf(tmp, "LOAD\"%s\",8,1\r",
-                            autostart_program_name);
-                    kbd_buf_feed(tmp);
-                    free(tmp);
-                } else
-                    kbd_buf_feed("LOAD\"*\",8,1\r");
-
-                kbd_buf_feed("RUN\r");
-                autostartmode = AUTOSTART_DONE;
-                break;
-            }
-          case NO:
-            autostart_disable();
-            break;
-          case NOT_YET:
-            break;
-        }
-        break;
       case AUTOSTART_HASSNAPSHOT:
-        warn(pwarn, -1, "loading snapshot");
+        log_message(autostart_log, "Restoring snapshot.");
 	maincpu_trigger_trap(load_snapshot_trap,(void*)0);
         autostartmode = AUTOSTART_DONE;
 	break;
@@ -359,8 +332,8 @@ void autostart_advance(void)
     }
 
     if (autostartmode == AUTOSTART_ERROR && handle_true1541) {
-	warn(pwarn, -1, "now turning true 1541 emulation %s",
-	     orig_true1541_state ? "on" : "off");
+        log_message(autostart_log, "Now turning true drive emulation %s.",
+                    orig_true1541_state ? "on" : "off");
 	set_true1541_mode(orig_true1541_state);
     }
 }
@@ -373,7 +346,8 @@ static void reboot_for_autostart(const char *program_name)
     if (!autostart_enabled)
 	return;
 
-    warn(pwarn, -1, "rebooting...");
+    log_message(autostart_log, "Resetting the machine...");
+
     mem_powerup();
     autostart_ignore_reset = 1;
     maincpu_trigger_reset();
@@ -396,12 +370,12 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     deallocate_program_name();	/* not needed at all */
 
     if (!(snap = snapshot_open(file_name, &vmajor, &vminor, machine_name)) ) {
-	warn(pwarn, -1, "cannot attach file '%s' (as a snapshot)", file_name);
 	autostartmode = AUTOSTART_ERROR;
 	return -1;
     }
+
+    log_message(autostart_log, "Loading snapshot file `%s'.", file_name);
     snapshot_close(snap);
-    warn(pwarn, -1, "attached file `%s' as a snapshot file", file_name);
     autostartmode = AUTOSTART_HASSNAPSHOT;
     reboot_for_autostart(file_name);	/* use for snapshot */
 
@@ -415,12 +389,13 @@ int autostart_tape(const char *file_name, const char *program_name)
 	return -1;
 
     if (tape_attach_image(file_name) < 0) {
-	warn(pwarn, -1, "cannot attach file '%s' (as a tape)", file_name);
 	autostartmode = AUTOSTART_ERROR;
 	deallocate_program_name();
 	return -1;
     }
-    warn(pwarn, -1, "attached file `%s' as a tape image", file_name);
+
+    log_message(autostart_log, "Attached file `%s' as a tape image.",
+                file_name);
     autostartmode = AUTOSTART_HASTAPE;
     reboot_for_autostart(program_name);
 
@@ -434,67 +409,97 @@ int autostart_disk(const char *file_name, const char *program_name)
 	return -1;
 
     if (file_system_attach_disk(8, file_name) < 0) {
-	warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
 	file_system_detach_disk(8);
 	autostartmode = AUTOSTART_ERROR;
 	deallocate_program_name();
 	return -1;
     }
-    warn(pwarn, -1, "attached file `%s' as a disk image to device #8",
-	 file_name);
+
+    log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
+                file_name);
+
     autostartmode = AUTOSTART_HASDISK;
     reboot_for_autostart(program_name);
 
     return 0;
 }
 
-/* Autostart raw image `file_name'.  */
-int autostart_rawfile(const char *file_name, const char *program_name)
+/* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
+   or a P00 file, and the FS-based drive emulation is set up so that its
+   directory becomes the current one on unit #8.  */
+int autostart_prg(const char *file_name)
 {
-    FILE *fd;
-    int c1, c2;
-    const int *p = rawaddr;
-    char *tmps;
+    FILE *f;
+    BYTE *cbm_name;
+    BYTE p00_header_file_name[20]; /* FIXME */
+    int p00_type;
+    char *directory;
+    char *file;
 
-    if (rawaddr == NULL || file_name == NULL || !autostart_enabled)
-	return -1;
-
-    fd = fopen(file_name, "rb");	/* we do not open compressed files */
-
-    if(fd == NULL) {
-	warn(pwarn, -1, "cannot attach file `%s' as a raw CBM file", file_name);
+    f = fopen(file_name, "r");
+    if (f == NULL) {
+        log_error(autostart_log, "Cannot open `%s': %s",
+                  file_name, strerror(errno));
         return -1;
     }
 
-    c1 = fgetc(fd);
-    c2 = fgetc(fd);
-    fclose(fd);
+    /* First check if it's a P00 file.  */
 
-    if(c2 == EOF) {
-	warn(pwarn, -1, "cannot attach file `%s' as a raw CBM file", file_name);
-	return -1;
+    p00_type = p00_check_name(file_name);
+    if (p00_type >= 0) {
+        if (p00_type == FT_PRG
+            && p00_read_header(f, p00_header_file_name, NULL) != 0)
+            p00_type = -1;
+        else if (p00_type != FT_PRG) {
+            fclose(f);
+            return -1;
+        }
     }
 
-    c1 = (c1 & 0xff) | ((c2 << 8) & 0xff00);
+    /* Extract the directory path to allow FS-based drive emulation to
+       work.  */
+    fname_split(file_name, &directory, &file);
+    if (path_is_relative(directory)) {
+        char *tmp, *cwd;
 
-    while (*p) {
-	if (c1 == *p) {
-            autostartmode = AUTOSTART_HASFILE;
-	    tmps = stralloc(file_name);
-	    petconvstring(tmps,0);
-            reboot_for_autostart(tmps);
-	    free(tmps);
-            warn(pwarn, -1, "attached file `%s' as a disk image to device #8",
-	        file_name);
-	    return 0;
-	}
-	p++;
+        cwd = get_current_dir();
+        tmp = concat(cwd, "/", directory, NULL);
+        free(directory);
+        directory = tmp;
+
+        /* FIXME: We should actually eat `.'s and `..'s from `directory'
+           instead.  */
     }
 
-    warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
-    autostartmode = AUTOSTART_ERROR;
-    deallocate_program_name();
-    return -1;
+    /* Prepare the CBM file name.  */
+    if (p00_type != FT_PRG) {
+        /* Then it must be a raw file.  */
+        cbm_name = stralloc(file);
+        petconvstring(cbm_name, 0);
+    } else {
+        cbm_name = stralloc(p00_header_file_name);
+    }
+
+    /* Setup FS-based drive emulation.  */
+    fsdevice_set_directory(directory, 8);
+    set_true1541_mode(FALSE);
+    resources_set_value("NoTraps", (resource_value_t) FALSE);
+    resources_set_value("FSDevice8ConvertP00", (resource_value_t) TRUE);
+    ui_update_menus();
+
+    /* Now it's the same as autostarting a disk image.  */
+    autostartmode = AUTOSTART_HASDISK;
+    reboot_for_autostart(cbm_name);
+
+    free(directory);
+    free(file);
+    free(cbm_name);
+    fclose(f);
+
+    log_message(autostart_log, "Preparing to load PRG file `%s'.",
+                file_name);
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -506,19 +511,21 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 	return -1;
 
     if (!autostart_enabled) {
-	warn(pwarn, -1, "Couldn't autostart - unknown kernal!");
+	log_error(autostart_log,
+                  "Autostart is not available on this setup.");
 	return -1;
     }
+
     if (autostart_disk(file_name, program_name) == 0)
-	warn(pwarn, -1, "`%s' detected as a disk image", file_name);
+        ;
     else if (autostart_tape(file_name, program_name) == 0)
-	warn(pwarn, -1, "`%s' detected as a tape image", file_name);
+        ;
     else if (autostart_snapshot(file_name, program_name) == 0)
-	warn(pwarn, -1, "`%s' detected as a snapshot file", file_name);
-    else if (autostart_rawfile(file_name, program_name) == 0)
-	warn(pwarn, -1, "`%s' detected as a raw CBM file", file_name);
+        ;
+    else if (autostart_prg(file_name) == 0)
+        ;
     else {
-	warn(pwarn, -1, "type of file `%s' unrecognized", file_name);
+	log_error(autostart_log, "`%s' is not a valid file.", file_name);
 	return -1;
     }
 
@@ -555,9 +562,9 @@ void autostart_reset(void)
     if (!autostart_ignore_reset
         && autostartmode != AUTOSTART_NONE
         && autostartmode != AUTOSTART_ERROR) {
-	warn(pwarn, -1, "disabling autostart");
 	autostartmode = AUTOSTART_NONE;
 	deallocate_program_name();
+	log_message(autostart_log, "Turned off.");
     }
     autostart_ignore_reset = 0;
 }

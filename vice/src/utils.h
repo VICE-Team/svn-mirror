@@ -47,6 +47,7 @@ char *make_backup_filename(const char *fname);
 int make_backup_file(const char *fname);
 char *get_current_dir(void);
 unsigned long file_length(file_desc_t fd);
+int path_is_relative(const char *directory);
 int spawn(const char *name, char **argv, const char *stdout_redir,
 		 const char *stderr_redir);
 int load_file(const char *name, void *dest, int size);

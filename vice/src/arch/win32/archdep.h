@@ -49,8 +49,9 @@ FILE *archdep_open_default_log_file(void);
 int archdep_num_text_lines(void);
 int archdep_num_text_columns(void);
 int archdep_default_logger(const char *level_string, const char *format,
-                                                                va_list ap);
+                           va_list ap);
 
+int archdep_path_is_relative(const char *path);
 void archdep_setup_signals(int do_core_dumps);
 
 #endif

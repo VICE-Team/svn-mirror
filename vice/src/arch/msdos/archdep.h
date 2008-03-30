@@ -54,6 +54,7 @@ int archdep_default_logger(const char *level_string, const char *format,
                                                                 va_list ap);
 
 void archdep_setup_signals(int do_core_dumps);
+int archdep_path_is_relative(const char *path);
 
 #endif
 

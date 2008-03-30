@@ -90,6 +90,10 @@ list of all the changes in the code.
 
 - New function to set the name of the disk.
 
+** Miscellaneous changes
+------------------------
+
+- P00 and PRG files can be autostarted from the command line again.
 
 * Changes in VICE 0.16.1a
 =========================

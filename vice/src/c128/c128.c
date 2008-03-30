@@ -267,7 +267,7 @@ int machine_init(void)
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
     autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1,
-	0xa27, 0xe0, 0xec, 0xee, NULL);
+                   0xa27, 0xe0, 0xec, 0xee);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)

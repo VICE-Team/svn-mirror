@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 9 Febuary 1999 -->
+     from ../vice.texi on 14 March 1999 -->
 
 <TITLE>VICE Manual - 3  Invoking the emulators</TITLE>
 </HEAD>
@@ -149,6 +149,14 @@ result can be obtained with
 x64 -autostart "lovelygame.x64.gz:run me"
 </PRE>
 
+<P>
+If you specify a raw CBM or P00 file, the emulator will setup the file
+system based drive emulation so that it is enabled and accesses the
+directory containing the file first.  This is a very convenient way to
+start multi-file programs stored in file system directories and not
+requiring "true" drive emulation.
+
+</P>
 <P>
 See section <A HREF="vice_5.html#SEC31">5.5  Using disk and tape images</A> for more information about images and
 autostart.

@@ -911,6 +911,12 @@ result can be obtained with
 
      x64 -autostart "lovelygame.x64.gz:run me"
 
+   If you specify a raw CBM or P00 file, the emulator will setup the
+file system based drive emulation so that it is enabled and accesses the
+directory containing the file first.  This is a very convenient way to
+start multi-file programs stored in file system directories and not
+requiring "true" drive emulation.
+
    *Note Disk and tape images:: for more information about images and
 autostart.
 

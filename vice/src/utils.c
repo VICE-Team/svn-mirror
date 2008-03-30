@@ -24,6 +24,9 @@
  *
  */
 
+/* FIXME: This file should have all the system-specific #ifdefs removed
+   someday.  */
+
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -62,6 +65,7 @@
 
 #include "utils.h"
 
+#include "archdep.h"
 #include "log.h"
 
 /* ------------------------------------------------------------------------- */
@@ -530,6 +534,11 @@ void fname_split(const char *path, char **directory_return, char **name_return)
         *name_return = stralloc(p + 1);
 
     return;
+}
+
+int path_is_relative(const char *directory)
+{
+    return archdep_path_is_relative(directory);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -93,11 +93,6 @@ PetRes petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0,
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: valid start addresses for the PET */
-static const int rawaddrs[] = { 0x400, 0x401, -1 };
-
-/* ------------------------------------------------------------------------- */
-
 const char *mem_romset_resources_list[] = { 
     "KernalName", "EditorName", "ChargenName", "BasicName",
     "RomModule9Name", "RomModuleAName",
@@ -1340,7 +1335,7 @@ static void petmem_checksum(void)
 				"Identified 80 columns editor by checksum.");
             petres.rom_video = 80;
             autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 
-				0, 0xa7, 0xc4, 0xc6, -80, rawaddrs);
+				0, 0xa7, 0xc4, 0xc6, -80);
 	} else 
 	if(petres.editor_checksum == PET_EDIT4B40_CHECKSUM
 		||petres.editor_checksum == PET_EDIT4G40_CHECKSUM) {
@@ -1349,7 +1344,7 @@ static void petmem_checksum(void)
 				"Identified 80 columns editor by checksum.");
             petres.rom_video = 40;
             autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 
-				0, 0xa7, 0xc4, 0xc6, -40, rawaddrs);
+				0, 0xa7, 0xc4, 0xc6, -40);
 	}
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
 	if(petres.kernal_checksum!=last_kernal)
@@ -1358,7 +1353,7 @@ static void petmem_checksum(void)
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0xa7, 0xc4, 0xc6, -40, rawaddrs);
+                       0xa7, 0xc4, 0xc6, -40);
         tape_init(214, 150, 157, 144, 0xe62e, 251, 201, 0x26f, 0x9e,
                   pet3_tape_traps);
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
@@ -1368,7 +1363,7 @@ static void petmem_checksum(void)
         kbd_buf_init(0x20f, 0x20d, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0x224, 0xe0, 0xe2, -40, rawaddrs);
+                       0x224, 0xe0, 0xe2, -40);
         tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, 0x20f, 0x20d,
                   pet2_tape_traps);
     } else {
@@ -1506,7 +1501,7 @@ static int mem_load_kernal(void)
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
     /* Load Kernal ROM.  */
@@ -1539,7 +1534,7 @@ static int mem_load_editor(void)
        reloading the ROM the traps are installed in.  */
     /* log_warning(pet_mem_log, "Deinstalling Traps"); */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
     if(!IS_NULL(petres.editorName))
@@ -2254,7 +2249,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
        loading the new ROMs. These depend on addresses defined in the
        rom - they might be different in the loaded ROM. */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
+    autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
     rom_9_loaded = config & 1;

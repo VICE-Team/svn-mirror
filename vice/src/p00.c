@@ -109,7 +109,9 @@ int p00_read_header(FILE *fd, BYTE *cbmname_return,
 	return -1;
 
     memcpy(cbmname_return, hdr + P00_HDR_CBMNAME_OFFSET, P00_HDR_CBMNAME_LEN);
-    *recsize_return = (unsigned int) hdr[P00_HDR_RECORDSIZE_OFFSET];
+
+    if (recsize_return != NULL)
+        *recsize_return = (unsigned int) hdr[P00_HDR_RECORDSIZE_OFFSET];
 
     return 0;
 }

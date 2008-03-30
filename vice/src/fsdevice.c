@@ -1203,6 +1203,9 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
     name[length] = '\0';
 
     dp = opendir(fsdevice_get_path(floppy->unit));
+    if (dp == NULL)
+        return NULL;
+
     do {
 	dirp = readdir(dp);
 	if (dirp != NULL) {
