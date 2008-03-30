@@ -39,7 +39,7 @@
 #include "z80.h"
 #include "z80mem.h"
 
-#define TRACE
+/*#define TRACE*/
 
 static BYTE reg_a = 0;
 static BYTE reg_b = 0;
