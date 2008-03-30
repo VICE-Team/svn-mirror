@@ -357,6 +357,62 @@ raster_cache_data_fill_attr_text (BYTE *dest,
 }
 
 inline static int
+raster_cache_data_fill_attr_text_const (BYTE *dest,
+                             const BYTE *src,
+                             BYTE attr,
+                             BYTE *char_mem,
+                             int bytes_per_char,
+                             int length,
+                             int l,
+                             int *xs, int *xe,
+                             int no_check,
+                             int blink)
+{
+
+#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
+  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
+  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? 0xff : 0x00))
+
+  if (no_check)
+    {
+      int i;
+
+      *xs = 0;
+      *xe = length - 1;
+      for (i = 0; i < length; i++, src++)
+        dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr, l);
+      return 1;
+    }
+  else
+    {
+      BYTE b;
+      int i;
+
+      for (i = 0;
+           i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr, l);
+           i++, src++)
+        /* do nothing */ ;
+
+      if (i < length)
+        {
+          *xs = *xe = i;
+
+          for (; i < length; i++, src++)
+            if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr, l)))
+              {
+                dest[i] = b;
+                *xe = i;
+              }
+
+          return 1;
+        }
+      else
+        return 0;
+    }
+#undef _GET_ATTR_CHAR_DATA
+}
+
+inline static int
 raster_cache_data_fill_const(BYTE *dest,
                              BYTE data,
                              int length,
