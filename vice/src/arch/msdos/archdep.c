@@ -68,7 +68,7 @@ int archdep_init(int *argc, char **argv)
 
     argv0 = lib_stralloc(argv[0]);
 
-    orig_workdir = getcwd(NULL, GET_PATH_MAX);
+    orig_workdir = getcwd(NULL, PATH_MAX);
     atexit(restore_workdir);
 
     return 0;

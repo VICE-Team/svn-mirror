@@ -67,7 +67,7 @@ static char *argv0 = NULL;
 int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
-    orig_workdir = getcwd(NULL, GET_PATH_MAX);
+    orig_workdir = getcwd(NULL, PATH_MAX);
 
     return 0;
 }

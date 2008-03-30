@@ -384,11 +384,11 @@ static TUI_MENU_CALLBACK(load_romset_callback)
 static TUI_MENU_CALLBACK(dump_romset_callback)
 {
     if (been_activated) {
-        char name[GET_PATH_MAX];
-        memset(name, 0, GET_PATH_MAX);
+        char name[PATH_MAX];
+        memset(name, 0, PATH_MAX);
 
         tui_input_string("Dump ROM set definition", "Enter file name:",
-                         name, GET_PATH_MAX);
+                         name, PATH_MAX);
         util_remove_spaces(name);
 
         romset_dump(name, mem_romset_resources_list);

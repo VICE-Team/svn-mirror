@@ -103,7 +103,7 @@ static TUI_MENU_CALLBACK(file_name_callback)
             strcpy(new_file_name, file_name);
 
         while (tui_input_string("Save snapshot", "Enter file name:",
-                                new_file_name, GET_PATH_MAX) != -1) {
+                                new_file_name, PATH_MAX) != -1) {
             util_remove_spaces(new_file_name);
             if (*new_file_name == 0) {
                 char *tmp;

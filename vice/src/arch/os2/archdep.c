@@ -142,7 +142,7 @@ int archdep_init(int *argc, char **argv)
     DosGetInfoBlocks(&pTib, &pPib);
     DosQueryModuleName(pPib->pib_hmte, CCHMAXPATH, argv0);
 
-    orig_workdir = (char*) getcwd(NULL, GET_PATH_MAX);
+    orig_workdir = (char *)getcwd(NULL, PATH_MAX);
     atexit(restore_workdir);
 
     PM_open();

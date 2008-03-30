@@ -527,26 +527,6 @@ char *util_find_prev_line(const char *text, const char *pos)
 
 /* ------------------------------------------------------------------------- */
 
-/* This code is grabbed from GNU make.  It returns the maximum path length by
-   using `pathconf'.  */
-#ifdef NEED_GET_PATH_MAX
-unsigned int get_path_max(void)
-{
-    static unsigned int value;
-
-    if (value == 0) {
-        long int x = pathconf("/", _PC_PATH_MAX);
-
-        if (x > 0)
-            value = x;
-        else
-            return MAXPATHLEN;
-    }
-
-    return value;
-}
-#endif
-
 /* The following are replacements for libc functions that could be missing.  */
 
 #if !defined HAVE_MEMMOVE

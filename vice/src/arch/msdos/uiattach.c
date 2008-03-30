@@ -268,12 +268,12 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
         char new_file_name[MAXPATHLEN];
 
         if (file_name == NULL)
-            memset(new_file_name, 0, GET_PATH_MAX);
+            memset(new_file_name, 0, PATH_MAX);
         else
             strcpy(new_file_name, file_name);
 
         while (tui_input_string("Create disk image", "Enter file name:",
-                                new_file_name, GET_PATH_MAX) != -1) {
+                                new_file_name, PATH_MAX) != -1) {
             util_remove_spaces(new_file_name);
             if (*new_file_name == 0) {
                 char *tmp;
