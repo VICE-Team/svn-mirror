@@ -124,7 +124,6 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
                 drive_rotate_disk(&drive[1]);
             drive[1].finish_byte = 1;
         }
-        byte = tmp;
     }
     return byte;
 }
