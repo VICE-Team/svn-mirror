@@ -172,6 +172,7 @@ typedef struct drivecia1571_context_s {
 typedef struct drivecia1581_context_s {
     unsigned int number;
     struct drive_s *drive_ptr;
+    struct iec_info_s *iec_info;
 } drivecia1581_context_t;
 
 
