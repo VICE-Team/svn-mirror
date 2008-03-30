@@ -62,7 +62,7 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 int crt_attach(const char *filename, BYTE *rawcart)
 {
     BYTE header[0x40], chipheader[0x10];
-    int rc;
+    int rc, new_crttype;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
@@ -80,7 +80,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    crttype = header[0x17] + header[0x16] * 256;
+    new_crttype = header[0x17] + header[0x16] * 256;
+
+    if (c64cart_type == CARTRIDGE_CRT && crttype != new_crttype)
+        cartridge_detach_image();
+
+    crttype = new_crttype;
 
     switch (crttype) {
       case CARTRIDGE_CRT:
