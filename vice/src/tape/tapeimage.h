@@ -27,12 +27,6 @@
 #ifndef _TAPEIMAGE_H
 #define _TAPEIMAGE_H
 
-/* FIXME: Make this go away. */
-struct t64_s;
-struct tap_s;
-extern t64_t *attached_t64_tape;
-extern tap_t *attached_tap_tape;
-
 extern void tape_image_init(void);
 
 #endif
