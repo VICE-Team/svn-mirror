@@ -28,6 +28,7 @@ libarch_a_SOURCES = \
 	c610ui.c \
 	c64ui.h \
 	c64ui.c \
+	console.c \
 	coproc.h \
 	coproc.c \
 	joystick.c \
