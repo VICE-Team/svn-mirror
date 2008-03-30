@@ -97,9 +97,7 @@ static void deallocate_program_name(void)
     }
 }
 
-static enum {
-    YES, NO, NOT_YET
-} check(const char *s)
+static enum { YES, NO, NOT_YET } check(const char *s)
 {
     int screen_addr = mem_read(pnt) | (mem_read(pnt + 1) << 8);
     int line_length = lnmx < 0 ? -lnmx : mem_read(lnmx) + 1;
@@ -187,11 +185,24 @@ static void disk_eof_callback(void)
 
     warn(pwarn, -1, "starting program");
 
-    kbd_buf_feed("run\r");
     autostartmode = AUTOSTART_DONE;
 
     serial_set_eof_callback(NULL);
 }
+
+/* This function is called by the `serialattention()' trap before
+   returning.  */
+static void disk_attention_callback(void)
+{
+    kbd_buf_feed("run\r");
+
+    serial_set_attention_callback(NULL);
+
+    /* Next step is waiting for end of loading, to turn true 1541 emulation
+       on.  */
+    serial_set_eof_callback(disk_eof_callback);
+}
+
 
 /* Execute the actions for the current `autostartmode', advancing to the next
    mode if necessary.  */
@@ -242,11 +253,11 @@ void autostart_advance(void)
         switch (check("READY.")) {
           case YES:
             {
+                int no_traps;
+
                 warn(pwarn, -1, "loading disk");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
-                    int no_traps;
-
                     resources_get_value("NoTraps",
 					(resource_value_t *) & no_traps);
                     if (!no_traps) {
@@ -260,17 +271,25 @@ void autostart_advance(void)
                                  "switching true 1541 emulation on");
                         set_true1541_mode(1);
                     }
-                }
+                } else
+                    no_traps = 0;
+
                 if (autostart_program_name) {
-                    tmp = xmalloc(strlen(autostart_program_name) + 20);
-                    sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
+                    tmp = alloca(strlen(autostart_program_name) + 20);
+                    sprintf(tmp, "load\"%s\",8,1\r",
+                            autostart_program_name);
                     kbd_buf_feed(tmp);
-                    free(tmp);
                 } else
                     kbd_buf_feed("load\"*\",8,1\r");
-                autostartmode = AUTOSTART_LOADINGDISK;
-                deallocate_program_name();
-                serial_set_eof_callback(disk_eof_callback);
+
+                if (no_traps) {
+                    kbd_buf_feed("run\r");
+                    autostartmode = AUTOSTART_DONE;
+                } else {
+                    autostartmode = AUTOSTART_LOADINGDISK;
+                    deallocate_program_name();
+                    serial_set_attention_callback(disk_attention_callback);
+                }
                 break;
             }
           case NO:
