@@ -221,6 +221,7 @@ SUFFIXES = .rc
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@ARCH_INCLUDES@/msvc/wpcap \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -354,8 +355,8 @@ EXTRA_DIST = \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
 	msvc/wpcap/pcap-stdinc.h \
-	msvc/wpcap/PCAP.H \
-	msvc/wpcap/NET/bpf.h \
+	msvc/wpcap/pcap.h \
+	msvc/wpcap/net/bpf.h \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \
@@ -627,7 +628,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/NET
+	$(mkinstalldirs) $(distdir)/msvc $(distdir)/msvc/wpcap $(distdir)/msvc/wpcap/net
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
