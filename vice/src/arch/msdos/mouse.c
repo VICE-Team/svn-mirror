@@ -30,13 +30,11 @@
 
 #include <stdio.h>
 
+#include "cmdline.h"
+#include "keyboard.h"
 #include "mouse.h"
-
-#include "kbd.h"  /* for joystick_value[]...
-                     (this is ugly and should be fixed) */
 #include "log.h"
 #include "resources.h"
-#include "cmdline.h"
 
 int _mouse_enabled;
 int _mouse_available;

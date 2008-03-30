@@ -27,10 +27,10 @@
 #ifndef TUIDISKBROWSER_H
 #define TUIDISKBROWSER_H
 
-#include "imagecontents.h"
+struct image_contents_s;
 
 char *tui_image_browser(const char *filename,
-                        image_contents_t *(*contents_func)(const char *));
+                      struct image_contents_s *(*contents_func)(const char *));
 
 #endif
 

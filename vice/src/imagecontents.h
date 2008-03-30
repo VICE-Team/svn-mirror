@@ -34,23 +34,23 @@
 #define IMAGE_CONTENTS_FILE_NAME_LEN  16
 #define IMAGE_CONTENTS_TYPE_LEN       5
 
-struct _image_contents_file_list {
+struct image_contents_file_list_s {
     BYTE name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
     BYTE type[IMAGE_CONTENTS_TYPE_LEN + 1];
 
     unsigned int size;
 
-    struct _image_contents_file_list *prev, *next;
+    struct image_contents_file_list_s *prev, *next;
 };
-typedef struct _image_contents_file_list image_contents_file_list_t;
+typedef struct image_contents_file_list_s image_contents_file_list_t;
 
-struct _image_contents {
+struct image_contents_s {
     BYTE name[IMAGE_CONTENTS_NAME_LEN + 1];
     BYTE id[IMAGE_CONTENTS_ID_LEN + 1];
     int blocks_free;   /* -1: No free space information.  */
     image_contents_file_list_t *file_list;
 };
-typedef struct _image_contents image_contents_t;
+typedef struct image_contents_s image_contents_t;
 
 /* ------------------------------------------------------------------------- */
 

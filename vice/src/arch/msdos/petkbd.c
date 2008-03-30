@@ -25,6 +25,7 @@
  */
 
 #include "kbd.h"
+#include "keyboard.h"
 
 /* PET 3032/4032 keyboard map.  */
 static keyconv pet40_keyboard[256] = {
