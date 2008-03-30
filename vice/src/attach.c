@@ -211,9 +211,21 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
     }
 }
 
-static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
+static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
+                                       unsigned int unit)
+{
+    disk_image_t *oldimg = floppy->image;
+    
+    detach_disk_image(image, floppy, unit);
+    
+    if ((image != NULL) && (image == oldimg))
+        free(image);
+}
+
+static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
                              const char *filename, unsigned int unit)
 {
+    disk_image_t *image;
     disk_image_t new_image;
     int err = -1;
 
@@ -231,12 +243,10 @@ static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
         return -1;
     }
 
-    detach_disk_image(image, floppy, unit);
+    detach_disk_image_and_free(*imgptr, floppy, unit);
 
-    if (image != NULL)
-        free(image);
-
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    *imgptr = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image = *imgptr;
 
     memcpy(image, &new_image, sizeof(disk_image_t));
 
@@ -263,6 +273,7 @@ static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
     if (err) {
         free(image->name);
         free(image);
+	*imgptr = NULL;
     }
     return err;
 }
@@ -276,7 +287,7 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     vdrive_setup_device(vdrive, unit);
 
-    if (attach_disk_image(vdrive->image, vdrive, filename, unit) < 0) {
+    if (attach_disk_image(&(vdrive->image), vdrive, filename, unit) < 0) {
         return -1;
     } else {
         file_system_set_serial_hooks(unit, 0);
@@ -297,7 +308,7 @@ void file_system_detach_disk(int unit)
         for (i = 0; i <= 3; i++) {
             vdrive = file_system_get_vdrive(i + 8);
             if (vdrive != NULL)
-                detach_disk_image(vdrive->image, vdrive, i + 8);
+                detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
             set_file_system_device((resource_value_t)
                                    file_system_device_enabled[i], i + 8);
             ui_display_drive_current_image(i, "");
@@ -306,7 +317,7 @@ void file_system_detach_disk(int unit)
         if (unit >= 8 && unit <= 11) {
             vdrive = file_system_get_vdrive(unit);
             if (vdrive != NULL)
-                detach_disk_image(vdrive->image, vdrive, (unsigned int)unit);
+                detach_disk_image_and_free(vdrive->image, vdrive, (unsigned int)unit);
 
             set_file_system_device((resource_value_t)
                                    file_system_device_enabled[unit - 8],
@@ -326,7 +337,7 @@ void file_system_detach_disk_shutdown(void)
     for (i = 0; i <= 3; i++) {
         vdrive = file_system_get_vdrive(i + 8);
         if (vdrive != NULL)
-            detach_disk_image(vdrive->image, vdrive, i + 8);
+            detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
     }
 }
 
