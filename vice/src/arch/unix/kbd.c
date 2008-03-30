@@ -94,22 +94,16 @@ static int set_keymap_index(resource_value_t v)
 {
     const char *name, *resname = keymap_res_name_list[(int) v];
 
-printf("set_keymap_index(index=%d, resname=%s\n",
-	(int)v, resname);
-
-    if(resources_get_value(resname, (resource_value_t*) &name) < 0)
+    if (resources_get_value(resname, (resource_value_t*) &name) < 0)
  	return -1;
 
-    if(load_keymap_ok) { /* to reduce multiple parsing during startup */
-
-printf(" --> load %s\n", name);
-
-        if(kbd_load_keymap(name)>=0) {
+    if (load_keymap_ok) { /* to reduce multiple parsing during startup */
+        if (kbd_load_keymap(name)>=0) {
 	    keymap_index = (int) v;
 	    return 0;
         } else {
             fprintf(stderr,"Cannot parse Keymap filename %s\n",
-	       name ? name : "<null>");
+                    name ? name : "<null>");
         }
         return -1;
     }
@@ -303,15 +297,15 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
-	if(use_keypad[0] && check_clr_joykeys(key, 0)) break;
-	if(use_keypad[1] && check_clr_joykeys(key, 1)) break;
+	if (use_keypad[0] && check_clr_joykeys(key, 0)) break;
+	if (use_keypad[1] && check_clr_joykeys(key, 1)) break;
 
 	for (i = 0; keyconvmap[i].sym != 0; i++) {
 	    if (key == keyconvmap[i].sym) {
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		if(row >= 0) {
+		if (row >= 0) {
                     set_keyarr(row, column, 0);
                     if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                         virtual_shift_down--;
@@ -365,8 +359,8 @@ int kbd_init(void)
 {
     int i,j;
 
-    for(i=0;i<2;i++) {
-        for(j=0;j<10;j++) {
+    for (i=0;i<2;i++) {
+        for (j=0;j<10;j++) {
             joykeys[i][j].sym = NoSymbol;
         }
     }
@@ -374,13 +368,7 @@ int kbd_init(void)
     /* load current keymap table */
     load_keymap_ok = 1;
     set_keymap_index((resource_value_t)keymap_index);
-/*
-    if (kbd_load_keymap(NULL) < 0) {
-	fprintf(stderr,"Couldn't load default keymap file `%s', aborting!\n",
-                default_keymap_name);
-	return -1;
-    }
-*/
+
     return 0;
 }
 
@@ -414,8 +402,8 @@ static void kbd_parse_keyword(char *buffer)
     } else if (!strcmp(key, "CLEAR")) {
         keyc_num = 0;
         keyconvmap[0].sym = 0;
-	for(i=0;i<2;i++) {
-            for(j=0;j<10;j++) {
+	for (i=0;i<2;i++) {
+            for (j=0;j<10;j++) {
                 joykeys[i][j].sym = NoSymbol;
             }
         }
@@ -427,7 +415,7 @@ static void kbd_parse_keyword(char *buffer)
         key = strtok(NULL, " \t");
         sym = XStringToKeysym(key);
         if (sym != NoSymbol) {
-            for(i=0;i<keyc_num;i++) {
+            for (i=0;i<keyc_num;i++) {
                 if (keyconvmap[i].sym == sym) {
                     if (keyc_num) {
                         keyconvmap[i] = keyconvmap[--keyc_num];
@@ -466,7 +454,7 @@ static void kbd_parse_entry(char *buffer)
                     if (p)
                         shift = atoi(p);
                     if (row >= 0) {
-                        for(i = 0; keyconvmap[i].sym; i++) {
+                        for (i = 0; keyconvmap[i].sym; i++) {
                             if (sym == keyconvmap[i].sym) {
                                 keyconvmap[i].row = row;
                                 keyconvmap[i].column = col;
@@ -523,7 +511,7 @@ static int kbd_parse_keymap(const char *filename)
         return -1;
     }
 
-    printf("Parsing keymap `%s'.\n", complete_path);
+    printf("Loading keymap `%s'.\n", complete_path);
 
     do {
         buffer[0] = 0;
@@ -587,7 +575,6 @@ int kbd_dump_keymap(const char *filename)
 
     if (!filename)
         return -1;
-    printf("kbd_dump_keymap() called, keyb file='%s'\n", filename);
 
     fp = fopen(filename, "w");
 
@@ -620,24 +607,27 @@ int kbd_dump_keymap(const char *filename)
 		"# for joystick emulation (e.g. col==8 -> up)\n"
 		"# row == -1 : 'numpad' joystick emulation\n"
 		"# row == -2 : 'custom' joystick emulation\n"
-                "#\n"
+                "#\n\n"
             );
         fprintf(fp, "!CLEAR\n");
         fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
-        fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
+        fprintf(fp, "!RSHIFT %d %d\n\n", kbd_rshiftrow, kbd_rshiftcol);
+
+        /* Dump "normal" keys.  */
         for (i = 0; keyconvmap[i].sym; i++) {
             fprintf(fp, "%s %d %d %d\n",
                     XKeysymToString(keyconvmap[i].sym),
                     keyconvmap[i].row, keyconvmap[i].column,
                     keyconvmap[i].shift);
         }
+
+        /* Dump joystick keys.  */
         for (i = 0; i<2; i++) {
-	    for (j=0; j<10; j++) {
+	    for (j = 0; j < 10; j++) {
                 if (joykeys[i][j].sym != NoSymbol) {
                     fprintf(fp, "%s %d %d\n",
                             XKeysymToString(joykeys[i][j].sym),
-                            /*joykeys[i][j].row, joykeys[i][j].column*/
-			    -1-i,j);
+			    -1 - i,j);
 		}
             }
         }
@@ -650,8 +640,8 @@ void kbd_flag_joykeys(int joydev, int flag)
 {
     int i;
 
-    for(i=0;i<2;i++) {
-        if(joykey_devs[i] == joydev) {
+    for (i=0;i<2;i++) {
+        if (joykey_devs[i] == joydev) {
 #ifdef DEBUG_JOY
 	    printf("flag joydev %d, flag=%d -> joynum = %d\n",
 			joydev, flag, i);
