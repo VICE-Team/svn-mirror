@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-04-11 17:09+0200\n"
+"POT-Creation-Date: 2004-04-12 17:55+0200\n"
 "PO-Revision-Date: 2004-01-21 23:05+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -160,46 +160,46 @@ msgstr "*NTSC-M"
 
 #: src/arch/unix/c128ui.c:149 src/arch/unix/c128ui.c:174
 #: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:241
-#: src/arch/unix/cbm2ui.c:291 src/arch/unix/cbm2ui.c:316
+#: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:319
 msgid "SID engine"
 msgstr "SID-motor"
 
 #: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:178
 #: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:245
-#: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:320
+#: src/arch/unix/cbm2ui.c:297 src/arch/unix/cbm2ui.c:323
 msgid "*Second SID"
 msgstr "*Andra SID"
 
 #: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:180
 #: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:247
-#: src/arch/unix/cbm2ui.c:296 src/arch/unix/cbm2ui.c:322
+#: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:325
 msgid "*Second SID base address"
 msgstr "*Basadress för andra SID"
 
 #: src/arch/unix/c128ui.c:157 src/arch/unix/c128ui.c:182
 #: src/arch/unix/c64ui.c:224 src/arch/unix/c64ui.c:249
-#: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:325
+#: src/arch/unix/cbm2ui.c:302 src/arch/unix/cbm2ui.c:328
 msgid "*Emulate filters"
 msgstr "*Emulera filter"
 
 #: src/arch/unix/c128ui.c:159 src/arch/unix/c128ui.c:184
 #: src/arch/unix/c64ui.c:226 src/arch/unix/c64ui.c:251
-#: src/arch/unix/cbm2ui.c:301 src/arch/unix/cbm2ui.c:327
+#: src/arch/unix/cbm2ui.c:304 src/arch/unix/cbm2ui.c:330
 msgid "Chip model"
 msgstr "Kretsmodell"
 
 #: src/arch/unix/c128ui.c:163 src/arch/unix/c64ui.c:230
-#: src/arch/unix/cbm2ui.c:305
+#: src/arch/unix/cbm2ui.c:308
 msgid "reSID sampling method"
 msgstr "reSID-samplingsmetod"
 
 #: src/arch/unix/c128ui.c:165 src/arch/unix/c64ui.c:232
-#: src/arch/unix/cbm2ui.c:307
+#: src/arch/unix/cbm2ui.c:310
 msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
 #: src/arch/unix/c128ui.c:176 src/arch/unix/c64ui.c:243
-#: src/arch/unix/cbm2ui.c:318 src/arch/unix/uisound.c:119
+#: src/arch/unix/cbm2ui.c:321 src/arch/unix/uisound.c:119
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -251,7 +251,7 @@ msgid "Ethernet emulation"
 msgstr "*Använd reSID-emulering"
 
 #: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:272
-#: src/arch/unix/petui.c:297 src/arch/unix/vic20ui.c:191
+#: src/arch/unix/petui.c:300 src/arch/unix/vic20ui.c:194
 msgid "*Emulator identification"
 msgstr "*Emulatoridentifiering"
 
@@ -302,86 +302,95 @@ msgid "Load new drive ROM"
 msgstr "Ladda ny diskettstation-ROM"
 
 #: src/arch/unix/c128ui.c:286 src/arch/unix/c64ui.c:306
-#: src/arch/unix/cbm2ui.c:129 src/arch/unix/petui.c:236
+#: src/arch/unix/cbm2ui.c:101 src/arch/unix/petui.c:205
 #: src/arch/unix/plus4ui.c:104 src/arch/unix/vic20ui.c:140
-msgid "Load custom ROM set from file"
-msgstr "Ladda egen ROM-uppsättning från fil"
+#, fuzzy
+msgid "ROM set type"
+msgstr "ROM-inställningsfil:"
 
-#: src/arch/unix/c128ui.c:288 src/arch/unix/c64ui.c:308
-#: src/arch/unix/cbm2ui.c:131 src/arch/unix/petui.c:238
-#: src/arch/unix/plus4ui.c:106 src/arch/unix/vic20ui.c:142
-msgid "Dump ROM set definition to file"
-msgstr "Spara ROM-uppsättning till fil"
+#: src/arch/unix/c128ui.c:289 src/arch/unix/c64ui.c:309
+#: src/arch/unix/cbm2ui.c:132 src/arch/unix/petui.c:239
+#: src/arch/unix/plus4ui.c:107 src/arch/unix/vic20ui.c:143
+#, fuzzy
+msgid "ROM set archive"
+msgstr "ROM-inställningsfil:"
 
-#: src/arch/unix/c128ui.c:311
+#: src/arch/unix/c128ui.c:291 src/arch/unix/c64ui.c:311
+#: src/arch/unix/cbm2ui.c:134 src/arch/unix/petui.c:241
+#: src/arch/unix/plus4ui.c:109 src/arch/unix/vic20ui.c:145
+#, fuzzy
+msgid "ROM set file"
+msgstr "ROM-inställningsfil:"
+
+#: src/arch/unix/c128ui.c:314
 msgid "VIC II Screenshot"
 msgstr "VIC II-skärmdump"
 
-#: src/arch/unix/c128ui.c:313
+#: src/arch/unix/c128ui.c:316
 msgid "VDC Screenshot"
 msgstr "VDC-skärmdump"
 
-#: src/arch/unix/c128ui.c:319
+#: src/arch/unix/c128ui.c:322
 msgid "Screenshots..."
 msgstr "Skärmdump..."
 
-#: src/arch/unix/c128ui.c:348
+#: src/arch/unix/c128ui.c:351
 msgid "Machine type"
 msgstr "Maskintyp"
 
-#: src/arch/unix/c128ui.c:350 src/arch/unix/cbm2ui.c:237
-#: src/arch/unix/petui.c:272 src/arch/unix/vic20ui.c:177
+#: src/arch/unix/c128ui.c:353 src/arch/unix/cbm2ui.c:240
+#: src/arch/unix/petui.c:275 src/arch/unix/vic20ui.c:180
 msgid "ROM sets"
 msgstr "ROM-uppsättningar"
 
-#: src/arch/unix/c128ui.c:358 src/arch/unix/c64ui.c:343
+#: src/arch/unix/c128ui.c:361 src/arch/unix/c64ui.c:344
 msgid "VIC-II settings"
 msgstr "VIC-II-inställningar"
 
-#: src/arch/unix/c128ui.c:360
+#: src/arch/unix/c128ui.c:363
 msgid "VDC settings"
 msgstr "VDC-inställningar"
 
-#: src/arch/unix/c128ui.c:362 src/arch/unix/c64ui.c:345
-#: src/arch/unix/cbm2ui.c:383 src/arch/unix/vsidui.c:175
+#: src/arch/unix/c128ui.c:365 src/arch/unix/c64ui.c:346
+#: src/arch/unix/cbm2ui.c:386 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "SID-inställningar"
 
-#: src/arch/unix/c128ui.c:364
+#: src/arch/unix/c128ui.c:367
 msgid "Memory and I/O extensions"
 msgstr "Minnes- och I/O-utökningar"
 
-#: src/arch/unix/c128ui.c:366 src/arch/unix/c64ui.c:349
-#: src/arch/unix/cbm2ui.c:376 src/arch/unix/vic20ui.c:364
+#: src/arch/unix/c128ui.c:369 src/arch/unix/c64ui.c:350
+#: src/arch/unix/cbm2ui.c:379 src/arch/unix/vic20ui.c:367
 msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
-#: src/arch/unix/c128ui.c:368
+#: src/arch/unix/c128ui.c:371
 msgid "Model settings"
 msgstr "Modellinställningar"
 
-#: src/arch/unix/c128ui.c:433 src/arch/unix/c64ui.c:412
-#: src/arch/unix/cbm2ui.c:472 src/arch/unix/petui.c:397
-#: src/arch/unix/plus4ui.c:195 src/arch/unix/vic20ui.c:485
+#: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
+#: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:400
+#: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:488
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
-#: src/arch/unix/c128ui.c:452 src/arch/unix/c64ui.c:431
-#: src/arch/unix/cbm2ui.c:489 src/arch/unix/petui.c:414
-#: src/arch/unix/plus4ui.c:212 src/arch/unix/vic20ui.c:504
+#: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
+#: src/arch/unix/cbm2ui.c:492 src/arch/unix/petui.c:417
+#: src/arch/unix/plus4ui.c:213 src/arch/unix/vic20ui.c:507
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
-#: src/arch/unix/c128ui.c:459 src/arch/unix/c64ui.c:438
-#: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:421
-#: src/arch/unix/plus4ui.c:219 src/arch/unix/vic20ui.c:511
+#: src/arch/unix/c128ui.c:462 src/arch/unix/c64ui.c:439
+#: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:424
+#: src/arch/unix/plus4ui.c:220 src/arch/unix/vic20ui.c:514
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/arch/unix/c128ui.c:471 src/arch/unix/c64ui.c:450
-#: src/arch/unix/cbm2ui.c:506 src/arch/unix/petui.c:429
-#: src/arch/unix/plus4ui.c:227 src/arch/unix/vic20ui.c:517
+#: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
+#: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
+#: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
 #: src/arch/unix/x11/gnome/x11ui.c:1287
 msgid "Settings"
@@ -389,9 +398,9 @@ msgstr "Inställningar"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:485 src/arch/unix/c64ui.c:464
-#: src/arch/unix/cbm2ui.c:520 src/arch/unix/petui.c:443
-#: src/arch/unix/plus4ui.c:241 src/arch/unix/vic20ui.c:532
+#: src/arch/unix/c128ui.c:488 src/arch/unix/c64ui.c:465
+#: src/arch/unix/cbm2ui.c:523 src/arch/unix/petui.c:446
+#: src/arch/unix/plus4ui.c:242 src/arch/unix/vic20ui.c:535
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -409,25 +418,21 @@ msgstr "Ladda ny kernal-ROM"
 msgid "Load new BASIC ROM"
 msgstr "Ladda ny BASIC-ROM"
 
-#: src/arch/unix/c64ui.c:290 src/arch/unix/petui.c:205
+#: src/arch/unix/c64ui.c:290 src/arch/unix/petui.c:208
 msgid "Load new character ROM"
 msgstr "Ladda ny teckengenerator-ROM"
 
-#: src/arch/unix/c64ui.c:310 src/arch/unix/plus4ui.c:108
-msgid "List current ROM set"
-msgstr ""
-
-#: src/arch/unix/c64ui.c:333 src/arch/unix/cbm2ui.c:406
-#: src/arch/unix/petui.c:331 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:405
+#: src/arch/unix/c64ui.c:334 src/arch/unix/cbm2ui.c:409
+#: src/arch/unix/petui.c:334 src/arch/unix/plus4ui.c:71
+#: src/arch/unix/vic20ui.c:408
 msgid "Screenshot..."
 msgstr "Skärmdump..."
 
-#: src/arch/unix/c64ui.c:341 src/arch/unix/plus4ui.c:130
+#: src/arch/unix/c64ui.c:342 src/arch/unix/plus4ui.c:131
 msgid "ROM settings"
 msgstr "ROM-inställningar"
 
-#: src/arch/unix/c64ui.c:347
+#: src/arch/unix/c64ui.c:348
 #, fuzzy
 msgid "I/O extensions"
 msgstr "I/O-utökningar på $DFxx"
@@ -460,129 +465,129 @@ msgstr "Basic 128k, övre tecken"
 msgid "Basic 256k, high chars"
 msgstr "Basic 256k, övre tecken"
 
-#: src/arch/unix/cbm2ui.c:101
+#: src/arch/unix/cbm2ui.c:104
 msgid "Load new Cart $1***"
 msgstr "Ladda ny insticksmodul $1***"
 
-#: src/arch/unix/cbm2ui.c:104
+#: src/arch/unix/cbm2ui.c:107
 msgid "Unload Cart $1***"
 msgstr "Ladda ur insticksmodul $1***"
 
-#: src/arch/unix/cbm2ui.c:108
+#: src/arch/unix/cbm2ui.c:111
 msgid "Load new Cart $2-3***"
 msgstr "Ladda ny insticksmodul $2-3***"
 
-#: src/arch/unix/cbm2ui.c:111
+#: src/arch/unix/cbm2ui.c:114
 msgid "Unload Cart $2-3***"
 msgstr "Ladda ur insticksmodul $2-3***"
 
-#: src/arch/unix/cbm2ui.c:115
+#: src/arch/unix/cbm2ui.c:118
 msgid "Load new Cart $4-5***"
 msgstr "Ladda ny insticksmodul $4-5***"
 
-#: src/arch/unix/cbm2ui.c:118
+#: src/arch/unix/cbm2ui.c:121
 msgid "Unload Cart $4-5***"
 msgstr "Ladda ur insticksmodul $4-5***"
 
-#: src/arch/unix/cbm2ui.c:122
+#: src/arch/unix/cbm2ui.c:125
 msgid "Load new Cart $6-7***"
 msgstr "Ladda ny insticksmodul $6-7***"
 
-#: src/arch/unix/cbm2ui.c:125
+#: src/arch/unix/cbm2ui.c:128
 msgid "Unload Cart $6-7***"
 msgstr "Ladda ur insticksmodul $6-7***"
 
-#: src/arch/unix/cbm2ui.c:210 src/arch/unix/petui.c:119
+#: src/arch/unix/cbm2ui.c:213 src/arch/unix/petui.c:119
 msgid "*Graphics"
 msgstr "*Grafik"
 
-#: src/arch/unix/cbm2ui.c:212 src/arch/unix/petui.c:121
+#: src/arch/unix/cbm2ui.c:215 src/arch/unix/petui.c:121
 msgid "*Business (UK)"
 msgstr "*Business (Storbritannien)"
 
-#: src/arch/unix/cbm2ui.c:234 src/arch/unix/petui.c:269
+#: src/arch/unix/cbm2ui.c:237 src/arch/unix/petui.c:272
 msgid "Model defaults"
 msgstr "Modellens förval"
 
-#: src/arch/unix/cbm2ui.c:240 src/arch/unix/petui.c:277
+#: src/arch/unix/cbm2ui.c:243 src/arch/unix/petui.c:280
 msgid "Memory size"
 msgstr "Minnesstorlek"
 
-#: src/arch/unix/cbm2ui.c:242
+#: src/arch/unix/cbm2ui.c:245
 msgid "Hardwired switches"
 msgstr "Maskinvaruinställningar"
 
-#: src/arch/unix/cbm2ui.c:245
+#: src/arch/unix/cbm2ui.c:248
 msgid "*Bank 15 $0800-$0FFF RAM"
 msgstr "*Bank 15 $0800-$0FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:247
+#: src/arch/unix/cbm2ui.c:250
 msgid "*Bank 15 $1000-$1FFF RAM"
 msgstr "*Bank 15 $1000-$1FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:249
+#: src/arch/unix/cbm2ui.c:252
 msgid "*Bank 15 $2000-$3FFF RAM"
 msgstr "*Bank 15 $2000-$3FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:251
+#: src/arch/unix/cbm2ui.c:254
 msgid "*Bank 15 $4000-$5FFF RAM"
 msgstr "*Bank 15 $4000-$5FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:253
+#: src/arch/unix/cbm2ui.c:256
 msgid "*Bank 15 $6000-$7FFF RAM"
 msgstr "*Bank 15 $6000-$7FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:255
+#: src/arch/unix/cbm2ui.c:258
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/cbm2ui.c:259 src/arch/unix/petui.c:294
+#: src/arch/unix/cbm2ui.c:262 src/arch/unix/petui.c:297
 msgid "Keyboard type"
 msgstr "Tangentbordstyp"
 
-#: src/arch/unix/cbm2ui.c:335 src/arch/unix/petui.c:247
+#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:250
 msgid "ACIA device"
 msgstr "ACIA-enhet"
 
-#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:250
-#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:345
+#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:253
+#: src/arch/unix/uirs232.c:172 src/arch/unix/vic20ui.c:348
 msgid "Serial 1 device..."
 msgstr "Seriell enhet 1..."
 
-#: src/arch/unix/cbm2ui.c:340 src/arch/unix/petui.c:252
-#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:347
+#: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:255
+#: src/arch/unix/uirs232.c:174 src/arch/unix/vic20ui.c:350
 msgid "Serial 1 baudrate"
 msgstr "Baudhastighet för seriell enhet 1"
 
-#: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:255
-#: src/arch/unix/vic20ui.c:350
+#: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:258
+#: src/arch/unix/vic20ui.c:353
 msgid "Serial 2 device..."
 msgstr "Seriell enhet 2..."
 
-#: src/arch/unix/cbm2ui.c:345 src/arch/unix/petui.c:257
-#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:352
+#: src/arch/unix/cbm2ui.c:348 src/arch/unix/petui.c:260
+#: src/arch/unix/uirs232.c:179 src/arch/unix/vic20ui.c:355
 msgid "Serial 2 baudrate"
 msgstr "Baudhastighet för seriell enhet 2"
 
-#: src/arch/unix/cbm2ui.c:348 src/arch/unix/petui.c:260
-#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:355
+#: src/arch/unix/cbm2ui.c:351 src/arch/unix/petui.c:263
+#: src/arch/unix/uirs232.c:182 src/arch/unix/vic20ui.c:358
 msgid "Dump filename..."
 msgstr "Filnamn för datadump..."
 
-#: src/arch/unix/cbm2ui.c:351 src/arch/unix/petui.c:263
-#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:358
+#: src/arch/unix/cbm2ui.c:354 src/arch/unix/petui.c:266
+#: src/arch/unix/uirs232.c:185 src/arch/unix/vic20ui.c:361
 msgid "Program name to exec..."
 msgstr "Program att starta..."
 
-#: src/arch/unix/cbm2ui.c:374
+#: src/arch/unix/cbm2ui.c:377
 msgid "CBM-II model settings"
 msgstr "CBM-II-modellinställningar"
 
-#: src/arch/unix/cbm2ui.c:379 src/arch/unix/petui.c:308
+#: src/arch/unix/cbm2ui.c:382 src/arch/unix/petui.c:311
 msgid "Crtc settings"
 msgstr "Crtc-inställningar"
 
-#: src/arch/unix/cbm2ui.c:381
+#: src/arch/unix/cbm2ui.c:384
 msgid "*VIC-II settings"
 msgstr "*VIC-II-inställningar"
 
@@ -700,71 +705,71 @@ msgstr "*80 kolumner"
 msgid "Load new editor ROM"
 msgstr "Ladda ny editor-ROM"
 
-#: src/arch/unix/petui.c:208
+#: src/arch/unix/petui.c:211
 msgid "*Original character set"
 msgstr "*Ursprunglig teckenuppsättning"
 
-#: src/arch/unix/petui.c:211
+#: src/arch/unix/petui.c:214
 msgid "*German character set"
 msgstr "*Tysk teckenuppsättning"
 
-#: src/arch/unix/petui.c:215
+#: src/arch/unix/petui.c:218
 msgid "Load new $9*** ROM"
 msgstr "Ladda ny $9***-ROM"
 
-#: src/arch/unix/petui.c:218
+#: src/arch/unix/petui.c:221
 msgid "Unload $9*** ROM"
 msgstr "Ladda ur $9***-ROM"
 
-#: src/arch/unix/petui.c:222
+#: src/arch/unix/petui.c:225
 msgid "Load new $A*** ROM"
 msgstr "Ladda ny $A***-ROM"
 
-#: src/arch/unix/petui.c:225
+#: src/arch/unix/petui.c:228
 msgid "Unload $A*** ROM"
 msgstr "Ladda ur $A***-ROM"
 
-#: src/arch/unix/petui.c:229
+#: src/arch/unix/petui.c:232
 msgid "Load new $B*** ROM"
 msgstr "Ladda ny $B***-ROM"
 
-#: src/arch/unix/petui.c:232
+#: src/arch/unix/petui.c:235
 msgid "Unload $B*** ROM"
 msgstr "Ladda ur $B***-ROM"
 
-#: src/arch/unix/petui.c:275
+#: src/arch/unix/petui.c:278
 msgid "Video size"
 msgstr "Skärmbredd"
 
-#: src/arch/unix/petui.c:279
+#: src/arch/unix/petui.c:282
 msgid "I/O size"
 msgstr "I/O-utrymme"
 
-#: src/arch/unix/petui.c:281
+#: src/arch/unix/petui.c:284
 msgid "*CRTC chip enable"
 msgstr "*Aktivera CRTC-krets"
 
-#: src/arch/unix/petui.c:284
+#: src/arch/unix/petui.c:287
 msgid "*SuperPET I/O enable (disables 8x96)"
 msgstr "*Aktivera SuperPET-I/O (deaktiverar 8x96)"
 
-#: src/arch/unix/petui.c:286
+#: src/arch/unix/petui.c:289
 msgid "SuperPET ACIA"
 msgstr "SuperPET-ACIA"
 
-#: src/arch/unix/petui.c:289
+#: src/arch/unix/petui.c:292
 msgid "*$9*** as RAM (8296 only)"
 msgstr "*$9*** som RAM (endast 8296)"
 
-#: src/arch/unix/petui.c:291
+#: src/arch/unix/petui.c:294
 msgid "*$A*** as RAM (8296 only)"
 msgstr "*$A*** som RAM (endast 8296)"
 
-#: src/arch/unix/petui.c:303
+#: src/arch/unix/petui.c:306
 msgid "PET model settings"
 msgstr "Inställningar för PET-modell"
 
-#: src/arch/unix/petui.c:305
+#: src/arch/unix/petui.c:308
 msgid "*PET userport diagnostic pin"
 msgstr "*PET-diagnostik på användarporten"
 
@@ -778,23 +783,23 @@ msgstr "Ladda ny 2031-ROM"
 msgid "Load new 3 plus 1 HI ROM"
 msgstr "Ladda ny 2031-ROM"
 
-#: src/arch/unix/plus4ui.c:118
+#: src/arch/unix/plus4ui.c:119
 msgid "*16KB"
 msgstr "*16KB"
 
-#: src/arch/unix/plus4ui.c:120
+#: src/arch/unix/plus4ui.c:121
 msgid "*32KB"
 msgstr "*32KB"
 
-#: src/arch/unix/plus4ui.c:122
+#: src/arch/unix/plus4ui.c:123
 msgid "*64KB"
 msgstr "*64KB"
 
-#: src/arch/unix/plus4ui.c:132
+#: src/arch/unix/plus4ui.c:133
 msgid "RAM settings"
 msgstr "RAM-inställningar"
 
-#: src/arch/unix/plus4ui.c:134
+#: src/arch/unix/plus4ui.c:135
 msgid "TED settings"
 msgstr "TED-inställningar"
 
@@ -987,7 +992,7 @@ msgstr "Smartanslut diskett/band..."
 msgid "Cannot attach cartridge"
 msgstr "Smartanslut insticksmodulfil..."
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:214
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:217
 msgid "Attach cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -1043,11 +1048,11 @@ msgstr "Anslut Super Snapshot 5-avbildningsfil..."
 msgid "Enable Expert Cartridge..."
 msgstr "Aktivera Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:266
+#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:269
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:272
+#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:275
 msgid "Attach a cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -1407,7 +1412,7 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:297
+#: src/arch/unix/vic20ui.c:300
 msgid "*None"
 msgstr "*Ingen"
 
@@ -1798,32 +1803,32 @@ msgid "*Sectors..."
 msgstr "Ljudinspelning..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
-#: src/arch/unix/vic20ui.c:300
+#: src/arch/unix/vic20ui.c:303
 msgid "*Numpad"
 msgstr "*Numeriskt tangentbord"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
-#: src/arch/unix/vic20ui.c:303
+#: src/arch/unix/vic20ui.c:306
 msgid "*Custom Keys"
 msgstr "*Användardefinierade tangenter"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:117
-#: src/arch/unix/vic20ui.c:307
+#: src/arch/unix/vic20ui.c:310
 msgid "*Analog Joystick 0"
 msgstr "*Analog styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:120
-#: src/arch/unix/vic20ui.c:310
+#: src/arch/unix/vic20ui.c:313
 msgid "*Analog Joystick 1"
 msgstr "*Analog styrspak 1"
 
 #: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:124
-#: src/arch/unix/vic20ui.c:314
+#: src/arch/unix/vic20ui.c:317
 msgid "*Digital Joystick 0"
 msgstr "*Digial styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:127
-#: src/arch/unix/vic20ui.c:317
+#: src/arch/unix/vic20ui.c:320
 msgid "*Digital Joystick 1"
 msgstr "*Digital styrspak 1"
 
@@ -1839,7 +1844,7 @@ msgstr "Styrspak i spelport 2"
 msgid "Swap joystick ports"
 msgstr "Växla spelportarna"
 
-#: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:326
+#: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:329
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
 
@@ -2132,32 +2137,11 @@ msgstr "Storlek på minnesexpansion"
 msgid "REU image name..."
 msgstr "Filnamn för minnesexpansionsavbildning..."
 
-#: src/arch/unix/uiromset.c:55
-msgid "Load custom ROM set definition"
-msgstr "Ladda egen ROM-inställning"
-
-#: src/arch/unix/uiromset.c:63
-#, c-format
-msgid ""
-"Could not load ROM set file\n"
-"'%s'"
-msgstr ""
-"Kunde inte ladda ROM-inställningsfil\n"
-"\"%s\""
-
-#: src/arch/unix/uiromset.c:84
-msgid "File to dump ROM set definition to"
-msgstr "Fil att spara ROM-inställning till"
-
-#: src/arch/unix/uiromset.c:89
-msgid "ROM set file:"
-msgstr "ROM-inställningsfil:"
-
-#: src/arch/unix/uiromset.c:105
+#: src/arch/unix/uiromset.c:57
 msgid "Load ROM file"
 msgstr "Ladda ROM-fil"
 
-#: src/arch/unix/uiromset.c:114
+#: src/arch/unix/uiromset.c:65
 #, c-format
 msgid ""
 "Could not load ROM file\n"
@@ -2166,7 +2150,79 @@ msgstr ""
 "Kunde inte ladda ROM-fil\n"
 "\"%s\""
 
-#: src/arch/unix/uiromset.c:139
+#: src/arch/unix/uiromset.c:102
+#, fuzzy
+msgid "Load custom ROM set archive"
+msgstr "Ladda egen ROM-uppsättning från fil"
+
+#: src/arch/unix/uiromset.c:109
+#, fuzzy, c-format
+msgid ""
+"Could not load ROM set archive\n"
+"'%s'"
+msgstr ""
+"Kunde inte ladda ROM-inställningsfil\n"
+"\"%s\""
+
+#: src/arch/unix/uiromset.c:136
+#, fuzzy
+msgid "File to dump ROM set archive to"
+msgstr "Fil att spara ROM-inställning till"
+
+#: src/arch/unix/uiromset.c:137
+#, fuzzy
+msgid "ROM set archive:"
+msgstr "ROM-inställningsfil:"
+
+#: src/arch/unix/uiromset.c:160
+msgid "ROM set item name to create"
+msgstr ""
+
+#: src/arch/unix/uiromset.c:161
+#, fuzzy
+msgid "ROM set name:"
+msgstr "ROM-inställningsfil:"
+
+#: src/arch/unix/uiromset.c:170 src/arch/unix/uiromset.c:245
+msgid "Load custom ROM set from file"
+msgstr "Ladda egen ROM-uppsättning från fil"
+
+#: src/arch/unix/uiromset.c:172 src/arch/unix/uiromset.c:247
+msgid "Dump ROM set definition to file"
+msgstr "Spara ROM-uppsättning till fil"
+
+#: src/arch/unix/uiromset.c:174 src/arch/unix/uiromset.c:249
+msgid "List current ROM set"
+msgstr ""
+
+#: src/arch/unix/uiromset.c:177
+#, fuzzy
+msgid "Create ROM set item"
+msgstr "ROM-uppsättningar"
+
+#: src/arch/unix/uiromset.c:190
+#, fuzzy
+msgid "Load custom ROM set file"
+msgstr "Ladda egen ROM-uppsättning från fil"
+
+#: src/arch/unix/uiromset.c:197
+#, c-format
+msgid ""
+"Could not load ROM set file\n"
+"'%s'"
+msgstr ""
+"Kunde inte ladda ROM-inställningsfil\n"
+"\"%s\""
+
+#: src/arch/unix/uiromset.c:224
+msgid "File to dump ROM set definition to"
+msgstr "Fil att spara ROM-inställning till"
+
+#: src/arch/unix/uiromset.c:225
+msgid "ROM set file:"
+msgstr "ROM-inställningsfil:"
+
+#: src/arch/unix/uiromset.c:239
 #, fuzzy
 msgid "Current ROM set"
 msgstr "ROM-uppsättningar"
@@ -2223,15 +2279,15 @@ msgstr "ACIA $DExx-enhet"
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx-avbrott"
 
-#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:336
+#: src/arch/unix/uirs232.c:161 src/arch/unix/vic20ui.c:339
 msgid "*No Userport RS232 emulation"
 msgstr "*Ingen emulering av RS232 på användarporten"
 
-#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uirs232.c:163 src/arch/unix/vic20ui.c:341
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Emulering av 300 baud-RS232 på användarporten"
 
-#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:340
+#: src/arch/unix/uirs232.c:165 src/arch/unix/vic20ui.c:343
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Emulering av 1200 baud-RS232 på användarporten"
 
@@ -2239,7 +2295,7 @@ msgstr "*Emulering av 1200 baud-RS232 på användarporten"
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*Emulering av 9600 baud-CIA"
 
-#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:342
+#: src/arch/unix/uirs232.c:169 src/arch/unix/vic20ui.c:345
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
@@ -2589,91 +2645,91 @@ msgstr "Ladda ny Basic-ROM"
 msgid "Load new Character ROM"
 msgstr "Ladda ny teckengenerator-ROM"
 
-#: src/arch/unix/vic20ui.c:148
+#: src/arch/unix/vic20ui.c:151
 msgid "No expansion memory"
 msgstr "Ingen minnesutökning"
 
-#: src/arch/unix/vic20ui.c:151
+#: src/arch/unix/vic20ui.c:154
 msgid "3K (block 0)"
 msgstr "3K (block 0)"
 
-#: src/arch/unix/vic20ui.c:153
+#: src/arch/unix/vic20ui.c:156
 msgid "8K (block 1)"
 msgstr "8K (block 1)"
 
-#: src/arch/unix/vic20ui.c:155
+#: src/arch/unix/vic20ui.c:158
 msgid "16K (blocks 1/2)"
 msgstr "16K (block 1/2)"
 
-#: src/arch/unix/vic20ui.c:157
+#: src/arch/unix/vic20ui.c:160
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (block 1/2/3)"
 
-#: src/arch/unix/vic20ui.c:160
+#: src/arch/unix/vic20ui.c:163
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Alla (block 0/1/2/3/5)"
 
-#: src/arch/unix/vic20ui.c:174
+#: src/arch/unix/vic20ui.c:177
 msgid "Common configurations"
 msgstr "Vanliga inställningar"
 
-#: src/arch/unix/vic20ui.c:180
+#: src/arch/unix/vic20ui.c:183
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/unix/vic20ui.c:182
+#: src/arch/unix/vic20ui.c:185
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Block 1 (8K på $2000-$3FFF)"
 
-#: src/arch/unix/vic20ui.c:184
+#: src/arch/unix/vic20ui.c:187
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Block 2 (8K på $4000-$5FFF)"
 
-#: src/arch/unix/vic20ui.c:186
+#: src/arch/unix/vic20ui.c:189
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Block 3 (8K på $6000-$7FFF)"
 
-#: src/arch/unix/vic20ui.c:188
+#: src/arch/unix/vic20ui.c:191
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8K på $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:198 src/arch/unix/vic20ui.c:413
+#: src/arch/unix/vic20ui.c:201 src/arch/unix/vic20ui.c:416
 msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
-#: src/arch/unix/vic20ui.c:220
+#: src/arch/unix/vic20ui.c:223
 msgid "Invalid cartridge image"
 msgstr "Ogiltig insticksmodulfil"
 
-#: src/arch/unix/vic20ui.c:245
+#: src/arch/unix/vic20ui.c:248
 msgid "Smart-attach cartridge image..."
 msgstr "Smartanslut insticksmodulfil..."
 
-#: src/arch/unix/vic20ui.c:250
+#: src/arch/unix/vic20ui.c:253
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Anslut 4/8/16KB-fil vid $2000..."
 
-#: src/arch/unix/vic20ui.c:253
+#: src/arch/unix/vic20ui.c:256
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Anslut 4/8/16KB-fil vid $4000..."
 
-#: src/arch/unix/vic20ui.c:256
+#: src/arch/unix/vic20ui.c:259
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Anslut 4/8/16KB-fil vid $6000..."
 
-#: src/arch/unix/vic20ui.c:259
+#: src/arch/unix/vic20ui.c:262
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Anslut 4/8KB-fil vid $A000..."
 
-#: src/arch/unix/vic20ui.c:262
+#: src/arch/unix/vic20ui.c:265
 msgid "Attach 4KB image at $B000..."
 msgstr "Anslut 4KB-fil vid $B000..."
 
-#: src/arch/unix/vic20ui.c:274
+#: src/arch/unix/vic20ui.c:277
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
-#: src/arch/unix/vic20ui.c:411
+#: src/arch/unix/vic20ui.c:414
 msgid "VIC settings"
 msgstr "VIC-inställningar"
 
@@ -3450,6 +3506,9 @@ msgstr "Prestanda kommer att bli dålig."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "Load custom ROM set definition"
+#~ msgstr "Ladda egen ROM-inställning"
 
 #~ msgid "Unload Basic ROM"
 #~ msgstr "Ladda ur Basic-ROM"

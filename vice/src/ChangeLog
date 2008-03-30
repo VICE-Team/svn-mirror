@@ -1,3 +1,48 @@
+2004-04-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.20.
+
+	* arch/unix/uiromset.c, arch/unix/uiromset.h,
+	arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/plus4ui.c, arch/unix/cbm2ui.c:
+	More romset UI.
+
+	* romset.c, romset.h, c64/c64romset.c, c128/c128romset.c,
+	vic20/vic20romset.c, pet/petromset.c, plus4/plus4romset.c,
+	cbm2/cbm2romset.c, machine.h, arch/os2/dialogs/dlg-fileio.c,
+	arch/unix/uiromset.c, arch/msdos/menudefs.c, arch/riscos/ui.c:
+	Romset archive changes.
+
+2004-04-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res<machine>.rc: Changed menu item for event
+	history file and directory selection.
+
+	* arch/win32/statusbar.c: Fixed warning.
+
+	* arch/win32/ui.c (handle_wm_command): IDM_EVENT_DIRECTORY
+	will also be used to select start and end snapshot file.
+
+	* arch/win32/uilib.c: Added new member file_resource to
+	uilib_fs_style_type_t and replaced UILIB_SELECTOR_STYLE_EVENT
+	with UILIB_SELECTOR_STYLE_EVENT_START and
+	UILIB_SELECTOR_STYLE_EVENT_END.
+	(uilib_select_file_autostart): file_resource is used for
+	initial file selection and to change resource with selected
+	file.
+
+	* event.c: More precise error messages. Reset UI if something
+	fails at startup of playback or recording.
+	(event_playback_start_trap): Try both the filename inside the
+	history snapshot module and the EventStartSnapshot resource
+	to open start snapshot. This makes it possible to rename
+	snapshot files after recording.
+
+2004-04-14  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.c: protected ui_update_menus() against
+	premature calls (VIC20 crash on startup)
+
 2004-04-11  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.14.19.

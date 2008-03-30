@@ -389,15 +389,15 @@ RO_Caret LastCaret;
 
 
 /* The windows */
-RO_Window *EmuWindow;
-RO_Window *EmuPane;
-RO_Window *InfoWindow;
-RO_Window *SnapshotWindow;
-RO_Window *CpuJamWindow;
-RO_Window *SaveBox;
-RO_Window *ImgContWindow;
-RO_Window *MessageWindow;
-RO_Window *CreateDiscWindow;
+RO_Window *EmuWindow = NULL;
+RO_Window *EmuPane = NULL;
+RO_Window *InfoWindow = NULL;
+RO_Window *SnapshotWindow = NULL;
+RO_Window *CpuJamWindow = NULL;
+RO_Window *SaveBox = NULL;
+RO_Window *ImgContWindow = NULL;
+RO_Window *MessageWindow = NULL;
+RO_Window *CreateDiscWindow = NULL;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
 
 
@@ -1268,7 +1268,7 @@ int set_romset_by_name(const char *name, resource_value_t val)
   if (val == (resource_value_t)0) return -1;
   if (ROMSetName != NULL) lib_free(ROMSetName);
   ROMSetName = lib_stralloc((char*)val);
-  return romset_select_item((char*)val);
+  return romset_archive_item_select((char*)val);
 }
 
 
@@ -1669,7 +1669,7 @@ static int ui_check_save_sbox(const char *name)
   {
     if (LastMenu == CONF_MENU_ROMACT + 0x100)
     {
-      if (romset_save_item(ROMSetName, name) == 0)
+      if (romset_archive_item_save(ROMSetName, name) == 0)
       {
         wimp_strcpy(ROMSetItemFile, name);
         Wimp_CreateMenu((int*)-1, 0, 0);
@@ -1821,7 +1821,7 @@ static int ui_build_romset_menu(void)
   MenuROMSet = NULL; MenuDisplayROMSet = NULL;
   ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
-  number = romset_get_number();
+  number = romset_archive_get_number();
   if (number <= 0) return -1;
   MenuROMSet = (RO_MenuHead*)lib_malloc(sizeof(RO_MenuHead) + number * sizeof(RO_MenuItem));
   MenuDisplayROMSet = (disp_desc_t*)lib_malloc(sizeof(disp_desc_t) + number * sizeof(int));
@@ -1840,7 +1840,7 @@ static int ui_build_romset_menu(void)
     {
       char *name;
 
-      if ((name = romset_get_item(i)) == NULL) name = "";
+      if ((name = romset_archive_get_item(i)) == NULL) name = "";
       item[i].mflags = 0; item[i].submenu = (RO_MenuHead*)-1; item[i].iflags = Menu_Flags;
       strncpy(item[i].dat.strg, name, 12);
       values[i] = (int)(name);
@@ -2041,7 +2041,7 @@ static void ui_init_windows(void)
 
     if (sysfile_locate("romset/"RSETARCH_EXT, &ROMSetArchiveFile) == 0)
     {
-      romset_load_archive(ROMSetArchiveFile, 0);
+      romset_archive_load(ROMSetArchiveFile, 0);
       ui_build_romset_menu();
     }
 
@@ -4000,33 +4000,33 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
           {
             if (strlen(NewRomSetName) > 0)
             {
-              romset_create_item(NewRomSetName, machine_romset_resources_list);
+              romset_archive_item_create(NewRomSetName, machine_romset_resources_list);
               ui_build_romset_menu();
               ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
             }
           }
           break;
         case Menu_RomAct_Delete:
-          romset_delete_item(ROMSetName);
+          romset_archive_item_delete(ROMSetName);
           ui_build_romset_menu();
           ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
           break;
         case Menu_RomAct_Dump:
           if (ROMSetArchiveFile != NULL)
           {
-            romset_dump_archive(ROMSetArchiveFile);
+            romset_archive_save(ROMSetArchiveFile);
           }
           break;
         case Menu_RomAct_Clear:
-          romset_clear_archive();
+          romset_archive_clear();
           ui_build_romset_menu();
           ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
           break;
         case Menu_RomAct_Restore:
-          romset_clear_archive();
+          romset_archive_clear();
           if (ROMSetArchiveFile != NULL)
           {
-            romset_load_archive(ROMSetArchiveFile, 0);
+            romset_archive_load(ROMSetArchiveFile, 0);
           }
           ui_build_romset_menu();
           ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
@@ -4440,7 +4440,7 @@ static void ui_user_msg_data_load(int *b)
           {
             if (wimp_strcasecmp(ext, RSETARCH_EXT) == 0)
             {
-              romset_load_archive(name, 0);
+              romset_archive_load(name, 0);
               ui_build_romset_menu();
               action = 1;
             }
@@ -4559,7 +4559,7 @@ static void ui_user_msg_data_save_ack(int *b)
       switch (LastSubDrag)
       {
         case SBOX_TYPE_ROMSET:
-          if ((ROMSetName != NULL) && (romset_save_item(name, ROMSetName) == 0))
+          if ((ROMSetName != NULL) && (romset_archive_item_save(name, ROMSetName) == 0))
           {
             wimp_strcpy(ROMSetItemFile, name);
             status = 0;
@@ -5202,19 +5202,22 @@ int ui_extend_image_dialog(void)
 
 void ui_update_menus(void)
 {
-  resource_value_t val;
-
-  if (resources_get_value(Rsrc_True, (void *)&val) == 0)
+  if (EmuWindow != NULL)
   {
-    ui_display_truedrv_emulation((int)val);
-  }
-  if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
-  {
-    ui_display_sound_enable((int)val);
-  }
+    resource_value_t val;
 
-  /* Update all open (!) config windows */
-  ui_update_config_windows();
+    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
+    {
+      ui_display_truedrv_emulation((int)val);
+    }
+    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
+    {
+      ui_display_sound_enable((int)val);
+    }
+
+    /* Update all open (!) config windows */
+    ui_update_config_windows();
+  }
 }
 
 
