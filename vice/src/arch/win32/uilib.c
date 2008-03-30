@@ -116,7 +116,7 @@ char    filename[256];
         case WM_NOTIFY:
             if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
                 SendMessage(preview,LB_RESETCONTENT,0,0);
-                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,CDM_GETFILEPATH,256,filename)>=0) {
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
                     if (read_content_func!=NULL) {
                         contents=read_content_func(filename);
                         create_content_list(contents,preview);
