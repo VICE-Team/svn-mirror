@@ -280,11 +280,11 @@ vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h ../../src/fsdevice.h \
-	../../src/log.h ../../src/serial.h ../../src/utils.h \
-	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
-	vdrive-rel.h vdrive-snapshot.h vdrive.h
+	../../src/attach.h ../../src/diskconstants.h \
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/fsdevice.h ../../src/log.h ../../src/serial.h \
+	../../src/utils.h vdrive-bam.h vdrive-command.h vdrive-dir.h \
+	vdrive-iec.h vdrive-rel.h vdrive-snapshot.h vdrive.h
 
 info-am:
 info: info-am

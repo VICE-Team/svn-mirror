@@ -1,3 +1,36 @@
+2002-11-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.22.
+
+	* attach.c (set_file_system_device): Fall back to fs device if
+	real devices are not available.
+
+	* diskimage/realimage.c, diskimage/realimage.h: New files.
+
+	* diskimage/Makefile.am: Updated.
+
+	* diskimage.h, drive/driveimage.c, drive/fdc.c,
+	drive/wd1770.c, vdrive/vdrive-command.c, vdrive/vdrive.c,
+	diskimage/createdisk.c, diskimage/fsimage-gcr.c,
+	diskimage/fsimage-probe.c, diskimage/fsimage.c, attach.c,
+	c1541.c: Separated fs related parameters from `disk_image_s'.
+
+	* zfile.c: Use functions from `ioutil.c'.
+
+	* arch/msdos/joy.c [DEFINE_SET_KEYSET]: Fixed pasting.
+
+	* arch/unix/uiprinter.c (printer_settings_menu): Fixed typo.
+
+2002-11-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/base.dsp, diskimage.dsp, vice.dsw: Updated.
+
+	* arch/win32/serial.dsp: New file.
+
+	* vicii/vicii_mem.c (store_d01c), (store_d025), (store_d026):
+	Made changes cycle exact.
+	(store_sprite_color): Delay change for one pixel.
+
 2002-11-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.21.

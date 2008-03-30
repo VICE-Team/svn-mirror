@@ -613,12 +613,21 @@ inline static void store_d01c(BYTE value)
         raster_sprite_t *sprite;
 
         sprite = vic_ii.raster.sprite_status->sprites + i;
+
+#if 0        
         if (sprite->x < raster_x)
             raster_add_int_change_next_line(&vic_ii.raster,
                                             &sprite->multicolor,
                                             value & b ? 1 : 0);
         else
             sprite->multicolor = value & b ? 1 : 0;
+#else
+        /* FIXME: This is not exact at the edge of the sprite */
+        raster_add_int_change_sprites
+            (&vic_ii.raster,
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 6,
+            &sprite->multicolor, value & b ? 1 : 0);
+#endif
     }
 
     vic_ii.regs[0x1c] = value;
@@ -638,13 +647,13 @@ inline static void store_d01d(BYTE value)
     /* FIXME: The offset of 6 was calibrated with the GULP demo and CCS */
     raster_x = VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 6;
 
-    /* FIXME: how is this handled in the middle of one line?  */
     for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
         raster_sprite_t *sprite;
 
         sprite = vic_ii.raster.sprite_status->sprites + i;
 
 #if 0
+        /* FIXME: how is this handled in the middle of one line?  */
         if (raster_x < sprite->x)
             sprite->x_expanded = value & b ? 1 : 0;
         else
@@ -781,6 +790,7 @@ inline static void store_d025(BYTE value)
 
     sprite_status = vic_ii.raster.sprite_status;
 
+#if 0
     /* FIXME: this is approximated.  */
     if (VIC_II_RASTER_CYCLE(maincpu_clk) > vic_ii.cycles_per_line / 2)
         raster_add_int_change_next_line(&vic_ii.raster,
@@ -788,6 +798,12 @@ inline static void store_d025(BYTE value)
             (int)value);
     else
         sprite_status->mc_sprite_color_1 = value;
+#else
+    raster_add_int_change_sprites
+        (&vic_ii.raster,
+        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
+        &sprite_status->mc_sprite_color_1, (int)value);
+#endif
 
     vic_ii.regs[0x25] = value;
 }
@@ -805,6 +821,7 @@ inline static void store_d026(BYTE value)
 
     sprite_status = vic_ii.raster.sprite_status;
 
+#if 0
     /* FIXME: this is approximated.  */
     if (VIC_II_RASTER_CYCLE(maincpu_clk) > vic_ii.cycles_per_line / 2)
         raster_add_int_change_next_line(&vic_ii.raster,
@@ -812,6 +829,12 @@ inline static void store_d026(BYTE value)
             (int)value);
     else
         sprite_status->mc_sprite_color_2 = value;
+#else
+    raster_add_int_change_sprites
+        (&vic_ii.raster,
+        VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
+        &sprite_status->mc_sprite_color_2, (int)value);
+#endif
 
     vic_ii.regs[0x26] = value;
 }
@@ -843,7 +866,7 @@ inline static void store_sprite_color(ADDRESS addr, BYTE value)
 #else
         raster_add_int_change_sprites
             (&vic_ii.raster,
-            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)),
+            VIC_II_RASTER_X(VIC_II_RASTER_CYCLE(maincpu_clk)) + 1,
             &sprite->color, value);
 #endif
         

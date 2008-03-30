@@ -90,7 +90,19 @@ SOURCE="..\..\diskimage\diskimage.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\diskimage\probe.c"
+SOURCE="..\..\diskimage\fsimage-gcr.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\diskimage\fsimage-probe.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\diskimage\fsimage.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\diskimage\rawimage.c"
 # End Source File
 # End Target
 # End Project

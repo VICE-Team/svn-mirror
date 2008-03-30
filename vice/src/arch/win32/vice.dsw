@@ -282,6 +282,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "serial"=".\serial.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "sid"=".\sid.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -447,6 +459,9 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -528,6 +543,9 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -598,6 +616,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sid
@@ -675,6 +696,9 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name crtc
     End Project Dependency
     Begin Project Dependency
@@ -738,6 +762,9 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name vdrive
     End Project Dependency
     Begin Project Dependency
@@ -787,6 +814,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sounddrv
