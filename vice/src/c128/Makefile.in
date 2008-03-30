@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc128.a
 
-libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128iec.h 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	c128rom.c 	c128rom.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
+libc128_a_SOURCES =  	c128-cmdline-options.c 	c128-cmdline-options.h 	c128-resources.c 	c128-resources.h 	c128-snapshot.c 	c128-snapshot.h 	c128.c 	c128.h 	c128cia1.c 	c128cpu.c 	c128iec.c 	c128iec.h 	c128io.c 	c128io.h 	c128mem.c 	c128mem.h 	c128meminit.c 	c128meminit.h 	c128memlimit.c 	c128memlimit.h 	c128mmu.c 	c128mmu.h 	c128rom.c 	c128rom.h 	daa.c 	daa.h 	functionrom.c 	functionrom.h 	z80.c 	z80.h 	z80mem.c 	z80mem.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -152,8 +152,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libc128_a_LIBADD = 
 libc128_a_OBJECTS =  c128-cmdline-options.o c128-resources.o \
 c128-snapshot.o c128.o c128cia1.o c128cpu.o c128iec.o c128io.o \
-c128mem.o c128memlimit.o c128mmu.o c128rom.o daa.o functionrom.o z80.o \
-z80mem.o
+c128mem.o c128meminit.o c128memlimit.o c128mmu.o c128rom.o daa.o \
+functionrom.o z80.o z80mem.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -259,26 +259,27 @@ distdir: $(DISTFILES)
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
-	c128.h c128mem.h ../../src/arch/unix/types.h c128rom.h \
-	../../src/drive/drive.h ../../src/arch/unix/kbd.h \
+	c128.h c128mem.h ../../src/mem.h ../../src/arch/unix/types.h \
+	c128rom.h ../../src/drive/drive.h ../../src/arch/unix/kbd.h \
 	../../src/keyboard.h ../../src/lib.h ../../src/machine.h \
 	../../src/resources.h ../../src/c64/reu.h \
 	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
-	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
-	c128mmu.h c128rom.h ../../src/c64/c64tpi.h ../../src/log.h \
-	../../src/mem.h ../../src/resources.h ../../src/snapshot.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	c128-resources.h c128mem.h ../../src/mem.h \
+	../../src/arch/unix/types.h c128mmu.h c128rom.h \
+	../../src/c64/c64tpi.h ../../src/log.h ../../src/resources.h \
+	../../src/snapshot.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/c64/c64acia.h
 c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/autostart.h \
 	c128-cmdline-options.h c128-resources.h c128-snapshot.h c128.h \
-	c128iec.h c128mem.h c128mmu.h ../../src/arch/unix/c128ui.h \
-	../../src/c64/c64acia.h ../../src/c64/c64cia.h \
-	../../src/c64/c64keyboard.h ../../src/c64/c64memrom.h \
-	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
-	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/datasette.h ../../src/debug.h \
+	c128iec.h c128mem.h ../../src/mem.h c128mmu.h \
+	../../src/arch/unix/c128ui.h ../../src/c64/c64acia.h \
+	../../src/c64/c64cia.h ../../src/c64/c64keyboard.h \
+	../../src/c64/c64memrom.h ../../src/c64/c64rsuser.h \
+	../../src/c64/c64tpi.h ../../src/cartridge.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
@@ -293,10 +294,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/snapshot.h ../../src/sound.h \
-	../../src/tape.h ../../src/traps.h ../../src/mem.h \
-	../../src/vicii/vicii.h ../../src/video.h ../../src/viewport.h \
-	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
-	../../src/arch/unix/mouse.h
+	../../src/tape.h ../../src/traps.h ../../src/vicii/vicii.h \
+	../../src/video.h ../../src/viewport.h ../../src/vdc/vdc.h \
+	../../src/vsync.h z80.h z80mem.h ../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/c64/c64cia.h \
@@ -325,26 +325,31 @@ c128io.o: c128io.c ../../src/vice.h ../../src/config.h c128-resources.h \
 	../../src/vicii/vicii-phi1.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128.h c128io.h ../../src/arch/unix/types.h \
-	c128mem.h c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/c64/c64cia.h ../../src/c64/c64meminit.h \
-	../../src/c64/c64pla.h ../../src/c64/c64tpi.h functionrom.h \
-	../../src/keyboard.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor.h ../../src/parallel.h \
-	../../src/ram.h ../../src/c64/reu.h ../../src/sid/sid.h \
-	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	c128mem.h ../../src/mem.h c128meminit.h c128memlimit.h \
+	c128mmu.h ../../src/c64/c64cart.h ../../src/c64/c64cia.h \
+	../../src/c64/c64meminit.h ../../src/c64/c64pla.h \
+	../../src/c64/c64tpi.h functionrom.h ../../src/keyboard.h \
+	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/monitor.h ../../src/parallel.h ../../src/ram.h \
+	../../src/c64/reu.h ../../src/sid/sid.h ../../src/utils.h \
+	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
-	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
-	../../src/c64/c64acia.h
+	../../src/vicii/vicii.h z80mem.h ../../src/c64/c64acia.h
+c128meminit.o: c128meminit.c ../../src/vice.h ../../src/config.h \
+	c128io.h ../../src/arch/unix/types.h c128mem.h ../../src/mem.h \
+	c128meminit.h c128mmu.h ../../src/c64/c64cia.h functionrom.h \
+	../../src/sid/sid.h ../../src/vdc/vdc-mem.h \
+	../../src/vicii/vicii-mem.h
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/cmdline.h functionrom.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/keyboard.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/resources.h \
+	../../src/mem.h ../../src/arch/unix/types.h c128mmu.h \
+	../../src/c64/c64cart.h ../../src/cmdline.h functionrom.h \
+	../../src/iecdrive.h ../../src/interrupt.h ../../src/keyboard.h \
+	../../src/log.h ../../src/maincpu.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
 	z80.h z80mem.h
 c128rom.o: c128rom.c ../../src/vice.h ../../src/config.h c128.h \
-	c128mem.h ../../src/arch/unix/types.h c128rom.h ../../src/mem.h \
+	c128mem.h ../../src/mem.h ../../src/arch/unix/types.h c128rom.h \
 	../../src/log.h ../../src/resources.h ../../src/sysfile.h \
 	../../src/utils.h z80mem.h
 daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
@@ -359,12 +364,11 @@ z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/6510core.h \
 	../../src/monitor.h z80.h z80mem.h ../../src/mem.h \
 	../../src/z80regs.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128io.h \
-	../../src/arch/unix/types.h c128mem.h c128mmu.h \
+	../../src/arch/unix/types.h c128mem.h ../../src/mem.h c128mmu.h \
 	../../src/c64/c64cia.h ../../src/cmdline.h ../../src/log.h \
-	../../src/mem.h ../../src/resources.h ../../src/sid/sid.h \
-	../../src/sysfile.h ../../src/utils.h ../../src/vdc/vdc-mem.h \
-	../../src/vdc/vdc.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii.h z80mem.h
+	../../src/resources.h ../../src/sid/sid.h ../../src/sysfile.h \
+	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h
 
 info-am:
 info: info-am

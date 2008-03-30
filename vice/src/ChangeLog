@@ -1,3 +1,26 @@
+2003-04-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.35.
+
+	* c64/c64mem.c, c128/c128mem.c, c64/c64meminit.c: Moved ROML,
+	ROMH and Ultimax config to common file.
+
+	* c128/c128meminit.c, c128/c128meminit.h: New files.
+
+	* c128/Makefile.am, arch/win32/c128.dsp: Updated.
+
+	* c128/c128mem.c, c128/c128mem.h: Moved memory initialization
+	to separate file.
+
+	* c128/z80mem.c: Use common page zero/one access routines.
+
+	* plus4/ted-irq.c, plus4/ted-irq.h, plus4/ted.c: Moved some
+	IRQ specific code.
+
+2003-04-20  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/video.c: fixed palette-setting code
+
 2003-04-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.34.

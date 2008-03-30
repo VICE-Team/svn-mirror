@@ -362,7 +362,7 @@ ted-fetch.o: ted-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/viewport.h
 ted-irq.o: ted-irq.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/interrupt.h ted-irq.h tedtypes.h \
+	../../src/interrupt.h ../../src/maincpu.h ted-irq.h tedtypes.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \

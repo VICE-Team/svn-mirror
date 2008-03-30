@@ -1137,7 +1137,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
   video_canvas_set_palette(canvas, palette);
 
-  if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
+  if ((newCanvas = (canvas_list_t*)lib_malloc(sizeof(canvas_list_t))) == NULL)
   {
     lib_free(canvas);
     return NULL;
@@ -1522,25 +1522,31 @@ static void video_full_screen_colours(void)
   if (ScreenSetPalette != 0)
   {
     video_canvas_t *canvas = ActiveCanvas;
-    unsigned int num_colours = ActiveCanvas->num_colours;
-
-    if ((canvas != NULL) && ((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
+    if (canvas != NULL)
     {
-      unsigned int *ct;
+      unsigned int num_colours = canvas->num_colours;
 
-      ct = canvas->current_palette;
-      if (ct != NULL)
+      if (((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
       {
-        unsigned char entries[3 * num_colours];
-        unsigned int i;
-        for (i=0; i<num_colours; i++)
+        unsigned int *ct = canvas->current_palette;
+
+        if (ct != NULL)
         {
-          entries[3*i] = ct[i] & 0xff;
-          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
-          entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
+          unsigned char *entries = (unsigned char*)lib_malloc(3*num_colours);
+          if (entries != NULL)
+          {
+            unsigned int i;
+            for (i=0; i<num_colours; i++)
+            {
+              entries[3*i] = ct[i] & 0xff;
+              entries[3*i+1] = (ct[i] & 0xff00) >> 8;
+              entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
+            }
+            InstallPaletteRange(entries, 0, num_colours);
+            ColourTrans_InvalidateCache();
+            lib_free(entries);
+          }
         }
-        InstallPaletteRange(entries, 0, num_colours);
-        ColourTrans_InvalidateCache();
       }
     }
   }
