@@ -56,6 +56,7 @@
 #define DRIVE_RAMSIZE           0x400
 
 #define DIR_MAXBUF  (40 * 256)
+#define BAM_MAXSIZE (5 * 256)
 
 /* Serial Error Codes. */
 #define SERIAL_OK               0
@@ -98,16 +99,15 @@ typedef struct vdrive_s {
     unsigned int Dir_Sector;
     unsigned int num_tracks;
 
-    /* FIXME: bam sizeof define */
-    BYTE bam[5 * 256]; /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
+    BYTE bam[BAM_MAXSIZE];
     bufferinfo_t buffers[16];
 
     /* File information */
     BYTE Dir_buffer[256];  /* Current directory sector.  */
     unsigned int SlotNumber;
 
-    const char *find_name; /* Current search pattern.  */
     int find_length;       /* -1 allowed.  */
+    BYTE find_nslot[16];
     unsigned int find_type;
 
     unsigned int Curr_track;

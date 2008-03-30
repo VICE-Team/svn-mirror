@@ -637,8 +637,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 {
     unsigned int t, s;
     int status;
-    /* FIXME: size of BAM define */
-    BYTE *b, oldbam[5 * 256];
+    BYTE *b, oldbam[BAM_MAXSIZE];
 
     status = vdrive_command_initialize(vdrive);
 
@@ -647,8 +646,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     if (vdrive->image->read_only)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
-    /* FIXME: size of BAM define */
-    memcpy(oldbam, vdrive->bam, 5 * 256);
+    memcpy(oldbam, vdrive->bam, BAM_MAXSIZE);
 
     vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
 
@@ -662,9 +660,9 @@ int vdrive_command_validate(vdrive_t *vdrive)
     /* First map out the BAM and directory itself.  */
     status = vdrive_bam_allocate_chain(vdrive, vdrive->Bam_Track,
                                        vdrive->Bam_Sector);
+
     if (status != CBMDOS_IPE_OK) {
-        /* FIXME: size of BAM define */
-        memcpy(vdrive->bam, oldbam, 5 * 256);
+        memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
         return status;
     }
 
