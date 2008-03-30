@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.10.10)
+AM_INIT_AUTOMAKE(vice, 1.10.11)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -1047,7 +1047,9 @@ if false ; then
     mkdir -p pet
     mkdir -p plus4
     mkdir -p printerdrv
+    mkdir -p raster
     mkdir -p resid
+    mkdir -p rs232drv
     mkdir -p sid
     mkdir -p sounddrv
     mkdir -p tape
@@ -1118,6 +1120,7 @@ AC_OUTPUT([Makefile
            src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
+           src/rs232drv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
