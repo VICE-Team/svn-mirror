@@ -24,9 +24,10 @@
  *
  */
 
-#include <allegro.h>
-
 #include "vice.h"
+
+#include <stdio.h>
+#include <allegro.h>
 
 #include "log.h"
 #include "raster.h"

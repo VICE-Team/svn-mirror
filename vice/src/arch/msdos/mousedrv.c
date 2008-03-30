@@ -28,8 +28,8 @@
 
 #include "vice.h"
 
-#include <allegro.h>
 #include <stdio.h>
+#include <allegro.h>
 
 #include "mouse.h"
 #include "mousedrv.h"
