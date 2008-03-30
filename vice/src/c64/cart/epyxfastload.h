@@ -36,6 +36,7 @@ extern BYTE REGPARM1 epyxfastload_io2_read(WORD addr);
 extern void epyxfastload_config_init(void);
 extern void epyxfastload_config_setup(BYTE *rawcart);
 extern int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart);
+extern void epyxfastload_detach(void);
 
 #endif
 

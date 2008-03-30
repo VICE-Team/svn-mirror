@@ -48,6 +48,7 @@ extern void atomicpower_config_init(void);
 extern void atomicpower_config_setup(BYTE *rawcart);
 extern int atomicpower_bin_attach(const char *filename, BYTE *rawcart);
 extern int atomicpower_crt_attach(FILE *fd, BYTE *rawcart);
+extern void atomicpower_detach(void);
 
 #endif
 

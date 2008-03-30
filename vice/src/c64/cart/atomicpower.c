@@ -32,10 +32,15 @@
 #include "atomicpower.h"
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
+
+static const c64export_resource_t export_res = {
+    "Action Power", 1, 1, 1, 1
+};
 
 /* Atomic Power RAM hack.  */
 static int export_ram_at_a000 = 0;
@@ -140,6 +145,9 @@ int atomicpower_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
 }
 
@@ -159,6 +167,14 @@ int atomicpower_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
     }
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
+}
+
+void atomicpower_detach(void)
+{
+    c64export_remove(&export_res);
 }
 

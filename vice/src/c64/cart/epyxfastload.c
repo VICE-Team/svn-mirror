@@ -32,8 +32,14 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "epyxfastload.h"
 #include "types.h"
+
+
+static const c64export_resource_t export_res = {
+    "Epyx Fastload", 0, 1, 0, 0
+};
 
 
 BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
@@ -66,6 +72,14 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, 0x2000, 1, fd) < 1)
         return -1;
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
+}
+
+void epyxfastload_detach(void)
+{
+    c64export_remove(&export_res);
 }
 

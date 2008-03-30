@@ -46,6 +46,7 @@ extern void actionreplay_reset(void);
 extern void actionreplay_config_setup(BYTE *rawcart);
 extern int actionreplay_bin_attach(const char *filename, BYTE *rawcart);
 extern int actionreplay_crt_attach(FILE *fd, BYTE *rawcart);
+extern void actionreplay_detach(void);
 
 #endif
 
