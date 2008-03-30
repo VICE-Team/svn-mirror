@@ -136,9 +136,9 @@ image_contents_t *diskcontents_block_read(const char *file_name,
 
         if (retval != 0
             || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
-            image_contents_destroy(contents);
+            /*image_contents_destroy(contents);*/
             vdrive_internal_close_disk_image(vdrive);
-            return NULL;
+            return contents/*NULL*/;
         }
 
         for (p = buffer, j = 0; j < 8; j++, p += 32)

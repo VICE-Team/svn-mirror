@@ -713,7 +713,7 @@ static const valid_archives_t valid_archives[] = {
     { NULL }
 };
 
-/* Try to uncompress file `name' using the algorithms we now of.  If this is
+/* Try to uncompress file `name' using the algorithms we know of.  If this is
    not possible, return `COMPR_NONE'.  Otherwise, uncompress the file into a
    temporary file, return the type of algorithm used and the name of the
    temporary file in `tmp_name'.  If `write_mode' is non-zero and the

@@ -616,7 +616,7 @@ int main(int argc, char **argv)
 
         } else if (!strcmp(argv[0], "-help") ||
                  !strncmp(argv[0], "-v", 2)) {  /* version ID */
-            fprintf(stderr,
+            fprintf(stdout,
                     "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE" "VERSION"\n",
                     progname, (float)PETCATVERSION, PETCATLEVEL );
 
@@ -636,12 +636,12 @@ int main(int argc, char **argv)
             continue;
         }
 
-        fprintf(stderr,
+        fprintf(stdout,
                 "\nUsage: %7s  [-c | -nc]  [-h | -nh]  [-text | -<version> | -w<version>]"
                 "\n\t\t[-skip <bytes>] [-l <hex>]  [--] [file list]\n\t\t[-k[<version>]]\n",
                 progname);
 
-        fprintf(stderr, "\n"
+        fprintf(stdout, "\n"
             "   -help\tOutput this help screen here\n"
             "   -v\t\tSame as above\n"
             "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
@@ -660,7 +660,7 @@ int main(int argc, char **argv)
             "   -f\t\tForce overwritten the output file\n"
             "   \t\tThe default depends on the BASIC version.\n");
 
-        fprintf(stderr, "\n\tVersions:\n"
+        fprintf(stdout, "\n\tVersions:\n"
                 "\t1\tPET Basic V1.0\n"
                 "\t2\tBasic v2.0\n"
                 "\tsuper\tBasic v2.0 with Super Expander (VIC)\n"
@@ -683,7 +683,7 @@ int main(int argc, char **argv)
                 "\t7\tBasic v7.0 program (C128)\n"
                 "\t10\tBasic v10.0 program (C64DX)\n\n");
 
-        fprintf(stderr, "\tUsage examples:\n"
+        fprintf(stdout, "\tUsage examples:\n"
             "\tpetcat -w2 -o outputfile.txt -- inputfile.prg\n"
             "\t\tConvert inputfile.prg to a text file in outputfile.txt,\n"
             "\t\tusing BASIC V2 only\n"

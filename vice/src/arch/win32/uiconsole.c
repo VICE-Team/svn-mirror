@@ -132,14 +132,17 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
 FILE *ui_console_save_dialog(HWND hwnd)
 {
     FILE *pfile = NULL;
-    int filter_len;
+    int filter_len,mask_len;
     char *s;
     char filter[100];
-
-    filter_len=strlen(translate_text(IDS_LOG_FILES_TYPE));
-    sprintf(filter,"%s0*.dbg0",translate_text(IDS_LOG_FILES_TYPE));
+    char mask[]="*.dbg";
+    s=translate_text(IDS_LOG_FILES_TYPE);
+    filter_len=strlen(s);
+    mask_len=strlen(mask);
+    sprintf(filter,"%s0%s0",s,mask);
     filter[filter_len]='\0';
-    filter[filter_len+6]='\0';
+    filter[filter_len+mask_len+1]='\0';
+
     s = ui_save_as_console(translate_text(IDS_LOG_CONSOLE_OUTPUT_IMAGE),
         filter,hwnd);
 
