@@ -1,5 +1,5 @@
 /*
- * uivdc.c
+ * uited.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

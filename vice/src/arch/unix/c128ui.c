@@ -51,7 +51,7 @@
 #include "uisettings.h"
 #include "uireu.h"
 #include "uiromset.h"
-#include "uirs232.h"
+#include "uirs232c64c128.h"
 #include "uisid.h"
 #include "uisound.h"
 #include "uitfe.h"
@@ -367,7 +367,7 @@ static ui_menu_entry_t c128_menu[] = {
     { N_("Memory and I/O extensions"),
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
-      NULL, NULL, rs232_submenu },
+      NULL, NULL, uirs232c64c128_submenu },
     { N_("Model settings"),
       NULL, NULL, c128_model_submenu },
     { NULL }

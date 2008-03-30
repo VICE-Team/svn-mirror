@@ -49,7 +49,7 @@
 #include "uiperipheraliec.h"
 #include "uireu.h"
 #include "uiromset.h"
-#include "uirs232.h"
+#include "uirs232c64c128.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -348,7 +348,7 @@ static ui_menu_entry_t c64_menu[] = {
     { N_("I/O extensions"),
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
-      NULL, NULL, rs232_submenu },
+      NULL, NULL, uirs232c64c128_submenu },
     { NULL }
 };
 
