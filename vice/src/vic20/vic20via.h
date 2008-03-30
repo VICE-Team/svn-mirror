@@ -2,7 +2,7 @@
  * via.h - VIA emulation.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,25 +27,24 @@
 #ifndef _VIC20_VIA_H
 #define _VIC20_VIA_H
 
-#include "via.h"
-
 #include "snapshot.h"
+#include "types.h"
 
 extern void via1_init(void);
 extern void via1_reset(void);
 extern void via1_signal(int line, int edge);
-extern void REGPARM2 store_via1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via1(ADDRESS addr);
-extern BYTE REGPARM1 peek_via1(ADDRESS addr);
+extern void REGPARM2 via1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via1_read(ADDRESS addr);
+extern BYTE REGPARM1 via1_peek(ADDRESS addr);
 extern int via1_write_snapshot_module(snapshot_t *p);
 extern int via1_read_snapshot_module(snapshot_t *p);
 
 extern void via2_init(void);
 extern void via2_reset(void);
 extern void via2_signal(int line, int edge);
-extern void REGPARM2 store_via2(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_via2(ADDRESS addr);
-extern BYTE REGPARM1 peek_via2(ADDRESS addr);
+extern void REGPARM2 via2_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 via2_read(ADDRESS addr);
+extern BYTE REGPARM1 via2_peek(ADDRESS addr);
 extern int via2_write_snapshot_module(snapshot_t *p);
 extern int via2_read_snapshot_module(snapshot_t *p);
 extern void via2_set_tape_sense(int v);

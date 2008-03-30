@@ -152,7 +152,7 @@ inline static void update_myviairq(void)
     via_set_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
 }
 
-/* the next two are used in read_myvia() */
+/* the next two are used in myvia_read() */
 
 inline static unsigned int myviata(void)
 {
@@ -310,14 +310,14 @@ void myvia_signal(int line, int edge)
     }
 }
 
-void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
+void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 {
     CLOCK rclk;
 
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        store_myvia(addr, via_last_read);
+        myvia_store(addr, via_last_read);
         myclk ++;
     }
 
@@ -548,18 +548,18 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_myvia(ADDRESS addr)
+BYTE REGPARM1 myvia_read(ADDRESS addr)
 {
 #ifdef MYVIA_TIMER_DEBUG
-    BYTE read_myvia_(ADDRESS);
-    BYTE retv = read_myvia_(addr);
+    BYTE myvia_read_(ADDRESS);
+    BYTE retv = myvia_read_(addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
 	log_message(myvia_log,
-                    "read_myvia(%x) -> %02x, clk=%d", addr, retv, myclk);
+                    "myvia_read(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
-BYTE REGPARM1 read_myvia_(ADDRESS addr)
+BYTE REGPARM1 myvia_read_(ADDRESS addr)
 {
 #endif
     BYTE byte = 0xff;
@@ -693,7 +693,7 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
     return (myvia[addr]);
 }
 
-BYTE REGPARM1 peek_myvia(ADDRESS addr)
+BYTE REGPARM1 myvia_peek(ADDRESS addr)
 {
     CLOCK rclk = myclk;
 
@@ -706,7 +706,7 @@ BYTE REGPARM1 peek_myvia(ADDRESS addr)
 
     switch (addr) {
       case VIA_PRA:
-        return read_myvia(VIA_PRA_NHS);
+        return myvia_read(VIA_PRA_NHS);
 
       case VIA_PRB:		/* port B */
         {
@@ -740,7 +740,7 @@ BYTE REGPARM1 peek_myvia(ADDRESS addr)
         break;
     }				/* switch */
 
-    return read_myvia(addr);
+    return myvia_read(addr);
 }
 
 

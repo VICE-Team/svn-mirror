@@ -1,8 +1,8 @@
 /*
- * via.h - VIA emulation.
+ * vic20ieeevia.h - VIA emulation.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,25 +27,24 @@
 #ifndef _VIC20_IEEE_VIA_H
 #define _VIC20_IEEE_VIA_H
 
-#include "via.h"
-
 #include "snapshot.h"
+#include "types.h"
 
 extern void ieeevia1_init(void);
 extern void ieeevia1_reset(void);
 extern void ieeevia1_signal(int line, int edge);
-extern void REGPARM2 store_ieeevia1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_ieeevia1(ADDRESS addr);
-extern BYTE REGPARM1 peek_ieeevia1(ADDRESS addr);
+extern void REGPARM2 ieeevia1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 ieeevia1_read(ADDRESS addr);
+extern BYTE REGPARM1 ieeevia1_peek(ADDRESS addr);
 extern int ieeevia1_write_snapshot_module(snapshot_t *p);
 extern int ieeevia1_read_snapshot_module(snapshot_t *p);
 
 extern void ieeevia2_init(void);
 extern void ieeevia2_reset(void);
 extern void ieeevia2_signal(int line, int edge);
-extern void REGPARM2 store_ieeevia2(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_ieeevia2(ADDRESS addr);
-extern BYTE REGPARM1 peek_ieeevia2(ADDRESS addr);
+extern void REGPARM2 ieeevia2_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 ieeevia2_read(ADDRESS addr);
+extern BYTE REGPARM1 ieeevia2_peek(ADDRESS addr);
 extern int ieeevia2_write_snapshot_module(snapshot_t *p);
 extern int ieeevia2_read_snapshot_module(snapshot_t *p);
 extern void ieeevia2_set_tape_sense(int v);

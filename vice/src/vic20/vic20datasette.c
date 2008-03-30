@@ -2,7 +2,7 @@
  * vic20datasette.c - VIC20 specific CBM cassette implementation.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "via.h"
 #include "vic20via.h"
 
 void datasette_trigger_flux_change(void)

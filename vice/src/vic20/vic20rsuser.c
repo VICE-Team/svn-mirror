@@ -2,7 +2,7 @@
  * vic20rsuser.c - VIC20 RS232 userport interface
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,14 +32,16 @@
  * directory.
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 
-#include "vice.h"
 #include "machine.h"
-#include "types.h"
 #include "rsuser.h"
-#include "vic20via.h"
+#include "types.h"
+#include "via.h"
 #include "vic20.h"
+#include "vic20via.h"
 
 static void vic20_trigger_start(void)
 {

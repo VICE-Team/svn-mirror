@@ -3,7 +3,7 @@
  * ieeevia1.c - IEEE488 interface VIA1 emulation in the VIC-1112.
  *
  * Written by
- *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,9 +41,9 @@
 #define mycpu_clk_guard maincpu_clk_guard
 
 #define myvia_reset ieeevia1_reset
-#define store_myvia store_ieeevia1
-#define read_myvia read_ieeevia1
-#define peek_myvia peek_ieeevia1
+#define myvia_store ieeevia1_store
+#define myvia_read ieeevia1_read
+#define myvia_peek ieeevia1_peek
 
 #define myvia_log ieeevia1_log
 #define myvia_signal ieeevia1_signal

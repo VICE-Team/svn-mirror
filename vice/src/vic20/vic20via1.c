@@ -3,9 +3,9 @@
  * via1.c - VIA1 emulation in the VIC20.
  *
  * Written by
- *   André Fachat (fachat@physik.tu-chemnitz.de)
+ *   André Fachat <fachat@physik.tu-chemnitz.de>
  * Patches by
- *   Ettore Perazzoli (ettore@comm2000.it)
+ *   Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -42,9 +42,9 @@
 #define mycpu_clk_guard maincpu_clk_guard
 
 #define myvia_reset via1_reset
-#define store_myvia store_via1
-#define read_myvia read_via1
-#define peek_myvia peek_via1
+#define myvia_store via1_store
+#define myvia_read via1_read
+#define myvia_peek via1_peek
 
 #define myvia_log via1_log
 #define myvia_signal via1_signal

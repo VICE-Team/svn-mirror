@@ -51,6 +51,7 @@
 #include "traps.h"
 #include "types.h"
 #include "utils.h"
+#include "via.h"
 #include "vic.h"
 #include "vic20.h"
 #include "vic20ieeevia.h"
