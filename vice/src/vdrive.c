@@ -2674,8 +2674,6 @@ char *floppy_read_directory(DRIVE *floppy, const char *pattern)
     }
     vdrive_close(floppy, 0);
 
-    bufcat(outbuf, &outbuf_size, &max_outbuf_size, "\n", 1);
-
     /* Add trailing zero. */
     *(outbuf + outbuf_size) = '\0';
 

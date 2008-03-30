@@ -103,7 +103,7 @@ char *image_contents_to_string(image_contents_t *contents)
     }
 
     if (contents->blocks_free >= 0) {
-        len = sprintf(line_buf, "\n%d blocks free.\n", contents->blocks_free);
+        len = sprintf(line_buf, "\n%d blocks free.", contents->blocks_free);
         BUFCAT(line_buf, len);
     }
 

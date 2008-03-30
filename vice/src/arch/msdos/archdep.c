@@ -136,3 +136,19 @@ FILE *archdep_open_default_log_file(void)
 
     return f;
 }
+
+int archdep_num_text_lines(void)
+{
+    struct text_info text_mode_info;
+
+    gettextinfo(&text_mode_info);
+    return text_mode_info.screenheight;
+}
+
+int archdep_num_text_columns(void)
+{
+    struct text_info text_mode_info;
+
+    gettextinfo(&text_mode_info);
+    return text_mode_info.screenwidth;
+}
