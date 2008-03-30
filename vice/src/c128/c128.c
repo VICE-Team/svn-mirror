@@ -41,6 +41,7 @@
 #include "c128.h"
 #include "c128fastiec.h"
 #include "c128mem.h"
+#include "c128memrom.h"
 #include "c128mmu.h"
 #include "c128ui.h"
 #include "c64acia.h"
@@ -128,8 +129,8 @@ static const trap_t c128_serial_traps[] = {
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "SerialSaListen",
@@ -137,8 +138,8 @@ static const trap_t c128_serial_traps[] = {
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "SerialSendByte",
@@ -146,8 +147,8 @@ static const trap_t c128_serial_traps[] = {
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
         serial_trap_send,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "SerialReceiveByte",
@@ -155,8 +156,8 @@ static const trap_t c128_serial_traps[] = {
         0xE5BA,
         { 0x20, 0x73, 0xE5 },
         serial_trap_receive,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "Serial ready",
@@ -164,8 +165,8 @@ static const trap_t c128_serial_traps[] = {
         0xE572,
         { 0xAD, 0x00, 0xDD },
         serial_trap_ready,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "Serial ready",
@@ -173,8 +174,8 @@ static const trap_t c128_serial_traps[] = {
         0xE572,
         { 0xAD, 0x00, 0xDD },
         serial_trap_ready,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "SerialListen",
@@ -240,8 +241,8 @@ static const trap_t c128_tape_traps[] = {
         0xE8D6,
         { 0x20, 0xF2, 0xE9 },
         tape_find_header_trap,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "TapeReceive",
@@ -249,8 +250,8 @@ static const trap_t c128_tape_traps[] = {
         0xEE57,
         { 0x20, 0x9B, 0xEE },
         tape_receive_trap,
-        rom_read,
-        rom_store
+        c128memrom_trap_read,
+        c128memrom_trap_store
     },
     {
         "TapeFindHeader",
