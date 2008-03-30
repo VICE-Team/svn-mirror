@@ -89,7 +89,7 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"Sprite-Sprite",
 		new BMessage(MESSAGE_VICII_SSCOLL));
-	resources_get_value("CheckSsColl", (resource_value_t *) &res_val);
+	resources_get_value("VICIICheckSsColl", (resource_value_t *) &res_val);
 	checkbox->SetValue(res_val);
 	box->AddChild(checkbox);	
 	
@@ -98,7 +98,7 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"Sprite-Background",
 		new BMessage(MESSAGE_VICII_SBCOLL));
-	resources_get_value("CheckSbColl", (resource_value_t *) &res_val);
+	resources_get_value("VICIICheckSbColl", (resource_value_t *) &res_val);
 	checkbox->SetValue(res_val);
 	box->AddChild(checkbox);	
 	
@@ -108,7 +108,8 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"New Colors",
 		new BMessage(MESSAGE_VICII_NEWLUMINANCE));
-	resources_get_value("NewLuminances", (resource_value_t *) &res_val);
+	resources_get_value("VICIINewLuminances",
+                            (resource_value_t *)&res_val);
 	checkbox->SetValue(res_val);
 	background->AddChild(checkbox);	
 	
@@ -125,13 +126,13 @@ void ViciiWindow::MessageReceived(BMessage *msg) {
 	
 	switch (msg->what) {
 		case MESSAGE_VICII_SSCOLL:
-			resources_toggle("CheckSsColl", &dummy);
+			resources_toggle("VICIICheckSsColl", &dummy);
 			break;
 		case MESSAGE_VICII_SBCOLL:
-			resources_toggle("CheckSbColl", &dummy);
+			resources_toggle("VICIICheckSbColl", &dummy);
 			break;
 		case MESSAGE_VICII_NEWLUMINANCE:
-			resources_toggle("NewLuminances", &dummy);
+			resources_toggle("VICIINewLuminances", &dummy);
 			break;
 		default:
 			BWindow::MessageReceived(msg);
