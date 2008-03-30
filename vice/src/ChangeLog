@@ -1,3 +1,103 @@
+1999-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.8.
+
+	* autostart.c (autostart_prg): Append a directory separator to
+	the directory name.
+
+	* arch/msdos/archdep.c (archdep_path_is_relative): `\foo', `/foo'
+	and `c:foo' are absolute.
+	* arch/win32/archdep.c (archdep_path_is_relative): Likewise.
+
+1999-05-04  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/msdos/archdep.c (archdep_path_is_relative): Return value
+	  was bad, should have been negated.
+
+	* arch/win32/archdep.c (archdep_path_is_relative): Same as above.
+	  Include <ctype.h>.
+
+	* arch/win32/drive.dsp: Removed fdc0.c, fdc1.c. Added fdc.c.
+
+	* arch/win32/resc128.rc: Put resource groups into right order
+	  in VicII palette select dialog.
+
+	* arch/win32/resc64.rc: Same as above.
+
+	* arch/win32/uiattach.c: Include <shlobj.h>.
+	  (dialog_proc): Implemented folder browser when selecting folder
+	  for fs based drive emulation.
+
+	* arch/win32/uivicii.c (res_checksscoll, res_checksbcoll): New
+	  variables to store setting changes.
+	  (init_dialog): Removed function.
+	  (init_palette_dialog): New function. Inits palette page.
+	  (init_sprite_dialog): New function. Inits sprite settings page.
+	  (dialog_proc): Removed function.
+	  (update_palettename): New function. Stores new palettename.
+	  (dialog_palette_proc): New function. Dialog procedure for
+	  palette page. Sets resource only, if exited with OK button,
+	  and if the specified palette could be loaded.
+	  (dialog_sprite_proc): New function. Dialog procedure for
+	  sprite settings page. Sets resources only, if exited with OK
+	  button.
+	  (ui_vicii_settings_dialog): Changed property sheet init to use
+	  new functions.
+
+	* arch/win32/vice.dsw: Removed dependency on arch lib for pet lib.
+
+	* arch/win32/vsync.c (set_warp_mode): Call sound_set_warp_mode.
+
+	* findpath.c (findpath): Include "archdep.h". Use FSDEV_DIR_SEP_CHR,
+	  and archdep_path_is_relative, when checking is path is relative or
+	  absolute. Don't insert '/' on the beginning of the path when
+	  compiling for DOS, WIN32 os OS2.
+
+1998-05-04  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* parallel.c (parallel_bus): invert meaning of bus lines
+	If IEEE bus is disabled, set to 0xff, not 0
+	(In1_davlo) invert data read from IEE bus to give to 
+	parallelattention or parallelbyte
+	(par_emu_bus, par_cpu_bus, par_drv0_bus, par_drv1_bus): 
+	invert meaning of data bus lines.
+	(parallel_emu_set_bus, parallel_cpu_set_bus, parallel_drv0_set_bus,
+	parallel_drv1_set_bus): do not OR bus values, but AND them
+	(according to their inverted line meanings)
+
+	* c64/c64tpi.c, cbm2/c610cia1.c, cbm2/c610tpi1.c, pet/petpia2.c:
+	do not invert data given to IEEE bus. Do change reading!
+
+	* drive/via1drive0.c, drive/via1drive1.c:
+	If IEEE bus is disabled, set to 0xff, not 0
+	invert data read from IEEE bus. Do change writing!
+
+	* drive/riot1drive0.c (undump_prb, store_prb):
+	do not invert data give to IEEE bus.
+	(riot1d0_set_pardata): renamed from riot1_set_pardata
+	do not invert data read from IEEE bus
+
+	* drive/riot2drive0.c (my_set_irq, set_handshake): remove prints
+	(drive0_riot_set_atn): call riot1d0_set_pardata instead of 
+	riot1_set_pardata
+	(store_prb): remove print
+	(riot_reset): fix IEEE lines from cpu to drv0 calls!
+
+	* drive/riot1drive1.c, drive/riot2drive1.c: new files
+
+	* drive/Makefile.am: add riot1drive1.c, riot2drive1.c
+
+	* drive/drive.c (drive1_riot_set_atn): remove dummy function
+
+	* drive/drive.h (I_RIOTD1FL): define IRQ value
+
+	* drive/fdc.c (int_fdc): handle second fdc when printing new state
+	on state change only
+
+	* drive/riotd.h (riot1_set_pardata): remove prototype
+	(riot1d0_set_pardata, riot1d1_set_pardata): new prototypes
+	remove dummy defines for drive 1 RIOTs
+
 1999-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.7.

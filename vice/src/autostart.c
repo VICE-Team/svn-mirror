@@ -43,6 +43,7 @@
 
 #include "autostart.h"
 
+#include "archdep.h"
 #include "attach.h"
 #include "charsets.h"
 #include "datasette.h"
@@ -464,6 +465,14 @@ int autostart_prg(const char *file_name)
     /* Extract the directory path to allow FS-based drive emulation to
        work.  */
     fname_split(file_name, &directory, &file);
+
+    if (directory) {
+        char *tmpdir;
+        tmpdir = concat(directory, FSDEV_DIR_SEP_STR, NULL);
+        free(directory);
+        directory = tmpdir;
+    }
+
     if (path_is_relative(directory)) {
         char *tmp, *cwd;
 
