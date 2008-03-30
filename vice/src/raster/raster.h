@@ -52,30 +52,27 @@ struct palette_s;
 #define RASTER_GFX_MSK_SIZE 0x100
 
 /* A simple convenience type for defining rectangular areas.  */
-struct raster_rectangle_s
- {
+struct raster_rectangle_s {
     unsigned int width;
     unsigned int height;
-  };
+};
 typedef struct raster_rectangle_s raster_rectangle_t;
 
 /* A simple convenience type for defining screen positions.  */
-struct raster_position_s
-  {
+struct raster_position_s {
     unsigned int x;
     unsigned int y;
-  };
+};
 typedef struct raster_position_s raster_position_t;
 
 /* A simple convenience type for defining a rectangular area on the screen.  */
-struct raster_area_s
-  {
+struct raster_area_s {
     unsigned int xs;
     unsigned int ys;
     unsigned int xe;
     unsigned int ye;
     int is_null;
-  };
+};
 typedef struct raster_area_s raster_area_t;
 
 struct canvas_s;
@@ -110,11 +107,10 @@ struct raster_viewport_s
 
     /* Only display canvas if this flag is set.  */
     int update_canvas;
-  };
+};
 typedef struct raster_viewport_s raster_viewport_t;
 
-struct raster_geometry_s
-  {
+struct raster_geometry_s {
     /* Total size of the screen, including borders and unused areas.
        (SCREEN_WIDTH, SCREEN_HEIGHT)  */
     raster_rectangle_t screen_size;
@@ -138,15 +134,14 @@ struct raster_geometry_s
     unsigned int first_displayed_line, last_displayed_line;
 
     unsigned int extra_offscreen_border;
-  };
+};
 typedef struct raster_geometry_s raster_geometry_t;
 
 struct raster_cache_s;
 struct raster_modes_s;
 struct raster_sprite_status_s;
 
-struct raster_s
-  {
+struct raster_s {
     raster_viewport_t viewport;
 
     raster_geometry_t geometry;
@@ -259,7 +254,7 @@ struct raster_s
     /* Function to call when internal tables have to be refreshed after a
        mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
     void (*refresh_tables)(void);
-  };
+};
 typedef struct raster_s raster_t;
 
 struct screenshot_s;
@@ -272,39 +267,41 @@ struct screenshot_s;
 #define RASTER_PIXEL2(raster, c) (raster)->pixel_table.doub[(c)]
 #define RASTER_PIXEL4(raster, c) (raster)->pixel_table.quad[(c)]
 
-extern int raster_init (raster_t *raster, unsigned int num_modes,
-                        unsigned int num_sprites);
-extern raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
-extern void raster_reset (raster_t *raster);
-extern int raster_realize (raster_t *raster);
-extern void raster_set_exposure_handler (raster_t *raster,
-                                         void *exposure_handler);
-extern void raster_set_table_refresh_handler (raster_t *raster,
-                                              void (*handler)(void));
-extern void raster_set_geometry (raster_t *raster,
-                                 unsigned int screen_width,
-                                 unsigned int screen_height,
-                                 unsigned int gfx_width,
-                                 unsigned int gfx_height,
-                                 unsigned int text_width,
-                                 unsigned int text_height,
-                                 unsigned int gfx_position_x,
-                                 unsigned int gfx_position_y,
-                                 int gfx_area_moves,
-                                 unsigned int first_displayed_line,
-                                 unsigned int last_displayed_line,
-                                 unsigned int extra_offscreen_border);
-extern void raster_resize_viewport (raster_t *raster,
-                                    unsigned int width, unsigned int height);
-extern void raster_set_pixel_size (raster_t *raster, unsigned int width,
-                                   unsigned int height);
-extern void raster_emulate_line (raster_t *raster);
-extern void raster_force_repaint (raster_t *raster);
-extern int raster_set_palette (raster_t *raster, struct palette_s *palette);
-extern void raster_set_title (raster_t *raster, const char *title);
-extern void raster_skip_frame (raster_t *raster, int skip);
-extern void raster_enable_cache (raster_t *raster, int enable);
-extern void raster_enable_double_scan (raster_t *raster, int enable);
+extern int raster_init(raster_t *raster, unsigned int num_modes,
+                       unsigned int num_sprites);
+extern raster_t *raster_new(unsigned int num_modes, unsigned int num_sprites);
+extern void raster_reset(raster_t *raster);
+extern int raster_realize(raster_t *raster);
+extern void raster_set_exposure_handler(raster_t *raster,
+                                        void *exposure_handler);
+extern void raster_set_table_refresh_handler(raster_t *raster,
+                                             void (*handler)(void));
+extern void raster_set_geometry(raster_t *raster,
+                                unsigned int screen_width,
+                                unsigned int screen_height,
+                                unsigned int gfx_width,
+                                unsigned int gfx_height,
+                                unsigned int text_width,
+                                unsigned int text_height,
+                                unsigned int gfx_position_x,
+                                unsigned int gfx_position_y,
+                                int gfx_area_moves,
+                                unsigned int first_displayed_line,
+                                unsigned int last_displayed_line,
+                                unsigned int extra_offscreen_border);
+extern void raster_invalidate_cache(raster_t *raster,
+                                    unsigned int screen_height);
+extern void raster_resize_viewport(raster_t *raster,
+                                   unsigned int width, unsigned int height);
+extern void raster_set_pixel_size(raster_t *raster, unsigned int width,
+                                  unsigned int height);
+extern void raster_emulate_line(raster_t *raster);
+extern void raster_force_repaint(raster_t *raster);
+extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
+extern void raster_set_title(raster_t *raster, const char *title);
+extern void raster_skip_frame(raster_t *raster, int skip);
+extern void raster_enable_cache(raster_t *raster, int enable);
+extern void raster_enable_double_scan(raster_t *raster, int enable);
 extern void raster_mode_change(void);
 extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_handle_end_of_frame(raster_t *raster);
@@ -315,137 +312,126 @@ extern void raster_free (raster_t *raster);
 
 /* Inlined functions.  These need to be *fast*.  */
 
-inline static void raster_add_int_change_next_line (raster_t *raster,
-                                 int *ptr,
-                                 int new_value)
+inline static void raster_add_int_change_next_line(raster_t *raster,
+                                                   int *ptr,
+                                                   int new_value)
 {
-  if (raster->skip_frame)
-    *ptr = new_value;
-  else
-    raster_changes_add_int (&raster->changes.next_line, 0, ptr, new_value);
+    if (raster->skip_frame)
+      *ptr = new_value;
+    else
+      raster_changes_add_int(&raster->changes.next_line, 0, ptr, new_value);
 }
 
-inline static void raster_add_ptr_change_next_line (raster_t *raster,
-                                 void **ptr,
-                                 void *new_value)
+inline static void raster_add_ptr_change_next_line(raster_t *raster,
+                                                   void **ptr,
+                                                   void *new_value)
 {
-  if (raster->skip_frame)
-    *ptr = new_value;
-  else
-    raster_changes_add_ptr (&raster->changes.next_line, 0, ptr, new_value);
+    if (raster->skip_frame)
+      *ptr = new_value;
+    else
+      raster_changes_add_ptr(&raster->changes.next_line, 0, ptr, new_value);
 }
 
-inline static void raster_add_int_change_foreground (raster_t *raster,
-                                  int char_x,
-                                  int *ptr,
-                                  int new_value)
+inline static void raster_add_int_change_foreground(raster_t *raster,
+                                                    int char_x,
+                                                    int *ptr,
+                                                    int new_value)
 {
-  if (raster->skip_frame || char_x <= 0)
-    *ptr = new_value;
-  else if (char_x < (int) raster->geometry.text_size.width)
-    {
-      raster_changes_add_int (&raster->changes.foreground,
-                              char_x, ptr, new_value);
-      raster->changes.have_on_this_line = 1;
+    if (raster->skip_frame || char_x <= 0)
+      *ptr = new_value;
+    else if (char_x < (int) raster->geometry.text_size.width) {
+        raster_changes_add_int(&raster->changes.foreground,
+                                char_x, ptr, new_value);
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_int_change_next_line(raster, ptr, new_value);
     }
-  else
-    raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-inline static void raster_add_ptr_change_foreground (raster_t *raster,
-                                  int char_x,
-                                  void **ptr,
-                                  void *new_value)
+inline static void raster_add_ptr_change_foreground(raster_t *raster,
+                                                    int char_x,
+                                                    void **ptr,
+                                                    void *new_value)
 {
-  if (raster->skip_frame || char_x <= 0)
-    *ptr = new_value;
-  else if (char_x < (int) raster->geometry.text_size.width)
-    {
-      raster_changes_add_ptr (&raster->changes.foreground,
-                              char_x, ptr, new_value);
-      raster->changes.have_on_this_line = 1;
+    if (raster->skip_frame || char_x <= 0)
+        *ptr = new_value;
+    else if (char_x < (int)raster->geometry.text_size.width) {
+        raster_changes_add_ptr(&raster->changes.foreground,
+                               char_x, ptr, new_value);
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_ptr_change_next_line(raster, ptr, new_value);
     }
-  else
-    raster_add_ptr_change_next_line (raster, ptr, new_value);
 }
 
-inline static void raster_add_int_change_background (raster_t *raster,
-                                  int raster_x,
-                                  int *ptr,
-                                  int new_value)
+inline static void raster_add_int_change_background(raster_t *raster,
+                                                    int raster_x,
+                                                    int *ptr,
+                                                    int new_value)
 {
-  if (raster->skip_frame || raster_x <= 0)
-    *ptr = new_value;
-  else if (raster_x < (int) raster->geometry.screen_size.width)
-    {
-      raster_changes_add_int (&raster->changes.background,
-                              raster_x, ptr, new_value);
-      raster->changes.have_on_this_line = 1;
+    if (raster->skip_frame || raster_x <= 0)
+      *ptr = new_value;
+    else if (raster_x < (int)raster->geometry.screen_size.width) {
+        raster_changes_add_int(&raster->changes.background,
+                                raster_x, ptr, new_value);
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_int_change_next_line(raster, ptr, new_value);
     }
-  else
-    raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-inline static void raster_add_ptr_change_background (raster_t *raster,
-                                  int raster_x,
-                                  void **ptr,
-                                  void *new_value)
+inline static void raster_add_ptr_change_background(raster_t *raster,
+                                                    int raster_x,
+                                                    void **ptr,
+                                                    void *new_value)
 {
-  if (raster->skip_frame || raster_x <= 0)
-    *ptr = new_value;
-  else if (raster_x < (int) raster->geometry.screen_size.width)
-    {
-      raster_changes_add_ptr (&raster->changes.background,
-                              raster_x, ptr, new_value);
-      raster->changes.have_on_this_line = 1;
+    if (raster->skip_frame || raster_x <= 0)
+        *ptr = new_value;
+    else if (raster_x < (int)raster->geometry.screen_size.width) {
+        raster_changes_add_ptr(&raster->changes.background,
+                               raster_x, ptr, new_value);
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_ptr_change_next_line(raster, ptr, new_value);
     }
-  else
-    raster_add_ptr_change_next_line (raster, ptr, new_value);
 }
 
-inline static void raster_add_int_change_border (raster_t *raster,
-                              int raster_x,
-                              int *ptr,
-                              int new_value)
+inline static void raster_add_int_change_border(raster_t *raster,
+                                                int raster_x,
+                                                int *ptr,
+                                                int new_value)
 {
-  if (raster->skip_frame || raster_x <= 0)
-    *ptr = new_value;
-  else if (raster_x < (int) raster->geometry.screen_size.width)
-    {
-      raster_changes_add_int (&raster->changes.border,
-                              raster_x, ptr, new_value);
-      raster->changes.have_on_this_line = 1;
+    if (raster->skip_frame || raster_x <= 0)
+        *ptr = new_value;
+    else if (raster_x < (int)raster->geometry.screen_size.width) {
+        raster_changes_add_int(&raster->changes.border,
+                               raster_x, ptr, new_value);
+        raster->changes.have_on_this_line = 1;
+    } else {
+        raster_add_int_change_next_line(raster, ptr, new_value);
     }
-  else
-    raster_add_int_change_next_line (raster, ptr, new_value);
 }
 
-inline static void vid_memcpy (PIXEL *dst,
-            PIXEL *src,
-            unsigned int count)
+inline static void vid_memcpy(PIXEL *dst, PIXEL *src, unsigned int count)
 {
-  memcpy (dst, src, count * sizeof (PIXEL));
+    memcpy(dst, src, count * sizeof (PIXEL));
 }
 
 #if X_DISPLAY_DEPTH > 8
 
-inline static void vid_memset (PIXEL *dst,
-            PIXEL value,
-            unsigned int count)
+inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
 {
-  int i;
+    int i;
 
-  for (i = 0; i < count; i++)
-    dst[i] = value;
+    for (i = 0; i < count; i++)
+        dst[i] = value;
 }
 
 #else
 
-inline static void vid_memset (PIXEL *dst,
-            PIXEL value,
-            unsigned int count)
+inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
 {
-  memset (dst, value, count);
+    memset (dst, value, count);
 }
 
 #endif
