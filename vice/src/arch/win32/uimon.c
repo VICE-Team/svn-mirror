@@ -1547,7 +1547,7 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
         else
         {
             TrackPopupMenu(hPopupMenu, 
-                TPM_TOPALIGN | TPM_LEFTALIGN /*| TPM_NONOTIFY */
+                /*TPM_TOPALIGN* |*/ TPM_LEFTALIGN /*| TPM_NONOTIFY */
                 /* | TPM_RETURNCMD */ | TPM_LEFTBUTTON | TPM_RIGHTBUTTON, 
                 curpos.x, curpos.y, 0, hwnd, 0);
         }
