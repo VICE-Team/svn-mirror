@@ -1,3 +1,14 @@
+2001-07-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.43.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+2001-06-24  pottendo  <pottendo@utanet.at>
+
+	* configure.in (intl): Fixed NLS_LOCALEDIR path to be specific to
+	DATADIRNAME.
+
 2001-06-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.42.

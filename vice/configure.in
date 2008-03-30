@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.6.42)
+AM_INIT_AUTOMAKE(vice, 1.6.43)
 AM_CONFIG_HEADER(src/config.h)
 
-AC_DEFINE(UNSTABLE)
+dnl AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no
@@ -259,8 +259,9 @@ if test x"$enable_nls" != x"no" ; then
         USE_NLS=yes
 	AC_DEFINE(ENABLE_NLS)
 	AC_DEFINE(HAVE_LIBINTL_H)
+	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME")
 	dnl this is prefixed with PREFIX
-	AC_DEFINE(NLS_LOCALEDIR, PREFIX"/share/locale")
+	AC_DEFINE(NLS_LOCALEDIR, PREFIX"/"DATADIRNAME"/locale")
       else
         AC_MSG_WARN([libintl.h not found, disabling NLS])
         USE_NLS=no

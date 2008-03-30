@@ -398,6 +398,7 @@ int vsync_do_vsync(int been_skipped)
         }
 #endif
 	vsync_sync_reset();
+	next_frame_start = now;
     }
 
     /* Adjust frame output frequency to match sound speed.

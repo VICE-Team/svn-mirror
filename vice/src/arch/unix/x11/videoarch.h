@@ -143,5 +143,15 @@ extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
                                       long col, int depth);
 #endif
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
+#define fullscreen_on() fullscreen_mode_on_restore()
+#define fullscreen_off() fullscreen_mode_off_restore()
+#define fullscreen_update() fullscreen_update()
+#else
+#define fullscreen_on() 
+#define fullscreen_off()
+#define fullscreen_update() 
+#endif
+
 #endif /* !_VIDEOARCH_H */
 

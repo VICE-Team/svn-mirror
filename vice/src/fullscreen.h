@@ -37,6 +37,7 @@ extern char *fullscreen_selected_videomode;
 extern char *fullscreen_selected_videomode_at_start;
 extern int fullscreen_width, fullscreen_height;
 extern void fullscreen_mode_init(void);
+extern void fullscreen_update(void);
 
 extern int fullscreen_mode_on(void);
 extern int fullscreen_mode_off(void);

@@ -459,11 +459,20 @@ static int initsid(void)
         resources_set_value("WarpMode", (resource_value_t)(vsid_mode && !pdev->bufferspace));
 
         /* Fill up the sound hardware buffer. */
-        j = snddata.bufsize - snddata.fragsize;
-        p = (SWORD *)xmalloc(j*sizeof(SWORD));
-        memset(p, 0, j*sizeof(SWORD));
-        snddata.pdev->write(p, j);
-        free(p);
+	if (pdev->bufferspace) {
+	    /* Fill to bufsize - fragsize. */
+	    j = pdev->bufferspace() - snddata.fragsize;
+	    if (j <= 0) {
+	        return 0;
+	    }
+	    /* Whole fragments. */
+	    j -= j%snddata.fragsize;
+
+	    p = (SWORD *)xmalloc(j*sizeof(SWORD));
+	    memset(p, 0, j*sizeof(SWORD));
+	    snddata.pdev->write(p, j);
+	    free(p);
+	}
 
         return 0;
     }

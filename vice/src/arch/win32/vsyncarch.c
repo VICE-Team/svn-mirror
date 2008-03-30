@@ -115,12 +115,12 @@ void vsyncarch_presync()
 
     /* Update mouse */
     mouse_update_mouse();
+
+    /* Flush keypresses emulated through the keyboard buffer.  */
+    kbd_buf_flush();
+    joystick_update();
 }
 
 void vsyncarch_postsync()
 {
-    /* Flush keypresses emulated through the keyboard buffer.  */
-    kbd_buf_flush();
-    joystick_update();
-
 }

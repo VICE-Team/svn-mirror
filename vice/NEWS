@@ -69,6 +69,9 @@ list of all the changes in the code.
   
 - sid-player mode (use commandline x64 -vsid)
 
+ ** Unix changes
+
+- added preliminary (beta) DGA2 support
 
 * Changes in VICE 1.6
 =====================

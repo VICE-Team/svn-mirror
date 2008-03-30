@@ -111,8 +111,10 @@ static int fb_depth;
 static Display *display;
 extern int screen;
 
+int fullscreen_mode_on (void);
 int fullscreen_mode_off (void);
 static void fullscreen_dispatch_events(void);
+static void fullscreen_dispatch_events_2(void);
 
 #ifdef FS_DEBUG
 void alarm_timeout(int signo) {
@@ -130,9 +132,11 @@ void alarm_timeout(int signo) {
 void set_alarm_timeout() {
     if (signal(SIGSEGV, alarm_timeout) == SIG_ERR)
         return;
+#if 0
     if (signal(SIGALRM, alarm_timeout) == SIG_ERR)
         return;
     alarm(20);
+#endif
 }   
 #endif
 
@@ -319,6 +323,16 @@ int fullscreen_request_set_mode(resource_value_t v, void *param)
 	request_fullscreen_mode = 1; /* toggle to fullscreen mode */
 	old_ui_hook = vsync_set_event_dispatcher(fullscreen_dispatch_events);
     }
+
+    if (param)
+    {
+	request_fullscreen_mode = 0;
+	if (v)
+	    return fullscreen_mode_on();
+	else
+	    return fullscreen_mode_off();
+    }
+    
     return 0;
 #else
     return fullscreen_set_mode(v, param);
@@ -537,6 +551,10 @@ int fullscreen_mode_off(void)
     fullscreen_is_enabled_restore = 0;
     if (fullscreen_is_enabled) {
 	x11kbd_focus_change();
+#ifdef CHECK_DGA_V2
+	XDGASync(display, screen);
+	fullscreen_dispatch_events_2();
+#endif
         fullscreen_set_mode(0, NULL);
         ui_update_menus();
         return 1;
@@ -546,13 +564,19 @@ int fullscreen_mode_off(void)
 
 void fullscreen_mode_on_restore(void)
 {
+    printf("fs-on_restore: %d\n", fullscreen_is_enabled_restore);
   if (fullscreen_is_enabled_restore)
-    fullscreen_is_enabled_restore = fullscreen_mode_on();
+    fullscreen_is_enabled_restore = 
+	fullscreen_request_set_mode((resource_value_t) 1, (void*)1);
 }
 
 void fullscreen_mode_off_restore(void)
 {
-    fullscreen_is_enabled_restore = fullscreen_mode_off();
+#ifdef CHECK_DGA_V2
+    printf("fs-off_restore: %d\n", fullscreen_is_enabled_restore);
+#endif     
+    fullscreen_is_enabled_restore = 
+	fullscreen_request_set_mode((resource_value_t) 0, (void*)0);;
 }
 
 void fullscreen_mode_init(void)
@@ -599,6 +623,15 @@ char *fullscreen_mode_name(int mode)
 
 #ifdef CHECK_DGA_V2
 
+void fullscreen_update(void)
+{
+    if (request_fullscreen_mode == 1)
+	fullscreen_mode_on();
+    if (request_fullscreen_mode == 2)
+	fullscreen_mode_off();
+    request_fullscreen_mode = 0;
+}
+
 static void fullscreen_dispatch_events_2(void)
 {
     XDGAEvent event;
@@ -637,11 +670,7 @@ static void fullscreen_dispatch_events_2(void)
 static void fullscreen_dispatch_events(void)
 {
     fullscreen_dispatch_events_2();
-    if (request_fullscreen_mode == 1)
-	fullscreen_mode_on();
-    if (request_fullscreen_mode == 2)
-	fullscreen_mode_off();
-    request_fullscreen_mode = 0;
+    fullscreen_update();
 }
 
 #endif

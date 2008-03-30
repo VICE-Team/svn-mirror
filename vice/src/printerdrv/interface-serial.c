@@ -208,7 +208,7 @@ static int close_pr4(struct vdrive_s *var, unsigned int secondary)
 
 static void flush_pr4(struct vdrive_s *var, unsigned int secondary)
 {
-    return flush_pr(0, secondary);
+    flush_pr(0, secondary);
 }
 
 static int open_pr5(struct vdrive_s *var, const char *name, int length,
@@ -234,7 +234,7 @@ static int close_pr5(struct vdrive_s *var, unsigned int secondary)
 
 static void flush_pr5(struct vdrive_s *var, unsigned int secondary)
 {
-    return flush_pr(1, secondary);
+    flush_pr(1, secondary);
 }
 
 /* ------------------------------------------------------------------------- */

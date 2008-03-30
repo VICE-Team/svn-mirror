@@ -93,6 +93,7 @@
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
 #undef HAVE_LIBINTL_H
+#undef DATADIRNAME
 #undef NLS_LOCALEDIR
 
 /* 64bit integer for Win32 performance counter */

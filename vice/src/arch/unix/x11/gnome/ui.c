@@ -82,6 +82,7 @@
 #include "uimenu.h"
 #include "autostart.h"
 #include "video.h"
+#include "videoarch.h"
 
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -1209,10 +1210,6 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_mode_off();
-#endif	
-
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) 
@@ -1640,6 +1637,7 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
+    fullscreen_update();
 }
 
 /* Resize one window. */
@@ -2082,7 +2080,7 @@ char *ui_select_file(const char *title,
     char *filename = NULL;
     char *path;
     GtkWidget *icw, *asb, *wp;
-    
+
     /* reset old selection */
     ui_set_selected_file(0);
 
@@ -2186,6 +2184,7 @@ char *ui_select_file(const char *title,
 	   gtk_entry_get_text (GTK_ENTRY (GTK_FILE_SELECTION(file_selector)->selection_entry))
 	   );
 #endif
+
     *button_return = button;
     if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
         /* Caller has to free the filename.  */
@@ -2204,7 +2203,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     gint res;
     char *history_id;
     ui_button_t ret;
-    
+
     input_dialog = gnome_dialog_new(title,
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
@@ -2324,10 +2323,7 @@ void ui_unblock_shells(void)
 /* Pop up a popup shell and center it to the last visited AppShell */
 void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown)
 {
-
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_mode_off_restore();
-#endif
+    fullscreen_off();
     
     ui_restore_mouse();
     /* Keep sure that we really know which was the last visited shell. */
@@ -2403,10 +2399,7 @@ void ui_popdown(GtkWidget *w)
     if (--popped_up_count < 0)
 	popped_up_count = 0;
     ui_unblock_shells();
-#ifdef USE_XF86_EXTENSIONS
-      fullscreen_mode_on_restore();
-#endif
-    
+    fullscreen_on();
 }
 
 /* ------------------------------------------------------------------------- */
