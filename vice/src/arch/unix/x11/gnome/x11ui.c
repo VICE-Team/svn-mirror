@@ -114,7 +114,7 @@ GtkWidget *status_bar;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
-static char *(*current_image_contents_func)(const char *);
+static char *(*current_image_contents_func)(const char *, unsigned int unit);
 static GdkFont *fixedfont, *textfont;
 /* FIXME, ask Xresources here */
 static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
@@ -1903,7 +1903,6 @@ static void menu_set_style(GtkWidget *w, gpointer data)
 
 static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 {
-    image_contents_t *contents;
     ui_menu_entry_t *menu;
     int limit = 16;
     int fno = 0, mask;
@@ -1912,14 +1911,15 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     GtkStyle *menu_entry_style;
 
     if (unit == 1)
-	contents = image_contents_read(IMAGE_CONTENTS_TAPE, name, 0);
+	s = image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
+                                       IMAGE_CONTENTS_STRING_PETSCII);
     else
-	contents = image_contents_read(IMAGE_CONTENTS_DISK, name, 0);
-    if (contents == NULL)
-	return (GtkWidget *) NULL;
+	s = image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
+                                       IMAGE_CONTENTS_STRING_PETSCII);
 
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
-    
+    if (s == NULL)
+        return (GtkWidget *)NULL;
+
     menu = g_new(ui_menu_entry_t, limit + 1); /* +1 because we have to store
 					         NULL as end delimiter */
 
@@ -1995,7 +1995,6 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     /* Cleanup */
     free(title);
     g_free(menu);
-    image_contents_destroy(contents);
     free(s);
     
     return menu_widget;
@@ -2017,7 +2016,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     if (!fname || !current_image_contents_func)
 	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
     else
-	contents = current_image_contents_func(fname);
+	contents = current_image_contents_func(fname, 0);
 
     if (!contents)
 	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
@@ -2100,7 +2099,8 @@ static void ui_select_contents_cb(GtkWidget *w, int row, int col,
 
 /* File browser. */
 char *ui_select_file(const char *title,
-                     char *(*read_contents_func)(const char *),
+                     char *(*read_contents_func)(const char *,
+                     unsigned int unit), unsigned int unit,
                      unsigned int allow_autostart, const char *default_dir,
                      const char *default_pattern, ui_button_t *button_return,
 		     unsigned int show_preview, int *attach_wp)
