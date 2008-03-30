@@ -293,8 +293,8 @@ riot1d.o: riot1d.c ../../../src/riotcore.h ../../../src/vice.h \
 	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
 	../../../src/mos6510.h ../../../src/iecdrive.h \
-	../../../src/parallel.h riotd.h ../../../src/utils.h \
-	../../../src/riotcore.c ../../../src/snapshot.h
+	../../../src/parallel.h riotd.h ../../../src/riotcore.c \
+	../../../src/snapshot.h
 riot2d.o: riot2d.c ../../../src/riotcore.h ../../../src/vice.h \
 	../../../src/config.h ../../../src/log.h ../../../src/riot.h \
 	../../../src/arch/unix/types.h ../../../src/interrupt.h \
@@ -302,8 +302,7 @@ riot2d.o: riot2d.c ../../../src/riotcore.h ../../../src/vice.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/mos6510.h \
 	../../../src/iecdrive.h ../../../src/parallel.h riotd.h \
-	../../../src/riotcore.c ../../../src/snapshot.h \
-	../../../src/utils.h
+	../../../src/riotcore.c ../../../src/snapshot.h
 
 info-am:
 info: info-am

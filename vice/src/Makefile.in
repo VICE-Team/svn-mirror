@@ -649,9 +649,10 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	log.h resources.h utils.h arch/unix/types.h
 machine.o: machine.c vice.h config.h alarm.h arch/unix/types.h \
-	autostart.h clkguard.h cmdline.h console.h interrupt.h log.h \
-	machine.h maincpu.h mem.h printer.h resources.h sound.h \
-	arch/unix/ui.h uiapi.h utils.h vsync.h arch/unix/joy.h
+	autostart.h clkguard.h cmdline.h console.h drive/drive.h \
+	interrupt.h log.h machine.h maincpu.h mem.h printer.h \
+	resources.h sound.h arch/unix/ui.h uiapi.h utils.h vsync.h \
+	arch/unix/joy.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h fullscreen.h \
 	init.h initcmdline.h interrupt.h log.h machine.h maincpu.h \

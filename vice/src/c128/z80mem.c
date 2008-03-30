@@ -98,63 +98,63 @@ int z80mem_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
-static void REGPARM2 z80mem_store(ADDRESS addr, BYTE value)
+static void REGPARM2 z80mem_store(WORD addr, BYTE value)
 {
     _z80mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-static BYTE REGPARM1 z80mem_read(ADDRESS addr)
+static BYTE REGPARM1 z80mem_read(WORD addr)
 {
     return _z80mem_read_tab_ptr[addr >> 8](addr);
 }
 
-static BYTE REGPARM1 ram_read(ADDRESS addr)
+static BYTE REGPARM1 ram_read(WORD addr)
 {
     return ram_bank[addr];
 }
 
-static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
+static void REGPARM2 ram_store(WORD addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
-BYTE REGPARM1 bios_read(ADDRESS addr)
+BYTE REGPARM1 bios_read(WORD addr)
 {
     return z80bios_rom[addr & 0x0fff];
 }
 
-void REGPARM2 bios_store(ADDRESS addr, BYTE value)
+void REGPARM2 bios_store(WORD addr, BYTE value)
 {
     z80bios_rom[addr] = value;
 }
 
-static BYTE REGPARM1 z80_read_zero(ADDRESS addr)
+static BYTE REGPARM1 z80_read_zero(WORD addr)
 {
     return mem_page_zero[addr];
 }
 
-static void REGPARM2 z80_store_zero(ADDRESS addr, BYTE value)
+static void REGPARM2 z80_store_zero(WORD addr, BYTE value)
 {
     mem_page_zero[addr] = value;
 }
 
-static BYTE REGPARM1 read_one(ADDRESS addr)
+static BYTE REGPARM1 read_one(WORD addr)
 {
     return mem_page_one[addr - 0x100];
 }
 
-static void REGPARM2 one_store(ADDRESS addr, BYTE value)
+static void REGPARM2 one_store(WORD addr, BYTE value)
 {
     mem_page_one[addr - 0x100] = value;
 }
 
-static BYTE REGPARM1 read_unconnected_io(ADDRESS addr)
+static BYTE REGPARM1 read_unconnected_io(WORD addr)
 {
     log_message(z80mem_log, "Read from unconnected IO %04x", addr);
     return 0;
 }
 
-static void REGPARM2 store_unconnected_io(ADDRESS addr, BYTE value)
+static void REGPARM2 store_unconnected_io(WORD addr, BYTE value)
 {
     log_message(z80mem_log, "Store to unconnected IO %04x %02x", addr, value);
 }

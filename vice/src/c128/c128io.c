@@ -43,7 +43,7 @@
 #include "vicii-phi1.h"
 
 
-BYTE REGPARM1 io1_read(ADDRESS addr)
+BYTE REGPARM1 io1_read(WORD addr)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -58,7 +58,7 @@ BYTE REGPARM1 io1_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 io1_store(ADDRESS addr, BYTE value)
+void REGPARM2 io1_store(WORD addr, BYTE value)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -73,7 +73,7 @@ void REGPARM2 io1_store(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 io2_read(ADDRESS addr)
+BYTE REGPARM1 io2_read(WORD addr)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -88,14 +88,14 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
         return emulator_id[addr - 0xa0];
     }
     if (reu_enabled)
-        return reu_read((ADDRESS)(addr & 0x0f));
+        return reu_read((WORD)(addr & 0x0f));
     if (ieee488_enabled)
-        return tpi_read((ADDRESS)(addr & 0x07));
+        return tpi_read((WORD)(addr & 0x07));
 
     return vicii_read_phi1();
 }
 
-void REGPARM2 io2_store(ADDRESS addr, BYTE value)
+void REGPARM2 io2_store(WORD addr, BYTE value)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -106,9 +106,9 @@ void REGPARM2 io2_store(ADDRESS addr, BYTE value)
         return;
     }
     if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
+        reu_store((WORD)(addr & 0x0f), value);
     if (ieee488_enabled) {
-        tpi_store((ADDRESS)(addr & 0x07), value);
+        tpi_store((WORD)(addr & 0x07), value);
     }
     return;
 }

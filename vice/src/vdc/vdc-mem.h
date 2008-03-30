@@ -31,8 +31,8 @@
 
 #include "types.h"
 
-extern void REGPARM2 vdc_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 vdc_read(ADDRESS addr);
+extern void REGPARM2 vdc_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 vdc_read(WORD addr);
 
 #endif
 

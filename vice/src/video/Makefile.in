@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libvideo.a
 
-libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	renderyuv.c 	renderyuv.h 	video-canvas.c 	video-cmdline-options.c 	video-cmdline-options.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h 	video-viewport.c
+libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	renderyuv.c 	renderyuv.h 	video-canvas.c 	video-cmdline-options.c 	video-cmdline-options.h 	video-color.c 	video-color.h 	video-render-pal.c 	video-render-pal.h 	video-render.c 	video-render.h 	video-resources-pal.c 	video-resources.c 	video-resources.h 	video-viewport.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -152,7 +152,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libvideo_a_LIBADD = 
 libvideo_a_OBJECTS =  render1x1.o render1x1pal.o render1x2.o render2x2.o \
 render2x2pal.o renderyuv.o video-canvas.o video-cmdline-options.o \
-video-color.o video-render.o video-resources.o video-viewport.o
+video-color.o video-render-pal.o video-render.o video-resources-pal.o \
+video-resources.o video-viewport.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -284,10 +285,19 @@ video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/palette.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
 	../../src/video.h ../../src/viewport.h
+video-render-pal.o: video-render-pal.c ../../src/vice.h \
+	../../src/config.h render1x1.h ../../src/arch/unix/types.h \
+	render1x1pal.h render2x2.h render2x2pal.h video-render-pal.h \
+	video-resources.h ../../src/video.h ../../src/viewport.h
 video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
 	render1x1.h ../../src/arch/unix/types.h render1x1pal.h \
 	render1x2.h render2x2.h render2x2pal.h renderyuv.h \
-	video-render.h video-resources.h ../../src/video.h \
+	video-render-pal.h video-render.h video-resources.h \
+	../../src/video.h ../../src/viewport.h
+video-resources-pal.o: video-resources-pal.c ../../src/vice.h \
+	../../src/config.h ../../src/resources.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/types.h \
+	../../src/uiapi.h video-resources.h ../../src/video.h \
 	../../src/viewport.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/utils.h \

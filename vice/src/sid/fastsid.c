@@ -877,7 +877,7 @@ void fastsid_close(sound_t *psid)
 }
 
 
-BYTE fastsid_read(sound_t *psid, ADDRESS addr)
+BYTE fastsid_read(sound_t *psid, WORD addr)
 {
     BYTE ret;
     WORD ffix;
@@ -926,7 +926,7 @@ BYTE fastsid_read(sound_t *psid, ADDRESS addr)
     return ret;
 }
 
-void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
+void fastsid_store(sound_t *psid, WORD addr, BYTE byte)
 {
     switch (addr) {
       case 4:
@@ -974,7 +974,7 @@ void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 
 void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    ADDRESS addr;
+    WORD addr;
 
     for (addr = 0; addr < 32; addr++)
         fastsid_store(psid, addr, 0);

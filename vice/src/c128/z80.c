@@ -40,7 +40,10 @@
 #include "z80mem.h"
 #include "z80regs.h"
 
+
 /*#define TRACE*/
+/*#define DEBUG_Z80*/
+
 
 static BYTE reg_a = 0;
 static BYTE reg_b = 0;
@@ -76,6 +79,7 @@ static int dma_request = 0;
 
 static BYTE *z80_bank_base;
 static int z80_bank_limit;
+
 
 void z80_trigger_dma(void)
 {
@@ -116,16 +120,16 @@ inline static int z80mem_read_limit(int addr)
 
 
 #define LOAD(addr) \
-    (*_z80mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+    (*_z80mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
 
 #define STORE(addr, value) \
-    (*_z80mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+    (*_z80mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 
 #define IN(addr) \
-    (io_read_tab[(addr) >> 8])((ADDRESS)(addr))
+    (io_read_tab[(addr) >> 8])((WORD)(addr))
 
 #define OUT(addr, value) \
-    (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+    (io_write_tab[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 
 #define opcode_t DWORD
 #define FETCH_OPCODE(o) ((o) = (LOAD(z80_reg_pc)		\
@@ -414,7 +418,7 @@ static void export_registers(void)
             if ((ik & IK_NMI) && 0) {                                        \
             } else if ((ik & IK_IRQ) && iff1                                 \
                 && !OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) {                 \
-                ADDRESS jumpdst;                                             \
+                WORD jumpdst;                                                \
                 /*TRACE_IRQ();*/                                             \
                 if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
                     mon_check_icount_interrupt();                            \
@@ -444,7 +448,7 @@ static void export_registers(void)
         if (ik & (IK_TRAP | IK_RESET)) {                                     \
             if (ik & IK_TRAP) {                                              \
                 export_registers();                                          \
-                interrupt_do_trap(cpu_int_status, (ADDRESS)z80_reg_pc);      \
+                interrupt_do_trap(cpu_int_status, (WORD)z80_reg_pc);         \
                 import_registers();                                          \
                 if (interrupt_check_pending_interrupt(cpu_int_status)        \
                     & IK_RESET)                                              \
@@ -462,15 +466,15 @@ static void export_registers(void)
             if (mon_mask[e_comp_space])                                      \
                 export_registers();                                          \
             if (mon_mask[e_comp_space] & (MI_BREAK)) {                       \
-                if (check_breakpoints(e_comp_space, (ADDRESS)z80_reg_pc)) {  \
-                   mon((ADDRESS)z80_reg_pc);                                 \
+                if (check_breakpoints(e_comp_space, (WORD)z80_reg_pc)) {     \
+                   mon((WORD)z80_reg_pc);                                    \
                 }                                                            \
             }                                                                \
             if (mon_mask[e_comp_space] & (MI_STEP)) {                        \
-                mon_check_icount((ADDRESS)z80_reg_pc);                       \
+                mon_check_icount((WORD)z80_reg_pc);                          \
             }                                                                \
             if (mon_mask[e_comp_space] & (MI_WATCH)) {                       \
-                mon_check_watchpoints((ADDRESS)z80_reg_pc);                  \
+                mon_check_watchpoints((WORD)z80_reg_pc);                     \
             }                                                                \
         }                                                                    \
     } while (0)
@@ -1141,7 +1145,7 @@ static void export_registers(void)
 
 #define RET(clk_inc1, clk_inc2, clk_inc3)  \
   do {                                     \
-      ADDRESS tmp;                         \
+      WORD tmp;                            \
                                            \
       CLK += clk_inc1;                     \
       tmp = LOAD(reg_sp);                  \
@@ -1164,7 +1168,7 @@ static void export_registers(void)
 
 #define RETNI()                        \
   do {                                 \
-      ADDRESS tmp;                     \
+      WORD tmp;                        \
                                        \
       CLK += 4;                        \
       tmp = LOAD(reg_sp);              \
@@ -1694,9 +1698,9 @@ static void export_registers(void)
 #define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
   do {                                                                       \
       CLK += clk_inc1;                                                       \
-      STORE((ADDRESS)(addr), reg_vall);                                      \
+      STORE((WORD)(addr), reg_vall);                                         \
       CLK += clk_inc2;                                                       \
-      STORE((ADDRESS)(addr + 1), reg_valh);                                  \
+      STORE((WORD)(addr + 1), reg_valh);                                     \
       CLK += clk_inc3;                                                       \
       INC_PC(pc_inc);                                                        \
   } while (0)
@@ -1704,9 +1708,9 @@ static void export_registers(void)
 #define STSPW(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
   do {                                                     \
       CLK += clk_inc1;                                     \
-      STORE((ADDRESS)(addr), (reg_sp & 0xff));             \
+      STORE((WORD)(addr), (reg_sp & 0xff));                \
       CLK += clk_inc2;                                     \
-      STORE((ADDRESS)(addr + 1), (reg_sp >> 8));           \
+      STORE((WORD)(addr + 1), (reg_sp >> 8));              \
       CLK += clk_inc3;                                     \
       INC_PC(pc_inc);                                      \
   } while (0)
@@ -2521,11 +2525,6 @@ static void opcode_cb(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         SET(reg_a, 7);
         break;
       default:
-        log_message(LOG_DEFAULT,
-                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                    "H%02x L%02x SP%04x OP CB %02x %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                    reg_h, reg_l, reg_sp, ip1, ip2, ip3);
         INC_PC(2);
    }
 }
@@ -3190,11 +3189,6 @@ static void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
         SETXXREG(7, reg_a, IX_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       default:
-        log_message(LOG_DEFAULT,
-                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                    "H%02x L%02x SP%04x OP DD CB %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                    reg_h, reg_l, reg_sp, iip2, iip3);
         INC_PC(4);
    }
 }
@@ -3839,11 +3833,14 @@ static void opcode_dd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         NOP(4, 1);
         break;
       default:
+#ifdef DEBUG_Z80
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP DD %02x %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    (int)(CLK), (unsigned int)(z80_reg_pc),
+                    reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip1, ip2, ip3);
+#endif
         INC_PC(2);
    }
 }
@@ -4020,11 +4017,14 @@ static void opcode_ed(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         NOP(8, 2);
         break;
       default:
+#ifdef DEBUG_Z80
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP ED %02x %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    (int)(CLK), (unsigned int)(z80_reg_pc),
+                    reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip1, ip2, ip3);
+#endif
         INC_PC(2);
    }
 }
@@ -4689,12 +4689,7 @@ static void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
         SETXXREG(7, reg_a, IY_WORD_OFF(iip2), 4, 4, 15, 4);
         break;
       default:
-        log_message(LOG_DEFAULT,
-                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
-                    "H%02x L%02x SP%04x OP FD CB %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
-                    reg_h, reg_l, reg_sp, iip2, iip3);
-        /*INC_PC(4);*/
+        INC_PC(4);
    }
 }
 
@@ -5339,11 +5334,14 @@ static void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
         NOP(4, 1);
         break;
       default:
+#ifdef DEBUG_Z80
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP FD %02x %02x %02x.",
-                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    (int)(CLK), (unsigned int)z80_reg_pc,
+                    reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip1, ip2, ip3);
+#endif
         INC_PC(2);
    }
 }

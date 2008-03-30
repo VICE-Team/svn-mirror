@@ -96,7 +96,7 @@ static void vdc_perform_fillcopy(void)
 /* VDC interface functions. */
 
 /* Store a value in a VDC register. */
-void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
+void REGPARM2 vdc_store(WORD addr, BYTE value)
 {
     BYTE oldval;
 
@@ -368,7 +368,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 }
 
 
-BYTE REGPARM1 vdc_read(ADDRESS addr)
+BYTE REGPARM1 vdc_read(WORD addr)
 {
     machine_handle_pending_alarms(0);
 

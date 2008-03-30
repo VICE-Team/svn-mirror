@@ -36,10 +36,10 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_RESID          1
 #define SID_ENGINE_CATWEASELMKIII 2
 
-extern BYTE REGPARM1 sid_read(ADDRESS address);
-extern BYTE REGPARM1 sid2_read(ADDRESS address);
-extern void REGPARM2 sid_store(ADDRESS address, BYTE byte);
-extern void REGPARM2 sid2_store(ADDRESS address, BYTE byte);
+extern BYTE REGPARM1 sid_read(WORD address);
+extern BYTE REGPARM1 sid2_read(WORD address);
+extern void REGPARM2 sid_store(WORD address, BYTE byte);
+extern void REGPARM2 sid2_store(WORD address, BYTE byte);
 extern void sid_reset(void);
 
 extern BYTE *sid_get_siddata(unsigned int channel);
@@ -53,8 +53,8 @@ struct sid_engine_s {
     struct sound_s *(*open)(BYTE *sidstate);
     int (*init)(struct sound_s *psid, int speed, int cycles_per_sec);
     void (*close)(struct sound_s *psid);
-    BYTE (*read)(struct sound_s *psid, ADDRESS addr);
-    void (*store)(struct sound_s *psid, ADDRESS addr, BYTE val);
+    BYTE (*read)(struct sound_s *psid, WORD addr);
+    void (*store)(struct sound_s *psid, WORD addr, BYTE val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
     int (*calculate_samples)(struct sound_s *psid, SWORD *pbuf, int nr,
 			     int interleave, int *delta_t);

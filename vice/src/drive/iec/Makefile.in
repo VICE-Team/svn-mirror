@@ -261,8 +261,8 @@ cia1571d.o: cia1571d.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
 	../../../src/mos6510.h ../../../src/iecdrive.h \
-	../../../src/interrupt.h ../../../src/utils.h \
-	../../../src/ciacore.c ../../../src/snapshot.h
+	../../../src/interrupt.h ../../../src/ciacore.c \
+	../../../src/snapshot.h
 cia1581d.o: cia1581d.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/ciacore.h ../../../src/cia.h ../../../src/log.h \
 	../../../src/arch/unix/types.h ../../../src/drive/ciad.h \
@@ -271,7 +271,7 @@ cia1581d.o: cia1581d.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/mos6510.h \
 	../../../src/iecdrive.h ../../../src/interrupt.h \
 	../../../src/ciacore.c ../../../src/clkguard.h \
-	../../../src/snapshot.h ../../../src/utils.h
+	../../../src/snapshot.h
 iec-cmdline-options.o: iec-cmdline-options.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/cmdline.h \
 	../../../src/drive/drive.h ../../../src/arch/unix/types.h \

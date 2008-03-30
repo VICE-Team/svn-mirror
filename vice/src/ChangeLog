@@ -1,3 +1,45 @@
+2003-03-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.20.
+
+	* video/video-resources-pal.c, video-render-pal.c,
+	video-render-pal.h: New files.
+
+	* video/video-resources.c, video.h: Moved PAL specific code to
+	separate file.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c: Initialize PAL resources.
+
+	* video/Makefile.am, arch/win32/video.dsp: Added new files.
+
+	* 6510core.c, drive/drivecpu.c, c128/z80.c, charset.c,
+	arch/win32/video.c: Fixed warning.
+
+	* machine.c, maincpu.c, datasette.c, event.c, joystick.c,
+	keyboard.c, aciacore.c, ciacore.c, riotcore.c, viacore.c,
+	drive/via1d.c, drive/iec/cia1571d.c, drive/ieee/fdc.c,
+	drive/ieee/riot1d.c, drive/tcbm/glue1551.c, vicii/vicii.c,
+	vdc/vdc.c, crtc/crtc.c, rs232drv/rsuser.c, c64/cart/c64cart.c,
+	vic20/vic.c, plus4/ted-timer.c, plus4/ted.c, cbm2/cbm2.c,
+	drive/drivecpu.c, drive/drivecpu.h, drive/drive.c,
+	drive/drive.h: Free alarm context on shutdown.
+
+	* machine.c, maincpu.c, maincpu.h, drive/drivecpu.c,
+	datasette.c, event.c, sound.c, vsync.c, vicii/vicii.c,
+	crtc/crtc.c, rs232drv/rsuser.c, c64/c64.c, c128/c128.c,
+	vic20/vic.c, vic20/vic20.c, pet/pet.c, plus4/plus4.c,
+	plus4/ted.c, cbm2/cbm2.c, arch/msdos/vsync.c, aciacore.c,
+	ciacore.c, riotcore.c, viacore.c, main.c: Free clock guard on
+	shutdown.
+
+	* c128/c128-snapshot.c, c128/c128io.c, c128/c128io.h,
+	c128/c128mem.c, c128/c128mem.h, c128/c128mmu.c,
+	c128/c128mmu.h, c128/functionrom.c, c128/functionrom.h,
+	c128/z80.c, c128/z80mem.c, c128/z80mem.h, vdc/vdc-mem.c,
+	vdc/vdc-mem.h, sid/fastsid.c, sid/sid.c, sid/sid.h: Use `WORD'
+	instead of `ADDRESS'.
+
 2003-03-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.19.
@@ -33,6 +75,7 @@
 	(vic_color_update_palette): Renamed.
 
 	* plus4/ted-color.c, plus4/ted-color.h, plus4/ted.c
+	(ted_color_update_palette): Renamed.
 
 	* c64/c64-resources.c, c128/c128-resources.c,
 	vic20/vic20-resources.c, pet/pet-resources.c,

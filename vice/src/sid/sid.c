@@ -64,8 +64,8 @@ static BYTE lastsidread;
 /* register data */
 static BYTE siddata[SOUND_CHANNELS_MAX][32];
 
-static int (*sid_read_func)(ADDRESS addr, int chipno);
-static void (*sid_store_func)(ADDRESS addr, BYTE val, int chipno);
+static int (*sid_read_func)(WORD addr, int chipno);
+static void (*sid_store_func)(WORD addr, BYTE val, int chipno);
 
 static int sid_enable, sid_engine_type = -1;
 
@@ -76,7 +76,7 @@ BYTE *sid_get_siddata(unsigned int channel)
 
 /* ------------------------------------------------------------------------- */
 
-int sid_read_off(ADDRESS addr, int chipno)
+int sid_read_off(WORD addr, int chipno)
 {
     BYTE val;
 
@@ -93,13 +93,13 @@ int sid_read_off(ADDRESS addr, int chipno)
     return (int)val;
 }
 
-void sid_write_off(ADDRESS addr, BYTE val, int chipno)
+void sid_write_off(WORD addr, BYTE val, int chipno)
 {
 }
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
+static BYTE REGPARM2 sid_read_chip(WORD addr, int chipno)
 {
     int	val;
 
@@ -139,7 +139,7 @@ static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
 }
 
 /* write register value to sid */
-static void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
+static void REGPARM3 sid_store_chip(WORD addr, BYTE byte, int chipno)
 {
     addr &= 0x1f;
 
@@ -158,7 +158,7 @@ static void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 sid_read(ADDRESS addr)
+BYTE REGPARM1 sid_read(WORD addr)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -168,12 +168,12 @@ BYTE REGPARM1 sid_read(ADDRESS addr)
     return sid_read_chip(addr, 0);
 }
 
-BYTE REGPARM1 sid2_read(ADDRESS addr)
+BYTE REGPARM1 sid2_read(WORD addr)
 {
     return sid_read_chip(addr, 1);
 }
 
-void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
+void REGPARM2 sid_store(WORD addr, BYTE byte)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -185,7 +185,7 @@ void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
     sid_store_chip(addr, byte, 0);
 }
 
-void REGPARM2 sid2_store(ADDRESS addr, BYTE byte)
+void REGPARM2 sid2_store(WORD addr, BYTE byte)
 {
     sid_store_chip(addr, byte, 1);
 }
@@ -229,12 +229,12 @@ void sound_machine_close(sound_t *psid)
     sid_engine.close(psid);
 }
 
-BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
     return sid_engine.read(psid, addr);
 }
 
-void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
+void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
     sid_engine.store(psid, addr, byte);
 }

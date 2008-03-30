@@ -368,15 +368,13 @@ vic20ieeevia1.o: vic20ieeevia1.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drivecpu.h ../../src/maincpu.h \
 	../../src/parallel.h ../../src/viacore.h ../../src/log.h \
 	../../src/via.h ../../src/viacore.c ../../src/alarm.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 vic20ieeevia2.o: vic20ieeevia2.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
 	../../src/drive/drivecpu.h ../../src/maincpu.h \
 	../../src/parallel.h ../../src/viacore.h ../../src/log.h \
 	../../src/via.h ../../src/viacore.c ../../src/alarm.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
@@ -401,7 +399,7 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/viacore.h ../../src/log.h \
 	../../src/via.h vic20iec.h vic20via.h ../../src/viacore.c \
 	../../src/alarm.h ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/snapshot.h ../../src/utils.h
+	../../src/snapshot.h
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/drive/drive.h \
 	../../src/arch/unix/types.h ../../src/keyboard.h \
@@ -410,7 +408,7 @@ vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \
 	vic20iec.h vic20via.h ../../src/rsuser.h ../../src/viacore.c \
 	../../src/alarm.h ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/snapshot.h ../../src/utils.h
+	../../src/snapshot.h
 
 info-am:
 info: info-am

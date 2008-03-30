@@ -339,8 +339,7 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/parallel.h petsound.h petvia.h \
 	../../src/printer.h ../../src/viacore.h ../../src/log.h \
 	../../src/via.h ../../src/viacore.c ../../src/alarm.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h
 
 info-am:
 info: info-am
