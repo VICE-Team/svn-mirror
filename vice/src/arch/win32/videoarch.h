@@ -45,11 +45,12 @@ struct palette_s;
 struct video_draw_buffer_callback_s;
 
 typedef struct video_canvas_s {
+    unsigned int initialized;
     char *title;
     int width, height;
     int mapped;
     int depth;
-	float refreshrate; /* currently displayed refresh rate */
+    float refreshrate; /* currently displayed refresh rate */
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
