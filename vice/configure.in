@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=13
+VICE_VERSION_BUILD=14
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -423,6 +423,10 @@ if test x"$with_resid" = "xno"; then
   dnl Another workaround must be found if other self-contained packages go
   dnl into VICE.
   no_recursion=yes
+  dnl A workaround for an autoconf bug when not using/checking the C++
+  dnl compiler, we'll define am__fastdepCXX_TRUE as #
+  am__fastdepCXX_TRUE=#
+  am__fastdepCXX_FALSE=
 else
   AC_LANG_SAVE
   AC_LANG_CPLUSPLUS
@@ -693,9 +697,15 @@ fi
 
 if [[ x"$is_win32" = "xyes" ]] ; then
     SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
-    AC_CHECK_PROGS(WRC, wrc, windres)
+    AC_PATH_PROGS(WINDRES, windres, windres)
+    AC_PATH_PROGS(WRC, wrc , windres)
     if test x"$WRC" = "xwindres"; then
         AC_MSG_WARN([WRC not found, WRC is required for propper internationalization support])
+        if test x"$WINDRES" = "xwindres"; then
+          WRC="windres"
+        else
+          WRC="$WINDRES"
+        fi
     fi
 fi
 

@@ -62,6 +62,8 @@ BEGIN
     END
 END
 
+1 RT_MANIFEST "vice.manifest"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -214,7 +216,6 @@ END
 
 // ITALIAN version of menu
 
-#pragma code_page(28605)
 IDR_MENUMONITOR_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -259,7 +260,6 @@ BEGIN
         MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
     END
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of menu
@@ -699,7 +699,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_DISKDEVICE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 287, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -731,7 +730,6 @@ BEGIN
     AUTOCHECKBOX    "&Hide non-P00 files",IDC_TOGGLE_HIDENONP00,185,135,73,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -910,7 +908,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_DATASETTE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del Datasette"
@@ -929,7 +926,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1135,7 +1131,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_JOY_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 226, 161
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del Joystick"
@@ -1176,7 +1171,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 129,141,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1403,7 +1397,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_CONFIG_KEYSET_DIALOG_IT DIALOG DISCARDABLE 0, 0, 130, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1429,7 +1422,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1616,7 +1608,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_SOUND_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del suono"
@@ -1641,7 +1632,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1802,7 +1792,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1822,7 +1811,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "Crea un disco", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -1941,7 +1929,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1952,7 +1939,6 @@ BEGIN
     GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
     PUSHBUTTON      "Crea l'immagine", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2047,7 +2033,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_SNAPSHOT_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2059,7 +2044,6 @@ BEGIN
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2148,7 +2132,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_MEDIAFILE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2157,7 +2140,6 @@ BEGIN
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2237,7 +2219,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_CONSOLE_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 22
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2246,7 +2227,6 @@ BEGIN
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2332,7 +2312,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_TEXTDLG_IT DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dialog"
@@ -2343,7 +2322,6 @@ BEGIN
     EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
 //                  ES_MULTILINE
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2476,7 +2454,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_FULLSCREEN_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180,87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2498,7 +2475,6 @@ BEGIN
     AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2635,7 +2611,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_VIDEO_COLORS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2650,7 +2625,6 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2805,7 +2779,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_VIDEO_ADVANCED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2833,7 +2806,6 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Sfoglia...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -2970,7 +2942,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_VIDEO_PALETTE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -2979,7 +2950,6 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Sfoglia...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3098,7 +3068,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_RAM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni delle RAM"
@@ -3120,7 +3089,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3248,7 +3216,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_CUSTOM_SPEED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Custom speed"
@@ -3260,7 +3227,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3409,7 +3375,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_PRINTER_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 285, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni delle stampanti"
@@ -3438,7 +3403,6 @@ BEGIN
     LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3647,7 +3611,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_ROMSET_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 265, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni delle ROM"
@@ -3679,7 +3642,6 @@ BEGIN
     PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3837,7 +3799,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_ROMSET_ENTER_NAME_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New configuration"
@@ -3849,7 +3810,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -3962,7 +3922,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_RS232_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni della RS232"
@@ -3979,7 +3938,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -4533,7 +4491,6 @@ END
 
 // ITALIAN text
 
-#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_NONE_IT                        "Nessuno"
@@ -4692,7 +4649,6 @@ BEGIN
   IDS_PLAYBACK_IT                    "Playback\n%02d:%02d (%02d:%02d)"
   IDS_UNKNOWN_IT                     "Unknown"
 END
-#pragma code_page(28591)
 
 
 // DUTCH text

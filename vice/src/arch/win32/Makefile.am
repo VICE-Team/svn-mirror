@@ -231,42 +231,43 @@ EXTRA_DIST = \
 	xplus4.dsp \
 	xvic.dsp \
 	vice.dsw \
+        vice.manifest \
         montb.bmp \
         c64.ico 
 
-resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc resramcart.rc reside64.rc restfe.rc
-	cat >resc128cat.rc res.rc resacia.rc reside64.rc resreu.rc resgeoram.rc resramcart.rc resrs232user.rc ressid.rc resvicii.rc restfe.rc resc128.rc
+resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/reside64.rc $(srcdir)/restfe.rc
+	cat >resc128cat.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/restfe.rc $(srcdir)/resc128.rc
 	$(WRC) -i resc128cat.rc -o resc128.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32 --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc128.res -o $@
 	rm -f resc128.res resc128cat.rc
-resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc resgeoram.rc resramcart.rc reside64.rc resdrivec64vic20.rc restfe.rc
-	cat >resc64cat.rc res.rc resacia.rc resdrivec64vic20.rc reside64.rc resreu.rc resgeoram.rc resramcart.rc resrs232user.rc ressid.rc resvicii.rc restfe.rc resc64.rc
+resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/restfe.rc
+	cat >resc64cat.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/restfe.rc $(srcdir)/resc64.rc
 	$(WRC) -i resc64cat.rc -o resc64.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc64.res -o $@
 	rm -f resc64.res resc64cat.rc
-rescbm2.o : rescbm2.rc res.rc res.h resacia.rc ressid.rc resdrivepetcbm2.rc resvicii.rc
-	cat >rescbm2cat.rc res.rc resacia.rc resdrivepetcbm2.rc ressid.rc resvicii.rc rescbm2.rc
+rescbm2.o : $(srcdir)/rescbm2.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/resvicii.rc
+	cat >rescbm2cat.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/rescbm2.rc
 	$(WRC) -i rescbm2cat.rc -o rescbm2.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i rescbm2.res -o $@
 	rm -f rescbm2.res rescbm2cat.rc
-respet.o : respet.rc res.rc res.h resacia.rc resdrivepetcbm2.rc
-	cat >respetcat.rc res.rc resacia.rc resdrivepetcbm2.rc respet.rc
+respet.o : $(srcdir)/respet.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc
+	cat >respetcat.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/respet.rc
 	$(WRC) -i respetcat.rc -o respet.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i respet.res -o $@
 	rm -f respet.res respetcat.rc
-resplus4.o : resplus4.rc res.rc res.h resacia.rc
-	cat >resplus4cat.rc res.rc resacia.rc resplus4.rc
+resplus4.o : $(srcdir)/resplus4.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resacia.rc
+	cat >resplus4cat.rc $(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resplus4.rc
 	$(WRC) -i resplus4cat.rc -o resplus4.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resplus4.res -o $@
 	rm -f resplus4.res resplus4cat.rc
-resvic20.o : resvic20.rc res.rc res.h resrs232user.rc resdrivec64vic20.rc
-	cat >resvic20cat.rc res.rc resdrivec64vic20.rc resrs232user.rc resvic20.rc
+resvic20.o : $(srcdir)/resvic20.rc $(srcdir)/res.rc $(srcdir)/res.h $(srcdir)/resrs232user.rc $(srcdir)/resdrivec64vic20.rc
+	cat >resvic20cat.rc $(srcdir)/res.rc $(srcdir)/resdrivec64vic20.rc $(srcdir)/resrs232user.rc $(srcdir)/resvic20.rc
 	$(WRC) -i resvic20cat.rc -o resvic20.res --include-dir $(top_builddir)/src \
-		--include-dir $(top_srcdir)/src/arch/win32
+		--include-dir $(top_srcdir)/src/arch/win32  --include-dir $(top_srcdir)/src
 	$(WINDRES) -i resvic20.res -o $@
 	rm -f resvic20.res resvic20cat.rc
