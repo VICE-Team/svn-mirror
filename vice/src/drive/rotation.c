@@ -32,6 +32,8 @@
 #include "types.h"
 
 
+/*#define NEW_SYNC*/
+
 #define ACCUM_MAX 0x10000
 
 #define ROTATION_TABLE_SIZE 0x1000
@@ -309,7 +311,7 @@ void rotation_rotate_disk(drive_t *dptr)
     } /* if (rptr->shifter >= 8) */
 }
 
-#if 1
+#ifdef NEW_SYNC
 inline static unsigned int count_sync_from_left(BYTE gcr_byte)
 {
     unsigned int num;
@@ -368,7 +370,7 @@ inline static void add_head_bitoff(drive_t *dptr, unsigned int inc)
    is found.  */
 BYTE rotation_sync_found(drive_t *dptr)
 {
-#if 1
+#ifdef NEW_SYNC
     unsigned int dnr;
     BYTE val, preval, nextval;
     unsigned int sync_bits;
@@ -404,7 +406,7 @@ BYTE rotation_sync_found(drive_t *dptr)
 #else
     unsigned int dnr;
     DWORD val;
-    unsigned int offset, i;
+    unsigned int offset;
 
     dnr = dptr->mynumber;
 
