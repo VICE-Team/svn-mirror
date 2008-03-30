@@ -290,8 +290,7 @@ vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h vdrive-bam.h \
 	vdrive.h ../../src/attach.h ../../src/snapshot.h \
-	../../src/serial.h ../../src/traps.h ../../src/log.h \
-	vdrive-dir.h
+	../../src/log.h vdrive-dir.h
 vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
 	../../src/serial.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h ../../src/traps.h ../../src/utils.h \
@@ -306,7 +305,7 @@ vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/fsdevice.h ../../src/serial.h \
 	../../src/traps.h ../../src/utils.h vdrive-bam.h vdrive.h \
-	../../src/attach.h vdrive-dir.h vdrive-iec.h ../../src/zfile.h
+	../../src/attach.h vdrive-dir.h vdrive-iec.h
 
 info: info-recursive
 dvi: dvi-recursive

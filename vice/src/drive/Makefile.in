@@ -365,14 +365,13 @@ drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
 	../../src/uiapi.h viad.h ../../src/via.h riotd.h wd1770.h fdc.h \
 	drivecpucore.c ../../src/6510core.c
-fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/log.h ../../src/alarm.h \
-	fdc.h ../../src/snapshot.h drive.h ../../src/diskimage.h \
-	drivecpu.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/vdrive/vdrive-bam.h \
-	../../src/vdrive/vdrive.h ../../src/attach.h ../../src/serial.h \
-	../../src/traps.h
+fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
+	../../src/diskimage.h drive.h drivecpu.h ../../src/clkguard.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
+	fdc.h ../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h \
+	../../src/attach.h
 riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \
@@ -441,8 +440,7 @@ wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/vdrive/vdrive.h \
-	../../src/attach.h ../../src/serial.h ../../src/traps.h \
-	wd1770.h
+	../../src/attach.h wd1770.h
 
 info: info-recursive
 dvi: dvi-recursive
