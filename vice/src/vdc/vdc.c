@@ -139,7 +139,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vdc_exposure_handler);
     resources_touch("VDCVideoCache");
-    raster_set_canvas_refresh(raster, 1);
 
     vdc_set_geometry();
 
