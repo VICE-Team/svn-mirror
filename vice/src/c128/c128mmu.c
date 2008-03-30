@@ -152,12 +152,11 @@ static void mmu_update_config(void)
     if (mmu[5] & 0x40) {
         mem_update_config(0x80 + mmu_config64);
     } else {
-        mem_update_config((((mmu[0] & 0x2)) ? 0 : 1)
+        mem_update_config(((mmu[0] & 0x2) ? 0 : 1)
                           | ((mmu[0] & 0x0c) >> 1)
                           | ((mmu[0] & 0x30) >> 1)
                           | ((mmu[0] & 0x40) ? 32 : 0)
-                          | (((mmu[0] & 0x1)) ? 0 : 64)
-                          | ((mmu[5] & 0x40) << 1));
+                          | ((mmu[0] & 0x1) ? 0 : 64));
         z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
                           | ((mmu[0] & 0x40) ? 2 : 0)
                           | ((mmu[0] & 0x80) ? 4 : 0));
