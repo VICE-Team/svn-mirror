@@ -271,7 +271,7 @@ mos6510_regs_t maincpu_regs;
 /* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
    instructions being executed.  */
 #ifdef TRACE
-int traceflg;
+int traceflg = 1;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -439,6 +439,7 @@ void mainloop(ADDRESS start_address)
     mem_set_bank_pointer(&bank_base, &bank_limit);
 #endif
 
+/*
     reset();
     DMA_ON_RESET;
 
@@ -446,7 +447,8 @@ void mainloop(ADDRESS start_address)
 	JUMP(start_address);
     else
 	JUMP(LOAD_ADDR(0xfffc));
-
+*/
+    maincpu_trigger_reset();
     log_message(LOG_DEFAULT, "Main CPU: starting at $%04X.", reg_pc);
 
     while (1) {
