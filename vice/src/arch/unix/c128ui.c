@@ -34,6 +34,7 @@
 #include "icon.h"
 #include "joystick.h"
 #include "resources.h"
+#include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uimenu.h"
@@ -486,6 +487,8 @@ int c128_ui_init(void)
                                     ui_menu_separator,
                                     ui_smart_attach_commands_menu,
                                     ui_menu_separator,
+                                    ui_c64cart_commands_menu,
+                                    ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
                                     ui_snapshot_commands_menu,
@@ -527,6 +530,8 @@ int c128_ui_init(void)
                                   ui_menu_separator,
                                   ui_tape_commands_menu,
                                   ui_datasette_commands_menu,
+                                  ui_menu_separator,
+                                  ui_c64cart_commands_menu,
                                   ui_menu_separator,
                                   ui_directory_commands_menu,
                                   ui_menu_separator,

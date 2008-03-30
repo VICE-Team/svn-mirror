@@ -47,6 +47,8 @@ libarch_a_SOURCES = \
 	rs232.c \
 	types.h \
 	ui.h \
+	uic64cart.c \
+	uic64cart.h \
 	uicartridge.h \
 	uicmdline.c \
 	uicmdline.h \

@@ -32,13 +32,11 @@
 #include <stdlib.h>
 
 #include "c64mem.h"
-#include "c64cart.h"
-#include "cartridge.h"
 #include "drive.h"
 #include "icon.h"
 #include "joystick.h"
 #include "resources.h"
-#include "uicartridge.h"
+#include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uimenu.h"
@@ -49,160 +47,6 @@
 #include "utils.h"
 #include "vsync.h"
 
-/* ------------------------------------------------------------------------- */
-
-static UI_CALLBACK(attach_cartridge)
-{
-    int type = (int)UI_MENU_CB_PARAM;
-
-    vsync_suspend_speed_eval();
-
-    switch (type) {
-      case CARTRIDGE_EXPERT:
-        /*
-         * Expert cartridge has *no* image file.
-         * It's only emulation that should be enabled!
-         */
-        if (cartridge_attach_image(type, NULL) < 0)
-            ui_error(_("Invalid cartridge"));
-        break;
-
-      default:
-        {
-            char *filename;
-            ui_button_t button;
-            static char *last_dir;
-
-            filename = ui_select_file(_("Attach cartridge image"),
-                                      NULL, False, last_dir,
-                                      "*.[cCbB][rRiI][tTnN]",
-                                      &button, False, NULL);
-
-            switch (button) {
-              case UI_BUTTON_OK:
-                if (cartridge_attach_image(type, filename) < 0)
-                    ui_error(_("Invalid cartridge image"));
-                if (last_dir)
-                    free(last_dir);
-                util_fname_split(filename, &last_dir, NULL);
-                break;
-              default:
-                /* Do nothing special. */
-                break;
-            }
-            if (filename != NULL)
-                free(filename);
-        }
-    }
-    ui_update_menus();
-}
-
-static UI_CALLBACK(detach_cartridge)
-{
-    cartridge_detach_image();
-    ui_update_menus();
-}
-
-static UI_CALLBACK(default_cartridge)
-{
-    cartridge_set_default();
-}
-
-static UI_CALLBACK(freeze_cartridge)
-{
-    cartridge_trigger_freeze();
-}
-
-static UI_CALLBACK(control_cartridge)
-{
-    if (!CHECK_MENUS) {
-        ui_update_menus();
-    } else {
-        switch (mem_cartridge_type) {
-          case CARTRIDGE_EXPERT:
-            ui_menu_set_sensitive(w, True);
-            break;
-          default:
-            ui_menu_set_sensitive(w, False);
-            break;
-        }
-    }
-}
-
-static UI_CALLBACK(save_cartridge)
-{
-    ui_cartridge_dialog();
-}
-
-UI_MENU_DEFINE_RADIO(CartridgeMode)
-
-static ui_menu_entry_t cartridge_control_submenu[] = {
-    { "*Prg", (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_PRG, NULL },
-    { "*Off", (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_OFF, NULL },
-    { "*On", (ui_callback_t)radio_CartridgeMode,
-      (ui_callback_data_t)CARTRIDGE_MODE_ON, NULL },
-    { "--" },
-    { N_("Save cartridge image..."),
-      (ui_callback_t)save_cartridge, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { N_("Smart attach CRT image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_CRT, NULL },
-    { "--" },
-    { N_("Attach generic 8KB image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_GENERIC_8KB, NULL },
-    { N_("Attach generic 16KB image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_GENERIC_16KB, NULL },
-    { N_("Attach Action Replay image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ACTION_REPLAY, NULL },
-    { N_("Attach Atomic Power image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ATOMIC_POWER, NULL },
-    { N_("Attach Epyx fastload image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EPYX_FASTLOAD, NULL },
-    { N_("Attach IEEE488 interface image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_IEEE488, NULL },
-    { N_("Attach Retro Replay image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_RETRO_REPLAY, NULL },
-    { N_("Attach Super Snapshot 4 image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_SUPER_SNAPSHOT, NULL },
-    { N_("Attach Super Snapshot 5 image..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
-    { "--" },
-    { N_("Enable Expert Cartridge..."),
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EXPERT, NULL },
-    { "--" },
-    { N_("Set cartridge as default"), (ui_callback_t)
-      default_cartridge, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t ui_cartridge_commands_menu[] = {
-    { N_("Attach a cartridge image"),
-      NULL, NULL, attach_cartridge_image_submenu },
-    { N_("Detach cartridge image"),
-      (ui_callback_t)detach_cartridge, NULL, NULL },
-    { N_("Cartridge freeze"),
-      (ui_callback_t)freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
-    { N_("*Cartridge control"),
-      (ui_callback_t)control_cartridge,
-      (ui_callback_data_t)0, cartridge_control_submenu },
-    { NULL }
-};
 
 /* ------------------------------------------------------------------------- */
 
@@ -566,7 +410,7 @@ int c64_ui_init(void)
                                     ui_menu_separator,
                                     ui_smart_attach_commands_menu,
                                     ui_menu_separator,
-                                    ui_cartridge_commands_menu,
+                                    ui_c64cart_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
@@ -610,7 +454,7 @@ int c64_ui_init(void)
                                   ui_tape_commands_menu,
                                   ui_datasette_commands_menu,
                                   ui_menu_separator,
-                                  ui_cartridge_commands_menu,
+                                  ui_c64cart_commands_menu,
                                   ui_menu_separator,
                                   ui_directory_commands_menu,
                                   ui_menu_separator,
