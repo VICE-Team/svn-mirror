@@ -16,6 +16,8 @@ libvicii_a_SOURCES = \
 	vicii-draw.h \
 	vicii-mem.c \
 	vicii-mem.h \
+	vicii-phi1.c \
+	vicii-phi1.h \
 	vicii-resources.c \
 	vicii-resources.h \
 	vicii-snapshot.c \

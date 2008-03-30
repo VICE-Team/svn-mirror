@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -1499,16 +1500,5 @@ BYTE REGPARM1 vic_peek(ADDRESS addr)
       default:
         return vic_ii.regs[addr] | unused_bits_in_registers[addr];
     }
-}
-
-
-void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
-{
-    vic_ii.color_ram[addr & 0x3ff] = value & 0xf;
-}
-
-BYTE REGPARM1 colorram_read(ADDRESS addr)
-{
-    return vic_ii.color_ram[addr & 0x3ff] | (rand () & 0xf0);
 }
 

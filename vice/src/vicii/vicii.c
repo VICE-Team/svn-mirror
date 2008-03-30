@@ -392,12 +392,12 @@ inline void vic_ii_fetch_matrix(int offs, int num)
 
     if (c >= num) {
         memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, num);
-        memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, num);
+        memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, num);
     } else {
         memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, c);
         memcpy(vic_ii.vbuf + offs + c, vic_ii.screen_base, num - c);
-        memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
-        memcpy(vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
+        memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, c);
+        memcpy(vic_ii.cbuf + offs + c, mem_color_ram_ptr, num - c);
     }
 
     vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
@@ -644,8 +644,8 @@ void vic_ii_powerup(void)
     vic_ii.irq_status = 0;
     vic_ii.raster_irq_line = 0;
     vic_ii.raster_irq_clk = 1;
-    vic_ii.ram_base_phi1 = ram;
-    vic_ii.ram_base_phi2 = ram;
+    vic_ii.ram_base_phi1 = mem_ram;
+    vic_ii.ram_base_phi2 = mem_ram;
 
     vic_ii.vaddr_mask_phi1 = 0xffff;
     vic_ii.vaddr_mask_phi2 = 0xffff;
@@ -1398,7 +1398,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         my_memptr = sprite_status->sprites[i].memptr;
         dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
-        if (ultimax && mem_cartridge_type!=CARTRIDGE_IDE64) { /* IDE64 Hack */
+        if (ultimax && mem_cartridge_type != CARTRIDGE_IDE64) { /* IDE64 Hack */
             if (*spr_base >= 0xc0)
                 src = (romh_banks + 0x1000 + (romh_bank << 13)
                       + ((*spr_base - 0xc0) << 6));
@@ -1503,9 +1503,9 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
 
         if (vic_ii.fetch_clk < last_opcode_first_write_clk
             || vic_ii.fetch_clk > last_opcode_last_write_clk)
-          sub = 0;
+            sub = 0;
         else
-          sub = last_opcode_last_write_clk - vic_ii.fetch_clk + 1;
+            sub = last_opcode_last_write_clk - vic_ii.fetch_clk + 1;
 
         switch (vic_ii.fetch_idx) {
           case VIC_II_FETCH_MATRIX:
