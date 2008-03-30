@@ -32,6 +32,7 @@
 #include "uiattach.h"
 #include "uicommands.h"
 #include "uifliplist.h"
+#include "uiscreenshot.h"
 #include "types.h"
 #include "vsync.h"
 
@@ -71,6 +72,7 @@ void ui_common_shutdown(void)
     uiattach_shutdown();
     uicommands_shutdown();
     uifliplist_shutdown();
+    uiscreenshot_shutdown();
 }
 
 void ui_display_joyport(BYTE *joyport)

@@ -36,6 +36,7 @@
 struct video_canvas_s;
 
 extern int ui_screenshot_dialog(char *, struct video_canvas_s *canvas);
+extern void uiscreenshot_shutdown(void);
 
 #endif
 

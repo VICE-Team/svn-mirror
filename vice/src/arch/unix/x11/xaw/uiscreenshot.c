@@ -29,7 +29,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -143,7 +142,7 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
         return;
 
     screenshot_dialog = ui_create_transient_shell(_ui_top_level,
-                                                "screenshotDialog");
+                                                  "screenshotDialog");
 
     screenshot_dialog_pane = XtVaCreateManagedWidget
         ("screenshotDialogPane",
@@ -277,5 +276,10 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *canvas)
     build_screenshot_dialog(canvas);
     ui_popup(screenshot_dialog, _("Screen Snapshot"), True);
     return *name ? 0 : -1;
+}
+
+void uiscreenshot_shutdown(void)
+{
+    lib_free(driver_buttons);
 }
 

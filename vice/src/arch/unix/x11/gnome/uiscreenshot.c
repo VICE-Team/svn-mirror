@@ -23,6 +23,7 @@
  *  02111-1307  USA.
  *
  */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -59,8 +60,7 @@ static void ffmpg_widget (GtkWidget *w, gpointer data)
     num_buttons = gfxoutput_num_drivers();
     for (i = 0; i < num_buttons; i++)
 	if (GTK_TOGGLE_BUTTON(buttons[i].w)->active)
-	    if (strcmp(buttons[i].driver, "FFMPEG") == 0)
-	    {
+	    if (strcmp(buttons[i].driver, "FFMPEG") == 0) {
 		gtk_widget_set_sensitive(ffmpg_opts, TRUE);
 		return;
 	    }
@@ -109,19 +109,16 @@ static GtkWidget *build_screenshot_dialog(void)
     
     num_buttons = gfxoutput_num_drivers();
     if (! buttons)
-	buttons = lib_malloc(sizeof (img_type_buttons) * num_buttons);
+	buttons = lib_malloc(sizeof(img_type_buttons) * num_buttons);
     
     driver = gfxoutput_drivers_iter_init();
-    for (i = 0; i < num_buttons; i++)
-    {
-	if (i == 0)
-	{
+    for (i = 0; i < num_buttons; i++) {
+	if (i == 0) {
 	    buttons[i].w = gtk_radio_button_new_with_label(NULL, driver->displayname);
 	    
 	    gtk_toggle_button_set_active(
 		GTK_TOGGLE_BUTTON(buttons[i].w), TRUE);
-	}
-	else
+	} else 
 	    buttons[i].w = gtk_radio_button_new_with_label(
 		gtk_radio_button_group(
 		    GTK_RADIO_BUTTON(buttons[i - 1].w)),
@@ -195,14 +192,11 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     char *fn;
     const char *driver;
     
-    if (screenshot_dialog)
-    {
+    if (screenshot_dialog) {
     	gdk_window_show(screenshot_dialog->window);
 	gdk_window_raise(screenshot_dialog->window);
 	gtk_widget_show(screenshot_dialog);
-    }
-    else
-    {
+    } else {
 	screenshot_dialog = build_screenshot_dialog();
 	gtk_signal_connect(GTK_OBJECT(screenshot_dialog),
 			   "destroy",
@@ -218,8 +212,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 	return -1;
     
     fn = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
-    if (!fn)
-    {
+    if (!fn) {
 	ui_error(_("Invalid filename"));
 	return -1;
     }
@@ -247,21 +240,22 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 	resources_set_value("FFMPEGVideoBitrate", (resource_value_t) v);
     }
 #endif    
-    strcpy (name, fn);		/* What for? */
-    if (screenshot_save(driver, fn, wid) < 0)
-    {
+    strcpy(name, fn);		/* What for? */
+    if (screenshot_save(driver, fn, wid) < 0) {
 	ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), fn, 
 		 driver);
 	return -1;
-    }
-    else
-    {
+    } else {
 	if (screenshot_is_recording())
 	    gtk_widget_show(video_ctrl_checkbox);
 	ui_message(_("Successfully wrote `%s'"), fn);
     }
-    
-	
-        
+
     return 0;
 }
+
+void uiscreenshot_shutdown(void)
+{
+    lib_free(driver_buttons);
+}
+

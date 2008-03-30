@@ -1,3 +1,63 @@
+2004-05-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.22.
+
+	* arch/unix/ui.h: Fixed prototype.
+
+	* raster/raster.c, raster/raster.h, vicii/vicii.c,
+	vic20/vic.c, crtc/crtc.c, vdc/vdc.c, plus4/ted.c
+	(raster_set_title): Take machine name.
+
+	* pet/pet.c, arch/unix/uisettings.c, arch/unix/tfearch.c,
+	arch/unix/uiprinteriec.c, arch/unix/uiprinterieee.c,
+	arch/msdos/c64ui.c, arch/msdos/video.c, arch/win32/ui.c:
+	Fixed includes.
+
+	* arch/unix/ui.c, arch/unix/uiscreenshot.h,
+	arch/unix/x11/xaw/uiscreenshot.c,
+	arch/unix/x11/gnome/uiscreenshot.c: Fixed memory leak.
+
+2004-05-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uirom.c: Fixed typo.
+
+	* attach.c (file_system_attach_disk_internal): Call
+	event_record_attach_image instead of recoding the filename.
+	(file_system_event_playback): Gets unit and filename parameter
+	directly now.
+
+	* tape/tape.c: Changed likewise.
+
+	* attach.h, tape.h: Changed *_event_playback prototypes.
+
+	* c64/tfe.c: Removed crc32 helper and use the one in util.
+
+	* event.h: New ID EVENT_ATTACHIMAGE. New prototypes.
+
+	* event.c: Added event_image_list to remember the attached
+	images, created and destroyed with the event_list.
+	New function event_image_append which is used to add new
+	image names to the list, find previously attached images,
+	and store the mapped filenames in the playback session.
+	New funtions event_record_attach_image,
+	event_playback_attach_image to store new images in the history
+	when recording and to create temporary files from the stored
+	image when playing back.
+	(event_alarm_handler): Uses these funtions to handle
+	EVENT_ATTACHIMAGE.
+
+	* util.c, util.h: New funtions util_get_extension,
+	util_crc32, util_crc32_file.
+
+2004-04-25  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/ui.h: Added prototype for `ui_restore_mouse()'.
+
+	* arch/unix/uimon.c (uimon_window_close): Check whether mouse
+	shall be enabled.
+
+	* arch/unix/uicommands.c (active_monitor): Restore mouse.
+
 2004-04-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.21.
