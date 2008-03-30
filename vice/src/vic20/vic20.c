@@ -39,6 +39,7 @@
 #include "kbd.h"
 #include "vsync.h"
 #include "sid.h"
+#include "vic20mem.h"
 
 static void vsync_hook(void);
 
@@ -70,21 +71,6 @@ machdesc_t machdesc = {
 
     /* Flag: does this machine have hardware sprites?  */
     0
-
-};
-
-/* Struct to access the kernal buffer.  */
-kernal_kbd_buf_t kernal_kbd_buf = {
-
-    /* First location of the buffer. FIXME? */
-    631,
-
-    /* Location that stores the number of characters pending in the
-       buffer.  FIXME? */
-    198,
-
-    /* Maximum number of characters that fit in the buffer. FIXME? */
-    10
 
 };
 
@@ -136,6 +122,21 @@ static trap_t vic20_serial_traps[] = {
 
 /* ------------------------------------------------------------------------ */
 
+/* VIC20-specific resource initialization.  This is called before
+   initializing the machine itself with `machine_init()'.  */
+int machine_init_resources(void)
+{
+    if (vsync_init_resources() < 0
+        || video_init_resources() < 0
+        || vic20_mem_init_resources() < 0
+        || vic_init_resources() < 0
+        || sid_init_resources() < 0
+        || true1541_init_resources() < 0)
+        return -1;
+
+    return 0;
+}
+
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
@@ -150,13 +151,6 @@ int machine_init(void)
     /* Initialize serial traps.  If user does not want them, or if the
        ``true1541'' emulation is used, do not install them. */
     initialize_serial(vic20_serial_traps);
-    if (!app_resources.noTraps && !app_resources.true1541)
-        install_serial_traps();
-
-#if 0
-    /* This is disabled because currently broken. */
-    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
-#endif
 
     /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
     initialize_1541(8, DT_DISK | DT_1541,
@@ -170,6 +164,9 @@ int machine_init(void)
     /* Fire up the hardware-level 1541 emulation. */
     initialize_true1541();
 
+    /* Initialize autostart.  */
+    autostart_init(40);
+
     /* Initialize the VIC-I emulation.  */
     vic_init();
 
@@ -182,6 +179,9 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
+
+    /* Initialize keyboard buffer.  */
+    kbd_buf_init(631, 198, 10);
 
     return 0;
 }
@@ -220,8 +220,7 @@ static void vsync_hook(void)
 {
     true1541_vsync_hook();
 
-    /* FIXME: This will be common to all the machines someday.  */
-    /* autostart_advance(); */
+    autostart_advance();
 
     if (maincpu_prevent_clk_overflow()) {
 	vic_prevent_clk_overflow();

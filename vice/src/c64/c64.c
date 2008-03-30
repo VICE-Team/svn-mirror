@@ -88,21 +88,6 @@ machdesc_t machdesc = {
 
 };
 
-/* Struct to access the kernal buffer.  */
-kernal_kbd_buf_t kernal_kbd_buf = {
-
-    /* First location of the buffer.  */
-    631,
-
-    /* Location that stores the number of characters pending in the
-       buffer.  */
-    198,
-
-    /* Maximum number of characters that fit in the buffer.  */
-    10
-
-};
-
 /* Serial traps.  */
 static trap_t c64_serial_traps[] = {
     {
@@ -229,8 +214,7 @@ int machine_init(void)
     /* Fire up the hardware-level 1541 emulation.  */
     initialize_true1541();
 
-    /* Initialize autostart.  FIXME: This should be common to all the
-       machines someday.  */
+    /* Initialize autostart.  */
     autostart_init();
 
 #if 0
@@ -276,6 +260,9 @@ int machine_init(void)
     /* Initialize vsync and register our hook function.  */
     vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
 
+    /* Initialize keyboard buffer.  */
+    kbd_buf_init(631, 198, 10);
+
     return 0;
 }
 
@@ -298,9 +285,8 @@ void machine_reset(void)
     reset_sid();
     reset_tpi();
 
-    /* FIXME: reset_reu() */
+    /* reset_reu(); */                /* FIXME */
 
-    /* FIXME: This should be common to all the systems someday.  */
     autostart_reset();
 
     true1541_reset();
@@ -331,7 +317,6 @@ static void vsync_hook(void)
 {
     true1541_vsync_hook();
 
-    /* FIXME: This will be common to all the machines someday.  */
     autostart_advance();
 
     if (maincpu_prevent_clk_overflow()) {

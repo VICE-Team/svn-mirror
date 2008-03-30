@@ -152,8 +152,6 @@ static void set_boot_path(const char *prg_path)
 
 int main(int argc, char **argv)
 {
-    ADDRESS start_addr;
-
     if (atexit (exit64) < 0) {
 	perror ("atexit");
 	return -1;
@@ -320,7 +318,8 @@ int main(int argc, char **argv)
 
     maincpu_trigger_reset();
 
-    mainloop(start_addr);
+    mainloop(0);
+
     printf("perkele!\n");
     exit(0);   /* never reached */
 }
