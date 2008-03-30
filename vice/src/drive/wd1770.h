@@ -2,7 +2,7 @@
  * wd1770.h - WD1770 emulation for the 1571 and 1581 disk drives.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,13 +61,13 @@ typedef struct wd1770_s {
 } wd1770_t;
 
 extern void wd1770d0_init(void);
-extern void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_wd1770d0(ADDRESS addr);
+extern void REGPARM2 wd1770d0_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 wd1770d0_read(ADDRESS addr);
 extern void wd1770d0_reset(void);
 
 extern void wd1770d1_init(void);
-extern void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
+extern void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 wd1770d1_read(ADDRESS addr);
 extern void wd1770d1_reset(void);
 
 extern void wd1770_handle_job_code(int dnr);

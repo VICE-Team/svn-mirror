@@ -42,9 +42,9 @@
 
 /*-----------------------------------------------------------------------*/
 
-static void store_wd1770(ADDRESS addr, BYTE byte, int dnr);
-static BYTE read_wd1770(ADDRESS addr, int dnr);
-static void reset_wd1770(int dnr);
+static void wd1770_store(ADDRESS addr, BYTE byte, int dnr);
+static BYTE wd1770_read(ADDRESS addr, int dnr);
+static void wd1770_reset(int dnr);
 
 static void wd1770_command_restore(BYTE command, int dnr);
 static void wd1770_command_seek(BYTE command, int dnr);
@@ -66,34 +66,34 @@ static log_t wd1770_log = LOG_ERR;
 /*-----------------------------------------------------------------------*/
 /* WD1770 external interface.  */
 
-void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte)
+void REGPARM2 wd1770d0_store(ADDRESS addr, BYTE byte)
 {
-    store_wd1770(addr & 3, byte, 0);
+    wd1770_store(addr & 3, byte, 0);
 }
 
-BYTE REGPARM1 read_wd1770d0(ADDRESS addr)
+BYTE REGPARM1 wd1770d0_read(ADDRESS addr)
 {
-    return read_wd1770(addr & 3, 0);
+    return wd1770_read(addr & 3, 0);
 }
 
 void wd1770d0_reset(void)
 {
-    reset_wd1770(0);
+    wd1770_reset(0);
 }
 
-void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte)
+void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte)
 {
-    store_wd1770(addr & 3, byte, 1);
+    wd1770_store(addr & 3, byte, 1);
 }
 
-BYTE REGPARM1 read_wd1770d1(ADDRESS addr)
+BYTE REGPARM1 wd1770d1_read(ADDRESS addr)
 {
-    return read_wd1770(addr & 3, 1);
+    return wd1770_read(addr & 3, 1);
 }
 
 void wd1770d1_reset(void)
 {
-    reset_wd1770(1);
+    wd1770_reset(1);
 }
 
 /* Clock overflow handling.  */
@@ -137,7 +137,7 @@ void wd1770d1_init(void)
 /*-----------------------------------------------------------------------*/
 /* WD1770 register read/write access.  */
 
-static void store_wd1770(ADDRESS addr, BYTE byte, int dnr)
+static void wd1770_store(ADDRESS addr, BYTE byte, int dnr)
 {
 #ifdef WD_DEBUG
     log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, byte, drive_clk[dnr]);
@@ -190,7 +190,7 @@ static void store_wd1770(ADDRESS addr, BYTE byte, int dnr)
     }
 }
 /* extern int drive0_traceflg;*/
-static BYTE read_wd1770(ADDRESS addr, int dnr)
+static BYTE wd1770_read(ADDRESS addr, int dnr)
 {
     BYTE tmp = 0;
 
@@ -239,7 +239,7 @@ static BYTE read_wd1770(ADDRESS addr, int dnr)
     return tmp;
 }
 
-static void reset_wd1770(int dnr)
+static void wd1770_reset(int dnr)
 {
     int i;
 

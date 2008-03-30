@@ -42,9 +42,9 @@
 #define mycpu_clk_guard drive0_clk_guard
 
 #define myvia_reset via1d0_reset
-#define store_myvia store_via1d0
-#define read_myvia read_via1d0
-#define peek_myvia peek_via1d0
+#define myvia_store via1d0_store
+#define myvia_read via1d0_read
+#define myvia_peek via1d0_peek
 
 #define myvia_log via1d0_log
 #define myvia_signal via1d0_signal
