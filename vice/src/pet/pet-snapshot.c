@@ -41,6 +41,7 @@
 #include "mem.h"
 #include "pet.h"
 #include "petmem.h"
+#include "petrom.h"
 #include "pets.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -127,7 +128,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     rconf = (petres.mem9 ? 0x40 : 0)
                 | (petres.memA ? 0x80 : 0) ;
 
-    conf8x96 = map_reg;
+    conf8x96 = petmem_map_reg;
 
     superpet = (spet_ramen ? 1 : 0)
                 | (spet_ramwp ? 2 : 0)
@@ -237,7 +238,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     peti.memA = (rconf & 0x80) ? 1 : 0;
 
     pet_set_conf_info(&peti);  /* set resources and config accordingly */
-    map_reg = conf8x96;
+    petmem_map_reg = conf8x96;
 
     mem_initialize_memory();
 
@@ -259,15 +260,13 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     if (vminor > 0) {
         int kindex;
         snapshot_module_read_byte(m, &byte);
-        resources_get_value("KeymapIndex",
-                            (resource_value_t *)&kindex);
+        resources_get_value("KeymapIndex", (resource_value_t *)&kindex);
         resources_set_value("KeymapIndex",
                             (resource_value_t)((kindex & ~1) | (byte & 1)));
     }
     if (vminor > 1) {
         snapshot_module_read_byte(m, &byte);
-        resources_set_value("EoiBlank",
-                            (resource_value_t)(byte & 1));
+        resources_set_value("EoiBlank", (resource_value_t)(byte & 1));
     }
 
     snapshot_module_close(m);
@@ -314,7 +313,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     /* disable traps before saving the ROM */
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
-    petmem_unpatch_2001();
+    petrom_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
              | (rom_A_loaded ? 2 : 0)
@@ -324,38 +323,39 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     snapshot_module_write_byte(m, config);
 
     {
-        snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
-        snapshot_module_write_byte_array(m, rom + 0x6000, 0x0800);
+        snapshot_module_write_byte_array(m, mem_rom + 0x7000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_rom + 0x6000, 0x0800);
 
         /* pick relevant data from chargen ROM */
         for (i = 0; i < 128; i++) {
-            snapshot_module_write_byte_array(m, chargen_rom + i * 16, 8);
+            snapshot_module_write_byte_array(m, mem_chargen_rom + i * 16, 8);
         }
         for (i = 0; i < 128; i++) {
-            snapshot_module_write_byte_array(m, chargen_rom + 0x1000 + i * 16,
+            snapshot_module_write_byte_array(m,
+                                             mem_chargen_rom + 0x1000 + i * 16,
                                              8);
         }
 
         if (config & 1) {
-            snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x1000, 0x1000);
         }
         if (config & 2) {
-            snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x3000, 0x1000);
         }
 
-        snapshot_module_write_byte_array(m, rom + 0x4000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_rom + 0x4000, 0x2000);
 
         if (config & 8) {
-           snapshot_module_write_byte_array(m, rom + 0x6900, 0x0700);
+           snapshot_module_write_byte_array(m, mem_rom + 0x6900, 0x0700);
         }
     }
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-    petmem_patch_2001();
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
+    petrom_patch_2001();
 
     snapshot_module_close(m);
 
@@ -384,7 +384,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     /* disable traps before loading the ROM */
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
-    petmem_unpatch_2001();
+    petrom_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
              | (rom_A_loaded ? 2 : 0)
@@ -416,34 +416,34 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     {
         /* kernal $f000-$ffff */
-        snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x7000, 0x1000);
         /* editor $e000-$e7ff */
-        snapshot_module_read_byte_array(m, rom + 0x6000, 0x0800);
+        snapshot_module_read_byte_array(m, mem_rom + 0x6000, 0x0800);
 
         /* chargen ROM */
         resources_set_value("Basic1Chars", (resource_value_t) 0);
-        snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
-        petmem_convert_chargen(chargen_rom);
+        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x0800);
+        petrom_convert_chargen(mem_chargen_rom);
 
         /* $9000-$9fff */
         if (config & 1) {
-            snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
+            snapshot_module_read_byte_array(m, mem_rom + 0x1000, 0x1000);
         }
         /* $a000-$afff */
         if (config & 2) {
-            snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
+            snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x1000);
         }
         /* $b000-$bfff */
         if (config & 4) {
-            snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
+            snapshot_module_read_byte_array(m, mem_rom + 0x3000, 0x1000);
         }
 
         /* $c000-$dfff */
-        snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x4000, 0x2000);
 
         /* $e900-$efff editor extension */
         if (config & 8) {
-            snapshot_module_read_byte_array(m, rom + 0x6900, 0x0700);
+            snapshot_module_read_byte_array(m, mem_rom + 0x6900, 0x0700);
         }
     }
 
@@ -452,11 +452,11 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     petres.rompatch = 0;
 
-    petmem_get_kernal_checksum();
-    petmem_get_editor_checksum();
-    petmem_checksum();
+    petrom_get_kernal_checksum();
+    petrom_get_editor_checksum();
+    petrom_checksum();
 
-    petmem_patch_2001();
+    petrom_patch_2001();
 
     /* enable traps again when necessary */
     resources_set_value("VirtualDevices", (resource_value_t) trapfl);

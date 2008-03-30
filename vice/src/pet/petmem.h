@@ -48,8 +48,8 @@
 #define PET_EDIT4B40_CHECKSUM   27250
 #define PET_EDIT4B80_CHECKSUM   21166
 
-extern BYTE chargen_rom[PET_CHARGEN_ROM_SIZE];
-extern BYTE rom[PET_ROM_SIZE];
+extern BYTE mem_chargen_rom[PET_CHARGEN_ROM_SIZE];
+extern BYTE mem_rom[PET_ROM_SIZE];
 
 struct petres_s;
 struct petinfo_s;
@@ -58,32 +58,15 @@ extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
 
 extern void mem_initialize_memory(void);
-extern void petmem_patch_2001(void);
-extern void petmem_unpatch_2001(void);
-extern void pet_check_info(struct petres_s *pi);
-extern void petmem_convert_chargen_2k(void);
+extern void petmem_check_info(struct petres_s *pi);
 
 extern void petmem_reset(void);
-extern int superpet_diag(void);
+extern int petmem_superpet_diag(void);
 
 extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);
 
-extern void set_screen(void);
-
 extern int pet_set_conf_info(struct petinfo_s *pi);
-extern void petmem_convert_chargen(BYTE *charrom);
-extern void petmem_get_kernal_checksum(void);
-extern void petmem_get_editor_checksum(void);
-extern void petmem_checksum(void);
-
-extern int mem_load_chargen(void);
-extern int mem_load_kernal(void);
-extern int mem_load_basic(void);
-extern int mem_load_editor(void);
-extern int mem_load_rom9(void);
-extern int mem_load_romA(void);
-extern int mem_load_romB(void);
 
 extern int rom_9_loaded;
 extern int rom_A_loaded;
@@ -95,7 +78,8 @@ extern int spet_ctrlwp;
 extern int spet_diag;
 extern int spet_ramwp;
 
-extern BYTE map_reg;
+extern BYTE petmem_map_reg;
+extern BYTE petmem_2001_buf_ef[];
 
 #endif
 

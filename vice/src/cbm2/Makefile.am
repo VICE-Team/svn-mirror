@@ -28,6 +28,8 @@ libcbm2_a_SOURCES = \
 	c610iec.c \
 	c610mem.c \
 	c610mem.h \
+	c610rom.c \
+	c610rom.h \
 	c610tpi.h \
 	c610tpi1.c \
 	c610tpi2.c

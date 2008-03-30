@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "pet.h"
 #include "petmem.h"
+#include "petrom.h"
 #include "pets.h"
 #include "resources.h"
 #include "utils.h"
@@ -106,7 +107,7 @@ static int set_ramsize(resource_value_t v, void *param)
     } else if (size == 128) {
         petres.map = 2;         /* 8296 mapping */
     }
-    pet_check_info(&petres);
+    petmem_check_info(&petres);
     mem_initialize_memory();
 
     return 0;
@@ -121,7 +122,7 @@ static int set_video(resource_value_t v, void *param)
 
             petres.video = col;
 
-            pet_check_info(&petres);
+            petmem_check_info(&petres);
 
             pet_crtc_set_screen();
         }
@@ -136,7 +137,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
     if (util_string_set(&petres.chargenName, (const char *)v))
         return 0;
 
-    return mem_load_chargen();
+    return petrom_load_chargen();
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
@@ -144,7 +145,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
     if (util_string_set(&petres.kernalName, (const char *)v))
         return 0;
 
-    return mem_load_kernal();
+    return petrom_load_kernal();
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
@@ -155,7 +156,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     if (util_string_set(&petres.basicName, (const char *)v))
         return 0;
 
-    return mem_load_basic();
+    return petrom_load_basic();
 }
 
 static int set_editor_rom_name(resource_value_t v, void *param)
@@ -163,7 +164,7 @@ static int set_editor_rom_name(resource_value_t v, void *param)
     if (util_string_set(&petres.editorName, (const char *)v))
         return 0;
 
-    return mem_load_editor();
+    return petrom_load_editor();
 }
 
 static int set_rom_module_9_name(resource_value_t v, void *param)
@@ -171,7 +172,7 @@ static int set_rom_module_9_name(resource_value_t v, void *param)
     if (util_string_set(&petres.mem9name, (const char *)v))
         return 0;
 
-    return mem_load_rom9();
+    return petrom_load_rom9();
 }
 
 static int set_rom_module_a_name(resource_value_t v, void *param)
@@ -179,7 +180,7 @@ static int set_rom_module_a_name(resource_value_t v, void *param)
     if (util_string_set(&petres.memAname, (const char *)v))
         return 0;
 
-    return mem_load_romA();
+    return petrom_load_romA();
 }
 
 static int set_rom_module_b_name(resource_value_t v, void *param)
@@ -187,7 +188,7 @@ static int set_rom_module_b_name(resource_value_t v, void *param)
     if (util_string_set(&petres.memBname, (const char *)v))
         return 0;
 
-    return mem_load_romB();
+    return petrom_load_romB();
 }
 
 /* Enable/disable patching the PET 2001 chargen ROM/kernal ROM */
@@ -198,12 +199,12 @@ static int set_pet2k_enabled(resource_value_t v, void *param)
 
     if (i != petres.pet2k) {
         if (petres.pet2k)
-            petmem_unpatch_2001();
+            petrom_unpatch_2001();
 
         petres.pet2k = i;
 
         if (petres.pet2k)
-            petmem_patch_2001();
+            petrom_patch_2001();
     }
     return 0;
 }
@@ -216,7 +217,7 @@ static int set_pet2kchar_enabled(resource_value_t v, void *param)
         petres.pet2kchar = i;
 
         /* function reverses itself -> no reload necessary */
-        petmem_convert_chargen_2k();
+        petrom_convert_chargen_2k();
     }
     return 0;
 }
