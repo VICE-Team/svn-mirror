@@ -96,7 +96,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(x11video_log,
-		    _("Successfully initialized using XVideo (%dx%d %4s)."),
+		    _("Successfully initialized using XVideo (%dx%d %.4s)."),
 		    width, height, canvas->xv_format.label);
 
 	return 0;
@@ -210,7 +210,7 @@ tryagain:
         return -1;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_framebuffer(canvas);
+    fullscreen_set_canvas(canvas);
 #endif
 
     return 0;

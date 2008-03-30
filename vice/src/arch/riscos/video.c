@@ -91,6 +91,8 @@ static const int StatusLEDSpace = 16;
 static char *ScreenModeString = NULL;
 static int ScreenSetPalette;
 static int UseBPlotModule;
+static int EnablePALEmu;
+
 
 static void video_full_screen_colours(void);
 
@@ -167,6 +169,12 @@ static int set_bplot_status(resource_value_t v, void *param)
   return 0;
 }
 
+static int set_pal_emu_state(resource_value_t v, void *param)
+{
+  EnablePALEmu = (int)v;
+  return 0;
+}
+
 
 static resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
@@ -175,6 +183,8 @@ static resource_t resources[] = {
     (resource_value_t *)&ScreenSetPalette, set_screen_palette, NULL },
   {"UseBPlot", RES_INTEGER, (resource_value_t) 1,
     (resource_value_t *)&UseBPlotModule, set_bplot_status, NULL },
+  {"PALEmulation", RES_INTEGER, (resource_value_t) 0,
+    (resource_value_t *)&EnablePALEmu, set_pal_emu_state, NULL },
   {NULL}
 };
 
@@ -355,6 +365,189 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
 }
 
 
+
+/*
+ *  redraw cores
+ */
+static void video_redraw_wimp_sprite(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  sprite_area_t *sarea;
+  sprite_desc_t *sprite;
+
+  /* clipping rectangle already set by WIMP */
+  sarea = (sprite_area_t*)(canvas->fb.spritebase);
+  sprite = SpriteGetSprite(sarea);
+
+  if (canvas->scale == 1)
+  {
+    OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - (canvas->fb.height << UseEigen), 0, 0, (int)(canvas->fb.transtab));
+  }
+  else
+  {
+    int scale[4];
+
+    scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
+    OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - 2*(canvas->fb.height << UseEigen), 0, (int)scale, (int)(canvas->fb.transtab));
+  }
+}
+
+
+static void video_redraw_wimp_sprite2(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  sprite_area_t *sarea;
+  sprite_desc_t *sprite;
+  int basescale;
+  int scale[4];
+
+  sarea = (sprite_area_t*)(canvas->fb.spritebase);
+  sprite = SpriteGetSprite(sarea);
+
+  basescale = (canvas->scale == 1) ? 1 : 2;
+  scale[0] = basescale; scale[1] = 2*basescale; scale[2] = 1; scale[3] = 1;
+
+  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - ((2*basescale*canvas->fb.height) << UseEigen), 0, (int)scale, (int)(canvas->fb.transtab));
+}
+
+
+static void video_redraw_wimp_bplot(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  if (canvas->scale == 1)
+  {
+    PlotZoom1(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
+  }
+  else
+  {
+    PlotZoom2(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
+  }
+}
+
+
+static void video_redraw_wimp_palemu(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  /* FIXME: PAL emu */
+  log_message(LOG_DEFAULT, "PAL Emu WIMP redraw not implemented");
+}
+
+
+static void video_redraw_full_sprite(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  sprite_area_t *sarea;
+  sprite_desc_t *sprite;
+
+  /* Must explicitly set the clipping rectangle */
+  video_set_clipping_rectangle(block[0], block[1], block[2], block[3]);
+
+  sarea = (sprite_area_t*)(canvas->fb.spritebase);
+  sprite = SpriteGetSprite(sarea);
+  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - (canvas->fb.height << FullUseEigen), 0, 0, (int)(canvas->fb.transtab));
+}
+
+
+static void video_redraw_full_sprite2(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  sprite_area_t *sarea;
+  sprite_desc_t *sprite;
+  int scale[4];
+
+  video_set_clipping_rectangle(block[0], block[1], block[2], block[3]);
+
+  sarea = (sprite_area_t*)(canvas->fb.spritebase);
+  sprite = SpriteGetSprite(sarea);
+
+  scale[0] = 1; scale[1] = 2; scale[2] = 1; scale[3] = 1;
+
+  OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - ((2*canvas->fb.height) << FullUseEigen), 0, (int)scale, (int)(canvas->fb.transtab));
+}
+
+
+static void video_redraw_full_bplot(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  PlotZoom1(ge, block, canvas->fb.framedata, canvas->fb.bplot_trans);
+}
+
+
+static void video_redraw_full_palemu(video_canvas_t *canvas, graph_env *ge, int *block)
+{
+  /* FIXME: PAL emu */
+  log_message(LOG_DEFAULT, "PAL Emu full screen redraw not implemented");
+}
+
+
+
+/*
+ * Init redraw core functions
+ */
+static void video_get_redraw_wimp(video_canvas_t *canvas)
+{
+  int rendermode = canvas->videoconfig.rendermode;
+
+  if ((EnablePALEmu != 0)
+   && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
+  {
+    log_message(LOG_DEFAULT, "Using PAL emulation for WIMP redraws");
+    canvas->redraw_wimp = video_redraw_wimp_palemu;
+  }
+  else
+  {
+    /* Use bplot or sprite plot interface? (this code only called from desktop) */
+    if ((UseBPlotModule != 0) && (ScreenMode.ldbpp >= 4) && (rendermode != VIDEO_RENDER_RGB_1X2))
+    {
+      log_message(LOG_DEFAULT, "Using BPlot for WIMP redraws");
+      canvas->redraw_wimp = video_redraw_wimp_bplot;
+    }
+    else
+    {
+      if (rendermode == VIDEO_RENDER_RGB_1X2)
+      {
+        log_message(LOG_DEFAULT, "Using SpriteOp for WIMP redraws (1x2)");
+        canvas->redraw_wimp = video_redraw_wimp_sprite2;
+      }
+      else
+      {
+        log_message(LOG_DEFAULT, "Using SpriteOp for WIMP redraws");
+        canvas->redraw_wimp = video_redraw_wimp_sprite;
+      }
+    }
+  }
+}
+
+
+static void video_get_redraw_full(video_canvas_t *canvas)
+{
+  int rendermode = canvas->videoconfig.rendermode;
+
+  if ((EnablePALEmu != 0)
+   && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
+  {
+    log_message(LOG_DEFAULT, "Using PAL emulation for full screen redraws");
+    canvas->redraw_full = video_redraw_full_palemu;
+  }
+  else
+  {
+    if ((UseBPlotModule != 0) && (rendermode != VIDEO_RENDER_RGB_1X2)
+     && ((FullScrDesc.ldbpp >= 4) || (ScreenSetPalette != 0)))
+    {
+      log_message(LOG_DEFAULT, "Using BPlot for full screen redraws");
+      canvas->redraw_full = video_redraw_full_bplot;
+    }
+    else
+    {
+      if (rendermode == VIDEO_RENDER_RGB_1X2)
+      {
+        log_message(LOG_DEFAULT, "Using SpriteOp for full screen redraws (1x2)");
+        canvas->redraw_full = video_redraw_full_sprite2;
+      }
+      else
+      {
+        log_message(LOG_DEFAULT, "Using SpriteOp for full screen redraws");
+        canvas->redraw_full = video_redraw_full_sprite;
+      }
+    }
+  }
+}
+
+
+
 void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block)
 {
   if (canvas->fb.framedata != NULL)
@@ -370,39 +563,10 @@ void video_canvas_redraw_core(video_canvas_t *canvas, graph_env *ge, int *block)
 
     video_canvas_ensure_translation(canvas);
 
-    /* Use bplot or sprite plot interface? (this code only called from desktop) */
-    if ((UseBPlotModule != 0) && (ScreenMode.ldbpp >= 4))
-    {
-      if (canvas->scale == 1)
-      {
-        PlotZoom1(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
-      }
-      else
-      {
-        PlotZoom2(ge, block + RedrawB_CMinX, canvas->fb.framedata, canvas->fb.bplot_trans);
-      }
-    }
-    else
-    {
-      sprite_area_t *sarea;
-      sprite_desc_t *sprite;
+    if (canvas->redraw_wimp == NULL)
+      video_get_redraw_wimp(canvas);
 
-      /* clipping rectangle already set by WIMP */
-      sarea = (sprite_area_t*)(canvas->fb.spritebase);
-      sprite = SpriteGetSprite(sarea);
-
-      if (canvas->scale == 1)
-      {
-        OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - (canvas->fb.height << UseEigen), 0, 0, (int)(canvas->fb.transtab));
-      }
-      else
-      {
-        int scale[4];
-
-        scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
-        OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge->x, ge->y - 2*(canvas->fb.height << UseEigen), 0, (int)scale, (int)(canvas->fb.transtab));
-      }
-    }
+    (*canvas->redraw_wimp)(canvas, ge, block);
   }
 }
 
@@ -494,8 +658,12 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
   canvas->current_palette = NULL;
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
+  canvas->redraw_wimp = NULL;
+  canvas->redraw_full = NULL;
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   canvas->fb.transdirty = 1;
+
+  video_render_initconfig(&(canvas->videoconfig));
 
   video_canvas_set_palette(canvas, palette, pixel_return);
 
@@ -677,24 +845,14 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     if (clip[2] > FullScrDesc.resx) clip[2] = FullScrDesc.resx;
     if (clip[1] < clipYlow) clip[1] = clipYlow;
     if (clip[3] > FullScrDesc.resy) clip[3] = FullScrDesc.resy;
+    if ((clip[2] <= clip[0]) || (clip[3] <= clip[1])) return;
 
-    /* Use BPlot module or sprite plots? */
-    if ((UseBPlotModule != 0) && ((FullScrDesc.ldbpp >= 4) || (ScreenSetPalette != 0)))
-    {
-      PlotZoom1(&ge, clip, draw_buffer, canvas->fb.bplot_trans);
-    }
-    else
-    {
-      sprite_area_t *sarea;
-      sprite_desc_t *sprite;
+    /*log_message(LOG_DEFAULT, "dx %d, dy %d, px %d, py %d, w %d, h %d, clip %d:%d:%d:%d", dx, dy, ge.x, ge.y, w, h, clip[0], clip[1], clip[2], clip[3]);*/
 
-      /* Must explicitly set the clipping rectangle */
-      video_set_clipping_rectangle(clip[0], clip[1], clip[2], clip[3]);
+    if (canvas->redraw_full == NULL)
+      video_get_redraw_full(canvas);
 
-      sarea = (sprite_area_t*)(canvas->fb.spritebase);
-      sprite = SpriteGetSprite(sarea);
-      OS_SpriteOp(512 + 52, (int)sarea, (int)sprite, ge.x, ge.y - (canvas->fb.height << FullUseEigen), 0, 0, (int)(canvas->fb.transtab));
-    }
+    (*canvas->redraw_full)(canvas, &ge, clip);
   }
 }
 
@@ -712,6 +870,8 @@ void canvas_mode_change(void)
       clist->canvas->fb.transtab = NULL;
     }
     clist->canvas->fb.transdirty = 1;
+    clist->canvas->redraw_wimp = NULL;
+    clist->canvas->redraw_full = NULL;
     clist = clist->next;
   }
 }
@@ -1020,15 +1180,25 @@ void video_full_screen_display_image(unsigned int num, const char *img)
 
 static void callback_canvas_modified(const char *name, void *callback_param)
 {
-    log_message(LOG_DEFAULT, "Resource callback for %s", name);
+  canvas_list_t *clist = CanvasList;
+
+  /* invalidate all redraw function pointers */
+  while (clist != NULL)
+  {
+    clist->canvas->redraw_wimp = NULL;
+    clist->canvas->redraw_full = NULL;
+    clist = clist->next;
+  }
 }
 
 
 
 void video_register_callbacks(void)
 {
-    resources_register_callback("PALMode", callback_canvas_modified, NULL);
-    resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
-    resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
-    resources_register_callback("VDC_DoubleScan", callback_canvas_modified, NULL);
+  resources_register_callback("PALMode", callback_canvas_modified, NULL);
+  resources_register_callback("PALEmulation", callback_canvas_modified, NULL);
+  resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
+  resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
+  resources_register_callback("VDC_DoubleScan", callback_canvas_modified, NULL);
+  resources_register_callback("ScreenSetPalette", callback_canvas_modified, NULL);
 }

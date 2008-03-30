@@ -101,7 +101,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(gnomevideo_log,
-		    _("Successfully initialized using XVideo (%dx%d %4s)."),
+		    _("Successfully initialized using XVideo (%dx%d %.4s)."),
 		    width, height, canvas->xv_format.label);
 
 	return 0;

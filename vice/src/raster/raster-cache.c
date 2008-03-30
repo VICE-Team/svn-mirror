@@ -44,6 +44,7 @@ void raster_cache_init(raster_cache_t *cache)
     memset(cache->color_data_1, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->color_data_2, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->color_data_3, 0, RASTER_CACHE_MAX_TEXTCOLS);
+    memset(cache->gfx_msk, 0, RASTER_CACHE_GFX_MSK_SIZE);
 
     cache->is_dirty = 1;
 }

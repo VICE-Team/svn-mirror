@@ -631,7 +631,12 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
                       NULL);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
                       (XtEventHandler) exposure_callback,
+                      (XtPointer) c);
+#if 0
+    XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
+                      (XtEventHandler) exposure_callback,
                       (XtPointer) exposure_proc);
+#endif
 
     XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask |
                       ButtonReleaseMask, False,
@@ -2024,9 +2029,13 @@ UI_CALLBACK(exposure_callback)
     XtVaGetValues(w, XtNwidth, (XtPointer) & width,
                   XtNheight, (XtPointer) & height, NULL);
 
-    if (client_data != NULL)
+    if (client_data) {
+	raster_force_repaint(raster_get_raster_from_canvas(client_data));
+#if 0
         ((ui_exposure_handler_t) client_data)((unsigned int)width,
                                               (unsigned int)height);
+#endif
+    }
 }
 
 /* FIXME: this does not handle multiple application shells. */

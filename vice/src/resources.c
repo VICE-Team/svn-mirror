@@ -54,6 +54,15 @@
 #include "machine.h"
 #endif
 
+
+/* the type of the callback vector chain */
+typedef struct resource_callback_desc_s {
+  resource_callback_func_t *func;
+  void *param;
+  struct resource_callback_desc_s *next;
+} resource_callback_desc_t;
+
+
 static int num_resources, num_allocated_resources;
 static resource_t *resources;
 static const char *machine_id;
@@ -65,8 +74,7 @@ static const unsigned int logHashSize = 10;
 
 static int *hashTable = NULL;
 
-static resource_callback_func_t *resource_modified_callback = NULL;
-static void *resource_modified_param = NULL;
+static resource_callback_desc_t *resource_modified_callback = NULL;
 
 
 /* calculate the hash key */
@@ -94,14 +102,46 @@ static unsigned int resources_calc_hash_key(const char *name)
 }
 
 
+/* add a new callback function at the head of the vector chain */
+static void resources_add_callback(resource_callback_desc_t **where,
+                                   resource_callback_func_t *callback,
+                                   void *param)
+{
+    if (callback != NULL)
+    {
+        resource_callback_desc_t *cbd;
+
+        cbd = (resource_callback_desc_t*)xmalloc(sizeof(resource_callback_desc_t));
+        cbd->func = callback;
+        cbd->param = param;
+        cbd->next = *where;
+        *where = cbd;
+    }
+}
+
+
+/* execute a callback vector chain */
+static void resources_exec_callback_chain(const resource_callback_desc_t *callbacks,
+                                          const char *name)
+{
+    const resource_callback_desc_t *cbd = callbacks;
+
+    while (cbd != NULL)
+    {
+        (*cbd->func)(name, cbd->param);
+        cbd = cbd->next;
+    }
+}
+
+
 /* issue callbacks for a modified resource */
 static void resources_issue_callback(resource_t *res, int global_callback)
 {
-    if (res->callback_func != NULL)
-        (*res->callback_func)(res->name, res->callback_param);
+    if (res->callback != NULL)
+        resources_exec_callback_chain(res->callback, res->name);
 
     if ((global_callback != 0) && (resource_modified_callback != NULL))
-        (*resource_modified_callback)(NULL, resource_modified_param);
+        resources_exec_callback_chain(resource_modified_callback, res->name);
 }
 
 
@@ -165,8 +205,7 @@ int resources_register(const resource_t *r)
         dp->value_ptr = sp->value_ptr;
         dp->set_func = sp->set_func;
         dp->param = sp->param;
-        dp->callback_func = NULL;
-        dp->callback_param = NULL;
+        dp->callback = NULL;
 
         hashkey = resources_calc_hash_key(sp->name);
         dp->hash_next = hashTable[hashkey];
@@ -381,7 +420,7 @@ void resources_set_defaults(void)
     }
 
     if (resource_modified_callback != NULL)
-        (*resource_modified_callback)(NULL, resource_modified_param);
+        resources_exec_callback_chain(resource_modified_callback, NULL);
 }
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
@@ -562,7 +601,7 @@ int resources_load(const char *fname)
     fclose(f);
 
     if (resource_modified_callback != NULL)
-        (*resource_modified_callback)(NULL, resource_modified_param);
+        resources_exec_callback_chain(resource_modified_callback, NULL);
 
     return err ? RESERR_FILE_INVALID : 0;
 }
@@ -693,8 +732,7 @@ int resources_register_callback(const char *name, resource_callback_func_t *call
 {
     if (name == NULL)
     {
-        resource_modified_callback = callback;
-        resource_modified_param = callback_param;
+        resources_add_callback(&resource_modified_callback, callback, callback_param);
         return 0;
     }
     else
@@ -703,8 +741,7 @@ int resources_register_callback(const char *name, resource_callback_func_t *call
 
         if (res != NULL)
         {
-            res->callback_func = callback;
-            res->callback_param = callback_param;
+            resources_add_callback(&(res->callback), callback, callback_param);
             return 0;
         }
     }

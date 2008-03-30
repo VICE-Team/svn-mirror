@@ -31,14 +31,6 @@
 #include "6510core.h"
 #include "types.h"
 
-/* ------------------------------------------------------------------------- */
-
-/* If this is #defined, you can set the `traceflg' variable to non-zero to
-   trace all the opcodes being executed.  This is mainly useful for
-   debugging, and also makes things a bit slower.  */
-/* #define DEBUG */
-
-/* ------------------------------------------------------------------------- */
 
 /* Information about the last opcode executed by the main CPU.  */
 extern DWORD last_opcode_info;

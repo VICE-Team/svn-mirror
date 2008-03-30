@@ -51,6 +51,11 @@ typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 typedef ui_exposure_handler_t canvas_redraw_t;
 
+struct video_canvas_s;
+
+/* currently active redraw function */
+typedef void video_redraw_core_func(struct video_canvas_s *canvas, graph_env *ge, int *block);
+
 struct video_canvas_s {
   unsigned int width, height;
   unsigned int scale;
@@ -59,6 +64,8 @@ struct video_canvas_s {
   video_frame_buffer_t fb;
   unsigned int num_colours;
   unsigned int *current_palette;
+  video_redraw_core_func *redraw_wimp;
+  video_redraw_core_func *redraw_full;
   video_render_config_t videoconfig;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };

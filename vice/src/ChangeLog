@@ -1,3 +1,48 @@
+2002-02-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.22.
+
+	* maincpu.h: Removed some cruft.
+
+2002-02-25  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* resources.{c,h}: each resource now allows an arbitrary
+	number of callback functions. Global resource callbacks are
+	called with resource name if only this resource changed.
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: added support
+	for 1x2 plotters (x128); implemented core redraw code as
+	function pointers.
+
+2002-02-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/base.dsp: Added new source files.
+
+	* raster/raster-cache.c (raster_cache_init): Clear gfx_msk.
+
+	* vicii/vicii-sprites.c: Removed all the raster double size
+	related stuff.
+	(draw_hires_sprite): collmsk needs to be shifted if size is
+	changed by repeated pixels.
+	(draw_mc_sprite): Fixed calculation of repeat_offset.
+	The hack for the repeated pixels may cause a sprite collision
+	with its own. If so delete it.
+
+2002-02-24  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Corrected FOURCC sprintf
+	format typo.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Likewise. Made fullscreen
+	compile by replacing fullscreen_set_framebuffer with
+	fullscreen_set_canvas.
+
+	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Set video
+	canvas as client data for exposure handler.
+	(exposure_callback): Call raster_force_repaint.
+
 2002-02-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.21.

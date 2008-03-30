@@ -118,6 +118,10 @@ SOURCE="..\..\datasette.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\debug.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\diskimage.c"
 # End Source File
 # Begin Source File
@@ -143,6 +147,14 @@ SOURCE="..\..\gcr.c"
 # Begin Source File
 
 SOURCE="..\..\info.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\init.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\initcmdline.c"
 # End Source File
 # Begin Source File
 
