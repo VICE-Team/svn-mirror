@@ -15,6 +15,8 @@ noinst_LIBRARIES = libdrive.a
 libdrive_a_SOURCES = \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
+	drive-overflow.c \
+	drive-overflow.h \
 	drive-resources.c \
 	drive-resources.h \
 	drive-snapshot.c \
