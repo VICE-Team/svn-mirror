@@ -83,6 +83,7 @@
 #include "utils.h"
 #include "vsync.h"
 #include "mouse.h"
+#include "drive.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -131,7 +132,7 @@ _ui_resources_t _ui_resources;
 
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
 
-void mouse_timeout(int signo)
+static void mouse_timeout(int signo)
 {
     if (use_fullscreen && !cursor_is_blank)
         XDefineCursor(display, XtWindow(canvas), blankCursor);
@@ -148,8 +149,8 @@ void ui_set_mouse_timeout()
     alarm(5);
 }
 
-void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
-                   Boolean *ctd)
+static void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
+                          Boolean *ctd)
 {
     if (report->type == LeaveNotify)
         cursor_is_blank = 1;
@@ -166,7 +167,7 @@ void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
     }
 }
 
-int vidmode_available(void)
+static int vidmode_available(void)
 {
     int MajorVersion, MinorVersion;
     int EventBase, ErrorBase;
@@ -216,7 +217,7 @@ int vidmode_available(void)
     return 1;
 }
 
-void focus_window_again(void)
+static void focus_window_again(void)
 {
     if (!use_fullscreen)
         return;
@@ -248,7 +249,7 @@ static int set_fullscreen(resource_value_t v)
     static int win_x,win_y;
     static int interval,prefer_blanking,allow_exposures;
     static XF86VidModeModeLine restoremodeline;
-    static int dotclock;
+    static unsigned int dotclock;
     static int window_doublesize;
     static int panecolor;
     int i;
@@ -444,8 +445,8 @@ static int set_fullscreen(resource_value_t v)
 			  NULL);
 	}
 
-	if (resources_get_value("DoubleSize",
-                            (resource_value_t *) &ds) < 0);
+	if (resources_get_value("DoubleSize", (resource_value_t *) &ds) < 0)
+            /* FIXME */ ;
 
 	if (ds < window_doublesize) {
 	  w -= canvas_width/2;
@@ -537,7 +538,7 @@ void ui_check_mouse_cursor()
     }
 }
 
-void ui_restore_mouse(void)
+static void ui_restore_mouse(void)
 {
     if (_mouse_enabled && cursor_is_blank) {
         XUndefineCursor(display,XtWindow(canvas));
@@ -548,7 +549,7 @@ void ui_restore_mouse(void)
 }
 
 
-void initBlankCursor(void)
+static void initBlankCursor(void)
 {
     static char no_data[] = { 0,0,0,0, 0,0,0,0 };
     static Pixmap blank;
@@ -567,8 +568,8 @@ void initBlankCursor(void)
 				      &trash, &trash, 0, 0);
 }
 
-void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
-                       Boolean *ctd)
+static void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
+                              Boolean *ctd)
 {
     switch(report->type) {
       case MotionNotify:
@@ -721,8 +722,12 @@ static struct {
     struct {
         Widget track_label;
         Widget led;
+	/* those two replace the single LED widget when SFD1001 is selected */
+        Widget led1;
+        Widget led2;
     } drive_widgets[NUM_DRIVES];
     int drive_mapping[NUM_DRIVES];
+    int drive_nleds[NUM_DRIVES];
 } app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
@@ -838,13 +843,13 @@ static void prepare_wm_command_data(int argc, char **argv)
     unsigned int offset, i;
 
     wm_command_size = 0;
-    for (i = 0; i < argc; i++)
+    for (i = 0; i < (unsigned int) argc; i++)
         wm_command_size += strlen(argv[i]) + 1;
 
     wm_command_data = xmalloc(wm_command_size);
 
     offset = 0;
-    for (i = 0; i < argc; i++) {
+    for (i = 0; i < (unsigned int) argc; i++) {
         unsigned int len;
 
         len = strlen(argv[i]);
@@ -1010,6 +1015,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label;
     Widget drive_track_label[2], drive_led[2];
+    Widget drive_led1[2], drive_led2[2];
     XSetWindowAttributes attr;
     int i;
 
@@ -1076,7 +1082,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     /* Create the status bar on the bottom.  */
     {
         Dimension height;
-        Dimension led_width = 12, led_height = 5;
+        Dimension led_width = 14, led_height = 5;
         Dimension w1 = width - 2 - led_width * NUM_DRIVES;
 
         speed_label = XtVaCreateManagedWidget
@@ -1125,6 +1131,46 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                  XtNheight, led_height,
                  XtNfromVert, canvas,
                  XtNfromHoriz, drive_track_label[i],
+                 XtNhorizDistance, 0,
+                 XtNvertDistance, (height - led_height) / 2 + 1,
+                 XtNtop, XawChainBottom,
+                 XtNbottom, XawChainBottom,
+                 XtNleft, XawChainRight,
+                 XtNright, XawChainRight,
+                 XtNjustify, XtJustifyRight,
+                 XtNborderWidth, 1,
+                 NULL);
+
+	    /* double LEDs */
+
+            sprintf(name, "driveLedA%d", i + 1);
+
+            drive_led1[i] = XtVaCreateManagedWidget
+                (name,
+                 xfwfcanvasWidgetClass, pane,
+                 XtNwidth, led_width / 2 - 1,
+                 XtNheight, led_height,
+                 XtNfromVert, canvas,
+                 XtNfromHoriz, drive_track_label[i],
+                 XtNhorizDistance, 0,
+                 XtNvertDistance, (height - led_height) / 2 + 1,
+                 XtNtop, XawChainBottom,
+                 XtNbottom, XawChainBottom,
+                 XtNleft, XawChainRight,
+                 XtNright, XawChainRight,
+                 XtNjustify, XtJustifyRight,
+                 XtNborderWidth, 1,
+                 NULL);
+
+            sprintf(name, "driveLedB%d", i + 1);
+
+            drive_led2[i] = XtVaCreateManagedWidget
+                (name,
+                 xfwfcanvasWidgetClass, pane,
+                 XtNwidth, led_width / 2 - 1,
+                 XtNheight, led_height,
+                 XtNfromVert, canvas,
+                 XtNfromHoriz, drive_led1[i],
                  XtNhorizDistance, 0,
                  XtNvertDistance, (height - led_height) / 2 + 1,
                  XtNtop, XawChainBottom,
@@ -1186,6 +1232,12 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
         app_shells[num_app_shells - 1].drive_widgets[i].led
             = drive_led[i];
         XtUnrealizeWidget(drive_led[i]);
+        app_shells[num_app_shells - 1].drive_widgets[i].led1
+            = drive_led1[i];
+        app_shells[num_app_shells - 1].drive_widgets[i].led2
+            = drive_led2[i];
+        XtUnrealizeWidget(drive_led1[i]);
+        XtUnrealizeWidget(drive_led2[i]);
     }
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
@@ -1569,7 +1621,7 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    int i, j, num;
+    int i, j, num, k;
     int drive_mapping[NUM_DRIVES];
 
     num = 0;
@@ -1589,12 +1641,29 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
         for (j = NUM_DRIVES - 1; j >= 0 && num > 0; j--, num--) {
             XtRealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtManageChild(app_shells[i].drive_widgets[j].track_label);
-            XtRealizeWidget(app_shells[i].drive_widgets[j].led);
-            XtManageChild(app_shells[i].drive_widgets[j].led);
+	   
+	    for (k = 0; k < NUM_DRIVES; k++)
+		if (drive_mapping[k] == j) 
+		    break; 
+	    app_shells[i].drive_nleds[j] = drive_num_leds(k);
+	    if (app_shells[i].drive_nleds[j] == 1) {
+                XtRealizeWidget(app_shells[i].drive_widgets[j].led);
+                XtManageChild(app_shells[i].drive_widgets[j].led);
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led1);
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led2);
+	    } else {
+                XtUnrealizeWidget(app_shells[i].drive_widgets[j].led);
+                XtRealizeWidget(app_shells[i].drive_widgets[j].led1);
+                XtManageChild(app_shells[i].drive_widgets[j].led1);
+                XtRealizeWidget(app_shells[i].drive_widgets[j].led2);
+                XtManageChild(app_shells[i].drive_widgets[j].led2);
+	    }
         }
         for (; j >= 0; j--) {
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].led);
+            XtUnrealizeWidget(app_shells[i].drive_widgets[j].led1);
+            XtUnrealizeWidget(app_shells[i].drive_widgets[j].led2);
         }
         for (j = 0; j < NUM_DRIVES; j++)
             app_shells[i].drive_mapping[j] = drive_mapping[j];
@@ -1617,13 +1686,24 @@ void ui_display_drive_track(int drive_number, double track_number)
 
 void ui_display_drive_led(int drive_number, int status)
 {
-    Pixel pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+    Pixel pixel;
+
     int i;
 
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
-	Widget w = app_shells[i].drive_widgets[n].led;
+	Widget w;
 
+        pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+	w = app_shells[i].drive_widgets[n].led;
+        XtVaSetValues(w, XtNbackground, pixel, NULL);
+
+        pixel = (status & 1) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+	w = app_shells[i].drive_widgets[n].led1;
+        XtVaSetValues(w, XtNbackground, pixel, NULL);
+
+        pixel = (status & 2) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+	w = app_shells[i].drive_widgets[n].led2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }
@@ -1727,7 +1807,7 @@ void ui_autorepeat_off(void)
 /* Button callbacks.  */
 
 #define DEFINE_BUTTON_CALLBACK(button)          \
-    UI_CALLBACK(##button##_callback)            \
+    static UI_CALLBACK(##button##_callback)     \
     {                                           \
         *((ui_button_t *)client_data) = button; \
     }
@@ -2315,8 +2395,10 @@ UI_CALLBACK(exposure_callback)
     suspend_speed_eval();
     XtVaGetValues(w, XtNwidth, (XtPointer) & width,
 		  XtNheight, (XtPointer) & height, NULL);
-    ((ui_exposure_handler_t) client_data)((unsigned int)width,
-                                          (unsigned int)height);
+
+    if (client_data != NULL)
+        ((ui_exposure_handler_t) client_data)((unsigned int)width,
+                                              (unsigned int)height);
 }
 
 /* FIXME: this does not handle multiple application shells. */

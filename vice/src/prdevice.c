@@ -125,6 +125,13 @@ int prdevice_close_printer(int device)
     return 0;
 }
 
+void prdevice_late_init(void)
+{
+    if (pr4_enabled) {
+	prdevice_attach(4);
+    }
+}
+
 /***********************************************************************/
 
 /* These two variables have to be put into a table and the var 
@@ -202,14 +209,17 @@ static int fn(void)
 
 static int prdevice_attach(int device)
 {
+    int er;
+
     inuse = 0;
 
-    if (serial_attach_device(device, (char *) NULL, (char *) "Printer device",
+    if ((er = serial_attach_device(device, (char *) NULL, 
+	    (char *) "Printer device",
 	    (int (*)(void *, BYTE *, int))fn,
 	    write_pr,
 	    open_pr,
 	    close_pr,
-	    flush_pr)) {
+	    flush_pr))) {
 	return 1;
     }
     return 0;

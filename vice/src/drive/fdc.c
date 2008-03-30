@@ -332,6 +332,7 @@ static int int_fdc(int fnum, long offset)
 
     switch(fdc[fnum].fdc_state) {
     case FDC_RESET0:
+        drive[fnum].current_half_track = 2 * 38;
 	fdc[fnum].buffer[0] = 2;
 	fdc[fnum].fdc_state++;
 	fdc[fnum].alarm_clk = rclk + 2000;
@@ -465,7 +466,6 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
 int fdc_write_snapshot_module(snapshot_t *p, int fnum)
 {
     snapshot_module_t *m;
-    int byte;
     char name[100];
 
     if (fdc[fnum].fdc_state == FDC_UNUSED) {

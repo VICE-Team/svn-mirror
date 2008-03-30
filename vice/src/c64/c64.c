@@ -368,7 +368,7 @@ void machine_reset(void)
     sid_reset();
 
     if (psid_mode) {
-        reset_vic_ii();
+        vic_ii_reset();
 
         psid_init_driver();
 	psid_init_tune();
@@ -391,7 +391,7 @@ void machine_reset(void)
     /* reset_reu(); */
 
     /* The VIC-II must be the *last* to be reset.  */
-    reset_vic_ii();
+    vic_ii_reset();
 
     autostart_reset();
     drive_reset();

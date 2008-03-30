@@ -106,17 +106,17 @@ EXTRA_DIST = \
         c64.ico 
 
 resc128.o : resc128.rc res.rc res.h
-	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 resc64.o : resc64.rc res.rc res.h
-	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 rescbm2.o : rescbm2.rc res.rc res.h
-	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 respet.o : respet.rc res.rc res.h
-	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 resvic.o : resvic.rc res.rc res.h
-	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32

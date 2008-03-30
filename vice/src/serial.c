@@ -562,12 +562,15 @@ int serial_init(const trap_t * trap_list)
 
 	p = &serialdevices[i];
 
+	p->inuse = 0;
 	p->getf = (int (*)(void *, BYTE *, int)) fn;
 	p->putf = (int (*)(void *, BYTE, int)) fn;
 	p->openf = (int (*)(void *, const char *, int, int)) fn;
 	p->closef = (int (*)(void *, int)) fn;
 	p->flushf = (void (*)(void *, int)) NULL;
     }
+
+    prdevice_late_init();
 
     return 0;
 }

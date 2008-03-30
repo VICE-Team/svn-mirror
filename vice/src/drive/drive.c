@@ -195,6 +195,10 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+        if (drive[0].type != type) {
+	    drive[0].current_half_track = 2 * ((type == DRIVE_TYPE_1001) 
+								? 38 : 18);
+        }
         drive[0].type = type;
         if (drive_true_emulation) {
             drive[0].enable = 1;
@@ -237,6 +241,10 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
+        if (drive[1].type != type) {
+	    drive[1].current_half_track = 2 * ((type == DRIVE_TYPE_1001) 
+								? 38 : 18);
+        }
         drive[1].type = type;
         if (drive_true_emulation) {
             drive[1].enable = 1;
@@ -1193,6 +1201,7 @@ static int drive_set_disk_drive_type(int type, int dnr)
         drive0_cpu_init(type);
     if (dnr == 1)
         drive1_cpu_init(type);
+
     return 0;
 }
 

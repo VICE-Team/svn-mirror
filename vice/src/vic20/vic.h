@@ -33,108 +33,156 @@
 
 #include "vice.h"
 
+#include "alarm.h"
+#include "log.h"
 #include "snapshot.h"
+#include "vic20.h"
 #include "video.h"
 
-#if 1
-#define VIC_SCREEN_HEIGHT           312
-#define VIC_CYCLES_PER_LINE         71
-#define VIC_RFSH_PER_SEC            50
-#else				/* NTSC */
-#warning NTSC
-#define VIC_SCREEN_HEIGHT           261
-#define VIC_CYCLES_PER_LINE         63
-#define VIC_RFSH_PER_SEC            60
-#endif
+#include "raster.h"
 
-#ifdef _VIC_C
-static int char_height = 8;
-static int text_cols = 22;
-static int text_lines = 23;
-#define VIC_SCREEN_MAX_HEIGHT		VIC_SCREEN_HEIGHT
-#define VIC_SCREEN_CHARHEIGHT		char_height
-#define VIC_SCREEN_MAX_TEXTCOLS		31
-#define VIC_SCREEN_MAX_TEXTLINES	30
-#define VIC_SCREEN_TEXTLINES		text_lines
-#define VIC_SCREEN_TEXTCOLS		text_cols
-#define VIC_SCREEN_FIRST_DISPLAYED_LINE 28
-#define VIC_SCREEN_LAST_DISPLAYED_LINE  293
-#define VIC_SCREEN_WIDTH		233
-#define VIC_SCREEN_XPIX			VIC_SCREEN_WIDTH
-#define VIC_SCREEN_YPIX			(VIC_SCREEN_LAST_DISPLAYED_LINE \
-					 - VIC_SCREEN_FIRST_DISPLAYED_LINE + 1)
-#define VIC_SCREEN_BORDERWIDTH		display_xstart
-#define VIC_SCREEN_BORDERHEIGHT		display_ystart
-#endif
-#define VIC_NUM_SPRITES		 0
+#include "vic-mem.h"
 
-#define VIC_WINDOW_TITLE	 "VICE: VIC20 emulator"
+
+
+#define VIC_SCREEN_WIDTH                233
+#define VIC_SCREEN_HEIGHT               312
+    
+#define VIC_SCREEN_MAX_TEXT_COLS        31
+#define VIC_SCREEN_MAX_TEXT_LINES       30
+    
+#define VIC_FIRST_DISPLAYED_LINE        28
+#define VIC_LAST_DISPLAYED_LINE         293
+
+#define VIC_NUM_SPRITES 0
 
 #define VIC_NUM_COLORS 16
 
-/* Video mode definitions. */
+
 
-#define VIC_STANDARD_MODE           0
-#define VIC_REVERSE_MODE	    1
-#define VIC_NUM_VMODES		    2
-#define VIC_IDLE_MODE		    VIC_STANDARD_MODE
-
-/* Define proper screen constants for raster.c. */
-
-#ifdef _VIC_C
-
-#include "vic20.h"
-#define CYCLES_PER_LINE                 VIC20_PAL_CYCLES_PER_LINE
-
-#define __VIC__
-#define NEEDS_GetData
-#define NEEDS_GetCharData
-#define SCREEN_WIDTH			VIC_SCREEN_WIDTH
-#define SCREEN_HEIGHT			VIC_SCREEN_HEIGHT
-#define SCREEN_XPIX			VIC_SCREEN_XPIX
-#define SCREEN_YPIX			VIC_SCREEN_YPIX
-#define SCREEN_TEXTCOLS			VIC_SCREEN_TEXTCOLS
-#define SCREEN_MAX_XPIX			VIC_SCREEN_MAX_XPIX
-#define SCREEN_MAX_YPIX			VIC_SCREEN_MAX_YPIX
-#define SCREEN_MAX_TEXTCOLS		VIC_SCREEN_MAX_TEXTCOLS
-#define SCREEN_MAX_HEIGHT		VIC_SCREEN_MAX_HEIGHT
-#define SCREEN_TEXTLINES		VIC_SCREEN_TEXTLINES
-#define SCREEN_BORDERWIDTH		VIC_SCREEN_BORDERWIDTH
-#define SCREEN_BORDERHEIGHT		VIC_SCREEN_BORDERHEIGHT
-#define SCREEN_NUM_VMODES		VIC_NUM_VMODES
-#define SCREEN_CYCLES_PER_LINE		VIC_CYCLES_PER_LINE
-#define SCREEN_RFSH_PER_SEC             VIC_RFSH_PER_SEC
-#define SCREEN_CHARHEIGHT		VIC_SCREEN_CHARHEIGHT
-#define SCREEN_NUM_SPRITES              VIC_NUM_SPRITES
-#define SCREEN_NUM_COLORS               VIC_NUM_COLORS
-#define SCREEN_IDLE_MODE		VIC_IDLE_MODE
-#define SCREEN_LAST_DISPLAYED_LINE      VIC_SCREEN_LAST_DISPLAYED_LINE
-#define SCREEN_FIRST_DISPLAYED_LINE	VIC_SCREEN_FIRST_DISPLAYED_LINE
-
-#define SCREEN_BORDERWIDTH_VARIES
-#define SCREEN_BORDERHEIGHT_VARIES
-
+/* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
+   least 466 horizontal pixels to contain the whole screen.  */
+#ifndef __MSDOS__
+#define VIC_DUPLICATES_PIXELS
 #endif
 
-/* ------------------------------------------------------------------------- */
+#ifdef VIC_DUPLICATES_PIXELS
+typedef PIXEL2 VIC_PIXEL;
+#define VIC_PIXEL(n)    RASTER_PIXEL2 (&vic.raster, n)
+typedef PIXEL4 VIC_PIXEL2;
+#define VIC_PIXEL2(n)   RASTER_PIXEL4 (&vic.raster, n)
+#define VIC_PIXEL_WIDTH 2
+#else
+typedef PIXEL VIC_PIXEL;
+#define VIC_PIXEL(n)    RASTER_PIXEL (&vic.raster, n)
+typedef PIXEL2 VIC_PIXEL2;
+#define VIC_PIXEL2(n)   RASTER_PIXEL2 (&vic.raster, n)
+#define VIC_PIXEL_WIDTH 1
+#endif
 
-extern void reset_vic(void);
-extern int vic_init_resources(void);
-extern int vic_init_cmdline_options(void);
-extern void video_resize(void);
-extern void video_free(void);
-extern int int_rasterdraw(long offset);
-extern canvas_t vic_init(void);
-extern void vic_prevent_clk_overflow(CLOCK sub);
-extern void vic_exposure_handler(unsigned int width, unsigned int height);
-extern BYTE REGPARM1 read_vic(ADDRESS addr);
-extern void REGPARM2 store_vic(ADDRESS addr, BYTE value);
+
 
-extern int vic_write_snapshot_module(snapshot_t *s);
-extern int vic_read_snapshot_module(snapshot_t *s);
+#define VIC_CYCLES_PER_LINE VIC20_PAL_CYCLES_PER_LINE
 
-#ifdef USE_VIDMODE_EXTENSION
-extern void video_setfullscreen(int v, int width, int height);
+/* Cycle # within the current line.  */
+#define VIC_RASTER_CYCLE(clk) ((int)((clk) % VIC_CYCLES_PER_LINE))
+
+/* Current vertical position of the raster.  Unlike `rasterline', which is
+   only accurate if a pending `A_RASTERDRAW' event has been served, this is
+   guarranteed to be always correct.  It is a bit slow, though.  */
+#define VIC_RASTER_Y(clk)     ((int)((clk) / VIC_CYCLES_PER_LINE)   \
+                               % VIC_SCREEN_HEIGHT)
+
+
+
+/* Video mode definitions. */
+
+enum _vic_video_mode
+  {
+    VIC_STANDARD_MODE,
+    VIC_REVERSE_MODE,
+    VIC_NUM_VMODES,
+  };
+typedef enum _vic_video_mode vic_video_mode_t;
+
+#define VIC_IDLE_MODE VIC_STANDARD_MODE
+
+
+
+/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
+   memory and (little) speed.  */
+#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
+#define VIC_NEED_2X 1
+#endif
+
+
+
+struct _vic
+  {
+    int initialized;
+
+    log_t log;
+
+    raster_t raster;
+
+    palette_t *palette;
+
+    BYTE regs[64];
+
+    alarm_t raster_draw_alarm;
+
+    BYTE auxiliary_color;
+    BYTE *color_ptr;
+    BYTE *screen_ptr;
+    BYTE *chargen_ptr; /* = chargen_rom + 0x400; */
+
+    unsigned int char_height;   /* = 8 */
+    unsigned int text_cols;     /* = 22 */
+    unsigned int text_lines;    /* = 23 */
+
+    unsigned int memptr;
+  };
+typedef struct _vic vic_t;
+
+extern vic_t vic;
+
+
+
+canvas_t vic_init (void);
+void vic_reset (void);
+
+int vic_init_resources (void);
+int vic_init_cmdline_options (void);
+
+int vic_write_snapshot_module (snapshot_t *s);
+int vic_read_snapshot_module (snapshot_t *s);
+
+
+
+/* Private function calls, used by the other VIC modules.  FIXME:
+   Prepend names with `_'?  */
+void vic_exposure_handler (unsigned int width, unsigned int height);
+void vic_update_memory_ptrs (void);
+int vic_load_palette (const char *name);
+void vic_resize (void);
+
+
+
+/* Debugging options.  */
+
+/* #define VIC_RASTER_DEBUG */
+/* #define VIC_REGISTERS_DEBUG */
+
+#ifdef VIC_RASTER_DEBUG
+#define VIC_DEBUG_RASTER(x) log_debug x
+#else
+#define VIC_DEBUG_RASTER(x)
+#endif
+
+#ifdef VIC_REGISTERS_DEBUG
+#define VIC_DEBUG_REGISTER(x) log_debug x
+#else
+#define VIC_DEBUG_REGISTER(x)
 #endif
 
 #endif /* _VIC_H */

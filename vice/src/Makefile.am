@@ -18,13 +18,25 @@ endif
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
+SUBDIRS = \
+	@RESID_DIR@ \
+	arch \
+	c128 \
+	c64 \
+	cbm2 \
+	drive \
+	pet \
+	sid \
+	sounddrv \
+	vic20 \
+	vicii
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/raster
 
 YFLAGS = -dt
 
@@ -72,7 +84,6 @@ noinst_HEADERS = \
 	parallel.h \
 	piacore.h \
 	print.h \
-	raster.h \
 	resources.h \
 	riot.h \
 	riotcore.h \
@@ -172,7 +183,6 @@ EXTRA_DIST = \
 	convio \
 	fixpoint.c \
 	piacore.c \
-	raster.c \
 	riotcore.c \
 	tpicore.c \
 	viacore.c \
@@ -181,56 +191,93 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = mon_parse.h mon_parse.c 
 
-sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
-drive_lib = $(top_builddir)/src/drive/libdrive.a
-sid_lib = $(top_builddir)/src/sid/libsid.a
-vicii_lib = $(top_builddir)/src/vicii/libvicii.a
+c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
-c128_lib = $(top_builddir)/src/c128/libc128.a
-vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+drive_lib = $(top_builddir)/src/drive/libdrive.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+raster_lib = $(top_builddir)/src/raster/libraster.a
+sid_lib = $(top_builddir)/src/sid/libsid.a
+sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
+common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LEXLIB@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ 
+
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
+
 EXTRA_PROGRAMS =
 
-
 # x64
+x64_libs =  \
+        @X64_WINRES@ \
+        $(c64_lib) \
+	$(drive_lib) \
+        $(sid_lib) \
+	$(sounddrv_lib) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	$(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
-	@SOUND_LIBS@ @X_LIBS@ @READLINE@ @LEXLIB@ @X64_WINRES@
-x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
-	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x64_LDADD = $(x64_libs) @X_LIBS@
+x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
+
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libdrive libarch libsid libvicii @RESID_DEP@ x64
+x64-all: \
+	@RESID_DEP@ \
+	libc64 \
+	libdrive \
+	libraster \
+	libsid \
+	libsounddrv \
+	libvicii \
+        x64
 
 # x128
+x128_libs =  \
+        @X128_WINRES@ \
+        $(c128_lib) \
+	$(c64c128_lib) \
+	$(drive_lib) \
+        $(sid_lib) \
+	$(sounddrv_lib) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ \
-	@X128_WINRES@
-x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@
-x128_LDFLAGS = @x128_LDFLAGS@ 
+x128_LDADD = $(x128_libs) @X_LIBS@
+x128_DEPENDENCIES = $(x128_libs)
+x128_LDFLAGS = @x128_LDFLAGS@
+
 .PHONY: x128-all
 x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
 	libvicii @RESID_DEP@ x128
 
 # xvic
+xvic_libs =  \
+        @XVIC_WINRES@ \
+        $(vic20_lib) \
+	$(drive_lib) \
+	$(sounddrv_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
-	@READLINE@ @XVIC_WINRES@
-xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xvic_LDADD = $(xvic_libs) @X_LIBS@
+xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
+
 .PHONY: xvic-all
-xvic-all: libvic20 libsounddrv libdrive libarch xvic
+xvic-all: \
+	libdrive \
+	libraster \
+	libsounddrv \
+	libvic20 \
+        xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -298,27 +345,29 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
 	libvicii libsid @RESID_DEP@
 
+libarch:
+	(cd arch && $(MAKE))
+libc128:
+	(cd c128 && $(MAKE))
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
 	(cd c64 && $(MAKE) libc64c128.a)
-libc128:
-	(cd c128 && $(MAKE))
-libvic20:
-	(cd vic20 && $(MAKE))
-libpet:
-	(cd pet && $(MAKE))
 libcbm2:
 	(cd cbm2 && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
-libsounddrv:
-	(cd sounddrv && $(MAKE))
-libarch:
-	(cd arch && $(MAKE))
-libsid:
-	(cd sid && $(MAKE))
+libpet:
+	(cd pet && $(MAKE))
+libraster:
+	(cd raster && $(MAKE))
 libresid:
 	(cd resid && $(MAKE))
+libsid:
+	(cd sid && $(MAKE))
+libsounddrv:
+	(cd sounddrv && $(MAKE))
+libvic20:
+	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))

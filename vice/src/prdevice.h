@@ -38,5 +38,9 @@ extern int attach_prdevice(PRINTER *info, const char *file, int mode);
 /* this is needed because not all CLOSE are sent to the IEC bus... :-( */
 extern int prdevice_close_printer(int device);
 
+/* this is called at the end of serial_init to enable possibly 
+   attached printers */
+extern void prdevice_late_init(void);
+
 #endif
 

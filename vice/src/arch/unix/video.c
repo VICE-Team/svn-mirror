@@ -47,7 +47,7 @@
 #include "utils.h"
 
 /* Define this for additional shared memory verbosity. */
-#undef MITSHM_DEBUG
+/*  #define MITSHM_DEBUG */
 
 #ifdef MITSHM_DEBUG
 #define DEBUG_MITSHM(x)		log_debug x
@@ -220,7 +220,7 @@ static void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
 	for (x = 0; x < w; x++) {
 	    /* XXX: trusts that real_pixel[0, 1] == black, white */
 	    XPutPixel(p->x_image, sx + x, sy + y,
-		 real_pixel[shade_table[src[x]] > dither[(sx + x) % 4]]);
+                      real_pixel[shade_table[src[x]] > dither[(sx + x) % 4]]);
 	}
     }
 }
@@ -238,7 +238,6 @@ static void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 }
 
 #endif
-
 
 int video_init(void)
 {
@@ -305,7 +304,7 @@ int video_init(void)
                         "on this display.");
 	    use_mitshm = 0;
 	} else {
-	    DEBUG_MITSHM(("MITSHM extensions version %d.%d detected.\n",
+	    DEBUG_MITSHM(("MITSHM extensions version %d.%d detected.",
 			  major_version, minor_version));
 	    use_mitshm = 1;
 	}
@@ -354,28 +353,36 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	DEBUG_MITSHM(("Done."));
         DEBUG_MITSHM(("frame_buffer_alloc(): shmgetting %ld bytes...",
                       (long) i->x_image->bytes_per_line * i->x_image->height));
-	i->xshm_info.shmid = shmget(IPC_PRIVATE, i->x_image->bytes_per_line *
-				    i->x_image->height, IPC_CREAT | 0700);
+	i->xshm_info.shmid = shmget(IPC_PRIVATE,
+                                    (i->x_image->bytes_per_line
+                                     * i->x_image->height),
+                                    IPC_CREAT | 0700);
 	if (i->xshm_info.shmid == -1) {
 	    log_error(video_log, "Cannot get shared memory.");
+            XDestroyImage(i->x_image);
 	    return -1;
 	}
-	DEBUG_MITSHM(("Done, id = 0x%lx."));
-        DEBUG_MITSHM(("frame_buffer_alloc(): getting address... ",
-		      (unsigned long) i->xshm_info.shmid));
-	i->xshm_info.shmaddr = i->x_image->data = shmat(i->xshm_info.shmid,
-							0, 0);
-	if (!i->x_image->data) {
+	DEBUG_MITSHM(("Done, id = 0x%x.", i->xshm_info.shmid));
+        DEBUG_MITSHM(("frame_buffer_alloc(): getting address... "));
+	i->xshm_info.shmaddr = shmat(i->xshm_info.shmid, 0, 0);
+        i->x_image->data = i->xshm_info.shmaddr;
+        if (i->xshm_info.shmaddr == (char *) -1) {
 	    log_error(video_log, "Cannot get shared memory address.");
+            XDestroyImage(i->x_image);
+            shmctl(i->xshm_info.shmid, IPC_RMID, 0);
 	    return -1;
 	}
-	DEBUG_MITSHM(("0x%lx OK.\n", (unsigned long) i->xshm_info.shmaddr));
-	i->xshm_info.readOnly = 0;
-	if (!XShmAttach(display, &(i->xshm_info))) {
-	    log_error(video_log, "Cannot attach shared memory.");
-	    return -1;
-	}
+	DEBUG_MITSHM(("0x%lx OK.", (unsigned long) i->xshm_info.shmaddr));
+
+	i->xshm_info.readOnly = False;
+	XShmAttach(display, &(i->xshm_info));
+        XSync(display, False);
+        
 	_refresh_func = (void (*)()) XShmPutImage;
+        
+        /* We mark the segment as destroyed so that when the last process
+           detaches, it will be deleted.  */
+        shmctl(i->xshm_info.shmid, IPC_RMID, 0);
     } else
 #endif
     {				/* !use_mitshm */
@@ -405,7 +412,7 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	_convert_func = NULL;
     } else {
 	i->tmpframebufferlinesize = width;
-	i->tmpframebuffer = (PIXEL *) malloc(width * height);
+	i->tmpframebuffer = (PIXEL *) xmalloc(width * height);
 	if (i->x_image->bits_per_pixel == 8)
 	    _convert_func = convert_8to8;
 	else if (i->x_image->bits_per_pixel == 1)
@@ -435,18 +442,20 @@ void frame_buffer_free(frame_buffer_t * i)
 	    XDestroyImage(i->x_image);
 	if (shmdt(i->xshm_info.shmaddr))
 	    log_error(video_log, "Cannot release shared memory!");
-	shmctl(i->xshm_info.shmid, IPC_RMID, 0);
-    } else
-#endif
-
+    } else if (i->x_image)
+	XDestroyImage(i->x_image);
+#else
     if (i->x_image)
 	XDestroyImage(i->x_image);
+#endif
 
 #if X_DISPLAY_DEPTH == 0
-    /* free temporary 8bit frame buffer */
+    /* Free temporary 8bit frame buffer.  */
     if (depth != 8 && i->tmpframebuffer)
 	free(i->tmpframebuffer);
 #endif
+
+    memset(i, 0, sizeof(*i));
 }
 
 void frame_buffer_clear(frame_buffer_t * f, PIXEL value)
@@ -491,7 +500,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 			  | KeyPressMask), True,
 		      (XtEventHandler) kbd_event_handler, NULL);
 
-    /* ...ugly... */
+    /* FIXME: ...REALLY ugly... */
     XtAddEventHandler(XtParent(w), (EnterWindowMask | LeaveWindowMask
 				  | KeyReleaseMask | KeyPressMask), True,
 		      (XtEventHandler) kbd_event_handler, NULL);
@@ -555,6 +564,7 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
     if (_convert_func)
         _convert_func(&frame_buffer, xs, ys, w, h);
 #endif
+
     _refresh_func(display, canvas->drawable, _video_gc,
                    frame_buffer.x_image, xs, ys, xi, yi, w, h, False);
     if (_video_use_xsync)

@@ -368,7 +368,7 @@ void rs232_close(int fd)
 /* sends a byte to the RS232 line */
 int rs232_putc(int fd, BYTE b)
 {
-    size_t n;
+    ssize_t n;
 
     if (fd < 0 || fd >= MAXRS232) {
 	log_error(rs232_log, "Attempt to write to invalid fd %d.", fd);

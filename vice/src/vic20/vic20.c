@@ -293,7 +293,7 @@ void machine_reset(void)
 {
     via1_reset();
     via2_reset();
-    reset_vic();
+    vic_reset();
     vic_sound_reset();
 #ifdef HAVE_RS232
     rs232_reset();

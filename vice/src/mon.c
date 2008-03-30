@@ -1509,7 +1509,8 @@ void mon_display_io_regs(void)
 
 void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  unsigned i, len, dst;
+  unsigned int i, dst;
+  int len;
   ADDRESS start;
   MEMSPACE src_mem, dest_mem;
   BYTE *buf;
@@ -1538,10 +1539,11 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
 void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 {
-  unsigned i, len, dst;
   ADDRESS start;
   MEMSPACE src_mem, dest_mem;
   BYTE byte1, byte2;
+  unsigned int i, dst;
+  int len;
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
   if (len < 0) {
@@ -1567,9 +1569,10 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
 void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned i, mon_index, len = 0;
   ADDRESS start;
   MEMSPACE dest_mem;
+  unsigned int i, mon_index;
+  int len;
 
   len = evaluate_address_range(&start_addr, &end_addr, FALSE, data_buf_len);
   if (len < 0) {
@@ -1600,10 +1603,11 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
 void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data)
 {
-  unsigned len, i, next_read;
   BYTE *buf;
   ADDRESS start;
   MEMSPACE mem;
+  unsigned int i, next_read;
+  int len;
 
   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
   if (len < 0 || len < data_buf_len) {
@@ -2017,7 +2021,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
 void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
 {
-   unsigned addr;
+   int addr;
    symbol_entry_t *sym_ptr, *prev_ptr;
 
    if (mem == e_default_space)

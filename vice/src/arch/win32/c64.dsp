@@ -116,6 +116,10 @@ SOURCE=..\..\c64\patchrom.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\psid.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\reu.c
 # End Source File
 # End Target

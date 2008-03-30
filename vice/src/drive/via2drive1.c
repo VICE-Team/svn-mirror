@@ -138,15 +138,15 @@ static void undump_acr(BYTE byte)
 {
 }
 
-inline void static store_acr(BYTE byte)
+inline static void store_acr(BYTE byte)
 {
 }
 
-inline void static store_sr(BYTE byte)
+inline static void store_sr(BYTE byte)
 {
 }
 
-inline void static store_t2l(BYTE byte)
+inline static void store_t2l(BYTE byte)
 {
 }
 

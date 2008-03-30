@@ -407,7 +407,7 @@ static log_t vic20_mem_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 store_wrap(ADDRESS addr, BYTE value)
+static void REGPARM2 store_wrap(ADDRESS addr, BYTE value)
 {
     ram[addr & (VIC20_RAM_SIZE - 1)] = value;
     chargen_rom[addr & 0x3ff] = value;
@@ -440,17 +440,17 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     ram[addr & 0xff] = value;
 }
 
-BYTE REGPARM1 read_ram(ADDRESS addr)
+static BYTE REGPARM1 read_ram(ADDRESS addr)
 {
     return ram[addr];
 }
 
-void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
 {
     ram[addr & (VIC20_RAM_SIZE - 1)] = value;
 }
 
-BYTE REGPARM1 read_cartrom(ADDRESS addr)
+static BYTE REGPARM1 read_cartrom(ADDRESS addr)
 {
     return cartrom[addr & 0xffff];
 }
@@ -540,13 +540,13 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 /* Watchpoint functions */
 
 
-BYTE REGPARM1 read_watch(ADDRESS addr)
+static BYTE REGPARM1 read_watch(ADDRESS addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab_nowatch[addr >> 8] (addr);
 }
 
-void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+static void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab_nowatch[addr >> 8] (addr, value);

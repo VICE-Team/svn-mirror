@@ -1,8 +1,8 @@
 /*
- * archdep.h - Architecture dependant defines.
+ * vic-draw.h - Drawing functions for the VIC emulation.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,26 +24,10 @@
  *
  */
 
-#ifndef _ARCHDEP_H
-#define _ARCHDEP_H
+#ifndef _VIC_DRAW_H
+#define _VIC_DRAW_H
 
-#include <stdio.h>
-#include <stdarg.h>
+void vic_draw_init (void);
+void vic_draw_set_double_size (int enabled);
 
-#include "archapi.h"
-
-/* Filesystem dependant operators.  */
-#define FSDEVICE_DEFAULT_DIR   "."
-#define FSDEV_DIR_SEP_STR      "\\"
-#define FSDEV_DIR_SEP_CHR      '\\'
-#define FSDEV_EXT_SEP_STR      "."
-#define FSDEV_EXT_SEP_CHR      '.'
-
-/* Modes for fopen().  */
-#define MODE_READ       "r"
-#define MODE_READ_WRITE "r+"
-#define MODE_WRITE      "w"
-#define MODE_APPEND     "w+"
- 
 #endif
-
