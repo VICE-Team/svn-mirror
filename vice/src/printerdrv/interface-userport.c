@@ -36,39 +36,26 @@
 #include "resources.h"
 #include "types.h"
 
-static BYTE value;              /* userport value */
-static int strobe;
-static int fd;
-
-/***********************************************************************
- * resource handling
- */
 
 static int userport_printer_enabled = 0;
-static int userport_printer_device;
 
 static int set_up_enabled(resource_value_t v, void *param)
 {
-    int newval = ((int)v) ? 1 : 0;
+    int newval;
+
+    newval = ((int)v) ? 1 : 0;
 
     if (newval && !userport_printer_enabled) {
         /* Switch printer on.  */
-        fd = driver_select_open(userport_printer_device);
-        if (fd >= 0) {
+        if (driver_select_open(2, 4) >= 0) {
             userport_printer_enabled = 1;
         }
     }
     if (userport_printer_enabled && !newval) {
-        driver_select_close(fd);
+        driver_select_close(2, 4);
         userport_printer_enabled = 0;
     }
 
-    return 0;
-}
-
-static int set_up_device(resource_value_t v, void *param)
-{
-    userport_printer_device = (int)v;
     return 0;
 }
 
@@ -76,9 +63,6 @@ static resource_t resources[] = {
     { "PrUser", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&userport_printer_enabled,
       set_up_enabled, NULL },
-    { "PrUserDev", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&userport_printer_device,
-      set_up_device, NULL },
     { NULL }
 };
 
@@ -94,9 +78,6 @@ static cmdline_option_t cmdline_options[] = {
     { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrUser",
       (resource_value_t) 0, NULL,
       "Disable the userport printer emulation" },
-    { "-pruserdev", SET_RESOURCE, 1, NULL, NULL, "PrUserDevice",
-      (resource_value_t) 0,
-      "<0-2>", "Specify VICE printer device for userport" },
     { NULL }
 };
 
@@ -105,8 +86,10 @@ int interface_userport_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-/*********************************************************************/
+/* ------------------------------------------------------------------------- */
 
+static BYTE value; /* userport value */
+static int strobe;
 
 void printer_interface_userport_write_data(BYTE b)
 {
@@ -116,7 +99,7 @@ void printer_interface_userport_write_data(BYTE b)
 void printer_interface_userport_write_strobe(int s)
 {
     if (userport_printer_enabled && strobe && !s) {     /* hi->lo on strobe */
-        driver_select_putc(fd, (BYTE)value);
+        driver_select_putc(2, 4, (BYTE)value);
 
         printer_interface_userport_set_busy(1); /* signal lo->hi */
         printer_interface_userport_set_busy(0); /* signal hi->lo */
