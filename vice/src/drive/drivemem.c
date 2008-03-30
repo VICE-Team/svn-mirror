@@ -33,7 +33,6 @@
 #include "drive.h"
 #include "driverom.h"
 #include "drivetypes.h"
-#include "fdc.h"
 #include "log.h"
 #include "machine-drive.h"
 #include "mem.h"
@@ -41,7 +40,6 @@
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
-#include "wd1770.h"
 
 
 /* ------------------------------------------------------------------------- */

@@ -38,7 +38,6 @@
 #include "drivecpu.h"
 #include "drivemem.h"
 #include "driverom.h"
-#include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
@@ -50,7 +49,6 @@
 #include "vdrive-bam.h"
 #include "vdrive-snapshot.h"
 #include "viad.h"
-#include "wd1770.h"
 #include "zfile.h"
 
 

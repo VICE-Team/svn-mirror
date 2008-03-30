@@ -43,7 +43,6 @@
 #include "drivecpu.h"
 #include "drivemem.h"
 #include "drivetypes.h"
-#include "fdc.h"
 #include "interrupt.h"
 #include "machine-drive.h"
 #include "machine.h"
@@ -54,7 +53,6 @@
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
-#include "wd1770.h"
 
 
 #define DRIVE_CPU
@@ -257,8 +255,6 @@ static void cpu_reset(drive_context_t *drv)
     *(drv->clk_ptr) = 6;
     via1d_reset(drv);
     via2d_reset(drv);
-    wd1770d_reset(drv);
-    fdc_reset(drv->mynumber, drv->drive_ptr->type);
     machine_drive_reset(drv);
 
     if (preserve_monitor)
@@ -314,12 +310,6 @@ void drive_cpu_early_init(drive_context_t *drv)
 
     via1d_init(drv);
     via2d_init(drv);
-    wd1770d_init(drv);
-    /* FIXME: hack, because 0x4000 is only ok for 1001/8050/8250.
-       fdc.c:fdc_do_job() adds an offset for 2040/3040/4040 by itself :-(
-       Why donlly get a table for that...! */
-    fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100,
-             &(drv->drive_ptr->rom[0x4000]));
     machine_drive_init(drv);
 }
 
@@ -387,7 +377,7 @@ inline static int drive_trap_handler(drive_context_t *drv)
     if (MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs)) == 0xc0be) {
         /* 1581 job code */
         MOS6510_REGS_SET_PC(&(drv->cpu.cpu_regs), 0xc197);
-        wd1770_handle_job_code(drv->mynumber);
+        machine_drive_handle_job_code(drv->mynumber);
         return 0;
     }
     return 1;
@@ -723,7 +713,6 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     via1d_reset(drv);
     via2d_reset(drv);
-    wd1770d_reset(drv);
     machine_drive_reset(drv);
 
     if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)

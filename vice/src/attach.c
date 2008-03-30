@@ -34,19 +34,19 @@
 #include "cmdline.h"
 #include "diskimage.h"
 #include "driveimage.h"
-#include "fdc.h"
 #include "fsdevice.h"
 #include "fliplist.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "resources.h"
 #include "serial.h"
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
-#include "vdrive.h"
+#include "vdrive-bam.h"
 #include "vdrive-iec.h"
-#include "wd1770.h"
+#include "vdrive.h"
 
 
 typedef struct {
@@ -233,6 +233,16 @@ const char *file_system_get_disk_name(unsigned int unit)
     return disk_image_fsimage_name_get(vdrive->image);
 }
 
+int file_system_bam_get_disk_id(unsigned int unit, BYTE *id)
+{
+    return vdrive_bam_get_disk_id(unit, id);
+}
+
+int file_system_bam_set_disk_id(unsigned int unit, BYTE *id)
+{
+    return vdrive_bam_set_disk_id(unit, id);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static int set_attach_device_readonly(resource_value_t v, void *param)
@@ -353,14 +363,12 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
     if (image != NULL) {
         switch (unit) {
           case 8:
-            wd1770_detach_image(image, 8);
-            fdc_detach_image(image, 8);
+            machine_drive_image_detach(image, 8);
             drive_image_detach(image, 8);
             vdrive_detach_image(image, 8, floppy);
             break;
           case 9:
-            wd1770_detach_image(image, 9);
-            fdc_detach_image(image, 9);
+            machine_drive_image_detach(image, 9);
             drive_image_detach(image, 9);
             vdrive_detach_image(image, 9, floppy);
             break;
@@ -441,14 +449,12 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
       case 8:
         err = drive_image_attach(image, 8);
         err &= vdrive_attach_image(image, 8, floppy);
-        err &= fdc_attach_image(image, 8);
-        err &= wd1770_attach_image(image, 8);
+        err &= machine_drive_image_attach(image, 8);
         break;
       case 9:
         err = drive_image_attach(image, 9);
         err &= vdrive_attach_image(image, 9, floppy);
-        err &= fdc_attach_image(image, 9);
-        err &= wd1770_attach_image(image, 9);
+        err &= machine_drive_image_attach(image, 9);
         break;
       case 10:
         err = vdrive_attach_image(image, 10, floppy);

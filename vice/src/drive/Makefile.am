@@ -7,8 +7,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/monitor
+	-I$(top_srcdir)/src/monitor \
+	-I$(top_srcdir)/src/vdrive
 
 noinst_LIBRARIES = libdrive.a
 
@@ -33,16 +33,12 @@ libdrive_a_SOURCES = \
 	drivesync.c \
 	drivesync.h \
 	drivetypes.h \
-	fdc.h \
-	fdc.c \
 	iec.h \
 	ieee.h \
 	tcbm.h \
 	via1d.c \
 	via2d.c \
-	viad.h \
-	wd1770.c \
-	wd1770.h
+	viad.h
 
 .PHONY: libdriveiec libdriveieee libdrivetcbm
 
