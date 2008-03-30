@@ -36,6 +36,10 @@ extern void printer_init(void);
 extern void printer_reset(void);
 
 /* Serial interface.  */
+#define PRINTER_DEVICE_NONE 0
+#define PRINTER_DEVICE_FS   1
+#define PRINTER_DEVICE_REAL 2
+
 extern int printer_interface_serial_close(unsigned int unit);
 extern int printer_interface_serial_late_init(void);
 
