@@ -43,6 +43,8 @@ libvic20_a_SOURCES = \
 	vic20iec.h \
 	vic20mem.c \
 	vic20mem.h \
+	vic20rom.c \
+	vic20rom.h \
 	vic20rsuser.c \
 	vic20rsuser.h \
 	vic20sound.c \

@@ -31,11 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-
-#include "c64-snapshot.h"
 #include "c64-resources.h"
 #include "c64cart.h"
 #include "c64cia.h"
@@ -45,24 +40,18 @@
 #include "c64pla.h"
 #include "cart/c64cartmem.h"
 #include "cartridge.h"
-#include "interrupt.h"
-#include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
 #include "parallel.h"
-#include "patchrom.h"
-#include "resources.h"
 #include "reu.h"
 #include "sid.h"
-#include "sysfile.h"
 #include "utils.h"
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
 
-
-/* ------------------------------------------------------------------------- */
 
 /* C64 memory-related resources.  */
 
@@ -88,22 +77,19 @@ const char *mem_romset_resources_list[] = {
 
 /* The C64 memory.  */
 BYTE mem_ram[C64_RAM_SIZE];
-BYTE basic_rom[C64_BASIC_ROM_SIZE];
-BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
-BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+BYTE mem_basic_rom[C64_BASIC_ROM_SIZE];
+BYTE mem_kernal_rom[C64_KERNAL_ROM_SIZE];
+BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x400];
 BYTE *mem_color_ram_ptr;
 
 /* Pointer to the chargen ROM.  */
-BYTE *chargen_rom_ptr;
+BYTE *mem_chargen_rom_ptr;
 
 /* Size of RAM...  */
 int ram_size = C64_RAM_SIZE;
-
-/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int rom_loaded = 0;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -132,9 +118,6 @@ static int mem_config;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
-/* Logging goes here.  */
-static log_t c64_mem_log = LOG_ERR;
-
 /* ------------------------------------------------------------------------- */
 
 BYTE REGPARM1 read_watch(ADDRESS addr)
@@ -143,16 +126,26 @@ BYTE REGPARM1 read_watch(ADDRESS addr)
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-
 void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
 }
 
+void mem_toggle_watchpoints(int flag)
+{
+    if (flag) {
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
-inline void pla_config_changed(void)
+void mem_pla_config_changed(void)
 {
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
@@ -179,19 +172,17 @@ inline void pla_config_changed(void)
     }
 }
 
-void mem_toggle_watchpoints(int flag)
-{
-    if (flag) {
-        _mem_read_tab_ptr = mem_read_tab_watch;
-        _mem_write_tab_ptr = mem_write_tab_watch;
-    } else {
-        _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
-    }
-}
-
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+      case 0:
+        return pport.dir_read;
+      case 1:
+        return pport.data_read;
+    }
+
     return mem_ram[addr & 0xff];
 }
 
@@ -199,37 +190,55 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
 
-    switch ((BYTE) addr) {
+    switch ((BYTE)addr) {
       case 0:
+        if (vbank == 0) {
+            vicii_mem_vbank_store((ADDRESS)0, vicii_read_phi1());
+        } else {
+            mem_ram[0] = vicii_read_phi1();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+        }
         if (pport.dir != value) {
             pport.dir = value;
-            pla_config_changed();
+            mem_pla_config_changed();
         }
         break;
       case 1:
+        if (vbank == 0) {
+            vicii_mem_vbank_store((ADDRESS)1, vicii_read_phi1());
+        } else {
+            mem_ram[1] = vicii_read_phi1();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+        }
         if (pport.data != value) {
             pport.data = value;
-            pla_config_changed();
+            mem_pla_config_changed();
         }
         break;
       default:
-        mem_ram[addr] = value;
+        if (vbank == 0) {
+            vicii_mem_vbank_store(addr, value);
+        } else {
+            mem_ram[addr] = value;
+        }
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
 BYTE REGPARM1 basic_read(ADDRESS addr)
 {
-    return basic_rom[addr & 0x1fff];
+    return mem_basic_rom[addr & 0x1fff];
 }
 
 BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
-    return kernal_rom[addr & 0x1fff];
+    return mem_kernal_rom[addr & 0x1fff];
 }
 
 BYTE REGPARM1 chargen_read(ADDRESS addr)
 {
-    return chargen_rom[addr & 0xfff];
+    return mem_chargen_rom[addr & 0xfff];
 }
 
 BYTE REGPARM1 ram_read(ADDRESS addr)
@@ -274,14 +283,14 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        basic_rom[addr & 0x1fff] = value;
+        mem_basic_rom[addr & 0x1fff] = value;
         break;
       case 0xd000:
-        chargen_rom[addr & 0x0fff] = value;
+        mem_chargen_rom[addr & 0x0fff] = value;
         break;
       case 0xe000:
       case 0xf000:
-        kernal_rom[addr & 0x1fff] = value;
+        mem_kernal_rom[addr & 0x1fff] = value;
         break;
     }
 }
@@ -371,7 +380,7 @@ void mem_initialize_memory(void)
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
 
-    chargen_rom_ptr = chargen_rom;
+    mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_ptr = mem_color_ram;
 
     mem_limit_init(mem_read_limit_tab);
@@ -423,10 +432,10 @@ void mem_initialize_memory(void)
         mem_read_tab[7][i] = basic_read;
         mem_read_tab[11][i] = basic_read;
         mem_read_tab[15][i] = basic_read;
-        mem_read_base_tab[3][i] = basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[7][i] = basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[11][i] = basic_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[15][i] = basic_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[3][i] = mem_basic_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[7][i] = mem_basic_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[11][i] = mem_basic_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[15][i] = mem_basic_rom + ((i & 0x1f) << 8);
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
@@ -441,15 +450,15 @@ void mem_initialize_memory(void)
         mem_read_tab[25][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-        mem_read_base_tab[1][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[2][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[3][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[9][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[10][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[11][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[25][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[26][i] = chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[27][i] = chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[1][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[2][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[3][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[9][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[10][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[11][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[25][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[26][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[27][i] = mem_chargen_rom + ((i & 0x0f) << 8);
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
@@ -502,18 +511,18 @@ void mem_initialize_memory(void)
         mem_read_tab[27][i] = kernal_read;
         mem_read_tab[30][i] = kernal_read;
         mem_read_tab[31][i] = kernal_read;
-        mem_read_base_tab[2][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[3][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[6][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[7][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[10][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[11][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[14][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[15][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[26][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[27][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[30][i] = kernal_rom + ((i & 0x1f) << 8);
-        mem_read_base_tab[31][i] = kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[2][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[3][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[6][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[7][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[10][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[11][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[14][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[15][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[26][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[27][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[30][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+        mem_read_base_tab[31][i] = mem_kernal_rom + ((i & 0x1f) << 8);
     }
 
     /* Setup ROML at $8000-$9FFF.  */
@@ -562,11 +571,6 @@ void mem_initialize_memory(void)
     _mem_write_tab_ptr = mem_write_tab[vbank][7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
-
-    pport.data = 0x37;
-    pport.dir = 0x2f;
-    export.exrom = 0;
-    export.game = 0;
 
     /*
      * Copy mapping to a separate table.
@@ -624,8 +628,13 @@ void mem_initialize_memory(void)
         }
     }
 
+    pport.data = 0x37;
+    pport.dir = 0x2f;
+    export.exrom = 0;
+    export.game = 0;
+
     /* Setup initial memory configuration.  */
-    pla_config_changed();
+    mem_pla_config_changed();
     cartridge_init_config();
 }
 
@@ -643,159 +652,6 @@ void mem_powerup(void)
     memset(export_ram0, 0xff, C64CART_RAM_LIMIT); /* Clean cartridge ram too */
 }
 
-int c64mem_get_kernal_checksum(void)
-{
-    int i;
-    WORD sum;                   /* ROM checksum */
-    int id;                     /* ROM identification number */
-
-    /* Check Kernal ROM.  */
-    for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
-        sum += kernal_rom[i];
-
-    id = rom_read(0xff80);
-
-    log_message(c64_mem_log, "Kernal rev #%d.", id);
-
-    if ((id == 0
-         && sum != C64_KERNAL_CHECKSUM_R00)
-        || (id == 3
-            && sum != C64_KERNAL_CHECKSUM_R03
-            && sum != C64_KERNAL_CHECKSUM_R03swe)
-        || (id == 0x43
-            && sum != C64_KERNAL_CHECKSUM_R43)
-        || (id == 0x64
-            && sum != C64_KERNAL_CHECKSUM_R64)) {
-        log_warning(c64_mem_log,
-                    "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
-                    sum, sum);
-    } else if (kernal_revision != NULL) {
-        if (patch_rom(kernal_revision) < 0)
-            return -1;
-    }
-/*
-    {
-        int drive_true_emulation;
-        resources_get_value("DriveTrueEmulation",
-                            (resource_value_t) &drive_true_emulation);
-        if (!drive_true_emulation)
-            serial_install_traps();
-    }
-*/
-    return 0;
-}
-
-int mem_load_kernal(const char *rom_name)
-{
-    int trapfl;
-
-    if (!rom_loaded)
-        return 0;
-
-    /* Make sure serial code assumes there are no traps installed.  */
-    /* serial_remove_traps(); */
-    /* we also need the TAPE traps!!! therefore -> */
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
-
-    /* Load Kernal ROM.  */
-    if (sysfile_load(rom_name,
-        kernal_rom, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE) < 0) {
-        log_error(c64_mem_log, "Couldn't load kernal ROM `%s'.",
-                  rom_name);
-        resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-        return -1;
-    }
-    c64mem_get_kernal_checksum();
-
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-
-    return 0;
-}
-
-int c64mem_get_basic_checksum(void)
-{
-    int i;
-    WORD sum;
-
-    /* Check Basic ROM.  */
-
-    for (i = 0, sum = 0; i < C64_BASIC_ROM_SIZE; i++)
-        sum += basic_rom[i];
-
-    if (sum != C64_BASIC_CHECKSUM)
-        log_warning(c64_mem_log,
-                    "Warning: Unknown Basic image.  Sum: %d ($%04X).",
-                    sum, sum);
-
-    return 0;
-}
-
-int mem_load_basic(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    /* Load Basic ROM.  */
-    if (sysfile_load(rom_name,
-        basic_rom, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE) < 0) {
-        log_error(c64_mem_log,
-                  "Couldn't load basic ROM `%s'.",
-                  rom_name);
-        return -1;
-    }
-    return c64mem_get_basic_checksum();
-}
-
-
-int mem_load_chargen(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    /* Load chargen ROM.  */
-
-    if (sysfile_load(rom_name,
-        chargen_rom, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE) < 0) {
-        log_error(c64_mem_log, "Couldn't load character ROM `%s'.",
-                  rom_name);
-        return -1;
-    }
-
-    return 0;
-}
-
-
-int mem_load(void)
-{
-    char *rom_name = NULL;
-
-    mem_powerup();
-
-    if (c64_mem_log == LOG_ERR)
-        c64_mem_log = log_open("C64MEM");
-
-    rom_loaded = 1;
-
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_chargen(rom_name) < 0)
-        return -1;
-
-    return 0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank.  Call this routine only when the vbank
@@ -811,7 +667,7 @@ void mem_set_vbank(int new_vbank)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
-    pla_config_changed();
+    mem_pla_config_changed();
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
@@ -1035,13 +891,13 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         }
       case 2:                   /* rom */
         if (addr >= 0xa000 && addr <= 0xbfff) {
-            return basic_rom[addr & 0x1fff];
+            return mem_basic_rom[addr & 0x1fff];
         }
         if (addr >= 0xd000 && addr <= 0xdfff) {
-            return chargen_rom[addr & 0x0fff];
+            return mem_chargen_rom[addr & 0x0fff];
         }
         if (addr >= 0xe000 && addr <= 0xffff) {
-            return kernal_rom[addr & 0x1fff];
+            return mem_kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
         break;
@@ -1133,7 +989,7 @@ void mem_set_exrom(int active)
 {
     export.exrom = active ? 0 : 1;
 
-    pla_config_changed();
+    mem_pla_config_changed();
 }
 
 void mem_color_ram_to_snapshot(BYTE *color_ram)

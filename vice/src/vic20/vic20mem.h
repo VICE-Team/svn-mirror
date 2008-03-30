@@ -31,7 +31,6 @@
 #define _VIC20MEM_H
 
 #include "types.h"
-#include "mem.h"
 
 #define VIC20_RAM_SIZE                  0x10000 /* Kludged... */
 #define VIC20_BASIC_ROM_SIZE            0x2000
@@ -61,12 +60,12 @@
 #define VIC_BLK5 16
 #define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
 
-extern BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
-extern BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
-extern BYTE cartrom[0x10000];
+extern BYTE mem_rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
+extern BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
+extern BYTE mem_cartrom[0x10000];
 
-extern read_func_t read_basic, read_kernal, read_chargen, read_via;
-extern store_func_t store_via;
+#define mem_kernal_rom (mem_rom + VIC20_BASIC_ROM_SIZE)
+#define mem_basic_rom (mem_rom)
 
 extern int vic20_mem_init_resources(void);
 extern int vic20_mem_init_cmdline_options(void);
@@ -76,13 +75,7 @@ extern int vic20_mem_enable_ram_block(int num);
 extern void mem_attach_cartridge(int type, BYTE *rawcart);
 extern void mem_detach_cartridge(int type);
 
-extern int mem_load_kernal(const char *rom_name);
-extern int mem_load_basic(const char *rom_name);
-extern int mem_load_chargen(const char *rom_name);
 extern int mem_patch_kernal(void);
-
-extern int mem_kernal_checksum(void);
-extern int mem_basic_checksum(void);
 
 #endif
 

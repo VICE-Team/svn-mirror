@@ -34,6 +34,7 @@
 #include "c64cart.h"
 #include "c64mem.h"
 #include "c64pla.h"
+#include "c64rom.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -68,11 +69,11 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    if (snapshot_module_write_byte_array(m, kernal_rom,
+    if (snapshot_module_write_byte_array(m, mem_kernal_rom,
                                          C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom,
+        || snapshot_module_write_byte_array(m, mem_basic_rom,
                                             C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, chargen_rom,
+        || snapshot_module_write_byte_array(m, mem_chargen_rom,
                                             C64_CHARGEN_ROM_SIZE) < 0
         )
         goto fail;
@@ -132,11 +133,11 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    if (snapshot_module_read_byte_array(m, kernal_rom,
+    if (snapshot_module_read_byte_array(m, mem_kernal_rom,
                                         C64_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom,
+        || snapshot_module_read_byte_array(m, mem_basic_rom,
                                            C64_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, chargen_rom,
+        || snapshot_module_read_byte_array(m, mem_chargen_rom,
                                            C64_CHARGEN_ROM_SIZE) < 0
         )
         goto fail;
@@ -153,8 +154,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
-    c64mem_get_kernal_checksum();
-    c64mem_get_basic_checksum();
+    c64rom_get_kernal_checksum();
+    c64rom_get_basic_checksum();
     /* enable traps again when necessary */
     resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
@@ -242,7 +243,7 @@ int c64_snapshot_read_module(snapshot_t *s)
         || snapshot_module_read_byte_array(m, mem_ram, C64_RAM_SIZE) < 0)
         goto fail;
 
-    pla_config_changed();
+    mem_pla_config_changed();
 
     if (snapshot_module_close(m) < 0)
         goto fail;

@@ -43,7 +43,6 @@
 #include "c64cia.h"
 #include "c64pla.h"
 #include "c64tpi.h"
-#include "cmdline.h"
 #include "functionrom.h"
 #include "keyboard.h"
 #include "log.h"
@@ -51,13 +50,8 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
-#include "resources.h"
 #include "reu.h"
-#include "rs232.h"
 #include "sid.h"
-#include "sid-resources.h"
-#include "snapshot.h"
-#include "sysfile.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
@@ -80,8 +74,6 @@
 #define DEBUG_PRINT(x)
 #endif
 
-#define IS_NULL(s)  (s == NULL || *s == '\0')
-
 /* ------------------------------------------------------------------------- */
 
 const char *mem_romset_resources_list[] = {
@@ -98,9 +90,9 @@ const char *mem_romset_resources_list[] = {
 
 /* The C128 memory.  */
 BYTE mem_ram[C128_RAM_SIZE];
-BYTE basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
-BYTE kernal_rom[C128_KERNAL_ROM_SIZE];
-BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
+BYTE mem_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
+BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
+BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
 BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
 BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
@@ -111,7 +103,7 @@ static BYTE mem_color_ram[0x800];
 BYTE *mem_color_ram_ptr;
 
 /* Pointer to the chargen ROM.  */
-BYTE *chargen_rom_ptr;
+BYTE *mem_chargen_rom_ptr;
 
 /* Size of RAM...  */
 int ram_size = C128_RAM_SIZE;
@@ -124,9 +116,6 @@ static ADDRESS top_shared_limit, bottom_shared_limit;
 
 /* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
 BYTE *mem_page_zero, *mem_page_one;
-
-/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int rom_loaded = 0;
 
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
@@ -208,7 +197,7 @@ void mem_update_config(int config)
     if (config >= 0x80) {
         mem_color_ram_ptr = mem_color_ram;
     } else {
-        if (mem_ram[1] & 1)
+        if (pport.data_read & 1)
             mem_color_ram_ptr = mem_color_ram;
         else
             mem_color_ram_ptr = &mem_color_ram[0x400];
@@ -257,7 +246,9 @@ void mem_set_ram_config(BYTE value)
     }
 }
 
-void pla_config_changed(void)
+/* ------------------------------------------------------------------------- */
+
+void mem_pla_config_changed(void)
 {
     BYTE *old_chargen_rom_ptr;
 
@@ -266,23 +257,71 @@ void pla_config_changed(void)
     mmu_set_config64(((~pport.dir | pport.data) & 0x7)
                      | (export.exrom << 3) | (export.game << 4));
 
-    old_chargen_rom_ptr = chargen_rom_ptr;
+    old_chargen_rom_ptr = mem_chargen_rom_ptr;
 
-    if (mem_ram[1] & 0x40)
-        chargen_rom_ptr = chargen_rom;
+    if (pport.data_read & 0x40)
+        mem_chargen_rom_ptr = mem_chargen_rom;
     else
-        chargen_rom_ptr = &chargen_rom[0x1000];
+        mem_chargen_rom_ptr = &mem_chargen_rom[0x1000];
 
-    if (old_chargen_rom_ptr != chargen_rom_ptr)
+    if (old_chargen_rom_ptr != mem_chargen_rom_ptr)
         machine_update_memory_ptrs();
 }
 
 static void mem_toggle_caps_key(void)
 {
     caps_sense = (caps_sense) ? 0 : 1;
-    pla_config_changed();
+    mem_pla_config_changed();
     log_message(c128_mem_log, "CAPS key (ASCII/DIN) %s.",
                 (caps_sense) ? "released" : "pressed");
+}
+
+BYTE REGPARM1 read_zero(ADDRESS addr)
+{
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+      case 0:
+        return pport.dir_read;
+      case 1:
+        return pport.data_read;
+    }
+
+    return mem_page_zero[addr];
+}
+
+void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+{
+    addr &= 0xff;
+
+    switch ((BYTE) addr) {
+      case 0:
+        if (0 /*vbank == 0*/) {
+            vicii_mem_vbank_store((ADDRESS)0, vicii_read_phi1());
+        } else {
+            mem_page_zero[0] = vicii_read_phi1();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+        }
+        if (pport.dir != value) {
+            pport.dir = value;
+            mem_pla_config_changed();
+        }
+        break;
+      case 1:
+        if (0 /*vbank == 0*/) {
+            vicii_mem_vbank_store((ADDRESS)1, vicii_read_phi1());
+        } else {
+            mem_page_zero[1] = vicii_read_phi1();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+        }
+        if (pport.data != value) {
+            pport.data = value;
+            mem_pla_config_changed();
+        }
+        break;
+      default:
+        mem_page_zero[addr] = value;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -291,27 +330,27 @@ static void mem_toggle_caps_key(void)
 
 BYTE REGPARM1 basic_read(ADDRESS addr)
 {
-    return basic_rom[addr - 0x4000];
+    return mem_basic_rom[addr - 0x4000];
 }
 
 void REGPARM2 basic_store(ADDRESS addr, BYTE value)
 {
-    basic_rom[addr - 0x4000] = value;
+    mem_basic_rom[addr - 0x4000] = value;
 }
 
 BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
-    return kernal_rom[addr & 0x1fff];
+    return mem_kernal_rom[addr & 0x1fff];
 }
 
 void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
 {
-    kernal_rom[addr & 0x1fff] = value;
+    mem_kernal_rom[addr & 0x1fff] = value;
 }
 
 BYTE REGPARM1 read_chargen(ADDRESS addr)
 {
-    return chargen_rom_ptr[addr & 0x0fff];
+    return mem_chargen_rom_ptr[addr & 0x0fff];
 }
 
 BYTE REGPARM1 basic64_read(ADDRESS addr)
@@ -336,7 +375,7 @@ void REGPARM2 kernal64_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 chargen64_read(ADDRESS addr)
 {
-    return chargen_rom_ptr[addr & 0x0fff];
+    return mem_chargen_rom_ptr[addr & 0x0fff];
     /*return chargen64_rom[addr & 0xfff];*/
 }
 
@@ -468,34 +507,6 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
     ((addr) < bottom_shared_limit ? (mem_ram[(addr)] = (value))  \
                                   : (ram_bank[(addr)] = (value)))
 
-BYTE REGPARM1 read_zero(ADDRESS addr)
-{
-    return mem_page_zero[addr];
-}
-
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
-{
-    addr &= 0xff;
-
-    switch ((BYTE) addr) {
-      case 0:
-        if (pport.dir != value) {
-            pport.dir = value;
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-            pla_config_changed();
-        }
-        break;
-      case 1:
-        if (pport.data != value) {
-            pport.data = value;
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-            pla_config_changed();
-        }
-        break;
-      default:
-        mem_page_zero[addr] = value;
-    }
-}
 
 static BYTE REGPARM1 read_one(ADDRESS addr)
 {
@@ -534,7 +545,7 @@ static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
 static BYTE REGPARM1 basic_lo_read(ADDRESS addr)
 {
-    return basic_rom[addr - 0x4000];
+    return mem_basic_rom[addr - 0x4000];
 }
 
 static void REGPARM2 basic_lo_store(ADDRESS addr, BYTE value)
@@ -546,7 +557,7 @@ static void REGPARM2 basic_lo_store(ADDRESS addr, BYTE value)
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
 static BYTE REGPARM1 basic_hi_read(ADDRESS addr)
 {
-    return basic_rom[addr - 0x4000];
+    return mem_basic_rom[addr - 0x4000];
 }
 
 static void REGPARM2 basic_hi_store(ADDRESS addr, BYTE value)
@@ -558,7 +569,7 @@ static void REGPARM2 basic_hi_store(ADDRESS addr, BYTE value)
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
 static BYTE REGPARM1 editor_read(ADDRESS addr)
 {
-    return basic_rom[addr - 0x4000];
+    return mem_basic_rom[addr - 0x4000];
 }
 
 static void REGPARM2 editor_store(ADDRESS addr, BYTE value)
@@ -586,7 +597,7 @@ void REGPARM2 d7xx_store(ADDRESS addr, BYTE value)
 /* $E000 - $FFFF: RAM or Kernal.  */
 static BYTE REGPARM1 hi_read(ADDRESS addr)
 {
-    return kernal_rom[addr & 0x1fff];
+    return mem_kernal_rom[addr & 0x1fff];
 }
 
 static void REGPARM2 hi_store(ADDRESS addr, BYTE value)
@@ -626,7 +637,7 @@ void mem_initialize_memory(void)
 {
     int i, j;
 
-    chargen_rom_ptr = chargen_rom;
+    mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_ptr = mem_color_ram;
 
     mem_limit_init(mem_read_limit_tab);
@@ -975,69 +986,69 @@ void mem_initialize_memory(void)
             mem_write_tab[62+j][i] = ram_store;
             mem_write_tab[63+j][i] = basic_lo_store;
             mem_read_base_tab[0+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[1+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[1+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[2+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[3+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[3+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[4+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[5+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[5+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[6+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[7+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[7+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[8+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[9+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[9+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[10+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[11+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[11+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[12+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[13+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[13+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[14+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[15+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[15+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[16+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[17+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[17+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[18+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[19+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[19+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[20+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[21+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[21+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[22+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[23+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[23+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[24+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[25+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[25+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[26+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[27+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[27+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[28+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[29+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[29+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[30+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[31+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[31+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[32+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[33+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[33+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[34+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[35+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[35+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[36+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[37+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[37+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[38+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[39+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[39+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[40+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[41+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[41+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[42+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[43+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[43+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[44+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[45+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[45+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[46+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[47+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[47+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[48+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[49+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[49+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[50+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[51+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[51+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[52+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[53+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[53+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[54+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[55+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[55+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[56+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[57+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[57+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[58+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[59+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[59+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[60+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[61+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[61+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[62+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[63+j][i] = basic_rom + ((i & 0x3f) << 8);
+            mem_read_base_tab[63+j][i] = mem_basic_rom + ((i & 0x3f) << 8);
         }
 
         for (i = 0x80; i <= 0xbf; i++) {
@@ -1169,64 +1180,64 @@ void mem_initialize_memory(void)
             mem_write_tab[61+j][i] = ram_store;
             mem_write_tab[62+j][i] = ram_store;
             mem_write_tab[63+j][i] = ram_store;
-            mem_read_base_tab[0+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[1+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[0+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[1+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[2+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[3+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[4+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[5+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[6+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[7+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[8+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[9+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[8+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[9+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[10+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[11+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[12+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[13+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[14+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[15+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[16+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[17+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[16+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[17+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[18+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[19+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[20+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[21+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[22+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[23+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[24+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[25+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[24+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[25+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[26+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[27+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[28+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[29+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[30+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[31+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[32+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[33+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[32+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[33+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[34+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[35+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[36+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[37+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[38+j][i] = mem_ram + 0x10000 + (i << 8);
             mem_read_base_tab[39+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[40+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[41+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[40+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[41+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[42+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[43+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[44+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[45+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[46+j][i] = mem_ram + 0x10000 + (i << 8);
             mem_read_base_tab[47+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[48+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[49+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[48+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[49+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[50+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[51+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[52+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[53+j][i] = ext_function_rom + ((i & 0x3f) << 8);
             mem_read_base_tab[54+j][i] = mem_ram + 0x10000 + (i << 8);
             mem_read_base_tab[55+j][i] = mem_ram + 0x10000 + (i << 8);
-            mem_read_base_tab[56+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
-            mem_read_base_tab[57+j][i] = basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[56+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
+            mem_read_base_tab[57+j][i] = mem_basic_rom + 0x4000 + ((i & 0x3f) << 8);
             mem_read_base_tab[58+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[59+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[60+j][i] = ext_function_rom + ((i & 0x3f) << 8);
@@ -1364,14 +1375,14 @@ void mem_initialize_memory(void)
             mem_write_tab[61+j][i] = top_shared_store;
             mem_write_tab[62+j][i] = top_shared_store;
             mem_write_tab[63+j][i] = top_shared_store;
-            mem_read_base_tab[0+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[1+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[2+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[3+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[4+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[5+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[6+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[7+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[0+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[1+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[2+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[3+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[4+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[5+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[6+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[7+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
             mem_read_base_tab[8+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[9+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[10+j][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1396,14 +1407,14 @@ void mem_initialize_memory(void)
             mem_read_base_tab[29+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[30+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[31+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[32+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[33+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[34+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[35+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[36+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[37+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[38+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
-            mem_read_base_tab[39+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[32+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[33+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[34+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[35+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[36+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[37+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[38+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
+            mem_read_base_tab[39+j][i] = mem_basic_rom + 0x8000 + ((i & 0xf) << 8);
             mem_read_base_tab[40+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[41+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[42+j][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1789,14 +1800,14 @@ void mem_initialize_memory(void)
             mem_write_tab[61+j][i] = top_shared_store;
             mem_write_tab[62+j][i] = top_shared_store;
             mem_write_tab[63+j][i] = top_shared_store;
-            mem_read_base_tab[0+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[1+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[2+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[3+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[4+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[5+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[6+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[7+j][i] = kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[0+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[1+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[2+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[3+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[4+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[5+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[6+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[7+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
             mem_read_base_tab[8+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[9+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[10+j][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -1821,14 +1832,14 @@ void mem_initialize_memory(void)
             mem_read_base_tab[29+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[30+j][i] = mem_ram + (i << 8);
             mem_read_base_tab[31+j][i] = mem_ram + (i << 8);
-            mem_read_base_tab[32+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[33+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[34+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[35+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[36+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[37+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[38+j][i] = kernal_rom + ((i & 0x1f) << 8);
-            mem_read_base_tab[39+j][i] = kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[32+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[33+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[34+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[35+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[36+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[37+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[38+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
+            mem_read_base_tab[39+j][i] = mem_kernal_rom + ((i & 0x1f) << 8);
             mem_read_base_tab[40+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[41+j][i] = int_function_rom + ((i & 0x7f) << 8);
             mem_read_base_tab[42+j][i] = int_function_rom + ((i & 0x7f) << 8);
@@ -2117,230 +2128,6 @@ void mem_powerup(void)
     }
 }
 
-int mem_kernal_checksum(void) 
-{
-    int i, id;
-    WORD sum;
-
-    /* Check Kernal ROM.  */
-    for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++)
-        sum += kernal_rom[i];
-
-    id = rom_read(0xff80);
-
-    log_message(c128_mem_log, "Kernal rev #%d.", id);
-    if (id == 1
-        && sum != C128_KERNAL_CHECKSUM_R01
-        && sum != C128_KERNAL_CHECKSUM_R01SWE
-        && sum != C128_KERNAL_CHECKSUM_R01GER)
-        log_error(c128_mem_log, "Warning: Kernal image may be corrupted."
-                  " Sum: %d.", sum);
-    return 0;
-}
-
-int mem_load_kernal(const char *rom_name) 
-{
-    int trapfl;
-
-    if (!rom_loaded)
-        return 0;
-
-    /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (!IS_NULL(rom_name)) {
-        /* Load Kernal ROM.  */
-        if (sysfile_load(rom_name,
-            kernal_rom, C128_KERNAL_ROM_SIZE,
-            C128_KERNAL_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
-                      rom_name);
-            resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-            return -1;
-        }
-    }
-
-    mem_kernal_checksum();
-
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    return 0;
-}
-
-int mem_basic_checksum(void)
-{
-    int i, id;
-    WORD sum;
-
-    /* Check Basic ROM.  */
-    for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++)
-        sum += basic_rom[i];
-
-    if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
-        log_error(c128_mem_log,
-                  "Warning: Unknown Basic image.  Sum: %d ($%04X).",
-                  sum, sum);
-
-    /* Check Editor ROM.  */
-    for (i = C128_BASIC_ROM_SIZE, sum = 0;
-         i < C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE;
-         i++)
-        sum += basic_rom[i];
-
-    id = rom_read(0xff80);
-    if (id == 01
-        && sum != C128_EDITOR_CHECKSUM_R01
-        && sum != C128_EDITOR_CHECKSUM_R01SWE
-        && sum != C128_EDITOR_CHECKSUM_R01GER) {
-        log_error(c128_mem_log, "Warning: EDITOR image may be corrupted."
-                  " Sum: %d.", sum);
-        log_error(c128_mem_log, "Check your Basic ROM.");
-    }
-    return 0;
-}
-
-int mem_load_basic(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load Basic ROM.  */
-        if (sysfile_load(rom_name,
-            basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-            C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return mem_basic_checksum();
-}
-
-int mem_load_chargen(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load chargen ROM.  */
-        if (sysfile_load(rom_name,
-            chargen_rom, C128_CHARGEN_ROM_SIZE,
-            C128_CHARGEN_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
-int mem_load_kernal64(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load C64 kernal ROM.  */
-        if (sysfile_load(rom_name,
-            kernal64_rom, C128_KERNAL64_ROM_SIZE,
-            C128_KERNAL64_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load C64 kernal ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
-int mem_load_basic64(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load basic ROM.  */
-        if (sysfile_load(rom_name,
-            basic64_rom, C128_BASIC64_ROM_SIZE,
-            C128_BASIC64_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load C64 basic ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
-int mem_load_chargen64(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load C64 Chargen ROM.  */
-        if (sysfile_load(rom_name,
-            chargen64_rom, C128_CHARGEN64_ROM_SIZE,
-            C128_CHARGEN64_ROM_SIZE) < 0) {
-            log_error(c128_mem_log, "Couldn't load C64 character ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    }
-    return 0;
-}
-
-/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'.  */
-int mem_load(void)
-{
-    char *rom_name = NULL;
-
-    if (c128_mem_log == LOG_ERR)
-        c128_mem_log = log_open("C128MEM");
-
-    mem_powerup();
-
-    mem_page_zero = mem_ram;
-    mem_page_one = mem_ram + 0x100;
-
-    mem_initialize_memory();
-
-    rom_loaded = 1;
-
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_chargen(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Kernal64Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal64(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Basic64Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic64(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Chargen64Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_chargen64(rom_name) < 0)
-        return -1;
-
-    return 0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank.  Call this routine only when the vbank
@@ -2366,7 +2153,7 @@ void mem_toggle_watchpoints(int flag)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
-    pla_config_changed();
+    mem_pla_config_changed();
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
@@ -2573,13 +2360,13 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return bios_read(addr);
         }
         if (addr >= 0x4000 && addr <= 0xcfff) {
-            return basic_rom[addr - 0x4000];
+            return mem_basic_rom[addr - 0x4000];
         }
         if (addr >= 0xd000 && addr <= 0xdfff) {
-            return chargen_rom[addr & 0x0fff];
+            return mem_chargen_rom[addr & 0x0fff];
         }
         if (addr >= 0xe000 && addr <= 0xffff) {
-            return kernal_rom[addr & 0x1fff];
+            return mem_kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
         break;

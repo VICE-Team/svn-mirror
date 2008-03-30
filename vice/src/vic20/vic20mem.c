@@ -35,15 +35,14 @@
 #include <string.h>
 
 #include "cartridge.h"
-#include "cmdline.h"
 #include "emuid.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "mon.h"
 #include "resources.h"
-#include "sysfile.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
@@ -53,9 +52,6 @@
 #include "vic20mem.h"
 #include "vic20via.h"
 
-#define IS_NULL(s)  (s == NULL || *s == '\0')
-
-/* ------------------------------------------------------------------------- */
 
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
@@ -79,17 +75,14 @@ unsigned int mem_old_reg_pc;
 
 /* The VIC20 memory. */
 BYTE mem_ram[VIC20_RAM_SIZE];
-int ram_size = VIC20_RAM_SIZE;
-BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
-#define kernal_rom (rom + VIC20_BASIC_ROM_SIZE)
-#define basic_rom (rom)
+BYTE mem_rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 
-BYTE cartrom[0x10000];
+BYTE mem_cartrom[0x10000];
 
 /* The second 0x400 handles a possible segfault by a wraparound of the
    chargen by setting it to $8c00.  FIXME: This does not cause the exact
    behavior to be emulated though!  */
-BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
+BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 
 /* Memory read and write tables.  */
 read_func_ptr_t _mem_read_tab[0x101];
@@ -108,32 +101,29 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
-/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int vicrom_loaded = 0;
-
 /* ------------------------------------------------------------------------- */
 
 static void REGPARM2 store_wrap(ADDRESS addr, BYTE value)
 {
     mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value;
-    chargen_rom[addr & 0x3ff] = value;
+    mem_chargen_rom[addr & 0x3ff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
 
 BYTE REGPARM1 basic_read(ADDRESS addr)
 {
-    return basic_rom[addr & 0x1fff];
+    return mem_basic_rom[addr & 0x1fff];
 }
 
 BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
-    return kernal_rom[addr & 0x1fff];
+    return mem_kernal_rom[addr & 0x1fff];
 }
 
 BYTE REGPARM1 chargen_read(ADDRESS addr)
 {
-    return chargen_rom[0x400 + (addr & 0xfff)];
+    return mem_chargen_rom[0x400 + (addr & 0xfff)];
 }
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
@@ -158,7 +148,7 @@ static void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 
 static BYTE REGPARM1 read_cartrom(ADDRESS addr)
 {
-    return cartrom[addr & 0xffff];
+    return mem_cartrom[addr & 0xffff];
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
@@ -181,15 +171,15 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x8000:
-        chargen_rom[0x400 + (addr & 0x0fff)] = value;
+        mem_chargen_rom[0x400 + (addr & 0x0fff)] = value;
         break;
       case 0xc000:
       case 0xd000:
-        basic_rom[addr & 0x1fff] = value;
+        mem_basic_rom[addr & 0x1fff] = value;
         break;
       case 0xe000:
       case 0xf000:
-        kernal_rom[addr & 0x1fff] = value;
+        mem_kernal_rom[addr & 0x1fff] = value;
         break;
     }
 }
@@ -350,7 +340,7 @@ int vic20_mem_enable_rom_block(int num)
     if (num == 1 || num == 2 || num == 3 || num == 5) {
         set_mem(num * 0x20, num * 0x20 + 0x1f,
                 read_cartrom, store_dummy,
-                cartrom, 0xffff);
+                mem_cartrom, 0xffff);
         return 0;
     } else
         return -1;
@@ -454,7 +444,7 @@ void mem_initialize_memory(void)
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
             chargen_read, store_dummy,
-            chargen_rom + 0x400, 0x0fff);
+            mem_chargen_rom + 0x400, 0x0fff);
 
     /* Setup VIC-I at $9000-$90FF. */
     set_mem(0x90, 0x90,
@@ -487,12 +477,12 @@ void mem_initialize_memory(void)
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
             basic_read, store_dummy,
-            basic_rom, 0x1fff);
+            mem_basic_rom, 0x1fff);
 
     /* Setup Kernal ROM at $E000-$FFFF. */
     set_mem(0xe0, 0xff,
             kernal_read, store_dummy,
-            kernal_rom, 0x1fff);
+            mem_kernal_rom, 0x1fff);
 
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
@@ -534,136 +524,6 @@ void mem_powerup(void)
     }
 }
 
-int mem_kernal_checksum(void)
-{
-    int i;
-    WORD sum;
-
-    /* Check Kernal ROM.  */
-    for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++)
-        sum += kernal_rom[i];
-
-    if (sum != VIC20_KERNAL_CHECKSUM) {
-        log_error(vic20_mem_log,
-                  "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
-                  sum, sum);
-    }
-    return 0;
-}
-
-int mem_load_kernal(const char *rom_name)
-{
-    int trapfl;
-
-    if (!vicrom_loaded)
-        return 0;
-
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-
-    if (!IS_NULL(rom_name)) {
-        /* Load Kernal ROM. */
-        if (sysfile_load(rom_name,
-            kernal_rom, VIC20_KERNAL_ROM_SIZE,
-            VIC20_KERNAL_ROM_SIZE) < 0) {
-            log_error(vic20_mem_log, "Couldn't load kernal ROM.");
-            resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-            return -1;
-        }
-    }
-
-    mem_kernal_checksum();
-
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
-
-    return 0;
-}
-
-int mem_basic_checksum(void)
-{
-    int i;
-    WORD sum;
-
-    /* Check Basic ROM. */
-    for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++)
-        sum += basic_rom[i];
-
-    if (sum != VIC20_BASIC_CHECKSUM)
-        log_error(vic20_mem_log,
-                  "Warning: Unknown Basic image.  Sum: %d ($%04X).",
-                  sum, sum);
-    return 0;
-}
-
-int mem_load_basic(const char *rom_name)
-{
-    if (!vicrom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load Basic ROM. */
-        if (sysfile_load(rom_name,
-            basic_rom, VIC20_BASIC_ROM_SIZE,
-            VIC20_BASIC_ROM_SIZE) < 0) {
-            log_error(vic20_mem_log, "Couldn't load basic ROM.");
-            return -1;
-        }
-    }
-    return mem_basic_checksum();
-}
-
-int mem_load_chargen(const char *rom_name)
-{
-    if (!vicrom_loaded)
-        return 0;
-
-    if (!IS_NULL(rom_name)) {
-        /* Load chargen ROM. */
-        if (sysfile_load(rom_name,
-            chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
-            VIC20_CHARGEN_ROM_SIZE) < 0) {
-            log_error(vic20_mem_log, "Couldn't load character ROM.");
-            return -1;
-        }
-    }
-    return 0;
-}
-
-/* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'. */
-int mem_load(void)
-{
-    char *rom_name = NULL;
-
-    if (vic20_mem_log == LOG_ERR)
-        vic20_mem_log = log_open("VIC20MEM");
-
-    mem_powerup();
-
-    vicrom_loaded = 1;
-
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if( mem_load_chargen(rom_name) < 0)
-        return -1;
-
-    /* patch the kernal respecting the video mode */ 
-    mem_patch_kernal();
-
-    return 0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 void mem_attach_cartridge(int type, BYTE * rawcart)
@@ -671,20 +531,20 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
     switch(type) {
       case CARTRIDGE_VIC20_4KB_2000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $2000.");
-        memcpy(cartrom + 0x2000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A;
         resources_set_value("RAMBlock1", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_8KB_2000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $2000.");
-        memcpy(cartrom + 0x2000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
         resources_set_value("RAMBlock1", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_16KB_2000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $2000.");
-        memcpy(cartrom + 0x2000, rawcart, 0x2000);
-        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        memcpy(mem_cartrom + 0x2000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
         resources_set_value("RAMBlock1", (resource_value_t)0);
@@ -693,20 +553,20 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 
       case CARTRIDGE_VIC20_4KB_4000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $4000.");
-        memcpy(cartrom + 0x4000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x4000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A;
         resources_set_value("RAMBlock2", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_8KB_4000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $4000.");
-        memcpy(cartrom + 0x4000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x4000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B;
         resources_set_value("RAMBlock2", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_16KB_4000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $4000.");
-        memcpy(cartrom + 0x4000, rawcart, 0x2000);
-        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        memcpy(mem_cartrom + 0x4000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK2A | VIC_ROM_BLK2B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
         resources_set_value("RAMBlock2", (resource_value_t)0);
@@ -715,20 +575,20 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 
       case CARTRIDGE_VIC20_4KB_6000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $6000.");
-        memcpy(cartrom + 0x6000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
         resources_set_value("RAMBlock3", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_8KB_6000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $6000.");
-        memcpy(cartrom + 0x6000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
         resources_set_value("RAMBlock3", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_16KB_6000:
         log_message(vic20_mem_log, "CART: attaching 16KB cartridge at $6000.");
-        memcpy(cartrom + 0x6000, rawcart, 0x2000);
-        memcpy(cartrom + 0xA000, rawcart + 0x2000, 0x2000);
+        memcpy(mem_cartrom + 0x6000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0xA000, rawcart + 0x2000, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B
                         | VIC_ROM_BLK5A | VIC_ROM_BLK5B;
         resources_set_value("RAMBlock3", (resource_value_t)0);
@@ -737,20 +597,20 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 
       case CARTRIDGE_VIC20_4KB_A000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $A000.");
-        memcpy(cartrom + 0xa000, rawcart, 0x1000);
+        memcpy(mem_cartrom + 0xa000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
         resources_set_value("RAMBlock5", (resource_value_t)0);
         break;
       case CARTRIDGE_VIC20_8KB_A000:
         log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $A000.");
-        memcpy(cartrom + 0xA000, rawcart, 0x2000);
+        memcpy(mem_cartrom + 0xA000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
         resources_set_value("RAMBlock5", (resource_value_t)0);
         break;
 
       case CARTRIDGE_VIC20_4KB_B000:
         log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $B000.");
-        memcpy(cartrom + 0xB000, rawcart, 0x1000);
+        memcpy(mem_cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
         resources_set_value("RAMBlock5", (resource_value_t)0);
         break;

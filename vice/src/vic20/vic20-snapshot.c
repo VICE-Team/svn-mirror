@@ -32,15 +32,17 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <memory.h>
 
 #include "log.h"
+#include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
 #include "vic20-resources.h"
 #include "vic20mem.h"
-#include <string.h>
+#include "vic20rom.h"
 
 
 static log_t vic20_snapshot_log = LOG_ERR;
@@ -136,7 +138,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte_array(m, mem_ram, 0x0400);
     snapshot_module_read_byte_array(m, mem_ram + 0x1000, 0x1000);
     /* setup wraparound copy of chargen */
-    memcpy(chargen_rom, mem_ram + 0x1c00, 0x400);
+    memcpy(mem_chargen_rom, mem_ram + 0x1c00, 0x400);
 
     snapshot_module_read_byte_array(m, mem_ram + 0x9400, 0x0800);
 
@@ -223,35 +225,35 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     snapshot_module_write_byte(m, config);
 
     /* save kernal */
-    snapshot_module_write_byte_array(m, rom + 0x2000, 0x2000);
+    snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x2000);
     /* save basic */
-    snapshot_module_write_byte_array(m, rom + 0x0000, 0x2000);
+    snapshot_module_write_byte_array(m, mem_rom + 0x0000, 0x2000);
 
-    snapshot_module_write_byte_array(m, chargen_rom + 0x400, 0x1000);
+    snapshot_module_write_byte_array(m, mem_chargen_rom + 0x400, 0x1000);
 
     if (config & 1) {
-        snapshot_module_write_byte_array(m, cartrom + 0x2000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x2000, 0x1000);
     }
     if (config & 2) {
-        snapshot_module_write_byte_array(m, cartrom + 0x3000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x3000, 0x1000);
     }
     if (config & 16) {
-        snapshot_module_write_byte_array(m, cartrom + 0x6000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x6000, 0x1000);
     }
     if (config & 32) {
-        snapshot_module_write_byte_array(m, cartrom + 0x7000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x7000, 0x1000);
     }
     if (config & 64) {
-        snapshot_module_write_byte_array(m, cartrom + 0xA000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0xA000, 0x1000);
     }
     if (config & 128) {
-        snapshot_module_write_byte_array(m, cartrom + 0xB000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0xB000, 0x1000);
     }
     if (config & 4) {
-        snapshot_module_write_byte_array(m, cartrom + 0x4000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x4000, 0x1000);
     }
     if (config & 8) {
-        snapshot_module_write_byte_array(m, cartrom + 0x5000, 0x1000);
+        snapshot_module_write_byte_array(m, mem_cartrom + 0x5000, 0x1000);
     }
 
     /* enable traps again when necessary */
@@ -285,49 +287,49 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &config);
 
     /* read kernal */
-    snapshot_module_read_byte_array(m, rom + 0x2000, 0x2000);
+    snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x2000);
     /* read basic */
-    snapshot_module_read_byte_array(m, rom + 0x0000, 0x2000);
+    snapshot_module_read_byte_array(m, mem_rom + 0x0000, 0x2000);
 
-    snapshot_module_read_byte_array(m, chargen_rom + 0x400, 0x1000);
+    snapshot_module_read_byte_array(m, mem_chargen_rom + 0x400, 0x1000);
 
     mem_rom_blocks = 0;
 
     if (config & 1) {
-        snapshot_module_read_byte_array(m, cartrom + 0x2000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x2000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1A;
     }
     if (config & 2) {
-        snapshot_module_read_byte_array(m, cartrom + 0x3000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x3000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1B;
     }
     if (config & 16) {
-        snapshot_module_read_byte_array(m, cartrom + 0x6000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x6000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
     }
     if (config & 32) {
-        snapshot_module_read_byte_array(m, cartrom + 0x7000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x7000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3B;
     }
     if (config & 64) {
-        snapshot_module_read_byte_array(m, cartrom + 0xA000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0xA000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
     }
     if (config & 128) {
-        snapshot_module_read_byte_array(m, cartrom + 0xB000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0xB000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
     }
     if (config & 4) {
-        snapshot_module_read_byte_array(m, cartrom + 0x4000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x4000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK2A;
     }
     if (config & 8) {
-        snapshot_module_read_byte_array(m, cartrom + 0x5000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_cartrom + 0x5000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK2B;
     }
 
-    mem_kernal_checksum();
-    mem_basic_checksum();
+    vic20rom_kernal_checksum();
+    vic20rom_basic_checksum();
 
     log_warning(vic20_snapshot_log,
                 "Dumped Romset files and saved settings will "

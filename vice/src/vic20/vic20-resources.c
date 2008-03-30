@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "vic20mem.h"
+#include "vic20rom.h"
 
 
 /* What sync factor between the CPU and the drive?  If equal to
@@ -78,7 +79,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
     if (util_string_set(&chargen_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_chargen(chargen_rom_name);
+    return vic20rom_load_chargen(chargen_rom_name);
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
@@ -86,7 +87,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
     if (util_string_set(&kernal_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_kernal(kernal_rom_name);
+    return vic20rom_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
@@ -94,7 +95,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     if (util_string_set(&basic_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_basic(basic_rom_name);
+    return vic20rom_load_basic(basic_rom_name);
 }
 
 /* Ugly hack...  */
