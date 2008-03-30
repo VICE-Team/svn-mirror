@@ -126,9 +126,9 @@ int vic_ii_snapshot_write_module(snapshot_t *s)
         || snapshot_module_write_dword(m,
             (DWORD)(vic_ii.ram_base_phi1 - ram)) < 0
         /* RasterCycle */
-        || snapshot_module_write_byte(m, (BYTE)VIC_II_RASTER_CYCLE (clk)) < 0
+        || snapshot_module_write_byte(m, (BYTE)(VIC_II_RASTER_CYCLE(clk))) < 0
         /* RasterLine */
-        || snapshot_module_write_word(m, (WORD)(VIC_II_RASTER_Y (clk))) < 0
+        || snapshot_module_write_word(m, (WORD)(VIC_II_RASTER_Y(clk))) < 0
         )
         goto fail;
 

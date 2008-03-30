@@ -83,8 +83,7 @@ static unsigned int resources_calc_hash_key(const char *name)
     unsigned int key, i, shift;
 
     key = 0; shift = 0;
-    for (i=0; name[i] != '\0'; i++)
-    {
+    for (i = 0; name[i] != '\0'; i++) {
         /* resources are case-insensitive */
         unsigned int sym = (unsigned int)tolower(name[i]);
 
@@ -98,7 +97,7 @@ static unsigned int resources_calc_hash_key(const char *name)
         }
         shift++;
     }
-    return (key & ((1<<logHashSize)-1));
+    return (key & ((1 << logHashSize) - 1));
 }
 
 
@@ -107,11 +106,10 @@ static void resources_add_callback(resource_callback_desc_t **where,
                                    resource_callback_func_t *callback,
                                    void *param)
 {
-    if (callback != NULL)
-    {
+    if (callback != NULL) {
         resource_callback_desc_t *cbd;
 
-        cbd = (resource_callback_desc_t*)xmalloc(sizeof(resource_callback_desc_t));
+        cbd = (resource_callback_desc_t *)xmalloc(sizeof(resource_callback_desc_t));
         cbd->func = callback;
         cbd->param = param;
         cbd->next = *where;
@@ -126,8 +124,7 @@ static void resources_exec_callback_chain(const resource_callback_desc_t *callba
 {
     const resource_callback_desc_t *cbd = callbacks;
 
-    while (cbd != NULL)
-    {
+    while (cbd != NULL) {
         (*cbd->func)(name, cbd->param);
         cbd = cbd->next;
     }
@@ -151,16 +148,13 @@ static void resources_check_hash_table(FILE *f)
 {
     int i, entries;
 
-    for (i=0, entries=0; i<(1<<logHashSize); i++)
-    {
-        if (hashTable[i] >= 0)
-        {
+    for (i = 0, entries = 0; i < (1 << logHashSize); i++) {
+        if (hashTable[i] >= 0) {
             int next;
 
             fprintf(f, "%d: %s", i, resources[hashTable[i]].name);
             next = resources[hashTable[i]].hash_next;
-            while (next >= 0)
-            {
+            while (next >= 0) {
                 fprintf(f, " -> %s", resources[next].name);
                 next = resources[next].hash_next;
             }
@@ -224,8 +218,7 @@ static resource_t *lookup(const char *name)
 
     hashkey = resources_calc_hash_key(name);
     res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
-    while (res != NULL)
-    {
+    while (res != NULL) {
         if (strcasecmp(res->name, name) == 0)
             return res;
         res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;
@@ -247,8 +240,7 @@ int resources_write_item_to_file(FILE *fp, const char *name)
 {
     resource_t *res = lookup(name);
 
-    if (res != NULL)
-    {
+    if (res != NULL) {
         write_resource_item(fp, res - resources);
         return 0;
     }
@@ -269,11 +261,11 @@ int resources_init(const char *machine)
     resources = (resource_t *)xmalloc(num_allocated_resources
                                       * sizeof(resource_t));
 
-    /* hash table maps hash keys to index in resources array rather than pointers
-       into the array because the array may be reallocated. */
-    hashTable = (int*)xmalloc((1<<logHashSize)*sizeof(int));
+    /* hash table maps hash keys to index in resources array rather than
+       pointers into the array because the array may be reallocated. */
+    hashTable = (int *)xmalloc((1 << logHashSize) * sizeof(int));
 
-    for (i=0; i<(1<<logHashSize); i++)
+    for (i = 0; i < (1 << logHashSize); i++)
         hashTable[i] = -1;
 
     return 0;
@@ -416,9 +408,9 @@ void resources_set_defaults(void)
 {
     int i;
 
-    for (i = 0; i < num_resources; i++)
-    {
-        (*resources[i].set_func)(resources[i].factory_value, resources[i].param);
+    for (i = 0; i < num_resources; i++) {
+        (*resources[i].set_func)(resources[i].factory_value,
+                                 resources[i].param);
         resources_issue_callback(resources + i, 0);
     }
 
@@ -731,24 +723,22 @@ int resources_save(const char *fname)
 }
 
 
-
-int resources_register_callback(const char *name, resource_callback_func_t *callback,
+int resources_register_callback(const char *name,
+                                resource_callback_func_t *callback,
                                 void *callback_param)
 {
-    if (name == NULL)
-    {
-        resources_add_callback(&resource_modified_callback, callback, callback_param);
+    if (name == NULL) {
+        resources_add_callback(&resource_modified_callback, callback,
+                               callback_param);
         return 0;
-    }
-    else
-    {
+    } else {
         resource_t *res = lookup(name);
 
-        if (res != NULL)
-        {
+        if (res != NULL) {
             resources_add_callback(&(res->callback), callback, callback_param);
             return 0;
         }
     }
     return -1;
 }
+

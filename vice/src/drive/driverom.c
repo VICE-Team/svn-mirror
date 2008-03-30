@@ -69,7 +69,7 @@ static log_t driverom_log;
 /* If nonzero, we are far enough in init that we can load ROMs.  */
 static int drive_rom_load_ok = 0;
 
-static void drive_new_rom_image_loaded(int dtype)
+static void drive_new_rom_image_loaded(unsigned int dtype)
 {
     if (drive[0].type == dtype)
         drive_rom_setup_image(0);

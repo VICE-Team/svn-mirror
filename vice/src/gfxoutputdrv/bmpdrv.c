@@ -190,7 +190,7 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 
 int bmpdrv_write(screenshot_t *screenshot)
 {
-    int row;
+    unsigned int row;
     gfxoutputdrv_data_t *sdata;
 
     sdata = screenshot->gfxoutputdrv_data;
