@@ -60,6 +60,7 @@ libarch_a_SOURCES = \
 	respet.rc \
 	resplus4.rc \
 	resreu.rc \
+	resrs232user.rc \
 	ressid.rc \
 	restfe.rc \
 	resvic20.rc \
@@ -121,6 +122,8 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uirom.c \
 	uirom.h \
+	uirs232user.c \
+	uirs232user.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.h \
@@ -211,10 +214,10 @@ EXTRA_DIST = \
         montb.bmp \
         c64.ico 
 
-resc128.o : resc128.rc res.rc res.h resacia.rc ressid.rc resvicii.rc resreu.rc reside64.rc
+resc128.o : resc128.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h resacia.rc ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
+resc64.o : resc64.rc res.rc res.h resacia.rc resrs232user.rc ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 rescbm2.o : rescbm2.rc res.rc res.h resacia.rc ressid.rc resdrivepetcbm2.rc
@@ -226,6 +229,6 @@ respet.o : respet.rc res.rc res.h resacia.rc resdrivepetcbm2.rc
 resplus4.o : resplus4.rc res.rc res.h resacia.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resvic20.o : resvic20.rc res.rc res.h resdrivec64vic20.rc
+resvic20.o : resvic20.rc res.rc res.h resrs232user.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32

@@ -39,6 +39,7 @@
 #include "uidrivec64vic20.h"
 #include "uilib.h"
 #include "uirom.h"
+#include "uirs232user.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
@@ -170,6 +171,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivec64vic20_settings_dialog(hwnd);
+        break;
+      case IDM_RS232USER_SETTINGS:
+        ui_rs232user_settings_dialog(hwnd);
         break;
     }
 }
