@@ -1,8 +1,8 @@
 /*
- * joystick.c - Joystick support for MS-DOS.
+ * joystick.c - Joystick support for Vice/2.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Thomas Bretz     (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,19 @@
  *
  */
 
+#define INCL_DOSFILEMGR         // include needed for DosOpen call
+#define INCL_DOSDEVICES         // include needed for DosDevIOCtl call
+#define INCL_DOSDEVIOCTL        // include needed for DosDevIOCtl call
 #include "vice.h"
 
-#include <os2.h>  // Why do I need this?
-
-#include "joystick.h"
+//#include <os2.h>  // Why do I need this?
 
 #include "cmdline.h"
+#include "joystick.h"
+
 #include "resources.h"
-#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
-                                 here...  */
+//#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
+//                                 here...  */
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
@@ -45,7 +48,7 @@ static joystick_device_t joystick_device_1, joystick_device_2;
 
 static int set_joystick_device_1(resource_value_t v)
 {
-    joystick_device_t dev = (joystick_device_t) v;
+    joystick_device_t dev = (joystick_device_t)(int) v;
 
     joystick_device_1 = dev;
     return 0;
@@ -53,7 +56,7 @@ static int set_joystick_device_1(resource_value_t v)
 
 static int set_joystick_device_2(resource_value_t v)
 {
-    joystick_device_t dev = (joystick_device_t) v;
+    joystick_device_t dev = (joystick_device_t)(int) v;
 
     joystick_device_2 = dev;
     return 0;
@@ -159,7 +162,7 @@ int joystick_init_cmdline_options(void)
 int number_joysticks = 0;
 
 /* Flag: have we initialized the Allegro joystick driver?  */
-static int joystick_init_done = 0;
+//static int joystick_init_done = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -191,15 +194,11 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
             return 0;
 
         if (pressed) {
-            if (joystick_device_1 == device)
-                joystick_value[1] |= value;
-            if (joystick_device_2 == device)
-                joystick_value[2] |= value;
+            if (joystick_device_1 == device) joystick_value[1] |= value;
+            if (joystick_device_2 == device) joystick_value[2] |= value;
         } else {
-            if (joystick_device_1 == device)
-                joystick_value[1] &= ~value;
-            if (joystick_device_2 == device)
-                joystick_value[2] &= ~value;
+            if (joystick_device_1 == device) joystick_value[1] &= ~value;
+            if (joystick_device_2 == device) joystick_value[2] &= ~value;
         }
         return 1;
     }
@@ -209,29 +208,87 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
 /* ------------------------------------------------------------------------- */
 
+void joylog (char *c, int i)
+{
+    FILE *fl=fopen("output","a");
+    fprintf(fl,"%s %i\n",c,i);
+    fclose(fl);
+}
+
+static HFILE SWhGame = NULL;
+
 /* Initialize joystick support.  */
 void joystick_init(void)
 {
-    if (joystick_init_done) return;
+    ULONG action;    // return value from DosOpen
+    APIRET rc;
 
-    printf("Checking for joysticks...");
-    printf(" Not yet implemented.\r\n");
+    if (SWhGame) return;
 
-    number_joysticks = 0;
-    joystick_init_done = 1;
+    if (!(rc=DosOpen("GAME$", &SWhGame, &action, 0, FILE_READONLY, FILE_OPEN,
+                 OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL)))
+        number_joysticks = 1;  // how to get number of joysticks?
+    else
+        number_joysticks = 0;
+
+    joylog("DosOpen:",rc);
 }
 
 /* Update the `joystick_value' variables according to the joystick status.  */
 void joystick_update(void)
 {
-    if (number_joysticks == 0) return;
-    return;
+    static GAME_STATUS_STRUCT gameStatus;      // joystick readings
+    static ULONG dataLen = sizeof(gameStatus); // length of gameStatus
+
+    static int joyA_up    = 200; // value < 200
+    static int joyA_down  = 600; // value > 600
+    static int joyA_left  = 200; // value < 200
+    static int joyA_right = 600; // value > 600
+    static int joyB_up    = 200;
+    static int joyB_down  = 600;
+    static int joyB_left  = 600;
+    static int joyB_right = 200;
+
+    if (!number_joysticks) return;
+    // if (SWhGame == 0) return FALSE; // exit if game port is not opened
+
+    if (DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_STATUS, NULL, 0, NULL, &gameStatus, dataLen, &dataLen))
+        return;      // exit if reading failed;
+
+    if (joystick_device_1 == JOYDEV_HW1 ||
+        joystick_device_2 == JOYDEV_HW1)
+    {
+        int value = 0;
+        if (gameStatus.curdata.A.y < joyA_up)    value |= 1;
+        if (gameStatus.curdata.A.y > joyA_down)  value |= 2;
+        if (gameStatus.curdata.A.x < joyA_left)  value |= 4;
+        if (gameStatus.curdata.A.x > joyA_right) value |= 8;
+        if (~gameStatus.curdata.butMask & (JOYA_BUT1 | JOYA_BUT2)) value |= 16;
+        if (joystick_device_1 == JOYDEV_HW1) joystick_value[1] = value;
+        if (joystick_device_2 == JOYDEV_HW1) joystick_value[2] = value;
+    }
+
+    if (number_joysticks >= 2 &&
+        (joystick_device_1 == JOYDEV_HW2 ||
+         joystick_device_2 == JOYDEV_HW2)
+       )
+    {
+        int value = 0;
+        if (gameStatus.curdata.B.y < joyB_up)    value |= 1;
+        if (gameStatus.curdata.B.y > joyB_down)  value |= 2;
+        if (gameStatus.curdata.B.x < joyB_left)  value |= 4;
+        if (gameStatus.curdata.B.x > joyB_right) value |= 8;
+        if (~gameStatus.curdata.butMask & (JOYB_BUT1 | JOYB_BUT2)) value |= 16;
+        if (joystick_device_1 == JOYDEV_HW2) joystick_value[1] = value;
+        if (joystick_device_2 == JOYDEV_HW2) joystick_value[2] = value;
+    }
 }
 
 void joystick_close(void)
 {
-   /* Nothing to do on MSDOS.  */
-   return;
+    APIRET rc = \
+        /* return */ DosClose(SWhGame);
+    joylog("DosClose:",rc);
 }
 
 /* Handle keys to emulate the joystick.  Warning: this is called within the
@@ -277,6 +334,7 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
             break;
           default:
             /* (make compiler happy) */
+            break;
         }
 
         if (pressed) {

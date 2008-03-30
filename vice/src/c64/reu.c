@@ -87,7 +87,7 @@ int reset_reu(int size)
     reu[1] = 0x4A;
 
     if (reuram == NULL) {
-        reuram = xmalloc(ReuSize);
+        reuram = (char*)xmalloc(ReuSize);
         log_message(reu_log, "%dKB unit installed.", REUSIZE);
         if (reu_file_name != NULL) {
             if (load_file(reu_file_name, reuram, ReuSize) == 0) {
@@ -413,7 +413,7 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (size > REUSIZE) {
-        log_error(reu_log, "Size %d in snapshot not supported.", size);
+        log_error(reu_log, "Size %ld in snapshot not supported.", size);
         goto fail;
     }
 

@@ -28,7 +28,7 @@ typedef struct _canvas {
     RGB2 *palette;          // pointer to structure which stores paletteinfo
     BOOL  init_ready;       // dont't use exposure_handler to 'frueh'
     BOOL  pbmi_initialized; // don't use pbmi before initialized
-    PBITMAPINFO2 pbmi;      // information structure about bitmap format
+    PBITMAPINFO2 pbmi;       // information structure about bitmap format
     canvas_redraw_t exposure_handler;
 } *canvas_t;
 
@@ -53,5 +53,9 @@ extern int  canvas_set_palette(canvas_t c, const palette_t *p,
 
 extern void canvas_refresh(canvas_t c, frame_buffer_t f,
                            int xs, int ys, int xi, int yi, int w, int h);
+
+void wmCreate();
+void wmDestroy();
+
 
 #endif

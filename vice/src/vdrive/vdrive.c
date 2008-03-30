@@ -666,7 +666,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     char *name, *files, *p, c;
 
     /* Split command line */
-    if (!dest || !(files = memchr(dest, '=', length)) )
+    if (!dest || !(files = (char*)memchr(dest, '=', length)) )
         return (IPE_SYNTAX);
 
     *files++ = 0;
@@ -726,7 +726,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
     int	src_reallength, src_readmode = FAM_READ, src_filetype, src_rl;
     BYTE *slot;
 
-    if (!dest || !(src = memchr(dest, '=', length)) )
+    if (!dest || !(src = (char*)memchr(dest, '=', length)) )
         return (IPE_SYNTAX);
 
     *src++ = 0;

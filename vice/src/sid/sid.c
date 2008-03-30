@@ -528,7 +528,7 @@ char *sound_machine_dump_state(sound_t *psid)
     if (useresid)
 	return resid_sound_machine_dump_state(psid);
 #endif
-    sprintf(buf, "#SID: clk=%d v=%d s3=%d\n", clk, psid->vol, psid->has3);
+    sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n", clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
 	print_voice(buf + strlen(buf), &psid->v[i]);
     return stralloc(buf);
@@ -854,7 +854,12 @@ static void init_filter(sound_t *psid, int freq)
     {
         float h;
 
+// I have trouble using log, I must use the long double version
+#ifdef OS2
+        h = (((exp(rk/2048*logl(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
+#else
         h = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
+#endif
         if ( h < yMin )
             h = yMin;
         if ( h > yMax )

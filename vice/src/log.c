@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdarg.h>
+#include <string.h>
 
 #include "log.h"
 
@@ -121,10 +122,10 @@ int log_open(const char *id)
         if (num_logs > num_allocated_logs) {
             if (num_allocated_logs == 0) {
                 num_allocated_logs = 128;
-                logs = xmalloc(sizeof(*logs) * num_allocated_logs);
+                logs = (char**)xmalloc(sizeof(*logs) * num_allocated_logs);
             } else {
                 num_allocated_logs *= 2;
-                logs = xrealloc(logs, sizeof(*logs) * num_allocated_logs);
+                logs = (char**)xrealloc(logs, sizeof(*logs) * num_allocated_logs);
             }
         }
     }

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,14 +29,14 @@
 #define _KBD_H
 
 #include "vice.h"
-//<os2.h>
-//#include "types.h"
+
+#include "types.h"
 
 #define KBD_COLS        8
 #define KBD_ROWS        16
 
-extern int keyarr    [KBD_ROWS];
-extern int rev_keyarr[KBD_COLS];
+extern int  keyarr    [KBD_ROWS];
+extern int  rev_keyarr[KBD_COLS];
 extern BYTE joystick_value[3];
 
 /* Keymap definition structure.  */
@@ -78,10 +79,9 @@ extern int vic20_kbd_init(void);
 extern int pet_kbd_init(void);
 extern int c610_kbd_init(void);
 
-typedef void (*key_ctrl_column4080_func_t) (void);
-extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
-
 /* ----------------------- OS/2 specific stuff ----------------------- */
 void wmChar(HWND hwnd, MPARAM mp1);
+void switch_capslock_led_off();
+void ui_reset();
 
 #endif

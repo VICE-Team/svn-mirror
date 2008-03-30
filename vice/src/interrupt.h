@@ -98,13 +98,13 @@ enum {
 
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
-    IK_NONE = 0,
-    IK_NMI = 1 << 0,
-    IK_IRQ = 1 << 1,
-    IK_RESET = 1 << 2,
-    IK_TRAP = 1 << 3,
+    IK_NONE    = 0,
+    IK_NMI     = 1 << 0,
+    IK_IRQ     = 1 << 1,
+    IK_RESET   = 1 << 2,
+    IK_TRAP    = 1 << 3,
     IK_MONITOR = 1 << 4,
-    IK_DMA = 1 << 5
+    IK_DMA     = 1 << 5
 };
 
 /* We not care about wasted space here, and make fixed-length large enough

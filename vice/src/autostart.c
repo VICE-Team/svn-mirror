@@ -304,7 +304,7 @@ void autostart_advance(void)
                     traps = 1;
 
                 if (autostart_program_name) {
-                    tmp = xmalloc(strlen((char *)(autostart_program_name))
+                    tmp = (char*)xmalloc(strlen((char *)(autostart_program_name))
                                   + 20);
                     sprintf(tmp, "LOAD\"%s\",8,1\r",
                             autostart_program_name);
@@ -444,7 +444,7 @@ int autostart_prg(const char *file_name)
     char *directory;
     char *file;
 
-    f = fopen(file_name, "r");
+    f = fopen(file_name, "rb");
     if (f == NULL) {
         log_error(autostart_log, "Cannot open `%s': %s",
                   file_name, strerror(errno));

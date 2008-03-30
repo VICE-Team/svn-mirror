@@ -27,6 +27,7 @@
 #ifndef _ALARM_H
 #define _ALARM_H
 
+#include "vice.h"
 #include "types.h"
 #include "log.h"
 

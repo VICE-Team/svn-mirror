@@ -31,6 +31,8 @@ libarch_a_SOURCES = \
 	rs232.c \
 	types.h \
 	ui.h \
+        uicmdline.c \
+        uicmdline.h \
 	video.c \
 	video.h \
 	vsync.c \

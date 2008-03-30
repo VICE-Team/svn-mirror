@@ -395,8 +395,8 @@ int romset_create_item(const char *romset_name, const char **resource_list)
             }
             if ((len = strlen(buffer)) > 0)
             {
-              item = xmalloc(sizeof(string_link_t));
-              item->name = xmalloc(len+1); strcpy(item->name, buffer);
+              item = (string_link_t*)xmalloc(sizeof(string_link_t));
+              item->name = (char*)xmalloc(len+1); strcpy(item->name, buffer);
               item->next = NULL; last->next = item; last = item;
             }
         }

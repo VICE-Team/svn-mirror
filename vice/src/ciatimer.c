@@ -86,7 +86,7 @@ void ciat_log(const char *format,...) {
 
 void ciat_print_state(const ciat_t *state)
 {
-    printf("%s print: clk=%d, cnt=%04x (%d), latch=%04x (%d)\n",
+    printf("%s print: clk=%ld, cnt=%04x (%d), latch=%04x (%d)\n",
 	state->name, state->clk,
 	state->cnt, state->cnt,
 	state->latch, state->latch
@@ -107,7 +107,7 @@ void ciat_print_state(const ciat_t *state)
 	(state->state & CIAT_ONESHOT) 	? "oneshot " : "",
 	(state->state & CIAT_OUT) 	? "out " : ""
     );
-    printf("          alarm at %d\n", state->alarmclk);
+    printf("          alarm at %ld\n", state->alarmclk);
 }
 
 #endif

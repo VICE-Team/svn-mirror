@@ -107,6 +107,7 @@ extern int  sound_init_uss_device(void);
 extern int  sound_init_dx_device(void);
 extern int  sound_init_ce_device(void);
 extern int  sound_init_vidc_device(void);
+extern int  sound_init_mmos2_device(void);
 
 /* internal function for sound device registration */
 extern int  sound_register_device(sound_device_t *pdevice);

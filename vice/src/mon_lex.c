@@ -4,11 +4,16 @@
  * $Header: /home/daffy/u0/vern/flex/RCS/flex.skl,v 2.89 96/05/25 21:02:21 vern Exp $
  */
 
+#include "vice.h"
+
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
 
 #include <stdio.h>
+#ifdef __IBMC__
+#include <io.h>
+#endif
 
 
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */

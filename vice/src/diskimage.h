@@ -49,7 +49,7 @@
 #define DISK_IMAGE_TYPE_D80 8050
 #define DISK_IMAGE_TYPE_D82 8250
 
-typedef struct {
+typedef struct _disk_image_t {
     FILE *fd;
     char *name;
     int read_only;

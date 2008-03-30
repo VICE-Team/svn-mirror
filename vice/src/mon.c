@@ -49,6 +49,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef __IBMC__ // OS/2 Visual Age C
+#include <direct.h>
+#endif
+
 #include "archdep.h"
 #include "attach.h"
 #include "asm.h"
@@ -96,7 +100,7 @@ extern void add_history ( const char *str );
 #else
 char *readline(const char *prompt)
 {
-    char *p = xmalloc(1024);
+    char *p = (char*)xmalloc(1024);
 
     /* Yeah, this sucks, but you have readline anyway, don't you?  ;-) */
     fputs(prompt, mon_output);

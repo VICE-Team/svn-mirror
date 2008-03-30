@@ -26,6 +26,8 @@
  *
  */
 
+#include "drive.h"
+
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
 alarm_context_t mydrive_alarm_context;

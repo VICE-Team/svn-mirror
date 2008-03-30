@@ -46,6 +46,9 @@
 #ifdef __riscos
 #include "ROlib.h"
 #endif
+#ifdef __IBMC__
+#include <io.h>
+#endif
 #endif
 
 #include "attach.h"
@@ -183,7 +186,7 @@ static int set_drive0_type(resource_value_t v)
     if (DRIVE_IS_DUAL(type)) {
 	/* dual disk drives disable second emulated unit */
 
-        log_warning(drive[0].log, 
+        log_warning(drive[0].log,
 			"Dual disk drive disables second emulated drive");
 
 	set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
@@ -200,7 +203,7 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_8250:
         if (drive[0].type != type) {
 	    drive[0].current_half_track = 2 * 18;
-	    if ((type == DRIVE_TYPE_1001) 
+	    if ((type == DRIVE_TYPE_1001)
 		|| (type == DRIVE_TYPE_8050)
 		|| (type == DRIVE_TYPE_8250)) {
 	        drive[0].current_half_track = 2 * 38;
@@ -241,10 +244,10 @@ static int set_drive1_type(resource_value_t v)
 	    type = DRIVE_TYPE_NONE;
     }
 
-    if (drive[0].enable && DRIVE_IS_DUAL(drive[0].type)) { 
+    if (drive[0].enable && DRIVE_IS_DUAL(drive[0].type)) {
 	/* dual disk drives disable second emulated unit */
 
-        log_warning(drive[1].log, 
+        log_warning(drive[1].log,
 			"Dual disk drive disables second emulated drive");
 
 	type = DRIVE_TYPE_NONE;
@@ -261,7 +264,7 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_8250:
         if (drive[1].type != type) {
 	    drive[1].current_half_track = 2 * 18;
-	    if ((type == DRIVE_TYPE_1001) 
+	    if ((type == DRIVE_TYPE_1001)
 		|| (type == DRIVE_TYPE_8050)
 		|| (type == DRIVE_TYPE_8250)) {
 	        drive[1].current_half_track = 2 * 38;
@@ -791,7 +794,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
     if (drive_load_rom_images() < 0) {
         set_drive0_type((resource_value_t) DRIVE_TYPE_NONE);
-        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);        
+        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
         return -1;
     }
 
@@ -1248,7 +1251,7 @@ static int drive_enable(int dnr)
     drive_set_active_led_color(drive[dnr].type, dnr);
     ui_enable_drive_status(
 	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-            | ((drive[1].enable 
+            | ((drive[1].enable
 		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
 	      ) ? UI_DRIVE_ENABLE_1 : 0),
           drive_led_color);
@@ -1299,7 +1302,7 @@ static void drive_disable(int dnr)
 
     ui_enable_drive_status(
 	  (drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-            | ((drive[1].enable 
+            | ((drive[1].enable
 		|| (drive[0].enable && DRIVE_IS_DUAL(drive[0].type))
 	      ) ? UI_DRIVE_ENABLE_1 : 0),
           drive_led_color);
@@ -1876,7 +1879,7 @@ static void drive_extend_disk_image(int dnr)
     drive[dnr].image->tracks = EXT_TRACKS_1541;
     memset(buffer, 0, 256);
     for (track = NUM_TRACKS_1541 + 1; track <= EXT_TRACKS_1541; track++) {
-        for (sector = 0; 
+        for (sector = 0;
              sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
              sector++) {
              rc = disk_image_write_sector(drive[dnr].image, buffer, track,
@@ -1994,7 +1997,7 @@ void drive_update_ui_status(void)
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < 2; i++) {
-        if (drive[i].enable 
+        if (drive[i].enable
 	    || ((i==1) && drive[0].enable && DRIVE_IS_DUAL(drive[0].type))) {
             int my_led_status = 0;
 
@@ -2016,10 +2019,10 @@ void drive_update_ui_status(void)
                 ui_display_drive_track_int(i, drive[i].current_half_track);
 #else
                 ui_display_drive_track(i,
-		    (i<2 
-			&& drive[0].enable 
-			&& DRIVE_IS_DUAL(drive[0].type)) 
-			? 0 : 8,
+		    (i<2
+			  && drive[0].enable
+			  && DRIVE_IS_DUAL(drive[0].type))
+			 ? 0 : 8,
                     ((float) drive[i].current_half_track / 2.0));
 #endif
             }
@@ -2683,7 +2686,7 @@ static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
        return -1;
 
-    tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
 
     for (i = 0; i < MAX_TRACKS_1571; i++) {
         tmpbuf[i * 4] = drive[dnr].gcr->track_size[i] & 0xff;
@@ -2733,7 +2736,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
                   GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
     }
 
-    tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
+    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
 
     if (0
         || snapshot_module_read_byte_array(m, drive[dnr].gcr->data,

@@ -6,9 +6,12 @@
 #define INCL_WINRECTANGLES
 #define INCL_WINWINDOWMGR
 
-#include <os2.h>
+// VAC++ incls
+#define INCL_GPIPRIMITIVES
 
-void drawBar(HPS hps, RECTL rectl, float val, float max, char *txt,
-             int cut);
+#include <os2.h>
+#include <string.h>
+
+void drawBar(HPS hps, RECTL rectl, float val, float cut, char *txt);
 
 #endif

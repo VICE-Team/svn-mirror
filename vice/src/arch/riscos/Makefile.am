@@ -36,6 +36,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
+        uicmdline.c \
+        uicmdline.h \
 	uidummy.c \
 	uiimage.c \
 	uiimage.h \

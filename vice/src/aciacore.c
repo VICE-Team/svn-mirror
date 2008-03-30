@@ -118,7 +118,7 @@ static int acia_set_irq(resource_value_t v) {
     new_irq = irq_tab[new_irq_res];
 
     if (acia_irq != new_irq) {
-	mycpu_set_int(I_MYACIA, 0);
+	mycpu_set_int(I_MYACIA, IK_NONE);
 	if (irq) {
 	    mycpu_set_int(I_MYACIA, new_irq);
 	}
@@ -235,13 +235,13 @@ int myacia_write_snapshot_module(snapshot_t * p)
     snapshot_module_t *m;
 
     m = snapshot_module_create(p, module_name,
-                               ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
+                               (BYTE)ACIA_DUMP_VER_MAJOR, (BYTE)ACIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
     snapshot_module_write_byte(m, txdata);
     snapshot_module_write_byte(m, rxdata);
-    snapshot_module_write_byte(m, status | (irq?0x80:0));
+    snapshot_module_write_byte(m, (BYTE)(status | (irq?0x80:0)));
     snapshot_module_write_byte(m, cmd);
     snapshot_module_write_byte(m, ctrl);
     snapshot_module_write_byte(m, intx);

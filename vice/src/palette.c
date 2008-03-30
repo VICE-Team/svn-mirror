@@ -41,7 +41,7 @@
 
 palette_t *palette_create(int num_entries, const char *entry_names[])
 {
-    palette_t *p = xmalloc(sizeof(palette_t));
+    palette_t *p = (palette_t*)xmalloc(sizeof(palette_t));
     int i;
 
     p->num_entries = num_entries;

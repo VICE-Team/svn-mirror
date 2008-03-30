@@ -40,15 +40,12 @@
 #include "machine.h"       // machine_powerup
 #include "cmdline.h"
 #include "resources.h"
+#include "interrupt.h"     // maincpu_trigger_reset
 #include "joystick.h"
 
 int  keyarr        [KBD_ROWS];
 int  rev_keyarr    [KBD_COLS];
 BYTE joystick_value[3];
-
-/* 40/80 column key.  */
-static int key_ctrl_column4080 = 0 /* NoSymbol */ ;
-static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 /* ------------------------------------------------------------------------ */
 
@@ -150,10 +147,8 @@ void klog(char *s, int i) {
     fclose(fl);
 }
 
-//extern int warp_mode_enabled;
-
 /* This is not a beautiful way, but the one I know :-) */
-void switch_capslock_led_off()
+void switch_capslock_led_off(void)
 {
     BYTE keyState[256];
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
@@ -163,7 +158,7 @@ void switch_capslock_led_off()
 
 void ui_attach_disk(int number)
 {
-    char result[256];
+    char result[CCHMAXPATH];
     ui_file_dialog("Attach disk image", "g:",
                    "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
                    "Attach", result);
@@ -171,15 +166,37 @@ void ui_attach_disk(int number)
         ui_error("Cannot attach specified file");
 }
 
-void ui_reset() {
-//    kbd_clear_keymatrix();
-    if (ui_yesno_dialog("Reset","Do you really want to reset the emulated machine?"))
-        machine_powerup();  // Hard_reset;
-    //        } else {
-    //            maincpu_trigger_reset();  // Soft Reset
-    //        }
+void ui_hard_reset(void) {
+    if (ui_yesno_dialog("Hard Reset","Do you really want to hard reset the emulated machine?"))
+       machine_powerup();  // Hard_reset;
 }
 
+void ui_soft_reset(void) {
+    if (ui_yesno_dialog("Soft Reset","Do you really want to soft reset the emulated machine?"))
+       maincpu_trigger_reset();  // Soft Reset
+}
+
+#include "utils.h"
+
+//----------
+int toggle(char *resource_name)
+{
+    int value;
+    if (resources_get_value(resource_name, (resource_value_t *) &value) < 0)
+        return -1;
+    resources_set_value(resource_name, (resource_value_t) !value);
+    return !value;
+}
+
+void toggle_dialog(char *resource_name, const char *text)
+{
+    char *str;
+    str = xcalloc(1,strlen(text)+15);
+    strcat(strcat(strcpy(str, text)," switched "),
+           toggle(resource_name) ? "ON." : "OFF.");
+    ui_OK_dialog(resource_name, str);
+}
+//----------
 
 void wmChar(HWND hwnd, MPARAM mp1)
 {
@@ -197,19 +214,15 @@ void wmChar(HWND hwnd, MPARAM mp1)
         {
         case  9/*8*/: ui_attach_disk(8); break;
         case 10/*9*/: ui_attach_disk(9); break;
-        case 16/*Q*/:
-        case 19/*R*/: ui_reset(); break;
-        case 31/*S*/:
-            resources_get_value("Sound",(resource_value_t *)&release);
-            resources_set_value("Sound",(resource_value_t)(!release));
-            break;
-
-        case 20/*T*/: ui_OK_dialog("Test", "Na, klappt's?"); break;
+        case 16/*Q*/: ui_hard_reset();   break;
+        case 19/*R*/: ui_soft_reset();   break;
+        case 31/*S*/: toggle_dialog("Sound", "Sound"); break;
+        case 20/*T*/: toggle_dialog("DriveTrueEmulation", "True drive emulation"); break;
         }
     }
     else {
         release = !(fsFlags&KC_KEYUP); // release = !(fsFlags&KC_KEYUP)
-        if (!joystick_handle_key(usScancode, release)) {
+        if (!joystick_handle_key((kbd_code_t)usScancode, release)) {
             set_keyarr(keyconv_base->map[usScancode].row,
                        keyconv_base->map[usScancode].column,
                        release);
@@ -232,12 +245,5 @@ void kbd_clear_keymatrix(void)
     int i;
     for (i=0; i<KBD_ROWS; i++) keyarr[i]=0;
     for (i=0; i<KBD_COLS; i++) rev_keyarr[i]=0;
-}
-
-/* ------------------------------------------------------------------------ */
-
-void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
-{
-    key_ctrl_column4080_func = func;
 }
 

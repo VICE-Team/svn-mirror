@@ -135,7 +135,7 @@ static resource_t resources[] = {
       (resource_value_t) SOUND_SAMPLE_RATE,
       (resource_value_t *) &sample_rate, set_sample_rate },
     { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
-      (resource_value_t) &device_name, set_device_name },
+      (resource_value_t *) &device_name, set_device_name },
     { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &device_arg, set_device_arg },
     { "SoundBufferSize", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
@@ -557,7 +557,7 @@ int sound_flush(int relative_speed)
 	    j *= sizeof(*p);
 	    if (j > 0)
 	    {
-	        p = alloca(j);
+	        p = (short*)alloca(j);
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
 		for (i = 0; i < j / sizeof(*p); i++)
 		    p[i] = (float)v*i/(j / sizeof(*p));
@@ -649,7 +649,7 @@ void sound_suspend(void)
     {
 	if (snddata.pdev->write && snddata.issuspended == 0)
 	{
-	    p = xmalloc(snddata.fragsize*sizeof(SWORD));
+	    p = (short*)xmalloc(snddata.fragsize*sizeof(SWORD));
 	    if (!p)
 		return;
 	    v = snddata.lastsample;
@@ -739,6 +739,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_vidc_device();
 #endif
 
+#ifdef OS2
+    sound_init_mmos2_device();
+#endif
+
     sound_init_dummy_device();
     sound_init_fs_device();
     sound_init_speed_device();
@@ -752,7 +756,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 double sound_sample_position(void)
 {
-    return (snddata.clkstep == 0) 
+    return (snddata.clkstep == 0)
                ? 0.0 : (clk - snddata.fclk) / snddata.clkstep;
 }
 

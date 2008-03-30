@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +38,10 @@
 #include <stdlib.h>
 
 #include <limits.h>
+
+#ifdef __IBMC__
+#include <sys/timeb.h>
+#endif
 
 #include "vsync.h"
 #include "ui.h"
@@ -158,56 +163,68 @@ static int timer_disabled = 1;
 static int timer_speed    = 0;
 static int timer_patch    = 0;
 
-static int    timer_ticks;
-static struct timeval timer_time;
+#ifdef __IBMC__
+  #define SEC    time
+  #define subSEC millitm
+  #define gettime(now) _ftime(now)  // DosTmrQueryTime
+  typedef struct timeb _time;
+  const int MICRONS = 1000; //960;
+#else
+  #define SEC    tv_sec
+  #define subSEC tv_usec
+  #define gettime(now) gettimeofday(now, NULL)
+  typedef struct timeval _time;
+  const int MICRONS = 1000000;
+#endif
 
-const int MICRONS = 1000000;
+static int timer_ticks;
+_time      timer_time;
 
 static void update_elapsed_frames(int want)
 {
-    struct timeval now;
     static int pending;
+    _time now;
 
     if (timer_disabled) return;
     if (!want && timer_patch > 0) {
-	timer_patch--;
-	elapsed_frames++;
+        timer_patch--;
+        elapsed_frames++;
     }
-    gettimeofday(&now, NULL);
-    while (now.tv_sec > timer_time.tv_sec ||
-	   (now.tv_sec == timer_time.tv_sec &&
-	    now.tv_usec > timer_time.tv_usec)) {
-	if (pending) pending--;
-	else {
-	    if (timer_patch < 0) timer_patch++;
-	    else elapsed_frames++;
-	}
-        timer_time.tv_usec += timer_ticks;
-        timer_time.tv_sec  += (int)(timer_time.tv_usec/MICRONS);
-        timer_time.tv_usec %= MICRONS;
-/*	while (timer_time.tv_usec >= 1000000) {
-	    timer_time.tv_usec -= 1000000;
-	    timer_time.tv_sec++;
-	}*/
+    gettime(&now);
+    while (now.SEC > timer_time.SEC ||
+           (now.SEC == timer_time.SEC &&
+            now.subSEC > timer_time.subSEC)) {
+        if (pending) pending--;
+        else {
+            if (timer_patch < 0) timer_patch++;
+            else elapsed_frames++;
+        }
+        timer_time.subSEC += timer_ticks;
+        timer_time.SEC    += (int)(timer_time.subSEC/MICRONS);
+        timer_time.subSEC %= MICRONS;
+        /*	while (timer_time.tv_usec >= 1000000) {
+         timer_time.tv_usec -= 1000000;
+         timer_time.tv_sec++;
+         }*/
     }
     if (want == 1 && !pending) {
-	if (timer_patch < 0) timer_patch++;
-	else elapsed_frames++;
-	pending++;
+        if (timer_patch < 0) timer_patch++;
+        else elapsed_frames++;
+        pending++;
     }
 }
 
 static int set_timer_speed(int speed)
 {
     if (speed > 0) {
-	gettimeofday(&timer_time, NULL);
-	timer_ticks = ((100*MICRONS)/refresh_frequency)/**1000000*//speed;
-	update_elapsed_frames(-1);
-	elapsed_frames = 0;
+        gettime(&timer_time);
+        timer_ticks = ((100*MICRONS)/(refresh_frequency*speed))/**1000000*/;///speed;
+        update_elapsed_frames(-1);
+        elapsed_frames = 0;
     }
     else {
-	speed       = 0;
-	timer_ticks = 0;
+        speed       = 0;
+        timer_ticks = 0;
     }
 
     timer_speed    = speed;
@@ -256,22 +273,21 @@ void vsync_init(double hertz, long cycles, void (*hook)(void))
     vsync_hook        = hook;
     refresh_frequency = hertz;
     cycles_per_sec    = cycles;
+
     suspend_speed_eval();
     vsync_disable_timer();
 }
 
 static CLOCK speed_eval_prev_clk;
 
-static long vice_secs=0;
-
 static void display_speed(int num_frames)
 {
+    static long vice_secs=0;
     static double prev_time;
-    struct timeval tv;
     double curr_time;
-
-    gettimeofday(&tv, NULL);
-    curr_time = tv.tv_sec + tv.tv_usec/1000000.0;
+    _time tv;
+    gettime(&tv);
+    curr_time = (double)tv.SEC + (double)tv.subSEC/MICRONS; // casting ???
     if (!speed_eval_suspended) {
         float diff_clk    = clk - speed_eval_prev_clk;
         float time_diff   = curr_time - prev_time;
@@ -366,7 +382,7 @@ int do_vsync(int been_skipped)
     kbd_buf_flush();
 
 #ifdef HAS_JOYSTICK
-    joystick();
+    joystick_update();
 #endif
 
     return skip_next_frame;

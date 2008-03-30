@@ -28,7 +28,6 @@
 #define _UI_H
 
 #include "types.h"
-//#include "tuimenu.h"
 #include "cmdline.h"
 
 typedef enum {
@@ -44,31 +43,27 @@ typedef enum {
 } ui_drive_enable_t;
 
 /* ------------------------- VICE functions -------------------------------- */
+extern int  ui_init_resources(void);
+extern int  ui_init_cmdline_options(void);
 
-extern int ui_init_resources(void);
-extern int ui_init_cmdline_options(void);
-
-extern int ui_init(int *argc, char **argv);
-extern int ui_init_finish(void);
+extern int  ui_init(int *argc, char **argv);
+extern int  ui_init_finish(void);
 extern void ui_error(const char *format, ...);
 extern ui_jam_action_t ui_jam_dialog(const char *format, ...);
-extern void ui_show_text(const char *title, const char *text);
+extern void ui_show_text(char *title, char *text);
 extern void ui_update_menus(void);
 extern void ui_main(char hotkey);
 extern int  ui_extend_image_dialog(void);
-
-// in archdep.h
 extern void ui_display_drive_led  (int drive_number, int status);
-extern void ui_display_drive_track(int drive_number, double track_number);
-extern void ui_enable_drive_status(ui_drive_enable_t state,
-                                   int *drive_led_color);
+extern void ui_display_drive_track(int drive_number, int drive_base,
+				   double track_number);
+extern void ui_display_drive_current_image(int drive_number, const char *image);
+extern void ui_enable_drive_status(int state, int *drive_led_color);
 
-// ------------------------- OS/2 specific ------------------------- 
-extern void ui_OK_dialog   (const char *title, const char *msg);
-extern int  ui_yesno_dialog(const char *title, const char *msg);
-extern int  ui_file_dialog (char *title, char *drive,
-                            char *path, char *button, char *result);
-extern void ui_cmdline_show_help(int num_options, cmdline_option_t *options);
-
+// ------------------------- OS/2 only -------------------------
+extern void ui_OK_dialog          (char *title, char *msg);
+extern int  ui_yesno_dialog       (char *title, char *msg);
+extern int  ui_file_dialog        (char *title, char *drive,
+                                   char *path,  char *button, char *result);
 
 #endif

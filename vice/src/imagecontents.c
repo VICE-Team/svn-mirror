@@ -75,7 +75,7 @@ void image_contents_destroy(image_contents_t *contents)
 
 char *image_contents_to_string(image_contents_t *contents)
 {
-    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN] = "                ";
+    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                "; // 16 spaces are a 17byte string. is this ok with '+1' ?
     image_contents_file_list_t *p;
     char line_buf[256];
     char *buf;
@@ -85,7 +85,7 @@ char *image_contents_to_string(image_contents_t *contents)
 #define BUFCAT(s, n) bufcat(buf, &buf_size, &max_buf_size, (s), (n))
 
     max_buf_size = 4096;
-    buf = xmalloc(max_buf_size);
+    buf = (char*)xmalloc(max_buf_size);
     buf_size = 0;
 
     BUFCAT("0 \"", 3);
@@ -139,7 +139,7 @@ char *image_contents_to_string(image_contents_t *contents)
    entries is bigger than expected, but this needs some support in `vdrive.c'
    which we do not have yet.  */
 
-static struct {
+static struct block_list_t {
     unsigned int track;
     unsigned int sector;
 } *block_list = NULL;
@@ -184,7 +184,7 @@ static int circular_check(unsigned int track, unsigned int sector)
    `t64.c', this will be moved into it.  */
 
 /* Argh!  Really ugly!  FIXME!  */
-extern char *slot_type[];
+extern char const *slot_type[];
 
 static vdrive_t *open_disk_image(const char *name)
 {
@@ -280,7 +280,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
                 image_contents_file_list_t *new_list;
                 int i;
 
-                new_list = xmalloc(sizeof(image_contents_file_list_t));
+                new_list = (image_contents_file_list_t*)xmalloc(sizeof(image_contents_file_list_t));
                 new_list->size = ((int) p[SLOT_NR_BLOCKS]
                                   + ((int) p[SLOT_NR_BLOCKS + 1] << 8));
 
@@ -352,7 +352,7 @@ image_contents_t *image_contents_read_tape(const char *file_name)
         if (rec->entry_type != T64_FILE_RECORD_FREE) {
             image_contents_file_list_t *new_list;
 
-            new_list = xmalloc(sizeof(image_contents_file_list_t));
+            new_list = (image_contents_file_list_t*)xmalloc(sizeof(image_contents_file_list_t));
             memcpy(new_list->name, rec->cbm_name, T64_REC_CBMNAME_LEN);
             new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 

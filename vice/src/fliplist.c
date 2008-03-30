@@ -26,6 +26,7 @@
 
 #include "vice.h"
 #include <stdio.h>
+#include <string.h>
 #include "log.h"
 #include "utils.h"
 #include "fliplist.h"
@@ -33,14 +34,14 @@
 
 #define NUM_DRIVES 2
 
-struct fliplist_t { 
+struct fliplist_t {
     struct fliplist_t *next, *prev;
     char *image;
     int unit;
 };
 
-static struct fliplist_t *fliplist[NUM_DRIVES] = 
-	{ (struct fliplist_t *) NULL, 
+static struct fliplist_t *fliplist[NUM_DRIVES] =
+	{ (struct fliplist_t *) NULL,
 	  (struct fliplist_t *) NULL };
 
 static char *current_image = (char *) NULL;
@@ -60,21 +61,21 @@ void flip_set_current(int unit, const char *filename)
     current_drive = unit;
 }
 
-char *flip_get_head(int unit) 
+char *flip_get_head(int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->image;
     return (char *) NULL;
 }
 
-char *flip_get_next(int unit) 
+char *flip_get_next(int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->next->image;
     return (char *) NULL;
 }
 
-char *flip_get_prev(int unit) 
+char *flip_get_prev(int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->prev->image;
@@ -94,7 +95,7 @@ int flip_get_unit(void *fl)
 void flip_add_image (int unit)
 {
     struct fliplist_t *n;
- 
+
     if (current_image == NULL)
 	return;
     if (strcmp(current_image, "") == 0)
@@ -139,13 +140,13 @@ void flip_remove(int unit, char *image)
 	    fliplist[unit - 8] = (struct fliplist_t *) NULL;
 	    goto out;
 	}
-    
+
 	fliplist[unit - 8]->next->prev = fliplist[unit - 8]->prev;
 	fliplist[unit - 8]->prev->next = fliplist[unit - 8]->next;
 	tmp = fliplist[unit - 8];
 	fliplist[unit - 8] = fliplist[unit - 8]->next;
     out:
-	log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%d]", 
+	log_message(LOG_DEFAULT, "Removing `%s' from fliplist[%d]",
 		    tmp->image, unit);
 	free (tmp->image);
 	free (tmp);
@@ -163,7 +164,7 @@ void flip_remove(int unit, char *image)
 	    return;
 	}
 	it = it->next;
-	while ((strcmp(it->image, image) != 0) && 
+	while ((strcmp(it->image, image) != 0) &&
 	       (it != fliplist[unit - 8]))
 	    it = it->next;
 	
@@ -190,7 +191,7 @@ void flip_attach_head (int unit, int direction)
     else
 	fliplist[unit - 8] = fliplist[unit - 8]->prev;
 
-    if (file_system_attach_disk(fliplist[unit - 8]->unit, 
+    if (file_system_attach_disk(fliplist[unit - 8]->unit,
 				fliplist[unit - 8]->image) < 0)
     {
 	/* shouldn't happen, so ignore it */
@@ -198,10 +199,10 @@ void flip_attach_head (int unit, int direction)
     }
 }
 
-void *flip_init_iterate(int unit) 
+void *flip_init_iterate(int unit)
 {
     void *ret = NULL;
-    
+
     iterator = fliplist[unit - 8];
     if (iterator) {
 	ret = (void *) iterator;
@@ -213,7 +214,7 @@ void *flip_init_iterate(int unit)
 void *flip_next_iterate(int unit)
 {
     void *ret = NULL;
-    
+
     if (iterator) {
 	if (iterator != fliplist[unit - 8]) {
 	    ret = (void *) iterator;
@@ -228,7 +229,7 @@ void *flip_next_iterate(int unit)
 static void show_fliplist(int unit)
 {
     struct fliplist_t *it = fliplist[unit - 8];
-    
+
     log_message(LOG_DEFAULT, "Fliplist[%d] contains:", unit);
     if (it)
     {

@@ -64,6 +64,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
+        uicmdline.c \
+        uicmdline.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20kbd.c \

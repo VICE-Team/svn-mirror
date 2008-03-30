@@ -36,7 +36,7 @@
 /* Number of tracks we emulate.  */
 #define MAX_GCR_TRACKS 70
 
-typedef struct {
+typedef struct _gcr_t {
     /* Raw GCR image of the disk.  */
     BYTE data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
 

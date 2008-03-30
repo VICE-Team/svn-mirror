@@ -31,6 +31,8 @@
 #include <string.h>
 #endif
 
+#include "uicmdline.h"
+
 #include "types.h"
 #include "utils.h"
 #include "cmdline.h"
@@ -45,7 +47,8 @@ int cmdline_init(void)
 
     num_allocated_options = 100;
     num_options = 0;
-    options = xmalloc(sizeof(cmdline_option_t) * num_allocated_options);
+    options = (cmdline_option_t*) xmalloc(sizeof(cmdline_option_t)
+                                          * num_allocated_options);
 
     return 0;
 }
@@ -58,8 +61,8 @@ int cmdline_register_options(const cmdline_option_t *c)
     for (; c->name != NULL; c++, p++) {
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
-            options = xrealloc(options, (sizeof(cmdline_option_t)
-                                         * num_allocated_options));
+            options = (cmdline_option_t*) xrealloc(options, (sizeof(cmdline_option_t)
+                                                             * num_allocated_options));
             p = options + num_options;
         }
 
@@ -184,14 +187,5 @@ int cmdline_parse(int *argc, char **argv)
 
 void cmdline_show_help(void)
 {
-    int i;
-
-    printf("\nAvailable command-line options:\n\n");
-    for (i = 0; i < num_options; i++) {
-        fputs(options[i].name, stdout);
-        if (options[i].need_arg && options[i].param_name != NULL)
-            printf(" %s", options[i].param_name);
-        printf("\n\t%s\n", options[i].description);
-    }
-    putchar('\n');
+    ui_cmdline_show_help(num_options, options);
 }

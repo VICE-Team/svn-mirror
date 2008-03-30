@@ -339,11 +339,11 @@ static char *hexstring_to_byte(const char *s, BYTE *value_return)
 static char *replace_hexcodes(char *s)
 {
     unsigned int len, dest_len;
-    const char *p;
+    char *p;
     char *new_s;
 
     len = strlen(s);
-    new_s = xmalloc(len + 1);
+    new_s = (char*)xmalloc(len + 1);
 
     p = s;
     dest_len = 0;
@@ -529,7 +529,7 @@ int MAIN_PROGRAM(int argc, char **argv)
             autostart_file = stralloc(autostart_string);
             autostart_prg = strrchr(autostart_file, ':');
             *autostart_prg++ = '\0';
-            autostart_fd = fopen(autostart_file, "r");
+            autostart_fd = fopen(autostart_file, "rb");
             /* Does the image exist?  */
             if (autostart_fd) {
                 char *name;

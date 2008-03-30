@@ -26,6 +26,7 @@
  */
 
 #ifndef _VICE_H
+#define _VICE_H
 
 /* AIX requires this to be the first thing in the file.  */
 #if defined (_AIX) && !defined (__GNUC__)
@@ -48,7 +49,7 @@
 
 /* Portability... */
 
-#ifdef __hpux
+#if defined(__hpux) || defined(__IBMC__)
 #ifndef _POSIX_SOURCE
 #define _POSIX_SOURCE
 #endif
@@ -90,10 +91,8 @@
 
 /* For some reason, our DJGPP setup does not like to have both `limits.h' and
    `sys/param.h' #included.  */
-#ifndef DJGPP
-#ifdef HAVE_SYS_PARAM_H
+#if !defined(OS2) && !defined(DJGPP) && defined(HAVE_SYS_PARAM_H)
 #include <sys/param.h>
-#endif
 #endif
 
 #ifndef	PATH_MAX

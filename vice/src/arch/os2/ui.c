@@ -1,8 +1,8 @@
 /*
- * ui.c - A (very) simple user interface for MS-DOS.
+ * ui.c - The user interface for Vice/2.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,6 +24,7 @@
  *
  */
 #define INCL_WINSYS
+#define INCL_GPILCIDS // vac++
 #define INCL_WINSTDFILE
 #define INCL_WINFRAMEMGR
 #define INCL_WINWINDOWMGR
@@ -37,24 +38,33 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <sys/hw.h>
+//#ifdef __EMX__
+//#include <sys/hw.h>
+//#endif
 
 #include "ui.h"
+#include "ui_status.h"
 
-#include "cmdline.h"
-#include "dos.h"
+//#ifdef __EMX__
+//#include "dos.h"
+//#endif
 #include "machine.h"
-//#include "menudefs.h"
 #include "mon.h"
 #include "resources.h"
 #include "sound.h"
-//#include "tui.h"
-//#include "tuicharset.h"
-//#include "tuimenu.h"
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
 #include "archdep.h"
+
+/*------------------------------------------------*/
+
+static void uilog(char *s, int i)
+{
+    FILE *fl=fopen("output","a");
+    fprintf(fl,"%s %i\n",s,i);
+    fclose(fl);
+}
 
 /* ------------------------ ui resources ------------------------ */
 
@@ -91,7 +101,81 @@ int ui_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
-/* ------------------------ VICE specific stuff ------------------------ */
+/* ------------------------ VICE/2 Status Window ------------------------ */
+
+
+void ui_display_drive_led(int drive_number, int status)
+{
+    BYTE keyState[256];
+    RECTL rectl=ui_status.rectl;
+    int  height=rectl.yTop-rectl.yBottom;
+    if (PM_winActive) {
+        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
+        if (status) keyState[VK_CAPSLOCK] |=  1;
+        else        keyState[VK_CAPSLOCK] &= ~1;
+        WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+    }
+    if (!ui_status.init || drive_number>1) return;
+    rectl.xLeft   =rectl.xRight-(2-drive_number)*20-2;
+    rectl.xRight  =rectl.xLeft+10+3;
+    rectl.yTop    =height/2+10;
+    rectl.yBottom =height/2+5;
+    WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+    rectl.xLeft   +=1;
+    rectl.xRight  -=1;
+    rectl.yBottom +=1;
+    rectl.yTop    -=1;
+    WinFillRect(ui_status.hps, &rectl, status?4:SYSCLR_FIELDBACKGROUND);
+}
+
+void ui_display_drive_track(int drive_number, int drive_base,
+                            double track_number)
+{
+    char str[40];
+    RECTL rectl=ui_status.rectl;
+    int height=rectl.yTop-rectl.yBottom;
+    if (!ui_status.init || drive_number>1) return;
+    rectl.xLeft   =rectl.xRight-(2-drive_number)*20-4;
+    rectl.xRight  =rectl.xLeft+10+6;
+    rectl.yBottom =height/2-10;
+    rectl.yTop    =height/2+5;
+    sprintf(str,"%.0f",track_number);
+    WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
+                DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT|
+                (track_number-(int)track_number?DT_UNDERSCORE:0));
+    ui_status.lastTrack[drive_number]=track_number;
+}
+
+void ui_enable_drive_status(int state, int *drive_led_color)
+{
+    int i;
+    RECTL rectl;
+    int height=ui_status.rectl.yTop-ui_status.rectl.yBottom;
+    if (!ui_status.init) return;
+    for (i=0; i<2; i++) {
+        rectl=ui_status.rectl;
+        rectl.xLeft   = rectl.xRight-(2-i)*20-2;
+        rectl.xRight  = rectl.xLeft+10+3;
+        rectl.yTop    = height/2+10;
+        rectl.yBottom = height/2+5;
+        if ((state&(1<<i))) {
+            ui_display_drive_track(i,0,ui_status.lastTrack[i]);
+            WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+            rectl.xLeft   +=1;
+            rectl.xRight  -=1;
+            rectl.yBottom +=1;
+            rectl.yTop    -=1;
+        }
+        WinFillRect(ui_status.hps, &rectl, SYSCLR_FIELDBACKGROUND);
+    }
+    ui_status.lastDriveState=state;
+}
+
+void ui_display_drive_current_image(int drive_number, const char *image)
+{
+}
+
+/* ------------------------ VICE only stuff ------------------------ */
 
 int ui_init(int *argc, char **argv)
 {
@@ -100,7 +184,7 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
-//    atexit(ui_exit);
+    ui_open_status_window();
     return 0;
 }
 
@@ -135,7 +219,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }
 
-void ui_show_text(const char *title, const char *text)
+void ui_show_text(char *title, char *text)
 {
     ui_OK_dialog(title, text);
 }
@@ -154,12 +238,12 @@ int ui_extend_image_dialog(void)
 
 /* ------------------------ OS/2 specific stuff ------------------------ */
 
-void ui_OK_dialog(const char *title, const char *msg)
+void ui_OK_dialog(char *title, char *msg)
 {
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, msg, title, 0, MB_OK);
 }
 
-int ui_yesno_dialog(const char *title, const char *msg)
+int ui_yesno_dialog(char *title, char *msg)
 {
     return (WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                           msg, title, 0, MB_YESNO)==MBID_YES);
@@ -169,7 +253,7 @@ int ui_file_dialog(char *title, char *drive,
                    char *path, char *button, char *result)
 {
     FILEDLG filedlg;                      // File dialog info structure
-    memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0 
+    memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
 
     // Initialize used fields in the FILEDLG structure
     filedlg.cbSize      = sizeof(FILEDLG); // Size of structure
@@ -189,145 +273,3 @@ int ui_file_dialog(char *title, char *drive,
     else return FALSE;
 }
 
-/* ------------------------ OS/2 specific Commandline Output ------------------------ */
-
-#include "cmdline.h"
-#include "pm/scrollbars.h"
-
-#define DB_RAISED 0x400
-#define INITX 40  // init width  of window in chars (INITX<CHARS)
-#define INITY 30  // init height of window in chars (INITY<LINES)
-
-extern HAB habMain;
-extern HMQ hmqMain;
-
-static CHAR  szClientClass [] = "VICE/2 Cmdline";
-static CHAR  szTitleBarText[] = "VICE/2 Commandline Options";
-static CHAR  achFont       [] = "11.System VIO";
-static ULONG flFrameFlags     =
-    FCF_TITLEBAR   | FCF_SYSMENU    | FCF_SHELLPOSITION | FCF_TASKLIST |
-    FCF_VERTSCROLL | FCF_HORZSCROLL | FCF_SIZEBORDER    | FCF_MAXBUTTON;
-
-int CHARS, LINES;   // maximum area could be shown
-
-char optFormat[13];
-
-char *text;
-char *textopt;
-static cmdline_option_t *options;
-
-MRESULT EXPENTRY PM_scrollProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
-{
-    static HPS hps;
-    static int cWidth, cHeight;    // size of one char in pixels
-    static int lHorzPos, lVertPos; // actual horz and vert pos of SBM in chars
-    static int w,h;                // size of visible region in chars
-    FONTMETRICS fmFont;
-    RECTL  rectl;
-    POINTL pointl;
-    int i, stop;
-
-    switch (msg)
-    {
-    case WM_CREATE:
-        WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(achFont)+1,achFont);
-        hps=WinGetPS(hwnd);
-        GpiQueryFontMetrics(hps, sizeof(fmFont), &fmFont);
-        cWidth  = fmFont.lAveCharWidth;    // width of one char
-        cHeight = fmFont.lMaxBaselineExt;  // height of one char
-        WinSetWindowPos(WinQueryWindow(hwnd,QW_PARENT), HWND_TOP, 0, 0,
-                        cWidth*INITX+
-                        WinQuerySysValue(HWND_DESKTOP,SV_CXVSCROLL)+
-                        WinQuerySysValue(HWND_DESKTOP,SV_CXBORDER)+
-                        2*WinQuerySysValue(HWND_DESKTOP,SV_CXSIZEBORDER),
-                        cHeight*(INITY+0.2)+
-                        WinQuerySysValue(HWND_DESKTOP,SV_CYHSCROLL)+
-                        WinQuerySysValue(HWND_DESKTOP,SV_CYTITLEBAR)+
-                        2*WinQuerySysValue(HWND_DESKTOP,SV_CYSIZEBORDER)+
-                        2*WinQuerySysValue(HWND_DESKTOP,SV_CYBORDER),
-                        SWP_SIZE|SWP_SHOW|SWP_ZORDER); // Make visible, resize, top window
-        lHorzPos=0;
-        lVertPos=0;
-        return FALSE;
-    case WM_DESTROY:
-        WinReleasePS(hps);
-        return FALSE;
-    case WM_SIZE:
-        w = SHORT1FROMMP(mp2)/cWidth;  // Width  in chars
-        h = SHORT2FROMMP(mp2)/cHeight; // Height in chars
-        if (lHorzPos>CHARS-w-1) lHorzPos=CHARS-w;
-        if (lVertPos>LINES-h-1) lVertPos=LINES-h;
-        if (w>CHARS) lHorzPos=0;
-        if (h>LINES) lVertPos=0;
-        SBMsetThumb(hwnd, FID_HORZSCROLL, lHorzPos, w, CHARS);
-        SBMsetThumb(hwnd, FID_VERTSCROLL, lVertPos, h, LINES);
-        return FALSE;
-    case WM_HSCROLL:
-        SBMcalcPos(mp2, &lHorzPos, CHARS, w);
-        SBMsetPos (hwnd, FID_HORZSCROLL, lHorzPos);
-        WinPostMsg(hwnd, WM_PAINT, 0, 0);
-        return FALSE;
-    case WM_VSCROLL:
-        SBMcalcPos(mp2, &lVertPos, LINES, h);
-        SBMsetPos (hwnd, FID_VERTSCROLL, lVertPos);
-        WinPostMsg(hwnd, WM_PAINT, 0, 0);
-        return FALSE;
-    case WM_PAINT:
-        //        WinQueryWindowPtr(hwnd,QWL_USER);
-        WinQueryWindowRect(hwnd,&rectl);
-        WinFillRect(hps, &rectl, SYSCLR_FIELDBACKGROUND);
-        pointl.x=0;
-        pointl.y=rectl.yTop-cHeight-1;
-        stop=(lVertPos+h>LINES)?LINES:lVertPos+h;
-        for (i=lVertPos; i<stop; i++) {
-            sprintf(textopt,"%s %s",options[i].name,
-                    (options[i].need_arg && options[i].param_name)?
-                    options[i].param_name:"");
-            sprintf(text,optFormat,textopt,options[i].description);
-            GpiCharStringAt(hps, &pointl,
-                            strlen(text)-lHorzPos, text+lHorzPos);
-            pointl.y-=cHeight;
-        }
-        break;
-    }
-    return WinDefWindowProc (hwnd, msg, mp1, mp2);
-}
-
-void ui_cmdline_show_help(int num_options, cmdline_option_t *opts)
-{
-    HWND hwndFrame, hwndClient;
-    QMSG qmsg;
-
-    int i, j;
-    int jmax=0;
-
-    options=opts;
-    LINES=num_options;
-    for (i=0; i<LINES; i++) {
-        j    =strlen(options[i].name)+1;
-        j   +=strlen((options[i].need_arg && options[i].param_name)?
-                     options[i].param_name:"")+1;
-        jmax =j>jmax?j:jmax;
-        j   +=strlen(options[i].description)+1;
-        CHARS=j>CHARS?j:CHARS;
-    }
-    sprintf(optFormat,"%%-%ds%%s",jmax);
-    textopt=malloc(jmax);
-    text   =malloc(CHARS);
-
-    WinRegisterClass(habMain, szClientClass, PM_scrollProc,
-                     CS_SIZEREDRAW, 0);
-
-    hwndFrame = WinCreateStdWindow(HWND_DESKTOP, 0, &flFrameFlags,
-                                   szClientClass, szTitleBarText, 0L, 0, 0,
-                                   &hwndClient);
-    //    WinSetWindowPtr(hwndClient, QWL_USER, (VOID*)(options));
- 
-    while (WinGetMsg (habMain, &qmsg, NULLHANDLE, 0, 0))
-        WinDispatchMsg (habMain, &qmsg) ;
-
-    WinDestroyWindow (hwndFrame);
-
-    free(text);
-    free(textopt);
-}
