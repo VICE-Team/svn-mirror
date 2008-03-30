@@ -271,10 +271,10 @@ int myacia_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &cmd);
-    if((cmd & 1) && (fd<0)) {
+    if((cmd & 1) && (fd == ILLEGAL_FILE_DESC)) {
         fd = rs232_open(myacia_device);
     } else
-        if(fd>=0 && !(cmd&1)) {
+        if(fd != ILLEGAL_FILE_DESC && !(cmd&1)) {
         rs232_close(fd);
         fd = ILLEGAL_FILE_DESC;
     }

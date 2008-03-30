@@ -2,6 +2,7 @@
  * petui.c - PET-specific user interface.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -26,9 +27,27 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <windows.h>
+#include <windowsx.h>
+
 #include "petui.h"
+#include "res.h"
+#include "ui.h"
+#include "uipetset.h"
+#include "winmain.h"
+
+void pet_ui_specific(WPARAM wparam, HWND hwnd)
+{
+    switch (wparam) {
+      case IDM_PET_SETTINGS:
+        ui_pet_settings_dialog(hwnd);
+    }
+}
 
 int pet_ui_init(void)
 {
+    ui_register_machine_specific(pet_ui_specific);
     return 0;
 }
+

@@ -285,7 +285,7 @@ void rsuser_set_tx_bit(int b) {
               clk, clk_start_tx, b);
 #endif
 
-    if(fd<0 || rsuser_enabled > 2400) {
+    if(fd == ILLEGAL_FILE_DESC || rsuser_enabled > 2400) {
 	clk_start_tx = 0;
 	return;
     }

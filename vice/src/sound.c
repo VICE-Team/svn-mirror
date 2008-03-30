@@ -433,7 +433,7 @@ static int sound_run_sound(void)
 }
 
 #ifdef __riscos
-void sound_synthesize(unsigned char *buffer, int length)
+void sound_synthesize(short *buffer, int length)
 {
     sound_machine_calculate_samples(snddata.psid, (SWORD*)buffer, length);
     snddata.fclk += length * snddata.clkstep;

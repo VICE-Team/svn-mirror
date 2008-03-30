@@ -708,9 +708,6 @@ void initialize_memory(void)
 {
     int i, l;
 
-    if (pet_mem_log == LOG_ERR)
-        pet_mem_log = log_open("PETMEM");
-
     l = pet.ramSize << 2;       /* ramSize in kB, l in 256 Byte */
     if (l > 128)
         l = 128;                /* fix 8096 / 8296 */
@@ -851,7 +848,7 @@ void mem_powerup(void)
     superpet_powerup();
 }
 
-static void petmem_convert_chargen(BYTE *charrom) 
+static void petmem_convert_chargen(BYTE *charrom)
 {
     int i, j;
 
@@ -882,13 +879,16 @@ int mem_load(void)
     int i,j;
     int rsize, krsize;
 
+    if (pet_mem_log == LOG_ERR)
+        pet_mem_log = log_open("PETMEM");
+
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    /* Load chargen ROM - we load 2k with 8 bytes/char, and generate 
+    /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
        the inverted 2k. Then we expand the chars to 16 bytes/char
        for the CRTC, filling the rest with zeros */
 
@@ -1523,7 +1523,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	}
 	if (config & 4) {
             snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
-	}	
+	}
 
         snapshot_module_write_byte_array(m, rom + 0x4000, 0x2000);
 
@@ -1578,7 +1578,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 	}
 	if (config & 4) {
             snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
-	}	
+	}
 
         snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
 
@@ -1605,5 +1605,4 @@ int mem_read_snapshot_module(snapshot_t *m) {
         return -1;
     return 0;
 }
-
 

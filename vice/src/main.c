@@ -51,7 +51,7 @@
 #include "ROlib.h"
 #endif
 
-#include "machine.h"
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
@@ -63,13 +63,14 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "resources.h"
 #include "serial.h"
 #include "sound.h"
 #include "sysfile.h"
-#include "archdep.h"
+#include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
@@ -278,10 +279,12 @@ int MAIN_PROGRAM(int argc, char **argv)
 {
     archdep_startup(&argc, argv);
 
+#ifndef __riscos
     if (atexit (exit64) < 0) {
 	perror ("atexit");
 	return -1;
     }
+#endif
 
     /* Initialize system file locator.  */
     sysfile_init(machine_name);

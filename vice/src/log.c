@@ -35,6 +35,10 @@
 #include "archdep.h"
 #include "utils.h"
 
+#ifdef __riscos
+#include "ROlib.h"
+#endif
+
 static FILE *log_file = NULL;
 
 static char **logs = NULL;
@@ -157,7 +161,7 @@ static int log_helper(log_t log, unsigned int level,
             || fputs (": ", log_file) == EOF)
             return -1;
     }
-    
+
     if (fputs(level_strings[level], log_file) == EOF
         || vfprintf(log_file, format, ap) < 0
         || fputc ('\n', log_file) == EOF)

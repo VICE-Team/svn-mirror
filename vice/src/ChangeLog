@@ -1,4 +1,109 @@
+1998-12-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.37.
+
+1998-12-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/win32/Makefile.am: Added CBM2 directory to `INCLUDES'.
+  	Added `uicbm2set.c', `uicbm2set.h', `uipetset.c' and `uipetset.h'
+ 	to `libarch_a_SOURCES'.
+
+	* arch/win32/c610ui.c (c610_ui_init): Register cbm2 specific menu
+	entries.
+	(cbm2_ui_specific): New function.
+	* arch/win32/petui.c: Changed likewise.
+
+	* arch/win32/res.h: Added new elements for PET and CBM settings
+	menu.
+
+	* src/arch/win32/res.r: Updated about dialog.
+
+	* arch/win32/rescbm2.r, arch/win32/respet.r: Added new dialogs.
+
+	* arch/win32/uicbm2set.c: New file.
+	* arch/win32/uicbm2set.h: New file.
+	* arch/win32/uipetset.c: New file.
+	* arch/win32/uipetset.h: New file.
+
+	* README: Added Tibor Biczo to list of VICE team members.
+
+1998-12-08  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* acia-tmpl.c, rsuser.c: fixed last remaining checks of fd to use
+ 	ILLEGAL_FILE_DESC (affects petacia1.c, c610acia1.c).
+
+	* fsdevice.c: switch on drive LED when opening a channel on RO.
+  
+	* fixpoint.h: previous version was mangled due to missing tabs.
+ 
+	* sid.c: added remaining fixpoint code (parts were missing the 1st
+ 	time).
+
+	* log.c: additional include.
+ 
+	* main.c: no atexit-handler on RO.
+ 
+	* sound.c, sound.h, sounddrv/soundacorn.c, sid/sid.c: removed 8bit
+ 	ulaw-specific code, everything 16bit linear now.
+  
+	* warn.c: removed RO-varargs-hack.
+
+1998-12-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64mem.c (pla_config_changed): Bit #6 or #7 of the data port
+ 	can be `1' too.
+
+1998-12-06  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/ui.c: Removed inclusion of tapeunit.h.
+	  (handle_wm_command): Updated tape attach ui to new API.
+
+	* arch/win32/video.c: Include log.h.
+	  (video_debug): Changed fprintf to log_debug.
+          Removed newline character from end of debug messages.
+	  (set_physical_colors): Force unused bits of color
+	  lookuptable to be zero.
+	  (canvas_refresh): Speeded up 24 bit case.
+
+	* arch/win32/vsync.c (vsync_debug): Changed fprintf to log_debug.
+	  Removed newline character from end of debug messages.
+
+	* c1541.c (split_args): Added \t and \n as separator chars.
+
+	* cbm2/c610mem.c (initialize_memory): Removed logfile opening.
+          (mem_load): Added logfile opening.
+
+	* pet/petmem.c (initialize_memory): Removed logfile opening.
+	  (mem_load): Added logfile opening.
+
 1998-12-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/archdep.c (archdep_num_text_lines): New function.
+	(archdep_num_text_columns): New function.
+
+	* vdrive.c (floppy_read_directory): Removed trailing `\n'.
+
+	* c1541.c: New `dir' command (alias for `list').
+
+	* c1541.c (pager_init, pager_print): New functions for the pager.
+	(help_cmd): Use it.
+	(list_cmd): Use it.
+
+	* arch/unix/archdep.c (archdep_num_text_columns): New function.
+	(archdep_num_text_lines): New function.
+
+	* c1541.c (show_cmd): New `show' command.
+
+	* Makefile.am (c1541_SOURCES): Added `info.c'.
+
+	* utils.c [!HAVE_STRNCASECMP] (strncasecmp): `strncasecmp()'
+	replacement borrowed from GLIB.
+	[!HAVE_STRCASECMP] (strcasecmp): `strcasecmp()' replacement
+	borrowed from GLIB.
+
+	* c1541.c (main): When started in interactive mode, print out some
+ 	information about the copyright, the licensing conditions and the
+ 	lack of warranty.
 
 	* Version 0.15.0.36.
 

@@ -395,9 +395,15 @@ static inline void pla_config_changed(void)
 
     /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed.  */
     if (tape_sense)
-        ram[1] = (pport.data | ~pport.dir) & 0x2f;
+        /* FIXME: When some button is pressed and bit #4 is output and `1'
+           is written to this bit, what do we read?  The `1' from the output
+           or the `0' from the cassette logic.  This is no CIA, so the
+           external `0' may not win!  Only a test with a real C64 can tell.  */
+        ram[1] = ((pport.data | ~pport.dir) & 0x2f) 
+                 | (pport.data & pport.dir & 0xc0);
     else
-        ram[1] = (pport.data | ~pport.dir) & 0x3f;
+        ram[1] = ((pport.data | ~pport.dir) & 0x3f)
+                 | (pport.data & pport.dir & 0xc0);
 
     ram[0] = pport.dir;
 
@@ -681,17 +687,6 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
            romh_banks[(addr & 0x1fff) + (romh_bank << 13)]);
 #endif
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
-/*    switch (romh_bank) {
-      case 0:
-        return romh_banks[addr & 0x1fff];
-      case 1:
-        return romh_banks[(addr & 0x1fff) + 0x2000];
-      case 2:
-        return romh_banks[(addr & 0x1fff) + 0x4000];
-      case 3:
-        return romh_banks[(addr & 0x1fff) + 0x6000];
-    }
-    return 0;*/
 }
 
 void REGPARM2 store_roml(ADDRESS addr, BYTE value)
@@ -1466,10 +1461,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
        - state of cartridge (active/which bank, ...)
        then the ROM/RAM arrays:
        - cartridge ROM areas
-       - cartridge RAM areas
-    */
+       - cartridge RAM areas  */
 
-    /* to get all the checkmarks right */
     ui_update_menus();
 
     if (snapshot_module_close(m) < 0)
@@ -1494,9 +1487,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
                              &major_version, &minor_version);
     if (m == NULL) {
 	/* this module is optional */
-
 	/* FIXME: reset all cartridge stuff to standard C64 behaviour */
-
         return 0;
     }
 

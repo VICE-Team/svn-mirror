@@ -121,7 +121,7 @@ extern int SoundEvery;
 extern int SoundLines;
 extern unsigned char *LinToLog;
 extern void sound_poll(void);
-extern void sound_synthesize(unsigned char *buffer, int length);
+extern void sound_synthesize(short *buffer, int length);
 #endif
 
 #endif /* !defined (_SOUND_H) */

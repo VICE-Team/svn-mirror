@@ -41,7 +41,6 @@
 #include "mem.h"
 #include "res.h"
 #include "resources.h"
-#include "tapeunit.h"
 #include "uiattach.h"
 #include "uidrive.h"
 #include "uilib.h"
@@ -527,7 +526,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             if ((s = ui_select_file("Attach tape image",
                 "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00)\0"
                 "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
-                if (serial_select_file(DT_TAPE, 1, s) < 0)
+                if (tape_attach_image(s) < 0)
                     ui_error("Cannot attach specified file.");
                 free(s);
             }

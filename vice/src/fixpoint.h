@@ -30,7 +30,7 @@
 #define INLINE_FIXPOINT_FUNCTIONS
 
 #ifdef FIXPOINT_ARITHMETIC
-#define FIXPOINT_PREC12
+#define FIXPOINT_PREC   12
 typedef int vreal_t;
 #define REAL_VALUE(x)((vreal_t)((x) * (1<<FIXPOINT_PREC)))
 #define REAL_MULT(x,y)fixpoint_mult(x,y)
@@ -46,9 +46,9 @@ extern vreal_t fixpoint_mult(vreal_t x, vreal_t y);
 #else
 
 typedef float vreal_t;
-#define REAL_VALUE(x)(x)
-#define REAL_MULT(x,y)(x*y)
-#define REAL_TO_INT(x)((int)(x))
+#define REAL_VALUE(x)   (x)
+#define REAL_MULT(x,y)  (x*y)
+#define REAL_TO_INT(x)  ((int)(x))
 #endif
 
 #endif

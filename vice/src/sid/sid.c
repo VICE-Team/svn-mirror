@@ -818,12 +818,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 	    o2 = ((DWORD)(psid->v[2].filtIO)+0x80)<<(7+15);
 	}
 
-#ifdef __riscos
-        /* FIXME: This should not be here!!!  */
-        ((unsigned char*)pbuf)[i] = LinToLog[(((((o0+o1+o2)>>20)-0x600)*psid->vol)>>3)&0x1fff];
-#else
         pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;
-#endif
     }
     return 0;
 }
@@ -857,12 +852,14 @@ static void init_filter(sound_t *psid, int freq)
 
     for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
     {
-	lowPassParam[uk] = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt)
-			    *filterRefFreq) / freq;
-	if ( lowPassParam[uk] < yMin )
-	    lowPassParam[uk] = yMin;
-	if ( lowPassParam[uk] > yMax )
-	    lowPassParam[uk] = yMax;
+        float h;
+
+        h = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
+        if ( h < yMin )
+            h = yMin;
+        if ( h > yMax )
+            h = yMax;
+        lowPassParam[uk] = REAL_VALUE(h);
     }
 
     yMax = 0.22;
@@ -871,17 +868,17 @@ static void init_filter(sound_t *psid, int freq)
     yTmp = yMin;
     for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
     {
-	bandPassParam[uk] = (yTmp*filterRefFreq) / freq;
+        bandPassParam[uk] = REAL_VALUE((yTmp*filterRefFreq) / freq);
 	yTmp += yAdd;
     }
 
     for ( uk = 0; uk < 16; uk++ )
     {
-	filterResTable[uk] = resDy;
+	filterResTable[uk] = REAL_VALUE(resDy);
 	resDy -= (( resDyMin - resDyMax ) / 15 );
     }
-    filterResTable[0] = resDyMin;
-    filterResTable[15] = resDyMax;
+    filterResTable[0] = REAL_VALUE(resDyMin);
+    filterResTable[15] = REAL_VALUE(resDyMax);
 
     /* XXX: if psid->emulatefilter = 0, ampMod1x8 is never referenced */
     if (psid->emulatefilter)

@@ -1118,6 +1118,9 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    return FLOPPY_COMMAND_OK;
 	}
     }
+#ifdef __riscos
+    ui_set_drive_leds(floppy->unit - 8, 1);
+#endif
     fs_error(IPE_OK);
     return FLOPPY_COMMAND_OK;
 }

@@ -1,4 +1,10 @@
+1998-12-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.37.
+
 1998-12-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Check for `strcasecmp' and `strncasecmp' too.
 
 	* Version 0.15.0.36.
 

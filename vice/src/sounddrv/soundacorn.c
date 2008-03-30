@@ -32,31 +32,35 @@
 #include "sound.h"
 
 #include "vice.h"
+#include "log.h"
 
 #include "ROlib.h"
 
 int SoundEvery = 20;
 int SoundLines = 0;
 
+log_t vidc_log = LOG_ERR;
+
 unsigned char *LinToLog = NULL;
 unsigned char *LogScale = NULL;
 
 static int buffersize;
-static unsigned char *buffer;
+static short *buffer;
 
 static int init_vidc_device(warn_t *w, char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
-  buffersize = (*fragsize + 15) & ~15;
+  buffersize = ((*fragsize)*(*fragnr) + 15) & ~15;
+
   if (DigitalRenderer_Activate(1, buffersize, 1000000/(*speed)) != NULL)
   {
     return 1;
   }
   DigitalRenderer_GetTables(&LinToLog, &LogScale);
 
-  if ((buffer = (unsigned char*)malloc(buffersize)) == NULL)
+  if ((buffer = (short*)malloc(buffersize*sizeof(short))) == NULL)
   {
     DigitalRenderer_Deactivate();
     return 1;
@@ -83,7 +87,7 @@ static void vidc_close(warn_t *w)
 
   if ((err = DigitalRenderer_Deactivate()) != NULL)
   {
-    fprintf(logfile, "%s\n", err->errmess);
+    log_error(vidc_log, "%s\n", err->errmess);
   }
   if (buffer != NULL)
   {
@@ -154,7 +158,7 @@ void sound_poll(void)
     if ((DigitalRenderer_ReadState() & (DRState_NeedData | DRState_Active)) == (DRState_NeedData | DRState_Active))
     {
       sound_synthesize(buffer, buffersize);
-      DigitalRenderer_NewSample(buffer);
+      DigitalRenderer_New16BitSample(buffer);
     }
   }
 }

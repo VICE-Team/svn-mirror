@@ -38,6 +38,7 @@
 #include "utils.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "log.h"
 
 /* Main DirectDraw object.  */
 LPDIRECTDRAW dd;
@@ -56,7 +57,7 @@ static void video_debug(const char *format, ...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        fprintf(logfile,tmp);
+        log_debug(tmp);
 }
 #define DEBUG(x) video_debug x
 #else
@@ -244,7 +245,7 @@ int video_init(void)
         return -1;
     }
 
-    DEBUG(("DirectDraw successfully initialized.\n"));
+    DEBUG(("DirectDraw successfully initialized."));
     return 0;
 }
 
@@ -270,14 +271,14 @@ static int frame_buffer_lock(frame_buffer_t f)
         if (result == DD_OK)
             break;
         if (result == DDERR_SURFACELOST) {
-            DEBUG(("Surface lost while locking frame buffer!\n"));
+            DEBUG(("Surface lost while locking frame buffer!"));
             if (IDirectDrawSurface_Restore(f->dd_surface) != DD_OK) {
-                DEBUG(("Cannot restore surface: %s\n", dd_error(result)));
+                DEBUG(("Cannot restore surface: %s", dd_error(result)));
                 return -1;
             }
             /* FIXME: Should clean up and maybe re-alloc colors?  */
         } else if (result != DDERR_WASSTILLDRAWING) {
-            DEBUG(("Cannot lock surface: %s\n", dd_error(result)));
+            DEBUG(("Cannot lock surface: %s", dd_error(result)));
             return -1;
         }
     }
@@ -302,7 +303,7 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
 
     result = IDirectDraw_CreateSurface(dd, &desc, &surface, NULL);
     if (result != DD_OK) {
-        DEBUG(("Cannot create DirectDrawSurface: %s\n", dd_error(result)));
+        DEBUG(("Cannot create DirectDrawSurface: %s", dd_error(result)));
         return -1;
     }
 
@@ -322,7 +323,7 @@ int frame_buffer_alloc(frame_buffer_t *f,
 {
     unsigned int i;
 
-    DEBUG(("frame_buffer_alloc()\n"));
+    DEBUG(("frame_buffer_alloc()"));
     *f = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
     (*f)->width = width;
     (*f)->height = height;
@@ -330,7 +331,7 @@ int frame_buffer_alloc(frame_buffer_t *f,
     for (i = 0; i < height; i++)
         (*f)->lines[i] = (PIXEL *) xmalloc(width * sizeof(PIXEL));
 
-    DEBUG(("Allocated frame buffer, %d x %d pixels.\n", width, height));
+    DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
 
     return 0;
 }
@@ -389,7 +390,7 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
                                                    c->dd_palette);
         }
         if (result != DD_OK) {
-            DEBUG(("Cannot set palette on temporary surface: %s\n",
+            DEBUG(("Cannot set palette on temporary surface: %s",
                    dd_error(result)));
             return -1;
         }
@@ -403,7 +404,7 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
                                                        c->dd_palette);
             }
             if (result != DD_OK) {
-                DEBUG(("Cannot set palette on back surface: %s\n",
+                DEBUG(("Cannot set palette on back surface: %s",
                        dd_error(result)));
                 return -1;
             }
@@ -426,7 +427,7 @@ static int set_physical_colors(canvas_t c)
                            c->palette->entries[i].blue);
         DWORD p;
 
-        DEBUG(("Allocating color \"%s\"\n",
+        DEBUG(("Allocating color \"%s\"",
                c->palette->entries[i].name));
         result = IDirectDrawSurface_GetDC(c->temporary_surface,
                                           &hdc);
@@ -466,11 +467,21 @@ static int set_physical_colors(canvas_t c)
 
         p = *(DWORD *)ddsd.lpSurface;
         c->physical_colors[i] = p;
+        DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
+        if (c->depth==24) {
+            c->physical_colors[i]&=0xffffff;
+        }
+        if (c->depth==15) {
+            c->physical_colors[i]&=0x7fff;
+        }
+        if (c->depth==16) {
+            c->physical_colors[i]&=0xffff;
+        }
         if (c->depth == 8)
             c->pixels[i] = (BYTE) p & 0xff;
         else
             c->pixels[i] = i;
-        DEBUG(("Pixel return %d 0x%02X\n", i, c->pixels[i]));
+        DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
         if (IDirectDrawSurface_Unlock(c->temporary_surface, NULL)
             == DDERR_SURFACELOST) {
             IDirectDrawSurface_Restore(c->temporary_surface);
@@ -513,7 +524,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
 
     result = IDirectDraw_CreateSurface(dd, &desc, &c->primary_surface, NULL);
     if (result != DD_OK) {
-        DEBUG(("Cannot create primary surface: %s\n", dd_error(result)));
+        DEBUG(("Cannot create primary surface: %s", dd_error(result)));
         goto error;
     }
 
@@ -556,7 +567,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
     }
 
     IDirectDrawSurface_GetCaps(c->temporary_surface, &desc.ddsCaps);
-    DEBUG(("Allocated working surface in %s memory successfully.\n",
+    DEBUG(("Allocated working surface in %s memory successfully.",
            (desc.ddsCaps.dwCaps & DDSCAPS_SYSTEMMEMORY
             ? "system"
             : (desc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY
@@ -570,7 +581,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
         c->depth = GetDeviceCaps(hdc, PLANES) * GetDeviceCaps(hdc,
                                                               BITSPIXEL);
         ReleaseDC(NULL, hdc);
-        DEBUG(("Initializing canvas at %d bits per pixel.\n", c->depth));
+        DEBUG(("Initializing canvas at %d bits per pixel.", c->depth));
     }
 
     /* Create palette.  */
@@ -605,7 +616,7 @@ canvas_t canvas_create(const char *title, unsigned int *width,
         result = IDirectDraw_CreatePalette(dd, DDPCAPS_8BIT,
                                            ape, &c->dd_palette, NULL);
         if (result != DD_OK) {
-            DEBUG(("Cannot create palette: %s\n", dd_error(result)));
+            DEBUG(("Cannot create palette: %s", dd_error(result)));
             goto error;
         }
     }
@@ -706,6 +717,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     DWORD   starttime;
     DWORD   difftime;
     int     bytesmoved;
+    DWORD   *ct;
 
     if (IsIconic(c->hwnd))
         return;
@@ -783,7 +795,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             surface = c->back_surface;
 #if 0
         else
-            DEBUG(("Cannot lock back surface: %s\n", dd_error(result)));
+            DEBUG(("Cannot lock back surface: %s", dd_error(result)));
 #endif
     }
 
@@ -811,7 +823,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                                 no_primary_lock_reported = 1;
                         }
 #if 0
-            DEBUG(("Cannot lock primary surface: %s\n", dd_error(result)));
+            DEBUG(("Cannot lock primary surface: %s", dd_error(result)));
 #endif
                 }
     }
@@ -889,20 +901,87 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         }
         break;
       case 24:
+        ct=c->physical_colors;
         dp = ((BYTE *) desc.lpSurface + pitch * rect.top
               + 3 * rect.left);
         for (y = ys; y < ys + h; y++, dp += pitch) {
             BYTE *sp = f->lines[y] + xs;
             BYTE *p = dp;
+            BYTE *s;
             int i;
+            DWORD   dw;
+            DWORD   dw2;
 
-            for (i = 0; i < w; i++) {
-                BYTE *s = (BYTE *) &c->physical_colors[sp[i]];
+            int b=w;
 
-                p[0] = s[0];
-                p[1] = s[1];
-                p[2] = s[2];
-                p += 3;
+            i=((int)dp)&3;
+            if (w<i) {
+                /*  This is the case when the starting and ending fragment is in the same 4 pixel
+                    fragment */
+                for (i=0; i<w; i++) {
+                    s=(BYTE*)&c->physical_colors[sp[i]];
+                    p[0]=s[0];
+                    p[1]=s[1];
+                    p[2]=s[2];
+                    p+=3;
+                }
+            } else {
+                /*  Lets handle the starting fragment first */
+                switch (i) {
+                    case 1:
+                        p=p-1;
+                        dw=(*(DWORD*)p)&0x000000ff;
+                        b+=3;
+                        goto offs1;
+                    case 2:
+                        p=p-2;
+                        dw=(*(DWORD*)p)&0x0000ffff;
+                        b+=2;
+                        goto offs2;
+                    case 3:
+                        p=p-3;
+                        dw=(*(DWORD*)p)&0x00ffffff;
+                        b+=1;
+                        goto offs3;
+                }
+                /*  Lets handle full 4 pixel fragments */
+                while (b>3) {
+                    dw=ct[*sp++];
+offs3:
+                    dw2=ct[*sp++];
+                    *((DWORD*)p)++=dw+(dw2<<24);
+                    dw=dw2>>8;
+offs2:
+                    dw2=ct[*sp++];
+                    *((DWORD*)p)++=dw+(dw2<<16);
+                    dw=dw2>>16;
+offs1:
+                    dw+=ct[*sp++]<<8;
+                    *((DWORD*)p)++=dw;
+                    b-=4;
+                }
+                /*  Handle finishing fragment */
+                switch (b) {
+                    case 1:
+                        dw=(*(DWORD*)p)&0xff000000;
+                        dw+=ct[*sp];
+                        (*(DWORD*)p)=dw;
+                        break;
+                    case 2:
+                        dw=ct[*sp++];
+                        dw2=ct[*sp++];
+                        *((DWORD*)p)++=dw+(dw2<<24);
+                        *(WORD*)p=dw2>>8;
+                        break;
+                    case 3:
+                        dw=ct[*sp++];
+                        dw2=ct[*sp++];
+                        *((DWORD*)p)++=dw+(dw2<<24);
+                        dw=ct[*sp];
+                        *((DWORD*)p)++=(dw2>>8)+(dw<<16);
+                        *p=(dw>>16);
+                        break;
+                }
             }
             bytesmoved+=w*3;
         }
@@ -953,7 +1032,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             if (result == DD_OK)
                 break;
             else if (result == DDERR_INVALIDRECT) {
-                DEBUG(("INVALID rect %d, %d, %d, %d\n",
+                DEBUG(("INVALID rect %d, %d, %d, %d",
                        rect.left, rect.top,
                        rect.right, rect.bottom));
                 break;
@@ -970,5 +1049,5 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         }
     }
      difftime=timeGetTime()-starttime;
-     DEBUG(("screen update took %d msec, moved %d bytes\n",difftime,bytesmoved));
+     DEBUG(("screen update took %d msec, moved %d bytes, width %d, height %d",difftime,bytesmoved,w,h));
 }

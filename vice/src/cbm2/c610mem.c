@@ -490,7 +490,7 @@ void set_bank_exec(int val) {
 	/* This sets the pointers to otherwise non-mapped memory, to
 	   avoid that the CPU code uses illegal memory and segfaults. */
 	if(!page_zero) page_zero = ram + 0xf0000;
-	if(!page_one) page_one = ram + 0xf0100; 
+	if(!page_one) page_one = ram + 0xf0100;
     }
 }
 
@@ -817,9 +817,6 @@ void initialize_memory(void)
 {
     int i, j;
 
-    if (c610_mem_log == LOG_ERR)
-        c610_mem_log = log_open("CBM2MEM");
-
     /* first the tables that hold the predefined bank mappings */
 
     for (i=0;i<16;i++) {		/* 16 banks possible */
@@ -1004,6 +1001,9 @@ int mem_load(void)
     int i;
     int rsize, krsize;
 
+    if (c610_mem_log == LOG_ERR)
+        c610_mem_log = log_open("CBM2MEM");
+
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
@@ -1011,7 +1011,7 @@ int mem_load(void)
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 
     /* Load chargen ROM
-     * we load 4k of 16-byte-per-char Charrom. 
+     * we load 4k of 16-byte-per-char Charrom.
      * Then we generate the inverted chars */
 
     memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
@@ -1253,7 +1253,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  *				    4: cart6_ram
  *				    5: cartC_ram
  *
- * UBYTE        HCONFIG         Bit 0: 
+ * UBYTE        HCONFIG         Bit 0:
  *
  * UBYTE	EXECBANK	CPU exec bank register
  * UBYTE	INDBANK		CPU indirect bank register
@@ -1286,7 +1286,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 		| (cart1_ram ? 2 : 0)
 		| (cart2_ram ? 4 : 0)
 		| (cart4_ram ? 8 : 0)
-		| (cart6_ram ? 16 : 0) 
+		| (cart6_ram ? 16 : 0)
 		| (cartC_ram ? 32 : 0) ;
 
     snapshot_module_write_byte(m, memsize);
@@ -1323,7 +1323,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 	}
 	if(config & 32) {
     	    snapshot_module_write_byte_array(m, ram + 0xfc000, 0x1000);
-	}    
+	}
     }
 
     snapshot_module_close(m);
@@ -1438,7 +1438,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     if (m == NULL)
         return -1;
 
-     
+
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
 		| (cart_4_name ? 8 : 0)
@@ -1467,7 +1467,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	/* chargen FIXME: $c*** for C500 */
         snapshot_module_write_byte_array(m, chargen_rom, 0x0800);
         snapshot_module_write_byte_array(m, chargen_rom + 0x1000, 0x0800);
-	
+
 	if(config & 2) {
     	    snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
 	}
@@ -1479,7 +1479,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	}
 	if(config & 16) {
     	    snapshot_module_write_byte_array(m, rom + 0x6000, 0x2000);
-	}    
+	}
     }
 
     snapshot_module_close(m);
@@ -1533,7 +1533,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
         chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
         chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
     }
-	
+
     if(config & 2) {
         snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
     }
@@ -1554,7 +1554,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
 /*********************************************************************/
 
-int mem_write_snapshot_module(snapshot_t *p, int save_roms) 
+int mem_write_snapshot_module(snapshot_t *p, int save_roms)
 {
     if (mem_write_ram_snapshot_module(p) < 0
 	|| mem_write_rom_snapshot_module(p, save_roms) < 0
@@ -1564,7 +1564,7 @@ int mem_write_snapshot_module(snapshot_t *p, int save_roms)
     return 0;
 }
 
-int mem_read_snapshot_module(snapshot_t *p) 
+int mem_read_snapshot_module(snapshot_t *p)
 {
     if (mem_read_ram_snapshot_module(p) < 0
 	|| mem_read_rom_snapshot_module(p) < 0 )
@@ -1572,4 +1572,3 @@ int mem_read_snapshot_module(snapshot_t *p)
 
     return 0;
 }
-

@@ -11,7 +11,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/cbm2
 
 noinst_LIBRARIES = libarch.a
 
@@ -53,10 +54,14 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.c \
 	uiattach.h \
+	uicbm2set.c \
+	uicbm2set.h \
 	uidrive.c \
 	uidrive.h \
 	uilib.c \
 	uilib.h \
+	uipetset.c \
+	uipetset.h \
 	uisnapshot.h \
 	uisnapshot.c \
 	uivicii.h \

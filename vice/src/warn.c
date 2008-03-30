@@ -88,12 +88,7 @@ void warn(warn_t *pwarn, int warnid, char *msg, ...)
     }
     va_start(ap, msg);
 
-    /* Bugfix for GCC + SharedCLib */
-#if (defined (__riscos) && defined(__GNUC__))
-    vsprintf(tmp, msg, (va_list)(&ap));
-#else
     vsprintf(tmp, msg, ap);
-#endif
 
     log_message(LOG_DEFAULT, "%s: Warning: %s", pwarn->name, tmp);
     va_end(ap);

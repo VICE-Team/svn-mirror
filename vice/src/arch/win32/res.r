@@ -88,7 +88,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_ABOUT DIALOG DISCARDABLE  0, 0, 195, 147
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 195, 137
 STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "About VICE"
 FONT 8, "MS Sans Serif"
@@ -102,11 +102,10 @@ BEGIN
     CTEXT    "Copyright (c) 1993-1994, 1997-1998 Teemu Rantanen",IDC_STATIC,5,68,180,8
     CTEXT    "Copyright (c) 1997-1998 Daniel Sladic",IDC_STATIC,16,77,158,8
     CTEXT    "Copyright (c) 1998 Andreas Boose",IDC_STATIC,36,86,118,8
-    CTEXT    "Copyright (c) 1993-1996 Jouko Valta",IDC_STATIC,36,95,118,8
-    CTEXT    "Copyright (c) 1993-1994 Jarkko Sonninen",IDC_STATIC,16,104,158,8
-
-    CTEXT    "Initial Windows port by Ettore Perazzoli",IDC_STATIC,36,122,118,8
-    CTEXT    "(ettore@comm2000.it)",IDC_STATIC,36,131,118,8
+    CTEXT    "Copyright (c) 1998 Dag Lem",IDC_STATIC,36,95,118,8
+    CTEXT    "Copyright (c) 1998 Tibor Biczo",IDC_STATIC,16,104,158,8
+    CTEXT    "Copyright (c) 1993-1996 Jouko Valta",IDC_STATIC,36,113,118,8
+    CTEXT    "Copyright (c) 1993-1994 Jarkko Sonninen",IDC_STATIC,16,122,158,8
 END
 
 IDD_DISKDEVICE_DIALOG DIALOG DISCARDABLE  0, 0, 307, 190

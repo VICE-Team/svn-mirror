@@ -61,7 +61,7 @@ static void vsync_debug(const char *format, ...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        fprintf(logfile,tmp);
+        log_debug(tmp);
 }
 #define DEBUG(x) vsync_debug x
 #else
@@ -207,12 +207,12 @@ void CALLBACK timer_callback(UINT timer_id, UINT msg,
 
         count++;
         if (count == 50) {
-                DEBUG(("timer_callback %d msec.\n", timeGetTime() - start_time));
+                DEBUG(("timer_callback %d msec.", timeGetTime() - start_time));
                 start_time = timeGetTime();
                 count = 0;
         }
     EnterCriticalSection(&timer_stuff.critical_section);
-    DEBUG(("Callback! %d -> %d\n",
+    DEBUG(("Callback! %d -> %d",
            timer_stuff.frame_counter, timer_stuff.frame_counter + 1));
     timer_stuff.frame_counter++;
     if (timer_stuff.waiting) {
@@ -229,7 +229,7 @@ void vsync_cleanup(void)
 {
     timeKillEvent(timer_id);
     timeEndPeriod(timer_tolerance);
-    DEBUG(("vsync_cleanup()\n"));
+    DEBUG(("vsync_cleanup()"));
 }
 
 int vsync_init(double hertz, long cycles, void (*hook)(void))
@@ -252,7 +252,7 @@ int vsync_init(double hertz, long cycles, void (*hook)(void))
         timer_tolerance = min(max(tc.wPeriodMin, TARGET_TIMER_TOLERANCE),
                               tc.wPeriodMax);
         timeBeginPeriod(timer_tolerance);
-        DEBUG(("Timer tolerance set to %d msec.\n", timer_tolerance));
+        DEBUG(("Timer tolerance set to %d msec.", timer_tolerance));
         /* Darn M$ -- why doesn't `atexit()' work?!  */
         atexit(vsync_cleanup);
     }
@@ -266,7 +266,7 @@ int vsync_init(double hertz, long cycles, void (*hook)(void))
                                             "VSyncSemaphore");
 
     if (timer_stuff.semaphore == 0) {
-        DEBUG(("Cannot create semaphore!\n"));
+        DEBUG(("Cannot create semaphore!"));
         return -1;
     }
 
@@ -291,10 +291,10 @@ int do_vsync(int been_skipped)
         if (relative_speed!=0) {
             interval = (int)(((100.0 / (double) relative_speed)
                                 / refresh_frequency) * 1000.0 + .5);
-            DEBUG(("Setting up timer -- interval = %d msec.\n", interval));
+            DEBUG(("Setting up timer -- interval = %d msec.", interval));
             timer_id = timeSetEvent(interval, 0, timer_callback, 0, TIME_PERIODIC);
             if (timer_id == 0) {
-                DEBUG(("timeSetEvent failed!\n"));
+                DEBUG(("timeSetEvent failed!"));
                 timer_speed = 0;
             } else {
                 timer_speed = relative_speed;
@@ -331,16 +331,16 @@ int do_vsync(int been_skipped)
                 /* Signal we want to wait for the next timer event...  */
                 timer_stuff.waiting = 1;
                 LeaveCriticalSection(&timer_stuff.critical_section);
-                DEBUG(("Now waiting!\n"));
+                DEBUG(("Now waiting!"));
                 WaitForSingleObject(timer_stuff.semaphore, INFINITE);
-                DEBUG(("Now done!\n"));
+                DEBUG(("Now done!"));
 #if 0
                 EnterCriticalSection(&timer_stuff.critical_section);
                 timer_stuff.frame_counter = 0;
                 LeaveCriticalSection(&timer_stuff.critical_section);
 #endif
             } else {
-                DEBUG(("Nothing to wait: timer_stuff.frame_counter = %d\n",
+                DEBUG(("Nothing to wait: timer_stuff.frame_counter = %d",
                        timer_stuff.frame_counter));
                 timer_stuff.frame_counter = 0;
                 LeaveCriticalSection(&timer_stuff.critical_section);
@@ -357,18 +357,18 @@ int do_vsync(int been_skipped)
                 /* We are too fast: sleep.  */
                 EnterCriticalSection(&timer_stuff.critical_section);
                 timer_stuff.waiting = 1;
-                DEBUG(("Now waiting! frame_counter %d skip_counter %d\n",
+                DEBUG(("Now waiting! frame_counter %d skip_counter %d",
                        timer_stuff.frame_counter, skip_counter));
                 LeaveCriticalSection(&timer_stuff.critical_section);
                 WaitForSingleObject(timer_stuff.semaphore, INFINITE);
-                DEBUG(("Now done!\n"));
+                DEBUG(("Now done!"));
                 skip_counter = 0;
 #if 0
                 EnterCriticalSection(&timer_stuff.critical_section);
                 timer_stuff.frame_counter = 0;
 #endif
             } else {
-                DEBUG(("Too slow frame_counter %d skip_counter %d\n",
+                DEBUG(("Too slow frame_counter %d skip_counter %d",
                        timer_stuff.frame_counter, skip_counter));
                 EnterCriticalSection(&timer_stuff.critical_section);
                 /* We are too slow: skip frames to catch up.  */
@@ -410,7 +410,7 @@ int do_vsync(int been_skipped)
             speed_index = 100.0 * ((double) (clk - speed_eval_clk_start)
                                    / elapsed_secs / cycles_per_sec);
             fps = (double) drawn_frames / elapsed_secs;
-            DEBUG(("%ld clocks in %.4f secs\n",
+            DEBUG(("%ld clocks in %.4f secs",
                    clk - speed_eval_clk_start, elapsed_secs));
             ui_display_speed((float) speed_index, (float) fps,
                              warp_mode_enabled);

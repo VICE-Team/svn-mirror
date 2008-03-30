@@ -1,9 +1,8 @@
 /*
- * c610ui.c - C610-specific user interface.
+ * uicbm2set.h - Implementation of CBM2 settings dialog box.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,29 +24,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef _UICBM2SET_H
+#define _UICBM2SET_H
 
-#include <stdio.h>
 #include <windows.h>
-#include <windowsx.h>
 
-#include "petui.h"
-#include "res.h"
-#include "ui.h"
-#include "uicbm2set.h"
-#include "winmain.h"
+void ui_cbm2_settings_dialog(HWND hwnd);
 
-void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
-{
-    switch (wparam) {
-      case IDM_CBM2_SETTINGS:
-        ui_cbm2_settings_dialog(hwnd);
-    }
-}
-
-int c610_ui_init(void)
-{
-    ui_register_machine_specific(cbm2_ui_specific);
-    return 0;
-}
-
+#endif
