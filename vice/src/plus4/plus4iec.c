@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cia.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
@@ -123,11 +124,11 @@ void iec_cpu_write_conf1(BYTE data)
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_1581)
-            viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+            viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(&(drive0_context.cia1581));
+                ciacore_set_flag(drive0_context.cia1581);
     }
 
     if (drive[0].type != DRIVE_TYPE_1581)
@@ -154,11 +155,11 @@ void iec_cpu_write_conf2(BYTE data)
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[1].type != DRIVE_TYPE_1581)
-            viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+            viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(&(drive1_context.cia1581));
+                ciacore_set_flag(drive1_context.cia1581);
     }
 
     if (drive[1].type != DRIVE_TYPE_1581)
@@ -187,18 +188,18 @@ void iec_cpu_write_conf3(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
 
         if (drive[0].type != DRIVE_TYPE_1581)
-            viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+            viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(&(drive0_context.cia1581));
+                ciacore_set_flag(drive0_context.cia1581);
 
         if (drive[1].type != DRIVE_TYPE_1581)
-            viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+            viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(&(drive1_context.cia1581));
+                ciacore_set_flag(drive1_context.cia1581);
 
     }
 

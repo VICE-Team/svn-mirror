@@ -28,8 +28,6 @@
 #ifndef _VIC20_H
 #define _VIC20_H
 
-#include "via.h"
-
 #define VIC20_PAL_CYCLES_PER_SEC        1108405
 #define VIC20_PAL_CYCLES_PER_LINE       71
 #define VIC20_PAL_SCREEN_LINES          312
@@ -54,11 +52,13 @@
 #define VIC20_NTSC_RFSH_PER_SEC    (1.0 / ((double)VIC20_NTSC_CYCLES_PER_RFSH \
                                    / (double)VIC20_NTSC_CYCLES_PER_SEC))
 
+struct via_context_s;
+
 typedef struct machine_context_s {
-    via_context_t via1;
-    via_context_t via2;
-    via_context_t ieeevia1;
-    via_context_t ieeevia2;
+    struct via_context_s *via1;
+    struct via_context_s *via2;
+    struct via_context_s *ieeevia1;
+    struct via_context_s *ieeevia2;
 } machine_context_t;
 
 extern machine_context_t machine_context;

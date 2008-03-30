@@ -35,9 +35,9 @@
 
 #include "c64.h"
 #include "c64cart.h"
-#include "c64cia.h"
 #include "c64iec.h"
 #include "cartridge.h"
+#include "cia.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
@@ -134,11 +134,11 @@ void iec_cpu_write_conf1(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+                viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    ciacore_set_flag(&(drive0_context.cia1581));
+                    ciacore_set_flag(drive0_context.cia1581);
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -168,11 +168,11 @@ void iec_cpu_write_conf2(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+                viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    ciacore_set_flag(&(drive1_context.cia1581));
+                    ciacore_set_flag(drive1_context.cia1581);
         }
     }
     if (drive[1].type != DRIVE_TYPE_2031) {
@@ -202,19 +202,19 @@ void iec_cpu_write_conf3(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
+                viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    ciacore_set_flag(&(drive0_context.cia1581));
+                    ciacore_set_flag(drive0_context.cia1581);
         }
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
+                viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
-                    ciacore_set_flag(&(drive1_context.cia1581));
+                    ciacore_set_flag(drive1_context.cia1581);
         }
     }
     if (drive[0].type != DRIVE_TYPE_2031) {
@@ -272,21 +272,21 @@ iec_info_t *iec_get_drive_port(void)
 void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
-        ciacore_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(machine_context.cia2);
     parallel_cable_drive0_value = data;
 }
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
     if (handshake)
-        ciacore_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(machine_context.cia2);
     parallel_cable_drive1_value = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-        ciacore_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(machine_context.cia2);
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -328,8 +328,8 @@ void parallel_cable_cpu_pulse(void)
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
 
-    viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CB1, VIA_SIG_FALL);
-    viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(drive0_context.via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(drive1_context.via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
 }
 
 void parallel_cable_cpu_undump(BYTE data)

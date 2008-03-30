@@ -30,8 +30,8 @@
 #include "drivetypes.h"
 #include "iecieee.h"
 #include "types.h"
-#include "viad.h"
 #include "via.h"
+#include "viad.h"
 
 
 void iecieee_drive_init(struct drive_context_s *drv)
@@ -41,12 +41,12 @@ void iecieee_drive_init(struct drive_context_s *drv)
 
 void iecieee_drive_shutdown(struct drive_context_s *drv)
 {
-    viacore_shutdown(&(drv->via2));
+    viacore_shutdown(drv->via2);
 }
 
 void iecieee_drive_reset(struct drive_context_s *drv)
 {
-    viacore_reset(&(drv->via2));
+    viacore_reset(drv->via2);
 }
 
 void iecieee_drive_setup_context(struct drive_context_s *drv)
@@ -63,7 +63,7 @@ int iecieee_drive_snapshot_read(struct drive_context_s *ctxptr,
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR
         || ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (viacore_snapshot_read_module(&(ctxptr->via2), s) < 0)
+        if (viacore_snapshot_read_module(ctxptr->via2, s) < 0)
             return -1;
     }
 
@@ -79,7 +79,7 @@ int iecieee_drive_snapshot_write(struct drive_context_s *ctxptr,
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1571CR
         || ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (viacore_snapshot_write_module(&(ctxptr->via2), s) < 0)
+        if (viacore_snapshot_write_module(ctxptr->via2, s) < 0)
             return -1;
     }
 
