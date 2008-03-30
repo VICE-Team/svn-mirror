@@ -1342,6 +1342,13 @@
 #define IDM_DEBUG_MODE_SMALL            40241
 #define IDM_DEBUG_MODE_HISTORY          40242
 #define IDM_DEBUG_MODE_AUTOPLAY         40243
+#define IDM_LANG_EN                     40244
+#define IDM_LANG_DE                     40245
+#define IDM_LANG_FR                     40246
+#define IDM_LANG_IT                     40247
+#define IDM_LANG_NL                     40248
+#define IDM_LANG_PL                     40249
+#define IDM_LANG_SV                     40250
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

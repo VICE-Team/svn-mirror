@@ -98,6 +98,7 @@ extern void ui_register_res_values(const ui_res_value_list_t *valuelist);
 
 /* Windows-specific functions.  */
 
+extern void ui_update_menu();
 extern HWND ui_get_main_hwnd(void);
 extern HWND ui_open_canvas_window(const char *title, unsigned int width,
                                   unsigned int height,

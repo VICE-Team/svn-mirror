@@ -39,6 +39,7 @@
 #include "res.h" /* 50456 */
 #include "resources.h"
 #include "util.h"
+#include "ui.h"
 
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
@@ -3052,6 +3053,7 @@ static int set_current_language(resource_value_t v, void *param)
     {
       current_language_index=i;
       util_string_set(&current_language, intl_language_table[i]);
+      ui_update_menu();
       return 0;
     }
   }

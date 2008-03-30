@@ -1,3 +1,7 @@
+2005-04-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* de.po, fr.po, it.po, nl.po, pl.po: Fixed some translations.
+
 2005-04-21  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* POTFILES.in: Added gettext aware files.
