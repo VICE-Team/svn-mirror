@@ -42,7 +42,6 @@
 #endif
 
 #include "archdep.h"
-#include "findpath.h"
 #include "log.h"
 #include "utils.h"
 

@@ -39,7 +39,6 @@
 #include <sys/stat.h>
 
 #include "fcntl.h"
-#include "findpath.h"
 #include "archdep.h"
 
 #include "log.h"

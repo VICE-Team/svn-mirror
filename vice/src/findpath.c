@@ -59,63 +59,62 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
-    if (strchr(cmd, FSDEV_DIR_SEP_CHR /*'/'*/)) /* absolute or relative path given ???*/
-    {
-	int l, state;
-	const char *ps;
+    if (strchr(cmd, FSDEV_DIR_SEP_CHR)) {
+        int l, state;
+        const char *ps;
 
-	if (archdep_path_is_relative(cmd))
-	{
-	    if (getcwd(buf + 1, sizeof buf - 128) == NULL)
-		goto fail;
+        if (archdep_path_is_relative(cmd)) {
+            if (getcwd(buf + 1, sizeof buf - 128) == NULL)
+                goto fail;
 
-	    l = strlen(buf + 1);
-	}
-	else l = 0;
+            l = strlen(buf + 1);
+        } else {
+            l = 0;
+        }
 
-	if (l + strlen(cmd) >= sizeof buf - 5)
-	    goto fail;
+        if (l + strlen(cmd) >= sizeof buf - 5)
+            goto fail;
 
-	ps = cmd;
-	pd = buf + l; /* buf + 1 + l - 1 */
+        ps = cmd;
+        pd = buf + l; /* buf + 1 + l - 1 */
 
 #if !defined (__MSDOS__) && !defined (WIN32) && !defined (OS2)
-	if (*pd++ != '/')
-	    *pd++ = '/';
+        if (*pd++ != '/')
+            *pd++ = '/';
 #else
-	pd++;
+        pd++;
 #endif
 
-	state = 1;
+        state = 1;
 
-	/* delete extra `/./', '/../' and '//':s from the path */
-	while (*ps)
-	{
-	    switch (state)
-	    {
-	    case 0: if (*ps == '/') state = 1; else state = 0; break;
-	    case 1:
-		if (*ps == '.') { state = 2; break; }
-		if (*ps == '/') pd--; else state = 0; break;
-	    case 2:
-		if (*ps == '/') { state = 1; pd -= 2; break; }
-		if (*ps == '.') state = 3; else state = 0; break;
-	    case 3:
-		if (*ps != '/') { state = 0; break; }
-		state = 1;
-		pd -= 4;
-		while (*pd != '/' && *pd != '\0')
-		    pd--;
-		if (*pd == '\0') pd++;
-		state = 1;
-		break;
-	    }
-	    *pd++ = *ps++;
+        /* delete extra `/./', '/../' and '//':s from the path */
+        while (*ps)
+        {
+            switch (state)
+            {
+            case 0: if (*ps == '/') state = 1; else state = 0; break;
+            case 1:
+                if (*ps == '.') { state = 2; break; }
+                if (*ps == '/') pd--; else state = 0; break;
+            case 2:
+                if (*ps == '/') { state = 1; pd -= 2; break; }
+                if (*ps == '.') state = 3; else state = 0; break;
+            case 3:
+                if (*ps != '/') { state = 0; break; }
+                state = 1;
+                pd -= 4;
+                while (*pd != '/' && *pd != '\0')
+                    pd--;
+                if (*pd == '\0') pd++;
+                state = 1;
+                break;
+            }
+            *pd++ = *ps++;
 
-	}
+        }
 
         *pd = '\0';
-	pd = buf + 1;
+        pd = buf + 1;
     }
     else
     {
