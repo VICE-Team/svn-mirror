@@ -109,7 +109,7 @@ typedef struct vdrive_s {
     unsigned int num_tracks;
 
     /* FIXME: bam sizeof define */
-    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
+    BYTE bam[5 * 256]; /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
     bufferinfo_t buffers[16];
 
     /* File information */
@@ -175,7 +175,8 @@ typedef struct errortext_s {
 /* ------------------------------------------------------------------------- */
 
 extern void vdrive_init(void);
-extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit);
+extern int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit);
+extern void vdrive_device_shutdown(vdrive_t *vdrive);
 extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
                                vdrive_t *vdrive);
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,

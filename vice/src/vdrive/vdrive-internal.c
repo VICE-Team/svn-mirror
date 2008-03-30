@@ -66,7 +66,7 @@ static vdrive_t *open_fsimage(const char *name, unsigned int read_only)
 
     vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
 
-    vdrive_setup_device(vdrive, 100);
+    vdrive_device_setup(vdrive, 100);
     vdrive->image = image;
     vdrive_attach_image(image, 100, vdrive);
     return vdrive;

@@ -89,9 +89,9 @@ void vdrive_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
+int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
 {
-    int i;
+    unsigned int i;
 
     vdrive->unit = unit;
 
@@ -106,6 +106,16 @@ int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
 
     vdrive_command_set_error(vdrive, IPE_DOS_VERSION, 0, 0);
     return 0;
+}
+
+void vdrive_device_shutdown(vdrive_t *vdrive)
+{
+    unsigned int i;
+
+    if (vdrive != NULL) {
+        for (i = 0; i < 15; i++)
+            free(vdrive->buffers[i].buffer);
+    }
 }
 
 /* ------------------------------------------------------------------------- */

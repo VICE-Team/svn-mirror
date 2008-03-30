@@ -87,7 +87,7 @@ const char machine_name[] = "C1541";
 /* Global clock counter.  */
 CLOCK clk = 0L;
 
-static vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
+static vdrive_t *drives[4] = { NULL, NULL, NULL, NULL };
 
 static int drive_number = 0;
 
@@ -634,7 +634,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
         return -1;
     }
 
-    vdrive_setup_device(vdrive, unit);
+    vdrive_device_setup(vdrive, unit);
     vdrive->image = image;
     vdrive_attach_image(image, unit, vdrive);
     return 0;
