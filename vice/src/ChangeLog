@@ -1,3 +1,154 @@
+2001-12-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.32.
+
+	* video/Makefile.am: Added new files.
+
+2001-12-01  John Selck  <graham@cruise.de>
+
+	* video/render1x2.h: New file, prototypes for 1x2 renderers
+	introduced.
+
+	* video/render1x2.c: New file, 1x2 renderers introduced.
+
+	* video/video-render.c: Added new renderers to
+	video_render_main(). Added new video_rendermode
+	variable which describes what renderers should be used.
+	Added video_render_set_rendermode().
+
+	* video.h: Added video_render_set_rendermode() prototype.
+	Added defines for different rendermodes.
+
+	* crtc/crtc.c: crtc_resize() now sets different rendermodes.
+	crtc_init() now sets default monochrome rendermode.
+
+	* crtc/crtc-resources.c: set_double_size_enabled() and
+	set_double_scan_enabled() now access the video layer variables
+	double_size_bad and double_scan_bad. Same hack as in
+	vicii-resources.c and vic-resources.c (Should be fixed one day).
+
+	* arch/win32/video.dsp: Added render1x2.c to project.
+
+2001-11-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.h: VIC_RASTER_CHAR scales with VIC_PIXEL_WIDTH
+	Added new macro VIC_BORDER_X for raster_add_int_change_border
+	which needs scaling with VIC_PIXEL_WIDTH while
+	raster_add_int_change_background doesn't. That's strange...
+
+	* vic20/vic-mem.c (vic_store): Added two more scalings
+	with VIC_PIXEL_WIDTH. Store to 15 uses new macro VIC_BORDER_X
+	to register change in border.
+
+2001-11-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c128ui.cc, c64ui.cc: Added menu toggles for
+	fast PAL emulation.
+
+	* arch/beos/constants.h: Added menu id for this menu item.
+
+	* arch/beos/vicemenu.cc: Added 'Fast PAL' menu item.
+
+	* arch/beos/vicewindow.{cc|h}: No offset from bitmap to view
+	needed anymore.
+
+	* arch/beos/videoarch.h: We don't need the bitmap and
+	ViceWindow in the frame_buffer struct anymore.
+
+	* arch/beos/video.cc: Changed constructor and destructor for
+	the video_frame_buffer. New function (canvas_create_bitmap).
+	(canvas_create) handles color depth 8, 15~16 and 32.
+	(video_canvas_resize) deletes bitmap and reallocates it via
+	calling canvas_create_bitmap.
+	(video_canvas_set_palette) handles color depth 8, 16 and 32.
+	(video_canvas_refresh) cuts with and height if necessary;
+	slightly different call of video_render_main due to new canvas
+	and frame_buffer structures. No connection from canvas to
+	frame_buffer needed anymore.
+
+	* raster_raster.c: (raster_resize_viewport) finally calls
+	raster_force_repaint();
+
+2001-11-29  John Selck  <graham@cruise.de>
+
+	* vicii/vicii-resources.c: Removed video_color_set_raster()
+	call from vic_ii_resources_init().
+
+	* vicii/vicii.c: Added video_color_set_raster() call to init_raster().
+
+	* vic20/vic.c: vic_set_geometry() and vic_resize() now sets raster
+	variables already scaled to VIC_PIXEL_WIDTH.
+	vic_raster_draw_alarm_handler() now takes into account that raster
+	layer already has it's variables scaled with VIC_PIXEL_WIDTH.
+	Pixel size in raster layer is NOT scaled with VIC_PIXEL_WIDTH
+	anymore making it possible to use the same renderers as the other
+	emulators.
+	Moved video_color_set_raster() to the beginning of init_raster().
+
+	* vic20/vic-draw.c: If VIDEO_REMOVE_2X is defined the 2x code
+	is removed and the single pixel code x positions will not be scaled
+	by VIC_PIXEL_WIDTH anymore.
+	vic_draw_set_double_size() will only define single pixel calls if
+	VIDEO_REMOVE_2X is defined.
+
+	* vic20/vic-mem.c: vic_store() now takes into account that raster
+	variables are already scaled with VIC_PIXEL_WIDTH.
+
+	* vic20/vic-resources.c: set_double_size_enabled() and
+	set_double_scan_enabled() now access the video layer variables
+	double_size_bad and double_scan_bad. Same hack as in
+	vicii-resources.c (Should be fixed one day).
+
+2001-11-26  John Selck  <graham@cruise.de>
+
+	* video/render1x1.c: Removed longword optimisations in
+	fake-pal renderers. This should fix the unaligned accesses.
+
+	* video/render2x2.c: Same as in render1x1.c.
+
+	* video/video-resources.c: Split up resources[] into
+	resources[] and resources_pal[] to make it possible to
+	not register the PAL-specific resources on non-PAL
+	emulators. Changed video_resources_init() to register different
+	sets of resources depending on the value given as argument.
+
+	* video/video-resources.h: Changed prototype of
+	video_resources_init() to accept an argument. Added defines
+	for different constants which select which resources should
+	be registered.
+
+	* c64/c64.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_PAL as argument.
+
+	* c128/c128.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_PAL as argument.
+
+	* vic20/vic20.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_PAL as argument.
+
+	* plus4/plus4.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_PAL_NOFAKE as argument.
+
+	* plus4/plus4.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_PAL_NOFAKE as argument.
+
+	* pet/pet.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_MONOCHROME as argument.
+
+	* cbm2/cbm2.c: machine_init_resources(): video_resource_init() call
+	now gives VIDEO_RESOURCES_MONOCHROME as argument.
+
+2001-11-26  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* sound.c: moved VIDC init call back here
+
+	* arch/riscos/plus4ui.c: fixed keycode mapping
+
+	* arch/riscos/ui.c: moved VIDC init call to sound.c, use
+	correct icon bar sprite for PLUS4 emu.
+
+	* arch/riscos/uiconfig.c: added Zaxxon cartridge
+
 2001-11-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.31.

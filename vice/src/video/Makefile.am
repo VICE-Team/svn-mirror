@@ -8,6 +8,8 @@ noinst_LIBRARIES = libvideo.a
 libvideo_a_SOURCES = \
 	render1x1.c \
 	render1x1.h \
+	render1x2.c \
+	render1x2.h \
 	render2x2.c \
 	render2x2.h \
 	video-color.c \
