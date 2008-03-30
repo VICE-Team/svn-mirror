@@ -640,7 +640,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
                                GCRIMAGE_SNAP_MINOR);
     if (m == NULL)
-       return -1;
+        return -1;
 
     tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
 
