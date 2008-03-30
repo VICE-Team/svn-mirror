@@ -540,7 +540,7 @@ const char contrib_text[] =
 "\n"
 "  Andreas Arens, Lutz Sammer and Edgar Tornig\n"
 "  Christian Bauer\n"
-"  Wolfgang Lorentz\n"
+"  Wolfgang Lorenz\n"
 "  Miha Peternel\n"
 "  Per Hakan Sundell\n"
 "\n"
