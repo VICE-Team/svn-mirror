@@ -54,12 +54,12 @@ vic_t vic;
 
 
 static int raster_draw_alarm_handler (long offset);
-static void exposure_handler (unsigned int width, unsigned int height);
+static void vic_exposure_handler (unsigned int width, unsigned int height);
 
 
 
 static void 
-exposure_handler (unsigned int width, unsigned int height)
+vic_exposure_handler (unsigned int width, unsigned int height)
 {
   raster_resize_viewport (&vic.raster, width, height);
 
@@ -119,8 +119,7 @@ init_raster (void)
 
   raster_init (raster, VIC_NUM_VMODES, VIC_NUM_SPRITES);
   raster_modes_set_idle_mode (&raster->modes, VIC_IDLE_MODE);
-
-  raster_set_exposure_handler (raster, exposure_handler);
+  raster_set_exposure_handler (raster, vic_exposure_handler);
   raster_enable_cache (raster, vic_resources.video_cache_enabled);
   raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
   raster_set_canvas_refresh(raster, 1);

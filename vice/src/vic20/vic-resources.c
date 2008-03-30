@@ -93,6 +93,9 @@ static int
 set_double_scan_enabled (resource_value_t v)
 {
   vic_resources.double_scan_enabled = (int) v;
+  if (vic.initialized)
+    raster_enable_double_scan (&vic.raster,
+                               vic_resources.double_scan_enabled);
   vic_resize ();
 
   return 0;
