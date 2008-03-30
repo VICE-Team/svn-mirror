@@ -245,17 +245,21 @@ static errortext_t floppy_error_messages[] =
 
 int     initialize_1541(int dev, int type,
                         drive_attach_func_t attach_func,
-                        drive_detach_func_t detach_func)
+                        drive_detach_func_t detach_func,
+                        DRIVE *oldinfo)
 {
-    DRIVE  *floppy = NULL;
+    DRIVE  *floppy;
     int     i;
+
+    floppy = oldinfo;
 
     /* Create instances of the disk drive.  */
     if (!floppy) {
 	floppy = (DRIVE *)malloc(sizeof(DRIVE));
 	assert(floppy);
-	memset (floppy, 0, sizeof(DRIVE));	/* init all pointers */
     }
+
+    memset (floppy, 0, sizeof(DRIVE));  /* init all pointers */
 
     floppy->type     = type;
     floppy->ActiveFd = -1;
@@ -2734,10 +2738,11 @@ void    detach_floppy_image(DRIVE *floppy)
 
     if (floppy->ActiveFd >= 0) {
 	printf("Detaching disk image %s\n", floppy->ActiveName);
+	if (floppy->detach_func != NULL)
+	    floppy->detach_func(floppy);
 	zclose(floppy->ActiveFd);
 	floppy->ActiveFd = -1;
 	floppy->ActiveName[0] = 0;		/* Name is used as flag */
-        floppy->detach_func(floppy);
     }
 }
 
@@ -2846,7 +2851,9 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	return -1;
     }
 
-    floppy->attach_func(floppy);
+    if (floppy->attach_func != NULL)
+        floppy->attach_func(floppy);
+
     return (0);
 }
 
@@ -2857,7 +2864,8 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
  * Information Acquisition routines.
  */
 
-int get_std64_header(int fd, BYTE *header) {
+int get_std64_header(int fd, BYTE *header)
+{
     int devtype = DEFAULT_DEVICE_TYPE;
     int tracks = NUM_TRACKS_1541;
     int blk = NUM_BLOCKS_1541-1;
@@ -3010,7 +3018,7 @@ int import_GCR_image(BYTE *header, hdrinfo *hdr)
 	return 0;
     }
 
-    if ((header[9] < (NUM_TRACKS_1541 * 2)) 
+    if ((header[9] < (NUM_TRACKS_1541 * 2))
 			|| (header[9] > (MAX_TRACKS_1541 * 2))) {
 	printf("Import GCR: invalid number of tracks.\n");
 	return 0;

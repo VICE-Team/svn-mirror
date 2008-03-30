@@ -34,6 +34,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "findpath.h"
 #include "utils.h"
 
 /*
@@ -113,7 +114,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	    char * p;
 	    int l;
 
-	    s = strchr(path, ':');
+	    s = strchr(path, FINDPATH_SEPARATOR_CHAR);
 	    l = s? (s - path): strlen(path);
 
 	    if (l + cl > sizeof buf - 5)

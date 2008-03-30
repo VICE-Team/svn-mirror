@@ -3,6 +3,7 @@
  *
  * Written by
  *  Tomi Ollila <Tomi.Ollila@tfi.net>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +29,14 @@
 #define _FINDPATH_H
 
 #include <unistd.h>
+
+#ifdef __MSDOS__
+#define FINDPATH_SEPARATOR_CHAR         ';'
+#define FINDPATH_SEPARATOR_STRING       ";"
+#else
+#define FINDPATH_SEPARATOR_CHAR         ':'
+#define FINDPATH_SEPARATOR_STRING       ":"
+#endif
 
 char *findpath(const char *cmd, const char *syspath, int mode);
 
