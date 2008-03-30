@@ -26,8 +26,6 @@
  */
 
 
-#define ACCURATE_FETCH
-
 #ifdef DRIVE_CPU
 #define CPU_STR "Drive CPU"
 #else
@@ -521,6 +519,7 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
+/* FIXME: Dummy LOAD() cycles are missing!  */
 #define BRANCH(cond, value)                                            \
   do {                                                                 \
       if (cond) {                                                      \
@@ -640,12 +639,12 @@
       unsigned int tmp, tmp_addr;                                     \
                                                                       \
       tmp_addr = (addr);                                              \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       tmp = load_func(tmp_addr);                                      \
       tmp = (tmp - 1) & 0xff;                                         \
       LOCAL_SET_CARRY(reg_a >= tmp);                                  \
       LOCAL_SET_NZ((reg_a - tmp));                                    \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, tmp, (clk_inc2));                          \
       RMW_FLAG = 0;                                                   \
@@ -745,10 +744,10 @@
       BYTE my_src;                                                    \
       int my_addr = (addr);                                           \
                                                                       \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       my_src = load_func(my_addr);                                    \
       my_src = (my_src + 1) & 0xff;                                   \
+      RMW_FLAG = 1;                                                   \
       SBC(my_src, 0, 0, 0);                                           \
       INC_PC(pc_inc);                                                 \
       store_func(my_addr, my_src, clk_inc2);                          \
@@ -791,7 +790,6 @@
       JUMP(dest_addr);                                              \
   } while (0)
 
-#ifdef ACCURATE_FETCH
 #define JSR(addr, clk_inc1, clk_inc2, pc_inc)       \
   do {                                              \
       unsigned int tmp_addr;                        \
@@ -804,19 +802,6 @@
       CLK += 1;                                     \
       JUMP(tmp_addr);                               \
   } while (0)
-#else
-#define JSR(addr, clk_inc1, clk_inc2, pc_inc)       \
-  do {                                              \
-      unsigned int tmp_addr;                        \
-                                                    \
-      CLK += (clk_inc1);                            \
-      tmp_addr = (addr);                            \
-      CLK += (clk_inc2);                            \
-      PUSH(((reg_pc + (pc_inc) - 1) >> 8) & 0xff);  \
-      PUSH((reg_pc + (pc_inc) - 1) & 0xff);         \
-      JUMP(tmp_addr);                               \
-  } while (0)
-#endif
 
 #define LAS(value, clk_inc1, clk_inc2, pc_inc)    \
   do {                                            \
@@ -969,12 +954,12 @@
       unsigned int tmp, tmp_addr;                                     \
                                                                       \
       tmp_addr = (addr);                                              \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       tmp = ((load_func(tmp_addr) << 1) | (reg_p & P_CARRY));         \
       LOCAL_SET_CARRY(tmp & 0x100);                                   \
       reg_a &= tmp;                                                   \
       LOCAL_SET_NZ(reg_a);                                            \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, tmp, clk_inc2);                            \
       RMW_FLAG = 0;                                                   \
@@ -1060,15 +1045,15 @@
       BYTE src;                                                       \
       unsigned int my_temp, tmp_addr;                                 \
                                                                       \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       tmp_addr = (addr);                                              \
       src = load_func(tmp_addr);                                      \
-      INC_PC(pc_inc);                                                 \
       my_temp = src >> 1;                                             \
       if (reg_p & P_CARRY)                                            \
           my_temp |= 0x80;                                            \
       LOCAL_SET_CARRY(src & 0x1);                                     \
+      RMW_FLAG = 1;                                                   \
+      INC_PC(pc_inc);                                                 \
       ADC(my_temp, 0, 0, 0);                                          \
       store_func(tmp_addr, my_temp, clk_inc2);                        \
       RMW_FLAG = 0;                                                   \
@@ -1101,18 +1086,19 @@
    from 1 to 0 because the value of I is set 3 cycles before the end of the
    opcode, and thus the 6510 has enough time to call the interrupt routine as
    soon as the opcode ends, if necessary.  */
-#define RTI()                        \
-  do {                               \
-      WORD tmp;                      \
-                                     \
-      CLK += 6;                      \
-      tmp = (WORD) PULL();           \
-      LOCAL_SET_STATUS((BYTE) tmp);  \
-      tmp = (WORD) PULL();           \
-      tmp |= (WORD) PULL() << 8;     \
-      JUMP(tmp);                     \
+#define RTI()                       \
+  do {                              \
+      WORD tmp;                     \
+                                    \
+      CLK += 6;                     \
+      tmp = (WORD)PULL();           \
+      LOCAL_SET_STATUS((BYTE)tmp);  \
+      tmp = (WORD)PULL();           \
+      tmp |= (WORD)PULL() << 8;     \
+      JUMP(tmp);                    \
   } while (0)
 
+/* FIXME: Dummy LOAD() cycles are missing!  */
 #define RTS()                           \
   do {                                  \
       WORD tmp;                         \
@@ -1307,7 +1293,6 @@
       BYTE tmp;                                                       \
       unsigned int tmp_addr;                                          \
                                                                       \
-      RMW_FLAG = 1;                                                   \
       CLK += (clk_inc1);                                              \
       tmp_addr = (addr);                                              \
       tmp = load_func(tmp_addr);                                      \
@@ -1315,6 +1300,7 @@
       tmp >>= 1;                                                      \
       reg_a ^= tmp;                                                   \
       LOCAL_SET_NZ(reg_a);                                            \
+      RMW_FLAG = 1;                                                   \
       INC_PC(pc_inc);                                                 \
       store_func(tmp_addr, tmp, clk_inc2);                            \
       RMW_FLAG = 0;                                                   \
@@ -1455,7 +1441,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef ACCURATE_FETCH
 static const BYTE fetch_tab[] = {
             /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
     /* $00 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $00 */
@@ -1475,21 +1460,11 @@ static const BYTE fetch_tab[] = {
     /* $E0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, /* $E0 */
     /* $F0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1  /* $F0 */
 };
-#endif
 
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #define opcode_t DWORD
 
-#ifndef ACCURATE_FETCH
-#define FETCH_OPCODE(o) ((o) = ((((int)reg_pc) < bank_limit)         \
-                                ? (*((DWORD *)(bank_base + reg_pc))  \
-                                   & 0xffffff)                       \
-                                : (LOAD(reg_pc)                      \
-                                   | (LOAD(reg_pc + 1) << 8)         \
-                                   | (LOAD(reg_pc + 2) << 16))))
-
-#else
 #define FETCH_OPCODE(o)                                         \
     do {                                                        \
         if (((int)reg_pc) < bank_limit) {                       \
@@ -1506,7 +1481,6 @@ static const BYTE fetch_tab[] = {
             CLK -= 1;                                           \
         }                                                       \
     } while (0)
-#endif
 
 #define p0 (opcode & 0xff)
 #define p1 ((opcode >> 8) & 0xff)
@@ -1523,15 +1497,6 @@ static const BYTE fetch_tab[] = {
         } op;             \
     }
 
-#ifndef ACCURATE_FETCH
-#define FETCH_OPCODE(o)                                                  \
-      ((((int)reg_pc) < bank_limit) ? ((o).ins = *(bank_base + reg_pc),  \
-                    (o).op.op16 = (*(bank_base + reg_pc + 1)             \
-                                  | (*(bank_base + reg_pc + 2) << 8)))   \
-                 : ((o).ins = LOAD(reg_pc),                              \
-                    (o).op.op16 = (LOAD(reg_pc + 1)                      \
-                                   | (LOAD(reg_pc + 2) << 8))))
-#else
 #define FETCH_OPCODE(o)                                         \
     do {                                                        \
         if (((int)reg_pc) < bank_limit) {                       \
@@ -1550,7 +1515,6 @@ static const BYTE fetch_tab[] = {
             CLK -= 1;                                           \
         }                                                       \
     } while (0)
-#endif
 
 #define p0 (opcode.ins)
 #define p2 (opcode.op.op16)
@@ -1651,7 +1615,7 @@ trap_skipped:
             break;
 
           case 0x01:            /* ORA ($nn,X) */
-            ORA(LOAD_IND_X(p1), 2, 4, 2);
+            ORA(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0x02:            /* JAM */
@@ -1669,8 +1633,8 @@ trap_skipped:
             JAM();
             break;
 
-          case 0x03:                      /* SLO ($nn,X) */
-            SLO(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+          case 0x03:            /* SLO ($nn,X) */
+            SLO(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0x04:            /* NOOP $nn */
@@ -1768,12 +1732,12 @@ trap_skipped:
             ORA(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-          case 0x1a:                      /* NOOP */
-          case 0x3a:                      /* NOOP */
-          case 0x5a:                      /* NOOP */
-          case 0x7a:                      /* NOOP */
-          case 0xda:                      /* NOOP */
-          case 0xfa:                      /* NOOP */
+          case 0x1a:            /* NOOP */
+          case 0x3a:            /* NOOP */
+          case 0x5a:            /* NOOP */
+          case 0x7a:            /* NOOP */
+          case 0xda:            /* NOOP */
+          case 0xfa:            /* NOOP */
             NOOP(2, 1);
             break;
 
@@ -1781,12 +1745,12 @@ trap_skipped:
             SLO(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-          case 0x1c:                      /* NOOP $nnnn,X */
-          case 0x3c:                      /* NOOP $nnnn,X */
-          case 0x5c:                      /* NOOP $nnnn,X */
-          case 0x7c:                      /* NOOP $nnnn,X */
-          case 0xdc:                      /* NOOP $nnnn,X */
-          case 0xfc:                      /* NOOP $nnnn,X */
+          case 0x1c:            /* NOOP $nnnn,X */
+          case 0x3c:            /* NOOP $nnnn,X */
+          case 0x5c:            /* NOOP $nnnn,X */
+          case 0x7c:            /* NOOP $nnnn,X */
+          case 0xdc:            /* NOOP $nnnn,X */
+          case 0xfc:            /* NOOP $nnnn,X */
             NOOP_ABS_X();
             break;
 
@@ -1807,11 +1771,11 @@ trap_skipped:
             break;
 
           case 0x21:            /* AND ($nn,X) */
-            AND(LOAD_IND_X(p1), 2, 4, 2);
+            AND(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0x23:            /* RLA ($nn,X) */
-            RLA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+            RLA(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0x24:            /* BIT $nn */
@@ -1915,11 +1879,11 @@ trap_skipped:
             break;
 
           case 0x41:            /* EOR ($nn,X) */
-            EOR(LOAD_IND_X(p1), 2, 4, 2);
+            EOR(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0x43:            /* SRE ($nn,X) */
-            SRE(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+            SRE(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0x45:            /* EOR $nn */
@@ -2023,11 +1987,11 @@ trap_skipped:
             break;
 
           case 0x61:            /* ADC ($nn,X) */
-            ADC(LOAD_IND_X(p1), 2, 4, 2);
+            ADC(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0x63:            /* RRA ($nn,X) */
-            RRA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+            RRA(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0x65:            /* ADC $nn */
@@ -2126,20 +2090,20 @@ trap_skipped:
             RRA(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-          case 0x80:                      /* NOOP #$nn */
-          case 0x82:                      /* NOOP #$nn */
-          case 0x89:                      /* NOOP #$nn */
-          case 0xc2:                      /* NOOP #$nn */
-          case 0xe2:                      /* NOOP #$nn */
+          case 0x80:            /* NOOP #$nn */
+          case 0x82:            /* NOOP #$nn */
+          case 0x89:            /* NOOP #$nn */
+          case 0xc2:            /* NOOP #$nn */
+          case 0xe2:            /* NOOP #$nn */
             NOOP(2, 2);
             break;
 
           case 0x81:            /* STA ($nn,X) */
-            STA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 4, 2, STORE_ABS);
+            STA(LOAD_ZERO_ADDR(p1 + reg_x), 5, 1, 2, STORE_ABS);
             break;
 
           case 0x83:            /* SAX ($nn,X) */
-            SAX(LOAD_ZERO_ADDR(p1 + reg_x), 2, 4, 2);
+            SAX(LOAD_ZERO_ADDR(p1 + reg_x), 5, 1, 2);
             break;
 
           case 0x84:            /* STY $nn */
@@ -2251,7 +2215,7 @@ trap_skipped:
             break;
 
           case 0xa1:            /* LDA ($nn,X) */
-            LDA(LOAD_IND_X(p1), 2, 4, 2);
+            LDA(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0xa2:            /* LDX #$nn */
@@ -2259,7 +2223,7 @@ trap_skipped:
             break;
 
           case 0xa3:            /* LAX ($nn,X) */
-            LAX(LOAD_IND_X(p1), 2, 4, 2);
+            LAX(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0xa4:            /* LDY $nn */
@@ -2375,11 +2339,11 @@ trap_skipped:
             break;
 
           case 0xc1:            /* CMP ($nn,X) */
-            CMP(LOAD_IND_X(p1), 2, 4, 2);
+            CMP(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0xc3:            /* DCP ($nn,X) */
-            DCP(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+            DCP(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0xc4:            /* CPY $nn */
@@ -2483,11 +2447,11 @@ trap_skipped:
             break;
 
           case 0xe1:            /* SBC ($nn,X) */
-            SBC(LOAD_IND_X(p1), 2, 4, 2);
+            SBC(LOAD_IND_X(p1), 5, 1, 2);
             break;
 
           case 0xe3:            /* ISB ($nn,X) */
-            ISB(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
+            ISB(LOAD_ZERO_ADDR(p1 + reg_x), 5, 3, 2, LOAD_ABS, STORE_ABS);
             break;
 
           case 0xe4:            /* CPX $nn */
@@ -2588,3 +2552,4 @@ trap_skipped:
         }
     }
 }
+
