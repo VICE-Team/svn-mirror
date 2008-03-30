@@ -86,7 +86,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_BUFFER);
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_BUFFER);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("100 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("150 msec"));
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("200 msec"));
@@ -117,7 +117,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("None"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
@@ -151,7 +151,6 @@ static void init_sound_dialog(HWND hwnd)
         res_value = IDC_SOUND_DIRECTX;
         
     CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
-
 }
 
 static void end_sound_dialog(HWND hwnd)
@@ -185,7 +184,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         init_sound_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
-        command=LOWORD(wparam);
+        command = LOWORD(wparam);
         switch (command) {
           case IDC_SOUND_DIRECTX:
             resources_set_value("SoundDeviceName",(resource_value_t)"dx");
