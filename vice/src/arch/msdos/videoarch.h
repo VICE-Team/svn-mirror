@@ -44,7 +44,7 @@ struct video_draw_buffer_callback_s;
 
 struct video_canvas_s {
     unsigned int width, height, depth, bytes_per_line;
-    video_render_config_t videoconfig;
+    struct video_render_config_s *videoconfig;
     RGB colors[NUM_AVAILABLE_COLORS];
     canvas_redraw_t exposure_handler;
 

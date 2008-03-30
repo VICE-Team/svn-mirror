@@ -78,7 +78,7 @@ struct video_canvas_s {
   int last_video_render_depth;
   video_redraw_core_func *redraw_wimp;
   video_redraw_core_func *redraw_full;
-  video_render_config_t videoconfig;
+  struct video_render_config_s *videoconfig;
   struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 };
 

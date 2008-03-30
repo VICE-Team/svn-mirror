@@ -50,7 +50,7 @@ typedef struct video_canvas_s {
     int mapped;
     int depth;
 	float refreshrate; /* currently displayed refresh rate */
-    video_render_config_t videoconfig;
+    struct video_render_config_s *videoconfig;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
     BYTE *pixels;

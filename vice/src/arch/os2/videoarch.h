@@ -34,7 +34,7 @@ typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
 typedef struct video_canvas_s
 {
-    video_render_config_t videoconfig;
+    struct video_render_config_s *videoconfig;
     HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
     HWND   hwndClient;       // Handle to Paint Area of Window
     HWND   hwndMenu;         // Handle to menu bar
