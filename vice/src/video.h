@@ -92,15 +92,24 @@ extern void video_canvas_unmap(struct video_canvas_s *s);
 extern void video_canvas_resize(struct video_canvas_s *s, unsigned int width,
                                 unsigned int height);
 
-/* these constants tell the video layer what */
+typedef struct video_draw_buffer_callback_s {
+    int (*draw_buffer_alloc)(BYTE **draw_buffer, unsigned int fb_width,
+                             unsigned int fb_height);
+    void (*draw_buffer_free)(BYTE *draw_buffer);
+    void (*draw_buffer_clear)(BYTE *draw_buffer, unsigned int fb_width,
+                             unsigned int fb_height);
+} video_draw_buffer_callback_t;
+
+/* These constants tell the video layer what */
 /* resources should be registered */
 
-#define VIDEO_RESOURCES_MONOCHROME	1	/* pet and cbm2 */
-#define VIDEO_RESOURCES_PAL			2	/* c64, c128, vic20 */
-#define VIDEO_RESOURCES_PAL_NOFAKE	3	/* plus4 (fake pal emu not possible here) */
+#define VIDEO_RESOURCES_MONOCHROME 1 /* pet and cbm2 */
+#define VIDEO_RESOURCES_PAL        2 /* c64, c128, vic20 */
+#define VIDEO_RESOURCES_PAL_NOFAKE 3 /* plus4 (fake pal emu not possible here) */
 
 extern int video_resources_init(int mode);
 extern int video_arch_init_resources(void);
+
 
 /* Video render interface */
 
