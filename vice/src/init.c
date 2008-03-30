@@ -36,6 +36,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "event.h"
+#include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "initcmdline.h"
@@ -78,6 +79,10 @@ int init_resources(void)
     }
     if (ui_resources_init() < 0) {
         init_resource_fail("UI");
+        return -1;
+    }
+    if (fliplist_resources_init() < 0) {
+        init_resource_fail("flip list");
         return -1;
     }
     if (file_system_resources_init() < 0) {
@@ -146,6 +151,10 @@ int init_cmdline_options(void)
     }
     if (!vsid_mode && ui_cmdline_options_init() < 0) {
         init_cmdline_options_fail("UI");
+        return -1;
+    }
+    if (fliplist_cmdline_options_init() < 0) {
+        init_cmdline_options_fail("flip list");
         return -1;
     }
     if (!vsid_mode && file_system_cmdline_options_init() < 0) {
