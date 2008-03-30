@@ -1,5 +1,59 @@
 1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.15.
+
+	* 6510core.c (FETCH_OPCODE): Check whether PC is within the memory
+	range limits instead of using `bank_base'.
+
+	* c128/c128cpu.c, cbm2/c610cpu.c, cpu-tmpl.c (mem_read_limit):
+	New function to update the memory range limit.
+
+	* c64/c64mem.c: New variables `mem_read_limit_tab' and 
+	`mem_read_limit_tab_ptr'.
+	(initialize_memory): Set memory range limits.  New array
+	`limit_tab' containing memory range limits.
+
+	* drive/drivecpu-tmpl.c: New variable `bank_limit'. Set to `-1'
+	for the moment.
+
+	* maincpu.def: Define `INSTRUCTION_FETCH_HACK'.
+	(JUMP): Also update memory range limit.
+
+	* mem.h: New variable `mem_read_limit_tab_ptr'.
+
+	* pet/petmem.c: Adjusted names of memory range limit variables to
+	match the CPU ones.
+
+	* vic20/vic20mem.c: New variables `mem_read_limit_tab' and
+	`mem_read_limit_tab_ptr'.  Set all limits to `-1' for now.
+
+1998-01-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petmem.c (_mem_read_limit_tab, _mem_read_limit_tab_ptr):
+	new variables to hold/point to the bank_limit tables.
+	(initialize_memory, set_std_9tof, store_8x96, set_vidmem):
+	in all places where _mem_read_base_tab is set, set _mem_read_limit_tab
+	as well.
+
+1998-01-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* 6510core.c (SAX_ZERO): exchange two lines -> make it look
+	similar to STA_ZERO now, and magically fixes the SAX_ZERO bug
+	introduced when removing the opcode fetch hack (compiler 
+	stuff (gcc version 2.7.2.1)?)
+
+	* arch/msdos/archdep.c, msdos/archdep.h, win32/archdep.h,
+	win32/archdep.c (archdep_default_save_resource_file_name): new 
+	function/prototype.
+	Returns same value as archdep_default_resource_file_name.
+	(On Unix is creates the ".vice" subdirectory in $HOME if it 
+	does not exist when saving resources)
+
+	* maincpu.c (FETCH_OPCODE, p0, p1, p2, opcode_t): embraced
+	with a check for not existing INSTRUCTION_FETCH_HACK.
+
+1999-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.14.
 
 1998-01-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
