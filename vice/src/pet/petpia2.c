@@ -55,11 +55,11 @@ static piareg mypia;
 /* ------------------------------------------------------------------------- */
 /* CPU binding */
 
-#define my_set_int(a)                                                   \
+#define my_set_int(a) \
         maincpu_set_irq(I_PIA1, (a)? IK_IRQ : IK_NONE)
 
 #define my_restore_int(a)                                     \
-        interrupt_set_int_noclk(&maincpu_int_status, I_PIA1,  \
+        interrupt_set_irq_noclk(&maincpu_int_status, I_PIA1,  \
         (a) ? IK_IRQ : IK_NONE)
 
 #define mycpu_rmw_flag  rmw_flag
