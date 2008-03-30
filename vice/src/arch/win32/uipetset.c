@@ -46,7 +46,7 @@ static void init_dialog(HWND hwnd)
     int n, res;
 
     resources_get_value("Crtc", (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC, 
+    CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
                    n ? BST_CHECKED : BST_UNCHECKED);
     resources_get_value("SuperPET", (resource_value_t *) &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
@@ -109,7 +109,7 @@ static void init_dialog(HWND hwnd)
 
     resources_get_value("KeymapIndex", (resource_value_t *) &res);
     switch (res) {
-      case 1:
+      case 2:
         n = IDC_SELECT_PET_KEYB_GRAPHICS;
         break;
       case 0:
@@ -202,7 +202,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
               resources_set_value("IOSize", (resource_value_t) 0x800);
               break;
             case IDC_SELECT_PET_KEYB_GRAPHICS:
-              resources_set_value("KeymapIndex", (resource_value_t) 1);
+              resources_set_value("KeymapIndex", (resource_value_t) 2);
               break;
             case IDC_SELECT_PET_KEYB_BUSINESS:
               resources_set_value("KeymapIndex", (resource_value_t) 0);
@@ -283,4 +283,3 @@ void ui_pet_settings_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 }
-

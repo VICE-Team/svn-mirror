@@ -775,14 +775,15 @@ static struct MenuIconBar {
 };
 
 /* Emu window menu */
-#define Menu_EmuWin_Items	6
+#define Menu_EmuWin_Items	7
 #define Menu_EmuWin_Width	200
 #define Menu_EmuWin_Configure	0
 #define Menu_EmuWin_Snapshot	1
-#define Menu_EmuWin_Pane	2
-#define Menu_EmuWin_TrueDrvEmu	3
-#define Menu_EmuWin_Sound	4
-#define Menu_EmuWin_Monitor	5
+#define Menu_EmuWin_Freeze	2
+#define Menu_EmuWin_Pane	3
+#define Menu_EmuWin_TrueDrvEmu	4
+#define Menu_EmuWin_Sound	5
+#define Menu_EmuWin_Monitor	6
 static struct MenuEmuWindow {
   RO_MenuHead head;
   RO_MenuItem item[Menu_EmuWin_Items];
@@ -791,6 +792,7 @@ static struct MenuEmuWindow {
   {
     MENU_ITEM_SUB("\\MenEmuConf", &MenuConfigure),
     MENU_ITEM("\\MenEmuSnap"),
+    MENU_ITEM("\\MenEmuFrz"),
     MENU_ITEM("\\MenEmuPane"),
     MENU_ITEM("\\MenEmuTrue"),
     MENU_ITEM("\\MenEmuSnd"),
@@ -3140,6 +3142,10 @@ int ui_init_finish(void)
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu, 1);
   }
+  if (machine_class != VICE_MACHINE_C64)
+  {
+    wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Freeze, 1);
+  }
 
   ui_set_pane_state(ShowPane);
 
@@ -4426,6 +4432,9 @@ static void ui_menu_selection(int *b)
         case Menu_EmuWin_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
           break;
+        case Menu_EmuWin_Freeze:
+          cartridge_trigger_freeze();
+          break;
         case Menu_EmuWin_Pane:
           ShowPane ^= 1;
           ui_set_pane_state(ShowPane);
@@ -4884,8 +4893,36 @@ static void ui_user_message(int *b)
         }
         else if (b[6] == Icon_Conf_DosNameF)
         {
-          ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayDosName, (resource_value_t)wimp_get_leaf_name(((char*)b)+44));
+          ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayDosName, (resource_value_t)(((char*)b)+44));
           action = 1;
+        }
+        if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
+        {
+          char *res = NULL;
+          int rom_changed = 0;
+          if (b[10] == FileType_Data)
+          {
+            if (b[6] == Icon_Conf_CharGen) res = Rsrc_CharGen;
+            else if (b[6] == Icon_Conf_Kernal) res = Rsrc_Kernal;
+            else if (b[6] == Icon_Conf_Basic) res = Rsrc_Basic;
+            if (res != NULL) rom_changed = 1;
+          }
+          else if (b[10] == FileType_Text)
+          {
+            if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
+          }
+          if (res != NULL)
+          {
+            if (resources_set_value(res, (resource_value_t)(((char*)b)+44)) == 0)
+            {
+              wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], b[6], ((char*)b)+44);
+              if (rom_changed != 0)
+              {
+                mem_load(); maincpu_trigger_reset();
+              }
+              action = 1;
+            }
+          }
         }
       }
       else if (b[5] == ConfWindows[CONF_WIN_VIC]->Handle)
@@ -4902,13 +4939,6 @@ static void ui_user_message(int *b)
         {
           ui_update_menu_disp_strshow((disp_desc_t*)&MenuDisplayCBM2Cartridge, (resource_value_t)(b + 11));
           action = 1;
-        }
-      }
-      if (b[10] == FileType_Text)
-      {
-        if ((b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle) && (b[6] == Icon_Conf_Palette))
-        {
-          resources_set_value(Rsrc_Palette, (resource_value_t)(((char*)b)+44));
         }
       }
       if (action != 0)

@@ -2,7 +2,7 @@
  * rsuser.c - Daniel Dallmann's 9600 baud RS232 userport interface
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,15 +39,19 @@
 
 #include "types.h"
 
+#include "alarm.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "rs232.h"
 #include "rsuser.h"
 #include "vmachine.h"
 
 static file_desc_t fd = ILLEGAL_FILE_DESC;
+
+static alarm_t rsuser_alarm;
 
 static int dtr;
 static int rts;
@@ -93,7 +97,7 @@ static int set_up_enabled(resource_value_t v) {
 	    /* if(clk_start_tx) rs232_putc(fd, rxdata); */
 	    rs232_close(fd);
 	}
-	maincpu_unset_alarm(A_RSUSER);
+	alarm_unset(&rsuser_alarm);
 	fd = ILLEGAL_FILE_DESC;
     }
 
@@ -161,6 +165,9 @@ void rsuser_init(long cycles, void (*startfunc)(void),
 	int i, j;
 	unsigned char c,d;
 
+        alarm_init(&rsuser_alarm, &maincpu_alarm_context,
+                   "RSUser", int_rsuser);
+
         cycles_per_sec = cycles;
 	set_up_enabled((resource_value_t) rsuser_enabled);
 
@@ -193,10 +200,9 @@ void rsuser_reset(void) {
 	if(fd != ILLEGAL_FILE_DESC) {
 	    rs232_close(fd);
 	}
-	maincpu_unset_alarm(A_RSUSER);
-	fd = ILLEGAL_FILE_DESC;
 
-	maincpu_unset_alarm(A_RSUSER);
+	alarm_unset(&rsuser_alarm);
+	fd = ILLEGAL_FILE_DESC;
 }
 
 static void rsuser_setup(void)
@@ -206,7 +212,7 @@ static void rsuser_setup(void)
     clk_start_tx = 0;
     clk_start_bit = 0;
     fd = rs232_open(rsuser_device);
-    maincpu_set_alarm(A_RSUSER, char_clk_ticks / 8);
+    alarm_set(&rsuser_alarm, clk + char_clk_ticks / 8);
 }
 
 void rsuser_write_ctrl(BYTE b) {
@@ -222,7 +228,7 @@ void rsuser_write_ctrl(BYTE b) {
 #ifdef DEBUG
             log_message(LOG_DEBUG, "switch rs232 off.");
 #endif
-	    maincpu_unset_alarm(A_RSUSER);
+	    alarm_unset(&rsuser_alarm);
             rs232_close(fd);
 	    fd = ILLEGAL_FILE_DESC;
 #endif
@@ -351,14 +357,14 @@ int int_rsuser(long offset) {
 		  if(start_bit_trigger) start_bit_trigger();
 		  clk_start_rx = rclk;
 		}
-		maincpu_set_alarm(A_RSUSER, char_clk_ticks);
+		alarm_set(&rsuser_alarm, clk + char_clk_ticks);
 		break;
 	case 1:
 		/* now byte should be in shift register */
 		if(byte_rx_func) byte_rx_func(code[rxdata]);
 		rxstate = 0;
 		clk_start_rx = 0;
-		maincpu_set_alarm(A_RSUSER, char_clk_ticks / 8);
+		alarm_set(&rsuser_alarm, clk + char_clk_ticks / 8);
 		break;
         }
 

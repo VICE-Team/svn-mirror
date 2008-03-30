@@ -186,7 +186,7 @@ int cartridge_attach_image(int type, const char *filename)
     size_t n;
 
     /* Attaching no cartridge always works.  */
-    if (type == CARTRIDGE_NONE || *filename == '\0')
+    if (type == CARTRIDGE_NONE || filename==NULL || *filename == '\0')
 	return 0;
 
     log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",

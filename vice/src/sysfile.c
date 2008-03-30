@@ -108,6 +108,8 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     FILE *f;
 
 #ifdef __riscos
+    char buffer[256];
+
     p = (char*)name;
     while (*p != '\0')
     {
@@ -116,37 +118,36 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     }
     if (*p != '\0')
     {
-        p = (char*)malloc(strlen(name) + 1); strcpy(p, name);
-        if (complete_path_return != NULL) *complete_path_return = p;
-        return fopen(p, "r");
+        if (complete_path_return != NULL)
+            *complete_path_return = stralloc(name);
+        return fopen(name, "r");
     }
 
     f = archdep_open_romset_file(name, complete_path_return);
     if (f != NULL)
         return f;
 
-    p = (char*)malloc(strlen(default_path) + strlen(name) + 1);
-    sprintf(p, "%s%s", default_path, name);
-    if (access(p, R_OK))
+    sprintf(buffer, "%s%s",default_path, name);
+    if (access(buffer, R_OK))
     {
-        free(p);
-        p = (char*)malloc(strlen("Vice:DRIVES.") + strlen(name) + 1);
-        sprintf(p, "Vice:DRIVES.%s", name);
+        sprintf(buffer, "Vice:DRIVES.%s", name);
+        if (access(buffer, R_OK))
+        {
+            buffer[0] = '\0';
+        }
     }
-    if (complete_path_return != NULL)
-       f = fopen(p, "r");
+    if (buffer[0] != '\0') f = fopen(buffer, "r");
     if (f == NULL)
     {
-       free(p);
-       if (complete_path_return != NULL)
-           *complete_path_return = NULL;
-       return NULL;
+        if (complete_path_return != NULL)
+            *complete_path_return = NULL;
+        return NULL;
     }
     else
     {
-       if (complete_path_return != NULL)
-          *complete_path_return = p;
-       return f;
+        if (complete_path_return != NULL)
+            *complete_path_return = stralloc(buffer);
+        return f;
     }
 #else
     p = findpath(name, expanded_system_path, R_OK);

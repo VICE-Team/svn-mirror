@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/cia1581drive1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/drive/cia1581drive1.def,
+ * ../../src/drive/cia1581drive1.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/drive/cia1581drive1.def,
  * Do not edit!
  */
 /*
@@ -99,8 +99,6 @@
 #include "iecdrive.h"
 #include "ciad.h"
 
-#define	CIA1581D1_USE_INLINE 1
-
 #undef CIA1581D1_TIMER_DEBUG
 #undef CIA1581D1_IO_DEBUG
 #undef CIA1581D1_DUMP_DEBUG
@@ -123,6 +121,10 @@ static void my_set_tai_clk(CLOCK tai_clk);
 static void my_unset_tai(void);
 
 #define	cia1581d1ier	cia1581d1[CIA_ICR]
+
+static alarm_t cia1581d1_ta_alarm;
+static alarm_t cia1581d1_tb_alarm;
+static alarm_t cia1581d1_tod_alarm;
 
 static int cia1581d1int;		/* Interrupt Flag register for cia 1 */
 static CLOCK cia1581d1rdi;		/* real clock = clk-offset */
@@ -192,8 +194,6 @@ static log_t cia1581d1_log = LOG_ERR;
    not needed anymore (because it's known to my_set_int(). Actually
    one could also remove IK_IRQ as it is also know... */
 
-#if CIA1581D1_USE_INLINE
-
 /* new semantics and as inline function, value can be replaced by 0/1 */
 static inline void my_set_int(int value, CLOCK rclk)
 {
@@ -211,59 +211,33 @@ static inline void my_set_int(int value, CLOCK rclk)
     }
 }
 
-#else /* CIA1581D1_USE_INLINE */
-
-/* new semantics but as define, but value can be _not_ replaced by 0/1 */
-#ifdef CIA1581D1_TIMER_DEBUG
-#define	my_set_int(value, rclk)						\
-    do {								\
-        if (cia1581d1_debugFlag)						\
-	    log_message(cia1581d1_log, "set_int(rclk=%d, int=%d, d=%d pc=).",		\
-		   rclk,(int_num),(value));				\
-	drive1_set_irq_clk((I_CIA1581D1FL), (value), (rclk));		\
-	if ((value))							\
-	    cia1581d1int |= 0x80;						\
-    } while(0)
-#else /* CIA1581D1_TIMER_DEBUG */
-#define	my_set_int(value, rclk)						 \
-    do {								 \
-        drive1_set_irq_clk((I_CIA1581D1FL), (value), (rclk));		 \
-	if ((value))							 \
-	    cia1581d1int |= 0x80;						 \
-    } while(0)
-#endif /* CIA1581D1_TIMER_DEBUG */
-
-#endif /* CIA1581D1_USE_INLINE */
-
 /*
  * scheduling int_cia1581d1t[ab] calls -
  * warning: int_cia1581d1ta uses drive1_* stuff!
  */
 
-#if CIA1581D1_USE_INLINE
-
 static inline void my_set_tai_clk(CLOCK tai_clk) 
 {
     cia1581d1_tai = tai_clk;
-    drive1_set_alarm_clk(A_CIA1581D1TA, tai_clk);
+    alarm_set(&cia1581d1_ta_alarm, tai_clk);
 }
 
 static inline void my_unset_tai(void) 
 {
     cia1581d1_tai = -1;							\
-    drive1_unset_alarm(A_CIA1581D1TA);					\
+    alarm_unset(&cia1581d1_ta_alarm);
 }
 
 static inline void my_set_tbi_clk(CLOCK tbi_clk) 
 {
     cia1581d1_tbi = tbi_clk;
-    drive1_set_alarm_clk(A_CIA1581D1TB, tbi_clk);
+    alarm_set(&cia1581d1_tb_alarm, tbi_clk);
 }
 
 static inline void my_unset_tbi(void)
 {
     cia1581d1_tbi = -1;
-    drive1_unset_alarm(A_CIA1581D1TB);
+    alarm_unset(&cia1581d1_tb_alarm);
 }
 
 /*
@@ -289,58 +263,6 @@ static inline void update_tbi(CLOCK rclk)
         cia1581d1int |= t;
     }
 }
-
-#else /* CIA1581D1_USE_INLINE */
-
-#define	my_set_tai_clk(tai_clk) 					\
-    do {								\
-	cia1581d1_tai = tai_clk;						\
-	drive1_set_alarm_clk(A_CIA1581D1TA, tai_clk);			\
-    } while(0)
-
-#define	my_unset_tai() 							\
-    do {								\
-	cia1581d1_tai = -1;							\
-	drive1_unset_alarm(A_CIA1581D1TA);					\
-    } while(0)
-
-#define	my_set_tbi_clk(tbi_clk) 					\
-    do {								\
-	cia1581d1_tbi = tbi_clk;						\
-	drive1_set_alarm_clk(A_CIA1581D1TB, tbi_clk);			\
-    } while(0)
-
-#define	my_unset_tbi() 							\
-    do {								\
-	cia1581d1_tbi = -1;							\
-	drive1_unset_alarm(A_CIA1581D1TB);					\
-    } while(0)
-
-/*
- * Those routines setup the cia1581d1t[ab]i clocks to a value above
- * rclk and schedule the next int_cia1581d1t[ab] alarm
- */
-#define	update_tai(rclk)						\
-    do {								\
-	if(cia1581d1_tai < rclk) {						\
-	    int t = cia1581d1int;						\
-	    cia1581d1int = 0;						\
-	    int_cia1581d1ta(rclk - cia1581d1_tai);				\
-	    cia1581d1int |= t;						\
-	}								\
-    } while(0)
-
-#define	update_tbi(rclk)						\
-    do {								\
-	if(cia1581d1_tbi < rclk) {						\
-	    int t = cia1581d1int;						\
-	    cia1581d1int = 0;						\
-	    int_cia1581d1tb(rclk - cia1581d1_tbi);				\
-	    cia1581d1int |= t;						\
-	}								\
-    } while(0)
-
-#endif /* CIA1581D1_USE_INLINE */
 
 /* global */
 
@@ -526,6 +448,16 @@ static int update_cia1581d1(CLOCK rclk)
 
 /* ------------------------------------------------------------------------- */
 
+void cia1581d1_init(void)
+{
+    alarm_init(&cia1581d1_ta_alarm, &drive1_alarm_context, "CIA1581D1TimerA",
+               int_cia1581d1ta);
+    alarm_init(&cia1581d1_tb_alarm, &drive1_alarm_context, "CIA1581D1TimerB",
+               int_cia1581d1tb);
+    alarm_init(&cia1581d1_tod_alarm, &drive1_alarm_context, "CIA1581D1TimeOfDay",
+               int_cia1581d1tod);
+}
+
 void reset_cia1581d1(void)
 {
     int i;
@@ -555,7 +487,7 @@ void reset_cia1581d1(void)
     memset(cia1581d1todalarm, 0, sizeof(cia1581d1todalarm));
     cia1581d1todlatched = 0;
     cia1581d1todstopped = 0;
-    drive1_set_alarm(A_CIA1581D1TOD, cia1581d1todticks);
+    alarm_set(&cia1581d1_tod_alarm, drive_clk[1] + cia1581d1todticks);
 
     cia1581d1int = 0;
     my_set_int(0, drive_clk[1]);
@@ -1016,6 +948,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 
 
 
+
 #ifdef CIA1581D1_TIMER_DEBUG
 	    if (cia1581d1_debugFlag)
 		log_message(cia1581d1_log, "CIA1581D1 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d",
@@ -1176,7 +1109,7 @@ int int_cia1581d1ta(long offset)
 	        my_set_tai_clk(rclk + cia1581d1_tal + 1 );
 	    }
 	} else {
-	    drive1_unset_alarm(A_CIA1581D1TA);	/* do _not_ clear cia1581d1_tai */
+            alarm_unset(&cia1581d1_ta_alarm); /* do _not_ clear cia1581d1_tai */
 	}
     } else {
 	my_unset_tai();
@@ -1267,7 +1200,7 @@ int int_cia1581d1tb(long offset)
 		}
 	    } else {
 		/* cia1581d1_tbi = rclk + cia1581d1_tbl + 1; */
-		drive1_unset_alarm(A_CIA1581D1TB);
+		alarm_unset(&cia1581d1_tb_alarm);
 	    }
 	} else {
 #if 0
@@ -1344,7 +1277,7 @@ int int_cia1581d1tod(long offset)
 #endif
 
     /* set up new int */
-    drive1_set_alarm(A_CIA1581D1TOD, cia1581d1todticks);
+    alarm_set(&cia1581d1_tod_alarm, drive_clk[1] + cia1581d1todticks);
 
     if (!cia1581d1todstopped) {
 	/* inc timer */
@@ -1526,8 +1459,11 @@ int cia1581d1_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, cia1581d1todlatch[2]);
     snapshot_module_write_byte(m, cia1581d1todlatch[3]);
 
+    /* FIXME */
+#if 0
     snapshot_module_write_dword(m, (drive1_int_status.alarm_clk[A_CIA1581D1TOD]
                                     - drive_clk[1]));
+#endif
 
     snapshot_module_close(m);
 
@@ -1560,7 +1496,7 @@ int cia1581d1_read_snapshot_module(snapshot_t *p)
     cia1581d1_tbs = CIAT_STOPPED;
     cia1581d1_tbu = 0;
     my_unset_tbi();
-    drive1_unset_alarm(A_CIA1581D1TOD);
+    alarm_unset(&cia1581d1_tod_alarm);
 
     {
         snapshot_module_read_byte(m, &cia1581d1[CIA_PRA]);
@@ -1645,7 +1581,7 @@ log_message(cia1581d1_log, "snap setting rdi to %d (rclk=%d)", cia1581d1rdi, dri
     snapshot_module_read_byte(m, &cia1581d1todlatch[3]);
 
     snapshot_module_read_dword(m, &dword);
-    drive1_set_alarm(A_CIA1581D1TOD, dword);
+    alarm_set(&cia1581d1_tod_alarm, drive_clk[1] + dword);
 
     /* timer switch-on code from store_cia1581d1[CIA_CRA/CRB] */
 

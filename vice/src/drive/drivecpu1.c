@@ -41,6 +41,7 @@
 #endif
 
 #include "6510core.h"
+#include "alarm.h"
 #include "ciad.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -73,6 +74,7 @@ int drive1_traceflg;
 
 /* Interrupt/alarm status.  */
 struct cpu_int_status drive1_int_status;
+alarm_context_t drive1_alarm_context;
 
 /* Value of clk for the last time drive1_cpu_execute() was called.  */
 static CLOCK last_clk;
@@ -284,18 +286,7 @@ static void reset(void)
     preserve_monitor = drive1_int_status.global_pending_int & IK_MONITOR;
 
     log_message(drive[1].log, "RESET.");
-    cpu_int_status_init(&drive1_int_status, DRIVE_NUMOFINT,
-			DRIVE_NUMOFALRM, &drive1_last_opcode_info);
-    drive1_int_status.alarm_handler[A_VIA1D1T1] = int_via1d1t1;
-    drive1_int_status.alarm_handler[A_VIA1D1T2] = int_via1d1t2;
-    drive1_int_status.alarm_handler[A_VIA2D1T1] = int_via2d1t1;
-    drive1_int_status.alarm_handler[A_VIA2D1T2] = int_via2d1t2;
-    drive1_int_status.alarm_handler[A_CIA1571D1TOD] = int_cia1571d1tod;
-    drive1_int_status.alarm_handler[A_CIA1571D1TA] = int_cia1571d1ta;
-    drive1_int_status.alarm_handler[A_CIA1571D1TB] = int_cia1571d1tb;
-    drive1_int_status.alarm_handler[A_CIA1581D1TOD] = int_cia1581d1tod;
-    drive1_int_status.alarm_handler[A_CIA1581D1TA] = int_cia1581d1ta;
-    drive1_int_status.alarm_handler[A_CIA1581D1TB] = int_cia1581d1tb;
+    cpu_int_status_init(&drive1_int_status, DRIVE_NUMOFINT, &drive1_last_opcode_info);
 
     drive_clk[1] = 6;
     reset_via1d1();
@@ -394,7 +385,7 @@ void drive1_cpu_reset(void)
     preserve_monitor = drive1_int_status.global_pending_int & IK_MONITOR;
 
     cpu_int_status_init(&drive1_int_status,
-			DRIVE_NUMOFALRM, DRIVE_NUMOFINT,
+			DRIVE_NUMOFINT,
 			&drive1_last_opcode_info);
 
     if (preserve_monitor)
@@ -405,7 +396,15 @@ void drive1_cpu_reset(void)
 
 void drive1_cpu_init(int type)
 {
+    alarm_context_init(&drive1_alarm_context, "Mydrive");
+
+    via1d1_init();
+    via2d1_init();
+    cia1571d1_init();
+    cia1581d1_init();
+
     drive1_mem_init(type);
+
     drive1_cpu_reset();
 }
 
@@ -456,8 +455,12 @@ inline static int drive1_trap_handler(void)
     if (MOS6510_REGS_GET_PC(&drive1_cpu_regs) == 0xec9b) {
         /* Idle loop */
         MOS6510_REGS_SET_PC(&drive1_cpu_regs, 0xebff);
-        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE)
-            drive_clk[1] = next_alarm_clk(&drive1_int_status);
+        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            CLOCK next_clk;
+            
+            drive_clk[1] = next_clk;
+            next_clk = alarm_context_next_pending_clk(&drive1_alarm_context);
+        }
         return 0;
     }
     if (MOS6510_REGS_GET_PC(&drive1_cpu_regs) == 0xc0be) {
@@ -536,6 +539,8 @@ void drive1_cpu_execute(void)
 #define TRACEFLG drive1_traceflg
 
 #define CPU_INT_STATUS drive1_int_status
+
+#define ALARM_CONTEXT drive1_alarm_context
 
 #define JAM() drive1_jam()
 
@@ -687,18 +692,9 @@ int drive1_cpu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     log_message(drive[1].log, "RESET (For undump).");
+
     cpu_int_status_init(&drive1_int_status, DRIVE_NUMOFINT,
-            DRIVE_NUMOFALRM, &drive1_last_opcode_info);
-    drive1_int_status.alarm_handler[A_VIA1D1T1] = int_via1d1t1;
-    drive1_int_status.alarm_handler[A_VIA1D1T2] = int_via1d1t2;
-    drive1_int_status.alarm_handler[A_VIA2D1T1] = int_via2d1t1;
-    drive1_int_status.alarm_handler[A_VIA2D1T2] = int_via2d1t2;
-    drive1_int_status.alarm_handler[A_CIA1571D1TOD] = int_cia1571d1tod;
-    drive1_int_status.alarm_handler[A_CIA1571D1TA] = int_cia1571d1ta;
-    drive1_int_status.alarm_handler[A_CIA1571D1TB] = int_cia1571d1tb;
-    drive1_int_status.alarm_handler[A_CIA1581D1TOD] = int_cia1581d1tod;
-    drive1_int_status.alarm_handler[A_CIA1581D1TA] = int_cia1581d1ta;
-    drive1_int_status.alarm_handler[A_CIA1581D1TB] = int_cia1581d1tb;
+                        &drive1_last_opcode_info);
 
     reset_via1d1();
     reset_via2d1();

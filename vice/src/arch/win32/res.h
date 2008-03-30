@@ -226,6 +226,7 @@
 #define IDM_MONITOR                     40145
 #define IDM_SIDTYPE_6581                40146
 #define IDM_SIDTYPE_8580                40147
+#define IDM_CART_FREEZE                 40148
 
 // Next default values for new objects
 //

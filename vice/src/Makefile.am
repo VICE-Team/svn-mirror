@@ -32,6 +32,7 @@ YFLAGS = -dt
 noinst_HEADERS = \
 	6510core.h \
 	acia.h \
+	alarm.h \
 	asm.h \
 	attach.h \
 	autostart.h \
@@ -90,6 +91,7 @@ noinst_HEADERS = \
 	zipcode.h
 
 base_sources = \
+	alarm.c \
 	asm.c \
 	attach.c \
 	autostart.c \

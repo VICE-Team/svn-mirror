@@ -30,10 +30,12 @@
 #include <stdio.h>
 #endif
 
+#include "alarm.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
+#include "mycpu.h"
 #include "resources.h"
 #include "rs232.h"
 #include "snapshot.h"
@@ -45,6 +47,8 @@
 INCLUDES
 
 #undef	DEBUG
+
+static alarm_t myacia_alarm;
 
 static int acia_ticks = 21111;	/* number of clock ticks per char */
 static file_desc_t fd = ILLEGAL_FILE_DESC;
@@ -59,6 +63,9 @@ static int alarm_active = 0;	/* if alarm is set or not */
 
 static log_t myacia_log = LOG_ERR;
 
+/* Bah, this sucks.  */
+int int_myacia(long offset);
+    
 /******************************************************************/
 
 /* rs232.h replacement functions if no rs232 device available */
@@ -155,6 +162,10 @@ static double acia_baud_table[16] = {
 
 /******************************************************************/
 
+void myacia_init(void) {
+    alarm_init(&myacia_alarm, &mycpu_alarm_context, "MYACIA", int_myacia);
+}
+
 void reset_myacia(void) {
 
 #ifdef DEBUG
@@ -173,7 +184,7 @@ void reset_myacia(void) {
 	if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
 	fd = ILLEGAL_FILE_DESC;
 
-	mycpu_unset_alarm(A_MYACIA);
+	alarm_unset(&myacia_alarm);
 	alarm_active = 0;
 
 	mycpu_set_int(I_MYACIA, 0);
@@ -224,12 +235,15 @@ int myacia_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, cmd);
     snapshot_module_write_byte(m, ctrl);
     snapshot_module_write_byte(m, intx);
+
+#if 0
     if(alarm_active) {
         snapshot_module_write_dword(m, (mycpu_int_status.alarm_clk[A_MYACIA]
                                     - myclk));
     } else {
         snapshot_module_write_dword(m, 0);
     }
+#endif
 
     snapshot_module_close(m);
 
@@ -243,7 +257,7 @@ int myacia_read_snapshot_module(snapshot_t * p)
     DWORD dword;
     snapshot_module_t *m;
 
-    mycpu_unset_alarm(A_MYACIA);   /* just in case we don't find module */
+    alarm_unset(&myacia_alarm);   /* just in case we don't find module */
     alarm_active = 0;
 
     set_int_noclk(&mycpu_int_status, I_MYACIA, 0);
@@ -288,10 +302,10 @@ int myacia_read_snapshot_module(snapshot_t * p)
 
     snapshot_module_read_dword(m, &dword);
     if (dword) {
-        mycpu_set_alarm(A_MYACIA, dword);
+        alarm_set(&myacia_alarm, myclk + dword);
         alarm_active = 1;
     } else {
-        mycpu_unset_alarm(A_MYACIA);
+        alarm_unset(&myacia_alarm);
         alarm_active = 0;
     }
 
@@ -313,7 +327,7 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		txdata = b;
 		if(cmd&1) {
 		  if(!intx) {
-		    mycpu_set_alarm(A_MYACIA, 1);
+		    alarm_set(&myacia_alarm, myclk + 1);
                     alarm_active = 1;
 		    intx = 2;
 		  } else
@@ -331,7 +345,7 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		intx = 0;
 		mycpu_set_int(I_MYACIA, 0);
 		irq = 0;
-		mycpu_unset_alarm(A_MYACIA);
+		alarm_unset(&myacia_alarm);
                 alarm_active = 0;
 		break;
 	case ACIA_CTRL:
@@ -343,12 +357,12 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		cmd = b;
 		if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
 		  fd = rs232_open(myacia_device);
-		  mycpu_set_alarm(A_MYACIA, acia_ticks);
+		  alarm_set(&myacia_alarm, myclk + acia_ticks);
                   alarm_active = 1;
 		} else
 		if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
 		  rs232_close(fd);
-		  mycpu_unset_alarm(A_MYACIA);
+		  alarm_unset(&myacia_alarm);
                   alarm_active = 0;
 		  fd = ILLEGAL_FILE_DESC;
 		}
@@ -424,7 +438,7 @@ int int_myacia(long offset) {
 	mycpu_set_int(I_MYACIA, myacia_irq);
 	irq = 1;
 
-	mycpu_set_alarm(A_MYACIA, acia_ticks);
+	alarm_set(&myacia_alarm, myclk + acia_ticks);
         alarm_active = 1;
 
 	return 0;

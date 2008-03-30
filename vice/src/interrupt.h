@@ -87,36 +87,15 @@ enum cpu_int {
     IK_MONITOR = 1 << 4
 };
 
-/* This defines the type for a CPU alarm handler.  The passed argument is set
-   to the number of ticks between the time of call and the time of
-   scheduling.  */
-typedef int cpu_alarm_handler_t(long delay);
-
 /* We not care about wasted space here, and make fixed-length large enough
    arrays since static allocation can be handled more easily...  */
 struct cpu_int_status {
-    /* Number of possible alarms.  */
-    int num_alarms;
-
     /* Number of interrupt lines.  */
     int num_ints;
-
-    /* Next CPU alarm to be served.  */
-    int next_alarm;
-
-    /* Clock tick when the next pending CPU alarm has to be served.  */
-    CLOCK next_alarm_clk;
-
-    /* Value of clk when each CPU alarm has to be served. ~0 means `not
-       active'.  */
-    CLOCK alarm_clk[0x100];
 
     /* Define, for each interrupt source, whether it has a pending interrupt
        (IK_IRQ, IK_NMI, IK_RESET and IK_TRAP) or not (IK_NONE).  */
     enum cpu_int pending_int[0x100];
-
-    /* CPU alarm handlers.  */
-    cpu_alarm_handler_t *alarm_handler[0x100];
 
     /* Number of active IRQ lines.  */
     int nirq;
@@ -289,55 +268,6 @@ _INT_FUNC void monitor_trap_off(cpu_int_status_t *cs)
 
 /* ------------------------------------------------------------------------- */
 
-/* Find the next pending alarm.  */
-_INT_FUNC void find_next_alarm(cpu_int_status_t *cs)
-{
-    CLOCK next_alarm_clk = CLOCK_MAX;
-    int next_alarm = 0;
-    int i;
-
-    for (i = 0; i < cs->num_ints; i++)
-	if (cs->alarm_clk[i] < next_alarm_clk) {
-	    next_alarm = i;
-	    next_alarm_clk = cs->alarm_clk[i];
-	}
-
-    cs->next_alarm = next_alarm;
-    cs->next_alarm_clk = next_alarm_clk;
-}
-
-/* Return the clock tick for the next alarm.  */
-_INT_FUNC CLOCK next_alarm_clk(cpu_int_status_t *cs)
-{
-    return cs->next_alarm_clk;
-}
-
-/* Schedule one cpu alarm.  */
-_INT_FUNC void set_alarm_clk(cpu_int_status_t *cs, int alarm,
-			     CLOCK tick)
-{
-    if (tick != 0 && tick < cs->next_alarm_clk) {
-        cs->next_alarm_clk = cs->alarm_clk[alarm] = tick;
-	cs->next_alarm = alarm;
-    } else {
-	if (tick == 0)
-	    tick = CLOCK_MAX;
-	cs->alarm_clk[alarm] = tick;
-	if (alarm == cs->next_alarm)
-	    find_next_alarm(cs);
-    }
-}
-
-/* Unschedule one cpu alarm.  */
-_INT_FUNC void unset_alarm(cpu_int_status_t *cs, int alarm)
-{
-    cs->alarm_clk[alarm] = CLOCK_MAX;
-    if (alarm == cs->next_alarm)
-	find_next_alarm(cs);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Return the current status of the IRQ, NMI, RESET and TRAP lines.  */
 _INT_FUNC enum cpu_int check_pending_interrupt(cpu_int_status_t *cs)
 {
@@ -390,16 +320,6 @@ _INT_FUNC void ack_nmi(cpu_int_status_t *cs)
 }
 
 
-/* Serve the next pending alarm and update the struct so that we know what
-   comes next.  If there is a pending interrupt, return its kind.  Otherwise,
-   return IK_NONE.  */
-_INT_FUNC void serve_next_alarm(cpu_int_status_t *cs, CLOCK clk)
-{
-    long offset = clk - cs->next_alarm_clk;
-
-    (cs->alarm_handler[cs->next_alarm])(offset);
-}
-
 /* Asynchronously steal `num' cycles from the CPU, starting from cycle
    `start_clk'.  */
 _INT_FUNC void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
@@ -434,12 +354,7 @@ extern void trigger_reset(cpu_int_status_t *cs, CLOCK clk);
 extern void trigger_trap(cpu_int_status_t *cs,
 			 void (*trap_func)(ADDRESS addr, void *data),
                          void *data, CLOCK clk);
-extern void find_next_alarm(cpu_int_status_t *cs);
-extern CLOCK next_alarm_clk(cpu_int_status_t *cs);
-extern void set_alarm_clk(cpu_int_status_t *cs, int alarm, CLOCK tick);
-extern void unset_alarm(cpu_int_status_t *cs, int alarm);
 extern int check_pending_interrupt(cpu_int_status_t *cs);
-extern int serve_next_alarm(cpu_int_status_t *cs, CLOCK clk);
 extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			 CLOCK *clk_ptr, int num);
 extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
@@ -457,7 +372,6 @@ extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
                                   CLOCK baseval);
 extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
-				int num_alarms,
 				opcode_info_t *last_opcode_info_ptr);
 extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
 extern int interrupt_write_snapshot(cpu_int_status_t *cs,
@@ -482,12 +396,6 @@ extern CLOCK drive_clk[2];
 
 /* For convenience...  */
 
-#define maincpu_set_alarm_clk(alarm, tick) \
-    set_alarm_clk(&maincpu_int_status, (alarm), (tick))
-#define maincpu_set_alarm(alarm, ticks_from_now) \
-    maincpu_set_alarm_clk((alarm), clk + (ticks_from_now))
-#define maincpu_unset_alarm(alarm) \
-    unset_alarm(&maincpu_int_status, (alarm))
 #define maincpu_set_irq(int_num, value)	\
     set_irq(&maincpu_int_status, (int_num), (value), clk)
 #define maincpu_set_irq_clk(int_num, value, clk) \
@@ -504,25 +412,11 @@ extern CLOCK drive_clk[2];
     trigger_reset(&maincpu_int_status, clk)
 #define maincpu_trigger_trap(trap_func, data) \
     trigger_trap(&maincpu_int_status, (trap_func), (data), clk)
-#define maincpu_serve_next_alarm() \
-    serve_next_alarm(&maincpu_int_status, clk)
 #define maincpu_prevent_clk_overflow(rfsh_per_sec) \
     prevent_clk_overflow(&maincpu_int_status, &clk, (rfsh_per_sec))
 #define maincpu_steal_cycles(start_clk, num) \
     steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
 
-#define drive0_set_alarm_clk(alarm, tick) \
-    set_alarm_clk(&drive0_int_status, (alarm), (tick))
-#define drive1_set_alarm_clk(alarm, tick) \
-    set_alarm_clk(&drive1_int_status, (alarm), (tick))
-#define drive0_set_alarm(alarm, ticks_from_now) \
-    drive0_set_alarm_clk((alarm), drive_clk[0] + (ticks_from_now))
-#define drive1_set_alarm(alarm, ticks_from_now) \
-    drive1_set_alarm_clk((alarm), drive_clk[1] + (ticks_from_now))
-#define drive0_unset_alarm(alarm) \
-    unset_alarm(&drive0_int_status, (alarm))
-#define drive1_unset_alarm(alarm) \
-    unset_alarm(&drive1_int_status, (alarm))
 #define drive0_set_irq(int_num, value) \
     set_irq(&drive0_int_status, (int_num), (value), drive_clk[0])
 #define drive1_set_irq(int_num, value)    \
@@ -555,9 +449,5 @@ extern CLOCK drive_clk[2];
     trigger_trap(&drive0_int_status, (trap_func), (data), drive_clk[0] + 1)
 #define drive1_trigger_trap(trap_func, data) \
     trigger_trap(&drive1_int_status, (trap_func), (data), drive_clk[1] + 1)
-#define drive0_serve_next_alarm() \
-    serve_next_alarm(&drive0_int_status, drive_clk[0])
-#define drive1_serve_next_alarm() \
-    serve_next_alarm(&drive1_int_status, drive_clk[1])
 
 #endif /* !_INTERRUPT_H */

@@ -1,4 +1,3 @@
-
 /*
  * maincpu.c - Emulation of the main 6510 processor.
  *
@@ -34,6 +33,7 @@
 #include "maincpu.h"
 
 #include "6510core.h"
+#include "alarm.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -64,8 +64,6 @@
 
 */
 
-
-
 /* This enables a special hack that can speed up the instruction fetch quite
    a lot, but does not work when a conditional branch instruction jumps from
    ROM to RAM or vice versa.  It still works if one program lies in the I/O
@@ -88,6 +86,7 @@
    cares?  */
 #  define opcode_t      int
 # endif
+
 /* ------------------------------------------------------------------------- */
 
 /* The following #defines are useful for debugging and speed tuning.  */
@@ -145,7 +144,6 @@
 #  define JUMP(addr)	(reg_pc = (addr))
 
 #endif /* !INSTRUCTION_FETCH_HACK */
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -213,6 +211,7 @@ inline static int mem_read_limit(int addr)
 /* ------------------------------------------------------------------------- */
 
 struct cpu_int_status maincpu_int_status;
+alarm_context_t maincpu_alarm_context;
 
 /* Global clock counter.  */
 CLOCK clk = 0L;
@@ -289,8 +288,6 @@ monitor_interface_t maincpu_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
-
-
 #ifdef EVALUATE_SPEED
 
 #include <sys/time.h>
@@ -363,6 +360,11 @@ inline static void evaluate_speed(unsigned long clk)
 
 /* ------------------------------------------------------------------------- */
 
+void maincpu_init(void)
+{
+    alarm_context_init(&maincpu_alarm_context, "MainCPU");
+}
+
 static void reset(void)
 {
     int preserve_monitor;
@@ -373,8 +375,7 @@ static void reset(void)
 
     serial_reset();
 
-    cpu_int_status_init(&maincpu_int_status, NUMOFINT, NUMOFALRM,
-                        &last_opcode_info);
+    cpu_int_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
 
     if (preserve_monitor)
         monitor_trap_on(&maincpu_int_status);
@@ -408,7 +409,6 @@ void mainloop(ADDRESS start_address)
     unsigned int reg_pc;
 #endif
 
-
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
     int bank_limit;
@@ -426,7 +426,6 @@ void mainloop(ADDRESS start_address)
     log_message(LOG_DEFAULT, "Main CPU: starting at $%04X.", reg_pc);
 
     while (1) {
-
 
 #ifdef EVALUATE_SPEED
     evaluate_speed(clk);
@@ -451,6 +450,8 @@ void mainloop(ADDRESS start_address)
 #  define TRACEFLG traceflg
 
 #  define CPU_INT_STATUS	maincpu_int_status
+
+#  define ALARM_CONTEXT maincpu_alarm_context
 
 #  define CHECK_PENDING_ALARM() \
      (clk >= next_alarm_clk(&maincpu_int_status))

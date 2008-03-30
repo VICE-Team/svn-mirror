@@ -131,7 +131,11 @@ int kbd_init(int num, ...)
 
 static int set_keymap_index(resource_value_t v)
 {
+int real_index;
+
     keymap_index=(int)v;
+    real_index=keymap_index>>1;
+    keyconv_base=&keyconvmaps[real_index];
 
     return 0;
 }
@@ -159,6 +163,14 @@ int kbd_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------ */
+
+void kbd_clear_keymatrix(void)
+{
+int i;
+
+    for (i=0; i<KBD_ROWS; i++) keyarr[i]=0;
+    for (i=0; i<KBD_COLS; i++) rev_keyarr[i]=0;
+}
 
 inline static void set_keyarr(int row, int col, int value)
 {

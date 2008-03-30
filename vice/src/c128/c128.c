@@ -233,6 +233,8 @@ int machine_init(void)
     if (c128_log == LOG_ERR)
         c128_log = log_open("C128");
 
+    maincpu_init();
+
     if (mem_load() < 0)
 	return -1;
 

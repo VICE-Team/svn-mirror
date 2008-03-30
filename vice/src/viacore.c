@@ -187,6 +187,14 @@ inline static void update_myviatbl(void)
 /* ------------------------------------------------------------------------- */
 /* MYVIA */
 
+void myvia_init(void)
+{
+    alarm_init(&myvia_t1_alarm, &mycpu_alarm_context,
+               MYVIA_NAME "T1", int_myviat1);
+    alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
+               MYVIA_NAME "T2", int_myviat2);
+}
+
 /*
  * according to Rockwell, all internal registers are cleared, except
  * for the Timer (1 and 2, counter and latches) and the shift register.
@@ -217,8 +225,8 @@ void reset_myvia(void)
     /* disable vice interrupts */
     myviatai = 0;
     myviatbi = 0;
-    mycpu_unset_alarm(A_MYVIAT1);
-    mycpu_unset_alarm(A_MYVIAT2);
+    alarm_unset(&myvia_t1_alarm);
+    alarm_unset(&myvia_t2_alarm);
     update_myviairq();
 
     oldpa = 0xff;
@@ -359,7 +367,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         /* load counter with latch value */
         myviatau = rclk + myviatal + 3 + TAUOFFSET;
         myviatai = rclk + myviatal + 2;
-        mycpu_set_alarm_clk(A_MYVIAT1, myviatai);
+        alarm_set(&myvia_t1_alarm, myviatai);
 
         /* set pb7 state */
         myviapb7 = 0;
@@ -390,7 +398,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         update_myviatbl();
         myviatbu = rclk + myviatbl + 3;
         myviatbi = rclk + myviatbl + 2;
-        mycpu_set_alarm_clk(A_MYVIAT2, myviatbi);
+        alarm_set(&myvia_t2_alarm, myviatbi);
 
         /* Clear T2 interrupt */
         myviaifr &= ~VIA_IM_T2;
@@ -701,12 +709,12 @@ int int_myviat1(long offset)
 #ifdef MYVIA_TIMER_DEBUG
 	log_message(myvia_log, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
 #endif
-	mycpu_unset_alarm(A_MYVIAT1);	/*int_clk[I_MYVIAT1] = 0; */
+        alarm_unset(&myvia_t1_alarm);
 	myviatai = 0;
     } else {			/* continuous mode */
 	/* load counter with latch value */
 	myviatai += myviatal + 2;
-	mycpu_set_alarm_clk(A_MYVIAT1, myviatai);
+        alarm_set(&myvia_t1_alarm, myviatai);
     }
     myviaifr |= VIA_IM_T1;
     update_myviairq();
@@ -725,7 +733,8 @@ int int_myviat2(long offset)
     if (app_resources.debugFlag)
 	log_message(myvia_log, "MYVIA timer B interrupt.");
 #endif
-    mycpu_unset_alarm(A_MYVIAT2);	/*int_clk[I_MYVIAT2] = 0; */
+
+    alarm_unset(&myvia_t2_alarm);	/*int_clk[I_MYVIAT2] = 0; */
     myviatbi = 0;
 
     myviaifr |= VIA_IM_T2;
@@ -852,8 +861,9 @@ int myvia_read_snapshot_module(snapshot_t * p)
         return -1;
     }
 
-    mycpu_unset_alarm(A_MYVIAT1);
-    mycpu_unset_alarm(A_MYVIAT2);
+    alarm_unset(&myvia_t1_alarm);
+    alarm_unset(&myvia_t2_alarm);
+
     myviatai = 0;
     myviatbi = 0;
 
@@ -888,12 +898,12 @@ int myvia_read_snapshot_module(snapshot_t * p)
 
     snapshot_module_read_byte(m, &byte);
     if (byte & 0x80) {
-    	mycpu_set_alarm_clk(A_MYVIAT1, myviatai);
+        alarm_set(&myvia_t1_alarm, myviatai);
     } else {
 	myviatai = 0;
     }
     if (byte & 0x40) {
-    	mycpu_set_alarm_clk(A_MYVIAT2, myviatbi);
+        alarm_set(&myvia_t2_alarm, myviatbi);
     } else {
 	myviatbi = 0;
     }

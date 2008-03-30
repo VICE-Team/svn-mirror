@@ -111,3 +111,7 @@ int int_rasterfetch(long offset)
 {
   return 0;
 }
+
+void cartridge_trigger_freeze(void)
+{
+}

@@ -450,6 +450,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         log_error(LOG_DEFAULT, "Machine initialization failed.");
         return -1;
     }
+
     /* Handle general-purpose command-line options.  */
 
     /* `-autostart' */

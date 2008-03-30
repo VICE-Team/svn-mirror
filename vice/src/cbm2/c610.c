@@ -182,6 +182,8 @@ int machine_init(void)
 
     cbm2_init_ok = 1;
 
+    maincpu_init();
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 

@@ -72,6 +72,8 @@
 #define DEBUG(x)
 #endif
 
+#define IS_NULL(s)  (s == NULL || *s == '\0')
+
 /* ------------------------------------------------------------------------- */
 
 static int mem_load_kernal(void);
@@ -1081,20 +1083,11 @@ void mem_powerup(void)
     }
 }
 
-static int mem_load_kernal(void) 
+static int mem_kernal_checksum(void) 
 {
+    int i,id;
     WORD sum;
-    int i, id;
 
-    if(!rom_loaded) return 0;
-
-    /* Load Kernal ROM.  */
-    if (mem_load_sys_file(kernal_rom_name,
-                          kernal_rom, C128_KERNAL_ROM_SIZE,
-                          C128_KERNAL_ROM_SIZE) < 0) {
-        log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", kernal_rom_name);
-        return -1;
-    }
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++)
         sum += kernal_rom[i];
@@ -1106,26 +1099,33 @@ static int mem_load_kernal(void)
         && sum != C128_KERNAL_CHECKSUM_R01
         && sum != C128_KERNAL_CHECKSUM_R01SWE
         && sum != C128_KERNAL_CHECKSUM_R01GER)
-        log_error(c128_mem_log, "Warning: Kernal image may be corrupted. Sum: %d.",
-                  sum);
+        log_error(c128_mem_log, "Warning: Kernal image may be corrupted."
+		" Sum: %d.", sum);
     return 0;
 }
 
-static int mem_load_basic(void)
+static int mem_load_kernal(void) 
 {
-    WORD sum;
-    int i, id;
-
     if(!rom_loaded) return 0;
 
-    /* Load Basic ROM.  */
-    if (mem_load_sys_file(basic_rom_name,
-                          basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-                          C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
-        log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
-                  basic_rom_name);
-        return -1;
+    if(!IS_NULL(kernal_rom_name)) {
+        /* Load Kernal ROM.  */
+        if (mem_load_sys_file(kernal_rom_name,
+                          kernal_rom, C128_KERNAL_ROM_SIZE,
+                          C128_KERNAL_ROM_SIZE) < 0) {
+            log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
+			  kernal_rom_name);
+            return -1;
+	}
     }
+    return mem_kernal_checksum();
+}
+
+static int mem_basic_checksum(void) 
+{
+    int i,id;
+    WORD sum;
+
     /* Check Basic ROM.  */
     for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++)
         sum += basic_rom[i];
@@ -1146,24 +1146,43 @@ static int mem_load_basic(void)
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
         && sum != C128_EDITOR_CHECKSUM_R01GER) {
-        log_error(c128_mem_log, "Warning: EDITOR image may be corrupted. Sum: %d.",
-                  sum);
+        log_error(c128_mem_log, "Warning: EDITOR image may be corrupted."
+		" Sum: %d.", sum);
         log_error(c128_mem_log, "Check your Basic ROM.");
     }
     return 0;
+}
+
+static int mem_load_basic(void)
+{
+    if(!rom_loaded) return 0;
+
+    if(!IS_NULL(basic_rom_name)) {
+        /* Load Basic ROM.  */
+        if (mem_load_sys_file(basic_rom_name,
+                          basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
+                          C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
+            log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
+                  basic_rom_name);
+            return -1;
+	}
+    }
+    return mem_basic_checksum();
 }
 
 static int mem_load_chargen(void)
 {
     if(!rom_loaded) return 0;
 
-    /* Load chargen ROM.  */
-    if (mem_load_sys_file(chargen_rom_name,
+    if(!IS_NULL(chargen_rom_name)) {
+        /* Load chargen ROM.  */
+        if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C128_CHARGEN_ROM_SIZE,
                           C128_CHARGEN_ROM_SIZE) < 0) {
-        log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
+            log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
                   chargen_rom_name);
-        return -1;
+            return -1;
+	}
     }
     return 0;
 }
@@ -1488,6 +1507,7 @@ static char snap_rom_module_name[] = "C128ROM";
 int mem_write_rom_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
+    int trapfl;
 
     /* Main memory module.  */
 
@@ -1495,6 +1515,10 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
                                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
     if (m == NULL)
         return -1;
+
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     if (0
         || snapshot_module_write_byte_array(m, kernal_rom, 
@@ -1517,12 +1541,18 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
        - cartridge RAM areas
     */
 
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     if (snapshot_module_close(m) < 0)
         goto fail;
 
     return 0;
 
  fail:
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     if (m != NULL)
         snapshot_module_close(m);
     return -1;
@@ -1532,6 +1562,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
+    int trapfl;
 
     /* Main memory module.  */
 
@@ -1541,6 +1572,10 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return 0;
 
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
+
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
         log_error(c128_mem_log,
                   "MEM: Snapshot module version (%d.%d) newer than %d.%d.",
@@ -1548,7 +1583,6 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
                   SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         goto fail;
     }
-
 
     if (0
         || snapshot_module_read_byte_array(m, kernal_rom, 
@@ -1562,12 +1596,25 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
 	)
         goto fail;
 
+    log_warning(c128_mem_log,"Dumped Romset files and saved settings will "
+                "represent\nthe state before loading the snapshot!");
+
+    mem_basic_checksum();
+    mem_kernal_checksum();
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     /* to get all the checkmarks right */
     ui_update_menus();
 
     return 0;
 
  fail:
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     if (m != NULL)
         snapshot_module_close(m);
     return -1;
@@ -1671,21 +1718,15 @@ int mem_read_snapshot_module(snapshot_t *s)
     if (tpi_read_snapshot_module(s) < 0) {
         ieee488_enabled = 0;
     } else {
-        /* FIXME: Why do we need to do so???  */
-        reset_tpi();
         ieee488_enabled = 1;
     }
 
-#ifdef HAVE_RS232
     /* ACIA module.  */
     if (acia1_read_snapshot_module(s) < 0) {
         acia_de_enabled = 0;
     } else {
-        /* FIXME: Why do we need to do so???  */
-        reset_acia1();          /* Clear interrupts.  */
         acia_de_enabled = 1;
     }
-#endif
 
     ui_update_menus();
 

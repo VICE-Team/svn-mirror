@@ -67,6 +67,7 @@
 
 #include "vicii.h"
 
+#include "alarm.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "cmdline.h"
@@ -207,6 +208,11 @@ static int extended_keyboard_rows_enabled;
 
 /* All the VIC-II logging goes here.  */
 static log_t vic_ii_log = LOG_ERR;
+
+/* VIC-II alarms.  */
+static alarm_t raster_fetch_alarm;
+static alarm_t raster_draw_alarm;
+static alarm_t raster_irq_alarm;
 
 /* ------------------------------------------------------------------------- */
 
@@ -701,12 +707,12 @@ inline static void update_int_raster(void)
 
 	if (int_raster_line <= current_line)
 	    int_raster_clk += VIC_II_SCREEN_HEIGHT * CYCLES_PER_LINE;
-	maincpu_set_alarm_clk(A_RASTER, int_raster_clk);
+        alarm_set(&raster_irq_alarm, int_raster_clk);
     } else {
 	DEBUG_RASTER(("VIC: update_int_raster(): "
 		      "raster compare out of range ($%04X)!\n",
 		      int_raster_line));
-	maincpu_unset_alarm(A_RASTER);
+        alarm_unset(&raster_irq_alarm);
     }
 
     DEBUG_RASTER(("VIC: update_int_raster(): "
@@ -736,6 +742,13 @@ canvas_t vic_ii_init(void)
         return NULL;
 #endif
 
+    alarm_init(&raster_fetch_alarm, &maincpu_alarm_context,
+               "VicIIRasterFetch", int_rasterfetch);
+    alarm_init(&raster_draw_alarm, &maincpu_alarm_context,
+               "VicIIRasterDraw", int_rasterdraw);
+    alarm_init(&raster_irq_alarm, &maincpu_alarm_context,
+               "VicIIRasterIrq", int_raster);
+
     video_resize();
 
     palette = palette_create(VIC_II_NUM_COLORS, color_names);
@@ -758,10 +771,13 @@ canvas_t vic_ii_init(void)
 	log_error(vic_ii_log, "Cannot open window for the VIC-II emulation.");
 	return NULL;
     }
+
     display_ystart = VIC_II_25ROW_START_LINE;
     display_ystop = VIC_II_25ROW_STOP_LINE;
+
     set_video_mode(0);
     set_memory_ptrs(0);
+
     init_drawing_tables();
     refresh_all();
 
@@ -789,16 +805,16 @@ void reset_vic_ii(void)
     reset_raster();
 
     vic_ii_draw_clk = DRAW_CYCLE;
-    maincpu_set_alarm_clk(A_RASTERDRAW, vic_ii_draw_clk);
+    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
 
     vic_ii_fetch_clk = FETCH_CYCLE;
-    maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
     fetch_idx = FETCH_MATRIX;
 
     /* FIXME: I am not sure this is exact emulation.  */
     int_raster_line = 0;
     int_raster_clk = 0;
-    maincpu_set_alarm_clk(A_RASTER, 1);
+    alarm_set(&raster_irq_alarm, 1);
 
     light_pen.triggered = light_pen.x = light_pen.y = 0;
 
@@ -887,9 +903,9 @@ void video_free(void)
 void vic_ii_prepare_for_snapshot(void)
 {
     vic_ii_fetch_clk = CLOCK_MAX;
-    maincpu_set_alarm_clk (A_RASTERFETCH, vic_ii_fetch_clk);
+    alarm_unset(&raster_fetch_alarm);
     vic_ii_draw_clk = CLOCK_MAX;
-    maincpu_set_alarm_clk (A_RASTERDRAW, vic_ii_fetch_clk);
+    alarm_unset(&raster_draw_alarm);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1282,7 +1298,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 		&& value == (rasterline & 0xff)) {
 		fetch_idx = CHECK_SPRITE_DMA;
 		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE + 1;
-		maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
 	    }
 	    sprites[addr >> 1].y = value;
 	    vic[addr] = value;
@@ -1369,7 +1385,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 		&& ((value ^ vic[0x15]) & value) != 0) {
 		fetch_idx = CHECK_SPRITE_DMA;
 		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE + 1;
-		maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
 	    }
 
 	    /* Sprites are turned on: force a DMA check.  */
@@ -1388,7 +1404,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
                     if (new_fetch_clk < vic_ii_fetch_clk) {
                         fetch_idx = CHECK_SPRITE_DMA;
                         vic_ii_fetch_clk = new_fetch_clk;
-                        maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                        alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
                     }
 		}
 	    }
@@ -2123,7 +2139,7 @@ int int_rasterdraw(long offset)
 
     /* Set the next RASTERDRAW event. */
     vic_ii_draw_clk = oldclk + DRAW_CYCLE;
-    maincpu_set_alarm_clk(A_RASTERDRAW, vic_ii_draw_clk);
+    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
 
     if (rasterline == 0)
 	light_pen.triggered = 0;
@@ -2210,7 +2226,7 @@ int int_rasterfetch(long offset)
 		} else
 		    vic_ii_fetch_clk += CYCLES_PER_LINE;
 
-		maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
 		return 0;
 
 	    } else {	 /* visible_sprite_msk != 0 || dma_msk != 0 */
@@ -2226,7 +2242,7 @@ int int_rasterfetch(long offset)
 
 		if (vic_ii_fetch_clk > clk || offset == 0) {
 		    /* Prepare the next fetch event. */
-		    maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+		    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
 		    return 0;
 		}
 
@@ -2273,7 +2289,7 @@ int int_rasterfetch(long offset)
 	    }
 
             if (vic_ii_fetch_clk > clk || offset == 0) {
-                maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
                 return 0;
             }
 
@@ -2342,7 +2358,7 @@ int int_rasterfetch(long offset)
 		    int_rasterdraw(clk - vic_ii_draw_clk);
 
                 if (vic_ii_fetch_clk > clk || offset == 0) {
-		    maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+		    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
 		    return 0;
                 }
 
@@ -2372,8 +2388,10 @@ int int_raster(long offset)
 		      RASTER_Y, int_raster_line, offset,
 		      RASTER_CYCLE));
     }
+    
     int_raster_clk += VIC_II_SCREEN_HEIGHT * CYCLES_PER_LINE;
-    maincpu_set_alarm_clk(A_RASTER, int_raster_clk);
+    alarm_set(&raster_irq_alarm, int_raster_clk);
+
     return 0;
 }
 
@@ -4260,7 +4278,7 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
 
     vic_ii_draw_clk = clk + (DRAW_CYCLE - RASTER_CYCLE);
     oldclk = vic_ii_draw_clk - CYCLES_PER_LINE;
-    maincpu_set_alarm_clk(A_RASTERDRAW, vic_ii_draw_clk);
+    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
 
     {
         DWORD dw;
@@ -4274,7 +4292,7 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
 
         vic_ii_fetch_clk = clk + dw;
         fetch_idx = b;
-        maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+        alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
     }
 
     if (videoint & 0x80)

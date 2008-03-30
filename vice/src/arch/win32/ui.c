@@ -67,6 +67,8 @@ static char *main_hwnd_title;
 /* Exposure handler.  */
 canvas_redraw_t exposure_handler;
 
+static HACCEL   ui_accelerator;
+
 /* Forward prototypes.  */
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
@@ -88,6 +90,7 @@ struct {
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
 #endif
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
+    { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { NULL, 0 }
 };
 
@@ -174,6 +177,82 @@ int ui_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------ */
 
+static ACCEL    c64_accel[]={
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_F,IDM_CART_FREEZE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+};
+
+static ACCEL    c128_accel[]={
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+};
+
+static ACCEL    cbm2_accel[]={
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+};
+
+static ACCEL    vic_accel[]={
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+};
+
+static ACCEL    pet_accel[]={
+    {FVIRTKEY|FCONTROL|FALT|FNOINVERT,VK_R,IDM_HARD_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_R,IDM_SOFT_RESET},
+    {FVIRTKEY|FALT|FNOINVERT,VK_8,IDM_ATTACH_8},
+    {FVIRTKEY|FALT|FNOINVERT,VK_9,IDM_ATTACH_9},
+    {FVIRTKEY|FALT|FNOINVERT,VK_0,IDM_ATTACH_10},
+    {FVIRTKEY|FALT|FNOINVERT,VK_1,IDM_ATTACH_11},
+    {FVIRTKEY|FALT|FNOINVERT,VK_T,IDM_ATTACH_TAPE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_L,IDM_SNAPSHOT_LOAD},
+    {FVIRTKEY|FALT|FNOINVERT,VK_S,IDM_SNAPSHOT_SAVE},
+    {FVIRTKEY|FALT|FNOINVERT,VK_M,IDM_MONITOR},
+    {FVIRTKEY|FALT|FNOINVERT,VK_X,IDM_EXIT},
+    {FVIRTKEY|FALT|FNOINVERT,VK_W,IDM_TOGGLE_WARP_MODE},
+};
+
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
 {
@@ -183,25 +262,31 @@ int ui_init(int *argc, char **argv)
 
 
     switch (machine_class) {
-      case VICE_MACHINE_C64:
-        menu = IDR_MENUC64;
-        break;
-      case VICE_MACHINE_C128:
-        menu = IDR_MENUC128;
-        break;
-      case VICE_MACHINE_VIC20:
-        menu = IDR_MENUVIC;
-        break;
-      case VICE_MACHINE_PET:
-        menu = IDR_MENUPET;
-        break;
-      case VICE_MACHINE_CBM2:
-        menu = IDR_MENUCBM2;
-        break;
-      default:
-        log_debug("UI: No menu entries for this machine defined!");
-        log_debug("UI: Using C64 type UI menues.");
-        menu = IDR_MENUC64;
+        case VICE_MACHINE_C64:
+            menu = IDR_MENUC64;
+            ui_accelerator=CreateAcceleratorTable(c64_accel,13);
+            break;
+        case VICE_MACHINE_C128:
+            menu = IDR_MENUC128;
+            ui_accelerator=CreateAcceleratorTable(c128_accel,12);
+            break;
+        case VICE_MACHINE_VIC20:
+            menu = IDR_MENUVIC;
+            ui_accelerator=CreateAcceleratorTable(vic_accel,12);
+            break;
+        case VICE_MACHINE_PET:
+            menu = IDR_MENUPET;
+            ui_accelerator=CreateAcceleratorTable(pet_accel,12);
+            break;
+        case VICE_MACHINE_CBM2:
+            menu = IDR_MENUCBM2;
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,12);
+            break;
+        default:
+            log_debug("UI: No menu entries for this machine defined!");
+            log_debug("UI: Using C64 type UI menues.");
+            menu = IDR_MENUC64;
+            ui_accelerator=CreateAcceleratorTable(c64_accel,13);
     }
 
     /* Register the window class.  */
@@ -250,12 +335,16 @@ int ui_init(int *argc, char **argv)
 /* Initialize the UI after setting all the resource values.  */
 int ui_init_finish(void)
 {
+    atexit(ui_exit);
     return 0;
 }
 
 /* Exit.  */
 void ui_exit(void)
 {
+    if (ui_accelerator) {
+        DestroyAcceleratorTable(ui_accelerator);
+    }
 }
 
 /* Create a Window for the emulation.  */
@@ -497,8 +586,15 @@ void ui_dispatch_next_event(void)
 
     if (!GetMessage(&msg, NULL, 0, 0))
         exit(msg.wParam);
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
+    if (ui_accelerator) {
+        if (!TranslateAccelerator(main_hwnd,ui_accelerator,&msg)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    } else {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 }
 
 /* Dispatch all the current pending events; return as soon as no more events
@@ -551,6 +647,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
       case IDM_DEVICEMANAGER:
         ui_attach_dialog(main_hwnd);
         break;
+      case IDM_EXIT|0x00010000:
       case IDM_EXIT:
         PostMessage(main_hwnd, WM_CLOSE, wparam, lparam);
         break;
@@ -558,6 +655,10 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), main_hwnd,
                   (DLGPROC) about_dialog_proc);
         break;
+      case IDM_ATTACH_8|0x00010000:
+      case IDM_ATTACH_9|0x00010000:
+      case IDM_ATTACH_10|0x00010000:
+      case IDM_ATTACH_11|0x00010000:
       case IDM_ATTACH_8:
       case IDM_ATTACH_9:
       case IDM_ATTACH_10:
@@ -566,7 +667,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             char *s;
             int unit = 8;
 
-            switch (wparam) {
+            switch (wparam&0xffff) {
               case IDM_ATTACH_8:
                 unit = 8;
                 break;
@@ -607,6 +708,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         file_system_detach_disk(10);
         file_system_detach_disk(11);
         break;
+      case IDM_ATTACH_TAPE|0x00010000:
       case IDM_ATTACH_TAPE:
         {
             char *s;
@@ -637,6 +739,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             }
         }
         break;
+      case IDM_SNAPSHOT_LOAD|0x00010000:
       case IDM_SNAPSHOT_LOAD:
         if (1 /* !ui_emulation_is_paused()*/ )
             maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
@@ -644,24 +747,31 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             load_snapshot_trap(0, 0);
         /* ui_snapshot_load_dialog(main_hwnd);*/
         break;
+      case IDM_SNAPSHOT_SAVE|0x00010000:
       case IDM_SNAPSHOT_SAVE:
         maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
         break;
+      case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
           if (1 /* !ui_emulation_is_paused()*/ )
               maincpu_trigger_trap(mon_trap, (void *) 0);
           else
               mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
               break;
+        case IDM_HARD_RESET+0x00010000:
+        case IDM_SOFT_RESET+0x00010000:
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
+        kbd_clear_keymatrix();
         if (MessageBox(main_hwnd, "Do you really want to reset the emulated machine?",
-                       (wparam == IDM_HARD_RESET ? "Hard reset"
+                       ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
                        MB_YESNO | MB_ICONQUESTION) == IDYES) {
-            if (wparam == IDM_HARD_RESET)
-                mem_powerup();
-            maincpu_trigger_reset();
+            if ((wparam&0xffff) == IDM_HARD_RESET) {
+                machine_powerup();
+            } else {
+                maincpu_trigger_reset();
+            }
         }
         break;
       case IDM_REFRESH_RATE_AUTO:

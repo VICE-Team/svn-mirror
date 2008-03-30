@@ -211,6 +211,8 @@ int machine_init(void)
 
     pet_init_ok = 1;	/* used in pet_set_model() */
 
+    maincpu_init();
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 

@@ -30,6 +30,8 @@
 #define _DRIVECPU_H
 
 #include "types.h"
+
+#include "alarm.h"
 #include "mos6510.h"
 #include "mon.h"
 
@@ -40,6 +42,7 @@ extern mos6510_regs_t drive0_cpu_regs;
 extern CLOCK drive0_clk;
 extern int drive0_traceflg;
 extern int drive0_cpu_running;
+extern alarm_context_t drive0_alarm_context;
 
 extern monitor_interface_t drive0_monitor_interface;
 
@@ -68,6 +71,7 @@ extern mos6510_regs_t drive1_cpu_regs;
 extern CLOCK drive1_clk;
 extern int drive1_traceflg;
 extern int drive1_cpu_running;
+extern alarm_context_t drive1_alarm_context;
 
 extern monitor_interface_t drive1_monitor_interface;
 

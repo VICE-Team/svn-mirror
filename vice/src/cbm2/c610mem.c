@@ -1092,29 +1092,42 @@ static int mem_load_chargen(void)
      * we load 4k of 16-byte-per-char Charrom.
      * Then we generate the inverted chars */
 
-    memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
+    if(!IS_NULL(chargen_name)) {
+        memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
 
-    if (mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096) < 0) {
-        log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
+        if (mem_load_sys_file(chargen_name, chargen_rom, 4096, 4096) < 0) {
+            log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
                   chargen_name);
-        return -1;
-    }
+            return -1;
+        }
 
-    memmove(chargen_rom+2048, chargen_rom+4096, 2048);
+        memmove(chargen_rom+2048, chargen_rom+4096, 2048);
 
-    /* Inverted chargen into second half. This is a hardware feature.  */
-    for (i = 0; i < 2048; i++) {
-        chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-        chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+        /* Inverted chargen into second half. This is a hardware feature.  */
+        for (i = 0; i < 2048; i++) {
+            chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
+            chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+        }
     }
+    return 0;
+}
+
+static int mem_checksum(void)
+{
+    int i;
+    WORD sum;
+
+    /* Checksum over top 8 kByte kernal.  */
+    for (i = 0xe000, sum = 0; i < 0x10000; i++)
+        sum += rom[i];
+
+    log_message(c610_mem_log, "Kernal checksum is %d ($%04X).",
+                sum, sum);
     return 0;
 }
 
 static int mem_load_kernal(void) 
 {
-    int i;
-    WORD sum;
-
     if(!rom_loaded) return 0;  /* init not far enough */
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
@@ -1124,21 +1137,17 @@ static int mem_load_kernal(void)
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
  
     /* Load Kernal ROM.  */
-    if (!IS_NULL(kernal_rom_name)
-        && (mem_load_sys_file(kernal_rom_name,
-                                        rom + 0xe000, 0x2000, 0x2000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
-        return -1;
+    if (!IS_NULL(kernal_rom_name)) {
+        if (mem_load_sys_file(kernal_rom_name,
+                                        rom + 0xe000, 0x2000, 0x2000) < 0) {
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.", kernal_rom_name);
+            return -1;
+	}
     }
 
-    /* Checksum over top 8 kByte kernal.  */
-    for (i = 0xe000, sum = 0; i < 0x10000; i++)
-        sum += rom[i];
-
-    log_message(c610_mem_log, "Loaded ROM, kernal checksum is %d ($%04X).",
-                sum, sum);
-    return 0;
+    return mem_checksum();
 }
+
 
 static int mem_load_basic(void) 
 {
@@ -1433,7 +1442,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  *				    4: cart6_ram
  *				    5: cartC_ram
  *
- * UBYTE        HCONFIG         Bit 0:
+ * UBYTE        HCONFIG         Bit 0-1: ModelLine
  *
  * UBYTE	EXECBANK	CPU exec bank register
  * UBYTE	INDBANK		CPU indirect bank register
@@ -1446,6 +1455,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  * ARRAY	RAM4		(only if memsize < 1M) 8k for cart4_ram
  * ARRAY	RAM6		(only if memsize < 1M) 8k for cart6_ram
  * ARRAY	RAMC		(only if memsize < 1M) 4k for cartC_ram
+ *
  */
 
 static const char module_name[] = "CBM2MEM";
@@ -1471,7 +1481,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, config);
-    snapshot_module_write_byte(m, 0 /* hwconfig */);
+    snapshot_module_write_byte(m, cbm2_model_line & 3);
 
     snapshot_module_write_byte(m, bank_exec);
     snapshot_module_write_byte(m, bank_ind);
@@ -1521,16 +1531,19 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
-    if (vmajor != CBM2MEM_DUMP_VER_MAJOR)
+
+    if (vmajor != CBM2MEM_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
         return -1;
+    }
 
     snapshot_module_read_byte(m, &byte);
     memsize = ((int)byte) & 0xff;
 
     snapshot_module_read_byte(m, &config);
 
-    /* FIXME - should that go here or as CRTC/VIC-II module load? */
     snapshot_module_read_byte(m, &hwconfig);
+    resources_set_value("ModelLine", (resource_value_t) (int)(hwconfig & 3));
 
     snapshot_module_read_byte(m, &byte);
     set_bank_exec(byte);
@@ -1608,38 +1621,29 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 {
     snapshot_module_t *m;
     BYTE config;
+    int trapfl;
 
     if (!save_roms) return 0;
-
-    /* save_roms = 2;*/	/* for test write images */
 
     m = snapshot_module_create(p, module_rom_name,
                                CBM2ROM_DUMP_VER_MAJOR, CBM2ROM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     config = (  (cart_1_name ? 2 : 0)
 		| (cart_2_name ? 4 : 0)
 		| (cart_4_name ? 8 : 0)
 		| (cart_6_name ? 16 : 0) );
 
+
     /* snapshot_module_write_byte(m, save_roms & 3 ); */
     snapshot_module_write_byte(m, config);
 
-#if 0
-    if (save_roms & 1) {	/* Save ROM filenames */
-	snapshot_module_write_string(m, kernal_rom_name);
-	snapshot_module_write_string(m, basic_rom_name);
-	snapshot_module_write_string(m, chargen_name);
-	snapshot_module_write_string(m, cart_1_name);
-	snapshot_module_write_string(m, cart_2_name);
-	snapshot_module_write_string(m, cart_4_name);
-	snapshot_module_write_string(m, cart_6_name);
-    }
-#endif
-
-    /* if (save_roms & 2) */ {	/* Save as image */
+    {	
 	/* kernal */
         snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
 	/* basic */
@@ -1662,6 +1666,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	}
     }
 
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
+
     snapshot_module_close(m);
 
     return 0;
@@ -1672,33 +1679,22 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
-    int i;
+    int i, trapfl;
 
     m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
     if (m == NULL)
         return 0;	/* optional */
 
-    if (vmajor != CBM2ROM_DUMP_VER_MAJOR)
+    if (vmajor != CBM2ROM_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
         return -1;
+    }
+
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     snapshot_module_read_byte(m, &config);
-
-#if 0
-    if (flag & 1) {	/* Save ROM filenames */
-
-	fprintf(logfile, "CBM-II: read ROM names\n");
-
-	snapshot_module_read_string(m, &kernal_rom_name);
-	snapshot_module_read_string(m, &basic_rom_name);
-	snapshot_module_read_string(m, &chargen_name);
-	snapshot_module_read_string(m, &cart_1_name);
-	snapshot_module_read_string(m, &cart_2_name);
-	snapshot_module_read_string(m, &cart_4_name);
-	snapshot_module_read_string(m, &cart_6_name);
-
- 	mem_load();
-    }
-#endif
 
     /* kernal */
     snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
@@ -1726,6 +1722,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     if(config & 16) {
         snapshot_module_read_byte_array(m, rom + 0x6000, 0x2000);
     }
+
+    log_warning(c610_mem_log,"Dumped Romset files and saved settings will "
+                "represent\nthe state before loading the snapshot!");
+
+    mem_checksum();
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 

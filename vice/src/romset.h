@@ -30,10 +30,13 @@
 extern int romset_load(const char *filename);
 extern int romset_dump(const char *filename, const char **resource_list);
 
-extern int romset_load_archive(const char *filename);
+extern int romset_load_archive(const char *filename, int autostart);
 extern int romset_dump_archive(const char *filename);
-extern int romset_select(const char *romset_name);
-extern void romset_clear(void);
+extern int romset_save_item(const char *filename, const char *romset_name);
+extern int romset_select_item(const char *romset_name);
+extern int romset_create_item(const char *romset_name, const char **resource_list);
+extern int romset_delete_item(const char *romset_name);
+extern void romset_clear_archive(void);
 extern int romset_get_number(void);
 extern char *romset_get_item(int number);
 

@@ -36,8 +36,9 @@
 #include "sysfile.h"
 #include "log.h"
 #include "utils.h"
+#include "romset.h"
 
-extern int romset_load(const char *filename) {
+int romset_load(const char *filename) {
     FILE *fp;
     int retval, line_num;
     int err = 0;
@@ -70,7 +71,7 @@ extern int romset_load(const char *filename) {
     return err;
 }
 
-extern int romset_dump(const char *filename, const char **resource_list) {
+int romset_dump(const char *filename, const char **resource_list) {
     FILE *fp;
     const char *s;
 
@@ -112,13 +113,14 @@ static string_link_t *romsets = NULL;
         while ((*b == ' ') || (*b == '\t')) b++; \
     }
 
-int romset_load_archive(const char *filename)
+int romset_load_archive(const char *filename, int autostart)
 {
     FILE *fp;
     int line_num;
     char buffer[256];
+    string_link_t *autoset = NULL;
 
-    if ((fp = sysfile_open(filename, NULL)) == NULL)
+    if ((fp = fopen(filename, "r")) == NULL)
     {
         log_warning(LOG_DEFAULT, "Could not open file '%s' for reading!", filename);
         return -1;
@@ -132,12 +134,17 @@ int romset_load_archive(const char *filename)
         char *b=NULL, *bptr;
         string_link_t *anchor, *item, *last;
         int length;
+        int entry;
 
         READ_ROM_LINE;
         if (bptr == NULL) break;
         if ((*b == '\n') || (*b == '#')) continue;
         length = strlen(b);
-        if (num_romsets >= array_size)
+        for (entry=0, item=romsets; entry<num_romsets; entry++, item++)
+        {
+            if (strncmp(item->name, b, length-1) == 0) break;
+        }
+        if (entry >= array_size)
         {
             array_size += 4;
             if (romsets == NULL)
@@ -145,10 +152,24 @@ int romset_load_archive(const char *filename)
             else
                 romsets = (string_link_t*)xrealloc(romsets, array_size * sizeof(string_link_t));
         }
-        anchor = romsets + num_romsets;
-        anchor->name = (char*)xmalloc(length);
-        strncpy(anchor->name, b, length-1); anchor->name[length-1] = '\0';
+        anchor = romsets + entry;
+        if (entry < num_romsets)
+        {
+            item = anchor->next;
+            while (item != NULL)
+            {
+                last = item; item = item->next;
+                free(last->name); free(last);
+            }
+        }
+        else
+        {
+            anchor->name = (char*)xmalloc(length);
+            strncpy(anchor->name, b, length-1); anchor->name[length-1] = '\0';
+        }
         anchor->next = NULL;
+
+        if ((autostart != 0) && (autoset == NULL)) autoset = anchor;
 
         READ_ROM_LINE
         if ((bptr == NULL) || (*b != '{'))
@@ -173,10 +194,13 @@ int romset_load_archive(const char *filename)
             item->next = NULL;
             last->next = item; last = item;
         }
-        num_romsets++;
+        if (entry >= num_romsets) num_romsets++;
     }
 
     fclose(fp);
+
+    if (autoset != 0)
+        romset_select_item(autoset->name);
 
     return 0;
 }
@@ -188,7 +212,7 @@ int romset_dump_archive(const char *filename)
     string_link_t *item;
     int i;
 
-    if ((fp = sysfile_open(filename, NULL)) == NULL)
+    if ((fp = fopen(filename, "w")) == NULL)
     {
         log_warning(LOG_DEFAULT, "Could not open file '%s' for writing!", filename);
         return -1;
@@ -214,24 +238,32 @@ int romset_dump_archive(const char *filename)
 }
 
 
-int romset_select(const char *romset_name)
+int romset_save_item(const char *filename, const char *romset_name)
 {
     int i;
-    string_link_t *item;
 
-    item = romsets;
-    for (i=0; i<num_romsets; i++, item++)
+    for (i=0; i<num_romsets; i++)
     {
-        if (strcmp(romset_name, item->name) == 0)
+        if (strcmp(romsets[i].name, romset_name) == 0)
         {
+            string_link_t *item;
+            FILE *fp;
+
+            if ((fp = fopen(filename, "w")) == NULL)
+            {
+                log_warning(LOG_DEFAULT, "Could not open file '%s' for writing", filename);
+                return -1;
+            }
+            item = romsets + i;
+            fprintf(fp, "%s\n", item->name);
+            fprintf(fp, "{\n");
             while (item->next != NULL)
             {
-                item = item->next;
-                /* FIXME, this is currently just a dummy.
-                   I suggest splitting up resources_read_item_from_file into <idem>
-                   and resources_read_item_from_buffer. */
-                printf("Set resource %s\n", item->name);
+                item = item->next; fprintf(fp, "\t%s\n", item->name);
             }
+            fprintf(fp, "}\n");
+            fclose(fp);
+
             return 0;
         }
     }
@@ -239,7 +271,163 @@ int romset_select(const char *romset_name)
 }
 
 
-void romset_clear(void)
+int romset_select_item(const char *romset_name)
+{
+    int i;
+    string_link_t *item;
+
+    for (i=0, item=romsets; i<num_romsets; i++, item++)
+    {
+        if (strcmp(romset_name, item->name) == 0)
+        {
+            while (item->next != NULL)
+            {
+                char buffer[256];
+                char *b, *d;
+
+                item = item->next;
+                b = buffer; d = item->name;
+                while (*d != '\0')
+                {
+                    if (*d == '=') break;
+                    else *b++ = *d++;
+                }
+                *b++ = '\0';
+                if (*d == '=')
+                {
+                    resource_type_t tp;
+                    resource_value_t val = (resource_value_t)0;
+                    char *arg;
+
+                    arg = b; d++;
+                    while (*d != '\0')
+                    {
+                        if (*d != '\"') *b++ = *d;
+                        d++;
+                    }
+                    *b++ = '\0';
+                    tp = resources_query_type(buffer);
+                    switch (tp)
+                    {
+                        case RES_INTEGER: val = (resource_value_t)atoi(arg); break;
+                        case RES_STRING: val = (resource_value_t)arg; break;
+                        default: b = NULL; break;
+                    }
+                    if (b != NULL)
+                    {
+                        resources_set_value(buffer, val);
+                    }
+                }
+            }
+            /*mem_load();*/
+            return 0;
+        }
+    }
+    return -1;
+}
+
+
+int romset_create_item(const char *romset_name, const char **resource_list)
+{
+    int entry;
+    string_link_t *anchor, *item, *last;
+    const char **res;
+
+    for (entry=0, item=romsets; entry<num_romsets; entry++, item++)
+    {
+        if (strcmp(romset_name, item->name) == 0) break;
+    }
+    if (entry >= array_size)
+    {
+        array_size += 4;
+        if (romsets == NULL)
+            romsets = (string_link_t*)xmalloc(array_size * sizeof(string_link_t));
+        else
+            romsets = (string_link_t*)xrealloc(romsets, array_size * sizeof(string_link_t));
+    }
+    anchor = romsets + entry;
+    if (entry < num_romsets)
+    {
+        item = anchor->next;
+        while (item != NULL)
+        {
+            last = item; item = item->next;
+            free(last->name); free(last);
+        }
+    }
+    else
+    {
+        anchor->name = (char*)xmalloc(strlen(romset_name)+1);
+        strcpy(anchor->name, romset_name);
+    }
+    anchor->next = NULL;
+
+    last = anchor;
+    res = resource_list;
+    while (*res != NULL)
+    {
+        resource_type_t tp;
+        resource_value_t val;
+        int len;
+
+        if (resources_get_value(*res, &val) == 0)
+        {
+            char buffer[256];
+
+            tp = resources_query_type(*res);
+            switch (tp)
+            {
+                case RES_INTEGER: sprintf(buffer, "%s=%d", *res, (int)val); break;
+                case RES_STRING: sprintf(buffer, "%s=\"%s\"", *res, (char*)val); break;
+                default: buffer[0] = '\0';
+            }
+            if ((len = strlen(buffer)) > 0)
+            {
+              item = xmalloc(sizeof(string_link_t));
+              item->name = xmalloc(len+1); strcpy(item->name, buffer);
+              item->next = NULL; last->next = item; last = item;
+            }
+        }
+        res++;
+    }
+
+    if (entry >= num_romsets) num_romsets++;
+
+    return 0;
+}
+
+
+int romset_delete_item(const char *romset_name)
+{
+    string_link_t *item;
+    int i;
+
+    for (i=0, item=romsets; i<num_romsets; i++, item++)
+    {
+        if (strcmp(romset_name, item->name) == 0)
+        {
+            string_link_t *last;
+
+            free(item->name); item = item->next;
+            while (item != NULL)
+            {
+                last = item; item = item->next;
+                free(last->name); free(last);
+            }
+            while (i < num_romsets-1)
+            {
+                romsets[i] = romsets[i+1]; i++;
+            }
+            num_romsets--;
+
+            return 0;
+        }
+    }
+    return -1;
+}
+
+
+void romset_clear_archive(void)
 {
     int i;
     string_link_t *item, *last;

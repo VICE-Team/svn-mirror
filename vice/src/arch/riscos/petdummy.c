@@ -36,6 +36,10 @@ void cartridge_detach_image(void)
 {
 }
 
+void cartridge_trigger_freeze(void)
+{
+}
+
 CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
 
 int int_rasterfetch(long offset)

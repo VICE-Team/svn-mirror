@@ -15,10 +15,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Attach &disk image"
         BEGIN
-            MENUITEM "Drive &8",                    IDM_ATTACH_8
-            MENUITEM "Drive &9",                    IDM_ATTACH_9
-            MENUITEM "Drive 1&0",                   IDM_ATTACH_10
-            MENUITEM "Drive &11",                   IDM_ATTACH_11
+            MENUITEM "Drive &8\tAlt+8",             IDM_ATTACH_8
+            MENUITEM "Drive &9\tAlt+9",             IDM_ATTACH_9
+            MENUITEM "Drive 1&0\tAlt+0",            IDM_ATTACH_10
+            MENUITEM "Drive &11\tAlt+1",            IDM_ATTACH_11
         END
         POPUP "D&etach disk image"
         BEGIN
@@ -30,7 +30,7 @@ BEGIN
             MENUITEM "&All",                        IDM_DETACH_ALL
         END
         MENUITEM SEPARATOR
-        MENUITEM "Attach &tape image...",           IDM_ATTACH_TAPE
+        MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
         MENUITEM SEPARATOR
         POPUP "Attach &cartridge image..."
@@ -45,18 +45,19 @@ BEGIN
             MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT
         END
         MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
+        MENUITEM "Cartridge freeze\tAlt+F",         IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "Load snapshot image...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Save snapshot image",             IDM_SNAPSHOT_SAVE
+        MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
+        MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
         MENUITEM SEPARATOR
-        MENUITEM "Monitor",                         IDM_MONITOR
+        MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Hard",                       IDM_HARD_RESET
-            MENUITEM "&Soft",                       IDM_SOFT_RESET
+            MENUITEM "&Hard\tCtrl+Alt+R",           IDM_HARD_RESET
+            MENUITEM "&Soft\tAlt+R",                IDM_SOFT_RESET
         END
         MENUITEM SEPARATOR
-        MENUITEM "E&xit",                           IDM_EXIT
+        MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
     END
     POPUP "&Options"
     BEGIN
@@ -91,7 +92,7 @@ BEGIN
             MENUITEM "&Custom",                     IDM_MAXIMUM_SPEED_CUSTOM
 #endif
         END
-        MENUITEM "&Warp mode",                      IDM_TOGGLE_WARP_MODE
+        MENUITEM "&Warp mode\tAlt+W",               IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Video &cache",                    IDM_TOGGLE_VIDEOCACHE

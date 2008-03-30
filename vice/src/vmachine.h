@@ -34,6 +34,8 @@
 
 /* Alarms.  */
 
+#if 0
+
 #define A_RASTERDRAW	0 	/* Draw one raster line. */
 #define A_RASTERFETCH	1 	/* Video chip memory fetch. */
 #define A_RASTER	2	/* Raster compare. */
@@ -66,6 +68,7 @@
 #define A_ACIA1         A_CIA2TA
 #endif
 
+#endif
 
 /* ------------------------------------------------------------------------- */
 

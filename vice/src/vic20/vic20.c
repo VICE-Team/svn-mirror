@@ -217,6 +217,8 @@ int machine_init(void)
     if (vic20_log == LOG_ERR)
         vic20_log = log_open("VIC20");
 
+    maincpu_init();
+
     if (mem_load() < 0)
         return -1;
 

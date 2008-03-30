@@ -716,7 +716,10 @@ There is, however, one problem with symbolic mapping: some keys really
 need to be mapped specially regardless.  The most important examples
 being, in the VIC20, C64 and C128 emulators, that @key{CTRL} is mapped
 to @key{Tab} and that the @key{Commodore} key is mapped to the left
-@key{Control}).
+@key{Control}). The @key{RUN/STOP} key is mapped to the @key{ESC} key
+on the PC keyboard. The PET emulator, lacking the @key{Commodore} key
+but having an @key{ESC} key, uses the left @key{Control} key as
+@key{RUN/STOP} and the @key{ESC} key as @key{ESC} of course.
 
 @c (@dots{}) FIXME: we need the detailed list here.
 

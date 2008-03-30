@@ -35,6 +35,7 @@
 #endif
 
 #include "6510core.h"
+#include "alarm.h"
 #include "ciad.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -67,6 +68,7 @@ int mydrive_traceflg;
 
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
+alarm_context_t mydrive_alarm_context;
 
 /* Value of clk for the last time mydrive_cpu_execute() was called.  */
 static CLOCK last_clk;
@@ -278,18 +280,7 @@ static void reset(void)
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
     log_message(drive[mynumber].log, "RESET.");
-    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
-			DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
-    mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
-    mydrive_int_status.alarm_handler[A_MYVIA1T2] = int_myvia1t2;
-    mydrive_int_status.alarm_handler[A_MYVIA2T1] = int_myvia2t1;
-    mydrive_int_status.alarm_handler[A_MYVIA2T2] = int_myvia2t2;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TOD] = int_mycia1571tod;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TA] = int_mycia1571ta;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TB] = int_mycia1571tb;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TOD] = int_mycia1581tod;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TA] = int_mycia1581ta;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TB] = int_mycia1581tb;
+    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT, &mydrive_last_opcode_info);
 
     drive_clk[mynumber] = 6;
     reset_myvia1();
@@ -388,7 +379,7 @@ void mydrive_cpu_reset(void)
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
     cpu_int_status_init(&mydrive_int_status,
-			DRIVE_NUMOFALRM, DRIVE_NUMOFINT,
+			DRIVE_NUMOFINT,
 			&mydrive_last_opcode_info);
 
     if (preserve_monitor)
@@ -399,7 +390,15 @@ void mydrive_cpu_reset(void)
 
 void mydrive_cpu_init(int type)
 {
+    alarm_context_init(&mydrive_alarm_context, "Mydrive");
+
+    myvia1_init();
+    myvia2_init();
+    mycia1571_init();
+    mycia1581_init();
+
     mydrive_mem_init(type);
+
     mydrive_cpu_reset();
 }
 
@@ -450,8 +449,12 @@ inline static int mydrive_trap_handler(void)
     if (MOS6510_REGS_GET_PC(&mydrive_cpu_regs) == 0xec9b) {
         /* Idle loop */
         MOS6510_REGS_SET_PC(&mydrive_cpu_regs, 0xebff);
-        if (drive[mynumber].idling_method == DRIVE_IDLE_TRAP_IDLE)
-            drive_clk[mynumber] = next_alarm_clk(&mydrive_int_status);
+        if (drive[mynumber].idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            CLOCK next_clk;
+            
+            drive_clk[mynumber] = next_clk;
+            next_clk = alarm_context_next_pending_clk(&mydrive_alarm_context);
+        }
         return 0;
     }
     if (MOS6510_REGS_GET_PC(&mydrive_cpu_regs) == 0xc0be) {
@@ -530,6 +533,8 @@ void mydrive_cpu_execute(void)
 #define TRACEFLG mydrive_traceflg
 
 #define CPU_INT_STATUS mydrive_int_status
+
+#define ALARM_CONTEXT mydrive_alarm_context
 
 #define JAM() mydrive_jam()
 
@@ -681,18 +686,9 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     log_message(drive[mynumber].log, "RESET (For undump).");
+
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
-            DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
-    mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
-    mydrive_int_status.alarm_handler[A_MYVIA1T2] = int_myvia1t2;
-    mydrive_int_status.alarm_handler[A_MYVIA2T1] = int_myvia2t1;
-    mydrive_int_status.alarm_handler[A_MYVIA2T2] = int_myvia2t2;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TOD] = int_mycia1571tod;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TA] = int_mycia1571ta;
-    mydrive_int_status.alarm_handler[A_MYCIA1571TB] = int_mycia1571tb;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TOD] = int_mycia1581tod;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TA] = int_mycia1581ta;
-    mydrive_int_status.alarm_handler[A_MYCIA1581TB] = int_mycia1581tb;
+                        &mydrive_last_opcode_info);
 
     reset_myvia1();
     reset_myvia2();

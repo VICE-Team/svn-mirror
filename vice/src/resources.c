@@ -103,6 +103,16 @@ static resource_t *lookup(const char *name)
     return NULL;
 }
 
+resource_type_t resources_query_type(const char *name)
+{
+    resource_t *res;
+
+    if ((res = lookup(name)) != NULL)
+        return res->type;
+    else
+        return (resource_type_t)-1;
+}
+
 int resources_write_item_to_file(FILE *fp, const char *name)
 {
     int i;
@@ -464,7 +474,7 @@ int resources_save(const char *fname)
     int have_old;
     int i;
 
-    if (fname == NULL) 
+    if (fname == NULL)
 	fname = archdep_default_save_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */

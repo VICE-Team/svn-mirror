@@ -40,17 +40,13 @@
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-void cpu_int_status_init(cpu_int_status_t *cs, int num_ints, int num_alarms,
+void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
                          opcode_info_t *last_opcode_info_ptr)
 {
     int i;
 
     memset(cs, 0, sizeof(cpu_int_status_t));
     cs->num_ints = num_ints;
-    cs->num_alarms = num_alarms;
-    for (i = 0; i < 0x100; i++)
-	cs->alarm_clk[i] = CLOCK_MAX;
-    cs->next_alarm_clk = CLOCK_MAX;
     cs->last_opcode_info_ptr = last_opcode_info_ptr;
     cs->num_last_stolen_cycles = 0;
     cs->last_stolen_cycles_clk = (CLOCK)0;
@@ -61,6 +57,7 @@ void cpu_int_status_init(cpu_int_status_t *cs, int num_ints, int num_alarms,
    cycles subtracted, which is always a multiple of `baseval'.  */
 CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
 {
+#if 0
     if (*clk > PREVENT_CLK_OVERFLOW_TICK) {
 	int i;
         CLOCK prevent_clk_overflow_sub =
@@ -82,6 +79,10 @@ CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
 	return prevent_clk_overflow_sub;
     } else
 	return 0;
+#else
+    /* FIXME FIXME FIXME */
+    return 0;
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -181,28 +182,10 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     int i;
     DWORD dw;
 
-    /* Reset the status.  */
-    for (i = 0; i < cs->num_alarms; i++)
-	cs->alarm_clk[i] = CLOCK_MAX;
     for (i = 0; i < cs->num_ints; i++)
 	cs->pending_int[i] = IK_NONE;
-    cs->next_alarm_clk = CLOCK_MAX;
     cs->global_pending_int = IK_NONE;
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
-
-#if 0
-    for (i = 0; i < cs->num_ints; i++) {
-        BYTE b;
-
-        if (snapshot_module_read_byte(m, &b) < 0)
-            return -1;
-
-        /* Setup interrupt.  Clock tick does not matter here, as we set the
-           `irq_clk' and `nmi_clk' variables afterwards, taking the values
-           from the snapshot.  */
-        set_int(cs, i, b, (CLOCK) 0);
-    }
-#endif
 
     if (snapshot_module_read_dword(m, &cs->irq_clk) < 0
         || snapshot_module_read_dword(m, &cs->nmi_clk) < 0)

@@ -27,6 +27,7 @@
  *
  */
 
+#include "alarm.h"
 #include "interrupt.h"
 #include "log.h"
 #include "resources.h"
@@ -70,3 +71,6 @@ static int cb2_state;
 
 static log_t myvia_log = LOG_ERR;
 
+/* VIA alarms.  */
+static alarm_t myvia_t1_alarm;
+static alarm_t myvia_t2_alarm;

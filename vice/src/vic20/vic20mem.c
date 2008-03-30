@@ -54,6 +54,8 @@
 #include "vmachine.h"
 #include "cartridge.h"
 
+#define IS_NULL(s)  (s == NULL || *s == '\0')
+
 /* ------------------------------------------------------------------------- */
 
 const char *mem_romset_resources_list[] = {
@@ -291,6 +293,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 		       || strcmp(opt, "A0") == 0) {
 		memconf |= VIC_BLK5;
 	    } else {
+		/* FIXME: this is before log is initialized, right? */
 		fprintf(stdout,
                         "Unsupported memory extension option: \"%s\".\n",
 			opt);
@@ -302,6 +305,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 	}
     }
 
+    /* FIXME: this is before log is initialized, right? */
     printf("Extension memory enabled: ");
     if (memconf & VIC_BLK0) {
 	set_ram_block_0_enabled((resource_value_t) 1);
@@ -661,34 +665,41 @@ void initialize_memory(void)
 	vic20_mem_disable_ram_block(0);
 
     /* Setup RAM or cartridge ROM at $2000-$3FFF.  */
-    if (mem_rom_blocks & (VIC_ROM_BLK1A | VIC_ROM_BLK1B))
+    if (mem_rom_blocks & (VIC_ROM_BLK1A | VIC_ROM_BLK1B)) {
         vic20_mem_enable_rom_block(1);
-    else if (ram_block_1_enabled)
+    } else 
+    if (ram_block_1_enabled) {
 	vic20_mem_enable_ram_block(1);
-    else
+    } else {
 	vic20_mem_disable_ram_block(1);
+    }
 
     /* Setup RAM at $4000-$5FFF.  */
-    if (ram_block_2_enabled)
+    if (ram_block_2_enabled) {
 	vic20_mem_enable_ram_block(2);
-    else
+    } else {
 	vic20_mem_disable_ram_block(2);
+    }
 
     /* Setup RAM or cartridge ROM at $6000-$7FFF.  */
-    if (mem_rom_blocks & (VIC_ROM_BLK3A | VIC_ROM_BLK3B))
+    if (mem_rom_blocks & (VIC_ROM_BLK3A | VIC_ROM_BLK3B)) {
         vic20_mem_enable_rom_block(3);
-    else if (ram_block_3_enabled)
+    } else 
+    if (ram_block_3_enabled) {
 	vic20_mem_enable_ram_block(3);
-    else
+    } else {
 	vic20_mem_disable_ram_block(3);
+    }
 
     /* Setup RAM or cartridge ROM at $A000-$BFFF.  */
-    if (mem_rom_blocks & (VIC_ROM_BLK5A | VIC_ROM_BLK5B))
+    if (mem_rom_blocks & (VIC_ROM_BLK5A | VIC_ROM_BLK5B)) {
         vic20_mem_enable_rom_block(5);
-    else if (ram_block_5_enabled)
+    } else 
+    if (ram_block_5_enabled) {
 	vic20_mem_enable_ram_block(5);
-    else
+    } else {
 	vic20_mem_disable_ram_block(5);
+    }
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
@@ -772,20 +783,11 @@ void mem_powerup(void)
     }
 }
 
-int mem_load_kernal(void) 
+static int mem_kernal_checksum(void)
 {
     int i;
     WORD sum;
 
-    if(!rom_loaded) return 0;
-
-    /* Load Kernal ROM. */
-    if (mem_load_sys_file(kernal_rom_name,
-			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
-			  VIC20_KERNAL_ROM_SIZE) < 0) {
-	log_error(vic20_mem_log, "Couldn't load kernal ROM.");
-	return -1;
-    }
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++)
 	sum += kernal_rom[i];
@@ -798,20 +800,27 @@ int mem_load_kernal(void)
     return 0;
 }
 
-int mem_load_basic(void) 
+static int mem_load_kernal(void) 
+{
+    if(!rom_loaded) return 0;
+
+    if(!IS_NULL(kernal_rom_name)) {
+        /* Load Kernal ROM. */
+        if (mem_load_sys_file(kernal_rom_name,
+			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
+			  VIC20_KERNAL_ROM_SIZE) < 0) {
+	    log_error(vic20_mem_log, "Couldn't load kernal ROM.");
+	    return -1;
+	}
+    }
+    return mem_kernal_checksum();
+}
+
+static int mem_basic_checksum(void)
 {
     int i;
     WORD sum;
 
-    if(!rom_loaded) return 0;
-
-    /* Load Basic ROM. */
-    if (mem_load_sys_file(basic_rom_name,
-			  basic_rom, VIC20_BASIC_ROM_SIZE,
-			  VIC20_BASIC_ROM_SIZE) < 0) {
-	log_error(vic20_mem_log, "Couldn't load basic ROM.");
-	return -1;
-    }
     /* Check Basic ROM. */
     for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++)
 	sum += basic_rom[i];
@@ -823,16 +832,34 @@ int mem_load_basic(void)
     return 0;
 }
 
-int mem_load_chargen(void) 
+static int mem_load_basic(void) 
 {
     if(!rom_loaded) return 0;
 
-    /* Load chargen ROM. */
-    if (mem_load_sys_file(chargen_rom_name,
+    if(!IS_NULL(basic_rom_name)) {
+        /* Load Basic ROM. */
+        if (mem_load_sys_file(basic_rom_name,
+			  basic_rom, VIC20_BASIC_ROM_SIZE,
+			  VIC20_BASIC_ROM_SIZE) < 0) {
+	    log_error(vic20_mem_log, "Couldn't load basic ROM.");
+	    return -1;
+	}
+    }
+    return mem_basic_checksum();
+}
+
+static int mem_load_chargen(void) 
+{
+    if(!rom_loaded) return 0;
+
+    if(!IS_NULL(chargen_rom_name)) {
+        /* Load chargen ROM. */
+        if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
 			  VIC20_CHARGEN_ROM_SIZE) < 0) {
-	log_error(vic20_mem_log, "Couldn't load character ROM.");
-	return -1;
+	    log_error(vic20_mem_log, "Couldn't load character ROM.");
+	    return -1;
+	}
     }
     return 0;
 }
@@ -1110,8 +1137,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     m = snapshot_module_open(p, SNAP_MEM_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL)
         return -1;
-    if (vmajor != VIC20MEM_DUMP_VER_MAJOR)
+
+    if (vmajor != VIC20MEM_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
         return -1;
+    }
 
     snapshot_module_read_byte(m, &config);
 
@@ -1166,7 +1196,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
  *				    7: 1 = ROM block $B*** enabled
  *
  * ARRAY	KERNAL		8k KERNAL ROM $e000-$ffff
- * ARRAY	BASIC		16k KERNAL ROM $c000-$dfff
+ * ARRAY	BASIC		8k BASIC ROM $c000-$dfff
  * ARRAY	CHARGEN		4k CHARGEN ROM 
  * ARRAY	BLK1A		4k ROM $2*** (if CONFIG & 1)
  * ARRAY	BLK1B		4k ROM $3*** (if CONFIG & 2)
@@ -1181,41 +1211,52 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 {
     snapshot_module_t *m;
     BYTE config;
+    int trapfl;
     
     if (!save_roms)
         return 0;
 
     m = snapshot_module_create(p, SNAP_ROM_MODULE_NAME,
-                               VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
+                          VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
+
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     config = mem_rom_blocks;
 
     snapshot_module_write_byte(m, config);
 
-    snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
-    snapshot_module_write_byte_array(m, rom + 0xc000, 0x4000);
+    /* save kernal */
+    snapshot_module_write_byte_array(m, rom + 0x2000, 0x2000);
+    /* save basic */
+    snapshot_module_write_byte_array(m, rom + 0x0000, 0x2000);
+
     snapshot_module_write_byte_array(m, chargen_rom + 0x400, 0x1000);
 
     if (config & 1) {
-        snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0x2000, 0x1000);
     }
     if (config & 2) {
-        snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0x3000, 0x1000);
     }
     if (config & 16) {
-        snapshot_module_write_byte_array(m, rom + 0x6000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0x6000, 0x1000);
     }
     if (config & 32) {
-        snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0x7000, 0x1000);
     }
     if (config & 64) {
-        snapshot_module_write_byte_array(m, rom + 0xA000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0xA000, 0x1000);
     }
     if (config & 128) {
-        snapshot_module_write_byte_array(m, rom + 0xB000, 0x1000);
+        snapshot_module_write_byte_array(m, cartrom + 0xB000, 0x1000);
     }
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
@@ -1227,46 +1268,65 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
+    int trapfl;
 
     m = snapshot_module_open(p, SNAP_ROM_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL)
         return 0;	/* optional */
 
-    if (vmajor != VIC20ROM_DUMP_VER_MAJOR)
+    if (vmajor != VIC20ROM_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
         return -1;
+    }
+
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     snapshot_module_read_byte(m, &config);
 
-    snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
-    snapshot_module_read_byte_array(m, rom + 0xc000, 0x4000);
+    /* read kernal */
+    snapshot_module_read_byte_array(m, rom + 0x2000, 0x2000);
+    /* read basic */
+    snapshot_module_read_byte_array(m, rom + 0x0000, 0x2000);
+
     snapshot_module_read_byte_array(m, chargen_rom + 0x400, 0x1000);
 
     mem_rom_blocks = 0;
 
     if (config & 1) {
-        snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0x2000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1A;
     }
     if (config & 2) {
-        snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0x3000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1B;
     }
     if (config & 16) {
-        snapshot_module_read_byte_array(m, rom + 0x6000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0x6000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
     }
     if (config & 32) {
-        snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0x7000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3B;
     }
     if (config & 64) {
-        snapshot_module_read_byte_array(m, rom + 0xA000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0xA000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
     }
     if (config & 128) {
-        snapshot_module_read_byte_array(m, rom + 0xB000, 0x1000);
+        snapshot_module_read_byte_array(m, cartrom + 0xB000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
     }
+
+    mem_kernal_checksum();
+    mem_basic_checksum();
+
+    log_warning(vic20_mem_log,"Dumped Romset files and saved settings will "
+                "represent\nthe state before loading the snapshot!");
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 

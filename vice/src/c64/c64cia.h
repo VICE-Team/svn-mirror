@@ -1,4 +1,3 @@
-
 /*
  * cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
@@ -33,6 +32,7 @@
 #include "cia.h"
 #include "snapshot.h"
 
+extern void cia1_init(void);
 extern void reset_cia1(void);
 extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1(ADDRESS addr);
@@ -48,6 +48,7 @@ extern void cia1_enable_extended_keyboard_rows(int flag);
 extern int cia1_write_snapshot_module(snapshot_t *p);
 extern int cia1_read_snapshot_module(snapshot_t *p);
 
+extern void cia2_init(void);
 extern void reset_cia2(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia2(ADDRESS addr);

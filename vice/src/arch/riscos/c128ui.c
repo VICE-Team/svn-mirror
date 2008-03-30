@@ -47,3 +47,7 @@ int c128_ui_init(void)
 void cartridge_detach_image(void)
 {
 }
+
+void cartridge_trigger_freeze(void)
+{
+}

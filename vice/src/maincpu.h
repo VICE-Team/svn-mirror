@@ -28,6 +28,7 @@
 #define _MAINCPU_H
 
 #include "6510core.h"
+#include "alarm.h"
 #include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
@@ -59,6 +60,7 @@ extern CLOCK clk;
 /* ------------------------------------------------------------------------- */
 
 extern CLOCK _maincpu_opcode_write_cycles[];
+extern alarm_context_t maincpu_alarm_context;
 
 /* Return the number of write accesses in the last opcode emulated. */
 inline static CLOCK maincpu_num_write_cycles(void)
@@ -66,8 +68,8 @@ inline static CLOCK maincpu_num_write_cycles(void)
     return _maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
 }
 
+extern void maincpu_init(void);
 extern void mainloop(ADDRESS start_address);
-
 extern int maincpu_read_snapshot_module(snapshot_t *s);
 extern int maincpu_write_snapshot_module(snapshot_t *s);
 

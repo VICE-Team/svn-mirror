@@ -250,6 +250,8 @@ int machine_init(void)
     if (c64_log != LOG_ERR)
         c64_log = log_open("C64");
 
+    maincpu_init();
+
     if (mem_load() < 0)
         return -1;
 
@@ -293,6 +295,12 @@ int machine_init(void)
     vic_ii_enable_extended_keyboard_rows(0);
     cia1_enable_extended_keyboard_rows(0);
 
+    cia1_init();
+    cia2_init();
+
+#ifdef HAVE_RS232
+    acia1_init();
+#endif
     /* Initialize the keyboard.  */
 #if !defined __MSDOS__ && !defined WIN32
     if (kbd_init() < 0)
@@ -329,21 +337,6 @@ int machine_init(void)
 /* C64-specific reset sequence.  */
 void machine_reset(void)
 {
-    maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
-    maincpu_int_status.alarm_handler[A_RASTERFETCH] = int_rasterfetch;
-    maincpu_int_status.alarm_handler[A_RASTER] = int_raster;
-    maincpu_int_status.alarm_handler[A_CIA1TOD] = int_cia1tod;
-    maincpu_int_status.alarm_handler[A_CIA1TA] = int_cia1ta;
-    maincpu_int_status.alarm_handler[A_CIA1TB] = int_cia1tb;
-    maincpu_int_status.alarm_handler[A_CIA2TOD] = int_cia2tod;
-    maincpu_int_status.alarm_handler[A_CIA2TA] = int_cia2ta;
-    maincpu_int_status.alarm_handler[A_CIA2TB] = int_cia2tb;
-
-#ifdef HAVE_RS232
-    maincpu_int_status.alarm_handler[A_ACIA1] = int_acia1;
-    maincpu_int_status.alarm_handler[A_RSUSER] = int_rsuser;
-#endif
-
     reset_cia1();
     reset_cia2();
     sid_reset();
@@ -351,7 +344,6 @@ void machine_reset(void)
 
 #ifdef HAVE_RS232
     reset_acia1();
-
     rs232_reset();
     rsuser_reset();
 #endif
@@ -360,7 +352,8 @@ void machine_reset(void)
     print_reset();
 #endif
 
-    /* reset_reu(); *//* FIXME */
+    /* FIXME */
+    /* reset_reu(); */
 
     /* The VIC-II must be the *last* to be reset.  */
     reset_vic_ii();

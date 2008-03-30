@@ -348,8 +348,12 @@ static int set_editor_rom_name(resource_value_t v)
 {
     char *s = (char*) v;
 
+/*  and because the kernal can overwrite the editor, we have to load it 
+    too, even if it stays the same.
+
     if (s && petres.editorName && !strcmp(s,petres.editorName))
 	return 0;
+*/
 
     string_set(&petres.editorName, s);
 
@@ -1209,7 +1213,19 @@ static void petmem_patch_2001(void)
 static void petmem_checksum(void) 
 {
     static WORD last_sum = 0;
+    int i;
     WORD sum;
+
+    /* Checksum over top 4 kByte PET kernal.  */
+    petres.kernal_checksum = 0;
+    for (i = 0x7000; i < 0x8000; i++)
+        petres.kernal_checksum += rom[i];
+
+    /* 4032 and 8032 have the same kernals, so we have to test more, here
+       $E000 - $E800.  */
+    petres.editor_checksum = 0;
+    for (i = 0x6000; i < 0x6800; i++)
+        petres.editor_checksum += rom[i];
 
 /*    log_message(pet_mem_log, "editor checksum=%d, kernal checksum=%d",
 		(int) petres.editor_checksum, (int) petres.kernal_checksum); */
@@ -1351,7 +1367,7 @@ static int mem_load_chargen(void)
 
 static int mem_load_kernal(void) 
 {
-    int krsize, i;
+    int krsize;
     WORD sum;
     ADDRESS old_start, new_start;
 
@@ -1412,17 +1428,6 @@ static int mem_load_kernal(void)
 	}
     }
 
-    /* Checksum over top 4 kByte PET kernal.  */
-    petres.kernal_checksum = 0;
-    for (i = 0x7000; i < 0x8000; i++)
-        petres.kernal_checksum += rom[i];
-
-    /* 4032 and 8032 have the same kernals, so we have to test more, here
-       $E000 - $E800.  */
-    petres.editor_checksum = 0;
-    for (i = 0x6000; i < 0x6800; i++)
-        petres.editor_checksum += rom[i];
-
     petmem_checksum();
 
     sum = petres.editor_checksum + petres.kernal_checksum;
@@ -1447,8 +1452,6 @@ static int mem_load_kernal(void)
 
 static int mem_load_editor(void) 
 {
-    int i;
-
     if(!rom_loaded) return 0;
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
@@ -1467,12 +1470,6 @@ static int mem_load_editor(void)
             return -1;
         }
     }
-
-    /* 4032 and 8032 have the same kernals, so we have to test more, here
-       $E000 - $E800.  */
-    petres.editor_checksum = 0;
-    for (i = 0x6000; i < 0x6800; i++)
-        petres.editor_checksum += rom[i];
 
     petmem_checksum();
 
@@ -2082,7 +2079,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 {
     snapshot_module_t *m;
     BYTE config;
-    int i;
+    int i, trapfl;
 
     if (!save_roms) return 0;
 
@@ -2091,12 +2088,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     if (m == NULL)
         return -1;
 
-    /* De-initialize kbd-buf, autostart and tape stuff here before
-       saving the ROM the traps are installed in.  */
-    /* log_warning(pet_mem_log, "Deinstalling Traps"); */
-    kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0, NULL);
-    tape_deinstall();
+    /* disable traps before saving the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
 
     config = (rom_9_loaded ? 1 : 0)
 		| (rom_A_loaded ? 2 : 0)
@@ -2134,7 +2128,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 	}
     }
 
-    petmem_checksum();
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
@@ -2146,7 +2141,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
-    int i;
+    int trapfl;
 
     m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
     if (m == NULL)
@@ -2160,6 +2155,10 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
         return -1;
     }
 
+    /* disable traps before loading the ROM */
+    resources_get_value("NoTraps", (resource_value_t*) &trapfl);
+    resources_set_value("NoTraps", (resource_value_t) 1);
+
     config = (rom_9_loaded ? 1 : 0)
 		| (rom_A_loaded ? 2 : 0)
 		| (rom_B_loaded ? 4 : 0)
@@ -2168,21 +2167,16 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &config);
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
-       loading the new ROMs.  */
+       loading the new ROMs. These depend on addresses defined in the
+       rom - they might be different in the loaded ROM. */
     kbd_buf_init(0, 0, 0, 0);
     autostart_init(0, 0, 0, 0, 0, 0, NULL);
     tape_deinstall();
 
-    if(config & 1)	/* unload current ROM (name) */
-        resources_set_value("RomModule9Name", (resource_value_t) NULL);
-    if(config & 2)	/* unload current ROM (name) */
-        resources_set_value("RomModuleAName", (resource_value_t) NULL);
-    if(config & 4)	/* unload current ROM (name) */
-        resources_set_value("RomModuleBName", (resource_value_t) NULL);
-
     rom_9_loaded = config & 1;
     rom_A_loaded = config & 2;
     rom_B_loaded = config & 4;
+
     if (config & 8) {
 	petres.IOSize = 0x100;
 	initialize_memory();
@@ -2221,22 +2215,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 	}
     }
 
-    /* Checksum over top 4 kByte PET kernal.  */
-    petres.kernal_checksum = 0;
-    for (i = 0x7000; i < 0x8000; i++)
-        petres.kernal_checksum += rom[i];
 
-    /* 4032 and 8032 have the same kernals, so we have to test more, here
-       $E000 - $E800.  */
-    petres.editor_checksum = 0;
-    for (i = 0x6000; i < 0x6800; i++)
-        petres.editor_checksum += rom[i];
+    log_warning(pet_mem_log,"Dumped Romset files and saved settings will "
+		"represent\nthe state before loading the snapshot!");
 
-    /* unset the ROM names - also does checksum check, to 
-       install traps etc if able to do so */
-    resources_set_value("KernalName", (resource_value_t) NULL);
-    resources_set_value("EditorName", (resource_value_t) NULL);
-    resources_set_value("ChargenName", (resource_value_t) NULL);
+    petmem_checksum();
+
+    /* enable traps again when necessary */
+    resources_set_value("NoTraps", (resource_value_t) trapfl);
 
     snapshot_module_close(m);
 
