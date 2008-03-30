@@ -269,7 +269,8 @@ int machine_init(void)
                  &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
+    vsync_init(vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
@@ -368,7 +369,7 @@ void machine_set_cycles_per_frame(long cpf) {
     log_message(pet_log, "cycles per frame set to %ld, refresh to %f",
 		cpf, pet_rfsh_per_sec);
 
-    vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
 
     /* sound_set_cycles_per_rfsh(pet_cycles_per_rfsh); */
 }
