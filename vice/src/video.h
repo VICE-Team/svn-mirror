@@ -71,5 +71,34 @@ extern void canvas_resize(struct canvas_s *s, unsigned int width,
 extern int video_resources_init(void);
 extern int video_arch_init_resources(void);
 
+
+/* Video render interface */
+
+/* Commodore VIC/VIC-II/TED related color/palette types */
+typedef struct video_cbm_color_s {
+        float luminance;        /* luminance                      */
+        float angle;            /* angle on color wheel           */
+        int direction;          /* +1 (pos), -1 (neg) or 0 (grey) */
+        char *name;             /* name of this color             */
+} video_cbm_color_t;
+
+typedef struct video_cbm_palette_s {
+    unsigned int num_entries;           /* number of colors in palette */
+    video_cbm_color_t *entries;         /* array of colors             */
+    float saturation; /* base saturation of all colors except the grey tones */
+    float phase;      /* color phase (will be added to all color angles) */
+} video_cbm_palette_t;
+
+struct raster_s;
+
+extern void video_color_set_palette(video_cbm_palette_t *palette);
+extern int video_color_update_palette(void);
+extern void video_color_set_raster(struct raster_s *raster);
+
+extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
+                              int height, int xs, int ys, int xt, int yt,
+                              int pitchs, int pitcht, int depth);
+extern int video_render_get_fake_pal_state(void);
+
 #endif
 

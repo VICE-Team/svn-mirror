@@ -44,7 +44,6 @@
 #include "video.h"
 #include "videoarch.h"
 
-#include "video-render.h" /* VIDEO_REMOVE_2X */
 
 static void update_pixel_tables(raster_t *raster);
 static int realize_canvas(raster_t *raster);
@@ -400,12 +399,11 @@ static void update_canvas(raster_t *raster)
 #endif /* VIDEO_REMOVE_2X */
 
 #ifdef VIDEO_REMOVE_2X
-	if (video_get_fake_pal_state())
-	{
-		/* the fake pal emu needs one more pixel left and bottom update */
-		w++;
-		h++;
-	}
+    if (video_render_get_fake_pal_state()) {
+        /* the fake pal emu needs one more pixel left and bottom update */
+        w++;
+        h++;
+    }
 #endif /* VIDEO_REMOVE_2X */
 
     x *= viewport->pixel_size.width;
