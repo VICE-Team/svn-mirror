@@ -9,4 +9,5 @@ libcore_a_SOURCES = \
 	ciacore.c \
 	ciatimer.c \
 	riotcore.c \
+	tpicore.c \
 	viacore.c

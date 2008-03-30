@@ -189,8 +189,7 @@ EXTRA_DIST = \
 	ChangeLog.3 \
 	aciacore.c \
 	fixpoint.c \
-	piacore.c \
-	tpicore.c
+	piacore.c
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
