@@ -120,9 +120,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
         default_path = util_concat(boot_path, "/", emu_id,
-                                   FINDPATH_SEPARATOR_STRING,
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/", "DRIVES",
-                                   FINDPATH_SEPARATOR_STRING,
+                                   ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/", "PRINTER",
                                    NULL);
     }

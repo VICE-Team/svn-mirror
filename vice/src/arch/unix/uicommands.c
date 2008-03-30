@@ -56,13 +56,16 @@
 static UI_CALLBACK(change_working_directory)
 {
     char *wd;
-    wd = lib_malloc(MAXPATHLEN);
+    int len;
 
-    ioutil_getcwd(wd, MAXPATHLEN);
+    len = ioutil_maxpathlen();
+    wd = lib_malloc(len);
+
+    ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"),
                         _("Change current working directory"),
-                        wd, MAXPATHLEN) == UI_BUTTON_OK) {
+                        wd, len) == UI_BUTTON_OK) {
         if (ioutil_chdir(wd) < 0)
             ui_error(_("Directory not found"));
     }
@@ -310,13 +313,16 @@ static UI_CALLBACK(events_select_dir)
 {
     char *wd;
     int i, is_dir;
-    wd = lib_malloc(MAXPATHLEN);
+    int len;
 
-    ioutil_getcwd(wd, MAXPATHLEN);
+    len = ioutil_maxpathlen();
+    wd = lib_malloc(len);
+
+    ioutil_getcwd(wd, len);
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"),
                         _("Select history directory"),
-                        wd, MAXPATHLEN) == UI_BUTTON_OK) {
+                        wd, len) == UI_BUTTON_OK) {
         ioutil_stat(wd, &i, &is_dir);
 	if (!is_dir)
             ui_error(_("Directory not found"));

@@ -38,8 +38,8 @@
 #define FSDEV_EXT_SEP_CHR      '.'
 
 /* Path separator.  */
-#define FINDPATH_SEPARATOR_CHAR         ':'
-#define FINDPATH_SEPARATOR_STRING       ":"
+#define ARCHDEP_FINDPATH_SEPARATOR_CHAR         ':'
+#define ARCHDEP_FINDPATH_SEPARATOR_STRING       ":"
 
 /* Modes for fopen().  */
 #define MODE_READ              "r"
@@ -50,15 +50,10 @@
 #define MODE_APPEND            "w+"
 #define MODE_APPEND_READ_WRITE "a+"
 
-/* Define the default system directory (where the ROMs are).  */
-#define LIBDIR          PREFIX "/lib/vice"
-#define DOCDIR          LIBDIR "/doc"
-#define VICEUSERDIR     ".vice"
-
 /* Printer default devices.  */
-#define PRINTER_DEFAULT_DEV1 "print.dump"
-#define PRINTER_DEFAULT_DEV2 "|lpr"
-#define PRINTER_DEFAULT_DEV3 "|petlp -F PS|lpr"
+#define ARCHDEP_PRINTER_DEFAULT_DEV1 "print.dump"
+#define ARCHDEP_PRINTER_DEFAULT_DEV2 "|lpr"
+#define ARCHDEP_PRINTER_DEFAULT_DEV3 "|petlp -F PS|lpr"
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE 1
@@ -88,6 +83,11 @@
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE "eth0"
 
 extern const char *archdep_home_path(void);
+
+/* Define the default system directory (where the ROMs are).  */
+#define LIBDIR          PREFIX "/lib/vice"
+#define DOCDIR          LIBDIR "/doc"
+#define VICEUSERDIR     ".vice"
 
 #endif
 

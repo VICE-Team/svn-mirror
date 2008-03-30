@@ -46,17 +46,17 @@
 #define mytpi_set_int tpi_set_int
 
 
-void REGPARM3 tpi_store(WORD addr, BYTE data)
+void REGPARM2 tpi_store(WORD addr, BYTE data)
 {
     tpicore_store(machine_context.tpi1, addr, data);
 }
 
-BYTE REGPARM2 tpi_read(WORD addr)
+BYTE REGPARM1 tpi_read(WORD addr)
 {
     return tpicore_read(machine_context.tpi1, addr);
 }
 
-BYTE REGPARM2 tpi_peek(WORD addr)
+BYTE REGPARM1 tpi_peek(WORD addr)
 {
     return tpicore_peek(machine_context.tpi1, addr);
 }

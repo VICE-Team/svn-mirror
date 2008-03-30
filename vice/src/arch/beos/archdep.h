@@ -37,8 +37,8 @@
 #define FSDEV_EXT_SEP_CHR      '.'
 
 /* Path separator.  */
-#define FINDPATH_SEPARATOR_CHAR         ';'
-#define FINDPATH_SEPARATOR_STRING       ";"
+#define ARCHDEP_FINDPATH_SEPARATOR_CHAR         ';'
+#define ARCHDEP_FINDPATH_SEPARATOR_STRING       ";"
 
 /* Modes for fopen().  */
 #define MODE_READ              "rb"
@@ -50,9 +50,9 @@
 #define MODE_APPEND_READ_WRITE "a+b"
 
 /* Printer default devices.  */
-#define PRINTER_DEFAULT_DEV1 "PrinterFile"
-#define PRINTER_DEFAULT_DEV2 "LPT:"
-#define PRINTER_DEFAULT_DEV3 "hmm"
+#define ARCHDEP_PRINTER_DEFAULT_DEV1 "PrinterFile"
+#define ARCHDEP_PRINTER_DEFAULT_DEV2 "LPT:"
+#define ARCHDEP_PRINTER_DEFAULT_DEV3 "hmm"
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE 1

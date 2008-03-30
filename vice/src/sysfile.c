@@ -65,7 +65,7 @@ static int set_system_path(resource_value_t v, void *param)
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {
-        p = strstr(tmp_path, FINDPATH_SEPARATOR_STRING);
+        p = strstr(tmp_path, ARCHDEP_FINDPATH_SEPARATOR_STRING);
 
         if (p != NULL) {
             *p = 0;
@@ -76,7 +76,7 @@ static int set_system_path(resource_value_t v, void *param)
                 s = util_concat(tmp_path, NULL); /* concat allocs a new str. */
             } else {
                 s = util_concat(expanded_system_path,
-                    FINDPATH_SEPARATOR_STRING,
+                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
                     tmp_path, NULL );
             }
         } else { /* relative path */
@@ -86,7 +86,7 @@ static int set_system_path(resource_value_t v, void *param)
                     tmp_path, NULL );
             } else {
                 s = util_concat(expanded_system_path,
-                    FINDPATH_SEPARATOR_STRING,
+                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
                     current_dir,
                     FSDEV_DIR_SEP_STR,
                     tmp_path, NULL );
@@ -95,7 +95,7 @@ static int set_system_path(resource_value_t v, void *param)
         lib_free(expanded_system_path);
         expanded_system_path = s;
 
-        tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
+        tmp_path = p + strlen(ARCHDEP_FINDPATH_SEPARATOR_STRING);
     } while(p != NULL);
 
     lib_free(current_dir);

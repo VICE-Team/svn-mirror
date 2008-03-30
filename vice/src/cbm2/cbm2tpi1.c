@@ -47,17 +47,17 @@
 #include "types.h"
 
 
-void REGPARM3 tpi1_store(WORD addr, BYTE data)
+void REGPARM2 tpi1_store(WORD addr, BYTE data)
 {
     tpicore_store(machine_context.tpi1, addr, data);
 }
 
-BYTE REGPARM2 tpi1_read(WORD addr)
+BYTE REGPARM1 tpi1_read(WORD addr)
 {
     return tpicore_read(machine_context.tpi1, addr);
 }
 
-BYTE REGPARM2 tpi1_peek(WORD addr)
+BYTE REGPARM1 tpi1_peek(WORD addr)
 {
     return tpicore_peek(machine_context.tpi1, addr);
 }

@@ -50,8 +50,9 @@
 char *findpath(const char *cmd, const char *syspath, int mode)
 {
     char *pd = NULL;
-    char *c;
-    char buf[MAXPATHLEN];
+    char *c, *buf;
+
+    buf = lib_malloc((size_t)ioutil_maxpathlen());
 
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
@@ -143,7 +144,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             char * p;
             int l;
 
-            s = strchr(path, FINDPATH_SEPARATOR_CHAR);
+            s = strchr(path, ARCHDEP_FINDPATH_SEPARATOR_CHAR);
             l = s ? (s - path) : (int)strlen(path);
 
             if (l + cl > sizeof buf - 5)
@@ -175,6 +176,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
 
 
     if (pd) {
+        char *tmpbuf;
 #if 0
         do pd--;
         while (*pd != '/'); /* there is at least one '/' */
@@ -184,9 +186,12 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         *pd = '\0';
 #endif
 
-        return lib_stralloc(buf + 1);
+        tmpbuf = lib_stralloc(buf + 1);
+        lib_free(buf);
+        return tmpbuf;
     }
  fail:
+    lib_free(buf);
     return NULL;
 }
 
