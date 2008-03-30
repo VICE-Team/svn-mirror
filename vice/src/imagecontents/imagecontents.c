@@ -251,6 +251,25 @@ image_contents_t *image_contents_read(unsigned int type, const char *filename,
     return contents;
 }
 
+char *image_contents_read_string(unsigned int type, const char *filename,
+                                 unsigned int unit, unsigned int conversion)
+{
+    image_contents_t *contents;
+    char *s;
+
+    contents = image_contents_read(type, filename, unit);
+
+    if (contents == NULL)
+        return NULL;
+
+    s = image_contents_to_string(contents, conversion);
+
+    image_contents_destroy(contents);
+
+    return s;
+}
+
+
 char *image_contents_filename_by_number(unsigned int type,
                                         const char *filename,
                                         unsigned int unit,

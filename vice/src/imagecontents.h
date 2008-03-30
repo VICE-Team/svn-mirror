@@ -81,6 +81,10 @@ extern void image_contents_screencode_destroy(image_contents_screencode_t *c);
 extern image_contents_t *image_contents_read(unsigned int type,
                                              const char *filename,
                                              unsigned int unit);
+extern char *image_contents_read_string(unsigned int type,
+                                        const char *filename,
+                                        unsigned int unit,
+                                        unsigned int conversion);
 extern char *image_contents_filename_by_number(unsigned int type,
                                                const char *filename,
                                                unsigned int unit,
