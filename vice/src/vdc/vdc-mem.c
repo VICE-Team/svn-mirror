@@ -38,7 +38,7 @@
 #include "vdc.h"
 #include "vdctypes.h"
 
-/* #define REG_DEBUG */
+/*#define REG_DEBUG*/
 
 static void vdc_write_data(void)
 {
@@ -49,6 +49,10 @@ static void vdc_write_data(void)
 
     /* Write data byte to update address. */
     vdc.ram[ptr & vdc.vdc_address_mask] = vdc.regs[31];
+#ifdef REG_DEBUG
+    log_message(vdc.log, "STORE %04x %02x", ptr & vdc.vdc_address_mask,
+                vdc.regs[31]);
+#endif
     ptr += 1;
     vdc.regs[18] = (ptr >> 8) & 0xff;
     vdc.regs[19] = ptr & 0xff;
@@ -406,5 +410,15 @@ BYTE REGPARM1 vdc_read(WORD addr)
 
         return 0x98 | vdc.revision;
     }
+}
+
+BYTE REGPARM1 vdc_ram_read(WORD addr)
+{
+    return vdc.ram[addr & vdc.vdc_address_mask];
+}
+
+void REGPARM2 vdc_ram_store(WORD addr, BYTE value)
+{
+   vdc.ram[addr & vdc.vdc_address_mask] = value; 
 }
 
