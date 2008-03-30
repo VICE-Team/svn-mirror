@@ -323,7 +323,7 @@ void new_joystick_init(void) {}
 void new_joystick_close(void) {}
 void new_joystick(void) {}
 #else /* NEW_JOYSTICK */
-void new_joystick_init (void)
+void new_joystick_init(void)
 {
   int i;
   int ver = 0;
@@ -356,7 +356,7 @@ void new_joystick_init (void)
 	  dev = joydevs[i][j];
 	  ajoyfd[i] = open(dev, O_RDONLY);
 	  if(ajoyfd[i]>=0)
-	    continue;
+	    break;
 	}
 
       if (ajoyfd[i] >= 0) {

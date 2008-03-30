@@ -1,3 +1,26 @@
+2002-04-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.6.
+
+	* vicii/viciitypes.h: Replaced `hires_background_color' by
+	`background_color_source' in struct `vic_ii_s'.
+
+	* vicii/vicii.c (vic_ii_update_video_mode,
+	vic_ii_fetch_matrix): Added support for extented text mode
+	xsmooth.
+
+	* vicii/vicii-draw.c (draw_std_background): Rewritten to
+	support both hires bitmap and extended text mode xsmooth.
+
+2002-04-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler): Reset
+	xsmooth_shift_left before emulating the line.
+
+2002-04-27  Robert Bäuml  <robert.baeuml@gmx.net>
+
+	* arch/unix/joystick.c (new_joystick_init): Fixed some typo.
+
 2002-04-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.5.
