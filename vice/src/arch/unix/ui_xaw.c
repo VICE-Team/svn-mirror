@@ -2598,6 +2598,7 @@ CallbackFunc(UiToggleREU)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAVE_TRUE1541
 /* True 1541 support items. */
 
 DEFINE_TOGGLE(UiToggleTrue1541, true1541, true1541_ack_switch)
@@ -2683,6 +2684,8 @@ CallbackFunc(UiSet1541IdleMethod)
 		       ? CheckmarkBitmap : 0), NULL);
     }
 }
+
+#endif /* HAVE_TRUE1541 */
 
 /* ------------------------------------------------------------------------- */
 
