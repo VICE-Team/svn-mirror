@@ -187,6 +187,7 @@ BEGIN
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232 settings...",     IDM_RS232_SETTINGS
         POPUP "&Cartridge/IO settings"
         BEGIN
             MENUITEM "RS&232 userport settings...", IDM_RS232USER_SETTINGS

@@ -226,6 +226,7 @@ BEGIN
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
         MENUITEM "C&128 settings...",      IDM_C128_SETTINGS
+        MENUITEM "RS&232 settings...",     IDM_RS232_SETTINGS
         POPUP "&Cartridge Settings"
         BEGIN
             MENUITEM "&REU settings...",      IDM_REU_SETTINGS

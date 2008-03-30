@@ -98,7 +98,7 @@ static void init_acia_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
     for (i = 0; i < MAXRS232; i++) {
         TCHAR st[20];
-        _stprintf(st, TEXT("RS232 device %i"), i);
+        _stprintf(st, TEXT("RS232 device %i"), i + 1);
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
