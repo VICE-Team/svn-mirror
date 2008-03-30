@@ -34,6 +34,7 @@
 
 #include "cartridge.h"
 #include "menudefs.h"
+#include "sidui.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "ui.h"
@@ -177,46 +178,6 @@ static tui_menu_item_def_t special_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static TUI_MENU_CALLBACK(toggle_SidModel_callback)
-{
-    int value;
-
-    if (been_activated) {
-        resources_toggle("SidModel", (resource_value_t *) &value);
-    } else {
-        resources_get_value("SidModel", (resource_value_t *) &value);
-    }
-
-    return value ? "8580 (New)" : "6581 (Old)";
-}
-
-TUI_MENU_DEFINE_TOGGLE(SidFilters)
-
-#ifdef USE_RESID
-TUI_MENU_DEFINE_TOGGLE(SidUseResid)
-#endif
-
-static tui_menu_item_def_t sid_menu_items[] = {
-    { "--" },
-    { "SID _Model:",
-      "Select the SID model to emulate",
-      toggle_SidModel_callback, NULL, 10,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "SID _Filters:",
-      "Enable/disable emulation of the SID built-in programmable filters",
-      toggle_SidFilters_callback, NULL, 4,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-#ifdef HAVE_RESID
-    { "_Hi-Fi reSID engine:",
-      "Enable/disable usage of the slower reSID engine",
-      toggle_SidUseResid_callback, NULL, 4,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-#endif
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
 static struct {
     const char *name;
     const char *brief_description;
@@ -293,7 +254,7 @@ int c64_ui_init(void)
     add_palette_submenu(ui_video_submenu);
     tui_menu_add(ui_video_submenu, vic_ii_menu_items);
 
-    tui_menu_add(ui_sound_submenu, sid_menu_items);
+    tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
 
     tui_menu_add(ui_special_submenu, special_menu_items);
 

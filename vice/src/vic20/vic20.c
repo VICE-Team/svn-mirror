@@ -59,6 +59,11 @@
 #ifdef HAVE_RS232
 #include "rs232.h"
 #include "rsuser.h"
+#include "vic20rsuser.h"
+#endif
+
+#ifdef __MSDOS__
+#include "vic20kbd.h"
 #endif
 
 static void vsync_hook(void);

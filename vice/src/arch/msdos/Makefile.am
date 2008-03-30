@@ -24,6 +24,10 @@ libarch_a_SOURCES = \
 	c128kbd.h \
 	c128ui.c \
 	c128ui.h \
+	c610ui.c \
+	c610ui.h \
+	c610kbd.c \
+	c610kbd.h \
 	c64kbd.c \
 	c64kbd.h \
 	c64ui.c \
@@ -44,6 +48,8 @@ libarch_a_SOURCES = \
 	petkbd.h \
 	petui.c \
 	petui.h \
+	sidui.c \
+	sidui.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \

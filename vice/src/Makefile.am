@@ -211,7 +211,7 @@ xpet-all: libpet libsounddrv libarch xpet
 x610_SOURCES = $(base_sources)
 x610_LDADD = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ \
-	$(READLINE) -lm
+	$(READLINE)
 x610_DEPENDENCIES = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
        @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x610-all

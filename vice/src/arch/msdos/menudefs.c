@@ -38,6 +38,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "log.h"
+#include "maincpu.h"
 #include "sound.h"
 #include "tui.h"
 #include "tuiview.h"
@@ -249,132 +250,132 @@ TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_RADIO(True1541ExtendImagePolicy)
+TUI_MENU_DEFINE_RADIO(DriveExtendImagePolicy)
 
-static TUI_MENU_CALLBACK(true1541_extend_image_policy_submenu_callback)
+static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
 {
     int v;
 
-    resources_get_value("True1541ExtendImagePolicy", (resource_value_t *) &v);
+    resources_get_value("DriveExtendImagePolicy", (resource_value_t *) &v);
 
     switch (v) {
-      case TRUE1541_EXTEND_NEVER:
+      case DRIVE_EXTEND_NEVER:
         return "Never extend";
-      case TRUE1541_EXTEND_ASK:
+      case DRIVE_EXTEND_ASK:
         return "Ask on extend";
-      case TRUE1541_EXTEND_ACCESS:
+      case DRIVE_EXTEND_ACCESS:
         return "Extend on access";
       default:
         return "Unknown";
     }
 }
 
-static tui_menu_item_def_t true1541_extend_image_policy_submenu[] = {
+static tui_menu_item_def_t drive_extend_image_policy_submenu[] = {
     { "_Never extend",
       "Never create more than 35 tracks",
-      radio_True1541ExtendImagePolicy_callback,
-      (void *) TRUE1541_EXTEND_NEVER, 0,
+      radio_DriveExtendImagePolicy_callback,
+      (void *) DRIVE_EXTEND_NEVER, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Ask on extend",
       "Ask the user before creating extra tracks",
-      radio_True1541ExtendImagePolicy_callback,
-      (void *) TRUE1541_EXTEND_ASK, 0,
+      radio_DriveExtendImagePolicy_callback,
+      (void *) DRIVE_EXTEND_ASK, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Extend on access",
       "Automagically extend the disk image if extra (>35) tracks are accessed",
-      radio_True1541ExtendImagePolicy_callback,
-      (void *) TRUE1541_EXTEND_ACCESS, 0,
+      radio_DriveExtendImagePolicy_callback,
+      (void *) DRIVE_EXTEND_ACCESS, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(True1541)
+TUI_MENU_DEFINE_TOGGLE(Drive)
 
-static TUI_MENU_CALLBACK(toggle_True1541SyncFactor_callback)
+static TUI_MENU_CALLBACK(toggle_DriveSyncFactor_callback)
 {
     int value;
 
-    resources_get_value("True1541SyncFactor", (resource_value_t *) &value);
+    resources_get_value("DriveSyncFactor", (resource_value_t *) &value);
 
     if (been_activated) {
-	if (value == TRUE1541_SYNC_PAL)
-	    value = TRUE1541_SYNC_NTSC;
+	if (value == DRIVE_SYNC_PAL)
+	    value = DRIVE_SYNC_NTSC;
 	else
-	    value = TRUE1541_SYNC_PAL;
-        resources_set_value("True1541SyncFactor", (resource_value_t) value);
+	    value = DRIVE_SYNC_PAL;
+        resources_set_value("DriveSyncFactor", (resource_value_t) value);
     }
 
     switch (value) {
-      case TRUE1541_SYNC_PAL:
+      case DRIVE_SYNC_PAL:
 	return "PAL";
-      case TRUE1541_SYNC_NTSC:
+      case DRIVE_SYNC_NTSC:
 	return "NTSC";
       default:
 	return "(Custom)";
     }
 }
 
-TUI_MENU_DEFINE_RADIO(True1541IdleMethod)
+TUI_MENU_DEFINE_RADIO(DriveIdleMethod)
 
-static TUI_MENU_CALLBACK(true1541_idle_method_submenu_callback)
+static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
 {
     int value;
 
-    resources_get_value("True1541IdleMethod", (resource_value_t *) &value);
+    resources_get_value("DriveIdleMethod", (resource_value_t *) &value);
 
     switch (value) {
-      case TRUE1541_IDLE_NO_IDLE:
+      case DRIVE_IDLE_NO_IDLE:
         return "None";
-      case TRUE1541_IDLE_TRAP_IDLE:
+      case DRIVE_IDLE_TRAP_IDLE:
 	return "Trap idle";
-      case TRUE1541_IDLE_SKIP_CYCLES:
+      case DRIVE_IDLE_SKIP_CYCLES:
 	return "Skip cycles";
       default:
 	return "(Unknown)";
     }
 }
 
-static tui_menu_item_def_t true1541_idle_method_submenu[] = {
+static tui_menu_item_def_t drive_idle_method_submenu[] = {
     { "_None",
       "Always run the 1541 CPU as on the real thing",
-      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_NO_IDLE, 0,
+      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_NO_IDLE, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Trap Idle",
       "Stop running the 1541 CPU when entering the idle DOS loop",
-      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_TRAP_IDLE, 0,
+      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_TRAP_IDLE, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Skip Cycles",
       "Skip 1541 CPU cycles when the IEC bus is not used for a while",
-      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_SKIP_CYCLES, 0,
+      radio_DriveIdleMethod_callback, (void *) DRIVE_IDLE_SKIP_CYCLES, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(True1541ParallelCable)
+TUI_MENU_DEFINE_TOGGLE(DriveParallelCable)
 
-static tui_menu_item_def_t true1541_settings_submenu[] = {
+static tui_menu_item_def_t drive_settings_submenu[] = {
     { "True 1541 _Emulation:",
       "Enable hardware-level floppy drive emulation",
-      toggle_True1541_callback, NULL, 3,
+      toggle_Drive_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "True 1541 _Sync Factor:",
       "Select 1541/machine clock ratio",
-      toggle_True1541SyncFactor_callback, NULL, 8,
+      toggle_DriveSyncFactor_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "True 1541 _Idle Method:",
       "Select method for disk drive idle",
-      true1541_idle_method_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, true1541_idle_method_submenu,
+      drive_idle_method_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, drive_idle_method_submenu,
       "True 1541 idle method" },
     { "--" },
     { "Enable _Parallel Cable:",
       "Enable a SpeedDOS-compatible parallel cable",
-      toggle_True1541ParallelCable_callback, NULL, 3,
+      toggle_DriveParallelCable_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_40-Track Image Support:",
       "Settings for dealing with 40-track disk images",
-      true1541_extend_image_policy_submenu_callback, NULL, 16,
-      TUI_MENU_BEH_CONTINUE, true1541_extend_image_policy_submenu, "" },
+      drive_extend_image_policy_submenu_callback, NULL, 16,
+      TUI_MENU_BEH_CONTINUE, drive_extend_image_policy_submenu, "" },
     { NULL }
 };
 
@@ -878,15 +879,10 @@ static tui_menu_item_def_t quit_submenu[] = {
 
 /* ------------------------------------------------------------------------ */
 
-static void mon_trap(ADDRESS addr, void *data)
-{
-    mon(addr);
-}
-
 static TUI_MENU_CALLBACK(monitor_callback)
 {
     if (been_activated)
-	maincpu_trigger_trap(mon_trap, 0);
+        mon(maincpu_regs.reg_pc);
 
     return NULL;
 }
@@ -1319,7 +1315,7 @@ static void create_special_submenu(int has_serial_traps)
 
 /* ------------------------------------------------------------------------- */
 
-void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
+void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          int num_joysticks)
 {
     /* Main menu. */
@@ -1394,7 +1390,7 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
                          ui_detach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    tui_menu_add_item(ui_main_menu, "_Change Working Directory...",
+    tui_menu_add_item(ui_main_menu, "Change _Working Directory...",
 		      "Change the current working directory",
 		      change_workdir_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
@@ -1407,9 +1403,9 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
 			 ui_video_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
 
-    if (has_true1541) {
+    if (has_drive) {
         ui_drive_submenu = tui_menu_create("1541 Settings", 1);
-	tui_menu_add(ui_drive_submenu, true1541_settings_submenu);
+	tui_menu_add(ui_drive_submenu, drive_settings_submenu);
 	tui_menu_add_submenu(ui_main_menu, "_1541 Settings...",
 			     "Drive emulation settings",
 			     ui_drive_submenu, NULL, 0,

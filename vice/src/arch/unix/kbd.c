@@ -110,11 +110,11 @@ static int set_keymap_index(resource_value_t v)
  	return -1;
 
     if (load_keymap_ok) { /* to reduce multiple parsing during startup */
-        if (kbd_load_keymap(name)>=0) {
+        if (kbd_load_keymap(name) >= 0) {
 	    keymap_index = (int) v;
 	    return 0;
         } else {
-            fprintf(stderr,"Cannot parse Keymap filename %s\n",
+            fprintf(stderr,"Cannot load keymap `%s'\n",
                     name ? name : "<null>");
         }
         return -1;
@@ -534,7 +534,7 @@ static void kbd_parse_entry(char *buffer)
                         }
 
                         /* not in table -> add */
-                        if (i>=keyc_num) {
+                        if (i >= keyc_num) {
                             /* table too small -> realloc */
                             if (keyc_num>=keyc_mem) {
                                 i = keyc_mem * 1.5;
