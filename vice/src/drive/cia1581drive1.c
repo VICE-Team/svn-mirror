@@ -243,7 +243,7 @@ inline static void check_cia1581d1todalarm(CLOCK rclk)
     if (!memcmp(cia1581d1todalarm, cia1581d1 + CIA_TOD_TEN, sizeof(cia1581d1todalarm))) {
 	cia1581d1int |= CIA_IM_TOD;
 	if (cia1581d1[CIA_ICR] & CIA_IM_TOD) {
-	    my_set_int(I_CIA1581D1TOD, IK_IRQ, rclk);
+            my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
 	}
     }
 }
@@ -427,6 +427,7 @@ void reset_cia1581d1(void)
     drive1_set_alarm(A_CIA1581D1TOD, cia1581d1todticks);
 
     cia1581d1int = 0;
+    my_set_int(I_CIA1581D1FL, 0, drive_clk[1]);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -1327,6 +1328,7 @@ void cia1581d1_prevent_clk_overflow(CLOCK sub)
  * UBYTE	TODL_HR
  * DWORD	TOD_TICKS	clk ticks till next tenth of second
  *
+ * UBYTE	IRQ		0=IRQ line inactive, 1=IRQ line active
  */
 
 /* FIXME!!!  Error check.  */
@@ -1400,8 +1402,6 @@ printf("CIA1581D1: write cia1581d1int=%02x, cia1581d1ier=%02x\n", cia1581d1int, 
 
     snapshot_module_write_byte(m, (get_int(&drive1_int_status, I_CIA1581D1FL)
                                    ? 0xff : 0x00));
-    snapshot_module_write_byte(m, (get_int(&drive1_int_status, I_CIA1581D1TOD)
-                                   ? 0xff : 0x00));
 
     snapshot_module_close(m);
 
@@ -1417,12 +1417,6 @@ int cia1581d1_read_snapshot_module(snapshot_t *p)
     ADDRESS addr;
     CLOCK rclk = drive_clk[1];
     snapshot_module_t *m;
-
-#if 0	/* might set IRQ flag! */
-    update_tai(drive_clk[1]); /* schedule alarm in case latch value is changed */
-    update_tbi(drive_clk[1]); /* schedule alarm in case latch value is changed */
-    update_cia1581d1(drive_clk[1]);
-#endif
 
     /* stop timers, just in case */
     cia1581d1_tas = CIAT_STOPPED;
@@ -1441,7 +1435,6 @@ int cia1581d1_read_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    /* Argh.  This is ugly.  */
     {
         snapshot_module_read_byte(m, &cia1581d1[CIA_PRA]);
         snapshot_module_read_byte(m, &cia1581d1[CIA_PRB]);
@@ -1535,8 +1528,6 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d1_tai, cia1581d1_tau, cia1
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d1_tbi, cia1581d1_tbu, cia1581d1_tbc, cia1581d1_tbl);
 #endif
 
-#if 1
-
     if ((cia1581d1[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
         cia1581d1_tas = CIAT_RUNNING;
         cia1581d1_tau = rclk + (cia1581d1_tac /*+ 1) + ((byte & 0x10) >> 4*/ );
@@ -1557,20 +1548,6 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d1_tbi, cia1581d1_tbu, cia1
         }
     }
 
-#else
-
-    cia1581d1_tau = drive_clk[1] + cia1581d1_tac;
-    my_set_tai_clk(cia1581d1_tau + 1);
-    cia1581d1_tbu = drive_clk[1] + cia1581d1_tbc;
-    my_set_tbi_clk(cia1581d1_tbu + 1);
-
-    cia1581d1_tas = (cia1581d1[CIA_CRA] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    cia1581d1_tbs = (cia1581d1[CIA_CRB] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    if ((cia1581d1[CIA_CRB] & 0x41) == 0x41)
-        cia1581d1_tbs = CIAT_COUNTTA;
-
-#endif
-
 #ifdef CIA1581D1_DUMP_DEBUG
 printf("CIA1581D1: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[1], cia1581d1[CIA_CRA], cia1581d1[CIA_CRB],cia1581d1_tas, cia1581d1_tbs);
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d1_tai, cia1581d1_tau, cia1581d1_tac, cia1581d1_tal);
@@ -1578,11 +1555,11 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d1_tbi, cia1581d1_tbu, cia1
 #endif
 
     snapshot_module_read_byte(m, &byte);
-    if (byte)
+    if (byte) {
         set_int_noclk(&drive1_int_status, I_CIA1581D1FL, IK_IRQ);
-    snapshot_module_read_byte(m, &byte);
-    if (byte)
-        set_int_noclk(&drive1_int_status, I_CIA1581D1TOD, IK_IRQ);
+    } else {
+        set_int_noclk(&drive1_int_status, I_CIA1581D1FL, 0);
+    }
 
     if (snapshot_module_close(m) < 0)
         return -1;

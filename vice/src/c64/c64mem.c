@@ -1290,6 +1290,7 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
+        break;
     }
     return ram[addr];
 }
@@ -1330,6 +1331,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
             return;
         }
       case 1:                   /* ram */
+        break;
     }
     ram[addr] = byte;
 }
@@ -1347,6 +1349,8 @@ int mem_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
+    /* Main memory module.  */
+
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
@@ -1358,7 +1362,15 @@ int mem_write_snapshot_module(snapshot_t *s)
         || snapshot_module_write_byte_array(m, ram, C64_RAM_SIZE) < 0)
         goto fail;
 
-    return snapshot_module_close(m);
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    /* REU Module.  */
+
+    if (reu_enabled && reu_write_snapshot_module(s) < 0)
+        goto fail;
+
+    return 0;
 
 fail:
     if (m != NULL)
@@ -1371,6 +1383,8 @@ int mem_read_snapshot_module(snapshot_t *s)
     BYTE major_version, minor_version;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
     snapshot_module_t *m;
+
+    /* Main memory module.  */
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -1394,7 +1408,19 @@ int mem_read_snapshot_module(snapshot_t *s)
 
     pla_config_changed();
 
-    return snapshot_module_close(m);
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    /* REU module.  */
+
+    if (reu_read_snapshot_module(s) < 0)
+        reu_enabled = 0;
+    else
+        reu_enabled = 1;
+
+    ui_update_menus();
+
+    return 0;
 
 fail:
     if (m != NULL)
