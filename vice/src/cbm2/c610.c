@@ -83,17 +83,28 @@
 #include "rs232.h"
 #endif
 
-#define C500_POWERLINE_CYCLES_PER_IRQ   (C500_PAL_CYCLES_PER_RFSH)
+#define NUM_KEYBOARD_MAPPINGS 6
+
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapBusinessUKSymFile", "KeymapBusinessUKPosFile",
+    "KeymapGraphicsSymFile", "KeymapGraphicsPosFile",
+    "KeymapBusinessDESymFile", "KeymapBusinessDEPosFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL, NULL, NULL, NULL, NULL
+};
+
+const char machine_name[] = "CBM-II";
+int machine_class = VICE_MACHINE_CBM2;
 
 static void machine_vsync_hook(void);
+
+#define C500_POWERLINE_CYCLES_PER_IRQ   (C500_PAL_CYCLES_PER_RFSH)
 
 static long cbm2_cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
 static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
 static long cbm2_cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
-
-const char machine_name[] = "CBM-II";
-
-int machine_class = VICE_MACHINE_CBM2;
 
 static log_t c610_log = LOG_ERR;
 
@@ -134,7 +145,9 @@ int machine_init_resources(void)
         || rs232_resources_init() < 0
 #endif
         || printer_resources_init() < 0
+#ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
+#endif
         )
         return -1;
     return 0;
@@ -158,7 +171,9 @@ int machine_init_cmdline_options(void)
         || rs232_cmdline_options_init() < 0
 #endif
         || printer_cmdline_options_init() < 0
+#ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
+#endif
         )
         return -1;
 
@@ -625,5 +640,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
         return 0;
 
     return -1;
+}
+
+unsigned int machine_num_keyboard_mappings(void)
+{
+    return NUM_KEYBOARD_MAPPINGS;
 }
 

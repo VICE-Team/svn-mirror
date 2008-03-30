@@ -71,13 +71,23 @@
 #include "vsync.h"
 
 
+#define NUM_KEYBOARD_MAPPINGS 2
+
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapSymFile", "KeymapPosFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL
+};
+
 const char machine_name[] = "PLUS4";
+int machine_class = VICE_MACHINE_PLUS4;
 
 static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-/* Serial traps.  */
 static trap_t plus4_serial_traps[] = {
     {
         "SerialListen",
@@ -225,7 +235,9 @@ int machine_init_resources(void)
         || acia_resources_init() < 0
 #endif
         || printer_resources_init() < 0
+#ifndef COMMON_KBD
         || kbd_resources_init() < 0
+#endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         )
@@ -247,7 +259,9 @@ int machine_init_cmdline_options(void)
         || acia_cmdline_options_init() < 0
 #endif
         || printer_cmdline_options_init() < 0
+#ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
+#endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         )
@@ -437,8 +451,6 @@ void machine_change_timing(int timeval)
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
-int machine_class = VICE_MACHINE_PLUS4;
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
@@ -541,6 +553,11 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 void machine_video_refresh(void)
 {
      ted_video_refresh();
+}
+
+unsigned int machine_num_keyboard_mappings(void)
+{
+    return NUM_KEYBOARD_MAPPINGS;
 }
 
 /* ------------------------------------------------------------------------- */

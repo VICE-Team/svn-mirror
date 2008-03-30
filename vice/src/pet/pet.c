@@ -83,16 +83,28 @@
 #include "rs232.h"
 #endif
 
+
+#define NUM_KEYBOARD_MAPPINGS 6
+
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapBusinessUKSymFile", "KeymapBusinessUKPosFile",
+    "KeymapGraphicsSymFile", "KeymapGraphicsPosFile",
+    "KeymapBusinessDESymFile", "KeymapBusinessDEPosFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL, NULL, NULL, NULL, NULL
+};
+
+const char machine_name[] = "PET";
+int machine_class = VICE_MACHINE_PET;
+
 static void machine_vsync_hook(void);
 
 static long     pet_cycles_per_rfsh     = PET_PAL_CYCLES_PER_RFSH;
 static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 
 static log_t pet_log = LOG_ERR;
-
-const char machine_name[] = "PET";
-
-int machine_class = VICE_MACHINE_PET;
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,7 +169,9 @@ int machine_init_resources(void)
         || rs232_resources_init() < 0
 #endif
         || printer_resources_init() < 0
+#ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
+#endif
         )
         return -1;
 
@@ -186,7 +200,9 @@ int machine_init_cmdline_options(void)
         || rs232_cmdline_options_init() < 0
 #endif
         || printer_cmdline_options_init() < 0
+#ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
+#endif
         )
         return -1;
 
@@ -389,7 +405,7 @@ void machine_set_cycles_per_frame(long cpf)
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    f = modf(pet_rfsh_per_sec, &i)*1000;
+    f = modf(pet_rfsh_per_sec, &i) * 1000;
 
     log_message(pet_log, "cycles per frame set to %ld, refresh to %d.%03dHz",
                 cpf, (int)i, (int)f);
@@ -579,5 +595,10 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 void machine_video_refresh(void)
 {
      crtc_video_refresh();
+}
+
+unsigned int machine_num_keyboard_mappings(void)
+{
+    return NUM_KEYBOARD_MAPPINGS;
 }
 

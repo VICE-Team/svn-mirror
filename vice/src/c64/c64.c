@@ -96,13 +96,23 @@
 #endif
 
 
+#define NUM_KEYBOARD_MAPPINGS 2
+
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapSymFile", "KeymapPosFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL
+};
+
 const char machine_name[] = "C64";
+int machine_class = VICE_MACHINE_C64;
 
 static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-/* Serial traps.  */
 static trap_t c64_serial_traps[] = {
     {
         "SerialListen",
@@ -239,7 +249,9 @@ int machine_init_resources(void)
 #ifdef HAVE_MOUSE
         || mouse_resources_init() < 0
 #endif
+#ifndef COMMON_KBD
         || kbd_resources_init() < 0
+#endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || cartridge_resources_init() < 0
@@ -282,7 +294,9 @@ int machine_init_cmdline_options(void)
 #ifdef HAVE_MOUSE
         || mouse_cmdline_options_init() < 0
 #endif
+#ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
+#endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0
@@ -573,8 +587,6 @@ void machine_change_timing(int timeval)
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
-int machine_class = VICE_MACHINE_C64;
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
@@ -708,5 +720,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
         return 0;
 
     return -1;
+}
+
+unsigned int machine_num_keyboard_mappings(void)
+{
+    return NUM_KEYBOARD_MAPPINGS;
 }
 
