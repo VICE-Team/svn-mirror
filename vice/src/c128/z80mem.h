@@ -37,6 +37,7 @@ extern void z80mem_set_bank_pointer(BYTE **base, int *limit);
 extern void z80mem_update_config(int config);
 
 extern int z80mem_load(void);
+extern BYTE z80bios_rom[0x1000];
 
 extern void z80mem_initialize(void);
 
