@@ -58,7 +58,7 @@ extern const GUID IID_IDirectDraw2;
 
 /* ------------------------------------------------------------------------ */
 
-#define DEBUG_VIDEO
+/* #define DEBUG_VIDEO */
 
 /* Debugging stuff.  */
 #ifdef DEBUG_VIDEO

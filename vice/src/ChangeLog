@@ -1,3 +1,45 @@
+2001-12-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.43.
+
+	* arch/win32/video.c: Disabled debugging.
+
+2001-12-19  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/joystick.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c, arch/os2/video.c,
+	arch/os2/joystick.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c, arch/os2/kbd.c,
+	arch/os2/rs232.c, arch/os2/ui.c;
+	replaced {NULL} in structure init block by NULL,
+	the pointer to one field is NULL, not the first entry in this
+	field (by chance it is the same)
+
+	* arch/os2/uicmdline.c:
+	- changed some variables to the correct size_t
+    
+	* arch/os2/uicmdline.h:
+	- changed first argument to unsigned int
+    
+	* arch/os2/video.c:
+	- fixed the wrong code in the Andreas-repository
+    
+	* log.c:
+	- fixed some assignments between un/signed int and size_t
+	- simplified the code in log_open
+    
+	* palette.c:
+	- simplified the structure of palette_load
+	- removed goto
+	- fixed some assignments between signed/unsigned
+    
+	* resources.c:
+	- fixed the usage of function pointer set_func. I wonder that
+	no compiler printed a warning
+      
+	* zipcode.c:
+	- fixed assignments between int and size_t
+ 
 2001-12-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.42.
@@ -217,7 +259,7 @@
 	* cbm2/c610mem.c:
 	- changed initialization (-model 510 was not working)
 
-	* raster/raster.c, src/screenshot.h:
+	* raster/raster.c, screenshot.h:
 	- added first_displayed_col
 
 	* vdc/vdc-draw.c:
@@ -1118,7 +1160,7 @@
 
 2001-11-17  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
-	* arch/win32/plus4.dsp, src/arch/win32/xplus4.dsp:
+	* arch/win32/plus4.dsp, arch/win32/xplus4.dsp:
 	re-introduced the files; added them to makefile.in (so they
 	will be included in future releases).
 
@@ -1689,7 +1731,7 @@
 
 2001-10-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
 
-	* arch/os2/archdep.c, src/log.c diff/src/log.c:
+	* arch/os2/archdep.c, log.c:
 	replaced __C1541__ by __X1541__
    
 	* arch/os2/config.h: defined __i386__
@@ -2723,10 +2765,10 @@
 	* arch/os2/vac++/X128.ICC, arch/os2/vac++/X64.ICC,
 	arch/os2/vac++/Xcbm2.ICC: added dlg-color.c
    
-	* arch/os2/vac++/Xpet.ICC, src/arch/os2/vac++/Xvic.ICC:
+	* arch/os2/vac++/Xpet.ICC, arch/os2/vac++/Xvic.ICC:
 	removed path to vicii
    
-	* arch/riscos/uiconfig.c, src/arch/unix/uiprinter.c,
+	* arch/riscos/uiconfig.c, arch/unix/uiprinter.c,
 	printerdrv/interface-userport.c: changed PrUser to
 	PrinterUserport
    
@@ -5022,7 +5064,7 @@
    
 	* arch/os2/snippets/pmwin2.[c,h]: some new functions
    
-	* arch/os2/ui.c diff/src/arch/os2/ui.c:
+	* arch/os2/ui.c:
 	small changes, enhanced jam dialog
    
 	* arch/os2/unused/contentsdlg.c,
@@ -5033,7 +5075,7 @@
    
 	* arch/os2/vac++/RESID.ICC: changed version number to 0.11
    
-	* arch/os2/video.c diff/src/arch/os2/video.c:
+	* arch/os2/video.c:
 	added logging resource
    
 	* cmdline.c: changed the quotes. With the OS/2 default startup
@@ -5337,12 +5379,12 @@
 	* cbm2/c610mem.[h,c]:
 	added get_model
    
-	* crtc/crtctypes.h diff/src/crtc/crtctypes.h
+	* crtc/crtctypes.h
 
 	* pet/petmem.[c,h]:
 	added get_model
    
-	* zfile.c diff/src/zfile.c:
+	* zfile.c:
 	added zlib support for reading
  
 2001-03-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
@@ -5768,7 +5810,7 @@
    
 	* print.c: "ab+" -> MODE_APPEND
    
-	* vsync.c diff/src/vsync.c: made do_vsync more 'readable'
+	* vsync.c: made do_vsync more 'readable'
    
 2001-02-04  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
 
@@ -6157,7 +6199,7 @@
 	* autostart.c: changed a bug in cartridge autostart and
 	snapshot autostart, added detach to prg-autostart
    
-	* sound.h diff/src/sound.h: changed sample buffer size for
+	* sound.h: changed sample buffer size for
 	os/2
  
 2001-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
@@ -6512,8 +6554,7 @@
  
 	* arch/os2/vsyncarch.c: added pms, comments
  
-	* c64/c64.c diff/src/c64/c64.c: display time only when
-	changing (vsid)
+	* c64/c64.c: display time only when changing (vsid)
 
 	* main.c: help is -help not -h
  
@@ -7060,7 +7101,7 @@
 	* arch/beos/vicemenu.cc: updated menus to current state of
 	implementation; removed wrong option for C128-NTSCOLD
 
-	* c128/c128.c,src/c128/c128.h: removed definitions and
+	* c128/c128.c, c128/c128.h: removed definitions and
 	use of C128 NTSCOLD mode
 
 2000-08-23  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
@@ -7279,10 +7320,10 @@
 
 	* arch/win32/console.c: Now handles full-screen mode
 
-	* arch/win32/ui.c, src/arch/win32/resXXX.rc: added menu toggle
+	* arch/win32/ui.c, arch/win32/resXXX.rc: added menu toggle
 	to allow quiting VICE w/o confirmation.
 
-	* arch/win32/ui.c, src/arch/win32/uilib.c: added
+	* arch/win32/ui.c, arch/win32/uilib.c: added
 	ui_messagebox() as replacement for MessageBox(). It handles
 	the fullscreen mode. Changed all usages of MessageBox to this
 	new function, except when handling WM_CLOSE, which handles it
