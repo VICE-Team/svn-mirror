@@ -723,7 +723,7 @@ static UI_CALLBACK(set_fsdevice_directory)
 {
     /* FIXME: We need a real directory browser here.  */
     int unit = (int)UI_MENU_CB_PARAM;
-    char *title, *resname;
+    char *title;
     char *value, *new_value;
     int len;
     ui_button_t button;
@@ -731,9 +731,8 @@ static UI_CALLBACK(set_fsdevice_directory)
     suspend_speed_eval();
 
     title = xmsprintf("Attach file system directory to device #%d", unit);
-    resname = xmsprintf("FSDevice%dDir", unit);
 
-    resources_get_value(resname, (resource_value_t *) &value);
+    resources_get_sprintf("FSDevice%dDir", (resource_value_t *)&value, unit);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
@@ -745,10 +744,10 @@ static UI_CALLBACK(set_fsdevice_directory)
     free(title);
 
     if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t) new_value);
+        resources_set_sprintf("FSDevice%dDir", (resource_value_t)new_value,
+                              unit);
 
     free(new_value);
-    free(resname);
 }
 
 /* ------------------------------------------------------------------------- */
