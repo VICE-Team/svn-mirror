@@ -36,11 +36,12 @@
 #include "videoarch.h"
 #include "ui.h"
 
-video_resources_t video_resources=
+
+video_resources_t video_resources =
 {
-	1000, 1100, 1100, 880,
-	0,0,
-	0,0,
+    1000, 1100, 1100, 880,
+    0, 0,
+    0, 0,
 };
 
 static int set_color_saturation(resource_value_t v, void *param)
@@ -113,8 +114,7 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
     int old = video_resources.delayloop_emulation;
     video_resources.delayloop_emulation = (int)v;
 
-    if (video_color_update_palette() < 0)
-    {
+    if (video_color_update_palette() < 0) {
         video_resources.delayloop_emulation = old;
 	ui_update_pal_ctrls(video_resources.delayloop_emulation);
         return -1;
@@ -129,8 +129,7 @@ static int set_pal_emulation(resource_value_t v, void *param)
     int old = video_resources.pal_emulation;
     video_resources.pal_emulation = (int)v;
 
-    if (video_color_update_palette() < 0)
-    {
+    if (video_color_update_palette() < 0) {
         video_resources.pal_emulation = old;
         return -1;
     }
@@ -174,18 +173,18 @@ static resource_t resources_pal[] =
 
 int video_resources_init(int mode)
 {
-	int result;
+    int result = 0;
 
-	switch (mode)
-	{
-	case VIDEO_RESOURCES_MONOCHROME:
-		result = resources_register(resources);
-		break;
-	case VIDEO_RESOURCES_PAL:
-	case VIDEO_RESOURCES_PAL_NOFAKE:
-		result = resources_register(resources) | resources_register(resources_pal);
-		break;
-	}
+    switch (mode) {
+      case VIDEO_RESOURCES_MONOCHROME:
+        result = resources_register(resources);
+        break;
+      case VIDEO_RESOURCES_PAL:
+      case VIDEO_RESOURCES_PAL_NOFAKE:
+       result = resources_register(resources)
+                | resources_register(resources_pal);
+       break;
+    }
 
     return result | video_arch_init_resources();
 }
