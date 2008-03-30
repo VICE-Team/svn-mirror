@@ -16,21 +16,56 @@ list of all the changes in the code.
 
 - Added '-h' as alias for '-?' and '-help'
 
-- Made the new emulated VIC-II palette the default 
-  ( to use the old stylish file palettes switch to external palette)
+- Made the new emulated VIC-II palette the default
+  (to use the old stylish file palettes switch to external palette).
+
+** C64 changes
+--------------
+
+- Added support for Retro Replay cartridge.
+
+- Fixed a CIA timer emulation bug.
+
+** C128 changes
+---------------
+
+- VDC has been improved a lot (but not ready for RFO now).
+
+- Fixed a stupid bug in the Z80 emulation.
+
+- Added support for C64 type cartridges.
 
 ** VIC-II
 ---------
 
-- Added VIC-II reengineered palette
+- Fast PAL emulation has been added.
+
+- Added VIC-II reengineered palette.
 
 - Added also command line switches for:
-  + Brightness
-  + Contrast
-  + Saturation
-  + Gamma
-  + New style luminance signals
-  + use internal/external palette
+  Brightness, Contrast, Saturation, Gamma
+
+- New style luminance signals
+
+- Using internal/external palette
+
+- Fixed overscan color bug.
+
+** SID changes
+--------------
+
+- Stereo support has been added (not available on all
+  architectures).
+
+** Drive changes
+-----------------
+
+- Odd sized d64 images are supported now.
+
+** MS-Windows changes
+---------------------
+
+- The filter settings of the file selector boxes are persistent now.
 
 ** OS/2 changes
 ---------------
@@ -42,6 +77,14 @@ list of all the changes in the code.
 - fixed a bug in the compilation of c1541
 
 - renamed c1541 to x1541
+
+** Miscellaneous changes
+------------------------
+
+- Fixed monitor hang if an unknown opcode is entered.
+
+- Added '-h' as alias for '-?' and '-help'
+
 
 * Changes in VICE 1.7
 =====================
