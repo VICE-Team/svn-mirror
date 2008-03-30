@@ -6,6 +6,7 @@
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Manfred Spraul <manfreds@colorfullife.com>
  *  Andreas Matthies <andreas.matthies@arcormail.de>
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,6 +33,7 @@
 #include <string.h>
 #include <windows.h>
 #include <windowsx.h>
+#include <commctrl.h>
 
 #include "imagecontents.h"
 #include "resources.h"
@@ -42,8 +44,43 @@
 #include "winmain.h"
 #include "res.h"
 
-static char *(*read_content_func)(const char *);
+/* Mingw & pre VC 6 headers doesn't have this definition */
+#ifndef OFN_ENABLESIZING
+#define OFN_ENABLESIZING    0x00800000
+#endif
 
+static char *(*read_content_func)(const char *);
+static char **autostart_result;
+static char *(*get_filename_from_content)(char *, int);
+
+typedef struct {
+    char*           (*content_read_function)(const char *);
+    char*           (*get_filename_from_content)(char *, int);
+    LPOFNHOOKPROC   hook_proc;
+    int             TemplateID;
+} ui_file_selector_style_type;
+
+static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
+static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
+char *read_disk_image_contents(const char *name);
+char *read_tape_image_contents(const char *name);
+char *read_disk_or_tape_image_contents(const char *name);
+static char *get_filename_from_disk(char *filename, int index);
+static char *get_filename_from_tape(char *filename, int index);
+static char *get_filename_from_disk_or_tape(char *filename, int index);
+
+static ui_file_selector_style_type  styles[]={
+    /* FILE_SELECTOR_DEFAULT_STYLE */
+    {NULL,NULL,NULL,0},
+    /* FILE_SELECTOR_TAPE_STYLE */
+    {read_tape_image_contents,get_filename_from_tape,tape_hook_proc,IDD_OPENTAPE_TEMPLATE},
+    /* FILE_SELECTOR_DISK_STYLE */
+    {read_disk_image_contents,get_filename_from_disk,hook_proc,IDD_OPEN_TEMPLATE},
+    /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
+    {read_disk_or_tape_image_contents,get_filename_from_disk_or_tape,hook_proc,IDD_OPEN_TEMPLATE},
+    /* DUMMY entry Insert new styles before this */
+    {NULL,NULL,NULL,0}
+};
 
 char *read_disk_image_contents(const char *name)
 {
@@ -109,29 +146,158 @@ int     index;
 
 }
 
+/* The following functions can be removed once the selector gives back
+   the program number (index) and feed autostart_xyz() with this number
+   instead of retriving the program name itself.  */
+#if 1
+static char *get_filename_from_disk(char *filename, int index)
+{
+image_contents_t            *contents;
+image_contents_file_list_t  *current;
+char                        *s;
+
+    contents=image_contents_read_disk(filename);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=NULL;
+    if (index!=0) {
+        current=contents->file_list;
+        index--;
+        while ((index!=0) && (current!=NULL)) {
+            current=current->next;
+            index--;
+        }
+        if (current!=NULL) {
+            s=stralloc(current->name);
+        }
+    }
+    image_contents_destroy(contents);
+    return s;
+}
+
+static char *get_filename_from_tape(char *filename, int index)
+{
+image_contents_t            *contents;
+image_contents_file_list_t  *current;
+char                        *s;
+
+    contents=image_contents_read_tape(filename);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=NULL;
+    if (index!=0) {
+        current=contents->file_list;
+        index--;
+        while ((index!=0) && (current!=NULL)) {
+            current=current->next;
+            index--;
+        }
+        if (current!=NULL) {
+            s=stralloc(current->name);
+        }
+    }
+    image_contents_destroy(contents);
+    return s;
+}
+
+static char *get_filename_from_disk_or_tape(char *filename, int index)
+{
+char    *s;
+
+    s=get_filename_from_disk(filename,index);
+    if (s==NULL) {
+        s=get_filename_from_tape(filename,index);
+    }
+    return s;
+}
+#endif
+
+static  HFONT   hfont;
+
+static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
+{
+    
+HWND    preview;
+char    *contents;
+char    filename[256];
+int     index;
+
+    preview=GetDlgItem(hwnd,IDC_PREVIEW);
+    switch (uimsg) {
+        case WM_INITDIALOG:
+            SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
+            /*  maybe there's a better font-definition (FIXME) */
+            /*  I think it's OK now (Tibor) */
+            hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
+                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,"MS Sans Serif");
+            if (hfont)
+                SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
+                    (WPARAM)hfont,MAKELPARAM(TRUE,0));
+            break;
+        case WM_NOTIFY:
+            if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
+                SendMessage(preview,LB_RESETCONTENT,0,0);
+                if (SendMessage(((OFNOTIFY*)lparam)->hdr.hwndFrom,
+                    CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
+                    if (read_content_func!=NULL) {
+                        contents=read_content_func(filename);
+                        create_content_list(contents,preview);
+                    }
+                }
+            }
+            break;
+        case WM_COMMAND:
+            switch (HIWORD(wparam)) {
+                case LBN_DBLCLK:
+                    if (autostart_result!=NULL) {
+                        index=SendMessage((HWND)lparam,LB_GETCURSEL,0,0);
+                        if (SendMessage(GetParent(hwnd),
+                            CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
+                            *autostart_result=get_filename_from_content(filename,index);
+                            SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hwnd),IDOK));
+                        }
+                    }
+                    break;
+            }
+            break;
+        case WM_DESTROY:
+            if (hfont!=NULL) {
+                DeleteObject(hfont);
+                hfont=NULL;
+            }
+            break;
+    }
+    return 0;
+}
+
+static char *image_type_name[] = 
+    { "d64","d71","d80","d81","d82","g64","x64",NULL };
+static int  image_type[] = {
+    DISK_IMAGE_TYPE_D64,
+    DISK_IMAGE_TYPE_D71,
+    DISK_IMAGE_TYPE_D80,
+    DISK_IMAGE_TYPE_D81,
+    DISK_IMAGE_TYPE_D82,
+    DISK_IMAGE_TYPE_G64,
+    DISK_IMAGE_TYPE_X64
+};
 
 static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
-    
-    HWND    preview;
-    HWND    image_type_list;
-    HFONT   hfont;
-    char    *contents;
-    char    filename[256];
-    char    *image_type_name[] = 
-        { "d64","d71","d80","d81","d82","g64","x64",NULL };
-    int     image_type[] = {
-        DISK_IMAGE_TYPE_D64,
-        DISK_IMAGE_TYPE_D71,
-        DISK_IMAGE_TYPE_D80,
-        DISK_IMAGE_TYPE_D81,
-        DISK_IMAGE_TYPE_D82,
-        DISK_IMAGE_TYPE_G64,
-        DISK_IMAGE_TYPE_X64
-    };
-    int counter;
-    int msg_type;
-    int append_extension = 0;
+    HWND        preview;
+    HWND        image_type_list;
+    char        *contents;
+    char        filename[256];
+    int         counter;
+    int         msg_type;
+    int         append_extension = 0;
+    int         is_it_standard_extension=0;
+    char        *extension;
+    int         index;
+    LV_FINDINFO find;
+    LV_ITEM     item;
 
     preview=GetDlgItem(hwnd,IDC_PREVIEW);
     switch (uimsg) {
@@ -144,11 +310,13 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
             }
             SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
             /* maybe there's a better font-definition (FIXME) */
-            hfont = CreateFont(-12,0,0,0,700,0,0,0,0,0,0,
-                DRAFT_QUALITY ,FIXED_PITCH|FF_MODERN,NULL);
-            if (hfont)
+            /*  I think it's OK now (Tibor) */
+            hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
+                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,"MS Sans Serif");
+            if (hfont) {
                 SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                     (WPARAM)hfont,MAKELPARAM(TRUE,0));
+            }
             SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"Vice");
             SetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,"1a");
             break;
@@ -173,8 +341,22 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                         ui_error("Please enter a filename.");
                         return -1;
                     }
-                    if (strchr(filename,'.') == NULL)
+                    if (strchr(filename,'.') == NULL) {
                         append_extension = 1;
+                        is_it_standard_extension=1;
+                    } else {
+                        /*  Find last dot in name */
+                        extension=strrchr(filename,'.');
+                        /*  Skip dot */
+                        extension++;
+                        /*  Figure out if it's a standard extension */
+                        for (counter=0; image_type_name[counter]; counter++) {
+                            if (strncasecmp(extension,image_type_name[counter],strlen(image_type_name[counter]))==0) {
+                                is_it_standard_extension=1;
+                                break;
+                            }
+                        }
+                    }
                     if (SendMessage(GetParent(hwnd),
                         CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
                     {
@@ -189,7 +371,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                             strcat(filename,".");
                             strcat(filename,image_type_name[counter]);
                         }
-                        if (fopen(filename,"r")) {
+                        if (file_exists_p(filename)) {
                             int ret;
                             ret = MessageBox(hwnd, "Overwrite existing image?",
                                 "VICE question", MB_YESNO | MB_ICONQUESTION);
@@ -205,9 +387,54 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                             ui_error("Cannot create image");
                             return -1;
                         }
-                        /* FIXME: Try to redraw Filelist and Filename */
+                        /*  Select filter:
+                            If we have a standard extension, select the disk filters,
+                            but leave at 'All files' if it was already there, otherwise
+                            select 'All files'
+                        */
+                        index=SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_GETCOUNT,0,0);
+                        if (is_it_standard_extension) {
+                            if (index-1!=SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_GETCURSEL,0,0)) {
+                                SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_SETCURSEL,0,0);
+                            }
+                        } else {
+                            SendMessage(GetDlgItem(GetParent(hwnd),0x470),CB_SETCURSEL,index-1,0);
+                        }
+                        /*  Notify main window about filter change */
+                        SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(0x470,CBN_SELENDOK),(LPARAM)GetDlgItem(GetParent(hwnd),0x470));
+
+                        /*  Now find filename in ListView & select it */
+                        SendMessage(GetParent(hwnd),CDM_GETSPEC,256,(LPARAM)filename);
+                        if (append_extension) {
+                            strcat(filename,".");
+                            strcat(filename,image_type_name[counter]);
+                        }
+                        find.flags=LVFI_STRING;
+                        find.psz=filename;
+                        index=SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),0x461),1),LVM_FINDITEM,-1,(LPARAM)&find);
+                        item.stateMask=LVIS_SELECTED|LVIS_FOCUSED;
+                        item.state=LVIS_SELECTED|LVIS_FOCUSED;
+                        SendMessage(GetDlgItem(GetDlgItem(GetParent(hwnd),0x461),1),LVM_SETITEMSTATE,index,(LPARAM)&item);
                     }
                     break;
+            }
+            switch (HIWORD(wparam)) {
+                case LBN_DBLCLK:
+                    if (autostart_result!=NULL) {
+                        index=SendMessage((HWND)lparam,LB_GETCURSEL,0,0);
+                        if (SendMessage(GetParent(hwnd),
+                            CDM_GETFILEPATH,256,(LPARAM)filename)>=0) {
+                            *autostart_result=get_filename_from_content(filename,index);
+                            SendMessage(GetParent(hwnd),WM_COMMAND,MAKELONG(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hwnd),IDOK));
+                        }
+                    }
+                    break;
+            }
+            break;
+        case WM_DESTROY:
+            if (hfont!=NULL) {
+                DeleteObject(hfont);
+                hfont=NULL;
             }
             break;
     }
@@ -215,7 +442,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
 }
 
 
-char *ui_select_file(const char *title, const char *filter, char*(*content_read_function)(const char *), HWND hwnd)
+char *ui_select_file(HWND hwnd, const char *title, const char *filter, int style, char **autostart)
 {
     char name[1024] = "";
     OPENFILENAME ofn;
@@ -233,17 +460,18 @@ char *ui_select_file(const char *title, const char *filter, char*(*content_read_
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
-    ofn.lpstrTitle = NULL;
-    if (content_read_function!=NULL) {
+    ofn.lpstrTitle = title;
+    if (styles[style].TemplateID!=0) {
         ofn.Flags = (OFN_EXPLORER
                      | OFN_HIDEREADONLY
                      | OFN_NOTESTFILECREATE
                      | OFN_FILEMUSTEXIST
                      | OFN_ENABLEHOOK
                      | OFN_ENABLETEMPLATE
-                     | OFN_SHAREAWARE);
-        ofn.lpfnHook = hook_proc;
-        ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPEN_TEMPLATE);
+                     | OFN_SHAREAWARE
+                     | OFN_ENABLESIZING);
+        ofn.lpfnHook = styles[style].hook_proc;
+        ofn.lpTemplateName = MAKEINTRESOURCE(styles[style].TemplateID);
     } else {
         ofn.Flags = (OFN_EXPLORER
                      | OFN_HIDEREADONLY
@@ -257,7 +485,9 @@ char *ui_select_file(const char *title, const char *filter, char*(*content_read_
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
 
-    read_content_func=content_read_function;
+    read_content_func=styles[style].content_read_function;
+    get_filename_from_content=styles[style].get_filename_from_content;
+    autostart_result=autostart;
     if (GetOpenFileName(&ofn)) {
         return stralloc(name);
     } else {

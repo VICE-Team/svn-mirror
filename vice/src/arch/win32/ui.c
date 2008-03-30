@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -915,8 +916,9 @@ char *dname;
       case IDM_ATTACH_10:
       case IDM_ATTACH_11:
         {
-            char *s;
-            int unit = 8;
+            char    *s;
+            int     unit = 8;
+            char    *autostart_filename=NULL;
 
             switch (wparam&0xffff) {
               case IDM_ATTACH_8:
@@ -932,11 +934,19 @@ char *dname;
                 unit = 11;
                 break;
             }
-            if ((s = ui_select_file("Attach disk image",
+            if ((s = ui_select_file(hwnd,"Attach disk image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
-                "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
-                if (file_system_attach_disk(unit, s) < 0)
-                    ui_error("Cannot attach specified file");
+                "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,
+                &autostart_filename)) != NULL) {
+                if (autostart_filename!=NULL) {
+/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
+                    if (autostart_autodetect(s, autostart_filename, 0) < 0)
+                        ui_error("Cannot autostart specified file.");
+                        free(autostart_filename);
+                } else {
+                    if (file_system_attach_disk(unit, s) < 0)
+                        ui_error("Cannot attach specified file");
+                }
                 free(s);
             }
         }
@@ -978,13 +988,22 @@ char *dname;
       case IDM_ATTACH_TAPE|0x00010000:
       case IDM_ATTACH_TAPE:
         {
-            char *s;
+            char    *s;
+            char    *autostart_filename=NULL;
 
-            if ((s = ui_select_file("Attach tape image",
+            if ((s = ui_select_file(hwnd,"Attach tape image",
                 "Tape image files (*.t64;*.tap)\0*.t64;*.tap\0"
-                "All files (*.*)\0*.*\0", read_tape_image_contents, hwnd)) != NULL) {
-                if (tape_attach_image(s) < 0)
-                    ui_error("Cannot attach specified file.");
+                "All files (*.*)\0*.*\0", FILE_SELECTOR_TAPE_STYLE,
+                &autostart_filename)) != NULL) {
+                if (autostart_filename!=NULL) {
+/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
+                    if (autostart_autodetect(s, autostart_filename, 0) < 0)
+                        ui_error("Cannot autostart specified file.");
+                        free(autostart_filename);
+                } else {
+                    if (tape_attach_image(s) < 0)
+                        ui_error("Cannot attach specified file");
+                }
                 free(s);
             }
         }
@@ -1015,14 +1034,19 @@ char *dname;
         break;
       case IDM_AUTOSTART:
         {
-            char *s;
+            char    *s;
+            char    *autostart_filename=NULL;
 
-            if ((s = ui_select_file("Autostart disk/tape image",
+            if ((s = ui_select_file(hwnd,"Autostart disk/tape image",
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
                 "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
-                "All files (*.*)\0*.*\0", read_disk_or_tape_image_contents, hwnd)) != NULL) {
-                if (autostart_autodetect(s, NULL) < 0)
+                "All files (*.*)\0*.*\0",
+                FILE_SELECTOR_DISK_AND_TAPE_STYLE,
+                &autostart_filename)) != NULL) {
+/* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
+                if (autostart_autodetect(s, autostart_filename, 0) < 0)
                     ui_error("Cannot autostart specified file.");
+                if (autostart_filename!=NULL) free(autostart_filename);
                 free(s);
             }
         }
