@@ -549,7 +549,10 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
 
     /* Execute drive CPUs to get in sync with the main CPU.  */
-    drive_cpu_execute(clk);
+    if (drive[0].enable)
+        drive0_cpu_execute(clk);
+    if (drive[1].enable)
+        drive1_cpu_execute(clk);
 
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s, save_roms) < 0

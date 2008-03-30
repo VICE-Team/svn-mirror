@@ -42,6 +42,8 @@
 
 #include "cmdline.h"
 #include "drive.h"
+#include "drivecpu.h"
+#include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "resources.h"
@@ -563,7 +565,10 @@ void parallel_drv1_set_bus( BYTE b )
 
 void parallel_drive_cpu_execute(CLOCK clk)
 {
-    drive_cpu_execute(clk);
+    if (drive[0].enable)
+        drive0_cpu_execute(clk);
+    if (drive[1].enable)
+        drive1_cpu_execute(clk);
 }
 
 #define PARALLEL_CPU_SET_LINE(line,dev,mask)                            \
