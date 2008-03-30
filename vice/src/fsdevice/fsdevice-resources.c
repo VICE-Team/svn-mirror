@@ -75,73 +75,63 @@ static int set_fsdevice_hide_cbm_files(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static const resource_t resources[] = {
-    { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_convert_p00_enabled[0],
-      set_fsdevice_convert_p00, (void *)8 },
-    { "FSDevice9ConvertP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_convert_p00_enabled[1],
-      set_fsdevice_convert_p00, (void *)9 },
-    { "FSDevice10ConvertP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_convert_p00_enabled[2],
-      set_fsdevice_convert_p00, (void *)10 },
-    { "FSDevice11ConvertP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_convert_p00_enabled[3],
-      set_fsdevice_convert_p00, (void *)11 },
-    { "FSDevice8Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
-      RES_EVENT_NO, NULL,
+static const resource_string_t resources_string[] = {
+    { "FSDevice8Dir", FSDEVICE_DEFAULT_DIR, RES_EVENT_NO, NULL,
       (void *)&fsdevice_dir[0], set_fsdevice_dir, (void *)8 },
-    { "FSDevice9Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
-      RES_EVENT_NO, NULL,
+    { "FSDevice9Dir", FSDEVICE_DEFAULT_DIR, RES_EVENT_NO, NULL,
       (void *)&fsdevice_dir[1], set_fsdevice_dir, (void *)9 },
-    { "FSDevice10Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
-      RES_EVENT_NO, NULL,
+    { "FSDevice10Dir", FSDEVICE_DEFAULT_DIR, RES_EVENT_NO, NULL,
       (void *)&fsdevice_dir[2], set_fsdevice_dir, (void *)10 },
-    { "FSDevice11Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
-      RES_EVENT_NO, NULL,
+    { "FSDevice11Dir", FSDEVICE_DEFAULT_DIR, RES_EVENT_NO, NULL,
       (void *)&fsdevice_dir[3], set_fsdevice_dir, (void *)11 },
-    { "FSDevice8SaveP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_save_p00_enabled[0],
+};
+
+static const resource_int_t resources_int[] = {
+    { "FSDevice8ConvertP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_convert_p00_enabled[0],
+      set_fsdevice_convert_p00, (void *)8 },
+    { "FSDevice9ConvertP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_convert_p00_enabled[1],
+      set_fsdevice_convert_p00, (void *)9 },
+    { "FSDevice10ConvertP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_convert_p00_enabled[2],
+      set_fsdevice_convert_p00, (void *)10 },
+    { "FSDevice11ConvertP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_convert_p00_enabled[3],
+      set_fsdevice_convert_p00, (void *)11 },
+    { "FSDevice8SaveP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_save_p00_enabled[0],
       set_fsdevice_save_p00, (void *)8 },
-    { "FSDevice9SaveP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_save_p00_enabled[1],
+    { "FSDevice9SaveP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_save_p00_enabled[1],
       set_fsdevice_save_p00, (void *)9 },
-    { "FSDevice10SaveP00", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_save_p00_enabled[2],
+    { "FSDevice10SaveP00", 1, RES_EVENT_NO, NULL,
+      &fsdevice_save_p00_enabled[2],
       set_fsdevice_save_p00, (void *)10 },
-    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_save_p00_enabled[3],
+    { "FSDevice11SaveP00", 0, RES_EVENT_NO, NULL,
+      &fsdevice_save_p00_enabled[3],
       set_fsdevice_save_p00, (void *)11 },
-    { "FSDevice8HideCBMFiles", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_hide_cbm_files_enabled[0],
+    { "FSDevice8HideCBMFiles", 0, RES_EVENT_NO, NULL,
+      &fsdevice_hide_cbm_files_enabled[0],
       set_fsdevice_hide_cbm_files, (void *)8 },
-    { "FSDevice9HideCBMFiles", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_hide_cbm_files_enabled[1],
+    { "FSDevice9HideCBMFiles", 0, RES_EVENT_NO, NULL,
+      &fsdevice_hide_cbm_files_enabled[1],
       set_fsdevice_hide_cbm_files, (void *)9 },
-    { "FSDevice10HideCBMFiles", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_hide_cbm_files_enabled[2],
+    { "FSDevice10HideCBMFiles", 0, RES_EVENT_NO, NULL,
+      &fsdevice_hide_cbm_files_enabled[2],
       set_fsdevice_hide_cbm_files, (void *)10 },
-    { "FSDevice11HideCBMFiles", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&fsdevice_hide_cbm_files_enabled[3],
+    { "FSDevice11HideCBMFiles", 0, RES_EVENT_NO, NULL,
+      &fsdevice_hide_cbm_files_enabled[3],
       set_fsdevice_hide_cbm_files, (void *)11 },
     { NULL }
 };
 
 int fsdevice_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void fsdevice_resources_shutdown(void)

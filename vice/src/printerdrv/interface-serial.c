@@ -95,19 +95,17 @@ static int set_printer_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "Printer4", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&printer_enabled[0], set_printer_enabled, (void *)0 },
-    { "Printer5", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&printer_enabled[1], set_printer_enabled, (void *)1 },
+static const resource_int_t resources_int[] = {
+    { "Printer4", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &printer_enabled[0], set_printer_enabled, (void *)0 },
+    { "Printer5", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &printer_enabled[1], set_printer_enabled, (void *)1 },
     { NULL }
 };
 
 int interface_serial_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION

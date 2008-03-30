@@ -50,7 +50,7 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value);
 /* ------------------------------------------------------------------------- */
 
 
-static unsigned int iec_device_enabled[IECBUS_NUM];
+static int iec_device_enabled[IECBUS_NUM];
 
 static int set_iec_device_enable(resource_value_t v, void *param)
 {
@@ -74,37 +74,25 @@ static int set_iec_device_enable(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "IECDevice4", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[4],
-      set_iec_device_enable, (void *)4 },
-    { "IECDevice5", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[5],
-      set_iec_device_enable, (void *)5 },
-    { "IECDevice8", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[8],
-      set_iec_device_enable, (void *)8 },
-    { "IECDevice9", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[9],
-      set_iec_device_enable, (void *)9 },
-    { "IECDevice10", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[10],
-      set_iec_device_enable, (void *)10 },
-    { "IECDevice11", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&iec_device_enabled[11],
-      set_iec_device_enable, (void *)11 },
+static const resource_int_t resources_int[] = {
+    { "IECDevice4", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[4], set_iec_device_enable, (void *)4 },
+    { "IECDevice5", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[5], set_iec_device_enable, (void *)5 },
+    { "IECDevice8", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[8], set_iec_device_enable, (void *)8 },
+    { "IECDevice9", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[9], set_iec_device_enable, (void *)9 },
+    { "IECDevice10", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[10], set_iec_device_enable, (void *)10 },
+    { "IECDevice11", 0, RES_EVENT_SAME, NULL,
+      &iec_device_enabled[11], set_iec_device_enable, (void *)11 },
     { NULL }
 };
 
 int serial_iec_device_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION

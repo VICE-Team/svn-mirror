@@ -65,16 +65,15 @@ static int set_up_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "PrinterUserport", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
+static const resource_int_t resources_int[] = {
+    { "PrinterUserport", 0, RES_EVENT_STRICT, (resource_value_t)0,
       (void *)&userport_printer_enabled, set_up_enabled, NULL },
     { NULL }
 };
 
 int interface_userport_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION
