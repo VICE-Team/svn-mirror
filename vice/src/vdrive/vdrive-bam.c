@@ -445,7 +445,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
             vdrive->bam[0x200 + 1] = 1;
             vdrive->bam[0x200 + 2] = 67;
             vdrive->bam[0x200 + 4] = 51;    /* In this block from track ... */
-            vdrive->bam[0x200 + 5] = 79;    /* till excluding track ... */
+            vdrive->bam[0x200 + 5] = 78;    /* till excluding track ... */
         } else
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8250) {
             /* second bitmap block at 38/3 */

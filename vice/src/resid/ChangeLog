@@ -1,3 +1,7 @@
+2000-05-18  Dag Lem  <resid@nimrod.no>
+	* filter.h (Filter::output): The sum of the filter outputs is no
+	longer weighted.
+	
 1999-06-24  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.8 released.

@@ -1545,3 +1545,26 @@ int     window_index;
 
     return DefWindowProc(window, msg, wparam, lparam);
 }
+
+/*
+ The following functions makes sure a given filename has an extension.
+ If necessary, an extension is appended to it.
+*/
+char *ui_ensure_extension( char *pFilename, const char *pExt )
+{
+    char buffer[1024];
+    char *p;
+
+    strcpy( buffer, pFilename );
+
+    p = strrchr( buffer, '\\' );
+
+    if (p++ == NULL)
+        p = buffer;
+
+    /* test if there is an extension; if not, add one */
+    if (strchr(p, '.') == NULL)
+        strcat(p, pExt );
+
+    return stralloc( buffer );
+}

@@ -222,6 +222,9 @@
 #define IDC_TEXT                        1302
 #define IDC_HEADER                      1303
 
+#define IDD_CONSOLE_SAVE_DIALOG         1310
+#define IDC_TOGGLE_CONSOLE_APPEND       1311
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002

@@ -167,10 +167,10 @@ void ui_snapshot_save_dialog(HWND hwnd)
     s = ui_save_snapshot("Save snapshot image",
         "VICE snapshot files (*.vsf)\0*.vsf\0",hwnd);
     if (s != NULL) {
-        if (strchr(s, '.') == NULL)
-            strcat(s, ".vsf");
-        if (machine_write_snapshot(s, save_roms, save_disks) < 0)
+        char *sExt = ui_ensure_extension( s, ".vsf" );
+        if (machine_write_snapshot(sExt, save_roms, save_disks) < 0)
             ui_error("Cannot write snapshot file.");
+        free(sExt);
         free(s);
     }
 }

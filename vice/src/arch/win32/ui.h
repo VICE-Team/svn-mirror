@@ -29,6 +29,7 @@
 
 #include "uiapi.h"
 #include "video.h"
+#include <stdio.h>
 
 #define APPLICATION_CLASS "VICE"
 #define CONSOLE_CLASS "VICE:Monitor"
@@ -85,6 +86,10 @@ extern HWND ui_open_canvas_window(const char *title, unsigned int width,
                                   canvas_redraw_t exposure_handler);
 extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);
+
+extern char *ui_ensure_extension( char *pFilename, const char *pExt );
+
+extern FILE *ui_console_save_dialog(HWND hwnd);
 
 #endif
 

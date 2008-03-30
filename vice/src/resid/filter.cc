@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -126,7 +126,11 @@ void Filter::set_w0()
 {
   // Maximum cutoff frequency is specified as
   // FCmax = 2.6e-5/C = 2.6e-5/2200e-12 = 11818.
-  // Measurements indicate a much lower maximum frequency cutoff.
+  // Measurements indicate a cutoff frequency range of approximately
+  // 220Hz - 18kHz on a standard Commodore 64 fitted with 470pF capacitors.
+  // This must be measured by feeding the SID with an external signal since
+  // the chip itself is incapable of generating waveforms of higher frequency
+  // than 4kHz.
   // Measurements of bandpass output from a Commodore 64 shows that the
   // function mapping fc to cutoff frequency has the shape of the tanh
   // function. The mapping function is specified with spline interpolation
@@ -146,8 +150,6 @@ void Filter::set_w0()
 void Filter::set_Q()
 {
   // Q is controlled linearly by res. Q has approximate range [0.707, 1.7].
-  // n2 should have been calculated as 2 - 1/Q, however it seems like Vi
-  // is divided by n2 before entering the filter circuit.
   // As resonance is increased, the filter must be clocked more often to keep
   // stable.
 

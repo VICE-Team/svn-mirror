@@ -162,6 +162,10 @@ SOURCE=.\uicmdline.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiconsole.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uidatasette.c
 # End Source File
 # Begin Source File

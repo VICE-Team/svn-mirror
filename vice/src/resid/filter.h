@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,8 @@
 
 // ----------------------------------------------------------------------------
 // The SID filter is modeled with a two-integrator-loop biquadratic filter,
-// which is almost certainly the actual circuit used in the SID chip.
+// which has been confirmed by Bob Yannes to be the actual circuit used in
+// the SID chip.
 //
 // Measurements show that excellent emulation of the SID filter is achieved,
 // except when high resonance is combined with high sustain levels.
@@ -37,8 +38,8 @@
 // by Adel S. Sedra and Kenneth C. Smith.
 // The circuit is modeled based on the explanation found there except that
 // an additional inverter is used in the feedback from the bandpass output,
-// allowing the summer op-amp to operate in single-ended mode. This yields an
-// inverted filter output with level independent of Q, which corresponds with
+// allowing the summer op-amp to operate in single-ended mode. This yields
+// inverted filter outputs with level independent of Q, which corresponds with
 // the results obtained from a real SID.
 //
 // We have been able to model the summer and the two integrators of the circuit
@@ -51,6 +52,59 @@
 // into its region of quasi-linear operation using a feedback resistor from
 // input to output, a MOS inverter can be made to act like an op-amp for
 // small signals centered around the switching threshold.
+//
+// Qualified guesses at SID filter schematics are depicted below.
+//
+// SID filter
+// ----------
+// 
+//     -----------------------------------------------
+//    |                                               |
+//    |            ---Rq--                            |
+//    |           |       |                           |
+//    |  ------------<A]-----R1---------              |
+//    | |                               |             |
+//    | |                        ---C---|      ---C---|
+//    | |                       |       |     |       |
+//    |  --R1--    ---R1--      |---Rs--|     |---Rs--| 
+//    |        |  |       |     |       |     |       |
+//     ----R1--|-----[A>--|--R-----[A>--|--R-----[A>--|
+//             |          |             |             |
+// vi -----R1--           |             |             |
+// 
+//                       vhp           vbp           vlp
+// 
+// 
+// 
+// SID integrator
+// --------------
+// 
+//                                   V+
+// 
+//                                   |
+//                                   |
+//                              -----|
+//                             |     |
+//                             | ||--
+//                              -||
+//                   ---C---     ||->
+//                  |       |        |
+//                  |---Rs-----------|---- vo
+//                  |                |
+//                  |            ||--
+// vi ----     -----|------------||
+//        |   ^     |            ||->
+//        |___|     |                |
+//        -----     |                |
+//          |       |                |
+//          |---R2--                 |
+//          |
+//          R1                       V-
+//          |
+//          |
+// 
+//          Vw
+//
 // ----------------------------------------------------------------------------
 class Filter
 {
@@ -330,14 +384,14 @@ sound_sample Filter::output()
     return -((Vnf + Vmax)*static_cast<sound_sample>(vol));
   }
 
-  // Mix highpass, bandpass, and lowpass outputs.
+  // Mix highpass, bandpass, and lowpass outputs. The sum is not
+  // weighted, this can be confirmed by sampling sound output for
+  // e.g. bandpass, lowpass, and bandpass+lowpass from a SID chip.
+
   // The code below is expanded to a switch for faster execution.
-  // if (hp_bp_lp) {
-  //   if (hp) Vf += Vhp;
-  //   if (bp) Vf += Vbp;
-  //   if (lp) Vf += Vlp;
-  //   Vf /= hp_bp_lp;
-  // }
+  // if (hp) Vf += Vhp;
+  // if (bp) Vf += Vbp;
+  // if (lp) Vf += Vlp;
 
   sound_sample Vf;
 
@@ -353,19 +407,19 @@ sound_sample Filter::output()
     Vf = Vbp;
     break;
   case 0x3:
-    Vf = (Vlp + Vbp) >> 1;
+    Vf = Vlp + Vbp;
     break;
   case 0x4:
     Vf = Vhp;
     break;
   case 0x5:
-    Vf = (Vlp + Vhp) >> 1;
+    Vf = Vlp + Vhp;
     break;
   case 0x6:
-    Vf = (Vbp + Vhp) >> 1;
+    Vf = Vbp + Vhp;
     break;
   case 0x7:
-    Vf = (Vlp + Vbp + Vhp)/3;
+    Vf = Vlp + Vbp + Vhp;
     break;
   }
 

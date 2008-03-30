@@ -1,3 +1,13 @@
+Changes in reSID version 0.9
+----------------------------
+
+The sum of the filter outputs is no longer weighted.
+
+Changes in reSID version 0.8
+----------------------------
+
+voice3off has no effect if voice 3 is routed through the filter.
+
 Changes in reSID version 0.7
 ----------------------------
 
