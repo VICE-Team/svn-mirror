@@ -93,6 +93,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (first)
             {
                 int val;
+                first=FALSE;
                 WinCheckButton(hwnd, CB_PAUSE, isEmulatorPaused());
                 resources_get_value(VIDEO_CACHE,  (resource_value_t *) &val);
                 WinCheckButton(hwnd, CB_VCACHE, val);
@@ -111,10 +112,13 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 WinEnableControl(hwnd, PB_SPEED100, (val!=100));
                 resources_get_value("RefreshRate", (resource_value_t *) &val);
                 WinLboxSelectItem(hwnd, CBS_REFRATE, val);
-                first=FALSE;
             }
         }
         break;
+    case WM_DISPLAY:
+        WinSetSpinVal(hwnd, SPB_SPEEDDISP,   mp1);
+        WinSetSpinVal(hwnd, SPB_REFRATEDISP, mp2);
+        return FALSE;
     case WM_CONTROL:
         {
             int ctrl = SHORT1FROMMP(mp1);
@@ -167,10 +171,12 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
 
+HWND hwndEmulator=NULLHANDLE;
+
 void emulator_dialog(HWND hwnd)
 {
     if (dlgOpen(DLGO_EMULATOR)) return;
-    WinLoadDlg(HWND_DESKTOP, hwnd, pm_emulator, NULLHANDLE,
-               DLG_EMULATOR, NULL);
+    hwndEmulator=WinLoadDlg(HWND_DESKTOP, hwnd, pm_emulator, NULLHANDLE,
+                            DLG_EMULATOR, NULL);
 }
 

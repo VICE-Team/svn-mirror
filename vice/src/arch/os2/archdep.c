@@ -87,6 +87,9 @@ void PM_open(void)
 {
     habMain = WinInitialize(0);              // Initialize PM
     hmqMain = WinCreateMsgQueue(habMain, 0); // Create Msg Queue
+
+
+    
     atexit(PM_close);
 }
 
@@ -96,8 +99,7 @@ HMTX hmtxSpawn;
 
 int archdep_startup(int *argc, char **argv)
 {
-    /* This should be a more valid way... */
-    // argv0 = (char*)strdup(argv[0]);
+    /* This is right way to do this in OS/2 (not via argv[0]) */
     TIB *pTib;
     PIB *pPib;
     DosGetInfoBlocks(&pTib, &pPib);
@@ -106,7 +108,7 @@ int archdep_startup(int *argc, char **argv)
     orig_workdir = (char*) getcwd(NULL, GET_PATH_MAX);
     atexit(restore_workdir);
 
-    PM_open();     // Open PM for usage
+    PM_open();
 
     DosCreateMutexSem("\\SEM32\\ViceSpawn", &hmtxSpawn, 0, FALSE);
 
@@ -246,7 +248,7 @@ int archdep_path_is_relative(const char *path)
 
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
-{   
+{
     return concat(fname, "~", NULL);
 }
 
@@ -261,8 +263,9 @@ int archdep_expand_path(char **return_path, const char *filename)
         *return_path = concat(cwd, "\\", filename, NULL);
         free(cwd);
     }
-    if (strcmp(filename, *return_path))
-        log_message(LOG_DEFAULT,"archdep.c: %s --> %s", filename, *return_path);
+    /*    if (strcmp(filename, *return_path))
+     log_message(LOG_DEFAULT,"archdep.c: %s --> %s", filename, *return_path);
+     */
     return 0;
 }
 
@@ -330,7 +333,9 @@ int archdep_spawn(const char *name, char **argv,
 
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
+#ifndef __C1541__
     log_message(LOG_DEFAULT, "archdep.c: Spawning \"cmd.exe %s\"", cmdline);
+#endif
 
     memset(&sd,0,sizeof(STARTDATA));
     sd.Length     = sizeof(STARTDATA);

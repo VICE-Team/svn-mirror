@@ -56,6 +56,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         {
             if (first)
             {
+                first=FALSE;
                 WinSendMsg(hwnd, WM_COUNTER,  (void*)ui_status.lastTapeCounter, 0);
                 WinSendMsg(hwnd, WM_TAPESTAT,
                            (void*)ui_status.lastTapeCtrlStat,
@@ -63,7 +64,6 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 WinShowDlg(hwnd, SS_SPIN,
                            (ui_status.lastTapeMotor && ui_status.lastTapeStatus)
                            ?1:0);
-                first=FALSE;
             }
         }
         break;
@@ -113,7 +113,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
 
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
-HWND hwndDatasette;
+HWND hwndDatasette=NULLHANDLE;
 
 void datasette_dialog(HWND hwnd)
 {

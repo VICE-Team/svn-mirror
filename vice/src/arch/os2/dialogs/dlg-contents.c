@@ -74,6 +74,8 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 char text[1024];
                 image_contents_file_list_t *entry=image->file_list;
 
+                first=FALSE;
+
                 WinSetDlgFont(hwnd, LB_CONTENTS, achFont);
 
                 sprintf(text, " 0 \"%s\" %s", p2a(image->name), p2a(image->id));
@@ -87,8 +89,6 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 }
                 sprintf(text, " %i blocks free.", image->blocks_free);
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
-
-                first=FALSE;
             }
         }
         break;

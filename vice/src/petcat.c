@@ -41,7 +41,7 @@
  *
  * Written by
  *   Jouko Valta <jopi@stekt.oulu.fi>
- * 
+ *
  * With additional changes by
  *   Ettore Perazzoli <ettore@comm2000.it>
  *
@@ -401,7 +401,7 @@ static void list_keywords(int version);
 static void pet_2_asc (int ctrls);
 static void _p_toascii(int c, int ctrls);
 static int p_expand(int version, int addr, int ctrls);
-static void p_tokenize(int version, int addr, int ctrls);
+static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
                              int token, int maxitems);
 
@@ -1116,12 +1116,13 @@ static int   p_expand(version, addr, ctrls)
 
 static void   p_tokenize(version, addr, ctrls)
      int version;
-     int addr;
+     unsigned int addr;
      int ctrls;
 {
     static char    line[256];
     unsigned char *p1, *p2, quote, c;
-    int            len = 0, linum = 10, match;
+    int            len = 0, match;
+    unsigned int   linum = 10;
 
     fprintf(dest, "%c%c", (addr & 255), ((addr >> 8) & 255) );
 

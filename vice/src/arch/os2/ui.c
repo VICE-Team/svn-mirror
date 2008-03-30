@@ -57,6 +57,10 @@
 
 /* ------------------------ ui resources ------------------------ */
 
+HMTX hmtxKey;
+int PM_winActive;
+ui_status_t ui_status;
+
 /* Flag: Use keyboard LEDs?  */
 int use_leds;
 
@@ -99,7 +103,7 @@ int ui_init_finish(void)
 {
     log_message(LOG_DEFAULT, "VICE/2-Port done by");
     log_message(LOG_DEFAULT, "T. Bretz.\n");
-    ui_open_status_window();
+    // ui_open_status_window();
     return 0;
 }
 
@@ -108,32 +112,32 @@ int ui_init_finish(void)
 void ui_set_tape_status(int tape_status)
 {
     if (ui_status.lastTapeStatus==tape_status) return;
+    ui_status.lastTapeStatus=tape_status;
     WinSendMsg(hwndDatasette, WM_TAPESTAT,
                (void*)ui_status.lastTapeCtrlStat, (void*)tape_status);
-    ui_status.lastTapeStatus=tape_status;
 }
 
 void ui_display_tape_motor_status(int motor)
 {
     if (ui_status.lastTapeMotor==motor) return;
+    ui_status.lastTapeMotor=motor;
     WinSendMsg(hwndDatasette, WM_SPINNING,
                (void*)motor, (void*)ui_status.lastTapeStatus);
-    ui_status.lastTapeMotor=motor;
 }
 
 void ui_display_tape_control_status(int control)
 {
     if (ui_status.lastTapeCtrlStat==control) return;
+    ui_status.lastTapeCtrlStat=control;
     WinSendMsg(hwndDatasette, WM_TAPESTAT,
                (void*)control, (void*)ui_status.lastTapeStatus);
-    ui_status.lastTapeCtrlStat=control;
 }
 
 void ui_display_tape_counter(int counter)
 {
     if (ui_status.lastTapeCounter==counter) return;
-    WinSendMsg(hwndDatasette, WM_COUNTER, (void*)counter, 0);
     ui_status.lastTapeCounter=counter;
+    WinSendMsg(hwndDatasette, WM_COUNTER, (void*)counter, 0);
 }
 
 /* --------------------------- Drive related UI ------------------------ */
@@ -141,7 +145,7 @@ void ui_display_tape_counter(int counter)
 void ui_display_drive_led(int drive_number, int status)
 {
     BYTE keyState[256];
-    RECTL rectl;
+
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (PM_winActive && use_leds) {
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
@@ -149,44 +153,24 @@ void ui_display_drive_led(int drive_number, int status)
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
     }
     DosReleaseMutexSem(hmtxKey);
-    if (!ui_status.init || drive_number>1) return;
 
-    ui_set_rectl_lwth(&rectl, 0, drive_number*20+153, 12, 2, 3);
-    WinFillRect(ui_status.hps, &rectl, status?4:SYSCLR_FIELDBACKGROUND);
+    WinSendMsg(hwndDrive, WM_DRIVELEDS, (void*)drive_number, (void*)status);
 }
 
 void ui_display_drive_track(int drive_number, int drive_base,
                             double track_number)
 {
-    char str[40];
-    RECTL rectl;
-    if (!ui_status.init || drive_number>1) return;
-
-    sprintf(str,"%.0f",track_number);
-    ui_set_rectl_lwth(&rectl, 0, drive_number*20+150, 16, 6, 15);
-    WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
-                DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT|
-                (track_number-(int)track_number?DT_UNDERSCORE:0));
     ui_status.lastTrack[drive_number]=track_number;
+    WinSendMsg(hwndDrive, WM_TRACK,
+               (void*)drive_number, (void*)(int)(track_number*2));
 }
 
-extern void ui_enable_drive_status(ui_drive_enable_t state,
-                                   int *drive_led_color)
+void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    int i;
-    if (!ui_status.init) return;
-    for (i=0; i<2; i++) {
-        RECTL rectl;
-        ui_set_rectl_lwth(&rectl, 0, i*20+152, 14, 1, 20);
-        WinFillRect(ui_status.hps, &rectl, SYSCLR_FIELDBACKGROUND);
-        if ((state&(1<<i))) {
-            ui_set_rectl_lwth(&rectl, 0, i*20+152, 14, 1, 5);
-            WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
-            ui_display_drive_led(i,0);
-            ui_display_drive_track(i,0,ui_status.lastTrack[i]);
-        }
-    }
     ui_status.lastDriveState=state;
+    WinSendMsg(hwndDrive, WM_DRIVESTATE, (void*)state, NULL);
+    if (state&1) ui_display_drive_led(0, 0);
+    if (state&2) ui_display_drive_led(1, 0);
 }
 
 void ui_display_drive_current_image(unsigned int drive_number,
@@ -209,27 +193,6 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
     if (image)
         strcpy(ui_status.lastImage[drive_number], image);
-    
-    if (image && ui_status.init)
-    {
-        RECTL rectl;
-        char *text = xmalloc(strlen(image)+11);
-
-        sprintf(text, "Drive %2i: %s", drive_number+8,
-                ui_status.lastImage[drive_number]);
-
-        ui_set_rectl_lrth(&rectl, drive_number+1, 4, 4, 0, 1);
-        WinDraw3dLine(ui_status.hps, &rectl, 0);
-
-        ui_set_rectl_lrtb(&rectl, drive_number+1, 6, 6, 2, 0);
-        if (WinDrawText(ui_status.hps, strlen(text), text,
-                        &rectl, 0, 0, flCmd)<strlen(text))
-        {
-            sprintf(text, "Drive %2i: %s", drive_number+8, strrchr(image, '\\')+1);
-            WinDrawText(ui_status.hps, strlen(text), text, &rectl, 0, 0, flCmd);
-        }
-        free (text);
-    }
 }
 
 /* --------------------------- Dialog Windows --------------------------- */

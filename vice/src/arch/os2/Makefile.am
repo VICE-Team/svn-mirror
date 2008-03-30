@@ -32,7 +32,6 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
-	ui_status.c \
 	ui_status.h \
 	uicmdline.c \
 	uicmdline.h \
@@ -48,6 +47,7 @@ EXTRA_DIST = \
 	makeclean.cmd \
 	unused/contentsdlg.c \
 	unused/contentsdlg.h \
+	unused/ui_status.c \
 	unused/video_gpi.h \
 	unused/video_gpi.c \
 	unused/vsync.c \

@@ -30,10 +30,7 @@
 
 #include "raster-cache.h"
 
-
-
-void
-raster_cache_init (raster_cache_t * cache)
+void raster_cache_init (raster_cache_t * cache)
 {
   /* FIXME */
   raster_sprite_cache_init (cache->sprites);
@@ -41,8 +38,7 @@ raster_cache_init (raster_cache_t * cache)
   cache->is_dirty = 1;
 }
 
-raster_cache_t *
-raster_cache_new (void)
+raster_cache_t *raster_cache_new (void)
 {
   raster_cache_t *new;
 

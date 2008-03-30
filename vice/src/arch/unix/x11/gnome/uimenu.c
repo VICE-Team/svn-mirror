@@ -336,7 +336,7 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
 		j++;
 	    }
             }
-	    
+
 	    gtk_menu_append(GTK_MENU(w),new_item);
 	    gtk_widget_show(new_item);
 

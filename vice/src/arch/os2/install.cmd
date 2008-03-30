@@ -56,12 +56,12 @@ end
 
 say 'Creating Program objects...'
 
-CALL createProgram "C=64",        'x64.exe'
-CALL createProgram "C=128",       'x128.exe'
-CALL createProgram "PET",         'xpet.exe'
-CALL createProgram "VIC 20",      'xvic.exe'
-CALL createProgram "CBM/2",       'xcbm2.exe'
-CALL createProgram "C=1541",      'c1541.exe'
+CALL createProgram "C=64",   'x64.exe',   '*.d64,*.d64.gz,*.g64,*.g64.gz,*.x64,*.x64.gz,*.t64,*.t64.gz,*.tap,*.tap.gz'
+CALL createProgram "C=128",  'x128.exe',  '*.d71,*.d71.gz,*.d81,*.d81.gz'
+CALL createProgram "PET",    'xpet.exe',  ''
+CALL createProgram "VIC 20", 'xvic.exe',  ''
+CALL createProgram "CBM/2",  'xcbm2.exe', ''
+CALL createProgram "C=1541", 'c1541.exe', ''
 
 setupstring='EXENAME=e.exe;PARAMETERS='curdir'\vice.log'
 if SysCreateObject("WPProgram","log-File","<VICE2>",setupstring,"update")<>1 then
@@ -153,13 +153,11 @@ end
 if SysCreateObject("WPUrl","Vice Homepage","<VICE2_ONLINE>","http://www.cs.cmu.edu/~dsladic/vice/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
-    say ''
 end
 
 if SysCreateObject("WPUrl","Vice/2 Homepage","<VICE2_ONLINE>","http://www.prakt.physik.tu-muenchen.de/tbretz/vice2/","update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
-    say ''
 end
 
 curdir = directory(origdir)
@@ -174,8 +172,8 @@ say ''
 exit
 
 createProgram:
-    /* setupstring='EXENAME='curdir'\'ARG(2)';STARTUPDIR='curdir*/
-    setupstring='EXENAME='curdir'\'ARG(2)
+    /* STARTUPDIR needed for Drag&Drop */
+    setupstring='EXENAME='curdir'\'ARG(2)';STARTUPDIR='curdir';ASSOCFILTER='ARG(3)
     /*    say 'Creating an object for 'ARG(2)'...'*/
     if SysCreateObject("WPProgram",ARG(1),"<VICE2>",setupstring,"update")<>1 then
     do

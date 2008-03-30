@@ -64,6 +64,7 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (first)
             {
                 int sound;
+                first = FALSE;
                 resources_get_value("Sound", (resource_value_t*) &sound);
                 WinCheckButton   (hwnd, CB_SOUND, sound!=0);
                 WinSendDlgItemMsg(hwnd, CS_VOLUME, SLM_SETSLIDERINFO,
@@ -87,7 +88,6 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 resources_get_value("SidUseResid", (resource_value_t *) &sound);
                 WinCheckButton(hwnd, CB_RESID, sound!=0);
 #endif
-                first = FALSE;
             }
         }
         break;

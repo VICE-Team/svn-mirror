@@ -10,7 +10,7 @@ source type(c)
     "archdep.c",
     "joystick.c",
     "dialogs.c",
-    "ui_status.c",
+/* "ui_status.c", */
     "main_exit.c",
     "uicmdline.c",
     "sounddrv.c",

@@ -1,8 +1,8 @@
 /*
- * version.h
+ * dlg-reset.c - The reset-dialogs.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,34 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include <os2.h>
 
-#ifndef VERSION
-#define VERSION "1.3"
-#endif
+#include "vsync.h"         // suspend_speed_eval
+#include "machine.h"       // machine_powerup
+#include "interrupt.h"     // maincpu_trigger_reset
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+void hardreset_dialog(HWND hwnd)
+{
+    
 
-#endif
+    if (WinMessageBox(HWND_DESKTOP, hwnd,
+                     "Do you really want to hard reset the emulated machine?",
+                     "Hard Reset", 0, MB_YESNO)==MBID_YES)
+    {
+        suspend_speed_eval();
+        machine_powerup();  // Hard_reset;
+    }
+}
+
+void softreset_dialog(HWND hwnd)
+{
+    if (WinMessageBox(HWND_DESKTOP, hwnd,
+                     "Do you really want to soft reset the emulated machine?",
+                     "Soft Reset", 0, MB_YESNO)==MBID_YES)
+    {
+        suspend_speed_eval();
+        maincpu_trigger_reset();  // Soft Reset
+    }
+}
+
+

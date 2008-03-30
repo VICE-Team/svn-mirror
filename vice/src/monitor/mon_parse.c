@@ -854,7 +854,7 @@ int yydebug;			/*  nonzero means print parse trace	*/
 #endif
 
 /* Prevent warning if -Wstrict-prototypes.  */
-#ifdef __GNUC__
+#if defined __GNUC__ || defined __IBMC__
 YYPARSE_RETURN_TYPE yyparse (void);
 #endif
 

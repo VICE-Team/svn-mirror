@@ -65,17 +65,20 @@
 #define RB_PAL         0x1025
 #define RB_NTSC        0x1026
 
-#define CBS_IMAGE      0x1033
-#define CBS_TYPE       0x1034
-#define CB_PARALLEL    0x1035
+#define SPB_TRACK8     0x1027
+#define SPB_TRACK9     0x1028
+#define SS_HALFTRACK8  0x1029
+#define SS_HALFTRACK9  0x102a
+#define SS_LED8        0x102b
+#define SS_LED9        0x102c
 
 #define RB_NONE        0x1030
 #define RB_SKIP        0x1031
 #define RB_TRAP        0x1032
 
-#define RB_NEVER       0x1040
-#define RB_ASK         0x1041
-#define RB_ALWAYS      0x1042
+#define CBS_IMAGE      0x1033
+#define CBS_TYPE       0x1034
+#define CB_PARALLEL    0x1035
 
 #define CB_ALLOWACCESS 0x1036
 #define CB_CONVERTP00  0x1037
@@ -84,9 +87,20 @@
 #define PB_CREATE      0x103a
 #define PB_ATTACH      0x103b
 #define PB_DETACH      0x103c
-#define PB_FLIP        0x103d
+
+#define RB_NEVER       0x1040
+#define RB_ASK         0x1041
+#define RB_ALWAYS      0x1042
+
+#define PB_FLIP        0x1045
+#define PB_FLIPADD     0x1046
+#define PB_FLIPREMOVE  0x1047
+
 #define WM_SWITCH      WM_USER+0x1
 #define WM_DRIVEIMAGE  WM_USER+0x2
+#define WM_TRACK       WM_USER+0x3
+#define WM_DRIVELEDS   WM_USER+0x4
+#define WM_DRIVESTATE  WM_USER+0x5
 
 // About Dialog
 #define DLG_ABOUT      0x1050
@@ -137,15 +151,18 @@
 #endif
 
 // Emulator Dialog
-#define DLG_EMULATOR   0x1090
-#define SPB_SPEED      0x1091
-#define PB_SPEED100    0x1092
-#define CBS_REFRATE    0x1093
-#define CB_PAUSE       0x1094
-#define CB_VCACHE      0x1095
-#define CB_SBCOLL      0x1096
-#define CB_SSCOLL      0x1097
-#define CB_EMUID       0x1098
+#define DLG_EMULATOR    0x1090
+#define SPB_SPEED       0x1091
+#define PB_SPEED100     0x1092
+#define CBS_REFRATE     0x1093
+#define CB_PAUSE        0x1094
+#define CB_VCACHE       0x1095
+#define CB_SBCOLL       0x1096
+#define CB_SSCOLL       0x1097
+#define CB_EMUID        0x1098
+#define SPB_SPEEDDISP   0x1099
+#define SPB_REFRATEDISP 0x109a
+#define WM_DISPLAY      WM_USER+1
 
 // Monitor Dialog
 #define DLG_MONITOR    0x10a0
@@ -153,6 +170,7 @@
 #define EF_MONIN       0x10a2
 #define WM_INSERT      WM_USER+0x1
 #define WM_INPUT       WM_USER+0x2
+#define WM_PROMPT      WM_USER+0x3
 
 // Contents Dialog
 #define DLG_CONTENTS   0x10b0
@@ -223,6 +241,8 @@ extern int toggle(const char *resource_name);
 /* Dialog-Function Prototypes                                       */
 /*----------------------------------------------------------------- */
 extern HWND hwndDrive;
+extern HWND hwndMonitor;
+extern HWND hwndEmulator;
 extern HWND hwndDatasette;
 
 extern void drive_dialog     (HWND hwnd);
@@ -230,7 +250,7 @@ extern void sound_dialog     (HWND hwnd);
 extern void about_dialog     (HWND hwnd);
 extern void datasette_dialog (HWND hwnd);
 extern void emulator_dialog  (HWND hwnd);
-extern HWND monitor_dialog   (HWND hwnd);
+extern void monitor_dialog   (HWND hwnd);
 extern void contents_dialog  (HWND hwnd, char *szFullFile);
 extern void attach_dialog    (HWND hwnd, int drive);
 extern void create_dialog    (HWND hwnd);

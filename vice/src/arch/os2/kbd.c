@@ -47,6 +47,7 @@
 #include "maincpu.h"
 #include "machine.h"
 #include "console.h"
+#include "fliplist.h"
 
 BYTE joystick_value[3];
 
@@ -134,8 +135,6 @@ int kbd_init_cmdline_options(void)
 
 // --------------------- OS/2 keyboard processing ------------------
 
-extern HWND hwndMonitor;
-
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
@@ -166,9 +165,9 @@ void kbd_proc(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
-        case K_8: attach_dialog    (hwnd, 8); break;
-        case K_9: attach_dialog    (hwnd, 9); break;
-        case K_0: attach_dialog    (hwnd, 0); break;
+        case K_8: attach_dialog    (hwnd, 8); break; // Drive #8
+        case K_9: attach_dialog    (hwnd, 9); break; // Drive #9
+        case K_0: attach_dialog    (hwnd, 0); break; // Datasette
         case K_A: about_dialog     (hwnd);    break;
         case K_C: datasette_dialog (hwnd);    break;
         case K_D: drive_dialog     (hwnd);    break;
@@ -179,14 +178,15 @@ void kbd_proc(HWND hwnd, MPARAM mp1)
 #ifdef HAS_JOYSTICK
         case K_J: joystick_dialog  (hwnd);    break;
 #endif
-        case K_M:
-            //            monitor_dialog(hwnd);
-            hwndMonitor=monitor_dialog(HWND_DESKTOP/*hwnd*/);
-
+        case K_M: // invoke build-in monitor
+            monitor_dialog(hwnd);
             maincpu_trigger_trap(mon_trap, (void *) 0);
             //mon(MOS6510_REGS_GET_PC(&maincpu_regs));
             break;
-        case K_T:
+        case K_F: // Flip Drive #8 to next image of fliplist
+            flip_attach_head(8, FLIP_NEXT);
+            break;
+        case K_T: // Switch True Drive Emulatin on/off
             {
                 char str[35];
                 sprintf(str, "True drive emulation switched %s",
@@ -196,12 +196,12 @@ void kbd_proc(HWND hwnd, MPARAM mp1)
             }
             break;
 #ifdef __X128__
-        case K_V:
+        case K_V: // press/release 40/80-key
             if (key_ctrl_column4080_func)
                 key_ctrl_column4080_func();
             break;
 #endif
-        case K_W/*W*/:
+        case K_W: // Write settings to configuration file
             WinMessageBox(HWND_DESKTOP, hwnd,
                           resources_save(NULL)<0?"Cannot save settings.":
                           "Settings written successfully.",

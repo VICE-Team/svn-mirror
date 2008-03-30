@@ -95,6 +95,22 @@ list of all the changes in the code.
 ** OS/2 changes
 ---------------
 
+- C128-, CBM/2-, VIC20- and PET-Emulation added
+
+- new menus added (emulator, datasette)
+
+- menu support enhanced (see also Vice_for_OS2.txt)
+
+- monitor implemented
+
+- install script (install.cmd) now available
+
+- using of zippes images (eg with gzip) should work correctly now
+
+- commandline options for window border type added
+
+- Status window removed (information display implemented at dialogs)
+
 ** Miscellaneous changes
 ------------------------
 

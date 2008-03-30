@@ -35,8 +35,7 @@
 
 crtc_resources_t crtc_resources;
 
-static int 
-set_palette_file_name (resource_value_t v)
+static int set_palette_file_name (resource_value_t v)
 {
   string_set (&crtc_resources.palette_file_name, (char *) v);
   if (crtc.initialized)
@@ -45,16 +44,14 @@ set_palette_file_name (resource_value_t v)
   return 0;
 }
 
-static int 
-set_video_cache_enabled (resource_value_t v)
+static int set_video_cache_enabled (resource_value_t v)
 {
   crtc_resources.video_cache_enabled = (int) v;
   return 0;
 }
 
 #ifdef CRTC_NEED_2X
-static int 
-set_double_size_enabled (resource_value_t v)
+static int set_double_size_enabled (resource_value_t v)
 {
   crtc_resources.double_size_enabled = (int) v;
   crtc_resize ();
@@ -63,8 +60,7 @@ set_double_size_enabled (resource_value_t v)
 #endif
 
 #if defined CRTC_NEED_2X || defined __MSDOS__
-static int 
-set_double_scan_enabled (resource_value_t v)
+static int set_double_scan_enabled (resource_value_t v)
 {
   crtc_resources.double_scan_enabled = (int) v;
   if (crtc.initialized)
@@ -76,22 +72,18 @@ set_double_scan_enabled (resource_value_t v)
 #endif
 
 #ifdef USE_VIDMODE_EXTENSION
-static int
-set_fullscreen_double_size_enabled(resource_value_t v)
+static int set_fullscreen_double_size_enabled(resource_value_t v)
 {
   crtc_resources.fullscreen_double_size_enabled = (int) v;
   return 0;
 }
 
-static int
-set_fullscreen_double_scan_enabled(resource_value_t v)
+static int set_fullscreen_double_scan_enabled(resource_value_t v)
 {
   crtc_resources.fullscreen_double_scan_enabled = (int) v;
   return 0;
 }
 #endif
-
-
 
 static resource_t resources[] =
 {

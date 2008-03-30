@@ -40,7 +40,7 @@
 #include "dialogs.h"
 #include "console.h"
 
-HWND hwndMonitor=NULLHANDLE;
+extern HWND hwndMonitor;
 
 int console_init(void)
 {
@@ -49,89 +49,91 @@ int console_init(void)
 
 console_t *console_open(const char *id)
 {
-    console_t *console;
-
-    console = xmalloc(sizeof(console_t));
-
-    log_debug("console_open");
-
+    console_t *console = xmalloc(sizeof(console_t));
     console->console_xres = 80;
     console->console_yres = 25;
     console->console_can_stay_open = 0;
+    WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 1);
+    //    WinEnableControl(hwndMonitor, EF_MONIN, 1);
+    //    WinShowDlg(hwndMonitor, EF_MONIN, 1);
 
     return console;
 }
 
 int console_close(console_t *log)
 {
-    if (!hwndMonitor) return 0;
-    WinSendMsg(hwndMonitor, WM_CLOSE, 0, 0);
-    hwndMonitor=NULLHANDLE;
-    log_debug("console_close");
-
+    WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 0);
+    //    WinEnableControl(hwndMonitor, EF_MONIN, 0);
+    //    WinShowDlg(hwndMonitor, EF_MONIN, 0);
     free(log);
-
     return 0;
 }
 
 int console_out(console_t *log, const char *format, ...)
 {
-    char text[1024];
-    char *c;
     static char out[1024];
-    char *d;
-
+    char in[1024];  // FIXME: what happens if strlen>1024?
+    char *txt, *mid;
     va_list ap;
 
     if (!hwndMonitor) return 0;
 
     va_start(ap, format);
-    vsprintf(text, format, ap);
+    vsprintf(in, format, ap);
 
-    if (strlen(text)+strlen(out)>1023)
+    /*
+     if (strlen(in)+strlen(out)>1023)
+     {
+     out[0]='\0';
+     return 0;
+     }
+     */
+
+    txt=in;
+    while (strrchr(txt,'\n') && strchr(txt,'\n') != txt+strlen(txt))
     {
+        mid=strchr(txt,'\n')+1;
+        *strchr(txt,'\n')='\0';
+
+        strcat(out, txt);
+
+        WinSendMsg(hwndMonitor, WM_INSERT, out, NULL);
         out[0]='\0';
-        return 0;
+
+        while (*mid=='\n') mid++;
+        txt = mid;
     }
 
-    strcat(out, text);
-
-    if (out[strlen(out)-1]=='\n')
-    {
-        out[strlen(out)-1]='\0';
-        WinSendMsg(hwndMonitor, WM_INSERT, out[0]=='\n'?out+1:out, NULL);
-        log_debug(out);
-        out[0]='\0';
-    }
+    if (mid != txt)
+        strcat(out, txt);
 
     return 0;
 }
 
 extern int trigger_shutdown;
+extern int trigger_console_exit;
 
 char *console_in(console_t *log)
 {
-    char *c = xmalloc(1024);
+    char **c;
     int wait_for_input = TRUE;
-
-    *c = '\0';
 
     console_out(log, "\n");
     WinSendMsg(hwndMonitor, WM_INPUT, c, &wait_for_input);
 
-    while (wait_for_input && !trigger_shutdown) DosSleep(1);
+    while (wait_for_input && !trigger_shutdown && !trigger_console_exit)
+        DosSleep(1);
+    if (trigger_shutdown || trigger_console_exit) *c=stralloc("exit");
 
-    if (trigger_shutdown) strcpy(c,"exit");
+    WinSendMsg(hwndMonitor, WM_PROMPT, *c, NULL);
 
-    log_debug("console_in %s", c);
-
-    // if (!strcmp(c,"quit")) strcpy(c,"exit");
-
-    return c;
+    return *c;
 }
 
 int console_close_all(void)
 {
+    WinSendMsg(hwndMonitor, WM_CLOSE, 0, 0);
+    hwndMonitor=NULLHANDLE;
     return 0;
 }
 

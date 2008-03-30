@@ -18,5 +18,6 @@ libdialogs_a_SOURCES = \
 	dlg-emulator.c \
 	dlg-joystick.c \
 	dlg-contents.c \
-	dlg-datasette.c
+	dlg-datasette.c \
+	dlg-reset.c
 

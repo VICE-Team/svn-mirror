@@ -41,6 +41,7 @@
 #include "maincpu.h"
 #include "clkguard.h"  // clk_guard_add_callback
 #include "ui_status.h" // ui_display_speed
+#include "dialogs.h"
 
 #include "cmdline.h"
 #include "resources.h"
@@ -280,7 +281,9 @@ static void display_speed(int num_frames)
 	float speed_index = diff_clk/(time_diff*cycles_per_sec);
 	float frame_rate  = num_frames/time_diff;
 
-        ui_display_speed(speed_index*100, frame_rate);
+        //  ui_display_speed(speed_index*100, frame_rate);
+        WinSendMsg(hwndEmulator, WM_DISPLAY,
+                   (void*)(int)(speed_index*100), (void*)(int)frame_rate);
 
         prev_time = curr_time;
     }

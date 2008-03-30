@@ -66,13 +66,13 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (first)
             {
                 int joy1, joy2;
+                first=FALSE;
                 resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
                 WinCheckButton(hwnd, CB_JOY11,(JOYDEV_HW1 & joy1) ? 1 : 0);
                 WinCheckButton(hwnd, CB_JOY12,(JOYDEV_HW1 & joy2) ? 1 : 0);
                 WinCheckButton(hwnd, CB_JOY21,(JOYDEV_HW2 & joy1) ? 1 : 0);
                 WinCheckButton(hwnd, CB_JOY22,(JOYDEV_HW2 & joy2) ? 1 : 0);
-                first=FALSE;
             }
         }
         break;
@@ -155,12 +155,12 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             if (first)
             {
                 int j1, j2;
+                first = FALSE;
                 resources_get_value("JoyDevice1", (resource_value_t*) &j1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &j2);
                 WinSendMsg(hwnd, WM_PROCESS,
                            (void*)!!((j1&JOYDEV_HW1)|(j2&JOYDEV_HW1)),
                            (void*)!!((j1&JOYDEV_HW2)|(j2&JOYDEV_HW2)));
-                first = FALSE;
             }
         }
         break;

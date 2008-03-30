@@ -124,7 +124,7 @@ void attach_dialog(HWND hwnd, int number)
     // filedlg.hMod = NULLHANDLE;  // handle to module containing <usDlgId>
 
     sprintf(filedlg.szFullFile, "%s\\%s", path,
-            number?"*.d64*; *.d71*; *.d81*; *.g64*; *.x64*":"*.t64*; *.tap*"); // Init Path, Filter (*.t64)
+            number?"*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*":"*.t64*; *.tap*"); // Init Path, Filter (*.t64)
 
     // Display the dialog and get the file
     if (!WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))

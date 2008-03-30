@@ -37,6 +37,7 @@ typedef struct _canvas {
     //    BOOL  init_ready;       // dont't use exposure_handler to early
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
+    char *title;
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
     RGB2 *palette;          // pointer to structure which stores colorinfo

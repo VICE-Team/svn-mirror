@@ -8,30 +8,29 @@
   Keys
 --------
 
-Scroll: Warp mode on/off
-Esc:    Run/Stop
-Pg up:  Restore
-Alt-0:  Attach tape image to Datasette
-Alt-8:  Attach disk image to Drive 8
-Alt-9:  Attach disk image to Drive 9
-Alt-A:  Open about-dialog
-Alt-C:  Open Datasette-control-dialog
-Alt-D:  Open drive-dialog
-Alt-E:  Open emulator-dialog
-Alt-J:  Open joystick-dialog
-Alt-M:  Monitor
-Alt-Q:  Do hard-reset (switch machine off and on)
-Alt-R:  Do soft-reset (press reset)
-Alt-S:  Open sound-dialog
-Alt-T:  Switch true drive emulation on/off
-Alt-V:  Switch VDC-Key on/off (x128 only)
-Alt-W:  Write actual configuration to file
+Scrllck: Warp mode on/off
+Esc:     Run/Stop
+Pg up:   Restore
+Alt-0:   Attach tape image to Datasette
+Alt-8:   Attach disk image to Drive 8
+Alt-9:   Attach disk image to Drive 9
+Alt-A:   Open about-dialog
+Alt-C:   Open datasette-control-dialog
+Alt-D:   Open drive-dialog
+Alt-E:   Open emulator-dialog
+Alt-F:   Flip Drive #8 to next image of fliplist
+Alt-J:   Open joystick-dialog
+Alt-M:   Open monitor
+Alt-Q:   Do hard-reset (switch machine off and on)
+Alt-R:   Do soft-reset (press reset)
+Alt-S:   Open sound-dialog
+Alt-T:   Switch true drive emulation on/off
+Alt-V:   Switch VDC-Key on/off (x128 only)
+Alt-W:   Write actual configuration to file
 
 
   Additional info
 -------------------
 
- - The monitor seems to work not correctly.
- - The video cache on CRTC doesn't work yet.
- - reSID is a little bis slow.
+ - The video cache for CRTC doesn't work yet.
  - console- and psid-mode are not implemented yet.

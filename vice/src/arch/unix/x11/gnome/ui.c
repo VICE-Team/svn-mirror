@@ -36,10 +36,10 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdarg.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <signal.h>
+#include <ctype.h>
 
 #include <gnome.h>
 #include <gdk/gdkx.h>
@@ -84,6 +84,9 @@
 #include "vsync.h"
 #include "drive/drive.h"
 #include "charsets.h"
+#include "imagecontents.h"
+#include "uimenu.h"
+#include "autostart.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -92,6 +95,7 @@ GdkVisual *visual;
 int depth = X_DISPLAY_DEPTH;
 int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
+char *last_attached_tape;
 
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
@@ -761,6 +765,7 @@ static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback);
+static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
 
 /* ------------------------------------------------------------------------- */
 #if 0
@@ -918,23 +923,87 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 
 void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    if(event->type == GDK_BUTTON_PRESS) {
+    if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
-	if ((int) data == 0) 
+	if (bevent->button == 1)
 	{
-	    ui_update_flip_menus(8, 8);
-	    ui_menu_update_all_GTK();
-	    if (drive8menu)
-		gtk_menu_popup(GTK_MENU(drive8menu),NULL,NULL,NULL,NULL,
+	    if ((int) data == 0) 
+	    {
+		ui_update_flip_menus(8, 8);
+		ui_menu_update_all_GTK();
+		if (drive8menu)
+		    gtk_menu_popup(GTK_MENU(drive8menu),NULL,NULL,NULL,NULL,
 			       bevent->button, bevent->time);
+	    }
+	    if ((int) data == 1)
+	    {
+		ui_update_flip_menus(9, 9);
+		ui_menu_update_all_GTK();
+		if (drive9menu)
+		    gtk_menu_popup(GTK_MENU(drive9menu),NULL,NULL,NULL,NULL,
+				   bevent->button, bevent->time);
+	    }
 	}
-	if ((int) data == 1)
+	else if (bevent->button == 3)
 	{
-	    ui_update_flip_menus(9, 9);
-	    ui_menu_update_all_GTK();
-	    if (drive9menu)
-		gtk_menu_popup(GTK_MENU(drive9menu),NULL,NULL,NULL,NULL,
-			       bevent->button, bevent->time);
+	    if ((int) data == 0) 
+	    {
+		static char *last8menu;
+		static GtkWidget *l8menu;
+		
+		if (strcmp(last_attached_images[0], "") == 0)
+		{
+		    if (l8menu)
+			gtk_widget_destroy(l8menu);
+		    if (last8menu)
+			free(last8menu);
+		    last8menu = NULL;
+		    return;
+		}
+		
+		if ((last8menu == NULL) ||
+		    (strcmp(last8menu, last_attached_images[0]) != 0))
+		{
+		    if (l8menu)
+			gtk_widget_destroy(l8menu);
+		    if (last8menu)
+			free(last8menu);
+		    last8menu = stralloc(last_attached_images[0]);
+		    l8menu = rebuild_contents_menu(8, last8menu);
+		}
+		if (l8menu)
+		    gtk_menu_popup(GTK_MENU(l8menu),NULL,NULL,NULL,NULL,
+				   bevent->button, bevent->time);
+	    }
+	    if ((int) data == 1)
+	    {
+		static char *last9menu;
+		static GtkWidget *l9menu;
+		
+		if (strcmp(last_attached_images[1], "") == 0)
+		{
+		    if (l9menu)
+			gtk_widget_destroy(l9menu);
+		    if (last9menu)
+			free(last9menu);
+		    last9menu = NULL;
+		    return;
+		}
+		
+		if ((last9menu == NULL) ||
+		    (strcmp(last9menu, last_attached_images[1]) != 0))
+		{
+		    if (l9menu)
+			gtk_widget_destroy(l9menu);
+		    if (last9menu)
+			free(last9menu);
+		    last9menu = stralloc(last_attached_images[1]);
+		    l9menu = rebuild_contents_menu(9, last9menu);
+		}
+		if (l9menu)
+		    gtk_menu_popup(GTK_MENU(l9menu),NULL,NULL,NULL,NULL,
+				   bevent->button, bevent->time);
+	    }
 	}
     }
 }
@@ -943,10 +1012,41 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if(event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
-	
-	if (tape_menu)
-	    gtk_menu_popup(GTK_MENU(tape_menu),NULL,NULL,NULL,NULL,
-			   bevent->button, bevent->time);
+	if (bevent->button == 1)
+	{
+	    if (tape_menu)
+		gtk_menu_popup(GTK_MENU(tape_menu),NULL,NULL,NULL,NULL,
+			       bevent->button, bevent->time);
+	}
+	else if (bevent->button == 3)
+	{
+	    static char *lasttapemenu;
+	    static GtkWidget *ltapemenu;
+
+	    if (last_attached_tape == NULL)
+	    {
+		if (ltapemenu)
+		    gtk_widget_destroy(ltapemenu);
+		if (lasttapemenu)
+		    free(lasttapemenu);
+		lasttapemenu = NULL;
+		return;
+	    }
+
+	    if ((lasttapemenu == NULL) ||
+		(strcmp(lasttapemenu, last_attached_tape) != 0))
+	    {
+		if (ltapemenu)
+		    gtk_widget_destroy(ltapemenu);
+		if (lasttapemenu)
+		    free(lasttapemenu);
+		lasttapemenu = stralloc(last_attached_tape);
+		ltapemenu = rebuild_contents_menu(1, lasttapemenu);
+	    }
+	    if (ltapemenu)
+		gtk_menu_popup(GTK_MENU(ltapemenu),NULL,NULL,NULL,NULL,
+			       bevent->button, bevent->time);
+	}
     }
 }
 
@@ -1953,16 +2053,28 @@ void ui_set_tape_status(int tape_status)
 {
     static int ts;
     int i, w, h;
-    
+
     if (ts == tape_status)
 	return;
     ts = tape_status;
     for (i = 0; i < num_app_shells; i++) 
     {
 	if (ts)
+	{
 	    gtk_widget_show(app_shells[i].tape_status.event_box);
+	    gtk_widget_show(app_shells[i].tape_status.control);
+	}
 	else
-	    gtk_widget_hide(app_shells[i].tape_status.event_box);
+	{
+	    if (last_attached_tape)
+	    {
+		gtk_widget_show(app_shells[i].tape_status.event_box);
+		gtk_widget_hide(app_shells[i].tape_status.control);
+	    }
+	    else
+		gtk_widget_hide(app_shells[i].tape_status.event_box);
+	}
+
 	gdk_window_get_size(app_shells[i].canvas->window, &w, &h);
 	ui_resize_canvas_window(app_shells[i].canvas, w, h);
     }
@@ -1970,7 +2082,6 @@ void ui_set_tape_status(int tape_status)
 
 void ui_display_tape_motor_status(int motor)
 {   
-    
     if (tape_motor_status == motor)
 	return;
     tape_motor_status = motor;
@@ -2076,6 +2187,9 @@ void ui_display_tape_current_image(char *image)
     char *name;
     int i;
     
+    if (last_attached_tape)
+	free(last_attached_tape);
+    last_attached_tape = stralloc(image);
     fname_split(image, NULL, &name);
 
     for (i = 0; i < num_app_shells; i++)
@@ -2323,6 +2437,143 @@ int ui_extend_image_dialog(void)
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
+UI_CALLBACK(ui_popup_selected_file)
+{
+    int unit = ((int) UI_MENU_CB_PARAM) >> 24;
+    int selected = ((int) UI_MENU_CB_PARAM) & 0x00ffffff;
+    char *tmp;
+    
+    if (unit == 9)
+    {
+	ui_message("Autostart not possible for unit 9");
+	return;
+    }
+    else if (unit == 8)
+    {
+	tmp = stralloc(last_attached_images[0]);
+	if (autostart_disk(last_attached_images[0], NULL, selected) < 0)
+	    ui_error("Can't autostart selection %d in image %s", selected,
+		     tmp);
+	free(tmp);
+    }
+    else if (unit == 1)
+    {
+	tmp = stralloc(last_attached_tape);
+	if (autostart_tape(last_attached_tape, NULL, selected) < 0)
+	    ui_error("Can't autostart selection %d in image %s", selected,
+		     tmp);
+	free(tmp);
+    }
+}
+
+static void menu_set_style(GtkWidget *w, gpointer data)
+{
+    if (GTK_IS_CONTAINER(w))
+	gtk_container_foreach(GTK_CONTAINER(w), menu_set_style, data);
+    else if (GTK_IS_LABEL(w))
+	gtk_widget_set_style(w, (GtkStyle *) data);
+}
+
+static GtkWidget *rebuild_contents_menu(int unit, const char *name)
+{
+    image_contents_t *contents;
+    ui_menu_entry_t *menu;
+    int limit = 16;
+    int fno = 0, mask;
+    char *title, *tmp, *s, *tmp1, *tmp2;
+    GtkWidget *menu_widget;
+    GtkStyle *menu_entry_style;
+
+    if (unit == 1)
+	contents = image_contents_read_tape(name);
+    else
+	contents = image_contents_read_disk(name);
+    if (contents == NULL)
+	return (GtkWidget *) NULL;
+
+    s = image_contents_to_string(contents);
+    
+    menu = g_new(ui_menu_entry_t, limit + 1); /* +1 because we have to store
+					         NULL as end delimiter */
+
+    mask = unit << 24;
+    memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
+    fname_split(name, NULL, &title);
+    for (tmp = title; *tmp; tmp++)
+	*tmp = toupper(*tmp);
+    menu[fno].string = title;
+    menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
+    menu[fno].callback_data = (ui_callback_data_t) (fno | mask);
+    menu[fno].sub_menu = NULL;
+    menu[fno].hotkey_keysym = 0;
+    menu[fno].hotkey_modifier = 0;
+    fno++;
+    menu[fno].string = "--";
+    fno++;
+    
+    tmp1 = tmp2 = s;
+    tmp1 = find_next_line(NULL, tmp2);
+    while (tmp1 > tmp2)
+    {
+	if (fno >= limit)
+	{
+	    limit *= 2;
+	    menu = g_renew(ui_menu_entry_t, menu, limit + 1); /* ditto */
+	}
+
+	*(tmp1 - 1) = '\0';
+	if (!have_cbm_font)
+	    tmp2 = petconvstring(tmp2, 1);
+
+	menu[fno].string = tmp2;
+	if (menu[fno].string[0] == '-')
+	    menu[fno].string[0] = ' ';	    /* Arg, this is the line magic */
+	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
+	menu[fno].callback_data = (ui_callback_data_t) ((fno - 2) | mask);
+	menu[fno].sub_menu = NULL;
+	menu[fno].hotkey_keysym = 0;
+	menu[fno].hotkey_modifier = 0;
+	fno++;
+
+	tmp2 = tmp1;
+	tmp1 = find_next_line(NULL, tmp2);
+    }
+    if (strcmp(tmp2, "") != 0)	/* last line may be without newline */
+    {
+	menu[fno].string = tmp2;
+	if (menu[fno].string[0] == '-')
+	    menu[fno].string[0] = ' ';	    /* Arg, this is the line magic */
+	menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
+	menu[fno].callback_data = (ui_callback_data_t) ((fno - 1) | mask);
+	menu[fno].sub_menu = NULL;
+	menu[fno].hotkey_keysym = 0;
+	menu[fno].hotkey_modifier = 0;
+	fno++;
+    }
+    memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
+
+    menu_widget = ui_menu_create(title, menu, NULL);
+    if (fixedfont)
+    {
+	menu_entry_style = gtk_style_new();
+	gdk_font_unref(menu_entry_style->font);
+	menu_entry_style->font = fixedfont;
+	gdk_font_ref(menu_entry_style->font);
+	gtk_container_foreach(GTK_CONTAINER(menu_widget), 
+			      menu_set_style, menu_entry_style);
+	gtk_style_unref(menu_entry_style);
+	menu_entry_style = NULL;
+    }
+
+    /* Cleanup */
+    free(title);
+    g_free(menu);
+    image_contents_destroy(contents);
+    free(s);
+    
+    return menu_widget;
+}
+
 static void ui_fill_preview(GtkWidget *w, int row, int col, 
 			    GdkEventButton *bevent, gpointer data)
 {
@@ -2337,12 +2588,12 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     fname = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
 
     if (!fname || !current_image_contents_func)
-	contents = stralloc("No image contents available");
+	contents = stralloc("NO IMAGE CONTENTS AVAILABLE");
     else
 	contents = current_image_contents_func(fname);
 
     if (!contents)
-	contents = stralloc("No image contents available");
+	contents = stralloc("NO IMAGE CONTENTS AVAILABLE");
 
     if (fixedfont)
     {
@@ -2386,6 +2637,13 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     {
 	text[0] = tmp2;
 	gtk_clist_append(GTK_CLIST(image_preview_list), text);
+	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
+	if (tmpw > cwidth)
+	{
+	    cwidth = tmpw;
+	    gtk_clist_set_column_width(GTK_CLIST(image_preview_list), 
+				       0, cwidth);
+	}
     }
     
     gtk_widget_grab_default(
@@ -2851,11 +3109,11 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
                        (gpointer) button_return);
 
     if (buttonbox)
-      gtk_box_pack_start(GTK_BOX(buttonbox), button, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(buttonbox), button, FALSE, FALSE, 0);
     else
-      gtk_box_pack_start(
-          GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
-          button, FALSE, FALSE, 0);
+	gtk_box_pack_start(
+	    GTK_BOX(GTK_FILE_SELECTION(fileselect)->action_area),
+	    button, FALSE, FALSE, 0);
     GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
     gtk_widget_show(button);
     *image_contents_widget = scrollw;

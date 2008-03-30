@@ -123,7 +123,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-stretch", SET_RESOURCE, 1, NULL, NULL, "WindowStretchFactor", NULL,
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
-      "<number>", "Specify the PM border type of the emulator window (1=small, 2=dialog, else=no border)" },
+      "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
     { NULL },
 };
 
@@ -213,6 +213,8 @@ void video_frame_buffer_free(frame_buffer_t *f)
 /* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
 
+int PM_winActive;
+
 typedef struct _kstate
 {
     //    BYTE numlock;
@@ -243,7 +245,7 @@ void wmCreate(void)
 }
 
 void wmDestroy(void)
-{  
+{
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     PM_winActive = FALSE;
@@ -255,7 +257,7 @@ void wmDestroy(void)
 }
 
 void wmSetSelection(MPARAM mp1)
-{  
+{
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
@@ -349,13 +351,33 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_CLOSE:
     case WM_DESTROY:      wmDestroy();          break;
     case WM_SETSELECTION: wmSetSelection(mp1);  break;
-    case WM_VRNDISABLED:  wmVrnDisabled(hwnd);  break; 
+    case WM_VRNDISABLED:  wmVrnDisabled(hwnd);  break;
     case WM_VRNENABLED:   wmVrnEnabled(hwnd);   break;
     //    case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
     //    case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
     //    case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
     }
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
+}
+
+UINT canvas_fullheight(UINT height)
+{
+    height *= stretch;
+    height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    if (border==1) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
+    if (border==2) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
+    return height;
+}
+
+UINT canvas_fullwidth(UINT width)
+{
+    width *= stretch;
+#if defined __XVIC__
+    width *= 2;
+#endif
+    if (border==1) width += 2*WinQuerySysValue(HWND_DESKTOP, SV_CXBORDER);
+    if (border==2) width += 2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME);
+    return width;
 }
 
 extern int trigger_shutdown;
@@ -366,8 +388,7 @@ void PM_mainloop(VOID *arg)
     HAB   hab;  // Anchor Block to PM
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
-    canvas_t *ptr=(canvas_t*)arg;
-    char *title = concat(szTitleBarText, " - ", machine_name, NULL);
+    canvas_t *c=(canvas_t*)arg;
 
     //    archdep_setup_signals(0); // signals are not shared between threads!
 
@@ -377,29 +398,21 @@ void PM_mainloop(VOID *arg)
     // 2048 Byte Memory (Used eg for the Anchor Blocks)
     WinRegisterClass(hab, szClientClass, PM_winProc, CS_SIZEREDRAW, 2048);
 
-    (*ptr)->hwndFrame = WinCreateStdWindow(HWND_DESKTOP,
-                                   WS_VISIBLE, &flFrameFlags,
-                                   szClientClass, title, 0L, 0, 0,
-                                           &((*ptr)->hwndClient));
-
-    free(title);
-
-    WinSetWindowPos((*ptr)->hwndFrame, HWND_TOP, 0, 0,
-                    (*ptr)->width *stretch
-#if defined __XVIC__
-                    *2
-#endif
-                    ,
-                    (*ptr)->height*stretch
-                    +WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR), // +1 with gcc?
+    (*c)->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_VISIBLE,
+                                         &flFrameFlags, szClientClass,
+                                         (*c)->title, 0L, 0, 0,
+                                         &((*c)->hwndClient));
+    free((*c)->title);
+    WinSetWindowPos((*c)->hwndFrame, HWND_TOP, 0, 0,
+                    canvas_fullwidth ((*c)->width),
+                    canvas_fullheight((*c)->height),
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE);    // Make visible, resize, top window
-    WinSetWindowPtr((*ptr)->hwndClient, QWL_USER, (VOID*)(*ptr));
+    WinSetWindowPtr((*c)->hwndClient, QWL_USER, (VOID*)(*c));
 
-    (*ptr)->palette = xcalloc(1, 256*sizeof(RGB2));
+    (*c)->palette = xcalloc(1, 256*sizeof(RGB2));
 
-
-    WinSetVisibleRegionNotify((*ptr)->hwndClient, TRUE);
-    (*ptr)->vrenabled = TRUE;
+    WinSetVisibleRegionNotify((*c)->hwndClient, TRUE);
+    (*c)->vrenabled = TRUE;
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg);
@@ -458,14 +471,17 @@ canvas_t canvas_create(const char *title, UINT *width,
     canvas_new = (canvas_t)xcalloc(1,sizeof(struct _canvas));
     if (!canvas_new) return (canvas_t) NULL;
 
+    canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;
     canvas_new->height           = *height;
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;  // pbmi not yet initialized
 
+    log_debug("canvas_open: %s", title);
+
     DosCreateMutexSem("\\SEM32\\Vice2\\Graphic", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
-    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
+    _beginthread(PM_mainloop, NULL, 0x4000, &canvas_new);
 
     while (!canvas_new->vrenabled) DosSleep(1);
 
@@ -478,15 +494,28 @@ canvas_t canvas_create(const char *title, UINT *width,
 
 void canvas_map(canvas_t c)
 {   /* Make `s' visible.  */
+    // WinShowWindow(c->hwndFrame, 1);
 }
 
 void canvas_unmap(canvas_t c)
 {   /* Make `s' unvisible.  */
+    // WinShowWindow(c->hwndFrame, 0);
 }
 
 void canvas_resize(canvas_t c, UINT width, UINT height)
 {
-    //    log_debug("canvas_resize: %i x %i", width, height);
+    if (c->width==width && c->height==height) return;
+    if (!WinSetWindowPos(c->hwndFrame, 0, 0, 0,
+                         canvas_fullwidth(width), canvas_fullheight(height),
+                         SWP_SIZE))
+    {
+        log_debug("video.c: Error resizing canvas (%ix%i).", width, height);
+        return;
+    }
+    log_debug("video.c: cavas resized (%ix%i)", width, height);
+    c->width  = width;
+    c->height = height;
+    c->exposure_handler(width, height); // update whole window next time!
 }
 
 /* Set the palette of `c' to `p', and return the pixel values in

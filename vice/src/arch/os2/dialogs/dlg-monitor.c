@@ -34,35 +34,40 @@
 #include "dialogs.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "log.h"
+#include "utils.h"
+
+int trigger_console_exit;
 
 static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first = TRUE;
 
     static int  *wait_for_input;
-    static char *input;
+    static char **input;
 
     switch (msg)
     {
     case WM_INITDLG:
         setDlgOpen(DLGO_MONITOR);
+        trigger_console_exit=FALSE;
         first = TRUE;
         break;
     case WM_CHAR:
         if (SHORT1FROMMP(mp1)&KC_CHAR)
         {
             char txt[80];
-            // cbTextLen  = WinQueryWindowTextLength(hwndEntryField);
-            WinQueryDlgText(hwnd, EF_MONIN, txt, 70);
+            // int len=WinQueryWindowTextLength(WinWindowFromID(hwnd, EF_MONIN));
+            WinQueryDlgText(hwnd, EF_MONIN, txt, 80);
             if (strlen(txt))
             {
-                if (input) strcpy(input, txt);
+                if (input) *input=stralloc(txt);
                 WinSetDlgText(hwnd, EF_MONIN,"");
+                input=NULL;
                 *wait_for_input=FALSE;
                 wait_for_input=NULL;
-                input=NULL;
             }
         }
         break;
@@ -73,10 +78,10 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             delDlgOpen(DLGO_MONITOR);
             if (wait_for_input)
             {
-                if (input) strcpy(input, "exit");
+                trigger_console_exit=TRUE;
+                input=NULL;
                 *wait_for_input=FALSE;
                 wait_for_input=NULL;
-                input=NULL;
             }
             break;
         }
@@ -85,10 +90,10 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         delDlgOpen(DLGO_MONITOR);
         if (wait_for_input)
         {
-            if (input) strcpy(input, "exit");
+            trigger_console_exit=TRUE;
+            input=NULL;
             *wait_for_input=FALSE;
             wait_for_input=NULL;
-            input=NULL;
         }
         break;
     case WM_PAINT:
@@ -96,59 +101,32 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (first)
             {
                 CHAR achFont[] = "11.System VIO";
-                WinSetDlgFont(hwnd, LB_MONOUT, achFont);
-//                WinEnableControl(hwnd, LB_MONOUT, 0);
                 first=FALSE;
+                WinSetDlgFont(hwnd, LB_MONOUT, achFont);
+                WinSetFocus(HWND_DESKTOP, WinWindowFromID(hwnd, EF_MONIN));
             }
         }
         break;
-/*    case WM_BUTTON1DOWN:
-        log_debug("button1");
-        return FALSE;
-
-    case WM_CONTROL:
-        {
-            int ctrl = SHORT1FROMMP(mp1);
-            switch(ctrl)
-            {
-            case LB_MONOUT:
-                if (SHORT2FROMMP(mp1)==LN_SELECT)
-                {
-                    log_debug("ln_select");
-                    return FALSE;
-                }
-                if (SHORT2FROMMP(mp1)==LN_SETFOCUS)
-                {
-                    log_debug("ln_setfocus");
-                    return FALSE;
-                }
-                break;
-            case EF_MONIN:
-                switch (SHORT2FROMMP(mp1))
-                {
-                case EN_CHANGE:
-                    {
-                    char txt[80];
-                    WinQueryWindowText(WinWindowFromID(hwnd, EF_MONIN),
-                                       70, txt);
-                    log_debug("change: %s", txt);
-                    }
-                    break;
-                }
-                break;
-            }
-        }
-        break;
-*/    case WM_INSERT:
+    case WM_INSERT:
         WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
         WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,
                       WinLboxQueryCount(hwnd, LB_MONOUT),0);
         return FALSE;
+    case WM_PROMPT:
+        {
+            char *out, tmp[90];
+            int pos=WinLboxQueryCount(hwnd, LB_MONOUT)-1;
+            WinLboxQueryItem(hwnd, LB_MONOUT, pos, tmp, 90);
+            WinLboxDeleteItem(hwnd, LB_MONOUT, pos);
+            out = concat(tmp, mp1, NULL);
+            WinLboxInsertItem(hwnd, LB_MONOUT, out);
+            WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX, pos, 0);
+            free(out);
+        }
+        return FALSE;
     case WM_INPUT:
         input          = mp1;
         wait_for_input = mp2;
-
-//        *wait_for_input = FALSE;
         return FALSE;
 
     }
@@ -157,11 +135,12 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
+HWND hwndMonitor=NULLHANDLE;
 
-HWND monitor_dialog(HWND hwnd)
+void monitor_dialog(HWND hwnd)
 {
-    if (dlgOpen(DLGO_MONITOR)) return NULLHANDLE;
-    return WinLoadDlg(HWND_DESKTOP, hwnd, pm_monitor, NULLHANDLE,
-                      DLG_MONITOR, NULL);
+    if (dlgOpen(DLGO_MONITOR)) return;
+    hwndMonitor=WinLoadDlg(HWND_DESKTOP, hwnd, pm_monitor, NULLHANDLE,
+                           DLG_MONITOR, NULL);
 }
 
