@@ -1,20 +1,17 @@
 /*
- * fsdevice.h - file system device.
+ * fsdevice.h - File system device.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Jarkko Sonninen     <sonninen@lut.fi>
- *  Jouko Valta         <jopi@stekt.oulu.fi>
- *  Olaf Seibert        <rhialto@mbfys.kun.nl>
- *  Andre Fachat        <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli    <ettore@comm2000.it>
- *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
- * Patches by
- *  Dan Miner           <dminer@nyx10.cs.du.edu>
- *  Germano Caronni     <caronni@tik.ethz.ch>
- *  Daniel Fandrich     <dan@fch.wimsey.bc.ca>  /DF/
+ * Based on old code by
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -42,10 +39,8 @@
 extern int fsdevice_init_resources(void);
 extern int fsdevice_init_cmdline_options(void);
 
-extern void fs_error(int code);
-
 extern int fsdevice_attach(int device, const char *name);
 extern void fsdevice_set_directory(char *filename, unsigned int unit);
 
-#endif	/* _FSDEVICE_H */
+#endif
 
