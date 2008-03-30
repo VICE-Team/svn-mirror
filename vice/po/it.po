@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-03-27 18:42+0100\n"
+"POT-Creation-Date: 2004-04-03 17:33+0200\n"
 "PO-Revision-Date: 2004-01-20 20:33+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2160,36 +2160,36 @@ msgstr "*Emulazione della RS232 su CIA a 9600 baud"
 msgid "Userport RS232 device"
 msgstr "Dispositivo RS232 su Userport"
 
-#: src/arch/unix/uisettings.c:115
+#: src/arch/unix/uisettings.c:114
 msgid "Enter refresh rate"
 msgstr "Inserisci la velocità di aggiornamento"
 
-#: src/arch/unix/uisettings.c:116 src/arch/unix/uisettings.c:410
+#: src/arch/unix/uisettings.c:115 src/arch/unix/uisettings.c:409
 msgid "Refresh rate"
 msgstr "Velocità di aggiornamento"
 
-#: src/arch/unix/uisettings.c:188
+#: src/arch/unix/uisettings.c:187
 msgid "Enter speed"
 msgstr "Inserisci la velocità"
 
-#: src/arch/unix/uisettings.c:189
+#: src/arch/unix/uisettings.c:188
 msgid "Maximum run speed"
 msgstr "Velocità di esecuzione massima"
 
-#: src/arch/unix/uisettings.c:203
+#: src/arch/unix/uisettings.c:202
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:217 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/uisettings.c:216 src/arch/unix/x11/gnome/x11ui.c:1336
 #: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
-#: src/arch/unix/uisettings.c:220
+#: src/arch/unix/uisettings.c:219
 msgid "Settings saved successfully."
 msgstr "Impostazioni salvate con successo."
 
-#: src/arch/unix/uisettings.c:237
+#: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2197,7 +2197,7 @@ msgstr ""
 "Non è possibile caricare le impostazioni:\n"
 "il file non è valido."
 
-#: src/arch/unix/uisettings.c:239
+#: src/arch/unix/uisettings.c:238
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2205,15 +2205,15 @@ msgstr ""
 "Non è possibile caricare le impostazioni:\n"
 "il file non è stato trovato."
 
-#: src/arch/unix/uisettings.c:243
+#: src/arch/unix/uisettings.c:242
 msgid "Settings loaded."
 msgstr "Impostazioni caricate."
 
-#: src/arch/unix/uisettings.c:279
+#: src/arch/unix/uisettings.c:278
 msgid "Load custom ROM set definition"
 msgstr "Carica un ROM set personalizzato"
 
-#: src/arch/unix/uisettings.c:287
+#: src/arch/unix/uisettings.c:286
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -2222,62 +2222,62 @@ msgstr ""
 "Non è possibile caricare il file del ROM set\n"
 "'%s'"
 
-#: src/arch/unix/uisettings.c:308
+#: src/arch/unix/uisettings.c:307
 msgid "File to dump ROM set definition to"
 msgstr "File su cui scrivere il ROM set"
 
-#: src/arch/unix/uisettings.c:313
+#: src/arch/unix/uisettings.c:312
 msgid "ROM set file:"
 msgstr "File del ROM set:"
 
-#: src/arch/unix/uisettings.c:329
+#: src/arch/unix/uisettings.c:328
 msgid "Load ROM file"
 msgstr "Carica il file della ROM"
 
-#: src/arch/unix/uisettings.c:338
+#: src/arch/unix/uisettings.c:337
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr "Non è possibile caricare il file della ROM'%s'"
 
-#: src/arch/unix/uisettings.c:360
+#: src/arch/unix/uisettings.c:359
 msgid "*Auto"
 msgstr "*Automatica"
 
-#: src/arch/unix/uisettings.c:383 src/arch/unix/uisettings.c:402
+#: src/arch/unix/uisettings.c:382 src/arch/unix/uisettings.c:401
 msgid "*Custom..."
 msgstr "*Personalizzata..."
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:398
 msgid "*No limit"
 msgstr "*Nessun limite"
 
-#: src/arch/unix/uisettings.c:412
+#: src/arch/unix/uisettings.c:411
 msgid "Maximum speed"
 msgstr "Velocità massima"
 
-#: src/arch/unix/uisettings.c:414
+#: src/arch/unix/uisettings.c:413
 msgid "*Enable warp mode"
 msgstr "*Attiva la modalità turbo"
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:419
 msgid "Save settings"
 msgstr "Salva le impostazioni"
 
-#: src/arch/unix/uisettings.c:422
+#: src/arch/unix/uisettings.c:421
 msgid "Load settings"
 msgstr "Carica le impostazioni"
 
-#: src/arch/unix/uisettings.c:424
+#: src/arch/unix/uisettings.c:423
 msgid "Restore default settings"
 msgstr "Ripristina le impostazioni originarie"
 
-#: src/arch/unix/uisettings.c:426
+#: src/arch/unix/uisettings.c:425
 msgid "*Save settings on exit"
 msgstr "*Salva le impostazioni in uscita"
 
-#: src/arch/unix/uisettings.c:428
+#: src/arch/unix/uisettings.c:427
 msgid "*Confirm on exit"
 msgstr "*Conferma all'uscita"
 

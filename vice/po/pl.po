@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-03-27 18:42+0100\n"
+"POT-Creation-Date: 2004-04-03 17:33+0200\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2216,37 +2216,37 @@ msgstr "*Emulacja RS232 o prêdko¶ci CIA 9600 bodów"
 msgid "Userport RS232 device"
 msgstr "Urz±dzenie portu RS232"
 
-#: src/arch/unix/uisettings.c:115
+#: src/arch/unix/uisettings.c:114
 msgid "Enter refresh rate"
 msgstr "Wprowad¼ czêstotliwo¶æ od¶wierzania"
 
-#: src/arch/unix/uisettings.c:116 src/arch/unix/uisettings.c:410
+#: src/arch/unix/uisettings.c:115 src/arch/unix/uisettings.c:409
 msgid "Refresh rate"
 msgstr "Czêstotliwo¶æ od¶wie¿ania"
 
-#: src/arch/unix/uisettings.c:188
+#: src/arch/unix/uisettings.c:187
 msgid "Enter speed"
 msgstr "Wprowad¼ prêdko¶æ"
 
-#: src/arch/unix/uisettings.c:189
+#: src/arch/unix/uisettings.c:188
 msgid "Maximum run speed"
 msgstr "Maksymalna prêdko¶æ dzia³ania"
 
-#: src/arch/unix/uisettings.c:203
+#: src/arch/unix/uisettings.c:202
 msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
-#: src/arch/unix/uisettings.c:217 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/uisettings.c:216 src/arch/unix/x11/gnome/x11ui.c:1336
 #: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
-#: src/arch/unix/uisettings.c:220
+#: src/arch/unix/uisettings.c:219
 msgid "Settings saved successfully."
 msgstr "Zapisywanie ustawieñ powiod³o siê."
 
 # src/arch/unix/uisettings.c:235 
-#: src/arch/unix/uisettings.c:237
+#: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2255,7 +2255,7 @@ msgstr ""
 "plik zasobów nieprawid³owy."
 
 # src/arch/unix/uisettings.c:237 
-#: src/arch/unix/uisettings.c:239
+#: src/arch/unix/uisettings.c:238
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2263,16 +2263,16 @@ msgstr ""
 "Nie mo¿na za³adowaæ ustawieñ\n"
 "plik zasobów nie znaleziony."
 
-#: src/arch/unix/uisettings.c:243
+#: src/arch/unix/uisettings.c:242
 msgid "Settings loaded."
 msgstr "Ustawienia za³adowane."
 
-#: src/arch/unix/uisettings.c:279
+#: src/arch/unix/uisettings.c:278
 msgid "Load custom ROM set definition"
 msgstr "Za³aduj w³asne ustawienia ROM"
 
 # src/arch/unix/uisettings.c:375 
-#: src/arch/unix/uisettings.c:287
+#: src/arch/unix/uisettings.c:286
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -2282,20 +2282,20 @@ msgstr ""
 "'%s'"
 
 # src/arch/unix/uisettings.c:396 
-#: src/arch/unix/uisettings.c:308
+#: src/arch/unix/uisettings.c:307
 msgid "File to dump ROM set definition to"
 msgstr "Zapisz ustawion± definicjê ROM do pliku"
 
-#: src/arch/unix/uisettings.c:313
+#: src/arch/unix/uisettings.c:312
 msgid "ROM set file:"
 msgstr "Plik ustawieñ ROM:"
 
-#: src/arch/unix/uisettings.c:329
+#: src/arch/unix/uisettings.c:328
 msgid "Load ROM file"
 msgstr "Za³aduj plik ROM"
 
 # src/arch/unix/uisettings.c:426 
-#: src/arch/unix/uisettings.c:338
+#: src/arch/unix/uisettings.c:337
 #, c-format
 msgid ""
 "Could not load ROM file\n"
@@ -2304,43 +2304,43 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku ROM\n"
 "'%s'"
 
-#: src/arch/unix/uisettings.c:360
+#: src/arch/unix/uisettings.c:359
 msgid "*Auto"
 msgstr "*Automatycznie"
 
-#: src/arch/unix/uisettings.c:383 src/arch/unix/uisettings.c:402
+#: src/arch/unix/uisettings.c:382 src/arch/unix/uisettings.c:401
 msgid "*Custom..."
 msgstr "*W³asne..."
 
-#: src/arch/unix/uisettings.c:399
+#: src/arch/unix/uisettings.c:398
 msgid "*No limit"
 msgstr "*Bez limitu"
 
-#: src/arch/unix/uisettings.c:412
+#: src/arch/unix/uisettings.c:411
 msgid "Maximum speed"
 msgstr "Maksymalna prêdko¶æ"
 
-#: src/arch/unix/uisettings.c:414
+#: src/arch/unix/uisettings.c:413
 msgid "*Enable warp mode"
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/arch/unix/uisettings.c:420
+#: src/arch/unix/uisettings.c:419
 msgid "Save settings"
 msgstr "Zapisz ustawienia"
 
-#: src/arch/unix/uisettings.c:422
+#: src/arch/unix/uisettings.c:421
 msgid "Load settings"
 msgstr "Za³aduj ustawienia"
 
-#: src/arch/unix/uisettings.c:424
+#: src/arch/unix/uisettings.c:423
 msgid "Restore default settings"
 msgstr "Przywróæ domy¶lne ustawienia"
 
-#: src/arch/unix/uisettings.c:426
+#: src/arch/unix/uisettings.c:425
 msgid "*Save settings on exit"
 msgstr "*Zapisz ustawienia przy wyj¶ciu"
 
-#: src/arch/unix/uisettings.c:428
+#: src/arch/unix/uisettings.c:427
 msgid "*Confirm on exit"
 msgstr ""
 

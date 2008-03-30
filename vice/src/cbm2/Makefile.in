@@ -255,6 +255,8 @@ libcbm2_a_SOURCES = \
 	cbm2printer.c \
 	cbm2rom.c \
 	cbm2rom.h \
+	cbm2romset.c \
+	cbm2romset.h \
 	cbm2tpi.h \
 	cbm2tpi1.c \
 	cbm2tpi2.c \
@@ -273,8 +275,8 @@ am_libcbm2_a_OBJECTS = cbm2-cmdline-options.$(OBJEXT) \
 	cbm2acia1.$(OBJEXT) cbm2bus.$(OBJEXT) cbm2cia1.$(OBJEXT) \
 	cbm2cpu.$(OBJEXT) cbm2datasette.$(OBJEXT) cbm2drive.$(OBJEXT) \
 	cbm2iec.$(OBJEXT) cbm2mem.$(OBJEXT) cbm2memsnapshot.$(OBJEXT) \
-	cbm2printer.$(OBJEXT) cbm2rom.$(OBJEXT) cbm2tpi1.$(OBJEXT) \
-	cbm2tpi2.$(OBJEXT) cbm2video.$(OBJEXT)
+	cbm2printer.$(OBJEXT) cbm2rom.$(OBJEXT) cbm2romset.$(OBJEXT) \
+	cbm2tpi1.$(OBJEXT) cbm2tpi2.$(OBJEXT) cbm2video.$(OBJEXT)
 libcbm2_a_OBJECTS = $(am_libcbm2_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -290,8 +292,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/cbm2printer.Po ./$(DEPDIR)/cbm2rom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbm2tpi1.Po ./$(DEPDIR)/cbm2tpi2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cbm2video.Po
+@AMDEP_TRUE@	./$(DEPDIR)/cbm2romset.Po ./$(DEPDIR)/cbm2tpi1.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/cbm2tpi2.Po ./$(DEPDIR)/cbm2video.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -338,6 +340,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2memsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2printer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2rom.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2romset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2tpi1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2tpi2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2video.Po@am__quote@

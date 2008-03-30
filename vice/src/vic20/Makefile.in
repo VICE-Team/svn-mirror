@@ -266,6 +266,8 @@ libvic20_a_SOURCES = \
 	vic20printer.c \
 	vic20rom.c \
 	vic20rom.h \
+	vic20romset.c \
+	vic20romset.h \
 	vic20rsuser.c \
 	vic20rsuser.h \
 	vic20sound.c \
@@ -292,8 +294,9 @@ am_libvic20_a_OBJECTS = vic-cmdline-options.$(OBJEXT) \
 	vic20drive.$(OBJEXT) vic20iec.$(OBJEXT) vic20ieeevia1.$(OBJEXT) \
 	vic20ieeevia2.$(OBJEXT) vic20mem.$(OBJEXT) \
 	vic20memsnapshot.$(OBJEXT) vic20printer.$(OBJEXT) \
-	vic20rom.$(OBJEXT) vic20rsuser.$(OBJEXT) vic20sound.$(OBJEXT) \
-	vic20via1.$(OBJEXT) vic20via2.$(OBJEXT) vic20video.$(OBJEXT)
+	vic20rom.$(OBJEXT) vic20romset.$(OBJEXT) vic20rsuser.$(OBJEXT) \
+	vic20sound.$(OBJEXT) vic20via1.$(OBJEXT) vic20via2.$(OBJEXT) \
+	vic20video.$(OBJEXT)
 libvic20_a_OBJECTS = $(am_libvic20_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -315,6 +318,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/vic20mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20printer.Po ./$(DEPDIR)/vic20rom.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20romset.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20rsuser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20sound.Po ./$(DEPDIR)/vic20via1.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vic20via2.Po ./$(DEPDIR)/vic20video.Po
@@ -371,6 +375,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20memsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20printer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20rom.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20romset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20rsuser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20sound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20via1.Po@am__quote@
