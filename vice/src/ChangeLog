@@ -1,3 +1,77 @@
+1999-03-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.45.
+
+	* c128/c128mem.c (read_chargen): Fixed address calculation.
+	(read_d0xx, store_d0xx, read_d4xx, store_d4xx, read_d5xx,
+	store_d5xx, read_d6xx, store_d6xx, read_d8xx, store_d8xx,
+	read_dcxx, store_dcxx, read_dcxx, store_dcxx): Removed.
+	(read_d7xx, store_d7xx, read_io1, store_io1, read_io2,
+	store_io2): Simplified.
+	(store_bank_io, read_bank_io, peek_bank_io, initialize_memory):
+	Changed to new memory banking.
+
+1998-03-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/joystick.c: remove C++-style comments from behind
+	cpp directives.
+
+	* arch/unix/xaw/ui.c (initBlankCursor): changed no_data from
+	unsigned char to char to make OSF1 cc happier
+
+	* autostart.c (autostart_prg): change cbm_name and p00_header_file_name
+	from BYTE to char to make OSF1 cc happier
+
+	* c1541.c (quit_cmd): add return to make OSF1 cc happier.
+	* main.c (cmdline_help): likewise
+
+	* c64/c64cia1.c (read_ciaicr): remove ";" from empty definition
+	* cbm2/c610cia1.c (read_ciaicr): likewise
+
+	* cbm2/crtc.c (addr_mask, scraddr, chargen_rel, hw_double_cols):
+	remove definitions.
+
+	* tap.c (tap_header_read): cast argument for strncmp from BYTE*
+	to char*
+
+1998-03-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* autostart.c (autostart_prg): if fname_split gave a "NULL" directory,
+	use "." instead.
+
+	* fsdevice.c (set_fsdevice_8_dir, set_fsdevice_9_dir, 
+	set_fsdevice_10_dir, set_fsdevice_11_dir): do not accept NULL
+	paths. Replace them with "" instead.
+
+1998-03-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/crtc.c (do_update_memory_ptrs): make non-inline and 
+	move to end of file, because video_mode is defined in crtccore.c
+	that is included.
+	* pet/crtc.c: likewise
+
+	* pet/petmem.c (petmem_2001_buf_ef): fix declaration.
+
+1998-03-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciatimer.c (ciat_update): return a new flag that is set when the 
+	last underflow is at the current clock cycle.
+
+	* ciacore.c (cia_update_ta, cia_update_tb): call ciat_update with 
+	additional parameter to set port bit
+	(store_mycia): when storing CRA/CRB reset port toggle bit when 
+	starting the timer.
+	(read_mycia, store_mycia, peek_mycia): when accessing port b,
+	port bit check.
+
+1999-03-18  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsync.c (do_vsync): Flush sound device in warp mode.
+	* arch/msdos/vsync.c (do_vsync): Likewise.
+	* arch/riscos/vsync.c (do_vsync): Likewise.
+	* src/sound.c (sound_run_sound, sound_flush, sound_set_warp_mode):
+	Keep non-realtime devices running in warp mode.
+
 1999-03-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.44.

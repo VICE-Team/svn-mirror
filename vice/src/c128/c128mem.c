@@ -538,7 +538,7 @@ void REGPARM2 store_kernal(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_chargen(ADDRESS addr)
 {
-    return chargen_rom[addr & 0xffff];
+    return chargen_rom[addr & 0x0fff];
 }
 
 BYTE REGPARM1 read_rom(ADDRESS addr)
@@ -705,157 +705,21 @@ static void REGPARM2 store_editor(ADDRESS addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
-static BYTE REGPARM1 read_d0xx(ADDRESS addr)
-{
-    if (io_in)
-        return read_vic(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_d0xx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_vic(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_d4xx(ADDRESS addr)
-{
-    if (io_in)
-        return read_sid(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_d4xx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_sid(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_d5xx(ADDRESS addr)
-{
-    if (io_in)
-        return read_mmu(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_d5xx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_mmu(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_d6xx(ADDRESS addr)
-{
-    if (io_in)
-        return read_vdc(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_d6xx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_vdc(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
 static BYTE REGPARM1 read_d7xx(ADDRESS addr)
 {
-    if (io_in) {
 #if 0                           /*def HAVE_RS232 */
-        if (acia_d7_enabled)
-            return read_acia2(addr);
-        else
+    if (acia_d7_enabled)
+        return read_acia2(addr);
 #endif
-            return 0xff;
-    } else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
+    return 0xff;
 }
 
 static void REGPARM2 store_d7xx(ADDRESS addr, BYTE value)
 {
-    if (io_in) {
 #if 0                           /*def HAVE_RS232 */
-        if (acia_d7_enabled) {
+        if (acia_d7_enabled)
             store_acia2(addr, value);
-        }
 #endif
-    } else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_d8xx(ADDRESS addr)
-{
-    if (io_in)
-        return read_colorram(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_d8xx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_colorram(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_dcxx(ADDRESS addr)
-{
-    if (io_in)
-        return read_cia1(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_dcxx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_cia1(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
-}
-
-static BYTE REGPARM1 read_ddxx(ADDRESS addr)
-{
-    if (io_in)
-        return read_cia2(addr);
-    else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
-}
-
-static void REGPARM2 store_ddxx(ADDRESS addr, BYTE value)
-{
-    if (io_in)
-        store_cia2(addr, value);
-    else
-        STORE_TOP_SHARED(addr, value);
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
@@ -927,60 +791,42 @@ static void REGPARM2 store_empty_io(ADDRESS addr, BYTE value)
 
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
-    if (!io_in) {
-        STORE_TOP_SHARED(addr, value);
-    } else {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
             store_acia1(addr & 0x03, value);
 #endif
-    }
     return;
 }
 
 BYTE REGPARM1 read_io1(ADDRESS addr)
 {
-    if (io_in) {
 #ifdef HAVE_RS232
         if (acia_de_enabled)
             return read_acia1(addr & 0x03);
 #endif
-        return 0xff;            /* rand(); - C64 has rand(), which is correct? */
-    } else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
+        return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
-    if (!io_in) {
-        STORE_TOP_SHARED(addr, value);
-    } else {
-        if (ieee488_enabled) {
-            store_tpi(addr & 0x07, value);
-        }
+    if (ieee488_enabled) {
+        store_tpi(addr & 0x07, value);
     }
     return;
 }
 
 BYTE REGPARM1 read_io2(ADDRESS addr)
 {
-    if (io_in) {
-        if (emu_id_enabled && addr >= 0xdfa0) {
-            addr &= 0xff;
-            if (addr == 0xff)
-                emulator_id[addr - 0xa0] ^= 0xff;
-            return emulator_id[addr - 0xa0];
-        }
-        if (ieee488_enabled) {
-            return read_tpi(addr & 0x07);
-        }
-        return 0xff;  /* rand(); - C64 has rand(), which is correct? */
-    } else if (chargen_in)
-        return chargen_rom[addr - 0xd000];
-    else
-        return READ_TOP_SHARED(addr);
+    if (emu_id_enabled && addr >= 0xdfa0) {
+        addr &= 0xff;
+        if (addr == 0xff)
+            emulator_id[addr - 0xa0] ^= 0xff;
+        return emulator_id[addr - 0xa0];
+    }
+    if (ieee488_enabled) {
+        return read_tpi(addr & 0x07);
+    }
+    return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1031,8 +877,8 @@ void initialize_memory(void)
       0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd, 0xcffd,
           -1,     -1,     -1,     -1, 0xcffd, 0xcffd, 0xcffd, 0xcffd },
     /* d000-dfff */
-    {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-          -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    { 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
+          -1,     -1,     -1,     -1, 0xdffd, 0xdffd, 0xdffd, 0xdffd,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
           -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
     /* e000-efff */
@@ -1286,7 +1132,7 @@ void initialize_memory(void)
             mem_read_base_tab[15+j][i] = basic_rom + 0x8000 + ((i & 0xf) << 8);
         }
     }
-/*
+
     for (i = 0xd0; i <= 0xdf; i++) {
         mem_read_tab[0][i] = read_ram;
         mem_read_tab[1][i] = read_ram;
@@ -1320,33 +1166,49 @@ void initialize_memory(void)
         mem_write_tab[13][i] = store_hi;
         mem_write_tab[14][i] = store_hi;
         mem_write_tab[15][i] = store_hi;
+        mem_read_base_tab[0+j][i] = ram + (i << 8);
+        mem_read_base_tab[1+j][i] = ram + (i << 8);
+        mem_read_base_tab[2+j][i] = ram + (i << 8);
+        mem_read_base_tab[3+j][i] = ram + (i << 8);
+        mem_read_base_tab[4+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[5+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[6+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[7+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[8+j][i] = NULL;
+        mem_read_base_tab[9+j][i] = NULL;
+        mem_read_base_tab[10+j][i] = NULL;
+        mem_read_base_tab[11+j][i] = NULL;
+        mem_read_base_tab[12+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[13+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[14+j][i] = chargen_rom + ((i & 0xf) << 8);
+        mem_read_base_tab[15+j][i] = chargen_rom + ((i & 0xf) << 8);
     }
-*/
-    for (j = /*(NUM_CONFIGS / 2)*/0; j < NUM_CONFIGS; j++) {
+
+    for (j = (NUM_CONFIGS / 2); j < NUM_CONFIGS; j++) {
         for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab[j][i] = read_d0xx;
-            mem_write_tab[j][i] = store_d0xx;
+            mem_read_tab[j][i] = read_vic;
+            mem_write_tab[j][i] = store_vic;
         }
 
-        mem_read_tab[j][0xd4] = read_d4xx;
-        mem_write_tab[j][0xd4] = store_d4xx;
-        mem_read_tab[j][0xd5] = read_d5xx;
-        mem_write_tab[j][0xd5] = store_d5xx;
-        mem_read_tab[j][0xd6] = read_d6xx;
-        mem_write_tab[j][0xd6] = store_d6xx;
+        mem_read_tab[j][0xd4] = read_sid;
+        mem_write_tab[j][0xd4] = store_sid;
+        mem_read_tab[j][0xd5] = read_mmu;
+        mem_write_tab[j][0xd5] = store_mmu;
+        mem_read_tab[j][0xd6] = read_vdc;
+        mem_write_tab[j][0xd6] = store_vdc;
 
         mem_read_tab[j][0xd7] = read_d7xx;    /* read_empty_io; */
         mem_write_tab[j][0xd7] = store_d7xx;  /* store_empty_io; */
 
-        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = read_d8xx;
-        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = read_d8xx;
-        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = store_d8xx;
-        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = store_d8xx;
+        mem_read_tab[j][0xd8] = mem_read_tab[j][0xd9] = read_colorram;
+        mem_read_tab[j][0xda] = mem_read_tab[j][0xdb] = read_colorram;
+        mem_write_tab[j][0xd8] = mem_write_tab[j][0xd9] = store_colorram;
+        mem_write_tab[j][0xda] = mem_write_tab[j][0xdb] = store_colorram;
 
-        mem_read_tab[j][0xdc] = read_dcxx;
-        mem_write_tab[j][0xdc] = store_dcxx;
-        mem_read_tab[j][0xdd] = read_ddxx;
-        mem_write_tab[j][0xdd] = store_ddxx;
+        mem_read_tab[j][0xdc] = read_cia1;
+        mem_write_tab[j][0xdc] = store_cia1;
+        mem_read_tab[j][0xdd] = read_cia2;
+        mem_write_tab[j][0xdd] = store_cia2;
 
         mem_read_tab[j][0xde] = read_io1;
         mem_write_tab[j][0xde] = store_io1;
@@ -1673,16 +1535,16 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        store_d0xx(addr, byte);
+        store_vic(addr, byte);
         break;
       case 0xd400:
-        store_d4xx(addr, byte);
+        store_sid(addr, byte);
         break;
       case 0xd500:
-        store_d5xx(addr, byte);
+        store_mmu(addr, byte);
         break;
       case 0xd600:
-        store_d6xx(addr, byte);
+        store_vdc(addr, byte);
         break;
       case 0xd700:
         store_d7xx(addr, byte);
@@ -1716,13 +1578,13 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_d0xx(addr);
+        return read_vic(addr);
       case 0xd400:
-        return read_d4xx(addr);
+        return read_sid(addr);
       case 0xd500:
-        return read_d5xx(addr);
+        return read_mmu(addr);
       case 0xd600:
-        return read_d6xx(addr);
+        return read_vdc(addr);
       case 0xd700:
         return read_d7xx(addr);
       case 0xd800:
@@ -1749,13 +1611,13 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_d0xx(addr); /* FIXME */
+        return read_vic(addr); /* FIXME */
       case 0xd400:
-        return read_d4xx(addr); /* FIXME */
+        return read_sid(addr); /* FIXME */
       case 0xd500:
-        return read_d5xx(addr); /* FIXME */
+        return read_mmu(addr); /* FIXME */
       case 0xd600:
-        return read_d6xx(addr); /* FIXME */
+        return read_vdc(addr); /* FIXME */
       case 0xd700:
         return read_d7xx(addr); /* FIXME */
       case 0xd800:
