@@ -134,7 +134,7 @@ static void canvas_create_bitmap(video_canvas_t *c,
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, BYTE *pixel_return)
+                              const palette_t *palette)
 {
     video_canvas_t *new_canvas;
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
@@ -159,7 +159,7 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 		default:
 			new_canvas->depth = 32;
 	}
-    video_canvas_set_palette(new_canvas, palette, pixel_return);
+    video_canvas_set_palette(new_canvas, palette);
 
     new_canvas->width = *width;
     new_canvas->height = *height;
@@ -212,7 +212,7 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
 {
 	int i;
     int rshift = 0;
@@ -230,7 +230,6 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_
 	for (i = 0; i < p->num_entries; i++)
 	{
 		DWORD col;
-		pixel_return[i] = i;
 
 		switch (c->depth) {
 			case 8:		/* CMAP8 */
