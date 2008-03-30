@@ -80,107 +80,119 @@ int true1541_rmw_flag = 0;
 opcode_info_t true1541_last_opcode_info;
 
 /* Public copy of the registers.  */
-WORD true1541_program_counter;
-BYTE true1541_accumulator;
-BYTE true1541_x_register;
-BYTE true1541_y_register;
-BYTE true1541_stack_pointer;
-int true1541_zero_flag;
-int true1541_sign_flag;
-int true1541_overflow_flag;
-int true1541_break_flag;
-int true1541_decimal_flag;
-int true1541_interrupt_flag;
-int true1541_carry_flag;
+mos6510_regs_t true1541_cpu_regs;
 
-#define EXPORT_REGISTERS()				\
-  do {							\
-      true1541_program_counter = reg_pc;		\
-      true1541_accumulator = reg_a;			\
-      true1541_x_register = reg_x;			\
-      true1541_y_register = reg_y;			\
-      true1541_stack_pointer = reg_sp;			\
-      true1541_zero_flag = LOCAL_ZERO();		\
-      true1541_sign_flag = LOCAL_SIGN();		\
-      true1541_overflow_flag = LOCAL_OVERFLOW();	\
-      true1541_break_flag = LOCAL_BREAK();		\
-      true1541_decimal_flag = LOCAL_DECIMAL();		\
-      true1541_interrupt_flag = LOCAL_INTERRUPT();	\
-      true1541_carry_flag = LOCAL_CARRY();		\
-  } while (0)
+/* Monitor interface.  */
+monitor_interface_t true1541_monitor_interface = {
 
-#define IMPORT_REGISTERS()				\
-  do {							\
-      JUMP (true1541_program_counter);			\
-      reg_a = true1541_accumulator;			\
-      reg_x = true1541_x_register;			\
-      reg_y = true1541_y_register;			\
-      reg_sp = true1541_stack_pointer;			\
-      LOCAL_SET_ZERO(true1541_zero_flag);		\
-      LOCAL_SET_SIGN(true1541_sign_flag);		\
-      LOCAL_SET_OVERFLOW(true1541_overflow_flag);	\
-      LOCAL_SET_BREAK(true1541_break_flag);		\
-      LOCAL_SET_DECIMAL(true1541_decimal_flag);		\
-      LOCAL_SET_INTERRUPT(true1541_interrupt_flag);	\
-      LOCAL_SET_CARRY(true1541_carry_flag);		\
-  } while (0)
+    /* Pointer to the registers of the CPU.  */
+    &true1541_cpu_regs,
 
-/* -------------------------------------------------------------------------- */
+    /* Pointer to the alarm/interrupt status.  */
+    &true1541_int_status,
+
+    /* Pointer to the machine's clock counter.  */
+    &true1541_clk,
+
+    /* Pointer to a function that writes to memory.  */
+    true1541_read,
+
+    /* Pointer to a function that reads from memory.  */
+    true1541_store,
+
+    /* Pointer to a function to disable/enable watchpoint checking.  */
+    true1541_toggle_watchpoints
+
+};
+
+/* ------------------------------------------------------------------------- */
 
 /* This defines the memory access for the 1541 CPU.  */
 
-static BYTE REGPARM1 read_ram(ADDRESS address)
+typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
+typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
+
+static true1541_read_func_t *read_func[0x41];
+static true1541_store_func_t *store_func[0x41];
+static true1541_read_func_t *read_func_watch[0x41];
+static true1541_store_func_t *store_func_watch[0x41];
+static true1541_read_func_t *read_func_nowatch[0x41];
+static true1541_store_func_t *store_func_nowatch[0x41];
+
+/* This big hack is to overload the maincpu macros.  We need a better way!
+   FIXME!  */
+
+#undef LOAD
+#define LOAD(a)		  (read_func[(a) >> 10](a))
+
+#undef LOAD_ZERO
+#define LOAD_ZERO(a)	  (true1541_ram[(a) & 0xff])
+
+#undef LOAD_ADDR
+#define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
+
+#undef LOAD_ZERO_ADDR
+#define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
+
+#undef STORE
+#define STORE(a, b)	  (store_func[(a) >> 10]((a), (b)))
+
+#undef STORE_ZERO
+#define STORE_ZERO(a, b)  (true1541_ram[(a) & 0xff] = (b))
+
+
+static BYTE REGPARM1 true1541_read_ram(ADDRESS address)
 {
     return true1541_ram[address & 0x7ff];
 }
 
-static void REGPARM2 store_ram(ADDRESS address, BYTE value)
+static void REGPARM2 true1541_store_ram(ADDRESS address, BYTE value)
 {
     true1541_ram[address & 0x7ff] = value;
 }
 
-static BYTE REGPARM1 read_rom(ADDRESS address)
+static BYTE REGPARM1 true1541_read_rom(ADDRESS address)
 {
     return true1541_rom[address & 0x3fff];
 }
 
-static BYTE REGPARM1 read_free(ADDRESS address)
+static BYTE REGPARM1 true1541_read_free(ADDRESS address)
 {
     return address >> 8;
 }
 
-static void REGPARM2 store_free(ADDRESS address, BYTE value)
+static void REGPARM2 true1541_store_free(ADDRESS address, BYTE value)
 {
     return;
 }
 
 /* This defines the watchpoint memory access for the 1541 CPU.  */
 
-static BYTE REGPARM1 read_ram_watch(ADDRESS address)
+static BYTE REGPARM1 true1541_read_ram_watch(ADDRESS address)
 {
     watch_push_load_addr(address, e_disk_space);
-    return read_ram(address);
+    return true1541_read_ram(address);
 }
 
-static void REGPARM2 store_ram_watch(ADDRESS address, BYTE value)
+static void REGPARM2 true1541_store_ram_watch(ADDRESS address, BYTE value)
 {
     watch_push_store_addr(address, e_disk_space);
-    store_ram(address, value);
+    true1541_store_ram(address, value);
 }
 
-static BYTE REGPARM1 read_rom_watch(ADDRESS address)
+static BYTE REGPARM1 true1541_read_rom_watch(ADDRESS address)
 {
     watch_push_load_addr(address, e_disk_space);
-    return read_rom(address);
+    return true1541_read_rom(address);
 }
 
-static BYTE REGPARM1 read_free_watch(ADDRESS address)
+static BYTE REGPARM1 true1541_read_free_watch(ADDRESS address)
 {
     watch_push_load_addr(address, e_disk_space);
-    return read_free(address);
+    return true1541_read_free(address);
 }
 
-static void REGPARM2 store_free_watch(ADDRESS address, BYTE value)
+static void REGPARM2 true1541_store_free_watch(ADDRESS address, BYTE value)
 {
     watch_push_store_addr(address, e_disk_space);
     return;
@@ -210,26 +222,6 @@ static void REGPARM2 store_viaD2_watch(ADDRESS address, BYTE value)
     store_viaD2(address, value);
 }
 
-true1541_read_func_t *read_func[0x41];
-true1541_store_func_t *store_func[0x41];
-true1541_read_func_t *read_func_watch[0x41];
-true1541_store_func_t *store_func_watch[0x41];
-true1541_read_func_t *read_func_nowatch[0x41];
-true1541_store_func_t *store_func_nowatch[0x41];
-
-#define LOAD(a)		  (read_func[(a) >> 10](a))
-
-#define LOAD_ZERO(a)	  (true1541_ram[(a) & 0xff])
-
-#define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
-
-#define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-
-#define STORE(a, b)	  (store_func[(a) >> 10]((a), (b)))
-
-#define STORE_ZERO(a, b)  (true1541_ram[(a) & 0xff] = (b))
-
-
 #define JUMP(addr)				\
   do {						\
       reg_pc = (addr);				\
@@ -246,7 +238,21 @@ true1541_store_func_t *store_func_nowatch[0x41];
 #define pagezero	(true1541_ram)
 #define pageone		(true1541_ram + 0x100)
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+/* This is the external interface for memory access.  */
+
+BYTE REGPARM1 true1541_read(ADDRESS address)
+{
+    return read_func[address >> 10](address);
+}
+
+void REGPARM2 true1541_store(ADDRESS address, BYTE value)
+{
+    return store_func[address >> 10](address, value);
+}
+
+/* ------------------------------------------------------------------------- */
 
 /* This table is used to approximate the sync between the main and the 1541
    CPUs, since the two clock rates are different.  */
@@ -268,7 +274,7 @@ void true1541_set_sync_factor(unsigned int sync_factor)
     }
 }
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static void reset(void)
 {
@@ -289,24 +295,24 @@ static void mem_init(void)
     int i;
 
     for (i = 0; i < 0x41; i++) {
-	read_func_watch[i] = read_free_watch;
-	store_func_watch[i] = store_free_watch;
-	read_func_nowatch[i] = read_free;
-	store_func_nowatch[i] = store_free;
+	read_func_watch[i] = true1541_read_free_watch;
+	store_func_watch[i] = true1541_store_free_watch;
+	read_func_nowatch[i] = true1541_read_free;
+	store_func_nowatch[i] = true1541_store_free;
     }
     for (i = 0x30; i < 0x40; i++) {
-	read_func_watch[i] = read_rom_watch;
-	read_func_nowatch[i] = read_rom;
+	read_func_watch[i] = true1541_read_rom_watch;
+	read_func_nowatch[i] = true1541_read_rom;
     }
-    read_func_watch[0x0] = read_func_watch[0x1] = read_func_watch[0x40] = read_ram_watch;
-    store_func_watch[0x0] = store_func_watch[0x1] = store_func_watch[0x40] = store_ram_watch;
+    read_func_watch[0x0] = read_func_watch[0x1] = read_func_watch[0x40] = true1541_read_ram_watch;
+    store_func_watch[0x0] = store_func_watch[0x1] = store_func_watch[0x40] = true1541_store_ram_watch;
     read_func_watch[0x6] = read_viaD1_watch;
     store_func_watch[0x6] = store_viaD1_watch;
     read_func_watch[0x7] = read_viaD2_watch;
     store_func_watch[0x7] = store_viaD2_watch;
 
-    read_func_nowatch[0x0] = read_func_nowatch[0x1] = read_func_nowatch[0x40] = read_ram;
-    store_func_nowatch[0x0] = store_func_nowatch[0x1] = store_func_nowatch[0x40] = store_ram;
+    read_func_nowatch[0x0] = read_func_nowatch[0x1] = read_func_nowatch[0x40] = true1541_read_ram;
+    store_func_nowatch[0x0] = store_func_nowatch[0x1] = store_func_nowatch[0x40] = true1541_store_ram;
     read_func_nowatch[0x6] = read_viaD1;
     store_func_nowatch[0x6] = store_viaD1;
     read_func_nowatch[0x7] = read_viaD2;
@@ -316,16 +322,23 @@ static void mem_init(void)
     memcpy(store_func, store_func_nowatch, sizeof(true1541_store_func_t *) * 0x41);
 }
 
-void true1541_turn_watchpoints_on(void)
+void true1541_toggle_watchpoints(int flag)
 {
-   memcpy(read_func, read_func_watch, sizeof(true1541_read_func_t *) * 0x41);
-   memcpy(store_func, store_func_watch, sizeof(true1541_store_func_t *) * 0x41);
+    if (flag) {
+        memcpy(read_func, read_func_watch,
+               sizeof(true1541_read_func_t *) * 0x41);
+        memcpy(store_func, store_func_watch,
+               sizeof(true1541_store_func_t *) * 0x41);
+    } else {
+        memcpy(read_func, read_func_nowatch,
+               sizeof(true1541_read_func_t *) * 0x41);
+        memcpy(store_func, store_func_nowatch,
+               sizeof(true1541_store_func_t *) * 0x41);
+    }
 }
 
 void true1541_turn_watchpoints_off(void)
 {
-   memcpy(read_func, read_func_nowatch, sizeof(true1541_read_func_t *) * 0x41);
-   memcpy(store_func, store_func_nowatch, sizeof(true1541_store_func_t *) * 0x41);
 }
 
 void true1541_cpu_reset(void)
@@ -441,6 +454,7 @@ void true1541_cpu_execute(void)
 
 #define CPU_INT_STATUS true1541_int_status
 
+/* FIXME:  We should activate the monitor here.  */
 #define JAM()                                                     \
     do {                                                          \
         UiError("   " CPU_STR ": JAM at $%04X   ", reg_pc);       \
@@ -453,6 +467,8 @@ void true1541_cpu_execute(void)
     true1541_trap_handler()
 
 #define FORCE_INPUT mon_force_import(e_disk_space)
+
+#define GLOBAL_REGS true1541_cpu_regs
 
 #include "6510core.c"
 

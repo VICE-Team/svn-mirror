@@ -33,7 +33,9 @@
 #include "machspec.h"
 #include "maincpu.h"
 #include "kbdbuf.h"
-
+#include "true1541.h"
+#include "1541cpu.h"
+#include "traps.h"
 
 /* Machine description.  */
 machdesc_t machdesc = {
@@ -44,7 +46,7 @@ machdesc_t machdesc = {
     1,
 
     /* Flag: how many colors does this machine have?  */
-    8, 
+    8,
 
     /* Flag: does this machine allow 1541 emulation?  */
     1,
@@ -63,12 +65,12 @@ machdesc_t machdesc = {
 
     /* Flag: does this machine have hardware sprites?  */
     0
-    
+
 };
 
 /* Struct to access the kernal buffer.  */
 kernal_kbd_buf_t kernal_kbd_buf = {
-    
+
     /* First location of the buffer. FIXME? */
     631,
 
@@ -78,18 +80,100 @@ kernal_kbd_buf_t kernal_kbd_buf = {
 
     /* Maximum number of characters that fit in the buffer. FIXME? */
     10
-    
+
+};
+
+/* VIC20 Traps */
+static trap_t vic20_serial_traps[] = {
+    {
+	"SerialListen",
+	0xEE2E,
+        0xEEB2,
+	{0x20, 0xA0, 0xE4},
+	serialattention
+    },
+    {
+	"SerialSaListen",
+	0xEE40,
+        0xEEB2,
+	{0x20, 0x8D, 0xEF},
+	serialattention
+    },
+    {
+	"SerialSendByte",
+	0xEE49,
+        0xEEB2,
+	{0x78, 0x20, 0xA0},
+	serialsendbyte
+    },
+    {
+	"SerialReceiveByte",
+	0xEF19,
+        0xEEB2,
+	{0x78, 0xA9, 0x00},
+	serialreceivebyte
+    },
+    {
+	"Serial ready",
+	0xE4B2,
+        0xEEB2,
+	{0xAD, 0x1F, 0x91},
+	trap_serial_ready
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
 };
 
 /* ------------------------------------------------------------------------ */
 
 /* VIC20-specific initialization.  */
-void machine_init(void)
+int machine_init(void)
 {
+    if (mem_load() < 0)
+        return -1;
+
+    printf("\nInitializing Serial Bus...\n");
+
+    /* Setup trap handling. */
+    initialize_traps();
+
+    /* Initialize serial traps.  If user does not want them, or if the
+       ``true1541'' emulation is used, do not install them. */
+    initialize_serial(vic20_serial_traps);
+    if (!app_resources.noTraps && !app_resources.true1541)
+        install_serial_traps();
+
+#if 0
+    /* This is disabled because currently broken. */
+    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
+#endif
+
+    /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
+    initialize_1541(8, DT_DISK | DT_1541,
+                    true1541_attach_floppy, true1541_detach_floppy);
+    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
+    initialize_1541(10, DT_DISK | DT_1541, NULL, NULL);
+
+    /* Initialize FS-based emulation for drive #11.  */
+    initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
+
+    /* Fire up the hardware-level 1541 emulation. */
+    initialize_true1541();
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
+
     vic_init();
+
+    return 0;
 }
 
-/* VIC20-specific initialization.  */
+/* Reset.  */
 void machine_reset(void)
 {
     maincpu_int_status.alarm_handler[A_RASTERDRAW] = int_rasterdraw;
@@ -104,9 +188,15 @@ void machine_reset(void)
     true1541_reset();
 }
 
+void machine_shutdown(void)
+{
+    /* Detach all devices.  */
+    remove_serial(-1);
+}
+
 /* Return nonzero if `addr' is in the trappable address space.  */
 int rom_trap_allowed(ADDRESS addr)
 {
     return 1; /* FIXME */
 }
-  
+

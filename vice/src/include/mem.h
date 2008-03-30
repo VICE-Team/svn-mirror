@@ -28,6 +28,8 @@
 #ifndef _MEM_H_
 #define _MEM_H_
 
+#include "types.h"
+
 typedef BYTE REGPARM1 read_func_t(ADDRESS addr);
 typedef read_func_t *read_func_ptr_t;
 typedef void REGPARM2 store_func_t(ADDRESS addr, BYTE value);
@@ -48,25 +50,33 @@ extern int mem_load(void);
 extern void mem_get_basic_text(ADDRESS *start, ADDRESS *end);
 extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern void mem_set_tape_sense(int value);
-
-extern void maincpu_turn_watchpoints_on();
-extern void maincpu_turn_watchpoints_off();
+extern void mem_toggle_watchpoints(int flag);
 
 extern read_func_t read_rom, read_zero;
 extern store_func_t store_rom, store_zero;
 
-extern store_func_t store_zero;
+extern read_func_t mem_read;
+extern store_func_t mem_store;
 
 /* ------------------------------------------------------------------------- */
 
-#define STORE(addr, value)  (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
+#define STORE(addr, value) \
+    (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
 
-#define LOAD(addr)	    (*_mem_read_tab_ptr[(addr) >> 8])((addr))
+#define LOAD(addr) \
+    (*_mem_read_tab_ptr[(addr) >> 8])((addr))
 
-#define STORE_ZERO(addr, value)	store_zero((addr), (value))
-#define LOAD_ZERO(addr)		ram[(addr) & 0xff]
-#define LOAD_ADDR(addr)		((LOAD((addr) + 1) << 8) | LOAD(addr))
-#define LOAD_ZERO_ADDR(addr)	((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
+#define STORE_ZERO(addr, value) \
+    store_zero((addr), (value))
+
+#define LOAD_ZERO(addr) \
+    ram[(addr) & 0xff]
+
+#define LOAD_ADDR(addr) \
+    ((LOAD((addr) + 1) << 8) | LOAD(addr))
+
+#define LOAD_ZERO_ADDR(addr) \
+    ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
 
 inline static BYTE *mem_read_base(int addr)
 {

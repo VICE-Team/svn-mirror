@@ -30,30 +30,18 @@
 #ifndef _1541CPU_H
 #define _1541CPU_H
 
-typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
-typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
+#include "types.h"
+#include "mos6510.h"
+#include "mon.h"
 
-/* It would be nice to pack these into a struct, but they were not in the early
-   versions of the main CPU so... */
+extern mos6510_regs_t true1541_cpu_regs;
 extern int true1541_rmw_flag;
-extern WORD true1541_program_counter;
-extern BYTE true1541_accumulator;
-extern BYTE true1541_x_register;
-extern BYTE true1541_y_register;
-extern BYTE true1541_stack_pointer;
-extern int true1541_zero_flag;
-extern int true1541_sign_flag;
-extern int true1541_overflow_flag;
-extern int true1541_break_flag;
-extern int true1541_decimal_flag;
-extern int true1541_interrupt_flag;
-extern int true1541_carry_flag;
-extern true1541_read_func_t *read_func[0x41];
-extern true1541_store_func_t *store_func[0x41];
 
 extern CLOCK true1541_clk;
 extern int true1541_traceflg;
 extern int true1541_cpu_running;
+
+extern monitor_interface_t true1541_monitor_interface;
 
 extern void true1541_cpu_init(void);
 extern void true1541_cpu_reset(void);
@@ -61,6 +49,8 @@ extern void true1541_cpu_sleep(void);
 extern void true1541_cpu_wake_up(void);
 extern int true1541_cpu_prevent_clk_overflow(void);
 
-extern void true1541_turn_watchpoints_on(void);
-extern void true1541_turn_watchpoints_off(void);
+extern void REGPARM2 true1541_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 true1541_read(ADDRESS addr);
+extern void true1541_toggle_watchpoints(int flag);
+
 #endif

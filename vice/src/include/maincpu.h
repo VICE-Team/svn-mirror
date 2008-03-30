@@ -29,7 +29,9 @@
 
 #include "types.h"
 #include "mem.h"
+#include "mos6510.h"
 #include "6510core.h"
+#include "mon.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -43,57 +45,15 @@ extern int last_opcode_info;
    (this happens with conditional jumps when jump is taken.  */
 #define OPINFO_DELAYS_INTERRUPT_MASK	(last_opcode_info & 0x100)
 
-/* The VIC-II emulation needs this.  */
-#if defined CBM64
+/* The VIC-II emulation needs this ugly hack.  */
 #define EXTERN_PC
 extern unsigned int reg_pc;
-#endif
 
-/* ------------------------------------------------------------------------- */
+extern mos6510_regs_t maincpu_regs;
+extern monitor_interface_t maincpu_monitor_interface;
 
-/* 6510 Registers.  */
-/* FIXME: This must be removed some day.  It is only used to make the old
-   code happy.  */
-
-extern ADDRESS program_counter;
-extern BYTE accumulator;
-extern BYTE x_register, y_register, stack_pointer;
-extern int zero_flag;
-extern int sign_flag;
-extern int overflow_flag;
-extern int break_flag;
-extern int decimal_flag;
-extern int interrupt_flag;
-extern int carry_flag;
 extern int rmw_flag;
 extern CLOCK clk;
-
-#define AC	accumulator
-#define XR	x_register
-#define YR	y_register
-#define SP	stack_pointer
-#define PC	program_counter
-#define PCH	((PC>>8)&0xff)
-#define PCL	(PC&0xff)
-
-#define ZF	zero_flag
-#define SF	sign_flag
-#define OF	overflow_flag
-#define BF	break_flag
-#define DF	decimal_flag
-#define IF	interrupt_flag
-#define CF	carry_flag
-
-/* These define the position of the status flags in the P (`status')
-   register.  */
-#define S_SIGN		0x80
-#define S_OVERFLOW	0x40
-#define S_UNUSED	0x20
-#define S_BREAK		0x10
-#define S_DECIMAL	0x08
-#define S_INTERRUPT	0x04
-#define S_ZERO		0x02
-#define S_CARRY		0x01
 
 /* ------------------------------------------------------------------------- */
 

@@ -129,53 +129,12 @@ CLOCK _maincpu_opcode_write_cycles[] = {
 	    /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
 };
 
-/* These are the public CPU variables.  It would be nice to use a cleaner
-   interface with a polite struct, but we would have to rework all the
-   utilities (monitor, xdebugger, etc.) and macros and it is too big deal for
-   now.  */
-WORD program_counter;
-BYTE accumulator;
-BYTE x_register, y_register, stack_pointer;
-int zero_flag;
-int sign_flag;
-int overflow_flag;
-int break_flag;
-int decimal_flag;
-int interrupt_flag;
-int carry_flag;
+/* Public copy of the CPU registers.  As putting the registers into the
+   function makes it faster, you have to generate a `TRAP' interrupt to have
+   the values copied into this struct.  */
+mos6510_regs_t maincpu_regs;
 
-#define EXPORT_REGISTERS()			\
-  do {						\
-      program_counter = reg_pc;			\
-      accumulator = reg_a;			\
-      x_register = reg_x;			\
-      y_register = reg_y;			\
-      stack_pointer = reg_sp;			\
-      zero_flag = LOCAL_ZERO();			\
-      sign_flag = LOCAL_SIGN();			\
-      overflow_flag = LOCAL_OVERFLOW();		\
-      break_flag = LOCAL_BREAK();		\
-      decimal_flag = LOCAL_DECIMAL();		\
-      interrupt_flag = LOCAL_INTERRUPT();	\
-      carry_flag = LOCAL_CARRY();		\
-  } while (0)
-
-#define IMPORT_REGISTERS()			\
-  do {						\
-      JUMP (program_counter);			\
-      reg_a = accumulator;			\
-      reg_x = x_register;			\
-      reg_y = y_register;			\
-      reg_sp = stack_pointer;			\
-      LOCAL_SET_ZERO (zero_flag);		\
-      LOCAL_SET_SIGN (sign_flag);		\
-      LOCAL_SET_OVERFLOW (overflow_flag);	\
-      LOCAL_SET_BREAK (break_flag);		\
-      LOCAL_SET_DECIMAL (decimal_flag);		\
-      LOCAL_SET_INTERRUPT (interrupt_flag);	\
-      LOCAL_SET_CARRY (carry_flag);		\
-  } while (0)
-
+/* Implement the hack to make opcode fetches faster.  */
 #ifdef INSTRUCTION_FETCH_HACK
 
 #  define JUMP(addr)							\
@@ -195,6 +154,30 @@ int carry_flag;
 #ifdef TRACE
 int traceflg;
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+/* Interface to the monitor.  */
+monitor_interface_t maincpu_monitor_interface = {
+
+    /* Pointer to the registers of the CPU.  */
+    &maincpu_regs,
+
+    /* Pointer to the alarm/interrupt status.  */
+    &maincpu_int_status,
+
+    /* Pointer to the machine's clock counter.  */
+    &clk,
+
+    /* Pointer to a function that writes to memory.  */
+    mem_read,
+
+    /* Pointer to a function that reads from memory.  */
+    mem_store,
+
+    /* Pointer to a function to disable/enable watchpoint checking.  */
+    mem_toggle_watchpoints
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -330,7 +313,7 @@ void mainloop(ADDRESS start_address)
         } else {							\
 	    if (tmp == 1) {						\
 		caller_space = e_comp_space;				\
-	        mon(program_counter);					\
+	        mon(maincpu_regs.pc);  					\
 	        IMPORT_REGISTERS();					\
             } else {							\
 	        CLK++;							\
@@ -341,6 +324,8 @@ void mainloop(ADDRESS start_address)
 #  define FORCE_INPUT           mon_force_import(e_comp_space)
 
 #  define ROM_TRAP_ALLOWED()    rom_trap_allowed(reg_pc)
+
+#  define GLOBAL_REGS           maincpu_regs
 
 #  include "6510core.c"
 

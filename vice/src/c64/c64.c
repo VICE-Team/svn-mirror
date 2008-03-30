@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +27,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "interrupt.h"
 #include "vicii.h"
 #include "cia.h"
@@ -36,7 +40,17 @@
 #include "sid.h"
 #include "reu.h"
 #include "tpi.h"
+#include "true1541.h"
+#include "1541cpu.h"
+#include "traps.h"
+#include "tapeunit.h"
+#include "patchrom.h"
+#include "utils.h"
+#include "serial.h"
+#include "mon.h"
 
+/* FIXME */
+#include "autostart.h"
 
 /* Machine description.  */
 machdesc_t machdesc = {
@@ -84,12 +98,164 @@ kernal_kbd_buf_t kernal_kbd_buf = {
 
 };
 
+/* Serial traps.  */
+static trap_t c64_serial_traps[] = {
+    {
+	"SerialListen",
+	0xED24,
+        0xEDAB,
+	{0x20, 0x97, 0xEE},
+	serialattention
+    },
+    {
+	"SerialSaListen",
+	0xED36,
+        0xEDAB,
+	{0x78, 0x20, 0x8E},
+	serialattention
+    },
+    {
+	"SerialSendByte",
+	0xED40,
+        0xEDAB,
+	{0x78, 0x20, 0x97},
+	serialsendbyte
+    },
+    {
+	"SerialReceiveByte",
+	0xEE13,
+        0xEDAB,
+	{0x78, 0xA9, 0x00},
+	serialreceivebyte
+    },
+    {
+	"Serial ready",
+	0xEEA9,
+        0xEDAB,
+	{0xAD, 0x00, 0xDD},
+	trap_serial_ready
+    },
+
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
+/* Tape traps.  */
+static trap_t c64_tape_traps[] = {
+    {
+	"FindHeader",
+	0xF72F,
+        0xF732,
+	{0x20, 0x41, 0xF8},
+	findheader
+    },
+    {
+	"WriteHeader",
+	0xF7BE,
+        0xF7C1,
+	{0x20, 0x6B, 0xF8},
+	writeheader
+    },
+    {
+	"TapeReceive",
+	0xF8A1,
+        0xFC93,
+	{0x20, 0xBD, 0xFC},
+	tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
+};
+
 /* ------------------------------------------------------------------------ */
 
 /* C64-specific initialization.  */
-void machine_init(void)
+int machine_init(void)
 {
+    if (mem_load() < 0)
+	return -1;
+
+    if (app_resources.kernalRev)
+	patch_rom(app_resources.kernalRev);
+
+    printf("\nInitializing Serial Bus...\n");
+
+    /* Setup trap handling.  */
+    initialize_traps();
+
+    /* Initialize serial traps.  If user does not want them, or if the
+       ``true1541'' emulation is used, do not install them. */
+    initialize_serial(c64_serial_traps);
+    if (app_resources.noTraps || app_resources.true1541)
+        remove_serial_traps();
+
+#if 0
+    /* This is disabled because currently broken. */
+    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
+#endif
+
+    /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
+    initialize_1541(8, DT_DISK | DT_1541,
+                    true1541_attach_floppy, true1541_detach_floppy);
+    initialize_1541(9, DT_DISK | DT_1541, NULL, NULL);
+    initialize_1541(10, DT_DISK | DT_1541, NULL, NULL);
+
+    /* Initialize FS-based emulation for drive #11.  */
+    initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
+
+    if (!app_resources.noTraps)
+	initialize_tape(c64_tape_traps);
+
+    /* Fire up the hardware-level 1541 emulation.  */
+    initialize_true1541();
+
+    /* Initialize autostart.  FIXME: This should be common to all the
+       machines someday.  */
+    {
+        FILE *autostartfd;
+        char *autostartprg;
+        char *autostartfile;
+        char *tmp;
+
+        autostart_init();
+        /* Check for image:prg -format.  */
+        if (app_resources.autostartName != NULL) {
+            tmp = strrchr(app_resources.autostartName, ':');
+            if (tmp) {
+                autostartfile = stralloc(app_resources.autostartName);
+                autostartprg = strrchr(autostartfile, ':');
+                *autostartprg++ = '\0';
+                autostartfd = fopen(autostartfile, "r");
+                /* image exists? */
+                if (autostartfd) {
+                    fclose(autostartfd);
+                    autostart_autodetect(autostartfile, autostartprg);
+                }
+                else
+                    autostart_autodetect(app_resources.autostartName, NULL);
+                free(autostartfile);
+            } else {
+                autostart_autodetect(app_resources.autostartName, NULL);
+            }
+        }
+    }
+
+    /* Initialize the monitor.  */
+    monitor_init(&maincpu_monitor_interface, &true1541_monitor_interface);
+
     vic_ii_init();
+
+    return 0;
 }
 
 /* C64-specific reset sequence.  */
@@ -120,9 +286,18 @@ void machine_reset(void)
     true1541_reset();
 }
 
+void machine_shutdown(void)
+{
+    /* Detach REU.  */
+    if (app_resources.reu)
+	close_reu(app_resources.reuName);
+
+    /* Detach all devices.  */
+    remove_serial(-1);
+}
+
 /* Return nonzero if `addr' is in the trappable address space.  */
 int rom_trap_allowed(ADDRESS addr)
 {
     return 1; /* FIXME */
 }
-
