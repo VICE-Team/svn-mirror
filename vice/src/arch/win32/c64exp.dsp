@@ -94,6 +94,10 @@ SOURCE=..\..\drive\iec\c64exp\iec-c64exp.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\c64exp\mc6821.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\c64exp\profdos.c
 # End Source File
 # End Target
