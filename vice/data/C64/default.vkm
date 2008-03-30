@@ -55,7 +55,7 @@ Left 0 2 1
 Return 0 1 8
 Right 0 2 8
 Shift_L 1 7 2
-Shift_R 6 4 0
+Shift_R 6 4 4
 Up 0 7 1
 
 ampersand 2 3 1

@@ -44,7 +44,7 @@ KP_F3 0 6 8
 KP_F4 0 2 8
 Return 0 1 8
 Shift_L 1 7 2
-Shift_R 6 4 0
+Shift_R 6 4 4
 
 F1 9 0 8
 F2 8 3 8
