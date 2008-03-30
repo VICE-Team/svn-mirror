@@ -226,7 +226,7 @@ int machine_init_cmdline_options(void)
 	    || psid_init_cmdline_options() < 0
 	    )
 	    return -1;
-	
+
 	return 0;
     }
 
@@ -480,7 +480,7 @@ static void vsync_hook(void)
         clk_guard_prevent_overflow(&maincpu_clk_guard);
 	return;
     }
-      
+
     drive_vsync_hook();
 
     autostart_advance();
@@ -634,3 +634,9 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
   return -1;
 }
 
+int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
+{
+  if (canvas == vic_ii_get_canvas())
+      return vic_ii_screenshot(screenshot);
+  return -1;
+}

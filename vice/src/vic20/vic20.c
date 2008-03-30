@@ -268,13 +268,13 @@ int machine_init(void)
     /* Initialize the VIC-I emulation.  */
     if (vic_init() == NULL)
         return -1;
- 
+
     /* needed for VC1571/1581 emulation */
     ciat_init_table();
 
     via1_init();
     via2_init();
- 
+
     ieeevia1_init();
     ieeevia2_init();
 
@@ -442,7 +442,7 @@ int machine_read_snapshot(const char *name)
 {
     snapshot_t *s;
     BYTE minor, major;
-  
+
     s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL)
         return -1;
@@ -499,3 +499,9 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
   return -1;
 }
 
+int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
+{
+  if (canvas == vic_get_canvas())
+      return vic_screenshot(screenshot);
+  return -1;
+}

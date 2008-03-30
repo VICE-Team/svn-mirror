@@ -130,7 +130,7 @@ int machine_init_resources(void)
         || sid_init_resources() < 0
         || drive_init_resources() < 0
         || datasette_init_resources() < 0
-        || acia1_init_resources() < 0	
+        || acia1_init_resources() < 0
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
 #endif
@@ -457,3 +457,9 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
   return -1;
 }
 
+int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
+{
+  if (canvas == crtc_get_canvas())
+      return crtc_screenshot(screenshot);
+  return -1;
+}

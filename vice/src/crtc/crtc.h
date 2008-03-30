@@ -42,6 +42,7 @@ struct snapshot_s;
 struct screenshot_s;
 
 extern struct raster_s *crtc_init(void);
+extern struct canvas_s *crtc_get_canvas(void);
 extern void crtc_reset(void);
 
 extern int crtc_init_resources(void);

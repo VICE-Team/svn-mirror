@@ -261,7 +261,7 @@ int machine_init(void)
     crtc_set_retrace_type(petres.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
-    
+
     via_init();
     pia1_init();
     pia2_init();
@@ -513,9 +513,9 @@ void pet_crtc_set_screen(void)
     }
 
     /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
-    if(cols == 40) vmask = 0x3ff; 
+    if(cols == 40) vmask = 0x3ff;
 /*
-    log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)", 
+    log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
 		vmask, cols, petres.crtc);
 */
 /*
@@ -550,3 +550,9 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
   return -1;
 }
 
+int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
+{
+  if (canvas == crtc_get_canvas())
+      return crtc_screenshot(screenshot);
+  return -1;
+}

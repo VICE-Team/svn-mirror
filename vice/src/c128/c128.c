@@ -560,3 +560,11 @@ int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
   return -1;
 }
 
+int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
+{
+  if (canvas == vic_ii_get_canvas())
+      return vic_ii_screenshot(screenshot);
+  if (canvas == vdc_get_canvas())
+      return vdc_screenshot(screenshot);
+  return -1;
+}

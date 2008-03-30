@@ -43,10 +43,10 @@
 
 #define VIC_SCREEN_WIDTH                233
 #define VIC_SCREEN_HEIGHT               312
-    
+
 #define VIC_SCREEN_MAX_TEXT_COLS        31
 #define VIC_SCREEN_MAX_TEXT_LINES       30
-    
+
 #define VIC_FIRST_DISPLAYED_LINE        28
 #define VIC_LAST_DISPLAYED_LINE         293
 
@@ -138,6 +138,7 @@ typedef struct vic_s vic_t;
 extern vic_t vic;
 
 extern struct raster_s *vic_init(void);
+extern struct canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
 
 extern int vic_init_resources(void);

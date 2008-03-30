@@ -158,7 +158,7 @@ static int init_raster(void)
     raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
     raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
     raster->display_xstart = 0;
-    raster->display_xstop = 1; 
+    raster->display_xstop = 1;
 
     return 0;
 }
@@ -199,6 +199,11 @@ raster_t *vic_init(void)
     log_error (vic.log, "Trying to override clk base!?  Code is broken.");
 
   return &vic.raster;
+}
+
+canvas_t *vic_get_canvas(void)
+{
+  return vic.raster.viewport.canvas;
 }
 
 /* Reset the VIC-I chip. */

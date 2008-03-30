@@ -427,6 +427,11 @@ raster_t *vic_ii_init(void)
   return &vic_ii.raster;
 }
 
+canvas_t *vic_ii_get_canvas(void)
+{
+  return vic_ii.raster.viewport.canvas;
+}
+
 /* Reset the VIC-II chip.  */
 void vic_ii_reset (void)
 {
@@ -1113,7 +1118,7 @@ inline static int handle_check_sprite_dma (long offset,
         {
           vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
           vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
-                              -vic_ii.sprite_fetch_cycle 
+                              -vic_ii.sprite_fetch_cycle
                               + VIC_II_FETCH_CYCLE
                               + vic_ii.cycles_per_line);
         }

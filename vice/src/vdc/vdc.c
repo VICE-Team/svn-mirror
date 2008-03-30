@@ -167,6 +167,11 @@ raster_t *vdc_init(void)
     return &vdc.raster;
 }
 
+canvas_t *vdc_get_canvas(void)
+{
+    return vdc.raster.viewport.canvas;
+}
+
 /* Reset the VDC chip */
 void vdc_reset(void)
 {
@@ -186,7 +191,7 @@ void vdc_powerup(void)
 {
     memset(vdc.regs, 0, sizeof(vdc.regs));
     vdc.mem_counter = 0;
-    vdc.mem_counter_inc = 0; 
+    vdc.mem_counter_inc = 0;
 
     vdc_reset();
 }
@@ -304,7 +309,7 @@ int vdc_load_palette(const char *name)
         log_message(vdc.log, "Cannot load palette file '%s'.", name);
         return -1;
     }
-    
+
     raster_set_palette(&vdc.raster, palette);
     return 0;
 }
