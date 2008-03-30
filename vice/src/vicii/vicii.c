@@ -810,7 +810,7 @@ void vic_ii_set_raster_irq(unsigned int line)
 static inline void vic_ii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 {
   /* WARNING: assumes `rmw_flag' is 0 or 1.  */
-  vic_ii_handle_pending_alarms (rmw_flag + 1);
+  vic_ii_handle_pending_alarms(rmw_flag + 1);
 
   vic_ii.ram_base_phi1 = base_p1;
   vic_ii.ram_base_phi2 = base_p2;
@@ -1034,7 +1034,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
         {
           /* Force the overscan color to black.  */
           raster_add_int_change_background
-            (&vic_ii.raster, VIC_II_RASTER_X (cycle),
+            (&vic_ii.raster, VIC_II_RASTER_X(cycle),
              &vic_ii.raster.overscan_background_color,
              0);
           vic_ii.force_black_overscan_background_color = 1;
@@ -1045,7 +1045,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
              register.  */
           if (vic_ii.raster.overscan_background_color != vic_ii.regs[0x21])
             raster_add_int_change_background
-              (&vic_ii.raster, VIC_II_RASTER_X (cycle),
+              (&vic_ii.raster, VIC_II_RASTER_X(cycle),
                &vic_ii.raster.overscan_background_color,
                vic_ii.regs[0x21]);
           vic_ii.force_black_overscan_background_color = 0;
