@@ -2,7 +2,7 @@
  * uimenu.h - Simple and ugly cascaded pop-up menu implementation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen (tvr@cs.hut.fi)
@@ -93,3 +93,4 @@ extern void _ui_menu_string_radio_helper(Widget w,
                                          const char *resource_name);
 
 #endif /* _UIMENU_H */
+

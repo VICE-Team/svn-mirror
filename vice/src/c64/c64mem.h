@@ -2,7 +2,8 @@
  * c64mem.h -- C64 memory handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -65,3 +66,4 @@ extern void mem_set_tape_sense(int sense);
 extern void mem_set_exrom(int active);
 
 #endif /* _C64MEM_H */
+

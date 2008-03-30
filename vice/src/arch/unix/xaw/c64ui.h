@@ -2,7 +2,7 @@
  * c64ui.h - Implementation of the C64-specific part of the UI.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,3 +30,4 @@
 extern int c64_ui_init(void);
 
 #endif
+

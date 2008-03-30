@@ -2,9 +2,9 @@
  * kbd.h - X11 keyboard driver.
  *
  * Written by
- *  Jouko Valta        (jopi@stekt.oulu.fi)
- *  Andre Fachat       (fachat@physik.tu-chemnitz.de)
- *  Ettore Perazzoli   (ettore@comm2000.it)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README file for copyright notice.

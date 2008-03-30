@@ -2,8 +2,8 @@
  * video.h - X11 graphics routines.
  *
  * Written by
- *   Ettore Perazzoli (ettore@comm2000.it)
- *   Teemu Rantanen (tvr@cs.hut.fi)
+ *   Ettore Perazzoli <ettore@comm2000.it>
+ *   Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -119,4 +119,5 @@ extern int num_text_lines(void);
 extern void enable_text(void);
 extern void disable_text(void);
 
-#endif				/* !defined (_VIDEO_X_H) */
+#endif /* !defined (_VIDEO_X_H) */
+

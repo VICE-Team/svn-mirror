@@ -2,12 +2,12 @@
  * asm.h - Assembler-related utility functions.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
- *  Vesa-Matti Puro (vmp@lut.fi)
- *  Jarkko Sonninen (sonninen@lut.fi)
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Vesa-Matti Puro <vmp@lut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -57,7 +57,8 @@ struct asm_opcode_info {
 };
 typedef struct asm_opcode_info asm_opcode_info_t;
 
-asm_opcode_info_t *asm_opcode_info_get(BYTE number);
-unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode);
+extern asm_opcode_info_t *asm_opcode_info_get(BYTE number);
+extern unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode);
 
 #endif  /* _ASM_H */
+

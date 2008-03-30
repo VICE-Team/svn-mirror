@@ -2,11 +2,10 @@
  * reu.h - REU 1750 emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Richard Hable (K3027E7@edvz.uni-linz.ac.at)
- *
- * Fixes by
- *  Ettore Perazzoli (ettore@comm2000.it) [EP]
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,8 +30,8 @@
 #ifndef _REU_H
 #define _REU_H
 
-#include "types.h"
 #include "snapshot.h"
+#include "types.h"
 
 extern void reu_init(void);
 extern int reset_reu(int size);
@@ -45,3 +44,4 @@ extern int reu_read_snapshot_module(snapshot_t *s);
 extern int reu_write_snapshot_module(snapshot_t *s);
 
 #endif
+

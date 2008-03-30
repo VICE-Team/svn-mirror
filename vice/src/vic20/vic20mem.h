@@ -2,10 +2,10 @@
  * vic20mem.h -- VIC20 memory handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Memory configuration handling by
- *  Alexander Lehmann (alex@mathematik.th-darmstadt.de)
+ *  Alexander Lehmann <alex@mathematik.th-darmstadt.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -57,3 +57,4 @@ extern void mem_attach_cartridge(int type, BYTE *rawcart);
 extern void mem_detach_cartridge(int type);
 
 #endif
+

@@ -608,7 +608,7 @@ char *yytext;
  * mon_lex.l - Lexer for the VICE built-in monitor.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
